@@ -1,0 +1,182 @@
+/**
+ * Stylesheet for student page
+ */
+
+.sp-bg {
+  padding-top: 3.2rem;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: rgb(224, 224, 224);
+  -webkit-overflow-scrolling: touch;
+}
+.sp-bg-dark {
+  padding-top: 3.2rem;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: rgb(71, 71, 71);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Search bar */
+.search-bar {
+  padding-top: 1rem;
+  width: 100%;
+  height: 4rem;
+  padding-right: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+  /* background-color: aqua; */
+  transition: all 0.5s linear;
+}
+.search-bar .theme-btn {
+  margin-left: 1rem;
+}
+
+.prompt:focus {
+  animation: wider-25rem 0.3s;
+  width: 25rem;}
+  @media screen and (max-width: 550px) {
+    .prompt:focus {
+      animation: wider-20rem 0.3s;
+      width: 20rem;}}
+  @keyframes wider-25rem {
+    0%   { width: 15rem }
+    100% { width: 25rem }}
+  @keyframes wider-20rem {
+    0%   { width: 15rem }
+    100% { width: 20rem }}
+
+/* Content */
+.sp-content {
+  display: flex;
+  height: 80%;
+  padding-top: 1rem;
+  /* background-color: aqua; */
+}
+.sp-content-dark {
+  display: flex;
+  height: 80%;
+  padding-top: 1rem;
+}
+ 
+/* Filter bar */
+.sp-filter {
+  border: 0;
+  width: 15rem;
+  margin: 1rem 2rem 0 2rem;
+}
+
+.reset-filter-btn-dark {
+  background-color: rgb(41, 41, 41);
+}
+
+.filter {
+  padding-left: 1rem;
+  background-color: rgb(255, 255, 255);
+}
+.filter-dark {
+  padding-left: 1rem;
+  background-color: rgb(53, 53, 53);
+}
+.list-group-item-light {
+  color: rgb(41, 41, 41)}
+.list-group-item-dark {
+  background-color: rgb(53, 53, 53);
+  color: aliceblue}
+.list-group-item-dark:hover {
+  background-color: rgb(73, 73, 73) !important;
+  color: aliceblue !important;
+}
+@media screen and (max-width: 900px) {
+  .filter-container {
+    width: 100%;
+  }
+  .sp-filter {
+    width: 100%;
+    padding-right: 4rem;
+  }
+  .filter {
+    width: 100%;
+  }
+}
+
+/* filter tags */
+
+.filter-tags {
+  margin-bottom: 1rem;
+}
+.filter-tags-dark {
+  color: azure;
+  margin-bottom: 1rem;
+}
+@media screen and (max-width: 900px) {
+  .filter-tags {
+    margin-top: 1.5rem;
+  }
+  .filter-tags-dark {
+    margin-top: 1.5rem;
+  }
+}
+
+/* courses */
+
+.course-list-container {
+  margin-right: 2rem;
+  margin-bottom: 5rem;
+}
+@media screen and (max-width: 900px) {
+  .course-list-container {
+    margin-left: 2rem;
+  }
+}
+
+.ui .card .content {
+  color: rgb(39, 94, 104);
+}
+
+.sp-course-card h1 {
+  font-size: 2.5rem;
+  color: rgb(63, 133, 139);
+}
+.sp-course-card h5 {
+  font-weight: normal;
+  font-size: 1.3rem;
+  color: rgb(5, 46, 51);
+}
+
+.sp-course-card-dark h1 {
+  font-size: 2.5rem;
+  color: rgb(202, 202, 202);
+}
+.sp-course-card-dark h5 {
+  font-weight: normal;
+  font-size: 1.3rem;
+  color: rgb(228, 228, 228);
+}
+.sp-course-card-dark p {
+  color: rgb(74, 155, 144);
+}
+
+.sp-footer {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  position: relative;
+  align-items: center;}
+  .sp-footer .footer-copy {
+    text-align: right;
+  }
+
+  .ui .card .content {
+    border: none !important;
+  }

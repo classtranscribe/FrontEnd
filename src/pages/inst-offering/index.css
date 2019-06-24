@@ -1,0 +1,294 @@
+/**
+ * stylesheet for offering page
+ */
+
+::-webkit-scrollbar{
+  display: none;
+}
+.cs-wrapper {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.808);
+  z-index: 1;
+}
+
+.course-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+}
+
+.course-container .content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Side bar */
+
+.course-sidebar {
+  position: absolute;
+  height: 100%;
+  width: 20rem;
+  padding-top: 3.7rem;
+  padding-bottom: 3rem;
+  background-color: rgb(233, 231, 231);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: all 0.2s linear;
+  z-index: 3;
+  -webkit-overflow-scrolling: touch;
+}
+@media screen and (max-width: 900px) {
+  .course-sidebar {
+    margin-left: -20rem;
+    background-color: rgba(233, 231, 231, 0.904);
+  }
+}
+.course-sidebar .list {
+  border-radius: 0;
+  color: rgb(77, 76, 76);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s linear;
+  overflow-x: hidden;
+  /* margin-top: 0.5rem; */
+}
+.course-sidebar .list:hover {
+  margin-left: 10px;
+}
+
+/* offering details */
+
+.course-sidebar .details {
+  border-radius: 0;
+  background: none;
+  border: none;
+  transition: all 0.2s linear;
+  border-top: solid 0.03rem rgb(182, 182, 182) !important;
+  /* border-bottom: solid 0.03rem rgb(182, 182, 182) !important; */
+  margin-bottom: 0.4rem;}
+  .course-sidebar .details:hover {
+    padding-left: 2rem;
+    /* background-color: #e2e2e2; */
+  }
+
+.course-sidebar .details .title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: rgb(77, 76, 76);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.course-sidebar .details .sec {
+  transition-delay: 0.1s;
+  color: rgb(77, 76, 76);
+  font-size: 1.1rem;
+  /* padding-left: 2.1rem; */
+}
+.course-sidebar .details .name {
+  /* padding-left: 2.1rem; */
+  font-size: 1.1rem;
+  line-height: 0rem;
+}
+
+/* Playlist */
+
+.course-sidebar .noplaylist-wrapper {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.course-sidebar .noplaylist-wrapper h4 {
+  color: #949494;
+}
+
+.course-sidebar .playlists .breakline {
+  width: 100%;
+  height: 1rem;
+  /* margin-top: 1rem; */
+  border-bottom: solid 0.03rem rgb(170, 169, 169);
+}
+
+.course-sidebar .playlists .title {
+  color: rgb(77, 76, 76);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+.course-sidebar .playlists .playlist {
+  width: 96%;
+  margin-left: 2%;
+}
+.course-sidebar .playlists .playlist::-webkit-scrollbar {
+  display: none;
+}
+.new-pl-btn {
+  width: 94%;
+  margin: 0 0 1rem 3%;
+}
+.course-sidebar .playlists .playlist .item {
+  padding-bottom: 0.3rem;
+  border: 0;
+  border-radius: 0;
+  transition: all 0.2s linear;
+}
+.course-sidebar .playlists .playlist .item:hover {
+  background-color: #949393;
+  padding-left: 2rem;
+}
+.course-sidebar .playlists .playlist .item:active {
+  background-color: #727272;
+  margin-left: 10px;
+}
+.playlist .item .pl-name {
+  white-space: nowrap; 
+  width: 15rem;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* results */
+
+.content-result {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 0.2s linear;
+  overflow: scroll;
+}
+@media screen and (max-width: 900px) {
+  .content-result {
+    padding-left: 3rem;
+  }
+}
+.height-100 {
+  height: 100%;
+}
+
+.empty-result {
+  padding-top: 3.5rem;
+  /* height: 80%; */
+  
+}
+.empty-result .welcome {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.empty-result .welcome h2 {
+  color: rgb(1, 2, 2);
+  font-size: 3rem;
+  line-height: 0rem;
+} .empty-result .welcome h1 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: rgb(29, 177, 177);
+  font-size: 4rem;
+  font-weight: bolder;
+} 
+/* Videos */
+
+.csp-videos {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: scroll;
+  padding: 3.7rem 5% 0rem 5%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.csp-videos .playlist-btn {
+  width: 100%;
+  border-bottom: 0.03rem solid rgb(212, 212, 212);
+  /* margin-left: 5%; */
+  padding: 0 0 0.5rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.csp-videos .playlist-btn .edit-btn {
+  margin: 0.7rem 0 0.5rem 2rem
+}
+.csp-videos .playlist-btn .delete-btn {
+  margin: 0.7rem 0.5rem 0.5rem 0.5rem;
+}
+
+.novideo-wrapper {
+  height: 50vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.novideo-wrapper h4 {
+  font-size: 2rem;
+  color: #949393;
+  text-align: center;
+}
+
+.csp-videos .vlist {
+  width: 100%;
+}
+.csp-videos .list .video-card {
+  transition: all 0.2s linear;
+  padding: 1rem 0 1rem 1rem !important;
+  white-space: nowrap; 
+  border-radius: 1rem;
+}
+.csp-videos .list .video-card:hover {
+  background-color: #d8d6d6;
+  /* box-shadow: #b8b7b7 0 0 5px; */
+}
+.csp-videos .list .video-card .img {
+  height: 4rem;
+  width: 6rem;
+  border-radius: 0.5rem;
+  margin-right: 1rem !important;
+  cursor: pointer;
+}
+.csp-videos .list .video-card .info {
+  display: inline-block;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.csp-videos .list .video-card .info .title {
+  color: rgb(66, 119, 150);
+  font-size: 1.2rem;
+  cursor: pointer;
+  /* text-decoration: underline; */
+  width: 45vw !important;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis;}
+  .csp-videos .list .video-card .info .title:hover {
+    text-decoration: underline;
+    color: rgb(0, 131, 238);}
+  .csp-videos .list .video-card .info .title:active {
+    color: rgb(1, 196, 255);;}
+  @media screen and (max-width: 520px) {
+    .csp-videos .list .video-card .info .title {
+      font-size: 1.1rem;
+    }
+  }
+
+.csp-videos .list .video-card .list-dropdown-btn {
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

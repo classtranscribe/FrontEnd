@@ -1,0 +1,227 @@
+/**
+ * Stylesheet for login page
+ */
+
+.lg-bg {
+  position: relative;
+  height: 100vh;
+  background: url('../../images/background.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  /* background-repeat: no-repeat; */
+  z-index: -3;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lg-wrapper {
+  z-index: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #02020269;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lg-wrapper::-webkit-scrollbar { display: hidden !important }
+
+
+
+.lg-wrapper .login-container {
+  /* background-color: rgb(255, 255, 255); */
+  margin-bottom: 10rem;
+  z-index: 1;
+}
+
+.lg-wrapper .brand {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 8rem;
+  font-weight: bold;
+  color: #2fa68e;
+  z-index: 0;
+  position: relative;
+  opacity: 0.9;
+  /* text-shadow: 5px 5px #d3d2d2; */
+  text-align: center;
+  z-index: 0;
+}
+
+@media screen and (max-width: 800px) {
+  .lg-wrapper .brand {
+    font-size: 7rem;
+  }
+}
+@media screen and (max-width: 520px) {
+  .lg-wrapper {
+    background-color: #0e0e0ea8;
+  }
+  .lg-wrapper .login-container {
+    margin-bottom: 15rem;
+  }
+  .lg-wrapper .brand {
+    margin-bottom: 6rem;
+    font-size: 4rem;
+    /* color: #62b4b4; */
+    text-shadow: 5px 5px #1a1a1a00;
+  }
+  .aboutus-btn{
+    display: none;
+  }
+}
+
+
+.lg-wrapper .triangle-up-big {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 90vw solid transparent;
+  border-right: 90vw solid transparent;
+  border-bottom: 48vw solid #0b473cd3;
+  z-index: -2;
+  bottom: 0;
+  -webkit-animation: bounce-fade2 5s infinite; /* Safari 4+ */
+  -moz-animation:    bounce-fade2 5s infinite; /* Fx 5+ */
+  -o-animation:      bounce-fade2 5s infinite; /* Opera 12+ */
+  animation:         bounce-fade2 5s infinite;
+}
+@-webkit-keyframes bounce-fade2 {
+  0%   { opacity: 1; -webkit-transform: translateY(0px); }
+  50%  { opacity: 0.75; -webkit-transform: translateY(25px); }
+  100% { opacity: 1; -webkit-transform: translateY(0px); }}
+@-moz-keyframes bounce-fade2 {
+  0%   { opacity: 1; -moz-transform:    translateY(0px); }
+  50%  { opacity: 0.75; -moz-transform:    translateY(25px); }
+  100% { opacity: 1; -moz-transform: translateY(0px); }}
+@-o-keyframes bounce-fade2 {
+  0%   { opacity: 1; -o-transform:      translateY(0px); }
+  50% { opacity: 0.75; -o-transform:      translateY(25px); }
+  100% { opacity: 1; -o-transform: translateY(0px); }}
+@keyframes bounce-fade2 {
+  0%   { opacity: 1; transform:         translateY(0px); }
+  50% { opacity: 0.75; transform:         translateY(25px); }
+  100% { opacity: 1; transform: translateY(0px); }}
+
+
+.lg-wrapper .triangle-up-small {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 50vw solid transparent;
+  border-right: 50vw solid transparent;
+  border-bottom: 30vw solid #d3d2d2;
+  z-index: -1;
+  bottom: 0rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+@media screen and (max-width: 620px) {
+  .lg-wrapper .login-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .lg-wrapper .login-container .stu-btn {
+    margin-top: 1rem;
+  }
+}
+
+.aboutus-btn {
+  position: absolute;
+  cursor: pointer;
+  bottom: 1rem;
+  z-index: 1;
+  transition: all 0.4s linear;
+}
+
+.aboutus-accordion {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.aboutus-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 100vw;
+  height: max-content;
+  background-color: #d3d2d2;
+  padding: 5rem 3rem 0rem 3rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.aboutus-title {
+  height: 5rem;
+  font-weight: bold;
+  font-size: 4rem;
+  margin: 1rem;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 520px) {
+  
+  .aboutus-title {
+    font-size: 3rem;
+    margin-bottom: 6rem;
+  }
+}
+
+.aboutus-content .icon {
+  height: 5rem;
+  margin-top: 2rem;
+  font-size: 10rem;
+  color: #005c4bd3;
+}
+
+.aboutus-content .description {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.aboutus-content .divider {
+  height: 1px;
+  width: 90vw;
+  background-color: #a19f9f;
+  margin-top: 3rem;
+}
+
+.aboutus-content .contact {
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.aboutus-content .qinfo {
+  margin-top: 4;
+  font-size: 1.5rem;
+  color: #757474;
+}
+
+.aboutus-content .email {
+  font-size: 1.4rem;
+  text-decoration: underline;
+}
+
+.aboutus-content .copy {
+  margin-top: 3rem;
+  z-index: 0;
+  margin-bottom: 2rem;
+}
+
