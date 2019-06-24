@@ -9,7 +9,7 @@ import DepartPane from './department'
 import './index.css'
 // Vars
 import { api } from '../../util'
-const { initialTermData, initialUniData, initialDepartData } = api.initialData;
+const { initialTerm, initialUni, initialDepart } = api.initialData;
 
 export class AdminPage extends React.Component {
   constructor(props) {
@@ -18,16 +18,16 @@ export class AdminPage extends React.Component {
       activePane: parseInt(localStorage.getItem('activePane')) || 0,
 
       terms: [],
-      term: _.clone(initialTermData),
-      editTerm: _.clone(initialTermData),
+      term: _.clone(initialTerm),
+      editTerm: _.clone(initialTerm),
 
       universities: [],
-      uni: _.clone(initialUniData),
-      editUni: _.clone(initialUniData),
+      uni: _.clone(initialUni),
+      editUni: _.clone(initialUni),
 
       departments: [],
-      depart: _.clone(initialDepartData),
-      editDepart: _.clone(initialDepartData),
+      depart: _.clone(initialDepart),
+      editDepart: _.clone(initialDepart),
     }
   }
   
@@ -65,9 +65,9 @@ export class AdminPage extends React.Component {
 
   resetState = name => {
     name = name.toLowerCase();
-    if (name.includes('term')) this.setState({[name]: _.clone(initialTermData)});
-    else if (name.includes('uni')) this.setState({[name]: _.clone(initialUniData)});
-    else if (name.includes('depart')) this.setState({[name]: _.clone(initialDepartData)});
+    if (name.includes('term')) this.setState({[name]: _.clone(initialTerm)});
+    else if (name.includes('uni')) this.setState({[name]: _.clone(initialUni)});
+    else if (name.includes('depart')) this.setState({[name]: _.clone(initialDepart)});
   }
 
   onFormSubmit = name => {
