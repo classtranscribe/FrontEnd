@@ -32,9 +32,7 @@ export class AdminPage extends React.Component {
   }
   
   componentDidMount() {
-    this.getAll('Terms');
-    this.getAll('Universities');
-    this.getAll('Departments');
+    this.getAll(['Terms', 'Universities', 'Departments']);
   }
 
   componentWillMount() {
@@ -46,17 +44,23 @@ export class AdminPage extends React.Component {
     localStorage.setItem('activePane', `${index}`)
   }
 
-  getAll = name => {
-    const stateName = name.toLowerCase();
-    api.getData(name)
-      .then(responce => {
-        // console.log(`get all ${name}`)
-        this.setState({[stateName]: responce.data})
-        // console.log(this.state[stateName])
-      })
-      .catch( error => {
-        console.log(error)
-      })
+  getAll = value => {
+    var array = [];
+    if (typeof value === 'string') { array.push(value) }
+    else { array = value }
+    
+    for (var i = 0; i < array.length; i++) {
+      const name = array[i];
+      const stateName = name.toLowerCase();
+      api.getData(name)
+        .then(responce => {
+          this.setState({[stateName]: responce.data})
+          // console.log(this.state[stateName])
+        })
+        .catch( error => {
+          console.log(error)
+        })
+    }
   }
 
   refresh() {
