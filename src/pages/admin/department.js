@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 import { DepartForm } from './forms'
 import { Tab, Divider, Segment, Grid, Button, Form, Input, Select } from 'semantic-ui-react'
 
@@ -9,10 +8,6 @@ function getUniOptions(unis) {
     options.push({key: index, text: uni.name, value: uni.id})
   })
   return options;
-}
-
-function findUniById(unis, id) {
-  return _.find(unis, {id: id});
 }
 
 export default function DepartPane(props) {

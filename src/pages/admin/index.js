@@ -3,7 +3,7 @@ import { api } from '../../util'
 import _ from 'lodash'
 
 import { Tab } from 'semantic-ui-react'
-import { SignOutHeader, StickyFooter } from '../../components'
+import { SignOutHeader } from '../../components'
 import TermPane from './term'
 import UniPane from './universities'
 import DepartPane from './department'

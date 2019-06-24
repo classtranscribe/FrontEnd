@@ -1,6 +1,6 @@
 import React from 'react'
 import videojs from 'video.js'
-import axios from 'axios'
+// import axios from 'axios'
 // UIs
 
 export default class VideoPlayer extends React.Component {
@@ -41,7 +41,7 @@ export default class VideoPlayer extends React.Component {
   }
 
   render() {
-    var that = this
+    // var that = this
     const setStateandFocusPlugin = function (options) {
       this.on('play', function (e) {
         console.log('playback has started!')

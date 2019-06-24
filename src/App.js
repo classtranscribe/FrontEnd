@@ -1,8 +1,8 @@
 import React from 'react';
 import { HashRouter as Router, Route} from 'react-router-dom';
 // import {  } from 'react-router';
-import axios from 'axios';
-import authentication from 'react-azure-adb2c';
+// import axios from 'axios';
+// import authentication from 'react-azure-adb2c';
 
 import { 
   LoginPage as Homepage, 

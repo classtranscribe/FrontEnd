@@ -158,7 +158,6 @@ export class InstOfferingPage extends React.Component {
     const {
       newPlaylist, editPlaylist, currPlaylistIdx, deletePlaylist,
       editVideo, currVideoIdx, deleteVideo,
-      showAlert, alertType
     } = this.state;
     const currPlaylist = this.playlists.length ? this.playlists[currPlaylistIdx] : null;
     const currVideo = currPlaylist ? currPlaylist.videos[currVideoIdx] : null;

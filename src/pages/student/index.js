@@ -115,7 +115,6 @@ export class StudentsPage extends React.Component {
   onSignOut = () => { authentication.signOut() }
 
   render() {
-    const gridMode = this.state.gridMode;
     const darkMode = this.state.darkMode;
     const theme = darkMode ? '-dark' : '';
     
