@@ -148,6 +148,7 @@ export class AdminPage extends React.Component {
         <SignOutHeader user={{name: '...'}} />
         <div className="admin-bg">
           <Tab 
+            className="ap-tab"
             activeIndex={this.state.activePane}
             menu={{ borderless: true, attached: false, tabular: false }} 
             panes={panes}
