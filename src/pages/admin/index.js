@@ -7,7 +7,7 @@ import UniPane from './universities'
 import DepartPane from './department'
 import './index.css'
 // Vars
-import { api, refresh, handleData } from '../../util'
+import { api, handleData, refresh } from '../../util'
 const { initialTerm, initialUni, initialDepart } = api.initialData;
 
 export class AdminPage extends React.Component {
