@@ -131,3 +131,9 @@
   color: rgb(26, 110, 110);
   text-decoration: underline;
 }
+
+.end-padding {
+  height: 5rem;
+  width: 100%;
+  position: relative;
+}

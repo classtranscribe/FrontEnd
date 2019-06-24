@@ -66,3 +66,4 @@ export function FixedFooter(props) {
   )
 }
 
+export const EndPadding5rem = () => <div className="end-padding"></div>

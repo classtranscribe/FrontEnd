@@ -5,6 +5,7 @@ export {
   StickyFooter, 
   CourseSettingHeader, 
   SignOutHeader, 
+  EndPadding5rem,
 } from './global'
 
 export { 
