@@ -48,27 +48,51 @@ export const api = {
     }
   },
 
-  // http requests
-  getData: function (name, id) {
-    name = id ? `${name}/${id}` : name;
-    return http.get(name);
-  },
-  postData: function (name, data) {
-    return http.post(name, data);
-  },
-  updateData: function (name, data) {
-    return http.put(`${name}/${data.id}`, data);
-  },
-  deleteData: function (name, id) {
-    console.log(`${name}/${id}`)
-    return http.delete(`${name}/${id}`)
-  },
-
   getApiPath: function(str) {
     str = str.toLowerCase();
     console.log(str)
     for (var key in this.apiMap) {
       if (str.includes(key)) return this.apiMap[key];
     }
-  }
+  },
+
+  // http requests
+  getData: function (name, id) {
+    name = id ? `${name}/${id}` : name;
+    return http.get(name);
+  },
+  // callBack = (responce, name) => {this.setState([name]: responce.data)}
+  getAll: function (value, callBack, id) {
+    var array = [];
+    if (typeof value === 'string') { array.push(id ? `${value}/${id}` : value) } 
+    else { array = value }
+    
+    for (var i = 0; i < array.length; i++) {
+      const name = array[i];
+      const stateName = name.toLowerCase();
+      api.getData(name)
+        .then(responce => callBack(responce, stateName))
+        .catch( error => console.log(error))
+    }
+  },
+  // callBack = responce => {...}
+  postData: function (name, data, callBack) {
+    http.post(name, data)
+      .then(responce => callBack(responce))
+      .catch( error => console.log(error))
+  },
+  // callBack = responce => {...}
+  updateData: function (name, data, callBack) {
+    http.put(`${name}/${data.id}`, data)
+      .then(responce => callBack(responce))
+      .catch( error => console.log(error))
+  },
+  // callBack = responce => {...}
+  deleteData: function (name, id, callBack) {
+    console.log(`${name}/${id}`)
+    http.delete(`${name}/${id}`)
+      .then(responce => callBack(responce))
+      .catch( error => console.log(error))
+  },
+
 }
