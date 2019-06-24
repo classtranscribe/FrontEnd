@@ -1,4 +1,4 @@
-export { Auth   } from './Auth'
+export { auth   } from './Auth'
 export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'

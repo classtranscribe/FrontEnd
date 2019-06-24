@@ -1,6 +1,5 @@
-import { Auth } from './Auth'
+import { auth } from './Auth'
 
-const auth = new Auth();
 // a user have an id, firstName, lastName and email
 export const user = {
   id: () => { 
@@ -23,12 +22,4 @@ export const user = {
   email: () => {
     return auth.currentUser().emails[0]
   },
-  saveUser: () => {
-    // const user = {
-    //   firstName: this.firstName,
-    //   lastName: this.lastName,
-    //   email: this.email,
-    // }
-    // do a POST request here with userID
-  }
 }

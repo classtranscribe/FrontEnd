@@ -1,24 +1,21 @@
 import b2cauth from 'react-azure-adb2c';
 import decodeJWT from 'jwt-decode'; 
 
-export class Auth {
-  isLoggedIn() {
-    if (b2cauth.getAccessToken()) {
-      return true;
-    }
-
+export const auth = {
+  isLoggedIn: function() {
+    if (b2cauth.getAccessToken()) return true;
     return false;
-  }
+  },
 
-  logout() {
+  logout: function() {
     b2cauth.signOut();
-  }
+  },
 
-  getToken() {
+  getToken: function() {
     return b2cauth.getAccessToken();
-  }
+  },
 
-  currentUser() {
+  currentUser: function() {
     // console.log(b2cauth.getAccessToken());
     const decoded = decodeJWT(b2cauth.getAccessToken());
     return {
@@ -26,5 +23,5 @@ export class Auth {
       lastName: decoded.family_name,
       emails: decoded.emails
     };
-  }
+  },
 }
