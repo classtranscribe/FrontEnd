@@ -12,4 +12,7 @@ export const handleData = {
     }
     return res;
   },
+  findById(array, id) {
+    return _.find(array, {id: id});
+  }
 }

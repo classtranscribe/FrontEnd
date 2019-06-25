@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Select } from 'semantic-ui-react'
+import { Form, Input, Select, TextArea } from 'semantic-ui-react'
 
 export function TermForm(props) {
   return (
@@ -24,7 +24,7 @@ export function TermForm(props) {
           onChange={event => props.onFormChange(event, 'term', 'startDate')}
         />
       </Form.Group>
-      <Form.Button>Submit</Form.Button>
+      <Form.Button secondary>Submit</Form.Button>
     </Form>
   )
 }
@@ -52,7 +52,7 @@ export function UniForm(props) {
           onChange={event => props.onFormChange(event, 'uni', 'domain')}
         />
       </Form.Group>
-      <Form.Button>Submit</Form.Button>
+      <Form.Button secondary>Submit</Form.Button>
     </Form>
   )
 }
@@ -80,13 +80,44 @@ export function DepartForm(props) {
           onChange={event => props.onFormChange(event, 'depart', 'acronym')}
         />
       </Form.Group>
+      <Form.Button secondary>Submit</Form.Button>
+    </Form>
+  )
+}
+
+export function CourseForm(props) {
+  return (
+    <Form onSubmit={()=>props.onFormSubmit('course')}>
+      <Form.Group widths='equal'>
+        <Form.Field
+          fluid
+          id='course-number'
+          control={Input}
+          label='Course Number'
+          placeholder='E.g. 241'
+          value={props.state.course.name}
+          onChange={event => props.onFormChange(event, 'course', 'courseNumber')}
+        />
+        <Form.Field
+          fluid
+          id='course-name'
+          control={Input}
+          label='Course Name'
+          placeholder='E.g. System Programming'
+          value={props.state.course.acronym}
+          onChange={event => props.onFormChange(event, 'course', 'courseName')}
+        />
+      </Form.Group>
       <Form.Field
-        control={Select}
-        options={props.uniOptions}
-        label='University'
-        onChange={(event, data) => props.onFormChange(data, 'depart', 'universityId')}
+        fluid
+        id='course-decription'
+        control={TextArea}
+        label='Course Description'
+        placeholder='Enter course description here ...'
+        value={props.state.course.acronym}
+        onChange={event => props.onFormChange(event, 'course', 'description')}
       />
-      <Form.Button>Submit</Form.Button>
+      <Form.Button secondary>Submit</Form.Button>
     </Form>
   )
 }

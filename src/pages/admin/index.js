@@ -5,10 +5,11 @@ import { SignOutHeader } from '../../components'
 import TermPane from './term'
 import UniPane from './universities'
 import DepartPane from './department'
+import CoursePane from './course'
 import './index.css'
 // Vars
-import { api, handleData, refresh } from '../../util'
-const { initialTerm, initialUni, initialDepart } = api.initialData;
+import { api, handleData, util } from '../../util'
+const { initialTerm, initialUni, initialDepart, initialCourse } = api.initialData;
 
 export class AdminPage extends React.Component {
   constructor(props) {
@@ -27,17 +28,47 @@ export class AdminPage extends React.Component {
       departments: [],
       depart: handleData.copy(initialDepart),
       editDepart: handleData.copy(initialDepart),
+      departCurrUni: null,
+
+      courses: [],
+      course: handleData.copy(initialCourse),
+      editCourse: handleData.copy(initialCourse),
+      courseCurrUni: null,
+      courseCurrDeparts: [],
+      courseCurrDepart: null,
     }
+    this.getSelectOptions = util.getSelectOptions;
   }
 
-  getDataCallBack = (responce, name) => this.setState({[name]: responce.data})
-  
   componentDidMount() {
-    api.getAll(['Terms', 'Universities', 'Departments'], this.getDataCallBack);
+    this.getAll();
   }
 
   componentWillMount() {
     // localStorage.removeItem('activePane');
+  }
+
+  getDataCallBack = (response, name) => this.setState({[name]: response.data})
+  
+  getAll() {
+    api.getAll(['Terms', 'Universities', 'Departments'], this.getDataCallBack);
+    const { courseCurrDepart, courseCurrUni } = this.state;
+    if (courseCurrUni) this.getDepartsByUniId(courseCurrUni.id);
+    if (courseCurrDepart) this.getCoursesByDepartId(courseCurrDepart.id);
+  }
+
+  getDepartsByUniId = (uniId) => {
+    api.getData('Departments/ByUniversity', uniId) 
+      .then(response => {
+        this.setState({courseCurrDeparts: response.data})
+      })
+  }
+
+  getCoursesByDepartId = (departId) => {
+    api.getData('Courses/ByDepartment', departId) 
+      .then(response => {
+        this.setState({courses: response.data})
+      })
   }
 
   setActivePane = index => {
@@ -45,20 +76,41 @@ export class AdminPage extends React.Component {
     localStorage.setItem('activePane', `${index}`)
   }
 
+  setCurrent = (name, data) => {
+    if (name.includes('Uni')) {
+      this.setState({[name]: handleData.findById(this.state.universities, data.value)})
+      this.getDepartsByUniId(data.value);
+    } else if (name.includes('Depart')) {
+      this.setState({[name]: handleData.findById(this.state.courseCurrDeparts, data.value)})
+      this.getCoursesByDepartId(data.value);
+    } 
+  } 
+
   resetState = name => {
     name = name.toLowerCase();
     if (name.includes('term')) this.setState({[name]: handleData.copy(initialTerm)});
     else if (name.includes('uni')) this.setState({[name]: handleData.copy(initialUni)});
     else if (name.includes('depart')) this.setState({[name]: handleData.copy(initialDepart)});
+    else if (name.includes('course')) this.setState({[name]: handleData.copy(initialCourse)});
+  }
+
+  onFormChange = (e, name, key) => {
+    const newData = this.state[name];
+    newData[key] = (key.includes('Id')) ? e.value :
+                   (key === 'acronym') ? e.target.value.toUpperCase() : 
+                    e.target.value;
+    this.setState({[name]: newData});
   }
 
   onFormSubmit = name => {
     const path = api.getApiPath(name);
-    api.postData(path, this.state[name], 
+    const data = this.state[name];
+    if (name.includes('depart')) data.universityId = this.state.departCurrUni.id;
+    else if (name.includes('course')) data.departmentId = this.state.courseCurrDepart.id;
+    api.postData(path, data, 
       () => {
         this.resetState(name);
-        api.getAll(path)
-        refresh();
+        this.getAll();
       })
   }
 
@@ -69,8 +121,7 @@ export class AdminPage extends React.Component {
     api.updateData(path, data, 
       () => {
         this.resetState(name)
-        api.getAll(path)
-        refresh();
+        this.getAll();
       })
   }
 
@@ -78,24 +129,16 @@ export class AdminPage extends React.Component {
     const path = api.getApiPath(name);
     api.deleteData(path, obj.id, 
       () => {
-        api.getAll(path)
-        refresh();
+        this.getAll();
       })
-  }
-
-  onFormChange = (e, name, key) => {
-    const newData = this.state[name];
-    newData[key] = (key === 'universityId') ? e.value :
-                   (key === 'acronym') ? e.target.value.toUpperCase() : 
-                    e.target.value;
-    this.setState({[name]: newData});
   }
 
   render() {
     const panes = [
       { menuItem: 'Terms', render: () => <TermPane {...this} /> },
       { menuItem: 'Universities', render: () => <UniPane {...this} /> },
-      { menuItem: 'Departments', render: () => <DepartPane {...this} /> }
+      { menuItem: 'Departments', render: () => <DepartPane {...this} /> },
+      { menuItem: 'Courses', render: () => <CoursePane {...this} /> }
     ]
     return (
       <div>

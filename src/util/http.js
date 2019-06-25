@@ -5,19 +5,21 @@ const apiMap = {
   'term': 'Terms',
   'uni': 'Universities',
   'depart': 'Departments',
+  'course': 'Courses',
 }
 
 const initialData = {
   initialTerm: {name: '', startDate: ''},
   initialUni: {name: '', domain: ''},
   initialDepart: {name: '', acronym: '', universityId: ''},
+  initialCourse: {courseName: '', courseNumber: '', description: '', departmentId: ''},
 }
 
 /**
  * Set up http
  */
 const http = axios.create({
-  baseURL: 'https://classtranscribe.ncsa.illinois.edu:4443/api/',
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   timeout: 10000,
 });
 
