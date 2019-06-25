@@ -53,6 +53,9 @@ export class LoginPage extends React.Component {
             <UIButton className="stu-btn" size="massive" primary href="/class-transcribe-frontend/#/courses/">
               <i class="fas fa-users"></i>&ensp;Student Login&ensp;
             </UIButton>
+            <UIButton className="admin-btn" size="massive" color='brown' href="/class-transcribe-frontend/#/admin/">
+              <i class="fas fa-users-cog"></i>&ensp;Admin Login&ensp;
+            </UIButton>
           </div>
 
           <div className="triangle-up-small"></div>
