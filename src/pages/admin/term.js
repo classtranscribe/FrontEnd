@@ -1,6 +1,6 @@
 import React from 'react'
 import { TermForm } from './forms'
-import { Tab, Divider, Segment, Grid, Button, Form, Input, Message, Accordion } from 'semantic-ui-react'
+import { Tab, Divider, Grid, Button, Form, Input, Message, Accordion } from 'semantic-ui-react'
 
 export default function TermPane(props) {
   const terms = props.state.terms;

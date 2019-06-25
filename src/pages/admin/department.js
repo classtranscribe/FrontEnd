@@ -1,7 +1,7 @@
 import React from 'react'
 import { DepartForm } from './forms'
 import { 
-  Tab, Divider, Segment, Grid, 
+  Tab, Divider, Grid, 
   Button, Form, Input, Select, 
   Message, Accordion } from 'semantic-ui-react'
 
