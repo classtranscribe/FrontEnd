@@ -32,13 +32,9 @@ export default function DepartPane(props) {
       {departments.slice().reverse().map( department => department.universityId === currUni.id ? (
         <>
         <h4 className="ap-id">ID: {department.id}</h4>
-        <Segment>
-          <Message color="black">
-            <Message.Header>
-              {department.name}
-              <br/>Acronym: {department.acronym}
-            </Message.Header>
-          </Message>
+        <Message >
+          <Message.Header>{department.name}</Message.Header>
+          <p>{department.acronym}</p>
           <Accordion exclusive={false} fluid panels={[{
             key: department.id,
             title: 'Edit',
@@ -84,8 +80,7 @@ export default function DepartPane(props) {
               </Form>
             }
           }]} />
-          
-        </Segment>
+        </Message>
         </>
       ):<></>)}
     </Tab.Pane>

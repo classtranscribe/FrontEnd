@@ -12,11 +12,10 @@ export default function TermPane(props) {
       {terms.slice().reverse().map( term => (
         <>
         <h4 className="ap-id">ID: {term.id}</h4>
-        <Segment>
-          <Message color="black">
-            <Message.Header>{term.name}</Message.Header>
-            <p>{term.startDate}</p>
-          </Message>
+        <Message >
+          <Message.Header>{term.name}</Message.Header>
+          <p>{term.startDate}</p>
+        
           <Accordion exclusive={false} fluid panels={[{
             key: term.id,
             title: 'Edit',
@@ -61,7 +60,7 @@ export default function TermPane(props) {
                 </Grid>
               </Form>
             }}]} />
-        </Segment>
+        </Message>
         </>
       ))}
     </Tab.Pane>

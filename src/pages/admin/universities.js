@@ -12,11 +12,10 @@ export default function UniPane(props) {
       {universities.slice().reverse().map( university => (
         <>
         <h4 className="ap-id">ID: {university.id}</h4>
-        <Segment>
-          <Message color="black">
-            <Message.Header>{university.name}</Message.Header>
-            <p>Domain:&ensp;{university.domain}</p>
-          </Message>
+        <Message>
+          <Message.Header>{university.name}</Message.Header>
+          <p>Domain:&ensp;{university.domain}</p>
+        
           <Accordion exclusive={false} fluid panels={[{
             key: university.id,
             title: 'Edit',
@@ -63,7 +62,7 @@ export default function UniPane(props) {
                 </Grid>
               </Form>
             }}]} />
-        </Segment>
+        </Message>
         </>
       ))}
     </Tab.Pane>

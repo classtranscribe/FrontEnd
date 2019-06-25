@@ -1,6 +1,6 @@
 import React from 'react'
 import { CourseForm } from './forms'
-import { Tab, Divider, Segment, Grid, 
+import { Tab, Divider, Grid, 
   Button, Form, Input, Select, 
   TextArea, Message, Accordion } from 'semantic-ui-react'
 
@@ -42,13 +42,12 @@ export default function CoursePane(props) {
       {courses.slice().reverse().map( course => (
         <>
         <h4 className="ap-id">ID: {course.id}</h4>
-        <Segment>
-          <Message color="black">
-            <Message.Header>
-              {currDepart.acronym+course.courseNumber} <br/>{course.courseName}
-            </Message.Header>
-            <p>{course.description}</p>
-          </Message>
+        <Message >
+          <Message.Header>
+            {currDepart.acronym+course.courseNumber} <br/>{course.courseName}
+          </Message.Header>
+          <p>{course.description}</p>
+          
 
           <Accordion exclusive={false} fluid panels={[{
             key: course.id,
@@ -106,7 +105,7 @@ export default function CoursePane(props) {
                 </Grid>
               </Form>
             }}]} />
-        </Segment>
+        </Message>
         </>
       ))}
     </Tab.Pane>

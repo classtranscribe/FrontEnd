@@ -70,7 +70,7 @@ export const api = {
     else { array = value }
     
     for (var i = 0; i < array.length; i++) {
-      const path = array[i];
+      const path = array[i]
       const stateName = path.toLowerCase();
       this.getData(path)
         .then(responce => callBack(responce, stateName))
