@@ -6,8 +6,8 @@ import { Tab, Divider, Segment, Grid,
 
 export default function CoursePane(props) {
   const {universities, courseCurrUni, courseCurrDeparts, courseCurrDepart, courses} = props.state;
-  const currUni = courseCurrUni ? courseCurrUni : {name: 'none', id: 0};
-  const currDepart = courseCurrDepart ? courseCurrDepart : {name: 'none', id: 0};
+  const currUni = courseCurrUni || {name: 'none', id: 0};
+  const currDepart = courseCurrDepart || {name: 'none', id: 0};
   const uniOptions = props.getSelectOptions(universities);
   const departOptions = props.getSelectOptions(courseCurrDeparts);
 
@@ -45,10 +45,11 @@ export default function CoursePane(props) {
         <Segment>
           <Message color="black">
             <Message.Header>
-              {course.courseNumber} <br/>{course.courseName}
+              {currDepart.acronym+course.courseNumber} <br/>{course.courseName}
             </Message.Header>
             <p>{course.description}</p>
           </Message>
+
           <Accordion exclusive={false} fluid panels={[{
             key: course.id,
             title: 'Edit',

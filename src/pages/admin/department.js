@@ -9,7 +9,7 @@ import {
 export default function DepartPane(props) {
   const {departments, universities, departCurrUni} = props.state;
   const uniOptions = props.getSelectOptions(universities);
-  const currUni = departCurrUni ? departCurrUni : {name: 'none', id: 0};
+  const currUni = departCurrUni || {name: 'none', id: 0};
   return (
     <Tab.Pane attached={false}>
       <Message color="black">

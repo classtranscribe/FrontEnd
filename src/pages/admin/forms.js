@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Select, TextArea } from 'semantic-ui-react'
+import { Form, Input, TextArea, Message } from 'semantic-ui-react'
 
 export function TermForm(props) {
   return (
@@ -60,6 +60,11 @@ export function UniForm(props) {
 export function DepartForm(props) {
   return (
     <Form onSubmit={()=>props.onFormSubmit('depart')}>
+      {!props.state.departCurrUni && 
+        <Message color='red'>
+          <Message.Header>Please Select an University</Message.Header>
+        </Message>
+      }
       <Form.Group widths='equal'>
         <Form.Field
           fluid
@@ -88,6 +93,11 @@ export function DepartForm(props) {
 export function CourseForm(props) {
   return (
     <Form onSubmit={()=>props.onFormSubmit('course')}>
+      {(!props.state.courseCurrDepart) && 
+        <Message color='red'>
+          <Message.Header>Please Select an University and a Department</Message.Header>
+        </Message>
+      }
       <Form.Group widths='equal'>
         <Form.Field
           fluid
@@ -95,7 +105,7 @@ export function CourseForm(props) {
           control={Input}
           label='Course Number'
           placeholder='E.g. 241'
-          value={props.state.course.name}
+          value={props.state.course.courseNumber}
           onChange={event => props.onFormChange(event, 'course', 'courseNumber')}
         />
         <Form.Field
@@ -104,7 +114,7 @@ export function CourseForm(props) {
           control={Input}
           label='Course Name'
           placeholder='E.g. System Programming'
-          value={props.state.course.acronym}
+          value={props.state.course.courseName}
           onChange={event => props.onFormChange(event, 'course', 'courseName')}
         />
       </Form.Group>
@@ -114,7 +124,7 @@ export function CourseForm(props) {
         control={TextArea}
         label='Course Description'
         placeholder='Enter course description here ...'
-        value={props.state.course.acronym}
+        value={props.state.course.description}
         onChange={event => props.onFormChange(event, 'course', 'description')}
       />
       <Form.Button secondary>Submit</Form.Button>
