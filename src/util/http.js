@@ -52,7 +52,7 @@ export const api = {
 
   getApiPath: function(str) {
     str = str.toLowerCase();
-    console.log(str)
+    // console.log(str)
     for (var key in this.apiMap) {
       if (str.includes(key)) return this.apiMap[key];
     }
@@ -91,7 +91,7 @@ export const api = {
   },
   // callBack = responce => {...}
   deleteData: function (path, id, callBack) {
-    console.log(`${path}/${id}`)
+    // console.log(`${path}/${id}`)
     http.delete(`${path}/${id}`)
       .then(responce => callBack(responce))
       .catch( error => console.log(error))

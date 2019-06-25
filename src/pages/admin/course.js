@@ -39,7 +39,7 @@ export default function CoursePane(props) {
       <CourseForm {...props} uniOptions={uniOptions} departOptions={departOptions}/>
       <Divider horizontal>All Courses</Divider>
       
-      {courses.map( course => (
+      {courses.slice().reverse().map( course => (
         <>
         <h4 className="ap-id">ID: {course.id}</h4>
         <Segment>
