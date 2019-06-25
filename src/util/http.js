@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import authentication from 'react-azure-adb2c'
+import authentication from 'react-azure-adb2c'
 
 const apiMap = {
   'term': 'Terms',
@@ -30,35 +30,32 @@ const http = axios.create({
 export const api = {
   apiMap: apiMap,
   initialData: initialData,
+  authToken: authentication.getAccessToken(),
+  apiToken: localStorage.getItem('apiToken'),
 
-  // getToken: callBack => {
-  //   if (localStorage.getItem('apiToken') === null) {
-  //     const authToken = authentication.getAccessToken();
-  //     http.post('Account/SignIn', {"b2cToken": authToken})
-  //       .then(response => {
-  //         // console.log(response.data)
-  //         localStorage.setItem('apiToken', response.data);
-  //         http.get('api/Values', {
-  //           headers: {"Authorization": 'Bearer ' + response.data}
-  //         }).then(response => callBack(response.data));
-  //       });
-  //     return;
-  //   } else { 
-  //     http.get('api/Values', {
-  //       headers: {"Authorization": 'Bearer ' + localStorage.getItem('apiToken')}
-  //     }).then(response => callBack(response.data)); 
-  //   }
-  // },
+  /**
+   * Get token
+   */
+  getApiToken: function() {
+    return http.post('Account/SignIn', {"b2cToken": this.authToken})
+  },
+  apiToken: function () {
+    return this.apiToken;
+  },
+  saveApiToken: function (data) {
+    localStorage.setItem('apiToken', data);
+  },
 
+
+  /**
+   * http requests
+   */
   getApiPath: function(str) {
     str = str.toLowerCase();
-    // console.log(str)
     for (var key in this.apiMap) {
       if (str.includes(key)) return this.apiMap[key];
     }
   },
-
-  // http requests
   getData: function (path, id) {
     path = id ? `${path}/${id}` : path;
     return http.get(path);
@@ -91,10 +88,24 @@ export const api = {
   },
   // callBack = responce => {...}
   deleteData: function (path, id, callBack) {
-    // console.log(`${path}/${id}`)
     http.delete(`${path}/${id}`)
       .then(responce => callBack(responce))
       .catch( error => console.log(error))
   },
+
+  getDepartsByUniId: function (id) {
+    return this.getData('Departments/ByUniversity', id)
+  },
+  getCoursesByDepartId: function (id) {
+    return this.getData('Courses/ByDepartment', id) 
+  },
+  getTermsByUniId: function (id) {
+    return this.getData('Terms/ByUniversity', id) 
+    // return this.getData('Terms') 
+  },
+  getCoursesByInstId: function (id) {
+    return this.getData('Courses/ByInstructor', id) 
+  },
+
 
 }

@@ -1,11 +1,27 @@
 import React from 'react'
 import { TermForm } from './forms'
-import { Tab, Divider, Grid, Button, Form, Input, Message, Accordion } from 'semantic-ui-react'
+import { Tab, Divider, Grid, Button, Form, Input, Select,  Message, Accordion } from 'semantic-ui-react'
 
 export default function TermPane(props) {
-  const terms = props.state.terms;
+  const {terms, universities, termCurrUni} = props.state;
+  const uniOptions = props.getSelectOptions(universities);
+  const currUni = termCurrUni || {name: 'none', id: 0};
+
   return (
     <Tab.Pane attached={false}>
+      <Message color="black">
+        <Message.Header>Select from Universities</Message.Header>
+        <p>Current University: <strong>{currUni.name}</strong></p>
+        <Form>
+          <Form.Field
+            control={Select}
+            options={uniOptions}
+            defaultValue={currUni.id}
+            onChange={(event, data)=>props.setCurrent('termCurrUni', data)}
+          />
+        </Form>
+      </Message>
+
       <Divider horizontal>Create New Term</Divider>
       <TermForm {...props} />
       <Divider horizontal>All Terms</Divider>

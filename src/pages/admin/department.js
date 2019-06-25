@@ -29,7 +29,7 @@ export default function DepartPane(props) {
       <DepartForm {...props} uniOptions={uniOptions} />
       <Divider horizontal>All Departments</Divider>
       
-      {departments.slice().reverse().map( department => department.universityId === currUni.id ? (
+      {departments.slice().reverse().map( department => (
         <>
         <h4 className="ap-id">ID: {department.id}</h4>
         <Message >
@@ -82,7 +82,7 @@ export default function DepartPane(props) {
           }]} />
         </Message>
         </>
-      ):<></>)}
+      ))}
     </Tab.Pane>
   )
 }
