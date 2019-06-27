@@ -1,6 +1,9 @@
 import React from 'react'
 import { Button, Message } from 'semantic-ui-react'
 
+export { GeneralLoader, GeneralModal } from '../../components'
+
+
 export function AdminListItem(props) {
   return (
     <Message className='ap-listitem'>

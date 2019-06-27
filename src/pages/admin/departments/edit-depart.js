@@ -1,6 +1,5 @@
 import React from 'react'
-import { GeneralModal } from '../../../components'
-import { SubmitButton, EditButtons } from '../admin-components'
+import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../admin-components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 
 import { api, handleData } from '../../../util'
@@ -107,10 +106,8 @@ function DepartForm(props) {
             />
           </Grid.Column>
         </Grid.Row>
-      </Grid> : 
-      (<Dimmer active inverted>
-        <Loader inverted>Loading</Loader>
-      </Dimmer>) }
+      </Grid> : <GeneralLoader inverted height='10rem'/>  
+      }
     </Form>
   )
 }

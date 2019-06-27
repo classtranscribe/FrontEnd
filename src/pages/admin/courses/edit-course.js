@@ -1,6 +1,5 @@
 import React from 'react'
-import { GeneralModal, GeneralLoader } from '../../../components'
-import { SubmitButton, EditButtons } from '../admin-components'
+import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../admin-components'
 import { Grid, Form, Input, Dimmer, Loader, TextArea } from 'semantic-ui-react'
 
 import { api, handleData } from '../../../util'
@@ -119,7 +118,7 @@ function CourseForm(props) {
             />
           </Grid.Column>
         </Grid.Row>
-      </Grid> : <GeneralLoader/>}
+      </Grid> : <GeneralLoader inverted height='10rem'/>}
     </Form>
   )
 }

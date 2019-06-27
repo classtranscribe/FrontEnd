@@ -1,6 +1,5 @@
 import React from 'react'
-import { GeneralModal } from '../../../components'
-import { SubmitButton, EditButtons } from '../admin-components'
+import { SubmitButton, EditButtons, GeneralModal } from '../admin-components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 
 import { api, handleData } from '../../../util'

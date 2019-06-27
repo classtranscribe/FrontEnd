@@ -1,8 +1,7 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
-import { GeneralLoader } from '../../../components'
 import EditCoursePage from './edit-course'
-import { CreateNewButton, AdminListItem } from '../admin-components'
+import { CreateNewButton, AdminListItem, GeneralLoader } from '../admin-components'
 import { Tab, Divider, Message, Form, Select, Dimmer, Loader } from 'semantic-ui-react'
 
 export default function CoursePane(props) {
@@ -41,9 +40,7 @@ export default function CoursePane(props) {
       <CreateNewButton name='Create New Course' path='course' id={currDepart.id}/>
       <Divider horizontal>All Courses</Divider>
       {
-        courses.length === 0  ? 
-        <GeneralLoader inverted height='10rem'/> 
-        :
+        courses ? 
         courses.slice().reverse().map( course => (
           <AdminListItem 
             header={`${currDepart.acronym}${course.courseNumber}`} 
@@ -54,7 +51,8 @@ export default function CoursePane(props) {
               `Description: ${course.description}`
             ]}
           />
-      ))}
+        )) : <GeneralLoader inverted height='10rem'/> 
+      }
     </Tab.Pane>
   )
 }

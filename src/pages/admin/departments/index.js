@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditDepartPage from './edit-depart'
-import { CreateNewButton, AdminListItem } from '../admin-components'
+import { CreateNewButton, AdminListItem, GeneralLoader } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function DepartPane(props) {
@@ -27,16 +27,19 @@ export default function DepartPane(props) {
 
       <CreateNewButton name='Create New Department' path='depart' id={currUni.id}/>
       <Divider horizontal>All Departments</Divider>
-      {departments.slice().reverse().map( depart => (
-        <AdminListItem 
-          header={depart.name} 
-          path={'depart'}
-          id={depart.id}
-          items={[
-            `Acronym: ${depart.acronym}`,
-            currUni.name
-          ]}/>
-      ))}
+      {
+        departments ? 
+        departments.slice().reverse().map( depart => (
+          <AdminListItem 
+            header={depart.name} 
+            path={'depart'}
+            id={depart.id}
+            items={[
+              `Acronym: ${depart.acronym}`,
+              currUni.name
+            ]}/>
+        )) : <GeneralLoader inverted height='10rem'/>  
+      }
     </Tab.Pane>
   )
 }
