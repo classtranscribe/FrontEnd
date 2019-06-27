@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditTermPage from './edit-term'
-import { CreateNewButton, AdminListItem } from '../admin-components'
+import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function TermPane(props) {
@@ -25,19 +25,26 @@ export default function TermPane(props) {
         </Form>
       </Message>
 
-      <CreateNewButton name='Create New Terms' path='term' id={currUni.id}/>
-      <Divider horizontal>All Terms</Divider>
-      {terms.slice().reverse().map( term => (
-          <AdminListItem 
-            header={term.name} 
-            path={'term'}
-            id={term.id}
-            items={[
-              `Start Date: ${term.startDate}`,
-              currUni.name
-            ]}
-          />
-      ))}
+      {
+        currUni.id === 0 ? 
+        <GeneralAlert type='selectUni' open fixed /> :
+        <>
+          <CreateNewButton name='Create New Terms' path='term' id={currUni.id}/>
+          <Divider horizontal>All Terms</Divider>
+          {terms.slice().reverse().map( term => (
+              <AdminListItem 
+                header={term.name} 
+                path={'term'}
+                id={term.id}
+                items={[
+                  `Start Date: ${term.startDate}`,
+                  currUni.name
+                ]}
+              />
+          ))}
+        </>
+      }
+      
     </Tab.Pane>
   )
 }

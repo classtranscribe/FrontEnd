@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Message } from 'semantic-ui-react'
 
-export { GeneralLoader, GeneralModal } from '../../components'
+export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
 
 
 export function AdminListItem(props) {

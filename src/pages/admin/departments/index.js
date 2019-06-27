@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditDepartPage from './edit-depart'
-import { CreateNewButton, AdminListItem } from '../admin-components'
+import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function DepartPane(props) {
@@ -24,20 +24,26 @@ export default function DepartPane(props) {
           />
         </Form>
       </Message>
-
-      <CreateNewButton name='Create New Department' path='depart' id={currUni.id}/>
-      <Divider horizontal>All Departments</Divider>
-      {departments.slice().reverse().map( depart => (
-          <AdminListItem 
-            header={depart.name} 
-            path={'depart'}
-            id={depart.id}
-            items={[
-              `Acronym: ${depart.acronym}`,
-              currUni.name
-            ]}
-          />
-      ))}
+      
+      {
+        currUni.id === 0 ? 
+        <GeneralAlert type='selectUni' open fixed /> :
+        <>
+          <CreateNewButton name='Create New Department' path='depart' id={currUni.id}/>
+          <Divider horizontal>All Departments</Divider>
+          {departments.slice().reverse().map( depart => (
+              <AdminListItem 
+                header={depart.name} 
+                path={'depart'}
+                id={depart.id}
+                items={[
+                  `Acronym: ${depart.acronym}`,
+                  currUni.name
+                ]}
+              />
+          ))}
+        </>
+      }
     </Tab.Pane>
   )
 }

@@ -81,6 +81,20 @@ export class AdminPage extends React.Component {
   }
 
   /**
+   * on admin sign out, clear all the localStorages
+   */
+  onSignOut = () => {
+    [
+      'activePane', 'termCurrUni', 
+      'departCurrUni', 'courseCurrUni', 
+      'courseCurrDepart'
+    ].forEach( key => {
+      localStorage.removeItem(key);
+    })
+    this.props.history.goBack();
+  }
+
+  /**
    * determine whether to show the loader while loading the data
    */
   setLoading = (name, value) => {
@@ -176,7 +190,7 @@ export class AdminPage extends React.Component {
     ]
     return (
       <div>
-        <SignOutHeader user={{name: '...'}} />
+        <SignOutHeader user={{name: '...'}} onSignOut={this.onSignOut}/>
         <div className="admin-bg">
           <Tab 
             menuPosition="left"

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditCoursePage from './edit-course'
-import { CreateNewButton, AdminListItem } from '../admin-components'
+import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function CoursePane(props) {
@@ -26,31 +26,44 @@ export default function CoursePane(props) {
             onChange={(event, data)=>props.setCurrent('courseCurrUni', data)}
           />
         </Form>
-        <Message.Header><br/>Select from Departments</Message.Header>
-        <p>Current Department: <strong>{currDepart.name}</strong></p>
-        <Form>
-          <Form.Field
-            control={Select}
-            options={departOptions}
-            defaultValue={currDepart.id}
-            onChange={(event, data)=>props.setCurrent('courseCurrDepart', data)}
-          />
-        </Form>
+        {
+          (currUni.id !== 0) 
+          &&
+          <>
+            <Message.Header><br/>Select from Departments</Message.Header>
+            <p>Current Department: <strong>{currDepart.name}</strong></p>
+            <Form>
+              <Form.Field
+                control={Select}
+                options={departOptions}
+                defaultValue={currDepart.id}
+                onChange={(event, data)=>props.setCurrent('courseCurrDepart', data)}
+              />
+            </Form>
+          </>
+        }
       </Message>
-
-      <CreateNewButton name='Create New Course' path='course' id={currDepart.id}/>
-      <Divider horizontal>All Courses</Divider>
-      {courses.slice().reverse().map( course => (
-          <AdminListItem 
-            header={`${currDepart.acronym}${course.courseNumber}`} 
-            path={'course'}
-            id={course.id}
-            items={[
-              course.courseName,
-              `Description: ${course.description}`
-            ]}
-          />
-      ))}
+      {
+        currUni.id === 0 ? 
+        <GeneralAlert type='selectUni' open fixed /> :
+        currDepart.id === 0 ?
+        <GeneralAlert type='selectDepart' open fixed /> :
+        <>
+          <CreateNewButton name='Create New Course' path='course' id={currDepart.id}/>
+          <Divider horizontal>All Courses</Divider>
+          {courses.slice().reverse().map( course => (
+              <AdminListItem 
+                header={`${currDepart.acronym}${course.courseNumber}`} 
+                path={'course'}
+                id={course.id}
+                items={[
+                  course.courseName,
+                  `Description: ${course.description}`
+                ]}
+              />
+          ))}
+        </>
+      }
     </Tab.Pane>
   )
 }
