@@ -69,9 +69,10 @@ export function FixedFooter(props) {
 export const EndPadding5rem = () => <div className="end-padding"></div>
 
 export function GeneralLoader(props) {
+  //style={{display: 'flex', position: 'relative', width: '100%', height: props.height, background: 'none'}}
   return (
-    <div style={{display: 'flex', position: 'relative', width: '100%', height: props.height}}>
-      <Dimmer active inverted={props.inverted}>
+    <div >
+      <Dimmer active={props.loading} inverted={props.inverted}>
         <Loader inverted={props.inverted}>Loading</Loader>
       </Dimmer>
     </div>

@@ -1,16 +1,16 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditDepartPage from './edit-depart'
-import { CreateNewButton, AdminListItem, GeneralLoader } from '../admin-components'
+import { CreateNewButton, AdminListItem } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function DepartPane(props) {
-  const {departments, universities, departCurrUni} = props.state;
+  const {departments, universities, departCurrUni, departLoading} = props.state;
   const uniOptions = props.getSelectOptions(universities);
   const currUni = departCurrUni || {name: 'none', id: 0};
   
   return (
-    <Tab.Pane attached={false} className="ap-list">
+    <Tab.Pane attached={false} className="ap-list" loading={departLoading}>
       <Route path={'/admin/depart/:id'} component={EditDepartPage}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -27,9 +27,7 @@ export default function DepartPane(props) {
 
       <CreateNewButton name='Create New Department' path='depart' id={currUni.id}/>
       <Divider horizontal>All Departments</Divider>
-      {
-        departments ? 
-        departments.slice().reverse().map( depart => (
+      {departments.slice().reverse().map( depart => (
           <AdminListItem 
             header={depart.name} 
             path={'depart'}
@@ -37,9 +35,9 @@ export default function DepartPane(props) {
             items={[
               `Acronym: ${depart.acronym}`,
               currUni.name
-            ]}/>
-        )) : <GeneralLoader inverted height='10rem'/>  
-      }
+            ]}
+          />
+      ))}
     </Tab.Pane>
   )
 }

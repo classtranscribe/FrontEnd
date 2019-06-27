@@ -1,6 +1,6 @@
 import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../admin-components'
-import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
+import { Grid, Form, Input } from 'semantic-ui-react'
 
 import { api, handleData } from '../../../util'
 const initialDepart = api.initialData.initialDepart;

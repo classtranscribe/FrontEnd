@@ -1,16 +1,16 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditTermPage from './edit-term'
-import { CreateNewButton, AdminListItem, GeneralLoader } from '../admin-components'
+import { CreateNewButton, AdminListItem } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function TermPane(props) {
-  const {terms, universities, termCurrUni} = props.state;
+  const {terms, universities, termCurrUni, termLoading} = props.state;
   const uniOptions = props.getSelectOptions(universities);
   const currUni = termCurrUni || {name: 'none', id: 0};
   
   return (
-    <Tab.Pane attached={false} className="ap-list">
+    <Tab.Pane attached={false} className="ap-list" loading={termLoading}>
       <Route path={'/admin/term/:id'} component={EditTermPage}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -27,19 +27,17 @@ export default function TermPane(props) {
 
       <CreateNewButton name='Create New Terms' path='term' id={currUni.id}/>
       <Divider horizontal>All Terms</Divider>
-      {
-        terms !== null ? 
-        terms.slice().reverse().map( term => (
-        <AdminListItem 
-          header={term.name} 
-          path={'term'}
-          id={term.id}
-          items={[
-            `Start Date: ${term.startDate}`,
-            currUni.name
-          ]}/>
-        )) : <GeneralLoader inverted height='10rem'/> 
-      }
+      {terms.slice().reverse().map( term => (
+          <AdminListItem 
+            header={term.name} 
+            path={'term'}
+            id={term.id}
+            items={[
+              `Start Date: ${term.startDate}`,
+              currUni.name
+            ]}
+          />
+      ))}
     </Tab.Pane>
   )
 }

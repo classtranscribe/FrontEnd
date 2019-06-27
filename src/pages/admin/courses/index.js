@@ -1,18 +1,19 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 import EditCoursePage from './edit-course'
-import { CreateNewButton, AdminListItem, GeneralLoader } from '../admin-components'
-import { Tab, Divider, Message, Form, Select, Dimmer, Loader } from 'semantic-ui-react'
+import { CreateNewButton, AdminListItem } from '../admin-components'
+import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function CoursePane(props) {
-  const {universities, courseCurrUni, courseCurrDeparts, courseCurrDepart, courses} = props.state;
+  const { universities, courseCurrUni, courseCurrDeparts, 
+          courseCurrDepart, courses, courseLoading } = props.state;
   const currUni = courseCurrUni || {name: 'none', id: 0};
   const currDepart = courseCurrDepart || {name: 'none', id: 0};
   const uniOptions = props.getSelectOptions(universities);
   const departOptions = props.getSelectOptions(courseCurrDeparts);
   
   return (
-    <Tab.Pane attached={false} className="ap-list">
+    <Tab.Pane attached={false} className="ap-list" loading={courseLoading}>
       <Route path={'/admin/course/:id'} component={EditCoursePage}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -39,9 +40,7 @@ export default function CoursePane(props) {
 
       <CreateNewButton name='Create New Course' path='course' id={currDepart.id}/>
       <Divider horizontal>All Courses</Divider>
-      {
-        courses ? 
-        courses.slice().reverse().map( course => (
+      {courses.slice().reverse().map( course => (
           <AdminListItem 
             header={`${currDepart.acronym}${course.courseNumber}`} 
             path={'course'}
@@ -51,8 +50,7 @@ export default function CoursePane(props) {
               `Description: ${course.description}`
             ]}
           />
-        )) : <GeneralLoader inverted height='10rem'/> 
-      }
+      ))}
     </Tab.Pane>
   )
 }

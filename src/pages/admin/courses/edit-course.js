@@ -1,6 +1,6 @@
 import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../admin-components'
-import { Grid, Form, Input, Dimmer, Loader, TextArea } from 'semantic-ui-react'
+import { Grid, Form, Input, TextArea } from 'semantic-ui-react'
 
 import { api, handleData } from '../../../util'
 const initialCourse = api.initialData.initialCourse;
@@ -89,7 +89,7 @@ function CourseForm(props) {
               id='course-num-edit'
               control={Input}
               label='Course Number'
-              placeholder='E.g. CS241'
+              placeholder='E.g. 241'
               defaultValue={course.courseNumber}
               onChange={event => onChange(event, 'courseNumber')}
             />
