@@ -41,31 +41,31 @@
       "High Level Scheduler Overview","Measurements","Scheduling Algorithms","Scheduling Conceptually"
     ]
   },{
-    "index": 8, "name": "Lecture 3: No Videos",
+    "index": 8, "name": "Lecture 9: No Videos",
     "videos": [
     ]
   },{
-    "index": 9, "name": "Lecture 4: Threads",
+    "index": 9, "name": "Lecture 10: Threads",
     "videos": [
       "Processes vs threads","Pthread Functions","Race Conditions"
     ]
   },{
-    "index": 10, "name": "Lecture 5: Synchronization",
+    "index": 10, "name": "Lecture 11: Synchronization",
     "videos": [
       "Mutex","Thread Safe Data Structures","Counting Semaphore","Barriers","Ring Buffer"
     ]
   },{
-    "index": 11, "name": "Lecture 6: Deadlock",
+    "index": 11, "name": "Lecture 12: Deadlock",
     "videos": [
       "Resource Allocation Graphs","Coffman conditions","Approaches to solving deadlock","Dining Philosophers"
     ]
   },{
-    "index": 12, "name": "Lecture 7: Virtual Memory",
+    "index": 12, "name": "Lecture 13: Virtual Memory",
     "videos": [
       "Translating Addresses","mmap","Pipes","Files"
     ]
   },{
-    "index": 13, "name": "Lecture 8: Scheduling",
+    "index": 13, "name": "Lecture 14: Scheduling",
     "videos": [
       "High Level Scheduler Overview","Measurements","Scheduling Algorithms","Scheduling Conceptually"
     ]

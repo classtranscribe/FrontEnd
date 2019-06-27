@@ -6,9 +6,11 @@ export {
   CourseSettingHeader, 
   SignOutHeader, 
   EndPadding5rem,
+  GeneralLoader,
 } from './global'
 
 export { 
+  GeneralModal,
   CourseFormModal,
   OfferingFormModal,
   DeleteModal,

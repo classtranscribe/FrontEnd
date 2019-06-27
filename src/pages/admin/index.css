@@ -19,6 +19,11 @@
   padding-left: 1rem;
 }
 
+.ap-form {
+  padding-left: 1rem;
+  width: 100%;
+}
+
 .ap-id {
   color: rgb(4, 91, 98);
 }
@@ -28,4 +33,14 @@
   flex-direction: row !important;
   width: 100%;
   justify-content: flex-end !important;
+}
+
+.ap-listitem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ap-listitem .ap-iteminfo {
+  width: 100%;
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Button, Navbar, Nav } from 'react-bootstrap'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader } from 'semantic-ui-react'
 
 /**
  * Header with a sign out button and user info
@@ -67,3 +67,13 @@ export function FixedFooter(props) {
 }
 
 export const EndPadding5rem = () => <div className="end-padding"></div>
+
+export function GeneralLoader(props) {
+  return (
+    <div style={{display: 'flex', position: 'relative', width: '100%', height: props.height}}>
+      <Dimmer active inverted={props.inverted}>
+        <Loader inverted={props.inverted}>Loading</Loader>
+      </Dimmer>
+    </div>
+  )
+}

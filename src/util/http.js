@@ -9,7 +9,7 @@ const apiMap = {
 }
 
 const initialData = {
-  initialTerm: {name: '', startDate: ''},
+  initialTerm: {name: '', startDate: '', universityId: ''},
   initialUni: {name: '', domain: ''},
   initialDepart: {name: '', acronym: '', universityId: ''},
   initialCourse: {courseName: '', courseNumber: '', description: '', departmentId: ''},

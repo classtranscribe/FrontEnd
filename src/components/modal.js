@@ -28,6 +28,27 @@ function getSelectOption(array, opt1, opt2) {
   return res;
 }
 
+export function GeneralModal(props) {
+  return (
+    <UIModal 
+      className="general-modal" style={{position: 'relative'}} 
+      size={props.size || 'small'} dimmer='blurring'
+      open={props.open} onClose={props.onClose}
+    >
+      <UIModal.Header>{props.header}</UIModal.Header>
+      {
+        props.children && 
+        <UIModal.Content image>
+          {props.children}
+        </UIModal.Content>
+      }
+      <UIModal.Actions>
+        {props.button}
+      </UIModal.Actions>
+    </UIModal>
+  )
+}
+
 export function CourseFormModal(props) {
   // if (props.course) console.log(props.course)
   const course = props.course ? props.course : {num: '', name: '', depart: '', uni: 'UIUC', description: ''}
