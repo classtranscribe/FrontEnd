@@ -11,7 +11,8 @@
   position: absolute;
   top: 0;
   z-index: 2;
-  background-color: rgb(235, 235, 235);
+  /* background-color: rgb(235, 235, 235); */
+  background-color: white;
   -webkit-overflow-scrolling: touch;
 }
 .ip-container {
@@ -35,6 +36,7 @@
   margin-top: 0.5rem;
   padding: 1rem 0 0rem 4%;
   width: 97%;
+  border: none;
   display: flex;}
     .ip-profile .img {
       background-color: rgb(229, 243, 243);
@@ -55,8 +57,10 @@
 
 /* Contents */
 .ip-content {
+  margin-top: 1rem;
+  padding-top: 1rem;
   height: 100%;
-  overflow: scroll;
+  overflow: hidden;
   min-width: 50rem !important;
   width: 97%;}
   @media screen and (max-width: 990px) {
@@ -68,14 +72,14 @@
 .ip-content .title-courses {
   padding-left: 2.5rem;
   font-weight: bold;
-  color: rgb(48, 110, 110);
+  color: rgb(103, 167, 167);
   font-size: 1.2rem;
 }
 
 .ip-content .title-offerings {
   padding-left: 0.5rem;
   font-weight: bold;
-  color: rgb(48, 110, 110);
+  color: rgb(103, 167, 167);
   font-size: 1.2rem;
 }
 @media screen and (min-width: 750px) {
@@ -87,10 +91,6 @@
   .ip-content .title-offerings::after {
     content: 'My Offerings';
   }
-}
-
-.ui .menu {
-  height: 100%;
 }
 
 .ip-content .empty {
@@ -183,7 +183,9 @@
 }
 
 /* Semantic UI Customization */
-
+.ui.vertical.tabular.menu {
+  height: 100%;
+}
 .ui.celled.grid>.row>.column {
   overflow: hidden;
 }
@@ -210,7 +212,7 @@
   background: none rgb(236, 235, 235) !important;
   padding-left: 3rem;
   font-size: 1.2rem;
-  transition: all 0.3s linear;
+  transition: font 0.3s linear;
 }
 
 .ui.vertical.tabular.menu .item {
@@ -222,9 +224,21 @@
 } 
 
 .ui.grid>.row>.stretched.column>*, .ui.grid>.stretched.column:not(.row)>*, .ui.grid>.stretched.row>.column>*, .ui.stretched.grid>.column>*, .ui.stretched.grid>.row>.column>* {
-  margin-left: -2rem;
-  border-left: 0;
-  border-radius: 0;
+  /* margin-left: -2rem; */
   background-color: rgb(236, 235, 235);
+}
+
+.ui.grid>.stretched.column:not(.row) {
+  min-height: 70vh !important;
+  border-left: none !important;
+  border-radius: 0;
+  /* background-color: rgb(236, 235, 235); */
+}
+.ui.attached.segment {
+  border-left: none !important;
+  border-right: 1px solid #d4d4d5;
+}
+.ui.tab.active, .ui.tab.open {
+  min-height: 70vh !important;
 }
 

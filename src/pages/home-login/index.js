@@ -1,6 +1,4 @@
 import React from 'react';
-// import { Link } from "react-scroll";
-// import authentication from 'react-azure-adb2c'
 // UIs
 import { 
   Button as UIButton, Icon, Transition, Button, 
@@ -34,6 +32,7 @@ export class LoginPage extends React.Component {
     setInterval(() => {
       this.setState({visible: !this.state.visible})
     }, 1700);
+    
   }
   
   render() {
@@ -47,13 +46,13 @@ export class LoginPage extends React.Component {
           <p className="brand">CLASS TRANSCRIBE</p>
           
           <div className="login-container">
-            <UIButton className="inst-btn" size="massive" color="" secondary href="/class-transcribe-frontend/#/instructor/0">
+            <UIButton className="inst-btn" size="massive" secondary href="/instructor/0">
               <i class="fas fa-graduation-cap"></i>  Instructor Login
             </UIButton>
-            <UIButton className="stu-btn" size="massive" primary href="/class-transcribe-frontend/#/courses/">
+            <UIButton className="stu-btn" size="massive" primary href="/student/">
               <i class="fas fa-users"></i>&ensp;Student Login&ensp;
             </UIButton>
-            <UIButton className="admin-btn" size="massive" color='brown' href="/class-transcribe-frontend/#/admin/">
+            <UIButton className="admin-btn" size="massive" color='brown' href="/admin/">
               <i class="fas fa-users-cog"></i>&ensp;Admin Login&ensp;
             </UIButton>
           </div>
@@ -76,7 +75,7 @@ function BounceBtn(props) {
   return (
     <div className="aboutus-btn">
       <Transition animation='bounce' duration='1500' visible={props.visible}>
-        <Icon name="angle double down" size="huge" color="grey" onClick={()=>window.scrollBy(100, 100)}/>
+        <Icon name="angle double down" size="huge" color="grey" onClick={()=>1}/>
       </Transition>
     </div>
   )

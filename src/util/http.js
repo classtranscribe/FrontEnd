@@ -30,20 +30,17 @@ const http = axios.create({
 export const api = {
   apiMap: apiMap,
   initialData: initialData,
-  authToken: authentication.getAccessToken(),
-  apiToken: localStorage.getItem('apiToken'),
+  b2cToken: () => authentication.getAccessToken(),
+  authToken: () => localStorage.getItem('authToken'),
 
   /**
    * Get token
    */
-  getApiToken: function() {
-    return http.post('Account/SignIn', {"b2cToken": this.authToken})
+  getAuthToken: function() {
+    return http.post('https://sysprog.ncsa.illinois.edu:4443/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
-  apiToken: function () {
-    return this.apiToken;
-  },
-  saveApiToken: function (data) {
-    localStorage.setItem('apiToken', data);
+  saveAuthToken: function (responce) {
+    localStorage.setItem('authToken', responce.data.authToken);
   },
 
 

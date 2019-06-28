@@ -15,7 +15,7 @@ export function SignOutHeader(props) {
   const theme = darkMode ? '-dark' : '';
   return (
     <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme}>
-      <Navbar.Brand className={"brand"+theme} href="/class-transcribe-frontend/#/">Class Transcribe</Navbar.Brand>
+      <Navbar.Brand className={"brand"+theme} href="/">Class Transcribe</Navbar.Brand>
         <Row className="signout">
           <p className={"hi-there"+theme}>Hi, {props.user.name}</p>
           <Button variant={btn} onClick={props.onSignOut}>Sign Out</Button>

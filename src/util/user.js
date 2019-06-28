@@ -1,15 +1,25 @@
 import { auth } from './Auth'
+import { api } from './http'
 
 // a user have an id, firstName, lastName and email
 export const user = {
-  id: () => { 
-    if (localStorage.getItem('userID') !== null) {
-      return localStorage.getItem('userID')
-    } else {
-      // do a GET request here
-      // and save the userID into the localStorage
+  isLoggedIn: () => auth.isLoggedIn(),
+  b2cToken: () => auth.getToken(),
+  setUpUser: function () {
+    if (localStorage.getItem('userId') === null) {
+      api.getAuthToken()
+      .then(response => {
+        localStorage.setItem('userId', response.data.userId)
+        api.saveAuthToken(response);
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
   },
+  id: () => localStorage.getItem('userId'),
+
+
   lastName: () => {
     return auth.currentUser().lastName
   },
@@ -22,4 +32,10 @@ export const user = {
   email: () => {
     return auth.currentUser().emails[0]
   },
+  signout: function () { 
+    ['authToken', 'userId'].forEach( key => {
+      localStorage.removeItem(key);
+    })
+    auth.logout();
+  }
 }

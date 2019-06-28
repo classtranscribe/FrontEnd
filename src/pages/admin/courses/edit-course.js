@@ -36,23 +36,27 @@ export default class EditCoursePage extends React.Component {
   onSubmit = () => {
     const data = this.state.courseInfo;
     data.departmentId = this.departId;
-    api.postData(this.path, data, () => this.onClose())
+    api.postData(this.path, data, () => this.onSave())
   }
 
   onUpdate = () => {
     const { course, courseInfo, id } = this.state;
     var data = handleData.updateJson(courseInfo, course)
     data.id = id;
-    api.updateData(this.path, data, () => this.onClose())
+    api.updateData(this.path, data, () => this.onSave())
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onInactive = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
+    api.deleteData(this.path, this.state.id, () => this.onSave())
   }
 
-  onClose = () => {
+  onSave = () => {
+    window.location='/admin'
+  }
+
+  onCancel = () => {
     this.props.history.goBack()
   }
 
@@ -66,7 +70,7 @@ export default class EditCoursePage extends React.Component {
       <GeneralModal 
         header={header}
         open={true} 
-        onClose={this.onClose}
+        onClose={this.onCancel}
         button={button}
       >
         <CourseForm isNew={isNew} {...this}/>

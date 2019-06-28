@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Message } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
 
@@ -13,8 +14,9 @@ export function AdminListItem(props) {
       </div>
       <div className="ap-buttons">
         <Button 
+          as={Link}
+          to={`/admin/${props.path}/${props.id}`}
           secondary compact 
-          onClick={()=>window.location=`/#/class-transcribe-frontend/admin/${props.path}/${props.id}`}
         >
           <i class="fas fa-edit"></i>&ensp;Edit
         </Button>
@@ -24,12 +26,12 @@ export function AdminListItem(props) {
 }
 
 export function CreateNewButton(props) {
-  const id = `=${props.id}` || '';
   return (
     <div className='ap-buttons'>
       <Button
+        as={Link}
+        to={`/admin/${props.path}/new=${props.id}`}
         secondary
-        onClick={()=>window.location=`/#/class-transcribe-frontend/admin/${props.path}/new${id}`}
       >
       {props.name}</Button>
     </div>
@@ -44,7 +46,7 @@ export function SubmitButton(props) {
       onClick={props.onSubmit}
       >Submit</Button>
     <Button 
-      onClick={props.onClose}
+      onClick={props.onCancel}
       >Cancel</Button>
     </>
   )
@@ -62,7 +64,7 @@ export function EditButtons(props) {
       >Inactive</Button>
     <Button 
       secondary
-      onClick={props.onClose}
+      onClick={props.onCancel}
       >Cancel</Button>
     </>
   )

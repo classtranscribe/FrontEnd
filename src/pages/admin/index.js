@@ -8,7 +8,7 @@ import DepartPane from './departments'
 import CoursePane from './courses'
 import './index.css'
 // Vars
-import { api, handleData, util } from '../../util'
+import { api, handleData, util, user } from '../../util'
 
 export class AdminPage extends React.Component {
   constructor(props) {
@@ -38,6 +38,8 @@ export class AdminPage extends React.Component {
   }
 
   componentDidMount() {
+    // get userId and authToken
+    user.setUpUser();
     // first load of data
     this.getAll();
     /**
@@ -91,6 +93,7 @@ export class AdminPage extends React.Component {
     ].forEach( key => {
       localStorage.removeItem(key);
     })
+    user.signout();
     this.props.history.goBack();
   }
 
@@ -190,7 +193,7 @@ export class AdminPage extends React.Component {
     ]
     return (
       <div>
-        <SignOutHeader user={{name: '...'}} onSignOut={this.onSignOut}/>
+        <SignOutHeader user={{name: user.firstName()}} onSignOut={this.onSignOut}/>
         <div className="admin-bg">
           <Tab 
             menuPosition="left"

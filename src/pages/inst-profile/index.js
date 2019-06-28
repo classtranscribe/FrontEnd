@@ -14,43 +14,42 @@ import {
 } from '../../components'
 import './index.css'
 import Profile from "./profile.js";
-import Courses from "./courselist.js"
+import Courses from "./courses"
 // Vars
 import { fakeData } from '../../data';
 var instructor = fakeData.instData;
 // instructor.courses = []; // empty test
-const initialStates = {
-  loading: !true, // should be true at the begginning
-  sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
-  // courses
-  currCourse: instructor.courses.length > 0 ? instructor.courses[0] : null,
-  newCourse: false,
-  editCourse: false,
-  courseInfo: {
-    num: '',
-    name: '',
-    depart: '',
-    uni: 'UIUC',
-    description: ''
-  },
-  deleteCourse: false,
-  // offerings
-  newOffering: false,
-  offeringInfo: {
-    term: '',
-    sec: '',
-    copy: '',
-  },
-  // alerts
-  showAlert: false,
-  alertType: 'default', 
-  // values: []
-};
 
 export class InstProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state=initialStates;
+    this.state = {
+      loading: !true, // should be true at the begginning
+      sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
+      // courses
+      currCourse: instructor.courses.length > 0 ? instructor.courses[0] : null,
+      newCourse: false,
+      editCourse: false,
+      courseInfo: {
+        num: '',
+        name: '',
+        depart: '',
+        uni: 'UIUC',
+        description: ''
+      },
+      deleteCourse: false,
+      // offerings
+      newOffering: false,
+      offeringInfo: {
+        term: '',
+        sec: '',
+        copy: '',
+      },
+      // alerts
+      showAlert: false,
+      alertType: 'default', 
+      // values: []
+    }
   }
 
   isSelectInput = item => 

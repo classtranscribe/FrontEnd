@@ -1,5 +1,6 @@
 import React from 'react'
-import {Route} from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import authentication from 'react-azure-adb2c'
 import EditDepartPage from './edit-depart'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
@@ -11,7 +12,7 @@ export default function DepartPane(props) {
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={departLoading}>
-      <Route path={'/admin/depart/:id'} component={EditDepartPage}/>     
+      <Route path='/admin/depart/:id' component={authentication.required(EditDepartPage)}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
         <p>Current University: <strong>{currUni.name}</strong></p>

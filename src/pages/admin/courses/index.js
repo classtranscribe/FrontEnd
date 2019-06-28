@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
+import authentication from 'react-azure-adb2c'
 import EditCoursePage from './edit-course'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
@@ -14,7 +15,7 @@ export default function CoursePane(props) {
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={courseLoading}>
-      <Route path={'/admin/course/:id'} component={EditCoursePage}/>     
+      <Route path='/admin/course/:id' component={authentication.required(EditCoursePage)}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
         <p>Current University: <strong>{currUni.name}</strong></p>

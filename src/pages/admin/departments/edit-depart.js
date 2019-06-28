@@ -53,6 +53,10 @@ export default class EditDepartPage extends React.Component {
   }
 
   onClose = () => {
+    window.location='/admin'
+  }
+
+  onCancel = () => {
     this.props.history.goBack()
   }
 
@@ -66,7 +70,7 @@ export default class EditDepartPage extends React.Component {
       <GeneralModal 
         header={header}
         open={true} 
-        onClose={this.onClose}
+        onClose={this.onCancel}
         button={button}
       >
         <DepartForm isNew={isNew} {...this}/>

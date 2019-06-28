@@ -50,6 +50,10 @@ export default class EditUniPage extends React.Component {
   }
 
   onClose = () => {
+    window.location='/admin'
+  }
+
+  onCancel = () => {
     this.props.history.goBack()
   }
 
