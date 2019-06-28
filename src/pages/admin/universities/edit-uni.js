@@ -67,7 +67,7 @@ export default class EditUniPage extends React.Component {
       <GeneralModal 
         header={header}
         open={true} 
-        onClose={this.onClose}
+        onClose={this.onCancel}
         button={button}
       >
         <UniForm isNew={isNew} {...this}/>

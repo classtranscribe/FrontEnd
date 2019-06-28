@@ -9,10 +9,11 @@ export const util = {
   refresh: function() {
     document.location.reload(true);
   },
-  getSelectOptions: function(unis) {
+  getSelectOptions: function(array, tag) {
     var options = [];
-    unis.forEach( uni => {
-      options.push({text: uni.name, value: uni.id})
+    array.forEach( item => {
+      const text = item.name || tag + item.courseNumber + ' ' + item.courseName;
+      options.push({text: text, value: item.id})
     })
     return options;
   },

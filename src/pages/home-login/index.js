@@ -46,7 +46,7 @@ export class LoginPage extends React.Component {
           <p className="brand">CLASS TRANSCRIBE</p>
           
           <div className="login-container">
-            <UIButton className="inst-btn" size="massive" secondary href="/instructor/0">
+            <UIButton className="inst-btn" size="massive" secondary href="/instructor/">
               <i class="fas fa-graduation-cap"></i>  Instructor Login
             </UIButton>
             <UIButton className="stu-btn" size="massive" primary href="/student/">

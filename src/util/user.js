@@ -6,9 +6,10 @@ export const user = {
   isLoggedIn: () => auth.isLoggedIn(),
   b2cToken: () => auth.getToken(),
   setUpUser: function (callback) {
-    if (localStorage.getItem('userId') === null) {
+    if (this.id() === null) {
       api.getAuthToken()
       .then(response => {
+        console.log(response.data)
         localStorage.setItem('userId', response.data.userId)
         api.saveAuthToken(response);
         if (callback) callback(response.data.userId);

@@ -1,54 +1,39 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-import { 
-  Grid, 
-  Tab as UITab, 
-  Button as UIButton, 
-} from 'semantic-ui-react'
+import { Route, Link } from 'react-router-dom'
+// UIs
+import { Grid, Tab, Button } from 'semantic-ui-react'
 import OfferinfList from './offerings'
+import NewOfferingPage from '../../offering-editing'
+// Vars
+// import { user } from '../../../util'
 
 export default function Courses(props) {
   const { courses } = props.state;
 
-  function getPanes() {
-    const panes = [];
-    if (!courses) return [{ 
-      menuItem: 'none', 
-      render: ()=> (
-        <UITab.Pane className="sp-pane">
-          Create your first course<br/><br/>
-          <UIButton onClick={props.newCourse}>
-            <i class="fas fa-plus"></i>&ensp;New Course
-          </UIButton>
-        </UITab.Pane>
-    )}];
-    for (var i = 0; i < courses.length; i++) {
-      const course = courses[i];
-      panes.push({
-        menuItem: course.num,
-        render: () => (
-          <div style={{marginLeft: '-2rem'}}>
-            <OfferinfList 
-              course={course}
-              newOffering={props.newOffering} 
-              sortDown={props.sortDown} onSort={props.onSort}
-              deleteCourse={props.deleteCourse}
-              editCourse={props.editCourse}
-            />
-          </div>
-        )
-      })
-    }
-    return panes;
-  }
-
-  const panes = getPanes();
+  const panes = [];
+  courses.forEach( course => {
+    panes.push({
+      menuItem: course.department.acronym + course.courseNumber,
+      render: () => (
+        <div style={{marginLeft: '-2rem'}}>
+          <OfferinfList 
+            course={course}
+            onSort={props.onSort}
+            sortDown={props.state.sortDown} 
+          />
+          {/* {course.courseName} */}
+        </div>
+      )
+    })
+  })
+  
   return (
     <div className="ip-content">
+      <Route path='/instructor/offering-setting/:type?=:id' component={NewOfferingPage} />
       <Title {...props}/>
-      {courses.length ? 
-        <UITab 
-          onTabChange={(event, data) => props.setCurrCourse(data)}
+      {
+        courses.length ? 
+        <Tab 
           menu={{ fluid: true, vertical: true, tabular: true, borderless: true }} 
           panes={panes} 
         /> : <EmptyResult {...props}/>
@@ -58,6 +43,7 @@ export default function Courses(props) {
 }
 
 function Title(props) {
+  const { userId } = props.state;
   return (
     <Grid>
       <Grid.Row columns={3} verticalAlign="middle">
@@ -68,9 +54,14 @@ function Title(props) {
           <p className="title-offerings"><i class="fas fa-stream"></i>&ensp;</p>
         </Grid.Column>
         <Grid.Column stretched className="new-course-btn">
-          <UIButton variant="secondary" onClick={props.newCourse} style={{marginRight:'-2rem'}}>
-            <i class="fas fa-plus"></i>&ensp;New Course
-          </UIButton>
+          <Button 
+            as={Link}
+            to={`/instructor/offering-setting/new=${userId}`}
+            variant="secondary" 
+            style={{marginRight:'-2rem'}}
+          >
+            <i class="fas fa-plus"></i>&ensp;New Offering
+          </Button>
         </Grid.Column>
       </Grid.Row>
     </Grid>
@@ -78,19 +69,21 @@ function Title(props) {
 }
 
 function EmptyResult(props) {
+  const { userId } = props.state;
   return (
     <div className="empty">
       <div>
         <h2>WELCOME TO</h2>
         <h1>CLASS TRANSCRIBE</h1>
       </div>
-      <UIButton 
-        onClick={props.newCourse} 
+      <Button 
+        as={Link}
+        to={`/instructor/offering-setting/new=${userId}`}
         style={{width: 'max-content', marginTop: '1rem'}} 
         size='big' secondary
       >
-        Create Your First Course HERE!
-      </UIButton>
+        Create Your First Offering HERE!
+      </Button>
     </div>
   )
 }

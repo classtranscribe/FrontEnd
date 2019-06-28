@@ -14,5 +14,8 @@ export const handleData = {
   },
   findById(array, id) {
     return _.find(array, {id: id});
+  },
+  includes(array, elem) {
+    return _.includes(array, elem);
   }
 }

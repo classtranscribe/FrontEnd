@@ -3,9 +3,12 @@
   "university": "University of Illinois at Urbana-Champaign",
   "courses": [
     {
-      "num": "CS1099",
-      "name": "System Programming X",
-      "department": "Computer Science",
+      "courseNumber": "1099",
+      "courseName": "System Programming X",
+      "department": {
+        "name": "Computer Science",
+        "acronym": "CS"
+      },
       "description": "Following the conclusion of the third season, co-creators Harmon and Roiland wanted to have assurance that there would be many more seasons of Rick and Morty in the future, so that they would be able to focus on the show and minimize their involvement in other projects.",
       "offerings": [
         {
@@ -38,15 +41,9 @@
         }
       ]
     },{
-      "num": "EMPTY100",
-      "name": "Introduction to Fake Study",
-      "department": "Statistics",
-      "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
-      "offerings": []
-    },{
-      "num": "CS2229",
-      "name": "Introduction to Algorithms & Models of Computation",
-      "department": "Computer Science",
+      "courseNumber": "2229",
+      "courseName": "Introduction to Algorithms & Models of Computation",
+      "department": {"name": "Computer Science", "acronym": "CS"},
       "description": "Intro to Programming Languages",
       "offerings": [
         {
@@ -55,18 +52,40 @@
         },{
           "term": "Fall 2121",
           "sec": "ONL11"
-        },{
-          "term": "Fall 2833",
-          "sec": "ONL123"
-        },{
-          "term": "Spring 1091",
-          "sec": "ONL11111"
         }
       ]
     },{
-      "num": "STAT1009",
-      "name": "Introduction to Statistics",
-      "department": "Statistics",
+      "courseNumber": "1009",
+      "courseName": "Introduction to Statistics",
+      "department": {"name": "Statistics", "acronym": "STAT"},
+      "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
+      "offerings": [
+        {
+          "term": "Fall 2310",
+          "sec": "AL139"
+        },{
+          "term": "Spring 1091",
+          "sec": "ONL"
+        }
+      ]
+    },{
+      "courseNumber": "9090",
+      "courseName": "Xtyrannosaurus",
+      "department": {
+        "name": "Electrical and Computer Engineering", 
+        "acronym": "ECE"
+      },
+      "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
+      "offerings": [
+        {
+          "term": "Spring 2099",
+          "sec": "BL12"
+        }
+      ]
+    },{
+      "courseNumber": "200",
+      "courseName": "Introduction to Fake Study 2",
+      "department": {"name": "Statistics", "acronym": "STAT"},
       "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
       "offerings": [
         {
@@ -84,9 +103,9 @@
         }
       ]
     },{
-      "num": "ECE9090",
-      "name": "Xtyrannosaurus",
-      "department": "Electrical and Computer Engineering",
+      "courseNumber": "300",
+      "courseName": "Introduction to Fake Study 3",
+      "department": {"name": "Statistics", "acronym": "STAT"},
       "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
       "offerings": [
         {
@@ -104,49 +123,9 @@
         }
       ]
     },{
-      "num": "FAKE200",
-      "name": "Introduction to Fake Study 2",
-      "department": "Statistics",
-      "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
-      "offerings": [
-        {
-          "term": "Spring 2099",
-          "sec": "BL12"
-        },{
-          "term": "Fall 2121",
-          "sec": "AL123"
-        },{
-          "term": "Fall 2310",
-          "sec": "AL139"
-        },{
-          "term": "Spring 1091",
-          "sec": "ONL"
-        }
-      ]
-    },{
-      "num": "FAKE300",
-      "name": "Introduction to Fake Study 3",
-      "department": "Statistics",
-      "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
-      "offerings": [
-        {
-          "term": "Spring 2099",
-          "sec": "BL12"
-        },{
-          "term": "Fall 2121",
-          "sec": "AL123"
-        },{
-          "term": "Fall 2310",
-          "sec": "AL139"
-        },{
-          "term": "Spring 1091",
-          "sec": "ONL"
-        }
-      ]
-    },{
-      "num": "FAKE400",
-      "name": "Introduction to Fake Study 4",
-      "department": "Statistics",
+      "courseNumber": "400",
+      "courseName": "Introduction to Fake Study 4",
+      "department": {"name": "Statistics", "acronym": "STAT"},
       "description": "Rick and Morty was created by Justin Roiland and Dan Harmon.",
       "offerings": [
         {

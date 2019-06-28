@@ -19,12 +19,12 @@ class App extends React.Component {
   render() {
     return (
       <Router basename="/">
-          <Route exact path="/" component={Homepage} />
-          <Route path="/admin" component={authentication.required(AdminPage)} />
-          <Route path="/student" component={StudentsPage} />
-          <Route path="/instructor/:id" component={authentication.required(InstProfilePage)} />
-          <Route path="/course/:index" component={authentication.required(InstOfferingPage)} />
-          <Route path="/video" component={VideoPage} />
+        <Route exact path="/" component={Homepage} />
+        <Route path="/admin" component={authentication.required(AdminPage)} />
+        <Route path="/student" component={authentication.required(StudentsPage)} />
+        <Route path="/instructor" component={authentication.required(InstProfilePage)} />
+        <Route path="/offering/:id" component={authentication.required(InstOfferingPage)} />
+        <Route path="/video" component={VideoPage} />
       </Router>
     );
   }

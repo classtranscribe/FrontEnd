@@ -9,11 +9,43 @@ const apiMap = {
 }
 
 const initialData = {
-  initialTerm: {name: '', startDate: '', universityId: ''},
-  initialUni: {name: '', domain: ''},
-  initialDepart: {name: '', acronym: '', universityId: ''},
-  initialCourse: {courseName: '', courseNumber: '', description: '', departmentId: ''},
+  initialTerm: {
+    name: '', 
+    startDate: '', 
+    universityId: ''
+  },
+  initialUni: {
+    name: '', 
+    domain: ''
+  },
+  initialDepart: {
+    name: '', 
+    acronym: '', 
+    universityId: ''
+  },
+  initialCourse: {
+    courseName: '', 
+    courseNumber: '', 
+    description: '', 
+    departmentId: ''
+  },
+  initialOffering: {
+    offering: {
+      sectionName: '',
+      termId: '',
+      accessType: 'Public'
+    },
+    courseId: '',
+    instructorId: ''
+  }
 }
+
+const offeringAccessType = [
+  {name: 'Public', id: 'Public'},
+  {name: 'Authenticated Only', id: 'AuthenticatedOnly'},
+  {name: 'Students Only', id: 'StudentsOnly'},
+  {name: 'University Only', id: 'UniversityOnly'}
+]
 
 /**
  * Set up http
@@ -30,6 +62,8 @@ const http = axios.create({
 export const api = {
   apiMap: apiMap,
   initialData: initialData,
+  offeringAccessType: offeringAccessType,
+
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
 

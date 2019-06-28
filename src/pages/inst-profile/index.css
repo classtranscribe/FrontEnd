@@ -50,7 +50,7 @@
       font-size: 2rem;
       text-align: left;
     }
-    .ip-profile .name p {
+    .ip-profile .name span {
       font-size: 1.2rem;
       color: rgb(124, 124, 124);
     }
@@ -62,24 +62,18 @@
   height: 100%;
   overflow: hidden;
   min-width: 50rem !important;
-  width: 97%;}
-  @media screen and (max-width: 990px) {
-    .ip-content {
-      margin-left: 4%;
-    }
-  }
+  width: 97%;} 
 
 .ip-content .title-courses {
   padding-left: 2.5rem;
   font-weight: bold;
-  color: rgb(103, 167, 167);
+  color: rgb(88, 121, 121);
   font-size: 1.2rem;
 }
 
 .ip-content .title-offerings {
-  padding-left: 0.5rem;
   font-weight: bold;
-  color: rgb(103, 167, 167);
+  color: rgb(88, 121, 121);
   font-size: 1.2rem;
 }
 @media screen and (min-width: 750px) {
@@ -151,6 +145,15 @@
     width: 100%;
   }
 
+  .offering-listitem {
+    background-color: rgb(221, 221, 221) !important;
+    transition: all 0.2s linear !important;
+    cursor: pointer;}
+    .offering-listitem:hover {
+      background-color: rgb(164, 187, 185) !important;
+      color: rgb(255, 255, 255);
+    }
+
 .offering-info .course-num {
   border-top-left-radius: 0.3rem;
   border-bottom-left-radius: 0.3rem;
@@ -192,47 +195,29 @@
 /* .ui.raised.segment { */
   /* padding: 0; */
 /* } */
-.ui.raised.segment:hover {
-  background-color: rgb(112, 128, 128);
-  cursor: pointer;
-  color: aliceblue;
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-  transition: all 0.15s linear;
-}
-.ui.raised.segment:active {
-  background-color: rgb(0, 0, 0);
-  cursor: pointer;
-  color: aliceblue;
-  margin-left: -1rem;
-  margin-right: -1rem;
-  transition: all 0.15s linear;
-}
 .ui.vertical.tabular.menu .active.item {
-  background: none rgb(236, 235, 235) !important;
+  background: none rgb(246, 246, 246) !important;
   padding-left: 3rem;
   font-size: 1.2rem;
   transition: font 0.3s linear;
 }
 
 .ui.vertical.tabular.menu .item {
-  font-size: 1.1rem;
-}
-
-.ui.vertical.tabular.menu .item:hover {
-  background-color: rgb(243, 243, 243);
-} 
+  font-size: 1.1rem;}
+  .ui.vertical.tabular.menu .item:hover {
+    background-color: rgb(243, 243, 243);
+  } 
 
 .ui.grid>.row>.stretched.column>*, .ui.grid>.stretched.column:not(.row)>*, .ui.grid>.stretched.row>.column>*, .ui.stretched.grid>.column>*, .ui.stretched.grid>.row>.column>* {
   /* margin-left: -2rem; */
-  background-color: rgb(236, 235, 235);
+  background-color: rgb(246, 246, 246);
 }
 
 .ui.grid>.stretched.column:not(.row) {
   min-height: 70vh !important;
   border-left: none !important;
   border-radius: 0;
-  /* background-color: rgb(236, 235, 235); */
+  /* background-color: rgb(246, 246, 246); */
 }
 .ui.attached.segment {
   border-left: none !important;
