@@ -21,7 +21,6 @@ export default function Courses(props) {
             onSort={props.onSort}
             sortDown={props.state.sortDown} 
           />
-          {/* {course.courseName} */}
         </div>
       )
     })

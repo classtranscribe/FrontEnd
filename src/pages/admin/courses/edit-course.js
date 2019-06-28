@@ -27,9 +27,9 @@ export default class EditCoursePage extends React.Component {
     }
   }
 
-  onChange = (e, key) => {
+  onChange = (value, key) => {
     const newData = this.state.courseInfo;
-    newData[key] = e.target.value;
+    newData[key] = value;
     this.setState({courseInfo: newData});
   }
 
@@ -95,7 +95,7 @@ function CourseForm(props) {
               label='Course Number'
               placeholder='E.g. 241'
               defaultValue={course.courseNumber}
-              onChange={event => onChange(event, 'courseNumber')}
+              onChange={({target: {value}}) => onChange(value, 'courseNumber')}
             />
           </Grid.Column>
           <Grid.Column>
@@ -106,7 +106,7 @@ function CourseForm(props) {
               label='Course Name'
               placeholder='E.g. System Programming'
               defaultValue={course.courseName}
-              onChange={event => onChange(event, 'courseName')}
+              onChange={({target: {value}}) => onChange(value, 'courseName')}
             />
           </Grid.Column>
         </Grid.Row>
@@ -118,7 +118,7 @@ function CourseForm(props) {
               label='Course Description'
               placeholder='Enter course description here ...'
               defaultValue={course.description}
-              onChange={event => onChange(event, 'description')}
+              onChange={({target: {value}}) => onChange(value, 'description')}
             />
           </Grid.Column>
         </Grid.Row>

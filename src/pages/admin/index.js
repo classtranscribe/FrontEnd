@@ -134,25 +134,26 @@ export class AdminPage extends React.Component {
    * set current selected options and get corresponding data
    */
   setCurrent = (name, data) => { 
+    const value = data.value;
     // set **CurrUni store in localStorage, then get terms/departs cased on this uni id
     if (name.includes('Uni')) { 
-      this.setState({[name]: handleData.findById(this.state.universities, data.value)})
+      this.setState({[name]: handleData.findById(this.state.universities, value)})
       if (name.includes('term')) { // termCurrUni
-        localStorage.setItem('termCurrUni', data.value)
-        this.getTermsByUniId(data.value) 
+        localStorage.setItem('termCurrUni', value)
+        this.getTermsByUniId(value) 
       } else if (name.includes('depart')) { // departCurrUni
-        localStorage.setItem('departCurrUni', data.value)
-        this.getDepartsByUniId(data.value, 'departments');
+        localStorage.setItem('departCurrUni', value)
+        this.getDepartsByUniId(value, 'departments');
       } else if (name.includes('course')) { // courseCurrUni
-        localStorage.setItem('courseCurrUni', data.value)
+        localStorage.setItem('courseCurrUni', value)
         localStorage.setItem('courseCurrDepart', null)
         this.setState({courseCurrDepart: null, courses: []})
-        this.getDepartsByUniId(data.value, 'courseCurrDeparts');
+        this.getDepartsByUniId(value, 'courseCurrDeparts');
       }
     } else if (name.includes('Depart')) { // set courseCurrDepart, then get its courses
-      this.setState({[name]: handleData.findById(this.state.courseCurrDeparts, data.value)})
-      this.getCoursesByDepartId(data.value);
-      localStorage.setItem('courseCurrDepart', data.value)
+      this.setState({[name]: handleData.findById(this.state.courseCurrDeparts, value)})
+      this.getCoursesByDepartId(value);
+      localStorage.setItem('courseCurrDepart', value)
     } 
   } 
 

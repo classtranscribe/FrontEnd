@@ -27,9 +27,9 @@ export default class EditDepartPage extends React.Component {
     }
   }
 
-  onChange = (e, key) => {
+  onChange = (value, key) => {
     const newData = this.state.departInfo;
-    newData[key] = e.target.value;
+    newData[key] = value;
     this.setState({departInfo: newData});
   }
 
@@ -95,7 +95,7 @@ function DepartForm(props) {
               label='Department Name'
               placeholder='E.g. Mathematics'
               defaultValue={depart.name}
-              onChange={event => onChange(event, 'name')}
+              onChange={({target: {value}}) => onChange(value, 'name')}
             />
           </Grid.Column>
           <Grid.Column>
@@ -106,7 +106,7 @@ function DepartForm(props) {
               label='Acronym'
               placeholder='E.g. MATH'
               defaultValue={depart.acronym}
-              onChange={event => onChange(event, 'acronym')}
+              onChange={({target: {value}}) => onChange(value, 'acronym')}
             />
           </Grid.Column>
         </Grid.Row>

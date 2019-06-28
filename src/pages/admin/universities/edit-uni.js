@@ -25,9 +25,9 @@ export default class EditUniPage extends React.Component {
     }
   }
 
-  onChange = (e, key) => {
+  onChange = (value, key) => {
     const newData = this.state.uniInfo;
-    newData[key] = e.target.value;
+    newData[key] = value;
     this.setState({uniInfo: newData});
   }
 
@@ -92,7 +92,7 @@ function UniForm(props) {
               label='University Name'
               placeholder='E.g. University of Illinois at Urbana Champaign'
               defaultValue={university.name}
-              onChange={event => onChange(event, 'name')}
+              onChange={({target: {value}}) => onChange(value, 'name')}
             />
           </Grid.Column>
           <Grid.Column>
@@ -103,7 +103,7 @@ function UniForm(props) {
               label='Domain'
               placeholder='E.g. ...'
               defaultValue={university.domain}
-              onChange={event => onChange(event, 'domain')}
+              onChange={({target: {value}}) => onChange(value, 'domain')}
             />
           </Grid.Column>
         </Grid.Row>

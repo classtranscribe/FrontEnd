@@ -27,9 +27,9 @@ export default class EditTermPage extends React.Component {
     }
   }
 
-  onChange = (e, key) => {
+  onChange = (value, key) => {
     const newData = this.state.termInfo;
-    newData[key] = e.target.value;
+    newData[key] = value;
     this.setState({termInfo: newData});
   }
 
@@ -95,7 +95,7 @@ function TermForm(props) {
               label='Term Name'
               placeholder='E.g. Spring 2019'
               defaultValue={term.name}
-              onChange={event => onChange(event, 'name')}
+              onChange={({target: {value}}) => onChange(value, 'name')}
             />
           </Grid.Column>
           <Grid.Column>
@@ -106,7 +106,7 @@ function TermForm(props) {
               label='Start Date'
               placeholder='E.g. 2199-06-23T18:38:05.281Z'
               defaultValue={term.startDate}
-              onChange={event => onChange(event, 'startDate')}
+              onChange={({target: {value}}) => onChange(value, 'startDate')}
             />
           </Grid.Column>
         </Grid.Row>
