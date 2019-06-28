@@ -5,16 +5,19 @@ import { api } from './http'
 export const user = {
   isLoggedIn: () => auth.isLoggedIn(),
   b2cToken: () => auth.getToken(),
-  setUpUser: function () {
+  setUpUser: function (callback) {
     if (localStorage.getItem('userId') === null) {
       api.getAuthToken()
       .then(response => {
         localStorage.setItem('userId', response.data.userId)
         api.saveAuthToken(response);
+        if (callback) callback(response.data.userId);
       })
       .catch(error => {
         console.log(error)
       })
+    } else {
+      if (callback) callback(this.id())
     }
   },
   id: () => localStorage.getItem('userId'),

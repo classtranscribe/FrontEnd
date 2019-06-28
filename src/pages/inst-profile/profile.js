@@ -6,7 +6,7 @@ function Profile(props) {
     <Card className="ip-profile" border="light">
       <Card.Img className="img" src={require('../../images/icons/profile1.png')}/>
       <Card.Text className="name">
-        {props.instructor.name}<p>{props.instructor.university}</p>
+        {props.instructor.name}<p>University of Illinois at Urbana Champaign</p>
       </Card.Text>
     </Card>
   );

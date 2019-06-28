@@ -103,6 +103,8 @@ export const api = {
   getCoursesByInstId: function (id) {
     return this.getData('Courses/ByInstructor', id) 
   },
-
+  getCourseOfferingsByInstructorId: function (id) {
+    return this.getData('CourseOfferings/ByInstructor', id)
+  }
 
 }

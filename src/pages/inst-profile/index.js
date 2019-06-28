@@ -1,7 +1,6 @@
 import React from 'react'
 import authentication from 'react-azure-adb2c'
-// import {user} from '../util/user'
-// import {api} from '../util/http'
+import { api, user } from '../../util'
 
 // UIs
 import { 
@@ -24,6 +23,9 @@ export class InstProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      
+      courses: [],
+
       loading: !true, // should be true at the begginning
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
       // courses
@@ -50,6 +52,18 @@ export class InstProfilePage extends React.Component {
       alertType: 'default', 
       // values: []
     }
+  }
+
+  getCourseOfferingsByInstructorId = id => {
+    api.getCourseOfferingsByInstructorId(id)
+      .then(response => {
+        console.log(response.data)
+        this.setState({courses: response.data})
+      })
+  }
+
+  componentDidMount() {
+    user.setUpUser(this.getCourseOfferingsByInstructorId);
   }
 
   isSelectInput = item => 
@@ -110,14 +124,8 @@ export class InstProfilePage extends React.Component {
     this.setState({alertType: opt})
   }
 
-  // get token and POST to the api here
-  componentDidMount() {
-    // console.log(user.fullName())
-    // api.getValues(values=>this.setState({values: values}))
-  }
-
   onSignOut = () => {
-    authentication.signOut();
+    user.signout();
   }
 
   /* sort offering by term */
@@ -154,9 +162,9 @@ export class InstProfilePage extends React.Component {
           onChange={this.onInputChange}
         />
 {/* Layouts */}
-        <SignOutHeader onSignOut={this.onSignOut} user={instructor}/>
+        <SignOutHeader onSignOut={this.onSignOut} user={{name: user.firstName()}}/>
         <div className="ip-container">
-          <Profile instructor={instructor}/>
+          <Profile instructor={{name: user.fullName()}}/>
           <GeneralAlert 
             open={showAlert} width={97}
             type={alertType}
@@ -164,7 +172,6 @@ export class InstProfilePage extends React.Component {
           />
           <Courses 
             {...this}
-            {...this.state}
             instructor={instructor}
             newCourse={()=>this.onCloseOrOpen('courseInfo')}
             editCourse={()=>this.onCloseOrOpen('edit')}
