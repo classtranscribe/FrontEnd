@@ -2,7 +2,7 @@ import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../admin-components'
 import { Grid, Form, Input, TextArea } from 'semantic-ui-react'
 
-import { api, handleData } from '../../../util'
+import { api, handleData, util } from '../../../util'
 const initialCourse = api.initialData.initialCourse;
 
 export default class EditCoursePage extends React.Component {
@@ -53,8 +53,8 @@ export default class EditCoursePage extends React.Component {
   }
 
   onSave = () => {
-    window.location='/admin'
-  }
+    util.toAdminPage()
+  };
 
   onCancel = () => {
     this.props.history.goBack()

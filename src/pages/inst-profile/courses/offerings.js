@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Tab, Card, Button, Divider, Popup, Message } from 'semantic-ui-react'
-import { sortFunc } from '../../../util';
+import { sortFunc, util } from '../../../util';
 
 export default function OfferinfList(props) {
   const course = props.course;
@@ -15,7 +15,7 @@ export default function OfferinfList(props) {
           <Message 
             fluid key={offering.term+offering.sectionName} // should be offering.id 
             className='offering-listitem'
-            onClick={()=>window.location='/offering/0'} // should be `/offering/${offering.id}`
+            onClick={()=>util.toOfferingPage(0)} // should be `/offering/${offering.id}`
           >
             <Grid celled='internally'>
               <Grid.Row className="offering-info">

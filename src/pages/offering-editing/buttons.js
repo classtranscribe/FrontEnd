@@ -18,19 +18,23 @@ export function SaveButtons(props) {
 }
 
 export function EditButtons(props) {
+  const { courseId } = props.state.offeringInfo;
+  const { termId, sectionName } = props.state.offeringInfo.offering;
+  const canSave = termId && sectionName && courseId;
   return (
     <>
+      {
+        canSave
+        &&
+        <Button positive onClick={props.onCreate} >Save</Button>
+      }
       <Button 
-        positive 
-        onClick={props.onCreate}
-        >Save</Button>
-      <Button 
-        negative
-        onClick={props.onDelete}
-        >Delete</Button>
-      <Button 
+        secondary
         onClick={props.onCancel}
         >Cancel</Button>
+      <Button 
+        onClick={props.onDelete}
+        >Delete</Button>
     </>
   )
 }

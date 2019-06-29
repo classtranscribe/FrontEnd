@@ -3,7 +3,7 @@ import { GeneralModal } from '../../components'
 import OfferingForm from './edit-form'
 import { SaveButtons, EditButtons } from './buttons'
 // Vars
-import { api, handleData } from '../../util'
+import { api, handleData, util } from '../../util'
 const initialOffering = api.initialData.initialOffering;
 
 export default class OfferingSettingPage extends React.Component {
@@ -79,6 +79,7 @@ export default class OfferingSettingPage extends React.Component {
     const { offering, offeringInfo, id } = this.state;
     var data = handleData.updateJson(offeringInfo, offering)
     data.id = id;
+    console.log(data);
     // api.updateData(this.path, data, () => this.onClose())
   }
 
@@ -89,12 +90,12 @@ export default class OfferingSettingPage extends React.Component {
   }
 
   onClose = () => {
-    if (this.state.isNew) window.location='/instructor/'
-    else window.location=`/offering/${this.state.id}`
+    if (this.state.isNew) util.toInstructorPage();
+    else util.toOfferingPage(this.state.id)
   }
 
   onCancel = () => {
-    this.props.history.goBack()
+    this.props.history.goBack();
   }
 
   render() {

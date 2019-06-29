@@ -27,6 +27,7 @@ export default function OfferingForm(props) {
                 control={Select}
                 label='Department'
                 options={departOptions}
+                defaultValue={currDepart || ''}
                 onChange={(event, {value}) => onChange(value, 'currDepart')}
               />
             </Grid.Column>
@@ -42,6 +43,7 @@ export default function OfferingForm(props) {
                   control={Select}
                   label='Course'
                   options={courseOptions}
+                  defaultValue={offering.courseId}
                   onChange={(event, {value}) => onChange(value, 'courseId')}
                 />
               </Grid.Column>
@@ -58,6 +60,7 @@ export default function OfferingForm(props) {
                   control={Select}
                   label='Term'
                   options={termOptions}
+                  defaultValue={offering.offering.termId}
                   onChange={(event, {value}) => onChange(value, 'termId')}
                 />
               </Grid.Column>
@@ -74,6 +77,7 @@ export default function OfferingForm(props) {
                   control={Input}
                   label='Section Number'
                   placeholder='E.g. AL1'
+                  defaultValue={offering.offering.sectionName}
                   onChange={({target: {value}})=> onChange(value, 'sectionName')}
                 />
               </Grid.Column>
@@ -91,6 +95,7 @@ export default function OfferingForm(props) {
                   label="Accessibility"
                   options={accessOptions}
                   defaultValue='Public'
+                  defaultValue={offering.offering.accessType}
                   onChange={(event, {value}) => onChange(value, 'accessType')}
                 />
               </Grid.Column>

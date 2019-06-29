@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, ListGroup, OverlayTrigger, Popover } from 'react-bootstrap'
+import { util } from '../../util';
 
 function Playlist(props) {
   const playlists = props.playlists;
@@ -44,7 +45,7 @@ function SideBar(props) {
   return (
     <div className="course-sidebar" style={display}>
       <ListGroup>
-        <ListGroup.Item className="list" onClick={()=>window.location='/instructor/'}>
+        <ListGroup.Item className="list" onClick={util.toInstructorPage}>
           <i class="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
         </ListGroup.Item>
 
@@ -56,7 +57,7 @@ function SideBar(props) {
         >
           <ListGroup.Item 
             className="details" action 
-            onClick={()=>window.location=`/instructor/offering-setting/new=mmkkm`}
+            onClick={()=>util.editOffering('mlmlmlml')}
           >
             <p className="title">
               <i class="fas fa-book"></i> &ensp; {course.courseNumber}

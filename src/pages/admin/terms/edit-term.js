@@ -2,7 +2,7 @@ import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal } from '../admin-components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 
-import { api, handleData } from '../../../util'
+import { api, handleData, util } from '../../../util'
 const initialTerm = api.initialData.initialTerm;
 
 export default class EditTermPage extends React.Component {
@@ -53,7 +53,7 @@ export default class EditTermPage extends React.Component {
   }
 
   onClose = () => {
-    window.location='/admin'
+    util.toAdminPage()
   }
 
   onCancel = () => {
