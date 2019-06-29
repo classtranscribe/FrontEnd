@@ -44,7 +44,7 @@ function SideBar(props) {
   return (
     <div className="course-sidebar" style={display}>
       <ListGroup>
-        <ListGroup.Item className="list" onClick={()=>props.history.goBack()}>
+        <ListGroup.Item className="list" onClick={()=>window.location='/instructor/'}>
           <i class="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
         </ListGroup.Item>
 
@@ -54,12 +54,15 @@ function SideBar(props) {
             <Popover><p>Click to Edit the Offering</p></Popover>
           }
         >
-          <ListGroup.Item className="details" action onClick={props.editOffering}>
+          <ListGroup.Item 
+            className="details" action 
+            onClick={()=>window.location=`/instructor/offering-setting/new=mmkkm`}
+          >
             <p className="title">
-              <i class="fas fa-book"></i> &ensp; {course.num}
+              <i class="fas fa-book"></i> &ensp; {course.courseNumber}
               &ensp;{offering.term}
             </p>
-            <p className="name">{course.name}</p>
+            <p className="name">{course.courseName}</p>
             <p className="sec">Section: {offering.sec}</p>
           </ListGroup.Item>
         </OverlayTrigger>

@@ -3,7 +3,6 @@ import { Tab } from 'react-bootstrap'
 import { List, Image, Dropdown as UIDropdown, Button as UIButton } from 'semantic-ui-react'
 import { 
   FixedFooter, 
-  UpLoadVideosContainer,
   GeneralAlert,
 } from '../../components'
 
@@ -13,16 +12,17 @@ function Videos(props) {
     return (
       <div className="playlist-btn">
         <UIButton 
-          secondary className="edit-btn" 
+          color='linkedin'
+          className="new-btn" 
+          onClick={()=>1} 
+        >
+          <i class="fas fa-cloud-upload-alt"></i>&ensp;Upload Video
+        </UIButton>
+        <UIButton 
+          className="edit-btn" 
           onClick={()=>props.onCloseOrOpen('editPlaylist')} 
         >
           <i class="fas fa-edit"></i>&ensp;Edit Playlist
-        </UIButton>
-        <UIButton 
-          negative className="delete-btn" 
-          onClick={()=>props.onCloseOrOpen('deletePlaylist')} 
-        >
-          <i class="fas fa-trash"></i>&ensp;Delete Playlist
         </UIButton>
       </div>
     )
@@ -53,11 +53,6 @@ function Videos(props) {
               onClose={()=>props.onCloseOrOpen('alert')}
               width={100}
             />
-            <UpLoadVideosContainer 
-              onAlert={()=>props.onCloseOrOpen('alert')}
-              onUploading={()=>props.onCloseOrOpen('uploading')}
-              setAlert={props.setAlert}
-            />
 
 {/* course list in the playlist */}
             {list.videos.length ? 
@@ -82,13 +77,13 @@ function Videos(props) {
         {/* The video Info */}
                     <Image 
                       className="img" 
-                      onClick={()=>window.location='/class-transcribe-frontend/#/video'}
+                      onClick={()=>window.location='/video'}
                       src={require('../../images/icons/profile1.png')}
                     />
                     <List.Content>
                       <div className="info">
                         <p className="title" 
-                          onClick={()=>window.location='/class-transcribe-frontend/#/video'}
+                          onClick={()=>window.location='/video'}
                         >
                           {video}
                         </p>

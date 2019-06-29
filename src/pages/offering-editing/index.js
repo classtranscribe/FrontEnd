@@ -89,7 +89,8 @@ export default class OfferingSettingPage extends React.Component {
   }
 
   onClose = () => {
-    window.location='/instructor/'
+    if (this.state.isNew) window.location='/instructor/'
+    else window.location=`/offering/${this.state.id}`
   }
 
   onCancel = () => {

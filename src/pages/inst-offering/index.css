@@ -36,7 +36,7 @@
   width: 20rem;
   padding-top: 3.7rem;
   padding-bottom: 3rem;
-  background-color: rgb(233, 231, 231);
+  background-color: rgb(241, 241, 237);
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.2s linear;
@@ -71,7 +71,7 @@
   background: none;
   border: none;
   transition: all 0.2s linear;
-  border-top: solid 0.03rem rgb(182, 182, 182) !important;
+  /* border-top: solid 0.03rem rgb(182, 182, 182) !important; */
   /* border-bottom: solid 0.03rem rgb(182, 182, 182) !important; */
   margin-bottom: 0.4rem;}
   .course-sidebar .details:hover {
@@ -112,7 +112,8 @@
 }
 
 .course-sidebar .playlists .breakline {
-  width: 100%;
+  width: 94%;
+  margin-left: 3%;
   height: 1rem;
   /* margin-top: 1rem; */
   border-bottom: solid 0.03rem rgb(170, 169, 169);
@@ -142,13 +143,28 @@
   border-radius: 0;
   transition: all 0.2s linear;
 }
+/*****bootstrap UI**********/
+.list-group-item-secondary {
+  background-color: rgb(241, 241, 237);
+}
+.list-group-item-secondary:focus {
+  outline: none;
+}
+.list-group-item-secondary:hover {
+  background: rgb(231, 231, 226) !important;
+}
+.list-group-item-secondary.list-group-item-action.active {
+  background-color: rgb(241, 241, 237);
+  color: #4a9b87;
+}
+/*****bootstrap UI end**********/
+
 .course-sidebar .playlists .playlist .item:hover {
-  background-color: #949393;
-  padding-left: 2rem;
+  
 }
 .course-sidebar .playlists .playlist .item:active {
-  background-color: #727272;
-  margin-left: 10px;
+  color: #3db998;
+  padding-left: 2rem;
 }
 .playlist .item .pl-name {
   white-space: nowrap; 
@@ -221,12 +237,17 @@
 }
 
 .csp-videos .playlist-btn .edit-btn {
-  margin: 0.7rem 0 0.5rem 2rem
+  margin: 0.7rem 0 0.5rem 0rem;
+  width: 20rem;
 }
 .csp-videos .playlist-btn .delete-btn {
+  width: 20rem;
   margin: 0.7rem 0.5rem 0.5rem 0.5rem;
 }
-
+.csp-videos .playlist-btn .new-btn {
+  width: 100%;
+  margin: 0.7rem 0.5rem 0.5rem 0.5rem;
+}
 .novideo-wrapper {
   height: 50vh;
   width: 100%;
@@ -247,12 +268,10 @@
   transition: all 0.2s linear;
   padding: 1rem 0 1rem 1rem !important;
   white-space: nowrap; 
-  border-radius: 1rem;
+  border-bottom: solid 1px #d8d6d6;
+  /* border-radius: 1rem; */
 }
-.csp-videos .list .video-card:hover {
-  background-color: #d8d6d6;
-  /* box-shadow: #b8b7b7 0 0 5px; */
-}
+
 .csp-videos .list .video-card .img {
   height: 4rem;
   width: 6rem;
@@ -267,7 +286,7 @@
 }
 
 .csp-videos .list .video-card .info .title {
-  color: rgb(66, 119, 150);
+  color: rgb(63, 139, 133);
   font-size: 1.2rem;
   cursor: pointer;
   /* text-decoration: underline; */
@@ -277,9 +296,9 @@
   text-overflow: ellipsis;}
   .csp-videos .list .video-card .info .title:hover {
     text-decoration: underline;
-    color: rgb(0, 131, 238);}
+    color: rgb(43, 174, 185);}
   .csp-videos .list .video-card .info .title:active {
-    color: rgb(1, 196, 255);;}
+    color: rgb(31, 195, 201);;}
   @media screen and (max-width: 520px) {
     .csp-videos .list .video-card .info .title {
       font-size: 1.1rem;
@@ -292,3 +311,7 @@
   flex-direction: column;
   justify-content: center;
 }
+
+
+
+/******************************/

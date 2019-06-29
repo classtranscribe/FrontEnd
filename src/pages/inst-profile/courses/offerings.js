@@ -15,7 +15,7 @@ export default function OfferinfList(props) {
           <Message 
             fluid key={offering.term+offering.sectionName} // should be offering.id 
             className='offering-listitem'
-            onClick={()=>window.location='/offering/0'}
+            onClick={()=>window.location='/offering/0'} // should be `/offering/${offering.id}`
           >
             <Grid celled='internally'>
               <Grid.Row className="offering-info">
