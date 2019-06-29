@@ -72,13 +72,9 @@
   background: none;
   border: none;
   transition: all 0.2s linear;
-  /* border-top: solid 0.03rem rgb(182, 182, 182) !important; */
-  /* border-bottom: solid 0.03rem rgb(182, 182, 182) !important; */
   margin-bottom: 0.4rem;}
   .course-sidebar .details:hover {
-    padding-left: 2rem;
-    /* background-color: #e2e2e2; */
-  }
+    padding-left: 2rem;}
 
 .course-sidebar .details .title {
   white-space: nowrap;
@@ -116,7 +112,6 @@
   width: 94%;
   margin-left: 3%;
   height: 1rem;
-  /* margin-top: 1rem; */
   border-bottom: solid 0.03rem rgb(170, 169, 169);
 }
 
@@ -152,7 +147,7 @@
   outline: none;
 }
 .list-group-item-secondary:hover {
-  background: rgb(184, 184, 184) !important;
+  background: rgb(221, 221, 221) !important;
 }
 .list-group-item-secondary.list-group-item-action.active {
   background-color: rgb(240, 240, 240);

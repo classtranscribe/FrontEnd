@@ -17,7 +17,7 @@ function Playlist(props) {
       <ListGroup.Item className="title">
         <i class="fas fa-list-ul"></i> &ensp; Playlists
       </ListGroup.Item>
-      <Button variant="outline-dark" className="new-pl-btn" onClick={props.newPlaylist}>
+      <Button variant="outline-dark" className="new-pl-btn" onClick={()=>1}>
         <i class="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
@@ -26,7 +26,7 @@ function Playlist(props) {
             <ListGroup.Item 
               variant="secondary" className="item" 
               action eventKey={playlist.name}
-              onClick={()=>props.setIndex('currPlaylistIdx', index)}
+              onClick={()=>1}
             >
               <p className="pl-name">{playlist.name}</p>
               <p>{playlist.videos.length} video(s)</p>

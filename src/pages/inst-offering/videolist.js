@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tab } from 'react-bootstrap'
 import { List, Image, Dropdown as UIDropdown, Button as UIButton } from 'semantic-ui-react'
-import { FixedFooter, GeneralAlert } from '../../components'
+import { FixedFooter } from '../../components'
 // Vars
 import { util } from '../../util'
 
@@ -12,12 +12,6 @@ export default function Videos(props) {
       {props.playlists.map( list => (
           <Tab.Pane eventKey={list.name}>            
             <EditPlaylistBtns />
-            <GeneralAlert 
-              open={props.showAlert} 
-              type={props.alertType}
-              onClose={()=>1}
-              width={100}
-            />
 
 {/* course list in the playlist */}
             {list.videos.length ? 

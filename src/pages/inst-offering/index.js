@@ -6,13 +6,7 @@ import SideBar from './sidebar.js'
 import EmptyResult from './emptyresult.js'
 import Videos from './videolist.js'
 // Components
-import { 
-  OfferingFormModal, 
-  PlaylistFormModal,
-  VideoFormModal,
-  DeleteModal, 
-  CourseSettingHeader,
-} from '../../components'
+import { CourseSettingHeader } from '../../components'
 // Vars
 import { fakeData } from '../../data';
 
