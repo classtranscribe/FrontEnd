@@ -159,9 +159,9 @@
 }
 /*****bootstrap UI end**********/
 
-.course-sidebar .playlists .playlist .item:hover {
+/* .course-sidebar .playlists .playlist .item:hover {
   
-}
+} */
 .course-sidebar .playlists .playlist .item:active {
   color: #3db998;
   padding-left: 2rem;
