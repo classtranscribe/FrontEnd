@@ -245,7 +245,7 @@
   margin: 0.7rem 0.5rem 0.5rem 0.5rem;
 }
 .novideo-wrapper {
-  height: 50vh;
+  height: 75vh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -259,6 +259,7 @@
 
 .csp-videos .vlist {
   width: 100%;
+  min-height: 75vh;
 }
 .csp-videos .list .video-card {
   transition: all 0.2s linear;

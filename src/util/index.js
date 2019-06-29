@@ -17,10 +17,16 @@ export const util = {
     })
     return options;
   },
+
+
+  /**
+   * Functions for switching pages
+   */
   goHome: () => window.location='/',
   toInstructorPage: () => window.location='/instructor',
   toStudentPage: () => window.location='/student',
   toAdminPage: ()=> window.location='/admin',
+  
   toOfferingPage: function (id) {
     window.location=`/offering/${id}`
   },

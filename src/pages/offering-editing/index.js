@@ -70,7 +70,7 @@ export default class OfferingSettingPage extends React.Component {
     }
     api.postData(this.path, offeringInfo, response => {
       // console.log(response.data)
-      this.onClose()
+      // this.onClose()
     })
     console.log(offeringInfo);
   }

@@ -12,21 +12,6 @@ import {
 // Vars
 import { fakeData } from '../data';
 
-/**
- * @param array - terms, departments
- */
-function getSelectOption(array, opt1, opt2) {
-  const res = [];
-  array.forEach( (item, index) => {
-    if (opt1 === 'offering') item = opt2 + ' ' + item.term + ' ' + item.sec;
-    else if (opt1 === 'offering2') item = item.term + ' ' + item.sec;
-    else if (opt1 === 'playlist') item = item.name;
-    if (item !== 'All') res.push({
-      key: index, text: item, value: item//index
-    });
-  })
-  return res;
-}
 
 export function GeneralModal(props) {
   return (
@@ -47,6 +32,50 @@ export function GeneralModal(props) {
       </UIModal.Actions>
     </UIModal>
   )
+}
+
+export function DeleteModal(props) {
+  return (
+    <UIModal 
+      className="course-modal" style={{position: 'relative'}} 
+      size="tiny" dimmer='blurring'
+      open={props.open} onClose={props.onClose}
+    >
+      <UIModal.Header>Are You Sure to delete the 
+        <strong className="del-target"> {props.target}</strong>?<br/>
+        (This action cannot be undone)
+      </UIModal.Header>
+      <UIModal.Actions>
+        <UIButton color='black' onClick={props.onClose}>Cancel</UIButton>
+        <UIButton
+          negative
+          icon='trash'
+          labelPosition='right'
+          content="Delete Forever"
+          onClick={props.onSave}
+        />
+      </UIModal.Actions>
+    </UIModal>
+  )
+}
+
+
+/********************************************************* trashes */
+
+/**
+ * @param array - terms, departments
+ */
+function getSelectOption(array, opt1, opt2) {
+  const res = [];
+  array.forEach( (item, index) => {
+    if (opt1 === 'offering') item = opt2 + ' ' + item.term + ' ' + item.sec;
+    else if (opt1 === 'offering2') item = item.term + ' ' + item.sec;
+    else if (opt1 === 'playlist') item = item.name;
+    if (item !== 'All') res.push({
+      key: index, text: item, value: item//index
+    });
+  })
+  return res;
 }
 
 export function CourseFormModal(props) {
@@ -103,31 +132,6 @@ export function CourseFormModal(props) {
           labelPosition='right'
           content="Save"
           onClick={()=>props.onSave('courseInfo')}
-        />
-      </UIModal.Actions>
-    </UIModal>
-  )
-}
-
-export function DeleteModal(props) {
-  return (
-    <UIModal 
-      className="course-modal" style={{position: 'relative'}} 
-      size="tiny" dimmer='blurring'
-      open={props.open} onClose={props.onClose}
-    >
-      <UIModal.Header>Are You Sure to delete the 
-        <strong className="del-target"> {props.target}</strong>?<br/>
-        (This action cannot be undone)
-      </UIModal.Header>
-      <UIModal.Actions>
-        <UIButton color='black' onClick={props.onClose}>Cancel</UIButton>
-        <UIButton
-          negative
-          icon='trash'
-          labelPosition='right'
-          content="Delete Forever"
-          onClick={props.onSave}
         />
       </UIModal.Actions>
     </UIModal>

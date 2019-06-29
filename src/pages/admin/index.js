@@ -86,13 +86,6 @@ export class AdminPage extends React.Component {
    * on admin sign out, clear all the localStorages
    */
   onSignOut = () => {
-    [
-      'activePane', 'termCurrUni', 
-      'departCurrUni', 'courseCurrUni', 
-      'courseCurrDepart'
-    ].forEach( key => {
-      localStorage.removeItem(key);
-    })
     user.signout();
     this.props.history.goBack();
   }

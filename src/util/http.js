@@ -37,7 +37,16 @@ const initialData = {
     },
     courseId: '',
     instructorId: ''
-  }
+  },
+  initialPlaylist: {
+    description: '',
+    offeringId: ''
+  },
+  initialVideo: {
+    description: '',
+    playlistId: '',
+    path: '',
+  },
 }
 
 const offeringAccessType = [

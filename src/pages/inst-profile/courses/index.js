@@ -5,7 +5,6 @@ import { Grid, Tab, Button } from 'semantic-ui-react'
 import OfferinfList from './offerings'
 import NewOfferingPage from '../../offering-editing'
 // Vars
-// import { user } from '../../../util'
 
 export default function Courses(props) {
   const { courses } = props.state;
@@ -15,7 +14,7 @@ export default function Courses(props) {
     panes.push({
       menuItem: course.department.acronym + course.courseNumber,
       render: () => (
-        <div style={{marginLeft: '-2rem'}}>
+        <div style={{marginLeft: '-2rem', borderRight: 'solid 1px transparent'}}>
           <OfferinfList 
             course={course}
             onSort={props.onSort}

@@ -37,9 +37,18 @@ export const user = {
     return auth.currentUser().emails[0]
   },
   signout: function () { 
+    // remove possible localStorage for admin page
+    [
+      'activePane', 'termCurrUni', 
+      'departCurrUni', 'courseCurrUni', 
+      'courseCurrDepart'
+    ].forEach( key => {
+      localStorage.removeItem(key);
+    });
+    // remove login info
     ['authToken', 'userId'].forEach( key => {
       localStorage.removeItem(key);
-    })
+    });
     auth.logout();
   }
 }
