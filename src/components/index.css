@@ -15,6 +15,7 @@
   font-size: 2rem;
   color: rgb(60, 119, 129);
   margin-left: 1rem;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 /* For course setting page */
 .sidebar-trigger {
@@ -64,6 +65,7 @@
   font-size: 2rem;
   color: rgb(138, 191, 200);
   margin-left: 1rem;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 @media screen and (max-width: 550px) {
   .ct-nav .signout .hi-there {

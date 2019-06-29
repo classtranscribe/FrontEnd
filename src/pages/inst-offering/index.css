@@ -36,11 +36,12 @@
   width: 20rem;
   padding-top: 3.7rem;
   padding-bottom: 3rem;
-  background-color: rgb(241, 241, 237);
+  background-color: rgb(240, 240, 240);
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.2s linear;
   z-index: 3;
+  box-shadow: 1px 10px 5px #dddddd;
   -webkit-overflow-scrolling: touch;
 }
 @media screen and (max-width: 900px) {
@@ -145,16 +146,16 @@
 }
 /*****bootstrap UI**********/
 .list-group-item-secondary {
-  background-color: rgb(241, 241, 237);
+  background-color: rgb(240, 240, 240);
 }
 .list-group-item-secondary:focus {
   outline: none;
 }
 .list-group-item-secondary:hover {
-  background: rgb(231, 231, 226) !important;
+  background: rgb(184, 184, 184) !important;
 }
 .list-group-item-secondary.list-group-item-action.active {
-  background-color: rgb(241, 241, 237);
+  background-color: rgb(240, 240, 240);
   color: #4a9b87;
 }
 /*****bootstrap UI end**********/

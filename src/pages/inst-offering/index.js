@@ -15,52 +15,16 @@ import {
 } from '../../components'
 // Vars
 import { fakeData } from '../../data';
-const initialStates = {
-  displaySideBar: (window.innerWidth < 900) ? false : true,
-
-  editOffering: false,
-  offeringInfo: { term: '', sec: '' },
-
-  newPlaylist: false,
-  currPlaylistIdx: 0,
-  editPlaylist: false,
-  deletePlaylist: false,
-  playlistInfo: { name: '', copyOffering: 0, copyPlaylist: 0 },
-
-  uploadingVideo: false,
-  editVideo: false,
-  deleteVideo: false,
-  currVideoIdx: 0,
-  videoInfo: { name: '' },
-
-  showAlert: false,
-  alertType: 'default',
-};
-
 
 export class InstOfferingPage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = initialStates;
+    this.state = {
+      displaySideBar: (window.innerWidth < 900) ? false : true,
+    };
     this.playlists = fakeData.playlists; // []
     this.course = fakeData.instData.courses.length ? fakeData.instData.courses[0] : null;
     this.offering = this.course ? this.course.offerings[0] : null;
-  }
-
-  isSelectInput = item => 
-      item === 'term' || item === 'copyOffering' || item === 'copyPlaylist'
-
-  /**
-   * @param info
-   * - 'offeringInfo' : term, sec
-   * - 'playlistInfo' : name 
-   * - 'videoInfo'    : name
-   */
-  onInputChange = (event, info, item) => {
-    const newInfo = this.state[info];
-    console.log(event)
-    newInfo[item] = (this.isSelectInput(item)) ? event.value : event.target.value;    
-    this.setState({[info]: newInfo});
   }
 
   /**
@@ -108,31 +72,7 @@ export class InstOfferingPage extends React.Component {
    * - 'uploading', 'editVideo', 'deleteVideo'
    */
   onCloseOrOpen = info => {
-    if      (info === 'sidebar'       ) this.setState({displaySideBar: !this.state.displaySideBar})
-    else if (info === 'offeringInfo'  ) this.setState({editOffering: !this.state.editOffering})
-    else if (info === 'playlist'      ) this.setState({newPlaylist: !this.state.newPlaylist})
-    else if (info === 'editPlaylist'  ) this.setState({editPlaylist: !this.state.editPlaylist})
-    else if (info === 'deletePlaylist') this.setState({deletePlaylist: !this.state.deletePlaylist})
-    else if (info === 'uploading'     ) this.setState({uploadingVideo: !this.state.uploadingVideo})
-    else if (info === 'editVideo'     ) this.setState({editVideo: !this.state.editVideo})
-    else if (info === 'deleteVideo'   ) this.setState({deleteVideo: !this.state.deleteVideo})
-    else if (info === 'alert'         ) this.setState({showAlert: !this.state.showAlert})
-  }
-
-  /**
-   * @param opt 
-   * - (success) default, saved, deleted, uploaded, 
-   * - (danger) wrong, wrongType
-   */
-  setAlert = opt => {
-    this.setState({alertType: opt})
-  }
-
-  /**
-   * @param info currPlaylistIdx, currVideoIdx
-   */
-  setIndex = (info, index) => {
-    this.setState({[info]: index})
+    if (info === 'sidebar') this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
   componentDidMount() {
@@ -155,12 +95,6 @@ export class InstOfferingPage extends React.Component {
   }
 
   render() {
-    const {
-      newPlaylist, editPlaylist, currPlaylistIdx, deletePlaylist,
-      editVideo, currVideoIdx, deleteVideo,
-    } = this.state;
-    const currPlaylist = this.playlists.length ? this.playlists[currPlaylistIdx] : null;
-    const currVideo = currPlaylist ? currPlaylist.videos[currVideoIdx] : null;
     // the padding style when sidebar is not floating
     var paddingLeft = {
       paddingLeft: (this.state.displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
@@ -168,43 +102,6 @@ export class InstOfferingPage extends React.Component {
     
     return (
       <>
-{/* Modals here */}
-      <OfferingFormModal
-        offering={this.offering}
-        open={this.state.editOffering}
-        onClose={this.onCloseOrOpen}
-        onSave={this.onSave}
-        onChange={this.onInputChange}
-      />
-      <PlaylistFormModal 
-        {...this}
-        open={newPlaylist || editPlaylist}
-        playlist={newPlaylist ? null : currPlaylist}
-        onChange={this.onInputChange}
-        onSave={this.onSave}
-        onClose={this.onCloseOrOpen}
-        info={newPlaylist ? 'playlist' : 'editPlaylist'}
-      />
-      <VideoFormModal 
-        open={editVideo}
-        video={currVideo}
-        onClose={this.onCloseOrOpen}
-        onSave={this.onSave}
-        onChange={this.onInputChange}
-        info='editVideo'
-      />
-      <DeleteModal 
-        target={currPlaylist ? `playlist ${currPlaylist.name}` : ''}
-        open={deletePlaylist}
-        onSave={()=>this.onSave('deletePlaylist')}
-        onClose={()=>this.onCloseOrOpen('deletePlaylist')}
-      />
-      <DeleteModal 
-        target={`video ${currVideo}`}
-        open={deleteVideo}
-        onSave={()=>this.onSave('deleteVideo')}
-        onClose={()=>this.onCloseOrOpen('deleteVideo')}
-      />
 {/* Page Layout */}
       {this.wrapper()}
       <div className="course-container">        

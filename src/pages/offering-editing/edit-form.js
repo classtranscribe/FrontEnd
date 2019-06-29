@@ -81,12 +81,6 @@ export default function OfferingForm(props) {
                   onChange={({target: {value}})=> onChange(value, 'sectionName')}
                 />
               </Grid.Column>
-            </Grid.Row>
-          }
-          {
-            offeringInfo.offering.sectionName
-            &&
-            <Grid.Row >
               <Grid.Column>
                 <Form.Field
                   fluid required

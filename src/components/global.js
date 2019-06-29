@@ -36,7 +36,7 @@ export function CourseSettingHeader(props) {
       <Navbar.Brand className="sidebar-trigger" onClick={props.showSiderBar} disabled>
         <Icon name='grey sidebar' size="large"/>
       </Navbar.Brand>
-      <Navbar.Brand className="brand" href="/class-transcribe-frontend/#/">Class Transcribe</Navbar.Brand>
+      <Navbar.Brand className="brand" href="/">Class Transcribe</Navbar.Brand>
     </Navbar>
   );
 }
