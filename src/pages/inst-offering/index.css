@@ -34,7 +34,7 @@
   position: absolute;
   height: 100%;
   width: 20rem;
-  padding-top: 3.7rem;
+  padding-top: 4.5rem;
   padding-bottom: 3rem;
   background-color: rgb(240, 240, 240);
   overflow-y: scroll;
@@ -218,7 +218,7 @@
   flex-direction: column;
   height: 100%;
   overflow: scroll;
-  padding: 3.7rem 5% 0rem 5%;
+  padding: 4.5rem 5% 0rem 5%;
   -webkit-overflow-scrolling: touch;
 }
 

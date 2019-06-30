@@ -7,6 +7,7 @@ import { PlaylistEditingPage, VideoEditingPage } from './editing-pages'
 import { SideBar, Videos, EmptyResult } from './layouts'
 import './index.css';
 // Vars
+import { user } from '../../util'
 import { fakeData } from '../../data';
 
 export class InstOfferingPage extends React.Component {
@@ -52,7 +53,7 @@ export class InstOfferingPage extends React.Component {
     return (      
       <div className="course-container"> 
         {this.wrapper()}       
-        <CourseSettingHeader showSiderBar={this.showSiderBar} />
+        <CourseSettingHeader showSiderBar={this.showSiderBar} user={{name: user.firstName()}} onSignOut={user.signout}/>
 
         <Route path='/offering/playlist-setting/:type?=:id' component={PlaylistEditingPage} />
         <Route path='/offering/video-setting/:id' component={VideoEditingPage} />

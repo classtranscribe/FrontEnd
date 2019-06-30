@@ -1,6 +1,29 @@
 import React from 'react'
-import { Row, Col, Button, Navbar, Nav } from 'react-bootstrap'
-import { Icon, Dimmer, Loader } from 'semantic-ui-react'
+import { Row, Col, Navbar, Nav } from 'react-bootstrap'
+import { Icon, Dimmer, Loader, Dropdown } from 'semantic-ui-react'
+import { util } from '../util'
+
+function ProfileBtn({user, onSignOut}) {
+  const trigger = (
+    <span>
+      <Icon name='user' circular/> Hello, {user.name}
+    </span>
+  )
+  return (
+    <Dropdown trigger={trigger} direction='left'>
+      <Dropdown.Menu>
+        <Dropdown.Item disabled>Signed in as <strong>{user.name}</strong></Dropdown.Item>
+        <Dropdown.Header icon='sync' content='Switch to ...' />
+        <Dropdown.Divider />
+        <Dropdown.Item icon={{name:'users', color: 'blue',}} text='Student' onClick={util.toStudentPage}/>
+        <Dropdown.Item icon={{name:'student', color: 'blue'}} text='Instructor' onClick={util.toInstructorPage}/>
+        <Dropdown.Item icon={{name:'cogs', color: 'blue'}} text='Admin' onClick={util.toAdminPage}/>
+        <Dropdown.Divider />
+        <Dropdown.Item icon='sign-out' text='Sign Out' onClick={onSignOut}/>
+      </Dropdown.Menu>
+    </Dropdown>
+  )
+}
 
 /**
  * Header with a sign out button and user info
@@ -8,18 +31,15 @@ import { Icon, Dimmer, Loader } from 'semantic-ui-react'
  * user: {name, ..}
  * onSignOut - function to sign out
  */
-export function SignOutHeader(props) {
-  const darkMode = props.darkMode || false;
+export function SignOutHeader({user, onSignOut, darkMode}) {
   const bg = darkMode ? 'dark' : 'light';
-  const btn = darkMode ? 'outline-light' : 'outline-dark';
   const theme = darkMode ? '-dark' : '';
   return (
     <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme}>
       <Navbar.Brand className={"brand"+theme} href="/">Class Transcribe</Navbar.Brand>
-        <Row className="signout">
-          <p className={"hi-there"+theme}>Hi, {props.user.name}</p>
-          <Button variant={btn} onClick={props.onSignOut}>Sign Out</Button>
-        </Row>
+      <Row className="signout">
+        <ProfileBtn user={user} onSignOut={onSignOut}/>
+      </Row>
     </Navbar>
   );
 }
@@ -30,13 +50,16 @@ export function SignOutHeader(props) {
  * user: {name, ..}
  * showSiderBar: function for display or hide side bar
  */
-export function CourseSettingHeader(props) {
+export function CourseSettingHeader({showSiderBar, user, onSignOut}) {
   return (
     <Navbar sticky="top" bg="light" variant="light" className="ct-nav">
-      <Navbar.Brand className="sidebar-trigger" onClick={props.showSiderBar} disabled>
+      <Navbar.Brand className="sidebar-trigger" onClick={showSiderBar} disabled>
         <Icon name='grey sidebar' size="large"/>
       </Navbar.Brand>
       <Navbar.Brand className="brand" href="/">Class Transcribe</Navbar.Brand>
+      <Row className="signout">
+        <ProfileBtn user={user} onSignOut={onSignOut}/>
+      </Row>
     </Navbar>
   );
 }
