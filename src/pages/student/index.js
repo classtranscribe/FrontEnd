@@ -11,7 +11,7 @@ import SearchBar from './searchbar'
 import './index.css'
 
 // Vars
-import { search, sortFunc } from '../../util';
+import { search, sortFunc, user } from '../../util';
 import { fakeData } from '../../data';
 const searchSource = search.getCourseSource();
 const initialStates = {
@@ -124,8 +124,9 @@ export class StudentsPage extends React.Component {
     return (
       <div className={"sp-bg"+theme} ref={this.listen}>
         <SignOutHeader 
-          {...this}
-          {...this.state}
+          darkMode={darkMode}
+          user={{name: user.firstName()}}
+          onSignOut={user.signout}
         />   
         <Col>
           <SearchBar 

@@ -3,9 +3,9 @@ import { Row, Col, Navbar, Nav } from 'react-bootstrap'
 import { Icon, Dimmer, Loader, Dropdown } from 'semantic-ui-react'
 import { util } from '../util'
 
-function ProfileBtn({user, onSignOut}) {
+function ProfileBtn({user, onSignOut, darkMode}) {
   const trigger = (
-    <span>
+    <span style={darkMode ? {color: 'white'} : {}}>
       <Icon name='user' circular/> Hello, {user.name}
     </span>
   )
@@ -13,11 +13,14 @@ function ProfileBtn({user, onSignOut}) {
     <Dropdown trigger={trigger} direction='left'>
       <Dropdown.Menu>
         <Dropdown.Item disabled>Signed in as <strong>{user.name}</strong></Dropdown.Item>
-        <Dropdown.Header icon='sync' content='Switch to ...' />
         <Dropdown.Divider />
+        <Dropdown.Header content='Switch to ...' />
         <Dropdown.Item icon={{name:'users', color: 'blue',}} text='Student' onClick={util.toStudentPage}/>
         <Dropdown.Item icon={{name:'student', color: 'blue'}} text='Instructor' onClick={util.toInstructorPage}/>
         <Dropdown.Item icon={{name:'cogs', color: 'blue'}} text='Admin' onClick={util.toAdminPage}/>
+        <Dropdown.Divider />
+        <Dropdown.Header content='Have problems?' />
+        <Dropdown.Item icon={{name:'mail', color: 'grey'}} text='Contact Us' href="mailto:classtranscribe@illinois.edu" target="_blank"/>
         <Dropdown.Divider />
         <Dropdown.Item icon='sign-out' text='Sign Out' onClick={onSignOut}/>
       </Dropdown.Menu>
@@ -38,7 +41,7 @@ export function SignOutHeader({user, onSignOut, darkMode}) {
     <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme}>
       <Navbar.Brand className={"brand"+theme} href="/">Class Transcribe</Navbar.Brand>
       <Row className="signout">
-        <ProfileBtn user={user} onSignOut={onSignOut}/>
+        <ProfileBtn user={user} onSignOut={onSignOut} darkMode={darkMode}/>
       </Row>
     </Navbar>
   );
