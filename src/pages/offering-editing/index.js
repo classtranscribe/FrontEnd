@@ -69,8 +69,8 @@ export default class OfferingSettingPage extends React.Component {
       offeringInfo.instructorId = id;
     }
     api.postData(this.path, offeringInfo, response => {
-      // console.log(response.data)
-      // this.onClose()
+      console.log(response.data)
+      this.onClose()
     })
     console.log(offeringInfo);
   }
@@ -80,7 +80,7 @@ export default class OfferingSettingPage extends React.Component {
     var data = handleData.updateJson(offeringInfo, offering)
     data.id = id;
     console.log(data);
-    // api.updateData(this.path, data, () => this.onClose())
+    api.updateData(this.path, data, () => this.onClose())
   }
 
   onConfirm = () => this.setState({confirmed: true})

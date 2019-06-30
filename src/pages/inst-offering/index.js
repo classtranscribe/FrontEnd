@@ -57,6 +57,7 @@ export class InstOfferingPage extends React.Component {
 
         <Route path='/offering/playlist-setting/:type?=:id' component={PlaylistEditingPage} />
         <Route path='/offering/video-setting/:id' component={VideoEditingPage} />
+        <Route path='/offering/upload/:id' component={VideoEditingPage} />
 
         <Tab.Container 
           className="content" 

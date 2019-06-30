@@ -1,6 +1,4 @@
 import React from 'react'
-import { api, user } from '../../util'
-
 // UIs
 import { 
   FixedFooter, 
@@ -10,9 +8,9 @@ import './index.css'
 import Profile from "./profile.js";
 import Courses from "./courses"
 // Vars
-import { fakeData } from '../../data';
-var instructor = fakeData.instData;
-// instructor.courses = []; // empty test
+import { api, user } from '../../util'
+// import { fakeData } from '../../data';
+// var instructor = fakeData.instData;
 
 export class InstProfilePage extends React.Component {
   constructor(props) {
@@ -21,7 +19,9 @@ export class InstProfilePage extends React.Component {
       userId: user.id(),
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
       // courses
-      courses: instructor.courses//[],
+      courseOfferings: [],
+      terms: [],
+      departments: []
     }
   }
 
@@ -30,16 +30,15 @@ export class InstProfilePage extends React.Component {
     api.getCourseOfferingsByInstructorId(id)
       .then(response => {
         console.log(response.data)
-        // this.setState({courses: response.data})
+        this.setState({courseOfferings: response.data})
       })
   }
 
   componentDidMount() {
     user.setUpUser(this.getCourseOfferingsByInstructorId);
-    // api.getData('Offerings', 'f7952421-94f3-413e-8270-80ee15b30e70')
-    //   .then( response => {
-    //     console.log(response.data)
-    //   })
+    api.getAll(['Terms', 'Departments'], (response, name) => {
+      this.setState({[name]: response.data})
+    })
   }
 
   onSignOut = () => {
@@ -60,7 +59,6 @@ export class InstProfilePage extends React.Component {
           <Profile instructor={{name: user.fullName()}}/>
           <Courses 
             {...this}
-            instructor={instructor}
           />
         </div>
         <FixedFooter />

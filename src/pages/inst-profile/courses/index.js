@@ -5,20 +5,24 @@ import { Grid, Tab, Button } from 'semantic-ui-react'
 import OfferinfList from './offerings'
 import NewOfferingPage from '../../offering-editing'
 // Vars
+import { handleData, api } from '../../../util'
 
-export default function Courses(props) {
-  const { courses } = props.state;
-
+export default function Courses({onSort, state: {courseOfferings, sortDown, userId, terms, departments}}) {
   const panes = [];
-  courses.forEach( course => {
+  courseOfferings.forEach( courseOffering => {
+    const { course } = courseOffering;
+    const department = handleData.findById(departments, course.departmentId) || api.initialData.initialDepart
     panes.push({
-      menuItem: course.department.acronym + course.courseNumber,
+      key: course.id,
+      menuItem: department.acronym + course.courseNumber,
       render: () => (
         <div style={{marginLeft: '-2rem', borderRight: 'solid 1px transparent'}}>
           <OfferinfList 
-            course={course}
-            onSort={props.onSort}
-            sortDown={props.state.sortDown} 
+            terms={terms}
+            department={department}
+            courseOffering={courseOffering}
+            onSort={onSort}
+            sortDown={sortDown} 
           />
         </div>
       )
@@ -28,20 +32,19 @@ export default function Courses(props) {
   return (
     <div className="ip-content">
       <Route path='/instructor/offering-setting/:type?=:id' component={NewOfferingPage} />
-      <Title {...props}/>
+      <Title userId={userId}/>
       {
-        courses.length ? 
+        courseOfferings.length ? 
         <Tab 
           menu={{ fluid: true, vertical: true, tabular: true, borderless: true }} 
           panes={panes} 
-        /> : <EmptyResult {...props}/>
+        /> : <EmptyResult userId={userId}/>
       }
     </div>
   )
 }
 
-function Title(props) {
-  const { userId } = props.state;
+function Title({userId}) {
   return (
     <Grid>
       <Grid.Row columns={3} verticalAlign="middle">
@@ -66,8 +69,7 @@ function Title(props) {
   )
 }
 
-function EmptyResult(props) {
-  const { userId } = props.state;
+function EmptyResult({userId}) {
   return (
     <div className="empty">
       <div>
