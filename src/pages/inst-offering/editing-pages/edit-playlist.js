@@ -1,96 +1,86 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { GeneralModal, GeneralLoader } from '../../../components'
-import { Grid, Form, Button, Input } from 'semantic-ui-react'
+import { Grid, Form, Input } from 'semantic-ui-react'
+import { SaveButtons, EditButtons } from './buttons'
 // Vars
 import { api, handleData, util } from '../../../util'
-const initialPlaylist = api.initialData.initialPlaylist;
+const initialPlaylist = api.initialData.initialPlaylist
 
-export class PlaylistEditingPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: this.props.match.params.id,
-      type: this.props.match.params.type,
-      isNew: this.props.match.params.type === 'new',
+export function PlaylistEditingPage ({match: {params: {id, type}}, history}) {
+  const isNew = type === 'new'
+  const path = '??'
 
-      playlist: null,
-      playlistInfo: handleData.copy(initialPlaylist),
-      confirmed: false,
+  const [playlist, setPlaylist] = useState(null)
+  const [playlistInfo, setPlaylistInfo] = useState(isNew ? initialPlaylist : playlist)
+
+  useEffect(()=> {
+    if (!isNew) {
+      // api.getData(path, id)
+      // .then( response => {
+      //   setPlaylist(response.data)
+      //   setPlaylistInfo(response.data)
+      // })
     }
-    this.path = '??';
+  }, [])
+
+  const callBacks = {
+    onCreate: function () {
+      if ( isNew ) playlistInfo.offeringId = id
+      // api.postData(path, playlistInfo, response => {})
+      console.log(playlistInfo)
+    },
+    onUpdate: function () {
+      var data = handleData.updateJson(playlistInfo, playlist)
+      data.id = id
+      console.log(data)
+      // api.updateData(path, data, () => this.onClose())
+    },
+    onDelete: function () {
+      api.deleteData(path, id, () => this.onClose())
+    },
+    onClose: function () {
+      if (isNew) util.toOfferingPage(id)
+      else history.goBack()
+    },
+    onCancel: function () {
+      history.goBack()
+    }
   }
 
-  componentDidMount() {
-    // api.getData(this.path)
-    //   .then( response => {
-    //     this.setState({playlist: response.data});
-    //   })
-  }
+  const header = isNew ? 'New Playlist' : 'Rename the Playlist'
+  const button = isNew ? 
+    <SaveButtons 
+      {...callBacks}
+      canSave={playlistInfo.description}
+    />
+    : 
+    <EditButtons 
+      {...callBacks}
+      canDelete={playlistInfo}
+      canSave={playlistInfo && playlistInfo.description}
+    />
 
-  onChange = value => {
-    const { playlistInfo } = this.state;
-    playlistInfo.description = value;
-    this.setState({ playlistInfo });
-  }
-
-  onCreate = () => {
-    const { playlistInfo, isNew, id } = this.state;
-    if ( isNew ) playlistInfo.offeringId = id;
-    // api.postData(this.path, playlistInfo, response => {});
-    console.log(playlistInfo);
-  }
-
-  onUpdate = () => {
-    const { playlist, playlistInfo, id } = this.state;
-    var data = handleData.updateJson(playlistInfo, playlist)
-    data.id = id;
-    console.log(data);
-    // api.updateData(this.path, data, () => this.onClose())
-  }
-
-  onConfirm = () => this.setState({confirmed: true})
-
-  onDelete = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
-  }
-
-  onClose = () => {
-    const { isNew, id } = this.state;
-    if (isNew) util.toOfferingPage(id);
-    else this.props.history.goBack();
-  }
-
-  onCancel = () => {
-    this.props.history.goBack();
-  }
-
-  render() {
-    const { isNew } = this.state;
-    // console.log(id)
-    const header = isNew ? 'New Playlist' : 'Edit Playlist';
-    const button = isNew ? <SaveButtons {...this}/>
-                         : <EditButtons {...this} />;
-    return(
-      <GeneralModal 
-        header={header}
-        open={true} size='tiny'
-        onClose={this.onCancel}
-        button={button}
-      >
-        <PlaylistForm isNew={isNew} {...this}/>
-      </GeneralModal>
-    )
-  }
+  return(
+    <GeneralModal 
+      header={header}
+      open={true} size='tiny'
+      onClose={callBacks.onCancel}
+      button={button}
+    >
+      <PlaylistForm 
+        playlistInfo={playlistInfo}
+        setPlaylistInfo={setPlaylistInfo}
+      />
+    </GeneralModal>
+  )
+  
 }
 
-function PlaylistForm(props) {
-  const { onChange } = props;
-  const playlist = props.isNew ? initialPlaylist : props.state.playlist;
-
+function PlaylistForm({playlistInfo, setPlaylistInfo}) {
   return (
     <Form className="ap-form">
       {
-        playlist ? 
+        playlistInfo ? 
         <Grid columns='equal' verticalAlign="middle">
           <Grid.Row >
             <Grid.Column>
@@ -100,8 +90,8 @@ function PlaylistForm(props) {
                 control={Input}
                 label='Playlist Name'
                 placeholder='E.g. Lecture 1'
-                defaultValue={playlist.description}
-                onChange={({target: {value}})=> onChange(value)}
+                defaultValue={playlistInfo.description}
+                onChange={({target: {value}})=> setPlaylistInfo({...playlistInfo, description: value})}
               />
             </Grid.Column>
           </Grid.Row>
@@ -112,39 +102,3 @@ function PlaylistForm(props) {
     </Form>
   )
 }
-
-function SaveButtons(props) {
-  const { description } = props.state.playlistInfo;
-  return (
-    <>
-      {
-        description // can save the offering iff all the fields if filled
-          &&
-        <Button positive onClick={props.onCreate} >Save</Button>
-      }
-      <Button onClick={props.onCancel} >Cancel</Button>
-    </>
-  )
-}
-
-function EditButtons(props) {
-  const { playlistInfo, playlist } = props.state;
-  return (
-    <>
-      {
-        playlistInfo.description // can save the offering iff all the fields if filled
-        &&
-        <Button positive onClick={props.onUpdate} >Save</Button>
-      }
-      <Button secondary onClick={props.onCancel} >Cancel</Button>
-      {
-        playlist // can delete the offering iff the offering is loaded
-        && 
-        <Button onClick={props.onDelete} >Delete</Button>
-      }
-    </>
-  )
-}
-
-
-

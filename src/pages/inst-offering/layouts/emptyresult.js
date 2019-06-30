@@ -3,7 +3,7 @@ import { Tab } from 'react-bootstrap'
 import { Button as UIButton } from 'semantic-ui-react'
 import { util } from '../../../util'
 
-export function EmptyResult(props) {
+export function EmptyResult({course}) {
   return (
     <Tab.Pane eventKey="noPlaylists" className="empty-result">
       <div className="welcome">
@@ -16,7 +16,7 @@ export function EmptyResult(props) {
           style={{width: 'max-content', marginTop: '1rem'}} 
           size='big' secondary
         >
-          Create Your First Playlist in {props.course.num}
+          Create Your First Playlist in {course.num}
         </UIButton>
       </div>
     </Tab.Pane>

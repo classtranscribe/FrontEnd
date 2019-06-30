@@ -1,87 +1,80 @@
-import React from 'react'
-// UIs
+import React, { useState, useEffect } from 'react'
 import { GeneralModal, GeneralLoader } from '../../../components'
-import { Grid, Form, Button, Input } from 'semantic-ui-react'
+import { Grid, Form, Input } from 'semantic-ui-react'
+import { EditButtons } from './buttons'
 // Vars
-import { api, handleData, util } from '../../../util'
-const initialPlaylist = api.initialData.initialPlaylist;
+import { api, handleData } from '../../../util'
 
-export class VideoEditingPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: this.props.match.params.id,
-      video: null,
-      videoInfo: handleData.copy(initialPlaylist),
-      confirmed: false,
+export function VideoEditingPage ({match: {params: {id}}, history}) {
+  const path = '??'
+  console.log(id)
+  const [video, setVideo] = useState(null)
+  const [videoInfo, setVideoInfo] = useState(video)
+
+  useEffect(()=> {
+    // api.getData(path, id)
+    // .then( response => {
+    //   setVideo(response.data)
+    //   setVideoInfo(response.data)
+    // })
+  }, [])
+
+  const callBacks = {
+    onUpdate: function () {
+      var data = handleData.updateJson(videoInfo, video)
+      data.id = id
+      console.log(data)
+      // api.updateData(path, data, () => this.onClose())
+    },
+    onDelete: function () {
+      api.deleteData(path, id, () => this.onClose())
+    },
+    onClose: function () {
+      history.goBack()
     }
-    this.path = '??';
   }
 
-  componentDidMount() {
-    // api.getData(this.path)
-    //   .then( response => {
-    //     this.setState({video: response.data});
-    //   })
-  }
+  const header = 'Rename the Video'
+  const button = 
+    (<EditButtons 
+      {...callBacks}
+      onCancel={callBacks.onClose}
+      canDelete={videoInfo}
+      canSave={videoInfo && videoInfo.description}
+    />)
 
-  onChange = value => {
-    const { videoInfo } = this.state;
-    videoInfo.description = value;
-    this.setState({ videoInfo });
-  }
-
-  onUpdate = () => {
-    const { video, videoInfo, id } = this.state;
-    var data = handleData.updateJson(videoInfo, video)
-    data.id = id;
-    console.log(data);
-    // api.updateData(this.path, data, () => this.onClose())
-  }
-
-  onConfirm = () => this.setState({confirmed: true})
-
-  onDelete = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
-  }
-
-  onClose = () => {
-    this.props.history.goBack();
-  }
-
-  render() {
-    const button = <EditButtons {...this} />
-    return(
-      <GeneralModal 
-        header={'Rename the Video'}
-        open={true} size='tiny'
-        onClose={this.onClose}
-        button={button}
-      >
-        <VideoForm {...this}/>
-      </GeneralModal>
-    )
-  }
+  return(
+    <GeneralModal 
+      header={header}
+      open={true} size='tiny'
+      onClose={callBacks.onClose}
+      button={button}
+    >
+      <VideoForm 
+        videoInfo={videoInfo}
+        setvideoInfo={setVideoInfo}
+      />
+    </GeneralModal>
+  )
+  
 }
 
-function VideoForm(props) {
-  const { video } = props.state;
-
+function VideoForm({videoInfo, setVideoInfo}) {
   return (
     <Form className="ap-form">
       {
-        video ? 
+        videoInfo ? 
         <Grid columns='equal' verticalAlign="middle">
           <Grid.Row >
             <Grid.Column>
               <Form.Field
                 fluid required
-                id='video-description'
+                id='paylist-description'
                 control={Input}
                 label='Video Name'
-                placeholder='E.g. Part 1'
-                defaultValue={video.description}
-                onChange={({target: {value}})=> props.onChange(value)}
+                placeholder='E.g. Lecture 1'
+                defaultValue={videoInfo.description}
+                onChange={({target: {value}})=> setVideoInfo({...videoInfo, description: value})}
               />
             </Grid.Column>
           </Grid.Row>
@@ -92,25 +85,3 @@ function VideoForm(props) {
     </Form>
   )
 }
-
-function EditButtons(props) {
-  const { videoInfo, video } = props.state;
-  return (
-    <>
-      {
-        videoInfo.description // can save the offering iff all the fields if filled
-        &&
-        <Button positive onClick={props.onUpdate} >Save</Button>
-      }
-      <Button secondary onClick={props.onClose} >Cancel</Button>
-      {
-        video // can delete the offering iff the offering is loaded
-        && 
-        <Button onClick={props.onDelete} >Delete</Button>
-      }
-    </>
-  )
-}
-
-
-

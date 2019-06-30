@@ -2,9 +2,7 @@ import React from 'react'
 import { Button, ListGroup, OverlayTrigger, Popover } from 'react-bootstrap'
 import { util } from '../../../util';
 
-export function SideBar(props) {
-  const { course, offering } = props;
-  const { displaySideBar } = props.state;
+export function SideBar({course, offering, playlists, state: {displaySideBar}}) {
   const display = {marginLeft: displaySideBar ? '0' : '-20rem'}
   return (
     <div className="course-sidebar" style={display}>
@@ -37,13 +35,12 @@ export function SideBar(props) {
         </ListGroup.Item>
 
       </ListGroup>
-      <Playlist {...props}/>
+      <Playlist playlists={playlists}/>
     </div>
   )
 }
 
-function Playlist(props) {
-  const { playlists } = props;
+function Playlist({playlists}) {
   function NoPlaylistWrapper() {
     return (
       <div className="noplaylist-wrapper">

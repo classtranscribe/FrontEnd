@@ -5,11 +5,11 @@ import { FixedFooter } from '../../../components'
 // Vars
 import { util } from '../../../util'
 
-export function Videos(props) {
+export function Videos({playlists}) {
 
   return (
     <Tab.Content className="csp-videos">
-      {props.playlists.map( list => (
+      {playlists.map( list => (
           <Tab.Pane eventKey={list.name}>            
             <EditPlaylistBtns />
 
@@ -49,7 +49,7 @@ export function Videos(props) {
 /**
  *  Buttons for editing current playlist 
  */
-function EditPlaylistBtns(props) {
+function EditPlaylistBtns({}) {
   return (
     <div className="playlist-btn">
       <UIButton 
@@ -80,7 +80,7 @@ function NoVideoWrapper() {
   )
 }
 
-function EditVideoButtons(props) {
+function EditVideoButtons({}) {
   return (
     <List.Content floated='right' className="list-dropdown-btn">
       <UIDropdown icon="ellipsis vertical" floating direction="left">
