@@ -3,6 +3,9 @@ import { Row, Col, Navbar, Nav } from 'react-bootstrap'
 import { Icon, Dimmer, Loader, Dropdown } from 'semantic-ui-react'
 import { util } from '../util'
 
+/**
+ * Drop down profile for the headers
+ */
 function ProfileBtn({user, onSignOut, darkMode}) {
   const trigger = (
     <span style={darkMode ? {color: 'white'} : {}}>
@@ -31,7 +34,7 @@ function ProfileBtn({user, onSignOut, darkMode}) {
 /**
  * Header with a sign out button and user info
  * @param props 
- * user: {name, ..}
+ * user: {name, ...}
  * onSignOut - function to sign out
  */
 export function SignOutHeader({user, onSignOut, darkMode}) {
@@ -48,9 +51,9 @@ export function SignOutHeader({user, onSignOut, darkMode}) {
 }
 
 /**
- * Header only for course setting page with a sider bar show-up trigger button
+ * Header only for Course Setting Page with a sider bar show-up trigger button
  * @param props 
- * user: {name, ..}
+ * user: {name, ...}
  * showSiderBar: function for display or hide side bar
  */
 export function CourseSettingHeader({showSiderBar, user, onSignOut}) {
@@ -65,6 +68,22 @@ export function CourseSettingHeader({showSiderBar, user, onSignOut}) {
       </Row>
     </Navbar>
   );
+}
+
+/**
+ * Padding Component
+ */
+export const EndPadding5rem = () => <div className="end-padding"></div>
+
+/**
+ * Spinning Loader wrapper while loading data
+ */
+export function GeneralLoader({loading, inverted}) {
+  return (
+    <Dimmer active={loading} inverted={inverted}>
+      <Loader inverted={inverted}>Loading</Loader>
+    </Dimmer>
+  )
 }
 
 /**
@@ -89,15 +108,5 @@ export function FixedFooter(props) {
         <Nav.Link as={Col} className="footer-copy" disabled>&copy; 2016-2018 UIUC</Nav.Link>
       </Nav>    
     </Navbar>
-  )
-}
-
-export const EndPadding5rem = () => <div className="end-padding"></div>
-
-export function GeneralLoader(props) {
-  return (
-    <Dimmer active={props.loading} inverted={props.inverted}>
-      <Loader inverted={props.inverted}>Loading</Loader>
-    </Dimmer>
   )
 }
