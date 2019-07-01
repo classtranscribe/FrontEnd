@@ -12,47 +12,52 @@ import {
 // Vars
 import { fakeData } from '../data';
 
-
-export function GeneralModal(props) {
+/**
+ * General modal
+ */
+export function GeneralModal({size, open, onClose, header, children, button}) {
   return (
     <UIModal 
       className="general-modal" style={{position: 'relative'}} 
-      size={props.size || 'small'} dimmer='blurring'
-      open={props.open} onClose={props.onClose}
+      size={size || 'small'} dimmer='blurring'
+      open={open} onClose={onClose}
     >
-      <UIModal.Header>{props.header}</UIModal.Header>
+      <UIModal.Header>{header}</UIModal.Header>
       {
-        props.children && 
+        children && 
         <UIModal.Content image>
-          {props.children}
+          {children}
         </UIModal.Content>
       }
       <UIModal.Actions>
-        {props.button}
+        {button}
       </UIModal.Actions>
     </UIModal>
   )
 }
 
-export function DeleteModal(props) {
+/**
+ * General Pompt Modal to comfirm the deletion
+ */
+export function DeleteModal({open, target, onSave, onClose}) {
   return (
     <UIModal 
       className="course-modal" style={{position: 'relative'}} 
       size="tiny" dimmer='blurring'
-      open={props.open} onClose={props.onClose}
+      open={open} onClose={onClose}
     >
       <UIModal.Header>Are You Sure to delete the 
-        <strong className="del-target"> {props.target}</strong>?<br/>
+        <strong className="del-target"> {target}</strong>?<br/>
         (This action cannot be undone)
       </UIModal.Header>
       <UIModal.Actions>
-        <UIButton color='black' onClick={props.onClose}>Cancel</UIButton>
+        <UIButton color='black' onClick={onClose}>Cancel</UIButton>
         <UIButton
           negative
           icon='trash'
           labelPosition='right'
           content="Delete Forever"
-          onClick={props.onSave}
+          onClick={onSave}
         />
       </UIModal.Actions>
     </UIModal>
@@ -71,7 +76,7 @@ export function DeleteModal(props) {
 
 
 
-/********************************************************* trashes */
+/********************************************************* trashes maybe delete later */
 
 /**
  * @param array - terms, departments
