@@ -34,7 +34,7 @@ export class InstProfilePage extends React.Component {
     api.getCourseOfferingsByInstructorId(id)
       .then(response => {
         console.log(response.data)
-        this.setState({courseOfferings: response.data})
+        this.setState({courseOfferings: response.data.reverse()})
       })
   }
 
