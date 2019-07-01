@@ -60,7 +60,7 @@ export function CourseSettingHeader({showSiderBar, user, onSignOut}) {
   return (
     <Navbar sticky="top" bg="light" variant="light" className="ct-nav">
       <Navbar.Brand className="sidebar-trigger" onClick={showSiderBar} disabled>
-        <Icon name='grey sidebar' size="large"/>
+        <Icon name='sidebar' size="large"/>
       </Navbar.Brand>
       <Navbar.Brand className="brand" href="/">Class Transcribe</Navbar.Brand>
       <Row className="signout">
