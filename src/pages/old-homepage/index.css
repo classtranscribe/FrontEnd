@@ -11,15 +11,15 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,300,700,900&subset=latin,latin-ext);
 
 
-html, body{
+/* html, body{
   font-family: 'Source Sans Pro', sans-serif;
-  font-size:15px;
+  font-size:15px; */
   /* -webkit-font-smoothing: subpixel-antialiased!important; */
-  -webkit-font-smoothing: antialiased;
+  /* -webkit-font-smoothing: antialiased;
   color:black;
   font-weight:400;
   height:100%;
-}
+} */
 ::selection {
   background: #fff;
   color:#2fa68e;
