@@ -72,6 +72,7 @@ export class Admin extends React.Component {
         this.setState({terms: response.data})
         this.setLoading('term', false)
       })
+      .catch( error => this.setLoading('term', false))
   }
   getDepartsByUniId = (uniId, name) => {
     this.setLoading('depart', true)

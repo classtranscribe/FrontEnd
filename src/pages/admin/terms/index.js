@@ -44,7 +44,7 @@ export default function TermPane(props) {
                 id={term.id}
                 items={[
                   `Start Date: ${term.startDate}`,
-                  currUni.name
+                  `End Date: ${term.endDate}`
                 ]}
               />
           ))}

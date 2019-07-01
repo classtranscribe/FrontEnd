@@ -11,6 +11,7 @@ export const initialData = {
   initialTerm: {
     name: '', 
     startDate: '', 
+    endDate: '',
     universityId: ''
   },
   initialUni: {

@@ -101,15 +101,28 @@ function TermForm({ state:{isNew, term}, onChange}) {
               onChange={({target: {value}}) => onChange(value, 'name')}
             />
           </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
           <Grid.Column>
             <Form.Field
               fluid
               id='start-date-edit'
               control={Input}
               label='Start Date'
-              placeholder='E.g. 2199-06-23T18:38:05.281Z'
+              placeholder='E.g. 2199-08-26T18:38:05.281Z'
               defaultValue={term.startDate}
               onChange={({target: {value}}) => onChange(value, 'startDate')}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Form.Field
+              fluid
+              id='start-date-edit'
+              control={Input}
+              label='End Date'
+              placeholder='E.g. 2199-12-23T18:38:05.281Z'
+              defaultValue={term.endDate}
+              onChange={({target: {value}}) => onChange(value, 'endDate')}
             />
           </Grid.Column>
         </Grid.Row>
