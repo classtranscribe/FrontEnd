@@ -6,14 +6,14 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import authentication from 'react-azure-adb2c'
 // UI
-import EditUniPage from './edit-uni'
-import { CreateNewButton, AdminListItem } from '../admin-components'
+import UniversityEditing from './UniversityEditing'
+import { CreateNewButton, AdminListItem } from '../Components'
 import { Tab, Divider } from 'semantic-ui-react'
 
 export default function UniPane({state: {universities, uniLoading}}) {
   return (
     <Tab.Pane attached={false} className="ap-list" loading={uniLoading}>
-      <Route path='/admin/uni/:type?=:id' component={authentication.required(EditUniPage)}/>      
+      <Route path='/admin/uni/:type?=:id' component={authentication.required(UniversityEditing)}/>      
       <CreateNewButton name='Create New University' path='uni'/>
       <Divider horizontal>All Universities</Divider>
       {universities.slice().reverse().map( university => (

@@ -10,14 +10,14 @@ import { Tab } from 'semantic-ui-react'
 import './index.css'
 // Layouts
 import { SignOutHeader } from '../../components'
-import TermPane from './terms'
-import UniPane from './universities'
-import DepartPane from './departments'
-import CoursePane from './courses'
+import TermPane from './Terms'
+import UniPane from './Universities'
+import DepartPane from './Departments'
+import CoursePane from './Courses'
 // Vars
 import { api, handleData, util, user } from '../../util'
 
-export class AdminPage extends React.Component {
+export class Admin extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

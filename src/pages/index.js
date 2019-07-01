@@ -1,8 +1,8 @@
-export { InstProfilePage  } from "./inst-profile";
-export { InstOfferingPage } from "./inst-offering";
-export { StudentsPage     } from "./student";
-export { LoginPage        } from "./home-login";
-export { VideoPage        } from "./video"
-export { AdminPage        } from "./admin"
+export { InstructorProfile  } from "./Instructor/Profile"
+export { InstructorOffering } from "./Instructor/Offering"
+export { StudentsPage       } from "./Student"
+export { LoginPage          } from "./Login"
+export { VideoPage          } from './Watch'
+export { Admin              } from './Admin'
 
 // export { Homepage         } from "./old-homepage";

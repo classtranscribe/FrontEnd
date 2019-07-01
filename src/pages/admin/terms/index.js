@@ -6,8 +6,8 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import authentication from 'react-azure-adb2c'
 // UI
-import EditTermPage from './edit-term'
-import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
+import TermEditing from './TermEditing'
+import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function TermPane(props) {
@@ -17,7 +17,7 @@ export default function TermPane(props) {
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={termLoading}>
-      <Route path='/admin/term/:type?=:id' component={authentication.required(EditTermPage)}/>     
+      <Route path='/admin/term/:type?=:id' component={authentication.required(TermEditing)}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
         <p>Current University: <strong>{currUni.name}</strong></p>
