@@ -1,16 +1,32 @@
+/**
+ * Edit Video Page
+ * sub page for editing a video info, i.e. name
+ */
+
 import React, { useState, useEffect } from 'react'
+// Layouts
 import { GeneralModal, GeneralLoader } from '../../../components'
 import { Grid, Form, Input } from 'semantic-ui-react'
 import { EditButtons } from './buttons'
 // Vars
 import { api, handleData } from '../../../util'
 
+/**
+ * @param id videoId
+ * @param history for goBack
+ */
 export function VideoEditingPage ({match: {params: {id}}, history}) {
-  const path = '??'
+  const path = '??' // TBD
   console.log(id)
-  const [video, setVideo] = useState(null)
+
+  // original video data
+  const [video, setVideo] = useState(api.initialData.initialVideo)
+  // videoInfo for recording inputs
   const [videoInfo, setVideoInfo] = useState(video)
 
+  /**
+   * GET all the needed info based on the videoId
+   */
   useEffect(()=> {
     // api.getData(path, id)
     // .then( response => {
@@ -19,6 +35,9 @@ export function VideoEditingPage ({match: {params: {id}}, history}) {
     // })
   }, [])
 
+  /**
+   * Functions for http requests
+   */
   const callBacks = {
     onUpdate: function () {
       var data = handleData.updateJson(videoInfo, video)
@@ -59,6 +78,9 @@ export function VideoEditingPage ({match: {params: {id}}, history}) {
   
 }
 
+/**
+ * Form Component
+ */
 function VideoForm({videoInfo, setVideoInfo}) {
   return (
     <Form className="ap-form">

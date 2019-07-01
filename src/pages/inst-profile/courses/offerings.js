@@ -6,6 +6,7 @@ export default function OfferinfList({courseOffering, onSort, sortDown, terms, d
   const { course, offerings } = courseOffering;
   const sortBy = sortDown ? sortFunc.sortDownByTerm : sortFunc.sortUpByTerm;
   const sortedOfferings = offerings.slice().sort(sortBy);
+  
   return (
     <Tab.Pane className="sp-pane" style={{background: 'none'}} key={course.id}>
       <CourseInfoCard {...courseOffering} department={department}/>

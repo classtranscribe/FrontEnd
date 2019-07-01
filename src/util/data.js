@@ -12,10 +12,18 @@ export const handleData = {
     }
     return res;
   },
-  findById(array, id) {
+  findById: function(array, id) {
     return _.find(array, {id: id});
   },
-  includes(array, elem) {
+  includes: function (array, elem) {
     return _.includes(array, elem);
+  },
+  getCompleteCourseNumber: function(courses){
+    var str = ''
+    courses.forEach( (course, index) => {
+      const slash = index ? '/' : ''
+      str = str + slash + course.courseNumber
+    })
+    return str
   }
 }

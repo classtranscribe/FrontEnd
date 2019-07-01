@@ -1,18 +1,39 @@
+/**
+ * Edit Playlist Page
+ * sub page for creating or editing a playlist
+ */
+
 import React, { useState, useEffect } from 'react'
-import { GeneralModal, GeneralLoader } from '../../../components'
+// UI & Layouts
 import { Grid, Form, Input } from 'semantic-ui-react'
+import { GeneralModal, GeneralLoader } from '../../../components'
 import { SaveButtons, EditButtons } from './buttons'
 // Vars
 import { api, handleData, util } from '../../../util'
-const initialPlaylist = api.initialData.initialPlaylist
 
+/**
+ * @param type 'new' for creating, 'id' for editing
+ * @param id   type is new: offeringId, type is id: playlistId
+ * @param history for goBack
+ */
 export function PlaylistEditingPage ({match: {params: {id, type}}, history}) {
-  const isNew = type === 'new'
-  const path = '??'
+  // determine whether is going to create or edit a playlist
+  const isNew = type === 'new' 
+  const path = '??' // TBD
 
-  const [playlist, setPlaylist] = useState(null)
-  const [playlistInfo, setPlaylistInfo] = useState(isNew ? initialPlaylist : playlist)
+  /** 
+   * playlist - the original playlist info whiling editing the playlist 
+   */
+  const [playlist, setPlaylist] = useState(api.initialData.initialPlaylist)
+  /**
+   * playlistInfo - the object for recording the inputs
+   */
+  const [playlistInfo, setPlaylistInfo] = useState(playlist)
 
+  /**
+   * Used while editinf a playlist
+   * GET all the needed info based on the playlist Id
+   */
   useEffect(()=> {
     if (!isNew) {
       // api.getData(path, id)
@@ -23,6 +44,9 @@ export function PlaylistEditingPage ({match: {params: {id, type}}, history}) {
     }
   }, [])
 
+  /**
+   * Functions for http requests
+   */
   const callBacks = {
     onCreate: function () {
       if ( isNew ) playlistInfo.offeringId = id
@@ -73,9 +97,12 @@ export function PlaylistEditingPage ({match: {params: {id, type}}, history}) {
       />
     </GeneralModal>
   )
-  
 }
 
+/**
+ * Form Component
+ * @todo need to add type selection
+ */
 function PlaylistForm({playlistInfo, setPlaylistInfo}) {
   return (
     <Form className="ap-form">

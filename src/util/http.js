@@ -36,7 +36,7 @@ const initialData = {
       accessType: 'Public'
     },
     courseId: '',
-    instructorId: ''
+    instructorId: '',
   },
   initialPlaylist: {
     description: '',

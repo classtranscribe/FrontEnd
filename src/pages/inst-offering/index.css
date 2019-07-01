@@ -84,15 +84,16 @@
   font-weight: bold;
 }
 .course-sidebar .details .sec {
-  transition-delay: 0.1s;
+  /* transition-delay: 0.1s; */
   color: rgb(77, 76, 76);
   font-size: 1.1rem;
+  line-height: 2rem;
   /* padding-left: 2.1rem; */
 }
 .course-sidebar .details .name {
   /* padding-left: 2.1rem; */
   font-size: 1.1rem;
-  line-height: 0rem;
+  line-height: 2rem;
 }
 
 /* Playlist */
