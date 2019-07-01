@@ -1,4 +1,10 @@
+/**
+ * Offering Editing Page
+ * - used for creating a offering or editing the info of a offering
+ */
+
 import React from 'react'
+// Layouts
 import { GeneralModal } from '../../components'
 import OfferingForm from './edit-form'
 import { SaveButtons, EditButtons } from './buttons'

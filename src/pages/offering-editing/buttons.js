@@ -1,6 +1,12 @@
+/**
+ * Button Group Components for Offering Editing Page
+ */
 import React from 'react'
 import { Button } from 'semantic-ui-react'
 
+/**
+ * Buttons for creatind new offering
+ */
 export function SaveButtons(props) {
   const { courseId } = props.state.offeringInfo;
   const { termId, sectionName } = props.state.offeringInfo.offering;
@@ -17,6 +23,9 @@ export function SaveButtons(props) {
   )
 }
 
+/**
+ * Buttons for editing the offering
+ */
 export function EditButtons(props) {
   const { offeringInfo, offering } = props.state;
   const { courseId } = offeringInfo;

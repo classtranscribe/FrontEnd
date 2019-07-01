@@ -1,6 +1,12 @@
+/**
+ * Form Component for Offering Editing Page
+ */
+
 import React from 'react'
+// Layouts
 import { GeneralLoader } from '../../components'
 import { Grid, Form, Input, Select } from 'semantic-ui-react'
+// Vars
 import { api, util } from '../../util'
 const initialOffering = api.initialData.initialOffering;
 
@@ -8,17 +14,20 @@ export default function OfferingForm(props) {
   const { onChange } = props;
   const { departments, courses, terms, currDepart, offeringInfo } = props.state;
   const offering = props.isNew ? initialOffering : props.state.offering;
+  /**
+   * Get all the options for selection
+   */
   const departOptions = util.getSelectOptions(departments);
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '');
   const termOptions = util.getSelectOptions(terms);
   const accessOptions = util.getSelectOptions(api.offeringAccessType);
 
-  // console.log(offeringInfo)
   return (
     <Form className="ap-form">
       {
         offering ? 
-        <Grid columns='equal' verticalAlign="middle">
+        // department
+        <Grid columns='equal' verticalAlign="middle"> 
           <Grid.Row >
             <Grid.Column>
               <Form.Field
@@ -32,7 +41,7 @@ export default function OfferingForm(props) {
               />
             </Grid.Column>
           </Grid.Row>
-          {
+          { // Course
             currDepart 
             &&
             <Grid.Row >
@@ -49,8 +58,8 @@ export default function OfferingForm(props) {
               </Grid.Column>
             </Grid.Row>
           }
-          {
-            currDepart //offeringInfo.courseId
+          { // Term
+            currDepart 
             &&
             <Grid.Row >
               <Grid.Column>
@@ -66,7 +75,7 @@ export default function OfferingForm(props) {
               </Grid.Column>
             </Grid.Row>
           }
-          {
+          { // Section Name & access type
             offeringInfo.offering.termId
             &&
             <Grid.Row >
