@@ -1,13 +1,28 @@
+/**
+ * Component for Instructor Profile Page
+ * - contents courses and offerings of the instructor
+ * - where instructor can create a new offering
+ */
+
 import React from 'react'
 import { Route, Link } from 'react-router-dom'
-// UIs
+// UI & Layouts
 import { Grid, Tab, Button } from 'semantic-ui-react'
 import OfferinfList from './offerings'
 import NewOfferingPage from '../../offering-editing'
 // Vars
 import { handleData, api } from '../../../util'
 
-export default function Courses({onSort, state: {courseOfferings, sortDown, userId, terms, departments}}) {
+/**
+ * @param sortDown state to determine whether to sortDown or sortUp the offering by term
+ * @param onSort callback for setState stortDown
+ * @param courseOfferings courseOfferings of the instructor
+ * @param userId instructorId for the need of creating an offering
+ */
+export function Courses({onSort, state: {courseOfferings, sortDown, userId, terms, departments}}) {
+  /**
+   * Generate the tab panes for each course, where contains the offering list
+   */
   const panes = [];
   courseOfferings.forEach( courseOffering => {
     const { course } = courseOffering;
@@ -44,6 +59,9 @@ export default function Courses({onSort, state: {courseOfferings, sortDown, user
   )
 }
 
+/**
+ * Titles and 'Create new offering' button
+ */
 function Title({userId}) {
   return (
     <Grid>
@@ -69,6 +87,9 @@ function Title({userId}) {
   )
 }
 
+/**
+ * Show when there is no courses created yet
+ */
 function EmptyResult({userId}) {
   return (
     <div className="empty">

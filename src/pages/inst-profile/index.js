@@ -1,16 +1,17 @@
+/**
+ * Instructor Profile Page
+ * - the page for instructor login
+ * - lists the courses and corresponding offerings of an instructor
+ */
+
 import React from 'react'
-// UIs
-import { 
-  FixedFooter, 
-  SignOutHeader, 
-} from '../../components'
+// Layouts
+import { FixedFooter, SignOutHeader } from '../../components'
+import { Courses, Profile } from "./layouts"
 import './index.css'
-import Profile from "./profile.js";
-import Courses from "./courses"
 // Vars
 import { api, user } from '../../util'
-// import { fakeData } from '../../data';
-// var instructor = fakeData.instData;
+
 
 export class InstProfilePage extends React.Component {
   constructor(props) {
@@ -18,13 +19,16 @@ export class InstProfilePage extends React.Component {
     this.state = {
       userId: user.id(),
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
-      // courses
+      
       courseOfferings: [],
       terms: [],
       departments: []
     }
   }
 
+  /**
+   * Callback for setUpUser below
+   */
   getCourseOfferingsByInstructorId = id => {
     this.setState({userId: id})
     api.getCourseOfferingsByInstructorId(id)
@@ -34,8 +38,17 @@ export class InstProfilePage extends React.Component {
       })
   }
 
+  /**
+   * GET all the data based on the user
+   */
   componentDidMount() {
+    /**
+     * 1. Get the auth token from api with userId
+     */
     user.setUpUser(this.getCourseOfferingsByInstructorId);
+    /**
+     * 2. Get courseOfferings 
+     */
     api.getAll(['Terms', 'Departments'], (response, name) => {
       this.setState({[name]: response.data})
     })

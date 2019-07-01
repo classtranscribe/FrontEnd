@@ -1,16 +1,28 @@
+/**
+ * Component for Instructor Profile Page
+ * - contents the course-info Card and the offering list
+ */
+
 import React from 'react'
 import { Grid, Tab, Card, Button, Divider, Popup, Message } from 'semantic-ui-react'
 import { sortFunc, util, handleData } from '../../../util';
 
+/**
+ * @param courseOffering one course and its offerings
+ * @param onSort callback for sorting the offerings by term
+ */
 export default function OfferinfList({courseOffering, onSort, sortDown, terms, department}) {
   const { course, offerings } = courseOffering;
+  // determine the sorting method and sort the offering array
   const sortBy = sortDown ? sortFunc.sortDownByTerm : sortFunc.sortUpByTerm;
   const sortedOfferings = offerings.slice().sort(sortBy);
   
   return (
     <Tab.Pane className="sp-pane" style={{background: 'none'}} key={course.id}>
       <CourseInfoCard {...courseOffering} department={department}/>
+
       <OfferingTitle onSort={onSort} sortDown={sortDown}/>
+
       <div style={{width: '100%'}}>
         {sortedOfferings.map( offering => {
           const term = handleData.findById(terms, offering.termId)
@@ -37,6 +49,9 @@ export default function OfferinfList({courseOffering, onSort, sortDown, terms, d
   )
 }
 
+/**
+ * Card Component showing the info of a course
+ */
 function CourseInfoCard({course, department}) {
   const cardStyle = {width: '100%', textAlign: 'left', }
   return (
@@ -53,6 +68,9 @@ function CourseInfoCard({course, department}) {
   )
 }
 
+/**
+ * The component showing titles for the offering list
+ */
 function OfferingTitle({sortDown, onSort}) {
   const iconName = sortDown ? "sort up" : "sort down";
   return (
