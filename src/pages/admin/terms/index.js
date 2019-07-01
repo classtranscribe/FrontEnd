@@ -1,18 +1,23 @@
+/**
+ * Pane for Terms of Admin Page
+ */
+
 import React from 'react'
-import {Route} from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import authentication from 'react-azure-adb2c'
+// UI
 import EditTermPage from './edit-term'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../admin-components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function TermPane(props) {
-  const {terms, universities, termCurrUni, termLoading} = props.state;
-  const uniOptions = props.getSelectOptions(universities);
-  const currUni = termCurrUni || {name: 'none', id: 0};
+  const { terms, universities, termCurrUni, termLoading } = props.state
+  const uniOptions = props.getSelectOptions(universities)
+  const currUni = termCurrUni || {name: 'none', id: 0}
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={termLoading}>
-      <Route path='/admin/term/:id' component={authentication.required(EditTermPage)}/>     
+      <Route path='/admin/term/:type?=:id' component={authentication.required(EditTermPage)}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
         <p>Current University: <strong>{currUni.name}</strong></p>

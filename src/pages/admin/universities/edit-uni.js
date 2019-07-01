@@ -1,45 +1,51 @@
+/**
+ * Editing Page for Universities
+ */
+
 import React from 'react'
+// UI
 import { SubmitButton, EditButtons, GeneralModal } from '../admin-components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
-
+// Vars
 import { api, handleData, util } from '../../../util'
-const initialUni = api.initialData.initialUni;
+const { initialUni } = api.initialData
 
 export default class EditUniPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       id: this.props.match.params.id,
-      isNew: this.props.match.params.id.substring(0,3) === 'new',
+      isNew: this.props.match.params.type === 'new',
       uni: null,
       uniInfo: handleData.copy(initialUni),
       confirmed: false,
     }
-    this.path = 'Universities';
+    this.path = 'Universities'
   }
 
   componentDidMount() {
-    if (this.state.id !== 'new') {
-      api.getData(this.path, this.state.id)
+    const { id, isNew } = this.state
+    if (!isNew) {
+      api.getData(this.path, id)
         .then( response => this.setState({uni: response.data}))
     }
   }
 
   onChange = (value, key) => {
-    const newData = this.state.uniInfo;
-    newData[key] = value;
-    this.setState({uniInfo: newData});
+    const newData = this.state.uniInfo
+    newData[key] = value
+    this.setState({uniInfo: newData})
   }
 
   onSubmit = () => {
-    const data = this.state.uniInfo;
+    const data = this.state.uniInfo
     api.postData(this.path, data, () => this.onClose())
   }
 
   onUpdate = () => {
-    const { uni, uniInfo, id } = this.state;
+    const { uni, uniInfo, id } = this.state
     var data = handleData.updateJson(uniInfo, uni)
-    data.id = id;
+    data.id = id
     api.updateData(this.path, data, () => this.onClose())
   }
 
@@ -58,11 +64,11 @@ export default class EditUniPage extends React.Component {
   }
 
   render() {
-    const { isNew } = this.state;
+    const { isNew } = this.state
     // console.log(id)
-    const header = isNew ? 'Create New University' : 'Edit University';
+    const header = isNew ? 'Create New University' : 'Edit University'
     const button = isNew ? <SubmitButton {...this}/>
-                          : <EditButtons {...this} />;
+                          : <EditButtons {...this} />
     return(
       <GeneralModal 
         header={header}
@@ -70,18 +76,17 @@ export default class EditUniPage extends React.Component {
         onClose={this.onCancel}
         button={button}
       >
-        <UniForm isNew={isNew} {...this}/>
+        <UniForm {...this}/>
       </GeneralModal>
     )
   }
 }
 
-function UniForm(props) {
-  const {onChange} = props;
-  const university = props.isNew ? initialUni : props.state.uni;
+function UniForm({state: {uni, isNew}, onChange}) {
+  if (isNew) uni = initialUni;
   return (
     <Form className="ap-form">
-      {university ? 
+      {uni ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>
@@ -91,7 +96,7 @@ function UniForm(props) {
               control={Input}
               label='University Name'
               placeholder='E.g. University of Illinois at Urbana Champaign'
-              defaultValue={university.name}
+              defaultValue={uni.name}
               onChange={({target: {value}}) => onChange(value, 'name')}
             />
           </Grid.Column>
@@ -102,7 +107,7 @@ function UniForm(props) {
               control={Input}
               label='Domain'
               placeholder='E.g. ...'
-              defaultValue={university.domain}
+              defaultValue={uni.domain}
               onChange={({target: {value}}) => onChange(value, 'domain')}
             />
           </Grid.Column>

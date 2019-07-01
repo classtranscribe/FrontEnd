@@ -1,21 +1,33 @@
+/**
+ * Some General Components used by editing pages for Admin Page
+ * - contents AdminListItem, CreateNewButton, SubmitButton, and EditButtons
+ * - also transfers some components from the folder components
+ */
+
 import React from 'react'
 import { Button, Message } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
 
-
-export function AdminListItem(props) {
+/**
+ * List Item component for Admin Page
+ * @param header header for a list item
+ * @param items details about this list item
+ * @param path path to the editing page
+ * @param id the id of the item, for completing the path to editing page
+ */
+export function AdminListItem({header, items, path, id}) {
   return (
     <Message className='ap-listitem'>
       <div className='ap-iteminfo'>
-        <Message.Header>{props.header}</Message.Header>
-        <Message.List items={props.items} />
+        <Message.Header>{header}</Message.Header>
+        <Message.List items={items} />
       </div>
       <div className="ap-buttons">
         <Button 
           as={Link}
-          to={`/admin/${props.path}/${props.id}`}
+          to={`/admin/${path}/id=${id}`}
           secondary compact 
         >
           <i class="fas fa-edit"></i>&ensp;Edit
@@ -25,46 +37,58 @@ export function AdminListItem(props) {
   )
 }
 
-export function CreateNewButton(props) {
+/**
+ * Button Component for create a new XXX
+ * @param id the one-level-up id used for creating ...
+ * @param path path to the creating page
+ * @param name the text will show on the button
+ */
+export function CreateNewButton({path, id, name}) {
   return (
     <div className='ap-buttons'>
       <Button
         as={Link}
-        to={`/admin/${props.path}/new=${props.id}`}
+        to={`/admin/${path}/new=${id}`}
         secondary
       >
-      {props.name}</Button>
+      {name}</Button>
     </div>
   )
 }
 
-export function SubmitButton(props) {
+/**
+ * Button Group for creating
+ */
+export function SubmitButton({onSubmit, onCancel}) {
   return (
     <>
     <Button 
       secondary 
-      onClick={props.onSubmit}
+      onClick={onSubmit}
       >Submit</Button>
     <Button 
-      onClick={props.onCancel}
+      onClick={onCancel}
       >Cancel</Button>
     </>
   )
 }
 
-export function EditButtons(props) {
+/**
+ * Button Group for updating
+ */
+export function EditButtons({onUpdate, onInactive, onCancel}) {
   return (
     <>
     <Button 
       positive
-      onClick={props.onUpdate}
+      onClick={onUpdate}
       >Update</Button>
     <Button 
-      onClick={props.onInactive}
+      onClick={onInactive}
       >Inactive</Button>
     <Button 
       secondary
-      onClick={props.onCancel}
+      onClick={onCancel}
       >Cancel</Button>
     </>
   )

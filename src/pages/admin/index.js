@@ -1,12 +1,19 @@
+/**
+ * Admin Page
+ * - where admins can create and make changes on 
+ *   universities, departments, terms, and courses
+ */
+
 import React from 'react'
 // UI
 import { Tab } from 'semantic-ui-react'
+import './index.css'
+// Layouts
 import { SignOutHeader } from '../../components'
 import TermPane from './terms'
 import UniPane from './universities'
 import DepartPane from './departments'
 import CoursePane from './courses'
-import './index.css'
 // Vars
 import { api, handleData, util, user } from '../../util'
 
@@ -37,14 +44,66 @@ export class AdminPage extends React.Component {
     this.getSelectOptions = util.getSelectOptions;
   }
 
+  /**
+   * Function for GET values after every page refreshing
+   */
+  getAll() {
+    this.setLoading('uni', true)
+    api.getAll(['Universities'], this.getDataCallBack);
+    // loading data based on existing current values
+    const { courseCurrDepart, courseCurrUni, termCurrUni } = this.state;
+    if (termCurrUni) this.getTermsByUniId(termCurrUni.id);
+    if (courseCurrUni) this.getDepartsByUniId(courseCurrUni.id, 'courseCurrDeparts');
+    if (courseCurrDepart) this.getCoursesByDepartId(courseCurrDepart.id);
+  }
+
+  // callBack function for getAll
+  getDataCallBack = (response, name) => {
+    this.setState({[name]: response.data, uniLoading: false})
+  }
+
+  /**
+   * Specific get-by-id functions
+   */
+  getTermsByUniId = (uniId) => {
+    this.setLoading('term', true)
+    api.getTermsByUniId(uniId) 
+      .then(response => {
+        this.setState({terms: response.data})
+        this.setLoading('term', false)
+      })
+  }
+  getDepartsByUniId = (uniId, name) => {
+    this.setLoading('depart', true)
+    api.getDepartsByUniId(uniId) 
+      .then(response => {
+        this.setState({[name]: response.data})
+        this.setLoading('depart', false)
+      })
+  }
+  getCoursesByDepartId = (departId) => {
+    this.setLoading('course', true)
+    api.getCoursesByDepartId(departId) 
+      .then(response => {
+        this.setState({courses: response.data})
+        this.setLoading('course', false)
+      })
+  }
+
+  /**
+   * GET all info needed based on an admin
+   */
   componentDidMount() {
-    // get userId and authToken
+    /**
+     * 1. get userId and authToken
+     */
     user.setUpUser();
-    // first load of data
+    /**
+     * 2. first load of values
+     */
     this.getAll();
     /**
-     * Used for jumping back from edit page
-     * load data from last selected options after jump back from editing page.
+     * 3. Load data from last selected options after jump back from editing page.
      */
     [
       ['terms', 'termCurrUni', this.getTermsByUniId], 
@@ -82,36 +141,16 @@ export class AdminPage extends React.Component {
     // localStorage.removeItem('activePane');
   }
 
-  /**
-   * on admin sign out, clear all the localStorages
-   */
   onSignOut = () => {
     user.signout();
     this.props.history.goBack();
   }
 
   /**
-   * determine whether to show the loader while loading the data
+   * Function for determining whether to show the loader while loading the data
    */
   setLoading = (name, value) => {
     this.setState({[`${name}Loading`]: value})
-  }
-
-  /**
-   * GET function for every refreshing
-   */
-  getAll() {
-    this.setLoading('uni', true)
-    api.getAll(['Universities'], this.getDataCallBack);
-    // loading data based on existing current values
-    const { courseCurrDepart, courseCurrUni, termCurrUni } = this.state;
-    if (termCurrUni) this.getTermsByUniId(termCurrUni.id);
-    if (courseCurrUni) this.getDepartsByUniId(courseCurrUni.id, 'courseCurrDeparts');
-    if (courseCurrDepart) this.getCoursesByDepartId(courseCurrDepart.id);
-  }
-  // helper function for getAll
-  getDataCallBack = (response, name) => {
-    this.setState({[name]: response.data, uniLoading: false})
   }
 
   /**
@@ -125,9 +164,10 @@ export class AdminPage extends React.Component {
 
   /**
    * set current selected options and get corresponding data
+   * @param name the state name to set
+   * @param value the value to assign
    */
-  setCurrent = (name, data) => { 
-    const value = data.value;
+  setCurrent = (name, {value}) => { 
     // set **CurrUni store in localStorage, then get terms/departs cased on this uni id
     if (name.includes('Uni')) { 
       this.setState({[name]: handleData.findById(this.state.universities, value)})
@@ -139,7 +179,8 @@ export class AdminPage extends React.Component {
         this.getDepartsByUniId(value, 'departments');
       } else if (name.includes('course')) { // courseCurrUni
         localStorage.setItem('courseCurrUni', value)
-        localStorage.setItem('courseCurrDepart', null)
+        // reset the 'courseCurrDepart' after change the 'courseCurrUni'
+        localStorage.removeItem('courseCurrDepart') 
         this.setState({courseCurrDepart: null, courses: []})
         this.getDepartsByUniId(value, 'courseCurrDeparts');
       }
@@ -150,41 +191,15 @@ export class AdminPage extends React.Component {
     } 
   } 
 
-  /**
-   * Specific get-by-id functions
-   */
-  getTermsByUniId = (uniId) => {
-    this.setLoading('term', true)
-    api.getTermsByUniId(uniId) 
-      .then(response => {
-        this.setState({terms: response.data})
-        this.setLoading('term', false)
-      })
-  }
-  getDepartsByUniId = (uniId, name) => {
-    this.setLoading('depart', true)
-    api.getDepartsByUniId(uniId) 
-      .then(response => {
-        this.setState({[name]: response.data})
-        this.setLoading('depart', false)
-      })
-  }
-  getCoursesByDepartId = (departId) => {
-    this.setLoading('course', true)
-    api.getCoursesByDepartId(departId) 
-      .then(response => {
-        this.setState({courses: response.data})
-        this.setLoading('course', false)
-      })
-  }
-
   render() {
+    // Tab panes of the contents
     const panes = [
       { menuItem: 'Universities'  , render: () => <UniPane {...this} /> },
       { menuItem: 'Terms'         , render: () => <TermPane {...this} /> },
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
       { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> }
     ]
+
     return (
       <div>
         <SignOutHeader user={{name: user.firstName()}} onSignOut={this.onSignOut}/>
