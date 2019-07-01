@@ -1,5 +1,7 @@
-// import React from 'react'
-// import _ from 'lodash'
+/**
+ * Object for implementing search
+ */
+
 import { fakeData } from '../data'
 const courses = fakeData.courses;
 

@@ -6,3 +6,44 @@ export const fakeData = {
   playlists     : require('./playlist.data.json'),
   instData      : require('./instructorpage.data.json')
 }
+
+export const initialData = {
+  initialTerm: {
+    name: '', 
+    startDate: '', 
+    universityId: ''
+  },
+  initialUni: {
+    name: '', 
+    domain: ''
+  },
+  initialDepart: {
+    name: '', 
+    acronym: '', 
+    universityId: ''
+  },
+  initialCourse: {
+    courseName: '', 
+    courseNumber: '', 
+    description: '', 
+    departmentId: ''
+  },
+  initialOffering: {
+    offering: {
+      sectionName: '',
+      termId: '',
+      accessType: 'Public'
+    },
+    courseId: '',
+    instructorId: '',
+  },
+  initialPlaylist: {
+    description: '',
+    offeringId: ''
+  },
+  initialVideo: {
+    description: '',
+    playlistId: '',
+    path: '',
+  },
+}

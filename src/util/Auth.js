@@ -1,3 +1,7 @@
+/**
+ * Authentication class
+ */
+
 import b2cauth from 'react-azure-adb2c';
 import decodeJWT from 'jwt-decode'; 
 

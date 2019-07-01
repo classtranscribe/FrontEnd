@@ -1,54 +1,10 @@
 import axios from 'axios';
 import authentication from 'react-azure-adb2c'
 
-const apiMap = {
-  'term': 'Terms',
-  'uni': 'Universities',
-  'depart': 'Departments',
-  'course': 'Courses',
-}
+// Object for initializing data to post
+import { initialData } from '../data'
 
-const initialData = {
-  initialTerm: {
-    name: '', 
-    startDate: '', 
-    universityId: ''
-  },
-  initialUni: {
-    name: '', 
-    domain: ''
-  },
-  initialDepart: {
-    name: '', 
-    acronym: '', 
-    universityId: ''
-  },
-  initialCourse: {
-    courseName: '', 
-    courseNumber: '', 
-    description: '', 
-    departmentId: ''
-  },
-  initialOffering: {
-    offering: {
-      sectionName: '',
-      termId: '',
-      accessType: 'Public'
-    },
-    courseId: '',
-    instructorId: '',
-  },
-  initialPlaylist: {
-    description: '',
-    offeringId: ''
-  },
-  initialVideo: {
-    description: '',
-    playlistId: '',
-    path: '',
-  },
-}
-
+// Select Options for offering's accessType
 const offeringAccessType = [
   {name: 'Public', id: 'Public'},
   {name: 'Authenticated Only', id: 'AuthenticatedOnly'},
@@ -66,19 +22,18 @@ const http = axios.create({
 
 
 /**
- * Api 
+ * api 
+ * - Object for http requests from backend
  */
 export const api = {
-  apiMap: apiMap,
   initialData: initialData,
   offeringAccessType: offeringAccessType,
 
+  /**
+   * Functions for set or get the auth/b2c token
+   */
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
-
-  /**
-   * Get token
-   */
   getAuthToken: function() {
     return http.post('https://sysprog.ncsa.illinois.edu:4443/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
@@ -86,21 +41,19 @@ export const api = {
     localStorage.setItem('authToken', responce.data.authToken);
   },
 
+  /********************* Functions for http requests *********************/
 
   /**
-   * http requests
+   * GET
    */
-  getApiPath: function(str) {
-    str = str.toLowerCase();
-    for (var key in this.apiMap) {
-      if (str.includes(key)) return this.apiMap[key];
-    }
-  },
   getData: function (path, id) {
     path = id ? `${path}/${id}` : path;
     return http.get(path);
   },
-  // callBack = (responce, path) => {this.setState([path]: responce.data)}
+  /**
+   * GET an array of pathes
+   * callBack = (responce, stateName) => {this.setState(stateName: responce.data)}
+   */ 
   getAll: function (value, callBack, id) {
     var array = [];
     if (typeof value === 'string') { array.push(id ? `${value}/${id}` : value) } 
@@ -114,25 +67,9 @@ export const api = {
         .catch( error => console.log(error))
     }
   },
-  // callBack = responce => {...}
-  postData: function (path, data, callBack) {
-    http.post(path, data)
-      .then(responce => callBack(responce))
-      .catch( error => console.log(error))
-  },
-  // callBack = responce => {...}
-  updateData: function (path, data, callBack) {
-    http.put(`${path}/${data.id}`, data)
-      .then(responce => callBack(responce))
-      .catch( error => console.log(error))
-  },
-  // callBack = responce => {...}
-  deleteData: function (path, id, callBack) {
-    http.delete(`${path}/${id}`)
-      .then(responce => callBack(responce))
-      .catch( error => console.log(error))
-  },
-
+  /**
+   * Some specific get-by-id functions
+   */
   getDepartsByUniId: function (id) {
     return this.getData('Departments/ByUniversity', id)
   },
@@ -141,13 +78,40 @@ export const api = {
   },
   getTermsByUniId: function (id) {
     return this.getData('Terms/ByUniversity', id) 
-    // return this.getData('Terms') 
   },
   getCoursesByInstId: function (id) {
     return this.getData('Courses/ByInstructor', id) 
   },
   getCourseOfferingsByInstructorId: function (id) {
     return this.getData('CourseOfferings/ByInstructor', id)
-  }
+  },
+
+  /**
+   * POST
+   * callBack = responce => {...}
+   */
+  postData: function (path, data, callBack) {
+    http.post(path, data)
+      .then(responce => callBack(responce))
+      .catch( error => console.log(error))
+  },
+  /**
+   * PUT
+   * callBack = responce => {...}
+   */
+  updateData: function (path, data, callBack) {
+    http.put(`${path}/${data.id}`, data)
+      .then(responce => callBack(responce))
+      .catch( error => console.log(error))
+  },
+  /**
+   * DELETE
+   * callBack = responce => {...}
+   */
+  deleteData: function (path, id, callBack) {
+    http.delete(`${path}/${id}`)
+      .then(responce => callBack(responce))
+      .catch( error => console.log(error))
+  },
 
 }

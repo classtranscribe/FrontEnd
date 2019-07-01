@@ -1,12 +1,7 @@
-// import React from 'react'
-// import { Papa, parse } from 'papaparse'
+/**
+ * Object for storing sorting options for Array.sort()
+ */
 
-const termMap = {
-  'Winter': 1,
-  'Spring': 2,
-  'Summer': 3,
-  'Fall': 4
-}
 
 export const sortFunc = {
   sortByCourseNum: function (course1, course2) {

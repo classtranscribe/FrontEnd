@@ -1,7 +1,12 @@
+/**
+ * The object for setting up user (get token & userId) 
+ *  and get user information 
+ * (like a interface for user based on api and auth)
+ */
+
 import { auth } from './Auth'
 import { api } from './http'
 
-// a user have an id, firstName, lastName and email
 export const user = {
   isLoggedIn: () => auth.isLoggedIn(),
   b2cToken: () => auth.getToken(),
@@ -21,21 +26,27 @@ export const user = {
       if (callback) callback(this.id())
     }
   },
+
+  /**
+   * Functions for getting user's basic info
+   */
   id: () => localStorage.getItem('userId'),
-
-
-  lastName: () => {
+  lastName: function () {
     return auth.currentUser().lastName
   },
-  firstName: () => {
+  firstName: function () {
     return auth.currentUser().firstName
   },
-  fullName: () => {
+  fullName: function () {
     return auth.currentUser().firstName + ' ' + auth.currentUser().lastName
   },
-  email: () => {
+  email: function () {
     return auth.currentUser().emails[0]
   },
+
+  /**
+   * Function for signing out and clearing the localStorage
+   */
   signout: function () { 
     // remove possible localStorage for admin page
     [

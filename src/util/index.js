@@ -5,6 +5,10 @@ export { user   } from './user'
 export { sortFunc } from './sort'
 export { handleData } from './data'
 
+
+/**
+ * Objects for switching pages and storing some general functions
+ */
 export const util = {
   refresh: function() {
     document.location.reload(true);
@@ -17,7 +21,6 @@ export const util = {
     })
     return options;
   },
-
 
   /**
    * Functions for switching pages
