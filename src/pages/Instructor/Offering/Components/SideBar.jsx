@@ -70,7 +70,7 @@ function Playlist({playlists}) {
           {playlists.map( playlist => 
             <ListGroup.Item 
               variant="secondary" className="item" 
-              action eventKey={playlist.name}
+              action eventKey={playlist.name} // should be playlist id
               onClick={()=>1}
             >
               <p className="pl-name">{playlist.name}</p>
