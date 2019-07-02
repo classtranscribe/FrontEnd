@@ -78,9 +78,9 @@ export const EndPadding5rem = () => <div className="end-padding"></div>
 /**
  * Spinning Loader wrapper while loading data
  */
-export function GeneralLoader({loading, inverted}) {
+export function GeneralLoader({loading, inverted, height}) {
   return (
-    <Dimmer active={loading} inverted={inverted}>
+    <Dimmer active={loading} inverted={inverted} style={{height: height}}>
       <Loader inverted={inverted}>Loading</Loader>
     </Dimmer>
   )

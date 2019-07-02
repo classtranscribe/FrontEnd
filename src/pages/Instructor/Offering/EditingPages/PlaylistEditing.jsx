@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react'
 // UI & Layouts
-import { Grid, Form, Input } from 'semantic-ui-react'
+import { Grid, Form, Input, Select, Message, Icon, Divider } from 'semantic-ui-react'
 import { GeneralModal, GeneralLoader } from '../../../../components'
 import { SaveButtons, EditButtons } from './Buttons'
 // Vars
@@ -29,6 +29,7 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
    * playlistInfo - the object for recording the inputs
    */
   const [playlistInfo, setPlaylistInfo] = useState(playlist)
+  const [loading, setLoading] = useState(true)
 
   /**
    * Used while editinf a playlist
@@ -36,10 +37,12 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
    */
   useEffect(()=> {
     if (!isNew) {
+      // setLoading(true)
       // api.getData(path, id)
       // .then( response => {
       //   setPlaylist(response.data)
       //   setPlaylistInfo(response.data)
+      //   setLoading(false)
       // })
     }
   }, [])
@@ -72,6 +75,7 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
   }
 
   const header = isNew ? 'New Playlist' : 'Rename the Playlist'
+  const modalSize = isNew ? 'small' : 'tiny'
   const button = isNew ? 
     <SaveButtons 
       {...callBacks}
@@ -87,11 +91,14 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
   return(
     <GeneralModal 
       header={header}
-      open={true} size='tiny'
+      open={true} 
+      size={modalSize}
       onClose={callBacks.onCancel}
       button={button}
     >
       <PlaylistForm 
+        isNew={isNew}
+        loading={loading}
         playlistInfo={playlistInfo}
         setPlaylistInfo={setPlaylistInfo}
       />
@@ -103,11 +110,17 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
  * Form Component
  * @todo need to add type selection
  */
-function PlaylistForm({playlistInfo, setPlaylistInfo}) {
+function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
+  const playlistTypeGuide = [
+    <p><strong><Icon name='cloud upload'/> {api.playlistTypes[0].name}:<br/></strong>Upload your own videos!</p>,
+    <p><strong><Icon name='youtube'/> {api.playlistTypes[1].name}:<br/></strong>Enter the sharable URL of your YouTube Playlist</p>,
+    <p><strong><Icon name='video play'/> {api.playlistTypes[2].name}:<br/></strong>Add new videos by URL from echo360</p>
+  ]
+  const playlistTypeOptions = util.getSelectOptions(api.playlistTypes)
   return (
-    <Form className="ap-form">
+    <Form className="general-form">
       {
-        playlistInfo ? 
+        !loading || isNew ? 
         <Grid columns='equal' verticalAlign="middle">
           <Grid.Row >
             <Grid.Column>
@@ -122,9 +135,41 @@ function PlaylistForm({playlistInfo, setPlaylistInfo}) {
               />
             </Grid.Column>
           </Grid.Row>
+          {
+            isNew 
+            &&
+            <>
+            <Grid.Row>
+              <Grid.Column>
+                <Message>
+                  <Message.Header>
+                    <Icon name='info circle' size='big' color='grey' />&ensp;
+                    Playlist Type Guide
+                  </Message.Header>
+                  <Divider horizontal />
+                  <Message.List items={playlistTypeGuide} />
+                </Message>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row >
+              <Grid.Column>
+                <Form.Field
+                  fluid required
+                  id='paylist-type'
+                  control={Select}
+                  label='Playlist Type'
+                  placeholder='Playlist Type'
+                  defaultValue={api.playlistTypes[0].id}
+                  options={playlistTypeOptions}
+                  onChange={(event, {value})=> setPlaylistInfo({...playlistInfo, type: value})}
+                />
+              </Grid.Column>
+            </Grid.Row>
+            </>
+          }
         </Grid> 
         : 
-        <GeneralLoader loading inverted />
+        <GeneralLoader loading inverted height='10rem' />
       }
     </Form>
   )

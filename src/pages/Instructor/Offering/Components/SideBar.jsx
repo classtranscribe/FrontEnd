@@ -4,10 +4,11 @@
  */
 import React from 'react'
 import { Button, ListGroup } from 'react-bootstrap'
+import { Icon } from 'semantic-ui-react'
 import { util, api, handleData } from '../../../../util'
 const { initialCourse, initialOffering } = api.initialData
 
-export function SideBar({id, playlists, state: {displaySideBar, term, courseOffering}}) {
+export function SideBar({id, playlists, setActivePane, state: {displaySideBar, term, courseOffering}}) {
   // style for showing or hiding the sidebar
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   // get complete courseNumber based on an array of courses (e.g. CS425/ECE428)
@@ -39,7 +40,7 @@ export function SideBar({id, playlists, state: {displaySideBar, term, courseOffe
         </ListGroup.Item>
       </ListGroup>
 
-      <Playlist playlists={playlists}/>
+      <Playlist playlists={playlists} id={id} setActivePane={setActivePane}/>
     </div>
   )
 }
@@ -47,13 +48,23 @@ export function SideBar({id, playlists, state: {displaySideBar, term, courseOffe
 /**
  * Playlist Tabs
  */
-function Playlist({playlists}) {
+function Playlist({playlists, id, setActivePane}) {
   // Show when there is no playlists yet
   const NoPlaylistWrapper = (
     <div className="noplaylist-wrapper">
       <h4>EMPTY</h4>
     </div>
   )
+
+  const getColor = type => {
+    return type === 'YouTube' ? 'red' : 
+           type === 'Echo360' ? 'blue' : 'black'
+  }
+
+  const getIcon = type => {
+    return type === 'YouTube' ? 'youtube' : 
+           type === 'Echo360' ? 'video play' : 'file video'
+  }
 
   return (
     <div className="playlists">
@@ -62,7 +73,7 @@ function Playlist({playlists}) {
         <i class="fas fa-list-ul"></i> &ensp; Playlists
       </ListGroup.Item>
       
-      <Button variant="outline-dark" className="new-pl-btn" onClick={()=>util.newPlaylist('fakeid')}>
+      <Button variant="outline-dark" className="new-pl-btn" onClick={()=>util.newPlaylist(id)}>
         <i class="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
@@ -71,10 +82,13 @@ function Playlist({playlists}) {
             <ListGroup.Item 
               variant="secondary" className="item" 
               action eventKey={playlist.name} // should be playlist id
-              onClick={()=>1}
+              onClick={()=>setActivePane(playlist.name)} // should be playlist id
             >
-              <p className="pl-name">{playlist.name}</p>
-              <p>{playlist.videos.length} video(s)</p>
+              <p className="pl-name">
+                <Icon name={getIcon(playlist.type)} color={getColor(playlist.type)} /> 
+                &ensp;{playlist.name}
+              </p>
+              <p className="pl-video-num">{playlist.videos.length} video(s)</p>
             </ListGroup.Item>
           )}
         </ListGroup> : <NoPlaylistWrapper />

@@ -1,15 +1,62 @@
-import axios from 'axios';
+import axios from 'axios'
 import authentication from 'react-azure-adb2c'
 
 // Object for initializing data to post
-import { initialData } from '../data'
+export const initialData = {
+  initialTerm: {
+    name: '', 
+    startDate: '', 
+    endDate: '',
+    universityId: ''
+  },
+  initialUni: {
+    name: '', 
+    domain: ''
+  },
+  initialDepart: {
+    name: '', 
+    acronym: '', 
+    universityId: ''
+  },
+  initialCourse: {
+    courseName: '', 
+    courseNumber: '', 
+    description: '', 
+    departmentId: ''
+  },
+  initialOffering: {
+    offering: {
+      sectionName: '',
+      termId: '',
+      accessType: 'Public'
+    },
+    courseId: '',
+    instructorId: '',
+  },
+  initialPlaylist: {
+    description: '',
+    offeringId: '',
+    type: 'Uploaded'
+  },
+  initialVideo: {
+    description: '',
+    playlistId: '',
+    path: '',
+  },
+}
 
 // Select Options for offering's accessType
-const offeringAccessType = [
+const offeringAccessTypes = [
   {name: 'Public', id: 'Public'},
   {name: 'Authenticated Only', id: 'AuthenticatedOnly'},
   {name: 'Students Only', id: 'StudentsOnly'},
   {name: 'University Only', id: 'UniversityOnly'}
+]
+
+const playlistTypes = [
+  {name: 'Video Files', id: 'Uploaded'},
+  {name: 'YouTube Playlist', id: 'YouTube'},
+  {name: 'Echo360 Playlist', id: 'Echo360'},
 ]
 
 /**
@@ -18,7 +65,7 @@ const offeringAccessType = [
 const http = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   timeout: 10000,
-});
+})
 
 
 /**
@@ -27,7 +74,8 @@ const http = axios.create({
  */
 export const api = {
   initialData: initialData,
-  offeringAccessType: offeringAccessType,
+  offeringAccessType: offeringAccessTypes,
+  playlistTypes: playlistTypes,
 
   /**
    * Functions for set or get the auth/b2c token
@@ -38,7 +86,7 @@ export const api = {
     return http.post('https://sysprog.ncsa.illinois.edu:4443/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
   saveAuthToken: function (responce) {
-    localStorage.setItem('authToken', responce.data.authToken);
+    localStorage.setItem('authToken', responce.data.authToken)
   },
 
   /********************* Functions for http requests *********************/
@@ -47,21 +95,21 @@ export const api = {
    * GET
    */
   getData: function (path, id) {
-    path = id ? `${path}/${id}` : path;
-    return http.get(path);
+    path = id ? `${path}/${id}` : path
+    return http.get(path)
   },
   /**
    * GET an array of pathes
    * callBack = (responce, stateName) => {this.setState(stateName: responce.data)}
    */ 
   getAll: function (value, callBack, id) {
-    var array = [];
+    var array = []
     if (typeof value === 'string') { array.push(id ? `${value}/${id}` : value) } 
     else { array = value }
     
     for (var i = 0; i < array.length; i++) {
       const path = array[i]
-      const stateName = path.toLowerCase();
+      const stateName = path.toLowerCase()
       this.getData(path)
         .then(responce => callBack(responce, stateName))
         .catch( error => console.log(error))

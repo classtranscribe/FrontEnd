@@ -22,19 +22,27 @@ const { initialOffering, initialTerm } = api.initialData
 export class InstructorOffering extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      displaySideBar: (window.innerWidth < 900) ? false : true,
-      courseOffering: handleData.copy(initialOffering),
-      term: handleData.copy(initialTerm),
-    }
+
     // offeringId
     this.id = this.props.match.params.id 
     // fake playlists
     this.playlists = fakeData.playlists // []
+
+    this.state = {
+      displaySideBar: (window.innerWidth < 900) ? false : true,
+      activePane: localStorage.getItem('offeringActivePane') || this.playlists[0].name, // should be playlist id
+      courseOffering: handleData.copy(initialOffering),
+      term: handleData.copy(initialTerm),
+    }
   }
 
   showSiderBar = () => {
     this.setState({displaySideBar: !this.state.displaySideBar})
+  }
+
+  setActivePane = eventKey => {
+    this.setState({activePane: eventKey})
+    localStorage.setItem('offeringActivePane', eventKey)
   }
 
   componentDidMount() {
@@ -99,11 +107,16 @@ export class InstructorOffering extends React.Component {
     const paddingLeft = {
       paddingLeft: (this.state.displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
     }
+    const { activePane } = this.state
     
     return (      
       <div className="course-container"> 
         {this.wrapper()}       
-        <CourseSettingHeader showSiderBar={this.showSiderBar} user={{name: user.firstName()}} onSignOut={user.signout}/>
+        <CourseSettingHeader 
+          showSiderBar={this.showSiderBar} 
+          user={{name: user.firstName()}} 
+          onSignOut={user.signout}
+        />
 
         {/* Sub-Routes to editing pages for playlist & video */}
         <Route path='/offering/playlist-setting/:type?=:id' component={PlaylistEditing} />
@@ -113,7 +126,7 @@ export class InstructorOffering extends React.Component {
         {/* Layouts */}
         <Tab.Container 
           className="content" 
-          defaultActiveKey={this.playlists.length ? this.playlists[0].name : 'noPlaylists'}
+          defaultActiveKey={this.playlists.length ? activePane : 'noPlaylists'}
         >
           <SideBar {...this}/>
 

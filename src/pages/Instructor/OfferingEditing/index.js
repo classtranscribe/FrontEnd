@@ -19,6 +19,7 @@ export default class OfferingSettingPage extends React.Component {
       id: this.props.match.params.id,
       type: this.props.match.params.type,
       isNew: this.props.match.params.type === 'new',
+      loading: true,
 
       departments: [],
       courses: [],
@@ -26,7 +27,7 @@ export default class OfferingSettingPage extends React.Component {
 
       currUni: null,
       currDepart: null,
-      offering: null,
+      offering: handleData.copy(initialOffering),
       offeringInfo: handleData.copy(initialOffering),
       confirmed: false,
     }
@@ -107,7 +108,7 @@ export default class OfferingSettingPage extends React.Component {
   render() {
     const { isNew } = this.state;
     // console.log(id)
-    const header = isNew ? 'New Offering' : 'Edit Offering';
+    const header = isNew ? 'New Offering' : 'Offering Setting';
     const button = isNew ? <SaveButtons {...this}/>
                          : <EditButtons {...this} />;
     return(
@@ -117,7 +118,7 @@ export default class OfferingSettingPage extends React.Component {
         onClose={this.onCancel}
         button={button}
       >
-        <OfferingForm isNew={isNew} {...this}/>
+        <OfferingForm {...this}/>
       </GeneralModal>
     )
   }

@@ -12,8 +12,7 @@ const initialOffering = api.initialData.initialOffering;
 
 export default function OfferingForm(props) {
   const { onChange } = props;
-  const { departments, courses, terms, currDepart, offeringInfo } = props.state;
-  const offering = props.isNew ? initialOffering : props.state.offering;
+  const { isNew, loading, offering, departments, courses, terms, currDepart, offeringInfo } = props.state;
   /**
    * Get all the options for selection
    */
@@ -23,9 +22,9 @@ export default function OfferingForm(props) {
   const accessOptions = util.getSelectOptions(api.offeringAccessType);
 
   return (
-    <Form className="ap-form">
+    <Form className="general-form">
       {
-        offering ? 
+        !loading || isNew ? 
         // department
         <Grid columns='equal' verticalAlign="middle"> 
           <Grid.Row >

@@ -5,22 +5,28 @@
 
 import React from 'react'
 import { Tab } from 'react-bootstrap'
-import { List, Image, Dropdown as UIDropdown, Button as UIButton } from 'semantic-ui-react'
+import { List, Image, Dropdown as UIDropdown, Button as UIButton, Message, Header, Icon } from 'semantic-ui-react'
 import { FixedFooter } from '../../../../components'
 import { util } from '../../../../util'
-const profileImg = require('../../../../images/icons/profile1.png')
+const profileImg = require('../../../../images/Video-Placeholder.jpg')
+
+const getIcon = type => {
+  return type === 'YouTube' ? 'youtube' : 
+         type === 'Echo360' ? 'video play' : 'file video'
+}
 
 export function VideoList({playlists}) {
+
   return (
     <Tab.Content className="csp-videos">
-      {playlists.map( list => (
-          <Tab.Pane eventKey={list.name}>            
-            <EditPlaylistBtns />
-            {list.videos.length ? 
+      {playlists.map( playlist => (
+          <Tab.Pane eventKey={playlist.name}>  
+            <PlaylistInfoHeader playlist={playlist} />          
+            {playlist.videos.length ? 
               <List verticalAlign='middle' className="vlist">
-                {list.videos.map( video => (
+                {playlist.videos.map( video => (
                   <List.Item className="video-card">
-                    <EditVideoButtons />
+                    <EditVideoButtons show={playlist.type !== 'YouTube'} />
 
                   {/* The video Info */}
                     <Image 
@@ -30,7 +36,7 @@ export function VideoList({playlists}) {
                     />
                     <List.Content>
                       <div className="info">
-                        <p className="title" 
+                        <p className={`title ${playlist.type.toLowerCase()}`} 
                           onClick={()=>util.watch()} // to video page
                         >
                           {video} 
@@ -49,22 +55,42 @@ export function VideoList({playlists}) {
   )
 }
 
+function PlaylistInfoHeader({playlist: {name, type}}) {
+  return (
+    <div className="pl-info-header d-inline">
+      <p className={`name ${type.toLowerCase()}`}>
+        <Icon size='big' name={getIcon(type)}/>
+        &ensp;{name}
+      </p> 
+      <EditPlaylistBtns type={type}/>
+    </div>
+  )
+}
+
 /**
  *  Buttons for editing current playlist 
  */
-function EditPlaylistBtns({}) {
+function EditPlaylistBtns({type}) {
+  const newVideoButtonName = type === 'Echo360' ? 
+          <><i class="fas fa-link"></i>&ensp;Add New Video from Echo360</> :
+          <><i class="fas fa-cloud-upload-alt"></i>&ensp;Upload Video</>
+
   return (
     <div className="playlist-btn">
-      <UIButton 
-        color='linkedin'
-        className="new-btn" 
-        onClick={()=>1} 
-      >
-        <i class="fas fa-cloud-upload-alt"></i>&ensp;Upload Video
-      </UIButton>
+      {
+        type !== 'YouTube'
+        &&
+        <UIButton 
+          color='grey'
+          className="new-btn" 
+          onClick={()=>1} 
+        >
+          {newVideoButtonName}
+        </UIButton>
+      }
       <UIButton 
         className="edit-btn" 
-        onClick={()=>util.editPlaylist('mlmlmlml')} 
+        onClick={()=>util.editPlaylist('fakeid')} 
       >
         <i class="fas fa-edit"></i>&ensp;Edit Playlist
       </UIButton>
@@ -75,9 +101,10 @@ function EditPlaylistBtns({}) {
 /**
  *  Buttons for editing current video 
  */
-function EditVideoButtons({}) {
+function EditVideoButtons({show}) {
+  const display = show ? {} : {display: 'none'}
   return (
-    <List.Content floated='right' className="list-dropdown-btn">
+    <List.Content floated='right' className="list-dropdown-btn" style={display}>
       <UIDropdown icon="ellipsis vertical" floating direction="left">
         <UIDropdown.Menu style={{height: '5.4rem'}}>
           <UIDropdown.Item 

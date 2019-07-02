@@ -83,7 +83,7 @@ export function VideoEditing ({match: {params: {id}}, history}) {
  */
 function VideoForm({videoInfo, setVideoInfo}) {
   return (
-    <Form className="ap-form">
+    <Form className="general-form">
       {
         videoInfo ? 
         <Grid columns='equal' verticalAlign="middle">

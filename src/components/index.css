@@ -137,6 +137,12 @@
   margin-bottom: -0.5rem;
 }
 
+.general-form {
+  padding-left: 1rem;
+  width: 100%;
+  min-height: 10rem;
+}
+
 .del-target {
   color: rgb(26, 110, 110);
   text-decoration: underline;
