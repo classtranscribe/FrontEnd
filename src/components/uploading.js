@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import {useDropzone} from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 import { Button } from 'react-bootstrap'
 
 /**
