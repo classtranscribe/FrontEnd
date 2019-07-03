@@ -102,17 +102,22 @@ export const api = {
    * GET an array of pathes
    * callBack = (responce, stateName) => {this.setState(stateName: responce.data)}
    */ 
-  getAll: function (value, callBack, id) {
+  getAll: function (value, callBack, handleError) {
     var array = []
-    if (typeof value === 'string') { array.push(id ? `${value}/${id}` : value) } 
+    if (typeof value === 'string') { array.push(value) } 
     else { array = value }
     
     for (var i = 0; i < array.length; i++) {
       const path = array[i]
       const stateName = path.toLowerCase()
       this.getData(path)
-        .then(responce => callBack(responce, stateName))
-        .catch( error => console.log(error))
+        .then(responce => {
+          if (callBack) callBack(responce, stateName)
+        })
+        .catch( error => {
+          console.log(error) 
+          if (handleError) handleError();
+        })
     }
   },
   /**
@@ -139,27 +144,30 @@ export const api = {
    * callBack = responce => {...}
    */
   postData: function (path, data, callBack) {
-    http.post(path, data)
-      .then(responce => callBack(responce))
-      .catch( error => console.log(error))
+    if (callBack) 
+      return http.post(path, data)
+        .then(responce => callBack(responce))
+    else 
+      return http.post(path, data)
+  },
+  postToCourseOfferings: function (data) {
+    return this.postData('CourseOfferings', data)
   },
   /**
    * PUT
    * callBack = responce => {...}
    */
   updateData: function (path, data, callBack) {
-    http.put(`${path}/${data.id}`, data)
+    return http.put(`${path}/${data.id}`, data)
       .then(responce => callBack(responce))
-      .catch( error => console.log(error))
   },
   /**
    * DELETE
    * callBack = responce => {...}
    */
   deleteData: function (path, id, callBack) {
-    http.delete(`${path}/${id}`)
+    return http.delete(`${path}/${id}`)
       .then(responce => callBack(responce))
-      .catch( error => console.log(error))
   },
 
 }

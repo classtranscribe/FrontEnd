@@ -10,7 +10,7 @@ import { Button } from 'semantic-ui-react'
 export function SaveButtons(props) {
   const { courseId } = props.state.offeringInfo;
   const { termId, sectionName } = props.state.offeringInfo.offering;
-  const canSave = termId && sectionName && courseId;
+  const canSave = termId && sectionName
   return (
     <>
       {

@@ -8,6 +8,7 @@ import React from 'react'
 import { GeneralModal } from '../../../components'
 import OfferingForm from './OfferingForm'
 import { SaveButtons, EditButtons } from './Buttons'
+import './index.css'
 // Vars
 import { api, handleData, util } from '../../../util'
 const initialOffering = api.initialData.initialOffering;
@@ -19,16 +20,21 @@ export default class OfferingSettingPage extends React.Component {
       id: this.props.match.params.id,
       type: this.props.match.params.type,
       isNew: this.props.match.params.type === 'new',
-      loading: true,
+      loading: !this.isNew,
+      progress: 'Courses', // Courses, Staffs, TermSecType
 
       departments: [],
       courses: [],
       terms: [],
 
+      staffs: [],
+      selectedCourses: [],
+
       currUni: null,
       currDepart: null,
       offering: handleData.copy(initialOffering),
       offeringInfo: handleData.copy(initialOffering),
+
       confirmed: false,
     }
     this.path = 'Offerings';
@@ -43,6 +49,29 @@ export default class OfferingSettingPage extends React.Component {
       })
   }
 
+  toProgress = progress => {
+    this.setState({ progress })
+  }
+
+  addStaff = emailId => {
+    const { staffs } = this.state
+    staffs.push(emailId)
+    this.setState({ staffs })
+  }
+
+  addCourse = courseId => {
+    const { selectedCourses } = this.state
+    selectedCourses.push(courseId)
+    this.setState({ selectedCourses })
+  }
+
+  removeCourse = courseId => {
+    var { selectedCourses } = this.state
+    handleData.remove(selectedCourses, {id: courseId})
+    console.log(selectedCourses)
+    this.setState({ selectedCourses })
+  }
+
   getCoursesByDepartId = id => {
     api.getCoursesByDepartId(id)
       .then(response => {
@@ -51,7 +80,7 @@ export default class OfferingSettingPage extends React.Component {
   }
 
   onChange = (value, key) => {
-    const newData = this.state.offeringInfo;
+    const newData = this.state.offeringInfo
     if (key === 'currDepart') {
       api.getData('Departments', value)
         .then(response => {
@@ -60,33 +89,57 @@ export default class OfferingSettingPage extends React.Component {
             offeringInfo: handleData.copy(initialOffering)
           });
         })
-      this.getCoursesByDepartId(value);
+      this.getCoursesByDepartId(value)
     } else if (handleData.includes(['termId', 'accessType', 'sectionName'], key)) {
-        newData.offering[key] = value;
+      newData.offering[key] = value
+    } else if (key === 'courseId') {
+      const { courses, currDepart } = this.state
+      const course = handleData.findById(courses, value)
+      course.fullCourseNumber = currDepart.acronym + course.courseNumber
+      this.addCourse(course)
     } else {
-      newData[key] = value;
+      newData[key] = value
     }
-    this.setState({offeringInfo: newData});
+    this.setState({offeringInfo: newData})
     // console.log(newData);
   }
 
   onCreate = () => {
-    const { offeringInfo, isNew, id } = this.state;
+    const { offeringInfo, isNew, id, selectedCourses } = this.state
     if (isNew) {
-      offeringInfo.instructorId = id;
+      offeringInfo.instructorId = id
+      offeringInfo.courseId = selectedCourses[0].id
     }
-    api.postData(this.path, offeringInfo, response => {
-      console.log(response.data)
+
+    // POST to Offerings
+    api.postData(this.path, offeringInfo, ({data}) => {
+      console.log(data)
+      console.log(selectedCourses)
+      // POST to CourseOfferings
+      selectedCourses.forEach( (course, index) => {
+        if (index) {
+          api.postToCourseOfferings({
+            courseId: course.id,
+            offeringId: data.id
+          })
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => console.log(error))
+        }
+      })
       this.onClose()
     })
-    console.log(offeringInfo);
+    .catch( error => console.log(error))
+    
+    console.log(offeringInfo)
   }
 
   onUpdate = () => {
     const { offering, offeringInfo, id } = this.state;
     var data = handleData.updateJson(offeringInfo, offering)
     data.id = id;
-    console.log(data);
+    // console.log(data);
     api.updateData(this.path, data, () => this.onClose())
   }
 
@@ -113,6 +166,7 @@ export default class OfferingSettingPage extends React.Component {
                          : <EditButtons {...this} />;
     return(
       <GeneralModal 
+        size="large"
         header={header}
         open={true} 
         onClose={this.onCancel}

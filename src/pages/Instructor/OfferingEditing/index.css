@@ -1,0 +1,31 @@
+.op-grid {
+  padding-top: 1rem !important;
+}
+
+.op-grid h2 {
+  margin-left: -1rem;
+  color: rgb(76, 105, 104);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.op-grid p {
+  display: inline;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.op-grid p span {
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+.op-grid .labels {
+  display: inline;
+}
+
+.op-new-btn {
+  height: 100%;
+  width: max-content;
+  display: flex;
+  justify-content: flex-end;
+}

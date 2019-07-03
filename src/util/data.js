@@ -10,6 +10,9 @@ export const handleData = {
   copy: function (obj) {
     return _.clone(obj)
   },
+  remove: function (array, predicate) {
+    _.remove(array, predicate)
+  },
   /**
    * Update the old json object with changed json (which may not be complete)
    */

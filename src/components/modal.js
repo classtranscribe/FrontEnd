@@ -19,17 +19,18 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
   return (
     <UIModal 
       className="general-modal" style={{position: 'relative'}} 
-      size={size || 'small'} dimmer='blurring'
+      size={size || 'small'} dimmer='inverted'
       open={open} onClose={onClose}
     >
-      <UIModal.Header>{header}</UIModal.Header>
+      <UIModal.Header className="gm-header">{header}</UIModal.Header>
       {
-        children && 
-        <UIModal.Content image>
+        children 
+        && 
+        <UIModal.Content image className="gm-content">
           {children}
         </UIModal.Content>
       }
-      <UIModal.Actions>
+      <UIModal.Actions className="gm-action">
         {button}
       </UIModal.Actions>
     </UIModal>
