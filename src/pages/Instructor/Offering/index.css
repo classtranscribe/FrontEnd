@@ -87,13 +87,21 @@
   /* transition-delay: 0.1s; */
   color: rgb(77, 76, 76);
   font-size: 1.1rem;
-  line-height: 2rem;
-  /* padding-left: 2.1rem; */
+  line-height: 1.1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 17rem;
+  /* padding-left: 1rem; */
 }
 .course-sidebar .details .name {
-  /* padding-left: 2.1rem; */
+  /* padding-left: 1rem; */
   font-size: 1.1rem;
-  line-height: 2rem;
+  line-height: 1.1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 17rem;
 }
 
 /* Playlist */
@@ -243,7 +251,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .pl-info-header .youtube {
-  color: rgb(202, 92, 92);
+  color: rgb(70, 65, 65);
 }
 
 .pl-info-header .echo360 {
@@ -316,7 +324,7 @@
   white-space: nowrap; 
   text-overflow: ellipsis;}
   .csp-videos .list .video-card .info .youtube {
-    color: rgb(202, 92, 92);
+    color: rgb(47, 47, 47);
   }
   .csp-videos .list .video-card .info .echo360 {
     color: #4c95be;

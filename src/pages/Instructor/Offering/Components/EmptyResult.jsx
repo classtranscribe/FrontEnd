@@ -9,7 +9,7 @@ import { util } from '../../../../util'
 
 export function EmptyResult({id}) {
   return (
-    <Tab.Pane eventKey="noPlaylists" className="empty-result">
+    <Tab.Pane eventKey="noPlaylists" className="empty-result" aria-label="Empty Result">
       <div className="welcome">
         <div>
           <h2>WELCOME TO</h2>

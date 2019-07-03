@@ -28,7 +28,7 @@ export default function OfferinfList({courseOffering, onSort, sortDown, terms, d
           const term = handleData.findById(terms, offering.termId)
           return (
             <Message 
-              fluid key={offering.id} 
+              key={offering.id} 
               className='offering-listitem'
               onClick={()=>util.toOfferingPage(offering.id)}
             >

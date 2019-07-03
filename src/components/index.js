@@ -3,8 +3,10 @@ import './index.css'
 export { 
   FixedFooter,
   StickyFooter, 
-  CourseSettingHeader, 
+
   SignOutHeader, 
+  ClassTranscribeHeader,
+
   EndPadding5rem,
   GeneralLoader,
 } from './global'

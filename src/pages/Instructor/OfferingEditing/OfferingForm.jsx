@@ -8,21 +8,21 @@ import { GeneralLoader } from '../../../components'
 import { Grid, Form, Input, Select } from 'semantic-ui-react'
 // Vars
 import { api, util } from '../../../util'
-const initialOffering = api.initialData.initialOffering;
+// const { initialOffering } = api.initialData
 
 export default function OfferingForm(props) {
-  const { onChange } = props;
-  const { isNew, loading, offering, departments, courses, terms, currDepart, offeringInfo } = props.state;
+  const { onChange } = props
+  const { isNew, loading, offering, departments, courses, terms, currDepart, offeringInfo } = props.state
   /**
    * Get all the options for selection
    */
-  const departOptions = util.getSelectOptions(departments);
-  const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '');
-  const termOptions = util.getSelectOptions(terms);
-  const accessOptions = util.getSelectOptions(api.offeringAccessType);
+  const departOptions = util.getSelectOptions(departments)
+  const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
+  const termOptions = util.getSelectOptions(terms)
+  const accessOptions = util.getSelectOptions(api.offeringAccessType)
 
   return (
-    <Form className="general-form">
+    <Form className="general-form" role='form' aria-label='Offering Setting Form'>
       {
         !loading || isNew ? 
         // department
@@ -35,7 +35,7 @@ export default function OfferingForm(props) {
                 control={Select}
                 label='Department'
                 options={departOptions}
-                defaultValue={currDepart || ''}
+                defaultValue={currDepart || null}
                 onChange={(event, {value}) => onChange(value, 'currDepart')}
               />
             </Grid.Column>
@@ -96,7 +96,6 @@ export default function OfferingForm(props) {
                   control={Select}
                   label="Accessibility"
                   options={accessOptions}
-                  defaultValue='Public'
                   defaultValue={offering.offering.accessType}
                   onChange={(event, {value}) => onChange(value, 'accessType')}
                 />

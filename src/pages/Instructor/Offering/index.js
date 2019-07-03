@@ -10,7 +10,7 @@ import { Route } from 'react-router-dom'
 import { Tab } from 'react-bootstrap'
 import './index.css'
 // Layout components
-import { CourseSettingHeader } from '../../../components'
+import { ClassTranscribeHeader } from '../../../components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
 import { SideBar, VideoList, EmptyResult } from './Components'
 // Vars
@@ -110,9 +110,9 @@ export class InstructorOffering extends React.Component {
     const { activePane } = this.state
     
     return (      
-      <div className="course-container"> 
+      <main className="course-container"> 
         {this.wrapper()}       
-        <CourseSettingHeader 
+        <ClassTranscribeHeader 
           showSiderBar={this.showSiderBar} 
           user={{name: user.firstName()}} 
           onSignOut={user.signout}
@@ -134,7 +134,7 @@ export class InstructorOffering extends React.Component {
             {/* When there is no playlists yet */}
             <EmptyResult {...this}/>
             {/* Data demo */}
-            <Tab.Pane eventKey="data">
+            <Tab.Pane eventKey="data" aria-label="Data Representation">
               data here.
             </Tab.Pane>
             {/* Video list */}
@@ -142,7 +142,7 @@ export class InstructorOffering extends React.Component {
           </Tab.Content>
 
         </Tab.Container>
-      </div>
+      </main>
     )
   }
 }

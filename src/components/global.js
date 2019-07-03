@@ -13,7 +13,7 @@ function ProfileBtn({user, onSignOut, darkMode}) {
     </span>
   )
   return (
-    <Dropdown trigger={trigger} direction='left'>
+    <Dropdown trigger={trigger} direction='left' aria-label="Profile Menu">
       <Dropdown.Menu>
         <Dropdown.Item disabled>Signed in as <strong>{user.name}</strong></Dropdown.Item>
         <Dropdown.Divider />
@@ -41,8 +41,8 @@ export function SignOutHeader({user, onSignOut, darkMode}) {
   const bg = darkMode ? 'dark' : 'light';
   const theme = darkMode ? '-dark' : '';
   return (
-    <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme}>
-      <Navbar.Brand className={"brand"+theme} href="/">Class Transcribe</Navbar.Brand>
+    <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme} role="naviation">
+      <Navbar.Brand className={"brand"+theme} href="/">ClassTranscribe</Navbar.Brand>
       <Row className="signout">
         <ProfileBtn user={user} onSignOut={onSignOut} darkMode={darkMode}/>
       </Row>
@@ -56,18 +56,26 @@ export function SignOutHeader({user, onSignOut, darkMode}) {
  * user: {name, ...}
  * showSiderBar: function for display or hide side bar
  */
-export function CourseSettingHeader({showSiderBar, user, onSignOut}) {
+export function ClassTranscribeHeader({darkMode, showSiderBar, user, onSignOut}) {
+  const bg = darkMode ? 'dark' : 'light';
+  const theme = darkMode ? '-dark' : '';
+  const location =  window.location.toString()
+  const offeringPage = location.includes('/offering/')
   return (
-    <Navbar sticky="top" bg="light" variant="light" className="ct-nav">
-      <Navbar.Brand className="sidebar-trigger" onClick={showSiderBar} disabled>
-        <Icon name='sidebar' size="large"/>
-      </Navbar.Brand>
-      <Navbar.Brand className="brand" href="/">Class Transcribe</Navbar.Brand>
+    <Navbar aria-label="Top Nav Bar" sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme}>
+      {
+        offeringPage 
+        &&
+        <Navbar.Brand className="sidebar-trigger" onClick={showSiderBar} disabled>
+          <Icon name='sidebar' size="large"/>
+        </Navbar.Brand>
+      }
+      <Navbar.Brand className={"brand"+theme} href="/">ClassTranscribe</Navbar.Brand>
       <Row className="signout">
         <ProfileBtn user={user} onSignOut={onSignOut}/>
       </Row>
     </Navbar>
-  );
+  )
 }
 
 /**
@@ -91,7 +99,7 @@ export function GeneralLoader({loading, inverted, height}) {
  */
 export function StickyFooter() {
   return (
-    <Navbar className="ct-footer" variant="light">
+    <Navbar className="ct-footer" variant="light" aria-label="Footer">
       <Nav >
         <Nav.Link href="/class-transcribe-frontend/#/">Home</Nav.Link>
         <Nav.Link as={Col} className="footer-copy" disabled>&copy; 2016-2018 UIUC</Nav.Link>
@@ -102,7 +110,7 @@ export function StickyFooter() {
 
 export function FixedFooter(props) {
   return (
-    <Navbar variant={props.isDark ? "dark" : "light"} >
+    <Navbar variant={props.isDark ? "dark" : "light"} aria-label="Footer">
       <Nav className="sp-footer">
         <Nav.Link href="/class-transcribe-frontend/#/">Home</Nav.Link>
         <Nav.Link as={Col} className="footer-copy" disabled>&copy; 2016-2018 UIUC</Nav.Link>

@@ -14,7 +14,7 @@ export const handleData = {
    * Update the old json object with changed json (which may not be complete)
    */
   updateJson: function (old, changed) {
-    var old = handleData.copy(old);
+    old = handleData.copy(old);
     var res = {};
     for (var key in old) {
       res[key] = old[key] || changed[key];

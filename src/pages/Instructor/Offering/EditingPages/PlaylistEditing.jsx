@@ -126,7 +126,7 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
             <Grid.Column>
               <Form.Field
                 fluid required
-                id='paylist-description'
+                id='playist-description'
                 control={Input}
                 label='Playlist Name'
                 placeholder='E.g. Lecture 1'
@@ -155,7 +155,7 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
               <Grid.Column>
                 <Form.Field
                   fluid required
-                  id='paylist-type'
+                  id='playist-type'
                   control={Select}
                   label='Playlist Type'
                   placeholder='Playlist Type'
@@ -166,6 +166,23 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
               </Grid.Column>
             </Grid.Row>
             </>
+          }
+          {
+            playlistInfo.type === 'YouTube'
+            &&
+            <Grid.Row>
+              <Grid.Column>
+                <Form.Field
+                  fluid required
+                  id='youtube-playlist-url'
+                  control={Input}
+                  label='YouTube Playlist URL'
+                  placeholder='Paste your URL here'
+                  defaultValue={''}
+                  onChange={({target: {value}})=> 1}
+                />
+              </Grid.Column>
+            </Grid.Row>
           }
         </Grid> 
         : 

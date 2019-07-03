@@ -5,10 +5,14 @@
 
 import React from 'react'
 import { Tab } from 'react-bootstrap'
-import { List, Image, Dropdown as UIDropdown, Button as UIButton, Message, Header, Icon } from 'semantic-ui-react'
+import { List, Image, Dropdown as UIDropdown, Button as UIButton, Icon } from 'semantic-ui-react'
 import { FixedFooter } from '../../../../components'
 import { util } from '../../../../util'
 const profileImg = require('../../../../images/Video-Placeholder.jpg')
+
+const getColor = type => {
+  return type === 'YouTube' ? 'red' : null
+}
 
 const getIcon = type => {
   return type === 'YouTube' ? 'youtube' : 
@@ -20,16 +24,17 @@ export function VideoList({playlists}) {
   return (
     <Tab.Content className="csp-videos">
       {playlists.map( playlist => (
-          <Tab.Pane eventKey={playlist.name}>  
+          <Tab.Pane eventKey={playlist.name} aria-label="Video List">  
             <PlaylistInfoHeader playlist={playlist} />          
             {playlist.videos.length ? 
-              <List verticalAlign='middle' className="vlist">
+              <List verticalAlign='middle' className="vlist" role="list">
                 {playlist.videos.map( video => (
                   <List.Item className="video-card">
-                    <EditVideoButtons show={playlist.type !== 'YouTube'} />
+                    <EditVideoButtons show={playlist.type !== 'YouTube'} video={video}/>
 
                   {/* The video Info */}
                     <Image 
+                      alt="Video Poster"
                       className="img" 
                       onClick={()=>util.watch()} // to video page
                       src={profileImg}
@@ -58,10 +63,10 @@ export function VideoList({playlists}) {
 function PlaylistInfoHeader({playlist: {name, type}}) {
   return (
     <div className="pl-info-header d-inline">
-      <p className={`name ${type.toLowerCase()}`}>
-        <Icon size='big' name={getIcon(type)}/>
+      <h1 className={`name ${type.toLowerCase()}`}>
+        <Icon size='big' color={getColor(type)} name={getIcon(type)}/>
         &ensp;{name}
-      </p> 
+      </h1> 
       <EditPlaylistBtns type={type}/>
     </div>
   )
@@ -101,12 +106,12 @@ function EditPlaylistBtns({type}) {
 /**
  *  Buttons for editing current video 
  */
-function EditVideoButtons({show}) {
+function EditVideoButtons({show, video}) {
   const display = show ? {} : {display: 'none'}
   return (
     <List.Content floated='right' className="list-dropdown-btn" style={display}>
-      <UIDropdown icon="ellipsis vertical" floating direction="left">
-        <UIDropdown.Menu style={{height: '5.4rem'}}>
+      <UIDropdown icon="ellipsis vertical" floating direction="left" aria-label={`Editing Dropdown Buttons for Video ${video}`}>
+        <UIDropdown.Menu >
           <UIDropdown.Item 
             icon="edit" text='Edit' 
             onClick={()=>util.editVideo('fakeid')}
@@ -126,7 +131,7 @@ function NoVideoWrapper() {
   return (
     <div className="novideo-wrapper">
       <h4>
-        Please Upload Your First Lecture Video&ensp;
+        Upload Your First Lecture Video&ensp;
         <i class="fas fa-cloud-upload-alt"></i>
       </h4>
     </div>

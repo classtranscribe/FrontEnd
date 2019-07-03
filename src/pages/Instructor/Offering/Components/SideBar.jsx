@@ -30,9 +30,9 @@ export function SideBar({id, playlists, setActivePane, state: {displaySideBar, t
             <i class="fas fa-book"></i> &ensp; {courseNumber}
             &ensp; <i class="fas fa-edit"></i>
           </p>
-          <li className="name">{course.courseName}</li>
-          <li className="name">{term.name}</li>
-          <li className="sec"><strong>Section</strong> {offering.sectionName}</li>
+          <p className="name"><Icon name="circle outline" /><strong>{course.courseName}</strong></p>
+          <p className="name"><Icon name="circle outline" />{term.name}</p>
+          <p className="sec"><Icon name="circle outline" /><strong>Section</strong> {offering.sectionName}</p>
         </ListGroup.Item>
         {/* Data demo menu item */}
         <ListGroup.Item className="list" eventKey="data">
