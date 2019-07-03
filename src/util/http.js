@@ -153,6 +153,9 @@ export const api = {
   postToCourseOfferings: function (data) {
     return this.postData('CourseOfferings', data)
   },
+  postOfferingAddInstructors: function (offeringId, data) {
+    return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
+  },
   /**
    * PUT
    * callBack = responce => {...}

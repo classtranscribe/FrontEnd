@@ -5,7 +5,7 @@
 import React from 'react'
 // Layouts
 import { GeneralLoader } from '../../../components'
-import { Grid, Form, Input, Select, Popup, Button, Icon, Label, Message } from 'semantic-ui-react'
+import { Grid, Form, Input, Select, Popup, Button, Icon, Label, Message, Divider } from 'semantic-ui-react'
 // Vars
 import { api, util } from '../../../util'
 // const { initialOffering } = api.initialData
@@ -14,10 +14,9 @@ export default function OfferingForm(props) {
   const { isNew, loading, progress } = props.state
   
   return (
-    <Form className="general-form" role='form' aria-label='Offering Setting Form'>
+    <Form className="op-form" role='form' aria-label='Offering Setting Form'>
       {
-        loading ?
-        // department
+        !loading ?
         <Grid columns='equal' verticalAlign="middle" stackable className="op-grid"> 
           {
             progress === 'Courses'
@@ -27,7 +26,12 @@ export default function OfferingForm(props) {
           {
             progress === 'TermSecType' 
             &&
-            <TermAndAccessType {...props} />
+            <TermSectionTypeSetting {...props} />
+          }
+          {
+            progress === 'Staffs'
+            &&
+            <StaffSetting {...props} />
           }
         </Grid> 
         : 
@@ -41,10 +45,10 @@ function CourseSetting({state, onChange, toProgress, removeCourse}) {
   const { departments, courses, currDepart, offering, offeringInfo, selectedCourses } = state
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
-  const canGoNext = selectedCourses.length
+  const canGoNext = selectedCourses.length > 0
   return (
     <>
-      <h2 className="op-form">1. Select Courses for Your Offering</h2>
+      <h2>1. Select Courses for Your Offering</h2>
       <Popup
         basic position="right center"
         trigger={<Icon name="question circle outline" size="large" color="black"/>}
@@ -77,12 +81,14 @@ function CourseSetting({state, onChange, toProgress, removeCourse}) {
           />
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row style={{paddingLeft: '1rem'}}>
-        <Message style={{width: '100%'}}>
-          <p>Selected Courses: <span>{!selectedCourses.length && 'none'}</span></p>
-          <Label.Group color='black' size="large" className="labels">
+      <Grid.Row style={{padding: '0 1rem 0 1rem'}}>
+        <Message>
+          <Message.Header><p>Selected Courses</p></Message.Header>
+          <Divider />
+          {!selectedCourses.length && <p><span>none</span></p>}
+          <Label.Group size="large">
             {selectedCourses.map( course => (
-              <Label>
+              <Label key={course.id}>
                 {course.fullCourseNumber}
                 <Icon name="delete" onClick={()=>removeCourse(course.id)}/>
               </Label>
@@ -92,7 +98,7 @@ function CourseSetting({state, onChange, toProgress, removeCourse}) {
       </Grid.Row>
       <Grid.Row>
         <Grid.Column className="ap-buttons">
-          Select courses to continue&ensp;
+          {!canGoNext && <>Select courses to continue&ensp;&ensp;</>}
           <Button disabled={!canGoNext} secondary onClick={()=>toProgress('TermSecType')}>
             Next <Icon name="chevron right"/>
           </Button>
@@ -102,12 +108,14 @@ function CourseSetting({state, onChange, toProgress, removeCourse}) {
   )
 }
 
-function TermAndAccessType({state, onChange, toProgress}) {
-  const { offering, offeringInfo, currDepart, terms } = state;
+function TermSectionTypeSetting({state, onChange, toProgress}) {
+  const { offering, offeringInfo, terms } = state
   const termOptions = util.getSelectOptions(terms)
   const accessOptions = util.getSelectOptions(api.offeringAccessType)
+  const canGoNext = offeringInfo.offering.termId && offeringInfo.offering.sectionName
   return (
     <>
+      <h2>2. Fill Out Basic Information</h2>
       <Grid.Row >
         <Grid.Column>
           <Form.Field
@@ -120,8 +128,6 @@ function TermAndAccessType({state, onChange, toProgress}) {
             onChange={(event, {value}) => onChange(value, 'termId')}
           />
         </Grid.Column>
-      </Grid.Row>
-      <Grid.Row >
         <Grid.Column>
           <Form.Field
             fluid required
@@ -133,12 +139,14 @@ function TermAndAccessType({state, onChange, toProgress}) {
             onChange={({target: {value}})=> onChange(value, 'sectionName')}
           />
         </Grid.Column>
+      </Grid.Row>
+      <Grid.Row >
         <Grid.Column>
           <Form.Field
-            fluid required
+            fluid required 
             id='offering-access-type'
             control={Select}
-            label="Accessibility"
+            label="Visibility"
             options={accessOptions}
             value={offeringInfo.offering.accessType}
             onChange={(event, {value}) => onChange(value, 'accessType')}
@@ -152,8 +160,58 @@ function TermAndAccessType({state, onChange, toProgress}) {
           </Button>
         </Grid.Column>
         <Grid.Column className="ap-buttons">
-          <Button  secondary onClick={()=>toProgress('TermSecType')}>
+          <Button disabled={!canGoNext} secondary onClick={()=>toProgress('Staffs')}>
             Next <Icon name="chevron right"/>
+          </Button>
+        </Grid.Column>
+      </Grid.Row>
+    </>
+  )
+}
+
+
+function StaffSetting({toProgress, state: { staffMailId, staffs }, addStaff, removeStaff, onEnterStaffMailId}) {
+  return (
+    <>
+      <h2>3. Add Course Staffs (Optional)</h2>
+      <Grid.Row>
+        <Grid.Column width={3}>
+          <h5>Upload a .csv file</h5>
+          <div className="upload-box">
+            <input type="file" />
+            <Button className="upload-button" >
+              Browse Files
+            </Button>
+          </div>
+        </Grid.Column>
+        <Grid.Column width={2} style={{height: '5rem'}}>
+          <Divider vertical>or</Divider>
+        </Grid.Column>
+        <Grid.Column>
+          <Form.Field
+            fluid 
+            id='course-staff-email-id'
+            control={Input}
+            type="email"
+            label="Enter the email of the staff"
+            value={staffMailId}
+            onChange={onEnterStaffMailId}
+            onKeyDown={addStaff}
+          />
+          <Label.Group>
+            {staffs.map( staff => (
+              <Label key={staff}>
+                {staff}
+                <Icon name="delete" onClick={()=>removeStaff(staff)}/>
+              </Label>
+            ))}
+          </Label.Group>
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column>
+          <Button  secondary onClick={()=>toProgress('TermSecType')}>
+          <Icon name="chevron left"/> Back
           </Button>
         </Grid.Column>
       </Grid.Row>

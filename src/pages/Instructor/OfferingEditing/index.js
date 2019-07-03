@@ -20,7 +20,7 @@ export default class OfferingSettingPage extends React.Component {
       id: this.props.match.params.id,
       type: this.props.match.params.type,
       isNew: this.props.match.params.type === 'new',
-      loading: !this.isNew,
+      loading: this.props.match.params.type !== 'new',
       progress: 'Courses', // Courses, Staffs, TermSecType
 
       departments: [],
@@ -28,6 +28,8 @@ export default class OfferingSettingPage extends React.Component {
       terms: [],
 
       staffs: [],
+      staffMailId: '',
+
       selectedCourses: [],
 
       currUni: null,
@@ -37,10 +39,11 @@ export default class OfferingSettingPage extends React.Component {
 
       confirmed: false,
     }
-    this.path = 'Offerings';
+    this.path = 'Offerings'
   }
 
   componentDidMount() {
+    // api.
     api.getAll(['Departments', 'Terms'], 
       (responce, name) => {
         // console.log(responce.data)
@@ -53,9 +56,29 @@ export default class OfferingSettingPage extends React.Component {
     this.setState({ progress })
   }
 
-  addStaff = emailId => {
-    const { staffs } = this.state
-    staffs.push(emailId)
+  addStaff = event => {
+    console.log(event.target.value)
+  }
+
+  onEnterStaffMailId = event => {
+    if (event.target.value.includes(' ')) return;
+    this.setState({staffMailId: event.target.value})
+  }
+
+  addStaff = event => {
+    if (event.keyCode === 32 || event.keyCode === 13) { 
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (re.test(this.state.staffMailId)) {
+        this.setState( state => ({
+          staffs: [...state.staffs, state.staffMailId], staffMailId: ''
+        }))
+      } 
+    } 
+  }
+
+  removeStaff = staff =>  {
+    var { staffs } = this.state
+    handleData.remove(staffs, obj => obj === staff)
     this.setState({ staffs })
   }
 
@@ -68,7 +91,6 @@ export default class OfferingSettingPage extends React.Component {
   removeCourse = courseId => {
     var { selectedCourses } = this.state
     handleData.remove(selectedCourses, {id: courseId})
-    console.log(selectedCourses)
     this.setState({ selectedCourses })
   }
 
@@ -105,7 +127,7 @@ export default class OfferingSettingPage extends React.Component {
   }
 
   onCreate = () => {
-    const { offeringInfo, isNew, id, selectedCourses } = this.state
+    const { offeringInfo, isNew, id, selectedCourses, staffs } = this.state
     if (isNew) {
       offeringInfo.instructorId = id
       offeringInfo.courseId = selectedCourses[0].id
@@ -128,7 +150,13 @@ export default class OfferingSettingPage extends React.Component {
             .catch(error => console.log(error))
         }
       })
-      this.onClose()
+      // POST to Offerings/AddUsers
+      api.postOfferingAddInstructors(data.id, staffs)
+        .then( response => {
+          console.log(response.data)
+        })
+        .catch(error => console.log(error))
+      // this.onClose()
     })
     .catch( error => console.log(error))
     
