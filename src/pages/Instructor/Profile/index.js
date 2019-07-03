@@ -6,7 +6,7 @@
 
 import React from 'react'
 // Layouts
-import { FixedFooter, SignOutHeader } from '../../../components'
+import { FixedFooter, ClassTranscribeHeader } from '../../../components'
 import { Courses, ProfileCard } from "./Components"
 import './index.css'
 // Vars
@@ -67,7 +67,7 @@ export class InstructorProfile extends React.Component {
   render() {
     return (      
       <div className="ip-bg">
-        <SignOutHeader onSignOut={this.onSignOut} user={{name: user.firstName()}}/>
+        <ClassTranscribeHeader onSignOut={this.onSignOut} user={{name: user.firstName()}}/>
         <div className="ip-container">
           <ProfileCard instructor={{name: user.fullName()}}/>
           <Courses 

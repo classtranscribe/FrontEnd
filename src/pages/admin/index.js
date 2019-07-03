@@ -9,7 +9,7 @@ import React from 'react'
 import { Tab } from 'semantic-ui-react'
 import './index.css'
 // Layouts
-import { SignOutHeader } from '../../components'
+import { ClassTranscribeHeader } from '../../components'
 import TermPane from './Terms'
 import UniPane from './Universities'
 import DepartPane from './Departments'
@@ -203,7 +203,7 @@ export class Admin extends React.Component {
 
     return (
       <div>
-        <SignOutHeader user={{name: user.firstName()}} onSignOut={this.onSignOut}/>
+        <ClassTranscribeHeader user={{name: user.firstName()}} onSignOut={this.onSignOut}/>
         <div className="admin-bg">
           <Tab 
             menuPosition="left"
