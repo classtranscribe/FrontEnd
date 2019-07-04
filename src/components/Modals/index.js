@@ -9,7 +9,7 @@ import './index.css'
 export function GeneralModal({size, open, onClose, header, children, button}) {
   return (
     <Modal 
-      className="general-modal" style={{position: 'relative'}} 
+      className="general-modal" 
       size={size || 'small'} dimmer='inverted'
       open={open} onClose={onClose}
     >
@@ -34,12 +34,12 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
 export function DeleteModal({open, target, onSave, onClose}) {
   return (
     <Modal 
-      className="delete-modal" style={{position: 'relative'}} 
+      className="general-modal"
       size="tiny" dimmer
       open={open} onClose={onClose}
     >
       <Modal.Header>Are You Sure to delete the 
-        <strong className="target"> {target}</strong>?<br/>
+        <strong className="delete-target"> {target}</strong>?<br/>
         (This action cannot be undone)
       </Modal.Header>
       <Modal.Actions>

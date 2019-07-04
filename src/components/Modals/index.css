@@ -1,14 +1,6 @@
-.delete-modal {
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-}
-.delete-modal .target {
-  color: rgb(26, 110, 110);
-  text-decoration: underline;
-}
 
 .general-modal {
+  position: relative !important;
   height: max-content;
   display: flex;
   flex-direction: column;}
@@ -19,3 +11,9 @@
     background: #f0f0f0 !important;}
   .general-modal .gm-action {
     background: #f0f0f0 !important;}
+
+  /* For Delete Modalc*/   
+  .general-modal .delete-target {
+    color: rgb(26, 110, 110);
+    text-decoration: underline;
+  }
