@@ -20,7 +20,7 @@ import { handleData, api } from '../../../../util'
  * @param userId instructorId for the need of creating an offering
  */
 export function Courses(props) {
-  const {courseOfferings, userId, departments, activeCoursePane} = props.state;
+  const {courseOfferings, userId, departments, courseActivePane} = props.state;
   /**
    * Generate the tab panes for each course, where contains the offering list
    */
@@ -44,7 +44,7 @@ export function Courses(props) {
     })
   })
   
-  const activeIndex = activeCoursePane >= courseOfferings.length ? courseOfferings.length - 1 : activeCoursePane
+  const activeIndex = courseActivePane >= courseOfferings.length ? courseOfferings.length - 1 : courseActivePane
   return (
     <div className="ip-content">
       <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />

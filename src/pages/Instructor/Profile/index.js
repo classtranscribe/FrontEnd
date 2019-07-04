@@ -19,7 +19,7 @@ export class InstructorProfile extends React.Component {
     this.state = {
       userId: user.id(),
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
-      activeCoursePane: localStorage.getItem('activeCoursePane') || 0,
+      courseActivePane: localStorage.getItem('courseActivePane') || 0,
       
       courseOfferings: [],
       terms: [],
@@ -66,7 +66,7 @@ export class InstructorProfile extends React.Component {
   }
 
   setActivePane = index => {
-    localStorage.setItem('activeCoursePane', index.toString())
+    localStorage.setItem('courseActivePane', index.toString())
   }
 
   render() {

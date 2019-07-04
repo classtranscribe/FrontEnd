@@ -50,8 +50,8 @@ export const user = {
   signout: function () { 
     // remove possible localStorage for admin page
     [
-      'activePane', 'termCurrUni', 
-      'departCurrUni', 'courseCurrUni', 
+      'activePane', 'offeringActivePane', 'courseActivePane',
+      'termCurrUni', 'departCurrUni', 'courseCurrUni', 
       'courseCurrDepart'
     ].forEach( key => {
       localStorage.removeItem(key);
