@@ -8,21 +8,6 @@
   height: 6rem;
   font-size: 1.5rem;}
 
-.ui.modal {
-  overflow: visible;
-}
-
-.ui.dropdown .menu {
-  height: max-content;
-  overflow: scroll;
-}
-
-.pl-modal-text {
-  color: rgb(14, 131, 131);
-  width: 100%;
-  text-align: center;
-}
-
 .general-form {
   padding-left: 1rem;
   width: 100%;

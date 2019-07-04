@@ -1,3 +1,10 @@
+/**
+ * Stylesheet for General Modal
+ */
+
+.ui .modal {
+  overflow: visible;
+}
 
 .general-modal {
   position: relative !important;
