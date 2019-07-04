@@ -161,16 +161,28 @@ export const api = {
    * callBack = responce => {...}
    */
   updateData: function (path, data, callBack) {
-    return http.put(`${path}/${data.id}`, data)
-      .then(responce => callBack(responce))
+    if (callBack) 
+      return http.put(`${path}/${data.id}`, data)
+        .then(responce => callBack(responce))
+    else 
+      return http.put(`${path}/${data.id}`, data)
   },
   /**
    * DELETE
    * callBack = responce => {...}
    */
   deleteData: function (path, id, callBack) {
-    return http.delete(`${path}/${id}`)
-      .then(responce => callBack(responce))
+    if (callBack)
+      return http.delete(`${path}/${id}`)
+        .then(responce => callBack(responce))
+    else 
+      return http.delete(`${path}/${id}`)
   },
+  deleteFromCourseOfferings: function (id) {
+    return this.deleteData('CourseOfferings', id)
+  },
+  deleteUserFromOffering: function(offeringId, userId) {
+    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  }
 
 }

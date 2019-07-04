@@ -26,17 +26,14 @@ export function SaveButtons(props) {
  * Buttons for editing the offering
  */
 export function EditButtons(props) {
-  const { offeringInfo, offering } = props.state;
-  const { courseId } = offeringInfo;
+  const { offeringInfo, offering, selectedCourses } = props.state;
   const { termId, sectionName } = props.state.offeringInfo.offering;
-  const canSave = termId && sectionName && courseId;
+  const canSave = termId && sectionName && selectedCourses.length;
   return (
     <>
-      {
-        canSave // can save the offering iff all the fields if filled
-        &&
-        <Button positive onClick={props.onUpdate} >Save</Button>
-      }
+
+      <Button disabled={!canSave} positive onClick={props.onUpdate} >Save</Button>
+      
       <Button secondary onClick={props.onCancel} >Cancel</Button>
       {
         offering // can delete the offering iff the offering is loaded

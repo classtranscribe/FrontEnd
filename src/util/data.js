@@ -11,7 +11,7 @@ export const handleData = {
     return _.clone(obj)
   },
   remove: function (array, predicate) {
-    _.remove(array, predicate)
+    return _.remove(array, predicate)
   },
   /**
    * Update the old json object with changed json (which may not be complete)
@@ -47,5 +47,19 @@ export const handleData = {
       str = str + slash + course.courseNumber
     })
     return str
+  },
+  extract: function(array, key) {
+    const res = []
+    array.forEach( item => {
+      res.push(item[key])
+    })
+    return res
+  },
+  isEqual: function(a, b) {
+    return _.isEqual(a, b)
+  },
+  isValidEmail: function(email) {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(email)
   }
 }

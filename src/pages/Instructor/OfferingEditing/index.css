@@ -60,3 +60,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.op-form .inverted {
+  background: none !important;
+}

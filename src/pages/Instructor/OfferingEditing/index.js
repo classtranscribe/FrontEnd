@@ -6,7 +6,7 @@
 import React from 'react'
 // Layouts
 import { GeneralModal } from '../../../components'
-import OfferingForm from './OfferingForm'
+import OfferingForm from './OfferingForms'
 import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
 // Vars
@@ -20,6 +20,7 @@ export default class OfferingSettingPage extends React.Component {
       id: this.props.match.params.id,
       type: this.props.match.params.type,
       isNew: this.props.match.params.type === 'new',
+
       loading: this.props.match.params.type !== 'new',
       progress: 'Courses', // Courses, Staffs, TermSecType
 
@@ -29,7 +30,6 @@ export default class OfferingSettingPage extends React.Component {
 
       staffs: [],
       staffMailId: '',
-
       selectedCourses: [],
 
       currUni: null,
@@ -46,18 +46,42 @@ export default class OfferingSettingPage extends React.Component {
     // api.
     api.getAll(['Departments', 'Terms'], 
       (responce, name) => {
-        // console.log(responce.data)
-        // console.log(name)
         this.setState({[name]: responce.data})
       })
+    const { isNew, id, offeringInfo } = this.state
+    if (!isNew) {
+      api.getData('Offerings', id)
+        .then (({data}) => {
+          console.log(data)
+          // set default offeringInfo
+          offeringInfo.offering = {
+            ...data.offering,
+            accessType: api.offeringAccessType[data.offering.accessType].id
+          }
+          console.log(offeringInfo)
+          // set else info
+          this.setState({
+            offering: data, 
+            staffs: data.instructorIds,
+            offeringInfo,
+            loading: false
+          })
+          // get selectedCourses with full courseNumber
+          data.courses.forEach( course => {
+            api.getData('Departments', course.departmentId)
+              .then( ({data}) => {
+                course.fullCourseNumber = data.acronym + course.courseNumber
+                this.setState(state => ({
+                  selectedCourses: [...state.selectedCourses, course]
+                }))
+              })
+          })
+        })
+    }
   }
 
   toProgress = progress => {
     this.setState({ progress })
-  }
-
-  addStaff = event => {
-    console.log(event.target.value)
   }
 
   onEnterStaffMailId = event => {
@@ -67,31 +91,51 @@ export default class OfferingSettingPage extends React.Component {
 
   addStaff = event => {
     if (event.keyCode === 32 || event.keyCode === 13) { 
-      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      if (re.test(this.state.staffMailId)) {
+      const {id, isNew, staffMailId} = this.state
+      if (handleData.isValidEmail(staffMailId)) {
+        const email = staffMailId;
         this.setState( state => ({
-          staffs: [...state.staffs, state.staffMailId], staffMailId: ''
+          staffs: [...state.staffs, email], staffMailId: ''
         }))
+        if (!isNew) {
+          api.postOfferingAddInstructors(id, [email])
+            .then(() => console.log('Successfully add new instructor!'))
+        }
       } 
     } 
   }
 
   removeStaff = staff =>  {
-    var { staffs } = this.state
+    var { staffs, isNew, id } = this.state
     handleData.remove(staffs, obj => obj === staff)
     this.setState({ staffs })
+    if (!isNew) {
+      api.deleteUserFromOffering(id, staff)
+       .then(() => console.log('Successfully removed the user'))
+    }
   }
 
-  addCourse = courseId => {
-    const { selectedCourses } = this.state
-    selectedCourses.push(courseId)
+  addCourse = course => {
+    const { selectedCourses, isNew, id } = this.state
+    selectedCourses.push(course)
     this.setState({ selectedCourses })
+    if (!isNew) {
+      api.postToCourseOfferings({
+        courseId: course.id,
+        offeringId: id
+      })
+        .then( () => console.log('PUT course success!'))
+    }
   }
 
   removeCourse = courseId => {
-    var { selectedCourses } = this.state
+    var { selectedCourses, isNew } = this.state
     handleData.remove(selectedCourses, {id: courseId})
     this.setState({ selectedCourses })
+    // if (!isNew) {
+    //   api.deleteFromCourseOfferings(courseId)
+    //    .then( () => console.log('DELETE course success!'))
+    // }
   }
 
   getCoursesByDepartId = id => {
@@ -108,7 +152,6 @@ export default class OfferingSettingPage extends React.Component {
         .then(response => {
           this.setState({
             currDepart: response.data, 
-            offeringInfo: handleData.copy(initialOffering)
           });
         })
       this.getCoursesByDepartId(value)
@@ -136,7 +179,6 @@ export default class OfferingSettingPage extends React.Component {
     // POST to Offerings
     api.postData(this.path, offeringInfo, ({data}) => {
       console.log(data)
-      console.log(selectedCourses)
       // POST to CourseOfferings
       selectedCourses.forEach( (course, index) => {
         if (index) {
@@ -156,7 +198,7 @@ export default class OfferingSettingPage extends React.Component {
           console.log(response.data)
         })
         .catch(error => console.log(error))
-      // this.onClose()
+      this.onClose()
     })
     .catch( error => console.log(error))
     
@@ -164,17 +206,23 @@ export default class OfferingSettingPage extends React.Component {
   }
 
   onUpdate = () => {
-    const { offering, offeringInfo, id } = this.state;
-    var data = handleData.updateJson(offeringInfo, offering)
-    data.id = id;
-    // console.log(data);
-    api.updateData(this.path, data, () => this.onClose())
+    const { offeringInfo, offering } = this.state
+    const newOffering = offeringInfo.offering
+    console.log(newOffering)
+    // PUT to Offerings/id if if the offering info changes 
+    if (!handleData.isEqual(newOffering, offering.offering)) {
+      api.updateData('Offerings', newOffering)
+        .then( ({data}) => {
+          console.log(data)
+          this.onClose()
+        })
+    }
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onDelete = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
+    api.deleteData(this.path, this.state.id, () => util.toInstructorPage())
   }
 
   onClose = () => {
@@ -188,7 +236,6 @@ export default class OfferingSettingPage extends React.Component {
 
   render() {
     const { isNew } = this.state;
-    // console.log(id)
     const header = isNew ? 'New Offering' : 'Offering Setting';
     const button = isNew ? <SaveButtons {...this}/>
                          : <EditButtons {...this} />;
@@ -197,7 +244,7 @@ export default class OfferingSettingPage extends React.Component {
         size="large"
         header={header}
         open={true} 
-        onClose={this.onCancel}
+        onClose={this.onClose}
         button={button}
       >
         <OfferingForm {...this}/>
