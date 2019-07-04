@@ -17,7 +17,7 @@ export function SaveButtons(props) {
           &&
         <Button positive onClick={props.onCreate} >Save</Button>
       }
-      <Button onClick={props.onCancel} >Cancel</Button>
+      <Button onClick={props.onClose} >Cancel</Button>
     </>
   )
 }
@@ -27,7 +27,7 @@ export function SaveButtons(props) {
  */
 export function EditButtons(props) {
   const { offeringInfo, offering, selectedCourses } = props.state;
-  const { termId, sectionName } = props.state.offeringInfo.offering;
+  const { termId, sectionName } = offeringInfo.offering;
   const canSave = termId && sectionName && selectedCourses.length;
   return (
     <>
@@ -38,7 +38,7 @@ export function EditButtons(props) {
       {
         offering // can delete the offering iff the offering is loaded
         && 
-        <Button onClick={props.onDelete} >Delete</Button>
+        <Button onClick={props.showDeleteModal} >Delete</Button>
       }
     </>
   )

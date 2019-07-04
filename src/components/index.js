@@ -13,11 +13,7 @@ export {
 
 export { 
   GeneralModal,
-  CourseFormModal,
-  OfferingFormModal,
   DeleteModal,
-  PlaylistFormModal,
-  VideoFormModal,
 } from './modal'
 
 export { 

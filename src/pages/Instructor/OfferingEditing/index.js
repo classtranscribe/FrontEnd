@@ -5,7 +5,7 @@
 
 import React from 'react'
 // Layouts
-import { GeneralModal } from '../../../components'
+import { GeneralModal, DeleteModal } from '../../../components'
 import OfferingForm from './OfferingForms'
 import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
@@ -21,6 +21,7 @@ export default class OfferingSettingPage extends React.Component {
       type: this.props.match.params.type,
       isNew: this.props.match.params.type === 'new',
 
+      showDeleteModal: false,
       loading: this.props.match.params.type !== 'new',
       progress: 'Courses', // Courses, Staffs, TermSecType
 
@@ -105,6 +106,12 @@ export default class OfferingSettingPage extends React.Component {
    */
   toProgress = progress => {
     this.setState({ progress })
+  }
+  /**
+   * Function to determine the visibility of delete modal
+   */
+  showDeleteModal = () => {
+    this.setState({showDeleteModal: !this.state.showDeleteModal})
   }
 
   /**
@@ -284,7 +291,7 @@ export default class OfferingSettingPage extends React.Component {
   onConfirm = () => this.setState({confirmed: true})
 
   render() {
-    const { isNew } = this.state
+    const { isNew, showDeleteModal } = this.state
     const header = isNew ? 'New Offering' : 'Offering Setting'
     const button = isNew ? <SaveButtons {...this}/>
                          : <EditButtons {...this} />
@@ -296,6 +303,12 @@ export default class OfferingSettingPage extends React.Component {
         onClose={this.onClose}
         button={button}
       >
+        <DeleteModal 
+          open={showDeleteModal} 
+          target="offering" 
+          onClose={this.showDeleteModal}
+          onSave={this.onDelete}
+        />
         <OfferingForm {...this}/>
       </GeneralModal>
     )
