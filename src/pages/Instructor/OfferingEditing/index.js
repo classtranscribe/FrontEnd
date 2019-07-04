@@ -117,18 +117,19 @@ export default class OfferingSettingPage extends React.Component {
   /**
    * Functions for add course staffs
    */
+
   onEnterStaffMailId = event => {
     if ( event.target.value.includes(' ') ) return;
     this.setState({staffMailId: event.target.value})
   }
+
   addStaff = event => {
     if ( event.keyCode === 32 || event.keyCode === 13 ) { 
-      const {id, isNew, staffMailId} = this.state
+      const { id, isNew, staffMailId, staffs } = this.state
       if ( handleData.isValidEmail(staffMailId) ) {
         const email = staffMailId
-        this.setState( state => ({
-          staffs: [...state.staffs, email], staffMailId: ''
-        }))
+        if ( handleData.includes(staffs, email) ) return;
+        this.setState({staffs: [...staffs, email], staffMailId: ''})
         if ( !isNew ) {
           api.postOfferingAddInstructors(id, [email])
             .then(() => console.log('Successfully add new instructor!'))
@@ -136,6 +137,7 @@ export default class OfferingSettingPage extends React.Component {
       } 
     } 
   }
+
   removeStaff = staff =>  {
     var { staffs, isNew, id } = this.state
     handleData.remove(staffs, obj => obj === staff)
@@ -146,9 +148,11 @@ export default class OfferingSettingPage extends React.Component {
     }
   }
 
+
   /**
    * Functions for add courses
    */
+
   addCourse = course => {
     const { selectedCourses, isNew, id } = this.state
     if ( handleData.findById(selectedCourses, course.id) ) return;
@@ -162,6 +166,7 @@ export default class OfferingSettingPage extends React.Component {
         .then( () => console.log('PUT course success!'))
     }
   }
+
   removeCourse = courseId => {
     var { selectedCourses } = this.state
     handleData.remove(selectedCourses, {id: courseId})
@@ -171,6 +176,7 @@ export default class OfferingSettingPage extends React.Component {
     //    .then( () => console.log('DELETE course success!'))
     // }
   }
+  
 
   /**
    * Helper Function for setting selecting options for courses based on current department
