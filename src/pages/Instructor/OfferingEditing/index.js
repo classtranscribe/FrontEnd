@@ -288,6 +288,10 @@ export default class OfferingSettingPage extends React.Component {
     else util.toOfferingPage(this.state.id)
   }
 
+  onCancel = () => {
+    this.props.history.goBack()
+  }
+
   onConfirm = () => this.setState({confirmed: true})
 
   render() {
@@ -300,7 +304,7 @@ export default class OfferingSettingPage extends React.Component {
         size="large"
         header={header}
         open={true} 
-        onClose={this.onClose}
+        onClose={ isNew ? this.onCancel : this.onClose}
         button={button}
       >
         <DeleteModal 
