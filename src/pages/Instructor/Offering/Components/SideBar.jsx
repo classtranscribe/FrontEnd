@@ -5,10 +5,13 @@
 import React from 'react'
 import { Button, ListGroup } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
+import { OfferingInfoPlaceholder } from './Placeholders'
+import { GeneralPlaceholder } from '../../../../components'
 import { util, api, handleData } from '../../../../util'
 const { initialCourse, initialOffering } = api.initialData
 
-export function SideBar({id, playlists, setActivePane, state: {displaySideBar, term, courseOffering}}) {
+export function SideBar({id, playlists, setActivePane, state}) {
+  const {displaySideBar, term, courseOffering, loadingOfferingInfo} = state;
   // style for showing or hiding the sidebar
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   // get complete courseNumber based on an array of courses (e.g. CS425/ECE428)
@@ -24,16 +27,26 @@ export function SideBar({id, playlists, setActivePane, state: {displaySideBar, t
         <ListGroup.Item className="list" onClick={util.toInstructorPage}>
           <i class="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
         </ListGroup.Item>
+
         {/* Offering Info ---click to editing page */}
-        <ListGroup.Item className="details" action onClick={()=>util.editOffering(id)}>
-          <p className="title">
-            <i class="fas fa-book"></i> &ensp; {courseNumber}
-            &ensp; <i class="fas fa-edit"></i>
-          </p>
-          <p className="name"><Icon name="circle outline" /><strong>{course.courseName}</strong></p>
-          <p className="name"><Icon name="circle outline" />{term.name}</p>
-          <p className="sec"><Icon name="circle outline" /><strong>Section</strong> {offering.sectionName}</p>
-        </ListGroup.Item>
+        {
+          loadingOfferingInfo ? (
+            <GeneralPlaceholder fluid lines={[
+              'full', 'long', 'medium', 'short', 'short', 'very short'
+            ]} />
+          ) : (
+            <ListGroup.Item className="details" action onClick={()=>util.editOffering(id)}>
+              <p className="title">
+                <i class="fas fa-book"></i> &ensp; {courseNumber}
+                &ensp; <i class="fas fa-edit"></i>
+              </p>
+              <p className="name"><Icon name="circle outline" /><strong>{course.courseName}</strong></p>
+              <p className="name"><Icon name="circle outline" />{term.name}</p>
+              <p className="sec"><Icon name="circle outline" /><strong>Section</strong> {offering.sectionName}</p>
+            </ListGroup.Item>
+          )
+        }
+        
         {/* Data demo menu item */}
         <ListGroup.Item className="list" eventKey="data">
           <i class="fas fa-chart-bar"></i> &ensp; Data

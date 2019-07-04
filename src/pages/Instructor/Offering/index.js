@@ -31,8 +31,11 @@ export class InstructorOffering extends React.Component {
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
       activePane: localStorage.getItem('offeringActivePane') || this.playlists[0].name, // should be playlist id
-      courseOffering: handleData.copy(initialOffering),
+      courseOffering: {...handleData.copy(initialOffering), courses: []},
       term: handleData.copy(initialTerm),
+
+      loadingCourses: true,
+      loadingOfferingInfo: true,
     }
   }
 
@@ -40,9 +43,14 @@ export class InstructorOffering extends React.Component {
     this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
-  setActivePane = eventKey => {
-    this.setState({activePane: eventKey})
-    localStorage.setItem('offeringActivePane', eventKey)
+  offeringInfoLoaded = () => {
+    this.setState({loadingOfferingInfo: !this.state.loadingOfferingInfo})
+  }
+
+  setLoading = array => {
+    array.forEach( key => {
+      this.setState({[key]: !this.state[key]})
+    })
   }
 
   componentDidMount() {
@@ -76,7 +84,7 @@ export class InstructorOffering extends React.Component {
               const { courseNumber } = courseOffering.courses[index]
               const { acronym } = response.data
               courseOffering.courses[index].courseNumber = acronym + courseNumber
-              this.setState({courseOffering})
+              this.setState({ courseOffering, loadingCourses: false})
             })
         })
         /**
@@ -87,6 +95,13 @@ export class InstructorOffering extends React.Component {
             this.setState({term: response.data})
           })
       })
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { term, loadingCourses } = this.state;
+    if (term !== prevState.term && !loadingCourses) {
+          this.setState({loadingOfferingInfo: false})
+    }
   }
 
   /**

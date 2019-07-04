@@ -9,6 +9,8 @@ export {
 
   EndPadding5rem,
   GeneralLoader,
+
+  GeneralPlaceholder,
 } from './global'
 
 export { 

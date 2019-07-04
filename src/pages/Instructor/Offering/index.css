@@ -65,6 +65,12 @@
   margin-left: 10px;
 }
 
+.course-sidebar .placeholder {
+  margin: 0 1rem 0 1rem;}
+.course-sidebar .placeholder .line {
+  background: rgb(240, 240, 240) !important;
+}
+
 /* offering details */
 
 .course-sidebar .details {

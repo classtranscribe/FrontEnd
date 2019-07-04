@@ -1,0 +1,1 @@
+export { OfferingInfoPlaceholder } from './OfferingInfoPlaceholder'
