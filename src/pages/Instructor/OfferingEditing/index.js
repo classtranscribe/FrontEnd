@@ -162,7 +162,7 @@ export default class OfferingSettingPage extends React.Component {
     }
   }
   removeCourse = courseId => {
-    var { selectedCourses, isNew } = this.state
+    var { selectedCourses } = this.state
     handleData.remove(selectedCourses, {id: courseId})
     this.setState({ selectedCourses })
     // if (!isNew) {

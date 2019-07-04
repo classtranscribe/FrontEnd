@@ -41,7 +41,7 @@ export function SignOutHeader({user, onSignOut, darkMode}) {
   const bg = darkMode ? 'dark' : 'light';
   const theme = darkMode ? '-dark' : '';
   return (
-    <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme} role="naviation">
+    <Navbar sticky="top" bg={bg} variant={bg} className={"ct-nav"+theme} role="navigation">
       <Navbar.Brand className={"brand"+theme} href="/">ClassTranscribe</Navbar.Brand>
       <Row className="signout">
         <ProfileBtn user={user} onSignOut={onSignOut} darkMode={darkMode}/>
