@@ -24,3 +24,7 @@
     color: rgb(26, 110, 110);
     text-decoration: underline;
   }
+
+  .general-modal .positive {
+    background: #449999 !important;
+  }
