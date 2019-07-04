@@ -1,28 +1,44 @@
+import React from 'react'
+import { Col, Navbar, Nav } from 'react-bootstrap'
+import { Dimmer, Loader, Placeholder } from 'semantic-ui-react'
 import './index.css'
 
-export { 
-  FixedFooter,
-  StickyFooter, 
+export { ClassTranscribeHeader } from './Header'
+export { FixedFooter } from './Footer'
+export { GeneralModal, DeleteModal } from './Modals'
+export { GeneralAlert } from './Alerts'
+export { UpLoadVideosContainer } from './uploading'
 
-  SignOutHeader, 
-  ClassTranscribeHeader,
+/**
+ * General Components
+ */
 
-  EndPadding5rem,
-  GeneralLoader,
+/**
+ * Padding Component
+ */
+export const EndPadding5rem = () => <div className="end-padding"></div>
 
-  GeneralPlaceholder,
-} from './global'
+/**
+ * Spinning Loader wrapper while loading data
+ */
+export function GeneralLoader({loading, inverted, height}) {
+  return (
+    <Dimmer active={loading} inverted={inverted} style={{height: height}}>
+      <Loader inverted={inverted}>Loading</Loader>
+    </Dimmer>
+  )
+}
 
-export { 
-  GeneralModal,
-  DeleteModal,
-} from './modal'
-
-export { 
-  UpLoadVideosContainer 
-} from './uploading'
-
-export { 
-  alertMesgs, 
-  GeneralAlert 
-} from './alerts'
+export function GeneralPlaceholder({fluid, lines, image, inverted}) {
+  return (
+    <Placeholder fluid={fluid} inverted={inverted}>
+      <Placeholder.Header image={image}>
+        <Placeholder.Line />
+        <Placeholder.Line />
+        {lines && lines.map( length => (
+          <Placeholder.Line length={length} />
+        ))}
+      </Placeholder.Header>
+    </Placeholder>
+  )
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 // UIs
 import { Modal, Button } from 'semantic-ui-react'
+import './index.css'
 
 /**
  * General modal
@@ -33,12 +34,12 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
 export function DeleteModal({open, target, onSave, onClose}) {
   return (
     <Modal 
-      className="course-modal" style={{position: 'relative'}} 
+      className="delete-modal" style={{position: 'relative'}} 
       size="tiny" dimmer
       open={open} onClose={onClose}
     >
       <Modal.Header>Are You Sure to delete the 
-        <strong className="del-target"> {target}</strong>?<br/>
+        <strong className="target"> {target}</strong>?<br/>
         (This action cannot be undone)
       </Modal.Header>
       <Modal.Actions>

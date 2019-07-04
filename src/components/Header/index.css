@@ -1,0 +1,48 @@
+/**
+ * Stylesheet for ClassTranscribe Header
+ */
+
+.ct-nav {
+  position: fixed;
+  top: 0;
+  opacity: 0.9;
+  width: 100%;
+  height: 4rem;
+  box-shadow: 7px 1px 5px 1px #c7c7c7b6;}
+  .ct-nav .brand {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #418080;
+    margin-left: 1rem;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+
+  /* For course setting page */
+  .ct-nav .sidebar-trigger {
+    height: 2.4rem;
+    width: 2.4rem;
+    padding-left: 0.1rem;
+    border-radius: 50%;  
+    cursor: pointer;}
+    .ct-nav .sidebar-trigger:hover {
+      background-color: #d4d4d4;
+    }
+    
+  /* For instructor page */
+  .ct-nav .signout {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 2rem;
+  }
+
+/* dark mode */
+.dark {
+  box-shadow: 7px 1px 5px 1px #222222b6;}
+  .dark .signout {
+    color: rgb(240, 240, 240);}
+  .dark .brand {
+    color: rgb(138, 191, 200);
+  }

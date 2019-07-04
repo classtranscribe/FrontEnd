@@ -4,7 +4,7 @@ import authentication from 'react-azure-adb2c'
 
 // UIs
 import { Row, Col } from 'react-bootstrap'
-import { SignOutHeader, FixedFooter } from '../../components'
+import { ClassTranscribeHeader, FixedFooter } from '../../components'
 import CourseList from './courses'
 import Filter from './filter'
 import SearchBar from './searchbar'
@@ -123,7 +123,7 @@ export class StudentsPage extends React.Component {
 
     return (
       <div className={"sp-bg"+theme} ref={this.listen}>
-        <SignOutHeader 
+        <ClassTranscribeHeader 
           darkMode={darkMode}
           user={{name: user.firstName()}}
           onSignOut={user.signout}

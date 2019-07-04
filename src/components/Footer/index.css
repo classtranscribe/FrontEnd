@@ -1,0 +1,10 @@
+
+.ct-fixed-footer {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  position: relative;
+  align-items: center;}
+  .ct-fixed-footer .footer-copy {
+    text-align: right;
+  }
