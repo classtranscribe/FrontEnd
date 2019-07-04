@@ -1,3 +1,8 @@
+/**
+ * Form Component for Editing Offerings
+ * - term, section name and access type
+ */
+
 import React from 'react'
 // Layouts
 import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
@@ -5,14 +10,16 @@ import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
 import { api, util } from '../../../../util'
 
 export default function TermSectionTypeSetting({state, onChange, toProgress}) {
-  const { offering, offeringInfo, terms } = state
+  const { offeringInfo, terms } = state
   const termOptions = util.getSelectOptions(terms)
   const accessOptions = util.getSelectOptions(api.offeringAccessType)
   const canGoNext = offeringInfo.offering.termId && offeringInfo.offering.sectionName
   return (
     <>
       <h2>2. Fill Out Basic Information</h2>
+
       <Grid.Row >
+        {/* Selection for terms */}
         <Grid.Column>
           <Form.Field
             fluid required
@@ -24,6 +31,8 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             onChange={(event, {value}) => onChange(value, 'termId')}
           />
         </Grid.Column>
+
+        {/* Section number */}
         <Grid.Column>
           <Form.Field
             fluid required
@@ -36,6 +45,8 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
           />
         </Grid.Column>
       </Grid.Row>
+
+      {/* Access type */}
       <Grid.Row >
         <Grid.Column>
           <Form.Field
@@ -49,6 +60,8 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
           />
         </Grid.Column>
       </Grid.Row>
+
+      {/* Progress buttons */}
       <Grid.Row>
         <Grid.Column>
           <Button  secondary onClick={()=>toProgress('Courses')}>

@@ -19,7 +19,8 @@ import { handleData, api } from '../../../../util'
  * @param courseOfferings courseOfferings of the instructor
  * @param userId instructorId for the need of creating an offering
  */
-export function Courses({onSort, state: {courseOfferings, sortDown, userId, terms, departments}}) {
+export function Courses(props) {
+  const {courseOfferings, userId, departments, activeCoursePane} = props.state;
   /**
    * Generate the tab panes for each course, where contains the offering list
    */
@@ -33,17 +34,17 @@ export function Courses({onSort, state: {courseOfferings, sortDown, userId, term
       render: () => (
         <div style={{marginLeft: '-2rem', borderRight: 'solid 1px transparent'}}>
           <OfferinfList 
-            terms={terms}
-            department={department}
             courseOffering={courseOffering}
-            onSort={onSort}
-            sortDown={sortDown} 
+            department={department}
+            {...props}
+            {...props.state}
           />
         </div>
       )
     })
   })
   
+  const activeIndex = activeCoursePane >= courseOfferings.length ? courseOfferings.length - 1 : activeCoursePane
   return (
     <div className="ip-content">
       <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />
@@ -51,9 +52,13 @@ export function Courses({onSort, state: {courseOfferings, sortDown, userId, term
       {
         courseOfferings.length ? 
         <Tab 
-          menu={{ fluid: true, vertical: true, tabular: true, borderless: true }} 
           panes={panes} 
-        /> : <EmptyResult userId={userId}/>
+          defaultActiveIndex={activeIndex} 
+          menu={{ fluid: true, vertical: true, tabular: true, borderless: true }} 
+          onTabChange={(event, {activeIndex}) => props.setActivePane(activeIndex)}
+        /> 
+        : 
+        <EmptyResult userId={userId}/>
       }
     </div>
   )

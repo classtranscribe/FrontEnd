@@ -24,16 +24,21 @@ export default class OfferingSettingPage extends React.Component {
       loading: this.props.match.params.type !== 'new',
       progress: 'Courses', // Courses, Staffs, TermSecType
 
+      // choose courses
+      currUni: null,
+      currDepart: null,
       departments: [],
       courses: [],
+
+      // choose a term
       terms: [],
 
+      // add multiple course staffs
       staffs: [],
       staffMailId: '',
       selectedCourses: [],
 
-      currUni: null,
-      currDepart: null,
+      // offering info
       offering: handleData.copy(initialOffering),
       offeringInfo: handleData.copy(initialOffering),
 
@@ -42,14 +47,27 @@ export default class OfferingSettingPage extends React.Component {
     this.path = 'Offerings'
   }
 
+  /**
+   * First loading for preparing the page
+   */
   componentDidMount() {
-    // api.
+    /**
+     * Get existing departments and terms for selection
+     * @TODO get by univeristy
+     */
     api.getAll(['Departments', 'Terms'], 
       (responce, name) => {
         this.setState({[name]: responce.data})
       })
+
+    /**
+     * Get data for editing a offering
+     */
     const { isNew, id, offeringInfo } = this.state
     if (!isNew) {
+      /**
+       * Get CourseOffering by offeringId
+       */
       api.getData('Offerings', id)
         .then (({data}) => {
           console.log(data)
@@ -59,14 +77,16 @@ export default class OfferingSettingPage extends React.Component {
             accessType: api.offeringAccessType[data.offering.accessType].id
           }
           console.log(offeringInfo)
-          // set else info
+          // set others
           this.setState({
             offering: data, 
             staffs: data.instructorIds,
             offeringInfo,
             loading: false
           })
-          // get selectedCourses with full courseNumber
+          /**
+           * get selectedCourses with full courseNumber based CourseOffering.courseIds
+           */
           data.courses.forEach( course => {
             api.getData('Departments', course.departmentId)
               .then( ({data}) => {
@@ -80,15 +100,20 @@ export default class OfferingSettingPage extends React.Component {
     }
   }
 
+  /**
+   * Set current progress
+   */
   toProgress = progress => {
     this.setState({ progress })
   }
 
+  /**
+   * Functions for add course staffs
+   */
   onEnterStaffMailId = event => {
     if (event.target.value.includes(' ')) return;
     this.setState({staffMailId: event.target.value})
   }
-
   addStaff = event => {
     if (event.keyCode === 32 || event.keyCode === 13) { 
       const {id, isNew, staffMailId} = this.state
@@ -104,7 +129,6 @@ export default class OfferingSettingPage extends React.Component {
       } 
     } 
   }
-
   removeStaff = staff =>  {
     var { staffs, isNew, id } = this.state
     handleData.remove(staffs, obj => obj === staff)
@@ -115,6 +139,9 @@ export default class OfferingSettingPage extends React.Component {
     }
   }
 
+  /**
+   * Functions for add courses
+   */
   addCourse = course => {
     const { selectedCourses, isNew, id } = this.state
     selectedCourses.push(course)
@@ -127,7 +154,6 @@ export default class OfferingSettingPage extends React.Component {
         .then( () => console.log('PUT course success!'))
     }
   }
-
   removeCourse = courseId => {
     var { selectedCourses, isNew } = this.state
     handleData.remove(selectedCourses, {id: courseId})
@@ -138,6 +164,9 @@ export default class OfferingSettingPage extends React.Component {
     // }
   }
 
+  /**
+   * Helper Function for setting selecting options for courses based on current department
+   */
   getCoursesByDepartId = id => {
     api.getCoursesByDepartId(id)
       .then(response => {
@@ -145,8 +174,12 @@ export default class OfferingSettingPage extends React.Component {
       })
   }
 
+  /**
+   * Function for handling input changes
+   */
   onChange = (value, key) => {
     const newData = this.state.offeringInfo
+    // set current department
     if (key === 'currDepart') {
       api.getData('Departments', value)
         .then(response => {
@@ -155,30 +188,38 @@ export default class OfferingSettingPage extends React.Component {
           });
         })
       this.getCoursesByDepartId(value)
-    } else if (handleData.includes(['termId', 'accessType', 'sectionName'], key)) {
+    } 
+    // keys of offering 
+    else if (handleData.includes(['termId', 'accessType', 'sectionName'], key)) {
       newData.offering[key] = value
-    } else if (key === 'courseId') {
+    } 
+    // set current course
+    else if (key === 'courseId') {
       const { courses, currDepart } = this.state
       const course = handleData.findById(courses, value)
       course.fullCourseNumber = currDepart.acronym + course.courseNumber
       this.addCourse(course)
-    } else {
+    } 
+    else {
       newData[key] = value
     }
     this.setState({offeringInfo: newData})
     // console.log(newData);
   }
 
+  /**
+   * Function called when saving a new offering
+   */
   onCreate = () => {
-    const { offeringInfo, isNew, id, selectedCourses, staffs } = this.state
-    if (isNew) {
-      offeringInfo.instructorId = id
-      offeringInfo.courseId = selectedCourses[0].id
-    }
+    const { offeringInfo, id, selectedCourses, staffs } = this.state
+    // complete offeringInfo
+    offeringInfo.instructorId = id
+    offeringInfo.courseId = selectedCourses[0].id
+    
 
     // POST to Offerings
     api.postData(this.path, offeringInfo, ({data}) => {
-      console.log(data)
+      // console.log(data)
       // POST to CourseOfferings
       selectedCourses.forEach( (course, index) => {
         if (index) {
@@ -192,12 +233,15 @@ export default class OfferingSettingPage extends React.Component {
             .catch(error => console.log(error))
         }
       })
+
       // POST to Offerings/AddUsers
       api.postOfferingAddInstructors(data.id, staffs)
         .then( response => {
           console.log(response.data)
         })
         .catch(error => console.log(error))
+
+      // Go back
       this.onClose()
     })
     .catch( error => console.log(error))
@@ -205,6 +249,9 @@ export default class OfferingSettingPage extends React.Component {
     console.log(offeringInfo)
   }
 
+  /**
+   * Function called when save changes of a offering
+   */
   onUpdate = () => {
     const { offeringInfo, offering } = this.state
     const newOffering = offeringInfo.offering
@@ -213,26 +260,28 @@ export default class OfferingSettingPage extends React.Component {
     if (!handleData.isEqual(newOffering, offering.offering)) {
       api.updateData('Offerings', newOffering)
         .then( ({data}) => {
-          console.log(data)
+          // console.log(data)
           this.onClose()
         })
     }
   }
 
-  onConfirm = () => this.setState({confirmed: true})
-
+  /**
+   * Function called for deleting the offering
+   */
   onDelete = () => {
     api.deleteData(this.path, this.state.id, () => util.toInstructorPage())
   }
 
+  /**
+   * Go Back
+   */
   onClose = () => {
     if (this.state.isNew) util.toInstructorPage();
     else util.toOfferingPage(this.state.id)
   }
 
-  onCancel = () => {
-    this.props.history.goBack();
-  }
+  onConfirm = () => this.setState({confirmed: true})
 
   render() {
     const { isNew } = this.state;

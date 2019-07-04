@@ -1,3 +1,8 @@
+/**
+ * Form Component for Editing Offerings
+ * - Add or remove course staffs for a offering
+ */
+
 import React from 'react'
 // Layouts
 import { Grid, Form, Input, Button, Icon, Label, Divider, Popup } from 'semantic-ui-react'
@@ -13,7 +18,9 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
         content={
           <p>Add Course Staffs to the Offering Admin List</p>
       }/>
+
       <Grid.Row>
+        {/* upload file button */}
         <Grid.Column width={3}>
           <h5>Upload a .csv file</h5>
           <div className="upload-box">
@@ -26,6 +33,8 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
         <Grid.Column width={2} style={{height: '5rem'}}>
           <Divider vertical>or</Divider>
         </Grid.Column>
+
+        {/* input to add instructors */}
         <Grid.Column>
           <Form.Field
             fluid 
@@ -47,6 +56,8 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
           </Label.Group>
         </Grid.Column>
       </Grid.Row>
+
+      {/* progress buttons */}
       <Grid.Row>
         <Grid.Column>
           <Button  secondary onClick={()=>toProgress('TermSecType')}>

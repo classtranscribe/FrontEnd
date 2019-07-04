@@ -1,3 +1,8 @@
+/**
+ * Form Component for Editing Offerings
+ * - Add or remove associated course IDs for a offering
+ */
+
 import React from 'react'
 // Layouts
 import { Grid, Form, Select, Popup, Button, Icon, Label, Message, Divider } from 'semantic-ui-react'
@@ -5,7 +10,7 @@ import { Grid, Form, Select, Popup, Button, Icon, Label, Message, Divider } from
 import { util } from '../../../../util'
 
 export default function CourseSetting({state, onChange, toProgress, removeCourse}) {
-  const { departments, courses, currDepart, offering, offeringInfo, selectedCourses } = state
+  const { departments, courses, currDepart, selectedCourses } = state
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
   const canGoNext = selectedCourses.length > 0
@@ -23,6 +28,7 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
       }/>
       
       <Grid.Row>
+        {/* Select a department */}
         <Grid.Column>
           <Form.Field
             fluid required
@@ -33,6 +39,8 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
             onChange={(event, {value}) => onChange(value, 'currDepart')}
           />
         </Grid.Column>
+
+        {/* Select a course */}
         <Grid.Column>
           <Form.Field
             fluid required
@@ -44,6 +52,8 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
           />
         </Grid.Column>
       </Grid.Row>
+
+      {/* Selected courses */}
       <Grid.Row style={{padding: '0 1rem 0 1rem'}}>
         <Message>
           <Message.Header><p>Selected Courses</p></Message.Header>
@@ -59,6 +69,8 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
           </Label.Group>
         </Message>
       </Grid.Row>
+
+      {/* Progress buttons */}
       <Grid.Row>
         <Grid.Column className="ap-buttons">
           {!canGoNext && <>Select courses to continue&ensp;&ensp;</>}
