@@ -35,6 +35,8 @@ export class InstructorOffering extends React.Component {
       term: handleData.copy(initialTerm),
 
       loadingCourses: true,
+      loadingTerm: true,
+      loadingOfferingFirstTime: true,
       loadingOfferingInfo: true,
     }
   }
@@ -43,14 +45,9 @@ export class InstructorOffering extends React.Component {
     this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
-  offeringInfoLoaded = () => {
-    this.setState({loadingOfferingInfo: !this.state.loadingOfferingInfo})
-  }
-
-  setLoading = array => {
-    array.forEach( key => {
-      this.setState({[key]: !this.state[key]})
-    })
+  setActivePane = eventKey => {
+    this.setState({activePane: eventKey})
+    localStorage.setItem('offeringActivePane', eventKey)
   }
 
   componentDidMount() {
@@ -92,15 +89,19 @@ export class InstructorOffering extends React.Component {
          */
         api.getData('Terms', response.data.offering.termId)
           .then( response => {
-            this.setState({term: response.data})
+            this.setState({term: response.data, loadingTerm: false})
           })
       })
   }
 
+  /**
+   * Check whether the content is loaded
+   */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { term, loadingCourses } = this.state;
-    if (term !== prevState.term && !loadingCourses) {
-          this.setState({loadingOfferingInfo: false})
+    // if the Offering info is fully loaded, hide loading wrapper
+    const { loadingTerm, loadingCourses, loadingOfferingFirstTime } = this.state;
+    if (!loadingTerm && !loadingCourses && loadingOfferingFirstTime) {
+          this.setState({loadingOfferingInfo: false, loadingOfferingFirstTime: false})
     }
   }
 

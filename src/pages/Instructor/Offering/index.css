@@ -145,8 +145,9 @@
   display: none;
 }
 .new-pl-btn {
-  width: 94%;
-  margin: 0 0 1rem 3%;
+  width: 19rem;
+  margin: 0 0 1rem 0.5rem !important;
+  /* margin-left: 0.5rem !important; */
 }
 .course-sidebar .playlists .playlist .item {
   padding-bottom: 0.3rem;

@@ -3,9 +3,8 @@
  * contains the playlists and menus
  */
 import React from 'react'
-import { Button, ListGroup } from 'react-bootstrap'
-import { Icon } from 'semantic-ui-react'
-import { OfferingInfoPlaceholder } from './Placeholders'
+import { ListGroup } from 'react-bootstrap'
+import { Icon, Button } from 'semantic-ui-react'
 import { GeneralPlaceholder } from '../../../../components'
 import { util, api, handleData } from '../../../../util'
 const { initialCourse, initialOffering } = api.initialData
@@ -31,9 +30,9 @@ export function SideBar({id, playlists, setActivePane, state}) {
         {/* Offering Info ---click to editing page */}
         {
           loadingOfferingInfo ? (
-            <GeneralPlaceholder fluid lines={[
-              'full', 'long', 'medium', 'short', 'short', 'very short'
-            ]} />
+            <GeneralPlaceholder fluid 
+              lines={['full', 'long', 'medium', 'short', 'short', 'very short']} 
+            />
           ) : (
             <ListGroup.Item className="details" action onClick={()=>util.editOffering(id)}>
               <p className="title">
@@ -86,7 +85,7 @@ function Playlist({playlists, id, setActivePane}) {
         <i class="fas fa-list-ul"></i> &ensp; Playlists
       </ListGroup.Item>
       
-      <Button variant="outline-dark" className="new-pl-btn" onClick={()=>util.newPlaylist(id)}>
+      <Button color="black" className="new-pl-btn" onClick={()=>util.newPlaylist(id)}>
         <i class="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
