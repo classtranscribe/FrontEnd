@@ -11,7 +11,7 @@ import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
 // Vars
 import { api, handleData, util } from '../../../util'
-const initialOffering = api.initialData.initialOffering;
+const initialOffering = api.initialData.initialOffering
 
 export default class OfferingSettingPage extends React.Component {
   constructor(props) {
@@ -118,7 +118,7 @@ export default class OfferingSettingPage extends React.Component {
     if (event.keyCode === 32 || event.keyCode === 13) { 
       const {id, isNew, staffMailId} = this.state
       if (handleData.isValidEmail(staffMailId)) {
-        const email = staffMailId;
+        const email = staffMailId
         this.setState( state => ({
           staffs: [...state.staffs, email], staffMailId: ''
         }))
@@ -185,7 +185,7 @@ export default class OfferingSettingPage extends React.Component {
         .then(response => {
           this.setState({
             currDepart: response.data, 
-          });
+          })
         })
       this.getCoursesByDepartId(value)
     } 
@@ -204,7 +204,7 @@ export default class OfferingSettingPage extends React.Component {
       newData[key] = value
     }
     this.setState({offeringInfo: newData})
-    // console.log(newData);
+    // console.log(newData)
   }
 
   /**
@@ -277,17 +277,17 @@ export default class OfferingSettingPage extends React.Component {
    * Go Back
    */
   onClose = () => {
-    if (this.state.isNew) util.toInstructorPage();
+    if (this.state.isNew) util.toInstructorPage()
     else util.toOfferingPage(this.state.id)
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   render() {
-    const { isNew } = this.state;
-    const header = isNew ? 'New Offering' : 'Offering Setting';
+    const { isNew } = this.state
+    const header = isNew ? 'New Offering' : 'Offering Setting'
     const button = isNew ? <SaveButtons {...this}/>
-                         : <EditButtons {...this} />;
+                         : <EditButtons {...this} />
     return(
       <GeneralModal 
         size="large"
