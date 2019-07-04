@@ -57,7 +57,7 @@ export default class OfferingSettingPage extends React.Component {
      * @TODO get by univeristy
      */
     api.getAll(['Departments', 'Terms'], 
-      (responce, name) => {
+      ( responce, name) => {
         this.setState({[name]: responce.data})
       })
 
@@ -65,12 +65,12 @@ export default class OfferingSettingPage extends React.Component {
      * Get data for editing a offering
      */
     const { isNew, id, offeringInfo } = this.state
-    if (!isNew) {
+    if ( !isNew ) {
       /**
        * Get CourseOffering by offeringId
        */
       api.getData('Offerings', id)
-        .then (({data}) => {
+        .then ( ({data}) => {
           console.log(data)
           // set default offeringInfo
           offeringInfo.offering = {
@@ -92,7 +92,7 @@ export default class OfferingSettingPage extends React.Component {
             api.getData('Departments', course.departmentId)
               .then( ({data}) => {
                 course.fullCourseNumber = data.acronym + course.courseNumber
-                this.setState(state => ({
+                this.setState( state => ({
                   selectedCourses: [...state.selectedCourses, course]
                 }))
               })
@@ -118,18 +118,18 @@ export default class OfferingSettingPage extends React.Component {
    * Functions for add course staffs
    */
   onEnterStaffMailId = event => {
-    if (event.target.value.includes(' ')) return;
+    if ( event.target.value.includes(' ') ) return;
     this.setState({staffMailId: event.target.value})
   }
   addStaff = event => {
-    if (event.keyCode === 32 || event.keyCode === 13) { 
+    if ( event.keyCode === 32 || event.keyCode === 13 ) { 
       const {id, isNew, staffMailId} = this.state
-      if (handleData.isValidEmail(staffMailId)) {
+      if ( handleData.isValidEmail(staffMailId) ) {
         const email = staffMailId
         this.setState( state => ({
           staffs: [...state.staffs, email], staffMailId: ''
         }))
-        if (!isNew) {
+        if ( !isNew ) {
           api.postOfferingAddInstructors(id, [email])
             .then(() => console.log('Successfully add new instructor!'))
         }
@@ -140,7 +140,7 @@ export default class OfferingSettingPage extends React.Component {
     var { staffs, isNew, id } = this.state
     handleData.remove(staffs, obj => obj === staff)
     this.setState({ staffs })
-    if (!isNew) {
+    if ( !isNew ) {
       api.deleteUserFromOffering(id, staff)
        .then(() => console.log('Successfully removed the user'))
     }
@@ -151,9 +151,10 @@ export default class OfferingSettingPage extends React.Component {
    */
   addCourse = course => {
     const { selectedCourses, isNew, id } = this.state
+    if ( handleData.findById(selectedCourses, course.id) ) return;
     selectedCourses.push(course)
     this.setState({ selectedCourses })
-    if (!isNew) {
+    if ( !isNew ) {
       api.postToCourseOfferings({
         courseId: course.id,
         offeringId: id
@@ -187,7 +188,7 @@ export default class OfferingSettingPage extends React.Component {
   onChange = (value, key) => {
     const newData = this.state.offeringInfo
     // set current department
-    if (key === 'currDepart') {
+    if ( key === 'currDepart' ) {
       api.getData('Departments', value)
         .then(response => {
           this.setState({
@@ -197,11 +198,11 @@ export default class OfferingSettingPage extends React.Component {
       this.getCoursesByDepartId(value)
     } 
     // keys of offering 
-    else if (handleData.includes(['termId', 'accessType', 'sectionName'], key)) {
+    else if ( handleData.includes(['termId', 'accessType', 'sectionName'], key) ) {
       newData.offering[key] = value
     } 
     // set current course
-    else if (key === 'courseId') {
+    else if ( key === 'courseId' ) {
       const { courses, currDepart } = this.state
       const course = handleData.findById(courses, value)
       course.fullCourseNumber = currDepart.acronym + course.courseNumber
@@ -225,7 +226,7 @@ export default class OfferingSettingPage extends React.Component {
     
 
     // POST to Offerings
-    api.postData(this.path, offeringInfo, ({data}) => {
+    api.postData(this.path, offeringInfo, ( {data}) => {
       // console.log(data)
       // POST to CourseOfferings
       selectedCourses.forEach( (course, index) => {
@@ -234,10 +235,10 @@ export default class OfferingSettingPage extends React.Component {
             courseId: course.id,
             offeringId: data.id
           })
-            .then(response => {
+            .then( response => {
               console.log(response.data)
             })
-            .catch(error => console.log(error))
+            .catch( error => console.log(error))
         }
       })
 
@@ -264,7 +265,7 @@ export default class OfferingSettingPage extends React.Component {
     const newOffering = offeringInfo.offering
     console.log(newOffering)
     // PUT to Offerings/id if if the offering info changes 
-    if (!handleData.isEqual(newOffering, offering.offering)) {
+    if ( !handleData.isEqual(newOffering, offering.offering) ) {
       api.updateData('Offerings', newOffering)
         .then( ({data}) => {
           // console.log(data)
@@ -284,7 +285,7 @@ export default class OfferingSettingPage extends React.Component {
    * Go Back
    */
   onClose = () => {
-    if (this.state.isNew) util.toInstructorPage()
+    if ( this.state.isNew ) util.toInstructorPage()
     else util.toOfferingPage(this.state.id)
   }
 
