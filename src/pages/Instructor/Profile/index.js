@@ -36,6 +36,17 @@ export class InstructorProfile extends React.Component {
       .then(response => {
         console.log(response.data)
         this.setState({courseOfferings: response.data})
+
+        // hide the loading page
+        const ele = document.getElementById('ct-loading-wrapper')
+        if(ele) {
+          // fade out
+          ele.classList.add('available')
+          setTimeout(() => {
+            // remove from DOM
+            ele.outerHTML = ''
+          }, 2000)
+        }
       })
   }
 

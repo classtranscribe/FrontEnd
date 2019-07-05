@@ -20,7 +20,7 @@ export function SideBar({id, playlists, setActivePane, state}) {
   const offering = courseOffering ? courseOffering.offering : initialOffering
 
   return (
-    <div className="course-sidebar" style={style}>
+    <div className="op-sidebar" style={style}>
       <ListGroup>
         {/* Go Back Menu Item */}
         <ListGroup.Item className="list" onClick={util.toInstructorPage}>

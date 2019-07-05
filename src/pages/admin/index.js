@@ -60,6 +60,16 @@ export class Admin extends React.Component {
   // callBack function for getAll
   getDataCallBack = (response, name) => {
     this.setState({[name]: response.data, uniLoading: false})
+    // hide the loading page
+    const ele = document.getElementById('ct-loading-wrapper')
+    if(ele) {
+      // fade out
+      ele.classList.add('available')
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = ''
+      }, 2000)
+    }
   }
 
   /**

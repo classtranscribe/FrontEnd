@@ -91,6 +91,17 @@ export class InstructorOffering extends React.Component {
           .then( response => {
             this.setState({term: response.data, loadingTerm: false})
           })
+
+        const ele = document.getElementById('ct-loading-wrapper')
+        if(ele) {
+          // fade out
+          ele.classList.add('available')
+          setTimeout(() => {
+            // remove from DOM
+            ele.outerHTML = ''
+            // ele.classList.add('hide')
+          }, 1000)
+        }
       })
   }
 
@@ -126,7 +137,7 @@ export class InstructorOffering extends React.Component {
     const { activePane } = this.state
     
     return (      
-      <main className="course-container"> 
+      <main className="op-bg"> 
         {this.wrapper()}       
         <ClassTranscribeHeader 
           showSiderBar={this.showSiderBar} 

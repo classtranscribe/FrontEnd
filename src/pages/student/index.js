@@ -47,6 +47,19 @@ export class StudentsPage extends React.Component {
     this.universities = ['UIUC']; // University of Illinois at Urbana-Champaign
   }
 
+  componentDidMount() {
+    // hide the loading page
+    const ele = document.getElementById('ct-loading-wrapper')
+    if(ele) {
+      // fade out
+      ele.classList.add('available')
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = ''
+      }, 2000)
+    }
+  }
+
 /* Mode setting functions: dark/light, grid/list */
   setDarkMode = () => {
     this.setState({darkMode: !this.state.darkMode})

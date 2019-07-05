@@ -32,6 +32,17 @@ export class LoginPage extends React.Component {
     setInterval(() => {
       this.setState({visible: !this.state.visible})
     }, 1700);
+
+    // hide the loading page
+    const ele = document.getElementById('ct-loading-wrapper')
+    if(ele) {
+      // fade out
+      ele.classList.add('available')
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = ''
+      }, 2000)
+    }
     
   }
   

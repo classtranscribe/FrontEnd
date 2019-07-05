@@ -59,6 +59,16 @@ export default class OfferingSettingPage extends React.Component {
     api.getAll(['Departments', 'Terms'], 
       ( responce, name) => {
         this.setState({[name]: responce.data})
+        // hide the loading page
+        const ele = document.getElementById('ct-loading-wrapper')
+        if(ele) {
+          // fade out
+          ele.classList.add('available')
+          setTimeout(() => {
+            // remove from DOM
+            ele.outerHTML = ''
+          }, 2000)
+        }
       })
 
     /**
