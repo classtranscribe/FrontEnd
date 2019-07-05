@@ -41,7 +41,8 @@ export class Admin extends React.Component {
       courseCurrDeparts: [],
       courseCurrDepart: null,
     }
-    this.getSelectOptions = util.getSelectOptions;
+    this.getSelectOptions = util.getSelectOptions
+    this.getAll = this.getAll.bind(this)
   }
 
   /**
@@ -49,27 +50,18 @@ export class Admin extends React.Component {
    */
   getAll() {
     this.setLoading('uni', true)
-    api.getAll(['Universities'], this.getDataCallBack);
+    api.getAll(['Universities'], (response, name) => {
+      this.setState({[name]: response.data, uniLoading: false})
+      /**
+       * Hide the loading page
+       */
+      api.contentLoaded()
+    })
     // loading data based on existing current values
-    const { courseCurrDepart, courseCurrUni, termCurrUni } = this.state;
-    if (termCurrUni) this.getTermsByUniId(termCurrUni.id);
-    if (courseCurrUni) this.getDepartsByUniId(courseCurrUni.id, 'courseCurrDeparts');
-    if (courseCurrDepart) this.getCoursesByDepartId(courseCurrDepart.id);
-  }
-
-  // callBack function for getAll
-  getDataCallBack = (response, name) => {
-    this.setState({[name]: response.data, uniLoading: false})
-    // hide the loading page
-    const ele = document.getElementById('ct-loading-wrapper')
-    if(ele) {
-      // fade out
-      ele.classList.add('available')
-      setTimeout(() => {
-        // remove from DOM
-        ele.outerHTML = ''
-      }, 2000)
-    }
+    const { courseCurrDepart, courseCurrUni, termCurrUni } = this.state
+    if (termCurrUni) this.getTermsByUniId(termCurrUni.id)
+    if (courseCurrUni) this.getDepartsByUniId(courseCurrUni.id, 'courseCurrDeparts')
+    if (courseCurrDepart) this.getCoursesByDepartId(courseCurrDepart.id)
   }
 
   /**
@@ -108,7 +100,7 @@ export class Admin extends React.Component {
     /**
      * 1. get userId and authToken
      */
-    user.setUpUser();
+    user.setUpUser()
     /**
      * 2. first load of values
      */
@@ -121,8 +113,8 @@ export class Admin extends React.Component {
       ['departments', 'departCurrUni', this.getDepartsByUniId], 
       ['courseCurrDeparts','courseCurrUni', this.getDepartsByUniId]
     ].forEach( key => {
-      var uniId = localStorage.getItem(key[1]);
-      var callBack = key[2];
+      var uniId = localStorage.getItem(key[1])
+      var callBack = key[2]
       if (uniId) {
         // get University by id in localStorage
         api.getData('Universities', uniId)
@@ -132,7 +124,7 @@ export class Admin extends React.Component {
             callBack(uniId, key[0])
             // To load courses. first load courseCurrDepart 
             if (key[1].includes('course')) {
-              var departId = localStorage.getItem('courseCurrDepart');
+              var departId = localStorage.getItem('courseCurrDepart')
               if (departId) {
                 // load courseCurrDepart by id
                 api.getData('Departments', departId)
@@ -141,7 +133,7 @@ export class Admin extends React.Component {
                     // load courses based on this department
                     this.getCoursesByDepartId(departId)
                   })
-              };
+              }
             }
           })
       }
@@ -149,12 +141,12 @@ export class Admin extends React.Component {
   }
 
   componentWillMount() {
-    // localStorage.removeItem('activePane');
+    // localStorage.removeItem('activePane')
   }
 
   onSignOut = () => {
-    user.signout();
-    this.props.history.goBack();
+    user.signout()
+    this.props.history.goBack()
   }
 
   /**
@@ -187,17 +179,17 @@ export class Admin extends React.Component {
         this.getTermsByUniId(value) 
       } else if (name.includes('depart')) { // departCurrUni
         localStorage.setItem('departCurrUni', value)
-        this.getDepartsByUniId(value, 'departments');
+        this.getDepartsByUniId(value, 'departments')
       } else if (name.includes('course')) { // courseCurrUni
         localStorage.setItem('courseCurrUni', value)
         // reset the 'courseCurrDepart' after change the 'courseCurrUni'
         localStorage.removeItem('courseCurrDepart') 
         this.setState({courseCurrDepart: null, courses: []})
-        this.getDepartsByUniId(value, 'courseCurrDeparts');
+        this.getDepartsByUniId(value, 'courseCurrDeparts')
       }
     } else if (name.includes('Depart')) { // set courseCurrDepart, then get its courses
       this.setState({[name]: handleData.findById(this.state.courseCurrDeparts, value)})
-      this.getCoursesByDepartId(value);
+      this.getCoursesByDepartId(value)
       localStorage.setItem('courseCurrDepart', value)
     } 
   } 

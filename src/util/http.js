@@ -78,6 +78,23 @@ export const api = {
   playlistTypes: playlistTypes,
 
   /**
+   * Function called when all the requests executed
+   * then hide the loading page
+   */
+  contentLoaded: function () {
+    const ele = document.getElementById('ct-loading-wrapper')
+    if(ele) {
+      // fade out
+      ele.classList.add('available')
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = ''
+        // ele.classList.add('hide')
+      }, 1000)
+    }
+  },
+
+  /**
    * Functions for set or get the auth/b2c token
    */
   b2cToken: () => authentication.getAccessToken(),

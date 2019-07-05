@@ -8,6 +8,7 @@ import { Header, Player } from './Components'
 // import PlaylistBar from './playlist'
 import './index.css';
 // Vars
+import { api } from '../../util'
 // import { fakeData } from '../../data'
 // const course = fakeData.instData.courses[0];
 // const offering = {
@@ -49,6 +50,13 @@ export class VideoPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    /**
+     * Hide the loading page
+     */
+    api.contentLoaded()
   }
   
 

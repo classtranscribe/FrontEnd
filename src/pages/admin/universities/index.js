@@ -14,7 +14,7 @@ export default function UniPane({state: {universities, uniLoading}}) {
   return (
     <Tab.Pane attached={false} className="ap-list" loading={uniLoading}>
       <Route path='/admin/uni/:type?=:id' component={authentication.required(UniversityEditing)}/>      
-      <CreateNewButton name='Create New University' path='uni'/>
+      <CreateNewButton name='Create New University' id='new' path='uni'/>
       <Divider horizontal>All Universities</Divider>
       {universities.slice().reverse().map( university => (
           <AdminListItem 

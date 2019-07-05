@@ -11,7 +11,7 @@ import SearchBar from './searchbar'
 import './index.css'
 
 // Vars
-import { search, sortFunc, user } from '../../util';
+import { search, sortFunc, user, api } from '../../util';
 import { fakeData } from '../../data';
 const searchSource = search.getCourseSource();
 const initialStates = {
@@ -48,16 +48,10 @@ export class StudentsPage extends React.Component {
   }
 
   componentDidMount() {
-    // hide the loading page
-    const ele = document.getElementById('ct-loading-wrapper')
-    if(ele) {
-      // fade out
-      ele.classList.add('available')
-      setTimeout(() => {
-        // remove from DOM
-        ele.outerHTML = ''
-      }, 2000)
-    }
+    /**
+     * Hide the loading page
+     */
+    api.contentLoaded()
   }
 
 /* Mode setting functions: dark/light, grid/list */

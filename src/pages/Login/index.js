@@ -4,6 +4,7 @@ import {
   Button as UIButton, Icon, Transition, Button, 
 } from 'semantic-ui-react'
 import { Row, Col, Accordion } from 'react-bootstrap'
+import { api } from '../../util'
 import './index.css'
 // Vars
 // import { instructors } from '../util/handledata'
@@ -33,16 +34,10 @@ export class LoginPage extends React.Component {
       this.setState({visible: !this.state.visible})
     }, 1700);
 
-    // hide the loading page
-    const ele = document.getElementById('ct-loading-wrapper')
-    if(ele) {
-      // fade out
-      ele.classList.add('available')
-      setTimeout(() => {
-        // remove from DOM
-        ele.outerHTML = ''
-      }, 2000)
-    }
+    /**
+     * Hide the loading page
+     */
+    api.contentLoaded()
     
   }
   

@@ -92,16 +92,10 @@ export class InstructorOffering extends React.Component {
             this.setState({term: response.data, loadingTerm: false})
           })
 
-        const ele = document.getElementById('ct-loading-wrapper')
-        if(ele) {
-          // fade out
-          ele.classList.add('available')
-          setTimeout(() => {
-            // remove from DOM
-            ele.outerHTML = ''
-            // ele.classList.add('hide')
-          }, 1000)
-        }
+        /**
+         * 4. Hide the loading page
+         */
+        api.contentLoaded()
       })
   }
 
