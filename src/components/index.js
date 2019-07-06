@@ -1,5 +1,4 @@
 import React from 'react'
-import { Col, Navbar, Nav } from 'react-bootstrap'
 import { Dimmer, Loader, Placeholder } from 'semantic-ui-react'
 import './index.css'
 
