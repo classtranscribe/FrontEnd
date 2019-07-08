@@ -88,7 +88,7 @@ function CourseForm({ state: {isNew, course, loading}, onChange}) {
   if (isNew) course = handleData.copy(initialCourse)
   return (
     <Form className="ap-form">
-      {loading ? 
+      {!loading || isNew ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>

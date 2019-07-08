@@ -88,7 +88,7 @@ function DepartForm({ state: {isNew, depart, loading}, onChange }) {
   if (isNew) depart = initialDepart
   return (
     <Form className="ap-form">
-      {loading ? 
+      {!loading || isNew ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>

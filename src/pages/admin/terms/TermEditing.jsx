@@ -96,7 +96,7 @@ function TermForm({ state:{isNew, term, date, loading}, onChange, setDate}) {
   if (isNew) term = initialTerm
   return (
     <Form className="ap-form">
-      {loading ? 
+      {!loading || isNew ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>

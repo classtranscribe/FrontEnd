@@ -88,7 +88,7 @@ function UniForm({state: {uni, isNew, loading}, onChange}) {
   if (isNew) uni = initialUni;
   return (
     <Form className="ap-form">
-      {loading ? 
+      {!loading || isNew ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>
