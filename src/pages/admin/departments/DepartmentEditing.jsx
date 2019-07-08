@@ -16,7 +16,9 @@ export default class DepartmentEditing extends React.Component {
     this.state = {
       id: this.props.match.params.id,
       isNew: this.props.match.params.type === 'new',
-      depart: null,
+      loading: true,
+
+      depart: handleData.copy(initialDepart),
       departInfo: handleData.copy(initialDepart),
       confirmed: false,
     }
@@ -27,7 +29,7 @@ export default class DepartmentEditing extends React.Component {
     const { id, isNew } = this.state
     if (!isNew) {
       api.getData(this.path, id)
-        .then( response => this.setState({depart: response.data}))
+        .then( response => this.setState({depart: response.data, loading: false}))
     }
   }
 
@@ -82,11 +84,11 @@ export default class DepartmentEditing extends React.Component {
   }
 }
 
-function DepartForm({ state: {isNew, depart}, onChange }) {
+function DepartForm({ state: {isNew, depart, loading}, onChange }) {
   if (isNew) depart = initialDepart
   return (
     <Form className="ap-form">
-      {depart ? 
+      {loading ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>

@@ -16,7 +16,9 @@ export default class TermEditing extends React.Component {
     this.state = {
       id: this.props.match.params.id,
       isNew: this.props.match.params.type === 'new',
-      term: null,
+      loading: true,
+
+      term: handleData.copy(initialTerm),
       termInfo: handleData.copy(initialTerm),
       confirmed: false,
     }
@@ -28,7 +30,7 @@ export default class TermEditing extends React.Component {
     const { id, isNew } = this.state
     if (!isNew) {
       api.getData(this.path, id)
-        .then( response => this.setState({term: response.data}))
+        .then( response => this.setState({term: response.data, loading: false}))
     }
   }
 
@@ -83,11 +85,11 @@ export default class TermEditing extends React.Component {
   }
 }
 
-function TermForm({ state:{isNew, term}, onChange}) {
+function TermForm({ state:{isNew, term, loading}, onChange}) {
   if (isNew) term = initialTerm
   return (
     <Form className="ap-form">
-      {term ? 
+      {loading ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>

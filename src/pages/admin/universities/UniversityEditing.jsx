@@ -16,7 +16,9 @@ export default class UniversityEditing extends React.Component {
     this.state = {
       id: this.props.match.params.id,
       isNew: this.props.match.params.type === 'new',
-      uni: null,
+      loading: true,
+
+      uni: handleData.copy(initialUni),
       uniInfo: handleData.copy(initialUni),
       confirmed: false,
     }
@@ -27,7 +29,7 @@ export default class UniversityEditing extends React.Component {
     const { id, isNew } = this.state
     if (!isNew) {
       api.getData(this.path, id)
-        .then( response => this.setState({uni: response.data}))
+        .then( response => this.setState({uni: response.data, loading: false}))
     }
   }
 
@@ -82,11 +84,11 @@ export default class UniversityEditing extends React.Component {
   }
 }
 
-function UniForm({state: {uni, isNew}, onChange}) {
+function UniForm({state: {uni, isNew, loading}, onChange}) {
   if (isNew) uni = initialUni;
   return (
     <Form className="ap-form">
-      {uni ? 
+      {loading ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>

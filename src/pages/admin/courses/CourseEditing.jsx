@@ -16,7 +16,9 @@ export default class CourseEditing extends React.Component {
     this.state = {
       id: this.props.match.params.id,
       isNew: this.props.match.params.type === 'new',
-      course: null,
+      loading: true,
+
+      course: handleData.copy(initialCourse),
       courseInfo: handleData.copy(initialCourse),
       confirmed: false,
     }
@@ -27,7 +29,7 @@ export default class CourseEditing extends React.Component {
     const { isNew, id } = this.state
     if (!isNew) {
       api.getData(this.path, id)
-        .then( response => this.setState({course: response.data}))
+        .then( response => this.setState({course: response.data, loading: false}))
     }
   }
 
@@ -82,11 +84,11 @@ export default class CourseEditing extends React.Component {
   }
 }
 
-function CourseForm({ state: {isNew, course}, onChange}) {
+function CourseForm({ state: {isNew, course, loading}, onChange}) {
   if (isNew) course = handleData.copy(initialCourse)
   return (
     <Form className="ap-form">
-      {course ? 
+      {loading ? 
       <Grid columns='equal' verticalAlign="middle">
         <Grid.Row >
           <Grid.Column>
