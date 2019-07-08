@@ -6,6 +6,7 @@ import React from 'react'
 // UI
 import { SubmitButton, EditButtons, GeneralModal } from '../Components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
+import Calendar from 'react-calendar'
 // Vars
 import { api, handleData, util } from '../../../util'
 const { initialTerm } = api.initialData
@@ -21,6 +22,7 @@ export default class TermEditing extends React.Component {
       term: handleData.copy(initialTerm),
       termInfo: handleData.copy(initialTerm),
       confirmed: false,
+      date: new Date(),
     }
     this.path = 'Terms'
     this.uniId = this.state.isNew ? this.state.id.substring(4, this.state.id.length) : null
@@ -32,6 +34,11 @@ export default class TermEditing extends React.Component {
       api.getData(this.path, id)
         .then( response => this.setState({term: response.data, loading: false}))
     }
+  }
+
+  setDate = (date) => {
+    console.log(date)
+    this.setState({ date: date})
   }
 
   onChange = (value, key) => {
@@ -85,7 +92,7 @@ export default class TermEditing extends React.Component {
   }
 }
 
-function TermForm({ state:{isNew, term, loading}, onChange}) {
+function TermForm({ state:{isNew, term, date, loading}, onChange, setDate}) {
   if (isNew) term = initialTerm
   return (
     <Form className="ap-form">
@@ -104,7 +111,7 @@ function TermForm({ state:{isNew, term, loading}, onChange}) {
             />
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
+        {/* <Grid.Row>
           <Grid.Column>
             <Form.Field
               fluid
@@ -125,6 +132,18 @@ function TermForm({ state:{isNew, term, loading}, onChange}) {
               placeholder='E.g. 2199-12-23T18:38:05.281Z'
               defaultValue={term.endDate}
               onChange={({target: {value}}) => onChange(value, 'endDate')}
+            />
+          </Grid.Column>
+        </Grid.Row> */}
+        <Grid.Row>
+          <Grid.Column>
+            <p><strong>Term Range</strong></p>
+            <Calendar 
+              onChange={date => {
+                onChange(date[0], 'startDate')
+                onChange(date[1], 'endDate')
+              }}
+              selectRange
             />
           </Grid.Column>
         </Grid.Row>
