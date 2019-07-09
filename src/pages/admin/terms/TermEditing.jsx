@@ -59,7 +59,7 @@ export default class TermEditing extends React.Component {
   }
 
   onChange = (value, key) => {
-    console.log(value)
+    // console.log(value)
     const { termInfo } = this.state
     termInfo[key] = value
     this.setState({ termInfo })
@@ -68,20 +68,22 @@ export default class TermEditing extends React.Component {
   onSubmit = () => {
     const { termInfo, id } = this.state
     termInfo.universityId = id
-    termInfo.startDate = termInfo.startDate.toDate().toString()
-    termInfo.endDate = termInfo.endDate.toDate().toString()
-    console.log(termInfo)
-    const temp = new Date()
-    console.log(temp)
+
+    termInfo.startDate = handleData.momentToISOString(termInfo.startDate)
+    termInfo.endDate = handleData.momentToISOString(termInfo.endDate)
+
+    // console.log(termInfo)
     api.postData(this.path, termInfo, () => this.onClose())
   }
 
   onUpdate = () => {
     const { term, termInfo, id } = this.state
     var data = handleData.updateJson(termInfo, term)
+
     data.id = id
-    data.startDate = data.startDate.toDate()
-    data.endDate = data.endDate.toDate()
+    data.startDate = handleData.momentToISOString(termInfo.startDate)
+    data.endDate = handleData.momentToISOString(termInfo.endDate)
+
     api.updateData(this.path, data, () => this.onClose())
   }
 

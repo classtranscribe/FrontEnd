@@ -10,6 +10,9 @@ export const handleData = {
   copy: function (obj) {
     return _.clone(obj)
   },
+  /**
+   * Remove an elem from an array
+   */
   remove: function (array, predicate) {
     return _.remove(array, predicate)
   },
@@ -48,6 +51,9 @@ export const handleData = {
     })
     return str
   },
+  /**
+   * @returns an array contains exact one key of a json array
+   */
   extract: function(array, key) {
     const res = []
     array.forEach( item => {
@@ -55,11 +61,26 @@ export const handleData = {
     })
     return res
   },
+  /**
+   * @returns {true} if a and b are equal
+   */
   isEqual: function(a, b) {
     return _.isEqual(a, b)
   },
+  /**
+   * Determine whether a imput email is valid
+   */
   isValidEmail: function(email) {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
+  },
+  /**
+   * convert a moment obj to a ISO string
+   */
+  momentToISOString: function(moment) {
+    if (typeof moment === 'string') return moment
+    const date = moment.toDate()
+    date.setUTCHours(0, 0, 0)
+    return date.toISOString()
   }
 }
