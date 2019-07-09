@@ -23,7 +23,8 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
         content={
           <p>
             <strong>Why multiple courses?</strong><br/>
-            Some offerings may be held by multiple departments. For Example CS425 and ECE428 have the same content.
+            Some offerings may be held by multiple departments. 
+            For Example, CS425 and ECE428 have the same content.
           </p>
       }/>
       
@@ -32,9 +33,9 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
         <Grid.Column>
           <Form.Field
             fluid required
-            id='offering-depart'
             control={Select}
-            label='Department'
+            label="Department"
+            aria-label="department"
             options={departOptions}
             onChange={(event, {value}) => onChange(value, 'currDepart')}
           />
@@ -44,9 +45,9 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
         <Grid.Column>
           <Form.Field
             fluid required
-            id='offering-course'
             control={Select}
             label='Course'
+            aria-label='course'
             options={courseOptions}
             onChange={(event, {value}) => onChange(value, 'courseId')}
           />
@@ -59,11 +60,15 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
           <Message.Header><p>Selected Courses</p></Message.Header>
           <Divider />
           {!selectedCourses.length && <p><span>none</span></p>}
-          <Label.Group size="large">
+          <Label.Group size="large" role="group">
             {selectedCourses.map( course => (
               <Label key={course.id}>
                 {course.fullCourseNumber}
-                <Icon name="delete" onClick={()=>removeCourse(course.id)}/>
+                <Icon 
+                  name="delete" 
+                  onClick={()=>removeCourse(course.id)} 
+                  title="remove" aria-label="remove" 
+                />
               </Label>
             ))}
           </Label.Group>
@@ -74,7 +79,11 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
       <Grid.Row>
         <Grid.Column className="ap-buttons">
           {!canGoNext && <>Select courses to continue&ensp;&ensp;</>}
-          <Button disabled={!canGoNext} secondary onClick={()=>toProgress('TermSecType')}>
+          <Button 
+            disabled={!canGoNext} secondary 
+            onClick={()=>toProgress('TermSecType')}
+            aria-label="go next"
+          >
             Next <Icon name="chevron right"/>
           </Button>
         </Grid.Column>

@@ -79,10 +79,10 @@ function Title({userId}) {
         </Grid.Column>
         <Grid.Column stretched className="new-course-btn">
           <Button 
-            as={Link}
+            as={Link} variant="secondary" 
             to={`/instructor/offering-setting/new=${userId}`}
-            variant="secondary" 
             style={{marginRight:'-2rem'}}
+            aria-label="create a new offering"
           >
             <i class="fas fa-plus"></i>&ensp;New Offering
           </Button>
@@ -103,10 +103,10 @@ function EmptyResult({userId}) {
         <h1>CLASS TRANSCRIBE</h1>
       </div>
       <Button 
-        as={Link}
+        as={Link} size='big' secondary
         to={`/instructor/offering-setting/new=${userId}`}
         style={{width: 'max-content', marginTop: '1rem'}} 
-        size='big' secondary
+        aria-label="create a new offering"
       >
         Create Your First Offering HERE!
       </Button>

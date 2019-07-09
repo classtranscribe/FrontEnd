@@ -128,7 +128,7 @@ export class InstructorOffering extends React.Component {
     const paddingLeft = {
       paddingLeft: (this.state.displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
     }
-    const { activePane } = this.state
+    const { activePane, displaySideBar } = this.state
     
     return (      
       <main className="op-bg"> 
@@ -137,6 +137,7 @@ export class InstructorOffering extends React.Component {
           showSiderBar={this.showSiderBar} 
           user={{name: user.firstName()}} 
           onSignOut={user.signout}
+          display={displaySideBar}
         />
 
         {/* Sub-Routes to editing pages for playlist & video */}

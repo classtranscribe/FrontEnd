@@ -137,7 +137,7 @@ function TermForm({ state:{isNew, termInfo, focusedInput, loading}, onChange, on
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <p><strong>Term Range</strong></p>
+            <label><p><strong>Term Range</strong></p></label><br/>
             <DateRangePicker
               noBorder
               openDirection='up'

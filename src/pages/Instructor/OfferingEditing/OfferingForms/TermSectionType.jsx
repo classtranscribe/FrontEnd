@@ -23,9 +23,9 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         <Grid.Column>
           <Form.Field
             fluid required
-            id='offering-term'
             control={Select}
-            label='Term'
+            label="Term"
+            aria-label="term"
             options={termOptions}
             value={offeringInfo.offering.termId}
             onChange={(event, {value}) => onChange(value, 'termId')}
@@ -36,9 +36,9 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         <Grid.Column>
           <Form.Field
             fluid required
-            id='offering-section'
             control={Input}
-            label='Section Number'
+            label="Section Number"
+            aria-label="section number"
             placeholder='E.g. AL1'
             value={offeringInfo.offering.sectionName}
             onChange={({target: {value}})=> onChange(value, 'sectionName')}
@@ -51,9 +51,9 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         <Grid.Column>
           <Form.Field
             fluid required 
-            id='offering-access-type'
             control={Select}
             label="Visibility"
+            aria-label="visibility"
             options={accessOptions}
             value={offeringInfo.offering.accessType}
             onChange={(event, {value}) => onChange(value, 'accessType')}
@@ -64,13 +64,13 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
       {/* Progress buttons */}
       <Grid.Row>
         <Grid.Column>
-          <Button  secondary onClick={()=>toProgress('Courses')}>
+          <Button secondary onClick={()=>toProgress('Courses')} aria-label="go back">
           <Icon name="chevron left"/> Back
           </Button>
         </Grid.Column>
         <Grid.Column className="ap-buttons">
           {!canGoNext && <>Fill out the fields to continue&ensp;&ensp;</>}
-          <Button disabled={!canGoNext} secondary onClick={()=>toProgress('Staffs')}>
+          <Button disabled={!canGoNext} secondary onClick={()=>toProgress('Staffs')} aria-label="go next">
             Next <Icon name="chevron right"/>
           </Button>
         </Grid.Column>

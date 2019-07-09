@@ -22,13 +22,14 @@ export function AdminListItem({header, items, path, id}) {
     <Message className='ap-listitem'>
       <div className='ap-iteminfo'>
         <Message.Header>{header}</Message.Header>
-        <Message.List items={items} />
+        <Message.List items={items} role="list"/>
       </div>
       <div className="ap-buttons">
         <Button 
-          as={Link}
-          to={`/admin/${path}/id=${id}`}
-          secondary compact 
+          as={Link} secondary compact
+          to={`/admin/${path}/id=${id}`} 
+          title="edit"
+          aria-label="edit"
         >
           <i class="fas fa-edit"></i>&ensp;Edit
         </Button>
@@ -50,8 +51,9 @@ export function CreateNewButton({path, id, name}) {
         as={Link}
         to={`/admin/${path}/new=${id}`}
         secondary
-      >
-      {name}</Button>
+        content={name}
+        aria-label={name}
+      />
     </div>
   )
 }
@@ -62,13 +64,17 @@ export function CreateNewButton({path, id, name}) {
 export function SubmitButton({onSubmit, onCancel}) {
   return (
     <>
-    <Button 
-      secondary 
-      onClick={onSubmit}
-      >Submit</Button>
-    <Button 
-      onClick={onCancel}
-      >Cancel</Button>
+      <Button 
+        secondary 
+        onClick={onSubmit}
+        content="Submit"
+        aria-label="submit"
+      />
+      <Button 
+        onClick={onCancel}
+        content="Cancel"
+        aria-label="cancel"
+      />
     </>
   )
 }
@@ -79,17 +85,23 @@ export function SubmitButton({onSubmit, onCancel}) {
 export function EditButtons({onUpdate, onInactive, onCancel}) {
   return (
     <>
-    <Button 
-      positive
-      onClick={onUpdate}
-      >Update</Button>
-    <Button 
-      onClick={onInactive}
-      >Inactive</Button>
-    <Button 
-      secondary
-      onClick={onCancel}
-      >Cancel</Button>
+      <Button 
+        positive
+        onClick={onUpdate}
+        content="Update"
+        aria-label="update"
+      />
+      <Button 
+        onClick={onInactive}
+        content="Inactive"
+        aria-label="inactive"
+      />
+      <Button 
+        secondary
+        onClick={onCancel}
+        content="Cancel"
+        aria-label="cancel"
+      />
     </>
   )
 }

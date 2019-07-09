@@ -43,13 +43,21 @@ export function DeleteModal({open, target, onSave, onClose}) {
         (This action cannot be undone)
       </Modal.Header>
       <Modal.Actions>
-        <Button color='black' onClick={onClose}>Cancel</Button>
+        <Button 
+          color='black' 
+          onClick={onClose}
+          content="Cancel"
+          title="cancel"
+          aria-label="cancel"
+        />
         <Button
           negative
           icon='trash'
           labelPosition='right'
           content="Delete Forever"
           onClick={onSave}
+          title="delete forever"
+          aria-label="delete forever"
         />
       </Modal.Actions>
     </Modal>

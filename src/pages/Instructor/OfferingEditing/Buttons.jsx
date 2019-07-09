@@ -15,9 +15,14 @@ export function SaveButtons(props) {
       {
         canSave // can save the offering iff all the fields if filled
           &&
-        <Button positive onClick={props.onCreate} >Save</Button>
+        <Button 
+          positive 
+          onClick={props.onCreate} 
+          content="Save"
+          aria-label="save"
+        />
       }
-      <Button onClick={props.onClose} >Cancel</Button>
+      <Button onClick={props.onClose} content="Cancel" aria-label="cancel" />
     </>
   )
 }
@@ -32,13 +37,19 @@ export function EditButtons(props) {
   return (
     <>
 
-      <Button disabled={!canSave} positive onClick={props.onUpdate} >Save</Button>
+      <Button 
+        disabled={!canSave} 
+        positive 
+        onClick={props.onUpdate} 
+        content="Save"
+        aria-label="save" 
+      />
       
-      <Button secondary onClick={props.onCancel} >Cancel</Button>
+      <Button secondary onClick={props.onCancel} content="Cancel" aria-label="cancel" />
       {
         offering // can delete the offering iff the offering is loaded
         && 
-        <Button onClick={props.showDeleteModal} >Delete</Button>
+        <Button onClick={props.showDeleteModal} content="Delete" aria-label="delete" />
       }
     </>
   )

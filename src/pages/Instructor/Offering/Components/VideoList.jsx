@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Tab } from 'react-bootstrap'
-import { List, Image, Dropdown as UIDropdown, Button as UIButton, Icon } from 'semantic-ui-react'
+import { List, Image, Dropdown, Button, Icon } from 'semantic-ui-react'
 import { FixedFooter } from '../../../../components'
 import { util } from '../../../../util'
 const profileImg = require('../../../../images/Video-Placeholder.jpg')
@@ -38,11 +38,16 @@ export function VideoList({playlists}) {
                       className="img" 
                       onClick={()=>util.watch()} // to video page
                       src={profileImg}
+                      aria-label={`see video ${video}`}
+                      title={`see video ${video}`}
                     />
                     <List.Content>
                       <div className="info">
-                        <p className={`title ${playlist.type.toLowerCase()}`} 
+                        <p 
+                          className={`title ${playlist.type.toLowerCase()}`} 
                           onClick={()=>util.watch()} // to video page
+                          aria-label={`see video ${video}`}
+                          title={`see video ${video}`}
                         >
                           {video} 
                         </p>
@@ -85,20 +90,22 @@ function EditPlaylistBtns({type}) {
       {
         type !== 'YouTube'
         &&
-        <UIButton 
+        <Button 
           color='grey'
           className="new-btn" 
           onClick={()=>1} 
+          aria-label="new video"
         >
           {newVideoButtonName}
-        </UIButton>
+        </Button>
       }
-      <UIButton 
+      <Button 
         className="edit-btn" 
         onClick={()=>util.editPlaylist('fakeid')} 
+        aria-label="edit playlist"
       >
         <i class="fas fa-edit"></i>&ensp;Edit Playlist
-      </UIButton>
+      </Button>
     </div>
   )
 }
@@ -110,18 +117,25 @@ function EditVideoButtons({show, video}) {
   const display = show ? {} : {display: 'none'}
   return (
     <List.Content floated='right' className="list-dropdown-btn" style={display}>
-      <UIDropdown icon="ellipsis vertical" floating direction="left" aria-label={`Editing Dropdown Buttons for Video ${video}`}>
-        <UIDropdown.Menu >
-          <UIDropdown.Item 
+      <Dropdown 
+        icon="ellipsis vertical" 
+        floating direction="left" 
+        aria-label={`Dropdown Buttons for Video ${video}`}
+        title="edit"
+      >
+        <Dropdown.Menu >
+          <Dropdown.Item 
             icon="edit" text='Edit' 
             onClick={()=>util.editVideo('fakeid')}
+            aria-label="edit"
           />
-          <UIDropdown.Item 
+          <Dropdown.Item 
             icon="trash" text='Delete' 
             onClick={()=>1}
+            aria-label="delete"
           />
-        </UIDropdown.Menu>
-      </UIDropdown>
+        </Dropdown.Menu>
+      </Dropdown>
     </List.Content>
   )
 }

@@ -10,20 +10,30 @@ import './index.css'
  * user: {name, ...}
  * showSiderBar: function for display or hide side bar
  */
-export function ClassTranscribeHeader({darkMode, showSiderBar, user, onSignOut}) {
+export function ClassTranscribeHeader({darkMode, showSiderBar, user, onSignOut, display}) {
   const bg = darkMode ? 'dark' : 'light';
   const location =  window.location.toString()
-  const offeringPage = location.includes('/offering/')
+  const showSideBarTrigger = location.includes('/offering/')
+
+  const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
   return (
-    <Navbar aria-label="Top Nav Bar" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
+    <Navbar sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
       {
-        offeringPage 
+        showSideBarTrigger 
         &&
-        <Navbar.Brand className="sidebar-trigger" onClick={showSiderBar} disabled>
+        <Navbar.Brand 
+          className="sidebar-trigger" 
+          aria-label={sidebarTrggerTitle}
+          title={sidebarTrggerTitle}
+          onClick={showSiderBar} 
+          disabled
+        >
           <Icon name='sidebar' size="large"/>
         </Navbar.Brand>
       }
-      <Navbar.Brand className="brand" href="/">ClassTranscribe</Navbar.Brand>
+      <Navbar.Brand className="brand" href="/" title="brand" aria-label="brand">
+        ClassTranscribe
+      </Navbar.Brand>
       <Row className="signout">
         <ProfileBtn user={user} onSignOut={onSignOut}/>
       </Row>

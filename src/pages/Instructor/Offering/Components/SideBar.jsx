@@ -23,7 +23,11 @@ export function SideBar({id, playlists, setActivePane, state}) {
     <div className="op-sidebar" style={style}>
       <ListGroup>
         {/* Go Back Menu Item */}
-        <ListGroup.Item className="list" onClick={util.toInstructorPage}>
+        <ListGroup.Item 
+          className="list" 
+          onClick={util.toInstructorPage} 
+          aria-label="go back" title="go back"
+        >
           <i class="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
         </ListGroup.Item>
 
@@ -34,20 +38,31 @@ export function SideBar({id, playlists, setActivePane, state}) {
               lines={['full', 'long', 'medium', 'short', 'short', 'very short']} 
             />
           ) : (
-            <ListGroup.Item className="details" action onClick={()=>util.editOffering(id)}>
+            <ListGroup.Item 
+              className="details" action 
+              onClick={()=>util.editOffering(id)} 
+              aria-label="edit offering"
+              title="edit offering"
+            >
               <p className="title">
                 <i class="fas fa-book"></i> &ensp; {courseNumber}
                 &ensp; <i class="fas fa-edit"></i>
               </p>
-              <p className="name"><Icon name="circle outline" /><strong>{course.courseName}</strong></p>
-              <p className="name"><Icon name="circle outline" />{term.name}</p>
-              <p className="sec"><Icon name="circle outline" /><strong>Section</strong> {offering.sectionName}</p>
+              <p className="name">
+                <Icon name="circle outline" /><strong>{course.courseName}</strong>
+              </p>
+              <p className="name">
+                <Icon name="circle outline" />{term.name}
+              </p>
+              <p className="sec">
+                <Icon name="circle outline" /><strong>Section</strong> {offering.sectionName}
+              </p>
             </ListGroup.Item>
           )
         }
         
         {/* Data demo menu item */}
-        <ListGroup.Item className="list" eventKey="data">
+        <ListGroup.Item className="list" eventKey="data" aria-label="data" title="data">
           <i class="fas fa-chart-bar"></i> &ensp; Data
         </ListGroup.Item>
       </ListGroup>
@@ -92,10 +107,11 @@ function Playlist({playlists, id, setActivePane}) {
         <ListGroup className="playlist">
           {playlists.map( playlist => 
             <ListGroup.Item 
-              variant="secondary" className="item" 
-              key={playlist.name}
-              action eventKey={playlist.name} // should be playlist id
+              variant="secondary" className="item" action 
+              key={playlist.name} eventKey={playlist.name} // should be playlist id
               onClick={()=>setActivePane(playlist.name)} // should be playlist id
+              aria-label={playlist.name}
+              title={`see videos of playlist '${playlist.name}'`}
             >
               <p className="pl-name">
                 <Icon name={getIcon(playlist.type)} color={getColor(playlist.type)} /> 

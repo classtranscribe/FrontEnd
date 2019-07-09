@@ -25,9 +25,11 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
           <h5>Upload a .csv file</h5>
           <div className="upload-box">
             <input type="file" />
-            <Button className="upload-button" >
-              Browse Files
-            </Button>
+            <Button 
+              className="upload-button" 
+              content="Browse Files"
+              aria-label="browse files"
+            />
           </div>
         </Grid.Column>
         <Grid.Column width={2} style={{height: '5rem'}}>
@@ -38,10 +40,10 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
         <Grid.Column>
           <Form.Field
             fluid 
-            id='course-staff-email-id'
             control={Input}
             type="email"
-            label="Enter the email of the staff"
+            label="Enter the emails"
+            aria-label="enter the emails"
             value={staffMailId}
             onChange={onEnterStaffMailId}
             onKeyDown={addStaff}
@@ -50,7 +52,11 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
             {staffs.map( staff => (
               <Label key={staff}>
                 {staff}
-                <Icon name="delete" onClick={()=>removeStaff(staff)}/>
+                <Icon 
+                  name="delete" 
+                  onClick={()=>removeStaff(staff)} 
+                  title="remove" aria-label="remove" 
+                />
               </Label>
             ))}
           </Label.Group>
@@ -60,8 +66,8 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
       {/* progress buttons */}
       <Grid.Row>
         <Grid.Column>
-          <Button  secondary onClick={()=>toProgress('TermSecType')}>
-          <Icon name="chevron left"/> Back
+          <Button  secondary onClick={()=>toProgress('TermSecType')} aria-label="go back">
+            <Icon name="chevron left"/> Back
           </Button>
         </Grid.Column>
       </Grid.Row>
