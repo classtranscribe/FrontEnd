@@ -17,20 +17,20 @@ export function FixedFooter(props) {
 export function ClassTranscribeFooter(props) {
   return (
     <div className="ct-footer" aria-label="Footer">
-      <Grid stackable>
+      <Grid stackable columns='equal' verticalAlign="middle" textAlign="center">
         <Grid.Row>
-          <Header className="title">About</Header>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={3}>
-            <List link>
-              <List.Item as="a">About Us</List.Item>
-              <List.Item as="a" href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</List.Item>
-            </List>
+          <Grid.Column>
+            <List.Item as="a" href="/">About Us</List.Item>
+          </Grid.Column>
+          <Grid.Column>
+            <List.Item as="a" href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</List.Item>
+          </Grid.Column>
+          <Grid.Column>
+            &copy; 2016-2019 UIUC
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <div className="copy">&copy; 2016-2019 UIUC</div>
+      {/* <div className="copy">&copy; 2016-2019 UIUC</div> */}
     </div>
   )
 }
