@@ -6,7 +6,7 @@
 
 import React from 'react'
 // Layouts
-import { FixedFooter, ClassTranscribeHeader, ClassTranscribeFooter } from '../../../components'
+import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../../components'
 import { Courses, ProfileCard } from "./Components"
 import './index.css'
 // Vars
