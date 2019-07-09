@@ -9,7 +9,7 @@ import {
   InstructorOffering,
   VideoPage,
   Admin,
-} from './pages'
+} from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
 
