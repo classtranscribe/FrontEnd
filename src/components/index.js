@@ -3,7 +3,7 @@ import { Dimmer, Loader, Placeholder } from 'semantic-ui-react'
 import './index.css'
 
 export { ClassTranscribeHeader } from './Header'
-export { FixedFooter } from './Footer'
+export { FixedFooter, ClassTranscribeFooter } from './Footer'
 export { GeneralModal, DeleteModal } from './Modals'
 export { GeneralAlert } from './Alerts'
 export { UpLoadVideosContainer } from './uploading'
@@ -34,8 +34,8 @@ export function GeneralPlaceholder({fluid, lines, image, inverted}) {
       <Placeholder.Header image={image}>
         <Placeholder.Line />
         <Placeholder.Line />
-        {lines && lines.map( length => (
-          <Placeholder.Line length={length} />
+        {lines && lines.map( (length, index) => (
+          <Placeholder.Line key={length + index} length={length} />
         ))}
       </Placeholder.Header>
     </Placeholder>

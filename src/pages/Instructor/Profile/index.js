@@ -6,7 +6,7 @@
 
 import React from 'react'
 // Layouts
-import { FixedFooter, ClassTranscribeHeader } from '../../../components'
+import { FixedFooter, ClassTranscribeHeader, ClassTranscribeFooter } from '../../../components'
 import { Courses, ProfileCard } from "./Components"
 import './index.css'
 // Vars
@@ -84,7 +84,7 @@ export class InstructorProfile extends React.Component {
             {...this}
           />
         </div>
-        <FixedFooter />
+        <ClassTranscribeFooter />
       </div>
     )
   }
