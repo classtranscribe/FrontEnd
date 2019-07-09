@@ -13,6 +13,7 @@ export default function ProfileBtn({user, onSignOut, darkMode}) {
       <Icon name='user' circular/> Hello, {user.name}
     </span>
   )
+  
   return (
     <Dropdown trigger={trigger} direction='left' aria-label="Open menu" title="menu" closeOnBlur={false}>
       <Dropdown.Menu>
