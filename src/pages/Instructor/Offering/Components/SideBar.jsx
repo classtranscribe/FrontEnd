@@ -100,7 +100,7 @@ function Playlist({playlists, id, setActivePane}) {
         <i class="fas fa-list-ul"></i> &ensp; Playlists
       </ListGroup.Item>
       
-      <Button color="black" className="new-pl-btn" onClick={()=>util.newPlaylist(id)}>
+      <Button className="new-pl-btn" onClick={()=>util.newPlaylist(id)}>
         <i class="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 

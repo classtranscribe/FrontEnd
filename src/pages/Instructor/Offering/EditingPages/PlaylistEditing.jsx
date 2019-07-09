@@ -36,6 +36,7 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
    * GET all the needed info based on the playlist Id
    */
   useEffect(()=> {
+    api.contentLoaded()
     if (!isNew) {
       // setLoading(true)
       // api.getData(path, id)

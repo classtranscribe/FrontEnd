@@ -28,6 +28,7 @@ export function VideoEditing ({match: {params: {id}}, history}) {
    * GET all the needed info based on the videoId
    */
   useEffect(()=> {
+    api.contentLoaded()
     // api.getData(path, id)
     // .then( response => {
     //   setVideo(response.data)
