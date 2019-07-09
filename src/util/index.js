@@ -22,6 +22,24 @@ export const util = {
     return options;
   },
 
+  links: {
+    home: ()=> '/',
+    student: () => '/student',
+    admin: () => '/admin',
+
+    instructor: () => '/instructor',
+    newOffering: id => `/instructor/offering-setting/new=${id}`,
+    editOffering: id => `/instructor/offering-setting/id=${id}`,
+
+    offering: id => `/offering/${id}`,
+    newPlaylist: id => `/offering/playlist-setting/new=${id}`,
+    editPlaylist: id => `/offering/playlist-setting/id=${id}`,
+    uploadVideo: id => `/offering/upload/${id}`,
+    editVideo: id => `/offering/video-setting/${id}`,
+
+    video: id => '/video',
+  },
+
   /**
    * Functions for switching pages
    */
