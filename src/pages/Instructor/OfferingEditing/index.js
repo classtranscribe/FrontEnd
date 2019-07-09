@@ -57,7 +57,7 @@ export default class OfferingSettingPage extends React.Component {
      * @TODO get by univeristy
      */
     api.getAll(['Departments', 'Terms'], 
-      ( responce, name) => {
+      (responce, name) => {
         this.setState({[name]: responce.data})
       })
 
