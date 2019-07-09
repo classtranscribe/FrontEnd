@@ -81,7 +81,7 @@ export const api = {
    * Function called when all the requests executed
    * then hide the loading page
    */
-  contentLoaded: function () {
+  contentLoaded: function (interval) {
     const ele = document.getElementById('ct-loading-wrapper')
     if(ele) {
       // fade out
@@ -90,7 +90,7 @@ export const api = {
         // remove from DOM
         ele.outerHTML = ''
         // ele.classList.add('hide')
-      }, 1000)
+      }, interval || 1000)
     }
   },
 
