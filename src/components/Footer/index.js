@@ -8,7 +8,7 @@ export function FixedFooter(props) {
   return (
     <Navbar variant={props.isDark ? "dark" : "light"} aria-label="Footer">
       <Nav className="ct-fixed-footer">
-        <Nav.Link as={Col} className="footer-copy" disabled>&copy; 2016-2018 UIUC</Nav.Link>
+        <Nav.Link as={Col} className="footer-copy" disabled>&copy; 2016-2019 UIUC</Nav.Link>
       </Nav>    
     </Navbar>
   )
@@ -30,7 +30,7 @@ export function ClassTranscribeFooter(props) {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <div className="copy">&copy; 2016-2018 UIUC</div>
+      <div className="copy">&copy; 2016-2019 UIUC</div>
     </div>
   )
 }
