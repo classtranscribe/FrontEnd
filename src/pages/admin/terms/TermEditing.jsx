@@ -6,10 +6,14 @@ import React from 'react'
 // UI
 import { SubmitButton, EditButtons, GeneralModal } from '../Components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
-import Calendar from 'react-calendar'
+import { DateRangePicker } from 'react-dates'
+import 'react-dates/initialize'
+import 'react-dates/lib/css/_datepicker.css'
 // Vars
+import moment from 'moment'
 import { api, handleData, util } from '../../../util'
 const { initialTerm } = api.initialData
+
 
 export default class TermEditing extends React.Component {
   constructor(props) {
@@ -23,6 +27,7 @@ export default class TermEditing extends React.Component {
       termInfo: handleData.copy(initialTerm),
       confirmed: false,
       date: new Date(),
+      focusedInput: null
     }
     this.path = 'Terms'
     this.uniId = this.state.isNew ? this.state.id.substring(4, this.state.id.length) : null
@@ -32,7 +37,15 @@ export default class TermEditing extends React.Component {
     const { id, isNew } = this.state
     if (!isNew) {
       api.getData(this.path, id)
-        .then( response => this.setState({term: response.data, loading: false}))
+        .then( response => this.setState({
+          term: response.data, 
+          termInfo: {
+            ...response.data, 
+            startDate: moment(response.data.startDate),
+            endDate: moment(response.data.endDate)
+          },
+          loading: false,
+        }))
     }
   }
 
@@ -41,7 +54,12 @@ export default class TermEditing extends React.Component {
     this.setState({ date: date})
   }
 
+  onFocusChange = focusedInput => {
+    this.setState({ focusedInput })
+  }
+
   onChange = (value, key) => {
+    console.log(value)
     const { termInfo } = this.state
     termInfo[key] = value
     this.setState({ termInfo })
@@ -50,6 +68,11 @@ export default class TermEditing extends React.Component {
   onSubmit = () => {
     const { termInfo, id } = this.state
     termInfo.universityId = id
+    termInfo.startDate = termInfo.startDate.toDate().toString()
+    termInfo.endDate = termInfo.endDate.toDate().toString()
+    console.log(termInfo)
+    const temp = new Date()
+    console.log(temp)
     api.postData(this.path, termInfo, () => this.onClose())
   }
 
@@ -57,6 +80,8 @@ export default class TermEditing extends React.Component {
     const { term, termInfo, id } = this.state
     var data = handleData.updateJson(termInfo, term)
     data.id = id
+    data.startDate = data.startDate.toDate()
+    data.endDate = data.endDate.toDate()
     api.updateData(this.path, data, () => this.onClose())
   }
 
@@ -92,8 +117,7 @@ export default class TermEditing extends React.Component {
   }
 }
 
-function TermForm({ state:{isNew, term, date, loading}, onChange, setDate}) {
-  if (isNew) term = initialTerm
+function TermForm({ state:{isNew, termInfo, focusedInput, loading}, onChange, onFocusChange}) {
   return (
     <Form className="ap-form">
       {!loading || isNew ? 
@@ -106,44 +130,28 @@ function TermForm({ state:{isNew, term, date, loading}, onChange, setDate}) {
               control={Input}
               label='Term Name'
               placeholder='E.g. Spring 2019'
-              defaultValue={term.name}
+              defaultValue={termInfo.name}
               onChange={({target: {value}}) => onChange(value, 'name')}
             />
           </Grid.Column>
         </Grid.Row>
-        {/* <Grid.Row>
-          <Grid.Column>
-            <Form.Field
-              fluid
-              id='start-date-edit'
-              control={Input}
-              label='Start Date'
-              placeholder='E.g. 2199-08-26T18:38:05.281Z'
-              defaultValue={term.startDate}
-              onChange={({target: {value}}) => onChange(value, 'startDate')}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Form.Field
-              fluid
-              id='start-date-edit'
-              control={Input}
-              label='End Date'
-              placeholder='E.g. 2199-12-23T18:38:05.281Z'
-              defaultValue={term.endDate}
-              onChange={({target: {value}}) => onChange(value, 'endDate')}
-            />
-          </Grid.Column>
-        </Grid.Row> */}
         <Grid.Row>
           <Grid.Column>
             <p><strong>Term Range</strong></p>
-            <Calendar 
-              onChange={date => {
-                onChange(date[0], 'startDate')
-                onChange(date[1], 'endDate')
-              }}
-              selectRange
+            <DateRangePicker
+              noBorder
+              openDirection='up'
+              isOutsideRange={()=>false}
+              startDate={termInfo.startDate || new moment()} // momentPropTypes.momentObj or null,
+              startDateId={'startDate'} // PropTypes.string.isRequired,
+              endDate={termInfo.endDate || new moment()} // momentPropTypes.momentObj or null,
+              endDateId={'endDate'} // PropTypes.string.isRequired,
+              onDatesChange={({ startDate, endDate }) => {
+                onChange(startDate, 'startDate')
+                onChange(endDate, 'endDate')
+              }} // PropTypes.func.isRequired,
+              focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+              onFocusChange={onFocusChange} // PropTypes.func.isRequired,
             />
           </Grid.Column>
         </Grid.Row>

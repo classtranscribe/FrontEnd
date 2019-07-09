@@ -49,3 +49,18 @@
 .ap-listitem .ap-iteminfo {
   width: 100%;
 }
+
+/* Calendar */
+.DateRangePickerInput {
+  background: none !important;
+}
+.CalendarDay__selected {
+  background: #14a8a1 !important;
+  color: white;
+  border: #14a8a1 solid 1px !important
+}
+.CalendarDay__selected_span {
+  background: #70b9ae !important; 
+  color: white;
+  border: none !important;
+}
