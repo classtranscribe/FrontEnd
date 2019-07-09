@@ -24,15 +24,15 @@ export function VideoList({playlists}) {
   return (
     <Tab.Content className="csp-videos">
       {playlists.map( playlist => (
-          <Tab.Pane eventKey={playlist.name} aria-label="Video List">  
+          <Tab.Pane eventKey={playlist.name} aria-label="Video List" key={playlist.name}>  
             <PlaylistInfoHeader playlist={playlist} />          
             {playlist.videos.length ? 
               <List verticalAlign='middle' className="vlist" role="list">
-                {playlist.videos.map( video => (
-                  <List.Item className="video-card">
+                {playlist.videos.map( (video, index) => (
+                  <List.Item className="video-card" key={video+index}> {/* should be video.id */}
                     <EditVideoButtons show={playlist.type !== 'YouTube'} video={video}/>
 
-                  {/* The video Info */}
+                    {/* The video Info */}
                     <Image 
                       alt="Video Poster"
                       className="img" 

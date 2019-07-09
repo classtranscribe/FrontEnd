@@ -93,6 +93,7 @@ function Playlist({playlists, id, setActivePane}) {
           {playlists.map( playlist => 
             <ListGroup.Item 
               variant="secondary" className="item" 
+              key={playlist.name}
               action eventKey={playlist.name} // should be playlist id
               onClick={()=>setActivePane(playlist.name)} // should be playlist id
             >
