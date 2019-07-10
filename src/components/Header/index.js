@@ -10,7 +10,7 @@ import './index.css'
  * user: {name, ...}
  * showSiderBar: function for display or hide side bar
  */
-export function ClassTranscribeHeader({darkMode, showSiderBar, user, onSignOut, display}) {
+export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, display}) {
   const bg = darkMode ? 'dark' : 'light';
   const location =  window.location.toString()
   const showSideBarTrigger = location.includes('/offering/')
@@ -35,7 +35,7 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, user, onSignOut, 
         ClassTranscribe
       </Navbar.Brand>
       <Row className="signout">
-        <ProfileBtn user={user} onSignOut={onSignOut}/>
+        <ProfileBtn onSignOut={onSignOut}/>
       </Row>
     </Navbar>
   )
