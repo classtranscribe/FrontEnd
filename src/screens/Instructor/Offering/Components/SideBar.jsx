@@ -24,7 +24,7 @@ export function SideBar({id, playlists, setActivePane, state}) {
       <ListGroup>
         {/* Go Back Menu Item */}
         <ListGroup.Item 
-          className="list" 
+          className="list goback" 
           onClick={util.toInstructorPage} 
           aria-label="go back" title="go back"
         >
@@ -38,8 +38,9 @@ export function SideBar({id, playlists, setActivePane, state}) {
               lines={['full', 'long', 'medium', 'short', 'short', 'very short']} 
             />
           ) : (
+            <>
             <ListGroup.Item 
-              className="details" action 
+              className="list" 
               onClick={()=>util.editOffering(id)} 
               aria-label="edit offering"
               title="edit offering"
@@ -48,16 +49,19 @@ export function SideBar({id, playlists, setActivePane, state}) {
                 <i class="fas fa-book"></i> &ensp; {courseNumber}
                 &ensp; <i class="fas fa-edit"></i>
               </p>
+            </ListGroup.Item>
+            <ListGroup.Item className="list" disabled>
               <p className="name">
-                <Icon name="circle outline" /><strong>{course.courseName}</strong>
+                <strong>{course.courseName}</strong>
               </p>
               <p className="name">
-                <Icon name="circle outline" />{term.name}
+                {term.name}
               </p>
               <p className="sec">
-                <Icon name="circle outline" /><strong>Section</strong> {offering.sectionName}
+                <strong>Section</strong> {offering.sectionName}
               </p>
             </ListGroup.Item>
+            </>
           )
         }
         

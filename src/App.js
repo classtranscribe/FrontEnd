@@ -4,7 +4,7 @@ import authentication from 'react-azure-adb2c'
 
 import { 
   LoginPage as Homepage, 
-  StudentsPage, 
+  OfferingViewing, 
   InstructorProfile, 
   InstructorOffering,
   VideoPage,
@@ -31,9 +31,9 @@ class App extends React.Component {
     return (
       <Router basename="/">
         <Switch>
-          <Route exact path="/" component={Homepage} />
+          <Route exact path="/" component={OfferingViewing} />
           <Route path="/admin" component={authentication.required(Admin)} />
-          <Route path="/student" component={authentication.required(StudentsPage)} />
+          <Route path="/student" component={authentication.required(OfferingViewing)} />
           <Route path="/instructor" component={authentication.required(InstructorProfile)} />
           <Route path="/offering/:id" component={authentication.required(InstructorOffering)} />
           <Route path="/video" component={VideoPage} />

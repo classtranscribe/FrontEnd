@@ -124,18 +124,17 @@ export class InstructorOffering extends React.Component {
   }
 
   render() {
+    const { activePane, displaySideBar } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
-      paddingLeft: (this.state.displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
+      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
     }
-    const { activePane, displaySideBar } = this.state
-    
+
     return (      
       <main className="op-bg"> 
         {this.wrapper()}       
         <ClassTranscribeHeader 
           showSiderBar={this.showSiderBar} 
-          user={{name: user.firstName()}} 
           onSignOut={user.signout}
           display={displaySideBar}
         />

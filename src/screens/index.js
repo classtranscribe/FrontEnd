@@ -1,6 +1,6 @@
 export { InstructorProfile  } from "./Instructor/Profile"
 export { InstructorOffering } from "./Instructor/Offering"
-export { StudentsPage       } from "./Student"
+export { OfferingViewing    } from "./OfferingViewing"
 export { LoginPage          } from "./Login"
 export { VideoPage          } from './Watch'
 export { Admin              } from './Admin'

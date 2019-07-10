@@ -45,7 +45,7 @@
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.2s linear;
-  z-index: 3;
+  z-index: 5;
   box-shadow: 1px 10px 5px #dddddd;
   -webkit-overflow-scrolling: touch;
 }
@@ -56,7 +56,8 @@
   }
 }
 .op-sidebar .list {
-  border-radius: 0;
+  border-radius: 0 1.5rem 1.5rem 0;
+  margin-right: 0.5rem !important;
   color: rgb(77, 76, 76);
   background: none;
   border: none;
@@ -64,11 +65,13 @@
   font-size: 1.2rem;
   transition: all 0.2s linear;
   overflow-x: hidden;
-  /* margin-top: 0.5rem; */
-}
-.op-sidebar .list:hover {
-  margin-left: 10px;
-}
+  /* margin-top: 0.5rem; */}
+  .op-sidebar .list:hover {
+    /* margin-left: 10px; */
+    background: #dfdfdf;}
+  .op-sidebar .goback {
+    height: 3rem !important;
+  }
 
 .op-sidebar .placeholder {
   margin: 0 1rem 0 1rem;}
@@ -78,23 +81,14 @@
 
 /* offering details */
 
-.op-sidebar .details {
-  border-radius: 0;
-  background: none;
-  border: none;
-  transition: all 0.2s linear;
-  margin-bottom: 0.4rem;}
-  .op-sidebar .details:hover {
-    padding-left: 2rem;}
-
-.op-sidebar .details .title {
+.op-sidebar .title {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: rgb(77, 76, 76);
   font-size: 1.2rem;
   font-weight: bold;
 }
-.op-sidebar .details .sec {
+.op-sidebar .sec {
   /* transition-delay: 0.1s; */
   color: rgb(77, 76, 76);
   font-size: 1.1rem;
@@ -105,7 +99,7 @@
   width: 17rem;
   /* padding-left: 1rem; */
 }
-.op-sidebar .details .name {
+.op-sidebar .name {
   /* padding-left: 1rem; */
   font-size: 1.1rem;
   line-height: 1.1rem;

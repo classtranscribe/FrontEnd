@@ -13,13 +13,12 @@ import './index.css'
 export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, display}) {
   const bg = darkMode ? 'dark' : 'light';
   const location =  window.location.toString()
-  const showSideBarTrigger = location.includes('/offering/')
 
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
   return (
     <Navbar sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
       {
-        showSideBarTrigger 
+        showSiderBar 
         &&
         <Navbar.Brand 
           className="sidebar-trigger" 
