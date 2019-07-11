@@ -3,6 +3,7 @@ import { Icon, Dropdown, Button } from 'semantic-ui-react'
 import './index.css'
 
 import { util, user } from '../../util'
+import { Link } from 'react-router-dom';
 
 /**
  * Drop down profile for the headers
@@ -76,7 +77,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
           </Dropdown.Menu>
         </Dropdown>
       ) : (
-        <Button onClick={util.toStudentPage}>Sign In</Button>
+        <Button as={Link} to={util.links.studentHome()}>Sign In</Button>
       )
     }
     

@@ -24,8 +24,11 @@ export const util = {
 
   links: {
     home: ()=> '/',
-    student: () => '/student',
     admin: () => '/admin',
+
+    student: () => '/student',
+    studentHome: () => '/student/home',
+    studentStarred: () => '/student/starred',
 
     instructor: () => '/instructor',
     newOffering: id => `/instructor/offering-setting/new=${id}`,

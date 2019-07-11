@@ -2,11 +2,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 // UIs
 import { ClassTranscribeHeader, FixedFooter } from '../../components'
-import { Sidebar } from './Components'
+import { Sidebar, Home, Starred } from './Components'
 import './index.css'
 
 // Vars
-import { search, user, api } from '../../util';
+import { search, user, api, util } from '../../util';
 
 
 export class OfferingViewing extends React.Component {
@@ -15,6 +15,8 @@ export class OfferingViewing extends React.Component {
     this.state = {
       userId: '',
       displaySideBar: (window.innerWidth < 900) ? false : true,
+
+      currentScreen: 'home',
     }
   }
 
@@ -54,6 +56,10 @@ export class OfferingViewing extends React.Component {
     this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
+  setCurrentScreen = currentScreen => {
+    this.setState({ currentScreen })
+  }
+
   /**
    * Function for signout
    */
@@ -76,9 +82,8 @@ export class OfferingViewing extends React.Component {
         />   
         <Sidebar {...this} />
         <div className="sp-content" style={paddingLeft}>
-          <Route path="home"/>
-          <Route path="starred"/>
-          k
+          <Route path={util.links.studentHome()} component={Home} />
+          <Route path={util.links.studentStarred()} component={Starred} />
         </div>
       </div>
     );
