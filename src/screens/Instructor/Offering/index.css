@@ -41,18 +41,18 @@
   width: 20rem;
   padding-top: 4.5rem;
   padding-bottom: 3rem;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(245, 245, 245);
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.2s linear;
   z-index: 5;
-  box-shadow: 1px 10px 5px #dddddd;
+  opacity: 1 !important;
+  /* box-shadow: 1px 10px 5px #e9e9e9; */
   -webkit-overflow-scrolling: touch;
 }
 @media screen and (max-width: 900px) {
   .op-sidebar {
     margin-left: -20rem;
-    background-color: rgba(233, 231, 231, 0.904);
   }
 }
 .op-sidebar .list {
@@ -76,7 +76,7 @@
 .op-sidebar .placeholder {
   margin: 0 1rem 0 1rem;}
 .op-sidebar .placeholder .line {
-  background: rgb(240, 240, 240) !important;
+  background: rgb(245, 245, 245) !important;
 }
 
 /* offering details */
@@ -155,7 +155,7 @@
 }
 /*****bootstrap UI**********/
 .list-group-item-secondary {
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(245, 245, 245);
 }
 .list-group-item-secondary:focus {
   outline: none;
@@ -164,7 +164,7 @@
   background: rgb(221, 221, 221) !important;
 }
 .list-group-item-secondary.list-group-item-action.active {
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(245, 245, 245);
   color: #4a9b87;
 }
 /*****bootstrap UI end**********/

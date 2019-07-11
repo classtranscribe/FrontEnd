@@ -3,6 +3,7 @@ import { Row, Navbar } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
 import ProfileBtn from './ProfileBtn'
 import './index.css'
+import { user, util } from '../../util'
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
@@ -12,9 +13,8 @@ import './index.css'
  */
 export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, display}) {
   const bg = darkMode ? 'dark' : 'light';
-  const location =  window.location.toString()
-
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
+  const homeURL = user.isLoggedIn() ? util.links.studentHome() : util.links.home()
   return (
     <Navbar sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
       {
@@ -30,7 +30,7 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
           <Icon name='sidebar' size="large"/>
         </Navbar.Brand>
       }
-      <Navbar.Brand className="brand" href="/" title="brand" aria-label="brand">
+      <Navbar.Brand className="brand" href={homeURL} title="brand" aria-label="brand">
         ClassTranscribe
       </Navbar.Brand>
       <Row className="signout">

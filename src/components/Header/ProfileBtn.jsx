@@ -34,7 +34,6 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Divider />
             <Dropdown.Header content='Switch to ...' />
             <Dropdown.Item 
-              as="a"
               icon={{name:'users', color: 'grey'}} 
               text='Student' 
               href={util.links.student()}
@@ -68,6 +67,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Divider />
             <Dropdown.Item 
               as="button"
+              style={{width: '100%'}}
               icon='sign-out' 
               text='Sign Out' 
               onClick={onSignOut}

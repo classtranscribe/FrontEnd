@@ -32,6 +32,7 @@ export class OfferingViewing extends React.Component {
   }
 
   componentDidMount() {
+    console.log(user.isLoggedIn())
     /**
      * 1. Setup user and then get all data based on userId
      */
@@ -71,7 +72,7 @@ export class OfferingViewing extends React.Component {
     const { displaySideBar } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
-      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
+      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : '2rem'
     }
     return (
       <div className="sp-bg" ref={this.listen}>

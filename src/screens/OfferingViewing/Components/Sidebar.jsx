@@ -16,7 +16,7 @@ export function Sidebar({state: {displaySideBar}}) {
           title="courses" aria-label="courses"
           to={util.links.studentHome()}
         >
-          <Icon name="book" /> Courses
+          <Icon name="book" /> &emsp; Courses
         </ListGroup.Item>
         <ListGroup.Item 
           as={Link} 
@@ -24,10 +24,10 @@ export function Sidebar({state: {displaySideBar}}) {
           title="starred" aria-label="starred"
           to={util.links.studentStarred()}
         >
-          <Icon name="bookmark" /> Starred
+          <Icon name="bookmark" /> &emsp; Starred
         </ListGroup.Item>
         <ListGroup.Item className="list" title="history">
-          <Icon name="history" /> History
+          <Icon name="history" /> &emsp; History
         </ListGroup.Item>
       </ListGroup>
     </div>
