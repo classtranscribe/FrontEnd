@@ -19,3 +19,10 @@
   width: 100%;
   position: relative;
 }
+
+.ui.dropdown .menu {
+  border-color: rgb(151, 207, 203) !important;
+}
+.ui.selection.active.dropdown {
+  border-color: rgb(151, 207, 203) !important;
+}

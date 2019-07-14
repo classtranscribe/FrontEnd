@@ -31,6 +31,7 @@ export const handleData = {
    * Find the object in array by its id
    */
   findById: function(array, id) {
+    // console.log(array, id)
     return _.find(array, {id: id});
   },
   /**
@@ -38,6 +39,9 @@ export const handleData = {
    */
   includes: function (array, elem) {
     return _.includes(array, elem);
+  },
+  shuffle: function (array) {
+    return _.shuffle(array)
   },
   /**
    * Get a combined course number from an array of courses

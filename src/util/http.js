@@ -117,7 +117,7 @@ export const api = {
   },
   /**
    * GET an array of pathes
-   * callBack = (responce, stateName) => {this.setState(stateName: responce.data)}
+   * callBack = (responce, stateName) => {this.setState({[stateName]: responce.data})}
    */ 
   getAll: function (value, callBack, handleError) {
     var array = []
