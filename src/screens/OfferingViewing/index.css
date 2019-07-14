@@ -30,34 +30,16 @@
   overflow-y: scroll;
 }
 
-/* Search bar */
-/*
-.search-bar {
-  padding-top: 1rem;
-  width: 100%;
-  height: 4rem;
-  padding-right: 1rem;
-  justify-content: flex-end;
-  align-items: center;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  transition: all 0.5s linear;
-}
-.search-bar .theme-btn {
-  margin-left: 1rem;
-}
+/* Side Bar */
 
-.prompt:focus {
-  animation: wider-25rem 0.3s;
-  width: 25rem;}
-  @media screen and (max-width: 550px) {
-    .prompt:focus {
-      animation: wider-20rem 0.3s;
-      width: 20rem;}}
-  @keyframes wider-25rem {
-    0%   { width: 15rem }
-    100% { width: 25rem }}
-  @keyframes wider-20rem {
-    0%   { width: 15rem }
-    100% { width: 20rem }}
-*/
+.op-sidebar .signin-prompt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+.op-sidebar .signin-prompt p {
+  font-size: 1.1rem;
+  text-align: center;
+  color: rgb(126, 151, 151);
+}

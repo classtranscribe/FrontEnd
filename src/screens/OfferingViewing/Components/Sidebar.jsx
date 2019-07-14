@@ -1,23 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ListGroup, Button } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import { user, util } from '../../../util';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 
-export function Sidebar({state: {displaySideBar}, showSiderBar}) {
+export function Sidebar({state: {displaySideBar}}) {
   const isLoggedIn = user.isLoggedIn()
   const home = isLoggedIn ? util.links.studentHome() : util.links.home()
-  const search = isLoggedIn ? util.links.studentSearch() : util.links.search()
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
-  // onMouseLeave={showSiderBar}
   return (
     <div className="op-sidebar" style={style} >
       <ListGroup>
         <ListGroup.Item 
-          as={Link} 
           className="list" 
+          as={Link} to={home}
           title="courses" aria-label="courses"
-          to={home}
         >
           <Icon name="book" /> &emsp; Courses
         </ListGroup.Item>
@@ -26,10 +23,9 @@ export function Sidebar({state: {displaySideBar}, showSiderBar}) {
           &&
           <>
             <ListGroup.Item 
-              as={Link} 
               className="list" 
+              as={Link} to={util.links.studentStarred()}
               title="starred" aria-label="starred"
-              to={util.links.studentStarred()}
             >
               <Icon name="bookmark" /> &emsp; Starred
             </ListGroup.Item>
@@ -37,6 +33,19 @@ export function Sidebar({state: {displaySideBar}, showSiderBar}) {
               <Icon name="history" /> &emsp; History
             </ListGroup.Item>
           </>
+        }
+        {
+          !isLoggedIn
+          &&
+          <div className="signin-prompt">
+            <p>Sign In to See More Courses</p>
+            <Button 
+              title="sign in" aria-label="sign in"
+              as={Link} to={util.links.studentHome()}
+            >
+              Sign In
+            </Button>
+          </div>
         }
         </ListGroup>
     </div>
