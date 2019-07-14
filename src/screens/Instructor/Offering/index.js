@@ -96,6 +96,9 @@ export class InstructorOffering extends React.Component {
          * 4. Hide the loading page
          */
         api.contentLoaded()
+
+        api.getData('Playlists')
+          .then( response => console.log(response.data) )
       })
   }
 

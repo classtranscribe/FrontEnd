@@ -198,8 +198,8 @@ export const api = {
     else 
       return http.delete(`${path}/${id}`)
   },
-  deleteFromCourseOfferings: function (id) {
-    return this.deleteData('CourseOfferings', id)
+  deleteFromCourseOfferings: function (courseId, offeringId) {
+    return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
   },
   deleteUserFromOffering: function(offeringId, userId) {
     return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
