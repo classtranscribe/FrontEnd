@@ -177,9 +177,8 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
                   fluid required
                   id='youtube-playlist-url'
                   control={Input}
-                  label='YouTube Playlist URL'
-                  placeholder='Paste your URL here'
-                  defaultValue={''}
+                  label='Public URL'
+                  placeholder='Paste your public URL here...'
                   onChange={({target: {value}})=> 1}
                 />
               </Grid.Column>

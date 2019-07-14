@@ -54,9 +54,9 @@ const offeringAccessTypes = [
 ]
 
 const playlistTypes = [
-  {name: 'Video Files', id: 'Uploaded'},
-  {name: 'YouTube Playlist', id: 'YouTube'},
-  {name: 'Echo360 Playlist', id: 'Echo360'},
+  {name: 'Video Files', id: 'Uploaded', num: 0},
+  {name: 'YouTube', id: 'YouTube', num: 1},
+  {name: 'Echo360', id: 'Echo360', num: 2},
 ]
 
 /**

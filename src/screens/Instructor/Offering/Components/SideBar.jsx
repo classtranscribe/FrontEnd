@@ -3,6 +3,7 @@
  * contains the playlists and menus
  */
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { Icon, Button } from 'semantic-ui-react'
 import { GeneralPlaceholder } from '../../../../components'
@@ -104,7 +105,7 @@ function Playlist({playlists, id, setActivePane}) {
         <i class="fas fa-list-ul"></i> &ensp; Playlists
       </ListGroup.Item>
       
-      <Button className="new-pl-btn" onClick={()=>util.newPlaylist(id)}>
+      <Button as={Link} className="new-pl-btn" to={util.links.newPlaylist(id)}>
         <i class="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
