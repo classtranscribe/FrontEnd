@@ -2,33 +2,34 @@ import React from 'react'
 import { Header } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap';
 import { handleData, search } from '../../../../util';
-import { OfferingCardHolder } from './PlaceHolder'
+import { OfferingCardHolder, OfferingListHolder } from './PlaceHolder'
 
 export default function OfferingList({state, setCurrentOffering}) {
   const { departments, departSelected, offerings } = state
+  if (!departments.length || !offerings.length || !offerings[1].courses) return <OfferingListHolder />
   const showAll = !departSelected.length
 
   function isSelected(depart) {
     return handleData.includes(departSelected, depart.id)
   }
+
   function notEmpty(depart) {
-    // if (!offerings.courses) return false;
     for (let i = 0; i < offerings.length; i++) {
-      if (handleData.find(offerings[i].courses, {departmentId: depart.id})) return true;
+      const hasOfferings = handleData.find(offerings[i].courses, {departmentId: depart.id})
+      if (hasOfferings) return true
     }
     return false
   }
+
   return (
     <div className="offering-list" role="list">
-      <div>
-        {departments.map( depart => (showAll || isSelected(depart)) && (notEmpty(depart)) ? (
-          <Section 
-            state={state} 
-            depart={depart} key={depart.id} 
-            setCurrentOffering={setCurrentOffering} 
-          />
-        ) : <></>)}
-      </div>
+      {departments.map( depart => (showAll || isSelected(depart)) && (notEmpty(depart)) ? (
+        <Section 
+          state={state} 
+          depart={depart} key={depart.id} 
+          setCurrentOffering={setCurrentOffering} 
+        />
+      ) : null)}
     </div>
   )
 }
@@ -37,27 +38,28 @@ export default function OfferingList({state, setCurrentOffering}) {
 function Section({depart, state, setCurrentOffering}) {
   const { offerings, universities } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
+  const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
   return (
     <div className="section" role="listitem">
       <Header className="title">{depart.name}&emsp;<span>{uni.name}</span></Header>
       <div className="offerings">
-        {offerings.map((offering, index) => 
+        {offerings.map( (offering, index) => 
           offering.courses ? 
           <SectionItem 
             {...state}
-            setCurrentOffering={setCurrentOffering}
+            key={getKey(offering, index)}
             offering={offering} depart={depart}  
-            key={offering.offering ? offering.offering.id + index.toString() : offering.id + index.toString()}
+            setCurrentOffering={setCurrentOffering}
           />
           : 
-          <OfferingCardHolder />
+          <OfferingCardHolder key={getKey(offering, index)} />
         )}
       </div>
     </div>
   )
 }
 
-function SectionItem({offering, depart, terms, termSelected, setCurrentOffering}) {
+function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
   // if the full offering data has not yet loaded
   if (!offering.courses) return null;
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
@@ -65,20 +67,20 @@ function SectionItem({offering, depart, terms, termSelected, setCurrentOffering}
   var fullCourse = null
   offering.courses.forEach(course => {
     if (course.departmentId === depart.id) {
-      const term = handleData.findById(terms, offering.offering.termId)
       fullCourse = {
         ...course, 
+        key: offering.id || offering.offering.id,
         courseNumber: depart.acronym + course.courseNumber,
         fullNumber: search.getFullNumber(offering.courses),
-        term: !terms[0] ? {name: ''} : term ? term : {name: ''},
-        section: offering.offering.sectionName
+        termName: offering.offering.termName,
+        section: offering.offering.sectionName,
       }
     }
     // console.log(fullCourse)
   })
 
   return fullCourse ? (
-    <Card className="offeringCard" key={offering.offering.id} onClick={() => setCurrentOffering(fullCourse)}>
+    <Card className="offeringCard" onClick={() => setCurrentOffering(fullCourse)}>
       <Card.Img 
         className="img" variant="top" 
         src={require('../../../../images/Video-Placeholder.jpg')} 
@@ -88,7 +90,7 @@ function SectionItem({offering, depart, terms, termSelected, setCurrentOffering}
           {fullCourse.courseNumber}&ensp;{fullCourse.courseName}
         </Card.Title>
         <Card.Text className="info">
-          {fullCourse.term.name}&ensp;(Sec {fullCourse.section})
+          {fullCourse.termName}&ensp;(Sec {fullCourse.section})
         </Card.Text>
         <Card.Text className="description">
           {fullCourse.description}

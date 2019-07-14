@@ -90,7 +90,7 @@ export const api = {
         // remove from DOM
         ele.outerHTML = ''
         // ele.classList.add('hide')
-      }, interval || 1000)
+      }, interval || 500)
     }
   },
 

@@ -42,16 +42,6 @@ export class Home extends React.Component {
     api.getAll(['Universities', 'Departments', 'Terms'], this.getAllCallBack)
   }
 
-  setCurrentOffering = currentOffering => {
-    if (currentOffering) {
-      document.getElementById('home-content').classList.add('hide')
-    } else {
-      document.getElementById('home-content').classList.remove('hide')
-    }
-    console.log(currentOffering)
-    this.setState({ currentOffering })
-  }
-
   /**
    * GET functions for set states
    */
@@ -64,6 +54,7 @@ export class Home extends React.Component {
         this.completeOfferings(data)
       })
   }
+
   completeOfferings = rawOfferings => {
     // rawOfferings = handleData.shuffle(rawOfferings)
     rawOfferings.forEach( (offering, index) => {
@@ -97,6 +88,7 @@ export class Home extends React.Component {
         })
     })
   }
+
   getDepartmentsByUniId = uniId => {
     api.getDepartsByUniId(uniId)
      .then(({data}) => {
@@ -104,6 +96,7 @@ export class Home extends React.Component {
         this.setState({ departments: data, departSelected: [] })
      })
   }
+
   getTermsByUniId = uniId => {
     api.getTermsByUniId(uniId)
       .then(({data}) => {
@@ -119,6 +112,16 @@ export class Home extends React.Component {
       // data = handleData.shuffle(data)
     }
     this.setState({[stateName]: data})
+  }
+
+  setCurrentOffering = currentOffering => {
+    if (currentOffering) {
+      document.getElementById('home-content').classList.add('hide')
+    } else {
+      document.getElementById('home-content').classList.remove('hide')
+    }
+    console.log(currentOffering)
+    this.setState({ currentOffering })
   }
 
   onSearching = () => {

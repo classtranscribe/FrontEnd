@@ -4,7 +4,7 @@ import { Icon, Divider } from 'semantic-ui-react';
 
 export default function OfferingDetail({state: {currentOffering}, setCurrentOffering}) {
   if (!currentOffering) return null
-  const { fullNumber, courseName, term, section, description } = currentOffering
+  const { fullNumber, courseName, termName, section, description } = currentOffering
   return (
     <div className="offering-detail" >
       <div className="d-flex justify-content-end w-100">
@@ -15,7 +15,7 @@ export default function OfferingDetail({state: {currentOffering}, setCurrentOffe
       <h1>{fullNumber}</h1><br/><br/>
       <h2>
         {courseName}&emsp;
-        <span>{term.name}&ensp;{section}</span>
+        <span>{termName}&ensp;{section}</span>
       </h2><br/>
       <h5>{description}</h5><br/><br/>
       <Divider />

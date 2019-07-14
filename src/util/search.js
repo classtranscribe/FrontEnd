@@ -7,7 +7,7 @@ import _ from 'lodash'
 export const search = {
   getFullNumber: function(courses) {
     var name = ''
-    courses.forEach( (course, index) => {
+    courses.forEach( course => {
       name += course.acronym + course.courseNumber + '/';
     })
     name = name.slice(0, name.length - 1)
@@ -18,12 +18,12 @@ export const search = {
     offerings.forEach( offering => {
       if (offering.courses) 
         source.push({
-          key: offering.offering ? offering.offering.id : offering.id,
-          number: this.getFullNumber(offering.courses),
-          name: offering.courses[0].courseName,
-          description: offering.courses[0].description,
-          term: offering.offering.termName,
-          section: offering.offering.sectionName
+          ...offering.courses[0],
+          key: offering.id || offering.offering.id,
+          fullNumber: this.getFullNumber(offering.courses),
+          termName: offering.offering.termName,
+          section: offering.offering.sectionName,
+          offeringId: offering.id
         })
     })
     return source;
@@ -33,7 +33,7 @@ export const search = {
     var res = []
     const source = this.getCourseSource(offerings)
     const re = new RegExp(_.escapeRegExp(value), 'i')
-    const isMatch = result => re.test(result.number) || re.test(result.term) || re.test(result.section) || re.test(result.name)
+    const isMatch = result => re.test(result.fullNumber) || re.test(result.termName) || re.test(result.courseName)
     res = _.filter(source, isMatch)
     return res
   },

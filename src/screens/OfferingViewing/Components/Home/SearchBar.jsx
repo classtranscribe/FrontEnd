@@ -3,7 +3,7 @@ import { Search, Icon, List } from 'semantic-ui-react';
 import { search } from '../../../../util';
 import { Link } from 'react-router-dom'
 
-export default function SearchBar({onSearching, onInput, state}) {
+export default function SearchBar({onSearching, onInput, state, setCurrentOffering}) {
   const { offerings, searchValue } = state
   const results = search.getResult(offerings, searchValue)
   return (
@@ -31,10 +31,10 @@ export default function SearchBar({onSearching, onInput, state}) {
           <List.Item className="resultItem" key={result.key + index.toString()}>
             <List.Content>
               <h3 className="d-inline">
-                <Link >{result.number}</Link>
+                <Link onClick={() => setCurrentOffering(result)}>{result.fullNumber}</Link>
               </h3>
-              <h4>{result.name}&ensp;<span>{result.description}</span></h4>
-              <p>{result.term}&ensp;{result.section}</p>
+              <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>
+              <p>{result.termName}&ensp;{result.section}</p>
             </List.Content>
           </List.Item>
         ))}
