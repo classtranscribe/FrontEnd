@@ -140,8 +140,9 @@
   width: 96%;
   margin-left: 2%;
 }
-.op-sidebar .playlists .playlist::-webkit-scrollbar {
-  display: none;
+.op-sidebar:hover>.op-sidebar::-webkit-scrollbar {
+  display: block;
+  width: 4px;
 }
 .new-pl-btn {
   width: 19rem;

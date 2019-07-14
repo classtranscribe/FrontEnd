@@ -1,6 +1,7 @@
 import React from 'react'
 // UI
-import SearchBar from './SearchBar';
+import SearchBar from './SearchBar'
+import OfferingDetail from './OfferingDetail'
 import Filter from  './Filter'
 import OfferingList from './OfferingList'
 import './index.css'
@@ -24,6 +25,8 @@ export class Home extends React.Component {
 
       onSearching: false,
       searchValue: '',
+
+      currentOffering: null,
     }
   }
 
@@ -37,6 +40,16 @@ export class Home extends React.Component {
       api.getAll(['Offerings'], this.getAllCallBack)
     }
     api.getAll(['Universities', 'Departments', 'Terms'], this.getAllCallBack)
+  }
+
+  setCurrentOffering = currentOffering => {
+    if (currentOffering) {
+      document.getElementById('home-content').classList.add('hide')
+    } else {
+      document.getElementById('home-content').classList.remove('hide')
+    }
+    console.log(currentOffering)
+    this.setState({ currentOffering })
   }
 
   /**
@@ -140,6 +153,7 @@ export class Home extends React.Component {
     return (
       <div className="sp-home">
         <SearchBar {...this} />
+        <OfferingDetail {...this} />
         <div id="home-content">
           <Filter {...this} />
           <OfferingList {...this} />

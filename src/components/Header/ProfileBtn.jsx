@@ -36,7 +36,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Item 
               icon={{name:'users', color: 'grey'}} 
               text='Student' 
-              href={util.links.student()}
+              href={util.links.studentHome()}
               title="Switch to student page"
               aria-label="Switch to student page"
             />

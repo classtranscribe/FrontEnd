@@ -1,16 +1,32 @@
 import React from 'react'
 import { Header } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap';
-import { handleData } from '../../../../util';
+import { handleData, search } from '../../../../util';
 import { OfferingCardHolder } from './PlaceHolder'
 
-export default function OfferingList({state}) {
-  const { departments, departSelected } = state
+export default function OfferingList({state, setCurrentOffering}) {
+  const { departments, departSelected, offerings } = state
+  const showAll = !departSelected.length
+
+  function isSelected(depart) {
+    return handleData.includes(departSelected, depart.id)
+  }
+  function notEmpty(depart) {
+    // if (!offerings.courses) return false;
+    for (let i = 0; i < offerings.length; i++) {
+      if (handleData.find(offerings[i].courses, {departmentId: depart.id})) return true;
+    }
+    return false
+  }
   return (
     <div className="offering-list" role="list">
       <div>
-        {departments.map( depart => (!departSelected.length || handleData.includes(departSelected, depart.id)) ? (
-          <Section state={state} depart={depart} key={depart.id} />
+        {departments.map( depart => (showAll || isSelected(depart)) && (notEmpty(depart)) ? (
+          <Section 
+            state={state} 
+            depart={depart} key={depart.id} 
+            setCurrentOffering={setCurrentOffering} 
+          />
         ) : <></>)}
       </div>
     </div>
@@ -18,7 +34,7 @@ export default function OfferingList({state}) {
 }
 
 
-function Section({depart, state}) {
+function Section({depart, state, setCurrentOffering}) {
   const { offerings, universities } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
   return (
@@ -29,6 +45,7 @@ function Section({depart, state}) {
           offering.courses ? 
           <SectionItem 
             {...state}
+            setCurrentOffering={setCurrentOffering}
             offering={offering} depart={depart}  
             key={offering.offering ? offering.offering.id + index.toString() : offering.id + index.toString()}
           />
@@ -40,7 +57,7 @@ function Section({depart, state}) {
   )
 }
 
-function SectionItem({offering, depart, terms, termSelected}) {
+function SectionItem({offering, depart, terms, termSelected, setCurrentOffering}) {
   // if the full offering data has not yet loaded
   if (!offering.courses) return null;
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
@@ -52,6 +69,7 @@ function SectionItem({offering, depart, terms, termSelected}) {
       fullCourse = {
         ...course, 
         courseNumber: depart.acronym + course.courseNumber,
+        fullNumber: search.getFullNumber(offering.courses),
         term: !terms[0] ? {name: ''} : term ? term : {name: ''},
         section: offering.offering.sectionName
       }
@@ -60,7 +78,7 @@ function SectionItem({offering, depart, terms, termSelected}) {
   })
 
   return fullCourse ? (
-    <Card className="offeringCard" key={offering.offering.id}>
+    <Card className="offeringCard" key={offering.offering.id} onClick={() => setCurrentOffering(fullCourse)}>
       <Card.Img 
         className="img" variant="top" 
         src={require('../../../../images/Video-Placeholder.jpg')} 

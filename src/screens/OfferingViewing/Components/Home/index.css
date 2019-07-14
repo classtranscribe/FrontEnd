@@ -8,6 +8,7 @@
 }
 
 /* Search Bar*/
+
 .sp-home .search-bar {
   height: 100%;
   width: 100%;
@@ -39,14 +40,47 @@
     .sp-home .search-bar .result a:hover {
       text-decoration: underline;
     }
-  .sp-home .search-bar .result h3 {
-  }
   .sp-home .search-bar .result h4 {
     margin-top: 0;
   }
   .sp-home .search-bar .result h4 span {
     font-size: 1rem;
     font-weight: 100;
+  }
+
+.sp-home .offering-detail {
+  /* position: absolute; */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 100%;
+  height: 90%;
+  z-index: 3;
+  background: #fcfcfc;
+  padding-top: 1rem;}
+  .sp-home .offering-detail .del-icon {
+    transition: margin 0.2s linear;
+    color: rgb(48, 129, 129);
+    margin-right: 2rem;
+    cursor: pointer;
+    font-size: 1.2rem;}
+    .sp-home .offering-detail .del-icon:hover {
+      margin-right: 3rem;
+    }
+  .sp-home .offering-detail h1 {
+    display: inline;
+    color: rgb(48, 134, 134);
+    font-size: 3rem;}
+  .sp-home .offering-detail h2 {
+    display: inline;
+    color: rgb(75, 88, 87);}
+    .sp-home .offering-detail h2 span {
+      color: grey;
+      font-size: 1.2rem;
+      font-weight: normal;}
+  .sp-home .offering-detail h5 {
+    display: inline;
+    color: rgb(46, 46, 46);
+    font-size: 1.1rem;
+    font-weight: 300;
   }
 
 

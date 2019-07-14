@@ -34,6 +34,9 @@ export const handleData = {
     // console.log(array, id)
     return _.find(array, {id: id});
   },
+  find: function(array, json) {
+    return _.find(array, json);
+  },
   /**
    * Determine whether the array contains the elem
    */
