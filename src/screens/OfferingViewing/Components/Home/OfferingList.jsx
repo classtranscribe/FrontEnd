@@ -90,7 +90,7 @@ function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
     <Card className="offeringCard" as={Link} onClick={() => setCurrentOffering(fullCourse)}>
       <Card.Img 
         className="img" variant="top" 
-        src={imgHolder} 
+        src={imgHolder} style={{pointerEvents: 'none'}}
       />
       <Card.Body>
         <Card.Title className="title">
