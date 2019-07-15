@@ -28,7 +28,7 @@ export function ClassTranscribeFooter(props) {
           </Grid.Column>
           <Image style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
           <Grid.Column>
-            <List.Item as={Link} to="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</List.Item>
+            <List.Item as="a" href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</List.Item>
           </Grid.Column>
           <Grid.Column className="copy">
             &copy; 2016-2019 UIUC
