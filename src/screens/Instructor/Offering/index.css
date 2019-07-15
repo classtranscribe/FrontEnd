@@ -41,7 +41,7 @@
   width: 20rem;
   padding-top: 4.5rem;
   padding-bottom: 3rem;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(246, 246, 246);
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.2s linear;
@@ -71,7 +71,7 @@
   /* margin-top: 0.5rem; */}
   .op-sidebar .list:hover {
     /* margin-left: 10px; */
-    background: #e3e7e7;}
+    background: #edf0f0;}
   .op-sidebar .goback {
     height: 3rem !important;}
   .op-sidebar .list-group-item.active {

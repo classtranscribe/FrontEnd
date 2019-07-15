@@ -14,9 +14,12 @@
     align-items: center;
     font-weight: bold;
     font-size: 2rem;
-    color: #5c8b8b;
+    color: #3a9191;
     margin-left: 1rem;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
+    .ct-nav .brand span {
+      color: #2e6666;
+    }
 
   /* For course setting page */
   .ct-nav .sidebar-trigger {

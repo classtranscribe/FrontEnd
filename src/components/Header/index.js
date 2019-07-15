@@ -39,7 +39,7 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
           className="d-inline-block align-top"
           alt="ClassTranscribe logo"
         />
-        &ensp;ClassTranscribe
+        &ensp;<span>C</span>lass<span>T</span>ranscribe
       </Navbar.Brand>
       <Row className="signout">
         <ProfileBtn onSignOut={onSignOut}/>
