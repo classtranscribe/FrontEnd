@@ -140,6 +140,9 @@ export const api = {
   /**
    * Some specific get-by-id functions
    */
+  getUniversityById: function (id) {
+    return this.getData('Universities', id)
+  },
   getDepartsByUniId: function (id) {
     return this.getData('Departments/ByUniversity', id)
   },

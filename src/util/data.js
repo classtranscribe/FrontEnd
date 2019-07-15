@@ -16,6 +16,9 @@ export const handleData = {
   remove: function (array, predicate) {
     return _.remove(array, predicate)
   },
+  distinct: function (array, key) {
+    return _.uniqBy(array, key)
+  },
   /**
    * Update the old json object with changed json (which may not be complete)
    */

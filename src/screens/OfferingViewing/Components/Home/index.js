@@ -6,7 +6,7 @@ import { OfferingListHolder } from './PlaceHolder'
 import './index.css'
 import './transition.css'
 // Vars
-import { user, api } from '../../../../util'
+import { user, api, handleData } from '../../../../util'
 // Lazy loading
 const OfferingList = React.lazy(() => import('./OfferingList'))
 const SearchBar = React.lazy(() => import('./SearchBar'))
@@ -24,6 +24,7 @@ export class Home extends React.Component {
       courses: [],
       offerings: [],
 
+      uniSelected: [],
       departSelected: [],
       termSelected: [],
 
@@ -108,10 +109,21 @@ export class Home extends React.Component {
   getAllCallBack = ({data}, stateName) => {
     if (stateName === 'offerings') {
       this.completeOfferings(data)
-    } else if (stateName === 'departments') {
-      // data = handleData.shuffle(data)
+    } else if (stateName === 'departments'|| stateName === 'terms') {
+      data.forEach( (obj, index) => {
+        this.getUniversityById(obj.universityId, index, stateName)
+      })
     }
     this.setState({[stateName]: data})
+  }
+
+  getUniversityById = (uniId, index, key) => {
+    api.getUniversityById(uniId)
+      .then( ({data}) => {
+        const toSet = this.state[key]
+        toSet[index].uniName = data.name
+        this.setState({[key]: toSet})
+      })
   }
 
   setCurrentOffering = (currentOffering, id) => {
@@ -147,6 +159,7 @@ export class Home extends React.Component {
       this.getDepartmentsByUniId(value)
       this.getTermsByUniId(value)
     }
+    this.setState({ uniSelected: value })
   }
 
   onDepartSelected = (e, {value}) => {

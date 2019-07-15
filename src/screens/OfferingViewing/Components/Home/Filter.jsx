@@ -5,8 +5,8 @@ import { util } from '../../../../util'
 export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected, onSearching}) {
   const { universities, departments, terms, searchValue } = state
   const uniOptions = util.getSelectOptions(universities)
-  const termOptions = terms ? util.getSelectOptions(terms) : []
-  const departOptions = departments ? util.getSelectOptions(departments) : []
+  const termOptions = terms ? util.getSelectOptions(terms, 'term') : []
+  const departOptions = departments ? util.getSelectOptions(departments, 'depart') : []
 
   return (
     <div className="filter">
@@ -32,7 +32,7 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
                 placeholder="Select University"
                 label="Filter by University"
                 clearable selection search
-                defaultValue={uniOptions[0] ? uniOptions[0].value : ''}
+                defaultValue={uniOptions.length ? uniOptions[0].value : ''}
                 options={uniOptions}
                 onChange={onUniSelected}
               />

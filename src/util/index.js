@@ -1,3 +1,4 @@
+import React from 'react'
 export { auth   } from './Auth'
 export { api    } from './http'
 export { search } from './search'
@@ -16,7 +17,9 @@ export const util = {
   getSelectOptions: function(array, tag) {
     var options = [];
     array.forEach( item => {
-      const text = item.name || tag + item.courseNumber + ' ' + item.courseName;
+      var text = ''
+      if ((tag === 'depart' || tag === 'term') && item.uniName) text = `${item.name} (${item.uniName})`
+      else text = item.name || tag + item.courseNumber + ' ' + item.courseName;
       options.push({text: text, value: item.id})
     })
     return options;
