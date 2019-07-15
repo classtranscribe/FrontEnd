@@ -10,9 +10,9 @@ export function Sidebar({state: {displaySideBar}}) {
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   return (
     <div className="op-sidebar" style={style} >
-      <ListGroup>
+      <ListGroup defaultActiveKey="courses">
         <ListGroup.Item 
-          className="list" 
+          className="list" action eventKey="courses"
           as={Link} to={home}
           title="courses" aria-label="courses"
         >
@@ -23,13 +23,13 @@ export function Sidebar({state: {displaySideBar}}) {
           &&
           <>
             <ListGroup.Item 
-              className="list" 
+              className="list" action eventKey="starred"
               as={Link} to={util.links.studentStarred()}
               title="starred" aria-label="starred"
             >
               <Icon name="bookmark" /> &emsp; Starred
             </ListGroup.Item>
-            <ListGroup.Item className="list" title="history">
+            <ListGroup.Item className="list" title="history" as={Link}  action eventKey="history">
               <Icon name="history" /> &emsp; History
             </ListGroup.Item>
           </>

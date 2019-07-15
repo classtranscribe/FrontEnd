@@ -57,11 +57,8 @@ export function SideBar({id, playlists, setActivePane, state}) {
               <p className="name">
                 <strong>{course.courseName}</strong>
               </p>
-              <p className="name">
-                {term.name}
-              </p>
-              <p className="sec">
-                <strong>Section</strong> {offering.sectionName}
+              <p className="name sec">
+                {term.name}&ensp;{offering.sectionName}
               </p>
             </ListGroup.Item>
             </>

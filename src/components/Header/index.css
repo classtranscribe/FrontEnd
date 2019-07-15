@@ -12,13 +12,14 @@
   .ct-nav .brand {
     font-weight: bold;
     font-size: 2rem;
-    color: #418080;
+    color: #3c9797;
     margin-left: 1rem;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   }
 
   /* For course setting page */
   .ct-nav .sidebar-trigger {
+    color: #3c9797;
     height: 2.6rem;
     width: 2.6rem;
     border-radius: 50%;  
@@ -26,7 +27,8 @@
     transition: background 0.2s linear;
     cursor: pointer;}
     .ct-nav .sidebar-trigger:hover {
-      background-color: #d4d4d4;
+      color: #306868;
+      background-color: #d5dedf;
     }
     .ct-nav .menu>.item {
       font-size: 1.1rem !important;
@@ -35,6 +37,7 @@
     
   /* For instructor page */
   .ct-nav .signout {
+    color: #306868;
     width: 100%;
     display: flex;
     flex-direction: row;
