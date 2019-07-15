@@ -24,6 +24,9 @@
     color: rgb(146, 146, 146);
     white-space: nowrap;
   }
+  .ct-footer .brand-img {
+    pointer-events: none;
+  }
   .ct-footer a {
     -webkit-transition: color 0.2s linear;
     -o-transition: color 0.2s linear;

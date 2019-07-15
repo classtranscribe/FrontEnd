@@ -20,6 +20,9 @@
     .ct-nav .brand span {
       color: #2e6666;
     }
+    .ct-nav .brand .img {
+      pointer-events: none;
+    }
 
   /* For course setting page */
   .ct-nav .sidebar-trigger {

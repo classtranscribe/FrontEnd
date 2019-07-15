@@ -35,9 +35,8 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
       <Navbar.Brand className="brand" as={Link} to={homeURL} title="brand" aria-label="brand">
         <img
           src={require('../../images/ct-logo.png')}
-          width="30"
-          height="30"
-          className="d-inline-block align-top"
+          width="30" height="30"
+          className="d-inline-block align-top img"
           alt="ClassTranscribe logo"
         />
         &ensp;<span>C</span>lass<span>T</span>ranscribe

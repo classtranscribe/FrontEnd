@@ -27,7 +27,7 @@ export function ClassTranscribeFooter(props) {
           <Grid.Column>
             <List.Item as={Link} to={util.links.currentUrl()}>Documents</List.Item>
           </Grid.Column>
-          <Image style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
+          <Image className="brand-img" style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
           <Grid.Column>
             <List.Item as="a" href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</List.Item>
           </Grid.Column>
