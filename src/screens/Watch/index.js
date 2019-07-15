@@ -1,7 +1,5 @@
 import React from 'react';
 // import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
-import './video.css'
 
 // UIs
 import { Header, Player } from './Components'
@@ -63,6 +61,7 @@ export class VideoPage extends React.Component {
   render() {
   
     // Registering A Plugin
+    const src = "https://www.youtube.com/embed/pbMwTqkKSps"
     return (
       <div className="video-page">
         <Header 
@@ -71,6 +70,13 @@ export class VideoPage extends React.Component {
         />
         
         <Player {...videoJsOptions}/>  
+        <video
+          id="vid1" controls
+          width="560" height="315" preload="none"
+        >
+          <source src="https://www.youtube.com/watch?v=pbMwTqkKSps" type="video/youtube" />
+        </video>
+        <iframe width="560" height="315" src={src} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     )
   }
