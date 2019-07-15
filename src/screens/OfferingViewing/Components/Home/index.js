@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 // UI
 import Filter from  './Filter'
 import { OfferingListHolder } from './PlaceHolder'
 import './index.css'
 import './transition.css'
 // Vars
-import { user, api, handleData } from '../../../../util'
+import { user, api } from '../../../../util'
 // Lazy loading
 const OfferingList = React.lazy(() => import('./OfferingList'))
 const SearchBar = React.lazy(() => import('./SearchBar'))
