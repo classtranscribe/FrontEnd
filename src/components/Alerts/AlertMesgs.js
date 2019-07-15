@@ -31,7 +31,7 @@ const alertMesgs = {
   },
   selectUni: {
     status: 'warning',
-    header: 'Please select an university',
+    header: 'Please select a university',
     detail: 'You can create or view contents after selecting an university'
   },
   selectDepart: {

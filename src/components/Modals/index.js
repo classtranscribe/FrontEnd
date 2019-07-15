@@ -29,7 +29,7 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
 }
 
 /**
- * General Pompt Modal to comfirm the deletion
+ * General Modal used to confirm the deletion
  */
 export function DeleteModal({open, target, onSave, onClose}) {
   return (
@@ -38,7 +38,7 @@ export function DeleteModal({open, target, onSave, onClose}) {
       size="tiny" dimmer
       open={open} onClose={onClose}
     >
-      <Modal.Header>Are You Sure to delete the 
+      <Modal.Header>Are you sure you want to delete the 
         <strong className="delete-target"> {target}</strong>?<br/>
         (This action cannot be undone)
       </Modal.Header>
