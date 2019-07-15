@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 // UI
 import { Header } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
@@ -86,7 +87,7 @@ function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
   })
 
   return fullCourse ? 
-    <Card className="offeringCard" onClick={() => setCurrentOffering(fullCourse)}>
+    <Card className="offeringCard" as={Link} onClick={() => setCurrentOffering(fullCourse)}>
       <Card.Img 
         className="img" variant="top" 
         src={imgHolder} 

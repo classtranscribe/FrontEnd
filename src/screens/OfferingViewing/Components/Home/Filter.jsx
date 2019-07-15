@@ -17,7 +17,7 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
               <div className="ui icon input" style={{width: '100%'}}>
                 <input 
                   type="text" className="prompt" readOnly
-                  onFocus={onSearching} value={searchValue}
+                  onClick={onSearching} value={searchValue}
                   placeholder="Search for Courses ..."
                 />
                 <i aria-hidden="true" class="search icon"></i>

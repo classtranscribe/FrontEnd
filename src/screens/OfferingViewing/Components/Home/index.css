@@ -16,6 +16,9 @@
 .sp-home .search-bar .input>input:focus {
   border-color: rgb(95, 177, 177) !important;
 }
+.search-bar .del-icon {
+  margin-bottom: 1rem;
+}
 .prompt {
   border-radius: 3rem !important;
 }
@@ -52,13 +55,13 @@
   z-index: 3;
   background: #fcfcfc;
   padding-top: 1rem;}
-  .sp-home .offering-detail .del-icon {
+  .sp-home .del-icon {
     transition: margin 0.2s linear;
     color: rgb(48, 129, 129);
     margin-right: 2rem;
     cursor: pointer;
     font-size: 1.2rem;}
-    .sp-home .offering-detail .del-icon:hover {
+    .sp-home .del-icon:hover {
       margin-right: 3rem;
     }
   .sp-home .offering-detail h1 {

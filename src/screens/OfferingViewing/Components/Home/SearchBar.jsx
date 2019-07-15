@@ -11,6 +11,11 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
       {/* <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <Icon name="remove" color="grey" style={{cursor: 'pointer'}} size="large" />
       </div> */}
+      <div className="d-flex justify-content-end w-100" onClick={onSearching}>
+        <Link className="del-icon">
+          <Icon name="chevron left" /> Back to Courses
+        </Link>
+      </div>
 
       <div className="sb-input">
         <div className="ui icon input">
@@ -18,7 +23,6 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
             type="text" className="prompt" id="search"
             value={searchValue}
             onChange={onInput}
-            onBlur={onSearching}
             placeholder="Search for Courses ..."
           />
           <i aria-hidden="true" class="search icon"></i>
