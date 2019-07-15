@@ -35,7 +35,7 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
           <List.Item className="resultItem" key={result.key + index.toString()}>
             <List.Content>
               <h3 className="d-inline">
-                <Link onClick={() => setCurrentOffering(result)}>{result.fullNumber}</Link>
+                <Link onClick={() => setCurrentOffering(result, 'search')}>{result.fullNumber}</Link>
               </h3>
               <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>
               <p>{result.termName}&ensp;{result.section}</p>

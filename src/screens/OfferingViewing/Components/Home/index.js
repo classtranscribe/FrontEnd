@@ -118,7 +118,7 @@ export class Home extends React.Component {
 
   setCurrentOffering = (currentOffering, id) => {
     if (currentOffering) {
-      this.onSearching()
+      if (id) this.onSearching()
       document.getElementById('home-content').classList.add('hide')
       console.log(currentOffering)
     } else {
