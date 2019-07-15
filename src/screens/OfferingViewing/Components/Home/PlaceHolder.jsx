@@ -8,7 +8,7 @@ export function OfferingCardHolder() {
       <Placeholder>
         <Placeholder.Image style={{height: '9rem', width: '16rem'}}/>
       </Placeholder>
-      <Card.Body style={{marginTop: '-0.8rem'}}>
+      <Card.Body>
         <Placeholder>
           <Placeholder.Header>
             <Placeholder.Line length='long' />
@@ -30,7 +30,7 @@ export function OfferingListHolder() {
     <div className="offering-list" role="list">
       {['offering-list-holder1', 'offering-list-holder2'].map( key =>
         <div className="section" role="listitem" key={key}>
-          <Placeholder style={{height: '2.5rem'}}>
+          <Placeholder style={{height: '2rem'}}>
             <Placeholder.Line length='long' />
           </Placeholder>
           <div className="offerings">
