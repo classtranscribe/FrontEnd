@@ -5,9 +5,9 @@
 
 /* Search Bar*/
 
-.sp-home .search-bar {
-  height: 100%;
+.sp-home .search-bar[id=search-bar] {
   width: 100%;
+  min-height: 70vh;
   /* display: none; */
   /* background: rgb(63, 63, 63); */
   padding: 1rem 2rem;}
@@ -85,17 +85,6 @@
 
 /* Content */
 
-.sp-home .fadeIn {
-  animation: fadeIn 0.2s linear;}
-.sp-home .show {
-  display: block;}
-  @keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}}
-    
-.sp-home .fadeOut {
-  display: block;
-  animation: fadeOut 0.2s linear;}
 .sp-home .hide {
   display: none;}
   @keyframes fadeOut {
@@ -117,7 +106,6 @@
 
 .sp-home .filter .search-bar {
   border-bottom: 1px solid rgb(228, 228, 228);
-  /* background: rgb(214, 214, 214); */
   padding-top: 1rem !important;
 }
 
