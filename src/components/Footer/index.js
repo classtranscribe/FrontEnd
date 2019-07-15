@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Col, Nav, Navbar } from 'react-bootstrap'
 import { Grid, List, Image } from 'semantic-ui-react'
 import './index.css'
+import { util } from '../../util';
 
 
 export function FixedFooter(props) {
@@ -21,10 +22,10 @@ export function ClassTranscribeFooter(props) {
       <Grid stackable columns='equal' verticalAlign="middle" textAlign="center">
         <Grid.Row>
           <Grid.Column>
-            <List.Item as={Link}>&ensp;About Us</List.Item>
+            <List.Item as={Link} to={util.links.currentUrl()}>&ensp;About Us</List.Item>
           </Grid.Column>
           <Grid.Column>
-            <List.Item as={Link}>Documents</List.Item>
+            <List.Item as={Link} to={util.links.currentUrl()}>Documents</List.Item>
           </Grid.Column>
           <Image style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
           <Grid.Column>
