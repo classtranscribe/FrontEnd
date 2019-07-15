@@ -14,17 +14,6 @@ import 'semantic-ui-css/semantic.min.css'
 
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      auth: false,
-    }
-  }
-
-  setAuth = () => {
-    this.setState({auth: !this.state.auth})
-  }
-
   render() {
     const NotFound404 = () => <div>404</div>
     return (
