@@ -6,7 +6,7 @@ import { OfferingListHolder } from './PlaceHolder'
 import './index.css'
 import './transition.css'
 // Vars
-import { user, api, search } from '../../../../util'
+import { user, api } from '../../../../util'
 // Lazy loading
 const OfferingList = React.lazy(() => import('./OfferingList'))
 const SearchBar = React.lazy(() => import('./SearchBar'))
@@ -86,9 +86,6 @@ export class Home extends React.Component {
               offerings[index] = courseOffering
               this.setState({ offerings })
             })
-          // const { offerings } = this.state
-          // offerings[index] = courseOffering
-          // this.setState({ offerings })
         })
     })
   }
@@ -111,7 +108,6 @@ export class Home extends React.Component {
   getAllCallBack = ({data}, stateName) => {
     if (stateName === 'offerings') {
       this.completeOfferings(data)
-      // api.contentLoaded()
     } else if (stateName === 'departments') {
       // data = handleData.shuffle(data)
     }
