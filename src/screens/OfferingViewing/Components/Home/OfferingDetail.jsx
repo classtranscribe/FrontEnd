@@ -4,11 +4,13 @@ import { Icon, Divider } from 'semantic-ui-react';
 
 export default function OfferingDetail({state: {currentOffering}, setCurrentOffering}) {
   if (!currentOffering) return null
-  const { fullNumber, courseName, termName, section, description } = currentOffering
+  const { fullNumber, courseName, termName, 
+    section, description, acronym } = currentOffering
+    
   return (
     <div className="offering-detail" >
       <div className="d-flex justify-content-end w-100">
-        <Link className="del-icon" onClick={() => setCurrentOffering(null)}>
+        <Link className="del-icon" onClick={() => setCurrentOffering(null, acronym)}>
           <Icon name="chevron left" /> Back to Courses
         </Link>
       </div>

@@ -4,9 +4,8 @@ import { Route } from 'react-router-dom'
 import { ClassTranscribeHeader } from '../../components'
 import { Sidebar, Home, Starred } from './Components'
 import './index.css'
-
 // Vars
-import { user, api, util } from '../../util';
+import { user, api, util } from '../../util'
 
 
 export class OfferingViewing extends React.Component {
@@ -62,7 +61,7 @@ export class OfferingViewing extends React.Component {
         <Sidebar {...this} />
         <div className="sp-content" style={paddingLeft}>
           <Route path={util.links.studentHome()} component={Home}/>
-          <Route path={util.links.studentStarred()} render={()=> <Starred {...this} />} />
+          <Route path={util.links.studentStarred()} render={()=><Starred {...this} />}/>
           {
             !user.isLoggedIn()
             &&

@@ -17,9 +17,9 @@
 }
 
 .sp-content {
-  -webkit-position: absolute;
+  /* -webkit-position: absolute;
   -moz-position: absolute;
-  position: absolute;
+  position: absolute; */
   width: 100%;
   height: 100%;
   padding: 4.5rem 2rem 0rem 0;

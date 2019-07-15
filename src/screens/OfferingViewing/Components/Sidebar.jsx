@@ -38,7 +38,8 @@ export function Sidebar({state: {displaySideBar}}) {
           !isLoggedIn
           &&
           <div className="signin-prompt">
-            <p>Sign In to See More Courses</p>
+            <p>Can't Find Your Courses?<br/>
+            Sign In to See More</p>
             <Button 
               title="sign in" aria-label="sign in"
               as={Link} to={util.links.studentHome()}

@@ -1,8 +1,12 @@
 import React from 'react'
+// UI
 import { Header } from 'semantic-ui-react'
-import { Card } from 'react-bootstrap';
-import { handleData, search } from '../../../../util';
+import { Card } from 'react-bootstrap'
 import { OfferingCardHolder, OfferingListHolder } from './PlaceHolder'
+// Vars
+import { handleData, search } from '../../../../util'
+const imgHolder = require('../../../../images/Video-Placeholder.jpg')
+
 
 export default function OfferingList({state, setCurrentOffering}) {
   const { departments, departSelected, offerings } = state
@@ -40,8 +44,10 @@ function Section({depart, state, setCurrentOffering}) {
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
   const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
   return (
-    <div className="section" role="listitem">
-      <Header className="title">{depart.name}&emsp;<span>{uni.name}</span></Header>
+    <div className="section" role="listitem" id={depart.acronym}>
+      <Header className="title" as="a" href={`#${depart.acronym}`}>
+        {depart.name}&emsp;<span>{uni.name}</span>
+      </Header>
       <div className="offerings">
         {offerings.map( (offering, index) => 
           offering.courses ? 
@@ -61,7 +67,7 @@ function Section({depart, state, setCurrentOffering}) {
 
 function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
   // if the full offering data has not yet loaded
-  if (!offering.courses) return null;
+  if (!offering.courses) return null
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
   // if loaded set the fullCourse
   var fullCourse = null
@@ -79,13 +85,13 @@ function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
     // console.log(fullCourse)
   })
 
-  return fullCourse ? (
+  return fullCourse ? 
     <Card className="offeringCard" onClick={() => setCurrentOffering(fullCourse)}>
       <Card.Img 
         className="img" variant="top" 
-        src={require('../../../../images/Video-Placeholder.jpg')} 
+        src={imgHolder} 
       />
-      <Card.Body style={{marginTop: '-0.8rem'}}>
+      <Card.Body>
         <Card.Title className="title">
           {fullCourse.courseNumber}&ensp;{fullCourse.courseName}
         </Card.Title>
@@ -97,5 +103,6 @@ function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
         </Card.Text>
       </Card.Body>
     </Card>
-  ) : (<></>)
+    : 
+    null
 }

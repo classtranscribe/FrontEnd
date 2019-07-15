@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 // UI
-import SearchBar from './SearchBar'
-import OfferingDetail from './OfferingDetail'
 import Filter from  './Filter'
-import OfferingList from './OfferingList'
+import { OfferingListHolder } from './PlaceHolder'
 import './index.css'
 // Vars
 import { user, api, search } from '../../../../util'
+// Lazy loading
+const OfferingList = React.lazy(() => import('./OfferingList'))
+const SearchBar = React.lazy(() => import('./SearchBar'))
+const OfferingDetail = React.lazy(() => import('./OfferingDetail'))
 
 export class Home extends React.Component {
   constructor(props) {
@@ -114,11 +116,12 @@ export class Home extends React.Component {
     this.setState({[stateName]: data})
   }
 
-  setCurrentOffering = currentOffering => {
+  setCurrentOffering = (currentOffering, id) => {
     if (currentOffering) {
       document.getElementById('home-content').classList.add('hide')
     } else {
       document.getElementById('home-content').classList.remove('hide')
+      document.getElementById(id).scrollIntoView()
     }
     console.log(currentOffering)
     this.setState({ currentOffering })
@@ -155,11 +158,15 @@ export class Home extends React.Component {
   render() {
     return (
       <div className="sp-home">
-        <SearchBar {...this} />
-        <OfferingDetail {...this} />
+        <Suspense fallback={<div>loading...</div>}>  
+          <SearchBar {...this} />
+          <OfferingDetail {...this} />
+        </Suspense>
         <div id="home-content">
           <Filter {...this} />
-          <OfferingList {...this} />
+          <Suspense fallback={<OfferingListHolder />}>  
+            <OfferingList {...this} />
+          </Suspense>
         </div>
       </div>
     )

@@ -1,10 +1,12 @@
 .sp-home {
   width: 100%;
   height: 100%;
+  position: relative;
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 5rem;
+  /* scroll-behavior: smooth; */
 }
 
 /* Search Bar*/
@@ -107,8 +109,13 @@
 
 .sp-home .filter {
   width: 100%;
-  padding: 0.5rem 1rem 0rem 2rem;
+  padding: 0.5rem 0rem 0rem 1.2rem;
   /* border-bottom: 1px solid rgb(223, 223, 223); */
+}
+@media screen and (max-width: 767px) {
+  .sp-home .filter {
+    padding-left: 0 !important;
+  }
 }
 
 .sp-home .filter .search-bar {
@@ -127,7 +134,7 @@
 .sp-home .offering-list .section {
   width: 100%;
   /* height: 20rem; */
-  border-top: 1px solid rgb(228, 228, 228);
+  /* border-top: 1px solid rgb(228, 228, 228); */
   overflow: hidden;
   padding: 1rem 0rem;}
   .sp-home .offering-list .section:last-child {
@@ -159,6 +166,9 @@
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-track-piece {
         background: #fcfcfc;
       }
+      .sp-home .offering-list .section .offerings::-webkit-scrollbar-thumb {
+        background-color: #ebebeb;
+      }
       
   .sp-home .offering-list .section .offerings .offeringCard {
     transition: all 0.1s linear;
@@ -166,10 +176,13 @@
     max-width: 16rem; 
     display: block;
     height: 18rem;
-    margin: 0.5rem 0.5rem 0 0;
+    margin: 0.5rem 0.5rem 0.5rem 0;
     border: 0.1rem solid transparent;
     overflow: hidden;
     cursor: pointer;}
+    .sp-home .card-body {
+      padding: 0.5rem !important;
+    }
   .sp-home .offering-list .section .offerings .offeringCard:hover {
     border: 0.1rem solid rgb(69, 165, 168);}
     .sp-home .offering-list .section .offerings .offeringCard:hover> .img{
@@ -188,7 +201,7 @@
   .sp-home  .offeringCard .description {
     color: rgb(107, 128, 128);
     position: relative; 
-    max-height: 7.7rem;
+    /* max-height: 8rem; */
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }

@@ -43,7 +43,7 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
                 control={Dropdown}
                 placeholder="Select Terms"
                 label="Filter by Terms"
-                clearable selection multiple
+                clearable selection multiple search
                 options={termOptions}
                 onChange={onTermSelected}
               />
