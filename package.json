@@ -10,6 +10,7 @@
     "moment": "^2.24.0",
     "npm": "^6.10.0",
     "papaparse": "^5.0.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-azure-adb2c": "^0.2.0",
     "react-bootstrap": "^1.0.0-beta.9",

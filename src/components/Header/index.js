@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Row, Navbar } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
@@ -46,4 +47,11 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
       </Row>
     </Navbar>
   )
+}
+
+ClassTranscribeHeader.propTypes = {
+  darkMode: PropTypes.bool,
+  showSiderBar: PropTypes.func,
+  display: PropTypes.bool,
+  onSignOut: PropTypes.func
 }
