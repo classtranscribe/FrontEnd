@@ -5,9 +5,11 @@
  */
 
 import React from 'react'
+import { Route } from 'react-router-dom'
 // Layouts
 import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../../components'
 import { Courses, ProfileCard } from "./Components"
+import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
 // Vars
 import { api, user } from '../../../util'
@@ -77,6 +79,7 @@ export class InstructorProfile extends React.Component {
   render() {
     return (      
       <div className="ip-bg">
+        <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />
         <ClassTranscribeHeader onSignOut={this.onSignOut} user={{name: user.firstName()}}/>
         <div className="ip-container">
           <ProfileCard instructor={{name: user.fullName()}}/>

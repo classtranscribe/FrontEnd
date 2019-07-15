@@ -5,13 +5,12 @@
  */
 
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // UI & Layouts
 import { Grid, Tab, Button } from 'semantic-ui-react'
 import OfferinfList from './OfferingList'
-import OfferingSettingPage from '../../OfferingEditing'
 // Vars
-import { handleData, api } from '../../../../util'
+import { handleData, api, util } from '../../../../util'
 
 /**
  * @param sortDown state to determine whether to sortDown or sortUp the offering by term
@@ -47,7 +46,6 @@ export function Courses(props) {
   const activeIndex = courseActivePane >= courseOfferings.length ? courseOfferings.length - 1 : courseActivePane
   return (
     <div className="ip-content">
-      <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />
       <Title userId={userId}/>
       {
         courseOfferings.length ? 
@@ -80,7 +78,7 @@ function Title({userId}) {
         <Grid.Column stretched className="new-course-btn">
           <Button 
             as={Link} variant="secondary" 
-            to={`/instructor/offering-setting/new=${userId}`}
+            to={util.links.newOffering(userId)}
             style={{marginRight:'-2rem'}}
             aria-label="create a new offering"
           >

@@ -311,7 +311,7 @@ export default class OfferingSettingPage extends React.Component {
         size="large"
         header={header}
         open={true} 
-        onClose={ isNew ? this.onCancel : this.onClose}
+        onClose={this.onCancel}
         button={button}
       >
         <DeleteModal 

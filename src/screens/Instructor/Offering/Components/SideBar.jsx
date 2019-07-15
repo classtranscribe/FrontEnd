@@ -25,8 +25,9 @@ export function SideBar({id, playlists, setActivePane, state}) {
       <ListGroup>
         {/* Go Back Menu Item */}
         <ListGroup.Item 
+          as={Link}
           className="list goback" 
-          onClick={util.toInstructorPage} 
+          to={util.links.instructor()} 
           aria-label="go back" title="go back"
         >
           <i class="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
@@ -41,8 +42,9 @@ export function SideBar({id, playlists, setActivePane, state}) {
           ) : (
             <>
             <ListGroup.Item 
+              as={Link}
               className="list" 
-              onClick={()=>util.editOffering(id)} 
+              to={util.links.editOffering(id)} 
               aria-label="edit offering"
               title="edit offering"
             >

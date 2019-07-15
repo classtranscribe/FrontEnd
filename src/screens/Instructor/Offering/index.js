@@ -13,6 +13,7 @@ import './index.css'
 import { ClassTranscribeHeader } from '../../../components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
 import { SideBar, VideoList, EmptyResult } from './Components'
+import OfferingSettingPage from '../OfferingEditing'
 // Vars
 import { user, api, handleData } from '../../../util'
 import { fakeData } from '../../../data' // fake playlists
@@ -143,6 +144,7 @@ export class InstructorOffering extends React.Component {
         />
 
         {/* Sub-Routes to editing pages for playlist & video */}
+        <Route path='/offering/offering-setting/:type?=:id' component={OfferingSettingPage} />
         <Route path='/offering/playlist-setting/:type?=:id' component={PlaylistEditing} />
         <Route path='/offering/video-setting/:id' component={VideoEditing} />
         <Route path='/offering/upload/:id' component={VideoEditing} />
