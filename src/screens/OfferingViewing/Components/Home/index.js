@@ -119,11 +119,11 @@ export class Home extends React.Component {
   setCurrentOffering = (currentOffering, id) => {
     if (currentOffering) {
       document.getElementById('home-content').classList.add('hide')
+      console.log(currentOffering)
     } else {
       document.getElementById('home-content').classList.remove('hide')
-      document.getElementById(id).scrollIntoView()
+      document.getElementById(id).scrollIntoView({block: "nearest"})
     }
-    console.log(currentOffering)
     this.setState({ currentOffering })
   }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 // UIs
-import { ClassTranscribeHeader } from '../../components'
+import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../components'
 import { Sidebar, Home, Starred } from './Components'
 import './index.css'
 // Vars
@@ -67,6 +67,7 @@ export class OfferingViewing extends React.Component {
             &&
             <Home {...this} />
           }
+          <ClassTranscribeFooter />
         </div>
       </div>
     );
