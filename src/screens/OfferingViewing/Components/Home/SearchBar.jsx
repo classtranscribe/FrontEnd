@@ -1,3 +1,7 @@
+/**
+ * SearchBar, a sub screen of Home page, shows up when user want to search a course
+ */
+
 import React from 'react'
 import { Icon, List } from 'semantic-ui-react';
 import { search } from '../../../../util';
@@ -9,9 +13,6 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
   const results = search.getResult(offerings, searchValue)
   return (
     <div className="search-bar" id="search-bar">
-      {/* <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <Icon name="remove" color="grey" style={{cursor: 'pointer'}} size="large" />
-      </div> */}
       <div className="d-flex justify-content-end w-100" onClick={onSearching}>
         <Link className="del-icon">
           <Icon name="chevron left" /> Back to Courses
@@ -32,17 +33,17 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
       
       <div className="result">
         <List divided relaxed>
-        {results.map( (result, index) => (
-          <List.Item className="resultItem" key={result.key + index.toString()}>
-            <List.Content>
-              <h3 className="d-inline">
-                <Link onClick={() => setCurrentOffering(result, 'search')}>{result.fullNumber}</Link>
-              </h3>
-              <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>
-              <p>{result.termName}&ensp;{result.section}</p>
-            </List.Content>
-          </List.Item>
-        ))}
+          {results.map( (result, index) => (
+            <List.Item className="resultItem" key={result.key + index.toString()}>
+              <List.Content>
+                <h3 className="d-inline">
+                  <Link onClick={() => setCurrentOffering(result, 'search')}>{result.fullNumber}</Link>
+                </h3>
+                <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>
+                <p>{result.termName}&ensp;{result.section}</p>
+              </List.Content>
+            </List.Item>
+          ))}
         </List>
       </div>
 

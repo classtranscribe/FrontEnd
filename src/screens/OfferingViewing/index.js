@@ -1,3 +1,7 @@
+/**
+ * Offering Viewing Page/Home Page/Student Page of ClassTranscribe
+ */
+
 import React from 'react'
 import { Route } from 'react-router-dom'
 // UIs

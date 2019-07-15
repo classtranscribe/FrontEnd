@@ -1,3 +1,7 @@
+/**
+ * Stylesheet for animated transitions using react-transition-group
+ */
+
 /* left in */
 .offering-detail-enter {
   opacity: 0;

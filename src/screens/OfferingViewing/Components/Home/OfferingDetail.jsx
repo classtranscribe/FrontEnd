@@ -1,3 +1,8 @@
+/**
+ * Offering detail screen for a offering
+ * - contains offering info and playlists
+ */
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, Divider } from 'semantic-ui-react';

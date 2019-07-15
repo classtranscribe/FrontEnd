@@ -1,3 +1,6 @@
+/**
+ * Sidebar Component of Student page/OV page
+ */
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap';

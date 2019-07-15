@@ -1,7 +1,13 @@
+/**
+ * Placeholders for Home screen
+ */
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { Placeholder } from 'semantic-ui-react'
 
+/**
+ * Placeholder shows up when a offering is loading
+ */
 export function OfferingCardHolder() {
   return (
     <Card className="offeringCard">
@@ -25,6 +31,9 @@ export function OfferingCardHolder() {
   )
 }
 
+/**
+ * Placeholder shows up when departments and offerings are loading
+ */
 export function OfferingListHolder() {
   return (
     <div className="offering-list" role="list">

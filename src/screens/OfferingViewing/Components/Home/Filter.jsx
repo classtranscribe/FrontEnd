@@ -1,9 +1,15 @@
+/**
+ * Filter component 
+ * - filter by university, terms, departments
+ */
+
 import React from 'react'
 import { Dropdown, Form, Grid } from 'semantic-ui-react'
 import { util } from '../../../../util'
 
 export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected, onSearching}) {
   const { universities, departments, terms, searchValue } = state
+  // get selecting options
   const uniOptions = util.getSelectOptions(universities)
   const termOptions = terms ? util.getSelectOptions(terms, 'term') : []
   const departOptions = departments ? util.getSelectOptions(departments, 'depart') : []

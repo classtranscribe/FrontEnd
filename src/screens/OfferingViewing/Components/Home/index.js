@@ -1,3 +1,7 @@
+/**
+ * Home sub-screen for Offering Viewing screen
+ */
+
 import React, { Suspense } from 'react'
 import { CSSTransition } from 'react-transition-group'
 // UI

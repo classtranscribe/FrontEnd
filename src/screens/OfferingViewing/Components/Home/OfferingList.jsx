@@ -1,3 +1,8 @@
+/**
+ * Offering List Component lists all accessible offerings for a user
+ * - offerings are organized by departments
+ */
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 // UI
