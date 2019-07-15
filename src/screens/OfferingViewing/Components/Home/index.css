@@ -8,7 +8,7 @@
 .sp-home .search-bar {
   height: 100%;
   width: 100%;
-  display: none;
+  /* display: none; */
   /* background: rgb(63, 63, 63); */
   padding: 1rem 2rem;}
 .sp-home .search-bar .input {
@@ -25,7 +25,7 @@
 
 .sp-home .search-bar .sb-input {
   width: 100%;
-  padding: 1rem;
+  padding: 2%;
 }
 .sp-home .search-bar .result {
   width: 100%;

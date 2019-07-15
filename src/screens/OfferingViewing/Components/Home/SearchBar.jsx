@@ -1,9 +1,10 @@
 import React from 'react'
-import { Search, Icon, List } from 'semantic-ui-react';
+import { Icon, List } from 'semantic-ui-react';
 import { search } from '../../../../util';
 import { Link } from 'react-router-dom'
 
 export default function SearchBar({onSearching, onInput, state, setCurrentOffering}) {
+  if (!state.onSearching) return null
   const { offerings, searchValue } = state
   const results = search.getResult(offerings, searchValue)
   return (
@@ -19,7 +20,7 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
 
       <div className="sb-input">
         <div className="ui icon input">
-          <input 
+          <input autoFocus
             type="text" className="prompt" id="search"
             value={searchValue}
             onChange={onInput}

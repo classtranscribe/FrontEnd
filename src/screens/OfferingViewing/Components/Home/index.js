@@ -1,8 +1,10 @@
 import React, { Suspense } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
 import Filter from  './Filter'
 import { OfferingListHolder } from './PlaceHolder'
 import './index.css'
+import './transition.css'
 // Vars
 import { user, api, search } from '../../../../util'
 // Lazy loading
@@ -120,7 +122,7 @@ export class Home extends React.Component {
     if (currentOffering) {
       if (id) this.onSearching()
       document.getElementById('home-content').classList.add('hide')
-      console.log(currentOffering)
+      // console.log(currentOffering)
     } else {
       document.getElementById('home-content').classList.remove('hide')
       document.getElementById(id).scrollIntoView({block: "nearest"})
@@ -130,7 +132,11 @@ export class Home extends React.Component {
 
   onSearching = () => {
     const { onSearching } = this.state
-    search.displaySearchBar(onSearching)
+    if (onSearching) {
+      document.getElementById('home-content').classList.remove('hide')
+    } else {
+      document.getElementById('home-content').classList.add('hide')
+    }
     this.setState({ onSearching: !onSearching})
   }
   onInput = e => {
@@ -141,7 +147,6 @@ export class Home extends React.Component {
   onUniSelected = (e, {value}) => {
     if (!value) {
       api.getAll(['Departments', 'Terms'], this.getAllCallBack)
-      // this.setState({ departments: [], terms: [] })
     } else {
       this.getDepartmentsByUniId(value)
       this.getTermsByUniId(value)
@@ -157,19 +162,28 @@ export class Home extends React.Component {
   }
 
   render() {
+    const { currentOffering, onSearching } = this.state
     return (
-      <div className="sp-home">
+      <main className="sp-home">
+        {/* Sub-screens */}
         <Suspense fallback={<div>loading...</div>}>  
-          <SearchBar {...this} />
-          <OfferingDetail {...this} />
+          <CSSTransition in={onSearching} timeout={500} classNames="search-bar">
+            <SearchBar {...this} />
+          </CSSTransition>
+
+          <CSSTransition in={currentOffering} timeout={500} classNames="offering-detail">
+            <OfferingDetail {...this} />
+          </CSSTransition>
         </Suspense>
+
+        {/* Main screen */}
         <div id="home-content">
           <Filter {...this} />
           <Suspense fallback={<OfferingListHolder />}>  
             <OfferingList {...this} />
           </Suspense>
         </div>
-      </div>
+      </main>
     )
   }
 }

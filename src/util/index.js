@@ -23,6 +23,7 @@ export const util = {
   },
 
   links: {
+    currentUrl: () => window.location,
     home: ()=> '/',
     search: () => '/search',
     admin: () => '/admin',

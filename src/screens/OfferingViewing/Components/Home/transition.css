@@ -1,0 +1,55 @@
+.screen-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.screen-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.screen-exit {
+  opacity: 1;
+}
+.screen-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* left in */
+.offering-detail-enter {
+  opacity: 0;
+  transform: translateX(40px);
+}
+.offering-detail-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.offering-detail-exit {
+  opacity: 1;
+}
+.offering-detail-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* top in */
+.search-bar-enter {
+  opacity: 0;
+  transform: translateY(-40px) scaleX(1.03);
+}
+.search-bar-enter-active {
+  opacity: 1;
+  transform: translateX(0) scaleX(1);
+  transition: opacity 300ms, transform 300ms;
+}
+.search-bar-exit {
+  opacity: 1;
+}
+.search-bar-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 300ms, transform 300ms;
+}
