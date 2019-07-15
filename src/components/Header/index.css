@@ -9,17 +9,18 @@
   width: 100%;
   height: 4rem;
   box-shadow: 7px 1px 5px 1px #c7c7c7b6;}
-  .ct-nav .brand {
+  .ct-nav .brand, .ct-nav .brand:focus, .ct-nav .brand:hover {
+    display: flex;
+    align-items: center;
     font-weight: bold;
     font-size: 2rem;
-    color: #3c9797;
+    color: #5c8b8b;
     margin-left: 1rem;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  }
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
 
   /* For course setting page */
   .ct-nav .sidebar-trigger {
-    color: #3c9797;
+    color: #768888;
     height: 2.6rem;
     width: 2.6rem;
     border-radius: 50%;  

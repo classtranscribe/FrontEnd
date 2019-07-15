@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Row, Navbar } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
 import ProfileBtn from './ProfileBtn'
@@ -30,8 +31,15 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
           <Icon name='sidebar' size="large"/>
         </Navbar.Brand>
       }
-      <Navbar.Brand className="brand" href={homeURL} title="brand" aria-label="brand">
-        ClassTranscribe
+      <Navbar.Brand className="brand" as={Link} to={homeURL} title="brand" aria-label="brand">
+        <img
+          src={require('../../images/ct-logo.png')}
+          width="30"
+          height="30"
+          className="d-inline-block align-top"
+          alt="ClassTranscribe logo"
+        />
+        &ensp;ClassTranscribe
       </Navbar.Brand>
       <Row className="signout">
         <ProfileBtn onSignOut={onSignOut}/>
