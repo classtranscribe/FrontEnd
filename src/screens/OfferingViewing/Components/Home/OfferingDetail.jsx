@@ -14,7 +14,7 @@ export default function OfferingDetail({state: { currentOffering, wasOnSearching
     
   return (
     <div className="offering-detail" >
-      <div className="d-flex justify-content-end w-100">
+      <div className="goback-container">
         <Link className="del-icon" onClick={() => setCurrentOffering(null, acronym)}>
           <Icon name="chevron left" /> Back to { wasOnSearching ? 'Search Results' : 'Courses'}
         </Link>

@@ -15,7 +15,7 @@ export default function SearchBar({onSearching, onInput, state, setCurrentOfferi
 
   return (
     <div className="search-bar" id="search-bar" ref={ref}>
-      <div className="d-flex justify-content-end w-100" onClick={onSearching}>
+      <div className="goback-container" onClick={onSearching}>
         <Link className="del-icon">
           <Icon name="chevron left" /> Back to Courses
         </Link>

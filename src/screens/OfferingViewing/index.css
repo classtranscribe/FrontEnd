@@ -26,6 +26,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 /* Side Bar */
@@ -34,10 +35,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem;
-}
-.op-sidebar .signin-prompt p {
-  font-size: 1.1rem;
-  text-align: center;
-  color: rgb(126, 151, 151);
-}
+  padding: 2rem;}
+  .op-sidebar .signin-prompt p {
+    font-size: 1.1rem;
+    text-align: center;
+    color: rgb(126, 151, 151);
+  }

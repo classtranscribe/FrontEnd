@@ -12,6 +12,13 @@
   width: 100%;
   min-height: 70vh;
   padding: 1rem 2rem;}
+  .sp-home .search-bar[id=search-bar] .ui.sticky.fixed.top {
+    top: 5rem !important;}
+    @media screen and (max-width: 520px) {
+      .sp-home .search-bar[id=search-bar] {
+        padding: 1rem 0rem;
+      }
+    }
 .sp-home .search-bar .input {
   width: 100%;}
 .sp-home .search-bar .input>input:focus {
@@ -23,9 +30,6 @@
 .prompt {
   border-radius: 3rem !important;
 }
-.sp-home .search-bar[id=search-bar] .ui.sticky.fixed.top {
-  top: 5rem !important;
-}
 .sp-home .search-bar .sb-input {
   width: 100%;
   padding: 2%;
@@ -34,20 +38,25 @@
   width: 100%;
   padding: 1rem;}
   .sp-home .search-bar .result .resultItem {
-    padding: 1rem 2rem !important;
-  }
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    padding: 1rem 2rem;}
   .sp-home .search-bar .result a {
     font-weight: bolder;
     color: rgb(48, 134, 134);}
     .sp-home .search-bar .result a:hover {
-      text-decoration: underline;
-    }
+      text-decoration: underline;}
   .sp-home .search-bar .result h4 {
-    margin-top: 0;
-  }
-  .sp-home .search-bar .result h4 span {
-    font-size: 1rem;
-    font-weight: 100;
+    margin-top: 0;}
+    .sp-home .search-bar .result h4 span {
+      font-size: 1rem;
+      font-weight: 100;}
+  @media screen and (max-width: 520px) {
+    .sp-home .search-bar .result {
+      padding: 0.2rem;}
+      .sp-home .search-bar .result .resultItem {
+        padding: 0.5rem 0.5rem;
+      }
   }
 
 .sp-home .offering-detail {
@@ -57,7 +66,11 @@
   z-index: 3;
   background: #fcfcfc;
   padding-top: 1rem;}
-  .sp-home .del-icon {
+  .sp-home .goback-container {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+  .sp-home .goback-container .del-icon {
     transition: margin 0.2s linear;
     -o-transition: margin 0.2s linear;
     -webkit-transition: margin 0.2s linear;
@@ -65,9 +78,8 @@
     margin-right: 2rem;
     cursor: pointer;
     font-size: 1.2rem;}
-    .sp-home .del-icon:hover {
-      margin-right: 3rem;
-    }
+    .sp-home .del-icon:hover, .sp-home .del-icon:focus, .sp-home .del-icon:active {
+      margin-left: 1rem;}
   .sp-home .offering-detail h1 {
     display: inline;
     color: rgb(48, 134, 134);
