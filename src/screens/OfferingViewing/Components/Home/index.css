@@ -23,7 +23,9 @@
 .prompt {
   border-radius: 3rem !important;
 }
-
+.sp-home .search-bar[id=search-bar] .ui.sticky.fixed.top {
+  top: 5rem !important;
+}
 .sp-home .search-bar .sb-input {
   width: 100%;
   padding: 2%;
