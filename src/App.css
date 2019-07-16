@@ -14,7 +14,12 @@ body {
   background-color: #fafafa;
 }
 
-a:focus {
+a:focus, button:focus {
   outline-width: 2px;
   outline-color:  rgb(7, 150, 143);
+}
+
+::selection {
+  background: rgb(26, 150, 155) !important;
+  color: #fafafa !important;
 }
