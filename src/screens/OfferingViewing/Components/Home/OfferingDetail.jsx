@@ -7,7 +7,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, Divider } from 'semantic-ui-react';
 
-export default function OfferingDetail({state: {currentOffering}, setCurrentOffering}) {
+export default function OfferingDetail({state: { currentOffering, wasOnSearching }, setCurrentOffering}) {
   if (!currentOffering) return null
   const { fullNumber, courseName, termName, 
     section, description, acronym } = currentOffering
@@ -16,7 +16,7 @@ export default function OfferingDetail({state: {currentOffering}, setCurrentOffe
     <div className="offering-detail" >
       <div className="d-flex justify-content-end w-100">
         <Link className="del-icon" onClick={() => setCurrentOffering(null, acronym)}>
-          <Icon name="chevron left" /> Back to Courses
+          <Icon name="chevron left" /> Back to { wasOnSearching ? 'Search Results' : 'Courses'}
         </Link>
       </div>
       <h1>{fullNumber}</h1><br/><br/>

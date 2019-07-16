@@ -33,6 +33,7 @@ export class Home extends React.Component {
       termSelected: [],
 
       onSearching: false,
+      wasOnSearching: false,
       searchValue: '',
 
       currentOffering: null,
@@ -132,12 +133,20 @@ export class Home extends React.Component {
 
   setCurrentOffering = (currentOffering, id) => {
     if (currentOffering) {
-      if (id) this.onSearching()
+      if (id === 'search') {
+        this.setState({ wasOnSearching: true })
+        this.onSearching()
+      }
       document.getElementById('home-content').classList.add('hide')
       // console.log(currentOffering)
     } else {
       document.getElementById('home-content').classList.remove('hide')
-      document.getElementById(id).scrollIntoView({block: "nearest"})
+      const { wasOnSearching } = this.state
+      if (id && !wasOnSearching) document.getElementById(id).scrollIntoView({block: "nearest"})
+      if (wasOnSearching) {
+        this.setState({ wasOnSearching: false })
+        this.onSearching()
+      }
     }
     this.setState({ currentOffering })
   }
@@ -148,8 +157,9 @@ export class Home extends React.Component {
       document.getElementById('home-content').classList.remove('hide')
     } else {
       document.getElementById('home-content').classList.add('hide')
+      this.setState({ wasOnSearching: false })
     }
-    this.setState({ onSearching: !onSearching})
+    this.setState({ onSearching: !onSearching })
   }
   onInput = e => {
     // console.log(e.target.value)
