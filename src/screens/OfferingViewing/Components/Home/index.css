@@ -178,9 +178,10 @@
     .sp-home .card-body {
       padding: 0.5rem !important;
     }
-  .sp-home .offering-list .section .offerings .offeringCard:hover {
+  .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a:focus {
+    outline: none;
     border: 0.1rem solid rgb(69, 165, 168);}
-    .sp-home .offering-list .section .offerings .offeringCard:hover> .img{
+    .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
       margin-top: -7rem;}
   .sp-home .offering-list .section .offerings .offeringCard .img {
     transition: margin 0.2s linear;
