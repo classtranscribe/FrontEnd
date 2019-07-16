@@ -1,10 +1,13 @@
 /**
- * Object for implementing search
+ * Functions for searching
  */
 
 import _ from 'lodash'
 
 export const search = {
+  /**
+   * Function for generating a full course number from an array of courses
+   */
   getFullNumber: function(courses) {
     var name = ''
     courses.forEach( course => {
@@ -13,6 +16,10 @@ export const search = {
     name = name.slice(0, name.length - 1)
     return name
   },
+  /**
+   * Function for converting a courseOffering into an object 
+   * which is compatible to the OfferingDetail screen
+   */
   getCourseSource: function(offerings) {
     var source = [];
     offerings.forEach( offering => {
@@ -28,13 +35,26 @@ export const search = {
     })
     return source;
   },
+  /**
+   * Function for get search results based on the input value
+   */
   getResult: function(offerings, value) {
     if (!value) return []
-    var res = []
     const source = this.getCourseSource(offerings)
-    const re = new RegExp(_.escapeRegExp(value), 'i')
-    const isMatch = result => re.test(result.fullNumber) || re.test(result.termName) || re.test(result.courseName)
-    res = _.filter(source, isMatch)
-    return res
+    const tests = []
+    // get test functions for each word
+    value.split(' ').forEach( word => {
+      const re = new RegExp(_.escapeRegExp(word), 'i')
+      const test = result => re.test(result.fullNumber) || re.test(result.termName) || re.test(result.courseName)
+      tests.push(test)
+    })
+    // combine the test result
+    const isMatch = result => {
+      var match = true
+      tests.forEach( test => match = match && test(result))
+      return match
+    }
+
+    return _.filter(source, isMatch)
   },
 }
