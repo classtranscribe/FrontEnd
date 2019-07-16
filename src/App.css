@@ -13,3 +13,8 @@ body {
   letter-spacing: 0.01071em;
   background-color: #fafafa;
 }
+
+a:focus {
+  outline-width: 2px;
+  outline-color:  rgb(7, 150, 143);
+}
