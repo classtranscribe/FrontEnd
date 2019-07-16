@@ -23,11 +23,10 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
         showSiderBar 
         &&
         <Navbar.Brand 
-          className="sidebar-trigger" 
+          className="sidebar-trigger" as="button"
           aria-label={sidebarTrggerTitle}
           title={sidebarTrggerTitle}
           onClick={showSiderBar} 
-          disabled
         >
           <Icon name='sidebar' size="large"/>
         </Navbar.Brand>
