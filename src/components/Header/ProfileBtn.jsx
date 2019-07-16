@@ -68,28 +68,24 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Item 
               id="menu-item1"
               icon={{name:'users', color: 'grey'}} 
-              className="w-100"
               text='Student' 
-              as="button" href={util.links.studentHome()}
+              as={Link} to={util.links.studentHome()}
               title="Switch to student page"
               aria-label="Switch to student page"
             />
             <Dropdown.Item 
               id="menu-item2"
               icon={{name:'student', color: 'grey'}} 
-              className="w-100"
               text='Instructor' 
-              as="button" to={util.links.instructor()}
+              as={Link} to={util.links.instructor()}
               title="Switch to instructor page"
               aria-label="Switch to instructor page"
             />
             <Dropdown.Item 
               id="menu-item3"
               icon={{name:'cogs', color: 'grey'}} 
-              className="w-100"
-              as="button"
               text='Admin' 
-              to={util.links.admin()}
+              as={Link} to={util.links.admin()}
               title="Switch to administer page"
               aria-label="Switch to administer page"
             />
@@ -98,8 +94,6 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Item 
               id="menu-item4"
               icon={{name:'mail', color: 'grey'}} 
-              className="w-100"
-              as="button"
               text='Contact Us' 
               href="mailto:classtranscribe@illinois.edu" 
               target="_blank"
