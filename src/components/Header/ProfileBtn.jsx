@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Icon, Dropdown, Button } from 'semantic-ui-react'
 import './index.css'
 
@@ -9,6 +9,32 @@ import { Link } from 'react-router-dom';
  * Drop down profile for the headers
  */
 export default function ProfileBtn({onSignOut, darkMode}) {
+  const [currItem, setCurrItem] = useState(null)
+  const focusOnMenu = () => {
+    document.getElementById('menu-item1').focus()
+  }
+  const switchFocus = ({keyCode}) => {
+    var index = currItem
+    if (keyCode === 40) {
+      if (!index) {
+        setCurrItem( () => 1 )
+        document.getElementById(`menu-item1`).focus()
+      } else {
+        if (index === 5) index = 0
+        document.getElementById(`menu-item${index + 1}`).focus()
+        setCurrItem( () => index + 1)
+      }
+    } else if (keyCode === 38) {
+      if (!index) {
+        setCurrItem( () => 5 )
+        document.getElementById(`menu-item5`).focus()
+      } else {
+        if (index === 1) index = 6
+        document.getElementById(`menu-item${index - 1}`).focus()
+        setCurrItem( () => index - 1)
+      }
+    } 
+  }
   const isLoggedIn = user.isLoggedIn()
   const trigger = isLoggedIn ? (
     <span style={darkMode ? {color: 'white'} : {}}>
@@ -25,39 +51,50 @@ export default function ProfileBtn({onSignOut, darkMode}) {
           direction='left' 
           aria-label="Open menu" 
           title="menu" 
-          closeOnBlur={false}
+          closeOnBlur={false} onClick={focusOnMenu} onKeyDown={switchFocus}
+          closeOnEscape
         >
-          <Dropdown.Menu>
+          <Dropdown.Menu id="header-menu" >
             <Dropdown.Item disabled>
               Signed in as <strong>{user.fullName()}</strong>
             </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Header content='Switch to ...' />
             <Dropdown.Item 
+              id="menu-item1"
               icon={{name:'users', color: 'grey'}} 
+              className="w-100"
               text='Student' 
-              href={util.links.studentHome()}
+              as="button" href={util.links.studentHome()}
               title="Switch to student page"
               aria-label="Switch to student page"
             />
             <Dropdown.Item 
+              id="menu-item2"
               icon={{name:'student', color: 'grey'}} 
+              className="w-100"
               text='Instructor' 
-              href={util.links.instructor()}
+              as="button" to={util.links.instructor()}
               title="Switch to instructor page"
               aria-label="Switch to instructor page"
             />
             <Dropdown.Item 
+              id="menu-item3"
               icon={{name:'cogs', color: 'grey'}} 
+              className="w-100"
+              as="button"
               text='Admin' 
-              href={util.links.admin()}
+              to={util.links.admin()}
               title="Switch to administer page"
               aria-label="Switch to administer page"
             />
             <Dropdown.Divider />
             <Dropdown.Header content='Have problems?' />
             <Dropdown.Item 
+              id="menu-item4"
               icon={{name:'mail', color: 'grey'}} 
+              className="w-100"
+              as="button"
               text='Contact Us' 
               href="mailto:classtranscribe@illinois.edu" 
               target="_blank"
@@ -66,8 +103,9 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             />
             <Dropdown.Divider />
             <Dropdown.Item 
+              id="menu-item5"
               as="button"
-              style={{width: '100%'}}
+              className="w-100"
               icon='sign-out' 
               text='Sign Out' 
               onClick={onSignOut}

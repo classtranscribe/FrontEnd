@@ -48,6 +48,11 @@
       font-size: 1.1rem !important;
       background: white;
     }
+
+    .ct-nav .menu button:focus {
+      outline: none;
+      background-color: #d5dedf;
+    }
     
   /* For instructor page */
   .ct-nav .signout {
