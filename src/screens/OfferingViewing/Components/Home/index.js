@@ -136,6 +136,8 @@ export class Home extends React.Component {
       if (id === 'search') {
         this.setState({ wasOnSearching: true })
         this.onSearching()
+      } else {
+        this.setState({ wasOnSearching: false })
       }
       document.getElementById('home-content').classList.add('hide')
       // console.log(currentOffering)
@@ -143,10 +145,7 @@ export class Home extends React.Component {
       document.getElementById('home-content').classList.remove('hide')
       const { wasOnSearching } = this.state
       if (id && !wasOnSearching) document.getElementById(id).scrollIntoView({block: "nearest"})
-      if (wasOnSearching) {
-        this.setState({ wasOnSearching: false })
-        this.onSearching()
-      }
+      if (wasOnSearching) this.onSearching()
     }
     this.setState({ currentOffering })
   }
@@ -157,7 +156,6 @@ export class Home extends React.Component {
       document.getElementById('home-content').classList.remove('hide')
     } else {
       document.getElementById('home-content').classList.add('hide')
-      this.setState({ wasOnSearching: false })
     }
     this.setState({ onSearching: !onSearching })
   }
