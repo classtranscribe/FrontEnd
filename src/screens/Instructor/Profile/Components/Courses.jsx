@@ -23,12 +23,14 @@ export function Courses(props) {
   /**
    * Generate the tab panes for each course, where contains the offering list
    */
-  const panes = [];
-  courseOfferings.forEach( courseOffering => {
-    const { course } = courseOffering;
+  var panes = [];
+  courseOfferings.forEach( (courseOffering, index) => {
+    // console.log(index, courseOffering)
+    const { course } = courseOffering
     const department = handleData.findById(departments, course.departmentId) || api.initialData.initialDepart
     panes.push({
-      key: course.id,
+      as: 'button',
+      key: course.id + index,
       menuItem: department.acronym + course.courseNumber,
       render: () => (
         <div style={{marginLeft: '-2rem', borderRight: 'solid 1px transparent'}}>
@@ -42,8 +44,10 @@ export function Courses(props) {
       )
     })
   })
-  
+
+  panes = handleData.distinct(panes, 'menuItem')
   const activeIndex = courseActivePane >= courseOfferings.length ? courseOfferings.length - 1 : courseActivePane
+  
   return (
     <div className="ip-content">
       <Title userId={userId}/>
