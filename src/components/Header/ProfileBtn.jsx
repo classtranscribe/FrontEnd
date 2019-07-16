@@ -40,9 +40,15 @@ export default function ProfileBtn({onSignOut, darkMode}) {
   }
 
   const isLoggedIn = user.isLoggedIn()
+  const isMobile = window.innerWidth <= 520
   const trigger = isLoggedIn ? (
     <span style={darkMode ? {color: 'white'} : {}}>
-      <Icon name='user' circular/> Hello, {user.firstName()}
+      <Icon name='user' circular/>
+      {
+        !isMobile
+        &&
+        `Hello, ${user.firstName()}`
+      }
     </span>
   ) : null
   
@@ -56,7 +62,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
           aria-label="Open menu" 
           title="menu" 
           onKeyDown={switchFocus}
-          closeOnBlur={false} 
+          closeOnBlur={isMobile} 
           closeOnEscape
         >
           <Dropdown.Menu id="header-menu" >

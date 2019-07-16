@@ -44,26 +44,32 @@
       outline: none;
       background-color: #d5dedf;
     }
+
+    .ct-nav .signout {
+      color: #306868;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 2rem;}
+      @media screen and (max-width: 520px) {
+        .ct-nav .signout {
+          padding-right: 0.5rem;
+        }
+      }
+      .ct-nav .signout .ui.dropdown>.dropdown.icon {
+        display: none;
+      }
     .ct-nav .menu>.item {
       font-size: 1.1rem !important;
-      background: white;
-    }
-
+      background: white;}
     .ct-nav .menu button:focus, .ct-nav .menu a:focus {
       outline: none;
       background-color: #d5dedf;
     }
+
     
-  /* For instructor page */
-  .ct-nav .signout {
-    color: #306868;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 2rem;
-  }
 
 /* dark mode */
 .dark {
