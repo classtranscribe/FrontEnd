@@ -9,10 +9,13 @@ import { Link } from 'react-router-dom';
  * Drop down profile for the headers
  */
 export default function ProfileBtn({onSignOut, darkMode}) {
+  /**
+   * state for currently focused menu item
+   */
   const [currItem, setCurrItem] = useState(null)
-  const focusOnMenu = () => {
-    document.getElementById('menu-item1').focus()
-  }
+  /**
+   * Function for handle onKeyDown event, which can switch focus from menu items
+   */
   const switchFocus = ({keyCode}) => {
     var index = currItem
     if (keyCode === 40) {
@@ -35,6 +38,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
       }
     } 
   }
+
   const isLoggedIn = user.isLoggedIn()
   const trigger = isLoggedIn ? (
     <span style={darkMode ? {color: 'white'} : {}}>
@@ -51,7 +55,8 @@ export default function ProfileBtn({onSignOut, darkMode}) {
           direction='left' 
           aria-label="Open menu" 
           title="menu" 
-          closeOnBlur={false} onClick={focusOnMenu} onKeyDown={switchFocus}
+          onKeyDown={switchFocus}
+          closeOnBlur={false} 
           closeOnEscape
         >
           <Dropdown.Menu id="header-menu" >
