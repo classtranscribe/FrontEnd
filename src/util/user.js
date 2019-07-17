@@ -9,6 +9,7 @@ import { api } from './http'
 
 export const user = {
   isLoggedIn: () => auth.isLoggedIn(),
+
   b2cToken: () => auth.getToken(),
   setUpUser: function (callback) {
     if (this.id() === null) {
@@ -52,7 +53,7 @@ export const user = {
     [
       'activePane', 'offeringActivePane', 'courseActivePane',
       'termCurrUni', 'departCurrUni', 'courseCurrUni', 
-      'courseCurrDepart', 'searchValue'
+      'courseCurrDepart', 'searchValue', 'userId'
     ].forEach( key => {
       localStorage.removeItem(key);
     });

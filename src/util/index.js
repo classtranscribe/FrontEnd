@@ -29,7 +29,7 @@ export const util = {
 
   links: {
     currentUrl: () => window.location,
-    home: ()=> user.isLoggedIn() ? '/student/home' : '/',
+    home: ()=> user.isLoggedIn() ? '/student/home' : '/home',
     search: () => user.isLoggedIn() ? '/student/home/search' : '/home/search',
     offeringDetail: id => user.isLoggedIn() ? `/student/home/offering/${id}` : `/home/offering/${id}`,
     admin: () => '/admin',

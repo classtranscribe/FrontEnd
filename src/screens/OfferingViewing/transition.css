@@ -18,6 +18,21 @@
   -o-transition: opacity 300ms, transform 300ms;
   -webkit-transition: opacity 300ms, transform 300ms;
 }
+.offering-detail-exit {
+  opacity: 1;
+  transform: translateX(0);
+  -o-transform: translateX(0);
+  -webkit-transform: translateX(0);
+}
+.offering-detail-exit-active {
+  opacity: 0;
+  transform: translateX(-40px);
+  -o-transform: translateX(-40px);
+  -webkit-transform: translateX(-40px);
+  transition: opacity 300ms, transform 300ms;
+  -o-transition: opacity 300ms, transform 300ms;
+  -webkit-transition: opacity 300ms, transform 300ms;
+}
 
 
 /* top in */

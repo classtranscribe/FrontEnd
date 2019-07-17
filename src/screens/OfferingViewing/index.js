@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 // UIs
 import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../components'
@@ -81,12 +81,14 @@ export class OfferingViewing extends React.Component {
   }
 
   render() {
-    const offeringDetailPath = user.isLoggedIn() ? '/student/home/offering/:id' : '/offering/:id'
+    const offeringDetailPath = user.isLoggedIn() ? '/student/home/offering/:id' : '/home/offering/:id'
+    const searchPath = user.isLoggedIn() ? '/student/home/search' : '/home/search'
     const { displaySideBar, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
       paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : '2rem'
     }
+
     return (
       <div className="sp-bg" ref={this.listen}>
         <ClassTranscribeHeader 
@@ -99,18 +101,23 @@ export class OfferingViewing extends React.Component {
         <div className="sp-content" style={paddingLeft}>
 
           <Route 
-            exact path={util.links.studentHome()} 
+            exact path="/home" 
+            render={() => <Home offerings={offerings} />} 
+          />
+
+          <Route 
+            exact path="/student/home"
             render={() => <Home offerings={offerings} />}
           />
 
           <Route 
-            exact path={util.links.studentStarred()} 
+            exact path="student/starred" 
             render={()=><Starred {...this} />}
           />
 
-          <Route path={offeringDetailPath}>
+          <Route exact path={offeringDetailPath}>
             {({ match, history }) => (
-              <CSSTransition in={match != null} timeout={500} classNames="offering-detail" unmountOnExit>
+              <CSSTransition in={match != null} timeout={300} classNames="offering-detail" unmountOnExit>
                 <OfferingDetail 
                   offerings={offerings}
                   history={history} 
@@ -120,19 +127,13 @@ export class OfferingViewing extends React.Component {
             )}
           </Route>
 
-          <Route path={util.links.search()}>
+          <Route exact path={searchPath}>
             {({ match, history }) => (
-              <CSSTransition in={match != null} timeout={500} classNames="search-bar" unmountOnExit>
+              <CSSTransition in={match != null} timeout={300} classNames="search-bar" unmountOnExit>
                 <Search history={history} offerings={offerings} />
               </CSSTransition>
             )}
           </Route>
-
-          {
-            !user.isLoggedIn()
-            &&
-            <Home offerings={offerings} />
-          }
 
           <ClassTranscribeFooter />
         </div>

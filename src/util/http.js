@@ -100,7 +100,7 @@ export const api = {
   getCourseOfferingsByInstructorId: function (id) {
     return this.getData('CourseOfferings/ByInstructor', id)
   },
-  getOfferings: function(id) {
+  getOfferings: function() {
     return this.getData('Offerings')
   },
   getOfferingsByStudentId: function(id) {

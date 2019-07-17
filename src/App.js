@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import authentication from 'react-azure-adb2c'
 
 import { 
@@ -11,6 +11,7 @@ import {
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
+import { util } from './util';
 
 
 class App extends React.Component {
@@ -19,7 +20,8 @@ class App extends React.Component {
     return (
       <Router basename="/">
         <Switch>
-          <Route exact path="/" component={OfferingViewing} />
+          <Route exact path="/" render={() => <Redirect to="/home" />} />
+          <Route path="/home" component={OfferingViewing} />
           <Route path="/admin" component={authentication.required(Admin)} />
           <Route path="/student" component={authentication.required(OfferingViewing)} />
           <Route path="/instructor" component={authentication.required(InstructorProfile)} />
