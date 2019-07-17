@@ -35,7 +35,7 @@ export class OfferingViewing extends React.Component {
     if (user.isLoggedIn()) {
       user.setUpUser(this.getOfferingsByStudentId)
     } else {
-      api.getData('Offerings')
+      api.getOfferings()
         .then( ({data}) => {
           this.completeOfferings(data)
           api.contentLoaded()
