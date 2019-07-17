@@ -1,0 +1,47 @@
+.sp-content .search-bar[id=search-bar] {
+  width: 100%;
+  min-height: 70vh;
+  padding: 1rem 2rem;}
+  .sp-content .search-bar[id=search-bar] .ui.sticky.fixed.top {
+    top: 5rem !important;}
+    @media screen and (max-width: 520px) {
+      .sp-content .search-bar[id=search-bar] {
+        padding: 1rem 0rem;
+      }
+    }
+.sp-content .search-bar .input {
+  width: 100%;}
+.sp-content .search-bar .input>input:focus {
+  border-color: rgb(95, 177, 177) !important;
+}
+.search-bar .del-icon {
+  margin-bottom: 1rem;
+}
+.sp-content .search-bar .sb-input {
+  width: 100%;
+  padding: 2%;
+}
+.sp-content .search-bar .result {
+  width: 100%;
+  padding: 1rem;}
+  .sp-content .search-bar .result .resultItem {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    padding: 1rem 2rem;}
+  .sp-content .search-bar .result a {
+    font-weight: bolder;
+    color: rgb(48, 134, 134);}
+    .sp-content .search-bar .result a:hover {
+      text-decoration: underline;}
+  .sp-content .search-bar .result h4 {
+    margin-top: 0;}
+    .sp-content .search-bar .result h4 span {
+      font-size: 1rem;
+      font-weight: 100;}
+  @media screen and (max-width: 520px) {
+    .sp-content .search-bar .result {
+      padding: 0.2rem;}
+      .sp-content .search-bar .result .resultItem {
+        padding: 0.5rem 0.5rem;
+      }
+  }

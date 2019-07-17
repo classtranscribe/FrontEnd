@@ -10,7 +10,7 @@ import { Header } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
 import { OfferingCardHolder, OfferingListHolder } from './PlaceHolder'
 // Vars
-import { handleData, search } from '../../../../util'
+import { handleData, search, util } from '../../../../util'
 const imgHolder = require('../../../../images/Video-Placeholder.jpg')
 
 
@@ -92,7 +92,7 @@ function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
   })
 
   return fullCourse ? 
-    <Card className="offeringCard" as={Link} onClick={() => setCurrentOffering(fullCourse)}>
+    <Card className="offeringCard" as={Link} to={util.links.offeringDetail(fullCourse.key)}>
       <Card.Img 
         className="img" variant="top" 
         src={imgHolder} style={{pointerEvents: 'none'}}

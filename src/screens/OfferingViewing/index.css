@@ -29,6 +29,10 @@
   scroll-behavior: smooth;
 }
 
+.prompt {
+  border-radius: 3rem !important;
+}
+
 /* Side Bar */
 
 .op-sidebar .signin-prompt {

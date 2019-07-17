@@ -52,7 +52,7 @@ export const user = {
     [
       'activePane', 'offeringActivePane', 'courseActivePane',
       'termCurrUni', 'departCurrUni', 'courseCurrUni', 
-      'courseCurrDepart'
+      'courseCurrDepart', 'searchValue'
     ].forEach( key => {
       localStorage.removeItem(key);
     });

@@ -1,0 +1,38 @@
+.sp-content .offering-detail {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 100%;
+  height: 90%;
+  z-index: 3;
+  background: #fcfcfc;
+  padding-top: 1rem;}
+  .sp-content .goback-container {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+  .sp-content .goback-container .del-icon {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
+    color: rgb(48, 129, 129);
+    margin-right: 2rem;
+    cursor: pointer;
+    font-size: 1.2rem;}
+    .sp-content .del-icon:hover, .sp-content .del-icon:focus, .sp-content .del-icon:active {
+      margin-left: 1rem;}
+  .sp-content .offering-detail h1 {
+    display: inline;
+    color: rgb(48, 134, 134);
+    font-size: 3rem;}
+  .sp-content .offering-detail h2 {
+    display: inline;
+    color: rgb(75, 88, 87);}
+    .sp-content .offering-detail h2 span {
+      color: grey;
+      font-size: 1.2rem;
+      font-weight: normal;}
+  .sp-content .offering-detail h5 {
+    display: inline;
+    color: rgb(46, 46, 46);
+    font-size: 1.1rem;
+    font-weight: 300;
+  }

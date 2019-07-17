@@ -1,10 +1,12 @@
-import React from 'react'
+import { user } from './user'
+
 export { auth   } from './Auth'
 export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'
 export { sortFunc } from './sort'
 export { handleData } from './data'
+
 
 
 /**
@@ -27,8 +29,9 @@ export const util = {
 
   links: {
     currentUrl: () => window.location,
-    home: ()=> '/',
-    search: () => '/search',
+    home: ()=> user.isLoggedIn() ? '/student/home' : '/',
+    search: () => user.isLoggedIn() ? '/student/home/search' : '/home/search',
+    offeringDetail: id => user.isLoggedIn() ? `/student/home/offering/${id}` : `/home/offering/${id}`,
     admin: () => '/admin',
 
     student: () => '/student',

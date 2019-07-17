@@ -104,6 +104,46 @@ export const api = {
     return this.getData('Offerings/ByStudent', id)
   },
 
+  completeSingleOffering: function(rawOffering, index, currOfferings, setOffering) {
+    // get courseOffering by offering id
+    this.getData('Offerings', rawOffering.id)
+    .then(response => {
+      const courseOffering = response.data
+      // set id for future use
+      courseOffering.id = courseOffering.offering.id
+      // get department acronym
+      courseOffering.courses.forEach( course => {
+        this.getData('Departments', course.departmentId) 
+          .then( ({data}) => {
+            course.acronym = data.acronym
+            currOfferings[index] = courseOffering
+            setOffering(currOfferings)
+          })
+      })
+      // get term name
+      this.getData('Terms', courseOffering.offering.termId)
+        .then(({data}) => {
+          courseOffering.offering.termName = data.name
+          currOfferings[index] = courseOffering
+          setOffering(currOfferings)
+        })
+    })
+  },
+  completeOfferings: function(rawOfferings, currOfferings, setOffering) {
+    // rawOfferings = handleData.shuffle(rawOfferings)
+    rawOfferings.forEach( (offering, index) => {
+      this.completeSingleOffering(offering, index, currOfferings, setOffering)
+    })
+  },
+  getFullNumber: function(courses) {
+    var name = ''
+    courses.forEach( course => {
+      name += course.acronym + course.courseNumber + '/';
+    })
+    name = name.slice(0, name.length - 1)
+    return name
+  },
+
   /**
    * POST
    * callBack = responce => {...}
