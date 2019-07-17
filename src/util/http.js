@@ -1,64 +1,6 @@
 import axios from 'axios'
 import authentication from 'react-azure-adb2c'
 
-// Object for initializing data to post
-export const initialData = {
-  initialTerm: {
-    name: '', 
-    startDate: '', 
-    endDate: '',
-    universityId: ''
-  },
-  initialUni: {
-    name: '', 
-    domain: ''
-  },
-  initialDepart: {
-    name: '', 
-    acronym: '', 
-    universityId: ''
-  },
-  initialCourse: {
-    courseName: '', 
-    courseNumber: '', 
-    description: '', 
-    departmentId: ''
-  },
-  initialOffering: {
-    offering: {
-      sectionName: '',
-      termId: '',
-      accessType: 'Public'
-    },
-    courseId: '',
-    instructorId: '',
-  },
-  initialPlaylist: {
-    description: '',
-    offeringId: '',
-    type: 'Uploaded'
-  },
-  initialVideo: {
-    description: '',
-    playlistId: '',
-    path: '',
-  },
-}
-
-// Select Options for offering's accessType
-const offeringAccessTypes = [
-  {name: 'Public', id: 'Public'},
-  {name: 'Authenticated Only', id: 'AuthenticatedOnly'},
-  {name: 'Students Only', id: 'StudentsOnly'},
-  {name: 'University Only', id: 'UniversityOnly'}
-]
-
-const playlistTypes = [
-  {name: 'Video Files', id: 'Uploaded', num: 0},
-  {name: 'YouTube', id: 'YouTube', num: 1},
-  {name: 'Echo360', id: 'Echo360', num: 2},
-]
-
 /**
  * Set up http
  */
@@ -73,9 +15,9 @@ const http = axios.create({
  * - Object for http requests from backend
  */
 export const api = {
-  initialData: initialData,
-  offeringAccessType: offeringAccessTypes,
-  playlistTypes: playlistTypes,
+  initialData: require('./json/initialData.json'),
+  offeringAccessType: require('./json/offeringAccessTypes.json'),
+  playlistTypes: require('./json/playlistTypes.json'),
 
   /**
    * Function called when all the requests executed

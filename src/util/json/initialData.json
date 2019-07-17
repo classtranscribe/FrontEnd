@@ -1,0 +1,42 @@
+{
+  "initialTerm": {
+    "name": "", 
+    "startDate": "", 
+    "endDate": "",
+    "universityId": ""
+  },
+  "initialUni": {
+    "name": "", 
+    "domain": ""
+  },
+  "initialDepart": {
+    "name": "", 
+    "acronym": "", 
+    "universityId": ""
+  },
+  "initialCourse": {
+    "courseName": "", 
+    "courseNumber": "", 
+    "description": "", 
+    "departmentId": ""
+  },
+  "initialOffering": {
+    "offering": {
+      "sectionName": "",
+      "termId": "",
+      "accessType": "Public"
+    },
+    "courseId": "",
+    "instructorId": ""
+  },
+  "initialPlaylist": {
+    "description": "",
+    "offeringId": "",
+    "type": "Uploaded"
+  },
+  "initialVideo": {
+    "description": "",
+    "playlistId": "",
+    "path": ""
+  }
+}
