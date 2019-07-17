@@ -14,7 +14,7 @@ import { handleData, search, util } from '../../../../util'
 const imgHolder = require('../../../../images/Video-Placeholder.jpg')
 
 
-export default function OfferingList({state, setCurrentOffering}) {
+export default function OfferingList({state}) {
   const { departments, departSelected, offerings } = state
   if (!departments.length || !offerings.length || !offerings[1].courses) return <OfferingListHolder />
   const showAll = !departSelected.length
@@ -37,7 +37,6 @@ export default function OfferingList({state, setCurrentOffering}) {
         <Section 
           state={state} 
           depart={depart} key={depart.id} 
-          setCurrentOffering={setCurrentOffering} 
         />
       ) : null)}
     </div>
@@ -45,7 +44,7 @@ export default function OfferingList({state, setCurrentOffering}) {
 }
 
 
-function Section({depart, state, setCurrentOffering}) {
+function Section({depart, state}) {
   const { offerings, universities } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
   const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
@@ -61,7 +60,6 @@ function Section({depart, state, setCurrentOffering}) {
             {...state}
             key={getKey(offering, index)}
             offering={offering} depart={depart}  
-            setCurrentOffering={setCurrentOffering}
           />
           : 
           <OfferingCardHolder key={getKey(offering, index)} />
@@ -71,7 +69,7 @@ function Section({depart, state, setCurrentOffering}) {
   )
 }
 
-function SectionItem({offering, depart, termSelected, setCurrentOffering}) {
+function SectionItem({offering, depart, termSelected}) {
   // if the full offering data has not yet loaded
   if (!offering.courses) return null
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;

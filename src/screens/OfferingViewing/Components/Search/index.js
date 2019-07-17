@@ -11,7 +11,7 @@ import './index.css'
 import { search, util } from '../../../../util'
 
 
-export default function Search({offerings}) {
+export function Search({offerings}) {
   const [searchValue, setSearchValue] = useState('')
   const [results, setResults] = useState([])
   const ref = createRef()

@@ -9,7 +9,7 @@ import { Icon, Divider } from 'semantic-ui-react'
 import { handleData, api } from '../../../../util'
 import './index.css'
 
-export default function OfferingDetail({offerings, id, history}) {
+export function OfferingDetail({offerings, id, history}) {
   if (!offerings.length || !id) return null
   const { offering, courses } = handleData.findById(offerings, id)
   if (!offering) return null

@@ -2,19 +2,16 @@
  * Offering Viewing Page/Home Page/Student Page of ClassTranscribe
  */
 
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import { Route } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 // UIs
 import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../components'
-import { Sidebar, Home, Starred } from './Components'
+import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import './transition.css'
 import './index.css'
 // Vars
 import { user, api, util } from '../../util'
-
-const Search = lazy(() => import('./Components/Search'))
-const OfferingDetail = lazy(() => import('./Components/OfferingDetail'))
 
 
 
@@ -114,13 +111,11 @@ export class OfferingViewing extends React.Component {
           <Route path={offeringDetailPath}>
             {({ match, history }) => (
               <CSSTransition in={match != null} timeout={500} classNames="offering-detail" unmountOnExit>
-                <Suspense fallback={<div>loading...</div>}>
-                  <OfferingDetail 
-                    offerings={offerings}
-                    history={history} 
-                    id={ match ? match.params.id : '' } 
-                  />
-                </Suspense>
+                <OfferingDetail 
+                  offerings={offerings}
+                  history={history} 
+                  id={ match ? match.params.id : '' } 
+                />
               </CSSTransition>
             )}
           </Route>
@@ -128,9 +123,7 @@ export class OfferingViewing extends React.Component {
           <Route path={util.links.search()}>
             {({ match, history }) => (
               <CSSTransition in={match != null} timeout={500} classNames="search-bar" unmountOnExit>
-                <Suspense fallback={<div>loading...</div>}>
-                  <Search history={history} offerings={offerings} />
-                </Suspense>
+                <Search history={history} offerings={offerings} />
               </CSSTransition>
             )}
           </Route>
@@ -138,7 +131,7 @@ export class OfferingViewing extends React.Component {
           {
             !user.isLoggedIn()
             &&
-            <Home {...this} />
+            <Home offerings={offerings} />
           }
 
           <ClassTranscribeFooter />

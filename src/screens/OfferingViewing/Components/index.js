@@ -1,3 +1,5 @@
-export { Sidebar } from './Sidebar'
-export { Home } from './Home'
-export { Starred } from './Starred'
+export { Sidebar        } from './Sidebar'
+export { Home           } from './Home'
+export { Starred        } from './Starred'
+export { OfferingDetail } from './OfferingDetail'
+export { Search         } from './Search'
