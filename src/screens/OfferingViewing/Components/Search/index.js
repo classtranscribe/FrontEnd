@@ -16,13 +16,13 @@ export default function Search({offerings}) {
   const [results, setResults] = useState([])
   const ref = createRef()
 
-  useEffect( ()=> {
+  useEffect( () => {
     const lastTimeValue = localStorage.getItem('searchValue')
     if (lastTimeValue) {
       setSearchValue(() => lastTimeValue )
       setResults(() => search.getResult(offerings, lastTimeValue))
     }
-  }, [])
+  })
 
   if (!offerings.length) return null
 

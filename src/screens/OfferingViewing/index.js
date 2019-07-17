@@ -118,7 +118,8 @@ export class OfferingViewing extends React.Component {
                   <OfferingDetail 
                     offerings={offerings}
                     history={history} 
-                    id={ match ? match.params.id : '' } />
+                    id={ match ? match.params.id : '' } 
+                  />
                 </Suspense>
               </CSSTransition>
             )}
