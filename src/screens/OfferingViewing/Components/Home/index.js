@@ -28,6 +28,8 @@ export class Home extends React.Component {
       uniSelected: [],
       departSelected: [],
       termSelected: [],
+
+      restoredScroll: false,
     }
   }
 
@@ -39,11 +41,14 @@ export class Home extends React.Component {
     if (this.props.offerings !== prevProps.offerings) {
       this.setState({ offerings: this.props.offerings })
     }
-    if (window.location.pathname) {
+    if (window.location.pathname && !this.state.restoredScroll) {
       const hash = window.location.hash
       if (hash) {
         const elem = document.getElementById(hash.slice(1, hash.length))
-        if (elem) elem.scrollIntoView({block: "nearest"})
+        if (elem) {
+          elem.scrollIntoView({block: "nearest"})
+          this.setState({restoredScroll: true})
+        }
       }
     }
   }

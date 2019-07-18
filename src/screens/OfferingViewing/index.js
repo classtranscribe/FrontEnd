@@ -21,6 +21,7 @@ export class OfferingViewing extends React.Component {
     this.isLoggedIn = user.isLoggedIn() || localStorage.getItem('userId')
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
+      alreadySet: false,
 
       offerings: [],
     }
@@ -44,7 +45,7 @@ export class OfferingViewing extends React.Component {
      */
     window.addEventListener('resize', ()=>{
       if (window.innerWidth < 900) this.setState({displaySideBar: false})
-      else this.setState({displaySideBar: true})
+      else if (!this.state.alreadySet) this.setState({displaySideBar: true})
     })
   }
 
@@ -78,7 +79,7 @@ export class OfferingViewing extends React.Component {
   }
 
   showSiderBar = () => {
-    this.setState({displaySideBar: !this.state.displaySideBar})
+    this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
   }
 
   /**
@@ -111,12 +112,12 @@ export class OfferingViewing extends React.Component {
         <div className="sp-content" style={paddingLeft}>
           <Route 
             exact path="/home" 
-            render={() => <Home offerings={offerings} />} 
+            render={props => <Home offerings={offerings} {...props} />} 
           />
 
           <Route 
             exact path="/student/home"
-            render={() => <Home offerings={offerings} />}
+            render={props => <Home offerings={offerings} {...props} />}
           />
 
           <Route 

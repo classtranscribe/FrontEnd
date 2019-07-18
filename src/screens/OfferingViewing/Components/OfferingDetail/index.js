@@ -7,7 +7,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, Divider } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from '../../../../components'
-import { handleData, api } from '../../../../util'
+import { handleData, api, util } from '../../../../util'
 import './index.css'
 
 export function OfferingDetail({offerings, id, history}) {
@@ -17,12 +17,12 @@ export function OfferingDetail({offerings, id, history}) {
   const { termName, sectionName } = offering
   if (!termName) return null
   const fullNumber = api.getFullNumber(courses)
-  const { description, courseName } = courses[0]
+  const { description, courseName, acronym } = courses[0]
     
   return (
     <div className="offering-detail" >
       <div className="goback-container">
-        <Link className="del-icon" onClick={() => history.goBack()}>
+        <Link className="del-icon" to={{pathname: util.links.home(), state: {id: acronym}, hash: acronym}}>
           <Icon name="chevron left" /> Go Back
         </Link>
       </div>
