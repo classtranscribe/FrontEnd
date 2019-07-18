@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 // UIs
 import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../components'
@@ -11,7 +11,7 @@ import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import './transition.css'
 import './index.css'
 // Vars
-import { user, api, util } from '../../util'
+import { user, api } from '../../util'
 
 
 
@@ -81,6 +81,7 @@ export class OfferingViewing extends React.Component {
   }
 
   render() {
+    // console.log(this.props.history)
     const offeringDetailPath = user.isLoggedIn() ? '/student/home/offering/:id' : '/home/offering/:id'
     const searchPath = user.isLoggedIn() ? '/student/home/search' : '/home/search'
     const { displaySideBar, offerings } = this.state
@@ -99,7 +100,6 @@ export class OfferingViewing extends React.Component {
         <Sidebar {...this} />
 
         <div className="sp-content" style={paddingLeft}>
-
           <Route 
             exact path="/home" 
             render={() => <Home offerings={offerings} />} 

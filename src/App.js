@@ -11,8 +11,6 @@ import {
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
-import { util } from './util';
-
 
 class App extends React.Component {
   render() {
