@@ -17,6 +17,8 @@ export class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      restoredScroll: false,
+
       universities: [],
       terms: [],
       departments: [],
@@ -25,8 +27,6 @@ export class Home extends React.Component {
       uniSelected: [],
       departSelected: [],
       termSelected: [],
-
-      restoredScroll: false,
     }
   }
 
@@ -35,19 +35,24 @@ export class Home extends React.Component {
   }
   
   componentDidUpdate(prevProps) {
+    /**
+     * 1. Update offerings after the offering is loaded
+     */
     if (this.props.offerings !== prevProps.offerings) {
       this.setState({ offerings: this.props.offerings })
     }
-    if (window.location.hash && !this.state.restoredScroll) {
-      const hash = window.location.hash
-      if (hash) {
-        const elem = document.getElementById(hash.slice(1, hash.length))
-        if (elem) {
-          elem.scrollIntoView({block: "nearest"})
-          this.setState({restoredScroll: true})
-        }
+    /**
+     * 2. Restore the scroll after
+     */
+    const { state } = this.props.history.location
+    if (state && state.id && !this.state.restoredScroll) {
+      const elem = document.getElementById(state.id)
+      if (elem) {
+        elem.scrollIntoView({ block: "nearest" })
+        this.setState({ restoredScroll: true })
       }
     }
+
   }
 
   getDepartmentsByUniId = uniId => {

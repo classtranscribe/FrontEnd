@@ -90,7 +90,13 @@ function SectionItem({offering, depart, termSelected}) {
   })
 
   return fullCourse ? 
-    <Card className="offeringCard" as={Link} to={util.links.offeringDetail(fullCourse.key)}>
+    <Card 
+      className="offeringCard" as={Link} 
+      to={{
+        pathname: util.links.offeringDetail(fullCourse.key),
+        state: { hash: fullCourse.acronym }
+      }}
+    >
       <Card.Img 
         className="img" variant="top" 
         src={imgHolder} style={{pointerEvents: 'none'}}

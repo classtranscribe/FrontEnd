@@ -70,6 +70,7 @@ export function Search({offerings}) {
           ))}
         </List>
       </div>
+      
       <ClassTranscribeFooter />
     </div>
   )

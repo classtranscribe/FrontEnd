@@ -44,8 +44,10 @@ export class OfferingViewing extends React.Component {
      * 2. listen on window size for showing or hiding sidebar
      */
     window.addEventListener('resize', ()=>{
-      if (window.innerWidth < 900) this.setState({displaySideBar: false})
-      else if (!this.state.alreadySet) this.setState({displaySideBar: true})
+      if (window.innerWidth < 900) 
+        this.setState({ displaySideBar: false })
+      else if (!this.state.alreadySet) 
+        this.setState({ displaySideBar: true })
     })
   }
 
@@ -90,10 +92,10 @@ export class OfferingViewing extends React.Component {
   }
 
   render() {
-    // console.log(this.props.history)
     const isLoggedIn = this.isLoggedIn
     const offeringDetailPath = isLoggedIn ? '/student/home/offering/:id' : '/home/offering/:id'
     const searchPath = isLoggedIn ? '/student/home/search' : '/home/search'
+
     const { displaySideBar, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
@@ -130,7 +132,7 @@ export class OfferingViewing extends React.Component {
               <CSSTransition in={match != null} timeout={300} classNames="offering-detail" unmountOnExit>
                 <OfferingDetail 
                   offerings={offerings}
-                  history={history} 
+                  history={history}
                   id={ match ? match.params.id : '' } 
                 />
               </CSSTransition>
