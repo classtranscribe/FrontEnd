@@ -6,6 +6,7 @@ import React, { Suspense, lazy } from 'react'
 // UI
 import Filter from  './Filter'
 import { OfferingListHolder } from './PlaceHolder'
+import { ClassTranscribeFooter } from '../../../../components'
 import './index.css'
 // Vars
 import { api } from '../../../../util'
@@ -37,6 +38,13 @@ export class Home extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.offerings !== prevProps.offerings) {
       this.setState({ offerings: this.props.offerings })
+    }
+    if (window.location.pathname) {
+      const hash = window.location.hash
+      if (hash) {
+        const elem = document.getElementById(hash.slice(1, hash.length))
+        if (elem) elem.scrollIntoView({block: "nearest"})
+      }
     }
   }
 
@@ -101,6 +109,7 @@ export class Home extends React.Component {
           <Suspense fallback={<OfferingListHolder />}>  
             <OfferingList {...this} />
           </Suspense>
+          <ClassTranscribeFooter />
         </div>
       </main>
     )

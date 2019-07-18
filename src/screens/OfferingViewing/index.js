@@ -6,7 +6,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
 // UIs
-import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../components'
+import { ClassTranscribeHeader } from '../../components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import './transition.css'
 import './index.css'
@@ -18,6 +18,7 @@ import { user, api } from '../../util'
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
+    this.isLoggedIn = user.isLoggedIn() || localStorage.getItem('userId')
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
 
@@ -45,6 +46,13 @@ export class OfferingViewing extends React.Component {
       if (window.innerWidth < 900) this.setState({displaySideBar: false})
       else this.setState({displaySideBar: true})
     })
+  }
+
+  componentWillMount() {
+    const currPath = window.location.pathname
+    if (this.isLoggedIn && !currPath.includes('student')) {
+      window.location = '/student'+currPath
+    }
   }
 
   /**
@@ -82,8 +90,9 @@ export class OfferingViewing extends React.Component {
 
   render() {
     // console.log(this.props.history)
-    const offeringDetailPath = user.isLoggedIn() ? '/student/home/offering/:id' : '/home/offering/:id'
-    const searchPath = user.isLoggedIn() ? '/student/home/search' : '/home/search'
+    const isLoggedIn = this.isLoggedIn
+    const offeringDetailPath = isLoggedIn ? '/student/home/offering/:id' : '/home/offering/:id'
+    const searchPath = isLoggedIn ? '/student/home/search' : '/home/search'
     const { displaySideBar, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
@@ -111,7 +120,7 @@ export class OfferingViewing extends React.Component {
           />
 
           <Route 
-            exact path="student/starred" 
+            exact path="/student/starred" 
             render={()=><Starred {...this} />}
           />
 
@@ -134,8 +143,6 @@ export class OfferingViewing extends React.Component {
               </CSSTransition>
             )}
           </Route>
-
-          <ClassTranscribeFooter />
         </div>
       </div>
     );

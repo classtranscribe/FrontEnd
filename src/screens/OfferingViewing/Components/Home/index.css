@@ -3,6 +3,9 @@
  */
  
 .sp-home {
+  width: 100%;
+  height: 100%;
+  position: relative;
   padding-bottom: 2rem;
 }
 
@@ -71,10 +74,9 @@
   .sp-home .offering-list .section .offerings {
     width: 100%;
     -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
     overflow-y: hidden;
-    overflow-x: scroll !important;
-    display: flex;
-    flex-direction: row;}
+    overflow-x: scroll !important;}
     .sp-home .offering-list .section .offerings::-webkit-scrollbar {
       display: block;
       background: rgb(248, 248, 248);
@@ -91,9 +93,9 @@
     transition: border 0.2s linear;
     -o-transition: border 0.2s linear;
     -webkit-transition: border 0.2s linear;
-    min-width: 16rem;
-    max-width: 16rem; 
-    display: block;
+    display: inline-block;
+    white-space: normal;
+    width: 16rem !important;
     height: 18rem;
     margin: 0.5rem 0.5rem 0.5rem 0;
     border: 0.1rem solid transparent;

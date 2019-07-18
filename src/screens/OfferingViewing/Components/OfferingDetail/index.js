@@ -6,6 +6,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, Divider } from 'semantic-ui-react'
+import { ClassTranscribeFooter } from '../../../../components'
 import { handleData, api } from '../../../../util'
 import './index.css'
 
@@ -33,6 +34,7 @@ export function OfferingDetail({offerings, id, history}) {
       <h5>{description}</h5><br/><br/>
       <Divider />
       <h4>Playlists</h4>
+      <ClassTranscribeFooter />
     </div>
   )
 }
