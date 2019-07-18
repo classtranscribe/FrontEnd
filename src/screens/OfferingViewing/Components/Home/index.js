@@ -17,12 +17,9 @@ export class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userId: '',
-
       universities: [],
       terms: [],
       departments: [],
-      courses: [],
       offerings: props.offerings,
 
       uniSelected: [],
@@ -41,7 +38,7 @@ export class Home extends React.Component {
     if (this.props.offerings !== prevProps.offerings) {
       this.setState({ offerings: this.props.offerings })
     }
-    if (window.location.pathname && !this.state.restoredScroll) {
+    if (window.location.hash && !this.state.restoredScroll) {
       const hash = window.location.hash
       if (hash) {
         const elem = document.getElementById(hash.slice(1, hash.length))
