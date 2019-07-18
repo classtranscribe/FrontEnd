@@ -61,7 +61,10 @@ export function Search({offerings}) {
             <List.Item className="resultItem" key={result.key + index.toString()}>
               <List.Content>
                 <h3 className="d-inline">
-                  <Link to={util.links.offeringDetail(result.key)}>{result.fullNumber}</Link>
+                  <Link to={{
+                    pathname: util.links.offeringDetail(result.key),
+                    state: { from: 'search' }
+                  }}>{result.fullNumber}</Link>
                 </h3>
                 <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>
                 <p>{result.termName}&ensp;{result.section}</p>

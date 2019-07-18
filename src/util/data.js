@@ -35,7 +35,7 @@ export const handleData = {
    */
   findById: function(array, id) {
     // console.log(array, id)
-    return _.find(array, {id: id});
+    return _.find(array, {id: id}) || 'NOT FOUND';
   },
   find: function(array, json) {
     return _.find(array, json);
