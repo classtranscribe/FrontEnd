@@ -52,6 +52,10 @@ export const util = {
     video: id => '/video',
   },
 
+  isAuthedPage: function (pathname) {
+    return pathname.includes('instructor') || pathname.slice(0, 9) === '/offering' || pathname.includes('admin') || pathname.includes('video')
+  },
+
   /**
    * Functions for switching pages
    */
