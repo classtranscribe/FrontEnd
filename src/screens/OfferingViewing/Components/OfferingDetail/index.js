@@ -9,17 +9,21 @@ import { Link } from 'react-router-dom'
 import { Icon, Divider } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from '../../../../components'
 // Vars
-import { handleData, api, util } from '../../../../util'
+import { api, util } from '../../../../util'
 import './index.css'
 
-export function OfferingDetail({offerings, id, history}) {
+export function OfferingDetail({id, history}) {
   const [offering, setOffering] = useState(null)
+  // variables to present
   const [fullNumber, setFullNumber] = useState('')
   const [termName, setTermName] = useState('')
   const [sectionName, setSectionName] = useState('')
   const [description, setDescription] = useState('')
   const [courseName, setCourseName] = useState('')
 
+  /**
+   * Get all offerings and complete offerings
+   */
   useEffect(() => {
     api.getOfferingById(id)
       .then( ({data}) => {
@@ -30,6 +34,9 @@ export function OfferingDetail({offerings, id, history}) {
       })
   }, [history])
 
+  /**
+   * Set up variables after offerings loaded
+   */
   useEffect(() => {
     if (!offering) return;
     if (offering.courses) {
@@ -43,6 +50,9 @@ export function OfferingDetail({offerings, id, history}) {
     }
   })
   
+  /**
+   * Determine which page to go back
+   */
   var elemId = ''
   var pathname = util.links.home()
   if (history.location.state) {
@@ -52,7 +62,7 @@ export function OfferingDetail({offerings, id, history}) {
     }
   }
 
-  const allLoaded = fullNumber && termName && courseName && description && sectionName
+  // const allLoaded = fullNumber && termName && courseName && description && sectionName
 
   return (
     <div className="offering-detail" >
