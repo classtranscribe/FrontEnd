@@ -26,7 +26,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 
 .prompt {
