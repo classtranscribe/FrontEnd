@@ -116,41 +116,33 @@ export class OfferingViewing extends React.Component {
 
             <div className="sp-content" style={paddingLeft}>
               <TransitionGroup>
-                <CSSTransition
-                    key={location.key}
-                    classNames="offering-detail"
-                    timeout={300}
-                  >
+                <CSSTransition key={location.key} classNames="fade" timeout={300}>
                   <Switch location={location}>
+                    {/* Unauthed home page */}
                     <Route 
                       exact path="/home" 
                       render={props => <Home offerings={offerings} {...props} />} 
                     />
-
+                    {/* Authed home page */}
                     <Route 
                       exact path="/student/home"
                       render={props => <Home offerings={offerings} {...props} />}
                     />
-
+                    {/* Starred */}
                     <Route 
                       exact path="/student/starred" 
-                      render={()=><Starred {...this} />}
+                      render={() => <Starred {...this} />}
                     />
-
-                    <Route exact path={offeringDetailPath}>
-                      {({ match, history }) => (
-                          <OfferingDetail 
-                            history={history}
-                            id={ match ? match.params.id : '' } 
-                          />
-                      )}
-                    </Route>
-
-                    <Route exact path={searchPath}>
-                      {({ match, history }) => (
-                          <Search history={history} offerings={offerings} />
-                      )}
-                    </Route>
+                    {/* Offering Detail page */}
+                    <Route 
+                      exact path={offeringDetailPath}
+                      render={({ match, history }) => <OfferingDetail history={history} id={match.params.id} />}
+                    />
+                    {/* Search Page */}
+                    <Route 
+                      exact path={searchPath} 
+                      render={({ history }) => <Search history={history} offerings={offerings} />}
+                    />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>

@@ -3,24 +3,17 @@
  */
 
 /* left in */
-.offering-detail-enter {
-  z-index: 1;
+.fade-enter {
   opacity: 0;
-  transform: translateX(40px);
-  -o-transform: translateX(40px);
-  -webkit-transform: translateX(40px);
 }
-.offering-detail-enter-active {
+.fade-enter-active {
   opacity: 1;
-  transform: translateX(0);
-  -o-transform: translateX(0);
-  -webkit-transform: translateX(0);
   transition: opacity 300ms, transform 300ms;
   -o-transition: opacity 300ms, transform 300ms;
   -webkit-transition: opacity 300ms, transform 300ms;
 }
-.offering-detail-exit {
-  opacity: 0;
+.fade-exit {
+  display: none;
 }
 
 
