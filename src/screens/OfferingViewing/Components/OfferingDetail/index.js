@@ -29,7 +29,7 @@ export function OfferingDetail({id, history}) {
       .then( ({data}) => {
         api.completeSingleOffering(data, null, null, function(data) {
           setOffering(() => data)
-          console.log(data)
+          // console.log(data)
         })
       })
   }, [id])
@@ -48,7 +48,7 @@ export function OfferingDetail({id, history}) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
     }
-  }, [offering])
+  })
   
   /**
    * Determine which page to go back
