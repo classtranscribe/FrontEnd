@@ -20,9 +20,10 @@ class App extends React.Component {
      */
     if (!user.id()) { // not logged in
       const { pathname } = window.location
-      if (pathname.includes('student')) { // replace the authed page with unauthed one
-        window.location = pathname.replace('/student', '')
-      } else if (util.isAuthedPage(pathname)) {
+      // if (pathname.includes('student')) { // replace the authed page with unauthed one
+      //   window.location = pathname.replace('/student', '')
+      // } else 
+      if (util.isAuthedPage(pathname)) {
         window.location = util.links.home()
       }
     }

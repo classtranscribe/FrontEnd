@@ -21,28 +21,27 @@ export function OfferingDetail({offerings, id, history}) {
   const [courseName, setCourseName] = useState('')
 
   useEffect(() => {
-    const fullOffering = handleData.findById(offerings, id)
-    if (fullOffering) {
-      setOffering(() => fullOffering)
-    }
-  }, [offerings, id])
+    api.getOfferingById(id)
+      .then( ({data}) => {
+        api.completeSingleOffering(data, null, null, function(data) {
+          setOffering(() => data)
+          console.log(data)
+        })
+      })
+  }, [history])
 
   useEffect(() => {
     if (!offering) return;
-    if (offering === 'NOT FOUND') {
-      if (window.location.pathname.includes('offering')) {
-        console.log('I am here', window.location.pathname)
-        // window.location = util.links.home()
-      }
-    } else if (offering.courses) {
+    if (offering.courses) {
       setFullNumber(() => api.getFullNumber(offering.courses))
-      setDescription(() => offering.courses[0].description)
       setCourseName(() => offering.courses[0].courseName)
-    } else if (offering.offering) {
+      setDescription(() => offering.courses[0].description)
+    }
+    if (offering.offering && offering.offering.termName) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
     }
-  }, [offering])
+  })
   
   var elemId = ''
   var pathname = util.links.home()
@@ -52,6 +51,8 @@ export function OfferingDetail({offerings, id, history}) {
       pathname = util.links.search()
     }
   }
+
+  const allLoaded = fullNumber && termName && courseName && description && sectionName
 
   return (
     <div className="offering-detail" >

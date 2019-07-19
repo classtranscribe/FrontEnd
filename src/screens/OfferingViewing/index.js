@@ -3,8 +3,8 @@
  */
 
 import React from 'react'
-import { Route } from 'react-router-dom'
-import { CSSTransition } from 'react-transition-group'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
 import { ClassTranscribeHeader } from '../../components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
@@ -103,51 +103,60 @@ export class OfferingViewing extends React.Component {
     }
 
     return (
-      <div className="sp-bg" ref={this.listen}>
-        <ClassTranscribeHeader 
-          showSiderBar={this.showSiderBar} 
-          display={displaySideBar}
-          onSignOut={this.onSignOut} 
-        />   
-        <Sidebar {...this} />
+      <Route
+        render={({ location }) => (
 
-        <div className="sp-content" style={paddingLeft}>
-          <Route 
-            exact path="/home" 
-            render={props => <Home offerings={offerings} {...props} />} 
-          />
+          <div className="sp-bg" ref={this.listen}>
+            <ClassTranscribeHeader 
+              showSiderBar={this.showSiderBar} 
+              display={displaySideBar}
+              onSignOut={this.onSignOut} 
+            />   
+            <Sidebar {...this} />
 
-          <Route 
-            exact path="/student/home"
-            render={props => <Home offerings={offerings} {...props} />}
-          />
+            <div className="sp-content" style={paddingLeft}>
+              <TransitionGroup>
+                <CSSTransition
+                    key={location.key}
+                    classNames="offering-detail"
+                    timeout={300}
+                  >
+                  <Switch location={location}>
+                    <Route 
+                      exact path="/home" 
+                      render={props => <Home offerings={offerings} {...props} />} 
+                    />
 
-          <Route 
-            exact path="/student/starred" 
-            render={()=><Starred {...this} />}
-          />
+                    <Route 
+                      exact path="/student/home"
+                      render={props => <Home offerings={offerings} {...props} />}
+                    />
 
-          <Route exact path={offeringDetailPath}>
-            {({ match, history }) => (
-              <CSSTransition in={match != null} timeout={300} classNames="offering-detail" unmountOnExit>
-                <OfferingDetail 
-                  offerings={offerings}
-                  history={history}
-                  id={ match ? match.params.id : '' } 
-                />
-              </CSSTransition>
-            )}
-          </Route>
+                    <Route 
+                      exact path="/student/starred" 
+                      render={()=><Starred {...this} />}
+                    />
 
-          <Route exact path={searchPath}>
-            {({ match, history }) => (
-              <CSSTransition in={match != null} timeout={300} classNames="search-bar" unmountOnExit>
-                <Search history={history} offerings={offerings} />
-              </CSSTransition>
-            )}
-          </Route>
-        </div>
-      </div>
-    );
+                    <Route exact path={offeringDetailPath}>
+                      {({ match, history }) => (
+                          <OfferingDetail 
+                            history={history}
+                            id={ match ? match.params.id : '' } 
+                          />
+                      )}
+                    </Route>
+
+                    <Route exact path={searchPath}>
+                      {({ match, history }) => (
+                          <Search history={history} offerings={offerings} />
+                      )}
+                    </Route>
+                  </Switch>
+                </CSSTransition>
+              </TransitionGroup>
+            </div>
+          </div>
+      )}/>
+    )
   }
 }
