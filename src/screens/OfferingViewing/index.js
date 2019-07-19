@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
 import { ClassTranscribeHeader } from '../../components'
@@ -141,7 +141,7 @@ export class OfferingViewing extends React.Component {
                     {/* Search Page */}
                     <Route 
                       exact path={searchPath} 
-                      render={({ history }) => <Search history={history} offerings={offerings} />}
+                      render={() => <Search offerings={offerings} />}
                     />
                   </Switch>
                 </CSSTransition>

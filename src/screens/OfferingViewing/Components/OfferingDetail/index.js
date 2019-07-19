@@ -32,7 +32,7 @@ export function OfferingDetail({id, history}) {
           console.log(data)
         })
       })
-  }, [history])
+  }, [id])
 
   /**
    * Set up variables after offerings loaded
@@ -48,7 +48,7 @@ export function OfferingDetail({id, history}) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
     }
-  })
+  }, [offering])
   
   /**
    * Determine which page to go back

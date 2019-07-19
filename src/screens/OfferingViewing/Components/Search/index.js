@@ -23,7 +23,7 @@ export function Search({offerings}) {
       setSearchValue(() => lastTimeValue )
       setResults(() => search.getResult(offerings, lastTimeValue))
     }
-  })
+  }, [offerings])
 
   if (!offerings.length) return null
 
