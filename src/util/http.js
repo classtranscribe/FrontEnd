@@ -30,7 +30,7 @@ export const api = {
       ele.classList.add('available')
       setTimeout(() => {
         // remove from DOM
-        ele.outerHTML = ''
+        if (ele.parentNode) ele.outerHTML = ''
         // ele.classList.add('hide')
       }, interval || 500)
     }

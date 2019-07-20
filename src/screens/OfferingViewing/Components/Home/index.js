@@ -32,6 +32,7 @@ export class Home extends React.Component {
 
   componentDidMount() {
     api.getAll(['Universities', 'Departments', 'Terms'], this.getAllCallBack)
+    api.contentLoaded()
   }
   
   componentDidUpdate(prevProps) {
