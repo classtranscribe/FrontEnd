@@ -3,30 +3,32 @@
   flex-direction: column;
   position: relative;
   top: 0;
-  height: 100%;
   width: 100%;
   padding: 0 5% 0rem 5%;
 }
 
 /* Header Placeholder */
 .pl-header-placeholder {
+  padding: 1rem 0;
   display: flex;
   flex-direction: row;
   align-items: center;
+  border-bottom: #dbdbdb solid 1px;
 }
 .pl-header-placeholder .type-icon {
-  height: 4em;
-  width: 5.5em; 
+  height: 2.5em;
+  width: 3.5em; 
   margin-left: 1.5rem;
 }
 .pl-header-placeholder .name {
-  height: 3em; 
+  height: 2em; 
   width: 70%; 
   margin: 0 0 0 1rem !important;
 }
 
+/* Header */
 .pl-info-header {
-  background: #fafafa;
+  background: #fafafae1;
   padding-top: 1rem;
 }
 .csp-videos .ui.sticky.fixed.top {
@@ -48,8 +50,6 @@
 .pl-info-header .echo360 {
   color: #4c95be;
 }
-
-
 
 .csp-videos .playlist-btn {
   width: 100%;
@@ -82,7 +82,33 @@
   text-align: center;
 }
 
+/* Video List Placeholder */
+
+.vcard-placeholder {
+  padding: 1rem !important;
+  width: 100%;
+  display: flex;
+  flex-direction: row !important;
+  align-items: flex-start;
+  border-bottom: #dbdbdb solid 1px !important;
+}
+.vcard-placeholder .img {
+  height: 4em;
+  width: 7em; 
+  display: inline-block;
+  border-radius: 0.5rem !important;
+}
+.vcard-placeholder .vname {
+  height: 2em; 
+  width: 80%; 
+  margin: 0 0 0 1rem !important;
+  display: inline-block;
+}
+
+/* Video List */
+
 .csp-videos .vlist {
+  min-height: 50vh;
   width: 100%;
 }
 .csp-videos .vlist .video-card {

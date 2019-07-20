@@ -1,5 +1,6 @@
 import React from 'react'
-import {  Placeholder } from 'semantic-ui-react'
+import _ from "lodash"
+import { Placeholder, List } from 'semantic-ui-react'
 
 export function HeaderPlaceholder() {
   return (
@@ -11,5 +12,25 @@ export function HeaderPlaceholder() {
         <Placeholder.Image />
       </Placeholder>
     </div>
+  )
+}
+
+export function VideoListPlaceHolder() {
+  return (
+    <>
+      {
+        _.times(7, num => (
+          <List.Item className="vcard-placeholder" key={`video-card-placeholder-${num}`}>
+            <Placeholder className="img" >
+              <Placeholder.Image />
+            </Placeholder>
+            <Placeholder className="vname" >
+              <Placeholder.Image />
+              <Placeholder.Image />
+            </Placeholder>
+          </List.Item>
+        ))
+      }
+    </>
   )
 }

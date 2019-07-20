@@ -29,6 +29,8 @@ export function SideBar({id, state}) {
     sectionName = offering.sectionName
   }
 
+  const defaultEventKey = playlists.length ? playlists[0].id : 'noPlaylist'
+
   return (
     <div className="op-sidebar" style={style}>
       <ListGroup>

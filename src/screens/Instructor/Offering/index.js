@@ -12,10 +12,10 @@ import './index.css'
 // Layout components
 import { ClassTranscribeHeader } from '../../../components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
-import { SideBar, VideoList, EmptyResult, DataDemo, Playlist } from './Components'
+import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
-import { user, api } from '../../../util'
+import { user, api, util } from '../../../util'
 
 
 export class InstructorOffering extends React.Component {
@@ -35,11 +35,6 @@ export class InstructorOffering extends React.Component {
 
   showSiderBar = () => {
     this.setState({displaySideBar: !this.state.displaySideBar})
-  }
-
-  setActivePane = eventKey => {
-    this.setState({activePane: eventKey})
-    localStorage.setItem('offeringActivePane', eventKey)
   }
 
   componentDidMount() {
@@ -77,6 +72,13 @@ export class InstructorOffering extends React.Component {
         this.setState({ playlists: data })
         console.log(data)
       } )
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.playlists !== this.state.playlists) {
+      const { props, id, state } = this
+      props.history.push(util.links.offeringPlaylist(id, state.playlists[0].id))
+    }
   }
 
   /**
