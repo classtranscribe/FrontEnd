@@ -16,8 +16,6 @@ import { SideBar, VideoList, EmptyResult } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
 import { user, api, handleData } from '../../../util'
-import { fakeData } from '../../../data' // fake playlists
-const { initialOffering, initialTerm } = api.initialData
 
 
 export class InstructorOffering extends React.Component {
@@ -26,19 +24,12 @@ export class InstructorOffering extends React.Component {
 
     // offeringId
     this.id = this.props.match.params.id 
-    // fake playlists
-    this.playlists = []
 
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
-      activePane: 0, // || this.playlists[0].name, // should be playlist id
-      courseOffering: {...handleData.copy(initialOffering), courses: []},
-      term: handleData.copy(initialTerm),
 
-      loadingCourses: true,
-      loadingTerm: true,
-      loadingOfferingFirstTime: true,
-      loadingOfferingInfo: true,
+      courseOffering: {},
+      playlists: [],
     }
   }
 
@@ -52,7 +43,6 @@ export class InstructorOffering extends React.Component {
   }
 
   componentDidMount() {
-    api.getPlaylistsByOfferingId(this.id).then( ({data}) => console.log(data) )
     /**
      * listen on window size for showing or hiding sidebar
      */
@@ -67,7 +57,6 @@ export class InstructorOffering extends React.Component {
     api.getOfferingById(this.id)
       .then( response => {
         console.log(response.data)
-        api.completeSingleOffering(response.data, offering => this.setState({ offering }))
         /**
          * 1. get and set courseOffering
          */
@@ -76,41 +65,18 @@ export class InstructorOffering extends React.Component {
          * 2. get all the departments associated with the courses
          *    and modify the course.courseNumber with depart acronym 
          */
-        const { courses } = response.data
-        courses.forEach( (course, index) => {
-          api.getDepartById(course.departmentId)
-            .then( response => {
-              const { courseOffering } = this.state
-              const { courseNumber } = courseOffering.courses[index]
-              const { acronym } = response.data
-              courseOffering.courses[index].courseNumber = acronym + courseNumber
-              this.setState({ courseOffering, loadingCourses: false})
-            })
-        })
+        api.completeSingleOffering(response.data, courseOffering => this.setState({ courseOffering }))
         /**
-         * 3. Get term by offering.termId ---to get the term.name
-         */
-        api.getData('Terms', response.data.offering.termId)
-          .then( response => {
-            this.setState({term: response.data, loadingTerm: false})
-          })
-
-        /**
-         * 4. Hide the loading page
+         * 3. Hide the loading page
          */
         api.contentLoaded()
       })
-  }
 
-  /**
-   * Check whether the content is loaded
-   */
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // if the Offering info is fully loaded, hide loading wrapper
-    const { loadingTerm, loadingCourses, loadingOfferingFirstTime } = this.state;
-    if (!loadingTerm && !loadingCourses && loadingOfferingFirstTime) {
-          this.setState({loadingOfferingInfo: false, loadingOfferingFirstTime: false})
-    }
+    api.getPlaylistsByOfferingId(this.id)
+      .then( ({data}) => {
+        this.setState({ playlists: data })
+        console.log(data)
+      } )
   }
 
   /**
@@ -127,7 +93,7 @@ export class InstructorOffering extends React.Component {
   }
 
   render() {
-    const { activePane, displaySideBar } = this.state
+    const { displaySideBar } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
       paddingLeft: (displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
@@ -151,7 +117,7 @@ export class InstructorOffering extends React.Component {
         {/* Layouts */}
         <Tab.Container 
           className="content" 
-          defaultActiveKey={this.playlists.length ? activePane : 'noPlaylists'}
+          defaultActiveKey={'noPlaylists'}
         >
           <SideBar {...this}/>
 
