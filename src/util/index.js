@@ -44,6 +44,8 @@ export const util = {
     editOffering: id => `/offering/offering-setting/id=${id}`,
 
     offering: id => `/offering/${id}`,
+    offeringData: offeringId => `/offering/${offeringId}/data`,
+    offeringPlaylist: (offeringId, playlistId) => `/offering/${offeringId}/playlist/${playlistId}`,
     newPlaylist: id => `/offering/playlist-setting/new=${id}`,
     editPlaylist: id => `/offering/playlist-setting/id=${id}`,
     uploadVideo: id => `/offering/upload/${id}`,

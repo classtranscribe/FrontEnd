@@ -5,17 +5,17 @@
  */
 
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
-import { Tab } from 'react-bootstrap'
 import './index.css'
 // Layout components
 import { ClassTranscribeHeader } from '../../../components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
-import { SideBar, VideoList, EmptyResult } from './Components'
+import { SideBar, VideoList, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
-import { user, api, handleData } from '../../../util'
+import { user, api } from '../../../util'
 
 
 export class InstructorOffering extends React.Component {
@@ -93,7 +93,7 @@ export class InstructorOffering extends React.Component {
   }
 
   render() {
-    const { displaySideBar } = this.state
+    const { displaySideBar, playlists } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
       paddingLeft: (displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
@@ -115,24 +115,33 @@ export class InstructorOffering extends React.Component {
         <Route path='/offering/upload/:id' component={VideoEditing} />
 
         {/* Layouts */}
-        <Tab.Container 
+        <div
           className="content" 
           defaultActiveKey={'noPlaylists'}
         >
           <SideBar {...this}/>
 
-          <Tab.Content className="content-result" style={paddingLeft}>
-            {/* When there is no playlists yet */}
-            <EmptyResult {...this}/>
-            {/* Data demo */}
-            <Tab.Pane eventKey="data" aria-label="Data Representation">
-              data here.
-            </Tab.Pane>
-            {/* Video list */}
-            {/* <VideoList {...this} /> */}
-          </Tab.Content>
+          <div className="content-result" style={paddingLeft}>
+            {
+              !playlists.length
+              &&
+              <EmptyResult {...this} />
+            }
 
-        </Tab.Container>
+            <Route
+              render={({ location }) => (
+                <TransitionGroup>
+                  <CSSTransition key={location.key} classNames="fade" timeout={300}>
+                    <Switch location={location}>
+                      <Route exact path={`/offering/${this.id}/data`} component={DataDemo} />
+                      <Route exact path={`/offering/${this.id}/playlist/:id`} component={Playlist} />
+                    </Switch>
+                  </CSSTransition>
+                </TransitionGroup>
+              )} 
+            />
+          </div>
+        </div>
       </main>
     )
   }

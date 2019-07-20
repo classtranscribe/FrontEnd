@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { Icon, Button } from 'semantic-ui-react'
 import { util, api } from '../../../../util'
+import TypeIcon from './TypeIcon'
 
 export function SideBar({id, state}) {
   const { displaySideBar, courseOffering, playlists } = state;
@@ -64,7 +65,10 @@ export function SideBar({id, state}) {
         </ListGroup.Item>
         
         {/* Data demo menu item */}
-        <ListGroup.Item className="list" eventKey="data" aria-label="data" title="data">
+        <ListGroup.Item 
+          as={Link} to={util.links.offeringData(id)}
+          className="list" eventKey="data" aria-label="data" title="data"
+        >
           <i class="fas fa-chart-bar"></i> &ensp; Data
         </ListGroup.Item>
       </ListGroup>
@@ -86,16 +90,6 @@ function Playlist({ playlists, id }) {
     </div>
   )
 
-  const getColor = type => {
-    return type === 1 ? 'red' : 
-           type === 2 ? 'blue' : 'black'
-  }
-
-  const getIcon = type => {
-    return type === 1 ? 'youtube' : 
-           type === 2 ? 'video play' : 'file video'
-  }
-
   return (
     <div className="playlists">
       <div className="breakline"></div>
@@ -110,13 +104,14 @@ function Playlist({ playlists, id }) {
         <ListGroup className="playlist">
           {playlists.map( playlist => 
             <ListGroup.Item 
+              as={Link} to={util.links.offeringPlaylist(id, playlist.id)}
               variant="secondary" className="item" action 
-              key={playlist.name}
+              key={playlist.id} eventKey={playlist.id}
               aria-label={playlist.name}
               title={`see videos of playlist '${playlist.name}'`}
             >
               <p className="pl-name">
-                <Icon name={getIcon(playlist.sourceType)} color={getColor(playlist.sourceType)} /> 
+                <TypeIcon type={playlist.sourceType} />
                 &ensp;{playlist.name}
               </p>
               <p className="pl-video-num">{playlist.medias.length} video(s)</p>

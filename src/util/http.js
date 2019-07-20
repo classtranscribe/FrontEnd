@@ -118,6 +118,9 @@ export const api = {
     return this.getData('Offerings/ByStudent', id)
   },
   // Playlists
+  getPlaylistById: function(playlistId) {
+    return this.getData('Playlists', playlistId)
+  },
   getPlaylistsByOfferingId: function(offeringId) {
     return this.getData('Playlists/ByOffering', offeringId)
   },
