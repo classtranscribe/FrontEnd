@@ -30,9 +30,10 @@
     "instructorId": ""
   },
   "initialPlaylist": {
-    "description": "",
+    "name": "",
     "offeringId": "",
-    "type": "Uploaded"
+    "sourceType": "Uploaded",
+    "playlistIdentifier": ""
   },
   "initialVideo": {
     "description": "",

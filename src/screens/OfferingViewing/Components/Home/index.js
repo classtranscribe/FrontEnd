@@ -72,9 +72,7 @@ export class Home extends React.Component {
   }
 
   getAllCallBack = ({data}, stateName) => {
-    if (stateName === 'offerings') {
-      this.completeOfferings(data)
-    } else if (stateName === 'departments'|| stateName === 'terms') {
+    if (stateName === 'departments'|| stateName === 'terms') {
       data.forEach( (obj, index) => {
         this.getUniversityById(obj.universityId, index, stateName)
       })

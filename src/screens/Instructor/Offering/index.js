@@ -27,11 +27,11 @@ export class InstructorOffering extends React.Component {
     // offeringId
     this.id = this.props.match.params.id 
     // fake playlists
-    this.playlists = fakeData.playlists // []
+    this.playlists = []
 
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
-      activePane: localStorage.getItem('offeringActivePane') || this.playlists[0].name, // should be playlist id
+      activePane: 0, // || this.playlists[0].name, // should be playlist id
       courseOffering: {...handleData.copy(initialOffering), courses: []},
       term: handleData.copy(initialTerm),
 
@@ -52,6 +52,7 @@ export class InstructorOffering extends React.Component {
   }
 
   componentDidMount() {
+    api.getPlaylistsByOfferingId(this.id).then( ({data}) => console.log(data) )
     /**
      * listen on window size for showing or hiding sidebar
      */
@@ -63,9 +64,10 @@ export class InstructorOffering extends React.Component {
     /**
      * Get all the data based on the offeringId
      */
-    api.getData('Offerings', this.id)
+    api.getOfferingById(this.id)
       .then( response => {
         console.log(response.data)
+        api.completeSingleOffering(response.data, offering => this.setState({ offering }))
         /**
          * 1. get and set courseOffering
          */
@@ -76,7 +78,7 @@ export class InstructorOffering extends React.Component {
          */
         const { courses } = response.data
         courses.forEach( (course, index) => {
-          api.getData('Departments', course.departmentId)
+          api.getDepartById(course.departmentId)
             .then( response => {
               const { courseOffering } = this.state
               const { courseNumber } = courseOffering.courses[index]
@@ -97,9 +99,6 @@ export class InstructorOffering extends React.Component {
          * 4. Hide the loading page
          */
         api.contentLoaded()
-
-        api.getData('Playlists')
-          .then( response => console.log(response.data) )
       })
   }
 
@@ -164,7 +163,7 @@ export class InstructorOffering extends React.Component {
               data here.
             </Tab.Pane>
             {/* Video list */}
-            <VideoList {...this} />
+            {/* <VideoList {...this} /> */}
           </Tab.Content>
 
         </Tab.Container>

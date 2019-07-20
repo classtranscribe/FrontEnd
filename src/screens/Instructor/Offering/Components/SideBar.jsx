@@ -71,7 +71,7 @@ export function SideBar({id, playlists, setActivePane, state}) {
         </ListGroup.Item>
       </ListGroup>
 
-      <Playlist playlists={playlists} id={id} setActivePane={setActivePane}/>
+      {/* <Playlist playlists={playlists} id={id} setActivePane={setActivePane}/> */}
     </div>
   )
 }

@@ -27,7 +27,7 @@ export function OfferingDetail({id, history}) {
   useEffect(() => {
     api.getOfferingById(id)
       .then( ({data}) => {
-        api.completeSingleOffering(data, null, null, function(data) {
+        api.completeSingleOffering(data, function(data) {
           setOffering(() => data)
           // console.log(data)
         })
