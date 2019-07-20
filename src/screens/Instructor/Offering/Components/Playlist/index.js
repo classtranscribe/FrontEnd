@@ -1,3 +1,7 @@
+/**
+ * Playlist Page for instructors
+ */
+
 import React, { useState, useEffect, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { List, Image, Sticky } from 'semantic-ui-react'
@@ -6,7 +10,7 @@ import { VideoListPlaceHolder } from './Placeholders'
 import PlaylistHeader from './PlaylistHeader'
 import EditVideoBtn from './EditVideoBtn'
 import './index.css'
-import { api, util, sortFunc } from '../../../../../util'
+import { api, util } from '../../../../../util'
 const profileImg = require('../../../../../images/Video-Placeholder.jpg')
 
 
@@ -50,6 +54,9 @@ export function Playlist({ match }) {
   )
 }
 
+/**
+ * Video List Item
+ */
 function Video({media, sourceType}) {
   const className = sourceType === 1 ? 'youtube' : sourceType === 2 ? 'echo360' : ''
   const { id, jsonMetadata } = media

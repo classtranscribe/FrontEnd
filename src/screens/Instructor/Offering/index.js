@@ -9,7 +9,6 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
 import './index.css'
-// Layout components
 import { ClassTranscribeHeader } from '../../../components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
 import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
@@ -67,6 +66,9 @@ export class InstructorOffering extends React.Component {
         api.contentLoaded()
       })
 
+    /**
+     * GET playlists based on offeringId
+     */
     api.getPlaylistsByOfferingId(this.id)
       .then( ({data}) => {
         this.setState({ playlists: data })
@@ -74,6 +76,9 @@ export class InstructorOffering extends React.Component {
       } )
   }
 
+  /**
+   * Redirect the route to the first playlist
+   */
   componentDidUpdate(prevProps, prevState) {
     if (prevState.playlists !== this.state.playlists) {
       const { props, id, state } = this

@@ -5,7 +5,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
-import { Icon, Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import { util, api } from '../../../../util'
 import TypeIcon from './TypeIcon'
 
@@ -28,8 +28,6 @@ export function SideBar({id, state}) {
     termName = offering.termName
     sectionName = offering.sectionName
   }
-
-  const defaultEventKey = playlists.length ? playlists[0].id : 'noPlaylist'
 
   return (
     <div className="op-sidebar" style={style}>
@@ -81,7 +79,7 @@ export function SideBar({id, state}) {
 }
 
 /**
- * Playlist Tabs
+ * Playlists
  */
 function Playlist({ playlists, id }) {
   if (!playlists.length) return null
