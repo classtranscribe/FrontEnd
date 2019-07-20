@@ -51,7 +51,7 @@ export const util = {
     uploadVideo: id => `/offering/upload/${id}`,
     editVideo: id => `/offering/video-setting/${id}`,
 
-    video: id => '/video',
+    watch: (mediaId) => `/video/${mediaId}`,
   },
 
   isAuthedPage: function (pathname) {
