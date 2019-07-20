@@ -82,35 +82,47 @@ export const api = {
   /**
    * Some specific get-by-id functions
    */
+  // Universities
   getUniversityById: function (id) {
     return this.getData('Universities', id)
+  },
+  // Terms
+  getTermsByUniId: function (id) {
+    return this.getData('Terms/ByUniversity', id) 
+  },
+  // Departments
+  getDepartById: function(departId) {
+    return this.getData('Departments', departId)
   },
   getDepartsByUniId: function (id) {
     return this.getData('Departments/ByUniversity', id)
   },
+  // Courses
   getCoursesByDepartId: function (id) {
     return this.getData('Courses/ByDepartment', id) 
-  },
-  getTermsByUniId: function (id) {
-    return this.getData('Terms/ByUniversity', id) 
   },
   getCoursesByInstId: function (id) {
     return this.getData('Courses/ByInstructor', id) 
   },
-  getCourseOfferingsByInstructorId: function (id) {
-    return this.getData('CourseOfferings/ByInstructor', id)
-  },
+  // Offerings
   getOfferings: function() {
     return this.getData('Offerings')
-  },
-  getOfferingsByStudentId: function(id) {
-    return this.getData('Offerings/ByStudent', id)
   },
   getOfferingById: function(id) {
     return this.getData('Offerings', id)
   },
+  getCourseOfferingsByInstructorId: function (id) {
+    return this.getData('CourseOfferings/ByInstructor', id)
+  },
+  getOfferingsByStudentId: function(id) {
+    return this.getData('Offerings/ByStudent', id)
+  },
+  // Playlists
+  getPlaylistsByOfferingId: function(offeringId) {
+    return this.getData('Playlists/ByOffering', offeringId)
+  },
 
-  completeSingleOffering: function(courseOffering, index, currOfferings, setOffering) {
+  completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
       // set id for future use
       courseOffering.id = courseOffering.offering.id
       // get department acronym
@@ -118,7 +130,7 @@ export const api = {
         this.getData('Departments', course.departmentId) 
           .then( ({data}) => {
             course.acronym = data.acronym
-            if (index !== null) {
+            if (index !== undefined) {
               currOfferings[index] = courseOffering
               setOffering(currOfferings)
             } else {
@@ -130,7 +142,7 @@ export const api = {
       this.getData('Terms', courseOffering.offering.termId)
         .then(({data}) => {
           courseOffering.offering.termName = data.name
-          if (index !== null) {
+          if (index !== undefined) {
             currOfferings[index] = courseOffering
             setOffering(currOfferings)
           } else {
@@ -143,7 +155,7 @@ export const api = {
     rawOfferings.forEach( (offering, index) => {
       this.getData('Offerings', offering.id)
         .then( ({data}) => {
-          this.completeSingleOffering(data, index, currOfferings, setOffering)
+          this.completeSingleOffering(data, setOffering, index, currOfferings)
         })
     })
   },
