@@ -3,24 +3,20 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import './video.css'
 import './index.css'
-import { api } from '../../../../util';
+import { api } from '../../../../util'
+const staticVJSOptions = require('./staticVJSOptions.json')
 
 // ({primary, switchToPrimary, switchToSecondary, video1, id})
 export default class CTPlayer extends React.Component {
   constructor(props) {
     super(props)
-    
-  }
-  /**
-   * Set up videojs
-   */
-  componentDidMount() {
-    
   }
 
   componentDidUpdate(prevProps) {
-    const { primary, play, media, syncPlay, syncPause, video1, 
-      setCurrTime, currTime, playbackRate, setPlaybackRate } = this.props
+    // vars
+    const { primary, play, media, video1, currTime, playbackRate } = this.props
+    // Sync functions
+    const { syncPlay, syncPause, setCurrTime, setPlaybackRate } = this.props
 
     /**
      * Register videojs after the media is loaded
@@ -30,7 +26,7 @@ export default class CTPlayer extends React.Component {
       const srcPath = videos ? api.baseUrl() + videos[0].video1.path : ''
       console.log(srcPath)
       const videoJsOptions = {
-        autoplay: false,
+        ...staticVJSOptions,
         controls: primary,
         muted: !video1,
         sources: [{
@@ -38,15 +34,6 @@ export default class CTPlayer extends React.Component {
           type: 'video/mp4'
         }],
         // poster: 'http://videojs.com/img/logo.png',
-        fluid: true, // put the player in the VideoPlayerWrap box
-        responsive: true,
-        playbackRates: [0.5, 1, 1.25, 1.5, 1.75, 2],
-        controlBar: {
-          volumePanel: {inline: true /* vertical VolumeControl */}
-        },
-        plugins: {
-          setStateandFocusPlugin: true
-        }
       }
       const setStateandFocusPlugin = function (options) {
         this.on('play', function (e) {
@@ -61,16 +48,16 @@ export default class CTPlayer extends React.Component {
 
         this.on('seeking', function(e) {
           setCurrTime(this.currentTime())
-          console.log('seeking', this.currentTime())
+          console.log('seek to', this.currentTime())
         })
 
         this.on('ratechange', function (e) {
           setPlaybackRate(this.playbackRate())
-          console.log('set rate', this.playbackRate())
+          console.log('set rate to', this.playbackRate())
         })
 
         this.on('ended', function (e) {
-          console.log('this episode ends now!!!')
+          console.log('end')
         })
       }
 
@@ -78,7 +65,7 @@ export default class CTPlayer extends React.Component {
       videojs.registerPlugin('setStateandFocusPlugin', setStateandFocusPlugin)
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
-        console.log('onPlayerReady', this)
+        console.log('ready', this)
       })
     }
 
