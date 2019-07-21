@@ -82,7 +82,8 @@ export class InstructorOffering extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.playlists !== this.state.playlists) {
       const { props, id, state } = this
-      props.history.push(util.links.offeringPlaylist(id, state.playlists[0].id))
+      if (state.playlists.length) 
+        props.history.push(util.links.offeringPlaylist(id, state.playlists[0].id))
     }
   }
 
