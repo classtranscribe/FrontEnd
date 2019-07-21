@@ -1,3 +1,2 @@
-export { Header } from './Header'
-export { Player } from './Player'
-export { PlaylistBar } from './PlaylistBar'
+export { WatchHeader } from './WatchHeader'
+export { CTPlayerRow    } from './CTPlayerRow' 

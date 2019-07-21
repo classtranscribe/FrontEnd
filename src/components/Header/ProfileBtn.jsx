@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 /**
  * Drop down profile for the headers
  */
-export default function ProfileBtn({onSignOut, darkMode}) {
+export default function ProfileBtn({onSignOut, darkMode, isWatchScreen}) {
   /**
    * state for currently focused menu item
    */
@@ -42,15 +42,17 @@ export default function ProfileBtn({onSignOut, darkMode}) {
   const isLoggedIn = user.isLoggedIn()
   const isMobile = window.innerWidth <= 520
   const trigger = isLoggedIn ? (
-    <span style={darkMode ? {color: 'white'} : {}}>
+    <span>
       <Icon name='user' circular/>
       {
-        !isMobile
+        (!isMobile && !isWatchScreen)
         &&
         `Hello, ${user.firstName()}`
       }
     </span>
   ) : null
+
+  const iconColor = darkMode ? 'white' : 'grey'
   
   return (
     <>
@@ -73,7 +75,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Header content='Switch to ...' />
             <Dropdown.Item 
               id="menu-item1"
-              icon={{name:'users', color: 'grey'}} 
+              icon={{name:'users', color: iconColor}} 
               text='Student' 
               as={Link} to={util.links.studentHome()}
               title="Switch to student page"
@@ -81,7 +83,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             />
             <Dropdown.Item 
               id="menu-item2"
-              icon={{name:'student', color: 'grey'}} 
+              icon={{name:'student', color: iconColor}} 
               text='Instructor' 
               as={Link} to={util.links.instructor()}
               title="Switch to instructor page"
@@ -89,7 +91,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             />
             <Dropdown.Item 
               id="menu-item3"
-              icon={{name:'cogs', color: 'grey'}} 
+              icon={{name:'cogs', color: iconColor}} 
               text='Admin' 
               as={Link} to={util.links.admin()}
               title="Switch to administer page"
@@ -99,7 +101,7 @@ export default function ProfileBtn({onSignOut, darkMode}) {
             <Dropdown.Header content='Have problems?' />
             <Dropdown.Item 
               id="menu-item4"
-              icon={{name:'mail', color: 'grey'}} 
+              icon={{name:'mail', color: iconColor}} 
               text='Contact Us' 
               href="mailto:classtranscribe@illinois.edu" 
               target="_blank"

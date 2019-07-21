@@ -1,0 +1,40 @@
+.ct-player {
+  margin-top: 2rem;
+  width: max-content;
+  height: max-content;
+  overflow: hidden;
+  cursor: pointer;
+  /* box-shadow: 0 0 0 1px rgb(58, 58, 58); */
+}
+.ct-player[id=secondary] {
+  -webkit-transition: border 0.2s linear;
+  -o-transition: border 0.2s linear;
+  transition: border 0.2s linear;
+  border: solid 3px transparent;
+  margin: 4em 0 0 2vw;}
+  .ct-player[id=secondary]:hover {
+    border: solid 3px rgb(72, 211, 211);
+  }
+
+.ct-player .primary{
+  width: 57vw;
+}
+.ct-player .secondary{
+  width: 36vw;
+}
+.ct-player .secondary .vjs-big-play-button {
+  display: none !important;
+}
+@media screen and (max-width: 600px) {
+  .ct-player {
+    margin: 0 !important;
+    border: 0 !important;
+  }
+  .ct-player .secondary {
+    display: none;
+    margin: 0 !important;
+  }
+  .ct-player .primary {
+    width: 95vw;
+  }
+}

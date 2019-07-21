@@ -6,8 +6,9 @@ import {
   OfferingViewing, 
   InstructorProfile, 
   InstructorOffering,
-  VideoPage,
+  //VideoPage,
   Admin,
+  Watch,
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -38,7 +39,7 @@ class App extends React.Component {
           <Route path="/student" component={authentication.required(OfferingViewing)} />
           <Route path="/instructor" component={authentication.required(InstructorProfile)} />
           <Route path="/offering/:id" component={authentication.required(InstructorOffering)} />
-          <Route path="/video" component={VideoPage} />
+          <Route path="/video/:id" component={authentication.required(Watch)} />
           <Route component={NotFound404} />
         </Switch>
       </Router>

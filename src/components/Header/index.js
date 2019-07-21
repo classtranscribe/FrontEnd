@@ -13,12 +13,13 @@ import { user, util } from '../../util'
  * user: {name, ...}
  * showSiderBar: function for display or hide side bar
  */
-export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, display}) {
-  const bg = darkMode ? 'dark' : 'light';
+export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, display, children}) {
+  const bg = darkMode ? 'dark' : 'light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
   const homeURL = user.isLoggedIn() ? util.links.studentHome() : util.links.home()
+  const isWatchScreen = window.location.pathname.includes('/video/')
   return (
-    <Navbar sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
+    <Navbar id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
       {
         showSiderBar 
         &&
@@ -31,19 +32,28 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
           <Icon name='sidebar' size="large"/>
         </Navbar.Brand>
       }
-      <Navbar.Brand className="brand" as={Link} to={homeURL} title="brand" aria-label="brand">
-        <img
-          src={require('../../images/ct-logo.png')}
-          width="30" height="30"
-          className="d-inline-block align-top img"
-          alt="ClassTranscribe logo"
-        />
-        &ensp;<span>C</span>lass<span>T</span>ranscribe
+      <Navbar.Brand id="brand" className="brand" as={Link} to={homeURL} title="brand" aria-label="brand">
+        {!isWatchScreen && <Logo />}
+        <span>C</span>lass<span>T</span>ranscribe
       </Navbar.Brand>
       <Row className="signout">
-        <ProfileBtn onSignOut={onSignOut}/>
+        {children}
+        <ProfileBtn onSignOut={onSignOut} isWatchScreen={isWatchScreen} darkMode={darkMode}/>
       </Row>
     </Navbar>
+  )
+}
+
+function Logo() {
+  return (
+    <>
+    <img
+      src={require('../../images/ct-logo.png')}
+      width="30" height="30"
+      className="d-inline-block align-top img"
+      alt="ClassTranscribe logo"
+    />&ensp;
+    </>
   )
 }
 

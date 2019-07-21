@@ -47,6 +47,7 @@ export const api = {
   saveAuthToken: function (responce) {
     localStorage.setItem('authToken', responce.data.authToken)
   },
+  baseUrl: () => process.env.REACT_APP_API_BASE_URL.replace('/api/', ''),
 
   /********************* Functions for http requests *********************/
 
@@ -123,6 +124,10 @@ export const api = {
   },
   getPlaylistsByOfferingId: function(offeringId) {
     return this.getData('Playlists/ByOffering', offeringId)
+  },
+  // media
+  getMediaById: function(mediaId) {
+    return this.getData('Media', mediaId)
   },
 
   completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
