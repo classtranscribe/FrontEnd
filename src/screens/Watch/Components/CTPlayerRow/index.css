@@ -7,9 +7,9 @@
   /* box-shadow: 0 0 0 1px rgb(58, 58, 58); */
 }
 .ct-player[id=secondary] {
-  -webkit-transition: border 0.2s linear;
-  -o-transition: border 0.2s linear;
-  transition: border 0.2s linear;
+  -webkit-transition: border 0.2s linear, margin 0.2s linear;
+  -o-transition: border 0.2s linear, margin 0.2s linear;
+  transition: border 0.2s linear, margin 0.2s linear;
   border: solid 3px transparent;
   margin: 4em 0 0 2vw;}
   .ct-player[id=secondary]:hover {
@@ -17,9 +17,15 @@
   }
 
 .ct-player .primary{
+  -webkit-transition: width 0.2s linear;
+  -o-transition: width 0.2s linear;
+  transition: width 0.2s linear;
   width: 57vw;
 }
 .ct-player .secondary{
+  -webkit-transition: width 0.2s linear;
+  -o-transition: width 0.2s linear;
+  transition: width 0.2s linear;
   width: 36vw;
 }
 .ct-player .secondary .vjs-big-play-button {
