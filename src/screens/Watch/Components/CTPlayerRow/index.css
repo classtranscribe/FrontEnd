@@ -4,7 +4,7 @@
   height: max-content;
   overflow: hidden;
   cursor: pointer;
-  /* box-shadow: 0 0 0 1px rgb(58, 58, 58); */
+  box-shadow: 0 0 0 1px rgb(93, 93, 93);
 }
 .ct-player[id=secondary] {
   -webkit-transition: border 0.2s linear, margin 0.2s linear;
@@ -13,7 +13,7 @@
   border: solid 3px transparent;
   margin: 4em 0 0 2vw;}
   .ct-player[id=secondary]:hover {
-    border: solid 3px rgb(72, 211, 211);
+    border: solid 3px rgb(92, 138, 138);
   }
 
 .ct-player .primary{
