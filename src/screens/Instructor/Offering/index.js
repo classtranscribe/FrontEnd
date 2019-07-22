@@ -80,10 +80,13 @@ export class InstructorOffering extends React.Component {
    * Redirect the route to the first playlist
    */
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.playlists !== this.state.playlists) {
+    if (prevState.playlists !== this.state.playlists || prevState.courseOffering !== this.state.courseOffering) {
       const { props, id, state } = this
-      if (state.playlists.length) 
-        props.history.push(util.links.offeringPlaylist(id, state.playlists[0].id))
+      if (state.playlists.length && state.courseOffering.courses.length) 
+        props.history.push(util.links.offeringPlaylist(
+          id, api.getFullNumber(state.courseOffering.courses, '-'), 
+          state.playlists[0].id
+        ))
     }
   }
 
@@ -142,7 +145,7 @@ export class InstructorOffering extends React.Component {
                   <CSSTransition key={location.key} classNames="fade" timeout={300}>
                     <Switch location={location}>
                       <Route exact path={`/offering/${this.id}/data`} component={DataDemo} />
-                      <Route exact path={`/offering/${this.id}/playlist/:id`} component={Playlist} />
+                      <Route exact path={`/offering/${this.id}/playlist/:courseNumber?=:id`} component={Playlist} />
                     </Switch>
                   </CSSTransition>
                 </TransitionGroup>

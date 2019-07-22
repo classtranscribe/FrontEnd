@@ -16,6 +16,7 @@ const profileImg = require('../../../../../images/Video-Placeholder.jpg')
 
 export function Playlist({ match }) {
   const playlistId = match.params.id
+  const courseNumber = match.params.courseNumber
   const [playlist, setPlaylist] = useState({})
   const [medias, setMedias] = useState([])
   const ref = createRef()
@@ -43,7 +44,7 @@ export function Playlist({ match }) {
         {
           medias.length ? 
           medias.map( media =>
-            <Video {...media} sourceType={playlist.sourceType} key={media.id}/>
+            <Video {...media} sourceType={playlist.sourceType} key={media.id} courseNumber={courseNumber}/>
           )
           :
           <VideoListPlaceHolder />
@@ -57,14 +58,14 @@ export function Playlist({ match }) {
 /**
  * Video List Item
  */
-function Video({media, sourceType}) {
+function Video({media, sourceType, courseNumber}) {
   const className = sourceType === 1 ? 'youtube' : sourceType === 2 ? 'echo360' : ''
   const { id, jsonMetadata } = media
   const videoName = jsonMetadata.title
   return (
     <List.Item className="video-card">
       <EditVideoBtn show={sourceType === 0} {...media}/>
-      <Link to={util.links.watch(id)} className="d-flex flex-row">
+      <Link to={util.links.watch(courseNumber, id)} className="d-flex flex-row">
         <Image 
           alt="Video Poster"
           className="poster" 

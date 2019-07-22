@@ -167,10 +167,10 @@ export const api = {
         })
     })
   },
-  getFullNumber: function(courses) {
+  getFullNumber: function(courses, separator) {
     var name = ''
     courses.forEach( course => {
-      name += (course.acronym || '') + course.courseNumber + '/';
+      name += (course.acronym || '') + course.courseNumber + (separator || '/')
     })
     name = name.slice(0, name.length - 1)
     return name

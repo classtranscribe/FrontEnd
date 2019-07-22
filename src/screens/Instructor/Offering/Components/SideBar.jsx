@@ -73,7 +73,7 @@ export function SideBar({id, state}) {
         </ListGroup.Item>
       </ListGroup>
 
-      <Playlist playlists={playlists} id={id} />
+      <Playlist playlists={playlists} id={id} fullNumber={fullNumber}/>
     </div>
   )
 }
@@ -81,7 +81,7 @@ export function SideBar({id, state}) {
 /**
  * Playlists
  */
-function Playlist({ playlists, id }) {
+function Playlist({ playlists, id, fullNumber }) {
   if (!playlists.length) return null
   // Show when there is no playlists yet
   const NoPlaylistWrapper = (
@@ -104,7 +104,7 @@ function Playlist({ playlists, id }) {
         <ListGroup className="playlist">
           {playlists.map( playlist => 
             <ListGroup.Item 
-              as={Link} to={util.links.offeringPlaylist(id, playlist.id)}
+              as={Link} to={util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id)}
               variant="secondary" className="item" action 
               key={playlist.id} eventKey={playlist.id}
               aria-label={playlist.name}

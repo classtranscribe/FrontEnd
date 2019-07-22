@@ -45,13 +45,13 @@ export const util = {
 
     offering: id => `/offering/${id}`,
     offeringData: offeringId => `/offering/${offeringId}/data`,
-    offeringPlaylist: (offeringId, playlistId) => `/offering/${offeringId}/playlist/${playlistId}`,
+    offeringPlaylist: (offeringId, courseName, playlistId) => `/offering/${offeringId}/playlist/${courseName}=${playlistId}`,
     newPlaylist: id => `/offering/playlist-setting/new=${id}`,
     editPlaylist: id => `/offering/playlist-setting/id=${id}`,
     uploadVideo: id => `/offering/upload/${id}`,
     editVideo: id => `/offering/video-setting/${id}`,
 
-    watch: (mediaId) => `/video/${mediaId}`,
+    watch: (courseNumber, mediaId) => `/video/${courseNumber}=${mediaId}`,
   },
 
   isAuthedPage: function (pathname) {
