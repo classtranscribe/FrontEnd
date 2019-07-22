@@ -39,7 +39,7 @@ export function UpNext({ playlist, media, courseNumber }) {
       className="upnext-container" 
       onMouseEnter={showVideos}
     >
-      <p>
+      <p className="header" tabIndex={1}>
         <strong><span>{courseNumber.replace('-', '/')}</span>
         &ensp;{playlistName}</strong><br/>
         <Icon name="play" />&ensp;{mediaName}

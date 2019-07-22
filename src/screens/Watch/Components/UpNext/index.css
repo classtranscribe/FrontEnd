@@ -6,18 +6,17 @@
   top: 3.4rem;
   background: rgb(55, 65, 65);
   /* background: rgb(37, 44, 44); */
-  /* max-height: 3rem; */
   overflow: hidden;
   padding: .5em 2em 0 2em !important;
 }
-.upnext-container:hover>.videos {
-  max-height: 12rem;
-  margin-top: 1rem;
+.upnext-container .header {
+  max-width: 100%;
+  width: max-content;
 }
 
 .upnext-container p {
   white-space: nowrap;
-  width: 100%;
+  outline: none;
   overflow: hidden;
   position: relative;
   text-overflow: ellipsis;
@@ -38,9 +37,9 @@
   white-space: nowrap;
   overflow-y: hidden;
   overflow-x: scroll !important;
-  transition: max-height 0.2s linear, margin 0.2s linear;
-  -o-transition: max-height 0.2s linear, margin 0.2s linear;
-  -webkit-transition: max-height 0.2s linear, margin 0.2s linear;
+  transition: max-height 0.2s linear, padding 0.2s linear;
+  -o-transition: max-height 0.2s linear, padding 0.2s linear;
+  -webkit-transition: max-height 0.2s linear, padding 0.2s linear;
 }
 .upnext-container .videos .vcard {
   transition: background 0.2s linear;
@@ -91,6 +90,13 @@
   background: rgb(122, 148, 148) !important;
   color: black;
 }
+
+/* Dropdown Trigger */
+.videos, .upnext-container p:hover +.videos, .upnext-container p:focus +.videos, .upnext-container .videos:hover, .upnext-container .videos:focus-within {
+  max-height: 12rem;
+  /* padding-top: 1rem; */
+}
+
 
 
 .upnext-container .videos::-webkit-scrollbar {
