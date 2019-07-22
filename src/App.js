@@ -39,7 +39,7 @@ class App extends React.Component {
           <Route path="/student" component={authentication.required(OfferingViewing)} />
           <Route path="/instructor" component={authentication.required(InstructorProfile)} />
           <Route path="/offering/:id" component={authentication.required(InstructorOffering)} />
-          <Route path="/video/:id" component={authentication.required(Watch)} />
+          <Route exact path="/video/:courseNumber?=:id" component={authentication.required(Watch)} />
           <Route component={NotFound404} />
         </Switch>
       </Router>
