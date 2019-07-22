@@ -1,0 +1,95 @@
+.upnext-container {
+  z-index: 1;
+  width: 100%;
+  position: absolute;
+  color: rgb(240, 254, 255);
+  top: 3.4rem;
+  background: rgb(55, 65, 65);
+  /* background: rgb(37, 44, 44); */
+  /* max-height: 3rem; */
+  overflow: hidden;
+  padding: .5em 2em 0 2em;
+}
+.upnext-container:hover>.videos {
+  max-height: 12rem;
+}
+
+.upnext-container p {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.upnext-container p span {
+  color: rgb(115, 168, 175);
+  font-size: 1.3rem;
+}
+
+.upnext-container .videos {
+  max-height: 0rem;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: scroll !important;
+  transition: max-height 0.2s linear;
+  -o-transition: max-height 0.2s linear;
+  -webkit-transition: max-height 0.2s linear;
+}
+.upnext-container .videos .vcard {
+  transition: background 0.2s linear;
+  -o-transition: background 0.2s linear;
+  -webkit-transition: background 0.2s linear;
+  background: none;
+  display: inline-block;
+  white-space: normal;
+  width: 12rem !important;
+  height: 9rem;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  overflow: hidden;
+  cursor: pointer !important;
+  border: none;
+}
+.upnext-container .videos .vcard:hover, .upnext-container .videos .vcard:focus {
+  outline: none;
+  background: rgb(45, 49, 49);
+}
+.upnext-container .videos .vcard .img {
+  transition: margin 0.2s linear;
+  -o-transition: margin 0.2s linear;
+  -webkit-transition: margin 0.2s linear;
+  width: 12rem;
+}
+.upnext-container .card-body {
+  padding: 0.5em 0.2rem !important;
+}
+.upnext-container .videos .vcard .title {
+  padding: none;
+  white-space: nowrap;
+  width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* font-weight: normal; */
+  font-size: 1rem;
+  color: rgb(240, 254, 255) !important;
+}
+
+.curr-media {
+  background: rgb(122, 148, 148) !important;
+  color: black;
+}
+
+
+.upnext-container .videos::-webkit-scrollbar {
+  display: block;
+  background: rgb(55, 65, 65) !important;
+  width: 2px;
+  height: 5px;}
+  .upnext-container .videos::-webkit-scrollbar-track-piece {
+    background: rgb(55, 65, 65) !important;
+  }
+  .upnext-container .videos::-webkit-scrollbar-thumb {
+    background-color: #ebebeb;
+  }

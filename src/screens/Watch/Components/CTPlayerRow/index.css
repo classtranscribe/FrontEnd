@@ -1,5 +1,5 @@
 .ct-player {
-  margin-top: 2rem;
+  margin-top: 3.1rem;
   width: max-content;
   height: max-content;
   overflow: hidden;
@@ -11,7 +11,7 @@
   -o-transition: border 0.2s linear, margin 0.2s linear;
   transition: border 0.2s linear, margin 0.2s linear;
   border: solid 3px transparent;
-  margin: 4em 0 0 2vw;}
+  margin: 4.5em 0 0 2vw;}
   .ct-player[id=secondary]:hover {
     border: solid 3px rgb(92, 138, 138);
   }

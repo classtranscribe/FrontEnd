@@ -13,14 +13,23 @@ export function CTPlayerRow({media}) {
   const [play, setPlay] = useState(false)
   const [currTime, setCurrTime] = useState(-1)
   const [playbackRate, setPlaybackRate] = useState(-1)
+  const [trackSrc, setTrackSrc] = useState('')
 
   const handleFunctions = {
     switchToPrimary: () => setPrimary(() => true),
     switchToSecondary: () => setPrimary(() => false),
-    syncPlay: () => setPlay(() => true),
-    syncPause: () => setPlay(() => false),
+    syncPlay: () => {
+      setPlay(() => true)
+    },
+    syncPause: () => {
+      setPlay(() => false)
+    },
     setCurrTime: currTime => setCurrTime(() => currTime),
     setPlaybackRate: rate => setPlaybackRate(() => rate),
+    setTrackSrc: src => {
+      console.log('change src to', src)
+      setTrackSrc(() => src)
+    }
   }
 
   return (
@@ -31,6 +40,7 @@ export function CTPlayerRow({media}) {
           media={media} 
           primary={primary}  
           play={play} currTime={currTime} playbackRate={playbackRate}
+          trackSrc={trackSrc}
           video1
         />
       </div>
@@ -40,6 +50,7 @@ export function CTPlayerRow({media}) {
           {...handleFunctions}
           media={media}
           primary={!primary}  
+          trackSrc={trackSrc}
           play={play} currTime={currTime} playbackRate={playbackRate}
         />
       </div>

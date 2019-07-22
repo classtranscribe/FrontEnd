@@ -4,6 +4,7 @@ import 'video.js/dist/video-js.css'
 import './video.css'
 import './index.css'
 import { api } from '../../../../util'
+import { keyDownPlugin } from './keyDownPlugin'
 const staticVJSOptions = require('./staticVJSOptions.json')
 
 // ({primary, switchToPrimary, switchToSecondary, video1, id})
@@ -12,19 +13,20 @@ export default class CTPlayer extends React.Component {
     super(props)
   }
 
+
   componentDidUpdate(prevProps) {
     // vars
-    const { primary, play, media, video1, currTime, playbackRate } = this.props
+    const { primary, play, media, video1, currTime, playbackRate, trackSrc } = this.props
     // Sync functions
-    const { syncPlay, syncPause, setCurrTime, setPlaybackRate } = this.props
+    const { syncPlay, syncPause, setCurrTime, setPlaybackRate, setTrackSrc } = this.props
 
     /**
      * Register videojs after the media is loaded
      */
     if (prevProps.media !== media) {
+      // console.log('caption', media.transcriptions)
       const videos = media.videos
       const srcPath = videos ? api.baseUrl() + videos[0].video1.path : ''
-      console.log(srcPath)
       const videoJsOptions = {
         ...staticVJSOptions,
         controls: primary,
@@ -35,14 +37,14 @@ export default class CTPlayer extends React.Component {
         }],
         // poster: 'http://videojs.com/img/logo.png',
       }
-      const setStateandFocusPlugin = function (options) {
+      const CTPlugin = function (options) {
         this.on('play', function (e) {
           syncPlay()
           console.log('play')
         })
 
         this.on('pause', function (e) {
-          syncPause()
+          syncPause() 
           console.log('pause')
         })
 
@@ -59,19 +61,32 @@ export default class CTPlayer extends React.Component {
         this.on('ended', function (e) {
           console.log('end')
         })
-      }
 
+        this.textTracks().on('change', function (e) {
+          const currTrack = this.tracks_.filter(track => track.mode === "showing")[0]
+          setTrackSrc(currTrack ? currTrack.src : '')
+        })
+      }
+ 
       // Registering A Plugin
-      videojs.registerPlugin('setStateandFocusPlugin', setStateandFocusPlugin)
+      videojs.registerPlugin('CTPlugin', CTPlugin)
+      videojs.registerPlugin('KeyDownPlugin', keyDownPlugin)
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
-        console.log('ready', this)
+        // console.log('ready', this)
       })
     }
 
     if (this.player) {
       if (prevProps.primary !== primary) {
         this.player.controls(primary)
+        if (trackSrc) {
+          const currTrack = this.player.textTracks().tracks_.filter(track => track.src === trackSrc)
+          if (currTrack.length && primary) setTimeout(() => {
+            currTrack[0].mode = 'showing'
+          }, 300);
+          if (currTrack.length && !primary) currTrack[0].mode = 'disabled'
+        }
       }
       /**
        * Dealing with sync playing of the secondary player
@@ -102,9 +117,9 @@ export default class CTPlayer extends React.Component {
   }
 
   render() {
-    const { primary, video1, switchToPrimary, switchToSecondary } = this.props
-
-    
+    const { primary, video1, switchToPrimary, switchToSecondary, media } = this.props
+    const { transcriptions } = media
+    if (!transcriptions) return null
     /**
      * Handle player switching
      */
@@ -115,7 +130,11 @@ export default class CTPlayer extends React.Component {
       <div className="ct-player" id={size}>
         <div className={`${size}`} onClick={switchTrigger}>
           <div data-vjs-player>
-            <video ref={ node => this.videoNode = node } className="video-js"></video>
+            <video ref={ node => this.videoNode = node } className="video-js" id={size+"-video"}>
+              {transcriptions.map( trans => 
+                  <track kind="captions" src={api.baseUrl()+trans.file.path} key={trans.id} srclang="en" label="English" />
+              )}
+            </video>
           </div>          
         </div>
       </div>
