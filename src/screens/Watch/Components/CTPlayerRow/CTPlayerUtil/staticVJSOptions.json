@@ -7,7 +7,7 @@
     "volumePanel": {"inline": true }
   },
   "plugins": {
-    "CTPlugin": true,
+    "controlPlugin": true,
     "KeyDownPlugin": true
   }
 }

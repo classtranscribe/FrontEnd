@@ -1,46 +1,79 @@
+.watch-content .player-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-left: 1vw;
+}
+
+.watch-content .switch-player {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.ideo-col {
+  -webkit-transition: width 0.2s linear;
+  -o-transition: width 0.2s linear;
+  transition: width 0.2s linear;
+  display: flexbox;
+  flex-direction: column;
+}
+
+.primary-col {
+  width: 58vw;
+}
+
+.secondary-col {
+  width: 36vw;
+}
+
+.equal-col {
+  width: 47vw;
+}
+
+/*
+ * Players
+ */
 .ct-player {
   margin-top: 3rem;
-  width: max-content;
+  width: 100%;
   height: max-content;
   overflow: hidden;
   box-shadow: 0 0 0 1px rgb(93, 93, 93);
 }
-.ct-player[id=secondary] {
+.ct-player[id=secondaryps-mode] {
   -webkit-transition: border 0.2s linear, margin 0.2s linear;
   -o-transition: border 0.2s linear, margin 0.2s linear;
   transition: border 0.2s linear, margin 0.2s linear;
   border: solid 3px transparent;
   cursor: pointer;
   margin: 4.5em 0 0 2vw;}
-  .ct-player[id=secondary]:hover {
+  .ct-player[id=secondaryps-mode]:hover, .ct-player[id=secondaryequal-mode]:hover {
     border: solid 3px rgb(92, 138, 138);
   }
+.ct-player[id=secondaryequal-mode] {
+  margin-left: 2vw;
+}
 
-.ct-player .primary{
-  -webkit-transition: width 0.2s linear;
-  -o-transition: width 0.2s linear;
-  transition: width 0.2s linear;
-  width: 57vw;
+.ct-player .primary, .ct-player .secondary, .ct-player .equal {
+  width: 100%;
 }
-.ct-player .secondary{
-  -webkit-transition: width 0.2s linear;
-  -o-transition: width 0.2s linear;
-  transition: width 0.2s linear;
-  width: 36vw;
-}
+
 .ct-player .secondary .vjs-big-play-button {
   display: none !important;
 }
 @media screen and (max-width: 600px) {
-  .ct-player {
-    margin: 0 !important;
-    border: 0 !important;
+  .watch-content .player-container {
+    padding-left: 0;
   }
-  .ct-player .secondary {
+  .watch-content {
+    padding: .5em 0 !important;
+  }
+  .secondary-col {
     display: none;
-    margin: 0 !important;
   }
-  .ct-player .primary {
-    width: 95vw;
+  .primary-col {
+    padding: 0;
+    width: 100vw;
   }
+  
 }

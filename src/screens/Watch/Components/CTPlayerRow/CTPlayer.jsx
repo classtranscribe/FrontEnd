@@ -4,8 +4,7 @@ import 'video.js/dist/video-js.css'
 import './video.css'
 import './index.css'
 import { api } from '../../../../util'
-import { keyDownPlugin } from './keyDownPlugin'
-const staticVJSOptions = require('./staticVJSOptions.json')
+import { staticVJSOptions, keyDownPlugin, getControlPlugin } from './CTPlayerUtil'
 
 // ({primary, switchToPrimary, switchToSecondary, video1, id})
 export default class CTPlayer extends React.Component {
@@ -13,13 +12,8 @@ export default class CTPlayer extends React.Component {
     super(props)
   }
 
-
   componentDidUpdate(prevProps) {
-    // vars
     const { primary, play, media, video1, currTime, playbackRate, trackSrc } = this.props
-    // Sync functions
-    const { syncPlay, syncPause, setCurrTime, setPlaybackRate, setTrackSrc } = this.props
-
     /**
      * Register videojs after the media is loaded
      */
@@ -37,39 +31,10 @@ export default class CTPlayer extends React.Component {
         }],
         // poster: 'http://videojs.com/img/logo.png',
       }
-      const CTPlugin = function (options) {
-        this.on('play', function (e) {
-          syncPlay()
-          console.log('play')
-        })
-
-        this.on('pause', function (e) {
-          syncPause() 
-          console.log('pause')
-        })
-
-        this.on('seeking', function(e) {
-          setCurrTime(this.currentTime())
-          console.log('seek to', this.currentTime())
-        })
-
-        this.on('ratechange', function (e) {
-          setPlaybackRate(this.playbackRate())
-          console.log('set rate to', this.playbackRate())
-        })
-
-        this.on('ended', function (e) {
-          console.log('end')
-        })
-
-        this.textTracks().on('change', function (e) {
-          const currTrack = this.tracks_.filter(track => track.mode === "showing")[0]
-          setTrackSrc(currTrack ? currTrack.src : '')
-        })
-      }
+      const controlPlugin = getControlPlugin(this.props)
  
-      // Registering A Plugin
-      videojs.registerPlugin('CTPlugin', CTPlugin)
+      // Registering Plugins
+      videojs.registerPlugin('controlPlugin', controlPlugin)
       videojs.registerPlugin('KeyDownPlugin', keyDownPlugin)
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
@@ -84,7 +49,7 @@ export default class CTPlayer extends React.Component {
           const currTrack = this.player.textTracks().tracks_.filter(track => track.src === trackSrc)
           if (currTrack.length && primary) setTimeout(() => {
             currTrack[0].mode = 'showing'
-          }, 300);
+          }, 300)
           if (currTrack.length && !primary) currTrack[0].mode = 'disabled'
         }
       }
@@ -117,18 +82,20 @@ export default class CTPlayer extends React.Component {
   }
 
   render() {
-    const { primary, video1, switchToPrimary, switchToSecondary, media } = this.props
+    const { primary, video1, switchToPrimary, switchToSecondary, media, mode } = this.props
     const { transcriptions } = media
     if (!transcriptions) return null
     /**
      * Handle player switching
      */
-    const size = primary ? 'primary' : 'secondary'
+    var size = primary ? 'primary' : 'secondary'
+    var id = primary ? 'primary' : 'secondary'
+    
     const switchTrigger = video1 ? switchToPrimary : switchToSecondary
 
     return (
-      <div className="ct-player" id={size}>
-        <div className={`${size}`} onClick={switchTrigger}>
+      <div className="ct-player" id={size + mode}>
+        <div className={`${size} ${mode}`} onClick={switchTrigger}>
           <div data-vjs-player>
             <video ref={ node => this.videoNode = node } className="video-js" id={size+"-video"}>
               {transcriptions.map( trans => 
