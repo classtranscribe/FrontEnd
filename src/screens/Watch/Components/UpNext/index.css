@@ -57,6 +57,12 @@
   border: none;
   background: rgb(45, 49, 49);
 }
+.upnext-container .videos .vcard:first-child {
+  margin-left: 10%;
+}
+.upnext-container .videos .vcard:last-child {
+  margin-right: 10%;
+}
 .upnext-container .videos .vcard:hover, .upnext-container .videos .vcard:focus {
   outline: none;
   background: rgb(90, 100, 100);
