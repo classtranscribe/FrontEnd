@@ -8,10 +8,11 @@
   /* background: rgb(37, 44, 44); */
   /* max-height: 3rem; */
   overflow: hidden;
-  padding: .5em 2em 0 2em;
+  padding: .5em 2em 0 2em !important;
 }
 .upnext-container:hover>.videos {
   max-height: 12rem;
+  margin-top: 1rem;
 }
 
 .upnext-container p {
@@ -21,6 +22,9 @@
   position: relative;
   text-overflow: ellipsis;
   cursor: pointer;
+  max-height: 3rem;
+  margin: 0 !important;
+  /* background-color: #ebebeb; */
 }
 .upnext-container p span {
   color: rgb(115, 168, 175);
@@ -34,9 +38,9 @@
   white-space: nowrap;
   overflow-y: hidden;
   overflow-x: scroll !important;
-  transition: max-height 0.2s linear;
-  -o-transition: max-height 0.2s linear;
-  -webkit-transition: max-height 0.2s linear;
+  transition: max-height 0.2s linear, margin 0.2s linear;
+  -o-transition: max-height 0.2s linear, margin 0.2s linear;
+  -webkit-transition: max-height 0.2s linear, margin 0.2s linear;
 }
 .upnext-container .videos .vcard {
   transition: background 0.2s linear;
@@ -51,10 +55,11 @@
   overflow: hidden;
   cursor: pointer !important;
   border: none;
+  background: rgb(45, 49, 49);
 }
 .upnext-container .videos .vcard:hover, .upnext-container .videos .vcard:focus {
   outline: none;
-  background: rgb(45, 49, 49);
+  background: rgb(90, 100, 100);
 }
 .upnext-container .videos .vcard .img {
   transition: margin 0.2s linear;
@@ -88,7 +93,7 @@
   width: 2px;
   height: 5px;}
   .upnext-container .videos::-webkit-scrollbar-track-piece {
-    background: rgb(55, 65, 65) !important;
+    background: rgb(97, 114, 114) !important;
   }
   .upnext-container .videos::-webkit-scrollbar-thumb {
     background-color: #ebebeb;

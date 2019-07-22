@@ -43,6 +43,7 @@ export function UpNext({ playlist, media, courseNumber }) {
         <strong><span>{courseNumber.replace('-', '/')}</span>
         &ensp;{playlistName}</strong><br/>
         <Icon name="play" />&ensp;{mediaName}
+        &ensp;&ensp;<span><Icon name="chevron down" /></span>
       </p>
       <div className="videos">
         {medias.map( media2 => (

@@ -16,4 +16,9 @@
     outline-width: 2px;
     outline-color:  rgb(7, 150, 143);
   }
+  @media screen and (max-width: 700px) {
+    .playlist-trigger::after {
+      content: '';
+    }
+  }
 
