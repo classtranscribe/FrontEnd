@@ -74,15 +74,18 @@
   display: flex;
   flex-direction: row;
 }
-.offering-detail .playlists .playlist .videos .video:hover {
+.offering-detail .playlists .playlist .videos .video:hover{
   border: solid 1px aliceblue;
+}
+.offering-detail .playlists .playlist .videos .video:hover> .title {
+  color: #ffffff;
 }
 .offering-detail .playlists .playlist .videos .video .img {
   width: 9rem;
 }
 .offering-detail .playlists .playlist .videos .video .title {
   padding: .5rem;
-  color: #ffffff;
+  color: #dee7e7;
   font-weight: bold;
   font-size: 1.1rem;
 }

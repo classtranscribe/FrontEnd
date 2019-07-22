@@ -29,7 +29,7 @@ export function UpNext({ playlist, media, courseNumber }) {
       const currMedia = document.getElementById(media.id)
       if (currMedia && !currMedia.classList.contains('curr-media')) {
         currMedia.classList.add('curr-media')
-        currMedia.scrollIntoView({inline: "center", behavior: "smooth"})
+        currMedia.scrollIntoView({ inline: "center" })
       }
     }
   }
@@ -43,7 +43,7 @@ export function UpNext({ playlist, media, courseNumber }) {
         <strong><span>{courseNumber.replace('-', '/')}</span>
         &ensp;{playlistName}</strong><br/>
         <Icon name="play" />&ensp;{mediaName}
-        &ensp;&ensp;<span><Icon name="chevron down" /></span>
+        &ensp;&ensp;<span><Icon name="chevron down" />Up Next</span>
       </p>
       <div className="videos">
         {medias.map( media2 => (

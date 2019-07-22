@@ -92,7 +92,7 @@
 }
 
 /* Dropdown Trigger */
-.videos, .upnext-container p:hover +.videos, .upnext-container p:focus +.videos, .upnext-container .videos:hover, .upnext-container .videos:focus-within {
+.upnext-container p:hover +.videos, .upnext-container p:focus +.videos, .upnext-container .videos:hover, .upnext-container .videos:focus-within {
   max-height: 12rem;
   /* padding-top: 1rem; */
 }

@@ -3,7 +3,6 @@
   width: max-content;
   height: max-content;
   overflow: hidden;
-  cursor: pointer;
   box-shadow: 0 0 0 1px rgb(93, 93, 93);
 }
 .ct-player[id=secondary] {
@@ -11,6 +10,7 @@
   -o-transition: border 0.2s linear, margin 0.2s linear;
   transition: border 0.2s linear, margin 0.2s linear;
   border: solid 3px transparent;
+  cursor: pointer;
   margin: 4.5em 0 0 2vw;}
   .ct-player[id=secondary]:hover {
     border: solid 3px rgb(92, 138, 138);
