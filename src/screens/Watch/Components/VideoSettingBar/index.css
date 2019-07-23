@@ -17,19 +17,21 @@
   }
 }
 .video-setting-bar .trigger {
-  background: #424242;
-  color: rgb(172, 172, 172);
+  transition: color .2s linear, background .2s linear;
+  background-color: rgb(47, 85, 88);
+  color: rgb(212, 209, 209);
   outline: none;
   height: 2em;
   border-radius: .6em;
-  /* width: 2em; */
   padding: 0 .5em;
+  margin-left: .5em;
 }
 .video-setting-bar .trigger span {
   font-size: 1.1rem;
+  font-weight: bold;
 }
 .video-setting-bar .trigger:hover {
-  background-color: rgb(24, 96, 102);
+  background-color: rgb(48, 126, 133);
   color: rgb(221, 221, 221);
 }
 .upnext-menu .header h4 {
