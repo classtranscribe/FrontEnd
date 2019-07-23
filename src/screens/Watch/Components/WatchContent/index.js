@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ClassTranscribePlayer from './ClassTranscribePlayer'
 import { SubHeader } from './SubHeader'
 import './index.css'
-import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from './CTPlayerUtil'
+import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from './constants'
 
 
 export function WatchContent({ media, playlist, courseNumber }) {
