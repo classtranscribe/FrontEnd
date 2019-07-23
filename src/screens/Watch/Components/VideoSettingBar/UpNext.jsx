@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import $ from 'jquery'
 import { IconButton, MenuItem, Menu } from '@material-ui/core'
 import { Card } from 'react-bootstrap'
 import { util } from '../../../../util'
@@ -13,6 +14,17 @@ const menuStyle = {
 
 export default function UpNext({ media, mediaName, playlistName, medias, courseNumber, isMobile }) {
   const [anchorEl, setAnchorEl] = useState(null)
+
+  const keyDownHandler = ({keyCode}) => {
+    let currFocus = $(".upnext-menu .videos .vcard:focus")
+    if (!currFocus.length) currFocus = $(".curr-media")  
+    if (keyCode == 39) {   
+      currFocus.next().focus()
+    }
+    if (keyCode == 37) {    
+      currFocus.prev().focus();
+    }
+  }
 
   const scrollToCurrVideo = () => {
     console.log('show upnext')
@@ -37,7 +49,7 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
   const open = Boolean(anchorEl)
 
   return (
-    <div>
+    <div id="upnext" onKeyDown={keyDownHandler}>
       <IconButton
         aria-label="Mode Setting"
         title="Mode Setting"
@@ -60,7 +72,7 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
           <h4>{courseNumber}</h4>&ensp;{playlistName}
         </MenuItem>
 
-        <div className="videos">
+        <div className="videos" id="upnext-videos">
           {medias.map( media2 => (
             <Card 
               className="vcard" 
