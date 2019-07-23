@@ -1,5 +1,5 @@
 import React from 'react'
-import { WatchHeader, CTPlayerRow, UpNext } from './Components'
+import { WatchHeader, CTPlayerRow } from './Components'
 import './index.css'
 import { api } from '../../util'
 
@@ -35,13 +35,13 @@ export class Watch extends React.Component {
   }  
 
   render() { 
-    const { media } = this.state
+    const { media, playlist } = this.state
+    const { courseNumber } = this
     return (
       <main className="watch-bg">
         <WatchHeader />
-        <UpNext {...this.state} courseNumber={this.courseNumber}/>
         <div className="watch-content">
-          <CTPlayerRow media={media} />
+          <CTPlayerRow media={media} playlist={playlist} courseNumber={courseNumber} />
         </div>
       </main>
     )

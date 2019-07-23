@@ -25,15 +25,15 @@ export default class CTPlayer extends React.Component {
         ...staticVJSOptions,
         controls: primary,
         muted: !video1,
-        sources: [{
+        sources: [{               // test the two video mode
           src: video1 ? srcPath : 'https://sysprog.ncsa.illinois.edu:4443/Data/temp486a182e-39b7-4099-aacf-86e68e17d477_mrb.mp4',
           type: 'video/mp4'
         }],
         // poster: 'http://videojs.com/img/logo.png',
       }
-      const controlPlugin = getControlPlugin(this.props)
  
       // Registering Plugins
+      const controlPlugin = getControlPlugin(this.props)
       videojs.registerPlugin('controlPlugin', controlPlugin)
       videojs.registerPlugin('KeyDownPlugin', keyDownPlugin)
 

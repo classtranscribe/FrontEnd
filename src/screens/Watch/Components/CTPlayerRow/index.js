@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import CTPlayer from './CTPlayer'
+import { SubHeader } from '../SubHeader'
 import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from './CTPlayerUtil'
 
 
-export function CTPlayerRow({ media }) {
+export function CTPlayerRow({ media, playlist, courseNumber }) {
   const [orderClassName, setOrderClassName] = useState('')
   const [primary, setPrimary] = useState(true)
-  const [mode, setMode] = useState(EQUAL_MODE) // should be normal in the future
+  const [mode, setMode] = useState(PS_MODE) // should be normal in the future
 
   useEffect(() => {
     console.log(media) // should change mode based on the # of videos
@@ -23,6 +24,7 @@ export function CTPlayerRow({ media }) {
   const [trackSrc, setTrackSrc] = useState('')
 
   const handleFunctions = {
+    switchScreen: () => setPrimary(() => !primary),
     switchToPrimary: () => setPrimary(() => true),
     switchToSecondary: () => setPrimary(() => false),
     syncPlay: () => setPlay(() => true),
@@ -39,8 +41,26 @@ export function CTPlayerRow({ media }) {
   var v1ClassName = primary ? 'primary' : 'secondary'
   var v2ClassName = primary ? 'secondary' : 'primary'
   if (mode === EQUAL_MODE) v1ClassName = v2ClassName = 'equal'
+  else if (mode === NORMAL_MODE) {
+    v1ClassName += '-normal'
+    v2ClassName += '-normal'
+  }
+
+  const propsForSettingBar = {
+    ...handleFunctions,
+    mode: mode,
+    show: true,
+  }
 
   return (
+    <>
+    <SubHeader 
+      media={media} 
+      playlist={playlist} 
+      courseNumber={courseNumber} 
+      propsForSettingBar={propsForSettingBar}
+    />
+
     <div className={`player-container ${orderClassName}`}>
       <div className={`video-col ${v1ClassName}-col`} id="first-col">
         <CTPlayer 
@@ -63,5 +83,6 @@ export function CTPlayerRow({ media }) {
         />
       </div>
     </div>
+    </>
   )
 }

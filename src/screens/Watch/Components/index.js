@@ -1,3 +1,3 @@
-export { WatchHeader } from './WatchHeader'
-export { UpNext } from './UpNext'
-export { CTPlayerRow    } from './CTPlayerRow' 
+export { WatchHeader  } from './WatchHeader'
+export { SubHeader    } from './SubHeader'
+export { CTPlayerRow  } from './CTPlayerRow' 
