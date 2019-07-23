@@ -54,36 +54,36 @@ export function WatchContent({ media, playlist, courseNumber }) {
   }
 
   return (
-    <>
-    <SubHeader 
-      media={media} 
-      playlist={playlist} 
-      courseNumber={courseNumber} 
-      propsForSettingBar={propsForSettingBar}
-    />
+    <div className="watch-content">
+      <SubHeader 
+        media={media} 
+        playlist={playlist} 
+        courseNumber={courseNumber} 
+        propsForSettingBar={propsForSettingBar}
+      />
 
-    <div className={`player-container ${orderClassName}`}>
-      <div className={`video-col ${v1ClassName}-col`} id="first-col">
-        <ClassTranscribePlayer 
-          {...handleFunctions}
-          media={media} 
-          primary={primary} mode={mode}
-          play={play} currTime={currTime} playbackRate={playbackRate}
-          trackSrc={trackSrc}
-          video1
-        />
-      </div>
+      <div className={`player-container ${orderClassName}`}>
+        <div className={`video-col ${v1ClassName}-col`} id="first-col">
+          <ClassTranscribePlayer 
+            {...handleFunctions}
+            media={media} 
+            primary={primary} mode={mode}
+            play={play} currTime={currTime} playbackRate={playbackRate}
+            trackSrc={trackSrc}
+            video1
+          />
+        </div>
 
-      <div className={`video-col ${v2ClassName}-col`} id="second-col">
-        <ClassTranscribePlayer 
-          {...handleFunctions}
-          media={media}
-          primary={!primary}  
-          trackSrc={trackSrc} mode={mode}
-          play={play} currTime={currTime} playbackRate={playbackRate}
-        />
+        <div className={`video-col ${v2ClassName}-col`} id="second-col">
+          <ClassTranscribePlayer 
+            {...handleFunctions}
+            media={media}
+            primary={!primary}  
+            trackSrc={trackSrc} mode={mode}
+            play={play} currTime={currTime} playbackRate={playbackRate}
+          />
+        </div>
       </div>
     </div>
-    </>
   )
 }

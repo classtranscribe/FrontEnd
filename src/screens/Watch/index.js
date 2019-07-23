@@ -40,9 +40,7 @@ export class Watch extends React.Component {
     return (
       <main className="watch-bg">
         <WatchHeader />
-        <div className="watch-content">
-          <WatchContent media={media} playlist={playlist} courseNumber={courseNumber} />
-        </div>
+        <WatchContent media={media} playlist={playlist} courseNumber={courseNumber} />
       </main>
     )
   }
