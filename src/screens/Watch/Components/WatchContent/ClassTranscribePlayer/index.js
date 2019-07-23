@@ -4,11 +4,11 @@ import 'video.js/dist/video-js.css'
 import './video.css'
 import './index.css'
 import { api } from 'utils'
-import { staticVJSOptions, keyDownPlugin, getControlPlugin } from './CTPlayerUtil'
+import { staticVJSOptions, keyDownPlugin, getControlPlugin } from '../CTPlayerUtil'
 const tempPoster = require('images/tempPoster.png')
 
 // ({primary, switchToPrimary, switchToSecondary, video1, id})
-export default class CTPlayer extends React.Component {
+export default class ClassTranscribePlayer extends React.Component {
   constructor(props) {
     super(props)
   }

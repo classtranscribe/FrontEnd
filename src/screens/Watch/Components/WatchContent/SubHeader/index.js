@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Icon } from 'semantic-ui-react'
-import { VideoSettingBar } from '../VideoSettingBar'
+import { VideoSettingBar } from './VideoSettingBar'
 import './index.css'
 
 

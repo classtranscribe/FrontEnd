@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import CTPlayer from './CTPlayer'
-import { SubHeader } from '../SubHeader'
+import ClassTranscribePlayer from './ClassTranscribePlayer'
+import { SubHeader } from './SubHeader'
+import './index.css'
 import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from './CTPlayerUtil'
 
 
-export function CTPlayerRow({ media, playlist, courseNumber }) {
+export function WatchContent({ media, playlist, courseNumber }) {
   const [orderClassName, setOrderClassName] = useState('')
   const [primary, setPrimary] = useState(true)
-  const [mode, setMode] = useState(NORMAL_MODE) // should be normal in the future
+  const [mode, setMode] = useState(NORMAL_MODE) // should be ps_mode if there is 2 videos in the future
 
   useEffect(() => {
     console.log(media) // should change mode based on the # of videos
@@ -63,7 +64,7 @@ export function CTPlayerRow({ media, playlist, courseNumber }) {
 
     <div className={`player-container ${orderClassName}`}>
       <div className={`video-col ${v1ClassName}-col`} id="first-col">
-        <CTPlayer 
+        <ClassTranscribePlayer 
           {...handleFunctions}
           media={media} 
           primary={primary} mode={mode}
@@ -74,7 +75,7 @@ export function CTPlayerRow({ media, playlist, courseNumber }) {
       </div>
 
       <div className={`video-col ${v2ClassName}-col`} id="second-col">
-        <CTPlayer 
+        <ClassTranscribePlayer 
           {...handleFunctions}
           media={media}
           primary={!primary}  

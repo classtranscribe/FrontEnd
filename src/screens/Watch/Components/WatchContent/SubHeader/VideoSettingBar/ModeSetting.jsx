@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
-import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../CTPlayerRow/CTPlayerUtil'
+import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../../CTPlayerUtil'
 
 
 const modeOptions = [

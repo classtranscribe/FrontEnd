@@ -1,5 +1,5 @@
 import React from 'react'
-import { WatchHeader, CTPlayerRow } from './Components'
+import { WatchHeader, WatchContent } from './Components'
 import './index.css'
 import { api } from 'utils'
 
@@ -41,7 +41,7 @@ export class Watch extends React.Component {
       <main className="watch-bg">
         <WatchHeader />
         <div className="watch-content">
-          <CTPlayerRow media={media} playlist={playlist} courseNumber={courseNumber} />
+          <WatchContent media={media} playlist={playlist} courseNumber={courseNumber} />
         </div>
       </main>
     )
