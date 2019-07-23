@@ -1,7 +1,7 @@
 import React from 'react'
 import { WatchHeader, CTPlayerRow } from './Components'
 import './index.css'
-import { api } from '../../util'
+import { api } from 'utils'
 
 export class Watch extends React.Component {
   constructor(props) {

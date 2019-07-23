@@ -9,12 +9,12 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
 import './index.css'
-import { ClassTranscribeHeader } from '../../../components'
+import { ClassTranscribeHeader } from 'components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
 import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
-import { user, api, util } from '../../../util'
+import { user, api, util } from 'utils'
 
 
 export class InstructorOffering extends React.Component {

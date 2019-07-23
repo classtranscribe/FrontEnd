@@ -3,9 +3,9 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import './video.css'
 import './index.css'
-import { api } from '../../../../util'
+import { api } from 'utils'
 import { staticVJSOptions, keyDownPlugin, getControlPlugin } from './CTPlayerUtil'
-const tempPoster = require('../../../../images/tempPoster.png')
+const tempPoster = require('images/tempPoster.png')
 
 // ({primary, switchToPrimary, switchToSecondary, video1, id})
 export default class CTPlayer extends React.Component {

@@ -10,8 +10,8 @@ import { Header } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
 import { OfferingCardHolder, OfferingListHolder } from './PlaceHolder'
 // Vars
-import { handleData, search, util } from '../../../../util'
-const imgHolder = require('../../../../images/Video-Placeholder.jpg')
+import { handleData, search, util } from 'utils'
+const imgHolder = require('images/Video-Placeholder.jpg')
 
 
 export default function OfferingList({state}) {

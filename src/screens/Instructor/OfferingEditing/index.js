@@ -5,12 +5,12 @@
 
 import React from 'react'
 // Layouts
-import { GeneralModal, DeleteModal } from '../../../components'
+import { GeneralModal, DeleteModal } from 'components'
 import OfferingForm from './OfferingForms'
 import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
 // Vars
-import { api, handleData, util } from '../../../util'
+import { api, handleData, util } from 'utils'
 const initialOffering = api.initialData.initialOffering
 
 export default class OfferingSettingPage extends React.Component {

@@ -7,7 +7,7 @@ import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components'
 import { Grid, Form, Input } from 'semantic-ui-react'
 // Vars
-import { api, handleData, util } from '../../../util'
+import { api, handleData, util } from 'utils'
 const { initialDepart } = api.initialData
 
 export default class DepartmentEditing extends React.Component {

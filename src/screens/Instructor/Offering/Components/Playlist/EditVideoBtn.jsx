@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, Dropdown } from 'semantic-ui-react'
-import { util } from '../../../../../util'
+import { util } from 'utils'
 
 export default function EditVideoBtn({show, jsonMetadata}) {
   const display = show ? {} : {display: 'none'}

@@ -7,7 +7,7 @@ import React from 'react'
 // Layouts
 import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
 // Vars
-import { api, util } from '../../../../util'
+import { api, util } from 'utils'
 
 export default function TermSectionTypeSetting({state, onChange, toProgress}) {
   const { offeringInfo, terms } = state

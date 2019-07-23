@@ -6,7 +6,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Dropdown, Form, Grid } from 'semantic-ui-react'
-import { util } from '../../../../util'
+import { util } from 'utils'
 
 export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected}) {
   const { universities, departments, terms } = state

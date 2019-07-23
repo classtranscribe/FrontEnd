@@ -8,8 +8,8 @@ import { Icon, List, Sticky } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import './index.css'
 // Vars
-import { search, util } from '../../../../util'
-import { ClassTranscribeFooter } from '../../../../components'
+import { search, util } from 'utils'
+import { ClassTranscribeFooter } from 'components'
 
 
 export function Search({offerings}) {

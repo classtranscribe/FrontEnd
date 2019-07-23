@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Col, Nav, Navbar } from 'react-bootstrap'
 import { Grid, List, Image } from 'semantic-ui-react'
 import './index.css'
-import { util } from '../../util';
+import { util } from 'utils'
 
 
 export function FixedFooter(props) {

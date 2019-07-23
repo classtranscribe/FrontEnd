@@ -7,10 +7,10 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // UI
 import { Icon, Divider } from 'semantic-ui-react'
-import { ClassTranscribeFooter } from '../../../../components'
+import { ClassTranscribeFooter } from 'components'
 import Playlists from './Playlists'
 // Vars
-import { api, util } from '../../../../util'
+import { api, util } from 'utils'
 import './index.css'
 
 export function OfferingDetail({id, history}) {

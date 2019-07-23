@@ -12,7 +12,7 @@ import {
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
-import { user, util } from './util'
+import { user, util } from 'utils'
 
 class App extends React.Component {
   render() {

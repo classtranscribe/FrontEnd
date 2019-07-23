@@ -11,7 +11,7 @@ import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
 // Vars
 import moment from 'moment'
-import { api, handleData, util } from '../../../util'
+import { api, handleData, util } from 'utils'
 const { initialTerm } = api.initialData
 
 

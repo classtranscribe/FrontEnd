@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import { Grid, Tab, Button } from 'semantic-ui-react'
 import OfferinfList from './OfferingList'
 // Vars
-import { handleData, api, util } from '../../../../util'
+import { handleData, api, util } from 'utils'
 
 /**
  * @param sortDown state to determine whether to sortDown or sortUp the offering by term

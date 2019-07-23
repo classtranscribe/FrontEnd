@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Accordion } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
-import { util } from '../../../../util';
-const imgHolder = require('../../../../images/Video-Placeholder.jpg')
+import { util } from 'utils';
+const imgHolder = require('images/Video-Placeholder.jpg')
 
 
 export default function Playlists({playlists, fullNumber}) {

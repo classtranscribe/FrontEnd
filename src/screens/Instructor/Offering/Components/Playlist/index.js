@@ -5,13 +5,13 @@
 import React, { useState, useEffect, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { List, Image, Sticky } from 'semantic-ui-react'
-import { ClassTranscribeFooter } from '../../../../../components'
+import { ClassTranscribeFooter } from 'components'
 import { VideoListPlaceHolder } from './Placeholders'
 import PlaylistHeader from './PlaylistHeader'
 import EditVideoBtn from './EditVideoBtn'
 import './index.css'
-import { api, util } from '../../../../../util'
-const profileImg = require('../../../../../images/Video-Placeholder.jpg')
+import { api, util } from 'utils'
+const profileImg = require('images/Video-Placeholder.jpg')
 
 
 export function Playlist({ match }) {

@@ -6,12 +6,12 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { ClassTranscribeHeader } from '../../components'
+import { ClassTranscribeHeader } from 'components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import './transition.css'
 import './index.css'
 // Vars
-import { user, api } from '../../util'
+import { user, api } from 'utils'
 
 
 

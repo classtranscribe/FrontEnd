@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClassTranscribeHeader } from '../../../../components'
+import { ClassTranscribeHeader } from 'components'
 import { Icon } from 'semantic-ui-react'
 import './index.css'
 

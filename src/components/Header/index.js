@@ -5,7 +5,7 @@ import { Row, Navbar } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
 import ProfileBtn from './ProfileBtn'
 import './index.css'
-import { user, util } from '../../util'
+import { user, util } from 'utils'
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button

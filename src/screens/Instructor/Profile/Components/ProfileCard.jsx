@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Card } from 'react-bootstrap'
-const profileImg = require('../../../../images/icons/profile1.png')
+const profileImg = require('images/icons/profile1.png')
 
 export function ProfileCard(props) {
   return (

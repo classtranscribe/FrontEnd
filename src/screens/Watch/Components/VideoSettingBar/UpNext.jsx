@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import $ from 'jquery'
 import { IconButton, MenuItem, Menu } from '@material-ui/core'
 import { Card } from 'react-bootstrap'
-import { util } from '../../../../util'
-const imgHolder = require('../../../../images/Video-Placeholder.jpg')
+import { util } from 'utils'
+const imgHolder = require('images/Video-Placeholder.jpg')
 
 const menuStyle = {
   backgroundColor: '#424242', 

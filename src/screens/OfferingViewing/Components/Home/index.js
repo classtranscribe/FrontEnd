@@ -6,10 +6,10 @@ import React, { Suspense, lazy } from 'react'
 // UI
 import Filter from  './Filter'
 import { OfferingListHolder } from './PlaceHolder'
-import { ClassTranscribeFooter } from '../../../../components'
+import { ClassTranscribeFooter } from 'components'
 import './index.css'
 // Vars
-import { api } from '../../../../util'
+import { api } from 'utils'
 // Lazy loading
 const OfferingList = lazy(() => import('./OfferingList'))
 

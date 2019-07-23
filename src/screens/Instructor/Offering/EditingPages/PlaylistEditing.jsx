@@ -6,10 +6,10 @@
 import React, { useState, useEffect } from 'react'
 // UI & Layouts
 import { Grid, Form, Input, Select, Message, Icon, Divider } from 'semantic-ui-react'
-import { GeneralModal, GeneralLoader } from '../../../../components'
+import { GeneralModal, GeneralLoader } from 'components'
 import { SaveButtons, EditButtons } from './Buttons'
 // Vars
-import { api, handleData, util } from '../../../../util'
+import { api, handleData, util } from 'utils'
 
 /**
  * @param type 'new' for creating, 'id' for editing

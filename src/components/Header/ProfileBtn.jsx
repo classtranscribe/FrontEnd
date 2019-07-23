@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Icon, Dropdown, Button } from 'semantic-ui-react'
 import './index.css'
 
-import { util, user } from '../../util'
+import { util, user } from 'utils'
 import { Link } from 'react-router-dom';
 
 /**

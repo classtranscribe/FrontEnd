@@ -5,7 +5,7 @@
 import React from 'react'
 import { Tab } from 'react-bootstrap'
 import { Button } from 'semantic-ui-react'
-import { util } from '../../../../util'
+import { util } from 'utils'
 
 export function EmptyResult({id}) {
   return (

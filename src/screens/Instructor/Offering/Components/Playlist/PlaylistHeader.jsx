@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
-import { util } from '../../../../../util'
+import { util } from 'utils'
 import { HeaderPlaceholder } from './Placeholders'
 import TypeIcon from '../TypeIcon'
 

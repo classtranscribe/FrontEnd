@@ -6,7 +6,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { Button } from 'semantic-ui-react'
-import { util, api } from '../../../../util'
+import { util, api } from 'utils'
 import TypeIcon from './TypeIcon'
 
 export function SideBar({id, state}) {
