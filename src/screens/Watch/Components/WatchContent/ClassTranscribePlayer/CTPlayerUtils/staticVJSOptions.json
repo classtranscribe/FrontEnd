@@ -8,6 +8,6 @@
   },
   "plugins": {
     "controlPlugin": true,
-    "KeyDownPlugin": true
+    "keyDownPlugin": true
   }
 }
