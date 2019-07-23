@@ -5,6 +5,7 @@ import './video.css'
 import './index.css'
 import { api } from '../../../../util'
 import { staticVJSOptions, keyDownPlugin, getControlPlugin } from './CTPlayerUtil'
+const tempPoster = require('../../../../images/tempPoster.png')
 
 // ({primary, switchToPrimary, switchToSecondary, video1, id})
 export default class CTPlayer extends React.Component {
@@ -29,7 +30,7 @@ export default class CTPlayer extends React.Component {
           src: video1 ? srcPath : 'https://sysprog.ncsa.illinois.edu:4443/Data/temp486a182e-39b7-4099-aacf-86e68e17d477_mrb.mp4',
           type: 'video/mp4'
         }],
-        // poster: 'http://videojs.com/img/logo.png',
+        poster: tempPoster,
       }
  
       // Registering Plugins

@@ -7,7 +7,7 @@ import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from './CTPlayerUtil'
 export function CTPlayerRow({ media, playlist, courseNumber }) {
   const [orderClassName, setOrderClassName] = useState('')
   const [primary, setPrimary] = useState(true)
-  const [mode, setMode] = useState(PS_MODE) // should be normal in the future
+  const [mode, setMode] = useState(NORMAL_MODE) // should be normal in the future
 
   useEffect(() => {
     console.log(media) // should change mode based on the # of videos
