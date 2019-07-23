@@ -94,7 +94,7 @@
   -webkit-flex: 0 1 auto;
   -ms-flex: 0 1 auto;
   flex: 0 1 auto;
-  width: auto
+  padding: 0;
 }
 
 .video-js .vjs-time-control.vjs-time-divider {
@@ -229,29 +229,28 @@
 }
 
 .video-js .vjs-menu-button-popup .vjs-menu {
-  left: -4em;
+  left: -3.5em;
 }
 
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
   background-color: transparent;
   border-radius: .3rem;
-  width: 11em;
+  min-width: 10em;
+  width: max-content;
   padding-bottom: -10em;
 }
 
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item,.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-title {
-  background-color: #1d1a1ad7;
-  /* font-weight: 550; */
+  background-color: #313131de;
   height: 2.3rem;
-  /* font-size: 0.8rem; */
-  padding: .5em .5em .5rem .5rem;
+  padding: .5em;
 }
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item:hover {
   background-color: rgb(65, 65, 65);
 }
 
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item.vjs-selected {
-  background-color: #2f2f2f;
+  background-color: #555555;
   color: rgb(255, 255, 255);
 }
 
