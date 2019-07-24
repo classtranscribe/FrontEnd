@@ -85,7 +85,8 @@ export const handleData = {
     return re.test(email)
   },
   isValidCourseNumber: function(courseNumber) {
-    let courseNumberTester = /([A-Z]{2,})([0-9]{2,})/
+    if (!courseNumber.includes('/')) return true
+    let courseNumberTester = /([A-Z^\\/]{2,}[0-9]{2,}[\\/][A-Z^\\/]{2,}[0-9]{2,})$/
     return courseNumberTester.test(courseNumber)
   },
   /**

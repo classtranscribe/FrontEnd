@@ -12,16 +12,17 @@ import Playlists from './Playlists'
 // Vars
 import { api, util } from 'utils'
 import './index.css'
+import { handleData } from '../../../../utils/data';
 
 export function OfferingDetail({id, history}) {
   const [offering, setOffering] = useState(null)
   const [playlists, setPlaylists] = useState(null)
   // variables to present
-  const [fullNumber, setFullNumber] = useState('')
+  const [fullNumber, setFullNumber] = useState('Loading...')
   const [termName, setTermName] = useState('')
   const [sectionName, setSectionName] = useState('')
   const [description, setDescription] = useState('')
-  const [courseName, setCourseName] = useState('')
+  const [courseName, setCourseName] = useState('Loading...')
 
   /**
    * Get all offerings and complete offerings
@@ -48,9 +49,12 @@ export function OfferingDetail({id, history}) {
   useEffect(() => {
     if (!offering) return;
     if (offering.courses) {
-      setFullNumber(() => api.getFullNumber(offering.courses))
-      setCourseName(() => offering.courses[0].courseName)
-      setDescription(() => offering.courses[0].description)
+      const number = api.getFullNumber(offering.courses)
+      if (handleData.isValidCourseNumber(number)) {
+        setFullNumber(() => number)
+        setCourseName(() => offering.courses[0].courseName)
+        setDescription(() => offering.courses[0].description)
+      }
     }
     if (offering.offering && offering.offering.termName) {
       setTermName(() => offering.offering.termName)
