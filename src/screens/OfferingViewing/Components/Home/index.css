@@ -139,5 +139,13 @@
     background: rgba(198, 219, 223, 0.685);
   }
 
+  .sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder] {
+    cursor: default;
+    pointer-events: none;
+  }
+  .sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder]:hover {
+    border: 0.1rem solid transparent;
+  }
+
   
 
