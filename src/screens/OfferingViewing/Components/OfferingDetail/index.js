@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 // UI
 import { Icon, Divider } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from 'components'
-import PlaylistPlaceholder from './PlaylistPlaceholder'
 import Playlists from './Playlists'
 // Vars
 import { api, util } from 'utils'
