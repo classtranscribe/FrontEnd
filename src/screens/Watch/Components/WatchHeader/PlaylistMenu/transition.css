@@ -1,0 +1,14 @@
+.playlist-view-enter {
+  display: block;
+}
+.playlist-view-exit {
+  display: none;
+}
+
+
+.video-view-enter {
+  display: block;
+}
+.video-view-exit {
+  display: none;
+}

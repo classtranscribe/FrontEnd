@@ -25,11 +25,11 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
   const keyDownHandler = ({keyCode}) => {
     let currFocus = $(".upnext-menu .videos .vcard:focus")
     if (!currFocus.length) currFocus = $(".curr-media")  
-    if (keyCode == 39) {   
+    if (keyCode === 39) {   
       currFocus.next().focus()
     }
-    if (keyCode == 37) {    
-      currFocus.prev().focus();
+    if (keyCode === 37) {    
+      currFocus.prev().focus()
     }
   }
 

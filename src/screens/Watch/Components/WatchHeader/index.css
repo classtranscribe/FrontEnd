@@ -1,24 +1,2 @@
-.playlist-trigger {
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.1rem;
-  border-right: 1px solid rgb(100, 100, 100);
-  padding-right: 0.5rem;
-  margin-right: 0.5rem;}
-  .playlist-trigger::after {
-    content: 'PLAYLISTS'}
-  .playlist-trigger:hover {
-    color: rgb(58, 168, 163);}
-  .playlist-trigger:focus {
-    outline-width: 2px;
-    outline-color:  rgb(7, 150, 143);
-  }
-  @media screen and (max-width: 700px) {
-    .playlist-trigger::after {
-      content: '';
-    }
-  }
+
 

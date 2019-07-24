@@ -1,14 +1,12 @@
 import React from 'react'
 import { ClassTranscribeHeader } from 'components'
-import { Icon } from 'semantic-ui-react'
+import PlaylistMenu from './PlaylistMenu'
 import './index.css'
 
-export function WatchHeader({ playlistTrigger }) {
+export function WatchHeader({ media, playlist, courseNumber }) {
   return (
     <ClassTranscribeHeader darkMode>
-      <div tabIndex="0" className="playlist-trigger">
-        <Icon name="list" />
-      </div>
+      <PlaylistMenu media={media} playlist={playlist} courseNumber={courseNumber} />
     </ClassTranscribeHeader>
   )
 }
