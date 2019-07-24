@@ -9,7 +9,7 @@ import ClassTranscribePlayer from './ClassTranscribePlayer'
 import SubHeader from './SubHeader'
 import './index.css'
 // Vars
-import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from './constants'
+import { NORMAL_MODE, /* EQUAL_MODE, PS_MODE, NESTED_MODE */ } from './constants'
 
 
 export function WatchContent({ media, playlist, courseNumber }) {
@@ -54,14 +54,6 @@ export function WatchContent({ media, playlist, courseNumber }) {
     setPlaybackRate: rate => setPlaybackRate(() => rate),
     setTrackSrc: src => setTrackSrc(() => src),
     setMode: mode => setMode(() => mode),
-  }
-
-  var v1ClassName = primary ? 'primary' : 'secondary'
-  var v2ClassName = primary ? 'secondary' : 'primary'
-  if (mode === EQUAL_MODE) v1ClassName = v2ClassName = 'equal'
-  else if (mode === NORMAL_MODE) {
-    v1ClassName += '-normal'
-    v2ClassName += '-normal'
   }
 
   // Variables that will pass into the video setting bar
