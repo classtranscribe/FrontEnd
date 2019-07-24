@@ -81,7 +81,7 @@ export function WatchContent({ media, playlist, courseNumber }) {
       />
 
       <div className={`player-container ${orderClassName}`}>
-        <div className={`video-col ${v1ClassName}-col`} id="first-col">
+        <div className="video-col">
           <ClassTranscribePlayer 
             {...handleFunctions}
             media={media} 
@@ -95,7 +95,7 @@ export function WatchContent({ media, playlist, courseNumber }) {
           />
         </div>
 
-        <div className={`video-col ${v2ClassName}-col`} id="second-col">
+        <div className="video-col" >
           <ClassTranscribePlayer 
             {...handleFunctions}
             media={media}
