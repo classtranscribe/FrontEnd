@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Accordion } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
-import { util } from 'utils';
+import PlaylistPlaceholder from './PlaylistPlaceholder'
+import { util } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
 
 export default function Playlists({playlists, fullNumber}) {
   const [activeIndex, setActiveIndex] = useState(-1)
 
+  if (!playlists) return <PlaylistPlaceholder />
+  
   const handleClick = index => {
     if (index === activeIndex) setActiveIndex(() => -1)
     else setActiveIndex(() => index)

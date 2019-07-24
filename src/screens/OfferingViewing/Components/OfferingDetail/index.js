@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 // UI
 import { Icon, Divider } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from 'components'
+import PlaylistPlaceholder from './PlaylistPlaceholder'
 import Playlists from './Playlists'
 // Vars
 import { api, util } from 'utils'
@@ -15,7 +16,7 @@ import './index.css'
 
 export function OfferingDetail({id, history}) {
   const [offering, setOffering] = useState(null)
-  const [playlists, setPlaylists] = useState([])
+  const [playlists, setPlaylists] = useState(null)
   // variables to present
   const [fullNumber, setFullNumber] = useState('')
   const [termName, setTermName] = useState('')
@@ -94,7 +95,7 @@ export function OfferingDetail({id, history}) {
       <h5>{description}</h5><br/><br/>
       <Divider />
       <h4>Playlists</h4>
-      
+
       <Playlists playlists={playlists} fullNumber={fullNumber} offeringId={id}/>
       <ClassTranscribeFooter />
     </div>
