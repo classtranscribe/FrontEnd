@@ -47,6 +47,8 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
 
   const currOption = modeOptions.filter(opt => opt.mode === mode)[0]
   const open = Boolean(anchorEl)
+  // if it is mobile size there will not be two players in parallel
+  const shouldDisable = mode => isMobile && mode !== NESTED_MODE && mode !== NORMAL_MODE
 
   return (
     <div>
@@ -76,11 +78,11 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
           <Typography variant="inherit">Switch Screens</Typography>
         </MenuItem>
         {
-          !isMobile // if it is mobile size there will not be two players
+          switchScreen // can switch screen mode if there is 2 videos
           &&
           <>
             <MenuDivider text="screen modes" />
-            {modeOptions.map(option => (
+            {modeOptions.map(option => shouldDisable(option.mode) ? null : (
               <MenuItem key={option.name} 
                 selected={option.mode === mode} 
                 onClick={() => handleSelect(option.mode)}
