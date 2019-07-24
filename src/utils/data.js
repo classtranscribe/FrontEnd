@@ -84,6 +84,10 @@ export const handleData = {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   },
+  isValidCourseNumber: function(courseNumber) {
+    let courseNumberTester = /([A-Z]{2,})([0-9]{2,})/
+    return courseNumberTester.test(courseNumber)
+  },
   /**
    * convert a moment obj to a ISO string
    */
