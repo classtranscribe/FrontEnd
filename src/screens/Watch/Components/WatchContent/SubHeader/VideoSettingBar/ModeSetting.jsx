@@ -1,3 +1,7 @@
+/**
+ * Setting menu for screen mode
+ */
+
 import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
@@ -28,21 +32,17 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
   }
 
   function handleClose() {
-    setAnchorEl(null);
+    setTimeout(() => setAnchorEl(null), 200)
   }
 
   function handleSelect(mode) {
     setMode(mode)
-    setTimeout(() => {
-      handleClose()
-    }, 200)
+    handleClose()
   }
 
   const handleSwitch = () => {
     switchScreen()
-    setTimeout(() => {
-      handleClose()
-    }, 200)
+    handleClose()
   }
 
   const currOption = modeOptions.filter(opt => opt.mode === mode)[0]
@@ -76,7 +76,7 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
           <Typography variant="inherit">Switch Screens</Typography>
         </MenuItem>
         {
-          !isMobile
+          !isMobile // if it is mobile size there will not be two players
           &&
           <>
             <MenuDivider text="screen modes" />

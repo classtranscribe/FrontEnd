@@ -1,35 +1,32 @@
+/**
+ * Stylesheet for SubHeader
+ */
+
 .subheader-container {
   z-index: 1;
   width: 100%;
-  /* position: absolute; */
   color: rgb(240, 254, 255);
   background: rgb(55, 65, 65);
-  /* background: rgb(37, 44, 44); */
   overflow: hidden;
   padding: .5em 2em 0 2em;
 }
+
+/* Video Info header */
 .subheader-container .header {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  /* white-space: nowrap; */
-}
-
-.subheader-container .header p {
-  /* white-space: nowrap; */
-  outline: none;
-  overflow: hidden;
-  position: relative;
-  text-overflow: ellipsis;
-  /* height: 3.4rem; */
-  width: 100%;
-  margin: 0 !important;
-  /* background-color: #ebebeb; */
-}
-.subheader-container .header p span {
-  color: rgb(115, 168, 175);
-  font-size: 1.3rem;
-}
+  flex-direction: row;}
+  .subheader-container .header p {
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    width: 100%;
+    margin: 0 !important;}
+  .subheader-container .header p span {
+    color: rgb(115, 168, 175);
+    font-size: 1.3rem;
+  }
 
 @media screen and (max-width: 600px) {
   .subheader-container {

@@ -1,20 +1,19 @@
+/**
+ * The SubHeader of the WatchContent
+ * - including setting bar, up next and video info
+ */
 import React, { useState, useEffect } from 'react'
+// UI
 import { Icon } from 'semantic-ui-react'
 import { VideoSettingBar } from './VideoSettingBar'
 import './index.css'
 
-
-export function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
+export default function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
   const [mediaName, setMediaName] = useState('')
   const [playlistName, setPlaylistName] = useState('')
   const [medias, setMedias] = useState([])
 
-  useEffect(() => {
-    if (media.jsonMetadata) {
-      setMediaName(() => media.jsonMetadata.title)
-    }
-  }, [media])
-
+  /** If playlist is loaded */
   useEffect(() => {
     if (playlist.playlist && playlist.medias) {
       setPlaylistName(() => playlist.playlist.name)
@@ -22,6 +21,14 @@ export function SubHeader({ playlist, media, courseNumber, propsForSettingBar })
     }
   }, [playlist])
 
+  /** If media is set */
+  useEffect(() => {
+    if (media.jsonMetadata) {
+      setMediaName(() => media.jsonMetadata.title)
+    }
+  }, [media])
+
+  // Variables for Up Next
   const propsForUpNext = {
     media: media,
     mediaName: mediaName,
@@ -36,10 +43,13 @@ export function SubHeader({ playlist, media, courseNumber, propsForSettingBar })
     >
       <div className="header">
         <p tabIndex={1}>
-          <strong><span>{courseNumber.replace('-', '/')}</span>
-          &ensp;{playlistName}</strong><br/>
+          <strong>
+            <span>{courseNumber.replace('-', '/')}</span>
+            &ensp;{playlistName}
+          </strong><br/>
           <Icon name="play" />&ensp;{mediaName}
         </p>
+
         <VideoSettingBar 
           propsForSettingBar={propsForSettingBar} 
           propsForUpNext={propsForUpNext} 

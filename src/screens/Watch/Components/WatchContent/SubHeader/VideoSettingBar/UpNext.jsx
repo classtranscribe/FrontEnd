@@ -1,7 +1,13 @@
+/**
+ * UpNext menu
+ */
+
 import React, { useState } from 'react'
 import $ from 'jquery'
+// UI
 import { IconButton, MenuItem, Menu } from '@material-ui/core'
 import { Card } from 'react-bootstrap'
+// Vars
 import { util } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
@@ -15,6 +21,7 @@ const menuStyle = {
 export default function UpNext({ media, mediaName, playlistName, medias, courseNumber, isMobile }) {
   const [anchorEl, setAnchorEl] = useState(null)
 
+  /** Function for helping switch focusing card, starting from the current video */
   const keyDownHandler = ({keyCode}) => {
     let currFocus = $(".upnext-menu .videos .vcard:focus")
     if (!currFocus.length) currFocus = $(".curr-media")  
@@ -26,6 +33,7 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
     }
   }
 
+  /** Function for scrolling to the current playing video */
   const scrollToCurrVideo = () => {
     console.log('show upnext')
     if (media.id) {
@@ -58,7 +66,8 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
         onClick={handleClick}
         className="trigger"
       >
-        <i class="material-icons">video_library</i>{!isMobile&&<span>&ensp;Up Next</span>}
+        <i class="material-icons">video_library</i>
+        {!isMobile && <span>&ensp;Up Next</span>}
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -76,12 +85,11 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
           {medias.map( media2 => (
             <Card 
               className="vcard" 
-              key={media2.media.id} 
               id={media2.media.id}
-              as="a"
-              href={util.links.watch(courseNumber, media2.media.id)}
+              key={media2.media.id} 
               title={media2.media.jsonMetadata.title}
               aria-label={media2.media.jsonMetadata.title}
+              as="a" href={util.links.watch(courseNumber, media2.media.id)}
             >
               <Card.Img 
                 className="img" variant="top" 

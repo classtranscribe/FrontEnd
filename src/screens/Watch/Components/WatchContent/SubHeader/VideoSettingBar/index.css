@@ -1,21 +1,24 @@
+/** 
+ * Stylesheet for VideoSettingBar
+ */
+
 .video-setting-bar {
-  /* position: absolute; */
   margin-left: 2em;
   width: 100%;
   height: 3em;
-  /* background: #424242; */
   border-radius: .6em;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-}
-@media screen and (max-width: 870px) {
-  .video-setting-bar {
-    width: auto;
-    position: absolute;
-    right: .5em;
+  justify-content: flex-end;}
+  @media screen and (max-width: 870px) {
+    .video-setting-bar {
+      width: auto;
+      position: absolute;
+      right: .5em;
+    }
   }
-}
+
+/* General Trigger button */
 .video-setting-bar .trigger {
   transition: color .2s linear, background .2s linear;
   background-color: rgb(47, 85, 88);
@@ -24,16 +27,16 @@
   height: 2em;
   border-radius: .6em;
   padding: 0 .5em;
-  margin-left: .5em;
-}
-.video-setting-bar .trigger span {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-.video-setting-bar .trigger:hover {
-  background-color: rgb(48, 126, 133);
-  color: rgb(221, 221, 221);
-}
+  margin-left: .5em;}
+  .video-setting-bar .trigger span {
+    font-size: 1.1rem;
+    font-weight: bold;}
+  .video-setting-bar .trigger:hover {
+    background-color: rgb(48, 126, 133);
+    color: rgb(221, 221, 221);
+  }
+
+/* Up Next */
 .upnext-menu .header h4 {
   color: rgb(0, 255, 255);
   font-weight: bolder;
@@ -63,36 +66,32 @@
   overflow: hidden;
   cursor: pointer !important;
   border: none;
-  background: rgb(45, 49, 49);
-}
-.upnext-menu .videos .vcard:first-child {
-  margin-left: 10%;
-}
-.upnext-menu .videos .vcard:last-child {
-  margin-right: 10%;
-}
-.upnext-menu .videos .vcard:hover, .upnext-menu .videos .vcard:focus {
-  outline: none;
-  background: rgb(90, 100, 100);
-}
-.upnext-menu .videos .vcard .img {
-  transition: margin 0.2s linear;
-  -o-transition: margin 0.2s linear;
-  -webkit-transition: margin 0.2s linear;
-  width: 12rem;
-}
+  background: rgb(45, 49, 49);}
+  .upnext-menu .videos .vcard:first-child {
+    margin-left: 10%;}
+  .upnext-menu .videos .vcard:last-child {
+    margin-right: 10%;}
+  .upnext-menu .videos .vcard:hover, .upnext-menu .videos .vcard:focus {
+    outline: none;
+    background: rgb(90, 100, 100);}
+  .upnext-menu .videos .vcard .img {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
+    width: 12rem;}
+  .upnext-menu .videos .vcard .title {
+    padding: none;
+    white-space: nowrap;
+    width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* font-weight: normal; */
+    font-size: 1rem;
+    color: rgb(240, 254, 255) !important;
+  }
+
 .upnext-menu .videos .card-body {
   padding: 0.5em 0.2rem !important;
-}
-.upnext-menu .videos .vcard .title {
-  padding: none;
-  white-space: nowrap;
-  width: 12rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  /* font-weight: normal; */
-  font-size: 1rem;
-  color: rgb(240, 254, 255) !important;
 }
 
 .curr-media {

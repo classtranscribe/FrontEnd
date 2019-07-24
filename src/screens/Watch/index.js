@@ -6,7 +6,6 @@ import { api } from 'utils'
 export class Watch extends React.Component {
   constructor(props) {
     super(props)
-
     this.id = this.props.match.params.id
     this.courseNumber = this.props.match.params.courseNumber
     this.state = { 
@@ -16,6 +15,9 @@ export class Watch extends React.Component {
     }
   }
 
+  /**
+   * GET media and playlist based on mediaId
+   */
   componentDidMount() {
     api.getMediaById(this.id)
       .then( ({data}) => {
@@ -25,9 +27,9 @@ export class Watch extends React.Component {
           .then(({data}) => {
             console.log('playlist', data)
             this.setState({ playlist: data })
+            api.contentLoaded()
           })
       })
-    api.contentLoaded()
   }
 
   playlistTrigger = ()  => {

@@ -48,6 +48,7 @@ export const api = {
     localStorage.setItem('authToken', responce.data.authToken)
   },
   baseUrl: () => process.env.REACT_APP_API_BASE_URL.replace('/api/', ''),
+  
 
   /********************* Functions for http requests *********************/
 
@@ -126,6 +127,9 @@ export const api = {
     return this.getData('Playlists/ByOffering', offeringId)
   },
   // media
+  getMediaFullPath: function(path) {
+    return this.baseUrl() + path
+  },
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
   },
