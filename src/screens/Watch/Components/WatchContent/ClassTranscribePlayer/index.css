@@ -8,13 +8,10 @@
 }
 
 .ct-player .primary, .ct-player .secondary{
-  -webkit-transition: width 0.3s linear !important;
-  -o-transition: width 0.3s linear !important;
-  transition: width 0.3s linear !important;}
+  -webkit-transition: width 0.2s linear !important;
+  -o-transition: width 0.2s linear !important;
+  transition: width 0.2s linear !important;}
 .ct-player .secondary {
-  -webkit-transition: border 0.2s linear, margin 0.2s linear;
-  -o-transition: border 0.2s linear, margin 0.2s linear;
-  transition: border 0.2s linear, margin 0.2s linear;
   cursor: pointer;}
   .ct-player .secondary:hover, .ct-player .secondary[id=nested-mode]:hover {
     box-shadow: 0 0 0 3px rgb(117, 179, 179);}
@@ -39,7 +36,7 @@
 .ct-player .primary[id=ps-mode] {
   width: 58vw;}
 .ct-player .secondary[id=ps-mode] {
-  margin: 4.5em 0 0 1vw;
+  margin: 0em 0 0 1vw;
   width: 36vw;}
 
 /* Equal-width mode */
