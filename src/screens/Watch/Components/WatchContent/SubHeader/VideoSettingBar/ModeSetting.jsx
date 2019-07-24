@@ -10,9 +10,9 @@ import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../../constants'
 
 const modeOptions = [
   {name: 'One View', icon: 'video_label', mode: NORMAL_MODE},
-  {name: 'Equal Width', icon: 'view_module', mode: EQUAL_MODE},
-  {name: 'Primary-Secondary', icon: 'dashboard', mode: PS_MODE},
-  {name: 'Nested View', icon: 'branding_watermark', mode: NESTED_MODE},
+  {name: 'Equal Width', icon: 'view_week', mode: EQUAL_MODE},
+  {name: 'Primary-Secondary', icon: 'view_carousel', mode: PS_MODE},
+  {name: 'Nested View', icon: 'featured_video', mode: NESTED_MODE},
 ]
 
 const menuStyle = {
