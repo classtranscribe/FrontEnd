@@ -18,13 +18,14 @@ export function Playlist({ match }) {
   const playlistId = match.params.id
   const courseNumber = match.params.courseNumber
   const [playlist, setPlaylist] = useState({})
-  const [medias, setMedias] = useState([])
+  const [medias, setMedias] = useState(null)
   const ref = createRef()
 
   /**
    * GET data based on playlistId
    */
   useEffect(() => {
+    localStorage.setItem('playlistUrl', window.location.pathname)
     api.getPlaylistById(playlistId)
       .then( ({data}) => {
         setPlaylist(() => data.playlist)
@@ -42,7 +43,7 @@ export function Playlist({ match }) {
       </Sticky>
       <List verticalAlign='middle' className="vlist" role="list">
         {
-          medias.length ? 
+          medias ? 
           medias.map( media =>
             <Video {...media} sourceType={playlist.sourceType} key={media.id} courseNumber={courseNumber}/>
           )
@@ -59,11 +60,10 @@ export function Playlist({ match }) {
  * Video List Item
  */
 function Video({media, sourceType, courseNumber}) {
-  const className = sourceType === 1 ? 'youtube' : sourceType === 2 ? 'echo360' : ''
   const { mediaName, id } = api.parseMedia(media)
   return (
     <List.Item className="video-card">
-      <EditVideoBtn show={sourceType === 0} {...media}/>
+      <EditVideoBtn show={sourceType === 2} {...media}/>
       <Link to={util.links.watch(courseNumber, id)} className="d-flex flex-row">
         <Image 
           alt="Video Poster"
@@ -75,7 +75,7 @@ function Video({media, sourceType, courseNumber}) {
         <List.Content>
           <div className="info">
             <p 
-              className={`title ${className}`} 
+              className="title" 
               aria-label={`see video ${mediaName}`}
               title={`see video ${mediaName}`}
             >

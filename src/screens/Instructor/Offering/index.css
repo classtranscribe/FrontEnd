@@ -246,3 +246,14 @@
 
 
 /******************************/
+.general-form p span {
+  color: #1e989c;
+  cursor: default;
+  text-decoration: underline;
+}
+.link {
+  color: #1c99ff !important;
+}
+.id {
+  color: #00a5bb;
+}

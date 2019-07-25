@@ -40,30 +40,30 @@
   border-bottom: #dbdbdb solid 1px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #4e9292;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.pl-info-header .youtube, .pl-info-header .echo360 {
   color: rgb(97, 92, 92);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
 .csp-videos .playlist-btn {
-  width: 100%;
-  /* margin-left: 5%; */
-  /* padding: 1rem 0 0 0; */
-  margin-top: -1rem;
-  display: flex;
+  margin-left: 1em;
+  width: max-content;
+  display: inline-flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 
 .csp-videos .playlist-btn .edit-btn {
   margin: 0.2rem 0 0.5rem 0rem;
-  width: 20rem;
+  width: max-content;
+}
+@media screen and (min-width: 800px) {
+  .csp-videos .playlist-btn .edit-btn:after {
+    content: '  Edit Playlist'
+  }
 }
 .csp-videos .playlist-btn .new-btn {
-  width: 100%;
+  width: max-content;
   margin: 0.2rem 0.5rem 0.5rem 0.5rem;
 }
 .novideo-wrapper {
@@ -133,7 +133,7 @@
 }
 
 .csp-videos .vlist .video-card .info .title {
-  color: rgb(63, 139, 133);
+  color: rgb(102, 102, 102);
   font-size: 1.2rem;
   cursor: pointer;
   /* text-decoration: underline; */
@@ -141,9 +141,6 @@
   overflow: hidden;
   white-space: nowrap; 
   text-overflow: ellipsis;}
-  .csp-videos .vlist .video-card .info .youtube, .csp-videos .vlist .video-card .info .echo360 {
-    color: rgb(102, 102, 102);
-  }
   .csp-videos .vlist .video-card .info .title:hover {
     text-decoration: underline;
     color: rgb(85, 85, 85);}

@@ -32,7 +32,7 @@
   "initialPlaylist": {
     "name": "",
     "offeringId": "",
-    "sourceType": "Uploaded",
+    "sourceType": 2,
     "playlistIdentifier": ""
   },
   "initialVideo": {

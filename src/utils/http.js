@@ -223,6 +223,9 @@ export const api = {
   postOfferingAddInstructors: function (offeringId, data) {
     return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
   },
+  createPlaylist: function(data, callBack) {
+    return this.postData('Playlists', data, callBack)
+  },
   /**
    * PUT
    * callBack = responce => {...}
@@ -233,6 +236,9 @@ export const api = {
         .then(responce => callBack(responce))
     else 
       return http.put(`${path}/${data.id}`, data, this.withAuth())
+  },
+  updatePlaylist: function(data, callBack) {
+    return this.updateData('Playlists', data, callBack)
   },
   /**
    * DELETE
@@ -250,6 +256,9 @@ export const api = {
   },
   deleteUserFromOffering: function(offeringId, userId) {
     return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  },
+  deletePlaylist: function(playlistId, callBack) {
+    return this.deleteData('Playlists', playlistId, callBack)
   }
 
 }

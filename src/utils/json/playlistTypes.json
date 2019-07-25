@@ -1,17 +1,17 @@
 [
   {
-    "name": "Video Files", 
-    "id": "Uploaded", 
+    "name": "Echo360", 
+    "id": 0, 
     "num": 0
   },
   {
     "name": "YouTube", 
-    "id": "YouTube", 
+    "id": 1, 
     "num": 1
   },
   {
-    "name": "Echo360", 
-    "id": "Echo360", 
+    "name": "Upload", 
+    "id": 2, 
     "num": 2
   }
 ]
