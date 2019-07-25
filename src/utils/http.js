@@ -18,6 +18,13 @@ export const api = {
   initialData: require('./json/initialData.json'),
   offeringAccessType: require('./json/offeringAccessTypes.json'),
   playlistTypes: require('./json/playlistTypes.json'),
+  withAuth: function (path) {
+    return {
+      headers: {
+        authToken: this.b2cToken()
+      }
+    }
+  },
 
   /**
    * Function called when all the requests executed
@@ -57,7 +64,7 @@ export const api = {
    */
   getData: function (path, id) {
     path = id ? `${path}/${id}` : path
-    return http.get(path)
+    return http.get(path, this.withAuth())
   },
   /**
    * GET an array of pathes
@@ -186,10 +193,10 @@ export const api = {
    */
   postData: function (path, data, callBack) {
     if (callBack) 
-      return http.post(path, data)
+      return http.post(path, data, this.withAuth())
         .then(responce => callBack(responce))
     else 
-      return http.post(path, data)
+      return http.post(path, data, this.withAuth())
   },
   postToCourseOfferings: function (data) {
     return this.postData('CourseOfferings', data)
@@ -203,10 +210,10 @@ export const api = {
    */
   updateData: function (path, data, callBack) {
     if (callBack) 
-      return http.put(`${path}/${data.id}`, data)
+      return http.put(`${path}/${data.id}`, data, this.withAuth())
         .then(responce => callBack(responce))
     else 
-      return http.put(`${path}/${data.id}`, data)
+      return http.put(`${path}/${data.id}`, data, this.withAuth())
   },
   /**
    * DELETE
@@ -214,10 +221,10 @@ export const api = {
    */
   deleteData: function (path, id, callBack) {
     if (callBack)
-      return http.delete(`${path}/${id}`)
+      return http.delete(`${path}/${id}`, this.withAuth())
         .then(responce => callBack(responce))
     else 
-      return http.delete(`${path}/${id}`)
+      return http.delete(`${path}/${id}`, this.withAuth())
   },
   deleteFromCourseOfferings: function (courseId, offeringId) {
     return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
