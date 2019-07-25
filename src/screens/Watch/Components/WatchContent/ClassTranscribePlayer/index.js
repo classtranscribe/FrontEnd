@@ -10,7 +10,7 @@ import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
 import { api } from 'utils'
-import { staticVJSOptions, keyDownPlugin, getControlPlugin } from './CTPlayerUtils'
+import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
 export default class ClassTranscribePlayer extends React.Component {
@@ -23,15 +23,17 @@ export default class ClassTranscribePlayer extends React.Component {
     /**
      * Register videojs after the media is loaded
      */
+    const demoPath = 'https://sysprog.ncsa.illinois.edu:4443/Data/temp486a182e-39b7-4099-aacf-86e68e17d477_mrb.mp4'
     if (prevProps.media !== media) {
-      const { videos } = media
-      const srcPath = api.getMediaFullPath(videos[0].video1.path)
+      const currVideo = media.videos[0]
+      const srcPath1 = api.getMediaFullPath(currVideo.video1.path)
+      const srcPath2 = currVideo.video2 ? api.getMediaFullPath(currVideo.video2.path) : demoPath
       const videoJsOptions = {
         ...staticVJSOptions,
         controls: primary, // only the primary video player has the controls
-        muted: !video1,    // only the primary player has the audio
+        muted: !primary,    // only the primary player has the audio
         sources: [{               
-          src: video1 ? srcPath : 'https://sysprog.ncsa.illinois.edu:4443/Data/temp486a182e-39b7-4099-aacf-86e68e17d477_mrb.mp4',
+          src: video1 ? srcPath1 : srcPath2,
           type: 'video/mp4'       // test the two video mode, should be removed in the future
         }],
         poster: tempPoster,
@@ -67,6 +69,11 @@ export default class ClassTranscribePlayer extends React.Component {
           // Remove it from the curr secondary one
           if (currTrack.length && !primary) currTrack[0].mode = 'disabled'
         }
+        /**
+         * Switch the audio controls
+         */
+        if (primary) this.player.muted(false)
+        else this.player.muted(true)
       }
       /**
        * If it is the secondary player, sync with the primary one...
@@ -113,7 +120,13 @@ export default class ClassTranscribePlayer extends React.Component {
           <div data-vjs-player>
             <video ref={ node => this.videoNode = node } className="video-js">
               {transcriptions.map( trans => 
-                  <track kind="captions" src={api.baseUrl()+trans.file.path} key={trans.id} srclang="en" label="English" />
+                  <track 
+                    key={trans.id}
+                    kind="captions" 
+                    label={captionLangMap[trans.language]}
+                    srclang={trans.language} 
+                    src={api.baseUrl()+trans.file.path} 
+                  />
               )}
             </video>
           </div>          

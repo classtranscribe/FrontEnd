@@ -24,7 +24,7 @@
 }
 
 /* Moble stylesheet */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .watch-content .player-container {
     padding-left: 0;
   }

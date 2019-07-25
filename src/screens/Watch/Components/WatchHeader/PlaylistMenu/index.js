@@ -17,6 +17,7 @@ const menuStyle = {
 }
 
 export default function PlaylistMenu({ media, playlist, courseNumber }) {
+  return <></>
   const [anchorEl, setAnchorEl] = useState(null)
   const [playlists, setPlaylists] = useState([])
   const [selectedPlaylist, setSelectedPlaylist] = useState(emptyPlaylist)

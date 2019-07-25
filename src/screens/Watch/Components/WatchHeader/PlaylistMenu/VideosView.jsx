@@ -24,6 +24,7 @@ export default function VideosView({ medias, currMedia, courseNumber, selectedPl
 
 function VideoItem({ media, currMedia, courseNumber }) {
   const { jsonMetadata, id } = media
+  const title = jsonMetadata ? jsonMetadata.title : ''
   return (
     <MenuItem 
       className="pl-item" 
@@ -32,7 +33,7 @@ function VideoItem({ media, currMedia, courseNumber }) {
       href={util.links.watch(courseNumber, id)}
     >
       <i class="material-icons">video_library</i>
-      &ensp;{jsonMetadata.title}
+      &ensp;{title}
     </MenuItem>
   )
 }

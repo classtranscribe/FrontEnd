@@ -340,15 +340,18 @@
 
 /*********/
 .vjs-text-track-settings fieldset span > select, .vjs-track-setting > select {
-  color: rgb(238, 238, 238);
+  color: rgb(245, 245, 245);
+  font-weight: bold;
   font-size: 1rem;
-  background-color:rgb(37, 37, 37);
+  background-color:rgb(28, 116, 116);
   border: none;
   width: 100%;
+  outline: none;
 }
 .vjs-text-track-settings legend {
   font-size: 1rem;
-  font-weight: 550;
+  color: #c3dddd;
+  font-weight: bolder;
 }
 .vjs-modal-dialog.vjs-text-track-settings {
   height: 100%;
@@ -361,7 +364,10 @@
   width: 8rem;
   color: #ffffff;
   background: #009092 !important;
+  border-radius: .5em;
+  padding: .3em;
 }
-.video-js .vjs-track-settings-controls button:hover {
+.video-js .vjs-track-settings-controls button:hover, .video-js .vjs-track-settings-controls button:focus {
   background: #257274 !important;
+  outline: none;
 }

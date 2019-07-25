@@ -23,7 +23,7 @@
 .ct-player .primary[id=normal-mode] {
   width: 55em;
   max-width: 94vw;}
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 650px) {
     .ct-player .primary[id=normal-mode] {
       max-width: 100vw;
     }
@@ -46,7 +46,7 @@
   margin-left: 1vw;}
   
 /* Equal and ps mode in moblie size */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .ct-player .primary[id=ps-mode], .ct-player .primary[id=equal-mode] {
     width: 100vw;}
   .ct-player .secondary[id=ps-mode], .ct-player .secondary[id=equal-mode] {
@@ -62,7 +62,7 @@
   margin-left: 18vw;
   width: 60em;
   max-width: 80vw;}
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 650px) {
     .ct-player .primary[id=nested-mode] {
       max-width: 100vw;
       margin-left: 0;
@@ -82,7 +82,7 @@
       top: 4.6em;
       top: 4.5em;
       width: 10em;}}
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 650px) {
     .ct-player .secondary[id=nested-mode] {
       top: 4.7em;
       left: .2em;

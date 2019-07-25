@@ -9,10 +9,10 @@ import ClassTranscribePlayer from './ClassTranscribePlayer'
 import SubHeader from './SubHeader'
 import './index.css'
 // Vars
-import { NORMAL_MODE, /* EQUAL_MODE, PS_MODE, NESTED_MODE */ } from './constants'
+import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
 
 
-export function WatchContent({ media, playlist, courseNumber }) {
+export function WatchContent({ media, playlist, courseNumber, isTwoScreen }) {
   /** The state for switch primary-secondary screens used as a className */
   const [orderClassName, setOrderClassName] = useState('') // '' or 'switch-player' only
   /** True if the first player is the primary player */
@@ -24,7 +24,7 @@ export function WatchContent({ media, playlist, courseNumber }) {
    * Change the mode based on the # of videos
    */
   useEffect(() => {
-    console.log(media) 
+    console.log('media', media) 
   }, [media])
 
   /**
@@ -34,6 +34,13 @@ export function WatchContent({ media, playlist, courseNumber }) {
     const name = primary ? '' : 'switch-player'
     setOrderClassName(() => name)
   }, [primary])
+
+  /**
+   * Set mode to PS_MODE if is two-screen
+   */
+  useEffect(() => {
+    if (isTwoScreen) setMode(() => PS_MODE)
+  }, [isTwoScreen])
 
   /** Values for synchronizing two players */
   const [play, setPlay] = useState(false)

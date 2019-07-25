@@ -10,9 +10,9 @@ import './index.css'
 
 export function VideoSettingBar({propsForSettingBar, propsForUpNext}) {
   /** Listen on resizing of window to decide showing or hiding the text */
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 600 ? true : false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 650 ? true : false)
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 600) setIsMobile(() => false)
+    if (window.innerWidth > 650) setIsMobile(() => false)
     else setIsMobile(() => true)
   })
 

@@ -28,7 +28,7 @@
     font-size: 1.3rem;
   }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .subheader-container {
     padding: .5em .5em 0 .5em;
   }
