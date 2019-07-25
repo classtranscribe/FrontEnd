@@ -1,5 +1,6 @@
 import axios from 'axios'
 import authentication from 'react-azure-adb2c'
+const monthMap = require('./json/monthNames.json')
 
 /**
  * Set up http
@@ -185,6 +186,24 @@ export const api = {
     })
     name = name.slice(0, name.length - 1)
     return name
+  },
+  parseMedia: function(media) {
+    let re = { id: '', mediaName: '', createdAt: '', isTwoScreen: false, videos: [], transcriptions: [] }
+    const { id, jsonMetadata, sourceType, videos, transcriptions } = media
+    if (!id || !jsonMetadata || !videos) return re
+    re.id = id
+    re.videos = videos
+    re.createdAt = jsonMetadata.createdAt
+    re.transcriptions = transcriptions
+    re.isTwoScreen = videos[0].video2 !== null
+    if (sourceType === 1) { // youtube
+      re.mediaName = jsonMetadata.title
+    } else if (sourceType === 0) { // echo360
+      let { lessonName, createdAt } = jsonMetadata
+      let date = new Date(createdAt)
+      re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+    }
+    return re
   },
 
   /**

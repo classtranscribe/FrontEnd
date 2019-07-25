@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react'
 import { Icon } from 'semantic-ui-react'
 import { VideoSettingBar } from './VideoSettingBar'
 import './index.css'
+import { api } from 'utils';
 
 export default function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
   const [mediaName, setMediaName] = useState('')
@@ -24,7 +25,8 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
   /** If media is set */
   useEffect(() => {
     if (media.jsonMetadata) {
-      setMediaName(() => media.jsonMetadata.title)
+      const { mediaName } = api.parseMedia(media)
+      setMediaName(() => mediaName)
     }
   }, [media])
 

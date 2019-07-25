@@ -8,7 +8,7 @@ import $ from 'jquery'
 import { IconButton, MenuItem, Menu } from '@material-ui/core'
 import { Card } from 'react-bootstrap'
 // Vars
-import { util } from 'utils'
+import { util, api } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
 const menuStyle = {
@@ -18,7 +18,7 @@ const menuStyle = {
   height: '15rem'
 }
 
-export default function UpNext({ media, mediaName, playlistName, medias, courseNumber, isMobile }) {
+export default function UpNext({ media, playlistName, medias, courseNumber, isMobile }) {
   const [anchorEl, setAnchorEl] = useState(null)
 
   /** Function for helping switch focusing card, starting from the current video */
@@ -83,27 +83,34 @@ export default function UpNext({ media, mediaName, playlistName, medias, courseN
 
         <div className="videos" id="upnext-videos">
           {medias.map( media2 => (
-            <Card 
-              className="vcard" 
-              id={media2.media.id}
-              key={media2.media.id} 
-              title={media2.media.jsonMetadata.title}
-              aria-label={media2.media.jsonMetadata.title}
-              as="a" href={util.links.watch(courseNumber, media2.media.id)}
-            >
-              <Card.Img 
-                className="img" variant="top" 
-                src={imgHolder} style={{pointerEvents: 'none'}}
-              />
-              <Card.Body style={{margin: 'none'}}>
-                <Card.Title className="title">
-                  {media2.media.jsonMetadata.title}
-                </Card.Title>
-              </Card.Body>
-            </Card>
+            <VideoCard media={media2.media} courseNumber={courseNumber} />
           ))}
         </div>
       </Menu>
     </div>
+  )
+}
+
+function VideoCard({media, courseNumber}) {
+  const { id, mediaName } = api.parseMedia(media)
+  return (
+    <Card 
+      className="vcard" 
+      id={id}
+      key={id} 
+      title={mediaName}
+      aria-label={mediaName}
+      as="a" href={util.links.watch(courseNumber, id)}
+    >
+      <Card.Img 
+        className="img" variant="top" 
+        src={imgHolder} style={{pointerEvents: 'none'}}
+      />
+      <Card.Body style={{margin: 'none'}}>
+        <Card.Title className="title">
+          {mediaName}
+        </Card.Title>
+      </Card.Body>
+    </Card>
   )
 }

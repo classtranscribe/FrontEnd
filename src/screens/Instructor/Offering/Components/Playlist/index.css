@@ -43,13 +43,10 @@
   color: #4e9292;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.pl-info-header .youtube {
+.pl-info-header .youtube, .pl-info-header .echo360 {
   color: rgb(97, 92, 92);
 }
 
-.pl-info-header .echo360 {
-  color: #4c95be;
-}
 
 .csp-videos .playlist-btn {
   width: 100%;
@@ -144,11 +141,8 @@
   overflow: hidden;
   white-space: nowrap; 
   text-overflow: ellipsis;}
-  .csp-videos .vlist .video-card .info .youtube {
+  .csp-videos .vlist .video-card .info .youtube, .csp-videos .vlist .video-card .info .echo360 {
     color: rgb(102, 102, 102);
-  }
-  .csp-videos .vlist .video-card .info .echo360 {
-    color: #4c95be;
   }
   .csp-videos .vlist .video-card .info .title:hover {
     text-decoration: underline;

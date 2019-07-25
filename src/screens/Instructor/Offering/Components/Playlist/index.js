@@ -60,8 +60,7 @@ export function Playlist({ match }) {
  */
 function Video({media, sourceType, courseNumber}) {
   const className = sourceType === 1 ? 'youtube' : sourceType === 2 ? 'echo360' : ''
-  const { id, jsonMetadata } = media
-  const videoName = jsonMetadata.title
+  const { mediaName, id } = api.parseMedia(media)
   return (
     <List.Item className="video-card">
       <EditVideoBtn show={sourceType === 0} {...media}/>
@@ -70,17 +69,17 @@ function Video({media, sourceType, courseNumber}) {
           alt="Video Poster"
           className="poster" 
           src={profileImg}
-          aria-label={`see video ${videoName}`}
-          title={`see video ${videoName}`}
+          aria-label={`see video ${mediaName}`}
+          title={`see video ${mediaName}`}
         />
         <List.Content>
           <div className="info">
             <p 
               className={`title ${className}`} 
-              aria-label={`see video ${videoName}`}
-              title={`see video ${videoName}`}
+              aria-label={`see video ${mediaName}`}
+              title={`see video ${mediaName}`}
             >
-              {videoName} 
+              {mediaName} 
             </p>
             {/* <p className="text-muted">0:5:35</p> */}
           </div>
