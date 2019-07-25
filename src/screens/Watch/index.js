@@ -10,9 +10,8 @@ export class Watch extends React.Component {
     this.courseNumber = this.props.match.params.courseNumber
     this.state = { 
       showPlaylist: false,
-      media: {},
+      media: api.parseMedia(),
       playlist: {},
-      isTwoScreen: false,
     }
   }
 
@@ -23,10 +22,7 @@ export class Watch extends React.Component {
     api.getMediaById(this.id)
       .then( ({data}) => {
         console.log('media', data)
-        this.setState({ 
-          media: data,
-          isTwoScreen: data.videos[0].video2 !== null
-        })
+        this.setState({ media: api.parseMedia(data) })
         api.getPlaylistById(data.playlistId)
           .then(({data}) => {
             console.log('playlist', data)
@@ -41,7 +37,7 @@ export class Watch extends React.Component {
   }  
 
   render() { 
-    const { media, playlist, isTwoScreen } = this.state
+    const { media, playlist } = this.state
     const { courseNumber } = this
     return (
       <main className="watch-bg">
@@ -53,7 +49,6 @@ export class Watch extends React.Component {
         <WatchContent 
           media={media} 
           playlist={playlist} 
-          isTwoScreen={isTwoScreen}
           courseNumber={courseNumber} 
         />
       </main>

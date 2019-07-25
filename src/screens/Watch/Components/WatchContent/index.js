@@ -12,7 +12,7 @@ import './index.css'
 import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
 
 
-export function WatchContent({ media, playlist, courseNumber, isTwoScreen }) {
+export function WatchContent({ media, playlist, courseNumber }) {
   /** The state for switch primary-secondary screens used as a className */
   const [orderClassName, setOrderClassName] = useState('') // '' or 'switch-player' only
   /** True if the first player is the primary player */
@@ -39,8 +39,8 @@ export function WatchContent({ media, playlist, courseNumber, isTwoScreen }) {
    * Set mode to PS_MODE if is two-screen
    */
   useEffect(() => {
-    if (isTwoScreen) setMode(() => PS_MODE)
-  }, [isTwoScreen])
+    if (media.isTwoScreen) setMode(() => PS_MODE)
+  }, [media])
 
   /** Values for synchronizing two players */
   const [play, setPlay] = useState(false)
@@ -67,7 +67,7 @@ export function WatchContent({ media, playlist, courseNumber, isTwoScreen }) {
   const propsForSettingBar = {
     ...handleFunctions,
     mode: mode,
-    show: true,
+    show: media.isTwoScreen,
   }
 
   return (

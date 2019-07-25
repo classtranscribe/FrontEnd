@@ -188,7 +188,15 @@ export const api = {
     return name
   },
   parseMedia: function(media) {
-    let re = { id: '', mediaName: '', createdAt: '', isTwoScreen: false, videos: [], transcriptions: [] }
+    let re = { 
+      id: '', 
+      mediaName: '', 
+      createdAt: '', 
+      isTwoScreen: false, 
+      videos: [], 
+      transcriptions: [] 
+    }
+    if (!media) return re
     const { id, jsonMetadata, sourceType, videos, transcriptions } = media
     if (!id || !jsonMetadata || !videos) return re
     re.id = id

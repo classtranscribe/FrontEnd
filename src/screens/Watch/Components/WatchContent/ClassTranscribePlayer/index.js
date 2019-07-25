@@ -27,7 +27,7 @@ export default class ClassTranscribePlayer extends React.Component {
     if (prevProps.media !== media) {
       const currVideo = media.videos[0]
       const srcPath1 = api.getMediaFullPath(currVideo.video1.path)
-      const srcPath2 = currVideo.video2 ? api.getMediaFullPath(currVideo.video2.path) : demoPath
+      const srcPath2 = media.isTwoScreen ? api.getMediaFullPath(currVideo.video2.path) : null
       const videoJsOptions = {
         ...staticVJSOptions,
         controls: primary, // only the primary video player has the controls

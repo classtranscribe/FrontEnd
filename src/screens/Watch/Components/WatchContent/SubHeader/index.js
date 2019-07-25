@@ -10,7 +10,6 @@ import './index.css'
 import { api } from 'utils';
 
 export default function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
-  const [mediaName, setMediaName] = useState('')
   const [playlistName, setPlaylistName] = useState('')
   const [medias, setMedias] = useState([])
 
@@ -22,18 +21,9 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
     }
   }, [playlist])
 
-  /** If media is set */
-  useEffect(() => {
-    if (media.jsonMetadata) {
-      const { mediaName } = api.parseMedia(media)
-      setMediaName(() => mediaName)
-    }
-  }, [media])
-
   // Variables for Up Next
   const propsForUpNext = {
     media: media,
-    mediaName: mediaName,
     playlistName: playlistName,
     medias: medias,
     courseNumber: courseNumber,
@@ -49,7 +39,7 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
             <span>{courseNumber.replace('-', '/')}</span>
             &ensp;{playlistName}
           </strong><br/>
-          <Icon name="play" />&ensp;{mediaName}
+          <Icon name="play" />&ensp;{media.mediaName}
         </p>
 
         <VideoSettingBar 
