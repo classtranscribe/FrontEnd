@@ -38,6 +38,7 @@
   background-color: #508d8d;
   border-radius: .5rem;
   padding: .5em 1em !important;
+  margin-bottom: 1em;
 }
 .offering-detail .playlists .playlist .pl-header {
   cursor: pointer;
@@ -45,12 +46,12 @@
   color: rgb(255, 255, 255) !important;
 }
 .pl-header:hover>h4, .pl-header:focus>h4 {
-  color: rgb(255, 255, 255);
-  text-decoration: underline;
+  color: rgb(209, 226, 228);
+  /* text-decoration: underline; */
 }
 .offering-detail .playlists .playlist .pl-header h4 {
   /* color: inherit; */
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 .offering-detail .playlists .playlist .pl-header p {
   color: rgb(226, 225, 225);
