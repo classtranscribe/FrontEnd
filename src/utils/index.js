@@ -41,7 +41,7 @@ export const util = {
 
     instructor: () => '/instructor',
     newOffering: id => `/instructor/offering-setting/new=${id}`,
-    editOffering: id => `/offering/offering-setting/id=${id}`,
+    editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
 
     offering: id => `/offering/${id}`,
     offeringData: offeringId => `/offering/${offeringId}/data`,

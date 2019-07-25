@@ -72,8 +72,8 @@ export class InstructorOffering extends React.Component {
     api.getPlaylistsByOfferingId(this.id)
       .then( ({data}) => {
         this.setState({ playlists: data })
-        console.log(data)
-      } )
+        console.log('playlists', data)
+      })
   }
 
   /**
@@ -82,7 +82,8 @@ export class InstructorOffering extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.playlists !== this.state.playlists || prevState.courseOffering !== this.state.courseOffering) {
       const { props, id, state } = this
-      if (state.playlists.length && state.courseOffering.courses.length) 
+      const isExactOfferingPage = window.location.pathname === `/offering/${id}`
+      if (state.playlists.length && state.courseOffering.courses.length && isExactOfferingPage) 
         props.history.push(util.links.offeringPlaylist(
           id, api.getFullNumber(state.courseOffering.courses, '-'), 
           state.playlists[0].id
@@ -120,7 +121,7 @@ export class InstructorOffering extends React.Component {
         />
 
         {/* Sub-Routes to editing pages for playlist & video */}
-        <Route path='/offering/offering-setting/:type?=:id' component={OfferingSettingPage} />
+        <Route path={`/offering/${this.id}/offering-setting/:type?=:id`} component={OfferingSettingPage} />
         <Route path='/offering/playlist-setting/:type?=:id' component={PlaylistEditing} />
         <Route path='/offering/video-setting/:id' component={VideoEditing} />
         <Route path='/offering/upload/:id' component={VideoEditing} />
