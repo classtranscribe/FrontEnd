@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Accordion } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
-import { util } from 'utils'
+import { util, api } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
 
@@ -55,7 +55,7 @@ function Playlist({playlist, index, activeIndex, setActiveIndex, fullNumber}) {
 }
 
 function Video({media, fullNumber}) {
-  const { jsonMetadata, id } = media
+  const { mediaName, id } = api.parseMedia(media)
   const courseNumber = fullNumber.replace('/', '-')
   return (
     <Card className="video" key={id} as={Link} to={util.links.watch(courseNumber, id)}>
@@ -64,7 +64,7 @@ function Video({media, fullNumber}) {
         src={imgHolder} style={{pointerEvents: 'none'}}
         alt="poster"
       />
-      <Card.Title className="title">{jsonMetadata.title}</Card.Title>
+      <Card.Title className="title">{mediaName}</Card.Title>
     </Card>
   )
 }
