@@ -4,7 +4,7 @@ import { IconButton, Menu } from '@material-ui/core'
 import { CSSTransition } from 'react-transition-group'
 import PlaylistsView from './PlaylistView'
 import VideosView from './VideosView'
-import './transition.css'
+import './menuTransition.css'
 import './index.css'
 // Vars
 import { api } from 'utils'
@@ -13,11 +13,11 @@ const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
   width: '25em',
-  height: '90%'
+  height: '700px',
 }
 
 export default function PlaylistMenu({ media, playlist, courseNumber }) {
-  return <></>
+  // return <></>
   const [anchorEl, setAnchorEl] = useState(null)
   const [playlists, setPlaylists] = useState([])
   const [selectedPlaylist, setSelectedPlaylist] = useState(emptyPlaylist)
@@ -39,20 +39,29 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
 
   const backToPlaylists = () => {
     setSelectedPlaylist(() => emptyPlaylist)
-    setTimeout(() => {
-      const currMediaEle = document.getElementById(media.id)
-      if (currMediaEle) currMediaEle.scrollIntoView({ behavior: "smooth", block: "center" })
-    }, 200);
   }
 
-  const goToPlaylist = playlist => {
-    setSelectedPlaylist(() => playlist)
-    if (playlist.medias) setMedias(() => playlist.medias)
+  const goToPlaylist = currPlaylist => {
+    setSelectedPlaylist(() => currPlaylist)
+    if (currPlaylist.medias) setMedias(() => currPlaylist.medias)
+    setTimeout(() => {
+      const currMediaEle = document.getElementById(media.id)
+      if (currMediaEle) {
+        currMediaEle.scrollIntoView({ block: "center" })
+        currMediaEle.focus()
+      }
+    }, 200)
   }
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
-    // scrollToCurrVideo()
+    setTimeout(() => {
+      const currMediaEle = document.getElementById(media.id)
+      if (currMediaEle) {
+        currMediaEle.scrollIntoView({ block: "center" })
+        currMediaEle.focus()
+      }
+    }, 200)
   }
 
   function handleClose() {
@@ -81,7 +90,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
         className="playlist-menu"
         PaperProps={{style: menuStyle}}
       >
-        <CSSTransition in={!Boolean(selectedPlaylist.id)} classNames="playlist-view" timeout={200}>
+        <CSSTransition in={selectedPlaylist.id === ''} unmountOnExit classNames="playlist-view" timeout={100}>
           <PlaylistsView 
             playlists={playlists} 
             courseNumber={courseNumber} 
@@ -89,7 +98,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
             goToPlaylist={goToPlaylist}
           />
         </CSSTransition>
-        <CSSTransition in={Boolean(selectedPlaylist.id)} classNames="video-view" timeout={200}>
+        <CSSTransition in={selectedPlaylist.id} unmountOnExit classNames="video-view" timeout={100}>
           <VideosView 
             medias={medias} 
             currMedia={media} 

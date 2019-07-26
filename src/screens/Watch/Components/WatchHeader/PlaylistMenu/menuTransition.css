@@ -1,0 +1,38 @@
+.playlist-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+.playlist-view-enter {
+  opacity: 0;
+  transform: translateX(-25em);
+}
+.playlist-view-enter-active {
+  opacity: 1;
+  transform: translateX(0em);
+  transition: opacity 0.1s linear, transform 0.1s linear;
+}
+.playlist-view-exit {
+  opacity: 0;
+}
+.playlist-view-exit-active {
+  opacity: 0;
+  transition: opacity 0.1s linear, transform 0.1s linear;
+}
+
+.video-view-enter {
+  opacity: 0;
+  transform: translateX(20em);
+}
+.video-view-enter-active {
+  opacity: 1;
+  transform: translateX(0em);
+  transition: opacity 0.1s linear, transform 0.1s linear;
+}
+.video-view-exit {
+  opacity: 0;
+}
+.video-view-exit-active {
+  opacity: 0;
+}

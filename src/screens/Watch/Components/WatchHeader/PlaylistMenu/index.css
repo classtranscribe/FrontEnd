@@ -25,12 +25,52 @@
   font-weight: bolder;
   font-size: 1.3rem;
 }
-.playlist-menu .pl-item {
+.playlist-menu .header h5 {
+  padding: 0;
+  margin-top: .9em;
+  color: rgb(127, 204, 198);
+  font-weight: bolder;
+  font-size: 1.2rem;
+  margin-bottom: 1em;
+}
+.playlist-menu .pl-item span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 25em;
-  color: rgb(206, 206, 206);
+  width: 18.5em;
+  color: rgb(235, 235, 235);
   /* font-weight: bolder; */
   font-size: 1.1rem;
+}
+.playlist-menu .Mui-selected {
+  background: rgb(27, 114, 109) !important;
+}
+.playlist-menu .pl-item i {
+  color: rgb(155, 204, 204);
+}
+.playlist-menu .r-icon {
+  position: absolute;
+  right: 1em;
+}
+.video-view {
+  height: 700px;
+  position: absolute;
+  top: 0;
+}
+.video-view .header {
+  position: absolute;
+  background: #354242;
+  width: 100%;
+  z-index: 1;
+  border-bottom: solid 1px rgb(92, 92, 92);
+  transition: background .2s linear;
+}
+.video-view .header:hover {
+  background: #3d3d3d;
+}
+.video-view .video-list {
+  padding: 5em 0;
+  height: 100%;
+  position: relative;
+  overflow-y: scroll;
 }
