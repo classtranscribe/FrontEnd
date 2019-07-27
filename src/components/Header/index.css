@@ -68,8 +68,7 @@
       outline: none;
       background-color: #d5dedf;
     }
-
-    
+ 
 
 /* dark mode */
 .dark {
@@ -98,3 +97,22 @@
   .dark i.circular.icon {
     box-shadow: 0 0 0 0.1em rgba(133, 133, 133, 0.952) inset !important;
   }
+  .dark .profile-menu .trigger:hover {
+    background: none !important;
+    color: rgb(230, 230, 230)}
+
+
+.profile-menu .trigger {
+  transition: color .2s linear, background .2s linear;
+  color: inherit;
+  outline: none;
+  padding: 0;
+  height: 2em;
+  font-size: 1em;
+  border-radius: .6em !important;}
+  .profile-menu .trigger:hover {
+    background: none !important;
+    color: rgb(36, 187, 192)}
+.profile-menu .menu-item {
+  font-size: 1.2rem !important;
+}

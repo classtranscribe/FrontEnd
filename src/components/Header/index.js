@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Row, Navbar } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
-import ProfileBtn from './ProfileBtn'
+import ProfileMenu from './ProfileMenu'
 import './index.css'
 import { user, util } from 'utils'
 
@@ -38,7 +38,7 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
       </Navbar.Brand>
       <Row className="signout">
         {children}
-        <ProfileBtn onSignOut={onSignOut} isWatchScreen={isWatchScreen} darkMode={darkMode}/>
+        <ProfileMenu onSignOut={onSignOut} isWatchScreen={isWatchScreen} darkMode={darkMode}/>
       </Row>
     </Navbar>
   )
