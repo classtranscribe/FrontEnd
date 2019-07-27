@@ -263,12 +263,17 @@
   background-color: transparent;
   color: #000000a2;
   cursor: pointer;
-  font-size: 10vw;
+  font-size: 10em;
   border-radius: 50%;
   transition:  color 0.2s linear !important;
   height: 2em !important;
   line-height: 2em !important;
   margin-top: -1em !important
+}
+@media screen and (max-width: 600px) {
+  .video-js .vjs-big-play-button {
+    font-size: 7em;
+  }
 }
 
 .video-js:hover .vjs-big-play-button,.video-js .vjs-big-play-button:focus,.video-js .vjs-big-play-button:active {
