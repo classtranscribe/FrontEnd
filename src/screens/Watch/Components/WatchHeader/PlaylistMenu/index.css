@@ -2,7 +2,7 @@
   transition: color .2s linear, background .2s linear;
   color: inherit;
   outline: none;
-  height: 2em;
+  height: 3em;
   border-radius: .6em !important;
   margin-right: .5em !important;}
   .playlist-menu .trigger span {
@@ -28,7 +28,7 @@
 .playlist-menu .header h5 {
   padding: 0;
   margin-top: .9em;
-  color: rgb(127, 204, 198);
+  color: rgb(236, 236, 236);
   font-weight: bolder;
   font-size: 1.2rem;
   margin-bottom: 1em;
@@ -56,21 +56,22 @@
   height: 700px;
   position: absolute;
   top: 0;
+  overflow: hidden;
 }
 .video-view .header {
   position: absolute;
-  background: #354242;
+  background: #3b3b3b;
   width: 100%;
   z-index: 1;
-  border-bottom: solid 1px rgb(92, 92, 92);
+  border-bottom: solid 3px rgba(51, 51, 51, 0.555);
   transition: background .2s linear;
 }
 .video-view .header:hover {
-  background: #3d3d3d;
+  background: #353535;
 }
 .video-view .video-list {
   padding: 5em 0;
-  height: 100%;
+  height: 97%;
   position: relative;
   overflow-y: scroll;
 }

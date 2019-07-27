@@ -41,7 +41,7 @@ function VideoItem({ media, currMedia, courseNumber }) {
       aria-action={`Watch video ${mediaName}`}
       onClick={() => window.location = util.links.watch(courseNumber, id)}
     >
-      <i class="material-icons">play_circle_filled</i>
+      <i class="material-icons">play_arrow</i>
       <span>&ensp;{mediaName}</span>
     </MenuItem>
   )

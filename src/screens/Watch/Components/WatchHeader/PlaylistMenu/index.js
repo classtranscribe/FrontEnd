@@ -50,7 +50,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
         currMediaEle.scrollIntoView({ block: "center" })
         currMediaEle.focus()
       }
-    }, 200)
+    }, 100)
   }
 
   function handleClick(event) {
@@ -61,7 +61,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
         currMediaEle.scrollIntoView({ block: "center" })
         currMediaEle.focus()
       }
-    }, 200)
+    }, 100)
   }
 
   function handleClose() {
