@@ -19,19 +19,18 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { primary, play, media, video1, currTime, playbackRate, trackSrc } = this.props
+    const { isPrimary, play, media, video1, currTime, playbackRate, trackSrc } = this.props
     /**
      * Register videojs after the media is loaded
      */
-    const demoPath = 'https://sysprog.ncsa.illinois.edu:4443/Data/temp486a182e-39b7-4099-aacf-86e68e17d477_mrb.mp4'
     if (prevProps.media !== media) {
       const currVideo = media.videos[0]
       const srcPath1 = api.getMediaFullPath(currVideo.video1.path)
       const srcPath2 = media.isTwoScreen ? api.getMediaFullPath(currVideo.video2.path) : null
       const videoJsOptions = {
         ...staticVJSOptions,
-        controls: primary, // only the primary video player has the controls
-        muted: !primary,    // only the primary player has the audio
+        controls: isPrimary, // only the isPrimary video player has the controls
+        muted: !isPrimary,    // only the isPrimary player has the audio
         sources: [{               
           src: video1 ? srcPath1 : srcPath2,
           type: 'video/mp4'       // test the two video mode, should be removed in the future
@@ -44,49 +43,52 @@ export default class ClassTranscribePlayer extends React.Component {
       videojs.registerPlugin('controlPlugin', controlPlugin) // plugin for mouse controls
       videojs.registerPlugin('keyDownPlugin', keyDownPlugin) // plugin for keyboard controls
 
-      this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {console.log('ready')})
+      this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
+        this.prevTime = 0
+        this.isPrimary = isPrimary
+      })
     }
 
     if (this.player) {
       /**
        * If Switching happened...
        */
-      if (prevProps.primary !== primary) { 
+      if (prevProps.isPrimary !== isPrimary) { 
         /**
-         * 1. Switch the controls to current primary player
+         * 1. Switch the controls to current isPrimary player
          */
-        this.player.controls(primary)
+        this.player.controls(isPrimary)
         /**
-         * 2. Switch transcription to the current primary player 
+         * 2. Switch transcription to the current isPrimary player 
          */
         if (trackSrc) {
           // Find the current showing transcription
           const currTrack = this.player.textTracks().tracks_.filter(track => track.src === trackSrc)
-          // Give it to the curr primary one
-          if (currTrack.length && primary) setTimeout(() => {
+          // Give it to the curr isPrimary one
+          if (currTrack.length && isPrimary) setTimeout(() => {
             currTrack[0].mode = 'showing'
           }, 300)
           // Remove it from the curr secondary one
-          if (currTrack.length && !primary) currTrack[0].mode = 'disabled'
+          if (currTrack.length && !isPrimary) currTrack[0].mode = 'disabled'
         }
         /**
          * Switch the audio controls
          */
-        if (primary) this.player.muted(false)
+        if (isPrimary) this.player.muted(false)
         else this.player.muted(true)
       }
       /**
-       * If it is the secondary player, sync with the primary one...
+       * If it is the secondary player, sync with the isPrimary one...
        */
-      if (!primary) {
-        if (prevProps.play !== play) { // if the 'play' changed in primary
+      if (!isPrimary) {
+        if (prevProps.play !== play) { // if the 'play' changed in isPrimary
           if (play) this.player.play()
           else this.player.pause()
         }
-        if (prevProps.currTime !== currTime) { // if the 'seeking' changed in primary
+        if (prevProps.currTime !== currTime) { // if the 'seeking' changed in isPrimary
           this.player.currentTime(currTime)
         }
-        if (prevProps.playbackRate !== playbackRate) { // if the 'playbackrate' changed in primary
+        if (prevProps.playbackRate !== playbackRate) { // if the 'playbackrate' changed in isPrimary
           this.player.playbackRate(playbackRate)
         }
       }
@@ -105,13 +107,13 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   render() {
-    const { primary, video1, switchToPrimary, switchToSecondary, media, mode } = this.props
-    const { transcriptions } = media
+    const { isPrimary, video1, switchToPrimary, switchToSecondary, media, mode } = this.props
+    const { transcriptions, isTwoScreen } = media
     if (!transcriptions) return null
     /**
      * Handle player switching
      */
-    var type = primary ? 'primary' : 'secondary'    
+    var type = isPrimary ? 'primary' : 'secondary'    
     const switchTrigger = video1 ? switchToPrimary : switchToSecondary
 
     return (
@@ -125,7 +127,7 @@ export default class ClassTranscribePlayer extends React.Component {
                     kind="captions" 
                     label={captionLangMap[trans.language]}
                     srclang={trans.language} 
-                    src={api.baseUrl()+trans.file.path} 
+                    src={trans.src} 
                   />
               )}
             </video>

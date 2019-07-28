@@ -7,7 +7,7 @@ const monthMap = require('./json/monthNames.json')
  */
 const http = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
-  timeout: 10000,
+  timeout: 100000,
 })
 
 
@@ -141,6 +141,9 @@ export const api = {
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
   },
+  getCaptionsByTranscriptionId: function(transId) {
+    return this.getData('Captions/ByTranscription', transId)
+  },
 
   completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
       // set id for future use
@@ -202,7 +205,7 @@ export const api = {
     re.id = id
     re.videos = videos
     re.createdAt = jsonMetadata.createdAt
-    re.transcriptions = transcriptions
+    // re.transcriptions = transcriptions
     re.isTwoScreen = videos[0].video2 !== null
     if (sourceType === 1) { // youtube
       re.mediaName = jsonMetadata.title
@@ -211,6 +214,14 @@ export const api = {
       let date = new Date(createdAt)
       re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
     }
+    transcriptions.forEach( trans => {
+      re.transcriptions.push({
+        mediaId: trans.mediaId,
+        id: trans.id,
+        language: trans.language,
+        src: this.getMediaFullPath(trans.file.path)
+      })
+    })
     return re
   },
 
