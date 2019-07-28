@@ -1,9 +1,13 @@
 import React from 'react'
 import { IconButton } from '@material-ui/core'
 
-export default function Captions({ captions }) {
+export default function Captions({ captions, setReadyToEdit }) {
   return (
-    <div className="captions">
+    <div 
+      className="captions" 
+      onMouseEnter={setReadyToEdit} 
+      onMouseLeave={setReadyToEdit}
+    >
       {captions.map( line => (
         <CaptionLine line={line} key={line.id} />
       ))}
@@ -33,10 +37,10 @@ function CaptionLine({ line }) {
       <div className="edit">
         <IconButton className="icon">
           <i className="material-icons">edit</i>
-        </IconButton> <span className="name">Edit</span>
+        </IconButton>
         <IconButton className="icon">
           <i className="material-icons">share</i>
-        </IconButton> <span className="name">Share</span>
+        </IconButton>
       </div>
     </div>
   )

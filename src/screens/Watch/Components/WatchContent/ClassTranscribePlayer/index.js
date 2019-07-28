@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import $ from 'jquery'
 import videojs from 'video.js'
 // UI
 import 'video.js/dist/video-js.css'
@@ -16,10 +17,12 @@ const tempPoster = require('images/tempPoster.png') // should be removed after h
 export default class ClassTranscribePlayer extends React.Component {
   constructor(props) {
     super(props)
+    this.prevTime = 0
+    this.lastSyncTime = 0
   }
 
   componentDidUpdate(prevProps) {
-    const { isPrimary, play, media, video1, currTime, playbackRate, trackSrc } = this.props
+    const { isPrimary, media, video1, playbackRate, trackSrc } = this.props
     /**
      * Register videojs after the media is loaded
      */
@@ -43,10 +46,7 @@ export default class ClassTranscribePlayer extends React.Component {
       videojs.registerPlugin('controlPlugin', controlPlugin) // plugin for mouse controls
       videojs.registerPlugin('keyDownPlugin', keyDownPlugin) // plugin for keyboard controls
 
-      this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
-        this.prevTime = 0
-        this.isPrimary = isPrimary
-      })
+      this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {})
     }
 
     if (this.player) {
@@ -81,13 +81,6 @@ export default class ClassTranscribePlayer extends React.Component {
        * If it is the secondary player, sync with the isPrimary one...
        */
       if (!isPrimary) {
-        if (prevProps.play !== play) { // if the 'play' changed in isPrimary
-          if (play) this.player.play()
-          else this.player.pause()
-        }
-        if (prevProps.currTime !== currTime) { // if the 'seeking' changed in isPrimary
-          this.player.currentTime(currTime)
-        }
         if (prevProps.playbackRate !== playbackRate) { // if the 'playbackrate' changed in isPrimary
           this.player.playbackRate(playbackRate)
         }
@@ -100,6 +93,71 @@ export default class ClassTranscribePlayer extends React.Component {
     if (this.player) {
       this.player.dispose()
     }
+  }
+
+  syncPlay = e => {
+    if (!this.props.media.isTwoScreen) return;
+    let a = $("video")
+    for (let i = 0; i < a.length; i++) {
+      if (e.target !== a[i]) a[i].play()
+    }
+  }
+  syncPause = e => {
+    if (!this.props.media.isTwoScreen) return;
+    let a = $("video")
+    for (let i = 0; i < a.length; i++) {
+      if (e.target !== a[i]) a[i].pause()
+    }
+  }
+
+  setCurrTime = e => {
+    if (!this.props.media.isTwoScreen) return;
+    console.log(e.target.currentTime)
+    let a = $("video")
+    for (let i = 0; i < a.length; i++) {
+      if (e.target !== a[i]) a[i].currentTime = e.target.currentTime
+    }
+  }
+
+  onTimeUpdate = e => {
+    if (!this.props.isPrimary) return;
+    let currTime = e.target.currentTime
+    // console.log(this.prevTime)
+    if (Math.abs(currTime - this.prevTime) > .5 ) {
+      this.props.setTimeUpdate(currTime)
+      this.prevTime = currTime
+    }
+    // if (Math.abs(currTime - this.lastSyncTime) > 10 ) {
+    //   this.props.setCurrTime(e)
+    //   this.lastSyncTime = currTime
+    // }
+  }
+
+  onPause = e => {
+    if (!this.props.isPrimary) return;
+    this.syncPause(e)
+  }
+
+  onPlay = e => {
+    if (!this.props.isPrimary) return;
+    this.syncPlay(e)
+  }
+
+  onSeeking = e => {
+    if (!this.props.isPrimary) return;
+    this.setCurrTime(e)
+  }
+
+  onSeeked = e => {
+    this.syncPlay(e)
+  }
+
+  onWaiting = e => {
+    this.syncPause(e)
+  }
+
+  onPlaying = e => {
+    this.syncPlay(e)
   }
 
   ref = player => {
@@ -120,7 +178,17 @@ export default class ClassTranscribePlayer extends React.Component {
       <div className="ct-player" id={mode}>
         <div className={type} onClick={switchTrigger} id={mode}>
           <div data-vjs-player>
-            <video ref={ node => this.videoNode = node } className="video-js">
+            <video 
+              ref={ node => this.videoNode = node } 
+              className="video-js" 
+              onTimeUpdate={this.onTimeUpdate}
+              onPause={this.onPause}
+              onPlay={this.onPlay}
+              onSeeking={this.onSeeking}
+              onSeeked={this.onSeeked}
+              onWaiting={this.onWaiting}
+              onPlaying={this.onPlaying}
+            >
               {transcriptions.map( trans => 
                 <track 
                   key={trans.id}

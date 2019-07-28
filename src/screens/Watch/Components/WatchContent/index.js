@@ -23,17 +23,16 @@ function timeStrToSec(str) {
 export class WatchContent extends React.Component {
   constructor(props) {
     super(props) 
+    this.lastCaptionIndex = 0
     this.state = {
       primary: true,
       mode: NORMAL_MODE,
 
-      play: false,
-      currTime: -1,
       playbackRate: -1,
       trackSrc: '',
-      timeUpdate: 0,
 
       captions: [],
+      readyToEdit: false,
     }
   }
 
@@ -60,33 +59,34 @@ export class WatchContent extends React.Component {
   switchToSecondary = () => this.setState({ primary: false })
 
   setMode = mode => this.setState({ mode })
+  setReadyToEdit = () => this.setState({ readyToEdit: !this.state.readyToEdit })
 
   findCurrLine = (time) => {
     const { captions } = this.state
+    if (!captions.length) return null
     for (let i = 0; i < captions.length; i++) {
       let line = captions[i]
       if (timeStrToSec(line.end) > time) return line
     }
-    return null
+    return captions[captions.length-1]
   }
+
   setTimeUpdate = time => {
     const currLine = this.findCurrLine(time)
+    if (!currLine) return;
+    if (this.lastCaptionIndex && this.lastCaptionIndex === currLine.index) return;
+    console.log(currLine.text)
     let prevTarget = $('.curr-line')
     prevTarget.removeClass('curr-line')
     let target = document.getElementById(`line-${currLine.index}`)
     if (target) {
-      target.parentNode.scrollTop = target.offsetTop - 60
+      this.lastCaptionIndex = currLine.index
       target.classList.add('curr-line')
+      if (this.state.readyToEdit) return;
+      target.parentNode.scrollTop = target.offsetTop - 60
     }
   }
 
-  syncPlay = () => this.setState({ play: true })
-  syncPause = () => this.setState({ play: false })
-
-  setCurrTime = currTime => {
-    this.setState({ currTime })
-    this.setTimeUpdate(currTime)
-  }
   setPlaybackRate = playbackRate => this.setState({ playbackRate })
   setTrackSrc = trackSrc => {
     this.setState({ trackSrc })
@@ -114,7 +114,7 @@ export class WatchContent extends React.Component {
           propsForSettingBar={propsForSettingBar}
         />
   
-        <div className={`player-container ${orderClassName}`}>
+        <div className={`player-container ${orderClassName}`} id={mode}>
           <div className="video-col">
             <ClassTranscribePlayer 
               {...this}
@@ -135,7 +135,10 @@ export class WatchContent extends React.Component {
           </div>
         </div>
   
-        <Transcription captions={captions} />
+        <Transcription 
+          captions={captions} 
+          setReadyToEdit={this.setReadyToEdit} 
+        />
       </div>
     )
   }  

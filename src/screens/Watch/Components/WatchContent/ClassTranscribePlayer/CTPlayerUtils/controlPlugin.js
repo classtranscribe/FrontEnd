@@ -4,33 +4,8 @@
  */
 
 export function getControlPlugin(syncFunctions) {
-  const { syncPlay, syncPause, setCurrTime, setTimeUpdate, setPlaybackRate, setTrackSrc } = syncFunctions
+  const { setPlaybackRate, setTrackSrc } = syncFunctions
   return function(options) {
-    this.on('play', function (e) {
-      syncPlay()
-      console.log('play')
-    })
-
-    this.on('pause', function (e) {
-      syncPause() 
-      console.log('pause')
-    })
-
-    this.on('timeupdate', function (e) {
-      if (!this.isPrimary) return;
-      let currTime = this.currentTime()
-      // console.log(this.prevTime)
-      if (Math.abs(currTime - this.prevTime) > .5 ) {
-        setTimeUpdate(currTime)
-        this.prevTime = currTime
-      }
-    })
-
-    this.on('seeking', function(e) {
-      setCurrTime(this.currentTime())
-      console.log('seek to', this.currentTime())
-    })
-
     this.on('ratechange', function (e) {
       setPlaybackRate(this.playbackRate())
       console.log('set rate to', this.playbackRate())
