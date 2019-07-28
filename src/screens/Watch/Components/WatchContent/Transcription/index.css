@@ -4,7 +4,7 @@
   overflow: hidden;
   background: rgb(95, 102, 101);
   margin: 1.5em 2%;
-  box-shadow: 0 0 .2em .2em rgb(60, 61, 61);
+  box-shadow: 0 0 .2em .2em rgb(62, 65, 65);
   border-radius: .5em .5em 0 0;}
 @media screen and (max-width: 650px) {
   .trans-container {
@@ -17,7 +17,7 @@
   height: 4em;
   width: 100%;
   /* border-bottom: solid 1px rgb(170, 179, 178); */
-  box-shadow: 0 0 .2em .1em rgba(71, 71, 71, 0.507);
+  box-shadow: 0 0 .2em .2em rgba(71, 71, 71, 0.507);
 }
 
 .trans-container .captions {
@@ -54,7 +54,12 @@
   font-weight: bold;
   outline: none;
 }
-
+@media screen and (max-width: 650px) {
+  .trans-container .captions .line {
+    justify-content: center;
+  }
+}
+ 
 .trans-container .captions .curr-line {
   background: rgb(67, 73, 72);
   /* border-bottom: 1px solid rgb(67, 73, 72); */
@@ -108,7 +113,7 @@
 .trans-container .captions .line .edit .icon:hover {
   color: rgb(184, 184, 184);
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 850px) {
   .trans-container .captions .line .edit .name {
     display: none;
   }

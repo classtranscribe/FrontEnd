@@ -20,6 +20,9 @@
   }
 
 /* Normal mode */
+.ct-player[id=normal-mode] {
+  margin: 0;
+}
 .ct-player .primary[id=normal-mode] {
   width: 55em;
   max-width: 94vw;}

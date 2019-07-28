@@ -23,6 +23,14 @@
   justify-content: flex-end;
 }
 
+.watch-content .player-container[id=normal-mode] {
+  width: 100vw;
+  justify-content: center !important;
+  align-items: center !important;
+  background: black;
+  margin-top: .5em;
+}
+
 /* Moble stylesheet */
 @media screen and (max-width: 650px) {
   .watch-content .player-container {

@@ -117,18 +117,18 @@ export default class ClassTranscribePlayer extends React.Component {
     const switchTrigger = video1 ? switchToPrimary : switchToSecondary
 
     return (
-      <div className="ct-player">
+      <div className="ct-player" id={mode}>
         <div className={type} onClick={switchTrigger} id={mode}>
           <div data-vjs-player>
             <video ref={ node => this.videoNode = node } className="video-js">
               {transcriptions.map( trans => 
-                  <track 
-                    key={trans.id}
-                    kind="captions" 
-                    label={captionLangMap[trans.language]}
-                    srclang={trans.language} 
-                    src={trans.src} 
-                  />
+                <track 
+                  key={trans.id}
+                  kind="captions" 
+                  label={captionLangMap[trans.language]}
+                  srclang={trans.language} 
+                  src={trans.src} 
+                />
               )}
             </video>
           </div>          
