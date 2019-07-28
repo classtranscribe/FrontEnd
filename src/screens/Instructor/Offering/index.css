@@ -23,7 +23,7 @@
   width: 100%;
   overflow: hidden;
   z-index: 2;
-  background-color: #fafafa;
+  background-color: #fcfcfc;
 }
 
 .op-bg .content {
@@ -41,7 +41,8 @@
   width: 20rem;
   padding-top: 4.5rem;
   padding-bottom: 3rem;
-  background-color: rgb(246, 246, 246);
+  background-color: #fcfcfc;
+  /* background-color: rgb(246, 246, 246); */
   overflow-y: scroll;
   overflow-x: hidden;
   transition: all 0.2s linear;
@@ -154,16 +155,18 @@
 /*****bootstrap UI**********/
 .list-group-item-secondary {
   color: #606967;
-  background-color: rgb(245, 245, 245);
+  /* background-color: rgb(245, 245, 245); */
+  background-color: #fcfcfc;
+  padding-left: .7em !important;
 }
 .list-group-item-secondary:focus {
   outline: none;
 }
 .list-group-item-secondary:hover {
-  background: rgb(224, 230, 230) !important;
+  background: #edf0f0 !important;
 }
 .list-group-item-secondary.list-group-item-action.active {
-  background-color: rgb(245, 245, 245);
+  background-color: #fcfcfc;
   color: #4a9b87;
 }
 /*****bootstrap UI end**********/
@@ -177,7 +180,7 @@
 }
 .playlist .item .pl-name {
   white-space: nowrap; 
-  width: 15rem;
+  width: 17.5rem;
   font-weight: 550;
   overflow: hidden;
   text-overflow: ellipsis;
