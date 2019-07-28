@@ -37,7 +37,7 @@ export class WatchContent extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { media } = this.props
     if (prevProps.media !== media) {
       if (media.isTwoScreen) this.setState({ mode: PS_MODE })

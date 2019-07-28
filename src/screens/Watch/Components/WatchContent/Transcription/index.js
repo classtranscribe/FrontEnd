@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import ToolBar from './ToolBar'
 import Captions from './Captions'
 import './index.css'
