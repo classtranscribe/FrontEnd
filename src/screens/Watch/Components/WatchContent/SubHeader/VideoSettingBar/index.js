@@ -2,13 +2,12 @@
  * Setting bar for screen mode inside SubHeader
  */
 
-import React, { useState } from 'react'
+import React, { useState, lazy, Suspense } from 'react'
 // UI
-import ModeSetting from './ModeSetting'
-import UpNext from './UpNext'
 import './index.css'
+const ModeSetting = lazy(() => import('./ModeSetting'))
 
-export function VideoSettingBar({propsForSettingBar, propsForUpNext}) {
+export function VideoSettingBar({propsForSettingBar}) {
   /** Listen on resizing of window to decide showing or hiding the text */
   const [isMobile, setIsMobile] = useState(window.innerWidth < 650 ? true : false)
   window.addEventListener('resize', () => {
@@ -18,8 +17,9 @@ export function VideoSettingBar({propsForSettingBar, propsForUpNext}) {
 
   return (
     <div className="video-setting-bar">
-      <ModeSetting {...propsForSettingBar} isMobile={isMobile} />
-      <UpNext {...propsForUpNext} isMobile={isMobile} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ModeSetting {...propsForSettingBar} isMobile={isMobile} />
+      </Suspense>
     </div>
   )
 }

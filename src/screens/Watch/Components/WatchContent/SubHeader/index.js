@@ -7,27 +7,16 @@ import React, { useState, useEffect } from 'react'
 import { Icon } from 'semantic-ui-react'
 import { VideoSettingBar } from './VideoSettingBar'
 import './index.css'
-import { api } from 'utils';
 
 export default function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
   const [playlistName, setPlaylistName] = useState('')
-  const [medias, setMedias] = useState([])
 
   /** If playlist is loaded */
   useEffect(() => {
     if (playlist.playlist && playlist.medias) {
       setPlaylistName(() => playlist.playlist.name)
-      setMedias(() => playlist.medias)
     }
   }, [playlist])
-
-  // Variables for Up Next
-  const propsForUpNext = {
-    media: media,
-    playlistName: playlistName,
-    medias: medias,
-    courseNumber: courseNumber,
-  }
 
   return (
     <div 
@@ -42,10 +31,7 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
           <Icon name="play" />&ensp;{media.mediaName}
         </p>
 
-        <VideoSettingBar 
-          propsForSettingBar={propsForSettingBar} 
-          propsForUpNext={propsForUpNext} 
-        />
+        <VideoSettingBar propsForSettingBar={propsForSettingBar} />
       </div>
     </div>
   )
