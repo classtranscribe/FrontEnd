@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
-import { handleData, api } from 'utils'
+import { api } from 'utils'
+import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
 
-export default function Captions({ captions, results, setReadyToEdit, handleExpand, setCurrTime, reLoadCaption }) {
+export default function Captions({ captions, results, setReadyToEdit, setCurrTime, reLoadCaption }) {
   
   const lines = results.length ? results : captions
   return (
     <div 
       className="captions" 
-      onMouseEnter={setReadyToEdit} 
-      onMouseLeave={setReadyToEdit}
+      onMouseEnter={() => setReadyToEdit(true)} 
+      onMouseLeave={() => setReadyToEdit(false)}
       id="captions"
     >
       {
@@ -24,6 +25,7 @@ export default function Captions({ captions, results, setReadyToEdit, handleExpa
             setCurrTime={setCurrTime} 
             handleExpand={handleExpand}
             reLoadCaption={reLoadCaption}
+            setReadyToEdit={setReadyToEdit}
           />
         ))
       }
@@ -31,13 +33,13 @@ export default function Captions({ captions, results, setReadyToEdit, handleExpa
   )
 }
 
-function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
+function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand, setReadyToEdit }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { text, index, id, begin } = line
 
   const SeekToCaption = e => {
-    setCurrTime(e, handleData.timeStrToSec(begin))
+    setCurrTime(e, timeStrToSec(begin))
     handleExpand(false)
   }
 
@@ -60,18 +62,25 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
     onClose()
   }
 
+  const onFocus = ({ target }) => {
+    // setReadyToEdit(true)
+    // document.getElementById('captions').scrollTop = target.offsetTop - 50
+  }
+
+  const onBlur = () => {} //setReadyToEdit(false)
+
   if (isLoading) return <LineLoader index={index} />
   if (isEditing) return <LineEditor line={line} onClose={onClose} onSave={onSave} />
 
   return (
-    <div className="line" id={`line-${index}`} >
+    <div className="line" id={`line-${index}`}>
       <div className="likes">
-        {handleData.timeBetterLook(begin)}
-        <Button compact className="icon">
+        {timeBetterLook(begin)}
+        <Button compact className="icon" onFocus={onFocus} onBlur={onBlur}>
           <i className="material-icons">thumb_down</i>
         </Button>&ensp;
         <span className="num">20</span>
-        <Button compact className="icon">
+        <Button compact className="icon" onFocus={onFocus} onBlur={onBlur}>
           <i className="material-icons">thumb_up</i>
         </Button>&ensp;
         <span className="num">31</span>
@@ -79,17 +88,19 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
 
       <div 
         className="text" 
-        tabIndex={1}
+        tabIndex={0}
         onClick={SeekToCaption}
+        onFocus={onFocus}
+        onBlur={onBlur}
       >
         {text}&ensp;<i className="material-icons">play</i>
       </div>
 
       <div className="edit">
-        <Button compact className="icon" onClick={onEditCaption}>
+        <Button compact className="icon" onClick={onEditCaption} onFocus={onFocus} onBlur={onBlur}>
           <i className="material-icons">edit</i>
         </Button>
-        <Button compact className="icon">
+        <Button compact className="icon" onFocus={onFocus} onBlur={onBlur}>
           <i className="material-icons">share</i>
         </Button>
       </div>
@@ -98,7 +109,7 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
 }
 
 function LineEditor({ line, onClose, onSave }) {
-  const { text, index, id, begin } = line
+  const { text, index, /* id, begin */ } = line
   const [newText, setNewText] = useState(text)
   const handleSave = () => {
     line.text = newText
@@ -108,7 +119,7 @@ function LineEditor({ line, onClose, onSave }) {
     if (e.keyCode === 13) handleSave()
   }
   return (
-    <div className="line" id={`line-${index}`} >
+    <div className="line" id={`line-${index}`}>
       <Input 
         defaultValue={text} 
         onChange={({target: {value}}) => setNewText(() => value)} 

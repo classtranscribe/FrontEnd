@@ -50,9 +50,7 @@ export default class ClassTranscribePlayer extends React.Component {
     }
 
     if (this.player) {
-      /**
-       * If Switching happened...
-       */
+      /** If Switching happened... */
       if (prevProps.isPrimary !== isPrimary) { 
         /**
          * 1. Switch the controls to current isPrimary player
@@ -65,9 +63,9 @@ export default class ClassTranscribePlayer extends React.Component {
           // Find the current showing transcription
           const currTrack = this.player.textTracks().tracks_.filter(track => track.src === trackSrc)
           // Give it to the curr isPrimary one
-          if (currTrack.length && isPrimary) setTimeout(() => {
+          if (currTrack.length && isPrimary) //setTimeout(() => {
             currTrack[0].mode = 'showing'
-          }, 300)
+          // }, 300)
           // Remove it from the curr secondary one
           if (currTrack.length && !isPrimary) currTrack[0].mode = 'disabled'
         }
@@ -95,19 +93,18 @@ export default class ClassTranscribePlayer extends React.Component {
     }
   }
 
-  syncPlay = e => {
+  syncPlay = (e, all) => {
     if (!this.props.media.isTwoScreen) return;
-    let a = $("video")
-    for (let i = 0; i < a.length; i++) {
-      if (e.target !== a[i]) a[i].play()
-    }
+    $("video").each( (index, videoElem) => {
+      if (all || e.target !== videoElem) videoElem.play()
+    })
   }
-  syncPause = e => {
+
+  syncPause = (e, all) => {
     if (!this.props.media.isTwoScreen) return;
-    let a = $("video")
-    for (let i = 0; i < a.length; i++) {
-      if (e.target !== a[i]) a[i].pause()
-    }
+    $("video").each( (index, videoElem) => {
+      if (all || e.target !== videoElem) videoElem.pause()
+    })
   }
 
   onTimeUpdate = e => {
@@ -134,6 +131,15 @@ export default class ClassTranscribePlayer extends React.Component {
     this.syncPlay(e)
   }
 
+  onDoubleClick = e => {
+    alert(22)
+    if (!this.props.isPrimary) return;
+    if (this.player.paused()) 
+      this.syncPlay(e, true)
+    else 
+      this.syncPause(e, true)
+  }
+
   onSeeking = e => {
     if (!this.props.isPrimary) return;
     this.props.setCurrTime(e)
@@ -157,7 +163,7 @@ export default class ClassTranscribePlayer extends React.Component {
 
   render() {
     const { isPrimary, video1, switchToPrimary, switchToSecondary, media, mode } = this.props
-    const { transcriptions, isTwoScreen } = media
+    const { transcriptions } = media
     if (!transcriptions) return null
     /**
      * Handle player switching

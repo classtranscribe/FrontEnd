@@ -23,12 +23,12 @@
   justify-content: flex-end;
 }
 
-.watch-content .player-container[id=normal-mode] {
+.watch-content .player-container[id=normal-mode], .watch-content .player-container[id=nested-mode] {
   width: 100vw;
-  justify-content: center !important;
-  align-items: center !important;
   background: black;
   margin-top: .5em;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 /* Moble stylesheet */

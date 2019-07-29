@@ -27,7 +27,7 @@
 }
 
 .trans-con-expand {
-  transform: translateY(-20em);
+  transform: translateY(-25vw);
 }
 
 /* Tool Bar */
@@ -48,7 +48,7 @@
   .expand-button {
     background: none !important;
   }
-  .expand-button:hover>i {
+  .expand-button:hover>i, .expand-button:focus>i {
     color: rgb(172, 197, 197) !important;
   }
 
@@ -136,6 +136,7 @@
   align-items: center;
   color: rgb(209, 209, 209);
   justify-content: space-between;
+  outline: none;
   font-weight: bold;
   outline: none;}
   .trans-container .captions .line:hover {
@@ -171,8 +172,8 @@
   opacity: 0;
   color: rgb(185, 185, 185);
   font-weight: normal;}
-.trans-container .captions .line:hover>.likes,
-.trans-container .captions .line:hover>.edit {
+.trans-container .captions .line:hover>.likes, .trans-container .captions .line:focus>.likes,
+.trans-container .captions .line:hover>.edit, .trans-container .captions .line:focus>.edit {
   opacity: 1;
 }
 
@@ -186,6 +187,9 @@
   display: inline-flex;
   justify-content: flex-end;
   min-width: 9em;
+}
+.trans-container .captions .line .likes:focus-within, .trans-container .captions .line .edit:focus-within {
+  opacity: 1;
 }
 
 .trans-container .captions .icon, 

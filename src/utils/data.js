@@ -98,18 +98,4 @@ export const handleData = {
     date.setUTCHours(0, 0, 0)
     return date.toISOString()
   },
-  timeStrToSec: function (str) {
-    const strs = str.split(':')
-    return parseFloat(strs[0]) * 3600 + parseFloat(strs[1]) * 60 + parseFloat(strs[2])
-  },
-  timeBetterLook: function (str) {
-    const strs = str.split(':')
-    var mins = parseInt(strs[0]) * 60 + parseInt(strs[1])
-    mins = mins.toString()
-    if (mins.length === 1) mins = '0' + mins
-    var sec  = parseInt(strs[2])
-    sec = sec.toString()
-    if (sec.length === 1) sec = '0' + sec
-    return `${mins}:${sec}`
-  },
 }

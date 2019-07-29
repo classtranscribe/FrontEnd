@@ -20,11 +20,11 @@
   }
 
 /* Normal mode */
-.ct-player[id=normal-mode] {
+.ct-player[id=normal-mode], .ct-player[id=nested-mode] {
   margin: 0;
 }
 .ct-player .primary[id=normal-mode] {
-  width: 55em;
+  width: 60em;
   max-width: 94vw;}
   @media screen and (max-width: 650px) {
     .ct-player .primary[id=normal-mode] {
@@ -62,13 +62,11 @@
   transition: none !important;
 }
 .ct-player .primary[id=nested-mode] {
-  margin-left: 18vw;
   width: 60em;
   max-width: 80vw;}
   @media screen and (max-width: 650px) {
     .ct-player .primary[id=nested-mode] {
       max-width: 100vw;
-      margin-left: 0;
     }
   }
 .ct-player .secondary[id=nested-mode] {
@@ -78,15 +76,15 @@
   border-radius: .5em;
   overflow: hidden;
   position: absolute;
-  left: 2.4vw;
+  right: 1vw;
   top: 4.5em;}
   @media screen and (max-width: 720px) {
     .ct-player .secondary[id=nested-mode] {
       top: 4.6em;
-      top: 4.5em;
+      right: .8em;
       width: 10em;}}
   @media screen and (max-width: 650px) {
     .ct-player .secondary[id=nested-mode] {
       top: 4.7em;
-      left: .2em;
+      right: .2em;
       width: 8em;}}
