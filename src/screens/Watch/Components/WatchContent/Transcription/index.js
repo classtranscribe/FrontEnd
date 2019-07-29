@@ -7,14 +7,32 @@ const Captions = lazy(() => import('./Captions'))
 const EXPAND_CLASS = 'trans-con-expand'
 
 export default function Transcription({ captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
-  const [expand, setExpand] = useState('')
   const [results, setResults] = useState([])
 
+  const switchTrigger = html => {
+    document.getElementById('expand-trigger').innerHTML = html
+  }
+
   const handleExpand = value => {
-    if (typeof value === 'boolean')
-      setExpand(() => value ? EXPAND_CLASS : '')
-    else 
-      setExpand(expand => expand ? '' : EXPAND_CLASS)
+    const isExpanded = $(`.${EXPAND_CLASS}`).length
+    
+    if (typeof value === 'boolean') {
+      if (value) {
+        $('.trans-container').addClass(EXPAND_CLASS)
+        switchTrigger('expand_more')
+      } else {
+        $('.trans-container').removeClass(EXPAND_CLASS)
+        switchTrigger('expand_less')
+      }
+    } else {
+      if (isExpanded) {
+        $('.trans-container').removeClass(EXPAND_CLASS)
+        switchTrigger('expand_less')
+      } else {
+        $('.trans-container').addClass(EXPAND_CLASS)
+        switchTrigger('expand_more')
+      }
+    } 
   }
 
   useEffect(() => {
@@ -33,9 +51,8 @@ export default function Transcription({ captions, setReadyToEdit, setCurrTime, r
   }, [setReadyToEdit])
 
   return (
-    <div className={`trans-container ${expand}`}>
+    <div className="trans-container">
       <ToolBar 
-        expand={expand} 
         captions={captions}
         setResults={setResults}
         canReset={results.length > 0}

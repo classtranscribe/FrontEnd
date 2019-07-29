@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Select, Input } from 'semantic-ui-react'
-import { IconButton, Button } from '@material-ui/core'
+import { Select, Input, Button } from 'semantic-ui-react'
 import { SEARCH_IN_COURSE, SEARCH_IN_VIDEO } from '../constants'
 import { capSearch } from './captionSearch'
 
@@ -9,7 +8,7 @@ const searchOptions = [
   {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'Search in Course'}
 ]
 
-export default function ToolBar({ handleExpand, expand, captions, setResults, canReset }) {
+export default function ToolBar({ handleExpand, captions, setResults, canReset }) {
   const [loadingResults, setLoadingResults] = useState(false)
   const [searchInput, setSearchInput] = useState('')
 
@@ -34,6 +33,7 @@ export default function ToolBar({ handleExpand, expand, captions, setResults, ca
     setResults(() => [])
   }
 
+
   return (
     <div className="tool-bar">
       <div className="search">
@@ -53,26 +53,22 @@ export default function ToolBar({ handleExpand, expand, captions, setResults, ca
         {
           canReset
           &&
-          <Button className="clear-input-btn" onClick={onReset}>
+          <Button className="edit-button" onClick={onReset}>
             Reset
           </Button>
         }
       </div>
 
       <div>
-        <IconButton 
+        <Button 
+          className="expand-button"
           style={{color: 'white', outline: 'none'}} 
           onClick={handleExpand}
           title={'Expand the transcription area (\u2318/Ctrl + U)'}
           aria-action="Expand the transcription area"
         >
-          {
-            expand ? 
-            <i class="material-icons">expand_more</i>
-            :
-            <i class="material-icons">expand_less</i> 
-          }
-        </IconButton>
+          <i class="material-icons" id="expand-trigger">expand_less</i>
+        </Button>
       </div>
     </div>
   )

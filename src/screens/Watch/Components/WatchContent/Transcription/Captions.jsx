@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { IconButton, Button } from '@material-ui/core'
-import { Input } from 'semantic-ui-react'
+import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import { handleData, api } from 'utils'
 
@@ -68,13 +67,13 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
     <div className="line" id={`line-${index}`} >
       <div className="likes">
         {handleData.timeBetterLook(begin)}
-        <IconButton className="icon">
+        <Button compact className="icon">
           <i className="material-icons">thumb_down</i>
-        </IconButton>&ensp;
+        </Button>&ensp;
         <span className="num">20</span>
-        <IconButton className="icon">
+        <Button compact className="icon">
           <i className="material-icons">thumb_up</i>
-        </IconButton>&ensp;
+        </Button>&ensp;
         <span className="num">31</span>
       </div>
 
@@ -87,12 +86,12 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
       </div>
 
       <div className="edit">
-        <IconButton className="icon" onClick={onEditCaption}>
+        <Button compact className="icon" onClick={onEditCaption}>
           <i className="material-icons">edit</i>
-        </IconButton>
-        <IconButton className="icon">
+        </Button>
+        <Button compact className="icon">
           <i className="material-icons">share</i>
-        </IconButton>
+        </Button>
       </div>
     </div>
   )
@@ -116,10 +115,10 @@ function LineEditor({ line, onClose, onSave }) {
         onKeyDown={handleKeyDown}
       />
       <div>
-        <Button className="edit-button" onClick={handleSave}>
+        <Button compact className="edit-button" onClick={handleSave}>
           Save
         </Button>
-        <Button className="edit-button" onClick={onClose}>
+        <Button compact className="edit-button" onClick={onClose}>
           Cancel
         </Button>
       </div>
