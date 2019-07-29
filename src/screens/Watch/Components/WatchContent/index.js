@@ -19,6 +19,7 @@ export class WatchContent extends React.Component {
   constructor(props) {
     super(props) 
     this.lastCaptionIndex = 0
+    this.lastEnd = 0
     this.state = {
       primary: true,
       mode: NORMAL_MODE,
@@ -81,23 +82,34 @@ export class WatchContent extends React.Component {
   findCurrLine = (time) => {
     const { captions } = this.state
     if (!captions.length) return null
-    for (let i = 0; i < captions.length; i++) {
-      let line = captions[i]
-      if (handleData.timeStrToSec(line.end) > time) return line
+    if (this.lastEnd === 0) return captions[0]
+
+    if (this.lastEnd <= time) {
+      for (let i = this.lastCaptionIndex; i < captions.length; i++) {
+        let line = captions[i]
+        if (handleData.timeStrToSec(line.end) > time) return line
+      }
+      return captions[captions.length-1]
+    } else {
+      for (let i = this.lastCaptionIndex; i >= 0; i--) {
+        let line = captions[i]
+        if (handleData.timeStrToSec(line.begin) <= time) return line
+      }
+      return captions[0]
     }
-    return captions[captions.length-1]
   }
 
   setTimeUpdate = time => {
     const currLine = this.findCurrLine(time)
     if (!currLine) return;
     if (this.lastCaptionIndex && this.lastCaptionIndex === currLine.index) return;
-    console.log(handleData.timeBetterLook(currLine.begin))
+    // console.log(handleData.timeBetterLook(currLine.begin))
     let prevTarget = $('.curr-line')
     prevTarget.removeClass('curr-line')
     let target = document.getElementById(`line-${currLine.index}`)
     if (target) {
-      this.lastCaptionIndex = currLine.index
+      this.lastCaptionIndex = currLine.index-1
+      this.lastEnd = handleData.timeStrToSec(currLine.end)
       target.classList.add('curr-line')
       if (this.state.readyToEdit) return;
       target.parentNode.scrollTop = target.offsetTop - 60

@@ -55,13 +55,11 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
-    setTimeout(() => {
       const currMediaEle = document.getElementById(media.id)
       if (currMediaEle) {
         currMediaEle.scrollIntoView({ block: "center" })
         currMediaEle.focus()
       }
-    }, 100)
   }
 
   function handleClose() {

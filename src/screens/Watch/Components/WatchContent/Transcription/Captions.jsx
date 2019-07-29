@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { IconButton, Button } from '@material-ui/core'
-import { Input, Form } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import { handleData, api } from 'utils'
 

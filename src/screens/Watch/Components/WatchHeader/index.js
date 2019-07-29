@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { ClassTranscribeHeader } from 'components'
-import PlaylistMenu from './PlaylistMenu'
+const PlaylistMenu = lazy(() => import('./PlaylistMenu'))
 
 export function WatchHeader({ media, playlist, courseNumber }) {
   return (
     <ClassTranscribeHeader darkMode>
-      <PlaylistMenu media={media} playlist={playlist} courseNumber={courseNumber} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <PlaylistMenu media={media} playlist={playlist} courseNumber={courseNumber} />
+      </Suspense>
     </ClassTranscribeHeader>
   )
 }

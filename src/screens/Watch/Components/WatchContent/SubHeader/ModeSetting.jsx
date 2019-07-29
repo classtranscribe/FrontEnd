@@ -5,7 +5,7 @@
 import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
-import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../../constants'
+import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../constants'
 
 
 const modeOptions = [
@@ -32,7 +32,7 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
   }
 
   function handleClose() {
-    setTimeout(() => setAnchorEl(null), 200)
+    setAnchorEl(null)
   }
 
   function handleSelect(mode) {

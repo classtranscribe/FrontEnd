@@ -2,14 +2,21 @@
  * The SubHeader of the WatchContent
  * - including setting bar, up next and video info
  */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 // UI
 import { Icon } from 'semantic-ui-react'
-import { VideoSettingBar } from './VideoSettingBar'
 import './index.css'
+
+const ModeSetting = lazy(() => import('./ModeSetting'))
 
 export default function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
   const [playlistName, setPlaylistName] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 650 ? true : false)
+  
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 650) setIsMobile(() => false)
+    else setIsMobile(() => true)
+  })
 
   /** If playlist is loaded */
   useEffect(() => {
@@ -31,7 +38,11 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
           <Icon name="play" />&ensp;{media.mediaName}
         </p>
 
-        <VideoSettingBar propsForSettingBar={propsForSettingBar} />
+        <div className="video-setting-bar">
+          <Suspense fallback={<div>Loading...</div>}>
+            <ModeSetting {...propsForSettingBar} isMobile={isMobile} />
+          </Suspense>
+        </div>
       </div>
     </div>
   )

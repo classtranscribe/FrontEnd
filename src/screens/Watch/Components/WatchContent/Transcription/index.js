@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import $ from 'jquery'
 import ToolBar from './ToolBar'
-import Captions from './Captions'
+// import Captions from './Captions'
 import './index.css'
+const Captions = lazy(() => import('./Captions'))
 
 
 export default function Transcription({ captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
@@ -30,12 +31,14 @@ export default function Transcription({ captions, setReadyToEdit, setCurrTime, r
   return (
     <div className={`trans-container ${expand}`}>
       <ToolBar expand={expand} handleExpand={handleExpand} />
-      <Captions 
-        captions={captions} 
-        setCurrTime={setCurrTime}
-        reLoadCaption={reLoadCaption}
-        setReadyToEdit={setReadyToEdit} 
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Captions 
+          captions={captions} 
+          setCurrTime={setCurrTime}
+          reLoadCaption={reLoadCaption}
+          setReadyToEdit={setReadyToEdit} 
+        />
+      </Suspense>
     </div>
   )
 }
