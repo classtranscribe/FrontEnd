@@ -114,14 +114,14 @@ export default class ClassTranscribePlayer extends React.Component {
     if (!this.props.isPrimary) return;
     let currTime = e.target.currentTime
     // console.log(this.prevTime)
-    if (Math.abs(currTime - this.prevTime) > .5 ) {
+    if (Math.abs(currTime - this.prevTime) > 1 ) {
       this.props.setTimeUpdate(currTime)
       this.prevTime = currTime
     }
-    if (Math.abs(currTime - this.lastSyncTime) > 3 ) {
-      this.props.setCurrTime(e)
-      this.lastSyncTime = currTime
-    }
+    // if (Math.abs(currTime - this.lastSyncTime) > 5 ) {
+    //   this.props.setCurrTime(e)
+    //   this.lastSyncTime = currTime
+    // }
   }
 
   onPause = e => {
@@ -177,8 +177,8 @@ export default class ClassTranscribePlayer extends React.Component {
               onPlay={this.onPlay}
               onSeeking={this.onSeeking}
               onSeeked={this.onSeeked}
-              onWaiting={this.onWaiting}
-              onPlaying={this.onPlaying}
+              //onWaiting={this.onWaiting}
+              //onPlaying={this.onPlaying}
             >
               {transcriptions.map( trans => 
                 <track 

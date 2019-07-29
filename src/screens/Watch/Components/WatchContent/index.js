@@ -111,8 +111,8 @@ export class WatchContent extends React.Component {
       this.lastCaptionIndex = currLine.index-1
       this.lastEnd = handleData.timeStrToSec(currLine.end)
       target.classList.add('curr-line')
-      if (this.state.readyToEdit) return;
-      target.parentNode.scrollTop = target.offsetTop - 60
+      if (!this.state.readyToEdit)
+        target.parentNode.scrollTop = target.offsetTop - 60
     }
   }
 

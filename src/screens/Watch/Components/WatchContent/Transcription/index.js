@@ -4,17 +4,17 @@ import ToolBar from './ToolBar'
 // import Captions from './Captions'
 import './index.css'
 const Captions = lazy(() => import('./Captions'))
-
+const EXPAND_CLASS = 'trans-con-expand'
 
 export default function Transcription({ captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
   const [expand, setExpand] = useState('')
   const [results, setResults] = useState([])
 
   const handleExpand = value => {
-    if (value === undefined)
-      setExpand(expand => expand ? '' : 'trans-con-expand')
+    if (typeof value === 'boolean')
+      setExpand(() => value ? EXPAND_CLASS : '')
     else 
-      setExpand(() => value ? 'trans-con-expand' : '')
+      setExpand(expand => expand ? '' : EXPAND_CLASS)
   }
 
   useEffect(() => {
@@ -38,6 +38,7 @@ export default function Transcription({ captions, setReadyToEdit, setCurrTime, r
         expand={expand} 
         captions={captions}
         setResults={setResults}
+        canReset={results.length > 0}
         handleExpand={handleExpand} 
       />
       <Suspense fallback={<div>Loading...</div>}>

@@ -42,19 +42,27 @@
     background: rgb(95, 102, 101);
     border-color: rgb(182, 182, 182);
     color: white;
-    width: 10em;
-    transition: width .2s linear;
+    width: 17em;
+    transition: width .1s linear;
     max-width: 50vw;
   }
   .trans-container .tool-bar .ui.input>input:focus {
     border-color: white;
     background: rgb(67, 73, 72);
-    width: 15em;}
+    width: 17em;}
     @media screen and (max-width: 750px) {
       .trans-container .tool-bar .ui.input>input:focus {
         width: 10em;
       }
     }
+
+.trans-container .tool-bar .search  .clear-input-btn {
+  border: 1px solid rgb(182, 182, 182) !important;
+  color: white;
+  outline: none;
+  margin-left: .5em;
+  height: 3.1em;
+}
 
   /* Search Option */
   .trans-container .ui.selection.dropdown {

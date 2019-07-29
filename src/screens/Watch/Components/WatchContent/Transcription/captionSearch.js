@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import $ from 'jquery'
 
 export const capSearch = {
   getResult: function(captions, value) {
@@ -22,5 +23,8 @@ export const capSearch = {
   },
   highlight: function(value) {
     
+  },
+  toTop: function() {
+    $('#captions').scrollTop(0)
   }
 }

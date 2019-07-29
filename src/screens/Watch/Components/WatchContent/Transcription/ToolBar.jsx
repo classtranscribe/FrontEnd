@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Select, Input } from 'semantic-ui-react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Button } from '@material-ui/core'
 import { SEARCH_IN_COURSE, SEARCH_IN_VIDEO } from '../constants'
 import { capSearch } from './captionSearch'
 
 const searchOptions = [
-  {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'Search in Course'},
-  {key: SEARCH_IN_VIDEO, value: SEARCH_IN_VIDEO, text: 'Search in Video'}
+  {key: SEARCH_IN_VIDEO, value: SEARCH_IN_VIDEO, text: 'Search in Video'},
+  {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'Search in Course'}
 ]
 
-export default function ToolBar({ handleExpand, expand, captions, setResults }) {
+export default function ToolBar({ handleExpand, expand, captions, setResults, canReset }) {
   const [loadingResults, setLoadingResults] = useState(false)
   const [searchInput, setSearchInput] = useState('')
 
@@ -18,20 +18,20 @@ export default function ToolBar({ handleExpand, expand, captions, setResults }) 
     setSearchInput(() => value)
   }
 
-  useEffect(() => {
-    if (!searchInput) {
-      setResults(() => [])
-    }
-  }, [searchInput])
-
   const handleOnKeyDown = ({ keyCode }) => {
     if (keyCode === 13) {
       setLoadingResults(true)
       setResults(() => capSearch.getResult(captions, searchInput))
-      // capSearch.highlight(searchInput)
+      capSearch.toTop()
       handleExpand(true)
       setLoadingResults(false)
     }
+  }
+
+  const onReset = () => {
+    setSearchInput(() => '')
+    handleExpand(false)
+    setResults(() => [])
   }
 
   return (
@@ -48,7 +48,15 @@ export default function ToolBar({ handleExpand, expand, captions, setResults }) 
           onChange={handleOnChange}
           onKeyDown={handleOnKeyDown}
           loading={loadingResults}
+          placeholder='Search Captions'
         />
+        {
+          canReset
+          &&
+          <Button className="clear-input-btn" onClick={onReset}>
+            Reset
+          </Button>
+        }
       </div>
 
       <div>
