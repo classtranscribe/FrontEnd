@@ -32,7 +32,7 @@ function CaptionLine({ line, setCurrTime, reLoadCaption }) {
     setCurrTime(e, handleData.timeStrToSec(begin))
   }
 
-  const onEditCaption = e => {
+  const onEditCaption = () => {
     setIsLoading(() => true)
     reLoadCaption(() => {
       setIsEditing(() => true)
@@ -95,11 +95,15 @@ function LineEditor({ line, onClose, onSave }) {
     line.text = newText
     onSave(line)
   }
+  const handleKeyDown = e => {
+    if (e.keyCode === 13) handleSave()
+  }
   return (
     <div className="line" id={`line-${index}`} >
       <Input 
         defaultValue={text} 
         onChange={({target: {value}}) => setNewText(() => value)} 
+        onKeyDown={handleKeyDown}
       />
       <div>
         <Button className="edit-button" onClick={handleSave}>

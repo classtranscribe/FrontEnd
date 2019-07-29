@@ -3,22 +3,28 @@
   height: 90vh;
   overflow: hidden;
   background: rgb(95, 102, 101);
+  transform: translateY(0);
+  transition: transform .2s linear;
   margin: 1.5em 2%;
-  box-shadow: 0 0 .2em .2em rgb(62, 65, 65);
+  box-shadow: 0 0 .2em .2em rgba(58, 59, 59, 0.418);
   border-radius: .5em .5em 0 0;}
 @media screen and (max-width: 650px) {
   .trans-container {
     width: 100%;
-    margin: 1.5em 0;
+    margin: 1.5em 0 0 0;
   }
+}
+
+.trans-con-expand {
+  transform: translateY(-20em);
 }
 
 /* Tool Bar */
 
 .trans-container .tool-bar {
-  height: 4em;
+  min-height: 4em;
   width: 100%;
-  padding: 0 1em;
+  padding: .5em 1em;
   box-shadow: 0 0 .2em .2em rgba(71, 71, 71, 0.507);
   display: flex;
   flex-direction: row;
@@ -40,8 +46,12 @@
   .trans-container .tool-bar .ui.input>input:focus {
     border-color: white;
     background: rgb(67, 73, 72);
-    width: 15em;
-  }
+    width: 15em;}
+    @media screen and (max-width: 750px) {
+      .trans-container .tool-bar .ui.input>input:focus {
+        width: 10em;
+      }
+    }
 
   /* Search Option */
   .trans-container .ui.selection.dropdown {
@@ -70,10 +80,10 @@
 /* Caption Window */
 
 .trans-container .captions {
-  height: 80vh;
+  height: 90vh;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding: .5em 0 80vh 0;
+  padding: .5em 0 90vh 0;
   scroll-behavior: smooth;
   position: relative;
 }
@@ -110,6 +120,9 @@
   outline: none;
   text-align: center;
   cursor: pointer;}
+  .trans-container .captions .line .text:focus {
+    color: white;
+  }
   .trans-container .captions .line .text .material-icons {
     font-size: 1em;
   }

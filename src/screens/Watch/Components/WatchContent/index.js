@@ -69,7 +69,7 @@ export class WatchContent extends React.Component {
   setReadyToEdit = () => this.setState({ readyToEdit: !this.state.readyToEdit })
 
   setCurrTime = (e, time) => {
-    if (!this.props.media.isTwoScreen) return;
+    // if (!this.props.media.isTwoScreen) return;
     let currTime = time || e.target.currentTime
     console.log(currTime)
     let a = $("video")

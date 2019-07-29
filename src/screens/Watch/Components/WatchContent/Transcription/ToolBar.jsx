@@ -8,7 +8,7 @@ const searchOptions = [
   {key: SEARCH_IN_VIDEO, value: SEARCH_IN_VIDEO, text: 'Search in Video'}
 ]
 
-export default function ToolBar() {
+export default function ToolBar({ handleExpand, expand }) {
   return (
     <div className="tool-bar">
       <div className="search">
@@ -16,12 +16,25 @@ export default function ToolBar() {
           defaultValue={SEARCH_IN_VIDEO} 
           options={searchOptions} 
         />
-        <Input icon="search" />
+        <Input 
+          icon="search" id="caption-search" 
+          title={'Search for captions (\u2318/Ctrl + \u21E7 + space)'}
+        />
       </div>
-      
+
       <div>
-        <IconButton style={{color: 'white', outline: 'none'}}>
-          <i class="material-icons">expand_less</i>
+        <IconButton 
+          style={{color: 'white', outline: 'none'}} 
+          onClick={handleExpand}
+          title={'Expand the transcription area (\u2318/Ctrl + U)'}
+          aria-action="Expand the transcription area"
+        >
+          {
+            expand ? 
+            <i class="material-icons">expand_more</i>
+            :
+            <i class="material-icons">expand_less</i> 
+          }
         </IconButton>
       </div>
     </div>
