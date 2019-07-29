@@ -8,9 +8,13 @@ const Captions = lazy(() => import('./Captions'))
 
 export default function Transcription({ captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
   const [expand, setExpand] = useState('')
+  const [results, setResults] = useState([])
 
-  const handleExpand = () => {
-    setExpand(expand => expand ? '' : 'trans-con-expand')
+  const handleExpand = value => {
+    if (value === undefined)
+      setExpand(expand => expand ? '' : 'trans-con-expand')
+    else 
+      setExpand(() => value ? 'trans-con-expand' : '')
   }
 
   useEffect(() => {
@@ -30,11 +34,18 @@ export default function Transcription({ captions, setReadyToEdit, setCurrTime, r
 
   return (
     <div className={`trans-container ${expand}`}>
-      <ToolBar expand={expand} handleExpand={handleExpand} />
+      <ToolBar 
+        expand={expand} 
+        captions={captions}
+        setResults={setResults}
+        handleExpand={handleExpand} 
+      />
       <Suspense fallback={<div>Loading...</div>}>
         <Captions 
+          results={results}
           captions={captions} 
           setCurrTime={setCurrTime}
+          handleExpand={handleExpand}
           reLoadCaption={reLoadCaption}
           setReadyToEdit={setReadyToEdit} 
         />

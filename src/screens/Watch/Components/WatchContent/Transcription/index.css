@@ -30,9 +30,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;}
+  .trans-container .tool-bar i {
+    color: white;
+  }
 
   /* Input */
-  .trans-container .tool-bar .ui.input {
+  .trans-container .tool-bar .ui.input  {
     color: white;
   }
   .trans-container .tool-bar .ui.input>input {
@@ -75,6 +78,15 @@
   .trans-container .tool-bar .search .dropdown .menu .selected.item, .trans-container .tool-bar .search .dropdown.selected {
     background: rgb(74, 78, 78);
   }
+
+
+.trans-container .tool-bar .search .results {
+  max-height: 50vh;
+  width: 50vw;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: absolute;
+}
 
 
 /* Caption Window */

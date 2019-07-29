@@ -4,32 +4,42 @@ import { Input } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import { handleData, api } from 'utils'
 
-export default function Captions({ captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
+export default function Captions({ captions, results, setReadyToEdit, handleExpand, setCurrTime, reLoadCaption }) {
+  
+  const lines = results.length ? results : captions
   return (
     <div 
       className="captions" 
       onMouseEnter={setReadyToEdit} 
       onMouseLeave={setReadyToEdit}
+      id="captions"
     >
-      {captions.map( line => (
-        <CaptionLine 
-          line={line} 
-          key={line.id} 
-          setCurrTime={setCurrTime} 
-          reLoadCaption={reLoadCaption}
-        />
-      ))}
+      {
+        lines[0] === 'NOT FOUND' ? 
+        <div className="h-100 d-flex justify-content-center m-2">No Match</div>
+        :
+        lines.map( line => (
+          <CaptionLine 
+            line={line} 
+            key={line.id} 
+            setCurrTime={setCurrTime} 
+            handleExpand={handleExpand}
+            reLoadCaption={reLoadCaption}
+          />
+        ))
+      }
     </div>
   )
 }
 
-function CaptionLine({ line, setCurrTime, reLoadCaption }) {
+function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { text, index, id, begin } = line
 
   const SeekToCaption = e => {
     setCurrTime(e, handleData.timeStrToSec(begin))
+    handleExpand(false)
   }
 
   const onEditCaption = () => {

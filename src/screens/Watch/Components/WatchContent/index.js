@@ -72,7 +72,7 @@ export class WatchContent extends React.Component {
   setCurrTime = (e, time) => {
     // if (!this.props.media.isTwoScreen) return;
     let currTime = time || e.target.currentTime
-    console.log(currTime)
+    // console.log(currTime)
     let a = $("video")
     for (let i = 0; i < a.length; i++) {
       if (time || e.target !== a[i]) a[i].currentTime = currTime
