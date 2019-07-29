@@ -4,11 +4,16 @@ import Captions from './Captions'
 import './index.css'
 
 
-export default function Transcription({ captions, setReadyToEdit }) {
+export default function Transcription({ captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
   return (
     <div className="trans-container">
       <ToolBar />
-      <Captions captions={captions} setReadyToEdit={setReadyToEdit} />
+      <Captions 
+        captions={captions} 
+        setCurrTime={setCurrTime}
+        reLoadCaption={reLoadCaption}
+        setReadyToEdit={setReadyToEdit} 
+      />
     </div>
   )
 }

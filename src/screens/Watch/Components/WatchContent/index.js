@@ -15,11 +15,6 @@ import './index.css'
 import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
 import { api, handleData } from 'utils'
 
-function timeStrToSec(str) {
-  const strs = str.split(':')
-  return parseFloat(strs[0]) * 3600 + parseFloat(strs[1]) * 60 + parseFloat(strs[2])
-}
-
 export class WatchContent extends React.Component {
   constructor(props) {
     super(props) 
@@ -31,6 +26,7 @@ export class WatchContent extends React.Component {
       playbackRate: -1,
       trackSrc: '',
 
+      currTranscriptionId: '',
       captions: [],
       readyToEdit: false,
     }
@@ -47,10 +43,21 @@ export class WatchContent extends React.Component {
   }
 
   getCaptionsByTranscriptionId = id => {
+    this.setState({ currTranscriptionId: id })
     api.getCaptionsByTranscriptionId(id)
       .then( ({data}) => {
         console.log('captions', data)
         this.setState({ captions: data })
+      })
+  }
+
+  reLoadCaption = callBack => {
+    const { currTranscriptionId } = this.state
+    api.getCaptionsByTranscriptionId(currTranscriptionId)
+      .then( ({data}) => {
+        console.log('new captions', data)
+        this.setState({ captions: data })
+        if (callBack) callBack()
       })
   }
 
@@ -61,12 +68,22 @@ export class WatchContent extends React.Component {
   setMode = mode => this.setState({ mode })
   setReadyToEdit = () => this.setState({ readyToEdit: !this.state.readyToEdit })
 
+  setCurrTime = (e, time) => {
+    if (!this.props.media.isTwoScreen) return;
+    let currTime = time || e.target.currentTime
+    console.log(currTime)
+    let a = $("video")
+    for (let i = 0; i < a.length; i++) {
+      if (time || e.target !== a[i]) a[i].currentTime = currTime
+    }
+  }
+
   findCurrLine = (time) => {
     const { captions } = this.state
     if (!captions.length) return null
     for (let i = 0; i < captions.length; i++) {
       let line = captions[i]
-      if (timeStrToSec(line.end) > time) return line
+      if (handleData.timeStrToSec(line.end) > time) return line
     }
     return captions[captions.length-1]
   }
@@ -75,7 +92,7 @@ export class WatchContent extends React.Component {
     const currLine = this.findCurrLine(time)
     if (!currLine) return;
     if (this.lastCaptionIndex && this.lastCaptionIndex === currLine.index) return;
-    console.log(currLine.text)
+    console.log(handleData.timeBetterLook(currLine.begin))
     let prevTarget = $('.curr-line')
     prevTarget.removeClass('curr-line')
     let target = document.getElementById(`line-${currLine.index}`)
@@ -137,6 +154,8 @@ export class WatchContent extends React.Component {
   
         <Transcription 
           captions={captions} 
+          setCurrTime={this.setCurrTime}
+          reLoadCaption={this.reLoadCaption}
           setReadyToEdit={this.setReadyToEdit} 
         />
       </div>

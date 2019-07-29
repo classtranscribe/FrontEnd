@@ -110,15 +110,6 @@ export default class ClassTranscribePlayer extends React.Component {
     }
   }
 
-  setCurrTime = e => {
-    if (!this.props.media.isTwoScreen) return;
-    console.log(e.target.currentTime)
-    let a = $("video")
-    for (let i = 0; i < a.length; i++) {
-      if (e.target !== a[i]) a[i].currentTime = e.target.currentTime
-    }
-  }
-
   onTimeUpdate = e => {
     if (!this.props.isPrimary) return;
     let currTime = e.target.currentTime
@@ -145,7 +136,7 @@ export default class ClassTranscribePlayer extends React.Component {
 
   onSeeking = e => {
     if (!this.props.isPrimary) return;
-    this.setCurrTime(e)
+    this.props.setCurrTime(e)
   }
 
   onSeeked = e => {

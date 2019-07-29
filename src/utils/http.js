@@ -259,6 +259,9 @@ export const api = {
   updatePlaylist: function(data, callBack) {
     return this.updateData('Playlists', data, callBack)
   },
+  updateCaptionLine: function(data, callBack) {
+    return this.updateData('Captions', data, callBack)
+  },
   /**
    * DELETE
    * callBack = responce => {...}
