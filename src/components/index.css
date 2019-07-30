@@ -1,0 +1,28 @@
+/**
+ * Stylesheet for general components
+ */
+
+.upload-video {
+  margin-top: 1rem;
+  width: 100%;
+  height: 6rem;
+  font-size: 1.5rem;}
+
+.general-form {
+  padding-left: 1rem;
+  width: 100%;
+  min-height: 10rem;
+}
+
+.end-padding {
+  height: 5rem;
+  width: 100%;
+  position: relative;
+}
+
+/* .ui.dropdown .menu {
+  border-color: rgb(22, 189, 180);
+}
+.ui.selection.active.dropdown {
+  border-color: rgb(22, 189, 180) !important;
+} */

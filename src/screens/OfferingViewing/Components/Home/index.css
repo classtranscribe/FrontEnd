@@ -1,0 +1,231 @@
+/**
+ * Stylesheet for Home screen
+ */
+ 
+.sp-home {
+  padding-bottom: 2rem;
+}
+
+/* Search Bar*/
+
+.sp-home .search-bar[id=search-bar] {
+  width: 100%;
+  min-height: 70vh;
+  padding: 1rem 2rem;}
+  .sp-home .search-bar[id=search-bar] .ui.sticky.fixed.top {
+    top: 5rem !important;}
+    @media screen and (max-width: 520px) {
+      .sp-home .search-bar[id=search-bar] {
+        padding: 1rem 0rem;
+      }
+    }
+.sp-home .search-bar .input {
+  width: 100%;}
+.sp-home .search-bar .input>input:focus {
+  border-color: rgb(95, 177, 177) !important;
+}
+.search-bar .del-icon {
+  margin-bottom: 1rem;
+}
+.prompt {
+  border-radius: 3rem !important;
+}
+.sp-home .search-bar .sb-input {
+  width: 100%;
+  padding: 2%;
+}
+.sp-home .search-bar .result {
+  width: 100%;
+  padding: 1rem;}
+  .sp-home .search-bar .result .resultItem {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    padding: 1rem 2rem;}
+  .sp-home .search-bar .result a {
+    font-weight: bolder;
+    color: rgb(48, 134, 134);}
+    .sp-home .search-bar .result a:hover {
+      text-decoration: underline;}
+  .sp-home .search-bar .result h4 {
+    margin-top: 0;}
+    .sp-home .search-bar .result h4 span {
+      font-size: 1rem;
+      font-weight: 100;}
+  @media screen and (max-width: 520px) {
+    .sp-home .search-bar .result {
+      padding: 0.2rem;}
+      .sp-home .search-bar .result .resultItem {
+        padding: 0.5rem 0.5rem;
+      }
+  }
+
+.sp-home .offering-detail {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 100%;
+  height: 90%;
+  z-index: 3;
+  background: #fcfcfc;
+  padding-top: 1rem;}
+  .sp-home .goback-container {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+  .sp-home .goback-container .del-icon {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
+    color: rgb(48, 129, 129);
+    margin-right: 2rem;
+    cursor: pointer;
+    font-size: 1.2rem;}
+    .sp-home .del-icon:hover, .sp-home .del-icon:focus, .sp-home .del-icon:active {
+      margin-left: 1rem;}
+  .sp-home .offering-detail h1 {
+    display: inline;
+    color: rgb(48, 134, 134);
+    font-size: 3rem;}
+  .sp-home .offering-detail h2 {
+    display: inline;
+    color: rgb(75, 88, 87);}
+    .sp-home .offering-detail h2 span {
+      color: grey;
+      font-size: 1.2rem;
+      font-weight: normal;}
+  .sp-home .offering-detail h5 {
+    display: inline;
+    color: rgb(46, 46, 46);
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
+
+
+/* Content */
+
+.sp-home .hide {
+  display: none;}
+  @keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}}
+
+/* Filter */
+
+.sp-home .filter {
+  width: 100%;
+  padding: 0.5rem 0rem 0rem 1.2rem;
+}
+@media screen and (max-width: 767px) {
+  .sp-home .filter {
+    padding-left: 0 !important;
+  }
+}
+
+.sp-home .filter .search-bar {
+  border-bottom: 1px solid rgb(228, 228, 228);
+  padding-top: 1rem !important;
+}
+
+.sp-home .filter .ui.dropdown .menu>.item {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+}
+.sp-home .filter .ui.dropdown .menu>.item:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+
+/* Offering list */
+
+.sp-home .offering-list {
+  margin-top: 2rem;
+}
+
+.sp-home .offering-list .section {
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0rem;}
+  
+  .sp-home .offering-list .section .title {
+    color: rgb(92, 121, 122);
+    font-size: 1.2rem;}
+  .sp-home .offering-list .section .title span {
+    color: rgb(173, 173, 173);
+    font-size: 1.1rem;
+  }
+
+
+  .sp-home .offering-list .section .offerings {
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
+    overflow-x: scroll !important;
+    display: flex;
+    flex-direction: row;}
+    .sp-home .offering-list .section .offerings::-webkit-scrollbar {
+      display: block;
+      background: rgb(248, 248, 248);
+      width: 2px;
+      height: 5px;}
+      .sp-home .offering-list .section .offerings::-webkit-scrollbar-track-piece {
+        background: #fcfcfc;
+      }
+      .sp-home .offering-list .section .offerings::-webkit-scrollbar-thumb {
+        background-color: #ebebeb;
+      }
+      
+  .sp-home .offering-list .section .offerings .offeringCard {
+    transition: border 0.2s linear;
+    -o-transition: border 0.2s linear;
+    -webkit-transition: border 0.2s linear;
+    min-width: 16rem;
+    max-width: 16rem; 
+    display: block;
+    height: 18rem;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    border: 0.1rem solid transparent;
+    overflow: hidden;
+    cursor: pointer;}
+    .sp-home .card-body {
+      padding: 0.5rem !important;
+    }
+  .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a:focus {
+    outline: none;
+    border: 0.1rem solid rgb(69, 165, 168);}
+    .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
+      margin-top: -7rem;}
+  .sp-home .offering-list .section .offerings .offeringCard .img {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
+    width: 16rem;}
+  .sp-home .offering-list .section .offerings .offeringCard .title {
+    color: rgb(68, 92, 92);
+  }
+  .sp-home .offering-list .section .offerings .offeringCard .info {
+    color: rgb(71, 141, 141);
+    font-weight: 500;
+  }
+  .sp-home  .offeringCard .description {
+    color: rgb(107, 128, 128);
+    position: relative; 
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sp-home  .offeringCard .description::-webkit-scrollbar {
+    display: block;
+    width: 3px;
+  }
+  .sp-home  .offeringCard .description::-webkit-scrollbar-track-piece {
+    background-color: rgb(246, 246, 246) !important;
+  }
+  .sp-home  .offeringCard .description::-webkit-scrollbar-thumb {
+    background: rgba(198, 219, 223, 0.685);
+  }
+
+  
+

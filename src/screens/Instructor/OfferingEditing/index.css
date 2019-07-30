@@ -1,0 +1,66 @@
+.op-form {
+  padding-left: 1rem;
+  width: 100%;
+  min-height: 20rem;
+}
+
+.op-grid {
+  padding-top: 1rem !important;
+}
+
+.op-grid h2 {
+  margin-left: -1rem;
+  color: rgb(76, 105, 104);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+.op-grid p {
+  display: inline;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+  .op-grid p span {
+    font-weight: normal;
+    font-size: 1rem;
+  }
+
+  .op-grid .upload-box {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .op-grid .upload-box .upload-button {
+    height: 3rem;
+    width: 10rem;
+    /* position: absolute; */
+    left: 0;
+    top: 0;
+  }
+  .op-grid .upload-box input[type=file] {
+    font-size: 20px !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+.op-grid .message {
+  min-height: 9rem !important;
+  width: 100%;
+}
+.op-grid .labels {
+  display: inline;}
+.op-grid .label {
+  background: rgb(52, 100, 99) !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+.op-new-btn {
+  height: 100%;
+  width: max-content;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.op-form .inverted {
+  background: none !important;
+}

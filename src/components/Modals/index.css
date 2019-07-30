@@ -1,0 +1,30 @@
+/**
+ * Stylesheet for General Modal
+ */
+
+.ui .modal {
+  overflow: visible;
+}
+
+.general-modal {
+  position: relative !important;
+  height: max-content;
+  display: flex;
+  flex-direction: column;}
+  .general-modal .gm-header {
+    background: #385858 !important; 
+    color: #f5f5f5 !important;}
+  .general-modal .gm-content {
+    background: #f0f0f0 !important;}
+  .general-modal .gm-action {
+    background: #f0f0f0 !important;}
+
+  /* For Delete Modalc*/   
+  .general-modal .delete-target {
+    color: rgb(26, 110, 110);
+    text-decoration: underline;
+  }
+
+  .general-modal .positive {
+    background: #449999 !important;
+  }

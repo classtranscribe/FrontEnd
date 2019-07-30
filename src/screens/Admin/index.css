@@ -1,0 +1,66 @@
+/**
+ * Stylesheet for Admin Page
+ */
+ 
+.admin-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 5rem 2rem 5rem 2rem;
+  overflow: scroll;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ap-tab {
+  width: 100%;
+  /* max-width: 70rem; */
+}
+
+.ap-list-item {
+  padding-left: 1rem;
+}
+
+.ap-form {
+  padding-left: 1rem;
+  width: 100%;
+}
+
+.ap-id {
+  color: rgb(4, 91, 98);
+}
+
+.ap-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100%;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+}
+
+.ap-listitem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ap-listitem .ap-iteminfo {
+  width: 100%;
+}
+
+/* Calendar */
+.DateRangePickerInput {
+  background: none !important;
+}
+.CalendarDay__selected {
+  background: #14a8a1 !important;
+  color: white;
+  border: #14a8a1 solid 1px !important
+}
+.CalendarDay__selected_span {
+  background: #70b9ae !important; 
+  color: white;
+  border: none !important;
+}
