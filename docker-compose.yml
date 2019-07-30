@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  frontend:
+    image: node
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "44043:443"
+      - "44080:80"
+      - "43000:3000"
+    env_file:
+      frontend-env.list
+    container_name: "CTFrontEnd"
+    command: npm start --prefix frontend
