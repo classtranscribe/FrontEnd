@@ -30,12 +30,15 @@ export class WatchContent extends React.Component {
 
       currTranscriptionId: '',
       captions: [],
+
+      // true if need to prevent caption sync scrolling
       readyToEdit: false,
     }
   }
 
   componentDidUpdate(prevProps) {
     const { media } = this.props
+    /** If media is loaded, set screen mode and get transcriptions */
     if (prevProps.media !== media) {
       if (media.isTwoScreen) this.setState({ mode: PS_MODE })
       if (media.transcriptions) {
@@ -45,6 +48,7 @@ export class WatchContent extends React.Component {
     }
   }
 
+  /** Function for getting captions based on current transcription id */
   getCaptionsByTranscriptionId = id => {
     this.setState({ currTranscriptionId: id })
     api.getCaptionsByTranscriptionId(id)
@@ -54,6 +58,7 @@ export class WatchContent extends React.Component {
       })
   }
 
+  /** Function for reloading captions, called before editing captions */
   reLoadCaption = callBack => {
     const { currTranscriptionId } = this.state
     api.getCaptionsByTranscriptionId(currTranscriptionId)
@@ -64,18 +69,33 @@ export class WatchContent extends React.Component {
       })
   }
 
-  switchScreen = () => this.setState({ primary: !this.state.primary })
-  switchToPrimary = () => this.setState({ primary: true })
-  switchToSecondary = () => this.setState({ primary: false })
-
-  setMode = mode => this.setState({ mode })
+  /** Function called when mouseEnter and mouseLeave the caption window */
   setReadyToEdit = value => {
     value = typeof value === "boolean" ? value : !this.state.readyToEdit
     this.setState({ readyToEdit: value })
   }
 
+  /** Functions for switching screens */
+  switchScreen = () => this.setState({ primary: !this.state.primary })
+  switchToPrimary = () => this.setState({ primary: true })
+  switchToSecondary = () => this.setState({ primary: false })
+
+  /** Function for setting screen mode */
+  setMode = mode => this.setState({ mode })
+
+  /** Function called when playbackRate of videos changed */
+  setPlaybackRate = playbackRate => this.setState({ playbackRate })
+
+  /** Function called when transcription of videos changed */
+  setTrackSrc = trackSrc => {
+    this.setState({ trackSrc })
+    const { media } = this.props
+    let currTranscription = handleData.find(media.transcriptions, { src: trackSrc })
+    this.getCaptionsByTranscriptionId(currTranscription.id)
+  }
+
+  /** Function called when the video is seeking */
   setCurrTime = (e, time) => {
-    // if (!this.props.media.isTwoScreen) return;
     let currTime = time || e.target.currentTime
     // console.log(currTime)
     $("video").each( (index, videoElem) => {
@@ -83,6 +103,7 @@ export class WatchContent extends React.Component {
     })
   }
 
+  /** Function called when video timeupdate in order to sync the caption scrolling */
   setTimeUpdate = time => {
     const currLine = findCurrLine(time, this)
     if (!currLine) return;
@@ -98,14 +119,6 @@ export class WatchContent extends React.Component {
       if (!this.state.readyToEdit)
         target.parentNode.scrollTop = target.offsetTop - 50
     }
-  }
-
-  setPlaybackRate = playbackRate => this.setState({ playbackRate })
-  setTrackSrc = trackSrc => {
-    this.setState({ trackSrc })
-    const { media } = this.props
-    let currTranscription = handleData.find(media.transcriptions, { src: trackSrc })
-    this.getCaptionsByTranscriptionId(currTranscription.id)
   }
 
   render() {

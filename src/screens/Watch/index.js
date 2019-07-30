@@ -1,6 +1,12 @@
+/**
+ * Watch screen for ClassTranscribe
+ */
+
 import React from 'react'
+// UI
 import { WatchHeader, WatchContent } from './Components'
 import './index.css'
+// Vars
 import { api } from 'utils'
 
 export class Watch extends React.Component {
@@ -8,6 +14,7 @@ export class Watch extends React.Component {
     super(props)
     this.id = this.props.match.params.id
     this.courseNumber = this.props.match.params.courseNumber
+    
     this.state = { 
       showPlaylist: false,
       media: api.parseMedia(),
