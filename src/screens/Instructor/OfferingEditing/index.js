@@ -5,12 +5,12 @@
 
 import React from 'react'
 // Layouts
-import { GeneralModal, DeleteModal } from '../../../components'
+import { GeneralModal, DeleteModal } from 'components'
 import OfferingForm from './OfferingForms'
 import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
 // Vars
-import { api, handleData, util } from '../../../util'
+import { api, handleData, util } from 'utils'
 const initialOffering = api.initialData.initialOffering
 
 export default class OfferingSettingPage extends React.Component {
@@ -38,6 +38,8 @@ export default class OfferingSettingPage extends React.Component {
       staffs: [],
       staffMailId: '',
       selectedCourses: [],
+      newSelectedCourses: [],
+      newRemovedCourses: [],
 
       // offering info
       offering: handleData.copy(initialOffering),
@@ -154,26 +156,24 @@ export default class OfferingSettingPage extends React.Component {
    */
 
   addCourse = course => {
-    const { selectedCourses, isNew, id } = this.state
-    if ( handleData.findById(selectedCourses, course.id) ) return;
+    const { selectedCourses, isNew, id, newSelectedCourses } = this.state
+    if ( handleData.findById(selectedCourses, course.id) !== 'NOT FOUND' ) return;
     selectedCourses.push(course)
+    console.log('course', course)
     this.setState({ selectedCourses })
     if ( !isNew ) {
-      api.postToCourseOfferings({
-        courseId: course.id,
-        offeringId: id
-      })
-        .then( () => console.log('PUT course success!'))
+      newSelectedCourses.push(course)
+      this.setState({ newSelectedCourses })
     }
   }
 
   removeCourse = courseId => {
-    var { selectedCourses, id, isNew } = this.state
+    var { selectedCourses, id, isNew, newRemovedCourses } = this.state
     handleData.remove(selectedCourses, {id: courseId})
     this.setState({ selectedCourses })
     if (!isNew) {
-      api.deleteFromCourseOfferings(courseId, id)
-       .then( () => console.log('DELETE course success!'))
+      newRemovedCourses.push(courseId)
+      this.setState({ newRemovedCourses })
     }
   }
   
@@ -267,8 +267,19 @@ export default class OfferingSettingPage extends React.Component {
    * Function called when save changes of a offering
    */
   onUpdate = () => {
-    const { offeringInfo, offering } = this.state
+    const { offeringInfo, offering, newRemovedCourses, newSelectedCourses, id } = this.state
     const newOffering = offeringInfo.offering
+    newRemovedCourses.forEach( courseId=> {
+      api.deleteFromCourseOfferings(courseId, id)
+       .then( () => console.log('DELETE course success!'))
+    })
+    newSelectedCourses.forEach( course => {
+      api.postToCourseOfferings({
+        courseId: course.id,
+        offeringId: id
+      })
+        .then( () => console.log('PUT course success!'))
+    })
     console.log(newOffering)
     // PUT to Offerings/id if if the offering info changes 
     if ( !handleData.isEqual(newOffering, offering.offering) ) {

@@ -1,0 +1,245 @@
+.trans-container {
+  width: 96%;
+  height: 90vh;
+  overflow: hidden;
+  background: rgb(95, 102, 101);
+  transform: translateY(0);
+  transition: transform .2s linear;
+  margin: 1.5em 2%;
+  box-shadow: 0 0 .2em .2em rgba(58, 59, 59, 0.418);
+  border-radius: .5em .5em 0 0;}
+@media screen and (max-width: 650px) {
+  .trans-container {
+    width: 100%;
+    margin: 1.5em 0 0 0;
+  }
+}
+
+.trans-container .edit-button {
+  border: 1px solid rgb(182, 182, 182) !important;
+  color: white !important;
+  outline: none;
+  margin-left: .5em !important;
+  background: none !important;
+}
+.trans-container .edit-button:focus, .trans-container .edit-button:hover {
+  color: rgb(204, 204, 204) !important;
+}
+
+.trans-con-expand {
+  transform: translateY(-25vw);
+}
+
+/* Tool Bar */
+
+.trans-container .tool-bar {
+  min-height: 4em;
+  width: 100%;
+  padding: .5em 1em;
+  box-shadow: 0 0 .2em .2em rgba(71, 71, 71, 0.507);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;}
+  .trans-container .tool-bar i {
+    color: white;
+  }
+
+  .expand-button {
+    background: none !important;
+  }
+  .expand-button:hover>i, .expand-button:focus>i {
+    color: rgb(172, 197, 197) !important;
+  }
+
+  /* Input */
+  .trans-container .tool-bar .ui.input  {
+    color: white;
+  }
+  .trans-container .tool-bar .ui.input>input {
+    background: rgb(95, 102, 101);
+    border-color: rgb(182, 182, 182);
+    color: white;
+    width: 17em;
+    transition: width .1s linear;
+    max-width: 50vw;
+  }
+  .trans-container .tool-bar .ui.input>input:focus {
+    border-color: white;
+    background: rgb(67, 73, 72);
+    width: 17em;}
+    @media screen and (max-width: 750px) {
+      .trans-container .tool-bar .ui.input>input:focus {
+        width: 10em;
+      }
+    }
+
+.trans-container .tool-bar .search  .clear-input-btn {
+  border: 1px solid rgb(182, 182, 182) !important;
+  color: white;
+  outline: none;
+  margin-left: .5em;
+  height: 3.1em;
+}
+
+  /* Search Option */
+  .trans-container .ui.selection.dropdown {
+    margin-right: .5em;
+    min-width: 5em;}
+  .trans-container .tool-bar .search .selection {
+    background: rgb(95, 102, 101);
+    border-color: rgb(182, 182, 182) !important;
+  }
+  .trans-container .tool-bar .search .dropdown .text {
+    color: white !important;
+  }
+  .trans-container .tool-bar .search .dropdown .menu {
+    border-color: inherit !important;
+  }
+  .trans-container .tool-bar .search .dropdown .menu>.item {
+    background: rgb(95, 102, 101);
+    color: white !important;
+    border: 0;
+  }
+  .trans-container .tool-bar .search .dropdown .menu .selected.item, .trans-container .tool-bar .search .dropdown.selected {
+    background: rgb(74, 78, 78);
+  }
+
+
+.trans-container .tool-bar .search .results {
+  max-height: 50vh;
+  width: 50vw;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: absolute;
+}
+
+
+/* Caption Window */
+
+.trans-container .captions {
+  height: 90vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: .5em 0 90vh 0;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+.trans-container .captions .line {
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  padding: 0em 2%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: rgb(209, 209, 209);
+  justify-content: space-between;
+  outline: none;
+  font-weight: bold;
+  outline: none;}
+  .trans-container .captions .line:hover {
+    background: rgb(84, 92, 91);}
+  @media screen and (max-width: 650px) {
+    .trans-container .captions .line {
+      justify-content: center;
+    }
+  }
+.trans-container .captions .curr-line {
+  background: rgb(67, 73, 72);
+  /* border-bottom: 1px solid rgb(67, 73, 72); */
+  width: 100%;
+  color: white;}
+  .trans-container .captions .curr-line:hover {
+    background: rgb(67, 73, 72);
+  }
+
+.trans-container .captions .line .text {
+  outline: none;
+  text-align: center;
+  cursor: pointer;}
+  .trans-container .captions .line .text:focus {
+    color: white;
+  }
+  .trans-container .captions .line .text .material-icons {
+    font-size: 1em;
+  }
+
+
+.trans-container .captions .line .likes, 
+.trans-container .captions .line .edit {
+  opacity: 0;
+  color: rgb(185, 185, 185);
+  font-weight: normal;}
+.trans-container .captions .line:hover>.likes, .trans-container .captions .line:focus>.likes,
+.trans-container .captions .line:hover>.edit, .trans-container .captions .line:focus>.edit {
+  opacity: 1;
+}
+
+.trans-container .captions .line .likes {
+  min-width: 10em;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.trans-container .captions .line .edit {
+  display: inline-flex;
+  justify-content: flex-end;
+  min-width: 9em;
+}
+.trans-container .captions .line .likes:focus-within, .trans-container .captions .line .edit:focus-within {
+  opacity: 1;
+}
+
+.trans-container .captions .icon, 
+.trans-container .captions .icon {
+  transition: color .2s linear;
+  color: rgb(209, 209, 209);
+  padding: 0;
+  outline: none;
+  background: none !important;
+  margin-left: .4em;}
+  .trans-container .captions .icon:hover, 
+  .trans-container .captions .icon:hover {
+    color: rgb(184, 184, 184);
+  }
+
+.trans-container .captions .line .likes .num {
+  margin-left: -1.1em;
+} 
+
+@media screen and (max-width: 850px) {
+  .trans-container .captions .line .edit .name {
+    display: none;
+  }
+  .trans-container .captions .line .edit {
+    min-width: 5em;
+  }
+  .trans-container .captions .curr-line .likes .icon {
+    font-size: .5em !important;
+  }
+}
+@media screen and (max-width: 650px) {
+  .trans-container .captions .line .likes,
+  .trans-container .captions .line .edit {
+    display: none;
+  }
+}
+
+/* Edit line */
+
+.trans-container .captions .line .ui.input {
+  color: white;
+}
+.trans-container .captions .line .ui.input>input {
+  background: rgb(95, 102, 101);
+  border-color: rgb(182, 182, 182);
+  color: white;
+  width: 75vw;
+  white-space: normal;
+}
+.trans-container .captions .line .ui.input>input:focus {
+  border-color: white;
+  background: rgb(67, 73, 72);
+}

@@ -5,20 +5,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
-import { Icon, Button } from 'semantic-ui-react'
-import { GeneralPlaceholder } from '../../../../components'
-import { util, api, handleData } from '../../../../util'
-const { initialCourse, initialOffering } = api.initialData
+import { Button } from 'semantic-ui-react'
+import { util, api } from 'utils'
+import TypeIcon from './TypeIcon'
 
-export function SideBar({id, playlists, setActivePane, state}) {
-  const {displaySideBar, term, courseOffering, loadingOfferingInfo} = state;
+export function SideBar({id, state}) {
+  const { displaySideBar, courseOffering, playlists } = state;
   // style for showing or hiding the sidebar
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
-  // get complete courseNumber based on an array of courses (e.g. CS425/ECE428)
-  const courseNumber = courseOffering.courses ? handleData.getCompleteCourseNumber(courseOffering.courses) : ''
-  // aviod undefined behaviors
-  const course = courseOffering.courses ? courseOffering.courses[0] : initialCourse
-  const offering = courseOffering ? courseOffering.offering : initialOffering
+
+  var fullNumber = 'Loading...'
+  var courseName = ''
+  var termName = ''
+  var sectionName = ''
+  // get info from the courseOffering
+  const { courses, offering } = courseOffering
+  if (courses) {
+    fullNumber = api.getFullNumber(courses)
+    courseName = courses[0].courseName
+  }
+  if (offering && offering.termName) {
+    termName = offering.termName
+    sectionName = offering.sectionName
+  }
 
   return (
     <div className="op-sidebar" style={style}>
@@ -34,68 +43,52 @@ export function SideBar({id, playlists, setActivePane, state}) {
         </ListGroup.Item>
 
         {/* Offering Info ---click to editing page */}
-        {
-          loadingOfferingInfo ? (
-            <GeneralPlaceholder fluid 
-              lines={['full', 'long', 'medium', 'short', 'short', 'very short']} 
-            />
-          ) : (
-            <>
-            <ListGroup.Item 
-              as={Link}
-              className="list" 
-              to={util.links.editOffering(id)} 
-              aria-label="edit offering"
-              title="edit offering"
-            >
-              <p className="title">
-                <i class="fas fa-book"></i> &ensp; {courseNumber}
-                &ensp; <i class="fas fa-edit"></i>
-              </p>
-            </ListGroup.Item>
-            <ListGroup.Item className="list" disabled>
-              <p className="name">
-                <strong>{course.courseName}</strong>
-              </p>
-              <p className="name sec">
-                {term.name}&ensp;{offering.sectionName}
-              </p>
-            </ListGroup.Item>
-            </>
-          )
-        }
+        <ListGroup.Item 
+          as={Link}
+          className="list" 
+          to={util.links.editOffering(id)} 
+          aria-label="edit offering"
+          title="edit offering"
+        >
+          <p className="title">
+            <i class="fas fa-book"></i> &ensp; {fullNumber}
+            &ensp; <i class="fas fa-edit"></i>
+          </p>
+        </ListGroup.Item>
+        <ListGroup.Item className="list" disabled>
+          <p className="name">
+            <strong>{courseName}</strong>
+          </p>
+          <p className="name sec">
+            {termName}&ensp;{sectionName}
+          </p>
+        </ListGroup.Item>
         
         {/* Data demo menu item */}
-        <ListGroup.Item className="list" eventKey="data" aria-label="data" title="data">
+        <ListGroup.Item 
+          as={Link} to={util.links.offeringData(id)}
+          className="list" eventKey="data" aria-label="data" title="data"
+        >
           <i class="fas fa-chart-bar"></i> &ensp; Data
         </ListGroup.Item>
       </ListGroup>
 
-      <Playlist playlists={playlists} id={id} setActivePane={setActivePane}/>
+      <Playlist playlists={playlists} id={id} fullNumber={fullNumber}/>
     </div>
   )
 }
 
 /**
- * Playlist Tabs
+ * Playlists
  */
-function Playlist({playlists, id, setActivePane}) {
+function Playlist({ playlists, id, fullNumber }) {
+  if (!playlists.length) return null
   // Show when there is no playlists yet
   const NoPlaylistWrapper = (
     <div className="noplaylist-wrapper">
       <h4>EMPTY</h4>
     </div>
   )
-
-  const getColor = type => {
-    return type === 'YouTube' ? 'red' : 
-           type === 'Echo360' ? 'blue' : 'black'
-  }
-
-  const getIcon = type => {
-    return type === 'YouTube' ? 'youtube' : 
-           type === 'Echo360' ? 'video play' : 'file video'
-  }
 
   return (
     <div className="playlists">
@@ -111,17 +104,17 @@ function Playlist({playlists, id, setActivePane}) {
         <ListGroup className="playlist">
           {playlists.map( playlist => 
             <ListGroup.Item 
+              as={Link} to={util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id)}
               variant="secondary" className="item" action 
-              key={playlist.name} eventKey={playlist.name} // should be playlist id
-              onClick={()=>setActivePane(playlist.name)} // should be playlist id
+              key={playlist.id} eventKey={playlist.id}
               aria-label={playlist.name}
               title={`see videos of playlist '${playlist.name}'`}
             >
               <p className="pl-name">
-                <Icon name={getIcon(playlist.type)} color={getColor(playlist.type)} /> 
+                <TypeIcon type={playlist.sourceType} />
                 &ensp;{playlist.name}
               </p>
-              <p className="pl-video-num">{playlist.videos.length} video(s)</p>
+              <p className="pl-video-num">{playlist.medias.length} video(s)</p>
             </ListGroup.Item>
           )}
         </ListGroup> : <NoPlaylistWrapper />

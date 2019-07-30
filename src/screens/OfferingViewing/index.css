@@ -26,7 +26,11 @@
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
+}
+
+.prompt {
+  border-radius: 3rem !important;
 }
 
 /* Side Bar */
@@ -41,3 +45,17 @@
     text-align: center;
     color: rgb(126, 151, 151);
   }
+
+.sp-content .goback-container {
+  width: 100%;
+  padding-bottom: 1rem;}
+.sp-content .goback-container .del-icon {
+  transition: margin 0.2s linear;
+  -o-transition: margin 0.2s linear;
+  -webkit-transition: margin 0.2s linear;
+  color: rgb(48, 129, 129);
+  margin-right: 2rem;
+  cursor: pointer;
+  font-size: 1.2rem;}
+  .sp-content .del-icon:hover, .sp-content .del-icon:focus, .sp-content .del-icon:active {
+    margin-left: 1rem;}

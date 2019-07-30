@@ -4,7 +4,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap';
-import { user, util } from '../../../util';
+import { user, util } from 'utils';
 import { Icon, Button } from 'semantic-ui-react';
 
 export function Sidebar({state: {displaySideBar}}) {

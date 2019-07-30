@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Grid, Tab, Card, Button, Divider, Popup, Message } from 'semantic-ui-react'
-import { sortFunc, util, handleData } from '../../../../util'
+import { sortFunc, util, handleData } from 'utils'
 
 /**
  * @param courseOffering one course and its offerings

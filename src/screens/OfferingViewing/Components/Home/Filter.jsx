@@ -4,11 +4,12 @@
  */
 
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Dropdown, Form, Grid } from 'semantic-ui-react'
-import { util } from '../../../../util'
+import { util } from 'utils'
 
-export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected, onSearching}) {
-  const { universities, departments, terms, searchValue } = state
+export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected}) {
+  const { universities, departments, terms } = state
   // get selecting options
   const uniOptions = util.getSelectOptions(universities)
   const termOptions = terms ? util.getSelectOptions(terms, 'term') : []
@@ -20,12 +21,14 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
         <Grid stackable columns="equal">
           <Grid.Row className="search-bar">
             <Grid.Column >
-              <div className="ui icon input" style={{width: '100%'}}>
+              <div className="ui icon input" style={{width: '100%'}} >
+                <Link to={util.links.search()} style={{width: '100%'}} >
                 <input 
                   type="text" className="prompt" readOnly
-                  onClick={onSearching} value={searchValue}
+                  value={localStorage.getItem('searchValue') || ''}
                   placeholder="Search for Courses ..."
                 />
+                </Link>
                 <i aria-hidden="true" class="search icon"></i>
               </div>
             </Grid.Column>

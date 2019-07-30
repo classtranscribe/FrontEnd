@@ -10,7 +10,7 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
   return (
     <Modal 
       className="general-modal" 
-      size={size || 'small'} dimmer='inverted'
+      size={size || 'small'} 
       open={open} onClose={onClose}
     >
       <Modal.Header className="gm-header">{header}</Modal.Header>

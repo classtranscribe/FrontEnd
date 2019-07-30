@@ -1,0 +1,42 @@
+/**
+ * Stylesheet for basic layouts of WatchContent Component
+ */
+
+.watch-content {
+  position: absolute;
+  width: 100%;
+  padding: 0;
+  color: #fcfcfc;
+}
+
+.watch-content .player-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-left: 2vw;
+  align-items: center;
+  /* justify-content: center; */
+}
+.watch-content .switch-player {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.watch-content .player-container[id=normal-mode], .watch-content .player-container[id=nested-mode] {
+  width: 100vw;
+  background: black;
+  margin-top: .5em;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Moble stylesheet */
+@media screen and (max-width: 650px) {
+  .watch-content .player-container {
+    padding-left: 0;
+  }
+  .watch-content {
+    padding: .5em 0 !important;
+  }
+}

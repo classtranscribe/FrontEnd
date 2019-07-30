@@ -7,12 +7,12 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 // Layouts
-import { ClassTranscribeHeader, ClassTranscribeFooter } from '../../../components'
+import { ClassTranscribeHeader, ClassTranscribeFooter } from 'components'
 import { Courses, ProfileCard } from "./Components"
 import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
 // Vars
-import { api, user } from '../../../util'
+import { api, user } from 'utils'
 
 
 export class InstructorProfile extends React.Component {

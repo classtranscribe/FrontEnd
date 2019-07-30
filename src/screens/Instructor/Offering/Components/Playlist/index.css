@@ -1,0 +1,155 @@
+.csp-videos {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+  width: 100%;
+  padding: 0 5% 0rem 5%;
+}
+
+/* Header Placeholder */
+.pl-header-placeholder {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: #dbdbdb solid 1px;
+}
+.pl-header-placeholder .type-icon {
+  height: 2.5em;
+  width: 3.5em; 
+  margin-left: 1.5rem;
+}
+.pl-header-placeholder .name {
+  height: 2em; 
+  width: 70%; 
+  margin: 0 0 0 1rem !important;
+}
+
+/* Header */
+.pl-info-header {
+  background: #fafafae1;
+  padding-top: 1rem;
+}
+.csp-videos .ui.sticky.fixed.top {
+  top: 4rem !important;
+}
+.pl-info-header .name {
+  width: 100%;
+  padding: 0 0 1rem 1rem;
+  border-bottom: #dbdbdb solid 1px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(97, 92, 92);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.csp-videos .playlist-btn {
+  margin-left: 1em;
+  width: max-content;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.csp-videos .playlist-btn .edit-btn {
+  margin: 0.2rem 0 0.5rem 0rem;
+  width: max-content;
+}
+@media screen and (min-width: 800px) {
+  .csp-videos .playlist-btn .edit-btn:after {
+    content: '  Edit Playlist'
+  }
+}
+.csp-videos .playlist-btn .new-btn {
+  width: max-content;
+  margin: 0.2rem 0.5rem 0.5rem 0.5rem;
+}
+.novideo-wrapper {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.novideo-wrapper h4 {
+  font-size: 2rem;
+  color: #949393;
+  text-align: center;
+}
+
+/* Video List Placeholder */
+
+.vcard-placeholder {
+  padding: 1rem !important;
+  width: 100%;
+  display: flex;
+  flex-direction: row !important;
+  align-items: flex-start;
+  border-bottom: #dbdbdb solid 1px !important;
+}
+.vcard-placeholder .img {
+  height: 4em;
+  width: 7em; 
+  display: inline-block;
+  border-radius: 0.5rem !important;
+}
+.vcard-placeholder .vname {
+  height: 2em; 
+  width: 80%; 
+  margin: 0 0 0 1rem !important;
+  display: inline-block;
+}
+
+/* Video List */
+
+.csp-videos .vlist {
+  min-height: 50vh;
+  width: 100%;
+}
+.csp-videos .vlist .video-card {
+  transition: all 0.2s linear;
+  padding: 1rem 0 1rem 1rem !important;
+  border-bottom: solid 1px #e9e9e9;
+}
+
+.csp-videos .vlist .video-card:last-child {
+  border: none;
+}
+
+.csp-videos .vlist .video-card .poster {
+  height: 4rem !important;
+  border-radius: 0.5rem !important;
+  margin-right: 1rem !important;
+  cursor: pointer;
+}
+.csp-videos .vlist .video-card .info {
+  display: inline-block;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+}
+
+.csp-videos .vlist .video-card .info .title {
+  color: rgb(102, 102, 102);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 100%;}
+  .csp-videos .vlist .video-card .info .title:hover {
+    text-decoration: underline;
+    color: rgb(85, 85, 85);}
+  .csp-videos .vlist .video-card .info .title:active {
+    color: rgb(0, 0, 0);}
+  @media screen and (max-width: 520px) {
+    .csp-videos .vlist .video-card .info .title {
+      font-size: 1.1rem;
+    }
+  }
+
+.csp-videos .vlist .video-card .list-dropdown-btn {
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -5,19 +5,16 @@
  */
 
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
-import { Tab } from 'react-bootstrap'
 import './index.css'
-// Layout components
-import { ClassTranscribeHeader } from '../../../components'
+import { ClassTranscribeHeader } from 'components'
 import { PlaylistEditing, VideoEditing } from './EditingPages'
-import { SideBar, VideoList, EmptyResult } from './Components'
+import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
-import { user, api, handleData } from '../../../util'
-import { fakeData } from '../../../data' // fake playlists
-const { initialOffering, initialTerm } = api.initialData
+import { user, api, util } from 'utils'
 
 
 export class InstructorOffering extends React.Component {
@@ -26,29 +23,17 @@ export class InstructorOffering extends React.Component {
 
     // offeringId
     this.id = this.props.match.params.id 
-    // fake playlists
-    this.playlists = fakeData.playlists // []
 
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
-      activePane: localStorage.getItem('offeringActivePane') || this.playlists[0].name, // should be playlist id
-      courseOffering: {...handleData.copy(initialOffering), courses: []},
-      term: handleData.copy(initialTerm),
 
-      loadingCourses: true,
-      loadingTerm: true,
-      loadingOfferingFirstTime: true,
-      loadingOfferingInfo: true,
+      courseOffering: {},
+      playlists: [],
     }
   }
 
   showSiderBar = () => {
     this.setState({displaySideBar: !this.state.displaySideBar})
-  }
-
-  setActivePane = eventKey => {
-    this.setState({activePane: eventKey})
-    localStorage.setItem('offeringActivePane', eventKey)
   }
 
   componentDidMount() {
@@ -63,7 +48,7 @@ export class InstructorOffering extends React.Component {
     /**
      * Get all the data based on the offeringId
      */
-    api.getData('Offerings', this.id)
+    api.getOfferingById(this.id)
       .then( response => {
         console.log(response.data)
         /**
@@ -74,43 +59,35 @@ export class InstructorOffering extends React.Component {
          * 2. get all the departments associated with the courses
          *    and modify the course.courseNumber with depart acronym 
          */
-        const { courses } = response.data
-        courses.forEach( (course, index) => {
-          api.getData('Departments', course.departmentId)
-            .then( response => {
-              const { courseOffering } = this.state
-              const { courseNumber } = courseOffering.courses[index]
-              const { acronym } = response.data
-              courseOffering.courses[index].courseNumber = acronym + courseNumber
-              this.setState({ courseOffering, loadingCourses: false})
-            })
-        })
+        api.completeSingleOffering(response.data, courseOffering => this.setState({ courseOffering }))
         /**
-         * 3. Get term by offering.termId ---to get the term.name
-         */
-        api.getData('Terms', response.data.offering.termId)
-          .then( response => {
-            this.setState({term: response.data, loadingTerm: false})
-          })
-
-        /**
-         * 4. Hide the loading page
+         * 3. Hide the loading page
          */
         api.contentLoaded()
+      })
 
-        api.getData('Playlists')
-          .then( response => console.log(response.data) )
+    /**
+     * GET playlists based on offeringId
+     */
+    api.getPlaylistsByOfferingId(this.id)
+      .then( ({data}) => {
+        this.setState({ playlists: data })
+        console.log('playlists', data)
       })
   }
 
   /**
-   * Check whether the content is loaded
+   * Redirect the route to the first playlist
    */
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // if the Offering info is fully loaded, hide loading wrapper
-    const { loadingTerm, loadingCourses, loadingOfferingFirstTime } = this.state;
-    if (!loadingTerm && !loadingCourses && loadingOfferingFirstTime) {
-          this.setState({loadingOfferingInfo: false, loadingOfferingFirstTime: false})
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.playlists !== this.state.playlists || prevState.courseOffering !== this.state.courseOffering) {
+      const { props, id, state } = this
+      const isExactOfferingPage = window.location.pathname === `/offering/${id}`
+      if (state.playlists.length && state.courseOffering.courses.length && isExactOfferingPage) 
+        props.history.push(util.links.offeringPlaylist(
+          id, api.getFullNumber(state.courseOffering.courses, '-'), 
+          state.playlists[0].id
+        ))
     }
   }
 
@@ -128,7 +105,7 @@ export class InstructorOffering extends React.Component {
   }
 
   render() {
-    const { activePane, displaySideBar } = this.state
+    const { displaySideBar, playlists } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
       paddingLeft: (displaySideBar && window.innerWidth > 900) ? '20rem' : '0'
@@ -144,30 +121,39 @@ export class InstructorOffering extends React.Component {
         />
 
         {/* Sub-Routes to editing pages for playlist & video */}
-        <Route path='/offering/offering-setting/:type?=:id' component={OfferingSettingPage} />
-        <Route path='/offering/playlist-setting/:type?=:id' component={PlaylistEditing} />
+        <Route path={`/offering/${this.id}/offering-setting/:type?=:id`} component={OfferingSettingPage} />
+        <Route path={`/offering/${this.id}/playlist-setting/:type?=:id`} component={PlaylistEditing} />
         <Route path='/offering/video-setting/:id' component={VideoEditing} />
         <Route path='/offering/upload/:id' component={VideoEditing} />
 
         {/* Layouts */}
-        <Tab.Container 
+        <div
           className="content" 
-          defaultActiveKey={this.playlists.length ? activePane : 'noPlaylists'}
+          defaultActiveKey={'noPlaylists'}
         >
           <SideBar {...this}/>
 
-          <Tab.Content className="content-result" style={paddingLeft}>
-            {/* When there is no playlists yet */}
-            <EmptyResult {...this}/>
-            {/* Data demo */}
-            <Tab.Pane eventKey="data" aria-label="Data Representation">
-              data here.
-            </Tab.Pane>
-            {/* Video list */}
-            <VideoList {...this} />
-          </Tab.Content>
+          <div className="content-result" style={paddingLeft}>
+            {
+              !playlists.length
+              &&
+              <EmptyResult {...this} />
+            }
 
-        </Tab.Container>
+            <Route
+              render={({ location }) => (
+                <TransitionGroup>
+                  <CSSTransition key={location.key} classNames="fade" timeout={300}>
+                    <Switch location={location}>
+                      <Route exact path={`/offering/${this.id}/data`} component={DataDemo} />
+                      <Route exact path={`/offering/${this.id}/playlist/:courseNumber?=:id`} component={Playlist} />
+                    </Switch>
+                  </CSSTransition>
+                </TransitionGroup>
+              )} 
+            />
+          </div>
+        </div>
       </main>
     )
   }

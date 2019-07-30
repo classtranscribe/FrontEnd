@@ -10,7 +10,7 @@ import { Placeholder } from 'semantic-ui-react'
  */
 export function OfferingCardHolder() {
   return (
-    <Card className="offeringCard">
+    <Card className="offeringCard" id="offering-card-holder">
       <Placeholder>
         <Placeholder.Image style={{height: '9rem', width: '16rem'}}/>
       </Placeholder>

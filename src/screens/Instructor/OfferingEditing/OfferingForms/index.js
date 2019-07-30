@@ -5,7 +5,7 @@
 import React from 'react'
 // Layouts
 import { Grid, Form } from 'semantic-ui-react'
-import { GeneralLoader } from '../../../../components'
+import { GeneralLoader } from 'components'
 
 import CourseSetting from './CourseSetting'
 import TermSectionTypeSetting from './TermSectionType'

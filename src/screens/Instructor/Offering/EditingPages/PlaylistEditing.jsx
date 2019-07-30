@@ -5,11 +5,11 @@
 
 import React, { useState, useEffect } from 'react'
 // UI & Layouts
-import { Grid, Form, Input, Select, Message, Icon, Divider } from 'semantic-ui-react'
-import { GeneralModal, GeneralLoader } from '../../../../components'
+import { Grid, Form, Input, Select, Message, Icon, Divider, Popup } from 'semantic-ui-react'
+import { GeneralModal, GeneralLoader } from 'components'
 import { SaveButtons, EditButtons } from './Buttons'
 // Vars
-import { api, handleData, util } from '../../../../util'
+import { api, handleData, util } from 'utils'
 
 /**
  * @param type 'new' for creating, 'id' for editing
@@ -19,7 +19,6 @@ import { api, handleData, util } from '../../../../util'
 export function PlaylistEditing ({match: {params: {id, type}}, history}) {
   // determine whether is going to create or edit a playlist
   const isNew = type === 'new' 
-  const path = '??' // TBD
 
   /** 
    * playlist - the original playlist info whiling editing the playlist 
@@ -36,57 +35,55 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
    * GET all the needed info based on the playlist Id
    */
   useEffect(()=> {
-    api.contentLoaded(500)
     if (!isNew) {
-      // setLoading(true)
-      // api.getData(path, id)
-      // .then( response => {
-      //   setPlaylist(response.data)
-      //   setPlaylistInfo(response.data)
-      //   setLoading(false)
-      // })
+      api.getPlaylistById(id)
+        .then( ({data}) => {
+          delete data.playlist['medias']
+          console.log('editing playlist', data.playlist)
+          setPlaylist(() => data.playlist)
+          setPlaylistInfo(() => data.playlist)
+          setLoading(() => false)
+        })
     }
-  }, [])
+  }, [history])
 
   /**
    * Functions for http requests
    */
   const callBacks = {
-    onCreate: function () {
+    onCreate: () => {
       if ( isNew ) playlistInfo.offeringId = id
-      // api.postData(path, playlistInfo, response => {})
+      api.createPlaylist(playlistInfo, () => callBacks.onClose())
+    },
+    onUpdate: () => {
       console.log(playlistInfo)
+      api.updatePlaylist(playlistInfo, () => callBacks.onClose())
     },
-    onUpdate: function () {
-      var data = handleData.updateJson(playlistInfo, playlist)
-      data.id = id
-      console.log(data)
-      // api.updateData(path, data, () => this.onClose())
+    onDelete: () => {
+      api.deletePlaylist(playlistInfo.id, () => util.toOfferingPage(playlistInfo.offeringId))
     },
-    onDelete: function () {
-      api.deleteData(path, id, () => this.onClose())
+    onClose: () => {
+      if (localStorage.getItem('playlistUrl')) window.location = localStorage.getItem('playlistUrl')
+      else util.toOfferingPage()
     },
-    onClose: function () {
-      if (isNew) util.toOfferingPage(id)
-      else history.goBack()
-    },
-    onCancel: function () {
+    onCancel: () => {
       history.goBack()
     }
   }
 
   const header = isNew ? 'New Playlist' : 'Rename the Playlist'
   const modalSize = isNew ? 'small' : 'tiny'
+  const urlEntered = playlist.sourceType === 2 || playlistInfo.playlistIdentifier
   const button = isNew ? 
     <SaveButtons 
       {...callBacks}
-      canSave={playlistInfo.description}
+      canSave={playlistInfo.name && playlistInfo.sourceType && urlEntered}
     />
     : 
     <EditButtons 
       {...callBacks}
       canDelete={playlistInfo}
-      canSave={playlistInfo && playlistInfo.description}
+      canSave={playlistInfo && playlistInfo.name}
     />
 
   return(
@@ -107,16 +104,36 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
   )
 }
 
+const playlistTypeGuide = [
+  <p>
+    <strong><Icon name='cloud upload'/> {api.playlistTypes[2].name}:<br/></strong>
+    Upload your own videos!
+  </p>,
+  <p>
+    <strong><Icon name='youtube'/> {api.playlistTypes[1].name}:<br/></strong>
+    Enter the 
+    <Popup 
+      content={
+        <p>
+          The playlist IDENTIFIER of <span className="link">https://www.youtube.com/watch?v=Uqs0GewlMkQ&
+          <span className="id">list=PLLssT5z_DsK8Xwnh_0bjN4KNT81bekvtt</span></span><br/>
+          is <span className="id">PLLssT5z_DsK8Xwnh_0bjN4KNT81bekvtt</span>
+        </p>
+      } 
+      trigger={<span> IDENTIFIER </span>} 
+    />
+    of your YouTube Playlist
+  </p>,
+  <p><strong><Icon name='video play'/> {api.playlistTypes[0].name}:<br/></strong>
+    Enter the PUBLIC URL of your Echo360 course
+  </p>
+]
+
 /**
  * Form Component
  * @todo need to add type selection
  */
 function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
-  const playlistTypeGuide = [
-    <p><strong><Icon name='cloud upload'/> {api.playlistTypes[0].name}:<br/></strong>Upload your own videos!</p>,
-    <p><strong><Icon name='youtube'/> {api.playlistTypes[1].name}:<br/></strong>Enter the sharable URL of your YouTube Playlist</p>,
-    <p><strong><Icon name='video play'/> {api.playlistTypes[2].name}:<br/></strong>Add new videos by URL from echo360</p>
-  ]
   const playlistTypeOptions = util.getSelectOptions(api.playlistTypes)
   return (
     <Form className="general-form">
@@ -127,12 +144,12 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
             <Grid.Column>
               <Form.Field
                 fluid required
-                id='playist-description'
+                id='playist-name'
                 control={Input}
                 label='Playlist Name'
                 placeholder='E.g. Lecture 1'
-                defaultValue={playlistInfo.description}
-                onChange={({target: {value}})=> setPlaylistInfo({...playlistInfo, description: value})}
+                defaultValue={playlistInfo.name}
+                onChange={({target: {value}})=> setPlaylistInfo({...playlistInfo, name: value})}
               />
             </Grid.Column>
           </Grid.Row>
@@ -160,25 +177,25 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
                   control={Select}
                   label='Playlist Type'
                   placeholder='Playlist Type'
-                  defaultValue={api.playlistTypes[0].id}
+                  defaultValue={api.playlistTypes[2].id}
                   options={playlistTypeOptions}
-                  onChange={(event, {value})=> setPlaylistInfo({...playlistInfo, type: value})}
+                  onChange={(event, {value})=> setPlaylistInfo({...playlistInfo, sourceType: value})}
                 />
               </Grid.Column>
             </Grid.Row>
             </>
           }
           {
-            playlistInfo.type === 'YouTube'
+            (isNew && playlistInfo.sourceType !== 2)
             &&
             <Grid.Row>
               <Grid.Column>
                 <Form.Field
                   fluid required
-                  id='youtube-playlist-url'
+                  id='playlist-url'
                   control={Input}
-                  label='Public URL'
-                  placeholder='Paste your public URL here...'
+                  label={playlistInfo.sourceType === 0 ? 'Public URL' : 'Playlist Identifier'}
+                  placeholder={playlistInfo.sourceType === 0 ? 'Paste your public URL here...' : 'Enter your playlist identifier here ...'}
                   onChange={({target: {value}})=> 1}
                 />
               </Grid.Column>

@@ -5,11 +5,11 @@
 
 import React, { useState, useEffect } from 'react'
 // Layouts
-import { GeneralModal, GeneralLoader } from '../../../../components'
+import { GeneralModal, GeneralLoader } from 'components'
 import { Grid, Form, Input } from 'semantic-ui-react'
 import { EditButtons } from './Buttons'
 // Vars
-import { api, handleData } from '../../../../util'
+import { api, handleData } from 'utils'
 
 /**
  * @param id videoId

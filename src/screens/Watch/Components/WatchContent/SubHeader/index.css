@@ -1,0 +1,79 @@
+/**
+ * Stylesheet for SubHeader
+ */
+
+.subheader-container {
+  z-index: 1;
+  width: 100%;
+  color: rgb(240, 254, 255);
+  background: rgb(55, 65, 65);
+  overflow: hidden;
+  padding: .5em 2em 0 2em;
+}
+
+/* Video Info header */
+.subheader-container .header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;}
+  .subheader-container .header p {
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    width: 100%;
+    margin: 0 !important;}
+  .subheader-container .header p span {
+    color: rgb(115, 168, 175);
+    font-size: 1.3rem;
+  }
+
+@media screen and (max-width: 650px) {
+  .subheader-container {
+    padding: .5em .5em 0 .5em;
+  }
+  .subheader-container p strong {
+    white-space: nowrap;
+  }
+}
+
+/** 
+ * Stylesheet for VideoSettingBar
+ */
+
+ .video-setting-bar {
+  margin-left: 2em;
+  width: 100%;
+  height: 3em;
+  border-radius: .6em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;}
+  @media screen and (max-width: 870px) {
+    .video-setting-bar {
+      width: auto;
+      position: absolute;
+      right: .5em;
+    }
+  }
+
+/* General Trigger button */
+.video-setting-bar .trigger {
+  transition: color .2s linear, background .2s linear;
+  background-color: rgb(47, 85, 88);
+  color: rgb(212, 209, 209);
+  outline: none;
+  height: 2em;
+  border-radius: .6em;
+  padding: 0 .5em;
+  margin-left: .5em;}
+  .video-setting-bar .trigger span {
+    font-size: 1.1rem;
+    font-weight: bold;}
+  .video-setting-bar .trigger:hover {
+    background-color: rgb(48, 126, 133);
+    color: rgb(221, 221, 221);
+  }
+
+
+

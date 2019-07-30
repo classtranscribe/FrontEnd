@@ -22,7 +22,7 @@ export const EndPadding5rem = () => <div className="end-padding"></div>
  */
 export function GeneralLoader({loading, inverted, height}) {
   return (
-    <Dimmer active={loading} inverted={inverted} style={{height: height}}>
+    <Dimmer active={loading} inverted={inverted} style={{height: height, background: 'transparent'}}>
       <Loader inverted={inverted}>Loading</Loader>
     </Dimmer>
   )

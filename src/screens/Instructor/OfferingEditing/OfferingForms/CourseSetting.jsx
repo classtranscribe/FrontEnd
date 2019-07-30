@@ -7,7 +7,7 @@ import React from 'react'
 // Layouts
 import { Grid, Form, Select, Popup, Button, Icon, Label, Message, Divider } from 'semantic-ui-react'
 // Vars
-import { util } from '../../../../util'
+import { util } from 'utils'
 
 export default function CourseSetting({state, onChange, toProgress, removeCourse}) {
   const { departments, courses, currDepart, selectedCourses } = state
