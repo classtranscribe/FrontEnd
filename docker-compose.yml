@@ -1,15 +1,36 @@
 version: '3.4'
 
 services:
+  #Inspired from https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+  #For first time deployment run init-letsencrypt.sh (replace domains and email before running)
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      .env
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - ./build:/build
+    depends_on:
+      - frontend
+    # envsubst replaces environment variables in app.conf.template with the actual values to generate app.conf
+    command: /bin/sh -c "envsubst < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/app.conf && exec nginx -g 'daemon off;'"
+    
+  certbot:
+    image: certbot/certbot
+    volumes:
+    - ./certbot/conf:/etc/letsencrypt
+    - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
   frontend:
     image: node
     volumes:
-      - ./frontend:/frontend
-    ports:
-      - "44043:443"
-      - "44080:80"
-      - "43000:3000"
+      - .:/frontend
+      - ./reactbuildscript.sh:/reactbuildscript.sh
     env_file:
-      frontend-env.list
+      .env
     container_name: "CTFrontEnd"
-    command: npm start --prefix frontend
