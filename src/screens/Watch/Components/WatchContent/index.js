@@ -125,6 +125,7 @@ export class WatchContent extends React.Component {
     const { media, playlist, courseNumber } = this.props
     const { mode, primary, captions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
+    /** Vars passed into setting bar */
     const propsForSettingBar = {
       ...this,
       mode: mode,
