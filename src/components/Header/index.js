@@ -5,18 +5,15 @@ import { Row, Navbar } from 'react-bootstrap'
 import { Icon } from 'semantic-ui-react'
 import ProfileMenu from './ProfileMenu'
 import './index.css'
-import { user, util } from 'utils'
+import { util } from 'utils'
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
- * @param props 
- * user: {name, ...}
- * showSiderBar: function for display or hide side bar
  */
-export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, display, children}) {
+export function ClassTranscribeHeader({darkMode, display, showSiderBar, children, universities}) {
   const bg = darkMode ? 'dark' : 'light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
-  const homeURL = user.isLoggedIn() ? util.links.studentHome() : util.links.home()
+  const homeURL = util.links.home()
   const isWatchScreen = window.location.pathname.includes('/video/')
   return (
     <Navbar id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
@@ -38,7 +35,7 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
       </Navbar.Brand>
       <Row className="signout">
         {children}
-        <ProfileMenu onSignOut={onSignOut} isWatchScreen={isWatchScreen} darkMode={darkMode}/>
+        <ProfileMenu darkMode={darkMode} universities={universities} />
       </Row>
     </Navbar>
   )
@@ -47,12 +44,12 @@ export function ClassTranscribeHeader({darkMode, showSiderBar, onSignOut, displa
 function Logo() {
   return (
     <>
-    <img
-      src={require('../../images/ct-logo.png')}
-      width="30" height="30"
-      className="d-inline-block align-top img"
-      alt="ClassTranscribe logo"
-    />&ensp;
+      <img
+        src={require('../../images/ct-logo.png')}
+        width="30" height="30"
+        className="d-inline-block align-top img"
+        alt="ClassTranscribe logo"
+      />&ensp;
     </>
   )
 }

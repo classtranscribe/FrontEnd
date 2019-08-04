@@ -29,6 +29,7 @@ export class InstructorOffering extends React.Component {
 
       courseOffering: {},
       playlists: [],
+      playlistLoaded: false,
     }
   }
 
@@ -37,6 +38,9 @@ export class InstructorOffering extends React.Component {
   }
 
   componentDidMount() {
+    if (!user.isLoggedIn()) {
+      user.login()
+    } 
     /**
      * listen on window size for showing or hiding sidebar
      */
@@ -71,7 +75,7 @@ export class InstructorOffering extends React.Component {
      */
     api.getPlaylistsByOfferingId(this.id)
       .then( ({data}) => {
-        this.setState({ playlists: data })
+        this.setState({ playlists: data, playlistLoaded: true })
         console.log('playlists', data)
       })
   }

@@ -18,7 +18,7 @@ export default function PlaylistsView({playlists, courseNumber, selectedPlaylist
 
 function PlaylistItem({ playlist, selectedPlaylist, goToPlaylist }) {
   const { name, id } = playlist
-  let fittedName = name.slice(0, 40)
+  let fittedName = name ? name.slice(0, 40) : 'unknown'
   if (fittedName !== name) fittedName += '...'
   return (
     <MenuItem 

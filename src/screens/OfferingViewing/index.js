@@ -13,12 +13,9 @@ import './index.css'
 // Vars
 import { user, api } from 'utils'
 
-
-
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
-    this.isLoggedIn = user.isLoggedIn() || localStorage.getItem('userId')
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
       alreadySet: false,
@@ -31,19 +28,11 @@ export class OfferingViewing extends React.Component {
     /**
      * 1. Setup user and then get all data based on userId
      */
-    if (user.isLoggedIn()) {
-      user.setUpUser(this.getOfferingsByStudentId)
-    } else {
-      api.getOfferings()
-        .then( ({data}) => {
-          this.completeOfferings(data)
-          api.contentLoaded()
-        })
-    }
+    this.getOfferingsByStudentId()
     /**
      * 2. listen on window size for showing or hiding sidebar
      */
-    window.addEventListener('resize', ()=>{
+    window.addEventListener('resize', () => {
       if (window.innerWidth < 900) 
         this.setState({ displaySideBar: false })
       else if (!this.state.alreadySet) 
@@ -51,21 +40,12 @@ export class OfferingViewing extends React.Component {
     })
   }
 
-  componentWillMount() {
-    const currPath = window.location.pathname
-    if (this.isLoggedIn && !currPath.includes('student')) {
-      window.location = '/student'+currPath
-    }
-  }
-
   /**
    * GET functions for set states
    */
-  getOfferingsByStudentId = userId => {
-    this.setState({ userId })
-    api.getOfferingsByStudentId(userId)
-      .then( ({data}) => {
-        console.log(data)
+  getOfferingsByStudentId = () => {
+    api.getOfferingsByStudent()
+      .then(({data}) => {
         this.completeOfferings(data)
         api.contentLoaded()
       })
@@ -84,18 +64,7 @@ export class OfferingViewing extends React.Component {
     this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
   }
 
-  /**
-   * Function for signout
-   */
-  onSignOut = () => { 
-    user.signout() 
-  }
-
   render() {
-    const isLoggedIn = this.isLoggedIn
-    const offeringDetailPath = isLoggedIn ? '/student/home/offering/:id' : '/home/offering/:id'
-    const searchPath = isLoggedIn ? '/student/home/search' : '/home/search'
-
     const { displaySideBar, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
@@ -110,7 +79,6 @@ export class OfferingViewing extends React.Component {
             <ClassTranscribeHeader 
               showSiderBar={this.showSiderBar} 
               display={displaySideBar}
-              onSignOut={this.onSignOut} 
             />   
             <Sidebar {...this} />
 
@@ -123,24 +91,19 @@ export class OfferingViewing extends React.Component {
                       exact path="/home" 
                       render={props => <Home offerings={offerings} {...props} />} 
                     />
-                    {/* Authed home page */}
-                    <Route 
-                      exact path="/student/home"
-                      render={props => <Home offerings={offerings} {...props} />}
-                    />
                     {/* Starred */}
                     <Route 
-                      exact path="/student/starred" 
+                      exact path="/home/starred" 
                       render={() => <Starred {...this} />}
                     />
                     {/* Offering Detail page */}
                     <Route 
-                      exact path={offeringDetailPath}
+                      exact path='/home/offering/:id'
                       render={({ match, history }) => <OfferingDetail history={history} id={match.params.id} />}
                     />
                     {/* Search Page */}
                     <Route 
-                      exact path={searchPath} 
+                      exact path='/home/search' 
                       render={() => <Search offerings={offerings} />}
                     />
                   </Switch>

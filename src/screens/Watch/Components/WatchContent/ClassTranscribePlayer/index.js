@@ -146,15 +146,15 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   onSeeked = e => {
-    // this.syncPlay(e)
+    this.syncPlay(e)
   }
 
   onWaiting = e => {
-    // this.syncPause(e)
+    this.syncPause(e)
   }
 
   onPlaying = e => {
-    // this.syncPlay(e)
+    this.syncPlay(e)
   }
 
   ref = player => {
@@ -178,13 +178,14 @@ export default class ClassTranscribePlayer extends React.Component {
             <video 
               ref={ node => this.videoNode = node } 
               className="video-js" 
+              preload="auto"
               onTimeUpdate={this.onTimeUpdate}
               onPause={this.onPause}
               onPlay={this.onPlay}
               onSeeking={this.onSeeking}
               onSeeked={this.onSeeked}
-              //onWaiting={this.onWaiting}
-              //onPlaying={this.onPlaying}
+              onWaiting={this.onWaiting}
+              onPlaying={this.onPlaying}
             >
               {transcriptions.map( trans => 
                 <track 

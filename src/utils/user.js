@@ -8,23 +8,38 @@ import { auth } from './Auth'
 import { api } from './http'
 
 export const user = {
-  isLoggedIn: () => auth.isLoggedIn(),
-
+  login: function() {
+    window.location = `/login?${window.location.pathname}`
+  },
+  isLoggedIn: () => localStorage.getItem('userInfo'),
   b2cToken: () => auth.getToken(),
+  saveUserInfo: function (userInfo) {
+    localStorage.setItem('userInfo', JSON.stringify({
+      ...userInfo, 
+      firstName: this.firstName(),
+      lastName: this.lastName(),
+      fullName: this.fullName()
+    }))
+  },
+  getUserInfo: function () {
+    let userInfoStr = localStorage.getItem('userInfo')
+    return userInfoStr ? JSON.parse(userInfoStr) : {}
+  },
   setUpUser: function (callback) {
     if (this.id() === null) {
       api.getAuthToken()
-      .then(response => {
-        console.log(response.data)
-        console.log('b2cToken', api.b2cToken())
-        localStorage.setItem('userId', response.data.userId)
-        api.saveAuthToken(response);
-        if (callback) callback(response.data.userId);
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(({data}) => {
+          console.log(data)
+          localStorage.setItem('userId', data.userId)
+          api.saveAuthToken(data.authToken)
+          this.saveUserInfo(data)
+          if (callback) callback(data.userId)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     } else {
+      // console.log(this.getUserInfo())
       if (callback) callback(this.id())
     }
   },
@@ -50,18 +65,16 @@ export const user = {
    * Function for signing out and clearing the localStorage
    */
   signout: function () { 
-    // remove possible localStorage for admin page
+    // remove possible localStorage
     [
       'activePane', 'offeringActivePane', 'courseActivePane',
       'termCurrUni', 'departCurrUni', 'courseCurrUni', 
-      'courseCurrDepart', 'searchValue', 'userId'
+      'courseCurrDepart', 'searchValue',
+      'authToken', 'userId', 'userInfo'
     ].forEach( key => {
-      localStorage.removeItem(key);
+      localStorage.removeItem(key)
     });
-    // remove login info
-    ['authToken', 'userId'].forEach( key => {
-      localStorage.removeItem(key);
-    });
-    auth.logout();
-  }
+    window.location = '/logout'
+  },
+  logout: () => auth.logout()
 }

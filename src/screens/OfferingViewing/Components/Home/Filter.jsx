@@ -6,14 +6,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Dropdown, Form, Grid } from 'semantic-ui-react'
-import { util } from 'utils'
+import { util, user } from 'utils'
 
 export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected}) {
   const { universities, departments, terms } = state
+
   // get selecting options
   const uniOptions = util.getSelectOptions(universities)
-  const termOptions = terms ? util.getSelectOptions(terms, 'term') : []
-  const departOptions = departments ? util.getSelectOptions(departments, 'depart') : []
+  const termOptions = util.getSelectOptions(terms, 'term')
+  const departOptions = util.getSelectOptions(departments, 'depart')
+
+  const userUni = user.getUserInfo().universityId
 
   return (
     <div className="filter">
@@ -41,7 +44,7 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
                 placeholder="Select University"
                 label="Filter by University"
                 clearable selection search
-                defaultValue={uniOptions.length ? uniOptions[0].value : ''}
+                defaultValue={userUni}
                 options={uniOptions}
                 onChange={onUniSelected}
               />

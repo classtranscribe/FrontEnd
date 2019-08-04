@@ -8,7 +8,7 @@
   height: 100%;
   padding: 5rem 2rem 5rem 2rem;
   overflow: scroll;
-  background-color: #f0f0f0;
+  background-color: #fcfcfc;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +18,11 @@
   width: 100%;
   /* max-width: 70rem; */
 }
-
+.ap-list {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
 .ap-list-item {
   padding-left: 1rem;
 }

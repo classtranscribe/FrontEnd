@@ -6,7 +6,7 @@ import { util, api } from 'utils'
 
 export default function VideosView({ medias, currMedia, courseNumber, selectedPlaylist, backToPlaylists }) {
   const { name } = selectedPlaylist
-  let fittedName = name.slice(0, 40)
+  let fittedName = name ? name.slice(0, 40) : 'unknown'
   if (fittedName !== name) fittedName += '...'
   return (
     <div className="video-view">

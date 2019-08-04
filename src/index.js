@@ -15,12 +15,6 @@ authentication.initialize({
   postLogoutRedirectUri: window.location.origin,
 });
 
-// authentication.run(() => {
-//   ReactDOM.render(<App />, document.getElementById('root'));
-//   serviceWorker.register();
-// });
-
-
 ReactDOM.render((
   <App />
 ), document.getElementById('root'));
