@@ -43,7 +43,7 @@ export const api = {
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
   getAuthToken: function() {
-    return http.post(this.baseUrl() + '/Account/SignIn', {"b2cToken": this.b2cToken()})
+    return http.post('/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
@@ -51,11 +51,10 @@ export const api = {
   withAuth: function () {
     return {
       headers: {
-        Authorization: 'Bearer ' + this.authToken()
+        Authorization: 'Bearer ' + this.authToken(),
       }
     }
   },
-  baseUrl: () => process.env.REACT_APP_API_BASE_URL.replace('/api/', ''),
   
 
   /********************* Functions for http requests *********************/
@@ -64,6 +63,7 @@ export const api = {
    * GET
    */
   getData: function (path, id) {
+    path = `/api/${path}`
     if(id) path = `${path}/${id}`
     return http.get(path, this.withAuth())
   },
@@ -131,8 +131,8 @@ export const api = {
     return this.getData('Playlists/ByOffering', offeringId)
   },
   // media
-  getMediaFullPath: function(path) {
-    return this.baseUrl() + path
+  getMediaFullPath: function(path) { // need to change later
+    return path
   },
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
@@ -226,6 +226,7 @@ export const api = {
    * callBack = responce => {...}
    */
   postData: function (path, data, callBack) {
+    path = `/api/${path}`
     if (callBack) 
       return http.post(path, data, this.withAuth())
         .then(responce => callBack(responce))
@@ -246,6 +247,7 @@ export const api = {
    * callBack = responce => {...}
    */
   updateData: function (path, data, callBack) {
+    path = `/api/${path}`
     if (callBack) 
       return http.put(`${path}/${data.id}`, data, this.withAuth())
         .then(responce => callBack(responce))
@@ -263,6 +265,7 @@ export const api = {
    * callBack = responce => {...}
    */
   deleteData: function (path, id, callBack) {
+    path = `/api/${path}`
     if (callBack)
       return http.delete(`${path}/${id}`, this.withAuth())
         .then(responce => callBack(responce))
