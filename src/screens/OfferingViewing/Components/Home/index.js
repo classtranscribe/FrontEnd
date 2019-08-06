@@ -76,6 +76,8 @@ export class Home extends React.Component {
       data.forEach( (obj, index) => {
         this.getUniversityById(obj.universityId, index, stateName)
       })
+    } else if (stateName === 'universities') {
+      data = data.filter(uni => uni.id !== '0000')
     }
     this.setState({[stateName]: data})
   }

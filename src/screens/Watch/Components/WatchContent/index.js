@@ -42,7 +42,9 @@ export class WatchContent extends React.Component {
     if (prevProps.media !== media) {
       if (media.isTwoScreen) this.setState({ mode: PS_MODE })
       if (media.transcriptions) {
-        this.getCaptionsByTranscriptionId(media.transcriptions[0].id)
+        this.getCaptionsByTranscriptionId(
+          handleData.find(media.transcriptions, {language: 'en-US'}).id
+        )
       }
       addCaptionKeyDownListener()
     }
@@ -125,6 +127,7 @@ export class WatchContent extends React.Component {
     const { media, playlist, courseNumber } = this.props
     const { mode, primary, captions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
+    /** Vars passed into setting bar */
     const propsForSettingBar = {
       ...this,
       mode: mode,

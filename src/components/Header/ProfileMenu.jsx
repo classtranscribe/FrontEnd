@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
 import { Icon } from 'semantic-ui-react'
-import { util, user } from 'utils'
+import { util, user, api, handleData } from 'utils'
 import { Link } from 'react-router-dom'
 
 const menuStyle = {
@@ -13,13 +13,19 @@ const iconStyle = { color: 'rgb(236, 236, 236)', fontSize: '1.3rem'}
 const fontStyle = {color: '#d5dedf', fontSize: '1.15rem'}
 
 const menuItems = [
-  {name: 'Student', title: 'Switch to student page', as: Link, href: util.links.studentHome(), icon: 'fas fa-school'},
+  {name: 'Student', title: 'Switch to student page', as: Link, href: util.links.home(), icon: 'fas fa-school'},
   {name: 'Instructor', title: 'Switch to instructor page', as: Link, href: util.links.instructor(), icon: 'fas fa-graduation-cap'},
   {name: 'Admin', title: 'Switch to admin page', as: Link, href: util.links.admin(), icon: 'fas fa-user-cog'}
 ]
 
-export default function ProfileMenu({onSignOut}) {
+export default function ProfileMenu({ darkMode }) {
   const [anchorEl, setAnchorEl] = useState(null)
+  const [universities, setUniversities] = useState([])
+
+  useEffect(() => {
+    api.getData('Universities').then(({data}) => setUniversities(data))
+  }, [darkMode])
+
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
   }
@@ -31,6 +37,8 @@ export default function ProfileMenu({onSignOut}) {
   }
 
   const isLoggedIn = user.isLoggedIn()
+  const { fullName, universityId } = user.getUserInfo()
+  const uniName = handleData.findById(universities, universityId).name
 
   const open = Boolean(anchorEl)
   return (
@@ -54,9 +62,15 @@ export default function ProfileMenu({onSignOut}) {
       >
         {isLoggedIn ?
           <>
-            <MenuItem title="user info" aria-label="user info" disabled>
-              <Typography style={fontStyle}>Signed in as <strong>{user.fullName()}</strong></Typography>
+            <MenuItem disabled>
+              <Typography style={fontStyle}>
+                Signed in as <strong>{fullName}</strong><br/>
+                <span style={{fontSize: '.8em', width: '15em', whiteSpace: 'normal', textAlign: 'center'}}>{uniName}</span>
+              </Typography>
             </MenuItem>
+            {/* <MenuItem disabled>
+              <Typography style={fontStyle}>Signed in as <strong>{fullName}</strong></Typography>
+            </MenuItem> */}
 
             <MenuItem disabled>
               <Typography style={{color: '#d5dedf'}}><strong>SWITCH TO</strong></Typography>
@@ -87,7 +101,7 @@ export default function ProfileMenu({onSignOut}) {
               <Typography style={fontStyle}>Contact Us</Typography>
             </MenuItem>
 
-            <MenuItem title="Sign out" aria-label="Sign out" onClick={onSignOut}>
+            <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signout()}>
               <ListItemIcon style={iconStyle}>
                 <i class="fas fa-sign-out-alt"></i>
               </ListItemIcon>
@@ -95,11 +109,9 @@ export default function ProfileMenu({onSignOut}) {
             </MenuItem>
           </>
           :
-          <Link to={util.links.studentHome()}>
-            <MenuItem title="Sign in" aria-label="Sign in">
-              <Typography style={fontStyle}>Sign In</Typography>
-            </MenuItem>
-          </Link>
+          <MenuItem title="Sign in" aria-label="Sign in" onClick={() => user.login()}>
+            <Typography style={fontStyle}>Sign In</Typography>
+          </MenuItem>
         }
       </Menu>
     </div>

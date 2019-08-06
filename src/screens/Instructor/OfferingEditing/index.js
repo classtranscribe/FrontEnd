@@ -71,7 +71,7 @@ export default class OfferingSettingPage extends React.Component {
       /**
        * Get CourseOffering by offeringId
        */
-      api.getData('Offerings', id)
+      api.getOfferingById(id)
         .then ( ({data}) => {
           console.log(data)
           // set default offeringInfo

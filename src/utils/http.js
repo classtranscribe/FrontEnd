@@ -19,13 +19,6 @@ export const api = {
   initialData: require('./json/initialData.json'),
   offeringAccessType: require('./json/offeringAccessTypes.json'),
   playlistTypes: require('./json/playlistTypes.json'),
-  withAuth: function (path) {
-    return {
-      headers: {
-        authToken: this.b2cToken()
-      }
-    }
-  },
 
   /**
    * Function called when all the requests executed
@@ -50,10 +43,17 @@ export const api = {
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
   getAuthToken: function() {
-    return http.post('https://sysprog.ncsa.illinois.edu:4443/Account/SignIn', {"b2cToken": this.b2cToken()})
+    return http.post(this.baseUrl() + '/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
-  saveAuthToken: function (responce) {
-    localStorage.setItem('authToken', responce.data.authToken)
+  saveAuthToken: function (authToken) {
+    localStorage.setItem('authToken', authToken)
+  },
+  withAuth: function () {
+    return {
+      headers: {
+        Authorization: 'Bearer ' + this.authToken()
+      }
+    }
   },
   baseUrl: () => process.env.REACT_APP_API_BASE_URL.replace('/api/', ''),
   
@@ -64,7 +64,7 @@ export const api = {
    * GET
    */
   getData: function (path, id) {
-    path = id ? `${path}/${id}` : path
+    if(id) path = `${path}/${id}`
     return http.get(path, this.withAuth())
   },
   /**
@@ -76,8 +76,7 @@ export const api = {
     if (typeof value === 'string') { array.push(value) } 
     else { array = value }
     
-    for (var i = 0; i < array.length; i++) {
-      const path = array[i]
+    array.forEach( path => {
       const stateName = path.toLowerCase()
       this.getData(path)
         .then(responce => {
@@ -87,7 +86,7 @@ export const api = {
           console.log(error) 
           if (handleError) handleError();
         })
-    }
+    })
   },
   /**
    * Some specific get-by-id functions
@@ -115,17 +114,14 @@ export const api = {
     return this.getData('Courses/ByInstructor', id) 
   },
   // Offerings
-  getOfferings: function() {
-    return this.getData('Offerings')
+  getOfferingsByStudent: function() {
+    return this.getData('Offerings/ByStudent')
   },
   getOfferingById: function(id) {
     return this.getData('Offerings', id)
   },
   getCourseOfferingsByInstructorId: function (id) {
     return this.getData('CourseOfferings/ByInstructor', id)
-  },
-  getOfferingsByStudentId: function(id) {
-    return this.getData('Offerings/ByStudent', id)
   },
   // Playlists
   getPlaylistById: function(playlistId) {

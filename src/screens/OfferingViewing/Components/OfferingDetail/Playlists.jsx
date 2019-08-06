@@ -35,7 +35,7 @@ function Playlist({playlist, index, activeIndex, setActiveIndex, fullNumber}) {
   const { name, medias } = playlist
   const isActive = index === activeIndex
   return (
-    <div className="playlist">
+    <div className="playlist" key={playlist.id}>
       <Accordion.Title 
         className="pl-header" tabIndex={1} 
         id={playlist.id}
@@ -47,7 +47,7 @@ function Playlist({playlist, index, activeIndex, setActiveIndex, fullNumber}) {
       </Accordion.Title>
       <Accordion.Content active={isActive} className="videos">
         {medias.map( media => (
-          <Video media={media} fullNumber={fullNumber} />
+          <Video media={media} fullNumber={fullNumber} key={media.id}/>
         ))}
       </Accordion.Content>
     </div>

@@ -1,5 +1,3 @@
-import { user } from './user'
-
 export { auth   } from './Auth'
 export { api    } from './http'
 export { search } from './search'
@@ -29,15 +27,11 @@ export const util = {
 
   links: {
     currentUrl: () => window.location,
-    home: ()=> user.isLoggedIn() ? '/student/home' : '/home',
-    search: () => user.isLoggedIn() ? '/student/home/search' : '/home/search',
-    offeringDetail: id => user.isLoggedIn() ? `/student/home/offering/${id}` : `/home/offering/${id}`,
+    home: ()=> '/home',
+    search: () => '/home/search',
+    starred: () => '/home/starred',
+    offeringDetail: id => `/home/offering/${id}`,
     admin: () => '/admin',
-
-    student: () => '/student',
-    studentSearch: () => '/student/search',
-    studentHome: () => '/student/home',
-    studentStarred: () => '/student/starred',
 
     instructor: () => '/instructor',
     newOffering: id => `/instructor/offering-setting/new=${id}`,
@@ -55,7 +49,7 @@ export const util = {
   },
 
   isAuthedPage: function (pathname) {
-    return pathname.includes('instructor') || pathname.slice(0, 9) === '/offering' || pathname.includes('admin') || pathname.includes('video')
+    // return pathname.includes('instructor') || pathname.slice(0, 9) === '/offering' || pathname.includes('admin') || pathname.includes('video')
   },
 
   /**

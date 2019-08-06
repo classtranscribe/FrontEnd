@@ -12,7 +12,7 @@ import { Courses, ProfileCard } from "./Components"
 import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
 // Vars
-import { api, user } from 'utils'
+import { api, user, handleData } from 'utils'
 
 
 export class InstructorProfile extends React.Component {
@@ -20,10 +20,13 @@ export class InstructorProfile extends React.Component {
     super(props);
     this.state = {
       userId: user.id(),
+      userInfo: {},
+      userUni: '',
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
       courseActivePane: localStorage.getItem('courseActivePane') || 0,
       
       courseOfferings: [],
+      universities: [],
       terms: [],
       departments: []
     }
@@ -32,16 +35,11 @@ export class InstructorProfile extends React.Component {
   /**
    * Callback for setUpUser below
    */
-  getCourseOfferingsByInstructorId = id => {
-    this.setState({userId: id})
-    api.getCourseOfferingsByInstructorId(id)
+  getCourseOfferingsByInstructorId = () => {
+    api.getCourseOfferingsByInstructorId(this.state.userInfo.userId)
       .then(response => {
         console.log(response.data)
         this.setState({courseOfferings: response.data})
-
-        /**
-         * Hide the loading page
-         */
         api.contentLoaded()
       })
   }
@@ -51,19 +49,26 @@ export class InstructorProfile extends React.Component {
    */
   componentDidMount() {
     /**
-     * 1. Get the auth token from api with userId
+     * 1. Login
      */
-    user.setUpUser(this.getCourseOfferingsByInstructorId);
+    if (!user.isLoggedIn()) {
+      user.login()
+    } else {
+      const userInfo = user.getUserInfo()
+      this.setState({ userInfo })
+    }
     /**
      * 2. Get courseOfferings 
      */
-    api.getAll(['Terms', 'Departments'], (response, name) => {
+    api.getAll(['Universities', 'Terms', 'Departments'], (response, name) => {
       this.setState({[name]: response.data})
     })
   }
 
-  onSignOut = () => {
-    user.signout();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.userInfo !== this.state.userInfo) {
+      this.getCourseOfferingsByInstructorId()
+    }
   }
 
   /* sort offering by term */
@@ -80,9 +85,9 @@ export class InstructorProfile extends React.Component {
     return (      
       <div className="ip-bg">
         <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />
-        <ClassTranscribeHeader onSignOut={this.onSignOut} user={{name: user.firstName()}}/>
+        <ClassTranscribeHeader />
         <div className="ip-container">
-          <ProfileCard instructor={{name: user.fullName()}}/>
+          <ProfileCard {...this.state} />
           <Courses 
             {...this}
           />
