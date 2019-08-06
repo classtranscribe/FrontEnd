@@ -32,7 +32,7 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
                   placeholder="Search for Courses ..."
                 />
                 </Link>
-                <i aria-hidden="true" class="search icon"></i>
+                <i aria-hidden="true" className="search icon"></i>
               </div>
             </Grid.Column>
           </Grid.Row>

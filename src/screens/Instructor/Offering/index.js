@@ -131,10 +131,7 @@ export class InstructorOffering extends React.Component {
         <Route path='/offering/upload/:id' component={VideoEditing} />
 
         {/* Layouts */}
-        <div
-          className="content" 
-          defaultActiveKey={'noPlaylists'}
-        >
+        <div className="content">
           <SideBar {...this}/>
 
           <div className="content-result" style={paddingLeft}>
