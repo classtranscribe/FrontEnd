@@ -31,7 +31,7 @@ export function AdminListItem({header, items, path, id}) {
           title="edit"
           aria-label="edit"
         >
-          <i class="fas fa-edit"></i>&ensp;Edit
+          <i className="fas fa-edit"></i>&ensp;Edit
         </Button>
       </div>
     </Message>

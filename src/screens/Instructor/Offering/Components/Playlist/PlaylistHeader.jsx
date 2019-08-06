@@ -25,7 +25,7 @@ export default function PlaylistHeader({name, sourceType, id, offeringId}) {
  */
 function EditPlaylistBtns({ type, playlistId, offeringId }) {
   const newVideoButtonName =
-          <><i class="fas fa-cloud-upload-alt"></i>&ensp;Upload Video</>
+          <><i className="fas fa-cloud-upload-alt"></i>&ensp;Upload Video</>
 
   return (
     <div className="playlist-btn">
@@ -49,7 +49,7 @@ function EditPlaylistBtns({ type, playlistId, offeringId }) {
         aria-label="edit playlist"
         compact
       >
-        <i class="fas fa-edit"></i>
+        <i className="fas fa-edit"></i>
       </Button>
     </div>
   )

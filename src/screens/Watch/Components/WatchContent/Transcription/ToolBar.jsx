@@ -63,9 +63,9 @@ export default function ToolBar({ captions, setResults, canReset }) {
           style={{color: 'white', outline: 'none'}} 
           onClick={handleExpand}
           title={'Expand the transcription area (\u2318/Ctrl + U)'}
-          aria-action="Expand the transcription area"
+          aria-label="Expand the transcription area"
         >
-          <i class="material-icons" id="expand-trigger">expand_less</i>
+          <i className="material-icons" id="expand-trigger">expand_less</i>
         </Button>
       </div>
     </div>

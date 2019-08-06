@@ -60,7 +60,7 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
         onClick={handleClick}
         className="trigger"
       >
-        <i class="material-icons">{currOption.icon}</i>{!isMobile&&<span>&ensp;Screen Modes</span>}
+        <i className="material-icons">{currOption.icon}</i>{!isMobile&&<span>&ensp;Screen Modes</span>}
       </IconButton>
       <Menu
         id="long-menu"
@@ -73,7 +73,7 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
       >
         <MenuItem key="switch" onClick={handleSwitch}>
           <ListItemIcon style={iconStyle}>
-            <i class="material-icons">compare_arrows</i>
+            <i className="material-icons">compare_arrows</i>
           </ListItemIcon>
           <Typography variant="inherit">Switch Screens</Typography>
         </MenuItem>
@@ -88,7 +88,7 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
                 onClick={() => handleSelect(option.mode)}
               >
                 <ListItemIcon style={iconStyle}>
-                  <i class="material-icons">{option.icon}</i>
+                  <i className="material-icons">{option.icon}</i>
                 </ListItemIcon>
                 <Typography variant="inherit">{option.name}</Typography>
               </MenuItem>

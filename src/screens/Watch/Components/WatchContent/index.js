@@ -154,14 +154,18 @@ export class WatchContent extends React.Component {
             />
           </div>
   
-          <div className="video-col" >
-            <ClassTranscribePlayer 
-              {...this}
-              {...this.state}
-              media={media} 
-              isPrimary={!primary}  
-            />
-          </div>
+          {
+            media.isTwoScreen
+            &&
+            <div className="video-col" >
+              <ClassTranscribePlayer 
+                {...this}
+                {...this.state}
+                media={media} 
+                isPrimary={!primary}  
+              />
+            </div>
+          }
         </div>
   
         <Transcription 

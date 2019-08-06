@@ -74,10 +74,10 @@ function Title({userId}) {
     <Grid>
       <Grid.Row columns={3} verticalAlign="middle">
         <Grid.Column width={4}>
-          <p className="title-courses"><i class="fas fa-book"></i>&ensp;</p>
+          <p className="title-courses"><i className="fas fa-book"></i>&ensp;</p>
         </Grid.Column>
         <Grid.Column largeScreen={6} tablet={6} mobile={6}>
-          <p className="title-offerings"><i class="fas fa-stream"></i>&ensp;</p>
+          <p className="title-offerings"><i className="fas fa-stream"></i>&ensp;</p>
         </Grid.Column>
         <Grid.Column stretched className="new-course-btn">
           <Button 
@@ -86,7 +86,7 @@ function Title({userId}) {
             style={{marginRight:'-2rem'}}
             aria-label="create a new offering"
           >
-            <i class="fas fa-plus"></i>&ensp;New Offering
+            <i className="fas fa-plus"></i>&ensp;New Offering
           </Button>
         </Grid.Column>
       </Grid.Row>

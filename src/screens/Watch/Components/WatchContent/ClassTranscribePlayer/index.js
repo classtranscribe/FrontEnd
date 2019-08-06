@@ -192,7 +192,7 @@ export default class ClassTranscribePlayer extends React.Component {
                   key={trans.id}
                   kind="captions" 
                   label={captionLangMap[trans.language]}
-                  srclang={trans.language} 
+                  srcLang={trans.language} 
                   src={trans.src} 
                 />
               )}

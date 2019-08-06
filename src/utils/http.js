@@ -24,6 +24,7 @@ export const api = {
    * Function called when all the requests executed
    * then hide the loading page
    */
+  baseUrl: () => process.env.REACT_APP_API_BASE_URL,
   contentLoaded: function (interval) {
     const ele = document.getElementById('ct-loading-wrapper')
     if(ele) {
@@ -132,7 +133,7 @@ export const api = {
   },
   // media
   getMediaFullPath: function(path) { // need to change later
-    return path
+    return this.baseUrl() + path
   },
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)

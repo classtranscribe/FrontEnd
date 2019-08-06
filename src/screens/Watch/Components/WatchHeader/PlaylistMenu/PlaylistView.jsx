@@ -25,8 +25,7 @@ function PlaylistItem({ playlist, selectedPlaylist, goToPlaylist }) {
       className="pl-item" 
       selected={id === selectedPlaylist.id}
       onClick={() => goToPlaylist(playlist)}
-      aria-label={name}
-      aria-action={`View playlist ${name}`}
+      aria-label={`View playlist ${name}`}
       title={name}
     >
       <i className="material-icons">video_library</i>

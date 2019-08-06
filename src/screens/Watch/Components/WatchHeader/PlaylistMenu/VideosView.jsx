@@ -13,17 +13,16 @@ export default function VideosView({ medias, currMedia, courseNumber, selectedPl
       <MenuItem 
         className="header" onClick={backToPlaylists}
         aria-label="Back to playlists"
-        aria-action="Back to playlists"
         title="Back to playlists"
       >
-        <i class="material-icons">arrow_back_ios</i>
+        <i className="material-icons">arrow_back_ios</i>
         <h5>{fittedName}</h5>
       </MenuItem>
       <Divider style={{width: '25em', margin: '0'}} inverted />
       <div className="video-list">
         {!medias.length && <MenuItem disabled>No Videos</MenuItem>}
         {medias.map( media => 
-            <VideoItem media={media.media || media } currMedia={currMedia} courseNumber={courseNumber} />
+            <VideoItem key={media.id || media.media.id} media={media.media || media } currMedia={currMedia} courseNumber={courseNumber} />
         )}
       </div>
     </div>
@@ -37,11 +36,11 @@ function VideoItem({ media, currMedia, courseNumber }) {
       id={id} 
       className="pl-item" 
       selected={id === currMedia.id}
-      title={mediaName} aria-label={mediaName}
-      aria-action={`Watch video ${mediaName}`}
+      title={mediaName}
+      aria-label={`Watch video ${mediaName}`}
       onClick={() => window.location = util.links.watch(courseNumber, id)}
     >
-      <i class="material-icons">play_arrow</i>
+      <i className="material-icons">play_arrow</i>
       <span>&ensp;{mediaName}</span>
     </MenuItem>
   )
