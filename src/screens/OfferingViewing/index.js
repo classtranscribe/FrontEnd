@@ -11,7 +11,7 @@ import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import './transition.css'
 import './index.css'
 // Vars
-import { user, api } from 'utils'
+import { api } from 'utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {

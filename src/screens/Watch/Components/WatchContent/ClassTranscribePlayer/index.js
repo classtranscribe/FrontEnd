@@ -27,9 +27,11 @@ export default class ClassTranscribePlayer extends React.Component {
      * Register videojs after the media is loaded
      */
     if (prevProps.media !== media) {
-      const currVideo = media.videos[0]
+      const { videos, isTwoScreen } = media
+      if (!video1 && !isTwoScreen) return;
+      const currVideo = videos[0]
       const srcPath1 = api.getMediaFullPath(currVideo.video1.path)
-      const srcPath2 = media.isTwoScreen ? api.getMediaFullPath(currVideo.video2.path) : null
+      const srcPath2 = isTwoScreen ? api.getMediaFullPath(currVideo.video2.path) : null
       const videoJsOptions = {
         ...staticVJSOptions,
         controls: isPrimary, // only the isPrimary video player has the controls
@@ -52,20 +54,14 @@ export default class ClassTranscribePlayer extends React.Component {
     if (this.player) {
       /** If Switching happened... */
       if (prevProps.isPrimary !== isPrimary) { 
-        /**
-         * 1. Switch the controls to current isPrimary player
-         */
+        /** Switch the controls to current isPrimary player */
         this.player.controls(isPrimary)
-        /**
-         * 2. Switch transcription to the current isPrimary player 
-         */
+        /** Switch transcription to the current isPrimary player */
         if (trackSrc) {
           // Find the current showing transcription
           const currTrack = this.player.textTracks().tracks_.filter(track => track.src === trackSrc)
           // Give it to the curr isPrimary one
-          if (currTrack.length && isPrimary) //setTimeout(() => {
-            currTrack[0].mode = 'showing'
-          // }, 300)
+          if (currTrack.length && isPrimary) currTrack[0].mode = 'showing'
           // Remove it from the curr secondary one
           if (currTrack.length && !isPrimary) currTrack[0].mode = 'disabled'
         }
@@ -163,8 +159,8 @@ export default class ClassTranscribePlayer extends React.Component {
 
   render() {
     const { isPrimary, video1, switchToPrimary, switchToSecondary, media, mode } = this.props
-    const { transcriptions } = media
-    if (!transcriptions) return null
+    const { transcriptions, isTwoScreen } = media
+    if (!transcriptions || (!video1 && !isTwoScreen)) return null
     /**
      * Handle player switching
      */

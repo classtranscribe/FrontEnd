@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import _ from 'lodash'
 import $ from 'jquery'
 // UI
 import SubHeader from './SubHeader'
@@ -153,19 +152,14 @@ export class WatchContent extends React.Component {
               video1
             />
           </div>
-  
-          {
-            media.isTwoScreen
-            &&
-            <div className="video-col" >
-              <ClassTranscribePlayer 
-                {...this}
-                {...this.state}
-                media={media} 
-                isPrimary={!primary}  
-              />
-            </div>
-          }
+          <div className="video-col" >
+            <ClassTranscribePlayer 
+              {...this}
+              {...this.state}
+              media={media} 
+              isPrimary={!primary}  
+            />
+          </div>
         </div>
   
         <Transcription 
