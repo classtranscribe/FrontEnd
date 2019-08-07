@@ -16,11 +16,11 @@
     align-items: center;
     font-weight: bold;
     font-size: 2rem;
-    color: #3a9191;
+    color: #228686;
     margin-left: 1rem;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
     .ct-nav .brand span {
-      color: #4b7575;}
+      color: #629c9c;}
     .ct-nav .brand .img {
       pointer-events: none;
     }
@@ -79,8 +79,8 @@
   box-shadow: none !important;}
   .dark .signout {
     color: rgb(104, 204, 211);}
-  .dark .brand {
-    color: #189999;}
+  .dark .brand, .dark .brand:hover {
+    color: #2d9999;}
   .dark .brand span {
     color: rgb(114, 173, 179);}
   .dark .ui.dropdown>.left.menu, .dark .ui.dropdown .menu>.item {

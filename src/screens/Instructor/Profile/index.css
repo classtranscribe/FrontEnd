@@ -115,7 +115,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;}
-
+  .sp-pane .ui.fluid.card {
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+  }
+  .sp-pane .ui.card>.content, .sp-pane .ui.cards>.card>.content {
+    background: none !important;
+  }
   .sp-pane .course-info {
     padding-top: 0;
     height: max-content;
@@ -127,12 +134,12 @@
     .sp-pane .course-info h2 {
       font-size: 2rem;
       display: inline;
-      color: rgb(29, 65, 65);
+      color: rgb(51, 143, 143);
       white-space: nowrap;}
     .sp-pane .course-info h5 {
       display: inline;
       font-size: 1.3rem;
-      color: rgb(16, 37, 37);
+      color: rgb(50, 131, 131);
       font-style: italic;}
     @media screen and (max-width: 800px) {
       .sp-pane .course-info h2 {
@@ -144,12 +151,11 @@
   }
 
   .offering-listitem {
-    background-color: rgb(221, 221, 221) !important;
+    background: none !important;
     transition: all 0.2s linear !important;
     cursor: pointer;}
     .offering-listitem:hover {
-      background-color: rgb(164, 187, 185) !important;
-      color: rgb(255, 255, 255);
+      background-color: rgb(233, 241, 241) !important;
     }
 
 .offering-info .course-num {
@@ -165,9 +171,7 @@
     font-size: 1.1rem;
   }
 }
-/* .new-offering-btn {
-  background-color: black;
-} */
+
 @media screen and (min-width: 790px) {
   .new-offering-btn::after {
     content: ' New Offering'
@@ -190,11 +194,9 @@
 .ui.celled.grid>.row>.column {
   overflow: hidden;
 }
-/* .ui.raised.segment { */
-  /* padding: 0; */
-/* } */
+
 .ui.vertical.tabular.menu .active.item {
-  background: none rgb(246, 246, 246) !important;
+  background: #fcfcfc none !important;
   padding-left: 3rem;
   font-size: 1.2rem;
   transition: font 0.3s linear;
@@ -203,20 +205,14 @@
 .ui.vertical.tabular.menu .item {
   font-size: 1.1rem;}
   .ui.vertical.tabular.menu .item:hover {
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(240, 246, 246);
   } 
-
-.ui.grid>.row>.stretched.column>*, .ui.grid>.stretched.column:not(.row)>*, .ui.grid>.stretched.row>.column>*, .ui.stretched.grid>.column>*, .ui.stretched.grid>.row>.column>* {
-  /* margin-left: -2rem; */
-  background-color: rgb(246, 246, 246);
-}
 
 .ui.grid>.stretched.column:not(.row) {
   border-left: none !important;
   border-radius: 0;
 }
 .ui.attached.segment {
-  border-left: none !important;
-  border-right: 1px solid #d4d4d5;
+  border: none !important;
 }
 

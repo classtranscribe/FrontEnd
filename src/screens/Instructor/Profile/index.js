@@ -27,6 +27,7 @@ export class InstructorProfile extends React.Component {
       
       courseOfferings: [],
       universities: [],
+      university: {},
       terms: [],
       departments: []
     }
@@ -51,20 +52,23 @@ export class InstructorProfile extends React.Component {
     /**
      * 1. Login
      */
+    var userInfo = {}
     if (!user.isLoggedIn()) {
       user.login()
+      return;
     } else {
-      const userInfo = user.getUserInfo()
+      userInfo = user.getUserInfo()
       this.setState({ userInfo })
     }
     /**
-     * 2. Get courseOfferings 
+     * 2. Get university, terms and departs by user's universityId
      */
-    api.getAll(['Universities', 'Terms', 'Departments'], (response, name) => {
-      this.setState({[name]: response.data})
-    })
+    api.getUniversityById(userInfo.universityId).then(({data}) => this.setState({ university: data }))
+    api.getTermsByUniId(userInfo.universityId).then(({data}) => this.setState({ terms: data }))
+    api.getDepartsByUniId(userInfo.universityId).then(({data}) => this.setState({ departments: data }))
   }
 
+  /** Get courseOfferings */
   componentDidUpdate(prevProps, prevState) {
     if (prevState.userInfo !== this.state.userInfo) {
       this.getCourseOfferingsByInstructorId()

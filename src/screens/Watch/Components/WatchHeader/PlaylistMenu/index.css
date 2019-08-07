@@ -9,7 +9,8 @@
     font-size: 1.1rem;
     font-weight: bold;}
   .playlist-menu .trigger::after {
-    font-size: 1.1rem;
+    padding-top: .1em;
+    font-size: 1.2rem;
     font-weight: bold;
     content: 'PLAYLISTS'}
   .playlist-menu .trigger:hover {
