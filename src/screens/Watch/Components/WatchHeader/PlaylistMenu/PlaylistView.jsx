@@ -10,7 +10,7 @@ export default function PlaylistsView({playlists, courseNumber, selectedPlaylist
       </MenuItem>
       <Divider style={{width: '25em', margin: '0'}} inverted />
       {playlists.map( playlist => (
-        <PlaylistItem playlist={playlist} selectedPlaylist={selectedPlaylist} goToPlaylist={goToPlaylist} />
+        <PlaylistItem key={playlist.id} playlist={playlist} selectedPlaylist={selectedPlaylist} goToPlaylist={goToPlaylist} />
       ))}
     </div>
   )
