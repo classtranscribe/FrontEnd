@@ -145,7 +145,15 @@
 .new-pl-btn {
   width: 19rem;
   margin: 0 0 1rem 0.5rem !important;
-  /* margin-left: 0.5rem !important; */
+  background: none !important;
+  border: transparent 1px solid !important;
+  transition: border .2s linear, color .2s linear !important;
+  -o-transition: border .2s linear, color .2s linear !important;
+  -webkit-transition: border .2s linear, color .2s linear !important;
+}
+.new-pl-btn:hover, .new-pl-btn:focus {
+  color: #348b86 !important;
+  border: #79aca9 1px solid !important;
 }
 .op-sidebar .playlists .playlist .item {
   padding-bottom: 0.3rem;

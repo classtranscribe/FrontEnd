@@ -73,14 +73,14 @@
 
 /* dark mode */
 .dark {
-  background: rgb(55, 65, 65) !important;
+  background: none !important;
   position: relative;
   height: 3.5rem !important;
   box-shadow: none !important;}
   .dark .signout {
-    color: rgb(126, 210, 216);}
+    color: rgb(104, 204, 211);}
   .dark .brand {
-    color: rgb(54, 140, 148);}
+    color: #189999;}
   .dark .brand span {
     color: rgb(114, 173, 179);}
   .dark .ui.dropdown>.left.menu, .dark .ui.dropdown .menu>.item {

@@ -127,15 +127,6 @@ export default class ClassTranscribePlayer extends React.Component {
     this.syncPlay(e)
   }
 
-  onDoubleClick = e => {
-    alert(22)
-    if (!this.props.isPrimary) return;
-    if (this.player.paused()) 
-      this.syncPlay(e, true)
-    else 
-      this.syncPause(e, true)
-  }
-
   onSeeking = e => {
     if (!this.props.isPrimary) return;
     this.props.setCurrTime(e)
@@ -182,6 +173,7 @@ export default class ClassTranscribePlayer extends React.Component {
               onSeeked={this.onSeeked}
               onWaiting={this.onWaiting}
               onPlaying={this.onPlaying}
+              onLoad={this.onWaiting}
             >
               {transcriptions.map( trans => 
                 <track 

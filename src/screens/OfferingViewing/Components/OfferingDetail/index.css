@@ -45,7 +45,7 @@
   outline: none;
   color: rgb(255, 255, 255) !important;
 }
-.pl-header:hover>h4, .pl-header:focus>h4 {
+.pl-header:hover>h4, .pl-header:active>h4 {
   color: rgb(209, 226, 228);
   /* text-decoration: underline; */
 }
@@ -76,6 +76,8 @@
   transition: border 0.2s linear;
   display: flex;
   flex-direction: row;
+  border: solid 1px transparent;
+  align-items: center;
 }
 .offering-detail .playlists .playlist .videos .video:hover{
   border: solid 1px aliceblue;
@@ -85,9 +87,11 @@
 }
 .offering-detail .playlists .playlist .videos .video .img {
   width: 9rem;
+  border-radius: .3em;
 }
 .offering-detail .playlists .playlist .videos .video .title {
   padding: .5rem;
+  margin-left: 1em;
   color: #dee7e7;
   font-weight: bold;
   font-size: 1.1rem;

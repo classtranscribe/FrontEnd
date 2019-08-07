@@ -101,7 +101,7 @@ function Playlist({ playlists, id, fullNumber }) {
         <i className="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
-        <ListGroup className="playlist">
+        <ListGroup className="playlist" defaultActiveKey={playlists[0].id}>
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id)}

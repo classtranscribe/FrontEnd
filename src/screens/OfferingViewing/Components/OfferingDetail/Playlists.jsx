@@ -40,6 +40,7 @@ function Playlist({playlist, index, activeIndex, setActiveIndex, fullNumber}) {
         className="pl-header" tabIndex={1} 
         id={playlist.id}
         active={isActive}
+        tabIndex={0}
         onClick={() => setActiveIndex(index)}
       >
         <h4><strong>{name}</strong></h4>

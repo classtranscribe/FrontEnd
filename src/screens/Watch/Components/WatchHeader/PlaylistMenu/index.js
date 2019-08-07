@@ -72,8 +72,8 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
   return (
     <div className="playlist-menu">
       <IconButton
-        aria-label="Mode Setting"
-        title="Mode Setting"
+        aria-label="Playlist menu"
+        title="Playlist menu"
         aria-controls="mode-menu"
         aria-haspopup="true"
         onClick={handleClick}
