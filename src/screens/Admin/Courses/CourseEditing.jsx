@@ -22,14 +22,13 @@ export default class CourseEditing extends React.Component {
       courseInfo: handleData.copy(initialCourse),
       confirmed: false,
     }
-    this.path = 'Courses'
   }
 
   componentDidMount() {
     const { isNew, id } = this.state
     if (!isNew) {
-      api.getData(this.path, id)
-        .then( response => this.setState({course: response.data, loading: false}))
+      api.getCourseById(id)
+        .then( ({data}) => this.setState({course: data, loading: false}))
     }
   }
 
@@ -42,20 +41,20 @@ export default class CourseEditing extends React.Component {
   onSubmit = () => {
     const { courseInfo, id } = this.state
     courseInfo.departmentId = id
-    api.postData(this.path, courseInfo, () => this.onSave())
+    api.createCourse(courseInfo, () => this.onSave())
   }
 
   onUpdate = () => {
     const { course, courseInfo, id } = this.state
     var data = handleData.updateJson(courseInfo, course)
     data.id = id
-    api.updateData(this.path, data, () => this.onSave())
+    api.updateCourse(data, () => this.onSave())
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onInactive = () => {
-    api.deleteData(this.path, this.state.id, () => this.onSave())
+    api.deleteCourse(this.state.id, () => this.onSave())
   }
 
   onSave = () => {

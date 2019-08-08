@@ -6,7 +6,6 @@
   z-index: 1;
   width: 100%;
   color: rgb(240, 254, 255);
-  background: rgb(55, 65, 65);
   overflow: hidden;
   padding: .5em 2em 0 2em;
 }
@@ -24,7 +23,7 @@
     width: 100%;
     margin: 0 !important;}
   .subheader-container .header p span {
-    color: rgb(115, 168, 175);
+    color: #54b3b3;
     font-size: 1.3rem;
   }
 

@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import _ from 'lodash'
 import $ from 'jquery'
 // UI
 import SubHeader from './SubHeader'
@@ -153,7 +152,6 @@ export class WatchContent extends React.Component {
               video1
             />
           </div>
-  
           <div className="video-col" >
             <ClassTranscribePlayer 
               {...this}

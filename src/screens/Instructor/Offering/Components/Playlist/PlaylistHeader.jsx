@@ -7,8 +7,6 @@ import TypeIcon from '../TypeIcon'
 
 export default function PlaylistHeader({name, sourceType, id, offeringId}) {
   if (sourceType === undefined) return <HeaderPlaceholder />
-
-  const className = sourceType === 1 ? 'youtube' : sourceType === 2 ? 'echo360' : ''
   return (
     <div className="pl-info-header">
       <h1 className="name">
@@ -25,7 +23,7 @@ export default function PlaylistHeader({name, sourceType, id, offeringId}) {
  */
 function EditPlaylistBtns({ type, playlistId, offeringId }) {
   const newVideoButtonName =
-          <><i class="fas fa-cloud-upload-alt"></i>&ensp;Upload Video</>
+          <><i className="fas fa-cloud-upload-alt"></i>&ensp;Upload Video</>
 
   return (
     <div className="playlist-btn">
@@ -49,7 +47,7 @@ function EditPlaylistBtns({ type, playlistId, offeringId }) {
         aria-label="edit playlist"
         compact
       >
-        <i class="fas fa-edit"></i>
+        <i className="fas fa-edit"></i>
       </Button>
     </div>
   )

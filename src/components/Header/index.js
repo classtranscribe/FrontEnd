@@ -30,7 +30,7 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
         </Navbar.Brand>
       }
       <Navbar.Brand id="brand" className="brand" as={Link} to={homeURL} title="brand" aria-label="brand">
-        {!isWatchScreen && <Logo />}
+        {/* {!isWatchScreen && <Logo />} */}
         <span>C</span>lass<span>T</span>ranscribe
       </Navbar.Brand>
       <Row className="signout">

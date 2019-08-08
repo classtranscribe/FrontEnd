@@ -39,7 +39,7 @@ export function SideBar({id, state}) {
           to={util.links.instructor()} 
           aria-label="go back" title="go back"
         >
-          <i class="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
+          <i className="fas fa-chevron-left"></i> &ensp; My Courses<br/><br/>
         </ListGroup.Item>
 
         {/* Offering Info ---click to editing page */}
@@ -51,8 +51,8 @@ export function SideBar({id, state}) {
           title="edit offering"
         >
           <p className="title">
-            <i class="fas fa-book"></i> &ensp; {fullNumber}
-            &ensp; <i class="fas fa-edit"></i>
+            <i className="fas fa-book"></i> &ensp; {fullNumber}
+            &ensp; <i className="fas fa-edit"></i>
           </p>
         </ListGroup.Item>
         <ListGroup.Item className="list" disabled>
@@ -69,7 +69,7 @@ export function SideBar({id, state}) {
           as={Link} to={util.links.offeringData(id)}
           className="list" eventKey="data" aria-label="data" title="data"
         >
-          <i class="fas fa-chart-bar"></i> &ensp; Data
+          <i className="fas fa-chart-bar"></i> &ensp; Data
         </ListGroup.Item>
       </ListGroup>
 
@@ -94,14 +94,14 @@ function Playlist({ playlists, id, fullNumber }) {
     <div className="playlists">
       <div className="breakline"></div>
       <ListGroup.Item className="title">
-        <i class="fas fa-list-ul"></i> &ensp; Playlists
+        <i className="fas fa-list-ul"></i> &ensp; Playlists
       </ListGroup.Item>
       
       <Button as={Link} className="new-pl-btn" to={util.links.newPlaylist(id)}>
-        <i class="fas fa-folder-plus"/> New Playlist
+        <i className="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
-        <ListGroup className="playlist">
+        <ListGroup className="playlist" defaultActiveKey={playlists[0].id}>
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id)}

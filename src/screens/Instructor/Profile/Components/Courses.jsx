@@ -4,11 +4,12 @@
  * - where instructor can create a new offering
  */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // UI & Layouts
 import { Grid, Tab, Button } from 'semantic-ui-react'
-import OfferinfList from './OfferingList'
+import { GeneralLoader } from 'components'
+import OfferingList from './OfferingList'
 // Vars
 import { handleData, api, util } from 'utils'
 
@@ -19,7 +20,19 @@ import { handleData, api, util } from 'utils'
  * @param userId instructorId for the need of creating an offering
  */
 export function Courses(props) {
-  const {courseOfferings, userId, departments, courseActivePane} = props.state;
+  const {courseOfferings, userId, departments, courseActivePane} = props.state
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 780)
+  useEffect(() => {
+    window.addEventListener('resize', function() {
+      if (this.innerWidth < 780) {
+        if (!isMobile) setIsMobile(true)
+      } else {
+        if (!isMobile) setIsMobile(false)
+      }
+    })
+  }, [])
+
+  if (courseOfferings[0] === 'loading') return <GeneralLoader loading height='100%' inverted/>
   /**
    * Generate the tab panes for each course, where contains the offering list
    */
@@ -33,12 +46,13 @@ export function Courses(props) {
       key: course.id + index,
       menuItem: department.acronym + course.courseNumber,
       render: () => (
-        <div style={{marginLeft: '-2rem', borderRight: 'solid 1px transparent'}}>
-          <OfferinfList 
-            courseOffering={courseOffering}
-            department={department}
+        <div style={{marginLeft: !isMobile ? '-2rem' : '0', borderRight: 'solid 1px transparent'}}>
+          <OfferingList 
             {...props}
             {...props.state}
+            isMobile={isMobile}
+            department={department}
+            courseOffering={courseOffering}
           />
         </div>
       )
@@ -56,7 +70,7 @@ export function Courses(props) {
         <Tab 
           panes={panes} 
           defaultActiveIndex={activeIndex} 
-          menu={{ fluid: true, vertical: true, tabular: true, borderless: true }} 
+          menu={{ fluid: true, vertical: !isMobile, tabular: true, borderless: true }} 
           onTabChange={(event, {activeIndex}) => props.setActivePane(activeIndex)}
         /> 
         : 
@@ -74,10 +88,10 @@ function Title({userId}) {
     <Grid>
       <Grid.Row columns={3} verticalAlign="middle">
         <Grid.Column width={4}>
-          <p className="title-courses"><i class="fas fa-book"></i>&ensp;</p>
+          <p className="title-courses"><i className="fas fa-book"></i>&ensp;Courses</p>
         </Grid.Column>
         <Grid.Column largeScreen={6} tablet={6} mobile={6}>
-          <p className="title-offerings"><i class="fas fa-stream"></i>&ensp;</p>
+          <p className="title-offerings"><i className="fas fa-stream"></i>&ensp;Offerings</p>
         </Grid.Column>
         <Grid.Column stretched className="new-course-btn">
           <Button 
@@ -86,7 +100,7 @@ function Title({userId}) {
             style={{marginRight:'-2rem'}}
             aria-label="create a new offering"
           >
-            <i class="fas fa-plus"></i>&ensp;New Offering
+            <i className="fas fa-plus"></i>&ensp;New Offering
           </Button>
         </Grid.Column>
       </Grid.Row>

@@ -44,8 +44,8 @@ export function Playlist({ match }) {
       <List verticalAlign='middle' className="vlist" role="list">
         {
           medias ? 
-          medias.map( media =>
-            <Video {...media} sourceType={playlist.sourceType} key={media.id} courseNumber={courseNumber}/>
+          medias.map( (media, index) =>
+            <Video {...media} sourceType={playlist.sourceType} key={media.media.id} courseNumber={courseNumber}/>
           )
           :
           <VideoListPlaceHolder />

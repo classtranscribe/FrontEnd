@@ -51,7 +51,7 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
           <Label.Group>
             {staffs.map( staff => (
               <Label key={staff}>
-                {staff}
+                {staff.email}
                 <Icon 
                   name="delete" 
                   onClick={()=>removeStaff(staff)} 

@@ -67,18 +67,19 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
   }
 
   const open = Boolean(anchorEl)
+  const isPlaylistView = selectedPlaylist.id === ''
 
   return (
     <div className="playlist-menu">
       <IconButton
-        aria-label="Mode Setting"
-        title="Mode Setting"
+        aria-label="Playlist menu"
+        title="Playlist menu"
         aria-controls="mode-menu"
         aria-haspopup="true"
         onClick={handleClick}
         className="trigger"
       >
-        <i class="material-icons">format_list_bulleted</i>&ensp;
+        <i className="material-icons">format_list_bulleted</i>&ensp;
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -88,7 +89,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
         className="playlist-menu"
         PaperProps={{style: menuStyle}}
       >
-        <CSSTransition in={selectedPlaylist.id === ''} unmountOnExit classNames="playlist-view" timeout={100}>
+        <CSSTransition in={isPlaylistView} unmountOnExit classNames="playlist-view" timeout={100}>
           <PlaylistsView 
             playlists={playlists} 
             courseNumber={courseNumber} 
@@ -96,7 +97,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
             goToPlaylist={goToPlaylist}
           />
         </CSSTransition>
-        <CSSTransition in={selectedPlaylist.id} unmountOnExit classNames="video-view" timeout={100}>
+        <CSSTransition in={!isPlaylistView} unmountOnExit classNames="video-view" timeout={100}>
           <VideosView 
             medias={medias} 
             currMedia={media} 

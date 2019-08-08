@@ -10,9 +10,8 @@ import { Icon, Divider } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from 'components'
 import Playlists from './Playlists'
 // Vars
-import { api, util } from 'utils'
+import { api, util, handleData } from 'utils'
 import './index.css'
-import { handleData } from '../../../../utils/data';
 
 export function OfferingDetail({id, history}) {
   const [offering, setOffering] = useState(null)
@@ -28,16 +27,25 @@ export function OfferingDetail({id, history}) {
    * Get all offerings and complete offerings
    */
   useEffect(() => {
-    api.getOfferingById(id)
-      .then( ({data}) => {
-        api.completeSingleOffering(data, function(data) {
-          setOffering(() => data)
-          // console.log(data)
+    const propsState = history.location.state
+    if (propsState && propsState.fullCourse) {
+      const { fullCourse } = propsState
+      setFullNumber(() => fullCourse.fullNumber)
+      setTermName(() => fullCourse.termName)
+      setDescription(() => fullCourse.description)
+      setSectionName(() => fullCourse.section)
+      setCourseName(() => fullCourse.courseName)
+    } else {
+      api.getOfferingById(id)
+        .then( ({data}) => {
+          api.completeSingleOffering(data, function(data) {
+            setOffering(() => data)
+          })
         })
-      })
+    }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
-        console.log('playlists', data)
+        // console.log('playlists', data)
         setPlaylists(() => data)
       })
   }, [id])

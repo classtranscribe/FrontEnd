@@ -8,11 +8,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 // Layouts
 import { ClassTranscribeHeader, ClassTranscribeFooter } from 'components'
-import { Courses, ProfileCard } from "./Components"
+import { Courses } from "./Components"
 import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
 // Vars
-import { api, user, handleData } from 'utils'
+import { api, user } from 'utils'
 
 
 export class InstructorProfile extends React.Component {
@@ -25,8 +25,9 @@ export class InstructorProfile extends React.Component {
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
       courseActivePane: localStorage.getItem('courseActivePane') || 0,
       
-      courseOfferings: [],
+      courseOfferings: ['loading'],
       universities: [],
+      university: {},
       terms: [],
       departments: []
     }
@@ -51,20 +52,23 @@ export class InstructorProfile extends React.Component {
     /**
      * 1. Login
      */
+    var userInfo = {}
     if (!user.isLoggedIn()) {
       user.login()
+      return;
     } else {
-      const userInfo = user.getUserInfo()
+      userInfo = user.getUserInfo()
       this.setState({ userInfo })
     }
     /**
-     * 2. Get courseOfferings 
+     * 2. Get university, terms and departs by user's universityId
      */
-    api.getAll(['Universities', 'Terms', 'Departments'], (response, name) => {
-      this.setState({[name]: response.data})
-    })
+    api.getUniversityById(userInfo.universityId).then(({data}) => this.setState({ university: data }))
+    api.getTermsByUniId(userInfo.universityId).then(({data}) => this.setState({ terms: data }))
+    api.getDepartsByUniId(userInfo.universityId).then(({data}) => this.setState({ departments: data }))
   }
 
+  /** Get courseOfferings */
   componentDidUpdate(prevProps, prevState) {
     if (prevState.userInfo !== this.state.userInfo) {
       this.getCourseOfferingsByInstructorId()
@@ -87,7 +91,6 @@ export class InstructorProfile extends React.Component {
         <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />
         <ClassTranscribeHeader />
         <div className="ip-container">
-          <ProfileCard {...this.state} />
           <Courses 
             {...this}
           />

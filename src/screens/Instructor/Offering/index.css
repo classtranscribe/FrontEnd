@@ -61,17 +61,14 @@
   border-radius: 0 1.5rem 1.5rem 0;
   width: 19rem;
   margin: 0.3rem 0;
-  /* color: rgb(77, 76, 76); */
   color: #457e7e;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
   transition: all 0.2s linear;
-  overflow-x: hidden;
-  /* margin-top: 0.5rem; */}
-  .op-sidebar .list:hover {
-    /* margin-left: 10px; */
+  overflow-x: hidden;}
+  .op-sidebar .list:hover, .op-sidebar .list:focus {
     background: #edf0f0;}
   .op-sidebar .goback {
     height: 3rem !important;}
@@ -145,7 +142,15 @@
 .new-pl-btn {
   width: 19rem;
   margin: 0 0 1rem 0.5rem !important;
-  /* margin-left: 0.5rem !important; */
+  background: none !important;
+  border: transparent 1px solid !important;
+  transition: border .2s linear, color .2s linear !important;
+  -o-transition: border .2s linear, color .2s linear !important;
+  -webkit-transition: border .2s linear, color .2s linear !important;
+}
+.new-pl-btn:hover, .new-pl-btn:focus {
+  color: #348b86 !important;
+  border: #79aca9 1px solid !important;
 }
 .op-sidebar .playlists .playlist .item {
   padding-bottom: 0.3rem;
@@ -161,6 +166,7 @@
 }
 .list-group-item-secondary:focus {
   outline: none;
+  background: #edf0f0 !important;
 }
 .list-group-item-secondary:hover {
   background: #edf0f0 !important;
@@ -207,7 +213,7 @@
   transition: all 0.2s linear;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding-top: 4.5rem;
+  padding-top: 4rem;
   -webkit-overflow-scrolling: touch;
 }
 @media screen and (max-width: 900px) {

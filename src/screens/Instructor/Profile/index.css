@@ -11,57 +11,27 @@
   position: absolute;
   top: 0;
   z-index: 2;
-  /* background-color: rgb(235, 235, 235); */
   background-color: #fcfcfc;
   -webkit-overflow-scrolling: touch;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .ip-container {
   width: 100%;
-  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   overflow: scroll;
   padding-left: 3%;
 }
 
-/* Profile Card */
-
-.ip-profile {
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: 7rem;
-  margin-top: 0.5rem;
-  padding: 1rem 0 0rem 4%;
-  width: 97%;
-  border: none;
-  background: #fcfcfc;
-  display: flex;}
-    .ip-profile .img {
-      background-color: rgb(229, 243, 243);
-      border-radius: 50%;
-      width: 5rem;
-      height: 5rem;}
-    .ip-profile .name {
-      color: rgb(70, 70, 70);
-      font-weight: bold;
-      margin-left: 2rem;
-      font-size: 2rem;
-      text-align: left;
-    }
-    .ip-profile .name span {
-      font-size: 1.2rem;
-      color: rgb(124, 124, 124);
-    }
-
 /* Contents */
 .ip-content {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  padding-top: 2rem;
   height: 100%;
   overflow: hidden;
   width: 97%;} 
+  .ip-content .ui.segment {
+    padding-top: 0 !important;
+  }
 
 .ip-content .title-courses {
   padding-left: 2.5rem;
@@ -75,14 +45,9 @@
   color: rgb(88, 121, 121);
   font-size: 1.2rem;
 }
-@media screen and (min-width: 750px) {
-  .ip-content .title-courses::after {
-    content: 'My Courses';
-  }
-}
-@media screen and (min-width: 465px) {
-  .ip-content .title-offerings::after {
-    content: 'My Offerings';
+@media screen and (max-width: 780px) {
+  .ip-content .title-courses, .ip-content .title-offerings {
+    display: none;
   }
 }
 
@@ -92,18 +57,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-}
-.ip-content .empty h2 {
-  color: rgb(1, 2, 2);
-  font-size: 3rem;
-  line-height: 0rem;
-} .ip-content .empty h1 {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: rgb(29, 177, 177);
-  font-size: 4rem;
-  font-weight: bolder;
-} 
+  align-items: center;}
+  .ip-content .empty h2 {
+    color: rgb(1, 2, 2);
+    font-size: 3rem;
+    line-height: 0rem;} 
+  .ip-content .empty h1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgb(29, 177, 177);
+    font-size: 4rem;
+    font-weight: bolder;
+  } 
 
 /* Course */
 
@@ -112,10 +76,13 @@
 
 .sp-pane {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;}
-
+  flex-direction: column;}
+  .sp-pane .ui.fluid.card {
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;}
+    .sp-pane .ui.card>.content, .sp-pane .ui.cards>.card>.content {
+      background: none !important;}
   .sp-pane .course-info {
     padding-top: 0;
     height: max-content;
@@ -127,47 +94,46 @@
     .sp-pane .course-info h2 {
       font-size: 2rem;
       display: inline;
-      color: rgb(29, 65, 65);
+      color: rgb(51, 143, 143);
       white-space: nowrap;}
     .sp-pane .course-info h5 {
       display: inline;
       font-size: 1.3rem;
-      color: rgb(16, 37, 37);
+      color: rgb(50, 131, 131);
       font-style: italic;}
     @media screen and (max-width: 800px) {
       .sp-pane .course-info h2 {
         display: block;}}
-
-  .sp-pane .subtitle {
-    margin-left: 3rem;
-    width: 100%;
-  }
+    .sp-pane .subtitle {
+      margin-left: 3rem;
+      width: 100%;
+    }
 
   .offering-listitem {
-    background-color: rgb(221, 221, 221) !important;
+    background: none !important;
     transition: all 0.2s linear !important;
+    margin-bottom: 1em !important; 
+    padding-left: 5% !important;
     cursor: pointer;}
     .offering-listitem:hover {
-      background-color: rgb(164, 187, 185) !important;
-      color: rgb(255, 255, 255);
+      background-color: rgb(233, 241, 241) !important;}
+    .offering-listitem h3 {
+      color: rgb(49, 124, 118);
+      font-size: 1.3em !important;
     }
+
 
 .offering-info .course-num {
   border-top-left-radius: 0.3rem;
-  border-bottom-left-radius: 0.3rem;
-  
-}
+  border-bottom-left-radius: 0.3rem;}
 .offering-info h3 {
-  color: rgb(49, 124, 118);
-}
-@media screen and (max-width: 980px) {
-  .offering-info h3 {
-    font-size: 1.1rem;
+  color: rgb(49, 124, 118);}
+  @media screen and (max-width: 980px) {
+    .offering-info h3 {
+      font-size: 1.1rem;
+    }
   }
-}
-/* .new-offering-btn {
-  background-color: black;
-} */
+
 @media screen and (min-width: 790px) {
   .new-offering-btn::after {
     content: ' New Offering'
@@ -190,11 +156,9 @@
 .ui.celled.grid>.row>.column {
   overflow: hidden;
 }
-/* .ui.raised.segment { */
-  /* padding: 0; */
-/* } */
+
 .ui.vertical.tabular.menu .active.item {
-  background: none rgb(246, 246, 246) !important;
+  background: #fcfcfc none !important;
   padding-left: 3rem;
   font-size: 1.2rem;
   transition: font 0.3s linear;
@@ -203,20 +167,18 @@
 .ui.vertical.tabular.menu .item {
   font-size: 1.1rem;}
   .ui.vertical.tabular.menu .item:hover {
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(240, 246, 246);
   } 
-
-.ui.grid>.row>.stretched.column>*, .ui.grid>.stretched.column:not(.row)>*, .ui.grid>.stretched.row>.column>*, .ui.stretched.grid>.column>*, .ui.stretched.grid>.row>.column>* {
-  /* margin-left: -2rem; */
-  background-color: rgb(246, 246, 246);
-}
 
 .ui.grid>.stretched.column:not(.row) {
   border-left: none !important;
   border-radius: 0;
 }
 .ui.attached.segment {
-  border-left: none !important;
-  border-right: 1px solid #d4d4d5;
+  border: none !important;
+}
+
+.ui.tabular.menu .active.item {
+  background: #fcfcfc !important;
 }
 

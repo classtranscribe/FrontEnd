@@ -10,7 +10,7 @@ export default function PlaylistsView({playlists, courseNumber, selectedPlaylist
       </MenuItem>
       <Divider style={{width: '25em', margin: '0'}} inverted />
       {playlists.map( playlist => (
-        <PlaylistItem playlist={playlist} selectedPlaylist={selectedPlaylist} goToPlaylist={goToPlaylist} />
+        <PlaylistItem key={playlist.id} playlist={playlist} selectedPlaylist={selectedPlaylist} goToPlaylist={goToPlaylist} />
       ))}
     </div>
   )
@@ -25,8 +25,7 @@ function PlaylistItem({ playlist, selectedPlaylist, goToPlaylist }) {
       className="pl-item" 
       selected={id === selectedPlaylist.id}
       onClick={() => goToPlaylist(playlist)}
-      aria-label={name}
-      aria-action={`View playlist ${name}`}
+      aria-label={`View playlist ${name}`}
       title={name}
     >
       <i className="material-icons">video_library</i>

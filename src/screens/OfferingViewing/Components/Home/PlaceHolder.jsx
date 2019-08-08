@@ -36,7 +36,7 @@ export function OfferingCardHolder() {
  */
 export function OfferingListHolder() {
   return (
-    <div className="offering-list" role="list">
+    <div className="offering-list" role="list" style={{overflowX: 'hidden'}}>
       {['offering-list-holder1', 'offering-list-holder2'].map( key =>
         <div className="section" role="listitem" key={key}>
           <Placeholder style={{height: '2rem'}}>

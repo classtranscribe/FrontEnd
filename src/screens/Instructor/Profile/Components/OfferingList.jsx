@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Grid, Tab, Card, Button, Divider, Popup, Message } from 'semantic-ui-react'
 import { sortFunc, util, handleData } from 'utils'
 
@@ -11,7 +12,7 @@ import { sortFunc, util, handleData } from 'utils'
  * @param courseOffering one course and its offerings
  * @param onSort callback for sorting the offerings by term
  */
-export default function OfferinfList({courseOffering, onSort, sortDown, terms, department}) {
+export default function OfferinfList({courseOffering, onSort, sortDown, terms, department, isMobile}) {
   const { course, offerings } = courseOffering
   // determine the sorting method and sort the offering array
   const sortBy = sortDown ? sortFunc.sortDownByTerm : sortFunc.sortUpByTerm
@@ -22,29 +23,29 @@ export default function OfferinfList({courseOffering, onSort, sortDown, terms, d
     <Tab.Pane className="sp-pane" style={{background: 'none'}} key={course.id}>
       <CourseInfoCard {...courseOffering} department={department} courseFullNumber={courseFullNumber}/>
 
-      <OfferingTitle onSort={onSort} sortDown={sortDown}/>
+      {!isMobile && <OfferingTitle onSort={onSort} sortDown={sortDown} />}
 
       <div style={{width: '100%'}}>
         {sortedOfferings.map( offering => {
           const term = handleData.findById(terms, offering.termId)
           return (
-            <Message 
-              key={offering.id} 
-              className='offering-listitem'
-              onClick={()=>util.toOfferingPage(offering.id)}
-              title={`go to ${courseFullNumber} page`}
-              aria-label={`go to ${courseFullNumber} page`}
-            >
-              <Grid celled='internally'>
-                <Grid.Row className="offering-info">
-                  <Grid.Column className="course-num" width={3}>
-                    <h3>{courseFullNumber}</h3>
-                  </Grid.Column>
-                  <Grid.Column width={5}><strong>{term ? term.name : ''}</strong></Grid.Column>
-                  <Grid.Column width={5}><strong>{offering.sectionName}&ensp;</strong></Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Message>
+            <Link to={util.links.offering(offering.id)} key={offering.id}>
+              <Message 
+                className='offering-listitem'
+                title={`go to ${courseFullNumber} page`}
+                aria-label={`go to ${courseFullNumber} page`}
+              >
+                  <Grid stackable>
+                    <Grid.Row className="offering-info">
+                      <Grid.Column className="course-num" width={3}>
+                        <h3>{courseFullNumber}</h3>
+                      </Grid.Column>
+                      <Grid.Column width={5}><strong>{term ? term.name : ''}</strong></Grid.Column>
+                      <Grid.Column width={5}><strong>{offering.sectionName}&ensp;</strong></Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+              </Message>
+            </Link>
           )
         })}
       </div>

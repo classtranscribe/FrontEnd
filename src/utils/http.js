@@ -24,6 +24,7 @@ export const api = {
    * Function called when all the requests executed
    * then hide the loading page
    */
+  baseUrl: () => process.env.REACT_APP_API_BASE_URL,
   contentLoaded: function (interval) {
     const ele = document.getElementById('ct-loading-wrapper')
     if(ele) {
@@ -43,7 +44,7 @@ export const api = {
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
   getAuthToken: function() {
-    return http.post(this.baseUrl() + '/Account/SignIn', {"b2cToken": this.b2cToken()})
+    return http.post('/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
@@ -51,11 +52,10 @@ export const api = {
   withAuth: function () {
     return {
       headers: {
-        Authorization: 'Bearer ' + this.authToken()
+        Authorization: 'Bearer ' + this.authToken(),
       }
     }
   },
-  baseUrl: () => process.env.REACT_APP_API_BASE_URL.replace('/api/', ''),
   
 
   /********************* Functions for http requests *********************/
@@ -64,6 +64,7 @@ export const api = {
    * GET
    */
   getData: function (path, id) {
+    path = `/api/${path}`
     if(id) path = `${path}/${id}`
     return http.get(path, this.withAuth())
   },
@@ -107,6 +108,9 @@ export const api = {
     return this.getData('Departments/ByUniversity', id)
   },
   // Courses
+  getCourseById: function (courseId) {
+    return this.getData('Courses', courseId)
+  },
   getCoursesByDepartId: function (id) {
     return this.getData('Courses/ByDepartment', id) 
   },
@@ -131,7 +135,7 @@ export const api = {
     return this.getData('Playlists/ByOffering', offeringId)
   },
   // media
-  getMediaFullPath: function(path) {
+  getMediaFullPath: function(path) { // need to change later
     return this.baseUrl() + path
   },
   getMediaById: function(mediaId) {
@@ -226,6 +230,7 @@ export const api = {
    * callBack = responce => {...}
    */
   postData: function (path, data, callBack) {
+    path = `/api/${path}`
     if (callBack) 
       return http.post(path, data, this.withAuth())
         .then(responce => callBack(responce))
@@ -238,6 +243,9 @@ export const api = {
   postOfferingAddInstructors: function (offeringId, data) {
     return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
   },
+  createCourse: function(data, callBack) {
+    return this.postData('Courses', data, callBack)
+  },
   createPlaylist: function(data, callBack) {
     return this.postData('Playlists', data, callBack)
   },
@@ -246,11 +254,15 @@ export const api = {
    * callBack = responce => {...}
    */
   updateData: function (path, data, callBack) {
+    path = `/api/${path}`
     if (callBack) 
       return http.put(`${path}/${data.id}`, data, this.withAuth())
         .then(responce => callBack(responce))
     else 
       return http.put(`${path}/${data.id}`, data, this.withAuth())
+  },
+  updateCourse: function(data, callBack) {
+    return this.updateData('Courses', data, callBack)
   },
   updatePlaylist: function(data, callBack) {
     return this.updateData('Playlists', data, callBack)
@@ -263,6 +275,7 @@ export const api = {
    * callBack = responce => {...}
    */
   deleteData: function (path, id, callBack) {
+    path = `/api/${path}`
     if (callBack)
       return http.delete(`${path}/${id}`, this.withAuth())
         .then(responce => callBack(responce))
@@ -274,6 +287,9 @@ export const api = {
   },
   deleteUserFromOffering: function(offeringId, userId) {
     return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  },
+  deleteCourse: function(courseId, callBack) {
+    return this.deleteData('Courses', courseId, callBack)
   },
   deletePlaylist: function(playlistId, callBack) {
     return this.deleteData('Playlists', playlistId, callBack)

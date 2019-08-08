@@ -94,7 +94,7 @@ function SectionItem({offering, depart, termSelected}) {
       className="offeringCard" as={Link} 
       to={{
         pathname: util.links.offeringDetail(fullCourse.key),
-        state: { hash: fullCourse.acronym, from: 'home' }
+        state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
       }}
     >
       <Card.Img 

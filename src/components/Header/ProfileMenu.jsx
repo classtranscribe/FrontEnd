@@ -84,7 +84,7 @@ export default function ProfileMenu({ darkMode }) {
                 onClick={() => window.location=item.href}
               >
                 <ListItemIcon style={iconStyle}>
-                  <i class={item.icon}></i>
+                  <i className={item.icon}></i>
                 </ListItemIcon>
                 <Typography style={fontStyle}>{item.name}</Typography>
               </MenuItem>
@@ -96,14 +96,14 @@ export default function ProfileMenu({ darkMode }) {
 
             <MenuItem title="Contact us" aria-label="Contact us">
               <ListItemIcon style={iconStyle}>
-                <i class="fas fa-envelope"></i>
+                <i className="fas fa-envelope"></i>
               </ListItemIcon>
               <Typography style={fontStyle}>Contact Us</Typography>
             </MenuItem>
 
             <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signout()}>
               <ListItemIcon style={iconStyle}>
-                <i class="fas fa-sign-out-alt"></i>
+                <i className="fas fa-sign-out-alt"></i>
               </ListItemIcon>
               <Typography style={fontStyle}>Sign Out</Typography>
             </MenuItem>

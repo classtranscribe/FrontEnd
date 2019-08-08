@@ -49,6 +49,12 @@
   overflow: visible;
   white-space: normal;
 }
+.sp-home .filter .ui.dropdown .menu, .sp-home .filter .selection.active.dropdown {
+  border-color: rgb(106, 172, 168) !important;
+} 
+.sp-home .filter label {
+  color: rgb(93, 131, 129) !important;
+}
 
 
 /* Offering list */
@@ -98,7 +104,7 @@
     width: 16rem !important;
     height: 18rem;
     margin: 0.5rem 0.5rem 0.5rem 0;
-    border: 0.1rem solid transparent;
+    border: 0.1rem solid #fcfcfc;
     overflow: hidden;
     cursor: pointer;}
     .sp-home .card-body {
