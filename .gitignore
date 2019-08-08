@@ -64,5 +64,4 @@ out/
 
 # next.js build output
 .next
-nginx/app.conf
-certbot/
+
