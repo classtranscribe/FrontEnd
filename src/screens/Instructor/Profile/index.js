@@ -8,11 +8,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 // Layouts
 import { ClassTranscribeHeader, ClassTranscribeFooter } from 'components'
-import { Courses, ProfileCard } from "./Components"
+import { Courses } from "./Components"
 import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
 // Vars
-import { api, user, handleData } from 'utils'
+import { api, user } from 'utils'
 
 
 export class InstructorProfile extends React.Component {
@@ -25,7 +25,7 @@ export class InstructorProfile extends React.Component {
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
       courseActivePane: localStorage.getItem('courseActivePane') || 0,
       
-      courseOfferings: [],
+      courseOfferings: ['loading'],
       universities: [],
       university: {},
       terms: [],
@@ -91,7 +91,6 @@ export class InstructorProfile extends React.Component {
         <Route path='/instructor/offering-setting/:type?=:id' component={OfferingSettingPage} />
         <ClassTranscribeHeader />
         <div className="ip-container">
-          <ProfileCard {...this.state} />
           <Courses 
             {...this}
           />

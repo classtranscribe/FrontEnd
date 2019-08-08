@@ -28,10 +28,10 @@
 
 /* Header */
 .pl-info-header {
-  background: #fcfcfce8;
+  background: #fcfcfc9d;
 }
 .csp-videos .ui.sticky.fixed.top {
-  top: 3.6rem !important;
+  top: 4rem !important;
 }
 .pl-info-header .name {
   width: 100%;

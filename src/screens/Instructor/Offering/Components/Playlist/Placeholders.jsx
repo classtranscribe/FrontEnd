@@ -19,7 +19,7 @@ export function VideoListPlaceHolder() {
   return (
     <>
       {
-        _.times(7, num => (
+        _.times(5, num => (
           <List.Item className="vcard-placeholder" key={`video-card-placeholder-${num}`}>
             <Placeholder className="img" >
               <Placeholder.Image />

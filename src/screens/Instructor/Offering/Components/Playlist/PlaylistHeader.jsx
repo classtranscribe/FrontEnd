@@ -7,8 +7,6 @@ import TypeIcon from '../TypeIcon'
 
 export default function PlaylistHeader({name, sourceType, id, offeringId}) {
   if (sourceType === undefined) return <HeaderPlaceholder />
-
-  const className = sourceType === 1 ? 'youtube' : sourceType === 2 ? 'echo360' : ''
   return (
     <div className="pl-info-header">
       <h1 className="name">
