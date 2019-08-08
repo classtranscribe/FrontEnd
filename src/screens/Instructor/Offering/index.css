@@ -215,7 +215,7 @@
   transition: all 0.2s linear;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding-top: 4.5rem;
+  padding-top: 4rem;
   -webkit-overflow-scrolling: touch;
 }
 @media screen and (max-width: 900px) {

@@ -108,6 +108,9 @@ export const api = {
     return this.getData('Departments/ByUniversity', id)
   },
   // Courses
+  getCourseById: function (courseId) {
+    return this.getData('Courses', courseId)
+  },
   getCoursesByDepartId: function (id) {
     return this.getData('Courses/ByDepartment', id) 
   },
@@ -240,6 +243,9 @@ export const api = {
   postOfferingAddInstructors: function (offeringId, data) {
     return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
   },
+  createCourse: function(data, callBack) {
+    return this.postData('Courses', data, callBack)
+  },
   createPlaylist: function(data, callBack) {
     return this.postData('Playlists', data, callBack)
   },
@@ -254,6 +260,9 @@ export const api = {
         .then(responce => callBack(responce))
     else 
       return http.put(`${path}/${data.id}`, data, this.withAuth())
+  },
+  updateCourse: function(data, callBack) {
+    return this.updateData('Courses', data, callBack)
   },
   updatePlaylist: function(data, callBack) {
     return this.updateData('Playlists', data, callBack)
@@ -278,6 +287,9 @@ export const api = {
   },
   deleteUserFromOffering: function(offeringId, userId) {
     return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  },
+  deleteCourse: function(courseId, callBack) {
+    return this.deleteData('Courses', courseId, callBack)
   },
   deletePlaylist: function(playlistId, callBack) {
     return this.deleteData('Playlists', playlistId, callBack)

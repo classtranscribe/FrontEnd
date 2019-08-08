@@ -28,15 +28,14 @@
 
 /* Header */
 .pl-info-header {
-  background: #fafafae1;
-  padding-top: 1rem;
+  background: #fcfcfce8;
 }
 .csp-videos .ui.sticky.fixed.top {
-  top: 4rem !important;
+  top: 3.6rem !important;
 }
 .pl-info-header .name {
   width: 100%;
-  padding: 0 0 1rem 1rem;
+  padding: 0 0 .5rem 1rem;
   border-bottom: #dbdbdb solid 1px;
   font-size: 1.5rem;
   font-weight: bold;
