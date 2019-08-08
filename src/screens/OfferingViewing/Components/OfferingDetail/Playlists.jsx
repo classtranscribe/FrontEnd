@@ -59,7 +59,7 @@ function Video({media, fullNumber}) {
   const { mediaName, id } = api.parseMedia(media)
   const courseNumber = fullNumber.replace('/', '-')
   return (
-    <Card className="video" key={id} as={Link} to={util.links.watch(courseNumber, id)}>
+    <Card className="video" key={id} as="a" href={util.links.watch(courseNumber, id)}>
       <img 
         className="img" variant="top" 
         src={imgHolder} style={{pointerEvents: 'none'}}

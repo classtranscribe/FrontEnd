@@ -163,6 +163,7 @@ export class WatchContent extends React.Component {
         </div>
   
         <Transcription 
+          media={media}
           captions={captions} 
           setCurrTime={this.setCurrTime}
           reLoadCaption={this.reLoadCaption}

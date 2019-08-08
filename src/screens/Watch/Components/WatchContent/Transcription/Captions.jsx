@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
+import Clipboard from 'clipboard'
 import { api } from 'utils'
 import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
 
-export default function Captions({ captions, results, setReadyToEdit, setCurrTime, reLoadCaption }) {
+export default function Captions({ media, captions, results, setReadyToEdit, setCurrTime, reLoadCaption }) {
   
   const lines = results.length ? results : captions
   return (
@@ -20,6 +21,7 @@ export default function Captions({ captions, results, setReadyToEdit, setCurrTim
         :
         lines.map( line => (
           <CaptionLine 
+            media={media}
             line={line} 
             key={line.id} 
             setCurrTime={setCurrTime} 
@@ -33,10 +35,14 @@ export default function Captions({ captions, results, setReadyToEdit, setCurrTim
   )
 }
 
-function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand, setReadyToEdit }) {
+function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, setReadyToEdit }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { text, index, id, begin } = line
+
+  useEffect(() => {
+    
+  }, [line])
 
   const SeekToCaption = e => {
     setCurrTime(e, timeStrToSec(begin))
@@ -60,6 +66,17 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand, setReadyT
       console.log('success update line')
     })
     onClose()
+  }
+
+  // const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
+  // var clipboard = new Clipboard('.shareBtn', {
+  //   text: () => sharedUrl
+  // })
+
+  const onShare = () => {
+    
+    // console.log(sharedUrl)
+    // clipboard.on('success', () => console.log('copied'))
   }
 
   const onFocus = ({ target }) => {
@@ -100,8 +117,8 @@ function CaptionLine({ line, setCurrTime, reLoadCaption, handleExpand, setReadyT
         <Button compact className="icon" onClick={onEditCaption} onFocus={onFocus} onBlur={onBlur}>
           <i className="material-icons">edit</i>
         </Button>
-        <Button compact className="icon" onFocus={onFocus} onBlur={onBlur}>
-          <i className="material-icons">share</i>
+        <Button compact className="icon shareBtn" onFocus={onFocus} onBlur={onBlur}>
+          <i className="material-icons" onClick={onShare}>share</i>
         </Button>
       </div>
     </div>

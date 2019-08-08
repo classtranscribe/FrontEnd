@@ -48,7 +48,13 @@ export default class ClassTranscribePlayer extends React.Component {
       videojs.registerPlugin('controlPlugin', controlPlugin) // plugin for mouse controls
       videojs.registerPlugin('keyDownPlugin', keyDownPlugin) // plugin for keyboard controls
 
-      this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {})
+      this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
+        const { search } = window.location
+        if (search) {
+          const iniTime = parseFloat(search.replace('?begin=', ''))
+          this.currentTime(iniTime)
+        }
+      })
     }
 
     if (this.player) {
