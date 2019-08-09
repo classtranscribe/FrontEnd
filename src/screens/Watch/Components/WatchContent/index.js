@@ -28,6 +28,7 @@ export class WatchContent extends React.Component {
       trackSrc: '',
 
       currTranscriptionId: '',
+      loadingCaptions: true,
       captions: [],
 
       // true if need to prevent caption sync scrolling
@@ -68,7 +69,7 @@ export class WatchContent extends React.Component {
     api.getCaptionsByTranscriptionId(id)
       .then( ({data}) => {
         console.log('captions', data)
-        this.setState({ captions: data })
+        this.setState({ captions: data, loadingCaptions: false })
       })
   }
 
@@ -137,7 +138,7 @@ export class WatchContent extends React.Component {
 
   render() {
     const { media, playlist, courseNumber } = this.props
-    const { mode, primary, captions } = this.state
+    const { mode, primary, captions, loadingCaptions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
     /** Vars passed into setting bar */
     const propsForSettingBar = {
@@ -181,6 +182,7 @@ export class WatchContent extends React.Component {
           setCurrTime={this.setCurrTime}
           reLoadCaption={this.reLoadCaption}
           setReadyToEdit={this.setReadyToEdit} 
+          loadingCaptions={loadingCaptions}
         />
       </div>
     )

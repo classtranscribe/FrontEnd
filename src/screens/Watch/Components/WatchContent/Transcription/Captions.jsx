@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { GeneralLoader } from 'components'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import Clipboard from 'clipboard'
 import { api } from 'utils'
 import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
 
-export default function Captions({ media, captions, results, setReadyToEdit, setCurrTime, reLoadCaption }) {
-  
+export default function Captions({ media, captions, results, setReadyToEdit, setCurrTime, reLoadCaption, loadingCaptions }) {
+  if (loadingCaptions) return <LineLoader index={-1} />
   const lines = results.length ? results : captions
   return (
     <div 
@@ -155,8 +156,9 @@ function LineEditor({ line, onClose, onSave }) {
 }
 
 function LineLoader({ index }) {
+  const style = index < 0 ? {marginTop: '3em'} : {}
   return (
-    <div className="line d-flex justify-content-center" id={`line-${index}`} >
+    <div className="line d-flex justify-content-center" id={`line-${index}`} style={style}>
       <Spinner animation="border" variant="light" />
     </div>
   )

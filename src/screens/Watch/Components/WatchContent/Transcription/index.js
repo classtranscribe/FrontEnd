@@ -4,7 +4,7 @@ import ToolBar from './ToolBar'
 import './index.css'
 const Captions = lazy(() => import('./Captions'))
 
-export default function Transcription({ media, captions, setReadyToEdit, setCurrTime, reLoadCaption }) {
+export default function Transcription({ media, captions, setReadyToEdit, setCurrTime, reLoadCaption, loadingCaptions }) {
   const [results, setResults] = useState([])
   return (
     <div className="trans-container">
@@ -21,6 +21,7 @@ export default function Transcription({ media, captions, setReadyToEdit, setCurr
           setCurrTime={setCurrTime}
           reLoadCaption={reLoadCaption}
           setReadyToEdit={setReadyToEdit} 
+          loadingCaptions={loadingCaptions}
         />
       </Suspense>
     </div>

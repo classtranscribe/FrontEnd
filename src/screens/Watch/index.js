@@ -29,7 +29,6 @@ export class Watch extends React.Component {
     const { state } = this.props.location
     if (state) {
       const { media, playlist } = state
-      console.log(playlist)
       if (media) this.setState({ media: api.parseMedia(media) })
       if (playlist) this.setState({ playlist: {playlist: playlist, medias: playlist.medias} })
       api.contentLoaded()
