@@ -107,7 +107,12 @@ export function OfferingDetail({id, history}) {
       <Divider />
       <h4>Playlists</h4>
 
-      <Playlists playlists={playlists} fullNumber={fullNumber} offeringId={id}/>
+      <Playlists 
+        offeringId={id}
+        history={history} 
+        playlists={playlists} 
+        fullNumber={fullNumber}  
+      />
       <ClassTranscribeFooter />
     </div>
   )

@@ -26,17 +26,26 @@ export class Watch extends React.Component {
    * GET media and playlist based on mediaId
    */
   componentDidMount() {
-    api.getMediaById(this.id)
-      .then( ({data}) => {
-        console.log('media', data)
-        this.setState({ media: api.parseMedia(data) })
-        api.getPlaylistById(data.playlistId)
-          .then(({data}) => {
-            console.log('playlist', data)
-            this.setState({ playlist: data })
-            api.contentLoaded()
-          })
-      })
+    const { state } = this.props.location
+    if (state) {
+      const { media, playlist } = state
+      console.log(playlist)
+      if (media) this.setState({ media: api.parseMedia(media) })
+      if (playlist) this.setState({ playlist: {playlist: playlist, medias: playlist.medias} })
+      api.contentLoaded()
+    } else {
+      api.getMediaById(this.id)
+        .then( ({data}) => {
+          console.log('media', data)
+          this.setState({ media: api.parseMedia(data) })
+          api.getPlaylistById(data.playlistId)
+            .then(({data}) => {
+              console.log('playlist', data)
+              this.setState({ playlist: data })
+              api.contentLoaded()
+            })
+        })
+    }
   }
 
   playlistTrigger = ()  => {

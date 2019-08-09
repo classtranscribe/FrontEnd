@@ -13,7 +13,7 @@ import './index.css'
 // Vars
 import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
 import { api, handleData } from 'utils'
-import { findCurrLine, timeStrToSec, addCaptionKeyDownListener } from './watchUtils'
+import { findCurrLine, timeStrToSec, handleExpand } from './watchUtils'
 
 export class WatchContent extends React.Component {
   constructor(props) {
@@ -35,6 +35,20 @@ export class WatchContent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', ({keyCode, metaKey, ctrlKey, shiftKey}) => {
+      if (!metaKey && !ctrlKey) return;
+      // cmd/ctrl + 'U' == expand transcription container
+      if (keyCode === 85) handleExpand()
+      // shift + cmd/ctrl + space == search captions
+      if (shiftKey && keyCode === 32) { 
+        let alreadyFocused = $('#caption-search:focus').length
+        if (alreadyFocused) $('#caption-search').blur()
+        else $('#caption-search').focus()
+      }
+    })
+  }
+
   componentDidUpdate(prevProps) {
     const { media } = this.props
     /** If media is loaded, set screen mode and get transcriptions */
@@ -45,7 +59,6 @@ export class WatchContent extends React.Component {
           handleData.find(media.transcriptions, {language: 'en-US'}).id
         )
       }
-      addCaptionKeyDownListener()
     }
   }
 
