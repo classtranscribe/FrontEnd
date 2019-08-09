@@ -90,6 +90,8 @@ function Playlist({ playlists, id, fullNumber }) {
     </div>
   )
 
+  const defaultActiveKey = window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0].id
+
   return (
     <div className="playlists">
       <div className="breakline"></div>
@@ -101,7 +103,7 @@ function Playlist({ playlists, id, fullNumber }) {
         <i className="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
-        <ListGroup className="playlist" defaultActiveKey={playlists[0].id}>
+        <ListGroup className="playlist" defaultActiveKey={defaultActiveKey}>
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id)}

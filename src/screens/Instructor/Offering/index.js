@@ -10,7 +10,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
 import './index.css'
 import { ClassTranscribeHeader } from 'components'
-import { PlaylistEditing, VideoEditing } from './EditingPages'
+import { PlaylistEditing, VideoEditing, UploadVideo } from './EditingPages'
 import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
@@ -128,7 +128,7 @@ export class InstructorOffering extends React.Component {
         <Route path={`/offering/${this.id}/offering-setting/:type?=:id`} component={OfferingSettingPage} />
         <Route path={`/offering/${this.id}/playlist-setting/:type?=:id`} component={PlaylistEditing} />
         <Route path='/offering/video-setting/:id' component={VideoEditing} />
-        <Route path='/offering/upload/:id' component={VideoEditing} />
+        <Route path={`/offering/${this.id}/upload/:playlistId`} component={UploadVideo} />
 
         {/* Layouts */}
         <div className="content">

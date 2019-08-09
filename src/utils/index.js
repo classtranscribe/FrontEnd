@@ -42,7 +42,7 @@ export const util = {
     offeringPlaylist: (offeringId, courseName, playlistId) => `/offering/${offeringId}/playlist/${courseName}=${playlistId}`,
     newPlaylist: (offeringId) => `/offering/${offeringId}/playlist-setting/new=${offeringId}`,
     editPlaylist: (offeringId, playlistId) => `/offering/${offeringId}/playlist-setting/id=${playlistId}`,
-    uploadVideo: id => `/offering/upload/${id}`,
+    uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     editVideo: id => `/offering/video-setting/${id}`,
 
     watch: (courseNumber, mediaId) => `/video/${courseNumber}=${mediaId}`,
