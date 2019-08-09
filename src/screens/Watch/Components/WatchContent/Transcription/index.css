@@ -2,11 +2,11 @@
   width: 96%;
   height: 90vh;
   overflow: hidden;
-  background: rgb(95, 102, 101);
+  background: rgb(82, 83, 83);
   transform: translateY(0);
   transition: transform .2s linear;
   margin: 1.5em 2%;
-  box-shadow: 0 0 .2em .2em rgba(58, 59, 59, 0.418);
+  box-shadow: 0 0 .3em .2em rgba(58, 59, 59, 0.418);
   border-radius: .5em .5em 0 0;}
 @media screen and (max-width: 650px) {
   .trans-container {
@@ -49,7 +49,7 @@
     background: none !important;
   }
   .expand-button:hover>i, .expand-button:focus>i {
-    color: rgb(172, 197, 197) !important;
+    color: rgb(203, 206, 206) !important;
   }
 
   /* Input */
@@ -57,7 +57,7 @@
     color: white;
   }
   .trans-container .tool-bar .ui.input>input {
-    background: rgb(95, 102, 101);
+    background: none;
     border-color: rgb(182, 182, 182);
     color: white;
     width: 17em;
@@ -66,7 +66,7 @@
   }
   .trans-container .tool-bar .ui.input>input:focus {
     border-color: white;
-    background: rgb(67, 73, 72);
+    background: rgb(54, 54, 54);
     width: 17em;}
     @media screen and (max-width: 750px) {
       .trans-container .tool-bar .ui.input>input:focus {
@@ -87,7 +87,7 @@
     margin-right: .5em;
     min-width: 5em;}
   .trans-container .tool-bar .search .selection {
-    background: rgb(95, 102, 101);
+    background: none;
     border-color: rgb(182, 182, 182) !important;
   }
   .trans-container .tool-bar .search .dropdown .text {
@@ -97,7 +97,7 @@
     border-color: inherit !important;
   }
   .trans-container .tool-bar .search .dropdown .menu>.item {
-    background: rgb(95, 102, 101);
+    background: rgb(84, 85, 85);
     color: white !important;
     border: 0;
   }
@@ -140,20 +140,17 @@
   font-weight: bold;
   outline: none;}
   .trans-container .captions .line:hover {
-    background: rgb(84, 92, 91);}
+    background: rgb(57, 58, 58);}
   @media screen and (max-width: 650px) {
     .trans-container .captions .line {
       justify-content: center;
     }
   }
 .trans-container .captions .curr-line {
-  background: rgb(67, 73, 72);
+  background: rgb(63, 66, 66);
   /* border-bottom: 1px solid rgb(67, 73, 72); */
   width: 100%;
   color: white;}
-  .trans-container .captions .curr-line:hover {
-    background: rgb(67, 73, 72);
-  }
 
 .trans-container .captions .line .text {
   outline: none;
@@ -228,18 +225,22 @@
 }
 
 /* Edit line */
-
+.line-edit {
+  background-color: rgb(57, 58, 58) !important;
+}
 .trans-container .captions .line .ui.input {
   color: white;
 }
 .trans-container .captions .line .ui.input>input {
-  background: rgb(95, 102, 101);
+  background: none;
   border-color: rgb(182, 182, 182);
   color: white;
+  font-size: 1.1em;
+  text-align: center;
   width: 75vw;
   white-space: normal;
 }
 .trans-container .captions .line .ui.input>input:focus {
   border-color: white;
-  background: rgb(67, 73, 72);
+  background: none;
 }

@@ -137,20 +137,18 @@ function LineEditor({ line, onClose, onSave }) {
     if (e.keyCode === 13) handleSave()
   }
   return (
-    <div className="line" id={`line-${index}`}>
+    <div className="line line-edit" id={`line-${index}`}>
+      <Button compact className="edit-button" onClick={onClose}>
+        Cancel
+      </Button>
       <Input 
         defaultValue={text} 
         onChange={({target: {value}}) => setNewText(() => value)} 
         onKeyDown={handleKeyDown}
       />
-      <div>
-        <Button compact className="edit-button" onClick={handleSave}>
-          Save
-        </Button>
-        <Button compact className="edit-button" onClick={onClose}>
-          Cancel
-        </Button>
-      </div>
+      <Button compact className="edit-button" onClick={handleSave}>
+        Save
+      </Button>
     </div>
   )
 }

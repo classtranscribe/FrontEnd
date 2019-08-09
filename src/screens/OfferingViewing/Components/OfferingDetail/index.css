@@ -65,18 +65,18 @@
 .offering-detail .playlists .playlist .videos .video {
   width: 100%;
   height: 5rem;
-  display: inline-block;
-  white-space: normal;
-  overflow: hidden;
+  padding: 0;
   margin: .5rem 0;
   background: #508d8d;
+  border: solid 1px transparent;
+  white-space: normal;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
   -webkit-transition: border 0.2s linear;
   -o-transition: border 0.2s linear;
   transition: border 0.2s linear;
-  display: flex;
-  flex-direction: row;
-  border: solid 1px transparent;
-  align-items: center;
 }
 .offering-detail .playlists .playlist .videos .video:hover{
   border: solid 1px aliceblue;
