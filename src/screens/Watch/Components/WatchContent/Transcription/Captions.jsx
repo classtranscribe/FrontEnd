@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import $ from 'jquery'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import { api } from 'utils'
 import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
+
+function copyToClipboard(text) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(text).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
 
 export default function Captions({ media, captions, results, setReadyToEdit, setCurrTime, reLoadCaption, loadingCaptions }) {
   if (loadingCaptions) return <LineLoader index={-1} />
@@ -70,6 +79,8 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
 
   const onShare = () => {
     setIsLoading(true)
+    const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
+    copyToClipboard(sharedUrl)
     setTimeout(() => {
       setIsLoading(false)
       setIsSharing(true)
@@ -77,8 +88,6 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
         setIsSharing(false)
       }, 1600);
     }, 600);
-    const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
-    console.log(sharedUrl)
   }
 
   const onFocus = ({ target }) => {
