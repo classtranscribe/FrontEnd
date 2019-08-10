@@ -167,7 +167,7 @@ function LineEditor({ line, onClose, onSave }) {
         Cancel
       </Button>
       <Input 
-        defaultValue={text} 
+        defaultValue={text} autoFocus
         onChange={({target: {value}}) => setNewText(() => value)} 
         onKeyDown={handleKeyDown}
       />
