@@ -45,7 +45,7 @@ export function Playlist({ match }) {
         {
           medias ? 
           medias.map( (media, index) =>
-            <Video {...media} sourceType={playlist.sourceType} key={media.media.id} courseNumber={courseNumber}/>
+            <Video {...media} sourceType={playlist.sourceType} key={media.media.id} courseNumber={courseNumber} playlist={playlist} />
           )
           :
           <VideoListPlaceHolder />
@@ -59,12 +59,15 @@ export function Playlist({ match }) {
 /**
  * Video List Item
  */
-function Video({media, sourceType, courseNumber}) {
+function Video({media, playlist, sourceType, courseNumber}) {
   const { mediaName, id } = api.parseMedia(media)
   return (
     <List.Item className="video-card">
       <EditVideoBtn show={sourceType === 2} {...media}/>
-      <Link to={util.links.watch(courseNumber, id)} className="d-flex flex-row">
+      <Link className="d-flex flex-row" to={{
+        pathname: util.links.watch(courseNumber, id),
+        state: {media: media, playlist: playlist}
+      }}>
         <Image 
           alt="Video Poster"
           className="poster" 
