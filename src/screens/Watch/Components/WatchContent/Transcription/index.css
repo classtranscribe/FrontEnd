@@ -3,8 +3,8 @@
   height: 90vh;
   overflow: hidden;
   background: rgb(82, 83, 83);
-  transform: translateY(0);
-  transition: transform .2s linear;
+  /* transform: translateY(0); */
+  /* transition: transform .2s linear; */
   margin: 1.5em 2%;
   box-shadow: 0 0 .3em .2em rgba(58, 59, 59, 0.418);
   border-radius: .5em .5em 0 0;}
