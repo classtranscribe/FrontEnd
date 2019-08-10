@@ -15,6 +15,12 @@
   }
 }
 
+.trans-con-expand {
+  position: absolute;
+  top: 2.5em;
+  /* transform: translateY(-25vw); */
+}
+
 .trans-container .edit-button {
   border: 1px solid rgb(182, 182, 182) !important;
   color: white !important;
@@ -24,10 +30,6 @@
 }
 .trans-container .edit-button:focus, .trans-container .edit-button:hover {
   color: rgb(204, 204, 204) !important;
-}
-
-.trans-con-expand {
-  transform: translateY(-25vw);
 }
 
 /* Tool Bar */
