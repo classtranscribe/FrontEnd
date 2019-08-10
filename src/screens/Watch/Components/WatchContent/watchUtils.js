@@ -71,24 +71,26 @@ export const switchTrigger = html => {
 
 export const handleExpand = value => {
   const isExpanded = $(`.${EXPAND_CLASS}`).length
-  if (document.pictureInPictureElement) exitPicInPic()
-  else enterPicInPic()
   
   if (typeof value === 'boolean') {
     if (value) {
       $('.trans-container').addClass(EXPAND_CLASS)
       switchTrigger('expand_more')
+      enterPicInPic()
     } else {
       $('.trans-container').removeClass(EXPAND_CLASS)
       switchTrigger('expand_less')
+      exitPicInPic()
     }
   } else {
     if (isExpanded) {
       $('.trans-container').removeClass(EXPAND_CLASS)
       switchTrigger('expand_less')
+      exitPicInPic()
     } else {
       $('.trans-container').addClass(EXPAND_CLASS)
       switchTrigger('expand_more')
+      enterPicInPic()
     }
   } 
 }
