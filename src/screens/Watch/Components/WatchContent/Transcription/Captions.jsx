@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { GeneralLoader } from 'components'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
-import Clipboard from 'clipboard'
 import { api } from 'utils'
 import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
 
@@ -39,6 +37,7 @@ export default function Captions({ media, captions, results, setReadyToEdit, set
 function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, setReadyToEdit }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isSharing, setIsSharing] = useState(false)
   const { text, index, id, begin } = line
 
   useEffect(() => {
@@ -69,15 +68,17 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
     onClose()
   }
 
-  // const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
-  // var clipboard = new Clipboard('.shareBtn', {
-  //   text: () => sharedUrl
-  // })
-
   const onShare = () => {
-    
-    // console.log(sharedUrl)
-    // clipboard.on('success', () => console.log('copied'))
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+      setIsSharing(true)
+      setTimeout(() => {
+        setIsSharing(false)
+      }, 1600);
+    }, 600);
+    const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
+    console.log(sharedUrl)
   }
 
   const onFocus = ({ target }) => {
@@ -89,19 +90,26 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
 
   if (isLoading) return <LineLoader index={index} />
   if (isEditing) return <LineEditor line={line} onClose={onClose} onSave={onSave} />
+  if (isSharing) return <LineCopiedPopup index={index} />
 
   return (
     <div className="line" id={`line-${index}`}>
       <div className="likes">
         {timeBetterLook(begin)}
-        <Button compact className="icon" onFocus={onFocus} onBlur={onBlur}>
-          <i className="material-icons">thumb_down</i>
-        </Button>&ensp;
-        <span className="num">20</span>
-        <Button compact className="icon" onFocus={onFocus} onBlur={onBlur}>
-          <i className="material-icons">thumb_up</i>
-        </Button>&ensp;
-        <span className="num">31</span>
+        <Button 
+          compact className="icon thumbdown" 
+          title="Like" aria-label="Like"
+          onFocus={onFocus} onBlur={onBlur}
+        >
+          <i className="material-icons">thumb_down</i>20
+        </Button>
+        <Button 
+          compact className="icon thumbup" 
+          title="Dislike" aria-label="Dislike"
+          onFocus={onFocus} onBlur={onBlur}
+        >
+          <i className="material-icons">thumb_up</i>31
+        </Button>
       </div>
 
       <div 
@@ -115,11 +123,19 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
       </div>
 
       <div className="edit">
-        <Button compact className="icon" onClick={onEditCaption} onFocus={onFocus} onBlur={onBlur}>
+        <Button 
+          compact className="icon editBtn" 
+          title="edit" aria-label="edit"
+          onClick={onEditCaption} onFocus={onFocus} onBlur={onBlur}
+        >
           <i className="material-icons">edit</i>
         </Button>
-        <Button compact className="icon shareBtn" onFocus={onFocus} onBlur={onBlur}>
-          <i className="material-icons" onClick={onShare}>share</i>
+        <Button 
+          compact className="icon shareBtn" 
+          title="share" aria-label="share"
+          onClick={onShare} onFocus={onFocus} onBlur={onBlur}
+        >
+          <i className="material-icons">share</i>
         </Button>
       </div>
     </div>
@@ -158,6 +174,14 @@ function LineLoader({ index }) {
   return (
     <div className="line d-flex justify-content-center" id={`line-${index}`} style={style}>
       <Spinner animation="border" variant="light" />
+    </div>
+  )
+}
+
+function LineCopiedPopup({ index }) {
+  return (
+    <div className="line d-flex justify-content-center copied" id={`line-${index}`}>
+      <i class="material-icons">done_all</i>&ensp;Sharable Link Copied!
     </div>
   )
 }

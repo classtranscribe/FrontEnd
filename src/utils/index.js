@@ -45,7 +45,7 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     editVideo: id => `/offering/video-setting/${id}`,
 
-    watch: (courseNumber, mediaId) => `/video/${courseNumber}=${mediaId}`,
+    watch: (courseNumber, mediaId) => `/video/${courseNumber}&${mediaId}`,
   },
 
   isAuthedPage: function (pathname) {

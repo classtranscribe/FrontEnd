@@ -148,10 +148,11 @@
   }
 .trans-container .captions .curr-line {
   background: rgb(63, 66, 66);
-  /* border-bottom: 1px solid rgb(67, 73, 72); */
   width: 100%;
   color: white;}
-
+.trans-container .captions .copied {
+  color: rgb(134, 223, 223) !important;
+}
 .trans-container .captions .line .text {
   outline: none;
   text-align: center;
@@ -180,23 +181,37 @@
   justify-content: flex-start;
   align-items: center;
 }
+.trans-container .captions .line .likes .thumbup {
+  margin-left: -.5em;
+}
+.trans-container .captions .line .likes .thumbup, .trans-container .captions .line .likes .thumbdown {
+  font-weight: normal !important;
+  font-size: .8em;
+}
 .trans-container .captions .line .edit {
   display: inline-flex;
   justify-content: flex-end;
   min-width: 9em;
 }
-.trans-container .captions .line .likes:focus-within, .trans-container .captions .line .edit:focus-within {
-  opacity: 1;
+.trans-container .captions .line .editBtn:hover:after {
+  font-size: .8em;
+  content: 'Edit';
 }
+.trans-container .captions .line .shareBtn:hover:after {
+  font-size: .8em;
+  content: 'Share';
+}
+
+/* .trans-container .captions .line .likes:focus-within, .trans-container .captions .line .edit:focus-within {
+  opacity: 1;
+} */
 
 .trans-container .captions .icon, 
 .trans-container .captions .icon {
   transition: color .2s linear;
   color: rgb(209, 209, 209);
-  padding: 0;
   outline: none;
-  background: none !important;
-  margin-left: .4em;}
+  background: none !important;}
   .trans-container .captions .icon:hover, 
   .trans-container .captions .icon:hover {
     color: rgb(184, 184, 184);
