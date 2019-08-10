@@ -132,7 +132,7 @@ export class WatchContent extends React.Component {
       this.lastEnd = timeStrToSec(currLine.end)
       target.classList.add('curr-line')
       if (!this.state.readyToEdit)
-        target.parentNode.scrollTop = target.offsetTop - 50
+        target.parentNode.scrollTop = document.pictureInPictureElement ? target.offsetTop - 200 : target.offsetTop - 50
     }
   }
 
