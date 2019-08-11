@@ -16,7 +16,7 @@ const menuStyle = {
   height: '700px',
 }
 
-export default function PlaylistMenu({ media, playlist, courseNumber }) {
+export default function PlaylistMenu({ media, playlist, playlistsInState, courseNumber }) {
   // return <></>
   const [anchorEl, setAnchorEl] = useState(null)
   const [playlists, setPlaylists] = useState([])
@@ -26,11 +26,15 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
   useEffect(() => {
     if (playlist.playlist) {
       setSelectedPlaylist(() => playlist.playlist)
-      api.getPlaylistsByOfferingId(playlist.playlist.offeringId)
-        .then(({data}) => {
-          console.log('playlists..', data)
-          setPlaylists(() => data)
-        })
+      if (playlistsInState) {
+        setPlaylists(() => playlistsInState)
+      } else {
+        api.getPlaylistsByOfferingId(playlist.playlist.offeringId)
+          .then(({data}) => {
+            console.log('playlists..', data)
+            setPlaylists(() => data)
+          })
+      }
     }
     if (playlist.medias) {
       setMedias(() => playlist.medias)
@@ -101,6 +105,7 @@ export default function PlaylistMenu({ media, playlist, courseNumber }) {
           <VideosView 
             medias={medias} 
             currMedia={media} 
+            playlists={playlists}
             courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 
             backToPlaylists={backToPlaylists}

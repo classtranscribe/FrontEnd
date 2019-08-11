@@ -83,24 +83,12 @@
     color: #2d9999;}
   .dark .brand span {
     color: rgb(114, 173, 179);}
-  .dark .ui.dropdown>.left.menu, .dark .ui.dropdown .menu>.item {
-    transition: background 0.2s linear;
-    background: #306868;
-    color: #ececec;
-  }
-  .dark .ui.dropdown .menu>.item:focus {
-    background: #084d4d;
-  }
-  .dark .ui.dropdown .menu>.item:hover {
-    color: #ffffff;
-    background: #1f5050;
-  }
   .dark i.circular.icon {
     box-shadow: 0 0 0 0.1em rgba(133, 133, 133, 0.952) inset !important;
   }
   .dark .profile-menu .trigger:hover {
     background: none !important;
-    color: rgb(230, 230, 230)}
+    color: rgb(90, 173, 173)}
 
 
 .profile-menu .trigger {

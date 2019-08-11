@@ -15,13 +15,14 @@
     content: 'PLAYLISTS'}
   .playlist-menu .trigger:hover {
     background: none !important;
-    color: rgb(230, 230, 230)}
+    color: rgb(90, 173, 173)}
   @media screen and (max-width: 700px) {
     .playlist-menu .trigger::after {
       content: '';
     }
   }
 
+/* Playlist View */
 .playlist-menu .header h4 {
   color: rgb(0, 255, 255);
   font-weight: bolder;
@@ -35,45 +36,57 @@
   font-size: 1.2rem;
   margin-bottom: 1em;
 }
+
 .playlist-menu .pl-item span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 18.5em;
   color: rgb(235, 235, 235);
-  /* font-weight: bolder; */
   font-size: 1.1rem;
 }
 .playlist-menu .Mui-selected {
   background: rgb(27, 114, 109) !important;
 }
-.playlist-menu .pl-item i {
+.playlist-menu .pl-item i, .playlist-menu .video-item i {
   color: rgb(155, 204, 204);
 }
 .playlist-menu .r-icon {
   position: absolute;
   right: 1em;
 }
+
+/* Video View */
 .video-view {
   height: 700px;
   position: absolute;
   top: 0;
-  overflow: hidden;
-}
+  overflow: hidden;}
 .video-view .header {
   position: absolute;
   background: #3b3b3b;
   width: 100%;
   z-index: 1;
   border-bottom: solid 3px rgba(51, 51, 51, 0.555);
-  transition: background .2s linear;
-}
-.video-view .header:hover {
-  background: #353535;
-}
+  transition: background .2s linear;}
+  .video-view .header:hover {
+    background: #353535;}
+
 .video-view .video-list {
   padding: 5em 0;
   height: 97%;
   position: relative;
-  overflow-y: scroll;
-}
+  overflow-y: scroll;}
+  .video-view .video-list .video-item {
+    padding-top: .8em !important;}
+    .video-view .video-list .video-item p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 18.5em;
+      color: rgb(235, 235, 235);
+      /* font-weight: bolder; */
+      font-size: 1.1rem;
+      margin-top: -.5em !important;
+      display: inline-block;
+    }

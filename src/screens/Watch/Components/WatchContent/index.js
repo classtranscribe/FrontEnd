@@ -13,7 +13,7 @@ import './index.css'
 // Vars
 import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
 import { api, handleData } from 'utils'
-import { findCurrLine, timeStrToSec, addCaptionKeyDownListener } from './watchUtils'
+import { findCurrLine, timeStrToSec, handleExpand } from './watchUtils'
 
 export class WatchContent extends React.Component {
   constructor(props) {
@@ -28,11 +28,26 @@ export class WatchContent extends React.Component {
       trackSrc: '',
 
       currTranscriptionId: '',
+      loadingCaptions: true,
       captions: [],
 
       // true if need to prevent caption sync scrolling
       readyToEdit: false,
     }
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', ({keyCode, metaKey, ctrlKey, shiftKey}) => {
+      if (!metaKey && !ctrlKey) return;
+      // cmd/ctrl + 'U' == expand transcription container
+      if (keyCode === 85) handleExpand()
+      // shift + cmd/ctrl + space == search captions
+      if (shiftKey && keyCode === 32) { 
+        let alreadyFocused = $('#caption-search:focus').length
+        if (alreadyFocused) $('#caption-search').blur()
+        else $('#caption-search').focus()
+      }
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -45,7 +60,6 @@ export class WatchContent extends React.Component {
           handleData.find(media.transcriptions, {language: 'en-US'}).id
         )
       }
-      addCaptionKeyDownListener()
     }
   }
 
@@ -55,7 +69,7 @@ export class WatchContent extends React.Component {
     api.getCaptionsByTranscriptionId(id)
       .then( ({data}) => {
         console.log('captions', data)
-        this.setState({ captions: data })
+        this.setState({ captions: data, loadingCaptions: false })
       })
   }
 
@@ -118,13 +132,13 @@ export class WatchContent extends React.Component {
       this.lastEnd = timeStrToSec(currLine.end)
       target.classList.add('curr-line')
       if (!this.state.readyToEdit)
-        target.parentNode.scrollTop = target.offsetTop - 50
+        target.parentNode.scrollTop = document.pictureInPictureElement ? target.offsetTop - 200 : target.offsetTop - 50
     }
   }
 
   render() {
     const { media, playlist, courseNumber } = this.props
-    const { mode, primary, captions } = this.state
+    const { mode, primary, captions, loadingCaptions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
     /** Vars passed into setting bar */
     const propsForSettingBar = {
@@ -163,10 +177,12 @@ export class WatchContent extends React.Component {
         </div>
   
         <Transcription 
+          media={media}
           captions={captions} 
           setCurrTime={this.setCurrTime}
           reLoadCaption={this.reLoadCaption}
           setReadyToEdit={this.setReadyToEdit} 
+          loadingCaptions={loadingCaptions}
         />
       </div>
     )

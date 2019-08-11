@@ -76,32 +76,31 @@ export const handleExpand = value => {
     if (value) {
       $('.trans-container').addClass(EXPAND_CLASS)
       switchTrigger('expand_more')
+      enterPicInPic()
     } else {
       $('.trans-container').removeClass(EXPAND_CLASS)
       switchTrigger('expand_less')
+      exitPicInPic()
     }
   } else {
     if (isExpanded) {
       $('.trans-container').removeClass(EXPAND_CLASS)
       switchTrigger('expand_less')
+      exitPicInPic()
     } else {
       $('.trans-container').addClass(EXPAND_CLASS)
       switchTrigger('expand_more')
+      enterPicInPic()
     }
   } 
 }
 
-export function addCaptionKeyDownListener() {
-  window.addEventListener('keydown', ({keyCode, metaKey, ctrlKey, shiftKey}) => {
-    if (!metaKey && !ctrlKey) return;
-    // console.log(keyCode)
-    // cmd/ctrl + 'U' == expand transcription container
-    if (keyCode === 85) handleExpand()
-    // shift + cmd/ctrl + space == search captions
-    if (shiftKey && keyCode === 32) { 
-      let alreadyFocused = $('#caption-search:focus').length
-      if (alreadyFocused) $('#caption-search').blur()
-      else $('#caption-search').focus()
-    }
+export const enterPicInPic = () => {
+  $("video").each( (index, videoElem) => {
+    if (index === 0) videoElem.requestPictureInPicture()
   })
+}
+
+export const exitPicInPic = () => {
+  document.exitPictureInPicture()
 }

@@ -8,12 +8,13 @@ export class LoginAndLogout extends React.Component {
 
   componentDidMount() {
     console.log(window.location)
-    if (window.location.pathname === '/login') 
+    if (window.location.pathname === '/login') {
       user.setUpUser(() => {
         window.location = window.location.search.replace('?', '')
       })
-    else 
+    } else {
       user.logout()
+    }
   }
 
   render() {

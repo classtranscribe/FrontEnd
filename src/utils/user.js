@@ -12,6 +12,7 @@ export const user = {
     window.location = `/login?${window.location.pathname}`
   },
   isLoggedIn: () => localStorage.getItem('userInfo'),
+  strictIsLoggedIn: () => auth.isLoggedIn(),
   b2cToken: () => auth.getToken(),
   saveUserInfo: function (userInfo) {
     localStorage.setItem('userInfo', JSON.stringify({
@@ -66,15 +67,9 @@ export const user = {
    */
   signout: function () { 
     // remove possible localStorage
-    [
-      'activePane', 'offeringActivePane', 'courseActivePane',
-      'termCurrUni', 'departCurrUni', 'courseCurrUni', 
-      'courseCurrDepart', 'searchValue',
-      'authToken', 'userId', 'userInfo'
-    ].forEach( key => {
-      localStorage.removeItem(key)
-    });
-    window.location = '/logout'
+    localStorage.clear()
+    if (auth.isLoggedIn()) window.location = '/logout'
+    else window.location = '/home'
   },
   logout: () => auth.logout()
 }

@@ -7,7 +7,7 @@ import { util, api } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
 
-export default function Playlists({playlists, fullNumber}) {
+export default function Playlists({ playlists, fullNumber, history }) {
   const [activeIndex, setActiveIndex] = useState(-1)
 
   if (!playlists) return <PlaylistPlaceholder />
@@ -22,7 +22,9 @@ export default function Playlists({playlists, fullNumber}) {
       {playlists.map( (playlist, index) => (
         <Playlist 
           key={playlist.id}
+          history={history}
           playlist={playlist} index={index}
+          playlists={playlists}
           activeIndex={activeIndex} setActiveIndex={handleClick}
           fullNumber={fullNumber}
         />
@@ -31,7 +33,7 @@ export default function Playlists({playlists, fullNumber}) {
   )
 }
 
-function Playlist({playlist, index, activeIndex, setActiveIndex, fullNumber}) {
+function Playlist({history, playlist, playlists, index, activeIndex, setActiveIndex, fullNumber}) {
   const { name, medias } = playlist
   const isActive = index === activeIndex
   return (
@@ -48,18 +50,24 @@ function Playlist({playlist, index, activeIndex, setActiveIndex, fullNumber}) {
       </Accordion.Title>
       <Accordion.Content active={isActive} className="videos">
         {medias.map( media => (
-          <Video media={media} fullNumber={fullNumber} key={media.id}/>
+          <Video media={media} playlist={playlist} playlists={playlists} fullNumber={fullNumber} key={media.id} history={history} />
         ))}
       </Accordion.Content>
     </div>
   )
 }
 
-function Video({media, fullNumber}) {
+function Video({media, fullNumber, playlist, playlists, history}) {
   const { mediaName, id } = api.parseMedia(media)
   const courseNumber = fullNumber.replace('/', '-')
+  const pathname = util.links.watch(courseNumber, id)
+  const videoState = {
+    media: media,
+    playlist: playlist,
+    playlists: playlists
+  }
   return (
-    <Card className="video" key={id} as={Link} to={util.links.watch(courseNumber, id)}>
+    <Card className="video" key={id} as="button" onClick={()=>history.push(pathname, videoState)}>
       <img 
         className="img" variant="top" 
         src={imgHolder} style={{pointerEvents: 'none'}}

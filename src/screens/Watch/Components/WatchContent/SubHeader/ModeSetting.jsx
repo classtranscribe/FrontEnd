@@ -2,11 +2,11 @@
  * Setting menu for screen mode
  */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
 import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../constants'
-
+import { handleExpand } from '../watchUtils'
 
 const modeOptions = [
   {name: 'One View', icon: 'video_label', mode: NORMAL_MODE},
@@ -18,13 +18,12 @@ const modeOptions = [
 const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
-  width: '17rem'
+  width: '18rem'
 }
 const iconStyle = { color: 'rgb(236, 236, 236)' }
 
 export default function ModeSetting({show, mode, setMode, switchScreen, isMobile}) {
   const [anchorEl, setAnchorEl] = useState(null)
-  if (!show) return null
 
   function handleClick(event) {
     if (!anchorEl) setAnchorEl(event.currentTarget)
@@ -45,7 +44,14 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
     handleClose()
   }
 
-  const currOption = modeOptions.filter(opt => opt.mode === mode)[0]
+  const handlePip = () => {
+    handleExpand()
+    handleClose()
+  }
+
+  const isPip = document.pictureInPictureElement
+
+  const currOption = isPip ? {icon: 'picture_in_picture_alt'} : modeOptions.filter(opt => opt.mode === mode)[0]
   const open = Boolean(anchorEl)
   // if it is mobile size there will not be two players in parallel
   const shouldDisable = mode => isMobile && mode !== NESTED_MODE && mode !== NORMAL_MODE
@@ -60,7 +66,7 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
         onClick={handleClick}
         className="trigger"
       >
-        <i className="material-icons">{currOption.icon}</i>{!isMobile&&<span>&ensp;Screen Modes</span>}
+        <i className="material-icons">{currOption.icon}</i>{!isMobile&&<span>&ensp;Screen Setting</span>}
       </IconButton>
       <Menu
         id="long-menu"
@@ -71,14 +77,24 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
         className="mode-menu"
         PaperProps={{style: menuStyle}}
       >
-        <MenuItem key="switch" onClick={handleSwitch}>
+        {
+          show
+          &&
+          <MenuItem key="switch" onClick={handleSwitch}>
+            <ListItemIcon style={iconStyle}>
+              <i className="material-icons">compare_arrows</i>
+            </ListItemIcon>
+            <Typography variant="inherit">Switch Screens</Typography>
+          </MenuItem>
+        }
+        <MenuItem key="pip" onClick={handlePip}>
           <ListItemIcon style={iconStyle}>
-            <i className="material-icons">compare_arrows</i>
+            <i className="material-icons">picture_in_picture_alt</i>
           </ListItemIcon>
-          <Typography variant="inherit">Switch Screens</Typography>
+          <Typography variant="inherit">{isPip ? 'Exit Picture-In-Picture' : 'Enter Picture-In-Picture'}</Typography>
         </MenuItem>
         {
-          switchScreen // can switch screen mode if there is 2 videos
+          show // can switch screen mode if there is 2 videos
           &&
           <>
             <MenuDivider text="screen modes" />

@@ -12,13 +12,15 @@ import { api } from 'utils'
 export class Watch extends React.Component {
   constructor(props) {
     super(props)
-    this.id = this.props.match.params.id
-    this.courseNumber = this.props.match.params.courseNumber
+    const urlStates = this.props.match.params.states.split('&')
+    this.id = urlStates[1]
+    this.courseNumber = urlStates[0]
     
     this.state = { 
       showPlaylist: false,
       media: api.parseMedia(),
       playlist: {},
+      playlists: null,
     }
   }
 
@@ -26,17 +28,26 @@ export class Watch extends React.Component {
    * GET media and playlist based on mediaId
    */
   componentDidMount() {
-    api.getMediaById(this.id)
-      .then( ({data}) => {
-        console.log('media', data)
-        this.setState({ media: api.parseMedia(data) })
-        api.getPlaylistById(data.playlistId)
-          .then(({data}) => {
-            console.log('playlist', data)
-            this.setState({ playlist: data })
-            api.contentLoaded()
-          })
-      })
+    const { state } = this.props.location
+    if (state) {
+      const { media, playlist, playlists } = state
+      if (media) this.setState({ media: api.parseMedia(media) })
+      if (playlist) this.setState({ playlist: {playlist: playlist, medias: playlist.medias} })
+      if (playlists) this.setState({ playlists })
+      api.contentLoaded()
+    } else {
+      api.getMediaById(this.id)
+        .then( ({data}) => {
+          console.log('media', data)
+          this.setState({ media: api.parseMedia(data) })
+          api.getPlaylistById(data.playlistId)
+            .then(({data}) => {
+              console.log('playlist', data)
+              this.setState({ playlist: data })
+              api.contentLoaded()
+            })
+        })
+    }
   }
 
   playlistTrigger = ()  => {
@@ -44,13 +55,14 @@ export class Watch extends React.Component {
   }  
 
   render() { 
-    const { media, playlist } = this.state
+    const { media, playlist, playlists } = this.state
     const { courseNumber } = this
     return (
       <main className="watch-bg">
         <WatchHeader 
           media={media} 
           playlist={playlist} 
+          playlists={playlists}
           courseNumber={courseNumber} 
         />
         <WatchContent 
