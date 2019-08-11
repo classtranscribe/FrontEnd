@@ -60,6 +60,5 @@
     "gh-pages": "^2.0.1",
     "json-loader": "^0.5.7",
     "video.js": "^7.5.5"
-  },
-  "homepage": "http://ruihuasui.github.io/class-transcribe-frontend"
+  }
 }
