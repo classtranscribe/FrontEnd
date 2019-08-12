@@ -44,7 +44,9 @@ export const api = {
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
   getAuthToken: function() {
-    return http.post(this.baseUrl() + 'api/Account/SignIn', {"b2cToken": this.b2cToken()})
+    console.log('token', this.b2cToken())
+    return http.post(this.baseUrl() + '/Account/SignIn', {"b2cToken": this.b2cToken()})
+    // return http.post(this.baseUrl() + '/api/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)

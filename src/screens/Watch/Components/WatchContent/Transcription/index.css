@@ -2,26 +2,22 @@
   /* width: 96%; */
   width: 100%;
   height: 90vh;
+  z-index: 1;
   overflow: hidden;
   /* background: rgb(82, 83, 83); */
   background: rgb(49, 49, 49);
   /* transform: translateY(0); */
   /* transition: transform .2s linear; */
   /* margin: 1.5em 2%; */
-  margin: 1.5em 0;
+  margin: .5em 0;
   /* box-shadow: 0 0 .3em .2em rgba(58, 59, 59, 0.418); */
   /* border-radius: .5em .5em 0 0; */
 }
-@media screen and (max-width: 650px) {
-  .trans-container {
-    width: 100%;
-    margin: 1.5em 0 0 0;
-  }
-}
+
 
 .trans-con-expand {
   position: absolute;
-  top: 2.5em;
+  top: 3.5em;
   /* transform: translateY(-25vw); */
 }
 
@@ -53,11 +49,17 @@
   }
 
   .expand-button {
-    background: none !important;
-  }
-  .expand-button:hover>i, .expand-button:focus>i {
-    color: rgb(203, 206, 206) !important;
-  }
+    height: 49px;
+    background: none !important;}
+    @media screen and (min-width: 750px) {
+      .expand-button:hover::after, .expand-button:not(:hover):focus::after {
+        content: 'Expand Less';
+        color: rgb(203, 206, 206);
+        font-size: .8em}
+      .expand-button[id=expand-less]:hover::after, .expand-button[id=expand-less]:not(:hover):focus::after {
+        content: 'Expand More';
+      }
+    }
 
   /* Input */
   .trans-container .tool-bar .ui.input  {
@@ -65,15 +67,15 @@
   }
   .trans-container .tool-bar .ui.input>input {
     background: none;
-    border-color: rgb(182, 182, 182);
+    border-color: rgb(49, 49, 49);
     color: white;
     width: 17em;
     transition: width .1s linear;
     max-width: 50vw;
   }
   .trans-container .tool-bar .ui.input>input:focus {
-    border-color: white;
-    background: rgb(54, 54, 54);
+    border-color: rgb(182, 182, 182);
+    background: rgb(42, 42, 42);
     width: 17em;}
     @media screen and (max-width: 750px) {
       .trans-container .tool-bar .ui.input>input:focus {
@@ -95,6 +97,9 @@
     min-width: 5em;}
   .trans-container .tool-bar .search .selection {
     background: none;
+    border-color: rgb(49, 49, 49) !important;
+  }
+  .trans-container .tool-bar .search .selection:focus {
     border-color: rgb(182, 182, 182) !important;
   }
   .trans-container .tool-bar .search .dropdown .text {
@@ -104,7 +109,7 @@
     border-color: inherit !important;
   }
   .trans-container .tool-bar .search .dropdown .menu>.item {
-    background: rgb(84, 85, 85);
+    background: rgb(49, 49, 49);
     color: white !important;
     border: 0;
   }

@@ -78,9 +78,10 @@
   position: relative;
   overflow-y: scroll;}
   .video-view .video-list .video-item {
+    white-space: nowrap;
     padding-top: .8em !important;}
     .video-view .video-list .video-item p {
-      white-space: nowrap;
+      white-space: inherit;
       overflow: hidden;
       text-overflow: ellipsis;
       width: 18.5em;
@@ -90,3 +91,6 @@
       margin-top: -.5em !important;
       display: inline-block;
     }
+    /* .video-view .video-list .video-item:hover {
+      white-space: pre-wrap;
+    } */

@@ -33,7 +33,7 @@ export default function ToolBar({ captions, setResults, canReset }) {
 
 
   return (
-    <div className="tool-bar">
+    <div className="tool-bar" onDoubleClick={handleExpand}>
       <div className="search">
         <Select 
           defaultValue={SEARCH_IN_VIDEO} 
@@ -62,6 +62,7 @@ export default function ToolBar({ captions, setResults, canReset }) {
           className="expand-button"
           style={{color: 'white', outline: 'none'}} 
           onClick={handleExpand}
+          tabIndex={0}
           title={'Expand the transcription area (\u2318/Ctrl + U)'}
           aria-label="Expand the transcription area"
         >
