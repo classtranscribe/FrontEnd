@@ -234,13 +234,13 @@ export const api = {
    * POST
    * callBack = responce => {...}
    */
-  postData: function (path, data, callBack) {
+  postData: function (path, data, callBack, params) {
     path = `/api/${path}`
     if (callBack) 
-      return http.post(path, data, this.withAuth())
+      return http.post(path, data, this.withAuth(params))
         .then(responce => callBack(responce))
     else 
-      return http.post(path, data, this.withAuth())
+      return http.post(path, data, this.withAuth(params))
   },
   postToCourseOfferings: function (data) {
     return this.postData('CourseOfferings', data)
@@ -253,6 +253,9 @@ export const api = {
   },
   createPlaylist: function(data, callBack) {
     return this.postData('Playlists', data, callBack)
+  },
+  uploadVideo: function (playlistId, video1, video2) {
+    return this.postData('Media', null, null, {playlistId, video1, video2})
   },
   /**
    * PUT

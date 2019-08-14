@@ -16,8 +16,12 @@
   border-color: rgb(61, 165, 165) !important;
 }
 
+.upload-form .field {
+  margin-top: -1.2em !important;
+}
+
 .upload-btn {
-  margin-top: -1.2em;
+  margin-top: -.5em;
 }
 .upload-btn p {
   font-size: .9em;
