@@ -44,9 +44,7 @@ export const api = {
   b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
   getAuthToken: function() {
-    console.log('token', this.b2cToken())
-    return http.post(this.baseUrl() + '/Account/SignIn', {"b2cToken": this.b2cToken()})
-    // return http.post(this.baseUrl() + '/api/Account/SignIn', {"b2cToken": this.b2cToken()})
+    return http.post(this.baseUrl() + '/api/Account/SignIn', {"b2cToken": this.b2cToken()})
   },
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
@@ -138,7 +136,7 @@ export const api = {
   },
   // media
   getMediaFullPath: function(path) { // need to change later
-    return this.baseUrl() + path
+    return `${this.baseUrl()}/${path}`
   },
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
