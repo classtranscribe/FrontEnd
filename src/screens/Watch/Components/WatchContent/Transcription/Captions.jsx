@@ -128,7 +128,7 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        {text}&ensp;<i className="material-icons">play</i>
+        {text}
       </div>
 
       <div className="edit">

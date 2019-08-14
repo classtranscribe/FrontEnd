@@ -7,12 +7,11 @@
   width: 100%;
   color: rgb(240, 254, 255);
   overflow: hidden;
-  padding: .5em 2em 0 2em;
+  padding: .5em 2em .5em 2em;
 }
 
 /* Video Info header */
 .subheader-container .header {
-  width: 100%;
   display: flex;
   flex-direction: row;}
   .subheader-container .header p {
@@ -41,8 +40,9 @@
  */
 
  .video-setting-bar {
-  margin-left: 2em;
-  width: 100%;
+  width: auto;
+  position: absolute;
+  right: 2em;
   height: 3em;
   border-radius: .6em;
   display: flex;
@@ -50,8 +50,6 @@
   justify-content: flex-end;}
   @media screen and (max-width: 870px) {
     .video-setting-bar {
-      width: auto;
-      position: absolute;
       right: .5em;
     }
   }
@@ -63,9 +61,8 @@
   color: rgb(212, 209, 209);
   outline: none;
   height: 2em;
-  border-radius: .6em;
-  padding: 0 .5em;
-  margin-left: .5em;}
+  border-radius: 0em;
+  padding: 0 .5em;}
   .video-setting-bar .trigger span {
     font-size: 1.1rem;
     font-weight: bold;}
