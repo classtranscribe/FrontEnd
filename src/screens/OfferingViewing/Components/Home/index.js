@@ -9,7 +9,7 @@ import { OfferingListHolder } from './PlaceHolder'
 import { ClassTranscribeFooter } from 'components'
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, user } from 'utils'
 // Lazy loading
 const OfferingList = lazy(() => import('./OfferingList'))
 
@@ -24,15 +24,19 @@ export class Home extends React.Component {
       departments: [],
       offerings: props.offerings,
 
-      uniSelected: [],
+      uniSelected: '',
       departSelected: [],
       termSelected: [],
     }
   }
 
   componentDidMount() {
-    api.getAll(['Universities', 'Departments', 'Terms'], this.getAllCallBack)
+    api.getAll(['Universities'], this.getAllCallBack)
     api.contentLoaded()
+    if (user.isLoggedIn()) {
+      const userUniId = user.getUserInfo().universityId
+      this.onUniSelected(null, {value: userUniId})
+    }
   }
   
   componentDidUpdate(prevProps) {
