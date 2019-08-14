@@ -25,7 +25,10 @@ export default function Captions({ media, captions, results, setReadyToEdit, set
     >
       {
         lines[0] === 'NOT FOUND' ? 
-        <div className="h-100 d-flex justify-content-center p-3">No Match</div>
+        <div className="h-100 d-flex justify-content-center text-muted">No Match</div>
+        :
+        lines[0] === 'NO CAPTIONS' ? 
+        <div className="h-100 d-flex justify-content-center text-muted">No Captions</div>
         :
         lines.map( line => (
           <CaptionLine 

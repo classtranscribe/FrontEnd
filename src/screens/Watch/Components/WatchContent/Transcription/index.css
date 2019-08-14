@@ -43,11 +43,13 @@
   .expand-button {
     height: 49px;
     background: none !important;}
+    .expand-button i {
+      font-size: 2em;}
     @media screen and (min-width: 750px) {
       .expand-button:hover::after, .expand-button:not(:hover):focus::after {
         content: 'Expand Less';
         color: rgb(203, 206, 206);
-        font-size: .8em}
+        font-size: .8em;}
       .expand-button[id=expand-less]:hover::after, .expand-button[id=expand-less]:not(:hover):focus::after {
         content: 'Expand More';
       }
