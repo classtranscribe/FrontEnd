@@ -206,7 +206,7 @@ export const api = {
     re.videos = videos
     re.createdAt = jsonMetadata.createdAt
     // re.transcriptions = transcriptions
-    re.isTwoScreen = videos[0].video2 !== null
+    re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
     if (sourceType === 1) { // youtube
       re.mediaName = jsonMetadata.title
     } else if (sourceType === 0) { // echo360
