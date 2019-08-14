@@ -200,12 +200,12 @@ export const api = {
       transcriptions: [] 
     }
     if (!media) return re
-    const { id, jsonMetadata, sourceType, videos, transcriptions } = media
+    const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
     if (!id || !jsonMetadata || !videos) return re
     re.id = id
     re.videos = videos
     re.createdAt = jsonMetadata.createdAt
-    // re.transcriptions = transcriptions
+    re.playlistId = playlistId
     re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
     if (sourceType === 1) { // youtube
       re.mediaName = jsonMetadata.title

@@ -95,6 +95,7 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
       >
         <CSSTransition in={isPlaylistView} unmountOnExit classNames="playlist-view" timeout={100}>
           <PlaylistsView 
+            currMedia={media} 
             playlists={playlists} 
             courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 
