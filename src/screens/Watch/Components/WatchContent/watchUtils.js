@@ -57,9 +57,6 @@ export const capSearch = {
     const re = _.filter(captions, isMatch)
     return re.length ? re : ['NOT FOUND']
   },
-  highlight: function(value) {
-    
-  },
   toTop: function() {
     $('#captions').scrollTop(0)
   }
@@ -103,10 +100,11 @@ export const handleExpand = value => {
 
 export const enterPicInPic = () => {
   $("video").each( (index, videoElem) => {
-    if (index === 0) videoElem.requestPictureInPicture()
+    if (index === 0 && typeof videoElem.requestPictureInPicture === 'function') 
+      videoElem.requestPictureInPicture()
   })
 }
 
 export const exitPicInPic = () => {
-  document.exitPictureInPicture()
+  if (typeof document.exitPictureInPicture === 'function') document.exitPictureInPicture()
 }
