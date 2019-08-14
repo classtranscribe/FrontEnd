@@ -14,6 +14,7 @@ import TermPane from './Terms'
 import UniPane from './Universities'
 import DepartPane from './Departments'
 import CoursePane from './Courses'
+import InstructorPane from './Instructors'
 // Vars
 import { api, handleData, util, user } from 'utils'
 
@@ -40,6 +41,8 @@ export class Admin extends React.Component {
       courseCurrUni: null,
       courseCurrDeparts: [],
       courseCurrDepart: null,
+
+      instructors: [],
     }
     this.getSelectOptions = util.getSelectOptions
     this.getAll = this.getAll.bind(this)
@@ -200,7 +203,8 @@ export class Admin extends React.Component {
       { menuItem: 'Universities'  , render: () => <UniPane {...this} /> },
       { menuItem: 'Terms'         , render: () => <TermPane {...this} /> },
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
-      { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> }
+      { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> },
+      { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />}
     ]
 
     return (

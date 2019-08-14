@@ -49,8 +49,9 @@ export const api = {
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
   },
-  withAuth: function () {
+  withAuth: function (params) {
     return {
+      params: params,
       headers: {
         Authorization: 'Bearer ' + this.authToken(),
       }
@@ -63,10 +64,10 @@ export const api = {
   /**
    * GET
    */
-  getData: function (path, id) {
+  getData: function (path, id, params) {
     path = `/api/${path}`
     if(id) path = `${path}/${id}`
-    return http.get(path, this.withAuth())
+    return http.get(path, this.withAuth(params))
   },
   /**
    * GET an array of pathes
@@ -116,6 +117,10 @@ export const api = {
   },
   getCoursesByInstId: function (id) {
     return this.getData('Courses/ByInstructor', id) 
+  },
+  // Roles
+  getRolesByUniId: function (universityId) {
+    return this.getData('Roles', null, {universityId})
   },
   // Offerings
   getOfferingsByStudent: function() {
