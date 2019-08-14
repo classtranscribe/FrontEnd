@@ -136,7 +136,7 @@ export const api = {
   },
   // media
   getMediaFullPath: function(path) { // need to change later
-    return `${this.baseUrl()}/${path}`
+    return `${this.baseUrl()}${path}`
   },
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)

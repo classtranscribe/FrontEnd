@@ -56,9 +56,9 @@ export class WatchContent extends React.Component {
     if (prevProps.media !== media) {
       if (media.isTwoScreen) this.setState({ mode: PS_MODE })
       if (media.transcriptions) {
-        this.getCaptionsByTranscriptionId(
-          handleData.find(media.transcriptions, {language: 'en-US'}).id
-        )
+        const defaultTrans = handleData.find(media.transcriptions, {language: 'en-US'})
+        if (!defaultTrans) return this.setState({ loadingCaptions: false })
+        this.getCaptionsByTranscriptionId(defaultTrans.id)
       }
     }
   }
