@@ -14,14 +14,32 @@
   align-items: center;
 }
 
+.admin-bg .ui.black.message {
+  background: none !important;
+  color: #285856;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.admin-bg .secondary.button {
+  background: #458885 !important;
+}
+.admin-bg .ui.vertical.menu .active.item, .admin-bg .ui.vertical.menu .active.item:hover {
+  background: #458885;
+  color: white;
+  border-radius: 0 !important;
+}
+.admin-bg .ui.dimmer {
+  z-index: 1111 !important;
+}
 .ap-tab {
   width: 100%;
   /* max-width: 70rem; */
 }
-.ap-list {
+.ap-list .ui.vertical.menu.fluid {
   background: none !important;
   border: 0 !important;
   box-shadow: none !important;
+  border-radius: 0 !important;
 }
 .ap-list-item {
   padding-left: 1rem;
@@ -43,11 +61,17 @@
   justify-content: flex-end !important;
   align-items: flex-end !important;
 }
+.ap-buttons .ui.button {
+  margin: 0 !important;
+}
 
 .ap-listitem {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.admin-bg .ui.message {
+  background: none !important;
 }
 
 .ap-listitem .ap-iteminfo {

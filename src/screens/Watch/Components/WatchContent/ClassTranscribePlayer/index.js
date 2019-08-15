@@ -164,6 +164,17 @@ export default class ClassTranscribePlayer extends React.Component {
     var type = isPrimary ? 'primary' : 'secondary'    
     const switchTrigger = video1 ? switchToPrimary : switchToSecondary
 
+    const videoAttr = {
+      onPause: this.onPause,
+      onPlay: this.onPlay,
+      onSeeking: this.onSeeking,
+      onSeeked: this.onSeeked,
+      onWaiting: this.onWaiting,
+      onPlaying: this.onPlaying,
+      onLoad: this.onWaiting,
+    }
+    if (isPrimary) videoAttr.onTimeUpdate = this.onTimeUpdate
+
     return (
       <div className="ct-player" id={mode}>
         <div className={type} onClick={switchTrigger} id={mode}>
@@ -172,14 +183,7 @@ export default class ClassTranscribePlayer extends React.Component {
               ref={ node => this.videoNode = node } 
               className="video-js" 
               preload="auto"
-              onTimeUpdate={this.onTimeUpdate}
-              onPause={this.onPause}
-              onPlay={this.onPlay}
-              onSeeking={this.onSeeking}
-              onSeeked={this.onSeeked}
-              onWaiting={this.onWaiting}
-              onPlaying={this.onPlaying}
-              onLoad={this.onWaiting}
+              {...videoAttr}
             >
               {transcriptions.map( trans => 
                 <track 
