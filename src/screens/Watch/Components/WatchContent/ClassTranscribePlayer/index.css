@@ -7,10 +7,6 @@
   height: max-content;
 }
 
-/* .ct-player .primary, .ct-player .secondary{
-  -webkit-transition: width 0.2s linear !important;
-  -o-transition: width 0.2s linear !important;
-  transition: width 0.2s linear !important;} */
 .ct-player .secondary {
   cursor: pointer;}
   .ct-player .secondary:hover, .ct-player .secondary[id=nested-mode]:hover {

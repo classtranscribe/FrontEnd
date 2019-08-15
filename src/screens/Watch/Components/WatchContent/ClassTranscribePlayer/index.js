@@ -11,7 +11,7 @@ import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
 import { api } from 'utils'
-import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap } from './CTPlayerUtils'
+import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, setVideoLoading, ctVideo } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
 export default class ClassTranscribePlayer extends React.Component {
@@ -19,6 +19,15 @@ export default class ClassTranscribePlayer extends React.Component {
     super(props)
     this.prevTime = 0
     this.lastSyncTime = 0
+    this.videoAttr = {
+      onPause: e => ctVideo.onPause(e),
+      onPlay: e => ctVideo.onPlay(e),
+      onSeeking: e => ctVideo.onSeeking(e),
+      onSeeked: e => ctVideo.onSeeked(e),
+      onWaiting: e => ctVideo.onWaiting(e),
+      onPlaying: e => ctVideo.onPlaying(e),
+    }
+    if (this.props.video1) this.videoAttr.onTimeUpdate = this.onTimeUpdate
   }
 
   componentDidUpdate(prevProps) {
@@ -51,9 +60,10 @@ export default class ClassTranscribePlayer extends React.Component {
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
         const { search } = window.location
         if (search) {
-          const iniTime = parseFloat(search.replace('?begin=', ''))
-          this.currentTime(iniTime)
+          const beginTime = parseFloat(search.replace('?begin=', ''))
+          this.currentTime(beginTime)
         }
+        ctVideo.setVideoLoading(false)
       })
     }
 
@@ -95,20 +105,6 @@ export default class ClassTranscribePlayer extends React.Component {
     }
   }
 
-  syncPlay = (e, all) => {
-    if (!this.props.media.isTwoScreen) return;
-    $("video").each( (index, videoElem) => {
-      if (all || e.target !== videoElem) videoElem.play()
-    })
-  }
-
-  syncPause = (e, all) => {
-    if (!this.props.media.isTwoScreen) return;
-    $("video").each( (index, videoElem) => {
-      if (all || e.target !== videoElem) videoElem.pause()
-    })
-  }
-
   onTimeUpdate = e => {
     if (!this.props.isPrimary) return;
     let currTime = e.target.currentTime
@@ -121,33 +117,6 @@ export default class ClassTranscribePlayer extends React.Component {
     //   this.props.setCurrTime(e)
     //   this.lastSyncTime = currTime
     // }
-  }
-
-  onPause = e => {
-    if (!this.props.isPrimary) return;
-    this.syncPause(e)
-  }
-
-  onPlay = e => {
-    if (!this.props.isPrimary) return;
-    this.syncPlay(e)
-  }
-
-  onSeeking = e => {
-    if (!this.props.isPrimary) return;
-    this.props.setCurrTime(e)
-  }
-
-  onSeeked = e => {
-    this.syncPlay(e)
-  }
-
-  onWaiting = e => {
-    this.syncPause(e)
-  }
-
-  onPlaying = e => {
-    this.syncPlay(e)
   }
 
   ref = player => {
@@ -164,17 +133,6 @@ export default class ClassTranscribePlayer extends React.Component {
     var type = isPrimary ? 'primary' : 'secondary'    
     const switchTrigger = video1 ? switchToPrimary : switchToSecondary
 
-    const videoAttr = {
-      onPause: this.onPause,
-      onPlay: this.onPlay,
-      onSeeking: this.onSeeking,
-      onSeeked: this.onSeeked,
-      onWaiting: this.onWaiting,
-      onPlaying: this.onPlaying,
-      onLoad: this.onWaiting,
-    }
-    if (isPrimary) videoAttr.onTimeUpdate = this.onTimeUpdate
-
     return (
       <div className="ct-player" id={mode}>
         <div className={type} onClick={switchTrigger} id={mode}>
@@ -183,7 +141,7 @@ export default class ClassTranscribePlayer extends React.Component {
               ref={ node => this.videoNode = node } 
               className="video-js" 
               preload="auto"
-              {...videoAttr}
+              {...this.videoAttr}
             >
               {transcriptions.map( trans => 
                 <track 

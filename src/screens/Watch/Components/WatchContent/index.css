@@ -16,7 +16,7 @@
   flex-direction: row;
   padding-left: 2vw;
   align-items: center;
-  /* justify-content: center; */
+  position: relative;
 }
 .watch-content .switch-player {
   flex-direction: row-reverse;
@@ -40,3 +40,22 @@
     padding: .5em 0 !important;
   }
 }
+
+.watch-content .player-container .loading-wrapper {
+  position: absolute;
+  width: 95%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;}
+  .watch-content .player-container .loading-wrapper .spinner-border {
+    color: rgb(69, 173, 173);
+    width: 5em;
+    height: 5em;
+    border-width: .5em;
+  }
+  .watch-content .player-container .hide-loading-wrapper {
+    display: none;
+  }
