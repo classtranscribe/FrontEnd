@@ -49,6 +49,7 @@ export function Search({offerings}) {
               value={searchValue}
               onChange={onInput}
               placeholder="Search for Courses ..."
+              autoComplete="off"
             />
             <i aria-hidden="true" class="search icon"></i>
           </div>
