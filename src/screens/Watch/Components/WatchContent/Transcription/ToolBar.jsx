@@ -33,7 +33,7 @@ export default function ToolBar({ captions, setResults, canReset }) {
 
 
   return (
-    <div className="tool-bar" onDoubleClick={handleExpand}>
+    <div className="tool-bar">
       <div className="search">
         <Select 
           defaultValue={SEARCH_IN_VIDEO} 
