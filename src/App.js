@@ -24,7 +24,7 @@ class App extends React.Component {
           <Route exact path="/logout" component={authentication.required(LoginAndLogout)} />
           <Route path="/home" component={OfferingViewing} />
           <Route exact path="/video/:states" component={Watch} />
-          <Route path="/admin" component={authentication.required(Admin)} />
+          <Route path="/admin" component={Admin} />
           <Route path="/instructor" component={InstructorProfile} />
           <Route path="/offering/:id" component={InstructorOffering} />
           <Route component={NotFound404} />

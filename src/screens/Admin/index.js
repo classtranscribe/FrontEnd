@@ -103,7 +103,9 @@ export class Admin extends React.Component {
     /**
      * 1. get userId and authToken
      */
-    user.setUpUser()
+    if (!user.isLoggedIn()) {
+      user.login()
+    }
     /**
      * 2. first load of values
      */
@@ -209,7 +211,7 @@ export class Admin extends React.Component {
 
     return (
       <div>
-        <ClassTranscribeHeader user={{name: user.firstName()}} onSignOut={this.onSignOut}/>
+        <ClassTranscribeHeader />
         <div className="admin-bg">
           <Tab 
             menuPosition="left"
