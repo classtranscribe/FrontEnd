@@ -12,11 +12,7 @@ export const captionLangMap = {
 }
 
 export const ctVideo = {
-  wasWaited: false,
-  setWasWaited: function(value) {
-    this.wasWaited = value
-  },
-  getWasWaited: function() { return this.wasWaited },
+  waitingNum: 0,
   syncPlay: function(e, all) {
     const videoElems = $("video")
     if (videoElems.length < 2) return;
@@ -32,44 +28,6 @@ export const ctVideo = {
       if (all || e.target !== videoElem) videoElem.pause()
     })
   },
-
-  onPause: function(e) { 
-    this.syncPause(e)
-  },
-  onPlay: function(e) { 
-    this.syncPlay(e)
-  },
-  onSeeking: function(e) { 
-    this.setCurrTime(e)
-  },
-  onSeeked: function(e) { 
-    if (this.getWasWaited()) {
-      this.syncPlay(e)
-      this.setVideoLoading(false)
-      return this.setWasWaited(false)
-    }
-    const videoElems = $("video")
-    if (videoElems.length < 2) return;
-    var thisVideo = e.target, otherVideo
-    videoElems.each( (index, videoElem) => {
-      if (thisVideo !== videoElem) otherVideo = videoElem
-    })
-    if (otherVideo.paused) {
-      this.setWasWaited(true)
-      thisVideo.pause()
-    }
-  },
-  onPlaying: function(e) {
-    console.log('playing')
-    this.syncPlay(e)
-    this.setVideoLoading(false)
-  },
-  onWaiting: function(e) {
-    console.log('waiting')
-    this.syncPause(e)
-    this.setVideoLoading(true)
-  },
-
   
   setCurrTime: function(e, time) {
     let currTime = time || e.target.currentTime
@@ -77,19 +35,40 @@ export const ctVideo = {
       if (time || e.target !== videoElem) videoElem.currentTime = currTime
     })
   },
-  
-  hasPausedVideos: function() {
-    var hasPausedVideos = false
-    $("video").each( (index, videoElem) => {
-      if (videoElem.paused) hasPausedVideos = true
-    })
-    return hasPausedVideos
+
+  onPlay: function(e, isPrimary) {
+    if (isPrimary) this.syncPlay(e)
+  },
+
+  onPause: function(e, isPrimary) {
+    if (isPrimary) this.syncPause(e)
+  },
+
+  onSeeking: function(e, isPrimary) {
+    this.setVideoLoading(true)
+    if (isPrimary) this.setCurrTime(e)
+  },
+
+  onWaiting: function(e) {
+    this.syncPause(e)
+    this.setVideoLoading(true)
+    if (this.waitingNum < 2) this.waitingNum += 1
+    console.log('waitingNum', this.waitingNum)
+  },
+
+  onPlaying: function(e) {
+    if (this.waitingNum > 0) this.waitingNum -= 1
+    console.log('waitingNum', this.waitingNum)
+    if (this.waitingNum === 0) {
+      this.syncPlay(e)
+      this.setVideoLoading(false)
+    } 
   },
   
   setVideoLoading: function(loading) {
     if (loading) {
       $('.loading-wrapper').removeClass('hide-loading-wrapper')
-    } else if(!$('.hide-loading-wrapper').length ) {
+    } else if ( !$('.hide-loading-wrapper').length ) {
       $('.loading-wrapper').addClass('hide-loading-wrapper')
     }
   }

@@ -281,7 +281,8 @@
 }
 
 .video-js .vjs-loading-spinner {
-  border-color: #009092
+  border-color: #009092;
+  display: none;
 }
 
 .video-js .vjs-play-progress,.video-js  .vjs-volume-level {

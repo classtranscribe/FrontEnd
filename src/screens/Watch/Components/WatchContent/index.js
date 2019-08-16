@@ -111,6 +111,15 @@ export class WatchContent extends React.Component {
     this.getCaptionsByTranscriptionId(currTranscription.id)
   }
 
+  /** Function called when the video is seeking */
+  setCurrTime = (e, time) => {
+    let currTime = time || e.target.currentTime
+    // console.log(currTime)
+    $("video").each( (index, videoElem) => {
+      if (time || e.target !== videoElem) videoElem.currentTime = currTime
+    })
+  }
+
   /** Function called when video timeupdate in order to sync the caption scrolling */
   setTimeUpdate = time => {
     const currLine = findCurrLine(time, this)
@@ -152,6 +161,7 @@ export class WatchContent extends React.Component {
         <div className={`player-container ${orderClassName}`} id={mode}>
           <div className="loading-wrapper">
             <Spinner animation="border" />
+            {/* <div class="lds-facebook"><div></div><div></div><div></div></div> */}
           </div>
           <div className="video-col">
             <ClassTranscribePlayer 
@@ -175,6 +185,7 @@ export class WatchContent extends React.Component {
         <Transcription 
           media={media}
           captions={captions} 
+          setCurrTime={this.setCurrTime}
           reLoadCaption={this.reLoadCaption}
           setReadyToEdit={this.setReadyToEdit} 
           loadingCaptions={loadingCaptions}

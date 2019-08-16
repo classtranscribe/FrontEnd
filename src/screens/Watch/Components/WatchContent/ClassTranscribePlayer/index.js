@@ -11,7 +11,7 @@ import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
 import { api } from 'utils'
-import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, setVideoLoading, ctVideo } from './CTPlayerUtils'
+import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVideo } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
 export default class ClassTranscribePlayer extends React.Component {
@@ -19,15 +19,7 @@ export default class ClassTranscribePlayer extends React.Component {
     super(props)
     this.prevTime = 0
     this.lastSyncTime = 0
-    this.videoAttr = {
-      onPause: e => ctVideo.onPause(e),
-      onPlay: e => ctVideo.onPlay(e),
-      onSeeking: e => ctVideo.onSeeking(e),
-      onSeeked: e => ctVideo.onSeeked(e),
-      onWaiting: e => ctVideo.onWaiting(e),
-      onPlaying: e => ctVideo.onPlaying(e),
-    }
-    if (this.props.video1) this.videoAttr.onTimeUpdate = this.onTimeUpdate
+    this.waitingNum = 0
   }
 
   componentDidUpdate(prevProps) {
@@ -60,8 +52,8 @@ export default class ClassTranscribePlayer extends React.Component {
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
         const { search } = window.location
         if (search) {
-          const beginTime = parseFloat(search.replace('?begin=', ''))
-          this.currentTime(beginTime)
+          const iniTime = parseFloat(search.replace('?begin=', ''))
+          this.currentTime(iniTime)
         }
         ctVideo.setVideoLoading(false)
       })
@@ -119,6 +111,30 @@ export default class ClassTranscribePlayer extends React.Component {
     // }
   }
 
+  onPause = e => {
+    ctVideo.onPause(e, this.props.isPrimary)
+  }
+
+  onPlay = e => {
+    ctVideo.onPlay(e, this.props.isPrimary)
+  }
+
+  onSeeking = e => {
+    ctVideo.onSeeking(e, this.props.isPrimary)
+  }
+
+  onSeeked = e => {
+    ctVideo.syncPlay(e)
+  }
+
+  onWaiting = e => {
+    ctVideo.onWaiting(e)
+  }
+
+  onPlaying = e => {
+    ctVideo.onPlaying(e)
+  }
+
   ref = player => {
     this.player = player
   }
@@ -141,7 +157,13 @@ export default class ClassTranscribePlayer extends React.Component {
               ref={ node => this.videoNode = node } 
               className="video-js" 
               preload="auto"
-              {...this.videoAttr}
+              onPause={this.onPause}
+              onPlay={this.onPlay}
+              onSeeking={this.onSeeking}
+              onSeeked={this.onSeeked}
+              onWaiting={this.onWaiting}
+              onPlaying={this.onPlaying}
+              onTimeUpdate={isPrimary ? this.onTimeUpdate : undefined}
             >
               {transcriptions.map( trans => 
                 <track 
