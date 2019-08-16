@@ -21,7 +21,7 @@
 }
 
 
-.MuiPaper-rounded, .ui.selection.dropdown, .ui.selection.dropdown .menu, .ui.selection .menu, .button, .ui.message, .modal, .card, .modal input {
+.MuiPaper-rounded, .ui.selection.dropdown, .ui.selection.dropdown .menu, .ui.selection .menu, .button, .ui.message, .modal, .card, .modal input, .ui.segment, .ui.segments .segment {
   border-radius: 0 !important;
 }
 /* .ui.dropdown .menu {
