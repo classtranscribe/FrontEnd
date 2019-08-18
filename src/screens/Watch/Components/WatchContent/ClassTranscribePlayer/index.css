@@ -73,14 +73,14 @@
   overflow: hidden;
   position: absolute;
   right: 1vw;
-  top: 4.5em;}
+  top: .5em;}
   @media screen and (max-width: 720px) {
     .ct-player .secondary[id=nested-mode] {
-      top: 4.6em;
+      top: .3em;
       right: .8em;
       width: 10em;}}
   @media screen and (max-width: 650px) {
     .ct-player .secondary[id=nested-mode] {
-      top: 4.7em;
+      top: .3em;
       right: .2em;
       width: 8em;}}
