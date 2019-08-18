@@ -165,16 +165,16 @@
 
 .trans-container .captions .line .likes, 
 .trans-container .captions .line .edit {
+  min-width: 11em;
   opacity: 0;
   color: rgb(185, 185, 185);
   font-weight: normal;}
-.trans-container .captions .line:hover>.likes, .trans-container .captions .line:focus>.likes,
-.trans-container .captions .line:hover>.edit, .trans-container .captions .line:focus>.edit {
+.trans-container .captions .line:hover>.likes, .trans-container .captions .line:focus-within>.likes,
+.trans-container .captions .line:hover>.edit, .trans-container .captions .line:focus-within>.edit {
   opacity: 1;
 }
 
 .trans-container .captions .line .likes {
-  min-width: 12em;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -189,13 +189,12 @@
 .trans-container .captions .line .edit {
   display: inline-flex;
   justify-content: flex-end;
-  min-width: 9em;
 }
-.trans-container .captions .line .editBtn:hover:after {
+.trans-container .captions .line .editBtn:hover:after, .trans-container .captions .line .editBtn:focus:after {
   font-size: .8em;
   content: 'Edit';
 }
-.trans-container .captions .line .shareBtn:hover:after {
+.trans-container .captions .line .shareBtn:hover:after, .trans-container .captions .line .shareBtn:focus:after {
   font-size: .8em;
   content: 'Share';
 }

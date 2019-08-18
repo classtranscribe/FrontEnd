@@ -12,7 +12,7 @@ const emptyPlaylist = {name: '', id: ''}
 const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
-  width: '25em',
+  width: '28em',
   height: '700px',
 }
 
