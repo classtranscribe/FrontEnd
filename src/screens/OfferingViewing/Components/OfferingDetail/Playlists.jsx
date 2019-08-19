@@ -11,6 +11,7 @@ export default function Playlists({ playlists, fullNumber, history }) {
   const [activeIndex, setActiveIndex] = useState(-1)
 
   if (!playlists) return <PlaylistPlaceholder />
+  if (playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
   
   const handleClick = index => {
     if (index === activeIndex) setActiveIndex(() => -1)
