@@ -30,6 +30,7 @@ export const search = {
           fullNumber: this.getFullNumber(offering.courses),
           termName: offering.offering.termName,
           section: offering.offering.sectionName,
+          accessType: offering.offering.accessType,
           offeringId: offering.id
         })
     })

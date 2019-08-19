@@ -84,6 +84,7 @@ function SectionItem({offering, depart, termSelected}) {
         fullNumber: search.getFullNumber(offering.courses),
         termName: offering.offering.termName,
         section: offering.offering.sectionName,
+        accessType: offering.offering.accessType,
       }
     }
     // console.log(fullCourse)

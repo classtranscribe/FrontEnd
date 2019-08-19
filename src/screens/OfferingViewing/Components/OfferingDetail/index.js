@@ -10,7 +10,7 @@ import { Icon, Divider } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from 'components'
 import Playlists from './Playlists'
 // Vars
-import { api, util, handleData } from 'utils'
+import { api, util, handleData, user } from 'utils'
 import './index.css'
 
 export function OfferingDetail({id, history}) {
@@ -23,6 +23,10 @@ export function OfferingDetail({id, history}) {
   const [description, setDescription] = useState('')
   const [courseName, setCourseName] = useState('Loading...')
 
+  const checkAccessType = accessType => {
+    if (accessType !== 0 && !user.isLoggedIn()) user.login() 
+  }
+
   /**
    * Get all offerings and complete offerings
    */
@@ -30,6 +34,7 @@ export function OfferingDetail({id, history}) {
     const propsState = history.location.state
     if (propsState && propsState.fullCourse) {
       const { fullCourse } = propsState
+      checkAccessType(fullCourse.accessType)
       setFullNumber(() => fullCourse.fullNumber)
       setTermName(() => fullCourse.termName)
       setDescription(() => fullCourse.description)
@@ -38,6 +43,7 @@ export function OfferingDetail({id, history}) {
     } else {
       api.getOfferingById(id)
         .then( ({data}) => {
+          checkAccessType(data.offering.accessType)
           api.completeSingleOffering(data, function(data) {
             setOffering(() => data)
           })
