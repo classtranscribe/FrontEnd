@@ -1,10 +1,8 @@
-export { auth   } from './Auth'
 export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'
 export { sortFunc } from './sort'
 export { handleData } from './data'
-
 
 
 /**
@@ -23,6 +21,18 @@ export const util = {
       options.push({text: text, value: item.id})
     })
     return options;
+  },
+
+  parseSearchQuery: function () {
+    var queryString = window.location.search
+    if (!queryString) return {}
+    var query = {}
+    var pairs = queryString.substr(1).split('&');
+    pairs.forEach( pair => {
+      pair = pair.split('=')
+      query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '')
+    })
+    return query
   },
 
   links: {
@@ -45,7 +55,8 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     editVideo: id => `/offering/video-setting/${id}`,
 
-    watch: (courseNumber, mediaId) => `/video/${courseNumber}&${mediaId}`,
+    watch: (courseNumber, mediaId) => `/video?courseNumber=${courseNumber}&id=${mediaId}`,
+    notfound404: () => '/404',
   },
 
   isAuthedPage: function (pathname) {
@@ -64,10 +75,6 @@ export const util = {
     window.location=`/offering/${id}`
   },
 
-  watch: function (id) { // video id
-    // window.location=`/video/watch=${id}`
-    window.location='/video'
-  },
   uploadVideo: function (id) { // playlist id
     window.location=`/offering/upload/${id}`
   },

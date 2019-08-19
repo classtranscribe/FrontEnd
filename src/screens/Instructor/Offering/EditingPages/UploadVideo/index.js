@@ -12,31 +12,35 @@ import './index.css'
 // Vars
 import { api } from 'utils'
 
-/**
- * @param id videoId
- * @param history for goBack
- */
 export function UploadVideo({match: {params: {playlistId}}, history}) {
   // original video data
   const [video, setVideo] = useState({ video1Name: '', video2Name: '', video1: null, video2: null })
+  const [video1, setVideo1] = useState(null)
+  const [video2, setVideo2] = useState(null)
   /**
    * Functions for http requests
    */
   const callBacks = {
     onChange: function(key, value) {
-      setVideo(prevVideo => ({...prevVideo, [key]: value}))
+      if (key === 'video1') setVideo1(value)
+      else if (key === 'video2') setVideo2(value)
+      else setVideo(prevVideo => ({...prevVideo, [key]: value}))
     },
     onClose: function () {
       history.goBack()
+    },
+    onCreate: function () {
+      console.log({video1, video2})
+      api.uploadVideo(playlistId, video1, video2)
+        .then(({data}) => console.log('success upload', data))
     }
   }
-
+  
   const button = 
     (<SaveButtons 
       {...callBacks}
       onCancel={callBacks.onClose}
-      canDelete={true}
-      canSave={true}
+      canSave={video1}
     />)
 
   return(
@@ -58,13 +62,13 @@ export function UploadVideo({match: {params: {playlistId}}, history}) {
  */
 function UploadForm({video, onChange}) {
   const videoForms = [
-    {title: 'Primary Video', name: 'Video1Name'},
-    {title: 'Secondary Video (Optional)', name: 'Video2Name'}
+    {title: 'Primary Video', name: 'video1Name'},
+    {title: 'Secondary Video (Optional)', name: 'video2Name'}
   ]
   return (
     <Form className="upload-form">
       <Grid columns='equal' verticalAlign="middle">
-        {videoForms.map( videoForm => (
+        {videoForms.map( (videoForm, index) => (
           <>
           <Grid.Row>
             <Grid.Column>
@@ -73,19 +77,19 @@ function UploadForm({video, onChange}) {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
+              <UploadBtn video1={index === 0} onUpload={onChange} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
               <Form.Field
-                fluid required
+                fluid 
                 control={Input}
                 label='Name'
                 placeholder='Name'
                 value={video[videoForm.name]}
                 onChange={({target: {value}}) => onChange(videoForm.name, value)}
               />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <UploadBtn video1 />
             </Grid.Column>
           </Grid.Row>
           </>

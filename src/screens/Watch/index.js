@@ -7,14 +7,14 @@ import React from 'react'
 import { WatchHeader, WatchContent } from './Components'
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, util } from 'utils'
 
 export class Watch extends React.Component {
   constructor(props) {
     super(props)
-    const urlStates = this.props.match.params.states.split('&')
-    this.id = urlStates[1]
-    this.courseNumber = urlStates[0]
+    const urlStates = util.parseSearchQuery()
+    this.id = urlStates.id
+    this.courseNumber = urlStates.courseNumber
     
     this.state = { 
       showPlaylist: false,
@@ -28,6 +28,7 @@ export class Watch extends React.Component {
    * GET media and playlist based on mediaId
    */
   componentDidMount() {
+    if (!this.id || !this.courseNumber) window.location = util.links.notfound404()
     const { state } = this.props.location
     if (state) {
       const { media, playlist, playlists } = state

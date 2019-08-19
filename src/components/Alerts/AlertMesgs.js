@@ -30,12 +30,12 @@ const alertMesgs = {
     detail: 'E.g. \'myCat.png\''
   },
   selectUni: {
-    status: 'warning',
+    status: 'secondary',
     header: 'Please select a university',
     detail: 'You can create or view contents after selecting an university'
   },
   selectDepart: {
-    status: 'warning',
+    status: 'secondary',
     header: 'Please select a department',
     detail: 'You can create or view contents after selecting a department'
   }

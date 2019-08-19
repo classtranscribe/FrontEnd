@@ -23,7 +23,7 @@
 }
 
 .vjs-paused.vjs-has-started.video-js .vjs-big-play-button,.video-js.vjs-ended .vjs-big-play-button,.video-js.vjs-paused .vjs-big-play-button {
-  display: block
+  display: none !important
 }
 
 .video-js .vjs-load-progress div,.vjs-seeking .vjs-big-play-button,.vjs-waiting .vjs-big-play-button {
@@ -238,7 +238,7 @@
 
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
   background-color: transparent;
-  border-radius: .3rem;
+  /* border-radius: .3rem; */
   min-width: 10em;
   width: max-content;
   padding-bottom: -10em;
@@ -246,7 +246,7 @@
 
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item,.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-title {
   background-color: #313131de;
-  height: 2.3rem;
+  height: 2.5rem;
   padding: .5em;
 }
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item:hover {
@@ -281,7 +281,8 @@
 }
 
 .video-js .vjs-loading-spinner {
-  border-color: #009092
+  border-color: #009092;
+  display: none;
 }
 
 .video-js .vjs-play-progress,.video-js  .vjs-volume-level {
@@ -369,7 +370,7 @@
   width: 8rem;
   color: #ffffff;
   background: #009092 !important;
-  border-radius: .5em;
+  border-radius: 0em;
   padding: .3em;
 }
 .video-js .vjs-track-settings-controls button:hover, .video-js .vjs-track-settings-controls button:focus {

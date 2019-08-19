@@ -49,6 +49,7 @@ export function Search({offerings}) {
               value={searchValue}
               onChange={onInput}
               placeholder="Search for Courses ..."
+              autoComplete="off"
             />
             <i aria-hidden="true" class="search icon"></i>
           </div>
@@ -63,7 +64,7 @@ export function Search({offerings}) {
                 <h3 className="d-inline">
                   <Link to={{
                     pathname: util.links.offeringDetail(result.key),
-                    state: { from: 'search' }
+                    state: { from: 'search', fullCourse: result }
                   }}>{result.fullNumber}</Link>
                 </h3>
                 <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>

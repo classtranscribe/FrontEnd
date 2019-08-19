@@ -33,21 +33,26 @@ export default function ToolBar({ captions, setResults, canReset }) {
 
 
   return (
-    <div className="tool-bar" onDoubleClick={handleExpand}>
+    <div className="tool-bar">
       <div className="search">
         <Select 
           defaultValue={SEARCH_IN_VIDEO} 
           options={searchOptions} 
         />
-        <Input 
-          icon="search" id="caption-search" 
-          title={'Search for captions (\u2318/Ctrl + \u21E7 + space)'}
-          value={searchInput}
-          onChange={handleOnChange}
-          onKeyDown={handleOnKeyDown}
-          loading={loadingResults}
-          placeholder='Search Captions'
-        />
+        <div class="ui icon input">
+          <input 
+            type="text" 
+            id="caption-search" 
+            placeholder="Search Captions"
+            value={searchInput}
+            onChange={handleOnChange}
+            onKeyDown={handleOnKeyDown}
+            loading={loadingResults}
+            title={'Search for captions (\u2318/Ctrl + \u21E7 + space)'}
+            autoComplete="off"
+          />
+          <i aria-hidden="true" class="search icon"></i>
+        </div>
         {
           canReset
           &&

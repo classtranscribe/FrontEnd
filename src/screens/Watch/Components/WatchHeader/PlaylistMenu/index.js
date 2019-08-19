@@ -12,7 +12,7 @@ const emptyPlaylist = {name: '', id: ''}
 const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
-  width: '25em',
+  width: '28em',
   height: '700px',
 }
 
@@ -95,6 +95,7 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
       >
         <CSSTransition in={isPlaylistView} unmountOnExit classNames="playlist-view" timeout={100}>
           <PlaylistsView 
+            currMedia={media} 
             playlists={playlists} 
             courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 

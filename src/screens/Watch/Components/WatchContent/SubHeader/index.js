@@ -14,8 +14,11 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
   const [isMobile, setIsMobile] = useState(window.innerWidth < 650 ? true : false)
   
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 650) setIsMobile(() => false)
-    else setIsMobile(() => true)
+    if (window.innerWidth > 650 && isMobile) {
+      setIsMobile(() => false)
+    } else if (window.innerWidth <= 650 && !isMobile) {
+      setIsMobile(() => true)
+    }
   })
 
   /** If playlist is loaded */

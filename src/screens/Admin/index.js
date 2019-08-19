@@ -14,6 +14,7 @@ import TermPane from './Terms'
 import UniPane from './Universities'
 import DepartPane from './Departments'
 import CoursePane from './Courses'
+import InstructorPane from './Instructors'
 // Vars
 import { api, handleData, util, user } from 'utils'
 
@@ -25,21 +26,19 @@ export class Admin extends React.Component {
       loading: true,
     
       universities: [],
-      uniLoading: true,
 
       terms: [],
-      termLoading: false,
       termCurrUni: null,
 
       departments: [],
-      departLoading: false,
       departCurrUni: null,
 
       courses: [],
-      courseLoading: false,
       courseCurrUni: null,
       courseCurrDeparts: [],
       courseCurrDepart: null,
+
+      instructors: [],
     }
     this.getSelectOptions = util.getSelectOptions
     this.getAll = this.getAll.bind(this)
@@ -49,9 +48,8 @@ export class Admin extends React.Component {
    * Function for GET values after every page refreshing
    */
   getAll() {
-    this.setLoading('uni', true)
     api.getAll(['Universities'], (response, name) => {
-      this.setState({[name]: response.data, uniLoading: false})
+      this.setState({[name]: response.data})
       /**
        * Hide the loading page
        */
@@ -68,28 +66,22 @@ export class Admin extends React.Component {
    * Specific get-by-id functions
    */
   getTermsByUniId = (uniId) => {
-    this.setLoading('term', true)
     api.getTermsByUniId(uniId) 
       .then(response => {
         this.setState({terms: response.data})
-        this.setLoading('term', false)
       })
-      .catch( error => this.setLoading('term', false))
+      .catch( error => console.log(error) )
   }
   getDepartsByUniId = (uniId, name) => {
-    this.setLoading('depart', true)
     api.getDepartsByUniId(uniId) 
       .then(response => {
         this.setState({[name]: response.data})
-        this.setLoading('depart', false)
       })
   }
   getCoursesByDepartId = (departId) => {
-    this.setLoading('course', true)
     api.getCoursesByDepartId(departId) 
       .then(response => {
         this.setState({courses: response.data})
-        this.setLoading('course', false)
       })
   }
 
@@ -100,7 +92,9 @@ export class Admin extends React.Component {
     /**
      * 1. get userId and authToken
      */
-    user.setUpUser()
+    if (!user.isLoggedIn()) {
+      user.login()
+    }
     /**
      * 2. first load of values
      */
@@ -150,13 +144,6 @@ export class Admin extends React.Component {
   }
 
   /**
-   * Function for determining whether to show the loader while loading the data
-   */
-  setLoading = (name, value) => {
-    this.setState({[`${name}Loading`]: value})
-  }
-
-  /**
    * Used for jumping back from edit page
    * Set selected active pane, and store in localStorage
    */
@@ -200,12 +187,13 @@ export class Admin extends React.Component {
       { menuItem: 'Universities'  , render: () => <UniPane {...this} /> },
       { menuItem: 'Terms'         , render: () => <TermPane {...this} /> },
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
-      { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> }
+      { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> },
+      { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />}
     ]
 
     return (
       <div>
-        <ClassTranscribeHeader user={{name: user.firstName()}} onSignOut={this.onSignOut}/>
+        <ClassTranscribeHeader />
         <div className="admin-bg">
           <Tab 
             menuPosition="left"

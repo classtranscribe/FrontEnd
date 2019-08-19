@@ -20,6 +20,13 @@
   position: relative;
 }
 
+
+.MuiPaper-rounded, .ui.selection.dropdown, .ui.selection.dropdown .menu, .ui.selection .menu, .button, .ui.message, .modal, .card, .modal input, .ui.segment, .ui.segments .segment {
+  border-radius: 0 !important;
+}
+.ui.selection.active.dropdown, .ui.selection.active.dropdown .menu {
+  border-color: #fafafa !important;
+}
 /* .ui.dropdown .menu {
   border-color: rgb(22, 189, 180);
 }

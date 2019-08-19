@@ -9,15 +9,13 @@ export class LoginAndLogout extends React.Component {
   componentDidMount() {
     console.log(window.location)
     if (window.location.pathname === '/login') {
-      user.setUpUser(() => {
-        window.location = window.location.search.replace('?', '')
-      })
+      user.setUpUser()
     } else {
-      user.logout()
+      user.signout()
     }
   }
 
   render() {
-    return null
+    return <div></div>
   }
 }

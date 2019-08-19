@@ -3,7 +3,6 @@
  */
 
 import React from 'react'
-import $ from 'jquery'
 import videojs from 'video.js'
 // UI
 import 'video.js/dist/video-js.css'
@@ -11,7 +10,7 @@ import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
 import { api } from 'utils'
-import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap } from './CTPlayerUtils'
+import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVideo } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
 export default class ClassTranscribePlayer extends React.Component {
@@ -19,6 +18,7 @@ export default class ClassTranscribePlayer extends React.Component {
     super(props)
     this.prevTime = 0
     this.lastSyncTime = 0
+    this.waitingNum = 0
   }
 
   componentDidUpdate(prevProps) {
@@ -54,6 +54,7 @@ export default class ClassTranscribePlayer extends React.Component {
           const iniTime = parseFloat(search.replace('?begin=', ''))
           this.currentTime(iniTime)
         }
+        ctVideo.setVideoLoading(false)
       })
     }
 
@@ -95,20 +96,6 @@ export default class ClassTranscribePlayer extends React.Component {
     }
   }
 
-  syncPlay = (e, all) => {
-    if (!this.props.media.isTwoScreen) return;
-    $("video").each( (index, videoElem) => {
-      if (all || e.target !== videoElem) videoElem.play()
-    })
-  }
-
-  syncPause = (e, all) => {
-    if (!this.props.media.isTwoScreen) return;
-    $("video").each( (index, videoElem) => {
-      if (all || e.target !== videoElem) videoElem.pause()
-    })
-  }
-
   onTimeUpdate = e => {
     if (!this.props.isPrimary) return;
     let currTime = e.target.currentTime
@@ -124,30 +111,27 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   onPause = e => {
-    if (!this.props.isPrimary) return;
-    this.syncPause(e)
+    ctVideo.onPause(e, this.props.isPrimary)
   }
 
   onPlay = e => {
-    if (!this.props.isPrimary) return;
-    this.syncPlay(e)
+    ctVideo.onPlay(e, this.props.isPrimary)
   }
 
   onSeeking = e => {
-    if (!this.props.isPrimary) return;
-    this.props.setCurrTime(e)
+    ctVideo.onSeeking(e, this.props.isPrimary)
   }
 
   onSeeked = e => {
-    this.syncPlay(e)
+    ctVideo.syncPlay(e)
   }
 
   onWaiting = e => {
-    this.syncPause(e)
+    ctVideo.onWaiting(e)
   }
 
   onPlaying = e => {
-    this.syncPlay(e)
+    ctVideo.onPlaying(e)
   }
 
   ref = player => {
@@ -172,14 +156,13 @@ export default class ClassTranscribePlayer extends React.Component {
               ref={ node => this.videoNode = node } 
               className="video-js" 
               preload="auto"
-              onTimeUpdate={this.onTimeUpdate}
               onPause={this.onPause}
               onPlay={this.onPlay}
               onSeeking={this.onSeeking}
               onSeeked={this.onSeeked}
               onWaiting={this.onWaiting}
               onPlaying={this.onPlaying}
-              onLoad={this.onWaiting}
+              onTimeUpdate={isPrimary ? this.onTimeUpdate : undefined}
             >
               {transcriptions.map( trans => 
                 <track 

@@ -6,6 +6,7 @@
 import React from 'react'
 import $ from 'jquery'
 // UI
+import { Spinner } from 'react-bootstrap'
 import SubHeader from './SubHeader'
 import ClassTranscribePlayer from './ClassTranscribePlayer'
 import Transcription from './Transcription'
@@ -52,13 +53,13 @@ export class WatchContent extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { media } = this.props
-    console.log('media', media)
     /** If media is loaded, set screen mode and get transcriptions */
     if (prevProps.media !== media) {
+      console.log('media', media)
       if (media.isTwoScreen) this.setState({ mode: PS_MODE })
       if (media.transcriptions) {
         const defaultTrans = handleData.find(media.transcriptions, {language: 'en-US'})
-        if (!defaultTrans) return this.setState({ loadingCaptions: false })
+        if (!defaultTrans) return this.setState({ captions: ['NO CAPTIONS'], loadingCaptions: false })
         this.getCaptionsByTranscriptionId(defaultTrans.id)
       }
     }
@@ -158,6 +159,10 @@ export class WatchContent extends React.Component {
         />
   
         <div className={`player-container ${orderClassName}`} id={mode}>
+          <div className="loading-wrapper">
+            <Spinner animation="border" />
+            {/* <div class="lds-facebook"><div></div><div></div><div></div></div> */}
+          </div>
           <div className="video-col">
             <ClassTranscribePlayer 
               {...this}

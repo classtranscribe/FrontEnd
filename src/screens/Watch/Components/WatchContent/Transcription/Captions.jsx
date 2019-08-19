@@ -3,6 +3,7 @@ import $ from 'jquery'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import { api } from 'utils'
+import { ctVideo } from '../ClassTranscribePlayer/CTPlayerUtils'
 import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
 
 function copyToClipboard(text) {
@@ -13,7 +14,7 @@ function copyToClipboard(text) {
   $temp.remove();
 }
 
-export default function Captions({ media, captions, results, setReadyToEdit, setCurrTime, reLoadCaption, loadingCaptions }) {
+export default function Captions({ media, captions, results, setReadyToEdit, reLoadCaption, loadingCaptions }) {
   if (loadingCaptions) return <LineLoader index={-1} />
   const lines = results.length ? results : captions
   return (
@@ -25,14 +26,16 @@ export default function Captions({ media, captions, results, setReadyToEdit, set
     >
       {
         lines[0] === 'NOT FOUND' ? 
-        <div className="h-100 d-flex justify-content-center p-3">No Match</div>
+        <div className="h-100 d-flex justify-content-center text-muted">No Match</div>
+        :
+        lines[0] === 'NO CAPTIONS' ? 
+        <div className="h-100 d-flex justify-content-center text-muted">No Captions</div>
         :
         lines.map( line => (
           <CaptionLine 
             media={media}
             line={line} 
             key={line.id} 
-            setCurrTime={setCurrTime} 
             handleExpand={handleExpand}
             reLoadCaption={reLoadCaption}
             setReadyToEdit={setReadyToEdit}
@@ -43,18 +46,18 @@ export default function Captions({ media, captions, results, setReadyToEdit, set
   )
 }
 
-function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, setReadyToEdit }) {
+function CaptionLine({ media, line, reLoadCaption, handleExpand, setReadyToEdit }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
-  const { text, index, id, begin } = line
+  const { text, index, begin } = line
 
   useEffect(() => {
     
   }, [line])
 
   const SeekToCaption = e => {
-    setCurrTime(e, timeStrToSec(begin))
+    ctVideo.setCurrTime(e, timeStrToSec(begin))
     handleExpand(false)
   }
 
@@ -128,7 +131,7 @@ function CaptionLine({ media, line, setCurrTime, reLoadCaption, handleExpand, se
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        {text}&ensp;<i className="material-icons">play</i>
+        {text}
       </div>
 
       <div className="edit">

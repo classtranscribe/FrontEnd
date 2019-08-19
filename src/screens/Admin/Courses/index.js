@@ -4,23 +4,21 @@
 
 import React from 'react'
 import { Route } from 'react-router-dom'
-import authentication from 'react-azure-adb2c'
 // UI
 import CourseEditing from './CourseEditing'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function CoursePane(props) {
-  const { universities, courseCurrUni, courseCurrDeparts, 
-          courseCurrDepart, courses, courseLoading } = props.state
+  const { universities, courseCurrUni, courseCurrDeparts, courseCurrDepart, courses } = props.state
   const currUni = courseCurrUni || {name: 'none', id: 0}
   const currDepart = courseCurrDepart || {name: 'none', id: 0}
   const uniOptions = props.getSelectOptions(universities)
   const departOptions = props.getSelectOptions(courseCurrDeparts)
   
   return (
-    <Tab.Pane attached={false} className="ap-list" loading={courseLoading}>
-      <Route path='/admin/course/:type?=:id' component={authentication.required(CourseEditing)}/>    
+    <Tab.Pane attached={false} className="ap-list" >
+      <Route path='/admin/course/:type?=:id' component={CourseEditing}/>    
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>

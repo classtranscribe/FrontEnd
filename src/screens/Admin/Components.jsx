@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import { Button, Message } from 'semantic-ui-react'
+import { Button, Message, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
@@ -17,7 +17,7 @@ export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
  * @param path path to the editing page
  * @param id the id of the item, for completing the path to editing page
  */
-export function AdminListItem({header, items, path, id}) {
+export function AdminListItem({header, items, path, id, inactive, loading}) {
   return (
     <Message className='ap-listitem'>
       <div className='ap-iteminfo'>
@@ -25,14 +25,21 @@ export function AdminListItem({header, items, path, id}) {
         <Message.List items={items} role="list"/>
       </div>
       <div className="ap-buttons">
-        <Button 
-          as={Link} secondary compact
-          to={`/admin/${path}/id=${id}`} 
-          title="edit"
-          aria-label="edit"
-        >
-          <i className="fas fa-edit"></i>&ensp;Edit
-        </Button>
+        {
+          inactive ? 
+          <Button secondary compact onClick={inactive} loading={loading}>
+            <Icon name="trash" />Inactive
+          </Button>
+          :
+          <Button 
+            as={Link} secondary compact
+            to={`/admin/${path}/id=${id}`} 
+            title="Edit"
+            aria-label="Edit"
+          >
+            <Icon name="edit" />Edit
+          </Button>
+        }
       </div>
     </Message>
   )

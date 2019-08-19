@@ -41,7 +41,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 18.5em;
+  width: 22.5em;
   color: rgb(235, 235, 235);
   font-size: 1.1rem;
 }
@@ -67,13 +67,17 @@
   background: #3b3b3b;
   width: 100%;
   z-index: 1;
-  border-bottom: solid 3px rgba(51, 51, 51, 0.555);
+  color: rgb(121, 156, 156);
+  border-bottom: solid 3px rgba(41, 41, 41, 0.192);
   transition: background .2s linear;}
   .video-view .header:hover {
     background: #353535;}
+  .video-view .header h5 {
+    color: rgb(93, 185, 185);
+  }
 
 .video-view .video-list {
-  padding: 5em 0;
+  padding: 5.5em 0;
   height: 97%;
   position: relative;
   overflow-y: scroll;}
@@ -84,7 +88,7 @@
       white-space: inherit;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 18.5em;
+      width: 22.5em;
       color: rgb(235, 235, 235);
       /* font-weight: bolder; */
       font-size: 1.1rem;

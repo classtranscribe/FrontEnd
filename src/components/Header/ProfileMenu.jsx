@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Image } from 'semantic-ui-react'
 import { util, user, api, handleData } from 'utils'
 import { Link } from 'react-router-dom'
 
 const menuStyle = {
   backgroundColor: '#306868', 
   color: 'rgb(236, 236, 236)',
-  width: '16em'
+  width: '18em'
 }
 const iconStyle = { color: 'rgb(236, 236, 236)', fontSize: '1.3rem'}
 const fontStyle = {color: '#d5dedf', fontSize: '1.15rem'}
@@ -37,22 +37,13 @@ export default function ProfileMenu({ darkMode }) {
   }
 
   const isLoggedIn = user.isLoggedIn()
-  const { fullName, universityId } = user.getUserInfo()
+  const { fullName, universityId, picture } = user.getUserInfo()
   const uniName = handleData.findById(universities, universityId).name
 
   const open = Boolean(anchorEl)
   return (
     <div className="profile-menu">
-      <IconButton
-        aria-label="Menu button"
-        title="Menu"
-        aria-controls="profile-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        className="trigger"
-      >
-        <Icon name='user' circular/>
-      </IconButton>
+      <MenuTrigger picture={picture} handleClick={handleClick} />
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -62,11 +53,14 @@ export default function ProfileMenu({ darkMode }) {
       >
         {isLoggedIn ?
           <>
-            <MenuItem disabled>
-              <Typography style={fontStyle}>
-                Signed in as <strong>{fullName}</strong><br/>
-                <span style={{fontSize: '.8em', width: '15em', whiteSpace: 'normal', textAlign: 'center'}}>{uniName}</span>
-              </Typography>
+            <MenuItem disabled id="profile">
+              <div className="profile">
+                {picture && <Image src={picture} circular />}
+                <Typography style={fontStyle}>
+                  Signed in as <strong>{fullName}</strong><br/>
+                  <span>{uniName}</span>
+                </Typography>
+              </div>
             </MenuItem>
             {/* <MenuItem disabled>
               <Typography style={fontStyle}>Signed in as <strong>{fullName}</strong></Typography>
@@ -115,5 +109,22 @@ export default function ProfileMenu({ darkMode }) {
         }
       </Menu>
     </div>
+  )
+}
+
+function MenuTrigger({ picture, handleClick }) {
+  return picture ? (
+    <Image onClick={handleClick} src={picture} tabIndex={0} circular size="mini" className="profile-img"/>
+  ) : (
+    <IconButton
+      aria-label="Menu button"
+      title="Menu"
+      aria-controls="profile-menu"
+      aria-haspopup="true"
+      onClick={handleClick}
+      className="trigger"
+    >
+      <Icon name='user' circular/>
+    </IconButton>
   )
 }

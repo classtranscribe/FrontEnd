@@ -1,5 +1,4 @@
 import axios from 'axios'
-import authentication from 'react-azure-adb2c'
 const monthMap = require('./json/monthNames.json')
 
 /**
@@ -41,18 +40,18 @@ export const api = {
   /**
    * Functions for set or get the auth/b2c token
    */
-  b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
-  getAuthToken: function() {
-    return http.post(this.baseUrl() + '/api/Account/SignIn', {"b2cToken": this.b2cToken()})
+  getAuthToken: function(auth0Token) {
+    return http.post(this.baseUrl() + '/api/Account/SignIn', { auth0Token })
   },
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
   },
-  withAuth: function () {
+  withAuth: function (params) {
     return {
+      params,
       headers: {
-        Authorization: 'Bearer ' + this.authToken(),
+        Authorization: 'Bearer ' + this.authToken()
       }
     }
   },
@@ -63,10 +62,10 @@ export const api = {
   /**
    * GET
    */
-  getData: function (path, id) {
+  getData: function (path, id, params) {
     path = `/api/${path}`
     if(id) path = `${path}/${id}`
-    return http.get(path, this.withAuth())
+    return http.get(path, this.withAuth(params))
   },
   /**
    * GET an array of pathes
@@ -116,6 +115,10 @@ export const api = {
   },
   getCoursesByInstId: function (id) {
     return this.getData('Courses/ByInstructor', id) 
+  },
+  // Roles
+  getRolesByUniId: function (universityId) {
+    return this.getData('Roles', null, {universityId})
   },
   // Offerings
   getOfferingsByStudent: function() {
@@ -200,12 +203,12 @@ export const api = {
       transcriptions: [] 
     }
     if (!media) return re
-    const { id, jsonMetadata, sourceType, videos, transcriptions } = media
+    const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
     if (!id || !jsonMetadata || !videos) return re
     re.id = id
     re.videos = videos
     re.createdAt = jsonMetadata.createdAt
-    // re.transcriptions = transcriptions
+    re.playlistId = playlistId
     re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
     if (sourceType === 1) { // youtube
       re.mediaName = jsonMetadata.title
@@ -229,13 +232,13 @@ export const api = {
    * POST
    * callBack = responce => {...}
    */
-  postData: function (path, data, callBack) {
+  postData: function (path, data, callBack, params) {
     path = `/api/${path}`
     if (callBack) 
-      return http.post(path, data, this.withAuth())
+      return http.post(path, data, this.withAuth(params))
         .then(responce => callBack(responce))
     else 
-      return http.post(path, data, this.withAuth())
+      return http.post(path, data, this.withAuth(params))
   },
   postToCourseOfferings: function (data) {
     return this.postData('CourseOfferings', data)
@@ -248,6 +251,12 @@ export const api = {
   },
   createPlaylist: function(data, callBack) {
     return this.postData('Playlists', data, callBack)
+  },
+  uploadVideo: function (playlistId, video1, video2) {
+    return this.postData('Media', null, null, {playlistId, video1, video2})
+  },
+  addNewRole: function (mailId) {
+    return this.postData('Roles', null, null, {mailId})
   },
   /**
    * PUT
@@ -274,13 +283,13 @@ export const api = {
    * DELETE
    * callBack = responce => {...}
    */
-  deleteData: function (path, id, callBack) {
+  deleteData: function (path, id, callBack, params) {
     path = `/api/${path}`
     if (callBack)
-      return http.delete(`${path}/${id}`, this.withAuth())
+      return http.delete(`${path}/${id}`, this.withAuth(params))
         .then(responce => callBack(responce))
     else 
-      return http.delete(`${path}/${id}`, this.withAuth())
+      return http.delete(`${path}/${id}`, this.withAuth(params))
   },
   deleteFromCourseOfferings: function (courseId, offeringId) {
     return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
@@ -293,6 +302,9 @@ export const api = {
   },
   deletePlaylist: function(playlistId, callBack) {
     return this.deleteData('Playlists', playlistId, callBack)
-  }
+  },
+  deleteInstructor: function(mailId) {
+    return http.delete('/api/Roles', this.withAuth({ mailId }))
+  },
 
 }

@@ -1,24 +1,16 @@
 .trans-container {
-  /* width: 96%; */
   width: 100%;
   height: 90vh;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
-  /* background: rgb(82, 83, 83); */
   background: rgb(49, 49, 49);
-  /* transform: translateY(0); */
-  /* transition: transform .2s linear; */
-  /* margin: 1.5em 2%; */
   margin: .5em 0;
-  /* box-shadow: 0 0 .3em .2em rgba(58, 59, 59, 0.418); */
-  /* border-radius: .5em .5em 0 0; */
 }
 
 
 .trans-con-expand {
   position: absolute;
   top: 3.5em;
-  /* transform: translateY(-25vw); */
 }
 
 .trans-container .edit-button {
@@ -55,7 +47,7 @@
       .expand-button:hover::after, .expand-button:not(:hover):focus::after {
         content: 'Expand Less';
         color: rgb(203, 206, 206);
-        font-size: .8em}
+        font-size: .8em;}
       .expand-button[id=expand-less]:hover::after, .expand-button[id=expand-less]:not(:hover):focus::after {
         content: 'Expand More';
       }
@@ -72,16 +64,12 @@
     width: 17em;
     transition: width .1s linear;
     max-width: 50vw;
+    border-radius: 0 !important;
   }
   .trans-container .tool-bar .ui.input>input:focus {
     border-color: rgb(182, 182, 182);
     background: rgb(42, 42, 42);
     width: 17em;}
-    @media screen and (max-width: 750px) {
-      .trans-container .tool-bar .ui.input>input:focus {
-        width: 10em;
-      }
-    }
 
 .trans-container .tool-bar .search  .clear-input-btn {
   border: 1px solid rgb(182, 182, 182) !important;
@@ -159,8 +147,6 @@
     }
   }
 .trans-container .captions .curr-line {
-  /* background: rgb(63, 66, 66); */
-  width: 100%;
   color: white;}
 .trans-container .captions .copied {
   color: rgb(134, 223, 223) !important;
@@ -169,7 +155,7 @@
   outline: none;
   text-align: center;
   cursor: pointer;}
-  .trans-container .captions .line .text:focus {
+  .trans-container .captions .line .text:focus, .trans-container .captions .line .text:hover {
     color: white;
   }
   .trans-container .captions .line .text .material-icons {
@@ -179,17 +165,17 @@
 
 .trans-container .captions .line .likes, 
 .trans-container .captions .line .edit {
+  min-width: 11em;
   opacity: 0;
   color: rgb(185, 185, 185);
   font-weight: normal;}
-.trans-container .captions .line:hover>.likes, .trans-container .captions .line:focus>.likes,
-.trans-container .captions .line:hover>.edit, .trans-container .captions .line:focus>.edit {
+.trans-container .captions .line:hover>.likes, .trans-container .captions .line:focus-within>.likes,
+.trans-container .captions .line:hover>.edit, .trans-container .captions .line:focus-within>.edit {
   opacity: 1;
 }
 
 .trans-container .captions .line .likes {
-  min-width: 10em;
-  display: inline-flex;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
 }
@@ -203,13 +189,12 @@
 .trans-container .captions .line .edit {
   display: inline-flex;
   justify-content: flex-end;
-  min-width: 9em;
 }
-.trans-container .captions .line .editBtn:hover:after {
+.trans-container .captions .line .editBtn:hover:after, .trans-container .captions .line .editBtn:focus:after {
   font-size: .8em;
   content: 'Edit';
 }
-.trans-container .captions .line .shareBtn:hover:after {
+.trans-container .captions .line .shareBtn:hover:after, .trans-container .captions .line .shareBtn:focus:after {
   font-size: .8em;
   content: 'Share';
 }
@@ -236,9 +221,6 @@
 @media screen and (max-width: 850px) {
   .trans-container .captions .line .edit .name {
     display: none;
-  }
-  .trans-container .captions .line .edit {
-    min-width: 5em;
   }
   .trans-container .captions .curr-line .likes .icon {
     font-size: .5em !important;

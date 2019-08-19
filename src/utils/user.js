@@ -4,22 +4,22 @@
  * (like a interface for user based on api and auth)
  */
 
-import { auth } from './Auth'
 import { api } from './http'
+import auth0Client from './auth0'
 
 export const user = {
   login: function() {
-    window.location = `/login?${window.location.pathname}`
+    auth0Client.signIn()
   },
-  isLoggedIn: () => localStorage.getItem('userInfo'),
-  strictIsLoggedIn: () => auth.isLoggedIn(),
-  b2cToken: () => auth.getToken(),
+  isLoggedIn: () => Boolean(localStorage.getItem('userId')),
   saveUserInfo: function (userInfo) {
+    const profile = auth0Client.getProfile()
     localStorage.setItem('userInfo', JSON.stringify({
       ...userInfo, 
-      firstName: this.firstName(),
-      lastName: this.lastName(),
-      fullName: this.fullName()
+      firstName: profile.given_name,
+      lastName: profile.family_name,
+      fullName: profile.name,
+      picture: profile.picture
     }))
   },
   getUserInfo: function () {
@@ -28,20 +28,22 @@ export const user = {
   },
   setUpUser: function (callback) {
     if (this.id() === null) {
-      api.getAuthToken()
-        .then(({data}) => {
-          console.log(data)
-          localStorage.setItem('userId', data.userId)
-          api.saveAuthToken(data.authToken)
-          this.saveUserInfo(data)
-          if (callback) callback(data.userId)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      auth0Client.handleAuthentication().then(() => {
+        api.getAuthToken(auth0Client.getAuth0Token())
+          .then(({data}) => {
+            console.log(data)
+            localStorage.setItem('userId', data.userId)
+            api.saveAuthToken(data.authToken)
+            this.saveUserInfo(data)
+            window.location = auth0Client.getRedirectURL()
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
     } else {
-      // console.log(this.getUserInfo())
-      if (callback) callback(this.id())
+      console.log(this.getUserInfo())
+      window.location = auth0Client.getRedirectURL()
     }
   },
 
@@ -49,18 +51,6 @@ export const user = {
    * Functions for getting user's basic info
    */
   id: () => localStorage.getItem('userId'),
-  lastName: function () {
-    return auth.currentUser().lastName
-  },
-  firstName: function () {
-    return auth.currentUser().firstName
-  },
-  fullName: function () {
-    return auth.currentUser().firstName + ' ' + auth.currentUser().lastName
-  },
-  email: function () {
-    return auth.currentUser().emails[0]
-  },
 
   /**
    * Function for signing out and clearing the localStorage
@@ -68,8 +58,6 @@ export const user = {
   signout: function () { 
     // remove possible localStorage
     localStorage.clear()
-    if (auth.isLoggedIn()) window.location = '/logout'
-    else window.location = '/home'
+    auth0Client.signOut()
   },
-  logout: () => auth.logout()
 }

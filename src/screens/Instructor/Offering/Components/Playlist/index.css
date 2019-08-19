@@ -89,10 +89,9 @@
   border-bottom: #dbdbdb solid 1px !important;
 }
 .vcard-placeholder .img {
-  height: 4em;
-  width: 7em; 
+  height: 5em;
+  width: 9em; 
   display: inline-block;
-  border-radius: 0.5rem !important;
 }
 .vcard-placeholder .vname {
   height: 2em; 
@@ -118,8 +117,8 @@
 }
 
 .csp-videos .vlist .video-card .poster {
-  height: 4rem !important;
-  border-radius: 0.5rem !important;
+  height: 5rem !important;
+  /* border-radius: 0.5rem !important; */
   margin-right: 1rem !important;
   cursor: pointer;
 }
@@ -136,10 +135,9 @@
   cursor: pointer;
   width: 100%;}
   .csp-videos .vlist .video-card .info .title:hover {
-    text-decoration: underline;
     color: rgb(85, 85, 85);}
   .csp-videos .vlist .video-card .info .title:active {
-    color: rgb(0, 0, 0);}
+    color: rgb(27, 27, 27);}
   @media screen and (max-width: 520px) {
     .csp-videos .vlist .video-card .info .title {
       font-size: 1.1rem;
