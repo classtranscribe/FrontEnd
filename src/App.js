@@ -22,7 +22,7 @@ class App extends React.Component {
           <Route exact path="/login" component={LoginAndLogout} />
           <Route exact path="/logout" component={LoginAndLogout} />
           <Route path="/home" component={OfferingViewing} />
-          <Route exact path="/video/:states" component={Watch} />
+          <Route exact path="/video" component={Watch} />
           <Route path="/admin" component={Admin} />
           <Route path="/instructor" component={InstructorProfile} />
           <Route path="/offering/:id" component={InstructorOffering} />

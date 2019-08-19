@@ -3,7 +3,6 @@
  */
 
 import React from 'react'
-import $ from 'jquery'
 import videojs from 'video.js'
 // UI
 import 'video.js/dist/video-js.css'
