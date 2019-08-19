@@ -69,6 +69,21 @@
       outline: none;
       background-color: #d5dedf;
     }
+
+    .profile {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;}
+    .profile p {
+      white-space: normal;
+      text-align: center;}
+      .profile p span {
+        font-size: .8em;}
+    .profile img {
+      margin-bottom: .5em;
+      width: 4em;
+    }
  
 
 /* dark mode */

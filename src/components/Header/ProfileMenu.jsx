@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Image } from 'semantic-ui-react'
 import { util, user, api, handleData } from 'utils'
 import { Link } from 'react-router-dom'
 
@@ -37,7 +37,7 @@ export default function ProfileMenu({ darkMode }) {
   }
 
   const isLoggedIn = user.isLoggedIn()
-  const { fullName, universityId } = user.getUserInfo()
+  const { fullName, universityId, picture } = user.getUserInfo()
   const uniName = handleData.findById(universities, universityId).name
 
   const open = Boolean(anchorEl)
@@ -63,10 +63,13 @@ export default function ProfileMenu({ darkMode }) {
         {isLoggedIn ?
           <>
             <MenuItem disabled>
-              <Typography style={fontStyle}>
-                Signed in as <strong>{fullName}</strong><br/>
-                <span style={{fontSize: '.8em', width: '15em', whiteSpace: 'normal', textAlign: 'center'}}>{uniName}</span>
-              </Typography>
+              <div className="profile">
+                {picture && <Image src={picture} circular />}
+                <Typography style={fontStyle}>
+                  Signed in as <strong>{fullName}</strong><br/>
+                  <span>{uniName}</span>
+                </Typography>
+              </div>
             </MenuItem>
             {/* <MenuItem disabled>
               <Typography style={fontStyle}>Signed in as <strong>{fullName}</strong></Typography>
