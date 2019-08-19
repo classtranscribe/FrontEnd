@@ -18,6 +18,8 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
   useEffect(() => {
     if (universities.length) {
       setUniOptions(() => getSelectOptions(universities))
+      const uniId = localStorage.getItem('instCurrUni')
+      if (uniId) onUniSelect({ value: uniId })
     }
   }, [universities])
 
@@ -26,6 +28,7 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
     api.getRolesByUniId(value).then(({data}) => {
       setInstructors(() => data)
       console.log('instructors', data)
+      localStorage.setItem('instCurrUni', value)
     })
   }
   
@@ -40,7 +43,7 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
           <Form.Field
             control={Select}
             options={uniOptions}
-            defaultValue={currUni.id}
+            defaultValue={localStorage.getItem('instCurrUni')}
             onChange={(event, data) => onUniSelect(data)}
           />
         </Form>
@@ -58,7 +61,7 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
                 path="instructor"
                 id={inst.id} key={inst.id}
                 items={[
-                  `University: ${inst.university.name}`,
+                  `University: ${currUni.name}`,
                   `Email: ${inst.email}`
                 ]}
               />
