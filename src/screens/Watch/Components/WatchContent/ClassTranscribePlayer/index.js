@@ -9,7 +9,7 @@ import 'video.js/dist/video-js.css'
 import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, util } from 'utils'
 import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVideo } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
@@ -49,11 +49,8 @@ export default class ClassTranscribePlayer extends React.Component {
       videojs.registerPlugin('keyDownPlugin', keyDownPlugin) // plugin for keyboard controls
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
-        const { search } = window.location
-        if (search) {
-          const iniTime = parseFloat(search.replace('?begin=', ''))
-          this.currentTime(iniTime)
-        }
+        const iniTime = util.parseSearchQuery().begin
+        if (iniTime) this.currentTime(iniTime)
         ctVideo.setVideoLoading(false)
       })
     }
