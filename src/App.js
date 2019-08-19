@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import authentication from 'react-azure-adb2c'
 
 import { 
   OfferingViewing, 
@@ -20,8 +19,8 @@ class App extends React.Component {
       <Router basename="/">
         <Switch>
           <Route exact path="/" render={() => <Redirect to="/home" />} />
-          <Route exact path="/login" component={authentication.required(LoginAndLogout)} />
-          <Route exact path="/logout" component={authentication.required(LoginAndLogout)} />
+          <Route exact path="/login" component={LoginAndLogout} />
+          <Route exact path="/logout" component={LoginAndLogout} />
           <Route path="/home" component={OfferingViewing} />
           <Route exact path="/video/:states" component={Watch} />
           <Route path="/admin" component={Admin} />

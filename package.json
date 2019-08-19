@@ -17,7 +17,6 @@
     "papaparse": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-azure-adb2c": "^0.2.0",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-calendar": "^2.19.0",
     "react-dates": "^20.2.5",

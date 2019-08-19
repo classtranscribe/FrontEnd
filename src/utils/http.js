@@ -1,5 +1,4 @@
 import axios from 'axios'
-import authentication from 'react-azure-adb2c'
 const monthMap = require('./json/monthNames.json')
 
 /**
@@ -41,10 +40,9 @@ export const api = {
   /**
    * Functions for set or get the auth/b2c token
    */
-  b2cToken: () => authentication.getAccessToken(),
   authToken: () => localStorage.getItem('authToken'),
-  getAuthToken: function() {
-    return http.post(this.baseUrl() + '/api/Account/SignIn', {"b2cToken": this.b2cToken()})
+  getAuthToken: function(auth0Token) {
+    return http.post(this.baseUrl() + '/api/Account/SignIn', { auth0Token })
   },
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
