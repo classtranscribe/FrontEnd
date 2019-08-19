@@ -62,13 +62,6 @@
       .ct-nav .signout .ui.dropdown>.dropdown.icon {
         display: none;
       }
-    .ct-nav .menu>.item {
-      font-size: 1.1rem !important;
-      background: white;}
-    .ct-nav .menu button:focus, .ct-nav .menu a:focus {
-      outline: none;
-      background-color: #d5dedf;
-    }
 
     .profile {
       display: flex !important;
@@ -83,6 +76,9 @@
     .profile img {
       margin-bottom: .5em;
       width: 4em;
+    }
+    .Mui-disabled[id=profile] {
+      opacity: 1 !important;
     }
  
 

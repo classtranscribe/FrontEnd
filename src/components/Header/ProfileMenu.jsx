@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const menuStyle = {
   backgroundColor: '#306868', 
   color: 'rgb(236, 236, 236)',
-  width: '16em'
+  width: '18em'
 }
 const iconStyle = { color: 'rgb(236, 236, 236)', fontSize: '1.3rem'}
 const fontStyle = {color: '#d5dedf', fontSize: '1.15rem'}
@@ -62,7 +62,7 @@ export default function ProfileMenu({ darkMode }) {
       >
         {isLoggedIn ?
           <>
-            <MenuItem disabled>
+            <MenuItem disabled id="profile">
               <div className="profile">
                 {picture && <Image src={picture} circular />}
                 <Typography style={fontStyle}>
