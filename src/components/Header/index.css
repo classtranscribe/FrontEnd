@@ -64,6 +64,7 @@
       }
 
     .profile {
+      width: 20em;
       display: flex !important;
       flex-direction: column !important;
       justify-content: center !important;

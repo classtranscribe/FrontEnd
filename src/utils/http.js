@@ -49,7 +49,7 @@ export const api = {
   },
   withAuth: function (params) {
     return {
-      params: params,
+      params,
       headers: {
         Authorization: 'Bearer ' + this.authToken(),
       }

@@ -12,10 +12,6 @@ import './index.css'
 // Vars
 import { api } from 'utils'
 
-/**
- * @param id videoId
- * @param history for goBack
- */
 export function UploadVideo({match: {params: {playlistId}}, history}) {
   // original video data
   const [video, setVideo] = useState({ video1Name: '', video2Name: '', video1: null, video2: null })
