@@ -8,7 +8,7 @@ export default function PlaylistsView({currMedia, playlists, courseNumber, selec
       <MenuItem className="header" disabled>
         <h4>{courseNumber}</h4>&ensp;Playlists
       </MenuItem>
-      <Divider style={{width: '25em', margin: '0'}} inverted />
+      <Divider style={{width: '28em', margin: '0'}} inverted />
       {playlists.map( playlist => (
         <PlaylistItem key={playlist.id} playlist={playlist} currMedia={currMedia} goToPlaylist={goToPlaylist} />
       ))}
