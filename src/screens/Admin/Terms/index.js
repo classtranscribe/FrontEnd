@@ -10,12 +10,12 @@ import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function TermPane(props) {
-  const { terms, universities, termCurrUni, termLoading } = props.state
+  const { terms, universities, termCurrUni } = props.state
   const uniOptions = props.getSelectOptions(universities)
   const currUni = termCurrUni || {name: 'none', id: 0}
   
   return (
-    <Tab.Pane attached={false} className="ap-list" loading={termLoading}>
+    <Tab.Pane attached={false} className="ap-list">
       <Route path='/admin/term/:type?=:id' component={TermEditing}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>

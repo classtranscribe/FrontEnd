@@ -10,12 +10,12 @@ import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function DepartPane(props) {
-  const { departments, universities, departCurrUni, departLoading } = props.state
+  const { departments, universities, departCurrUni } = props.state
   const uniOptions = props.getSelectOptions(universities)
   const currUni = departCurrUni || {name: 'none', id: 0}
   
   return (
-    <Tab.Pane attached={false} className="ap-list" loading={departLoading}>
+    <Tab.Pane attached={false} className="ap-list" >
       <Route path='/admin/depart/:type?=:id' component={DepartmentEditing}/>  
 
       <Message color="black">

@@ -6,12 +6,14 @@ import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
 import { api, handleData } from 'utils'
 // UI
+import InstructorEditing from './InstructorEditing'
 // import DepartmentEditing from './DepartmentEditing'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function InstructorPane({ state: {universities}, getSelectOptions}) {
   const [instructors, setInstructors] = useState([]) //'unset'
+  const [loading, setLoading] = useState(true)
   const [uniOptions, setUniOptions] = useState([])
   const [currUni, setCurrUni] = useState({id: 0})
 
@@ -24,17 +26,24 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
   }, [universities])
 
   const onUniSelect = ({value}) => {
+    setLoading(true)
     setCurrUni(() => handleData.findById(universities, value))
     api.getRolesByUniId(value).then(({data}) => {
       setInstructors(() => data)
       console.log('instructors', data)
       localStorage.setItem('instCurrUni', value)
+      setLoading(false)
     })
+  }
+
+  const onInactive = (mailId) => {
+    api.deleteInstructor(mailId)
+      .then(() => onUniSelect({ value: currUni.id }))
   }
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={false}> 
-      <Route path='/admin/instructor/:type?=:id' component={null}/>  
+      <Route path='/admin/instructor/:type?=:id' component={InstructorEditing}/>  
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -58,7 +67,9 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
           {instructors.reverse().map( inst => (
               <AdminListItem 
                 header={`${inst.firstName} ${inst.lastName}`} 
-                path="instructor"
+                path="instructor" 
+                inactive={() => onInactive(inst.email)}
+                loading={loading}
                 id={inst.id} key={inst.id}
                 items={[
                   `University: ${currUni.name}`,

@@ -26,18 +26,14 @@ export class Admin extends React.Component {
       loading: true,
     
       universities: [],
-      uniLoading: true,
 
       terms: [],
-      termLoading: false,
       termCurrUni: null,
 
       departments: [],
-      departLoading: false,
       departCurrUni: null,
 
       courses: [],
-      courseLoading: false,
       courseCurrUni: null,
       courseCurrDeparts: [],
       courseCurrDepart: null,
@@ -52,9 +48,8 @@ export class Admin extends React.Component {
    * Function for GET values after every page refreshing
    */
   getAll() {
-    this.setLoading('uni', true)
     api.getAll(['Universities'], (response, name) => {
-      this.setState({[name]: response.data, uniLoading: false})
+      this.setState({[name]: response.data})
       /**
        * Hide the loading page
        */
@@ -71,28 +66,22 @@ export class Admin extends React.Component {
    * Specific get-by-id functions
    */
   getTermsByUniId = (uniId) => {
-    this.setLoading('term', true)
     api.getTermsByUniId(uniId) 
       .then(response => {
         this.setState({terms: response.data})
-        this.setLoading('term', false)
       })
-      .catch( error => this.setLoading('term', false))
+      .catch( error => console.log(error) )
   }
   getDepartsByUniId = (uniId, name) => {
-    this.setLoading('depart', true)
     api.getDepartsByUniId(uniId) 
       .then(response => {
         this.setState({[name]: response.data})
-        this.setLoading('depart', false)
       })
   }
   getCoursesByDepartId = (departId) => {
-    this.setLoading('course', true)
     api.getCoursesByDepartId(departId) 
       .then(response => {
         this.setState({courses: response.data})
-        this.setLoading('course', false)
       })
   }
 
@@ -152,13 +141,6 @@ export class Admin extends React.Component {
   onSignOut = () => {
     user.signout()
     this.props.history.goBack()
-  }
-
-  /**
-   * Function for determining whether to show the loader while loading the data
-   */
-  setLoading = (name, value) => {
-    this.setState({[`${name}Loading`]: value})
   }
 
   /**

@@ -10,15 +10,14 @@ import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function CoursePane(props) {
-  const { universities, courseCurrUni, courseCurrDeparts, 
-          courseCurrDepart, courses, courseLoading } = props.state
+  const { universities, courseCurrUni, courseCurrDeparts, courseCurrDepart, courses } = props.state
   const currUni = courseCurrUni || {name: 'none', id: 0}
   const currDepart = courseCurrDepart || {name: 'none', id: 0}
   const uniOptions = props.getSelectOptions(universities)
   const departOptions = props.getSelectOptions(courseCurrDeparts)
   
   return (
-    <Tab.Pane attached={false} className="ap-list" loading={courseLoading}>
+    <Tab.Pane attached={false} className="ap-list" >
       <Route path='/admin/course/:type?=:id' component={CourseEditing}/>    
 
       <Message color="black">

@@ -51,7 +51,7 @@ export const api = {
     return {
       params,
       headers: {
-        Authorization: 'Bearer ' + this.authToken(),
+        Authorization: 'Bearer ' + this.authToken()
       }
     }
   },
@@ -255,6 +255,9 @@ export const api = {
   uploadVideo: function (playlistId, video1, video2) {
     return this.postData('Media', null, null, {playlistId, video1, video2})
   },
+  addNewRole: function (mailId) {
+    return this.postData('Roles', null, null, {mailId})
+  },
   /**
    * PUT
    * callBack = responce => {...}
@@ -280,13 +283,13 @@ export const api = {
    * DELETE
    * callBack = responce => {...}
    */
-  deleteData: function (path, id, callBack) {
+  deleteData: function (path, id, callBack, params) {
     path = `/api/${path}`
     if (callBack)
-      return http.delete(`${path}/${id}`, this.withAuth())
+      return http.delete(`${path}/${id}`, this.withAuth(params))
         .then(responce => callBack(responce))
     else 
-      return http.delete(`${path}/${id}`, this.withAuth())
+      return http.delete(`${path}/${id}`, this.withAuth(params))
   },
   deleteFromCourseOfferings: function (courseId, offeringId) {
     return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
@@ -299,6 +302,9 @@ export const api = {
   },
   deletePlaylist: function(playlistId, callBack) {
     return this.deleteData('Playlists', playlistId, callBack)
-  }
+  },
+  deleteInstructor: function(mailId) {
+    return http.delete('/api/Roles', this.withAuth({ mailId }))
+  },
 
 }
