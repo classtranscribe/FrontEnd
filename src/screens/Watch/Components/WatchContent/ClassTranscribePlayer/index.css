@@ -17,8 +17,10 @@
 
 /* Normal mode */
 .ct-player[id=normal-mode], .ct-player[id=nested-mode] {
-  margin: 0;
-}
+  margin: 0;}
+.ct-player .primary[id=normal-mode] >div[data-vjs-player=true], .ct-player .primary[id=nested-mode] > div[data-vjs-player=true] {
+  min-width: 100vw !important;}
+
 .ct-player .primary[id=normal-mode] {
   width: 60em;
   max-width: 94vw;}

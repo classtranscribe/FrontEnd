@@ -27,8 +27,7 @@
   width: 100vw;
   background: black;
   margin-top: .5em;
-  justify-content: center !important;
-  align-items: center !important;
+  padding-left: 0;
 }
 
 /* Moble stylesheet */
