@@ -4,7 +4,6 @@
 
 import React from 'react'
 import { Route } from 'react-router-dom'
-import authentication from 'react-azure-adb2c'
 // UI
 import TermEditing from './TermEditing'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
@@ -17,7 +16,7 @@ export default function TermPane(props) {
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={termLoading}>
-      <Route path='/admin/term/:type?=:id' component={authentication.required(TermEditing)}/>     
+      <Route path='/admin/term/:type?=:id' component={TermEditing}/>     
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
         <p>Current University: <strong>{currUni.name}</strong></p>

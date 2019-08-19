@@ -4,7 +4,6 @@
 
 import React from 'react'
 import { Route } from 'react-router-dom'
-import authentication from 'react-azure-adb2c'
 // UI
 import DepartmentEditing from './DepartmentEditing'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
@@ -17,7 +16,7 @@ export default function DepartPane(props) {
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={departLoading}>
-      <Route path='/admin/depart/:type?=:id' component={authentication.required(DepartmentEditing)}/>  
+      <Route path='/admin/depart/:type?=:id' component={DepartmentEditing}/>  
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>

@@ -4,7 +4,6 @@
 
 import React from 'react'
 import { Route } from 'react-router-dom'
-import authentication from 'react-azure-adb2c'
 // UI
 import CourseEditing from './CourseEditing'
 import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
@@ -20,7 +19,7 @@ export default function CoursePane(props) {
   
   return (
     <Tab.Pane attached={false} className="ap-list" loading={courseLoading}>
-      <Route path='/admin/course/:type?=:id' component={authentication.required(CourseEditing)}/>    
+      <Route path='/admin/course/:type?=:id' component={CourseEditing}/>    
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
