@@ -63,6 +63,12 @@
         display: none;
       }
 
+    .profile-img {
+      cursor: pointer;
+      outline: none;}
+      .profile-img:hover, .profile-img:focus {
+        box-shadow: 0 0 1px 2px #8f8f8f63;
+      }
     .profile {
       width: 20em;
       display: flex !important;

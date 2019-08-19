@@ -43,16 +43,7 @@ export default function ProfileMenu({ darkMode }) {
   const open = Boolean(anchorEl)
   return (
     <div className="profile-menu">
-      <IconButton
-        aria-label="Menu button"
-        title="Menu"
-        aria-controls="profile-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        className="trigger"
-      >
-        <Icon name='user' circular/>
-      </IconButton>
+      <MenuTrigger picture={picture} handleClick={handleClick} />
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -118,5 +109,22 @@ export default function ProfileMenu({ darkMode }) {
         }
       </Menu>
     </div>
+  )
+}
+
+function MenuTrigger({ picture, handleClick }) {
+  return picture ? (
+    <Image onClick={handleClick} src={picture} tabIndex={0} circular size="mini" className="profile-img"/>
+  ) : (
+    <IconButton
+      aria-label="Menu button"
+      title="Menu"
+      aria-controls="profile-menu"
+      aria-haspopup="true"
+      onClick={handleClick}
+      className="trigger"
+    >
+      <Icon name='user' circular/>
+    </IconButton>
   )
 }

@@ -14,7 +14,6 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
   const bg = darkMode ? 'dark' : 'light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
   const homeURL = util.links.home()
-  const isWatchScreen = window.location.pathname.includes('/video/')
   return (
     <Navbar id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
       {
