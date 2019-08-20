@@ -19,7 +19,7 @@ export default function VideosView({ medias, currMedia, courseNumber, selectedPl
         <i className="material-icons">arrow_back_ios</i>
         &ensp;<h5>{fittedName}</h5>
       </MenuItem>
-      <Divider style={{width: '28em', margin: '0'}} inverted />
+      <Divider style={{width: '370px', margin: '0'}} inverted />
       <div className="video-list">
         {!medias.length && <MenuItem disabled>No Videos</MenuItem>}
         {medias.map( media => 

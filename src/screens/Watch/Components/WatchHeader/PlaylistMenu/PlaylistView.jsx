@@ -1,14 +1,15 @@
 import React from 'react'
 import { MenuItem } from '@material-ui/core'
-import { Divider } from 'semantic-ui-react'
+import { Divider, Icon } from 'semantic-ui-react'
 
-export default function PlaylistsView({currMedia, playlists, courseNumber, selectedPlaylist, goToPlaylist}) {
+export default function PlaylistsView({currMedia, playlists, courseNumber, goToPlaylist, handleClose}) {
   return (
     <div className="playlist-view">
-      <MenuItem className="header" disabled>
-        <h4>{courseNumber}</h4>&ensp;Playlists
+      <MenuItem className="header" onClick={handleClose}>
+        <span><strong>{courseNumber.replace('-', '/')}</strong>&ensp;Playlists</span>
+        <i className="material-icons close-btn">close</i>
       </MenuItem>
-      <Divider style={{width: '28em', margin: '0'}} inverted />
+      <Divider style={{width: '370px', margin: '0'}} inverted />
       {playlists.map( playlist => (
         <PlaylistItem key={playlist.id} playlist={playlist} currMedia={currMedia} goToPlaylist={goToPlaylist} />
       ))}
