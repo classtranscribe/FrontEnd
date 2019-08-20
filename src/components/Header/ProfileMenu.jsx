@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const menuStyle = {
   backgroundColor: '#306868', 
   color: 'rgb(236, 236, 236)',
-  width: '18em'
+  width: '280px'
 }
 const iconStyle = { color: 'rgb(236, 236, 236)', fontSize: '1.3rem'}
 const fontStyle = {color: '#d5dedf', fontSize: '1.15rem'}
@@ -114,10 +114,18 @@ export default function ProfileMenu({ darkMode }) {
 
 function MenuTrigger({ picture, handleClick }) {
   return picture ? (
-    <Image onClick={handleClick} src={picture} tabIndex={0} circular size="mini" className="profile-img"/>
+    <Image 
+      tabIndex={0} onClick={handleClick} 
+      src={picture}  circular size="mini" 
+      className="profile-img"
+      alt="profile picture"
+      aria-haspopup="true"
+      aria-label="Menu trigger"
+      title="Menu"
+    />
   ) : (
     <IconButton
-      aria-label="Menu button"
+      aria-label="Menu trigger"
       title="Menu"
       aria-controls="profile-menu"
       aria-haspopup="true"

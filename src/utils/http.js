@@ -253,7 +253,11 @@ export const api = {
     return this.postData('Playlists', data, callBack)
   },
   uploadVideo: function (playlistId, video1, video2) {
-    return this.postData('Media', null, null, {playlistId, video1, video2})
+    const formData = new FormData()
+    formData.append('video1', video1)
+    formData.append('video2', video2)
+    formData.append('playlistId', playlistId)
+    return this.postData('Media', formData)
   },
   addNewRole: function (mailId) {
     return this.postData('Roles', null, null, {mailId})

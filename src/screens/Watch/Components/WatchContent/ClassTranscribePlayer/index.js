@@ -30,7 +30,7 @@ export default class ClassTranscribePlayer extends React.Component {
       const { videos, isTwoScreen } = media
       if (!video1 && !isTwoScreen) return;
       const currVideo = videos[0]
-      const srcPath1 = api.getMediaFullPath(currVideo.video1.path)
+      const srcPath1 = currVideo ? api.getMediaFullPath(currVideo.video1.path) : null
       const srcPath2 = isTwoScreen ? api.getMediaFullPath(currVideo.video2.path) : null
       const videoJsOptions = {
         ...staticVJSOptions,

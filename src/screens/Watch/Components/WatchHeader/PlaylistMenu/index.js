@@ -12,7 +12,7 @@ const emptyPlaylist = {name: '', id: ''}
 const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
-  width: '28em',
+  width: '370px',
   height: '700px',
 }
 
@@ -100,6 +100,7 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
             courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 
             goToPlaylist={goToPlaylist}
+            handleClose={handleClose}
           />
         </CSSTransition>
         <CSSTransition in={!isPlaylistView} unmountOnExit classNames="video-view" timeout={100}>
@@ -110,6 +111,7 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
             courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 
             backToPlaylists={backToPlaylists}
+            handleClose={handleClose}
           />
         </CSSTransition>
       </Menu>
