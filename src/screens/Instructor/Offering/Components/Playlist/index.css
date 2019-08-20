@@ -116,6 +116,15 @@
   border: none;
 }
 
+.csp-videos .vlist .video-card .video-link {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;}
+  .csp-videos .vlist .video-card .video-link:focus {
+    outline: #34a2b1 auto 2px;
+  }
+
 .csp-videos .vlist .video-card .poster {
   height: 5rem !important;
   /* border-radius: 0.5rem !important; */
@@ -134,10 +143,6 @@
   font-size: 1.2rem;
   cursor: pointer;
   width: 100%;}
-  .csp-videos .vlist .video-card .info .title:hover {
-    color: rgb(85, 85, 85);}
-  .csp-videos .vlist .video-card .info .title:active {
-    color: rgb(27, 27, 27);}
   @media screen and (max-width: 520px) {
     .csp-videos .vlist .video-card .info .title {
       font-size: 1.1rem;

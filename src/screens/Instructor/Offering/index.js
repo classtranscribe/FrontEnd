@@ -86,12 +86,12 @@ export class InstructorOffering extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.playlists !== this.state.playlists || prevState.courseOffering !== this.state.courseOffering) {
       const { props, id, state } = this
-      const isExactOfferingPage = window.location.pathname === `/offering/${id}`
+      const isExactOfferingPage = !window.location.pathname.includes('playlist')
       if (state.playlists.length && state.courseOffering.courses.length && isExactOfferingPage) 
         props.history.push(util.links.offeringPlaylist(
           id, api.getFullNumber(state.courseOffering.courses, '-'), 
           state.playlists[0].id
-        ))
+        ), { playlist: state.playlists[0] })
     }
   }
 
