@@ -28,7 +28,7 @@ class App extends React.Component {
           <Route path="/offering/:id" component={InstructorOffering} />
 
           <Route path="/404" component={NotFound404} />
-          <Route component={NotFound404} />
+          {/* <Route component={NotFound404} /> */}
         </Switch>
       </Router>
     )

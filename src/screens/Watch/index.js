@@ -16,7 +16,7 @@ export class Watch extends React.Component {
     this.id = urlStates.id
     this.courseNumber = urlStates.courseNumber
 
-    if (!this.id || !this.courseNumber) window.location = util.links.notfound404()
+    if (!urlStates.id || !urlStates.courseNumber) window.location = util.links.notfound404()
     
     this.state = { 
       showPlaylist: false,

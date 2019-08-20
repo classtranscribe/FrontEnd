@@ -14,24 +14,32 @@ import { api, util } from 'utils'
 const profileImg = require('images/Video-Placeholder.jpg')
 
 
-export function Playlist({ match }) {
+export function Playlist({ match, history, location }) {
   const playlistId = match.params.id
   const courseNumber = match.params.courseNumber
   const [playlist, setPlaylist] = useState({})
   const [medias, setMedias] = useState(null)
   const ref = createRef()
 
+  useEffect(() => {
+    localStorage.setItem('playlistUrl', window.location.pathname)
+    if (location.state) {
+      setPlaylist(() => location.state.playlist)
+      setMedias(() => location.state.playlist.medias)
+    } else {
+      api.getPlaylistById(playlistId)
+        .then( ({data}) => {
+          setPlaylist(() => data.playlist)
+          setMedias(() => data.playlist.medias)//.sort(sortFunc.sortVideosByCreatedDate))
+        })
+    }
+  }, [location])
+
   /**
    * GET data based on playlistId
    */
   useEffect(() => {
-    localStorage.setItem('playlistUrl', window.location.pathname)
-    api.getPlaylistById(playlistId)
-      .then( ({data}) => {
-        setPlaylist(() => data.playlist)
-        setMedias(() => data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
-        console.log(data)
-      })
+    
   }, [playlistId])
 
   // console.log(medias[0])
@@ -45,7 +53,14 @@ export function Playlist({ match }) {
         {
           medias ? 
           medias.map( (media, index) =>
-            <Video {...media} sourceType={playlist.sourceType} key={media.media.id} courseNumber={courseNumber} playlist={playlist} />
+            <Video 
+              media={media}
+              sourceType={playlist.sourceType} 
+              key={media.id} 
+              courseNumber={courseNumber} 
+              playlist={playlist} 
+              history={history}
+            />
           )
           :
           <VideoListPlaceHolder />
@@ -59,15 +74,14 @@ export function Playlist({ match }) {
 /**
  * Video List Item
  */
-function Video({media, playlist, sourceType, courseNumber}) {
+function Video({media, playlist, sourceType, courseNumber, history}) {
   const { mediaName, id } = api.parseMedia(media)
+  const pathname = util.links.watch(courseNumber, id)
+  const videoState = {media: media, playlist: playlist}
   return (
     <List.Item className="video-card">
-      <EditVideoBtn show={sourceType === 2} {...media}/>
-      <Link className="d-flex flex-row" to={{
-        pathname: util.links.watch(courseNumber, id),
-        state: {media: media, playlist: playlist}
-      }}>
+      <EditVideoBtn show={sourceType === 2} mediaName={mediaName}/>
+      <button className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
         <Image 
           alt="Video Poster"
           className="poster" 
@@ -87,7 +101,7 @@ function Video({media, playlist, sourceType, courseNumber}) {
             {/* <p className="text-muted">0:5:35</p> */}
           </div>
         </List.Content>
-      </Link>
+      </button>
     </List.Item>
   )
 }
