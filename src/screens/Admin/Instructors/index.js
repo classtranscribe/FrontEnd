@@ -37,7 +37,7 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
   }
 
   const onInactive = (mailId) => {
-    api.deleteInstructor(mailId)
+    api.deleteRole(mailId)
       .then(() => onUniSelect({ value: currUni.id }))
   }
   

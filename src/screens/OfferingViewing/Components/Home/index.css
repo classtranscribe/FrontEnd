@@ -36,7 +36,10 @@
   border-bottom: 1px solid rgb(228, 228, 228);
   padding-top: 1rem !important;
 }
-
+.sp-home .filter .ui.selection.dropdown {
+  background: none !important;
+  border-color: transparent !important;
+}
 .sp-home .filter .ui.dropdown .menu>.item {
   overflow: hidden;
   white-space: nowrap;
@@ -49,11 +52,13 @@
   overflow: visible;
   white-space: normal;
 }
-.sp-home .filter .ui.dropdown .menu, .sp-home .filter .selection.active.dropdown {
-  border-color: rgb(106, 172, 168) !important;
-} 
+/* .sp-home .filter .ui.dropdown .menu, .sp-home .filter .selection.active.dropdown {
+  border: none !important;
+  box-shadow:0 3px 4px 0 rgba(34,36,38,.15) !important;
+}  */
 .sp-home .filter label {
   color: rgb(93, 131, 129) !important;
+  padding-left: 1em;
 }
 
 

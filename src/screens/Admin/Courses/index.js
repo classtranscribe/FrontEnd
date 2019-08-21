@@ -27,7 +27,7 @@ export default function CoursePane(props) {
           <Form.Field
             control={Select}
             options={uniOptions}
-            defaultValue={currUni.id}
+            defaultValue={localStorage.getItem('courseCurrUni')}
             onChange={(event, data)=>props.setCurrent('courseCurrUni', data)}
           />
         </Form>
@@ -41,7 +41,7 @@ export default function CoursePane(props) {
               <Form.Field
                 control={Select}
                 options={departOptions}
-                defaultValue={currDepart.id}
+                defaultValue={localStorage.getItem('courseCurrDepart')}
                 onChange={(event, data)=>props.setCurrent('courseCurrDepart', data)}
               />
             </Form>

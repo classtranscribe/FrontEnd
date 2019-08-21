@@ -23,7 +23,7 @@ export default function ProfileMenu({ darkMode }) {
   const [universities, setUniversities] = useState([])
 
   useEffect(() => {
-    api.getData('Universities').then(({data}) => setUniversities(data))
+    api.getUniversities().then(({data}) => setUniversities(data))
   }, [darkMode])
 
   function handleClick(event) {

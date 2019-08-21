@@ -16,6 +16,7 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
   const termOptions = util.getSelectOptions(terms, 'term')
   const departOptions = util.getSelectOptions(departments, 'depart')
 
+  const termStyle = terms.length ? {} : {display: 'none'}
   return (
     <div className="filter">
       <Form>
@@ -51,22 +52,22 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
             <Grid.Column>
               <Form.Field 
                 control={Dropdown}
-                placeholder="Select Terms"
-                label="Filter by Terms"
-                clearable selection multiple search
-                options={termOptions}
-                onChange={onTermSelected}
-              />
-            </Grid.Column>
-
-            <Grid.Column>
-              <Form.Field 
-                control={Dropdown}
                 placeholder="Select Departments"
                 label="Filter by Departments"
                 clearable selection multiple search
                 options={departOptions}
                 onChange={onDepartSelected}
+              />
+            </Grid.Column>
+
+            <Grid.Column style={termStyle}>
+              <Form.Field 
+                control={Dropdown}
+                placeholder="Select Terms"
+                label="Filter by Terms"
+                clearable selection multiple search
+                options={termOptions}
+                onChange={onTermSelected}
               />
             </Grid.Column>
           </Grid.Row>

@@ -10,7 +10,7 @@ import { SaveButtons } from '../Buttons'
 import UploadBtn from './UploadBtn'
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, util } from 'utils'
 
 export function UploadVideo({match: {params: {playlistId}}, history}) {
   // original video data

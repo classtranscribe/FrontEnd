@@ -47,7 +47,7 @@ export function VideoEditing ({match: {params: {id}}, history}) {
       // api.updateData(path, data, () => this.onClose())
     },
     onDelete: function () {
-      api.deleteData(path, id, () => this.onClose())
+      // api.deleteData(path, id).then(() => this.onClose())
     },
     onClose: function () {
       history.goBack()

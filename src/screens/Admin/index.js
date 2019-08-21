@@ -48,8 +48,8 @@ export class Admin extends React.Component {
    * Function for GET values after every page refreshing
    */
   getAll() {
-    api.getAll(['Universities'], (response, name) => {
-      this.setState({[name]: response.data})
+    api.getUniversities().then( ({data}) => {
+      this.setState({ universities: data })
       /**
        * Hide the loading page
        */
@@ -111,7 +111,7 @@ export class Admin extends React.Component {
       var callBack = key[2]
       if (uniId) {
         // get University by id in localStorage
-        api.getData('Universities', uniId)
+        api.getUniversityById(uniId)
           .then(response => {
             this.setState({[key[1]]: response.data})
             // get terms or departs based on loaded univeristy data
@@ -121,7 +121,7 @@ export class Admin extends React.Component {
               var departId = localStorage.getItem('courseCurrDepart')
               if (departId) {
                 // load courseCurrDepart by id
-                api.getData('Departments', departId)
+                api.getDepartById(departId)
                   .then(response => {
                     this.setState({courseCurrDepart: response.data})
                     // load courses based on this department
