@@ -41,24 +41,24 @@ export default class CourseEditing extends React.Component {
   onSubmit = () => {
     const { courseInfo, id } = this.state
     courseInfo.departmentId = id
-    api.createCourse(courseInfo, () => this.onSave())
+    api.createCourse(courseInfo).then(() => this.onSave())
   }
 
   onUpdate = () => {
     const { course, courseInfo, id } = this.state
     var data = handleData.updateJson(courseInfo, course)
     data.id = id
-    api.updateCourse(data, () => this.onSave())
+    api.updateCourse(data).then(() => this.onSave())
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onInactive = () => {
-    api.deleteCourse(this.state.id, () => this.onSave())
+    api.deleteCourse(this.state.id).then(() => this.onSave())
   }
 
   onSave = () => {
-    util.toAdminPage()
+    window.location = util.links.admin()
   }
 
   onCancel = () => {

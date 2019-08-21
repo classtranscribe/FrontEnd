@@ -277,15 +277,14 @@ export default class OfferingSettingPage extends React.Component {
    * Function called for deleting the offering
    */
   onDelete = () => {
-    api.deleteOffering(this.state.id).then(() => util.toInstructorPage())
+    api.deleteOffering(this.state.id).then(() => window.location = util.links.instructor())
   }
 
   /**
    * Go Back
    */
   onClose = () => {
-    if ( this.state.isNew ) util.toInstructorPage()
-    else window.location = util.links.offering(this.state.id)
+    window.location = util.links.offering(this.state.id)
   }
 
   onCancel = () => {
