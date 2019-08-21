@@ -18,7 +18,6 @@ export default class ClassTranscribePlayer extends React.Component {
     super(props)
     this.prevTime = 0
     this.lastSyncTime = 0
-    this.waitingNum = 0
   }
 
   componentDidUpdate(prevProps) {

@@ -19,7 +19,7 @@ export function getControlPlugin(syncFunctions) {
       const currTrack = this.tracks_.filter(track => track.mode === "showing")[0]
       const src = currTrack ? currTrack.src : ''
       setTrackSrc(src)
-      console.log('track', currTrack.activeCues)
+      if (currTrack) console.log('track', currTrack.activeCues)
       console.log('change src to', src)
     })
   }
