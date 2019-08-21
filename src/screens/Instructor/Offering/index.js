@@ -53,17 +53,17 @@ export class InstructorOffering extends React.Component {
      * Get all the data based on the offeringId
      */
     api.getOfferingById(this.id)
-      .then( response => {
-        console.log(response.data)
+      .then( ({data}) => {
+        console.log(data)
         /**
          * 1. get and set courseOffering
          */
-        this.setState({courseOffering: response.data})
+        this.setState({courseOffering: data})
         /** 
          * 2. get all the departments associated with the courses
          *    and modify the course.courseNumber with depart acronym 
          */
-        api.completeSingleOffering(response.data, courseOffering => this.setState({ courseOffering }))
+        api.completeSingleOffering(data, courseOffering => this.setState({ courseOffering }))
         /**
          * 3. Hide the loading page
          */
@@ -86,12 +86,12 @@ export class InstructorOffering extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.playlists !== this.state.playlists || prevState.courseOffering !== this.state.courseOffering) {
       const { props, id, state } = this
-      const isExactOfferingPage = window.location.pathname === `/offering/${id}`
+      const isExactOfferingPage = !window.location.pathname.includes('playlist')
       if (state.playlists.length && state.courseOffering.courses.length && isExactOfferingPage) 
         props.history.push(util.links.offeringPlaylist(
           id, api.getFullNumber(state.courseOffering.courses, '-'), 
           state.playlists[0].id
-        ))
+        ), { playlist: state.playlists[0] })
     }
   }
 

@@ -59,7 +59,7 @@ class Auth0 {
   signOut() {
     this.profile = {}
     this.idToken = ''
-    this.auth0.logout()
+    this.auth0.logout({ returnTo: window.location.origin })
   }
 }
 

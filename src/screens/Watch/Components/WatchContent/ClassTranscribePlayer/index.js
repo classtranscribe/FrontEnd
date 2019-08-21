@@ -9,7 +9,7 @@ import 'video.js/dist/video-js.css'
 import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, util } from 'utils'
 import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVideo } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
@@ -18,7 +18,6 @@ export default class ClassTranscribePlayer extends React.Component {
     super(props)
     this.prevTime = 0
     this.lastSyncTime = 0
-    this.waitingNum = 0
   }
 
   componentDidUpdate(prevProps) {
@@ -30,7 +29,7 @@ export default class ClassTranscribePlayer extends React.Component {
       const { videos, isTwoScreen } = media
       if (!video1 && !isTwoScreen) return;
       const currVideo = videos[0]
-      const srcPath1 = api.getMediaFullPath(currVideo.video1.path)
+      const srcPath1 = currVideo ? api.getMediaFullPath(currVideo.video1.path) : null
       const srcPath2 = isTwoScreen ? api.getMediaFullPath(currVideo.video2.path) : null
       const videoJsOptions = {
         ...staticVJSOptions,
@@ -49,11 +48,8 @@ export default class ClassTranscribePlayer extends React.Component {
       videojs.registerPlugin('keyDownPlugin', keyDownPlugin) // plugin for keyboard controls
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
-        const { search } = window.location
-        if (search) {
-          const iniTime = parseFloat(search.replace('?begin=', ''))
-          this.currentTime(iniTime)
-        }
+        const iniTime = util.parseSearchQuery().begin
+        if (iniTime) this.currentTime(iniTime)
         ctVideo.setVideoLoading(false)
       })
     }

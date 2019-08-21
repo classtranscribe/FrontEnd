@@ -15,13 +15,27 @@ import { ClassTranscribeFooter } from 'components'
 export function Search({offerings}) {
   const [searchValue, setSearchValue] = useState('')
   const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
   const ref = createRef()
 
   useEffect( () => {
-    const lastTimeValue = localStorage.getItem('searchValue')
-    if (lastTimeValue) {
-      setSearchValue(() => lastTimeValue )
-      setResults(() => search.getResult(offerings, lastTimeValue))
+    if (offerings.length) {
+      var defaultValue = util.parseSearchQuery().value
+      var isWindowSearch = true
+      if (!defaultValue) {
+        defaultValue = localStorage.getItem('searchValue')
+        isWindowSearch = false
+      }
+      if (defaultValue) {
+        setSearchValue(() => defaultValue )
+        if (isWindowSearch) {
+          setLoading(true)
+          setTimeout(() => {
+            setResults(() => search.getResult(offerings, defaultValue))
+            setLoading(false)
+           }, 3000);
+        } else setResults(() => search.getResult(offerings, defaultValue))
+      }
     }
   }, [offerings])
 
@@ -51,12 +65,12 @@ export function Search({offerings}) {
               placeholder="Search for Courses ..."
               autoComplete="off"
             />
-            <i aria-hidden="true" class="search icon"></i>
+            <i aria-hidden="true" className="search icon"></i>
           </div>
         </div>
       </Sticky>
-      
       <div className="result">
+        {loading && <p>Loading Results...</p>}
         <List divided relaxed>
           {results.map( (result, index) => (
             <List.Item className="resultItem" key={result.key + index.toString()}>

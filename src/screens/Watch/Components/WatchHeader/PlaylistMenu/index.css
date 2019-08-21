@@ -23,8 +23,18 @@
   }
 
 /* Playlist View */
-.playlist-menu .header h4 {
-  color: rgb(0, 255, 255);
+.playlist-menu .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  vertical-align: middle;
+}
+.playlist-menu .header i {
+  cursor: pointer;
+}
+.playlist-menu .header span strong {
+  color: rgb(55, 165, 165);
   font-weight: bolder;
   font-size: 1.3rem;
 }
@@ -41,7 +51,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 22.5em;
+  width: 370px;
   color: rgb(235, 235, 235);
   font-size: 1.1rem;
 }
@@ -88,7 +98,7 @@
       white-space: inherit;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 22.5em;
+      width: 310px;
       color: rgb(235, 235, 235);
       /* font-weight: bolder; */
       font-size: 1.1rem;

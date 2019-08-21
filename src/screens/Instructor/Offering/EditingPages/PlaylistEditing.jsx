@@ -9,7 +9,7 @@ import { Grid, Form, Input, Select, Message, Icon, Divider, Popup } from 'semant
 import { GeneralModal, GeneralLoader } from 'components'
 import { SaveButtons, EditButtons } from './Buttons'
 // Vars
-import { api, handleData, util } from 'utils'
+import { api, util } from 'utils'
 
 /**
  * @param type 'new' for creating, 'id' for editing
@@ -53,18 +53,18 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
   const callBacks = {
     onCreate: () => {
       if ( isNew ) playlistInfo.offeringId = id
-      api.createPlaylist(playlistInfo, () => callBacks.onClose())
+      api.createPlaylist(playlistInfo).then(() => callBacks.onClose())
     },
     onUpdate: () => {
       console.log(playlistInfo)
-      api.updatePlaylist(playlistInfo, () => callBacks.onClose())
+      api.updatePlaylist(playlistInfo).then(() => callBacks.onClose())
     },
     onDelete: () => {
-      api.deletePlaylist(playlistInfo.id, () => util.toOfferingPage(playlistInfo.offeringId))
+      api.deletePlaylist(playlistInfo.id).then(() => window.location = util.links.offering(playlistInfo.offeringId))
     },
     onClose: () => {
       if (localStorage.getItem('playlistUrl')) window.location = localStorage.getItem('playlistUrl')
-      else util.toOfferingPage()
+      else window.location = util.links.offering(id)
     },
     onCancel: () => {
       history.goBack()

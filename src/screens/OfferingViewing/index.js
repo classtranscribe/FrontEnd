@@ -28,7 +28,11 @@ export class OfferingViewing extends React.Component {
     /**
      * 1. Setup user and then get all data based on userId
      */
-    this.getOfferingsByStudentId()
+    api.getOfferingsByStudent()
+      .then(({data}) => {
+        this.completeOfferings(data)
+        api.contentLoaded()
+      })
     /**
      * 2. listen on window size for showing or hiding sidebar
      */
@@ -38,17 +42,6 @@ export class OfferingViewing extends React.Component {
       else if (!this.state.alreadySet) 
         this.setState({ displaySideBar: true })
     })
-  }
-
-  /**
-   * GET functions for set states
-   */
-  getOfferingsByStudentId = () => {
-    api.getOfferingsByStudent()
-      .then(({data}) => {
-        this.completeOfferings(data)
-        api.contentLoaded()
-      })
   }
 
   completeOfferings = rawOfferings => {

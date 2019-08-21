@@ -15,6 +15,8 @@ export class Watch extends React.Component {
     const urlStates = util.parseSearchQuery()
     this.id = urlStates.id
     this.courseNumber = urlStates.courseNumber
+
+    if (!urlStates.id || !urlStates.courseNumber) window.location = util.links.notfound404()
     
     this.state = { 
       showPlaylist: false,
@@ -28,7 +30,6 @@ export class Watch extends React.Component {
    * GET media and playlist based on mediaId
    */
   componentDidMount() {
-    if (!this.id || !this.courseNumber) window.location = util.links.notfound404()
     const { state } = this.props.location
     if (state) {
       const { media, playlist, playlists } = state

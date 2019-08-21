@@ -39,7 +39,7 @@ export default function ToolBar({ captions, setResults, canReset }) {
           defaultValue={SEARCH_IN_VIDEO} 
           options={searchOptions} 
         />
-        <div class="ui icon input">
+        <div className="ui icon input">
           <input 
             type="text" 
             id="caption-search" 
@@ -47,11 +47,10 @@ export default function ToolBar({ captions, setResults, canReset }) {
             value={searchInput}
             onChange={handleOnChange}
             onKeyDown={handleOnKeyDown}
-            loading={loadingResults}
             title={'Search for captions (\u2318/Ctrl + \u21E7 + space)'}
             autoComplete="off"
           />
-          <i aria-hidden="true" class="search icon"></i>
+          <i aria-hidden="true" className="search icon"></i>
         </div>
         {
           canReset

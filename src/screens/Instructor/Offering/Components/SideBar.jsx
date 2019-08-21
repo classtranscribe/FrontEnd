@@ -106,7 +106,10 @@ function Playlist({ playlists, id, fullNumber }) {
         <ListGroup className="playlist" defaultActiveKey={defaultActiveKey}>
           {playlists.map( playlist => 
             <ListGroup.Item 
-              as={Link} to={util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id)}
+              as={Link} to={{
+                pathname: util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id),
+                state: { playlist: playlist }
+              }}
               variant="secondary" className="item" action 
               key={playlist.id} eventKey={playlist.id}
               aria-label={playlist.name}

@@ -21,9 +21,9 @@ export default function InstructorEditing({ match: {params}, history }) {
     onInactive: () => 1,
     onUpdate: () => 1,
     onSubmit: () => {
-      api.addNewRole(mailId).then(response => {
+      api.createRole(mailId).then(response => {
         console.log(response)
-        util.toAdminPage()
+        window.location = util.links.admin()
       })
     }
   }
