@@ -150,7 +150,7 @@ export const api = {
     return this.postData('Departments', data)
   },
   createRole: function (mailId) {
-    return this.postData('Roles', null, {mailId})
+    return this.postData('Roles', undefined, {mailId})
   },
   createCourse: function(data) {
     return this.postData('Courses', data)
