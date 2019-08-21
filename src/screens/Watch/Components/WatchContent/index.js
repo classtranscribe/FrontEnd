@@ -108,7 +108,7 @@ export class WatchContent extends React.Component {
     this.setState({ trackSrc })
     const { media } = this.props
     let currTranscription = handleData.find(media.transcriptions, { src: trackSrc })
-    this.getCaptionsByTranscriptionId(currTranscription.id)
+    if (currTranscription) this.getCaptionsByTranscriptionId(currTranscription.id)
   }
 
   /** Function called when the video is seeking */
