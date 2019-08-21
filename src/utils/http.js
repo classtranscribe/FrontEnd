@@ -67,39 +67,24 @@ export const api = {
     if(id) path = `${path}/${id}`
     return http.get(path, this.withAuth(params))
   },
-  /**
-   * GET an array of pathes
-   * callBack = (responce, stateName) => {this.setState({[stateName]: responce.data})}
-   */ 
-  getAll: function (value, callBack, handleError) {
-    var array = []
-    if (typeof value === 'string') { array.push(value) } 
-    else { array = value }
-    
-    array.forEach( path => {
-      const stateName = path.toLowerCase()
-      this.getData(path)
-        .then(responce => {
-          if (callBack) callBack(responce, stateName)
-        })
-        .catch( error => {
-          console.log(error) 
-          if (handleError) handleError();
-        })
-    })
-  },
-  /**
-   * Some specific get-by-id functions
-   */
   // Universities
-  getUniversityById: function (id) {
-    return this.getData('Universities', id)
+  getUniversities: function() {
+    return this.getData('Universities')
+  },
+  getUniversityById: function (universityId) {
+    return this.getData('Universities', universityId)
   },
   // Terms
+  getTermById: function(termId) {
+    return this.getData('Terms', termId)
+  },
   getTermsByUniId: function (id) {
     return this.getData('Terms/ByUniversity', id) 
   },
   // Departments
+  getDepartments: function() {
+    return this.getData('Departments')
+  },
   getDepartById: function(departId) {
     return this.getData('Departments', departId)
   },
@@ -148,109 +133,39 @@ export const api = {
     return this.getData('Captions/ByTranscription', transId)
   },
 
-  completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
-      // set id for future use
-      courseOffering.id = courseOffering.offering.id
-      // get department acronym
-      courseOffering.courses.forEach( course => {
-        this.getData('Departments', course.departmentId) 
-          .then( ({data}) => {
-            course.acronym = data.acronym
-            if (index !== undefined) {
-              currOfferings[index] = courseOffering
-              setOffering(currOfferings)
-            } else {
-              setOffering(courseOffering)
-            }
-          })
-      })
-      // get term name
-      this.getData('Terms', courseOffering.offering.termId)
-        .then(({data}) => {
-          courseOffering.offering.termName = data.name
-          if (index !== undefined) {
-            currOfferings[index] = courseOffering
-            setOffering(currOfferings)
-          } else {
-            setOffering(courseOffering)
-          }
-        })
-  },
-  completeOfferings: function(rawOfferings, currOfferings, setOffering) {
-    // rawOfferings = handleData.shuffle(rawOfferings)
-    rawOfferings.forEach( (offering, index) => {
-      this.getData('Offerings', offering.id)
-        .then( ({data}) => {
-          this.completeSingleOffering(data, setOffering, index, currOfferings)
-        })
-    })
-  },
-  getFullNumber: function(courses, separator) {
-    var name = ''
-    courses.forEach( course => {
-      name += (course.acronym || '') + course.courseNumber + (separator || '/')
-    })
-    name = name.slice(0, name.length - 1)
-    return name
-  },
-  parseMedia: function(media) {
-    let re = { 
-      id: '', 
-      mediaName: '', 
-      createdAt: '', 
-      isTwoScreen: false, 
-      videos: [], 
-      transcriptions: [] 
-    }
-    if (!media) return re
-    const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
-    if (!id || !jsonMetadata || !videos) return re
-    re.id = id
-    re.videos = videos
-    re.createdAt = jsonMetadata.createdAt
-    re.playlistId = playlistId
-    re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
-    if (sourceType === 1) { // youtube
-      re.mediaName = jsonMetadata.title
-    } else if (sourceType === 0) { // echo360
-      let { lessonName, createdAt } = jsonMetadata
-      let date = new Date(createdAt)
-      re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-    }
-    transcriptions.forEach( trans => {
-      re.transcriptions.push({
-        mediaId: trans.mediaId,
-        id: trans.id,
-        language: trans.language,
-        src: this.getMediaFullPath(trans.file.path)
-      })
-    })
-    return re
-  },
-
   /**
    * POST
-   * callBack = responce => {...}
    */
-  postData: function (path, data, callBack, params) {
+  postData: function (path, data, params) {
     path = `/api/${path}`
-    if (callBack) 
-      return http.post(path, data, this.withAuth(params))
-        .then(responce => callBack(responce))
-    else 
-      return http.post(path, data, this.withAuth(params))
+    return http.post(path, data, this.withAuth(params))
   },
-  postToCourseOfferings: function (data) {
+  createUniversity: function(data) {
+    return this.postData('Universities', data)
+  },
+  createTerm: function(data) {
+    return this.postData('Terms', data)
+  },
+  createDepartment: function(data) {
+    return this.postData('Departments', data)
+  },
+  createRole: function (mailId) {
+    return this.postData('Roles', null, {mailId})
+  },
+  createCourse: function(data) {
+    return this.postData('Courses', data)
+  },
+  createOffering: function(data) {
+    return this.postData('Offerings', data)
+  },
+  createCourseOffering: function (data) {
     return this.postData('CourseOfferings', data)
   },
-  postOfferingAddInstructors: function (offeringId, data) {
+  addCourseStaffToOffering: function (offeringId, data) {
     return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
   },
-  createCourse: function(data, callBack) {
-    return this.postData('Courses', data, callBack)
-  },
-  createPlaylist: function(data, callBack) {
-    return this.postData('Playlists', data, callBack)
+  createPlaylist: function(data) {
+    return this.postData('Playlists', data)
   },
   uploadVideo: function (playlistId, video1, video2) {
     const formData = new FormData()
@@ -259,56 +174,148 @@ export const api = {
     formData.append('playlistId', playlistId)
     return this.postData('Media', formData)
   },
-  addNewRole: function (mailId) {
-    return this.postData('Roles', null, null, {mailId})
-  },
   /**
    * PUT
-   * callBack = responce => {...}
    */
-  updateData: function (path, data, callBack) {
+  updateData: function (path, data) {
     path = `/api/${path}`
-    if (callBack) 
-      return http.put(`${path}/${data.id}`, data, this.withAuth())
-        .then(responce => callBack(responce))
-    else 
-      return http.put(`${path}/${data.id}`, data, this.withAuth())
+    return http.put(`${path}/${data.id}`, data, this.withAuth())
   },
-  updateCourse: function(data, callBack) {
-    return this.updateData('Courses', data, callBack)
+  updateUniversity: function(data) {
+    return this.updateData('Universities', data)
   },
-  updatePlaylist: function(data, callBack) {
-    return this.updateData('Playlists', data, callBack)
+  updateTerm: function(data) {
+    return this.updateData('Terms', data)
   },
-  updateCaptionLine: function(data, callBack) {
-    return this.updateData('Captions', data, callBack)
+  updateDepartment: function(data) {
+    return this.updateData('Departments', data)
   },
-  /**
-   * DELETE
-   * callBack = responce => {...}
-   */
-  deleteData: function (path, id, callBack, params) {
-    path = `/api/${path}`
-    if (callBack)
-      return http.delete(`${path}/${id}`, this.withAuth(params))
-        .then(responce => callBack(responce))
-    else 
-      return http.delete(`${path}/${id}`, this.withAuth(params))
+  updateCourse: function(data) {
+    return this.updateData('Courses', data)
   },
-  deleteFromCourseOfferings: function (courseId, offeringId) {
-    return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
+  updateOffering: function(data) {
+    return this.updateData('Offerings', data)
   },
-  deleteUserFromOffering: function(offeringId, userId) {
-    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  updatePlaylist: function(data) {
+    return this.updateData('Playlists', data)
   },
-  deleteCourse: function(courseId, callBack) {
-    return this.deleteData('Courses', courseId, callBack)
-  },
-  deletePlaylist: function(playlistId, callBack) {
-    return this.deleteData('Playlists', playlistId, callBack)
-  },
-  deleteInstructor: function(mailId) {
-    return http.delete('/api/Roles', this.withAuth({ mailId }))
+  updateCaptionLine: function(data) {
+    return this.updateData('Captions', data)
   },
 
+  /**
+   * DELETE
+   */
+  deleteData: function (path, id, params) {
+    path = `/api/${path}`
+    return http.delete(`${path}/${id}`, this.withAuth(params))
+  },
+  deleteUniversity: function(universityId) {
+    return this.deleteData('Universities', universityId)
+  },
+  deleteTerm: function(termId) {
+    return this.deleteData('Terms', termId)
+  },
+  deleteDepartment: function(departId) {
+    return this.deleteData('Departments', departId)
+  },
+  deleteRole: function(mailId) {
+    return http.delete('/api/Roles', this.withAuth({ mailId }))
+  },
+  deleteCourse: function(courseId) {
+    return this.deleteData('Courses', courseId)
+  },
+  deleteOffering: function(offeringId) {
+    return this.deleteData('Offerings', offeringId)
+  },
+  deleteCourseOffering: function (courseId, offeringId) {
+    return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
+  },
+  deleteCourseStaffFromOffering: function(offeringId, userId) {
+    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  },
+  deletePlaylist: function(playlistId) {
+    return this.deleteData('Playlists', playlistId)
+  },
+
+
+  completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
+    // set id for future use
+    courseOffering.id = courseOffering.offering.id
+    // get department acronym
+    courseOffering.courses.forEach( course => {
+      this.getDepartById(course.departmentId) 
+        .then( ({data}) => {
+          course.acronym = data.acronym
+          if (index !== undefined) {
+            currOfferings[index] = courseOffering
+            setOffering(currOfferings)
+          } else {
+            setOffering(courseOffering)
+          }
+        })
+    })
+    // get term name
+    this.getTermById(courseOffering.offering.termId)
+      .then(({data}) => {
+        courseOffering.offering.termName = data.name
+        if (index !== undefined) {
+          currOfferings[index] = courseOffering
+          setOffering(currOfferings)
+        } else {
+          setOffering(courseOffering)
+        }
+      })
+},
+completeOfferings: function(rawOfferings, currOfferings, setOffering) {
+  // rawOfferings = handleData.shuffle(rawOfferings)
+  rawOfferings.forEach( (offering, index) => {
+    this.getData('Offerings', offering.id)
+      .then( ({data}) => {
+        this.completeSingleOffering(data, setOffering, index, currOfferings)
+      })
+  })
+},
+getFullNumber: function(courses, separator) {
+  var name = ''
+  courses.forEach( course => {
+    name += (course.acronym || '') + course.courseNumber + (separator || '/')
+  })
+  name = name.slice(0, name.length - 1)
+  return name
+},
+parseMedia: function(media) {
+  let re = { 
+    id: '', 
+    mediaName: '', 
+    createdAt: '', 
+    isTwoScreen: false, 
+    videos: [], 
+    transcriptions: [] 
+  }
+  if (!media) return re
+  const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
+  if (!id || !jsonMetadata || !videos) return re
+  re.id = id
+  re.videos = videos
+  re.createdAt = jsonMetadata.createdAt
+  re.playlistId = playlistId
+  re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
+  if (sourceType === 1) { // youtube
+    re.mediaName = jsonMetadata.title
+  } else if (sourceType === 0) { // echo360
+    let { lessonName, createdAt } = jsonMetadata
+    let date = new Date(createdAt)
+    re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+  }
+  transcriptions.forEach( trans => {
+    re.transcriptions.push({
+      mediaId: trans.mediaId,
+      id: trans.id,
+      language: trans.language,
+      src: this.getMediaFullPath(trans.file.path)
+    })
+  })
+  return re
+},
 }

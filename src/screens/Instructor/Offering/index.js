@@ -53,17 +53,17 @@ export class InstructorOffering extends React.Component {
      * Get all the data based on the offeringId
      */
     api.getOfferingById(this.id)
-      .then( response => {
-        console.log(response.data)
+      .then( ({data}) => {
+        console.log(data)
         /**
          * 1. get and set courseOffering
          */
-        this.setState({courseOffering: response.data})
+        this.setState({courseOffering: data})
         /** 
          * 2. get all the departments associated with the courses
          *    and modify the course.courseNumber with depart acronym 
          */
-        api.completeSingleOffering(response.data, courseOffering => this.setState({ courseOffering }))
+        api.completeSingleOffering(data, courseOffering => this.setState({ courseOffering }))
         /**
          * 3. Hide the loading page
          */

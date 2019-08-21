@@ -74,9 +74,7 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, setReadyToEdit 
   }
 
   const onSave = line => {
-    api.updateCaptionLine(line, () => {
-      console.log('success update line')
-    })
+    api.updateCaptionLine(line).then(() => console.log('success update line'))
     onClose()
   }
 

@@ -1,7 +1,6 @@
 /**
  * The object for setting up user (get token & userId) 
  *  and get user information 
- * (like a interface for user based on api and auth)
  */
 
 import { api } from './http'
@@ -47,14 +46,8 @@ export const user = {
     }
   },
 
-  /**
-   * Functions for getting user's basic info
-   */
   id: () => localStorage.getItem('userId'),
-
-  /**
-   * Function for signing out and clearing the localStorage
-   */
+  
   signout: function () { 
     // remove possible localStorage
     localStorage.clear()

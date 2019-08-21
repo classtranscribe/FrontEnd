@@ -25,7 +25,7 @@ export default function DepartPane(props) {
           <Form.Field
             control={Select}
             options={uniOptions}
-            defaultValue={currUni.id}
+            defaultValue={localStorage.getItem('departCurrUni')}
             onChange={(event, data)=>props.setCurrent('departCurrUni', data)}
           />
         </Form>

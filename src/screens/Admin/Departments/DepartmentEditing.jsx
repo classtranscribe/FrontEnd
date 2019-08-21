@@ -28,8 +28,8 @@ export default class DepartmentEditing extends React.Component {
   componentDidMount() {
     const { id, isNew } = this.state
     if (!isNew) {
-      api.getData(this.path, id)
-        .then( response => this.setState({depart: response.data, loading: false}))
+      api.getDepartById(id)
+        .then(({data}) => this.setState({depart: data, loading: false}))
     }
   }
 
@@ -42,24 +42,24 @@ export default class DepartmentEditing extends React.Component {
   onSubmit = () => {
     const { id, departInfo } = this.state
     departInfo.universityId = id
-    api.postData(this.path, departInfo, () => this.onClose())
+    api.createDepartment(departInfo).then(() => this.onClose())
   }
 
   onUpdate = () => {
     const { depart, departInfo, id } = this.state
     var data = handleData.updateJson(departInfo, depart)
     data.id = id
-    api.updateData(this.path, data, () => this.onClose())
+    api.updateDepartment(data).then(() => this.onClose())
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onInactive = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
+    api.deleteDepartment(this.state.id).then(() => this.onClose())
   }
 
   onClose = () => {
-    util.toAdminPage()
+    window.location = util.links.admin()
   }
 
   onCancel = () => {

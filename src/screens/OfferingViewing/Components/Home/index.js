@@ -9,7 +9,7 @@ import { OfferingListHolder } from './PlaceHolder'
 import { ClassTranscribeFooter } from 'components'
 import './index.css'
 // Vars
-import { api, user } from 'utils'
+import { api, user, handleData } from 'utils'
 // Lazy loading
 const OfferingList = lazy(() => import('./OfferingList'))
 
@@ -31,8 +31,13 @@ export class Home extends React.Component {
   }
 
   componentDidMount() {
-    api.getAll(['Universities'], this.getAllCallBack)
-    api.contentLoaded()
+    /**
+     * Get all universities
+     */
+    api.getUniversities().then(({data}) => {
+      this.setState({ universities: data.filter(uni => uni.id !== '0000') })
+      api.contentLoaded()
+    })
     if (user.isLoggedIn()) {
       const userUniId = user.getUserInfo().universityId
       this.onUniSelected(null, {value: userUniId})
@@ -65,7 +70,6 @@ export class Home extends React.Component {
   getDepartmentsByUniId = uniId => {
     api.getDepartsByUniId(uniId)
      .then(({data}) => {
-        // data = handleData.shuffle(data)
         this.setState({ departments: data, departSelected: [] })
      })
   }
@@ -77,29 +81,16 @@ export class Home extends React.Component {
       })
   }
 
-  getAllCallBack = ({data}, stateName) => {
-    if (stateName === 'departments'|| stateName === 'terms') {
-      data.forEach( (obj, index) => {
-        this.getUniversityById(obj.universityId, index, stateName)
-      })
-    } else if (stateName === 'universities') {
-      data = data.filter(uni => uni.id !== '0000')
-    }
-    this.setState({[stateName]: data})
-  }
-
-  getUniversityById = (uniId, index, key) => {
-    api.getUniversityById(uniId)
-      .then( ({data}) => {
-        const toSet = this.state[key]
-        toSet[index].uniName = data.name
-        this.setState({[key]: toSet})
-      })
-  }
-
   onUniSelected = (e, {value}) => {
     if (!value) {
-      api.getAll(['Departments', 'Terms'], this.getAllCallBack)
+      api.getDepartments().then(({data}) => {
+        data.forEach(depart => {
+          const uni = handleData.findById(this.state.universities, depart.universityId)
+          if (uni) depart.uniName = uni.name
+        })
+        this.setState({ departments: data })
+      })
+      this.setState({ terms: [] })
     } else {
       this.getDepartmentsByUniId(value)
       this.getTermsByUniId(value)

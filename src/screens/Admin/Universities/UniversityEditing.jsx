@@ -22,13 +22,12 @@ export default class UniversityEditing extends React.Component {
       uniInfo: handleData.copy(initialUni),
       confirmed: false,
     }
-    this.path = 'Universities'
   }
 
   componentDidMount() {
     const { id, isNew } = this.state
     if (!isNew) {
-      api.getData(this.path, id)
+      api.getUniversityById(id)
         .then( response => this.setState({uni: response.data, loading: false}))
     }
   }
@@ -41,24 +40,24 @@ export default class UniversityEditing extends React.Component {
 
   onSubmit = () => {
     const data = this.state.uniInfo
-    api.postData(this.path, data, () => this.onClose())
+    api.createUniversity(data).then(() => this.onClose())
   }
 
   onUpdate = () => {
     const { uni, uniInfo, id } = this.state
     var data = handleData.updateJson(uniInfo, uni)
     data.id = id
-    api.updateData(this.path, data, () => this.onClose())
+    api.updateUniversity(data).then(() => this.onClose())
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onInactive = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
+    api.deleteUniversity(this.state.id).then(() => this.onClose())
   }
 
   onClose = () => {
-    util.toAdminPage()
+    window.location = util.links.admin()
   }
 
   onCancel = () => {

@@ -29,14 +29,12 @@ export default class TermEditing extends React.Component {
       date: new Date(),
       focusedInput: null
     }
-    this.path = 'Terms'
-    this.uniId = this.state.isNew ? this.state.id.substring(4, this.state.id.length) : null
   }
 
   componentDidMount() {
     const { id, isNew } = this.state
     if (!isNew) {
-      api.getData(this.path, id)
+      api.getTermById(id)
         .then( response => this.setState({
           term: response.data, 
           termInfo: {
@@ -51,7 +49,7 @@ export default class TermEditing extends React.Component {
 
   setDate = (date) => {
     console.log(date)
-    this.setState({ date: date})
+    this.setState({ date: date })
   }
 
   onFocusChange = focusedInput => {
@@ -73,7 +71,7 @@ export default class TermEditing extends React.Component {
     termInfo.endDate = handleData.momentToISOString(termInfo.endDate)
 
     // console.log(termInfo)
-    api.postData(this.path, termInfo, () => this.onClose())
+    api.createTerm(termInfo).then(() => this.onClose())
   }
 
   onUpdate = () => {
@@ -84,17 +82,17 @@ export default class TermEditing extends React.Component {
     data.startDate = handleData.momentToISOString(termInfo.startDate)
     data.endDate = handleData.momentToISOString(termInfo.endDate)
 
-    api.updateData(this.path, data, () => this.onClose())
+    api.updateTerm(data).then(() => this.onClose())
   }
 
   onConfirm = () => this.setState({confirmed: true})
 
   onInactive = () => {
-    api.deleteData(this.path, this.state.id, () => this.onClose())
+    api.deleteTerm(this.state.id).then(() => this.onClose())
   }
 
   onClose = () => {
-    util.toAdminPage()
+    window.location = util.links.admin()
   }
 
   onCancel = () => {

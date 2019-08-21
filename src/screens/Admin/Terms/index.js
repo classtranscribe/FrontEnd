@@ -24,7 +24,7 @@ export default function TermPane(props) {
           <Form.Field
             control={Select}
             options={uniOptions}
-            defaultValue={currUni.id}
+            defaultValue={localStorage.getItem('termCurrUni')}
             onChange={(event, data)=>props.setCurrent('termCurrUni', data)}
           />
         </Form>
