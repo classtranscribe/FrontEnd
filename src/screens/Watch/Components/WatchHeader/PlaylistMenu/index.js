@@ -13,7 +13,7 @@ const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
   width: '370px',
-  height: '700px',
+  height: '650px',
 }
 
 export default function PlaylistMenu({ media, playlist, playlistsInState, courseNumber }) {
