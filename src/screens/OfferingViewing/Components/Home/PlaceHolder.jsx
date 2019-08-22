@@ -34,8 +34,11 @@ export function OfferingCardHolder() {
 /**
  * Placeholder shows up when departments and offerings are loading
  */
-export function OfferingListHolder() {
-  return (
+export function OfferingListHolder({ noCourse }) {
+  return noCourse ?
+  (
+    <div className="w-100 d-flex justify-content-center align-items-center text-muted m-5">NO COURSE</div>
+  ) : (
     <div className="offering-list" role="list" style={{overflowX: 'hidden'}}>
       {['offering-list-holder1', 'offering-list-holder2'].map( key =>
         <div className="section" role="listitem" key={key}>
