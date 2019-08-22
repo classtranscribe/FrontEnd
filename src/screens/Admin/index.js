@@ -23,6 +23,7 @@ export class Admin extends React.Component {
     super(props)
     this.state = {
       activePane: parseInt(localStorage.getItem('activePane')) || 0,
+      verticalSidebar: window.innerWidth > 700,
       loading: true,
     
       universities: [],
@@ -132,6 +133,13 @@ export class Admin extends React.Component {
           })
       }
     })
+
+    window.addEventListener('resize', ()=>{
+      if (window.innerWidth < 700 && this.state.verticalSidebar)
+        this.setState({ verticalSidebar: false })
+      else if (window.innerWidth >= 700 && !this.state.verticalSidebar)
+      this.setState({ verticalSidebar: true })
+    })
   }
 
   componentWillMount() {
@@ -191,6 +199,8 @@ export class Admin extends React.Component {
       { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />}
     ]
 
+    const { verticalSidebar } = this.state
+
     return (
       <div>
         <ClassTranscribeHeader />
@@ -199,7 +209,7 @@ export class Admin extends React.Component {
             menuPosition="left"
             className="ap-tab"
             activeIndex={this.state.activePane}
-            menu={{ borderless: true, attached: false, tabular: false, fluid: true, vertical: (window.innerWidth > 520) }} 
+            menu={{ borderless: true, attached: false, tabular: false, fluid: true, vertical: verticalSidebar }} 
             panes={panes}
             onTabChange={(event, data) => this.setActivePane(data.activeIndex)}
           />
