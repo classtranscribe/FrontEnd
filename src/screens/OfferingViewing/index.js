@@ -20,7 +20,6 @@ export class OfferingViewing extends React.Component {
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
-      alreadySet: false,
 
       offerings: [],
     }
@@ -47,7 +46,7 @@ export class OfferingViewing extends React.Component {
 
       if (window.innerWidth < 900 && displaySideBar) 
         this.setState({ displaySideBar: false })
-      else if (window.innerWidth >= 900 && !this.state.alreadySet && !displaySideBar) 
+      else if (window.innerWidth >= 900 && !displaySideBar) 
         this.setState({ displaySideBar: true })
     })
   }
@@ -63,7 +62,7 @@ export class OfferingViewing extends React.Component {
 
   showSiderBar = value => {
     if (typeof value === "boolean") this.setState({ displaySideBar: value })
-    else this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
+    else this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
   render() {
