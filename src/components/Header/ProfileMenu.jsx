@@ -44,70 +44,78 @@ export default function ProfileMenu({ darkMode }) {
   return (
     <div className="profile-menu">
       <MenuTrigger picture={picture} handleClick={handleClick} />
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        PaperProps={{style: menuStyle}}
-      >
-        {isLoggedIn ?
-          <>
-            <MenuItem disabled id="profile">
-              <div className="profile">
-                {picture && <Image src={picture} circular />}
-                <Typography style={fontStyle}>
-                  Signed in as <strong>{fullName}</strong><br/>
-                  <span>{uniName}</span>
-                </Typography>
-              </div>
-            </MenuItem>
-            {/* <MenuItem disabled>
-              <Typography style={fontStyle}>Signed in as <strong>{fullName}</strong></Typography>
-            </MenuItem> */}
+      {
+        isLoggedIn
+        &&
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          PaperProps={{style: menuStyle}}
+        >
+          <MenuItem disabled id="profile">
+            <div className="profile">
+              {picture && <Image src={picture} circular />}
+              <Typography style={fontStyle}>
+                Signed in as <strong>{fullName}</strong><br/>
+                <span>{uniName}</span>
+              </Typography>
+            </div>
+          </MenuItem>
 
-            <MenuItem disabled>
-              <Typography style={{color: '#d5dedf'}}><strong>SWITCH TO</strong></Typography>
-            </MenuItem>
-            {menuItems.map( item => (
-              <MenuItem 
-                title={item.title}
-                aria-label={item.title}
-                className="menu-item"
-                key={item.name} 
-                onClick={() => window.location=item.href}
-              >
-                <ListItemIcon style={iconStyle}>
-                  <i className={item.icon}></i>
-                </ListItemIcon>
-                <Typography style={fontStyle}>{item.name}</Typography>
-              </MenuItem>
-            ))}
-            
-            <MenuItem disabled>
-              <Typography style={{color: '#d5dedf'}}><strong>HAVE PROBLEMS?</strong></Typography>
-            </MenuItem>
-
-            <MenuItem title="Contact us" aria-label="Contact us">
+          <MenuItem disabled>
+            <Typography style={{color: '#d5dedf'}}><strong>SWITCH TO</strong></Typography>
+          </MenuItem>
+          {menuItems.map( item => (
+            <MenuItem 
+              title={item.title}
+              aria-label={item.title}
+              className="menu-item"
+              key={item.name} 
+              onClick={() => window.location=item.href}
+            >
               <ListItemIcon style={iconStyle}>
-                <i className="fas fa-envelope"></i>
+                <i className={item.icon}></i>
               </ListItemIcon>
-              <Typography style={fontStyle}>Contact Us</Typography>
+              <Typography style={fontStyle}>{item.name}</Typography>
             </MenuItem>
+          ))}
+          
+          <MenuItem disabled>
+            <Typography style={{color: '#d5dedf'}}><strong>HAVE PROBLEMS?</strong></Typography>
+          </MenuItem>
 
-            <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signout()}>
-              <ListItemIcon style={iconStyle}>
-                <i className="fas fa-sign-out-alt"></i>
-              </ListItemIcon>
-              <Typography style={fontStyle}>Sign Out</Typography>
-            </MenuItem>
-          </>
-          :
+          <MenuItem title="Contact us" aria-label="Contact us">
+            <ListItemIcon style={iconStyle}>
+              <i className="fas fa-envelope"></i>
+            </ListItemIcon>
+            <Typography style={fontStyle}>Contact Us</Typography>
+          </MenuItem>
+
+          <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signout()}>
+            <ListItemIcon style={iconStyle}>
+              <i className="fas fa-sign-out-alt"></i>
+            </ListItemIcon>
+            <Typography style={fontStyle}>Sign Out</Typography>
+          </MenuItem>
+        </Menu>
+      }
+      {
+        !isLoggedIn
+        &&
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          PaperProps={{style: menuStyle}}
+        >
           <MenuItem title="Sign in" aria-label="Sign in" onClick={() => user.login()}>
             <Typography style={fontStyle}>Sign In</Typography>
           </MenuItem>
-        }
-      </Menu>
+        </Menu>
+      }
     </div>
   )
 }
