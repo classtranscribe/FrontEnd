@@ -4,7 +4,7 @@
   position: relative;
   top: 0;
   width: 100%;
-  padding: 0 5% 0rem 5%;
+  padding: 0 5%;
 }
 
 /* Header Placeholder */
@@ -154,4 +154,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  .csp-videos {
+    padding: 0em;
+  }
+  .pl-info-header .name {
+    text-align: center;
+  }
+  .csp-videos .vlist .video-card {
+    padding: 1em 0 !important;
+  }
 }

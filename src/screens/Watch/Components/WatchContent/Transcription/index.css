@@ -124,6 +124,7 @@
   padding: 3em 0 90vh 0;
   scroll-behavior: smooth;
   position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 .trans-container .captions .line {

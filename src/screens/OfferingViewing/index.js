@@ -61,7 +61,7 @@ export class OfferingViewing extends React.Component {
     const { displaySideBar, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
-      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : '2rem'
+      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : (window.innerWidth > 600) ? '2rem' : '0rem'
     }
 
     return (

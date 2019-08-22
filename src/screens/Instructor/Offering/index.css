@@ -216,11 +216,7 @@
   padding-top: 4rem;
   -webkit-overflow-scrolling: touch;
 }
-@media screen and (max-width: 900px) {
-  .content-result {
-    padding-left: 3rem;
-  }
-}
+
 .height-100 {
   height: 100%;
 }

@@ -17,8 +17,12 @@
   border-color: rgb(95, 177, 177) !important;
 }
 .search-bar .del-icon {
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1rem;}
+  @media screen and (max-width: 600px) {
+    .del-icon {
+      margin-left: 1em;
+    }
+  }
 .sp-content .search-bar .sb-input {
   width: 100%;
   padding: 2%;
