@@ -24,7 +24,7 @@
 
 .sp-home .filter {
   width: 100%;
-  padding: 0.5rem 0rem 0rem 1.2rem;
+  padding: 1.5rem 0rem 0rem 1.2rem;
 }
 @media screen and (max-width: 767px) {
   .sp-home .filter {
@@ -34,7 +34,9 @@
 
 .sp-home .filter .search-bar {
   border-bottom: 1px solid rgb(228, 228, 228);
-  padding-top: 1rem !important;
+}
+.ui.stackable.grid>.row>.column[id=filter-search] {
+  padding-top: 0 !important;
 }
 .sp-home .filter .ui.selection.dropdown {
   background: none !important;

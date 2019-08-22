@@ -3,12 +3,12 @@
  * - filter by university, terms, departments
  */
 
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Dropdown, Form, Grid } from 'semantic-ui-react'
 import { util } from 'utils'
 
-export default function Filter({state, onUniSelected, onDepartSelected, onTermSelected}) {
+function Filter({state, onUniSelected, onDepartSelected, onTermSelected, displaySearchHeader, history}) {
   const { universities, departments, terms, uniSelected } = state
 
   // get selecting options
@@ -16,25 +16,37 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
   const termOptions = util.getSelectOptions(terms, 'term')
   const departOptions = util.getSelectOptions(departments, 'depart')
 
+  const [searchValue, setSearchValue] = useState('')
+  const handleOnKeyDown = e => {
+    if (e.keyCode === 13) {
+      setSearchValue('')
+      history.push(util.links.search(), { value: searchValue })
+    }
+  }
+
   const termStyle = terms.length ? {} : {display: 'none'}
   return (
     <div className="filter">
       <Form>
         <Grid stackable columns="equal">
-          <Grid.Row className="search-bar">
-            <Grid.Column >
-              <div className="ui icon input" style={{width: '100%'}} >
-                <Link to={util.links.search()} style={{width: '100%'}} >
-                <input 
-                  type="text" className="prompt" readOnly
-                  value={localStorage.getItem('searchValue') || ''}
-                  placeholder="Search for Courses ..."
-                />
-                </Link>
-                <i aria-hidden="true" className="search icon"></i>
-              </div>
-            </Grid.Column>
-          </Grid.Row>
+          {
+            !displaySearchHeader
+            &&
+            <Grid.Row className="search-bar">
+              <Grid.Column id="filter-search">
+                <div className="ui icon input" style={{width: '100%'}} >
+                  <input 
+                    type="text" className="prompt"
+                    value={searchValue}
+                    onChange={({target: {value}}) => setSearchValue(value)}
+                    placeholder="Search for Courses ..."
+                    onKeyDown={handleOnKeyDown}
+                  />
+                  <i aria-hidden="true" className="search icon"></i>
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          }
 
           <Grid.Row>
             <Grid.Column>
@@ -76,3 +88,5 @@ export default function Filter({state, onUniSelected, onDepartSelected, onTermSe
     </div>
   )
 }
+
+export default withRouter(Filter)

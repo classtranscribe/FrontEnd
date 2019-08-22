@@ -12,29 +12,17 @@ import { search, util } from 'utils'
 import { ClassTranscribeFooter } from 'components'
 
 
-export function Search({offerings}) {
-  const [searchValue, setSearchValue] = useState('')
+export function Search({offerings, location}) {
+  const [searchValue, setSearchValue] = useState(location.state.value || '')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const ref = createRef()
 
   useEffect( () => {
     if (offerings.length) {
-      var defaultValue = util.parseSearchQuery().value
-      var isWindowSearch = true
-      if (!defaultValue) {
-        defaultValue = localStorage.getItem('searchValue')
-        isWindowSearch = false
-      }
+      var defaultValue = location.state.value
       if (defaultValue) {
-        setSearchValue(() => defaultValue )
-        if (isWindowSearch) {
-          setLoading(true)
-          setTimeout(() => {
-            setResults(() => search.getResult(offerings, defaultValue))
-            setLoading(false)
-           }, 3000);
-        } else setResults(() => search.getResult(offerings, defaultValue))
+        setResults(() => search.getResult(offerings, defaultValue))
       }
     }
   }, [offerings])
@@ -43,7 +31,7 @@ export function Search({offerings}) {
 
   const onInput = ({ target: {value} }) => {
     setSearchValue(() => value)
-    localStorage.setItem('searchValue', value)
+    // localStorage.setItem('searchValue', value)
     setResults(() => search.getResult(offerings, value))
   }
 
@@ -78,7 +66,7 @@ export function Search({offerings}) {
                 <h3 className="d-inline">
                   <Link to={{
                     pathname: util.links.offeringDetail(result.key),
-                    state: { from: 'search', fullCourse: result }
+                    state: { from: 'search', fullCourse: result, searchedValue: searchValue }
                   }}>{result.fullNumber}</Link>
                 </h3>
                 <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>

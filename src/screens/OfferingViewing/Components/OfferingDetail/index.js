@@ -13,7 +13,7 @@ import Playlists from './Playlists'
 import { api, util, handleData, user } from 'utils'
 import './index.css'
 
-export function OfferingDetail({id, history}) {
+export function OfferingDetail({id, history, location}) {
   const [offering, setOffering] = useState(null)
   const [playlists, setPlaylists] = useState(null)
   // variables to present
@@ -97,7 +97,7 @@ export function OfferingDetail({id, history}) {
           className="del-icon" 
           to={{
             pathname: pathname, 
-            state: {id: elemId},
+            state: { id: elemId, value: location.state.searchedValue },
           }}
         >
           <Icon name="chevron left" /> Go Back

@@ -110,7 +110,7 @@ export class Home extends React.Component {
     return (
       <main className="sp-home">
         <div id="home-content">
-          <Filter {...this} />
+          <Filter displaySearchHeader={this.props.displaySearchHeader} {...this} />
           <Suspense fallback={<OfferingListHolder />}>  
             <OfferingList {...this} />
           </Suspense>
