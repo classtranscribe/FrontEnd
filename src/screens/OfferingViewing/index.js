@@ -6,7 +6,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader, SidebarDimmer } from 'components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import './transition.css'
 import './index.css'
@@ -53,8 +53,9 @@ export class OfferingViewing extends React.Component {
     )
   }
 
-  showSiderBar = () => {
-    this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
+  showSiderBar = value => {
+    if (typeof value === "boolean") this.setState({ displaySideBar: value })
+    else this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
   }
 
   render() {
@@ -69,6 +70,7 @@ export class OfferingViewing extends React.Component {
         render={({ location }) => (
 
           <div className="sp-bg" ref={this.listen}>
+            <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
             <ClassTranscribeHeader 
               showSiderBar={this.showSiderBar} 
               display={displaySideBar}
