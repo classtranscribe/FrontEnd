@@ -71,7 +71,7 @@
 .header-search>input, .search-bar input {
   border: 0 !important;
   border-radius: .3em !important;
-  background-color: rgb(238, 238, 238) !important;
+  background-color: rgb(241, 241, 241) !important;
 }
 .header-search>input:focus, .search-bar input:focus {
   background-color: rgb(228, 237, 238) !important;
