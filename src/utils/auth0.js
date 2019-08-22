@@ -7,7 +7,7 @@ class Auth0 {
       domain: process.env.REACT_APP_DOMAIN,
       audience: process.env.REACT_APP_AUDIENCE,
       clientID: process.env.REACT_APP_CLIENT_ID,
-      redirectUri: process.env.REACT_APP_AUTH0_REDIRECT_URL,
+      redirectUri: window.location.origin + "/login",
       responseType: 'id_token',
       scope: 'openid email profile'
     });
