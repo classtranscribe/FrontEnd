@@ -41,6 +41,7 @@ export default function TermPane(props) {
                 header={term.name} 
                 path={'term'}
                 id={term.id}
+                key={term.id}
                 items={[
                   `Start Date: ${term.startDate}`,
                   `End Date: ${term.endDate}`

@@ -42,6 +42,7 @@ export default function DepartPane(props) {
                 header={depart.name} 
                 path={'depart'}
                 id={depart.id}
+                key={depart.id}
                 items={[
                   `Acronym: ${depart.acronym}`,
                   currUni.name

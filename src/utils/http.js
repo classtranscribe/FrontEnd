@@ -266,56 +266,62 @@ export const api = {
           setOffering(courseOffering)
         }
       })
-},
-completeOfferings: function(rawOfferings, currOfferings, setOffering) {
-  // rawOfferings = handleData.shuffle(rawOfferings)
-  rawOfferings.forEach( (offering, index) => {
-    this.getData('Offerings', offering.id)
-      .then( ({data}) => {
-        this.completeSingleOffering(data, setOffering, index, currOfferings)
-      })
-  })
-},
-getFullNumber: function(courses, separator) {
-  var name = ''
-  courses.forEach( course => {
-    name += (course.acronym || '') + course.courseNumber + (separator || '/')
-  })
-  name = name.slice(0, name.length - 1)
-  return name
-},
-parseMedia: function(media) {
-  let re = { 
-    id: '', 
-    mediaName: '', 
-    createdAt: '', 
-    isTwoScreen: false, 
-    videos: [], 
-    transcriptions: [] 
-  }
-  if (!media) return re
-  const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
-  if (!id || !jsonMetadata || !videos) return re
-  re.id = id
-  re.videos = videos
-  re.createdAt = jsonMetadata.createdAt
-  re.playlistId = playlistId
-  re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
-  if (sourceType === 1) { // youtube
-    re.mediaName = jsonMetadata.title
-  } else if (sourceType === 0) { // echo360
-    let { lessonName, createdAt } = jsonMetadata
-    let date = new Date(createdAt)
-    re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-  }
-  transcriptions.forEach( trans => {
-    re.transcriptions.push({
-      mediaId: trans.mediaId,
-      id: trans.id,
-      language: trans.language,
-      src: this.getMediaFullPath(trans.file.path)
+  },
+  completeOfferings: function(rawOfferings, currOfferings, setOffering) {
+    // rawOfferings = handleData.shuffle(rawOfferings)
+    rawOfferings.forEach( (offering, index) => {
+      this.getData('Offerings', offering.id)
+        .then( ({data}) => {
+          this.completeSingleOffering(data, setOffering, index, currOfferings)
+        })
     })
-  })
-  return re
-},
+  },
+  getFullNumber: function(courses, separator) {
+    var name = ''
+    courses.forEach( course => {
+      name += (course.acronym || '') + course.courseNumber + (separator || '/')
+    })
+    name = name.slice(0, name.length - 1)
+    return name
+  },
+  parseMedia: function(media) {
+    let re = { 
+      id: '', 
+      mediaName: '', 
+      createdAt: '', 
+      isTwoScreen: false, 
+      videos: [], 
+      transcriptions: [] 
+    }
+    if (!media) return re
+    const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
+    if (!id || !jsonMetadata || !videos) return re
+    re.id = id
+    re.videos = videos
+    re.createdAt = jsonMetadata.createdAt
+    re.playlistId = playlistId
+    re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
+    if (sourceType === 1) { // youtube
+      re.mediaName = jsonMetadata.title
+    } else if (sourceType === 0) { // echo360
+      let { lessonName, createdAt } = jsonMetadata
+      let date = new Date(createdAt)
+      re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+    }
+    transcriptions.forEach( trans => {
+      re.transcriptions.push({
+        mediaId: trans.mediaId,
+        id: trans.id,
+        language: trans.language,
+        src: this.getMediaFullPath(trans.file.path)
+      })
+    })
+    return re
+  },
+  getValidURLFullNumber: function(fullNumber) {
+    return fullNumber.replace(/\//g, '-')
+  },
+  parseURLFullNumber: function(fullNumber) {
+    return fullNumber.replace(/-/g, '/')
+  },
 }

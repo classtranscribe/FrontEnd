@@ -62,6 +62,7 @@ export default function CoursePane(props) {
                 header={`${currDepart.acronym}${course.courseNumber}`} 
                 path={'course'}
                 id={course.id}
+                key={course.id}
                 items={[
                   course.courseName,
                   `Description: ${course.description}`

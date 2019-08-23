@@ -9,12 +9,13 @@ import { Button } from 'semantic-ui-react'
 import { util, api } from 'utils'
 import TypeIcon from './TypeIcon'
 
-export function SideBar({id, state}) {
+export function SideBar({ id, state, showSiderBar }) {
   const { displaySideBar, courseOffering, playlists } = state;
   // style for showing or hiding the sidebar
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
 
   var fullNumber = 'Loading...'
+  var fittedName = 'Loading...'
   var courseName = ''
   var termName = ''
   var sectionName = ''
@@ -22,6 +23,8 @@ export function SideBar({id, state}) {
   const { courses, offering } = courseOffering
   if (courses) {
     fullNumber = api.getFullNumber(courses)
+    fittedName = fullNumber.slice(0, 14)
+    if (fittedName !== fullNumber) fittedName += '...'
     courseName = courses[0].courseName
   }
   if (offering && offering.termName) {
@@ -47,11 +50,11 @@ export function SideBar({id, state}) {
           as={Link}
           className="list" 
           to={util.links.editOffering(id)} 
-          aria-label="edit offering"
-          title="edit offering"
+          aria-label="Edit offering"
+          title={`Edit offering: ${fullNumber}`}
         >
           <p className="title">
-            <i className="fas fa-book"></i> &ensp; {fullNumber}
+            <i className="fas fa-book"></i> &ensp; {fittedName}
             &ensp; <i className="fas fa-edit"></i>
           </p>
         </ListGroup.Item>
@@ -67,13 +70,14 @@ export function SideBar({id, state}) {
         {/* Data demo menu item */}
         <ListGroup.Item 
           as={Link} to={util.links.offeringData(id)}
+          onClick={() => showSiderBar(window.innerWidth > 900)}
           className="list" eventKey="data" aria-label="data" title="data"
         >
           <i className="fas fa-chart-bar"></i> &ensp; Data
         </ListGroup.Item>
       </ListGroup>
 
-      <Playlist playlists={playlists} id={id} fullNumber={fullNumber}/>
+      <Playlist playlists={playlists} id={id} fullNumber={fullNumber} showSiderBar={showSiderBar} />
     </div>
   )
 }
@@ -81,7 +85,7 @@ export function SideBar({id, state}) {
 /**
  * Playlists
  */
-function Playlist({ playlists, id, fullNumber }) {
+function Playlist({ playlists, id, fullNumber, showSiderBar }) {
   if (!playlists.length) return null
   // Show when there is no playlists yet
   const NoPlaylistWrapper = (
@@ -107,9 +111,10 @@ function Playlist({ playlists, id, fullNumber }) {
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={{
-                pathname: util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id),
+                pathname: util.links.offeringPlaylist(id, api.getValidURLFullNumber(fullNumber), playlist.id),
                 state: { playlist: playlist }
               }}
+              onClick={() => showSiderBar(window.innerWidth > 900)}
               variant="secondary" className="item" action 
               key={playlist.id} eventKey={playlist.id}
               aria-label={playlist.name}

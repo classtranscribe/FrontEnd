@@ -60,7 +60,7 @@ function Playlist({history, playlist, playlists, index, activeIndex, setActiveIn
 
 function Video({media, fullNumber, playlist, playlists, history}) {
   const { mediaName, id } = api.parseMedia(media)
-  const courseNumber = fullNumber.replace('/', '-')
+  const courseNumber = api.getValidURLFullNumber(fullNumber)
   const pathname = util.links.watch(courseNumber, id)
   const videoState = {
     media: media,

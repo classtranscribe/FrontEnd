@@ -24,7 +24,7 @@
 
 .sp-home .filter {
   width: 100%;
-  padding: 0.5rem 0rem 0rem 1.2rem;
+  padding-top: 1.5rem;
 }
 @media screen and (max-width: 767px) {
   .sp-home .filter {
@@ -34,7 +34,9 @@
 
 .sp-home .filter .search-bar {
   border-bottom: 1px solid rgb(228, 228, 228);
-  padding-top: 1rem !important;
+}
+.ui.stackable.grid>.row>.column[id=filter-search] {
+  padding-top: 0 !important;
 }
 .sp-home .filter .ui.selection.dropdown {
   background: none !important;
@@ -65,7 +67,7 @@
 /* Offering list */
 
 .sp-home .offering-list {
-  margin-top: 2rem;
+  margin-top: 0rem;
 }
 
 .sp-home .offering-list .section {
@@ -76,10 +78,18 @@
   .sp-home .offering-list .section .title {
     color: rgb(92, 121, 122);
     font-size: 1.2rem;}
-  .sp-home .offering-list .section .title span {
-    color: rgb(173, 173, 173);
-    font-size: 1.1rem;
-  }
+    .sp-home .offering-list .section .title span {
+      color: rgb(173, 173, 173);
+      font-size: 1.1rem;
+    }
+    @media screen and (max-width: 600px) {
+      .sp-home .offering-list .section .title {
+        padding-left: 1em;}
+        .sp-home .offering-list .section .title span {
+          display: block;
+          padding-left: 1em;
+        }
+    }
 
 
   .sp-home .offering-list .section .offerings {
@@ -118,8 +128,10 @@
   .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a:focus {
     outline: none;
     border: 0.1rem solid rgb(69, 165, 168);}
-    .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
-      margin-top: -7rem;}
+    @media screen and (min-width: 600px) {
+      .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
+        margin-top: -7rem;}
+    }
   .sp-home .offering-list .section .offerings .offeringCard .img {
     transition: margin 0.2s linear;
     -o-transition: margin 0.2s linear;
@@ -127,6 +139,7 @@
     width: 16rem;}
   .sp-home .offering-list .section .offerings .offeringCard .title {
     color: rgb(68, 92, 92);
+    padding: 0;
   }
   .sp-home .offering-list .section .offerings .offeringCard .info {
     color: rgb(71, 141, 141);

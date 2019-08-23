@@ -94,22 +94,28 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
           <Typography variant="inherit">{isPip ? 'Exit Picture-In-Picture' : 'Enter Picture-In-Picture'}</Typography>
         </MenuItem>
         {
+          show
+          &&
+          <MenuItem disabled>
+            <div className="w-100">
+              <MenuDivider text="screen modes" />
+            </div>
+          </MenuItem>
+        }
+        {
           show // can switch screen mode if there is 2 videos
           &&
-          <>
-            <MenuDivider text="screen modes" />
-            {modeOptions.map(option => shouldDisable(option.mode) ? null : (
-              <MenuItem key={option.name} 
-                selected={option.mode === mode} 
-                onClick={() => handleSelect(option.mode)}
-              >
-                <ListItemIcon style={iconStyle}>
-                  <i className="material-icons">{option.icon}</i>
-                </ListItemIcon>
-                <Typography variant="inherit">{option.name}</Typography>
-              </MenuItem>
-            ))}
-          </>
+          modeOptions.map(option => shouldDisable(option.mode) ? null : (
+            <MenuItem key={option.name} 
+              selected={option.mode === mode} 
+              onClick={() => handleSelect(option.mode)}
+            >
+              <ListItemIcon style={iconStyle}>
+                <i className="material-icons">{option.icon}</i>
+              </ListItemIcon>
+              <Typography variant="inherit">{option.name}</Typography>
+            </MenuItem>
+          ))
         }
       </Menu>
     </div>

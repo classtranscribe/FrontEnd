@@ -6,8 +6,9 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader, SidebarDimmer } from 'components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
+import SearchHeader from './Components/Search/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
@@ -18,7 +19,7 @@ export class OfferingViewing extends React.Component {
     super(props)
     this.state = {
       displaySideBar: (window.innerWidth < 900) ? false : true,
-      alreadySet: false,
+      displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
       offerings: [],
     }
@@ -37,9 +38,15 @@ export class OfferingViewing extends React.Component {
      * 2. listen on window size for showing or hiding sidebar
      */
     window.addEventListener('resize', () => {
-      if (window.innerWidth < 900) 
+      const { displaySideBar, displaySearchHeader } = this.state
+      if (window.innerWidth < 600 && displaySearchHeader) 
+        this.setState({ displaySearchHeader: false })
+      else if (window.innerWidth >= 600 && !displaySearchHeader)
+        this.setState({ displaySearchHeader: true })
+
+      if (window.innerWidth < 900 && displaySideBar) 
         this.setState({ displaySideBar: false })
-      else if (!this.state.alreadySet) 
+      else if (window.innerWidth >= 900 && !displaySideBar) 
         this.setState({ displaySideBar: true })
     })
   }
@@ -53,15 +60,16 @@ export class OfferingViewing extends React.Component {
     )
   }
 
-  showSiderBar = () => {
-    this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
+  showSiderBar = value => {
+    if (typeof value === "boolean") this.setState({ displaySideBar: value })
+    else this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
   render() {
-    const { displaySideBar, offerings } = this.state
+    const { displaySideBar, displaySearchHeader, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
-      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : '2rem'
+      paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : displaySearchHeader ? '2rem' : '0rem'
     }
 
     return (
@@ -69,7 +77,9 @@ export class OfferingViewing extends React.Component {
         render={({ location }) => (
 
           <div className="sp-bg" ref={this.listen}>
-            <ClassTranscribeHeader 
+            <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
+            <SearchHeader
+              displaySearchHeader={displaySearchHeader}
               showSiderBar={this.showSiderBar} 
               display={displaySideBar}
             />   
@@ -82,7 +92,7 @@ export class OfferingViewing extends React.Component {
                     {/* Unauthed home page */}
                     <Route 
                       exact path="/home" 
-                      render={props => <Home offerings={offerings} {...props} />} 
+                      render={props => <Home offerings={offerings} displaySearchHeader={displaySearchHeader} {...props} />} 
                     />
                     {/* Starred */}
                     <Route 
@@ -92,12 +102,12 @@ export class OfferingViewing extends React.Component {
                     {/* Offering Detail page */}
                     <Route 
                       exact path='/home/offering/:id'
-                      render={({ match, history }) => <OfferingDetail history={history} id={match.params.id} />}
+                      render={({ match, ...props }) => <OfferingDetail id={match.params.id} {...props} />}
                     />
                     {/* Search Page */}
                     <Route 
                       exact path='/home/search' 
-                      render={() => <Search offerings={offerings} />}
+                      render={props => <Search offerings={offerings} {...props} />}
                     />
                   </Switch>
                 </CSSTransition>

@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
 import './index.css'
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader, SidebarDimmer } from 'components'
 import { PlaylistEditing, VideoEditing, UploadVideo } from './EditingPages'
 import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
@@ -33,8 +33,9 @@ export class InstructorOffering extends React.Component {
     }
   }
 
-  showSiderBar = () => {
-    this.setState({displaySideBar: !this.state.displaySideBar})
+  showSiderBar = value => {
+    if (typeof value === "boolean") this.setState({ displaySideBar: value })
+    else this.setState({displaySideBar: !this.state.displaySideBar, alreadySet: true})
   }
 
   componentDidMount() {
@@ -44,9 +45,11 @@ export class InstructorOffering extends React.Component {
     /**
      * listen on window size for showing or hiding sidebar
      */
-    window.addEventListener('resize', ()=>{
-      if (window.innerWidth < 900) this.setState({displaySideBar: false})
-      else this.setState({displaySideBar: true})
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 900) 
+        this.setState({ displaySideBar: false })
+      else if (!this.state.alreadySet) 
+        this.setState({ displaySideBar: true })
     })
 
     /**
@@ -132,6 +135,7 @@ export class InstructorOffering extends React.Component {
 
         {/* Layouts */}
         <div className="content">
+          <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
           <SideBar {...this}/>
 
           <div className="content-result" style={paddingLeft}>

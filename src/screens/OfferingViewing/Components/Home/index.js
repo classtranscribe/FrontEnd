@@ -83,6 +83,7 @@ export class Home extends React.Component {
 
   onUniSelected = (e, {value}) => {
     if (!value) {
+      this.setState({ terms: [], departments: [] })
       api.getDepartments().then(({data}) => {
         data.forEach(depart => {
           const uni = handleData.findById(this.state.universities, depart.universityId)
@@ -90,8 +91,8 @@ export class Home extends React.Component {
         })
         this.setState({ departments: data })
       })
-      this.setState({ terms: [] })
     } else {
+      this.setState({ terms: [], departments: [] })
       this.getDepartmentsByUniId(value)
       this.getTermsByUniId(value)
     }
@@ -110,7 +111,7 @@ export class Home extends React.Component {
     return (
       <main className="sp-home">
         <div id="home-content">
-          <Filter {...this} />
+          <Filter displaySearchHeader={this.props.displaySearchHeader} {...this} />
           <Suspense fallback={<OfferingListHolder />}>  
             <OfferingList {...this} />
           </Suspense>

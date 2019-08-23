@@ -31,6 +31,15 @@ export default function OfferingList({state}) {
     return false
   }
 
+  function noCourse() {
+    for (var i = 0; i < departments.length; i++) {
+      if ((showAll || isSelected(departments[i])) && (notEmpty(departments[i]))) return false
+    }
+    return true
+  }
+
+  if (noCourse()) return <OfferingListHolder noCourse />
+
   return (
     <div className="offering-list" role="list">
       {departments.map( depart => (showAll || isSelected(depart)) && (notEmpty(depart)) ? (

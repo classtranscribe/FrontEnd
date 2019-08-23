@@ -20,8 +20,8 @@
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  padding-left: 3%;
-}
+  padding-left: 3%;}
+
 
 /* Contents */
 .ip-content {
@@ -180,5 +180,20 @@
 
 .ui.tabular.menu .active.item {
   background: #fcfcfc !important;
+}
+
+@media screen and (max-width: 600px) {
+  .ip-container {
+    padding-left: 0;}
+  .ip-content {
+    width: 100%;}
+    .ip-content .title-courses {
+      padding-left: 0;
+    }
+  .offering-listitem {
+    padding-left: 0 !important;}
+    .ip-content .button {
+      width: max-content;
+    }
 }
 

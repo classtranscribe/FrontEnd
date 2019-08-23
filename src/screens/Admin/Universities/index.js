@@ -20,6 +20,7 @@ export default function UniPane({state: { universities }}) {
             header={university.name} 
             path={'uni'}
             id={university.id}
+            key={university.id}
             items={[
               `Domain: ${university.domain}`
             ]}

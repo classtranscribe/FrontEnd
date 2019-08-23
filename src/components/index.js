@@ -41,3 +41,7 @@ export function GeneralPlaceholder({fluid, lines, image, inverted}) {
     </Placeholder>
   )
 }
+
+export function SidebarDimmer({show, onClose}) {
+  return <div style={{display: show ? 'block' : 'none'}} className="sidebar-dimmer" onClick={onClose}></div>
+}

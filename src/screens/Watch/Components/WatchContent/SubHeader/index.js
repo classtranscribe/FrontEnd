@@ -5,6 +5,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react'
 // UI
 import { Icon } from 'semantic-ui-react'
+import { api } from 'utils'
 import './index.css'
 
 const ModeSetting = lazy(() => import('./ModeSetting'))
@@ -35,7 +36,7 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
       <div className="header">
         <p tabIndex={1}>
           <strong>
-            <span>{courseNumber.replace('-', '/')}</span>
+            <span>{api.parseURLFullNumber(courseNumber)}</span>
             &ensp;{playlistName}
           </strong><br/>
           <Icon name="play" />&ensp;{media.mediaName}
