@@ -196,7 +196,7 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
                   control={Input}
                   label={playlistInfo.sourceType === 0 ? 'Public URL' : 'Playlist Identifier'}
                   placeholder={playlistInfo.sourceType === 0 ? 'Paste your public URL here...' : 'Enter your playlist identifier here ...'}
-                  onChange={({target: {value}})=> 1}
+                  onChange={({target: {value}})=> setPlaylistInfo({...playlistInfo, playlistIdentifier: value})}
                 />
               </Grid.Column>
             </Grid.Row>

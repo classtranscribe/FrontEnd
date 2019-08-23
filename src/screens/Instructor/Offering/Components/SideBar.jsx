@@ -15,6 +15,7 @@ export function SideBar({ id, state, showSiderBar }) {
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
 
   var fullNumber = 'Loading...'
+  var fittedName = 'Loading...'
   var courseName = ''
   var termName = ''
   var sectionName = ''
@@ -22,6 +23,8 @@ export function SideBar({ id, state, showSiderBar }) {
   const { courses, offering } = courseOffering
   if (courses) {
     fullNumber = api.getFullNumber(courses)
+    fittedName = fullNumber.slice(0, 14)
+    if (fittedName !== fullNumber) fittedName += '...'
     courseName = courses[0].courseName
   }
   if (offering && offering.termName) {
@@ -47,11 +50,11 @@ export function SideBar({ id, state, showSiderBar }) {
           as={Link}
           className="list" 
           to={util.links.editOffering(id)} 
-          aria-label="edit offering"
-          title="edit offering"
+          aria-label="Edit offering"
+          title={`Edit offering: ${fullNumber}`}
         >
           <p className="title">
-            <i className="fas fa-book"></i> &ensp; {fullNumber}
+            <i className="fas fa-book"></i> &ensp; {fittedName}
             &ensp; <i className="fas fa-edit"></i>
           </p>
         </ListGroup.Item>
@@ -108,7 +111,7 @@ function Playlist({ playlists, id, fullNumber, showSiderBar }) {
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={{
-                pathname: util.links.offeringPlaylist(id, fullNumber.replace('/', '-'), playlist.id),
+                pathname: util.links.offeringPlaylist(id, api.getValidURLFullNumber(fullNumber), playlist.id),
                 state: { playlist: playlist }
               }}
               onClick={() => showSiderBar(window.innerWidth > 900)}
