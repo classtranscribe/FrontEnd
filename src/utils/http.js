@@ -5,7 +5,7 @@ const monthMap = require('./json/monthNames.json')
  * Set up http
  */
 const http = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: process.env.REACT_APP_API_BASE_URL || window.location.origin,
   timeout: 100000,
 })
 
@@ -23,7 +23,7 @@ export const api = {
    * Function called when all the requests executed
    * then hide the loading page
    */
-  baseUrl: () => process.env.REACT_APP_API_BASE_URL,
+  baseUrl: () => process.env.REACT_APP_API_BASE_URL || window.location.origin,
   contentLoaded: function (interval) {
     const ele = document.getElementById('ct-loading-wrapper')
     if(ele) {

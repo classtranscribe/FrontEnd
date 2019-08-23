@@ -16,7 +16,7 @@ const imgHolder = require('images/Video-Placeholder.jpg')
 
 export default function OfferingList({state}) {
   const { departments, departSelected, offerings } = state
-  if (!departments.length || !offerings.length || !offerings[1].courses) return <OfferingListHolder />
+  if (!departments.length || !offerings.length || !offerings[0].courses) return <OfferingListHolder />
   const showAll = !departSelected.length
 
   function isSelected(depart) {
