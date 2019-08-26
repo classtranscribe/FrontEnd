@@ -119,7 +119,7 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   onSeeked = e => {
-    ctVideo.syncPlay(e)
+    ctVideo.onSeeked(e)
   }
 
   onWaiting = e => {
