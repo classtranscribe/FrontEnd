@@ -37,7 +37,7 @@ export default function ProfileMenu({ darkMode }) {
   }
 
   const isLoggedIn = user.isLoggedIn()
-  const { fullName, universityId, picture } = user.getUserInfo()
+  const { fullName, universityId, picture, roles } = user.getUserInfo()
   const uniName = handleData.findById(universities, universityId).name
 
   const open = Boolean(anchorEl)
@@ -64,10 +64,15 @@ export default function ProfileMenu({ darkMode }) {
             </div>
           </MenuItem>
 
-          <MenuItem disabled>
-            <Typography style={{color: '#d5dedf'}}><strong>SWITCH TO</strong></Typography>
-          </MenuItem>
-          {menuItems.map( item => (
+          {
+            roles
+            &&
+            <MenuItem disabled>
+              <Typography style={{color: '#d5dedf'}}><strong>SWITCH TO</strong></Typography>
+            </MenuItem>
+          }
+
+          {menuItems.map( item => roles && (roles.includes(item.name) || item.name === 'Student') ? (
             <MenuItem 
               title={item.title}
               aria-label={item.title}
@@ -80,7 +85,7 @@ export default function ProfileMenu({ darkMode }) {
               </ListItemIcon>
               <Typography style={fontStyle}>{item.name}</Typography>
             </MenuItem>
-          ))}
+          ) : null )}
           
           <MenuItem disabled>
             <Typography style={{color: '#d5dedf'}}><strong>HAVE PROBLEMS?</strong></Typography>
