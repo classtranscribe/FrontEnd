@@ -2,7 +2,7 @@
  * Setting menu for screen mode
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
 import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../constants'
