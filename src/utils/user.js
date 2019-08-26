@@ -5,6 +5,7 @@
 
 import { api } from './http'
 import auth0Client from './auth0'
+import decoder from 'jwt-decode'
 
 export const user = {
   login: function() {
@@ -13,8 +14,10 @@ export const user = {
   isLoggedIn: () => Boolean(localStorage.getItem('userId')),
   saveUserInfo: function (userInfo) {
     const profile = auth0Client.getProfile()
+    const tokenInfo = decoder(userInfo.authToken)
     localStorage.setItem('userInfo', JSON.stringify({
       ...userInfo, 
+      roles: tokenInfo['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
       firstName: profile.given_name,
       lastName: profile.family_name,
       fullName: profile.name,
@@ -23,6 +26,7 @@ export const user = {
   },
   getUserInfo: function () {
     let userInfoStr = localStorage.getItem('userInfo')
+    // console.log(JSON.parse(userInfoStr))
     return userInfoStr ? JSON.parse(userInfoStr) : {}
   },
   setUpUser: function (callback) {
