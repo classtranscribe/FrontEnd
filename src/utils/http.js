@@ -307,6 +307,12 @@ export const api = {
       let { lessonName, createdAt } = jsonMetadata
       let date = new Date(createdAt)
       re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+    } else { // upload
+      if (jsonMetadata.filename) re.mediaName = jsonMetadata.filename
+      else {
+        let fileData = JSON.parse(jsonMetadata.video1)
+        re.mediaName = fileData.FileName
+      }
     }
     transcriptions.forEach( trans => {
       re.transcriptions.push({

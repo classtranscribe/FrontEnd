@@ -16,13 +16,7 @@ import { api, handleData } from 'utils'
  * @param history for goBack
  */
 export function VideoEditing ({match: {params: {id}}, history}) {
-  const path = '??' // TBD
-  console.log(id)
-
-  // original video data
-  const [video, setVideo] = useState(api.initialData.initialVideo)
-  // videoInfo for recording inputs
-  const [videoInfo, setVideoInfo] = useState(video)
+  const [filename, setFilename] = useState('')
 
   /**
    * GET all the needed info based on the videoId
@@ -40,11 +34,8 @@ export function VideoEditing ({match: {params: {id}}, history}) {
    * Functions for http requests
    */
   const callBacks = {
-    onUpdate: function () {
-      var data = handleData.updateJson(videoInfo, video)
-      data.id = id
-      console.log(data)
-      // api.updateData(path, data, () => this.onClose())
+    onUpdate: function (name) {
+      setFilename(name)
     },
     onDelete: function () {
       // api.deleteData(path, id).then(() => this.onClose())
@@ -59,8 +50,8 @@ export function VideoEditing ({match: {params: {id}}, history}) {
     (<EditButtons 
       {...callBacks}
       onCancel={callBacks.onClose}
-      canDelete={videoInfo}
-      canSave={videoInfo && videoInfo.description}
+      canDelete
+      canSave={filename}
     />)
 
   return(
@@ -71,8 +62,8 @@ export function VideoEditing ({match: {params: {id}}, history}) {
       button={button}
     >
       <VideoForm 
-        videoInfo={videoInfo}
-        setvideoInfo={setVideoInfo}
+        filename={filename}
+        {...callBacks}
       />
     </GeneralModal>
   )
@@ -82,11 +73,11 @@ export function VideoEditing ({match: {params: {id}}, history}) {
 /**
  * Form Component
  */
-function VideoForm({videoInfo, setVideoInfo}) {
+function VideoForm({filename, onUpdate}) {
   return (
     <Form className="general-form">
       {
-        videoInfo ? 
+        filename ? 
         <Grid columns='equal' verticalAlign="middle">
           <Grid.Row >
             <Grid.Column>
@@ -96,8 +87,8 @@ function VideoForm({videoInfo, setVideoInfo}) {
                 control={Input}
                 label='Video Name'
                 placeholder='E.g. Lecture 1'
-                defaultValue={videoInfo.description}
-                onChange={({target: {value}})=> setVideoInfo({...videoInfo, description: value})}
+                value={filename}
+                onChange={({target: {value}})=> onUpdate(value)}
               />
             </Grid.Column>
           </Grid.Row>

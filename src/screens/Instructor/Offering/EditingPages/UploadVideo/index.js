@@ -32,7 +32,10 @@ export function UploadVideo({match: {params: {playlistId}}, history}) {
     onCreate: function () {
       console.log({video1, video2})
       api.uploadVideo(playlistId, video1, video2)
-        .then(({data}) => console.log('success upload', data))
+        .then(({data}) => {
+          console.log('success upload', data)
+          callBacks.onClose()
+        })
     }
   }
   
