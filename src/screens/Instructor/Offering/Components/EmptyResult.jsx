@@ -19,7 +19,7 @@ export function EmptyResult({id, state: { playlistLoaded }}) {
           <h1>CLASS TRANSCRIBE</h1>
         </div>
         <Button 
-          onClick={()=>util.links.newPlaylist(id)} 
+          onClick={() => window.location = util.links.newPlaylist(id)} 
           style={{width: 'max-content', marginTop: '1rem'}} 
           size='big' secondary
           content="Create Your First Playlist"
