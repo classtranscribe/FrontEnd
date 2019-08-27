@@ -39,15 +39,12 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
       api.getPlaylistById(id)
         .then( ({data}) => {
           delete data.playlist['medias']
-          console.log('editing playlist', data.playlist)
           setPlaylist(() => data.playlist)
           setPlaylistInfo(() => data.playlist)
           setLoading(() => false)
         })
     }
   }, [history])
-
-  useEffect(() => console.log(playlistInfo))
 
   /**
    * Functions for http requests
@@ -58,7 +55,6 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
       api.createPlaylist(playlistInfo).then(() => callBacks.onClose())
     },
     onUpdate: () => {
-      console.log(playlistInfo)
       api.updatePlaylist(playlistInfo).then(() => callBacks.onClose())
     },
     onDelete: () => {
