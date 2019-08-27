@@ -242,7 +242,7 @@ export default class OfferingSettingPage extends React.Component {
         .catch(error => console.log(error))
 
       // Go back
-      this.onClose()
+      this.onClose(data.id)
     })
     .catch( error => console.log(error))
     
@@ -283,8 +283,8 @@ export default class OfferingSettingPage extends React.Component {
   /**
    * Go Back
    */
-  onClose = () => {
-    window.location = util.links.offering(this.state.id)
+  onClose = offeringId => {
+    window.location = util.links.offering(offeringId || this.state.id)
   }
 
   onCancel = () => {
