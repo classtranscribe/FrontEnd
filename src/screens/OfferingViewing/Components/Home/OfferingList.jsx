@@ -15,34 +15,30 @@ const imgHolder = require('images/Video-Placeholder.jpg')
 
 
 export default function OfferingList({state}) {
-  const { departments, departSelected, offerings } = state
-  if (!departments.length || !offerings.length || !offerings[0].courses) return <OfferingListHolder />
-  const showAll = !departSelected.length
-
-  function isSelected(depart) {
-    return handleData.includes(departSelected, depart.id)
-  }
+  const { departments, departSelected, termSelected, offerings } = state
+  if (!departments.length || offerings[0] === 'Unloaded' || (offerings[0] && !offerings[0].courses)) return <OfferingListHolder />
 
   function notEmpty(depart) {
     for (let i = 0; i < offerings.length; i++) {
       const hasOfferings = handleData.find(offerings[i].courses, {departmentId: depart.id})
-      if (hasOfferings) return true
+      const hasTerm = !termSelected.length || termSelected.includes(offerings[i].offering.termId)
+      if (hasOfferings && hasTerm) return true
     }
     return false
   }
 
-  function noCourse() {
-    for (var i = 0; i < departments.length; i++) {
-      if ((showAll || isSelected(departments[i])) && (notEmpty(departments[i]))) return false
+  var nonEmptyDepart = []
+  for (var i = 0; i < departments.length; i++) {
+    if ((!departSelected.length || departSelected.includes(departments[i].id)) && (notEmpty(departments[i]))) {
+      nonEmptyDepart.push(departments[i].id)
     }
-    return true
   }
 
-  if (noCourse()) return <OfferingListHolder noCourse />
+  if (nonEmptyDepart.length === 0) return <OfferingListHolder noCourse />
 
   return (
     <div className="offering-list" role="list">
-      {departments.map( depart => (showAll || isSelected(depart)) && (notEmpty(depart)) ? (
+      {departments.map( depart => nonEmptyDepart.includes(depart.id) ? (
         <Section 
           state={state} 
           depart={depart} key={depart.id} 
