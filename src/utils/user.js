@@ -38,7 +38,13 @@ export const user = {
             localStorage.setItem('userId', data.userId)
             api.saveAuthToken(data.authToken)
             this.saveUserInfo(data)
-            window.location = auth0Client.getRedirectURL()
+            // redirect
+            var redirectURL = auth0Client.getRedirectURL()
+            const tokenInfo = decoder(data.authToken)
+            const roles = tokenInfo['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+            if (redirectURL === '/home' && roles && roles.includes('Admin')) redirectURL = '/Admin'
+            else if (redirectURL === '/home' && roles && roles.includes('Instructor')) redirectURL = '/Instructor'
+            window.location = redirectURL
           })
           .catch(error => {
             console.log(error)
