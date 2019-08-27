@@ -21,7 +21,7 @@ export class OfferingViewing extends React.Component {
       displaySideBar: (window.innerWidth < 900) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
-      offerings: [],
+      offerings: ['Unloaded'],
     }
   }
 
