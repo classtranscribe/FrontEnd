@@ -49,6 +49,13 @@ export const ctVideo = {
     if (isPrimary) this.setCurrTime(e)
   },
 
+  onSeeked: function(e) {
+    this.syncPlay(e)
+    if (this.waitingNum === 0) {
+      this.setVideoLoading(false)
+    }
+  },
+
   onWaiting: function(e) {
     this.syncPause(e)
     this.setVideoLoading(true)

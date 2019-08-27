@@ -98,6 +98,12 @@ export const handleExpand = value => {
   } 
 }
 
+export const hasPIPFeature = () => {
+  if ($("video").length > 0)
+    return typeof $("video")[0].requestPictureInPicture === 'function'
+  return false
+}
+
 export const enterPicInPic = () => {
   $("video").each( (index, videoElem) => {
     if (index === 0 && typeof videoElem.requestPictureInPicture === 'function') 

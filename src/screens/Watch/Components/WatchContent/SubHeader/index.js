@@ -6,6 +6,7 @@ import React, { useState, useEffect, lazy, Suspense } from 'react'
 // UI
 import { Icon } from 'semantic-ui-react'
 import { api } from 'utils'
+import { hasPIPFeature } from '../watchUtils'
 import './index.css'
 
 const ModeSetting = lazy(() => import('./ModeSetting'))
@@ -29,6 +30,8 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
     }
   }, [playlist])
 
+  const hasPip = hasPIPFeature()
+
   return (
     <div 
       className="subheader-container" 
@@ -44,7 +47,7 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
 
         <div className="video-setting-bar">
           <Suspense fallback={<div>Loading...</div>}>
-            <ModeSetting {...propsForSettingBar} isMobile={isMobile} />
+            {hasPip && <ModeSetting {...propsForSettingBar} isMobile={isMobile} />}
           </Suspense>
         </div>
       </div>

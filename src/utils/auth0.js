@@ -30,12 +30,16 @@ class Auth0 {
     return this.auth0Token
   }
 
-  getRedirectURL = () => this.redirectURL
+  getRedirectURL = () => this.redirectURL + this.redirectSearch
+  getRedirectSearch = () => this.redirectSearch
+  getRedirectState = () => this.redirectState
 
   signIn() {
     this.auth0.authorize({
       appState: {
-        redirectURL: window.location.pathname
+        redirectURL: window.location.pathname,
+        redirectSearch: window.location.search,
+        redirectState: window.location.state
       }
     });
   }
@@ -51,6 +55,8 @@ class Auth0 {
         this.auth0Token = authResult.idToken;
         this.profile = authResult.idTokenPayload;
         this.redirectURL = authResult.appState.redirectURL
+        this.redirectSearch = authResult.appState.redirectSearch
+        this.redirectState = authResult.appState.redirectState
         resolve();
       });
     })

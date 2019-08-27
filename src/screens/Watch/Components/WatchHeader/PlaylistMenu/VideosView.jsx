@@ -22,7 +22,7 @@ export default function VideosView({ medias, currMedia, courseNumber, selectedPl
       <Divider style={{width: '370px', margin: '0'}} inverted />
       <div className="video-list">
         {!medias.length && <MenuItem disabled>No Videos</MenuItem>}
-        {medias.map( media => 
+        {medias.slice().reverse().map( media => 
             <VideoItem 
               key={media.id || media.media.id} 
               media={media.media || media } 
