@@ -50,7 +50,7 @@ function Playlist({history, playlist, playlists, index, activeIndex, setActiveIn
         <p>{medias.length} video(s)</p>
       </Accordion.Title>
       <Accordion.Content active={isActive} className="videos">
-        {medias.map( media => (
+        {medias.slice().reverse().map( media => (
           <Video media={media} playlist={playlist} playlists={playlists} fullNumber={fullNumber} key={media.id} history={history} />
         ))}
       </Accordion.Content>
