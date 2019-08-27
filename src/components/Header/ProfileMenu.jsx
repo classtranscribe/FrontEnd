@@ -91,7 +91,11 @@ export default function ProfileMenu({ darkMode }) {
             <Typography style={{color: '#d5dedf'}}><strong>HAVE PROBLEMS?</strong></Typography>
           </MenuItem>
 
-          <MenuItem title="Contact us" aria-label="Contact us">
+          <MenuItem 
+            title="Contact us" 
+            aria-label="Contact us" 
+            onClick={() => window.location = 'mailto:classtranscribe@illinois.edu'}
+          >
             <ListItemIcon style={iconStyle}>
               <i className="fas fa-envelope"></i>
             </ListItemIcon>

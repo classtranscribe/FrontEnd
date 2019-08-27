@@ -16,7 +16,7 @@ import { api, util } from 'utils'
  * @param id   type is new: offeringId, type is id: playlistId
  * @param history for goBack
  */
-export function PlaylistEditing ({match: {params: {id, type}}, history}) {
+export function PlaylistEditing ({match: {params: {id, type}}, history, location}) {
   // determine whether is going to create or edit a playlist
   const isNew = type === 'new' 
 
@@ -47,6 +47,8 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
     }
   }, [history])
 
+  useEffect(() => console.log(playlistInfo))
+
   /**
    * Functions for http requests
    */
@@ -63,8 +65,11 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
       api.deletePlaylist(playlistInfo.id).then(() => window.location = util.links.offering(playlistInfo.offeringId))
     },
     onClose: () => {
-      if (localStorage.getItem('playlistUrl')) window.location = localStorage.getItem('playlistUrl')
-      else window.location = util.links.offering(id)
+      if (isNew) window.location = util.links.offering(id)
+      else {
+        const { offeringId, courseNumber } = location.state
+        window.location = util.links.offeringPlaylist(offeringId, courseNumber, id)
+      }
     },
     onCancel: () => {
       history.goBack()
@@ -73,11 +78,11 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
 
   const header = isNew ? 'New Playlist' : 'Rename the Playlist'
   const modalSize = isNew ? 'small' : 'tiny'
-  const urlEntered = playlist.sourceType === 2 || playlistInfo.playlistIdentifier
+  const urlEntered = playlistInfo.sourceType === 2 || playlistInfo.playlistIdentifier
   const button = isNew ? 
     <SaveButtons 
       {...callBacks}
-      canSave={playlistInfo.name && playlistInfo.sourceType && urlEntered}
+      canSave={playlistInfo.name && urlEntered}
     />
     : 
     <EditButtons 

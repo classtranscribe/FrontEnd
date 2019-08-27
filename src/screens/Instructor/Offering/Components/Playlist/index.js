@@ -47,7 +47,7 @@ export function Playlist({ match, history, location }) {
   return (
     <div className="csp-videos" ref={ref}>
       <Sticky context={ref}>
-        <PlaylistHeader {...playlist} />
+        <PlaylistHeader {...playlist} courseNumber={courseNumber} />
       </Sticky>
       <List verticalAlign='middle' className="vlist" role="list">
         {

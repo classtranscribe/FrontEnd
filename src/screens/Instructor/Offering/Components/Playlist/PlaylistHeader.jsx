@@ -5,14 +5,14 @@ import { util } from 'utils'
 import { HeaderPlaceholder } from './Placeholders'
 import TypeIcon from '../TypeIcon'
 
-export default function PlaylistHeader({name, sourceType, id, offeringId}) {
+export default function PlaylistHeader({name, sourceType, id, offeringId, courseNumber}) {
   if (sourceType === undefined) return <HeaderPlaceholder />
   return (
     <div className="pl-info-header">
       <h1 className="name">
         <TypeIcon size="big" type={sourceType} />
         &ensp;{name}
-        <EditPlaylistBtns type={sourceType} playlistId={id} offeringId={offeringId} />
+        <EditPlaylistBtns type={sourceType} playlistId={id} offeringId={offeringId} courseNumber={courseNumber} />
       </h1> 
     </div>
   )
@@ -21,7 +21,7 @@ export default function PlaylistHeader({name, sourceType, id, offeringId}) {
 /**
  *  Buttons for editing current playlist 
  */
-function EditPlaylistBtns({ type, playlistId, offeringId }) {
+function EditPlaylistBtns({ type, playlistId, offeringId, courseNumber }) {
   return (
     <div className="playlist-btn">
       {
@@ -41,7 +41,10 @@ function EditPlaylistBtns({ type, playlistId, offeringId }) {
       <Button 
         as={Link}
         className="edit-btn" 
-        to={util.links.editPlaylist(offeringId, playlistId)} 
+        to={{
+          pathname: util.links.editPlaylist(offeringId, playlistId),
+          state: { offeringId, courseNumber }
+        }} 
         aria-label="edit playlist"
         compact
       >
