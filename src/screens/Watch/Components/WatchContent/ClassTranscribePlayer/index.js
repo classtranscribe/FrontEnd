@@ -106,6 +106,10 @@ export default class ClassTranscribePlayer extends React.Component {
     // }
   }
 
+  onLoaded = e => {
+    ctVideo.onLoaded(e)
+  }
+
   onPause = e => {
     ctVideo.onPause(e, this.props.isPrimary)
   }
@@ -159,6 +163,7 @@ export default class ClassTranscribePlayer extends React.Component {
               onWaiting={this.onWaiting}
               onPlaying={this.onPlaying}
               onTimeUpdate={isPrimary ? this.onTimeUpdate : undefined}
+              onLoadedMetadata={this.onLoaded}
             >
               {transcriptions.map( trans => 
                 <track 
