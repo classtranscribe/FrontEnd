@@ -36,6 +36,11 @@ export const ctVideo = {
     })
   },
 
+  onLoaded: function (e) {
+    this.syncPlay(e)
+    this.setVideoLoading(false)
+  },
+
   onPlay: function(e, isPrimary) {
     if (isPrimary) this.syncPlay(e)
   },

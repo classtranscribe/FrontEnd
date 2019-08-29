@@ -47,9 +47,10 @@ export const api = {
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
   },
-  withAuth: function (params) {
+  withAuth: function (params, otherConfigs) {
     return {
       params,
+      ...otherConfigs,
       headers: {
         Authorization: 'Bearer ' + this.authToken()
       }
@@ -136,9 +137,9 @@ export const api = {
   /**
    * POST
    */
-  postData: function (path, data, params) {
+  postData: function (path, data, params, otherConfigs) {
     path = `/api/${path}`
-    return http.post(path, data, this.withAuth(params))
+    return http.post(path, data, this.withAuth(params, otherConfigs))
   },
   createUniversity: function(data) {
     return this.postData('Universities', data)
@@ -167,12 +168,12 @@ export const api = {
   createPlaylist: function(data) {
     return this.postData('Playlists', data)
   },
-  uploadVideo: function (playlistId, video1, video2) {
+  uploadVideo: function (playlistId, video1, video2, onUploadProgress) {
     const formData = new FormData()
     formData.append('video1', video1)
     formData.append('video2', video2)
     formData.append('playlistId', playlistId)
-    return this.postData('Media', formData)
+    return this.postData('Media', formData, null, { onUploadProgress })
   },
   /**
    * PUT
@@ -236,6 +237,9 @@ export const api = {
   },
   deletePlaylist: function(playlistId) {
     return this.deleteData('Playlists', playlistId)
+  },
+  deleteMedia: function(mediaId) {
+    return this.deleteData('Media', mediaId)
   },
 
 

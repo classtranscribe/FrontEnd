@@ -1,9 +1,13 @@
 import React from 'react'
 import { List, Dropdown } from 'semantic-ui-react'
-import { util } from 'utils'
+import { api, util } from 'utils'
 
-export default function EditVideoBtn({show, mediaName}) {
+export default function EditVideoBtn({ show, mediaName, mediaId, setIsDelete }) {
   const display = show ? {} : {display: 'none'}
+  const onDelete = () => {
+    api.deleteMedia(mediaId)
+      .then(() => setIsDelete(true))
+  }
   return (
     <List.Content floated='right' className="list-dropdown-btn" style={display}>
       <Dropdown 
@@ -20,7 +24,7 @@ export default function EditVideoBtn({show, mediaName}) {
           />
           <Dropdown.Item 
             icon="trash" text='Delete' 
-            onClick={()=>1}
+            onClick={onDelete}
             aria-label="delete"
           />
         </Dropdown.Menu>

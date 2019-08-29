@@ -4,15 +4,7 @@ import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
 import { api } from 'utils'
 import { ctVideo } from '../ClassTranscribePlayer/CTPlayerUtils'
-import { timeStrToSec, timeBetterLook, handleExpand } from '../watchUtils'
-
-function copyToClipboard(text) {
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val(text).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
+import { timeStrToSec, timeBetterLook, handleExpand, copyToClipboard } from '../watchUtils'
 
 export default function Captions({ media, captions, results, setReadyToEdit, reLoadCaption, loadingCaptions }) {
   if (loadingCaptions) return <LineLoader index={-1} />

@@ -33,16 +33,16 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
   const hasPip = hasPIPFeature()
 
   return (
-    <div 
-      className="subheader-container" 
-    >
+    <div className="subheader-container" >
       <div className="header">
         <p tabIndex={1}>
           <strong>
             <span>{api.parseURLFullNumber(courseNumber)}</span>
             &ensp;{playlistName}
           </strong><br/>
-          <Icon name="play" />&ensp;{media.mediaName}
+          <Icon name="play" />
+          {/* <Icon id="video-loading" name="circle notch" loading /> */}
+          &ensp;{media.mediaName}
         </p>
 
         <div className="video-setting-bar">

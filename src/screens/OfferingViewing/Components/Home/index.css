@@ -93,11 +93,12 @@
 
 
   .sp-home .offering-list .section .offerings {
+    position: relative;
     width: 100%;
     -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
-    overflow-y: hidden;
-    overflow-x: scroll !important;}
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;}
     .sp-home .offering-list .section .offerings::-webkit-scrollbar {
       display: block;
       background: rgb(248, 248, 248);
@@ -115,6 +116,7 @@
     -o-transition: border 0.2s linear;
     -webkit-transition: border 0.2s linear;
     display: inline-block;
+    flex: 0 0 auto;
     white-space: normal;
     width: 16rem !important;
     height: 18rem;
