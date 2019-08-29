@@ -107,18 +107,29 @@ export const handleExpand = value => {
 }
 
 export const hasPIPFeature = () => {
+  let pipVideo = $("video")[0]
   if ($("video").length > 0)
-    return typeof $("video")[0].requestPictureInPicture === 'function'
+    return typeof pipVideo.requestPictureInPicture === 'function' || 
+          (pipVideo.webkitSupportsPresentationMode && typeof pipVideo.webkitSetPresentationMode === "function")
   return false
 }
 
 export const enterPicInPic = () => {
   $("video").each( (index, videoElem) => {
-    if (index === 0 && typeof videoElem.requestPictureInPicture === 'function') 
-      videoElem.requestPictureInPicture()
+    if (index === 0) {
+      if (typeof videoElem.requestPictureInPicture === 'function') 
+        videoElem.requestPictureInPicture()
+      else if (videoElem.webkitSupportsPresentationMode && typeof videoElem.webkitSetPresentationMode === "function")
+        videoElem.webkitSetPresentationMode('picture-in-picture')
+    }
+      
   })
 }
 
 export const exitPicInPic = () => {
-  if (typeof document.exitPictureInPicture === 'function') document.exitPictureInPicture()
+  let pipVideo = $("video")[0]
+  if (typeof document.exitPictureInPicture === 'function') 
+    document.exitPictureInPicture()
+  else if (pipVideo.webkitSupportsPresentationMode && typeof pipVideo.webkitSetPresentationMode === "function")
+    pipVideo.webkitSetPresentationMode('inline')
 }
