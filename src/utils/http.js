@@ -237,6 +237,9 @@ export const api = {
   deletePlaylist: function(playlistId) {
     return this.deleteData('Playlists', playlistId)
   },
+  deleteMedia: function(mediaId) {
+    return this.deleteData('Media', mediaId)
+  },
 
 
   completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {

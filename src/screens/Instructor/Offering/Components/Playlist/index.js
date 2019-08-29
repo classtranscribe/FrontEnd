@@ -3,7 +3,6 @@
  */
 
 import React, { useState, useEffect, createRef } from 'react'
-import { Link } from 'react-router-dom'
 import { List, Image, Sticky } from 'semantic-ui-react'
 import { ClassTranscribeFooter } from 'components'
 import { VideoListPlaceHolder } from './Placeholders'
@@ -22,17 +21,16 @@ export function Playlist({ match, history, location }) {
   const ref = createRef()
 
   useEffect(() => {
-    localStorage.setItem('playlistUrl', window.location.pathname)
-    if (location.state) {
-      setPlaylist(() => location.state.playlist)
-      setMedias(() => location.state.playlist.medias)
-    } else {
+    // if (location.state) {
+    //   setPlaylist(() => location.state.playlist)
+    //   setMedias(() => location.state.playlist.medias)
+    // } else {
       api.getPlaylistById(playlistId)
         .then( ({data}) => {
           setPlaylist(() => data.playlist)
           setMedias(() => data.playlist.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })
-    }
+    // }
   }, [location])
 
   /**
@@ -75,12 +73,13 @@ export function Playlist({ match, history, location }) {
  * Video List Item
  */
 function Video({media, playlist, sourceType, courseNumber, history}) {
+  const [isDelete, setIsDelete] = useState(false)
   const { mediaName, id } = api.parseMedia(media)
   const pathname = util.links.watch(courseNumber, id)
   const videoState = {media: media, playlist: playlist}
-  return (
+  return isDelete ?  null : (
     <List.Item className="video-card">
-      <EditVideoBtn show={sourceType === 2} mediaName={mediaName}/>
+      <EditVideoBtn show={sourceType === 2} mediaName={mediaName} mediaId={id} setIsDelete={setIsDelete} />
       <button className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
         <Image 
           alt="Video Poster"

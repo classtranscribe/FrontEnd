@@ -31,7 +31,10 @@ function EditPlaylistBtns({ type, playlistId, offeringId, courseNumber }) {
           color='grey'
           className="new-btn" 
           as={Link} 
-          to={util.links.uploadVideo(offeringId, playlistId)} 
+          to={{
+            pathname: util.links.uploadVideo(offeringId, playlistId),
+            state: { goBackURL: window.location.pathname }
+          }} 
           aria-label="new video"
           compact
         >
