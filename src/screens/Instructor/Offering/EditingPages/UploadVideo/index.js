@@ -18,6 +18,12 @@ export function UploadVideo({match: {params: { playlistId }}, history}) {
   const [videos, setVideos] = useState([])
   const [isCreating, setIsCreating] = useState(false)
   const [creatingIndex, setCreatingIndex] = useState(0)
+  const [progress, setProgress] = useState(0)
+
+  const onUploadProgress = progressEvent => {
+    let percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100)
+    setProgress(percentCompleted)
+  }
   /**
    * Functions for http requests
    */
@@ -27,38 +33,29 @@ export function UploadVideo({match: {params: { playlistId }}, history}) {
       setVideos(videos => [...videos, {video1: videoFiles[0], video2: videoFiles[1]}])
     },
     onSwitch: function(index) {
-      console.log(videos[index])
       let temp = videos[index].video1
       videos[index].video1 = videos[index].video2
       videos[index].video2 = temp
       setVideos(() => videos)
     },
     onRemove: function(index) {
-      console.log('here')
       videos[index] = null
       setVideos(() => videos)
-      console.log(videos)
     },
     onClose: function () {
       history.goBack()
     },
     onCreate: async function () {
       setIsCreating(true)
-      var nullNumber = 0
       for (let i = 0; i < videos.length; i++) {
-        if (!videos[i]) {
-          nullNumber += 1
-          continue
-        }
+        if (!videos[i]) continue;
         setCreatingIndex(i)
         const { video1, video2 } = videos[i]
-        await api.uploadVideo(playlistId, video1, video2)
-        console.log('success upload video ' + i + '!')
+        await api.uploadVideo(playlistId, video1, video2, onUploadProgress)
       }
       setCreatingIndex(videos.length)
       setTimeout(() => {
-        console.log(nullNumber)
-        window.location = util.parseSearchQuery().goBackURL
+        window.location = util.getWindowStates().goBackURL
       }, 700);
     }
   }
@@ -106,7 +103,7 @@ export function UploadVideo({match: {params: { playlistId }}, history}) {
             <div className="uploading-video">
               <div>{videoPair.video1.name}</div>
               {videoPair.video2 && <div>{videoPair.video2.name}</div>}
-              <div className="status">{creatingIndex < index ? 'Waiting' : creatingIndex > index ? <i className="material-icons">done_outline</i> : <Spinner variant="info" animation="border" />}</div>
+              <div className="status">{creatingIndex < index ? 'Waiting' : creatingIndex > index ? <i className="material-icons">done_outline</i> : progress+'%'/*<Spinner variant="info" animation="border" />*/}</div>
             </div>
           ) : null )}
         </div>

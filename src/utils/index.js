@@ -47,6 +47,9 @@ export const util = {
     })
     return query
   },
+  getWindowStates: function () {
+    return window.location.state || {}
+  },
 
   getSelectOptions: function(array, tag) {
     var options = [];
