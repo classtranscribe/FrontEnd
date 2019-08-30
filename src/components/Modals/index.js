@@ -13,7 +13,7 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
       size={size || 'small'} 
       open={open} onClose={onClose}
     >
-      <Modal.Header className="gm-header">{header}</Modal.Header>
+      {header && <Modal.Header className="gm-header">{header}</Modal.Header>}
       {
         children 
         && 
@@ -21,9 +21,7 @@ export function GeneralModal({size, open, onClose, header, children, button}) {
           {children}
         </Modal.Content>
       }
-      <Modal.Actions className="gm-action">
-        {button}
-      </Modal.Actions>
+      {button && <Modal.Actions className="gm-action">{button}</Modal.Actions>}
     </Modal>
   )
 }

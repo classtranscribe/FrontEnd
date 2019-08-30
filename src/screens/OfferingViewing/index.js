@@ -12,13 +12,13 @@ import SearchHeader from './Components/Search/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, user } from 'utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      displaySideBar: (window.innerWidth < 900) ? false : true,
+      displaySideBar: (window.innerWidth < 900 || user.isLoggedIn()) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
       offerings: ['Unloaded'],
@@ -46,7 +46,7 @@ export class OfferingViewing extends React.Component {
 
       if (window.innerWidth < 900 && displaySideBar) 
         this.setState({ displaySideBar: false })
-      else if (window.innerWidth >= 900 && !displaySideBar) 
+      else if (window.innerWidth >= 900 && !displaySideBar && !user.isLoggedIn()) 
         this.setState({ displaySideBar: true })
     })
   }

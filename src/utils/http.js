@@ -175,12 +175,14 @@ export const api = {
     formData.append('playlistId', playlistId)
     return this.postData('Media', formData, null, { onUploadProgress })
   },
+
   /**
    * PUT
    */
-  updateData: function (path, data) {
+  updateData: function (path, data, id) {
     path = `/api/${path}`
-    return http.put(`${path}/${data.id}`, data, this.withAuth())
+    if (!id) id = data.id
+    return http.put(`${path}/${id}`, data, this.withAuth())
   },
   updateUniversity: function(data) {
     return this.updateData('Universities', data)
@@ -199,6 +201,9 @@ export const api = {
   },
   updatePlaylist: function(data) {
     return this.updateData('Playlists', data)
+  },
+  renameMedia: function(mediaId, filename) {
+    return this.updateData('Media/PutJsonMetaData', { filename }, mediaId)
   },
   updateCaptionLine: function(data) {
     return this.updateData('Captions', data)

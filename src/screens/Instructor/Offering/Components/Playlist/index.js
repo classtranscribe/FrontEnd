@@ -21,16 +21,17 @@ export function Playlist({ match, history, location }) {
   const ref = createRef()
 
   useEffect(() => {
-    // if (location.state) {
-    //   setPlaylist(() => location.state.playlist)
-    //   setMedias(() => location.state.playlist.medias)
-    // } else {
+    if (location.state) {
+      setPlaylist(() => location.state.playlist)
+      setMedias(() => location.state.playlist.medias)
+      window.history.pushState({}, null, null)
+    } else {
       api.getPlaylistById(playlistId)
         .then( ({data}) => {
           setPlaylist(() => data.playlist)
           setMedias(() => data.playlist.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })
-    // }
+    }
   }, [location])
 
   /**
@@ -49,8 +50,13 @@ export function Playlist({ match, history, location }) {
       </Sticky>
       <List verticalAlign='middle' className="vlist" role="list">
         {
-          medias ? 
-          medias.map( (media, index) =>
+          !medias ? 
+          <VideoListPlaceHolder />
+          :
+          !medias.length ?
+          <VideoListPlaceHolder isEmpty playlist={playlist} />
+          :
+          medias.map( media =>
             <Video 
               media={media}
               sourceType={playlist.sourceType} 
@@ -60,8 +66,6 @@ export function Playlist({ match, history, location }) {
               history={history}
             />
           )
-          :
-          <VideoListPlaceHolder />
         }
       </List>
       <ClassTranscribeFooter />
@@ -74,13 +78,21 @@ export function Playlist({ match, history, location }) {
  */
 function Video({media, playlist, sourceType, courseNumber, history}) {
   const [isDelete, setIsDelete] = useState(false)
-  const { mediaName, id } = api.parseMedia(media)
+  const { mediaName, id, videos } = api.parseMedia(media)
   const pathname = util.links.watch(courseNumber, id)
   const videoState = {media: media, playlist: playlist}
+  const videosInProcess = !videos || !videos.length
   return isDelete ?  null : (
     <List.Item className="video-card">
-      <EditVideoBtn show={sourceType === 2} mediaName={mediaName} mediaId={id} setIsDelete={setIsDelete} />
-      <button className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
+      <EditVideoBtn 
+        show
+        sourceType={sourceType}
+        mediaName={mediaName} 
+        mediaId={id} 
+        setIsDelete={setIsDelete} 
+        offeringId={playlist.offeringId} 
+      />
+      <button disabled={videosInProcess} className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
         <Image 
           alt="Video Poster"
           className="poster" 
@@ -97,7 +109,7 @@ function Video({media, playlist, sourceType, courseNumber, history}) {
             >
               {mediaName} 
             </p>
-            {/* <p className="text-muted">0:5:35</p> */}
+            {videosInProcess && <p className="text-muted">This video is current unavailable. Please check it later.</p>}
           </div>
         </List.Content>
       </button>
