@@ -130,7 +130,7 @@ export class InstructorOffering extends React.Component {
         {/* Sub-Routes to editing pages for playlist & video */}
         <Route path={`/offering/${this.id}/offering-setting/:type?=:id`} component={OfferingSettingPage} />
         <Route path={`/offering/${this.id}/playlist-setting/:type?=:id`} component={PlaylistEditing} />
-        <Route path='/offering/video-setting/:id' component={VideoEditing} />
+        <Route path={`/offering/${this.id}/video-rename/:mediaId`} component={VideoEditing} />
         <Route path={`/offering/${this.id}/upload/:playlistId`} component={UploadVideo} />
 
         {/* Layouts */}

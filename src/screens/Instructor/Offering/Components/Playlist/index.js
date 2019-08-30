@@ -79,7 +79,14 @@ function Video({media, playlist, sourceType, courseNumber, history}) {
   const videoState = {media: media, playlist: playlist}
   return isDelete ?  null : (
     <List.Item className="video-card">
-      <EditVideoBtn show={sourceType === 2} mediaName={mediaName} mediaId={id} setIsDelete={setIsDelete} />
+      <EditVideoBtn 
+        show
+        sourceType={sourceType}
+        mediaName={mediaName} 
+        mediaId={id} 
+        setIsDelete={setIsDelete} 
+        offeringId={playlist.offeringId} 
+      />
       <button className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
         <Image 
           alt="Video Poster"

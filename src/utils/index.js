@@ -27,7 +27,7 @@ export const util = {
     newPlaylist: (offeringId) => `/offering/${offeringId}/playlist-setting/new=${offeringId}`,
     editPlaylist: (offeringId, playlistId) => `/offering/${offeringId}/playlist-setting/id=${playlistId}`,
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
-    editVideo: id => `/offering/video-setting/${id}`,
+    renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
     watch: (courseNumber, mediaId) => `/video?courseNumber=${courseNumber}&id=${mediaId}`,
     notfound404: () => '/404',

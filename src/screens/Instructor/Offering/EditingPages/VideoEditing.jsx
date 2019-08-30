@@ -7,38 +7,39 @@ import React, { useState, useEffect } from 'react'
 // Layouts
 import { GeneralModal, GeneralLoader } from 'components'
 import { Grid, Form, Input } from 'semantic-ui-react'
-import { EditButtons } from './Buttons'
+import { SaveButtons } from './Buttons'
 // Vars
-import { api, handleData } from 'utils'
+import { api } from 'utils'
 
 /**
  * @param id videoId
  * @param history for goBack
  */
-export function VideoEditing ({match: {params: {id}}, history}) {
-  const [filename, setFilename] = useState('')
+export function VideoEditing ({match: {params: { mediaId }}, history}) {
+  const [filename, setFilename] = useState('undefined')
 
   /**
    * GET all the needed info based on the videoId
    */
   useEffect(()=> {
-    api.contentLoaded()
-    // api.getData(path, id)
-    // .then( response => {
-    //   setVideo(response.data)
-    //   setVideoInfo(response.data)
-    // })
+    api.getMediaById(mediaId)
+      .then( ({data}) => {
+        const { mediaName } = api.parseMedia(data)
+        setFilename(mediaName)
+      })
   }, [])
 
   /**
    * Functions for http requests
    */
   const callBacks = {
-    onUpdate: function (name) {
-      setFilename(name)
+    onUpdate: ({target: {value}}) => {
+      setFilename(value)
     },
-    onDelete: function () {
-      // api.deleteData(path, id).then(() => this.onClose())
+    onCreate: function () {
+      setFilename('undefined')
+      api.renameMedia(mediaId, filename)
+        .then(() => history.goBack())
     },
     onClose: function () {
       history.goBack()
@@ -46,13 +47,7 @@ export function VideoEditing ({match: {params: {id}}, history}) {
   }
 
   const header = 'Rename the Video'
-  const button = 
-    (<EditButtons 
-      {...callBacks}
-      onCancel={callBacks.onClose}
-      canDelete
-      canSave={filename}
-    />)
+  const button = <SaveButtons {...callBacks} onCancel={callBacks.onClose} canSave={filename && filename !== 'undefined'}/>
 
   return(
     <GeneralModal 
@@ -61,10 +56,7 @@ export function VideoEditing ({match: {params: {id}}, history}) {
       onClose={callBacks.onClose}
       button={button}
     >
-      <VideoForm 
-        filename={filename}
-        {...callBacks}
-      />
+      <VideoForm {...callBacks} filename={filename} />
     </GeneralModal>
   )
   
@@ -77,18 +69,18 @@ function VideoForm({filename, onUpdate}) {
   return (
     <Form className="general-form">
       {
-        filename ? 
+        filename !== 'undefined' ? 
         <Grid columns='equal' verticalAlign="middle">
           <Grid.Row >
             <Grid.Column>
               <Form.Field
                 fluid required
-                id='paylist-description'
+                id='media-name'
                 control={Input}
-                label='Video Name'
+                label='Name'
                 placeholder='E.g. Lecture 1'
                 value={filename}
-                onChange={({target: {value}})=> onUpdate(value)}
+                onChange={onUpdate}
               />
             </Grid.Column>
           </Grid.Row>

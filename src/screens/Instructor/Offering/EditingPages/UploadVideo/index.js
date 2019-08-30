@@ -6,7 +6,6 @@ import React, { useState } from 'react'
 // Layouts
 import { GeneralModal } from 'components'
 import { Grid, Form } from 'semantic-ui-react'
-import { Spinner } from 'react-bootstrap'
 import { SaveButtons } from '../Buttons'
 import UploadBtn from './UploadBtn'
 import './index.css'
@@ -100,7 +99,7 @@ export function UploadVideo({match: {params: { playlistId }}, history}) {
         &&
         <div className="uploading">
           {videos.map( (videoPair, index) => videoPair ? (
-            <div className="uploading-video">
+            <div className="uploading-video" key={videoPair.video1.name + index}>
               <div>{videoPair.video1.name}</div>
               {videoPair.video2 && <div>{videoPair.video2.name}</div>}
               <div className="status">{creatingIndex < index ? 'Waiting' : creatingIndex > index ? <i className="material-icons">done_outline</i> : progress+'%'/*<Spinner variant="info" animation="border" />*/}</div>
