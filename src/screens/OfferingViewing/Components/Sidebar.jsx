@@ -23,7 +23,7 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
           <Icon name="book" /> &emsp; Courses
         </ListGroup.Item>
         {
-          isLoggedIn 
+          (isLoggedIn && false) // incompleted feature
           &&
           <>
             <ListGroup.Item 
