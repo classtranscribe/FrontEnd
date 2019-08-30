@@ -37,7 +37,7 @@ export const ctVideo = {
   },
 
   onLoaded: function (e) {
-    this.syncPlay(e)
+    // this.syncPlay(e)
     this.setVideoLoading(false)
   },
 
