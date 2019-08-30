@@ -1,6 +1,9 @@
 import React from 'react'
 import _ from "lodash"
-import { Placeholder, List } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Placeholder, List, Button, Icon } from 'semantic-ui-react'
+import { SpinnerLoader } from 'components'
+import { util } from 'utils'
 
 export function HeaderPlaceholder() {
   return (
@@ -15,8 +18,9 @@ export function HeaderPlaceholder() {
   )
 }
 
-export function VideoListPlaceHolder() {
-  return (
+export function VideoListPlaceHolder({ isEmpty, playlist }) {
+  const { id, offeringId, sourceType } = playlist || {}
+  return !isEmpty ? (
     <>
       {
         _.times(5, num => (
@@ -32,5 +36,15 @@ export function VideoListPlaceHolder() {
         ))
       }
     </>
+  ) : sourceType === 2 ? (
+    <div className="empty-upload">
+      <p><Icon name="upload" />Upload your first video here</p>
+      <Button as={Link} to={util.links.uploadVideo(offeringId, id)}>Browse Files</Button>
+    </div>
+  ) : (
+    <SpinnerLoader>
+      <h5>Your videos will be available soon.</h5>
+      <p>Please <a href="mailto:classtranscribe@illinois.edu">contact us</a> if you have any questions.</p>
+    </SpinnerLoader>
   )
 }

@@ -21,16 +21,17 @@ export function Playlist({ match, history, location }) {
   const ref = createRef()
 
   useEffect(() => {
-    // if (location.state) {
-    //   setPlaylist(() => location.state.playlist)
-    //   setMedias(() => location.state.playlist.medias)
-    // } else {
+    if (location.state) {
+      setPlaylist(() => location.state.playlist)
+      setMedias(() => location.state.playlist.medias)
+      window.history.pushState({}, null, null)
+    } else {
       api.getPlaylistById(playlistId)
         .then( ({data}) => {
           setPlaylist(() => data.playlist)
           setMedias(() => data.playlist.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })
-    // }
+    }
   }, [location])
 
   /**
@@ -49,8 +50,13 @@ export function Playlist({ match, history, location }) {
       </Sticky>
       <List verticalAlign='middle' className="vlist" role="list">
         {
-          medias ? 
-          medias.map( (media, index) =>
+          !medias ? 
+          <VideoListPlaceHolder />
+          :
+          !medias.length ?
+          <VideoListPlaceHolder isEmpty playlist={playlist} />
+          :
+          medias.map( media =>
             <Video 
               media={media}
               sourceType={playlist.sourceType} 
@@ -60,8 +66,6 @@ export function Playlist({ match, history, location }) {
               history={history}
             />
           )
-          :
-          <VideoListPlaceHolder />
         }
       </List>
       <ClassTranscribeFooter />

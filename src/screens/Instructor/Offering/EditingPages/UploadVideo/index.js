@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react'
 // Layouts
-import { GeneralModal } from 'components'
+import { GeneralModal, SpinnerLoader } from 'components'
 import { Grid, Form } from 'semantic-ui-react'
 import { SaveButtons } from '../Buttons'
 import UploadBtn from './UploadBtn'
@@ -54,7 +54,8 @@ export function UploadVideo({match: {params: { playlistId }}, history}) {
       }
       setCreatingIndex(videos.length)
       setTimeout(() => {
-        window.location = util.getWindowStates().goBackURL
+        // window.location = util.getWindowStates().goBackURL
+        history.goBack()
       }, 700);
     }
   }
@@ -98,6 +99,7 @@ export function UploadVideo({match: {params: { playlistId }}, history}) {
         isCreating
         &&
         <div className="uploading">
+          <SpinnerLoader />
           {videos.map( (videoPair, index) => videoPair ? (
             <div className="uploading-video" key={videoPair.video1.name + index}>
               <div>{videoPair.video1.name}</div>
