@@ -306,10 +306,10 @@ export const api = {
     const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
     if (!id || !jsonMetadata || !videos) return re
     re.id = id
-    re.videos = videos
+    // re.videos = videos
     re.createdAt = jsonMetadata.createdAt
     re.playlistId = playlistId
-    re.isTwoScreen = videos.length > 0 && videos[0].video2 !== null
+    re.isTwoScreen = videos.length && (videos[0].video2 || videos[0].video2Path)
     if (sourceType === 1) { // youtube
       re.mediaName = jsonMetadata.title
     } else if (sourceType === 0) { // echo360
@@ -323,12 +323,19 @@ export const api = {
         re.mediaName = fileData.FileName
       }
     }
+
+    videos.forEach( video => {
+      re.videos.push({
+        srcPath1: `${this.baseUrl()}${video.video1Path || video.video1.path}`,
+        srcPath2: re.isTwoScreen ? `${this.baseUrl()}${video.video2Path || video.video2.path}` : null
+      })
+    })
+
     transcriptions.forEach( trans => {
       re.transcriptions.push({
-        mediaId: trans.mediaId,
         id: trans.id,
         language: trans.language,
-        src: this.getMediaFullPath(trans.file.path)
+        src: `${this.baseUrl()}${trans.path || trans.file.path}`
       })
     })
     return re
