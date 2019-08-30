@@ -5,7 +5,7 @@ import './index.css'
 export function SpinnerLoader({ children }) {
   return (
     <div className="ct-loader">
-      <ul class="spinner">
+      <ul className="spinner">
         <li></li>
         <li></li>
         <li></li>

@@ -22,7 +22,7 @@ export function SaveButtons(props) {
           aria-label="save"
         />
       }
-      <Button onClick={props.onClose} content="Cancel" aria-label="cancel" />
+      <Button onClick={props.onCancel} content="Cancel" aria-label="cancel" />
     </>
   )
 }
