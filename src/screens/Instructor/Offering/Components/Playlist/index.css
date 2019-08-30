@@ -102,10 +102,18 @@
 }
 
 .csp-videos .vlist .video-card .video-link {
+  justify-content: flex-start;
   width: 100%;
   background: none;
   border: none;
   cursor: pointer;}
+  .csp-videos .vlist .video-card button[disabled] {
+    pointer-events: none;
+    opacity: .7;
+  }
+  .csp-videos .vlist .video-card .info {
+    text-align: left;
+  }
   .csp-videos .vlist .video-card .video-link:focus {
     outline: #34a2b1 auto 2px;
   }

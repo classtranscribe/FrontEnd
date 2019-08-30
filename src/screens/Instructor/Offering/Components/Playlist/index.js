@@ -78,9 +78,10 @@ export function Playlist({ match, history, location }) {
  */
 function Video({media, playlist, sourceType, courseNumber, history}) {
   const [isDelete, setIsDelete] = useState(false)
-  const { mediaName, id } = api.parseMedia(media)
+  const { mediaName, id, videos } = api.parseMedia(media)
   const pathname = util.links.watch(courseNumber, id)
   const videoState = {media: media, playlist: playlist}
+  const videosInProcess = !videos || !videos.length
   return isDelete ?  null : (
     <List.Item className="video-card">
       <EditVideoBtn 
@@ -91,7 +92,7 @@ function Video({media, playlist, sourceType, courseNumber, history}) {
         setIsDelete={setIsDelete} 
         offeringId={playlist.offeringId} 
       />
-      <button className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
+      <button disabled={videosInProcess} className="d-flex flex-row video-link" tabIndex={0} onClick={() => history.push(pathname, videoState)}>
         <Image 
           alt="Video Poster"
           className="poster" 
@@ -108,7 +109,7 @@ function Video({media, playlist, sourceType, courseNumber, history}) {
             >
               {mediaName} 
             </p>
-            {/* <p className="text-muted">0:5:35</p> */}
+            {videosInProcess && <p className="text-muted">This video is current unavailable. Please check it later.</p>}
           </div>
         </List.Content>
       </button>
