@@ -18,11 +18,11 @@
 /* Normal mode */
 .ct-player[id=normal-mode], .ct-player[id=nested-mode] {
   margin: 0;}
-.ct-player .primary[id=normal-mode] >div[data-vjs-player=true], .ct-player .primary[id=nested-mode] > div[data-vjs-player=true] {
+.ct-player .primary[id=normal-mode] >div[data-vjs-player], .ct-player .primary[id=nested-mode] > div[data-vjs-player] {
   min-width: 100vw !important;}
 
 .ct-player .primary[id=normal-mode] {
-  width: 60em;
+  width: 55em;
   max-width: 94vw;}
   @media screen and (max-width: 650px) {
     .ct-player .primary[id=normal-mode] {
@@ -60,7 +60,7 @@
   transition: none !important;
 }
 .ct-player .primary[id=nested-mode] {
-  width: 60em;
+  width: 57em;
   max-width: 80vw;}
   @media screen and (max-width: 650px) {
     .ct-player .primary[id=nested-mode] {

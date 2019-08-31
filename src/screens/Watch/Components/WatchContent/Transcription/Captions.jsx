@@ -66,8 +66,13 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, setReadyToEdit 
   }
 
   const onSave = line => {
-    api.updateCaptionLine(line).then(() => console.log('success update line'))
-    onClose()
+    setIsLoading(() => true)
+    api.updateCaptionLine(line).then(() => {
+      reLoadCaption(() => {
+        setIsLoading(() => false)
+        onClose()
+      })
+    })
   }
 
   const onShare = () => {

@@ -23,8 +23,11 @@
     font-weight: 300;
   }
   @media screen and (max-width: 600px) {
-    .sp-content .offering-detail h1, .sp-content .offering-detail h2, .sp-content .offering-detail h4 {
+    .sp-content .offering-detail h1, .sp-content .offering-detail h2, .sp-content .offering-detail h2 span, .sp-content .offering-detail h4, .sp-content .offering-detail h5 {
       padding-left: 10px;
+    }
+    .sp-content .offering-detail h2 span {
+      display: block;
     }
   }
 /* Playlists */
