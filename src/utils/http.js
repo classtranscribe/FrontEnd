@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { util } from './index'
 const monthMap = require('./json/monthNames.json')
 
 /**
@@ -47,6 +48,7 @@ export const api = {
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
   },
+  userId: () => localStorage.getItem('userId'),
   withAuth: function (params, otherConfigs) {
     return {
       params,
@@ -173,7 +175,11 @@ export const api = {
     formData.append('video1', video1)
     formData.append('video2', video2)
     formData.append('playlistId', playlistId)
+    console.log('uploadData', {playlistId, video1, video2})
     return this.postData('Media', formData, null, { onUploadProgress })
+  },
+  updateCaptionLine: function(data) {
+    return this.postData('Captions', { id: data.id, text: data.text })
   },
 
   /**
@@ -245,6 +251,20 @@ export const api = {
   },
   deleteMedia: function(mediaId) {
     return this.deleteData('Media', mediaId)
+  },
+
+  /**
+   * 
+   * @param {} eventType 
+   * timeupdate, play, pause, seeking, seeked, changedspeed, fullscreenchange, 
+   * filtertrans, edittrans, sharelink
+   * selectcourse, userinactive, changevideo
+   * @param {*} data 
+   * { offeringId, mediaId, json }
+   */
+  sendUserAction: function(eventType, data = {}) {
+    // console.log({eventType, ...data, userId: this.userId() })
+    return this.postData('Logs', {eventType, ...data, userId: this.userId()})
   },
 
 
@@ -344,6 +364,7 @@ export const api = {
     return fullNumber.replace(/\//g, '-')
   },
   parseURLFullNumber: function(fullNumber) {
+    fullNumber = fullNumber || util.parseSearchQuery().courseNumber
     return fullNumber.replace(/-/g, '/')
   },
 }

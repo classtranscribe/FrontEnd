@@ -5,7 +5,7 @@ import { Divider } from 'semantic-ui-react'
 import { util, api } from 'utils'
 
 
-export default function VideosView({ medias, currMedia, courseNumber, selectedPlaylist, playlists, backToPlaylists }) {
+export default function VideosView({ medias, currMedia, selectedPlaylist, playlists, backToPlaylists, sendUserAction }) {
   const { name } = selectedPlaylist
   let fittedName = name ? name.slice(0, 40) : 'unknown'
   if (fittedName !== name) fittedName += '...'
@@ -28,8 +28,8 @@ export default function VideosView({ medias, currMedia, courseNumber, selectedPl
               media={media.media || media } 
               currMedia={currMedia} 
               playlists={playlists}
-              courseNumber={courseNumber} 
               selectedPlaylist={selectedPlaylist}
+              sendUserAction={sendUserAction}
             />
         )}
       </div>
@@ -37,9 +37,12 @@ export default function VideosView({ medias, currMedia, courseNumber, selectedPl
   )
 }
 
-function VideoItem({ media, currMedia, courseNumber, selectedPlaylist, playlists }) {
+function VideoItem({ media, currMedia, selectedPlaylist, playlists, sendUserAction }) {
   const { mediaName, id } = api.parseMedia(media)
-  const watchVideo = () => window.location.reload()
+  const watchVideo = () => {
+    sendUserAction('changevideo', { changeTo_mediaId: id })
+    window.location.reload()
+  }
   return (
     <MenuItem 
       id={id} 
@@ -50,7 +53,7 @@ function VideoItem({ media, currMedia, courseNumber, selectedPlaylist, playlists
       onClick={watchVideo}
     >
       <Link className="pl-item-link" to={{
-        pathname: util.links.watch(courseNumber, id),
+        pathname: util.links.watch(util.parseSearchQuery().courseNumber, id),
         state: {
           media: media, playlist: selectedPlaylist, playlists: playlists
         }

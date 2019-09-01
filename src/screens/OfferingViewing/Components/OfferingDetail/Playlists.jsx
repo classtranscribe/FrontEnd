@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Accordion } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
 import PlaylistPlaceholder from './PlaylistPlaceholder'

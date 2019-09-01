@@ -38,9 +38,9 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
     if (!isNew) {
       api.getPlaylistById(id)
         .then( ({data}) => {
-          delete data.playlist['medias']
-          setPlaylist(() => data.playlist)
-          setPlaylistInfo(() => data.playlist)
+          delete data['medias']
+          setPlaylist(() => data)
+          setPlaylistInfo(() => data)
           setLoading(() => false)
         })
     }
@@ -61,11 +61,7 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
       api.deletePlaylist(playlistInfo.id).then(() => window.location = util.links.offering(playlistInfo.offeringId))
     },
     onClose: () => {
-      if (isNew) window.location = util.links.offering(id)
-      else {
-        const { offeringId, courseNumber } = location.state
-        window.location = util.links.offeringPlaylist(offeringId, courseNumber, id)
-      }
+      history.goBack()
     },
     onCancel: () => {
       history.goBack()

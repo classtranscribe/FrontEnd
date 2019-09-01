@@ -6,7 +6,7 @@ import { api } from 'utils'
 import { ctVideo } from '../ClassTranscribePlayer/CTPlayerUtils'
 import { timeStrToSec, timeBetterLook, handleExpand, copyToClipboard } from '../watchUtils'
 
-export default function Captions({ media, captions, results, setReadyToEdit, reLoadCaption, loadingCaptions }) {
+export default function Captions({ media, captions, results, setReadyToEdit, reLoadCaption, loadingCaptions, sendUserAction }) {
   if (loadingCaptions) return <LineLoader index={-1} />
   const lines = results.length ? results : captions
   return (
@@ -31,6 +31,7 @@ export default function Captions({ media, captions, results, setReadyToEdit, reL
             handleExpand={handleExpand}
             reLoadCaption={reLoadCaption}
             setReadyToEdit={setReadyToEdit}
+            sendUserAction={sendUserAction}
           />
         ))
       }
@@ -38,7 +39,7 @@ export default function Captions({ media, captions, results, setReadyToEdit, reL
   )
 }
 
-function CaptionLine({ media, line, reLoadCaption, handleExpand, setReadyToEdit }) {
+function CaptionLine({ media, line, reLoadCaption, handleExpand, sendUserAction, setReadyToEdit }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
@@ -68,6 +69,7 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, setReadyToEdit 
   const onSave = line => {
     setIsLoading(() => true)
     api.updateCaptionLine(line).then(() => {
+      sendUserAction('edittrans', { prevText: text, newText: line.text })
       reLoadCaption(() => {
         setIsLoading(() => false)
         onClose()
@@ -79,6 +81,7 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, setReadyToEdit 
     setIsLoading(true)
     const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
     copyToClipboard(sharedUrl)
+    sendUserAction('sharelink', { sharedUrl, text })
     setTimeout(() => {
       setIsLoading(false)
       setIsSharing(true)

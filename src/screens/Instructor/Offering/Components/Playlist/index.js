@@ -21,17 +21,18 @@ export function Playlist({ match, history, location }) {
   const ref = createRef()
 
   useEffect(() => {
-    if (location.state) {
-      setPlaylist(() => location.state.playlist)
-      setMedias(() => location.state.playlist.medias)
-      window.history.pushState({}, null, null)
-    } else {
+    // if (location.state && location.state.playlist) {
+    //   setPlaylist(() => location.state.playlist)
+    //   setMedias(() => location.state.playlist.medias)
+    //   window.history.pushState({}, null, null)
+    // } else {
       api.getPlaylistById(playlistId)
         .then( ({data}) => {
-          setPlaylist(() => data.playlist)
-          setMedias(() => data.playlist.medias)//.sort(sortFunc.sortVideosByCreatedDate))
+          // console.log('pl', data)
+          setPlaylist(() => data)
+          setMedias(() => data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })
-    }
+    // }
   }, [location])
 
   /**
