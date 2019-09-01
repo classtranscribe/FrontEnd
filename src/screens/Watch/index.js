@@ -12,11 +12,9 @@ import { api, util } from 'utils'
 export class Watch extends React.Component {
   constructor(props) {
     super(props)
-    const urlStates = util.parseSearchQuery()
-    this.id = urlStates.id
-    this.courseNumber = urlStates.courseNumber
+    const { id, courseNumber } = util.parseSearchQuery()
 
-    if (!urlStates.id || !urlStates.courseNumber) window.location = util.links.notfound404()
+    if (!id || !courseNumber) window.location = util.links.notfound404()
     
     this.state = { 
       showPlaylist: false,
@@ -34,7 +32,7 @@ export class Watch extends React.Component {
     if (state) {
       const { media, playlist, playlists } = state
       if (media) this.setState({ media: api.parseMedia(media) })
-      if (playlist) this.setState({ playlist: {playlist: playlist, medias: playlist.medias} })
+      if (playlist) this.setState({ playlist })
       if (playlists) this.setState({ playlists })
       api.contentLoaded()
     } else {
@@ -56,21 +54,29 @@ export class Watch extends React.Component {
     this.setState({showPlaylist: !this.state.showPlaylist})
   }  
 
+  sendUserAction = (action, json = {}) => {
+    const { media, playlist } = this.state
+    api.sendUserAction(action, {
+      json,
+      mediaId: media.id,
+      offeringId: playlist.offeringId
+    })
+  }
+
   render() { 
     const { media, playlist, playlists } = this.state
-    const { courseNumber } = this
     return (
       <main className="watch-bg">
         <WatchHeader 
           media={media} 
           playlist={playlist} 
           playlists={playlists}
-          courseNumber={courseNumber} 
+          sendUserAction={this.sendUserAction}
         />
         <WatchContent 
           media={media} 
           playlist={playlist} 
-          courseNumber={courseNumber} 
+          sendUserAction={this.sendUserAction}
         />
       </main>
     )

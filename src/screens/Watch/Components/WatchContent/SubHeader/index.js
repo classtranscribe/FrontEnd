@@ -11,7 +11,7 @@ import './index.css'
 
 const ModeSetting = lazy(() => import('./ModeSetting'))
 
-export default function SubHeader({ playlist, media, courseNumber, propsForSettingBar }) {
+export default function SubHeader({ playlist, media, propsForSettingBar }) {
   const [playlistName, setPlaylistName] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth < 650 ? true : false)
   
@@ -25,8 +25,8 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
 
   /** If playlist is loaded */
   useEffect(() => {
-    if (playlist.playlist && playlist.medias) {
-      setPlaylistName(() => playlist.playlist.name)
+    if (playlist && playlist.medias) {
+      setPlaylistName(() => playlist.name)
     }
   }, [playlist])
 
@@ -37,7 +37,7 @@ export default function SubHeader({ playlist, media, courseNumber, propsForSetti
       <div className="header">
         <p tabIndex={1}>
           <strong>
-            <span>{api.parseURLFullNumber(courseNumber)}</span>
+            <span>{api.parseURLFullNumber()}</span>
             &ensp;{playlistName}
           </strong><br/>
           <Icon name="play" />

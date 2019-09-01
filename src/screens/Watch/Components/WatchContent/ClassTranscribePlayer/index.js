@@ -9,7 +9,7 @@ import 'video.js/dist/video-js.css'
 import './video.css' // modified stylesheet for the vjs player
 import './index.css'
 // Vars
-import { api, util } from 'utils'
+import { util } from 'utils'
 import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVideo } from './CTPlayerUtils'
 const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
@@ -18,6 +18,8 @@ export default class ClassTranscribePlayer extends React.Component {
     super(props)
     this.prevTime = 0
     this.lastSyncTime = 0
+    this.lastTimeupdate = 0
+    ctVideo.setSendUserAction(props.sendUserAction)
   }
 
   componentDidUpdate(prevProps) {
@@ -102,6 +104,11 @@ export default class ClassTranscribePlayer extends React.Component {
     //   this.props.setCurrTime(e)
     //   this.lastSyncTime = currTime
     // }
+    /** sent user action events to backend */
+    if (Math.abs(currTime - this.lastTimeupdate) > 15 ) {
+      this.props.sendUserAction('timeupdate', { timeStamp: currTime })
+      this.lastTimeupdate = currTime
+    }
   }
 
   onLoaded = e => {
@@ -121,7 +128,7 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   onSeeked = e => {
-    ctVideo.onSeeked(e)
+    ctVideo.onSeeked(e, this.props.isPrimary)
   }
 
   onWaiting = e => {

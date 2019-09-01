@@ -1,4 +1,5 @@
 import $ from 'jquery'
+
 export const staticVJSOptions = require('./staticVJSOptions.json')
 export { keyDownPlugin } from './keyDownPlugin'
 export { getControlPlugin } from './controlPlugin'
@@ -6,13 +7,26 @@ export { getControlPlugin } from './controlPlugin'
 
 export const captionLangMap = {
   "en-US": "English",
-  "zh-Hans": "Chinese", //Simplified 
+  "zh-Hans": "Chinese",
   "ko": "Korean",
   "es": "Spanish"
 }
 
 export const ctVideo = {
   waitingNum: 0,
+  isSeeking: false,
+  sendUserAction: function() {},
+  setSendUserAction: function(sendUserAction) {
+    this.sendUserAction = sendUserAction
+  },
+  setVideoLoading: function(loading) {
+    if (loading) {
+      $('.loading-wrapper').removeClass('hide-loading-wrapper')
+    } else if ( !$('.hide-loading-wrapper').length ) {
+      $('.loading-wrapper').addClass('hide-loading-wrapper')
+    }
+  },
+
   syncPlay: function(e, all) {
     const videoElems = $("video")
     if (videoElems.length < 2) return;
@@ -42,21 +56,36 @@ export const ctVideo = {
   },
 
   onPlay: function(e, isPrimary) {
-    if (isPrimary) this.syncPlay(e)
+    if (!isPrimary) return;
+    this.syncPlay(e)
+    if (isPrimary && !this.isSeeking) this.sendUserAction('play', { timeStamp: e.target.currentTime })
   },
 
   onPause: function(e, isPrimary) {
-    if (isPrimary) this.syncPause(e)
+    if (!isPrimary) return;
+    this.syncPause(e)
+    if (isPrimary && !this.isSeeking) this.sendUserAction('pause', { timeStamp: e.target.currentTime })
   },
 
   onSeeking: function(e, isPrimary) {
+    this.isSeeking = true
     this.setVideoLoading(true)
-    if (isPrimary) this.setCurrTime(e)
+    if (!isPrimary) return;
+    this.setCurrTime(e)
+    if (isPrimary) this.sendUserAction('seeking', { 
+      seekingTo: e.target.currentTime,
+      timeStamp: e.target.currentTime
+    })
   },
 
-  onSeeked: function(e) {
+  onSeeked: function(e, isPrimary) {
     this.syncPlay(e)
+    if (isPrimary) this.sendUserAction('seeked', { 
+      seekedTo: e.target.currentTime,
+      timeStamp: e.target.currentTime
+    })
     if (this.waitingNum === 0) {
+      this.isSeeking = false
       this.setVideoLoading(false)
     }
   },
@@ -65,23 +94,15 @@ export const ctVideo = {
     this.syncPause(e)
     this.setVideoLoading(true)
     if (this.waitingNum < 2) this.waitingNum += 1
-    console.log('waitingNum', this.waitingNum)
+    // console.log('waitingNum', this.waitingNum)
   },
 
   onPlaying: function(e) {
     if (this.waitingNum > 0) this.waitingNum -= 1
-    console.log('waitingNum', this.waitingNum)
+    // console.log('waitingNum', this.waitingNum)
     if (this.waitingNum === 0) {
       this.syncPlay(e)
       this.setVideoLoading(false)
     } 
   },
-  
-  setVideoLoading: function(loading) {
-    if (loading) {
-      $('.loading-wrapper').removeClass('hide-loading-wrapper')
-    } else if ( !$('.hide-loading-wrapper').length ) {
-      $('.loading-wrapper').addClass('hide-loading-wrapper')
-    }
-  }
 }

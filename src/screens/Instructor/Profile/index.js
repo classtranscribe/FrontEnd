@@ -19,7 +19,6 @@ export class InstructorProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: user.id(),
       userInfo: {},
       userUni: '',
       sortDown: localStorage.getItem('sortDown') === 'up' ? false : true,
@@ -37,7 +36,7 @@ export class InstructorProfile extends React.Component {
    * Callback for setUpUser below
    */
   getCourseOfferingsByInstructorId = () => {
-    api.getCourseOfferingsByInstructorId(this.state.userInfo.userId)
+    api.getCourseOfferingsByInstructorId(user.userId())
       .then(response => {
         console.log(response.data)
         this.setState({courseOfferings: response.data})

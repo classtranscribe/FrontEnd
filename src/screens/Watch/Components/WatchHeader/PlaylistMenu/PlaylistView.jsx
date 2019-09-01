@@ -3,11 +3,11 @@ import { MenuItem } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
 import { api } from 'utils'
 
-export default function PlaylistsView({currMedia, playlists, courseNumber, goToPlaylist, handleClose}) {
+export default function PlaylistsView({currMedia, playlists, goToPlaylist, handleClose}) {
   return (
     <div className="playlist-view">
       <MenuItem className="header" onClick={handleClose}>
-        <span><strong>{api.parseURLFullNumber(courseNumber)}</strong>&ensp;Playlists</span>
+        <span><strong>{api.parseURLFullNumber()}</strong>&ensp;Playlists</span>
         <i className="material-icons close-btn">close</i>
       </MenuItem>
       <Divider style={{width: '370px', margin: '0'}} inverted />

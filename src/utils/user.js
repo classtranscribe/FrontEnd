@@ -29,7 +29,7 @@ export const user = {
     // console.log(JSON.parse(userInfoStr))
     return userInfoStr ? JSON.parse(userInfoStr) : {}
   },
-  setUpUser: function (callback) {
+  setUpUser: function () {
     if (this.id() === null) {
       auth0Client.handleAuthentication().then(() => {
         api.getAuthToken(auth0Client.getAuth0Token())
@@ -56,7 +56,7 @@ export const user = {
     }
   },
 
-  id: () => localStorage.getItem('userId'),
+  userId: () => localStorage.getItem('userId'),
   
   signout: function () { 
     // remove possible localStorage

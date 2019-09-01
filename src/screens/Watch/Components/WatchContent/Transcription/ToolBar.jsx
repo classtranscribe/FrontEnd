@@ -8,7 +8,7 @@ const searchOptions = [
   {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'Search in Course'}
 ]
 
-export default function ToolBar({ captions, setResults, canReset }) {
+export default function ToolBar({ captions, setResults, canReset, sendUserAction }) {
   const [loadingResults, setLoadingResults] = useState(false)
   const [searchInput, setSearchInput] = useState('')
 
@@ -20,6 +20,7 @@ export default function ToolBar({ captions, setResults, canReset }) {
   const handleOnKeyDown = ({ keyCode }) => {
     if (keyCode === 13) {
       setResults(() => capSearch.getResult(captions, searchInput))
+      sendUserAction('filtertrans', { value: searchInput })
       capSearch.toTop()
       handleExpand(true)
     }

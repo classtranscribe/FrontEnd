@@ -70,7 +70,7 @@ export class WatchContent extends React.Component {
     this.setState({ currTranscriptionId: id })
     api.getCaptionsByTranscriptionId(id)
       .then( ({data}) => {
-        console.log('captions', data)
+        // console.log('captions', data)
         this.setState({ captions: data, loadingCaptions: false })
       })
   }
@@ -80,7 +80,7 @@ export class WatchContent extends React.Component {
     const { currTranscriptionId } = this.state
     api.getCaptionsByTranscriptionId(currTranscriptionId)
       .then( ({data}) => {
-        console.log('new captions', data)
+        // console.log('new captions', data)
         this.setState({ captions: data })
         if (callBack) callBack()
       })
@@ -101,10 +101,12 @@ export class WatchContent extends React.Component {
   setMode = mode => this.setState({ mode })
 
   /** Function called when playbackRate of videos changed */
-  setPlaybackRate = playbackRate => this.setState({ playbackRate })
-
+  setPlaybackRate = playbackRate => {
+    this.setState({ playbackRate })
+  }
   /** Function called when transcription of videos changed */
   setTrackSrc = trackSrc => {
+    if (trackSrc === this.state.trackSrc) return;
     this.setState({ trackSrc })
     const { media } = this.props
     let currTranscription = handleData.find(media.transcriptions, { src: trackSrc })
@@ -139,7 +141,7 @@ export class WatchContent extends React.Component {
   }
 
   render() {
-    const { media, playlist, courseNumber } = this.props
+    const { media, playlist, sendUserAction } = this.props
     const { mode, primary, captions, loadingCaptions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
     /** Vars passed into setting bar */
@@ -154,7 +156,6 @@ export class WatchContent extends React.Component {
         <SubHeader 
           media={media} 
           playlist={playlist} 
-          courseNumber={courseNumber} 
           propsForSettingBar={propsForSettingBar}
         />
   
@@ -169,6 +170,7 @@ export class WatchContent extends React.Component {
               {...this.state}
               media={media} 
               isPrimary={primary} 
+              sendUserAction={sendUserAction}
               video1
             />
           </div>
@@ -178,6 +180,7 @@ export class WatchContent extends React.Component {
               {...this.state}
               media={media} 
               isPrimary={!primary}  
+              sendUserAction={sendUserAction}
             />
           </div>
         </div>
@@ -189,6 +192,7 @@ export class WatchContent extends React.Component {
           reLoadCaption={this.reLoadCaption}
           setReadyToEdit={this.setReadyToEdit} 
           loadingCaptions={loadingCaptions}
+          sendUserAction={sendUserAction}
         />
       </div>
     )

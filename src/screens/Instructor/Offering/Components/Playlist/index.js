@@ -28,7 +28,7 @@ export function Playlist({ match, history, location }) {
     // } else {
       api.getPlaylistById(playlistId)
         .then( ({data}) => {
-          console.log('pl', data)
+          // console.log('pl', data)
           setPlaylist(() => data)
           setMedias(() => data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })

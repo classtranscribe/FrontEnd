@@ -54,6 +54,9 @@ export function OfferingDetail({id, history, location}) {
         // console.log('playlists', data)
         setPlaylists(() => data)
       })
+    api.sendUserAction('selectcourse', {
+      offeringId: id
+    })
   }, [id])
 
 

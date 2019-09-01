@@ -16,7 +16,7 @@ const menuStyle = {
   height: '650px',
 }
 
-export default function PlaylistMenu({ media, playlist, playlistsInState, courseNumber }) {
+export default function PlaylistMenu({ media, playlist, playlistsInState, sendUserAction }) {
   // return <></>
   const [anchorEl, setAnchorEl] = useState(null)
   const [playlists, setPlaylists] = useState([])
@@ -24,12 +24,12 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
   const [medias, setMedias] = useState([])
 
   useEffect(() => {
-    if (playlist.playlist) {
-      setSelectedPlaylist(() => playlist.playlist)
+    if (playlist.offeringId) {
+      setSelectedPlaylist(() => playlist)
       if (playlistsInState) {
         setPlaylists(() => playlistsInState)
       } else {
-        api.getPlaylistsByOfferingId(playlist.playlist.offeringId)
+        api.getPlaylistsByOfferingId(playlist.offeringId)
           .then(({data}) => {
             console.log('playlists..', data)
             setPlaylists(() => data)
@@ -97,7 +97,6 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
           <PlaylistsView 
             currMedia={media} 
             playlists={playlists} 
-            courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 
             goToPlaylist={goToPlaylist}
             handleClose={handleClose}
@@ -108,10 +107,10 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, course
             medias={medias} 
             currMedia={media} 
             playlists={playlists}
-            courseNumber={courseNumber} 
             selectedPlaylist={selectedPlaylist} 
             backToPlaylists={backToPlaylists}
             handleClose={handleClose}
+            sendUserAction={sendUserAction}
           />
         </CSSTransition>
       </Menu>
