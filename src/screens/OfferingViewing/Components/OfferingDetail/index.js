@@ -95,34 +95,38 @@ export function OfferingDetail({id, history, location}) {
 
   return (
     <div className="offering-detail" >
-      <div className="goback-container">
-        <Link 
-          className="del-icon" 
-          to={{
-            pathname: pathname, 
-            state: { id: elemId, value: location.state.searchedValue },
-          }}
-        >
-          <Icon name="chevron left" /> Go Back
-        </Link>
+      <div className="offering-info">
+        <div className="goback-container">
+          <Link 
+            className="del-icon" 
+            to={{
+              pathname: pathname, 
+              state: { id: elemId, value: location.state.searchedValue },
+            }}
+          >
+            <Icon name="chevron left" /> Go Back
+          </Link>
+        </div>
+        
+        <h1>{fullNumber}</h1><br/><br/>
+        <h2>
+          {courseName}&emsp;
+          <span>{termName}&ensp;{sectionName}</span>
+        </h2><br/>
+        <h5>{description}</h5><br/><br/>
       </div>
-
-      <h1>{fullNumber}</h1><br/><br/>
-      <h2>
-        {courseName}&emsp;
-        <span>{termName}&ensp;{sectionName}</span>
-      </h2><br/>
-      <h5>{description}</h5><br/><br/>
-      <Divider />
-      <h4>Playlists</h4>
-
-      <Playlists 
-        offeringId={id}
-        history={history} 
-        playlists={playlists} 
-        fullNumber={fullNumber}  
-      />
-      <ClassTranscribeFooter />
+      
+      <div className="playlist-container">
+        <Divider />
+        <h4>Playlists</h4>
+        <Playlists 
+          offeringId={id}
+          history={history} 
+          playlists={playlists} 
+          fullNumber={fullNumber}  
+        />
+        <ClassTranscribeFooter />
+      </div>
     </div>
   )
 }

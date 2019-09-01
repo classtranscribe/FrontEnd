@@ -30,7 +30,7 @@ export const user = {
     return userInfoStr ? JSON.parse(userInfoStr) : {}
   },
   setUpUser: function () {
-    if (this.id() === null) {
+    if (this.userId() === null) {
       auth0Client.handleAuthentication().then(() => {
         api.getAuthToken(auth0Client.getAuth0Token())
           .then(({data}) => {
