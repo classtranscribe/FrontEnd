@@ -211,6 +211,9 @@ export const api = {
   renameMedia: function(mediaId, filename) {
     return this.updateData('Media/PutJsonMetaData', { filename }, mediaId)
   },
+  updateCaptionLine: function(data) {
+    return this.postData('Captions', { id: data.id, text: data.text })
+  },
 
   /**
    * DELETE
