@@ -13,7 +13,7 @@ export class Watch extends React.Component {
   constructor(props) {
     super(props)
     const { id, courseNumber } = util.parseSearchQuery()
-
+    this.id = id
     if (!id || !courseNumber) window.location = util.links.notfound404()
     
     this.state = { 

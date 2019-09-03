@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import $ from 'jquery'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
-import { api } from 'utils'
+import { api, util } from 'utils'
 import { ctVideo } from '../ClassTranscribePlayer/CTPlayerUtils'
 import { timeStrToSec, timeBetterLook, handleExpand, copyToClipboard } from '../watchUtils'
 
@@ -79,7 +79,9 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, sendUserAction,
 
   const onShare = () => {
     setIsLoading(true)
-    const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
+    const { courseNumber, id } = util.parseSearchQuery()
+    const { origin , pathname } = window.location
+    const sharedUrl = `${origin + pathname}?courseNumber=${courseNumber}&id=${id}&begin=${timeStrToSec(begin)}`
     copyToClipboard(sharedUrl)
     sendUserAction('sharelink', { sharedUrl, text })
     setTimeout(() => {
