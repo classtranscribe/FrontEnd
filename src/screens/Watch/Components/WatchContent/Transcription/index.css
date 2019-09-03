@@ -4,7 +4,7 @@
   z-index: 2;
   overflow: hidden;
   background: rgb(49, 49, 49);
-  margin: .5em 0;
+  /* margin: .5em 0; */
 }
 
 
@@ -29,7 +29,7 @@
 .trans-container .tool-bar {
   min-height: 4em;
   width: 100%;
-  padding: .5em 1em;
+  padding: 0.5em 1em 0 1em;
   /* box-shadow: 0 0 .2em .2em rgba(71, 71, 71, 0.507); */
   box-shadow: 0 0 .3em .2em rgba(27, 27, 27, 0.507);
   display: flex;

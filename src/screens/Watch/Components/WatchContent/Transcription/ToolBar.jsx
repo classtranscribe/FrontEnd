@@ -4,8 +4,8 @@ import { SEARCH_IN_COURSE, SEARCH_IN_VIDEO } from '../constants'
 import { capSearch, handleExpand } from '../watchUtils'
 
 const searchOptions = [
-  {key: SEARCH_IN_VIDEO, value: SEARCH_IN_VIDEO, text: 'Search in Video'},
-  {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'Search in Course'}
+  {key: SEARCH_IN_VIDEO, value: SEARCH_IN_VIDEO, text: 'In-Video Search'},
+  {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'In-Course Search'}
 ]
 
 export default function ToolBar({ captions, setResults, canReset, sendUserAction }) {
