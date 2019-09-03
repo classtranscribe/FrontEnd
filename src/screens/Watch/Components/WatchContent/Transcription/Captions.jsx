@@ -79,7 +79,9 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, sendUserAction,
 
   const onShare = () => {
     setIsLoading(true)
-    const sharedUrl = `${window.location.href}?begin=${timeStrToSec(begin)}`
+    const { courseNumber, id } = util.parseSearchQuery()
+    const { origin , pathname } = window.location
+    const sharedUrl = `${origin + pathname}?courseNumber=${courseNumber}&id=${id}&begin=${timeStrToSec(begin)}`
     copyToClipboard(sharedUrl)
     sendUserAction('sharelink', { sharedUrl, text })
     setTimeout(() => {
