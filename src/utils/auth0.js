@@ -66,8 +66,7 @@ class Auth0 {
     this.profile = {}
     this.idToken = ''
     this.auth0.logout({ 
-      returnTo: window.location.origin, 
-      federated: true
+      returnTo: window.location.origin
     })
   }
 }
