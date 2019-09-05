@@ -204,6 +204,7 @@ function PlaylistForm({isNew, loading, name, setName, sourceType, setSourceType,
                 value={name}
                 onChange={({target: {value}}) => setName(value)}
                 loading={isCreating}
+                disabled={isCreating}
               />
             </Grid.Column>
           </Grid.Row>
@@ -234,6 +235,8 @@ function PlaylistForm({isNew, loading, name, setName, sourceType, setSourceType,
                   value={sourceType}
                   options={playlistTypeOptions}
                   onChange={(event, {value})=> setSourceType(value)}
+                  loading={isCreating}
+                  disabled={isCreating}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -254,6 +257,7 @@ function PlaylistForm({isNew, loading, name, setName, sourceType, setSourceType,
                   onChange={handlePlIDInput}
                   error={!isValidPlID}
                   loading={isCreating}
+                  disabled={isCreating}
                 />
               </Grid.Column>
             </Grid.Row>

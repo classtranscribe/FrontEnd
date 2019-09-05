@@ -76,7 +76,7 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
       </Grid.Row>
 
       {/* Progress buttons */}
-      <Grid.Row>
+      <Grid.Row id="ap-buttons">
         <Grid.Column className="ap-buttons">
           {!canGoNext && <>Select courses to continue&ensp;&ensp;</>}
           <Button 

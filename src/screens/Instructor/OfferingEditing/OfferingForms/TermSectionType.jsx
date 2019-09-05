@@ -62,7 +62,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
       </Grid.Row>
 
       {/* Progress buttons */}
-      <Grid.Row>
+      <Grid.Row id="ap-buttons">
         <Grid.Column>
           <Button secondary onClick={()=>toProgress('Courses')} aria-label="go back">
           <Icon name="chevron left"/> Back
