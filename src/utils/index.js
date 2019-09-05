@@ -31,6 +31,7 @@ export const util = {
 
     watch: (courseNumber, mediaId) => `/video?courseNumber=${courseNumber}&id=${mediaId}`,
     notfound404: () => '/404',
+    contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
 
   refresh: function() {
