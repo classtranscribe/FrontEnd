@@ -22,7 +22,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         {/* Selection for terms */}
         <Grid.Column>
           <Form.Field
-            fluid required
+            fluid required search
             control={Select}
             label="Term"
             aria-label="term"

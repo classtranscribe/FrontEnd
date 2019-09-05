@@ -36,8 +36,11 @@ export const util = {
   refresh: function() {
     document.location.reload(true);
   },
-  parseSearchQuery: function () {
+  parseSearchQuery: function (href) {
     var queryString = window.location.search
+    if (href) {
+      queryString = href.substring(href.indexOf('?'), href.length)
+    }
     if (!queryString) return {}
     var query = {}
     var pairs = queryString.substr(1).split('&');

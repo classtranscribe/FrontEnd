@@ -39,6 +39,7 @@ export default function CoursePane(props) {
             <p>Current Department: <strong>{currDepart.name}</strong></p>
             <Form>
               <Form.Field
+                search
                 control={Select}
                 options={departOptions}
                 defaultValue={localStorage.getItem('courseCurrDepart')}

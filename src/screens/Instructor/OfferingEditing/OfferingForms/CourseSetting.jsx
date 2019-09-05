@@ -32,7 +32,7 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
         {/* Select a department */}
         <Grid.Column>
           <Form.Field
-            fluid required
+            fluid required search
             control={Select}
             label="Department"
             aria-label="department"
@@ -44,7 +44,7 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
         {/* Select a course */}
         <Grid.Column>
           <Form.Field
-            fluid required
+            fluid required search
             control={Select}
             label='Course'
             aria-label='course'
