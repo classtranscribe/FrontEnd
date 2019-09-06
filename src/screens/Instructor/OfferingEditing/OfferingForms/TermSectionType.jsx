@@ -22,7 +22,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         {/* Selection for terms */}
         <Grid.Column>
           <Form.Field
-            fluid required
+            fluid required search
             control={Select}
             label="Term"
             aria-label="term"
@@ -62,7 +62,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
       </Grid.Row>
 
       {/* Progress buttons */}
-      <Grid.Row>
+      <Grid.Row id="ap-buttons">
         <Grid.Column>
           <Button secondary onClick={()=>toProgress('Courses')} aria-label="go back">
           <Icon name="chevron left"/> Back

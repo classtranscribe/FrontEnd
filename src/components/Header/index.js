@@ -28,7 +28,7 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
           <Icon name='sidebar' size="large"/>
         </Navbar.Brand>
       }
-      <Navbar.Brand id="brand" className="brand" as={Link} to={homeURL} title="Home" aria-label="Home">
+      <Navbar.Brand id="brand" className="ct-brand" as={Link} to={homeURL} title="Home" aria-label="Home">
         {/* {!isWatchScreen && <Logo />} */}
         <span>C</span>lass<span>T</span>ranscribe
       </Navbar.Brand>

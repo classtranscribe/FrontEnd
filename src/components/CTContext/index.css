@@ -1,0 +1,98 @@
+/* Alert */
+.context-alert {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;}
+  .context-alert .alert {
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    position: fixed;
+    z-index: 10;
+    min-height: 3rem;
+    font-size: 1.1rem;
+    transition: all .2s linear;
+  }
+    .context-alert .alert[id=alert-top] {
+      min-width: 70%;
+      top: 3.5em;}
+    .context-alert .alert[id=alert-bottom] {
+      transform: translateY(-50px, 0);
+      bottom: .5em;
+      min-width: 40%;
+    }
+    .alert-success {
+      background: #228686;
+      color: white;
+    }
+
+/* Error */
+.context-error {
+  position: fixed;
+  top: 0;
+  background: #fcfcfc;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.context-error .ct-brand, .context-error .ct-brand:hover, .context-error .ct-brand:focus {
+  margin-left: 0em;
+  margin-bottom: 50px;
+  font-size: 3em;
+  height: auto;
+  width: max-content;
+}
+.context-error .error-content {
+  font-family: Arial, Helvetica, sans-serif;
+  min-width: 70vw;
+  min-height: 55vh;
+  padding: 2em;
+}
+.context-error .error-content .error-header {
+  font-size: 2em;
+  font-weight: bold;
+  color: #707070;
+  vertical-align: middle;
+}
+.context-error .error-content .error-subheader {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #313131;
+}
+.context-error .error-content .error-mesg {
+  font-size: 1.2em;
+  color: #313131;
+}
+.context-error .error-content .error-actions {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+  justify-content: space-between;
+}
+.context-error .error-content .error-actions a {
+  padding: .7em;
+  color: rgb(48, 141, 141);}
+  .context-error .error-content .error-actions a:hover {
+    color: rgb(27, 95, 95);
+  }
+  .context-error .error-content .error-actions a[id=reload] {
+    background-color: #228686;
+    color: #fcfcfc;
+    width: max-content;
+    height: max-content;
+    margin-bottom: .7em;
+  }
+  .context-error .error-content .error-actions a[id=reload]:hover {
+    background-color: rgb(27, 95, 95);
+  }

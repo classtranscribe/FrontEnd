@@ -55,7 +55,7 @@ export class WatchContent extends React.Component {
     const { media } = this.props
     /** If media is loaded, set screen mode and get transcriptions */
     if (prevProps.media !== media) {
-      console.log('media', media)
+      // console.log('media', media)
       if (media.isTwoScreen) this.setState({ mode: PS_MODE })
       if (media.transcriptions) {
         const defaultTrans = handleData.find(media.transcriptions, {language: 'en-US'})

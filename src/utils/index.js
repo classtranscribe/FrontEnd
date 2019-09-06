@@ -31,13 +31,17 @@ export const util = {
 
     watch: (courseNumber, mediaId) => `/video?courseNumber=${courseNumber}&id=${mediaId}`,
     notfound404: () => '/404',
+    contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
 
   refresh: function() {
     document.location.reload(true);
   },
-  parseSearchQuery: function () {
+  parseSearchQuery: function (href) {
     var queryString = window.location.search
+    if (href) {
+      queryString = href.substring(href.indexOf('?'), href.length)
+    }
     if (!queryString) return {}
     var query = {}
     var pairs = queryString.substr(1).split('&');
