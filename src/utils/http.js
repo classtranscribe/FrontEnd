@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { util } from './index'
+import { util, user } from './index'
 import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
 const monthMap = require('./json/monthNames.json')
 
@@ -296,6 +296,7 @@ export const api = {
     courseOffering.id = courseOffering.offering.id
     // get department acronym
     courseOffering.courses.forEach( course => {
+      if (!user.isAdmin() && course.id === "test_course") courseOffering.isTestCourse = true
       this.getDepartById(course.departmentId) 
         .then( ({data}) => {
           course.acronym = data.acronym

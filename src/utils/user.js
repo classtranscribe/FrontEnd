@@ -29,6 +29,14 @@ export const user = {
     // console.log(JSON.parse(userInfoStr))
     return userInfoStr ? JSON.parse(userInfoStr) : {}
   },
+  isAdmin: function () {
+    const { roles } = this.getUserInfo()
+    return roles && roles.includes('Admin')
+  },
+  isInstructor: function () {
+    const { roles } = this.getUserInfo()
+    return roles && roles.includes('Instructor')
+  },
   setUpUser: function () {
     if (this.userId() === null) {
       auth0Client.handleAuthentication().then(() => {

@@ -31,7 +31,7 @@ export class OfferingViewing extends React.Component {
      */
     api.getOfferingsByStudent()
       .then(({data}) => {
-        this.completeOfferings(data)
+        this.completeOfferings(data.slice().reverse())
         api.contentLoaded()
       })
     /**

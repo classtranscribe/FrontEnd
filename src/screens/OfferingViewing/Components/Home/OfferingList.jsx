@@ -76,7 +76,7 @@ function Section({depart, state}) {
 
 function SectionItem({offering, depart, termSelected}) {
   // if the full offering data has not yet loaded
-  if (!offering.courses) return null
+  if (!offering.courses || offering.isTestCourse) return null
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
   // if loaded set the fullCourse
   var fullCourse = null
