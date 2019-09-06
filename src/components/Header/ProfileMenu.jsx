@@ -13,7 +13,7 @@ const iconStyle = { color: 'rgb(236, 236, 236)', fontSize: '1.3rem'}
 const fontStyle = {color: '#d5dedf', fontSize: '1.15rem'}
 
 const menuItems = [
-  {name: 'Student', title: 'Switch to student page', as: Link, href: util.links.home(), icon: 'fas fa-school', display: true},
+  {name: 'Student', title: 'Switch to student page', as: Link, href: util.links.home(), icon: 'fas fa-school', display: user.isInstructor() || user.isAdmin()},
   {name: 'Instructor', title: 'Switch to instructor page', as: Link, href: util.links.instructor(), icon: 'fas fa-graduation-cap', display: user.isInstructor()},
   {name: 'Admin', title: 'Switch to admin page', as: Link, href: util.links.admin(), icon: 'fas fa-user-cog', display: user.isAdmin()}
 ]
