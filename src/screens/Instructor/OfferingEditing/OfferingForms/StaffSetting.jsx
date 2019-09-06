@@ -11,7 +11,7 @@ import { Grid, Form, Input, Button, Icon, Label, Divider, Popup } from 'semantic
 export default function StaffSetting({toProgress, state: { staffMailId, staffs }, addStaff, removeStaff, onEnterStaffMailId}) {
   return (
     <>
-      <h2>3. Add Course Staffs (Optional)</h2>
+      <h2>3/3 &ensp; Add Course Staffs (Optional)</h2>
       <Popup
         basic position="right center"
         trigger={<Icon name="question circle outline" size="large" color="black"/>}
@@ -49,12 +49,12 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
             onKeyDown={addStaff}
           />
           <Label.Group>
-            {staffs.map( staff => (
-              <Label key={staff}>
-                {staff.email}
+            {staffs.map( email => (
+              <Label key={email}>
+                {email}
                 <Icon 
                   name="delete" 
-                  onClick={()=>removeStaff(staff)} 
+                  onClick={() => removeStaff(email)} 
                   title="remove" aria-label="remove" 
                 />
               </Label>

@@ -64,7 +64,7 @@ export function Courses(props) {
   
   return (
     <div className="ip-content">
-      <Title userId={userId}/>
+      <Title />
       {
         courseOfferings.length ? 
         <Tab 
@@ -74,7 +74,7 @@ export function Courses(props) {
           onTabChange={(event, {activeIndex}) => props.setActivePane(activeIndex)}
         /> 
         : 
-        <EmptyResult userId={userId}/>
+        <EmptyResult />
       }
     </div>
   )
@@ -83,7 +83,7 @@ export function Courses(props) {
 /**
  * Titles and 'Create new offering' button
  */
-function Title({userId}) {
+function Title() {
   return (
     <Grid>
       <Grid.Row columns={3} verticalAlign="middle">
@@ -96,7 +96,7 @@ function Title({userId}) {
         <Grid.Column stretched className="new-course-btn">
           <Button 
             as={Link} variant="secondary" 
-            to={util.links.newOffering(userId)}
+            to={util.links.newOffering(api.userId())}
             style={{marginRight:'-2rem'}}
             aria-label="create a new offering"
           >
@@ -111,7 +111,7 @@ function Title({userId}) {
 /**
  * Show when there is no courses created yet
  */
-function EmptyResult({userId}) {
+function EmptyResult() {
   return (
     <div className="empty">
       <div>
@@ -120,7 +120,7 @@ function EmptyResult({userId}) {
       </div>
       <Button 
         as={Link} size='big' secondary
-        to={`/instructor/offering-setting/new=${userId}`}
+        to={util.links.newOffering(api.userId())}
         style={{width: 'max-content', marginTop: '1rem'}} 
         aria-label="create a new offering"
       >

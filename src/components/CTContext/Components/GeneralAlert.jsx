@@ -1,5 +1,6 @@
 import React from 'react'
 import { Alert } from 'react-bootstrap'
+import { util } from '../../../utils'
 
 export default function GeneralAlert({ mesg, onClose }) {
   if (!mesg) return null
@@ -12,7 +13,10 @@ export default function GeneralAlert({ mesg, onClose }) {
     <div className="context-alert">
       <Alert id={`alert-${isTop ? 'top' : 'bottom'}`} variant={mesg.type || "success"} dismissible={isTop} onClose={onClose}>
         {header && <Alert.Heading>{header}</Alert.Heading>}
-        {text}
+        <span>
+          {text}&ensp;
+          {mesg.contactUs && <a href={util.links.contactUs()}>Contact Us</a>}
+        </span>
       </Alert>
     </div>
   )

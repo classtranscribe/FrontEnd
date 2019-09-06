@@ -3,12 +3,14 @@
  */
 import React from 'react'
 import { Button } from 'semantic-ui-react'
+import { useCTContext } from 'components'
 
 /**
  * Buttons for creatind new offering
  */
 export function SaveButtons(props) {
-  const { progress } = props.state;
+  const { progress } = props.state
+  const { generalAlert } = useCTContext()
   const canSave = progress === 'Staffs'
   return (
     <>
@@ -17,7 +19,7 @@ export function SaveButtons(props) {
           &&
         <Button 
           positive 
-          onClick={props.onCreate} 
+          onClick={() => props.onCreate(generalAlert)} 
           content="Save"
           aria-label="save"
         />

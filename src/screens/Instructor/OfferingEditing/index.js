@@ -16,6 +16,8 @@ const initialOffering = api.initialData.initialOffering
 export default class OfferingSettingPage extends React.Component {
   constructor(props) {
     super(props)
+    this.isNew = this.props.match.params.type === 'new'
+    this.id = this.props.match.params.id
     this.state = {
       id: this.props.match.params.id,
       type: this.props.match.params.type,
@@ -26,17 +28,19 @@ export default class OfferingSettingPage extends React.Component {
       progress: 'Courses', // Courses, Staffs, TermSecType
 
       // choose courses
-      currUni: null,
-      currDepart: null,
       departments: [],
+      currDepart: null,
       courses: [],
 
       // choose a term
       terms: [],
 
       // add multiple course staffs
-      staffs: [],
       staffMailId: '',
+      staffs: [],
+      newAddedStaffs: [],
+      newRemovedStaffs: [],
+
       selectedCourses: [],
       newSelectedCourses: [],
       newRemovedCourses: [],
@@ -50,203 +54,174 @@ export default class OfferingSettingPage extends React.Component {
     this.path = 'Offerings'
   }
 
-  /**
-   * First loading for preparing the page
-   */
-  componentDidMount() {
-    /**
-     * Get departments and terms
-     */
+  setUpOffering = async () => {
+    /** GET terms and departments based on user's university */
     const { universityId } = user.getUserInfo()
-    api.getTermsByUniId(universityId).then(({data}) => this.setState({ terms: data }))
-    api.getDepartsByUniId(universityId).then(({data}) => this.setState({ departments: data }))
+    var _departs = [], _terms = []
+    await api.getTermsByUniId(universityId).then(({data}) => {
+      this.setState({ terms: data.slice().reverse() })
+      _terms = data
+    })
+    await api.getDepartsByUniId(universityId).then(({data}) => {
+      this.setState({ departments: data })
+      _departs = data
+    })
 
-    /**
-     * Get data for editing a offering
-     */
-    const { isNew, id, offeringInfo } = this.state
-    if ( !isNew ) {
-      /**
-       * Get CourseOffering by offeringId
-       */
-      api.getOfferingById(id)
-        .then ( ({data}) => {
-          console.log(data)
-          // set default offeringInfo
-          offeringInfo.offering = {
-            ...data.offering,
-            accessType: api.offeringAccessType[data.offering.accessType].id
-          }
-          console.log(offeringInfo)
-          // set others
-          this.setState({
-            offering: data, 
-            staffs: data.instructorIds,
-            offeringInfo,
-            loading: false
+    /** GET offering info */
+    if ( !this.isNew ) {
+      api.getOfferingById(this.id)
+        .then(({data}) => {
+          console.log('offering', data)
+          // const term = handleData.findById(_terms, data.offering.termId)
+          // if (term !== 'NOT FOUND') data.offering.termName = term.name
+          /** Setup selectedCourses */
+          data.courses.forEach( (course, index) => {
+            const dep = handleData.findById(_departs, course.departmentId)
+            if (dep !== 'NOT FOUND') data.courses[index].acronym = dep.acronym
           })
-          /**
-           * get selectedCourses with full courseNumber based CourseOffering.courseIds
-           */
-          data.courses.forEach( course => {
-            api.getDepartById(course.departmentId)
-              .then( ({data}) => {
-                course.fullCourseNumber = data.acronym + course.courseNumber
-                this.setState( state => ({
-                  selectedCourses: [...state.selectedCourses, course]
-                }))
-              })
+          this.setState({ offering: data, selectedCourses: data.courses })
+          /** Setup Staffs */
+          const staffs = []
+          data.instructorIds.forEach( instructor => {
+            staffs.push(instructor.email)
           })
+          this.setState({ staffs, loading: false })
         })
     }
   }
 
   /**
-   * Set current progress
+   * First loading for preparing the page
    */
+  componentDidMount() {
+    this.setUpOffering()
+  }
+
   toProgress = progress => {
     this.setState({ progress })
   }
-  /**
-   * Function to determine the visibility of delete modal
-   */
+
   showDeleteModal = () => {
     this.setState({showDeleteModal: !this.state.showDeleteModal})
   }
 
   /**
-   * Functions for add course staffs
+   * Helper Function for setting selecting options for courses based on current department
    */
-
-  onEnterStaffMailId = event => {
-    if ( event.target.value.includes(' ') ) return;
-    this.setState({staffMailId: event.target.value})
+  getCoursesByDepartId = (id, acronym) => {
+    api.getCoursesByDepartId(id)
+      .then(({data}) => {
+        data.forEach(course => course.acronym = acronym)
+        this.setState({ courses: data })
+      })
   }
 
-  addStaff = event => {
-    if ( event.keyCode === 32 || event.keyCode === 13 ) { 
-      const { id, isNew, staffMailId, staffs } = this.state
-      if ( handleData.isValidEmail(staffMailId) ) {
-        const email = staffMailId
-        if ( handleData.includes(staffs, email) ) return;
-        this.setState({staffs: [...staffs, email], staffMailId: ''})
-        if ( !isNew ) {
-          api.addCourseStaffToOffering(id, [email])
-            .then(() => console.log('Successfully add new instructor!'))
-        }
-      } 
-    } 
+  onDepartSelected = departId => {
+    const currDepart = handleData.findById(this.state.departments, departId)
+    this.setState({ currDepart })
+    this.getCoursesByDepartId(departId, currDepart.acronym)
   }
-
-  removeStaff = staff =>  {
-    var { staffs, isNew, id } = this.state
-    handleData.remove(staffs, obj => obj === staff)
-    this.setState({ staffs })
-    if ( !isNew ) {
-      api.deleteCourseStaffFromOffering(id, staff)
-       .then(() => console.log('Successfully removed the user'))
-    }
-  }
-
 
   /**
    * Functions for add courses
    */
-
-  addCourse = course => {
-    const { selectedCourses, isNew, id, newSelectedCourses } = this.state
+  addCourse = courseId => {
+    const { selectedCourses, newSelectedCourses, courses } = this.state
+    const course = handleData.findById(courses, courseId)
     if ( handleData.findById(selectedCourses, course.id) !== 'NOT FOUND' ) return;
     selectedCourses.push(course)
     console.log('course', course)
     this.setState({ selectedCourses })
-    if ( !isNew ) {
+    if ( !this.isNew ) {
       newSelectedCourses.push(course)
       this.setState({ newSelectedCourses })
     }
   }
-
   removeCourse = courseId => {
-    var { selectedCourses, isNew, newRemovedCourses } = this.state
+    var { selectedCourses, newRemovedCourses } = this.state
     handleData.remove(selectedCourses, {id: courseId})
     this.setState({ selectedCourses })
-    if (!isNew) {
+    if (!this.isNew) {
       newRemovedCourses.push(courseId)
       this.setState({ newRemovedCourses })
     }
-  }
-  
-
-  /**
-   * Helper Function for setting selecting options for courses based on current department
-   */
-  getCoursesByDepartId = id => {
-    api.getCoursesByDepartId(id)
-      .then(response => {
-        this.setState({courses: response.data})
-      })
   }
 
   /**
    * Function for handling input changes
    */
   onChange = (value, key) => {
-    const newData = this.state.offeringInfo
-    // set current department
-    if ( key === 'currDepart' ) {
-      const { departments } = this.state
-      this.setState({ currDepart: handleData.findById(departments, value) })
-      this.getCoursesByDepartId(value)
+    const { offering } = this.state
+    offering.offering[key] = value
+    this.setState({ offering })
+  }
+
+  /**
+   * Functions for add course staffs
+   */
+  onEnterStaffMailId = ({target: {value}}) => {
+    if ( value.includes(' ') ) return;
+    this.setState({staffMailId: value})
+  }
+  addStaff = event => {
+    if ( event.keyCode === 32 || event.keyCode === 13 ) { 
+      const { staffMailId, staffs, newAddedStaffs } = this.state
+      if ( !handleData.isValidEmail(staffMailId) ) return;
+      const email = staffMailId
+      if ( handleData.includes(staffs, email) ) return;
+      staffs.push(email)
+      this.setState({ staffs, staffMailId: '' })
+      if ( !this.isNew ) {
+        newAddedStaffs.push(email)
+        this.setState({ newAddedStaffs })
+      }
     } 
-    // keys of offering 
-    else if ( handleData.includes(['termId', 'accessType', 'sectionName'], key) ) {
-      newData.offering[key] = value
-    } 
-    // set current course
-    else if ( key === 'courseId' ) {
-      const { courses, currDepart } = this.state
-      const course = handleData.findById(courses, value)
-      course.fullCourseNumber = currDepart.acronym + course.courseNumber
-      this.addCourse(course)
-    } 
-    else {
-      newData[key] = value
+  }
+  removeStaff = email =>  {
+    const { staffs, newRemovedStaffs } = this.state
+    handleData.remove(staffs, staff => staff === email)
+    this.setState({ staffs })
+    if ( !this.isNew ) {
+      newRemovedStaffs.push(email)
+      this.setState({ newRemovedStaffs })
     }
-    this.setState({offeringInfo: newData})
-    // console.log(newData)
   }
 
   /**
    * Function called when saving a new offering
    */
-  onCreate = () => {
-    const { offeringInfo, id, selectedCourses, staffs } = this.state
-    // complete offeringInfo
-    offeringInfo.instructorId = id
-    offeringInfo.courseId = selectedCourses[0].id
+  onCreate = async handleError => {
+    this.setState({ loading: true })
+    const { offering, selectedCourses, staffs } = this.state
+    // complete offering
+    offering.instructorId = this.id
+    offering.courseId = selectedCourses[0].id
     
-
     // POST to Offerings
-    api.createOffering(offeringInfo).then(({data}) => {
-      // POST to CourseOfferings
-      selectedCourses.forEach( (course, index) => {
-        if (index) {
-          api.createCourseOffering({ courseId: course.id, offeringId: data.id })
-            .then( ({data}) => console.log(data))
-            .catch( error => console.log(error))
-        }
-      })
+    var offeringId = ''
+    await api.createOffering(offering)
+            .then(({data}) => offeringId = data.id)
+            .catch(() => handleError({
+                header: "Couldn't Create the Offering",
+                text: "Please try to re-submit again.",
+                type: "danger",
+                position: "top",
+                contactUs: true,
+              }, -1))
+    if (!offeringId) {
+      this.setState({ loading: false })
+      return;
+    }
+    // POST to courseOfferings
+    for (let i = 0; i < selectedCourses.length; i++) {
+      if (i > 0) await api.createCourseOffering({ courseId: selectedCourses[i].id, offeringId })
+    }
 
-      // POST to Offerings/AddUsers
-      api.addCourseStaffToOffering(data.id, staffs)
-        .then( ({data}) => console.log(data))
-        .catch(error => console.log(error))
+    // POST to Offerings/AddUsers
+    await api.addCourseStaffToOffering(offeringId, staffs)
 
-      // Go back
-      this.onClose(data.id)
-    })
-    .catch( error => console.log(error))
-    
-    console.log(offeringInfo)
+    // Go back
+    this.onClose(offeringId)
   }
 
   /**
@@ -277,14 +252,14 @@ export default class OfferingSettingPage extends React.Component {
    * Function called for deleting the offering
    */
   onDelete = () => {
-    api.deleteOffering(this.state.id).then(() => window.location = util.links.instructor())
+    api.deleteOffering(this.id).then(() => window.location = util.links.instructor())
   }
 
   /**
    * Go Back
    */
   onClose = offeringId => {
-    window.location = util.links.offering(offeringId || this.state.id)
+    window.location = util.links.offering(offeringId || this.id)
   }
 
   onCancel = () => {
@@ -294,9 +269,9 @@ export default class OfferingSettingPage extends React.Component {
   onConfirm = () => this.setState({confirmed: true})
 
   render() {
-    const { isNew, showDeleteModal } = this.state
-    const header = isNew ? 'New Offering' : 'Offering Setting'
-    const button = isNew ? <SaveButtons {...this}/>
+    const { showDeleteModal } = this.state
+    const header = this.isNew ? 'New Offering' : 'Offering Setting'
+    const button = this.isNew ? <SaveButtons {...this}/>
                          : <EditButtons {...this} />
     return(
       <GeneralModal 

@@ -10,13 +10,13 @@ import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
 import { api, util } from 'utils'
 
 export default function TermSectionTypeSetting({state, onChange, toProgress}) {
-  const { offeringInfo, terms } = state
+  const { offering, terms } = state
   const termOptions = util.getSelectOptions(terms)
   const accessOptions = util.getSelectOptions(api.offeringAccessType)
-  const canGoNext = offeringInfo.offering.termId && offeringInfo.offering.sectionName
+  const canGoNext = offering.offering.termId && offering.offering.sectionName
   return (
     <>
-      <h2>2. Fill Out Basic Information</h2>
+      <h2>2/3 &ensp; Basic Information</h2>
 
       <Grid.Row >
         {/* Selection for terms */}
@@ -27,7 +27,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             label="Term"
             aria-label="term"
             options={termOptions}
-            value={offeringInfo.offering.termId}
+            value={offering.offering.termId}
             onChange={(event, {value}) => onChange(value, 'termId')}
           />
         </Grid.Column>
@@ -40,7 +40,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             label="Section Number"
             aria-label="section number"
             placeholder='E.g. AL1'
-            value={offeringInfo.offering.sectionName}
+            value={offering.offering.sectionName}
             onChange={({target: {value}})=> onChange(value, 'sectionName')}
           />
         </Grid.Column>
@@ -55,7 +55,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             label="Visibility"
             aria-label="visibility"
             options={accessOptions}
-            value={offeringInfo.offering.accessType}
+            value={offering.offering.accessType}
             onChange={(event, {value}) => onChange(value, 'accessType')}
           />
         </Grid.Column>

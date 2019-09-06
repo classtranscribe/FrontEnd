@@ -52,6 +52,8 @@
   box-shadow: none !important;
   width: 100%;
   height: max-content;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 .op-grid .labels {
   display: inline;}

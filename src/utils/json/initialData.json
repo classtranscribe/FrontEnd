@@ -24,7 +24,7 @@
     "offering": {
       "sectionName": "",
       "termId": "",
-      "accessType": "Public"
+      "accessType": 0
     },
     "courseId": "",
     "instructorId": ""

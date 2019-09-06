@@ -9,14 +9,14 @@ import { Grid, Form, Select, Popup, Button, Icon, Label, Message, Divider } from
 // Vars
 import { util } from 'utils'
 
-export default function CourseSetting({state, onChange, toProgress, removeCourse}) {
+export default function CourseSetting({state, toProgress, removeCourse, onDepartSelected, addCourse}) {
   const { departments, courses, currDepart, selectedCourses } = state
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
   const canGoNext = selectedCourses.length > 0
   return (
     <>
-      <h2>1. Select Courses for Your Offering</h2>
+      <h2>1/3 &ensp; Select Courses</h2>
       <Popup
         basic position="right center"
         trigger={<Icon name="question circle outline" size="large" color="black"/>}
@@ -37,7 +37,7 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
             label="Department"
             aria-label="department"
             options={departOptions}
-            onChange={(event, {value}) => onChange(value, 'currDepart')}
+            onChange={(event, {value}) => onDepartSelected(value)}
           />
         </Grid.Column>
 
@@ -49,7 +49,8 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
             label='Course'
             aria-label='course'
             options={courseOptions}
-            onChange={(event, {value}) => onChange(value, 'courseId')}
+            value=""
+            onChange={(event, {value}) => addCourse(value)}
           />
         </Grid.Column>
       </Grid.Row>
@@ -63,7 +64,7 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
           <Label.Group size="large" role="group">
             {selectedCourses.map( course => (
               <Label key={course.id}>
-                {course.fullCourseNumber}
+                {course.acronym + course.courseNumber}
                 <Icon 
                   name="delete" 
                   onClick={()=>removeCourse(course.id)} 
