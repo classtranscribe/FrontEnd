@@ -187,6 +187,9 @@
   font-weight: normal !important;
   font-size: .8em;
 }
+.trans-container .captions .line .likes .thumbup .clicked, .trans-container .captions .line .likes .thumbdown .clicked {
+  color: rgb(96, 168, 168);
+}
 .trans-container .captions .line .edit {
   display: inline-flex;
   justify-content: flex-end;
@@ -204,16 +207,13 @@
   opacity: 1;
 } */
 
-.trans-container .captions .icon, 
-.trans-container .captions .icon {
+.trans-container .captions .icon, .trans-container .captions .icon:focus {
   transition: color .2s linear;
   color: rgb(209, 209, 209);
   outline: none;
   background: none !important;}
-  .trans-container .captions .icon:hover, 
   .trans-container .captions .icon:hover {
-    color: rgb(184, 184, 184);
-  }
+    color: rgb(184, 184, 184);}
 
 .trans-container .captions .line .likes .num {
   margin-left: -1.1em;

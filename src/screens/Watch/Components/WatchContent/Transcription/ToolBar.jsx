@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Select, Input, Button } from 'semantic-ui-react'
+import { Select, Button } from 'semantic-ui-react'
+import { useCTContext } from 'components'
 import { SEARCH_IN_COURSE, SEARCH_IN_VIDEO } from '../constants'
 import { capSearch, handleExpand } from '../watchUtils'
 
@@ -11,6 +12,7 @@ const searchOptions = [
 export default function ToolBar({ captions, setResults, canReset, sendUserAction }) {
   const [loadingResults, setLoadingResults] = useState(false)
   const [searchInput, setSearchInput] = useState('')
+  const { generalAlert } = useCTContext()
 
   const handleOnChange = ({ target: {value} }) => {
     if (loadingResults) return;
@@ -20,6 +22,7 @@ export default function ToolBar({ captions, setResults, canReset, sendUserAction
   const handleOnKeyDown = ({ keyCode }) => {
     if (keyCode === 13) {
       setResults(() => capSearch.getResult(captions, searchInput))
+      generalAlert({text: `Captions containing '${searchInput}'`, position: 'bottom'})
       sendUserAction('filtertrans', { value: searchInput })
       capSearch.toTop()
       handleExpand(true)

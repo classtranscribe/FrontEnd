@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { util } from './index'
+import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
 const monthMap = require('./json/monthNames.json')
 
 /**
@@ -181,6 +182,18 @@ export const api = {
   updateCaptionLine: function(data) {
     return this.postData('Captions', { id: data.id, text: data.text })
   },
+  captionUpVote: function(id) { // captionId
+    return this.postData('Captions/UpVote', null, { id })
+  },
+  captionCancelUpVote: function(id) { // captionId
+    return this.postData('Captions/CancelUpVote', null, { id })
+  },
+  captionDownVote: function(id) { // captionId
+    return this.postData('Captions/DownVote', null, { id })
+  },
+  captionCancelDownVote: function(id) { // captionId
+    return this.postData('Captions/CancelDownVote', null, { id })
+  },
 
   /**
    * PUT
@@ -261,7 +274,17 @@ export const api = {
    */
   sendUserAction: function(eventType, data = {}) {
     // console.log({eventType, ...data, userId: this.userId() })
-    return this.postData('Logs', {eventType, ...data, userId: this.userId()})
+    const { json, mediaId, offeringId } = data
+    return this.postData('Logs', {
+      eventType, 
+      mediaId, 
+      offeringId,
+      userId: this.userId(),
+      json: {
+        ...json, 
+        device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }
+      }
+    })
   },
 
 

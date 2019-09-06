@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import $ from 'jquery'
+import React, { useState } from 'react'
 import { Input, Button } from 'semantic-ui-react'
 import { Spinner } from 'react-bootstrap'
+import { useCTContext } from 'components'
 import { api, util } from 'utils'
 import { ctVideo } from '../ClassTranscribePlayer/CTPlayerUtils'
 import { timeStrToSec, timeBetterLook, handleExpand, copyToClipboard } from '../watchUtils'
@@ -39,19 +39,54 @@ export default function Captions({ media, captions, results, setReadyToEdit, reL
   )
 }
 
-function CaptionLine({ media, line, reLoadCaption, handleExpand, sendUserAction, setReadyToEdit }) {
+function CaptionLine({ /*media,*/ line, reLoadCaption, handleExpand, sendUserAction/*, setReadyToEdit*/ }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
-  const { text, index, begin } = line
+  const { generalAlert } = useCTContext()
+  const { id, text, index, begin, downVote, upVote, transcriptionId } = line
 
-  useEffect(() => {
-    
-  }, [line])
+  const [upVoteNum, setUpVoteNum] = useState(upVote)
+  const [downVoteNum, setDownVoteNum] = useState(downVote)
+
+  const isUpVoted = upVote !== upVoteNum
+  const isDownVoted = downVote !== downVoteNum
 
   const SeekToCaption = e => {
     ctVideo.setCurrTime(e, timeStrToSec(begin))
     handleExpand(false)
+  }
+
+  const onUpVote = () => {
+    if (!isUpVoted) {
+      api.captionUpVote(id)
+        .then(() => sendUserAction('captionUpVote', { transcriptionId, captionId: id, begin, text }))
+      generalAlert({text: 'Liked the caption.', position: 'bottom'}, 1300)
+      setUpVoteNum(upVoteNum => upVoteNum + 1)
+      if (isDownVoted) {
+        setDownVoteNum(downVote)
+        api.captionCancelDownVote(id)
+      }
+    } else if (upVote + 1 === upVoteNum) {
+      api.captionCancelUpVote(id)
+      setUpVoteNum(upVoteNum => upVoteNum - 1)
+    }
+  }
+
+  const onDownVote = () => {
+    if (!isDownVoted) {
+      api.captionDownVote(id)
+        .then(() => sendUserAction('captionDownVote', { transcriptionId, captionId: id, begin, text }))
+      generalAlert({text: 'Disliked the caption.', position: 'bottom'}, 1300)
+      setDownVoteNum(downVoteNum => downVoteNum + 1)
+      if (isUpVoted) {
+        setUpVoteNum(upVote)
+        api.captionCancelUpVote(id)
+      }
+    } else if (downVote + 1 === downVoteNum) {
+      api.captionCancelDownVote(id)
+      setDownVoteNum(downVoteNum => downVoteNum - 1)
+    }
   }
 
   const onEditCaption = () => {
@@ -68,10 +103,12 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, sendUserAction,
 
   const onSave = line => {
     setIsLoading(() => true)
+    generalAlert({text: 'Saving...', position: 'bottom'}, -1)
     api.updateCaptionLine(line).then(() => {
       sendUserAction('edittrans', { prevText: text, newText: line.text })
       reLoadCaption(() => {
         setIsLoading(() => false)
+        generalAlert({text: 'Saved!', position: 'bottom'}, 1200)
         onClose()
       })
     })
@@ -111,16 +148,16 @@ function CaptionLine({ media, line, reLoadCaption, handleExpand, sendUserAction,
         <Button 
           compact className="icon thumbdown" 
           title="Like" aria-label="Like"
-          onFocus={onFocus} onBlur={onBlur}
+          onClick={onUpVote} onFocus={onFocus} onBlur={onBlur}
         >
-          <i className="material-icons">thumb_down</i>20
+          <i className={`material-icons ${isUpVoted ? 'clicked' : ''}`}>thumb_up</i>{upVoteNum}
         </Button>
         <Button 
           compact className="icon thumbup" 
           title="Dislike" aria-label="Dislike"
-          onFocus={onFocus} onBlur={onBlur}
+          onClick={onDownVote} onFocus={onFocus} onBlur={onBlur}
         >
-          <i className="material-icons">thumb_up</i>31
+          <i className={`material-icons ${isDownVoted ? 'clicked' : ''}`}>thumb_down</i>{downVoteNum}
         </Button>
       </div>
 
