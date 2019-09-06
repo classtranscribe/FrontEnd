@@ -57,7 +57,7 @@ export function OfferingDetail({id, history, location}) {
     api.sendUserAction('selectcourse', {
       offeringId: id
     })
-  }, [id])
+  }, [id, history])
 
 
   /**

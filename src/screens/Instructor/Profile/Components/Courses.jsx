@@ -17,10 +17,9 @@ import { handleData, api, util } from 'utils'
  * @param sortDown state to determine whether to sortDown or sortUp the offering by term
  * @param onSort callback for setState stortDown
  * @param courseOfferings courseOfferings of the instructor
- * @param userId instructorId for the need of creating an offering
  */
 export function Courses(props) {
-  const {courseOfferings, userId, departments, courseActivePane} = props.state
+  const { courseOfferings, departments, courseActivePane } = props.state
   const [isMobile, setIsMobile] = useState(window.innerWidth < 780)
   useEffect(() => {
     window.addEventListener('resize', function() {

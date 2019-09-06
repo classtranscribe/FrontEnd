@@ -57,10 +57,10 @@ export default class OfferingSettingPage extends React.Component {
   setUpOffering = async () => {
     /** GET terms and departments based on user's university */
     const { universityId } = user.getUserInfo()
-    var _departs = [], _terms = []
+    var _departs = []//, _terms = []
     await api.getTermsByUniId(universityId).then(({data}) => {
       this.setState({ terms: data.slice().reverse() })
-      _terms = data
+      //_terms = data
     })
     await api.getDepartsByUniId(universityId).then(({data}) => {
       this.setState({ departments: data })

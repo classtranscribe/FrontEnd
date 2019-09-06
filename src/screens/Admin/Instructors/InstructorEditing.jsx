@@ -7,8 +7,8 @@ import { api, util } from 'utils'
 
 export default function InstructorEditing({ match: {params}, history }) {
   const isNew = params.type === 'new'
-  const id = params.id
-  const [loading, setloading] = useState(!isNew)
+  // const id = params.id
+  const [loading/*, setloading*/] = useState(!isNew)
   const [mailId, setMailId] = useState('')
 
   useEffect(() => {

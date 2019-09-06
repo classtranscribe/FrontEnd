@@ -17,14 +17,6 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
   const [uniOptions, setUniOptions] = useState([])
   const [currUni, setCurrUni] = useState({id: 0})
 
-  useEffect(() => {
-    if (universities.length) {
-      setUniOptions(() => getSelectOptions(universities))
-      const uniId = localStorage.getItem('instCurrUni')
-      if (uniId) onUniSelect({ value: uniId })
-    }
-  }, [universities])
-
   const onUniSelect = ({value}) => {
     setLoading(true)
     setCurrUni(() => handleData.findById(universities, value))
@@ -35,6 +27,14 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
       setLoading(false)
     })
   }
+
+  useEffect(() => {
+    if (universities.length) {
+      setUniOptions(() => getSelectOptions(universities))
+      const uniId = localStorage.getItem('instCurrUni')
+      if (uniId) onUniSelect({ value: uniId })
+    }
+  }, [universities, getSelectOptions])
 
   const onInactive = (mailId) => {
     api.deleteRole(mailId)

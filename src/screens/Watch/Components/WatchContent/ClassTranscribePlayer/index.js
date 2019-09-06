@@ -160,7 +160,7 @@ export default class ClassTranscribePlayer extends React.Component {
             <video 
               ref={ node => this.videoNode = node } 
               className="video-js" 
-              preload="auto"
+              preload="metadata"
               onPause={this.onPause}
               onPlay={this.onPlay}
               onSeeking={this.onSeeking}

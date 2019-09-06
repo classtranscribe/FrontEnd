@@ -40,7 +40,7 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
   )
 }
 
-function Logo() {
+export function Logo() {
   return (
     <>
       <img

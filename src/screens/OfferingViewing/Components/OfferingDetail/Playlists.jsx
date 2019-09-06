@@ -39,7 +39,7 @@ function Playlist({history, playlist, playlists, index, activeIndex, setActiveIn
   return (
     <div className="playlist" key={playlist.id}>
       <Accordion.Title 
-        className="pl-header" tabIndex={1} 
+        className="pl-header"
         id={playlist.id}
         active={isActive}
         tabIndex={0}

@@ -39,7 +39,7 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, sendUs
     if (playlist.medias) {
       setMedias(() => playlist.medias)
     }
-  }, [playlist])
+  }, [playlist, playlistsInState])
 
   const backToPlaylists = () => {
     setSelectedPlaylist(() => emptyPlaylist)

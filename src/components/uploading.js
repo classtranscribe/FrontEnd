@@ -13,7 +13,7 @@ export function UpLoadVideosContainer(props) {
     props.onUploading();
     handleVideoUploaded(acceptedFiles, props);
     props.onUploading();
-  }, []);
+  }, [props]);
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
   
   return (

@@ -7,7 +7,7 @@ export default function UploadBtn({ onUpload }) {
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length > 2) setMesg('You can upload no more than 2 files.')
     else onUpload(acceptedFiles)
-  }, [])
+  }, [onUpload])
   const {getRootProps, getInputProps, /* isDragActive */} = useDropzone({onDrop})
   return (
     <div className="upload-btn">
