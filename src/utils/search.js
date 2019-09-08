@@ -58,4 +58,11 @@ export const search = {
 
     return _.filter(source, isMatch)
   },
+
+  generalSearch: function(array, value) {
+    if (!value) return []
+    const re = new RegExp(_.escapeRegExp(value), 'i')
+    const isMatch = word => re.test(word)
+    return _.filter(array, isMatch)
+  },
 }

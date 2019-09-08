@@ -5,7 +5,7 @@
 
 import React from 'react'
 // Layouts
-import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
+import { Grid, Form, Input, Select } from 'semantic-ui-react'
 // Vars
 import { api, util } from 'utils'
 
@@ -14,14 +14,13 @@ const logEventsFlagOpts = [
   {text: "False", value: false}
 ]
 
-export default function TermSectionTypeSetting({state, onChange, toProgress}) {
+export default function TermSectionTypeSetting({state, onChange}) {
   const { offering, terms } = state
   const termOptions = util.getSelectOptions(terms)
   const accessOptions = util.getSelectOptions(api.offeringAccessType)
-  const canGoNext = offering.offering.termId && offering.offering.sectionName
   return (
     <>
-      <h2>2/3 &ensp; Basic Information</h2>
+      <h2>Basic Information</h2>
 
       <Grid.Row >
         {/* Selection for terms */}
@@ -51,8 +50,8 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         </Grid.Column>
       </Grid.Row>
 
-      {/* Access type */}
       <Grid.Row >
+        {/* Access type */}
         <Grid.Column>
           <Form.Field
             fluid required 
@@ -64,10 +63,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             onChange={(event, {value}) => onChange(value, 'accessType')}
           />
         </Grid.Column>
-      </Grid.Row>
-
-      {/* logEventsFlag */}
-      <Grid.Row >
+        {/* logEventsFlag */}
         <Grid.Column>
           <Form.Field
             fluid 
@@ -79,20 +75,6 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             onChange={(event, {value}) => onChange(value, 'logEventsFlag')}
           />
           <span className="text-muted">Turn it on if you'd like to view the statistics of students' perfermance</span>
-        </Grid.Column>
-      </Grid.Row>
-      {/* Progress buttons */}
-      <Grid.Row id="ap-buttons">
-        <Grid.Column>
-          <Button secondary onClick={()=>toProgress('Courses')} aria-label="go back">
-          <Icon name="chevron left"/> Back
-          </Button>
-        </Grid.Column>
-        <Grid.Column className="ap-buttons">
-          {!canGoNext && <>Fill out the fields to continue&ensp;&ensp;</>}
-          <Button disabled={!canGoNext} secondary onClick={()=>toProgress('Staffs')} aria-label="go next">
-            Next <Icon name="chevron right"/>
-          </Button>
         </Grid.Column>
       </Grid.Row>
     </>

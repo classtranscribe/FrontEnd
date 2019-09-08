@@ -1,36 +1,36 @@
 /**
  * Form Component for Editing Offerings
- * - Add or remove course staffs for a offering
+ * - Add or remove course students for a offering
  */
 
 import React, { useState, useEffect } from 'react'
 // Layouts
-import { Grid, Input, Button, Icon, Popup } from 'semantic-ui-react'
+import { Grid, Icon, Popup } from 'semantic-ui-react'
 import { UploadBtn } from '../Buttons'
 // Vars
 import { search } from 'utils'
 
-export default function StaffSetting({state: { staffMailId, staffs, staffEmailExists }, addStaff, removeStaff, onEnterStaffMailId}) {
-  const [results, setResults] = useState(staffs)
+export default function StudentsSetting({state: { students }, addStudent, removeStudent }) {
+  const [results, setResults] = useState(students)
   const [input, setInput] = useState('')
   useEffect(() => {
-    setResults(staffs)
-  }, [staffs])
+    setResults(students)
+  }, [students])
 
   const onSearch = ({target: {value}}) => {
     setInput(value)
-    if (value) setResults(search.generalSearch(staffs, value))
-    else setResults(staffs)
+    if (value) setResults(search.generalSearch(students, value))
+    else setResults(students)
   }
 
   return (
     <>
-      <h2>Add Course Staffs (Optional) &ensp;
+      <h2>Add Students &ensp;
         <Popup
           basic position="right center"
           trigger={<Icon name="question circle outline" size="large" color="black"/>}
           content={
-            <p>Add Course Staffs to the Offering Admin List</p>
+            <p>This offering will only be visible to the following students.</p>
         }/>
       </h2>
       
@@ -38,20 +38,7 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
       <Grid.Row>
         {/* upload file button */}
         <Grid.Column>
-          <Input
-            fluid 
-            type="email"
-            label="Enter the emails"
-            aria-label="enter the emails"
-            placeholder="Enter email here ..."
-            value={staffMailId}
-            onChange={onEnterStaffMailId}
-          >
-            <input />
-            <Button type="submit" onClick={addStaff}>Add</Button>
-          </Input>
-          <p className="warning">{staffEmailExists && 'Sorry, this email has already been added.'}</p>
-          <UploadBtn type="staffs" addNew={addStaff} />
+          <UploadBtn type="students" addNew={addStudent} />
         </Grid.Column>
 
         {/* input to add instructors */}
@@ -65,12 +52,12 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
               onChange={onSearch}
             />
             <div className="email-group" role="list">
-              {results.slice().reverse().map( email => (
+              {results.map( email => (
                 <div className="email-item " key={email}>
                   {email}
                   <Icon 
                     name="trash" 
-                    onClick={() => removeStaff(email)} 
+                    onClick={() => removeStudent(email)} 
                     title="remove" aria-label="remove" 
                   />
                 </div>

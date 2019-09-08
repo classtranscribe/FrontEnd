@@ -33,19 +33,23 @@ export default class OfferingSettingPage extends React.Component {
       currDepart: null,
       courses: [],
 
-      // choose a term
+      selectedCourses: [],
+      newSelectedCourses: [],
+      newRemovedCourses: [],
+
+      // term
       terms: [],
 
-      // add multiple course staffs
+      // course staffs
       staffMailId: '',
       staffs: [],
       staffs_ids: [],
       newAddedStaffs: [],
       newRemovedStaffs: [],
+      staffEmailExists: false,
 
-      selectedCourses: [],
-      newSelectedCourses: [],
-      newRemovedCourses: [],
+      // students
+      students: [],
 
       // offering info
       offering: handleData.copy(initialOffering),
@@ -175,23 +179,25 @@ export default class OfferingSettingPage extends React.Component {
     if ( value.includes(' ') ) return;
     this.setState({staffMailId: value})
   }
-  addStaff = event => {
-    if ( event.keyCode === 32 || event.keyCode === 13 ) { 
-      const { staffMailId, staffs, newAddedStaffs, newRemovedStaffs } = this.state
-      if ( !handleData.isValidEmail(staffMailId) ) return;
-      const email = staffMailId
-      if ( handleData.includes(staffs, email) ) return;
-      staffs.push(email)
-      this.setState({ staffs, staffMailId: '' })
-      if ( !this.isNew ) {
-        if (newRemovedStaffs.includes(email)) {
-          handleData.remove(newRemovedStaffs, staff => staff === email)
-        } else {
-          newAddedStaffs.push(email)
-          this.setState({ newAddedStaffs })
-        }
+  addStaff = value => {
+    const { staffMailId, staffs, newAddedStaffs, newRemovedStaffs } = this.state
+    const email = typeof value === "string" ? value : staffMailId
+    if ( !handleData.isValidEmail(email) ) return;
+    if ( handleData.includes(staffs, email) ) {
+      this.setState({ staffEmailExists: true })
+      return;
+    }
+    staffs.push(email)
+    this.setState({ staffs, staffMailId: '' })
+    this.setState({ staffEmailExists: false })
+    if ( !this.isNew ) {
+      if (newRemovedStaffs.includes(email)) {
+        handleData.remove(newRemovedStaffs, staff => staff === email)
+      } else {
+        newAddedStaffs.push(email)
+        this.setState({ newAddedStaffs })
       }
-    } 
+    }
   }
   removeStaff = email =>  {
     const { staffs, newRemovedStaffs, newAddedStaffs } = this.state
@@ -205,6 +211,22 @@ export default class OfferingSettingPage extends React.Component {
         this.setState({ newRemovedStaffs })
       }
     }
+  }
+
+  /**
+   * Functions for add students
+   */
+  addStudent = email => {
+    const { students } = this.state
+    if ( !handleData.isValidEmail(email) || students.includes(email)) return;
+    students.push(email)
+    this.setState([students])
+  }
+
+  removeStudent = email => {
+    const { students } = this.state
+    handleData.remove(students, staff => staff === email)
+    this.setState({ students })
   }
 
   /**

@@ -5,28 +5,28 @@
 
 import React from 'react'
 // Layouts
-import { Grid, Form, Select, Popup, Button, Icon, Label, Message, Divider } from 'semantic-ui-react'
+import { Grid, Form, Select, Popup, Icon, Label, Message, Divider } from 'semantic-ui-react'
 // Vars
 import { util } from 'utils'
 
-export default function CourseSetting({state, toProgress, removeCourse, onDepartSelected, addCourse}) {
+export default function CourseSetting({state, removeCourse, onDepartSelected, addCourse}) {
   const { departments, courses, currDepart, selectedCourses } = state
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
-  const canGoNext = selectedCourses.length > 0
   return (
     <>
-      <h2>1/3 &ensp; Select Courses</h2>
-      <Popup
-        basic position="right center"
-        trigger={<Icon name="question circle outline" size="large" color="black"/>}
-        content={
-          <p>
-            <strong>Why multiple courses?</strong><br/>
-            Some offerings may be held by multiple departments. 
-            For Example, CS425 and ECE428 have the same content.
-          </p>
-      }/>
+      <h2>Select Courses &ensp;
+        <Popup
+          basic position="right center"
+          trigger={<Icon name="question circle outline" size="large" color="black"/>}
+          content={
+            <p>
+              <strong>Why multiple courses?</strong><br/>
+              Some offerings may be held by multiple departments. 
+              For Example, CS425 and ECE428 have the same content.
+            </p>
+        }/>
+      </h2>
       
       <Grid.Row>
         {/* Select a department */}
@@ -69,20 +69,6 @@ export default function CourseSetting({state, toProgress, removeCourse, onDepart
               ))}
             </Label.Group>
           </Message>
-        </Grid.Column>
-      </Grid.Row>
-
-      {/* Progress buttons */}
-      <Grid.Row id="ap-buttons">
-        <Grid.Column className="ap-buttons">
-          {!canGoNext && <>Select courses to continue&ensp;&ensp;</>}
-          <Button 
-            disabled={!canGoNext} secondary 
-            onClick={()=>toProgress('TermSecType')}
-            aria-label="go next"
-          >
-            Next <Icon name="chevron right"/>
-          </Button>
         </Grid.Column>
       </Grid.Row>
     </>
