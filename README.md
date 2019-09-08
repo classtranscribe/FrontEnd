@@ -4,6 +4,7 @@ The React.js Frontend for ClassTranscribe
 # Getting Started
 
 ## Prerequisites
+
 * Having `Homebrew` installed
 ```
 $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
