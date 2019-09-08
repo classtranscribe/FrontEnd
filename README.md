@@ -8,9 +8,9 @@ The React.js Frontend for ClassTranscribe
 $ brew install yarn
 ```
 
-2. Clone the frontend repo 
+2. Clone the frontend repo and go inside the /FrontEnd
 ```
-$ git clone https://github.com/classtranscribe/FrontEnd.git
+$ git clone https://github.com/classtranscribe/FrontEnd.git && cd FrontEnd
 ```
 
 3. Build dependencies
