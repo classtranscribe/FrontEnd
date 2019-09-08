@@ -82,7 +82,7 @@ export function UploadBtn({ addNew }) {
       </Button><br/>
       <span>{mesg}</span>
       <span className="text-muted">
-        Please upload a <strong>.csv file</strong> with a <strong>list of emails without header</strong> to add. 
+        Please upload a <strong>.csv file</strong> with a <strong>list of emails without header</strong>. 
         <br/>For example:
       </span>
       <div className="csv-demo">

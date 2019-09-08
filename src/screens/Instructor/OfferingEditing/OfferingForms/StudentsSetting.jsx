@@ -29,9 +29,7 @@ export default function StudentsSetting({state: { students }, addStudent, remove
         <Popup
           basic position="right center"
           trigger={<Icon name="question circle outline" size="large" color="black"/>}
-          content={
-            <p>This offering will only be visible to the following students.</p>
-        }/>
+          content={<p>This offering will only be visible to the following students.</p>}/>
       </h2>
       
 

@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react'
 // Layouts
-import { Grid, Input, Button, Icon, Popup } from 'semantic-ui-react'
+import { Grid, Input, Button, Icon, Popup, Form } from 'semantic-ui-react'
 import { UploadBtn } from '../Buttons'
 // Vars
 import { search } from 'utils'
@@ -29,9 +29,7 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
         <Popup
           basic position="right center"
           trigger={<Icon name="question circle outline" size="large" color="black"/>}
-          content={
-            <p>Add Course Staffs to the Offering Admin List</p>
-        }/>
+          content={<p>Add Course Staffs to the Offering Admin List</p>}/>
       </h2>
       
 
@@ -41,7 +39,6 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
           <Input
             fluid 
             type="email"
-            label="Enter the emails"
             aria-label="enter the emails"
             placeholder="Enter email here ..."
             value={staffMailId}
@@ -59,10 +56,10 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
           <div className="email-container">
             <input 
               className="email-filter" 
-              type="text" 
               placeholder="Search ..."
               value={input}
               onChange={onSearch}
+              type="text"
             />
             <div className="email-group" role="list">
               {results.slice().reverse().map( email => (

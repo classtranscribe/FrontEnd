@@ -20,6 +20,7 @@
   .op-grid h2 i.icon {
     font-size: .8em !important;
     margin-top: -.5em;
+    color: rgb(128, 128, 128) !important;
   }
 .op-grid p {
   display: inline;
