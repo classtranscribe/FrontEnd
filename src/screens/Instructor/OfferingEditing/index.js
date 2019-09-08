@@ -188,8 +188,7 @@ export default class OfferingSettingPage extends React.Component {
       return;
     }
     staffs.push(email)
-    this.setState({ staffs, staffMailId: '' })
-    this.setState({ staffEmailExists: false })
+    this.setState({ staffs, staffMailId: '', staffEmailExists: false })
     if ( !this.isNew ) {
       if (newRemovedStaffs.includes(email)) {
         handleData.remove(newRemovedStaffs, staff => staff === email)

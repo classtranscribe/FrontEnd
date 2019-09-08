@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react'
 // Layouts
-import { Grid, Input, Button, Icon, Popup, Form } from 'semantic-ui-react'
+import { Grid, Input, Button, Icon, Popup } from 'semantic-ui-react'
 import { UploadBtn } from '../Buttons'
 // Vars
 import { search } from 'utils'
