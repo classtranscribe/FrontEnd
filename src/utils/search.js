@@ -59,10 +59,10 @@ export const search = {
     return _.filter(source, isMatch)
   },
 
-  generalSearch: function(array, value) {
+  generalSearch: function(array, value, key) {
     if (!value) return []
     const re = new RegExp(_.escapeRegExp(value), 'i')
-    const isMatch = word => re.test(word)
+    const isMatch = word => re.test(key ? word[key] : word)
     return _.filter(array, isMatch)
   },
 }

@@ -74,7 +74,7 @@ export default function TermSectionTypeSetting({state, onChange}) {
             value={offering.offering.logEventsFlag}
             onChange={(event, {value}) => onChange(value, 'logEventsFlag')}
           />
-          <span className="text-muted">Turn it on if you'd like to view the statistics of students' perfermance</span>
+          <p className="guide">Turn it on if you'd like to view the statistics of students' perfermance</p>
         </Grid.Column>
       </Grid.Row>
     </>

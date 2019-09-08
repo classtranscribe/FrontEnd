@@ -11,21 +11,19 @@ import { useDropzone } from 'react-dropzone'
  * Buttons for creatind new offering
  */
 export function SaveButtons(props) {
-  const { progress } = props.state
   const { generalAlert } = useCTContext()
-  const canSave = progress === 'Staffs'
+  const { offering, selectedCourses } = props.state
+  const { termId, sectionName } = offering.offering
+  const canSave = termId && sectionName && selectedCourses.length
   return (
     <>
-      {
-        canSave // can save the offering iff all the fields if filled
-          &&
-        <Button 
-          positive 
-          onClick={() => props.onCreate(generalAlert)} 
-          content="Save"
-          aria-label="save"
-        />
-      }
+      <Button 
+        positive 
+        onClick={() => props.onCreate(generalAlert)} 
+        content="Save"
+        aria-label="save"
+        disabled={!canSave}
+      />
       <Button onClick={props.onCancel} content="Cancel" aria-label="cancel" />
     </>
   )
@@ -50,11 +48,7 @@ export function EditButtons(props) {
       />
       
       <Button secondary onClick={props.onCancel} content="Cancel" aria-label="cancel" />
-      {
-        offering // can delete the offering iff the offering is loaded
-        && 
-        <Button onClick={props.showDeleteModal} content="Delete" aria-label="delete" />
-      }
+      <Button onClick={props.showDeleteModal} content="Delete" aria-label="delete" disabled={!canSave} />
     </>
   )
 }
