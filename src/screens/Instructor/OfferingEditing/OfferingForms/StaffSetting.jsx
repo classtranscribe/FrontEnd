@@ -64,7 +64,7 @@ export default function StaffSetting({toProgress, state: { staffMailId, staffs }
       </Grid.Row>
 
       {/* progress buttons */}
-      <Grid.Row>
+      <Grid.Row id="ap-buttons">
         <Grid.Column>
           <Button  secondary onClick={()=>toProgress('TermSecType')} aria-label="go back">
             <Icon name="chevron left"/> Back

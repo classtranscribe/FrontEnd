@@ -1,6 +1,7 @@
 import React from 'react'
 import './index.css'
 
+export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
 export { ClassTranscribeHeader } from './Header'
 export { FixedFooter, ClassTranscribeFooter } from './Footer'
 export { GeneralModal, DeleteModal } from './Modals'

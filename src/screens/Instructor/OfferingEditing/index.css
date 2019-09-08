@@ -1,11 +1,14 @@
 .op-form {
   padding-left: 1rem;
   width: 100%;
-  min-height: 20rem;
+  min-height: 25rem;
+  position: relative;
 }
 
 .op-grid {
   padding-top: 1rem !important;
+  height: 100%;
+  padding-bottom: 7em !important;
 }
 
 .op-grid h2 {
@@ -44,8 +47,11 @@
   }
 
 .op-grid .message {
-  min-height: 9rem !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
   width: 100%;
+  height: max-content;
 }
 .op-grid .labels {
   display: inline;}
@@ -63,4 +69,9 @@
 
 .op-form .inverted {
   background: none !important;
+}
+
+.op-form .row[id=ap-buttons] {
+  position: absolute !important;
+  bottom: 0rem !important;
 }

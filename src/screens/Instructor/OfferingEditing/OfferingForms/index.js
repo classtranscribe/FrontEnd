@@ -19,7 +19,7 @@ export default function OfferingForm(props) {
     <Form className="op-form" role='form' aria-label='Offering Setting Form'>
       {
         !loading ?
-        <Grid columns='equal' verticalAlign="middle" stackable className="op-grid"> 
+        <Grid columns='equal'  stackable className="op-grid"> 
           {
             progress === 'Courses'
             &&

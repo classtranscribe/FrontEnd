@@ -5,6 +5,10 @@
 .ui .modal {
   overflow: visible;
 }
+.ui.modal>.header, .ui.modal>.actions {
+  background: #fcfcfc !important;
+  border: none !important;
+}
 
 .general-modal {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -17,7 +21,7 @@
     background: #eeeeee !important; 
     color: #329c9c !important;}
   .general-modal .gm-content {
-    background: #f3f3f3 !important;}
+    background: #fcfcfc !important;}
   .general-modal .gm-action {
     background: #f0f0f0 !important;}
 

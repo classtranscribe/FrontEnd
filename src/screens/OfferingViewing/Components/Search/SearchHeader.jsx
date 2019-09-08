@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader, useCTContext } from 'components'
 import { util } from 'utils'
 
 function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, history }) {
   const [searchValue, setSearchValue] = useState('')
+  // const { generalAlert } = useCTContext()
   const handleOnKeyDown = e => {
     if (e.keyCode === 13) {
       setSearchValue('')
@@ -23,6 +24,7 @@ function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, histo
             onChange={({target: {value}}) => setSearchValue(value)}
             value={searchValue}
             onKeyDown={handleOnKeyDown}
+            //onClick={() => generalAlert({header: 'Success', text: 'nnakjhbdjsyvdjs'}, -1)}
           />
           <i aria-hidden="true" className="search icon"></i>
         </div>

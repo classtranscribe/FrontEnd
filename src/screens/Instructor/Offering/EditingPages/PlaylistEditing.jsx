@@ -16,19 +16,19 @@ import { api, util } from 'utils'
  * @param id   type is new: offeringId, type is id: playlistId
  * @param history for goBack
  */
-export function PlaylistEditing ({match: {params: {id, type}}, history, location}) {
+export function PlaylistEditing ({match: {params: {id, type}}, history}) {
   // determine whether is going to create or edit a playlist
   const isNew = type === 'new' 
-
-  /** 
-   * playlist - the original playlist info whiling editing the playlist 
-   */
-  const [playlist, setPlaylist] = useState(api.initialData.initialPlaylist)
-  /**
-   * playlistInfo - the object for recording the inputs
-   */
-  const [playlistInfo, setPlaylistInfo] = useState(playlist)
   const [loading, setLoading] = useState(true)
+
+  /**
+   * playlist Info - the object for recording the inputs
+   */
+  const [offeringId, setOfferingId] = useState(id)
+  const [name, setName] = useState('')
+  const [sourceType, setSourceType] = useState(2)
+  const [playlistIdentifier, setPlaylistIdentifier] = useState('')
+  const [isValidPlID, setIsValidPlID] = useState('empty')
 
   /**
    * Used while editinf a playlist
@@ -38,10 +38,11 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
     if (!isNew) {
       api.getPlaylistById(id)
         .then( ({data}) => {
-          delete data['medias']
-          setPlaylist(() => data)
-          setPlaylistInfo(() => data)
-          setLoading(() => false)
+          setLoading(false)
+          setName(data.name)
+          setOfferingId(data.offeringId)
+          setSourceType(data.sourceType)
+          setPlaylistIdentifier(data.playlistIdentifier)
         })
     }
   }, [history])
@@ -51,14 +52,37 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
    */
   const callBacks = {
     onCreate: () => {
-      if ( isNew ) playlistInfo.offeringId = id
-      api.createPlaylist(playlistInfo).then(() => callBacks.onClose())
+      setIsValidPlID('creating')
+      var validPlID = playlistIdentifier
+      if (sourceType === 1) {
+        const { list } = util.parseSearchQuery(playlistIdentifier)
+        if (list) {
+          validPlID = list
+        } else {
+          setIsValidPlID('')
+          return;
+        }
+      } else if (sourceType === 0) {
+        if (!playlistIdentifier.includes('https://echo360.org/section/') || !playlistIdentifier.includes('/public')) {
+          setIsValidPlID('')
+          return;
+        }
+      }
+      
+      api.createPlaylist({
+        name, sourceType, playlistIdentifier: validPlID, offeringId
+      })
+        .then(() => window.location = util.links.offering(offeringId))
     },
     onUpdate: () => {
-      api.updatePlaylist(playlistInfo).then(() => callBacks.onClose())
+      api.updatePlaylist({
+        name, sourceType, playlistIdentifier, offeringId, id
+      })
+        .then(() => callBacks.onClose())
     },
     onDelete: () => {
-      api.deletePlaylist(playlistInfo.id).then(() => window.location = util.links.offering(playlistInfo.offeringId))
+      api.deletePlaylist(id)
+        .then(() => window.location = util.links.offering(offeringId))
     },
     onClose: () => {
       history.goBack()
@@ -68,19 +92,35 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
     }
   }
 
+  const handlePlIDInput = ({target: {value}}) => {
+    setPlaylistIdentifier(value)
+    if (!isValidPlID) {
+      if (sourceType === 1) {
+        const { list } = util.parseSearchQuery(playlistIdentifier)
+        if (list) {
+          setIsValidPlID('valid')
+        } 
+      } else if (sourceType === 0) {
+        if (playlistIdentifier.includes('https://echo360.org/section/') && playlistIdentifier.includes('/public')) {
+          setIsValidPlID('valid')
+        }
+      }
+    }
+  }
+
   const header = isNew ? 'New Playlist' : 'Rename the Playlist'
   const modalSize = isNew ? 'small' : 'tiny'
-  const urlEntered = playlistInfo.sourceType === 2 || playlistInfo.playlistIdentifier
+  const urlEntered = sourceType === 2 || playlistIdentifier
   const button = isNew ? 
     <SaveButtons 
       {...callBacks}
-      canSave={playlistInfo.name && urlEntered}
+      canSave={name && urlEntered}
     />
     : 
     <EditButtons 
       {...callBacks}
-      canDelete={playlistInfo}
-      canSave={playlistInfo && playlistInfo.name}
+      canDelete={name}
+      canSave={name}
     />
 
   return(
@@ -94,8 +134,13 @@ export function PlaylistEditing ({match: {params: {id, type}}, history, location
       <PlaylistForm 
         isNew={isNew}
         loading={loading}
-        playlistInfo={playlistInfo}
-        setPlaylistInfo={setPlaylistInfo}
+        name={name}
+        setName={setName}
+        sourceType={sourceType}
+        setSourceType={setSourceType}
+        playlistIdentifier={playlistIdentifier}
+        handlePlIDInput={handlePlIDInput}
+        isValidPlID={isValidPlID}
       />
     </GeneralModal>
   )
@@ -112,17 +157,27 @@ const playlistTypeGuide = [
     <Popup 
       content={
         <p>
-          The playlist IDENTIFIER of <span className="link">https://www.youtube.com/watch?v=Uqs0GewlMkQ&
-          <span className="id">list=PLLssT5z_DsK8Xwnh_0bjN4KNT81bekvtt</span></span><br/>
-          is <span className="id">PLLssT5z_DsK8Xwnh_0bjN4KNT81bekvtt</span>
+          For Example<br/>
+          <span className="link">https://www.youtube.com/playlist?list=PLC3y8-rFHvwgg3vaYJgHGnModB54rxOk3</span>
         </p>
       } 
-      trigger={<span> IDENTIFIER </span>} 
+      trigger={<span> PLAYLIST URL </span>} 
     />
     of your YouTube Playlist
   </p>,
-  <p><strong><Icon name='video play'/> {api.playlistTypes[0].name}:<br/></strong>
-    Enter the PUBLIC URL of your Echo360 course
+  <p>
+    <strong><Icon name='video play'/> {api.playlistTypes[0].name}:<br/></strong>
+    Enter the 
+    <Popup 
+      content={
+        <p>
+          For Example<br/>
+          <span className="link">https://echo360.org/section/59cc95a1-b088-46e3-80a3-7e3c6921a40f/public</span>
+        </p>
+      } 
+      trigger={<span> ACCESS LINK </span>} 
+    />
+    of your Echo360 course
   </p>
 ]
 
@@ -130,8 +185,9 @@ const playlistTypeGuide = [
  * Form Component
  * @todo need to add type selection
  */
-function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
+function PlaylistForm({isNew, loading, name, setName, sourceType, setSourceType, playlistIdentifier, handlePlIDInput, isValidPlID}) {
   const playlistTypeOptions = util.getSelectOptions(api.playlistTypes)
+  const isCreating = isValidPlID === 'creating'
   return (
     <Form className="general-form">
       {
@@ -145,8 +201,10 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
                 control={Input}
                 label='Playlist Name'
                 placeholder='E.g. Lecture 1'
-                defaultValue={playlistInfo.name}
-                onChange={({target: {value}})=> setPlaylistInfo({...playlistInfo, name: value})}
+                value={name}
+                onChange={({target: {value}}) => setName(value)}
+                loading={isCreating}
+                disabled={isCreating}
               />
             </Grid.Column>
           </Grid.Row>
@@ -174,16 +232,18 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
                   control={Select}
                   label='Playlist Type'
                   placeholder='Playlist Type'
-                  defaultValue={api.playlistTypes[2].id}
+                  value={sourceType}
                   options={playlistTypeOptions}
-                  onChange={(event, {value})=> setPlaylistInfo({...playlistInfo, sourceType: value})}
+                  onChange={(event, {value})=> setSourceType(value)}
+                  loading={isCreating}
+                  disabled={isCreating}
                 />
               </Grid.Column>
             </Grid.Row>
             </>
           }
           {
-            (isNew && playlistInfo.sourceType !== 2)
+            (isNew && sourceType !== 2)
             &&
             <Grid.Row>
               <Grid.Column>
@@ -191,9 +251,13 @@ function PlaylistForm({isNew, loading, playlistInfo, setPlaylistInfo}) {
                   fluid required
                   id='playlist-url'
                   control={Input}
-                  label={playlistInfo.sourceType === 0 ? 'Public URL' : 'Playlist Identifier'}
-                  placeholder={playlistInfo.sourceType === 0 ? 'Paste your public URL here...' : 'Enter your playlist identifier here ...'}
-                  onChange={({target: {value}})=> setPlaylistInfo({...playlistInfo, playlistIdentifier: value})}
+                  value={playlistIdentifier}
+                  label={sourceType === 0 ? 'Access Link' : 'Playlist Identifier'}
+                  placeholder={sourceType === 0 ? 'Enter the course ACCESS LINK here...' : 'Enter your playlist identifier here ...'}
+                  onChange={handlePlIDInput}
+                  error={!isValidPlID}
+                  loading={isCreating}
+                  disabled={isCreating}
                 />
               </Grid.Column>
             </Grid.Row>
