@@ -4,10 +4,15 @@
 
 .ui .modal {
   overflow: visible;
+  box-shadow: none !important;
 }
 .ui.modal>.header, .ui.modal>.actions {
   background: #fcfcfc !important;
   border: none !important;
+}
+.solid-dimmer {
+  transition: none !important;
+  background-color: #fcfcfc !important;
 }
 
 .general-modal {

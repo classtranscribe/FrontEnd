@@ -21,17 +21,17 @@ export default function OfferingForm(props) {
         !loading ?
         <Grid columns='equal'  stackable className="op-grid"> 
           {
-            progress === 'Courses'
+            true //progress === 'Courses'
             &&
             <CourseSetting {...props} />
           }
           {
-            progress === 'TermSecType' 
+            true //progress === 'TermSecType' 
             &&
             <TermSectionTypeSetting {...props} />
           }
           {
-            progress === 'Staffs'
+            true //progress === 'Staffs'
             &&
             <StaffSetting {...props} />
           }

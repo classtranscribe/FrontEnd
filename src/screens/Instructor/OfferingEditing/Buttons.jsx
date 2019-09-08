@@ -33,16 +33,16 @@ export function SaveButtons(props) {
  * Buttons for editing the offering
  */
 export function EditButtons(props) {
-  const { offeringInfo, offering, selectedCourses } = props.state;
-  const { termId, sectionName } = offeringInfo.offering;
-  const canSave = termId && sectionName && selectedCourses.length;
+  const { generalAlert } = useCTContext()
+  const { offering, selectedCourses } = props.state
+  const { termId, sectionName } = offering.offering
+  const canSave = termId && sectionName && selectedCourses.length
   return (
     <>
-
       <Button 
         disabled={!canSave} 
         positive 
-        onClick={props.onUpdate} 
+        onClick={() => props.onUpdate(generalAlert)} 
         content="Save"
         aria-label="save" 
       />

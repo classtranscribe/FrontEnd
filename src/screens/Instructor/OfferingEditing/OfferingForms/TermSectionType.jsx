@@ -9,6 +9,11 @@ import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
 // Vars
 import { api, util } from 'utils'
 
+const logEventsFlagOpts = [
+  {text: "True", value: true},
+  {text: "False", value: false}
+]
+
 export default function TermSectionTypeSetting({state, onChange, toProgress}) {
   const { offering, terms } = state
   const termOptions = util.getSelectOptions(terms)
@@ -61,6 +66,21 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
         </Grid.Column>
       </Grid.Row>
 
+      {/* logEventsFlag */}
+      <Grid.Row >
+        <Grid.Column>
+          <Form.Field
+            fluid 
+            control={Select}
+            label="Log Student Events"
+            aria-label="visibility"
+            options={logEventsFlagOpts}
+            value={offering.offering.logEventsFlag}
+            onChange={(event, {value}) => onChange(value, 'logEventsFlag')}
+          />
+          <span className="text-muted">Turn it on if you'd like to view the statistics of students' perfermance</span>
+        </Grid.Column>
+      </Grid.Row>
       {/* Progress buttons */}
       <Grid.Row id="ap-buttons">
         <Grid.Column>

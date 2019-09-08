@@ -39,10 +39,6 @@ export default function CourseSetting({state, toProgress, removeCourse, onDepart
             options={departOptions}
             onChange={(event, {value}) => onDepartSelected(value)}
           />
-        </Grid.Column>
-
-        {/* Select a course */}
-        <Grid.Column>
           <Form.Field
             fluid required search
             control={Select}
@@ -53,27 +49,27 @@ export default function CourseSetting({state, toProgress, removeCourse, onDepart
             onChange={(event, {value}) => addCourse(value)}
           />
         </Grid.Column>
-      </Grid.Row>
 
-      {/* Selected courses */}
-      <Grid.Row style={{padding: '0 1rem 0 1rem'}}>
-        <Message>
-          <Message.Header><p>Selected Courses</p></Message.Header>
-          <Divider />
-          {!selectedCourses.length && <p><span>none</span></p>}
-          <Label.Group size="large" role="group">
-            {selectedCourses.map( course => (
-              <Label key={course.id}>
-                {course.acronym + course.courseNumber}
-                <Icon 
-                  name="delete" 
-                  onClick={()=>removeCourse(course.id)} 
-                  title="remove" aria-label="remove" 
-                />
-              </Label>
-            ))}
-          </Label.Group>
-        </Message>
+        {/* Select a course */}
+        <Grid.Column>
+          <Message>
+            <Message.Header><p>Selected Courses</p></Message.Header>
+            <Divider />
+            {!selectedCourses.length && <p><span>none</span></p>}
+            <Label.Group size="large" role="group">
+              {selectedCourses.map( course => (
+                <Label key={course.id}>
+                  {course.acronym + course.courseNumber}
+                  <Icon 
+                    name="delete" 
+                    onClick={()=>removeCourse(course.id)} 
+                    title="remove" aria-label="remove" 
+                  />
+                </Label>
+              ))}
+            </Label.Group>
+          </Message>
+        </Grid.Column>
       </Grid.Row>
 
       {/* Progress buttons */}

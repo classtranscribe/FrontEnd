@@ -251,10 +251,10 @@ export const api = {
     return this.deleteData('Offerings', offeringId)
   },
   deleteCourseOffering: function (courseId, offeringId) {
-    return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
+    return http.delete(`/api/CourseOfferings/${courseId}/${offeringId}`, this.withAuth())
   },
   deleteCourseStaffFromOffering: function(offeringId, userId) {
-    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+    return http.delete(`/api/UserOfferings/${offeringId}/${userId}`, this.withAuth())
   },
   deletePlaylist: function(playlistId) {
     return this.deleteData('Playlists', playlistId)

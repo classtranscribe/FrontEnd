@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import $ from 'jquery'
 // Layouts
 import { GeneralModal, DeleteModal } from 'components'
 import OfferingForm from './OfferingForms'
@@ -38,6 +39,7 @@ export default class OfferingSettingPage extends React.Component {
       // add multiple course staffs
       staffMailId: '',
       staffs: [],
+      staffs_ids: [],
       newAddedStaffs: [],
       newRemovedStaffs: [],
 
@@ -86,6 +88,7 @@ export default class OfferingSettingPage extends React.Component {
             staffs.push(instructor.email)
           })
           this.setState({ staffs, loading: false })
+          api.contentLoaded()
         })
     }
   }
@@ -94,6 +97,7 @@ export default class OfferingSettingPage extends React.Component {
    * First loading for preparing the page
    */
   componentDidMount() {
+    // $('.dimmer').addClass('solid-dimmer')
     this.setUpOffering()
   }
 
@@ -126,24 +130,32 @@ export default class OfferingSettingPage extends React.Component {
    * Functions for add courses
    */
   addCourse = courseId => {
-    const { selectedCourses, newSelectedCourses, courses } = this.state
+    const { selectedCourses, newSelectedCourses, newRemovedCourses, courses } = this.state
     const course = handleData.findById(courses, courseId)
     if ( handleData.findById(selectedCourses, course.id) !== 'NOT FOUND' ) return;
     selectedCourses.push(course)
     console.log('course', course)
     this.setState({ selectedCourses })
     if ( !this.isNew ) {
-      newSelectedCourses.push(course)
-      this.setState({ newSelectedCourses })
+      if (newRemovedCourses.includes(courseId)) {
+        handleData.remove(newRemovedCourses, id => id === courseId)
+      } else {
+        newSelectedCourses.push(course)
+        this.setState({ newSelectedCourses })
+      }
     }
   }
   removeCourse = courseId => {
-    var { selectedCourses, newRemovedCourses } = this.state
+    var { selectedCourses, newRemovedCourses, newSelectedCourses } = this.state
     handleData.remove(selectedCourses, {id: courseId})
     this.setState({ selectedCourses })
     if (!this.isNew) {
-      newRemovedCourses.push(courseId)
-      this.setState({ newRemovedCourses })
+      if (handleData.findById(newSelectedCourses, courseId) !== 'NOT FOUND') {
+        handleData.remove(newSelectedCourses, {id: courseId})
+      } else {
+        newRemovedCourses.push(courseId)
+        this.setState({ newRemovedCourses })
+      }
     }
   }
 
@@ -165,25 +177,33 @@ export default class OfferingSettingPage extends React.Component {
   }
   addStaff = event => {
     if ( event.keyCode === 32 || event.keyCode === 13 ) { 
-      const { staffMailId, staffs, newAddedStaffs } = this.state
+      const { staffMailId, staffs, newAddedStaffs, newRemovedStaffs } = this.state
       if ( !handleData.isValidEmail(staffMailId) ) return;
       const email = staffMailId
       if ( handleData.includes(staffs, email) ) return;
       staffs.push(email)
       this.setState({ staffs, staffMailId: '' })
       if ( !this.isNew ) {
-        newAddedStaffs.push(email)
-        this.setState({ newAddedStaffs })
+        if (newRemovedStaffs.includes(email)) {
+          handleData.remove(newRemovedStaffs, staff => staff === email)
+        } else {
+          newAddedStaffs.push(email)
+          this.setState({ newAddedStaffs })
+        }
       }
     } 
   }
   removeStaff = email =>  {
-    const { staffs, newRemovedStaffs } = this.state
+    const { staffs, newRemovedStaffs, newAddedStaffs } = this.state
     handleData.remove(staffs, staff => staff === email)
     this.setState({ staffs })
     if ( !this.isNew ) {
-      newRemovedStaffs.push(email)
-      this.setState({ newRemovedStaffs })
+      if (newAddedStaffs.includes(email)) {
+        handleData.remove(newAddedStaffs, staff => staff === email)
+      } else {
+        newRemovedStaffs.push(email)
+        this.setState({ newRemovedStaffs })
+      }
     }
   }
 
@@ -201,13 +221,16 @@ export default class OfferingSettingPage extends React.Component {
     var offeringId = ''
     await api.createOffering(offering)
             .then(({data}) => offeringId = data.id)
-            .catch(() => handleError({
-                header: "Couldn't Create the Offering",
+            .catch(() => {
+              this.setState({ loading: false })
+              handleError({
+                header: "Couldn't create the offering",
                 text: "Please try to re-submit again.",
                 type: "danger",
                 position: "top",
                 contactUs: true,
-              }, -1))
+              }, -1)
+            })
     if (!offeringId) {
       this.setState({ loading: false })
       return;
@@ -227,25 +250,44 @@ export default class OfferingSettingPage extends React.Component {
   /**
    * Function called when save changes of a offering
    */
-  onUpdate = () => {
-    const { offeringInfo, offering, newRemovedCourses, newSelectedCourses, id } = this.state
-    const newOffering = offeringInfo.offering
-    newRemovedCourses.forEach( courseId=> {
-      api.deleteCourseOffering(courseId, id)
-       .then( () => console.log('DELETE course success!'))
-    })
-    newSelectedCourses.forEach( course => {
-      api.createCourseOffering({ courseId: course.id, offeringId: id })
-        .then( () => console.log('PUT course success!'))
-    })
-    console.log(newOffering)
-    // PUT to Offerings/id if if the offering info changes 
-    if ( !handleData.isEqual(newOffering, offering.offering) ) {
-      api.updateOffering(newOffering)
-        .then( ({data}) => {
-          this.onClose()
-        })
+  onUpdate = async handleError => {
+    this.setState({ loading: true })
+    const { offering, newRemovedCourses, newSelectedCourses, newAddedStaffs, newRemovedStaffs } = this.state
+    console.log('offering', offering.offering)
+    console.log('newRemovedCourses', newRemovedCourses)
+    console.log('newSelectedCourses', newSelectedCourses)
+    console.log('newAddedStaffs', newAddedStaffs)
+    console.log('newRemovedStaffs', newRemovedStaffs)
+
+    // PUT to offerings
+    await api.updateOffering(offering.offering)
+            .catch(() => {
+              this.setState({ loading: false })
+              handleError({
+                header: "Couldn't save the changes",
+                text: "Please try to re-submit again.",
+                type: "danger",
+                position: "top",
+                contactUs: true,
+              }, -1)
+            })
+    // delete removed courses
+    for (let i = 0; i < newRemovedCourses.length; i++) {
+      await api.deleteCourseOffering(newRemovedCourses[i], this.id)
     }
+    // add new courses
+    for (let i = 0; i < newSelectedCourses.length; i++) {
+      await api.createCourseOffering({ courseId: newSelectedCourses[i].id, offeringId: this.id })
+    }
+    // delete removed staffs
+    for (let i = 0; i < newRemovedStaffs.length; i++) {
+      const staff_ = handleData.find(offering.instructorIds, {email: newRemovedStaffs[i]})
+      if (staff_) await api.deleteCourseStaffFromOffering(this.id, staff_.id)
+    }
+    // add new staffs
+    await api.addCourseStaffToOffering(this.id, newAddedStaffs)
+
+    // this.onClose(this.id)
   }
 
   /**
@@ -259,6 +301,7 @@ export default class OfferingSettingPage extends React.Component {
    * Go Back
    */
   onClose = offeringId => {
+    // $('.dimmer').removeClass('solid-dimmer')
     window.location = util.links.offering(offeringId || this.id)
   }
 
@@ -274,6 +317,7 @@ export default class OfferingSettingPage extends React.Component {
     const button = this.isNew ? <SaveButtons {...this}/>
                          : <EditButtons {...this} />
     return(
+
       <GeneralModal 
         size="large"
         header={header}
