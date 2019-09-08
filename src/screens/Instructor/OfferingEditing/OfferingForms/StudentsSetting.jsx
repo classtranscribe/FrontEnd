@@ -50,16 +50,21 @@ export default function StudentsSetting({state: { students }, addStudent, remove
               onChange={onSearch}
             />
             <div className="email-group" role="list">
-              {results.map( email => (
-                <div className="email-item " key={email}>
-                  {email}
-                  <Icon 
-                    name="trash" 
-                    onClick={() => removeStudent(email)} 
-                    title="remove" aria-label="remove" 
-                  />
-                </div>
-              ))}
+              {
+                !results.length ? 
+                <p className="guide pt-5 w-100 d-flex justify-content-center">NONE</p> 
+                :
+                results.map( email => (
+                  <div className="email-item " key={email}>
+                    {email}
+                    <Icon 
+                      name="trash" 
+                      onClick={() => removeStudent(email)} 
+                      title="remove" aria-label="remove" 
+                    />
+                  </div>
+                ))
+              }
             </div>
           </div>
         </Grid.Column>

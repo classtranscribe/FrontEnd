@@ -180,11 +180,12 @@ export default class OfferingSettingPage extends React.Component {
     this.setState({staffMailId: value})
   }
   addStaff = value => {
+    const isUpload = typeof value === "string"
     const { staffMailId, staffs, newAddedStaffs, newRemovedStaffs } = this.state
-    const email = typeof value === "string" ? value : staffMailId
+    const email = isUpload ? value : staffMailId
     if ( !handleData.isValidEmail(email) ) return;
     if ( handleData.includes(staffs, email) ) {
-      this.setState({ staffEmailExists: true })
+      if (!isUpload) this.setState({ staffEmailExists: true })
       return;
     }
     staffs.push(email)

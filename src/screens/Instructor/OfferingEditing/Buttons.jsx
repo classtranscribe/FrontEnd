@@ -56,6 +56,8 @@ export function EditButtons(props) {
 export function UploadBtn({ addNew }) {
   const [mesg, setMesg] = useState('')
   const [loading, setLoading] = useState(false)
+  const { generalAlert } = useCTContext()
+
   const onChange = useCallback( ({target: {files}})=> {
     if (files.length > 1) setMesg('Sorry, you can only upload one file.')
     else {
@@ -68,6 +70,13 @@ export function UploadBtn({ addNew }) {
             addNew(data[0])
           })
           .on('end', () => setLoading(false))
+          .on('error', () => generalAlert({
+            header: "Invalid file format",
+            text: "Please follow the instruction and upload a .csv file with a list of emails only. NOTICE: There should be no headers.",
+            type: "danger",
+            position: "top",
+            contactUs: true,
+          }, -1))
       }
       reader.readAsBinaryString(files[0])
     }
@@ -81,6 +90,8 @@ export function UploadBtn({ addNew }) {
         Upload a .csv file
       </Button><br/>
       <span>{mesg}</span>
+      
+      {/* Instructions */}
       <span className="text-muted">
         Please upload a <strong>.csv file</strong> with a <strong>list of emails without header</strong>. 
         <br/>For example:
