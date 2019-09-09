@@ -101,7 +101,7 @@ export function OfferingDetail({id, history, location}) {
             className="del-icon" 
             to={{
               pathname: pathname, 
-              state: { id: elemId, value: location.state.searchedValue },
+              state: { id: elemId, value: location.state ? location.state.searchedValue : '' },
             }}
           >
             <Icon name="chevron left" /> Go Back
