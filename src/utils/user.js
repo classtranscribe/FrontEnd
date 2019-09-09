@@ -53,6 +53,7 @@ export const user = {
             if (redirectURL === '/home' && roles && roles.includes('Admin')) redirectURL = '/Admin'
             else if (redirectURL === '/home' && roles && roles.includes('Instructor')) redirectURL = '/Instructor'
             window.location = redirectURL
+            window.history.pushState({ state: auth0Client.getRedirectState() }, null, redirectURL)
           })
           .catch(error => {
             console.log(error)

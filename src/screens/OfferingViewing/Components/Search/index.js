@@ -4,22 +4,22 @@
 
 import React, { useState, useEffect } from 'react'
 // UI
-import { Icon, List } from 'semantic-ui-react'
+import { Icon, List, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import './index.css'
 // Vars
-import { search, util } from 'utils'
+import { search, util, user } from 'utils'
 import { ClassTranscribeFooter } from 'components'
 
 
 export function Search({offerings, location}) {
-  const [searchValue, setSearchValue] = useState(location.state.value || '')
+  var defaultValue = location.state ? location.state.value : ''
+  const [searchValue, setSearchValue] = useState(defaultValue)
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
 
   useEffect( () => {
     if (offerings.length) {
-      var defaultValue = location.state.value
       if (defaultValue) {
         setResults(() => search.getResult(offerings, defaultValue))
       }
@@ -73,6 +73,23 @@ export function Search({offerings, location}) {
             </List.Item>
           ))}
         </List>
+
+        {
+          results.length === 0 
+          && 
+          <div className="search-empty-result">
+            {
+              user.isLoggedIn() ?
+              <span>No Results</span>
+              :
+              <>
+                <span>Can't Find Your Courses?</span>
+                <span>Sign In to See More</span>
+                <Button compact onClick={() => user.login()}>Sign In</Button>
+              </>
+            }
+          </div>
+        }
       </div>
       
       <ClassTranscribeFooter />

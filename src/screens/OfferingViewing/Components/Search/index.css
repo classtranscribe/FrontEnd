@@ -81,3 +81,19 @@
 .header-search>input:focus, .search-bar input:focus {
   background-color: rgb(228, 237, 238) !important;
 }
+
+.search-bar .search-empty-result {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-bar .search-empty-result span {
+  font-size: 1.1em;
+  color: rgb(146, 146, 146);
+}
+.search-bar .search-empty-result button {
+  margin-top: 20px;
+  width: 150px;
+}
