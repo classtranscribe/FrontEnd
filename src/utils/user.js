@@ -29,6 +29,14 @@ export const user = {
     // console.log(JSON.parse(userInfoStr))
     return userInfoStr ? JSON.parse(userInfoStr) : {}
   },
+  isAdmin: function () {
+    const { roles } = this.getUserInfo()
+    return roles && roles.includes('Admin')
+  },
+  isInstructor: function () {
+    const { roles } = this.getUserInfo()
+    return roles && roles.includes('Instructor')
+  },
   setUpUser: function () {
     if (this.userId() === null) {
       auth0Client.handleAuthentication().then(() => {
@@ -45,6 +53,7 @@ export const user = {
             if (redirectURL === '/home' && roles && roles.includes('Admin')) redirectURL = '/Admin'
             else if (redirectURL === '/home' && roles && roles.includes('Instructor')) redirectURL = '/Instructor'
             window.location = redirectURL
+            window.history.pushState({ state: auth0Client.getRedirectState() }, null, redirectURL)
           })
           .catch(error => {
             console.log(error)

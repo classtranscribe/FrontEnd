@@ -10,31 +10,21 @@ import { GeneralLoader } from 'components'
 import CourseSetting from './CourseSetting'
 import TermSectionTypeSetting from './TermSectionType'
 import StaffSetting from './StaffSetting'
+import StudentsSetting from './StudentsSetting'
 // Vars
 
 export default function OfferingForm(props) {
-  const { loading, progress } = props.state
+  const { loading, offering } = props.state
   
   return (
     <Form className="op-form" role='form' aria-label='Offering Setting Form'>
       {
         !loading ?
         <Grid columns='equal'  stackable className="op-grid"> 
-          {
-            progress === 'Courses'
-            &&
-            <CourseSetting {...props} />
-          }
-          {
-            progress === 'TermSecType' 
-            &&
-            <TermSectionTypeSetting {...props} />
-          }
-          {
-            progress === 'Staffs'
-            &&
-            <StaffSetting {...props} />
-          }
+          <CourseSetting {...props} />
+          <TermSectionTypeSetting {...props} />
+          {offering.offering.accessType === 2 && <StudentsSetting {...props} />}
+          <StaffSetting {...props} />
         </Grid> 
         : 
         <GeneralLoader loading inverted />

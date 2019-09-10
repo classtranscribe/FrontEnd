@@ -11,7 +11,7 @@ import './index.css'
 // Vars
 import { util } from 'utils'
 import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVideo } from './CTPlayerUtils'
-const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
+// const tempPoster = require('images/tempPoster.png') // should be removed after having the real poster
 
 export default class ClassTranscribePlayer extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ export default class ClassTranscribePlayer extends React.Component {
           src: video1 ? srcPath1 : srcPath2,
           type: 'video/mp4'       // test the two video mode, should be removed in the future
         }],
-        poster: tempPoster,
+        // poster: tempPoster,
       }
  
       // Registering Plugins
@@ -160,7 +160,7 @@ export default class ClassTranscribePlayer extends React.Component {
             <video 
               ref={ node => this.videoNode = node } 
               className="video-js" 
-              preload="auto"
+              preload="metadata"
               onPause={this.onPause}
               onPlay={this.onPlay}
               onSeeking={this.onSeeking}

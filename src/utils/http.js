@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { util } from './index'
+import { util, user } from './index'
 import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
 const monthMap = require('./json/monthNames.json')
 
@@ -224,9 +224,6 @@ export const api = {
   renameMedia: function(mediaId, filename) {
     return this.updateData('Media/PutJsonMetaData', { filename }, mediaId)
   },
-  updateCaptionLine: function(data) {
-    return this.postData('Captions', { id: data.id, text: data.text })
-  },
 
   /**
    * DELETE
@@ -254,10 +251,10 @@ export const api = {
     return this.deleteData('Offerings', offeringId)
   },
   deleteCourseOffering: function (courseId, offeringId) {
-    return http.delete(`CourseOfferings/${courseId}/${offeringId}`)
+    return http.delete(`/api/CourseOfferings/${courseId}/${offeringId}`, this.withAuth())
   },
   deleteCourseStaffFromOffering: function(offeringId, userId) {
-    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+    return http.delete(`/api/UserOfferings/${offeringId}/${userId}`, this.withAuth())
   },
   deletePlaylist: function(playlistId) {
     return this.deleteData('Playlists', playlistId)
@@ -296,6 +293,7 @@ export const api = {
     courseOffering.id = courseOffering.offering.id
     // get department acronym
     courseOffering.courses.forEach( course => {
+      if (!user.isAdmin() && course.id === "test_course") courseOffering.isTestCourse = true
       this.getDepartById(course.departmentId) 
         .then( ({data}) => {
           course.acronym = data.acronym

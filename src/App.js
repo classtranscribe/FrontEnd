@@ -6,6 +6,7 @@ import {
   OfferingViewing, 
   InstructorProfile, 
   InstructorOffering,
+  // OfferingSettingPage,
   LoginAndLogout,
   Admin,
   Watch,
@@ -26,9 +27,10 @@ class App extends React.Component {
           <Route path="/admin" component={Admin} />
           <Route path="/instructor" component={InstructorProfile} />
           <Route path="/offering/:id" component={InstructorOffering} />
+          {/* <Route path="/offering-setting/:type?=:id" component={OfferingSettingPage} /> */}
 
           <Route path="/404" component={NotFound404} />
-          {/* <Route component={NotFound404} /> */}
+          <Route component={NotFound404} />
         </Switch>
       </Router>
     )

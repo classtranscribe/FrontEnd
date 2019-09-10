@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;}
   .context-alert .alert {
+    z-index: 2000 !important;
     border: none;
     box-shadow: none;
     text-align: center;

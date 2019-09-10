@@ -1,18 +1,18 @@
 [
   {
     "name": "Public - Visible to all users", 
-    "id": "Public"
+    "id": 0
   },
   {
     "name": "Authenticated Only - Visible to logged-in users", 
-    "id": "AuthenticatedOnly"
+    "id": 1
   },
   {
     "name": "Students Only - Visible to students taking the course", 
-    "id": "StudentsOnly"
+    "id": 2
   },
   {
     "name": "University Only - Visible to everyone from your university", 
-    "id": "UniversityOnly"
+    "id": 3
   }
 ]

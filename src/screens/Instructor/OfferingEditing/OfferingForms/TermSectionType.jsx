@@ -5,18 +5,22 @@
 
 import React from 'react'
 // Layouts
-import { Grid, Form, Input, Select, Button, Icon } from 'semantic-ui-react'
+import { Grid, Form, Input, Select } from 'semantic-ui-react'
 // Vars
 import { api, util } from 'utils'
 
-export default function TermSectionTypeSetting({state, onChange, toProgress}) {
-  const { offeringInfo, terms } = state
+const logEventsFlagOpts = [
+  {text: "True", value: true},
+  {text: "False", value: false}
+]
+
+export default function TermSectionTypeSetting({state, onChange}) {
+  const { offering, terms } = state
   const termOptions = util.getSelectOptions(terms)
   const accessOptions = util.getSelectOptions(api.offeringAccessType)
-  const canGoNext = offeringInfo.offering.termId && offeringInfo.offering.sectionName
   return (
     <>
-      <h2>2. Fill Out Basic Information</h2>
+      <h2>Basic Information</h2>
 
       <Grid.Row >
         {/* Selection for terms */}
@@ -27,7 +31,7 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             label="Term"
             aria-label="term"
             options={termOptions}
-            value={offeringInfo.offering.termId}
+            value={offering.offering.termId}
             onChange={(event, {value}) => onChange(value, 'termId')}
           />
         </Grid.Column>
@@ -40,14 +44,14 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             label="Section Number"
             aria-label="section number"
             placeholder='E.g. AL1'
-            value={offeringInfo.offering.sectionName}
+            value={offering.offering.sectionName}
             onChange={({target: {value}})=> onChange(value, 'sectionName')}
           />
         </Grid.Column>
       </Grid.Row>
 
-      {/* Access type */}
       <Grid.Row >
+        {/* Access type */}
         <Grid.Column>
           <Form.Field
             fluid required 
@@ -55,24 +59,22 @@ export default function TermSectionTypeSetting({state, onChange, toProgress}) {
             label="Visibility"
             aria-label="visibility"
             options={accessOptions}
-            value={offeringInfo.offering.accessType}
+            value={offering.offering.accessType}
             onChange={(event, {value}) => onChange(value, 'accessType')}
           />
         </Grid.Column>
-      </Grid.Row>
-
-      {/* Progress buttons */}
-      <Grid.Row id="ap-buttons">
+        {/* logEventsFlag */}
         <Grid.Column>
-          <Button secondary onClick={()=>toProgress('Courses')} aria-label="go back">
-          <Icon name="chevron left"/> Back
-          </Button>
-        </Grid.Column>
-        <Grid.Column className="ap-buttons">
-          {!canGoNext && <>Fill out the fields to continue&ensp;&ensp;</>}
-          <Button disabled={!canGoNext} secondary onClick={()=>toProgress('Staffs')} aria-label="go next">
-            Next <Icon name="chevron right"/>
-          </Button>
+          <Form.Field
+            fluid 
+            control={Select}
+            label="Log Student Events"
+            aria-label="visibility"
+            options={logEventsFlagOpts}
+            value={offering.offering.logEventsFlag}
+            onChange={(event, {value}) => onChange(value, 'logEventsFlag')}
+          />
+          <p className="guide">Turn it on if you'd like to view the statistics of students' perfermance</p>
         </Grid.Column>
       </Grid.Row>
     </>

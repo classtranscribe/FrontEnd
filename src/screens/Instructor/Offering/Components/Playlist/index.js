@@ -33,7 +33,7 @@ export function Playlist({ match, history, location }) {
           setMedias(() => data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })
     // }
-  }, [location])
+  }, [location, playlistId])
 
   /**
    * GET data based on playlistId

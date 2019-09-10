@@ -5,28 +5,28 @@
 
 import React from 'react'
 // Layouts
-import { Grid, Form, Select, Popup, Button, Icon, Label, Message, Divider } from 'semantic-ui-react'
+import { Grid, Form, Select, Popup, Icon, Label, Message, Divider } from 'semantic-ui-react'
 // Vars
 import { util } from 'utils'
 
-export default function CourseSetting({state, onChange, toProgress, removeCourse}) {
+export default function CourseSetting({state, removeCourse, onDepartSelected, addCourse}) {
   const { departments, courses, currDepart, selectedCourses } = state
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
-  const canGoNext = selectedCourses.length > 0
   return (
     <>
-      <h2>1. Select Courses for Your Offering</h2>
-      <Popup
-        basic position="right center"
-        trigger={<Icon name="question circle outline" size="large" color="black"/>}
-        content={
-          <p>
-            <strong>Why multiple courses?</strong><br/>
-            Some offerings may be held by multiple departments. 
-            For Example, CS425 and ECE428 have the same content.
-          </p>
-      }/>
+      <h2>Select Courses &ensp;
+        <Popup
+          basic position="right center"
+          trigger={<Icon name="question circle outline" size="large" color="black"/>}
+          content={
+            <p>
+              <strong>Why multiple courses?</strong><br/>
+              Some offerings may be held by multiple departments. 
+              For Example, CS425 and ECE428 have the same content.
+            </p>
+        }/>
+      </h2>
       
       <Grid.Row>
         {/* Select a department */}
@@ -37,55 +37,38 @@ export default function CourseSetting({state, onChange, toProgress, removeCourse
             label="Department"
             aria-label="department"
             options={departOptions}
-            onChange={(event, {value}) => onChange(value, 'currDepart')}
+            onChange={(event, {value}) => onDepartSelected(value)}
           />
-        </Grid.Column>
-
-        {/* Select a course */}
-        <Grid.Column>
           <Form.Field
             fluid required search
             control={Select}
             label='Course'
             aria-label='course'
             options={courseOptions}
-            onChange={(event, {value}) => onChange(value, 'courseId')}
+            value=""
+            onChange={(event, {value}) => addCourse(value)}
           />
         </Grid.Column>
-      </Grid.Row>
 
-      {/* Selected courses */}
-      <Grid.Row style={{padding: '0 1rem 0 1rem'}}>
-        <Message>
-          <Message.Header><p>Selected Courses</p></Message.Header>
-          <Divider />
-          {!selectedCourses.length && <p><span>none</span></p>}
-          <Label.Group size="large" role="group">
-            {selectedCourses.map( course => (
-              <Label key={course.id}>
-                {course.fullCourseNumber}
-                <Icon 
-                  name="delete" 
-                  onClick={()=>removeCourse(course.id)} 
-                  title="remove" aria-label="remove" 
-                />
-              </Label>
-            ))}
-          </Label.Group>
-        </Message>
-      </Grid.Row>
-
-      {/* Progress buttons */}
-      <Grid.Row id="ap-buttons">
-        <Grid.Column className="ap-buttons">
-          {!canGoNext && <>Select courses to continue&ensp;&ensp;</>}
-          <Button 
-            disabled={!canGoNext} secondary 
-            onClick={()=>toProgress('TermSecType')}
-            aria-label="go next"
-          >
-            Next <Icon name="chevron right"/>
-          </Button>
+        {/* Select a course */}
+        <Grid.Column>
+          <Message>
+            <Message.Header><p>Selected Courses</p></Message.Header>
+            <Divider />
+            {!selectedCourses.length && <p><span>none</span></p>}
+            <Label.Group size="large" role="group">
+              {selectedCourses.map( course => (
+                <Label key={course.id}>
+                  {course.acronym + course.courseNumber}
+                  <Icon 
+                    name="delete" 
+                    onClick={()=>removeCourse(course.id)} 
+                    title="remove" aria-label="remove" 
+                  />
+                </Label>
+              ))}
+            </Label.Group>
+          </Message>
         </Grid.Column>
       </Grid.Row>
     </>

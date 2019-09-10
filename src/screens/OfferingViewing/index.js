@@ -6,7 +6,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { ClassTranscribeHeader, SidebarDimmer } from 'components'
+import { SidebarDimmer } from 'components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
 import SearchHeader from './Components/Search/SearchHeader'
 import './transition.css'
@@ -31,7 +31,7 @@ export class OfferingViewing extends React.Component {
      */
     api.getOfferingsByStudent()
       .then(({data}) => {
-        this.completeOfferings(data)
+        this.completeOfferings(data.slice().reverse())
         api.contentLoaded()
       })
     /**

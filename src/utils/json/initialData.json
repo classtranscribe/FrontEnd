@@ -24,7 +24,8 @@
     "offering": {
       "sectionName": "",
       "termId": "",
-      "accessType": "Public"
+      "accessType": 0,
+      "logEventsFlag": true
     },
     "courseId": "",
     "instructorId": ""

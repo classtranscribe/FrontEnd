@@ -45,7 +45,7 @@ export function PlaylistEditing ({match: {params: {id, type}}, history}) {
           setPlaylistIdentifier(data.playlistIdentifier)
         })
     }
-  }, [history])
+  }, [history, isNew, id])
 
   /**
    * Functions for http requests

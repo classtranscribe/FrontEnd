@@ -6,12 +6,13 @@ import './index.css'
 /**
  * General modal
  */
-export function GeneralModal({size, open, onClose, header, children, button}) {
+export function GeneralModal({size, open, onClose, header, children, button, dimmer}) {
   return (
     <Modal 
       className="general-modal" 
       size={size || 'small'} 
       open={open} onClose={onClose}
+      dimmer={dimmer}
     >
       {header && <Modal.Header className="gm-header">{header}</Modal.Header>}
       {

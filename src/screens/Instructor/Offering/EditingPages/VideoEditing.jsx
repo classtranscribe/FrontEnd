@@ -27,7 +27,7 @@ export function VideoEditing ({match: {params: { mediaId }}, history}) {
         const { mediaName } = api.parseMedia(data)
         setFilename(mediaName)
       })
-  }, [])
+  }, [mediaId])
 
   /**
    * Functions for http requests
