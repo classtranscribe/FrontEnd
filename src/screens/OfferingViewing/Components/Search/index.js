@@ -19,6 +19,7 @@ export function Search({offerings, location}) {
   const [loading, setLoading] = useState(false)
 
   useEffect( () => {
+    window.scrollTo(0, 0)
     if (offerings.length) {
       if (defaultValue) {
         setResults(() => search.getResult(offerings, defaultValue))
