@@ -26,6 +26,9 @@ export const api = {
    * then hide the loading page
    */
   baseUrl: () => process.env.REACT_APP_API_BASE_URL || window.location.origin,
+  getMediaFullPath: function(path) { // need to change later
+    return `${this.baseUrl()}${path}`
+  },
   contentLoaded: function (interval) {
     const ele = document.getElementById('ct-loading-wrapper')
     if(ele) {
@@ -50,10 +53,9 @@ export const api = {
     localStorage.setItem('authToken', authToken)
   },
   userId: () => localStorage.getItem('userId'),
-  withAuth: function (params, otherConfigs) {
+  withAuth: function (configs) {
     return {
-      params,
-      ...otherConfigs,
+      ...configs,
       headers: {
         Authorization: 'Bearer ' + this.authToken()
       }
@@ -69,7 +71,7 @@ export const api = {
   getData: function (path, id, params) {
     path = `/api/${path}`
     if(id) path = `${path}/${id}`
-    return http.get(path, this.withAuth(params))
+    return http.get(path, this.withAuth({ params }))
   },
   // Universities
   getUniversities: function() {
@@ -127,9 +129,6 @@ export const api = {
     return this.getData('Playlists/ByOffering', offeringId)
   },
   // media
-  getMediaFullPath: function(path) { // need to change later
-    return `${this.baseUrl()}${path}`
-  },
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
   },
@@ -142,7 +141,7 @@ export const api = {
    */
   postData: function (path, data, params, otherConfigs) {
     path = `/api/${path}`
-    return http.post(path, data, this.withAuth(params, otherConfigs))
+    return http.post(path, data, this.withAuth({ params, ...otherConfigs }))
   },
   createUniversity: function(data) {
     return this.postData('Universities', data)
@@ -154,7 +153,7 @@ export const api = {
     return this.postData('Departments', data)
   },
   createRole: function (mailId) {
-    return this.postData('Roles', undefined, {mailId})
+    return this.postData('Roles', undefined, { mailId })
   },
   createCourse: function(data) {
     return this.postData('Courses', data)
@@ -229,8 +228,8 @@ export const api = {
    * DELETE
    */
   deleteData: function (path, id, params) {
-    path = `/api/${path}`
-    return http.delete(`${path}/${id}`, this.withAuth(params))
+    path = id ? `/api/${path}/${id}` : `/api/${path}` 
+    return http.delete(path, this.withAuth({ params }))
   },
   deleteUniversity: function(universityId) {
     return this.deleteData('Universities', universityId)
@@ -242,7 +241,7 @@ export const api = {
     return this.deleteData('Departments', departId)
   },
   deleteRole: function(mailId) {
-    return http.delete('/api/Roles', this.withAuth({ mailId }))
+    return this.deleteData('Roles', null, { mailId })
   },
   deleteCourse: function(courseId) {
     return this.deleteData('Courses', courseId)
@@ -251,10 +250,10 @@ export const api = {
     return this.deleteData('Offerings', offeringId)
   },
   deleteCourseOffering: function (courseId, offeringId) {
-    return http.delete(`/api/CourseOfferings/${courseId}/${offeringId}`, this.withAuth())
+    return this.deleteData(`CourseOfferings/${courseId}/${offeringId}`)
   },
   deleteCourseStaffFromOffering: function(offeringId, userId) {
-    return http.delete(`/api/UserOfferings/${offeringId}/${userId}`, this.withAuth())
+    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
   },
   deletePlaylist: function(playlistId) {
     return this.deleteData('Playlists', playlistId)

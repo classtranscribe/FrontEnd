@@ -10,14 +10,16 @@ import { Grid, Form, Input, Select } from 'semantic-ui-react'
 import { api, util } from 'utils'
 
 const logEventsFlagOpts = [
-  {text: "True", value: true},
-  {text: "False", value: false}
+  { text: "True", value: true },
+  { text: "False", value: false }
 ]
 
 export default function TermSectionTypeSetting({state, onChange}) {
   const { offering, terms } = state
+
   const termOptions = util.getSelectOptions(terms)
   const accessOptions = util.getSelectOptions(api.offeringAccessType)
+  
   return (
     <>
       <h2>Basic Information</h2>

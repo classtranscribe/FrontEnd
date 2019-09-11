@@ -19,15 +19,14 @@ export default function OfferingForm(props) {
   return (
     <Form className="op-form" role='form' aria-label='Offering Setting Form'>
       {
-        !loading ?
+        loading ? <GeneralLoader loading inverted /> :
+        
         <Grid columns='equal'  stackable className="op-grid"> 
           <CourseSetting {...props} />
           <TermSectionTypeSetting {...props} />
           {offering.offering.accessType === 2 && <StudentsSetting {...props} />}
           <StaffSetting {...props} />
         </Grid> 
-        : 
-        <GeneralLoader loading inverted />
       }
     </Form>
   )

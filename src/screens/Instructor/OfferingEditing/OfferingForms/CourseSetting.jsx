@@ -11,8 +11,10 @@ import { util } from 'utils'
 
 export default function CourseSetting({state, removeCourse, onDepartSelected, addCourse}) {
   const { departments, courses, currDepart, selectedCourses } = state
+
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
+
   return (
     <>
       <h2>Select Courses &ensp;
@@ -29,24 +31,25 @@ export default function CourseSetting({state, removeCourse, onDepartSelected, ad
       </h2>
       
       <Grid.Row>
-        {/* Select a department */}
         <Grid.Column>
+          {/* Select a department */}
           <Form.Field
             fluid required search
             control={Select}
             label="Department"
             aria-label="department"
             options={departOptions}
-            onChange={(event, {value}) => onDepartSelected(value)}
+            onChange={(event, { value }) => onDepartSelected(value)}
           />
+          {/* Select a course */}
           <Form.Field
             fluid required search
             control={Select}
             label='Course'
             aria-label='course'
-            options={courseOptions}
             value=""
-            onChange={(event, {value}) => addCourse(value)}
+            options={courseOptions}
+            onChange={(event, { value }) => addCourse(value)}
           />
         </Grid.Column>
 
@@ -55,7 +58,9 @@ export default function CourseSetting({state, removeCourse, onDepartSelected, ad
           <Message>
             <Message.Header><p>Selected Courses</p></Message.Header>
             <Divider />
+
             {!selectedCourses.length && <p><span>none</span></p>}
+            
             <Label.Group size="large" role="group">
               {selectedCourses.map( course => (
                 <Label key={course.id}>
