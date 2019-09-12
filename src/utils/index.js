@@ -76,6 +76,14 @@ export const util = {
       currElem.scrollIntoView({ block: "center" })
       currElem.focus()
     }
-  }
+  },
+
+  getFittedName: function(name, charNum) {
+    if (!name) return 'unknown'
+
+    let fittedName = name.slice(0, charNum)
+    if (fittedName !== name) fittedName += '...'
+    return fittedName
+  },
 }
 

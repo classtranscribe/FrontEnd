@@ -7,8 +7,7 @@ import { util, api } from 'utils'
 
 export default function VideosView({ medias, currMedia, selectedPlaylist, playlists, backToPlaylists, sendUserAction }) {
   const { name } = selectedPlaylist
-  let fittedName = name ? name.slice(0, 40) : 'unknown'
-  if (fittedName !== name) fittedName += '...'
+  let fittedName = util.getFittedName(name, 40)
   return (
     <div className="video-view">
       <MenuItem 

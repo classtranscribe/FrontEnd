@@ -20,8 +20,7 @@ export default function PlaylistsView({currMedia, playlists, goToPlaylist, handl
 
 function PlaylistItem({ playlist, currMedia, goToPlaylist }) {
   const { name, id } = playlist
-  let fittedName = name ? name.slice(0, 40) : 'unknown'
-  if (fittedName !== name) fittedName += '...'
+  let fittedName = util.getFittedName(name, 40)
   return (
     <MenuItem 
       id={id}
