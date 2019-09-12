@@ -21,8 +21,8 @@ export default function Section({depart, state}) {
   offerings = offerings.filter( offering => isThisSection(offering, depart.id))
   const offeringLen = offerings.length
   const halfLen = Math.floor(offerings.length / 2)
-  const offerings1 = offeringLen > 15 ? offerings.slice(0, halfLen) : offerings
-  const offerings2 = offerings.length > 15 ? offerings.slice(halfLen, offeringLen) : []
+  const offerings1 = offeringLen > 13 ? offerings.slice(0, halfLen) : offerings
+  const offerings2 = offerings.length > 13 ? offerings.slice(halfLen, offeringLen) : []
 
   return (
     <div className="section" role="listitem" id={depart.acronym}>
