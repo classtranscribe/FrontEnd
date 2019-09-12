@@ -96,7 +96,9 @@
   padding-top: 5em;
 }
 
-
+.sp-content .offering-detail .offering-info {
+  padding-top: 2em;
+}
 @media screen and (min-width: 1000px) {
   .sp-content .offering-detail {
     display: flex;

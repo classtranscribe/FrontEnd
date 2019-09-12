@@ -4,7 +4,7 @@
   position: relative;
   top: 0;
   width: 100%;
-  padding: 0 5%;
+  padding: 1em 5%;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -12,7 +12,8 @@
 
 /* Header */
 .pl-info-header {
-  background: #fcfcfc9d;
+  background: #fcfcfc;
+  padding-top: 1em;
 }
 .csp-videos .ui.sticky.fixed.top {
   top: 4rem !important;
