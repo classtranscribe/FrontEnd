@@ -1,7 +1,7 @@
 import React from 'react'
 import { MenuItem } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
-import { api } from 'utils'
+import { api, util } from 'utils'
 
 export default function PlaylistsView({currMedia, playlists, goToPlaylist, handleClose}) {
   return (
