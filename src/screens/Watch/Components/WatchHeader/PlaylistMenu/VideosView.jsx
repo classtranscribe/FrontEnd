@@ -53,10 +53,11 @@ function VideoItem({ media, currMedia, selectedPlaylist, playlists, sendUserActi
       onClick={watchVideo}
     >
       <Link className="pl-item-link" to={{
-        pathname: util.links.watch(util.parseSearchQuery().courseNumber, id),
+        pathname: '/video',
         state: {
           media: media, playlist: selectedPlaylist, playlists: playlists
-        }
+        },
+        search: `?courseNumber=${util.parseSearchQuery().courseNumber}&id=${id}`
       }}>
         <i className="material-icons">play_arrow</i>
         <p>&ensp;{mediaName}</p>

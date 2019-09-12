@@ -29,7 +29,11 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, mediaId) => `/video?courseNumber=${courseNumber}&id=${mediaId}`,
+    watch: (courseNumber, mediaId, begin) => {
+      var path = `/video?courseNumber=${courseNumber}&id=${mediaId}`
+      if (begin) path += `&begin=${begin}`
+      return path
+    },
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
@@ -65,5 +69,13 @@ export const util = {
     })
     return options;
   },
+
+  scrollToCenter: function(id) {
+    const currElem = document.getElementById(id)
+    if (currElem) {
+      currElem.scrollIntoView({ block: "center" })
+      currElem.focus()
+    }
+  }
 }
 

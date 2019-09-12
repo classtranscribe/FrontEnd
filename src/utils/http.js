@@ -135,6 +135,9 @@ export const api = {
   getCaptionsByTranscriptionId: function(transId) {
     return this.getData('Captions/ByTranscription', transId)
   },
+  searchCaptionInOffering: function(offeringId, query) {
+    return this.getData('Captions/SearchInOffering', null, { offeringId, query })
+  },
 
   /**
    * POST

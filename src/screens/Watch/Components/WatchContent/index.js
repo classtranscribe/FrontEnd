@@ -141,7 +141,7 @@ export class WatchContent extends React.Component {
   }
 
   render() {
-    const { media, playlist, sendUserAction } = this.props
+    const { media, playlist, playlists, isMobile, sendUserAction } = this.props
     const { mode, primary, captions, loadingCaptions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
     /** Vars passed into setting bar */
@@ -156,6 +156,7 @@ export class WatchContent extends React.Component {
         <SubHeader 
           media={media} 
           playlist={playlist} 
+          isMobile={isMobile}
           propsForSettingBar={propsForSettingBar}
         />
   
@@ -188,6 +189,9 @@ export class WatchContent extends React.Component {
         <Transcription 
           media={media}
           captions={captions} 
+          isMobile={isMobile}
+          playlists={playlists}
+          offeringId={playlist.offeringId}
           setCurrTime={this.setCurrTime}
           reLoadCaption={this.reLoadCaption}
           setReadyToEdit={this.setReadyToEdit} 

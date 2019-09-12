@@ -24,6 +24,7 @@ function PlaylistItem({ playlist, currMedia, goToPlaylist }) {
   if (fittedName !== name) fittedName += '...'
   return (
     <MenuItem 
+      id={id}
       className="pl-item" 
       selected={id === currMedia.playlistId}
       onClick={() => goToPlaylist(playlist)}

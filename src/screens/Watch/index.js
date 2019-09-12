@@ -18,9 +18,11 @@ export class Watch extends React.Component {
     
     this.state = { 
       showPlaylist: false,
+      isMobile: window.innerWidth < 650 ? true : false,
+
       media: api.parseMedia(),
       playlist: {},
-      playlists: null,
+      playlists: [],
     }
   }
 
@@ -51,9 +53,23 @@ export class Watch extends React.Component {
               console.log('playlist', data)
               this.setState({ playlist: data })
               api.contentLoaded()
+              api.getPlaylistsByOfferingId(data.offeringId)
+                .then(({data}) => {
+                  console.log('playlists', data)
+                  this.setState({ playlists: data })
+                })
             })
         })
     }
+
+    window.addEventListener('resize', () => {
+      const { isMobile } = this.state
+      if (window.innerWidth > 650 && isMobile) {
+        this.setState({ isMobile: false })
+      } else if (window.innerWidth <= 650 && !isMobile) {
+        this.setState({ isMobile: true })
+      }
+    })
   }
 
   playlistTrigger = ()  => {
@@ -70,7 +86,7 @@ export class Watch extends React.Component {
   }
 
   render() { 
-    const { media, playlist, playlists } = this.state
+    const { media, playlist, playlists, isMobile } = this.state
     return (
       <main className="watch-bg">
         <WatchHeader 
@@ -82,6 +98,8 @@ export class Watch extends React.Component {
         <WatchContent 
           media={media} 
           playlist={playlist} 
+          playlists={playlists}
+          isMobile={isMobile}
           sendUserAction={this.sendUserAction}
         />
       </main>
