@@ -18,18 +18,20 @@ export function FixedFooter(props) {
 
 export function ClassTranscribeFooter(props) {
   return (
-    <div className="ct-footer" aria-label="Footer">
+    <footer className="ct-footer" aria-label="Footer">
       <Grid stackable columns='equal' verticalAlign="middle" textAlign="center">
         <Grid.Row>
           <Grid.Column>
-            <List.Item as={Link} to={util.links.currentUrl()}>&ensp;About Us</List.Item>
+            <Link to={util.links.currentUrl()}>About Us</Link>
           </Grid.Column>
           <Grid.Column>
-            <List.Item as={Link} to={util.links.currentUrl()}>Documents</List.Item>
+            <Link to={util.links.currentUrl()}>Documents</Link>
           </Grid.Column>
-          <Image className="brand-img" style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
           <Grid.Column>
-            <List.Item as="a" href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</List.Item>
+            <Image className="brand-img" style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
+          </Grid.Column>
+          <Grid.Column>
+            <a href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</a>
           </Grid.Column>
           <Grid.Column className="copy">
             &copy; 2016-2019 UIUC
@@ -37,6 +39,6 @@ export function ClassTranscribeFooter(props) {
         </Grid.Row>
       </Grid>
       {/* <div className="copy">&copy; 2016-2019 UIUC</div> */}
-    </div>
+    </footer>
   )
 }

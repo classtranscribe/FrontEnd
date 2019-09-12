@@ -11,7 +11,7 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
   const isLoggedIn = user.isLoggedIn()
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   return (
-    <div className="op-sidebar" style={style} >
+    <aside className="op-sidebar" style={style} >
       
       <ListGroup defaultActiveKey="courses">
         <ListGroup.Item 
@@ -59,6 +59,6 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
           </div>
         }
         </ListGroup>
-    </div>
+    </aside>
   )
 }

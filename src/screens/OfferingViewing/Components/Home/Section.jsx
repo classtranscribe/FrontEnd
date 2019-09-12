@@ -88,10 +88,12 @@ function SectionItem({offering, depart, termSelected}) {
         pathname: util.links.offeringDetail(fullCourse.key),
         state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
       }}
+      title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
     >
       <Card.Img 
         className="img" variant="top" 
         src={imgHolder} style={{pointerEvents: 'none'}}
+        alt=""
       />
       <Card.Body>
         <Card.Title className="title">

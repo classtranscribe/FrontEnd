@@ -31,7 +31,12 @@
     -webkit-transition: color 0.2s linear;
     -o-transition: color 0.2s linear;
     transition: color 0.2s linear;
-    color: rgb(118, 160, 160);}
+    color: rgb(118, 160, 160) !important;}
     .ct-footer a:hover {
-      color: rgb(27, 95, 95);
+      color: rgb(27, 95, 95) !important;
+    }
+    .ct-footer .column {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
     }

@@ -56,7 +56,7 @@ export default function ProfileMenu({ darkMode }) {
         >
           <MenuItem disabled id="profile">
             <div className="profile">
-              {picture && <Image src={picture} circular />}
+              {picture && <Image src={picture} circular alt={`profile picture for ${fullName}`} />}
               <Typography style={fontStyle}>
                 Signed in as <strong>{fullName}</strong><br/>
                 <span>{uniName}</span>
