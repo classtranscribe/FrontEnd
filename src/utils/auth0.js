@@ -5,7 +5,7 @@ class Auth0 {
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
       domain: process.env.REACT_APP_DOMAIN,
-      audience: process.env.REACT_APP_AUDIENCE,
+      audience: "https://" + process.env.REACT_APP_DOMAIN + "/api/v2/",
       clientID: process.env.REACT_APP_CLIENT_ID,
       redirectUri: window.location.origin + "/login",
       responseType: 'id_token',

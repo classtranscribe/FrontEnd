@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^8.1.0",
     "file-loader": "^4.0.0",
     "gh-pages": "^2.0.1",
     "json-loader": "^0.5.7",
