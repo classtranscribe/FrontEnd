@@ -107,7 +107,7 @@
       display: block;
       background: rgb(248, 248, 248);
       width: 2px;
-      height: 5px;}
+      height: 4px;}
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-track-piece {
         background: #fcfcfc;
       }
@@ -166,7 +166,7 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
-  .sp-home  .offeringCard .description::-webkit-scrollbar {
+  /* .sp-home  .offeringCard .description::-webkit-scrollbar {
     display: block;
     width: 3px;
   }
@@ -175,7 +175,7 @@
   }
   .sp-home  .offeringCard .description::-webkit-scrollbar-thumb {
     background: rgba(198, 219, 223, 0.685);
-  }
+  } */
 
   .sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder] {
     cursor: default;
