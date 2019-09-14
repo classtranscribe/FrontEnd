@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import $ from 'jquery'
+// import $ from 'jquery'
 // Layouts
 import { GeneralModal, DeleteModal } from 'components'
 import OfferingForm from './OfferingForms'
@@ -12,7 +12,6 @@ import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
 // Vars
 import { api, handleData, util, user } from 'utils'
-const initialOffering = api.initialData.initialOffering
 
 export default class OfferingSettingPage extends React.Component {
   constructor(props) {
@@ -20,13 +19,11 @@ export default class OfferingSettingPage extends React.Component {
     this.isNew = this.props.match.params.type === 'new'
     this.id = this.props.match.params.id
     this.state = {
-      id: this.props.match.params.id,
-      type: this.props.match.params.type,
-      isNew: this.props.match.params.type === 'new',
-
       showDeleteModal: false,
-      loading: this.props.match.params.type !== 'new',
-      progress: 'Courses', // Courses, Staffs, TermSecType
+      loading: !this.isNew,
+
+      // offering info
+      offering: handleData.copy(api.initialData.initialOffering),
 
       // choose courses
       departments: [],
@@ -51,10 +48,6 @@ export default class OfferingSettingPage extends React.Component {
       // students
       students: [],
 
-      // offering info
-      offering: handleData.copy(initialOffering),
-      offeringInfo: handleData.copy(initialOffering),
-
       confirmed: false,
     }
     this.path = 'Offerings'
@@ -63,35 +56,45 @@ export default class OfferingSettingPage extends React.Component {
   setUpOffering = async () => {
     /** GET terms and departments based on user's university */
     const { universityId } = user.getUserInfo()
-    var _departs = []//, _terms = []
-    await api.getTermsByUniId(universityId).then(({data}) => {
-      this.setState({ terms: data.slice().reverse() })
-      //_terms = data
-    })
-    await api.getDepartsByUniId(universityId).then(({data}) => {
-      this.setState({ departments: data })
-      _departs = data
-    })
+    // get terms
+    await api.getTermsByUniId(universityId)
+            .then(({data}) => {
+              this.setState({ terms: data.slice().reverse() })
+            })
+    // get departments
+    var _departs = []
+    await api.getDepartsByUniId(universityId)
+            .then(({data}) => {
+              this.setState({ departments: data })
+              _departs = data
+            })
 
     /** GET offering info */
     if ( !this.isNew ) {
       api.getOfferingById(this.id)
         .then(({data}) => {
           console.log('offering', data)
-          // const term = handleData.findById(_terms, data.offering.termId)
-          // if (term !== 'NOT FOUND') data.offering.termName = term.name
           /** Setup selectedCourses */
           data.courses.forEach( (course, index) => {
             const dep = handleData.findById(_departs, course.departmentId)
-            if (dep !== 'NOT FOUND') data.courses[index].acronym = dep.acronym
+            if (dep !== 'NOT FOUND') {
+              data.courses[index].acronym = dep.acronym
+            }
           })
-          this.setState({ offering: data, selectedCourses: data.courses })
+
           /** Setup Staffs */
           const staffs = []
           data.instructorIds.forEach( instructor => {
             staffs.push(instructor.email)
           })
-          this.setState({ staffs, loading: false })
+
+          this.setState({ 
+            offering: data, 
+            selectedCourses: data.courses, 
+            staffs, 
+            loading: false 
+          })
+
           api.contentLoaded()
         })
     }
@@ -105,12 +108,8 @@ export default class OfferingSettingPage extends React.Component {
     this.setUpOffering()
   }
 
-  toProgress = progress => {
-    this.setState({ progress })
-  }
-
   showDeleteModal = () => {
-    this.setState({showDeleteModal: !this.state.showDeleteModal})
+    this.setState({ showDeleteModal: !this.state.showDeleteModal })
   }
 
   /**
@@ -135,11 +134,13 @@ export default class OfferingSettingPage extends React.Component {
    */
   addCourse = courseId => {
     const { selectedCourses, newSelectedCourses, newRemovedCourses, courses } = this.state
+
     const course = handleData.findById(courses, courseId)
     if ( handleData.findById(selectedCourses, course.id) !== 'NOT FOUND' ) return;
+    // console.log('course', course)
     selectedCourses.push(course)
-    console.log('course', course)
     this.setState({ selectedCourses })
+
     if ( !this.isNew ) {
       if (newRemovedCourses.includes(courseId)) {
         handleData.remove(newRemovedCourses, id => id === courseId)
@@ -151,8 +152,10 @@ export default class OfferingSettingPage extends React.Component {
   }
   removeCourse = courseId => {
     var { selectedCourses, newRemovedCourses, newSelectedCourses } = this.state
+
     handleData.remove(selectedCourses, {id: courseId})
     this.setState({ selectedCourses })
+
     if (!this.isNew) {
       if (handleData.findById(newSelectedCourses, courseId) !== 'NOT FOUND') {
         handleData.remove(newSelectedCourses, {id: courseId})
@@ -177,8 +180,9 @@ export default class OfferingSettingPage extends React.Component {
    */
   onEnterStaffMailId = ({target: {value}}) => {
     if ( value.includes(' ') ) return;
-    this.setState({staffMailId: value})
+    this.setState({ staffMailId: value })
   }
+
   addStaff = value => {
     const isUpload = typeof value === "string"
     const { staffMailId, staffs, newAddedStaffs, newRemovedStaffs } = this.state
@@ -199,6 +203,7 @@ export default class OfferingSettingPage extends React.Component {
       }
     }
   }
+
   removeStaff = email =>  {
     const { staffs, newRemovedStaffs, newAddedStaffs } = this.state
     handleData.remove(staffs, staff => staff === email)
@@ -253,15 +258,16 @@ export default class OfferingSettingPage extends React.Component {
                 contactUs: true,
               }, -1)
             })
+
     if (!offeringId) {
       this.setState({ loading: false })
       return;
     }
+
     // POST to courseOfferings
     for (let i = 0; i < selectedCourses.length; i++) {
       if (i > 0) await api.createCourseOffering({ courseId: selectedCourses[i].id, offeringId })
     }
-
     // POST to Offerings/AddUsers
     await api.addCourseStaffToOffering(offeringId, staffs)
 
@@ -336,8 +342,8 @@ export default class OfferingSettingPage extends React.Component {
   render() {
     const { showDeleteModal } = this.state
     const header = this.isNew ? 'New Offering' : 'Offering Setting'
-    const button = this.isNew ? <SaveButtons {...this}/>
-                         : <EditButtons {...this} />
+    const button = this.isNew ? <SaveButtons {...this}/> : <EditButtons {...this} />
+
     return(
 
       <GeneralModal 
@@ -353,7 +359,7 @@ export default class OfferingSettingPage extends React.Component {
           onClose={this.showDeleteModal}
           onSave={this.onDelete}
         />
-        <OfferingForm {...this}/>
+        <OfferingForm {...this} />
       </GeneralModal>
     )
   }

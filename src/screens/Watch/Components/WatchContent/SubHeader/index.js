@@ -11,17 +11,8 @@ import './index.css'
 
 const ModeSetting = lazy(() => import('./ModeSetting'))
 
-export default function SubHeader({ playlist, media, propsForSettingBar }) {
+export default function SubHeader({ playlist, media, propsForSettingBar, isMobile }) {
   const [playlistName, setPlaylistName] = useState('')
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 650 ? true : false)
-  
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 650 && isMobile) {
-      setIsMobile(() => false)
-    } else if (window.innerWidth <= 650 && !isMobile) {
-      setIsMobile(() => true)
-    }
-  })
 
   /** If playlist is loaded */
   useEffect(() => {

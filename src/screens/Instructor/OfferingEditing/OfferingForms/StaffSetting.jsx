@@ -13,11 +13,10 @@ import { search } from 'utils'
 export default function StaffSetting({state: { staffMailId, staffs, staffEmailExists }, addStaff, removeStaff, onEnterStaffMailId}) {
   const [results, setResults] = useState(staffs)
   const [input, setInput] = useState('')
-  useEffect(() => {
-    setResults(staffs)
-  }, [staffs])
 
-  const onSearch = ({target: {value}}) => {
+  useEffect(() => setResults(staffs), [staffs])
+
+  const onSearch = ({ target: { value } }) => {
     setInput(value)
     if (value) setResults(search.generalSearch(staffs, value))
     else setResults(staffs)
@@ -32,9 +31,8 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
           content={<p>Add Course Staffs to the Offering Admin List</p>}/>
       </h2>
       
-
       <Grid.Row>
-        {/* upload file button */}
+        {/* Emails */}
         <Grid.Column>
           <Input
             fluid 
@@ -47,13 +45,17 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
             <input />
             <Button type="submit" onClick={addStaff}>Add</Button>
           </Input>
+
           <p className="warning">{staffEmailExists && 'Sorry, this email has already been added.'}</p>
+
+          {/* upload file button */}
           <UploadBtn type="staffs" addNew={addStaff} />
         </Grid.Column>
 
         {/* input to add instructors */}
         <Grid.Column>
           <div className="email-container">
+            {/* Search */}
             <input 
               className="email-filter" 
               placeholder="Search ..."
@@ -61,6 +63,7 @@ export default function StaffSetting({state: { staffMailId, staffs, staffEmailEx
               onChange={onSearch}
               type="text"
             />
+            {/* Email List */}
             <div className="email-group" role="list">
               {
                 !results.length ? 

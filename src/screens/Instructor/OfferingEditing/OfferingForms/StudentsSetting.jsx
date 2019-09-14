@@ -13,6 +13,7 @@ import { search } from 'utils'
 export default function StudentsSetting({state: { students }, addStudent, removeStudent }) {
   const [results, setResults] = useState(students)
   const [input, setInput] = useState('')
+
   useEffect(() => {
     setResults(students)
   }, [students])
@@ -32,7 +33,6 @@ export default function StudentsSetting({state: { students }, addStudent, remove
           content={<p>This offering will only be visible to the following students.</p>}/>
       </h2>
       
-
       <Grid.Row>
         {/* upload file button */}
         <Grid.Column>

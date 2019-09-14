@@ -13,16 +13,17 @@ function isThisSection(offering, departmentId) {
   return false
 }
 
-export default function Section({depart, state}) {
+export default function Section({ depart, state, displaySearchHeader }) {
   var { offerings, universities } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
   const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
 
   offerings = offerings.filter( offering => isThisSection(offering, depart.id))
   const offeringLen = offerings.length
-  const halfLen = Math.floor(offerings.length / 2)
-  const offerings1 = offeringLen > 15 ? offerings.slice(0, halfLen) : offerings
-  const offerings2 = offerings.length > 15 ? offerings.slice(halfLen, offeringLen) : []
+  const breakAt = Math.floor(offerings.length / 2)
+  const shouldBreak = offeringLen >= 10 || displaySearchHeader
+  const offerings1 = shouldBreak ? offerings.slice(0, breakAt) : offerings
+  const offerings2 = shouldBreak ? offerings.slice(breakAt, offeringLen) : []
 
   return (
     <div className="section" role="listitem" id={depart.acronym}>
@@ -88,10 +89,12 @@ function SectionItem({offering, depart, termSelected}) {
         pathname: util.links.offeringDetail(fullCourse.key),
         state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
       }}
+      title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
     >
       <Card.Img 
         className="img" variant="top" 
         src={imgHolder} style={{pointerEvents: 'none'}}
+        alt=""
       />
       <Card.Body>
         <Card.Title className="title">

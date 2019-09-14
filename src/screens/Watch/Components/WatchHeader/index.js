@@ -6,7 +6,7 @@ export function WatchHeader({ media, playlist, playlists, sendUserAction }) {
   return (
     <ClassTranscribeHeader darkMode>
       <Suspense fallback={<div>Loading...</div>}>
-        <PlaylistMenu media={media} playlist={playlist} playlistsInState={playlists} sendUserAction={sendUserAction} />
+        <PlaylistMenu media={media} playlist={playlist} playlists={playlists} sendUserAction={sendUserAction} />
       </Suspense>
     </ClassTranscribeHeader>
   )

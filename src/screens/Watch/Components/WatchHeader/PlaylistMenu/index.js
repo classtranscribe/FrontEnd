@@ -7,8 +7,7 @@ import VideosView from './VideosView'
 import './menuTransition.css'
 import './index.css'
 // Vars
-import { api } from 'utils'
-const emptyPlaylist = {name: '', id: ''}
+import { util } from 'utils'
 const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
@@ -16,54 +15,37 @@ const menuStyle = {
   height: '650px',
 }
 
-export default function PlaylistMenu({ media, playlist, playlistsInState, sendUserAction }) {
+export default function PlaylistMenu({ media, playlist, playlists, sendUserAction }) {
   // return <></>
   const [anchorEl, setAnchorEl] = useState(null)
-  const [playlists, setPlaylists] = useState([])
-  const [selectedPlaylist, setSelectedPlaylist] = useState(emptyPlaylist)
+  const [selectedPlaylist, setSelectedPlaylist] = useState({})
   const [medias, setMedias] = useState([])
 
   useEffect(() => {
-    if (playlist.offeringId) {
-      setSelectedPlaylist(() => playlist)
-      if (playlistsInState) {
-        setPlaylists(() => playlistsInState)
-      } else {
-        api.getPlaylistsByOfferingId(playlist.offeringId)
-          .then(({data}) => {
-            console.log('playlists..', data)
-            setPlaylists(() => data)
-          })
-      }
-    }
     if (playlist.medias) {
-      setMedias(() => playlist.medias)
+      setSelectedPlaylist(playlist)
+      setMedias(playlist.medias)
     }
-  }, [playlist, playlistsInState])
+  }, [playlist])
 
   const backToPlaylists = () => {
-    setSelectedPlaylist(() => emptyPlaylist)
+    setSelectedPlaylist({})
+    setTimeout(() => {
+      util.scrollToCenter(playlist.id)
+    }, 100)
   }
 
   const goToPlaylist = currPlaylist => {
-    setSelectedPlaylist(() => currPlaylist)
-    if (currPlaylist.medias) setMedias(() => currPlaylist.medias)
+    setSelectedPlaylist(currPlaylist)
+    if (currPlaylist.medias) setMedias(currPlaylist.medias)
     setTimeout(() => {
-      const currMediaEle = document.getElementById(media.id)
-      if (currMediaEle) {
-        currMediaEle.scrollIntoView({ block: "center" })
-        currMediaEle.focus()
-      }
+      util.scrollToCenter(media.id)
     }, 100)
   }
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
-      const currMediaEle = document.getElementById(media.id)
-      if (currMediaEle) {
-        currMediaEle.scrollIntoView({ block: "center" })
-        currMediaEle.focus()
-      }
+    util.scrollToCenter(media.id)
   }
 
   function handleClose() {
@@ -71,7 +53,7 @@ export default function PlaylistMenu({ media, playlist, playlistsInState, sendUs
   }
 
   const open = Boolean(anchorEl)
-  const isPlaylistView = selectedPlaylist.id === ''
+  const isPlaylistView = !Boolean(selectedPlaylist.id)
 
   return (
     <div className="playlist-menu">

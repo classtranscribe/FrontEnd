@@ -1,7 +1,7 @@
 import React from 'react'
 import { MenuItem } from '@material-ui/core'
 import { Divider } from 'semantic-ui-react'
-import { api } from 'utils'
+import { api, util } from 'utils'
 
 export default function PlaylistsView({currMedia, playlists, goToPlaylist, handleClose}) {
   return (
@@ -20,10 +20,10 @@ export default function PlaylistsView({currMedia, playlists, goToPlaylist, handl
 
 function PlaylistItem({ playlist, currMedia, goToPlaylist }) {
   const { name, id } = playlist
-  let fittedName = name ? name.slice(0, 40) : 'unknown'
-  if (fittedName !== name) fittedName += '...'
+  let fittedName = util.getFittedName(name, 40)
   return (
     <MenuItem 
+      id={id}
       className="pl-item" 
       selected={id === currMedia.playlistId}
       onClick={() => goToPlaylist(playlist)}

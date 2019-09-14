@@ -10,7 +10,7 @@ import Section from './Section'
 // Vars
 import { handleData } from 'utils'
 
-export default function OfferingList({state}) {
+export default function OfferingList({ state, displaySearchHeader }) {
   const { departments, departSelected, termSelected, offerings } = state
   if (!departments.length || offerings[0] === 'Unloaded' || (offerings[0] && !offerings[0].courses)) return <OfferingListHolder />
 
@@ -36,8 +36,10 @@ export default function OfferingList({state}) {
     <div className="offering-list" role="list">
       {departments.map( depart => nonEmptyDepart.includes(depart.id) ? (
         <Section 
+          key={depart.id} 
           state={state} 
-          depart={depart} key={depart.id} 
+          depart={depart} 
+          displaySearchHeader={displaySearchHeader}
         />
       ) : null)}
     </div>

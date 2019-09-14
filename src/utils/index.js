@@ -29,7 +29,11 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, mediaId) => `/video?courseNumber=${courseNumber}&id=${mediaId}`,
+    watch: (courseNumber, mediaId, begin) => {
+      var path = `/video?courseNumber=${courseNumber}&id=${mediaId}`
+      if (begin) path += `&begin=${begin}`
+      return path
+    },
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
@@ -64,6 +68,22 @@ export const util = {
       options.push({text: text, value: item.id})
     })
     return options;
+  },
+
+  scrollToCenter: function(id) {
+    const currElem = document.getElementById(id)
+    if (currElem) {
+      currElem.scrollIntoView({ block: "center" })
+      currElem.focus()
+    }
+  },
+
+  getFittedName: function(name, charNum) {
+    if (!name) return 'unknown'
+
+    let fittedName = name.slice(0, charNum)
+    if (fittedName !== name) fittedName += '...'
+    return fittedName
   },
 }
 

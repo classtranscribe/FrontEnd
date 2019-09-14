@@ -12,9 +12,11 @@ import { useDropzone } from 'react-dropzone'
  */
 export function SaveButtons(props) {
   const { generalAlert } = useCTContext()
+
   const { offering, selectedCourses } = props.state
   const { termId, sectionName } = offering.offering
   const canSave = termId && sectionName && selectedCourses.length
+
   return (
     <>
       <Button 
@@ -34,9 +36,11 @@ export function SaveButtons(props) {
  */
 export function EditButtons(props) {
   const { generalAlert } = useCTContext()
+
   const { offering, selectedCourses } = props.state
   const { termId, sectionName } = offering.offering
   const canSave = termId && sectionName && selectedCourses.length
+  
   return (
     <>
       <Button 
@@ -58,17 +62,15 @@ export function UploadBtn({ addNew }) {
   const [loading, setLoading] = useState(false)
   const { generalAlert } = useCTContext()
 
-  const onChange = useCallback( ({target: {files}})=> {
-    if (files.length > 1) setMesg('Sorry, you can only upload one file.')
-    else {
+  const onChange = useCallback( ({ target: { files } }) => {
+    if (files.length > 1) {
+      setMesg('Sorry, you can only upload one file.')
+    } else {
       setLoading(true)
       var reader = new FileReader()
       reader.onload = function() {
         csv.fromString(reader.result)
-          .on('data', data => {
-            // console.log(data[0])
-            addNew(data[0])
-          })
+          .on('data', data => addNew(data[0]))
           .on('end', () => setLoading(false))
           .on('error', () => generalAlert({
             header: "Invalid file format",
@@ -83,6 +85,7 @@ export function UploadBtn({ addNew }) {
   }, [addNew])
   
   const { getRootProps, getInputProps } = useDropzone()
+
   return (
     <div className="upload-btn">
       <Button {...getRootProps()} loading={loading}>

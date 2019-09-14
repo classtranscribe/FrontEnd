@@ -42,6 +42,9 @@
   background: none !important;
   border-color: transparent !important;
 }
+.sp-home .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
+  color: rgb(100, 100, 100) !important;
+}
 .sp-home .filter .ui.dropdown .menu>.item {
   overflow: hidden;
   white-space: nowrap;
@@ -59,7 +62,7 @@
   box-shadow:0 3px 4px 0 rgba(34,36,38,.15) !important;
 }  */
 .sp-home .filter label {
-  color: rgb(93, 131, 129) !important;
+  color: rgb(37, 113, 116) !important;
   padding-left: 1em;
 }
 
@@ -76,11 +79,12 @@
   padding: 1rem 0rem;}
   
   .sp-home .offering-list .section .title {
-    color: rgb(92, 121, 122);
-    font-size: 1.2rem;}
+    color: rgb(37, 113, 116);
+    font-size: 1.4rem;}
     .sp-home .offering-list .section .title span {
-      color: rgb(173, 173, 173);
+      color: rgb(104, 104, 104);
       font-size: 1.1rem;
+      font-weight: normal;
     }
     @media screen and (max-width: 600px) {
       .sp-home .offering-list .section .title {
@@ -103,18 +107,18 @@
       display: block;
       background: rgb(248, 248, 248);
       width: 2px;
-      height: 5px;}
+      height: 4px;}
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-track-piece {
         background: #fcfcfc;
       }
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-thumb {
-        background-color: #ebebeb;
+        background-color: #e9e9e9;
       }
       
   .sp-home .offering-list .section .offerings .offeringCard {
-    transition: border 0.2s linear;
+    /* transition: border 0.2s linear;
     -o-transition: border 0.2s linear;
-    -webkit-transition: border 0.2s linear;
+    -webkit-transition: border 0.2s linear; */
     display: inline-block;
     flex: 0 0 auto;
     white-space: normal;
@@ -123,13 +127,19 @@
     margin: 0.5rem 0.5rem 0.5rem 0;
     border: 0.1rem solid #fcfcfc;
     overflow: hidden;
+    border-radius: 10px !important;
+    background: #fcfcfc !important;
     cursor: pointer;}
     .sp-home .card-body {
       padding: 0.5rem !important;
     }
-  .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a:focus {
+  .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a {
     outline: none;
-    border: 0.1rem solid rgb(69, 165, 168);}
+  }
+  .sp-home .offering-list .section .offerings a:focus, .sp-home .offering-list .section .offerings a:active {
+    border-radius: 10px !important;
+    border: 0.1rem solid rgb(69, 165, 168);
+  }
     @media screen and (min-width: 600px) {
       .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
         margin-top: -7rem;}
@@ -138,13 +148,15 @@
     transition: margin 0.2s linear;
     -o-transition: margin 0.2s linear;
     -webkit-transition: margin 0.2s linear;
-    width: 16rem;}
+    border-radius: 9px;
+    width: 15.8rem;}
   .sp-home .offering-list .section .offerings .offeringCard .title {
-    color: rgb(68, 92, 92);
+    font-size: 1.4em;
+    color: rgb(40, 109, 116);
     padding: 0;
   }
   .sp-home .offering-list .section .offerings .offeringCard .info {
-    color: rgb(71, 141, 141);
+    color: rgb(61, 61, 61);
     font-weight: 500;
   }
   .sp-home  .offeringCard .description {
@@ -154,7 +166,7 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
-  .sp-home  .offeringCard .description::-webkit-scrollbar {
+  /* .sp-home  .offeringCard .description::-webkit-scrollbar {
     display: block;
     width: 3px;
   }
@@ -163,7 +175,7 @@
   }
   .sp-home  .offeringCard .description::-webkit-scrollbar-thumb {
     background: rgba(198, 219, 223, 0.685);
-  }
+  } */
 
   .sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder] {
     cursor: default;

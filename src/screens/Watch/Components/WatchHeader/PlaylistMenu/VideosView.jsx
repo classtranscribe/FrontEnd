@@ -7,8 +7,7 @@ import { util, api } from 'utils'
 
 export default function VideosView({ medias, currMedia, selectedPlaylist, playlists, backToPlaylists, sendUserAction }) {
   const { name } = selectedPlaylist
-  let fittedName = name ? name.slice(0, 40) : 'unknown'
-  if (fittedName !== name) fittedName += '...'
+  let fittedName = util.getFittedName(name, 40)
   return (
     <div className="video-view">
       <MenuItem 
@@ -53,10 +52,11 @@ function VideoItem({ media, currMedia, selectedPlaylist, playlists, sendUserActi
       onClick={watchVideo}
     >
       <Link className="pl-item-link" to={{
-        pathname: util.links.watch(util.parseSearchQuery().courseNumber, id),
+        pathname: '/video',
         state: {
           media: media, playlist: selectedPlaylist, playlists: playlists
-        }
+        },
+        search: `?courseNumber=${util.parseSearchQuery().courseNumber}&id=${id}`
       }}>
         <i className="material-icons">play_arrow</i>
         <p>&ensp;{mediaName}</p>

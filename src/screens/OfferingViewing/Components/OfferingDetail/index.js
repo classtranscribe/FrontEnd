@@ -31,6 +31,7 @@ export function OfferingDetail({id, history, location}) {
    * Get all offerings and complete offerings
    */
   useEffect(() => {
+    window.scrollTo(0, 0)
     const propsState = history.location.state
     if (propsState && propsState.fullCourse) {
       const { fullCourse } = propsState
@@ -51,7 +52,7 @@ export function OfferingDetail({id, history, location}) {
     }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
-        // console.log('playlists', data)
+        console.log('playlists', data)
         setPlaylists(() => data)
       })
     api.sendUserAction('selectcourse', {
