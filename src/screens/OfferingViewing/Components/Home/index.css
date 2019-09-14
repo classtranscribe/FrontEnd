@@ -25,8 +25,9 @@
 .sp-home .filter {
   width: 100%;
   padding-top: 1.5rem;
+  padding-left: 1em;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
   .sp-home .filter {
     padding-left: 0 !important;
   }
@@ -40,7 +41,13 @@
 }
 .sp-home .filter .ui.selection.dropdown {
   background: none !important;
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
   border-color: transparent !important;
+}
+.sp-home .filter .ui.selection.active.dropdown .menu {
+  border-bottom-left-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
 }
 .sp-home .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
   color: rgb(100, 100, 100) !important;
@@ -130,9 +137,6 @@
     border-radius: 10px !important;
     background: #fcfcfc !important;
     cursor: pointer;}
-    .sp-home .card-body {
-      padding: 0.5rem !important;
-    }
   .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a {
     outline: none;
   }
@@ -140,10 +144,12 @@
     border-radius: 10px !important;
     border: 0.1rem solid rgb(69, 165, 168);
   }
-    @media screen and (min-width: 600px) {
-      .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
-        margin-top: -7rem;}
-    }
+  .sp-home .offering-list .section .offerings .offeringCard>.card-body {
+    padding: 0.5rem !important;
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
+  }
   .sp-home .offering-list .section .offerings .offeringCard .img {
     transition: margin 0.2s linear;
     -o-transition: margin 0.2s linear;
@@ -151,13 +157,29 @@
     border-radius: 9px;
     width: 15.8rem;}
   .sp-home .offering-list .section .offerings .offeringCard .title {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
     font-size: 1.4em;
     color: rgb(40, 109, 116);
     padding: 0;
   }
   .sp-home .offering-list .section .offerings .offeringCard .info {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
     color: rgb(61, 61, 61);
     font-weight: 500;
+  }
+  @media screen and (min-width: 600px) {
+    .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
+      margin-top: -7rem;}
+    .sp-home .offering-list .section .offerings .offeringCard:hover>.card-body, .sp-home .offering-list .section .offerings a:focus>.card-body{
+      margin-top: 1.5rem;}
+    .sp-home .offering-list .section .offerings .offeringCard:hover .title, .sp-home .offering-list .section .offerings a:focus .title{
+      margin-bottom: 1rem;}
+    .sp-home .offering-list .section .offerings .offeringCard:hover .info, .sp-home .offering-list .section .offerings a:focus .info{
+      margin-bottom: 1.5rem;}
   }
   .sp-home  .offeringCard .description {
     color: rgb(107, 128, 128);
