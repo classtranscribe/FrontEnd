@@ -74,6 +74,24 @@
   margin: 0 !important;
 }
 
+.ap-others h2 {
+  color: #28817d;
+}
+.ap-others-section {
+  background: #f0f0f0;
+  padding: 1em;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.ap-others-section label {
+  font-weight: bold;
+}
+
+.download-logs button {
+  margin-left: 3em !important;
+}
+
 .ap-listitem {
   display: flex;
   flex-direction: row;

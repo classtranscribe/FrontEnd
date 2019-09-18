@@ -15,6 +15,7 @@ import UniPane from './Universities'
 import DepartPane from './Departments'
 import CoursePane from './Courses'
 import InstructorPane from './Instructors'
+import Others from './Others'
 // Vars
 import { api, handleData, util, user } from 'utils'
 
@@ -196,7 +197,8 @@ export class Admin extends React.Component {
       { menuItem: 'Terms'         , render: () => <TermPane {...this} /> },
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
       { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> },
-      { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />}
+      { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />},
+      { menuItem: 'Others'        , render: () => <Others {...this} />}
     ]
 
     const { verticalSidebar } = this.state
