@@ -30,6 +30,11 @@
       width: 6.5em;
       height: 1em;
     }
+    .ct-brand .subtitle {
+      padding-top: .2em;
+      color: #464e4e !important;
+      font-size: 1.7rem;
+    }
 
     .header-shadow {
       box-shadow: 0 0 6px #c7c7c786;

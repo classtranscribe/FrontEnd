@@ -205,7 +205,7 @@ export class Admin extends React.Component {
 
     return (
       <div>
-        <ClassTranscribeHeader />
+        <ClassTranscribeHeader subtitle="Admin" />
         <div className="admin-bg">
           <Tab 
             menuPosition="left"
