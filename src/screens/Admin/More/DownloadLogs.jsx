@@ -37,7 +37,7 @@ export default function DownloadLogs() {
   }
 
   return (
-    <div className="ap-others-section download-logs">
+    <div className="ap-more-section download-logs">
       <h2>Download Logs</h2>
       <label>Select Date Range</label>
       <div>

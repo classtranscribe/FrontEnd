@@ -74,24 +74,27 @@
   margin: 0 !important;
 }
 
-.ap-others h2 {
+/* More */
+
+.ap-more h2 {
   color: #28817d;
 }
-.ap-others-section {
+.ap-more-section {
   background: #f0f0f0;
   padding: 1em;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
 }
-.ap-others-section label {
+.ap-more-section label {
   font-weight: bold;
 }
 
-.download-logs button {
+.ap-more .download-logs button {
   margin-left: 3em !important;
 }
 
+/* General */
 .ap-listitem {
   display: flex;
   flex-direction: row;

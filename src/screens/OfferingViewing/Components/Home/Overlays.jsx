@@ -15,7 +15,7 @@ export function StarredButton({ offeringId }) {
   }
 
   const iconName = isStarred ? 'star' : 'star outline'
-  const popupContent = isStarred ? 'Remove from Starred' : 'Add to Starred'
+  const popupContent = (isStarred ? 'Remove from Starred' : 'Add to Starred') + ' (In Progress)'
 
   return (
     <Popup 
