@@ -8,7 +8,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
 import { SidebarDimmer } from 'components'
 import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
-import SearchHeader from './Components/Search/SearchHeader'
+import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars

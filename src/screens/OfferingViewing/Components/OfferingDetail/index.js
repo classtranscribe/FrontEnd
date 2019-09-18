@@ -6,8 +6,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // UI
-import { Icon, Divider } from 'semantic-ui-react'
-import { ClassTranscribeFooter } from 'components'
+import { Icon } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
 import { api, util, handleData, user } from 'utils'
@@ -96,6 +95,7 @@ export function OfferingDetail({id, history, location}) {
 
   return (
     <div className="offering-detail" >
+      {/* Offering Info */}
       <div className="offering-info">
         <div className="goback-container">
           <Link 
@@ -117,17 +117,13 @@ export function OfferingDetail({id, history, location}) {
         <h5>{description}</h5><br/><br/>
       </div>
       
-      <div className="playlist-container">
-        <Divider />
-        <h4>Playlists</h4>
-        <Playlists 
-          offeringId={id}
-          history={history} 
-          playlists={playlists} 
-          fullNumber={fullNumber}  
-        />
-        <ClassTranscribeFooter />
-      </div>
+      {/* Playlists */}
+      <Playlists 
+        offeringId={id}
+        history={history} 
+        playlists={playlists} 
+        fullNumber={fullNumber}  
+      />
     </div>
   )
 }
