@@ -109,5 +109,12 @@ export const util = {
         break;
     }    
   },
+
+  saveVideoTime: function(mediaId='', timestamp=0) {
+    localStorage.setItem(`watch-history-${mediaId}`, timestamp.toString())
+  },
+  restoreVideoTime: function(mediaId='') {
+    return parseFloat(localStorage.getItem(`watch-history-${mediaId}`))
+  }
 }
 

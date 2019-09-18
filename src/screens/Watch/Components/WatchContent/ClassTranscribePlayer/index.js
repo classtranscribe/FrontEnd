@@ -16,10 +16,12 @@ import { staticVJSOptions, keyDownPlugin, getControlPlugin, captionLangMap, ctVi
 export default class ClassTranscribePlayer extends React.Component {
   constructor(props) {
     super(props)
+    this.mediaId = util.parseSearchQuery().id
     this.prevTime = 0
     this.lastSyncTime = 0
     this.lastTimeupdate = 0
     ctVideo.setSendUserAction(props.sendUserAction)
+    ctVideo.setMediaId(this.mediaId)
   }
 
   componentDidUpdate(prevProps) {
@@ -49,7 +51,12 @@ export default class ClassTranscribePlayer extends React.Component {
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
         const iniTime = util.parseSearchQuery().begin
-        if (iniTime) this.currentTime(iniTime)
+        if (iniTime) {
+          this.currentTime(iniTime)
+        } else {
+          const restoreTime = util.restoreVideoTime(media.id)
+          this.currentTime(restoreTime)
+        }
         ctVideo.setVideoLoading(false)
       })
     }
@@ -99,6 +106,7 @@ export default class ClassTranscribePlayer extends React.Component {
     if (Math.abs(currTime - this.prevTime) > 1 ) {
       this.props.setTimeUpdate(currTime)
       this.prevTime = currTime
+      util.saveVideoTime(this.mediaId, currTime)
     }
     // if (Math.abs(currTime - this.lastSyncTime) > 5 ) {
     //   this.props.setCurrTime(e)
