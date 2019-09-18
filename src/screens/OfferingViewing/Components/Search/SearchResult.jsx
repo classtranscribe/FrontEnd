@@ -8,17 +8,17 @@ function SearchResult({ loading, results, searchValue }) {
   return (
     <div className="result">
       {loading && <p>Loading Results...</p>}
-      <List divided relaxed>
+      <List role="list" divided relaxed>
         {results.map( (result, index) => (
           <List.Item className="resultItem" key={result.key + index.toString()}>
             <List.Content>
-              <h3 className="d-inline">
+              <p className="d-inline offering-num">
                 <Link to={{
                   pathname: util.links.offeringDetail(result.key),
                   state: { from: 'search', fullCourse: result, searchedValue: searchValue }
                 }}>{result.fullNumber}</Link>
-              </h3>
-              <h4>{result.courseName}&ensp;<span>{result.description}</span></h4>
+              </p>
+              <p className="offering-name">{result.courseName}&ensp;<span>{result.description}</span></p>
               <p className="text-muted">{result.termName}&ensp;{result.section}</p>
             </List.Content>
           </List.Item>

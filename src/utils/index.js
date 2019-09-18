@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'
@@ -84,6 +86,28 @@ export const util = {
     let fittedName = name.slice(0, charNum)
     if (fittedName !== name) fittedName += '...'
     return fittedName
+  },
+
+  fixForAccessbitity: function(category) {
+    switch (category) {
+      case 'widgets/scripts':
+        $('.default').each(
+          (index, elem) => {
+            elem.removeAttribute('aria-live')
+            elem.removeAttribute('role')
+          }
+        )
+        break;
+      case 'formSearchDropdown':
+        $('.search').each(
+          (index, elem) => {
+            elem.setAttribute('aria-label', 'search' + index)
+          }
+        )
+        break;
+      default:
+        break;
+    }    
   },
 }
 

@@ -21,7 +21,7 @@
   .ct-footer .title {
     margin-left: 1rem !important;}
   .ct-footer .copy {
-    color: rgb(146, 146, 146);
+    color: rgb(68, 68, 68);
     white-space: nowrap;
   }
   .ct-footer .brand-img {
@@ -31,9 +31,9 @@
     -webkit-transition: color 0.2s linear;
     -o-transition: color 0.2s linear;
     transition: color 0.2s linear;
-    color: rgb(118, 160, 160) !important;}
+    color: rgb(49, 119, 119) !important;}
     .ct-footer a:hover {
-      color: rgb(27, 95, 95) !important;
+      color: rgb(69, 77, 77) !important;
     }
     .ct-footer .column {
       display: flex !important;

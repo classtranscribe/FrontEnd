@@ -29,8 +29,12 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
         </Navbar.Brand>
       }
       <Navbar.Brand id="brand" className="ct-brand" as={Link} to={homeURL} title="Home" aria-label="Home">
-        {/* {!isWatchScreen && <Logo />} */}
-        <span>C</span>lass<span>T</span>ranscribe
+        {
+          darkMode ?
+          <><span>C</span>lass<span>T</span>ranscribe</>
+          :
+          <Logo />
+        }
       </Navbar.Brand>
       <Row className="signout">
         {children}
@@ -44,7 +48,7 @@ export function Logo() {
   return (
     <>
       <img
-        src={require('../../images/ct-logo.png')}
+        src={require('../../images/brand-text.png')}
         width="30" height="30"
         className="d-inline-block align-top img"
         alt="ClassTranscribe logo"

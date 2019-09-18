@@ -113,8 +113,8 @@ export function OfferingDetail({id, history, location}) {
         <h2>
           {courseName}&emsp;
           <span>{termName}&ensp;{sectionName}</span>
-        </h2><br/>
-        <h5>{description}</h5><br/><br/>
+        </h2>
+        <p className="offering-description">{description}</p><br/><br/>
       </div>
       
       {/* Playlists */}

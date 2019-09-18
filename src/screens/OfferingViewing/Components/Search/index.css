@@ -40,13 +40,16 @@
   .sp-content .search-bar .result a {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
+    font-size: 1.4em;
     color: rgb(48, 134, 134);}
     .sp-content .search-bar .result a:hover {
       text-decoration: underline;}
-  .sp-content .search-bar .result h4 {
-    color: rgb(114, 114, 114);
+  .sp-content .search-bar .result .offering-name {
+    color: rgb(69, 90, 92);
+    font-size: 1.2em;
+    font-weight: bold;
     margin-top: 0;}
-    .sp-content .search-bar .result h4 span {
+    .sp-content .search-bar .result .offering-name span {
       font-size: 1rem;
       font-weight: 100;}
   @media screen and (max-width: 600px) {
@@ -91,7 +94,7 @@
 }
 .search-bar .search-empty-result span {
   font-size: 1.1em;
-  color: rgb(146, 146, 146);
+  color: rgb(71, 71, 71);
 }
 .search-bar .search-empty-result button {
   margin-top: 20px;

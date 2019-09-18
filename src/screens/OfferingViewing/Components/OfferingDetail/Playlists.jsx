@@ -21,7 +21,7 @@ export default function Playlists({ playlists, fullNumber, history }) {
   return (
     <div className="playlist-container">
       <Divider />
-      <h4>Playlists</h4>
+      <p className="title">Playlists</p>
       <Accordion className="playlists">
         {playlists.map( (playlist, index) => (
           <Playlist 
@@ -51,7 +51,7 @@ function Playlist({history, playlist, playlists, index, activeIndex, setActiveIn
         tabIndex={0}
         onClick={() => setActiveIndex(index)}
       >
-        <h4><strong>{name}</strong></h4>
+        <p className="playlist-name"><strong>{name}</strong></p>
         <p>{medias.length} video(s)</p>
       </Accordion.Title>
       <Accordion.Content active={isActive} className="videos">

@@ -85,7 +85,8 @@ export class OfferingViewing extends React.Component {
             />   
             <Sidebar {...this} />
 
-            <div className="sp-content" style={paddingLeft}>
+            <main className="sp-content" style={paddingLeft}>
+              <h1 className="accessbility_hide">Home</h1>
               <TransitionGroup>
                 <CSSTransition key={location.key} classNames="fade" timeout={300}>
                   <Switch location={location}>
@@ -112,7 +113,7 @@ export class OfferingViewing extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-            </div>
+            </main>
           </div>
       )}/>
     )

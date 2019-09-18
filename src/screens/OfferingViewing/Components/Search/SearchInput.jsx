@@ -6,6 +6,7 @@ function SearchInput({ searchValue, onInput }) {
       <div className="ui icon input">
         <input autoFocus
           type="text" className="prompt" id="search"
+          aria-label="Search for courses"
           value={searchValue}
           onChange={onInput}
           placeholder="Search for Courses ..."

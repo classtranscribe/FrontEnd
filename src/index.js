@@ -9,4 +9,4 @@ ReactDOM.render((
     <App />
   </CTContextProvider>
 ), document.getElementById('root'));
-serviceWorker.unregister();
+// serviceWorker.unregister();
