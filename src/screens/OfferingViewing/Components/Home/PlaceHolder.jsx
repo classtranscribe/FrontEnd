@@ -10,24 +10,26 @@ import { Placeholder } from 'semantic-ui-react'
  */
 export function OfferingCardHolder() {
   return (
-    <Card className="offeringCard" id="offering-card-holder">
-      <Placeholder>
-        <Placeholder.Image style={{height: '9rem', width: '16rem'}}/>
-      </Placeholder>
-      <Card.Body>
+    <div className="offering-card-container">
+      <Card className="offeringCard" id="offering-card-holder">
         <Placeholder>
-          <Placeholder.Header>
-            <Placeholder.Line length='long' />
-            <Placeholder.Line length='short' />
-          </Placeholder.Header>
-          <Placeholder.Paragraph>
-            <Placeholder.Line length='short' />
-            <Placeholder.Line length='long' />
-            <Placeholder.Line length="medium" />
-          </Placeholder.Paragraph>
+          <Placeholder.Image style={{height: '9rem', width: '16rem'}}/>
         </Placeholder>
-      </Card.Body>
-    </Card>
+        <Card.Body>
+          <Placeholder>
+            <Placeholder.Header>
+              <Placeholder.Line length='long' />
+              <Placeholder.Line length='short' />
+            </Placeholder.Header>
+            <Placeholder.Paragraph>
+              <Placeholder.Line length='short' />
+              <Placeholder.Line length='long' />
+              <Placeholder.Line length="medium" />
+            </Placeholder.Paragraph>
+          </Placeholder>
+        </Card.Body>
+      </Card>
+    </div>
   )
 }
 
@@ -40,6 +42,7 @@ export function OfferingListHolder({ noCourse }) {
     <div className="w-100 d-flex align-items-center text-muted m-5">NO COURSE</div>
   ) : (
     <div className="offering-list" role="list" style={{overflowX: 'hidden'}}>
+      <hr/>
       {['offering-list-holder1', 'offering-list-holder2'].map( key =>
         <div className="section" role="listitem" key={key}>
           <Placeholder style={{height: '2rem'}}>

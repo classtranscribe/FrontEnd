@@ -115,6 +115,19 @@ export const util = {
   },
   restoreVideoTime: function(mediaId='') {
     return parseFloat(localStorage.getItem(`watch-history-${mediaId}`))
+  },
+
+  /**
+   * @TODO add an array of starred courses
+   */
+  starOffering: function(offeringId) {
+    localStorage.setItem(`offering-star-${offeringId}`, 'starred')
+  },
+  unstarOffering: function(offeringId) {
+    localStorage.removeItem(`offering-star-${offeringId}`)
+  },
+  isOfferingStarred: function(offeringId) {
+    return Boolean(localStorage.getItem(`offering-star-${offeringId}`))
   }
 }
 

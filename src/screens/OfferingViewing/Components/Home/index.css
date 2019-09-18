@@ -123,7 +123,70 @@
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-thumb {
         background-color: #e9e9e9;
       }
-      
+
+
+
+
+
+/* Offering Card */
+
+  .sp-home .offering-list .section .offerings .offering-card-container {
+    margin: 0.5rem 0.5rem 0rem 0;
+    position: relative;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    border-radius: 50% !important;
+    background: rgb(241, 241, 241) !important;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn:hover {
+    background: rgb(231, 231, 231) !important;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container:hover>.overlay-btn {
+    opacity: 1;
+    animation: showOverlay .5s linear;
+    -o-animation: showOverlay .5s linear;
+    -webkit-animation: showOverlay .5s linear;
+  }
+
+  .sp-home .offering-list .section .offerings .offering-card-container .star-btn {
+    top: 2.5em;
+    right: 0em;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container .starred-btn i {
+    color: rgb(52, 173, 163) !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn {
+      opacity: 1;
+    }
+    .sp-home .offering-list .section .offerings .offering-card-container .star-btn {
+      top: .5em;
+      right: .2em;
+      background: none !important;
+    }
+  }
+
+  @keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  @-o-keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  @-moz-keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  @-webkit-keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+
   .sp-home .offering-list .section .offerings .offeringCard {
     /* transition: border 0.2s linear;
     -o-transition: border 0.2s linear;
@@ -133,7 +196,6 @@
     white-space: normal;
     width: 16rem !important;
     height: 18rem;
-    margin: 0.5rem 0.5rem 0rem 0;
     border: 0.1rem solid #fcfcfc;
     overflow: hidden;
     border-radius: 10px !important;
@@ -175,13 +237,13 @@
     margin-top: .5em;
   }
   @media screen and (min-width: 600px) {
-    .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .img, .sp-home .offering-list .section .offerings a:focus>.img{
       margin-top: -7rem;}
-    .sp-home .offering-list .section .offerings .offeringCard:hover>.card-body, .sp-home .offering-list .section .offerings a:focus>.card-body{
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .card-body, .sp-home .offering-list .section .offerings a:focus>.card-body{
       margin-top: 1.5rem;}
-    .sp-home .offering-list .section .offerings .offeringCard:hover .title, .sp-home .offering-list .section .offerings a:focus .title{
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .title, .sp-home .offering-list .section .offerings a:focus .title{
       margin-bottom: 1rem;}
-    .sp-home .offering-list .section .offerings .offeringCard:hover .info, .sp-home .offering-list .section .offerings a:focus .info{
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .info, .sp-home .offering-list .section .offerings a:focus .info{
       margin-bottom: 1.5rem;}
   }
   .sp-home  .offeringCard .description {
