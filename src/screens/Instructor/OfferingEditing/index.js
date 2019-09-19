@@ -315,7 +315,7 @@ export default class OfferingSettingPage extends React.Component {
     // add new staffs
     await api.addCourseStaffToOffering(this.id, newAddedStaffs)
 
-    // this.onClose(this.id)
+    this.onClose(this.id)
   }
 
   /**
