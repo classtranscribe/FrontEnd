@@ -73,7 +73,7 @@ export function SideBar({ id, state, showSiderBar }) {
           onClick={() => showSiderBar(window.innerWidth > 900)}
           className="list" eventKey="data" aria-label="data" title="data"
         >
-          <i className="fas fa-chart-bar"></i> &ensp; Data
+          <i className="fas fa-chart-bar"></i> &ensp; Analytics
         </ListGroup.Item>
       </ListGroup>
 
