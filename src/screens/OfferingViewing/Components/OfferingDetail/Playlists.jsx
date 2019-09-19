@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Accordion } from 'semantic-ui-react'
+import { Accordion, Divider } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
+import { ClassTranscribeFooter } from 'components'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
 import { util, api } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
@@ -18,18 +19,23 @@ export default function Playlists({ playlists, fullNumber, history }) {
   }
 
   return (
-    <Accordion className="playlists">
-      {playlists.map( (playlist, index) => (
-        <Playlist 
-          key={playlist.id}
-          history={history}
-          playlist={playlist} index={index}
-          playlists={playlists}
-          activeIndex={activeIndex} setActiveIndex={handleClick}
-          fullNumber={fullNumber}
-        />
-      ))}
-    </Accordion>
+    <div className="playlist-container">
+      <Divider />
+      <p className="title">Playlists</p>
+      <Accordion className="playlists">
+        {playlists.map( (playlist, index) => (
+          <Playlist 
+            key={playlist.id}
+            history={history}
+            playlist={playlist} index={index}
+            playlists={playlists}
+            activeIndex={activeIndex} setActiveIndex={handleClick}
+            fullNumber={fullNumber}
+          />
+        ))}
+      </Accordion>
+      <ClassTranscribeFooter />
+    </div>
   )
 }
 
@@ -45,7 +51,7 @@ function Playlist({history, playlist, playlists, index, activeIndex, setActiveIn
         tabIndex={0}
         onClick={() => setActiveIndex(index)}
       >
-        <h4><strong>{name}</strong></h4>
+        <p className="playlist-name"><strong>{name}</strong></p>
         <p>{medias.length} video(s)</p>
       </Accordion.Title>
       <Accordion.Content active={isActive} className="videos">

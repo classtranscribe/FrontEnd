@@ -9,7 +9,7 @@ import { OfferingListHolder } from './PlaceHolder'
 import { ClassTranscribeFooter } from 'components'
 import './index.css'
 // Vars
-import { api, user, handleData } from 'utils'
+import { api, user, handleData, util } from 'utils'
 // Lazy loading
 const OfferingList = lazy(() => import('./OfferingList'))
 
@@ -45,6 +45,8 @@ export class Home extends React.Component {
     } else {
       this.onUniSelected(null, {})
     }
+    util.fixForAccessbitity('widgets/scripts')
+    util.fixForAccessbitity('formSearchDropdown')
   }
   
   componentDidUpdate(prevProps) {
@@ -111,7 +113,7 @@ export class Home extends React.Component {
   render() {
     const { displaySearchHeader } = this.props
     return (
-      <main className="sp-home">
+      <div className="sp-home">
         <div id="home-content">
           <Filter displaySearchHeader={displaySearchHeader} {...this} />
           <Suspense fallback={<OfferingListHolder />}>  
@@ -119,7 +121,7 @@ export class Home extends React.Component {
           </Suspense>
           <ClassTranscribeFooter />
         </div>
-      </main>
+      </div>
     )
   }
 }

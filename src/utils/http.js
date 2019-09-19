@@ -138,6 +138,10 @@ export const api = {
   searchCaptionInOffering: function(offeringId, query) {
     return this.getData('Captions/SearchInOffering', null, { offeringId, query })
   },
+  // Admin
+  adminGetLogs: function(from, to) {
+    return this.getData('Admin/GetLogs', null, { from, to })
+  },
 
   /**
    * POST

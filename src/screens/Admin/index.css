@@ -74,6 +74,27 @@
   margin: 0 !important;
 }
 
+/* More */
+
+.ap-more h2 {
+  color: #28817d;
+}
+.ap-more-section {
+  background: #f0f0f0;
+  padding: 1em;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.ap-more-section label {
+  font-weight: bold;
+}
+
+.ap-more .download-logs button {
+  margin-left: 3em !important;
+}
+
+/* General */
 .ap-listitem {
   display: flex;
   flex-direction: row;

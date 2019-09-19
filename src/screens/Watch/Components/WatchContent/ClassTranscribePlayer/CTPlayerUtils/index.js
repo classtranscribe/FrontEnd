@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import { util } from 'utils'
 
 export const staticVJSOptions = require('./staticVJSOptions.json')
 export { keyDownPlugin } from './keyDownPlugin'
@@ -15,9 +16,13 @@ export const captionLangMap = {
 export const ctVideo = {
   waitingNum: 0,
   isSeeking: false,
+  mediaId: '',
   sendUserAction: function() {},
   setSendUserAction: function(sendUserAction) {
     this.sendUserAction = sendUserAction
+  },
+  setMediaId: function(mediaId) {
+    this.mediaId = mediaId
   },
   setVideoLoading: function(loading) {
     if (loading) {
@@ -33,6 +38,7 @@ export const ctVideo = {
     videoElems.each( (index, videoElem) => {
       if (all || e.target !== videoElem) videoElem.play()
     })
+    util.saveVideoTime(this.mediaId, e.target.currentTime)
   },
   
   syncPause: function(e, all) {
@@ -41,6 +47,7 @@ export const ctVideo = {
     videoElems.each( (index, videoElem) => {
       if (all || e.target !== videoElem) videoElem.pause()
     })
+    util.saveVideoTime(this.mediaId, e.target.currentTime)
   },
   
   setCurrTime: function(e, time) {
@@ -48,6 +55,7 @@ export const ctVideo = {
     $("video").each( (index, videoElem) => {
       if (time || e.target !== videoElem) videoElem.currentTime = currTime
     })
+    util.saveVideoTime(this.mediaId, currTime)
   },
 
   onLoaded: function (e) {
@@ -80,10 +88,12 @@ export const ctVideo = {
 
   onSeeked: function(e, isPrimary) {
     this.syncPlay(e)
-    if (isPrimary) this.sendUserAction('seeked', { 
-      seekedTo: e.target.currentTime,
-      timeStamp: e.target.currentTime
-    })
+    if (isPrimary) {
+      this.sendUserAction('seeked', { 
+        seekedTo: e.target.currentTime,
+        timeStamp: e.target.currentTime
+      })
+    }
     if (this.waitingNum === 0) {
       this.isSeeking = false
       this.setVideoLoading(false)

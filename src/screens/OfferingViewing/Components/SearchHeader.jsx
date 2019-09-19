@@ -17,8 +17,11 @@ function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, histo
         (displaySearchHeader && window.location.pathname !== util.links.search())
         &&
         <div className="ui icon input header-search" >
+          <label className="accessbility_hide" >Search for Courses</label>
           <input 
+            id="header_search_input"
             type="text" className="prompt"
+            aria-label="Search for Courses"
             placeholder="Search for Courses"
             onChange={({target: {value}}) => setSearchValue(value)}
             value={searchValue}

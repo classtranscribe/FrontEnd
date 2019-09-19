@@ -22,12 +22,18 @@
     font-weight: bold;
     font-size: 2rem;
     color: #228686 !important;
-    margin-left: 1rem;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
     .ct-brand span {
       color: #629c9c;}
-    .ct-brand .img {
-      pointer-events: none;
+    .ct-brand img {
+      cursor: pointer;
+      width: 6.5em;
+      height: 1em;
+    }
+    .ct-brand .subtitle {
+      padding-top: .2em;
+      color: #464e4e !important;
+      font-size: 1.7rem;
     }
 
     .header-shadow {
@@ -44,6 +50,7 @@
     display: flex; 
     justify-content: center;
     padding-left: 0.6em;
+    margin-right: 1em;
     transition: background 0.2s linear;
     background: none;
     cursor: pointer;}
@@ -108,6 +115,7 @@
   .dark .signout {
     color: rgb(104, 204, 211);}
   .dark .ct-brand, .dark .ct-brand:hover {
+    margin-left: .5em;
     color: #2d9999;}
   .dark .ct-brand span {
     color: rgb(114, 173, 179);}

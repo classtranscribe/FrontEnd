@@ -25,8 +25,9 @@
 .sp-home .filter {
   width: 100%;
   padding-top: 1.5rem;
+  padding-left: .5em;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
   .sp-home .filter {
     padding-left: 0 !important;
   }
@@ -40,7 +41,13 @@
 }
 .sp-home .filter .ui.selection.dropdown {
   background: none !important;
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
   border-color: transparent !important;
+}
+.sp-home .filter .ui.selection.active.dropdown .menu {
+  border-bottom-left-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
 }
 .sp-home .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
   color: rgb(100, 100, 100) !important;
@@ -76,9 +83,11 @@
 .sp-home .offering-list .section {
   width: 100%;
   overflow: hidden;
-  padding: 1rem 0rem;}
+  padding-top: 1rem;}
   
   .sp-home .offering-list .section .title {
+    padding: 0;
+    margin: 0;
     color: rgb(37, 113, 116);
     font-size: 1.4rem;}
     .sp-home .offering-list .section .title span {
@@ -114,7 +123,70 @@
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-thumb {
         background-color: #e9e9e9;
       }
-      
+
+
+
+
+
+/* Offering Card */
+
+  .sp-home .offering-list .section .offerings .offering-card-container {
+    margin: 0.5rem 0.5rem 0rem 0;
+    position: relative;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    border-radius: 50% !important;
+    background: rgb(241, 241, 241) !important;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn:hover {
+    background: rgb(231, 231, 231) !important;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container:hover>.overlay-btn {
+    opacity: 1;
+    animation: showOverlay .5s linear;
+    -o-animation: showOverlay .5s linear;
+    -webkit-animation: showOverlay .5s linear;
+  }
+
+  .sp-home .offering-list .section .offerings .offering-card-container .star-btn {
+    top: 2.5em;
+    right: 0em;
+  }
+  .sp-home .offering-list .section .offerings .offering-card-container .starred-btn i {
+    color: rgb(52, 173, 163) !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn {
+      opacity: 1;
+    }
+    .sp-home .offering-list .section .offerings .offering-card-container .star-btn {
+      top: .5em;
+      right: .2em;
+      background: none !important;
+    }
+  }
+
+  @keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  @-o-keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  @-moz-keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  @-webkit-keyframes showOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+
   .sp-home .offering-list .section .offerings .offeringCard {
     /* transition: border 0.2s linear;
     -o-transition: border 0.2s linear;
@@ -124,15 +196,11 @@
     white-space: normal;
     width: 16rem !important;
     height: 18rem;
-    margin: 0.5rem 0.5rem 0.5rem 0;
     border: 0.1rem solid #fcfcfc;
     overflow: hidden;
     border-radius: 10px !important;
     background: #fcfcfc !important;
     cursor: pointer;}
-    .sp-home .card-body {
-      padding: 0.5rem !important;
-    }
   .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a {
     outline: none;
   }
@@ -140,10 +208,12 @@
     border-radius: 10px !important;
     border: 0.1rem solid rgb(69, 165, 168);
   }
-    @media screen and (min-width: 600px) {
-      .sp-home .offering-list .section .offerings .offeringCard:hover>.img, .sp-home .offering-list .section .offerings a:focus>.img{
-        margin-top: -7rem;}
-    }
+  .sp-home .offering-list .section .offerings .offeringCard>.card-body {
+    padding: 0.5rem !important;
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
+  }
   .sp-home .offering-list .section .offerings .offeringCard .img {
     transition: margin 0.2s linear;
     -o-transition: margin 0.2s linear;
@@ -151,19 +221,37 @@
     border-radius: 9px;
     width: 15.8rem;}
   .sp-home .offering-list .section .offerings .offeringCard .title {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
     font-size: 1.4em;
-    color: rgb(40, 109, 116);
+    color: rgb(37, 113, 116);
     padding: 0;
   }
   .sp-home .offering-list .section .offerings .offeringCard .info {
+    transition: margin 0.2s linear;
+    -o-transition: margin 0.2s linear;
+    -webkit-transition: margin 0.2s linear;
     color: rgb(61, 61, 61);
-    font-weight: 500;
+    font-weight: normal;
+    margin-top: .5em;
+  }
+  @media screen and (min-width: 600px) {
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .img, .sp-home .offering-list .section .offerings a:focus>.img{
+      margin-top: -7rem;}
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .card-body, .sp-home .offering-list .section .offerings a:focus>.card-body{
+      margin-top: 1.5rem;}
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .title, .sp-home .offering-list .section .offerings a:focus .title{
+      margin-bottom: 1rem;}
+    .sp-home .offering-list .section .offerings .offering-card-container:hover .info, .sp-home .offering-list .section .offerings a:focus .info{
+      margin-bottom: 1.5rem;}
   }
   .sp-home  .offeringCard .description {
-    color: rgb(107, 128, 128);
+    color: rgb(70, 102, 102);
     position: relative; 
     overflow-y: scroll;
     overflow-x: hidden;
+    line-height: 1em;
     -webkit-overflow-scrolling: touch;
   }
   /* .sp-home  .offeringCard .description::-webkit-scrollbar {

@@ -10,7 +10,7 @@ import { util } from 'utils'
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
  */
-export function ClassTranscribeHeader({darkMode, display, showSiderBar, children, universities}) {
+export function ClassTranscribeHeader({darkMode, display, showSiderBar, children, universities, subtitle}) {
   const bg = darkMode ? 'dark' : 'light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
   const homeURL = util.links.home()
@@ -29,8 +29,12 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
         </Navbar.Brand>
       }
       <Navbar.Brand id="brand" className="ct-brand" as={Link} to={homeURL} title="Home" aria-label="Home">
-        {/* {!isWatchScreen && <Logo />} */}
-        <span>C</span>lass<span>T</span>ranscribe
+        {
+          darkMode ?
+          <><span>C</span>lass<span>T</span>ranscribe</>
+          :
+          <Logo subtitle={subtitle} />
+        }
       </Navbar.Brand>
       <Row className="signout">
         {children}
@@ -40,15 +44,15 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
   )
 }
 
-export function Logo() {
+export function Logo({ subtitle }) {
   return (
     <>
       <img
-        src={require('../../images/ct-logo.png')}
+        src={require('../../images/brand-text.png')}
         width="30" height="30"
         className="d-inline-block align-top img"
-        alt="ClassTranscribe logo"
-      />&ensp;
+        alt="ClassTranscribe Brand"
+      />&ensp;<span className="subtitle">{subtitle}</span>
     </>
   )
 }

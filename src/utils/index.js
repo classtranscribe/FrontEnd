@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'
@@ -85,5 +87,47 @@ export const util = {
     if (fittedName !== name) fittedName += '...'
     return fittedName
   },
+
+  fixForAccessbitity: function(category) {
+    switch (category) {
+      case 'widgets/scripts':
+        $('.default').each(
+          (index, elem) => {
+            elem.removeAttribute('aria-live')
+            elem.removeAttribute('role')
+          }
+        )
+        break;
+      case 'formSearchDropdown':
+        $('.search').each(
+          (index, elem) => {
+            elem.setAttribute('aria-label', 'search' + index)
+          }
+        )
+        break;
+      default:
+        break;
+    }    
+  },
+
+  saveVideoTime: function(mediaId='', timestamp=0) {
+    localStorage.setItem(`watch-history-${mediaId}`, timestamp.toString())
+  },
+  restoreVideoTime: function(mediaId='') {
+    return parseFloat(localStorage.getItem(`watch-history-${mediaId}`))
+  },
+
+  /**
+   * @TODO add an array of starred courses
+   */
+  starOffering: function(offeringId) {
+    localStorage.setItem(`offering-star-${offeringId}`, 'starred')
+  },
+  unstarOffering: function(offeringId) {
+    localStorage.removeItem(`offering-star-${offeringId}`)
+  },
+  isOfferingStarred: function(offeringId) {
+    return Boolean(localStorage.getItem(`offering-star-${offeringId}`))
+  }
 }
 

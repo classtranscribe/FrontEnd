@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 // UI
-import { Header } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
 import { OfferingCardHolder } from './PlaceHolder'
+import { StarredButton } from './Overlays'
 // Vars
-import { handleData, search, util } from 'utils'
+import { handleData, search, util, user } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
 function isThisSection(offering, departmentId) {
@@ -26,10 +26,11 @@ export default function Section({ depart, state, displaySearchHeader }) {
   const offerings2 = shouldBreak ? offerings.slice(breakAt, offeringLen) : []
 
   return (
-    <div className="section" role="listitem" id={depart.acronym}>
-      <Header className="title" as="a" href={`#${depart.acronym}`}>
+    <div className="section" id={depart.acronym}>
+      <hr/>
+      <h2 className="title" as="a" href={`#${depart.acronym}`}>
         {depart.name}&emsp;<span>{uni.name}</span>
-      </Header>
+      </h2>
       <div className="offerings">
         {offerings1.map( (offering, index) => 
           offering.courses ? 
@@ -82,30 +83,37 @@ function SectionItem({offering, depart, termSelected}) {
     }
   }
 
+  const isLoggedIn = user.isLoggedIn()
+
   return !fullCourse ? null :
-    <Card 
-      className="offeringCard" as={Link} 
-      to={{
-        pathname: util.links.offeringDetail(fullCourse.key),
-        state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
-      }}
-      title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
-    >
-      <Card.Img 
-        className="img" variant="top" 
-        src={imgHolder} style={{pointerEvents: 'none'}}
-        alt=""
-      />
-      <Card.Body>
-        <Card.Title className="title">
-          {fullCourse.courseNumber}&ensp;{fullCourse.courseName}
-        </Card.Title>
-        <Card.Text className="info">
-          {fullCourse.termName}&ensp;({fullCourse.section})
-        </Card.Text>
-        <Card.Text className="description">
-          {fullCourse.description}
-        </Card.Text>
-      </Card.Body>
-    </Card>
+    <div className="offering-card-container">
+      {isLoggedIn && <StarredButton offeringId={fullCourse.key} />}
+      <Card 
+        className="offeringCard" as={Link} 
+        to={{
+          pathname: util.links.offeringDetail(fullCourse.key),
+          state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
+        }}
+        title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
+        aria-describedby={"offering-info-" + fullCourse.key}
+      >
+        <Card.Img 
+          className="img" variant="top" 
+          src={imgHolder} style={{pointerEvents: 'none'}}
+          alt=""
+        />
+        <p id={"offering-info-" + fullCourse.key} className="accessbility_hide">{fullCourse.courseNumber + ' ' + fullCourse.courseName + ' ' + fullCourse.termName + ' ' + fullCourse.section}</p>
+        <Card.Body>
+          <Card.Title className="title">
+            <strong>{fullCourse.courseNumber} </strong> <br/>{fullCourse.courseName}
+          </Card.Title>
+          <Card.Text className="info">
+            {fullCourse.termName} - {fullCourse.section}
+          </Card.Text>
+          <Card.Text className="description">
+            {fullCourse.description}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </div>
 }
