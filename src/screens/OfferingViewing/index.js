@@ -18,7 +18,7 @@ export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      displaySideBar: (window.innerWidth < 900 || user.isLoggedIn()) ? false : true,
+      displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn()*/) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
       offerings: ['Unloaded'],

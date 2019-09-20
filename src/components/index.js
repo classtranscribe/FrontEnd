@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.css'
+import './sidebar.css'
 
 export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
 export { ClassTranscribeHeader } from './Header'
