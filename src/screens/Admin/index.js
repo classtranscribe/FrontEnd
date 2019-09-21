@@ -96,6 +96,8 @@ export class Admin extends React.Component {
      */
     if (!user.isLoggedIn()) {
       user.login()
+    } else {
+      if (!user.isAdmin()) window.location = util.links.notfound404()
     }
     /**
      * 2. first load of values

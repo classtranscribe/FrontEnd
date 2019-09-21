@@ -14,7 +14,7 @@ import { PlaylistEditing, VideoEditing, UploadVideo } from './EditingPages'
 import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
-import { user, api, util } from 'utils'
+import { user, api, util, handleData } from 'utils'
 
 
 export class InstructorOffering extends React.Component {
@@ -41,7 +41,9 @@ export class InstructorOffering extends React.Component {
   componentDidMount() {
     if (!user.isLoggedIn()) {
       user.login()
-    } 
+    } else {
+      if (!user.isInstructor()) window.location = util.links.notfound404()
+    }
     /**
      * listen on window size for showing or hiding sidebar
      */
@@ -62,6 +64,8 @@ export class InstructorOffering extends React.Component {
          * 1. get and set courseOffering
          */
         this.setState({courseOffering: data})
+        const isValidInstructor = handleData.find(data.instructorIds, { id: user.userId() })
+        if (!isValidInstructor) window.location = util.links.notfound404()
         /** 
          * 2. get all the departments associated with the courses
          *    and modify the course.courseNumber with depart acronym 

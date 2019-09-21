@@ -12,7 +12,7 @@ import { Courses } from "./Components"
 import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
 // Vars
-import { api, user } from 'utils'
+import { api, user, util } from 'utils'
 
 
 export class InstructorProfile extends React.Component {
@@ -56,6 +56,7 @@ export class InstructorProfile extends React.Component {
       user.login()
       return;
     } else {
+      if (!user.isInstructor()) window.location = util.links.notfound404()
       userInfo = user.getUserInfo()
       this.setState({ userInfo })
     }
