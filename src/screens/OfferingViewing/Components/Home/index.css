@@ -81,8 +81,11 @@
 }
 
 .sp-home .offering-list .section {
+  position: relative;
   width: 100%;
-  overflow: hidden;}
+  /* overflow-y: auto;
+  overflow-x: hidden; */
+}
   
   .sp-home .offering-list .section .title {
     padding: 0;
@@ -102,6 +105,16 @@
           padding-left: 1em;
         }
     }
+    .sp-home .offering-list .section .button[id=offering-show-all-btn] {
+      position: absolute;
+      right: 2em;
+      bottom: -2em;
+      background: #fcfcfc;
+      z-index: 1;
+      color: rgb(37, 113, 116);}
+      .sp-home .offering-list .section .button[id=offering-show-all-btn]:hover, .sp-home .offering-list .section .button[id=offering-show-all-btn]:focus {
+        color: #3a3a3a;
+      }
 
 
   .sp-home .offering-list .section .offerings {
@@ -122,6 +135,10 @@
       .sp-home .offering-list .section .offerings::-webkit-scrollbar-thumb {
         background-color: #e9e9e9;
       }
+
+  .sp-home .offering-list .section .offerings-show-all {
+    flex-wrap: wrap; 
+  }
 
 
 

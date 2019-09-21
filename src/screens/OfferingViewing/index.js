@@ -46,7 +46,7 @@ export class OfferingViewing extends React.Component {
 
       if (window.innerWidth < 900 && displaySideBar) 
         this.setState({ displaySideBar: false })
-      else if (window.innerWidth >= 900 && !displaySideBar && !user.isLoggedIn()) 
+      else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn()*/) 
         this.setState({ displaySideBar: true })
     })
   }

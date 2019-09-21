@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 // UI
 import { Card } from 'react-bootstrap'
+import { Button } from 'semantic-ui-react'
 import { OfferingCardHolder } from './PlaceHolder'
 import { StarredButton } from './Overlays'
 // Vars
@@ -13,17 +14,15 @@ function isThisSection(offering, departmentId) {
   return false
 }
 
-export default function Section({ depart, state, displaySearchHeader }) {
+export default function Section({ depart, state, /* displaySearchHeader */}) {
   var { offerings, universities } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
   const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
 
+  const [showAll, setShowAll] = useState(false)
+  const handleShowAll = () => setShowAll(showAll => !showAll)
+
   offerings = offerings.filter( offering => isThisSection(offering, depart.id))
-  const offeringLen = offerings.length
-  const breakAt = Math.floor(offerings.length / 2)
-  const shouldBreak = offeringLen >= 10 || displaySearchHeader
-  const offerings1 = shouldBreak ? offerings.slice(0, breakAt) : offerings
-  const offerings2 = shouldBreak ? offerings.slice(breakAt, offeringLen) : []
 
   return (
     <div className="section" id={depart.acronym}>
@@ -31,8 +30,8 @@ export default function Section({ depart, state, displaySearchHeader }) {
       <h2 className="title" as="a" href={`#${depart.acronym}`}>
         {depart.name}&emsp;<span>{uni.name}</span>
       </h2>
-      <div className="offerings">
-        {offerings1.map( (offering, index) => 
+      <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`}>
+        {offerings.map( (offering, index) => 
           offering.courses ? 
           <SectionItem 
             {...state}
@@ -44,22 +43,7 @@ export default function Section({ depart, state, displaySearchHeader }) {
           <OfferingCardHolder key={getKey(offering, index)} />
         )}
       </div>
-      {
-        offerings2.length > 0
-        &&
-        <div className="offerings">
-          {offerings2.map( (offering, index) => 
-            offering.courses ? 
-            <SectionItem 
-              {...state}
-              key={getKey(offering, index)}
-              offering={offering} depart={depart}  
-            />
-            : 
-            <OfferingCardHolder key={getKey(offering, index)} />
-          )}
-        </div>
-      }
+      {offerings.length > 6 && <Button id="offering-show-all-btn" compact onClick={handleShowAll} content={showAll ? 'Collapse All' : 'Show All'} />}
     </div>
   )
 }
