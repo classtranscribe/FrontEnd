@@ -36,6 +36,7 @@
         bottom: -1.7em;}
       .sp-home .offering-list .section .button[id=offering-close-btn] {
         color: rgb(114, 114, 114);
+        background: transparent;
         font-size: 1.3em;
         right: 0;
         top: .3em;}
@@ -191,6 +192,15 @@
   font-weight: normal;
   margin-top: .5em;
 }
+.sp-home .offering-list .section .offerings .offeringCard .description {
+  color: rgb(70, 102, 102);
+  position: relative; 
+  overflow-y: scroll;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-overflow-scrolling: touch;
+}
 @media screen and (min-width: 600px) {
   .sp-home .offering-list .section .offerings .offering-card-container:hover .image-card .img, .sp-home .offering-list .section .offerings a:focus .image-card .img{
     margin-top: -7rem;}
@@ -200,13 +210,9 @@
     margin-bottom: 1rem;}
   .sp-home .offering-list .section .offerings .offering-card-container:hover .image-card .info, .sp-home .offering-list .section .offerings a:focus .image-card .info{
     margin-bottom: 1.5rem;}
-}
-.sp-home  .offeringCard .description {
-  color: rgb(70, 102, 102);
-  position: relative; 
-  overflow-y: scroll;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  .sp-home .offering-list .section .offerings .offering-card-container:hover .image-card .description, .sp-home .offering-list .section .offerings a:focus .image-card .description {
+    white-space: normal;
+  }
 }
 /* .sp-home  .offeringCard .description::-webkit-scrollbar {
   display: block;
