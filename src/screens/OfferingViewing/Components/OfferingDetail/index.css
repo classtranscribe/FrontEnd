@@ -19,6 +19,7 @@
   .sp-content .offering-detail .offering-description {
     display: inline;
     color: rgb(57, 80, 78);
+    white-space: normal;
     font-size: 1.1rem;
   }
   @media screen and (max-width: 600px) {
