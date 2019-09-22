@@ -1,8 +1,6 @@
 .sp-home .offering-list .section {
   position: relative;
   width: 100%;
-  /* overflow-y: auto;
-  overflow-x: hidden; */
 }
   
   .sp-home .offering-list .section .title {
@@ -41,10 +39,14 @@
   .sp-home .offering-list .section .offerings {
     position: relative;
     width: 100%;
-    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;}
+    height: max-content;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;}
+    .sp-home .offering-list .section .offerings[id=starred-offerings] {
+      padding-bottom: 1em;
+    }
     .sp-home .offering-list .section .offerings::-webkit-scrollbar {
       display: block;
       background: rgb(248, 248, 248);
@@ -85,7 +87,7 @@
   /* Starred */
   .sp-home .offering-list .section .offerings .offering-card-container .star-btn-middle {
     top: 2.5em;
-    right: 0em;}
+    right: 5px;}
   .sp-home .offering-list .section .offerings .offering-card-container .star-btn-top {
     top: 5px;
     right: 5px;}
@@ -128,20 +130,23 @@
   border: 0.1rem solid #fcfcfc;
   overflow: hidden;
   border-radius: 10px !important;
-  background: #fcfcfc !important;
   cursor: pointer;}
   .sp-home .offering-list .section .offerings .image-card {
+    background: transparent !important;
+    /* box-shadow: .1em 0em .8em rgb(221, 218, 218); */
     width: 16rem;
-    height: 18rem}
+    height: 16rem}
   .sp-home .offering-list .section .offerings .basic-card {
+    background: #ffffff !important;
     width: 16rem;
     height: 9rem;
-    border: 0.1rem solid rgb(217, 224, 224);
+    box-shadow: .5em .6em .8em rgb(149, 149, 149);
+    border: 0.1rem solid transparent;
   }
 .sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a {
   outline: none;
 }
-.sp-home .offering-list .section .offerings a:focus, .sp-home .offering-list .section .offerings a:active, .sp-home .offering-list .section .offerings .basic-card:hover {
+.sp-home .offering-list .section .offerings a:focus, .sp-home .offering-list .section .offerings a:active, .sp-home .offering-list .section .offerings .offeringCard:hover {
   border-radius: 10px !important;
   border: 0.1rem solid rgb(69, 165, 168);
 }
@@ -156,6 +161,8 @@
   -o-transition: margin 0.2s linear;
   -webkit-transition: margin 0.2s linear;
   border-radius: 9px;
+  overflow: hidden;
+  max-height: 124px;
   width: 15.8rem;}
 .sp-home .offering-list .section .offerings .offeringCard .title {
   transition: margin 0.2s linear;
@@ -188,7 +195,6 @@
   position: relative; 
   overflow-y: scroll;
   overflow-x: hidden;
-  line-height: 1em;
   -webkit-overflow-scrolling: touch;
 }
 /* .sp-home  .offeringCard .description::-webkit-scrollbar {

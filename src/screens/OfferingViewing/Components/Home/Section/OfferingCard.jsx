@@ -8,7 +8,7 @@ import './index.css'
 import { handleData, search, util, user } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
-export default function OfferingCard({ offering, depart, termSelected, image=false, fullCourse=null }) {
+export default function OfferingCard({ offering, depart, termSelected, image=false, fullCourse=null, ...functions }) {
   // if the full offering data has not yet loaded
   if (image && (!offering.courses || offering.isTestCourse)) return null
   if (image && termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
@@ -32,9 +32,10 @@ export default function OfferingCard({ offering, depart, termSelected, image=fal
   return !fullCourse ? null :
     <div className="offering-card-container">
       {
-        (isLoggedIn && image)
+        isLoggedIn
         && 
         <StarredButton 
+          {...functions}
           position={image ? 'middle' : 'top'}
           fullCourse={fullCourse} 
         />

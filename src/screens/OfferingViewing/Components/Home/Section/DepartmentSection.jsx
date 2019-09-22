@@ -4,7 +4,7 @@ import { OfferingCardHolder } from '../PlaceHolder'
 import OfferingCard from './OfferingCard'
 
 
-export default function DepartmentSection({ offerings, depart, showAll, state }) {
+export default function DepartmentSection({ offerings, depart, showAll, state, ...functions }) {
 
   const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
   return (
@@ -13,6 +13,7 @@ export default function DepartmentSection({ offerings, depart, showAll, state })
         offering.courses ? 
         <OfferingCard image
           {...state}
+          {...functions}
           key={getKey(offering, index)}
           depart={depart}  
           offering={offering} 

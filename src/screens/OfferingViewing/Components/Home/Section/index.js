@@ -5,15 +5,15 @@ import DepartmentSection from './DepartmentSection'
 import StarredSection from './StarredSection'
 import './index.css'
 // Vars
-import { handleData, util } from 'utils'
+import { handleData } from 'utils'
 
 function isThisSection(offering, departmentId) {
   if (handleData.find(offering.courses, { departmentId })) return true
   return false
 }
 
-export default function Section({ depart={}, state={}, type }) {
-  var { offerings, universities } = state
+export default function Section({ depart={}, state={}, type, ...functions }) {
+  var { offerings, universities, starredOfferings } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
 
   const [showAll, setShowAll] = useState(false)
@@ -22,7 +22,7 @@ export default function Section({ depart={}, state={}, type }) {
   offerings = type === 'department' ? 
               offerings.filter( offering => isThisSection(offering, depart.id)) :
               type === 'starred' ?
-              util.getStarredOfferingsArray() : []
+              starredOfferings : []
 
   const sectionTitle = type === 'department' ? 
                         { title: depart.name, subtitle: uni.name} :
@@ -30,6 +30,7 @@ export default function Section({ depart={}, state={}, type }) {
                         { title: 'Starred Courses', subtitle: ''} : {}
 
   if (offerings.length === 0) return null
+
   return (
     <div className="section" id={depart.acronym}>
       <hr/>
@@ -38,7 +39,8 @@ export default function Section({ depart={}, state={}, type }) {
       </h2>
       {
         type === 'department' ?
-          <DepartmentSection  
+          <DepartmentSection 
+            {...functions} 
             state={state}
             depart={depart}
             showAll={showAll}
@@ -47,8 +49,9 @@ export default function Section({ depart={}, state={}, type }) {
         :
         type === 'starred' ?
           <StarredSection 
+            {...functions}
             showAll={showAll}
-            offerings={offerings}  
+            offerings={offerings}
           /> 
         : 
         null

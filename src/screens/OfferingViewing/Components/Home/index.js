@@ -2,10 +2,9 @@
  * Home sub-screen for Offering Viewing screen
  */
 
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 // UI
 import Filter from  './Filter'
-import { OfferingListHolder } from './PlaceHolder'
 import { ClassTranscribeFooter } from 'components'
 import SectionList from './SectionList'
 import './index.css'
@@ -22,6 +21,7 @@ export class Home extends React.Component {
       terms: [],
       departments: [],
       offerings: props.offerings,
+      starredOfferings: util.getStarredOfferingsArray(),
 
       uniSelected: '',
       departSelected: [],
@@ -107,6 +107,18 @@ export class Home extends React.Component {
 
   onTermSelected = (e, {value}) => {
     this.setState({ termSelected: value })
+  }
+
+  starOffering = fullCourse => {
+    const { starredOfferings } = this.state
+    starredOfferings.push(fullCourse)
+    this.setState({ starredOfferings })
+  }
+
+  unstarOffering = id => {
+    const { starredOfferings } = this.state
+    handleData.remove(starredOfferings, { id })
+    this.setState({ starredOfferings })
   }
 
   render() {

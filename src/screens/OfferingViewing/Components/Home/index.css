@@ -9,9 +9,6 @@
   padding-bottom: 2rem;
 }
 
-/* Search Bar*/
-
-
 /* Content */
 
 .sp-home .hide {
@@ -24,12 +21,17 @@
 
 .sp-home .filter {
   width: 100%;
-  padding-top: 1.5rem;
-  padding-left: .5em;
+  margin-top: 1rem;
+  /* padding: 1em 2em .5em 2em; */
+  padding: 1em 1em 0 1em;
+  /* border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0em 0em .8em rgb(218, 218, 218); */
 }
 @media screen and (max-width: 800px) {
   .sp-home .filter {
-    padding-left: 0 !important;
+    /* padding: 2em 0 !important; */
+    padding: 0 !important;
   }
 }
 
