@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import { history } from './history'
 
 export { api    } from './http'
 export { search } from './search'
@@ -11,6 +12,7 @@ export { handleData } from './data'
  * Objects for switching pages and storing some general functions
  */
 export const util = {
+  ...history,
   links: {
     currentUrl: () => window.location,
     home: ()=> '/home',
@@ -109,25 +111,5 @@ export const util = {
         break;
     }    
   },
-
-  saveVideoTime: function(mediaId='', timestamp=0) {
-    localStorage.setItem(`watch-history-${mediaId}`, timestamp.toString())
-  },
-  restoreVideoTime: function(mediaId='') {
-    return parseFloat(localStorage.getItem(`watch-history-${mediaId}`))
-  },
-
-  /**
-   * @TODO add an array of starred courses
-   */
-  starOffering: function(offeringId) {
-    localStorage.setItem(`offering-star-${offeringId}`, 'starred')
-  },
-  unstarOffering: function(offeringId) {
-    localStorage.removeItem(`offering-star-${offeringId}`)
-  },
-  isOfferingStarred: function(offeringId) {
-    return Boolean(localStorage.getItem(`offering-star-${offeringId}`))
-  }
 }
 

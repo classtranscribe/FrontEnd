@@ -7,11 +7,10 @@ import React, { Suspense, lazy } from 'react'
 import Filter from  './Filter'
 import { OfferingListHolder } from './PlaceHolder'
 import { ClassTranscribeFooter } from 'components'
+import SectionList from './SectionList'
 import './index.css'
 // Vars
 import { api, user, handleData, util } from 'utils'
-// Lazy loading
-const OfferingList = lazy(() => import('./OfferingList'))
 
 export class Home extends React.Component {
   constructor(props) {
@@ -116,9 +115,7 @@ export class Home extends React.Component {
       <div className="sp-home">
         <div id="home-content">
           <Filter displaySearchHeader={displaySearchHeader} {...this} />
-          <Suspense fallback={<OfferingListHolder />}>  
-            <OfferingList {...this} />
-          </Suspense>
+          <SectionList {...this} />
           <ClassTranscribeFooter />
         </div>
       </div>

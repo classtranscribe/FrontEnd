@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // UI
-import { Icon } from 'semantic-ui-react'
+import { Icon, Button } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
 import { api, util, handleData, user } from 'utils'
@@ -17,10 +17,20 @@ export function OfferingDetail({id, history, location}) {
   const [playlists, setPlaylists] = useState(null)
   // variables to present
   const [fullNumber, setFullNumber] = useState('Loading...')
+  const [courseNumber, setCourseNumber] = useState('Loading...')
   const [termName, setTermName] = useState('')
   const [sectionName, setSectionName] = useState('')
   const [description, setDescription] = useState('')
   const [courseName, setCourseName] = useState('Loading...')
+
+  const [isStarred, setIsStarred] = useState(util.isOfferingStarred(id))
+  const handleStar = () => {
+    if (isStarred) util.unstarOffering(id)
+    else util.starOffering({
+      id, courseNumber, fullNumber, termName, section: sectionName, description, courseName
+    })
+    setIsStarred(isStarred => !isStarred)
+  }
 
   const checkAccessType = accessType => {
     if (accessType !== 0 && !user.isLoggedIn()) user.login() 
@@ -36,6 +46,7 @@ export function OfferingDetail({id, history, location}) {
       const { fullCourse } = propsState
       checkAccessType(fullCourse.accessType)
       setFullNumber(() => fullCourse.fullNumber)
+      setCourseNumber(() => fullCourse.courseNumber)
       setTermName(() => fullCourse.termName)
       setDescription(() => fullCourse.description)
       setSectionName(() => fullCourse.section)
@@ -92,6 +103,8 @@ export function OfferingDetail({id, history, location}) {
   }
 
   // const allLoaded = fullNumber && termName && courseName && description && sectionName
+  const iconName = isStarred ? 'star' : 'star outline'
+  const buttonName = isStarred ? 'UNSTAR' : 'STAR'
 
   return (
     <div className="offering-detail" >
@@ -109,12 +122,18 @@ export function OfferingDetail({id, history, location}) {
           </Link>
         </div>
         
-        <h1>{fullNumber}</h1><br/><br/>
+        <h1>{fullNumber}</h1>
+        <br/><br/>
+        <br/>
         <h2>
           {courseName}&emsp;
           <span>{termName}&ensp;{sectionName}</span>
         </h2>
-        <p className="offering-description">{description}</p><br/><br/>
+        {description && <><p className="offering-description">{description}</p><br/><br/></>}
+        <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
+          <Icon name={iconName} />
+          {buttonName}
+        </Button>
       </div>
       
       {/* Playlists */}

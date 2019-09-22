@@ -2,20 +2,21 @@ import React, { useState } from 'react'
 import { util } from 'utils'
 import { Button, Popup } from 'semantic-ui-react'
 
-export function StarredButton({ offeringId }) {
-  const [isStarred, setIsStarred] = useState(util.isOfferingStarred(offeringId))
+export function StarredButton({ fullCourse, position }) {
+  const [isStarred, setIsStarred] = useState(util.isOfferingStarred(fullCourse.id))
 
   const handleClick = () => {
     if (isStarred) {
-      util.unstarOffering(offeringId)
+      util.unstarOffering(fullCourse.id)
     } else {
-      util.starOffering(offeringId)
+      util.starOffering(fullCourse)
     }
+    console.log(util.getStarredOfferingsArray())
     setIsStarred(isStarred => !isStarred)
   }
 
   const iconName = isStarred ? 'star' : 'star outline'
-  const popupContent = (isStarred ? 'Remove from Starred' : 'Add to Starred') + ' (In Progress)'
+  const popupContent = isStarred ? 'Remove from Starred' : 'Add to Starred'
 
   return (
     <Popup 
@@ -25,7 +26,7 @@ export function StarredButton({ offeringId }) {
       trigger={
         <Button 
           circular compact
-          className={`overlay-btn star-btn ${ isStarred ? 'starred-btn' : '' }`} 
+          className={`overlay-btn star-btn-${position} ${ isStarred ? 'starred-btn' : '' }`} 
           icon={iconName} 
           onClick={handleClick}
         />

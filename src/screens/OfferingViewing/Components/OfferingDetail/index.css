@@ -101,6 +101,14 @@
 .sp-content .offering-detail .offering-info {
   padding-top: 2em;
 }
+.sp-content .offering-detail .offering-info .button {
+  background: #378f8f;
+  color: white;
+}
+.sp-content .offering-detail .offering-info .button[id=starred] {
+  background: #dfe2e2;
+  color: rgb(98, 98, 98);
+}
 @media screen and (min-width: 1000px) {
   .sp-content .offering-detail {
     display: flex;
@@ -117,9 +125,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  /* .sp-content .offering-detail .offering-info h2 {
-
-  } */
+  
   .sp-content .offering-detail .playlist-container {
     width: 100%;
     overflow-y: scroll;
