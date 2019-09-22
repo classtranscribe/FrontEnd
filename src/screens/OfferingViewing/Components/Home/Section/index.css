@@ -23,18 +23,29 @@
         }
     }
 
-    /* Show More Button */
-    .sp-home .offering-list .section .button[id=offering-show-all-btn] {
+    /* Overlay Buttons */
+    .sp-home .offering-list .section .button {
       position: absolute;
-      right: 2em;
-      bottom: -2em;
       background: #fcfcfc;
-      z-index: 1;
-      color: rgb(37, 113, 116);}
-      .sp-home .offering-list .section .button[id=offering-show-all-btn]:hover, .sp-home .offering-list .section .button[id=offering-show-all-btn]:focus {
-        color: #3a3a3a;
-      }
+      z-index: 1;}
+    .sp-home .offering-list .section .button span {
+      border: 1px solid transparent}
+      .sp-home .offering-list .section .button[id=offering-show-all-btn] {
+        color: rgb(37, 113, 116);
+        right: 2em;
+        bottom: -1.7em;}
+      .sp-home .offering-list .section .button[id=offering-close-btn] {
+        color: rgb(114, 114, 114);
+        font-size: 1.3em;
+        right: 0;
+        top: .3em;}
+        .sp-home .offering-list .section .button[id=offering-show-all-btn]:hover, .sp-home .offering-list .section .button[id=offering-close-btn]:hover {
+          color: #3a3a3a;}
+        .sp-home .offering-list .section .button[id=offering-show-all-btn]:focus >span, .sp-home .offering-list .section .button[id=offering-close-btn]:focus > span {
+          border: 1px solid rgb(37, 113, 116)}
 
+
+  /* Offering horizontal scroll area */
 
   .sp-home .offering-list .section .offerings {
     position: relative;

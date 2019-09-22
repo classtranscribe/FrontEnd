@@ -1,6 +1,7 @@
 export const history = {
   watchHistoryKey: 'watch-history',
   starredOfferingKey: 'starred-offerings',
+  starredSectionKey: 'starred=section',
   /**
    * Watch history
    */
@@ -61,5 +62,16 @@ export const history = {
   isOfferingStarred: function(offeringId='') {
     var starredOfferings = this.getStarredOfferings()
     return Boolean(starredOfferings[offeringId])
-  }
-}
+  },
+
+
+  closeStarredSection: function() {
+    localStorage.setItem(this.starredSectionKey, 'close')
+  },
+  openStarredSection: function() {
+    localStorage.setItem(this.starredSectionKey, 'open')
+  },
+  isStarredSectionOpen: function() {
+    return localStorage.getItem(this.starredSectionKey) !== 'close'
+  },
+ }
