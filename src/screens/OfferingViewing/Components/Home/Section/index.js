@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // UI
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 import DepartmentSection from './DepartmentSection'
 import StarredSection from './StarredSection'
 import './index.css'
@@ -33,7 +33,7 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
   const sectionTitle = type === 'department' ? 
                         { title: depart.name, subtitle: uni.name} :
                        type === 'starred' ?
-                        { title: 'Starred Courses', subtitle: ''} : {}
+                        { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} : {}
 
   if (offerings.length === 0) return null
   // if (type === 'starred' && isClosed) return null
