@@ -7,12 +7,12 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
 import { SidebarDimmer } from 'components'
-import { Sidebar, Home, Starred, Search, OfferingDetail } from './Components'
+import { Sidebar, Home, Starred, History, Search, OfferingDetail } from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
-import { api, user } from 'utils'
+import { api } from 'utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
@@ -99,6 +99,11 @@ export class OfferingViewing extends React.Component {
                     <Route 
                       exact path="/home/starred" 
                       render={() => <Starred {...this} />}
+                    />
+                    {/* History */}
+                    <Route 
+                      exact path="/home/history" 
+                      render={() => <History {...this} />}
                     />
                     {/* Offering Detail page */}
                     <Route 

@@ -34,14 +34,14 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
             >
               <Icon name="bookmark" /> &emsp; Starred
             </ListGroup.Item>
-            {/* <ListGroup.Item 
+            <ListGroup.Item 
               className="list" action eventKey="history" 
-              as={Link} to={util.links.home()}
+              as={Link} to={util.links.history()}
               title="history" aria-label="history"
               onClick={() => showSiderBar(window.innerWidth > 900)}
             >
               <Icon name="history" /> &emsp; History
-            </ListGroup.Item> */}
+            </ListGroup.Item>
           </>
         }
         {

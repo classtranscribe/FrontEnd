@@ -18,6 +18,7 @@ export const util = {
     home: ()=> '/home',
     search: () => '/home/search',
     starred: () => '/home/starred',
+    history: () => '/home/history',
     offeringDetail: id => `/home/offering/${id}`,
     admin: () => '/admin',
 
