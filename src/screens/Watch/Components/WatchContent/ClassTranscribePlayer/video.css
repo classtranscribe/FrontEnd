@@ -19,7 +19,7 @@
 }
 
 .vjs-menu-button-inline .vjs-menu {
-  left: 3em
+  left: 2em
 }
 
 .vjs-paused.vjs-has-started.video-js .vjs-big-play-button,.video-js.vjs-ended .vjs-big-play-button,.video-js.vjs-paused .vjs-big-play-button {
@@ -232,8 +232,11 @@
   transition: border-color .4s,outline .4s,background-color .4s
 }
 
-.video-js .vjs-menu-button-popup .vjs-menu {
-  left: -3.5em;
+.video-js .vjs-playback-rate .vjs-menu {
+  left: -3.5em !important;
+}
+.video-js .vjs-subs-caps-button .vjs-menu {
+  left: -8.5em !important;
 }
 
 .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {

@@ -8,7 +8,7 @@ export { getControlPlugin } from './controlPlugin'
 
 export const captionLangMap = {
   "en-US": "English",
-  "zh-Hans": "Chinese",
+  "zh-Hans": "Simplified-Chinese",
   "ko": "Korean",
   "es": "Spanish"
 }

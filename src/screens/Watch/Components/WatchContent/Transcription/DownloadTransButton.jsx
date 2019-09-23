@@ -9,7 +9,7 @@ var fileDownload = require('js-file-download')
 const menuStyle = {
   backgroundColor: '#424242', 
   color: 'rgb(236, 236, 236)',
-  width: '200px',
+  width: '240px',
 }
 const iconStyle = { color: 'rgb(236, 236, 236)' }
 
