@@ -2,8 +2,10 @@
  * Placeholders for Home screen
  */
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
-import { Placeholder } from 'semantic-ui-react'
+import { Placeholder, Icon } from 'semantic-ui-react'
+import { util } from 'utils'
 
 /**
  * Placeholder shows up when a offering is loading
@@ -55,6 +57,18 @@ export function OfferingListHolder({ noCourse }) {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+export function ReloadContents({ onRetry }) {
+  return (
+    <div className="reload-prompt d-flex justify-content-center align-items-center w-100 m-5">
+      Couldn't load courses.
+      &ensp;
+      <Link to={util.links.home()} onClick={onRetry}>
+        Retry<Icon name="redo" />
+      </Link>
     </div>
   )
 }

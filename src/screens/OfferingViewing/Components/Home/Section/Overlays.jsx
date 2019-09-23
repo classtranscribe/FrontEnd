@@ -44,7 +44,7 @@ export function SectionShowMoreButton({ shouldDisplay, showAll, handleShowAll })
 
   return (
     <Button type="offering-show-all-btn" compact onClick={handleShowAll} aria-label={content}>
-      <span tabindex="-1">
+      <span tabIndex="-1">
         {content}
       </span>
     </Button>
@@ -62,8 +62,8 @@ export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
       inverted
       trigger={
         <Button type="offering-close-btn" compact onClick={handleFold} aria-label={content}>
-          <span tabindex="-1">
-            {isFolded ? <i class="material-icons">expand_more</i> : <i class="material-icons">expand_less</i>} 
+          <span tabIndex="-1">
+            {isFolded ? <i className="material-icons">expand_more</i> : <i className="material-icons">expand_less</i>} 
           </span>
         </Button>
       }

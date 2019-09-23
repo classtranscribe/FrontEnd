@@ -29,11 +29,7 @@ export class OfferingViewing extends React.Component {
     /**
      * 1. Setup user and then get all data based on userId
      */
-    api.getOfferingsByStudent()
-      .then(({data}) => {
-        this.completeOfferings(data.slice().reverse())
-        api.contentLoaded()
-      })
+    this.getOfferingsByStudent()
     /**
      * 2. listen on window size for showing or hiding sidebar
      */
@@ -50,6 +46,19 @@ export class OfferingViewing extends React.Component {
         this.setState({ displaySideBar: true })
     })
   }
+
+  getOfferingsByStudent = () => {
+    this.setState({ offerings: ['Unloaded'] })
+    api.getOfferingsByStudent()
+      .then(({data}) => {
+        this.completeOfferings(data.slice().reverse())
+        api.contentLoaded()
+      })
+      .catch(error => {
+        this.setState({ offerings: ['retry'] })
+        api.contentLoaded()
+      })
+  }  
 
   completeOfferings = rawOfferings => {
     this.setState({ offerings: rawOfferings })

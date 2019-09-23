@@ -5,14 +5,15 @@
 
 import React from 'react'
 // UI
-import { OfferingListHolder } from './PlaceHolder'
+import { OfferingListHolder, ReloadContents } from './PlaceHolder'
 import Section from './Section'
 // Vars
 import { handleData } from 'utils'
 
-export default function SectionList({ state, displaySearchHeader, ...functions }) {
+export default function SectionList({ state, displaySearchHeader, getOfferingsByStudent, ...functions }) {
   const { departments, departSelected, termSelected, offerings } = state
-  if (!departments.length || offerings[0] === 'Unloaded' || (offerings[0] && !offerings[0].courses)) return <OfferingListHolder />
+  if (offerings[0] === 'Unloaded' || (offerings[0].offerings && !offerings[0].courses)) return <OfferingListHolder />
+  if (!departments.length || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
   function notEmpty(depart) {
     for (let i = 0; i < offerings.length; i++) {
