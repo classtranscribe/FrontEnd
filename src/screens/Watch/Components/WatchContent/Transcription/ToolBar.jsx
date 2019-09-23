@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Select, Button, Popup } from 'semantic-ui-react'
 import { useCTContext } from 'components'
+import DownloadTransButton from './DownloadTransButton'
+// Vars
 import { SEARCH_IN_COURSE, SEARCH_IN_VIDEO } from '../constants'
 import { capSearch, handleExpand } from '../watchUtils'
 import { api, handleData, util } from 'utils'
@@ -10,7 +12,7 @@ const searchOptions = [
   {key: SEARCH_IN_COURSE, value: SEARCH_IN_COURSE, text: 'In-Course Search'}
 ]
 
-export default function ToolBar({ captions, setResults, canReset, sendUserAction, offeringId, playlists }) {
+export default function ToolBar({ media, captions, setResults, canReset, sendUserAction, offeringId, playlists }) {
   const [loadingResults, setLoadingResults] = useState(false)
   const [searchType, setSearchType] = useState(SEARCH_IN_VIDEO)
   const [searchInput, setSearchInput] = useState('')
@@ -99,21 +101,21 @@ export default function ToolBar({ captions, setResults, canReset, sendUserAction
         }
       </div>
 
-      <div>
+      <div className="tool-buttons">
+        <DownloadTransButton trans={media.transcriptions} />
         <Popup
           position="left center" inverted
           content={`Expand the transcription area (\u2318/Ctrl + U)`}
           trigger={
             <Button 
+              compact
               className="expand-button"
-              style={{color: 'white', outline: 'none'}} 
               onClick={handleExpand}
               tabIndex={0}
               title={'Expand the transcription area (\u2318/Ctrl + U)'}
               aria-label="Expand the transcription area"
-            >
-              <i className="material-icons" id="expand-trigger">expand_less</i>
-            </Button>
+              icon={<i className="material-icons" id="expand-trigger">expand_less</i>}
+            />
           }
         />
       </div>

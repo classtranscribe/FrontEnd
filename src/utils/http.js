@@ -68,6 +68,9 @@ export const api = {
   /**
    * GET
    */
+  getFile: function(path) {
+    return http.get(path)
+  },
   getData: function (path, id, params) {
     path = `/api/${path}`
     if(id) path = `${path}/${id}`

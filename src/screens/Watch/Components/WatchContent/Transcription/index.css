@@ -40,9 +40,21 @@
     color: white;
   }
 
-  .expand-button {
-    height: 49px;
-    background: none !important;}
+  .trans-container .tool-bar .tool-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+  .trans-container .tool-bar .tool-buttons .button {
+    color: #fcfcfc;
+    background: none;
+    border-radius: 15px !important;
+  }
+  .trans-container .tool-bar .tool-buttons .button:hover {
+    background: rgb(102, 102, 102);
+  }
+  /* .trans-container .tool-bar .tool-buttons .expand-button {
+  } */
+    
 
   /* Input */
   .trans-container .tool-bar .ui.input  {
