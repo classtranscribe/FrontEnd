@@ -34,6 +34,7 @@ export default function DownloadTransButton({ trans=[] }) {
   return (
     <div className="download-trans-btn">
       <Popup inverted
+        position="top right"
         content="Download"
         trigger={
           <Button 

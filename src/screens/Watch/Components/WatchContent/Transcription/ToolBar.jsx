@@ -104,7 +104,7 @@ export default function ToolBar({ media, captions, setResults, canReset, sendUse
       <div className="tool-buttons">
         <DownloadTransButton trans={media.transcriptions} />
         <Popup
-          position="left center" inverted
+          position="top right" inverted
           content={`Expand the transcription area (\u2318/Ctrl + U)`}
           trigger={
             <Button 
