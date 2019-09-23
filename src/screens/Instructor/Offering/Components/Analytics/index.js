@@ -1,5 +1,5 @@
 import React from 'react'
 
-export function DataDemo() {
+export function Analytics() {
   return <div>Data here</div>
 }

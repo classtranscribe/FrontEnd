@@ -11,7 +11,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './index.css'
 import { ClassTranscribeHeader, SidebarDimmer } from 'components'
 import { PlaylistEditing, VideoEditing, UploadVideo } from './EditingPages'
-import { SideBar, EmptyResult, DataDemo, Playlist } from './Components'
+import { SideBar, EmptyResult, Analytics, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
 // Vars
 import { user, api, util, handleData } from 'utils'
@@ -154,7 +154,7 @@ export class InstructorOffering extends React.Component {
                 <TransitionGroup>
                   <CSSTransition key={location.key} classNames="fade" timeout={300}>
                     <Switch location={location}>
-                      <Route exact path={`/offering/${this.id}/data`} component={DataDemo} />
+                      <Route exact path={`/offering/${this.id}/data`} component={Analytics} />
                       <Route exact path={`/offering/${this.id}/playlist/:courseNumber?=:id`} component={Playlist} />
                     </Switch>
                   </CSSTransition>

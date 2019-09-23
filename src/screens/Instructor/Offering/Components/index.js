@@ -1,4 +1,4 @@
 export { SideBar } from './SideBar'
-export { DataDemo } from './DataDemo'
+export { Analytics } from './Analytics'
 export { Playlist } from './Playlist'
 export { EmptyResult } from './EmptyResult'
