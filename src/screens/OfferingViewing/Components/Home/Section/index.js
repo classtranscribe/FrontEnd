@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 // UI
-import { Button, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+import { SectionShowMoreButton, SectionFoldButton } from './Overlays'
 import DepartmentSection from './DepartmentSection'
 import StarredSection from './StarredSection'
 import './index.css'
 // Vars
-import { handleData, util } from 'utils'
+import { handleData } from 'utils'
 
 function isThisSection(offering, departmentId) {
   if (handleData.find(offering.courses, { departmentId })) return true
@@ -18,11 +19,9 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
 
   const [showAll, setShowAll] = useState(false)
   const handleShowAll = () => setShowAll(showAll => !showAll)
-  const [isClosed, setIsClosed] = useState(false/*!util.isStarredSectionOpen()*/)
-  const closeStarredSection = () => {
-    if (isClosed) util.openStarredSection()
-    else util.closeStarredSection()
-    setIsClosed(isClosed => !isClosed)
+  const [isFolded, setisFolded] = useState(false)
+  const handleFold = () => {
+    setisFolded(isFolded => !isFolded)
   }
 
   offerings = type === 'department' ? 
@@ -36,7 +35,7 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
                         { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} : {}
 
   if (offerings.length === 0) return null
-  // if (type === 'starred' && isClosed) return null
+  // if (type === 'starred' && isFolded) return null
 
   return (
     <div className="section" id={depart.acronym}>
@@ -45,7 +44,7 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
         {sectionTitle.title} <span>{sectionTitle.subtitle}</span>
       </h2>
       {
-        isClosed ? null :
+        isFolded ? null :
         type === 'department' ?
           <DepartmentSection 
             {...functions} 
@@ -65,22 +64,8 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
         null
       }
       {/* Overlay Buttons */}
-      {
-        (offerings.length > 6 && !isClosed)
-        && 
-        <Button id="offering-show-all-btn" compact onClick={handleShowAll} title={showAll ? 'Collapse' : 'Show More'} aria-label={showAll ? 'Collapse' : 'Show More'}>
-          <span tabindex="-1">
-            {showAll ? 'Collapse' : 'Show More'}
-          </span>
-        </Button>
-      }
-      {
-        <Button id="offering-close-btn" compact onClick={closeStarredSection} title={isClosed ? 'Open' : 'Close'} aria-label={isClosed ? 'Open' : 'Close'}>
-          <span tabindex="-1">
-            {isClosed ? <i class="material-icons">expand_more</i> : <i class="material-icons">close</i>} 
-          </span>
-        </Button>
-      }
+      <SectionShowMoreButton shouldDisplay={offerings.length > 6 && !isFolded} showAll={showAll} handleShowAll={handleShowAll} />
+      <SectionFoldButton shouldDisplay isFolded={isFolded} handleFold={handleFold} />
     </div>
   ) 
 }
