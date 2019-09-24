@@ -24,10 +24,7 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
     setisFolded(isFolded => !isFolded)
   }
 
-  offerings = type === 'department' ? 
-              offerings.filter( offering => isThisSection(offering, depart.id)) :
-              type === 'starred' ?
-              starredOfferings : []
+  if (type === 'department') offerings =  offerings.filter( offering => isThisSection(offering, depart.id))
 
   const sectionTitle = type === 'department' ? 
                         { title: depart.name, subtitle: uni.name} :
@@ -57,8 +54,10 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
         type === 'starred' ?
           <StarredSection 
             {...functions}
+            state={state}
             showAll={showAll}
             offerings={offerings}
+            starredOfferings={starredOfferings}
           /> 
         : 
         null

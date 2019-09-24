@@ -8,23 +8,21 @@ import './index.css'
 import { handleData, search, util, user } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
-export default function OfferingCard({ offering, depart, termSelected, image=false, fullCourse=null, ...functions }) {
+export default function OfferingCard({ offering, depart={}, termSelected=[], image=false, fullCourse=null, ...functions }) {
   // if the full offering data has not yet loaded
-  if (image && (!offering.courses || offering.isTestCourse)) return null
-  if (image && termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
+  if (!offering.courses || offering.isTestCourse) return null
+  if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
   // if loaded set the fullCourse
-  const course = fullCourse ? null : handleData.find(offering.courses, { departmentId: depart.id })
-  if (course) {
-    fullCourse = {
-      ...course, 
-      key: offering.id || offering.offering.id,
-      id: offering.id || offering.offering.id,
-      courseNumber: depart.acronym + course.courseNumber,
-      fullNumber: search.getFullNumber(offering.courses),
-      termName: offering.offering.termName,
-      section: offering.offering.sectionName,
-      accessType: offering.offering.accessType,
-    }
+  const course = {...offering.courses[0]}
+  fullCourse = {
+    ...course, 
+    key: offering.id || offering.offering.id,
+    id: offering.id || offering.offering.id,
+    courseNumber: depart.acronym + course.courseNumber,
+    fullNumber: search.getFullNumber(offering.courses),
+    termName: offering.offering.termName,
+    section: offering.offering.sectionName,
+    accessType: offering.offering.accessType,
   }
 
   const isLoggedIn = user.isLoggedIn()
@@ -37,7 +35,7 @@ export default function OfferingCard({ offering, depart, termSelected, image=fal
         <StarredButton 
           {...functions}
           position={image ? 'middle' : 'top'}
-          fullCourse={fullCourse} 
+          offeringId={fullCourse.id}
         />
       }
       <Card 
@@ -61,7 +59,7 @@ export default function OfferingCard({ offering, depart, termSelected, image=fal
         <p id={"offering-info-" + fullCourse.id} className="accessbility_hide">{fullCourse.courseNumber + ' ' + fullCourse.courseName + ' ' + fullCourse.termName + ' ' + fullCourse.section}</p>
         <Card.Body>
           <Card.Title className="title">
-            <strong>{fullCourse.courseNumber} </strong> <br/>{fullCourse.courseName}
+            <strong>{fullCourse.fullNumber} </strong> <br/>{fullCourse.courseName}
           </Card.Title>
           <Card.Text className="info">
             {fullCourse.termName} - {fullCourse.section}

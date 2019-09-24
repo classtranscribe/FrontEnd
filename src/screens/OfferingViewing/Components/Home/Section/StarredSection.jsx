@@ -1,18 +1,18 @@
 import React from 'react'
 import OfferingCard from './OfferingCard'
-// import { util } from 'utils'
 
-export default function StarredSection({ offerings, showAll, starOffering, unstarOffering }) {
+export default function StarredSection({ offerings, starredOfferings, showAll, starOffering, unstarOffering, state }) {
   return (
     <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`} id="starred-offerings">
-      {offerings.map( fullCourse => fullCourse.id ? (
+      {starredOfferings.map( offeringId =>  (
         <OfferingCard 
-          key={fullCourse.id} 
-          fullCourse={fullCourse} 
+          {...state}
+          key={'starred' + offeringId} 
+          offering={offerings.filter(offering => offering.id === offeringId)[0]}
           starOffering={starOffering} 
           unstarOffering={unstarOffering} 
         />
-      ) : null)}
+      ))}
     </div>
   )
 }

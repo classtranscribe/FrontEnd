@@ -17,7 +17,7 @@ export function OfferingDetail({id, history, location}) {
   const [playlists, setPlaylists] = useState(null)
   // variables to present
   const [fullNumber, setFullNumber] = useState('Loading...')
-  const [courseNumber, setCourseNumber] = useState('Loading...')
+  // const [courseNumber, setCourseNumber] = useState('Loading...')
   const [termName, setTermName] = useState('')
   const [sectionName, setSectionName] = useState('')
   const [description, setDescription] = useState('')
@@ -26,9 +26,7 @@ export function OfferingDetail({id, history, location}) {
   const [isStarred, setIsStarred] = useState(util.isOfferingStarred(id))
   const handleStar = () => {
     if (isStarred) util.unstarOffering(id)
-    else util.starOffering({
-      id, courseNumber, fullNumber, termName, section: sectionName, description, courseName
-    })
+    else util.starOffering(id)
     setIsStarred(isStarred => !isStarred)
   }
 
@@ -46,7 +44,7 @@ export function OfferingDetail({id, history, location}) {
       const { fullCourse } = propsState
       checkAccessType(fullCourse.accessType)
       setFullNumber(() => fullCourse.fullNumber)
-      setCourseNumber(() => fullCourse.courseNumber)
+      // setCourseNumber(() => fullCourse.courseNumber)
       setTermName(() => fullCourse.termName)
       setDescription(() => fullCourse.description)
       setSectionName(() => fullCourse.section)

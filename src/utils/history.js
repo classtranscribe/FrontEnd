@@ -42,14 +42,13 @@ export const history = {
     var starredOfferings = this.getStarredOfferings()
     var starredOfferingsArray = []
     for(var offeringId in starredOfferings) {
-      starredOfferingsArray.push(starredOfferings[offeringId])
+      starredOfferingsArray.push( offeringId )
     }
     return starredOfferingsArray
   },
-  starOffering: function(fullCourse) {
-    const { id } = fullCourse
+  starOffering: function(offeringId) {
     var starredOfferings = this.getStarredOfferings()
-    starredOfferings[id] = fullCourse
+    starredOfferings[offeringId] = 'starred'
     localStorage.setItem(this.starredOfferingKey, JSON.stringify(starredOfferings))
   },
   unstarOffering: function(offeringId='') {

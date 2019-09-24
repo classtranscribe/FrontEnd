@@ -22,6 +22,7 @@ export class Home extends React.Component {
       departments: [],
       offerings: props.offerings,
       starredOfferings: util.getStarredOfferingsArray(),
+      starredUpdated: false,
 
       uniSelected: '',
       departSelected: [],
@@ -109,16 +110,18 @@ export class Home extends React.Component {
     this.setState({ termSelected: value })
   }
 
-  starOffering = fullCourse => {
+  starOffering = offeringId => {
     const { starredOfferings } = this.state
-    starredOfferings.push(fullCourse)
-    this.setState({ starredOfferings })
+    starredOfferings.push(offeringId)
+    this.setState({ starredOfferings, starredUpdated: offeringId })
+    util.starOffering(offeringId)
   }
 
-  unstarOffering = id => {
+  unstarOffering = offeringId => {
     const { starredOfferings } = this.state
-    handleData.remove(starredOfferings, { id })
-    this.setState({ starredOfferings })
+    handleData.remove(starredOfferings, id => id === offeringId)
+    this.setState({ starredOfferings, starredUpdated: offeringId })
+    util.unstarOffering(offeringId)
   }
 
   render() {

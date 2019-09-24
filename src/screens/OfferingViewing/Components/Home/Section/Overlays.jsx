@@ -1,20 +1,15 @@
-import React, { useState } from 'react'
-import { util } from 'utils'
+import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
-export function StarredButton({ fullCourse, position, starOffering, unstarOffering }) {
-  const [isStarred, setIsStarred] = useState(util.isOfferingStarred(fullCourse.id))
-
+export function StarredButton({ offeringId, position, starredOfferings, starredUpdated, starOffering, unstarOffering }) {  
+  const isStarred = starredOfferings.includes(offeringId)
   const handleClick = () => {
     if (isStarred) {
-      util.unstarOffering(fullCourse.id)
-      unstarOffering(fullCourse.id)
+      unstarOffering(offeringId)
     } else {
-      util.starOffering(fullCourse)
-      starOffering(fullCourse)
+      starOffering(offeringId)
     }
-    console.log(util.getStarredOfferingsArray())
-    setIsStarred(isStarred => !isStarred)
+    // console.log('starred Offerings', util.getStarredOfferingsArray())
   }
 
   const iconName = isStarred ? 'star' : 'star outline'
