@@ -10,10 +10,12 @@ import { Icon, Button } from 'semantic-ui-react'
 export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar}) {
   const isLoggedIn = user.isLoggedIn()
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
+  const pathname = window.location.pathname
+  const defaultActiveKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : ''
   return (
     <aside className="op-sidebar" style={style} >
       
-      <ListGroup defaultActiveKey="courses">
+      <ListGroup defaultActiveKey={defaultActiveKey}>
         <ListGroup.Item 
           className="list" action eventKey="courses"
           as={Link} to={util.links.home()}
