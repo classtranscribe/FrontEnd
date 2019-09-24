@@ -154,7 +154,7 @@ export class InstructorOffering extends React.Component {
                 <TransitionGroup>
                   <CSSTransition key={location.key} classNames="fade" timeout={300}>
                     <Switch location={location}>
-                      <Route exact path={`/offering/${this.id}/data`} component={Analytics} />
+                      <Route exact path={`/offering/${this.id}/data`} render={props => <Analytics {...props} offeringId={this.id} />} />
                       <Route exact path={`/offering/${this.id}/playlist/:courseNumber?=:id`} component={Playlist} />
                     </Switch>
                   </CSSTransition>
