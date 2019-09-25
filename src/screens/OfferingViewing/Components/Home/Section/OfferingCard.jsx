@@ -8,13 +8,13 @@ import './index.css'
 import { handleData, search, util, user } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
 
-export default function OfferingCard({ offering, depart={}, termSelected=[], image=false, fullCourse=null, ...functions }) {
+export default function OfferingCard({ offering, depart={}, termSelected=[], image=false, ...functions }) {
   // if the full offering data has not yet loaded
   if (!offering.courses || offering.isTestCourse) return null
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
   // if loaded set the fullCourse
   const course = {...offering.courses[0]}
-  fullCourse = {
+  var fullCourse = {
     ...course, 
     key: offering.id || offering.offering.id,
     id: offering.id || offering.offering.id,

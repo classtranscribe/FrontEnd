@@ -12,7 +12,7 @@ import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
-import { api } from 'utils'
+import { api, util, handleData } from 'utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ export class OfferingViewing extends React.Component {
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
       offerings: ['Unloaded'],
+      watchHistory: ['unloaded']
     }
   }
 
@@ -45,6 +46,7 @@ export class OfferingViewing extends React.Component {
       else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn()*/) 
         this.setState({ displaySideBar: true })
     })
+    util.completeWatchHistoryArray(watchHistory => this.setState({ watchHistory }))
   }
 
   getOfferingsByStudent = () => {
@@ -74,8 +76,15 @@ export class OfferingViewing extends React.Component {
     else this.setState({displaySideBar: !this.state.displaySideBar})
   }
 
+  removeWatchHistory = mediaId => {
+    util.removeStoredMediaInfo(mediaId)
+    const { watchHistory } = this.state
+    handleData.remove(watchHistory, { mediaId })
+    this.setState({ watchHistory })
+  }
+
   render() {
-    const { displaySideBar, displaySearchHeader, offerings } = this.state
+    const { displaySideBar, displaySearchHeader, offerings, watchHistory } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
       paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : displaySearchHeader ? '2rem' : '0rem'
@@ -102,7 +111,7 @@ export class OfferingViewing extends React.Component {
                     {/* Unauthed home page */}
                     <Route 
                       exact path="/home" 
-                      render={props => <Home offerings={offerings} displaySearchHeader={displaySearchHeader} {...props} />} 
+                      render={props => <Home offerings={offerings} watchHistory={watchHistory} displaySearchHeader={displaySearchHeader} {...props} />} 
                     />
                     {/* Starred */}
                     <Route 
@@ -112,7 +121,7 @@ export class OfferingViewing extends React.Component {
                     {/* History */}
                     <Route 
                       exact path="/home/history" 
-                      render={() => <History {...this} />}
+                      render={() => <History {...this} watchHistory={watchHistory} />}
                     />
                     {/* Offering Detail page */}
                     <Route 

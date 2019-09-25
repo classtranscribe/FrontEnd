@@ -10,9 +10,9 @@ import Section from './Section'
 // Vars
 import { handleData } from 'utils'
 
-export default function SectionList({ state, displaySearchHeader, getOfferingsByStudent, ...functions }) {
+export default function SectionList({ state, props, displaySearchHeader, getOfferingsByStudent, ...functions }) {
   const { departments, departSelected, termSelected, offerings } = state
-  if (offerings[0] === 'Unloaded' || (offerings[0].offerings && !offerings[0].courses)) return <OfferingListHolder />
+  if (offerings[0] === 'Unloaded' || (offerings[0].offerings && !offerings[0].courses && !offerings[0].courses.length)) return <OfferingListHolder />
   if (!departments.length || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
   function notEmpty(depart) {
@@ -33,25 +33,47 @@ export default function SectionList({ state, displaySearchHeader, getOfferingsBy
 
   if (nonEmptyDepart.length === 0) return <OfferingListHolder noCourse />
 
+  const sections = [departments[0], departments[1], departments[2], 'history', ...departments.slice(3, departments.length)]
+  // sections.
+  const isOnSelection = departSelected.length && termSelected.length
+
   return (
     <div className="offering-list" role="list">
       {/* Starred */}
-      <Section 
-        {...functions}
-        type="starred" 
-        state={state} 
-      />
-      {/* Offerings */}
-      {departments.map( depart => nonEmptyDepart.includes(depart.id) ? (
+      {
+        !isOnSelection
+        &&
         <Section 
           {...functions}
-          key={depart.id} 
-          type="department"
+          type="starred" 
           state={state} 
-          depart={depart} 
-          displaySearchHeader={displaySearchHeader}
         />
-      ) : null)}
+      }
+      {/* History */}
+
+      {/* Offerings */}
+      {sections.map( section => 
+        section === 'history' ? 
+          isOnSelection ? null :
+          <Section
+            {...functions}
+            key='history-section'
+            type="history" 
+            state={state} 
+            watchHistory={props.watchHistory}
+          />
+        :
+        nonEmptyDepart.includes(section.id) ? 
+          <Section 
+            {...functions}
+            key={section.id} 
+            type="department"
+            state={state} 
+            depart={section} 
+            displaySearchHeader={displaySearchHeader}
+          />
+        : 
+        null)}
     </div>
   )
 }
