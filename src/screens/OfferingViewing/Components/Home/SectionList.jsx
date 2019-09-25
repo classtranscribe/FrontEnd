@@ -33,22 +33,28 @@ export default function SectionList({ state, props, displaySearchHeader, getOffe
 
   if (nonEmptyDepart.length === 0) return <OfferingListHolder noCourse />
 
-  const sections = [departments[1], 'history', ...departments.slice(2, departments.length)]
+  const sections = [departments[0], departments[1], departments[2], 'history', ...departments.slice(3, departments.length)]
   // sections.
+  const isOnSelection = departSelected.length && termSelected.length
 
   return (
     <div className="offering-list" role="list">
       {/* Starred */}
-      <Section 
-        {...functions}
-        type="starred" 
-        state={state} 
-      />
+      {
+        !isOnSelection
+        &&
+        <Section 
+          {...functions}
+          type="starred" 
+          state={state} 
+        />
+      }
       {/* History */}
 
       {/* Offerings */}
       {sections.map( section => 
         section === 'history' ? 
+          isOnSelection ? null :
           <Section
             {...functions}
             key='history-section'

@@ -245,9 +245,9 @@
   width: 222px;
   height: max-content;
   margin: .5em .5em 1em 0;
-  background: white;
-  border: 1px #fcfcfc solid;
-  border-radius: 10px;
+  /* background: white; */
+  /* border: 1px #fcfcfc solid; */
+  /* border-radius: 10px; */
   overflow: hidden;
   flex: 0 0 auto;
   /* box-shadow: .5em .6em .8em rgb(149, 149, 149); */

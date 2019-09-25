@@ -32,7 +32,7 @@ function MediaCard({ media, offerings }) {
         <Poster progress={ratio} width="220px" />
         <div className="media-info">
           <p className="media-name">{mediaName}</p>
-          <p className="offering-num text-muted">{fullNumber} {courseName}</p>
+          <p className="offering-num text-muted">{fullNumber} • {courseName}</p>
         </div>
       </Link>
     </div>
