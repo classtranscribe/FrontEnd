@@ -20,15 +20,20 @@ export default class ClassTranscribePlayer extends React.Component {
     this.prevTime = 0
     this.lastSyncTime = 0
     this.lastTimeupdate = 0
-    ctVideo.setSendUserAction(props.sendUserAction)
-    ctVideo.setMediaId(this.mediaId)
+    ctVideo.init({ 
+      mediaId: this.mediaId,
+      sendUserAction: props.sendUserAction 
+    })
   }
 
   componentDidUpdate(prevProps) {
-    const { isPrimary, media, video1, playbackRate, trackSrc } = this.props
+    const { isPrimary, media, video1, playbackRate, trackSrc, offeringId } = this.props
     /**
      * Register videojs after the media is loaded
      */
+    if (prevProps.offeringId !== offeringId) {
+      ctVideo.init({ offeringId })
+    }
     if (prevProps.media !== media) {
       const { videos, isTwoScreen } = media
       if (!video1 && !isTwoScreen) return;
@@ -55,7 +60,7 @@ export default class ClassTranscribePlayer extends React.Component {
           this.currentTime(iniTime)
         } else {
           const restoreTime = util.restoreVideoTime(media.id)
-          this.currentTime(restoreTime)
+          if (restoreTime) this.currentTime(restoreTime)
         }
         ctVideo.setVideoLoading(false)
       })
@@ -106,7 +111,7 @@ export default class ClassTranscribePlayer extends React.Component {
     if (Math.abs(currTime - this.prevTime) > 1 ) {
       this.props.setTimeUpdate(currTime)
       this.prevTime = currTime
-      util.saveVideoTime(this.mediaId, currTime)
+      ctVideo.saveVideoTime(e)
     }
     // if (Math.abs(currTime - this.lastSyncTime) > 5 ) {
     //   this.props.setCurrTime(e)

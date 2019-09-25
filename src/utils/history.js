@@ -1,3 +1,5 @@
+import { api } from './http'
+
 export const history = {
   watchHistoryKey: 'watch-history',
   starredOfferingKey: 'starred-offerings',
@@ -10,23 +12,32 @@ export const history = {
     if (!watchHistory_str) return {}
     return JSON.parse(watchHistory_str)
   },
-  getStarredOfferingsArray: function() {
+  getWatchHistoryArray: function() {
     var watchHistory = this.getWatchHistory()
     var watchHistoryArray = []
     for(var mediaId in watchHistory) {
-      const { ratio, timestamp } = watchHistory[mediaId]
-      watchHistoryArray.push({ mediaId, ratio, timestamp  })
+      const { ratio, offeringId, timeStamp, lastModifiedTime } = watchHistory[mediaId]
+      watchHistoryArray.push({ mediaId, offeringId, timeStamp, ratio: Math.ceil(ratio * 100), lastModifiedTime })
     }
-    return watchHistoryArray
+    return watchHistoryArray.sort((media1, media2) => media1.lastModifiedTime < media2.lastModifiedTime ? -1 : media1.lastModifiedTime > media2.lastModifiedTime ? 1 : 0)
   },
-  saveVideoTime: function(mediaId='', timestamp=0, ratio=0) {
+  saveVideoTime: function(mediaId='', timeStamp=0, ratio=0, offeringId='') {
     var watchHistory = this.getWatchHistory()
-    watchHistory[mediaId] = { timestamp, ratio }
+    watchHistory[mediaId] = { ratio, offeringId, timeStamp, lastModifiedTime: new Date() }
     localStorage.setItem(this.watchHistoryKey, JSON.stringify(watchHistory))
   },
   restoreVideoTime: function(mediaId='') {
     const watchHistory = this.getWatchHistory()
-    return parseFloat(watchHistory[mediaId] ? watchHistory[mediaId].timestamp : null)
+    return watchHistory[mediaId] ? parseFloat( watchHistory[mediaId].timeStamp) : null
+  },
+  completeWatchHistoryArray: async function(setWatchHistory) {
+    var watchHistory = this.getWatchHistoryArray()
+    for (let i = 0; i < watchHistory.length; i++) {
+      const { mediaId } = watchHistory[i]
+      const { data } = await api.getMediaById(mediaId)
+      watchHistory[i].mediaName = api.parseMedia(data).mediaName
+    }
+    setWatchHistory(watchHistory.slice().reverse())
   },
 
   /**
@@ -62,7 +73,6 @@ export const history = {
     var starredOfferings = this.getStarredOfferings()
     return Boolean(starredOfferings[offeringId])
   },
-
 
   closeStarredSection: function() {
     localStorage.setItem(this.starredSectionKey, 'close')

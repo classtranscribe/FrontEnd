@@ -8,6 +8,7 @@ export { FixedFooter, ClassTranscribeFooter } from './Footer'
 export { GeneralModal, DeleteModal } from './Modals'
 export { GeneralAlert } from './Alerts'
 export { GeneralLoader, GeneralPlaceholder, SpinnerLoader } from './Loaders' 
+export { Poster } from './Poster'
 
 /**
  * General Components

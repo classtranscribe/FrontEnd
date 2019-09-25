@@ -63,8 +63,16 @@ export default function Section({ depart={}, state={}, type, ...functions }) {
         null
       }
       {/* Overlay Buttons */}
-      <SectionShowMoreButton shouldDisplay={offerings.length > 6 && !isFolded} showAll={showAll} handleShowAll={handleShowAll} />
-      <SectionFoldButton shouldDisplay isFolded={isFolded} handleFold={handleFold} />
+      <SectionShowMoreButton 
+        shouldDisplay={(type === 'starred' ? starredOfferings.length > 6 : offerings.length > 6) && !isFolded} 
+        showAll={showAll} 
+        handleShowAll={handleShowAll} 
+      />
+      <SectionFoldButton 
+        shouldDisplay 
+        isFolded={isFolded} 
+        handleFold={handleFold} 
+      />
     </div>
   ) 
 }

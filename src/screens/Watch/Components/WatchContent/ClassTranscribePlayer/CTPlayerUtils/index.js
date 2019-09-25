@@ -17,12 +17,15 @@ export const ctVideo = {
   waitingNum: 0,
   isSeeking: false,
   mediaId: '',
+  offeringId: '',
   sendUserAction: function() {},
-  setSendUserAction: function(sendUserAction) {
-    this.sendUserAction = sendUserAction
+  init: function({mediaId, sendUserAction, offeringId}) {
+    if (sendUserAction) this.sendUserAction = sendUserAction
+    if (mediaId) this.mediaId = mediaId
+    if (offeringId) this.offeringId = offeringId
   },
-  setMediaId: function(mediaId) {
-    this.mediaId = mediaId
+  saveVideoTime: function(e) {
+    util.saveVideoTime(this.mediaId, e.target.currentTime, e.target.currentTime / e.target.duration, this.offeringId)
   },
   setVideoLoading: function(loading) {
     if (loading) {
@@ -38,7 +41,7 @@ export const ctVideo = {
     videoElems.each( (index, videoElem) => {
       if (all || e.target !== videoElem) videoElem.play()
     })
-    util.saveVideoTime(this.mediaId, e.target.currentTime)
+    this.saveVideoTime(e)
   },
   
   syncPause: function(e, all) {
@@ -47,7 +50,7 @@ export const ctVideo = {
     videoElems.each( (index, videoElem) => {
       if (all || e.target !== videoElem) videoElem.pause()
     })
-    util.saveVideoTime(this.mediaId, e.target.currentTime)
+    this.saveVideoTime(e)
   },
   
   setCurrTime: function(e, time) {
@@ -55,7 +58,7 @@ export const ctVideo = {
     $("video").each( (index, videoElem) => {
       if (time || e.target !== videoElem) videoElem.currentTime = currTime
     })
-    util.saveVideoTime(this.mediaId, currTime)
+    this.saveVideoTime(e)
   },
 
   onLoaded: function (e) {

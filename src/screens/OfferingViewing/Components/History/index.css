@@ -1,0 +1,33 @@
+.watch-history {
+  padding-top: 1em;
+  
+}
+.watch-history .watch-history-title {
+  font-size: 1.2em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.watch-history .watch-history-item {
+  padding: 1em 0;
+  width: 100%;
+  border-bottom: 1px solid #e6e6e6 !important;
+  display: flex;
+  flex-direction: row;
+}
+.watch-history .watch-history-item:last-child {
+  border-bottom: 0 !important;
+}
+.watch-history .watch-history-item .media-info {
+  margin-left: 1.5em;
+  margin-top: 1em;
+}
+.watch-history .watch-history-item .media-info .media-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 1.3em;
+  color: rgb(0, 0, 0);
+}
+.watch-history .watch-history-item .media-info .offering-num {
+  font-size: 1.1em;
+  color: rgb(104, 104, 104);
+}

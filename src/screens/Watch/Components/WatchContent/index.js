@@ -171,6 +171,7 @@ export class WatchContent extends React.Component {
               {...this.state}
               media={media} 
               isPrimary={primary} 
+              offeringId={playlist.offeringId}
               sendUserAction={sendUserAction}
               video1
             />
@@ -181,6 +182,7 @@ export class WatchContent extends React.Component {
               {...this.state}
               media={media} 
               isPrimary={!primary}  
+              offeringId={playlist.offeringId}
               sendUserAction={sendUserAction}
             />
           </div>
