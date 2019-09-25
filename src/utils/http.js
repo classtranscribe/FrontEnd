@@ -145,6 +145,13 @@ export const api = {
   adminGetLogs: function(from, to) {
     return this.getData('Admin/GetLogs', null, { from, to })
   },
+  // Logs
+  getCourseLogs: function(eventType, offeringId) {
+    return this.getData('Logs/CourseLogs', null, { offeringId, eventType })
+  },
+  getStudentLogs: function(eventType, mailId) {
+    return this.getData('Logs/StudentLogs', null, { mailId, eventType })
+  },
 
   /**
    * POST
