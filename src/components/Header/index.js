@@ -6,6 +6,7 @@ import { Icon } from 'semantic-ui-react'
 import ProfileMenu from './ProfileMenu'
 import './index.css'
 import { util } from 'utils'
+import { textBrand } from '../../images'
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
@@ -48,7 +49,7 @@ export function Logo({ subtitle }) {
   return (
     <>
       <img
-        src={require('../../images/brand-text.png')}
+        src={textBrand}
         width="30" height="30"
         className="d-inline-block align-top img"
         alt="ClassTranscribe Brand"

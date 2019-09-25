@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Nav, Navbar } from 'react-bootstrap'
-import { Grid, List, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react'
 import './index.css'
+import { imgBrand } from '../../images'
 import { util } from 'utils'
 
 
@@ -28,7 +29,7 @@ export function ClassTranscribeFooter(props) {
             <Link to={util.links.currentUrl()}>Documents</Link>
           </Grid.Column>
           <Grid.Column>
-            <Image alt="logo" className="brand-img" style={{height: '1.5rem'}} src={require('../../images/favicon.png')}/> 
+            <Image alt="logo" className="brand-img" style={{height: '1.5rem'}} src={imgBrand}/> 
           </Grid.Column>
           <Grid.Column>
             <a href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</a>
