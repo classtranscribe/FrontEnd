@@ -41,7 +41,7 @@ function Section({ history, depart={}, state={}, watchHistory, type, ...function
                        type === 'starred' ?
                           { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} :
                        type === 'history' ?
-                          { title: <><Icon name="history" /> Continue Watch</>, subtitle: ''} : {}
+                          { title: <><Icon name="history" /> Continue Watching</>, subtitle: ''} : {}
 
   if (offerings.length === 0) return null
   // if (type === 'starred' && isFolded) return null
