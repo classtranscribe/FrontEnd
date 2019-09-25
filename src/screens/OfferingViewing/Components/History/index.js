@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Poster, ClassTranscribeFooter } from 'components'
 import { util, api } from 'utils'
 import './index.css'
 
-export function History({ state }) {
-  const [watchHistory, setWatchHistory] = useState(['unloaded'])
+export function History({ watchHistory, state }) {
   const { offerings } = state
-  useEffect(() => {
-    util.completeWatchHistoryArray(setWatchHistory)
-  }, [])
 
   return (
     <div className="watch-history">
