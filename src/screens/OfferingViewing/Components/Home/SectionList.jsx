@@ -10,9 +10,9 @@ import Section from './Section'
 // Vars
 import { handleData } from 'utils'
 
-export default function SectionList({ state, displaySearchHeader, getOfferingsByStudent, ...functions }) {
+export default function SectionList({ state, props, displaySearchHeader, getOfferingsByStudent, ...functions }) {
   const { departments, departSelected, termSelected, offerings } = state
-  if (offerings[0] === 'Unloaded' || (offerings[0].offerings && !offerings[0].courses)) return <OfferingListHolder />
+  if (offerings[0] === 'Unloaded' || (offerings[0].offerings && !offerings[0].courses && !offerings[0].courses.length)) return <OfferingListHolder />
   if (!departments.length || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
   function notEmpty(depart) {
@@ -33,6 +33,9 @@ export default function SectionList({ state, displaySearchHeader, getOfferingsBy
 
   if (nonEmptyDepart.length === 0) return <OfferingListHolder noCourse />
 
+  const sections = [departments[1], 'history', ...departments.slice(2, departments.length)]
+  // sections.
+
   return (
     <div className="offering-list" role="list">
       {/* Starred */}
@@ -41,17 +44,30 @@ export default function SectionList({ state, displaySearchHeader, getOfferingsBy
         type="starred" 
         state={state} 
       />
+      {/* History */}
+
       {/* Offerings */}
-      {departments.map( depart => nonEmptyDepart.includes(depart.id) ? (
-        <Section 
-          {...functions}
-          key={depart.id} 
-          type="department"
-          state={state} 
-          depart={depart} 
-          displaySearchHeader={displaySearchHeader}
-        />
-      ) : null)}
+      {sections.map( section => 
+        section === 'history' ? 
+          <Section
+            {...functions}
+            key='history-section'
+            type="history" 
+            state={state} 
+            watchHistory={props.watchHistory}
+          />
+        :
+        nonEmptyDepart.includes(section.id) ? 
+          <Section 
+            {...functions}
+            key={section.id} 
+            type="department"
+            state={state} 
+            depart={section} 
+            displaySearchHeader={displaySearchHeader}
+          />
+        : 
+        null)}
     </div>
   )
 }

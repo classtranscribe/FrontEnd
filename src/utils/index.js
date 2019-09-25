@@ -15,7 +15,7 @@ export const util = {
   ...history,
   links: {
     currentUrl: () => window.location,
-    home: ()=> '/home',
+    home: ()=> '/',
     search: () => '/home/search',
     starred: () => '/home/starred',
     history: () => '/home/history',

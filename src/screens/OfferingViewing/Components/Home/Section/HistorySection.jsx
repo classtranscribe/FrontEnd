@@ -1,12 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Poster } from 'components'
+import { util, api } from 'utils'
 
-export default function HistorySection({ offerings, state }) {
-  const { watchHistory } = state
+export default function HistorySection({ offerings, watchHistory }) {
   return (
-    <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`} id="starred-offerings">
+    <div className="offerings" id="starred-offerings">
       {watchHistory.map( media =>  (
-        <MediaCard media={media} offerings={offerings} />
+        <MediaCard key={media.mediaId} media={media} offerings={offerings} />
       ))}
     </div>
   )
@@ -21,5 +22,19 @@ function MediaCard({ media, offerings }) {
     fullNumber = api.getFullNumber(offering.courses)
     courseName = offering.courses[0].courseName
   }
-  return <div></div>
+  return (
+    <div className="media-card-container">
+      <Link 
+        className="media-card" 
+        to={util.links.watch(fullNumber, mediaId, timeStamp)} 
+        aria-label={`Continue watch video ${mediaName}`}
+      >
+        <Poster progress={ratio} width="220px" />
+        <div className="media-info">
+          <p className="media-name">{mediaName}</p>
+          <p className="offering-num text-muted">{fullNumber} {courseName}</p>
+        </div>
+      </Link>
+    </div>
+  )
 }

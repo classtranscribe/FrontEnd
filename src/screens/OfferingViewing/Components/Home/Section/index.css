@@ -89,6 +89,9 @@
   opacity: 0;
   border-radius: 50% !important;
   background: rgb(241, 241, 241) !important;}
+  .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn:focus {
+    opacity: 1;
+  }
   .sp-home .offering-list .section .offerings .offering-card-container .overlay-btn:hover {
     background: rgb(231, 231, 231) !important;}
   .sp-home .offering-list .section .offerings .offering-card-container:hover>.overlay-btn {
@@ -145,10 +148,12 @@
   border-radius: 10px !important;
   cursor: pointer;}
   .sp-home .offering-list .section .offerings .image-card {
-    background: transparent !important;
+    /* background: transparent !important; */
+    background: #ffffff !important;
     /* box-shadow: .1em 0em .8em rgb(221, 218, 218); */
+    border: 0.1rem solid rgb(193, 207, 207);
     width: 16rem;
-    height: 16rem}
+    height: 16.5rem}
   .sp-home .offering-list .section .offerings .basic-card {
     background: #ffffff !important;
     width: 16rem;
@@ -176,6 +181,7 @@
   border-radius: 9px;
   overflow: hidden;
   max-height: 124px;
+  border-bottom: .1rem solid rgb(193, 207, 207);
   width: 15.8rem;}
 .sp-home .offering-list .section .offerings .offeringCard .title {
   transition: margin 0.2s linear;
@@ -232,4 +238,31 @@
 }
 .sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder]:hover {
   border: 0.1rem solid transparent;
+}
+
+
+.media-card-container {
+  width: 222px;
+  height: max-content;
+  margin: .5em .5em 1em 0;
+  background: white;
+  border: 1px #fcfcfc solid;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  /* box-shadow: .5em .6em .8em rgb(149, 149, 149); */
+}
+.media-card-container:hover .media-info .media-name, .media-card-container:focus-within .media-info .media-name {
+  /* border: 1px solid rgb(69, 165, 168); */
+  /* border: 1px solid rgb(69, 165, 168) !important; */
+  color: rgb(53, 138, 141);
+}
+
+.media-card-container .media-info {
+  padding: .3em;
+}
+.media-card-container .media-info .media-name {
+  color: black;
+  font-size: 1.2em;
+  margin-bottom: .2em;
 }

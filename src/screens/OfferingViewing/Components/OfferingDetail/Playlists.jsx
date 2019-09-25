@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Accordion, Divider } from 'semantic-ui-react'
 import { Card } from 'react-bootstrap'
-import { ClassTranscribeFooter } from 'components'
+import { ClassTranscribeFooter, Poster } from 'components'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
 import { util, api } from 'utils'
 const imgHolder = require('images/Video-Placeholder.jpg')
@@ -66,7 +66,9 @@ function Playlist({history, playlist, playlists, index, activeIndex, setActiveIn
 function Video({media, fullNumber, playlist, playlists, history}) {
   const { mediaName, id } = api.parseMedia(media)
   const courseNumber = api.getValidURLFullNumber(fullNumber)
-  const pathname = util.links.watch(courseNumber, id)
+  const { ratio } = util.getStoredMediaInfo(id)
+  if (mediaName === 'CS241-Lec02-Q01.mp4')console.log(util.getStoredMediaInfo(id))
+  const pathname = util.links.watch(courseNumber, id, ratio)
   const videoState = {
     media: media,
     playlist: playlist,
@@ -74,11 +76,7 @@ function Video({media, fullNumber, playlist, playlists, history}) {
   }
   return (
     <Card className="video" key={id} as="button" onClick={()=>history.push(pathname, videoState)}>
-      <img 
-        className="img" variant="top" 
-        src={imgHolder} style={{pointerEvents: 'none'}}
-        alt="poster"
-      />
+      <Poster progress={ratio} width="9rem" />
       <Card.Title className="title">{mediaName}</Card.Title>
     </Card>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-const defaultImg = require('../../images/Video-Placeholder.jpg')
+const defaultImg = require('../../images/poster.jpg')
 
 export function Poster({ src=defaultImg, progress=0, borderRadius=false, width }) {
   return (
@@ -11,9 +11,12 @@ export function Poster({ src=defaultImg, progress=0, borderRadius=false, width }
         src={src} 
         alt="video poster"
       />
-      <div className="progress-bar">
-        <div className="progress" style={{width: `${progress}%`}}></div>
-      </div>
+      {
+        progress && 
+        <div className="progress-bar">
+          <div className="progress" style={{width: `${progress}%`}} />
+        </div>
+      }
     </div>
   )
 }

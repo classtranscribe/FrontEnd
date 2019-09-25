@@ -11,7 +11,7 @@
 .progress-bar {
   position: absolute;
   bottom: 0;
-  height: .4em;
+  height: .5em;
   width: 100%;
   background-color: rgb(184, 215, 218);
 }

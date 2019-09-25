@@ -20,6 +20,8 @@ export function StarredButton({ offeringId, position, starredOfferings, starredU
       content={popupContent}
       position="right center"
       inverted
+      openOnTriggerFocus
+      closeOnTriggerBlur
       trigger={
         <Button 
           circular compact
