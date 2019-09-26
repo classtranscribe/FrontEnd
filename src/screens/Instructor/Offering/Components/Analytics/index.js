@@ -8,10 +8,9 @@ import './index.css';
 export class Analytics extends React.Component {
   constructor(props) {
     super(props)
-    console.log('hi', props.offeringId)
     this.state = {
       data: [],
-      offeringId: props.offeringId
+      offeringId: props.offeringId,
     }
   }
 
@@ -19,10 +18,12 @@ export class Analytics extends React.Component {
     api.getCourseLogs('timeupdate', this.props.offeringId)
       .then(({data}) => {
         this.setState({data})
-      })
+      })  
   }
   
+  
   render() {
+    console.log('xxx', this.state)
     const { data } = this.state
     return (
       <div className="outer">

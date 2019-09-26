@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
+import {api} from 'utils';
+
 
 
 function parseCourseLogs(event, data) {
     const toReturn = []
     if (event === 'timeupdate') {
         data.forEach( elem => {
-            var lastHr = 0, last3days = 0, lastWeek = 0, lastMonth = 0
+            var lastHr = 0, last3days = 0, lastWeek = 0, lastMonth = 0, count = 0
             elem.medias.forEach( media => {
                 lastHr += media.lastHr
                 last3days += media.last3days
                 lastMonth += media.lastMonth
                 lastWeek += media.lastWeek
+                count += media.count
             })
-            toReturn.push({ userName: elem.userId || 'unknown', lastHr: lastHr/4.0, last3days: last3days/4.0, lastMonth: lastMonth/4.0, lastWeek: lastWeek/4.0 })
+            toReturn.push({ userName: (elem.user ? elem.user.email : 'unknown'), lastHr: lastHr/4.0, last3days: last3days/4.0, lastMonth: lastMonth/4.0, lastWeek: lastWeek/4.0, count: count/4.0 })
         })
     }
     return toReturn
@@ -45,7 +48,7 @@ export function AnalyticTable ({data}){
 
     }
     return (<div className = 'analytic_table'>
-        <Table sortable celled fixed>
+        <Table sortable celled fixed unstackable>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>
@@ -95,7 +98,7 @@ export function AnalyticTable ({data}){
                             <Table.Cell>{elem.last3days}</Table.Cell>
                             <Table.Cell>{elem.lastWeek}</Table.Cell>
                             <Table.Cell>{elem.lastMonth}</Table.Cell>
-                            <Table.Cell>total time</Table.Cell>
+                            <Table.Cell>{elem.count}</Table.Cell>
                             <Table.Cell>avg total time</Table.Cell>
                             <Table.Cell>%</Table.Cell>
                         </Table.Row>
