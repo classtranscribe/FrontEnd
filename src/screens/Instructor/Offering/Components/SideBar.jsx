@@ -34,7 +34,7 @@ export function SideBar({ id, state, showSiderBar }) {
 
   return (
     <div className="op-sidebar" style={style}>
-      <ListGroup>
+      <ListGroup defaultActiveKey={window.location.pathname.includes('data') ? 'data' : ''}>
         {/* Go Back Menu Item */}
         <ListGroup.Item 
           as={Link}
@@ -71,7 +71,7 @@ export function SideBar({ id, state, showSiderBar }) {
         <ListGroup.Item 
           as={Link} to={util.links.offeringData(id)}
           onClick={() => showSiderBar(window.innerWidth > 900)}
-          className="list" eventKey="data" aria-label="data" title="data"
+          className="list" eventKey="data" aria-label="data" title="data" eventKey="data"
         >
           <i className="fas fa-chart-bar"></i> &ensp; Analytics
         </ListGroup.Item>
