@@ -4,8 +4,6 @@ import { Card } from 'react-bootstrap'
 import { ClassTranscribeFooter, Poster } from 'components'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
 import { util, api } from 'utils'
-const imgHolder = require('images/Video-Placeholder.jpg')
-
 
 export default function Playlists({ playlists, fullNumber, history }) {
   const [activeIndex, setActiveIndex] = useState(-1)

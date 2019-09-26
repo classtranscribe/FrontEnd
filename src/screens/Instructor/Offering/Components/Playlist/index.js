@@ -10,7 +10,7 @@ import PlaylistHeader from './PlaylistHeader'
 import EditVideoBtn from './EditVideoBtn'
 import './index.css'
 import { api, util } from 'utils'
-const profileImg = require('images/Video-Placeholder.jpg')
+import { videoPosterImg } from 'images'
 
 
 export function Playlist({ match, history, location }) {
@@ -97,7 +97,7 @@ function Video({media, playlist, sourceType, courseNumber, history}) {
         <Image 
           alt="Video Poster"
           className="poster" 
-          src={profileImg}
+          src={videoPosterImg}
           aria-label={`see video ${mediaName}`}
           title={`see video ${mediaName}`}
         />

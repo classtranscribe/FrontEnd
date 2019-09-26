@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-const defaultImg = require('../../images/poster.jpg')
+import { videoPosterImg as defaultImg } from '../../images'
 
 export function Poster({ src=defaultImg, progress=0, borderRadius=false, width }) {
   return (

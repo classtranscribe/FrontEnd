@@ -6,7 +6,7 @@ import { StarredButton } from './Overlays'
 import './index.css'
 // Vars
 import { handleData, search, util, user } from 'utils'
-const imgHolder = require('images/Video-Placeholder.jpg')
+import { offeringPosterImg as imgHolder } from 'images'
 
 export default function OfferingCard({ offering, depart={}, termSelected=[], image=false, ...functions }) {
   // if the full offering data has not yet loaded
