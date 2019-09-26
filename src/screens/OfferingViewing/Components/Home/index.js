@@ -5,7 +5,7 @@
 import React from 'react'
 // UI
 import Filter from  './Filter'
-import { ClassTranscribeFooter } from 'components'
+import { ClassTranscribeFooter, MaintenanceMessage } from 'components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
@@ -129,6 +129,7 @@ export class Home extends React.Component {
     return (
       <div className="sp-home">
         <div id="home-content">
+          <MaintenanceMessage />
           <Filter displaySearchHeader={displaySearchHeader} {...this} />
           <SectionList {...this} />
           <ClassTranscribeFooter />

@@ -1,6 +1,7 @@
 /**
  * Stylesheet for general components
  */
+ 
 .h1-hide {
   font-size: 0;
   width: 0;
@@ -66,4 +67,18 @@
 .ui.selection.active.dropdown {
   border-color: rgb(22, 189, 180) !important;
 } */
+
+
+.alert-primary {
+  background: #228686 !important;
+  color: white !important;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.alert-primary p {
+  margin-left: 1rem;
+}
 
