@@ -17,7 +17,7 @@ export { Poster } from './Poster'
 
 export function MaintenanceMessage({ }) {
   const begin = new Date('2019-09-26T00:00:00')
-  const end = new Date('2019-09-28T00:00:00')
+  const end = new Date('2019-09-28T22:00:00')
   const current = new Date()
   const [open, setOpen] = useState(current >= begin && current <= end)
   return (
