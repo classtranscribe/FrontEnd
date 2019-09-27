@@ -15,8 +15,11 @@ export { Poster } from './Poster'
  * General Components
  */
 
-export function MaintenanceMessage({ from, to }) {
-  const [open, setOpen] = useState(true)
+export function MaintenanceMessage({ }) {
+  const begin = new Date('2019-09-26T00:00:00')
+  const end = new Date('2019-09-28T00:00:00')
+  const current = new Date()
+  const [open, setOpen] = useState(current >= begin && current <= end)
   return (
     <Alert
       show={open}
@@ -25,7 +28,9 @@ export function MaintenanceMessage({ from, to }) {
       variant="primary"
     >
       <i className="material-icons">announcement</i>
-      <p>ClassTranscribe will be down from <strong>September 27 10:00pm</strong> to <strong>September 28 10pm</strong>.</p>
+      <p>
+        ClassTranscribe will be down from <strong>September 27 10:00pm</strong> to <strong>September 28 10:00pm</strong>. Thanks for your patience.
+      </p>
     </Alert>
   )
 }
