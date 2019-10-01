@@ -10,33 +10,23 @@ export class Analytics extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: [],
       offeringId: props.offeringId,
     }
   }
-
-  componentDidMount() {
-    api.getCourseLogs('timeupdate', this.props.offeringId)
-      .then(({data}) => {
-        console.log('data', data)
-        this.setState({data})
-      })  
-  }
-  
   
   render() {
     console.log('xxx', this.state)
-    const { data } = this.state
+    const { offeringId } = this.state
     return (
       <div className="outer">
-        <MyTabs data={data}/>
+        <MyTabs offeringId={offeringId}/>
       </div>
     );
   }
 }
 
 
-function MyTabs ({data}){
+function MyTabs ({offeringId}){
   const panes = [
     { menuItem: 'Performance', render: () => <AnalyticTable data={data}/>},
     { menuItem: 'Charts', render: () => <VideoViews />},
