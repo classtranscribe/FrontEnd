@@ -2,6 +2,7 @@ import React from 'react';
 import {api} from 'utils';
 import { BarsChart, Chart } from "./charts";
 import {AnalyticTable} from './table'
+import VideoViews from './VideoViews'
 import { Tab } from 'semantic-ui-react'
 import './index.css';
 // import { Button } from 'semantic-ui-react';
@@ -17,6 +18,7 @@ export class Analytics extends React.Component {
   componentDidMount() {
     api.getCourseLogs('timeupdate', this.props.offeringId)
       .then(({data}) => {
+        console.log('data', data)
         this.setState({data})
       })  
   }
@@ -37,7 +39,7 @@ export class Analytics extends React.Component {
 function MyTabs ({data}){
   const panes = [
     { menuItem: 'Performance', render: () => <AnalyticTable data={data}/>},
-    { menuItem: 'Charts', render: () => <div className = 'charts'>{/*<BarsChart data = {data}/> <Chart data = {data}/>*/}</div>},
+    { menuItem: 'Charts', render: () => <VideoViews />},
     { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
   ]
   return (
