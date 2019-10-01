@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Col, Nav, Navbar } from 'react-bootstrap'
 import { Grid, Image } from 'semantic-ui-react'
 import './index.css'
-import { imgBrand } from '../../images'
+import { logoOutline as logo } from '../../images'
 import { util } from 'utils'
 
 
@@ -29,7 +29,7 @@ export function ClassTranscribeFooter(props) {
             <Link to={util.links.currentUrl()}>Documents</Link>
           </Grid.Column>
           <Grid.Column>
-            <Image alt="logo" className="brand-img" style={{height: '1.5rem'}} src={imgBrand}/> 
+            <Image alt="logo" className="brand-img" style={{height: '1.5rem'}} src={logo}/> 
           </Grid.Column>
           <Grid.Column>
             <a href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</a>

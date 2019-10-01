@@ -7,7 +7,7 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
 import { SidebarDimmer } from 'components'
-import { Sidebar, Home, Starred, History, Search, OfferingDetail } from './Components'
+import { Sidebar, Home, Starred, History, Search, OfferingDetail, PersonalReport } from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
@@ -132,6 +132,12 @@ export class OfferingViewing extends React.Component {
                     <Route 
                       exact path='/home/search' 
                       render={props => <Search offerings={offerings} {...props} />}
+                    />
+
+                    {/* Personal Report */}
+                    <Route 
+                      exact path="/home/personal-report"
+                      render={props => <PersonalReport {...props} {...this.state} />}
                     />
                   </Switch>
                 </CSSTransition>
