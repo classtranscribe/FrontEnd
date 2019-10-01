@@ -146,11 +146,11 @@ export const api = {
     return this.getData('Admin/GetLogs', null, { from, to })
   },
   // Logs
-  getCourseLogs: function(eventType, offeringId) {
-    return this.getData('Logs/CourseLogs', null, { offeringId, eventType })
+  getCourseLogs: function(eventType, offeringId, start, end) {
+    return this.getData('Logs/CourseLogs', null, { offeringId, eventType, start, end })
   },
-  getStudentLogs: function(eventType, mailId) {
-    return this.getData('Logs/StudentLogs', null, { mailId, eventType })
+  getStudentLogs: function(eventType, mailId, start, end) {
+    return this.getData('Logs/StudentLogs', null, { mailId, eventType, start, end })
   },
 
   /**

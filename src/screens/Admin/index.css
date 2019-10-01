@@ -36,9 +36,7 @@
   box-shadow: none !important;
   padding: 0 !important;
 }
-.admin-bg .secondary.button {
-  background: #458885 !important;
-}
+
 .admin-bg .ui.vertical.menu .active.item, .admin-bg .ui.vertical.menu .active.item:hover {
   background: #458885;
   color: white;

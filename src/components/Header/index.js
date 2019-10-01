@@ -6,7 +6,7 @@ import { Icon } from 'semantic-ui-react'
 import ProfileMenu from './ProfileMenu'
 import './index.css'
 import { util } from 'utils'
-import { textBrand } from '../../images'
+import { textBrand, darkTextBrand } from '../../images'
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
@@ -30,12 +30,7 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
         </Navbar.Brand>
       }
       <Navbar.Brand id="brand" className="ct-brand" as={Link} to={homeURL} title="Home" aria-label="Home">
-        {
-          darkMode ?
-          <><span>C</span>lass<span>T</span>ranscribe</>
-          :
-          <Logo subtitle={subtitle} />
-        }
+        <Logo subtitle={subtitle} darkMode={darkMode} />
       </Navbar.Brand>
       <Row className="signout">
         {children}
@@ -45,8 +40,15 @@ export function ClassTranscribeHeader({darkMode, display, showSiderBar, children
   )
 }
 
-export function Logo({ subtitle }) {
-  return (
+export function Logo({ subtitle, darkMode }) {
+  return darkMode ? (
+    <img
+      src={darkTextBrand}
+      width="30" height="30"
+      className="d-inline-block align-top img"
+      alt="ClassTranscribe Brand"
+    />
+  ) : (
     <>
       <img
         src={textBrand}
