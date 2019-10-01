@@ -82,3 +82,10 @@
   margin-left: 1rem;
 }
 
+.ui.secondary.button {
+  background: #458885 !important;
+}
+.ui.primary.button {
+  background: #458885 !important;
+}
+
