@@ -17,19 +17,20 @@ export class Analytics extends React.Component {
   render() {
     console.log('xxx', this.state)
     const { offeringId } = this.state
+    const { playlists } = this.props
     return (
       <div className="outer">
-        <MyTabs offeringId={offeringId}/>
+        <MyTabs offeringId={offeringId} playlists={playlists}/>
       </div>
     );
   }
 }
 
 
-function MyTabs ({offeringId}){
+function MyTabs ({offeringId, playlists}){
   const panes = [
     { menuItem: 'Performance', render: () => <AnalyticTable offeringId={offeringId}/> },
-    { menuItem: 'Charts', render: () => <VideoViews />},
+    { menuItem: 'Charts', render: () => <VideoViews offeringId={offeringId} playlists={playlists} />},
     { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
   ]
   return (
