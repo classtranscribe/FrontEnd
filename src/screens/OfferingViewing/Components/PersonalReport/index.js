@@ -1,40 +1,51 @@
 import React from 'react'
 import { user, api } from 'utils'
+import { parseTimeUpdate, parseEditTrans } from './util'
+import './index.css'
 
 export class PersonalReport extends React.Component {
   constructor(props) {
     super(props)
     this.userInfo = user.getUserInfo()
     this.state = {
-      edittrans: []
+      parsedData: []
     }
   }
 
   componentDidMount() {
+    // const { offerings, history } = this.props
     this.getEditTrans()
   }
 
-  getEditTrans = () => {
+  getEditTrans = async () => {
     const { userInfo } = this
-    api.getStudentLogs('edittrans', userInfo.emailId, new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
+    var parsedData = []
+    await api.getStudentLogs('timeupdate', userInfo.emailId, new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
       .then(({data}) => {
-        
-        data.forEach(event => {
-          event.offering = this.props.offerings.filter(offering => offering.id === event.offeringId)[0]
-        })
-        console.log('edittrans', data)
-        this.setState({ edittrans: data })
-        
+        parsedData = parseTimeUpdate(data, this.props.offerings)
+        console.log('timeupdate', parsedData)
       })
+
+    await api.getStudentLogs('edittrans', userInfo.emailId, new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
+      .then(({data}) => {
+        parsedData = parseEditTrans(data, parsedData)
+        console.log('edittrans', parsedData)
+      })
+
+    this.setState({ parsedData })
   }
 
   render() {
-    const { edittrans } = this.state
+    const { parsedData } = this.state
     return (
       <div>
         {
-          edittrans.map( event => (
-            <div>{event.offeringId}</div>
+          parsedData.map( elem => (
+            <div key={elem.offeringId}>
+              {elem.offering.fullNumber}<br/>
+              Total editing times: {elem.editTransCount}<br/>
+              Total watching times: {elem.mins} mins
+            </div>
           ))
         }
       </div>
