@@ -23,7 +23,7 @@
 }
 
 /* .vjs-paused.vjs-has-started.video-js .vjs-big-play-button,.video-js.vjs-ended .vjs-big-play-button,.video-js.vjs-paused .vjs-big-play-button {
-  display: none !important
+  display: block !important
 } */
 
 .video-js .vjs-load-progress div,.vjs-seeking .vjs-big-play-button,.vjs-waiting .vjs-big-play-button {
@@ -264,7 +264,7 @@
 
 .video-js .vjs-big-play-button {
   background-color: transparent;
-  color: #000000a2;
+  color: #1fa2b9b2;
   cursor: pointer;
   font-size: 10em;
   border-radius: 50%;
@@ -280,7 +280,8 @@
 }
 
 .video-js:hover .vjs-big-play-button,.video-js .vjs-big-play-button:focus,.video-js .vjs-big-play-button:active {
-  background-color: #05050500
+  background-color: #05050500;
+  color: #2fbec0;
 }
 
 .video-js .vjs-loading-spinner {
