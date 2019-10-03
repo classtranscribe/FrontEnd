@@ -7,11 +7,11 @@ var fileDownload = require('js-file-download')
 
 
 
-function parseCourseLogs(event, data, parsedData) {
+function parseCourseLogs(event, data, parsedData, caption) {
     const toReturn = []
     if (event === 'timeupdate') {
         data.forEach( (elem) => {
-            var lastHr = 0, last3days = 0, lastWeek = 0, lastMonth = 0, totalTime = 0
+            var lastHr = 0, last3days = 0, lastWeek = 0, lastMonth = 0, totalTime = 0, count = 0
             elem.medias.forEach( media => {
                 lastHr += media.lastHr
                 last3days += media.last3days
@@ -27,13 +27,34 @@ function parseCourseLogs(event, data, parsedData) {
                     lastWeek = parsedData.filter( data => data.email === elem.user.email)[0].lastWeek/4.0
                 }
             }
+
+            if (caption && elem.user) {
+                if (caption.filter( data => data.email === elem.user.email)[0]) {
+                    count = caption.filter( data => data.email === elem.user.email)[0].captionEdited
+                }
+            }
+
             toReturn.push({ 
                 email: (elem.user ? elem.user.email : 'unknown'), 
                 lastHr: lastHr, 
                 last3days: last3days, 
-                lastMonth: lastMonth, 
                 lastWeek: lastWeek, 
+                lastMonth: lastMonth, 
                 totalTime: totalTime/4.0, 
+                captionEdited: count
+            })
+        })
+    }
+
+    if (event === 'edittrans') {
+        data.forEach( (elem) => {
+            var count = 0
+            elem.medias.forEach( media => {
+                count += media.count
+            })
+            toReturn.push({ 
+                email: (elem.user ? elem.user.email : 'unknown'), 
+                captionEdited: count
             })
         })
     }
@@ -46,17 +67,22 @@ export function AnalyticTable ({offeringId}){
     const [total, setTotal] = useState([])
     const [column, setColumn] = useState(null)
     const [direction, setDirection] = useState(null)
+    const [caption, setCaption] = useState([])
+
     useEffect(() => {
         api.getCourseLogs('timeupdate', offeringId)
         .then(({data}) => {
             setParsedData(parseCourseLogs('timeupdate', data))
         }) 
+        api.getCourseLogs('edittrans', offeringId, "2010-04-03T11:11:11.111Z", new Date().toISOString())
+        .then(({data}) => {
+            setCaption(parseCourseLogs('edittrans', data))
+        }) 
     }, [offeringId])
 
     useEffect(() => {
-        console.log('xxxxx', total)
         api.getCourseLogs('timeupdate', offeringId, "2010-04-03T11:11:11.111Z", new Date().toISOString()).then(({data}) => {
-            setTotal(parseCourseLogs('timeupdate', data, parsedData))
+            setTotal(parseCourseLogs('timeupdate', data, parsedData, caption))
         })
     }, [parsedData])
     
@@ -82,11 +108,11 @@ export function AnalyticTable ({offeringId}){
 
     return (<div className = 'analytic_table'>
         <Button content="Download" onClick={onDownload} primary />
-        <Table sortable celled fixed unstackable>
+        <Table sortable celled fixed unstackable striped>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>
-                    Index
+                    Rank
                     </Table.HeaderCell>
                     <Table.HeaderCell
                         sorted={column === 'email' ? direction : null}
@@ -119,10 +145,16 @@ export function AnalyticTable ({offeringId}){
                     Last Month (mins)
                     </Table.HeaderCell>
                     <Table.HeaderCell
-                        sorted={column === 'total' ? direction : null}
-                        onClick={() => handleSort('total')}
+                        sorted={column === 'totalTime' ? direction : null}
+                        onClick={() => handleSort('totalTime')}
                     >
                     Total Time Spent (mins)
+                    </Table.HeaderCell>
+                    <Table.HeaderCell
+                        sorted={column === 'captionEdited' ? direction : null}
+                        onClick={() => handleSort('captionEdited')}
+                    >
+                    Captions Revised
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -137,6 +169,7 @@ export function AnalyticTable ({offeringId}){
                             <Table.Cell>{elem.lastWeek}</Table.Cell>
                             <Table.Cell>{elem.lastMonth}</Table.Cell>
                             <Table.Cell>{elem.totalTime}</Table.Cell>
+                            <Table.Cell>{elem.captionEdited}</Table.Cell>
                         </Table.Row>
                     )
                 }
