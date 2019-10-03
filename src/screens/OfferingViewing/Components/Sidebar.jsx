@@ -28,14 +28,14 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
           isLoggedIn // incompleted feature
           &&
           <>
-            <ListGroup.Item 
+            {/* <ListGroup.Item 
               className="list" action eventKey="starred"
               as={Link} to={util.links.starred()}
               title="starred" aria-label="starred"
               onClick={() => showSiderBar(window.innerWidth > 900)}
             >
               <Icon name="bookmark" /> &emsp; Starred
-            </ListGroup.Item>
+            </ListGroup.Item> */}
             <ListGroup.Item 
               className="list" action eventKey="history" 
               as={Link} to={util.links.history()}

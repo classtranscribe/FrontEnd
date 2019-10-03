@@ -63,7 +63,7 @@ export default function SectionList({ state, props, displaySearchHeader, getOffe
             watchHistory={props.watchHistory}
           />
         :
-        nonEmptyDepart.includes(section.id) ? 
+        (section && nonEmptyDepart.includes(section.id)) ? 
           <Section 
             {...functions}
             key={section.id} 
