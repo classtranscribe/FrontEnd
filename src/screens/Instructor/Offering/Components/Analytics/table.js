@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse'
-import { Table, Button } from 'semantic-ui-react'
+import { Table, Button, Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
 import {api} from 'utils';
 import _ from 'lodash'
 var fileDownload = require('js-file-download')
@@ -81,9 +81,12 @@ export function AnalyticTable ({offeringId}){
     }, [offeringId])
 
     useEffect(() => {
-        api.getCourseLogs('timeupdate', offeringId, "2010-04-03T11:11:11.111Z", new Date().toISOString()).then(({data}) => {
-            setTotal(parseCourseLogs('timeupdate', data, parsedData, caption))
-        })
+        if (parsedData.length){
+            api.getCourseLogs('timeupdate', offeringId, "2010-04-03T11:11:11.111Z", new Date().toISOString()).then(({data}) => {
+                setTotal(parseCourseLogs('timeupdate', data, parsedData, caption))
+                // setLoaded(loaded => loaded + 1)
+            })
+        }
     }, [parsedData])
     
     
@@ -108,6 +111,16 @@ export function AnalyticTable ({offeringId}){
 
     return (<div className = 'analytic_table'>
         <Button content="Download" onClick={onDownload} primary />
+
+        { (total.length === 0)?
+            <div>
+                <Segment className = 'table_loader'>
+                <Dimmer active inverted >
+                  <Loader inverted content='Loading' />
+                </Dimmer>
+                </Segment>
+            </div>
+        :
         <Table sortable celled fixed unstackable striped>
             <Table.Header>
                 <Table.Row>
@@ -148,7 +161,7 @@ export function AnalyticTable ({offeringId}){
                         sorted={column === 'totalTime' ? direction : null}
                         onClick={() => handleSort('totalTime')}
                     >
-                    Total Time Spent (mins)
+                    Total Video Time (mins)
                     </Table.HeaderCell>
                     <Table.HeaderCell
                         sorted={column === 'captionEdited' ? direction : null}
@@ -158,22 +171,25 @@ export function AnalyticTable ({offeringId}){
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
-            <Table.Body>
-                {
-                    total.map( (elem, index) =>  
-                        <Table.Row key={elem.email}>
-                            <Table.Cell>{index +1}</Table.Cell>
-                            <Table.Cell>{elem.email}</Table.Cell>
-                            <Table.Cell>{elem.lastHr}</Table.Cell>
-                            <Table.Cell>{elem.last3days}</Table.Cell>
-                            <Table.Cell>{elem.lastWeek}</Table.Cell>
-                            <Table.Cell>{elem.lastMonth}</Table.Cell>
-                            <Table.Cell>{elem.totalTime}</Table.Cell>
-                            <Table.Cell>{elem.captionEdited}</Table.Cell>
-                        </Table.Row>
-                    )
-                }
-            </Table.Body>
+            
+                <Table.Body>
+                    {
+                        total.map( (elem, index) =>  
+                            <Table.Row key={elem.email}>
+                                <Table.Cell>{index +1}</Table.Cell>
+                                <Table.Cell>{elem.email}</Table.Cell>
+                                <Table.Cell>{Math.round(elem.lastHr)}</Table.Cell>
+                                <Table.Cell>{Math.round(elem.last3days)}</Table.Cell>
+                                <Table.Cell>{Math.round(elem.lastWeek)}</Table.Cell>
+                                <Table.Cell>{Math.round(elem.lastMonth)}</Table.Cell>
+                                <Table.Cell>{Math.round(elem.totalTime)}</Table.Cell>
+                                <Table.Cell>{elem.captionEdited}</Table.Cell>
+                            </Table.Row>
+                        )
+                    }
+                </Table.Body>
+            
         </Table>
+        }
     </div>);
 }

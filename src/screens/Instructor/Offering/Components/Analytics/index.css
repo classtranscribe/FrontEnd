@@ -9,6 +9,13 @@
     
 }
 
+.table_loader{
+    height: 80vh !important;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
 .charts {
     padding: 1px 1px;
     display: flex;
