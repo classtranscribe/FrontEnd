@@ -15,6 +15,7 @@ export class Analytics extends React.Component {
   }
   
   render() {
+    return <div>In Progress</div> /*
     console.log('xxx', this.state)
     const { offeringId } = this.state
     const { playlists } = this.props
@@ -22,7 +23,7 @@ export class Analytics extends React.Component {
       <div className="outer">
         <MyTabs offeringId={offeringId} playlists={playlists}/>
       </div>
-    );
+    ); */
   }
 }
 
