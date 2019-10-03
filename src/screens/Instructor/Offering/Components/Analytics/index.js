@@ -29,7 +29,7 @@ export class Analytics extends React.Component {
 function MyTabs ({offeringId}){
   const panes = [
 
-    { menuItem: 'Performance', render: () => <AnalyticTable offeringId={offeringId}/> },
+    { menuItem: 'Video View', render: () => <AnalyticTable offeringId={offeringId}/> },
     { menuItem: 'Charts', render: () => <VideoViews />},
     { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
   ]
