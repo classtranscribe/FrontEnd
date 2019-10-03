@@ -17,6 +17,11 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
     }
   }
 
+  const onReset = () => {
+    setResult(instructors)
+    $('#inst-filter')[0].value = ''
+  }
+
   return (
     <>
       <div className="filter">
@@ -32,11 +37,12 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
         />
         <Button basic
           content="Reset"
+          onClick={onReset}
         />
       </div>
       {result.map( inst => (
         <AdminListItem 
-          header={`${inst.firstName} ${inst.lastName}`} 
+          header={`${inst.firstName || 'Unknown'} ${inst.lastName || ''}`} 
           path="instructor" 
           inactive={() => onInactive(inst.email)}
           loading={loading}
