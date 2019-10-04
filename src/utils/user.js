@@ -4,6 +4,7 @@
  */
 
 import { api } from './http'
+import { history } from './history'
 import auth0Client from './auth0'
 import decoder from 'jwt-decode'
 
@@ -37,28 +38,29 @@ export const user = {
     const { roles } = this.getUserInfo()
     return roles && roles.includes('Instructor')
   },
-  setUpUser: function () {
+  setUpUser: async function () {
     if (this.userId() === null) {
-      auth0Client.handleAuthentication().then(() => {
-        api.getAuthToken(auth0Client.getAuth0Token())
-          .then(({data}) => {
-            console.log(data)
-            localStorage.setItem('userId', data.userId)
-            api.saveAuthToken(data.authToken)
-            this.saveUserInfo(data)
-            // redirect
-            var redirectURL = auth0Client.getRedirectURL()
-            const tokenInfo = decoder(data.authToken)
-            const roles = tokenInfo['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-            if (redirectURL === '/home' && roles && roles.includes('Admin')) redirectURL = '/Admin'
-            else if (redirectURL === '/home' && roles && roles.includes('Instructor')) redirectURL = '/Instructor'
-            window.location = redirectURL
-            window.history.pushState({ state: auth0Client.getRedirectState() }, null, redirectURL)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      })
+      await auth0Client.handleAuthentication()
+      const { data } = await api.getAuthToken(auth0Client.getAuth0Token()).catch(error => console.log(error))
+      // console.log(auth0Client.getAuth0Token())
+      // Save UserId
+      localStorage.setItem('userId', data.userId)
+      // Save AuthToken
+      api.saveAuthToken(data.authToken)
+      // Save userInfo
+      this.saveUserInfo(data)
+      // Get User Metadata and save it to localStorage
+      const userMetadata = await api.getUserMetaData()
+      history.saveUserMetadata(userMetadata.data)
+      // redirect
+      var redirectURL = auth0Client.getRedirectURL()
+      const tokenInfo = decoder(data.authToken)
+      const roles = tokenInfo['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      if (redirectURL === '/home' && roles && roles.includes('Admin')) redirectURL = '/Admin'
+      else if (redirectURL === '/home' && roles && roles.includes('Instructor')) redirectURL = '/Instructor'
+      window.location = redirectURL
+      window.history.pushState({ state: auth0Client.getRedirectState() }, null, redirectURL)
+
     } else {
       console.log(this.getUserInfo())
       window.location = auth0Client.getRedirectURL()

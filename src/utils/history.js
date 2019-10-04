@@ -3,6 +3,15 @@ import { api } from './http'
 export const history = {
   watchHistoryKey: 'watch-history-new',
   starredOfferingKey: 'starred-offerings-new',
+  saveUserMetadata: function({ watchHistory, starredOfferings }) {
+    if (watchHistory) localStorage.setItem(this.watchHistoryKey, watchHistory)
+    if (starredOfferings) localStorage.setItem(this.starredOfferingKey, starredOfferings)
+  },
+  updateUserdata: function() {
+    const watchHistory = localStorage.getItem(this.watchHistoryKey)
+    const starredOfferings = localStorage.getItem(this.starredOfferingKey)
+    api.postUserMetaData({ watchHistory, starredOfferings })
+  },
   /**
    * Watch history
    */
@@ -27,10 +36,11 @@ export const history = {
     }
     return watchHistoryArray.slice(0, 12)
   },
-  saveVideoTime: function(mediaId='', timeStamp=0, ratio=0, offeringId='') {
+  saveVideoTime: function(mediaId='', timeStamp=0, ratio=0, offeringId='', update=false) {
     var watchHistory = this.getWatchHistory()
     watchHistory[mediaId] = { ratio, offeringId, timeStamp, lastModifiedTime: new Date() }
     localStorage.setItem(this.watchHistoryKey, JSON.stringify(watchHistory))
+    if (update) this.updateUserdata()
   },
   getStoredMediaInfo: function(mediaId='') {
     const watchHistory = this.getWatchHistory()
@@ -59,7 +69,6 @@ export const history = {
 
   /**
    * Offering Starred
-   * @TODO add an array of starred courses
    */
   getStarredOfferings: function() {
     const starredOfferings_str = localStorage.getItem(this.starredOfferingKey)
@@ -78,6 +87,7 @@ export const history = {
     var starredOfferings = this.getStarredOfferings()
     starredOfferings[offeringId] = 'starred'
     localStorage.setItem(this.starredOfferingKey, JSON.stringify(starredOfferings))
+    this.updateUserdata()
   },
   unstarOffering: function(offeringId='') {
     var starredOfferings = this.getStarredOfferings()
@@ -85,6 +95,7 @@ export const history = {
       delete starredOfferings[offeringId]
     }
     localStorage.setItem(this.starredOfferingKey, JSON.stringify(starredOfferings))
+    this.updateUserdata()
   },
   isOfferingStarred: function(offeringId='') {
     var starredOfferings = this.getStarredOfferings()
