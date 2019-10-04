@@ -359,6 +359,26 @@ export const api = {
         })
     })
   },
+  parseOfferings: async function(rawOfferings) {
+    const parsedOfferings = []
+    for (let i = 0; i < rawOfferings.length; i++) {
+      var courseOffering = await this.getData('Offerings', rawOfferings[i].id)
+      courseOffering = courseOffering.data
+      courseOffering.id = courseOffering.offering.id
+
+      for (let j = 0; j < courseOffering.courses.length; j++) {
+        const { data } = await this.getDepartById(courseOffering.courses[j].departmentId) 
+        courseOffering.courses[j].acronym = data.acronym
+      }
+
+      const { data } = await this.getTermById(courseOffering.offering.termId)
+      courseOffering.offering.termName = data.name
+
+      parsedOfferings.push(courseOffering)
+    }
+    // console.log('parsedOfferings', parsedOfferings)
+    return parsedOfferings
+  },
   getFullNumber: function(courses, separator) {
     var name = ''
     courses.forEach( course => {

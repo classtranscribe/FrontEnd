@@ -12,7 +12,7 @@ import { handleData } from 'utils'
 
 export default function SectionList({ state, props, displaySearchHeader, getOfferingsByStudent, ...functions }) {
   const { departments, departSelected, termSelected, offerings } = state
-  if (offerings[0] === 'Unloaded' || (offerings[0].offerings && !offerings[0].courses && !offerings[0].courses.length)) return <OfferingListHolder />
+  if (offerings[0] === 'Unloaded') return <OfferingListHolder />
   if (!departments.length || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
   function notEmpty(depart) {

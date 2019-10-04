@@ -62,13 +62,9 @@ export class OfferingViewing extends React.Component {
       })
   }  
 
-  completeOfferings = rawOfferings => {
-    this.setState({ offerings: rawOfferings })
-    api.completeOfferings(
-      rawOfferings, 
-      this.state.offerings,
-      offerings => this.setState({ offerings })
-    )
+  completeOfferings = async rawOfferings => {
+    const offerings = await api.parseOfferings(rawOfferings)
+    this.setState({ offerings })
   }
 
   showSiderBar = value => {
