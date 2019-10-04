@@ -1,6 +1,7 @@
 .playlist-menu .trigger {
   transition: color .2s linear, background .2s linear;
-  color: inherit;
+  /* color: inherit; */
+  color: rgb(19, 211, 211);
   outline: none;
   height: 3em;
   border-radius: .6em !important;
