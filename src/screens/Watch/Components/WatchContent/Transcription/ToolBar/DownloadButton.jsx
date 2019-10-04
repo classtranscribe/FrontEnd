@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
 import { Button, Popup, Divider } from 'semantic-ui-react'
 // vars
-import { captionLangMap } from './../ClassTranscribePlayer/CTPlayerUtils'
+import { captionLangMap } from './../../ClassTranscribePlayer/CTPlayerUtils'
 import { api } from 'utils'
 var fileDownload = require('js-file-download')
 

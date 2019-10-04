@@ -7,9 +7,9 @@ import React from 'react'
 import $ from 'jquery'
 // UI
 import { Spinner } from 'react-bootstrap'
-import SubHeader from './SubHeader'
 import ClassTranscribePlayer from './ClassTranscribePlayer'
 import Transcription from './Transcription'
+import SubHeader from './SubHeader'
 import './index.css'
 // Vars
 import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
@@ -153,13 +153,7 @@ export class WatchContent extends React.Component {
 
     return (
       <div className="watch-content">
-        <SubHeader 
-          media={media} 
-          playlist={playlist} 
-          isMobile={isMobile}
-          propsForSettingBar={propsForSettingBar}
-        />
-  
+        {isMobile && <SubHeader media={media} playlist={playlist} />}
         <div className={`player-container ${orderClassName}`} id={mode}>
           <div className="loading-wrapper">
             <Spinner animation="border" />
@@ -199,6 +193,9 @@ export class WatchContent extends React.Component {
           setReadyToEdit={this.setReadyToEdit} 
           loadingCaptions={loadingCaptions}
           sendUserAction={sendUserAction}
+
+          playlist={playlist} 
+          propsForSettingBar={propsForSettingBar}
         />
       </div>
     )
