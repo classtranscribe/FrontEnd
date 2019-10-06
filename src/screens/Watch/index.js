@@ -15,7 +15,6 @@ export class Watch extends React.Component {
     const { id, courseNumber } = util.parseSearchQuery()
     this.id = id
     if (!id || !courseNumber) window.location = util.links.notfound404()
-    
     this.state = { 
       showPlaylist: false,
       isMobile: window.innerWidth < 650 ? true : false,
@@ -36,7 +35,9 @@ export class Watch extends React.Component {
       api.getMediaById(this.id)
         .then( ({data}) => {
           console.log('media', data)
-          this.setState({ media: api.parseMedia(data) })
+          const media = api.parseMedia(data)
+          this.setState({ media })
+          util.links.title(media.mediaName)
           api.contentLoaded()
         })
       // if (media) this.setState({ media: api.parseMedia(media) })

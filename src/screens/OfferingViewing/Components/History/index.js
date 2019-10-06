@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, Popup, Button } from 'semantic-ui-react'
 import { Poster, ClassTranscribeFooter } from 'components'
@@ -6,6 +6,10 @@ import { util, api } from 'utils'
 import './index.css'
 
 export function History({ watchHistory, state, removeWatchHistory }) {
+  useEffect(() => {
+    util.links.title('History')
+  }, [])
+  
   const { offerings } = state
 
   return (

@@ -21,6 +21,7 @@ export function Search({offerings, location}) {
   const [loading, setLoading] = useState(false)
 
   useEffect( () => {
+    util.links.title('Search')
     window.scrollTo(0, 0)
     if (offerings.length) {
       if (defaultValue) {

@@ -14,6 +14,9 @@ export { handleData } from './data'
 export const util = {
   ...history,
   links: {
+    title: title => {
+      document.title = title ? `${title} • ClassTranscribe` : 'ClassTranscribe'
+    },
     currentUrl: () => window.location,
     home: ()=> '/',
     search: () => '/home/search',

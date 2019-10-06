@@ -49,6 +49,7 @@ export function OfferingDetail({id, history, location}) {
       setDescription(() => fullCourse.description)
       setSectionName(() => fullCourse.section)
       setCourseName(() => fullCourse.courseName)
+      util.links.title(fullCourse.fullNumber+' • '+fullCourse.termName+' • '+fullCourse.section)
     } else {
       api.getOfferingById(id)
         .then( ({data}) => {
@@ -86,6 +87,7 @@ export function OfferingDetail({id, history, location}) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
     }
+    util.links.title(fullNumber+' '+termName+' '+sectionName)
   })
   
   /**

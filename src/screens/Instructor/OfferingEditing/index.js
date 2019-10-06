@@ -18,6 +18,7 @@ export default class OfferingSettingPage extends React.Component {
     super(props)
     this.isNew = this.props.match.params.type === 'new'
     this.id = this.props.match.params.id
+    util.links.title( this.isNew ? 'New Offering' : 'Edit Offering')
     this.state = {
       showDeleteModal: false,
       loading: !this.isNew,
