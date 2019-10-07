@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import $ from 'jquery'
 import { withRouter } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react'
-import { Poster } from 'components'
+import { Poster, ClassTranscribeFooter } from 'components'
 import { api, util } from 'utils'
 
 function VideoView({ playlist, playlists, history, goBack, courseNumber }) {
@@ -20,16 +20,19 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber }) {
           </button>
         </div>
       <p className="title">{name}</p>
-      {medias.slice().reverse().map( media => (
-        <Video 
-          key={media.id} 
-          media={media} 
-          history={history} 
-          playlist={playlist}
-          playlists={playlists}
-          courseNumber={courseNumber} 
-        />
-      ))}
+      <div role="list">
+        {medias.slice().reverse().map( media => (
+          <Video 
+            key={media.id} 
+            media={media} 
+            history={history} 
+            playlist={playlist}
+            playlists={playlists}
+            courseNumber={courseNumber} 
+          />
+        ))}
+      </div>
+      <ClassTranscribeFooter />
     </div>
   )
 }

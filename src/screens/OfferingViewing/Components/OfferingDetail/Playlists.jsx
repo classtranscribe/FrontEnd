@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import PlaylistsView from './PlaylistsView'
 import VideoView from './VideoView'
-import { ClassTranscribeFooter } from 'components'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
 
 export default function Playlists({ playlists, fullNumber }) {
@@ -30,7 +29,6 @@ export default function Playlists({ playlists, fullNumber }) {
           goBack={() => handleClick({})} 
         />
       </CSSTransition>
-      <ClassTranscribeFooter />
     </div>
   )
 }

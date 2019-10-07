@@ -1,9 +1,10 @@
 import React from 'react'
+import { ClassTranscribeFooter } from 'components'
 
 export default function PlaylistsView({ playlists, handleClick }) {
   return (
     <div className="playlists">
-      <p className="title">Playlists</p>
+      <p className="title"><i className="material-icons">video_library</i> Playlists</p>
       {
         playlists.map( playlist => (
           <button className="playlist-item" key={playlist.id} tabIndex={1} onClick={() => handleClick(playlist)}>
@@ -13,6 +14,7 @@ export default function PlaylistsView({ playlists, handleClick }) {
           </button>
         ))
       }
+      <ClassTranscribeFooter />
     </div>
   )
 }
