@@ -4,7 +4,6 @@ import { IconButton, Menu } from '@material-ui/core'
 import { CSSTransition } from 'react-transition-group'
 import PlaylistsView from './PlaylistView'
 import VideosView from './VideosView'
-import './menuTransition.css'
 import './index.css'
 // Vars
 import { util } from 'utils'

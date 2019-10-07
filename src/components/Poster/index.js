@@ -12,7 +12,7 @@ export function Poster({ src=defaultImg, progress=0, borderRadius=false, width }
         alt="video poster"
       />
       {
-        progress && 
+        progress > 0 && 
         <div className="progress-bar">
           <div className="progress" style={{width: `${progress}%`}} />
         </div>

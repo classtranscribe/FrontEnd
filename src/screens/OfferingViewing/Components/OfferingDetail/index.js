@@ -124,11 +124,10 @@ export function OfferingDetail({id, history, location}) {
         
         <h1>{fullNumber}</h1>
         <br/><br/>
-        <br/>
         <h2>
           {courseName}&emsp;
           <span>{termName}&ensp;{sectionName}</span>
-        </h2>
+        </h2><br/>
         {description && <><p className="offering-description">{description}</p><br/><br/></>}
         <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
           <Icon name={iconName} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Alert } from 'react-bootstrap'
 import './index.css'
 import './sidebar.css'
+import './playlist-video-tras.css'
 
 export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
 export { ClassTranscribeHeader } from './Header'
