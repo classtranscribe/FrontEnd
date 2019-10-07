@@ -20,7 +20,9 @@ export const history = {
   },
 
   // Functions to set and send histories
-  saveUserMetadata: function({ watchHistory, starredOfferings, searchHistory }) {
+  saveUserMetadata: function(metadata) {
+    if (!metadata) return;
+    const { watchHistory, starredOfferings, searchHistory } = metadata
     if (watchHistory) localStorage.setItem(this.watchHistoryKey, watchHistory)
     if (starredOfferings) localStorage.setItem(this.starredOfferingKey, starredOfferings)
     if (searchHistory) localStorage.setItem(this.searchHistoryKey, searchHistory)

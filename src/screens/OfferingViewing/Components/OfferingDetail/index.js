@@ -65,6 +65,9 @@ export function OfferingDetail({id, history, location}) {
         console.log('playlists', data)
         setPlaylists(() => data)
       })
+      .catch( () => {
+        setPlaylists(['need-signin'])
+      })
     api.sendUserAction('selectcourse', {
       offeringId: id
     })

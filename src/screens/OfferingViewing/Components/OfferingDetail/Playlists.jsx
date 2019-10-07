@@ -9,6 +9,7 @@ export default function Playlists({ playlists, fullNumber }) {
 
   if (!playlists) return <PlaylistPlaceholder />
   if (playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
+  if (playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn />
   
   const handleClick = playlist => {
     setSelectedPlaylist(playlist)
