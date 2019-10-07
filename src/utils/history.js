@@ -37,14 +37,14 @@ export const history = {
     }
 
     watchHistoryArray = watchHistoryArray.sort((media1, media2) => media1.lastModifiedTime < media2.lastModifiedTime ? 1 : media1.lastModifiedTime > media2.lastModifiedTime ? -1 : 0)
-    if (watchHistoryArray.length > 12) {
-      for (var i = 12; i < watchHistoryArray.length; i++) {
+    if (watchHistoryArray.length > 30) {
+      for (var i = 30; i < watchHistoryArray.length; i++) {
         delete watchHistory[watchHistoryArray[i].mediaId]
       } 
       localStorage.setItem(this.watchHistoryKey, JSON.stringify(watchHistory))
     }
     this.updateUserdata()
-    return watchHistoryArray.slice(0, 12)
+    return watchHistoryArray.slice(0, 30)
   },
   saveVideoTime: function({ mediaId='', timeStamp=0, ratio=0, offeringId='', update=false }) {
     var watchHistory = this.getWatchHistory()
