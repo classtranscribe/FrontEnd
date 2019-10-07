@@ -80,6 +80,7 @@
 }
 .sp-content .offering-detail .playlist-item:last-child {
   border-color: transparent;
+  margin-bottom: 100px;
 }
 .sp-content .offering-detail  .playlist-item:hover, .sp-content .offering-detail .playlist-item:focus {
   background-color: #e9e9e9;
@@ -130,6 +131,11 @@
   padding: 1em 1em;
   border-bottom: 1px solid rgb(212, 212, 212);
   outline: none;
+}
+
+.sp-content .offering-detail .video-item:last-child {
+  margin-bottom: 100px;
+  border: 0;
 }
 
 /* .sp-content .offering-detail .video-item:hover, .sp-content .offering-detail .video-item:focus {
