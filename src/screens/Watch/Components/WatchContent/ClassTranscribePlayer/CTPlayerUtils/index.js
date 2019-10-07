@@ -24,8 +24,14 @@ export const ctVideo = {
     if (mediaId) this.mediaId = mediaId
     if (offeringId) this.offeringId = offeringId
   },
-  saveVideoTime: function(e) {
-    util.saveVideoTime(this.mediaId, e.target.currentTime, e.target.currentTime / e.target.duration, this.offeringId)
+  saveVideoTime: function(e, update=false) {
+    util.saveVideoTime({
+      update,
+      mediaId: this.mediaId, 
+      timeStamp: e.target.currentTime, 
+      ratio: e.target.currentTime / e.target.duration, 
+      offeringId: this.offeringId
+    })
   },
   setVideoLoading: function(loading) {
     if (loading) {
@@ -50,7 +56,6 @@ export const ctVideo = {
     videoElems.each( (index, videoElem) => {
       if (all || e.target !== videoElem) videoElem.pause()
     })
-    this.saveVideoTime(e)
   },
   
   setCurrTime: function(e, time) {
@@ -58,7 +63,7 @@ export const ctVideo = {
     $("video").each( (index, videoElem) => {
       if (time || e.target !== videoElem) videoElem.currentTime = currTime
     })
-    this.saveVideoTime(e)
+    this.saveVideoTime(e, true)
   },
 
   onLoaded: function (e) {
@@ -74,6 +79,7 @@ export const ctVideo = {
 
   onPause: function(e, isPrimary) {
     if (!isPrimary) return;
+    this.saveVideoTime(e, true)
     this.syncPause(e)
     if (isPrimary && !this.isSeeking) this.sendUserAction('pause', { timeStamp: e.target.currentTime })
   },
