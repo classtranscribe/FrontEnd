@@ -15,6 +15,7 @@ export class Watch extends React.Component {
     const { id, courseNumber } = util.parseSearchQuery()
     this.id = id
     if (!id || !courseNumber) window.location = util.links.notfound404()
+    util.removeStoredOfferings()
     this.state = { 
       showPlaylist: false,
       isMobile: window.innerWidth < 650 ? true : false,

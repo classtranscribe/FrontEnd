@@ -2,9 +2,22 @@ import { api } from './http'
 
 export const history = {
   // Keys to localStorage
+  tempStoredOfferingsKey: 'temp-stored-offerings',
   watchHistoryKey: 'watch-history-new',
   starredOfferingKey: 'starred-offerings-new',
   searchHistoryKey: 'search-history',
+
+  storeOfferings: function(offerings) {
+    localStorage.setItem(this.tempStoredOfferingsKey, JSON.stringify(offerings))
+  },
+  getStoredOfferings: function() {
+    // this.removeStoredOfferings()
+    const storedOfferings_str = localStorage.getItem(this.tempStoredOfferingsKey)
+    return storedOfferings_str ? JSON.parse(storedOfferings_str) : null
+  },
+  removeStoredOfferings: function() {
+    localStorage.removeItem(this.tempStoredOfferingsKey)
+  },
 
   // Functions to set and send histories
   saveUserMetadata: function({ watchHistory, starredOfferings, searchHistory }) {

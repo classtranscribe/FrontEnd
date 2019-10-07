@@ -50,6 +50,11 @@ export class OfferingViewing extends React.Component {
   }
 
   getOfferingsByStudent = () => {
+    const offerings = util.getStoredOfferings()
+    if (offerings) {
+      this.setState({ offerings })
+      return;
+    }
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
@@ -65,6 +70,7 @@ export class OfferingViewing extends React.Component {
   completeOfferings = async rawOfferings => {
     const offerings = await api.parseOfferings(rawOfferings)
     this.setState({ offerings })
+    util.storeOfferings(offerings)
   }
 
   showSiderBar = value => {
