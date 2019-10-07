@@ -53,6 +53,13 @@ export const util = {
   scrollToTop: function(div) {
     $(div)[0].scrollTop = 0
   },
+  scrollToCenter: function(id) {
+    const currElem = document.getElementById(id)
+    if (currElem) {
+      currElem.scrollIntoView({ block: "center" })
+      currElem.focus()
+    }
+  },
   parseSearchQuery: function (href) {
     var queryString = window.location.search
     if (href) {
@@ -80,14 +87,6 @@ export const util = {
       options.push({text: text, value: item.id})
     })
     return options;
-  },
-
-  scrollToCenter: function(id) {
-    const currElem = document.getElementById(id)
-    if (currElem) {
-      currElem.scrollIntoView({ block: "center" })
-      currElem.focus()
-    }
   },
 
   getFittedName: function(name, charNum) {

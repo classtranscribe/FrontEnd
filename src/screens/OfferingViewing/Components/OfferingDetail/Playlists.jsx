@@ -19,14 +19,18 @@ export default function Playlists({ playlists, fullNumber }) {
   return (
     <div className="playlist-container">
       <CSSTransition in={isPlaylistsView} unmountOnExit classNames="playlist-view" timeout={100}>
-        <PlaylistsView playlists={playlists} handleClick={handleClick} />
+        <PlaylistsView 
+          playlists={playlists} 
+          handleClick={handleClick} 
+          wasSelected={selectedPlaylist}
+        />
       </CSSTransition>
       <CSSTransition in={!isPlaylistsView} unmountOnExit classNames="video-view" timeout={100}>
         <VideoView 
           playlist={selectedPlaylist} 
           playlists={playlists}
           courseNumber={fullNumber}
-          goBack={() => handleClick({})} 
+          goBack={() => handleClick(selectedPlaylist.id)} 
         />
       </CSSTransition>
     </div>
