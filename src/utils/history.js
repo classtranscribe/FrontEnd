@@ -30,10 +30,12 @@ export const history = {
   getWatchHistoryArray: function() {
     var watchHistory = this.getWatchHistory()
     var watchHistoryArray = []
+
     for(var mediaId in watchHistory) {
       const { ratio, offeringId, timeStamp, lastModifiedTime } = watchHistory[mediaId]
       watchHistoryArray.push({ mediaId, offeringId, timeStamp, ratio: Math.ceil(ratio * 100), lastModifiedTime })
     }
+
     watchHistoryArray = watchHistoryArray.sort((media1, media2) => media1.lastModifiedTime < media2.lastModifiedTime ? 1 : media1.lastModifiedTime > media2.lastModifiedTime ? -1 : 0)
     if (watchHistoryArray.length > 12) {
       for (var i = 12; i < watchHistoryArray.length; i++) {
@@ -41,13 +43,18 @@ export const history = {
       } 
       localStorage.setItem(this.watchHistoryKey, JSON.stringify(watchHistory))
     }
+    this.updateUserdata()
     return watchHistoryArray.slice(0, 12)
   },
-  saveVideoTime: function(mediaId='', timeStamp=0, ratio=0, offeringId='', update=false) {
+  saveVideoTime: function({ mediaId='', timeStamp=0, ratio=0, offeringId='', update=false }) {
+    
     var watchHistory = this.getWatchHistory()
     watchHistory[mediaId] = { ratio, offeringId, timeStamp, lastModifiedTime: new Date() }
     localStorage.setItem(this.watchHistoryKey, JSON.stringify(watchHistory))
-    if (update) this.updateUserdata()
+    if (update) {
+      this.updateUserdata()
+      console.log('1111')
+    }
   },
   getStoredMediaInfo: function(mediaId='') {
     const watchHistory = this.getWatchHistory()
