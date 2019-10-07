@@ -50,6 +50,9 @@ export const util = {
   refresh: function() {
     document.location.reload(true);
   },
+  scrollToTop: function(div) {
+    $(div)[0].scrollTop = 0
+  },
   parseSearchQuery: function (href) {
     var queryString = window.location.search
     if (href) {

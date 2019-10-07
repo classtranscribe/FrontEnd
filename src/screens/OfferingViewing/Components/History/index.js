@@ -7,6 +7,7 @@ import './index.css'
 
 export function History({ watchHistory, state, removeWatchHistory }) {
   useEffect(() => {
+    util.scrollToTop('.sp-content')
     util.links.title('History')
   }, [])
   

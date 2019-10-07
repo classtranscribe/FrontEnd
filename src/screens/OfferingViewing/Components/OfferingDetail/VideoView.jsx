@@ -9,7 +9,7 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber }) {
   const { name, medias=[] } = playlist
 
   useEffect(() => {
-    $('.playlist-container')[0].scrollTop = 0
+    $('.sp-content')[0].scrollTop = 0
   }, [history])
 
   return (
