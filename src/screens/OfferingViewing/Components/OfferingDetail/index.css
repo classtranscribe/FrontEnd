@@ -23,26 +23,37 @@
     font-size: 1.1rem;
   }
   @media screen and (max-width: 600px) {
-    .sp-content .offering-detail h1, .sp-content .offering-detail h2, .sp-content .offering-detail h2 span, .sp-content .offering-detail h4, .sp-content .offering-detail h5 {
-      padding-left: 10px;
-    }
-    .sp-content .offering-detail h2 span {
-      display: block;
+    .sp-content .offering-detail .offering-info {
+      padding-left: 1em;
     }
   }
+
+/* Offering Info */
+.sp-content .offering-detail .offering-info {
+  padding-top: 2em;
+}
+.sp-content .offering-detail .offering-info .button {
+  background: #378f8f;
+  color: white;
+}
+.sp-content .offering-detail .offering-info .button[id=starred] {
+  background: #dfe2e2;
+  color: rgb(98, 98, 98);
+}
 
 /* Playlist Loader */
 .pl-loader {
   width: 100%;
   height: 10em;
-  padding-top: 5em;
+  padding-top: 10em !important;
 }
-/* ******************************************************************************************** */
+
+
+/* Playlist View */
 .sp-content .offering-detail .playlist-container {
   padding-top: 1rem;
   border-top: 1px solid rgb(218, 218, 218);
   margin-top: 1em;
-  height: 91vh;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
@@ -60,7 +71,7 @@
   outline: 0;
   cursor: pointer;
   padding: 1em 1em 0 1em;
-  border-bottom: 1px solid rgb(219, 219, 219);
+  border-bottom: 1px solid rgb(212, 212, 212);
   transition: background 0.2s linear;
   width: 100%;
   display: flex;
@@ -72,12 +83,17 @@
   border-color: transparent;
 }
 .sp-content .offering-detail  .playlist-item:hover, .sp-content .offering-detail .playlist-item:focus {
-  background-color: #f1f1f1;
+  background-color: #e9e9e9;
 }
 .sp-content .offering-detail  .playlist-item .playlist-name {
   color: #318d8d;
   font-weight: bold;
   font-size: 17px;
+  display: flex;
+  justify-content: center;
+}
+.sp-content .offering-detail  .playlist-item .playlist-name i {
+  margin-right: .5em;
 }
 .sp-content .offering-detail .playlist-item:hover .playlist-name, .sp-content .offering-detail .playlist-item:focus .playlist-name, .sp-content .offering-detail .playlist-item:hover .playlist-vnum, .sp-content .offering-detail .playlist-item:focus .playlist-vnum {
   color: rgb(53, 170, 170);
@@ -99,6 +115,12 @@
 .sp-content .offering-detail .videos .title {
   color: #000000;
   font-size: 1.4em !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sp-content .offering-detail .videos .title i {
+  margin-right: .5em;
 }
 
 .sp-content .offering-detail .video-item {
@@ -107,9 +129,13 @@
   flex-direction: row;
   width: 100%;
   padding: 1em 1em;
-  border-bottom: 1px solid rgb(230, 230, 230);
+  border-bottom: 1px solid rgb(212, 212, 212);
   outline: none;
 }
+
+/* .sp-content .offering-detail .video-item:hover, .sp-content .offering-detail .video-item:focus {
+  background-color: #e9e9e9;
+} */
 
 .sp-content .offering-detail .video-item .media-name {
   font-family: Arial, Helvetica, sans-serif;
@@ -117,22 +143,13 @@
   font-size: 1.3em;
   color: rgb(0, 0, 0);
   margin-left: 1em;
+  text-align: left;
+  transition: color 0.2s linear;
 }
 .sp-content .offering-detail .video-item:hover .media-name, .sp-content .offering-detail .video-item:focus .media-name {
   color: rgb(53, 138, 141);
 }
-/* ******************************************************************************************** */
-.sp-content .offering-detail .offering-info {
-  padding-top: 2em;
-}
-.sp-content .offering-detail .offering-info .button {
-  background: #378f8f;
-  color: white;
-}
-.sp-content .offering-detail .offering-info .button[id=starred] {
-  background: #dfe2e2;
-  color: rgb(98, 98, 98);
-}
+
 .sp-content .offering-detail .playlist-container .title {
   font-weight: bold;
   font-size: 1.2em;
@@ -145,6 +162,8 @@
 .sp-content .offering-detail .playlist-container .title i {
   margin-right: 10px;
 }
+
+/* Playlist view 2.0 */
 @media screen and (min-width: 1000px) {
   .sp-content .offering-detail {
     display: flex;
@@ -152,23 +171,24 @@
   }
   .sp-content .offering-detail .offering-info {
     padding-right: 1em;
-    border-right: #dbdbdb solid 1px;
+    /* border-right: #dbdbdb solid 1px; */
     height: 92vh;
     position: sticky;
     top: 0em;
-    width: 500px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    width: 440px;
+    word-break: break-all;
   }
   
   .sp-content .offering-detail .playlist-container {
     width: 100%;
     overflow-y: scroll;
-    margin-left: 2em;
+    padding-left: 2em;
+    margin-right: -2em;
+    padding-right: 2em;
     min-height: 90vh;
     border-top: none;
     margin-top: 0;
+    background-color: #f6f6f6;
   }
   .sp-content .offering-detail .divider {
     display: none;
