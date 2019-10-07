@@ -22,6 +22,7 @@
 @media screen and (max-width: 900px) {
   .op-sidebar {
     margin-left: -20rem;
+    box-shadow: 1px 10px 5px #a1a1a1;
   }
 }
 .op-sidebar .list {
