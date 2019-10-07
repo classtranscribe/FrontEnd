@@ -47,13 +47,10 @@ export const history = {
     return watchHistoryArray.slice(0, 12)
   },
   saveVideoTime: function({ mediaId='', timeStamp=0, ratio=0, offeringId='', update=false }) {
-    
     var watchHistory = this.getWatchHistory()
     watchHistory[mediaId] = { ratio, offeringId, timeStamp, lastModifiedTime: new Date() }
     localStorage.setItem(this.watchHistoryKey, JSON.stringify(watchHistory))
-    if (update) {
-      this.updateUserdata()
-    }
+    if (update) this.updateUserdata()
   },
   getStoredMediaInfo: function(mediaId='') {
     const watchHistory = this.getWatchHistory()
