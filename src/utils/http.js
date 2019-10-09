@@ -367,6 +367,9 @@ export const api = {
       courseOffering.id = courseOffering.offering.id
 
       for (let j = 0; j < courseOffering.courses.length; j++) {
+        if (!user.isAdmin() && courseOffering.courses[j].id === "test_course") {
+          courseOffering.isTestCourse = true
+        }
         const { data } = await this.getDepartById(courseOffering.courses[j].departmentId) 
         courseOffering.courses[j].acronym = data.acronym
       }
