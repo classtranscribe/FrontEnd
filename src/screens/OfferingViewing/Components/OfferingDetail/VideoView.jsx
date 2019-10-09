@@ -49,7 +49,7 @@ function Video({ media, playlist, playlists, courseNumber, history }) {
       onClick={()=>history.push(pathname, videoState)} 
       aria-label={`Watch video ${mediaName}`}
     >
-      <Poster progress={ratio} width="120px" />
+      <Poster progress={ratio} width="150px" />
       <p className="media-name">{mediaName}</p>
     </button>
   )

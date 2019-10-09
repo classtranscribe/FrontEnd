@@ -1,6 +1,7 @@
 .history-bg {
   padding-top: 2em;
   width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 .history-bg .watch-history {
   width: 100%;
@@ -26,13 +27,15 @@
 
 .history-bg .watch-history-item .media-info {
   margin-left: 1.5em;
-  margin-top: 1em;
+  margin-top: .5em;
 }
 .history-bg .watch-history-item .media-info .media-name {
   font-family: Arial, Helvetica, sans-serif;
+  /* font-weight: bold; */
+  font-size: 18px;
+  color: var(--ct-text-primary);
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
-  font-size: 1.3em;
-  color: rgb(0, 0, 0);
 }
 .history-bg .watch-history-item .media-info .offering-num {
   font-size: 1.1em;
@@ -54,4 +57,8 @@
   font-size: 1.3em;
   right: 0;
   top: .3em;
+  /* visibility: hidden; */
 }
+/* .history-bg .watch-history-item-con:hover .button[type=remove-history], .history-bg .watch-history-item-con:focus-within .button[type=remove-history] {
+  visibility: visible;
+} */

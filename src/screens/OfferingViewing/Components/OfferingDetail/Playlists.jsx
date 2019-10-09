@@ -19,14 +19,14 @@ export default function Playlists({ playlists, fullNumber }) {
 
   return (
     <div className="playlist-container">
-      <CSSTransition in={isPlaylistsView} unmountOnExit classNames="playlist-view" timeout={100}>
+      <CSSTransition in={isPlaylistsView} unmountOnExit classNames="playlist-view" timeout={0}>
         <PlaylistsView 
           playlists={playlists} 
           handleClick={handleClick} 
           wasSelected={selectedPlaylist}
         />
       </CSSTransition>
-      <CSSTransition in={!isPlaylistsView} unmountOnExit classNames="video-view" timeout={100}>
+      <CSSTransition in={!isPlaylistsView} unmountOnExit classNames="video-view" timeout={0}>
         <VideoView 
           playlist={selectedPlaylist} 
           playlists={playlists}

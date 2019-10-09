@@ -262,7 +262,8 @@
   padding: .3em;
 }
 .media-card-container .media-info .media-name {
-  color: black;
-  font-size: 1.2em;
-  margin-bottom: .2em;
+  color: var(--ct-text-primary);
+  font-size: 17px;
+  margin-bottom: .3em;
+  font-family: 'Roboto Condensed', sans-serif;
 }
