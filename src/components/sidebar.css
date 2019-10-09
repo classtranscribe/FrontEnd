@@ -29,7 +29,7 @@
   border-radius: 0 1.5rem 1.5rem 0;
   width: 19rem;
   margin: 0.3rem 0;
-  color: #348b86;
+  color: var(--ct-green-normal);
   background: none;
   border: none;
   cursor: pointer;
@@ -41,7 +41,7 @@
   .op-sidebar .goback {
     height: 3rem !important;}
   .op-sidebar .list-group-item.active {
-    background: #348b86;
+    background: var(--ct-green-normal);
     color: #ffffff !important;
   }
 
@@ -118,7 +118,7 @@
   -webkit-transition: border .2s linear, color .2s linear !important;
 }
 .new-pl-btn:hover, .new-pl-btn:focus {
-  color: #348b86 !important;
+  color: var(--ct-green-normal) !important;
   border: #79aca9 1px solid !important;
 }
 .op-sidebar .playlists .playlist .item {

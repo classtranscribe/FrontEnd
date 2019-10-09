@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Alert } from 'react-bootstrap'
+import './vars.css'
 import './index.css'
 import './sidebar.css'
 import './playlist-video-tras.css'

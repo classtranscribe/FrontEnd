@@ -3,8 +3,7 @@
   height: 90vh;
   z-index: 2;
   overflow: hidden;
-  background: rgb(49, 49, 49);
-  /* margin: .5em 0; */
+  background: var(--watch-page-bg-color);
 }
 
 
