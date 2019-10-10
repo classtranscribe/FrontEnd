@@ -2,7 +2,7 @@
  * The component for Instructor Offering Page
  * contains the playlists and menus
  */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { Button } from 'semantic-ui-react'
@@ -12,8 +12,11 @@ import TypeIcon from './TypeIcon'
 export function SideBar({ id, state, showSiderBar }) {
   const { displaySideBar, courseOffering, playlists } = state;
   // style for showing or hiding the sidebar
-  const defaultActiveKey = window.location.pathname.includes('data') ? 'data' : window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0].id
+  const defaultActiveKey = window.location.pathname.includes('data') ? 'data' : window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0] ? playlists[0].id : ''
   const [activeKey, setActiveKey] = useState(defaultActiveKey)
+  useEffect(() => {
+    setActiveKey(window.location.pathname.includes('data') ? 'data' : window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0] ? playlists[0].id : '')
+  }, [playlists])
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
 
   var fullNumber = 'Loading...'
