@@ -6,7 +6,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { SidebarDimmer } from 'components'
+import { SidebarDimmer, UserTips } from 'components'
 import { Sidebar, Home, Starred, History, Search, OfferingDetail, PersonalReport } from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
@@ -97,6 +97,7 @@ export class OfferingViewing extends React.Component {
         render={({ location }) => (
 
           <div className="sp-bg" ref={this.listen}>
+            <UserTips />
             <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
             <SearchHeader
               displaySearchHeader={displaySearchHeader}
