@@ -52,7 +52,6 @@
 }
 
 /* offering details */
-
 .op-sidebar .title {
   overflow: hidden;
   white-space: nowrap;
@@ -61,9 +60,10 @@
   font-size: 1.2rem;
   font-weight: bold;}
 .op-sidebar .name {
-  color: #88aaaa;
+  color: #5e5e5e;
   font-size: 1.1rem;
-  line-height: 1.1rem;
+  /* line-height: 1.1rem; */
+  margin: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -112,7 +112,7 @@
   width: 19rem;
   margin: 0 0 1rem 0.5rem !important;
   background: none !important;
-  border: transparent 1px solid !important;
+  border: rgb(223, 223, 223) 1px solid !important;
   transition: border .2s linear, color .2s linear !important;
   -o-transition: border .2s linear, color .2s linear !important;
   -webkit-transition: border .2s linear, color .2s linear !important;
@@ -141,8 +141,8 @@
   background: #edf0f0 !important;
 }
 .list-group-item-secondary.list-group-item-action.active {
-  background-color: #ffffff !important;
-  color: #23a1a1 !important;
+  background: var(--ct-green-normal) !important;
+  color: #ffffff !important;
 }
 /*****bootstrap UI end**********/
 
@@ -150,7 +150,8 @@
   
 } */
 .op-sidebar .playlists .playlist .item:active {
-  color: #3db998;
+  background: var(--ct-green-normal);
+  color: #ffffff;
   padding-left: 2rem;
 }
 .playlist .item .pl-name {
