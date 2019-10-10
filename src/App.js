@@ -13,8 +13,14 @@ import {
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
+import { util } from './utils'
 
 class App extends React.Component {
+  componentDidMount() {
+    window.onbeforeunload = () => {
+      util.removeStoredOfferings()
+    }
+  }
   render() {
     return (
       <Router basename="/">

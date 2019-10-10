@@ -38,7 +38,8 @@ export function OfferingDetail({id, history, location}) {
    * Get all offerings and complete offerings
    */
   useEffect(() => {
-    window.scrollTo(0, 0)
+    util.scrollToTop('.sp-content')
+
     const propsState = history.location.state
     if (propsState && propsState.fullCourse) {
       const { fullCourse } = propsState
@@ -49,6 +50,7 @@ export function OfferingDetail({id, history, location}) {
       setDescription(() => fullCourse.description)
       setSectionName(() => fullCourse.section)
       setCourseName(() => fullCourse.courseName)
+      util.links.title(fullCourse.fullNumber+' • '+fullCourse.termName+' • '+fullCourse.section)
     } else {
       api.getOfferingById(id)
         .then( ({data}) => {
@@ -62,6 +64,9 @@ export function OfferingDetail({id, history, location}) {
       .then( ({data}) => {
         console.log('playlists', data)
         setPlaylists(() => data)
+      })
+      .catch( () => {
+        setPlaylists(['need-signin'])
       })
     api.sendUserAction('selectcourse', {
       offeringId: id
@@ -86,6 +91,7 @@ export function OfferingDetail({id, history, location}) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
     }
+    util.links.title(fullNumber+' '+termName+' '+sectionName)
   })
   
   /**
@@ -122,11 +128,10 @@ export function OfferingDetail({id, history, location}) {
         
         <h1>{fullNumber}</h1>
         <br/><br/>
-        <br/>
         <h2>
           {courseName}&emsp;
           <span>{termName}&ensp;{sectionName}</span>
-        </h2>
+        </h2><br/>
         {description && <><p className="offering-description">{description}</p><br/><br/></>}
         <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
           <Icon name={iconName} />

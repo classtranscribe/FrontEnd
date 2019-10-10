@@ -6,8 +6,8 @@ import { util, api } from 'utils'
 export default function HistorySection({ offerings, watchHistory }) {
   return (
     <div className="offerings" id="starred-offerings">
-      {watchHistory.map( media =>  (
-        <MediaCard key={media.mediaId} media={media} offerings={offerings} />
+      {watchHistory.map( (media, index) =>  (
+        <MediaCard key={media.mediaId + index} media={media} offerings={offerings} />
       ))}
     </div>
   )

@@ -30,6 +30,7 @@ export function SideBar({ id, state, showSiderBar }) {
   if (offering && offering.termName) {
     termName = offering.termName
     sectionName = offering.sectionName
+    util.links.title(fullNumber+' • '+termName+' • '+sectionName)
   }
 
   return (

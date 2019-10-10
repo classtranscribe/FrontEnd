@@ -150,8 +150,8 @@
   .sp-home .offering-list .section .offerings .image-card {
     /* background: transparent !important; */
     background: #ffffff !important;
-    /* box-shadow: .1em 0em .8em rgb(221, 218, 218); */
-    border: 0.1rem solid rgb(193, 207, 207);
+    /* box-shadow: 0em 0em 0 .1em rgb(241, 241, 241); */
+    border: 0.1rem solid rgb(230, 230, 230);
     width: 16rem;
     height: 16.5rem}
   .sp-home .offering-list .section .offerings .basic-card {
@@ -166,7 +166,7 @@
 }
 .sp-home .offering-list .section .offerings a:focus, .sp-home .offering-list .section .offerings a:active, .sp-home .offering-list .section .offerings .offeringCard:hover {
   border-radius: 10px !important;
-  border: 0.1rem solid rgb(69, 165, 168);
+  border-color:rgb(69, 165, 168);
 }
 .sp-home .offering-list .section .offerings .offeringCard>.card-body {
   padding: 0.5rem !important;
@@ -178,10 +178,10 @@
   transition: margin 0.2s linear;
   -o-transition: margin 0.2s linear;
   -webkit-transition: margin 0.2s linear;
-  border-radius: 9px;
+  /* border-radius: 9px; */
   overflow: hidden;
   max-height: 124px;
-  border-bottom: .1rem solid rgb(193, 207, 207);
+  border-bottom: .1rem solid rgb(230, 230, 230);
   width: 15.8rem;}
 .sp-home .offering-list .section .offerings .offeringCard .title {
   transition: margin 0.2s linear;
@@ -262,7 +262,8 @@
   padding: .3em;
 }
 .media-card-container .media-info .media-name {
-  color: black;
-  font-size: 1.2em;
-  margin-bottom: .2em;
+  color: var(--ct-text-primary);
+  font-size: 17px;
+  margin-bottom: .3em;
+  font-family: 'Roboto Condensed', sans-serif;
 }

@@ -82,3 +82,10 @@
   margin-left: 1rem;
 }
 
+.ui.secondary.button {
+  background: var(--ct-btn-color) !important;
+}
+.ui.primary.button {
+  background: var(--ct-btn-color) !important;
+}
+

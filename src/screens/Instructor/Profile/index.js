@@ -17,7 +17,8 @@ import { api, user, util } from 'utils'
 
 export class InstructorProfile extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
+    util.links.title('My Courses')
     this.state = {
       userInfo: {},
       userUni: '',

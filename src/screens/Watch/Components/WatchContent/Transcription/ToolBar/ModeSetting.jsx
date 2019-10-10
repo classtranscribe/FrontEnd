@@ -3,10 +3,10 @@
  */
 
 import React, { useState } from 'react'
-import { IconButton, Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
-import { Divider } from 'semantic-ui-react'
-import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../constants'
-import { handleExpand } from '../watchUtils'
+import { Menu, MenuItem, Typography, ListItemIcon } from '@material-ui/core'
+import { Divider, Popup, Button } from 'semantic-ui-react'
+import { NORMAL_MODE, EQUAL_MODE, PS_MODE, NESTED_MODE } from '../../constants'
+import { handleExpand } from '../../watchUtils'
 
 const modeOptions = [
   {name: 'One View', icon: 'video_label', mode: NORMAL_MODE},
@@ -58,18 +58,22 @@ export default function ModeSetting({show, mode, setMode, switchScreen, isMobile
 
   return (
     <div>
-      <IconButton
-        aria-label="Mode Setting"
-        title="Mode Setting"
-        aria-controls="mode-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        className="trigger"
-      >
-        <i className="material-icons">{currOption.icon}</i>{!isMobile&&<span>&ensp;Screen Setting</span>}
-      </IconButton>
+      <Popup inverted
+        position="top right"
+        content="Screen Setting"
+        trigger={
+          <Button 
+            compact
+            onClick={handleClick} 
+            aria-label="Mode Setting"
+            aria-haspopup="true"
+            aria-controls="mode-menu"
+            icon={<i className="material-icons">{currOption.icon}</i>}
+          />
+        }
+      />
       <Menu
-        id="long-menu"
+        id="mode-menu"
         anchorEl={anchorEl}
         keepMounted
         open={open}

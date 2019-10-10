@@ -17,22 +17,22 @@
   opacity: 0;
 }
 .playlist-view-exit-active {
-  opacity: 0;
-  transition: opacity 0.1s linear, transform 0.1s linear;
+  opacity: 0 !important;
+  transition: opacity 0.1s linear, transform 0.1s linear !important;
 }
 
 .video-view-enter {
-  opacity: 0;
-  transform: translateX(20em);
+  opacity: 0 !important;
+  transform: translateX(20em) !important;
 }
 .video-view-enter-active {
-  opacity: 1;
-  transform: translateX(0em);
-  transition: opacity 0.1s linear, transform 0.1s linear;
+  opacity: 1 !important;
+  transform: translateX(0em) !important;
+  transition: opacity 0.1s linear, transform 0.1s linear !important;
 }
 .video-view-exit {
-  opacity: 0;
+  opacity: 0 !important;
 }
 .video-view-exit-active {
-  opacity: 0;
+  opacity: 0 !important;
 }

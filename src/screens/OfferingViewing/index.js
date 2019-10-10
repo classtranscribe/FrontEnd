@@ -6,8 +6,8 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { SidebarDimmer } from 'components'
-import { Sidebar, Home, Starred, History, Search, OfferingDetail } from './Components'
+import { SidebarDimmer, UserTips } from 'components'
+import { Sidebar, Home, Starred, History, Search, OfferingDetail, PersonalReport } from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
@@ -50,6 +50,11 @@ export class OfferingViewing extends React.Component {
   }
 
   getOfferingsByStudent = () => {
+    const offerings = util.getStoredOfferings()
+    if (offerings) {
+      this.setState({ offerings })
+      return;
+    }
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
@@ -62,13 +67,10 @@ export class OfferingViewing extends React.Component {
       })
   }  
 
-  completeOfferings = rawOfferings => {
-    this.setState({ offerings: rawOfferings })
-    api.completeOfferings(
-      rawOfferings, 
-      this.state.offerings,
-      offerings => this.setState({ offerings })
-    )
+  completeOfferings = async rawOfferings => {
+    const offerings = await api.parseOfferings(rawOfferings)
+    this.setState({ offerings })
+    util.storeOfferings(offerings)
   }
 
   showSiderBar = value => {
@@ -95,6 +97,7 @@ export class OfferingViewing extends React.Component {
         render={({ location }) => (
 
           <div className="sp-bg" ref={this.listen}>
+            {/* <UserTips /> */}
             <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
             <SearchHeader
               displaySearchHeader={displaySearchHeader}
@@ -132,6 +135,12 @@ export class OfferingViewing extends React.Component {
                     <Route 
                       exact path='/home/search' 
                       render={props => <Search offerings={offerings} {...props} />}
+                    />
+
+                    {/* Personal Report */}
+                    <Route 
+                      exact path="/home/personal-report"
+                      render={props => <PersonalReport {...props} {...this.state} />}
                     />
                   </Switch>
                 </CSSTransition>

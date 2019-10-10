@@ -1,0 +1,46 @@
+.dora-chart {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.circle-chart{
+    margin-top: 60px;
+}
+
+.bar-chart{
+    width: 60%; 
+    margin-top: 0px;
+    font-size: 1em; 
+}
+
+.downwards p {
+    /* width: 40%; */
+    font-size: 1.5em;
+    text-align: center;
+    justify-content: center;
+    /* text-decoration-color: rgb(56, 55, 55); */
+    font-weight: bold;
+    color: rgba(5, 4, 4, 0.575);
+    padding-top: 40px;
+    margin-bottom: 0px;
+}
+
+.downwards hr{
+    width: 300px;
+    margin-left: auto;
+    margin-top: 0px;
+    margin-right: auto;
+    /* margin-bottom: 20px; */
+    height: 3px;
+    background-color:rgba(82, 78, 78, 0.562);
+}
+
+.downwards .ui.secondary.pointing.menu{
+    justify-content: center;
+    align-items: center;
+    border-bottom: 0;
+}

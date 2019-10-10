@@ -14,12 +14,16 @@ export { handleData } from './data'
 export const util = {
   ...history,
   links: {
+    title: title => {
+      document.title = title ? `${title} • ClassTranscribe` : 'ClassTranscribe'
+    },
     currentUrl: () => window.location,
     home: ()=> '/',
     search: () => '/home/search',
     starred: () => '/home/starred',
     history: () => '/home/history',
     offeringDetail: id => `/home/offering/${id}`,
+    personalReport: () => "/home/personal-report",
     admin: () => '/admin',
 
     instructor: () => '/instructor',
@@ -45,6 +49,16 @@ export const util = {
 
   refresh: function() {
     document.location.reload(true);
+  },
+  scrollToTop: function(div) {
+    $(div)[0].scrollTop = 0
+  },
+  scrollToCenter: function(id) {
+    const currElem = document.getElementById(id)
+    if (currElem) {
+      currElem.scrollIntoView({ block: "center" })
+      currElem.focus()
+    }
   },
   parseSearchQuery: function (href) {
     var queryString = window.location.search
@@ -73,14 +87,6 @@ export const util = {
       options.push({text: text, value: item.id})
     })
     return options;
-  },
-
-  scrollToCenter: function(id) {
-    const currElem = document.getElementById(id)
-    if (currElem) {
-      currElem.scrollIntoView({ block: "center" })
-      currElem.focus()
-    }
   },
 
   getFittedName: function(name, charNum) {

@@ -22,6 +22,7 @@ import { api, handleData, util, user } from 'utils'
 export class Admin extends React.Component {
   constructor(props) {
     super(props)
+    util.links.title('Admin')
     this.state = {
       activePane: parseInt(localStorage.getItem('activePane')) || 0,
       verticalSidebar: window.innerWidth > 700,

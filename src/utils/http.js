@@ -76,6 +76,10 @@ export const api = {
     if(id) path = `${path}/${id}`
     return http.get(path, this.withAuth({ params }))
   },
+  // User Metadata
+  getUserMetaData: function() {
+    return this.getData('Account/GetUserMetadata/GetUserMetadata')
+  },
   // Universities
   getUniversities: function() {
     return this.getData('Universities')
@@ -160,21 +164,31 @@ export const api = {
     path = `/api/${path}`
     return http.post(path, data, this.withAuth({ params, ...otherConfigs }))
   },
+  // User Metadata
+  postUserMetaData: function(metadata) {
+    return this.postData('Account/PostUserMetadata/PostUserMetadata', {metadata})
+  },
+  // Universities
   createUniversity: function(data) {
     return this.postData('Universities', data)
   },
+  // Terms
   createTerm: function(data) {
     return this.postData('Terms', data)
   },
+  // Departments
   createDepartment: function(data) {
     return this.postData('Departments', data)
   },
+  // Roles
   createRole: function (mailId) {
     return this.postData('Roles', undefined, { mailId })
   },
+  // Courses
   createCourse: function(data) {
     return this.postData('Courses', data)
   },
+  // Offerings
   createOffering: function(data) {
     return this.postData('Offerings', data)
   },
@@ -184,9 +198,11 @@ export const api = {
   addCourseStaffToOffering: function (offeringId, data) {
     return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
   },
+  // Playlists
   createPlaylist: function(data) {
     return this.postData('Playlists', data)
   },
+  // Medias
   uploadVideo: function (playlistId, video1, video2, onUploadProgress) {
     const formData = new FormData()
     formData.append('video1', video1)
@@ -195,6 +211,7 @@ export const api = {
     console.log('uploadData', {playlistId, video1, video2})
     return this.postData('Media', formData, null, { onUploadProgress })
   },
+  // Captions
   updateCaptionLine: function(data) {
     return this.postData('Captions', { id: data.id, text: data.text })
   },
@@ -341,6 +358,29 @@ export const api = {
           this.completeSingleOffering(data, setOffering, index, currOfferings)
         })
     })
+  },
+  parseOfferings: async function(rawOfferings) {
+    const parsedOfferings = []
+    for (let i = 0; i < rawOfferings.length; i++) {
+      var courseOffering = await this.getData('Offerings', rawOfferings[i].id)
+      courseOffering = courseOffering.data
+      courseOffering.id = courseOffering.offering.id
+
+      for (let j = 0; j < courseOffering.courses.length; j++) {
+        if (!user.isAdmin() && courseOffering.courses[j].id === "test_course") {
+          courseOffering.isTestCourse = true
+        }
+        const { data } = await this.getDepartById(courseOffering.courses[j].departmentId) 
+        courseOffering.courses[j].acronym = data.acronym
+      }
+
+      const { data } = await this.getTermById(courseOffering.offering.termId)
+      courseOffering.offering.termName = data.name
+
+      parsedOfferings.push(courseOffering)
+    }
+    // console.log('parsedOfferings', parsedOfferings)
+    return parsedOfferings
   },
   getFullNumber: function(courses, separator) {
     var name = ''

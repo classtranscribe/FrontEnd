@@ -121,6 +121,7 @@ export default class ClassTranscribePlayer extends React.Component {
     if (Math.abs(currTime - this.lastTimeupdate) > 15 ) {
       this.props.sendUserAction('timeupdate', { timeStamp: currTime })
       this.lastTimeupdate = currTime
+      util.updateUserdata()
     }
   }
 

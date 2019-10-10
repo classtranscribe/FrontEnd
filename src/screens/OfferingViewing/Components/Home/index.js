@@ -14,6 +14,7 @@ import { api, user, handleData, util } from 'utils'
 export class Home extends React.Component {
   constructor(props) {
     super(props)
+    util.links.title()
     this.state = {
       restoredScroll: false,
 
