@@ -2,13 +2,19 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Poster } from 'components'
 import { util, api } from 'utils'
+import { OfferingListHolder } from '../PlaceHolder'
 
 export default function HistorySection({ offerings, watchHistory }) {
   return (
     <div className="offerings" id="starred-offerings">
-      {watchHistory.map( (media, index) =>  (
-        <MediaCard key={media.mediaId + index} media={media} offerings={offerings} />
-      ))}
+      {
+        watchHistory[0] === 'unloaded' ? 
+        <OfferingListHolder row={1} />
+        :
+        watchHistory.map( (media, index) =>  (
+          <MediaCard key={media.mediaId + index} media={media} offerings={offerings} />
+        ))
+      }
     </div>
   )
 }

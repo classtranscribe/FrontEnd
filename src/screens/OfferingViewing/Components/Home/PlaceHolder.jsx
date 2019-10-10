@@ -38,7 +38,20 @@ export function OfferingCardHolder() {
 /**
  * Placeholder shows up when departments and offerings are loading
  */
-export function OfferingListHolder({ noCourse }) {
+export function OfferingListHolder({ noCourse, row=2 }) {
+  if (row === 1) return (
+    <div className="section" role="listitem">
+      <Placeholder style={{height: '2rem'}}>
+        <Placeholder.Line length='long' />
+      </Placeholder>
+      <div className="offerings">
+        {['off1', 'off2', 'off3', 'off4', 'off5', 'off6'].map( itemKey => 
+          <OfferingCardHolder key={itemKey} />
+        )}
+      </div>
+    </div>
+  )
+
   return noCourse ?
   (
     <div className="w-100 d-flex align-items-center text-muted m-5">NO COURSE</div>
