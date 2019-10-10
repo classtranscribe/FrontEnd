@@ -16,22 +16,16 @@ export class Analytics extends React.Component {
     console.log('xxx', this.state)
     const { offeringId } = this.state
     const { playlists } = this.props
+    const panes = [
+      { menuItem: 'Performance', render: () => <AnalyticTable offeringId={offeringId}/> },
+      { menuItem: 'Charts', render: () => <ForAllCharts offeringId={offeringId} playlists={playlists} />},
+      // { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+    ]
+
     return (
       <div className="outer">
-        <MyTabs offeringId={offeringId} playlists={playlists} />
+        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
       </div>
     );
   }
-}
-
-
-function MyTabs ({offeringId, playlists}){
-  const panes = [
-    { menuItem: 'Performance', render: () => <AnalyticTable offeringId={offeringId}/> },
-    { menuItem: 'Charts', render: () => <ForAllCharts offeringId={offeringId} playlists={playlists} />},
-    { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
-  ]
-  return (
-     <Tab panes={panes} />
-  );
 }
