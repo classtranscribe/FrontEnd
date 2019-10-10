@@ -97,7 +97,7 @@ export class OfferingViewing extends React.Component {
         render={({ location }) => (
 
           <div className="sp-bg" ref={this.listen}>
-            <UserTips />
+            {/* <UserTips /> */}
             <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
             <SearchHeader
               displaySearchHeader={displaySearchHeader}
