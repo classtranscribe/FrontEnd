@@ -429,7 +429,7 @@ export const api = {
     })
 
     transcriptions.forEach( trans => {
-      re.transcriptions.push({
+      if (trans.file || trans.path) re.transcriptions.push({
         id: trans.id,
         language: trans.language,
         src: `${this.baseUrl()}${trans.path || trans.file.path}`
