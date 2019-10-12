@@ -71,6 +71,22 @@ export class OfferingViewing extends React.Component {
       })
   }  
 
+  componentDidUpdate(prevProps, prevState) {
+    const { watchHistoryJSON, watchHistory } = this.state
+    if (watchHistory !== prevState.watchHistory) {
+      if (watchHistory.length && watchHistory.length > 30) {
+        for (let i = 30; i < watchHistory.length; i++) {
+          const { mediaId } = watchHistory[i]
+          if (watchHistoryJSON[mediaId]) delete watchHistoryJSON[mediaId]
+        }
+        this.setState({ 
+          watchHistoryJSON, 
+          watchHistory: watchHistory.slice(0, 30)
+        }, () => this.updateUserMetadata())
+      }
+    }
+  }
+
   getUserMetadata = () => {
     if (!this.isLoggedIn) return;
     api.storeUserMetadata({
