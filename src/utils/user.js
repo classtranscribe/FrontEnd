@@ -3,8 +3,7 @@
  *  and get user information 
  */
 
-import { api } from './http'
-import { history } from './history'
+import { api } from './HTTP'
 import auth0Client from './auth0'
 import decoder from 'jwt-decode'
 

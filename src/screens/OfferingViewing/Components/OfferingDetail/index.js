@@ -30,7 +30,7 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
   }, [starredOfferingsJSON])
 
   const handleStar = () => {
-    if (isStarred) unstarOffering()
+    if (isStarred) unstarOffering(id)
     else starOffering(id)
     setIsStarred(isStarred => !isStarred)
   }

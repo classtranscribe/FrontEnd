@@ -1,18 +1,18 @@
 import $ from 'jquery'
-import { history } from './history'
+import { storage } from './storage'
 
-export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'
 export { sortFunc } from './sort'
 export { handleData } from './data'
+export { api    } from './HTTP'
 
 
 /**
  * Objects for switching pages and storing some general functions
  */
 export const util = {
-  ...history,
+  ...storage,
   links: {
     title: title => {
       document.title = title ? `${title} • ClassTranscribe` : 'ClassTranscribe'

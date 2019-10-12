@@ -1,28 +1,7 @@
-import { api } from './http'
-import { isMobile } from 'react-device-detect'
+import { api } from './index'
 import _ from 'lodash'
 
-export const history = {
-  // Keys to localStorage
-  tempStoredOfferingsKey: 'temp-stored-offerings',
-  watchHistoryKey: 'watch-history-new',
-  starredOfferingKey: 'starred-offerings-new',
-  searchHistoryKey: 'search-history',
-
-  storeOfferings: function(offerings) {
-    if (!isMobile) localStorage.setItem(this.tempStoredOfferingsKey, JSON.stringify(offerings))
-  },
-  getStoredOfferings: function() {
-    // this.removeStoredOfferings()
-    if (isMobile) return null
-    const storedOfferings_str = localStorage.getItem(this.tempStoredOfferingsKey)
-    return storedOfferings_str ? JSON.parse(storedOfferings_str) : null
-  },
-  removeStoredOfferings: function() {
-    if (!isMobile) localStorage.removeItem(this.tempStoredOfferingsKey)
-  },
-
-  // Functions to set and send histories
+export const userMetadataHelper = {
   storeUserMetadata: async function({
     setWatchHistory, 
     setWatchHistoryArray, 
@@ -73,5 +52,4 @@ export const history = {
     }
     return starredOfferingsArray
   },
-
- }
+}

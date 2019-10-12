@@ -73,7 +73,7 @@ export class OfferingViewing extends React.Component {
 
   getUserMetadata = () => {
     if (!this.isLoggedIn) return;
-    util.storeUserMetadata({
+    api.storeUserMetadata({
       setWatchHistory: watchHistoryJSON => this.setState({ watchHistoryJSON }),
       setStarredOfferings: starredOfferingsJSON => this.setState({ starredOfferingsJSON }),
       setWatchHistoryArray: watchHistory => this.setState({ watchHistory }),

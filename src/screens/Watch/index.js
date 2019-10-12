@@ -83,7 +83,7 @@ export class Watch extends React.Component {
   }
 
   getUserMetadata = () => {
-    util.storeUserMetadata({
+    api.storeUserMetadata({
       setWatchHistory: watchHistory => this.setState({ watchHistory }),
       setStarredOfferings: starredOfferings => this.setState({ starredOfferings })
     })
