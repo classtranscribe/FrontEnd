@@ -16,7 +16,7 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
   return (
     <aside className="op-sidebar" style={style} >
       
-      <ListGroup activeKey={activeKey}>
+      <ListGroup activeKey={activeKey} onSelect={() => {}}>
         <ListGroup.Item 
           className="list" action eventKey="courses"
           as={Link} to={util.links.home()}

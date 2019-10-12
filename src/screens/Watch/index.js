@@ -41,7 +41,7 @@ export class Watch extends React.Component {
       const { /* media, */ playlist, playlists } = state
       api.getMediaById(this.id)
         .then( ({data}) => {
-          console.log('media', data)
+          // console.log('media', data)
           const media = api.parseMedia(data)
           this.setState({ media })
           util.links.title(media.mediaName)
@@ -55,17 +55,17 @@ export class Watch extends React.Component {
     } else {
       api.getMediaById(this.id)
         .then( ({data}) => {
-          console.log('media', data)
+          // console.log('media', data)
           this.sendUserAction('changevideo', { changeTo_mediaId: data.id })
           this.setState({ media: api.parseMedia(data) })
           api.getPlaylistById(data.playlistId)
             .then(({data}) => {
-              console.log('playlist', data)
+              // console.log('playlist', data)
               this.setState({ playlist: data })
               api.contentLoaded()
               api.getPlaylistsByOfferingId(data.offeringId)
                 .then(({data}) => {
-                  console.log('playlists', data)
+                  // console.log('playlists', data)
                   this.setState({ playlists: data })
                 })
             })
@@ -112,7 +112,7 @@ export class Watch extends React.Component {
       api.postUserMetaData({ 
         watchHistory: JSON.stringify(watchHistory), 
         starredOfferings: JSON.stringify(starredOfferings)
-      }).then(() => console.log('kuuuuu'))
+      })//.then(() => console.log('kuuuuu'))
     }
   }
 

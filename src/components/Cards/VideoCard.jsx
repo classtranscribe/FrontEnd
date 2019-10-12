@@ -41,9 +41,9 @@ function VideoCardWithOutRouter({
 
   if (row) return (
     <div className="video-card-container-row">
-      <Link 
-        className="video-card" 
-        to={link} 
+      <button 
+        className="video-card plain-btn" 
+        onClick={() => history.push(link)}
         aria-label={`Watch video ${name}`}
       >
         <Poster progress={ratio} width={posterSize} />
@@ -52,7 +52,7 @@ function VideoCardWithOutRouter({
           {!descriptionLink && <p className="description text-muted">{description}</p>}
           {descriptionLink && <Link className="description-link" to={{pathname: descriptionLink, state: {from: 'history'}}}>{description}</Link>}
         </div>
-      </Link>
+      </button>
       {dismissable && <DismissButton handleDismiss={handleDismiss} dismissPrompt={dismissPrompt} />}
     </div>
   )

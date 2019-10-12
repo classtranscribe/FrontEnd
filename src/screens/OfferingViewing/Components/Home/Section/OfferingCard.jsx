@@ -59,9 +59,9 @@ export default function OfferingCard({ offering, starredOfferings, depart={}, te
         }
         <p id={"offering-info-" + fullCourse.id} className="accessbility_hide">{fullCourse.courseNumber + ' ' + fullCourse.courseName + ' ' + fullCourse.termName + ' ' + fullCourse.section}</p>
         <Card.Body>
-          <Card.Text className="title">
+          <Card.Title className="title">
             <p>{fullCourse.fullNumber} </p>{fullCourse.courseName}
-          </Card.Text>
+          </Card.Title>
           <Card.Text className="info">
             {fullCourse.termName} - {fullCourse.section}
           </Card.Text>

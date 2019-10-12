@@ -17,7 +17,6 @@ export const userMetadataHelper = {
     var watchHistoryArray = [], starredOfferingsArray = []
     if (setWatchHistoryArray) watchHistoryArray = await this.getWatchHistoryArray(watchHistory) 
     if (setStarredOfferingsArray) starredOfferingsArray = this.getStarredOfferingsArray(starredOfferings)
-    console.log('watch history', watchHistoryArray)
     // Set vars if needed
     if (setWatchHistory) setWatchHistory(watchHistory || {})
     if (setStarredOfferings) setStarredOfferings(starredOfferings || {})

@@ -35,11 +35,13 @@
 .video-card-container-row .video-card {
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
 .video-card-container-row .media-info {
   margin-left: 1.5em;
   margin-top: .5em;
   width: 100%;
+  text-align: left;
 }
 
 .video-card-container-row:hover .media-info .media-name, .video-card-container-row:focus .media-info .media-name {
@@ -71,4 +73,19 @@
   font-size: 1.3em;
   right: 0;
   top: .3em;
+}
+
+/* Placeholder */
+.video-card-container-row .ui.placeholder[id=img-holder] {
+  width: 200px;
+  margin-right: 1em;
+}
+.video-card-container-row .ui.placeholder[id=line-holder] {
+  width: 300px;
+  height: 20px !important;
+  margin: .5em 0 !important;
+  overflow: hidden;
+}
+.video-card-container-row .ui.placeholder .image:not(.header):not(.ui) {
+  width: 200px !important;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { VideoCard } from 'components'
+import { VideoCard, VideoCardPlaceHolder } from 'components'
 import { util, api } from 'utils'
 
 export default function WatchHistory({ watchHistory, offerings, removeWatchHistory }) {
@@ -7,10 +7,10 @@ export default function WatchHistory({ watchHistory, offerings, removeWatchHisto
   return (
     <div className="watch-history">
       <h1 className="history-title">Watch History</h1>
-      {watchHistory.length === 0 ?
+      {watchHistory.length === 0 || offerings[0] === 'retry'  ?
         <div>None</div> :
-        watchHistory[0] === 'unloaded' ?
-        <div>Loading...</div> :
+        watchHistory[0] === 'unloaded' || offerings[0] === 'Unloaded' ?
+        <VideoCardPlaceHolder row={4} posterSize="10px" /> :
         watchHistory.map(media => (
           <MediaItem 
             key={'watchhistory-' + media.mediaId} 
