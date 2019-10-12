@@ -78,6 +78,9 @@ export const httpGET = {
   getCaptionsByTranscriptionId: function(transId) {
     return this.getData('Captions/ByTranscription', transId)
   },
+  getCaptionLine: function(transcriptionId, index) {
+    return this.getData('Captions', null, { transcriptionId, index })
+  },
   searchCaptionInOffering: function(offeringId, query) {
     return this.getData('Captions/SearchInOffering', null, { offeringId, query })
   },

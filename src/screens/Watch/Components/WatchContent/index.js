@@ -86,6 +86,17 @@ export class WatchContent extends React.Component {
       })
   }
 
+  /** Function called when sync one line of caption */
+  syncCaptionLine = async (index, wasEditing, callBack) => {
+    const { currTranscriptionId, captions } = this.state
+    const { data } = await api.getCaptionLine(currTranscriptionId, index)
+    data.wasEditing = wasEditing
+    captions[index - 1] = data
+    this.setState({ captions }, () => {
+      if (callBack) callBack()
+    })
+  }
+
   /** Function called when mouseEnter and mouseLeave the caption window */
   setReadyToEdit = value => {
     value = typeof value === "boolean" ? value : !this.state.readyToEdit
@@ -184,17 +195,20 @@ export class WatchContent extends React.Component {
         </div>
   
         <Transcription 
+          // basic info
           media={media}
           captions={captions} 
           isMobile={isMobile}
           playlists={playlists}
           offeringId={playlist.offeringId}
           setCurrTime={this.setCurrTime}
+          // captions
           reLoadCaption={this.reLoadCaption}
+          syncCaptionLine={this.syncCaptionLine}
           setReadyToEdit={this.setReadyToEdit} 
           loadingCaptions={loadingCaptions}
           sendUserAction={sendUserAction}
-
+          // others
           playlist={playlist} 
           propsForSettingBar={propsForSettingBar}
         />
