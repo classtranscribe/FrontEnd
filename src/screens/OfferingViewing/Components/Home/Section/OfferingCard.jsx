@@ -8,7 +8,7 @@ import './index.css'
 import { handleData, search, util, user } from 'utils'
 import { offeringPosterImg as imgHolder } from 'images'
 
-export default function OfferingCard({ offering, depart={}, termSelected=[], image=false, ...functions }) {
+export default function OfferingCard({ offering, starredOfferings, depart={}, termSelected=[], image=false, ...functions }) {
   // if the full offering data has not yet loaded
   if (!offering.courses || offering.isTestCourse) return null
   if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
@@ -36,6 +36,7 @@ export default function OfferingCard({ offering, depart={}, termSelected=[], ima
           {...functions}
           position={image ? 'middle' : 'top'}
           offeringId={fullCourse.id}
+          starredOfferings={starredOfferings}
         />
       }
       <Card 

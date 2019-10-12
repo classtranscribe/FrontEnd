@@ -141,7 +141,7 @@ export class WatchContent extends React.Component {
   }
 
   render() {
-    const { media, playlist, playlists, isMobile, sendUserAction } = this.props
+    const { media, watchHistory, playlist, playlists, isMobile, sendUserAction } = this.props
     const { mode, primary, captions, loadingCaptions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
     /** Vars passed into setting bar */
@@ -160,14 +160,14 @@ export class WatchContent extends React.Component {
             {/* <div class="lds-facebook"><div></div><div></div><div></div></div> */}
           </div>
           <div className="video-col">
-            <ClassTranscribePlayer 
+            <ClassTranscribePlayer video1
               {...this}
               {...this.state}
               media={media} 
               isPrimary={primary} 
               offeringId={playlist.offeringId}
+              watchHistory={watchHistory}
               sendUserAction={sendUserAction}
-              video1
             />
           </div>
           <div className="video-col" >
@@ -177,6 +177,7 @@ export class WatchContent extends React.Component {
               media={media} 
               isPrimary={!primary}  
               offeringId={playlist.offeringId}
+              watchHistory={watchHistory}
               sendUserAction={sendUserAction}
             />
           </div>

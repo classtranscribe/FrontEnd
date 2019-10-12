@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Poster } from 'components'
+import { VideoCard } from 'components'
 import { util, api } from 'utils'
 import { OfferingListHolder } from '../PlaceHolder'
 
@@ -29,18 +28,11 @@ function MediaCard({ media, offerings }) {
     courseName = offering.courses[0].courseName
   }
   return (
-    <div className="media-card-container">
-      <Link 
-        className="media-card" 
-        to={util.links.watch(fullNumber, mediaId, timeStamp)} 
-        aria-label={`Continue watch video ${mediaName}`}
-      >
-        <Poster progress={ratio} width="220px" />
-        <div className="media-info">
-          <p className="media-name">{mediaName}</p>
-          <p className="offering-num text-muted">{fullNumber} • {courseName}</p>
-        </div>
-      </Link>
-    </div>
+    <VideoCard square
+      name={mediaName}
+      link={util.links.watch(fullNumber, mediaId, timeStamp)}
+      ratio={ratio}
+      description={`${fullNumber} • ${courseName}`}
+    />
   )
 }

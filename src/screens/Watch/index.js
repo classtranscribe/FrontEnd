@@ -23,6 +23,9 @@ export class Watch extends React.Component {
       media: api.parseMedia(),
       playlist: {},
       playlists: [],
+
+      starredOfferings: {},
+      watchHistory: {},
     }
   }
 
@@ -30,6 +33,9 @@ export class Watch extends React.Component {
    * GET media and playlist based on mediaId
    */
   componentDidMount() {
+    // Get userMetadata
+    this.getUserMetadata()
+
     const { state } = this.props.location
     if (state) {
       const { /* media, */ playlist, playlists } = state
@@ -72,23 +78,44 @@ export class Watch extends React.Component {
         this.setState({ isMobile: true })
       }
     })
+
+    
+  }
+
+  getUserMetadata = () => {
+    util.storeUserMetadata({
+      setWatchHistory: watchHistory => this.setState({ watchHistory }),
+      setStarredOfferings: starredOfferings => this.setState({ starredOfferings })
+    })
   }
 
   playlistTrigger = ()  => {
     this.setState({showPlaylist: !this.state.showPlaylist})
   }  
 
-  sendUserAction = (action, json = {}) => {
-    const { media, playlist } = this.state
+  sendUserAction = (action, json={}, ratio) => {
+    const { media, playlist, watchHistory, starredOfferings } = this.state
+    const { timeStamp } = json
     api.sendUserAction(action, {
       json,
       mediaId: media.id,
       offeringId: playlist.offeringId
     })
+    if (ratio) {
+      watchHistory[media.id] = { 
+        timeStamp, ratio,
+        offeringId: playlist.offeringId,
+        lastModifiedTime: new Date(),
+      }
+      api.postUserMetaData({ 
+        watchHistory: JSON.stringify(watchHistory), 
+        starredOfferings: JSON.stringify(starredOfferings)
+      }).then(() => console.log('kuuuuu'))
+    }
   }
 
   render() { 
-    const { media, playlist, playlists, isMobile } = this.state
+    const { media, playlist, playlists, isMobile, watchHistory } = this.state
     return (
       <main className="watch-bg">
         <WatchHeader 
@@ -102,6 +129,7 @@ export class Watch extends React.Component {
           playlist={playlist} 
           playlists={playlists}
           isMobile={isMobile}
+          watchHistory={watchHistory}
           sendUserAction={this.sendUserAction}
         />
       </main>

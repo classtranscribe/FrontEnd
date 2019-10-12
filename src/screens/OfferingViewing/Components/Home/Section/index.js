@@ -15,8 +15,8 @@ function isThisSection(offering, departmentId) {
   return false
 }
 
-function Section({ history, depart={}, state={}, watchHistory, type, ...functions }) {
-  var { offerings, universities, starredOfferings } = state
+function Section({ history, depart={}, state, offerings, starredOfferings, watchHistory, type, ...functions }) {
+  const { universities } = state
   const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
 
   const [showAll, setShowAll] = useState(false)
@@ -57,16 +57,17 @@ function Section({ history, depart={}, state={}, watchHistory, type, ...function
         type === 'department' ?
           <DepartmentSection 
             {...functions} 
-            state={state}
+            state={{...state, offerings}}
             depart={depart}
             showAll={showAll}
             offerings={offerings}
+            starredOfferings={starredOfferings}
           /> 
         :
         type === 'starred' ?
           <StarredSection 
             {...functions}
-            state={state}
+            state={{...state, offerings}}
             showAll={showAll}
             offerings={offerings}
             starredOfferings={starredOfferings}

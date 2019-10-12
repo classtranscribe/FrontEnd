@@ -12,7 +12,8 @@ import Playlists from './Playlists'
 import { api, util, handleData, user } from 'utils'
 import './index.css'
 
-export function OfferingDetail({id, history, location}) {
+export function OfferingDetail({ id, history, location, state, starOffering, unstarOffering }) {
+  const { starredOfferingsJSON={}, watchHistoryJSON } = state
   const [offering, setOffering] = useState(null)
   const [playlists, setPlaylists] = useState(null)
   // variables to present
@@ -23,10 +24,14 @@ export function OfferingDetail({id, history, location}) {
   const [description, setDescription] = useState('')
   const [courseName, setCourseName] = useState('Loading...')
 
-  const [isStarred, setIsStarred] = useState(util.isOfferingStarred(id))
+  const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
+  useEffect(() => {
+    setIsStarred(Boolean(starredOfferingsJSON[id]))
+  }, [starredOfferingsJSON])
+
   const handleStar = () => {
-    if (isStarred) util.unstarOffering(id)
-    else util.starOffering(id)
+    if (isStarred) unstarOffering()
+    else starOffering(id)
     setIsStarred(isStarred => !isStarred)
   }
 
@@ -62,7 +67,7 @@ export function OfferingDetail({id, history, location}) {
     }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
-        console.log('playlists', data)
+        // console.log('playlists', data)
         setPlaylists(() => data)
       })
       .catch( () => {
@@ -133,10 +138,14 @@ export function OfferingDetail({id, history, location}) {
           <span>{termName}&ensp;{sectionName}</span>
         </h2><br/>
         {description && <><p className="offering-description">{description}</p><br/><br/></>}
-        <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
-          <Icon name={iconName} />
-          {buttonName}
-        </Button>
+        {
+          user.isLoggedIn()
+          &&
+          <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
+            <Icon name={iconName} />
+            {buttonName}
+          </Button>
+        }
       </div>
       
       {/* Playlists */}
@@ -145,6 +154,7 @@ export function OfferingDetail({id, history, location}) {
         history={history} 
         playlists={playlists} 
         fullNumber={fullNumber}  
+        watchHistoryJSON={watchHistoryJSON}
       />
     </div>
   )

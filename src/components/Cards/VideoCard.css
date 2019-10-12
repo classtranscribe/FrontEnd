@@ -1,0 +1,67 @@
+/**
+ * Video Card Square
+ */
+
+.video-card-container-square {
+  width: 222px;
+  height: max-content;
+  margin: .5em .5em 1em 0;
+  overflow: hidden;
+  flex: 0 0 auto;}
+  .video-card-container-square .video-info {
+    padding: .3em;}
+    .video-card-container-square .video-info .video-name {
+      color: var(--ct-text-primary);
+      font-size: 17px;
+      margin-bottom: .3em;
+      font-family: var(--ct-font-narrow);
+      max-height: 47px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+.video-card-container-square:hover .video-info .video-name, .video-card-container-square:focus-within .video-info .video-name {
+  color: rgb(53, 138, 141);
+}
+
+/**
+ * Video Card Row 
+ */
+.video-card-container-row {
+  position: relative;
+  padding: 1em 0;
+  width: 100%;
+  border-bottom: 1px solid #e6e6e6 !important;
+}
+.video-card-container-row .video-card {
+  display: flex;
+  flex-direction: row;
+}
+.video-card-container-row .media-info {
+  margin-left: 1.5em;
+  margin-top: .5em;
+}
+
+.video-card-container-row:hover .media-info .media-name, .video-card-container-row:focus .media-info .media-name {
+  color: rgb(53, 138, 141);
+}
+.video-card-container-row .media-info .media-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: var(--ct-text-primary);
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+.history-bg .watch-history-item .media-info .offering-num {
+  font-size: 1.1em;
+  color: rgb(104, 104, 104);
+}
+
+/* Dismiss Button */
+.video-card-container-row .button[type=dismiss] {
+  position: absolute;
+  color: rgb(114, 114, 114);
+  background: transparent !important;
+  font-size: 1.3em;
+  right: 0;
+  top: .3em;
+}

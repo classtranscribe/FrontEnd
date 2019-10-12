@@ -10,8 +10,8 @@ import Section from './Section'
 // Vars
 import { handleData } from 'utils'
 
-export default function SectionList({ state, props, displaySearchHeader, getOfferingsByStudent, ...functions }) {
-  const { departments, departSelected, termSelected, offerings } = state
+export default function SectionList({ state, offerings, watchHistory, starredOfferings, getOfferingsByStudent, displaySearchHeader, ...functions }) {
+  const { departments, departSelected, termSelected, universities } = state
   if (offerings[0] === 'Unloaded') return <OfferingListHolder />
   if (!departments.length || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
@@ -46,7 +46,9 @@ export default function SectionList({ state, props, displaySearchHeader, getOffe
         <Section 
           {...functions}
           type="starred" 
-          state={state} 
+          offerings={offerings}
+          state={state}
+          starredOfferings={starredOfferings}
         />
       }
       {/* History */}
@@ -59,8 +61,10 @@ export default function SectionList({ state, props, displaySearchHeader, getOffe
             {...functions}
             key='history-section'
             type="history" 
-            state={state} 
-            watchHistory={props.watchHistory}
+            offerings={offerings}
+            state={state}
+            watchHistory={watchHistory}
+            starredOfferings={starredOfferings}
           />
         :
         (section && nonEmptyDepart.includes(section.id)) ? 
@@ -68,9 +72,11 @@ export default function SectionList({ state, props, displaySearchHeader, getOffe
             {...functions}
             key={section.id} 
             type="department"
-            state={state} 
             depart={section} 
+            offerings={offerings}
+            state={state}
             displaySearchHeader={displaySearchHeader}
+            starredOfferings={starredOfferings}
           />
         : 
         null)}

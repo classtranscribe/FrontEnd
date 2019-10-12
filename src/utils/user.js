@@ -49,9 +49,6 @@ export const user = {
       api.saveAuthToken(data.authToken)
       // Save userInfo
       this.saveUserInfo(data)
-      // Get User Metadata and save it to localStorage
-      const userMetadata = await api.getUserMetaData()
-      history.saveUserMetadata(userMetadata.data.metadata)
       // redirect
       var redirectURL = auth0Client.getRedirectURL()
       const tokenInfo = decoder(data.authToken)

@@ -14,6 +14,7 @@ export { GeneralAlert } from './Alerts'
 export { GeneralLoader, GeneralPlaceholder, SpinnerLoader } from './Loaders' 
 export { Poster } from './Poster'
 export { UserTips } from './UserTips'
+export { VideoCard } from './Cards'
 
 /**
  * General Components

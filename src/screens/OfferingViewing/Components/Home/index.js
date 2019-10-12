@@ -22,8 +22,6 @@ export class Home extends React.Component {
       terms: [],
       departments: [],
       offerings: props.offerings,
-      starredOfferings: util.getStarredOfferingsArray(),
-      starredUpdated: false,
 
       uniSelected: '',
       departSelected: [],
@@ -111,28 +109,26 @@ export class Home extends React.Component {
     this.setState({ termSelected: value })
   }
 
-  starOffering = offeringId => {
-    const { starredOfferings } = this.state
-    starredOfferings.push(offeringId)
-    this.setState({ starredOfferings, starredUpdated: offeringId })
-    util.starOffering(offeringId)
-  }
-
-  unstarOffering = offeringId => {
-    const { starredOfferings } = this.state
-    handleData.remove(starredOfferings, id => id === offeringId)
-    this.setState({ starredOfferings, starredUpdated: offeringId })
-    util.unstarOffering(offeringId)
-  }
-
   render() {
-    const { displaySearchHeader } = this.props
+    const { starOffering, unstarOffering, state } = this.props
+    const { displaySearchHeader, starredOfferings, offerings, watchHistory } = state
+
     return (
       <div className="sp-home">
         <div id="home-content">
           <MaintenanceMessage />
-          <Filter displaySearchHeader={displaySearchHeader} {...this} />
-          <SectionList {...this} />
+          <Filter 
+            {...this} 
+            displaySearchHeader={displaySearchHeader} 
+          />
+          <SectionList 
+            {...this} 
+            offerings={offerings}
+            watchHistory={watchHistory}
+            starOffering={starOffering}
+            unstarOffering={unstarOffering}
+            starredOfferings={starredOfferings}  
+          />
           <ClassTranscribeFooter />
         </div>
       </div>
