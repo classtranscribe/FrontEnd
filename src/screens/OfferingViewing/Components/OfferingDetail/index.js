@@ -13,7 +13,8 @@ import { api, util, handleData, user } from 'utils'
 import './index.css'
 
 export function OfferingDetail({ id, history, location, state, starOffering, unstarOffering }) {
-  const { starredOfferingsJSON={}, watchHistoryJSON } = state
+  const { starredOfferingsJSON, watchHistoryJSON } = state
+  console.log(watchHistoryJSON)
   const [offering, setOffering] = useState(null)
   const [playlists, setPlaylists] = useState(null)
   // variables to present
