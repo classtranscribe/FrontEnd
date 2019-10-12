@@ -1,7 +1,7 @@
 /**
  * Sidebar Component of Student page/OV page
  */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { user, util } from 'utils'
@@ -11,11 +11,12 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
   const isLoggedIn = user.isLoggedIn()
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   const pathname = window.location.pathname
-  const defaultActiveKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : 'personal-report'
+  const activeKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : 'personal-report'
+
   return (
     <aside className="op-sidebar" style={style} >
       
-      <ListGroup defaultActiveKey={defaultActiveKey}>
+      <ListGroup activeKey={activeKey}>
         <ListGroup.Item 
           className="list" action eventKey="courses"
           as={Link} to={util.links.home()}

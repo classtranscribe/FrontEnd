@@ -1,18 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Poster } from '../Poster'
 import { Button, Popup } from 'semantic-ui-react'
 import { util } from '../../utils'
 import './VideoCard.css'
 
-export function VideoCard({ 
+function VideoCardWithOutRouter({ 
   square=false,
   row=false,
   name='Loading...', 
+  history,
   link=window.location.pathname,  
+  mediaState={},
   ratio=0,
   timeStamp=0,
   description=null,
+  descriptionLink=null,
   posterSize="",
   // buttons
   dismissable=false,
@@ -46,7 +49,8 @@ export function VideoCard({
         <Poster progress={ratio} width={posterSize} />
         <div className="media-info">
           <p className="media-name">{name}</p>
-          <p className="description text-muted">{description}</p>
+          {!descriptionLink && <p className="description text-muted">{description}</p>}
+          {descriptionLink && <Link className="description-link" to={{pathname: descriptionLink, state: {from: 'history'}}}>{description}</Link>}
         </div>
       </Link>
       {dismissable && <DismissButton handleDismiss={handleDismiss} dismissPrompt={dismissPrompt} />}
@@ -72,3 +76,5 @@ function DismissButton({ handleDismiss, dismissPrompt }) {
     />
   )
 }
+
+export const VideoCard = withRouter(VideoCardWithOutRouter)

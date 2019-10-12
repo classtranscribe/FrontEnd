@@ -46,6 +46,7 @@ export class Watch extends React.Component {
           this.setState({ media })
           util.links.title(media.mediaName)
           api.contentLoaded()
+          this.sendUserAction('changevideo', { changeTo_mediaId: data.id })
         })
       // if (media) this.setState({ media: api.parseMedia(media) })
       if (playlist) this.setState({ playlist })
@@ -55,6 +56,7 @@ export class Watch extends React.Component {
       api.getMediaById(this.id)
         .then( ({data}) => {
           console.log('media', data)
+          this.sendUserAction('changevideo', { changeTo_mediaId: data.id })
           this.setState({ media: api.parseMedia(data) })
           api.getPlaylistById(data.playlistId)
             .then(({data}) => {

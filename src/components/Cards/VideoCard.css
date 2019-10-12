@@ -53,9 +53,14 @@
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
 }
-.history-bg .watch-history-item .media-info .description {
+.video-card-container-row .media-info .description, .video-card-container-row .media-info .description-link {
   font-size: 1.1em;
   color: rgb(104, 104, 104);
+}
+
+.video-card-container-row .media-info .description-link:hover {
+  color: var(--ct-green-normal);
+  text-decoration: underline;
 }
 
 /* Dismiss Button */

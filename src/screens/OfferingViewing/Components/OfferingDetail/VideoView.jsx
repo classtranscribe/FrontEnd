@@ -5,7 +5,7 @@ import { Icon } from 'semantic-ui-react'
 import { VideoCard } from 'components'
 import { api, util } from 'utils'
 
-function VideoView({ playlist, history, goBack, courseNumber, watchHistoryJSON }) {
+function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHistoryJSON }) {
   const { name, medias=[] } = playlist
 
   useEffect(() => {
@@ -25,6 +25,8 @@ function VideoView({ playlist, history, goBack, courseNumber, watchHistoryJSON }
           <Video 
             key={media.id} 
             media={media} 
+            playlist={playlist}
+            playlists={playlists}
             courseNumber={courseNumber} 
             watchHistoryJSON={watchHistoryJSON}
           />
@@ -34,17 +36,16 @@ function VideoView({ playlist, history, goBack, courseNumber, watchHistoryJSON }
   )
 }
 
-function Video({ media, courseNumber, watchHistoryJSON }) {
+function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
   const { mediaName, id } = api.parseMedia(media)
   const { timeStamp, ratio } = watchHistoryJSON[id] || {}
-  
-  const pathname = util.links.watch(courseNumber, id, timeStamp)
 
   return (
     <VideoCard row
       name={mediaName}
-      link={pathname}
+      link={util.links.watch(courseNumber, id, timeStamp)}
       ratio={ratio}
+      mediaState={{ playlist, playlists }}
       posterSize="150px"
     />
     

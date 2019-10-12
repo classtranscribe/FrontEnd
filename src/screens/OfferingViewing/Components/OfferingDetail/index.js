@@ -14,7 +14,6 @@ import './index.css'
 
 export function OfferingDetail({ id, history, location, state, starOffering, unstarOffering }) {
   const { starredOfferingsJSON, watchHistoryJSON } = state
-  console.log(watchHistoryJSON)
   const [offering, setOffering] = useState(null)
   const [playlists, setPlaylists] = useState(null)
   // variables to present
@@ -103,12 +102,13 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
   /**
    * Determine which page to go back
    */
-  var elemId = ''
   var pathname = util.links.home()
   if (history.location.state) {
-    elemId = history.location.state.hash
-    if (history.location.state.from === 'search') {
+    const { from } = history.location.state
+    if (from === 'search') {
       pathname = util.links.search()
+    } else if (from === 'history') {
+      pathname = util.links.history()
     }
   }
 
@@ -125,7 +125,7 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
             className="del-icon" 
             to={{
               pathname: pathname, 
-              state: { id: elemId, value: location.state ? location.state.searchedValue : '' },
+              state: { value: location.state ? location.state.searchedValue : '' },
             }}
           >
             <Icon name="chevron left" /> Go Back
