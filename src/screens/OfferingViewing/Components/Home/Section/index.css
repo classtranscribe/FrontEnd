@@ -6,14 +6,17 @@
   .sp-home .offering-list .section .title {
     padding: 0;
     margin: 0;
-    color: rgb(37, 113, 116);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1.5rem;}
+    color: var(--ct-text-primary-light);
+    font-family: var(--ct-font-google);
+    font-size: 1.3rem;}
     .sp-home .offering-list .section .title span {
       color: rgb(104, 104, 104);
       font-size: 1.1rem;
       font-weight: normal;
       margin-left: 1em;
+    }
+    .sp-home .offering-list .section .title i {
+      color: var(--ct-text-title);
     }
     @media screen and (max-width: 600px) {
       .sp-home .offering-list .section .title {
@@ -33,7 +36,7 @@
     .sp-home .offering-list .section .button span {
       border: 1px solid transparent}
       .sp-home .offering-list .section .button[type=offering-show-all-btn] {
-        color: rgb(37, 113, 116);
+        color: var(--ct-text-primary-light);
         right: 2em;
         bottom: -1.7em;}
       .sp-home .offering-list .section .button[type=offering-close-btn] {
@@ -45,7 +48,7 @@
         .sp-home .offering-list .section .button[type=offering-show-all-btn]:hover, .sp-home .offering-list .section .button[type=offering-close-btn]:hover {
           color: #3a3a3a;}
         .sp-home .offering-list .section .button[type=offering-show-all-btn]:focus >span, .sp-home .offering-list .section .button[type=offering-close-btn]:focus > span {
-          border: 1px solid rgb(37, 113, 116)}
+          border: 1px solid var(--ct-text-primary-light)}
 
 
   /* Offering horizontal scroll area */
@@ -192,18 +195,23 @@
   -o-transition: margin 0.2s linear;
   -webkit-transition: margin 0.2s linear;
   font-size: 1.3em;
-  color: rgb(37, 113, 116);
+  /* color: var(--ct-text-title); */
+  color: var(--ct-text-primary-light);
   padding: 0;
   font-family: var(--ct-font-narrow);
 }
 .sp-home .offering-list .section .offerings .offeringCard .title p {
   font-family: var(--ct-font-google);
+  color: var(--ct-text-title);
   font-weight: bold;
   width: 10em !important;
   white-space: nowrap;
+  margin: 0 !important;
+  padding: 0rem !important;
+  line-height: 1.3em;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  font-size: 1.3em;
+  font-size: 1.25em;
 }
 .sp-home .offering-list .section .offerings .offeringCard .info {
   transition: margin 0.2s linear;
@@ -211,7 +219,8 @@
   -webkit-transition: margin 0.2s linear;
   color: rgb(61, 61, 61);
   font-weight: normal;
-  margin-top: .5em;
+  margin-top: 0em;
+  margin-bottom: .5em;
 }
 .sp-home .offering-list .section .offerings .offeringCard .description {
   color: rgb(70, 102, 102);

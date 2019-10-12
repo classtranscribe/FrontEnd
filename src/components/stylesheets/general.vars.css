@@ -7,6 +7,8 @@
   --ct-green-active: #23a1a1;
   /* Color */
   --ct-text-primary: #383838;
+  --ct-text-primary-light: #4e4e4e;
+  --ct-text-title: rgb(37, 113, 116);
   /* Font Family */
   --ct-font-narrow: 'Roboto Condensed', sans-serif;
   --ct-font-google: 'Roboto', sans-serif;
