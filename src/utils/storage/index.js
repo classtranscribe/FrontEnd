@@ -1,8 +1,26 @@
 import { isMobile } from 'react-device-detect'
+import { api } from '../HTTP'
 
 export const storage = {
   // keys
-  tempStoredOfferingsKey: 'temp-stored-offerings',
+  watchHistoryKey: 'watch-history-new',
+  starredOfferingKey: 'starred-offerings-new',
+  searchHistoryKey: 'search-history',
+
+  fixUserMetadata: function() {
+    const watchHistory = localStorage.getItem(this.watchHistoryKey)
+    const starredOffering = localStorage.getItem(this.starredOfferingKey)
+    if (Boolean(watchHistory)) {
+      localStorage.removeItem(this.watchHistoryKey)
+    }
+    if (Boolean(starredOffering)) {
+      api.postUserMetaData({ starredOffering, watchHistory: '' })
+      localStorage.removeItem(this.starredOfferingKey)
+    }
+  },
+
+
+  ttempStoredOfferingsKey: 'temp-stored-offerings',
 
   storeOfferings: function(offerings) {
     if (!isMobile) localStorage.setItem(this.tempStoredOfferingsKey, JSON.stringify(offerings))

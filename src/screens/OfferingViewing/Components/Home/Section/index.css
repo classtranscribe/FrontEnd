@@ -51,11 +51,14 @@
 
   .sp-home .offering-list .section .offerings {
     position: relative;
-    width: 100%;
+    width: 104%;
     display: flex;
     flex-wrap: nowrap;
     height: max-content;
     overflow-x: auto;
+    padding-left: 2%;
+    margin-left: -2%;
+    margin-right: -2%;
     -webkit-overflow-scrolling: touch;}
     .sp-home .offering-list .section .offerings[id=starred-offerings] {
       padding-bottom: 1em;
