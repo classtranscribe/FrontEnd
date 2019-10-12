@@ -8,7 +8,7 @@ export default function HistorySection({ offerings, watchHistory }) {
     <div className="offerings" id="starred-offerings">
       {
         watchHistory[0] === 'unloaded' ? 
-        <OfferingListHolder row={1} />
+        <OfferingListHolder row={1} title={false} width="220px" />
         :
         watchHistory.map( (media, index) =>  (
           <MediaCard key={media.mediaId + index} media={media} offerings={offerings} />

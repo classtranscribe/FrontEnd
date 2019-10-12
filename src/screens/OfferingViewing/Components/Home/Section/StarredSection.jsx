@@ -3,7 +3,9 @@ import OfferingCard from './OfferingCard'
 import { OfferingListHolder } from '../PlaceHolder'
 
 export default function StarredSection({ offerings, starredOfferings, showAll, starOffering, unstarOffering, state }) {
-  if (starredOfferings[0] === 'unloaded') return <OfferingListHolder row={1} image={false} />
+
+  if (starredOfferings[0] === 'unloaded') return <OfferingListHolder row={1} image={false} title={false} />
+
   return (
     <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`} id="starred-offerings">
       {starredOfferings.map( offeringId =>  (

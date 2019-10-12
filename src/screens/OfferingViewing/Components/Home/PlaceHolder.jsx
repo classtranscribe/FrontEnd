@@ -10,12 +10,12 @@ import { util } from 'utils'
 /**
  * Placeholder shows up when a offering is loading
  */
-export function OfferingCardHolder({ image=true }) {
+export function OfferingCardHolder({ image=true, width='16rem' }) {
   return (
     <div className="offering-card-container">
       <Card className="offeringCard" id="offering-card-holder">
         <Placeholder>
-          <Placeholder.Image style={{height: '9rem', width: '16rem'}}/>
+          <Placeholder.Image style={{height: '9rem', width}}/>
         </Placeholder>
         {
           image
@@ -35,6 +35,7 @@ export function OfferingCardHolder({ image=true }) {
           </Card.Body>
         }
       </Card>
+      {!image && <><br/><br/></>}
     </div>
   )
 }
@@ -42,15 +43,19 @@ export function OfferingCardHolder({ image=true }) {
 /**
  * Placeholder shows up when departments and offerings are loading
  */
-export function OfferingListHolder({ noCourse, row=2, image=true }) {
+export function OfferingListHolder({ noCourse, row=2, image=true, title=true, width }) {
   if (row === 1) return (
     <div className="section" role="listitem">
-      <Placeholder style={{height: '2rem'}}>
-        <Placeholder.Line length='long' />
-      </Placeholder>
+      {
+        title
+        &&
+        <Placeholder style={{height: '2rem'}}>
+          <Placeholder.Line length='long' />
+        </Placeholder>
+      }
       <div className="offerings">
         {['off1', 'off2', 'off3', 'off4', 'off5', 'off6'].map( itemKey => 
-          <OfferingCardHolder key={itemKey} image={image} />
+          <OfferingCardHolder key={itemKey} image={image} width={width} />
         )}
       </div>
     </div>
@@ -69,7 +74,7 @@ export function OfferingListHolder({ noCourse, row=2, image=true }) {
           </Placeholder>
           <div className="offerings">
             {['off1', 'off2', 'off3', 'off4', 'off5', 'off6'].map( itemKey => 
-              <OfferingCardHolder key={key+itemKey} />
+              <OfferingCardHolder key={key+itemKey} width={width} />
             )}
           </div>
         </div>
