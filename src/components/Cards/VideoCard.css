@@ -39,19 +39,21 @@
 .video-card-container-row .media-info {
   margin-left: 1.5em;
   margin-top: .5em;
+  width: 100%;
 }
 
 .video-card-container-row:hover .media-info .media-name, .video-card-container-row:focus .media-info .media-name {
   color: rgb(53, 138, 141);
 }
 .video-card-container-row .media-info .media-name {
+  width: 80%;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   color: var(--ct-text-primary);
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
 }
-.history-bg .watch-history-item .media-info .offering-num {
+.history-bg .watch-history-item .media-info .description {
   font-size: 1.1em;
   color: rgb(104, 104, 104);
 }
