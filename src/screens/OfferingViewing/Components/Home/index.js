@@ -74,6 +74,9 @@ export class Home extends React.Component {
      .then(({data}) => {
         this.setState({ departments: data, departSelected: [] })
      })
+     .catch( () => {
+       this.setState({ departments: ['retry']})
+     })
   }
 
   getTermsByUniId = uniId => {

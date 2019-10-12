@@ -11,9 +11,9 @@ import Section from './Section'
 import { handleData } from 'utils'
 
 export default function SectionList({ state, offerings, watchHistory, starredOfferings, getOfferingsByStudent, displaySearchHeader, ...functions }) {
-  const { departments, departSelected, termSelected, universities } = state
+  const { departments, departSelected, termSelected } = state
   if (offerings[0] === 'Unloaded') return <OfferingListHolder />
-  if (!departments.length || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
+  if (departments[0] === 'retry' || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
   function notEmpty(depart) {
     for (let i = 0; i < offerings.length; i++) {
