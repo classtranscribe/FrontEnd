@@ -1,4 +1,5 @@
 import React from 'react'
+import $ from 'jquery'
 import { Link, withRouter } from 'react-router-dom'
 import { Poster } from '../Poster'
 import { Button, Popup } from 'semantic-ui-react'
@@ -16,6 +17,7 @@ function VideoCardWithOutRouter({
   timeStamp=0,
   description=null,
   descriptionLink=null,
+  descriptionState=null,
   posterSize="",
   // buttons
   dismissable=false,
@@ -31,26 +33,32 @@ function VideoCardWithOutRouter({
         aria-label={`Watch video ${name}`}
       >
         <Poster progress={ratio} width="220px" />
-        <div className="video-info">
+        <div className="media-info">
           <p className="video-name">{fittedName}</p>
-          <p className="description text-muted">{description}</p>
+          {!descriptionLink && <p className="description text-muted">{description}</p>}
+          {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
         </div>
       </Link>
     </div>
   )
 
+  const handleClick = () => {
+    if ($('.description-link:focus').length > 0) return;
+    history.push(link)
+  }
+
   if (row) return (
     <div className="video-card-container-row">
-      <button 
+      <button
         className="video-card plain-btn" 
-        onClick={() => history.push(link)}
+        onClick={handleClick}
         aria-label={`Watch video ${name}`}
       >
         <Poster progress={ratio} width={posterSize} />
         <div className="media-info">
           <p className="media-name">{name}</p>
           {!descriptionLink && <p className="description text-muted">{description}</p>}
-          {descriptionLink && <Link className="description-link" to={{pathname: descriptionLink, state: {from: 'history'}}}>{description}</Link>}
+          {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
         </div>
       </button>
       {dismissable && <DismissButton handleDismiss={handleDismiss} dismissPrompt={dismissPrompt} />}

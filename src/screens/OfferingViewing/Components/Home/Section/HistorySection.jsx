@@ -33,6 +33,7 @@ function MediaCard({ media, offerings }) {
       link={util.links.watch(fullNumber, mediaId, timeStamp)}
       ratio={ratio}
       description={`${fullNumber} • ${courseName}`}
+      descriptionLink={util.links.offeringDetail(offeringId)}
     />
   ) : null
 }

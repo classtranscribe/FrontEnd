@@ -38,8 +38,9 @@ function MediaItem({ media, offerings, removeWatchHistory }) {
       name={mediaName}
       ratio={ratio}
       link={util.links.watch(fullNumber, mediaId, timeStamp)}
-      description={<>{fullNumber}<br/>{courseName}</>}
+      description={`${fullNumber} • ${courseName}`}
       descriptionLink={util.links.offeringDetail(offeringId)}
+      descriptionState={{ from: 'history' }}
       handleDismiss={() => removeWatchHistory(mediaId)}
       dismissPrompt="Remove from watch history"
     />
