@@ -25,11 +25,17 @@ function VideoCardWithOutRouter({
   dismissPrompt
 }) {
   const fittedName = util.getFittedName(name, 56)
+
+  const handleClick = () => {
+    if ($('.description-link:focus').length > 0) return;
+    history.push(link, mediaState)
+  }
+
   if (square) return (
     <div className="video-card-container-square">
-      <Link 
-        className="video-card" 
-        to={link} 
+      <button 
+        className="video-card plain-btn" 
+        onClick={handleClick}
         aria-label={`Watch video ${name}`}
       >
         <Poster progress={ratio} width="220px" />
@@ -38,14 +44,9 @@ function VideoCardWithOutRouter({
           {!descriptionLink && <p className="description text-muted">{description}</p>}
           {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
         </div>
-      </Link>
+      </button>
     </div>
   )
-
-  const handleClick = () => {
-    if ($('.description-link:focus').length > 0) return;
-    history.push(link)
-  }
 
   if (row) return (
     <div className="video-card-container-row">
