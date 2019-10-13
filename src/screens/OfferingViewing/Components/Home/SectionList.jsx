@@ -12,8 +12,8 @@ import { handleData } from 'utils'
 
 export default function SectionList({ state, offerings, watchHistory, starredOfferings, getOfferingsByStudent, displaySearchHeader, ...functions }) {
   const { departments, departSelected, termSelected } = state
-  if (offerings[0] === 'Unloaded') return <OfferingListHolder />
-  if (departments[0] === 'retry' || offerings[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
+  if (offerings[0] === 'Unloaded' || departments[0] === 'unloaded') return <OfferingListHolder />
+  if (offerings[0] === 'retry' || departments[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
 
   function notEmpty(depart) {
     for (let i = 0; i < offerings.length; i++) {
@@ -31,7 +31,10 @@ export default function SectionList({ state, offerings, watchHistory, starredOff
     }
   }
 
-  if (nonEmptyDepart.length === 0) return <OfferingListHolder noCourse />
+  if (nonEmptyDepart.length === 0) {
+    console.log(offerings, departments)
+    return <OfferingListHolder noCourse />
+  }
 
   const sections = ['history', ...departments]
   const onFilter = departSelected.length > 0 || termSelected.length > 0

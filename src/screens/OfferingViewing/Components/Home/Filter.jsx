@@ -14,7 +14,7 @@ function Filter({state, onUniSelected, onDepartSelected, onTermSelected, display
   // get selecting options
   const uniOptions = util.getSelectOptions(universities)
   const termOptions = util.getSelectOptions(terms.slice().reverse(), 'term')
-  const departOptions = util.getSelectOptions(departments, 'depart')
+  const departOptions = departments[0] === 'unloaded' ? [] : util.getSelectOptions(departments, 'depart')
 
   const [searchValue, setSearchValue] = useState('')
   const handleOnKeyDown = e => {

@@ -51,17 +51,19 @@ export class Watch extends React.Component {
       // if (media) this.setState({ media: api.parseMedia(media) })
       if (playlist) this.setState({ playlist })
       if (playlists) this.setState({ playlists })
+      this.offeringId = playlist.offeringId
       // api.contentLoaded()
     } else {
       api.getMediaById(this.id)
         .then( ({data}) => {
-          // console.log('media', data)
+          console.log('load - media', data)
           this.sendUserAction('changevideo', { changeTo_mediaId: data.id })
           this.setState({ media: api.parseMedia(data) })
           api.getPlaylistById(data.playlistId)
             .then(({data}) => {
               // console.log('playlist', data)
               this.setState({ playlist: data })
+              this.offeringId = data.offeringId
               api.contentLoaded()
               api.getPlaylistsByOfferingId(data.offeringId)
                 .then(({data}) => {
@@ -96,17 +98,17 @@ export class Watch extends React.Component {
   }  
 
   sendUserAction = (action, json={}, ratio) => {
-    const { media, playlist, watchHistory, starredOfferings } = this.state
+    const { media, watchHistory, starredOfferings } = this.state
     const { timeStamp } = json
     api.sendUserAction(action, {
       json,
       mediaId: media.id,
-      offeringId: playlist.offeringId
+      offeringId: this.offeringId
     })
     if (ratio) {
       watchHistory[media.id] = { 
         timeStamp, ratio,
-        offeringId: playlist.offeringId,
+        offeringId: this.offeringId,
         lastModifiedTime: new Date(),
       }
       api.postUserMetaData({ 

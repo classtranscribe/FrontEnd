@@ -20,7 +20,7 @@ export class Home extends React.Component {
 
       universities: [],
       terms: [],
-      departments: [],
+      departments: ['unloaded'],
       offerings: props.offerings,
 
       uniSelected: '',
@@ -88,7 +88,7 @@ export class Home extends React.Component {
 
   onUniSelected = (e, {value}) => {
     if (!value) {
-      this.setState({ terms: [], departments: [] })
+      this.setState({ terms: [], departments: ['unloaded'] })
       api.getDepartments().then(({data}) => {
         data.forEach(depart => {
           const uni = handleData.findById(this.state.universities, depart.universityId)
@@ -97,7 +97,7 @@ export class Home extends React.Component {
         this.setState({ departments: data })
       })
     } else {
-      this.setState({ terms: [], departments: [] })
+      this.setState({ terms: [], departments: ['unloaded']  })
       this.getDepartmentsByUniId(value)
       this.getTermsByUniId(value)
     }

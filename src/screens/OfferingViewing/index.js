@@ -18,11 +18,17 @@ export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
     this.isLoggedIn = user.isLoggedIn()
+
+    var offerings = util.getStoredOfferings()
+    if (!offerings) {
+      offerings = ['Unloaded']
+    }
+
     this.state = {
       displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn()*/) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
-      offerings: ['Unloaded'],
+      offerings: offerings,
       watchHistory: this.isLoggedIn ? ['unloaded'] : [],
       watchHistoryJSON: {},
       starredOfferings: this.isLoggedIn ? ['unloaded'] : [],
@@ -55,10 +61,8 @@ export class OfferingViewing extends React.Component {
 
   getOfferingsByStudent = () => {
     const offerings = util.getStoredOfferings()
-    if (offerings) {
-      this.setState({ offerings })
-      return;
-    }
+    if (offerings) return;
+    
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
@@ -103,6 +107,7 @@ export class OfferingViewing extends React.Component {
       watchHistory: JSON.stringify(watchHistoryJSON),
       starredOfferings: JSON.stringify(starredOfferingsJSON)
     })
+    console.log(watchHistoryJSON, starredOfferingsJSON)
   }
 
   completeOfferings = async rawOfferings => {

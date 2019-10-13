@@ -34,7 +34,8 @@ function Section({ history, depart={}, state, offerings, starredOfferings, watch
 
   if (type === 'department') offerings =  offerings.filter( offering => isThisSection(offering, depart.id))
   if (type === 'starred' && !starredOfferings.length) return null 
-  if (type === 'history' && !watchHistory[0] === 'unloaded' && watchHistory.length < 5) return null
+  console.log('?', watchHistory)
+  if (type === 'history' && watchHistory.length < 5) return null
 
   const sectionTitle = type === 'department' ? 
                           { title: depart.name, subtitle: uni.name} :

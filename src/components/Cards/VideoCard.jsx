@@ -12,7 +12,7 @@ function VideoCardWithOutRouter({
   name='Loading...', 
   history,
   link=window.location.pathname,  
-  mediaState={},
+  mediaState=null,
   ratio=0,
   timeStamp=0,
   description=null,
