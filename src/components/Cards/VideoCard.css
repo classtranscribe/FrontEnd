@@ -37,6 +37,9 @@
   width: 100%;
   border-bottom: 1px solid #e6e6e6 !important;
 }
+.video-card-container-row:last-child {
+  border-bottom: none !important;
+}
 .video-card-container-row .video-card {
   display: flex;
   flex-direction: row;

@@ -45,7 +45,7 @@ export default function OfferingCard({ offering, starredOfferings, depart={}, te
           pathname: util.links.offeringDetail(fullCourse.id),
           state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
         }}
-        title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
+        //title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
         aria-describedby={"offering-info-" + fullCourse.id}
       >
         {
