@@ -107,7 +107,7 @@ export class OfferingViewing extends React.Component {
       watchHistory: JSON.stringify(watchHistoryJSON),
       starredOfferings: JSON.stringify(starredOfferingsJSON)
     })
-    console.log(watchHistoryJSON, starredOfferingsJSON)
+    // console.log(watchHistoryJSON, starredOfferingsJSON)
   }
 
   completeOfferings = async rawOfferings => {
