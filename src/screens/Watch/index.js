@@ -114,7 +114,7 @@ export class Watch extends React.Component {
       }
 
       const mediaIds = Object.keys(watchHistory)
-      if (keys.length > 30) {
+      if (mediaIds.length > 30) {
         const whArray = []
         mediaIds.forEach( mediaId => {
           whArray.push({ mediaId, date: watchHistory[mediaId].lastModifiedTime })
