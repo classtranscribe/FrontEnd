@@ -32,7 +32,6 @@ export default function SectionList({ state, offerings, watchHistory, starredOff
   }
 
   if (nonEmptyDepart.length === 0) {
-    console.log(offerings, departments)
     return <OfferingListHolder noCourse />
   }
 
