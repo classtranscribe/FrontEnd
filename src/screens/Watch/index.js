@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 // UI
 import { WatchHeader, WatchContent } from './Components'
 import './index.css'
@@ -111,6 +112,17 @@ export class Watch extends React.Component {
         offeringId: this.offeringId,
         lastModifiedTime: new Date(),
       }
+
+      const mediaIds = Object.keys(watchHistory)
+      if (keys.length > 30) {
+        const whArray = []
+        mediaIds.forEach( mediaId => {
+          whArray.push({ mediaId, date: watchHistory[mediaId].lastModifiedTime })
+        })
+        var toRemove = _.sortBy(whArray, ['date'])[0]
+        delete watchHistory[toRemove.mediaId]
+      }
+
       api.postUserMetaData({ 
         watchHistory: JSON.stringify(watchHistory), 
         starredOfferings: JSON.stringify(starredOfferings)
