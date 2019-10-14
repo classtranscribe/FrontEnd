@@ -17,6 +17,7 @@ import { util } from './utils'
 
 class App extends React.Component {
   componentDidMount() {
+    util.fixUserMetadata()
     window.onbeforeunload = () => {
       util.removeStoredOfferings()
     }

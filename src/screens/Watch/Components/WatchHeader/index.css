@@ -5,10 +5,14 @@
   padding-right: 1em;
   border-right: 1px solid rgb(197, 197, 197);
   color: white;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .media-details strong {
-  color: rgb(19, 211, 211);
+  color: var(--ct-text-highlight);
 }
 
 @media screen and (max-width: 650px) {

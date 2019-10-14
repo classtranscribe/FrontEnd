@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
-export function StarredButton({ offeringId, position, starredOfferings, starredUpdated, starOffering, unstarOffering }) {  
+export function StarredButton({ offeringId, position, starredOfferings=[], starOffering, unstarOffering }) {  
   const isStarred = starredOfferings.includes(offeringId)
   const handleClick = () => {
     if (isStarred) {

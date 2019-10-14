@@ -17,8 +17,7 @@ export default function MediaDetails({ playlist, media }) {
             <span>{api.parseURLFullNumber()}</span>
             &ensp;{playlist.name}
           </strong><br/>
-          <Icon name="play" />
-          &ensp;{media.mediaName}
+          {media.mediaName}
         </p>
       </div>
     </div>

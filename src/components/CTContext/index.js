@@ -9,6 +9,26 @@ export const useCTContext = () => useContext(CTContext)
 export function CTContextProvider({ children }) {
   const [alertMesg, setAlertMesg] = useState(null)
   const [errorMesg, setErrorMesg] = useState(null)
+  const [CTStorage, setCTStorage] = useState({
+      watchHistory: ['unloaded'],
+      watchHistoryJSON: {},
+      starredOfferings: ['unloaded'],
+      starredOfferingsJSON: {},
+      offerings: ['Unloaded'],
+    })
+
+  const ctStorage = {
+    get: () => CTStorage,
+    set: (key, value) => {
+      if (key === '__ALL__') {
+        console.log(value)
+        setCTStorage(value)
+      } else {
+        CTStorage[key] = value
+        setCTStorage(CTStorage)
+      }
+    }
+  }
 
   const windowAlert = mesg => alert(mesg)
 
@@ -29,6 +49,8 @@ export function CTContextProvider({ children }) {
         generalAlert,
         ErrorMesg,
         hasError,
+        ctStorage,
+        CTStorage
       }}
     >
       <>

@@ -1,6 +1,7 @@
 .video-poster {
   position: relative;
   width: 14em;
+  height: min-content;
 }
 
 .video-poster img {

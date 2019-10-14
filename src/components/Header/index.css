@@ -117,6 +117,11 @@
   .dark .ct-brand, .dark .ct-brand:hover {
     margin-left: .5em;
     color: #2d9999;}
+    @media screen and (max-width: 650px) {
+      .dark .ct-brand, .dark .ct-brand:hover, .ct-brand, .ct-brand:hover {
+        margin-left: 0em;
+      }
+    }
   .dark .ct-brand span {
     color: rgb(114, 173, 179);}
   .dark i.circular.icon {

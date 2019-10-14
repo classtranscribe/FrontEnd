@@ -3,8 +3,7 @@
  *  and get user information 
  */
 
-import { api } from './http'
-import { history } from './history'
+import { api } from './HTTP'
 import auth0Client from './auth0'
 import decoder from 'jwt-decode'
 
@@ -49,9 +48,6 @@ export const user = {
       api.saveAuthToken(data.authToken)
       // Save userInfo
       this.saveUserInfo(data)
-      // Get User Metadata and save it to localStorage
-      const userMetadata = await api.getUserMetaData()
-      history.saveUserMetadata(userMetadata.data.metadata)
       // redirect
       var redirectURL = auth0Client.getRedirectURL()
       const tokenInfo = decoder(data.authToken)
