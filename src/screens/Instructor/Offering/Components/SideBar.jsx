@@ -45,7 +45,7 @@ export function SideBar({ id, state, showSiderBar }) {
 
   return (
     <div className="op-sidebar" style={style}>
-      <ListGroup activeKey={activeKey}>
+      <ListGroup activeKey={activeKey} onSelect={()=>1}>
         {/* Go Back Menu Item */}
         <ListGroup.Item 
           as={Link}
