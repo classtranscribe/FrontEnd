@@ -4,11 +4,11 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 // UI
 import { OfferingListHolder, ReloadContents } from './PlaceHolder'
 import Section from './Section'
 // Vars
-import { handleData } from 'utils'
 
 export default function SectionList({ state, offerings, watchHistory, starredOfferings, getOfferingsByStudent, displaySearchHeader, ...functions }) {
   const { departments, departSelected, termSelected } = state
@@ -17,27 +17,29 @@ export default function SectionList({ state, offerings, watchHistory, starredOff
 
   function notEmpty(depart) {
     for (let i = 0; i < offerings.length; i++) {
-      const hasOfferings = handleData.find(offerings[i].courses, {departmentId: depart.id})
-      const hasTerm = !termSelected.length || termSelected.includes(offerings[i].offering.termId)
+      const hasOfferings = offerings[i].departmentIds.includes(depart.id)
+      const hasTerm = !termSelected.length || termSelected.includes(offerings[i].termId)
       if (hasOfferings && hasTerm) return true
     }
     return false
   }
 
-  var nonEmptyDepart = []
+  var nonEmptyDepartments = []
   for (var i = 0; i < departments.length; i++) {
     if ((!departSelected.length || departSelected.includes(departments[i].id)) && (notEmpty(departments[i]))) {
-      nonEmptyDepart.push(departments[i].id)
+      nonEmptyDepartments.push(departments[i])
     }
   }
 
-  if (nonEmptyDepart.length === 0) {
+  if (nonEmptyDepartments.length === 0) {
     return <OfferingListHolder noCourse />
   }
 
-  const sections = ['history', ...departments]
+  const sections = ['history', ...nonEmptyDepartments]
   const onFilter = departSelected.length > 0 || termSelected.length > 0
   // sections.
+
+  console.log(sections)
 
   return (
     <div className="offering-list" role="list">
@@ -69,7 +71,7 @@ export default function SectionList({ state, offerings, watchHistory, starredOff
             starredOfferings={starredOfferings}
           />
         :
-        (section && nonEmptyDepart.includes(section.id)) ? 
+        section ? 
           <Section 
             {...functions}
             key={section.id} 

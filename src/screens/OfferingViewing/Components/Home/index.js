@@ -16,12 +16,9 @@ export class Home extends React.Component {
     super(props)
     util.links.title()
     this.state = {
-      restoredScroll: false,
-
       universities: [],
       terms: [],
       departments: ['unloaded'],
-      offerings: props.offerings,
 
       uniSelected: '',
       departSelected: [],
@@ -46,27 +43,6 @@ export class Home extends React.Component {
     }
     util.fixForAccessbitity('widgets/scripts')
     util.fixForAccessbitity('formSearchDropdown')
-  }
-  
-  componentDidUpdate(prevProps) {
-    /**
-     * 1. Update offerings after the offering is loaded
-     */
-    if (this.props.offerings !== prevProps.offerings) {
-      this.setState({ offerings: this.props.offerings })
-    }
-    /**
-     * 2. Restore the scroll after
-     */
-    const { state } = this.props.history.location
-    if (state && state.id && !this.state.restoredScroll) {
-      const elem = document.getElementById(state.id)
-      if (elem) {
-        elem.scrollIntoView({ block: "nearest" })
-        this.setState({ restoredScroll: true })
-      }
-    }
-
   }
 
   getDepartmentsByUniId = uniId => {

@@ -46,16 +46,15 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
     util.scrollToTop('.sp-content')
 
     const propsState = history.location.state
-    if (propsState && propsState.fullCourse) {
-      const { fullCourse } = propsState
-      checkAccessType(fullCourse.accessType)
-      setFullNumber(() => fullCourse.fullNumber)
-      // setCourseNumber(() => fullCourse.courseNumber)
-      setTermName(() => fullCourse.termName)
-      setDescription(() => fullCourse.description)
-      setSectionName(() => fullCourse.section)
-      setCourseName(() => fullCourse.courseName)
-      util.links.title(fullCourse.fullNumber+' • '+fullCourse.termName+' • '+fullCourse.section)
+    if (propsState && propsState.offering) {
+      const { offering } = propsState
+      checkAccessType(offering.accessType)
+      setFullNumber(() => offering.fullNumber)
+      setTermName(() => offering.termName)
+      setDescription(() => offering.description)
+      setSectionName(() => offering.sectionName)
+      setCourseName(() => offering.courseName)
+      util.links.title(offering.fullNumber+' • '+offering.termName+' • '+offering.sectionName)
     } else {
       api.getOfferingById(id)
         .then( ({data}) => {

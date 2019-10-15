@@ -26,13 +26,8 @@ export default function WatchHistory({ watchHistory, offerings, removeWatchHisto
 
 function MediaItem({ media, offerings, removeWatchHistory }) {
   const { offeringId, mediaName, ratio, mediaId, timeStamp } = media
-  const offering = offerings.filter(offering => offering.id === offeringId)[0] || { courses: [] }
-  var fullNumber = null
-  var courseName = 'loading...'
-  if (offering.courses && offering.courses.length) {
-    fullNumber = api.getFullNumber(offering.courses)
-    courseName = offering.courses[0].courseName
-  }
+  const offering = offerings.filter(offering => offering.id === offeringId)[0] || { }
+  const { fullNumber, courseName } = offering
   return fullNumber ? (
     <VideoCard row dismissable
       name={mediaName}

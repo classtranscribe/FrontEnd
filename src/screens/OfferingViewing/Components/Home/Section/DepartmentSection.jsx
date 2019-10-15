@@ -10,7 +10,7 @@ export default function DepartmentSection({ offerings, starredOfferings, depart,
   return (
     <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`}>
       {offerings.map( (offering, index) => 
-        offering.courses ? 
+        offering.fullNumber ? 
         <OfferingCard image
           {...state}
           {...functions}

@@ -4,6 +4,7 @@ import { user } from '../user'
 import { httpGET  } from './http.get'
 import { httpPOST } from './http.post'
 import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
+import _ from 'lodash'
 const monthMap = require('../json/monthNames.json')
 
 export const responseParsers = {
@@ -61,42 +62,31 @@ export const responseParsers = {
         }
       })
   },
-  completeOfferings: function(rawOfferings, currOfferings, setOffering) {
-    // rawOfferings = handleData.shuffle(rawOfferings)
-    rawOfferings.forEach( (offering, index) => {
-      httpGET.getData('Offerings', offering.id)
-        .then( ({data}) => {
-          this.completeSingleOffering(data, setOffering, index, currOfferings)
-        })
-    })
-  },
+  
   parseOfferings: async function(rawOfferings) {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
-      var courseOffering = await httpGET.getData('Offerings', rawOfferings[i].id)
-      courseOffering = courseOffering.data
-      courseOffering.id = courseOffering.offering.id
-
-      for (let j = 0; j < courseOffering.courses.length; j++) {
-        if (!user.isAdmin() && courseOffering.courses[j].id === "test_course") {
-          courseOffering.isTestCourse = true
-        }
-        const { data } = await httpGET.getDepartById(courseOffering.courses[j].departmentId) 
-        courseOffering.courses[j].acronym = data.acronym
-      }
-
-      const { data } = await httpGET.getTermById(courseOffering.offering.termId)
-      courseOffering.offering.termName = data.name
-
-      parsedOfferings.push(courseOffering)
+      const { offering, courses, term } = rawOfferings[i]
+      let { courseName, description } = courses[0]
+      let { universityId } = term
+      let departmentIds = _.map(courses, 'departmentId')
+      parsedOfferings.push({
+        ...offering,
+        courseName, 
+        description, 
+        departmentIds,
+        universityId,
+        termName: term.name,
+        fullNumber: this.getFullNumber(courses),
+      })
     }
-    // console.log('parsedOfferings', parsedOfferings)
+    console.log('parsedOfferings', parsedOfferings)
     return parsedOfferings
   },
   getFullNumber: function(courses, separator) {
     var name = ''
     courses.forEach( course => {
-      name += (course.acronym || '') + course.courseNumber + (separator || '/')
+      name += (course.departmentAcronym || course.acronym || '') + course.courseNumber + (separator || '/')
     })
     name = name.slice(0, name.length - 1)
     return name
