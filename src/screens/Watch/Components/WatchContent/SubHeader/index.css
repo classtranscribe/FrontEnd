@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: row;}
   .subheader-container .header p {
+    font-size: 0.9em;
     outline: none;
     overflow: hidden;
     position: relative;
@@ -22,8 +23,7 @@
     width: 100%;
     margin: 0 !important;}
   .subheader-container .header p span {
-    color: #54b3b3;
-    font-size: 1.3rem;
+    color: var(--ct-text-highlight);
   }
 
 @media screen and (max-width: 650px) {

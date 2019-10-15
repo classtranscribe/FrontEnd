@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Alert } from 'react-bootstrap'
-import './vars.css'
+import './stylesheets/general.vars.css'
+import './stylesheets/general.transition.css'
 import './index.css'
-import './sidebar.css'
-import './playlist-video-tras.css'
+import './stylesheets/sidebar.css'
+import './stylesheets/csstrans.playlist-video.css'
 
 export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
 export { ClassTranscribeHeader } from './Header'
@@ -13,6 +14,7 @@ export { GeneralAlert } from './Alerts'
 export { GeneralLoader, GeneralPlaceholder, SpinnerLoader } from './Loaders' 
 export { Poster } from './Poster'
 export { UserTips } from './UserTips'
+export { VideoCard, VideoCardPlaceHolder } from './Cards'
 
 /**
  * General Components

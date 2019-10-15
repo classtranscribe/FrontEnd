@@ -6,8 +6,8 @@ import { api, util } from 'utils'
 import { ctVideo } from '../ClassTranscribePlayer/CTPlayerUtils'
 import { timeStrToSec, timeBetterLook, copyToClipboard } from '../watchUtils'
 
-export function CaptionLine({ line, reLoadCaption, handleExpand, sendUserAction, isMobile /*, setReadyToEdit*/ }) {
-  const [isEditing, setIsEditing] = useState(false)
+export function CaptionLine({ line, handleExpand, sendUserAction, isMobile, syncCaptionLine /*, setReadyToEdit*/ }) {
+  const [isEditing, setIsEditing] = useState(Boolean(line.wasEditing))
   const [isLoading, setIsLoading] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
   const { generalAlert } = useCTContext()
@@ -62,27 +62,28 @@ export function CaptionLine({ line, reLoadCaption, handleExpand, sendUserAction,
   }
 
   const onEditCaption = () => {
-    setIsLoading(() => true)
-    reLoadCaption(() => {
-      setIsEditing(() => true)
-      setIsLoading(() => false)
+    // setIsLoading(true)
+    setIsEditing(true)
+    syncCaptionLine(index, true, () => {
+      // setIsLoading(false)
+      setIsEditing(true)
     })
   }
 
   const onClose = () => {
-    setIsEditing(() => false)
+    setIsEditing(false)
   }
 
   const onSave = line => {
-    setIsLoading(() => true)
-    generalAlert({text: 'Saving...', position: 'bottom'}, -1)
+    setIsEditing(false)
+    generalAlert({text: 'Saveing...', position: 'bottom'}, 1200)
+    if (line.text === text) {
+      generalAlert({text: 'Saved!', position: 'bottom'}, 1200)
+      return;
+    }
     api.updateCaptionLine(line).then(() => {
       sendUserAction('edittrans', { prevText: text, newText: line.text })
-      reLoadCaption(() => {
-        setIsLoading(() => false)
-        generalAlert({text: 'Saved!', position: 'bottom'}, 1200)
-        onClose()
-      })
+      generalAlert({text: 'Saved!', position: 'bottom'}, 1200)
     })
   }
 

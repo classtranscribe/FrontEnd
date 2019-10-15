@@ -12,7 +12,8 @@ import Playlists from './Playlists'
 import { api, util, handleData, user } from 'utils'
 import './index.css'
 
-export function OfferingDetail({id, history, location}) {
+export function OfferingDetail({ id, history, location, state, starOffering, unstarOffering }) {
+  const { starredOfferingsJSON, watchHistoryJSON } = state
   const [offering, setOffering] = useState(null)
   const [playlists, setPlaylists] = useState(null)
   // variables to present
@@ -23,10 +24,14 @@ export function OfferingDetail({id, history, location}) {
   const [description, setDescription] = useState('')
   const [courseName, setCourseName] = useState('Loading...')
 
-  const [isStarred, setIsStarred] = useState(util.isOfferingStarred(id))
+  const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
+  useEffect(() => {
+    setIsStarred(Boolean(starredOfferingsJSON[id]))
+  }, [starredOfferingsJSON])
+
   const handleStar = () => {
-    if (isStarred) util.unstarOffering(id)
-    else util.starOffering(id)
+    if (isStarred) unstarOffering(id)
+    else starOffering(id)
     setIsStarred(isStarred => !isStarred)
   }
 
@@ -41,16 +46,15 @@ export function OfferingDetail({id, history, location}) {
     util.scrollToTop('.sp-content')
 
     const propsState = history.location.state
-    if (propsState && propsState.fullCourse) {
-      const { fullCourse } = propsState
-      checkAccessType(fullCourse.accessType)
-      setFullNumber(() => fullCourse.fullNumber)
-      // setCourseNumber(() => fullCourse.courseNumber)
-      setTermName(() => fullCourse.termName)
-      setDescription(() => fullCourse.description)
-      setSectionName(() => fullCourse.section)
-      setCourseName(() => fullCourse.courseName)
-      util.links.title(fullCourse.fullNumber+' • '+fullCourse.termName+' • '+fullCourse.section)
+    if (propsState && propsState.offering) {
+      const { offering } = propsState
+      checkAccessType(offering.accessType)
+      setFullNumber(() => offering.fullNumber)
+      setTermName(() => offering.termName)
+      setDescription(() => offering.description)
+      setSectionName(() => offering.sectionName)
+      setCourseName(() => offering.courseName)
+      util.links.title(offering.fullNumber+' • '+offering.termName+' • '+offering.sectionName)
     } else {
       api.getOfferingById(id)
         .then( ({data}) => {
@@ -62,7 +66,7 @@ export function OfferingDetail({id, history, location}) {
     }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
-        console.log('playlists', data)
+        // console.log('playlists', data)
         setPlaylists(() => data)
       })
       .catch( () => {
@@ -97,12 +101,13 @@ export function OfferingDetail({id, history, location}) {
   /**
    * Determine which page to go back
    */
-  var elemId = ''
   var pathname = util.links.home()
   if (history.location.state) {
-    elemId = history.location.state.hash
-    if (history.location.state.from === 'search') {
+    const { from } = history.location.state
+    if (from === 'search') {
       pathname = util.links.search()
+    } else if (from === 'history') {
+      pathname = util.links.history()
     }
   }
 
@@ -119,7 +124,7 @@ export function OfferingDetail({id, history, location}) {
             className="del-icon" 
             to={{
               pathname: pathname, 
-              state: { id: elemId, value: location.state ? location.state.searchedValue : '' },
+              state: { value: location.state ? location.state.searchedValue : '' },
             }}
           >
             <Icon name="chevron left" /> Go Back
@@ -133,10 +138,14 @@ export function OfferingDetail({id, history, location}) {
           <span>{termName}&ensp;{sectionName}</span>
         </h2><br/>
         {description && <><p className="offering-description">{description}</p><br/><br/></>}
-        <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
-          <Icon name={iconName} />
-          {buttonName}
-        </Button>
+        {
+          user.isLoggedIn()
+          &&
+          <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
+            <Icon name={iconName} />
+            {buttonName}
+          </Button>
+        }
       </div>
       
       {/* Playlists */}
@@ -145,6 +154,7 @@ export function OfferingDetail({id, history, location}) {
         history={history} 
         playlists={playlists} 
         fullNumber={fullNumber}  
+        watchHistoryJSON={watchHistoryJSON}
       />
     </div>
   )

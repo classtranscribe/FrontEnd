@@ -6,23 +6,33 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { SidebarDimmer, UserTips } from 'components'
+import { CTContext, SidebarDimmer, UserTips } from 'components'
 import { Sidebar, Home, Starred, History, Search, OfferingDetail, PersonalReport } from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
-import { api, util, handleData } from 'utils'
+import { api, util, handleData, user } from 'utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
+    this.isLoggedIn = user.isLoggedIn()
+
+    var offerings = util.getStoredOfferings()
+    if (!offerings) {
+      offerings = ['Unloaded']
+    }
+
     this.state = {
       displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn()*/) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
-      offerings: ['Unloaded'],
-      watchHistory: ['unloaded']
+      offerings: offerings,
+      watchHistory: this.isLoggedIn ? ['unloaded'] : [],
+      watchHistoryJSON: {},
+      starredOfferings: this.isLoggedIn ? ['unloaded'] : [],
+      starredOfferingsJSON: {}
     }
   }
 
@@ -31,6 +41,7 @@ export class OfferingViewing extends React.Component {
      * 1. Setup user and then get all data based on userId
      */
     this.getOfferingsByStudent()
+    this.getUserMetadata()
     /**
      * 2. listen on window size for showing or hiding sidebar
      */
@@ -46,15 +57,12 @@ export class OfferingViewing extends React.Component {
       else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn()*/) 
         this.setState({ displaySideBar: true })
     })
-    util.completeWatchHistoryArray(watchHistory => this.setState({ watchHistory }))
   }
 
   getOfferingsByStudent = () => {
     const offerings = util.getStoredOfferings()
-    if (offerings) {
-      this.setState({ offerings })
-      return;
-    }
+    if (offerings) return;
+    
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
@@ -66,6 +74,41 @@ export class OfferingViewing extends React.Component {
         api.contentLoaded()
       })
   }  
+
+  componentDidUpdate(prevProps, prevState) {
+    const { watchHistoryJSON, watchHistory } = this.state
+    if (watchHistory !== prevState.watchHistory) {
+      if (watchHistory.length && watchHistory.length > 30) {
+        for (let i = 30; i < watchHistory.length; i++) {
+          const { mediaId } = watchHistory[i]
+          if (watchHistoryJSON[mediaId]) delete watchHistoryJSON[mediaId]
+        }
+        this.setState({ 
+          watchHistoryJSON, 
+          watchHistory: watchHistory.slice(0, 30)
+        }, () => this.updateUserMetadata())
+      }
+    }
+  }
+
+  getUserMetadata = () => {
+    if (!this.isLoggedIn) return;
+    api.storeUserMetadata({
+      setWatchHistory: watchHistoryJSON => this.setState({ watchHistoryJSON }),
+      setStarredOfferings: starredOfferingsJSON => this.setState({ starredOfferingsJSON }),
+      setWatchHistoryArray: watchHistory => this.setState({ watchHistory }),
+      setStarredOfferingsArray: starredOfferings => this.setState({ starredOfferings })
+    })
+  }
+
+  updateUserMetadata = () => {
+    const { watchHistoryJSON, starredOfferingsJSON } = this.state
+    api.postUserMetaData({
+      watchHistory: JSON.stringify(watchHistoryJSON),
+      starredOfferings: JSON.stringify(starredOfferingsJSON)
+    })
+    // console.log(watchHistoryJSON, starredOfferingsJSON)
+  }
 
   completeOfferings = async rawOfferings => {
     const offerings = await api.parseOfferings(rawOfferings)
@@ -79,14 +122,28 @@ export class OfferingViewing extends React.Component {
   }
 
   removeWatchHistory = mediaId => {
-    util.removeStoredMediaInfo(mediaId)
-    const { watchHistory } = this.state
+    const { watchHistory, watchHistoryJSON } = this.state
     handleData.remove(watchHistory, { mediaId })
-    this.setState({ watchHistory })
+    if (watchHistoryJSON[mediaId]) delete watchHistoryJSON[mediaId]
+    this.setState({ watchHistory, watchHistoryJSON }, () => this.updateUserMetadata())
+  }
+
+  starOffering = offeringId => {
+    const { starredOfferings, starredOfferingsJSON } = this.state
+    starredOfferings.push(offeringId)
+    starredOfferingsJSON[offeringId] = 'starred'
+    this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata())
+  }
+
+  unstarOffering = offeringId => {
+    const { starredOfferings, starredOfferingsJSON } = this.state
+    handleData.remove(starredOfferings, id => id === offeringId)
+    if (starredOfferingsJSON[offeringId]) delete starredOfferingsJSON[offeringId]
+    this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata())
   }
 
   render() {
-    const { displaySideBar, displaySearchHeader, offerings, watchHistory } = this.state
+    const { displaySideBar, displaySearchHeader, offerings } = this.state
     // the padding style of the content when sidebar is not floating
     const paddingLeft = {
       paddingLeft: (displaySideBar && window.innerWidth > 900) ? '22rem' : displaySearchHeader ? '2rem' : '0rem'
@@ -97,7 +154,7 @@ export class OfferingViewing extends React.Component {
         render={({ location }) => (
 
           <div className="sp-bg" ref={this.listen}>
-            <UserTips />
+            {/* <UserTips /> */}
             <SidebarDimmer show={displaySideBar && window.innerWidth < 900} onClose={() => this.showSiderBar(false)} />
             <SearchHeader
               displaySearchHeader={displaySearchHeader}
@@ -114,7 +171,7 @@ export class OfferingViewing extends React.Component {
                     {/* Unauthed home page */}
                     <Route 
                       exact path="/home" 
-                      render={props => <Home offerings={offerings} watchHistory={watchHistory} displaySearchHeader={displaySearchHeader} {...props} />} 
+                      render={props => <Home {...props} {...this} />} 
                     />
                     {/* Starred */}
                     <Route 
@@ -124,12 +181,12 @@ export class OfferingViewing extends React.Component {
                     {/* History */}
                     <Route 
                       exact path="/home/history" 
-                      render={() => <History {...this} watchHistory={watchHistory} />}
+                      render={() => <History {...this} />}
                     />
                     {/* Offering Detail page */}
                     <Route 
                       exact path='/home/offering/:id'
-                      render={({ match, ...props }) => <OfferingDetail id={match.params.id} {...props} />}
+                      render={({ match, ...props }) => <OfferingDetail id={match.params.id} {...props} {...this} />}
                     />
                     {/* Search Page */}
                     <Route 
@@ -151,3 +208,5 @@ export class OfferingViewing extends React.Component {
     )
   }
 }
+
+OfferingViewing.contextType = CTContext

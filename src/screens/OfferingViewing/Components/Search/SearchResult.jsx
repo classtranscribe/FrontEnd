@@ -10,16 +10,16 @@ function SearchResult({ loading, results, searchValue }) {
       {loading && <p>Loading Results...</p>}
       <List role="list" divided relaxed>
         {results.map( (result, index) => (
-          <List.Item className="resultItem" key={result.key + index.toString()}>
+          <List.Item className="resultItem" key={result.id + index}>
             <List.Content>
               <p className="d-inline offering-num">
                 <Link to={{
-                  pathname: util.links.offeringDetail(result.key),
-                  state: { from: 'search', fullCourse: result, searchedValue: searchValue }
+                  pathname: util.links.offeringDetail(result.id),
+                  state: { from: 'search', offering: result, searchedValue: searchValue }
                 }}>{result.fullNumber}</Link>
               </p>
               <p className="offering-name">{result.courseName}&ensp;<span>{result.description}</span></p>
-              <p className="text-muted">{result.termName}&ensp;{result.section}</p>
+              <p className="text-muted">{result.termName}&ensp;{result.sectionName}</p>
             </List.Content>
           </List.Item>
         ))}

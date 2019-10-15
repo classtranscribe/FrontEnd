@@ -45,7 +45,7 @@ export default function ToolBar({ media, captions, setResults, canReset, sendUse
         mediaId: line.mediaId, 
       })
     })
-    console.log('parsedResult', parsedResult)
+    // console.log('parsedResult', parsedResult)
     const { courseNumber } = util.parseSearchQuery()
     handleExpand(true)
     generalAlert({text: `Result of '${searchInput}' in ${courseNumber}`, position: 'bottom'})

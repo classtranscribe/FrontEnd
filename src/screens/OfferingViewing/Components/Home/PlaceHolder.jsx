@@ -10,27 +10,32 @@ import { util } from 'utils'
 /**
  * Placeholder shows up when a offering is loading
  */
-export function OfferingCardHolder() {
+export function OfferingCardHolder({ image=true, width='16rem' }) {
   return (
     <div className="offering-card-container">
       <Card className="offeringCard" id="offering-card-holder">
         <Placeholder>
-          <Placeholder.Image style={{height: '9rem', width: '16rem'}}/>
+          <Placeholder.Image style={{height: '9rem', width}}/>
         </Placeholder>
-        <Card.Body>
-          <Placeholder>
-            <Placeholder.Header>
-              <Placeholder.Line length='long' />
-              <Placeholder.Line length='short' />
-            </Placeholder.Header>
-            <Placeholder.Paragraph>
-              <Placeholder.Line length='short' />
-              <Placeholder.Line length='long' />
-              <Placeholder.Line length="medium" />
-            </Placeholder.Paragraph>
-          </Placeholder>
-        </Card.Body>
+        {
+          image
+          &&
+          <Card.Body>
+            <Placeholder>
+              <Placeholder.Header>
+                <Placeholder.Line length='long' />
+                <Placeholder.Line length='short' />
+              </Placeholder.Header>
+              <Placeholder.Paragraph>
+                <Placeholder.Line length='short' />
+                <Placeholder.Line length='long' />
+                <Placeholder.Line length="medium" />
+              </Placeholder.Paragraph>
+            </Placeholder>
+          </Card.Body>
+        }
       </Card>
+      {!image && <><br/><br/></>}
     </div>
   )
 }
@@ -38,7 +43,24 @@ export function OfferingCardHolder() {
 /**
  * Placeholder shows up when departments and offerings are loading
  */
-export function OfferingListHolder({ noCourse }) {
+export function OfferingListHolder({ noCourse, row=2, image=true, title=true, width }) {
+  if (row === 1) return (
+    <div className="section" role="listitem">
+      {
+        title
+        &&
+        <Placeholder style={{height: '2rem'}}>
+          <Placeholder.Line length='long' />
+        </Placeholder>
+      }
+      <div className="offerings">
+        {['off1', 'off2', 'off3', 'off4', 'off5', 'off6'].map( itemKey => 
+          <OfferingCardHolder key={itemKey} image={image} width={width} />
+        )}
+      </div>
+    </div>
+  )
+
   return noCourse ?
   (
     <div className="w-100 d-flex align-items-center text-muted m-5">NO COURSE</div>
@@ -52,7 +74,7 @@ export function OfferingListHolder({ noCourse }) {
           </Placeholder>
           <div className="offerings">
             {['off1', 'off2', 'off3', 'off4', 'off5', 'off6'].map( itemKey => 
-              <OfferingCardHolder key={key+itemKey} />
+              <OfferingCardHolder key={key+itemKey} width={width} />
             )}
           </div>
         </div>

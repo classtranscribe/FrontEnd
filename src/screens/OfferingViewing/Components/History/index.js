@@ -6,14 +6,12 @@ import WatchHistory from './WatchHistory'
 import './index.css'
 import { util } from 'utils'
 
-export function History({ watchHistory, state, removeWatchHistory }) {
+export function History({ state, removeWatchHistory }) {
   useEffect(() => {
     util.scrollToTop('.sp-content')
     util.links.title('History')
   }, [])
   
-  const { offerings } = state
-
   return (
     <div className="history-bg">
       <div className="goback-container">
@@ -22,8 +20,7 @@ export function History({ watchHistory, state, removeWatchHistory }) {
         </Link>
       </div>
       <WatchHistory 
-        offerings={offerings} 
-        watchHistory={watchHistory} 
+        {...state}
         removeWatchHistory={removeWatchHistory} 
       />
       <ClassTranscribeFooter />

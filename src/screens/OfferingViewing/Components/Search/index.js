@@ -6,13 +6,12 @@ import React, { useState, useEffect } from 'react'
 // UI
 import { Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { ClassTranscribeFooter } from 'components'
 import SearchInput from './SearchInput'
 import SearchResult from './SearchResult'
 import './index.css'
 // Vars
 import { search, util } from 'utils'
-import { ClassTranscribeFooter } from 'components'
-
 
 export function Search({offerings, location}) {
   var defaultValue = location.state ? location.state.value : ''
@@ -26,7 +25,7 @@ export function Search({offerings, location}) {
     window.scrollTo(0, 0)
     if (offerings.length) {
       if (defaultValue) {
-        setResults(() => search.getResult(offerings, defaultValue))
+        setResults(search.searchInOfferings(offerings, defaultValue))
       }
     }
   }, [offerings])
@@ -34,9 +33,9 @@ export function Search({offerings, location}) {
   if (!offerings.length) return null
 
   const onInput = ({ target: {value} }) => {
-    setSearchValue(() => value)
+    setSearchValue(value)
     // localStorage.setItem('searchValue', value)
-    setResults(() => search.getResult(offerings, value))
+    setResults(search.searchInOfferings(offerings, value))
   }
 
   return (

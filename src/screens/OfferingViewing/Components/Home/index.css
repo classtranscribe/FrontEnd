@@ -23,7 +23,7 @@
   width: 100%;
   margin-top: 1rem;
   /* padding: 1em 2em .5em 2em; */
-  padding: 1em 1em 0 1em;
+  padding: .4em 1em 0 1em;
   /* border-radius: 10px;
   background: #ffffff;
   box-shadow: 0em 0em .8em rgb(218, 218, 218); */
@@ -37,6 +37,7 @@
 
 .sp-home .filter .search-bar {
   border-bottom: 1px solid rgb(228, 228, 228);
+  background: white;
 }
 .ui.stackable.grid>.row>.column[id=filter-search] {
   padding-top: 0 !important;

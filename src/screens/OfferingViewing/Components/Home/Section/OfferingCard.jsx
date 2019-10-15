@@ -6,28 +6,17 @@ import { StarredButton } from './Overlays'
 import './index.css'
 // Vars
 import { handleData, search, util, user } from 'utils'
-import { offeringPosterImg as imgHolder } from 'images'
+import { offeringPosterImg } from 'images'
 
-export default function OfferingCard({ offering, depart={}, termSelected=[], image=false, ...functions }) {
+export default function OfferingCard({ offering={}, starredOfferings=[], depart={}, termSelected=[], image=false, ...functions }) {
   // if the full offering data has not yet loaded
-  if (!offering.courses || offering.isTestCourse) return null
-  if (termSelected.length && !handleData.includes(termSelected, offering.offering.termId)) return null;
-  // if loaded set the fullCourse
-  const course = {...offering.courses[0]}
-  var fullCourse = {
-    ...course, 
-    key: offering.id || offering.offering.id,
-    id: offering.id || offering.offering.id,
-    courseNumber: depart.acronym + course.courseNumber,
-    fullNumber: search.getFullNumber(offering.courses),
-    termName: offering.offering.termName,
-    section: offering.offering.sectionName,
-    accessType: offering.offering.accessType,
-  }
+  if (offering.isTestCourse) return null
+  const { id, fullNumber, termName, termId, sectionName, courseName, description } = offering
+  if (termSelected.length && !termSelected.includes(termId)) return null;
 
   const isLoggedIn = user.isLoggedIn()
 
-  return !fullCourse ? null :
+  return !fullNumber ? null :
     <div className="offering-card-container">
       {
         isLoggedIn
@@ -35,37 +24,37 @@ export default function OfferingCard({ offering, depart={}, termSelected=[], ima
         <StarredButton 
           {...functions}
           position={image ? 'middle' : 'top'}
-          offeringId={fullCourse.id}
+          offeringId={id}
+          starredOfferings={starredOfferings}
         />
       }
       <Card 
-        className={`offeringCard ${image ? 'image-card' : 'basic-card'}`} as={Link} 
+        className={`offeringCard ${image ? 'image-card' : 'basic-card'}`} 
+        as={Link} 
         to={{
-          pathname: util.links.offeringDetail(fullCourse.id),
-          state: { hash: fullCourse.acronym, from: 'home', fullCourse: fullCourse }
+          pathname: util.links.offeringDetail(id),
+          state: { from: 'home', offering }
         }}
-        title={`${fullCourse.courseNumber} ${fullCourse.courseName}`}
-        aria-describedby={"offering-info-" + fullCourse.id}
+        aria-label={`${fullNumber} of section ${sectionName} in ${termName}`}
       >
         {
           image
           &&
           <Card.Img 
             className="img" variant="top" 
-            src={imgHolder} style={{pointerEvents: 'none'}}
+            src={offeringPosterImg} style={{pointerEvents: 'none'}}
             alt=""
           />
         }
-        <p id={"offering-info-" + fullCourse.id} className="accessbility_hide">{fullCourse.courseNumber + ' ' + fullCourse.courseName + ' ' + fullCourse.termName + ' ' + fullCourse.section}</p>
         <Card.Body>
           <Card.Title className="title">
-            <strong>{fullCourse.fullNumber} </strong> <br/>{fullCourse.courseName}
+            <p>{fullNumber} </p>{courseName}
           </Card.Title>
           <Card.Text className="info">
-            {fullCourse.termName} - {fullCourse.section}
+            {termName} - {sectionName}
           </Card.Text>
           <Card.Text className="description">
-            {fullCourse.description}
+            {description}
           </Card.Text>
         </Card.Body>
       </Card>

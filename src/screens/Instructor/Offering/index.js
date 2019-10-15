@@ -59,7 +59,7 @@ export class InstructorOffering extends React.Component {
      */
     api.getOfferingById(this.id)
       .then( ({data}) => {
-        console.log(data)
+        // console.log(data)
         /**
          * 1. get and set courseOffering
          */
@@ -83,7 +83,7 @@ export class InstructorOffering extends React.Component {
     api.getPlaylistsByOfferingId(this.id)
       .then( ({data}) => {
         this.setState({ playlists: data, playlistLoaded: true })
-        console.log('playlists', data)
+        // console.log('playlists', data)
       })
   }
 

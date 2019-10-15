@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import $ from 'jquery'
 import { withRouter } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react'
-import { Poster } from 'components'
+import { VideoCard } from 'components'
 import { api, util } from 'utils'
 
-function VideoView({ playlist, playlists, history, goBack, courseNumber }) {
+function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHistoryJSON }) {
   const { name, medias=[] } = playlist
 
   useEffect(() => {
@@ -25,10 +25,10 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber }) {
           <Video 
             key={media.id} 
             media={media} 
-            history={history} 
             playlist={playlist}
             playlists={playlists}
             courseNumber={courseNumber} 
+            watchHistoryJSON={watchHistoryJSON}
           />
         ))}
       </div>
@@ -36,22 +36,19 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber }) {
   )
 }
 
-function Video({ media, playlist, playlists, courseNumber, history }) {
+function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
   const { mediaName, id } = api.parseMedia(media)
-  const { ratio } = util.getStoredMediaInfo(id)
-  
-  const pathname = util.links.watch(courseNumber, id, ratio)
-  const videoState = { media, playlist, playlists }
+  const { timeStamp, ratio } = watchHistoryJSON[id] || {}
 
   return (
-    <button 
-      className="video-item" 
-      onClick={()=>history.push(pathname, videoState)} 
-      aria-label={`Watch video ${mediaName}`}
-    >
-      <Poster progress={ratio} width="150px" />
-      <p className="media-name">{mediaName}</p>
-    </button>
+    <VideoCard row
+      name={mediaName}
+      link={util.links.watch(courseNumber, id, timeStamp)}
+      ratio={ratio}
+      mediaState={{ playlist, playlists }}
+      posterSize="150px"
+    />
+    
   )
 }
 

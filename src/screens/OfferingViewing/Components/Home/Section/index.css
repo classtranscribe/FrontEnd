@@ -6,13 +6,17 @@
   .sp-home .offering-list .section .title {
     padding: 0;
     margin: 0;
-    color: rgb(37, 113, 116);
-    font-size: 1.4rem;}
+    color: var(--ct-text-primary-light);
+    font-family: var(--ct-font-google);
+    font-size: 1.3rem;}
     .sp-home .offering-list .section .title span {
       color: rgb(104, 104, 104);
       font-size: 1.1rem;
       font-weight: normal;
       margin-left: 1em;
+    }
+    .sp-home .offering-list .section .title i {
+      color: var(--ct-text-title);
     }
     @media screen and (max-width: 600px) {
       .sp-home .offering-list .section .title {
@@ -32,7 +36,7 @@
     .sp-home .offering-list .section .button span {
       border: 1px solid transparent}
       .sp-home .offering-list .section .button[type=offering-show-all-btn] {
-        color: rgb(37, 113, 116);
+        color: var(--ct-text-primary-light);
         right: 2em;
         bottom: -1.7em;}
       .sp-home .offering-list .section .button[type=offering-close-btn] {
@@ -44,18 +48,21 @@
         .sp-home .offering-list .section .button[type=offering-show-all-btn]:hover, .sp-home .offering-list .section .button[type=offering-close-btn]:hover {
           color: #3a3a3a;}
         .sp-home .offering-list .section .button[type=offering-show-all-btn]:focus >span, .sp-home .offering-list .section .button[type=offering-close-btn]:focus > span {
-          border: 1px solid rgb(37, 113, 116)}
+          border: 1px solid var(--ct-text-primary-light)}
 
 
   /* Offering horizontal scroll area */
 
   .sp-home .offering-list .section .offerings {
     position: relative;
-    width: 100%;
+    width: 104%;
     display: flex;
     flex-wrap: nowrap;
     height: max-content;
     overflow-x: auto;
+    padding-left: 2%;
+    margin-left: -2%;
+    margin-right: -2%;
     -webkit-overflow-scrolling: touch;}
     .sp-home .offering-list .section .offerings[id=starred-offerings] {
       padding-bottom: 1em;
@@ -102,7 +109,7 @@
   }
   /* Starred */
   .sp-home .offering-list .section .offerings .offering-card-container .star-btn-middle {
-    top: 2.5em;
+    top: 4.5em;
     right: 5px;}
   .sp-home .offering-list .section .offerings .offering-card-container .star-btn-top {
     top: 5px;
@@ -153,7 +160,7 @@
     /* box-shadow: 0em 0em 0 .1em rgb(241, 241, 241); */
     border: 0.1rem solid rgb(230, 230, 230);
     width: 16rem;
-    height: 16.5rem}
+    height: 14.5rem}
   .sp-home .offering-list .section .offerings .basic-card {
     background: #ffffff !important;
     width: 16rem;
@@ -182,14 +189,31 @@
   overflow: hidden;
   max-height: 124px;
   border-bottom: .1rem solid rgb(230, 230, 230);
+  height: 8em;
+  object-fit: contain;
   width: 15.8rem;}
 .sp-home .offering-list .section .offerings .offeringCard .title {
   transition: margin 0.2s linear;
   -o-transition: margin 0.2s linear;
   -webkit-transition: margin 0.2s linear;
-  font-size: 1.4em;
-  color: rgb(37, 113, 116);
+  font-size: 1.3em;
+  /* color: var(--ct-text-title); */
+  color: var(--ct-text-primary-light);
   padding: 0;
+  font-family: var(--ct-font-narrow);
+}
+.sp-home .offering-list .section .offerings .offeringCard .title p {
+  font-family: var(--ct-font-google);
+  color: var(--ct-text-title);
+  font-weight: bold;
+  width: 10em !important;
+  white-space: nowrap;
+  margin: 0 !important;
+  padding: 0rem !important;
+  line-height: 1.3em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.25em;
 }
 .sp-home .offering-list .section .offerings .offeringCard .info {
   transition: margin 0.2s linear;
@@ -197,7 +221,8 @@
   -webkit-transition: margin 0.2s linear;
   color: rgb(61, 61, 61);
   font-weight: normal;
-  margin-top: .5em;
+  margin-top: 0em;
+  margin-bottom: .5em;
 }
 .sp-home .offering-list .section .offerings .offeringCard .description {
   color: rgb(70, 102, 102);
@@ -208,7 +233,7 @@
   text-overflow: ellipsis;
   -webkit-overflow-scrolling: touch;
 }
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   .sp-home .offering-list .section .offerings .offering-card-container:hover .image-card .img, .sp-home .offering-list .section .offerings a:focus .image-card .img{
     margin-top: -7rem;}
   .sp-home .offering-list .section .offerings .offering-card-container:hover .image-card .card-body, .sp-home .offering-list .section .offerings a:focus .image-card .card-body{
@@ -220,7 +245,7 @@
   .sp-home .offering-list .section .offerings .offering-card-container:hover .image-card .description, .sp-home .offering-list .section .offerings a:focus .image-card .description {
     white-space: normal;
   }
-}
+} */
 /* .sp-home  .offeringCard .description::-webkit-scrollbar {
   display: block;
   width: 3px;
