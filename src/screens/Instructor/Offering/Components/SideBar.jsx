@@ -126,7 +126,7 @@ function Playlist({ playlists, id, fullNumber, showSiderBar, activeKey, setActiv
         <i className="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
-        <ListGroup className="playlist" activeKey={activeKey}>
+        <ListGroup className="playlist" activeKey={activeKey} onSelect={()=>1}>
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={{

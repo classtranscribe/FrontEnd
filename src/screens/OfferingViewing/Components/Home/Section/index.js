@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
+import _ from 'lodash'
 // UI
 import { Icon } from 'semantic-ui-react'
 import { SectionShowMoreButton, SectionFoldButton } from './Overlays'
@@ -15,11 +16,14 @@ function isThisSection(offering, departmentId) {
   return false
 }
 
-function Section({ history, depart={}, state, offerings, starredOfferings, watchHistory, type, ...functions }) {
+function Section({ history, depart={}, state, offerings=[], starredOfferings=[], watchHistory=[], type, ...functions }) {
   const { universities } = state
-  const uni = universities.length ? handleData.findById(universities, depart.universityId) : ''
+  const uni = _.find(universities, { id: depart.universityId }) || {}
 
   const [showAll, setShowAll] = useState(false)
+  const [isFolded, setisFolded] = useState(false)
+
+  // Functions handling states' changes
   const handleShowAll = () => {
     if (type === 'history') {
       history.push(util.links.history())
@@ -27,24 +31,26 @@ function Section({ history, depart={}, state, offerings, starredOfferings, watch
       setShowAll(showAll => !showAll)
     }
   }
-  const [isFolded, setisFolded] = useState(false)
+
   const handleFold = () => {
     setisFolded(isFolded => !isFolded)
   }
 
-  if (type === 'department') offerings =  offerings.filter( offering => isThisSection(offering, depart.id))
-  if (type === 'starred' && !starredOfferings.length) return null 
-  if (type === 'history' && watchHistory.length < 5) return null
+  // Determine the section's type
+  let sectionTitle = {}
+  if (type === 'department') {
+    offerings =  offerings.filter( offering => offering.departmentIds.includes(depart.id) )
+    if (offerings.length === 0) return null
+    sectionTitle = { title: depart.name, subtitle: uni.name}
 
-  const sectionTitle = type === 'department' ? 
-                          { title: depart.name, subtitle: uni.name} :
-                       type === 'starred' ?
-                          { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} :
-                       type === 'history' ?
-                          { title: <><Icon name="history" /> Continue Watching</>, subtitle: ''} : {}
-
-  if (offerings.length === 0) return null
-  // if (type === 'starred' && isFolded) return null
+  } else if (type === 'starred') {
+    if (!starredOfferings.length) return null 
+    sectionTitle = { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} 
+    
+  } else if (type === 'history') {
+    if (watchHistory.length < 5) return null
+    sectionTitle = { title: <><Icon name="history" /> Continue Watching</>, subtitle: ''}
+  }
 
   return (
     <div className="section" id={depart.acronym}>

@@ -14,7 +14,7 @@ export const storage = {
       localStorage.removeItem(this.watchHistoryKey)
     }
     if (Boolean(starredOffering)) {
-      api.postUserMetaData({ starredOffering, watchHistory: '' })
+      api.postUserMetaData({ starredOffering, watchHistory: JSON.stringify({}) })
       localStorage.removeItem(this.starredOfferingKey)
     }
   },

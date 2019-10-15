@@ -21,12 +21,7 @@ export default function HistorySection({ offerings, watchHistory }) {
 function MediaCard({ media, offerings }) {
   const { offeringId, mediaName, ratio, mediaId, timeStamp } = media
   const offering = offerings.filter(offering => offering.id === offeringId)[0] || { courses: [] }
-  var fullNumber = null
-  var courseName = 'loading...'
-  if (offering.courses && offering.courses.length) {
-    fullNumber = api.getFullNumber(offering.courses)
-    courseName = offering.courses[0].courseName
-  }
+  const { fullNumber, courseName } = offering
   return fullNumber ? (
     <VideoCard square
       name={mediaName}
