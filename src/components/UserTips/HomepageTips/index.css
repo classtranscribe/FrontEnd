@@ -1,0 +1,26 @@
+.tip_image_search {
+    width: 39vw;
+}
+
+.tip_image_star {
+    width: 31vw;
+}
+
+.tips_header{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.7em !important ;
+}
+.tips_header i {
+    /* color: rgb(211, 211, 39); */
+    color: var(--ct-green-normal);
+}
+
+.tips-modal{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    position: relative !important;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

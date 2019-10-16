@@ -6,6 +6,7 @@ import React from 'react'
 import _ from 'lodash'
 // UI
 import { WatchHeader, WatchContent } from './Components'
+import { VideoTips } from 'components'
 import './index.css'
 // Vars
 import { api, util } from 'utils'
@@ -134,6 +135,7 @@ export class Watch extends React.Component {
     const { media, playlist, playlists, isMobile, watchHistory } = this.state
     return (
       <main className="watch-bg">
+        <VideoTips/>
         <WatchHeader 
           media={media} 
           playlist={playlist} 
