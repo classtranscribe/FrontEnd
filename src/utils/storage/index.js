@@ -21,12 +21,10 @@ export const storage = {
   fixUserMetadata: function() {
     const watchHistory = localStorage.getItem(this.watchHistoryKey)
     const starredOffering = localStorage.getItem(this.starredOfferingKey)
-    if (Boolean(watchHistory)) {
+    if (Boolean(watchHistory) || Boolean(starredOffering)) {
       localStorage.removeItem(this.watchHistoryKey)
-    }
-    if (Boolean(starredOffering)) {
-      api.postUserMetaData({ starredOffering, watchHistory: JSON.stringify({}) })
       localStorage.removeItem(this.starredOfferingKey)
+      api.postUserMetaData({ starredOffering: JSON.stringify({}), watchHistory: JSON.stringify({}) })
     }
   },
 
