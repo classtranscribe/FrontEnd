@@ -9,8 +9,8 @@ export const httpPOST = {
     return http.post(path, data, api.withAuth({ params, ...otherConfigs }))
   },
   // User Metadata
-  postUserMetaData: function(metadata) {
-    return this.postData('Account/PostUserMetadata/PostUserMetadata', {metadata})
+  postUserMetaData: function(metadata={}, onboard={}) {
+    return this.postData('Account/PostUserMetadata/PostUserMetadata', { metadata, onboard })
   },
   // Universities
   createUniversity: function(data) {
