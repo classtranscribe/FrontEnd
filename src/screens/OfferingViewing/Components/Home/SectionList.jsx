@@ -35,11 +35,9 @@ export default function SectionList({ state, offerings, watchHistory, starredOff
     return <OfferingListHolder noCourse />
   }
 
+  // sections
   const sections = ['history', ...nonEmptyDepartments]
   const onFilter = departSelected.length > 0 || termSelected.length > 0
-  // sections.
-
-  console.log(sections)
 
   return (
     <div className="offering-list" role="list">

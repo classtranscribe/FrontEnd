@@ -28,11 +28,11 @@ export const userMetadataHelper = {
     if (setWatchHistoryArray) watchHistoryArray = await this.getWatchHistoryArray(watchHistory).catch()
     if (setStarredOfferingsArray) starredOfferingsArray = this.getStarredOfferingsArray(starredOfferings)
     // Set vars if needed
-    console.log('starredOfferings', starredOfferings)
-    console.log('starredOfferingsArray', starredOfferingsArray)
+    // console.log('starredOfferings', starredOfferings)
+    // console.log('starredOfferingsArray', starredOfferingsArray)
 
-    console.log('watchHistory', watchHistory)
-    console.log('watchHistoryArray', watchHistoryArray)
+    // console.log('watchHistory', watchHistory)
+    // console.log('watchHistoryArray', watchHistoryArray)
 
     if (setWatchHistory) setWatchHistory(watchHistory || {})
     if (setStarredOfferings) setStarredOfferings(starredOfferings || {})

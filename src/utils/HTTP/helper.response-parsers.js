@@ -80,7 +80,7 @@ export const responseParsers = {
         fullNumber: this.getFullNumber(courses),
       })
     }
-    console.log('parsedOfferings', parsedOfferings)
+    // console.log('parsedOfferings', parsedOfferings)
     return parsedOfferings
   },
   getFullNumber: function(courses, separator) {

@@ -61,7 +61,7 @@ export const user = {
       window.history.pushState({ state: auth0Client.getRedirectState() }, null, redirectURL)
 
     } else {
-      console.log(this.getUserInfo())
+      // console.log(this.getUserInfo())
       window.location = auth0Client.getRedirectURL()
     }
   },
