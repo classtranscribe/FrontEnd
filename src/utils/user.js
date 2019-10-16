@@ -4,6 +4,7 @@
  */
 
 import { api } from './HTTP'
+import { storage } from './storage'
 import auth0Client from './auth0'
 import decoder from 'jwt-decode'
 
@@ -48,6 +49,8 @@ export const user = {
       api.saveAuthToken(data.authToken)
       // Save userInfo
       this.saveUserInfo(data)
+      // Save onboard data in user metadata
+      await storage.initOnboardLocally()
       // redirect
       var redirectURL = auth0Client.getRedirectURL()
       const tokenInfo = decoder(data.authToken)
@@ -58,7 +61,7 @@ export const user = {
       window.history.pushState({ state: auth0Client.getRedirectState() }, null, redirectURL)
 
     } else {
-      console.log(this.getUserInfo())
+      // console.log(this.getUserInfo())
       window.location = auth0Client.getRedirectURL()
     }
   },

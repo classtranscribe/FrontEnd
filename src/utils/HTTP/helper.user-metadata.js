@@ -10,13 +10,27 @@ export const userMetadataHelper = {
   }) {
     // Get all userMetadata
     var userMetadata = await api.getUserMetaData()
-    var { watchHistory, starredOfferings } = userMetadata.data.metadata
+    var { watchHistory=JSON.stringify({}), starredOfferings=JSON.stringify({}) } = userMetadata.data.metadata || {}
+
     watchHistory = JSON.parse(watchHistory)
     starredOfferings = JSON.parse(starredOfferings)
     // Parse into array
     var watchHistoryArray = [], starredOfferingsArray = []
-    if (setWatchHistoryArray) watchHistoryArray = await this.getWatchHistoryArray(watchHistory) 
+    if (setWatchHistoryArray) {
+      try {
+        watchHistoryArray = await this.getWatchHistoryArray(watchHistory)
+      } catch (error) {
+        watchHistoryArray = []
+      }
+    }
     if (setStarredOfferingsArray) starredOfferingsArray = this.getStarredOfferingsArray(starredOfferings)
+    
+    // console.log('starredOfferings', starredOfferings)
+    // console.log('starredOfferingsArray', starredOfferingsArray)
+
+    // console.log('watchHistory', watchHistory)
+    // console.log('watchHistoryArray', watchHistoryArray)
+
     // Set vars if needed
     if (setWatchHistory) setWatchHistory(watchHistory || {})
     if (setStarredOfferings) setStarredOfferings(starredOfferings || {})

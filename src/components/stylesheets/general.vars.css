@@ -10,7 +10,17 @@
   --ct-text-primary-light: #4e4e4e;
   --ct-text-title: rgb(37, 113, 116);
   --ct-text-highlight: rgb(19, 211, 211);
+  /* Border */
+  --ct-border-color: 1px solid #e6e6e6;
+  --ct-border-color-transparent: 1px solid transparent;
   /* Font Family */
   --ct-font-narrow: 'Roboto Condensed', sans-serif;
   --ct-font-google: 'Roboto', sans-serif;
+  /* Transitions */
+  --ct-transition-bg: background .2s linear;
+  --ct-transition-color: color .2s linear;
+  --ct-transition-border: border .2s linear;
+  --ct-transition-width: width .2s linear;
+  --ct-transition-height: height .2s linear;
+  --ct-transition-all: all .2s linear;
 }

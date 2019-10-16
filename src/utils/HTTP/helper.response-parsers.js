@@ -78,9 +78,10 @@ export const responseParsers = {
         universityId,
         termName: term.name,
         fullNumber: this.getFullNumber(courses),
+        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
       })
     }
-    console.log('parsedOfferings', parsedOfferings)
+    // console.log('parsedOfferings', parsedOfferings)
     return parsedOfferings
   },
   getFullNumber: function(courses, separator) {

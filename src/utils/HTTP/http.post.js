@@ -9,8 +9,8 @@ export const httpPOST = {
     return http.post(path, data, api.withAuth({ params, ...otherConfigs }))
   },
   // User Metadata
-  postUserMetaData: function(metadata) {
-    return this.postData('Account/PostUserMetadata/PostUserMetadata', {metadata})
+  postUserMetaData: function(metadata={}, onboard={}) {
+    return this.postData('Account/PostUserMetadata/PostUserMetadata', { metadata, onboard })
   },
   // Universities
   createUniversity: function(data) {
@@ -52,7 +52,7 @@ export const httpPOST = {
     formData.append('video1', video1)
     formData.append('video2', video2)
     formData.append('playlistId', playlistId)
-    console.log('uploadData', {playlistId, video1, video2})
+    // console.log('uploadData', {playlistId, video1, video2})
     return this.postData('Media', formData, null, { onUploadProgress })
   },
   // Captions

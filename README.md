@@ -1,39 +1,4 @@
-# FrontEnd
-The React.js Frontend for ClassTranscribe
-
-## Structure
-- [Routes](src/App.js)
-- [Utils](src/utils)
-  - [util](src/utils/index.js)
-  - [user](src/utils/user.js)
-  - [auth0](src/utils/auth0.js)
-  - [api](src/utils/http.js)
-  - [history](src/utils/history.js)
-  - [handleData](src/utils/data.js)
-- [General Components](src/components)
-  - [Context](src/components/CTContext)
-  - [ClassTranscribe Header](src/components/Header)
-  - [ClassTranscribe Footer](src/components/Footer)
-  - [Loaders and Placeholders](src/components/Loaders)
-  - [Modals](src/components/Modals)
-- [Screens](src/screens)
-  - [Admin](src/screens/Admin)
-  - [Instructor](src/screens/Instructor)
-    - [Profile](src/screens/Instructor/Profile)
-    - [Offering](src/screens/Instructor/Offering)
-    - [OfferingEditing](src/screens/Instructor/OfferingEditing)
-  - [OfferingViewing](src/screens/OfferingViewing)
-    - [Home](src/screens/OfferingViewing/Components/Home)
-    - [OfferingDetail](src/screens/OfferingViewing/Components/OfferingDetail)
-    - [Search](src/screens/OfferingViewing/Components/Search)
-    - [Starred](src/screens/OfferingViewing/Components/Starred)
-    - [History](src/screens/OfferingViewing/Components/History)
-    - [Sidebar](src/screens/OfferingViewing/Components/Sidebar.jsx)
-    - [SearchHeader](src/screens/OfferingViewing/Components/SearchHeader.jsx)
-  - [Watch](src/screens/Watch)
-    - [WatchHeader](src/screens/Watch/Components/WatchHeader)
-      - [PlaylistMenu](src/screens/Watch/Components/WatchHeader/PlaylistMenu)
-    - [WatchContent](src/screens/Watch/Components/WatchContent)
-      - [ClassTranscribePlayer](src/screens/Watch/Components/WatchContent/ClassTranscribePlayer)
-      - [SubHeader](src/screens/Watch/Components/WatchContent/SubHeader)
-      - [Transcription](src/screens/Watch/Components/WatchContent/Transcription)
+# ClassTranscribe Frontend
+The React.js Frontend for ClassTranscribe<br/>
+<img width="400" src="./src/images/brand-text.png" /><br/>
+ClassTranscribe provides searchable transcribed video lectures. Copyright 2019 University of Illinois, USA
