@@ -27,18 +27,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.watch-bg-modal {
+    overflow: hidden !important;
+}
+.watch-bg-modal .tips-modal {
     background-color: var(--watch-page-bg-color) !important;
-    
 }
 
 .ui.modal>.header[id=watch-bg-modal-header] {
     background-color: rgb(50, 50, 50) !important;
     color: white !important;
-
+    border-radius: 0 !important;
 }
 
 .ui.modal>.actions[id=watch-bg-modal-action] {
     background-color: var(--watch-page-bg-color) !important;
     color: white !important;
-
+    border-radius: 0 !important;
 }

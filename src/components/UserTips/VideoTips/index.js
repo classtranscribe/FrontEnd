@@ -2,19 +2,35 @@ import React, { Component } from 'react'
 import { Button, Icon, Modal } from 'semantic-ui-react'
 import { VideoTip1, VideoTip2, VideoTip3 } from '../../../images'
 import "./index.css"
+import { util } from 'utils'
 
 export class VideoTips extends Component{
-    state = { open: true, page: 1}
+    state = { 
+      open: false, 
+      page: 1
+    }
+
     open = () => this.setState({ open: true })
-    close = () => this.setState({ open: false })
+    close = () => {
+      this.setState({ open: false })
+      util.setOnboard('watch')
+    }
     next = () => this.setState({ page: this.state.page+1 })
     prev = () => this.setState({ page: this.state.page-1 })
+
+    componentDidUpdate(prevProps) {
+      const { onboarded } = this.props
+      if (prevProps.onboarded != onboarded) {
+        this.setState({ open: !onboarded })
+      }
+    }
+
     render(){
         const { open, page } = this.state
 
         return (
             <Modal
-                className = "general-modal"
+                className = "general-modal watch-bg-modal"
                 open={open}
                 onOpen={this.open}
                 onClose={this.close}
@@ -25,7 +41,7 @@ export class VideoTips extends Component{
               <Icon name='lightbulb'  />
               Tips
             </Modal.Header>
-            <Modal.Content className = "tips-modal">
+            <Modal.Content className = "tips-modal" id="watch-bg-modal">
              {this.state.page==1 && 
               <img 
                 className="tip_1"

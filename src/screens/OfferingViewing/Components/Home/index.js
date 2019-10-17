@@ -5,7 +5,7 @@
 import React from 'react'
 // UI
 import Filter from  './Filter'
-import { ClassTranscribeFooter, MaintenanceMessage } from 'components'
+import { ClassTranscribeFooter, MaintenanceMessage, HomepageTips } from 'components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
@@ -90,12 +90,13 @@ export class Home extends React.Component {
 
   render() {
     const { starOffering, unstarOffering, state } = this.props
-    const { displaySearchHeader, starredOfferings, offerings, watchHistory } = state
+    const { displaySearchHeader, starredOfferings, offerings, watchHistory, onboarded } = state
 
     return (
       <div className="sp-home">
         <div id="home-content">
           <MaintenanceMessage />
+          <HomepageTips onboarded={onboarded} />
           <Filter 
             {...this} 
             displaySearchHeader={displaySearchHeader} 

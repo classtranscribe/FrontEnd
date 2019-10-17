@@ -28,6 +28,7 @@ export class Watch extends React.Component {
 
       starredOfferings: {},
       watchHistory: {},
+      onboarded: true,
     }
   }
 
@@ -91,7 +92,8 @@ export class Watch extends React.Component {
   getUserMetadata = () => {
     api.storeUserMetadata({
       setWatchHistory: watchHistory => this.setState({ watchHistory }),
-      setStarredOfferings: starredOfferings => this.setState({ starredOfferings })
+      setStarredOfferings: starredOfferings => this.setState({ starredOfferings }),
+      // setOnboarded: onboarded => this.setState({ onboarded: Boolean(onboarded['watch']) })
     })
   }
 
@@ -132,10 +134,10 @@ export class Watch extends React.Component {
   }
 
   render() { 
-    const { media, playlist, playlists, isMobile, watchHistory } = this.state
+    const { media, playlist, playlists, isMobile, watchHistory, onboarded } = this.state
     return (
       <main className="watch-bg">
-        <VideoTips/>
+        <VideoTips onboarded={onboarded} />
         <WatchHeader 
           media={media} 
           playlist={playlist} 

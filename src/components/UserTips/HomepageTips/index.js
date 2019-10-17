@@ -2,16 +2,32 @@ import React, { Component } from 'react'
 import { Button, Icon, Modal } from 'semantic-ui-react'
 import { UserTipsSearch as TipSearch, UserTipsStar as TipStar } from '../../../images'
 import "./index.css"
+import { util } from 'utils'
 
 export class HomepageTips extends Component{
-    state = { open: true, page: 1}
+    state = { 
+      open: false, 
+      page: 1
+    }
+
     open = () => this.setState({ open: true })
-    close = () => this.setState({ open: false })
+    close = () => {
+      this.setState({ open: false })
+      util.setOnboard('home')
+    }
     next = () => this.setState({ page: this.state.page+1 })
     prev = () => this.setState({ page: this.state.page-1 })
 
+    componentDidUpdate(prevProps) {
+      const { onboarded } = this.props
+      if (prevProps.onboarded != onboarded) {
+        this.setState({ open: !onboarded })
+      }
+    }
+
     render(){
       const { open, page } = this.state
+
       return (
         <Modal
             className = "general-modal"
