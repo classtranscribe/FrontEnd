@@ -114,7 +114,7 @@ export const responseParsers = {
     } else if (sourceType === 0) { // echo360
       let { lessonName, createdAt } = jsonMetadata
       let date = new Date(createdAt)
-      re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+      re.mediaName = `${lessonName || ''}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
     } else { // upload
       if (jsonMetadata.filename) re.mediaName = jsonMetadata.filename
       else {
