@@ -13,7 +13,7 @@ export { GeneralModal, DeleteModal } from './Modals'
 export { GeneralAlert } from './Alerts'
 export { GeneralLoader, GeneralPlaceholder, SpinnerLoader } from './Loaders' 
 export { Poster } from './Poster'
-export { UserTips } from './UserTips'
+export { HomepageTips, VideoTips } from './UserTips'
 export { VideoCard, VideoCardPlaceHolder } from './Cards'
 
 /**
