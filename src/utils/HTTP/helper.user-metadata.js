@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 export const userMetadataHelper = {
   storeUserMetadata: async function({
+    setOnboarded,
     setWatchHistory, 
     setWatchHistoryArray, 
     setStarredOfferings, 
@@ -10,30 +11,29 @@ export const userMetadataHelper = {
   }) {
     // Get all userMetadata
     var userMetadata = await api.getUserMetaData()
-    var { watchHistory, starredOfferings } = userMetadata.data.metadata
-    // parse str to json obj
-    try {
-      watchHistory = JSON.parse(watchHistory)
-    } catch (error) {
-      watchHistory = {}
-    }
-    try {
-      starredOfferings = JSON.parse(starredOfferings)
-    } catch (error) {
-      starredOfferings = {}
-    }
+    var { watchHistory=JSON.stringify({}), starredOfferings=JSON.stringify({}) } = userMetadata.data.metadata || {}
 
+    watchHistory = JSON.parse(watchHistory)
+    starredOfferings = JSON.parse(starredOfferings)
     // Parse into array
     var watchHistoryArray = [], starredOfferingsArray = []
-    if (setWatchHistoryArray) watchHistoryArray = await this.getWatchHistoryArray(watchHistory).catch()
+    if (setWatchHistoryArray) {
+      try {
+        watchHistoryArray = await this.getWatchHistoryArray(watchHistory)
+      } catch (error) {
+        watchHistoryArray = []
+      }
+    }
     if (setStarredOfferingsArray) starredOfferingsArray = this.getStarredOfferingsArray(starredOfferings)
+    
+    // console.log('starredOfferings', starredOfferings)
+    // console.log('starredOfferingsArray', starredOfferingsArray)
+
+    // console.log('watchHistory', watchHistory)
+    // console.log('watchHistoryArray', watchHistoryArray)
+
     // Set vars if needed
-    console.log('starredOfferings', starredOfferings)
-    console.log('starredOfferingsArray', starredOfferingsArray)
-
-    console.log('watchHistory', watchHistory)
-    console.log('watchHistoryArray', watchHistoryArray)
-
+    if (setOnboarded) setOnboarded(userMetadata.data.onboard || {})
     if (setWatchHistory) setWatchHistory(watchHistory || {})
     if (setStarredOfferings) setStarredOfferings(starredOfferings || {})
     if (setWatchHistoryArray) setWatchHistoryArray(watchHistoryArray)

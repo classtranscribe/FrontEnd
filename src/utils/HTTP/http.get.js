@@ -12,10 +12,14 @@ export const httpGET = {
     if(id) path = `${path}/${id}`
     return http.get(path, api.withAuth({ params }))
   },
+
+
   // User Metadata
   getUserMetaData: function() {
     return this.getData('Account/GetUserMetadata/GetUserMetadata')
   },
+
+
   // Universities
   getUniversities: function() {
     return this.getData('Universities')
@@ -23,6 +27,8 @@ export const httpGET = {
   getUniversityById: function (universityId) {
     return this.getData('Universities', universityId)
   },
+
+  
   // Terms
   getTermById: function(termId) {
     return this.getData('Terms', termId)
@@ -30,6 +36,8 @@ export const httpGET = {
   getTermsByUniId: function (id) {
     return this.getData('Terms/ByUniversity', id) 
   },
+
+
   // Departments
   getDepartments: function() {
     return this.getData('Departments')
@@ -40,6 +48,8 @@ export const httpGET = {
   getDepartsByUniId: function (id) {
     return this.getData('Departments/ByUniversity', id)
   },
+
+
   // Courses
   getCourseById: function (courseId) {
     return this.getData('Courses', courseId)
@@ -50,10 +60,14 @@ export const httpGET = {
   getCoursesByInstId: function (id) {
     return this.getData('Courses/ByInstructor', id) 
   },
+
+
   // Roles
   getRolesByUniId: function (universityId) {
     return this.getData('Roles', null, {universityId})
   },
+
+
   // Offerings
   getOfferingsByStudent: function() {
     return this.getData('Offerings/ByStudent')
@@ -64,6 +78,8 @@ export const httpGET = {
   getCourseOfferingsByInstructorId: function (id) {
     return this.getData('CourseOfferings/ByInstructor', id)
   },
+
+
   // Playlists
   getPlaylistById: function(playlistId) {
     return this.getData('Playlists', playlistId)
@@ -71,6 +87,8 @@ export const httpGET = {
   getPlaylistsByOfferingId: function(offeringId) {
     return this.getData('Playlists/ByOffering', offeringId)
   },
+
+
   // media
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
@@ -84,15 +102,29 @@ export const httpGET = {
   searchCaptionInOffering: function(offeringId, query) {
     return this.getData('Captions/SearchInOffering', null, { offeringId, query })
   },
-  // Admin
+
+  
+  // Admin 
   adminGetLogs: function(from, to) {
     return this.getData('Admin/GetLogs', null, { from, to })
   },
+
+
   // Logs
   getCourseLogs: function(eventType, offeringId, start, end) {
     return this.getData('Logs/CourseLogs', null, { offeringId, eventType, start, end })
   },
-  getStudentLogs: function(eventType, mailId, start, end) {
-    return this.getData('Logs/StudentLogs', null, { mailId, eventType, start, end })
+  getUserLogs: function() {
+    return this.getData('Logs/UserLogs')
   },
+  getUserLogsByEvent: function(eventType, start, end) {
+    return this.getData('Logs/UserLogs/ByEvent', null, { eventType, start, end })
+  },
+  getOfferingSearchHistory: function(offeringId) {
+    return this.getData('Logs/OfferingSearchHistory', null, { offeringId })
+  },
+  getUserSearchHistoryInOffering: function(offeringId) {
+    return this.getData('Logs/UserSearchHistory', null, { offeringId })
+  },
+
 }

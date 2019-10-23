@@ -78,9 +78,10 @@ export const responseParsers = {
         universityId,
         termName: term.name,
         fullNumber: this.getFullNumber(courses),
+        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
       })
     }
-    console.log('parsedOfferings', parsedOfferings)
+    // console.log('parsedOfferings', parsedOfferings)
     return parsedOfferings
   },
   getFullNumber: function(courses, separator) {
@@ -98,7 +99,8 @@ export const responseParsers = {
       createdAt: '', 
       isTwoScreen: false, 
       videos: [], 
-      transcriptions: [] 
+      transcriptions: [],
+      isUnavailable: false,
     }
     if (!media) return re
     const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
@@ -113,7 +115,7 @@ export const responseParsers = {
     } else if (sourceType === 0) { // echo360
       let { lessonName, createdAt } = jsonMetadata
       let date = new Date(createdAt)
-      re.mediaName = `${lessonName}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+      re.mediaName = `${lessonName || ''}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
     } else { // upload
       if (jsonMetadata.filename) re.mediaName = jsonMetadata.filename
       else {
@@ -123,18 +125,24 @@ export const responseParsers = {
     }
 
     videos.forEach( video => {
-      re.videos.push({
-        srcPath1: `${api.baseUrl()}${video.video1Path || video.video1.path}`,
-        srcPath2: re.isTwoScreen ? `${api.baseUrl()}${video.video2Path || video.video2.path}` : null
-      })
+      if (video.video1Path || (video.video1 && video.video1.path)) {
+        re.videos.push({
+          srcPath1: `${api.baseUrl()}${video.video1Path || video.video1.path}`,
+          srcPath2: re.isTwoScreen ? `${api.baseUrl()}${video.video2Path || video.video2.path}` : null
+        })
+      } else {
+        re.isUnavailable = true
+      }
     })
 
     transcriptions.forEach( trans => {
-      if (trans.file || trans.path) re.transcriptions.push({
-        id: trans.id,
-        language: trans.language,
-        src: `${api.baseUrl()}${trans.path || trans.file.path}`
-      })
+      if (trans.file || trans.path) {
+        re.transcriptions.push({
+          id: trans.id,
+          language: trans.language,
+          src: `${api.baseUrl()}${trans.path || trans.file.path}`
+        })
+      }
     })
     return re
   },

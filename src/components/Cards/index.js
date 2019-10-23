@@ -1,2 +1,2 @@
 export { VideoCard } from './VideoCard'
-export { VideoCardPlaceHolder } from './VideoCard.Placeholder'
+export { VideoCardPlaceHolder } from './VideoCard/VideoCard.Placeholder'

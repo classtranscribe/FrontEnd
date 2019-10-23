@@ -11,9 +11,11 @@
     color: rgb(48, 134, 134);
     font-size: 3rem;}
   .sp-content .offering-detail h2 {
+    white-space: normal;
     display: inline;
     color: rgb(75, 88, 87);}
     .sp-content .offering-detail h2 span {
+      white-space: normal;
       color: rgb(38, 105, 114);
       font-size: 1.2rem;
       font-weight: normal;}
@@ -180,7 +182,10 @@
     height: 92vh;
     position: sticky;
     top: 0em;
-    width: 440px;
+    min-width: 320px;
+  }
+
+  .sp-content .offering-detail h1 {
     word-break: break-all;
   }
   
