@@ -99,7 +99,8 @@ export const responseParsers = {
       createdAt: '', 
       isTwoScreen: false, 
       videos: [], 
-      transcriptions: [] 
+      transcriptions: [],
+      isUnavailable: false,
     }
     if (!media) return re
     const { id, playlistId, jsonMetadata, sourceType, videos, transcriptions } = media
@@ -124,18 +125,24 @@ export const responseParsers = {
     }
 
     videos.forEach( video => {
-      re.videos.push({
-        srcPath1: `${api.baseUrl()}${video.video1Path || video.video1.path}`,
-        srcPath2: re.isTwoScreen ? `${api.baseUrl()}${video.video2Path || video.video2.path}` : null
-      })
+      if (video.video1Path || (video.video1 && video.video1.path)) {
+        re.videos.push({
+          srcPath1: `${api.baseUrl()}${video.video1Path || video.video1.path}`,
+          srcPath2: re.isTwoScreen ? `${api.baseUrl()}${video.video2Path || video.video2.path}` : null
+        })
+      } else {
+        re.isUnavailable = true
+      }
     })
 
     transcriptions.forEach( trans => {
-      if (trans.file || trans.path) re.transcriptions.push({
-        id: trans.id,
-        language: trans.language,
-        src: `${api.baseUrl()}${trans.path || trans.file.path}`
-      })
+      if (trans.file || trans.path) {
+        re.transcriptions.push({
+          id: trans.id,
+          language: trans.language,
+          src: `${api.baseUrl()}${trans.path || trans.file.path}`
+        })
+      }
     })
     return re
   },

@@ -1,20 +1,23 @@
 import React from 'react'
 import $ from 'jquery'
 import { Link, withRouter } from 'react-router-dom'
-import { Poster } from '../Poster'
-import { Button, Popup } from 'semantic-ui-react'
-import { util } from '../../utils'
-import './VideoCard.css'
+import { Poster } from '../../Poster'
+import { DismissButton } from './VideoCard.Overlays'
+import { util } from '../../../utils'
+import './index.css'
 
 function VideoCardWithOutRouter({ 
   square=false,
   row=false,
   name='Loading...', 
+
   history,
   link=window.location.pathname,  
   mediaState=null,
+
   ratio=0,
   timeStamp=0,
+  isUnavailable=false,
   description=null,
   descriptionLink=null,
   descriptionState=null,
@@ -22,8 +25,9 @@ function VideoCardWithOutRouter({
   // buttons
   dismissable=false,
   handleDismiss,
-  dismissPrompt
+  dismissPrompt,
 }) {
+  if (isUnavailable) console.log(isUnavailable.toString())
   const fittedName = util.getFittedName(name, 56)
 
   const handleClick = () => {
@@ -32,7 +36,7 @@ function VideoCardWithOutRouter({
   }
 
   if (square) return (
-    <div className="video-card-container-square">
+    <div className="video-card-container-square" unavailable={isUnavailable.toString()}>
       <button 
         className="video-card plain-btn" 
         onClick={handleClick}
@@ -49,7 +53,7 @@ function VideoCardWithOutRouter({
   )
 
   if (row) return (
-    <div className="video-card-container-row">
+    <div className="video-card-container-row" unavailable={isUnavailable.toString()}>
       <button
         className="video-card plain-btn" 
         onClick={handleClick}
@@ -58,6 +62,7 @@ function VideoCardWithOutRouter({
         <Poster progress={ratio} width={posterSize} />
         <div className="media-info">
           <p className="media-name">{name}</p>
+          {isUnavailable && <p className="description text-muted">Sorry this video is currently unavailable.</p>}
           {!descriptionLink && <p className="description text-muted">{description}</p>}
           {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
         </div>
@@ -67,23 +72,6 @@ function VideoCardWithOutRouter({
   )
 }
 
-function DismissButton({ handleDismiss, dismissPrompt }) {
-  return (
-    <Popup 
-      content={dismissPrompt}
-      position="left center"
-      inverted
-      openOnTriggerFocus
-      closeOnTriggerBlur
-      trigger={
-        <Button type="dismiss" compact onClick={handleDismiss} aria-label={dismissPrompt}>
-          <span tabIndex="-1">
-            <i className="material-icons">close</i>
-          </span>
-        </Button>
-      }
-    />
-  )
-}
+
 
 export const VideoCard = withRouter(VideoCardWithOutRouter)

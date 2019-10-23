@@ -37,7 +37,7 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHi
 }
 
 function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
-  const { mediaName, id } = api.parseMedia(media)
+  const { mediaName, id, isUnavailable } = api.parseMedia(media)
   const { timeStamp, ratio } = watchHistoryJSON[id] || {}
 
   return (
@@ -47,6 +47,7 @@ function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
       ratio={ratio}
       mediaState={{ playlist, playlists }}
       posterSize="150px"
+      isUnavailable={isUnavailable}
     />
     
   )
