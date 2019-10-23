@@ -56,6 +56,10 @@ export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
     <Popup 
       content={content}
       position="left center"
+      mouseEnterDelay={1000}
+      openOnTriggerFocus
+      closeOnTriggerBlur
+      openOnTriggerClick={false}
       inverted
       trigger={
         <Button circular type={`offering-close-btn${isFolded ? '-reverse' : ''}`} compact onClick={handleFold} aria-label={content}>

@@ -33,10 +33,10 @@
       background: #fcfcfc;
       border-radius: 10px !important;
       border: var(--ct-border-color-transparent) !important;
-      transition: var(--ct-transition-bg);
-      -o-transition: var(--ct-transition-bg);
-      -moz-transition: var(--ct-transition-bg);
-      -webkit-transition: var(--ct-transition-bg);
+      transition: var(--ct-transition-bg), var(--ct-transition-transform);
+      -o-transition: var(--ct-transition-bg), var(--ct-transition-transform);
+      -moz-transition: var(--ct-transition-bg), var(--ct-transition-transform);
+      -webkit-transition: var(--ct-transition-bg), var(--ct-transition-transform);
       z-index: 1;}
     .sp-home .offering-list .section .button span {
       color: var(--ct-text-primary-light);}
@@ -56,10 +56,6 @@
         font-size: 1.3em;
         right: 0;
         top: .3em;
-        transition: var(--ct-transition-transform);
-        -o-transition: var(--ct-transition-transform);
-        -moz-transition: var(--ct-transition-transform);
-        -webkit-transition: var(--ct-transition-transform);
       }
         .sp-home .offering-list .section .button[type=offering-close-btn-reverse] {
           transform: rotate(-180deg);
