@@ -27,7 +27,6 @@ function VideoCardWithOutRouter({
   handleDismiss,
   dismissPrompt,
 }) {
-  if (isUnavailable) console.log(isUnavailable.toString())
   const fittedName = util.getFittedName(name, 56)
 
   const handleClick = () => {
