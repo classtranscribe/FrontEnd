@@ -64,7 +64,7 @@ export default class OfferingSettingPage extends React.Component {
             })
             .catch( error => {
               const { generalError } = this.context
-              generalError({ text: "Couldn't load the terms." })
+              generalError({ header: "Couldn't load the terms." })
               this.setState({ loading: true })
             })
     // get departments
@@ -76,7 +76,7 @@ export default class OfferingSettingPage extends React.Component {
             })
             .catch( error => {
               const { generalError } = this.context
-              generalError({ text: "Couldn't load the departments." })
+              generalError({ header: "Couldn't load the departments." })
               this.setState({ loading: true })
             })
 
@@ -110,7 +110,7 @@ export default class OfferingSettingPage extends React.Component {
         })
         .catch( error => {
           const { generalError } = this.context
-          generalError({ text: "Couldn't load the offering." })
+          generalError({ header: "Couldn't load the offering." })
         })
     }
   }
@@ -319,8 +319,10 @@ export default class OfferingSettingPage extends React.Component {
     // console.log('newRemovedStaffs', newRemovedStaffs)
 
     // PUT to offerings
+    let noError = true
     await api.updateOffering(offering.offering)
           .catch( error => {
+            noError = false
             generalError({ 
               refresh: false,
               header: "Couldn't save changes.",
@@ -328,13 +330,14 @@ export default class OfferingSettingPage extends React.Component {
             })
           })
     // delete removed courses
+    if (!noError) return;
     try {
       for (let i = 0; i < newRemovedCourses.length; i++) {
         await api.deleteCourseOffering(newRemovedCourses[i], this.id)
       }
     } catch (error) {
       generalError({ 
-        span: 1000,
+        span: 4000,
         refresh: false,
         text: `Couldn't remove the course(s) from the offering.`, 
       })
@@ -346,7 +349,7 @@ export default class OfferingSettingPage extends React.Component {
       }
     } catch (error) {
       generalError({ 
-        span: 1000,
+        span: 4000,
         refresh: false,
         text: "Couldn't add new courses to the offering.", 
       })
@@ -375,7 +378,7 @@ export default class OfferingSettingPage extends React.Component {
       })
     }
 
-    this.onClose(this.id)
+    if (noError) this.onClose(this.id)
   }
 
   /**

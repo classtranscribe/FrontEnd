@@ -38,7 +38,7 @@ export class Home extends React.Component {
       .catch( error => {
         const { generalError } = this.context
         api.contentLoaded()
-        generalError({ text: "Couldn't load universities." })
+        generalError({ header: "Couldn't load universities." })
       })
     if (user.isLoggedIn()) {
       const userUniId = user.getUserInfo().universityId

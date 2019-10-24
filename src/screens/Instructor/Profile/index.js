@@ -45,7 +45,7 @@ export class InstructorProfile extends React.Component {
       })
       .catch(error => {
         const { generalError } = this.context
-        generalError({ text: "Couldn't load courses." })
+        generalError({ header: "Couldn't load courses." })
       })
   }
 
@@ -74,7 +74,7 @@ export class InstructorProfile extends React.Component {
       api.getDepartsByUniId(userInfo.universityId).then(({data}) => this.setState({ departments: data }))
     } catch (error) {
       const { generalError } = this.context
-      generalError({ text: "Couldn't load courses." })
+      generalError({ header: "Couldn't load courses." })
     }
   }
 

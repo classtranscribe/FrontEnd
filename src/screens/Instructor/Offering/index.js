@@ -85,13 +85,13 @@ export class InstructorOffering extends React.Component {
         .catch( error => {
           console.log(error)
           const { generalError } = this.context
-          generalError({ text: "Couldn't load the playlists." })
+          generalError({ header: "Couldn't load the playlists." })
         })
         api.contentLoaded()
       })
       .catch( error => {
         const { generalError } = this.context
-        generalError({ text: "Couldn't load the offering." })
+        generalError({ header: "Couldn't load the offering." })
       })
   }
 

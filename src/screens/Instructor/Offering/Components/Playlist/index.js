@@ -34,7 +34,7 @@ export function Playlist({ match, history, location }) {
           setMedias(data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
         })
         .catch( error => {
-          generalError({ text: "Couldn't load the playlist." })
+          generalError({ header: "Couldn't load the playlist." })
         })
     // }
   }, [location, playlistId])
