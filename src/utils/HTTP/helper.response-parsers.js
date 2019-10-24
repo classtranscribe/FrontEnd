@@ -124,6 +124,10 @@ export const responseParsers = {
       }
     }
 
+    if (videos.length === 0) {
+      re.isUnavailable = true
+    }
+
     videos.forEach( video => {
       if (video.video1Path || (video.video1 && video.video1.path)) {
         re.videos.push({

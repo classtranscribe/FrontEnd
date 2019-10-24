@@ -38,7 +38,7 @@ export default class ClassTranscribePlayer extends React.Component {
     if (prevProps.media !== media) {
       const { videos, isTwoScreen } = media
       if (!video1 && !isTwoScreen) return;
-      const { srcPath1, srcPath2 } = videos[0]
+      const { srcPath1, srcPath2 } = videos[0] || {}
       const videoJsOptions = {
         ...staticVJSOptions,
         controls: isPrimary, // only the isPrimary video player has the controls
