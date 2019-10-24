@@ -6,6 +6,7 @@ import React from 'react'
 import _ from 'lodash'
 // UI
 import { WatchHeader, WatchContent } from './Components'
+import { VideoTips } from 'components'
 import './index.css'
 // Vars
 import { api, util } from 'utils'
@@ -27,6 +28,7 @@ export class Watch extends React.Component {
 
       starredOfferings: {},
       watchHistory: {},
+      onboarded: true,
     }
   }
 
@@ -90,7 +92,8 @@ export class Watch extends React.Component {
   getUserMetadata = () => {
     api.storeUserMetadata({
       setWatchHistory: watchHistory => this.setState({ watchHistory }),
-      setStarredOfferings: starredOfferings => this.setState({ starredOfferings })
+      setStarredOfferings: starredOfferings => this.setState({ starredOfferings }),
+      // setOnboarded: onboarded => this.setState({ onboarded: Boolean(onboarded['watch']) })
     })
   }
 
@@ -131,9 +134,10 @@ export class Watch extends React.Component {
   }
 
   render() { 
-    const { media, playlist, playlists, isMobile, watchHistory } = this.state
+    const { media, playlist, playlists, isMobile, watchHistory, onboarded } = this.state
     return (
       <main className="watch-bg">
+        <VideoTips onboarded={onboarded} />
         <WatchHeader 
           media={media} 
           playlist={playlist} 

@@ -36,9 +36,13 @@
   -webkit-transition: var(--ct-transition-color);
 }
 
+
+
+
 /**
  * Video Card Row 
  */
+ 
 .video-card-container-row {
   position: relative;
   padding: 1em 0;
@@ -48,6 +52,11 @@
 .video-card-container-row:last-child {
   border-bottom: none !important;
 }
+.video-card-container-row[unavailable=true] {
+  opacity: .6;
+  pointer-events: none;
+}
+
 .video-card-container-row .video-card {
   display: flex;
   flex-direction: row;

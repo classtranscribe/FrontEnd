@@ -182,7 +182,10 @@
     height: 92vh;
     position: sticky;
     top: 0em;
-    width: 440px;
+    min-width: 320px;
+  }
+
+  .sp-content .offering-detail h1 {
     word-break: break-all;
   }
   

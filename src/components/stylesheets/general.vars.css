@@ -22,5 +22,6 @@
   --ct-transition-border: border .2s linear;
   --ct-transition-width: width .2s linear;
   --ct-transition-height: height .2s linear;
+  --ct-transition-transform: transform .2s linear;
   --ct-transition-all: all .2s linear;
 }

@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 export const userMetadataHelper = {
   storeUserMetadata: async function({
+    setOnboarded,
     setWatchHistory, 
     setWatchHistoryArray, 
     setStarredOfferings, 

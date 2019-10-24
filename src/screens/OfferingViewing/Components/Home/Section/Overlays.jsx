@@ -58,9 +58,9 @@ export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
       position="left center"
       inverted
       trigger={
-        <Button circular type="offering-close-btn" compact onClick={handleFold} aria-label={content}>
+        <Button circular type={`offering-close-btn${isFolded ? '-reverse' : ''}`} compact onClick={handleFold} aria-label={content}>
           <span tabIndex="-1">
-            {isFolded ? <i className="material-icons">expand_more</i> : <i className="material-icons">expand_less</i>} 
+            <i className="material-icons">expand_less</i>
           </span>
         </Button>
       }

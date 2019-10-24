@@ -94,7 +94,7 @@ export class Home extends React.Component {
 
   render() {
     const { starOffering, unstarOffering, state } = this.props
-    const { displaySearchHeader, starredOfferings, offerings, watchHistory } = state
+    const { displaySearchHeader, starredOfferings, offerings, watchHistory, onboarded } = state
 
     return (
       <div className="sp-home">
