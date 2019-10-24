@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UI
 import './index.css'
-import { ClassTranscribeHeader, SidebarDimmer } from 'components'
+import { ClassTranscribeHeader, SidebarDimmer, CTContext } from 'components'
 import { PlaylistEditing, VideoEditing, UploadVideo } from './EditingPages'
 import { SideBar, EmptyResult, Analytics, Playlist } from './Components'
 import OfferingSettingPage from '../OfferingEditing'
@@ -74,16 +74,24 @@ export class InstructorOffering extends React.Component {
         /**
          * 3. Hide the loading page
          */
-        api.contentLoaded()
-      })
-
-    /**
+        /**
      * GET playlists based on offeringId
      */
-    api.getPlaylistsByOfferingId(this.id)
-      .then( ({data}) => {
-        this.setState({ playlists: data, playlistLoaded: true })
-        // console.log('playlists', data)
+        api.getPlaylistsByOfferingId(this.id)
+        .then( ({data}) => {
+          this.setState({ playlists: data, playlistLoaded: true })
+          // console.log('playlists', data)
+        })
+        .catch( error => {
+          console.log(error)
+          const { generalError } = this.context
+          generalError({ text: "Couldn't load the playlists." })
+        })
+        api.contentLoaded()
+      })
+      .catch( error => {
+        const { generalError } = this.context
+        generalError({ text: "Couldn't load the offering." })
       })
   }
 
@@ -174,3 +182,5 @@ export class InstructorOffering extends React.Component {
     )
   }
 }
+
+InstructorOffering.contextType = CTContext

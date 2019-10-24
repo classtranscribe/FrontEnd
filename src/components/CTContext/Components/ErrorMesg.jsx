@@ -1,5 +1,6 @@
 import React from 'react'
 import { util } from 'utils'
+import './ErrorMesg.css'
 
 export default function ErrorMesg({ mesg, notFound404 }) {
   if (!mesg) return null

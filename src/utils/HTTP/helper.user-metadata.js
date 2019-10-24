@@ -9,33 +9,37 @@ export const userMetadataHelper = {
     setStarredOfferingsArray
   }) {
     // Get all userMetadata
-    var userMetadata = await api.getUserMetaData()
-    var { watchHistory=JSON.stringify({}), starredOfferings=JSON.stringify({}) } = userMetadata.data.metadata || {}
+    try {
+      var userMetadata = await api.getUserMetaData()
+      var { watchHistory=JSON.stringify({}), starredOfferings=JSON.stringify({}) } = userMetadata.data.metadata || {}
 
-    watchHistory = JSON.parse(watchHistory)
-    starredOfferings = JSON.parse(starredOfferings)
-    // Parse into array
-    var watchHistoryArray = [], starredOfferingsArray = []
-    if (setWatchHistoryArray) {
-      try {
+      watchHistory = JSON.parse(watchHistory)
+      starredOfferings = JSON.parse(starredOfferings)
+      // Parse into array
+      var watchHistoryArray = [], starredOfferingsArray = []
+      if (setWatchHistoryArray) {
         watchHistoryArray = await this.getWatchHistoryArray(watchHistory)
-      } catch (error) {
-        watchHistoryArray = []
       }
+      if (setStarredOfferingsArray) starredOfferingsArray = this.getStarredOfferingsArray(starredOfferings)
+      
+      // console.log('starredOfferings', starredOfferings)
+      // console.log('starredOfferingsArray', starredOfferingsArray)
+
+      // console.log('watchHistory', watchHistory)
+      // console.log('watchHistoryArray', watchHistoryArray)
+
+      // Set vars if needed
+      if (setWatchHistory) setWatchHistory(watchHistory || {})
+      if (setStarredOfferings) setStarredOfferings(starredOfferings || {})
+      if (setWatchHistoryArray) setWatchHistoryArray(watchHistoryArray)
+      if (setStarredOfferingsArray) setStarredOfferingsArray(starredOfferingsArray)
+    } catch (error) {
+      console.error("Couldn't load user metadata.")
+      if (setWatchHistory) setWatchHistory({})
+      if (setStarredOfferings) setStarredOfferings({})
+      if (setWatchHistoryArray) setWatchHistoryArray([])
+      if (setStarredOfferingsArray) setStarredOfferingsArray([])
     }
-    if (setStarredOfferingsArray) starredOfferingsArray = this.getStarredOfferingsArray(starredOfferings)
-    
-    // console.log('starredOfferings', starredOfferings)
-    // console.log('starredOfferingsArray', starredOfferingsArray)
-
-    // console.log('watchHistory', watchHistory)
-    // console.log('watchHistoryArray', watchHistoryArray)
-
-    // Set vars if needed
-    if (setWatchHistory) setWatchHistory(watchHistory || {})
-    if (setStarredOfferings) setStarredOfferings(starredOfferings || {})
-    if (setWatchHistoryArray) setWatchHistoryArray(watchHistoryArray)
-    if (setStarredOfferingsArray) setStarredOfferingsArray(starredOfferingsArray)
   },
 
   /**
