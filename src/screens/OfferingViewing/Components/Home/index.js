@@ -5,7 +5,7 @@
 import React from 'react'
 // UI
 import Filter from  './Filter'
-import { ClassTranscribeFooter, MaintenanceMessage, HomepageTips } from 'components'
+import { ClassTranscribeFooter, MaintenanceMessage, CTContext } from 'components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
@@ -30,10 +30,16 @@ export class Home extends React.Component {
     /**
      * Get all universities
      */
-    api.getUniversities().then(({data}) => {
-      this.setState({ universities: data.filter(uni => uni.id !== '0000') })
-      api.contentLoaded()
-    })
+    api.getUniversities()
+      .then(({data}) => {
+        this.setState({ universities: data.filter(uni => uni.id !== '0000') })
+        api.contentLoaded()
+      })
+      .catch( error => {
+        const { generalError } = this.context
+        api.contentLoaded()
+        generalError({ text: "Couldn't load universities." })
+      })
     if (user.isLoggedIn()) {
       const userUniId = user.getUserInfo().universityId
       if (userUniId !== "0000") this.onUniSelected(null, {value: userUniId})
@@ -64,7 +70,6 @@ export class Home extends React.Component {
 
   onUniSelected = (e, {value}) => {
     if (!value) {
-      this.setState({ terms: [], departments: ['unloaded'] })
       api.getDepartments().then(({data}) => {
         data.forEach(depart => {
           const uni = handleData.findById(this.state.universities, depart.universityId)
@@ -73,11 +78,10 @@ export class Home extends React.Component {
         this.setState({ departments: data })
       })
     } else {
-      this.setState({ terms: [], departments: ['unloaded']  })
       this.getDepartmentsByUniId(value)
       this.getTermsByUniId(value)
     }
-    this.setState({ uniSelected: value })
+    this.setState({ terms: [], departments: ['unloaded'], uniSelected: value })
   }
 
   onDepartSelected = (e, {value}) => {
@@ -96,7 +100,6 @@ export class Home extends React.Component {
       <div className="sp-home">
         <div id="home-content">
           <MaintenanceMessage />
-          <HomepageTips onboarded={onboarded} />
           <Filter 
             {...this} 
             displaySearchHeader={displaySearchHeader} 
@@ -115,3 +118,5 @@ export class Home extends React.Component {
     )
   }
 }
+
+Home.contextType = CTContext
