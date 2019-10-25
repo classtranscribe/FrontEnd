@@ -48,7 +48,7 @@
 }
 
 
-.MuiPaper-rounded, .ui.selection.dropdown, .ui.selection.dropdown .menu, .ui.selection .menu, .button, .ui.message, .modal, .card, .modal input, .ui.segment, .ui.segments .segment {
+.MuiPaper-rounded, .ui.selection.dropdown, .ui.selection.dropdown .menu, .ui.selection .menu, .button, .ui.message, .modal, .card, .modal input, .modal textarea, .ui.segment, .ui.segments .segment {
   border-radius: 0 !important;
 }
 .ui.selection.active.dropdown, .ui.selection.active.dropdown .menu {

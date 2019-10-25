@@ -14,8 +14,8 @@ export function SaveButtons(props) {
   const { generalAlert } = useCTContext()
 
   const { offering, selectedCourses } = props.state
-  const { termId, sectionName } = offering.offering
-  const canSave = termId && sectionName && selectedCourses.length
+  const { termId, sectionName, courseName } = offering.offering
+  const canSave = termId && sectionName && courseName && selectedCourses.length
 
   return (
     <>
@@ -38,8 +38,8 @@ export function EditButtons(props) {
   const { generalAlert } = useCTContext()
 
   const { offering, selectedCourses } = props.state
-  const { termId, sectionName } = offering.offering
-  const canSave = termId && sectionName && selectedCourses.length
+  const { termId, sectionName, courseName } = offering.offering
+  const canSave = termId && sectionName && courseName && selectedCourses.length
   
   return (
     <>

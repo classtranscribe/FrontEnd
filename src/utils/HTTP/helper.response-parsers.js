@@ -62,18 +62,32 @@ export const responseParsers = {
         }
       })
   },
+
+  // parseSingleOffering: function(rawOffering) {
+  //   const { offering, courses, term } = rawOffering
+  //     let { universityId } = term
+  //     let departmentIds = _.map(courses, 'departmentId')
+  //     parsedOfferings.push({
+  //       ...offering,
+  //       departmentIds,
+  //       universityId,
+  //       termName: term.name,
+  //       fullNumber: this.getFullNumber(courses),
+  //       isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+  //     })
+  // },
   
   parseOfferings: async function(rawOfferings) {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
       const { offering, courses, term } = rawOfferings[i]
-      let { courseName, description } = courses[0]
+      // let { courseName, description } = courses[0]
       let { universityId } = term
       let departmentIds = _.map(courses, 'departmentId')
       parsedOfferings.push({
         ...offering,
-        courseName, 
-        description, 
+        // courseName, 
+        // description, 
         departmentIds,
         universityId,
         termName: term.name,
