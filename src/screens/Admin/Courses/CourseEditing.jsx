@@ -101,29 +101,6 @@ function CourseForm({ state: {isNew, course, loading}, onChange}) {
               onChange={({target: {value}}) => onChange(value, 'courseNumber')}
             />
           </Grid.Column>
-          <Grid.Column>
-            <Form.Field
-              fluid
-              id='course-name-edit'
-              control={Input}
-              label='Course Name'
-              placeholder='E.g. System Programming'
-              defaultValue={course.courseName}
-              onChange={({target: {value}}) => onChange(value, 'courseName')}
-            />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Form.Field
-              id='course-decription-edit'
-              control={TextArea}
-              label='Course Description'
-              placeholder='Enter course description here ...'
-              defaultValue={course.description}
-              onChange={({target: {value}}) => onChange(value, 'description')}
-            />
-          </Grid.Column>
         </Grid.Row>
       </Grid> : <GeneralLoader inverted height='10rem'/>}
     </Form>

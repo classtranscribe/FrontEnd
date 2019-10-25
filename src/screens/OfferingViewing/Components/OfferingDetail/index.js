@@ -87,13 +87,13 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
       const number = api.getFullNumber(offering.courses)
       if (handleData.isValidCourseNumber(number)) {
         setFullNumber(() => number)
-        setCourseName(() => offering.courses[0].courseName)
-        setDescription(() => offering.courses[0].description)
       }
     }
     if (offering.offering && offering.offering.termName) {
       setTermName(() => offering.offering.termName)
       setSectionName(() => offering.offering.sectionName)
+      setCourseName(() => offering.offering.courseName)
+      setDescription(() => offering.offering.description)
     }
     util.links.title(fullNumber+' '+termName+' '+sectionName)
   })

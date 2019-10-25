@@ -89,7 +89,7 @@ export const util = {
     array.forEach( item => {
       var text = ''
       if ((tag === 'depart' || tag === 'term') && item.uniName) text = `${item.name} (${item.uniName})`
-      else text = item.name || tag + item.courseNumber + ' ' + item.courseName;
+      else text = item.name || tag + item.courseNumber;
       options.push({text: text, value: item.id})
     })
     return options;

@@ -24,17 +24,19 @@ export function SideBar({ id, state, showSiderBar }) {
   var courseName = ''
   var termName = ''
   var sectionName = ''
+  var description = ''
   // get info from the courseOffering
   const { courses, offering } = courseOffering
   if (courses) {
     fullNumber = api.getFullNumber(courses)
     fittedName = fullNumber.slice(0, 14)
     if (fittedName !== fullNumber) fittedName += '...'
-    courseName = courses[0].courseName
   }
   if (offering && offering.termName) {
     termName = offering.termName
     sectionName = offering.sectionName
+    description = offering.description
+    courseName = offering.courseName
     util.links.title(fullNumber+' • '+termName+' • '+sectionName)
   }
 
@@ -60,7 +62,8 @@ export function SideBar({ id, state, showSiderBar }) {
         <ListGroup.Item className="list" disabled>
           <p className="name">
             <strong>{fullNumber}</strong><br/>
-            <strong>{courseName}</strong>
+            <strong>{courseName}</strong><br/>
+            {description}
           </p>
           <p className="name sec">
             {termName}&ensp;{sectionName}

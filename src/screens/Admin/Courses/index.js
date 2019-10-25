@@ -64,10 +64,6 @@ export default function CoursePane(props) {
                 path={'course'}
                 id={course.id}
                 key={course.id}
-                items={[
-                  course.courseName,
-                  `Description: ${course.description}`
-                ]}
               />
           ))}
         </>

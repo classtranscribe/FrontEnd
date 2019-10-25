@@ -7,10 +7,12 @@ import React from 'react'
 // Layouts
 import { Grid, Form, Select, Popup, Icon, Label, Message, Divider } from 'semantic-ui-react'
 // Vars
-import { util } from 'utils'
+import { util, api } from 'utils'
 
 export default function CourseSetting({state, removeCourse, onDepartSelected, addCourse}) {
   const { departments, courses, currDepart, selectedCourses } = state
+
+  const fullNumber = api.getFullNumber(selectedCourses)
 
   const departOptions = util.getSelectOptions(departments)
   const courseOptions = util.getSelectOptions(courses, currDepart ? currDepart.acronym : '')
@@ -56,7 +58,7 @@ export default function CourseSetting({state, removeCourse, onDepartSelected, ad
         {/* Select a course */}
         <Grid.Column>
           <Message>
-            <Message.Header><p>Selected Courses</p></Message.Header>
+            <Message.Header><p>Selected Courses <span>{fullNumber}</span></p></Message.Header>
             <Divider />
 
             {!selectedCourses.length && <p><span>none</span></p>}

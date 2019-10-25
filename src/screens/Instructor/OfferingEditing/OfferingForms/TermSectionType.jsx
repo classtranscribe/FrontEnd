@@ -5,7 +5,7 @@
 
 import React from 'react'
 // Layouts
-import { Grid, Form, Input, Select } from 'semantic-ui-react'
+import { Grid, Form, Input, Select, TextArea } from 'semantic-ui-react'
 // Vars
 import { api, util } from 'utils'
 
@@ -25,6 +25,18 @@ export default function TermSectionTypeSetting({state, onChange}) {
       <h2>Basic Information</h2>
 
       <Grid.Row >
+        {/* Course Name */}
+        <Grid.Column>
+          <Form.Field
+            fluid required
+            control={Input}
+            label="Name"
+            aria-label="Course name"
+            placeholder='E.g. System Programming'
+            value={offering.offering.courseName}
+            onChange={(event, {value}) => onChange(value, 'courseName')}
+          />
+        </Grid.Column>
         {/* Selection for terms */}
         <Grid.Column>
           <Form.Field
@@ -37,6 +49,8 @@ export default function TermSectionTypeSetting({state, onChange}) {
             onChange={(event, {value}) => onChange(value, 'termId')}
           />
         </Grid.Column>
+      </Grid.Row>
+      <Grid.Row >
 
         {/* Section number */}
         <Grid.Column>
@@ -48,6 +62,18 @@ export default function TermSectionTypeSetting({state, onChange}) {
             placeholder='E.g. AL1'
             value={offering.offering.sectionName}
             onChange={({target: {value}})=> onChange(value, 'sectionName')}
+          />
+        </Grid.Column>
+        {/* Description */}
+        <Grid.Column>
+          <Form.Field
+            fluid
+            control={TextArea}
+            label="Description"
+            aria-label="Course Description"
+            placeholder='Course Description'
+            value={offering.offering.description}
+            onChange={(event, {value}) => onChange(value, 'description')}
           />
         </Grid.Column>
       </Grid.Row>
