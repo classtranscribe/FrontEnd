@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 import { 
   NotFound404,
+  Maintenance,
   OfferingViewing, 
   InstructorProfile, 
   InstructorOffering,
-  // OfferingSettingPage,
   LoginAndLogout,
   Admin,
   Watch,
@@ -23,6 +23,7 @@ class App extends React.Component {
     }
   }
   render() {
+    return <Maintenance />
     return (
       <Router basename="/">
         <Switch>
