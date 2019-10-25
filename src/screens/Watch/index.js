@@ -4,8 +4,7 @@
 
 import React from 'react'
 import _ from 'lodash'
-// UI
-import { WatchHeader, WatchContent } from './Components'
+import { CTContext } from 'components'
 import './index.css'
 // Vars
 import { api, util } from 'utils'
@@ -18,139 +17,91 @@ export class Watch extends React.Component {
     if (!id || !courseNumber) window.location = util.links.notfound404()
     util.removeStoredOfferings()
     this.state = { 
-      showPlaylist: false,
-      isMobile: window.innerWidth < 650 ? true : false,
-
       media: api.parseMedia(),
       playlist: {},
       playlists: [],
 
       starredOfferings: {},
       watchHistory: {},
-      onboarded: true,
     }
   }
 
-  /**
-   * GET media and playlist based on mediaId
-   */
   componentDidMount() {
-    // Get userMetadata
+    /** GET userMetadata */
     this.getUserMetadata()
-
-    const { state } = this.props.location
-    if (state) {
-      const { /* media, */ playlist, playlists } = state
-      api.getMediaById(this.id)
-        .then( ({data}) => {
-          // console.log('media', data)
-          const media = api.parseMedia(data)
-          this.setState({ media })
-          util.links.title(media.mediaName)
-          api.contentLoaded()
-          this.sendUserAction('changevideo', { changeTo_mediaId: data.id })
-        })
-      // if (media) this.setState({ media: api.parseMedia(media) })
-      if (playlist) this.setState({ playlist })
-      if (playlists) this.setState({ playlists })
-      this.offeringId = playlist.offeringId
-      // api.contentLoaded()
-    } else {
-      api.getMediaById(this.id)
-        .then( ({data}) => {
-          console.log('load - media', data)
-          this.sendUserAction('changevideo', { changeTo_mediaId: data.id })
-          this.setState({ media: api.parseMedia(data) })
-          api.getPlaylistById(data.playlistId)
-            .then(({data}) => {
-              // console.log('playlist', data)
-              this.setState({ playlist: data })
-              this.offeringId = data.offeringId
-              api.contentLoaded()
-              api.getPlaylistsByOfferingId(data.offeringId)
-                .then(({data}) => {
-                  // console.log('playlists', data)
-                  this.setState({ playlists: data })
-                })
-            })
-        })
-    }
-
-    window.addEventListener('resize', () => {
-      const { isMobile } = this.state
-      if (window.innerWidth > 650 && isMobile) {
-        this.setState({ isMobile: false })
-      } else if (window.innerWidth <= 650 && !isMobile) {
-        this.setState({ isMobile: true })
-      }
-    })
-
-    
+    /** GET media, playlist, and playlists */
+    this.getWatchData()
   }
 
+  /** Function for getting userMetadata */
   getUserMetadata = () => {
     api.storeUserMetadata({
       setWatchHistory: watchHistory => this.setState({ watchHistory }),
-      setStarredOfferings: starredOfferings => this.setState({ starredOfferings }),
-      // setOnboarded: onboarded => this.setState({ onboarded: Boolean(onboarded['watch']) })
+      setStarredOfferings: starredOfferings => this.setState({ starredOfferings })
     })
   }
 
-  playlistTrigger = ()  => {
-    this.setState({showPlaylist: !this.state.showPlaylist})
-  }  
-
-  sendUserAction = (action, json={}, ratio) => {
-    const { media, watchHistory, starredOfferings } = this.state
-    const { timeStamp } = json
-    api.sendUserAction(action, {
-      json,
-      mediaId: media.id,
-      offeringId: this.offeringId
-    })
-    if (ratio) {
-      watchHistory[media.id] = { 
-        timeStamp, ratio,
-        offeringId: this.offeringId,
-        lastModifiedTime: new Date(),
-      }
-
-      const mediaIds = Object.keys(watchHistory)
-      if (mediaIds.length > 30) {
-        const whArray = []
-        mediaIds.forEach( mediaId => {
-          whArray.push({ mediaId, date: watchHistory[mediaId].lastModifiedTime })
-        })
-        var toRemove = _.sortBy(whArray, ['date'])[0]
-        delete watchHistory[toRemove.mediaId]
-      }
-
-      api.postUserMetaData({ 
-        watchHistory: JSON.stringify(watchHistory), 
-        starredOfferings: JSON.stringify(starredOfferings)
-      })//.then(() => console.log('kuuuuu'))
+  /** Function for getting media, playlist, and playlists */
+  getWatchData = async () => {
+    const { generalError } = this.context
+    /** GET media */
+    let mediaResponse = null
+    try {
+      mediaResponse = await api.getMediaById(this.id)
+      this.setState({ media: mediaResponse.data })
+      console.log('media', mediaResponse.data)
+    } catch (error) {
+      generalError({ header: "Couldn't load the video :(" })
+      return;
     }
+
+    const { playlistId } = mediaResponse.data
+
+    /** GET playlist, and playlists */
+    try {
+      const { state } = this.props.location
+      if (Boolean(state)) {
+        const { playlist, playlists } = state
+        if (Boolean(playlist)) {
+          // playlist
+          this.setState({ playlist })
+          console.log('playlist', playlist)
+          // playlists
+          if (Boolean(playlists)) {
+            this.setState({ playlists })
+            console.log('playlists', playlists)
+          } else {
+            const playlistsResponse = await api.getPlaylistsByOfferingId(playlist.offeringId)
+            this.setState({ playlists: playlistsResponse.data })
+          }
+
+        // No playlist in state, GET playlist by id and then get playlists
+        } else { 
+          // playlist
+          const playlistResponse = await api.getPlaylistById(playlistId)
+          this.setState({ playlist: playlistResponse.data })
+          console.log('playlist', playlistResponse.data)
+          // playlists
+          const { offeringId } = playlistResponse.data
+          const playlistsResponse = await api.getPlaylistsByOfferingId(offeringId)
+          this.setState({ playlists: playlistsResponse.data })
+          console.log('playlists', playlistsResponse.data)
+        }
+      }
+    } catch (error) {
+      generalError({ header: "Couldn't load playlists." })
+    }
+
+    api.contentLoaded()
   }
 
   render() { 
-    const { media, playlist, playlists, isMobile, watchHistory, onboarded } = this.state
     return (
       <main className="watch-bg">
-        <WatchHeader 
-          media={media} 
-          playlist={playlist} 
-          playlists={playlists}
-          sendUserAction={this.sendUserAction}
-        />
-        <WatchContent 
-          media={media} 
-          playlist={playlist} 
-          playlists={playlists}
-          isMobile={isMobile}
-          watchHistory={watchHistory}
-          sendUserAction={this.sendUserAction}
-        />
+        
       </main>
     )
   }
 }
+
+Watch.contextType = CTContext
