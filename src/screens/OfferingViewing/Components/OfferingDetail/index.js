@@ -45,7 +45,7 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
   /**
    * Get all offerings and complete offerings
    */
-  useEffect( async () => {
+  useEffect(() => {
     util.scrollToTop('.sp-content')
 
     const propsState = history.location.state
