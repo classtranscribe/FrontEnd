@@ -5,6 +5,10 @@
 import React from 'react'
 import _ from 'lodash'
 import { CTContext } from 'components'
+import { 
+  Menus,
+  ClassTranscribePlayer,
+} from './Components'
 import './index.css'
 // Vars
 import { api, util } from 'utils'
@@ -48,8 +52,9 @@ export class Watch extends React.Component {
     let mediaResponse = null
     try {
       mediaResponse = await api.getMediaById(this.id)
-      this.setState({ media: mediaResponse.data })
-      console.log('media', mediaResponse.data)
+      let media = api.parseMedia(mediaResponse.data)
+      this.setState({ media })
+      console.log('media', media)
     } catch (error) {
       generalError({ header: "Couldn't load the video :(" })
       return;
@@ -96,9 +101,15 @@ export class Watch extends React.Component {
   }
 
   render() { 
+    const { media, playlist, playlists } = this.state
     return (
       <main className="watch-bg">
-        
+        <ClassTranscribePlayer 
+          {...this.state}
+        />
+        <Menus
+          {...this.state}
+        />
       </main>
     )
   }

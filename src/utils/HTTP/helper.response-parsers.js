@@ -116,7 +116,6 @@ export const responseParsers = {
       transcriptions: [],
       isUnavailable: false,
     }
-    console.log(media)
     if (!media) return re
     const { id, playlistId, jsonMetadata, sourceType, video, transcriptions } = media
     if (!id || !jsonMetadata) return re

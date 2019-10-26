@@ -1,0 +1,86 @@
+.ct-video-contrainer {
+  top: 4.5em;
+  position: absolute;
+}
+
+.ct-video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.ct-player-primary {
+  background: black;
+}
+.ct-player-secondary {
+  z-index: 1;
+  background: black;
+}
+
+.ct-player-primary[mode=ps-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=normal-mode] {
+  top: 8vh;
+  left: 1vw;
+  width: 60vw;
+  height: 80vh;
+}
+
+/* Theatre Mode */
+.ct-player-primary[mode=theatre-mode] {
+  top: 8vh;
+  left: calc((100vw - 70vw)/2);
+  width: 70vw;
+  height: 85vh;
+}
+.ct-player-secondary[mode=theatre-mode] {
+  top: calc(60vh + 5vw);
+  right: calc((100vw - 70vw)/2 + 5px);
+  max-width: 20em;
+  width: 20vw;
+  height: auto;
+  border-radius: 10px;
+  border: var(--ct-border-color-bold);
+  overflow: hidden;
+}
+
+/* Normal Mode */
+.ct-player-secondary[mode=normal-mode] {
+  display: none;
+}
+
+/* Primary-Secondary Mode */
+.ct-player-secondary[mode=ps-mode] {
+  top: 18vh;
+  left: 62vw;
+  width: 35vw;
+}
+
+/* Nested Mode */
+.ct-player-secondary[mode=nested-mode] {
+  top: calc(60vh + 5vw);
+  right: calc(38vw + 5px);
+  max-width: 20em;
+  width: 20vw;
+  height: auto;
+  border-radius: 10px;
+  border: var(--ct-border-color-bold);
+  overflow: hidden;
+}
+
+@media screen and (max-width: 900px) {
+  .ct-player-secondary[mode=normal-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=theatre-mode] {
+    top: 4.5em;
+    left: 0;
+    width: 100vw;
+    height: auto;
+  }
+  .ct-player-secondary[mode=ps-mode] {
+    display: none;
+  }
+  .ct-player-secondary[mode=nested-mode], .ct-player-secondary[mode=theatre-mode] {
+    top: 4.5em;
+    right: 5px;
+    width: 26vw;
+    height: auto;
+    border: none;
+  }
+}

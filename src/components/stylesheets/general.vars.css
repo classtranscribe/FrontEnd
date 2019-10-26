@@ -1,6 +1,7 @@
 :root {
   /* Background Color */
-  --watch-page-bg-color: rgb(37, 37, 37);
+  /* --watch-page-bg-color: rgb(37, 37, 37); */
+  --watch-page-bg-color: rgb(0, 0, 0);
   --light-bg-color: #fcfcfc;
   --ct-btn-color: #458885;
   --ct-green-normal: #348b86;
@@ -10,8 +11,12 @@
   --ct-text-primary-light: #4e4e4e;
   --ct-text-title: rgb(37, 113, 116);
   --ct-text-highlight: rgb(19, 211, 211);
+  --ct-text-white: white;
+  --ct-text-white-hover: rgb(180, 180, 180);
   /* Border */
   --ct-border-color: 1px solid #e6e6e6;
+  --ct-border-dark: 1px solid #4e4e4e;
+  --ct-border-color-bold: 2px solid #e6e6e6;
   --ct-border-color-transparent: 1px solid transparent;
   /* Font Family */
   --ct-font-narrow: 'Roboto Condensed', sans-serif;
