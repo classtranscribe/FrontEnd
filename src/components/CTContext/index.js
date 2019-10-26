@@ -20,6 +20,7 @@ export function CTContextProvider({ children }) {
       setAlertMesg(null)
     }, span);
   }
+  const removeAlert = () => setAlertMesg(null)
 
   const generalError = ({ text='', header='', refresh=true, span=-1 }) => {
     api.contentLoaded()
@@ -38,9 +39,12 @@ export function CTContextProvider({ children }) {
     <CTContext.Provider
       value={{ 
         windowAlert,
+        
         alreadyHasAlert,
         generalAlert,
         generalError,
+        removeAlert,
+
         ErrorMesg,
         hasError,
       }}
