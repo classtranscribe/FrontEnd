@@ -1,20 +1,44 @@
 .watch-playlists-menu {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-start;
   padding: 4em 10vw;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.watch-list-title {
+  position: fixed;
+  top: 75px;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 1;
+}
+.watch-list-title[type=pl-name] {
+  font-size: 18px;
+}
+.watch-list-title p {
+  display: flex;
+}
+.watch-list-title i {
+  margin-right: .5em;
 }
 
 /* Playlist */
 .watch-playlists-list {
   position: relative;
   width: 25em;
+  min-width: 25em;
   height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 1em;
   /* box-shadow: 0 0 2px snow; */
 }
 
@@ -72,3 +96,29 @@
   border-bottom: var(--ct-border-color-transparent);
 }
 
+
+
+
+/* Videos view */
+
+.watch-videos-list {
+  position: relative;
+  width: 50%;
+  min-width: 25em;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 1em;
+}
+
+.watch-video-item {
+  width: 100%;
+  border-bottom: var(--ct-border-dark) !important;
+}
+.watch-video-item:last-child {
+  border-bottom: none !important;
+}

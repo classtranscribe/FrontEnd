@@ -49,11 +49,13 @@ export const util = {
   scrollToTop: function(div) {
     $(div)[0].scrollTop = 0
   },
-  scrollToCenter: function(id) {
+  scrollToCenter: function(id, focus=true, alter) {
     const currElem = document.getElementById(id)
     if (currElem) {
       currElem.scrollIntoView({ block: "center" })
-      currElem.focus()
+      if (focus) currElem.focus()
+    } else if (alter) {
+      alter()
     }
   },
   parseSearchQuery: function (href) {

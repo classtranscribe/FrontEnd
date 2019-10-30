@@ -79,19 +79,18 @@ export class Watch extends React.Component {
             const playlistsResponse = await api.getPlaylistsByOfferingId(playlist.offeringId)
             this.setState({ playlists: playlistsResponse.data })
           }
-
+        } 
         // No playlist in state, GET playlist by id and then get playlists
-        } else { 
-          // playlist
-          const playlistResponse = await api.getPlaylistById(playlistId)
-          this.setState({ playlist: playlistResponse.data })
-          console.log('playlist', playlistResponse.data)
-          // playlists
-          const { offeringId } = playlistResponse.data
-          const playlistsResponse = await api.getPlaylistsByOfferingId(offeringId)
-          this.setState({ playlists: playlistsResponse.data })
-          console.log('playlists', playlistsResponse.data)
-        }
+      } else { 
+        // playlist
+        const playlistResponse = await api.getPlaylistById(playlistId)
+        this.setState({ playlist: playlistResponse.data })
+        console.log('playlist', playlistResponse.data)
+        // playlists
+        const { offeringId } = playlistResponse.data
+        const playlistsResponse = await api.getPlaylistsByOfferingId(offeringId)
+        this.setState({ playlists: playlistsResponse.data })
+        console.log('playlists', playlistsResponse.data)
       }
     } catch (error) {
       generalError({ header: "Couldn't load playlists." })

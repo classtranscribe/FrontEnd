@@ -6,7 +6,7 @@
   width: 100vw;
   height: calc(100vh - 4.5em - 4.5em);
   background: rgb(0, 0, 0);
-  opacity: .7;
+  opacity: .8;
   /* Add the blur effect */
   /* filter:blur(4px);
   -o-filter:blur(4px);
