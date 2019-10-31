@@ -14,6 +14,7 @@ export const PRIMARY = 'ct-player-primary'
 export const SECONDARY = 'ct-player-secondary'
 
 // Menu types 
+export const MENU_HIDE = 'menu-hide'
 export const MENU_PLAYLISTS = 'menu-playlists'
 export const MENU_PLAYBACKRATE = 'menu-playbackrate'
 export const MENU_CAPTIONS = 'menu-captions'
@@ -26,7 +27,4 @@ export const SEARCH_IN_VIDEO = 'search-in-video'
 
 // Player static options
 export const AUTOPLAY = false
-export const playerOptions = {
-  playbackRate: [1, 1.25, 1.5, 1.75, 2, 3, 4],
-  autoplay: false,
-}
+export const PLAYBACKRATE = [1, 1.25, 1.5, 1.75, 2, 3, 4]

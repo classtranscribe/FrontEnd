@@ -8,7 +8,34 @@
   padding: 4em 10vw;
   overflow-x: scroll;
   overflow-y: hidden;
+  animation: var(--ct-animation-popup);
+  -o-animation: var(--ct-animation-popup);
+  -moz-animation: var(--ct-animation-popup);
+  -webkit-animation: var(--ct-animation-popup);
 }
+.watch-playlists-menu-close-btn {
+  position: absolute;
+  right: 5em;
+  top: 0px;
+  color: var(--ct-text-white);
+  border-radius: 50%;
+  padding: .5em !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: var(--ct-border-color-transparent);
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+  outline: none !important;}
+  /* .watch-playlists-menu-close-btn:hover {
+    color: var(--ct-text-white-hover);} */
+    .watch-playlists-menu-close-btn:hover, .watch-playlists-menu-close-btn:focus, .watch-playlists-menu-close-btn:active {
+    background: var(--ct-text-primary-light);
+    border: var(--ct-border-dark);
+  }
 
 .watch-list-title {
   position: fixed;
@@ -103,7 +130,7 @@
 
 .watch-videos-list {
   position: relative;
-  width: 50%;
+  width: 45%;
   min-width: 25em;
   height: 100%;
   overflow-y: scroll;
@@ -118,6 +145,10 @@
 .watch-video-item {
   width: 100%;
   border-bottom: var(--ct-border-dark) !important;
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
 }
 .watch-video-item:last-child {
   border-bottom: none !important;

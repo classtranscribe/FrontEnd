@@ -6,6 +6,7 @@ import './index.css'
 
 function PlaylistsMenu({
   show=false,
+  handleClose=null,
   currMedia={},
   currPlaylist={},
   playlists=[],
@@ -19,7 +20,7 @@ function PlaylistsMenu({
   useEffect(() => {
     if (playlists.length > 0) {
       setSelectedPlaylist(
-        playlists.filter( pl => pl.id === currPlaylistId)[0] || {}
+        playlists.find( pl => pl.id === currPlaylistId) || {}
       )
       util.scrollToCenter(currPlaylistId)
     }
@@ -33,9 +34,14 @@ function PlaylistsMenu({
     setSelectedPlaylist(playlist)
   }
 
-  return (
+  return show ? (
     <div className="watch-playlists-menu">
+      {/* Close Btn */}
+      <button className="plain-btn watch-playlists-menu-close-btn" onClick={handleClose}>
+        <i className="material-icons">close</i>
+      </button>
 
+      {/* Playlists view */}
       <div className="watch-playlists-list">
         <div className="watch-list-title"><p>Playlists</p></div>
         {playlists.map( playlistItem => (
@@ -45,16 +51,17 @@ function PlaylistsMenu({
             className="watch-playlist-item plain-btn" 
             onClick={handlePlaylistClick(playlistItem)}
           >
-            <i class="material-icons library-icon">video_library</i>
+            <i className="material-icons library-icon">video_library</i>
             <p className="playlist-name">
               {playlistItem.name}
               {currPlaylistId === playlistItem.id && <><br/><span>Current Playlist</span></>}
             </p>
-            <i class="material-icons right-arrow">chevron_right</i>
+            <i className="material-icons right-arrow">chevron_right</i>
           </button>
         ))}
       </div>
 
+      {/* Videos view */}
       <Videos 
         medias={selectedPlaylist.medias.slice().reverse()} 
         currMediaId={currMediaId}  
@@ -64,7 +71,7 @@ function PlaylistsMenu({
       />
 
     </div>
-  )
+  ) : null;
 }
 
 export default withRouter(PlaylistsMenu)

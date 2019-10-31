@@ -92,7 +92,7 @@
   color: var(--ct-green-active);
 }
 .video-card-container-row[dark=true] .media-info .media-name {
-  font-size: 15px;
+  font-size: 16px;
   width: 100%;
   color: var(--ct-text-white);
   margin: 0;
@@ -108,6 +108,7 @@
 
 .video-card-container-row[dark=true] .media-info .description, .video-card-container-row[dark=true] .media-info .description-link {
   color: var(--ct-green-active) !important;
+  font-weight: bold;
 }
 .media-info .description-link:hover, .media-info .description-link:focus {
   color: var(--ct-text-primary);

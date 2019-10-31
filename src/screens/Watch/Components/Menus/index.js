@@ -1,6 +1,7 @@
 import React from 'react'
 import PlaylistsMenu from './PlaylistsMenu'
 import {
+  MENU_HIDE,
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
   MENU_CAPTIONS,
