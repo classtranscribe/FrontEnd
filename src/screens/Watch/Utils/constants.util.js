@@ -27,4 +27,4 @@ export const SEARCH_IN_VIDEO = 'search-in-video'
 
 // Player static options
 export const AUTOPLAY = false
-export const PLAYBACKRATE = [1, 1.25, 1.5, 1.75, 2, 3, 4]
+export const PLAYBACKRATE = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]

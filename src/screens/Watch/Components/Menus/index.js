@@ -1,5 +1,6 @@
 import React from 'react'
 import PlaylistsMenu from './PlaylistsMenu'
+import PlaybackrateMenu from './PlaybackrateMenu'
 import {
   MENU_HIDE,
   MENU_PLAYLISTS,
@@ -10,7 +11,7 @@ import {
 } from '../../Utils'
 import './index.css'
 
-const type = MENU_PLAYLISTS
+const type = MENU_PLAYBACKRATE
 
 export function Menus({
   media,
@@ -24,6 +25,9 @@ export function Menus({
         currMedia={media}
         currPlaylist={playlist}
         playlists={playlists}
+      />
+      <PlaybackrateMenu
+        show={type === MENU_PLAYBACKRATE}  
       />
     </div>
   )

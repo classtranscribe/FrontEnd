@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import Videos from './Videos'
-import { util } from 'utils'
+import { util, api } from 'utils'
+import { findUpNextMedia } from '../../../Utils'
 import './index.css'
 
 function PlaylistsMenu({
@@ -14,6 +15,18 @@ function PlaylistsMenu({
 }) {
   const currPlaylistId = currPlaylist.id
   const currMediaId = currMedia.id
+
+  const upNextMedia = findUpNextMedia({ 
+    playlist: currPlaylist,
+    currMediaId,
+    currPlaylistId,
+    playlists: playlists.length > 0 ? playlists : undefined
+  })
+  
+  /** 
+   * @TODO upNextMedia 
+   */
+  console.log('upNextMedia', api.parseMedia(upNextMedia))
 
   const [selectedPlaylist, setSelectedPlaylist] = useState({ medias: [] })
 
