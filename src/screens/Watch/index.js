@@ -6,6 +6,7 @@ import React from 'react'
 import _ from 'lodash'
 import { CTContext } from 'components'
 import { 
+  WatchHeader,
   Menus,
   ClassTranscribePlayer,
 } from './Components'
@@ -103,9 +104,14 @@ export class Watch extends React.Component {
     const { media, playlist, playlists } = this.state
     return (
       <main className="watch-bg">
+        <WatchHeader 
+          {...this.state} 
+        />
+
         <ClassTranscribePlayer 
           {...this.state}
         />
+        
         <Menus
           {...this.state}
         />

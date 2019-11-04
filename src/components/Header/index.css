@@ -108,7 +108,7 @@
 
 /* dark mode */
 .dark {
-  background: none !important;
+  background: var(--watch-page-bg-color) !important;
   position: relative;
   height: 3.5rem !important;
   box-shadow: none !important;}
