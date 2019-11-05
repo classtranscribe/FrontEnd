@@ -10,6 +10,7 @@ import {
   MENU_CAPTIONS,
   MENU_SCREEN_MODE,
   MENU_DOWNLOAD,
+  menuControl
 } from '../../Utils'
 import './index.css'
 
@@ -20,12 +21,7 @@ export function MenusWithRedux({
   setMenu
 }) {
 
-  const closeMenu = () => {
-    setMenu(MENU_BEFORE_HIDE)
-    setTimeout(() => {
-      setMenu(MENU_HIDE)
-    }, 200);
-  }
+  const closeMenu = () => menuControl.closeMenu(setMenu)
 
   return (
     <div className={`watch-menus`} type={menu}>

@@ -1,7 +1,12 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { ClassTranscribeHeader } from 'components'
-import { MENU_HIDE, MENU_BEFORE_HIDE, MENU_PLAYLISTS } from '../../Utils'
+import { 
+  MENU_HIDE, 
+  MENU_BEFORE_HIDE, 
+  MENU_PLAYLISTS,
+  menuControl
+} from '../../Utils'
 import './index.css'
 
 export function WatchHeaderWithRedux({
@@ -13,13 +18,8 @@ export function WatchHeaderWithRedux({
 }) {
 
   const handleMenuTrigger = () => {
-    if (menu === MENU_HIDE) setMenu(MENU_PLAYLISTS)
-    else {
-      setMenu(MENU_BEFORE_HIDE)
-      setTimeout(() => {
-        setMenu(MENU_HIDE)
-      }, 200);
-    }
+    if (menu != MENU_PLAYLISTS) setMenu(MENU_PLAYLISTS)
+    else menuControl.closeMenu(setMenu)
   }
 
   return (
