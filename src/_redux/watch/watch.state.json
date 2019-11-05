@@ -1,0 +1,22 @@
+{
+  "media": { 
+    "id": "", 
+    "mediaName": "", 
+    "createdAt": "", 
+    "isTwoScreen": false, 
+    "videos": [], 
+    "transcriptions": [],
+    "isUnavailable": false
+  },
+  "playlist": {},
+  "playlists": [],
+  "watchHistory": [],
+  "starredOfferings": [],
+
+  "menu": "menu-hide",
+  "mode": "normal-mode",
+
+  "paused": true,
+  "volume": 1,
+  "playbackrate": 1
+}

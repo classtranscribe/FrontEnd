@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import { Provider, connect } from 'react-redux'
 import _ from 'lodash'
 import { CTContext } from 'components'
 import { 
@@ -12,23 +13,17 @@ import {
 } from './Components'
 import './index.css'
 // Vars
+import { watchStore, connectWithRedux } from '_redux/watch'
 import { api, util } from 'utils'
 
-export class Watch extends React.Component {
+export class WatchWithRedux extends React.Component {
   constructor(props) {
     super(props)
+    console.log('success', props.media)
     const { id, courseNumber } = util.parseSearchQuery()
     this.id = id
     if (!id || !courseNumber) window.location = util.links.notfound404()
     util.removeStoredOfferings()
-    this.state = { 
-      media: api.parseMedia(),
-      playlist: {},
-      playlists: [],
-
-      starredOfferings: {},
-      watchHistory: {},
-    }
   }
 
   componentDidMount() {
@@ -40,10 +35,11 @@ export class Watch extends React.Component {
 
   /** Function for getting userMetadata */
   getUserMetadata = () => {
-    api.storeUserMetadata({
-      setWatchHistory: watchHistory => this.setState({ watchHistory }),
-      setStarredOfferings: starredOfferings => this.setState({ starredOfferings })
-    })
+    const { setWatchHistory, setStarredOfferings } = this.props
+    // api.storeUserMetadata({
+    //   setWatchHistory,
+    //   setStarredOfferings
+    // })
   }
 
   /** Function for getting media, playlist, and playlists */
@@ -54,7 +50,7 @@ export class Watch extends React.Component {
     try {
       mediaResponse = await api.getMediaById(this.id)
       let media = api.parseMedia(mediaResponse.data)
-      this.setState({ media })
+      this.props.setMedia(media)
       console.log('media', media)
     } catch (error) {
       generalError({ header: "Couldn't load the video :(" })
@@ -70,27 +66,27 @@ export class Watch extends React.Component {
         const { playlist, playlists } = state
         if (Boolean(playlist)) {
           // playlist
-          this.setState({ playlist })
+          this.props.setPlaylist(playlist)
           console.log('playlist', playlist)
           // playlists
           if (Boolean(playlists)) {
-            this.setState({ playlists })
+            this.props.setPlaylists(playlists)
             console.log('playlists', playlists)
           } else {
             const playlistsResponse = await api.getPlaylistsByOfferingId(playlist.offeringId)
-            this.setState({ playlists: playlistsResponse.data })
+            this.props.setPlaylists(playlistsResponse.data)
           }
         } 
         // No playlist in state, GET playlist by id and then get playlists
       } else { 
         // playlist
         const playlistResponse = await api.getPlaylistById(playlistId)
-        this.setState({ playlist: playlistResponse.data })
+        this.props.setPlaylist(playlistResponse.data)
         console.log('playlist', playlistResponse.data)
         // playlists
         const { offeringId } = playlistResponse.data
         const playlistsResponse = await api.getPlaylistsByOfferingId(offeringId)
-        this.setState({ playlists: playlistsResponse.data })
+        this.props.setPlaylists(playlistsResponse.data)
         console.log('playlists', playlistsResponse.data)
       }
     } catch (error) {
@@ -101,23 +97,25 @@ export class Watch extends React.Component {
   }
 
   render() { 
-    const { media, playlist, playlists } = this.state
     return (
       <main className="watch-bg">
-        <WatchHeader 
-          {...this.state} 
-        />
-
-        <ClassTranscribePlayer 
-          {...this.state}
-        />
-        
-        <Menus
-          {...this.state}
-        />
+        <WatchHeader />
+        <ClassTranscribePlayer />
+        <Menus />
       </main>
     )
   }
 }
 
-Watch.contextType = CTContext
+WatchWithRedux.contextType = CTContext
+
+export function Watch(props) {
+  const WatchConnectToRedux = connectWithRedux(
+    WatchWithRedux
+  )
+  return (
+    <Provider store={watchStore}>
+      <WatchConnectToRedux {...props} />
+    </Provider>
+  )
+}

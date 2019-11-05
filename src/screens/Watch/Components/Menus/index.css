@@ -1,10 +1,10 @@
 .watch-menus {
-  top: 4.5em;
+  top: 4em;
   left: 0;
   right: 0;
   position: absolute;
   width: 100vw;
-  height: calc(100vh - 4.5em - 4.5em);
+  height: calc(100vh - 4em - 4.5em);
   background: rgba(0, 0, 0, 0.877);
   opacity: 1;
   /* Add the blur effect */
@@ -19,6 +19,34 @@
 .watch-menus[type=menu-hide] {
   visibility: hidden;
 }
+.watch-menus[type=menu-before-hide] {
+  top: calc(100vh - 4em - 4.5em);
+  animation: var(--ct-animation-right-top-out);
+  -o-animation: var(--ct-animation-right-top-out);
+  -moz-animation: var(--ct-animation-right-top-out);
+  -webkit-animation: var(--ct-animation-right-top-out);
+}
+
+.watch-menu-close-btn {
+  color: var(--ct-text-white);
+  border-radius: 50%;
+  padding: .5em !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: var(--ct-border-color-transparent);
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+  outline: none !important;}
+  /* .watch-playlists-menu-close-btn:hover {
+    color: var(--ct-text-white-hover);} */
+    .watch-playlists-menu-close-btn:hover, .watch-playlists-menu-close-btn:focus, .watch-playlists-menu-close-btn:active {
+    background: var(--ct-text-primary-light);
+    border: var(--ct-border-dark);
+  }
 
 /* .watch-menus[type=menu-playlists] {
   display: none;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { connectWithRedux } from '_redux/watch'
 import Videos from './Videos'
 import { util, api } from 'utils'
 import { findUpNextMedia } from '../../../Utils'
@@ -7,12 +8,16 @@ import './index.css'
 
 function PlaylistsMenu({
   show=false,
-  handleClose=null,
-  currMedia={},
-  currPlaylist={},
+  onClose=null,
+  // currMedia={},
+  // currPlaylist={},
+  media={},
+  playlist={},
   playlists=[],
   watchHistory=[],
 }) {
+  const currMedia = media
+  const currPlaylist = playlist
   const currPlaylistId = currPlaylist.id
   const currMediaId = currMedia.id
 
@@ -28,7 +33,7 @@ function PlaylistsMenu({
    */
   console.log('upNextMedia', api.parseMedia(upNextMedia))
 
-  const [selectedPlaylist, setSelectedPlaylist] = useState({ medias: [] })
+  const [selectedPlaylist, setSelectedPlaylist] = useState({ name: '', medias: [] })
 
   useEffect(() => {
     if (playlists.length > 0) {
@@ -39,10 +44,6 @@ function PlaylistsMenu({
     }
   }, [playlists])
 
-  useEffect(() => {
-    
-  })
-
   const handlePlaylistClick = playlist => () => {
     setSelectedPlaylist(playlist)
   }
@@ -50,7 +51,7 @@ function PlaylistsMenu({
   return show ? (
     <div className="watch-playlists-menu">
       {/* Close Btn */}
-      <button className="plain-btn watch-playlists-menu-close-btn" onClick={handleClose}>
+      <button className="plain-btn watch-menu-close-btn watch-playlists-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>
 
@@ -87,4 +88,4 @@ function PlaylistsMenu({
   ) : null;
 }
 
-export default withRouter(PlaylistsMenu)
+export default connectWithRedux(PlaylistsMenu)

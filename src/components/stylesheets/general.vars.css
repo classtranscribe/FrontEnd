@@ -33,4 +33,7 @@
   /* Animation */
   --ct-animation-popup: popup .2s linear;
   --ct-animation-expand-padding: expand-padding .2s linear;
+  --ct-animation-expand-padding-h: expand-padding-h .2s linear;
+  --ct-animation-fade-out: fade-out .2s linear;
+  --ct-animation-right-top-out: right-top-out .1s linear;
 }

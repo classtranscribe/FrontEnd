@@ -25,3 +25,44 @@
 @-webkit-keyframes expand-padding {
   0% {padding-top: 1em;}
   100% {padding-top: 0;}}
+
+@keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+@-o-keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+@-moz-keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+@-webkit-keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+
+/* Opacity  */
+@keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+@-o-keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+@-moz-keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+@-webkit-keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+
+@keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+@-o-keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+@-moz-keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+@-webkit-keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+

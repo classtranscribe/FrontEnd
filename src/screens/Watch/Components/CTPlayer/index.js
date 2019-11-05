@@ -4,6 +4,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connectWithRedux } from '_redux/watch'
 // UI
 import './index.css'
 // Vars
@@ -19,9 +20,7 @@ import {
   THEATRE_MODE,
 } from '../../Utils'
 
-const mode = PS_MODE
-
-export class ClassTranscribePlayer extends React.Component {
+export class ClassTranscribePlayerWithRedux extends React.Component {
   constructor(props) {
     super(props)
     this.mediaId = util.parseSearchQuery().id
@@ -38,8 +37,9 @@ export class ClassTranscribePlayer extends React.Component {
 
     if (prevProps.media !== media) {
       // set src for videos
-      const { videos, transcriptions } = media
+      const { videos, transcriptions, isTwoScreen } = media
       const { srcPath1, srcPath2 } = videos[0]
+      if (isTwoScreen) this.props.setMode(PS_MODE)
       this.setState({ 
         srcPath1, 
         srcPath2,
@@ -56,7 +56,7 @@ export class ClassTranscribePlayer extends React.Component {
 
   render() {
     const { srcPath1, srcPath2, trans } = this.state
-    const { media, playlist, playlists } = this.props
+    const { media, mode } = this.props
     const { isTwoScreen } = media
 
     return (
@@ -86,9 +86,8 @@ export class ClassTranscribePlayer extends React.Component {
   }
 }
 
-ClassTranscribePlayer.propTypes = {
-  media: PropTypes.object,
-}
-ClassTranscribePlayer.defaultProps = {
-  media: api.parseMedia()
-}
+export const ClassTranscribePlayer = connectWithRedux(
+  ClassTranscribePlayerWithRedux,
+  ['media', 'mode'],
+  ['setMode']
+)

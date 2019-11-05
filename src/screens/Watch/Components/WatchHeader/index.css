@@ -1,0 +1,28 @@
+.watch-playlists-menu-trigger {
+  color: var(--ct-green-active);
+  margin-right: 1em;
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+}
+.watch-playlists-menu-trigger:hover {
+  color: var(--ct-green-normal);
+}
+.watch-playlists-menu-trigger:focus {
+  outline: none;
+}
+/* .watch-playlists-menu-trigger:after {
+  font-weight: bold;
+  font-family: var(--ct-font-narrow);
+  content: 'PLAYLISTS';
+} */
+
+.watch-playlists-menu-trigger i {
+  font-size: 30px;
+}

@@ -17,25 +17,7 @@
   position: absolute;
   right: 5em;
   top: 0px;
-  color: var(--ct-text-white);
-  border-radius: 50%;
-  padding: .5em !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: var(--ct-border-color-transparent);
-  transition: var(--ct-transition-all);
-  -o-transition: var(--ct-transition-all);
-  -moz-transition: var(--ct-transition-all);
-  -webkit-transition: var(--ct-transition-all);
-  outline: none !important;}
-  /* .watch-playlists-menu-close-btn:hover {
-    color: var(--ct-text-white-hover);} */
-    .watch-playlists-menu-close-btn:hover, .watch-playlists-menu-close-btn:focus, .watch-playlists-menu-close-btn:active {
-    background: var(--ct-text-primary-light);
-    border: var(--ct-border-dark);
-  }
+}
 
 .watch-list-title {
   position: fixed;
