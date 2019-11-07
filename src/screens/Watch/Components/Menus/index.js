@@ -1,7 +1,5 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-import PlaylistsMenu from './PlaylistsMenu'
-import PlaybackrateMenu from './PlaybackrateMenu'
 import {
   MENU_HIDE,
   MENU_BEFORE_HIDE,
@@ -12,16 +10,19 @@ import {
   MENU_DOWNLOAD,
   menuControl
 } from '../../Utils'
+import PlaylistsMenu from './PlaylistsMenu'
+import PlaybackrateMenu from './PlaybackrateMenu'
+import ScreenModeMenu from './ScreenModeMenu'
 import './index.css'
-
-const type = MENU_PLAYLISTS
 
 export function MenusWithRedux({
   menu,
   setMenu
 }) {
 
-  const closeMenu = () => menuControl.closeMenu(setMenu)
+  // Register setMenu to menuControl
+  menuControl.register({ setMenu })
+  const closeMenu = () => menuControl.close()
 
   return (
     <div className={`watch-menus`} type={menu}>
@@ -31,6 +32,10 @@ export function MenusWithRedux({
       />
       <PlaybackrateMenu
         show={menu === MENU_PLAYBACKRATE}  
+        onClose={closeMenu}
+      />
+      <ScreenModeMenu 
+        show={menu === MENU_SCREEN_MODE}
         onClose={closeMenu}
       />
     </div>

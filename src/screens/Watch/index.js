@@ -10,6 +10,7 @@ import {
   WatchHeader,
   Menus,
   ClassTranscribePlayer,
+  ControlBar
 } from './Components'
 import './index.css'
 // Vars
@@ -19,7 +20,6 @@ import { api, util } from 'utils'
 export class WatchWithRedux extends React.Component {
   constructor(props) {
     super(props)
-    console.log('success', props.media)
     const { id, courseNumber } = util.parseSearchQuery()
     this.id = id
     if (!id || !courseNumber) window.location = util.links.notfound404()
@@ -98,10 +98,11 @@ export class WatchWithRedux extends React.Component {
 
   render() { 
     return (
-      <main className="watch-bg">
+      <main className="watch-bg" id="watch-page">
         <WatchHeader />
         <ClassTranscribePlayer />
         <Menus />
+        <ControlBar />
       </main>
     )
   }
@@ -112,6 +113,7 @@ WatchWithRedux.contextType = CTContext
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(
     WatchWithRedux
+    //['isFullscreen', 'media', 'playlist', 'playlists']
   )
   return (
     <Provider store={watchStore}>

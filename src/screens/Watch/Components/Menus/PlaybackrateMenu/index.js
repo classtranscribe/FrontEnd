@@ -1,36 +1,39 @@
 import React, { useState } from 'react'
 import { connectWithRedux } from '_redux/watch'
-import { PLAYBACKRATE } from '../../../Utils'
+import { 
+  PLAYBACKRATE,
+  videoControl
+} from '../../../Utils'
 import './index.css'
 import './slider.scss'
 
 function PlaybackrateMenu({
   show=false,
   onClose=null,
-
-  playbackrate,
-  setPlaybackrate=null,
+  playbackrate=1,
 }) {
   // console.log('???', setPlaybackrate)
-  const [sliderValue, setSliderValue] = useState(1.0)
+  const [sliderValue, setSliderValue] = useState(1)
   // isCustomized - 0:unset, 1:
   const [isCustomized, setIsCustomized] = useState(0)
 
   const usingCustomizedRate = isCustomized === 2
 
-  const chooseCustomizedRate = rate => () => {
-    setPlaybackrate(rate)
+  const chooseCustomizedRate = value => () => {
+    videoControl.playbackrate(value)
     if (!usingCustomizedRate) setIsCustomized(2)
   }
 
   const handleSliderChange = ({ target: {value} }) => {
     setSliderValue(value)
-    setPlaybackrate(value)
+    videoControl.playbackrate(value)
+
     setIsCustomized(2)
   }
 
-  const handleChooseRate = rate => () => {
-    setPlaybackrate(rate)
+  const handleChooseRate = value => () => {
+    videoControl.playbackrate(value)
+    
     setIsCustomized(isCustomized >= 2 ? 3 : 1)
   }
 
@@ -110,5 +113,5 @@ function PlaybackrateMenu({
 export default connectWithRedux(
   PlaybackrateMenu,
   ['playbackrate'],
-  ['setPlaybackrate']
+  []
 )

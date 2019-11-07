@@ -1,0 +1,56 @@
+.watch-ctrl-button {
+  position: relative;
+  background: none;
+  color: var(--ct-text-white);
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: none;
+  margin: 0 .5em;
+}
+
+.watch-ctrl-button:focus {
+  outline: none;
+}
+.watch-ctrl-button .watch-btn-content {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.watch-ctrl-button .watch-btn-content i {
+  font-size: 2.5em;
+}
+
+.watch-ctrl-button .watch-btn-playbackrate-content {
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  font-size: 18px;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.watch-ctrl-button .watch-btn-content,
+.watch-ctrl-button .watch-btn-playbackrate-content {
+  border-bottom: 2px transparent solid;
+  transition: var(--ct-transition-border);
+  -o-transition: var(--ct-transition-border);
+  -moz-transition: var(--ct-transition-border);
+  -webkit-transition: var(--ct-transition-border);
+}
+/* Focus */
+.watch-ctrl-button:focus > .watch-btn-content, 
+.watch-ctrl-button:hover > .watch-btn-content,
+.watch-ctrl-button:focus > .watch-btn-playbackrate-content, 
+.watch-ctrl-button:hover > .watch-btn-playbackrate-content,
+.watch-ctrl-button[active=true] .watch-btn-content,
+.watch-ctrl-button[active=true] .watch-btn-playbackrate-content {
+  border-bottom: 2px var(--ct-text-white-hover) solid;
+}

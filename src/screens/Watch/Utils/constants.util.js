@@ -9,6 +9,13 @@ export const PS_MODE = 'ps-mode'
 export const EQUAL_MODE = 'equal-mode'
 export const NESTED_MODE = 'nested-mode'
 
+export const screenModes = [
+  { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
+  { type: THEATRE_MODE, name: 'Theatre View', icon: 'video_label' },
+  { type: PS_MODE, name: 'Primary-Secondary View', icon: 'view_carousel' },
+  { type: NESTED_MODE, name: 'Nested View', icon: 'featured_video' },
+]
+
 // Player types
 export const PRIMARY = 'ct-player-primary'
 export const SECONDARY = 'ct-player-secondary'

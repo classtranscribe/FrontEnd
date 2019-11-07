@@ -66,3 +66,17 @@
   0% {top: 4em;}
   100% {top: calc(100vh - 4em - 4.5em);}}
 
+/* Height  */
+@keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+@-o-keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+@-moz-keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+@-webkit-keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+

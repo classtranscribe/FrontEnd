@@ -1,5 +1,5 @@
 .watch-menus {
-  top: 4em;
+  bottom: 4.5em;
   left: 0;
   right: 0;
   position: absolute;
@@ -13,18 +13,18 @@
   -ms-filter:blur(4px);
   -moz-filter:blur(4px);
   -webkit-filter:blur(4px); */
-  z-index: 2;
+  z-index: 1;
 }
 
 .watch-menus[type=menu-hide] {
   visibility: hidden;
 }
 .watch-menus[type=menu-before-hide] {
-  top: calc(100vh - 4em - 4.5em);
-  animation: var(--ct-animation-right-top-out);
-  -o-animation: var(--ct-animation-right-top-out);
-  -moz-animation: var(--ct-animation-right-top-out);
-  -webkit-animation: var(--ct-animation-right-top-out);
+  height: 0;
+  animation: var(--ct-animation-watch-menu-hide);
+  -o-animation: var(--ct-animation-watch-menu-hide);
+  -moz-animation: var(--ct-animation-watch-menu-hide);
+  -webkit-animation: var(--ct-animation-watch-menu-hide);
 }
 
 .watch-menu-close-btn {

@@ -13,10 +13,17 @@
   "watchHistory": [],
   "starredOfferings": [],
 
-  "menu": "menu-playbackrate",
+  "menu": "menu-hide",
   "mode": "normal-mode",
 
   "paused": true,
   "volume": 1,
-  "playbackrate": 1
+  "muted": false,
+  "playbackrate": 1.0,
+  "trans": null,
+  "isSwitched": false,
+  "time": 0,
+  "duration": 0,
+  "bufferedTime": 0,
+  "isFullscreen": false
 }

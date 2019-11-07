@@ -1,6 +1,7 @@
 .ct-video-contrainer {
   top: 4.5em;
   position: absolute;
+  cursor: pointer;
 }
 
 .ct-video {

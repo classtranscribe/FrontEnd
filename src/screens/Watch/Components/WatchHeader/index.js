@@ -3,7 +3,6 @@ import { connectWithRedux } from '_redux/watch'
 import { ClassTranscribeHeader } from 'components'
 import { 
   MENU_HIDE, 
-  MENU_BEFORE_HIDE, 
   MENU_PLAYLISTS,
   menuControl
 } from '../../Utils'
@@ -14,15 +13,15 @@ export function WatchHeaderWithRedux({
   playlist={},
 
   menu=MENU_HIDE,
-  setMenu=null,
+  isFullscreen=false
 }) {
 
   const handleMenuTrigger = () => {
-    if (menu != MENU_PLAYLISTS) setMenu(MENU_PLAYLISTS)
-    else menuControl.closeMenu(setMenu)
+    if (menu != MENU_PLAYLISTS) menuControl.open(MENU_PLAYLISTS)
+    else menuControl.close()
   }
 
-  return (
+  return isFullscreen ? null : (
     <ClassTranscribeHeader darkMode>
       <button 
         className="plain-btn watch-playlists-menu-trigger" 
@@ -42,6 +41,6 @@ export function WatchHeaderWithRedux({
 
 export const WatchHeader = connectWithRedux(
   WatchHeaderWithRedux,
-  ['media', 'playlist', 'menu'],
-  ['setMenu']
+  ['media', 'playlist', 'menu', 'isFullscreen'],
+  []
 )

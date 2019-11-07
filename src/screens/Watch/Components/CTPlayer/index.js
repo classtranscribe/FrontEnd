@@ -28,12 +28,17 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       srcPath1: null,
       srcPath2: null,
       trans: null,
-      playbackrate: 1,
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { media, watchHistory, offeringId } = this.props
+    const { 
+      media, watchHistory, offeringId,
+      // to be registered
+      setMode, switchScreen, setVolume, setPause, 
+      setPlaybackrate, setMute, setTrans, setFullscreen,
+      setDuration, setBufferedTime, setTime
+    } = this.props
 
     if (prevProps.media !== media) {
       // set src for videos
@@ -46,41 +51,76 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         trans: transcriptions[0]
       })
       // register video elem for ctrlor
-      control.init(this.videoNode1, this.videoNode2)
+      control.init(
+        this.videoNode1, this.videoNode2,
+        { 
+          setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
+          setMode, switchScreen, setBufferedTime, setDuration, setFullscreen
+        }
+      )
     }
   }
 
-  switchScreen = () => {
-    this.setState({ isSwitched: !this.state.isSwitched })
+  onCanPlay = e => {
+    control.onCanPlay(e)
+  }
+
+  onDurationChange = e => {
+    control.onDurationChange(e)
+  }
+
+  onTimeUpdate = e => {
+    control.onTimeUpdate(e)
+  }
+
+  onProgress = e => {
+    control.onProgress(e)
   }
 
   render() {
     const { srcPath1, srcPath2, trans } = this.state
-    const { media, mode } = this.props
+    const { media, mode, isSwitched, paused } = this.props
     const { isTwoScreen } = media
+
+    const player1Position = isSwitched ? SECONDARY : PRIMARY
+    const player2Position = isSwitched ? PRIMARY : SECONDARY
+    const handlePause = paused ? () => control.play() : () => control.pause()
 
     return (
       <>
-          <div className={`ct-video-contrainer ${PRIMARY}`} mode={mode} >
-            <video
+        <div 
+          className={`ct-video-contrainer ${player1Position}`} 
+          mode={mode} 
+          onClick={handlePause}
+        >
+          <video
+            className="ct-video"
+            ref={node => this.videoNode1 = node}
+            onDurationChange={this.onDurationChange}
+            onTimeUpdate={this.onTimeUpdate}
+            onProgress={this.onProgress}
+            onCanPlay={this.onCanPlay}
+          >
+            {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4"/>}
+          </video>
+        </div>
+        {
+          isTwoScreen
+          &&
+          <div 
+            className={`ct-video-contrainer ${player2Position}`} 
+            mode={mode}
+            onClick={handlePause}
+          >
+            <video muted
               className="ct-video"
-              ref={node => this.videoNode1 = node}
+              ref={node => this.videoNode2 = node}
+              onCanPlay={this.onCanPlay}
             >
-              {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4"/>}
+              {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
             </video>
           </div>
-          {
-            isTwoScreen
-            &&
-            <div className={`ct-video-contrainer ${SECONDARY}`} mode={mode}>
-              <video muted
-                className="ct-video"
-                ref={node => this.videoNode2 = node}
-              >
-                {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
-              </video>
-            </div>
-          }
+        }
       </>
     )
   }
@@ -88,6 +128,18 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
 export const ClassTranscribePlayer = connectWithRedux(
   ClassTranscribePlayerWithRedux,
-  ['media', 'mode'],
-  ['setMode']
+  ['media', 'mode', 'isSwitched', 'paused'],
+  [
+    'setMode',
+    'setVolume', 
+    'setPause', 
+    'setPlaybackrate', 
+    'setTime', 
+    'setMute',
+    'setTrans',
+    'switchScreen',
+    'setDuration',
+    'setBufferedTime',
+    'setFullscreen'
+  ]
 )
