@@ -22,6 +22,7 @@ import './index.css'
 function CCSettingMenu({
   show=false,
   onClose=null,
+  openCC=false,
 
   cc_color=CC_COLOR_WHITE,
   cc_bg=CC_COLOR_BLACK,
@@ -52,6 +53,9 @@ function CCSettingMenu({
 
   return show ? (
     <div className="watch-ccsetting-menu">
+      <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
+        <i className="material-icons">close</i>
+      </button>
       <div className="ccsetting-demo-area">
         <h2>Sample Caption</h2>
         <div className="ccsetting-demo-box" style={bgStyle}>
@@ -142,6 +146,6 @@ function CCSettingMenu({
 
 export default connectWithRedux(
   CCSettingMenu,
-  ['cc_color', 'cc_bg', 'cc_size', 'cc_opacity', 'cc_font', 'cc_position'],
+  ['openCC', 'cc_color', 'cc_bg', 'cc_size', 'cc_opacity', 'cc_font', 'cc_position'],
   ['cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont']
 )

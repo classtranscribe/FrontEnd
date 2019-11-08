@@ -26,8 +26,22 @@ export const MENU_BEFORE_HIDE = 'menu-before-hide'
 export const MENU_PLAYLISTS = 'menu-playlists'
 export const MENU_PLAYBACKRATE = 'menu-playbackrate'
 export const MENU_CAPTIONS = 'menu-captions'
+export const MENU_LANGUAGE = 'menu-language'
 export const MENU_SCREEN_MODE = 'menu-screen-mode'
 export const MENU_DOWNLOAD = 'menu-download'
+
+// Caption Languages
+export const ENGLISH = 'en-US'
+export const SIMPLIFIED_CHINESE = 'zh-Hans'
+export const KOREAN = 'ko'
+export const SPANISH = 'es'
+export const langOptions = [ ENGLISH, SIMPLIFIED_CHINESE, KOREAN, SPANISH ]
+export const langMap = {
+  "en-US": "English",
+  "zh-Hans": "Simplified Chinese",
+  "ko": "Korean",
+  "es": "Spanish"
+}
 
 // Caption Search Options
 export const SEARCH_IN_COURSE = 'search-in-course'
@@ -35,7 +49,7 @@ export const SEARCH_IN_VIDEO = 'search-in-video'
 
 // Player static options
 export const AUTOPLAY = false
-export const PLAYBACKRATE = [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]
+export const playbackRateOptions = [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]
 
 // CC Setting
 export const CC_COLOR_WHITE = 'white'

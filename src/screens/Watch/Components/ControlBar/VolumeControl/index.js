@@ -34,7 +34,7 @@ function VolumeControl({
   return (
     <div className="watch-volume-ctrl">
       <button className="watch-ctrl-button" onClick={handleButtonClick}>
-        <span className="watch-btn-content" tabindex="-1">
+        <span className="watch-btn-content" tabIndex="-1">
           <i className="material-icons">{iconName}</i>       
         </span>
       </button>

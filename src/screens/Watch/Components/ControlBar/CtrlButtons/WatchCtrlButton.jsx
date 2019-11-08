@@ -17,7 +17,7 @@ export default function WatchCtrlButton({
     <Popup inverted wide basic
       position="top center"
       offset="0, 20px"
-      mouseEnterDelay={600}
+      // mouseEnterDelay={600}
       openOnTriggerClick={false}
       content={label}
       trigger={

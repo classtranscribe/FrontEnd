@@ -11,10 +11,10 @@ export const menuControl = {
     this.setMenu(type)
   },
 
-  close: function() {
+  close: function(timeout=200) {
     this.setMenu(MENU_BEFORE_HIDE)
     setTimeout(() => {
       this.setMenu(MENU_HIDE)
-    }, 200)
+    }, timeout)
   },
 }

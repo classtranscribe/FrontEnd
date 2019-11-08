@@ -5,7 +5,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 4em 6vw;
+  padding: 0 15em 4em 6vw;
   overflow-x: scroll;
   overflow-y: hidden;
   animation: var(--ct-animation-popup);

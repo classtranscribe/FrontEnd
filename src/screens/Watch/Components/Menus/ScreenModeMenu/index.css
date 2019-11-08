@@ -71,3 +71,6 @@
   padding: .7em 0;
   border-bottom: var(--ct-border-dark);
 }
+.screen-mode-listitem:last-child .screen-mode-name {
+  border-bottom: var(--ct-border-color-transparent);
+}

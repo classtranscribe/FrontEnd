@@ -3,21 +3,16 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connectWithRedux } from '_redux/watch'
 // UI
 import './index.css'
 // Vars
-import { util, api } from 'utils'
+import { util } from 'utils'
 import { 
   videoControl as control, 
-  playerOptions, 
   PRIMARY, 
   SECONDARY,
   PS_MODE,
-  NORMAL_MODE,
-  NESTED_MODE,
-  THEATRE_MODE,
 } from '../../Utils'
 
 export class ClassTranscribePlayerWithRedux extends React.Component {
@@ -35,13 +30,13 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       media, watchHistory, offeringId,
       // to be registered
       setMode, switchScreen, setVolume, setPause, 
-      setPlaybackrate, setMute, setTrans, setFullscreen,
-      setDuration, setBufferedTime, setTime, setCurrTrans
+      setPlaybackrate, setMute, setFullscreen,
+      setDuration, setBufferedTime, setTime,
     } = this.props
 
     if (prevProps.media !== media) {
       // set src for videos
-      const { videos, transcriptions, isTwoScreen } = media
+      const { videos, isTwoScreen } = media
       const { srcPath1, srcPath2 } = videos[0]
       if (isTwoScreen) this.props.setMode(PS_MODE)
       this.setState({ 
@@ -51,11 +46,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       // register video elem for ctrlor
       control.init(
         this.videoNode1, this.videoNode2,
-        { 
-          setVolume, setPause, setPlaybackrate, 
-          setTime, setMute, setTrans, 
-          setMode, switchScreen, setBufferedTime, 
-          setFullscreen, setCurrTrans, setDuration,
+        {  
+          setMode, switchScreen, setFullscreen,
+          setVolume, setMute, setPause, setPlaybackrate,
+          setDuration, setTime, setBufferedTime, 
         }
       )
       // console.log('this.videoNode1.textTracks', this.videoNode1.textTracks)
@@ -120,13 +114,13 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 />
               ))
             } */}
-            <track 
+            {/* <track 
               src="https://classtranscribe.ncsa.illinois.edu/data/temptemp_zge_da15f9c7-d587-4244-b8df-b1a13a1b89d8_es.vtt"
               kind="subtitles"
               srcLang="english"
               label="english"
               id="english"
-            />
+            /> */}
           </video>
         </div>
         {
@@ -157,13 +151,11 @@ export const ClassTranscribePlayer = connectWithRedux(
   ['media', 'mode', 'isSwitched', 'paused'],
   [
     'setMode',
-    'setCurrTrans',
     'setVolume', 
     'setPause', 
     'setPlaybackrate', 
     'setTime', 
     'setMute',
-    'setTrans',
     'switchScreen',
     'setDuration',
     'setBufferedTime',

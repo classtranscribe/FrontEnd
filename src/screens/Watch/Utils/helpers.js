@@ -46,6 +46,11 @@ export function parseSec(d) {
   return hDisplay + mDisplay + sDisplay; 
 }
 
+export function timeStrToSec(str) {
+  const strs = str.split(':')
+  return parseFloat(strs[0]) * 3600 + parseFloat(strs[1]) * 60 + parseFloat(strs[2])
+}
+
 export function getCCSelectOptions(array=[], operation=item => item) {
   const options = []
   array.forEach( item => {

@@ -1,0 +1,19 @@
+.watch-download-menu-title {
+  height: max-content;
+  width: 18em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.4em;
+}
+.watch-download-menu-title .file-type {
+  color: var(--ct-text-white-hover);
+  font-size: 0.8em;
+  margin-left: .5em;
+}
+
+.watch-downloading {
+  width: 35px;
+  margin-right: 16px;
+}

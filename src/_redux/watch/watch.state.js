@@ -31,6 +31,7 @@ export const initialState = {
   duration: 0,
   bufferedTime: 0,
   isFullscreen: false,
+  openCC: false,
 
   // CC options
   cc_color: 'white',

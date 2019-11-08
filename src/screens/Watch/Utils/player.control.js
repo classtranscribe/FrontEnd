@@ -1,6 +1,7 @@
 /**
  * Functions for controlling video players
  */
+import { transControl } from './trans.control'
 
 export const videoControl = {
   videoNode1: null,
@@ -17,17 +18,11 @@ export const videoControl = {
     this.externalFunctions = externalFunctions
     
     this.addEventListenerForFullscreenChange()
-    // console.log('textTracks',this.videoNode1.textTracks)
-    this.videoNode1.textTracks[0].mode = 'showing'
-    this.videoNode1.textTracks[0].oncuechange = e => {
-      console.log(e)
-    }
   },
 
   switchVideo: function(bool) {
     const { switchScreen } = this.externalFunctions
     if (switchScreen) switchScreen(bool)
-    console.log('textTracks', this.videoNode1.textTracks[0])
   },  
 
   mode: function(mode) {
@@ -110,12 +105,6 @@ export const videoControl = {
     const { setDuration } = this.externalFunctions
     setDuration(duration)
     this.duration = duration
-    // for (var i = 0; i < this.videoNode1.textTracks.length; i++) {
-    //   this.videoNode1.textTracks[i].mode = 'disabled';
-    // }
-    // this.videoNode1.textTracks[0].mode = 'showing'
-    // console.log('textTracks',this.videoNode1.textTracks)
-    // this.videoNode1.textTracks[0].mode = 'showing'
   },
 
   canPlayNum: 0,
@@ -135,6 +124,7 @@ export const videoControl = {
     const { setTime } = this.externalFunctions
     if (currentTime - this.lastTime > 1) {
       setTime(currentTime)
+      console.log('!!', transControl.findCaption(currentTime))
     }
   },
 

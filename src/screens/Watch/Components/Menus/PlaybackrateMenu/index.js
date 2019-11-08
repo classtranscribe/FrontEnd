@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { 
-  PLAYBACKRATE,
+  playbackRateOptions,
   videoControl
 } from '../../../Utils'
 import './index.css'
@@ -59,7 +59,7 @@ function PlaybackrateMenu({
 
       {/* Playback Rate option list */}
       <div className="playbackrate-list" role="list">
-        {PLAYBACKRATE.map( rate => (
+        {playbackRateOptions.map( rate => (
           <button 
             key={`playback-rate-${rate}`}
             role="listitem"

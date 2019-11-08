@@ -8,12 +8,15 @@ import {
   MENU_CAPTIONS,
   MENU_SCREEN_MODE,
   MENU_DOWNLOAD,
-  menuControl
+  menuControl,
+  MENU_LANGUAGE
 } from '../../Utils'
 import PlaylistsMenu from './PlaylistsMenu'
 import PlaybackrateMenu from './PlaybackrateMenu'
 import ScreenModeMenu from './ScreenModeMenu'
 import CCSettingMenu from './CCSettingMenu'
+import LanguageMenu from './LanguageMenu'
+import DownloadMenu from './DownloadMenu'
 import './index.css'
 
 export function MenusWithRedux({
@@ -41,6 +44,14 @@ export function MenusWithRedux({
       />
       <CCSettingMenu 
         show={menu === MENU_CAPTIONS}
+        onClose={closeMenu}
+      />
+      <LanguageMenu
+        show={menu === MENU_LANGUAGE}
+        onClose={closeMenu}
+      />
+      <DownloadMenu
+        show={menu === MENU_DOWNLOAD}
         onClose={closeMenu}
       />
     </div>

@@ -7,6 +7,7 @@ import {
   FullscreenButton,
   SwitchScreenButton,
   PlaybackRateButton,
+  LanguagePickerButton,
   ScreenModeSettingButton,
 } from './CtrlButtons'
 import VolumeControl from './VolumeControl'
@@ -24,13 +25,14 @@ export function ControlBarWithRedux({
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
         <PlayButton />
+        {isTwoScreen && <SwitchScreenButton />}
         <VolumeControl />
         <TimeDisplay />
       </div>
       <div className="watch-ctrl-bar-right-elems">
         <PlaybackRateButton />
+        <LanguagePickerButton />
         <CCSettingButton />
-        {isTwoScreen && <SwitchScreenButton />}
         <ScreenModeSettingButton isTwoScreen={isTwoScreen} />
         <DownloadButton />
         <FullscreenButton />

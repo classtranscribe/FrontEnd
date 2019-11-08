@@ -20,6 +20,7 @@ import {
   SET_CURR_TRANS,
   SWITCH_SCREEN,
   SET_FULLSCREEN,
+  SET_OPENCC,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -54,6 +55,7 @@ export const setMute              = value => ({ type: SET_MUTE, value })
 export const setPause             = value => ({ type: SET_PAUSE, value })
 export const switchScreen         = value => ({ type: SWITCH_SCREEN, value })
 export const setFullscreen        = value => ({ type: SET_FULLSCREEN, value })
+export const setOpenCC            = value => ({ type: SET_OPENCC, value })
 
 
 // CC Options
