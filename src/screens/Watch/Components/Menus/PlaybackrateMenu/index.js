@@ -41,7 +41,7 @@ function PlaybackrateMenu({
     <div className="watch-playbackrate-menu">
       {/* Playback Rate Customization Slider */}
       <div className="customize-playbackrate">
-        <label className="customize-playbackrate-title" for="playback-rate-slider">
+        <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
           Customized rate - 
           <span className="customize-playbackrate-num">{sliderValue}</span>
         </label>

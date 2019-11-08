@@ -67,7 +67,7 @@ export const CC_FONT_SANS_SERIF = 'sans-serif'
 export const CC_FONT_MONOSPACE = 'monospace'
 export const CC_FONT_CURSIVE = 'cursive'
 export const CC_FONT_FANTASY = 'fantasy'
-export const cc_fontOptions = [ CC_FONT_SERIF, CC_FONT_SANS_SERIF, CC_FONT_MONOSPACE, CC_FONT_MONOSPACE, CC_FONT_CURSIVE, CC_FONT_FANTASY ]
+export const cc_fontOptions = [ CC_FONT_SERIF, CC_FONT_SANS_SERIF, CC_FONT_MONOSPACE, CC_FONT_CURSIVE, CC_FONT_FANTASY ]
 
 export const CC_SIZE_75 = .75
 export const CC_SIZE_100 = 1
