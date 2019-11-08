@@ -17,16 +17,37 @@ export const videoControl = {
     this.externalFunctions = externalFunctions
     
     this.addEventListenerForFullscreenChange()
+    // console.log('textTracks',this.videoNode1.textTracks)
+    this.videoNode1.textTracks[0].mode = 'showing'
+    this.videoNode1.textTracks[0].oncuechange = e => {
+      console.log(e)
+    }
   },
 
   switchVideo: function(bool) {
     const { switchScreen } = this.externalFunctions
     if (switchScreen) switchScreen(bool)
+    console.log('textTracks', this.videoNode1.textTracks[0])
   },  
 
   mode: function(mode) {
     const { setMode } = this.externalFunctions
     if (setMode) setMode(mode)
+  },
+
+  paused: function() {
+    if (!this.videoNode1) return;
+    return this.videoNode1.paused
+  },
+
+  handlePause: function(bool) {
+    if (!this.videoNode1) return;
+    if (bool === undefined) bool = this.videoNode1.paused
+    if (Boolean(bool)) {
+      this.play()
+    } else {
+      this.pause() 
+    }
   },
 
   pause: function() {
@@ -89,12 +110,18 @@ export const videoControl = {
     const { setDuration } = this.externalFunctions
     setDuration(duration)
     this.duration = duration
+    // for (var i = 0; i < this.videoNode1.textTracks.length; i++) {
+    //   this.videoNode1.textTracks[i].mode = 'disabled';
+    // }
+    // this.videoNode1.textTracks[0].mode = 'showing'
+    // console.log('textTracks',this.videoNode1.textTracks)
+    // this.videoNode1.textTracks[0].mode = 'showing'
   },
 
   canPlayNum: 0,
   onCanPlay: function(e) {
     this.canPlayNum += 1
-    console.log('canPlayNum', this.canPlayNum)
+    // console.log('canPlayNum', this.canPlayNum)
     // if (this.videoNode2) {
     //   if (this.canPlayNum === 2) this.play()
     // } else {
@@ -102,6 +129,7 @@ export const videoControl = {
     // }
   },
 
+  /** Timing */
   lastTime: 0,
   onTimeUpdate: function({ target: { currentTime } }) {
     const { setTime } = this.externalFunctions
@@ -123,6 +151,8 @@ export const videoControl = {
     }
   },
 
+
+  /** Fullscreen */
   addEventListenerForFullscreenChange: function() {
     const { setFullscreen } = this.externalFunctions
     if (setFullscreen) {

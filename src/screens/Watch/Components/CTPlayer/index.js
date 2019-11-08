@@ -27,7 +27,6 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     this.state = {
       srcPath1: null,
       srcPath2: null,
-      trans: null,
     }
   }
 
@@ -37,7 +36,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       // to be registered
       setMode, switchScreen, setVolume, setPause, 
       setPlaybackrate, setMute, setTrans, setFullscreen,
-      setDuration, setBufferedTime, setTime
+      setDuration, setBufferedTime, setTime, setCurrTrans
     } = this.props
 
     if (prevProps.media !== media) {
@@ -47,17 +46,19 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       if (isTwoScreen) this.props.setMode(PS_MODE)
       this.setState({ 
         srcPath1, 
-        srcPath2,
-        trans: transcriptions[0]
+        srcPath2
       })
       // register video elem for ctrlor
       control.init(
         this.videoNode1, this.videoNode2,
         { 
-          setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
-          setMode, switchScreen, setBufferedTime, setDuration, setFullscreen
+          setVolume, setPause, setPlaybackrate, 
+          setTime, setMute, setTrans, 
+          setMode, switchScreen, setBufferedTime, 
+          setFullscreen, setCurrTrans, setDuration,
         }
       )
+      // console.log('this.videoNode1.textTracks', this.videoNode1.textTracks)
     }
   }
 
@@ -78,30 +79,54 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
 
   render() {
-    const { srcPath1, srcPath2, trans } = this.state
+    const { srcPath1, srcPath2 } = this.state
     const { media, mode, isSwitched, paused } = this.props
-    const { isTwoScreen } = media
+    const { isTwoScreen, transcriptions } = media
 
     const player1Position = isSwitched ? SECONDARY : PRIMARY
     const player2Position = isSwitched ? PRIMARY : SECONDARY
-    const handlePause = paused ? () => control.play() : () => control.pause()
 
     return (
       <>
         <div 
           className={`ct-video-contrainer ${player1Position}`} 
           mode={mode} 
-          onClick={handlePause}
+          onClick={() => control.handlePause()}
         >
           <video
             className="ct-video"
+            id="ct-video-1"
             ref={node => this.videoNode1 = node}
             onDurationChange={this.onDurationChange}
             onTimeUpdate={this.onTimeUpdate}
             onProgress={this.onProgress}
             onCanPlay={this.onCanPlay}
           >
-            {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4"/>}
+            {
+              Boolean(srcPath1) 
+              && 
+              <source src={srcPath1} type="video/mp4"/>
+            }
+            {/* {
+              transcriptions.map( trans => (
+                <track 
+                  className="watch-caption-track"
+                  key={trans.language}
+                  id={trans.language}
+                  src={trans.src} 
+                  kind="subtitles"
+                  label={trans.language}
+                  srcLang={trans.language}
+                />
+              ))
+            } */}
+            <track 
+              src="https://classtranscribe.ncsa.illinois.edu/data/temptemp_zge_da15f9c7-d587-4244-b8df-b1a13a1b89d8_es.vtt"
+              kind="subtitles"
+              srcLang="english"
+              label="english"
+              id="english"
+            />
           </video>
         </div>
         {
@@ -110,10 +135,11 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           <div 
             className={`ct-video-contrainer ${player2Position}`} 
             mode={mode}
-            onClick={handlePause}
+            onClick={() => control.handlePause()}
           >
             <video muted
               className="ct-video"
+              id="ct-video-2"
               ref={node => this.videoNode2 = node}
               onCanPlay={this.onCanPlay}
             >
@@ -131,6 +157,7 @@ export const ClassTranscribePlayer = connectWithRedux(
   ['media', 'mode', 'isSwitched', 'paused'],
   [
     'setMode',
+    'setCurrTrans',
     'setVolume', 
     'setPause', 
     'setPlaybackrate', 

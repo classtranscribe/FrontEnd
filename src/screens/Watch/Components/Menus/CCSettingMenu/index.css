@@ -1,0 +1,77 @@
+.watch-ccsetting-menu {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 4em 6vw;
+  animation: var(--ct-animation-popup);
+  -o-animation: var(--ct-animation-popup);
+  -moz-animation: var(--ct-animation-popup);
+  -webkit-animation: var(--ct-animation-popup);
+}
+
+.ccsetting-demo-area {
+  position: relative;
+  width: 50em;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1em 1em 4em 0;
+  animation: var(--ct-animation-expand-padding-h);
+  -o-animation: var(--ct-animation-expand-padding-h);
+  -moz-animation: var(--ct-animation-expand-padding-h);
+  -webkit-animation: var(--ct-animation-expand-padding-h);
+}
+
+.ccsetting-demo-box {
+  box-shadow: 0 0 0 3px rgba(82, 82, 82, 0.438);
+  border-radius: 5px;
+  padding: 1.5em 2em;
+  font-weight: bold;
+  text-align: center;
+  max-width: 100%;
+}
+
+.ccsetting-selection-area {
+  position: relative;
+  width: 50em;
+  max-width: 90vw;
+  height: auto;
+  margin: 1em 0 5em 0;
+  animation: var(--ct-animation-expand-padding-h);
+  -o-animation: var(--ct-animation-expand-padding-h);
+  -moz-animation: var(--ct-animation-expand-padding-h);
+  -webkit-animation: var(--ct-animation-expand-padding-h);
+}
+
+@media screen and (max-width: 900px) {
+  .watch-ccsetting-menu {
+    padding-top: 10em;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: auto;
+  }
+  .ccsetting-demo-area {
+    margin: 1em 0em 4em 0;
+  }
+}
+
+/* Semantic UI Updates */
+.watch-ccsetting-menu label {
+  font-weight: bold !important;
+  font-size: 1.2em !important;
+}
+.watch-ccsetting-menu .ui.selection.dropdown {
+  background: rgb(236, 236, 236) !important;
+  border-color: rgb(236, 236, 236);
+}
+/* .watch-ccsetting-menu .ui.selection.dropdown .menu {
+  max-height: 11em;
+} */
+
+

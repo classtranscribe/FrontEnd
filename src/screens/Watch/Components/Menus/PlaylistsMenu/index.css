@@ -48,6 +48,10 @@
   flex-direction: column;
   align-items: center;
   padding-top: 1em;
+  animation: var(--ct-animation-expand-padding-h);
+  -o-animation: var(--ct-animation-expand-padding-h);
+  -moz-animation: var(--ct-animation-expand-padding-h);
+  -webkit-animation: var(--ct-animation-expand-padding-h);
   /* box-shadow: 0 0 2px snow; */
 }
 

@@ -15,7 +15,7 @@
 .buffered {
   height: 100%;
   position: relative;
-  background: #555;
+  background: rgba(85, 85, 85, 0.555);
   width: 100%;
   border-radius: var(--ct-progress-border-radius);
 }

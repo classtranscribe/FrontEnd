@@ -45,3 +45,12 @@ export function parseSec(d) {
   var sDisplay = s > 9 ? s : "0" + s;
   return hDisplay + mDisplay + sDisplay; 
 }
+
+export function getCCSelectOptions(array=[], operation=item => item) {
+  const options = []
+  array.forEach( item => {
+    let text = operation(item)
+    options.push({ text, value: item })
+  })
+  return options
+}

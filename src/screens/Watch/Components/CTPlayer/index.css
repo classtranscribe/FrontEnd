@@ -50,7 +50,7 @@
 
 /* Primary-Secondary Mode */
 .ct-player-secondary[mode=ps-mode] {
-  top: 18vh;
+  top: 5em;
   left: 62vw;
   width: 35vw;
 }
@@ -84,4 +84,9 @@
     height: auto;
     border: none;
   }
+}
+
+#ct-video-1::cue {
+  color:#ccc !important;
+  z-index: 100;
 }

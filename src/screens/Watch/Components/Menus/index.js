@@ -13,6 +13,7 @@ import {
 import PlaylistsMenu from './PlaylistsMenu'
 import PlaybackrateMenu from './PlaybackrateMenu'
 import ScreenModeMenu from './ScreenModeMenu'
+import CCSettingMenu from './CCSettingMenu'
 import './index.css'
 
 export function MenusWithRedux({
@@ -36,6 +37,10 @@ export function MenusWithRedux({
       />
       <ScreenModeMenu 
         show={menu === MENU_SCREEN_MODE}
+        onClose={closeMenu}
+      />
+      <CCSettingMenu 
+        show={menu === MENU_CAPTIONS}
         onClose={closeMenu}
       />
     </div>

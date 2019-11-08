@@ -1,24 +1,19 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
+import WatchCtrlButton from './WatchCtrlButton'
 import { videoControl } from '../../../Utils'
 
 export function PlayButtonWithRedux({
   paused=true,
 }) {
 
-  const handlePause = () => {
-    if (paused) {
-      videoControl.play()
-    } else {
-      videoControl.pause()
-    }
-  }
+  const handlePause = () => videoControl.handlePause()
 
   return (
-    <button 
-      className="watch-ctrl-button" 
+    <WatchCtrlButton 
       onClick={handlePause}
-      aria-label="Play"
+      label="Play"
+      popup={false}
     >
       <span className="watch-btn-content" tabIndex="-1">
         {
@@ -28,7 +23,7 @@ export function PlayButtonWithRedux({
           <i className="material-icons">pause</i>
         }        
       </span>
-    </button>
+    </WatchCtrlButton>
   )
 }
 

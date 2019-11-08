@@ -20,6 +20,10 @@
   align-items: flex-start;
   justify-content: flex-start;
   width: 25em;
+  animation: var(--ct-animation-expand-padding-h);
+  -o-animation: var(--ct-animation-expand-padding-h);
+  -moz-animation: var(--ct-animation-expand-padding-h);
+  -webkit-animation: var(--ct-animation-expand-padding-h);
 }
 
 .screen-mode-listitem {

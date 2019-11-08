@@ -16,6 +16,7 @@ import './index.css'
 // Vars
 import { watchStore, connectWithRedux } from '_redux/watch'
 import { api, util } from 'utils'
+import { keydownControl } from './Utils'
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
@@ -31,6 +32,8 @@ export class WatchWithRedux extends React.Component {
     this.getUserMetadata()
     /** GET media, playlist, and playlists */
     this.getWatchData()
+    /** Add keydown event handler */
+    keydownControl.addKeyDownListener()
   }
 
   /** Function for getting userMetadata */
@@ -45,13 +48,17 @@ export class WatchWithRedux extends React.Component {
   /** Function for getting media, playlist, and playlists */
   getWatchData = async () => {
     const { generalError } = this.context
+    const { setMedia, setPlaylist, setPlaylists, setTranscriptions, setCurrTrans } = this.props
     /** GET media */
     let mediaResponse = null
     try {
       mediaResponse = await api.getMediaById(this.id)
       let media = api.parseMedia(mediaResponse.data)
-      this.props.setMedia(media)
+      setMedia(media)
+      setTranscriptions(media.transcriptions)
+      setCurrTrans(media.transcriptions[0] || {})
       console.log('media', media)
+      console.log('transcriptions', media.transcriptions)
     } catch (error) {
       generalError({ header: "Couldn't load the video :(" })
       return;
@@ -66,27 +73,27 @@ export class WatchWithRedux extends React.Component {
         const { playlist, playlists } = state
         if (Boolean(playlist)) {
           // playlist
-          this.props.setPlaylist(playlist)
+          setPlaylist(playlist)
           console.log('playlist', playlist)
           // playlists
           if (Boolean(playlists)) {
-            this.props.setPlaylists(playlists)
+            setPlaylists(playlists)
             console.log('playlists', playlists)
           } else {
             const playlistsResponse = await api.getPlaylistsByOfferingId(playlist.offeringId)
-            this.props.setPlaylists(playlistsResponse.data)
+            setPlaylists(playlistsResponse.data)
           }
         } 
         // No playlist in state, GET playlist by id and then get playlists
       } else { 
         // playlist
         const playlistResponse = await api.getPlaylistById(playlistId)
-        this.props.setPlaylist(playlistResponse.data)
+        setPlaylist(playlistResponse.data)
         console.log('playlist', playlistResponse.data)
         // playlists
         const { offeringId } = playlistResponse.data
         const playlistsResponse = await api.getPlaylistsByOfferingId(offeringId)
-        this.props.setPlaylists(playlistsResponse.data)
+        setPlaylists(playlistsResponse.data)
         console.log('playlists', playlistsResponse.data)
       }
     } catch (error) {
@@ -112,8 +119,9 @@ WatchWithRedux.contextType = CTContext
 
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(
-    WatchWithRedux
-    //['isFullscreen', 'media', 'playlist', 'playlists']
+    WatchWithRedux,
+    ['media', 'playlist', 'playlists'],
+    ['setMedia', 'setPlaylist', 'setPlaylists', 'setCurrTrans', 'setTranscriptions']
   )
   return (
     <Provider store={watchStore}>

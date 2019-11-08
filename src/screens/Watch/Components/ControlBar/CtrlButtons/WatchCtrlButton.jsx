@@ -5,9 +5,15 @@ export default function WatchCtrlButton({
   children,
   onClick=null,
   active=false,
-  label=""
-}) {
-  return (
+  label="",
+  popup=true
+}) { 
+  const handleClick = () => {
+    document.activeElement.blur()
+    if (onClick) onClick()
+  }
+
+  return popup ? (
     <Popup inverted wide basic
       position="top center"
       offset="0, 20px"
@@ -17,7 +23,7 @@ export default function WatchCtrlButton({
       trigger={
         <button 
           className="watch-ctrl-button" 
-          onClick={onClick}
+          onClick={handleClick}
           active={active.toString()}
           aria-label={label}
         >
@@ -25,5 +31,14 @@ export default function WatchCtrlButton({
         </button>
       }
     />
+  ) : (
+    <button 
+      className="watch-ctrl-button" 
+      onClick={handleClick}
+      active={active.toString()}
+      aria-label={label}
+    >
+      {children}
+    </button>
   )
 }

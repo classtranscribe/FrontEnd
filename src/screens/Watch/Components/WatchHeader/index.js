@@ -17,6 +17,7 @@ export function WatchHeaderWithRedux({
 }) {
 
   const handleMenuTrigger = () => {
+    document.activeElement.blur()
     if (menu != MENU_PLAYLISTS) menuControl.open(MENU_PLAYLISTS)
     else menuControl.close()
   }
