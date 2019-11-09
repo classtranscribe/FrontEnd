@@ -29,7 +29,7 @@
 }
 
 /* Progress */
-.progress {
+.watch-progress-bar .progress {
   margin-top: var(--ct-progress-h-neg);
   height: 100%;
   position: relative;
@@ -51,7 +51,7 @@
   border-radius: var(--ct-progress-border-radius);
 }
 
-.progress .end-circle {
+.watch-progress-bar .progress .end-circle {
   background: var(--ct-progress-color);
   width: var(--ct-progress-h);
   height: var(--ct-progress-h);

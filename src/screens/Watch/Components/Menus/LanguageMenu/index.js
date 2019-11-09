@@ -15,7 +15,7 @@ function LanguageMenu({
       return;
     }
     transControl.setLanguage(lang)
-    onClose()
+    setTimeout(() => onClose(), 200);
   }
 
   return show ? (

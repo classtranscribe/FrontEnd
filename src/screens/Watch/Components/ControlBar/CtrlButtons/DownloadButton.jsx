@@ -23,6 +23,8 @@ export function DownloadButtonWithRedux({
       onClick={handleMenuTrigger}
       active={menu === MENU_DOWNLOAD}
       label="Download"
+      ariaLabel="Download Menu"
+      id={MENU_DOWNLOAD}
     >
       <span className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">cloud_download</i>     

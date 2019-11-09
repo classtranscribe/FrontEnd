@@ -1,5 +1,6 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
+import { Popup } from 'semantic-ui-react'
 import { videoControl } from '../../../Utils'
 import './index.css'
 import './slider.scss'
@@ -22,10 +23,13 @@ function VolumeControl({
   }
 
   const handleButtonClick = () => {
-    if (muted) {
-      videoControl.mute(false)
-    } else {
-      videoControl.mute(true)
+    videoControl.mute()
+  }
+
+  const handleVolumeKeyDown = e => {
+    const { keyCode } = e
+    if (keyCode === 37 || keyCode === 39) {
+      e.preventDefault()
     }
   }
 
@@ -33,21 +37,47 @@ function VolumeControl({
 
   return (
     <div className="watch-volume-ctrl">
-      <button className="watch-ctrl-button" onClick={handleButtonClick}>
-        <span className="watch-btn-content" tabIndex="-1">
-          <i className="material-icons">{iconName}</i>       
-        </span>
-      </button>
+      <Popup inverted wide basic
+        position="top center"
+        offset="0, 20px"
+        openOnTriggerClick={false}
+        openOnTriggerFocus
+        closeOnTriggerBlur
+        content={muted ? 'Unmute' : 'Mute'}
+        trigger={
+          <button 
+            className="watch-ctrl-button" 
+            onClick={handleButtonClick}
+            aria-label={muted ? 'Unmute' : 'Mute'}
+            id="volume-mute-btn"
+          >
+            <span className="watch-btn-content" tabIndex="-1">
+              <i className="material-icons">{iconName}</i>       
+            </span>
+          </button>
+        }
+      />
 
-      <input 
-        id="volume-slider"
-        className="volume-slider"
-        aria-label="Volume Slider"
-        type="range" 
-        min={0} 
-        max={1}
-        step={0.05}
-        onChange={handleVolumeChange}
+      <Popup inverted wide basic
+        position="top center"
+        offset="0, 20px"
+        openOnTriggerClick={false}
+        openOnTriggerFocus
+        closeOnTriggerBlur
+        content={<>Volume: <strong>{Math.floor(volume * 100)}%</strong></>}
+        trigger={
+          <input 
+            id="volume-slider"
+            className="volume-slider"
+            aria-label={`Volume Slider - Current Volume: ${Math.floor(volume * 100)}`}
+            type="range" 
+            min={0} 
+            max={1}
+            step={0.05}
+            onKeyDown={handleVolumeKeyDown}
+            onChange={handleVolumeChange}
+          />
+        }
       />
     </div>
   )

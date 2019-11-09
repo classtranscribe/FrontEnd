@@ -6,39 +6,41 @@ export default function WatchCtrlButton({
   onClick=null,
   active=false,
   label="",
-  popup=true
+  ariaLabel="",
+  mouseEnterDelay=0,
+  id=""
 }) { 
   const handleClick = () => {
-    document.activeElement.blur()
     if (onClick) onClick()
   }
 
-  return popup ? (
+  const handleKeyDown = e => {
+    if (e.keyCode === 32) {
+      e.preventDefault()
+    }
+  }
+
+  return (
     <Popup inverted wide basic
       position="top center"
       offset="0, 20px"
-      // mouseEnterDelay={600}
+      mouseEnterDelay={mouseEnterDelay}
       openOnTriggerClick={false}
+      openOnTriggerFocus
+      closeOnTriggerBlur
       content={label}
       trigger={
         <button 
+          id={id}
           className="watch-ctrl-button" 
-          onClick={handleClick}
           active={active.toString()}
-          aria-label={label}
+          aria-label={ariaLabel}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
         >
           {children}
         </button>
       }
     />
-  ) : (
-    <button 
-      className="watch-ctrl-button" 
-      onClick={handleClick}
-      active={active.toString()}
-      aria-label={label}
-    >
-      {children}
-    </button>
   )
 }

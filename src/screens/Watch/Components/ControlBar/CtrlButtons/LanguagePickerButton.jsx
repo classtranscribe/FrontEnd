@@ -25,7 +25,9 @@ export function LanguagePickerButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleMenuTrigger}
       active={menu === MENU_LANGUAGE}
-      label={`Current Language: ${langMap[currTrans.language]}`}
+      label={<>Current Language: <strong>{langMap[currTrans.language]}</strong></>}
+      ariaLabel="Language Menu"
+      id={MENU_LANGUAGE}
     >
       <span className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">language</i>     

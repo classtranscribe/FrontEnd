@@ -23,6 +23,8 @@ export function CCSettingButtonWithRedux({
       onClick={handleMenuTrigger}
       active={menu === MENU_CAPTIONS}
       label="Closed Caption Setting"
+      ariaLabel="Closed Caption Setting"
+      id={MENU_CAPTIONS}
     >
       <span className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">closed_caption</i>     

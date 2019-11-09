@@ -20,9 +20,12 @@ export const videoControl = {
     this.addEventListenerForFullscreenChange()
   },
 
+  isSwitched: false,
   switchVideo: function(bool) {
+    const toSet = bool === undefined ? !this.isSwitched : bool
     const { switchScreen } = this.externalFunctions
-    if (switchScreen) switchScreen(bool)
+    if (switchScreen) switchScreen(toSet)
+    this.isSwitched = toSet
   },  
 
   mode: function(mode) {
@@ -71,13 +74,24 @@ export const videoControl = {
     const { setTime } = this.externalFunctions
     if (setTime) setTime(time)
   },
+  timeForward: function(sec=10) {
+    if (!this.videoNode1) return;
+    let now = this.currTime()
+    if (now + sec < this.duration) this.currTime(now + sec)
+  },
+  timeBackward: function(sec=10) {
+    if (!this.videoNode1) return;
+    let now = this.currTime()
+    if (now - sec > 0) this.currTime(now - sec)
+  },
 
   mute: function(bool) {
     if (!this.videoNode1) return;
-    this.videoNode1.muted = bool
+    const toSet = bool === undefined ? !this.videoNode1.muted : bool
+    this.videoNode1.muted = toSet
 
     const { setMute } = this.externalFunctions
-    if (setMute) setMute(bool)
+    if (setMute) setMute(toSet)
   },
 
   volume: function(volume) {
@@ -122,9 +136,9 @@ export const videoControl = {
   lastTime: 0,
   onTimeUpdate: function({ target: { currentTime } }) {
     const { setTime } = this.externalFunctions
-    if (currentTime - this.lastTime > 1) {
+    if (currentTime - this.lastTime > 2) {
       setTime(currentTime)
-      console.log('!!', transControl.findCaption(currentTime))
+      // console.log('!!', transControl.findCaption(currentTime))
     }
   },
 

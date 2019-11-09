@@ -23,7 +23,9 @@ export function PlaybackRateButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleMenuTrigger}
       active={menu === MENU_PLAYBACKRATE}
-      label="Playback Rates"
+      label={<>Playback Rates: <strong>{Math.floor(playbackrate)} x</strong></>}
+      ariaLabel="layback Rate Menu"
+      id={MENU_PLAYBACKRATE}
     >
       <span className="watch-btn-playbackrate-content" tabIndex="-1">
         {`${playbackrate} x`}        

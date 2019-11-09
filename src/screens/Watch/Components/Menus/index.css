@@ -43,7 +43,7 @@
   outline: none !important;}
   /* .watch-playlists-menu-close-btn:hover {
     color: var(--ct-text-white-hover);} */
-    .watch-playlists-menu-close-btn:hover, .watch-playlists-menu-close-btn:focus, .watch-playlists-menu-close-btn:active {
+    .watch-menu-close-btn:hover, .watch-menu-close-btn:focus, .watch-menu-close-btn:active {
     background: var(--ct-text-primary-light);
     border: var(--ct-border-dark);
   }

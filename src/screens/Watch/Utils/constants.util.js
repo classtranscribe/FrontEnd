@@ -12,7 +12,7 @@ export const NESTED_MODE = 'nested-mode'
 export const screenModes = [
   { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
   { type: THEATRE_MODE, name: 'Theatre View', icon: 'video_label' },
-  { type: PS_MODE, name: 'Primary-Secondary View', icon: 'view_carousel' },
+  { type: PS_MODE, name: 'Distributed View', icon: 'view_carousel' },
   { type: NESTED_MODE, name: 'Nested View', icon: 'featured_video' },
 ]
 

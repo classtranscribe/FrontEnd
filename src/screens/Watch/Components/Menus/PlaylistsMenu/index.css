@@ -74,8 +74,13 @@
 .watch-playlist-item:hover {
   color: var(--ct-text-white-hover);
 }
-.watch-playlist-item:focus, .watch-playlist-item:focus:hover {
+.watch-playlist-item:focus, 
+.watch-playlist-item:focus:hover
+/*,.watch-playlist-item[current=true]*/ {
   color: var(--ct-green-active);
+}
+.watch-playlist-item[active=true] { 
+  color: var(--ct-text-highlight);
 }
 .watch-playlist-item .library-icon {
   margin-right: 10px;

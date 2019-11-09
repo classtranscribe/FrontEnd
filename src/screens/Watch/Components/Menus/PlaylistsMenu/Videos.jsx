@@ -59,6 +59,7 @@ function Video({
         ratio={ratio}
         posterSize={'100px'}
         fittedNameSize={40}
+        current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
         mediaState={{ media, playlist, playlists }}
         //handleLinkClick={() => window.location.search = util.createSearchQuery({ courseNumber, id, timeStamp })}

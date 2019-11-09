@@ -19,6 +19,8 @@ export function FullscreenButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleFullscreen}
       label={ isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen" }
+      ariaLabel={ isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen" }
+      id="fullscreen-btn"
     >
       <span className="watch-btn-content" tabIndex="-1">
         {

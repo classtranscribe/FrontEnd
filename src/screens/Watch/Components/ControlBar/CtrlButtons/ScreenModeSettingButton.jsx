@@ -21,15 +21,17 @@ export function ScreenModeSettingButtonWithRedux({
     }
   }
 
-  const modeIcom = _.find(screenModes, { type: mode }).icon
+  const currMode = _.find(screenModes, { type: mode })
   return (
     <WatchCtrlButton 
       onClick={handleMenuTrigger}
       active={menu === MENU_SCREEN_MODE}
-      label="Screen Modes"
+      label={<>Screen Mode: <strong>{currMode.name}</strong></>}
+      ariaLabel="Screen Mode Menu"
+      id={MENU_SCREEN_MODE}
     >
       <span className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">{modeIcom}</i>     
+        <i className="material-icons">{currMode.icon}</i>     
       </span>
     </WatchCtrlButton>
   )

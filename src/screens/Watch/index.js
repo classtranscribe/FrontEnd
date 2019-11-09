@@ -10,7 +10,8 @@ import {
   WatchHeader,
   Menus,
   ClassTranscribePlayer,
-  ControlBar
+  ControlBar,
+  TabEventHelperButtons
 } from './Components'
 import './index.css'
 // Vars
@@ -111,6 +112,7 @@ export class WatchWithRedux extends React.Component {
   render() { 
     return (
       <main className="watch-bg" id="watch-page">
+        <TabEventHelperButtons />
         <WatchHeader />
         <ClassTranscribePlayer />
         <Menus />

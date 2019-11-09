@@ -5,9 +5,9 @@ $track-height: 3px;
 
 // colours
 $upper-color: #cfcfcf;
-$lower-color: var(--ct-green-active);
+$lower-color: rgb(82, 82, 82);
 $lower-color-hover: var(--ct-text-highlight);
-$thumb-color: var(--ct-green-active);
+$thumb-color: rgb(82, 82, 82);
 $thumb-hover-color: var(--ct-text-highlight);
 
 $upper-background: linear-gradient(to bottom, $upper-color, $upper-color) 100% 50% / 100% $track-height no-repeat transparent;

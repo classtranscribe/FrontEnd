@@ -16,37 +16,35 @@ function ScreenModeMenu({
 
   const handleChooseMode = mode => () => {
     videoControl.mode(mode)
-    setTimeout(() => {
-      onClose()
-    }, 200);
+    setTimeout(() => onClose(), 200);
   }
 
   const { isTwoScreen } = media
 
   return show ? (
-    <div className="watch-screenmode-menu">
+    <div className="watch-general-menu">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>
-      <div className="screen-mode-list" two-screen={isTwoScreen ? 'true' : 'false'}>
+      <div className="watch-icon-list" two-screen={isTwoScreen ? 'true' : 'false'}>
         {screenModes.map( screenMode => (
           <button 
             key={screenMode.type}
             mode={screenMode.type}
-            className="plain-btn screen-mode-listitem"
+            className="plain-btn watch-icon-listitem"
             aria-label={screenMode.name}
             active={Boolean(mode === screenMode.type).toString()}
             onClick={handleChooseMode(screenMode.type)}
           >
-            <div className="screen-mode-listitem-checkmark">
+            <div className="watch-icon-listitem-checkmark">
               {
                 mode === screenMode.type
                 && 
                 <i className="material-icons">check</i>
               }
             </div>
-            <i className="material-icons screen-mode-icon">{screenMode.icon}</i>
-            <div className="screen-mode-name">{screenMode.name}</div>
+            <i className="material-icons watch-icon-icon">{screenMode.icon}</i>
+            <div className="watch-icon-name">{screenMode.name}</div>
           </button>
         ))}
       </div>

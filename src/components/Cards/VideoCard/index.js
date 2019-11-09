@@ -12,6 +12,7 @@ function VideoCardWithOutRouter({
   dark=false,
   id=null,
   name='Loading...', 
+  current=false,
 
   history,
   link=window.location.pathname,  
@@ -36,6 +37,7 @@ function VideoCardWithOutRouter({
   const handleClick = () => {
       if ($('.description-link:focus').length > 0) return;
       history.push(link, mediaState)
+      window.location.reload()
       if (Boolean(handleLinkClick)) {
         handleLinkClick()
       } 
@@ -47,6 +49,7 @@ function VideoCardWithOutRouter({
         className="video-card plain-btn" 
         onClick={handleClick}
         aria-label={`Watch video ${name}`}
+        current={current.toString()}
       >
         <Poster progress={ratio} width="220px" />
         <div className="media-info">
@@ -65,6 +68,7 @@ function VideoCardWithOutRouter({
         className="video-card plain-btn" 
         onClick={handleClick}
         aria-label={`Watch video ${name}`}
+        current={current.toString()}
       >
         <Poster progress={ratio} width={posterSize} />
         <div className="media-info">

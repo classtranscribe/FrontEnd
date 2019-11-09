@@ -8,17 +8,15 @@ export function SwitchScreenButtonWithRedux({
 }) {
 
   const handleSwitch = () => {
-    if (isSwitched) {
-      videoControl.switchVideo(false)
-    } else {
-      videoControl.switchVideo(true)
-    }
+    videoControl.switchVideo()
   }
 
   return (
     <WatchCtrlButton 
       onClick={handleSwitch}
       label="Switch Screens"
+      ariaLabel="Switch Screens"
+      id="switch-screen-btn"
     >
       <span className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">compare_arrows</i>       

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import _ from 'lodash'
 import { connectWithRedux } from '_redux/watch'
 import Videos from './Videos'
-import { util, api } from 'utils'
+import { util } from 'utils'
 import { findUpNextMedia } from '../../../Utils'
 import './index.css'
 
@@ -33,13 +33,11 @@ function PlaylistsMenu({
    */
   // console.log('upNextMedia', api.parseMedia(upNextMedia))
 
-  const [selectedPlaylist, setSelectedPlaylist] = useState({ name: '', medias: [] })
+  const [selectedPlaylist, setSelectedPlaylist] = useState({ name: '', medias: [], id:'' })
 
   useEffect(() => {
     if (playlists.length > 0) {
-      setSelectedPlaylist(
-        playlists.find( pl => pl.id === currPlaylistId) || {}
-      )
+      setSelectedPlaylist(_.find(playlists, pl => pl.id === currPlaylistId) || {})
       util.scrollToCenter(currPlaylistId)
     }
   }, [playlists])
@@ -64,6 +62,8 @@ function PlaylistsMenu({
             key={playlistItem.id}
             className="watch-playlist-item plain-btn" 
             onClick={handlePlaylistClick(playlistItem)}
+            current={Boolean(currPlaylistId === playlistItem.id).toString()}
+            active={Boolean(selectedPlaylist.id === playlistItem.id).toString()}
           >
             <i className="material-icons library-icon">video_library</i>
             <p className="playlist-name">

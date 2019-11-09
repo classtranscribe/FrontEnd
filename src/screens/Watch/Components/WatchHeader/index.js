@@ -1,5 +1,6 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
+import { Popup } from 'semantic-ui-react'
 import { ClassTranscribeHeader } from 'components'
 import { 
   MENU_HIDE, 
@@ -24,18 +25,23 @@ export function WatchHeaderWithRedux({
 
   return isFullscreen ? null : (
     <ClassTranscribeHeader darkMode>
-      <button 
-        className="plain-btn watch-playlists-menu-trigger" 
-        onClick={handleMenuTrigger}
-        aria-label="Playlists Menu"
-      >
-        {
-          menu === MENU_PLAYLISTS ? 
-          <i className="material-icons">close</i>
-          :
-          <i className="material-icons">list</i>
+      <Popup inverted wide basic
+        position="bottom center"
+        //offset="0, 10px"
+        openOnTriggerClick={false}
+        openOnTriggerFocus
+        closeOnTriggerBlur
+        content="Playlists"
+        trigger={
+          <button 
+            className="plain-btn watch-playlists-menu-trigger" 
+            onClick={handleMenuTrigger}
+            aria-label="Playlists Menu"
+          >
+            <i className="material-icons">list</i>
+          </button>
         }
-      </button>
+      />
     </ClassTranscribeHeader>
   )
 }

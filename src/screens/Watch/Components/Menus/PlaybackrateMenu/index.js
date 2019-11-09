@@ -22,6 +22,8 @@ function PlaybackrateMenu({
   const chooseCustomizedRate = value => () => {
     videoControl.playbackrate(value)
     if (!usingCustomizedRate) setIsCustomized(2)
+
+    setTimeout(() => onClose(), 200);
   }
 
   const handleSliderChange = ({ target: {value} }) => {
@@ -35,10 +37,22 @@ function PlaybackrateMenu({
     videoControl.playbackrate(value)
     
     setIsCustomized(isCustomized >= 2 ? 3 : 1)
+    setTimeout(() => onClose(), 200);
+  }
+
+  const handleKeyDown = e => {
+    const { keyCode } = e
+    if (keyCode === 37 || keyCode === 39) {
+      e.preventDefault()
+    }
   }
 
   return show ? (
     <div className="watch-playbackrate-menu">
+      <button className="plain-btn watch-menu-close-btn watch-playbackrate-menu-close-btn" onClick={onClose}>
+        <i className="material-icons">close</i>
+      </button>
+
       {/* Playback Rate Customization Slider */}
       <div className="customize-playbackrate">
         <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
@@ -54,31 +68,12 @@ function PlaybackrateMenu({
           step={0.05}
           value={sliderValue} 
           onChange={handleSliderChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
 
       {/* Playback Rate option list */}
       <div className="playbackrate-list" role="list">
-        {playbackRateOptions.map( rate => (
-          <button 
-            key={`playback-rate-${rate}`}
-            role="listitem"
-            className="plain-btn playbackrate-listitem"
-            aria-label={`playback-rate-${rate}`}
-            is-current-rate={Boolean(playbackrate === rate && !usingCustomizedRate).toString()}
-            onClick={handleChooseRate(rate)}
-          >
-            <div className="playbackrate-listitem-checkmark">
-              {
-                (playbackrate === rate && !usingCustomizedRate) 
-                && 
-                <i className="material-icons">check</i>
-              }
-            </div>
-            <p className="playbackrate-num">{rate}</p>
-          </button>
-        ))}
-
         {/* Customized Rate */}
         {
           isCustomized >= 2
@@ -86,9 +81,9 @@ function PlaybackrateMenu({
           <button 
             key={`customized-playback-rate-${sliderValue}`}
             role="listitem"
-            className="plain-btn playbackrate-listitem"
+            className="plain-btn watch-icon-listitem playbackrate-listitem"
             aria-label={`customized-playback-rate-${sliderValue}`}
-            is-current-rate={usingCustomizedRate.toString()}
+            active={usingCustomizedRate.toString()}
             onClick={chooseCustomizedRate(sliderValue)}
           >
             <div className="playbackrate-listitem-checkmark">
@@ -102,9 +97,26 @@ function PlaybackrateMenu({
           </button>
         }
 
-        <button className="plain-btn watch-menu-close-btn watch-playbackrate-menu-close-btn" onClick={onClose}>
-          <i className="material-icons">close</i>
-        </button>
+        {playbackRateOptions.slice().reverse().map( rate => (
+          <button 
+            key={`playback-rate-${rate}`}
+            role="listitem"
+            className="plain-btn watch-icon-listitem playbackrate-listitem"
+            aria-label={`playback-rate-${rate}`}
+            active={Boolean(playbackrate === rate && !usingCustomizedRate).toString()}
+            onClick={handleChooseRate(rate)}
+          >
+            <div className="playbackrate-listitem-checkmark">
+              {
+                (playbackrate === rate && !usingCustomizedRate) 
+                && 
+                <i className="material-icons">check</i>
+              }
+            </div>
+            <p className="playbackrate-num">{rate}</p>
+          </button>
+        ))}
+
       </div>
     </div>
   ) : null
