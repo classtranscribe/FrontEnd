@@ -17,7 +17,8 @@
   padding: 0 !important;
   margin: 0 !important;
   border: 0 !important;
-  position: absolute!important;
+  position: fixed !important;
+  top: -10em;
 }
 .upload-video {
   margin-top: 1rem;

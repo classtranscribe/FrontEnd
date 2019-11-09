@@ -110,6 +110,7 @@ export const keydownControl = {
     // If there is no menu opening - decrease the volume by 0.1 each time
     if (!menuControl.isOpen()) {
       $('#volume-slider').focus() // NEED TO MODIFY
+      return;
     }
 
     // If is focusing on the triggers in control bar - no lower elems
@@ -224,6 +225,7 @@ export const keydownControl = {
     const skipBtnFocus = $('.skip-btn:focus')
     if (skipBtnFocus.length) {
       skipBtnFocus.prev().focus()
+      return;
     }
     // If is focusing on the volume slider, 
     // then focus on the volume mute trigger
@@ -292,6 +294,7 @@ export const keydownControl = {
     const skipBtnFocus = $('.skip-btn:focus')
     if (skipBtnFocus.length) {
       skipBtnFocus.next().focus()
+      return;
     }
 
     // If is focusing on the volume slider, 
