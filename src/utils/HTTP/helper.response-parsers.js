@@ -111,6 +111,7 @@ export const responseParsers = {
       id: '', 
       mediaName: '', 
       createdAt: '', 
+      sourceType: 1,
       isTwoScreen: false, 
       videos: [], 
       transcriptions: [],
@@ -122,6 +123,7 @@ export const responseParsers = {
     re.id = id
     re.createdAt = jsonMetadata.createdAt
     re.playlistId = playlistId
+    re.sourceType = sourceType
 
 
     if (sourceType === 1) { // youtube
