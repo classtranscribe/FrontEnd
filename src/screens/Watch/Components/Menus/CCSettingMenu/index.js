@@ -67,7 +67,7 @@ function CCSettingMenu({
           <Grid.Row>
             <Grid.Column>
               <Form.Field
-                fluid search
+                fluid 
                 control={Select}
                 label="Caption Position"
                 aria-label="Caption Position"
@@ -78,7 +78,7 @@ function CCSettingMenu({
             </Grid.Column>
             <Grid.Column>
               <Form.Field
-                fluid search
+                fluid 
                 control={Select}
                 label="Font Family"
                 aria-label="Font Family"
@@ -92,7 +92,7 @@ function CCSettingMenu({
           <Grid.Row>
             <Grid.Column>
               <Form.Field
-                fluid search
+                fluid 
                 control={Select}
                 label="Background Color"
                 aria-label="Background Color"
@@ -103,7 +103,7 @@ function CCSettingMenu({
             </Grid.Column>
             <Grid.Column>
               <Form.Field
-                fluid search
+                fluid 
                 control={Select}
                 label="Font Color"
                 aria-label="Font Color"
@@ -117,7 +117,7 @@ function CCSettingMenu({
           <Grid.Row>
             <Grid.Column>
               <Form.Field
-                fluid search
+                fluid 
                 control={Select}
                 label="Font Size"
                 aria-label="Font Size"
@@ -128,7 +128,7 @@ function CCSettingMenu({
             </Grid.Column>
             <Grid.Column>
               <Form.Field
-                fluid search
+                fluid 
                 control={Select}
                 label="Background Opacity"
                 aria-label="Background Opacity"

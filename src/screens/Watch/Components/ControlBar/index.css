@@ -9,6 +9,8 @@
   align-items: flex-end;
   padding: 0 10px 1em 10px;
   z-index: 2;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.856);
 }
 
 .watch-ctrl-bar-left-elems, .watch-ctrl-bar-right-elems {
@@ -26,4 +28,25 @@
 
 .watch-ctrl-bar-right-elems {
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 550px) {
+  .watch-ctrl-bar-container {
+    flex-direction:column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: 9em;
+  }
+  .watch-ctrl-bar-left-elems {
+    width: 100%;
+    padding-bottom: .5em;
+    border-bottom: var(--ct-border-dark);
+    justify-content: space-between;
+  }
+  .watch-ctrl-bar-right-elems {
+    width: 100%;
+    padding-top: 1em;
+    justify-content: flex-start;
+    justify-content: space-between;
+  }
 }

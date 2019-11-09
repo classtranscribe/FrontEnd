@@ -127,3 +127,10 @@
   -moz-animation: var(--ct-animation-popup);
   -webkit-animation: var(--ct-animation-popup);
 }
+
+@media screen and (max-width: 550px) {
+  .watch-menus {
+    bottom: 8em;
+    height: calc(100vh - 4em - 8em);
+  }
+}

@@ -65,7 +65,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 !important;
-  outline: none !important;
+  outline: none;
   transition: var(--ct-transition-color);
   -o-transition: var(--ct-transition-color);
   -moz-transition: var(--ct-transition-color);
@@ -75,12 +75,14 @@
   color: var(--ct-text-white-hover);
 }
 .watch-playlist-item:focus, 
-.watch-playlist-item:focus:hover
-/*,.watch-playlist-item[current=true]*/ {
+.watch-playlist-item:focus:hover,
+.watch-playlist-item[active=true]:focus {
   color: var(--ct-green-active);
+  outline: auto;
 }
 .watch-playlist-item[active=true] { 
   color: var(--ct-text-highlight);
+  outline: none;
 }
 .watch-playlist-item .library-icon {
   margin-right: 10px;

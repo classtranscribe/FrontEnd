@@ -112,3 +112,7 @@
   -moz-transition: var(--ct-progress-transi-w);
   -webkit-transition: var(--ct-progress-transi-w);
 } */
+
+@media screen and (max-width: 550px) {
+  
+}
