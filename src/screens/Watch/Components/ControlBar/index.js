@@ -3,10 +3,11 @@ import { connectWithRedux } from '_redux/watch'
 import { 
   PlayButton,
   DownloadButton,
-  CCSettingButton,
+  SettingButton,
   FullscreenButton,
   SwitchScreenButton,
   PlaybackRateButton,
+  ClosedCaptionButton,
   LanguagePickerButton,
   ScreenModeSettingButton,
 } from './CtrlButtons'
@@ -31,8 +32,9 @@ export function ControlBarWithRedux({
       </div>
       <div className="watch-ctrl-bar-right-elems">
         <PlaybackRateButton />
+        <ClosedCaptionButton />
         <LanguagePickerButton />
-        <CCSettingButton />
+        <SettingButton />
         <ScreenModeSettingButton isTwoScreen={isTwoScreen} />
         <DownloadButton />
         <FullscreenButton />

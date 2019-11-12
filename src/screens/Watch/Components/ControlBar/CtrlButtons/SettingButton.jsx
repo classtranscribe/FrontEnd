@@ -2,17 +2,17 @@ import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import WatchCtrlButton from './WatchCtrlButton'
 import { 
-  MENU_HIDE, MENU_CAPTIONS, 
+  MENU_HIDE, MENU_SETTING, 
   menuControl
 } from '../../../Utils'
 
-export function CCSettingButtonWithRedux({
+export function SettingButtonWithRedux({
   menu=MENU_HIDE,
 }) {
 
   const handleMenuTrigger = () => {
-    if (menu !== MENU_CAPTIONS) {
-      menuControl.open(MENU_CAPTIONS)
+    if (menu !== MENU_SETTING) {
+      menuControl.open(MENU_SETTING)
     } else {
       menuControl.close()
     }
@@ -21,20 +21,20 @@ export function CCSettingButtonWithRedux({
   return (
     <WatchCtrlButton 
       onClick={handleMenuTrigger}
-      active={menu === MENU_CAPTIONS}
-      label="Closed Caption Setting"
-      ariaLabel="Closed Caption Setting"
-      id={MENU_CAPTIONS}
+      active={menu === MENU_SETTING}
+      label="Settings"
+      ariaLabel="Settings"
+      id={MENU_SETTING}
     >
       <span className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">closed_caption</i>     
+        <i className="material-icons">settings_applications</i>     
       </span>
     </WatchCtrlButton>
   )
 }
 
-export const CCSettingButton = connectWithRedux(
-  CCSettingButtonWithRedux,
+export const SettingButton = connectWithRedux(
+  SettingButtonWithRedux,
   ['menu'],
   []
 )

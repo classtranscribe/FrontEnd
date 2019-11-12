@@ -4,8 +4,11 @@
 
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-// UI
 import './index.css'
+import './playerModes.css'
+import {
+  SecondaryPlayerWrapper
+} from '../Overlays'
 // Vars
 import { util } from 'utils'
 import { 
@@ -14,6 +17,8 @@ import {
   SECONDARY,
   PS_MODE,
 } from '../../Utils'
+
+
 
 export class ClassTranscribePlayerWithRedux extends React.Component {
   constructor(props) {
@@ -72,6 +77,12 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onProgress(e)
   }
 
+  handlePause = position =>() => {
+    if (position === PRIMARY) {
+      control.handlePause()
+    }
+  }
+
   render() {
     const { srcPath1, srcPath2 } = this.state
     const { media, mode, isSwitched, paused } = this.props
@@ -85,8 +96,9 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         <div 
           className={`ct-video-contrainer ${player1Position}`} 
           mode={mode} 
-          onClick={() => control.handlePause()}
+          onClick={this.handlePause(player1Position)}
         >
+          <SecondaryPlayerWrapper isPrimary={!isSwitched} />
           <video
             className="ct-video"
             id="ct-video-1"
@@ -129,8 +141,9 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           <div 
             className={`ct-video-contrainer ${player2Position}`} 
             mode={mode}
-            onClick={() => control.handlePause()}
+            onClick={this.handlePause(player2Position)}
           >
+            <SecondaryPlayerWrapper isPrimary={isSwitched} />
             <video muted
               className="ct-video"
               id="ct-video-2"

@@ -1,1 +1,2 @@
-export { TabEventHelperButtons } from './TabEventHelperButtons'
+export { TabEventHelperButtons  } from './TabEventHelperButtons'
+export { SecondaryPlayerWrapper } from './SecondaryPlayerWrapper'

@@ -19,7 +19,7 @@ import {
 } from '../../../Utils'
 import './index.css'
 
-function CCSettingMenu({
+function SettingMenu({
   show=false,
   onClose=null,
   openCC=false,
@@ -145,7 +145,7 @@ function CCSettingMenu({
 }
 
 export default connectWithRedux(
-  CCSettingMenu,
+  SettingMenu,
   ['openCC', 'cc_color', 'cc_bg', 'cc_size', 'cc_opacity', 'cc_font', 'cc_position'],
   ['cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont']
 )

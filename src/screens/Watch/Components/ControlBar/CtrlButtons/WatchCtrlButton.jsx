@@ -5,6 +5,7 @@ export default function WatchCtrlButton({
   children,
   onClick=null,
   active=false,
+  colored=false,
   label="",
   ariaLabel="",
   mouseEnterDelay=0,
@@ -34,6 +35,7 @@ export default function WatchCtrlButton({
           id={id}
           className="watch-ctrl-button" 
           active={active.toString()}
+          colored={colored.toString()}
           aria-label={ariaLabel}
           onClick={handleClick}
           onKeyDown={handleKeyDown}

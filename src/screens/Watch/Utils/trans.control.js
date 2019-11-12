@@ -65,9 +65,16 @@ export const transControl = {
     }    
   },
 
+  openCC_: false,
   closedCaption: function(bool) {
     const { setOpenCC } = this.externalFunctions
-    if (setOpenCC) setOpenCC(bool)
+    if (setOpenCC) {
+      setOpenCC(bool)
+      this.openCC_ = bool
+    }
+  },
+  handleOpenCC: function() {
+    this.closedCaption( !this.openCC_ )
   },
 
   findTransByLanguage: function(language) {

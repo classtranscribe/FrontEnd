@@ -40,17 +40,25 @@
 .watch-ctrl-button .watch-btn-content,
 .watch-ctrl-button .watch-btn-playbackrate-content {
   border-bottom: 2px transparent solid;
-  transition: var(--ct-transition-border);
-  -o-transition: var(--ct-transition-border);
-  -moz-transition: var(--ct-transition-border);
-  -webkit-transition: var(--ct-transition-border);
+  transition: var(--ct-transition-border), var(--ct-transition-color);
+  -o-transition: var(--ct-transition-border), var(--ct-transition-color);
+  -moz-transition: var(--ct-transition-border), var(--ct-transition-color);
+  -webkit-transition: var(--ct-transition-border), var(--ct-transition-color);
+}
+.watch-ctrl-button[colored=true] {
+  color: var(--ct-green-active);
 }
 /* Focus */
 .watch-ctrl-button:focus > .watch-btn-content, 
 .watch-ctrl-button:hover > .watch-btn-content,
 .watch-ctrl-button:focus > .watch-btn-playbackrate-content, 
 .watch-ctrl-button:hover > .watch-btn-playbackrate-content,
-.watch-ctrl-button[active=true] .watch-btn-content,
-.watch-ctrl-button[active=true] .watch-btn-playbackrate-content {
+.watch-ctrl-button[active=true] > .watch-btn-content,
+.watch-ctrl-button[active=true] > .watch-btn-playbackrate-content {
   border-bottom: 2px var(--ct-text-white-hover) solid;
+}
+.watch-ctrl-button[colored=true]:hover > .watch-btn-content,
+.watch-ctrl-button[colored=true]:focus > .watch-btn-content
+/* .watch-ctrl-button[active=true][colored=true] > .watch-btn-content */ {
+  border-bottom: 2px var(--ct-green-active) solid;
 }

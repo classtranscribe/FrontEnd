@@ -26,7 +26,7 @@ function LanguageMenu({
 
       <div className="watch-icon-list" >
         {/* Closed Caption Off */}
-        <button 
+        {/* <button 
           key={`language-menu-item-caption-off`}
           className="plain-btn watch-icon-listitem"
           aria-label={openCC ? "Caption Off" : "Caption On"}
@@ -35,9 +35,9 @@ function LanguageMenu({
           <div className="screen-mode-listitem-checkmark">
             
           </div>
-          <i className="material-icons watch-icon-icon">{!openCC ? 'speaker_notes' : 'speaker_notes_off'}</i>
-          <div className="watch-icon-name">{openCC ? "Caption Off" : "Caption On"}</div>
-        </button>
+          <i className="material-icons watch-icon-icon">{openCC ? 'speaker_notes' : 'speaker_notes_off'}</i>
+          <div className="watch-icon-name">{openCC ? "On" : "Off"}</div>
+        </button> */}
         {langOptions.map( lang => (
           <button 
             key={`language-menu-item-${lang}`}

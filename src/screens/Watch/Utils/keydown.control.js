@@ -7,7 +7,7 @@ import {
   MENU_SCREEN_MODE, 
   MENU_PLAYLISTS, 
   MENU_PLAYBACKRATE, 
-  MENU_CAPTIONS,
+  MENU_SETTING,
   MENU_DOWNLOAD
 } from './constants.util'
 
@@ -24,12 +24,35 @@ export const keydownControl = {
   handleKeyDown: function(e) {
     const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
     const ctrlKey_ = ctrlKey || metaKey
-    /** 
-     * @actions Player Options 
+
+    // quit if any <input/>'s are been focusing
+    if (this.inputFocusing()) return;
+
+    /**
+     * Shift Key events
      */
-    
+    if (shiftKey) {
+      switch (keyCode) {
+        // < (Shift + ,) - switch videos
+        case 188:
+          return videoControl.switchVideo()
+        // Up Arrow
+        case 38:
+          return videoControl.playbackRateIncrement()
+        // Down Arrow
+        case 40:
+          return videoControl.playbackRateDecrease()
+        // Menu events
+        default:
+          return this.shortcutsForMenus(keyCode)
+      }
+    }
+
+    /** 
+     * One key events
+     */
     switch (keyCode) {
-      // `Space` : Pause or play
+      // `Space` / `k` : Pause or play
       case 32:
         return this.handleSpaceKey(e)
       // Left Arrow
@@ -44,22 +67,44 @@ export const keydownControl = {
       // Down Arrow
       case 40:
         return this.handleDownArrow(e)
+      // `c` - closed  caption on/off
+      case 67:
+        return transControl.handleOpenCC()
+      // `f` - enter full screen
+      case 70:
+        return videoControl.handleFullScreen()
+      // `j` - rewind 10s
+      case 74:
+        return videoControl.rewind()
+      // `k` - play/pause
+      case 75:
+        return videoControl.handlePause()
+      // `l` - forward 10s
+      case 76:
+        return videoControl.forward()
       // `m` : mute
       case 77:
         return videoControl.mute()
+
+      // `0-9`: seek to 0%-90% of duration
+      case 48:
+      case 49:
+      case 50:
+      case 51:
+      case 52:
+      case 53:
+      case 54:
+      case 55:
+      case 56:
+      case 57:
+        return videoControl.seekToPercentage((keyCode - 48) / 10.0)
       default:
         break;
     }
+  },
 
-    /** Shift Key */
-    if (shiftKey) {
-      if (keyCode === 188) {
-        // `⇧ Shift + <` : Switch screen
-        videoControl.switchVideo()
-      } else if (this.shortcutsForMenus(keyCode)) {
-        return;
-      }
-    }
+  inputFocusing: function() {
+    return $('input[type=text]:focus').length > 0
   },
 
   /**
@@ -69,6 +114,7 @@ export const keydownControl = {
    * @return {Boolean} - true if it's a menu-related shortcut 
    */
   shortcutsForMenus: function(keyCode) {
+    
     const openMenu = menuType => {
       menuControl.open(menuType, 'b')
       return true
@@ -80,7 +126,7 @@ export const keydownControl = {
         menuControl.close()
         return true
       // `⇧ Shift + S` : Open Closed Caption Setting Menu
-      case 67:  return openMenu(MENU_CAPTIONS)
+      case 67:  return openMenu(MENU_SETTING)
       // `⇧ Shift + D` : Open Download Menu
       case 68:  return openMenu(MENU_DOWNLOAD)
       // `⇧ Shift + L` : Open Language Menu
@@ -97,16 +143,31 @@ export const keydownControl = {
   },
 
   handleSpaceKey: function() {
+    
     // If there is no menu opening - play or pause
     if (!menuControl.isOpen()) {
       videoControl.handlePause()
     } 
   },
 
+  // handleVideoShortcuts: function(type) {
+  //   switch (type) {
+  //     case 'rewind':
+  //       return videoControl.rewind()
+  //     case 'forward':
+  //       return videoControl.forward()
+  //     case 'play':
+  //       return videoControl.handlePause()
+  //     default:
+  //       break;
+  //   }
+  // },
+
   /**
    * Function for handling down-arrow key down
    */
   handleDownArrow: function(e) {
+    
     // If there is no menu opening - decrease the volume by 0.1 each time
     if (!menuControl.isOpen()) {
       $('#volume-slider').focus() // NEED TO MODIFY
@@ -125,7 +186,7 @@ export const keydownControl = {
 
     // If menu is open switch the focus on the list items
     let currMenu = menuControl.menu()
-    if (currMenu === MENU_CAPTIONS) {
+    if (currMenu === MENU_SETTING) {
       return;
 
     // For the playlists menu
@@ -186,7 +247,7 @@ export const keydownControl = {
 
     // If menu is open switch the focus on the list items
     let currMenu = menuControl.menu()
-    if (currMenu === MENU_CAPTIONS) {
+    if (currMenu === MENU_SETTING) {
       return;
     
     // For the playlists menu
@@ -258,13 +319,13 @@ export const keydownControl = {
 
     if (!menuControl.isOpen()) {
       // NEED TO MODIFY
-      videoControl.timeBackward()
+      videoControl.rewind()
       return;
     } 
 
     let currMenu = menuControl.menu()
 
-    if (currMenu === MENU_CAPTIONS) {
+    if (currMenu === MENU_SETTING) {
       return;
     
     // For the playlists menu
@@ -328,12 +389,12 @@ export const keydownControl = {
 
     if (!menuControl.isOpen()) {
       // NEED TO MODIFY
-      videoControl.timeForward()
+      videoControl.forward()
       return;
     } 
 
     let currMenu = menuControl.menu()
-    if (currMenu === MENU_CAPTIONS) {
+    if (currMenu === MENU_SETTING) {
       return;
 
     // For the playlists menu

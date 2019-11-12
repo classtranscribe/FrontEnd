@@ -1,20 +1,18 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import {
-  MENU_HIDE,
-  MENU_BEFORE_HIDE,
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
-  MENU_CAPTIONS,
+  MENU_SETTING,
   MENU_SCREEN_MODE,
   MENU_DOWNLOAD,
+  MENU_LANGUAGE,
   menuControl,
-  MENU_LANGUAGE
 } from '../../Utils'
 import PlaylistsMenu from './PlaylistsMenu'
 import PlaybackrateMenu from './PlaybackrateMenu'
 import ScreenModeMenu from './ScreenModeMenu'
-import CCSettingMenu from './CCSettingMenu'
+import SettingMenu from './SettingMenu'
 import LanguageMenu from './LanguageMenu'
 import DownloadMenu from './DownloadMenu'
 import './index.css'
@@ -42,8 +40,8 @@ export function MenusWithRedux({
         show={menu === MENU_SCREEN_MODE}
         onClose={closeMenu}
       />
-      <CCSettingMenu 
-        show={menu === MENU_CAPTIONS}
+      <SettingMenu 
+        show={menu === MENU_SETTING}
         onClose={closeMenu}
       />
       <LanguageMenu

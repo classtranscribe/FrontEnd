@@ -2,6 +2,7 @@
  * Functions for controlling video players
  */
 import { transControl } from './trans.control'
+import { NORMAL_MODE } from './constants.util'
 
 export const videoControl = {
   videoNode1: null,
@@ -28,6 +29,7 @@ export const videoControl = {
     this.isSwitched = toSet
   },  
 
+  currentMode: NORMAL_MODE,
   mode: function(mode) {
     const { setMode } = this.externalFunctions
     if (setMode) setMode(mode)
@@ -74,15 +76,20 @@ export const videoControl = {
     const { setTime } = this.externalFunctions
     if (setTime) setTime(time)
   },
-  timeForward: function(sec=10) {
+  forward: function(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
     if (now + sec < this.duration) this.currTime(now + sec)
   },
-  timeBackward: function(sec=10) {
+  rewind: function(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
     if (now - sec > 0) this.currTime(now - sec)
+  },
+  seekToPercentage: function(p=0) {
+    if (typeof p !== 'number' || p > 1 || p < 0) return;
+    let seekTo = this.duration * p
+    this.currTime(seekTo)
   },
 
   mute: function(bool) {
@@ -113,6 +120,16 @@ export const videoControl = {
 
     const { setPlaybackrate } = this.externalFunctions
     if (setPlaybackrate) setPlaybackrate(playbackRate)
+  },
+  playbackRateIncrement: function() {
+    if (!this.videoNode1) return;
+    let currPlaybackRate = this.videoNode1.playbackRate
+    if (currPlaybackRate + 0.25 <= 2) this.playbackrate( currPlaybackRate + 0.25 )
+  },
+  playbackRateDecrease: function() {
+    if (!this.videoNode1) return;
+    let currPlaybackRate = this.videoNode1.playbackRate
+    if (currPlaybackRate - 0.25 >= 0.25) this.playbackrate( currPlaybackRate - 0.25 )
   },
 
   onDurationChange: function({ target: { duration } }) {
@@ -169,6 +186,14 @@ export const videoControl = {
           this.isFullscreen = true
         }
       })
+    }
+  },
+
+  handleFullScreen: function() {
+    if (this.isFullscreen) {
+      this.exitFullScreen()
+    } else {
+      this.enterFullScreen()
     }
   },
 
