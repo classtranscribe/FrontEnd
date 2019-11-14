@@ -7,6 +7,7 @@ import {
   SET_CAPTIONS,
   SET_WATCH_HISTORY,
   SET_STARRED_OFFERINGS,
+  SET_CURR_CAPTION,
   // Screen Options
   SET_MENU,
   SET_MODE,
@@ -46,6 +47,7 @@ const watchReducer = (
     case SET_TRANSCPTIONS       : return { ...state, transcriptions: value }
     case SET_CURR_TRANS         : return { ...state, currTrans: value }
     case SET_CAPTIONS           : return { ...state, captions: value }
+    case SET_CURR_CAPTION       : return { ...state, currCaption: value }
     case SET_WATCH_HISTORY      : return { ...state, watchHistory: value }
     case SET_STARRED_OFFERINGS  : return { ...state, starredOfferings: value }
 

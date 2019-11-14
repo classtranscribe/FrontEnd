@@ -68,6 +68,16 @@ export const CC_FONT_MONOSPACE = 'monospace'
 export const CC_FONT_CURSIVE = 'cursive'
 export const CC_FONT_FANTASY = 'fantasy'
 export const cc_fontOptions = [ CC_FONT_SERIF, CC_FONT_SANS_SERIF, CC_FONT_MONOSPACE, CC_FONT_CURSIVE, CC_FONT_FANTASY ]
+export const cc_colorMap = {
+  [CC_COLOR_RED]: 'rgba(255,0,0,*)',
+  [CC_COLOR_GREEN]: 'rgba(0,128,0,*)',
+  [CC_COLOR_WHITE]: 'rgba(255,255,255,*)',
+  [CC_COLOR_BLACK]: 'rgba(0,0,0,*)',
+  [CC_COLOR_BLUE]: 'rgba(0,0,255,*)',
+  [CC_COLOR_CYAN]: 'rgba(0,255,255,*)',
+  [CC_COLOR_YELLOW]: 'rgba(255,255,0,*)',
+  [CC_COLOR_MAGENTA]: 'rgba(255,0,255,*)',
+}
 
 export const CC_SIZE_75 = .75
 export const CC_SIZE_100 = 1

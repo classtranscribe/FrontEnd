@@ -1,0 +1,40 @@
+import React from 'react'
+import { connectWithRedux } from '_redux/watch'
+import WatchCtrlButton from '../ControlBar/CtrlButtons/WatchCtrlButton'
+import { 
+  MENU_HIDE, 
+  MENU_PLAYLISTS,
+  menuControl
+} from '../../Utils'
+import './index.css'
+
+function PlaylistMenuTrigger({
+  menu=MENU_HIDE,
+}) {
+
+  const handleMenuTrigger = () => {
+    menuControl.open(MENU_PLAYLISTS, 'b')
+  }
+
+  return (
+    <WatchCtrlButton
+      id="playlist-menu-btn"
+      className="playlist-menu-btn"
+      position="top"
+      onClick={handleMenuTrigger}
+      active={menu === MENU_PLAYLISTS}
+      label={'Playlists'}
+      ariaLabel="Playlists Menu"
+    >
+      <span className="watch-btn-content watch-header-btn" tabIndex="-1">
+        <i className="material-icons">list</i>
+      </span>
+    </WatchCtrlButton>
+  )
+}
+
+export default connectWithRedux(
+  PlaylistMenuTrigger,
+  ['menu'],
+  []
+)

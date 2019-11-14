@@ -3,6 +3,8 @@ import { Popup } from 'semantic-ui-react'
 
 export default function WatchCtrlButton({
   children,
+  position="bottom",
+  className='',
   onClick=null,
   active=false,
   colored=false,
@@ -23,8 +25,8 @@ export default function WatchCtrlButton({
 
   return (
     <Popup inverted wide basic
-      position="top center"
-      offset="0, 20px"
+      position={`${position} center`}
+      offset={position === 'bottom' ? "0, 20px" : undefined}
       mouseEnterDelay={mouseEnterDelay}
       openOnTriggerClick={false}
       openOnTriggerFocus
@@ -33,9 +35,10 @@ export default function WatchCtrlButton({
       trigger={
         <button 
           id={id}
-          className="watch-ctrl-button" 
+          className={`watch-ctrl-button ${className}`} 
           active={active.toString()}
           colored={colored.toString()}
+          position={position}
           aria-label={ariaLabel}
           onClick={handleClick}
           onKeyDown={handleKeyDown}

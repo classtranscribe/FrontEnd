@@ -127,6 +127,11 @@
   -moz-animation: var(--ct-animation-popup);
   -webkit-animation: var(--ct-animation-popup);
 }
+.watch-general-menu[position=top] {
+  padding-top: 1em;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
 
 @media screen and (max-width: 550px) {
   .watch-menus {

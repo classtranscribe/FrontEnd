@@ -6,6 +6,7 @@ import {
   SET_CAPTIONS,
   SET_WATCH_HISTORY,
   SET_STARRED_OFFERINGS,
+  SET_CURR_CAPTION,
   // Screen Options
   SET_MENU,
   SET_MODE,
@@ -38,6 +39,7 @@ export const setPlaylists         = value => ({ type: SET_PLAYLISTS, value })
 export const setTranscriptions    = value => ({ type: SET_TRANSCPTIONS, value })
 export const setCurrTrans         = value => ({ type: SET_CURR_TRANS, value })
 export const setCaptions          = value => ({ type: SET_CAPTIONS, value })
+export const setCurrCaption       = value => ({ type: SET_CURR_CAPTION, value })
 export const setWatchHistory      = value => ({ type: SET_WATCH_HISTORY, value })
 export const setStarredOfferings  = value => ({ type: SET_STARRED_OFFERINGS, value })
 

@@ -1,9 +1,13 @@
-.ct-video-contrainer {
+.ct-video-row {
   top: 4.5em;
   position: absolute;
   /* cursor: pointer; */
 }
-
+.ct-video-contrainer {
+  width: 100%;
+  height: max-content;
+  position: relative;
+}
 .ct-video {
   position: relative;
   width: 100%;

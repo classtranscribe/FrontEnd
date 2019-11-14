@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import _ from 'lodash'
+import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
 
 export function findUpNextMedia({
   playlist={ medias: [] },
@@ -58,4 +59,10 @@ export function getCCSelectOptions(array=[], operation=item => item) {
     options.push({ text, value: item })
   })
   return options
+}
+
+export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
+  const colorStr = cc_colorMap[color]
+  if (!colorStr) return CC_COLOR_BLACK
+  return colorStr.replace('*', opacity)
 }

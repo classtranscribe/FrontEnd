@@ -16,6 +16,7 @@ export const initialState = {
   transcriptions: [],
   currTrans: {},
   captions: [],
+  currCaption: null,
 
   // screen options
   menu: "menu-hide",
@@ -39,5 +40,5 @@ export const initialState = {
   cc_size: 1,
   cc_font: "sans-serif",
   cc_position: 'bottom',
-  cc_opacity: 1,
+  cc_opacity: .8,
 }

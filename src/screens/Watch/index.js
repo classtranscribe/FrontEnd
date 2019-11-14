@@ -40,8 +40,14 @@ export class WatchWithRedux extends React.Component {
   }
 
   initTransControl = () => {
-    const { setCurrTrans, setTranscriptions, setCaptions, setOpenCC } = this.props
-    transControl.init({ setCurrTrans, setTranscriptions, setCaptions, setOpenCC })
+    const { 
+      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption,
+      cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
+    } = this.props
+    transControl.init({ 
+      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption,
+      cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
+    })
   }
 
   /** Function for getting userMetadata */
@@ -131,7 +137,8 @@ export function Watch(props) {
     ['media', 'playlist', 'playlists'],
     [
       'setMedia', 'setPlaylist', 'setPlaylists', 
-      'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC'
+      'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC', 'setCurrCaption',
+      'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont'
     ]
   )
   return (

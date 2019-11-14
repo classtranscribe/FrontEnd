@@ -34,7 +34,7 @@ function DownloadMenu({
   }
 
   return show ? (
-    <div className="watch-general-menu">
+    <div className="watch-general-menu" position="top">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>

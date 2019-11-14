@@ -33,7 +33,13 @@ export const keydownControl = {
      */
     if (shiftKey) {
       switch (keyCode) {
-        // < (Shift + ,) - switch videos
+        // `+` (Shift + +) - increase closed caption size
+        case 187: 
+          return transControl.ccIncreaseSize()
+        // `_` (Shift + -) - decrease closed caption
+        case 189: 
+          return transControl.ccDecreaseSize()
+        // `<` (Shift + ,) - switch videos
         case 188:
           return videoControl.switchVideo()
         // Up Arrow

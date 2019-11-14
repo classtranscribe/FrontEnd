@@ -7,6 +7,7 @@ export const SET_CURR_TRANS = 'watch-set-curr-trans'
 export const SET_CAPTIONS = 'watch-set-captions'
 export const SET_WATCH_HISTORY = 'watch-set-watch-history'
 export const SET_STARRED_OFFERINGS = 'watch-set-starred-offerings'
+export const SET_CURR_CAPTION = 'watch-set-curr-caption'
 
 // Settings
 export const SET_MENU = 'watch-set-menu'

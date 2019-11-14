@@ -15,6 +15,7 @@ import {
   cc_sizeOptions,
 
   videoControl,
+  transControl,
   getCCSelectOptions
 } from '../../../Utils'
 import './index.css'
@@ -30,26 +31,17 @@ function SettingMenu({
   cc_opacity=CC_OPACITY_100,
   cc_font=CC_FONT_SANS_SERIF,
   cc_position=CC_POSITION_BOTTOM,
-
-  cc_setColor,
-  cc_setBG,
-  cc_setSize,
-  cc_setOpacity,
-  cc_setFont,
-  cc_setPosition,
 }) {
 
-  const handleSelection = (value, setFunc) => {
-    setFunc(value)
-  }
-
-  const bgStyle = {
-    backgroundColor: cc_bg,
-    opacity: cc_opacity,
-    color: cc_color,
-    fontSize: cc_size + 'rem',
-    fontFamily: cc_font,
-  }
+  const { ccStyle, ccContainerStyle } = transControl.getCCStyle({ 
+    cc_color, 
+    cc_color,
+    cc_bg,
+    cc_size,
+    cc_opacity,
+    cc_font,
+    cc_position,
+  })
 
   return show ? (
     <div className="watch-ccsetting-menu">
@@ -58,7 +50,7 @@ function SettingMenu({
       </button>
       <div className="ccsetting-demo-area">
         <h2>Sample Caption</h2>
-        <div className="ccsetting-demo-box" style={bgStyle}>
+        <div className="ccsetting-demo-box" style={ccStyle}>
           Lorem ipsum dolor sit amet, soleat ornatus menandri mei cu, legere regione aperiri duo te, debet maiestatis per no.
         </div>
       </div>
@@ -73,7 +65,7 @@ function SettingMenu({
                 aria-label="Caption Position"
                 options={getCCSelectOptions(cc_positionOptions)}
                 value={cc_position}
-                onChange={(event, {value}) => handleSelection(value, cc_setPosition)}
+                onChange={(event, {value}) => transControl.ccPosition(value)}
               />
             </Grid.Column>
             <Grid.Column>
@@ -84,7 +76,7 @@ function SettingMenu({
                 aria-label="Font Family"
                 options={getCCSelectOptions(cc_fontOptions)}
                 value={cc_font}
-                onChange={(event, {value}) => handleSelection(value, cc_setFont)}
+                onChange={(event, {value}) => transControl.ccFont(value)}
               />
             </Grid.Column>
           </Grid.Row>
@@ -98,7 +90,7 @@ function SettingMenu({
                 aria-label="Background Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_bg}
-                onChange={(event, {value}) => handleSelection(value, cc_setBG)}
+                onChange={(event, {value}) => transControl.ccBG(value)}
               />
             </Grid.Column>
             <Grid.Column>
@@ -109,7 +101,7 @@ function SettingMenu({
                 aria-label="Font Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_color}
-                onChange={(event, {value}) => handleSelection(value, cc_setColor)}
+                onChange={(event, {value}) => transControl.ccColor(value)}
               />
             </Grid.Column>
           </Grid.Row>
@@ -123,7 +115,7 @@ function SettingMenu({
                 aria-label="Font Size"
                 options={getCCSelectOptions(cc_sizeOptions, item => item * 100 + '%')}
                 value={cc_size}
-                onChange={(event, {value}) => handleSelection(value, cc_setSize)}
+                onChange={(event, {value}) => transControl.ccSize(value)}
               />
             </Grid.Column>
             <Grid.Column>
@@ -134,7 +126,7 @@ function SettingMenu({
                 aria-label="Background Opacity"
                 options={getCCSelectOptions(cc_opacityOptions, item => item * 100 + '%')}
                 value={cc_opacity}
-                onChange={(event, {value}) => handleSelection(value, cc_setOpacity)}
+                onChange={(event, {value}) => transControl.ccOpacity(value)}
               />
             </Grid.Column>
           </Grid.Row>
@@ -147,5 +139,5 @@ function SettingMenu({
 export default connectWithRedux(
   SettingMenu,
   ['openCC', 'cc_color', 'cc_bg', 'cc_size', 'cc_opacity', 'cc_font', 'cc_position'],
-  ['cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont']
+  []
 )

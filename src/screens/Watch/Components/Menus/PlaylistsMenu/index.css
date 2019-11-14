@@ -5,7 +5,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-start;
-  padding: 4em 10vw;
+  padding: 2em 10vw;
   overflow-x: scroll;
   overflow-y: hidden;
   animation: var(--ct-animation-popup);
@@ -20,8 +20,8 @@
 }
 
 .watch-list-title {
-  position: fixed;
-  top: 75px;
+  /* position: fixed;
+  top: 75px; */
   font-weight: bold;
   font-size: 18px;
   z-index: 1;

@@ -7,7 +7,8 @@ import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import './playerModes.css'
 import {
-  SecondaryPlayerWrapper
+  SecondaryPlayerWrapper,
+  ClosedCaption,
 } from '../Overlays'
 // Vars
 import { util } from 'utils'
@@ -54,7 +55,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         {  
           setMode, switchScreen, setFullscreen,
           setVolume, setMute, setPause, setPlaybackrate,
-          setDuration, setTime, setBufferedTime, 
+          setDuration, setTime, setBufferedTime
         }
       )
       // console.log('this.videoNode1.textTracks', this.videoNode1.textTracks)
@@ -94,64 +95,63 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     return (
       <>
         <div 
-          className={`ct-video-contrainer ${player1Position}`} 
+          className={`ct-video-row ${player1Position}`} 
           mode={mode} 
           onClick={this.handlePause(player1Position)}
         >
           <SecondaryPlayerWrapper isPrimary={!isSwitched} />
-          <video
-            className="ct-video"
-            id="ct-video-1"
-            ref={node => this.videoNode1 = node}
-            onDurationChange={this.onDurationChange}
-            onTimeUpdate={this.onTimeUpdate}
-            onProgress={this.onProgress}
-            onCanPlay={this.onCanPlay}
-          >
-            {
-              Boolean(srcPath1) 
-              && 
-              <source src={srcPath1} type="video/mp4"/>
-            }
-            {/* {
-              transcriptions.map( trans => (
-                <track 
-                  className="watch-caption-track"
-                  key={trans.language}
-                  id={trans.language}
-                  src={trans.src} 
-                  kind="subtitles"
-                  label={trans.language}
-                  srcLang={trans.language}
-                />
-              ))
-            } */}
-            {/* <track 
-              src="https://classtranscribe.ncsa.illinois.edu/data/temptemp_zge_da15f9c7-d587-4244-b8df-b1a13a1b89d8_es.vtt"
-              kind="subtitles"
-              srcLang="english"
-              label="english"
-              id="english"
-            /> */}
-          </video>
+          <div className="ct-video-contrainer">
+            <ClosedCaption isPrimary={!isSwitched} />
+            <video
+              className="ct-video"
+              id="ct-video-1"
+              ref={node => this.videoNode1 = node}
+              onDurationChange={this.onDurationChange}
+              onTimeUpdate={this.onTimeUpdate}
+              onProgress={this.onProgress}
+              onCanPlay={this.onCanPlay}
+            >
+              {
+                Boolean(srcPath1) 
+                && 
+                <source src={srcPath1} type="video/mp4"/>
+              }
+              {/* {
+                transcriptions.map( trans => (
+                  <track 
+                    className="watch-caption-track"
+                    key={trans.language}
+                    id={trans.language}
+                    src={trans.src} 
+                    kind="subtitles"
+                    label={trans.language}
+                    srcLang={trans.language}
+                  />
+                ))
+              } */}
+            </video>
+          </div>
         </div>
         {
           isTwoScreen
           &&
           <div 
-            className={`ct-video-contrainer ${player2Position}`} 
+            className={`ct-video-row ${player2Position}`} 
             mode={mode}
             onClick={this.handlePause(player2Position)}
           >
             <SecondaryPlayerWrapper isPrimary={isSwitched} />
-            <video muted
-              className="ct-video"
-              id="ct-video-2"
-              ref={node => this.videoNode2 = node}
-              onCanPlay={this.onCanPlay}
-            >
-              {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
-            </video>
+            <div className="ct-video-contrainer">
+              <ClosedCaption isPrimary={isSwitched} />
+              <video muted
+                className="ct-video"
+                id="ct-video-2"
+                ref={node => this.videoNode2 = node}
+                onCanPlay={this.onCanPlay}
+              >
+                {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
+              </video>
+            </div>
           </div>
         }
       </>
