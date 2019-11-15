@@ -29,6 +29,7 @@ export const MENU_SETTING = 'menu-setting'
 export const MENU_LANGUAGE = 'menu-language'
 export const MENU_SCREEN_MODE = 'menu-screen-mode'
 export const MENU_DOWNLOAD = 'menu-download'
+export const MENU_TRANSLATION = 'menu-translation'
 
 // Caption Languages
 export const ENGLISH = 'en-US'
@@ -42,6 +43,11 @@ export const langMap = {
   "ko": "Korean",
   "es": "Spanish"
 }
+
+// WebVTT kinds
+export const WEBVTT_SUBTITLES = 'subtitles'
+export const WEBVTT_DESCRIPTIONS = 'descriptions'
+export const WEBVTT_CHAPTERS = 'chapters'
 
 // Caption Search Options
 export const SEARCH_IN_COURSE = 'search-in-course'

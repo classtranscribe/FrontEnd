@@ -4,7 +4,7 @@ import { Popup } from 'semantic-ui-react'
 export default function WatchCtrlButton({
   children,
   position="bottom",
-  className='',
+  classNames='',
   onClick=null,
   active=false,
   colored=false,
@@ -35,7 +35,7 @@ export default function WatchCtrlButton({
       trigger={
         <button 
           id={id}
-          className={`watch-ctrl-button ${className}`} 
+          className={`watch-ctrl-button ${classNames}`} 
           active={active.toString()}
           colored={colored.toString()}
           position={position}

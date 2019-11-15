@@ -1,0 +1,1 @@
+export const adSample = require('./ad.sample.json')

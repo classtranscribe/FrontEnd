@@ -11,6 +11,7 @@ import {
   Menus,
   ClassTranscribePlayer,
   ControlBar,
+  Transcriptions,
   TabEventHelperButtons
 } from './Components'
 import './index.css'
@@ -41,11 +42,11 @@ export class WatchWithRedux extends React.Component {
 
   initTransControl = () => {
     const { 
-      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption,
+      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption, setCurrEditing,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     } = this.props
     transControl.init({ 
-      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption,
+      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption, setCurrEditing,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     })
   }
@@ -122,6 +123,7 @@ export class WatchWithRedux extends React.Component {
         <TabEventHelperButtons />
         <WatchHeader />
         <ClassTranscribePlayer />
+        <Transcriptions />
         <Menus />
         <ControlBar />
       </main>
@@ -137,7 +139,7 @@ export function Watch(props) {
     ['media', 'playlist', 'playlists'],
     [
       'setMedia', 'setPlaylist', 'setPlaylists', 
-      'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC', 'setCurrCaption',
+      'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC', 'setCurrCaption', 'setCurrEditing',
       'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont'
     ]
   )

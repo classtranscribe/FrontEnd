@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api } from 'utils'
-import { timeStrToSec, colorMap } from './helpers'
+import { timeStrToSec, colorMap, autoSizeAllTextAreas } from './helpers'
 import { 
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -8,7 +8,12 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+
+  WEBVTT_SUBTITLES,
+  WEBVTT_DESCRIPTIONS,
 } from './constants.util'
+import { adSample } from './sampleData'
+import { videoControl } from './player.control'
 
 /**
  * @description The handlers for caption setting events
@@ -35,7 +40,7 @@ export const transControl = {
    * @param {Function} externalFunctions.setCurrCaption
    *                  set state funciton for current closed 
    * 
-   * @param {Function} cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
+   * @param {Function} setCurrEditing, cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
    */
   init: function(externalFunctions) {
     // console.log('externalFunctions', externalFunctions)
@@ -60,14 +65,15 @@ export const transControl = {
     if (tran === undefined) return this.currTrans_
     if (!Boolean(tran.id)) return this.currTrans_
 
-    const { setCurrTrans, setCaptions } = this.externalFunctions
+    const { setCurrTrans } = this.externalFunctions
     if (setCurrTrans) setCurrTrans(tran)
     // console.log('currTrans', tran)
     this.currTrans_ = tran
-    const { data=[] } = await api.getCaptionsByTranscriptionId(tran.id)
-    setCaptions(data)
-    this.captions_ = data
-    // console.log('captions', data)
+    let { data=[] } = await api.getCaptionsByTranscriptionId(tran.id)
+    let descriptions = []//await this.audioDescriptions()
+    let captions = this.mergeCaptions(data, descriptions, WEBVTT_DESCRIPTIONS)
+    if (captions.length === 0) captions = ['empty']
+    this.captions(captions)
   },
 
   setLanguage: function(language) {
@@ -89,9 +95,61 @@ export const transControl = {
     this.closedCaption( !this.openCC_ )
   },
 
+  captions: function(cap) {
+    const { setCaptions } = this.externalFunctions
+    setCaptions(cap)
+    this.captions_ = cap
+    this.lastCaption = null
+    // console.log('captions', newCaptions)
+    autoSizeAllTextAreas(200)
+  },
+
+  mergeCaptions: function(oldCaptions, mergeCaptions, kind=WEBVTT_SUBTITLES) {
+    if (!oldCaptions) oldCaptions = this.captions_ || []
+    const mergeLen = mergeCaptions.length
+    const oldLen = oldCaptions.length
+    const newLen = mergeLen + oldLen
+    const newCaptions = []
+    let newIndex = 0
+    let oldIndex = 0
+    let mergeIndex = 0
+    while (newIndex < newLen) {
+      let item = {}
+      if (oldIndex < oldLen) {
+        item = oldCaptions[oldIndex]
+        oldIndex += 1
+        if (mergeIndex < mergeLen) {
+          let currMergeItem = mergeCaptions[mergeIndex]
+          if (item.begin > currMergeItem.begin) {
+            currMergeItem.kind = kind
+            item = currMergeItem
+            oldIndex -= 1
+            mergeIndex += 1
+          }
+        }
+      } else if (mergeIndex < mergeLen) {
+        item = mergeCaptions[mergeIndex]
+        item.kind = kind
+        mergeIndex += 1
+      }
+
+      newCaptions.push(item)
+      newIndex += 1
+    }
+    
+    return newCaptions
+  },
+
   findTransByLanguage: function(language) {
     const transcriptions = this.transcriptions_
     return _.find(transcriptions, { language })
+  },
+
+  /**
+   * @todo get array by vtt path
+   */
+  audioDescriptions: async function(path) {
+    return adSample
   },
 
 
@@ -147,12 +205,38 @@ export const transControl = {
     return nextCaption
   },
 
+  isMourseOverTrans: false,
+  isEditing: false,
+  scrollTransToView: function(id) {
+    if (this.isMourseOverTrans || this.isEditing) return;
+    let capElem = document.getElementById(`caption-line-${id}`)
+    let tranBox = document.getElementById('watch-trans-container')
+    if (capElem) {
+      capElem.classList.add('curr-line')
+      tranBox.scrollTop = window.innerWidth > 900 ? capElem.offsetTop - 80 : capElem.offsetTop + 50
+    }
+  },
+
   updateCaption: function(now) {
-    if (!this.openCC_) return null;
+    // if (!this.openCC_) return null;
     const { setCurrCaption } = this.externalFunctions
     const currCaption = this.findCaption(now) || null
     // console.log('currCaption', currCaption.begin, currCaption.text)
-    if (currCaption) if (setCurrCaption) setCurrCaption(currCaption)
+    if (currCaption && setCurrCaption) setCurrCaption(currCaption)
+  },
+
+  editCaption: function(caption) {
+    const { setCurrEditing } = this.externalFunctions
+    if (setCurrEditing) {
+      setCurrEditing(caption)
+      this.isEditing = Boolean(caption)
+      if (this.isEditing) videoControl.pause()
+      else videoControl.play()
+    }
+  },
+
+  saveEdition: function(id, index) {
+    
   },
 
   getCCStyle: function(options) {

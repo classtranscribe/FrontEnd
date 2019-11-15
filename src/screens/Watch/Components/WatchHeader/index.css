@@ -1,13 +1,17 @@
 .playlist-menu-btn {
-  margin-right: 10px;
+  margin-right: 15px !important;
 }
 
-.watch-header-btn {
+.watch-header-btn-content, .watch-playlist-menu-tigger-content {
   /* font-size: 14px; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  width: max-content;
+}
+.watch-header-btn-content {
+  font-size: 10px !important;
 }
 .watch-playlists-menu-trigger:hover {
   color: var(--ct-green-normal);
@@ -22,5 +26,6 @@
 } */
 
 .watch-playlists-menu-trigger i {
-  font-size: 30px;
+  font-size: 20px;
+  width: max-content;
 }

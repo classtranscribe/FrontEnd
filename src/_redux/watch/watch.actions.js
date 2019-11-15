@@ -22,6 +22,7 @@ import {
   SWITCH_SCREEN,
   SET_FULLSCREEN,
   SET_OPENCC,
+  SET_CURR_EDITING,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -58,7 +59,7 @@ export const setPause             = value => ({ type: SET_PAUSE, value })
 export const switchScreen         = value => ({ type: SWITCH_SCREEN, value })
 export const setFullscreen        = value => ({ type: SET_FULLSCREEN, value })
 export const setOpenCC            = value => ({ type: SET_OPENCC, value })
-
+export const setCurrEditing       = value => ({ type: SET_CURR_EDITING, value })
 
 // CC Options
 export const cc_setColor          = value => ({ type: CC_COLOR, value })

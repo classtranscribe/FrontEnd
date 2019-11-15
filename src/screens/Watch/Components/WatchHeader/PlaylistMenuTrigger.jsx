@@ -19,14 +19,14 @@ function PlaylistMenuTrigger({
   return (
     <WatchCtrlButton
       id="playlist-menu-btn"
-      className="playlist-menu-btn"
+      classNames="playlist-menu-btn"
       position="top"
       onClick={handleMenuTrigger}
       active={menu === MENU_PLAYLISTS}
       label={'Playlists'}
       ariaLabel="Playlists Menu"
     >
-      <span className="watch-btn-content watch-header-btn" tabIndex="-1">
+      <span className="watch-btn-content watch-playlist-menu-tigger-content" tabIndex="-1">
         <i className="material-icons">list</i>
       </span>
     </WatchCtrlButton>

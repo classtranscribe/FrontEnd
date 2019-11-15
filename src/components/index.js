@@ -5,6 +5,7 @@ import './stylesheets/general.transition.css'
 import './stylesheets/general.animation.css'
 import './stylesheets/sidebar.css'
 import './stylesheets/csstrans.playlist-video.css'
+import './stylesheets/sk-loader.css'
 import './index.css'
 
 export { CTContext, useCTContext, CTContextProvider } from './CTContext' 

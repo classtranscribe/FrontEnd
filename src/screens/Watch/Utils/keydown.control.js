@@ -110,7 +110,7 @@ export const keydownControl = {
   },
 
   inputFocusing: function() {
-    return $('input[type=text]:focus').length > 0
+    return $('input[type=text]:focus').length > 0 || $('textarea:focus').length > 0
   },
 
   /**

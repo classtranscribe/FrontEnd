@@ -3,6 +3,7 @@ import { connectWithRedux } from '_redux/watch'
 import { ClassTranscribeHeader } from 'components'
 import PlaylistMenuTrigger from './PlaylistMenuTrigger'
 import DownloadMenuTrigger from './DownloadMenuTrigger'
+import TranslationMenuTrigger from './TranslationMenuTrigger'
 import './index.css'
 
 export function WatchHeaderWithRedux({
@@ -14,6 +15,7 @@ export function WatchHeaderWithRedux({
   return isFullscreen ? null : (
     <ClassTranscribeHeader darkMode>
       <DownloadMenuTrigger />
+      {/* <TranslationMenuTrigger /> */}
       <PlaylistMenuTrigger />
     </ClassTranscribeHeader>
   )

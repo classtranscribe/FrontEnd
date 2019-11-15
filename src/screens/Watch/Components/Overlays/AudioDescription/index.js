@@ -5,9 +5,14 @@ import {
   transControl,
 } from '../../../Utils'
 
+function AudioDescriptionWithRedux({
 
-export const ClosedCaption = connectWithRedux(
-  ClosedCaptionWithRedux,
+}) {
+
+}
+
+export const AudioDescription = connectWithRedux(
+  AudioDescriptionWithRedux,
   [],
   []
 )

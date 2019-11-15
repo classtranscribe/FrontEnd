@@ -74,7 +74,10 @@ export const videoControl = {
     if (this.videoNode2) this.videoNode2.currentTime = time
 
     const { setTime } = this.externalFunctions
-    if (setTime) setTime(time)
+    if (setTime) {
+      setTime(time)
+      transControl.updateCaption(time)
+    }
   },
   forward: function(sec=10) {
     if (!this.videoNode1) return;

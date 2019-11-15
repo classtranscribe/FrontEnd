@@ -52,6 +52,17 @@ export function timeStrToSec(str) {
   return parseFloat(strs[0]) * 3600 + parseFloat(strs[1]) * 60 + parseFloat(strs[2])
 }
 
+export function prettierTimeStr(str) {
+  const strs = str.split(':')
+  var mins = parseInt(strs[0]) * 60 + parseInt(strs[1])
+  mins = mins.toString()
+  if (mins.length === 1) mins = '0' + mins
+  var sec  = parseInt(strs[2])
+  sec = sec.toString()
+  if (sec.length === 1) sec = '0' + sec
+  return `${mins}:${sec}`
+}
+
 export function getCCSelectOptions(array=[], operation=item => item) {
   const options = []
   array.forEach( item => {
@@ -65,4 +76,22 @@ export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
   const colorStr = cc_colorMap[color]
   if (!colorStr) return CC_COLOR_BLACK
   return colorStr.replace('*', opacity)
+}
+
+export function autosize(e={target: null}) {
+  var { target } = e
+  if (!target) return;
+  target.style.cssText = 'height:auto; padding:0';
+  target.style.cssText = 'height:' + target.scrollHeight + 'px';
+}
+
+export function autoSizeAllTextAreas(timeout=0) {
+  setTimeout(() => {
+    const captionLines = document.getElementsByClassName('caption-line-text')
+    if (Boolean(captionLines) && captionLines.length > 0) {
+      for (let i = 0; i < captionLines.length; i++) {
+        autosize({ target: captionLines.item(i) })
+      }
+    }
+  }, timeout);
 }

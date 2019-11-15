@@ -22,6 +22,7 @@ import {
   SET_DURATION,
   SET_FULLSCREEN,
   SET_OPENCC,
+  SET_CURR_EDITING,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -66,6 +67,7 @@ const watchReducer = (
     case SWITCH_SCREEN          : return { ...state, isSwitched: value }
     case SET_FULLSCREEN         : return { ...state, isFullscreen: value }
     case SET_OPENCC             : return { ...state, openCC: value }
+    case SET_CURR_EDITING       : return { ...state, currEditing: value }
 
     // CC Options
     case CC_COLOR               : return { ...state, cc_color: value }

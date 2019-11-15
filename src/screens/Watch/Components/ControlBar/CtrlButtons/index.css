@@ -7,6 +7,7 @@
   padding: 0;
   margin: none;
   margin: 0 .5em;
+  width: auto;
 }
 
 .watch-ctrl-button:focus {
@@ -19,10 +20,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  width: auto;
 }
 .watch-ctrl-button .watch-btn-content i {
   font-size: 2.5em;
+  width: max-content;
 }
 
 .watch-ctrl-button .watch-btn-playbackrate-content {

@@ -97,7 +97,6 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         <div 
           className={`ct-video-row ${player1Position}`} 
           mode={mode} 
-          onClick={this.handlePause(player1Position)}
         >
           <SecondaryPlayerWrapper isPrimary={!isSwitched} />
           <div className="ct-video-contrainer">
@@ -110,6 +109,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onTimeUpdate={this.onTimeUpdate}
               onProgress={this.onProgress}
               onCanPlay={this.onCanPlay}
+              onClick={this.handlePause(player1Position)}
             >
               {
                 Boolean(srcPath1) 
@@ -138,7 +138,6 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           <div 
             className={`ct-video-row ${player2Position}`} 
             mode={mode}
-            onClick={this.handlePause(player2Position)}
           >
             <SecondaryPlayerWrapper isPrimary={isSwitched} />
             <div className="ct-video-contrainer">
@@ -148,6 +147,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 id="ct-video-2"
                 ref={node => this.videoNode2 = node}
                 onCanPlay={this.onCanPlay}
+                onClick={this.handlePause(player2Position)}
               >
                 {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
               </video>

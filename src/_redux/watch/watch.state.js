@@ -33,6 +33,7 @@ export const initialState = {
   bufferedTime: 0,
   isFullscreen: false,
   openCC: false,
+  currEditing: null,
 
   // CC options
   cc_color: 'white',
