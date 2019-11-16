@@ -7,7 +7,7 @@ export { connectWithRedux } from './watch.selectors'
 
 export const watchStore = createStore(
   watchReducer, 
-  window.location.origin === 'http://localhost:3000' ? applyMiddleware(logger) : undefined
+  //window.location.origin === 'http://localhost:3000' ? applyMiddleware(logger) : undefined
 )
 
 export const watchActions = watchActions_

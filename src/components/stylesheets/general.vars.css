@@ -1,7 +1,10 @@
 :root {
   /* Background Color */
   /* --watch-page-bg-color: rgb(37, 37, 37); */
+  /* --watch-page-bg-color: rgb(66, 66, 66);
+  --watch-page-bg-color-alpha: rgba(66, 66, 66, 0.863); */
   --watch-page-bg-color: rgb(0, 0, 0);
+  --watch-page-bg-color-alpha: rgba(0, 0, 0, 0.863);
   --light-bg-color: #fcfcfc;
   --ct-btn-color: #458885;
   --ct-green-normal: #348b86;

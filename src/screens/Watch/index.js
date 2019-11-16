@@ -12,14 +12,15 @@ import {
   ClassTranscribePlayer,
   ControlBar,
   Transcriptions,
-  TabEventHelperButtons
+  TabEventHelperButtons,
+  Prompts
 } from './Components'
 import './index.css'
 import './zIndex.css'
 // Vars
 import { watchStore, connectWithRedux } from '_redux/watch'
 import { api, util } from 'utils'
-import { keydownControl, transControl } from './Utils'
+import { keydownControl, transControl, promptControl } from './Utils'
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
@@ -31,8 +32,9 @@ export class WatchWithRedux extends React.Component {
   }
 
   componentDidMount() {
-    /** Init Transcription control */
+    /** Init controls */
     this.initTransControl()
+    this.initPromptControl()
     /** GET userMetadata */
     this.getUserMetadata()
     /** GET media, playlist, and playlists */
@@ -50,6 +52,11 @@ export class WatchWithRedux extends React.Component {
       setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption, setCurrEditing,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     })
+  }
+
+  initPromptControl = () => {
+    const { setPrompt } = this.props
+    promptControl.init(setPrompt)
   }
 
   /** Function for getting userMetadata */
@@ -127,6 +134,7 @@ export class WatchWithRedux extends React.Component {
         <Transcriptions />
         <Menus />
         <ControlBar />
+        <Prompts />
       </main>
     )
   }
@@ -140,8 +148,11 @@ export function Watch(props) {
     ['media', 'playlist', 'playlists'],
     [
       'setMedia', 'setPlaylist', 'setPlaylists', 
+      // transControl
       'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC', 'setCurrCaption', 'setCurrEditing',
-      'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont'
+      'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont',
+      // promptControl
+      'setPrompt'
     ]
   )
   return (

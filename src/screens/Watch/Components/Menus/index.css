@@ -5,7 +5,7 @@
   position: absolute;
   width: 100vw;
   height: calc(100vh - 4em - 4.5em);
-  background: rgba(0, 0, 0, 0.877);
+  background: var(--watch-page-bg-color-alpha);
   opacity: 1;
   /* Add the blur effect */
   /* filter:blur(4px);

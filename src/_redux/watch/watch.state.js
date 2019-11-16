@@ -33,7 +33,6 @@ export const initialState = {
   bufferedTime: 0,
   isFullscreen: false,
   openCC: false,
-  currEditing: null,
 
   // CC options
   cc_color: 'white',
@@ -42,4 +41,9 @@ export const initialState = {
   cc_font: "sans-serif",
   cc_position: 'bottom',
   cc_opacity: .8,
+
+  // Others
+  currEditing: null,
+  prompt: null,
+  search: null,
 }

@@ -8,7 +8,7 @@
   justify-content: space-between;
   align-items: flex-end;
   padding: 0 10px 1em 10px;
-  background: rgba(0, 0, 0, 0.856);
+  background: var(--watch-page-bg-color-alpha);
 }
 
 .watch-ctrl-bar-left-elems, .watch-ctrl-bar-right-elems {

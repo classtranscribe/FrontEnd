@@ -47,6 +47,7 @@ function TranscriptionsWithRedux({
                 isCurrent={Boolean(currCaption) && currCaption.id === caption.id}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
                 captionIndex={index}
+                shouldHide={Boolean(currCaption) && (index - currCaption.index > 50)}
               />
             ))
           }

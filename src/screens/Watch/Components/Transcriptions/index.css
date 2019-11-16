@@ -36,7 +36,19 @@
     padding: 0 1em;
   }
   .trans-list-box {
-    padding-top: calc(80vh);
+    padding-top: calc(65vh);
+    width: 100%;
+  }
+}
+@media screen and (max-width: 700px) {
+  .trans-list-box {
+    padding-top: calc(50vh);
+    width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .trans-list-box {
+    padding-top: calc(40vh);
     width: 100%;
   }
 }

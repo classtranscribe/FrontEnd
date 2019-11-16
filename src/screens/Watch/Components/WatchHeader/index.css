@@ -1,5 +1,5 @@
 .playlist-menu-btn {
-  margin-right: 15px !important;
+  margin-right: 20px !important;
 }
 
 .watch-header-btn-content, .watch-playlist-menu-tigger-content {
@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   width: max-content;
+  margin: 0 5px;
 }
 .watch-header-btn-content {
   font-size: 10px !important;

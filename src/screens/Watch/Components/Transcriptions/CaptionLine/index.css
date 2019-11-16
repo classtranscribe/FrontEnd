@@ -13,7 +13,10 @@
   border-radius: 8px;
 }
 .watch-caption-line[editing=true]:focus-within {
-  background: rgb(26, 26, 26);
+  background: rgb(42, 42, 42);
+}
+.watch-caption-line[hide=true] {
+  display: none;
 }
 
 .caption-line-content {

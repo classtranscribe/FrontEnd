@@ -22,7 +22,6 @@ import {
   SET_DURATION,
   SET_FULLSCREEN,
   SET_OPENCC,
-  SET_CURR_EDITING,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -30,6 +29,10 @@ import {
   CC_SIZE,
   CC_FONT,
   CC_POSITION,
+  // Others
+  SET_CURR_EDITING,
+  SET_SEARCH,
+  SET_PROMPT,
 } from './watch.action.types'
 import { initialState } from './watch.state'
 
@@ -67,7 +70,6 @@ const watchReducer = (
     case SWITCH_SCREEN          : return { ...state, isSwitched: value }
     case SET_FULLSCREEN         : return { ...state, isFullscreen: value }
     case SET_OPENCC             : return { ...state, openCC: value }
-    case SET_CURR_EDITING       : return { ...state, currEditing: value }
 
     // CC Options
     case CC_COLOR               : return { ...state, cc_color: value }
@@ -76,6 +78,11 @@ const watchReducer = (
     case CC_SIZE                : return { ...state, cc_size: value }
     case CC_FONT                : return { ...state, cc_font: value }
     case CC_POSITION            : return { ...state, cc_position: value }
+
+    // Others
+    case SET_CURR_EDITING       : return { ...state, currEditing: value }
+    case SET_PROMPT             : return { ...state, prompt: value }
+    case SET_SEARCH             : return { ...state, search: value }
 
     // Default
     default                     : return state

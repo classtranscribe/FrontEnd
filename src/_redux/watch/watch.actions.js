@@ -22,7 +22,6 @@ import {
   SWITCH_SCREEN,
   SET_FULLSCREEN,
   SET_OPENCC,
-  SET_CURR_EDITING,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -30,6 +29,10 @@ import {
   CC_SIZE,
   CC_POSITION,
   CC_FONT,
+  // Others
+  SET_CURR_EDITING,
+  SET_SEARCH,
+  SET_PROMPT,
 } from './watch.action.types'
 
 
@@ -59,7 +62,6 @@ export const setPause             = value => ({ type: SET_PAUSE, value })
 export const switchScreen         = value => ({ type: SWITCH_SCREEN, value })
 export const setFullscreen        = value => ({ type: SET_FULLSCREEN, value })
 export const setOpenCC            = value => ({ type: SET_OPENCC, value })
-export const setCurrEditing       = value => ({ type: SET_CURR_EDITING, value })
 
 // CC Options
 export const cc_setColor          = value => ({ type: CC_COLOR, value })
@@ -68,3 +70,8 @@ export const cc_setOpacity        = value => ({ type: CC_OPACITY, value })
 export const cc_setSize           = value => ({ type: CC_SIZE, value })
 export const cc_setPosition       = value => ({ type: CC_POSITION, value })
 export const cc_setFont           = value => ({ type: CC_FONT, value })
+
+// Others
+export const setCurrEditing       = value => ({ type: SET_CURR_EDITING, value })
+export const setSearch            = value => ({ type: SET_SEARCH, value })
+export const setPrompt            = value => ({ type: SET_PROMPT, value })

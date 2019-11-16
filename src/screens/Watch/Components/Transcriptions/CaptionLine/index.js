@@ -13,40 +13,47 @@ import './index.css'
 function CaptionLine({
   isCurrent=false,
   isEditing=false,
-  captionIndex=null,
+  shouldHide=false,
   caption={},
 }) {
 
   const { text='', id, begin, index } = caption
   const [value, setValue] = useState(text)
   const ref = useRef()
-  // useEffect(() => {
-  //   if (Math.abs( currentIdx - index ) <= 25) {
-  //     autoSize(ref.current)
-  //   }
-  // }, [value, caption])
 
   const handleSeek = () => {
     let time = timeStrToSec(begin)
     videoControl.currTime(time)
   }
+
   const handleChange = ({ target }) => {
     setValue(target.value)
+    transControl.handleChange(target.value)
     // console.log(target.value)
   }
+
   const handleFocus = e => {
     transControl.editCaption(caption)
-    autoSize({ target: ref.current })
+    autoSize(ref.current)
   }
+
   const handleBlur = () => {
-    // onEditing(null)
     transControl.handleBlur()
   }
+
   const handleSave = () => {
-    if (typeof captionIndex !== 'number' || value === text) {
-      return transControl.editCaption(null)
+    transControl.saveEdition()
+    document.activeElement.blur()
+  }
+
+  const handleKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault()
+      handleSave()
+      ref.current.blur()
+    } else {
+      autoSize(ref.current)
     }
-    transControl.saveEdition(value, captionIndex)
   }
 
   const timeStr = prettierTimeStr(begin)
@@ -57,6 +64,7 @@ function CaptionLine({
       className="watch-caption-line" 
       current={isCurrent.toString()}
       editing={isEditing.toString()}
+      hide={shouldHide.toString()}
     >
       <div className="caption-line-content">
         <Popup inverted wide basic
@@ -85,7 +93,7 @@ function CaptionLine({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleChange}
-          onKeyDown={autoSize}
+          onKeyDown={handleKeyDown}
         />
       </div>
       <div className="caption-line-btns">

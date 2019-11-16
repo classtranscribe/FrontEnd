@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { api } from 'utils'
 import { timeStrToSec, colorMap, autoSize, autoSizeAllTextAreas } from './helpers'
 import { videoControl } from './player.control'
+import { promptControl } from './prompt.control'
 import { 
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -125,6 +126,7 @@ export const transControl = {
   // caption that is being edited
   editingCaption_: {},
   isEditing: false,
+  editText: '',
   // is true when mouse over that trans box
   isMourseOverTrans: false,
   /**
@@ -147,12 +149,52 @@ export const transControl = {
    * Function called when editing caption
    */
   editCaption: function(caption) {
-    caption = caption || this.currCaption_
+    // if no param caption, edit current caption
+    if (caption === undefined) caption = this.currCaption_
     const { setCurrEditing } = this.externalFunctions
-    if (Boolean(caption) && setCurrEditing) {
+    this.isEditing = Boolean(caption)
+    if (setCurrEditing) {
       setCurrEditing(caption)
-      this.isEditing = Boolean(caption)
       this.editingCaption_ = caption
+      if (Boolean(caption)) this.editText = caption.text
+    }
+  },
+  editCurrentCaption: function() {
+    let id = this.currCaption_.id
+    $(`#caption-line-textarea-${id}`).focus()
+  },
+
+  handleChange: function(text) {
+    this.editText = text
+  },
+
+  /**
+   * Function called when save caption
+   */
+  saveEdition: async function() {
+    const { setCurrEditing } = this.externalFunctions
+    let text = this.editText
+    if (!Boolean(text) || this.editingCaption_.text === text) {
+      this.editText = ''
+      promptControl.closePrompt()
+      return this.editCaption(null)
+    }
+    promptControl.savingCaption()
+    this.isEditing = false
+
+    if (setCurrEditing) {
+      const { id } = this.editingCaption_
+      this.editingCaption_.text = text
+      setCurrEditing(null)
+      try {
+        await api.updateCaptionLine({ id, text })
+        if (this.captions_.length > 0) {
+          this.captions(this.captions_)
+        }
+        promptControl.savedCaption()
+      } catch (error) {
+        promptControl.savedCaption(false)
+      }
     }
   },
 
@@ -164,27 +206,6 @@ export const transControl = {
   },
 
   /**
-   * Function called when save caption
-   */
-  saveEdition: async function(text, index) {
-    const { setCurrEditing } = this.externalFunctions
-    if (setCurrEditing) {
-      const { id } = this.editingCaption_
-      setCurrEditing(null)
-      try {
-        await api.updateCaptionLine({ id, text })
-        if (this.captions_.length > 0) {
-          console.log(text)
-          this.captions_[index].text = text
-          this.captions(this.captions_)
-        }
-      } catch (error) {
-        throw new Error(error)
-      }
-    }
-  },
-
-  /**
    * Function that scrolls the captions
    */
   scrollTransToView: function(id) {
@@ -193,7 +214,7 @@ export const transControl = {
     let tranBox = document.getElementById('watch-trans-container')
     if (capElem) {
       capElem.classList.add('curr-line')
-      tranBox.scrollTop = window.innerWidth > 900 ? capElem.offsetTop - 80 : capElem.offsetTop + 50
+      tranBox.scrollTop = window.innerWidth > 900 ? capElem.offsetTop - 80 : capElem.offsetTop - 10
     }
   },
 

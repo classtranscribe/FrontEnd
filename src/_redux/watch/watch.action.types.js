@@ -24,7 +24,6 @@ export const SET_PLAYBACKRATE = 'watch-set-playbackrate'
 export const SWITCH_SCREEN = 'watch-switch-screen'
 export const SET_FULLSCREEN = 'watch-set-fullscreen'
 export const SET_OPENCC = 'watch-set-open-cc'
-export const SET_CURR_EDITING = 'watch-set-curr-editing'
 
 // CC Options
 export const CC_COLOR = 'watch-cc-color'
@@ -33,3 +32,8 @@ export const CC_OPACITY = 'watch-cc-opacity'
 export const CC_FONT = 'watch-cc-font'
 export const CC_SIZE = 'watch-cc-size'
 export const CC_POSITION = 'watch-cc-position'
+
+// Others
+export const SET_CURR_EDITING = 'watch-set-curr-editing'
+export const SET_PROMPT = 'watch-set-prompt'
+export const SET_SEARCH = 'watch-set-search'

@@ -10,6 +10,7 @@ import {
   MENU_SETTING,
   MENU_DOWNLOAD
 } from './constants.util'
+import { promptControl } from './prompt.control'
 
 export const keydownControl = {
 
@@ -27,6 +28,14 @@ export const keydownControl = {
 
     // quit if any <input/>'s are been focusing
     if (this.inputFocusing()) return;
+
+    if (altKey) {
+      switch (keyCode) {
+        
+        default:
+          return;
+      }
+    }
 
     /**
      * Shift Key events
@@ -76,6 +85,11 @@ export const keydownControl = {
       // `c` - closed  caption on/off
       case 67:
         return transControl.handleOpenCC()
+      // Alt + e - edit current caption
+      case 69:
+          e.preventDefault()
+          promptControl.editCaptionUsingKeyboard()
+          return transControl.editCurrentCaption()
       // `f` - enter full screen
       case 70:
         return videoControl.handleFullScreen()
