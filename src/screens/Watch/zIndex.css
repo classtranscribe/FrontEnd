@@ -1,0 +1,44 @@
+/* Transcription Area */
+.watch-trans-container {
+  z-index: 0;
+}
+
+/* Header z-index: 1020 */
+
+/* Contol bar */
+.watch-ctrl-bar-container {
+  z-index: 1020;
+}
+
+/* Players */
+.ct-player-primary {
+  z-index: 0;
+}
+.ct-player-secondary {
+  z-index: 1;
+}
+
+/* Menu */
+.watch-menus {
+  z-index: 1;
+}
+
+/* Overlays */
+
+/* Tab Event Helper Buttons */
+.watch-tab-helper {
+  position: fixed;
+  top: -10em;
+  left: 0;
+  opacity: 0;
+  z-index: 1021;
+}
+/* Closed Caption */
+.watch-cc-container {
+  z-index: 1;
+}
+
+/* Secondary Player Wrapper/Overlays */
+.watch-secondary-wrapper {
+  z-index: 2;
+}

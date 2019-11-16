@@ -1,10 +1,8 @@
 
 .ct-player-primary {
   background: black;
-  z-index: 1;
 }
 .ct-player-secondary {
-  z-index: 1;
   background: black;
 }
 

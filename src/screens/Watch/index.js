@@ -15,6 +15,7 @@ import {
   TabEventHelperButtons
 } from './Components'
 import './index.css'
+import './zIndex.css'
 // Vars
 import { watchStore, connectWithRedux } from '_redux/watch'
 import { api, util } from 'utils'

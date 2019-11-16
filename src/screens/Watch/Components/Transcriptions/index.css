@@ -4,7 +4,6 @@
   top: 5em !important;
   width: 38vw;
   height: calc(100vh - 6em);
-  z-index: 0;
   /* background: grey; */
   overflow-x: hidden;
   overflow-y: scroll !important;

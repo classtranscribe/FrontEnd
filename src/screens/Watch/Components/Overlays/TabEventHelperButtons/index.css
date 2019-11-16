@@ -3,7 +3,6 @@
   top: -10em;
   left: 0;
   opacity: 0;
-  z-index: 1050;
 }
 .watch-tab-helper:focus, .watch-tab-helper:focus-within {
   opacity: 1;

@@ -13,7 +13,6 @@
   -ms-filter:blur(4px);
   -moz-filter:blur(4px);
   -webkit-filter:blur(4px); */
-  z-index: 1;
 }
 
 .watch-menus[type=menu-hide] {

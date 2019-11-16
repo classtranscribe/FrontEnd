@@ -8,8 +8,6 @@
   justify-content: space-between;
   align-items: flex-end;
   padding: 0 10px 1em 10px;
-  z-index: 2;
-  z-index: 1050;
   background: rgba(0, 0, 0, 0.856);
 }
 
