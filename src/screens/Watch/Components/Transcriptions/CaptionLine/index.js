@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Popup } from 'semantic-ui-react'
 
 import {
@@ -6,20 +6,25 @@ import {
   videoControl,
   timeStrToSec,
   prettierTimeStr,
-  autosize
+  autoSize
 } from '../../../Utils'
 import './index.css'
 
 function CaptionLine({
   isCurrent=false,
   isEditing=false,
+  captionIndex=null,
   caption={},
-  onEditing,
-  onSave,
 }) {
 
-  const { text='', id, begin } = caption
+  const { text='', id, begin, index } = caption
   const [value, setValue] = useState(text)
+  const ref = useRef()
+  // useEffect(() => {
+  //   if (Math.abs( currentIdx - index ) <= 25) {
+  //     autoSize(ref.current)
+  //   }
+  // }, [value, caption])
 
   const handleSeek = () => {
     let time = timeStrToSec(begin)
@@ -27,16 +32,21 @@ function CaptionLine({
   }
   const handleChange = ({ target }) => {
     setValue(target.value)
-    console.log(target.value)
+    // console.log(target.value)
   }
   const handleFocus = e => {
-    onEditing(caption)
+    transControl.editCaption(caption)
+    autoSize({ target: ref.current })
   }
   const handleBlur = () => {
-    onEditing(null)
+    // onEditing(null)
+    transControl.handleBlur()
   }
   const handleSave = () => {
-    onSave(value)
+    if (typeof captionIndex !== 'number' || value === text) {
+      return transControl.editCaption(null)
+    }
+    transControl.saveEdition(value, captionIndex)
   }
 
   const timeStr = prettierTimeStr(begin)
@@ -55,24 +65,27 @@ function CaptionLine({
           closeOnTriggerBlur
           content={`Jump to ${timeStr}`}
           trigger={
-            <div 
-              className="caption-line-time-display" 
-              tabIndex={0}
+            <button 
+              className="plain-btn caption-line-time-display" 
               onClick={handleSeek}
+              aria-label={`Jump to ${timeStr}`}
             >
-              {timeStr}
-            </div>
+              <span tabIndex="-1">{timeStr}</span>
+            </button>
           }
         />
         <textarea   
-          className="caption-line-text" 
-          rows='1'
+          ref={ref}
+          rows='2'
+          id={`caption-line-textarea-${id}`}
+          className="caption-line-text"
+          aria-label={`(${index}) Edit caption at ${timeStr}`} 
+          spellCheck={false}
           defaultValue={text} 
           onFocus={handleFocus}
           onBlur={handleBlur}
-          ct-textarea
           onChange={handleChange}
-          onKeyDown={autosize}
+          onKeyDown={autoSize}
         />
       </div>
       <div className="caption-line-btns">

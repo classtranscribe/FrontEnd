@@ -11,7 +11,6 @@ function TranscriptionsWithRedux({
   captions=[],
   currCaption={},
   currEditing=null,
-  setCurrEditing=null
 }) {
 
   const [loadingCaptions, setLoadingCaptions] = useState(true)
@@ -21,22 +20,8 @@ function TranscriptionsWithRedux({
     }
   }, [captions])
 
-  useEffect(() => {
-    // scroll to view
-    if(Boolean(currCaption) && Boolean(currCaption.id))
-    transControl.scrollTransToView(currCaption.id)
-  }, [currCaption])
-
-  const onEditing = caption => {
-    transControl.editCaption(caption)
-  }
-
-  const onSave = value => {
-
-  }
-
   const handleMourseOver = bool => () => {
-    transControl.isMourseOverTrans = bool
+    transControl.handleMourseOver(bool)
   }
 
 
@@ -55,14 +40,13 @@ function TranscriptionsWithRedux({
             loadingCaptions ? 
             <PlaceHolder />
             :
-            captions.map( caption => (
+            captions.map( (caption, index) => (
               <CaptionLine
                 key={caption.id}
                 caption={caption}
                 isCurrent={Boolean(currCaption) && currCaption.id === caption.id}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
-                onEditing={onEditing}
-                onSave={onSave}
+                captionIndex={index}
               />
             ))
           }
@@ -75,5 +59,5 @@ function TranscriptionsWithRedux({
 export const Transcriptions = connectWithRedux(
   TranscriptionsWithRedux,
   ['captions', 'currCaption', 'currEditing'],
-  ['setCurrEditing']
+  []
 )

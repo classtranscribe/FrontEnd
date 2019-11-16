@@ -1,4 +1,6 @@
+import $ from 'jquery'
 import _ from 'lodash'
+import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
 
 export function findUpNextMedia({
@@ -78,20 +80,24 @@ export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
   return colorStr.replace('*', opacity)
 }
 
-export function autosize(e={target: null}) {
-  var { target } = e
-  if (!target) return;
-  target.style.cssText = 'height:auto; padding:0';
-  target.style.cssText = 'height:' + target.scrollHeight + 'px';
+export function autoSize(e) {
+  let elem = e.target || e
+  autosize(elem);
 }
 
-export function autoSizeAllTextAreas(timeout=0) {
-  setTimeout(() => {
-    const captionLines = document.getElementsByClassName('caption-line-text')
-    if (Boolean(captionLines) && captionLines.length > 0) {
-      for (let i = 0; i < captionLines.length; i++) {
-        autosize({ target: captionLines.item(i) })
-      }
+async function autoHelper () {
+  let textareas = $('textarea')
+    for (let i = 0; i < textareas.length; i++) {
+      await setTimeout(() => {
+        // autosize(document.querySelectorAll('textarea'));
+        autosize(textareas[i]);
+      }, 200);
     }
+}
+export function autoSizeAllTextAreas(timeout=0) {
+  return;
+  setTimeout(() => {
+    autoHelper()
   }, timeout);
 }
+

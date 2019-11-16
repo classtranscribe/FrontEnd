@@ -47,6 +47,8 @@
   top: 5em;
   left: 62vw;
   width: 35vw;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 /* Nested Mode */

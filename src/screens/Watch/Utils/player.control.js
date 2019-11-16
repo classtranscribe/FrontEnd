@@ -158,11 +158,14 @@ export const videoControl = {
   onTimeUpdate: function({ target: { currentTime } }) {
     const { setTime } = this.externalFunctions
     // Set current time
-    if (Math.abs(currentTime - this.lastTime) > 3) {
+    if (Math.abs(currentTime - this.lastTime) > .7) {
       setTime(currentTime)
       this.lastTime = currentTime
     }
     if (Math.abs(currentTime - this.lastUpdateCaptionTime) > 1) {
+      // setTime(currentTime)
+      // this.lastTime = currentTime
+
       transControl.updateCaption(currentTime)
       this.lastUpdateCaptionTime = currentTime
     } 
