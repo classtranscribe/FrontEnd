@@ -52,6 +52,7 @@ function TranscriptionsWithRedux({
             ))
           }
         </div>
+        {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
       </div>
     </div>
   )

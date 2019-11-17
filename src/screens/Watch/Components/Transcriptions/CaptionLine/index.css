@@ -10,10 +10,10 @@
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
   -webkit-transition: var(--ct-transition-all);
-  border-radius: 8px;
+  border-radius: 5px;
 }
 .watch-caption-line[editing=true]:focus-within {
-  background: rgb(42, 42, 42);
+  background: rgb(46, 46, 46);
 }
 .watch-caption-line[hide=true] {
   display: none;

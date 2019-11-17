@@ -20,7 +20,7 @@ import './zIndex.css'
 // Vars
 import { watchStore, connectWithRedux } from '_redux/watch'
 import { api, util } from 'utils'
-import { keydownControl, transControl, promptControl } from './Utils'
+import { keydownControl, transControl, promptControl, searchControl, videoControl } from './Utils'
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
@@ -35,12 +35,15 @@ export class WatchWithRedux extends React.Component {
     /** Init controls */
     this.initTransControl()
     this.initPromptControl()
+    this.initSearchControl()
     /** GET userMetadata */
     this.getUserMetadata()
     /** GET media, playlist, and playlists */
     this.getWatchData()
     /** Add keydown event handler */
     keydownControl.addKeyDownListener()
+    /** Add resize event listener */
+    this.addWindowResizeListener()
   }
 
   initTransControl = () => {
@@ -57,6 +60,17 @@ export class WatchWithRedux extends React.Component {
   initPromptControl = () => {
     const { setPrompt } = this.props
     promptControl.init(setPrompt)
+  }
+
+  initSearchControl = () => {
+    const { setSearch } = this.props
+    searchControl.init(setSearch)
+  }
+
+  addWindowResizeListener = () => {
+    window.addEventListener('resize', () => {
+      videoControl.addWindowResizeListenerForScreenMode()
+    })
   }
 
   /** Function for getting userMetadata */
@@ -152,7 +166,9 @@ export function Watch(props) {
       'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC', 'setCurrCaption', 'setCurrEditing',
       'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont',
       // promptControl
-      'setPrompt'
+      'setPrompt',
+      // searchControl
+      'setSearch'
     ]
   )
   return (

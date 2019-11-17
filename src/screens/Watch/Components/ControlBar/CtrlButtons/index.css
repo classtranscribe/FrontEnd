@@ -26,6 +26,16 @@
   font-size: 2.5em;
   width: max-content;
 }
+.watch-ctrl-button .watch-btn-content i[type=setting] {
+  font-size: 2.2em;
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+}
+.watch-ctrl-button[active=true] .watch-btn-content i[type=setting]{
+  transform: rotate(30deg);
+}
 
 .watch-ctrl-button .watch-btn-playbackrate-content {
   height: 30px;
@@ -42,18 +52,18 @@
 .watch-ctrl-button[position=bottom] .watch-btn-content,
 .watch-ctrl-button[position=bottom] .watch-btn-playbackrate-content {
   border-bottom: 2px transparent solid;
-  /* transition: var(--ct-transition-all);
+  transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
-  -webkit-transition: var(--ct-transition-all); */
+  -webkit-transition: var(--ct-transition-all);
 }
 .watch-ctrl-button[position=top] .watch-btn-content,
 .watch-ctrl-button[position=top] .watch-btn-playbackrate-content {
   border-top: 2px transparent solid;
-  /* transition: var(--ct-transition-all);
+  transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
-  -webkit-transition: var(--ct-transition-all); */
+  -webkit-transition: var(--ct-transition-all);
 }
 .watch-ctrl-button[colored=true] {
   color: var(--ct-green-active);

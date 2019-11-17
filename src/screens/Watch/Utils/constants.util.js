@@ -2,6 +2,11 @@
 * constants
 */
 
+// Arrays
+export const ARRAY_INIT = ['init']
+export const ARRAY_EMPTY = ['empty']
+export const ARRAY_RETRY = ['retry']
+
 // Screen Modes
 export const NORMAL_MODE = 'normal-mode'
 export const THEATRE_MODE = 'theatre-mode'
@@ -11,9 +16,9 @@ export const NESTED_MODE = 'nested-mode'
 
 export const screenModes = [
   { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
-  { type: THEATRE_MODE, name: 'Theatre View', icon: 'video_label' },
   { type: PS_MODE, name: 'Distributed View', icon: 'view_carousel' },
-  { type: NESTED_MODE, name: 'Nested View', icon: 'featured_video' },
+  { type: NESTED_MODE, name: 'Nested View', icon: 'picture_in_picture' },
+  { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
 ]
 
 // Player types

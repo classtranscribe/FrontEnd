@@ -34,9 +34,9 @@ export function ControlBarWithRedux({
         <PlaybackRateButton />
         <ClosedCaptionButton />
         <LanguagePickerButton />
-        <SettingButton />
         <ScreenModeSettingButton isTwoScreen={isTwoScreen} />
         {/* <DownloadButton /> */}
+        <SettingButton />
         <FullscreenButton />
       </div>
     </div>

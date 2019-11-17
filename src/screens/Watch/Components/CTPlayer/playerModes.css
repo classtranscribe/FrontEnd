@@ -1,9 +1,17 @@
 
 .ct-player-primary {
   background: black;
+  /* transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all); */
 }
 .ct-player-secondary {
   background: black;
+  /* transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all); */
 }
 
 .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=normal-mode] {
@@ -52,18 +60,19 @@
 
 /* Nested Mode */
 .ct-player-secondary[mode=nested-mode] {
-  top: calc(60vh + 5vw);
+  top: calc(18em - 10vw);
   right: calc(38vw + 5px);
   max-width: 20em;
-  width: 20vw;
+  width: 15vw;
   height: auto;
   border-radius: 10px;
-  border: var(--ct-border-color-bold);
+  /* border: var(--ct-border-color-bold); */
+  box-shadow: 0 0 10px rgba(19, 19, 19, 0.904);
   overflow: hidden;
 }
 
 @media screen and (max-width: 900px) {
-  .ct-player-secondary[mode=normal-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=theatre-mode] {
+  .ct-player-primary[mode=normal-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=theatre-mode] {
     top: 4.5em;
     left: 0;
     width: 100vw;

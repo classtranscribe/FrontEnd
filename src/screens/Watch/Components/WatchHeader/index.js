@@ -23,6 +23,6 @@ export function WatchHeaderWithRedux({
 
 export const WatchHeader = connectWithRedux(
   WatchHeaderWithRedux,
-  ['media', 'playlist'],
+  ['media', 'playlist', 'isFullscreen'],
   []
 )

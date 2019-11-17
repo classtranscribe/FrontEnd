@@ -41,7 +41,7 @@
 /* Positions */
 .prompt-bottom-right {
   bottom: 6em;
-  right: 2em;
+  right: 7em;
   animation: bottom-right-show .2s ease-in-out;
   -o-animation: bottom-right-show .2s ease-in-out;
   -moz-animation: bottom-right-show .2s ease-in-out;

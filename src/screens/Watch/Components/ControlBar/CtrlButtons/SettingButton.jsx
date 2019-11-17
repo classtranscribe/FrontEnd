@@ -27,7 +27,7 @@ export function SettingButtonWithRedux({
       id={MENU_SETTING}
     >
       <span className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">settings_applications</i>     
+        <i type='setting' className="fas fa-cog"></i>  
       </span>
     </WatchCtrlButton>
   )

@@ -98,13 +98,17 @@ export const transControl = {
    * Function called for setting captions array
    */
   captions: function(cap) {
-    const { setCaptions } = this.externalFunctions
+    if (cap === undefined) return this.captions_
+    
+    const { setCaptions, setCurrCaption } = this.externalFunctions
     if (setCaptions) {
       this.captions_ = cap
       setCaptions(cap)
       this.lastCaption = null
       // console.log('captions', newCaptions)
       // autoSizeAllTextAreas(500)
+      this.currCaption_ = cap[0] || null
+      setCurrCaption(this.currCaption_)
     }
   },
 
@@ -214,7 +218,9 @@ export const transControl = {
     let tranBox = document.getElementById('watch-trans-container')
     if (capElem) {
       capElem.classList.add('curr-line')
-      tranBox.scrollTop = window.innerWidth > 900 ? capElem.offsetTop - 80 : capElem.offsetTop - 10
+      let isTwoScreen = videoControl.isTwoScreen()
+      let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
+      tranBox.scrollTop = scrollTop
     }
   },
 
@@ -419,7 +425,7 @@ export const transControl = {
     const isCurrCaption = cap => {
       let end = timeStrToSec(cap.end)
       let begin =  timeStrToSec(cap.begin)
-      return begin <= now && now <= end
+      return begin <= now && now <= end && cap.kind === undefined // aka is subtitles
     }
 
     // if it's the first time to find captions
@@ -453,8 +459,6 @@ export const transControl = {
         lastCaption.index
       ) || lastCaption
     }
-
-    console.log('nextCaption', nextCaption)
 
     this.lastCaption = nextCaption
     return nextCaption

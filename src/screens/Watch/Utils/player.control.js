@@ -2,7 +2,7 @@
  * Functions for controlling video players
  */
 import { transControl } from './trans.control'
-import { NORMAL_MODE } from './constants.util'
+import { NORMAL_MODE, PS_MODE, NESTED_MODE } from './constants.util'
 
 export const videoControl = {
   videoNode1: null,
@@ -21,6 +21,10 @@ export const videoControl = {
     this.addEventListenerForFullscreenChange()
   },
 
+  isTwoScreen: function() {
+    return Boolean(this.videoNode2)
+  },
+
   isSwitched: false,
   switchVideo: function(bool) {
     const toSet = bool === undefined ? !this.isSwitched : bool
@@ -32,7 +36,20 @@ export const videoControl = {
   currentMode: NORMAL_MODE,
   mode: function(mode) {
     const { setMode } = this.externalFunctions
-    if (setMode) setMode(mode)
+    if (setMode) {
+      if (window.innerWidth <= 900 && mode === PS_MODE) {
+        mode = NESTED_MODE
+      } 
+      setMode(mode)
+      this.currentMode = mode
+    }
+  },
+  addWindowResizeListenerForScreenMode: function() {
+    if (window.innerWidth < 900) {
+      if (this.currentMode === PS_MODE) {
+        this.mode(NESTED_MODE)
+      } 
+    }
   },
 
   paused: function() {

@@ -17,6 +17,7 @@ import {
   PRIMARY, 
   SECONDARY,
   PS_MODE,
+  NESTED_MODE,
 } from '../../Utils'
 
 
@@ -44,7 +45,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       // set src for videos
       const { videos, isTwoScreen } = media
       const { srcPath1, srcPath2 } = videos[0]
-      if (isTwoScreen) this.props.setMode(PS_MODE)
+      if (isTwoScreen) this.props.setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE)
       this.setState({ 
         srcPath1, 
         srcPath2

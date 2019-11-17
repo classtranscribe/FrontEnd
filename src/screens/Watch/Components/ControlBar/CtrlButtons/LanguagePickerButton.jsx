@@ -30,7 +30,7 @@ export function LanguagePickerButtonWithRedux({
       id={MENU_LANGUAGE}
     >
       <span className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">language</i>     
+        <i className="material-icons">subtitles</i>     
       </span>
     </WatchCtrlButton>
   )

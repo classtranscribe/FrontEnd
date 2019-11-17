@@ -1,3 +1,18 @@
+/**
+ * z-index of the components in watch page
+ *
+ * 0    - Transcription
+ * 1    - Primary player & Closed Caption
+ * 2    - Secondary player & Secondary Player Wrapper/Overlays
+ * 3    - Search
+ * 4    - Prompts 
+ * 5    - Menus
+ * 1020 - Control bar
+ * 1020 - Header
+ * 1021 - Tab Event Helper Buttons
+ *
+ */
+
 /* Transcription Area */
 .watch-trans-container {
   z-index: 0;
@@ -15,12 +30,17 @@
   z-index: 1;
 }
 .ct-player-secondary {
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Menu */
 .watch-menus {
   z-index: 5;
+}
+
+/* Search */
+.watch-search {
+  z-index: 3;
 }
 
 /* Overlays */
@@ -41,5 +61,5 @@
 
 /* Prompts */
 .watch-prompt {
-  z-index: 3;
+  z-index: 4;
 }
