@@ -8,20 +8,26 @@ import CaptionLine from './CaptionLine'
 import PlaceHolder from './PlaceHolder'
 
 function TranscriptionsWithRedux({
-  captions=[],
+  transcript=[],
   currCaption={},
+  currDescription={},
   currEditing=null,
 }) {
 
-  const [loadingCaptions, setLoadingCaptions] = useState(true)
+  const [loadingtranscript, setLoadingtranscript] = useState(true)
   useEffect(() => {
-    if (captions[0]) {
-      setLoadingCaptions(false)
+    if (transcript[0]) {
+      setLoadingtranscript(false)
     }
-  }, [captions])
+  }, [transcript])
 
   const handleMourseOver = bool => () => {
     transControl.handleMourseOver(bool)
+  }
+
+  const isCurrent = id => {
+    return (Boolean(currCaption) && currCaption.id === id)
+        // || (Boolean(currDescription) && currDescription.id === id)
   }
 
 
@@ -37,14 +43,14 @@ function TranscriptionsWithRedux({
       >
         <div className="trans-list">
           {
-            loadingCaptions ? 
+            loadingtranscript ? 
             <PlaceHolder />
             :
-            captions.map( (caption, index) => (
+            transcript.map( (caption, index) => (
               <CaptionLine
                 key={caption.id}
                 caption={caption}
-                isCurrent={Boolean(currCaption) && currCaption.id === caption.id}
+                isCurrent={isCurrent(caption.id)}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
                 captionIndex={index}
                 shouldHide={Boolean(currCaption) && (index - currCaption.index > 50)}
@@ -60,6 +66,6 @@ function TranscriptionsWithRedux({
 
 export const Transcriptions = connectWithRedux(
   TranscriptionsWithRedux,
-  ['captions', 'currCaption', 'currEditing'],
+  ['transcript', 'currCaption', 'currDescription', 'currEditing'],
   []
 )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { 
   playbackRateOptions,
@@ -18,24 +18,26 @@ function PlaybackrateMenu({
   const [isCustomized, setIsCustomized] = useState(0)
 
   const usingCustomizedRate = isCustomized === 2
+  useEffect(() => {
+    if (!playbackRateOptions.includes(playbackrate)) {
+      setSliderValue(playbackrate)
+      if (!usingCustomizedRate) setIsCustomized(2)
+    }
+  }, [playbackrate])
+
+  
 
   const chooseCustomizedRate = value => () => {
     videoControl.playbackrate(value)
-    if (!usingCustomizedRate) setIsCustomized(2)
-
     setTimeout(() => onClose(), 200);
   }
 
   const handleSliderChange = ({ target: {value} }) => {
-    setSliderValue(value)
     videoControl.playbackrate(value)
-
-    setIsCustomized(2)
   }
 
   const handleChooseRate = value => () => {
     videoControl.playbackrate(value)
-    
     setIsCustomized(isCustomized >= 2 ? 3 : 1)
     setTimeout(() => onClose(), 200);
   }

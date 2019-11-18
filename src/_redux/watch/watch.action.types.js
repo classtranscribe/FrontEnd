@@ -2,12 +2,19 @@
 export const SET_MEDIA = 'watch-set-media'
 export const SET_PLAYLIST = 'watch-set-playlist'
 export const SET_PLAYLISTS = 'watch-set-playlists'
-export const SET_TRANSCPTIONS = 'watch-set-transcriptions'
-export const SET_CURR_TRANS = 'watch-set-curr-trans'
-export const SET_CAPTIONS = 'watch-set-captions'
 export const SET_WATCH_HISTORY = 'watch-set-watch-history'
 export const SET_STARRED_OFFERINGS = 'watch-set-starred-offerings'
+
+// Transcription
+export const SET_TRANSCPTIONS = 'watch-set-transcriptions'
+export const SET_CURR_TRANS = 'watch-set-curr-trans'
+export const SET_TRANSCRIPT = 'watch-set-transcript'
+export const SET_CAPTIONS = 'watch-set-captions'
 export const SET_CURR_CAPTION = 'watch-set-curr-caption'
+export const SET_DESCRIPTION = 'watch-set-description'
+export const SET_CURR_DESCRIPTION = 'watch-set-curr-description'
+export const SET_OPENCC = 'watch-set-open-cc'
+export const SET_OPENAD = 'watch-set-open-ad'
 
 // Settings
 export const SET_MENU = 'watch-set-menu'
@@ -23,7 +30,6 @@ export const SET_MUTE = 'watch-set-mute'
 export const SET_PLAYBACKRATE = 'watch-set-playbackrate'
 export const SWITCH_SCREEN = 'watch-switch-screen'
 export const SET_FULLSCREEN = 'watch-set-fullscreen'
-export const SET_OPENCC = 'watch-set-open-cc'
 
 // CC Options
 export const CC_COLOR = 'watch-cc-color'

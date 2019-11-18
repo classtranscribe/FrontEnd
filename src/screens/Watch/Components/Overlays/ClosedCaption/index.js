@@ -8,11 +8,11 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
-  MENU_SETTING,
-  videoControl,
-  menuControl,
   transControl,
+  WEBVTT_SUBTITLES,
 } from '../../../Utils'
+
+let prevText = ''
 
 function ClosedCaptionWithRedux({
   openCC=false,
@@ -39,10 +39,12 @@ function ClosedCaptionWithRedux({
 
   const shouldDisplayCC = isPrimary && openCC && Boolean(currCaption && currCaption.id)
 
-  return shouldDisplayCC ? (
+  if (shouldDisplayCC && currCaption.kind === WEBVTT_SUBTITLES) prevText = currCaption.text
+  
+  return (shouldDisplayCC && prevText) ? (
     <div className="watch-cc-container" style={ccContainerStyle}>
       <div className="watch-cc-text" style={ccStyle}>
-        {currCaption.text}
+        {prevText}
       </div>
     </div>
   ) : null

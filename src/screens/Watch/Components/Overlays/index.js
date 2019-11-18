@@ -1,4 +1,5 @@
 export { TabEventHelperButtons  } from './TabEventHelperButtons'
 export { SecondaryPlayerWrapper } from './SecondaryPlayerWrapper'
+export { BigPlayButton          } from './BigPlayButton'
 export { ClosedCaption          } from './ClosedCaption'
 export { Prompts                } from './Prompts'

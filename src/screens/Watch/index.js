@@ -20,7 +20,14 @@ import './zIndex.css'
 // Vars
 import { watchStore, connectWithRedux } from '_redux/watch'
 import { api, util } from 'utils'
-import { keydownControl, transControl, promptControl, searchControl, videoControl } from './Utils'
+import { 
+  keydownControl, 
+  videoControl,
+  transControl, 
+  promptControl, 
+  searchControl,  
+  preferControl
+} from './Utils'
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
@@ -36,6 +43,7 @@ export class WatchWithRedux extends React.Component {
     this.initTransControl()
     this.initPromptControl()
     this.initSearchControl()
+    this.initPreferenceControl()
     /** GET userMetadata */
     this.getUserMetadata()
     /** GET media, playlist, and playlists */
@@ -48,11 +56,14 @@ export class WatchWithRedux extends React.Component {
 
   initTransControl = () => {
     const { 
-      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption, setCurrEditing,
+      setCurrTrans, setTranscriptions, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
+      setCurrEditing, setOpenCC, setOpenAD,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     } = this.props
+
     transControl.init({ 
-      setCurrTrans, setTranscriptions, setCaptions, setOpenCC, setCurrCaption, setCurrEditing,
+      setCurrTrans, setTranscriptions, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
+      setCurrEditing, setOpenCC, setOpenAD,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     })
   }
@@ -65,6 +76,10 @@ export class WatchWithRedux extends React.Component {
   initSearchControl = () => {
     const { setSearch } = this.props
     searchControl.init(setSearch)
+  }
+
+  initPreferenceControl = () => {
+    preferControl.init({})
   }
 
   addWindowResizeListener = () => {
@@ -163,7 +178,8 @@ export function Watch(props) {
     [
       'setMedia', 'setPlaylist', 'setPlaylists', 
       // transControl
-      'setCurrTrans', 'setTranscriptions', 'setCaptions', 'setOpenCC', 'setCurrCaption', 'setCurrEditing',
+      'setCurrTrans', 'setTranscriptions', 'setTranscript', 'setCaptions', 'setCurrCaption', 'setDescriptions', 'setCurrDescription',
+      'setCurrEditing', 'setOpenCC', 'setOpenAD',
       'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont',
       // promptControl
       'setPrompt',

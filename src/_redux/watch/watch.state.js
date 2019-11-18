@@ -1,3 +1,5 @@
+import { preferControl } from "../../screens/Watch/Utils"
+
 export const initialState = {
   // Basic metadata
   media: { 
@@ -13,10 +15,17 @@ export const initialState = {
   playlists: [],
   watchHistory: [],
   starredOfferings: [],
+
+  // Trans
   transcriptions: [],
   currTrans: {},
+  trascript: [],
   captions: [],
   currCaption: null,
+  descriptions: [],
+  currDescription: null,
+  openCC: preferControl.cc(),
+  openAD: preferControl.ad(),
 
   // screen options
   menu: "menu-hide",
@@ -26,13 +35,12 @@ export const initialState = {
   paused: true,
   volume: 1,
   muted: false,
-  playbackrate: 1.0,
+  playbackrate: preferControl.defaultPlaybackRate(),
   isSwitched: false,
   time: 0,
   duration: 0,
   bufferedTime: 0,
   isFullscreen: false,
-  openCC: false,
 
   // CC options
   cc_color: 'white',

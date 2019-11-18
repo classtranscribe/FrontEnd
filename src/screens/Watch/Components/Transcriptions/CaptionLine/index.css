@@ -29,6 +29,9 @@
 }
 
 /* Time */
+.caption-line-time-display {
+  margin-top: 3px;
+}
 .caption-line-time-display > span {
   margin-right: .5em;
   padding: .1em .3em;
@@ -147,3 +150,32 @@
   background: rgb(88, 88, 88);
 }
 
+
+/* Description */
+
+.watch-caption-line[kind=descriptions] {
+  border: 1px solid grey;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.description-line-text {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1.3em;
+}
+.watch-caption-line[kind=descriptions][current=true] {
+  background: rgba(209, 209, 209, 0.178);
+}
+.description-line-text-title {
+  font-size: 0.8em;
+  line-height: 2em;
+  color: var(--ct-text-white-hover);
+}
+.watch-caption-line[kind=descriptions] .caption-line-time-display:hover > span,
+.watch-caption-line[kind=descriptions] .caption-line-time-display:focus > span,
+.watch-caption-line[kind=descriptions][current=true] .caption-line-time-display span {
+  background: rgb(255, 213, 28);
+  border-color: rgb(255, 213, 28);
+}

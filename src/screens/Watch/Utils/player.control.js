@@ -1,8 +1,9 @@
 /**
  * Functions for controlling video players
  */
-import { transControl } from './trans.control'
 import { NORMAL_MODE, PS_MODE, NESTED_MODE } from './constants.util'
+import { transControl } from './trans.control'
+import { preferControl } from './preference.control'
 
 export const videoControl = {
   videoNode1: null,
@@ -140,11 +141,12 @@ export const videoControl = {
 
     const { setPlaybackrate } = this.externalFunctions
     if (setPlaybackrate) setPlaybackrate(playbackRate)
+    preferControl.defaultPlaybackRate(playbackRate)
   },
   playbackRateIncrement: function() {
     if (!this.videoNode1) return;
     let currPlaybackRate = this.videoNode1.playbackRate
-    if (currPlaybackRate + 0.25 <= 2) this.playbackrate( currPlaybackRate + 0.25 )
+    if (currPlaybackRate + 0.25 <= 4) this.playbackrate( currPlaybackRate + 0.25 )
   },
   playbackRateDecrease: function() {
     if (!this.videoNode1) return;
@@ -183,7 +185,7 @@ export const videoControl = {
       // setTime(currentTime)
       // this.lastTime = currentTime
 
-      transControl.updateCaption(currentTime)
+      transControl.updateTranscript(currentTime)
       this.lastUpdateCaptionTime = currentTime
     } 
   },

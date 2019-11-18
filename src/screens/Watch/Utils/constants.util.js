@@ -13,7 +13,6 @@ export const THEATRE_MODE = 'theatre-mode'
 export const PS_MODE = 'ps-mode'
 export const EQUAL_MODE = 'equal-mode'
 export const NESTED_MODE = 'nested-mode'
-
 export const screenModes = [
   { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
   { type: PS_MODE, name: 'Distributed View', icon: 'view_carousel' },
@@ -53,6 +52,10 @@ export const langMap = {
 export const WEBVTT_SUBTITLES = 'subtitles'
 export const WEBVTT_DESCRIPTIONS = 'descriptions'
 export const WEBVTT_CHAPTERS = 'chapters'
+
+// Transcription View
+export const LINE_VIEW = 'watch-trans-line-view'
+export const TRANSCRIPT_VIEW = 'watch-trans-transcript-view'
 
 // Caption Search Options
 export const SEARCH_IN_COURSE = 'search-in-course'
@@ -108,3 +111,9 @@ export const CC_POSITION_TOP = 'top'
 export const CC_POSITION_BOTTOM = 'bottom'
 export const CC_POSITION_UNDER = 'under video'
 export const cc_positionOptions = [ CC_POSITION_TOP, CC_POSITION_BOTTOM, CC_POSITION_UNDER ]
+
+export const PROFANITY_LIST = [ 
+  'homo','gay','slut','damn','ass','poop','cock','lol','crap','sex','noob','nazi','neo-nazi','fuck','fucked',
+  'bitch','pussy','penis','vagina','whore','shit','nigger','nigga','cocksucker','assrape','motherfucker',
+  'wanker','cunt','faggot','fags','asshole',
+]

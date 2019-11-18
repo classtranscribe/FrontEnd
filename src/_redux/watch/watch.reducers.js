@@ -2,12 +2,18 @@ import {
   SET_MEDIA,
   SET_PLAYLIST,
   SET_PLAYLISTS,
-  SET_CURR_TRANS,
-  SET_TRANSCPTIONS,
-  SET_CAPTIONS,
   SET_WATCH_HISTORY,
   SET_STARRED_OFFERINGS,
+  // Trans
+  SET_TRANSCPTIONS,
+  SET_CURR_TRANS,
+  SET_TRANSCRIPT,
+  SET_CAPTIONS,
   SET_CURR_CAPTION,
+  SET_DESCRIPTION,
+  SET_CURR_DESCRIPTION,
+  SET_OPENCC,
+  SET_OPENAD,
   // Screen Options
   SET_MENU,
   SET_MODE,
@@ -21,7 +27,6 @@ import {
   SET_BUFFERED_TIME,
   SET_DURATION,
   SET_FULLSCREEN,
-  SET_OPENCC,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -48,12 +53,19 @@ const watchReducer = (
     case SET_MEDIA              : return { ...state, media: value}
     case SET_PLAYLIST           : return { ...state, playlist: value }
     case SET_PLAYLISTS          : return { ...state, playlists: value }
-    case SET_TRANSCPTIONS       : return { ...state, transcriptions: value }
-    case SET_CURR_TRANS         : return { ...state, currTrans: value }
-    case SET_CAPTIONS           : return { ...state, captions: value }
-    case SET_CURR_CAPTION       : return { ...state, currCaption: value }
     case SET_WATCH_HISTORY      : return { ...state, watchHistory: value }
     case SET_STARRED_OFFERINGS  : return { ...state, starredOfferings: value }
+
+    // Transcription
+    case SET_TRANSCPTIONS       : return { ...state, transcriptions: value }
+    case SET_CURR_TRANS         : return { ...state, currTrans: value }
+    case SET_TRANSCRIPT         : return { ...state, transcript: value }
+    case SET_CAPTIONS           : return { ...state, captions: value }
+    case SET_CURR_CAPTION       : return { ...state, currCaption: value }
+    case SET_DESCRIPTION        : return { ...state, descriptions: value }
+    case SET_CURR_DESCRIPTION   : return { ...state, currDescription: value }
+    case SET_OPENCC             : return { ...state, openCC: value }
+    case SET_OPENAD             : return { ...state, openAD: value }
 
     // Settings
     case SET_MENU               : return { ...state, menu: value }
@@ -69,7 +81,6 @@ const watchReducer = (
     case SET_MUTE               : return { ...state, muted: value }
     case SWITCH_SCREEN          : return { ...state, isSwitched: value }
     case SET_FULLSCREEN         : return { ...state, isFullscreen: value }
-    case SET_OPENCC             : return { ...state, openCC: value }
 
     // CC Options
     case CC_COLOR               : return { ...state, cc_color: value }

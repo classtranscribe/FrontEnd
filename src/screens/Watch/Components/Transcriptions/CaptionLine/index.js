@@ -6,7 +6,8 @@ import {
   videoControl,
   timeStrToSec,
   prettierTimeStr,
-  autoSize
+  autoSize,
+  WEBVTT_DESCRIPTIONS
 } from '../../../Utils'
 import './index.css'
 
@@ -17,8 +18,7 @@ function CaptionLine({
   caption={},
 }) {
 
-  const { text='', id, begin, index } = caption
-  const [value, setValue] = useState(text)
+  const { text='', id, begin, index, kind } = caption
   const ref = useRef()
 
   const handleSeek = () => {
@@ -27,18 +27,18 @@ function CaptionLine({
   }
 
   const handleChange = ({ target }) => {
-    setValue(target.value)
     transControl.handleChange(target.value)
     // console.log(target.value)
   }
 
   const handleFocus = e => {
-    transControl.editCaption(caption)
+    transControl.edit(caption)
     autoSize(ref.current)
   }
 
   const handleBlur = () => {
     transControl.handleBlur()
+    transControl.edit(null)
   }
 
   const handleSave = () => {
@@ -65,6 +65,7 @@ function CaptionLine({
       current={isCurrent.toString()}
       editing={isEditing.toString()}
       hide={shouldHide.toString()}
+      kind={kind}
     >
       <div className="caption-line-content">
         <Popup inverted wide basic
@@ -80,21 +81,37 @@ function CaptionLine({
             >
               <span tabIndex="-1">{timeStr}</span>
             </button>
-          }
-        />
-        <textarea   
-          ref={ref}
-          rows='2'
-          id={`caption-line-textarea-${id}`}
-          className="caption-line-text"
-          aria-label={`(${index}) Edit caption at ${timeStr}`} 
-          spellCheck={false}
-          defaultValue={text} 
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
+          }/>
+
+        {
+          kind === WEBVTT_DESCRIPTIONS ?
+          <div className="description-line-text">
+            {text}<br/>
+            <span className="description-line-text-title">(Description)</span>
+          </div>
+          :
+          <Popup inverted wide basic
+            position="top center"
+            openOnTriggerClick={false}
+            openOnTriggerFocus
+            closeOnTriggerBlur
+            content={isEditing ? 'Hit return to save changes.' : 'Click to modify this caption!'}
+            trigger={
+              <textarea   
+                ref={ref}
+                rows='2'
+                id={`caption-line-textarea-${id}`}
+                className="caption-line-text"
+                aria-label={`(${index}) Edit caption at ${timeStr}`} 
+                spellCheck={false}
+                defaultValue={text} 
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+            }/>
+        }
       </div>
       <div className="caption-line-btns">
         <button 

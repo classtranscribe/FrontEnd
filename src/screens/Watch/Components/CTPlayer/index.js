@@ -6,10 +6,7 @@ import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import './playerModes.css'
-import {
-  SecondaryPlayerWrapper,
-  ClosedCaption,
-} from '../Overlays'
+import PlayerWrapper from './PlayerWrapper'
 // Vars
 import { util } from 'utils'
 import { 
@@ -99,9 +96,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           className={`ct-video-row ${player1Position}`} 
           mode={mode} 
         >
-          <SecondaryPlayerWrapper isPrimary={!isSwitched} />
           <div className="ct-video-contrainer">
-            <ClosedCaption isPrimary={!isSwitched} />
+            <PlayerWrapper isPrimary={!isSwitched} />
             <video
               className="ct-video"
               id="ct-video-1"
@@ -110,26 +106,12 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onTimeUpdate={this.onTimeUpdate}
               onProgress={this.onProgress}
               onCanPlay={this.onCanPlay}
-              onClick={this.handlePause(player1Position)}
             >
               {
                 Boolean(srcPath1) 
                 && 
                 <source src={srcPath1} type="video/mp4"/>
               }
-              {/* {
-                transcriptions.map( trans => (
-                  <track 
-                    className="watch-caption-track"
-                    key={trans.language}
-                    id={trans.language}
-                    src={trans.src} 
-                    kind="subtitles"
-                    label={trans.language}
-                    srcLang={trans.language}
-                  />
-                ))
-              } */}
             </video>
           </div>
         </div>
@@ -140,15 +122,13 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
             className={`ct-video-row ${player2Position}`} 
             mode={mode}
           >
-            <SecondaryPlayerWrapper isPrimary={isSwitched} />
             <div className="ct-video-contrainer">
-              <ClosedCaption isPrimary={isSwitched} />
+              <PlayerWrapper isPrimary={isSwitched} />
               <video muted
                 className="ct-video"
                 id="ct-video-2"
                 ref={node => this.videoNode2 = node}
                 onCanPlay={this.onCanPlay}
-                onClick={this.handlePause(player2Position)}
               >
                 {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
               </video>

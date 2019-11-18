@@ -2,11 +2,18 @@ import {
   SET_MEDIA,
   SET_PLAYLIST,
   SET_PLAYLISTS,
-  SET_TRANSCPTIONS,
   SET_CAPTIONS,
   SET_WATCH_HISTORY,
   SET_STARRED_OFFERINGS,
+  // Trans
+  SET_TRANSCPTIONS,
+  SET_CURR_TRANS,
+  SET_TRANSCRIPT,
   SET_CURR_CAPTION,
+  SET_DESCRIPTION,
+  SET_CURR_DESCRIPTION,
+  SET_OPENCC,
+  SET_OPENAD,
   // Screen Options
   SET_MENU,
   SET_MODE,
@@ -18,10 +25,8 @@ import {
   SET_VOLUME,
   SET_MUTE,
   SET_PLAYBACKRATE,
-  SET_CURR_TRANS,
   SWITCH_SCREEN,
   SET_FULLSCREEN,
-  SET_OPENCC,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -40,12 +45,19 @@ import {
 export const setMedia             = value => ({ type: SET_MEDIA, value })
 export const setPlaylist          = value => ({ type: SET_PLAYLIST, value })
 export const setPlaylists         = value => ({ type: SET_PLAYLISTS, value })
-export const setTranscriptions    = value => ({ type: SET_TRANSCPTIONS, value })
-export const setCurrTrans         = value => ({ type: SET_CURR_TRANS, value })
-export const setCaptions          = value => ({ type: SET_CAPTIONS, value })
-export const setCurrCaption       = value => ({ type: SET_CURR_CAPTION, value })
 export const setWatchHistory      = value => ({ type: SET_WATCH_HISTORY, value })
 export const setStarredOfferings  = value => ({ type: SET_STARRED_OFFERINGS, value })
+
+// Transcription
+export const setTranscriptions    = value => ({ type: SET_TRANSCPTIONS, value })
+export const setCurrTrans         = value => ({ type: SET_CURR_TRANS, value })
+export const setTranscript        = value => ({ type: SET_TRANSCRIPT, value })
+export const setCaptions          = value => ({ type: SET_CAPTIONS, value })
+export const setCurrCaption       = value => ({ type: SET_CURR_CAPTION, value })
+export const setDescriptions      = value => ({ type: SET_DESCRIPTION, value })
+export const setCurrDescription   = value => ({ type: SET_CURR_DESCRIPTION, value })
+export const setOpenCC            = value => ({ type: SET_OPENCC, value })
+export const setOpenAD            = value => ({ type: SET_OPENAD, value })
 
 // Settings
 export const setMenu              = value => ({ type: SET_MENU, value })
@@ -61,7 +73,6 @@ export const setMute              = value => ({ type: SET_MUTE, value })
 export const setPause             = value => ({ type: SET_PAUSE, value })
 export const switchScreen         = value => ({ type: SWITCH_SCREEN, value })
 export const setFullscreen        = value => ({ type: SET_FULLSCREEN, value })
-export const setOpenCC            = value => ({ type: SET_OPENCC, value })
 
 // CC Options
 export const cc_setColor          = value => ({ type: CC_COLOR, value })

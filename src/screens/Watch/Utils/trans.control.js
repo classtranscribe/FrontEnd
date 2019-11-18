@@ -1,9 +1,10 @@
 import $ from 'jquery'
 import _ from 'lodash'
 import { api } from 'utils'
-import { timeStrToSec, colorMap, autoSize, autoSizeAllTextAreas } from './helpers'
+import { timeStrToSec, colorMap, autoSize, /* autoSizeAllTextAreas */ } from './helpers'
 import { videoControl } from './player.control'
 import { promptControl } from './prompt.control'
+import { preferControl } from './preference.control'
 import { 
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -15,6 +16,8 @@ import {
   WEBVTT_SUBTITLES,
   WEBVTT_DESCRIPTIONS,
   ENGLISH,
+  ARRAY_EMPTY,
+  PROFANITY_LIST,
 } from './constants.util'
 import { adSample } from './sampleData'
 
@@ -26,21 +29,10 @@ export const transControl = {
   externalFunctions: {},
 
   /**
-   * 
-   * @param {Object} externalFunctions 
-   *                  the redux functions to register
-   * @param {Function} externalFunctions.setTranscriptions  
-   *                  set state function for transcriprions
-   * @param {Function} externalFunctions.setCurrTrans  
-   *                  set state function for current transcriprion
-   * @param {Function} externalFunctions.setCaptions  
-   *                  set state function for captions
-   * @param {Function} externalFunctions.setOpenCC  
-   *                  set state function for open or close cc
-   * @param {Function} externalFunctions.setCurrCaption
-   *                  set state funciton for current closed 
-   * 
-   * @param {Function} setCurrEditing, cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
+   * @param {Function} 
+   * setTranscriptions, setCurrTrans, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
+   * setOpenCC, setCurrEditing
+   * cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
    */
   init: function(externalFunctions) {
     // console.log('externalFunctions', externalFunctions)
@@ -88,86 +80,165 @@ export const transControl = {
 
     // Get and set corresponding captions
     let { data=[] } = await api.getCaptionsByTranscriptionId(tran.id)
-    let descriptions = []//await this.audioDescriptions()
-    let captions = this.mergeCaptions(data, descriptions, WEBVTT_DESCRIPTIONS)
-    if (captions.length === 0) captions = ['empty']
-    this.captions(captions)
+    this.captions(data)
+    let descriptions = adSample // need to modify
+    this.descriptions(descriptions)
+    let transcript = this.unionTranscript(this.captions(), this.descriptions())
+    if (transcript.length === 0) transcript = ARRAY_EMPTY
+    this.transcript(transcript)
   },
+
+  /**
+   * Descriptions
+   * Action handlers for descriptions
+   * **************************************************************************************************
+   */
+  descriptions_: [],
+  currDescription_: {},
+  prevDescription_: null,
+
+  /**
+   * Function called for get or set audio descriptions
+   * @todo how??
+   */
+  descriptions: function(des) {
+    if (des === undefined) return this.descriptions_
+    des = _.map(des, d => ({...d, kind: WEBVTT_DESCRIPTIONS}))
+
+    const { setDescriptions } = this.externalFunctions
+    if (setDescriptions) {
+      if (des.length === 0) des = ARRAY_EMPTY
+      setDescriptions(des)
+      this.descriptions_ = des
+    }
+  },
+
+  findDescription: function(now) {
+    let next = this.findCurrent(this.descriptions_, this.prevDescription_, now)
+    this.prevDescription_ = next
+    return next
+  },
+  /**
+   * Function called for setting current description
+   */
+  updateDescription: function(desciption) {
+    const { setCurrDescription } = this.externalFunctions
+    if (setCurrDescription) {
+      setCurrDescription(desciption)
+      this.currDescription_ = desciption
+    }
+  },
+
+  /**
+   * Captions
+   * Action handlers for captions
+   * **************************************************************************************************
+   */
+  captions_: [],
+  // caption of current time
+  currCaption_: {},
+  // the preverious
+  prevCaption_: null,
 
   /**
    * Function called for setting captions array
    */
   captions: function(cap) {
     if (cap === undefined) return this.captions_
-    
-    const { setCaptions, setCurrCaption } = this.externalFunctions
+    cap = _.map(cap, c => ({...c, kind: WEBVTT_SUBTITLES}))
+    const { setCaptions } = this.externalFunctions
     if (setCaptions) {
+      if (cap.length === 0) cap = ARRAY_EMPTY
       this.captions_ = cap
       setCaptions(cap)
-      this.lastCaption = null
-      // console.log('captions', newCaptions)
-      // autoSizeAllTextAreas(500)
-      this.currCaption_ = cap[0] || null
-      setCurrCaption(this.currCaption_)
+      this.prevCaption_ = null
     }
   },
 
   /**
-   * @todo get array by vtt path
+   * Function Used to find the caption based on current time
    */
-  audioDescriptions: async function(path) {
-    return adSample
+  findCaption: function(now) {
+    let next = this.findCurrent(this.captions_, this.prevCaption_, now)
+    this.prevCaption_ = next
+    return next
   },
 
-
-  /**
-   * Captions
-   * Action handlers for captions
-   */
-  captions_: [],
-  // caption of current time
-  currCaption_: {},
-  // caption that is being edited
-  editingCaption_: {},
-  isEditing: false,
-  editText: '',
-  // is true when mouse over that trans box
-  isMourseOverTrans: false,
   /**
    * Function used to update the current caption
    */
-  updateCaption: function(now) {
+  updateCaption: function(currCaption) {
     // if (!this.openCC_) return null;
     const { setCurrCaption } = this.externalFunctions
-    const currCaption = this.findCaption(now) || null
     // console.log('currCaption', currCaption.begin, currCaption.text)
     if (Boolean(currCaption) && Boolean(setCurrCaption)) {
-      this.currCaption_ = currCaption
       setCurrCaption(currCaption)
-      this.scrollTransToView(currCaption.id)
-      this.autoSizeTextAreaByCaptionId(currCaption.id)
+      this.currCaption_ = currCaption
+      if (currCaption) this.autoSizeTextAreaByCaptionId(currCaption.id)
     }
   },
 
   /**
-   * Function called when editing caption
+   * Transcript
+   * Action handlers for transcript
+   * **************************************************************************************************
    */
-  editCaption: function(caption) {
+  // 
+  transcript_: [],
+  currTranscript_: {},
+  // item that is being edited
+  currEditing_: {},
+  isEditing: false,
+  editText: '',
+  // true if mouse over trans box
+  isMourseOverTrans: false,
+
+  transcript: function(transcript_) {
+    const { setTranscript, setCurrCaption } = this.externalFunctions
+    this.transcript_ = transcript_
+    if (setTranscript) setTranscript(transcript_)
+    this.currCaption_ = transcript_[0] || null
+    setCurrCaption(this.currCaption_)
+  },
+
+  updateTranscript: function(now) {
+    let next = this.findCurrent(this.transcript_, this.prevCaption_, now)
+    if (next && next.id) {
+      if (next.kind === WEBVTT_DESCRIPTIONS) {
+        this.updateDescription(next)
+        if (preferControl.pauseWhileAD() && this.prevCaption_ !== next) videoControl.pause()
+      } 
+      this.prevCaption_ = next
+      this.updateCaption(next)
+      if (preferControl.autoScroll()) this.scrollTransToView(next.id)
+    }
+  },
+
+  /**
+   * Function called when editing selected caption
+   */
+  edit: function(caption) {
     // if no param caption, edit current caption
     if (caption === undefined) caption = this.currCaption_
     const { setCurrEditing } = this.externalFunctions
     this.isEditing = Boolean(caption)
     if (setCurrEditing) {
       setCurrEditing(caption)
-      this.editingCaption_ = caption
+      this.currEditing_ = caption
       if (Boolean(caption)) this.editText = caption.text
     }
   },
-  editCurrentCaption: function() {
+  /**
+   * Function called for editing current caption
+   */
+  editCurrent: function() {
     let id = this.currCaption_.id
     $(`#caption-line-textarea-${id}`).focus()
   },
 
+  /**
+   * Functon called for input change as editing captions
+   */
   handleChange: function(text) {
     this.editText = text
   },
@@ -178,17 +249,20 @@ export const transControl = {
   saveEdition: async function() {
     const { setCurrEditing } = this.externalFunctions
     let text = this.editText
-    if (!Boolean(text) || this.editingCaption_.text === text) {
+    /**
+     * @todo check PROFANITY_LIST
+     */
+    if (!Boolean(text) || this.currEditing_.text === text) {
       this.editText = ''
       promptControl.closePrompt()
-      return this.editCaption(null)
+      return this.edit(null)
     }
     promptControl.savingCaption()
     this.isEditing = false
 
     if (setCurrEditing) {
-      const { id } = this.editingCaption_
-      this.editingCaption_.text = text
+      const { id } = this.currEditing_
+      this.currEditing_.text = text
       setCurrEditing(null)
       try {
         await api.updateCaptionLine({ id, text })
@@ -202,9 +276,16 @@ export const transControl = {
     }
   },
 
+  /**
+   * Function called when mouse over the transcription area
+   * To prevent scrolling
+   */
   handleMourseOver: function(bool) {
     this.isMourseOverTrans = bool
   },
+  /**
+   * Function called when blurring on current editing caption
+   */
   handleBlur: function() {
     this.isEditing = false
   },
@@ -241,20 +322,34 @@ export const transControl = {
   },
 
   // Close or open CC
-  openCC_: false,
+  openCC_: preferControl.cc(),
   closedCaption: function(bool) {
     const { setOpenCC } = this.externalFunctions
     if (setOpenCC) {
       setOpenCC(bool)
       this.openCC_ = bool
+      preferControl.cc(bool)
     }
   },
   handleOpenCC: function() {
     this.closedCaption( !this.openCC_ )
   },
 
-  
+  // Close or open AD
+  openAD_: preferControl.ad(),
+  audioDescription: function(bool) {
+    const { setOpenAD } = this.externalFunctions
+    if (setOpenAD) {
+      setOpenAD(bool)
+      this.openAD_ = bool
+      preferControl.ad(bool)
+    }
+  },
+  handleOpenAD: function() {
+    this.audioDescription( !this.openAD_ )
+  },
 
+  
 
 
   /**
@@ -366,43 +461,17 @@ export const transControl = {
    */
 
   /**
-   * Function used to merge two caption arrays 
+   * Function used to union two caption arrays 
    * Merging is based on the { begin, end } of each entry in the arrays
    */
-  mergeCaptions: function(oldCaptions, mergeCaptions, kind=WEBVTT_SUBTITLES) {
-    if (!oldCaptions) oldCaptions = this.captions_ || []
-    const mergeLen = mergeCaptions.length
-    const oldLen = oldCaptions.length
-    const newLen = mergeLen + oldLen
-    const newCaptions = []
-    let newIndex = 0
-    let oldIndex = 0
-    let mergeIndex = 0
-    while (newIndex < newLen) {
-      let item = {}
-      if (oldIndex < oldLen) {
-        item = oldCaptions[oldIndex]
-        oldIndex += 1
-        if (mergeIndex < mergeLen) {
-          let currMergeItem = mergeCaptions[mergeIndex]
-          if (item.begin > currMergeItem.begin) {
-            currMergeItem.kind = kind
-            item = currMergeItem
-            oldIndex -= 1
-            mergeIndex += 1
-          }
-        }
-      } else if (mergeIndex < mergeLen) {
-        item = mergeCaptions[mergeIndex]
-        item.kind = kind
-        mergeIndex += 1
-      }
-
-      newCaptions.push(item)
-      newIndex += 1
-    }
-    
-    return newCaptions
+  unionTranscript: function(captions, source) {
+    if (captions === ARRAY_EMPTY) captions = []
+    if (source === ARRAY_EMPTY) source = []
+    let union = _.concat(captions, source)
+    console.error(union)
+    union = _.sortBy(union, item => timeStrToSec(item.begin))
+    union = _.map(union, (item, index) => ({...item, index}))
+    return union
   },
 
   /**
@@ -413,55 +482,53 @@ export const transControl = {
     return _.find(transcriptions, { language })
   },
 
-  lastCaption: null,
   /**
-   * Function Used to find the caption based on current time
+   * Find item based on current time
    */
-  findCaption: function(now) {
-    let captions = this.captions_
-    let lastCaption = this.lastCaption
-    let nextCaption = lastCaption
-
-    const isCurrCaption = cap => {
-      let end = timeStrToSec(cap.end)
-      let begin =  timeStrToSec(cap.begin)
-      return begin <= now && now <= end && cap.kind === undefined // aka is subtitles
+  findCurrent: function(array=[], prev={}, now=0) {
+    let next = prev
+    const isCurrent = item => {
+      if (!item) return false
+      let end = timeStrToSec(item.end)
+      let begin =  timeStrToSec(item.begin)
+      let deter = item.kind === WEBVTT_SUBTITLES || !prev 
+                || item.kind !== prev.kind
+                || (item.kind === WEBVTT_DESCRIPTIONS && item !== prev)
+      return begin <= now && now <= end && deter
     }
+
+    // if (isCurrent(prev)) {
+    //   next = prev
+    // }
 
     // if it's the first time to find captions
-    if (!lastCaption) {
-      nextCaption = _.find(
-        captions, 
-        isCurrCaption
+    if (!prev) {
+      next = _.find(
+        array, 
+        isCurrent
       ) || null
 
-    // if looking for caption that is prior to the current one
-    } else if (now < timeStrToSec(lastCaption.begin)) {
-      nextCaption = _.findLast(
-        captions, 
-        isCurrCaption,
-        // cap => {
-        //   let end = timeStrToSec(cap.end)
-        //   return now <= end
-        // }, 
-        lastCaption.index
-      ) || lastCaption
-
     // if looking for caption that is after the current one
-    } else if (now > timeStrToSec(lastCaption.end)) {
-      nextCaption = _.find(
-        captions, 
-        isCurrCaption,
-        // cap => {
-        //   let begin =  timeStrToSec(cap.begin)
-        //   return begin <= now
-        // }, 
-        lastCaption.index
-      ) || lastCaption
+    } else if (now > timeStrToSec(prev.begin)) {
+      next = _.find(
+        array, 
+        isCurrent,
+        prev.index + 1
+      ) || prev
+
+    // if looking for caption that is prior to the current one
+    } else if (now < timeStrToSec(prev.end)) {
+      next = _.findLast(
+        array, 
+        isCurrent,
+        prev.index - 1
+      ) || prev
     }
 
-    this.lastCaption = nextCaption
-    return nextCaption
+    if (next) this.prev = next
+    if (next) console.error(next.kind)
+    else console.error('null')
+    return next
   },
 
   autoSizeTextAreaByCaptionId: function(id) {

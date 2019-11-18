@@ -89,7 +89,7 @@ export const keydownControl = {
       case 69:
           e.preventDefault()
           promptControl.editCaptionUsingKeyboard()
-          return transControl.editCurrentCaption()
+          return transControl.editCurrent()
       // `f` - enter full screen
       case 70:
         return videoControl.handleFullScreen()
