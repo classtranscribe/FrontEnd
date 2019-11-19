@@ -19,7 +19,7 @@ export const initialState = {
   // Trans
   transcriptions: [],
   currTrans: {},
-  trascript: [],
+  transcript: [],
   captions: [],
   currCaption: null,
   descriptions: [],
@@ -30,6 +30,7 @@ export const initialState = {
   // screen options
   menu: "menu-hide",
   mode: "normal-mode",
+  transView: preferControl.defaultTransView(),
 
   // Video player options
   paused: true,

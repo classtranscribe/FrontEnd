@@ -52,18 +52,18 @@
 .watch-ctrl-button[position=bottom] .watch-btn-content,
 .watch-ctrl-button[position=bottom] .watch-btn-playbackrate-content {
   border-bottom: 2px transparent solid;
-  transition: var(--ct-transition-all);
+  /* transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
-  -webkit-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all); */
 }
 .watch-ctrl-button[position=top] .watch-btn-content,
 .watch-ctrl-button[position=top] .watch-btn-playbackrate-content {
   border-top: 2px transparent solid;
-  transition: var(--ct-transition-all);
+  /* transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
-  -webkit-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all); */
 }
 .watch-ctrl-button[colored=true] {
   color: var(--ct-green-active);

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import {
-  transControl
+  transControl, 
+  NORMAL_MODE, LINE_VIEW
 } from '../../Utils'
 import './index.css'
+import { TransCtrlButtons } from '../Overlays'
 import CaptionLine from './CaptionLine'
+import TranscriptText from './TranscriptText'
 import PlaceHolder from './PlaceHolder'
 
 function TranscriptionsWithRedux({
   transcript=[],
   currCaption={},
-  currDescription={},
+  mode=NORMAL_MODE,
+  transView=LINE_VIEW,
   currEditing=null,
 }) {
 
@@ -36,28 +40,39 @@ function TranscriptionsWithRedux({
       id="watch-trans-container" 
       className="watch-trans-container"
     >
+      <TransCtrlButtons />
       <div 
-        className="trans-list-box"
+        className="trans-box" mode={mode}
         onMouseEnter={handleMourseOver(true)}
         onMouseLeave={handleMourseOver(false)}
       >
-        <div className="trans-list">
-          {
-            loadingtranscript ? 
-            <PlaceHolder />
-            :
-            transcript.map( (caption, index) => (
+        {
+          loadingtranscript ? 
+          <PlaceHolder />
+          :
+          transView === LINE_VIEW ?
+          <div className="trans-list">
+            {transcript.map( (caption, index) => (
               <CaptionLine
                 key={caption.id}
                 caption={caption}
                 isCurrent={isCurrent(caption.id)}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
-                captionIndex={index}
                 shouldHide={Boolean(currCaption) && (index - currCaption.index > 50)}
               />
-            ))
-          }
-        </div>
+            ))}
+          </div>
+          :
+          <div className="trans-article">
+            {transcript.map( (caption, index) => (
+              <TranscriptText
+                key={caption.id}
+                caption={caption}
+                isCurrent={isCurrent(caption.id)}
+              />
+            ))}
+          </div>
+        }
         {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
       </div>
     </div>
@@ -66,6 +81,6 @@ function TranscriptionsWithRedux({
 
 export const Transcriptions = connectWithRedux(
   TranscriptionsWithRedux,
-  ['transcript', 'currCaption', 'currDescription', 'currEditing'],
+  ['transcript', 'currCaption', 'currEditing', 'mode', 'transView'],
   []
 )

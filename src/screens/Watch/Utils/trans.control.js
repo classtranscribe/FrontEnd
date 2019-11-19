@@ -18,6 +18,8 @@ import {
   ENGLISH,
   ARRAY_EMPTY,
   PROFANITY_LIST,
+  TRANSCRIPT_VIEW,
+  LINE_VIEW,
 } from './constants.util'
 import { adSample } from './sampleData'
 
@@ -31,7 +33,7 @@ export const transControl = {
   /**
    * @param {Function} 
    * setTranscriptions, setCurrTrans, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
-   * setOpenCC, setCurrEditing
+   * setOpenCC, setCurrEditing, setOpenAD, setTransView
    * cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
    */
   init: function(externalFunctions) {
@@ -295,12 +297,15 @@ export const transControl = {
    */
   scrollTransToView: function(id) {
     if (this.isMourseOverTrans || this.isEditing) return;
+    if (id === undefined && Boolean(this.currTrans_)) id = this.currTrans_.id
+    if (!id) return;
     let capElem = document.getElementById(`caption-line-${id}`)
     let tranBox = document.getElementById('watch-trans-container')
     if (capElem) {
       capElem.classList.add('curr-line')
       let isTwoScreen = videoControl.isTwoScreen()
       let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
+      // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
       tranBox.scrollTop = scrollTop
     }
   },
@@ -349,6 +354,21 @@ export const transControl = {
     this.audioDescription( !this.openAD_ )
   },
 
+  // Switch trancript view
+  transView: function(view) {
+    const { setTransView } = this.externalFunctions
+    if (setTransView) {
+      setTransView(view)
+      preferControl.defaultTransView(view)
+    }
+  },
+  handleTransViewSwitch: function() {
+    if (preferControl.defaultTransView() === LINE_VIEW) {
+      this.transView(TRANSCRIPT_VIEW)
+    } else {
+      this.transView(LINE_VIEW)
+    }
+  },
   
 
 
@@ -468,7 +488,7 @@ export const transControl = {
     if (captions === ARRAY_EMPTY) captions = []
     if (source === ARRAY_EMPTY) source = []
     let union = _.concat(captions, source)
-    console.error(union)
+    // console.error(union)
     union = _.sortBy(union, item => timeStrToSec(item.begin))
     union = _.map(union, (item, index) => ({...item, index}))
     return union
@@ -526,8 +546,8 @@ export const transControl = {
     }
 
     if (next) this.prev = next
-    if (next) console.error(next.kind)
-    else console.error('null')
+    // if (next) console.error(next.kind)
+    // else console.error('null')
     return next
   },
 

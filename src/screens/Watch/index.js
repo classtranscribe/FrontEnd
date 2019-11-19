@@ -57,13 +57,13 @@ export class WatchWithRedux extends React.Component {
   initTransControl = () => {
     const { 
       setCurrTrans, setTranscriptions, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
-      setCurrEditing, setOpenCC, setOpenAD,
+      setCurrEditing, setOpenCC, setOpenAD, setTransView,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     } = this.props
 
     transControl.init({ 
       setCurrTrans, setTranscriptions, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
-      setCurrEditing, setOpenCC, setOpenAD,
+      setCurrEditing, setOpenCC, setOpenAD, setTransView,
       cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
     })
   }
@@ -159,9 +159,9 @@ export class WatchWithRedux extends React.Component {
         <h1 className="accessbility_hide">Watch Page</h1>
         <TabEventHelperButtons />
         <WatchHeader />
+        <Menus />
         <ClassTranscribePlayer />
         <Transcriptions />
-        <Menus />
         <ControlBar />
         <Prompts />
       </main>
@@ -179,7 +179,7 @@ export function Watch(props) {
       'setMedia', 'setPlaylist', 'setPlaylists', 
       // transControl
       'setCurrTrans', 'setTranscriptions', 'setTranscript', 'setCaptions', 'setCurrCaption', 'setDescriptions', 'setCurrDescription',
-      'setCurrEditing', 'setOpenCC', 'setOpenAD',
+      'setCurrEditing', 'setOpenCC', 'setOpenAD', 'setTransView',
       'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont',
       // promptControl
       'setPrompt',

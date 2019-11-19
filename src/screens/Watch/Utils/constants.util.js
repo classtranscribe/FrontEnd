@@ -54,8 +54,8 @@ export const WEBVTT_DESCRIPTIONS = 'descriptions'
 export const WEBVTT_CHAPTERS = 'chapters'
 
 // Transcription View
-export const LINE_VIEW = 'watch-trans-line-view'
-export const TRANSCRIPT_VIEW = 'watch-trans-transcript-view'
+export const LINE_VIEW = 'Caption Line View'
+export const TRANSCRIPT_VIEW = 'Transcript View'
 
 // Caption Search Options
 export const SEARCH_IN_COURSE = 'search-in-course'

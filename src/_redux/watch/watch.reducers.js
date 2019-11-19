@@ -17,6 +17,7 @@ import {
   // Screen Options
   SET_MENU,
   SET_MODE,
+  SET_TRANS_VIEW,
   // Player Options
   SET_PAUSE,
   SET_TIME,
@@ -70,6 +71,7 @@ const watchReducer = (
     // Settings
     case SET_MENU               : return { ...state, menu: value }
     case SET_MODE               : return { ...state, mode: value }
+    case SET_TRANS_VIEW         : return { ...state, transView: value }
 
     // Players
     case SET_PAUSE              : return { ...state, paused: value }

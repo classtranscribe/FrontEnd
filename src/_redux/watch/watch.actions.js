@@ -17,6 +17,7 @@ import {
   // Screen Options
   SET_MENU,
   SET_MODE,
+  SET_TRANS_VIEW,
   // Player Options
   SET_PAUSE,
   SET_TIME,
@@ -62,6 +63,7 @@ export const setOpenAD            = value => ({ type: SET_OPENAD, value })
 // Settings
 export const setMenu              = value => ({ type: SET_MENU, value })
 export const setMode              = value => ({ type: SET_MODE, value })
+export const setTransView         = value => ({ type: SET_TRANS_VIEW, value })
 
 // Player actions
 export const setPlaybackrate      = value => ({ type: SET_PLAYBACKRATE, value })

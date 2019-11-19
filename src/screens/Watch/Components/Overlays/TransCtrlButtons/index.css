@@ -1,0 +1,59 @@
+.trans-ctrl-btn {
+  position: fixed;
+  right: 20px;
+  color: white;
+}
+
+.trans-ctrl-btn[id=trans-view-switch-btn] {
+  bottom: 11em;
+}
+.trans-ctrl-btn[id=watch-search-btn] {
+  bottom: 6em;
+}
+
+.trans-ctrl-btn .trans-ctrl-btn-content {
+  border-radius: 30px;
+  min-width: 50px;
+  max-width: 50px;
+  min-height: 50px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  background: rgb(70, 70, 70);
+  transition: max-width .2s linear;
+  -o-transition: max-width .2s linear;
+  -moz-transition: max-width .2s linear;
+  -webkit-transition: max-width .2s linear;
+  box-shadow: 0 0 5px rgba(102, 102, 102, 0.767);
+}
+.trans-ctrl-btn .trans-ctrl-btn-content i {
+  padding: 13px;
+  font-size: 26px;
+}
+.trans-ctrl-btn:hover > .trans-ctrl-btn-content,
+.trans-ctrl-btn:focus > .trans-ctrl-btn-content {
+  /* background: rgb(98, 98, 98); */
+  max-width: 250px;
+}
+.trans-ctrl-btn:active > .trans-ctrl-btn-content {
+  background: rgb(83, 83, 83);
+}
+
+.trans-ctrl-btn-text {
+  margin-left: 10px;
+  white-space: nowrap;
+  padding-right: 1.5em;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+@media screen and (max-width: 550px) {
+  .trans-ctrl-btn[id=trans-view-switch-btn] {
+    bottom: 16em;
+  }
+  .trans-ctrl-btn[id=watch-search-btn] {
+    bottom: 11em;
+  }
+}

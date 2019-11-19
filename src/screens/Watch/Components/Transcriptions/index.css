@@ -9,13 +9,16 @@
   overflow-y: scroll !important;
   scroll-behavior: smooth;
 }
-.trans-list-box {
+.trans-box {
   position: relative;
   width: calc(100% - 3vw);
   min-height: 100%;
   /* background: rgb(107, 107, 107); */
-  padding-top: calc(50% + 5em);
+  padding-top: calc(50% - 5em);
   padding-bottom: calc(50% + 5em);
+}
+.trans-box[mode=ps-mode] {
+  padding-top: calc(50% + 10em);
 }
 .trans-list {
   position: relative;
@@ -27,6 +30,13 @@
   align-items: center; */
 }
 
+.trans-article {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 
 @media screen and (max-width: 900px) {
   .watch-trans-container {
@@ -35,21 +45,22 @@
     top: 0;
     padding: 0 1em;
   }
-  .trans-list-box {
+  .trans-box {
     padding-top: calc(65vh);
     width: 100%;
   }
+  .trans-article {
+    padding-left: 1em;
+  }
 }
 @media screen and (max-width: 700px) {
-  .trans-list-box {
+  .trans-box {
     padding-top: calc(50vh);
-    width: 100%;
   }
 }
 @media screen and (max-width: 500px) {
-  .trans-list-box {
+  .trans-box {
     padding-top: calc(40vh);
-    width: 100%;
   }
 }
 

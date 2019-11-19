@@ -60,6 +60,6 @@
 }
 
 /* Prompts */
-.watch-prompt {
+.watch-prompt, .trans-ctrl-btn {
   z-index: 4;
 }

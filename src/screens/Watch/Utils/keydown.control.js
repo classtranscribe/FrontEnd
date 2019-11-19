@@ -63,6 +63,8 @@ export const keydownControl = {
       }
     }
 
+    if (keyCode !== 9) e.preventDefault()
+
     /** 
      * One key events
      */
@@ -87,7 +89,6 @@ export const keydownControl = {
         return transControl.handleOpenCC()
       // Alt + e - edit current caption
       case 69:
-          e.preventDefault()
           promptControl.editCaptionUsingKeyboard()
           return transControl.editCurrent()
       // `f` - enter full screen
