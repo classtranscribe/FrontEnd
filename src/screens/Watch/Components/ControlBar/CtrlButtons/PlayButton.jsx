@@ -12,8 +12,8 @@ export function PlayButtonWithRedux({
   return (
     <WatchCtrlButton 
       onClick={handlePause}
-      label={paused ? 'Play' : 'Pause'}
-      ariaLabel={paused ? 'Play' : 'Pause'}
+      label={paused ? 'Play (k)' : 'Pause (k)'}
+      ariaLabel={paused ? 'Play (k)' : 'Pause (k)'}
       mouseEnterDelay={600}
       id="play-btn"
     >

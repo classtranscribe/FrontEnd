@@ -39,11 +39,11 @@ function VolumeControl({
     <div className="watch-volume-ctrl">
       <Popup inverted wide basic
         position="top center"
-        offset="0, 20px"
+        offset="0, 15px"
         openOnTriggerClick={false}
         openOnTriggerFocus
         closeOnTriggerBlur
-        content={muted ? 'Unmute' : 'Mute'}
+        content={<strong>{muted ? 'Unmute (m)' : 'Mute (m)'}</strong>}
         trigger={
           <button 
             className="watch-ctrl-button" 
@@ -60,11 +60,11 @@ function VolumeControl({
 
       <Popup inverted wide basic
         position="top center"
-        offset="0, 20px"
+        offset="0, 15px"
         openOnTriggerClick={false}
         openOnTriggerFocus
         closeOnTriggerBlur
-        content={<>Volume: <strong>{Math.floor(volume * 100)}%</strong></>}
+        content={<strong>Volume: {Math.floor(volume * 100)}%</strong>}
         trigger={
           <input 
             id="volume-slider"

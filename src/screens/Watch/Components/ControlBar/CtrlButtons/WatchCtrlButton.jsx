@@ -26,12 +26,12 @@ export default function WatchCtrlButton({
   return (
     <Popup inverted wide basic
       position={`${position} center`}
-      offset={position === 'bottom' ? "0, 20px" : undefined}
+      offset={position === 'bottom' ? "0, 15px" : undefined}
       mouseEnterDelay={mouseEnterDelay}
       openOnTriggerClick={false}
       openOnTriggerFocus
       closeOnTriggerBlur
-      content={label}
+      content={<strong>{label}</strong>}
       trigger={
         <button 
           id={id}

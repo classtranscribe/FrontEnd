@@ -26,7 +26,7 @@ export function ScreenModeSettingButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleMenuTrigger}
       active={menu === MENU_SCREEN_MODE}
-      label={<>Screen Mode: <strong>{currMode.name}</strong></>}
+      label={<>Screen Mode: <strong>{currMode.name}</strong> (SHIFT+S)</>}
       ariaLabel="Screen Mode Menu"
       id={MENU_SCREEN_MODE}
     >

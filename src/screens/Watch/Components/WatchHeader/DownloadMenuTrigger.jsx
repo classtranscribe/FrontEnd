@@ -23,7 +23,7 @@ export function DownloadMenuTrigger({
       onClick={handleMenuTrigger}
       active={menu === MENU_DOWNLOAD}
       position="top"
-      label="Download"
+      label="Download (SHIFT+D)"
       ariaLabel="Download Menu"
       id={MENU_DOWNLOAD}
     >

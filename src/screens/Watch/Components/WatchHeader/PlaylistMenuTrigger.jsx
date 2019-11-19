@@ -23,7 +23,7 @@ function PlaylistMenuTrigger({
       position="top"
       onClick={handleMenuTrigger}
       active={menu === MENU_PLAYLISTS}
-      label={'Playlists'}
+      label={'Playlists (SHIFT+P)'}
       ariaLabel="Playlists Menu"
     >
       <span className="watch-btn-content watch-playlist-menu-tigger-content" tabIndex="-1">

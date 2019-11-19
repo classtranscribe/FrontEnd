@@ -14,7 +14,7 @@ export function SwitchScreenButtonWithRedux({
   return (
     <WatchCtrlButton 
       onClick={handleSwitch}
-      label="Switch Screens"
+      label="Switch Screens (SHIFT+<)"
       ariaLabel="Switch Screens"
       id="switch-screen-btn"
     >

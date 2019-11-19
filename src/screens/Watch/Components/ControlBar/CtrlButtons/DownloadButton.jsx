@@ -23,7 +23,7 @@ export function DownloadButtonWithRedux({
       onClick={handleMenuTrigger}
       active={menu === MENU_DOWNLOAD}
       label="Download"
-      ariaLabel="Download Menu"
+      ariaLabel="Download (SHIFT+D)"
       id={MENU_DOWNLOAD}
     >
       <span className="watch-btn-content" tabIndex="-1">
