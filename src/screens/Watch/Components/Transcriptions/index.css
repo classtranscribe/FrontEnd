@@ -14,7 +14,7 @@
   width: calc(100% - 3vw);
   min-height: 100%;
   /* background: rgb(107, 107, 107); */
-  padding-top: calc(50% - 5em);
+  padding-top: calc(50%);
   padding-bottom: calc(50% + 5em);
 }
 .trans-box[mode=ps-mode] {

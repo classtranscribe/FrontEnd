@@ -1,77 +1,149 @@
-.watch-ccsetting-menu {
+.watch-setting-menu {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  padding: 4em 6vw;
+  padding: 3em 5em 10em 5em;
+  overflow: auto;
   animation: var(--ct-animation-popup);
   -o-animation: var(--ct-animation-popup);
   -moz-animation: var(--ct-animation-popup);
   -webkit-animation: var(--ct-animation-popup);
 }
 
-.ccsetting-demo-area {
-  position: relative;
-  width: 50em;
-  max-width: 90vw;
+.setting-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  font-family: var(--ct-font-google);
+}
+
+.setting-tabs {
+  width: 16em;
+}
+
+.watch-menu-tab {
+  width: 100%;
+  max-width: 40em;
+  height: auto;
+  margin-left: 2em;
+}
+
+.watch-menu-tab-title {
+  font-size: 1.5em;
+  font-family: var(--ct-font-google);
+}
+.watch-menu-tab-subtitle {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Radio */
+.menu-radio {
+  width: 100%;
+  min-width: 30em;
   display: flex;
   flex-direction: column;
+  animation: var(--ct-animation-expand-padding-h);
+  -o-animation: var(--ct-animation-expand-padding-h);
+  -moz-animation: var(--ct-animation-expand-padding-h);
+  -webkit-animation: var(--ct-animation-expand-padding-h);
+}
+.menu-radio-line {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin: 1em 1em 4em 0;
-  animation: var(--ct-animation-expand-padding-h);
-  -o-animation: var(--ct-animation-expand-padding-h);
-  -moz-animation: var(--ct-animation-expand-padding-h);
-  -webkit-animation: var(--ct-animation-expand-padding-h);
+  justify-content: space-between;
+  padding: .8em 1em .3em 2em;
+  border-bottom: var(--ct-border-dark);
+  background: rgb(54, 54, 54);
 }
 
-.ccsetting-demo-box {
-  box-shadow: 0 0 0 3px rgba(82, 82, 82, 0.438);
-  border-radius: 5px;
-  padding: 1.5em 2em;
-  font-weight: bold;
-  text-align: center;
-  max-width: 100%;
+.menu-radio:first-child .menu-radio-line {
+  margin-top: .5em;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.menu-radio:last-child {
+  margin-bottom: 1em;
+}
+.menu-radio:last-child .menu-radio-line {
+  margin-bottom: .5em;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom:none;
 }
 
-.ccsetting-selection-area {
+
+
+.radio-label {
+  font-size: 1.3em;
+}
+
+/* The switch - the box around the slider */
+.ct-radio {
   position: relative;
-  width: 50em;
-  max-width: 90vw;
-  height: auto;
-  margin: 1em 0 5em 0;
-  animation: var(--ct-animation-expand-padding-h);
-  -o-animation: var(--ct-animation-expand-padding-h);
-  -moz-animation: var(--ct-animation-expand-padding-h);
-  -webkit-animation: var(--ct-animation-expand-padding-h);
+  display: inline-block;
+  width: 50px;
+  height: 25px;
 }
 
-@media screen and (max-width: 900px) {
-  .watch-ccsetting-menu {
-    padding-top: 10em;
-    justify-content: center;
-    align-items: center;
-    overflow-y: scroll;
-    overflow-x: auto;
-  }
-  .ccsetting-demo-area {
-    margin: 1em 0em 4em 0;
-  }
+/* Hide default HTML checkbox */
+.ct-radio input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-/* Semantic UI Updates */
-.watch-ccsetting-menu label {
-  font-weight: bold !important;
-  font-size: 1.2em !important;
+/* The slider */
+.ct-radio .radio-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(70, 70, 70);
+  -webkit-transition: .4s;
+  transition: .4s;
 }
-.watch-ccsetting-menu .ui.selection.dropdown {
-  background: rgb(236, 236, 236) !important;
-  border-color: rgb(236, 236, 236);
+
+.ct-radio .radio-slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgb(223, 223, 223);
+  -webkit-transition: .4s;
+  transition: .4s;
 }
-/* .watch-ccsetting-menu .ui.selection.dropdown .menu {
-  max-height: 11em;
-} */
+
+.ct-radio input:checked + .radio-slider {
+  background-color: var(--ct-green-active);
+}
+
+.ct-radio input:focus + .radio-slider {
+  box-shadow: 0 0 0 3px rgba(190, 190, 190, 0.397);
+}
+
+.ct-radio input:checked + .radio-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.ct-radio .radio-slider.round {
+  border-radius: 34px;
+}
+
+.ct-radio .radio-slider.round:before {
+  border-radius: 50%;
+}
 
 

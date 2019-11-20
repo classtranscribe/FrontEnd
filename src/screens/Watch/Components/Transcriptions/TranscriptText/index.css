@@ -9,6 +9,7 @@
   font-family: var(--ct-font-google);
   line-height: 2em;
   border: var(--ct-border-color-transparent);
+  border-radius: 7px;
 }
 .article-text:hover, .article-text:focus {
   outline: none;

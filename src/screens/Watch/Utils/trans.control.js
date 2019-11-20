@@ -228,6 +228,7 @@ export const transControl = {
       setCurrEditing(caption)
       this.currEditing_ = caption
       if (Boolean(caption)) this.editText = caption.text
+      if (preferControl.pauseWhileEditing()) videoControl.pause()
     }
   },
   /**

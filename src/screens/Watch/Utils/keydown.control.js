@@ -63,7 +63,7 @@ export const keydownControl = {
       }
     }
 
-    if (keyCode !== 9) e.preventDefault()
+    if (keyCode !== 9 && keyCode !== 13) e.preventDefault()
 
     /** 
      * One key events
@@ -519,7 +519,7 @@ export const keydownControl = {
     $('#play-btn').focus()
   },
   skipToCaptionBox: function() {
-    $('#play-btn').focus()
+    $('#watch-search-btn').focus()
   },
   skipToContinue: function() {
     $('#brand').focus()
