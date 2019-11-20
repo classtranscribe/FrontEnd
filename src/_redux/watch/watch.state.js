@@ -49,7 +49,7 @@ export const initialState = {
   cc_size: 1,
   cc_font: "sans-serif",
   cc_position: 'bottom',
-  cc_opacity: .8,
+  cc_opacity: .75,
 
   // Others
   currEditing: null,

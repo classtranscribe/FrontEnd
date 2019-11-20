@@ -39,10 +39,11 @@ function TranscriptionsWithRedux({
     <div 
       id="watch-trans-container" 
       className="watch-trans-container"
+      mode={mode}
     >
       <TransCtrlButtons />
       <div 
-        className="trans-box" mode={mode}
+        className="trans-box"
         onMouseEnter={handleMourseOver(true)}
         onMouseLeave={handleMourseOver(false)}
       >

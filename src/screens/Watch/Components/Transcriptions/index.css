@@ -17,7 +17,10 @@
   padding-top: calc(50%);
   padding-bottom: calc(50% + 5em);
 }
-.trans-box[mode=ps-mode] {
+.watch-trans-container[mode=theatre-mode] {
+  display: none;
+}
+.watch-trans-container[mode=ps-mode] .trans-box {
   padding-top: calc(50% + 10em);
 }
 .trans-list {
