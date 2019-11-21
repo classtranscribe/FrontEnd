@@ -48,7 +48,7 @@ export class PersonalReport extends React.Component {
       <div>
 
         <div>
-        <p style = {{ fontSize : "24px"}}>Hello! Here is a summary of your activities:</p> 
+        <p style = {{ fontSize : "24px"}}>Here is a summary of your activities:</p> 
         </div>
 
         {
@@ -59,8 +59,8 @@ export class PersonalReport extends React.Component {
 
               <Message.List>
                 <Message.Item>Total watching time: {elem.mins} mins</Message.Item>
-                <Message.Item>Total editing times: {elem.editTransCount}</Message.Item>
-                <Message.Item>Total searhcing times: {elem.filterTransCount}</Message.Item>
+                <Message.Item>Total number of edits: {elem.editTransCount}</Message.Item>
+                <Message.Item>Total number of searches: {elem.filterTransCount}</Message.Item>
               </Message.List>
 
             </Message>
