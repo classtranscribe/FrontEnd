@@ -11,7 +11,7 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
   const isLoggedIn = user.isLoggedIn()
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   const pathname = window.location.pathname
-  const activeKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : 'personal-report'
+  const activeKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : 'personal-analytics'
 
   return (
     <aside className="op-sidebar" style={style} >
