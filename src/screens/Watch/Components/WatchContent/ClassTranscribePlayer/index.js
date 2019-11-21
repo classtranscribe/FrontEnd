@@ -27,17 +27,18 @@ export default class ClassTranscribePlayer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isPrimary, media, video1, playbackRate, trackSrc, offeringId } = this.props
+    const { isPrimary, media, watchHistory, video1, playbackRate, trackSrc, offeringId } = this.props
     /**
      * Register videojs after the media is loaded
      */
     if (prevProps.offeringId !== offeringId) {
       ctVideo.init({ offeringId })
     }
+
     if (prevProps.media !== media) {
       const { videos, isTwoScreen } = media
       if (!video1 && !isTwoScreen) return;
-      const { srcPath1, srcPath2 } = videos[0]
+      const { srcPath1, srcPath2 } = videos[0] || {}
       const videoJsOptions = {
         ...staticVJSOptions,
         controls: isPrimary, // only the isPrimary video player has the controls
@@ -55,12 +56,13 @@ export default class ClassTranscribePlayer extends React.Component {
       videojs.registerPlugin('keyDownPlugin', keyDownPlugin) // plugin for keyboard controls
 
       this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
-        const iniTime = util.parseSearchQuery().begin
-        if (iniTime) {
-          this.currentTime(iniTime)
-        } else {
-          const restoreTime = util.restoreVideoTime(media.id)
-          if (restoreTime) this.currentTime(restoreTime)
+        var { begin, courseNumber, id } = util.parseSearchQuery()
+        const { timeStamp } = watchHistory[media.id] || {}
+        if (begin) {
+          this.currentTime(begin)
+          window.history.replaceState({}, document.title, util.links.watch(courseNumber, id))
+        } else if (timeStamp) {
+          this.currentTime(timeStamp)
         }
         ctVideo.setVideoLoading(false)
       })
@@ -111,7 +113,6 @@ export default class ClassTranscribePlayer extends React.Component {
     if (Math.abs(currTime - this.prevTime) > 1 ) {
       this.props.setTimeUpdate(currTime)
       this.prevTime = currTime
-      ctVideo.saveVideoTime(e)
     }
     // if (Math.abs(currTime - this.lastSyncTime) > 5 ) {
     //   this.props.setCurrTime(e)

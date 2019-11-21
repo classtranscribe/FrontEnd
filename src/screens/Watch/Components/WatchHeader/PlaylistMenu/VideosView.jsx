@@ -39,7 +39,6 @@ export default function VideosView({ medias, currMedia, selectedPlaylist, playli
 function VideoItem({ media, currMedia, selectedPlaylist, playlists, sendUserAction }) {
   const { mediaName, id } = api.parseMedia(media)
   const watchVideo = () => {
-    sendUserAction('changevideo', { changeTo_mediaId: id })
     window.location.reload()
   }
   return (

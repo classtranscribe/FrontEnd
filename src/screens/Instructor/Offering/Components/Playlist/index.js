@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect, createRef } from 'react'
 import { List, Image, Sticky } from 'semantic-ui-react'
-import { ClassTranscribeFooter } from 'components'
+import { ClassTranscribeFooter, useCTContext } from 'components'
 import { VideoListPlaceHolder } from './Placeholders'
 import PlaylistHeader from './PlaylistHeader'
 import EditVideoBtn from './EditVideoBtn'
@@ -19,6 +19,7 @@ export function Playlist({ match, history, location }) {
   const [playlist, setPlaylist] = useState({})
   const [medias, setMedias] = useState(null)
   const ref = createRef()
+  const { generalError } = useCTContext()
 
   useEffect(() => {
     // if (location.state && location.state.playlist) {
@@ -29,8 +30,11 @@ export function Playlist({ match, history, location }) {
       api.getPlaylistById(playlistId)
         .then( ({data}) => {
           // console.log('pl', data)
-          setPlaylist(() => data)
-          setMedias(() => data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
+          setPlaylist(data)
+          setMedias(data.medias)//.sort(sortFunc.sortVideosByCreatedDate))
+        })
+        .catch( error => {
+          generalError({ header: "Couldn't load the playlist." })
         })
     // }
   }, [location, playlistId])

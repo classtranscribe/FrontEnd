@@ -1,19 +1,22 @@
 import $ from 'jquery'
-import { history } from './history'
+import { storage } from './storage'
 
-export { api    } from './http'
 export { search } from './search'
 export { user   } from './user'
 export { sortFunc } from './sort'
 export { handleData } from './data'
+export { api    } from './HTTP'
 
 
 /**
  * Objects for switching pages and storing some general functions
  */
 export const util = {
-  ...history,
+  ...storage,
   links: {
+    title: title => {
+      document.title = title ? `${title} • ClassTranscribe` : 'ClassTranscribe'
+    },
     currentUrl: () => window.location,
     home: ()=> '/',
     search: () => '/home/search',
@@ -35,17 +38,23 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, mediaId, begin) => {
-      var path = `/video?courseNumber=${courseNumber}&id=${mediaId}`
-      if (begin) path += `&begin=${begin}`
-      return path
-    },
+    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin})}`,
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
 
   refresh: function() {
     document.location.reload(true);
+  },
+  scrollToTop: function(div) {
+    $(div)[0].scrollTop = 0
+  },
+  scrollToCenter: function(id) {
+    const currElem = document.getElementById(id)
+    if (currElem) {
+      currElem.scrollIntoView({ block: "center" })
+      currElem.focus()
+    }
   },
   parseSearchQuery: function (href) {
     var queryString = window.location.search
@@ -61,6 +70,16 @@ export const util = {
     })
     return query
   },
+  createSearchQuery: function(obj) {
+    var query = '?'
+    for(let key in obj) {
+      if (!Boolean(obj[key])) continue;
+      let value = obj[key]
+      if (typeof value === 'string') value = this.getValidURLFullNumber(value)
+      query += (query === '?' ? '' : '&') + `${key}=${value}`
+    }
+    return query === '?' ? '' : query
+  },
   getWindowStates: function () {
     return window.location.state || {}
   },
@@ -70,18 +89,10 @@ export const util = {
     array.forEach( item => {
       var text = ''
       if ((tag === 'depart' || tag === 'term') && item.uniName) text = `${item.name} (${item.uniName})`
-      else text = item.name || tag + item.courseNumber + ' ' + item.courseName;
+      else text = item.name || tag + item.courseNumber;
       options.push({text: text, value: item.id})
     })
     return options;
-  },
-
-  scrollToCenter: function(id) {
-    const currElem = document.getElementById(id)
-    if (currElem) {
-      currElem.scrollIntoView({ block: "center" })
-      currElem.focus()
-    }
   },
 
   getFittedName: function(name, charNum) {
@@ -90,6 +101,13 @@ export const util = {
     let fittedName = name.slice(0, charNum)
     if (fittedName !== name) fittedName += '...'
     return fittedName
+  },
+  getValidURLFullNumber: function(fullNumber) {
+    return fullNumber.replace(/\//g, '-')
+  },
+  parseURLFullNumber: function(fullNumber) {
+    fullNumber = fullNumber || util.parseSearchQuery().courseNumber
+    return fullNumber.replace(/-/g, '/')
   },
 
   fixForAccessbitity: function(category) {

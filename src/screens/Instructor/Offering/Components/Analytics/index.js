@@ -1,46 +1,30 @@
 import React from 'react';
-import {api} from 'utils';
-import { BarsChart, Chart } from "./charts";
 import {AnalyticTable} from './table'
+import ForAllCharts from './VideoViews'
 import { Tab } from 'semantic-ui-react'
 import './index.css';
-// import { Button } from 'semantic-ui-react';
+
 export class Analytics extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: [],
       offeringId: props.offeringId,
     }
   }
-
-  componentDidMount() {
-    api.getCourseLogs('timeupdate', this.props.offeringId)
-      .then(({data}) => {
-        this.setState({data})
-      })  
-  }
-  
   
   render() {
-    console.log('xxx', this.state)
-    const { data } = this.state
+    const { offeringId } = this.state
+    const { playlists } = this.props
+    const panes = [
+      { menuItem: 'Performance', render: () => <AnalyticTable offeringId={offeringId}/> },
+      { menuItem: 'Charts', render: () => <ForAllCharts offeringId={offeringId} playlists={playlists} />},
+      // { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+    ]
+
     return (
       <div className="outer">
-        <MyTabs data={data}/>
+        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
       </div>
     );
   }
-}
-
-
-function MyTabs ({data}){
-  const panes = [
-    { menuItem: 'Performance', render: () => <AnalyticTable data={data}/>},
-    { menuItem: 'Charts', render: () => <div className = 'charts'>{/*<BarsChart data = {data}/> <Chart data = {data}/>*/}</div>},
-    { menuItem: 'To be developed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
-  ]
-  return (
-     <Tab panes={panes} />
-  );
 }

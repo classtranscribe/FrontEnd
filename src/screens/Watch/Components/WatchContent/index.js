@@ -7,9 +7,9 @@ import React from 'react'
 import $ from 'jquery'
 // UI
 import { Spinner } from 'react-bootstrap'
-import SubHeader from './SubHeader'
 import ClassTranscribePlayer from './ClassTranscribePlayer'
 import Transcription from './Transcription'
+import SubHeader from './SubHeader'
 import './index.css'
 // Vars
 import { NORMAL_MODE, PS_MODE, /* EQUAL_MODE, NESTED_MODE */ } from './constants'
@@ -86,6 +86,17 @@ export class WatchContent extends React.Component {
       })
   }
 
+  /** Function called when sync one line of caption */
+  syncCaptionLine = async (index, wasEditing, callBack) => {
+    const { currTranscriptionId, captions } = this.state
+    const { data } = await api.getCaptionLine(currTranscriptionId, index)
+    data.wasEditing = wasEditing
+    captions[index - 1] = data
+    this.setState({ captions }, () => {
+      if (callBack) callBack()
+    })
+  }
+
   /** Function called when mouseEnter and mouseLeave the caption window */
   setReadyToEdit = value => {
     value = typeof value === "boolean" ? value : !this.state.readyToEdit
@@ -141,7 +152,7 @@ export class WatchContent extends React.Component {
   }
 
   render() {
-    const { media, playlist, playlists, isMobile, sendUserAction } = this.props
+    const { media, watchHistory, playlist, playlists, isMobile, sendUserAction } = this.props
     const { mode, primary, captions, loadingCaptions } = this.state
     const orderClassName = primary ? '' : 'switch-player'
     /** Vars passed into setting bar */
@@ -153,27 +164,21 @@ export class WatchContent extends React.Component {
 
     return (
       <div className="watch-content">
-        <SubHeader 
-          media={media} 
-          playlist={playlist} 
-          isMobile={isMobile}
-          propsForSettingBar={propsForSettingBar}
-        />
-  
+        {isMobile && <SubHeader media={media} playlist={playlist} />}
         <div className={`player-container ${orderClassName}`} id={mode}>
           <div className="loading-wrapper">
             <Spinner animation="border" />
             {/* <div class="lds-facebook"><div></div><div></div><div></div></div> */}
           </div>
           <div className="video-col">
-            <ClassTranscribePlayer 
+            <ClassTranscribePlayer video1
               {...this}
               {...this.state}
               media={media} 
               isPrimary={primary} 
               offeringId={playlist.offeringId}
+              watchHistory={watchHistory}
               sendUserAction={sendUserAction}
-              video1
             />
           </div>
           <div className="video-col" >
@@ -183,22 +188,29 @@ export class WatchContent extends React.Component {
               media={media} 
               isPrimary={!primary}  
               offeringId={playlist.offeringId}
+              watchHistory={watchHistory}
               sendUserAction={sendUserAction}
             />
           </div>
         </div>
   
         <Transcription 
+          // basic info
           media={media}
           captions={captions} 
           isMobile={isMobile}
           playlists={playlists}
           offeringId={playlist.offeringId}
           setCurrTime={this.setCurrTime}
+          // captions
           reLoadCaption={this.reLoadCaption}
+          syncCaptionLine={this.syncCaptionLine}
           setReadyToEdit={this.setReadyToEdit} 
           loadingCaptions={loadingCaptions}
           sendUserAction={sendUserAction}
+          // others
+          playlist={playlist} 
+          propsForSettingBar={propsForSettingBar}
         />
       </div>
     )

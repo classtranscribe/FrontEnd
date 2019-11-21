@@ -1,22 +1,35 @@
 import React, { createContext, useContext, useState } from 'react'
+import { api } from '../../utils'
 import GeneralAlert from './Components/GeneralAlert'
 import ErrorMesg from './Components/ErrorMesg'
-import './index.css'
 
 export const CTContext = createContext()
 export const useCTContext = () => useContext(CTContext)
 
 export function CTContextProvider({ children }) {
-  const [alertMesg, setAlertMesg] = useState(null)
+  const [alertMesg, setAlertMesg] = useState(null) // {header: '', text: '', type: 'success', position: 'bottom'}
   const [errorMesg, setErrorMesg] = useState(null)
 
   const windowAlert = mesg => alert(mesg)
 
-  const generalAlert = (mesg = {header: '', text: '', type: 'success'}, span = 4000) => {
+  /** General Alerts */
+  const alreadyHasAlert = () => Boolean(alertMesg)
+  const generalAlert = (mesg = {header: '', text: '', type: 'success', position: 'bottom'}, span = 4000) => {
     setAlertMesg(mesg)
     if (span > 0) setTimeout(() => {
       setAlertMesg(null)
     }, span);
+  }
+  const removeAlert = () => setAlertMesg(null)
+
+  const generalError = ({ text='', header='', refresh=true, span=-1 }) => {
+    api.contentLoaded()
+    generalAlert({ 
+      header, refresh,
+      text: text + (refresh ? " Please refresh to retry." : ""),
+      type: "danger",
+      position: "top",
+    }, span)
   }
 
   const hasError = (mesg = { header: '', info: '', error: {}}) => setErrorMesg(mesg)
@@ -26,7 +39,12 @@ export function CTContextProvider({ children }) {
     <CTContext.Provider
       value={{ 
         windowAlert,
+        
+        alreadyHasAlert,
         generalAlert,
+        generalError,
+        removeAlert,
+
         ErrorMesg,
         hasError,
       }}

@@ -7,8 +7,8 @@ import { Route } from 'react-router-dom'
 import { api, handleData } from 'utils'
 // UI
 import InstructorEditing from './InstructorEditing'
-// import DepartmentEditing from './DepartmentEditing'
-import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components'
+import InstructorList from './InstructorList'
+import { CreateNewButton, GeneralAlert } from '../Components'
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react'
 
 export default function InstructorPane({ state: {universities}, getSelectOptions}) {
@@ -64,19 +64,12 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
         <>
           <CreateNewButton name='Add New Instructor' path='instructor' id={currUni.id}/>
           <Divider horizontal>All Instructors</Divider>
-          {instructors.reverse().map( inst => (
-              <AdminListItem 
-                header={`${inst.firstName} ${inst.lastName}`} 
-                path="instructor" 
-                inactive={() => onInactive(inst.email)}
-                loading={loading}
-                id={inst.id} key={inst.id}
-                items={[
-                  `University: ${currUni.name}`,
-                  `Email: ${inst.email}`
-                ]}
-              />
-          ))}
+          <InstructorList 
+            loading={loading} 
+            currUni={currUni}
+            onInactive={onInactive}
+            instructors={instructors} 
+          />
         </>
       }
     </Tab.Pane>

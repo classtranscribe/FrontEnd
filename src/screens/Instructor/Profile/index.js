@@ -7,7 +7,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 // Layouts
-import { ClassTranscribeHeader, ClassTranscribeFooter } from 'components'
+import { ClassTranscribeHeader, ClassTranscribeFooter, CTContext } from 'components'
 import { Courses } from "./Components"
 import OfferingSettingPage from '../OfferingEditing'
 import './index.css'
@@ -17,7 +17,8 @@ import { api, user, util } from 'utils'
 
 export class InstructorProfile extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
+    util.links.title('My Courses')
     this.state = {
       userInfo: {},
       userUni: '',
@@ -38,9 +39,13 @@ export class InstructorProfile extends React.Component {
   getCourseOfferingsByInstructorId = () => {
     api.getCourseOfferingsByInstructorId(user.userId())
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.setState({courseOfferings: response.data})
         api.contentLoaded()
+      })
+      .catch(error => {
+        const { generalError } = this.context
+        generalError({ header: "Couldn't load courses." })
       })
   }
 
@@ -63,9 +68,14 @@ export class InstructorProfile extends React.Component {
     /**
      * 2. Get university, terms and departs by user's universityId
      */
-    api.getUniversityById(userInfo.universityId).then(({data}) => this.setState({ university: data }))
-    api.getTermsByUniId(userInfo.universityId).then(({data}) => this.setState({ terms: data }))
-    api.getDepartsByUniId(userInfo.universityId).then(({data}) => this.setState({ departments: data }))
+    try {
+      api.getUniversityById(userInfo.universityId).then(({data}) => this.setState({ university: data }))
+      api.getTermsByUniId(userInfo.universityId).then(({data}) => this.setState({ terms: data }))
+      api.getDepartsByUniId(userInfo.universityId).then(({data}) => this.setState({ departments: data }))
+    } catch (error) {
+      const { generalError } = this.context
+      generalError({ header: "Couldn't load courses." })
+    }
   }
 
   /** Get courseOfferings */
@@ -100,3 +110,5 @@ export class InstructorProfile extends React.Component {
     )
   }
 }
+
+InstructorProfile.contextType = CTContext

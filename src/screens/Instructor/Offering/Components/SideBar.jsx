@@ -2,7 +2,7 @@
  * The component for Instructor Offering Page
  * contains the playlists and menus
  */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { Button } from 'semantic-ui-react'
@@ -12,6 +12,11 @@ import TypeIcon from './TypeIcon'
 export function SideBar({ id, state, showSiderBar }) {
   const { displaySideBar, courseOffering, playlists } = state;
   // style for showing or hiding the sidebar
+  const defaultActiveKey = window.location.pathname.includes('data') ? 'data' : window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0] ? playlists[0].id : ''
+  const [activeKey, setActiveKey] = useState(defaultActiveKey)
+  useEffect(() => {
+    setActiveKey(window.location.pathname.includes('data') ? 'data' : window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0] ? playlists[0].id : '')
+  }, [playlists])
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
 
   var fullNumber = 'Loading...'
@@ -19,22 +24,30 @@ export function SideBar({ id, state, showSiderBar }) {
   var courseName = ''
   var termName = ''
   var sectionName = ''
+  var description = ''
   // get info from the courseOffering
   const { courses, offering } = courseOffering
   if (courses) {
     fullNumber = api.getFullNumber(courses)
     fittedName = fullNumber.slice(0, 14)
     if (fittedName !== fullNumber) fittedName += '...'
-    courseName = courses[0].courseName
   }
   if (offering && offering.termName) {
     termName = offering.termName
     sectionName = offering.sectionName
+    description = offering.description
+    courseName = offering.courseName
+    util.links.title(fullNumber+' • '+termName+' • '+sectionName)
+  }
+
+  const onData = () => {
+    showSiderBar(window.innerWidth > 900)
+    setActiveKey('data')
   }
 
   return (
     <div className="op-sidebar" style={style}>
-      <ListGroup defaultActiveKey={window.location.pathname.includes('data') ? 'data' : ''}>
+      <ListGroup activeKey={activeKey} onSelect={()=>1}>
         {/* Go Back Menu Item */}
         <ListGroup.Item 
           as={Link}
@@ -46,6 +59,17 @@ export function SideBar({ id, state, showSiderBar }) {
         </ListGroup.Item>
 
         {/* Offering Info ---click to editing page */}
+        <ListGroup.Item className="list" disabled>
+          <p className="name">
+            <strong>{fullNumber}</strong><br/>
+            <strong>{courseName}</strong><br/>
+            {description}
+          </p>
+          <p className="name sec">
+            {termName}&ensp;{sectionName}
+          </p>
+        </ListGroup.Item>
+
         <ListGroup.Item 
           as={Link}
           className="list" 
@@ -53,31 +77,27 @@ export function SideBar({ id, state, showSiderBar }) {
           aria-label="Edit offering"
           title={`Edit offering: ${fullNumber}`}
         >
-          <p className="title">
-            <i className="fas fa-book"></i> &ensp; {fittedName}
-            &ensp; <i className="fas fa-edit"></i>
-          </p>
-        </ListGroup.Item>
-        <ListGroup.Item className="list" disabled>
-          <p className="name">
-            <strong>{courseName}</strong>
-          </p>
-          <p className="name sec">
-            {termName}&ensp;{sectionName}
-          </p>
+          <i className="fas fa-edit"></i> &ensp; Edit Course
         </ListGroup.Item>
         
         {/* Data demo menu item */}
         <ListGroup.Item 
           as={Link} to={util.links.offeringData(id)}
-          onClick={() => showSiderBar(window.innerWidth > 900)}
-          className="list" eventKey="data" aria-label="data" title="data" eventKey="data"
+          onClick={onData}
+          className="list" eventKey="data" aria-label="data" title="data"
         >
           <i className="fas fa-chart-bar"></i> &ensp; Analytics
         </ListGroup.Item>
       </ListGroup>
 
-      <Playlist playlists={playlists} id={id} fullNumber={fullNumber} showSiderBar={showSiderBar} />
+      <Playlist 
+        id={id}
+        activeKey={activeKey}
+        playlists={playlists} 
+        fullNumber={fullNumber} 
+        showSiderBar={showSiderBar} 
+        setActiveKey={setActiveKey}
+      />
     </div>
   )
 }
@@ -85,7 +105,7 @@ export function SideBar({ id, state, showSiderBar }) {
 /**
  * Playlists
  */
-function Playlist({ playlists, id, fullNumber, showSiderBar }) {
+function Playlist({ playlists, id, fullNumber, showSiderBar, activeKey, setActiveKey }) {
   if (!playlists.length) return null
   // Show when there is no playlists yet
   const NoPlaylistWrapper = (
@@ -94,8 +114,10 @@ function Playlist({ playlists, id, fullNumber, showSiderBar }) {
     </div>
   )
 
-  const defaultActiveKey = window.location.pathname.includes('=') ? window.location.pathname.split('=')[1] : playlists[0].id
-
+  const handleClick = (id) => () => {
+    setActiveKey(id)
+    showSiderBar(window.innerWidth > 900)
+  }
   return (
     <div className="playlists">
       <div className="breakline"></div>
@@ -107,14 +129,14 @@ function Playlist({ playlists, id, fullNumber, showSiderBar }) {
         <i className="fas fa-folder-plus"/> New Playlist
       </Button>
       { playlists.length ? 
-        <ListGroup className="playlist" defaultActiveKey={defaultActiveKey}>
+        <ListGroup className="playlist" activeKey={activeKey} onSelect={()=>1}>
           {playlists.map( playlist => 
             <ListGroup.Item 
               as={Link} to={{
                 pathname: util.links.offeringPlaylist(id, api.getValidURLFullNumber(fullNumber), playlist.id),
                 state: { playlist: playlist }
               }}
-              onClick={() => showSiderBar(window.innerWidth > 900)}
+              onClick={handleClick(playlist.id)}
               variant="secondary" className="item" action 
               key={playlist.id} eventKey={playlist.id}
               aria-label={playlist.name}

@@ -6,7 +6,7 @@
 import React from 'react'
 // import $ from 'jquery'
 // Layouts
-import { GeneralModal, DeleteModal } from 'components'
+import { GeneralModal, DeleteModal, CTContext } from 'components'
 import OfferingForm from './OfferingForms'
 import { SaveButtons, EditButtons } from './Buttons'
 import './index.css'
@@ -18,6 +18,7 @@ export default class OfferingSettingPage extends React.Component {
     super(props)
     this.isNew = this.props.match.params.type === 'new'
     this.id = this.props.match.params.id
+    util.links.title( this.isNew ? 'New Offering' : 'Edit Offering')
     this.state = {
       showDeleteModal: false,
       loading: !this.isNew,
@@ -61,12 +62,22 @@ export default class OfferingSettingPage extends React.Component {
             .then(({data}) => {
               this.setState({ terms: data.slice().reverse() })
             })
+            .catch( error => {
+              const { generalError } = this.context
+              generalError({ header: "Couldn't load the terms." })
+              this.setState({ loading: true })
+            })
     // get departments
     var _departs = []
     await api.getDepartsByUniId(universityId)
             .then(({data}) => {
               this.setState({ departments: data })
               _departs = data
+            })
+            .catch( error => {
+              const { generalError } = this.context
+              generalError({ header: "Couldn't load the departments." })
+              this.setState({ loading: true })
             })
 
     /** GET offering info */
@@ -97,6 +108,10 @@ export default class OfferingSettingPage extends React.Component {
 
           api.contentLoaded()
         })
+        .catch( error => {
+          const { generalError } = this.context
+          generalError({ header: "Couldn't load the offering." })
+        })
     }
   }
 
@@ -121,6 +136,11 @@ export default class OfferingSettingPage extends React.Component {
         data.forEach(course => course.acronym = acronym)
         this.setState({ courses: data })
       })
+      .catch( error => {
+        const { generalError } = this.context
+        generalError({ text: `Couldn't load the courses of the department ${acronym}.` })
+      })
+      
   }
 
   onDepartSelected = departId => {
@@ -237,7 +257,8 @@ export default class OfferingSettingPage extends React.Component {
   /**
    * Function called when saving a new offering
    */
-  onCreate = async handleError => {
+  onCreate = async () => {
+    const { generalError } = this.context
     this.setState({ loading: true })
     const { offering, selectedCourses, staffs } = this.state
     // complete offering
@@ -248,15 +269,12 @@ export default class OfferingSettingPage extends React.Component {
     var offeringId = ''
     await api.createOffering(offering)
             .then(({data}) => offeringId = data.id)
-            .catch(() => {
-              this.setState({ loading: false })
-              handleError({
+            .catch( error => {
+              generalError({ 
+                refresh: false,
                 header: "Couldn't create the offering",
-                text: "Please try to re-submit again.",
-                type: "danger",
-                position: "top",
-                contactUs: true,
-              }, -1)
+                text: "Please try to re-submit again.", 
+              })
             })
 
     if (!offeringId) {
@@ -265,11 +283,23 @@ export default class OfferingSettingPage extends React.Component {
     }
 
     // POST to courseOfferings
-    for (let i = 0; i < selectedCourses.length; i++) {
-      if (i > 0) await api.createCourseOffering({ courseId: selectedCourses[i].id, offeringId })
+    try {
+      for (let i = 0; i < selectedCourses.length; i++) {
+        if (i > 0) await api.createCourseOffering({ courseId: selectedCourses[i].id, offeringId })
+      }
+    } catch {
+      console.error("couldn't add offering to course.")
     }
     // POST to Offerings/AddUsers
-    await api.addCourseStaffToOffering(offeringId, staffs)
+    try {
+      await api.addCourseStaffToOffering(offeringId, staffs)
+    } catch (error) {
+      generalError({ 
+        span: 1000,
+        refresh: false,
+        text: "Couldn't add course staffs.", 
+      })
+    }
 
     // Go back
     this.onClose(offeringId)
@@ -278,44 +308,77 @@ export default class OfferingSettingPage extends React.Component {
   /**
    * Function called when save changes of a offering
    */
-  onUpdate = async handleError => {
+  onUpdate = async () => {
+    const { generalError } = this.context
     this.setState({ loading: true })
     const { offering, newRemovedCourses, newSelectedCourses, newAddedStaffs, newRemovedStaffs } = this.state
-    console.log('offering', offering.offering)
-    console.log('newRemovedCourses', newRemovedCourses)
-    console.log('newSelectedCourses', newSelectedCourses)
-    console.log('newAddedStaffs', newAddedStaffs)
-    console.log('newRemovedStaffs', newRemovedStaffs)
+    // console.log('offering', offering.offering)
+    // console.log('newRemovedCourses', newRemovedCourses)
+    // console.log('newSelectedCourses', newSelectedCourses)
+    // console.log('newAddedStaffs', newAddedStaffs)
+    // console.log('newRemovedStaffs', newRemovedStaffs)
 
     // PUT to offerings
+    let noError = true
     await api.updateOffering(offering.offering)
-            .catch(() => {
-              this.setState({ loading: false })
-              handleError({
-                header: "Couldn't save the changes",
-                text: "Please try to re-submit again.",
-                type: "danger",
-                position: "top",
-                contactUs: true,
-              }, -1)
+          .catch( error => {
+            noError = false
+            generalError({ 
+              refresh: false,
+              header: "Couldn't save changes.",
+              text: "Please try to re-submit again.", 
             })
+          })
     // delete removed courses
-    for (let i = 0; i < newRemovedCourses.length; i++) {
-      await api.deleteCourseOffering(newRemovedCourses[i], this.id)
+    if (!noError) return;
+    try {
+      for (let i = 0; i < newRemovedCourses.length; i++) {
+        await api.deleteCourseOffering(newRemovedCourses[i], this.id)
+      }
+    } catch (error) {
+      generalError({ 
+        span: 4000,
+        refresh: false,
+        text: `Couldn't remove the course(s) from the offering.`, 
+      })
     }
     // add new courses
-    for (let i = 0; i < newSelectedCourses.length; i++) {
-      await api.createCourseOffering({ courseId: newSelectedCourses[i].id, offeringId: this.id })
+    try {
+      for (let i = 0; i < newSelectedCourses.length; i++) {
+        await api.createCourseOffering({ courseId: newSelectedCourses[i].id, offeringId: this.id })
+      }
+    } catch (error) {
+      generalError({ 
+        span: 4000,
+        refresh: false,
+        text: "Couldn't add new courses to the offering.", 
+      })
     }
     // delete removed staffs
-    for (let i = 0; i < newRemovedStaffs.length; i++) {
-      const staff_ = handleData.find(offering.instructorIds, {email: newRemovedStaffs[i]})
-      if (staff_) await api.deleteCourseStaffFromOffering(this.id, staff_.id)
+    try {
+      for (let i = 0; i < newRemovedStaffs.length; i++) {
+        const staff_ = handleData.find(offering.instructorIds, {email: newRemovedStaffs[i]})
+        if (staff_) await api.deleteCourseStaffFromOffering(this.id, staff_.id)
+      }
+    } catch (error) {
+      generalError({ 
+        span: 1000,
+        refresh: false,
+        text: "Couldn't remove the course staffs.", 
+      })
     }
     // add new staffs
-    await api.addCourseStaffToOffering(this.id, newAddedStaffs)
+    try {
+      await api.addCourseStaffToOffering(this.id, newAddedStaffs)
+    } catch (error) {
+      generalError({ 
+        span: 1000,
+        refresh: false,
+        text: "Couldn't add new course staffs.", 
+      })
+    }
 
-    this.onClose(this.id)
+    if (noError) this.onClose(this.id)
   }
 
   /**
@@ -365,3 +428,4 @@ export default class OfferingSettingPage extends React.Component {
   }
 }
 
+OfferingSettingPage.contextType = CTContext

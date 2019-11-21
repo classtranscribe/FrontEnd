@@ -6,7 +6,7 @@ export const keyDownPlugin = function() {
   this.on('keydown', function(e) {
     const { keyCode, metaKey, ctrlKey, shiftKey } = e
     if (metaKey || ctrlKey || shiftKey) return;
-    console.log(keyCode)
+    // console.log(keyCode)
     // press space or 'k' to pause or play
     if (keyCode === 32 || keyCode === 75) { 
       if (this.paused()) this.play()

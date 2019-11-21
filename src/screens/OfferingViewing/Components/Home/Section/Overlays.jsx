@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
-export function StarredButton({ offeringId, position, starredOfferings, starredUpdated, starOffering, unstarOffering }) {  
+export function StarredButton({ offeringId, position, starredOfferings=[], starOffering, unstarOffering }) {  
   const isStarred = starredOfferings.includes(offeringId)
   const handleClick = () => {
     if (isStarred) {
@@ -56,11 +56,15 @@ export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
     <Popup 
       content={content}
       position="left center"
+      mouseEnterDelay={1000}
+      openOnTriggerFocus
+      closeOnTriggerBlur
+      openOnTriggerClick={false}
       inverted
       trigger={
-        <Button type="offering-close-btn" compact onClick={handleFold} aria-label={content}>
+        <Button circular type={`offering-close-btn${isFolded ? '-reverse' : ''}`} compact onClick={handleFold} aria-label={content}>
           <span tabIndex="-1">
-            {isFolded ? <i className="material-icons">expand_more</i> : <i className="material-icons">expand_less</i>} 
+            <i className="material-icons">expand_less</i>
           </span>
         </Button>
       }
