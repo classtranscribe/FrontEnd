@@ -11,7 +11,7 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
   const isLoggedIn = user.isLoggedIn()
   const style = {marginLeft: displaySideBar ? '0' : '-20rem'}
   const pathname = window.location.pathname
-  const activeKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : 'personal-report'
+  const activeKey = pathname === '/home' ? 'courses' : pathname === '/home/starred' ? 'starred' : pathname === '/home/history' ? 'history' : 'personal-analytics'
 
   return (
     <aside className="op-sidebar" style={style} >
@@ -45,14 +45,14 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
             >
               <Icon name="history" /> &emsp; History
             </ListGroup.Item>
-            {/* <ListGroup.Item 
-              className="list" action eventKey="personal-report" 
-              as={Link} to={util.links.personalReport()}
-              title="personal report" aria-label="personal report"
+            <ListGroup.Item 
+              className="list" action eventKey="personal-analytics" 
+              as={Link} to={util.links.personalAnalytics()}
+              title="personal analytics" aria-label="personal analytics"
               onClick={() => showSiderBar(window.innerWidth > 900)}
             >
-              <Icon name="user" /> &emsp; Interaction
-            </ListGroup.Item> */}
+              <Icon name="user" /> &emsp; Analytics
+            </ListGroup.Item>
           </>
         }
         {

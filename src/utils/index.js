@@ -23,7 +23,7 @@ export const util = {
     starred: () => '/home/starred',
     history: () => '/home/history',
     offeringDetail: id => `/home/offering/${id}`,
-    personalReport: () => "/home/personal-report",
+    personalAnalytics: () => "/home/personal-report",
     admin: () => '/admin',
 
     instructor: () => '/instructor',

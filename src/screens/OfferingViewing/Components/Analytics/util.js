@@ -6,8 +6,8 @@ export function parseTimeUpdate(data, offerings) {
   data.forEach(elem => {
     var offering = offerings.filter(offering => offering.id === elem.offeringId)[0] || {}
     
-    var fullNumber = api.getFullNumber(offering.courses || [])
-    var { termName, sectionName } = offering.offering || {}
+    // var fullNumber = api.getFullNumber(offering.courses || [])
+    var { termName, sectionName, fullNumber } = offering || {}
 
     var count = 0
     elem.medias.forEach( media => {
@@ -19,6 +19,7 @@ export function parseTimeUpdate(data, offerings) {
       offeringId: elem.offeringId,
       mins: Math.ceil(count / 4),
       editTransCount: 0,
+      filterTransCount: 0,
     })
   })
   
@@ -34,6 +35,21 @@ export function parseEditTrans(data, timeupdates) {
         count += media.count
       })
       timeupdates[currIdx].editTransCount = count
+    }
+  })
+  
+  return timeupdates
+}
+
+export function parseFilterTrans(data, timeupdates) {
+  data.forEach(elem => {
+    var currIdx = _.findIndex(timeupdates, { offeringId: elem.offeringId })
+    if (currIdx >= 0) {
+      var count = 0
+      elem.medias.forEach( media => {
+        count += media.count
+      })
+      timeupdates[currIdx].filterTransCount = count
     }
   })
   
