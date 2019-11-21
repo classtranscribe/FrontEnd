@@ -23,10 +23,15 @@ export function SettingButtonWithRedux({
       onClick={handleMenuTrigger}
       active={menu === MENU_SETTING}
       label="Settings"
-      ariaLabel="Settings"
       id={MENU_SETTING}
+      ariaTags={{
+        'aria-label': 'Setting Menu',
+        //'aria-keyshortcuts': 'SHIFT+C',
+        'aria-controls': 'watch-setting-menu',
+        'aria-haspopup': 'true'
+      }}
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         <i type='setting' className="fas fa-cog"></i>  
       </span>
     </WatchCtrlButton>

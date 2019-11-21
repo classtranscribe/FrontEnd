@@ -22,7 +22,7 @@ function ScreenModeMenu({
   const { isTwoScreen } = media
 
   return show ? (
-    <div className="watch-general-menu">
+    <div id="watch-screen-mode-menu" role="menu" aria-label="Screen Mode Menu" className="watch-general-menu">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>

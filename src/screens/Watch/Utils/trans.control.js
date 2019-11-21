@@ -236,7 +236,11 @@ export const transControl = {
    */
   editCurrent: function() {
     let id = this.currCaption_.id
-    $(`#caption-line-textarea-${id}`).focus()
+    let currTextArea = $(`#caption-line-textarea-${id}`)
+    if (currTextArea.length) {
+      currTextArea.focus()
+      promptControl.editCaptionUsingKeyboard()
+    }
   },
 
   /**
@@ -255,7 +259,7 @@ export const transControl = {
     /**
      * @todo check PROFANITY_LIST
      */
-    if (!Boolean(text) || this.currEditing_.text === text) {
+    if (!Boolean(text) || (this.currEditing_ && this.currEditing_.text === text)) {
       this.editText = ''
       promptControl.closePrompt()
       return this.edit(null)

@@ -46,8 +46,8 @@ function PlaylistsMenu({
     setSelectedPlaylist(playlist)
   }
 
-  return show ? (
-    <div className="watch-playlists-menu">
+  return show ? ( 
+    <div id="watch-playlists-menu" className="watch-playlists-menu">
       {/* Close Btn */}
       <button className="plain-btn watch-menu-close-btn watch-playlists-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>

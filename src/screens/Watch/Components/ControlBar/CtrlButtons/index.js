@@ -1,7 +1,6 @@
 import './index.css'
 export { PlayButton               } from './PlayButton'
 export { SettingButton            } from './SettingButton'
-export { DownloadButton           } from './DownloadButton'
 export { FullscreenButton         } from './FullscreenButton'
 export { SwitchScreenButton       } from './SwitchScreenButton'
 export { PlaybackRateButton       } from './PlaybackRateButton'

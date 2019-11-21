@@ -42,7 +42,7 @@ function ClosedCaptionWithRedux({
   if (shouldDisplayCC && currCaption.kind === WEBVTT_SUBTITLES) prevText = currCaption.text
   
   return (shouldDisplayCC && prevText) ? (
-    <div className="watch-cc-container" style={ccContainerStyle}>
+    <div id="watch-cc-container" className="watch-cc-container" style={ccContainerStyle}>
       <div className="watch-cc-text" style={ccStyle}>
         {prevText}
       </div>

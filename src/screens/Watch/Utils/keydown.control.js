@@ -63,8 +63,6 @@ export const keydownControl = {
       }
     }
 
-    if (keyCode !== 9 && keyCode !== 13) e.preventDefault()
-
     /** 
      * One key events
      */
@@ -89,7 +87,7 @@ export const keydownControl = {
         return transControl.handleOpenCC()
       // Alt + e - edit current caption
       case 69:
-          promptControl.editCaptionUsingKeyboard()
+          e.preventDefault()
           return transControl.editCurrent()
       // `f` - enter full screen
       case 70:
@@ -163,8 +161,8 @@ export const keydownControl = {
     }
   },
 
-  handleSpaceKey: function() {
-    
+  handleSpaceKey: function(e) {
+    e.preventDefault()
     // If there is no menu opening - play or pause
     if (!menuControl.isOpen()) {
       videoControl.handlePause()

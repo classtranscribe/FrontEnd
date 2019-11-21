@@ -13,11 +13,14 @@ export function PlayButtonWithRedux({
     <WatchCtrlButton 
       onClick={handlePause}
       label={paused ? 'Play (k)' : 'Pause (k)'}
-      ariaLabel={paused ? 'Play (k)' : 'Pause (k)'}
       mouseEnterDelay={600}
       id="play-btn"
+      ariaTags={{
+        'aria-label': paused ? 'Play (k)' : 'Pause (k)',
+        //'aria-keyshortcuts': 'k'
+      }}
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         {
           paused ?
           <i className="material-icons">play_arrow</i>

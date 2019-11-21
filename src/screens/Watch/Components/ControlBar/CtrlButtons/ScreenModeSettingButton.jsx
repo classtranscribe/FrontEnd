@@ -27,10 +27,15 @@ export function ScreenModeSettingButtonWithRedux({
       onClick={handleMenuTrigger}
       active={menu === MENU_SCREEN_MODE}
       label={<>Screen Mode: <strong>{currMode.name}</strong> (SHIFT+S)</>}
-      ariaLabel="Screen Mode Menu"
       id={MENU_SCREEN_MODE}
+      ariaTags={{
+        'aria-label': 'Screen Mode Menu',
+        //'aria-keyshortcuts': 'SHIFT+S',
+        'aria-controls': 'watch-screen-mode-menu',
+        'aria-haspopup': 'true'
+      }}
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">{currMode.icon}</i>     
       </span>
     </WatchCtrlButton>

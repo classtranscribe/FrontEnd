@@ -26,8 +26,14 @@ export function PlaybackRateButtonWithRedux({
       label={<>Playback Rates (SHIFT+↑/↓)</>}
       ariaLabel="Playback Rate"
       id={MENU_PLAYBACKRATE}
+      ariaTags={{
+        'aria-label': `Playback Rate Menu (current rate: ${playbackrate})`,
+        //'aria-keyshortcuts': 'SHIFT+R',
+        'aria-controls': 'watch-playbackrate-menu',
+        'aria-haspopup': 'true'
+      }}
     >
-      <span className="watch-btn-playbackrate-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-playbackrate-content" tabIndex="-1">
         {`${playbackrate} x`}        
       </span>
     </WatchCtrlButton>

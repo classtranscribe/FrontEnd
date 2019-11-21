@@ -50,7 +50,7 @@ function PlaybackrateMenu({
   }
 
   return show ? (
-    <div className="watch-playbackrate-menu">
+    <div id="watch-playbackrate-menu" role="menu" aria-label="Playback Rate Menu" className="watch-playbackrate-menu">
       <button className="plain-btn watch-menu-close-btn watch-playbackrate-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>

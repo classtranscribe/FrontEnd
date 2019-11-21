@@ -9,7 +9,7 @@ export default function WatchCtrlButton({
   active=false,
   colored=false,
   label="",
-  ariaLabel="",
+  ariaTags={},
   mouseEnterDelay=0,
   id=""
 }) { 
@@ -39,9 +39,9 @@ export default function WatchCtrlButton({
           active={active.toString()}
           colored={colored.toString()}
           position={position}
-          aria-label={ariaLabel}
           onClick={handleClick}
           onKeyDown={handleKeyDown}
+          {...ariaTags}
         >
           {children}
         </button>

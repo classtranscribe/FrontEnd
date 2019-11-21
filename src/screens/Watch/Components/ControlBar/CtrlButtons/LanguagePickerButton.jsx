@@ -26,10 +26,15 @@ export function LanguagePickerButtonWithRedux({
       onClick={handleMenuTrigger}
       active={menu === MENU_LANGUAGE}
       label={<>Current Language: {langMap[currTrans.language]} (SHIFT+L)</>}
-      ariaLabel="Language Menu"
       id={MENU_LANGUAGE}
+      ariaTags={{
+        'aria-label': `Language Menu`,
+        //'aria-keyshortcuts': 'Shift+L',
+        'aria-controls': 'watch-language-menu',
+        'aria-haspopup': 'true'
+      }}
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">subtitles</i>     
       </span>
     </WatchCtrlButton>

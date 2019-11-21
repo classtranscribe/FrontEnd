@@ -102,7 +102,7 @@ function CaptionLine({
                 rows='2'
                 id={`caption-line-textarea-${id}`}
                 className="caption-line-text"
-                aria-label={`(${index}) Edit caption at ${timeStr}`} 
+                aria-label={`(${index}) Edit caption at ${timeStr} (Hit return to save changes)`} 
                 spellCheck={false}
                 defaultValue={text} 
                 onFocus={handleFocus}
@@ -117,6 +117,8 @@ function CaptionLine({
         <button 
           className="plain-btn caption-line-save-btn" 
           onClick={handleSave}
+          tabIndex={-1}
+          aria-hidden={true}
         >
           Save
         </button>

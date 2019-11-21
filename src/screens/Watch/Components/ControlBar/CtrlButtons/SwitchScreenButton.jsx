@@ -15,10 +15,13 @@ export function SwitchScreenButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleSwitch}
       label="Switch Screens (SHIFT+<)"
-      ariaLabel="Switch Screens"
       id="switch-screen-btn"
+      ariaTags={{
+        'aria-label': 'Switch Screens',
+        //'aria-keyshortcuts': 'SHIFT+,'
+      }}
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">compare_arrows</i>       
       </span>
     </WatchCtrlButton>

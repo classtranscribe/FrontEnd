@@ -15,11 +15,15 @@ export function ClosedCaptionButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleCCTrigger}
       label={<>Closed Caption (c)</>}
-      ariaLabel={`${openCC ? 'Open' : 'Close'} Closed Caption (c)`}
       id="closed-caption-btn"
       colored={openCC}
+      ariaTags={{
+        'aria-label': `${openCC ? 'Open' : 'Close'} Closed Caption`,
+        //'aria-keyshortcuts': 'c',
+        'aria-controls': 'watch-cc-container'
+      }}
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">closed_caption</i>     
       </span>
     </WatchCtrlButton>

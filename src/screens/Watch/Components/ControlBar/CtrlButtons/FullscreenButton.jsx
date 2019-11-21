@@ -19,10 +19,13 @@ export function FullscreenButtonWithRedux({
     <WatchCtrlButton 
       onClick={handleFullscreen}
       label={ isFullscreen ? "Exit Fullscreen (f)" : "Enter Fullscreen (f)" }
-      ariaLabel={ isFullscreen ? "Enter Fullscreen (f)" : "Enter Fullscreen (f)" }
+      ariaTags={{
+        'aria-label': isFullscreen ? "Enter Fullscreen" : "Enter Fullscreen",
+        //'aria-keyshortcuts': 'f'
+      }}
       id="fullscreen-btn"
     >
-      <span className="watch-btn-content" tabIndex="-1">
+      <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         {
           isFullscreen ?
           <i className="material-icons">fullscreen_exit</i>
