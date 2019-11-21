@@ -45,14 +45,14 @@ export function Sidebar({state: {displaySideBar}, props: {history}, showSiderBar
             >
               <Icon name="history" /> &emsp; History
             </ListGroup.Item>
-            {/* <ListGroup.Item 
-              className="list" action eventKey="personal-report" 
-              as={Link} to={util.links.personalReport()}
-              title="personal report" aria-label="personal report"
+            <ListGroup.Item 
+              className="list" action eventKey="personal-analytics" 
+              as={Link} to={util.links.personalAnalytics()}
+              title="personal analytics" aria-label="personal analytics"
               onClick={() => showSiderBar(window.innerWidth > 900)}
             >
-              <Icon name="user" /> &emsp; Interaction
-            </ListGroup.Item> */}
+              <Icon name="user" /> &emsp; Analytics
+            </ListGroup.Item>
           </>
         }
         {

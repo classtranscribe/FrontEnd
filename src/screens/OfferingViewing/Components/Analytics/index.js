@@ -4,7 +4,7 @@ import { parseTimeUpdate, parseEditTrans, parseFilterTrans } from './util'
 import './index.css'
 import { Message } from 'semantic-ui-react'
 
-export class PersonalReport extends React.Component {
+export class Analytics extends React.Component {
   constructor(props) {
     super(props)
     this.userInfo = user.getUserInfo()
@@ -14,29 +14,40 @@ export class PersonalReport extends React.Component {
   }
 
   componentDidMount() {
+    const { offerings } = this.props
+    if (offerings[0] !== 'Unloaded') {
+      this.getStudentActivities()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
     // const { offerings, history } = this.props
-    this.getStudentActivities()
+    const { offerings } = this.props
+    if (prevProps.offerings !== offerings && offerings[0] !== 'Unloaded') {
+      this.getStudentActivities()
+    }
+    
   }
 
   getStudentActivities = async () => {
     const { userInfo } = this
     var parsedData = []
-    await api.getStudentLogs('timeupdate', userInfo.emailId, new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
+    await api.getUserLogsByEvent('timeupdate', new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
       .then(({data}) => {
         parsedData = parseTimeUpdate(data, this.props.offerings)
-        console.log('timeupdate', parsedData)
+        // console.log('?????????', this.props.offerings)
       })
 
-    await api.getStudentLogs('filtertrans', userInfo.emailId, new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
+    await api.getUserLogsByEvent('filtertrans', new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
       .then(({data}) => {
         parsedData = parseFilterTrans(data, parsedData)
-        console.log('filtertrans', parsedData)
+        // console.log('filtertrans', parsedData)
       })
 
-    await api.getStudentLogs('edittrans', userInfo.emailId, new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
+    await api.getUserLogsByEvent('edittrans', new Date(2018, 11, 24, 10, 33, 30, 0), new Date())
       .then(({data}) => {
         parsedData = parseEditTrans(data, parsedData)
-        console.log('edittrans', parsedData)
+        // console.log('edittrans', parsedData)
       })
 
     this.setState({ parsedData })
@@ -56,6 +67,7 @@ export class PersonalReport extends React.Component {
             <Message key={elem.offeringId}>
 
               <Message.Header>{elem.offering.fullNumber}</Message.Header>
+              <Message.Header>{elem.offering.termName} • {elem.offering.sectionName}</Message.Header>
 
               <Message.List>
                 <Message.Item>Total watching time: {elem.mins} mins</Message.Item>

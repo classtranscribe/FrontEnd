@@ -6,8 +6,8 @@ export function parseTimeUpdate(data, offerings) {
   data.forEach(elem => {
     var offering = offerings.filter(offering => offering.id === elem.offeringId)[0] || {}
     
-    var fullNumber = api.getFullNumber(offering.courses || [])
-    var { termName, sectionName } = offering.offering || {}
+    // var fullNumber = api.getFullNumber(offering.courses || [])
+    var { termName, sectionName, fullNumber } = offering || {}
 
     var count = 0
     elem.medias.forEach( media => {
