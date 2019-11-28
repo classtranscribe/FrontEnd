@@ -1,4 +1,3 @@
-import './index.css'
 export { PlayButton               } from './PlayButton'
 export { SettingButton            } from './SettingButton'
 export { FullscreenButton         } from './FullscreenButton'

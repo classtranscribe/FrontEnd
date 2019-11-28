@@ -60,6 +60,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     }
   }
 
+  onPause = e => {
+    control.onPause(e)
+  }
+
   onCanPlay = e => {
     control.onCanPlay(e)
   }
@@ -106,6 +110,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onTimeUpdate={this.onTimeUpdate}
               onProgress={this.onProgress}
               onCanPlay={this.onCanPlay}
+              onPause={this.onPause}
             >
               {
                 Boolean(srcPath1) 

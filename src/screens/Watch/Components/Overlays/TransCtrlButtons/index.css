@@ -52,8 +52,12 @@
 @media screen and (max-width: 550px) {
   .trans-ctrl-btn[id=trans-view-switch-btn] {
     bottom: 16em;
+    
   }
   .trans-ctrl-btn[id=watch-search-btn] {
     bottom: 11em;
+  }
+  .trans-ctrl-btn .trans-ctrl-btn-content {
+    max-width: 50px !important;
   }
 }

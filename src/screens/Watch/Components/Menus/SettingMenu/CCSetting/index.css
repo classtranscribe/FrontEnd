@@ -43,7 +43,7 @@
     padding-top: 10em;
     justify-content: center;
     align-items: center;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: auto;
   }
   .ccstyle-demo-area {

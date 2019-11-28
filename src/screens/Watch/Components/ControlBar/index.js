@@ -22,7 +22,7 @@ export function ControlBarWithRedux({
 }) {
   const { isTwoScreen } = media
   return (
-    <div className="watch-ctrl-bar-container">
+    <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
         <PlayButton />

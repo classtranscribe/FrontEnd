@@ -26,3 +26,7 @@ a:focus, button:focus {
   background: rgb(26, 150, 155) !important;
   color: #fafafa !important;
 }
+
+::-webkit-scrollbar{
+  display: none;
+}

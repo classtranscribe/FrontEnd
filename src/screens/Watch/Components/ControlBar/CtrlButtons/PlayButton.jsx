@@ -1,6 +1,6 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-import WatchCtrlButton from './WatchCtrlButton'
+import WatchCtrlButton from '../../WatchCtrlButton'
 import { videoControl } from '../../../Utils'
 
 export function PlayButtonWithRedux({

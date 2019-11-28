@@ -1,4 +1,5 @@
 import { MENU_HIDE, MENU_BEFORE_HIDE } from './constants.util'
+import { searchControl } from './search.control'
 
 export const menuControl = {
   currentMenu: null,
@@ -18,6 +19,7 @@ export const menuControl = {
    * @param {String} option - 'a': stay, 'b': double open = close
    */
   open: function(type, option='a') {
+    searchControl.closeSearch()
     if (option === 'b' && this.currentMenu === type) {
       this.close()
       return;

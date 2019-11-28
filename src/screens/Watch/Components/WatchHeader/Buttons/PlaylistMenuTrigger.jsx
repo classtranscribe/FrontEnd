@@ -1,12 +1,11 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-import WatchCtrlButton from '../ControlBar/CtrlButtons/WatchCtrlButton'
+import WatchCtrlButton from '../../WatchCtrlButton'
 import { 
   MENU_HIDE, 
   MENU_PLAYLISTS,
   menuControl
-} from '../../Utils'
-import './index.css'
+} from '../../../Utils'
 
 function PlaylistMenuTrigger({
   menu=MENU_HIDE,

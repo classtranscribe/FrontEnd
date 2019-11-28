@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { Spinner } from 'react-bootstrap'
-import { transControl, langMap, langOptions } from '../../../Utils'
+import { 
+  downloadControl, 
+  transControl, 
+  langMap, langOptions 
+} from '../../../Utils'
 import { api } from 'utils'
 import './index.css'
 
@@ -19,18 +23,14 @@ function DownloadMenu({
 
   const handleDownload = (path, type, info) => async () => {
     setDownloading(info)
-    try {
-      const { data } = await api.getFile(path)
-      if (type === 'trans') {
-        fileDownload(data, `transcription-${info}.vtt`)
-      }
-      setTimeout(() => {
+    downloadControl.webVTT(
+      path, info,
+      () => setTimeout(() => setDownloading(''), 400),
+      () => {
+        setDisabledList([...disabledList, path])
         setDownloading('')
-      }, 400);
-    } catch(e) {
-      setDisabledList([...disabledList, path])
-      setDownloading('')
-    }
+      }
+    )
   }
 
   return show ? (

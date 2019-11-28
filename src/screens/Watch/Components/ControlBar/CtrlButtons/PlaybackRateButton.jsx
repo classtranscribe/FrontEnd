@@ -1,6 +1,6 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-import WatchCtrlButton from './WatchCtrlButton'
+import WatchCtrlButton from '../../WatchCtrlButton'
 import { 
   MENU_HIDE, MENU_PLAYBACKRATE, 
   menuControl

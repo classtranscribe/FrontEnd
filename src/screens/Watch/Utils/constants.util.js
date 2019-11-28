@@ -34,6 +34,7 @@ export const MENU_LANGUAGE = 'menu-language'
 export const MENU_SCREEN_MODE = 'menu-screen-mode'
 export const MENU_DOWNLOAD = 'menu-download'
 export const MENU_TRANSLATION = 'menu-translation'
+export const MENU_SHORTCUTS = 'menu-shortcuts'
 
 // Caption Languages
 export const ENGLISH = 'en-US'
@@ -57,9 +58,23 @@ export const WEBVTT_CHAPTERS = 'chapters'
 export const LINE_VIEW = 'Caption Line View'
 export const TRANSCRIPT_VIEW = 'Transcript View'
 
+// Search
 // Caption Search Options
-export const SEARCH_IN_COURSE = 'search-in-course'
-export const SEARCH_IN_VIDEO = 'search-in-video'
+export const SEARCH_TRANS_IN_COURSE = 'search-trans-in-course'
+export const SEARCH_TRANS_IN_VIDEO = 'search-trans-in-video'
+export const SEARCH_VIDEOS = 'search-videos'
+// Search Status
+export const SEARCH_HIDE = 'search-hide'
+export const SEARCH_BEGIN = 'search-begin'
+export const SEARCH_SEARCHING = 'search-searching'
+export const SEARCH_RESULT = 'search-result'
+//
+export const SEARCH_INIT = { 
+  status: SEARCH_HIDE, 
+  option: SEARCH_TRANS_IN_VIDEO, 
+  value: '',
+  results: ARRAY_INIT 
+}
 
 // Player static options
 export const AUTOPLAY = false

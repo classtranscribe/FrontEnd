@@ -1,4 +1,15 @@
-import { preferControl } from "../../screens/Watch/Utils"
+import { 
+  preferControl, 
+  MENU_HIDE,
+  NORMAL_MODE,
+  CC_COLOR_WHITE,
+  CC_COLOR_BLACK,
+  CC_SIZE_100,
+  CC_FONT_SANS_SERIF,
+  CC_OPACITY_75,
+  CC_POSITION_BOTTOM,
+  SEARCH_INIT
+} from "../../screens/Watch/Utils"
 
 export const initialState = {
   // Basic metadata
@@ -28,8 +39,8 @@ export const initialState = {
   openAD: preferControl.ad(),
 
   // screen options
-  menu: "menu-hide",
-  mode: "normal-mode",
+  menu: MENU_HIDE,
+  mode: NORMAL_MODE,
   transView: preferControl.defaultTransView(),
 
   // Video player options
@@ -44,15 +55,15 @@ export const initialState = {
   isFullscreen: false,
 
   // CC options
-  cc_color: 'white',
-  cc_bg: 'black',
-  cc_size: 1,
-  cc_font: "sans-serif",
-  cc_position: 'bottom',
-  cc_opacity: .75,
+  cc_color: CC_COLOR_WHITE,
+  cc_bg: CC_COLOR_BLACK,
+  cc_size: CC_SIZE_100,
+  cc_font: CC_FONT_SANS_SERIF,
+  cc_position: CC_POSITION_BOTTOM,
+  cc_opacity: CC_OPACITY_75,
 
   // Others
   currEditing: null,
   prompt: null,
-  search: null,
+  search: SEARCH_INIT,
 }

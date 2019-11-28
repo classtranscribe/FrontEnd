@@ -6,7 +6,7 @@
   height: calc(100vh - 6em);
   /* background: grey; */
   overflow-x: hidden;
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
   scroll-behavior: smooth;
 }
 .trans-box {

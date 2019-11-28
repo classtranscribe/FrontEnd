@@ -1,32 +1,35 @@
 import _ from 'lodash'
 import { transControl } from "./trans.control"
-import { ARRAY_EMPTY, ARRAY_INIT } from "./constants.util"
+import { SEARCH_INIT, ARRAY_EMPTY, ARRAY_INIT, SEARCH_HIDE, SEARCH_BEGIN, SEARCH_RESULT, SEARCH_TRANS_IN_VIDEO } from "./constants.util"
 
 /**
  * Functions for controlling user preference
  */
 
 export const searchControl = {
-  search_: [],
+  search_: SEARCH_INIT,
   setSearch: function() {}, 
 
   init: function(setSearch) {
     this.setSearch = setSearch
   },
 
-  openSearch: function() {
-    this.setSearch(ARRAY_INIT)
-    this.search_ = ARRAY_INIT
+  openSearch: function(option=SEARCH_TRANS_IN_VIDEO) {
+    let search = { ...this.search_, option, status: SEARCH_BEGIN }
+    this.setSearch(search)
+    this.search_ = search
   },
 
   closeSearch: function() {
-    this.setSearch(null)
-    this.search_ = null
+    if (this.search_.status === SEARCH_HIDE) return;
+    let search = { ...this.search_, status: SEARCH_HIDE }
+    this.setSearch(search)
+    this.search_ = search
   },
 
   handleOpen: function(bool) {
     if (bool === undefined) {
-      if (this.search_ === null) this.openSearch()
+      if (this.search_.status === SEARCH_HIDE) this.openSearch()
       else this.closeSearch()
     } else {
       if (Boolean(bool)) this.openSearch()
@@ -34,9 +37,9 @@ export const searchControl = {
     }
   },
 
-  search: function(value) {
+  getInVideoTransSearchResult: function(value) {
     if (value === undefined) return this.search_
-    let captions = transControl.captions()
+    let captions = transControl.transcript()
     if (!value) {
       return this.openSearch()
     }
@@ -57,7 +60,9 @@ export const searchControl = {
     let results = _.filter(captions, isMatch)
     if (results.length === 0) results = ARRAY_EMPTY
 
-    this.setSearch(results)
-    this.search_ = results
+    let search = { ...this.search_, status: SEARCH_RESULT, results, value }
+    // console.log('results', results)
+    this.setSearch(search)
+    this.search_ = search
   },
 }

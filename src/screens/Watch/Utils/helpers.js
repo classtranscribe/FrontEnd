@@ -2,6 +2,7 @@ import $ from 'jquery'
 import _ from 'lodash'
 import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
+import { videoControl } from './player.control'
 
 export function findUpNextMedia({
   playlist={ medias: [] },
@@ -100,4 +101,3 @@ export function autoSizeAllTextAreas(timeout=0) {
     autoHelper()
   }, timeout);
 }
-

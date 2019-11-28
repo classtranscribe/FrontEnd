@@ -6,7 +6,7 @@
   justify-content: flex-end;
   align-items: flex-end;
   padding: 0 15em 4em 6vw;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   animation: var(--ct-animation-popup);
   -o-animation: var(--ct-animation-popup);

@@ -2,7 +2,7 @@ import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { Popup } from 'semantic-ui-react'
 import './index.css'
-import { transControl, LINE_VIEW, TRANSCRIPT_VIEW } from '../../../Utils'
+import { transControl, LINE_VIEW, TRANSCRIPT_VIEW, searchControl } from '../../../Utils'
 
 function TransCtrlButtonsWithRedux({
   transView
@@ -13,7 +13,7 @@ function TransCtrlButtonsWithRedux({
   }
 
   const handleSearch = () => {
-
+    searchControl.openSearch()
   }
 
   const isLineView = transView === LINE_VIEW

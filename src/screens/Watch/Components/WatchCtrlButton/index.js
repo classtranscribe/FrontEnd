@@ -1,5 +1,6 @@
 import React from 'react'
 import { Popup } from 'semantic-ui-react'
+import './index.css'
 
 export default function WatchCtrlButton({
   children,

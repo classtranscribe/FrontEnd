@@ -6,8 +6,8 @@
   justify-content: flex-end;
   align-items: flex-start;
   padding: 2em 10vw;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
   animation: var(--ct-animation-popup);
   -o-animation: var(--ct-animation-popup);
   -moz-animation: var(--ct-animation-popup);
@@ -126,7 +126,7 @@
   width: 45%;
   min-width: 25em;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;

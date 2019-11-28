@@ -1,3 +1,4 @@
+import $ from 'jquery'
 /**
  * Functions for controlling video players
  */
@@ -10,6 +11,7 @@ export const videoControl = {
   videoNode2: null,
   duration: 0,
   isFullscreen: false,
+
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
   // switchScreen, setMode
   externalFunctions: {}, 
@@ -20,6 +22,7 @@ export const videoControl = {
     this.externalFunctions = externalFunctions
     
     this.addEventListenerForFullscreenChange()
+    this.addEventListenerForMouseMove()
   },
 
   isTwoScreen: function() {
@@ -154,6 +157,10 @@ export const videoControl = {
     if (currPlaybackRate - 0.25 >= 0.25) this.playbackrate( currPlaybackRate - 0.25 )
   },
 
+  onPause: function(e) {
+    this.showControlBar()
+  },
+
   onDurationChange: function({ target: { duration } }) {
     const { setDuration } = this.externalFunctions
     setDuration(duration)
@@ -253,5 +260,25 @@ export const videoControl = {
     } else if (document.msExitFullscreen) { /* IE/Edge */
       document.msExitFullscreen();
     }
-  }
+  },
+
+  timeOut: null,
+  addEventListenerForMouseMove: function() {
+    // let video = this
+    // window.addEventListener('mousemove', function() {
+    //   clearTimeout(this.timeOut);
+    //   // only start the timer if the video is not paused
+    //   if ( !video.paused() ) {
+    //       $("#watch-ctrl-bar").show();
+
+    //       this.timeOut = setTimeout(function () {
+    //       $("#watch-ctrl-bar").fadeOut();
+    //       }, 2500);
+    //   }
+    // })
+  },
+  showControlBar: function() {
+    // $("#watch-ctrl-bar").show();
+    // clearTimeout(this.timeOut);
+  },
 }

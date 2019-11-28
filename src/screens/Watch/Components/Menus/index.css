@@ -119,7 +119,7 @@
   justify-content: flex-end;
   align-items: flex-end;
   padding: 4em 2vw;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   animation: var(--ct-animation-popup);
   -o-animation: var(--ct-animation-popup);

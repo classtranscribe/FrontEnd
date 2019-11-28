@@ -10,6 +10,7 @@ import {
   WatchHeader,
   Menus,
   ClassTranscribePlayer,
+  Search,
   ControlBar,
   Transcriptions,
   TabEventHelperButtons,
@@ -161,6 +162,7 @@ export class WatchWithRedux extends React.Component {
         <WatchHeader />
         <Menus />
         <ClassTranscribePlayer />
+        <Search />
         <Transcriptions />
         <ControlBar />
         <Prompts />

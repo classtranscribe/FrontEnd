@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import {
   transControl, 
-  NORMAL_MODE, LINE_VIEW
+  NORMAL_MODE, LINE_VIEW, SEARCH_INIT, SEARCH_HIDE
 } from '../../Utils'
 import './index.css'
 import { TransCtrlButtons } from '../Overlays'
@@ -16,6 +16,7 @@ function TranscriptionsWithRedux({
   mode=NORMAL_MODE,
   transView=LINE_VIEW,
   currEditing=null,
+  search=SEARCH_INIT
 }) {
 
   const [loadingtranscript, setLoadingtranscript] = useState(true)
@@ -34,8 +35,9 @@ function TranscriptionsWithRedux({
         // || (Boolean(currDescription) && currDescription.id === id)
   }
 
+  const displayTrans = search.status === SEARCH_HIDE || true
 
-  return (
+  return displayTrans ? (
     <div 
       id="watch-trans-container" 
       className="watch-trans-container"
@@ -77,11 +79,11 @@ function TranscriptionsWithRedux({
         {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
       </div>
     </div>
-  )
+  ) : null
 }
 
 export const Transcriptions = connectWithRedux(
   TranscriptionsWithRedux,
-  ['transcript', 'currCaption', 'currEditing', 'mode', 'transView'],
+  ['transcript', 'currCaption', 'currEditing', 'mode', 'transView', 'search'],
   []
 )

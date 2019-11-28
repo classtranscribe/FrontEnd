@@ -3,12 +3,14 @@ import TranscriptionSetting from './TranscriptionSetting'
 import CCSetting from './CCSetting'
 import './index.css'
 
+const TAB_GENERAL = 'tab-general'
 const TAB_TRANS = 'tab-cc'
 const TAB_CC = 'tab-ad'
 
 const panes = [
+  { id:TAB_GENERAL, name: 'General', icon: 'settings' },
   { id:TAB_TRANS, name: 'Transcriptions', icon: 'menu_book' },
-  { id:TAB_CC, name: 'Closed Captions', icon: 'closed_caption' }
+  { id:TAB_CC, name: 'Closed Captions', icon: 'closed_caption' },
 ]
 
 function SettingMenu({

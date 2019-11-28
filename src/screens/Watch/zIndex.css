@@ -4,11 +4,11 @@
  * 0    - Transcription
  * 1    - Primary player & Closed Caption
  * 2    - Secondary player & Secondary Player Wrapper/Overlays
- * 3    - Search
  * 4    - Prompts 
  * 5    - Menus
  * 1020 - Control bar
  * 1020 - Header
+ * 1021 - Search
  * 1021 - Tab Event Helper Buttons
  *
  */
@@ -40,7 +40,7 @@
 
 /* Search */
 .watch-search {
-  z-index: 3;
+  z-index: 1021;
 }
 
 /* Overlays */

@@ -1,21 +1,17 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-import WatchCtrlButton from '../ControlBar/CtrlButtons/WatchCtrlButton'
+import WatchCtrlButton from '../../WatchCtrlButton'
 import { 
   MENU_HIDE, MENU_DOWNLOAD, 
   menuControl
-} from '../../Utils'
+} from '../../../Utils'
 
 export function DownloadMenuTrigger({
   menu=MENU_HIDE,
 }) {
 
   const handleMenuTrigger = () => {
-    if (menu !== MENU_DOWNLOAD) {
-      menuControl.open(MENU_DOWNLOAD)
-    } else {
-      menuControl.close()
-    }
+    menuControl.open(MENU_DOWNLOAD, 'b')
   }
 
   return (

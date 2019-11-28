@@ -196,6 +196,7 @@ export const transControl = {
   isMourseOverTrans: false,
 
   transcript: function(transcript_) {
+    if (transcript_ === undefined) return this.transcript_
     const { setTranscript, setCurrCaption } = this.externalFunctions
     this.transcript_ = transcript_
     if (setTranscript) setTranscript(transcript_)
