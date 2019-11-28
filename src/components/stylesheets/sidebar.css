@@ -10,7 +10,7 @@
   padding-bottom: 3rem;
   background-color: #ffffff;
   /* background-color: rgb(246, 246, 246); */
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   transition: all 0.2s linear;
   z-index: 100 !important;
@@ -104,10 +104,10 @@
   width: 96%;
   margin-left: 2%;
 }
-.op-sidebar:hover>.op-sidebar::-webkit-scrollbar {
+/* .op-sidebar:hover>.op-sidebar::-webkit-scrollbar {
   display: block;
   width: 4px;
-}
+} */
 .new-pl-btn {
   width: 19rem;
   margin: 0 0 1rem 0.5rem !important;

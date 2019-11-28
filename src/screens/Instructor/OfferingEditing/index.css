@@ -98,7 +98,7 @@
   padding: 5px 5px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;}
   .op-grid .email-group .email-item {
     height: 35px;

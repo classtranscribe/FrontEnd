@@ -191,7 +191,7 @@
   
   .sp-content .offering-detail .playlist-container {
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-left: 2em;
     margin-right: -2em;
     padding-right: 2em;
