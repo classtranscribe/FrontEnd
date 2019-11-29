@@ -29,7 +29,7 @@
   background: rgba(24, 24, 24, 0.562);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .watch-header-search-btn {
     display: none;
   }

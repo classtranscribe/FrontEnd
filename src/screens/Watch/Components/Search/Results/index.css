@@ -16,10 +16,12 @@
   margin: 0 .3em .5em .3em;
 }
 .search-options-btn span {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: rgb(75, 76, 77);
   color: white;
-  padding: .2em .5em;
+  padding: .3em .6em;
   border-radius: 20px;
   font-family: var(--ct-font-google);
 }

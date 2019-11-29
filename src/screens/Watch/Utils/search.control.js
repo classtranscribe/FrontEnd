@@ -62,6 +62,8 @@ export const searchControl = {
       value: '', 
       status: SEARCH_BEGIN 
     })
+
+    this.hasResult = false
   },
 
   getRegExpTests: function(value='', key='text') {
@@ -97,7 +99,7 @@ export const searchControl = {
           text = _.replace(text, test.reg, `<span>${test.word}</span>`)
         }
       })
-      return _.set(res, key, text)
+      return _.set(_.clone(res), key, text)
     })
   },
 

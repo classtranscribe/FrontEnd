@@ -48,7 +48,7 @@ function ResultList({
     } else if (option === SEARCH_TRANS_IN_COURSE) {
       console.log('?')
       const { courseNumber } = util.parseSearchQuery()
-      window.location = util.links.watch(courseNumber, item.media.id, item.begin)
+      window.location = util.links.watch(courseNumber, item.media.id, timeStrToSec(item.begin))
     } else {
       const { courseNumber } = util.parseSearchQuery()
       window.location = util.links.watch(courseNumber, item.id)

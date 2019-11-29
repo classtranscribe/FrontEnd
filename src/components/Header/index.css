@@ -23,10 +23,14 @@
   background: transparent;
 }
 .ct-header-left-elem, .ct-header-right-elem {
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  width: 100%;
+}
+.ct-header-right-elem {
+  justify-content: flex-end;
 }
 
 /* Sidebar trigger */

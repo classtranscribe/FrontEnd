@@ -35,6 +35,9 @@
   .playlist-menu-btn {
     margin-right: 10px !important;
   }
+} 
+
+@media screen and (max-width: 630px) {
   .watch-ctrl-button[id=menu-shortcuts], .watch-ctrl-button[id=menu-download] {
     display: none;
   }

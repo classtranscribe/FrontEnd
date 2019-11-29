@@ -26,12 +26,12 @@ export function ClassTranscribeHeader({
   const homeURL = util.links.home()
   const imgSrc = darkMode ? darkTextBrand : textBrand
 
-  if (children !== null) leftElem = children
+  if (children !== null) rightElem = children
 
   return (
     <nav id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
       {/* Right Elem */}
-      <div className="ct-header-right-elem">
+      <div className="ct-header-left-elem">
         { /* Sidebar trigger */
           showSiderBar 
           &&
@@ -53,12 +53,12 @@ export function ClassTranscribeHeader({
           />
         </Link>
         {subtitle}
-        {rightElem}
+        {leftElem}
       </div>
 
       {/* Left Elem */}
-      <div className="ct-header-left-elem">
-        {leftElem}
+      <div className="ct-header-right-elem">
+        {rightElem}
         {showProfileMenu && <ProfileMenu darkMode={darkMode} />}
       </div>
     </nav>

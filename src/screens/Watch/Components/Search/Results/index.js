@@ -51,7 +51,7 @@ function Results({
               onClick={handleChangeOption(SEARCH_TRANS_IN_VIDEO)}
             >
               <span tabIndex="-1">
-                {resultNum(inVideoTransResults)} captions in this video
+                {resultNum(inVideoTransResults)} caption(s) in this video
               </span>
             </button>
             <button 
@@ -60,7 +60,7 @@ function Results({
               onClick={handleChangeOption(SEARCH_IN_PLAYLISTS)}
             >
               <span tabIndex="-1">
-                {resultNum(playlistResults)} videos in this course
+                {resultNum(playlistResults)} video(s) in this course
               </span>
             </button>
             <button 
@@ -69,7 +69,7 @@ function Results({
               onClick={handleChangeOption(SEARCH_TRANS_IN_COURSE)}
             >
               <span tabIndex="-1">
-                {resultNum(inCourseTransResults)} captions in this course
+                {resultNum(inCourseTransResults)} caption(s) in this course
               </span>
             </button>
             for '{value}'
