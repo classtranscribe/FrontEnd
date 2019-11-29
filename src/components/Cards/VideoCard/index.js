@@ -32,7 +32,7 @@ function VideoCardWithOutRouter({
   handleDismiss,
   dismissPrompt,
 }) {
-  const fittedName = util.getFittedName(name, fittedNameSize)
+  const fittedName = fittedNameSize < 0 ? name : util.getFittedName(name, fittedNameSize)
 
   const handleClick = () => {
       if ($('.description-link:focus').length > 0) return;
@@ -72,7 +72,7 @@ function VideoCardWithOutRouter({
       >
         <Poster progress={ratio} width={posterSize} />
         <div className="media-info">
-          <p className="media-name">{fittedNameSize === 56 ? name : fittedName}</p>
+          <p className="media-name" dangerouslySetInnerHTML={{__html: fittedNameSize === 56 ? name : fittedName}}></p>
           {isUnavailable && <p className="description text-muted">Sorry this video is currently unavailable.</p>}
           {!descriptionLink && <p className="description text-muted">{description}</p>}
           {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}

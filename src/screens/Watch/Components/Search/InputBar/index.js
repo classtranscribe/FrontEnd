@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Popup } from 'semantic-ui-react'
 import { 
   searchControl, 
-  SEARCH_TRANS_IN_VIDEO, SEARCH_VIDEOS, SEARCH_INIT
+  SEARCH_TRANS_IN_VIDEO, SEARCH_IN_PLAYLISTS, SEARCH_INIT, ARRAY_INIT, SEARCH_RESULT
 } from '../../../Utils'
 import { util } from 'utils'
 import './index.css'
@@ -13,18 +13,24 @@ function InputBar({
 }) {
 
   const inputRef = useRef()
-  const [searchOption, setSearchOption] = useState(SEARCH_TRANS_IN_VIDEO)
-  const inputPlaceholder = searchOption === SEARCH_VIDEOS ? 'Search Playlists' : 'Search Transcriptions'
+  // const [searchOption, setSearchOption] = useState(SEARCH_TRANS_IN_VIDEO)
+  const inputPlaceholder = 'Search Transcriptions, Videos...'// searchOption === SEARCH_IN_PLAYLISTS ? 'Search Playlists' : 'Search Transcriptions'
 
   useEffect(() => {
     inputRef.current.focus()
   }, [])
 
+  const clearInput = () => {
+    inputRef.current.value = ''
+    searchControl.resetResult()
+    inputRef.current.focus()
+  }
+
   const handleSearch = () => {
     // console.log('search value', inputRef.current.value)
     inputRef.current.focus()
     util.scrollToTop('.watch-search-result-container')
-    searchControl.getInVideoTransSearchResult(inputRef.current.value)
+    searchControl.getResults(inputRef.current.value)
   }
 
   const handleOnKeyDown = e => {
@@ -44,6 +50,7 @@ function InputBar({
   return (
     <div className="watch-search-input-bar">
       <div className="search-input-container">
+        {/* Search Button */}
         <button 
           className="plain-btn search-input-bar-btn"
           aria-label="Search"
@@ -54,6 +61,7 @@ function InputBar({
             <i className="material-icons">search</i>
           </span>
         </button>
+        {/* Search Input */}
         <input
           ref={inputRef}
           type="text"
@@ -61,9 +69,27 @@ function InputBar({
           defaultValue={defaultInput}
           placeholder={inputPlaceholder}
           onKeyDown={handleOnKeyDown}
+          aria-label={inputPlaceholder}
         />
+        {/* Clear Input Button */}
+        {
+          search.status === SEARCH_RESULT
+          &&
+          <button 
+            className="plain-btn search-input-bar-btn"
+            onClick={clearInput}
+            action="clear"
+            aria-label="Clear"
+          >
+            <span tabIndex="-1" className="search-input-bar-btn-content">
+              <i className="material-icons">close</i>
+            </span>
+          </button>
+        }
       </div>
-      <Popup inverted wide basic
+
+      {/* Search Options Trigger */}
+      {/* <Popup inverted wide basic
         position="left center"
         openOnTriggerClick={false}
         openOnTriggerFocus
@@ -72,35 +98,27 @@ function InputBar({
         trigger={
           <button 
             className="plain-btn search-input-bar-btn"
-            aria-label="Search Options"
             onClick={openFilter}
             action="filter"
+            aria-label="Search Options"
           >
             <span tabIndex="-1" className="search-input-bar-btn-content">
-              <i class="fas fa-filter"></i>
+              <i className="fas fa-filter"></i>
             </span>
           </button>
         }
-      />
-      {/* <Popup inverted wide basic
-        position="left center"
-        openOnTriggerClick={false}
-        openOnTriggerFocus
-        closeOnTriggerBlur
-        content="Close"
-        trigger={ */}
-          <button 
-            className="plain-btn search-input-bar-btn"
-            aria-label="Close"
-            onClick={handleClose}
-            action="close"
-          >
-            <span tabIndex="-1" className="search-input-bar-btn-content">
-              <i className="material-icons">close</i>
-            </span>
-          </button>
-        {/* }
       /> */}
+      {/* Close Button */}
+      <button 
+        className="plain-btn search-input-bar-btn"
+        onClick={handleClose}
+        action="close"
+        aria-label="Close"
+      >
+        <span tabIndex="-1" className="search-input-bar-btn-content">
+          {/* <i className="material-icons">close</i> */}Cancel
+        </span>
+      </button>
     </div>
   )
 }

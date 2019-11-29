@@ -1,4 +1,4 @@
-import { LINE_VIEW, TRANSCRIPT_VIEW } from "./constants.util"
+import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from "./constants.util"
 
 /**
  * Functions for controlling user preference
@@ -11,6 +11,7 @@ const DEFAULT_TRANS_VIEW = 'watch-pref-trans-view'
 const TRANS_AUTO_SCROLL = 'watch-pref-auto-scroll'
 const PAUSE_WHILE_AD = 'watch-pref-pause-ad'
 const PAUSE_WHILE_EDITING = 'watch-pref-pause-edit'
+const DEFAULT_SEARCH_OPTION = 'watch-pref-search-opt'
 
 export const preferControl = {
   // setTransView
@@ -73,5 +74,13 @@ export const preferControl = {
       return localStorage.getItem(DEFAULT_TRANS_VIEW) || TRANSCRIPT_VIEW//LINE_VIEW
     }
     localStorage.setItem(DEFAULT_TRANS_VIEW, view)
+  },
+
+  [DEFAULT_SEARCH_OPTION]: localStorage.getItem(DEFAULT_SEARCH_OPTION) === TRUE,
+  defaultSearchOption: function(opt) {
+    if (opt === undefined) {
+      return localStorage.getItem(DEFAULT_SEARCH_OPTION) || SEARCH_TRANS_IN_VIDEO
+    }
+    localStorage.setItem(DEFAULT_SEARCH_OPTION, opt)
   },
 }

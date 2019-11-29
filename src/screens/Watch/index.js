@@ -76,7 +76,7 @@ export class WatchWithRedux extends React.Component {
 
   initSearchControl = () => {
     const { setSearch } = this.props
-    searchControl.init(setSearch)
+    searchControl.init({ setSearch })
   }
 
   initPreferenceControl = () => {
@@ -152,6 +152,16 @@ export class WatchWithRedux extends React.Component {
     }
 
     api.contentLoaded()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { playlist, playlists } = this.props
+    if (playlist !== prevProps.playlist && Boolean(playlist.offeringId)) {
+      searchControl.init({ offeringId: playlist.offeringId })
+    }
+    if (playlists !== prevProps.playlists && Boolean(playlists.length)) {
+      searchControl.init({ playlists })
+    }
   }
 
   render() { 

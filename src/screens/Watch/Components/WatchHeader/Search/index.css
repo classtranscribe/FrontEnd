@@ -14,7 +14,7 @@
   border: transparent .1em solid;
   border-radius: 5px;
   font-size: 1.2em;
-  background: rgba(113, 116, 116, 0.459);
+  background: rgba(135, 136, 136, 0.459);
 }
 .watch-header-search-btn span i {
   margin-right: .3em;
@@ -23,7 +23,7 @@
   outline: none;
 }
 .watch-header-search-btn:hover > span, .watch-header-search-btn:focus > span {
-  border-color: rgb(133, 133, 133);
+  background: rgb(42, 42, 42);
 }
 .watch-header-search-btn:active > span {
   background: rgba(24, 24, 24, 0.562);

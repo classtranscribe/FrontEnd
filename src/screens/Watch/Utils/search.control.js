@@ -1,6 +1,15 @@
 import _ from 'lodash'
+import { api } from 'utils'
 import { transControl } from "./trans.control"
-import { SEARCH_INIT, ARRAY_EMPTY, ARRAY_INIT, SEARCH_HIDE, SEARCH_BEGIN, SEARCH_RESULT, SEARCH_TRANS_IN_VIDEO } from "./constants.util"
+import { 
+  SEARCH_INIT, 
+  ARRAY_EMPTY, 
+  ARRAY_INIT,
+  SEARCH_HIDE, 
+  SEARCH_BEGIN, 
+  SEARCH_RESULT, 
+  SEARCH_TRANS_IN_VIDEO 
+} from "./constants.util"
 
 /**
  * Functions for controlling user preference
@@ -8,23 +17,31 @@ import { SEARCH_INIT, ARRAY_EMPTY, ARRAY_INIT, SEARCH_HIDE, SEARCH_BEGIN, SEARCH
 
 export const searchControl = {
   search_: SEARCH_INIT,
+  hasResult: false,
+  playlists: [],
+  offeringId: '',
   setSearch: function() {}, 
 
-  init: function(setSearch) {
-    this.setSearch = setSearch
+  init: function({setSearch, playlists, offeringId}) {
+    if (setSearch) this.setSearch = setSearch
+    if (playlists) this.playlists = playlists
+    if (offeringId) this.offeringId = offeringId
   },
 
-  openSearch: function(option=SEARCH_TRANS_IN_VIDEO) {
-    let search = { ...this.search_, option, status: SEARCH_BEGIN }
-    this.setSearch(search)
-    this.search_ = search
+  updateSearch: function(search) {
+    let newSearch = { ...this.search_, ...search }
+    this.search_ = newSearch
+    this.setSearch(newSearch)
+  },
+
+  openSearch: function() {
+    let status = this.hasResult ? SEARCH_RESULT : SEARCH_BEGIN 
+    this.updateSearch({ status })
   },
 
   closeSearch: function() {
     if (this.search_.status === SEARCH_HIDE) return;
-    let search = { ...this.search_, status: SEARCH_HIDE }
-    this.setSearch(search)
-    this.search_ = search
+    this.updateSearch({ status: SEARCH_HIDE })
   },
 
   handleOpen: function(bool) {
@@ -37,32 +54,119 @@ export const searchControl = {
     }
   },
 
-  getInVideoTransSearchResult: function(value) {
+  resetResult: function() {
+    this.updateSearch({ 
+      inVideoTransResults: ARRAY_INIT, 
+      inCourseTransResults: ARRAY_INIT,
+      playlistResults: ARRAY_INIT,
+      value: '', 
+      status: SEARCH_BEGIN 
+    })
+  },
+
+  getRegExpTests: function(value='', key='text') {
+    let tests = []
+    // get test functions for each word
+    value.split(' ').forEach(word => {
+      let reg = new RegExp(_.escapeRegExp(word), 'gi')
+      let testFunc = result => reg.test(_.get(result, key))
+      tests.push({ word, testFunc, reg })
+    })
+
+    return tests
+  },
+
+  getMatchFunction: function(value='', key='text') {
+    let tests = this.getRegExpTests(value, key)
+    // combine the test result
+    let isMatch = result => {
+      let match = true
+      tests.forEach( test => match = match && test.testFunc(result))
+      return match
+    }
+
+    return isMatch
+  },
+
+  highlightSearchedWords: function(results=[], value='', key='text') {
+    let tests = this.getRegExpTests(value, key)
+    return results.map( res => {
+      let text = _.get(res, key).toLowerCase()
+      tests.forEach( test => {
+        if (test.testFunc(res)) {
+          text = _.replace(text, test.reg, `<span>${test.word}</span>`)
+        }
+      })
+      return _.set(res, key, text)
+    })
+  },
+
+  getInVideoTransSearchResults: function(value) {
     if (value === undefined) return this.search_
     let captions = transControl.transcript()
     if (!value) {
       return this.openSearch()
     }
-    let tests = []
-    // get test functions for each word
-    value.split(' ').forEach( word => {
-      let re = new RegExp(_.escapeRegExp(word), 'i')
-      let test = result => re.test(result.text)
-      tests.push(test)
-    })
-    // combine the test result
-    let isMatch = result => {
-      var match = true
-      tests.forEach( test => match = match && test(result))
-      return match
-    }
+    let isMatch = this.getMatchFunction(value, 'text')
 
-    let results = _.filter(captions, isMatch)
-    if (results.length === 0) results = ARRAY_EMPTY
+    let inVideoTransResults = this.highlightSearchedWords(
+      _.filter(captions, isMatch), 
+      value
+    )
+    // if (inVideoTransResults.length === 0) inVideoTransResults = ARRAY_EMPTY
 
-    let search = { ...this.search_, status: SEARCH_RESULT, results, value }
-    // console.log('results', results)
-    this.setSearch(search)
-    this.search_ = search
+    return inVideoTransResults
   },
+
+  getInCourseTransSearchResults: async function(value) {
+    if (!Boolean(this.offeringId)) return []
+    const { data } = await api.searchCaptionInOffering(this.offeringId, value)
+    let inCourseTransResults = this.highlightSearchedWords(data, value, 'caption.text')
+    inCourseTransResults = inCourseTransResults.map( res => {
+      const { caption, playlistId, mediaId } = res
+      let playlist = _.find(this.playlists, { id: playlistId })
+      let media = api.parseMedia(_.find(playlist.medias, { id: mediaId }))
+      return {
+        media, playlistName: playlist.name, ...caption
+      }
+    })
+    console.log('inCourseTransResults', inCourseTransResults)
+    return inCourseTransResults
+  },
+
+  getPlaylistResults: function(value) {
+    let isMatch = this.getMatchFunction(value, 'mediaName')
+    let playlistResults = []
+    this.playlists.forEach( playlist => {
+      let playlistName = playlist.name
+      playlist.medias.forEach( media => {
+        let media_ = api.parseMedia(media)
+        if (isMatch(media_)) {
+          playlistResults.push({
+            playlistName, ...media_
+          })
+        }
+      })
+    })
+
+    playlistResults = this.highlightSearchedWords(playlistResults, value, 'mediaName')
+    // console.log('playlistResults', playlistResults)
+    return playlistResults
+  },
+
+  getResults: async function(value) {
+    let inVideoTransResults = this.getInVideoTransSearchResults(value)
+    let playlistResults = this.getPlaylistResults(value)
+    this.updateSearch({ 
+      status: SEARCH_RESULT, 
+      inVideoTransResults, playlistResults, value,
+      inCourseTransResults: ARRAY_INIT
+    })
+    let inCourseTransResults = await this.getInCourseTransSearchResults(value)
+    this.updateSearch({ 
+      inCourseTransResults 
+    })
+    this.hasResult = true
+  }
+
 }

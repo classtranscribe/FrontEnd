@@ -83,12 +83,18 @@
   color: var(--ct-text-primary);
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
-  transition: var(--ct-transition-color);
+  /* transition: var(--ct-transition-color);
   -o-transition: var(--ct-transition-color);
   -moz-transition: var(--ct-transition-color);
-  -webkit-transition: var(--ct-transition-color);
+  -webkit-transition: var(--ct-transition-color); */
+}
+.video-card-container-row .media-info .media-name span {
+  color: rgb(236, 206, 35);
 }
 .video-card-container-row .media-info .media-name:hover, .video-card-container-row:focus .media-info .media-name, .video-card-container-row[dark=true] .media-info .media-name:hover, .video-card-container-row[dark=true] .video-card:focus .media-info .media-name {
+  color: var(--ct-green-active);
+}
+.video-card-container-row .media-info .media-name:hover span, .video-card-container-row:focus .media-info .media-name span, .video-card-container-row[dark=true] .media-info .media-name:hover span, .video-card-container-row[dark=true] .video-card:focus .media-info .media-name span {
   color: var(--ct-green-active);
 }
 .video-card-container-row[dark=true] .media-info .media-name {
