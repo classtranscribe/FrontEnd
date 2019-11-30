@@ -55,7 +55,7 @@ function DownloadMenu({
               downloading === langMap[lang.language] ?
               <div className="watch-downloading"><Spinner variant="light" animation="border" /></div>
               :
-              <i className="material-icons watch-icon-icon">arrow_downward</i>
+              <i className="material-icons watch-icon-icon">save_alt</i>
             }
             <div className="watch-icon-name">{langMap[lang.language]}</div>
           </button>

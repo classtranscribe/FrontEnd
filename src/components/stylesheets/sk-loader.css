@@ -5,7 +5,9 @@
  
 :root {
   --sk-size: 60px;
+  --sk-size-small: 19px;
   --sk-color: rgb(73, 73, 73);
+  --sk-color-bright: rgb(226, 226, 226);
 }
 
 
@@ -14,7 +16,7 @@
 
 
 /*  Plane
-      <div class="sk-plane"></div>
+      <div className="sk-plane"></div>
  */
 .sk-plane {
   width: var(--sk-size);
@@ -35,13 +37,13 @@
 
 
 /*  Chase
-      <div class="sk-chase">
-        <div class="sk-chase-dot"></div>
-        <div class="sk-chase-dot"></div>
-        <div class="sk-chase-dot"></div>
-        <div class="sk-chase-dot"></div>
-        <div class="sk-chase-dot"></div>
-        <div class="sk-chase-dot"></div>
+      <div className="sk-chase">
+        <div className="sk-chase-dot"></div>
+        <div className="sk-chase-dot"></div>
+        <div className="sk-chase-dot"></div>
+        <div className="sk-chase-dot"></div>
+        <div className="sk-chase-dot"></div>
+        <div className="sk-chase-dot"></div>
       </div>
  */
 .sk-chase {
@@ -101,15 +103,19 @@
 
 
 /*  Bounce
-      <div class="sk-bounce">
-        <div class="sk-bounce-dot"></div>
-        <div class="sk-bounce-dot"></div>
+      <div className="sk-bounce">
+        <div className="sk-bounce-dot"></div>
+        <div className="sk-bounce-dot"></div>
       </div>
   */
 .sk-bounce {
   width: var(--sk-size);
   height: var(--sk-size);
   position: relative;
+}
+.sk-bounce[small=true] {
+  width: var(--sk-size-small);
+  height: var(--sk-size-small);
 }
 
 .sk-bounce-dot {
@@ -122,6 +128,9 @@
   top: 0;
   left: 0;
   animation: sk-bounce 2s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955); 
+}
+.sk-bounce[bright=true] .sk-bounce-dot {
+  background-color: var(--sk-color-bright);
 }
 
 .sk-bounce-dot:nth-child(2) { animation-delay: -1.0s; }
@@ -136,12 +145,12 @@
 
 
 /*  Wave
-      <div class="sk-wave">
-        <div class="sk-wave-rect"></div>
-        <div class="sk-wave-rect"></div>
-        <div class="sk-wave-rect"></div>
-        <div class="sk-wave-rect"></div>
-        <div class="sk-wave-rect"></div>
+      <div className="sk-wave">
+        <div className="sk-wave-rect"></div>
+        <div className="sk-wave-rect"></div>
+        <div className="sk-wave-rect"></div>
+        <div className="sk-wave-rect"></div>
+        <div className="sk-wave-rect"></div>
       </div>
  */
 .sk-wave {
@@ -174,7 +183,7 @@
 
 
 /*  Pulse
-      <div class="sk-pulse"></div>
+      <div className="sk-pulse"></div>
  */
 .sk-pulse {
   width: var(--sk-size);
@@ -195,10 +204,10 @@
 
 
 /*  Flow
-      <div class="sk-flow">
-        <div class="sk-flow-dot"></div>
-        <div class="sk-flow-dot"></div>
-        <div class="sk-flow-dot"></div>
+      <div className="sk-flow">
+        <div className="sk-flow-dot"></div>
+        <div className="sk-flow-dot"></div>
+        <div className="sk-flow-dot"></div>
       </div>
  */
 .sk-flow {
@@ -206,6 +215,10 @@
   height: calc(var(--sk-size) * 1.3);
   display: flex;
   justify-content: space-between;
+}
+.sk-flow[small=true] {
+  width: calc(var(--sk-size-small) * 1.3);
+  height: calc(var(--sk-size-small) * 1.3);
 }
 
 .sk-flow-dot {
@@ -229,9 +242,9 @@
 
 
 /*  Swing
-      <div class="sk-swing">
-        <div class="sk-swing-dot"></div>
-        <div class="sk-swing-dot"></div>
+      <div className="sk-swing">
+        <div className="sk-swing-dot"></div>
+        <div className="sk-swing-dot"></div>
       </div>
  */
 .sk-swing {
@@ -276,19 +289,19 @@
 
 
 /*  Circle
-      <div class="sk-circle">
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
-        <div class="sk-circle-dot"></div>
+      <div className="sk-circle">
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
       </div>
  */
 .sk-circle {
@@ -348,19 +361,19 @@
 
 
 /*  Circle Fade
-      <div class="sk-circle-fade">
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
-        <div class="sk-circle-fade-dot"></div>
+      <div className="sk-circle-fade">
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
+        <div className="sk-circle-fade-dot"></div>
       </div>
  */
 .sk-circle-fade {
@@ -422,16 +435,16 @@
 
 
 /*  Grid
-    <div class="sk-grid">
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
-      <div class="sk-grid-cube"></div>
+    <div className="sk-grid">
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
+      <div className="sk-grid-cube"></div>
     </div>
  */
 .sk-grid {
@@ -470,11 +483,11 @@
 
 
 /*  Fold
-      <div class="sk-fold">
-        <div class="sk-fold-cube"></div>
-        <div class="sk-fold-cube"></div>
-        <div class="sk-fold-cube"></div>
-        <div class="sk-fold-cube"></div>
+      <div className="sk-fold">
+        <div className="sk-fold-cube"></div>
+        <div className="sk-fold-cube"></div>
+        <div className="sk-fold-cube"></div>
+        <div className="sk-fold-cube"></div>
       </div>
  */
 .sk-fold {
@@ -524,11 +537,11 @@
 
 
 /*  Wander
-      <div class="sk-wander">
-        <div class="sk-wander-cube"></div>
-        <div class="sk-wander-cube"></div>
-        <div class="sk-wander-cube"></div>
-        <div class="sk-wander-cube"></div>
+      <div className="sk-wander">
+        <div className="sk-wander-cube"></div>
+        <div className="sk-wander-cube"></div>
+        <div className="sk-wander-cube"></div>
+        <div className="sk-wander-cube"></div>
       </div>
  */
 .sk-wander {

@@ -1,15 +1,13 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { Popup } from 'semantic-ui-react'
+import React, { useRef, useEffect } from 'react'
 import { 
   searchControl, 
-  SEARCH_TRANS_IN_VIDEO, SEARCH_IN_PLAYLISTS, SEARCH_INIT, ARRAY_INIT, SEARCH_RESULT
+  SEARCH_INIT, SEARCH_RESULT
 } from '../../../Utils'
 import { util } from 'utils'
 import './index.css'
 
 function InputBar({
   search=SEARCH_INIT,
-  openFilter=null
 }) {
 
   const inputRef = useRef()

@@ -7,6 +7,32 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.watch-search-btn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(75, 76, 77);
+  color: white;
+  font-family: var(--ct-font-google);
+}
+.watch-search-btn:hover span {
+  background: rgba(121, 121, 121, 0.781);
+}
+.watch-search-btn:active span {
+  background: transparent;
+}
+.watch-search-btn[current=true] span {
+  background: rgb(190, 162, 0);
+  color: black;
+}
+.watch-search-btn:disabled span {
+  pointer-events: none;
+  opacity: .5;
+  background: rgb(75, 76, 77);
+}
+
+
 .search-result-options {
   padding: 1em;
   font-size: 1.3em;
@@ -16,25 +42,21 @@
   margin: 0 .3em .5em .3em;
 }
 .search-options-btn span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgb(75, 76, 77);
-  color: white;
   padding: .3em .6em;
   border-radius: 20px;
-  font-family: var(--ct-font-google);
 }
-.search-options-btn:active span {
-  background: transparent;
+.page-btn span {
+  padding: 0 .5em;
 }
-.search-options-btn:hover span {
-  background: rgba(121, 121, 121, 0.781);
+.page-btn:last-child span {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
-.search-options-btn:focus span, .search-options-btn[current=true] span {
-  background: rgb(190, 162, 0);
-  color: black;
+.page-btn:first-child span {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
+
 
 /* Result List */
 .search-result-list {
@@ -65,10 +87,19 @@
   padding: 0 .5em;
 }
 
+
+.search-result-bar {
+  padding: .5em 1em 1em 1em;
+  font-size: 1.2em;
+  white-space: nowrap;
+}
 .search-result-term {
-  margin: .5em 0 1em 1em;
   color: var(--ct-text-white-hover);
   font-size: 15px;
+  width: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .search-result-time {
@@ -113,6 +144,7 @@
   width: 100%;
   /* text-align: end; */
   margin-top: .5em;
+  font-size: .9em;
   /* font-weight: bold; */
   color: rgb(190, 190, 190);
   display: block;

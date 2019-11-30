@@ -8,9 +8,11 @@ import {
   MENU_PLAYLISTS, 
   MENU_PLAYBACKRATE, 
   MENU_SETTING,
-  MENU_DOWNLOAD
+  MENU_DOWNLOAD,
+  MENU_SHORTCUTS
 } from './constants.util'
 import { promptControl } from './prompt.control'
+import { searchControl } from './search.control'
 
 export const keydownControl = {
 
@@ -51,6 +53,8 @@ export const keydownControl = {
         // `<` (Shift + ,) - switch videos
         case 188:
           return videoControl.switchVideo()
+        case 191:
+          return searchControl.openSearch()
         // Up Arrow
         case 38:
           return videoControl.playbackRateIncrement()
@@ -157,6 +161,7 @@ export const keydownControl = {
       // `⇧ Shift + S` : Open Screen Mode Menu
       case 83:  return openMenu(MENU_SCREEN_MODE)
       // Not a menu-related shortcut
+      case 220: return openMenu(MENU_SHORTCUTS)
       default:  return false
     }
   },

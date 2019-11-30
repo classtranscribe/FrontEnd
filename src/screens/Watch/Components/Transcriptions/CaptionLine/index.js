@@ -68,12 +68,12 @@ function CaptionLine({
       kind={kind}
     >
       <div className="caption-line-content">
-        <Popup inverted wide basic
+        {/* <Popup inverted wide basic
           openOnTriggerClick={false}
           openOnTriggerFocus
           closeOnTriggerBlur
           content={`Jump to ${timeStr}`}
-          trigger={
+          trigger={ */}
             <button 
               className="plain-btn caption-line-time-display" 
               onClick={handleSeek}
@@ -81,7 +81,7 @@ function CaptionLine({
             >
               <span tabIndex="-1">{timeStr}</span>
             </button>
-          }/>
+          {/* }/> */}
 
         {
           kind === WEBVTT_DESCRIPTIONS ?
@@ -90,13 +90,13 @@ function CaptionLine({
             <span className="description-line-text-title">(Description)</span>
           </div>
           :
-          <Popup inverted wide basic
-            position="top center"
-            openOnTriggerClick={false}
-            openOnTriggerFocus
-            closeOnTriggerBlur
-            content={isEditing ? 'Hit return to save changes.' : 'Click to modify this caption!'}
-            trigger={
+          //<Popup inverted wide basic
+            //position="top center"
+            //openOnTriggerClick={false}
+            //openOnTriggerFocus
+            //closeOnTriggerBlur
+            //content={isEditing ? 'Hit return to save changes.' : 'Click to modify this caption!'}
+            //trigger={
               <textarea   
                 ref={ref}
                 rows='2'
@@ -110,7 +110,7 @@ function CaptionLine({
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
               />
-            }/>
+            //}/>
         }
       </div>
       <div className="caption-line-btns">

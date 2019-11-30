@@ -132,7 +132,7 @@ export const searchControl = {
         media, playlistName: playlist.name, ...caption
       }
     })
-    console.log('inCourseTransResults', inCourseTransResults)
+    // console.log('inCourseTransResults', inCourseTransResults)
     return inCourseTransResults
   },
 

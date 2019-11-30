@@ -69,13 +69,13 @@
   line-height: 18px;
   color: rgba(173, 173, 173, 0.747);
   white-space: pre-line;
-  cursor: pointer;
+  /* cursor: pointer; */
   line-break: normal;
   width: 100%;
-  transition: var(--ct-transition-all);
+  /* transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
-  -webkit-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all); */
   background: none;
   border: none;
   box-shadow: none;
