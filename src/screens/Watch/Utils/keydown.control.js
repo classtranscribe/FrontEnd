@@ -31,6 +31,14 @@ export const keydownControl = {
     // quit if any <input/>'s are been focusing
     if (this.inputFocusing()) return;
 
+    if (ctrlKey_) {
+      switch (keyCode) {
+        
+        default:
+          return;
+      }
+    }
+
     if (altKey) {
       switch (keyCode) {
         
@@ -220,6 +228,9 @@ export const keydownControl = {
       this.keydownForPlaylistsMenu('down')
       return;
     
+    } else if (currMenu === MENU_SHORTCUTS) {
+      return;
+    
     // Operations for language, playback rate, 
     // download, and screen mode menus
     } else {
@@ -279,6 +290,9 @@ export const keydownControl = {
     } else if (currMenu === MENU_PLAYLISTS) {
       e.preventDefault()
       this.keydownForPlaylistsMenu('up')
+      return;
+    
+    } else if (currMenu === MENU_SHORTCUTS) {
       return;
     
     // Operations for language, playback rate, 

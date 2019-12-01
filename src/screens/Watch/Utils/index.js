@@ -1,6 +1,7 @@
 export * from './constants.util'
 export * from './sampleData'
 export * from './helpers'
+export { shortcuts        } from './shortcuts'
 
 export { videoControl     } from './player.control'
 export { menuControl      } from './menu.control'

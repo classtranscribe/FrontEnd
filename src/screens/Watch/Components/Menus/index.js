@@ -1,13 +1,14 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import {
+  menuControl,
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
   MENU_SETTING,
   MENU_SCREEN_MODE,
   MENU_DOWNLOAD,
   MENU_LANGUAGE,
-  menuControl,
+  MENU_SHORTCUTS,
 } from '../../Utils'
 import PlaylistsMenu from './PlaylistsMenu'
 import PlaybackrateMenu from './PlaybackrateMenu'
@@ -15,6 +16,7 @@ import ScreenModeMenu from './ScreenModeMenu'
 import SettingMenu from './SettingMenu'
 import LanguageMenu from './LanguageMenu'
 import DownloadMenu from './DownloadMenu'
+import ShortcutsTable from './ShortcutsTable'
 import './index.css'
 
 export function MenusWithRedux({
@@ -28,6 +30,7 @@ export function MenusWithRedux({
 
   return (
     <div className={`watch-menus`} type={menu}>
+      <div className="watch-menu-blur"></div>
       <PlaylistsMenu 
         show={menu === MENU_PLAYLISTS}  
         onClose={closeMenu}
@@ -50,6 +53,10 @@ export function MenusWithRedux({
       />
       <DownloadMenu
         show={menu === MENU_DOWNLOAD}
+        onClose={closeMenu}
+      />
+      <ShortcutsTable
+        show={menu === MENU_SHORTCUTS}
         onClose={closeMenu}
       />
     </div>

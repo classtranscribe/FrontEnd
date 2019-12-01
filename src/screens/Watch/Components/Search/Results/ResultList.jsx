@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Popup } from 'semantic-ui-react'
 import { VideoCard } from 'components'
 import Placeholder from '../Placeholder'
+import { ShortcutKey } from '../../Menus/ShortcutsTable'
 import { 
   searchControl,
   videoControl,
@@ -14,6 +15,9 @@ import {
   SEARCH_TRANS_IN_COURSE,
   SEARCH_IN_PLAYLISTS,
   ARRAY_INIT,
+  SEARCH_IN_SHORTCUTS,
+  menuControl,
+  MENU_SHORTCUTS,
 } from '../../../Utils'
 import { util } from 'utils'
 
@@ -28,11 +32,13 @@ function ResultList({
     inVideoTransResults, 
     inCourseTransResults, 
     playlistResults,
+    shortcutResults,
     value
   } = search
 
   const results = option === SEARCH_TRANS_IN_VIDEO ? inVideoTransResults 
                 : option === SEARCH_TRANS_IN_COURSE ? inCourseTransResults 
+                : option === SEARCH_IN_SHORTCUTS ? shortcutResults
                 : playlistResults
 
   const popupContent = item => {
@@ -40,6 +46,8 @@ function ResultList({
       return `Seek to this ${item.kind === WEBVTT_DESCRIPTIONS ? 'description' : 'caption'}`
     } else if (option === SEARCH_TRANS_IN_COURSE) {
       return <>Watch this caption in video <i>{item.media.mediaName}</i></>
+    } else if (option === SEARCH_IN_SHORTCUTS) {
+      return undefined
     } else {
       return <>Watch video {item.mediaName}</>
     }
@@ -94,19 +102,36 @@ function ResultList({
             </div>
           }
 
+          {
+            option === SEARCH_IN_SHORTCUTS 
+            && 
+            <div className="w-100 d-flex px-3">
+              <button
+                className="plain-btn watch-search-btn page-btn"
+                onClick={() => menuControl.open(MENU_SHORTCUTS)}
+              >
+                <span className="py-2 px-4 my-1 fsize-1-3" tabIndex="-1">See all shortcuts</span>
+              </button>
+            </div>
+          }
+
           {/* The Result list */}
           <div role="list" className="w-100 d-flex flex-column">
             {results.map( (item, index) => searchControl.isInCurrentPage(page, index) ? (
-              <Popup inverted wide basic
+              <Popup inverted wide basic hideOnScroll 
                 position="top left"
                 openOnTriggerClick={false}
                 openOnTriggerFocus
                 closeOnTriggerBlur
+                disabled={option === SEARCH_IN_SHORTCUTS}
                 key={`search-result-#${index}`}
                 content={popupContent(item)}
                 trigger={
                   option === SEARCH_IN_PLAYLISTS ? // Video results are special
                   <Video media={item} />
+                  :
+                  option === SEARCH_IN_SHORTCUTS ?
+                  <Shortcut key={item.action} row={item} />
                   :
                   <button 
                     role="listitem" 
@@ -169,7 +194,7 @@ function Video({
   const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
   const { ratio, timeStamp } = mediaHistory
   return (
-    <div className="watch-video-item search-result-listitem search-result-videos">
+    <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
       <VideoCard row dark
         id={id}
         name={mediaName}
@@ -182,6 +207,21 @@ function Video({
         handleLinkClick={() => util.refresh()}
         link={util.links.watch(courseNumber, id, timeStamp)}
       />
+    </div>
+  )
+}
+
+function Shortcut({
+  row
+}) {
+  return (
+    <div role="listitem" className="d-flex w-100 justify-content-between search-shortcut-item">
+      <div className="shortcuts-des">{row.action}</div>
+      <div className="shortcuts-key" light="true">
+        {row.keys.map( (key, index) => (
+          <ShortcutKey skey={key} key={`${row.action}-${index}`} index={index} />
+        ))}
+      </div>
     </div>
   )
 }

@@ -63,6 +63,7 @@ export const TRANSCRIPT_VIEW = 'Transcript View'
 export const SEARCH_TRANS_IN_COURSE = 'search-trans-in-course'
 export const SEARCH_TRANS_IN_VIDEO = 'search-trans-in-video'
 export const SEARCH_IN_PLAYLISTS = 'search-video-in-playlists'
+export const SEARCH_IN_SHORTCUTS = 'search-in-shortcuts'
 // Search Status
 export const SEARCH_HIDE = 'search-hide'
 export const SEARCH_BEGIN = 'search-begin'
@@ -77,6 +78,7 @@ export const SEARCH_INIT = {
   inVideoTransResults: ARRAY_INIT,
   inCourseTransResults: ARRAY_INIT,
   playlistResults: ARRAY_INIT,
+  shortcutResults: ARRAY_INIT,
 }
 
 // Player static options

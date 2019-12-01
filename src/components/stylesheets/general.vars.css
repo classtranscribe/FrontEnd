@@ -50,3 +50,11 @@
   --ct-progress-color: rgb(19, 211, 211);
   --ct-progress-transi-w: width 1s linear;
 }
+
+.fsize-1-2 {
+  font-size: 1.2em;
+}
+
+.fsize-1-3 {
+  font-size: 1.3em;
+}

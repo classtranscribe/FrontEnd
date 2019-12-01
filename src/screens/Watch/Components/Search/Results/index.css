@@ -154,3 +154,12 @@
   border: 1px solid grey;
   border-radius: 10px; */
 }
+
+.search-shortcut-item {
+  border-bottom: var(--ct-border-dark);
+  padding: 1em 1em;
+  font-size: 1.2em;
+}
+.search-shortcut-item:last-child {
+  border: none;
+}

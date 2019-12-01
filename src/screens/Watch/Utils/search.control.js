@@ -11,8 +11,10 @@ import {
   SEARCH_PAGE_NUM,
   SEARCH_TRANS_IN_VIDEO,
   SEARCH_TRANS_IN_COURSE,
-  SEARCH_IN_PLAYLISTS
+  SEARCH_IN_PLAYLISTS,
+  SEARCH_IN_SHORTCUTS
 } from "./constants.util"
+import { shortcuts } from './shortcuts'
 
 /**
  * Functions for controlling user preference
@@ -178,14 +180,27 @@ export const searchControl = {
     return playlistResults
   },
 
+  getShortcutResults: function(value) {
+    let shortcuts_ = shortcuts.map( catag => catag.rows )
+    shortcuts_ = _.flatten(shortcuts_)
+    let isMatch = this.getMatchFunction(value, 'action')
+    let shortcutResults = _.filter(shortcuts_, isMatch)
+    // console.log('shortcuts_', shortcutResults)
+    return shortcutResults
+  },
+
   // Function used to get search results from captions and videos
   getResults: async function(value) {
     if (!value) return this.resetResult()
     let inVideoTransResults = this.getInVideoTransSearchResults(value)
     let playlistResults = this.getPlaylistResults(value)
+    let shortcutResults = this.getShortcutResults(value)
     this.updateSearch({ 
       status: SEARCH_RESULT, 
-      inVideoTransResults, playlistResults, value,
+      inVideoTransResults, 
+      playlistResults, 
+      shortcutResults,
+      value,
       inCourseTransResults: ARRAY_INIT
     })
     let inCourseTransResults = await this.getInCourseTransSearchResults(value)
@@ -211,17 +226,21 @@ export const searchControl = {
       inVideoTransResults=[], 
       inCourseTransResults=[], 
       playlistResults=[], 
+      shortcutResults=[],
     } = search
 
     const optNumMap = {
       [SEARCH_TRANS_IN_VIDEO]: [inVideoTransResults, 'caption', 'video'],
       [SEARCH_IN_PLAYLISTS]: [playlistResults, 'video', 'course'],
       [SEARCH_TRANS_IN_COURSE]: [inCourseTransResults, 'caption', 'course'],
+      [SEARCH_IN_SHORTCUTS]: [shortcutResults, 'shortcut', 'page']
     }
 
-    return [
-      SEARCH_TRANS_IN_VIDEO, SEARCH_IN_PLAYLISTS, SEARCH_TRANS_IN_COURSE
-    ].map( opt => {
+    let options = [SEARCH_TRANS_IN_VIDEO, SEARCH_IN_PLAYLISTS, SEARCH_TRANS_IN_COURSE]
+    // if (this.resultNum(shortcutResults)) 
+    options.push(SEARCH_IN_SHORTCUTS)
+    
+    return options.map( opt => {
       let [res, name, range] = optNumMap[opt]
       let num = this.resultNum(res)
       let init = res === ARRAY_INIT
