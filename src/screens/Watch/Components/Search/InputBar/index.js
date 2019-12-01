@@ -11,8 +11,7 @@ function InputBar({
 }) {
 
   const inputRef = useRef()
-  // const [searchOption, setSearchOption] = useState(SEARCH_TRANS_IN_VIDEO)
-  const inputPlaceholder = 'Search Transcriptions, Videos...'// searchOption === SEARCH_IN_PLAYLISTS ? 'Search Playlists' : 'Search Transcriptions'
+  const inputPlaceholder = 'Search Transcriptions, Videos...'
 
   useEffect(() => {
     inputRef.current.focus()
@@ -25,7 +24,6 @@ function InputBar({
   }
 
   const handleSearch = () => {
-    // console.log('search value', inputRef.current.value)
     inputRef.current.focus()
     util.scrollToTop('.watch-search-result-container')
     searchControl.getResults(inputRef.current.value)
@@ -86,26 +84,6 @@ function InputBar({
         }
       </div>
 
-      {/* Search Options Trigger */}
-      {/* <Popup inverted wide basic
-        position="left center"
-        openOnTriggerClick={false}
-        openOnTriggerFocus
-        closeOnTriggerBlur
-        content="Search Options"
-        trigger={
-          <button 
-            className="plain-btn search-input-bar-btn"
-            onClick={openFilter}
-            action="filter"
-            aria-label="Search Options"
-          >
-            <span tabIndex="-1" className="search-input-bar-btn-content">
-              <i className="fas fa-filter"></i>
-            </span>
-          </button>
-        }
-      /> */}
       {/* Close Button */}
       <button 
         className="plain-btn search-input-bar-btn"
@@ -114,7 +92,7 @@ function InputBar({
         aria-label="Close"
       >
         <span tabIndex="-1" className="search-input-bar-btn-content">
-          {/* <i className="material-icons">close</i> */}Cancel
+          Cancel
         </span>
       </button>
     </div>

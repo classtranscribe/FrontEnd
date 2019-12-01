@@ -19,6 +19,7 @@ function Search({
       className="plain-btn watch-header-search-btn"
       aria-label="Search"
       aria-controls="watch-search-container"
+      aria-haspopup="true"
       onClick={handleOpenSearch}
     >
       <span className="header-search-btn-content" tabIndex="-1">

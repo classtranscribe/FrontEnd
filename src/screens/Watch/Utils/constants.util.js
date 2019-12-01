@@ -68,7 +68,8 @@ export const SEARCH_HIDE = 'search-hide'
 export const SEARCH_BEGIN = 'search-begin'
 export const SEARCH_SEARCHING = 'search-searching'
 export const SEARCH_RESULT = 'search-result'
-//
+// Others
+export const SEARCH_PAGE_NUM = 20
 export const SEARCH_INIT = { 
   status: SEARCH_HIDE, 
   option: SEARCH_TRANS_IN_VIDEO, 

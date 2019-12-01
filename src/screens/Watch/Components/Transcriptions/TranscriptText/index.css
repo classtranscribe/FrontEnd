@@ -9,7 +9,7 @@
   font-family: var(--ct-font-google);
   line-height: 2em;
   border: var(--ct-border-color-transparent);
-  border-radius: 7px;
+  /* border-radius: 7px; */
 }
 .article-text:hover, .article-text:focus {
   outline: none;
@@ -33,7 +33,12 @@
   border-radius: 5px;
   margin-top: 1em;
 }
+
 .article-text[current=true] {
-  background: rgba(255, 251, 0, 0.247);
+  background: rgba(236, 206, 35, 0.267);
+  color: var(--ct-text-white);
+}
+.article-text[kind=descriptions][current=true] {
+  background: rgba(227, 231, 17, 0.219);
   color: var(--ct-text-white);
 }

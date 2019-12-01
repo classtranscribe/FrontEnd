@@ -4,7 +4,7 @@ import { Popup } from 'semantic-ui-react'
 import { VideoCard } from 'components'
 import Placeholder from '../Placeholder'
 import { 
-  // searchControl,
+  searchControl,
   videoControl,
   timeStrToSec, 
   prettierTimeStr,
@@ -39,7 +39,7 @@ function ResultList({
     if (option === SEARCH_TRANS_IN_VIDEO) {
       return `Seek to this ${item.kind === WEBVTT_DESCRIPTIONS ? 'description' : 'caption'}`
     } else if (option === SEARCH_TRANS_IN_COURSE) {
-      return `Watch this caption in video ${item.media.mediaName}`
+      return <>Watch this caption in video <i>{item.media.mediaName}</i></>
     } else {
       return <>Watch video {item.mediaName}</>
     }
@@ -58,16 +58,16 @@ function ResultList({
     }
   }
 
-  const totalPage = results.length === 0 ? 1 : Math.ceil(results.length / 20)
+  const totalPage = searchControl.totalPageNum(results.length)
 
   return (
-    <div role="list" className="search-result-list">
+    <div className="search-result-list">
       {
         results === ARRAY_INIT ?
         <Placeholder />
         :
         <>
-          {
+          { // Buttons for page turning
             value 
             && 
             <div className="w-100 d-flex align-content-center justify-content-between search-result-bar">
@@ -93,8 +93,10 @@ function ResultList({
               </div>
             </div>
           }
-          <div className="w-100 d-flex flex-column">
-            {results.map( (item, index) => ((index < page * 20) && (index >= (page-1)*20)) ? (
+
+          {/* The Result list */}
+          <div role="list" className="w-100 d-flex flex-column">
+            {results.map( (item, index) => searchControl.isInCurrentPage(page, index) ? (
               <Popup inverted wide basic
                 position="top left"
                 openOnTriggerClick={false}
@@ -103,7 +105,7 @@ function ResultList({
                 key={`search-result-#${index}`}
                 content={popupContent(item)}
                 trigger={
-                  option === SEARCH_IN_PLAYLISTS ? 
+                  option === SEARCH_IN_PLAYLISTS ? // Video results are special
                   <Video media={item} />
                   :
                   <button 
@@ -128,8 +130,9 @@ function ResultList({
           </div>
         </>
       }
-      {
-        results.length > 20
+
+      { // Buttons for page turning
+        totalPage > 1
         &&
         <div className="w-100 mt-1 d-flex align-content-center justify-content-end search-result-bar">
           <div className="position-relative d-flex align-content-center justify-content-center">

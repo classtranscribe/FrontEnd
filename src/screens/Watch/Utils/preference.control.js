@@ -71,7 +71,7 @@ export const preferControl = {
   [DEFAULT_TRANS_VIEW]: localStorage.getItem(DEFAULT_TRANS_VIEW) === TRUE,
   defaultTransView: function(view) {
     if (view === undefined) {
-      return localStorage.getItem(DEFAULT_TRANS_VIEW) || TRANSCRIPT_VIEW//LINE_VIEW
+      return localStorage.getItem(DEFAULT_TRANS_VIEW) || LINE_VIEW//TRANSCRIPT_VIEW//
     }
     localStorage.setItem(DEFAULT_TRANS_VIEW, view)
   },

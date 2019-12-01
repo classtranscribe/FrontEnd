@@ -1,11 +1,17 @@
+/**
+ * Overlay Button Group used in Transcription box
+ */
+
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
-import { Popup } from 'semantic-ui-react'
 import './index.css'
-import { transControl, LINE_VIEW, TRANSCRIPT_VIEW, searchControl } from '../../../Utils'
+import { 
+  transControl, searchControl, menuControl, 
+  LINE_VIEW, TRANSCRIPT_VIEW, MENU_SETTING, 
+} from '../../../Utils'
 
 function TransCtrlButtonsWithRedux({
-  transView
+  transView=LINE_VIEW
 }) {
 
   const switchTranView = () => {
@@ -16,33 +22,59 @@ function TransCtrlButtonsWithRedux({
     searchControl.openSearch()
   }
 
+  const openTransSettingMenu = () => {
+    menuControl.open(MENU_SETTING)
+  }
+
   const isLineView = transView === LINE_VIEW
+
+  const buttonGroup = [
+    {
+      id: 'trans-setting-btn', 
+      name: 'Settings', 
+      icon: 'settings', 
+      click: openTransSettingMenu,
+      ariaTags: {
+        'aria-controls': 'watch-setting-menu', 
+        'aria-haspopup': 'true'
+      }
+    },
+    {
+      id: 'trans-view-switch-btn', 
+      name: isLineView ? TRANSCRIPT_VIEW : LINE_VIEW, 
+      icon: isLineView ? 'menu_book' : 'subject', 
+      click: switchTranView,
+      ariaTags: {}
+    },
+    {
+      id: 'watch-search-btn', 
+      name: 'Search Transcriptions', 
+      icon: 'search', 
+      click: handleSearch,
+      ariaTags: {
+        'aria-controls': 'watch-search-container', 
+        'aria-haspopup': 'true'
+      }
+    }
+  ]
 
   return (
     <>
-      <button 
-        className="plain-btn trans-ctrl-btn"
-        onClick={switchTranView}
-        id="trans-view-switch-btn"
-        aria-label="Switch Transcript View"
-      >
-        <span className="trans-ctrl-btn-content" tabIndex="-1">
-          <i className="material-icons">{isLineView ? 'menu_book' : 'subject'}</i>
-          <span className="trans-ctrl-btn-text">{isLineView ? TRANSCRIPT_VIEW : LINE_VIEW}</span>
-        </span>
-      </button>
-
-      <button 
-        className="plain-btn trans-ctrl-btn"
-        onClick={handleSearch}
-        id="watch-search-btn"
-        aria-label="Search"
-      >
-        <span className="trans-ctrl-btn-content" tabIndex="-1">
-          <i className="material-icons">search</i>
-          <span className="trans-ctrl-btn-text">Search Transcriptions</span>
-        </span>
-      </button>
+      {buttonGroup.map( btn => (
+        <button 
+          className="plain-btn trans-ctrl-btn"
+          onClick={btn.click}
+          id={btn.id}
+          key={btn.id}
+          aria-label={btn.name}
+          {...btn.ariaTags}
+        >
+          <span className="trans-ctrl-btn-content" tabIndex="-1">
+            <i className="material-icons">{btn.icon}</i>
+            <span className="trans-ctrl-btn-text">{btn.name}</span>
+          </span>
+        </button>
+      ))}
     </>
   )
 }
