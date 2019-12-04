@@ -2,7 +2,10 @@ import $ from 'jquery'
 /**
  * Functions for controlling video players
  */
-import { NORMAL_MODE, PS_MODE, NESTED_MODE } from './constants.util'
+import { 
+  NORMAL_MODE, PS_MODE, NESTED_MODE, 
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED 
+} from './constants.util'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
 
@@ -13,7 +16,7 @@ export const videoControl = {
   isFullscreen: false,
 
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
-  // switchScreen, setMode
+  // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent
   externalFunctions: {}, 
 
   init: function(videoNode1, videoNode2, externalFunctions={}) {
@@ -157,59 +160,6 @@ export const videoControl = {
     if (currPlaybackRate - 0.25 >= 0.25) this.playbackrate( currPlaybackRate - 0.25 )
   },
 
-  onPause: function(e) {
-    this.showControlBar()
-  },
-
-  onDurationChange: function({ target: { duration } }) {
-    const { setDuration } = this.externalFunctions
-    setDuration(duration)
-    this.duration = duration
-  },
-
-  canPlayNum: 0,
-  onCanPlay: function(e) {
-    this.canPlayNum += 1
-    // console.log('canPlayNum', this.canPlayNum)
-    // if (this.videoNode2) {
-    //   if (this.canPlayNum === 2) this.play()
-    // } else {
-    //   this.play()
-    // }
-  },
-
-  /** Timing */
-  lastTime: 0,
-  lastUpdateCaptionTime: 0,
-  onTimeUpdate: function({ target: { currentTime } }) {
-    const { setTime } = this.externalFunctions
-    // Set current time
-    if (Math.abs(currentTime - this.lastTime) > .7) {
-      setTime(currentTime)
-      this.lastTime = currentTime
-    }
-    if (Math.abs(currentTime - this.lastUpdateCaptionTime) > 1) {
-      // setTime(currentTime)
-      // this.lastTime = currentTime
-
-      transControl.updateTranscript(currentTime)
-      this.lastUpdateCaptionTime = currentTime
-    } 
-  },
-
-  lastBuffered: 0,
-  onProgress: function({ target: { buffered, currentTime, duration } }) {
-    // console.log('buffered', buffered)
-    if (duration > 0) {
-      for (var i = 0; i < buffered.length; i++) {
-        if (buffered.start(buffered.length - 1 - i) < currentTime) {
-          document.getElementById("buffered-amount").style.width = (buffered.end(buffered.length - 1 - i) / duration) * 100 + "%";
-          break;
-        }
-      }
-    }
-  },
-
 
   /** Fullscreen */
   addEventListenerForFullscreenChange: function() {
@@ -261,6 +211,96 @@ export const videoControl = {
       document.msExitFullscreen();
     }
   },
+
+  /**
+   * Media events
+   */
+  onPause: function(e) {
+    this.showControlBar()
+  },
+
+  onDurationChange: function({ target: { duration } }) {
+    const { setDuration } = this.externalFunctions
+    setDuration(duration)
+    this.duration = duration
+  },
+
+  canPlayNum: 0,
+  onCanPlay: function(e) {
+    // this.canPlayNum += 1
+    // console.log('canPlayNum', this.canPlayNum)
+    // if (this.videoNode2) {
+    //   if (this.canPlayNum === 2) this.play()
+    // } else {
+    //   this.play()
+    // }
+  },
+
+  /** Timing */
+  lastTime: 0,
+  lastUpdateCaptionTime: 0,
+  onTimeUpdate: function({ target: { currentTime } }) {
+    const { setTime } = this.externalFunctions
+    // Set current time
+    if (Math.abs(currentTime - this.lastTime) > .7) {
+      setTime(currentTime)
+      this.lastTime = currentTime
+    }
+    if (Math.abs(currentTime - this.lastUpdateCaptionTime) > 1) {
+      // setTime(currentTime)
+      // this.lastTime = currentTime
+
+      transControl.updateTranscript(currentTime)
+      this.lastUpdateCaptionTime = currentTime
+    } 
+  },
+
+  lastBuffered: 0,
+  onProgress: function({ target: { buffered, currentTime, duration } }) {
+    // console.log('buffered', buffered)
+    if (duration > 0) {
+      for (var i = 0; i < buffered.length; i++) {
+        if (buffered.start(buffered.length - 1 - i) < currentTime) {
+          document.getElementById("buffered-amount").style.width = (buffered.end(buffered.length - 1 - i) / duration) * 100 + "%";
+          break;
+        }
+      }
+    }
+  },
+
+  setCTPEvent: function(event=CTP_PLAYING, priVideo=true) {
+    const { setCTPPriEvent, setCTPSecEvent } = this.externalFunctions
+    if (priVideo) {
+      setCTPPriEvent(event)
+    } else {
+      setCTPSecEvent(event)
+    }
+  },
+
+  onLoadStart: function(e, priVideo=true) {
+    this.setCTPEvent(CTP_LOADING, priVideo)
+  },
+
+  onLoadedData: function(e, priVideo=true) {
+    this.setCTPEvent(CTP_PLAYING, priVideo)
+  },
+
+  onWaiting: function(e, priVideo=true) {
+    this.setCTPEvent(CTP_LOADING, priVideo)
+  },
+
+  onPlaying: function(e, priVideo=true) {
+    this.setCTPEvent(CTP_PLAYING, priVideo)
+  },
+
+  onEnded: function(e) {
+    this.setCTPEvent(CTP_ENDED)
+  },
+
+
+
+
+  /** Helpers */
 
   timeOut: null,
   addEventListenerForMouseMove: function() {

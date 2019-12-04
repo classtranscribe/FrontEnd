@@ -74,6 +74,9 @@
 }
 .watch-icon-listitem {
   width: 100%;
+}
+.watch-icon-listitem span {
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -86,13 +89,14 @@
   -moz-transition: var(--ct-transition-color);
   -webkit-transition: var(--ct-transition-color);
 }
-.watch-icon-listitem:hover {
+.watch-icon-listitem:hover span {
   color: var(--ct-text-white-hover);
 }
 .watch-icon-listitem:disabled {
   color: rgb(100, 100, 100)
 }
-.watch-icon-listitem[active=true], .watch-icon-listitem:focus {
+.watch-icon-listitem[active=true] span, 
+.watch-icon-listitem:focus span {
   color: var(--ct-green-active);
   outline: none;
 }

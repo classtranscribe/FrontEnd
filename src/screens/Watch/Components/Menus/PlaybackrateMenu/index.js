@@ -88,14 +88,16 @@ function PlaybackrateMenu({
             active={usingCustomizedRate.toString()}
             onClick={chooseCustomizedRate(sliderValue)}
           >
-            <div className="playbackrate-listitem-checkmark">
-              {
-                usingCustomizedRate
-                && 
-                <i className="material-icons">check</i>
-              }
-            </div>
-            <p className="playbackrate-num customized-playbackrate-listitem">{sliderValue} <span>(Customized)</span></p>
+            <span tabIndex="-1">
+              <div className="playbackrate-listitem-checkmark">
+                {
+                  usingCustomizedRate
+                  && 
+                  <i className="material-icons">check</i>
+                }
+              </div>
+              <p className="playbackrate-num customized-playbackrate-listitem">{sliderValue} <span>(Customized)</span></p>
+            </span>
           </button>
         }
 
@@ -108,14 +110,16 @@ function PlaybackrateMenu({
             active={Boolean(playbackrate === rate && !usingCustomizedRate).toString()}
             onClick={handleChooseRate(rate)}
           >
-            <div className="playbackrate-listitem-checkmark">
-              {
-                (playbackrate === rate && !usingCustomizedRate) 
-                && 
-                <i className="material-icons">check</i>
-              }
-            </div>
-            <p className="playbackrate-num">{rate}</p>
+            <span tabIndex="-1">
+              <div className="playbackrate-listitem-checkmark">
+                {
+                  (playbackrate === rate && !usingCustomizedRate) 
+                  && 
+                  <i className="material-icons">check</i>
+                }
+              </div>
+              <p className="playbackrate-num">{rate}</p>
+            </span>
           </button>
         ))}
 

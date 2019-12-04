@@ -35,15 +35,17 @@
   -webkit-animation: var(--ct-animation-expand-padding-h);
 }
 .playbackrate-listitem {
-  position: relative;
   width: 100% !important;
+} 
+.playbackrate-listitem span {
+  position: relative;
+  width: 100%;
   height: max-content !important;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   padding: 0 !important;
-  outline: none !important;
   color: var(--ct-text-white);
   transition: var(--ct-transition-color);
   -o-transition: var(--ct-transition-color);
@@ -67,12 +69,12 @@
 .playbackrate-listitem:last-child .playbackrate-num {
   border-bottom: var(--ct-border-color-transparent);
 }
-.playbackrate-listitem:hover {
+.playbackrate-listitem:hover span {
   color: var(--ct-text-white-hover);
 }
-.playbackrate-listitem[active=true], .playbackrate-listitem:focus {
+/* .playbackrate-listitem[active=true] span, .playbackrate-listitem:focus span {
   color: var(--ct-green-active);
-}
+} */
 .customized-playbackrate-listitem , .playbackrate-listitem[active=true] .playbackrate-listitem-checkmark {
   animation: var(--ct-animation-expand-padding);
   -o-animation: var(--ct-animation-expand-padding);

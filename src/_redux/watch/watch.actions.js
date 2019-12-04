@@ -28,6 +28,8 @@ import {
   SET_PLAYBACKRATE,
   SWITCH_SCREEN,
   SET_FULLSCREEN,
+  SET_CTP_PRI_E,
+  SET_CTP_SEC_E,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -75,6 +77,8 @@ export const setMute              = value => ({ type: SET_MUTE, value })
 export const setPause             = value => ({ type: SET_PAUSE, value })
 export const switchScreen         = value => ({ type: SWITCH_SCREEN, value })
 export const setFullscreen        = value => ({ type: SET_FULLSCREEN, value })
+export const setCTPPriEvent       = value => ({ type: SET_CTP_PRI_E, value })
+export const setCTPSecEvent       = value => ({ type: SET_CTP_SEC_E, value })
 
 // CC Options
 export const cc_setColor          = value => ({ type: CC_COLOR, value })

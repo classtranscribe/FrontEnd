@@ -42,9 +42,10 @@ export default function TranscriptText({
           className="article-text"
           kind={kind}
           current={isCurrent.toString()}
-          tabIndex="0"
           onClick={handleSeek}
+          //onDoubleClick={() => alert('tes')} // maybe for editing in the future ?
           onKeyDown={handleKeyDown}
+          //tabIndex="0"
         >
           {
             kind === WEBVTT_DESCRIPTIONS 

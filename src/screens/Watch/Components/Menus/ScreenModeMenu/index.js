@@ -36,15 +36,17 @@ function ScreenModeMenu({
             active={Boolean(mode === screenMode.type).toString()}
             onClick={handleChooseMode(screenMode.type)}
           >
-            <div className="watch-icon-listitem-checkmark">
-              {
-                mode === screenMode.type
-                && 
-                <i className="material-icons">check</i>
-              }
-            </div>
-            <i className="material-icons watch-icon-icon">{screenMode.icon}</i>
-            <div className="watch-icon-name">{screenMode.name}</div>
+            <span tabIndex="-1">
+              <div className="watch-icon-listitem-checkmark">
+                {
+                  mode === screenMode.type
+                  && 
+                  <i className="material-icons">check</i>
+                }
+              </div>
+              <i className="material-icons watch-icon-icon">{screenMode.icon}</i>
+              <div className="watch-icon-name">{screenMode.name}</div>
+            </span>
           </button>
         ))}
       </div>

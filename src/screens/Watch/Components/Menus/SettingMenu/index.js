@@ -39,8 +39,10 @@ function SettingMenu({
               active={Boolean(tab === pane.id).toString()}
               onClick={changeTab(pane.id)}
             >
-              <i className="material-icons watch-icon-icon">{pane.icon}</i>
-              <div className="watch-icon-name">{pane.name}</div>
+              <span tabIndex="-1">
+                <i className="material-icons watch-icon-icon">{pane.icon}</i>
+                <div className="watch-icon-name">{pane.name}</div>
+              </span>
             </button>
           ))}
         </div>

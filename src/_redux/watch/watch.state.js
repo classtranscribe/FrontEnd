@@ -8,7 +8,8 @@ import {
   CC_FONT_SANS_SERIF,
   CC_OPACITY_75,
   CC_POSITION_BOTTOM,
-  SEARCH_INIT
+  SEARCH_INIT,
+  CTP_LOADING
 } from "../../screens/Watch/Utils"
 
 export const initialState = {
@@ -53,6 +54,8 @@ export const initialState = {
   duration: 0,
   bufferedTime: 0,
   isFullscreen: false,
+  ctpPriEvent: CTP_LOADING,
+  ctpSecEvent: CTP_LOADING,
 
   // CC options
   cc_color: CC_COLOR_WHITE,

@@ -36,6 +36,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       setMode, switchScreen, setVolume, setPause, 
       setPlaybackrate, setMute, setFullscreen,
       setDuration, setBufferedTime, setTime,
+      setCTPPriEvent, setCTPSecEvent
     } = this.props
 
     if (prevProps.media !== media) {
@@ -53,7 +54,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         {  
           setMode, switchScreen, setFullscreen,
           setVolume, setMute, setPause, setPlaybackrate,
-          setDuration, setTime, setBufferedTime
+          setDuration, setTime, setBufferedTime,
+          setCTPPriEvent, setCTPSecEvent
         }
       )
       // console.log('this.videoNode1.textTracks', this.videoNode1.textTracks)
@@ -111,6 +113,11 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onProgress={this.onProgress}
               onCanPlay={this.onCanPlay}
               onPause={this.onPause}
+              //onLoadStart={()=>alert('onLoadStart')}
+              //onLoadedData={()=>alert('onLoadedData')}
+              //onWaiting={()=>alert('onWaiting')}
+              //onPlaying={()=>alert('onPlaying')}
+              //onEnded={()=>alert('onPlaying')}
             >
               {
                 Boolean(srcPath1) 
@@ -158,6 +165,8 @@ export const ClassTranscribePlayer = connectWithRedux(
     'switchScreen',
     'setDuration',
     'setBufferedTime',
-    'setFullscreen'
+    'setFullscreen',
+    'setCTPPriEvent',
+    'setCTPSecEvent'
   ]
 )

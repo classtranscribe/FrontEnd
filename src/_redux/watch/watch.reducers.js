@@ -28,6 +28,8 @@ import {
   SET_BUFFERED_TIME,
   SET_DURATION,
   SET_FULLSCREEN,
+  SET_CTP_PRI_E,
+  SET_CTP_SEC_E,
   // CC Options
   CC_COLOR,
   CC_BG,
@@ -83,6 +85,8 @@ const watchReducer = (
     case SET_MUTE               : return { ...state, muted: value }
     case SWITCH_SCREEN          : return { ...state, isSwitched: value }
     case SET_FULLSCREEN         : return { ...state, isFullscreen: value }
+    case SET_CTP_PRI_E          : return { ...state, ctpPriEvent: value }
+    case SET_CTP_SEC_E          : return { ...state, ctpSecEvent: value }
 
     // CC Options
     case CC_COLOR               : return { ...state, cc_color: value }

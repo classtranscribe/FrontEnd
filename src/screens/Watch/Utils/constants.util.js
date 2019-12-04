@@ -81,8 +81,12 @@ export const SEARCH_INIT = {
   shortcutResults: ARRAY_INIT,
 }
 
-// Player static options
+// CT Player static options
 export const AUTOPLAY = false
+export const CTP_PLAYING = 'ctp-playing'
+export const CTP_LOADING = 'ctp-loading'
+export const CTP_UP_NEXT = 'ctp-up-next' // last minute ?
+export const CTP_ENDED = 'ctp-ended'
 export const playbackRateOptions = [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]
 
 // CC Setting

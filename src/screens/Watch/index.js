@@ -167,12 +167,11 @@ export class WatchWithRedux extends React.Component {
   render() { 
     return (
       <main className="watch-bg" id="watch-page">
-        <h1 className="accessbility_hide">Watch Page</h1>
         <TabEventHelperButtons />
         <WatchHeader />
+        <Search />
         <Menus />
         <ClassTranscribePlayer />
-        <Search />
         <Transcriptions />
         <ControlBar />
         <Prompts />

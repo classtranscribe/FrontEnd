@@ -31,6 +31,8 @@ export const SET_MUTE = 'watch-set-mute'
 export const SET_PLAYBACKRATE = 'watch-set-playbackrate'
 export const SWITCH_SCREEN = 'watch-switch-screen'
 export const SET_FULLSCREEN = 'watch-set-fullscreen'
+export const SET_CTP_PRI_E = 'watch-set-ctp-pri-e'
+export const SET_CTP_SEC_E = 'watch-set-ctp-sec-e'
 
 // CC Options
 export const CC_COLOR = 'watch-cc-color'

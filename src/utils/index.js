@@ -15,7 +15,7 @@ export const util = {
   ...storage,
   links: {
     title: title => {
-      document.title = title ? `${title} • ClassTranscribe` : 'ClassTranscribe'
+      document.title = title ? `${title} | ClassTranscribe` : 'ClassTranscribe'
     },
     currentUrl: () => window.location,
     home: ()=> '/',
@@ -38,7 +38,7 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin})}`,
+    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin)})}`,
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },

@@ -2,7 +2,6 @@ import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { 
   PlayButton,
-  DownloadButton,
   SettingButton,
   FullscreenButton,
   SwitchScreenButton,

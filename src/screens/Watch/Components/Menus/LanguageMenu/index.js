@@ -46,15 +46,17 @@ function LanguageMenu({
             active={Boolean(lang === currTrans.language).toString()}
             onClick={handleChooseLanguage(lang)}
           >
-            <div className="screen-mode-listitem-checkmark">
-              {
-                lang === currTrans.language
-                && 
-                <i className="material-icons">check</i>
-              }
-            </div>
-            <i className="material-icons watch-icon-icon">closed_caption</i>
-            <div className="watch-icon-name">{langMap[lang]}</div>
+            <span tabIndex="-1">
+              <div className="screen-mode-listitem-checkmark">
+                {
+                  lang === currTrans.language
+                  && 
+                  <i className="material-icons">check</i>
+                }
+              </div>
+              <i className="material-icons watch-icon-icon">closed_caption</i>
+              <div className="watch-icon-name">{langMap[lang]}</div>
+            </span>
           </button>
         ))}
       </div>

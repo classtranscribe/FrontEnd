@@ -75,6 +75,8 @@
   color: white;
   font-size: 16px;
   font-family: var(--ct-font-google);
+  /* animation: var(--ct-animation-expand-padding); */
+  /* animation: var(--ct-animation-popup); */
 }
 .search-result-listitem:hover {
   background-color: rgb(68, 68, 68);
@@ -159,6 +161,9 @@
   border-bottom: var(--ct-border-dark);
   padding: 1em 1em;
   font-size: 1.2em;
+}
+.search-shortcut-item:hover {
+  background: rgba(121, 121, 121, 0.781);
 }
 .search-shortcut-item:last-child {
   border: none;
