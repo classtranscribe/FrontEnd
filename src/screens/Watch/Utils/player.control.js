@@ -34,6 +34,7 @@ export const videoControl = {
 
   isSwitched: false,
   switchVideo: function(bool) {
+    if (!Boolean(this.videoNode2)) return;
     const toSet = bool === undefined ? !this.isSwitched : bool
     const { switchScreen } = this.externalFunctions
     if (switchScreen) switchScreen(toSet)

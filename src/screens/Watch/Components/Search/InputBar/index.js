@@ -61,6 +61,7 @@ function InputBar({
         <input
           ref={inputRef}
           type="text"
+          id="watch-search-input"
           className="watch-search-input"
           defaultValue={defaultInput}
           placeholder={inputPlaceholder}

@@ -61,7 +61,9 @@ export const keydownControl = {
         // `<` (Shift + ,) - switch videos
         case 188:
           return videoControl.switchVideo()
+        // `?` (Shift + /) - open Search
         case 191:
+          e.preventDefault()
           return searchControl.openSearch()
         // Up Arrow
         case 38:
@@ -532,11 +534,14 @@ export const keydownControl = {
     }
   },
 
+  openTabHelper: function() {
+    $('#skip-to-ctrl-bar').focus()
+  },
   skipToControlBar: function() {
     $('#play-btn').focus()
   },
   skipToCaptionBox: function() {
-    $('#watch-search-btn').focus()
+    $('#trans-setting-btn').focus()
   },
   skipToContinue: function() {
     $('#brand').focus()

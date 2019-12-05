@@ -19,9 +19,6 @@
 .watch-header-search-btn span i {
   margin-right: .3em;
 }
-.watch-header-search-btn:focus {
-  outline: none;
-}
 .watch-header-search-btn:hover > span, .watch-header-search-btn:focus > span {
   background: rgb(42, 42, 42);
 }

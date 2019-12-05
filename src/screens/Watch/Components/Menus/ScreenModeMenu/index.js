@@ -26,7 +26,7 @@ function ScreenModeMenu({
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>
-      <div className="watch-icon-list" two-screen={isTwoScreen ? 'true' : 'false'}>
+      <div className="watch-icon-list" data-2screen={isTwoScreen ? 'true' : 'false'}>
         {screenModes.map( screenMode => (
           <button 
             key={screenMode.type}

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import $ from 'jquery'
 import { api } from 'utils'
 import { transControl } from "./trans.control"
 import { 
@@ -45,6 +46,8 @@ export const searchControl = {
 
   // Function used to open search
   openSearch: function() {
+    if (this.search_.status !== SEARCH_HIDE ) return $('#watch-search-input').focus()
+
     let status = this.hasResult ? SEARCH_RESULT : SEARCH_BEGIN 
     this.updateSearch({ status })
   },

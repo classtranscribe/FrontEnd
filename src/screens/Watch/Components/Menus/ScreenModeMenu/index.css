@@ -14,63 +14,7 @@
   -webkit-animation: var(--ct-animation-popup);
 }
 
-.screen-mode-list {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 25em;
-  animation: var(--ct-animation-expand-padding-h);
-  -o-animation: var(--ct-animation-expand-padding-h);
-  -moz-animation: var(--ct-animation-expand-padding-h);
-  -webkit-animation: var(--ct-animation-expand-padding-h);
-}
-
-.screen-mode-listitem {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  color: var(--ct-text-white);
-  font-size: 16px;
-  font-weight: bold;
-  transition: var(--ct-transition-color);
-  -o-transition: var(--ct-transition-color);
-  -moz-transition: var(--ct-transition-color);
-  -webkit-transition: var(--ct-transition-color);
-}
-.screen-mode-listitem:hover {
-  color: var(--ct-text-white-hover);
-}
-.screen-mode-listitem[active=true], .screen-mode-listitem:focus {
-  color: var(--ct-green-active);
-  outline: none;
-}
-.screen-mode-list[two-screen=false] .screen-mode-listitem[mode=ps-mode],
-.screen-mode-list[two-screen=false] .screen-mode-listitem[mode=nested-mode] {
+.watch-icon-list[data-2screen=false] .watch-icon-listitem[mode=ps-mode],
+.watch-icon-list[data-2screen=false] .watch-icon-listitem[mode=nested-mode] {
   display: none !important;
-}
-
-.screen-mode-listitem-checkmark {
-  margin-right: 1em;
-  width: 35px;
-  color: var(--ct-text-white);
-  animation: var(--ct-animation-expand-padding);
-  -o-animation: var(--ct-animation-expand-padding);
-  -moz-animation: var(--ct-animation-expand-padding);
-  -webkit-animation: var(--ct-animation-expand-padding);
-}
-
-.screen-mode-icon {
-  margin-right: 1em;
-}
-
-.screen-mode-name {
-  width: 100%;
-  padding: .7em 0;
-  border-bottom: var(--ct-border-dark);
-}
-.screen-mode-listitem:last-child .screen-mode-name {
-  border-bottom: var(--ct-border-color-transparent);
 }

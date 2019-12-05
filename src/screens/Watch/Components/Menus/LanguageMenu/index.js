@@ -47,7 +47,7 @@ function LanguageMenu({
             onClick={handleChooseLanguage(lang)}
           >
             <span tabIndex="-1">
-              <div className="screen-mode-listitem-checkmark">
+              <div className="watch-icon-listitem-checkmark">
                 {
                   lang === currTrans.language
                   && 
