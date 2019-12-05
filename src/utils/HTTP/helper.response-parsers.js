@@ -24,7 +24,7 @@ export const responseParsers = {
       eventType, 
       mediaId, 
       offeringId,
-      userId: api.userId(),
+      userId: user.userId(),
       json: {
         ...json, 
         device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }
@@ -116,7 +116,7 @@ export const responseParsers = {
       transcriptions: [],
       isUnavailable: false,
     }
-    console.log(media)
+    // console.log(media)
     if (!media) return re
     const { id, playlistId, jsonMetadata, sourceType, video, transcriptions } = media
     if (!id || !jsonMetadata) return re
