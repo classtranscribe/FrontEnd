@@ -53,7 +53,7 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
   }
 
   return (
-    <div className="section" id={depart.acronym}>
+    <div className="section" id={depart.acronym} role="listitem">
       <hr/>
       <h2 className="title">
         {sectionTitle.title} <span>{sectionTitle.subtitle}</span>

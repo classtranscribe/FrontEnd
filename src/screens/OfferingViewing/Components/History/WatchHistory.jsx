@@ -6,19 +6,21 @@ export default function WatchHistory({ watchHistory, offerings, removeWatchHisto
 
   return (
     <div className="watch-history">
-      <h1 className="history-title">Watch History</h1>
+      <h2 className="history-title">Watch History</h2>
       {watchHistory.length === 0 || offerings[0] === 'retry'  ?
         <div>None</div> :
         watchHistory[0] === 'unloaded' || offerings[0] === 'Unloaded' ?
         <VideoCardPlaceHolder row={4} posterSize="10px" /> :
-        watchHistory.map(media => (
-          <MediaItem 
-            key={'watchhistory-' + media.mediaId} 
-            media={media} 
-            offerings={offerings} 
-            removeWatchHistory={removeWatchHistory}
-          />
-        ))
+        <div role="list" className="ct-list-col">
+          {watchHistory.map(media => (
+            <MediaItem 
+              key={'watchhistory-' + media.mediaId} 
+              media={media} 
+              offerings={offerings} 
+              removeWatchHistory={removeWatchHistory}
+            />
+          ))}
+        </div>
       }
     </div>
   )
@@ -32,6 +34,7 @@ function MediaItem({ media, offerings, removeWatchHistory }) {
     <VideoCard row dismissable
       name={mediaName}
       ratio={ratio}
+      role="listitem"
       link={util.links.watch(fullNumber, mediaId, timeStamp)}
       description={`${fullNumber} • ${courseName}`}
       descriptionLink={util.links.offeringDetail(offeringId)}

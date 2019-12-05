@@ -5,7 +5,7 @@ import VideoView from './VideoView'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
 
 export default function Playlists({ playlists, fullNumber, watchHistoryJSON }) {
-  const [selectedPlaylist, setSelectedPlaylist] = useState({})
+  const [selectedPlaylist, setSelectedPlaylist] = useState('')
 
   if (!playlists) return <PlaylistPlaceholder />
   if (playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
@@ -13,6 +13,11 @@ export default function Playlists({ playlists, fullNumber, watchHistoryJSON }) {
   
   const handleClick = playlist => {
     setSelectedPlaylist(playlist)
+  }
+
+  const goBack = () => {
+    console.log(selectedPlaylist)
+    setSelectedPlaylist(selectedPlaylist.id)
   }
 
   const isPlaylistsView = !Boolean(selectedPlaylist.id)
@@ -32,7 +37,7 @@ export default function Playlists({ playlists, fullNumber, watchHistoryJSON }) {
           playlists={playlists}
           courseNumber={fullNumber}
           watchHistoryJSON={watchHistoryJSON}
-          goBack={() => handleClick(selectedPlaylist.id)} 
+          goBack={goBack} 
         />
       </CSSTransition>
     </div>

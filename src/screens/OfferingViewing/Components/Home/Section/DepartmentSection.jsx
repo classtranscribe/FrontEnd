@@ -8,7 +8,7 @@ export default function DepartmentSection({ offerings, starredOfferings, depart,
 
   const getKey = (offering, index) => depart.id + (offering.id || offering.offering.id) + index
   return (
-    <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`}>
+    <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`} role="list">
       {offerings.map( (offering, index) => 
         offering.fullNumber ? 
         <OfferingCard image

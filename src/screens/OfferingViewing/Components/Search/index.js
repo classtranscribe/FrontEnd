@@ -40,6 +40,7 @@ export function Search({offerings, location}) {
 
   return (
     <div className="search-bar" id="search-bar">
+      <h1 className="accessbility_hide">Search</h1>
       <div className="goback-container">
         <Link className="del-icon" to={util.links.home()} >
           <Icon name="chevron left" /> Back to Courses

@@ -14,6 +14,7 @@ export function History({ state, removeWatchHistory }) {
   
   return (
     <div className="history-bg">
+      <h1 className="accessbility_hide">History</h1>
       <div className="goback-container">
         <Link className="del-icon" to={util.links.home()}>
           <Icon name="chevron left" /> Back to Courses
