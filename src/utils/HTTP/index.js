@@ -55,7 +55,6 @@ export const api = {
   saveAuthToken: function (authToken) {
     localStorage.setItem('authToken', authToken)
   },
-  userId: () => localStorage.getItem('userId'),
   withAuth: function (configs) {
     return {
       ...configs,

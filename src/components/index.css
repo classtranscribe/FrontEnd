@@ -1,23 +1,8 @@
 /**
  * Stylesheet for general components
  */
- 
-.h1-hide {
-  font-size: 0;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
 .accessbility_hide {
-  font-size: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  opacity: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: 0 !important;
-  position: fixed !important;
+  position: fixed;
   top: -10em;
 }
 .upload-video {

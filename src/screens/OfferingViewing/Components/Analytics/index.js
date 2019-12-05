@@ -57,7 +57,7 @@ export class Analytics extends React.Component {
     const { parsedData } = this.state
     return (
       <div>
-
+        <h1 className="accessbility_hide">Personal Analytics</h1>
         <div>
         <p style = {{ fontSize : "24px"}}>Here is a summary of your activities:</p> 
         </div>

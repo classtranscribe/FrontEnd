@@ -13,6 +13,7 @@ function VideoCardWithOutRouter({
   id=null,
   name='Loading...', 
   current=false,
+  listitem=true,
 
   history,
   link=window.location.pathname,  
@@ -43,8 +44,14 @@ function VideoCardWithOutRouter({
       } 
     }
 
+  const role = listitem ? 'listitem' : null
+
   if (square) return (
-    <div className="video-card-container-square" unavailable={isUnavailable.toString()} dark={dark.toString()}>
+    <div 
+      className="video-card-container-square" 
+      unavailable={isUnavailable.toString()}
+      role={role}
+    >
       <button 
         className="video-card plain-btn" 
         onClick={handleClick}
@@ -61,8 +68,31 @@ function VideoCardWithOutRouter({
     </div>
   )
 
+  // if (row) return (
+  //   <button
+  //     className="plain-btn ct-vc ct-vc-row" 
+  //     onClick={handleClick}
+  //     aria-label={`Watch video ${name}`}
+  //   >
+  //     <span tabIndex="-1" className="ct-vc-c">
+  //       <Poster progress={ratio} width={posterSize} />
+  //       <span className="ct-vc-media-info">
+  //         <p className="ct-vc-media-name">{name}</p>
+  //         {isUnavailable && <p className="ct-vc-dp text-muted">Sorry this video is currently unavailable.</p>}
+  //         {!descriptionLink && <p className="ct-vc-dp text-muted">{description}</p>}
+  //         {descriptionLink && <Link className="ct-vc-dp-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
+  //       </span>
+  //     </span>
+  //   </button>
+  // )
+
   if (row) return (
-    <div className="video-card-container-row" unavailable={isUnavailable.toString()} dark={dark.toString()}>
+    <div 
+      className="video-card-container-row" 
+      unavailable={isUnavailable.toString()}
+      dark={dark.toString()}
+      role={role}
+    >
       <button
         id={id}
         className="video-card plain-btn" 

@@ -26,16 +26,16 @@ export const storage = {
    * Store offerings temporarily (!ONLY FOR BROWSERS)
    */
   storeOfferings: function(offerings) {
-    if (isBrowser) localStorage.setItem(this.tempStoredOfferingsKey, JSON.stringify(offerings))
+    // if (isBrowser) localStorage.setItem(this.tempStoredOfferingsKey, JSON.stringify(offerings))
   },
   getStoredOfferings: function() {
     // this.removeStoredOfferings()
-    if (!isBrowser) return null
-    const storedOfferings_str = localStorage.getItem(this.tempStoredOfferingsKey)
-    return storedOfferings_str ? JSON.parse(storedOfferings_str) : null
+    // if (!isBrowser) return null
+    // const storedOfferings_str = localStorage.getItem(this.tempStoredOfferingsKey)
+    // return storedOfferings_str ? JSON.parse(storedOfferings_str) : null
   },
   removeStoredOfferings: function() {
-    if (isBrowser) localStorage.removeItem(this.tempStoredOfferingsKey)
+    // if (isBrowser) localStorage.removeItem(this.tempStoredOfferingsKey)
   },
 
 }

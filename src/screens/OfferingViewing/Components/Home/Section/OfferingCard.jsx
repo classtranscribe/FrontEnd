@@ -17,7 +17,7 @@ export default function OfferingCard({ offering={}, starredOfferings=[], depart=
   const isLoggedIn = user.isLoggedIn()
 
   return !fullNumber ? null :
-    <div className="offering-card-container">
+    <div className="offering-card-container" role="listitem">
       {
         isLoggedIn
         && 

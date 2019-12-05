@@ -11,7 +11,7 @@ import { Grid, Tab, Button } from 'semantic-ui-react'
 import { GeneralLoader } from 'components'
 import OfferingList from './OfferingList'
 // Vars
-import { handleData, api, util } from 'utils'
+import { handleData, api, user, util } from 'utils'
 
 /**
  * @param sortDown state to determine whether to sortDown or sortUp the offering by term
@@ -95,7 +95,7 @@ function Title() {
         <Grid.Column stretched className="new-course-btn">
           <Button 
             as={Link} variant="secondary" 
-            to={util.links.newOffering(api.userId())}
+            to={util.links.newOffering(user.userId())}
             style={{marginRight:'-2rem'}}
             aria-label="create a new offering"
           >
@@ -119,7 +119,7 @@ function EmptyResult() {
       </div>
       <Button 
         as={Link} size='big' secondary
-        to={util.links.newOffering(api.userId())}
+        to={util.links.newOffering(user.userId())}
         style={{width: 'max-content', marginTop: '1rem'}} 
         aria-label="create a new offering"
       >

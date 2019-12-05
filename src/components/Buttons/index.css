@@ -1,0 +1,65 @@
+:root {
+  --ct-btn-green: #328383;
+  --ct-btn-icon-green: #328383;
+}
+
+.ct-btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  text-align: left;
+  color: inherit;
+  position: relative;
+}
+.ct-btn .ct-btn-content {
+  display: flex;
+  flex-direction: row;
+  transition: filter .2s ease-in;
+  border-radius: .28571429rem;
+  overflow: hidden;
+}
+.ct-btn:hover > .ct-btn-content {
+  filter: brightness(110%);
+}
+.ct-btn:focus > .ct-btn-content {
+  filter: brightness(110%);
+}
+.ct-btn:active > .ct-btn-content {
+  filter: brightness(90%);
+}
+.ct-btn:disabled > .ct-btn-content {
+  opacity: .7;
+  pointer-events: none;
+  filter: none;
+}
+.ct-btn .ct-btn-text {
+  color: inherit;
+  background: inherit;
+  font-family: var(--ct-font-google);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct-btn .ct-btn-icon {
+  display: block;
+  background: #0000001f;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 .5em;
+  height: 2.5em;
+}
+.ct-btn[data-color="green"] .ct-btn-content {
+  background: var(--ct-btn-green);
+  color: white;
+}
+
+.ct-btn[data-font=normal] .ct-btn-text {
+  font-size: 1.2em;
+  padding: .5em 1.2em;
+}

@@ -18,13 +18,16 @@ export const util = {
       document.title = title ? `${title} | ClassTranscribe` : 'ClassTranscribe'
     },
     currentUrl: () => window.location,
-    home: ()=> '/',
+    home: () => '/home',
     search: () => '/home/search',
     starred: () => '/home/starred',
     history: () => '/home/history',
     offeringDetail: id => `/home/offering/${id}`,
     personalAnalytics: () => "/home/personal-report",
     admin: () => '/admin',
+
+    login: () => '/login',
+    logout: () => '/logout',
 
     instructor: () => '/instructor',
     newOffering: id => `/instructor/offering-setting/new=${id}`,

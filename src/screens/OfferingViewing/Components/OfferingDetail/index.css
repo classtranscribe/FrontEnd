@@ -5,22 +5,24 @@
   height: 100%;
   -webkit-overflow-scrolling: touch;
   background: #fcfcfc;}
-  .sp-content .offering-detail h1 {
+  .sp-content .offering-detail .od-course-number {
     font-family: Arial, Helvetica, sans-serif;
-    display: inline;
+    display: block;
+    margin-top: 0em;
     color: rgb(48, 134, 134);
     font-size: 3rem;}
-  .sp-content .offering-detail h2 {
+  .sp-content .offering-detail .od-course-name {
     white-space: normal;
-    display: inline;
+    display: block;
+    margin-top: 0em;
     color: rgb(75, 88, 87);}
-    .sp-content .offering-detail h2 span {
+    .sp-content .offering-detail .od-course-name span {
       white-space: normal;
       color: rgb(38, 105, 114);
       font-size: 1.2rem;
       font-weight: normal;}
   .sp-content .offering-detail .offering-description {
-    display: inline;
+    display: block;
     color: rgb(57, 80, 78);
     white-space: normal;
     font-size: 1.1rem;

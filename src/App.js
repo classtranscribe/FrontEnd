@@ -14,14 +14,11 @@ import {
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
 import { CTContext } from './components'
-import { util } from './utils'
+import { user } from './utils'
 
 class App extends React.Component {
   componentDidMount() {
-    util.fixUserMetadata()
-    window.onbeforeunload = () => {
-      util.removeStoredOfferings()
-    }
+    user.checkExpiration()
   }
 
   componentDidUpdate(prevProps) {

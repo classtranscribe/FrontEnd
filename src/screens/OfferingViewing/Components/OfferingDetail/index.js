@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { Icon, Button } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
-import { useCTContext } from 'components'
+import { useCTContext, CTButton } from 'components'
 import { api, util, handleData, user } from 'utils'
 import './index.css'
 
@@ -123,8 +123,6 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
   }
 
   // const allLoaded = fullNumber && termName && courseName && description && sectionName
-  const iconName = isStarred ? 'star' : 'star outline'
-  const buttonName = isStarred ? 'UNSTAR' : 'STAR'
 
   return (
     <div className="offering-detail" >
@@ -142,20 +140,23 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
           </Link>
         </div>
         
-        <h1>{fullNumber}</h1>
-        <br/><br/>
-        <h2>
+        <h1 className="od-course-number">{fullNumber}</h1>
+
+        <h2 className="od-course-name">
           {courseName}&emsp;
           <span>{termName}&ensp;{sectionName}</span>
-        </h2><br/>
-        {description && <><p className="offering-description">{description}</p><br/><br/></>}
+        </h2>
+        {description && <><p className="offering-description">{description}</p></>}
         {
           user.isLoggedIn()
           &&
-          <Button compact icon labelPosition='left' id={`${isStarred ? 'starred' : 'unstarred'}`} onClick={handleStar}>
-            <Icon name={iconName} />
-            {buttonName}
-          </Button>
+          <CTButton 
+            id="off-star-btn"
+            color="green"
+            icon={isStarred ? 'star' : 'star_border'}
+            onClick={handleStar}
+            text={isStarred ? 'UNSTAR' : 'STAR'}
+          />
         }
       </div>
       

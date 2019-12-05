@@ -1,10 +1,10 @@
 import React from 'react'
-import { user } from 'utils'
+import { user, util } from 'utils'
 
 export class LoginAndLogout extends React.Component {
   componentDidMount() {
     console.log(window.location)
-    if (window.location.pathname === '/login') {
+    if (window.location.pathname === util.links.login()) {
       user.setUpUser()
     } else {
       user.signout()

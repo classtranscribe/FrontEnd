@@ -3,6 +3,7 @@ import { Alert } from 'react-bootstrap'
 import './stylesheets/general.vars.css'
 import './stylesheets/general.transition.css'
 import './stylesheets/general.animation.css'
+import './stylesheets/general.class.css'
 import './stylesheets/sidebar.css'
 import './stylesheets/csstrans.playlist-video.css'
 import './stylesheets/sk-loader.css'
@@ -17,6 +18,7 @@ export { GeneralLoader, GeneralPlaceholder, SpinnerLoader } from './Loaders'
 export { Poster } from './Poster'
 export { HomepageTips, VideoTips } from './UserTips'
 export { VideoCard, VideoCardPlaceHolder } from './Cards'
+export { CTButton } from './Buttons'
 
 /**
  * General Components
