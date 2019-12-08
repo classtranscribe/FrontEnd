@@ -27,6 +27,7 @@ function LanguageMenu({
             aria-label={langMap[lang]}
             active={Boolean(lang === currTrans.language).toString()}
             onClick={handleChooseLanguage(lang)}
+            role="menuitem"
           >
             <span tabIndex="-1">
               <div className="watch-icon-listitem-checkmark">

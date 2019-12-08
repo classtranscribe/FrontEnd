@@ -96,9 +96,12 @@ export const keydownControl = {
       // Down Arrow
       case 40:
         return this.handleDownArrow(e)
-      // `c` - closed  caption on/off
+      // `c` - closed caption on/off
       case 67:
         return transControl.handleOpenCC()
+      // `d` - Audio Description on/off
+      case 68:
+        return transControl.handleOpenAD()
       // Alt + e - edit current caption
       case 69:
           e.preventDefault()

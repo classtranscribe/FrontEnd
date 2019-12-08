@@ -34,6 +34,7 @@ function DownloadMenu({
     <div 
       id="watch-download-menu" 
       className="watch-general-menu" 
+      role="menu"
       position="top"
     >
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
@@ -51,6 +52,7 @@ function DownloadMenu({
             aria-label={langMap[lang.language]}
             onClick={handleDownload(lang.src, 'trans', langMap[lang.language])}
             disabled={!Boolean(lang.id) || disabledList.includes(lang.src)}
+            role="menuitem"
           >
             <span tabIndex="-1">
               {

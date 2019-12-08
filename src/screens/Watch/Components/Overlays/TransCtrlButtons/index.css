@@ -56,6 +56,10 @@
   font-size: 1.2em;
 }
 
+.trans-ctrl-btn i[class*=fas] {
+  font-size: 1.2em;
+}
+
 @media screen and (max-width: 550px) {
   .trans-ctrl-btn[id=trans-setting-btn] {
     bottom: 19em;

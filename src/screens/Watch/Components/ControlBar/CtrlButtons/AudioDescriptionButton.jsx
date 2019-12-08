@@ -15,7 +15,7 @@ export function AudioDescriptionButtonWithRedux({
   return descriptions.length > 0 ? (
     <WatchCtrlButton 
       onClick={handleADTrigger}
-      label={<>Audio Description (d)</>}
+      label={`Audio Description: ${openAD ? 'ON' : 'OFF'} (d)`}
       id="audio-description-btn"
       colored={openAD}
       ariaTags={{

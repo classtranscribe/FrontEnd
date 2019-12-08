@@ -39,7 +39,7 @@ function TransCtrlButtonsWithRedux({
     {
       id: 'trans-setting-btn', 
       name: 'Settings', 
-      icon: 'settings', 
+      icon: <i class="fas fa-cogs"></i>, //settings
       click: openTransSettingMenu,
       ariaTags: {
         'aria-controls': 'watch-setting-menu', 
@@ -49,14 +49,14 @@ function TransCtrlButtonsWithRedux({
     {
       id: 'trans-view-switch-btn', 
       name: isLineView ? HIDE_TRANS : isHide ? TRANSCRIPT_VIEW : LINE_VIEW, 
-      icon: isLineView ? 'close' : isHide ? 'menu_book' : 'subject', 
+      icon: <i className="material-icons">{isLineView ? 'close' : isHide ? 'menu_book' : 'subject'}</i>, 
       click: switchTranView,
       ariaTags: {}
     },
     {
       id: 'watch-search-btn', 
       name: 'Search Transcriptions', 
-      icon: 'search', 
+      icon: <i className="material-icons">search</i>, 
       click: handleSearch,
       ariaTags: {
         'aria-controls': 'watch-search-container', 
@@ -77,7 +77,7 @@ function TransCtrlButtonsWithRedux({
           {...btn.ariaTags}
         >
           <span className="trans-ctrl-btn-content" tabIndex="-1">
-            <i className="material-icons">{btn.icon}</i>
+            {btn.icon}
             <span className="trans-ctrl-btn-text">{btn.name}</span>
           </span>
         </button>

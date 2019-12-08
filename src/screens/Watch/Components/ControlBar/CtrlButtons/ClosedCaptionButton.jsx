@@ -14,7 +14,7 @@ export function ClosedCaptionButtonWithRedux({
   return (
     <WatchCtrlButton 
       onClick={handleCCTrigger}
-      label={<>Closed Caption (c)</>}
+      label={`Closed Caption: ${openCC ? 'ON' : 'OFF'} (c)`}
       id="closed-caption-btn"
       colored={openCC}
       ariaTags={{

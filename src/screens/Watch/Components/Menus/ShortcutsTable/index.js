@@ -18,7 +18,7 @@ function ShortcutsTable({
         {shortcuts.map( catagory => (
           <div className="shortcuts-table-col" key={catagory.name}>
             <h3 className="shortcuts-table-h3">{catagory.name}</h3>
-            <table className="shortcuts-table">
+            <table className="shortcuts-table" role="presentation">
               <tbody>
                 {catagory.rows.map( row => (
                   <tr className="shortcuts-tr" key={row.action}>

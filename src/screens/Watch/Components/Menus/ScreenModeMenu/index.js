@@ -35,6 +35,7 @@ function ScreenModeMenu({
             aria-label={screenMode.name}
             active={Boolean(mode === screenMode.type).toString()}
             onClick={handleChooseMode(screenMode.type)}
+            role="menuitem"
           >
             <span tabIndex="-1">
               <div className="watch-icon-listitem-checkmark">

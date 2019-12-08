@@ -41,23 +41,26 @@ function PlaylistsMenu({
       {/* Playlists view */}
       <div className="watch-playlists-list">
         <div className="watch-list-title"><p>Playlists</p></div>
-        {playlists.map( playlistItem => (
-          <button 
-            id={playlistItem.id}
-            key={playlistItem.id}
-            className="watch-playlist-item plain-btn" 
-            onClick={handlePlaylistClick(playlistItem)}
-            current={Boolean(currPlaylistId === playlistItem.id).toString()}
-            active={Boolean(selectedPlaylist.id === playlistItem.id).toString()}
-          >
-            <i className="material-icons library-icon">video_library</i>
-            <p className="playlist-name">
-              {playlistItem.name}
-              {currPlaylistId === playlistItem.id && <><br/><span>Current Playlist</span></>}
-            </p>
-            <i className="material-icons right-arrow">chevron_right</i>
-          </button>
-        ))}
+        <div role="list" className="w-100 d-flex flex-column">
+          {playlists.map( playlistItem => (
+            <button 
+              id={playlistItem.id}
+              key={playlistItem.id}
+              className="watch-playlist-item plain-btn" 
+              role="listitem"
+              onClick={handlePlaylistClick(playlistItem)}
+              current={Boolean(currPlaylistId === playlistItem.id).toString()}
+              active={Boolean(selectedPlaylist.id === playlistItem.id).toString()}
+            >
+              <i className="material-icons library-icon">video_library</i>
+              <p className="playlist-name">
+                {playlistItem.name}
+                {currPlaylistId === playlistItem.id && <><br/><span>Current Playlist</span></>}
+              </p>
+              <i className="material-icons right-arrow">chevron_right</i>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Videos view */}

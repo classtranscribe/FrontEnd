@@ -108,6 +108,9 @@ function ResultList({
             <div className="w-100 d-flex px-3">
               <button
                 className="plain-btn watch-search-btn page-btn"
+                aria-label="See all shortcuts"
+                aria-controls="watch-shortcuts-table-container"
+                aria-haspopup="true"
                 onClick={() => menuControl.open(MENU_SHORTCUTS)}
               >
                 <span className="py-2 px-4 my-1 fsize-1-3" tabIndex="-1">See all shortcuts</span>
@@ -200,6 +203,7 @@ function Video({
         name={mediaName}
         ratio={ratio}
         posterSize={'100px'}
+        listitem={false}
         fittedNameSize={-1}
         description={`Playlist - ${playlistName}`}
         //mediaState={{ media, playlist, playlists }}

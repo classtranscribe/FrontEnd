@@ -87,6 +87,7 @@ function PlaybackrateMenu({
             aria-label={`customized-playback-rate-${sliderValue}`}
             active={usingCustomizedRate.toString()}
             onClick={chooseCustomizedRate(sliderValue)}
+            role="menuitem"
           >
             <span tabIndex="-1">
               <div className="playbackrate-listitem-checkmark">
@@ -109,6 +110,7 @@ function PlaybackrateMenu({
             aria-label={`playback-rate-${rate}`}
             active={Boolean(playbackrate === rate && !usingCustomizedRate).toString()}
             onClick={handleChooseRate(rate)}
+            role="menuitem"
           >
             <span tabIndex="-1">
               <div className="playbackrate-listitem-checkmark">
