@@ -61,6 +61,12 @@
   outline-style: dotted;
   outline-width: 1px;
 }
+.menu-radio[data-disabled=true] {
+  pointer-events: none;
+}
+.menu-radio[data-disabled=true] .menu-radio-line {
+  opacity: .6;
+}
 
 .menu-radio-line {
   width: 100%;

@@ -3,6 +3,7 @@ import React from 'react'
 function MenuRadio({
   description='',
   checked=false,
+  disabled=false,
   label='',
   onChange=null,
   id=''
@@ -13,7 +14,7 @@ function MenuRadio({
   }
 
   return (
-    <div className="menu-radio">
+    <div className="menu-radio" data-disabled={disabled.toString()}>
       <div className="menu-radio-line">
         <div className="w-100 d-flex flex-row">
           <label className="radio-label" htmlFor={id}>{label}</label>

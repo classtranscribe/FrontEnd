@@ -29,6 +29,7 @@ export const CTP_PLAYING = 'ctp-playing'
 export const CTP_LOADING = 'ctp-loading'
 export const CTP_UP_NEXT = 'ctp-up-next' // last minute ?
 export const CTP_ENDED = 'ctp-ended'
+export const CTP_ERROR = 'ctp-error'
 
 // Menu types 
 export const MENU_HIDE = 'menu-hide'

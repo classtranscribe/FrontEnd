@@ -5,20 +5,26 @@ import { transControl } from '../../../Utils'
 
 export function ClosedCaptionButtonWithRedux({
   openCC=false,
+  captions=[]
 }) {
 
   const handleCCTrigger = () => {
     transControl.handleOpenCC()
   }
 
+  let disabled = captions.length <= 0
+
+  let isOpen = openCC && !disabled
+
   return (
     <WatchCtrlButton 
       onClick={handleCCTrigger}
-      label={`Closed Caption: ${openCC ? 'ON' : 'OFF'} (c)`}
+      label={disabled ? `No Closed Caption` : `Closed Caption: ${isOpen ? 'ON' : 'OFF'} (c)`}
       id="closed-caption-btn"
-      colored={openCC}
+      colored={isOpen}
+      disabled={disabled}
       ariaTags={{
-        'aria-label': `${openCC ? 'Open' : 'Close'} Closed Caption`,
+        'aria-label': `${isOpen ? 'Open' : 'Close'} Closed Caption`,
         //'aria-keyshortcuts': 'c',
         'aria-controls': 'watch-cc-container'
       }}
@@ -32,6 +38,6 @@ export function ClosedCaptionButtonWithRedux({
 
 export const ClosedCaptionButton = connectWithRedux(
   ClosedCaptionButtonWithRedux,
-  ['openCC'],
+  ['openCC', 'captions'],
   []
 )

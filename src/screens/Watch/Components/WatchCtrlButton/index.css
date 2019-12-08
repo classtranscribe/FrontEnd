@@ -97,3 +97,10 @@
 .watch-ctrl-button:active > .watch-btn-playbackrate-content {
   opacity: 0.6;
 }
+
+.watch-ctrl-button:disabled {
+  opacity: .7;
+}
+.watch-ctrl-button:disabled > .watch-btn-content {
+  border-bottom: 2px transparent solid !important;
+}

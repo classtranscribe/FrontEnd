@@ -2,9 +2,10 @@ import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { 
   videoControl,
+  promptControl, 
   NORMAL_MODE,
   CTP_LOADING,
-  promptControl, 
+  CTP_ERROR,
 } from '../../../Utils'
 import './index.css'
 
@@ -19,10 +20,17 @@ function SecondaryPlayerWrapperWithRedux({
     videoControl.mode(NORMAL_MODE)
     promptControl.hideSecondaryScreen()
   }
+  
+  if (isPrimary) return null
 
-  return !isPrimary ? ctpSecEvent === CTP_LOADING ? 
+  return ctpSecEvent === CTP_ERROR ? (
+    <div className="watch-secondary-wrapper" data-blur="true">
+      Media Unavailable
+    </div>
+  ) :
+  ctpSecEvent === CTP_LOADING ? 
   (
-    <div className="watch-secondary-wrapper" data-blur={Boolean(ctpSecEvent === CTP_LOADING).toString()}>
+    <div className="watch-secondary-wrapper" data-blur="true">
       <div>
         <div className="sk-chase" color="green">
           <div className="sk-chase-dot"></div>
@@ -64,7 +72,7 @@ function SecondaryPlayerWrapperWithRedux({
         </button>
       </div>
     </div>
-  ) : null
+  )
 }
 
 export const SecondaryPlayerWrapper = connectWithRedux(

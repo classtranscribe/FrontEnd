@@ -84,7 +84,7 @@ export const transControl = {
     // Get and set corresponding captions
     let { data=[] } = await api.getCaptionsByTranscriptionId(tran.id)
     this.captions(data)
-    let descriptions = adSample // need to modify
+    let descriptions = []//adSample // need to modify
     this.descriptions(descriptions)
     let transcript = this.unionTranscript(this.captions(), this.descriptions())
     if (transcript.length === 0) transcript = ARRAY_EMPTY

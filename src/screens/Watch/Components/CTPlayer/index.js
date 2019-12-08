@@ -106,6 +106,9 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   onSeekedPri = e => {
     control.onSeeked(e)
   }
+  onErrorPri = e => {
+    control.onError(e, true)
+  }
 
   // Sec
   onLoadStartSec = e => {
@@ -119,6 +122,9 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
   onPlayingSec = e => {
     control.onPlaying(e, false)
+  }
+  onErrorSec = e => {
+    control.onError(e, false)
   }
 
   handlePause = position => () => {
@@ -160,6 +166,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onEnded={this.onEndedPri}
               onSeeking={this.onSeekingPri}
               onSeeked={this.onSeekedPri}
+              onError={this.onErrorPri}
             >
               {
                 Boolean(srcPath1) 
@@ -188,6 +195,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 onLoadedData={this.onLoadedDataSec}
                 onWaiting={this.onWaitingSec}
                 onPlaying={this.onPlayingSec}
+                onError={this.onErrorSec}
               >
                 {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
               </video>

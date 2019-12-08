@@ -3,8 +3,9 @@ import $ from 'jquery'
  * Functions for controlling video players
  */
 import { 
-  NORMAL_MODE, PS_MODE, NESTED_MODE, 
-  CTP_PLAYING, CTP_LOADING, CTP_ENDED, THEATRE_MODE, HIDE_TRANS, CTP_UP_NEXT 
+  HIDE_TRANS,
+  NORMAL_MODE, PS_MODE, NESTED_MODE, THEATRE_MODE,
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR 
 } from './constants.util'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
@@ -304,6 +305,10 @@ export const videoControl = {
   onEnded: function(e) {
     this.setCTPEvent(CTP_ENDED)
     this.pause()
+  },
+
+  onError: function(e, priVideo=true) {
+    this.setCTPEvent(CTP_ERROR, priVideo)
   },
 
   onSeeking: function(e) {

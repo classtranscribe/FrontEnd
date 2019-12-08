@@ -9,7 +9,7 @@ import {
 } from '../Overlays'
 import { 
   videoControl, 
-  CTP_LOADING, CTP_ENDED 
+  CTP_LOADING, CTP_ENDED, CTP_ERROR
 } from '../../Utils'
 
 function PlayerWrapper({
@@ -17,7 +17,7 @@ function PlayerWrapper({
   ctpPriEvent=CTP_LOADING
 }) {
 
-  const shouldBlur = [CTP_LOADING, CTP_ENDED].includes(ctpPriEvent)
+  const shouldBlur = [CTP_LOADING, CTP_ENDED, CTP_ERROR].includes(ctpPriEvent)
   const handleClick = () => {
     if (!shouldBlur) {
       videoControl.handlePause()
@@ -31,9 +31,16 @@ function PlayerWrapper({
       onClick={handleClick}
       data-blur={shouldBlur.toString()}
     >
-      <ClosedCaption isPrimary={isPrimary} />
-      <BigPlayButton isPrimary={isPrimary} />
-      <AudioDescription isPrimary={isPrimary} />
+      {
+        ctpPriEvent === CTP_ERROR ?
+        <div className="ctp-error-wrapper">Media Unavailable</div>
+        :
+        <>
+          <ClosedCaption isPrimary={isPrimary} />
+          <BigPlayButton isPrimary={isPrimary} />
+          <AudioDescription isPrimary={isPrimary} />
+        </>
+      }
     </div>
   ) : (
     <SecondaryPlayerWrapper isPrimary={isPrimary} />
