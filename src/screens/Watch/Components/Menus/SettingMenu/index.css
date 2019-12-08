@@ -46,23 +46,33 @@
   min-width: 30em;
   display: flex;
   flex-direction: column;
-  animation: var(--ct-animation-expand-padding-h);
-  -o-animation: var(--ct-animation-expand-padding-h);
-  -moz-animation: var(--ct-animation-expand-padding-h);
-  -webkit-animation: var(--ct-animation-expand-padding-h);
+  padding-left: 2em;
+  background: rgb(46, 46, 46);
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
 }
-.menu-radio-line {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: .8em 1em .3em 2em;
-  border-bottom: var(--ct-border-dark);
-  background: rgb(54, 54, 54);
+.menu-radio:hover {
+  background: rgb(58, 58, 58);
+}
+.menu-radio:focus-within  {
+  outline: auto;
+  outline-style: dotted;
+  outline-width: 1px;
 }
 
-.menu-radio:first-child .menu-radio-line {
+.menu-radio-line {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: .5em 1em .5em .5em;
+  border-bottom: var(--ct-border-dark);
+}
+
+.menu-radio:first-child {
   margin-top: .5em;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -70,24 +80,35 @@
 .menu-radio:last-child {
   margin-bottom: 1em;
 }
-.menu-radio:last-child .menu-radio-line {
+.menu-radio:last-child {
   margin-bottom: .5em;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+.menu-radio:last-child .menu-radio-line {
   border-bottom:none;
 }
 
-
-
 .radio-label {
+  width: 100%;
   font-size: 1.3em;
+  cursor: pointer;
+  margin: 0;
+  display: flex;
+  align-items: center;
 }
+.menu-radio-description {
+  color: rgb(216, 216, 216);
+  padding: 0 0 .3em 0em;
+}
+
 
 /* The switch - the box around the slider */
 .ct-radio {
   position: relative;
   display: inline-block;
   width: 50px;
+  min-width: 50px;
   height: 25px;
 }
 
@@ -144,6 +165,30 @@
 
 .ct-radio .radio-slider.round:before {
   border-radius: 50%;
+}
+
+
+
+
+@media screen and (max-width: 900px) {
+  .watch-setting-menu {
+    padding: 3em .3em 6em .3em;
+  }
+  .setting-content {
+    flex-direction: column;
+  }
+  .setting-tabs {
+    width: 100%;
+  }
+  .watch-menu-tab {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0em;
+    margin-top: 2em;
+  }
+  .menu-radio {
+    padding-left: 1em;
+  }
 }
 
 

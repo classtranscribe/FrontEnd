@@ -59,10 +59,11 @@ function InputBar({
         </button>
         {/* Search Input */}
         <input
-          ref={inputRef}
           type="text"
           id="watch-search-input"
           className="watch-search-input"
+          autoComplete="off"
+          ref={inputRef}
           defaultValue={defaultInput}
           placeholder={inputPlaceholder}
           onKeyDown={handleOnKeyDown}

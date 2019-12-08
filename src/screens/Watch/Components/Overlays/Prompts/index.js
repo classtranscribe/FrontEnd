@@ -24,14 +24,17 @@ function PromptsWithRedux({
   }, [prompt])
 
   const onClose = () => {
+    console.error(text)
     setPrompt(null)
   }
 
   return Boolean(prompt) ? (
-    <div className={`watch-prompt prompt-${position} prompt-${status}`}>
+    <div 
+      className="watch-prompt"
+      data-position={position}
+    >
       <div className="prompt-box">
-        <div className="prompt-text">
-          {text}
+        <div className="prompt-text" dangerouslySetInnerHTML={{__html: text}}>
         </div>
         <button className="plain-btn prompt-close-btn" onClick={onClose}>
           <i className="material-icons">close</i>

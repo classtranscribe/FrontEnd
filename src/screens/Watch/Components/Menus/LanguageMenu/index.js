@@ -4,16 +4,11 @@ import { transControl, langMap, langOptions } from '../../../Utils'
 
 function LanguageMenu({
   show=false,
-  openCC=false,
   currTrans={},
   onClose=null
 }) {
 
   const handleChooseLanguage = lang => () => {
-    if (lang === 'caption-switch') {
-      transControl.closedCaption(!openCC)
-      return;
-    }
     transControl.setLanguage(lang)
     setTimeout(() => onClose(), 200);
   }
@@ -25,19 +20,6 @@ function LanguageMenu({
       </button>
 
       <div className="watch-icon-list" >
-        {/* Closed Caption Off */}
-        {/* <button 
-          key={`language-menu-item-caption-off`}
-          className="plain-btn watch-icon-listitem"
-          aria-label={openCC ? "Caption Off" : "Caption On"}
-          onClick={handleChooseLanguage('caption-switch')}
-        >
-          <div className="screen-mode-listitem-checkmark">
-            
-          </div>
-          <i className="material-icons watch-icon-icon">{openCC ? 'speaker_notes' : 'speaker_notes_off'}</i>
-          <div className="watch-icon-name">{openCC ? "On" : "Off"}</div>
-        </button> */}
         {langOptions.map( lang => (
           <button 
             key={`language-menu-item-${lang}`}
@@ -66,6 +48,6 @@ function LanguageMenu({
 
 export default connectWithRedux(
   LanguageMenu,
-  ['currTrans', 'openCC'],
+  ['currTrans'],
   []
 )

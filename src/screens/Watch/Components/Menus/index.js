@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import {
   menuControl,
@@ -9,6 +9,7 @@ import {
   MENU_DOWNLOAD,
   MENU_LANGUAGE,
   MENU_SHORTCUTS,
+  MENU_BEFORE_HIDE,
 } from '../../Utils'
 import PlaylistsMenu from './PlaylistsMenu'
 import PlaybackrateMenu from './PlaybackrateMenu'
@@ -25,12 +26,16 @@ export function MenusWithRedux({
 }) {
 
   // Register setMenu to menuControl
-  menuControl.register({ setMenu })
+  useEffect(() => {
+    menuControl.register({ setMenu })
+  }, [])
   const closeMenu = () => menuControl.close()
 
+  // const hideBefore = menu === MENU_BEFORE_HIDE
+
   return (
-    <div className={`watch-menus`} type={menu}>
-      <div className="watch-menu-blur"></div>
+    <div className={`watch-menus`} data-menu-type={menu}>
+      <div className="watch-menu-blur" aria-hidden="true" ></div>
       <PlaylistsMenu 
         show={menu === MENU_PLAYLISTS}  
         onClose={closeMenu}

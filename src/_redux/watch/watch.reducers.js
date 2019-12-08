@@ -15,9 +15,10 @@ import {
   SET_OPENCC,
   SET_OPENAD,
   // Screen Options
-  SET_MENU,
   SET_MODE,
   SET_TRANS_VIEW,
+  SET_MENU,
+  SET_MODAL,
   // Player Options
   SET_PAUSE,
   SET_TIME,
@@ -71,9 +72,10 @@ const watchReducer = (
     case SET_OPENAD             : return { ...state, openAD: value }
 
     // Settings
-    case SET_MENU               : return { ...state, menu: value }
     case SET_MODE               : return { ...state, mode: value }
     case SET_TRANS_VIEW         : return { ...state, transView: value }
+    case SET_MENU               : return { ...state, menu: value }
+    case SET_MODAL              : return { ...state, modal: value }
 
     // Players
     case SET_PAUSE              : return { ...state, paused: value }

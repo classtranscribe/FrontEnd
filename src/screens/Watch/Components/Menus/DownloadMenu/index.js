@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
-import { connectWithRedux } from '_redux/watch'
 import { Spinner } from 'react-bootstrap'
 import { 
   downloadControl, 
   transControl, 
-  langMap, langOptions 
+  langMap, 
+  langOptions,
 } from '../../../Utils'
-import { api } from 'utils'
 import './index.css'
-
-var fileDownload = require('js-file-download')
 
 function DownloadMenu({
   show=false,
@@ -34,7 +31,11 @@ function DownloadMenu({
   }
 
   return show ? (
-    <div id="watch-download-menu" role="menu" aria-label="Download Menu" className="watch-general-menu" position="top">
+    <div 
+      id="watch-download-menu" 
+      className="watch-general-menu" 
+      position="top"
+    >
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>
@@ -67,8 +68,4 @@ function DownloadMenu({
   ) : null
 }
 
-export default connectWithRedux(
-  DownloadMenu,
-  [],
-  []
-)
+export default DownloadMenu

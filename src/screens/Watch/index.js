@@ -9,12 +9,15 @@ import { CTContext } from 'components'
 import { 
   WatchHeader,
   Menus,
+  Modals,
   ClassTranscribePlayer,
   Search,
   ControlBar,
   Transcriptions,
   TabEventHelperButtons,
-  Prompts
+  Prompts,
+  UpNext,
+  TransCtrlButtons,
 } from './Components'
 import './index.css'
 import './zIndex.css'
@@ -168,10 +171,13 @@ export class WatchWithRedux extends React.Component {
     return (
       <main className="watch-bg" id="watch-page">
         <TabEventHelperButtons />
+        <Modals />
         <WatchHeader />
         <Search />
         <Menus />
         <ClassTranscribePlayer />
+        <UpNext />
+        <TransCtrlButtons />
         <Transcriptions />
         <ControlBar />
         <Prompts />

@@ -3,11 +3,13 @@ import { connectWithRedux } from '_redux/watch'
 import { 
   PlayButton,
   SettingButton,
+  NextVideoButton,
   FullscreenButton,
   SwitchScreenButton,
   PlaybackRateButton,
   ClosedCaptionButton,
   LanguagePickerButton,
+  AudioDescriptionButton,
   ScreenModeSettingButton,
 } from './CtrlButtons'
 import VolumeControl from './VolumeControl'
@@ -25,6 +27,7 @@ export function ControlBarWithRedux({
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
         <PlayButton />
+        <NextVideoButton />
         {isTwoScreen && <SwitchScreenButton />}
         <VolumeControl />
         <TimeDisplay />
@@ -32,8 +35,9 @@ export function ControlBarWithRedux({
       <div className="watch-ctrl-bar-right-elems">
         <PlaybackRateButton />
         <ClosedCaptionButton />
+        <AudioDescriptionButton />
         <LanguagePickerButton />
-        <ScreenModeSettingButton isTwoScreen={isTwoScreen} />
+        {isTwoScreen && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
         {/* <DownloadButton /> */}
         <SettingButton />
         <FullscreenButton />

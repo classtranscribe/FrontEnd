@@ -24,7 +24,7 @@ export function ClosedCaptionButtonWithRedux({
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">closed_caption</i>     
+        <i className="fas fa-closed-captioning"></i>    
       </span>
     </WatchCtrlButton>
   )

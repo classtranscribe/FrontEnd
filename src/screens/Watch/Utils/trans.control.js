@@ -20,6 +20,7 @@ import {
   PROFANITY_LIST,
   TRANSCRIPT_VIEW,
   LINE_VIEW,
+  HIDE_TRANS,
 } from './constants.util'
 import { adSample } from './sampleData'
 
@@ -109,14 +110,14 @@ export const transControl = {
 
     const { setDescriptions } = this.externalFunctions
     if (setDescriptions) {
-      if (des.length === 0) des = ARRAY_EMPTY
+      // if (des.length === 0) des = ARRAY_EMPTY
       setDescriptions(des)
       this.descriptions_ = des
     }
   },
 
   findDescription: function(now) {
-    let next = this.findCurrent(this.descriptions_, this.prevDescription_, now)
+    let next = this.findCurrent(this.descriptions_, null, now)
     this.prevDescription_ = next
     return next
   },
@@ -161,7 +162,12 @@ export const transControl = {
    * Function Used to find the caption based on current time
    */
   findCaption: function(now) {
-    let next = this.findCurrent(this.captions_, this.prevCaption_, now)
+    const deterFunc = (item, prev) => {
+      return item.kind === WEBVTT_SUBTITLES || !prev 
+      || item.kind !== prev.kind
+      || (item.kind === WEBVTT_DESCRIPTIONS && item !== prev)
+    }
+    let next = this.findCurrent(this.captions_, this.prevCaption_, now, deterFunc)
     this.prevCaption_ = next
     return next
   },
@@ -369,10 +375,21 @@ export const transControl = {
     }
   },
   handleTransViewSwitch: function() {
-    if (preferControl.defaultTransView() === LINE_VIEW) {
+    let view = preferControl.defaultTransView()
+    if (view === HIDE_TRANS) {
       this.transView(TRANSCRIPT_VIEW)
+    } else if (view === LINE_VIEW) {
+      this.transView(HIDE_TRANS)
     } else {
       this.transView(LINE_VIEW)
+    }
+  },
+  handleOpenTrans: function() {
+    let view = preferControl.defaultTransView()
+    if (view === HIDE_TRANS) {
+      this.transView(TRANSCRIPT_VIEW)
+    } else {
+      this.transView(HIDE_TRANS)
     }
   },
   
@@ -511,15 +528,14 @@ export const transControl = {
   /**
    * Find item based on current time
    */
-  findCurrent: function(array=[], prev={}, now=0) {
+  findCurrent: function(array=[], prev={}, now=0, deterFunc) {
     let next = prev
     const isCurrent = item => {
       if (!item) return false
       let end = timeStrToSec(item.end)
       let begin =  timeStrToSec(item.begin)
-      let deter = item.kind === WEBVTT_SUBTITLES || !prev 
-                || item.kind !== prev.kind
-                || (item.kind === WEBVTT_DESCRIPTIONS && item !== prev)
+      let deter = true
+      if (deterFunc) deter = deterFunc(item, prev)
       return begin <= now && now <= end && deter
     }
 

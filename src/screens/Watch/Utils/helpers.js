@@ -2,44 +2,24 @@ import $ from 'jquery'
 import _ from 'lodash'
 import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
-import { videoControl } from './player.control'
+// import { videoControl } from './player.control'
 
 export function findUpNextMedia({
-  playlist={ medias: [] },
   currMediaId='',
   playlists=[{ medias: [] }],
-  currPlaylistId='',
 }) {
-  const { medias } = playlist;
-  const currMediaIndex = _.findIndex(medias, { id: currMediaId });
+  let playlistResults = _.map( playlists, pl => pl.medias.slice().reverse() )
+  playlistResults = _.flatten(playlistResults)
 
-  if (currMediaIndex > -1) {
-    // if is the last video of the medias
-    if (currMediaIndex <= 0) {
-      const currPlaylistIndex = _.findIndex(playlists, { id: currPlaylistId });
-      // if this is this last playlist
-      // return the 1st video in the 1st playlist
-      let nextPlaylistMedias = []
-      if (currPlaylistIndex + 1 >= playlists.length) {
-        nextPlaylistMedias = playlists[0].medias
-      // return the first video of the next playlist
-      } else {
-        nextPlaylistMedias = playlists[currPlaylistIndex + 1].medias
-      }
-      return nextPlaylistMedias[nextPlaylistMedias.length - 1] || null;
-    // return next video
-    } else {
-      return medias[currMediaIndex - 1];
-    }
-  // if no such media
-  } else {
-    return null;
-  }
+  let upNextIdx = _.findIndex(playlistResults, { id: currMediaId }) + 1
+  let upNext = playlistResults[upNextIdx] || null
+  return upNext
 }
 
 export function parseSec(d) {
   if (d === undefined) return '';
   d = Number(d);
+  if ( d < 0 ) return ''
   var h = Math.floor(d / 3600);
   var m = Math.floor(d % 3600 / 60);
   var s = Math.floor(d % 3600 % 60);
@@ -52,7 +32,11 @@ export function parseSec(d) {
 
 export function timeStrToSec(str) {
   const strs = str.split(':')
-  return parseFloat(strs[0]) * 3600 + parseFloat(strs[1]) * 60 + parseFloat(strs[2])
+  let len3 = strs.length > 2
+  let sec = (len3 ? parseFloat(strs[2]) : parseFloat(strs[1])) || 0
+  let min = (len3 ? parseFloat(strs[1]) : parseFloat(strs[0])) * 60 || 0
+  let hr = (len3 ? parseFloat(strs[0]) : 0) * 3600 || 0
+  return sec + min + hr
 }
 
 export function prettierTimeStr(str) {
@@ -100,4 +84,17 @@ export function autoSizeAllTextAreas(timeout=0) {
   setTimeout(() => {
     autoHelper()
   }, timeout);
+}
+
+
+/** handle Share */
+// Get share url
+export function getShareableURL(time=0) {
+  const { origin, pathname, search } = window.location
+  let url = origin + pathname + search
+  if (time > 0) {
+    url += `&begin=${Math.floor(time)}`
+  }
+
+  return url
 }

@@ -1,20 +1,40 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { 
+  videoControl,
   NORMAL_MODE,
-  videoControl, 
+  CTP_LOADING,
+  promptControl, 
 } from '../../../Utils'
 import './index.css'
 
 function SecondaryPlayerWrapperWithRedux({
   mode=NORMAL_MODE,
+  ctpSecEvent=CTP_LOADING,
   isPrimary=false,
 }) {
 
   const onSwitch = () => videoControl.switchVideo()
-  const onClose = () => videoControl.mode(NORMAL_MODE)
+  const onHide = () => {
+    videoControl.mode(NORMAL_MODE)
+    promptControl.hideSecondaryScreen()
+  }
 
-  return !isPrimary ? (
+  return !isPrimary ? ctpSecEvent === CTP_LOADING ? 
+  (
+    <div className="watch-secondary-wrapper" data-blur={Boolean(ctpSecEvent === CTP_LOADING).toString()}>
+      <div>
+        <div className="sk-chase" color="green">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="watch-secondary-wrapper" mode={mode}>
       <div className="watch-secondary-wrapper-left">
         <button 
@@ -34,7 +54,7 @@ function SecondaryPlayerWrapperWithRedux({
           className="watch-secondary-wrapper-button plain-btn ripple-btn"
           content="close"
           aria-label="Hide Screen"
-          onClick={onClose}
+          onClick={onHide}
         >
           
           <p className="text-center">
@@ -49,6 +69,6 @@ function SecondaryPlayerWrapperWithRedux({
 
 export const SecondaryPlayerWrapper = connectWithRedux(
   SecondaryPlayerWrapperWithRedux,
-  ['mode'], 
+  ['mode', 'ctpSecEvent'], 
   []
 )

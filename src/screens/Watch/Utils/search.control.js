@@ -15,7 +15,7 @@ import {
   SEARCH_IN_PLAYLISTS,
   SEARCH_IN_SHORTCUTS
 } from "./constants.util"
-import { shortcuts } from './shortcuts'
+import { shortcuts } from './data'
 
 /**
  * Functions for controlling user preference
@@ -165,18 +165,11 @@ export const searchControl = {
   // Function used to get search results from videos in current offering
   getPlaylistResults: function(value) {
     let isMatch = this.getMatchFunction(value, 'mediaName')
-    let playlistResults = []
-    this.playlists.forEach( playlist => {
-      let playlistName = playlist.name
-      playlist.medias.forEach( media => {
-        let media_ = api.parseMedia(media)
-        if (isMatch(media_)) {
-          playlistResults.push({
-            playlistName, ...media_
-          })
-        }
-      })
-    })
+
+    let playlistResults = _.map( this.playlists, pl => pl.medias )
+    playlistResults = _.flatten(playlistResults)
+    playlistResults = _.map( playlistResults, pl => api.parseMedia(pl) )
+    playlistResults = _.filter(playlistResults, isMatch)
 
     playlistResults = this.highlightSearchedWords(playlistResults, value, 'mediaName')
     // console.log('playlistResults', playlistResults)

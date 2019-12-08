@@ -9,8 +9,11 @@ export default function WatchCtrlButton({
   onClick=null,
   active=false,
   colored=false,
+  disabled=false,
   label="",
   ariaTags={},
+  popupStyle={},
+  popupPosition="0, 15px",
   mouseEnterDelay=0,
   id=""
 }) { 
@@ -26,8 +29,9 @@ export default function WatchCtrlButton({
 
   return (
     <Popup inverted wide basic
+      style={popupStyle}
       position={`${position} center`}
-      offset={position === 'bottom' ? "0, 15px" : undefined}
+      offset={position === 'bottom' ? popupPosition : undefined}
       mouseEnterDelay={mouseEnterDelay}
       openOnTriggerClick={false}
       openOnTriggerFocus
@@ -39,6 +43,7 @@ export default function WatchCtrlButton({
           className={`watch-ctrl-button ${classNames}`} 
           active={active.toString()}
           colored={colored.toString()}
+          disabled={disabled}
           position={position}
           onClick={handleClick}
           onKeyDown={handleKeyDown}

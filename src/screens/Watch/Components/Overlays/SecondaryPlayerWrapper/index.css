@@ -14,6 +14,10 @@
   -moz-transition: var(--ct-transition-all);
   -webkit-transition: var(--ct-transition-all);
 }
+.watch-secondary-wrapper[data-blur=true] {
+  background: rgba(0, 0, 0, 0.719);
+  opacity: 1;
+}
 .watch-secondary-wrapper:hover,
 .watch-secondary-wrapper:focus-within {
   opacity: 1;

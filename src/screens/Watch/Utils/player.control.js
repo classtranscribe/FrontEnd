@@ -4,7 +4,7 @@ import $ from 'jquery'
  */
 import { 
   NORMAL_MODE, PS_MODE, NESTED_MODE, 
-  CTP_PLAYING, CTP_LOADING, CTP_ENDED 
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED, THEATRE_MODE, HIDE_TRANS, CTP_UP_NEXT 
 } from './constants.util'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
@@ -48,6 +48,9 @@ export const videoControl = {
       if (window.innerWidth <= 900 && mode === PS_MODE) {
         mode = NESTED_MODE
       } 
+      if (mode === THEATRE_MODE) {
+        transControl.transView(HIDE_TRANS)
+      }
       setMode(mode)
       this.currentMode = mode
     }
@@ -269,12 +272,16 @@ export const videoControl = {
     }
   },
 
+  ctpPriEvent: CTP_LOADING,
+  ctpSecEvent: CTP_LOADING,
   setCTPEvent: function(event=CTP_PLAYING, priVideo=true) {
     const { setCTPPriEvent, setCTPSecEvent } = this.externalFunctions
     if (priVideo) {
       setCTPPriEvent(event)
+      this.ctpPriEvent = event
     } else {
       setCTPSecEvent(event)
+      this.ctpSecEvent = event
     }
   },
 
@@ -296,6 +303,17 @@ export const videoControl = {
 
   onEnded: function(e) {
     this.setCTPEvent(CTP_ENDED)
+    this.pause()
+  },
+
+  onSeeking: function(e) {
+    if (this.ctpPriEvent === CTP_ENDED || this.ctpPriEvent === CTP_UP_NEXT) {
+      this.setCTPEvent(CTP_PLAYING)
+    }
+  },
+
+  onSeeked: function(e) {
+    
   },
 
 

@@ -17,12 +17,18 @@ export const screenModes = [
   { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
   { type: PS_MODE, name: 'Distributed View', icon: 'view_carousel' },
   { type: NESTED_MODE, name: 'Nested View', icon: 'picture_in_picture' },
-  { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
+  // { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
 ]
 
 // Player types
 export const PRIMARY = 'ct-player-primary'
 export const SECONDARY = 'ct-player-secondary'
+
+// Player Events
+export const CTP_PLAYING = 'ctp-playing'
+export const CTP_LOADING = 'ctp-loading'
+export const CTP_UP_NEXT = 'ctp-up-next' // last minute ?
+export const CTP_ENDED = 'ctp-ended'
 
 // Menu types 
 export const MENU_HIDE = 'menu-hide'
@@ -33,8 +39,17 @@ export const MENU_SETTING = 'menu-setting'
 export const MENU_LANGUAGE = 'menu-language'
 export const MENU_SCREEN_MODE = 'menu-screen-mode'
 export const MENU_DOWNLOAD = 'menu-download'
-export const MENU_TRANSLATION = 'menu-translation'
 export const MENU_SHORTCUTS = 'menu-shortcuts'
+// Setting menu tabs
+export const SMTAB_GENERAL = 'tab-general'
+export const SMTAB_TRANS = 'tab-trans'
+export const SMTAB_CC = 'tab-cc'
+export const SMTAB_AD = 'tab-ad'
+
+// Modals
+export const MODAL_HIDE = 'modal-hide'
+export const MODAL_BEFORE_HIDE = 'modal-before-hide'
+export const MODAL_SHARE = 'modal-share'
 
 // Caption Languages
 export const ENGLISH = 'en-US'
@@ -57,6 +72,7 @@ export const WEBVTT_CHAPTERS = 'chapters'
 // Transcription View
 export const LINE_VIEW = 'Caption Line View'
 export const TRANSCRIPT_VIEW = 'Transcript View'
+export const HIDE_TRANS = 'Hide Transcription'
 
 // Search
 // Caption Search Options
@@ -83,10 +99,6 @@ export const SEARCH_INIT = {
 
 // CT Player static options
 export const AUTOPLAY = false
-export const CTP_PLAYING = 'ctp-playing'
-export const CTP_LOADING = 'ctp-loading'
-export const CTP_UP_NEXT = 'ctp-up-next' // last minute ?
-export const CTP_ENDED = 'ctp-ended'
 export const playbackRateOptions = [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]
 
 // CC Setting

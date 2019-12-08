@@ -6,6 +6,10 @@
   align-items: center;
   justify-content: flex-start;
   font-size: 1.4em;
+  animation: var(--ct-animation-expand-padding-h);
+  -o-animation: var(--ct-animation-expand-padding-h);
+  -moz-animation: var(--ct-animation-expand-padding-h);
+  -webkit-animation: var(--ct-animation-expand-padding-h);
 }
 .watch-download-menu-title .file-type {
   color: var(--ct-text-white-hover);

@@ -15,9 +15,10 @@ import {
   SET_OPENCC,
   SET_OPENAD,
   // Screen Options
-  SET_MENU,
   SET_MODE,
   SET_TRANS_VIEW,
+  SET_MENU,
+  SET_MODAL,
   // Player Options
   SET_PAUSE,
   SET_TIME,
@@ -63,9 +64,10 @@ export const setOpenCC            = value => ({ type: SET_OPENCC, value })
 export const setOpenAD            = value => ({ type: SET_OPENAD, value })
 
 // Settings
-export const setMenu              = value => ({ type: SET_MENU, value })
 export const setMode              = value => ({ type: SET_MODE, value })
 export const setTransView         = value => ({ type: SET_TRANS_VIEW, value })
+export const setMenu              = value => ({ type: SET_MENU, value })
+export const setModal             = value => ({ type: SET_MODAL, value })
 
 // Player actions
 export const setPlaybackrate      = value => ({ type: SET_PLAYBACKRATE, value })

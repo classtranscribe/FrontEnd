@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TranscriptionSetting from './TranscriptionSetting'
 import CCSetting from './CCSetting'
+import ADSetting from './ADSetting'
+import {
+  menuControl,
+  SMTAB_GENERAL,
+  SMTAB_TRANS,
+  SMTAB_CC,
+  SMTAB_AD,
+} from '../../../Utils'
 import './index.css'
 
-const TAB_GENERAL = 'tab-general'
-const TAB_TRANS = 'tab-cc'
-const TAB_CC = 'tab-ad'
-
 const panes = [
-  { id:TAB_GENERAL, name: 'General', icon: 'settings' },
-  { id:TAB_TRANS, name: 'Transcriptions', icon: 'menu_book' },
-  { id:TAB_CC, name: 'Closed Captions', icon: 'closed_caption' },
+  { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
+  { id: SMTAB_TRANS, name: 'Transcriptions', icon: <i className="material-icons watch-icon-icon">menu_book</i> },
+  { id: SMTAB_CC, name: 'Closed Caption', icon: <i className="fas fa-closed-captioning watch-icon-icon"></i> },
+  { id: SMTAB_AD, name: 'Audio Description', icon: <i className="fas fa-audio-description watch-icon-icon"></i> },
 ]
 
 function SettingMenu({
@@ -18,10 +23,17 @@ function SettingMenu({
   onClose=null,
 }) {
 
-  const [tab, setTab] = useState(TAB_TRANS)
+  const [tab, setTab] = useState(menuControl.tab())
+
+  useEffect(() => {
+    if (show) {
+      setTab(menuControl.tab())
+    }
+  }, [show])
 
   const changeTab = tabId => () => {
     setTab(tabId)
+    menuControl.tab(tabId)
   }
 
   return show ? (
@@ -40,7 +52,7 @@ function SettingMenu({
               onClick={changeTab(pane.id)}
             >
               <span tabIndex="-1">
-                <i className="material-icons watch-icon-icon">{pane.icon}</i>
+                {pane.icon}
                 <div className="watch-icon-name">{pane.name}</div>
               </span>
             </button>
@@ -48,14 +60,20 @@ function SettingMenu({
         </div>
 
         {
-          tab === TAB_TRANS
+          tab === SMTAB_TRANS
           &&
           <TranscriptionSetting />
         }
         {
-          tab === TAB_CC
+          tab === SMTAB_CC
           &&
           <CCSetting />
+        }
+
+        {
+          tab === SMTAB_AD
+          &&
+          <ADSetting />
         }
 
       </div>

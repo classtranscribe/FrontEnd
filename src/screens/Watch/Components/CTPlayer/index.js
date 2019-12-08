@@ -70,19 +70,58 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onCanPlay(e)
   }
 
-  onDurationChange = e => {
-    control.onDurationChange(e)
-  }
-
+  // Pri
   onTimeUpdate = e => {
     control.onTimeUpdate(e)
   }
-
+  onDurationChange = e => {
+    control.onDurationChange(e)
+    let { begin, courseNumber, id } = util.parseSearchQuery()
+    if (Boolean(begin)) {
+      control.currTime(Number(begin))
+      util.replacePathname( util.links.watch(courseNumber, id) )
+    }
+  }
   onProgress = e => {
     control.onProgress(e)
   }
+  onLoadStartPri = e => {
+    control.onLoadStart(e, true)
+  }
+  onLoadedDataPri = e => {
+    control.onLoadedData(e, true)
+  }
+  onWaitingPri = e => {
+    control.onWaiting(e, true)
+  }
+  onPlayingPri = e => {
+    control.onPlaying(e, true)
+  }
+  onEndedPri = e => {
+    control.onEnded(e)
+  }
+  onSeekingPri = e => {
+    control.onSeeking(e)
+  }
+  onSeekedPri = e => {
+    control.onSeeked(e)
+  }
 
-  handlePause = position =>() => {
+  // Sec
+  onLoadStartSec = e => {
+    control.onLoadStart(e, false)
+  }
+  onLoadedDataSec = e => {
+    control.onLoadedData(e, false)
+  }
+  onWaitingSec = e => {
+    control.onWaiting(e, false)
+  }
+  onPlayingSec = e => {
+    control.onPlaying(e, false)
+  }
+
+  handlePause = position => () => {
     if (position === PRIMARY) {
       control.handlePause()
     }
@@ -90,7 +129,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
   render() {
     const { srcPath1, srcPath2 } = this.state
-    const { media, mode, isSwitched, paused } = this.props
+    const { media, mode, isSwitched, paused, transView } = this.props
     const { isTwoScreen, transcriptions } = media
 
     const player1Position = isSwitched ? SECONDARY : PRIMARY
@@ -101,6 +140,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         <div 
           className={`ct-video-row ${player1Position}`} 
           mode={mode} 
+          data-trans-view={transView}
         >
           <div className="ct-video-contrainer">
             <PlayerWrapper isPrimary={!isSwitched} />
@@ -113,11 +153,13 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onProgress={this.onProgress}
               onCanPlay={this.onCanPlay}
               onPause={this.onPause}
-              //onLoadStart={()=>alert('onLoadStart')}
-              //onLoadedData={()=>alert('onLoadedData')}
-              //onWaiting={()=>alert('onWaiting')}
-              //onPlaying={()=>alert('onPlaying')}
-              //onEnded={()=>alert('onPlaying')}
+              onLoadStart={this.onLoadStartPri}
+              onLoadedData={this.onLoadedDataPri}
+              onWaiting={this.onWaitingPri}
+              onPlaying={this.onPlayingPri}
+              onEnded={this.onEndedPri}
+              onSeeking={this.onSeekingPri}
+              onSeeked={this.onSeekedPri}
             >
               {
                 Boolean(srcPath1) 
@@ -133,6 +175,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           <div 
             className={`ct-video-row ${player2Position}`} 
             mode={mode}
+            data-trans-view={transView}
           >
             <div className="ct-video-contrainer">
               <PlayerWrapper isPrimary={isSwitched} />
@@ -141,6 +184,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 id="ct-video-2"
                 ref={node => this.videoNode2 = node}
                 onCanPlay={this.onCanPlay}
+                onLoadStart={this.onLoadStartSec}
+                onLoadedData={this.onLoadedDataSec}
+                onWaiting={this.onWaitingSec}
+                onPlaying={this.onPlayingSec}
               >
                 {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
               </video>
@@ -154,7 +201,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
 export const ClassTranscribePlayer = connectWithRedux(
   ClassTranscribePlayerWithRedux,
-  ['media', 'mode', 'isSwitched', 'paused'],
+  ['media', 'mode', 'isSwitched', 'paused', 'transView'],
   [
     'setMode',
     'setVolume', 

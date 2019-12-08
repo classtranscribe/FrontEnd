@@ -11,10 +11,10 @@
   align-items: center;
   justify-content: center;
   margin: 2em 1em 4em 0;
-  animation: var(--ct-animation-expand-padding-h);
-  -o-animation: var(--ct-animation-expand-padding-h);
-  -moz-animation: var(--ct-animation-expand-padding-h);
-  -webkit-animation: var(--ct-animation-expand-padding-h);
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
 }
 
 .ccstyle-demo-box {
@@ -32,10 +32,10 @@
   max-width: 90vw;
   height: auto;
   margin: 1em 0em 5em 1em;
-  animation: var(--ct-animation-expand-padding-h);
-  -o-animation: var(--ct-animation-expand-padding-h);
-  -moz-animation: var(--ct-animation-expand-padding-h);
-  -webkit-animation: var(--ct-animation-expand-padding-h);
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
 }
 
 @media screen and (max-width: 900px) {

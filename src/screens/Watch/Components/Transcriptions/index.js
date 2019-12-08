@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import {
   transControl, 
-  NORMAL_MODE, LINE_VIEW, SEARCH_INIT, SEARCH_HIDE
+  NORMAL_MODE, LINE_VIEW, SEARCH_INIT, SEARCH_HIDE, TRANSCRIPT_VIEW
 } from '../../Utils'
 import './index.css'
-import { TransCtrlButtons } from '../Overlays'
 import CaptionLine from './CaptionLine'
 import TranscriptText from './TranscriptText'
 import PlaceHolder from './PlaceHolder'
@@ -43,7 +42,6 @@ function TranscriptionsWithRedux({
       className="watch-trans-container"
       mode={mode}
     >
-      <TransCtrlButtons />
       <div 
         className="trans-box"
         onMouseEnter={handleMourseOver(true)}
@@ -66,6 +64,7 @@ function TranscriptionsWithRedux({
             ))}
           </div>
           :
+          transView === TRANSCRIPT_VIEW ?
           <div className="trans-article">
             {transcript.map( (caption, index) => (
               <TranscriptText
@@ -75,6 +74,7 @@ function TranscriptionsWithRedux({
               />
             ))}
           </div>
+          : null
         }
         {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
       </div>

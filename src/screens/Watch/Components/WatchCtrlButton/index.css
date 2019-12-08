@@ -26,8 +26,8 @@
   font-size: 2.5em;
   width: max-content;
 }
-.watch-ctrl-button .watch-btn-content i[type=setting] {
-  font-size: 2.2em;
+.watch-ctrl-button .watch-btn-content i[class*=fas] {
+  font-size: 2.1em;
   transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
@@ -65,9 +65,10 @@
   -moz-transition: var(--ct-transition-all);
   -webkit-transition: var(--ct-transition-all); */
 }
-.watch-ctrl-button[colored=true] {
-  color: var(--ct-green-active);
+.watch-ctrl-button[colored=true] > .watch-btn-content {
+  color: var(--ct-text-highlight);
 }
+
 /* Focus */
 .watch-ctrl-button[position=bottom]:focus > .watch-btn-content, 
 .watch-ctrl-button[position=bottom]:hover > .watch-btn-content,
@@ -85,10 +86,11 @@
 .watch-ctrl-button[position=top][active=true] > .watch-btn-playbackrate-content {
   border-top: 2px var(--ct-text-white-hover) solid;
 }
+
 .watch-ctrl-button[colored=true]:hover > .watch-btn-content,
-.watch-ctrl-button[colored=true]:focus > .watch-btn-content
-/* .watch-ctrl-button[active=true][colored=true] > .watch-btn-content */ {
-  border-color: var(--ct-green-active);
+.watch-ctrl-button[colored=true]:focus > .watch-btn-content {
+  /* border-bottom: 2px var(--ct-text-highlight) solid; */
+  border-color: var(--ct-text-highlight);
 }
 
 .watch-ctrl-button:active > .watch-btn-content,  

@@ -9,7 +9,9 @@ import {
   CC_OPACITY_75,
   CC_POSITION_BOTTOM,
   SEARCH_INIT,
-  CTP_LOADING
+  CTP_LOADING,
+  MODAL_HIDE,
+  MODAL_SHARE
 } from "../../screens/Watch/Utils"
 
 export const initialState = {
@@ -40,9 +42,10 @@ export const initialState = {
   openAD: preferControl.ad(),
 
   // screen options
-  menu: MENU_HIDE,
   mode: NORMAL_MODE,
   transView: preferControl.defaultTransView(),
+  menu: MENU_HIDE,
+  modal: MODAL_HIDE,
 
   // Video player options
   paused: true,

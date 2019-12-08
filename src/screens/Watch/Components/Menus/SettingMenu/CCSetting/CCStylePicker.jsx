@@ -18,6 +18,8 @@ import {
   getCCSelectOptions
 } from '../../../../Utils'
 
+const CC_EXAMPLE = 'This is an example of closed caption'
+
 function SettingMenu({
   cc_color=CC_COLOR_WHITE,
   cc_bg=CC_COLOR_BLACK,
@@ -27,7 +29,7 @@ function SettingMenu({
   cc_position=CC_POSITION_BOTTOM,
 }) {
 
-  const { ccStyle, ccContainerStyle } = transControl.getCCStyle({ 
+  const { ccStyle } = transControl.getCCStyle({ 
     cc_color, 
     cc_color,
     cc_bg,
@@ -42,12 +44,12 @@ function SettingMenu({
       <div className="ccstyle-demo-area">
         {/* <h2>Sample Caption</h2> */}
         <div className="ccstyle-demo-box" style={ccStyle}>
-          Lorem ipsum dolor sit amet, soleat ornatus menandri mei cu, legere regione aperiri duo te, debet maiestatis per no.
+          {CC_EXAMPLE}
         </div>
       </div>
       <div className="ccstyle-selection-area">
         <Grid stackable columns='equal'>
-          <Grid.Row>
+          {/* <Grid.Row>
             <Grid.Column>
               <Form.Field
                 fluid 
@@ -70,7 +72,7 @@ function SettingMenu({
                 onChange={(event, {value}) => transControl.ccFont(value)}
               />
             </Grid.Column>
-          </Grid.Row>
+          </Grid.Row> */}
 
           <Grid.Row>
             <Grid.Column>

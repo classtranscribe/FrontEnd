@@ -27,7 +27,7 @@ function CCSetting({
         />
       </div>
       <h2 className="watch-menu-tab-title">Customize Closed Caption Style</h2>
-      <div className="w-100">
+      <div className="w-100 d-flex">
         <CCStylePicker />
       </div>
     </form>

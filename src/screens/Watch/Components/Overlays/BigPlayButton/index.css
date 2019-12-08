@@ -1,8 +1,8 @@
-.watch-big-play-button-container {
+.wbp-btn-container {
   position: relative;
 }
 
-.watch-big-play-button {
+.wbp-btn {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -20,14 +20,14 @@
 .big-play-button-content i {
   font-size: 11em;
 }
-.watch-big-play-button:hover,
-.watch-big-play-button:focus {
+.wbp-btn:hover,
+.wbp-btn:focus {
   outline: none;
 }
-.watch-big-play-button:hover > .big-play-button-content{
+.wbp-btn:hover > .big-play-button-content{
   color: var(--ct-text-highlight);
 }
 
-.watch-big-play-button:focus > .big-play-button-content {
+.wbp-btn:focus > .big-play-button-content {
   outline: auto;
 }

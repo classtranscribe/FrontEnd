@@ -85,8 +85,15 @@ export const util = {
     }
     return query === '?' ? '' : query
   },
+  replacePathname: function(url) {
+    window.history.replaceState(
+      window.history.state , 
+      document.title, 
+      url
+    )
+  },
   getWindowStates: function () {
-    return window.location.state || {}
+    return window.history.state || {}
   },
 
   getSelectOptions: function(array, tag) {

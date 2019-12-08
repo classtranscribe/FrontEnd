@@ -10,7 +10,7 @@
  * 1020 - Header
  * 1021 - Search
  * 1021 - Tab Event Helper Buttons
- *
+ * 1030 - Modals
  */
 
 /* Transcription Area */
@@ -36,6 +36,11 @@
 /* Menu */
 .watch-menus {
   z-index: 5;
+}
+
+/* Modal */
+.watch-modal {
+  z-index: 1030;
 }
 
 /* Search */

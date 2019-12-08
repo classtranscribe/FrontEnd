@@ -3,14 +3,11 @@ import _ from 'lodash'
 import { connectWithRedux } from '_redux/watch'
 import Videos from './Videos'
 import { util } from 'utils'
-import { findUpNextMedia } from '../../../Utils'
 import './index.css'
 
 function PlaylistsMenu({
   show=false,
   onClose=null,
-  // currMedia={},
-  // currPlaylist={},
   media={},
   playlist={},
   playlists=[],
@@ -20,18 +17,6 @@ function PlaylistsMenu({
   const currPlaylist = playlist
   const currPlaylistId = currPlaylist.id
   const currMediaId = currMedia.id
-
-  // const upNextMedia = findUpNextMedia({ 
-  //   playlist: currPlaylist,
-  //   currMediaId,
-  //   currPlaylistId,
-  //   playlists: playlists.length > 0 ? playlists : undefined
-  // })
-  
-  /** 
-   * @TODO upNextMedia 
-   */
-  // console.log('upNextMedia', api.parseMedia(upNextMedia))
 
   const [selectedPlaylist, setSelectedPlaylist] = useState({ name: '', medias: [], id:'' })
 

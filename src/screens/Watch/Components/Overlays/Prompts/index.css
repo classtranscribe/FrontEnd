@@ -13,12 +13,27 @@
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.719);
 }
+.prompt-upnext {
+  position: relative;
+  background: rgb(59, 59, 59);
+  padding: 1em;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 10em;
+  border-radius: 5px;
+}
 
 .prompt-text {
   font-size: 1.3em;
   padding: .7em 2em .7em 1em;
   font-family: var(--ct-font-google);
   color: var(--ct-text-white);
+  display: flex;
+  align-items: center;
+}
+.prompt-text i {
+  margin: 0 .3em;
 }
 
 .prompt-close-btn {
@@ -39,13 +54,22 @@
 }
 
 /* Positions */
-.prompt-bottom-right {
-  bottom: 6em;
+.watch-prompt[data-position*=right] {
   right: 7em;
   animation: bottom-right-show .2s ease-in-out;
   -o-animation: bottom-right-show .2s ease-in-out;
   -moz-animation: bottom-right-show .2s ease-in-out;
   -webkit-animation: bottom-right-show .2s ease-in-out;
+}
+.watch-prompt[data-position*=left] {
+  left: 1em;
+  animation: bottom-right-show .2s ease-in-out;
+  -o-animation: bottom-right-show .2s ease-in-out;
+  -moz-animation: bottom-right-show .2s ease-in-out;
+  -webkit-animation: bottom-right-show .2s ease-in-out;
+}
+.watch-prompt[data-position*=bottom] {
+  bottom: 6em;
 }
 
 

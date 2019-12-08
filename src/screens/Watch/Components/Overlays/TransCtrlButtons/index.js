@@ -6,8 +6,14 @@ import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import { 
-  transControl, searchControl, menuControl, 
-  LINE_VIEW, TRANSCRIPT_VIEW, MENU_SETTING, 
+  transControl, 
+  searchControl, 
+  menuControl, 
+  LINE_VIEW, 
+  TRANSCRIPT_VIEW, 
+  MENU_SETTING, 
+  SMTAB_TRANS,
+  HIDE_TRANS, 
 } from '../../../Utils'
 
 function TransCtrlButtonsWithRedux({
@@ -23,10 +29,11 @@ function TransCtrlButtonsWithRedux({
   }
 
   const openTransSettingMenu = () => {
-    menuControl.open(MENU_SETTING)
+    menuControl.open(MENU_SETTING, 'a', SMTAB_TRANS)
   }
 
   const isLineView = transView === LINE_VIEW
+  const isHide = transView === HIDE_TRANS
 
   const buttonGroup = [
     {
@@ -41,8 +48,8 @@ function TransCtrlButtonsWithRedux({
     },
     {
       id: 'trans-view-switch-btn', 
-      name: isLineView ? TRANSCRIPT_VIEW : LINE_VIEW, 
-      icon: isLineView ? 'menu_book' : 'subject', 
+      name: isLineView ? HIDE_TRANS : isHide ? TRANSCRIPT_VIEW : LINE_VIEW, 
+      icon: isLineView ? 'close' : isHide ? 'menu_book' : 'subject', 
       click: switchTranView,
       ariaTags: {}
     },

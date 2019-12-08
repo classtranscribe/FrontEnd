@@ -17,9 +17,10 @@ export const SET_OPENCC = 'watch-set-open-cc'
 export const SET_OPENAD = 'watch-set-open-ad'
 
 // Settings
-export const SET_MENU = 'watch-set-menu'
 export const SET_MODE = 'watch-set-mode'
 export const SET_TRANS_VIEW = 'watcg-set-trans-view'
+export const SET_MENU = 'watch-set-menu'
+export const SET_MODAL = 'watch-set-modal'
 
 // Players
 export const SET_PAUSE = 'watch-set-pause'

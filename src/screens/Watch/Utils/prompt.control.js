@@ -4,6 +4,7 @@
 
 export const promptControl = {
   // setPrompt
+  prompt: null,
   setPrompt: function() {}, 
 
   init: function(setPrompt) {
@@ -12,10 +13,11 @@ export const promptControl = {
 
   openPrompt: function(prompt) {
     this.setPrompt(prompt)
+    this.prompt = prompt
   },
 
   closePrompt: function() {
-    this.setPrompt(null)
+    if (Boolean(this.prompt)) this.setPrompt(null)
   },
 
   editCaptionUsingKeyboard: function() {
@@ -41,6 +43,16 @@ export const promptControl = {
       text: bool ? 'Caption Saved!' : "Couldn't save the caption :(",
       position: 'bottom-right',
       timeout: 3000,
+    })
+  },
+
+  hideSecondaryScreen: function() {
+    this.setPrompt({
+      status: 'success',
+      type: 'hide-sec-screen',
+      text: 'Click <i class="material-icons">video_label</i> to see more screen options.',
+      position: 'bottom-right',
+      timeout: 5000,
     })
   },
 }
