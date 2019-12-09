@@ -12,7 +12,7 @@ import {
 import './index.css'
 
 const panes = [
-  { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
+  // { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
   { id: SMTAB_TRANS, name: 'Transcriptions', icon: <i className="material-icons watch-icon-icon">menu_book</i> },
   { id: SMTAB_CC, name: 'Closed Caption', icon: <i className="fas fa-closed-captioning watch-icon-icon"></i> },
   { id: SMTAB_AD, name: 'Audio Description', icon: <i className="fas fa-audio-description watch-icon-icon"></i> },

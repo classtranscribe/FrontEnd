@@ -127,4 +127,22 @@ function CaptionLine({
   )
 }
 
+/* 
+
+<div 
+  className="caption-line-text"
+  id={`caption-line-textarea-${id}`}
+  tabIndex={0}
+  aria-label={`(${index}) Edit caption at ${timeStr} (Hit return to save changes)`} 
+  contentEditable
+  onInput={e => handleChange({ target: e.currentTarget.innerText })}
+  onFocus={handleFocus}
+  onBlur={handleBlur}
+  onKeyDown={handleKeyDown}
+>
+  {text} 
+</div> 
+
+*/
+
 export default CaptionLine

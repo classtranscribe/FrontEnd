@@ -66,8 +66,8 @@ export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
 }
 
 export function autoSize(e) {
-  let elem = e.target || e
-  autosize(elem);
+  // let elem = e.target || e
+  // autosize(elem);
 }
 
 async function autoHelper () {

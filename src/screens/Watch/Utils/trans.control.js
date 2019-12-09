@@ -22,7 +22,7 @@ import {
   LINE_VIEW,
   HIDE_TRANS,
 } from './constants.util'
-import { adSample } from './sampleData'
+import { adSample } from './data'
 
 /**
  * @description The handlers for caption setting events

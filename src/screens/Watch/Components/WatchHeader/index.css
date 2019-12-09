@@ -6,7 +6,7 @@
 }
 
 .watch-header-course-num {
-  font-size: 1.2em;
+  font-size: 1.3em;
   font-weight: bold;
   margin: 0;
   padding: 0;
@@ -14,13 +14,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #1caaaa;
+  color: var(--ct-text-highlight);
   font-family: var(--ct-font-google);
 }
 
 .watch-header-media-name {
   position: relative;
-  font-size: 1.1em;
+  font-size: 1.15em;
   margin: 0;
   padding: 0;
   width: 25vw;
@@ -29,6 +29,7 @@
   text-overflow: ellipsis;
   font-family: var(--ct-font-narrow);
   font-weight: normal;
+  font-style: italic;
 }
 
 @media screen and (max-width: 550px) {

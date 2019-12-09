@@ -74,7 +74,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: .5em 1em .5em .5em;
+  padding: .6em 1em .6em .5em;
   border-bottom: var(--ct-border-dark);
 }
 
@@ -82,9 +82,6 @@
   margin-top: .5em;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-}
-.menu-radio:last-child {
-  margin-bottom: 1em;
 }
 .menu-radio:last-child {
   margin-bottom: .5em;
@@ -116,6 +113,7 @@
   width: 50px;
   min-width: 50px;
   height: 25px;
+  margin: 0;
 }
 
 /* Hide default HTML checkbox */

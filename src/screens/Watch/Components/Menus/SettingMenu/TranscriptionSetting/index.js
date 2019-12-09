@@ -20,7 +20,7 @@ function TranscriptionSetting({
     transControl.handleOpenTrans()
   }
 
-  const openAutoScroll = ({ target: { checked } }) => {
+  const openAutoScroll = () => {
     console.error()
     preferControl.autoScroll( !autoScroll )
     setAutoScroll( !autoScroll )
@@ -68,6 +68,7 @@ function TranscriptionSetting({
             <MenuRadio 
               id="transcript-view-radio"
               label="Transcript View" 
+              type="radio"
               onChange={handleTransView}
               checked={transView === TRANSCRIPT_VIEW}
               description="Default Transcription View."
@@ -75,6 +76,7 @@ function TranscriptionSetting({
             <MenuRadio 
               id="line-view-radio"
               label="Caption Line View" 
+              type="radio"
               onChange={handleTransView}
               checked={transView === LINE_VIEW}
               description="Only Caption Line View provides editable transcriptions."

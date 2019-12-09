@@ -11,7 +11,7 @@
 
 }
 .big-play-button-content {
-  color: rgba(0, 175, 175, 0.623);
+  color: rgba(0, 206, 206, 0.753);
   transition: var(--ct-transition-color);
   -o-transition: var(--ct-transition-color);
   -moz-transition: var(--ct-transition-color);

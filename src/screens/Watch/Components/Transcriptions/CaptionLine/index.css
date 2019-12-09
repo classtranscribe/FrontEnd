@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* justify-content: center; */
   min-height: 4em;
   padding: .7em;
   transition: var(--ct-transition-all);
@@ -31,34 +30,29 @@
 /* Time */
 .caption-line-time-display {
   margin-top: 3px;
-}
-.caption-line-time-display > span {
   margin-right: .5em;
+}
+.caption-line-time-display span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: .1em .3em;
   color: rgb(209, 209, 209);
   border: 1px solid #75757577;
   border-radius: 2px;
-  /* font-family: var(--ct-font-narrow); */
   font-size: 14px;
   font-weight: bold;
   white-space: nowrap;
-  cursor: pointer;
-  text-align: center;
   /* transition: var(--ct-transition-all);
   -o-transition: var(--ct-transition-all);
   -moz-transition: var(--ct-transition-all);
   -webkit-transition: var(--ct-transition-all); */
 }
 .caption-line-time-display:hover > span,
-.caption-line-time-display:focus > span,
 .watch-caption-line[current=true] .caption-line-time-display span {
-  /* font-weight: bold; */
-  outline: none;
   color: black;
   background: var(--ct-text-highlight);
   border-color: var(--ct-text-highlight);
-  /* background: rgb(22, 22, 22); */
-  /* color: rgb(91, 148, 148); */
 }
 
 

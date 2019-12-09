@@ -39,7 +39,7 @@ function TransCtrlButtonsWithRedux({
     {
       id: 'trans-setting-btn', 
       name: 'Settings', 
-      icon: <i class="fas fa-cogs"></i>, //settings
+      icon: <i className="fas fa-cogs"></i>, //settings
       click: openTransSettingMenu,
       ariaTags: {
         'aria-controls': 'watch-setting-menu', 

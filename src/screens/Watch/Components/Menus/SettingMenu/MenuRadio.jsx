@@ -6,7 +6,8 @@ function MenuRadio({
   disabled=false,
   label='',
   onChange=null,
-  id=''
+  id='',
+  type="checkbox"
 }) {
 
   const onKeyDown = ({ keyCode }) => {
@@ -22,7 +23,7 @@ function MenuRadio({
             <input 
               aria-required="false" 
               id={id} 
-              type="checkbox" 
+              type={type} 
               checked={checked} 
               onChange={onChange} 
               onKeyDown={onKeyDown}

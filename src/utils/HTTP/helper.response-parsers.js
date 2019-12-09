@@ -141,6 +141,8 @@ export const responseParsers = {
       }
     }
 
+    re.mediaName = re.mediaName.replace('.mp4', '')
+
 
     if (!video || !(video.video1Path || (video.video1 && video.video1.path))) {
       re.isUnavailable = true
