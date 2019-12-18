@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import MenuRadio from '../MenuRadio'
 import { 
   transControl, 
   preferControl,
 } from '../../../../Utils'
+import { userAction, util } from 'utils'
 
 function ADSetting({
+  show=false,
   openAD=false,
   descriptions=[]
 }) {
@@ -19,13 +21,20 @@ function ADSetting({
 
   const handlePauseWhileAD = () => {
     preferControl.pauseWhileAD( !pauseWhileAD )
+    userAction.pauseWhenADStarts( !pauseWhileAD )
     setPauseWhileAD( !pauseWhileAD )
   }
+
+  useEffect(() => {
+    if (show) {
+      document.getElementById('ad-settings').scrollIntoView({ block: 'center' })
+    }
+  }, [show])
 
   let disabled = descriptions.length <= 0
 
   return (
-    <form className="watch-menu-tab">
+    <form className="watch-menu-tab" id="ad-settings">
       <h2 className="watch-menu-tab-title">Audio Description</h2>
       { disabled && <p>Sorry, audio description of this video is currently unavailable.</p> }
       <div className="w-100">

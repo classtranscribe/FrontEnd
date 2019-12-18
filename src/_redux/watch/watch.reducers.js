@@ -12,6 +12,7 @@ import {
   SET_CURR_CAPTION,
   SET_DESCRIPTION,
   SET_CURR_DESCRIPTION,
+  SET_CURR_EDITING,
   SET_OPENCC,
   SET_OPENAD,
   // Screen Options
@@ -39,11 +40,19 @@ import {
   CC_FONT,
   CC_POSITION,
   // Others
-  SET_CURR_EDITING,
   SET_SEARCH,
   SET_PROMPT,
+  CHANGE_VIDEO
 } from './watch.action.types'
+
+import { 
+  CTP_LOADING,
+  MODAL_HIDE,
+  SEARCH_INIT
+} from "../../screens/Watch/Utils"
+
 import { initialState } from './watch.state'
+
 
 const watchReducer = (
   state=initialState, 
@@ -68,6 +77,7 @@ const watchReducer = (
     case SET_CURR_CAPTION       : return { ...state, currCaption: value }
     case SET_DESCRIPTION        : return { ...state, descriptions: value }
     case SET_CURR_DESCRIPTION   : return { ...state, currDescription: value }
+    case SET_CURR_EDITING       : return { ...state, currEditing: value }
     case SET_OPENCC             : return { ...state, openCC: value }
     case SET_OPENAD             : return { ...state, openAD: value }
 
@@ -99,9 +109,37 @@ const watchReducer = (
     case CC_POSITION            : return { ...state, cc_position: value }
 
     // Others
-    case SET_CURR_EDITING       : return { ...state, currEditing: value }
     case SET_PROMPT             : return { ...state, prompt: value }
     case SET_SEARCH             : return { ...state, search: value }
+
+    // actions
+    case CHANGE_VIDEO: 
+      return { 
+        ...state, 
+        ...value, 
+        
+        time: 0,
+        duration: 0,
+        bufferedTime: 0,
+        isFullscreen: false,
+        ctpPriEvent: CTP_LOADING,
+        ctpSecEvent: CTP_LOADING,
+        paused: true, 
+        isSwitched: false,
+
+        transcriptions: [],
+        currTrans: {},
+        transcript: [],
+        captions: [],
+        currCaption: null,
+        descriptions: [],
+        currDescription: null,
+        currEditing: null,
+
+        modal: MODAL_HIDE,
+        prompt: null,
+        search: SEARCH_INIT,
+      }
 
     // Default
     default                     : return state

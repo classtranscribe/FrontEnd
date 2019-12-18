@@ -11,7 +11,7 @@ export function PlayButtonWithRedux({
   const ended = ctpPriEvent === CTP_ENDED
   const handlePause = () => {
     if (ended) {
-      videoControl.play()
+      videoControl.replay()
     } else {
       videoControl.handlePause()
     }

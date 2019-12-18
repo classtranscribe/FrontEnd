@@ -38,7 +38,6 @@ function CaptionLine({
 
   const handleBlur = () => {
     transControl.handleBlur()
-    transControl.edit(null)
   }
 
   const handleSave = () => {

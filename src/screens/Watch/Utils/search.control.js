@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import $ from 'jquery'
-import { api } from 'utils'
+import { api, userAction } from 'utils'
 import { transControl } from "./trans.control"
 import { 
   SEARCH_INIT, 
@@ -149,7 +149,7 @@ export const searchControl = {
   getInCourseTransSearchResults: async function(value) {
     if (!Boolean(this.offeringId)) return []
     const { data } = await api.searchCaptionInOffering(this.offeringId, value)
-    let inCourseTransResults = this.highlightSearchedWords(data, value, 'caption.text')
+    let inCourseTransResults = data// = this.highlightSearchedWords(data, value, 'caption.text')
     inCourseTransResults = inCourseTransResults.map( res => {
       const { caption, playlistId, mediaId } = res
       let playlist = _.find(this.playlists, { id: playlistId })
@@ -166,9 +166,9 @@ export const searchControl = {
   getPlaylistResults: function(value) {
     let isMatch = this.getMatchFunction(value, 'mediaName')
 
-    let playlistResults = _.map( this.playlists, pl => pl.medias )
+    let playlistResults = _.map( this.playlists, pl => _.map(pl.medias, m => ({ ...m, playlistName: pl.name })))
     playlistResults = _.flatten(playlistResults)
-    playlistResults = _.map( playlistResults, pl => api.parseMedia(pl) )
+    playlistResults = _.map( playlistResults, m => ({ ...api.parseMedia(m), playlistName: m.playlistName}) )
     playlistResults = _.filter(playlistResults, isMatch)
 
     playlistResults = this.highlightSearchedWords(playlistResults, value, 'mediaName')
@@ -204,6 +204,8 @@ export const searchControl = {
       inCourseTransResults 
     })
     this.hasResult = true
+
+    await userAction.filtertrans(value)
   },
 
   /**

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import { connectWithRedux } from '_redux/watch'
 import { VideoCard } from 'components'
 import { api, util } from 'utils'
+import { videoControl } from '../../../Utils'
 
 function Videos({
   medias=[],
@@ -10,9 +11,16 @@ function Videos({
   watchHistory=[],
   selectedPlaylist={},
 }) {
+
   useEffect(() => {
-    util.scrollToCenter(currMediaId, false, util.scrollToTop('.watch-videos-list'))
+    util.scrollToCenter(
+      currMediaId, 
+      false, 
+      util.scrollToTop('.watch-videos-list')
+    )
+    // util.scrollToView(currMediaId)
   }, [medias])
+
   return (
     <div className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
@@ -47,10 +55,11 @@ function Video({
   watchHistory=[],
 
   playlist={},
-  playlists=[]
+  playlists=[],
 }) {
   const courseNumber = util.parseURLFullNumber()
-  const { id, mediaName } = api.parseMedia(media)
+  media = api.parseMedia(media)
+  const { id, mediaName } = media
   const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
   const { ratio, timeStamp } = mediaHistory
   return (
@@ -65,12 +74,15 @@ function Video({
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
         mediaState={{ media, playlist, playlists }}
-        //handleLinkClick={() => window.location.search = util.createSearchQuery({ courseNumber, id, timeStamp })}
-        handleLinkClick={() => util.refresh()}
+        handleLinkClick={() => videoControl.changeVideo(media, playlist)}
         link={util.links.watch(courseNumber, id, timeStamp)}
       />
     </li>
   )
 }
 
-export default withRouter(Videos);
+export default connectWithRedux(
+  Videos,
+  [],
+  []
+);

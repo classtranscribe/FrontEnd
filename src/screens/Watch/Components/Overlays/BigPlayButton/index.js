@@ -15,7 +15,7 @@ function BigPlayButtonWithRedux({
   
   const handleClick = () => {
     if (ctpPriEvent === CTP_ENDED) {
-      videoControl.play()
+      videoControl.replay()
     }
     // videoControl.handlePause()
   }

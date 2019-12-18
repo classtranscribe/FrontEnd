@@ -13,15 +13,16 @@ import {
 } from './constants.util'
 import { promptControl } from './prompt.control'
 import { searchControl } from './search.control'
-
+function keyDownListener(e) {
+  const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
+  console.log({ keyCode, metaKey, ctrlKey, shiftKey, altKey })
+  keydownControl.handleKeyDown(e)
+}
 export const keydownControl = {
 
   addKeyDownListener: function() {
-    document.addEventListener('keydown', e => { 
-      const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
-      console.log({ keyCode, metaKey, ctrlKey, shiftKey, altKey })
-      this.handleKeyDown(e)
-    })
+    document.removeEventListener('keydown', keyDownListener, true)
+    document.addEventListener('keydown', keyDownListener, true)
   },
 
   handleKeyDown: function(e) {

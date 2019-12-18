@@ -2,37 +2,10 @@ import { api  } from './index'
 import { util } from '../index'
 import { user } from '../user'
 import { httpGET  } from './http.get'
-import { httpPOST } from './http.post'
-import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
 import _ from 'lodash'
 const monthMap = require('../json/monthNames.json')
 
 export const responseParsers = {
-  /**
-   * 
-   * @param {} eventType 
-   * timeupdate, play, pause, seeking, seeked, changedspeed, fullscreenchange, 
-   * filtertrans, edittrans, sharelink
-   * selectcourse, userinactive, changevideo
-   * @param {*} data 
-   * { offeringId, mediaId, json }
-   */
-  sendUserAction: function(eventType, data = {}) {
-    // console.log({eventType, ...data, userId: api.userId() })
-    const { json, mediaId, offeringId } = data
-    return httpPOST.postData('Logs', {
-      eventType, 
-      mediaId, 
-      offeringId,
-      userId: user.userId(),
-      json: {
-        ...json, 
-        device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }
-      }
-    })
-  },
-
-
   completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
     // set id for future use
     courseOffering.id = courseOffering.offering.id

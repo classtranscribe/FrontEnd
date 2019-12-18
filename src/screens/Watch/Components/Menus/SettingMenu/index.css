@@ -11,32 +11,51 @@
   -o-animation: var(--ct-animation-popup);
   -moz-animation: var(--ct-animation-popup);
   -webkit-animation: var(--ct-animation-popup);
+  scroll-behavior: smooth;
 }
 
-.setting-content {
+.setting-container {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: row;
   font-family: var(--ct-font-google);
 }
 
+.setting-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+}
+
 .setting-tabs {
-  width: 16em;
+  max-width: 20em;
 }
 
 .watch-menu-tab {
+  margin-top: 3em;
+  padding-top: 1em;
   width: 100%;
   max-width: 40em;
   height: auto;
   margin-left: 2em;
+  border-top: var(--ct-border-dark);
+}
+.watch-menu-tab:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .watch-menu-tab-title {
-  font-size: 1.5em;
+  font-size: 2em;
   font-family: var(--ct-font-google);
+  color: var(--ct-text-highlight);
 }
 .watch-menu-tab-subtitle {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
 }
 
@@ -178,10 +197,11 @@
   .watch-setting-menu {
     padding: 3em .3em 6em .3em;
   }
-  .setting-content {
+  .setting-container {
     flex-direction: column;
   }
   .setting-tabs {
+    display: none;
     width: 100%;
   }
   .watch-menu-tab {

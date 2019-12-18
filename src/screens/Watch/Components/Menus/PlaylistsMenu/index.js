@@ -76,4 +76,8 @@ function PlaylistsMenu({
   ) : null;
 }
 
-export default connectWithRedux(PlaylistsMenu)
+export default connectWithRedux(
+  PlaylistsMenu,
+  ['media', 'playlist', 'playlists'],
+  []
+)

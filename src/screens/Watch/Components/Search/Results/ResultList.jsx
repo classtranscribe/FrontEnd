@@ -5,6 +5,7 @@ import { VideoCard } from 'components'
 import Placeholder from '../Placeholder'
 import { ShortcutKey } from '../../Menus/ShortcutsTable'
 import { 
+  menuControl,
   searchControl,
   videoControl,
   timeStrToSec, 
@@ -16,8 +17,8 @@ import {
   SEARCH_IN_PLAYLISTS,
   ARRAY_INIT,
   SEARCH_IN_SHORTCUTS,
-  menuControl,
   MENU_SHORTCUTS,
+  MENU_PLAYLISTS,
 } from '../../../Utils'
 import { util } from 'utils'
 
@@ -114,6 +115,22 @@ function ResultList({
                 onClick={() => menuControl.open(MENU_SHORTCUTS)}
               >
                 <span className="py-2 px-4 my-1 fsize-1-3" tabIndex="-1">See all shortcuts</span>
+              </button>
+            </div>
+          }
+
+          {
+            option === SEARCH_IN_PLAYLISTS 
+            && 
+            <div className="w-100 d-flex px-3">
+              <button
+                className="plain-btn watch-search-btn page-btn"
+                aria-label="See all videos"
+                aria-controls="watch-playlists-menu"
+                aria-haspopup="true"
+                onClick={() => menuControl.open(MENU_PLAYLISTS)}
+              >
+                <span className="py-2 px-4 my-1 fsize-1-3" tabIndex="-1">See all playlists</span>
               </button>
             </div>
           }

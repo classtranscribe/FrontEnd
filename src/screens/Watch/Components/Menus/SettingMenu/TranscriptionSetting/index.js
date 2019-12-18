@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import MenuRadio from '../MenuRadio'
 import { 
@@ -8,8 +8,10 @@ import {
   TRANSCRIPT_VIEW,
   HIDE_TRANS
 } from '../../../../Utils'
+import { userAction } from 'utils'
 
 function TranscriptionSetting({
+  show=false,
   transView=LINE_VIEW,
 }) {
 
@@ -23,11 +25,13 @@ function TranscriptionSetting({
   const openAutoScroll = () => {
     console.error()
     preferControl.autoScroll( !autoScroll )
+    userAction.autoScrollChange( !autoScroll )
     setAutoScroll( !autoScroll )
   }
 
   const handlePauseWhileEditing = () => {
     preferControl.pauseWhileEditing( !pauseWhileEditing )
+    userAction.pauseWhenEdit( !pauseWhileEditing )
     setPauseWhileEditing( !pauseWhileEditing )
   }
 
@@ -35,8 +39,14 @@ function TranscriptionSetting({
     transControl.transView(transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW)
   }
 
+  useEffect(() => {
+    if (show) {
+      document.getElementById('trans-settings').scrollIntoView({ block: 'center' })
+    }
+  }, [show])
+
   return (
-    <form className="watch-menu-tab">
+    <form className="watch-menu-tab" id="trans-settings">
       <h2 className="watch-menu-tab-title">Transcriptions</h2>
       <div className="w-100">
         <MenuRadio 

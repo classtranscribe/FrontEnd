@@ -1,11 +1,11 @@
 import $ from 'jquery'
 import { storage } from './storage'
 
-export { search } from './search'
-export { user   } from './user'
+export { search           } from './search'
+export { user, userAction } from './user'
 export { sortFunc } from './sort'
-export { handleData } from './data'
-export { api    } from './HTTP'
+export { handleData       } from './data'
+export { api              } from './HTTP'
 
 
 /**
@@ -50,13 +50,17 @@ export const util = {
     document.location.reload(true);
   },
   scrollToTop: function(div) {
-    $(div)[0].scrollTop = 0
+    $(div).scrollTop = 0
   },
-  scrollToCenter: function(id, focus=true, alter) {
-    const currElem = document.getElementById(id)
-    if (currElem) {
-      currElem.scrollIntoView({ block: "center" })
-      if (focus) currElem.focus()
+  scrollToView: function(query) {
+    let div = $(query)
+    div.scrollTop = div.offset().top + div.height() / 2;
+  },
+  scrollToCenter: function(query, focus=true, alter) {
+    let div = $(query)
+    if (div.length > 0) {
+      div.scrollTop = div.offset().top + div.height() / 2;
+      if (focus) div.focus()
     } else if (alter) {
       alter()
     }

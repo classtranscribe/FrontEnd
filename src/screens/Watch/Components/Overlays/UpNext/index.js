@@ -3,10 +3,12 @@ import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import { VideoCard } from 'components'
 import { 
+  videoControl,
   findUpNextMedia, 
-  CTP_LOADING, CTP_UP_NEXT, CTP_ENDED 
+  CTP_LOADING, CTP_UP_NEXT, CTP_ENDED,  
 } from '../../../Utils'
 import { api, util } from 'utils'
+import _ from 'lodash'
 
 function UpNextWithRedux({
   media,
@@ -20,7 +22,8 @@ function UpNextWithRedux({
     setShow(false)
   }
 
-  let upNext = api.parseMedia( findUpNextMedia({ currMediaId: media.id, playlists }) ) 
+  let upNext = videoControl.findUpNextMedia({ currMediaId: media.id, playlists })
+  
   useEffect(() => {
     let displayUpnext = (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && Boolean(upNext.id)
     if (displayUpnext) {
@@ -48,7 +51,8 @@ function UpNextWithRedux({
           </button>
         </div>
         <Video 
-          media={upNext}
+          upNext={upNext}
+          playlists={playlists}
         />
       </div>
     </div>
@@ -56,25 +60,24 @@ function UpNextWithRedux({
 }
 
 function Video({ 
-  media=null, 
-  watchHistory=[],
+  upNext=null, 
+  playlists=[]
 }) {
+  const media =  api.parseMedia(upNext)
   const courseNumber = util.parseURLFullNumber()
-  const { id, mediaName } = media
-  const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
-  const { ratio, timeStamp } = mediaHistory
+  const { id, mediaName, playlistId } = media
+  let playlist = _.find(playlists, { id: playlistId })
+
   return (
     <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
       <VideoCard row dark
         id={id}
         name={mediaName}
-        ratio={ratio}
         posterSize={'100px'}
         fittedNameSize={-1}
-        //mediaState={{ media, playlist, playlists }}
-        //handleLinkClick={() => window.location.search = util.createSearchQuery({ courseNumber, id, timeStamp })}
-        handleLinkClick={() => util.refresh()}
-        link={util.links.watch(courseNumber, id, timeStamp)}
+        mediaState={{ media, playlist, playlists }}
+        handleLinkClick={() => videoControl.changeVideo(media, playlist)}
+        link={util.links.watch(courseNumber, id)}
       />
     </div>
   )

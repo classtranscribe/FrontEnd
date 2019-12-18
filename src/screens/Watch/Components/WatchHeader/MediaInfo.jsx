@@ -14,7 +14,7 @@ function MediaInfo({
 
   useEffect(() => {
     if (mediaName) {
-      util.links.title(`${courseNumber} | ${mediaName}`)
+      util.links.title(`${mediaName} | ${courseNumber}`)
     }
   }, [media])
 

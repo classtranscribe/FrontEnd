@@ -38,7 +38,7 @@ function TransCtrlButtonsWithRedux({
   const buttonGroup = [
     {
       id: 'trans-setting-btn', 
-      name: 'Settings', 
+      name: 'Transcription Settings', 
       icon: <i className="fas fa-cogs"></i>, //settings
       click: openTransSettingMenu,
       ariaTags: {
@@ -48,8 +48,8 @@ function TransCtrlButtonsWithRedux({
     },
     {
       id: 'trans-view-switch-btn', 
-      name: isLineView ? HIDE_TRANS : isHide ? TRANSCRIPT_VIEW : LINE_VIEW, 
-      icon: <i className="material-icons">{isLineView ? 'close' : isHide ? 'menu_book' : 'subject'}</i>, 
+      name: isLineView ? TRANSCRIPT_VIEW : isHide ? LINE_VIEW : HIDE_TRANS, 
+      icon: <i className="material-icons">{isLineView ? 'menu_book' : isHide ? 'subject' : 'close'}</i>, 
       click: switchTranView,
       ariaTags: {}
     },

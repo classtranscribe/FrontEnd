@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { api } from 'utils'
+import { api, userAction } from 'utils'
 import { timeStrToSec, colorMap, autoSize, /* autoSizeAllTextAreas */ } from './helpers'
 import { videoControl } from './player.control'
 import { promptControl } from './prompt.control'
@@ -8,7 +8,7 @@ import { preferControl } from './preference.control'
 import { 
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
-  CC_OPACITY_100,
+  CC_OPACITY_75,
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
@@ -276,6 +276,9 @@ export const transControl = {
 
     if (setCurrEditing) {
       const { id } = this.currEditing_
+      // send user event
+      userAction.edittrans(videoControl.currTime(), this.currEditing_.text, text)
+      // update new text
       this.currEditing_.text = text
       setCurrEditing(null)
       try {
@@ -302,6 +305,7 @@ export const transControl = {
    */
   handleBlur: function() {
     this.isEditing = false
+    // this.edit(null)
   },
 
   /**
@@ -335,7 +339,8 @@ export const transControl = {
     const currTrans = this.findTransByLanguage(language)
     if (Boolean(currTrans)) {
       this.currTrans(currTrans)
-    }    
+    }  
+    userAction.langchange(videoControl.currTime(), language)
   },
 
   // Close or open CC
@@ -367,21 +372,24 @@ export const transControl = {
   },
 
   // Switch trancript view
-  transView: function(view) {
+  transView: function(view, config={}) {
     const { setTransView } = this.externalFunctions
+    const { sendUserAction=true } =  config
     if (setTransView) {
       setTransView(view)
       preferControl.defaultTransView(view)
     }
+
+    if (sendUserAction) userAction.transviewchange(videoControl.currTime(), view)
   },
   handleTransViewSwitch: function() {
     let view = preferControl.defaultTransView()
     if (view === HIDE_TRANS) {
-      this.transView(TRANSCRIPT_VIEW)
-    } else if (view === LINE_VIEW) {
+      this.transView(LINE_VIEW)
+    } else if (view === TRANSCRIPT_VIEW) {
       this.transView(HIDE_TRANS)
     } else {
-      this.transView(LINE_VIEW)
+      this.transView(TRANSCRIPT_VIEW)
     }
   },
   handleOpenTrans: function() {
@@ -403,7 +411,7 @@ export const transControl = {
   cc_color: CC_COLOR_WHITE, // cc_setColor
   cc_bg: CC_COLOR_BLACK, // cc_setBG
   cc_size: CC_SIZE_100, // cc_setSize
-  cc_opacity: CC_OPACITY_100, // cc_setOpacity
+  cc_opacity: CC_OPACITY_75, // cc_setOpacity
   cc_font: CC_FONT_SANS_SERIF, // cc_setFont
   cc_position: CC_POSITION_BOTTOM, // cc_setPosition
 
@@ -412,7 +420,7 @@ export const transControl = {
       cc_color=CC_COLOR_WHITE,
       cc_bg=CC_COLOR_BLACK,
       cc_size=CC_SIZE_100,
-      cc_opacity=CC_OPACITY_100,
+      cc_opacity=CC_OPACITY_75,
       cc_font=CC_FONT_SANS_SERIF,
       cc_position=CC_POSITION_BOTTOM,
     } = options

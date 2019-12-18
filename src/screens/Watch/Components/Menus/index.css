@@ -84,30 +84,26 @@
   color: var(--ct-text-white);
   font-size: 16px;
   font-weight: bold;
-  transition: var(--ct-transition-color);
-  -o-transition: var(--ct-transition-color);
-  -moz-transition: var(--ct-transition-color);
-  -webkit-transition: var(--ct-transition-color);
+  transition: var(--ct-transition-color), filter .2s linear;
 }
 .watch-icon-listitem:hover span {
-  color: var(--ct-text-white-hover);
+  filter: brightness(80%)
 }
 .watch-icon-listitem:disabled {
+  color: rgb(100, 100, 100)
+}
+.watch-icon-listitem:active span {
   color: rgb(100, 100, 100)
 }
 .watch-icon-listitem[active=true] span, 
 .watch-icon-listitem:focus span {
   color: var(--ct-green-active);
-  outline: none;
 }
 .watch-icon-listitem-checkmark {
   margin-right: 1em;
   width: 35px;
   color: var(--ct-text-white);
   animation: var(--ct-animation-expand-padding);
-  -o-animation: var(--ct-animation-expand-padding);
-  -moz-animation: var(--ct-animation-expand-padding);
-  -webkit-animation: var(--ct-animation-expand-padding);
 }
 .watch-icon-icon {
   margin-right: 1em;

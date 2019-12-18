@@ -10,7 +10,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   border-radius: 10px;
-  box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.904);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.349);
 }
 
 @media screen and (max-width: 900px) {

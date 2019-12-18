@@ -23,7 +23,7 @@ import './index.css'
 import './zIndex.css'
 // Vars
 import { watchStore, connectWithRedux } from '_redux/watch'
-import { api, util } from 'utils'
+import { api, util, userAction } from 'utils'
 import { 
   keydownControl, 
   videoControl,
@@ -128,6 +128,7 @@ export class WatchWithRedux extends React.Component {
         if (Boolean(playlist)) {
           // playlist
           setPlaylist(playlist)
+          this.offeringId = playlist.offeringId
           // console.log('playlist', playlist)
           // playlists
           if (Boolean(playlists)) {
@@ -146,6 +147,7 @@ export class WatchWithRedux extends React.Component {
         // console.log('playlist', playlistResponse.data)
         // playlists
         const { offeringId } = playlistResponse.data
+        this.offeringId = offeringId
         const playlistsResponse = await api.getPlaylistsByOfferingId(offeringId)
         setPlaylists(playlistsResponse.data)
         // console.log('playlists', playlistsResponse.data)
@@ -154,6 +156,7 @@ export class WatchWithRedux extends React.Component {
       generalError({ header: "Couldn't load playlists." })
     }
 
+    userAction.init({ offeringId: this.offeringId, mediaId: this.id })
     api.contentLoaded()
   }
 

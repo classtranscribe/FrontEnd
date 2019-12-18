@@ -13,6 +13,7 @@ export const SET_CAPTIONS = 'watch-set-captions'
 export const SET_CURR_CAPTION = 'watch-set-curr-caption'
 export const SET_DESCRIPTION = 'watch-set-description'
 export const SET_CURR_DESCRIPTION = 'watch-set-curr-description'
+export const SET_CURR_EDITING = 'watch-set-curr-editing'
 export const SET_OPENCC = 'watch-set-open-cc'
 export const SET_OPENAD = 'watch-set-open-ad'
 
@@ -44,6 +45,9 @@ export const CC_SIZE = 'watch-cc-size'
 export const CC_POSITION = 'watch-cc-position'
 
 // Others
-export const SET_CURR_EDITING = 'watch-set-curr-editing'
 export const SET_PROMPT = 'watch-set-prompt'
 export const SET_SEARCH = 'watch-set-search'
+
+// actions
+export const CHANGE_VIDEO = 'watch-change-video'
+

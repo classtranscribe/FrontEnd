@@ -4,6 +4,7 @@ import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from "./constants.u
  * Functions for controlling user preference
  */
 const TRUE = 'true'
+const AUTO_PLAY = 'watch-pref-auto-play'
 const DEFAULT_PLAYBACK_RATE = 'watch-pref-placyback-rate'
 const CC_ON = 'wath-pref-cc-on' 
 const AD_ON = 'wath-pref-ad-on' 
@@ -31,6 +32,11 @@ export const preferControl = {
     } else {
       localStorage.removeItem(key)
     }
+  },
+
+  [AUTO_PLAY]: localStorage.getItem(AUTO_PLAY) === TRUE,
+  autoPlay: function(bool) {
+    return this.localStorageSET(AUTO_PLAY, bool)
   },
 
   [CC_ON]: localStorage.getItem(CC_ON) === TRUE,

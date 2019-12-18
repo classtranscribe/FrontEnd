@@ -8,7 +8,13 @@ export function findUpNextMedia({
   currMediaId='',
   playlists=[{ medias: [] }],
 }) {
-  let playlistResults = _.map( playlists, pl => pl.medias.slice().reverse() )
+  let playlistResults = _.map( 
+    playlists, 
+    pl => _.map(
+      pl.medias.slice().reverse(), 
+      me => ({ ...me, playlistId: pl.id})
+    ) 
+  )
   playlistResults = _.flatten(playlistResults)
 
   let upNextIdx = _.findIndex(playlistResults, { id: currMediaId }) + 1
@@ -66,8 +72,8 @@ export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
 }
 
 export function autoSize(e) {
-  // let elem = e.target || e
-  // autosize(elem);
+  let elem = e.target || e
+  autosize(elem);
 }
 
 async function autoHelper () {

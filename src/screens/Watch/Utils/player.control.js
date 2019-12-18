@@ -1,14 +1,17 @@
-import $ from 'jquery'
 /**
  * Functions for controlling video players
  */
+import _ from 'lodash'
 import { 
   HIDE_TRANS,
   NORMAL_MODE, PS_MODE, NESTED_MODE, THEATRE_MODE,
-  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR 
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR,
+  
 } from './constants.util'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
+import { userAction } from 'utils'
+import { menuControl } from './menu.control'
 
 export const videoControl = {
   videoNode1: null,
@@ -17,7 +20,7 @@ export const videoControl = {
   isFullscreen: false,
 
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
-  // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent
+  // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent, changeVideo
   externalFunctions: {}, 
 
   init: function(videoNode1, videoNode2, externalFunctions={}) {
@@ -27,6 +30,16 @@ export const videoControl = {
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
+  },
+
+  changeVideo: function(media, playlist) {
+    const { changeVideo } = this.externalFunctions
+    if (Boolean(changeVideo)) changeVideo({ media, playlist })
+    menuControl.close()
+    this.video1CanPlay = false
+    this.video2CanPlay = false
+    this.canPlayDone = false
+    userAction.changevideo(this.currTime(), media.id)
   },
 
   isTwoScreen: function() {
@@ -43,8 +56,9 @@ export const videoControl = {
   },  
 
   currentMode: NORMAL_MODE,
-  mode: function(mode) {
+  mode: function(mode, config={}) {
     const { setMode } = this.externalFunctions
+    const { sendUserAction=true } = config
     if (setMode) {
       if (window.innerWidth <= 900 && mode === PS_MODE) {
         mode = NESTED_MODE
@@ -54,12 +68,13 @@ export const videoControl = {
       }
       setMode(mode)
       this.currentMode = mode
+      if (sendUserAction) userAction.screenmodechange(this.currTime(), mode)
     }
   },
   addWindowResizeListenerForScreenMode: function() {
     if (window.innerWidth < 900) {
       if (this.currentMode === PS_MODE) {
-        this.mode(NESTED_MODE)
+        this.mode(NESTED_MODE, { sendUserAction: false })
       } 
     }
   },
@@ -85,6 +100,7 @@ export const videoControl = {
 
     const { setPause } = this.externalFunctions
     if (setPause) setPause(true)
+    userAction.pause(this.currTime())
   },
 
   play: function()  {
@@ -93,6 +109,7 @@ export const videoControl = {
 
     const { setPause } = this.externalFunctions
     if (setPause) setPause(false)
+    userAction.play(this.currTime())
   },
 
   currTime: function(time) {
@@ -124,6 +141,11 @@ export const videoControl = {
     this.currTime(seekTo)
   },
 
+  replay: function() {
+    this.currTime(0)
+    this.play()
+  },
+
   mute: function(bool) {
     if (!this.videoNode1) return;
     const toSet = bool === undefined ? !this.videoNode1.muted : bool
@@ -153,6 +175,7 @@ export const videoControl = {
     const { setPlaybackrate } = this.externalFunctions
     if (setPlaybackrate) setPlaybackrate(playbackRate)
     preferControl.defaultPlaybackRate(playbackRate)
+    userAction.changespeed(this.currTime(), playbackRate)
   },
   playbackRateIncrement: function() {
     if (!this.videoNode1) return;
@@ -202,6 +225,7 @@ export const videoControl = {
     } else if (elem.msRequestFullscreen) { /* IE/Edge */
       elem.msRequestFullscreen();
     }
+    userAction.fullscreenchange(this.currTime(), true)
   },
 
   exitFullScreen: function() {
@@ -215,6 +239,7 @@ export const videoControl = {
     } else if (document.msExitFullscreen) { /* IE/Edge */
       document.msExitFullscreen();
     }
+    userAction.fullscreenchange(this.currTime(), false)
   },
 
   /**
@@ -230,33 +255,26 @@ export const videoControl = {
     this.duration = duration
   },
 
-  canPlayNum: 0,
-  onCanPlay: function(e) {
-    // this.canPlayNum += 1
-    // console.log('canPlayNum', this.canPlayNum)
-    // if (this.videoNode2) {
-    //   if (this.canPlayNum === 2) this.play()
-    // } else {
-    //   this.play()
-    // }
-  },
-
   /** Timing */
   lastTime: 0,
   lastUpdateCaptionTime: 0,
+  lastSendUATime: 0,
   onTimeUpdate: function({ target: { currentTime } }) {
     const { setTime } = this.externalFunctions
     // Set current time
-    if (Math.abs(currentTime - this.lastTime) > .7) {
+    // if (Math.abs(currentTime - this.lastTime) > .5) {
+    //   // setTime(currentTime)
+    //   // this.lastTime = currentTime
+    // }
+    if (Math.abs(currentTime - this.lastUpdateCaptionTime) >= 1) {
       setTime(currentTime)
       this.lastTime = currentTime
-    }
-    if (Math.abs(currentTime - this.lastUpdateCaptionTime) > 1) {
-      // setTime(currentTime)
-      // this.lastTime = currentTime
-
       transControl.updateTranscript(currentTime)
       this.lastUpdateCaptionTime = currentTime
+    } 
+    if (Math.abs(currentTime - this.lastSendUATime) >= 15) {
+      userAction.timeupdate(this.currTime())
+      this.lastSendUATime = currentTime
     } 
   },
 
@@ -294,6 +312,26 @@ export const videoControl = {
     this.setCTPEvent(CTP_PLAYING, priVideo)
   },
 
+  video1CanPlay: false,
+  video2CanPlay: false,
+  canPlayDone: false,
+  onCanPlay: function(e, priVideo) {
+    if (this.canplayDone || !preferControl.autoPlay()) return;
+    if (priVideo) { 
+      this.video1CanPlay = true
+      if (this.video2CanPlay || !Boolean(this.videoNode2)) {
+        this.canPlayDone = true
+        return this.play()
+      }
+    } else {
+      this.video2CanPlay = true
+      if (this.video1CanPlay) {
+        this.canPlayDone = true
+        return this.play()
+      }
+    }
+  },
+
   onWaiting: function(e, priVideo=true) {
     this.setCTPEvent(CTP_LOADING, priVideo)
   },
@@ -315,16 +353,35 @@ export const videoControl = {
     if (this.ctpPriEvent === CTP_ENDED || this.ctpPriEvent === CTP_UP_NEXT) {
       this.setCTPEvent(CTP_PLAYING)
     }
+    userAction.seeking(this.currTime())
   },
 
   onSeeked: function(e) {
-    
+    userAction.seeked(this.currTime())
   },
 
 
 
 
   /** Helpers */
+
+  findUpNextMedia: function({
+    currMediaId='',
+    playlists=[{ medias: [] }],
+  }) {
+    let playlistResults = _.map( 
+      playlists, 
+      pl => _.map(
+        pl.medias.slice().reverse(), 
+        me => ({ ...me, playlistId: pl.id})
+      ) 
+    )
+    playlistResults = _.flatten(playlistResults)
+  
+    let upNextIdx = _.findIndex(playlistResults, { id: currMediaId }) + 1
+    let upNext = playlistResults[upNextIdx] || null
+    return upNext
+  },
 
   timeOut: null,
   addEventListenerForMouseMove: function() {

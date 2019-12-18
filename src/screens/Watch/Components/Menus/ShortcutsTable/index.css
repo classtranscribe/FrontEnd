@@ -83,3 +83,9 @@
   background-color: rgb(192, 192, 192);
   color: black;
 }
+
+@media screen and (max-width: 700px) {
+  #watch-shortcuts-table-container {
+    padding: 3em 1em 10em 1em;
+  }
+}

@@ -33,6 +33,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     const { 
       media, watchHistory, offeringId,
       // to be registered
+      changeVideo,
       setMode, switchScreen, setVolume, setPause, 
       setPlaybackrate, setMute, setFullscreen,
       setDuration, setBufferedTime, setTime,
@@ -52,6 +53,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       control.init(
         this.videoNode1, this.videoNode2,
         {  
+          changeVideo,
           setMode, switchScreen, setFullscreen,
           setVolume, setMute, setPause, setPlaybackrate,
           setDuration, setTime, setBufferedTime,
@@ -62,15 +64,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     }
   }
 
+  // Pri
   onPause = e => {
     control.onPause(e)
   }
-
-  onCanPlay = e => {
-    control.onCanPlay(e)
-  }
-
-  // Pri
   onTimeUpdate = e => {
     control.onTimeUpdate(e)
   }
@@ -90,6 +87,9 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
   onLoadedDataPri = e => {
     control.onLoadedData(e, true)
+  }
+  onCanPlayPri = e => {
+    control.onCanPlay(e, true)
   }
   onWaitingPri = e => {
     control.onWaiting(e, true)
@@ -116,6 +116,9 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
   onLoadedDataSec = e => {
     control.onLoadedData(e, false)
+  }
+  onCanPlaySec = e => {
+    control.onCanPlay(e, false)
   }
   onWaitingSec = e => {
     control.onWaiting(e, false)
@@ -157,7 +160,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onDurationChange={this.onDurationChange}
               onTimeUpdate={this.onTimeUpdate}
               onProgress={this.onProgress}
-              onCanPlay={this.onCanPlay}
+              onCanPlay={this.onCanPlayPri}
               onPause={this.onPause}
               onLoadStart={this.onLoadStartPri}
               onLoadedData={this.onLoadedDataPri}
@@ -190,7 +193,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 className="ct-video"
                 id="ct-video-2"
                 ref={node => this.videoNode2 = node}
-                onCanPlay={this.onCanPlay}
+                onCanPlay={this.onCanPlaySec}
                 onLoadStart={this.onLoadStartSec}
                 onLoadedData={this.onLoadedDataSec}
                 onWaiting={this.onWaitingSec}
@@ -222,6 +225,8 @@ export const ClassTranscribePlayer = connectWithRedux(
     'setBufferedTime',
     'setFullscreen',
     'setCTPPriEvent',
-    'setCTPSecEvent'
+    'setCTPSecEvent',
+
+    'changeVideo'
   ]
 )

@@ -52,7 +52,7 @@ export default function TranscriptText({
             && 
             <span className="description-line-text-title">(Description)<br/></span>
           }
-          {text};
+          {text}
         </p>
       }
     />

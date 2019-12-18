@@ -9,6 +9,8 @@ import auth0Client from './auth0'
 import { api } from '../HTTP'
 import { util } from '../index'
 
+export { userAction } from './useraction'
+
 // keys to localStorage
 export const TOKEN_INFO_KEY = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
 export const USER_INFO_KEY = 'userInfo'

@@ -40,7 +40,7 @@ function SettingMenu({
   })
 
   return (
-    <div className="watch-ccstyle-picker">
+    <div className="w-100">
       <div className="ccstyle-demo-area">
         {/* <h2>Sample Caption</h2> */}
         <div className="ccstyle-demo-box" style={ccStyle}>

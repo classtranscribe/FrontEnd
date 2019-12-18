@@ -38,6 +38,7 @@ export const initialState = {
   currCaption: null,
   descriptions: [],
   currDescription: null,
+  currEditing: null,
   openCC: preferControl.cc(),
   openAD: preferControl.ad(),
 
@@ -69,7 +70,6 @@ export const initialState = {
   cc_opacity: CC_OPACITY_75,
 
   // Others
-  currEditing: null,
   prompt: null,
   search: SEARCH_INIT,
 }

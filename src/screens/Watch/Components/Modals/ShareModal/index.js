@@ -66,6 +66,7 @@ function ShareModal({
             aria-label="Copy"
             onClick={onCopy} 
             data-copyed={Boolean(copy > 0).toString()}
+            disabled={copy > 0}
           >
             <span tabIndex="-1">
               {
@@ -90,7 +91,7 @@ function ShareModal({
           </label>
 
           <label className="wml-share-radio-label" htmlFor="wml-share-radio">
-            Share video with current time stamp
+            Share video with current time:
           </label>
 
           <div className="wml-share-time" data-show={Boolean(begin >= 0).toString()}>

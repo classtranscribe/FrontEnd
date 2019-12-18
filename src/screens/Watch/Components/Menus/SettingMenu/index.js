@@ -41,7 +41,7 @@ function SettingMenu({
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
       </button>
-      <div className="setting-content">
+      <div className="setting-container">
         <div className="setting-tabs">
           {panes.map(pane => (
             <button 
@@ -59,22 +59,11 @@ function SettingMenu({
           ))}
         </div>
 
-        {
-          tab === SMTAB_TRANS
-          &&
-          <TranscriptionSetting />
-        }
-        {
-          tab === SMTAB_CC
-          &&
-          <CCSetting />
-        }
-
-        {
-          tab === SMTAB_AD
-          &&
-          <ADSetting />
-        }
+        <div className="setting-content">
+          <TranscriptionSetting show={tab === SMTAB_TRANS} />
+          <CCSetting show={tab === SMTAB_CC} />
+          <ADSetting show={tab === SMTAB_AD} />
+        </div>
 
       </div>
     </div>

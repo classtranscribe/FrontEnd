@@ -103,6 +103,7 @@ export const AUTOPLAY = false
 export const playbackRateOptions = [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]
 
 // CC Setting
+// Color
 export const CC_COLOR_WHITE = 'white'
 export const CC_COLOR_BLACK = 'black'
 export const CC_COLOR_GREEN = 'green'
@@ -112,7 +113,7 @@ export const CC_COLOR_RED = 'red'
 export const CC_COLOR_MAGENTA  = 'magenta'
 export const CC_COLOR_YELLOW = 'yellow'
 export const cc_colorOptions = [ CC_COLOR_WHITE, CC_COLOR_CYAN, CC_COLOR_BLUE, CC_COLOR_GREEN, CC_COLOR_RED, CC_COLOR_MAGENTA, CC_COLOR_YELLOW, CC_COLOR_BLACK ]
-
+// font family
 export const CC_FONT_SERIF = 'serif'
 export const CC_FONT_SANS_SERIF = 'sans-serif'
 export const CC_FONT_MONOSPACE = 'monospace'
@@ -129,26 +130,51 @@ export const cc_colorMap = {
   [CC_COLOR_YELLOW]: 'rgba(255,255,0,*)',
   [CC_COLOR_MAGENTA]: 'rgba(255,0,255,*)',
 }
-
+// font size
 export const CC_SIZE_75 = .75
 export const CC_SIZE_100 = 1
 export const CC_SIZE_125 = 1.25
 export const CC_SIZE_175 = 1.75
 export const CC_SIZE_200 = 2
 export const cc_sizeOptions = [ CC_SIZE_75, CC_SIZE_100, CC_SIZE_125, CC_SIZE_175, CC_SIZE_200 ]
-
+// opacity
 export const CC_OPACITY_0 = 0
 export const CC_OPACITY_25 = .25
 export const CC_OPACITY_50 = .5
 export const CC_OPACITY_75 = .75
 export const CC_OPACITY_100 = 1
 export const cc_opacityOptions = [ CC_OPACITY_0, CC_OPACITY_25, CC_OPACITY_50, CC_OPACITY_75, CC_OPACITY_100 ]
-
+// position
 export const CC_POSITION_TOP = 'top'
 export const CC_POSITION_BOTTOM = 'bottom'
 export const CC_POSITION_UNDER = 'under video'
 export const cc_positionOptions = [ CC_POSITION_TOP, CC_POSITION_BOTTOM, CC_POSITION_UNDER ]
 
+
+/** User actions for watch page */
+export const UA_TIME_UPDATE = 'timeupdate'
+export const UA_PLAY = 'play'
+export const UA_PAUSE = 'pause'
+export const UA_SEEKING = 'seeking'
+export const UA_SEEKED = 'seeked'
+export const UA_CHANGE_SPEED = 'changedspeed'
+export const UA_FULLSCREEN_CHANGE = 'fullscreenchange'
+export const UA_SCREEN_MODE_CHANGE = 'screenmodechange'
+export const UA_USER_INACTIVE = 'userinactive'
+
+export const UA_LANG_CHANGE = 'langchange'
+export const UA_FILTER_TRANS = 'filtertrans'
+export const UA_EDIT_TRANS = 'edittrans'
+export const UA_TRANS_VIEW_CHANGE = 'transviewchange'
+export const UA_TRANS_AUTO_SCROLL_CHANGE = 'autoScrollChange'
+export const UA_TRANS_PAUSE_WHEN_EDIT = 'pauseWhenEdit'
+export const UA_TRANS_PAUSE_WHEN_AD_STARTS = 'pauseWhenADStarts'
+
+export const UA_SHARE_VIDEO = 'sharelink'
+export const UA_CHANGE_VIDEO = 'changevideo'
+export const UA_SELECT_COURSE = 'selectcourse'
+
+// Others
 export const PROFANITY_LIST = [ 
   'homo','gay','slut','damn','ass','poop','cock','lol','crap','sex','noob','nazi','neo-nazi','fuck','fucked',
   'bitch','pussy','penis','vagina','whore','shit','nigger','nigga','cocksucker','assrape','motherfucker',
