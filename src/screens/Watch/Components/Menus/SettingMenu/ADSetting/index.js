@@ -5,7 +5,7 @@ import {
   transControl, 
   preferControl,
 } from '../../../../Utils'
-import { userAction, util } from 'utils'
+import { userAction } from 'utils'
 
 function ADSetting({
   show=false,

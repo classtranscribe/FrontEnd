@@ -13,6 +13,17 @@ import { preferControl } from './preference.control'
 import { userAction } from 'utils'
 import { menuControl } from './menu.control'
 
+function onFullScreenChange(e) {
+  const { setFullscreen } = videoControl.externalFunctions
+  if (videoControl.isFullscreen) {
+    setFullscreen(false)
+    videoControl.isFullscreen = false
+  } else {
+    setFullscreen(true)
+    videoControl.isFullscreen = true
+  }
+}
+
 export const videoControl = {
   videoNode1: null,
   videoNode2: null,
@@ -20,7 +31,8 @@ export const videoControl = {
   isFullscreen: false,
 
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
-  // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent, changeVideo
+  // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent, 
+  // changeVideo, timeUpdate
   externalFunctions: {}, 
 
   init: function(videoNode1, videoNode2, externalFunctions={}) {
@@ -34,11 +46,23 @@ export const videoControl = {
 
   changeVideo: function(media, playlist) {
     const { changeVideo } = this.externalFunctions
-    if (Boolean(changeVideo)) changeVideo({ media, playlist })
-    menuControl.close()
+    this.isSwitched = false
+    this.isFullscreen = false
+    this.currentMode = NORMAL_MODE
+
     this.video1CanPlay = false
     this.video2CanPlay = false
     this.canPlayDone = false
+
+    this.lastTime = 0
+    this.lastUpdateCaptionTime = 0
+    this.lastSendUATime = 0
+    this.lastBuffered = 0
+    this.ctpPriEvent = CTP_LOADING
+    this.ctpSecEvent = CTP_LOADING
+    menuControl.clear()
+    transControl.clear()
+    if (Boolean(changeVideo)) changeVideo({ media, playlist })
     userAction.changevideo(this.currTime(), media.id)
   },
 
@@ -193,15 +217,8 @@ export const videoControl = {
   addEventListenerForFullscreenChange: function() {
     const { setFullscreen } = this.externalFunctions
     if (setFullscreen) {
-      document.addEventListener('fullscreenchange', () => {
-        if (this.isFullscreen) {
-          setFullscreen(false)
-          this.isFullscreen = false
-        } else {
-          setFullscreen(true)
-          this.isFullscreen = true
-        }
-      })
+      document.removeEventListener('fullscreenchange', onFullScreenChange, true)
+      document.addEventListener('fullscreenchange', onFullScreenChange, true)
     }
   },
 
@@ -244,6 +261,7 @@ export const videoControl = {
 
   /**
    * Media events
+   * ***********************************************************************************************
    */
   onPause: function(e) {
     this.showControlBar()
@@ -260,16 +278,13 @@ export const videoControl = {
   lastUpdateCaptionTime: 0,
   lastSendUATime: 0,
   onTimeUpdate: function({ target: { currentTime } }) {
-    const { setTime } = this.externalFunctions
+    const { setTime, timeUpdate } = this.externalFunctions
     // Set current time
-    // if (Math.abs(currentTime - this.lastTime) > .5) {
-    //   // setTime(currentTime)
-    //   // this.lastTime = currentTime
-    // }
     if (Math.abs(currentTime - this.lastUpdateCaptionTime) >= 1) {
-      setTime(currentTime)
+      // setTime(currentTime)
       this.lastTime = currentTime
-      transControl.updateTranscript(currentTime)
+      let nextCaption = transControl.updateTranscript(currentTime)
+      timeUpdate([currentTime, nextCaption])
       this.lastUpdateCaptionTime = currentTime
     } 
     if (Math.abs(currentTime - this.lastSendUATime) >= 15) {
@@ -316,7 +331,7 @@ export const videoControl = {
   video2CanPlay: false,
   canPlayDone: false,
   onCanPlay: function(e, priVideo) {
-    if (this.canplayDone || !preferControl.autoPlay()) return;
+    if (this.canPlayDone || !preferControl.autoPlay()) return;
     if (priVideo) { 
       this.video1CanPlay = true
       if (this.video2CanPlay || !Boolean(this.videoNode2)) {
@@ -363,7 +378,10 @@ export const videoControl = {
 
 
 
-  /** Helpers */
+  /** 
+   * Helpers 
+   * ***********************************************************************************************
+   */
 
   findUpNextMedia: function({
     currMediaId='',

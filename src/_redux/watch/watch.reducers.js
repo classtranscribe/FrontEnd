@@ -42,7 +42,10 @@ import {
   // Others
   SET_SEARCH,
   SET_PROMPT,
-  CHANGE_VIDEO
+  // actions
+  SET_STATE,
+  CHANGE_VIDEO,
+  TIME_UPDATE
 } from './watch.action.types'
 
 import { 
@@ -113,6 +116,8 @@ const watchReducer = (
     case SET_SEARCH             : return { ...state, search: value }
 
     // actions
+    case TIME_UPDATE            :
+    case SET_STATE              : return { ...state, ...value }
     case CHANGE_VIDEO: 
       return { 
         ...state, 

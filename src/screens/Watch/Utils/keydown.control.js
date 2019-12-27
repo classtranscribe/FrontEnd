@@ -11,7 +11,6 @@ import {
   MENU_DOWNLOAD,
   MENU_SHORTCUTS
 } from './constants.util'
-import { promptControl } from './prompt.control'
 import { searchControl } from './search.control'
 function keyDownListener(e) {
   const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
@@ -19,10 +18,12 @@ function keyDownListener(e) {
   keydownControl.handleKeyDown(e)
 }
 export const keydownControl = {
-
+  addedKeyDownListener: false,
   addKeyDownListener: function() {
-    document.removeEventListener('keydown', keyDownListener, true)
+    if (this.addedKeyDownListener) return;
+    // document.removeEventListener('keydown', keyDownListener, true)
     document.addEventListener('keydown', keyDownListener, true)
+    this.addedKeyDownListener = true
   },
 
   handleKeyDown: function(e) {

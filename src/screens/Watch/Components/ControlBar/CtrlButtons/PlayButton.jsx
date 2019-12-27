@@ -1,7 +1,10 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
 import WatchCtrlButton from '../../WatchCtrlButton'
-import { videoControl, CTP_LOADING, CTP_ENDED } from '../../../Utils'
+import { 
+  videoControl, 
+  CTP_LOADING, CTP_ENDED, CTP_ERROR 
+} from '../../../Utils'
 
 export function PlayButtonWithRedux({
   paused=true,
@@ -9,6 +12,8 @@ export function PlayButtonWithRedux({
 }) {
 
   const ended = ctpPriEvent === CTP_ENDED
+  const cantPlay = ctpPriEvent === CTP_LOADING || ctpPriEvent === CTP_ERROR
+  
   const handlePause = () => {
     if (ended) {
       videoControl.replay()
@@ -21,6 +26,7 @@ export function PlayButtonWithRedux({
     <WatchCtrlButton 
       onClick={handlePause}
       label={paused ? 'Play (k)' : 'Pause (k)'}
+      disabled={cantPlay}
       //mouseEnterDelay={600}
       id="play-btn"
       ariaTags={{

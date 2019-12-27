@@ -2,12 +2,22 @@
 * constants
 */
 
-// Arrays
+/** 
+ * General
+ */
+// Clear Options
+export const CO_CHANGE_VIDEO = 'co-change-video'
+
+/** 
+ * Arrays
+ */
 export const ARRAY_INIT = ['init']
 export const ARRAY_EMPTY = ['empty']
 export const ARRAY_RETRY = ['retry']
 
-// Screen Modes
+/** 
+ * Screen Modes
+ */
 export const NORMAL_MODE = 'normal-mode'
 export const THEATRE_MODE = 'theatre-mode'
 export const PS_MODE = 'ps-mode'
@@ -20,18 +30,24 @@ export const screenModes = [
   // { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
 ]
 
-// Player types
+/** 
+ * Player types
+ */
 export const PRIMARY = 'ct-player-primary'
 export const SECONDARY = 'ct-player-secondary'
 
-// Player Events
+/** 
+ * Player Events
+ */
 export const CTP_PLAYING = 'ctp-playing'
 export const CTP_LOADING = 'ctp-loading'
 export const CTP_UP_NEXT = 'ctp-up-next' // last minute ?
 export const CTP_ENDED = 'ctp-ended'
 export const CTP_ERROR = 'ctp-error'
 
-// Menu types 
+/** 
+ * Menu types
+ */
 export const MENU_HIDE = 'menu-hide'
 export const MENU_BEFORE_HIDE = 'menu-before-hide'
 export const MENU_PLAYLISTS = 'menu-playlists'
@@ -47,12 +63,16 @@ export const SMTAB_TRANS = 'tab-trans'
 export const SMTAB_CC = 'tab-cc'
 export const SMTAB_AD = 'tab-ad'
 
-// Modals
+/**
+ * Modals
+ */
 export const MODAL_HIDE = 'modal-hide'
 export const MODAL_BEFORE_HIDE = 'modal-before-hide'
 export const MODAL_SHARE = 'modal-share'
 
-// Caption Languages
+/**
+ * Caption Languages
+ */
 export const ENGLISH = 'en-US'
 export const SIMPLIFIED_CHINESE = 'zh-Hans'
 export const KOREAN = 'ko'
@@ -65,17 +85,23 @@ export const langMap = {
   "es": "Spanish"
 }
 
-// WebVTT kinds
+/**
+ * WebVTT kinds
+ */
 export const WEBVTT_SUBTITLES = 'subtitles'
 export const WEBVTT_DESCRIPTIONS = 'descriptions'
 export const WEBVTT_CHAPTERS = 'chapters'
 
-// Transcription View
+/**
+ * Transcription View
+ */
 export const LINE_VIEW = 'Caption Line View'
 export const TRANSCRIPT_VIEW = 'Transcript View'
 export const HIDE_TRANS = 'Hide Transcription'
 
-// Search
+/**
+ * Search
+ */
 // Caption Search Options
 export const SEARCH_TRANS_IN_COURSE = 'search-trans-in-course'
 export const SEARCH_TRANS_IN_VIDEO = 'search-trans-in-video'
@@ -98,11 +124,14 @@ export const SEARCH_INIT = {
   shortcutResults: ARRAY_INIT,
 }
 
-// CT Player static options
-export const AUTOPLAY = false
+/**
+ * CT Player static options
+ */
 export const playbackRateOptions = [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2/*, 3, 4*/]
 
-// CC Setting
+/**
+ * CC Setting
+ */
 // Color
 export const CC_COLOR_WHITE = 'white'
 export const CC_COLOR_BLACK = 'black'
@@ -151,7 +180,9 @@ export const CC_POSITION_UNDER = 'under video'
 export const cc_positionOptions = [ CC_POSITION_TOP, CC_POSITION_BOTTOM, CC_POSITION_UNDER ]
 
 
-/** User actions for watch page */
+/** 
+ * User actions for watch page
+ */
 export const UA_TIME_UPDATE = 'timeupdate'
 export const UA_PLAY = 'play'
 export const UA_PAUSE = 'pause'
@@ -174,7 +205,9 @@ export const UA_SHARE_VIDEO = 'sharelink'
 export const UA_CHANGE_VIDEO = 'changevideo'
 export const UA_SELECT_COURSE = 'selectcourse'
 
-// Others
+/**
+ * Others
+ */
 export const PROFANITY_LIST = [ 
   'homo','gay','slut','damn','ass','poop','cock','lol','crap','sex','noob','nazi','neo-nazi','fuck','fucked',
   'bitch','pussy','penis','vagina','whore','shit','nigger','nigga','cocksucker','assrape','motherfucker',

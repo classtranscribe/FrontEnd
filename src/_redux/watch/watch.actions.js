@@ -42,7 +42,10 @@ import {
   // Others
   SET_SEARCH,
   SET_PROMPT,
+  // actions
+  SET_STATE,
   CHANGE_VIDEO,
+  TIME_UPDATE,
 } from './watch.action.types'
 
 
@@ -97,4 +100,6 @@ export const setSearch            = value => ({ type: SET_SEARCH, value })
 export const setPrompt            = value => ({ type: SET_PROMPT, value })
 
 // actions
+export const setReduxState        = value => ({ type: SET_STATE, value })
+export const timeUpdate           = value => ({ type: TIME_UPDATE, value: { time: value[0], currCaption: value[1] } }) 
 export const changeVideo          = value => ({ type: CHANGE_VIDEO, value })

@@ -18,11 +18,14 @@ import {
   ENGLISH,
   ARRAY_EMPTY,
   PROFANITY_LIST,
+
   TRANSCRIPT_VIEW,
   LINE_VIEW,
   HIDE_TRANS,
+
+  CO_CHANGE_VIDEO,
 } from './constants.util'
-import { adSample } from './data'
+// import { adSample } from './data'
 
 /**
  * @description The handlers for caption setting events
@@ -40,6 +43,28 @@ export const transControl = {
   init: function(externalFunctions) {
     // console.log('externalFunctions', externalFunctions)
     this.externalFunctions = { ...this.externalFunctions, ...externalFunctions }
+  },
+
+  clear: function(opt=CO_CHANGE_VIDEO) {
+    if (opt === CO_CHANGE_VIDEO) {
+      this.transcriptions_ = []
+      this.currTrans_ = {}
+      
+      this.descriptions_ = []
+      this.currDescription_ = {}
+      this.prevDescription_ = null
+
+      this.captions_ = []
+      this.currCaption_ = {}
+      this.prevCaption_ = null
+
+      this.transcript_ = []
+      this.currTranscript_ = {}
+      this.currEditing_ = {}
+      this.isEditing = false
+      this.editText = ''
+      this.isMourseOverTrans = false
+    }
   },
 
   /**
@@ -180,7 +205,7 @@ export const transControl = {
     const { setCurrCaption } = this.externalFunctions
     // console.log('currCaption', currCaption.begin, currCaption.text)
     if (Boolean(currCaption) && Boolean(setCurrCaption)) {
-      setCurrCaption(currCaption)
+      // setCurrCaption(currCaption)
       this.currCaption_ = currCaption
       if (currCaption) this.autoSizeTextAreaByCaptionId(currCaption.id)
     }
@@ -221,6 +246,7 @@ export const transControl = {
       this.updateCaption(next)
       if (preferControl.autoScroll()) this.scrollTransToView(next.id)
     }
+    return next || null
   },
 
   /**

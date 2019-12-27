@@ -15,7 +15,8 @@
 
 @media screen and (max-width: 550px) {
   .watch-volume-ctrl {
-    width: 115px;
-    min-width: 90px;
+    display: none;
+    /* width: 115px;
+    min-width: 90px; */
   }
 }

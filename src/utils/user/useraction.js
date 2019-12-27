@@ -40,7 +40,7 @@ export const userAction = {
       mediaId,
       offeringId
     }).catch(error => {})
-    console.warn(action)
+    // console.warn(action)
   },
 
   /** Player events */

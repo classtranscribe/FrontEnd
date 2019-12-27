@@ -33,7 +33,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     const { 
       media, watchHistory, offeringId,
       // to be registered
-      changeVideo,
+      changeVideo, timeUpdate,
       setMode, switchScreen, setVolume, setPause, 
       setPlaybackrate, setMute, setFullscreen,
       setDuration, setBufferedTime, setTime,
@@ -53,7 +53,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       control.init(
         this.videoNode1, this.videoNode2,
         {  
-          changeVideo,
+          changeVideo, timeUpdate,
           setMode, switchScreen, setFullscreen,
           setVolume, setMute, setPause, setPlaybackrate,
           setDuration, setTime, setBufferedTime,
@@ -227,6 +227,7 @@ export const ClassTranscribePlayer = connectWithRedux(
     'setCTPPriEvent',
     'setCTPSecEvent',
 
+    'timeUpdate',
     'changeVideo'
   ]
 )

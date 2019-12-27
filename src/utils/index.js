@@ -50,7 +50,7 @@ export const util = {
     document.location.reload(true);
   },
   scrollToTop: function(div) {
-    $(div).scrollTop = 0
+    $(div).scrollTop(0)
   },
   scrollToView: function(query) {
     let div = $(query)

@@ -1,7 +1,8 @@
 import { 
   MENU_HIDE, 
   MENU_BEFORE_HIDE, 
-  SMTAB_TRANS 
+  SMTAB_TRANS,
+  CO_CHANGE_VIDEO
 } from './constants.util'
 import { searchControl } from './search.control'
 
@@ -16,6 +17,12 @@ export const menuControl = {
 
   register: function({ setMenu }) {
     if (setMenu) this.setMenu = setMenu
+  },
+
+  clear: function(opt=CO_CHANGE_VIDEO) {
+    if (opt === CO_CHANGE_VIDEO) {
+      this.close()
+    }
   },
 
   /**

@@ -17,6 +17,7 @@
 .setting-container {
   position: relative;
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: row;
   font-family: var(--ct-font-google);
@@ -31,6 +32,10 @@
 }
 
 .setting-tabs {
+  position: sticky;
+  position: -webkit-sticky;
+  height: max-content;
+  top: 0;
   max-width: 20em;
 }
 

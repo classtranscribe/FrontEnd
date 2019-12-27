@@ -49,5 +49,7 @@ export const SET_PROMPT = 'watch-set-prompt'
 export const SET_SEARCH = 'watch-set-search'
 
 // actions
+export const SET_STATE = 'watch-set-state'
+export const TIME_UPDATE = 'watch-time-update'
 export const CHANGE_VIDEO = 'watch-change-video'
 

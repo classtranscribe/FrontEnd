@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import GeneralSetting from './GeneralSetting'
 import TranscriptionSetting from './TranscriptionSetting'
 import CCSetting from './CCSetting'
 import ADSetting from './ADSetting'
@@ -12,7 +13,7 @@ import {
 import './index.css'
 
 const panes = [
-  // { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
+  { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
   { id: SMTAB_TRANS, name: 'Transcriptions', icon: <i className="material-icons watch-icon-icon">menu_book</i> },
   { id: SMTAB_CC, name: 'Closed Caption', icon: <i className="fas fa-closed-captioning watch-icon-icon"></i> },
   { id: SMTAB_AD, name: 'Audio Description', icon: <i className="fas fa-audio-description watch-icon-icon"></i> },
@@ -60,6 +61,7 @@ function SettingMenu({
         </div>
 
         <div className="setting-content">
+          <GeneralSetting show={tab === SMTAB_GENERAL} />
           <TranscriptionSetting show={tab === SMTAB_TRANS} />
           <CCSetting show={tab === SMTAB_CC} />
           <ADSetting show={tab === SMTAB_AD} />
