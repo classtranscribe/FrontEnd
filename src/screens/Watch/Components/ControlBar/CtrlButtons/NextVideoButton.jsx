@@ -67,7 +67,7 @@ export function NextVideoWithRedux({
       <WatchCtrlButton 
         onClick={handlePlayPrev}
         label={ canPlayPrev ? watchPrev : 'End of the course' }
-        id="next-video-btn"
+        id="prev-video-btn"
         disabled={!canPlayPrev}
         popupStyle={{padding: '0'}}
         popupPosition="0,0"
