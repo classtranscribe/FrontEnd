@@ -1,25 +1,45 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
+import { connectWithRedux } from '_redux/watch'
 import { ClassTranscribeHeader } from 'components'
-import { Icon } from 'semantic-ui-react'
-import './index.css'
-// Vars
-import { api } from 'utils'
-const PlaylistMenu = lazy(() => import('./PlaylistMenu'))
+import MediaInfo from './MediaInfo'
+import PlaylistMenuTrigger from './Buttons/PlaylistMenuTrigger'
+import DownloadMenuTrigger from './Buttons/DownloadMenuTrigger'
+import ShortcutsTableTrigger from './Buttons/ShortcutsTableTrigger'
+import ShareTrigger from './Buttons/ShareTrigger'
 
-export function WatchHeader({ media, playlist, playlists, sendUserAction }) {
-  return (
-    <ClassTranscribeHeader darkMode>
-        <p className="media-details">
-          <strong>
-            <span>{api.parseURLFullNumber()}</span>
-            &ensp;{playlist.name}
-          </strong><br/>
-          {/* <Icon name="play" /> */}
-          {media.mediaName}
-        </p>
-      <Suspense fallback={<div>Loading...</div>}>
-        <PlaylistMenu media={media} playlist={playlist} playlists={playlists} sendUserAction={sendUserAction} />
-      </Suspense>
-    </ClassTranscribeHeader>
+import Search from './Search'
+import { SEARCH_INIT, SEARCH_HIDE } from '../../Utils'
+
+import './index.css'
+import './Buttons/index.css'
+
+export function WatchHeaderWithRedux({
+  isFullscreen=false,
+  search=SEARCH_INIT
+}) {
+
+  const showButtons = search.status === SEARCH_HIDE
+
+  return isFullscreen ? null : (
+    <ClassTranscribeHeader 
+      darkMode 
+      showProfileMenu={showButtons}
+      leftElem={<MediaInfo />}
+      rightElem={ !showButtons ? null :
+        <>
+          <Search />
+          <ShortcutsTableTrigger />
+          <ShareTrigger />
+          <DownloadMenuTrigger />
+          <PlaylistMenuTrigger />
+        </>
+      }
+    />
   )
 }
+
+export const WatchHeader = connectWithRedux(
+  WatchHeaderWithRedux,
+  ['isFullscreen', 'search'],
+  []
+)

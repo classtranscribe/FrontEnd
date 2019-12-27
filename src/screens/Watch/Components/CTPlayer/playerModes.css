@@ -1,0 +1,129 @@
+
+.ct-player-primary {
+  background: black;
+}
+.ct-player-secondary {
+  background: transparent;
+}
+
+.ct-player-primary[mode=ps-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=normal-mode] {
+  top: 8vh;
+  left: 1vw;
+  width: 60vw;
+  height: calc(100vh - 4.5em - 6em);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Theatre Mode */
+.ct-player-primary[mode=theatre-mode] {
+  /* left: calc(10vw); */
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  max-height: calc(100vh - 5em - 4em);
+  overflow: hidden;
+}
+.ct-player-secondary[mode=theatre-mode] {
+  top: auto;
+  bottom: 6em;
+  right: 5em;
+  max-width: 20em;
+  width: 20vw;
+  height: max-content;
+  border-radius: 10px;
+  border: var(--ct-border-color-bold);
+  overflow: hidden;
+}
+
+/* Normal Mode */
+.ct-player-secondary[mode=normal-mode] {
+  display: none;
+}
+
+/* Primary-Secondary Mode */
+.ct-player-secondary[mode=ps-mode] {
+  top: 5em;
+  left: 62vw;
+  width: 35vw;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.726);
+  overflow: hidden;
+}
+
+/* Nested Mode */
+.ct-player-secondary[mode=nested-mode] {
+  top: calc(18em - 10vw);
+  right: calc(38vw + 5px);
+  max-width: 20em;
+  width: 15vw;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(19, 19, 19, 0.904);
+  overflow: hidden;
+}
+
+
+/* Trans hide */
+.ct-player-primary[data-trans-view*=Hide][mode=normal-mode], .ct-player-primary[data-trans-view*=Hide][mode=nested-mode] {
+  top: 8vh;
+  left: calc((100vw - 70vw)/2);
+  width: 70vw;
+  height: 85vh;
+}
+
+.ct-player-secondary[data-trans-view*=Hide][mode=ps-mode] {
+  height: calc(100vh - 4.5em - 6em);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct-player-secondary[data-trans-view*=Hide][mode=nested-mode] {
+  top: calc(18em - 9vw);
+  right: calc(10vw);
+  max-width: 20em;
+  width: 20vw;
+}
+
+@media screen and (max-width: 900px) {
+  .ct-player-primary[mode=normal-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=theatre-mode] {
+    top: 4.5em;
+    left: 0;
+    width: 100vw;
+    height: auto;
+  }
+  .ct-player-secondary[mode=ps-mode] {
+    display: none;
+  }
+  .ct-player-secondary[mode=nested-mode], .ct-player-secondary[mode=theatre-mode] {
+    top: 4.5em;
+    right: 5px;
+    width: 26vw;
+    height: max-content;
+    border: none;
+  }
+
+  .ct-player-primary[data-trans-view*=Hide][mode=nested-mode] {
+    left: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    max-height: calc(100vh - 5em - 4em);
+    overflow: hidden;
+  }
+
+  .ct-player-secondary[data-trans-view*=Hide][mode=nested-mode] {
+    top: 30vh;
+    right: 2vw;
+  }
+}
+

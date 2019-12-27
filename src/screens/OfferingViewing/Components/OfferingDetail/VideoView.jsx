@@ -15,11 +15,16 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHi
   return (
     <div className="videos">
       <div className="goback-container">
-          <button className="del-icon" onClick={goBack} aria-label="Back to Playlists">
-            <Icon name="chevron left" /> Playlists
-          </button>
-        </div>
-      <p className="title"><i className="material-icons">video_library</i>{name}</p>
+        <button className="del-icon" onClick={goBack} aria-label="Back to Playlists">
+          <Icon name="chevron left" aria-hidden="true" /> Playlists
+        </button>
+      </div>
+
+      <h2 className="title">
+        <i className="material-icons" aria-hidden="true">video_library</i>
+        {name}
+      </h2>
+
       <div role="list">
         {medias.slice().reverse().map( media => (
           <Video 

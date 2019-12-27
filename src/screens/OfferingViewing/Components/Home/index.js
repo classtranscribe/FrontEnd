@@ -99,6 +99,7 @@ export class Home extends React.Component {
     return (
       <div className="sp-home">
         <div id="home-content">
+          <h1 className="accessbility_hide">ClassTranscribe Home - Courses</h1>
           <MaintenanceMessage />
           <Filter 
             {...this} 

@@ -1,0 +1,22 @@
+.watch-volume-ctrl {
+  display: flex;
+  flex-direction: row;
+  width: 35px;
+  min-width: 35px;
+  overflow: hidden;
+  transition: var(--ct-transition-width);
+  -o-transition: var(--ct-transition-width);
+  -moz-transition: var(--ct-transition-width);
+  -webkit-transition: var(--ct-transition-width);
+}
+.watch-volume-ctrl:hover, .watch-volume-ctrl:focus-within {
+  width: 115px;
+} 
+
+@media screen and (max-width: 550px) {
+  .watch-volume-ctrl {
+    display: none;
+    /* width: 115px;
+    min-width: 90px; */
+  }
+}

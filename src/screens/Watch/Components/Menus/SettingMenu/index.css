@@ -1,0 +1,223 @@
+.watch-setting-menu {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 3em 5em 10em 5em;
+  overflow: auto;
+  animation: var(--ct-animation-popup);
+  -o-animation: var(--ct-animation-popup);
+  -moz-animation: var(--ct-animation-popup);
+  -webkit-animation: var(--ct-animation-popup);
+  scroll-behavior: smooth;
+}
+
+.setting-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  font-family: var(--ct-font-google);
+}
+
+.setting-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.setting-tabs {
+  position: sticky;
+  position: -webkit-sticky;
+  height: max-content;
+  top: 0;
+  max-width: 20em;
+}
+
+.watch-menu-tab {
+  margin-top: 3em;
+  padding-top: 1em;
+  width: 100%;
+  max-width: 40em;
+  height: auto;
+  margin-left: 2em;
+  border-top: var(--ct-border-dark);
+}
+.watch-menu-tab:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.watch-menu-tab-title {
+  font-size: 2em;
+  font-family: var(--ct-font-google);
+  color: var(--ct-text-highlight);
+}
+.watch-menu-tab-subtitle {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Radio */
+.menu-radio {
+  width: 100%;
+  min-width: 30em;
+  display: flex;
+  flex-direction: column;
+  padding-left: 2em;
+  background: rgb(46, 46, 46);
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
+}
+.menu-radio:hover {
+  background: rgb(58, 58, 58);
+}
+.menu-radio:focus-within  {
+  outline: auto;
+  outline-style: dotted;
+  outline-width: 1px;
+}
+.menu-radio[data-disabled=true] {
+  pointer-events: none;
+}
+.menu-radio[data-disabled=true] .menu-radio-line {
+  opacity: .6;
+}
+
+.menu-radio-line {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: .6em 1em .6em .5em;
+  border-bottom: var(--ct-border-dark);
+}
+
+.menu-radio:first-child {
+  margin-top: .5em;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.menu-radio:last-child {
+  margin-bottom: .5em;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.menu-radio:last-child .menu-radio-line {
+  border-bottom:none;
+}
+
+.radio-label {
+  width: 100%;
+  font-size: 1.3em;
+  cursor: pointer;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+.menu-radio-description {
+  color: rgb(216, 216, 216);
+  padding: 0 0 .3em 0em;
+}
+
+
+/* The switch - the box around the slider */
+.ct-radio {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  min-width: 50px;
+  height: 25px;
+  margin: 0;
+}
+
+/* Hide default HTML checkbox */
+.ct-radio input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.ct-radio .radio-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(70, 70, 70);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.ct-radio .radio-slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgb(223, 223, 223);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.ct-radio input:checked + .radio-slider {
+  background-color: var(--ct-green-active);
+}
+
+.ct-radio input:focus + .radio-slider {
+  box-shadow: 0 0 0 3px rgba(190, 190, 190, 0.397);
+}
+
+.ct-radio input:checked + .radio-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.ct-radio .radio-slider.round {
+  border-radius: 34px;
+}
+
+.ct-radio .radio-slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+
+@media screen and (max-width: 900px) {
+  .watch-setting-menu {
+    padding: 3em .3em 6em .3em;
+  }
+  .setting-container {
+    flex-direction: column;
+  }
+  .setting-tabs {
+    display: none;
+    width: 100%;
+  }
+  .watch-menu-tab {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0em;
+    margin-top: 2em;
+  }
+  .menu-radio {
+    padding-left: 1em;
+  }
+}
+
+

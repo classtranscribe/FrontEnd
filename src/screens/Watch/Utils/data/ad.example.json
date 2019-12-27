@@ -1,0 +1,23 @@
+[
+  {
+    "index": 1,
+    "id": "sample-ad-1",
+    "text": "TEST1 TEST1 TEST1 TEST1 TEST1 TEST1 TEST1 TEST1 TEST1",
+    "begin": "00:00:6.4500000",
+    "end": "00:00:10.4500000"
+  },
+  {
+    "index": 2,
+    "id": "sample-ad-2",
+    "text": "TEST2 TEST2 TEST2 TEST2 TEST2 TEST2 TEST2 TEST2 TEST2",
+    "begin": "00:00:12.4500000",
+    "end": "00:00:20.4500000"
+  },
+  {
+    "index": 3,
+    "id": "sample-ad-3",
+    "text": "TEST3 TEST3 TEST3 TEST3 TEST3 TEST3 TEST3 TEST3 TEST3",
+    "begin": "00:01:30.4500000",
+    "end": "00:01:40.4500000"
+  }
+]

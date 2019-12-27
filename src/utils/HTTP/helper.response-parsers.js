@@ -2,37 +2,10 @@ import { api  } from './index'
 import { util } from '../index'
 import { user } from '../user'
 import { httpGET  } from './http.get'
-import { httpPOST } from './http.post'
-import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
 import _ from 'lodash'
 const monthMap = require('../json/monthNames.json')
 
 export const responseParsers = {
-  /**
-   * 
-   * @param {} eventType 
-   * timeupdate, play, pause, seeking, seeked, changedspeed, fullscreenchange, 
-   * filtertrans, edittrans, sharelink
-   * selectcourse, userinactive, changevideo
-   * @param {*} data 
-   * { offeringId, mediaId, json }
-   */
-  sendUserAction: function(eventType, data = {}) {
-    // console.log({eventType, ...data, userId: api.userId() })
-    const { json, mediaId, offeringId } = data
-    return httpPOST.postData('Logs', {
-      eventType, 
-      mediaId, 
-      offeringId,
-      userId: api.userId(),
-      json: {
-        ...json, 
-        device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }
-      }
-    })
-  },
-
-
   completeSingleOffering: function(courseOffering, setOffering, index, currOfferings) {
     // set id for future use
     courseOffering.id = courseOffering.offering.id
@@ -111,18 +84,20 @@ export const responseParsers = {
       id: '', 
       mediaName: '', 
       createdAt: '', 
+      sourceType: 1,
       isTwoScreen: false, 
       videos: [], 
       transcriptions: [],
       isUnavailable: false,
     }
-    console.log(media)
+    
     if (!media) return re
     const { id, playlistId, jsonMetadata, sourceType, video, transcriptions } = media
     if (!id || !jsonMetadata) return re
     re.id = id
     re.createdAt = jsonMetadata.createdAt
     re.playlistId = playlistId
+    re.sourceType = sourceType
 
 
     if (sourceType === 1) { // youtube
@@ -138,6 +113,8 @@ export const responseParsers = {
         re.mediaName = fileData.FileName
       }
     }
+
+    re.mediaName = re.mediaName.replace('.mp4', '')
 
 
     if (!video || !(video.video1Path || (video.video1 && video.video1.path))) {

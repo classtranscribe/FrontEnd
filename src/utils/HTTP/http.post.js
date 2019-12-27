@@ -1,4 +1,6 @@
 import { api, http } from './index'
+import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from 'react-device-detect'
+import { user } from '../user'
 
 /**
  * POST
@@ -70,5 +72,29 @@ export const httpPOST = {
   },
   captionCancelDownVote: function(id) { // captionId
     return this.postData('Captions/CancelDownVote', null, { id })
+  },
+
+  /**
+   * 
+   * @param {} eventType 
+   * timeupdate, play, pause, seeking, seeked, changedspeed, fullscreenchange, 
+   * filtertrans, edittrans, sharelink
+   * selectcourse, userinactive, changevideo
+   * @param {*} data 
+   * { offeringId, mediaId, json }
+   */
+  sendUserAction: function(eventType, data = {}) {
+    // console.log({eventType, ...data, userId: api.userId() })
+    const { json, mediaId, offeringId } = data
+    return this.postData('Logs', {
+      eventType, 
+      mediaId, 
+      offeringId,
+      userId: user.userId(),
+      json: {
+        ...json, 
+        device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }
+      }
+    })
   },
 }
