@@ -2,136 +2,79 @@
  * Stylesheet for ClassTranscribe Header
  */
 
-.ct-nav {
+.ct-nav, .ct-nav-dark {
   position: fixed;
-  /* background: linear-gradient(#fcfcfc, #ffffff00) !important; */
-  background: #ffffff !important;
   opacity: 1;
   top: 0;
-  width: 100%;
+  width: 100vw;
   height: 4rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}
-  @media screen and (min-width: 600px) {
-    .ct-nav {
-      box-shadow: 0 0 4px #c7c7c786;
-    }
-  }
-  .ct-brand, .ct-brand:focus, .ct-brand:hover {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    font-size: 2rem;
-    color: #228686 !important;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;}
-    .ct-brand span {
-      color: #629c9c;}
-    .ct-brand img {
-      cursor: pointer;
-      width: 6.5em;
-      height: 1em;
-    }
-    .ct-brand .subtitle {
-      padding-top: .2em;
-      color: #464e4e !important;
-      font-size: 1.7rem;
-    }
-
-    .header-shadow {
-      box-shadow: 0 0 6px #c7c7c786;
-    }
-
-  /* For course setting page */
-  .ct-nav .sidebar-trigger {
-    border: none;
-    color: #768888;
-    height: 2.6rem;
-    width: 2.6rem;
-    border-radius: 50%; 
-    display: flex; 
-    justify-content: center;
-    padding-left: 0.6em;
-    margin-right: 1em;
-    transition: background 0.2s linear;
-    background: none;
-    cursor: pointer;}
-    .ct-nav .sidebar-trigger:hover {
-      color: #306868;
-      background-color: #d5dedf;
-    }
-    .ct-nav .sidebar-trigger:focus {
-      outline: none;
-      background-color: #d5dedf;
-    }
-
-    .ct-nav .signout {
-      color: #306868;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-      padding-right: 1.5rem;}
-      @media screen and (max-width: 520px) {
-        .ct-nav .signout {
-          padding-right: 0.5rem;
-        }
-      }
-      .ct-nav .signout .ui.dropdown>.dropdown.icon {
-        display: none;
-      }
-
-    .profile-img {
-      cursor: pointer;
-      outline: none;}
-      .profile-img:hover, .profile-img:focus {
-        box-shadow: 0 0 1px 2px #8f8f8f63;
-      }
-    .profile {
-      width: 20em;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      align-items: center !important;}
-    .profile p {
-      white-space: normal;
-      text-align: center;}
-      .profile p span {
-        font-size: .8em;}
-    .profile img {
-      margin-bottom: .5em;
-      width: 4em;
-    }
-    .Mui-disabled[id=profile] {
-      opacity: 1 !important;
-    }
- 
-
-/* dark mode */
-.dark {
-  background: none !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1020;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.ct-nav-light {
+  background: #ffffff;
+  box-shadow: 0 0 4px #c7c7c786;
+}
+.ct-nav-dark {
+  background: transparent;
+}
+.ct-header-left-elem, .ct-header-right-elem {
   position: relative;
-  height: 3.5rem !important;
-  box-shadow: none !important;}
-  .dark .signout {
-    color: rgb(104, 204, 211);}
-  .dark .ct-brand, .dark .ct-brand:hover {
-    margin-left: .5em;
-    color: #2d9999;}
-    @media screen and (max-width: 650px) {
-      .dark .ct-brand, .dark .ct-brand:hover, .ct-brand, .ct-brand:hover {
-        margin-left: 0em;
-      }
-    }
-  .dark .ct-brand span {
-    color: rgb(114, 173, 179);}
-  .dark i.circular.icon {
-    box-shadow: 0 0 0 0.1em rgba(133, 133, 133, 0.952) inset !important;
-  }
-  .dark .profile-menu .trigger:hover {
-    background: none !important;
-    color: rgb(90, 173, 173)}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.ct-header-right-elem {
+  justify-content: flex-end;
+}
 
+/* Sidebar trigger */
+.ct-header-sidebar-trigger {
+  margin-left: .5em;
+}
+.ct-header-sidebar-trigger:focus {
+  outline: none;
+}
+.ct-header-sidebar-trigger span {
+  font-size: 1.7rem;
+  padding: .2em;
+  color: #646464;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.ct-header-sidebar-trigger:hover > span, 
+.ct-header-sidebar-trigger:focus > span {
+  outline: none;
+  background-color: #d5dedf;
+}
 
+/* Brand */
+.ct-header-brand {
+  width: auto;
+  height: auto;
+  margin-left: .5em;
+}
+.ct-nav-dark .ct-header-brand {
+  margin-left: 1em;
+}
+.ct-header-brand img {
+  height: 28px;
+  width: 182px;
+}
+
+/* Profile menu Trigger */
+.profile-menu {
+  margin-right: 1em;
+}
 .profile-menu .trigger {
   transition: color .2s linear, background .2s linear;
   color: inherit;
@@ -145,4 +88,43 @@
     color: rgb(39, 151, 155)}
 .profile-menu .menu-item {
   font-size: 1.2rem !important;
+}
+
+.profile-img {
+  min-width: 30px;
+  cursor: pointer;
+  outline: none;}
+  .profile-img:hover, .profile-img:focus {
+    box-shadow: 0 0 1px 2px #8f8f8f63;
+  }
+.profile {
+  width: 20em;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;}
+.profile p {
+  white-space: normal;
+  text-align: center;}
+  .profile p span {
+    font-size: .8em;}
+.profile img {
+  margin-bottom: .5em;
+  width: 4em;
+}
+.Mui-disabled[id=profile] {
+  opacity: 1 !important;
+}
+
+
+@media screen and (max-width: 600px) {
+  .ct-nav-light {
+    box-shadow: none;
+  }
+  .ct-nav-dark .ct-header-brand {
+    margin-left: .5em;
+  }
+  .profile-menu {
+    margin-right: .5em;
+  }
 }

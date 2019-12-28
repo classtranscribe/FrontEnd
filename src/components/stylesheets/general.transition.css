@@ -1,1 +1,13 @@
 /* Transition classNames */
+.ripple-btn {
+  background-position: center;
+  transition: background 0.8s;
+}
+.ripple-btn:hover {
+  background: #c2c2c2 radial-gradient(circle, transparent 1%, #b1b1b1 1%) center/15000%;
+}
+.ripple-btn:active {
+  background-color: #aaaaaa;
+  background-size: 100%;
+  transition: background 0s;
+}

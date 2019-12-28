@@ -1,17 +1,11 @@
 import { isBrowser } from 'react-device-detect'
 import { api } from '../HTTP'
 
-const onboardSuffix = '-onboard-1'
-
 export const storage = {
   // keys
   watchHistoryKey: 'watch-history-new',
   starredOfferingKey: 'starred-offerings-new',
   searchHistoryKey: 'search-history',
-
-  // onboard
-  homeOnboardKey: 'home' + onboardSuffix,
-  watchOnboardKey: 'watch' + onboardSuffix,
 
   tempStoredOfferingsKey: 'temp-stored-offerings',
 
@@ -42,34 +36,6 @@ export const storage = {
   },
   removeStoredOfferings: function() {
     // if (isBrowser) localStorage.removeItem(this.tempStoredOfferingsKey)
-  },
-
-  /**
-   * Onboard functions
-   * ** The onboard data was stored in localStorage when signed in
-   */
-  // `home`, `watch`
-  initOnboardLocally: async function() {
-    try {
-      const { data } = await api.getUserMetaData()
-      const { onboard={} } = data
-      for (let key in onboard) {
-        localStorage.setItem(key + onboardSuffix, 'true')
-      }
-    } catch (error) {
-      this.setOnboard('home')
-      this.setOnboard('watch')
-    }
-  },
-  isOnboard: function(key) {
-    return Boolean(localStorage.getItem(key + onboardSuffix))
-  },
-  setOnboard: async function(key) {
-    localStorage.setItem(key + onboardSuffix, 'true')
-    const { data } = await api.getUserMetaData()
-    const { metadata={}, onboard={} } = data
-    onboard[key] = true
-    api.postUserMetaData(metadata, onboard)
   },
 
 }

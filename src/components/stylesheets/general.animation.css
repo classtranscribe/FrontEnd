@@ -1,0 +1,82 @@
+/* Popup animation */
+@keyframes popup {
+  0% {margin-top: 2.5em;}
+  100% {margin-top: 0;}}
+@-o-keyframes popup {
+  0% {margin-top: 2.5em;}
+  100% {margin-top: 0;}}
+@-moz-keyframes popup {
+  0% {margin-top: 2.5em;}
+  100% {margin-top: 0;}}
+@-webkit-keyframes popup {
+  0% {margin-top: 2.5em;}
+  100% {margin-top: 0;}}
+
+/* Expand Padding animation */
+@keyframes expand-padding {
+  0% {padding-top: 1em;}
+  100% {padding-top: 0;}}
+@-o-keyframes expand-padding {
+  0% {padding-top: 1em;}
+  100% {padding-top: 0;}}
+@-moz-keyframes expand-padding {
+  0% {padding-top: 1em;}
+  100% {padding-top: 0;}}
+@-webkit-keyframes expand-padding {
+  0% {padding-top: 1em;}
+  100% {padding-top: 0;}}
+
+@keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+@-o-keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+@-moz-keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+@-webkit-keyframes expand-padding-h {
+  0% {padding-left: 1em;}
+  100% {padding-left: 0;}}
+
+/* Opacity  */
+@keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+@-o-keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+@-moz-keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+@-webkit-keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}}
+
+@keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+@-o-keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+@-moz-keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+@-webkit-keyframes right-top-out {
+  0% {top: 4em;}
+  100% {top: calc(100vh - 4em - 4.5em);}}
+
+/* Height  */
+@keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+@-o-keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+@-moz-keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+@-webkit-keyframes watch-menu-hide {
+  0% {height: calc(100vh - 4em - 4.5em);}
+  100% {height: 0;}}
+

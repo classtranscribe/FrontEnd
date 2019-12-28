@@ -1,6 +1,10 @@
 :root {
   /* Background Color */
-  --watch-page-bg-color: rgb(37, 37, 37);
+  /* --watch-page-bg-color: rgb(37, 37, 37); */
+  /* --watch-page-bg-color: rgb(66, 66, 66);
+  --watch-page-bg-color-alpha: rgba(66, 66, 66, 0.863); */
+  --watch-page-bg-color: rgb(0, 0, 0);
+  --watch-page-bg-color-alpha: rgba(0, 0, 0, 0.863);
   --light-bg-color: #fcfcfc;
   --ct-btn-color: #458885;
   --ct-green-normal: #348b86;
@@ -10,8 +14,12 @@
   --ct-text-primary-light: #4e4e4e;
   --ct-text-title: rgb(37, 113, 116);
   --ct-text-highlight: rgb(19, 211, 211);
+  --ct-text-white: white;
+  --ct-text-white-hover: rgb(180, 180, 180);
   /* Border */
   --ct-border-color: 1px solid #e6e6e6;
+  --ct-border-dark: 1px solid #4e4e4e;
+  --ct-border-color-bold: 2px solid #e6e6e6;
   --ct-border-color-transparent: 1px solid transparent;
   /* Font Family */
   --ct-font-narrow: 'Roboto Condensed', sans-serif;
@@ -24,4 +32,29 @@
   --ct-transition-height: height .2s linear;
   --ct-transition-transform: transform .2s linear;
   --ct-transition-all: all .2s linear;
+
+  /* Animation */
+  --ct-animation-popup: popup .2s linear;
+  --ct-animation-expand-padding: expand-padding .2s linear;
+  --ct-animation-expand-padding-h: expand-padding-h .2s linear;
+  --ct-animation-fade-out: fade-out .2s linear;
+  --ct-animation-right-top-out: right-top-out .1s linear;
+  --ct-animation-watch-menu-hide: watch-menu-hide .1s linear;
+
+  /* Watch */
+  --ct-progress-h: 5px;
+  --ct-progress-h-neg: -5px;
+  --ct-progress-h-hover: 7px;
+  --ct-progress-w: calc(100vw - 20px);
+  --ct-progress-border-radius: 5em;
+  --ct-progress-color: rgb(19, 211, 211);
+  --ct-progress-transi-w: width 1s linear;
+}
+
+.fsize-1-2 {
+  font-size: 1.2em;
+}
+
+.fsize-1-3 {
+  font-size: 1.3em;
 }

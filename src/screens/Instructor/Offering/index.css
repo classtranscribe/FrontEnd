@@ -2,9 +2,6 @@
  * stylesheet for offering page
  */
 
-::-webkit-scrollbar{
-  display: none;
-}
 /* .cs-wrapper {
   position: absolute;
   top: 0;
@@ -39,7 +36,7 @@
   height: 100%;
   transition: all 0.2s linear;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-top: 4rem;
   -webkit-overflow-scrolling: touch;
 }

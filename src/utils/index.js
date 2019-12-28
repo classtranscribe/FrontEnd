@@ -1,11 +1,11 @@
 import $ from 'jquery'
 import { storage } from './storage'
 
-export { search } from './search'
-export { user   } from './user'
+export { search           } from './search'
+export { user, userAction } from './user'
 export { sortFunc } from './sort'
-export { handleData } from './data'
-export { api    } from './HTTP'
+export { handleData       } from './data'
+export { api              } from './HTTP'
 
 
 /**
@@ -15,7 +15,7 @@ export const util = {
   ...storage,
   links: {
     title: title => {
-      document.title = title ? `${title} • ClassTranscribe` : 'ClassTranscribe'
+      document.title = title ? `${title} | ClassTranscribe` : 'ClassTranscribe'
     },
     currentUrl: () => window.location,
     home: () => '/home',
@@ -41,7 +41,7 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin})}`,
+    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin)})}`,
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
@@ -50,13 +50,19 @@ export const util = {
     document.location.reload(true);
   },
   scrollToTop: function(div) {
-    $(div)[0].scrollTop = 0
+    $(div).scrollTop(0)
   },
-  scrollToCenter: function(id) {
-    const currElem = document.getElementById(id)
-    if (currElem) {
-      currElem.scrollIntoView({ block: "center" })
-      currElem.focus()
+  scrollToView: function(query) {
+    let div = $(query)
+    div.scrollTop = div.offset().top + div.height() / 2;
+  },
+  scrollToCenter: function(query, focus=true, alter) {
+    let div = $(query)
+    if (div.length > 0) {
+      div.scrollTop = div.offset().top + div.height() / 2;
+      if (focus) div.focus()
+    } else if (alter) {
+      alter()
     }
   },
   parseSearchQuery: function (href) {
@@ -83,8 +89,15 @@ export const util = {
     }
     return query === '?' ? '' : query
   },
+  replacePathname: function(url) {
+    window.history.replaceState(
+      window.history.state , 
+      document.title, 
+      url
+    )
+  },
   getWindowStates: function () {
-    return window.location.state || {}
+    return window.history.state || {}
   },
 
   getSelectOptions: function(array, tag) {

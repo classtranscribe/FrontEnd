@@ -11,52 +11,68 @@ import { textBrand, darkTextBrand } from '../../images'
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
  */
-export function ClassTranscribeHeader({darkMode, display, showSiderBar, children, universities, subtitle}) {
-  const bg = darkMode ? 'dark' : 'light'
+export function ClassTranscribeHeader({
+  darkMode=false, 
+  display=false, 
+  showSiderBar=false, 
+  children=null, 
+  rightElem=null,
+  leftElem=null,
+  subtitle=null,
+  showProfileMenu=true,
+}) {
+  const bg = darkMode ? 'ct-nav-dark' : 'ct-nav-light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
   const homeURL = util.links.home()
+  const imgSrc = darkMode ? darkTextBrand : textBrand
+
+  if (children !== null) rightElem = children
+
   return (
-    <Navbar id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
-      {
-        showSiderBar 
-        &&
-        <Navbar.Brand 
-          className="sidebar-trigger" as="button"
-          aria-label={sidebarTrggerTitle}
-          title={sidebarTrggerTitle}
-          onClick={showSiderBar} 
-        >
-          <Icon name='sidebar' size="large"/>
-        </Navbar.Brand>
-      }
-      <Navbar.Brand id="brand" className="ct-brand" as={Link} to={homeURL} title="Home" aria-label="Home">
-        <Logo subtitle={subtitle} darkMode={darkMode} />
-      </Navbar.Brand>
-      <Row className="signout">
-        {children}
-        <ProfileMenu darkMode={darkMode} universities={universities} />
-      </Row>
-    </Navbar>
+    <nav id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
+      {/* Right Elem */}
+      <div className="ct-header-left-elem">
+        { /* Sidebar trigger */
+          showSiderBar 
+          &&
+          <button 
+            className="plain-btn ct-header-sidebar-trigger"
+            aria-label={sidebarTrggerTitle}
+            onClick={showSiderBar}
+          >
+            <span tabIndex="-1">
+              <i class="fas fa-bars"></i>
+            </span>
+          </button>
+        }
+        {/* Brand */}
+        <Link className="ct-header-brand" to={homeURL}>
+          <img
+            src={imgSrc}
+            alt="ClassTranscribe Brand"
+          />
+        </Link>
+        {subtitle}
+        {leftElem}
+      </div>
+
+      {/* Left Elem */}
+      <div className="ct-header-right-elem">
+        {rightElem}
+        {showProfileMenu && <ProfileMenu darkMode={darkMode} />}
+      </div>
+    </nav>
   )
 }
 
-export function Logo({ subtitle, darkMode }) {
-  return darkMode ? (
+function Logo({ subtitle, darkMode }) {
+  return (
     <img
       src={darkTextBrand}
       width="30" height="30"
-      className="d-inline-block align-top img"
+      className="ct-header-brand-img"
       alt="ClassTranscribe Brand"
     />
-  ) : (
-    <>
-      <img
-        src={textBrand}
-        width="30" height="30"
-        className="d-inline-block align-top img"
-        alt="ClassTranscribe Brand"
-      />&ensp;<span className="subtitle">{subtitle}</span>
-    </>
   )
 }
 

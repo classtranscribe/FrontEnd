@@ -1,0 +1,21 @@
+.watch-search {
+  position: absolute;
+  left: 62vw;
+  top: 1em !important;
+  width: calc(38vw - 1em);
+  height: max-content;
+  padding-bottom: 2em;
+  /* height: calc(100vh - 6em); */
+  background: rgb(42, 42, 42);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.349);
+}
+
+@media screen and (max-width: 900px) {
+  .watch-search {
+    left: 1vw;
+    width: 98vw;
+  }
+}

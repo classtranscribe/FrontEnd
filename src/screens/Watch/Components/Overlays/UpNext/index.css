@@ -1,0 +1,17 @@
+.watch-upn {
+  max-width: 30em;
+}
+.watch-upn .prompt-upnext {
+  padding: .5em 0 0 0;
+  overflow: hidden;
+}
+.watch-un-header {
+  margin: 0;
+  height: 2em;
+  padding: 0 .5em;
+}
+
+.watch-un-header h3 {
+  margin: 0;
+  padding: 0;
+}

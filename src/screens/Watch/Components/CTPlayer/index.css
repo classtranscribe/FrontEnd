@@ -1,0 +1,30 @@
+.ct-video-row {
+  top: 4.5em;
+  position: fixed;
+  /* cursor: pointer; */
+}
+.ct-video-contrainer {
+  width: 100%;
+  height: max-content;
+  position: relative;
+}
+.ct-video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.watch-player-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.watch-player-wrapper[data-blur=true] {
+  background: rgba(0, 0, 0, 0.719);
+}
+
+
