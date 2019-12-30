@@ -17,7 +17,7 @@
 }
 .ct-nav-light {
   background: #ffffff;
-  box-shadow: 0 0 4px #c7c7c786;
+  /* box-shadow: 0 0 4px #c7c7c786; */
 }
 .ct-nav-dark {
   background: transparent;

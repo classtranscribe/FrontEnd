@@ -2,9 +2,20 @@ import React from 'react'
 import './index.css'
 import { videoPosterImg as defaultImg } from '../../images'
 
-export function Poster({ src=defaultImg, progress=0, borderRadius=false, width }) {
+export function Poster({ 
+  src=defaultImg, 
+  progress=0, 
+  borderRadius=false, 
+  width, 
+  round=false
+}) {
   return (
-    <div className="video-poster" style={{width}} aria-hidden="true">
+    <div 
+      className="video-poster" 
+      style={{width}} 
+      aria-hidden="true" 
+      data-round={round.toString()}
+    >
       <img 
         className={`poster-img ${borderRadius ? 'with-br' : ''}`} 
         style={{width}}

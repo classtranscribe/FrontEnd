@@ -41,7 +41,7 @@ export function ClassTranscribeHeader({
             onClick={showSiderBar}
           >
             <span tabIndex="-1">
-              <i class="fas fa-bars"></i>
+              <i className="fas fa-bars"></i>
             </span>
           </button>
         }

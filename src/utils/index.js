@@ -41,7 +41,7 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin)})}`,
+    watch: (courseNumber, id, begin, others={}) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin), ...others })}`,
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },

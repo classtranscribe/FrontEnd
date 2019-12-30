@@ -1,7 +1,17 @@
 .ct-list-col {
   position: relative;
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+}
+
+.ct-d-r-center-v {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ct-a-fade-in {
+  animation: fade-in .4s ease-in;
 }

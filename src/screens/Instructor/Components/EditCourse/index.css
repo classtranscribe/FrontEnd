@@ -1,0 +1,13 @@
+.ip-edit-c-con {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--ct-ip-grey-1);
+  padding: 5em 2em;
+  font-family: var(--ct-font-google);
+}
+
+.ip-edit-c-con h2 {
+  font-size: 2.2em;
+  color: var(--ct-text-primary);
+  text-transform: uppercase;
+}

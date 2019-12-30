@@ -5,3 +5,13 @@
 // Arrays
 export const ARRAY_INIT = ['init']
 export const ARRAY_EMPTY = ['empty']
+
+// Forms
+export const NEW_OFFERING_ID = 'ip-new-offering'
+export const NEW_OFFERING = { id: NEW_OFFERING_ID }
+export const NEW_PLAYLIST_ID = 'ip-new-playlist'
+export const NEW_PLAYLIST = { id: NEW_PLAYLIST_ID }
+export const HIDE_PLAYLIST_ID = 'ip-hide-playlist'
+export const HIDE_PLAYLIST = { id: HIDE_PLAYLIST_ID }
+export const OFF_ANALYSIS_ID = 'ip-offering-analysis'
+export const OFF_ANALYSIS = { id: OFF_ANALYSIS_ID }

@@ -1,0 +1,74 @@
+.ip-filter {
+  width: 100%;
+  padding: 0 .9em;
+}
+
+.ip-filter-con {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  overflow: hidden;
+}
+
+.ip-filter-input {
+  width: 100%;
+  color: black;
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  padding: 1em;
+  background-color: var(--ct-ip-grey-1);
+}
+.ip-filter-con[data-darker=true] .ip-filter-input {
+  background-color: var(--ct-ip-grey-2);
+}
+.ip-filter-con[data-darker=true] .ip-filter-input:focus {
+  background-color: var(--ct-ip-grey-3);
+}
+
+.ip-filter-input:focus {
+  outline: none;
+  background-color: var(--ct-ip-grey-2);
+}
+
+
+.ip-filter-sort-btn {
+  position: relative;
+  background-color: var(--ct-ip-grey-1);
+  /* border-left: 2px solid #fcfcfc; */
+}
+.ip-filter-con[data-darker=true] .ip-filter-sort-btn {
+  background-color: var(--ct-ip-grey-2);
+}
+.ip-filter-sort-btn span {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ip-filter-sort-btn[data-active=true] {
+  color: var(--ct-text-title);
+  background-color: var(--ct-ip-grey-2);
+}
+.ip-filter-sort-btn:hover, 
+.ip-filter-sort-btn:focus {
+  background-color: var(--ct-ip-grey-2);
+  outline: none;
+}
+.ip-filter-con[data-darker=true] .ip-filter-sort-btn:hover,
+.ip-filter-con[data-darker=true] .ip-filter-sort-btn:focus {
+  background-color: var(--ct-ip-grey-3);
+}
+
+.ip-filter-con[data-darker=true] .ip-filter-sort-btn[data-active=true] {
+  background-color: var(--ct-ip-grey-3);
+}
+
+.ip-filter-sort-btn:active {
+  background-color: var(--ct-ip-grey-1);
+}
+.ip-filter-con[data-darker=true] .ip-filter-sort-btn:active {
+  background-color: var(--ct-ip-grey-3);
+}

@@ -6,7 +6,7 @@ export function CTButton({
   id=`ct-btn-${Math.random()}`,
   classNames='',
   spanClassNames='',
-  color='primary', // primary, green, black
+  color='primary', // primary, light, green, yellow, black
   size='normal',
   icon=null,
   iconContent=null,
@@ -63,9 +63,13 @@ export function CTButton({
                 }
               </span>
             }
-            <span className={`ct-btn-text ${spanClassNames}`} aria-hidden="true">
-              {text}
-            </span>
+            {
+              Boolean(text) 
+              &&
+              <span className={`ct-btn-text ${spanClassNames}`} aria-hidden="true">
+                {text}
+              </span>
+            }
           </span>
         </button>
       }

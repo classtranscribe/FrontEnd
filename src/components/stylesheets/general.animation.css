@@ -53,6 +53,22 @@
   0% {opacity: 1;}
   100% {opacity: 0;}}
 
+@keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}}
+@-o-keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}}
+@-moz-keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}}
+@-webkit-keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}}
+
+  
+
+
 @keyframes right-top-out {
   0% {top: 4em;}
   100% {top: calc(100vh - 4em - 4.5em);}}
