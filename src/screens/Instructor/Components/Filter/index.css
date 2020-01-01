@@ -65,6 +65,9 @@
 .ip-filter-con[data-darker=true] .ip-filter-sort-btn[data-active=true] {
   background-color: var(--ct-ip-grey-3);
 }
+.ip-filter-con[data-darker=true] .ip-filter-sort-btn[data-active=true] i {
+  transform: rotateX(180deg);
+}
 
 .ip-filter-sort-btn:active {
   background-color: var(--ct-ip-grey-1);

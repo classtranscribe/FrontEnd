@@ -4,6 +4,7 @@ import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
 import { Poster, CTButton } from 'components'
 import { api, util } from 'utils'
+import { mediaControl } from '../../Utils'
 
 
 function VideoWithRedux({ 
@@ -11,11 +12,8 @@ function VideoWithRedux({
   playlist={},
   playlists=[],
   courseNumber='',
-
-  selectedMedias=[],
-  isSelect=false,
-  handleRemove,
-  handleSelect,
+  isSelectingVideos=false,
+  selectedVideos={},
 
   history,
 }) {
@@ -26,12 +24,14 @@ function VideoWithRedux({
     history.push(pathname, { media, playlist, playlists })
   }
 
+  const isSelected = Boolean(selectedVideos[id])
+
   const handleClick = () => {
-    if (isSelect) {
+    if (isSelectingVideos) {
       if (isSelected) {
-        handleRemove(media)
+        mediaControl.handleRemove(media)
       } else {
-        handleSelect(media)
+        mediaControl.handleSelect(media)
       }
     } else {
       watchVideo()
@@ -41,14 +41,12 @@ function VideoWithRedux({
   const [more, setMore] = useState(false)
   const handleSeeMore = () => setMore( !more )
 
-  const isSelected = Boolean(selectedMedias[id])
-
   return (
     <div id={`media-${id}`} className="ip-video-card">
-      <button className="plain-btn ip-video" onClick={handleClick} data-select={isSelect}>
+      <button className="plain-btn ip-video" onClick={handleClick} data-select={isSelectingVideos}>
         <div tabIndex="-1" className="ip-video-con">
           {
-            isSelect ?
+            isSelectingVideos ?
             <div className="ip-v-check">
               <div className="ip-v-check-box" data-checked={isSelected.toString()}>
                 {
@@ -68,7 +66,7 @@ function VideoWithRedux({
       </button>
 
       {
-        !isSelect
+        !isSelectingVideos
         &&
         <div className="ip-video-opts">
           <CTButton //circle
@@ -108,7 +106,12 @@ function VideoWithRedux({
 
 export default withRouter(connectWithRedux(
   VideoWithRedux,
-  ['playlist', 'playlists'],
+  [
+    'playlist', 
+    'playlists',
+    'isSelectingVideos',
+    'selectedVideos'
+  ],
   []
 ))
 

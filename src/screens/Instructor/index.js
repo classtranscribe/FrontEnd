@@ -11,14 +11,18 @@ import {
 import { api, util, user } from 'utils'
 import './index.css'
 import {
-  parseCourseOfferings,
-  ARRAY_INIT,
+  mediaControl,
+  offControl,
+  setup,
 } from './Utils'
 
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
     super(props)
     util.links.title('My Courses')
+    setup.init(props)
+    offControl.init(props)
+    mediaControl.init(props)
   }
 
   showSiderBar = value => {
@@ -31,59 +35,7 @@ export class InstructorWithRedux extends React.Component {
   }
 
   componentDidMount() {
-    this.setupInstPage()
-  }
-
-  setupInstPage = async () => {
-    if (this.checkAuthentication()) {
-      await this.getCourseOfferingsByInstructorId()
-    }
-  }
-
-  checkAuthentication = () => {
-    if (!user.isLoggedIn()) {
-      user.login()
-    } else if (!user.isInstructor()) {
-      window.location = util.links.notfound404()
-    }
-    return true
-  }
-
-  /**
-   * Callback for setUpUser below
-   */
-  getCourseOfferingsByInstructorId = async () => {
-    if (this.props.offerings.length > 0) return;
-    try {
-      let { data } = await api.getCourseOfferingsByInstructorId(user.userId())
-      let departments = await this.getDepartsByUniversityId()
-      let terms = await this.getTermsByUniversityId()
-      let offerings = parseCourseOfferings(data, departments, terms)
-
-      // console.log('offerings', offerings)
-      // console.log('departments', departments)
-      // console.log('terms', terms)
-
-      const { setOfferings, setDeparts, setTerms, setOffering } = this.props
-      setTerms(terms)
-      setDeparts(departments)
-      setOfferings(offerings)
-
-      api.contentLoaded()
-    } catch (error) {
-      const { generalError } = this.context
-      generalError({ header: "Couldn't load courses." })
-    }
-  }
-
-  getDepartsByUniversityId = async () => {
-    let { data } = await api.getDepartsByUniId(user.getUserInfo().universityId)
-    return data
-  }
-
-  getTermsByUniversityId = async () => {
-    let { data } = await api.getTermsByUniId(user.getUserInfo().universityId)
-    return data
+    setup.setupOfferings()
   }
 
   render() {
@@ -122,11 +74,16 @@ export function Instructor(props) {
       'offerings'
     ],
     [
-      'setOfferings', 
-      'setOffering',
+      'setSidebar',
       'setDeparts',
       'setTerms',
-      'setSidebar'
+      'setOfferings', 
+      'setOffering',
+      'setPlaylists',
+      'setPlaylist',
+      // media
+      'setIsSelectingVideos',
+      'setSelectedVideos'
     ]
   ))
 

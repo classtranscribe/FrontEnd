@@ -21,6 +21,9 @@ function CourseWithRedux({
   setPlaylists,
   setPlaylist,
 
+  isEditingOffering=false,
+  setIsEditingOffering,
+
   history
 }) {
 
@@ -32,25 +35,13 @@ function CourseWithRedux({
   }, [offering])
 
   const handlePlaylistClick = pl => () => {
-    if (Boolean(pl.medias)) {
-      pl.medias = pl.medias.slice().reverse()
-    }
     setPlaylist(pl)
   }
 
   const [results, setResults] = useState([])
-  const [editCourse, setEditCourse] = useState(false)
 
   const onEdit = () => {
-    setEditCourse(true)
-    setPlaylist(HIDE_PLAYLIST)
-  }
-  const onClose = () => {
-    setEditCourse(false)
-    if (playlists.length > 0) {
-      handlePlaylistClick(playlists[0])()
-      setResults(playlists)
-    }
+    setIsEditingOffering(true)
   }
 
   useEffect(() => {
@@ -66,7 +57,7 @@ function CourseWithRedux({
 
 
   if (offering === NEW_OFFERING) return <EditCourse newCourse />
-  if (editCourse) return <EditCourse onClose={onClose} />
+  if (isEditingOffering) return <EditCourse />
 
   return (
     <div className="ip-course">
@@ -187,6 +178,15 @@ function CourseWithRedux({
 
 export const Course = withRouter(connectWithRedux(
   CourseWithRedux,
-  ['offering', 'playlists', 'playlist'],
-  ['setPlaylists', 'setPlaylist']
+  [
+    'offering', 
+    'playlists', 
+    'playlist',
+    'isEditingOffering'
+  ],
+  [
+    'setPlaylists', 
+    'setPlaylist',
+    'setIsEditingOffering'
+  ]
 ))

@@ -113,7 +113,7 @@
   margin-right: 1em;
   overflow: hidden;
   border-radius: 10px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.205);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.205);
 }
 
 .ip-v-opt-con {
@@ -121,7 +121,7 @@
   flex-direction: row;
   padding: .5em 2em .5em 1em;
   align-items: center;
-  background: var(--ct-ip-grey-2);
+  background: var(--ct-ip-grey-1);
 }
 
 .ip-v-opt-btn:hover > .ip-v-opt-con {

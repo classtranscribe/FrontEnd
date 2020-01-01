@@ -47,6 +47,7 @@ export async function setUpPlaylists(offeringId, setPlaylists) {
   try {
     let { data } = await api.getPlaylistsByOfferingId(offeringId)
     console.log('playlists', data)
+    _.forEach(data, pl => _.reverse(pl.medias))
     setPlaylists(data)
   } catch (error) {
     

@@ -7,6 +7,7 @@ import './index.css'
 import { Filter } from '../Filter'
 import { PlaceHolder } from '../Placeholder'
 import { PlaylistIcon } from '../PlaylistIcon'
+import ButtonBar from './ButtonBar'
 import Video from './Video'
 import {  
   filterControl, 
@@ -16,8 +17,8 @@ import {
 
 function PlaylistWithRedux({
   playlist={},
-  playlists=[],
   offering={},
+  isEditingOffering=false,
 }) {
 
   let newOffering = offering === NEW_OFFERING
@@ -38,32 +39,12 @@ function PlaylistWithRedux({
     }
   }, [playlist])
 
-  const handleOpenSelect = () => {
-    if ( isSelect ) setSelectedMedias({})
-    setIsSelect( !isSelect )
-  }
-  const handleDeleteVideos = () => {
-
-  }
-
   const handleSelect = me => {
     setSelectedMedias({ ...selectedMedias, [me.id]: me })
   }
   const handleRemove = me => {
     if (Boolean(selectedMedias[me.id])) {
       delete selectedMedias[me.id]
-      setSelectedMedias({ ...selectedMedias })
-    }
-  }
-
-  const selectedAll = results.length === Object.keys(selectedMedias).length
-  const handleSelectAll = () => {
-    if (selectedAll) {
-      setSelectedMedias({})
-    } else {
-      _.forEach(results, re => {
-        selectedMedias[re.id] = re
-      })
       setSelectedMedias({ ...selectedMedias })
     }
   }
@@ -78,6 +59,7 @@ function PlaylistWithRedux({
   const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
   const onReverse = () => filterControl.reverse(results, setResults)
 
+  if (isEditingOffering) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   if (playlist === NEW_PLAYLIST) return null
   if (playlist === OFF_ANALYSIS) return null
@@ -130,50 +112,7 @@ function PlaylistWithRedux({
           </div>
 
           {/* Buttons */}
-          <div className="w-100 ip-p-btns">
-            <div className="w-100 ct-btn-group ct-d-r-center-v ip-p-btns-con">
-            {
-              isSelect
-              ?
-              <div className="ct-btn-group ct-d-r-center-v">
-                <CTButton
-                  size="normal bold"
-                  icon={selectedAll ? "close" : "check"}
-                  color="yellow"
-                  text={selectedAll ? "Remove All" : "Select All"}
-                  onClick={handleSelectAll}
-                />
-                <CTButton
-                  size="normal bold"
-                  icon="delete"
-                  color="red"
-                  text="Delete"
-                  disabled={Object.keys(selectedMedias).length === 0}
-                  onClick={handleDeleteVideos}
-                />
-                <CTButton
-                  size="normal bold"
-                  text="Cancel"
-                  onClick={handleOpenSelect}
-                />
-              </div>
-              :
-              <div className="ct-btn-group ct-d-r-center-v">
-                <CTButton
-                  size="normal bold"
-                  text="Upload"
-                  icon="cloud_upload"
-                  color="green"
-                />
-                <CTButton
-                  size="normal bold"
-                  text="Select"
-                  onClick={handleOpenSelect}
-                />
-              </div>
-            }
-            </div>
-          </div>
+          <ButtonBar results={results} />
           
           {/* Videos */}
           <div className="ct-list-col ip-videos">
@@ -190,7 +129,7 @@ function PlaylistWithRedux({
             ))}
           </div>
 
-          <ClassTranscribeFooter />
+          {/* <ClassTranscribeFooter /> */}
         </div>
         :
         <PlaceHolder />
@@ -201,6 +140,10 @@ function PlaylistWithRedux({
 
 export const Playlist = withRouter(connectWithRedux(
   PlaylistWithRedux,
-  ['playlist', 'playlists', 'offering'],
+  [
+    'offering',
+    'playlist',
+    'isEditingOffering'
+  ],
   []
 ))

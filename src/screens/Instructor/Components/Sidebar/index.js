@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { util } from 'utils'
 import './index.css'
 import { Filter } from '../Filter'
@@ -13,7 +13,6 @@ function SideBarWithRedux({
   sidebar,
 
   history,
-  location,
   setOffering,
   setPlaylists,
   setPlaylist,
@@ -30,20 +29,19 @@ function SideBarWithRedux({
   }
 
   const handleOfferingClick = off_ => () => {
-    let { plId, offId } = util.parseSearchQuery()
+    let { offId } = util.parseSearchQuery()
     offId = off_.id
-    let query = util.createSearchQuery({ plId, offId })
-    history.replace(`${window.location.pathname}${query}`)
+    let query = util.createSearchQuery({ offId })
     setOffering(off_)
     setPlaylists([])
     setPlaylist({})
+    history.replace(`${window.location.pathname}${query}`)
   }
 
   useEffect(() => {
     setResults(offerings)
-    
     if (offerings.length > 0 && !Boolean(offering.id)) {
-      let { plId, offId } = util.parseSearchQuery()
+      let { offId } = util.parseSearchQuery()
       if (Boolean(offId)) {
         if (offId === NEW_OFFERING_ID) {
           handleOfferingClick(NEW_OFFERING)()

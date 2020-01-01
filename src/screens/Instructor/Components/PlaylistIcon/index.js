@@ -6,8 +6,20 @@ export function PlaylistIcon({
   type 
 }) {
 
-  const getColor = type => type === 1 ? 'red' : type === 0 ? 'blue' : 'black'
-  const getIcon = type => type === 1 ? 'youtube' : type === 0 ? 'play circle outline' : 'file video'
+  const getColor = type => {
+    switch (type) {
+      case 0  : return 'blue'
+      case 1  : return 'red'
+      default : return 'black'
+    }
+  }
+  const getIcon = type => {
+    switch (type) {
+      case 0  : return 'play circle outline'
+      case 1  : return 'youtube'
+      default : return 'file video'
+    }
+  }
 
   const otherAttributes = {}
   if (type === 0) otherAttributes.flipped = 'horizontally'
