@@ -107,6 +107,10 @@
   font-size: 1.2em;
   padding: .5em 1.2em;
 }
+.ct-btn[data-font*=big] .ct-btn-text {
+  font-size: 1.4em;
+  padding: .5em 1.2em;
+}
 .ct-btn[data-font*=bold] .ct-btn-text {
   font-weight: bold;
 }
