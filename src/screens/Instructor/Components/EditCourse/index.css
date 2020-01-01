@@ -4,10 +4,26 @@
   background-color: var(--ct-ip-grey-1);
   padding: 5em 2em;
   font-family: var(--ct-font-google);
+  overflow: auto;
 }
 
 .ip-edit-c-con h2 {
   font-size: 2.2em;
   color: var(--ct-text-primary);
   text-transform: uppercase;
+  padding-top: .5em;
+}
+
+.ip-f-form-con {
+  width: 100%;
+}
+
+.ip-f-back-btn {
+  width: max-content;
+  padding-right: 1em;
+}
+
+.ip-f-btn-group {
+  justify-content: flex-end;
+  padding: 0 2em;
 }

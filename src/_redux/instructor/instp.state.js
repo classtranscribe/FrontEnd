@@ -1,15 +1,18 @@
 
 export const initialState = {
-  // Courses page
+  // Sidebar
+  sidebar: true,
   offerings: [],
   departments: [],
   terms: [],
 
-  // Offering page
+  // Course
   offering : [],
-  playlist: {},
   playlists: [],
+  playlist: {},
+  isEditingOffering: false,
 
-  // Others
-  sidebar: true,
+  // Playlist
+  isSelectingVideos: false,
+  selectedVideos: {},
 }
