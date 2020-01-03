@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* background-color: white; */
   border-radius: 10px;
   overflow: hidden;
   transition: border-radius .2s ease-in-out;
@@ -15,13 +14,10 @@
 }
 
 .ct-ipt-text:focus-within {
-  background-color: rgb(224, 224, 224);
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
 }
-.ct-ipt-text:hover {
-  background-color: rgb(224, 224, 224);
-}
+
 .ct-ipt-con .ct-ipt-input-con {
   width: 100%;
   padding: .7em .5em 0 .5em;
@@ -29,6 +25,8 @@
   transition: border .2s ease-in-out;
   border-bottom: .2em solid rgb(209, 209, 209);
 }
+
+
 .ct-ipt-con .ct-ipt-text input,
 .ct-ipt-con .ct-ipt-text textarea {
   width: 100%;
@@ -56,17 +54,17 @@
 .ct-ipt-con .ct-ipt-text textarea:focus::placeholder {
   color: rgb(173, 173, 173);
 }
-.ct-ipt-input-con:focus-within {
+
+.ct-ipt-con:hover .ct-ipt-input-con {
   border-bottom: .2em solid rgb(29, 29, 29);
+}
+.ct-ipt-con:focus-within .ct-ipt-input-con {
+  border-bottom: .2em solid rgb(0, 107, 107);
 }
 
 
 /* Error */
 .ct-ipt-text[data-error=true] .ct-ipt-input-con {
   border-color: rgba(223, 128, 128, 0.945);
-}
-.ct-ipt-text[data-error=true]:hover,
-.ct-ipt-text[data-error=true]:focus {
-  background-color: rgba(218, 196, 196, 0.513);
 }
 

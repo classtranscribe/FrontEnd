@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import './index.css'
 
@@ -18,11 +18,12 @@ export function CTSelect({
   if (!value) value = defaultValue
   const [selOpt, setSelOpt] = useState( _.find( options, { value } ) || {})
 
-  const handleOpen = e => {
-    // if (id === document.activeElement.id) {
-    //   document.activeElement.blur()
-    // }
-  }
+  useEffect(() => {
+    if (Boolean(defaultValue) && options.length > 0) {
+      let selOpt_ = _.find(options, { value: defaultValue }) || {}
+      setSelOpt(selOpt_)
+    }
+  }, [defaultValue])
 
   const handleSelect = opt => () => {
     setSelOpt(opt)
@@ -54,7 +55,6 @@ export function CTSelect({
         <div 
           className="ct-ipt-sel-con" 
           tabIndex="0" 
-          onClick={handleOpen}
         >
           <div id={id} className="ct-ipt-sel" tabIndex="-1">
             {
@@ -69,6 +69,7 @@ export function CTSelect({
         <div className="ct-ipt-sel-opts">
             {options.map( opt => (
               <div 
+                key={opt.value}
                 tabIndex="0" 
                 className="ct-ipt-sea-opt ct-ipt-sel-opt"
                 onClick={handleSelect(opt)}

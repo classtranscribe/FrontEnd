@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import './index.css'
 
@@ -15,7 +15,7 @@ export function CTCheckbox({
   classNames='',
 }) {
 
-  const [checked, setChecked] = useState(Boolean(value))
+  const [checked, setChecked] = useState(Boolean(defaultValue))
 
   const handleChange = () => {
     if (onChange) onChange( !checked )

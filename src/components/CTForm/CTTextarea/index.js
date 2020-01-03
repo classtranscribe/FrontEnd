@@ -12,6 +12,9 @@ export function CTTextarea({
   placeholder='Input Here...',
   required=false,
   onChange,
+  description,
+  error,
+  info,
 
   color='primary',
   classNames='',
@@ -32,16 +35,17 @@ export function CTTextarea({
       className="ct-ipt-con"
       data-color={color}
     >
-      <label className="ct-ipt-label" htmlFor={id}>
+      <label className="ct-ipt-label" htmlFor={id} data-error={Boolean(error)}>
         {label}
         {
           required
           &&
           <span className="ct-ipt-required-icon" aria-hidden="true">*</span>
         }
+        {info}
       </label>
 
-      <div className="ct-ipt-text">
+      <div className="ct-ipt-text" data-error={Boolean(error)}>
         <div className="ct-ipt-input-con">
           <textarea
             id={id}
@@ -56,6 +60,20 @@ export function CTTextarea({
           />
         </div>
       </div>
+      {
+        Boolean(description)
+        &&
+        <div className="ct-ipt-description">
+          {description}
+        </div>
+      }
+      {
+        Boolean(error)
+        &&
+        <div className="ct-ipt-description ct-ipt-error">
+          {error}
+        </div>
+      }
     </div>
   )
 }

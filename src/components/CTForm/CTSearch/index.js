@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
 import './index.css'
@@ -20,12 +20,20 @@ export function CTSearch({
 
   const [selOpt, setSelOpt] = useState( _.find( options, { value } ) || {})
   const [opts, setOpts] = useState(options)
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState(selOpt.text || '')
+
+  useEffect(() => {
+    if (Boolean(defaultValue) && options.length > 0) {
+      let selOpt_ = _.find(options, { value: defaultValue }) || {}
+      setSearchValue(selOpt_.text)
+      setSelOpt(selOpt_)
+    }
+  }, [defaultValue])
 
   const handleSelect = opt => () => {
     setSelOpt(opt)
-    setSearchValue(opt.text)
     handleSearch('')
+    setSearchValue(opt.text || '')
     if (onChange) onChange(opt.value)
     if (document.activeElement) document.activeElement.blur()
   }
@@ -50,7 +58,7 @@ export function CTSearch({
   }
 
   const onBlur = () => {
-    setSearchValue(selOpt.text)
+    setSearchValue(selOpt.text || '')
   }
 
   const onFocus = () => {
@@ -78,11 +86,9 @@ export function CTSearch({
             <div className="ct-ipt-input-con ct-ipt-sea-input-con">
               <input
                 id={id}
-                type="text"
                 required={required}
                 className={`${classNames}`}
                 value={searchValue}
-                defaultValue={defaultValue}
                 placeholder={selOpt.text || placeholder}
                 onChange={handleChange}
                 onBlur={onBlur}

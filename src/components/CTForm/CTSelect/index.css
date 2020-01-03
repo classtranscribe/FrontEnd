@@ -18,10 +18,11 @@
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   border-bottom: .2em solid rgb(209, 209, 209);
+  transition: border .2s ease-in-out;
 }
 .ct-ipt:focus-within .ct-ipt-sel,
-.ct-ipt-sel-con:hover .ct-ipt-sel {
-  background-color: rgb(224, 224, 224);
+.ct-ipt:hover .ct-ipt-sel {
+  border-bottom: .2em solid rgb(29, 29, 29);
 }
 .ct-ipt-sel-con:active > .ct-ipt-sel {
   background-color: rgb(233, 233, 233);
@@ -59,6 +60,7 @@
   top: 1em;
   position: absolute;
   width: 100%;
+  flex: 0 0 auto;
   flex-direction: column;
   max-height: 20em;
   min-height: 5em;
@@ -70,7 +72,22 @@
   overflow: auto;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.082);
   z-index: 1;
+  animation: ipt-sel-popup .15s ease-in;
 }
+
+@keyframes ipt-sel-popup {
+  0% {margin-top: 1em; width: 70%; max-height: 5em;}
+  100% {margin-top: 0; width: 100%; max-height: 20em;}}
+@-o-keyframes ipt-sel-popup {
+  0% {margin-top: 1em; width: 70%; max-height: 5em;}
+  100% {margin-top: 0; width: 100%; max-height: 20em;}}
+@-moz-keyframes ipt-sel-popup {
+  0% {margin-top: 1em; width: 70%; max-height: 5em;}
+  100% {margin-top: 0; width: 100%; max-height: 20em;}}
+@-webkit-keyframes ipt-sel-popup {
+  0% {margin-top: 1em; width: 70%; max-height: 5em;}
+  100% {margin-top: 0; width: 100%; max-height: 20em;}}
+
 .ct-ipt-sel-opt {
   width: 100%;
   display: inline-flex;
