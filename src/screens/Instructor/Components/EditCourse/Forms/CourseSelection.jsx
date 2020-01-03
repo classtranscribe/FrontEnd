@@ -2,21 +2,23 @@ import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { CTForm } from 'components'
-import { Grid, Form, Select, Popup, Icon, Label, Message, Divider } from 'semantic-ui-react'
+import { Grid, Icon, Label } from 'semantic-ui-react'
 import { api } from 'utils'
+import { InfoIcon } from '../../InfoIcon'
+import { offControl } from '../../../Utils'
 
 function CourseSelectionWithRedux({
   departments=[],
+  offering={},
 }) {
 
   const [depart, setDepart] = useState('')
-  const [term, setTerm] = useState('')
   const [courses, setCourses] = useState([])
   const [selCourses, setSelCourses] = useState([])
 
-  const onTermChange = value => {
-    setTerm(value)
-  }
+  useEffect(() => {
+    offControl.newCourses(selCourses)
+  }, [selCourses])
 
   const onDepartChange = value => {
     setDepart(value)
@@ -48,12 +50,28 @@ function CourseSelectionWithRedux({
     }
   }, [depart])
 
+  useEffect(() => {
+    if (Boolean(offering.courses)) {
+      let defaultSelCourses = _.map(offering.courses, co => { 
+        let { acronym, id, departmentId, courseNumber } = co
+        return { acronym, id, departmentId, courseNumber }
+      })
+
+      offControl.courses(defaultSelCourses.slice())
+      setSelCourses(defaultSelCourses.slice())
+    }
+  }, [offering])
+
   const fullNumber = api.getFullNumber(selCourses)
 
   return (
     <div className="ip-f-section">
       <div className="ip-f-title">
         <h3>Select Courses</h3>
+        <InfoIcon 
+          header="Why multiple courses?"
+          content="Some offerings may be held by multiple departments. For Example, CS425 and ECE428 are the same course."
+        />
       </div>
 
       <Grid columns='equal' stackable className="ip-f-grid">
@@ -69,24 +87,30 @@ function CourseSelectionWithRedux({
           </Grid.Column>
 
           {
-            Boolean(depart)
+            Boolean(courses.length > 0 || selCourses.length > 0)
             &&
             <Grid.Column></Grid.Column>
           }
         </Grid.Row>
 
         {
-          Boolean(courses.length > 0)
+          Boolean(courses.length > 0 || selCourses.length > 0)
           &&
           <Grid.Row className="ct-a-fade-in">
             <Grid.Column>
-              <CTForm search
-                label="Select Courses"
-                color="grey"
-                placeholder="Filter Courses"
-                onChange={addCourse}
-                options={CTForm.getOptions(courses, 'id', ['acronym','courseNumber'])}
-              />
+              {
+                depart
+                &&
+                <div className="w-100 ct-a-fade-in">
+                  <CTForm search
+                    label="Select Courses"
+                    color="grey"
+                    placeholder="Filter Courses"
+                    onChange={addCourse}
+                    options={CTForm.getOptions(courses, 'id', ['acronym','courseNumber'])}
+                  />
+                </div>
+              }
             </Grid.Column>
 
             <Grid.Column>
@@ -127,6 +151,6 @@ function CourseSelectionWithRedux({
 
 export const CourseSelection = connectWithRedux(
   CourseSelectionWithRedux,
-  ['departments'],
+  ['departments', 'offering'],
   []
 )

@@ -34,7 +34,7 @@
   border-radius: 10px;
   background-color: var(--ct-ip-grey-1);
   /* border: var(--ct-border-color-transparent); */
-  transition: background-color .2s linear, border-radius .2s linear;
+  transition: all .2s linear;
 }
 
 .ip-sb-off-item:hover .ip-sb-off-item-con {
@@ -43,6 +43,9 @@
 .ip-sb-off-item:active .ip-sb-off-item-con,
 .ip-sb-off-item:focus .ip-sb-off-item-con {
   background-color: var(--ct-ip-grey-1);
+}
+.ip-sb-off-item:disabled .ip-sb-off-num {
+  color: black;
 }
 
 .ip-sb-off-item[data-current=true] {

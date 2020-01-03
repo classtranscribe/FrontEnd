@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { util } from 'utils'
 import './index.css'
 import { Filter } from '../Filter'
-import { filterControl, NEW_OFFERING, NEW_OFFERING_ID } from '../../Utils'
+import { filterControl, NEW_OFFERING, NEW_OFFERING_ID, offControl, setup } from '../../Utils'
 
 function SideBarWithRedux({
   offerings=[],
@@ -28,14 +28,8 @@ function SideBarWithRedux({
     filterControl.reverse(results, setResults)
   }
 
-  const handleOfferingClick = off_ => () => {
-    let { offId } = util.parseSearchQuery()
-    offId = off_.id
-    let query = util.createSearchQuery({ offId })
-    setOffering(off_)
-    setPlaylists([])
-    setPlaylist({})
-    history.replace(`${window.location.pathname}${query}`)
+  const handleOfferingClick = off => () => {
+    setup.changeOffering(off)
   }
 
   useEffect(() => {
@@ -93,6 +87,7 @@ function SideBarWithRedux({
                 className="plain-btn ip-sb-off-item" 
                 data-current={Boolean(offering.id === off.id)}
                 onClick={handleOfferingClick(off)}
+                disabled={offering.id === off.id}
               >
                 <div tabIndex="-1" className="ip-sb-off-item-con">
                   <span className="ip-sb-off-text ip-sb-off-num">

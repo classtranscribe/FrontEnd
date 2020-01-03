@@ -1,0 +1,29 @@
+.ip-edit-p-con {
+  background: #fcfcfc;
+  width: 60%;
+}
+.ip-f-p-types-con {
+  width: 100%;
+  background-color: var(--ct-ip-grey-1);
+  padding: 1em;
+  margin-left: -1em;
+  margin-top: 1em;
+  border-radius: 10px;
+}
+.ip-f-p-types-con h4 {
+  text-transform: uppercase;
+}
+.ip-f-p-types-item {
+  margin-bottom: .5em;
+}
+.ip-f-p-types-t {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.ip-f-p-types-d {
+  margin-top: .5em;
+  margin-left: 2em;
+}
+.ip-f-p-types-d strong {
+  color: var(--ct-text-title);
+}

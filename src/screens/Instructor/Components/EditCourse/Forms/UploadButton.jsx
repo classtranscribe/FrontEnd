@@ -3,13 +3,14 @@ import _ from 'lodash'
 import Papa from 'papaparse'
 import { Button } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone'
+import { InfoIcon } from '../../InfoIcon'
 
 export function UploadBtn({ addNew }) {
   const [mesg, setMesg] = useState('')
   const [loading, setLoading] = useState(false)
 
   const onChange = useCallback( ({ target: { files } }) => {
-    if (files.length > 0) {
+    if (files.length > 1) {
       setMesg(`Only one file (${files[0].name}) was read.`)
     }
     setLoading(true)
@@ -36,15 +37,19 @@ export function UploadBtn({ addNew }) {
       {/* Instructions */}
       <span className="text-muted">
         Please upload a <strong>.csv/.txt file</strong> with a <strong>list of emails</strong>. 
+        <InfoIcon 
+          header="Example"
+          content={
+            <div className="csv-demo ct-list-col" aria-hidden="true">
+              <div>{'<demo.txt>'}</div>
+              <div>shawn@university.edu</div>
+              <div>micheal2@university.edu</div>
+              <div>xiaoming@university.edu</div>
+              <div>...</div>
+            </div>
+          }
+        />
       </span>
-      <div className="csv-demo ct-list-col" aria-hidden="true">
-        <div className="csv-demo-title">Example</div>
-        <div>{'<demo.txt>'}</div>
-        <div>shawn@university.edu</div>
-        <div>micheal2@university.edu</div>
-        <div>xiaoming@university.edu</div>
-        <div>...</div>
-      </div>
     </div>
   )
 }

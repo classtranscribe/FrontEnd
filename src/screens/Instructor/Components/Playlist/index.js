@@ -2,17 +2,24 @@ import _ from 'lodash'
 import React, { useEffect, useState, useRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
+
 import { CTButton, ClassTranscribeFooter } from 'components'
-import './index.css'
+
 import { Filter } from '../Filter'
 import { PlaceHolder } from '../Placeholder'
 import { PlaylistIcon } from '../PlaylistIcon'
+
 import ButtonBar from './ButtonBar'
 import Video from './Video'
+
+import NewPlaylist from './NewPlaylist'
+import Analytics from './Analytics'
+
 import {  
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, NEW_OFFERING, HIDE_PLAYLIST
 } from '../../Utils'
+import './index.css'
 
 
 function PlaylistWithRedux({
@@ -61,8 +68,8 @@ function PlaylistWithRedux({
 
   if (isEditingOffering) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
-  if (playlist === NEW_PLAYLIST) return null
-  if (playlist === OFF_ANALYSIS) return null
+  if (playlist === NEW_PLAYLIST) return <NewPlaylist />
+  if (playlist === OFF_ANALYSIS) return <Analytics />
 
   return (
     <div className="ip-playlist-con ct-a-fade-in">
@@ -104,6 +111,21 @@ function PlaylistWithRedux({
           
           {/* Filter */}
           <div className="w-100">
+            {
+              playlist.sourceType === 2
+              &&
+              <button 
+                className="plain-btn ip-sb-off-item" 
+                onClick={null}
+              >
+                <div tabIndex="-1" className="ip-sb-off-item-con">
+                  <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num">
+                    <i className="material-icons" aria-hidden="true">arrow_upward</i> UPLOAD VIDEOS
+                  </span>
+                </div>
+              </button>
+            }
+
             <Filter //darker
               searchFor="Videos" 
               onFilter={onFilter} 

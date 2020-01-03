@@ -1,0 +1,8 @@
+.ip-info-icon-con {
+  margin-left: 1em;
+  display: inline;
+}
+
+.ip-info-icon-con .material-icons {
+  font-size: 1.5em;
+}

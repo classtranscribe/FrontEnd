@@ -1,11 +1,14 @@
 .ip-f-section {
   width: 100%;
-  padding: 2em 1em;
+  padding: 2em 0em 2em 1em;
 }
 
 .ip-f-title {
   margin-left: -1em;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 .ip-f-title h3 {
   font-size: 1.8em;
@@ -28,7 +31,7 @@
 
 /* Selected Courses */
 .ip-f-seled-course-con {
-  height: 9.5em;
+  min-height: 9.5em;
   padding: 1em;
   border-radius: 10px;
   margin-top: -4em;
@@ -60,6 +63,7 @@
     margin-top: .5em;
   }
   .ip-upload-btn span strong {
+    margin: 0 5px;
     color: rgb(64, 126, 126);}
   .ip-upload-btn .csv-demo {
     display: flex;
@@ -84,7 +88,7 @@
 
 /* Email Container */
 .ip-f-add-email-btn {
-  padding-top: 2.2em;
+  padding-top: 2em;
 }
 .ip-f-email-container {
   height: 100%;
@@ -104,10 +108,12 @@
   padding: 0 .5em .5em .5em;
   transition: border .2s ease-in-out;
 }
+.ip-f-email-filter:hover {
+  border-color: rgb(34, 34, 34);
+}
 .ip-f-email-filter:focus {
   outline: none;
-  border-color: rgb(34, 34, 34);
-  border-width: 2px;
+  border-color: var(--ct-text-title);
 }
 
 .ip-f-email-group {
@@ -133,3 +139,7 @@
       border: none;}
     .ip-f-email-group .ip-f-email-item i {
       cursor: pointer;}
+.ip-f-email-group::-webkit-scrollbar {
+  display: block;
+  width: 4px;
+}

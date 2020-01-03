@@ -12,13 +12,17 @@ export const filterControl = {
     let tests = []
     // get test functions for each word
     value.split(' ').forEach(word => {
-      let reg = new RegExp(_.escapeRegExp(word), 'gi')
+      let reg = new RegExp(_.escapeRegExp(word), 'i')
 
       const testFunc = result => {
         let re = false
-        _.forEach(keys, key => {
-          re = re || reg.test(_.get(parser(result), key))
-        })
+        if (keys.length === 0) {
+          re = reg.test(result)
+        } else {
+          _.forEach(keys, key => {
+            re = re || reg.test(_.get(parser(result), key))
+          })
+        }
         return re
       }
       tests.push({ word, testFunc, reg })
@@ -31,8 +35,8 @@ export const filterControl = {
     let tests = this.getRegExpTests(value, keys, parser)
     // combine the test result
     const isMatch = result => {
-      let match = true
-      tests.forEach( test => match = match && test.testFunc(result))
+      let match = false
+      tests.forEach( test => match = match || test.testFunc(result))
       return match
     }
 
@@ -60,6 +64,14 @@ export const filterControl = {
     let isMatch = this.getMatchFunction(value, ['mediaName'], api.parseMedia)
 
     let results = _.filter(medias, isMatch)
+    setResult(results)
+  },
+
+  filterEmails: function(value, emails, setResult) {
+    if (!value) return setResult(emails)
+    let isMatch = this.getMatchFunction(value, [])
+
+    let results = _.filter(emails, isMatch)
     setResult(results)
   },
 }

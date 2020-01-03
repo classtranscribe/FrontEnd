@@ -54,12 +54,12 @@ function ButtonBar({
         </div>
         :
         <div className="ct-btn-group ct-d-r-center-v">
-          <CTButton
+          {/* <CTButton
             size="normal bold"
             text="Upload"
             icon="cloud_upload"
             color="green"
-          />
+          /> */}
           <CTButton
             size="normal bold"
             text="Select"

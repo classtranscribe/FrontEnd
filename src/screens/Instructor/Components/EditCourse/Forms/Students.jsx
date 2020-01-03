@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { CTForm, CTButton } from 'components'
 import { UploadBtn } from './UploadButton'
-import { Grid, Form, Select, Popup, Icon, Label, Message, Divider } from 'semantic-ui-react'
+import { Grid, Icon } from 'semantic-ui-react'
 import { util } from 'utils'
 
 function StudentsWithRedux({
@@ -45,7 +45,7 @@ function StudentsWithRedux({
   }
 
   const addNew = newEmails => {
-    _.filter(newEmails, email => {
+    newEmails = _.filter(newEmails, email => {
       if (!email || !util.isValidEmail(email)) return false
       if (_.includes(emails, email)) return false
       return true

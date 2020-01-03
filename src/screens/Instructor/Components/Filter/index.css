@@ -65,7 +65,11 @@
 .ip-filter-con[data-darker=true] .ip-filter-sort-btn[data-active=true] {
   background-color: var(--ct-ip-grey-3);
 }
-.ip-filter-con[data-darker=true] .ip-filter-sort-btn[data-active=true] i {
+/* Icon */
+.ip-filter-con .ip-filter-sort-btn i {
+  transition: transform .2s ease-in-out;
+}
+.ip-filter-con .ip-filter-sort-btn[data-active=true] i {
   transform: rotateX(180deg);
 }
 

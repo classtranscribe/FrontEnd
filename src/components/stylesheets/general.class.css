@@ -11,6 +11,10 @@
   flex-direction: row;
   align-items: center;
 }
+.ct-d-r {
+  display: flex;
+  flex-direction: row;
+}
 
 .ct-a-fade-in {
   animation: fade-in .4s ease-in;

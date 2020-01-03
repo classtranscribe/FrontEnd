@@ -2,16 +2,16 @@
   {
     "name": "Echo360", 
     "id": 0, 
-    "num": 0
+    "description": "Host videos from Echo360"
   },
   {
     "name": "YouTube", 
     "id": 1, 
-    "num": 1
+    "description": "Host videos from YouTube playlist"
   },
   {
     "name": "Upload", 
     "id": 2, 
-    "num": 2
+    "description": "Manually upload videos"
   }
 ]

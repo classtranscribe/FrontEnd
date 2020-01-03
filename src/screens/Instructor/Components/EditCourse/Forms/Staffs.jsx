@@ -4,11 +4,15 @@ import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { CTForm, CTButton } from 'components'
 import { UploadBtn } from './UploadButton'
-import { Grid, Form, Select, Popup, Icon, Label, Message, Divider } from 'semantic-ui-react'
+import { Grid, Icon } from 'semantic-ui-react'
 import { util } from 'utils'
+import {
+  filterControl
+} from '../../../Utils/filter.control'
+import { offControl } from '../../../Utils'
 
 function StaffsWithRedux({
-
+  instructors=[]
 }) {
 
   const [emails, setEmails] = useState([])
@@ -18,17 +22,26 @@ function StaffsWithRedux({
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (emails.length > 0) {
-      setResults(emails)
-    }
+    setResults(emails)
+    offControl.newInstructors(emails)
   }, [emails])
+
+  useEffect(() => {
+    if (instructors.length > 0) {
+      setEmails(instructors.slice())
+    }
+  }, [instructors])
 
   const onInputChange = value => {
     setInputValue(value)
+    if (util.isValidEmail(value) && Boolean(error)) {
+      setError(null)
+    } 
   }
 
   const onSearch = ({ target: { value } }) => {
     setSearchValue(value)
+    filterControl.filterEmails(value, emails, setResults)
   }
 
   const addStaff = () => {
@@ -38,14 +51,15 @@ function StaffsWithRedux({
     }
     let includes = _.includes(emails, inputValue)
     if (!includes) {
-      setEmails([ ...emails, inputValue ])
+      let newEmails = [ ...emails, inputValue ]
+      setEmails(newEmails)
       setInputValue('')
       if (Boolean(error)) setError(null)
     }
   }
 
   const addNew = newEmails => {
-    _.filter(newEmails, email => {
+    newEmails = _.filter(newEmails, email => {
       if (!email || !util.isValidEmail(email)) return false
       if (_.includes(emails, email)) return false
       return true
@@ -69,7 +83,7 @@ function StaffsWithRedux({
         <Grid.Row>
           <Grid.Column>
             <div className="ct-list-col">
-              <div className="ct-d-r-center-v">
+              <div className="ct-d-r">
                 <CTForm 
                   label="Add Course Staff"
                   color="grey"

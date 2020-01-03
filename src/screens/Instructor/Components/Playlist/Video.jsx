@@ -5,6 +5,8 @@ import { withRouter } from 'react-router'
 import { Poster, CTButton } from 'components'
 import { api, util } from 'utils'
 import { mediaControl } from '../../Utils'
+import { PlaylistIcon } from '../PlaylistIcon'
+import { Icon } from 'semantic-ui-react'
 
 
 function VideoWithRedux({ 
@@ -26,24 +28,32 @@ function VideoWithRedux({
 
   const isSelected = Boolean(selectedVideos[id])
 
-  const handleClick = () => {
+  const handleSelect = () => {
     if (isSelectingVideos) {
       if (isSelected) {
         mediaControl.handleRemove(media)
       } else {
         mediaControl.handleSelect(media)
       }
-    } else {
-      watchVideo()
+    } 
+  }
+
+  const handleKeydownSelect = ({ keyCode }) => {
+    if (keyCode === 13) {
+      handleSelect()
     }
   }
 
-  const [more, setMore] = useState(false)
-  const handleSeeMore = () => setMore( !more )
-
   return (
-    <div id={`media-${id}`} className="ip-video-card">
-      <button className="plain-btn ip-video" onClick={handleClick} data-select={isSelectingVideos}>
+    <div 
+      id={`media-${id}`} 
+      className="ip-video-card" 
+      data-select={isSelectingVideos}
+      tabIndex={ isSelectingVideos ? 0 : -1}
+      onClick={handleSelect}
+      onKeyDown={handleKeydownSelect}
+    >
+      <div className="plain-btn ip-video">
         <div tabIndex="-1" className="ip-video-con">
           {
             isSelectingVideos ?
@@ -57,47 +67,40 @@ function VideoWithRedux({
               </div>
             </div>
             :
-            <Poster round width="150px" />
+            <div className="ip-v-file-icon">
+              <Icon name="file video outline" size="big"/>
+            </div>
           }
           <div className="ip-video-name">
             {mediaName}
           </div>
         </div>
-      </button>
+      </div>
 
       {
         !isSelectingVideos
         &&
-        <div className="ip-video-opts">
+        <div className="ip-video-opts ct-btn-group">
           <CTButton //circle
-            icon="more_vert"
-            color="light"
-            onClick={handleSeeMore}
+            icon="play_circle_filled"
+            text="Watch"
+            color="green"
+            onClick={watchVideo}
           />
 
-          {
-            more
-            &&
-            <div className="ip-v-menu">
-              <button className="plain-btn ip-v-opt-btn">
-                <div tabIndex="-1" className="ip-v-opt-con">
-                  <span className="ip-v-opt-icon">
-                    <i className="material-icons">edit</i>
-                  </span>
-                  <span className="ip-v-opt-text">Edit</span>
-                </div>
-              </button>
+          <CTButton //circle
+            popup="Edit"
+            icon="edit"
+            color="text-green"
+            onClick={null}
+          />
 
-              <button className="plain-btn ip-v-opt-btn">
-                <div tabIndex="-1" className="ip-v-opt-con">
-                  <span className="ip-v-opt-icon">
-                    <i className="material-icons">delete</i>
-                  </span>
-                  <span className="ip-v-opt-text">Delete</span>
-                </div>
-              </button>
-            </div>
-          }
+          <CTButton //circle
+            popup="Delete"
+            icon="delete"
+            color="light"
+            onClick={null}
+          />
         </div>
       }
     </div>
