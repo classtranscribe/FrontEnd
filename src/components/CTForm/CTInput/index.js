@@ -5,7 +5,8 @@ import './index.css'
 export function CTInput({
   id='',
   label='',
-  defaultValue='',
+  defaultValue,
+  value,
   description,
   placeholder='Input Here...',
   required=false,
@@ -52,6 +53,7 @@ export function CTInput({
             type={type}
             required={required}
             className={`${classNames}`}
+            value={value}
             defaultValue={defaultValue}
             placeholder={placeholder}
             onChange={handleChange}

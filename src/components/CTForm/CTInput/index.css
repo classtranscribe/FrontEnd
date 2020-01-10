@@ -59,7 +59,7 @@
   border-bottom: .2em solid rgb(29, 29, 29);
 }
 .ct-ipt-con:focus-within .ct-ipt-input-con {
-  border-bottom: .2em solid rgb(0, 107, 107);
+  border-color: rgb(15, 124, 124);
 }
 
 

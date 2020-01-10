@@ -12,7 +12,9 @@ export function CTSearch({
   options=[],
   value,
   classNames='',
+
   description,
+  error,
   placeholder,
   defaultValue,
   onChange,
@@ -71,7 +73,7 @@ export function CTSearch({
       className="ct-ipt-con"
       data-color={color}
     >
-      <label className="ct-ipt-label" htmlFor={id}>
+      <label className="ct-ipt-label" htmlFor={id} data-error={Boolean(error)}>
         {label}
         {
           required
@@ -82,7 +84,7 @@ export function CTSearch({
 
       <div className="ct-ipt">
         <div className="ct-ipt-sel-con">
-          <div className="ct-ipt-text ct-ipt-sea-text" tabIndex="-1">
+          <div className="ct-ipt-text ct-ipt-sea-text" tabIndex="-1" data-error={Boolean(error)}>
             <div className="ct-ipt-input-con ct-ipt-sea-input-con">
               <input
                 id={id}
@@ -131,6 +133,13 @@ export function CTSearch({
         &&
         <div className="ct-ipt-description">
           {description}
+        </div>
+      }
+      {
+        Boolean(error)
+        &&
+        <div className="ct-ipt-description ct-ipt-error">
+          {error}
         </div>
       }
     </div>
