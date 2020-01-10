@@ -12,6 +12,8 @@ import {
   SET_PLAYLIST,
   SET_IS_SELECTING_VIDEOS,
   SET_SELECTED_VIDEOS,
+  // Others
+  SET_LOADING,
 } from './instp.action.types'
 
 // Sidebar
@@ -29,3 +31,6 @@ export const setIsEditingOffering   = value => ({ type: SET_IS_EDITING_OFFERING,
 export const setPlaylist            = value => ({ type: SET_PLAYLIST, value })
 export const setIsSelectingVideos   = value => ({ type: SET_IS_SELECTING_VIDEOS, value })
 export const setSelectedVideos      = value => ({ type: SET_SELECTED_VIDEOS, value })
+
+// Others
+export const setLoading             = value => ({ type: SET_LOADING, value })

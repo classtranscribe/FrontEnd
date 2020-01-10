@@ -7,23 +7,42 @@ import { api } from 'utils'
 import { offControl } from '../../../Utils'
 
 function BasicInfoWithRedux({
+  errors=[],
+  setErrors=[],
+
   terms=[],
   offering={},
   setAddStudents,
 }) {
 
+  const emptyCourseName = errors.includes('courseName')
+  const emptySecName = errors.includes('sectionName')
+  const emptyTermId = errors.includes('termId')
+
   const [term, setTerm] = useState('')
 
   const setTermId = termId => {
     offControl.termId(termId)
+    if (emptyTermId && Boolean(termId)) {
+      _.remove(errors, e => e === 'termId')
+      setErrors([ ...errors ])
+    }
   }
 
   const setCourseName = courseName => {
     offControl.courseName(courseName)
+    if (emptyCourseName && Boolean(courseName)) {
+      _.remove(errors, e => e === 'courseName')
+      setErrors([ ...errors ])
+    }
   }
 
   const setSectionName = sectionName => {
     offControl.sectionName(sectionName)
+    if (emptySecName && Boolean(sectionName)) {
+      _.remove(errors, e => e === 'sectionName')
+      setErrors([ ...errors ])
+    }
   }
 
   const setDescription = description => {
@@ -58,7 +77,7 @@ function BasicInfoWithRedux({
   }, [offering])
 
 
-  const defaultTermId = offering.term ? offering.term.id : ''
+  const defaultTermId = offering.term ? offering.term.id : undefined
   const defaultCourseName = offering.courseName
   const defaultSectionName = offering.sectionName
   const defaultDescription = offering.description
@@ -80,6 +99,7 @@ function BasicInfoWithRedux({
               placeholder="e.g. System Programming"
               onChange={setCourseName}
               defaultValue={defaultCourseName}
+              error={emptyCourseName ? 'This field is required' : undefined}
             />
           </Grid.Column>
 
@@ -90,6 +110,7 @@ function BasicInfoWithRedux({
               placeholder="e.g. AL1"
               defaultValue={defaultSectionName}
               onChange={setSectionName}
+              error={emptySecName ? 'This field is required' : undefined}
             />
           </Grid.Column>
         </Grid.Row>
@@ -102,7 +123,8 @@ function BasicInfoWithRedux({
               placeholder="Filter Terms"
               onChange={setTermId}
               defaultValue={defaultTermId}
-              options={CTForm.getOptions(terms.slice().reverse(), 'id', 'name')}
+              options={CTForm.getOptions(terms, 'id', 'name')}
+              error={emptyTermId ? 'This field is required' : undefined}
             />
           </Grid.Column>
 

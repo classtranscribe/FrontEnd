@@ -1,9 +1,13 @@
 import _ from 'lodash'
 import { api, util, user } from 'utils'
-import { NEW_OFFERING } from './constants'
+import { NEW_OFFERING, ARRAY_EMPTY } from './constants'
 
 export const setup = {
   externalFunctions: {},
+  offerings_: [],
+  terms_: [],
+  departments_: [],
+  offering_: {},
 
   /**
    * @param {Function} 
@@ -23,6 +27,38 @@ export const setup = {
     }
   },
 
+  offerings: function(offerings_) {
+    if (offerings_ === undefined) return this.offerings_
+    let { setOfferings } = this.externalFunctions
+    if (setOfferings) {
+      this.offerings_ = offerings_
+      setOfferings(offerings_)
+    }
+  },
+  terms: function(terms_) {
+    if (terms_ === undefined) return this.terms_
+    let { setTerms } = this.externalFunctions
+    if (setTerms) {
+      this.terms_ = terms_
+      setTerms(terms_)
+    }
+  },
+  departments: function(departments_) {
+    if (departments_ === undefined) return this.departments_
+    let { setDeparts } = this.externalFunctions
+    if (setDeparts) {
+      this.departments_ = departments_
+      setDeparts(departments_)
+    }
+  },
+  offering: function(offering_) {
+    if (offering_ === undefined) return this.offering_
+    let { setOffering } = this.externalFunctions
+    if (setOffering) {
+      this.offering_ = offering_
+      setOffering(offering_)
+    }
+  },
   /**
    * Setup Playlists
    * ********************************************************************************************
@@ -32,10 +68,10 @@ export const setup = {
     const { setOffering, setPlaylists, setPlaylist, } = this.externalFunctions
 
     if (offering === NEW_OFFERING) {
-      setOffering({})
+      this.offering({})
       setTimeout(() => setOffering(offering), 100);
     } else {
-      setOffering(offering)
+      this.offering(offering)
     }
     setPlaylists([])
     setPlaylist({})
@@ -68,7 +104,7 @@ export const setup = {
 
   getTermsByUniversityId: async function() {
     let { data } = await api.getTermsByUniId(user.getUserInfo().universityId)
-    return data
+    return data.slice().reverse()
   },
 
   getFullNumber: function(offs) {
@@ -83,8 +119,10 @@ export const setup = {
     return fullNumber
   },
   
-  parseCourseOfferings: function(courseOfferings, departs, terms) {
-    console.log('rawOfferings', courseOfferings)
+  parseCourseOfferings: function(courseOfferings=[], departs, terms) {
+    // console.log('rawOfferings', courseOfferings)
+    if (courseOfferings.length === 0) return ARRAY_EMPTY
+
     let offerArray = _.map( 
       courseOfferings, 
       co => {
@@ -124,14 +162,16 @@ export const setup = {
 
   getInstructorsByOfferingId: async function(offeringId, setInstructors) {
     let instructors = []
+    let instructorIds = []
     try {
       let { data } = await api.getOfferingById(offeringId)
       instructors = _.map(data.instructorIds, inst => inst.email)
+      instructorIds = _.map(data.instructorIds, inst => ({ email: inst.email, id: inst.id }))
     } catch (error) {
       
     }
     if (setInstructors) setInstructors(instructors)
-    return instructors
+    return { instructors, instructorIds }
   },
 
   getCourseOfferingsByInstructorId: async function(context) {
@@ -145,15 +185,16 @@ export const setup = {
       // console.log('departments', departments)
       // console.log('terms', terms)
 
-      const { setOfferings, setDeparts, setTerms } = this.externalFunctions
-      setTerms(terms)
-      setDeparts(departments)
-      setOfferings(offerings)
+      this.terms(terms)
+      this.departments(departments)
+      this.offerings(offerings.slice().reverse())
 
       api.contentLoaded()
     } catch (error) {
-      const { generalError } = context
-      generalError({ header: "Couldn't load courses." })
+      if (context) {
+        const { generalError } = context
+        generalError({ header: "Couldn't load courses." })
+      }
     }
   },
 
@@ -175,7 +216,10 @@ export const setup = {
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
       // console.error('playlists', data)
       _.forEach(data, pl => _.reverse(pl.medias))
+
+      if (data.length === 0) data = ARRAY_EMPTY
       setPlaylists(data)
+
     } catch (error) {
       
     }

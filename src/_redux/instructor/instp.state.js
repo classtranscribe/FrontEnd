@@ -1,3 +1,6 @@
+import {
+  LOADING_INIT
+} from '../../screens/Instructor/Utils'
 
 export const initialState = {
   // Sidebar
@@ -15,4 +18,7 @@ export const initialState = {
   // Playlist
   isSelectingVideos: false,
   selectedVideos: {},
+
+  // Others
+  loading: LOADING_INIT,
 }

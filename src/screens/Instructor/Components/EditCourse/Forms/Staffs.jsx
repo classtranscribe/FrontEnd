@@ -1,18 +1,18 @@
-
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { CTForm, CTButton } from 'components'
 import { UploadBtn } from './UploadButton'
 import { Grid, Icon } from 'semantic-ui-react'
-import { util } from 'utils'
+import { util, user } from 'utils'
 import {
   filterControl
 } from '../../../Utils/filter.control'
 import { offControl } from '../../../Utils'
 
 function StaffsWithRedux({
-  instructors=[]
+  instructors=[],
+  isEditingOffering=false,
 }) {
 
   const [emails, setEmails] = useState([])
@@ -20,6 +20,8 @@ function StaffsWithRedux({
   const [inputValue, setInputValue] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [error, setError] = useState(null)
+
+  const myEmailId = user.getUserInfo().emailId
 
   useEffect(() => {
     setResults(emails)
@@ -50,6 +52,7 @@ function StaffsWithRedux({
       return setError('Please enter a valid email.')
     }
     let includes = _.includes(emails, inputValue)
+    includes = includes || inputValue === myEmailId
     if (!includes) {
       let newEmails = [ ...emails, inputValue ]
       setEmails(newEmails)
@@ -61,7 +64,7 @@ function StaffsWithRedux({
   const addNew = newEmails => {
     newEmails = _.filter(newEmails, email => {
       if (!email || !util.isValidEmail(email)) return false
-      if (_.includes(emails, email)) return false
+      if (_.includes(emails, email) || email === myEmailId) return false
       return true
     })
     
@@ -113,7 +116,7 @@ function StaffsWithRedux({
               {/* Search */}
               <input 
                 className="ip-f-email-filter" 
-                placeholder="Search ..."
+                placeholder="Filter emails ..."
                 value={searchValue}
                 onChange={onSearch}
                 type="text"
@@ -121,11 +124,16 @@ function StaffsWithRedux({
               {/* Email List */}
               <div className="ip-f-email-group" role="list">
                 {
-                  !results.length ? 
-                  <p className="guide pt-5 w-100 d-flex justify-content-center">NONE</p> 
-                  :
+                  (!searchValue && !isEditingOffering)
+                  &&
+                  <div className="ip-f-email-item">
+                    {myEmailId}
+                    <i>(You)</i>
+                  </div>
+                }
+                {
                   results.slice().reverse().map( email => (
-                    <div className="ip-f-email-item " key={email}>
+                    <div className="ip-f-email-item" key={email}>
                       {email}
                       <Icon 
                         name="trash" 
@@ -148,6 +156,6 @@ function StaffsWithRedux({
 
 export const Staffs = connectWithRedux(
   StaffsWithRedux,
-  [],
+  ['isEditingOffering'],
   []
 )

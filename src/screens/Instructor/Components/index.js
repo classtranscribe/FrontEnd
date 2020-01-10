@@ -1,3 +1,4 @@
+export { Loader         } from './Loader'
 export { Sidebar        } from './Sidebar'
 export { Filter         } from './Filter'
 export { Course         } from './Course'

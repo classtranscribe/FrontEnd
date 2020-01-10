@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import { api } from 'utils'
+import { ARRAY_EMPTY } from './constants'
 
 export const filterControl = {
 
-  reverse: function(results, setResults) {
+  reverse: function(results=[], setResults) {
+    if (results === ARRAY_EMPTY) return;
     setResults(results.slice().reverse())
   },
 

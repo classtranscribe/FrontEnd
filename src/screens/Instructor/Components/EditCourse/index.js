@@ -21,12 +21,13 @@ function EditCourseWithRedux({
 
   const [addStudents, setAddStudents] = useState(false)
   const [instructors, setInstructors] = useState([])
+  const [errors, setErrors] = useState([]) // { name, mesg }
   const onClose = () => setIsEditingOffering(false)
 
   useEffect(() => {
     if (isEditingOffering) {
       setup.getInstructorsByOfferingId(offering.id, insts => {
-        setInstructors(insts)
+        setInstructors(insts.instructors)
         offControl.instructors(insts)
       })
     }
@@ -65,18 +66,36 @@ function EditCourseWithRedux({
 
       <div className="ip-f-form-con">
         <form className="w-100">
-          <CourseSelection />
-          <BasicInfo setAddStudents={setAddStudents} />
-          {addStudents && <Students />}
-          <Staffs instructors={instructors} />
+          <CourseSelection 
+            errors={errors} 
+            setErrors={setErrors} 
+          />
+          <BasicInfo 
+            errors={errors} 
+            setErrors={setErrors} 
+            setAddStudents={setAddStudents} 
+          />
+          {
+            addStudents 
+            && 
+            <Students 
+              errors={errors} 
+              setErrors={setErrors} 
+            />
+          }
+          <Staffs 
+            errors={errors} 
+            setErrors={setErrors} 
+            instructors={instructors} 
+          />
 
-          <div className="ct-d-r-center-v w-100 mt-3 ip-f-btn-group ct-btn-group">
+          <div className="ct-d-r-center-v w-100 m-3 ip-f-btn-group ct-btn-group">
             <CTButton
-              icon="check"
               color="green"
               text="Save"
               size="big"
-              onClick={() => offControl.save(newCourse)}
+              //type="submit"
+              onClick={() => offControl.save(newCourse, setErrors)}
             />
             {
               !newCourse
@@ -89,6 +108,16 @@ function EditCourseWithRedux({
               />
             }
           </div>
+
+          {
+            errors.length > 0
+            &&
+            <div className="d-flex flex-row justify-content-end">
+              <div className="ip-f-courses-error">
+                Please fix the errors above before saving.
+              </div>
+            </div>
+          }
         </form>
       </div>
     </div>

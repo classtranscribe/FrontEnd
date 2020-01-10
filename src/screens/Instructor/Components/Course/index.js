@@ -5,9 +5,12 @@ import { CTButton } from 'components'
 import './index.css'
 import { Filter } from '../Filter'
 import { 
-  filterControl, 
+  setup,
   offControl,
-  NEW_PLAYLIST, NEW_OFFERING, OFF_ANALYSIS, setup, 
+  filterControl, 
+  OFF_ANALYSIS, 
+  ARRAY_EMPTY,  
+  NEW_PLAYLIST, NEW_OFFERING, NO_PLAYLIST,
 } from '../../Utils'
 import { PlaceHolder } from '../Placeholder'
 import { PlaylistIcon } from '../PlaylistIcon'
@@ -48,7 +51,11 @@ function CourseWithRedux({
 
   useEffect(() => {
     if (playlists.length > 0) {
-      handlePlaylistClick(playlists[0])()
+      if (playlists === ARRAY_EMPTY) {
+        handlePlaylistClick(NO_PLAYLIST)()
+      } else {
+        handlePlaylistClick(playlists[0])()
+      }
       setResults(playlists)
     }
   }, [playlists])
@@ -91,6 +98,7 @@ function CourseWithRedux({
                 icon="delete"
                 color="light"
                 popup="Delete Course"
+                onClick={() => offControl.deleteOffering(offering.id)}
                 //popupDelay={500}
               />
             </div>
@@ -146,29 +154,36 @@ function CourseWithRedux({
 
           {/* Playlists */}
           <div className="ct-list-col ip-c-playlists">
-            {results.map( pl => (
-              <div key={pl.id} className="w-100">
-                <button 
-                  className="plain-btn ip-sb-off-item ip-c-pl-item" 
-                  data-current={Boolean(playlist.id === pl.id)}
-                  onClick={handlePlaylistClick(pl)}
-                >
-                  <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
-                    <span className="ip-sb-off-text ip-c-pl-name ip-sb-off-num">
-                      <PlaylistIcon type={pl.sourceType} /> {pl.name}
-                    </span>
-                    <span className="ip-sb-off-text ip-c-pl-mnum">
-                      {pl.medias.length} video(s)
-                    </span>
-                    <span className="ip-c-pl-r-icon">
-                      <i className="material-icons" aria-hidden="true">chevron_right</i>
-                    </span>
-                  </div> 
-                </button>
-              </div>
-            ))}
+            {
+              results === ARRAY_EMPTY ?
+              <div></div>
+              :
+              results.map( pl => (
+                <div key={pl.id} className="w-100">
+                  <button 
+                    className="plain-btn ip-sb-off-item ip-c-pl-item" 
+                    data-current={Boolean(playlist.id === pl.id)}
+                    onClick={handlePlaylistClick(pl)}
+                  >
+                    <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
+                      <span className="ip-sb-off-text ip-c-pl-name ip-sb-off-num">
+                        <PlaylistIcon type={pl.sourceType} /> {pl.name}
+                      </span>
+                      <span className="ip-sb-off-text ip-c-pl-mnum">
+                        {pl.medias.length} video(s)
+                      </span>
+                      <span className="ip-c-pl-r-icon">
+                        <i className="material-icons" aria-hidden="true">chevron_right</i>
+                      </span>
+                    </div> 
+                  </button>
+                </div>
+              ))
+            }
           </div>
         </div>
+
+
         {/* Placeholder */}
         </> : <>
           <div className="ip-c-placeholder">

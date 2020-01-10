@@ -12,6 +12,8 @@ import {
   SET_PLAYLIST,
   SET_IS_SELECTING_VIDEOS,
   SET_SELECTED_VIDEOS,
+  // Others
+  SET_LOADING,
 } from './instp.action.types'
 import { initialState } from './instp.state'
 
@@ -52,6 +54,10 @@ const instpReducer = (
       }  
     case SET_IS_SELECTING_VIDEOS  : return { ...state, isSelectingVideos: value }  
     case SET_SELECTED_VIDEOS      : return { ...state, selectedVideos: value }  
+
+
+    // Others
+    case SET_LOADING              : return { ...state, loading: value }  
 
     // Default
     default                       : return state

@@ -7,12 +7,12 @@
 }
 
 .ip-bg {
+  position: absolute;
   width: 100%;
   min-width: 950px;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  position: absolute;
   top: 0;
   z-index: 2;
   background-color: #fcfcfc;
@@ -21,6 +21,7 @@
 }
 
 .ip-container {
+  position: relative;
   width: 100%;
   height: auto;
   display: flex;
@@ -29,4 +30,11 @@
   -o-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -webkit-transition: all 0.2s linear;
+}
+
+.ip-create-new-con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

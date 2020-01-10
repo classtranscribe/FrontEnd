@@ -8,9 +8,14 @@ import { InfoIcon } from '../../InfoIcon'
 import { offControl } from '../../../Utils'
 
 function CourseSelectionWithRedux({
+  errors=[],
+  setErrors,
+
   departments=[],
   offering={},
 }) {
+
+  const hasNoCourses = errors.includes('courses')
 
   const [depart, setDepart] = useState('')
   const [courses, setCourses] = useState([])
@@ -18,6 +23,11 @@ function CourseSelectionWithRedux({
 
   useEffect(() => {
     offControl.newCourses(selCourses)
+
+    if (hasNoCourses && selCourses.length > 0) {
+      _.remove(errors, e => e === 'courses')
+      setErrors([ ...errors ])
+    }
   }, [selCourses])
 
   const onDepartChange = value => {
@@ -142,6 +152,16 @@ function CourseSelectionWithRedux({
                 </div>
               </div>
             </Grid.Column>
+          </Grid.Row>
+        }
+
+        {
+          hasNoCourses
+          &&
+          <Grid.Row className="ct-a-fade-in">
+            <div className="ip-f-courses-error">
+              Please select at least one course number for your offering.
+            </div>
           </Grid.Row>
         }
       </Grid>

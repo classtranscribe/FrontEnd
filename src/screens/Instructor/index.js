@@ -4,17 +4,18 @@ import { withRouter } from 'react-router-dom'
 import { instpStore, connectWithRedux } from '_redux/instructor'
 import { ClassTranscribeHeader, CTContext } from 'components'
 import {
+  Loader,
   Sidebar,
   Course,
   Playlist,
 } from './Components'
-import { api, util, user } from 'utils'
 import './index.css'
 import {
   mediaControl,
   offControl,
   setup,
 } from './Utils'
+import { util } from 'utils'
 
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ export class InstructorWithRedux extends React.Component {
   }
 
   render() {
-    const { sidebar } = this.props
+    const { sidebar, loading } = this.props
     const paddingLeft = {
       paddingLeft: (sidebar && window.innerWidth > 900) ? '19em' : '0'
     }
@@ -56,6 +57,7 @@ export class InstructorWithRedux extends React.Component {
         />
 
         <main className="ip-container" style={paddingLeft}>
+          {Boolean(loading.type) && <Loader />}
           <Course />
           <Playlist />
         </main>
@@ -71,14 +73,19 @@ export function Instructor(props) {
     InstructorWithRedux,
     [
       'sidebar',
-      'offerings'
+      'loading',
+      'offerings',
     ],
     [
       'setSidebar',
+      'setLoading',
       'setDeparts',
       'setTerms',
       'setOfferings', 
+      // Course
       'setOffering',
+      'setIsEditingOffering',
+      // Playlists
       'setPlaylists',
       'setPlaylist',
       // media

@@ -31,10 +31,11 @@
 
 /* Selected Courses */
 .ip-f-seled-course-con {
-  min-height: 9.5em;
+  height: auto;
+  min-height: 11.5em;
   padding: 1em;
   border-radius: 10px;
-  margin-top: -4em;
+  margin-top: -6em;
   background: var(--ct-ip-grey-2);
 }
 
@@ -53,6 +54,12 @@
 .ip-f-seled-courses {
   margin-top: 1em;
 }
+.ip-f-courses-error {
+  margin-top: -1em;
+  padding: 0 1.3em;
+  color: rgb(172, 7, 7);
+}
+
 
 /* Upload Btn */
 .ip-upload-btn {
@@ -137,7 +144,7 @@
     border-bottom: 1px solid rgb(204, 204, 204);}
     .ip-f-email-group .ip-f-email-item:last-child {
       border: none;}
-    .ip-f-email-group .ip-f-email-item i {
+    .ip-f-email-group .ip-f-email-item .icon {
       cursor: pointer;}
 .ip-f-email-group::-webkit-scrollbar {
   display: block;

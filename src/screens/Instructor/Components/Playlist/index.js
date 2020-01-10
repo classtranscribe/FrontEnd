@@ -12,12 +12,15 @@ import { PlaylistIcon } from '../PlaylistIcon'
 import ButtonBar from './ButtonBar'
 import Video from './Video'
 
+import NoPlaylistHolder from './NoPlaylistHolder'
+
 import NewPlaylist from './NewPlaylist'
 import Analytics from './Analytics'
 
 import {  
   filterControl, 
-  NEW_PLAYLIST, OFF_ANALYSIS, NEW_OFFERING, HIDE_PLAYLIST
+  NEW_PLAYLIST, OFF_ANALYSIS, 
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST
 } from '../../Utils'
 import './index.css'
 
@@ -29,6 +32,7 @@ function PlaylistWithRedux({
 }) {
 
   let newOffering = offering === NEW_OFFERING
+  let noPlaylist = playlist === NO_PLAYLIST
   let canShowPlaylists = Boolean(playlist.id) && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
 
   const [results, setResults] = useState([])
@@ -67,12 +71,13 @@ function PlaylistWithRedux({
   const onReverse = () => filterControl.reverse(results, setResults)
 
   if (isEditingOffering) return null
+  if (noPlaylist) return <NoPlaylistHolder />
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   if (playlist === NEW_PLAYLIST) return <NewPlaylist />
   if (playlist === OFF_ANALYSIS) return <Analytics />
 
   return (
-    <div className="ip-playlist-con ct-a-fade-in">
+    <div className="ip-playlist-con">
       {
         canShowPlaylists ?
         <div className="w-100 h-auto ct-a-fade-in">
@@ -90,7 +95,7 @@ function PlaylistWithRedux({
                 </div>
               </div>
               :
-              <h3 className="ip-p-pl-name ct-d-r-center-v">
+              <h3 className="ip-p-pl-name ct-d-r-center-v ct-a-fade-in">
                 <PlaylistIcon type={playlist.sourceType} size="large" /> <span>{playlist.name}</span>
               </h3>
             }

@@ -13,9 +13,6 @@ function SideBarWithRedux({
   sidebar,
 
   history,
-  setOffering,
-  setPlaylists,
-  setPlaylist,
 }) {
 
   const [results, setResults] = useState([])
@@ -41,7 +38,11 @@ function SideBarWithRedux({
           handleOfferingClick(NEW_OFFERING)()
         } else {
           let off = _.find(offerings, { id: offId })
-          handleOfferingClick(off)()
+          if (!off) {
+            handleOfferingClick(offerings[0])()
+          } else {
+            handleOfferingClick(off)()
+          }
         }
       } else {
         handleOfferingClick(offerings[0])()
@@ -112,5 +113,5 @@ function SideBarWithRedux({
 export const Sidebar = withRouter(connectWithRedux(
   SideBarWithRedux,
   ['sidebar', 'offerings', 'offering'],
-  ['setOffering', 'setPlaylists', 'setPlaylist']
+  []
 ))
