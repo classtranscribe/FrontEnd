@@ -170,8 +170,9 @@ export const setup = {
     } catch (error) {
       
     }
-    if (setInstructors) setInstructors(instructors)
-    return { instructors, instructorIds }
+    let insts = { instructors, instructorIds }
+    if (setInstructors) setInstructors(insts)
+    return insts
   },
 
   getCourseOfferingsByInstructorId: async function(context) {
