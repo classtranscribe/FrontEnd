@@ -87,11 +87,11 @@ export const searchControl = {
    */
 
   // Function used to get RegExp tests for provided value
-  getRegExpTests: function(value='', key='text') {
+  getRegExpTests: function(value='', key='text', flags='i') {
     let tests = []
     // get test functions for each word
     value.split(' ').forEach(word => {
-      let reg = new RegExp(_.escapeRegExp(word), 'gi')
+      let reg = new RegExp(_.escapeRegExp(word), flags)
       let testFunc = result => reg.test(_.get(result, key))
       tests.push({ word, testFunc, reg })
     })
@@ -101,8 +101,8 @@ export const searchControl = {
 
   // Function used to get the match function 
   // which is used to determine whether an text is the result or not
-  getMatchFunction: function(value='', key='text') {
-    let tests = this.getRegExpTests(value, key)
+  getMatchFunction: function(value='', key='text', flags='i') {
+    let tests = this.getRegExpTests(value, key, flags)
     // combine the test result
     let isMatch = result => {
       let match = true
@@ -115,7 +115,7 @@ export const searchControl = {
 
   // Function used to add <span> tag around the searched value in a text
   highlightSearchedWords: function(results=[], value='', key='text') {
-    let tests = this.getRegExpTests(value, key)
+    let tests = this.getRegExpTests(value, key, 'gi')
     return results.map( res => {
       let text = _.get(res, key).toLowerCase()
       tests.forEach( test => {

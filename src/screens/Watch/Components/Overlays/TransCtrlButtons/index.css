@@ -8,6 +8,9 @@
   color: white;
 }
 
+.trans-ctrl-btn[id=trans-bulk-edit-btn] {
+  bottom: 18em;
+}
 .trans-ctrl-btn[id=trans-setting-btn] {
   bottom: 14em;
 }
@@ -61,6 +64,9 @@
 }
 
 @media screen and (max-width: 550px) {
+  .trans-ctrl-btn[id=trans-bulk-edit-btn] {
+    bottom: 23em;
+  }
   .trans-ctrl-btn[id=trans-setting-btn] {
     bottom: 19em;
   }

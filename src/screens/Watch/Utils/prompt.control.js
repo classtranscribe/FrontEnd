@@ -7,8 +7,8 @@ export const promptControl = {
   prompt: null,
   setPrompt: function() {}, 
 
-  init: function(setPrompt) {
-    this.setPrompt = setPrompt
+  init: function({ setPrompt }) {
+    if (setPrompt) this.setPrompt = setPrompt
   },
 
   openPrompt: function(prompt) {

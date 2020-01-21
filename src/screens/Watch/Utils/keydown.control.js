@@ -31,7 +31,7 @@ export const keydownControl = {
     const ctrlKey_ = ctrlKey || metaKey
 
     // quit if any <input/>'s are been focusing
-    if (this.inputFocusing()) return;
+    if (this.inputFocusing(e)) return;
 
     if (ctrlKey_) {
       switch (keyCode) {
@@ -141,8 +141,12 @@ export const keydownControl = {
     }
   },
 
-  inputFocusing: function() {
-    return $('input[type=text]:focus').length > 0 || $('textarea:focus').length > 0
+  inputFocusing: function(e) {
+    if (e.target) {
+      if (e.target.localName === 'input' && e.target.type === 'text') return true
+      if (e.target.localName === 'textarea') return true
+      if (e.target.contentEditable === 'true') return true
+    }
   },
 
   /**

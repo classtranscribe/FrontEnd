@@ -35,10 +35,25 @@ export const videoControl = {
   // changeVideo, timeUpdate
   externalFunctions: {}, 
 
-  init: function(videoNode1, videoNode2, externalFunctions={}) {
+  init: function(videoNode1, videoNode2, props) {
     this.videoNode1 = videoNode1
     this.videoNode2 = videoNode2
-    this.externalFunctions = externalFunctions
+    const { 
+      // media, watchHistory, offeringId,
+      changeVideo, timeUpdate,
+      setMode, switchScreen, setVolume, setPause, 
+      setPlaybackrate, setMute, setFullscreen,
+      setDuration, setBufferedTime, setTime,
+      setCTPPriEvent, setCTPSecEvent
+    } = props
+
+    this.externalFunctions = {  
+      changeVideo, timeUpdate,
+      setMode, switchScreen, setFullscreen,
+      setVolume, setMute, setPause, setPlaybackrate,
+      setDuration, setTime, setBufferedTime,
+      setCTPPriEvent, setCTPSecEvent
+    }
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
@@ -80,17 +95,21 @@ export const videoControl = {
   },  
 
   currentMode: NORMAL_MODE,
+  lastMode: NORMAL_MODE,
   mode: function(mode, config={}) {
     const { setMode } = this.externalFunctions
-    const { sendUserAction=true } = config
+    const { sendUserAction=true, restore=false } = config
     if (setMode) {
       if (window.innerWidth <= 900 && mode === PS_MODE) {
         mode = NESTED_MODE
-      } 
-      if (mode === THEATRE_MODE) {
-        transControl.transView(HIDE_TRANS)
+      } else if (restore) {
+        mode = this.lastMode
       }
+      // if (mode === THEATRE_MODE) {
+      //   transControl.transView(HIDE_TRANS)
+      // }
       setMode(mode)
+      this.lastMode = this.currentMode
       this.currentMode = mode
       if (sendUserAction) userAction.screenmodechange(this.currTime(), mode)
     }

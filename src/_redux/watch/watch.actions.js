@@ -13,6 +13,7 @@ import {
   SET_DESCRIPTION,
   SET_CURR_DESCRIPTION,
   SET_CURR_EDITING,
+  SET_BULK_EDITING,
   SET_OPENCC,
   SET_OPENAD,
   // Screen Options
@@ -65,6 +66,7 @@ export const setCurrCaption       = value => ({ type: SET_CURR_CAPTION, value })
 export const setDescriptions      = value => ({ type: SET_DESCRIPTION, value })
 export const setCurrDescription   = value => ({ type: SET_CURR_DESCRIPTION, value })
 export const setCurrEditing       = value => ({ type: SET_CURR_EDITING, value })
+export const setBulkEditing       = value => ({ type: SET_BULK_EDITING, value })
 export const setOpenCC            = value => ({ type: SET_OPENCC, value })
 export const setOpenAD            = value => ({ type: SET_OPENAD, value })
 

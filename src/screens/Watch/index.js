@@ -40,14 +40,15 @@ export class WatchWithRedux extends React.Component {
     this.id = id
     if (!id || !courseNumber) window.location = util.links.notfound404()
     util.removeStoredOfferings()
+
+    /** Init controls */
+    transControl.init(props)
+    searchControl.init(props)
+    promptControl.init(props)
+    preferControl.init(props)
   }
 
   componentDidMount() {
-    /** Init controls */
-    this.initTransControl()
-    this.initPromptControl()
-    this.initSearchControl()
-    this.initPreferenceControl()
     /** GET userMetadata */
     this.getUserMetadata()
     /** GET media, playlist, and playlists */
@@ -56,34 +57,6 @@ export class WatchWithRedux extends React.Component {
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
     this.addWindowResizeListener()
-  }
-
-  initTransControl = () => {
-    const { 
-      setCurrTrans, setTranscriptions, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
-      setCurrEditing, setOpenCC, setOpenAD, setTransView,
-      cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
-    } = this.props
-
-    transControl.init({ 
-      setCurrTrans, setTranscriptions, setTranscript, setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
-      setCurrEditing, setOpenCC, setOpenAD, setTransView,
-      cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
-    })
-  }
-
-  initPromptControl = () => {
-    const { setPrompt } = this.props
-    promptControl.init(setPrompt)
-  }
-
-  initSearchControl = () => {
-    const { setSearch } = this.props
-    searchControl.init({ setSearch })
-  }
-
-  initPreferenceControl = () => {
-    preferControl.init({})
   }
 
   addWindowResizeListener = () => {
@@ -198,8 +171,10 @@ export function Watch(props) {
     [
       'setMedia', 'setPlaylist', 'setPlaylists', 
       // transControl
-      'setCurrTrans', 'setTranscriptions', 'setTranscript', 'setCaptions', 'setCurrCaption', 'setDescriptions', 'setCurrDescription',
-      'setCurrEditing', 'setOpenCC', 'setOpenAD', 'setTransView',
+      'setCurrTrans', 'setTranscriptions', 'setTranscript', 
+      'setCaptions', 'setCurrCaption', 'setDescriptions', 'setCurrDescription',
+      'setCurrEditing', 'setBulkEditing',
+      'setOpenCC', 'setOpenAD', 'setTransView',
       'cc_setColor', 'cc_setBG', 'cc_setSize', 'cc_setOpacity', 'cc_setPosition', 'cc_setFont',
       // promptControl
       'setPrompt',

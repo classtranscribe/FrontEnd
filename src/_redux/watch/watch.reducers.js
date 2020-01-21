@@ -13,6 +13,7 @@ import {
   SET_DESCRIPTION,
   SET_CURR_DESCRIPTION,
   SET_CURR_EDITING,
+  SET_BULK_EDITING,
   SET_OPENCC,
   SET_OPENAD,
   // Screen Options
@@ -81,6 +82,7 @@ const watchReducer = (
     case SET_DESCRIPTION        : return { ...state, descriptions: value }
     case SET_CURR_DESCRIPTION   : return { ...state, currDescription: value }
     case SET_CURR_EDITING       : return { ...state, currEditing: value }
+    case SET_BULK_EDITING       : return { ...state, bulkEditing: value }
     case SET_OPENCC             : return { ...state, openCC: value }
     case SET_OPENAD             : return { ...state, openAD: value }
 
@@ -140,6 +142,7 @@ const watchReducer = (
         descriptions: [],
         currDescription: null,
         currEditing: null,
+        bulkEditing: false,
 
         modal: MODAL_HIDE,
         prompt: null,
