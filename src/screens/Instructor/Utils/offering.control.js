@@ -160,58 +160,68 @@ export const offControl = {
    */
   createOffering: async function(setErrors) {
     const { setLoading } = this.externalFunctions
+    let off = this.offering_
+    let courses = this.newCourses_
+    let { userId } = user.getUserInfo()
+    let staffs = [...this.newInstructors_]
+
+    // check validity
+    let errors = []
+    let { termId, courseName, sectionName } = off.offering
+    if (!termId) errors.push('termId')
+    if (!courseName) errors.push('courseName')
+    if (!sectionName) errors.push('sectionName')
+    if (courses.length === 0) errors.push('courses')
+    setErrors(errors)
+    console.log('errors', errors)
+
+    if (errors.length > 0) return;
+    setLoading(LOADING_S_OFF)
+
+    // create offering
+    // update offering
+    console.log('update offering')
+    let offeringId = null
     try {
-      let off = this.offering_
-      let courses = this.newCourses_
-      let { userId } = user.getUserInfo()
-      let staffs = [...this.newInstructors_]
-
-      // check validity
-      let errors = []
-      let { termId, courseName, sectionName } = off.offering
-      if (!termId) errors.push('termId')
-      if (!courseName) errors.push('courseName')
-      if (!sectionName) errors.push('sectionName')
-      if (courses.length === 0) errors.push('courses')
-      setErrors(errors)
-      console.log('errors', errors)
-
-      if (errors.length > 0) return;
-      setLoading(LOADING_S_OFF)
-
-      // create offering
       off.courseId = courses[0].id
       off.instructorId = userId
+
       let { data } = await api.createOffering(off)
-      // console.log('offResp', data)
-      console.log('created')
-      
-      const offeringId = data.id
+      console.log('success', off.offering)
 
-      // link other courses to this offering
-      for (let i = 1; i < courses.length; i++) {
-        await api.createCourseOffering({ courseId: courses[i].id, offeringId })
-                .catch(error => console.error('failed to add course ' + courses[i].id))
-      }
-      console.log('added courses')
+      offeringId = data.id
+    } catch (error) {
+      console.error('failed to create offering')
+    }
 
-      // link staffs to this offering
-      await api.addCourseStaffToOffering(offeringId, staffs)
-              .catch(error => console.error('failed to add staffs'))
-      console.log('added staffs')
+    // link other courses to this offering
+    for (let i = 1; i < courses.length; i++) {
+      await api
+            .createCourseOffering({ courseId: courses[i].id, offeringId })
+            .catch(error => console.error('failed to add course ' + courses[i].id))
+    }
+    console.log('added courses')
 
+    // link staffs to this offering'
+    if (staffs.length > 0) {
+      await api
+            .addCourseStaffToOffering(offeringId, staffs)
+            .catch(error => console.error('failed to add staffs'))
+    }
+    console.log('added staffs')
+
+    try {
       // parse new offering
       let newOff = this.parseNewOffering({ offeringId, off, courses, termId })
       // Add this new offering to offerings
       setup.offerings([ newOff, ...setup.offerings() ])
-
-      setLoading(LOADING_INIT)
-      // console.log('courseOffering', { offering: off, courses, staffs })
-
+      setup.offering(newOff)
     } catch (error) {
-      setLoading(LOADING_INIT)
-      console.error('create offering error.')
+      console.log('failed to parse new offering object')
     }
+
+    setLoading(LOADING_INIT)
+    // console.log('courseOffering', { offering: off, courses, staffs })
   },
 
   /**
@@ -311,7 +321,7 @@ export const offControl = {
       setup.offerings([ ...offerings ])
       setup.offering(newOff)
     } catch (error) {
-      console.error('failed to create new offering')
+      console.error('failed to parse new offering')
     }
 
     setLoading(LOADING_INIT)
