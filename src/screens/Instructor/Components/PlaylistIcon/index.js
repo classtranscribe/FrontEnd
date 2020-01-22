@@ -3,7 +3,7 @@ import { Icon } from 'semantic-ui-react'
 
 export function PlaylistIcon({ 
   size, 
-  type 
+  type // 0 - Echo360, 1 - YouTube, 2 - file
 }) {
 
   const getColor = type => {

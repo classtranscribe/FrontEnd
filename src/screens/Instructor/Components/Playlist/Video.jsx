@@ -1,11 +1,10 @@
 import _ from 'lodash'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
-import { Poster, CTButton } from 'components'
+import { CTButton } from 'components'
 import { api, util } from 'utils'
 import { mediaControl } from '../../Utils'
-import { PlaylistIcon } from '../PlaylistIcon'
 import { Icon } from 'semantic-ui-react'
 
 
@@ -21,7 +20,32 @@ function VideoWithRedux({
 }) {
   const { id, mediaName } = api.parseMedia(media)
 
-  const watchVideo = () => {
+  const [newName, setNewName] = useState('')
+  const nameRef = useRef()
+  const isEditing = Boolean(newName) && !isSelectingVideos
+
+  useEffect(() => {
+    if (isEditing) nameRef.current.focus()
+  }, [newName])
+
+  const handleRename = async () => {
+    if (isEditing && nameRef.current.innerText !== mediaName) {
+      console.log(nameRef.current.innerText)
+      await mediaControl.renameMedia(
+        media, 
+        playlist.sourceType, 
+        nameRef.current.innerText
+      )
+      // await plControl.renamePlaylist(playlist, newName)
+    }
+    setNewName( isEditing ? '' : mediaName )
+  }
+  
+  const handleDelete = e => {
+    mediaControl.deleteMedia(media)
+  }
+
+  const handleWatch = () => {
     let pathname = util.links.watch(courseNumber, id)
     history.push(pathname, { media, playlist, playlists })
   }
@@ -55,8 +79,12 @@ function VideoWithRedux({
     >
       <div className="plain-btn ip-video">
         <div tabIndex="-1" className="ip-video-con">
+
+          {/* Icon */}
           {
-            isSelectingVideos ?
+            
+            isSelectingVideos 
+            ?
             <div className="ip-v-check">
               <div className="ip-v-check-box" data-checked={isSelected.toString()}>
                 {
@@ -71,35 +99,55 @@ function VideoWithRedux({
               <Icon name="file video outline" size="big"/>
             </div>
           }
-          <div className="ip-video-name">
+
+
+          {/* Media Name */}
+          <div 
+            ref={nameRef}
+            className="ip-video-name"
+            data-edit={isEditing}
+            contentEditable={isEditing}
+          >
             {mediaName}
           </div>
         </div>
       </div>
 
       {
-        !isSelectingVideos
+        (!isSelectingVideos && !isEditing)
         &&
         <div className="ip-video-opts ct-btn-group">
           <CTButton //circle
             icon="play_circle_filled"
             text="Watch"
             color="green"
-            onClick={watchVideo}
+            onClick={handleWatch}
           />
 
           <CTButton //circle
-            popup="Edit"
+            popup="Rename"
             icon="edit"
             color="text-green"
-            onClick={null}
+            onClick={handleRename}
           />
 
           <CTButton //circle
             popup="Delete"
             icon="delete"
             color="light"
-            onClick={null}
+            onClick={handleDelete}
+          />
+        </div>
+      }
+
+      {
+        isEditing
+        &&
+        <div className="ip-video-opts ct-btn-group">
+          <CTButton //circle
+            text="Save"
+            color="green"
+            onClick={handleRename}
           />
         </div>
       }

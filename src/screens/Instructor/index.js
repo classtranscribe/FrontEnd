@@ -13,6 +13,7 @@ import './index.css'
 import {
   mediaControl,
   offControl,
+  plControl,
   setup,
 } from './Utils'
 import { util } from 'utils'
@@ -22,6 +23,7 @@ export class InstructorWithRedux extends React.Component {
     super(props)
     util.links.title('My Courses')
     setup.init(props)
+    plControl.init(props)
     offControl.init(props)
     mediaControl.init(props)
   }

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { api } from 'utils'
 
 export const mediaControl = {
   externalFunctions: {},
@@ -17,6 +18,36 @@ export const mediaControl = {
     const { setIsSelectingVideos, setSelectedVideos } = props
     this.externalFunctions = { setIsSelectingVideos, setSelectedVideos }
   },
+
+  /**
+   * Functions for editing videos
+   * ************************************************************************
+   */
+  deleteMedia: async function(media) {
+
+  },
+
+  renameMedia: async function(media, type, newName) {
+    console.log(media)
+    if (type === 2) {
+      media.jsonMetadata.filename = newName
+    } else {
+      media.jsonMetadata.title = newName
+    }
+    
+    try {
+      await api.updateMediaMetadata(media.id, media.jsonMetadata)
+    } catch (error) {
+      
+    }
+  },
+
+
+
+  /**
+   * Functions for selecting videos
+   * ************************************************************************
+   */
 
   openSelect: function() {
     const { setIsSelectingVideos } = this.externalFunctions
@@ -40,10 +71,6 @@ export const mediaControl = {
       this.closeSelect()
     }
   },
-
-  /**
-   * Selected videos
-   */
 
   setSelectedVideos: function(videos) {
     const { setSelectedVideos } = this.externalFunctions

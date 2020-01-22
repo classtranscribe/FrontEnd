@@ -179,8 +179,7 @@ export const offControl = {
     setLoading(LOADING_S_OFF)
 
     // create offering
-    // update offering
-    console.log('update offering')
+    console.log('create offering')
     let offeringId = null
     try {
       off.courseId = courses[0].id
@@ -192,30 +191,32 @@ export const offControl = {
       offeringId = data.id
     } catch (error) {
       console.error('failed to create offering')
+      return;
     }
 
     // link other courses to this offering
+    console.log('adding courses')
     for (let i = 1; i < courses.length; i++) {
       await api
             .createCourseOffering({ courseId: courses[i].id, offeringId })
             .catch(error => console.error('failed to add course ' + courses[i].id))
     }
-    console.log('added courses')
+    
 
     // link staffs to this offering'
+    console.log('adding staffs')
     if (staffs.length > 0) {
       await api
             .addCourseStaffToOffering(offeringId, staffs)
             .catch(error => console.error('failed to add staffs'))
     }
-    console.log('added staffs')
 
     try {
       // parse new offering
       let newOff = this.parseNewOffering({ offeringId, off, courses, termId })
       // Add this new offering to offerings
       setup.offerings([ newOff, ...setup.offerings() ])
-      setup.offering(newOff)
+      setup.changeOffering(newOff)
     } catch (error) {
       console.log('failed to parse new offering object')
     }
@@ -336,12 +337,14 @@ export const offControl = {
     setLoading(LOADING_D)
     try {
       await api.deleteOffering(offeringId)
-      let offerings = setup.offerings()
-      _.remove(offerings, { id: offeringId })
-      setup.changeOffering(offerings[0])
-      setup.offerings([...offerings])
+      // let offerings = setup.offerings()
+      // _.remove(offerings, { id: offeringId })
+      // setup.offerings([...offerings])
+      // setup.offering(offerings[0])
+      // setup.changeOffering(offerings[0])
 
       window.location = window.location.pathname
+      setLoading(LOADING_INIT)
     } catch(error) {
       setLoading(LOADING_INIT)
       console.error('update offering error.')

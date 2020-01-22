@@ -24,7 +24,7 @@ function ButtonBar({
 
   const selectedAll = mediaControl.isSelectedAll(results, selectedVideos)
 
-  return (
+  return results.length ? (
     <div className="w-100 ip-p-btns">
       <div className="w-100 ct-btn-group ct-d-r-center-v ip-p-btns-con">
       {
@@ -69,7 +69,7 @@ function ButtonBar({
       }
       </div>
     </div>
-  )
+  ) : null
 }
 
 export default connectWithRedux(

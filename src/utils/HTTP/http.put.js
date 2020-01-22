@@ -30,4 +30,7 @@ export const httpPUT = {
   renameMedia: function(mediaId, filename) {
     return this.updateData('Media/PutJsonMetaData', { filename }, mediaId)
   },
+  updateMediaMetadata: function(mediaId, jsonMetadata) {
+    return this.updateData('Media/PutJsonMetaData', jsonMetadata, mediaId)
+  },
 }

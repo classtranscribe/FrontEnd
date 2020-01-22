@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { CTForm, CTButton } from 'components'
-import { api, util } from 'utils'
+
+import { api } from 'utils'
+import { plControl } from '../../../Utils'
+
 import { PlaylistIcon } from '../../PlaylistIcon'
 import { InfoIcon } from '../../InfoIcon'
 import './index.css'
@@ -10,7 +13,7 @@ const exampleYoutubeURL = "https://www.youtube.com/playlist?list=PLC3y8-rFHvwgg3
 const exampleEchoAccessLink = "https://echo360.org/section/59cc95a1-b088-46e3-80a3-7e3c6921a40f/public"
 
 export default function NewPlaylist({
-
+  offeringId
 }) {
 
   const [name, setName] = useState('')
@@ -28,28 +31,25 @@ export default function NewPlaylist({
     setType(type_)
   }
 
-  const setEchoLink = value => {
+  const setIndentifier = value => {
     setUrl(value)
     if (Boolean(value)) {
-      if (!value.includes('https://echo360.org/section/')) {
-        setUrlError('Please enter a valid Echo360 Access Link.')
-      } else {
+      if (plControl.isValidIdURL(type, value)) {
         setUrlError(null)
+      } else {
+        setUrlError(
+          `Please enter a valid ${type === 0 ? 'Echo360 Access Link' : 'YouTube playlist URL'}.`
+        )
       }
     }
   }
 
-  const setYoutubeLink = value => {
-    setUrl(value)
-    if (Boolean(value)) {
-      const { list } = util.parseSearchQuery(value)
-      console.error(list)
-      if (!list) {
-        setUrlError('Please enter a valid YouTube playlist URL.')
-      } else {
-        setUrlError(null)
-      }
-    }
+  const onSave = () => {
+    plControl.createPlaylist({
+      offeringId, name, 
+      sourceType: type,
+      playlistIdentifier: url
+    })
   }
 
 
@@ -124,44 +124,58 @@ export default function NewPlaylist({
           {
             type === 1
             &&
-            <Grid.Row className="ct-a-fade-in">
-              <Grid.Column>
-                <CTForm required textarea
-                  label="YouTube Playlist URL"
-                  color="grey"
-                  placeholder="Playlist URL"
-                  error={urlError}
-                  onChange={setYoutubeLink}
-                  info={
-                    <InfoIcon 
-                      header="YouTube Playlist URL Example" 
-                      content={exampleYoutubeURL}
-                    />
-                  }
-                />
-              </Grid.Column>
-            </Grid.Row>
+            <>
+              <div className="ip-f-p-types-con">
+                <h4>YouTube playlist URL</h4>
+                <div className="ip-f-p-types-t">For Example</div>
+                <div className="ip-f-p-types-d">{exampleYoutubeURL}</div>
+              </div>
+              <Grid.Row className="ct-a-fade-in">
+                <Grid.Column>
+                  <CTForm required textarea
+                    label="YouTube Playlist URL"
+                    color="grey"
+                    placeholder="Playlist URL"
+                    error={urlError}
+                    onChange={setIndentifier}
+                    info={
+                      <InfoIcon 
+                        header="YouTube Playlist URL Example" 
+                        content={exampleYoutubeURL}
+                      />
+                    }
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </>
           }
           {
             type === 0
             &&
-            <Grid.Row className="ct-a-fade-in">
-              <Grid.Column>
-                <CTForm required textarea
-                  label="Echo360 Access Link"
-                  color="grey"
-                  placeholder="Access Link"
-                  error={urlError}
-                  onChange={setEchoLink}
-                  info={
-                    <InfoIcon 
-                      header="Echo360 Access Link Example" 
-                      content={exampleEchoAccessLink}
-                    />
-                  }
-                />
-              </Grid.Column>
-            </Grid.Row>
+            <>
+              <div className="ip-f-p-types-con">
+                <h4>Echo360 Access Link</h4>
+                <div className="ip-f-p-types-t">For Example</div>
+                <div className="ip-f-p-types-d">{exampleEchoAccessLink}</div>
+              </div>
+              <Grid.Row className="ct-a-fade-in">
+                <Grid.Column>
+                  <CTForm required textarea
+                    label="Echo360 Access Link"
+                    color="grey"
+                    placeholder="Access Link"
+                    error={urlError}
+                    onChange={setIndentifier}
+                    info={
+                      <InfoIcon 
+                        header="Echo360 Access Link Example" 
+                        content={exampleEchoAccessLink}
+                      />
+                    }
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </>
           }
         </Grid>
       </div>
@@ -173,7 +187,8 @@ export default function NewPlaylist({
               color="green"
               text="Save"
               size="big"
-              //onClick={() => offControl.save(newCourse)}
+              onClick={onSave}
+              disabled={!name || !plControl.isValidIdURL(type, url)}
             />
           </div>
         </form>

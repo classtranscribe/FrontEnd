@@ -99,14 +99,22 @@ export const responseParsers = {
     re.playlistId = playlistId
     re.sourceType = sourceType
 
-
-    if (sourceType === 1) { // youtube
+    // youtube
+    if (sourceType === 1) { 
       re.mediaName = jsonMetadata.title
-    } else if (sourceType === 0) { // echo360
-      let { lessonName, createdAt } = jsonMetadata
-      let date = new Date(createdAt)
-      re.mediaName = `${lessonName || ''}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-    } else { // upload
+
+    // echo360
+    } else if (sourceType === 0) { 
+      let { lessonName, createdAt, title } = jsonMetadata
+      if (title) {
+        re.mediaName = title
+      } else {
+        let date = new Date(createdAt)
+        re.mediaName = `${lessonName || ''}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+      }
+
+    // upload
+    } else { 
       if (jsonMetadata.filename) re.mediaName = jsonMetadata.filename
       else {
         let fileData = JSON.parse(jsonMetadata.video1)

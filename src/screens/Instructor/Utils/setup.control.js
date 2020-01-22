@@ -212,17 +212,49 @@ export const setup = {
    * Setup Playlists
    * ********************************************************************************************
    */
-  setUpPlaylists: async function(offeringId, setPlaylists) {
+  playlists_: [],
+  playlist_: {},
+  playlists: function(playlists_) {
+    if (playlists_ === undefined) {
+      if (this.playlists_ === ARRAY_EMPTY) return []
+      return this.playlists_
+    }
+    let { setPlaylists } = this.externalFunctions
+    if (setPlaylists) {
+      this.playlists_ = playlists_
+      setPlaylists(playlists_)
+    }
+  },
+
+  playlist: function(playlist_) {
+    if (playlist_ === undefined) return this.playlist_
+    let { setPlaylist } = this.externalFunctions
+    if (setPlaylist) {
+      this.playlist_ = playlist_
+      setPlaylist(playlist_)
+    }
+  },
+
+  setUpPlaylists: async function(offeringId) {
     try {
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
       // console.error('playlists', data)
       _.forEach(data, pl => _.reverse(pl.medias))
 
       if (data.length === 0) data = ARRAY_EMPTY
-      setPlaylists(data)
+      this.playlists(data)
 
     } catch (error) {
       
+    }
+  },
+
+  changePlaylist: function(pl, ms=100) {
+    if (ms) {
+      this.playlist({})
+      setTimeout(() => this.playlist(pl), 100);
+    } else {
+      this.playlist(pl)
     }
   },
 }
