@@ -88,7 +88,7 @@ export const responseParsers = {
       isTwoScreen: false, 
       videos: [], 
       transcriptions: [],
-      isUnavailable: false,
+      isUnavailable: true,
     }
     
     if (!media) return re
@@ -136,7 +136,6 @@ export const responseParsers = {
       })
     }
 
-
     transcriptions.forEach( trans => {
       if (trans.file || trans.path) {
         re.transcriptions.push({
@@ -146,6 +145,7 @@ export const responseParsers = {
         })
       }
     })
+
     return re
   },
   /** 

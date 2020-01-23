@@ -19,7 +19,11 @@ function ButtonBar({
   }
 
   const handleOpenSelect = () => {
-    mediaControl.handleOpenSelect()
+    mediaControl.openSelect()
+  }
+
+  const handleCancelSelect = () => {
+    mediaControl.closeSelect()
   }
 
   const selectedAll = mediaControl.isSelectedAll(results, selectedVideos)
@@ -49,7 +53,7 @@ function ButtonBar({
           <CTButton
             size="normal bold"
             text="Cancel"
-            onClick={handleOpenSelect}
+            onClick={handleCancelSelect}
           />
         </div>
         :

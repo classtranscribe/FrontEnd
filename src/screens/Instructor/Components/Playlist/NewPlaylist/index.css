@@ -23,6 +23,14 @@
 .ip-f-p-types-d {
   margin-top: .5em;
   margin-left: 2em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.ip-f-p-types-d .material-icons {
+  font-size: 1.5em;
+  margin-right: .5em;
+  color: rgb(23, 122, 122);
 }
 .ip-f-p-types-d strong {
   color: var(--ct-text-title);

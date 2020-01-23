@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import { api } from 'utils'
+import { setup } from './setup.control'
+import { LOADING_D } from './constants'
 
 export const mediaControl = {
   externalFunctions: {},
@@ -23,8 +25,17 @@ export const mediaControl = {
    * Functions for editing videos
    * ************************************************************************
    */
-  deleteMedia: async function(media) {
-
+  deleteMedia: async function(media, bulkDelete=false) {
+    if (!bulkDelete) setup.loading(LOADING_D)
+    try {
+      await api.deleteMedia(media.id)
+      let playlist = setup.playlist()
+      _.remove(playlist.medias, me => me === media)
+      if (!bulkDelete) setup.playlist({ ...playlist })
+    } catch (error) {
+      console.error('Failed to delete media')
+    }
+    if (!bulkDelete) setup.unloading()
   },
 
   renameMedia: async function(media, type, newName) {
@@ -38,10 +49,32 @@ export const mediaControl = {
     try {
       await api.updateMediaMetadata(media.id, media.jsonMetadata)
     } catch (error) {
-      
+      console.error('Failed to rename media')
     }
   },
 
+  /**
+   * Functions for uploading videos
+   * ************************************************************************
+   */
+  upload: async function(playlistId, { video1, video2 }, onUploadProgress) {
+    try {
+      const { data } = await api.uploadVideo(playlistId, video1, video2, onUploadProgress)
+      let newMedia = {
+        id: data.id,
+        playlistId: data.playlistId,
+        sourceType: data.sourceType,
+        jsonMetadata: data.jsonMetadata,
+        video: [],
+        transcriptions: []
+      }
+      let playlist = setup.playlist()
+      playlist.medias.push(newMedia)
+    } catch (error) {
+      console.error('Failed to upload media')
+    }
+    // setup.playlist({ ...playlist })
+  },
 
 
   /**
@@ -111,8 +144,16 @@ export const mediaControl = {
     }
   },
 
-  handleDeleteVideos: function() {
-
+  handleDeleteVideos: async function() {
+    console.log('??????????', this.selectedVideos);
+    setup.loading(LOADING_D)
+    let selectedVideos = this.selectedVideos
+    for (let mediaId in selectedVideos) {
+      await this.deleteMedia(selectedVideos[mediaId], true)
+    }
+    let playlist = setup.playlist()
+    setup.playlist({ ...playlist })
+    setup.unloading()
   },
 
 }

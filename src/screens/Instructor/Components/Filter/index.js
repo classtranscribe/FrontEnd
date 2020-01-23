@@ -44,7 +44,7 @@ function FilterWithRedux({
           openOnTriggerFocus
           closeOnTriggerBlur
           closeOnTriggerMouseLeave
-          content="Reverse items"
+          content="Reverse order"
           trigger={
             <button 
               className="plain-btn ip-filter-sort-btn" 

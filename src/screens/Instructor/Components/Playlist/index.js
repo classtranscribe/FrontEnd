@@ -15,6 +15,7 @@ import NoVideoHolder from './NoVideoHolder'
 
 import NewPlaylist from './NewPlaylist'
 import Analytics from './Analytics'
+import UploadVideo from './UploadVideo'
 
 import {  
   filterControl, 
@@ -35,28 +36,18 @@ function PlaylistWithRedux({
   let canShowPlaylists = Boolean(playlist.id) && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
 
   const [results, setResults] = useState([])
-  
-  const [isSelect, setIsSelect] = useState(false)
-  const [selectedMedias, setSelectedMedias] = useState({})
+
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     if (canShowPlaylists) {
       setResults(playlist.medias || [])
-      setSelectedMedias({})
-      if (isSelect) setIsSelect(false)
+      if (isUploading) setIsUploading(false)
     }
   }, [playlist])
 
-  const handleSelect = me => {
-    setSelectedMedias({ ...selectedMedias, [me.id]: me })
-  }
-  
-  const handleRemove = me => {
-    if (Boolean(selectedMedias[me.id])) {
-      delete selectedMedias[me.id]
-      setSelectedMedias({ ...selectedMedias })
-    }
-  }
+  const onOpenUpload = () => setIsUploading(true)
+  const onCloseUpload = () => setIsUploading(false)
 
   const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
   const onReverse = () => filterControl.reverse(results, setResults)
@@ -66,6 +57,7 @@ function PlaylistWithRedux({
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   if (playlist === NEW_PLAYLIST) return <NewPlaylist offeringId={offering.id} />
   if (playlist === OFF_ANALYSIS) return <Analytics />
+  if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
 
   return (
     <div className="ip-playlist-con">
@@ -87,7 +79,7 @@ function PlaylistWithRedux({
               &&
               <button 
                 className="plain-btn ip-sb-off-item" 
-                onClick={null}
+                onClick={onOpenUpload}
               >
                 <div tabIndex="-1" className="ip-sb-off-item-con">
                   <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num">
@@ -119,10 +111,6 @@ function PlaylistWithRedux({
                   key={me.id} 
                   media={me} 
                   courseNumber={offering.courseNumber}
-                  isSelect={isSelect}
-                  selectedMedias={selectedMedias}
-                  handleSelect={handleSelect}
-                  handleRemove={handleRemove}
                 />
               ))}
             </div>

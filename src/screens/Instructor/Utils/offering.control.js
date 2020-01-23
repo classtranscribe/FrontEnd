@@ -1,10 +1,6 @@
 import _ from 'lodash'
 import { user, api } from 'utils'
-import { 
-  LOADING_S_OFF, 
-  LOADING_D,
-  LOADING_INIT 
-} from './constants'
+import { LOADING_D } from './constants'
 import { setup } from './setup.control'
 
 const initOffering = {
@@ -33,12 +29,10 @@ export const offControl = {
 
   init: function(props) {
     const { 
-      setOfferings, setOffering, 
-      setLoading, setIsEditingOffering
+      setOfferings, setOffering, setIsEditingOffering
     } = props
     this.externalFunctions = { 
-      setOfferings, setOffering, 
-      setLoading, setIsEditingOffering
+      setOfferings, setOffering, setIsEditingOffering
     }
   },
 
@@ -159,7 +153,6 @@ export const offControl = {
    * Function used for creating an offering
    */
   createOffering: async function(setErrors) {
-    const { setLoading } = this.externalFunctions
     let off = this.offering_
     let courses = this.newCourses_
     let { userId } = user.getUserInfo()
@@ -176,7 +169,7 @@ export const offControl = {
     console.log('errors', errors)
 
     if (errors.length > 0) return;
-    setLoading(LOADING_S_OFF)
+    setup.loading()
 
     // create offering
     console.log('create offering')
@@ -221,7 +214,7 @@ export const offControl = {
       console.log('failed to parse new offering object')
     }
 
-    setLoading(LOADING_INIT)
+    setup.unloading()
     // console.log('courseOffering', { offering: off, courses, staffs })
   },
 
@@ -229,8 +222,6 @@ export const offControl = {
    * Function used to update offering info
    */
   updateOffering: async function(setErrors) {
-    const { setLoading } = this.externalFunctions
-
     let off = this.offering_
     let courses = this.newCourses_
     let addedCourses = this.addedCourses()
@@ -249,7 +240,7 @@ export const offControl = {
     console.log('errors', errors)
 
     if (errors.length > 0) return;
-    setLoading(LOADING_S_OFF)
+    setup.loading()
 
     let offeringId = off.offering.id
 
@@ -325,7 +316,7 @@ export const offControl = {
       console.error('failed to parse new offering')
     }
 
-    setLoading(LOADING_INIT)
+    setup.unloading()
     // window.location = window.location.pathname + window.location.search
   },
 
@@ -333,8 +324,7 @@ export const offControl = {
    * Delete Offering
    */
   deleteOffering: async function(offeringId) {
-    const { setLoading } = this.externalFunctions
-    setLoading(LOADING_D)
+    setup.loading(LOADING_D)
     try {
       await api.deleteOffering(offeringId)
       // let offerings = setup.offerings()
@@ -344,11 +334,10 @@ export const offControl = {
       // setup.changeOffering(offerings[0])
 
       window.location = window.location.pathname
-      setLoading(LOADING_INIT)
     } catch(error) {
-      setLoading(LOADING_INIT)
       console.error('update offering error.')
     }
+    setup.unloading()
   },
 
   /**

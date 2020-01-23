@@ -18,9 +18,10 @@ function VideoWithRedux({
 
   history,
 }) {
-  const { id, mediaName } = api.parseMedia(media)
+  const { id, mediaName, isUnavailable } = api.parseMedia(media)
 
   const [newName, setNewName] = useState('')
+  const [isDeleted, setIsDeleted] = useState(false)
   const nameRef = useRef()
   const isEditing = Boolean(newName) && !isSelectingVideos
 
@@ -41,8 +42,9 @@ function VideoWithRedux({
     setNewName( isEditing ? '' : mediaName )
   }
   
-  const handleDelete = e => {
-    mediaControl.deleteMedia(media)
+  const handleDelete = async () => {
+    await mediaControl.deleteMedia(media)
+    setIsDeleted(true)
   }
 
   const handleWatch = () => {
@@ -68,7 +70,7 @@ function VideoWithRedux({
     }
   }
 
-  return (
+  return isDeleted ? null : (
     <div 
       id={`media-${id}`} 
       className="ip-video-card" 
@@ -119,9 +121,10 @@ function VideoWithRedux({
         <div className="ip-video-opts ct-btn-group">
           <CTButton //circle
             icon="play_circle_filled"
-            text="Watch"
+            text={isUnavailable ? "Available Soon" : "Watch"}
             color="green"
             onClick={handleWatch}
+            disabled={isUnavailable}
           />
 
           <CTButton //circle

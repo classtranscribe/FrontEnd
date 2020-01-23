@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api, util, user } from 'utils'
-import { NEW_OFFERING, ARRAY_EMPTY } from './constants'
+import { NEW_OFFERING, ARRAY_EMPTY, LOADING_S_OFF, LOADING_INIT } from './constants'
 
 export const setup = {
   externalFunctions: {},
@@ -18,13 +18,22 @@ export const setup = {
   init: function(props) {
     const { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist,
+      setPlaylists, setPlaylist, setLoading
     } = props
 
     this.externalFunctions = { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist,
+      setPlaylists, setPlaylist, setLoading
     }
+  },
+
+  loading: function(opt=LOADING_S_OFF) {
+    const { setLoading } = this.externalFunctions
+    if (setLoading) setLoading(opt)
+  },
+
+  unloading: function() {
+    this.loading(LOADING_INIT)
   },
 
   offerings: function(offerings_) {

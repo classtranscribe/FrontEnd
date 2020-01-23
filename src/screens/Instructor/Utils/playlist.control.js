@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { util, api } from 'utils'
-import { LOADING_S_PL, LOADING_INIT, ARRAY_EMPTY } from './constants'
+import { LOADING_D } from './constants'
 import { setup } from './setup.control'
 
 // const initPlaylist = {
@@ -15,8 +15,8 @@ export const plControl = {
   // playlist_: initPlaylist,
 
   init: function(props) {
-    const { setPlaylists, setPlaylist, setLoading } = props
-    this.externalFunctions = { setPlaylists, setPlaylist, setLoading }
+    const { setPlaylists, setPlaylist } = props
+    this.externalFunctions = { setPlaylists, setPlaylist }
   },
 
   // playlistSet: function(key, value) {
@@ -40,8 +40,7 @@ export const plControl = {
   // },
 
   createPlaylist: async function(playlist) {
-    const { setLoading } = this.externalFunctions
-    setLoading(LOADING_S_PL)
+    setup.loading()
     let { offeringId, name, sourceType, playlistIdentifier } = playlist
 
     // Check validity
@@ -60,7 +59,7 @@ export const plControl = {
       let { data } = await api.createPlaylist(newPl)
       newPl = data
     } catch (error) {
-      setLoading(LOADING_INIT)
+      setup.unloading()
       return
     }
 
@@ -68,12 +67,11 @@ export const plControl = {
     setup.playlists([ ...setup.playlists(), newPl ])
     setup.changePlaylist(newPl)
 
-    setLoading(LOADING_INIT)
+    setup.unloading()
   },
 
   renamePlaylist: async function(playlist, newName) {
-    const { setLoading } = this.externalFunctions
-    setLoading(LOADING_S_PL)
+    setup.loading()
 
     try {
       playlist.name = newName
@@ -83,12 +81,11 @@ export const plControl = {
       console.error(`failed to rename playlist ${playlist.id}`)
     }
 
-    setLoading(LOADING_INIT)
+    setup.unloading()
   },
 
   deletePlaylist: async function(playlist) {
-    const { setLoading } = this.externalFunctions
-    setLoading(LOADING_S_PL)
+    setup.loading(LOADING_D)
 
     try {
       await api.deletePlaylist(playlist.id)
@@ -99,7 +96,7 @@ export const plControl = {
       console.error(`failed to delete playlist ${playlist.id}`)
     }
 
-    setLoading(LOADING_INIT)
+    setup.unloading()
   },
 
   /**
