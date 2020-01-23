@@ -21,4 +21,5 @@ export const initialState = {
 
   // Others
   loading: LOADING_INIT,
+  confirmation: null,
 }

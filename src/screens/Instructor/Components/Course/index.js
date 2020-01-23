@@ -46,7 +46,10 @@ function CourseWithRedux({
   }, [playlists])
 
   const handleDelete = () => {
-    offControl.deleteOffering(offering.id)
+    setup.confirm({
+      text: <span>Are you sure to delete the course <br/><strong><i>{offering.courseName}</i></strong>?</span>,
+      onConfirm: () => offControl.deleteOffering(offering.id)
+    })
   }
 
   const handlePlaylistClick = pl => () => {

@@ -18,12 +18,14 @@ export const setup = {
   init: function(props) {
     const { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, setLoading
+      setPlaylists, setPlaylist, 
+      setLoading, setConfirmation
     } = props
 
     this.externalFunctions = { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, setLoading
+      setPlaylists, setPlaylist, 
+      setLoading, setConfirmation
     }
   },
 
@@ -34,6 +36,15 @@ export const setup = {
 
   unloading: function() {
     this.loading(LOADING_INIT)
+  },
+
+  /**
+   * 
+   * @param {Object} confirmation { title, text, onConfirm }
+   */
+  confirm: function(confirmation) {
+    const { setConfirmation } = this.externalFunctions
+    if (setConfirmation) setConfirmation(confirmation)
   },
 
   offerings: function(offerings_) {

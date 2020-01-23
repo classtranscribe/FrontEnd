@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { CTButton } from 'components'
-import { mediaControl } from '../../Utils'
+import { mediaControl, setup } from '../../Utils'
 
 function ButtonBar({
   results=[],
@@ -15,7 +15,10 @@ function ButtonBar({
   }
 
   const handleDeleteVideos = () => {
-    mediaControl.handleDeleteVideos()
+    setup.confirm({
+      text: <>Are you sure to delete the selected videos?</>,
+      onConfirm: () => mediaControl.handleDeleteVideos()
+    })
   }
 
   const handleOpenSelect = () => {

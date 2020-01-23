@@ -14,6 +14,7 @@ import {
   SET_SELECTED_VIDEOS,
   // Others
   SET_LOADING,
+  SET_CONFIRMATION,
 } from './instp.action.types'
 import { initialState } from './instp.state'
 
@@ -58,6 +59,7 @@ const instpReducer = (
 
     // Others
     case SET_LOADING              : return { ...state, loading: value }  
+    case SET_CONFIRMATION         : return { ...state, confirmation: value }  
 
     // Default
     default                       : return state

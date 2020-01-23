@@ -8,6 +8,7 @@ import {
   Sidebar,
   Course,
   Playlist,
+  Confirmation,
 } from './Components'
 import './index.css'
 import {
@@ -62,6 +63,7 @@ export class InstructorWithRedux extends React.Component {
           {Boolean(loading.type) && <Loader />}
           <Course />
           <Playlist />
+          <Confirmation />
         </main>
       </div>
     )
@@ -81,6 +83,8 @@ export function Instructor(props) {
     [
       'setSidebar',
       'setLoading',
+      'setConfirmation',
+      // Basics
       'setDeparts',
       'setTerms',
       'setOfferings', 

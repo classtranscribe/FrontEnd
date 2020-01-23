@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { CTButton } from 'components'
 import { PlaylistIcon } from '../PlaylistIcon'
+import { setup } from '../../Utils'
 
 import {  
   plControl
@@ -25,7 +26,10 @@ function PlaylistInfo({
   }, [newName])
 
   const onDelete = () => {
-    plControl.deletePlaylist(playlist)
+    setup.confirm({
+      text: <span>Are you sure to delete the playlist<br/><strong><i>{playlist.name}</i></strong> ?</span>,
+      onConfirm: () => plControl.deletePlaylist(playlist)
+    })
   }
 
   const handleRename = async () => {

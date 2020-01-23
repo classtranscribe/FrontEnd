@@ -4,7 +4,7 @@ import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
 import { CTButton } from 'components'
 import { api, util } from 'utils'
-import { mediaControl } from '../../Utils'
+import { mediaControl, setup } from '../../Utils'
 import { Icon } from 'semantic-ui-react'
 
 
@@ -45,6 +45,13 @@ function VideoWithRedux({
   const handleDelete = async () => {
     await mediaControl.deleteMedia(media)
     setIsDeleted(true)
+  }
+
+  const confirmDeletion = () => {
+    setup.confirm({
+      text: <span>Are you sure to delete the video<br/><strong><i>{mediaName}</i></strong> ?</span>,
+      onConfirm: handleDelete
+    })
   }
 
   const handleWatch = () => {
@@ -138,7 +145,7 @@ function VideoWithRedux({
             popup="Delete"
             icon="delete"
             color="light"
-            onClick={handleDelete}
+            onClick={confirmDeletion}
           />
         </div>
       }
