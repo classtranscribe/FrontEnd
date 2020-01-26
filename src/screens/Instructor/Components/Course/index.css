@@ -132,7 +132,7 @@
   position: absolute;
   right: .5em;
   height: 3.7em;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -142,5 +142,6 @@
   height: 1.6em;
 }
 .ip-c-pl-item[data-current=true] .ip-c-pl-r-icon {
+  display: flex;
   color: var(--ct-text-title);
 }

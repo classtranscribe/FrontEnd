@@ -88,6 +88,7 @@ function StaffsWithRedux({
             <div className="ct-list-col">
               <div className="ct-d-r">
                 <CTForm 
+                  id="add-email"
                   label="Add Course Staff"
                   color="grey"
                   type="email"
@@ -120,6 +121,7 @@ function StaffsWithRedux({
                 value={searchValue}
                 onChange={onSearch}
                 type="text"
+                autocomplete="no"
               />
               {/* Email List */}
               <div className="ip-f-email-group" role="list">

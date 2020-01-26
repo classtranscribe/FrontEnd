@@ -52,30 +52,49 @@
 
 .ip-video-card {
   width: 100%;
-  margin: .3em 0;
-  padding: 0em .9em .9em .9em;
+  padding: .5em .9em .5em .9em;
   position: relative;
-  border-radius: 10px;
   background-color: var(--ct-ip-grey-1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgb(255, 255, 255);
 }
-.ip-video-card:focus {
-  outline: var(--ct-text-title) solid 1px;
+.ip-video-card:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.ip-video-card:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom: none;
+}
+.ip-video-card.edit {
+  flex-direction: column;
+  align-items: flex-start;
 }
 .ip-video-card:hover {
   background-color: var(--ct-ip-grey-2);
-}
-
-.ip-video {
-  width: 100%;
-  overflow: hidden;
 }
 .ip-video-card[data-select=true] {
   padding: 1em .9em;
   cursor: pointer;
 }
 
-.ip-video .ip-video-con {
+.ip-video {
+  width: auto;
+  overflow: hidden;
+  position: relative;
+}
+.ip-video-card.edit .ip-video {
   width: 100%;
+}
+.ip-video-card[data-select=true] .ip-video {
+  width: 100%;
+}
+
+.ip-video .ip-video-con {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -99,21 +118,35 @@
 } */
 
 .ip-video .ip-video-name {
-  width: 100%;
   overflow: hidden;
   font-size: 1.4em;
   font-weight: bold;
-  font-family: var(--ct-font-google);
-  margin: .5em 1px .5em .5em;
+  font-family: var(--ct-font-narrow);
+  margin: .5em 3px .5em .5em;
   color: rgb(58, 58, 58);
   line-height: 1.3em;
   border-radius: 5px;
   padding: .4em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
 }
-.ip-video .ip-video-name[data-edit=true] {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.212);
+.ip-video-card.ip-video-card.edit .ip-video .ip-video-name {
+  width: 100%;
   outline: none;
   background-color: white;
+  border-bottom: 2px transparent solid;
+  padding-top: calc(.4em + 2px);
+  transition: border .2s ease-in-out;
+}
+.ip-video-card.ip-video-card.edit .ip-video .ip-video-name:focus,
+.ip-video-card.ip-video-card.edit .ip-video .ip-video-name:hover {
+  border-bottom: 2px black solid;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.ip-video-card.ip-video-card.edit .ip-video .ip-video-name:focus {
+  border-bottom-color: var(--ct-green-normal);
 }
 .ip-video-card[data-select=true]:hover .ip-video-name {
   color: var(--ct-green-normal);
@@ -122,12 +155,24 @@
 
 /* More */
 .ip-video-opts {
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-start;
-  margin-top: .5em;
+  width: 0;
+  overflow: hidden;
+}
+.ip-video-card:hover .ip-video-opts {
+  visibility: initial;
+  min-width: 10em;
+}
+.ip-video-card:focus-within .ip-video-opts {
+  visibility: initial;
+  min-width: 10em;
+}
+.ip-video-card.edit .ip-video-opts {
+  width: 100%;
+  visibility: initial;
 }
 .ip-v-menu {
   display: flex;

@@ -80,7 +80,7 @@ function VideoWithRedux({
   return isDeleted ? null : (
     <div 
       id={`media-${id}`} 
-      className="ip-video-card" 
+      className={"ip-video-card" + (isEditing ? ' edit' : '')} 
       data-select={isSelectingVideos}
       tabIndex={ isSelectingVideos ? 0 : -1}
       onClick={handleSelect}
@@ -114,7 +114,6 @@ function VideoWithRedux({
           <div 
             ref={nameRef}
             className="ip-video-name"
-            data-edit={isEditing}
             contentEditable={isEditing}
           >
             {mediaName}
@@ -126,22 +125,21 @@ function VideoWithRedux({
         (!isSelectingVideos && !isEditing)
         &&
         <div className="ip-video-opts ct-btn-group">
-          <CTButton //circle
+          <CTButton circle
             icon="play_circle_filled"
-            text={isUnavailable ? "Available Soon" : "Watch"}
-            color="green"
+            color="text-green"
             onClick={handleWatch}
             disabled={isUnavailable}
           />
 
-          <CTButton //circle
+          <CTButton circle
             popup="Rename"
             icon="edit"
-            color="text-green"
+            color="light"
             onClick={handleRename}
           />
 
-          <CTButton //circle
+          <CTButton circle
             popup="Delete"
             icon="delete"
             color="light"
