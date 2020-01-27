@@ -8,6 +8,7 @@ export const SET_TERMS = 'inst-set-terms'
 export const SET_OFFERING = 'inst-set-offering'
 export const SET_PLAYLISTS = 'inst-set-playlists'
 export const SET_IS_EDITING_OFFERING = 'inst-set-is-editing-offering'
+export const SET_IS_VIEWING_ANALYTICS = 'inst-set-is-viewing-analytics'
 
 // Playlist
 export const SET_PLAYLIST = 'inst-set-playlist'

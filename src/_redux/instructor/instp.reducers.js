@@ -8,6 +8,7 @@ import {
   SET_OFFERING,
   SET_PLAYLISTS,
   SET_IS_EDITING_OFFERING,
+  SET_IS_VIEWING_ANALYTICS,
   // Playlist
   SET_PLAYLIST,
   SET_IS_SELECTING_VIDEOS,
@@ -43,9 +44,11 @@ const instpReducer = (
         isSelectingVideos: false, 
         selectedVideos: {},
         isEditingOffering: false,
+        isViewingAnalytics: false,
       }
     case SET_PLAYLISTS            : return { ...state, playlists: value }
     case SET_IS_EDITING_OFFERING  : return { ...state, isEditingOffering: value }
+    case SET_IS_VIEWING_ANALYTICS : return { ...state, isViewingAnalytics: value }
 
     // Playlist
     case SET_PLAYLIST             : 
@@ -55,6 +58,7 @@ const instpReducer = (
         isSelectingVideos: false, 
         selectedVideos: {},
         isEditingOffering: false,
+        isViewingAnalytics: false,
       }  
     case SET_IS_SELECTING_VIDEOS  : return { ...state, isSelectingVideos: value }  
     case SET_SELECTED_VIDEOS      : return { ...state, selectedVideos: value }  

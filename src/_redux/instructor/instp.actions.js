@@ -8,6 +8,7 @@ import {
   SET_OFFERING,
   SET_PLAYLISTS,
   SET_IS_EDITING_OFFERING,
+  SET_IS_VIEWING_ANALYTICS,
   // Playlist
   SET_PLAYLIST,
   SET_IS_SELECTING_VIDEOS,
@@ -28,6 +29,7 @@ export const setTerms               = value => ({ type: SET_TERMS, value })
 export const setOffering            = value => ({ type: SET_OFFERING, value })
 export const setPlaylists           = value => ({ type: SET_PLAYLISTS, value })
 export const setIsEditingOffering   = value => ({ type: SET_IS_EDITING_OFFERING, value })
+export const setIsViewingAnalytics  = value => ({ type: SET_IS_VIEWING_ANALYTICS, value })
 
 // Playlist
 export const setPlaylist            = value => ({ type: SET_PLAYLIST, value })

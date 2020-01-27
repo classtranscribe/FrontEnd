@@ -14,6 +14,7 @@ export const initialState = {
   playlists: [],
   playlist: {},
   isEditingOffering: false,
+  isViewingAnalytics: false,
 
   // Playlist
   isSelectingVideos: false,

@@ -96,7 +96,7 @@ export const plControl = {
       let playlists = setup.playlists()
       _.remove(playlists, pl => pl.id === playlist.id)
       setup.playlists([ ...playlists ])
-      promptControl.deleted('playlist')
+      promptControl.deleted('Playlist')
     } catch (error) {
       promptControl.failedToDelete('playlist')
       console.error(`failed to delete playlist ${playlist.id}`)

@@ -14,13 +14,6 @@
   max-width: 900px;
 }
 
-.ip-edit-c-con h2 {
-  font-size: 2.2em;
-  color: var(--ct-text-primary);
-  text-transform: uppercase;
-  padding-top: .5em;
-}
-
 .ip-f-form-con {
   width: 100%;
 }

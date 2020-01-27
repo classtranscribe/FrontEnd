@@ -10,11 +10,10 @@ import PlaylistInfo from './PlaylistInfo'
 import ButtonBar from './ButtonBar'
 import Video from './Video'
 
-import NoPlaylistHolder from './NoPlaylistHolder'
+// import NoPlaylistHolder from './NoPlaylistHolder'
 import NoVideoHolder from './NoVideoHolder'
 
 import NewPlaylist from './NewPlaylist'
-import Analytics from './Analytics'
 import UploadVideo from './UploadVideo'
 
 import {  
@@ -29,6 +28,7 @@ function PlaylistWithRedux({
   playlist={},
   offering={},
   isEditingOffering=false,
+  isViewingAnalytics=false,
 }) {
 
   let newOffering = offering === NEW_OFFERING
@@ -52,13 +52,12 @@ function PlaylistWithRedux({
   const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
   const onReverse = () => filterControl.reverse(results, setResults)
 
-  if (isEditingOffering) return null
+  if (isEditingOffering || isViewingAnalytics) return null
   if (!offering.id) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   
   // if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
-  if (playlist === OFF_ANALYSIS) return <Analytics />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
   
 
@@ -134,7 +133,8 @@ export const Playlist = withRouter(connectWithRedux(
   [
     'offering',
     'playlist',
-    'isEditingOffering'
+    'isEditingOffering',
+    'isViewingAnalytics'
   ],
   []
 ))

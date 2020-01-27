@@ -60,11 +60,16 @@ function UploadVideo({
     {isUploadingMedias && <div className="ip-p-up-loading-wrapper"></div>}
     <div className="ip-edit-c-con ct-a-fade-in ip-edit-p-con ip-p-up-con">
       <div className="w-100 h-auto ct-a-fade-in">
-        <button className="plain-btn" onClick={onClose} aria-label="go back" disabled={isUploadingMedias}>
-          <h3 aria-hidden="true" tabIndex="-1" className="ip-p-pl-name ct-d-r-center-v ct-a-fade-in">
-            <i className="material-icons ip-p-up-back-icon">chevron_left</i> <span>GO BACK</span>
-          </h3>
-        </button>
+        <div className="w-auto">
+          <button 
+            className="plain-btn ip-goback" 
+            onClick={onClose}
+          >
+            <span tabIndex="-1">
+              <i className="material-icons" aria-hidden="true">chevron_left</i> GO BACK
+            </span>
+          </button>
+        </div>
 
         <div className="ip-f-section">
           <div className="ip-f-title">

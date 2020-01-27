@@ -49,22 +49,30 @@ function EditCourseWithRedux({
         {
           !newCourse
           &&
-          <div className="w-auto">
-            <button 
-              className="plain-btn ip-sb-off-item ip-c-pl-item p-0 w-auto" 
-              onClick={onClose}
-            >
-              <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
-                <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num ip-f-back-btn">
-                  <i className="material-icons" aria-hidden="true">chevron_left</i> Cancel
-                </span>
-              </div>
-            </button>
-          </div>
+          <button 
+            className="plain-btn ip-goback" 
+            onClick={onClose}
+          >
+            <span tabIndex="-1">
+              <i className="material-icons" aria-hidden="true">chevron_left</i> GO BACK
+            </span>
+          </button>
         }
 
         {/* Title */}
-        <h2>{is1sOffering ? 'Welcome, Create your first offering!' : newCourse ? 'New Offering' : 'Edit Offering'}</h2>
+        <h2 className="ip-title">
+          {
+            is1sOffering 
+            ? 
+            'Welcome, Create your first offering!' 
+            : 
+            newCourse 
+            ? 
+            'New Offering' 
+            : 
+            'Edit Offering'
+          }
+        </h2>
 
         <div className="ip-f-form-con">
           <form className="w-100">

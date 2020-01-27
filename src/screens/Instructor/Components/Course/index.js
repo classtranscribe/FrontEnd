@@ -4,15 +4,17 @@ import { withRouter } from 'react-router'
 import './index.css'
 import { 
   setup,
-  plControl,
   offControl,
   filterControl, 
   ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST, NO_OFFERING_ID, NEW_PLAYLIST,
 } from '../../Utils'
+
 import { PlaceHolder } from '../Placeholder'
 import { EditCourse } from '../EditCourse'
+
 import CourseInfo from './CourseInfo'
 import Playlists from './Playlists'
+import Analytics from './Analytics'
 import NoOfferingHolder from './NoOfferingHolder'
 
 function CourseWithRedux({
@@ -22,6 +24,9 @@ function CourseWithRedux({
 
   isEditingOffering=false,
   setIsEditingOffering,
+
+  isViewingAnalytics=false,
+  setIsViewingAnalytics,
 
   history
 }) {
@@ -42,6 +47,10 @@ function CourseWithRedux({
   const handleEdit = () => {
     offControl.offering(offering)
     setIsEditingOffering(true)
+  }
+
+  const viewAnalytics = () => {
+    setIsViewingAnalytics(true)
   }
 
   const onFilter = value => filterControl.filterPlaylists(value, playlists, setResults)
@@ -70,6 +79,7 @@ function CourseWithRedux({
   if (!offering.id) return <NoOfferingHolder />
   if (offering === NEW_OFFERING) return <EditCourse newCourse />
   if (isEditingOffering) return <EditCourse />
+  if (isViewingAnalytics) return <Analytics />
 
   return (
     <div className="ip-course">
@@ -79,10 +89,9 @@ function CourseWithRedux({
           {/* Course Info */}
           <CourseInfo 
             offering={offering}
-            playlist={playlist}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
-            handlePlaylistClick={handlePlaylistClick}
+            viewAnalytics={viewAnalytics}
           />
 
           <Playlists
@@ -113,9 +122,11 @@ export const Course = withRouter(connectWithRedux(
     'offering', 
     'playlists', 
     'playlist',
-    'isEditingOffering'
+    'isEditingOffering',
+    'isViewingAnalytics'
   ],
   [
-    'setIsEditingOffering'
+    'setIsEditingOffering',
+    'setIsViewingAnalytics'
   ]
 ))

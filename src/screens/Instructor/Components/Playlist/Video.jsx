@@ -105,7 +105,7 @@ function VideoWithRedux({
             </div>
             :
             <div className="ip-v-file-icon">
-              <Icon name="file video outline" size="big"/>
+              <Icon name="file video" size="big"/>
             </div>
           }
 
