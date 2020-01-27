@@ -33,4 +33,35 @@ export const search = {
     const isMatch = word => re.test(key ? word[key] : word)
     return _.filter(array, isMatch)
   },
+
+  getRegExpTests: function(value='', keys=[], parser=item => item) {
+    let tests = []
+    // get test functions for each word
+    value.split(' ').forEach(word => {
+      let reg = new RegExp(_.escapeRegExp(word), 'gi')
+
+      const testFunc = result => {
+        let re = false
+        _.forEach(keys, key => {
+          re = re || reg.test(_.get(parser(result), key))
+        })
+        return re
+      }
+      tests.push({ word, testFunc, reg })
+    })
+
+    return tests
+  },
+
+  getMatchFunction: function(value='', keys=[], parser) {
+    let tests = this.getRegExpTests(value, keys, parser)
+    // combine the test result
+    const isMatch = result => {
+      let match = true
+      tests.forEach( test => match = match && test.testFunc(result))
+      return match
+    }
+
+    return isMatch
+  },
 }

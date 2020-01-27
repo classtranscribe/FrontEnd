@@ -1,0 +1,29 @@
+.ip-edit-c {
+  width: 100%;
+  height: auto;
+  background-color: var(--ct-ip-grey-1);
+  padding: 5em 2em;
+  font-family: var(--ct-font-google);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.ip-edit-c-con {
+  max-width: 900px;
+}
+
+.ip-f-form-con {
+  width: 100%;
+}
+
+.ip-f-back-btn {
+  width: max-content;
+  padding-right: 1em;
+}
+
+.ip-f-btn-group {
+  justify-content: flex-end;
+  padding: 0 2em;
+}

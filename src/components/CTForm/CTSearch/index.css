@@ -1,0 +1,99 @@
+
+.ct-ipt-sea-input-con input {
+  padding: .5em 1.5em .5em .5em !important;
+}
+
+/* Options */
+.ct-ipt-sea-opts {
+  display: none;
+  flex: 0 0 auto;
+  top: 5em;
+  position: absolute;
+  width: 100%;
+  flex-direction: column;
+  max-height: 20em;
+  /* background-color: white; */
+  background: rgb(233, 233, 233);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1;
+  animation: ipt-sea-popup .15s ease-in;
+}
+.ct-ipt-sea-opts::-webkit-scrollbar {
+  display: block;
+  width: 4px;
+}
+@keyframes ipt-sea-popup {
+  0% {max-height: 1em;}
+  100% {max-height: 20em;}}
+@-o-keyframes ipt-sea-popup {
+  0% {max-height: 1em;}
+  100% {max-height: 20em;}}
+@-moz-keyframes ipt-sea-popup {
+  0% {max-height: 1em;}
+  100% {max-height: 20em;}}
+@-webkit-keyframes ipt-sea-popup {
+  0% {max-height: 1em;}
+  100% {max-height: 20em;}}
+
+.ct-ipt-sea-opt {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.3em;
+  padding: .7em 1em;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ct-ipt-sea-opt:hover,
+.ct-ipt-sea-opt:focus {
+  color: black;
+  background-color: rgb(207, 207, 207);
+  outline: none;
+}
+.ct-ipt-sea-opt[data-current=true] {
+  font-weight: bold;
+  color: white;
+  background-color: rgb(30, 163, 163);
+}
+.ct-ipt-sea-opt[data-current=true]:hover,
+.ct-ipt-sea-opt[data-current=true]:focus {
+  background-color: rgb(25, 138, 138);
+}
+.ct-ipt-sea-opt span {
+  display: block;
+  color: rgb(95, 95, 95);
+  font-size: .9em;
+  margin-top: .2em;
+}
+.ct-ipt-sea-opt[data-current=true] span {
+  font-weight: normal;
+  color: rgb(235, 235, 235);
+}
+.ct-ipt:focus-within .ct-ipt-sea-opts {
+  display: block;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.157);
+}
+.ct-ipt:focus-within .ct-ipt-sea-text {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.157);
+  background-color: rgb(240, 240, 240);
+}
+.ct-ipt:focus-within .ct-ipt-sea-drop-icon i {
+  transform: rotate(180deg);
+}
+.ct-ipt-sea-opts[data-active=false] {
+  display: none;
+}
+
+.ct-ipt-sea-opt[data-disabled] {
+  pointer-events: none;
+  color: grey;
+  font-style: italic;
+}

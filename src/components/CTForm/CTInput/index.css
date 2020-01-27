@@ -1,0 +1,70 @@
+/* Input */
+.ct-ipt-con .ct-ipt-text {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-radius .2s ease-in-out;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.ct-ipt-text:focus-within {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.ct-ipt-con .ct-ipt-input-con {
+  width: 100%;
+  padding: .7em .5em 0 .5em;
+  border-bottom: .2em solid transparent;
+  transition: border .2s ease-in-out;
+  border-bottom: .2em solid rgb(209, 209, 209);
+}
+
+
+.ct-ipt-con .ct-ipt-text input,
+.ct-ipt-con .ct-ipt-text textarea {
+  width: 100%;
+  border: 0;
+  margin: 0;
+  padding: .5em;
+  font-size: 1.2em;
+  background: none;
+}
+.ct-ipt-con .ct-ipt-text input,
+.ct-ipt-con .ct-ipt-text textarea {
+  color: rgb(66, 66, 66);
+  font-size: 1.3em;
+}
+.ct-ipt-con .ct-ipt-text input::placeholder,
+.ct-ipt-con .ct-ipt-text textarea::placeholder {
+  color: rgb(126, 126, 126);
+  transition: color .2s ease-in-out;
+}
+.ct-ipt-con .ct-ipt-text input:focus,
+.ct-ipt-con .ct-ipt-text textarea:focus {
+  outline: none;
+}
+.ct-ipt-con .ct-ipt-text input:focus::placeholder,
+.ct-ipt-con .ct-ipt-text textarea:focus::placeholder {
+  color: rgb(173, 173, 173);
+}
+
+.ct-ipt-con:hover .ct-ipt-input-con {
+  border-bottom: .2em solid rgb(29, 29, 29);
+}
+.ct-ipt-con:focus-within .ct-ipt-input-con {
+  border-color: rgb(15, 124, 124);
+}
+
+
+/* Error */
+.ct-ipt-text[data-error=true] .ct-ipt-input-con {
+  border-color: rgba(223, 128, 128, 0.945);
+}
+

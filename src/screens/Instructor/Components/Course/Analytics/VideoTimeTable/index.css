@@ -1,0 +1,38 @@
+.VictoryContainer{
+  height: 30% !important; 
+  width: 30% !important; 
+  user-select: none; pointer-events: none; touch-action: none; position: relative;
+}
+
+.outer{
+  min-width: 800px;
+  padding: 10px;
+}
+
+.ip-bg .table_loader{
+  height: 20em;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.ip-bg .ui.inverted.dimmer {
+  background-color: var(--ct-grey-1);
+}
+
+.charts {
+  padding: 1px 1px;
+  display: flex;
+  flex-direction: row;
+}
+
+.analytics_tab {
+  position: relative;
+  height: 40px;
+  display: flex;
+  justify-content: left;
+  text-align: center;
+  padding: 10px;
+}
+
+/* .analytic_table {
+} */

@@ -1,10 +1,27 @@
+import {
+  LOADING_INIT, ARRAY_INIT
+} from '../../screens/Instructor/Utils'
 
 export const initialState = {
-  // Courses page
-  offerings: [],
+  // Sidebar
+  sidebar: true,
+  offerings: ARRAY_INIT,
+  departments: [],
+  terms: [],
 
-  // Offering page
-  offering : [],
-  playlist: {},
+  // Course
+  offering : {},
   playlists: [],
+  playlist: {},
+  isEditingOffering: false,
+  isViewingAnalytics: false,
+
+  // Playlist
+  isSelectingVideos: false,
+  selectedVideos: {},
+
+  // Others
+  loading: LOADING_INIT,
+  confirmation: null,
+  prompt: null,
 }

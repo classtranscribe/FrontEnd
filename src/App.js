@@ -5,8 +5,9 @@ import {
   NotFound404,
   Maintenance,
   OfferingViewing, 
-  InstructorProfile, 
-  InstructorOffering,
+  Instructor,
+  // InstructorProfile, 
+  // InstructorOffering,
   LoginAndLogout,
   Admin,
   Watch,
@@ -39,8 +40,8 @@ class App extends React.Component {
         <Route path="/home" component={OfferingViewing} />
         <Route exact path="/video" component={Watch} />
         <Route path="/admin" component={Admin} />
-        <Route path="/instructor" component={InstructorProfile} />
-        <Route path="/offering/:id" component={InstructorOffering} />
+        <Route path="/instructor" component={Instructor} />
+        {/* <Route path="/offering/:id" component={InstructorOffering} /> */}
         {/* <Route path="/offering-setting/:type?=:id" component={OfferingSettingPage} /> */}
 
         <Route path="/404" component={NotFound404} />

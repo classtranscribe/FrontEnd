@@ -30,8 +30,9 @@ export const util = {
     logout: () => '/logout',
 
     instructor: () => '/instructor',
-    newOffering: id => `/instructor/offering-setting/new=${id}`,
-    editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
+    instOffering: offeringId => `/instructor?offId=${offeringId}`,
+    // newOffering: () => `/instructor?offId=ip-new-offering`,
+    // editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
 
     offering: id => `/offering/${id}`,
     offeringData: offeringId => `/offering/${offeringId}/data`,
@@ -41,7 +42,7 @@ export const util = {
     uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
     renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
 
-    watch: (courseNumber, id, begin) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin)})}`,
+    watch: (courseNumber, id, begin, others={}) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin), ...others })}`,
     notfound404: () => '/404',
     contactUs: () => 'mailto:classtranscribe@illinois.edu',
   },
@@ -68,6 +69,7 @@ export const util = {
   parseSearchQuery: function (href) {
     var queryString = window.location.search
     if (href) {
+      if (href[0] !== '?' && !this.isValidUrl(href)) return {};
       queryString = href.substring(href.indexOf('?'), href.length)
     }
     if (!queryString) return {}
@@ -146,6 +148,17 @@ export const util = {
       default:
         break;
     }    
+  },
+
+  /**
+   * Determine whether a imput email is valid
+   */
+  isValidEmail: function(email) {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(email)
+  },
+  isValidUrl: function(value) {
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
   },
 }
 

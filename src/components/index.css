@@ -35,7 +35,7 @@
 
 
 .MuiPaper-rounded, .ui.selection.dropdown, .ui.selection.dropdown .menu, .ui.selection .menu, .button, .ui.message, .modal, .card, .modal input, .modal textarea, .ui.segment, .ui.segments .segment {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 .ui.selection.active.dropdown, .ui.selection.active.dropdown .menu {
   border-color: #fafafa !important;

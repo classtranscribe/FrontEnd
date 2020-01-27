@@ -1,0 +1,26 @@
+.ct-ipt-cb-con {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ct-ipt-cb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.ct-ipt-cb-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: .1em 0 0 0;
+  padding-left: 1em;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: rgb(61, 61, 61);
+}
+
+/* .ct-ipt-cb-con:focus-within .ct-ipt-cb-label {
+  color: var(--ct-text-title);
+} */

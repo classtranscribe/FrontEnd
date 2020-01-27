@@ -1,0 +1,95 @@
+.ip-sidebar {
+  width: 19em;
+}
+
+.ip-sb-title {
+  /* border-bottom: rgb(241, 241, 241) 1px solid; */
+  padding: .3em 1em;
+  color: var(--ct-text-title);
+}
+
+.ip-sb-title h2 {
+  font-family: var(--ct-font-google);
+  font-size: 1.4em;
+  padding: .2em .5em;
+  margin: 0;
+  text-transform: uppercase;
+  margin-left: .3em;
+}
+
+.ip-sb-filter {
+  margin-bottom: 2em;
+}
+
+.ip-sb-off-item {
+  width: 100%;
+  padding-right: .8em;
+  padding-left: .8em;
+  margin: .5em 0;
+}
+.ip-sb-off-item-con {
+  padding: 1em 1em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: var(--ct-ip-grey-1);
+  /* border: var(--ct-border-color-transparent); */
+  transition: all .2s linear;
+}
+
+.ip-sb-off-item:hover .ip-sb-off-item-con {
+  background-color: var(--ct-ip-grey-2);
+}
+.ip-sb-off-item:active .ip-sb-off-item-con,
+.ip-sb-off-item:focus .ip-sb-off-item-con {
+  background-color: var(--ct-ip-grey-1);
+}
+.ip-sb-off-item:disabled .ip-sb-off-num {
+  color: black;
+}
+
+.ip-sb-off-item[data-current=true] {
+  padding-right: 0em;
+}
+.ip-sb-off-item[data-current=true] .ip-sb-off-item-con {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  /* border: var(--ct-border-color); */
+}
+.ip-sb-off-item[data-current=true]:hover .ip-sb-off-item-con {
+  background-color: var(--ct-ip-grey-1);
+}
+.ip-sb-off-item[data-current=true]:active .ip-sb-off-item-con {
+  background-color: var(--ct-ip-grey-1);
+}
+
+.ip-sb-off-text {
+  width: 95%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--ct-font-google);
+}
+.ip-sb-off-text .material-icons {
+  font-size: 1.1em;
+  padding: 0;
+  margin-right: .3em;
+}
+
+.ip-sb-off-num {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.ip-sb-off-item:hover .ip-sb-off-num {
+  color: var(--ct-text-title);
+}
+.ip-sb-off-name {
+  font-size: 1.2em;
+  color: var(--ct-text-title);
+}
+.ip-sb-off-detail {
+  font-size: 1em;
+  margin-top: .8em;
+  padding: .1em;
+  color: rgb(77, 77, 77);
+}

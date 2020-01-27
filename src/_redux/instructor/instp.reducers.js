@@ -1,10 +1,22 @@
 import {
-  // Course page
+  // Sidebar
+  SET_SIDEBAR,
   SET_OFFERINGS,
-  // Offering page
+  SET_DEPARTS,
+  SET_TERMS,
+  // Course
   SET_OFFERING,
   SET_PLAYLISTS,
+  SET_IS_EDITING_OFFERING,
+  SET_IS_VIEWING_ANALYTICS,
+  // Playlist
   SET_PLAYLIST,
+  SET_IS_SELECTING_VIDEOS,
+  SET_SELECTED_VIDEOS,
+  // Others
+  SET_LOADING,
+  SET_CONFIRMATION,
+  SET_PROMPT,
 } from './instp.action.types'
 import { initialState } from './instp.state'
 
@@ -16,16 +28,49 @@ const instpReducer = (
   const { type, value } = action
 
   switch (type) {
-    // Courses page
-    case SET_OFFERINGS          : return { ...state, offerings: value }
+    // Sidebar
+    case SET_SIDEBAR              : return { ...state, sidebar: value }
+    case SET_OFFERINGS            : return { ...state, offerings: value }
+    case SET_DEPARTS              : return { ...state, departments: value }
+    case SET_TERMS                : return { ...state, terms: value }
 
-    // Offering page
-    case SET_OFFERING           : return { ...state, offering: value }
-    case SET_PLAYLISTS          : return { ...state, playlists: value }
-    case SET_PLAYLIST           : return { ...state, playlist: value }
+    // Course
+    case SET_OFFERING             : 
+      return { 
+        ...state, 
+        playlist: {},
+        playlists: [],
+        offering: value, 
+        isSelectingVideos: false, 
+        selectedVideos: {},
+        isEditingOffering: false,
+        isViewingAnalytics: false,
+      }
+    case SET_PLAYLISTS            : return { ...state, playlists: value }
+    case SET_IS_EDITING_OFFERING  : return { ...state, isEditingOffering: value }
+    case SET_IS_VIEWING_ANALYTICS : return { ...state, isViewingAnalytics: value }
+
+    // Playlist
+    case SET_PLAYLIST             : 
+      return { 
+        ...state, 
+        playlist: value, 
+        isSelectingVideos: false, 
+        selectedVideos: {},
+        isEditingOffering: false,
+        isViewingAnalytics: false,
+      }  
+    case SET_IS_SELECTING_VIDEOS  : return { ...state, isSelectingVideos: value }  
+    case SET_SELECTED_VIDEOS      : return { ...state, selectedVideos: value }  
+
+
+    // Others
+    case SET_LOADING              : return { ...state, loading: value }  
+    case SET_CONFIRMATION         : return { ...state, confirmation: value }  
+    case SET_PROMPT               : return { ...state, prompt: value }  
 
     // Default
-    default                     : return state
+    default                       : return state
   }
 }
 

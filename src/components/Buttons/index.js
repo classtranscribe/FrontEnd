@@ -4,9 +4,10 @@ import { Popup } from 'semantic-ui-react'
 
 export function CTButton({
   id=`ct-btn-${Math.random()}`,
+  type="button",
   classNames='',
   spanClassNames='',
-  color='primary', // primary, green, black
+  color='primary', // primary, light, green, yellow, black
   size='normal',
   icon=null,
   iconContent=null,
@@ -25,6 +26,9 @@ export function CTButton({
   ariaLabel,
   ariaHasPopup,
   ariaControls,
+
+  children,
+  ...others
 }) {
 
   return (
@@ -39,6 +43,7 @@ export function CTButton({
       trigger={
         <button 
           id={id}
+          type={type}
           className={`ct-btn ${classNames}`}
           data-font={size}
           data-color={color}
@@ -50,6 +55,7 @@ export function CTButton({
           aira-label={Boolean(ariaLabel) ? ariaLabel : text}
           aria-haspopup={ariaHasPopup}
           aria-controls={ariaControls}
+          {...others}
         >
           <span className="ct-btn-content" tabIndex="-1">
             {
@@ -63,9 +69,13 @@ export function CTButton({
                 }
               </span>
             }
-            <span className={`ct-btn-text ${spanClassNames}`} aria-hidden="true">
-              {text}
-            </span>
+            {
+              Boolean(text) 
+              &&
+              <span className={`ct-btn-text ${spanClassNames}`} aria-hidden="true">
+                {text}{children}
+              </span>
+            }
           </span>
         </button>
       }

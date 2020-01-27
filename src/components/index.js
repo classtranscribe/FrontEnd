@@ -19,6 +19,7 @@ export { Poster } from './Poster'
 export { HomepageTips, VideoTips } from './UserTips'
 export { VideoCard, VideoCardPlaceHolder } from './Cards'
 export { CTButton } from './Buttons'
+export { CTForm  } from './CTForm'
 
 /**
  * General Components
