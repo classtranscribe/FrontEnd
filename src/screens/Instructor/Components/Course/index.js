@@ -7,12 +7,13 @@ import {
   plControl,
   offControl,
   filterControl, 
-  ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST,
+  ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST, NO_OFFERING_ID,
 } from '../../Utils'
 import { PlaceHolder } from '../Placeholder'
 import { EditCourse } from '../EditCourse'
 import CourseInfo from './CourseInfo'
 import Playlists from './Playlists'
+import NoOfferingHolder from './NoOfferingHolder'
 
 function CourseWithRedux({
   offering={},
@@ -28,7 +29,7 @@ function CourseWithRedux({
   const [results, setResults] = useState([])
 
   useEffect(() => {
-    if (offering.id && !playlists.length) {
+    if (offering.courseNumber && !playlists.length) {
       if (offering === NEW_OFFERING) return;
       setup.setUpPlaylists(offering.id)
     }
@@ -65,6 +66,7 @@ function CourseWithRedux({
   const onReverse = () => filterControl.reverse(results, setResults)
 
 
+  if (!offering.id) return <NoOfferingHolder />
   if (offering === NEW_OFFERING) return <EditCourse newCourse />
   if (isEditingOffering) return <EditCourse />
 

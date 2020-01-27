@@ -41,11 +41,13 @@ function UploadVideo({
   }
 
   const handleUpload = async () => {
-    for (let i = 0; i < uploadedMedias.length; i++) {
-      setUploadingIndex(i)
-      setProgress(0)
-      await mediaControl.upload(playlist.id, uploadedMedias[i], onUploadProgress)
-    }
+    await mediaControl.handleUpload(
+      playlist.id, 
+      uploadedMedias, 
+      setUploadingIndex, 
+      setProgress,
+      onUploadProgress
+    )
 
     onClose()
   }

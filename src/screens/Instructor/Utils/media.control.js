@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { api } from 'utils'
 import { setup } from './setup.control'
 import { LOADING_D } from './constants'
+import { promptControl } from './prompt.control'
 
 export const mediaControl = {
   externalFunctions: {},
@@ -26,20 +27,26 @@ export const mediaControl = {
    * ************************************************************************
    */
   deleteMedia: async function(media, bulkDelete=false) {
-    if (!bulkDelete) setup.loading(LOADING_D)
+    if (!bulkDelete) promptControl.deleting()
     try {
       await api.deleteMedia(media.id)
       let playlist = setup.playlist()
       _.remove(playlist.medias, me => me === media)
+
       if (!bulkDelete) setup.playlist({ ...playlist })
+      if (!bulkDelete) promptControl.deleted('Video')
+      return true
     } catch (error) {
+      if (!bulkDelete) promptControl.failedToDelete('video')
       console.error('Failed to delete media')
     }
-    if (!bulkDelete) setup.unloading()
+
+    return false
   },
 
   renameMedia: async function(media, type, newName) {
     console.log(media)
+    promptControl.saving()
     if (type === 2) {
       media.jsonMetadata.filename = newName
     } else {
@@ -48,7 +55,9 @@ export const mediaControl = {
     
     try {
       await api.updateMediaMetadata(media.id, media.jsonMetadata)
+      promptControl.updated('Media name')
     } catch (error) {
+      promptControl.failedToUpdate('media name')
       console.error('Failed to rename media')
     }
   },
@@ -57,6 +66,20 @@ export const mediaControl = {
    * Functions for uploading videos
    * ************************************************************************
    */
+  
+  handleUpload: async function(
+    playlistId, 
+    uploadedMedias, 
+    setUploadingIndex, 
+    setProgress,
+    onUploadProgress
+  ) {
+    for (let i = 0; i < uploadedMedias.length; i++) {
+      setUploadingIndex(i)
+      setProgress(0)
+      await mediaControl.upload(playlistId, uploadedMedias[i], onUploadProgress)
+    }
+  },
   upload: async function(playlistId, { video1, video2 }, onUploadProgress) {
     try {
       const { data } = await api.uploadVideo(playlistId, video1, video2, onUploadProgress)
@@ -145,7 +168,6 @@ export const mediaControl = {
   },
 
   handleDeleteVideos: async function() {
-    console.log('??????????', this.selectedVideos);
     setup.loading(LOADING_D)
     let selectedVideos = this.selectedVideos
     for (let mediaId in selectedVideos) {
@@ -154,6 +176,7 @@ export const mediaControl = {
     let playlist = setup.playlist()
     setup.playlist({ ...playlist })
     setup.unloading()
+    promptControl.deleted('Videos')
   },
 
 }

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { util } from 'utils'
 import './index.css'
 import { Filter } from '../Filter'
-import { filterControl, NEW_OFFERING, NEW_OFFERING_ID, offControl, setup } from '../../Utils'
+import { filterControl, NEW_OFFERING, NEW_OFFERING_ID, offControl, setup, ARRAY_EMPTY, NO_OFFERING } from '../../Utils'
 
 function SideBarWithRedux({
   offerings=[],
@@ -45,7 +45,11 @@ function SideBarWithRedux({
           }
         }
       } else {
-        handleOfferingClick(offerings[0])()
+        if (offerings !== NO_OFFERING) {
+          handleOfferingClick(offerings[0])()
+        } else {
+          handleOfferingClick(NEW_OFFERING)()
+        }
       }
     }
   }, [offerings])
@@ -82,28 +86,36 @@ function SideBarWithRedux({
 
         {/*  */}
         <div className="ct-list-col ip-sb-off-list">
-          {results.map( off => (
-            <div key={off.id}>
-              <button 
-                className="plain-btn ip-sb-off-item" 
-                data-current={Boolean(offering.id === off.id)}
-                onClick={handleOfferingClick(off)}
-                disabled={offering.id === off.id}
-              >
-                <div tabIndex="-1" className="ip-sb-off-item-con">
-                  <span className="ip-sb-off-text ip-sb-off-num">
-                    {off.courseNumber}
-                  </span>
-                  <span className="ip-sb-off-text ip-sb-off-name">
-                    {off.courseName}
-                  </span>
-                  <span className="ip-sb-off-text ip-sb-off-detail">
-                    {off.term.name}&emsp;{off.sectionName}
-                  </span>
-                </div>
-              </button>
+          {
+            offerings === NO_OFFERING 
+            ?
+            <div aria-hidden="true" className="w-100 ct-d-c-center">
+              <div className="text-muted">No Courses</div>
             </div>
-          ))}
+            :
+            results.map( off => (
+              <div key={off.id}>
+                <button 
+                  className="plain-btn ip-sb-off-item" 
+                  data-current={Boolean(offering.id === off.id)}
+                  onClick={handleOfferingClick(off)}
+                  disabled={offering.id === off.id}
+                >
+                  <div tabIndex="-1" className="ip-sb-off-item-con">
+                    <span className="ip-sb-off-text ip-sb-off-num">
+                      {off.courseNumber}
+                    </span>
+                    <span className="ip-sb-off-text ip-sb-off-name">
+                      {off.courseName}
+                    </span>
+                    <span className="ip-sb-off-text ip-sb-off-detail">
+                      {off.term.name}&emsp;{off.sectionName}
+                    </span>
+                  </div>
+                </button>
+              </div>
+            ))
+          }
         </div>
       </div>
     </aside>

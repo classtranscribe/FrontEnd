@@ -17,3 +17,4 @@ export const SET_SELECTED_VIDEOS = 'inst-set-selected-videos'
 // Others
 export const SET_LOADING = 'inst-set-loading'
 export const SET_CONFIRMATION = 'inst-set-confirmation'
+export const SET_PROMPT = 'inst-set-prompt'

@@ -2,22 +2,27 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { instpStore, connectWithRedux } from '_redux/instructor'
+
 import { ClassTranscribeHeader, CTContext } from 'components'
 import {
   Loader,
-  Sidebar,
   Course,
+  Sidebar,
+  Prompts,
   Playlist,
   Confirmation,
 } from './Components'
-import './index.css'
+
 import {
-  mediaControl,
-  offControl,
-  plControl,
   setup,
+  plControl,
+  offControl,
+  mediaControl,
+  promptControl,
 } from './Utils'
+
 import { util } from 'utils'
+import './index.css'
 
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
@@ -27,6 +32,7 @@ export class InstructorWithRedux extends React.Component {
     plControl.init(props)
     offControl.init(props)
     mediaControl.init(props)
+    promptControl.init(props)
   }
 
   showSiderBar = value => {
@@ -59,6 +65,8 @@ export class InstructorWithRedux extends React.Component {
           showSiderBar={this.showSiderBar}
         />
 
+        <Prompts />
+
         <main className="ip-container" style={paddingLeft}>
           {Boolean(loading.type) && <Loader />}
           <Course />
@@ -81,6 +89,7 @@ export function Instructor(props) {
       'offerings',
     ],
     [
+      'setPrompt',
       'setSidebar',
       'setLoading',
       'setConfirmation',

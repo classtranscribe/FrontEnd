@@ -173,6 +173,8 @@
 .ip-video-card.edit .ip-video-opts {
   width: 100%;
   visibility: initial;
+  padding-right: .5em;
+  padding-bottom: .5em;
 }
 .ip-v-menu {
   display: flex;

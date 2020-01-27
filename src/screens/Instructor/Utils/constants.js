@@ -10,6 +10,9 @@ export const ARRAY_EMPTY = ['empty']
 export const NEW_OFFERING_ID = 'ip-new-offering'
 export const NEW_OFFERING = { id: NEW_OFFERING_ID }
 
+export const NO_OFFERING_ID = 'ip-no-off'
+export const NO_OFFERING = [{ id: NO_OFFERING_ID }]
+
 export const NEW_PLAYLIST_ID = 'ip-new-playlist'
 export const NEW_PLAYLIST = { id: NEW_PLAYLIST_ID }
 export const NO_PLAYLIST_ID = 'ip-no-playlist'

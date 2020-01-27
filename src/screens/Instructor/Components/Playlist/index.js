@@ -20,7 +20,7 @@ import UploadVideo from './UploadVideo'
 import {  
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, 
-  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST,
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, NO_OFFERING_ID,
 } from '../../Utils'
 import './index.css'
 
@@ -53,11 +53,14 @@ function PlaylistWithRedux({
   const onReverse = () => filterControl.reverse(results, setResults)
 
   if (isEditingOffering) return null
-  if (noPlaylist) return <NoPlaylistHolder />
+  if (!offering.id) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
+  
+  if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST) return <NewPlaylist offeringId={offering.id} />
   if (playlist === OFF_ANALYSIS) return <Analytics />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
+  
 
   return (
     <div className="ip-playlist-con">

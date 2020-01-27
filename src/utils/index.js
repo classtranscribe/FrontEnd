@@ -30,8 +30,9 @@ export const util = {
     logout: () => '/logout',
 
     instructor: () => '/instructor',
-    newOffering: id => `/instructor/offering-setting/new=${id}`,
-    editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
+    instOffering: offeringId => `/instructor?offId=${offeringId}`,
+    // newOffering: () => `/instructor?offId=ip-new-offering`,
+    // editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
 
     offering: id => `/offering/${id}`,
     offeringData: offeringId => `/offering/${offeringId}/data`,

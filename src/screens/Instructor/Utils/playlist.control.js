@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { util, api } from 'utils'
 import { LOADING_D } from './constants'
 import { setup } from './setup.control'
+import { promptControl } from './prompt.control'
 
 // const initPlaylist = {
 //   name: '',
@@ -60,6 +61,7 @@ export const plControl = {
       newPl = data
     } catch (error) {
       setup.unloading()
+      promptControl.failedToSave('playlist')
       return
     }
 
@@ -71,32 +73,34 @@ export const plControl = {
   },
 
   renamePlaylist: async function(playlist, newName) {
-    setup.loading()
+    // setup.loading()
+    promptControl.saving()
 
     try {
       playlist.name = newName
       await api.updatePlaylist(playlist)
       setup.playlist(playlist, 0)
+      promptControl.updated('Playlist name')
     } catch (error) {
+      promptControl.failedToUpdate('playlist name')
       console.error(`failed to rename playlist ${playlist.id}`)
     }
 
-    setup.unloading()
+    // setup.unloading()
   },
 
   deletePlaylist: async function(playlist) {
-    setup.loading(LOADING_D)
-
+    promptControl.deleting()
     try {
       await api.deletePlaylist(playlist.id)
       let playlists = setup.playlists()
       _.remove(playlists, pl => pl.id === playlist.id)
       setup.playlists([ ...playlists ])
+      promptControl.deleted('playlist')
     } catch (error) {
+      promptControl.failedToDelete('playlist')
       console.error(`failed to delete playlist ${playlist.id}`)
     }
-
-    setup.unloading()
   },
 
   /**

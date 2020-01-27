@@ -54,7 +54,7 @@ export default function NewPlaylist({
 
 
   return (
-    <div className="ip-edit-c-con ct-a-fade-in ip-edit-p-con">
+    <div className="ct-a-fade-in ip-edit-p-con">
       <h2>New Playlist</h2>
 
       <div className="ip-f-section">

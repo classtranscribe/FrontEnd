@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { api, util, user } from 'utils'
-import { NEW_OFFERING, ARRAY_EMPTY, LOADING_S_OFF, LOADING_INIT } from './constants'
+import { NEW_OFFERING, ARRAY_EMPTY, NO_OFFERING, LOADING_S_OFF, LOADING_INIT } from './constants'
+import { promptControl } from './prompt.control'
 
 export const setup = {
   externalFunctions: {},
@@ -141,7 +142,7 @@ export const setup = {
   
   parseCourseOfferings: function(courseOfferings=[], departs, terms) {
     // console.log('rawOfferings', courseOfferings)
-    if (courseOfferings.length === 0) return ARRAY_EMPTY
+    if (courseOfferings.length === 0) return NO_OFFERING
 
     let offerArray = _.map( 
       courseOfferings, 
@@ -177,7 +178,7 @@ export const setup = {
     })
   
     console.log('offerings', offerings)
-    return offerings
+    return offerings.slice().reverse()
   },
 
   getInstructorsByOfferingId: async function(offeringId, setInstructors) {
@@ -196,6 +197,7 @@ export const setup = {
   },
 
   getCourseOfferingsByInstructorId: async function(context) {
+    this.errors = []
     try {
       let { data } = await api.getCourseOfferingsByInstructorId(user.userId())
       let departments = await this.getDepartsByUniversityId()
@@ -208,14 +210,11 @@ export const setup = {
 
       this.terms(terms)
       this.departments(departments)
-      this.offerings(offerings.slice().reverse())
+      this.offerings(offerings)
 
       api.contentLoaded()
     } catch (error) {
-      if (context) {
-        const { generalError } = context
-        generalError({ header: "Couldn't load courses." })
-      }
+      promptControl.error(['load offerings', 'departments', 'and terms'])
     }
   },
 

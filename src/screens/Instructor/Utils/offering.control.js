@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { user, api } from 'utils'
 import { LOADING_D } from './constants'
 import { setup } from './setup.control'
+import { promptControl } from './prompt.control'
 
 const initOffering = {
   offering: {
@@ -169,6 +170,9 @@ export const offControl = {
     console.log('errors', errors)
 
     if (errors.length > 0) return;
+
+    /** Begin to save */
+    errors = []
     setup.loading()
 
     // create offering
@@ -183,6 +187,7 @@ export const offControl = {
 
       offeringId = data.id
     } catch (error) {
+      promptControl.failedToSave('course')
       console.error('failed to create offering')
       return;
     }
@@ -192,7 +197,10 @@ export const offControl = {
     for (let i = 1; i < courses.length; i++) {
       await api
             .createCourseOffering({ courseId: courses[i].id, offeringId })
-            .catch(error => console.error('failed to add course ' + courses[i].id))
+            .catch( error => {
+              errors.push('add courses')
+              console.error('failed to add course ' + courses[i].id)
+            })
     }
     
 
@@ -201,7 +209,10 @@ export const offControl = {
     if (staffs.length > 0) {
       await api
             .addCourseStaffToOffering(offeringId, staffs)
-            .catch(error => console.error('failed to add staffs'))
+            .catch(error => {
+              errors.push('add staffs')
+              console.error('failed to add staffs')
+            })
     }
 
     try {
@@ -215,6 +226,7 @@ export const offControl = {
     }
 
     setup.unloading()
+    promptControl.error(errors)
     // console.log('courseOffering', { offering: off, courses, staffs })
   },
 

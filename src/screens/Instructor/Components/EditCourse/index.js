@@ -9,7 +9,7 @@ import {
   Staffs,
 } from './Forms'
 import './index.css'
-import { setup, offControl, NEW_OFFERING } from '../../Utils'
+import { setup, offControl, NEW_OFFERING, NO_OFFERING } from '../../Utils'
 
 function EditCourseWithRedux({
   newCourse=false,
@@ -40,85 +40,88 @@ function EditCourseWithRedux({
     }
   }, [offering])
 
+  const is1sOffering = setup.offerings() === NO_OFFERING
 
   return (
-    <div className="ip-edit-c-con ct-a-fade-in">
-      {/* Back Button */}
-      {
-        !newCourse
-        &&
-        <div className="w-auto">
-          <button 
-            className="plain-btn ip-sb-off-item ip-c-pl-item p-0 w-auto" 
-            onClick={onClose}
-          >
-            <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
-              <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num ip-f-back-btn">
-                <i className="material-icons" aria-hidden="true">chevron_left</i> Cancel
-              </span>
-            </div>
-          </button>
-        </div>
-      }
+    <div className="ip-edit-c ct-a-fade-in">
+      <div className="ip-edit-c-con">
+        {/* Back Button */}
+        {
+          !newCourse
+          &&
+          <div className="w-auto">
+            <button 
+              className="plain-btn ip-sb-off-item ip-c-pl-item p-0 w-auto" 
+              onClick={onClose}
+            >
+              <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
+                <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num ip-f-back-btn">
+                  <i className="material-icons" aria-hidden="true">chevron_left</i> Cancel
+                </span>
+              </div>
+            </button>
+          </div>
+        }
 
-      {/* Title */}
-      <h2>{newCourse ? 'New Offering' : 'Edit Offering'}</h2>
+        {/* Title */}
+        <h2>{is1sOffering ? 'Create your first offering' : newCourse ? 'New Offering' : 'Edit Offering'}</h2>
 
-      <div className="ip-f-form-con">
-        <form className="w-100">
-          <CourseSelection 
-            errors={errors} 
-            setErrors={setErrors} 
-          />
-          <BasicInfo 
-            errors={errors} 
-            setErrors={setErrors} 
-            setAddStudents={setAddStudents} 
-          />
-          {
-            addStudents 
-            && 
-            <Students 
+        <div className="ip-f-form-con">
+          <form className="w-100">
+            <CourseSelection 
               errors={errors} 
               setErrors={setErrors} 
             />
-          }
-          <Staffs 
-            errors={errors} 
-            setErrors={setErrors} 
-            instructors={instructors} 
-          />
-
-          <div className="ct-d-r-center-v w-100 m-3 ip-f-btn-group ct-btn-group">
-            <CTButton
-              color="green"
-              text="Save"
-              size="big"
-              //type="submit"
-              onClick={() => offControl.save(newCourse, setErrors)}
+            <BasicInfo 
+              errors={errors} 
+              setErrors={setErrors} 
+              setAddStudents={setAddStudents} 
             />
             {
-              !newCourse
-              &&
-              <CTButton
-                size="big bold"
-                color="text-green"
-                text="Cancel"
-                onClick={onClose}
+              addStudents 
+              && 
+              <Students 
+                errors={errors} 
+                setErrors={setErrors} 
               />
             }
-          </div>
+            <Staffs 
+              errors={errors} 
+              setErrors={setErrors} 
+              instructors={instructors} 
+            />
 
-          {
-            errors.length > 0
-            &&
-            <div className="d-flex flex-row justify-content-end">
-              <div className="ip-f-courses-error">
-                Please fix the errors above before saving.
-              </div>
+            <div className="ct-d-r-center-v w-100 m-3 ip-f-btn-group ct-btn-group">
+              <CTButton
+                color="green"
+                text="Save"
+                size="big"
+                //type="submit"
+                onClick={() => offControl.save(newCourse, setErrors)}
+              />
+              {
+                !newCourse
+                &&
+                <CTButton
+                  size="big bold"
+                  color="text-green"
+                  text="Cancel"
+                  onClick={onClose}
+                />
+              }
             </div>
-          }
-        </form>
+
+            {
+              errors.length > 0
+              &&
+              <div className="d-flex flex-row justify-content-end">
+                <div className="ip-f-courses-error">
+                  Please fix the errors above before saving.
+                </div>
+              </div>
+            }
+          </form>
+        </div>
       </div>
     </div>
   )

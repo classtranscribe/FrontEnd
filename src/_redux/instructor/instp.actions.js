@@ -15,6 +15,7 @@ import {
   // Others
   SET_LOADING,
   SET_CONFIRMATION,
+  SET_PROMPT,
 } from './instp.action.types'
 
 // Sidebar
@@ -36,3 +37,4 @@ export const setSelectedVideos      = value => ({ type: SET_SELECTED_VIDEOS, val
 // Others
 export const setLoading             = value => ({ type: SET_LOADING, value })
 export const setConfirmation        = value => ({ type: SET_CONFIRMATION, value })
+export const setPrompt              = value => ({ type: SET_PROMPT, value })
