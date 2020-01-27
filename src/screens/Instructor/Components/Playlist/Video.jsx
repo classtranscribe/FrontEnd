@@ -126,8 +126,9 @@ function VideoWithRedux({
         &&
         <div className="ip-video-opts ct-btn-group">
           <CTButton circle
+            popup={isUnavailable ? "" : 'Watch'}
             icon="play_circle_filled"
-            color="text-green"
+            color={isUnavailable ? 'light' : "text-green"}
             onClick={handleWatch}
             disabled={isUnavailable}
           />

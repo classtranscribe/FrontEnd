@@ -56,8 +56,8 @@ function PlaylistWithRedux({
   if (!offering.id) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   
-  if (noPlaylist) return <NoPlaylistHolder />
-  if (playlist === NEW_PLAYLIST) return <NewPlaylist offeringId={offering.id} />
+  // if (noPlaylist) return <NoPlaylistHolder />
+  if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
   if (playlist === OFF_ANALYSIS) return <Analytics />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
   

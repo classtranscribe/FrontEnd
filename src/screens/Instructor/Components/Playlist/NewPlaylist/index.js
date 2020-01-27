@@ -13,7 +13,8 @@ const exampleYoutubeURL = "https://www.youtube.com/playlist?list=PLC3y8-rFHvwgg3
 const exampleEchoAccessLink = "https://echo360.org/section/59cc95a1-b088-46e3-80a3-7e3c6921a40f/public"
 
 export default function NewPlaylist({
-  offeringId
+  offeringId,
+  noPlaylist=false
 }) {
 
   const [name, setName] = useState('')
@@ -55,7 +56,7 @@ export default function NewPlaylist({
 
   return (
     <div className="ct-a-fade-in ip-edit-p-con">
-      <h2>New Playlist</h2>
+      <h2>{noPlaylist ? 'Create Your First Playlist' : 'New Playlist'}</h2>
 
       <div className="ip-f-section">
         <div className="ip-f-title">

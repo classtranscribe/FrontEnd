@@ -19,8 +19,6 @@ function BasicInfoWithRedux({
   const emptySecName = errors.includes('sectionName')
   const emptyTermId = errors.includes('termId')
 
-  const [term, setTerm] = useState('')
-
   const setTermId = termId => {
     offControl.termId(termId)
     if (emptyTermId && Boolean(termId)) {
@@ -77,7 +75,7 @@ function BasicInfoWithRedux({
   }, [offering])
 
 
-  const defaultTermId = offering.term ? offering.term.id : undefined
+  const defaultTermId = offering.term ? offering.term.id : terms[0] ? terms[0].id : undefined
   const defaultCourseName = offering.courseName
   const defaultSectionName = offering.sectionName
   const defaultDescription = offering.description

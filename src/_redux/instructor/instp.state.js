@@ -1,16 +1,16 @@
 import {
-  LOADING_INIT
+  LOADING_INIT, ARRAY_INIT
 } from '../../screens/Instructor/Utils'
 
 export const initialState = {
   // Sidebar
   sidebar: true,
-  offerings: [],
+  offerings: ARRAY_INIT,
   departments: [],
   terms: [],
 
   // Course
-  offering : [],
+  offering : {},
   playlists: [],
   playlist: {},
   isEditingOffering: false,

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api, util, user } from 'utils'
-import { NEW_OFFERING, ARRAY_EMPTY, NO_OFFERING, LOADING_S_OFF, LOADING_INIT } from './constants'
+import { NEW_OFFERING, ARRAY_EMPTY, NO_OFFERING, LOADING_S_OFF, LOADING_INIT, ARRAY_INIT } from './constants'
 import { promptControl } from './prompt.control'
 
 export const setup = {
@@ -49,7 +49,18 @@ export const setup = {
   },
 
   offerings: function(offerings_) {
-    if (offerings_ === undefined) return this.offerings_
+    if (offerings_ === undefined) {
+      if (
+        this.offerings_ === NO_OFFERING || 
+        this.offerings_ === ARRAY_EMPTY ||
+        this.offerings_ === ARRAY_INIT
+      ) {
+        return []
+      } else {
+        return this.offerings_
+      }
+    }
+
     let { setOfferings } = this.externalFunctions
     if (setOfferings) {
       this.offerings_ = offerings_
@@ -85,7 +96,7 @@ export const setup = {
    * ********************************************************************************************
    */
 
-  changeOffering: function(offering) {
+  changeOffering: function(offering, updateSearch=true) {
     const { setOffering, setPlaylists, setPlaylist, } = this.externalFunctions
 
     if (offering === NEW_OFFERING) {
@@ -94,13 +105,16 @@ export const setup = {
     } else {
       this.offering(offering)
     }
-    setPlaylists([])
-    setPlaylist({})
 
-    let { offId } = util.parseSearchQuery()
-    offId = offering.id
-    let query = util.createSearchQuery({ offId })
-    window.history.replaceState(null, null, query)
+    // console.log('o', offering)
+
+    if (updateSearch) {
+      let { offId } = util.parseSearchQuery()
+      offId = offering.id
+      let query = util.createSearchQuery({ offId })
+      window.history.replaceState(null, null, query)
+    }
+    
     // history.replace(`${window.location.pathname}${query}`)
   },
 
@@ -142,7 +156,7 @@ export const setup = {
   
   parseCourseOfferings: function(courseOfferings=[], departs, terms) {
     // console.log('rawOfferings', courseOfferings)
-    if (courseOfferings.length === 0) return NO_OFFERING
+    if (courseOfferings.length === 0) return []
 
     let offerArray = _.map( 
       courseOfferings, 
@@ -177,7 +191,7 @@ export const setup = {
       return off
     })
   
-    console.log('offerings', offerings)
+    // console.log('offerings', offerings)
     return offerings.slice().reverse()
   },
 
@@ -218,8 +232,8 @@ export const setup = {
     }
   },
 
-  setupOfferings: async function(offerings, context) {
-    if (offerings > 0) return;
+  setupOfferings: async function(context) {
+    if (this.offerings().length > 0) return;
 
     if (this.checkAuthentication()) {
       await this.getCourseOfferingsByInstructorId(context)

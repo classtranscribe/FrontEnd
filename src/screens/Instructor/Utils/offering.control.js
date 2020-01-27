@@ -221,6 +221,7 @@ export const offControl = {
       // Add this new offering to offerings
       setup.offerings([ newOff, ...setup.offerings() ])
       setup.changeOffering(newOff)
+      console.error([ newOff, ...setup.offerings() ])
     } catch (error) {
       console.log('failed to parse new offering object')
     }

@@ -23,6 +23,14 @@ export const promptControl = {
     }, timeout);
   },
 
+  message: function(text, timeout=-1) {
+    this.prompt({
+      text, timeout,
+      position: 'right bottom',
+      status: 'success',
+    })
+  },
+
   saving: function(action='Saving') {
     this.prompt({
       text: `${action}...`,
@@ -71,7 +79,12 @@ export const promptControl = {
   },
 
   error: function(errors) {
-    if (typeof errors === 'string') errors = [errors]
+    if (typeof errors === 'string') {
+      errors = [errors]
+    } else {
+      if (errors.length === 0) return;
+    }
+
     let errMesg = _.join(errors, ', ')
     this.prompt({
       text: `Error(s): failed to ${errMesg}`,

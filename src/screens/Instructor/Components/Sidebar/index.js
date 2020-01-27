@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { util } from 'utils'
 import './index.css'
 import { Filter } from '../Filter'
-import { filterControl, NEW_OFFERING, NEW_OFFERING_ID, offControl, setup, ARRAY_EMPTY, NO_OFFERING } from '../../Utils'
+import { filterControl, NEW_OFFERING, NEW_OFFERING_ID, offControl, setup, ARRAY_EMPTY, NO_OFFERING, ARRAY_INIT, promptControl } from '../../Utils'
 
 function SideBarWithRedux({
   offerings=[],
@@ -25,32 +25,35 @@ function SideBarWithRedux({
     filterControl.reverse(results, setResults)
   }
 
-  const handleOfferingClick = off => () => {
-    setup.changeOffering(off)
+  const handleOfferingClick = (off, updateSearch) => () => {
+    setup.changeOffering(off, updateSearch)
   }
 
   useEffect(() => {
+    if (offerings === ARRAY_INIT) return;
+    
     setResults(offerings)
-    if (offerings.length > 0 && !Boolean(offering.id)) {
-      let { offId } = util.parseSearchQuery()
-      if (Boolean(offId)) {
-        if (offId === NEW_OFFERING_ID) {
-          handleOfferingClick(NEW_OFFERING)()
-        } else {
-          let off = _.find(offerings, { id: offId })
-          if (!off) {
-            handleOfferingClick(offerings[0])()
-          } else {
-            handleOfferingClick(off)()
-          }
-        }
+    if (Boolean(offering.id)) return;
+
+    let { offId } = util.parseSearchQuery()
+
+    if (offId) {
+      if (offId === NEW_OFFERING_ID) {
+        handleOfferingClick(NEW_OFFERING)()
       } else {
-        if (offerings !== NO_OFFERING) {
-          handleOfferingClick(offerings[0])()
+        let off = _.find(offerings, { id: offId })
+        if (!off) {
+          handleOfferingClick(offerings[0] || NEW_OFFERING)()
+          promptControl.message(
+            <>Sorry, you don't have the access to offering "{offId}".&emsp;
+            <a href={util.links.contactUs()}>CONTACT US</a></>
+          )
         } else {
-          handleOfferingClick(NEW_OFFERING)()
+          handleOfferingClick(off, false)()
         }
       }
+    } else {
+      handleOfferingClick(offerings[0] || NEW_OFFERING)()
     }
   }, [offerings])
 
@@ -87,7 +90,7 @@ function SideBarWithRedux({
         {/*  */}
         <div className="ct-list-col ip-sb-off-list">
           {
-            offerings === NO_OFFERING 
+            offerings.length === 0 
             ?
             <div aria-hidden="true" className="w-100 ct-d-c-center">
               <div className="text-muted">No Courses</div>

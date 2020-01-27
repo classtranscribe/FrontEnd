@@ -7,7 +7,7 @@ import {
   plControl,
   offControl,
   filterControl, 
-  ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST, NO_OFFERING_ID,
+  ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST, NO_OFFERING_ID, NEW_PLAYLIST,
 } from '../../Utils'
 import { PlaceHolder } from '../Placeholder'
 import { EditCourse } from '../EditCourse'
@@ -28,24 +28,6 @@ function CourseWithRedux({
 
   const [results, setResults] = useState([])
 
-  useEffect(() => {
-    if (offering.courseNumber && !playlists.length) {
-      if (offering === NEW_OFFERING) return;
-      setup.setUpPlaylists(offering.id)
-    }
-  }, [offering])
-
-  useEffect(() => {
-    if (playlists.length > 0) {
-      if (playlists === ARRAY_EMPTY) {
-        handlePlaylistClick(NO_PLAYLIST)()
-      } else {
-        handlePlaylistClick(playlists[0])()
-      }
-      setResults(playlists)
-    }
-  }, [playlists])
-
   const handleDelete = () => {
     setup.confirm({
       text: <span>Are you sure to delete the course <br/><strong><i>{offering.courseName}</i></strong>?</span>,
@@ -64,6 +46,25 @@ function CourseWithRedux({
 
   const onFilter = value => filterControl.filterPlaylists(value, playlists, setResults)
   const onReverse = () => filterControl.reverse(results, setResults)
+
+
+  useEffect(() => {
+    if (offering.courseNumber) {
+      if (offering === NEW_OFFERING) return;
+      setup.setUpPlaylists(offering.id)
+    }
+  }, [offering])
+
+  useEffect(() => {
+    if (playlists.length > 0) {
+      if (playlists === ARRAY_EMPTY) {
+        handlePlaylistClick(NO_PLAYLIST)()
+      } else {
+        handlePlaylistClick(playlists[0])()
+      }
+      setResults(playlists)
+    }
+  }, [playlists])
 
 
   if (!offering.id) return <NoOfferingHolder />

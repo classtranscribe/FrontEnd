@@ -40,7 +40,7 @@ function EditCourseWithRedux({
     }
   }, [offering])
 
-  const is1sOffering = setup.offerings() === NO_OFFERING
+  const is1sOffering = setup.offerings().length === 0
 
   return (
     <div className="ip-edit-c ct-a-fade-in">
@@ -64,7 +64,7 @@ function EditCourseWithRedux({
         }
 
         {/* Title */}
-        <h2>{is1sOffering ? 'Create your first offering' : newCourse ? 'New Offering' : 'Edit Offering'}</h2>
+        <h2>{is1sOffering ? 'Welcome, Create your first offering!' : newCourse ? 'New Offering' : 'Edit Offering'}</h2>
 
         <div className="ip-f-form-con">
           <form className="w-100">

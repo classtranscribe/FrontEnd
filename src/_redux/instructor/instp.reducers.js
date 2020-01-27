@@ -37,6 +37,8 @@ const instpReducer = (
     case SET_OFFERING             : 
       return { 
         ...state, 
+        playlist: {},
+        playlists: [],
         offering: value, 
         isSelectingVideos: false, 
         selectedVideos: {},

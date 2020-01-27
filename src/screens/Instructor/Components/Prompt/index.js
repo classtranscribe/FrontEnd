@@ -28,7 +28,8 @@ function PromptsWithRedux({
   return Boolean(prompt) ? (
     <div className={`ip-prompt ${status} ${position}`}>
       <div className="ip-pt-box">
-        <div className="ip-pt-text" dangerouslySetInnerHTML={{__html: text}}>
+        <div className="ip-pt-text">
+          {text}
         </div>
         <button className="plain-btn ip-pt-close-btn" onClick={onClose}>
           <i className="material-icons">close</i>

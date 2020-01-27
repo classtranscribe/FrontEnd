@@ -17,7 +17,7 @@
 
 .ip-pt-text {
   font-size: 1.3em;
-  padding: .7em 2em .7em 1em;
+  padding: .7em 1em .7em 1em;
   font-family: var(--ct-font-google);
   color: var(--ct-text-white);
   display: flex;
@@ -61,10 +61,10 @@
 }
 .ip-prompt.bottom {
   bottom: 2em;
-  animation: bottom-right-show .2s ease-in-out;
-  -o-animation: bottom-right-show .2s ease-in-out;
-  -moz-animation: bottom-right-show .2s ease-in-out;
-  -webkit-animation: bottom-right-show .2s ease-in-out;
+  animation: bottom-right-show .2s ease-in;
+  -o-animation: bottom-right-show .2s ease-in;
+  -moz-animation: bottom-right-show .2s ease-in;
+  -webkit-animation: bottom-right-show .2s ease-in;
 }
 
 /* Status */
