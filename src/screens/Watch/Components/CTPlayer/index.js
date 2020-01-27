@@ -30,36 +30,19 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { 
-      media, watchHistory, offeringId,
-      // to be registered
-      changeVideo, timeUpdate,
-      setMode, switchScreen, setVolume, setPause, 
-      setPlaybackrate, setMute, setFullscreen,
-      setDuration, setBufferedTime, setTime,
-      setCTPPriEvent, setCTPSecEvent
-    } = this.props
+    const { media, watchHistory, offeringId, setMode, } = this.props
 
     if (prevProps.media !== media) {
       // set src for videos
       const { videos, isTwoScreen } = media
       const { srcPath1, srcPath2 } = videos[0]
-      if (isTwoScreen) this.props.setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE)
+      if (isTwoScreen) setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE)
       this.setState({ 
         srcPath1, 
         srcPath2
       })
       // register video elem for ctrlor
-      control.init(
-        this.videoNode1, this.videoNode2,
-        {  
-          changeVideo, timeUpdate,
-          setMode, switchScreen, setFullscreen,
-          setVolume, setMute, setPause, setPlaybackrate,
-          setDuration, setTime, setBufferedTime,
-          setCTPPriEvent, setCTPSecEvent
-        }
-      )
+      control.init(this.videoNode1, this.videoNode2, this.props)
       // console.log('this.videoNode1.textTracks', this.videoNode1.textTracks)
     }
   }
@@ -138,8 +121,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
   render() {
     const { srcPath1, srcPath2 } = this.state
-    const { media, mode, isSwitched, paused, transView } = this.props
-    const { isTwoScreen, transcriptions } = media
+    const { media, mode, isSwitched, transView } = this.props
+    const { isTwoScreen, /* transcriptions */ } = media
 
     const player1Position = isSwitched ? SECONDARY : PRIMARY
     const player2Position = isSwitched ? PRIMARY : SECONDARY

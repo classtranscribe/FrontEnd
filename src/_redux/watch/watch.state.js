@@ -14,8 +14,15 @@ import {
   MODAL_SHARE
 } from "../../screens/Watch/Utils"
 
+import {
+  DEFAULT_ROLE,
+} from "../../utils/constants"
+
 export const initialState = {
-  // Basic metadata
+  // Basics
+  userRole: DEFAULT_ROLE,
+  
+  // Metadata
   media: { 
     id: "", 
     mediaName: "", 
@@ -39,6 +46,7 @@ export const initialState = {
   descriptions: [],
   currDescription: null,
   currEditing: null,
+  bulkEditing: false,
   openCC: preferControl.cc(),
   openAD: preferControl.ad(),
 

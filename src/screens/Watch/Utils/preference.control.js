@@ -18,10 +18,8 @@ export const preferControl = {
   // setTransView
   externalFunctions: {},
 
-  init: function(externalFunctions) {
-    this.externalFunctions = { ...this.externalFunctions, ...externalFunctions }
-    this.autoScroll(true)
-    // this.pauseWhileAD(true)
+  init: function({}) {
+    
   },
 
   localStorageSET: function(key, bool) {

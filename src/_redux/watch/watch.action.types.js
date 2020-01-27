@@ -14,6 +14,7 @@ export const SET_CURR_CAPTION = 'watch-set-curr-caption'
 export const SET_DESCRIPTION = 'watch-set-description'
 export const SET_CURR_DESCRIPTION = 'watch-set-curr-description'
 export const SET_CURR_EDITING = 'watch-set-curr-editing'
+export const SET_BULK_EDITING = 'watch-set-bulk-editing'
 export const SET_OPENCC = 'watch-set-open-cc'
 export const SET_OPENAD = 'watch-set-open-ad'
 

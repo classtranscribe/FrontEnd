@@ -5,13 +5,17 @@ import {
   NORMAL_MODE, LINE_VIEW, SEARCH_INIT, SEARCH_HIDE, TRANSCRIPT_VIEW
 } from '../../Utils'
 import './index.css'
+
 import CaptionLine from './CaptionLine'
 import TranscriptText from './TranscriptText'
+import BulkEdit from './BulkEdit'
+
 import PlaceHolder from './PlaceHolder'
 
 function TranscriptionsWithRedux({
   transcript=[],
   currCaption={},
+  bulkEditing=false,
   mode=NORMAL_MODE,
   transView=LINE_VIEW,
   currEditing=null,
@@ -51,6 +55,9 @@ function TranscriptionsWithRedux({
           loadingtranscript ? 
           <PlaceHolder />
           :
+          bulkEditing ?
+          <BulkEdit transcript={transcript} />
+          :
           transView === LINE_VIEW ?
           <div className="trans-list">
             {transcript.map( (caption, index) => (
@@ -84,6 +91,9 @@ function TranscriptionsWithRedux({
 
 export const Transcriptions = connectWithRedux(
   TranscriptionsWithRedux,
-  ['transcript', 'currCaption', 'currEditing', 'mode', 'transView', 'search'],
+  [
+    'transcript', 'currCaption', 'currEditing', 'bulkEditing',
+    'mode', 'transView', 'search'
+  ],
   []
 )

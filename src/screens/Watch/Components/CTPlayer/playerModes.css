@@ -16,6 +16,10 @@
   align-items: center;
   justify-content: center;
 }
+.ct-player-primary[mode=bulk-edit-mode] {
+  width: 35em;
+  top: 5em;
+} 
 
 /* Theatre Mode */
 .ct-player-primary[mode=theatre-mode] {
@@ -42,7 +46,8 @@
 }
 
 /* Normal Mode */
-.ct-player-secondary[mode=normal-mode] {
+.ct-player-secondary[mode=normal-mode],
+.ct-player-secondary[mode=bulk-edit-mode] {
   display: none;
 }
 

@@ -22,7 +22,7 @@ export function ScreenModeSettingButtonWithRedux({
   }
 
   const currMode = _.find(screenModes, { type: mode })
-  return (
+  return Boolean(currMode) ? (
     <WatchCtrlButton 
       onClick={handleMenuTrigger}
       active={menu === MENU_SCREEN_MODE}
@@ -39,7 +39,7 @@ export function ScreenModeSettingButtonWithRedux({
         <i className="material-icons">{currMode.icon}</i>     
       </span>
     </WatchCtrlButton>
-  )
+  ) : null
 }
 
 export const ScreenModeSettingButton = connectWithRedux(

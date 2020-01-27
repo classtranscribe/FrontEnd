@@ -7,6 +7,8 @@ export { sortFunc } from './sort'
 export { handleData       } from './data'
 export { api              } from './HTTP'
 
+export * from './constants'
+
 
 /**
  * Objects for switching pages and storing some general functions
