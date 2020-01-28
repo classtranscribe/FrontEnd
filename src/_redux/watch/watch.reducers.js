@@ -120,34 +120,33 @@ const watchReducer = (
     // actions
     case TIME_UPDATE            :
     case SET_STATE              : return { ...state, ...value }
-    case CHANGE_VIDEO: 
-      return { 
-        ...state, 
-        ...value, 
-        
-        time: 0,
-        duration: 0,
-        bufferedTime: 0,
-        isFullscreen: false,
-        ctpPriEvent: CTP_LOADING,
-        ctpSecEvent: CTP_LOADING,
-        paused: true, 
-        isSwitched: false,
+    case CHANGE_VIDEO           : return { 
+                                    ...state, 
+                                    ...value, 
+                                    
+                                    time: 0,
+                                    duration: 0,
+                                    bufferedTime: 0,
+                                    isFullscreen: false,
+                                    ctpPriEvent: CTP_LOADING,
+                                    ctpSecEvent: CTP_LOADING,
+                                    paused: true, 
+                                    isSwitched: false,
 
-        transcriptions: [],
-        currTrans: {},
-        transcript: [],
-        captions: [],
-        currCaption: null,
-        descriptions: [],
-        currDescription: null,
-        currEditing: null,
-        bulkEditing: false,
+                                    transcriptions: [],
+                                    currTrans: {},
+                                    transcript: [],
+                                    captions: [],
+                                    currCaption: null,
+                                    descriptions: [],
+                                    currDescription: null,
+                                    currEditing: null,
+                                    bulkEditing: false,
 
-        modal: MODAL_HIDE,
-        prompt: null,
-        search: SEARCH_INIT,
-      }
+                                    modal: MODAL_HIDE,
+                                    prompt: null,
+                                    search: SEARCH_INIT,
+                                  }
 
     // Default
     default                     : return state
