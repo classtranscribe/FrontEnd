@@ -38,7 +38,7 @@ export const promptControl = {
 
   savedCaption: function(bool=true) {
     this.setPrompt({
-      status: bool ? 'success' : 'fail',
+      status: bool ? 'success' : 'failed',
       type: 'saved-caption',
       text: bool ? 'Caption Saved!' : "Couldn't save the caption :(",
       position: 'bottom-right',
@@ -55,4 +55,15 @@ export const promptControl = {
       timeout: 5000,
     })
   },
+
+  error: function(target='media data') {
+    let { search, pathname } = window.location
+    this.setPrompt({
+      status: 'failed',
+      type: 'error',
+      text: `Couldn't load ${target}. Please&ensp;<a href="${pathname+search}">refresh</a>&ensp;to retry.`,
+      position: 'bottom-right',
+      timeout: -1,
+    })
+  }
 }

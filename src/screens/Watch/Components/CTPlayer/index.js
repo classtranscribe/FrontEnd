@@ -30,7 +30,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { media, watchHistory, offeringId, setMode, } = this.props
+    const { media, /** watchHistory, offeringId, */ setMode, } = this.props
 
     if (prevProps.media !== media) {
       // set src for videos

@@ -3,6 +3,7 @@ import { api, util, userAction } from 'utils'
 import { transControl } from './trans.control'
 import { videoControl } from './player.control'
 import { menuControl } from './menu.control'
+import { promptControl } from './prompt.control'
 
 export const setup = {
   media_: api.parseMedia(),
@@ -192,10 +193,12 @@ export const setup = {
    */
   setupMedias: async function(props, context) {
     this.checkForReset()
+    const { generalError } = context
     // Get media
     let media = await this.getMedia()
     if (!media) {
-      // Do something
+      promptControl.error()
+      api.contentLoaded()
       return
     }
 
@@ -211,7 +214,8 @@ export const setup = {
     let playlist = await this.getPlaylist(playlistId)
 
     if (!playlist) {
-      // Do someting
+      promptControl.error('playlists')
+      api.contentLoaded()
       return
     }
 

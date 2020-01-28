@@ -56,7 +56,7 @@ function ProgressBar({
         <div className="progress">
           <span 
             id="progress-amount"
-            style={{width: Boolean(progressRef.current) ? Math.floor((time / duration) * progressRef.current.offsetWidth) : 0}}
+            style={{width: (Boolean(progressRef.current) ? Math.floor((time / duration) * progressRef.current.offsetWidth) : 0) || 0}}
           ></span>
           <span className="end-circle"></span>
         </div>
