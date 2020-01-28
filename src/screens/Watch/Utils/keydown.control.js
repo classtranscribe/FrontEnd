@@ -1,7 +1,10 @@
 import $ from 'jquery'
+import { isDeveloping } from 'utils'
 import { videoControl } from './player.control'
 import { menuControl  } from './menu.control'
 import { transControl } from './trans.control'
+import { searchControl } from './search.control'
+
 import { 
   MENU_LANGUAGE, 
   MENU_SCREEN_MODE, 
@@ -11,22 +14,29 @@ import {
   MENU_DOWNLOAD,
   MENU_SHORTCUTS
 } from './constants.util'
-import { searchControl } from './search.control'
+
+
 function keyDownListener(e) {
   const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
-  console.log({ keyCode, metaKey, ctrlKey, shiftKey, altKey })
+  if (isDeveloping) console.log('keydown', { keyCode, metaKey, ctrlKey, shiftKey, altKey })
   keydownControl.handleKeyDown(e)
 }
+
+
 export const keydownControl = {
   addedKeyDownListener: false,
   addKeyDownListener: function() {
     if (this.addedKeyDownListener) return;
-    // document.removeEventListener('keydown', keyDownListener, true)
     document.addEventListener('keydown', keyDownListener, true)
     this.addedKeyDownListener = true
   },
 
   handleKeyDown: function(e) {
+    if (window.location.pathname !== '/video') {
+      // document.removeEventListener('keydown', keyDownListener, true)
+      return
+    }
+    
     const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
     const ctrlKey_ = ctrlKey || metaKey
 

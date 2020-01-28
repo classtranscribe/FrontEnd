@@ -2,16 +2,16 @@
  * Functions for controlling video players
  */
 import _ from 'lodash'
-import { 
-  HIDE_TRANS,
-  NORMAL_MODE, PS_MODE, NESTED_MODE, THEATRE_MODE,
-  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR,
-  
-} from './constants.util'
+import { userAction } from 'utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
-import { userAction } from 'utils'
 import { menuControl } from './menu.control'
+
+import { 
+  NORMAL_MODE, PS_MODE, NESTED_MODE, /** THEATRE_MODE, */
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR,
+} from './constants.util'
+
 
 function onFullScreenChange(e) {
   const { setFullscreen } = videoControl.externalFunctions
@@ -59,8 +59,7 @@ export const videoControl = {
     this.addEventListenerForMouseMove()
   },
 
-  changeVideo: function(media, playlist) {
-    const { changeVideo } = this.externalFunctions
+  clear: function() {
     this.isSwitched = false
     this.isFullscreen = false
     this.currentMode = NORMAL_MODE
@@ -75,10 +74,6 @@ export const videoControl = {
     this.lastBuffered = 0
     this.ctpPriEvent = CTP_LOADING
     this.ctpSecEvent = CTP_LOADING
-    menuControl.clear()
-    transControl.clear()
-    if (Boolean(changeVideo)) changeVideo({ media, playlist })
-    userAction.changevideo(this.currTime(), media.id)
   },
 
   isTwoScreen: function() {
@@ -297,7 +292,7 @@ export const videoControl = {
   lastUpdateCaptionTime: 0,
   lastSendUATime: 0,
   onTimeUpdate: function({ target: { currentTime } }) {
-    const { setTime, timeUpdate } = this.externalFunctions
+    const { timeUpdate } = this.externalFunctions
     // Set current time
     if (Math.abs(currentTime - this.lastUpdateCaptionTime) >= 1) {
       // setTime(currentTime)

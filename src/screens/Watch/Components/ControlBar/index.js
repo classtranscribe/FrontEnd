@@ -29,12 +29,15 @@ export function ControlBarWithRedux({
     <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
+
         <NextVideoButton nextBtn={false} />
         <PlayButton />
         <NextVideoButton />
+
         {isTwoScreen && <SwitchScreenButton />}
         <VolumeControl />
         <TimeDisplay />
+        
       </div>
       <div className="watch-ctrl-bar-right-elems">
         <PlaybackRateButton />

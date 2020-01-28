@@ -225,7 +225,7 @@ function Video({
         description={`Playlist - ${playlistName}`}
         //mediaState={{ media, playlist, playlists }}
         //handleLinkClick={() => window.location.search = util.createSearchQuery({ courseNumber, id, timeStamp })}
-        handleLinkClick={() => util.refresh()}
+        //handleLinkClick={() => util.refresh()}
         link={util.links.watch(courseNumber, id, timeStamp)}
       />
     </div>

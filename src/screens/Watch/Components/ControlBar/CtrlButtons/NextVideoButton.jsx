@@ -1,34 +1,27 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/watch'
+import { withRouter } from 'react-router'
+
 import WatchCtrlButton from '../../WatchCtrlButton'
 import { VideoCard } from 'components'
-import {
-  videoControl,
-  findNeighbors
-} from '../../../Utils'
-import { api, util } from 'utils'
-import { withRouter } from 'react-router'
+
+import { setup } from '../../../Utils'
+import { api } from 'utils'
 
 export function NextVideoWithRedux({
   nextBtn=true,
-  history,
   media,
-  playlist,
-  playlists,
+  playlists=[],
 }) {
 
-  let { prev, next } = findNeighbors({ currMediaId: media.id, playlists })
+  let { prev, next } = setup.findNeighbors(media.id, playlists)
   prev = api.parseMedia( prev )
   next = api.parseMedia( next )
   let canPlayPrev = Boolean(prev.id)
   let canPlayNext = Boolean(next.id)
 
   const handleChangeVideo = toWatch => {
-    const courseNumber = util.parseURLFullNumber()
-    let link = util.links.watch(courseNumber, toWatch.id, 0)
-    let mediaState = { media, playlist, playlists }
-    history.push(link, mediaState)
-    videoControl.changeVideo(toWatch, playlist)
+    setup.changeVideo(toWatch)
   }
 
   const handlePlayNext = () => {
@@ -106,18 +99,6 @@ function Video({
 export const NextVideoButton = withRouter(
   connectWithRedux(
     NextVideoWithRedux,
-    ['media', 'playlist', 'playlists'],
+    ['media', 'playlists'],
     []
 ))
-
-
-// export function PrevVideoWithRedux({
-
-// }) {
-
-// }
-// export const PrevVideoButton = connectWithRedux(
-//   PrevVideoWithRedux,
-//   ['media', 'playlist', 'playlists'],
-//   []
-// )

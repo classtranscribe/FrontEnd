@@ -76,7 +76,6 @@ function Video({
         posterSize={'100px'}
         fittedNameSize={-1}
         mediaState={{ media, playlist, playlists }}
-        handleLinkClick={() => videoControl.changeVideo(media, playlist)}
         link={util.links.watch(courseNumber, id)}
       />
     </div>
