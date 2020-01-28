@@ -99,10 +99,10 @@ export const responseParsers = {
     re.playlistId = playlistId
     re.sourceType = sourceType
 
+    /** Media Name */
     // youtube
     if (sourceType === 1) { 
-      re.mediaName = jsonMetadata.title
-
+      re.mediaName = jsonMetadata.title || 'Untitled'
     // echo360
     } else if (sourceType === 0) { 
       let { lessonName, createdAt, title } = jsonMetadata
@@ -110,33 +110,39 @@ export const responseParsers = {
         re.mediaName = title
       } else {
         let date = new Date(createdAt)
-        re.mediaName = `${lessonName || ''}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+        re.mediaName = `${lessonName || 'Untitled'}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
       }
-
     // upload
     } else { 
-      if (jsonMetadata.filename) re.mediaName = jsonMetadata.filename
-      else {
+      if (jsonMetadata.filename) {
+        re.mediaName = jsonMetadata.filename
+      } else {
         let fileData = JSON.parse(jsonMetadata.video1)
-        re.mediaName = fileData.FileName
+        re.mediaName = fileData.FileName || 'Untitled'
       }
     }
-
     re.mediaName = re.mediaName.replace('.mp4', '')
 
 
-    if (!video || !(video.video1Path || (video.video1 && video.video1.path))) {
-      re.isUnavailable = true
-    } else {
-      re.isTwoScreen = video.video2Path || (video.video2 && video.video2.path)
-      var baseUrl = api.baseUrl()
-      re.videos.push({
-        srcPath1: `${baseUrl}${video.video1Path || video.video1.path}`,
-        srcPath2: re.isTwoScreen ? `${baseUrl}${video.video2Path || video.video2.path}` : null
-      })
+    /** video src */
+    const baseUrl = api.baseUrl()
+    let srcPath1 = null
+    let srcPath2 = null
+    if (video) {
+      // video1
+      if (video.video1Path) srcPath1 = baseUrl + video.video1Path
+      else if (video.video1 && video.video1.path) srcPath1 = baseUrl + video.video1.path
+      // video2
+      if (video.video2Path) srcPath2 = baseUrl + video.video2Path
+      else if (video.video2 && video.video2.path) srcPath2 = baseUrl + video.video2.path
     }
 
-    transcriptions.forEach( trans => {
+    re.isUnavailable = !Boolean(srcPath1)
+    re.isTwoScreen = Boolean(srcPath2)
+    re.videos.push({ srcPath1, srcPath2 })
+
+    /** Transcriptions */
+    _.forEach(transcriptions, trans => {
       if (trans.file || trans.path) {
         re.transcriptions.push({
           id: trans.id,
