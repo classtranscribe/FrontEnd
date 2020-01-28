@@ -3,11 +3,13 @@ import logger from 'redux-logger'
 import instpReducer from './instp.reducers'
 // import * as instpActions_ from './instp.actions'
 
+import { isDeveloping } from 'utils'
+
 export { connectWithRedux } from './instp.selectors'
 
 export const instpStore = createStore(
   instpReducer, 
-  window.location.origin === 'http://localhost:3000' ? applyMiddleware(logger) : undefined
+  isDeveloping ? applyMiddleware(logger) : undefined
 )
 
 // export const instpActions = instpActions_

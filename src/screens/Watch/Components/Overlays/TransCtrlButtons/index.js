@@ -15,9 +15,12 @@ import {
   SMTAB_TRANS,
   HIDE_TRANS, 
 } from '../../../Utils'
+import { STUDENT, INSTRUCTOR } from 'utils'
 
 function TransCtrlButtonsWithRedux({
-  transView=LINE_VIEW
+  transView=LINE_VIEW,
+  userRole=STUDENT,
+  bulkEditing=false,
 }) {
 
   const switchTranView = () => {
@@ -30,6 +33,10 @@ function TransCtrlButtonsWithRedux({
 
   const openTransSettingMenu = () => {
     menuControl.open(MENU_SETTING, 'a', SMTAB_TRANS)
+  }
+
+  const openBulkEdit = () => {
+    transControl.bulkEdit(true)
   }
 
   const isLineView = transView === LINE_VIEW
@@ -65,8 +72,23 @@ function TransCtrlButtonsWithRedux({
     }
   ]
 
-  return (
+  return bulkEditing ? null : (
     <>
+      {
+        userRole === INSTRUCTOR
+        &&
+        <button 
+          className="plain-btn trans-ctrl-btn"
+          onClick={openBulkEdit}
+          id="trans-bulk-edit-btn"
+          aria-label="Bulk Edit"
+        >
+          <span className="trans-ctrl-btn-content" tabIndex="-1">
+            <i className="material-icons">edit</i>
+            <span className="trans-ctrl-btn-text">Bulk Edit</span>
+          </span>
+        </button>
+      }
       {buttonGroup.map( btn => (
         <button 
           className="plain-btn trans-ctrl-btn"
@@ -88,6 +110,6 @@ function TransCtrlButtonsWithRedux({
 
 export const TransCtrlButtons = connectWithRedux(
   TransCtrlButtonsWithRedux,
-  ['transView'],
+  ['transView', 'userRole', 'bulkEditing'],
   []
 )

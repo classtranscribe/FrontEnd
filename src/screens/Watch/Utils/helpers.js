@@ -4,27 +4,6 @@ import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
 // import { videoControl } from './player.control'
 
-export function findNeighbors({
-  currMediaId='',
-  playlists=[{ medias: [] }],
-}) {
-  let playlistResults = _.map( 
-    playlists, 
-    pl => _.map(
-      pl.medias.slice().reverse(), 
-      me => ({ ...me, playlistId: pl.id})
-    ) 
-  )
-  playlistResults = _.flatten(playlistResults)
-
-  let currIdx = _.findIndex(playlistResults, { id: currMediaId })
-  let nextIdx = currIdx + 1
-  let prevIdx = currIdx - 1
-  let next = playlistResults[nextIdx] || null
-  let prev = playlistResults[prevIdx] || null
-  return { next, prev }
-}
-
 export function parseSec(d) {
   if (d === undefined) return '';
   d = Number(d);

@@ -37,7 +37,7 @@ function VideoCardWithOutRouter({
 
   const handleClick = () => {
       if ($('.description-link:focus').length > 0) return;
-      history.push(link, mediaState)
+      if (link) history.push(link, mediaState)
       if (Boolean(handleLinkClick)) {
         handleLinkClick()
       } 

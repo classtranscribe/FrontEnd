@@ -24,6 +24,7 @@ import {
   HIDE_TRANS,
 
   CO_CHANGE_VIDEO,
+  BULK_EDIT_MODE,
 } from './constants.util'
 // import { adSample } from './data'
 
@@ -40,9 +41,23 @@ export const transControl = {
    * setOpenCC, setCurrEditing, setOpenAD, setTransView
    * cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
    */
-  init: function(externalFunctions) {
+  init: function(props) {
     // console.log('externalFunctions', externalFunctions)
-    this.externalFunctions = { ...this.externalFunctions, ...externalFunctions }
+    const { 
+      setCurrTrans, setTranscriptions, setTranscript, 
+      setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
+      setCurrEditing, setBulkEditing,
+      setOpenCC, setOpenAD, setTransView,
+      cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
+    } = props
+
+    this.externalFunctions = { 
+      setCurrTrans, setTranscriptions, setTranscript, 
+      setCaptions, setCurrCaption, setDescriptions, setCurrDescription, 
+      setCurrEditing, setBulkEditing,
+      setOpenCC, setOpenAD, setTransView,
+      cc_setColor, cc_setBG, cc_setSize, cc_setOpacity, cc_setPosition, cc_setFont
+    }
   },
 
   clear: function(opt=CO_CHANGE_VIDEO) {
@@ -350,6 +365,79 @@ export const transControl = {
       // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
       tranBox.scrollTop = scrollTop
     }
+  },
+
+  /**
+   * Handlers for bulk editing
+   * **************************************************************************************************
+   */
+  bulkEditing_: false,
+  transcriptCpy_: [],
+  setTransCpy: function() {},
+  bulkEdit: function(bool) {
+    const { setBulkEditing } = this.externalFunctions
+    let bulkEditing = false
+    if (bool === undefined) {
+      bulkEditing = !this.bulkEditing_
+    } else {
+      bulkEditing = Boolean(bool)
+    }
+
+    setBulkEditing(bulkEditing)
+    this.bulkEditing_ = bulkEditing
+    if (bulkEditing) {
+      videoControl.mode(BULK_EDIT_MODE, { sendUserAction: false })
+      this.transcriptCpy_ = _.cloneDeep(this.transcript_)
+    } else {
+      videoControl.mode(null, { restore: true, sendUserAction: false })
+    }
+  },
+
+  bulkEditOnChange: function(index, key, value) {
+    this.transcriptCpy_[index][key] = value
+  },
+
+  bulkEditOnSave: function() {
+    this.transcript(this.transcriptCpy_)
+    this.bulkEdit(false)
+  },
+
+  bulkEditOnMergeDown: function(index) {
+    if (this.transcriptCpy_[index + 1]) {
+      this.transcriptCpy_[index].text += ' ' + this.transcriptCpy_[index + 1].text
+      this.transcriptCpy_[index].end = this.transcriptCpy_[index + 1].end
+
+      this.bulkEditOnDelete(index + 1)
+    }
+  },
+
+  bulkEditOnDelete: function(index) {
+    // $(`#bulk-edit-capline-${index}`).fadeOut(() => {
+    //   // _.remove(this.transcriptCpy_, (val, idx) => idx === index )
+    //   // this.transcriptCpy_ = [ ...this.transcriptCpy_ ]
+    //   // this.setTransCpy(this.transcriptCpy_)
+    // })
+    _.remove(this.transcriptCpy_, (val, idx) => idx === index )
+    this.transcriptCpy_ = [ ...this.transcriptCpy_ ]
+    this.setTransCpy(this.transcriptCpy_)
+  },
+
+  bulkEditOnInsert: function(index, kind='subtitles') {
+    this.transcriptCpy_ = [
+      ...this.transcriptCpy_.slice(0, index),
+      {
+        kind, index,
+        id: '',
+        begin: '00:00:00.00',
+        end: '00:00:00.00',
+        text: '', 
+        upVote: 0, 
+        downVote: 0,
+        transcriptionId: this.transcriptCpy_[0].transcriptionId
+      },
+      ...this.transcriptCpy_.slice(index)
+    ]
+    this.setTransCpy(this.transcriptCpy_)
   },
 
 

@@ -1,7 +1,10 @@
 import _ from 'lodash'
 import $ from 'jquery'
+
 import { api, userAction } from 'utils'
+import { setup } from './setup.control'
 import { transControl } from "./trans.control"
+
 import { 
   SEARCH_INIT, 
   ARRAY_INIT,
@@ -15,6 +18,7 @@ import {
   SEARCH_IN_PLAYLISTS,
   SEARCH_IN_SHORTCUTS
 } from "./constants.util"
+
 import { shortcuts } from './data'
 
 /**
@@ -23,18 +27,14 @@ import { shortcuts } from './data'
 
 export const searchControl = {
   search_: SEARCH_INIT,
-  playlists: [],
-  offeringId: '',
   // used to determine whether already has a result ot not
   hasResult: false,
   // Function used to set search state
   setSearch: function() {}, 
 
   // Function used to set up the external objects & functions used by searching
-  init: function({setSearch, playlists, offeringId}) {
+  init: function({ setSearch }) {
     if (setSearch) this.setSearch = setSearch
-    if (playlists) this.playlists = playlists
-    if (offeringId) this.offeringId = offeringId
   },
 
   // Function used to update `search` state
@@ -87,11 +87,11 @@ export const searchControl = {
    */
 
   // Function used to get RegExp tests for provided value
-  getRegExpTests: function(value='', key='text') {
+  getRegExpTests: function(value='', key='text', flags='i') {
     let tests = []
     // get test functions for each word
     value.split(' ').forEach(word => {
-      let reg = new RegExp(_.escapeRegExp(word), 'gi')
+      let reg = new RegExp(_.escapeRegExp(word), flags)
       let testFunc = result => reg.test(_.get(result, key))
       tests.push({ word, testFunc, reg })
     })
@@ -101,8 +101,8 @@ export const searchControl = {
 
   // Function used to get the match function 
   // which is used to determine whether an text is the result or not
-  getMatchFunction: function(value='', key='text') {
-    let tests = this.getRegExpTests(value, key)
+  getMatchFunction: function(value='', key='text', flags='i') {
+    let tests = this.getRegExpTests(value, key, flags)
     // combine the test result
     let isMatch = result => {
       let match = true
@@ -115,7 +115,7 @@ export const searchControl = {
 
   // Function used to add <span> tag around the searched value in a text
   highlightSearchedWords: function(results=[], value='', key='text') {
-    let tests = this.getRegExpTests(value, key)
+    let tests = this.getRegExpTests(value, key, 'gi')
     return results.map( res => {
       let text = _.get(res, key).toLowerCase()
       tests.forEach( test => {
@@ -147,12 +147,14 @@ export const searchControl = {
 
   // Function used to get search results from captions in current offering
   getInCourseTransSearchResults: async function(value) {
-    if (!Boolean(this.offeringId)) return []
-    const { data } = await api.searchCaptionInOffering(this.offeringId, value)
+    const { offeringId } = setup.playlist()
+    if (!offeringId) return []
+
+    const { data } = await api.searchCaptionInOffering(offeringId, value)
     let inCourseTransResults = data// = this.highlightSearchedWords(data, value, 'caption.text')
     inCourseTransResults = inCourseTransResults.map( res => {
       const { caption, playlistId, mediaId } = res
-      let playlist = _.find(this.playlists, { id: playlistId })
+      let playlist = _.find(setup.playlists(), { id: playlistId })
       let media = api.parseMedia(_.find(playlist.medias, { id: mediaId }))
       return {
         media, playlistName: playlist.name, ...caption
@@ -166,7 +168,7 @@ export const searchControl = {
   getPlaylistResults: function(value) {
     let isMatch = this.getMatchFunction(value, 'mediaName')
 
-    let playlistResults = _.map( this.playlists, pl => _.map(pl.medias, m => ({ ...m, playlistName: pl.name })))
+    let playlistResults = _.map( setup.playlists(), pl => _.map(pl.medias, m => ({ ...m, playlistName: pl.name })))
     playlistResults = _.flatten(playlistResults)
     playlistResults = _.map( playlistResults, m => ({ ...api.parseMedia(m), playlistName: m.playlistName}) )
     playlistResults = _.filter(playlistResults, isMatch)

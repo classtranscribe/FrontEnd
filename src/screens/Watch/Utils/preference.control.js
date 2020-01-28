@@ -4,6 +4,7 @@ import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from "./constants.u
  * Functions for controlling user preference
  */
 const TRUE = 'true'
+const FALSE = 'false'
 const AUTO_PLAY = 'watch-pref-auto-play'
 const DEFAULT_PLAYBACK_RATE = 'watch-pref-placyback-rate'
 const CC_ON = 'wath-pref-cc-on' 
@@ -18,19 +19,21 @@ export const preferControl = {
   // setTransView
   externalFunctions: {},
 
-  init: function(externalFunctions) {
-    this.externalFunctions = { ...this.externalFunctions, ...externalFunctions }
-    this.autoScroll(true)
-    // this.pauseWhileAD(true)
+  init: function(props) {
+    
   },
 
-  localStorageSET: function(key, bool) {
+  localStorageSET: function(key, bool, setfalse=false) {
     if (bool === undefined) return this[key]
     this[key] = Boolean(bool)
     if (Boolean(bool)) {
-      localStorage.setItem(key, 'true')
+      localStorage.setItem(key, TRUE)
     } else {
-      localStorage.removeItem(key)
+      if (setfalse) {
+        localStorage.setItem(key, FALSE)
+      } else {
+        localStorage.removeItem(key)
+      }
     }
   },
 
@@ -59,9 +62,9 @@ export const preferControl = {
     return this.localStorageSET(PAUSE_WHILE_AD, bool)
   },
 
-  [TRANS_AUTO_SCROLL]: localStorage.getItem(TRANS_AUTO_SCROLL) === TRUE,
+  [TRANS_AUTO_SCROLL]: localStorage.getItem(TRANS_AUTO_SCROLL) !== FALSE,
   autoScroll: function(bool) {
-    return this.localStorageSET(TRANS_AUTO_SCROLL, bool)
+    return this.localStorageSET(TRANS_AUTO_SCROLL, bool, true)
   },
 
   [DEFAULT_PLAYBACK_RATE]: localStorage.getItem(DEFAULT_PLAYBACK_RATE) === TRUE,

@@ -13,6 +13,7 @@ import {
   SET_DESCRIPTION,
   SET_CURR_DESCRIPTION,
   SET_CURR_EDITING,
+  SET_BULK_EDITING,
   SET_OPENCC,
   SET_OPENAD,
   // Screen Options
@@ -81,6 +82,7 @@ const watchReducer = (
     case SET_DESCRIPTION        : return { ...state, descriptions: value }
     case SET_CURR_DESCRIPTION   : return { ...state, currDescription: value }
     case SET_CURR_EDITING       : return { ...state, currEditing: value }
+    case SET_BULK_EDITING       : return { ...state, bulkEditing: value }
     case SET_OPENCC             : return { ...state, openCC: value }
     case SET_OPENAD             : return { ...state, openAD: value }
 
@@ -118,33 +120,33 @@ const watchReducer = (
     // actions
     case TIME_UPDATE            :
     case SET_STATE              : return { ...state, ...value }
-    case CHANGE_VIDEO: 
-      return { 
-        ...state, 
-        ...value, 
-        
-        time: 0,
-        duration: 0,
-        bufferedTime: 0,
-        isFullscreen: false,
-        ctpPriEvent: CTP_LOADING,
-        ctpSecEvent: CTP_LOADING,
-        paused: true, 
-        isSwitched: false,
+    case CHANGE_VIDEO           : return { 
+                                    ...state, 
+                                    ...value, 
+                                    
+                                    time: 0,
+                                    duration: 0,
+                                    bufferedTime: 0,
+                                    isFullscreen: false,
+                                    ctpPriEvent: CTP_LOADING,
+                                    ctpSecEvent: CTP_LOADING,
+                                    paused: true, 
+                                    isSwitched: false,
 
-        transcriptions: [],
-        currTrans: {},
-        transcript: [],
-        captions: [],
-        currCaption: null,
-        descriptions: [],
-        currDescription: null,
-        currEditing: null,
+                                    transcriptions: [],
+                                    currTrans: {},
+                                    transcript: [],
+                                    captions: [],
+                                    currCaption: null,
+                                    descriptions: [],
+                                    currDescription: null,
+                                    currEditing: null,
+                                    bulkEditing: false,
 
-        modal: MODAL_HIDE,
-        prompt: null,
-        search: SEARCH_INIT,
-      }
+                                    modal: MODAL_HIDE,
+                                    prompt: null,
+                                    search: SEARCH_INIT,
+                                  }
 
     // Default
     default                     : return state

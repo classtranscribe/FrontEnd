@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { connectWithRedux } from '_redux/watch'
 import { VideoCard } from 'components'
 import { api, util } from 'utils'
-import { videoControl } from '../../../Utils'
 
 function Videos({
   medias=[],
@@ -74,7 +73,6 @@ function Video({
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
         mediaState={{ media, playlist, playlists }}
-        handleLinkClick={() => videoControl.changeVideo(media, playlist)}
         link={util.links.watch(courseNumber, id, timeStamp)}
       />
     </li>

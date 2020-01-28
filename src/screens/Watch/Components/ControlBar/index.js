@@ -19,26 +19,32 @@ import ProgressBar from './ProgressBar'
 import './index.css'
 
 export function ControlBarWithRedux({
-  media={}
+  media={},
+  bulkEditing=false,
 }) {
   const { isTwoScreen } = media
+
+  const showScreenModes = isTwoScreen && !bulkEditing
   return (
     <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
+
         <NextVideoButton nextBtn={false} />
         <PlayButton />
         <NextVideoButton />
+
         {isTwoScreen && <SwitchScreenButton />}
         <VolumeControl />
         <TimeDisplay />
+        
       </div>
       <div className="watch-ctrl-bar-right-elems">
         <PlaybackRateButton />
         <ClosedCaptionButton />
         <AudioDescriptionButton />
         <LanguagePickerButton />
-        {isTwoScreen && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
+        {showScreenModes && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
         {/* <DownloadButton /> */}
         <SettingButton />
         <FullscreenButton />
@@ -49,6 +55,6 @@ export function ControlBarWithRedux({
 
 export const ControlBar = connectWithRedux(
   ControlBarWithRedux,
-  ['media'],
+  ['media', 'bulkEditing'],
   []
 )
