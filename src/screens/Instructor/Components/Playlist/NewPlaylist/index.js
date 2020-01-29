@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { Button } from 'pico-ui'
 import { Grid } from 'semantic-ui-react'
-import { CTForm, CTButton } from 'components'
+import { CTForm } from 'components'
 
 import { api } from 'utils'
 import { plControl } from '../../../Utils'
@@ -184,10 +185,9 @@ export default function NewPlaylist({
       <div className="ip-f-form-con">
         <form className="w-100">
           <div className="ct-d-r-center-v w-100 mt-3 ip-f-btn-group ct-btn-group">
-            <CTButton
-              color="green"
-              text="Save"
-              size="big"
+            <Button uppercase
+              color="teal"
+              text="create playlist"
               onClick={onSave}
               disabled={!name || !plControl.isValidIdURL(type, url)}
             />

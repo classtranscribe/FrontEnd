@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { CTButton } from 'components'
+import { Button } from 'pico-ui'
 import { PlaylistIcon } from '../PlaylistIcon'
 import { setup } from '../../Utils'
 
@@ -63,24 +63,27 @@ function PlaylistInfo({
         </h3>
       }
       <div className="ct-btn-group">
-        <CTButton
-          icon={isEditing ? undefined : "edit"}
-          text={isEditing ? "Save" : undefined}
-          size="normal bold"
-          color={isEditing ? "text-green" : "green"}
-          onClick={handleRename}
-          popup={isEditing ? undefined : 'Rename'}
-        />
-        {
-          !isEditing
-          &&
-          <CTButton
-            icon="delete"
-            color="light"
-            popup="Delete Playlist"
-            onClick={onDelete}
+        <Button.Group>
+          <Button compact
+            icon={isEditing ? undefined : "edit"}
+            text={isEditing ? "Save" : undefined}
+            color="transparent teal"
+            plain={isEditing}
+            round={!isEditing}
+            onClick={handleRename}
+            popup={isEditing ? undefined : 'Rename'}
           />
-        }
+          {
+            !isEditing
+            &&
+            <Button round compact
+              icon="delete"
+              color="transparent"
+              popup="Delete Playlist"
+              onClick={onDelete}
+            />
+          }
+        </Button.Group>
       </div>
     </div>
   )

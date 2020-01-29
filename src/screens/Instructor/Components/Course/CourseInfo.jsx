@@ -1,6 +1,5 @@
 import React from 'react'
-import { CTButton } from 'components'
-import { OFF_ANALYSIS } from '../../Utils'
+import { Button } from 'pico-ui'
 
 export default function CourseInfo({
   offering,
@@ -25,18 +24,16 @@ export default function CourseInfo({
         </div>
 
         <div className="ip-c-btns-con ct-btn-group">
-          <CTButton
+          <Button uppercase
             text="Edit Course"
-            icon="edit"
-            color="green"
+            color="transparent teal"
             onClick={handleEdit}
           />
-          <CTButton
+          <Button round
             icon="delete"
-            color="light"
+            color="transparent"
             popup="Delete Course"
             onClick={handleDelete}
-            //popupDelay={500}
           />
         </div>
       </div>
