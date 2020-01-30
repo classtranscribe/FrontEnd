@@ -35,28 +35,8 @@
 
 /* Sidebar trigger */
 .ct-header-sidebar-trigger {
-  margin-left: .5em;
+  margin-left: .5em !important;
 }
-.ct-header-sidebar-trigger:focus {
-  outline: none;
-}
-.ct-header-sidebar-trigger span {
-  font-size: 1.7rem;
-  padding: .2em;
-  color: #646464;
-  width: 1.5em;
-  height: 1.5em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-}
-.ct-header-sidebar-trigger:hover > span, 
-.ct-header-sidebar-trigger:focus > span {
-  outline: none;
-  background-color: #d5dedf;
-}
-
 /* Brand */
 .ct-header-brand {
   width: auto;

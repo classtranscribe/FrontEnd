@@ -39,20 +39,20 @@ function ButtonBar({
         ?
         <div className="ct-btn-group ct-d-r-center-v">
           <Button.Group>
-            <Button compact
+            <Button uppercase
               icon={selectedAll ? "close" : "check"}
               color="yellow"
               text={selectedAll ? "Remove All" : "Select All"}
               onClick={handleSelectAll}
             />
-            <Button compact
+            <Button uppercase
               //icon="delete"
               color="red transparent"
               text="Delete"
               disabled={mediaControl.selectedVideosLength() === 0}
               onClick={handleDeleteVideos}
             />
-            <Button compact
+            <Button uppercase
               text="Cancel"
               color="transparent"
               onClick={handleCancelSelect}

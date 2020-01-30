@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Row, Navbar } from 'react-bootstrap'
-import { Icon } from 'semantic-ui-react'
+import { Button } from 'pico-ui'
 import ProfileMenu from './ProfileMenu'
 import './index.css'
 import { util } from 'utils'
@@ -35,15 +34,13 @@ export function ClassTranscribeHeader({
         { /* Sidebar trigger */
           showSiderBar 
           &&
-          <button 
-            className="plain-btn ct-header-sidebar-trigger"
+          <Button round compact
+            classNames="ct-header-sidebar-trigger"
+            color="transparent"
+            icon={<i className="fas fa-bars"></i>}
             aria-label={sidebarTrggerTitle}
             onClick={showSiderBar}
-          >
-            <span tabIndex="-1">
-              <i className="fas fa-bars"></i>
-            </span>
-          </button>
+          />
         }
         {/* Brand */}
         <Link className="ct-header-brand" to={homeURL}>
@@ -62,17 +59,6 @@ export function ClassTranscribeHeader({
         {showProfileMenu && <ProfileMenu darkMode={darkMode} />}
       </div>
     </nav>
-  )
-}
-
-function Logo({ subtitle, darkMode }) {
-  return (
-    <img
-      src={darkTextBrand}
-      width="30" height="30"
-      className="ct-header-brand-img"
-      alt="ClassTranscribe Brand"
-    />
   )
 }
 

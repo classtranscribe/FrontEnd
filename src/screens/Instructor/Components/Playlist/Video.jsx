@@ -126,6 +126,7 @@ function VideoWithRedux({
         &&
         <div className="ip-video-opts ct-btn-group">
           <Button round compact
+            classNames="ip-v-w-btn"
             popup={isUnavailable ? "" : 'Watch'}
             icon="play_circle_filled"
             //color="white teal"
