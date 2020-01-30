@@ -67,7 +67,7 @@ function PlaylistInfo({
           <Button compact
             icon={isEditing ? undefined : "edit"}
             text={isEditing ? "Save" : undefined}
-            color="transparent teal"
+            color={isEditing ? "transparent teal" : "primary"}
             plain={isEditing}
             round={!isEditing}
             onClick={handleRename}
@@ -78,7 +78,7 @@ function PlaylistInfo({
             &&
             <Button round compact
               icon="delete"
-              color="transparent"
+              color="primary"
               popup="Delete Playlist"
               onClick={onDelete}
             />

@@ -8,7 +8,7 @@ import { mediaControl, setup } from '../../Utils'
 import { Icon } from 'semantic-ui-react'
 
 
-function VideoWithRedux({ 
+function VideoItemWithRedux({ 
   media=null, 
   playlist={},
   playlists=[],
@@ -129,8 +129,6 @@ function VideoWithRedux({
             classNames="ip-v-w-btn"
             popup={isUnavailable ? "" : 'Watch'}
             icon="play_circle_filled"
-            //color="white teal"
-            //size="small"
             onClick={handleWatch}
             disabled={isUnavailable}
           />
@@ -167,7 +165,7 @@ function VideoWithRedux({
 }
 
 export default withRouter(connectWithRedux(
-  VideoWithRedux,
+  VideoItemWithRedux,
   [
     'playlist', 
     'playlists',
