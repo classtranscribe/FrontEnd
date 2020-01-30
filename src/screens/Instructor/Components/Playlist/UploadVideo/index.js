@@ -6,7 +6,7 @@ import {
   mediaControl,
   fileSizeParser
 } from '../../../Utils'
-import { CTButton } from 'components'
+import { Button } from 'pico-ui'
 
 const FINISHED_INDEX = -1
 
@@ -159,10 +159,9 @@ function UploadVideo({
           uploadedMedias.length > 0
           &&
           <div className="ct-d-r-center-h mt-5 pt-5">
-            <CTButton 
+            <Button uppercase
               text="Upload All"
-              color="green"
-              size="big"
+              color="teal"
               onClick={handleUpload}
               disabled={isUploadingMedias} 
             />

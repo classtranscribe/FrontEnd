@@ -6,10 +6,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // UI
-import { Icon, Button } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
-import { useCTContext, CTButton } from 'components'
+import { Button } from 'pico-ui'
+import { useCTContext } from 'components'
 import { api, util, handleData, user } from 'utils'
 import './index.css'
 
@@ -150,12 +151,12 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
         {
           user.isLoggedIn()
           &&
-          <CTButton 
+          <Button uppercase compact
             id="off-star-btn"
-            color="green"
+            color={isStarred ? "" : "teal"}
             icon={isStarred ? 'star' : 'star_border'}
+            text={isStarred ? 'unstar' : 'star'}
             onClick={handleStar}
-            text={isStarred ? 'UNSTAR' : 'STAR'}
           />
         }
       </div>

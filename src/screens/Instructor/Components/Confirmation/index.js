@@ -1,6 +1,6 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { CTButton } from 'components'
+import { Button } from 'pico-ui'
 import { setup } from '../../Utils'
 import './index.css'
 
@@ -27,15 +27,12 @@ function ConfirmationWithRedux({
       <div className="ip-cf-con">
         {/* Header */}
         <div className="ip-cf-h-con">
-          <h3>{confirmation.title || ' '}</h3>
-          <button 
-            className="plain-btn ip-cf-close-btn" 
+          <h3>{confirmation.title || 'delete confirmation'}</h3>
+          <Button round
+            icon="close"
+            color="transparent"
             onClick={onClose} 
-          >
-            <span tabIndex="-1">
-              <i className="material-icons">close</i>
-            </span>
-          </button>
+          />
         </div>
 
         {/* Content */}
@@ -45,16 +42,18 @@ function ConfirmationWithRedux({
         </div>
 
         <div className="ip-cf-act ct-btn-group">
-          <CTButton 
-            text="Confirm"
-            color="green"
-            onClick={onConfirm}
-          />
-          <CTButton 
-            text="Cancel"
-            color="text-green"
-            onClick={onClose}
-          />
+          <Button.Group>
+            <Button uppercase compact
+              text="Confirm"
+              color="teal"
+              onClick={onConfirm}
+            />
+            <Button uppercase compact
+              text="Cancel"
+              color="transparent teal"
+              onClick={onClose}
+            />
+          </Button.Group>
         </div>
       </div>
     </div>

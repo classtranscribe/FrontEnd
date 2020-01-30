@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { useState, useEffect, useRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
-import { CTButton } from 'components'
+import { Button } from 'pico-ui'
 import { api, util } from 'utils'
 import { mediaControl, setup } from '../../Utils'
 import { Icon } from 'semantic-ui-react'
@@ -125,22 +125,24 @@ function VideoWithRedux({
         (!isSelectingVideos && !isEditing)
         &&
         <div className="ip-video-opts ct-btn-group">
-          <CTButton circle
+          <Button round compact
+            classNames="ip-v-w-btn"
             popup={isUnavailable ? "" : 'Watch'}
             icon="play_circle_filled"
-            color={isUnavailable ? 'light' : "text-green"}
+            //color="white teal"
+            //size="small"
             onClick={handleWatch}
             disabled={isUnavailable}
           />
 
-          <CTButton circle
+          <Button round compact
             popup="Rename"
             icon="edit"
             color="light"
             onClick={handleRename}
           />
 
-          <CTButton circle
+          <Button round compact
             popup="Delete"
             icon="delete"
             color="light"
@@ -153,9 +155,9 @@ function VideoWithRedux({
         isEditing
         &&
         <div className="ip-video-opts ct-btn-group">
-          <CTButton //circle
+          <Button compact uppercase
             text="Save"
-            color="green"
+            color="teal transparent"
             onClick={handleRename}
           />
         </div>

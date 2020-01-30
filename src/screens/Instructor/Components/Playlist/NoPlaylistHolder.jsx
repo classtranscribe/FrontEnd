@@ -1,5 +1,5 @@
 import React from 'react'
-import { CTButton } from 'components'
+import { Button } from 'pico-ui'
 import { setup, NEW_PLAYLIST } from '../../Utils'
 
 function NoPlaylistHolder() {
@@ -14,10 +14,9 @@ function NoPlaylistHolder() {
 
       </div>
       <div className="ip-create-new-btn">
-        <CTButton
+        <Button uppercase
           text="Create Your First Playlist"
-          size="big bold"
-          color="green"
+          color="teal"
           icon="add"
           onClick={createNewPlaylist}
         />

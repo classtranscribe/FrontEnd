@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
-import { CTButton } from 'components'
+import { Button } from 'pico-ui'
 import {
   CourseSelection,
   BasicInfo,
@@ -100,23 +100,23 @@ function EditCourseWithRedux({
             />
 
             <div className="ct-d-r-center-v w-100 m-3 ip-f-btn-group ct-btn-group">
-              <CTButton
-                color="green"
-                text="Save"
-                size="big"
-                //type="submit"
-                onClick={() => offControl.save(newCourse, setErrors)}
-              />
-              {
-                !newCourse
-                &&
-                <CTButton
-                  size="big bold"
-                  color="text-green"
-                  text="Cancel"
-                  onClick={onClose}
+              <Button.Group>
+                <Button uppercase
+                  color="teal"
+                  text={isEditingOffering ? "save course" : "create course"}
+                  //type="submit"
+                  onClick={() => offControl.save(newCourse, setErrors)}
                 />
-              }
+                {
+                  !newCourse
+                  &&
+                  <Button uppercase
+                    color="teal transparent"
+                    text="Cancel"
+                    onClick={onClose}
+                  />
+                }
+              </Button.Group>
             </div>
 
             {

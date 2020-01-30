@@ -1,7 +1,8 @@
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { CTForm, CTButton } from 'components'
+import { CTForm } from 'components'
+import { Button } from 'pico-ui'
 import { UploadBtn } from './UploadButton'
 import { Grid, Icon } from 'semantic-ui-react'
 import { util, user } from 'utils'
@@ -99,10 +100,9 @@ function StaffsWithRedux({
                   error={error}
                 />
                 <div className="ip-f-add-email-btn">
-                  <CTButton
+                  <Button uppercase compact
                     text="Add"
-                    size="normal bold"
-                    color="text-green"
+                    color="teal transparent"
                     onClick={addStaff}
                   />
                 </div>

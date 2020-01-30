@@ -41,12 +41,12 @@
   border-radius: 10px;
   padding: 0 1em;
   /* background-color: var(--ct-ip-grey-1); */
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
 }
 
 /* Videos */
 .ip-videos {
-  margin-top: 2em;
+  /* margin-top: 2em; */
   padding: 0 .9em;
 }
 
@@ -78,7 +78,7 @@
   background-color: var(--ct-ip-grey-2);
 }
 .ip-video-card[data-select=true] {
-  padding: 1em .9em;
+  padding: .5em .9em;
   cursor: pointer;
 }
 
@@ -164,7 +164,7 @@
 }
 .ip-video-card:hover .ip-video-opts {
   visibility: initial;
-  min-width: 10em;
+  min-width: max-content;
 }
 .ip-video-card:focus-within .ip-video-opts {
   visibility: initial;
@@ -194,10 +194,10 @@
 }
 
 .ip-v-opt-btn:hover > .ip-v-opt-con {
-  background: var(--ct-ip-grey-3);
+  background: var(--ct-ip-grey-2);
 }
 .ip-v-opt-btn:active > .ip-v-opt-con {
-  background: var(--ct-ip-grey-2);
+  background: var(--ct-ip-grey-3);
 }
 
 .ip-v-opt-btn:first-child {
@@ -212,29 +212,32 @@
   font-size: 1.2em;
 }
 
+.ip-v-w-btn:not(:disabled) i {
+  color: var(--ct-green-normal) !important;
+}
+
 
 /* Ckeck */
 .ip-v-check {
-  min-width: 50px;
-  border-radius: 10px;
+  min-width: 30px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-right: 1em;
+  margin-right: .5em;
 }
 .ip-v-check-box {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 1px solid var(--ct-ip-grey-4);
   border-radius: 100%;
 }
 .ip-v-check-box[data-checked=true] {
-  background-color: rgb(33, 179, 154);
-  border-color: rgb(33, 179, 154);
+  background-color: rgb(24, 148, 148);
+  border-color: rgb(24, 148, 148);
   color: white;
 }
 
