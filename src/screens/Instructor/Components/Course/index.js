@@ -6,10 +6,8 @@ import {
   setup,
   offControl,
   filterControl, 
-  ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST, NO_OFFERING_ID, NEW_PLAYLIST,
+  NEW_OFFERING,
 } from '../../Utils'
-import { util } from 'utils'
-import _ from 'lodash'
 
 import { PlaceHolder } from '../Placeholder'
 import { EditCourse } from '../EditCourse'
