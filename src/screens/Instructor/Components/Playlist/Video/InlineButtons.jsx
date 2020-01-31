@@ -19,14 +19,14 @@ function InlineButtons({
   const handleWatch = () => {
     let courseNumber = setup.offering().courseNumber
     let pathname = util.links.watch(courseNumber, media.id)
-    alert(pathname)
     history.push(
       pathname, 
       { 
         media, 
         playlist: setup.playlist(), 
         playlists: setup.playlists() 
-    })
+      }
+    )
   }
 
   const handleDelete = async () => {
@@ -36,7 +36,7 @@ function InlineButtons({
 
   const confirmDeletion = () => {
     setup.confirm({
-      text: <span>Are you sure to delete the video<br/><strong>{mediaName}</strong> ?</span>,
+      text: <div>Are you sure to delete the video <span>{mediaName}</span> ?</div>,
       onConfirm: handleDelete
     })
   }

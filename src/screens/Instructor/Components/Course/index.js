@@ -35,7 +35,7 @@ function CourseWithRedux({
 
   const handleDelete = () => {
     setup.confirm({
-      text: <span>Are you sure to delete the course <br/><strong><i>{offering.courseName}</i></strong>?</span>,
+      text: <div>Are you sure to delete the course <span>{offering.courseName}</span> ?</div>,
       onConfirm: () => offControl.deleteOffering(offering.id)
     })
   }

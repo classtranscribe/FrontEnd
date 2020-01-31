@@ -27,7 +27,7 @@ function PlaylistInfo({
 
   const onDelete = () => {
     setup.confirm({
-      text: <span>Are you sure to delete the playlist<br/><strong><i>{playlist.name}</i></strong> ?</span>,
+      text: <div>Are you sure to delete the playlist <span>{playlist.name}</span> ?</div>,
       onConfirm: () => plControl.deletePlaylist(playlist)
     })
   }
