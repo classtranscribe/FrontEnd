@@ -54,7 +54,7 @@ export default function Playlists({
         </div>
         :
         results.map( pl => (
-          <div key={pl.id} className="w-100">
+          <div id={pl.id} key={pl.id} className="w-100">
             <button 
               className="plain-btn ip-sb-off-item ip-c-pl-item" 
               data-current={Boolean(playlist.id === pl.id)}

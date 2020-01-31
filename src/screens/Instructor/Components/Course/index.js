@@ -8,6 +8,8 @@ import {
   filterControl, 
   ARRAY_EMPTY, NEW_OFFERING, NO_PLAYLIST, NO_OFFERING_ID, NEW_PLAYLIST,
 } from '../../Utils'
+import { util } from 'utils'
+import _ from 'lodash'
 
 import { PlaceHolder } from '../Placeholder'
 import { EditCourse } from '../EditCourse'
@@ -28,7 +30,7 @@ function CourseWithRedux({
   isViewingAnalytics=false,
   setIsViewingAnalytics,
 
-  history
+  location
 }) {
 
   const [results, setResults] = useState([])
@@ -65,15 +67,14 @@ function CourseWithRedux({
   }, [offering])
 
   useEffect(() => {
-    if (playlists.length > 0) {
-      if (playlists === ARRAY_EMPTY) {
-        handlePlaylistClick(NO_PLAYLIST)()
-      } else {
-        handlePlaylistClick(playlists[0])()
-      }
-      setResults(playlists)
-    }
+    setup.setupPlaylist(handlePlaylistClick, setResults)
   }, [playlists])
+
+  useEffect(() => {
+    if (results.length > 0) {
+      setup.playlistToView(location.hash.replace('#pid=', ''))
+    }
+  }, [results])
 
 
   if (!offering.id) return <NoOfferingHolder />

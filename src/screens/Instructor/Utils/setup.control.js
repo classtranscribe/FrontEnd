@@ -1,6 +1,11 @@
 import _ from 'lodash'
 import { api, util, user } from 'utils'
-import { NEW_OFFERING, ARRAY_EMPTY, NO_OFFERING, LOADING_S_OFF, LOADING_INIT, ARRAY_INIT } from './constants'
+import { 
+  NEW_OFFERING, NO_OFFERING, 
+  LOADING_S_OFF, LOADING_INIT, 
+  ARRAY_INIT, ARRAY_EMPTY,
+  NO_PLAYLIST,
+} from './constants'
 import { promptControl } from './prompt.control'
 
 export const setup = {
@@ -89,6 +94,8 @@ export const setup = {
     if (setOffering) {
       this.offering_ = offering_
       setOffering(offering_)
+      // Update the document title w/ offering number
+      util.links.title(offering_.courseNumber)
     }
   },
   /**
@@ -265,6 +272,20 @@ export const setup = {
     if (setPlaylist) {
       this.playlist_ = playlist_
       setPlaylist(playlist_)
+
+      /** 
+       * @TODO 
+       * - determine whether to use this 
+       */
+      // // update window hash with playlistId
+      // if (playlist_ && playlist_.id) {
+      //   window.history.replaceState(
+      //     null, null, 
+      //     window.location.pathname +
+      //     window.location.search +
+      //     '#pid=' + playlist_.id
+      //   )
+      // }
     }
   },
 
@@ -282,6 +303,35 @@ export const setup = {
     }
   },
 
+  setupPlaylist: function(
+    handlePlaylistClick, 
+    setResults
+  ) {
+    let playlists = this.playlists()
+
+    if (playlists.length > 0) {
+      if (playlists === ARRAY_EMPTY) { // If there is no playlist
+        handlePlaylistClick(NO_PLAYLIST)()
+
+      } else {
+        // If playlists non-empty set result to playlists
+        setResults(playlists)
+
+        // Choose which playlist to visit
+        let { hash } = window.location
+        if (hash) { // If the playlistId is in the location.hash
+          let pl_ = _.find(playlists, { id: hash.replace('#pid=', '') })
+          if (pl_) { // If the playlist exists visit this playlist
+            handlePlaylistClick(pl_)()
+            return
+          }
+        } 
+        // other wise visit the first playlist
+        handlePlaylistClick(playlists[0])()
+      }
+    }
+  },
+
   changePlaylist: function(pl, ms=100) {
     if (ms) {
       this.playlist({})
@@ -290,4 +340,9 @@ export const setup = {
       this.playlist(pl)
     }
   },
+
+  playlistToView: function(id) {
+    let plElem = document.getElementById(id)
+    if (plElem) plElem.scrollIntoView({ behavior: "smooth", block: "nearest" })
+  }
 }
