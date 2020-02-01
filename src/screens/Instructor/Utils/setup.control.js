@@ -104,7 +104,7 @@ export const setup = {
    */
 
   changeOffering: function(offering, updateSearch=true) {
-    const { setOffering, setPlaylists, setPlaylist, } = this.externalFunctions
+    const { setOffering } = this.externalFunctions
 
     if (offering === NEW_OFFERING) {
       this.offering({})
@@ -291,6 +291,7 @@ export const setup = {
 
   setUpPlaylists: async function(offeringId) {
     try {
+      this.playlists_ = []
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
       // console.error('playlists', data)
       _.forEach(data, pl => _.reverse(pl.medias))
@@ -318,14 +319,14 @@ export const setup = {
         setResults(playlists)
 
         // Choose which playlist to visit
-        let { hash } = window.location
-        if (hash) { // If the playlistId is in the location.hash
-          let pl_ = _.find(playlists, { id: hash.replace('#pid=', '') })
-          if (pl_) { // If the playlist exists visit this playlist
-            handlePlaylistClick(pl_)()
-            return
-          }
-        } 
+        // let { hash } = window.location
+        // if (hash) { // If the playlistId is in the location.hash
+        //   let pl_ = _.find(playlists, { id: hash.replace('#pid=', '') })
+        //   if (pl_) { // If the playlist exists visit this playlist
+        //     handlePlaylistClick(pl_)()
+        //     return
+        //   }
+        // } 
         // other wise visit the first playlist
         handlePlaylistClick(playlists[0])()
       }
