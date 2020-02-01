@@ -70,7 +70,7 @@ function EditCourseWithRedux({
             ? 
             'New Offering' 
             : 
-            'Edit Offering'
+            'Course Settings'
           }
         </h2>
 

@@ -27,7 +27,7 @@ function PlaylistInfo({
 
   const onDelete = () => {
     setup.confirm({
-      text: <span>Are you sure to delete the playlist<br/><strong><i>{playlist.name}</i></strong> ?</span>,
+      text: <div>Are you sure to delete the playlist <span>{playlist.name}</span> ?</div>,
       onConfirm: () => plControl.deletePlaylist(playlist)
     })
   }
@@ -67,7 +67,7 @@ function PlaylistInfo({
           <Button compact
             icon={isEditing ? undefined : "edit"}
             text={isEditing ? "Save" : undefined}
-            color="transparent teal"
+            color={isEditing ? "transparent teal" : "primary"}
             plain={isEditing}
             round={!isEditing}
             onClick={handleRename}
@@ -78,7 +78,7 @@ function PlaylistInfo({
             &&
             <Button round compact
               icon="delete"
-              color="transparent"
+              color="primary"
               popup="Delete Playlist"
               onClick={onDelete}
             />

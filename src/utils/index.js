@@ -16,8 +16,11 @@ export * from './constants'
 export const util = {
   ...storage,
   links: {
-    title: title => {
-      document.title = title ? `${title} | ClassTranscribe` : 'ClassTranscribe'
+    title: (title, replace=false) => {
+      if (!replace) {
+        title = title ? `${title} | ClassTranscribe` : 'ClassTranscribe'
+      }
+      document.title = title
     },
     currentUrl: () => window.location,
     home: () => '/home',

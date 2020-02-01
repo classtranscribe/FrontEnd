@@ -77,7 +77,7 @@ function CourseSelectionWithRedux({
   return (
     <div className="ip-f-section">
       <div className="ip-f-title">
-        <h3>Select Courses</h3>
+        <h3>Courses</h3>
         <InfoIcon 
           header="Why multiple courses?"
           content="Some offerings may be held by multiple departments. For Example, CS425 and ECE428 are the same course."

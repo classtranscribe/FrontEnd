@@ -1,0 +1,176 @@
+$ip-v-file-green: rgb(24, 148, 148);
+
+/* Videos */
+.ip-videos {
+  /* margin-top: 2em; */
+  padding: 0 .9em;
+}
+
+.ip-video-card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: .5em .9em .5em .9em;
+  background-color: var(--ct-ip-grey-1);
+  border-bottom: 2px solid rgb(255, 255, 255);
+
+  &:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom: none;
+  }
+  &:hover {
+    background-color: var(--ct-ip-grey-2);
+  }
+  &:hover .ip-video-opts {
+    visibility: initial;
+    min-width: max-content;
+  }
+  &:focus-within .ip-video-opts {
+    visibility: initial;
+    min-width: 10em;
+  }
+}
+
+.ip-video {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  // cursor: pointer;
+
+  .ip-video-con {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ip-v-file-icon .icon::before {
+    display: block;
+    color: $ip-v-file-green;
+  }
+  .ip-v-file-icon i.icon {
+    width: auto;
+  }
+
+  .ip-video-name {
+    overflow: hidden;
+    font-size: 1.4em;
+    font-weight: bold;
+    font-family: var(--ct-font-narrow);
+    margin: .5em 3px .5em .5em;
+    color: rgb(58, 58, 58);
+    line-height: 1.3em;
+    border-radius: 5px;
+    padding: .4em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}
+
+// Editing
+.ip-video-card.edit {
+  flex-direction: column;
+  align-items: flex-start;
+
+  .ip-video {
+    width: 100%;
+    
+    .ip-video-name {
+      width: 100%;
+      outline: none;
+      background-color: white;
+      border-bottom: 2px transparent solid;
+      padding-top: calc(.4em + 2px);
+      transition: border .2s ease-in-out;
+
+      &:hover, &:focus {
+        border-bottom: 2px black solid;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+      &:focus {
+        border-bottom-color: var(--ct-green-normal);
+      }
+    }
+  }
+
+  .ip-video-opts {
+    width: 100%;
+    visibility: initial;
+    padding-right: .5em;
+    padding-bottom: .5em;
+  }
+}
+
+// Selecting
+.ip-video-card.selecting {
+  padding: .5em .9em;
+  cursor: pointer;
+
+  .ip-video {
+    width: 100%;
+
+    .ip-video-con {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &:hover .ip-video-name {
+    color: var(--ct-green-normal);
+  }
+}
+
+
+/* Buttons */
+.ip-video-opts {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 0;
+  overflow: hidden;
+
+  .ip-v-w-btn:not(:disabled) i {
+    color: var(--ct-green-normal) !important;
+  }
+}
+
+
+/* Ckeck */
+.ip-v-check {
+  min-width: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: .5em;
+
+  .ip-v-check-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--ct-ip-grey-4);
+    border-radius: 100%;
+
+    &[data-checked=true] {
+      background-color: $ip-v-file-green;
+      border-color: $ip-v-file-green;
+      color: white;
+    }
+  }
+}

@@ -45,12 +45,12 @@ function ConfirmationWithRedux({
           <Button.Group>
             <Button uppercase compact
               text="Confirm"
-              color="teal"
+              color="transparent teal"
               onClick={onConfirm}
             />
             <Button uppercase compact
               text="Cancel"
-              color="transparent teal"
+              color="teal"
               onClick={onClose}
             />
           </Button.Group>

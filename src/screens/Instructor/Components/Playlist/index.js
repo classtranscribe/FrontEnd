@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
 
@@ -66,6 +66,7 @@ function PlaylistWithRedux({
       {
         canShowPlaylists ?
         <div className="w-100 h-auto ct-a-fade-in">
+          {/* Playlist Info */}
           <PlaylistInfo playlist={playlist} />
 
           {/* Title */}
@@ -74,7 +75,7 @@ function PlaylistWithRedux({
             <h3>VIDEOS</h3>
           </div>
           
-          {/* Filter */}
+          {/* Upload Video Button & Filter */}
           <div className="w-100">
             {
               playlist.sourceType === 2
@@ -98,10 +99,10 @@ function PlaylistWithRedux({
             />
           </div>
 
-          {/* Buttons */}
+          {/* Selecting Buttons */}
           <ButtonBar results={results} />
           
-          {/* Videos */}
+          {/* Video Items */}
           {
             results.length === 0
             ?
@@ -118,8 +119,6 @@ function PlaylistWithRedux({
             </div>
           }
           
-
-          {/* <ClassTranscribeFooter /> */}
         </div>
         :
         <PlaceHolder />
