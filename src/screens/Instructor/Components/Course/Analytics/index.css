@@ -4,6 +4,7 @@
   height: 100vh;
   overflow-y: auto;
   background-color: var(--ct-ip-grey-1);
+  background-color: white;
 }
 
 .ip-ana-tab-con {

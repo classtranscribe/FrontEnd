@@ -1,7 +1,8 @@
 .ip-edit-c {
   width: 100%;
   height: auto;
-  background-color: var(--ct-ip-grey-1);
+  /* background-color: var(--ct-ip-grey-1); */
+  background-color: white;
   padding: 5em 2em;
   font-family: var(--ct-font-google);
   overflow-y: auto;

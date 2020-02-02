@@ -1,10 +1,10 @@
 $ip-v-file-green: rgb(24, 148, 148);
 
 /* Videos */
-.ip-videos {
-  /* margin-top: 2em; */
-  padding: 0 .9em;
-}
+// .ip-videos {
+//   /* margin-top: 2em; */
+//   padding: 0 .9em;
+// }
 
 .ip-video-card {
   position: relative;
@@ -15,20 +15,20 @@ $ip-v-file-green: rgb(24, 148, 148);
   align-items: center;
 
   padding: .5em .9em .5em .9em;
-  background-color: var(--ct-ip-grey-1);
+  background-color: var(--ct-ip-grey-0);
   border-bottom: 2px solid rgb(255, 255, 255);
 
-  &:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
+  // &:first-child {
+  //   border-top-left-radius: 10px;
+  //   border-top-right-radius: 10px;
+  // }
   &:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    // border-bottom-left-radius: 10px;
+    // border-bottom-right-radius: 10px;
     border-bottom: none;
   }
   &:hover {
-    background-color: var(--ct-ip-grey-2);
+    background-color: var(--ct-ip-grey-1);
   }
   &:hover .ip-video-opts {
     visibility: initial;
@@ -44,7 +44,7 @@ $ip-v-file-green: rgb(24, 148, 148);
   width: 100%;
   overflow: hidden;
   position: relative;
-  // cursor: pointer;
+  cursor: pointer;
 
   .ip-video-con {
     display: flex;
@@ -56,6 +56,7 @@ $ip-v-file-green: rgb(24, 148, 148);
   .ip-v-file-icon .icon::before {
     display: block;
     color: $ip-v-file-green;
+    margin-left: .58em;
   }
   .ip-v-file-icon i.icon {
     width: auto;

@@ -32,13 +32,13 @@
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background-color: var(--ct-ip-grey-1);
+  /* background-color: var(--ct-ip-grey-1); */
   /* border: var(--ct-border-color-transparent); */
   transition: all .2s linear;
 }
 
 .ip-sb-off-item:hover .ip-sb-off-item-con {
-  background-color: var(--ct-ip-grey-2);
+  background-color: var(--ct-ip-grey-1);
 }
 .ip-sb-off-item:active .ip-sb-off-item-con,
 .ip-sb-off-item:focus .ip-sb-off-item-con {
@@ -48,13 +48,14 @@
   color: black;
 }
 
-.ip-sb-off-item[data-current=true] {
+/* .ip-sb-off-item[data-current=true] {
   padding-right: 0em;
-}
+} */
 .ip-sb-off-item[data-current=true] .ip-sb-off-item-con {
-  border-top-right-radius: 0;
+  /* border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  /* border: var(--ct-border-color); */
+  border: var(--ct-border-color); */
+  background-color: var(--ct-ip-grey-1);
 }
 .ip-sb-off-item[data-current=true]:hover .ip-sb-off-item-con {
   background-color: var(--ct-ip-grey-1);

@@ -66,7 +66,7 @@ function VideoItemWithRedux({
     <div 
       id={`media-${id}`} 
       className={vClassName} 
-      tabIndex={ isSelectingVideos ? 0 : -1}
+      tabIndex={ isSelectingVideos ? 0 : -1 }
       onClick={handleSelect}
       onKeyDown={handleKeydownSelect}
     >

@@ -17,6 +17,7 @@
 }
 .ct-nav-light {
   background: #ffffff;
+  /* border-bottom: 1px solid rgb(207, 207, 207); */
   /* box-shadow: 0 0 4px #c7c7c786; */
 }
 .ct-nav-dark {

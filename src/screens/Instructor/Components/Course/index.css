@@ -3,7 +3,8 @@
   min-width: 30em;
   height: 100vh;
   padding-top: 4.5em;
-  background-color: var(--ct-ip-grey-1);
+  /* background-color: var(--ct-ip-grey-1); */
+  background-color: white;
   overflow: auto;
   padding-bottom: 4em;
   position: relative;
@@ -17,7 +18,8 @@
   display: block;
   top: 0em;
   z-index: 1;
-  background-color: var(--ct-ip-grey-1);
+  /* background-color: var(--ct-ip-grey-1); */
+  background-color: white;
 }
 .ip-course-info-1 .ip-c-num {
   font-size: 2.4em;
@@ -85,17 +87,20 @@
 .ip-c-pl-item {
   padding: 0 .9em;
   position: relative;
+  margin: 2px 0;
 }
 .ip-c-pl-item .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-2);
+  /* background-color: var(--ct-ip-grey-2); */
+  background-color: white;
   position: relative;
 }
 
 .ip-c-pl-item:hover .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-3);
+  background-color: var(--ct-ip-grey-1);
+  /* background-color: white; */
 }
 .ip-c-pl-item:active .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-2);
+  background-color: var(--ct-ip-grey-1);
 }
 
 .ip-c-pl-item[data-current=true] {
@@ -104,22 +109,22 @@
 .ip-c-pl-item[data-current=true] .ip-c-pl-item-con {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  background-color: var(--ct-ip-grey-4);
+  background-color: var(--ct-ip-grey-1);
 }
-.ip-c-pl-item[data-current=true]:hover .ip-c-pl-item-con {
+/* .ip-c-pl-item[data-current=true]:hover .ip-c-pl-item-con {
   background-color: var(--ct-ip-grey-5);
-}
+} */
 .ip-c-pl-item[data-current=true]:active .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-4);
+  background-color: var(--ct-ip-grey-2);
 }
 
 .ip-c-pl-item .ip-c-pl-name {
   font-size: 1.4em;
   font-weight: bold;
 }
-.ip-c-pl-item[data-current=true] .ip-c-pl-name {
+/* .ip-c-pl-item[data-current=true] .ip-c-pl-name {
   color: var(--ct-text-title);
-}
+} */
 .ip-c-pl-item .ip-c-pl-mnum {
   margin-top: 1em;
   padding-left: .5em;

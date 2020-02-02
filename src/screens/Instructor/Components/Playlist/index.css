@@ -5,15 +5,17 @@
   width: 60%;
   height: 100vh;
   overflow: auto;
+  background-color: var(--ct-ip-grey-0);
 }
 
 /* Title */
 .ip-p-title {
-  margin: 1.5em .5em;
-  padding: .5em 0 .5em .5em;
+  margin: 1.5em 0;
+  padding: .5em 1em .5em 1em;
   position: sticky;
   top: 0;
-  background-color: #fcfcfc;
+  /* background-color: #fcfcfc; */
+  background-color: var(--ct-ip-grey-0);
   z-index: 1;
 }
 .ip-p-pl-name {

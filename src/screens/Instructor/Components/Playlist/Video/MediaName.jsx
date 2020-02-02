@@ -9,7 +9,10 @@ function MediaName({
   isSelectingVideos=false,
 }) {
   return (
-    <div className="plain-btn ip-video" tabIndex={isSelectingVideos ? -1 : 0}>
+    <div 
+      className="plain-btn ip-video" 
+      tabIndex={isSelectingVideos ? -1 : 0}
+    >
       <div tabIndex="-1" className="ip-video-con">
         {/* Icon */}
         {

@@ -58,7 +58,7 @@ function UploadVideo({
   return (
     <>
     {isUploadingMedias && <div className="ip-p-up-loading-wrapper"></div>}
-    <div className="ip-edit-c-con ct-a-fade-in ip-edit-p-con ip-p-up-con">
+    <div className="ip-edit-c-con ct-a-fade-in ip-edit-p-con ip-playlist-con ip-p-up-con">
       <div className="w-100 h-auto ct-a-fade-in">
         <div className="w-auto">
           <button 

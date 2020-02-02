@@ -21,7 +21,7 @@ export default function Playlists({
         </div>
 
         <button 
-          className="plain-btn ip-sb-off-item ip-c-pl-item" 
+          className="plain-btn ip-sb-off-item ip-c-pl-item mb-2" 
           data-current={playlist === NEW_PLAYLIST}
           onClick={handlePlaylistClick(NEW_PLAYLIST)}
         >
@@ -36,7 +36,7 @@ export default function Playlists({
           </div>
         </button>
 
-        <Filter darker
+        <Filter //darker
           searchFor="Playlists"
           onFilter={onFilter}
           onReverse={onReverse}
