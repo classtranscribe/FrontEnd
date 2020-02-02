@@ -12,6 +12,9 @@ import InlineButtons from './InlineButtons'
 
 function VideoItemWithRedux({ 
   media=null, 
+  current=false,
+  openMediaId=null,
+  closeMediaId=null,
   isSelectingVideos=false,
   selectedVideos={},
 }) {
@@ -59,6 +62,7 @@ function VideoItemWithRedux({
   }
 
   const vClassName = 'ip-video-card' 
+                   + (current ? ' current' : '')
                    + (isEditing ? ' edit' : '') 
                    + (isSelectingVideos ? ' selecting' : '')
 
@@ -76,6 +80,7 @@ function VideoItemWithRedux({
         isEditing={isEditing}
         isSelected={isSelected}
         isSelectingVideos={isSelectingVideos}
+        onClick={openMediaId(id)}
       />
 
       <InlineButtons 

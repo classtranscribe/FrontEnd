@@ -32,14 +32,28 @@ function PlaylistWithRedux({
   isViewingAnalytics=false,
 }) {
 
+  // Determine the context
   let newOffering = offering === NEW_OFFERING
   let noPlaylist = playlist === NO_PLAYLIST
-  let canShowPlaylists = Boolean(playlist.id) && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
+  let canShowPlaylists = Boolean(playlist.id) 
+                      && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
 
+  // Media results to display
   const [results, setResults] = useState([])
+  const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
+  const onReverse = () => filterControl.reverse(results, setResults)
 
+  // Determine whether to display upload screen
   const [isUploading, setIsUploading] = useState(false)
+  const onOpenUpload = () => setIsUploading(true)
+  const onCloseUpload = () => setIsUploading(false)
 
+  // Current selected media
+  const [currMediaId, setCurrMediaId] = useState('')
+  const openMediaId = mediaId => () => setCurrMediaId(mediaId)
+  const closeMediaId = () => setCurrMediaId('')
+
+  // Update results when playlist changes
   useEffect(() => {
     if (canShowPlaylists) {
       setResults(playlist.medias || [])
@@ -47,16 +61,12 @@ function PlaylistWithRedux({
     }
   }, [playlist])
 
-  const onOpenUpload = () => setIsUploading(true)
-  const onCloseUpload = () => setIsUploading(false)
-
-  const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
-  const onReverse = () => filterControl.reverse(results, setResults)
-
+  // Conditions not display playlist
   if (isEditingOffering || isViewingAnalytics) return null
   if (!offering.id) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   
+  // Special contexts
   // if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
@@ -109,6 +119,9 @@ function PlaylistWithRedux({
                 <Video 
                   key={me.id} 
                   media={me} 
+                  current={me.id === currMediaId}
+                  closeMedia={closeMediaId}
+                  openMediaId={openMediaId}
                   courseNumber={offering.courseNumber}
                 />
               ))}

@@ -7,11 +7,14 @@ function MediaName({
   isEditing=false,
   isSelected=false,
   isSelectingVideos=false,
+
+  onClick,
 }) {
   return (
     <div 
       className="plain-btn ip-video" 
       tabIndex={isSelectingVideos ? -1 : 0}
+      onClick={onClick}
     >
       <div tabIndex="-1" className="ip-video-con">
         {/* Icon */}
