@@ -4,6 +4,7 @@ import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
 
 import { Filter } from '../Filter'
+import { ListItem } from '../ListItem'
 import { PlaceHolder } from '../Placeholder'
 
 import PlaylistInfo from './PlaylistInfo'
@@ -80,16 +81,11 @@ function PlaylistWithRedux({
             {
               playlist.sourceType === 2
               &&
-              <button 
-                className="plain-btn ip-sb-off-item" 
+              <ListItem dark
+                icon="add"
+                title=" UPLOAD VIDEOS"
                 onClick={onOpenUpload}
-              >
-                <div tabIndex="-1" className="ip-sb-off-item-con">
-                  <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num">
-                    <i className="material-icons" aria-hidden="true">arrow_upward</i> UPLOAD VIDEOS
-                  </span>
-                </div>
-              </button>
+              />
             }
 
             <Filter //darker

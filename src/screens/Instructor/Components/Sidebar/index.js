@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { util } from 'utils'
 import './index.css'
 import { Filter } from '../Filter'
+import { ListItem } from '../ListItem'
 import { filterControl, NEW_OFFERING, NEW_OFFERING_ID, offControl, setup, ARRAY_EMPTY, NO_OFFERING, ARRAY_INIT, promptControl } from '../../Utils'
 
 function SideBarWithRedux({
@@ -68,17 +69,13 @@ function SideBarWithRedux({
         </div>
 
         <div className="w-100 ct-list-col ip-sb-filter">
-          <button 
-            className="plain-btn ip-sb-off-item" 
-            data-current={offering === NEW_OFFERING}
+          <ListItem dark
+            icon="add"
+            title=" NEW COURSE"
+            current={offering === NEW_OFFERING}
+            rightIcon="small"
             onClick={handleOfferingClick(NEW_OFFERING)}
-          >
-            <div tabIndex="-1" className="ip-sb-off-item-con">
-              <span className="ip-sb-off-text ip-sb-off-num ct-d-r-center-v">
-                <i className="material-icons" aria-hidden="true">add</i> NEW COURSE
-              </span>
-            </div>
-          </button>
+          />
 
           <Filter
             searchFor="Courses"
@@ -98,24 +95,13 @@ function SideBarWithRedux({
             :
             results.map( off => (
               <div key={off.id}>
-                <button 
-                  className="plain-btn ip-sb-off-item" 
-                  data-current={Boolean(offering.id === off.id)}
+                <ListItem
+                  title={off.courseNumber}
+                  subtitle={off.courseName}
+                  description={`${off.term.name} | ${off.sectionName}`}
+                  current={Boolean(offering.id === off.id)}
                   onClick={handleOfferingClick(off)}
-                  disabled={offering.id === off.id}
-                >
-                  <div tabIndex="-1" className="ip-sb-off-item-con">
-                    <span className="ip-sb-off-text ip-sb-off-num">
-                      {off.courseNumber}
-                    </span>
-                    <span className="ip-sb-off-text ip-sb-off-name">
-                      {off.courseName}
-                    </span>
-                    <span className="ip-sb-off-text ip-sb-off-detail">
-                      {off.term.name}&emsp;{off.sectionName}
-                    </span>
-                  </div>
-                </button>
+                />
               </div>
             ))
           }
