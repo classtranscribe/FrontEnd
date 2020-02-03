@@ -60,17 +60,12 @@ function BasicInfoWithRedux({
     offControl.logEventsFlag(logEventsFlag)
   }
 
-  const setVisibility = value => {
-    if (value === 2) {
-      setAddStudents(true)
-    } else {
-      setAddStudents(false)
-    }
-  }
-
   useEffect(() => {
     if (offering.accessType !== undefined) {
       setAddStudents(offering.accessType === 2)
+    }
+    if (terms[0]) {
+      setTermId(terms[0].id)
     }
   }, [offering])
 
