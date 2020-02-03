@@ -1,7 +1,8 @@
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
+import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
 import { ListItem } from '../ListItem'
@@ -26,8 +27,9 @@ import './index.css'
 
 
 function PlaylistWithRedux({
-  playlist={},
   offering={},
+  playlist={},
+  playlists=[],
   isEditingOffering=false,
   isViewingAnalytics=false,
 }) {
@@ -35,7 +37,7 @@ function PlaylistWithRedux({
   // Determine the context
   let newOffering = offering === NEW_OFFERING
   let noPlaylist = playlist === NO_PLAYLIST
-  let canShowPlaylists = Boolean(playlist.id) 
+  let canShowPlaylists = Boolean(playlist.id) && (playlists.length > 0 && offering.id)
                       && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
 
   // Media results to display
@@ -52,6 +54,10 @@ function PlaylistWithRedux({
   const [currMediaId, setCurrMediaId] = useState('')
   const openMediaId = mediaId => () => setCurrMediaId(mediaId)
   const closeMediaId = () => setCurrMediaId('')
+
+  // The context of the playlist component
+  const stickyContextRef = createRef()
+  const [isTop, setIsTop] = useState(true)
 
   // Update results when playlist changes
   useEffect(() => {
@@ -73,12 +79,19 @@ function PlaylistWithRedux({
   
 
   return (
-    <div className="ip-playlist-con">
+    <div ref={stickyContextRef} className="ip-playlist-con">
       {
         canShowPlaylists ?
         <div className="w-100 h-auto ct-a-fade-in">
           {/* Playlist Info */}
-          <PlaylistInfo playlist={playlist} />
+          <Sticky pushing
+            offset={55}
+            context={stickyContextRef}  
+            onStick={() => setIsTop(false)} 
+            onUnstick={() => setIsTop(true)}
+          >
+            <PlaylistInfo playlist={playlist} isTop={isTop} />
+          </Sticky>
 
           {/* Title */}
           <div className="ip-sb-title ct-d-r-center-v mt-3">
@@ -98,11 +111,15 @@ function PlaylistWithRedux({
               />
             }
 
-            <Filter //darker
-              searchFor="Videos" 
-              onFilter={onFilter} 
-              onReverse={onReverse} 
-            />
+            {
+              playlist.medias.length > 0
+              &&
+              <Filter //darker
+                searchFor="Videos" 
+                onFilter={onFilter} 
+                onReverse={onReverse} 
+              />
+            }
           </div>
 
           {/* Selecting Buttons */}
@@ -141,6 +158,7 @@ export const Playlist = withRouter(connectWithRedux(
   [
     'offering',
     'playlist',
+    'playlists',
     'isEditingOffering',
     'isViewingAnalytics'
   ],

@@ -12,8 +12,8 @@
 
 /* Course Info */
 .ip-course-info-1 {
-  margin-top: 3em;
-  padding: 0 .5em 0 1.5em;
+  /* margin-top: 3em; */
+  padding: 1.5em .5em 0.1em 1.5em;
   position: sticky;
   display: block;
   top: 0em;

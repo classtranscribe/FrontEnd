@@ -4,21 +4,23 @@
   padding-bottom: 5em;
   width: 60%;
   height: 100vh;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: var(--ct-ip-grey-0);
 }
 
 /* Title */
 .ip-p-title {
-  margin: 1.5em 0;
+  /* margin: 1.5em 0; */
   padding: .5em 1em .5em 1em;
-  position: sticky;
-  top: 0;
+  /* position: sticky;
+  top: 0; */
   /* background-color: #fcfcfc; */
   background-color: var(--ct-ip-grey-0);
-  z-index: 1;
+  /* z-index: 1; */
 }
 .ip-p-pl-name {
+  width: 100%;
   padding: .45em .2em;
   margin: 0 1em 0 0;
 }
@@ -27,7 +29,6 @@
   font-size: 1.3em;
   color: rgb(68, 68, 68);
 }
-
 .ip-p-pl-name-edit-con input {
   font-weight: bold;
   font-size: 1.7em;

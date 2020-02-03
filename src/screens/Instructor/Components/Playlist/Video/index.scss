@@ -9,6 +9,7 @@ $ip-v-file-green: rgb(24, 148, 148);
 .ip-video-card {
   position: relative;
   width: 100%;
+  min-height: 1em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -17,6 +18,8 @@ $ip-v-file-green: rgb(24, 148, 148);
   padding: .5em .9em .5em .9em;
   background-color: var(--ct-ip-grey-0);
   border-bottom: 2px solid rgb(255, 255, 255);
+
+  transition: min-height .2s ease-in-out, align-items .2s linear;
 
   // &:first-child {
   //   border-top-left-radius: 10px;
@@ -37,6 +40,17 @@ $ip-v-file-green: rgb(24, 148, 148);
   &:focus-within .ip-video-opts {
     visibility: initial;
     min-width: 10em;
+  }
+
+  &.current {
+    background-color: white;
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    align-items: flex-start;
+    padding-top: 5em;
   }
 }
 
@@ -85,6 +99,7 @@ $ip-v-file-green: rgb(24, 148, 148);
 
   .ip-video {
     width: 100%;
+    cursor: auto;
     
     .ip-video-name {
       width: 100%;

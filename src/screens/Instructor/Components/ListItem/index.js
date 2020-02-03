@@ -51,14 +51,14 @@ export function ListItem({
         {
           description
           &&
-            <span className="ip-li-text ip-li-d">
+          <span className="ip-li-text ip-li-d">
             {description}
           </span>
         }
         {
           rightIcon != 'none'
           &&
-          <span className="ip-li-r-i" data-size={rightIcon}>
+          <span className="ip-li-r-i" data-size={rightIcon} aria-hidden="true">
             <i className="material-icons">chevron_right</i>
           </span>
         }

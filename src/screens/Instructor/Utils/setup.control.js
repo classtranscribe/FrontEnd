@@ -5,6 +5,7 @@ import {
   LOADING_S_OFF, LOADING_INIT, 
   ARRAY_INIT, ARRAY_EMPTY,
   NO_PLAYLIST,
+  NEW_PLAYLIST,
 } from './constants'
 import { promptControl } from './prompt.control'
 
@@ -106,6 +107,7 @@ export const setup = {
   changeOffering: function(offering, updateSearch=true) {
     const { setOffering } = this.externalFunctions
 
+    this.playlists_ = []
     if (offering === NEW_OFFERING) {
       this.offering({})
       setTimeout(() => setOffering(offering), 100);
@@ -291,29 +293,27 @@ export const setup = {
 
   setUpPlaylists: async function(offeringId) {
     try {
-      this.playlists_ = []
+      this.playlists_ = ARRAY_INIT
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
       // console.error('playlists', data)
       _.forEach(data, pl => _.reverse(pl.medias))
 
       if (data.length === 0) data = ARRAY_EMPTY
       this.playlists(data)
-
     } catch (error) {
-      
+      // Blank
     }
   },
 
   setupPlaylist: function(
-    handlePlaylistClick, 
     setResults
   ) {
     let playlists = this.playlists()
 
-    if (playlists.length > 0) {
+    if (playlists !== ARRAY_INIT) {
       if (playlists === ARRAY_EMPTY) { // If there is no playlist
-        handlePlaylistClick(NO_PLAYLIST)()
-
+        this.changePlaylist(NEW_PLAYLIST)
+        setResults([])
       } else {
         // If playlists non-empty set result to playlists
         setResults(playlists)
@@ -327,9 +327,12 @@ export const setup = {
         //     return
         //   }
         // } 
-        // other wise visit the first playlist
-        handlePlaylistClick(playlists[0])()
+        // otherwise visit the first playlist
+        this.changePlaylist(playlists[0] || NEW_PLAYLIST)
       }
+    } else {
+      // setResults([])
+      // handlePlaylistClick(NEW_PLAYLIST)()
     }
   },
 

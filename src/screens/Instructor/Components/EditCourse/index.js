@@ -98,8 +98,9 @@ function EditCourseWithRedux({
               setErrors={setErrors} 
               instructors={instructors} 
             />
+          </form>
 
-            <div className="ct-d-r-center-v w-100 m-3 ip-f-btn-group ct-btn-group">
+          <div className="ct-d-r-center-v w-100 m-3 ip-f-btn-group ct-btn-group">
               <Button.Group>
                 <Button uppercase
                   color="teal"
@@ -128,7 +129,6 @@ function EditCourseWithRedux({
                 </div>
               </div>
             }
-          </form>
         </div>
       </div>
     </div>

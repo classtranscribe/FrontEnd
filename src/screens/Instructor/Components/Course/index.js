@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
+
 import './index.css'
 import { 
   setup,
@@ -32,6 +33,7 @@ function CourseWithRedux({
 }) {
 
   const [results, setResults] = useState([])
+  const stickyContextRef = createRef()
 
   const handleDelete = () => {
     setup.confirm({
@@ -65,14 +67,14 @@ function CourseWithRedux({
   }, [offering])
 
   useEffect(() => {
-    setup.setupPlaylist(handlePlaylistClick, setResults)
+    setup.setupPlaylist(setResults)
   }, [playlists])
 
-  useEffect(() => {
-    if (results.length > 0) {
-      setup.playlistToView(location.hash.replace('#pid=', ''))
-    }
-  }, [results])
+  // useEffect(() => {
+  //   if (results.length > 0) {
+  //     setup.playlistToView(location.hash.replace('#pid=', ''))
+  //   }
+  // }, [results])
 
 
   if (!offering.id) return <NoOfferingHolder />
@@ -81,7 +83,7 @@ function CourseWithRedux({
   if (isViewingAnalytics) return <Analytics />
 
   return (
-    <div className="ip-course">
+    <div className="ip-course" ref={stickyContextRef}>
       {
         Boolean(offering.id && playlists.length > 0) ? <>
         <div className="ct-a-fade-in w-100 h-auto">
@@ -91,6 +93,7 @@ function CourseWithRedux({
             handleEdit={handleEdit}
             handleDelete={handleDelete}
             viewAnalytics={viewAnalytics}
+            stickyContextRef={stickyContextRef}
           />
 
           <Playlists
