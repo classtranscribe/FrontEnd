@@ -26,9 +26,11 @@ export function PlaylistIcon({
 
   return (
     <Icon 
+      className="mr-2 pt-0"
       size={size} 
       color={getColor(type)} 
       name={getIcon(type)} 
+      aria-hidden="true"
       {...otherAttributes}
     />
   )

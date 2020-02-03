@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import './index.css'
+import './index.scss'
 import { Popup } from 'semantic-ui-react'
 
 function FilterWithRedux({

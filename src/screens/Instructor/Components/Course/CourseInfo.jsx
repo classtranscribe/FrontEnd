@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'pico-ui'
+import { Sticky } from 'semantic-ui-react'
 
 export default function CourseInfo({
   offering,
-
+  stickyContextRef=null,
   handleEdit,
   handleDelete,
   viewAnalytics,
 }) {
+
+  const [isTop, setIsTop] = useState(true)
+
   return (
     <>
-      <div className="ip-course-info-1">
-        <h2 className="ip-c-num">{offering.courseNumber}</h2>
-      </div>
+      <Sticky pushing
+        offset={53}
+        context={stickyContextRef}  
+        onStick={() => setIsTop(false)} 
+        onUnstick={() => setIsTop(true)}
+      >
+        <div className={"ip-course-info-1 ip-sticky-top" + (isTop ? '' : ' sticking')}>
+          <h2 className="ip-c-num">{offering.courseNumber}</h2>
+        </div>
+      </Sticky>
 
       <div className="ip-course-info">
         <div className="ip-c-name">{offering.courseName}</div>

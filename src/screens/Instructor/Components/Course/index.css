@@ -3,7 +3,8 @@
   min-width: 30em;
   height: 100vh;
   padding-top: 4.5em;
-  background-color: var(--ct-ip-grey-1);
+  /* background-color: var(--ct-ip-grey-1); */
+  background-color: white;
   overflow: auto;
   padding-bottom: 4em;
   position: relative;
@@ -11,13 +12,14 @@
 
 /* Course Info */
 .ip-course-info-1 {
-  margin-top: 3em;
-  padding: 0 .5em 0 1.5em;
+  /* margin-top: 3em; */
+  padding: 1.5em .5em 0.1em 1.5em;
   position: sticky;
   display: block;
   top: 0em;
   z-index: 1;
-  background-color: var(--ct-ip-grey-1);
+  /* background-color: var(--ct-ip-grey-1); */
+  background-color: white;
 }
 .ip-course-info-1 .ip-c-num {
   font-size: 2.4em;
@@ -81,77 +83,4 @@
 /* Playlists */
 .ip-c-playlists {
   margin-top: 2em;
-}
-.ip-c-pl-item {
-  padding: 0 .9em;
-  position: relative;
-}
-.ip-c-pl-item .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-2);
-  position: relative;
-}
-
-.ip-c-pl-item:hover .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-3);
-}
-.ip-c-pl-item:active .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-2);
-}
-
-.ip-c-pl-item[data-current=true] {
-  padding-right: .9em;
-}
-.ip-c-pl-item[data-current=true] .ip-c-pl-item-con {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  background-color: var(--ct-ip-grey-4);
-}
-.ip-c-pl-item[data-current=true]:hover .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-5);
-}
-.ip-c-pl-item[data-current=true]:active .ip-c-pl-item-con {
-  background-color: var(--ct-ip-grey-4);
-}
-
-.ip-c-pl-item .ip-c-pl-name {
-  font-size: 1.4em;
-  font-weight: bold;
-}
-.ip-c-pl-item[data-current=true] .ip-c-pl-name {
-  color: var(--ct-text-title);
-}
-.ip-c-pl-item .ip-c-pl-mnum {
-  margin-top: 1em;
-  padding-left: .5em;
-  color: rgb(77, 77, 77);
-}
-
-.ip-c-pl-item .ip-c-pl-r-icon {
-  position: absolute;
-  right: .5em;
-  height: 3.7em;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: rgb(77, 77, 77);
-}
-.ip-c-pl-item .ip-c-pl-r-icon[data-small] {
-  height: 1.6em;
-}
-.ip-c-pl-item[data-current=true] .ip-c-pl-r-icon {
-  display: flex;
-  color: var(--ct-text-title);
-}
-
-
-/* No Offering Holder */
-.ip-nf-holder {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
 }

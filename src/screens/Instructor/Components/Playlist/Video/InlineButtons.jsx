@@ -47,6 +47,7 @@ function InlineButtons({
         classNames="ip-v-w-btn"
         popup={isUnavailable ? "" : 'Watch'}
         icon="play_circle_filled"
+        color="transparent"
         onClick={handleWatch}
         disabled={isUnavailable}
       />
@@ -55,13 +56,14 @@ function InlineButtons({
         popup="Rename"
         icon="edit"
         color="light"
+        color="transparent"
         onClick={handleRename}
       />
 
       <Button round compact
         popup="Delete"
         icon="delete"
-        color="light"
+        color="transparent"
         onClick={confirmDeletion}
       />
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Filter } from '../Filter'
+import { ListItem } from '../ListItem'
 import { ARRAY_EMPTY, NEW_PLAYLIST } from '../../Utils'
-import { PlaylistIcon } from '../PlaylistIcon'
 
 export default function Playlists({
   results,
@@ -20,23 +20,15 @@ export default function Playlists({
           <h3>PLAYLISTS</h3>
         </div>
 
-        <button 
-          className="plain-btn ip-sb-off-item ip-c-pl-item" 
-          data-current={playlist === NEW_PLAYLIST}
+        <ListItem dark
+          icon="add"
+          title=" NEW PLAYLIST"
+          rightIcon="small"
+          current={playlist === NEW_PLAYLIST}
           onClick={handlePlaylistClick(NEW_PLAYLIST)}
-        >
-          <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
-            <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num">
-              {/* <Icon name="add" /> */}
-              <i className="material-icons" aria-hidden="true">add</i> NEW PLAYLIST
-            </span>
-            <span className="ip-c-pl-r-icon" data-small>
-              <i className="material-icons">chevron_right</i>
-            </span>
-          </div>
-        </button>
+        />
 
-        <Filter darker
+        <Filter //darker
           searchFor="Playlists"
           onFilter={onFilter}
           onReverse={onReverse}
@@ -55,23 +47,14 @@ export default function Playlists({
         :
         results.map( pl => (
           <div id={pl.id} key={pl.id} className="w-100">
-            <button 
-              className="plain-btn ip-sb-off-item ip-c-pl-item" 
-              data-current={Boolean(playlist.id === pl.id)}
+            <ListItem
+              icon={pl.sourceType}
+              title={pl.name}
+              description={pl.medias.length + ' video(s)'}
+              rightIcon="normal"
+              current={Boolean(playlist.id === pl.id)}
               onClick={handlePlaylistClick(pl)}
-            >
-              <div tabIndex="-1" className="ip-sb-off-item-con ip-c-pl-item-con">
-                <span className="ip-sb-off-text ip-c-pl-name ip-sb-off-num">
-                  <PlaylistIcon type={pl.sourceType} /> {pl.name}
-                </span>
-                <span className="ip-sb-off-text ip-c-pl-mnum">
-                  {pl.medias.length} video(s)
-                </span>
-                <span className="ip-c-pl-r-icon">
-                  <i className="material-icons" aria-hidden="true">chevron_right</i>
-                </span>
-              </div> 
-            </button>
+            />
           </div>
         ))
       }

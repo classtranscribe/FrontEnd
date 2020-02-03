@@ -1,9 +1,11 @@
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
 import { withRouter } from 'react-router'
+import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
+import { ListItem } from '../ListItem'
 import { PlaceHolder } from '../Placeholder'
 
 import PlaylistInfo from './PlaylistInfo'
@@ -25,20 +27,39 @@ import './index.css'
 
 
 function PlaylistWithRedux({
-  playlist={},
   offering={},
+  playlist={},
+  playlists=[],
   isEditingOffering=false,
   isViewingAnalytics=false,
 }) {
 
+  // Determine the context
   let newOffering = offering === NEW_OFFERING
   let noPlaylist = playlist === NO_PLAYLIST
-  let canShowPlaylists = Boolean(playlist.id) && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
+  let canShowPlaylists = Boolean(playlist.id) && (playlists.length > 0 && offering.id)
+                      && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
 
+  // Media results to display
   const [results, setResults] = useState([])
+  const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
+  const onReverse = () => filterControl.reverse(results, setResults)
 
+  // Determine whether to display upload screen
   const [isUploading, setIsUploading] = useState(false)
+  const onOpenUpload = () => setIsUploading(true)
+  const onCloseUpload = () => setIsUploading(false)
 
+  // Current selected media
+  const [currMediaId, setCurrMediaId] = useState('')
+  const openMediaId = mediaId => () => setCurrMediaId(mediaId)
+  const closeMediaId = () => setCurrMediaId('')
+
+  // The context of the playlist component
+  const stickyContextRef = createRef()
+  const [isTop, setIsTop] = useState(true)
+
+  // Update results when playlist changes
   useEffect(() => {
     if (canShowPlaylists) {
       setResults(playlist.medias || [])
@@ -46,28 +67,31 @@ function PlaylistWithRedux({
     }
   }, [playlist])
 
-  const onOpenUpload = () => setIsUploading(true)
-  const onCloseUpload = () => setIsUploading(false)
-
-  const onFilter = value => filterControl.filterMedias(value, playlist.medias, setResults)
-  const onReverse = () => filterControl.reverse(results, setResults)
-
+  // Conditions not display playlist
   if (isEditingOffering || isViewingAnalytics) return null
   if (!offering.id) return null
   if (newOffering || playlist === HIDE_PLAYLIST) return null
   
+  // Special contexts
   // if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
   
 
   return (
-    <div className="ip-playlist-con">
+    <div ref={stickyContextRef} className="ip-playlist-con">
       {
         canShowPlaylists ?
         <div className="w-100 h-auto ct-a-fade-in">
           {/* Playlist Info */}
-          <PlaylistInfo playlist={playlist} />
+          <Sticky pushing
+            offset={55}
+            context={stickyContextRef}  
+            onStick={() => setIsTop(false)} 
+            onUnstick={() => setIsTop(true)}
+          >
+            <PlaylistInfo playlist={playlist} isTop={isTop} />
+          </Sticky>
 
           {/* Title */}
           <div className="ip-sb-title ct-d-r-center-v mt-3">
@@ -80,23 +104,22 @@ function PlaylistWithRedux({
             {
               playlist.sourceType === 2
               &&
-              <button 
-                className="plain-btn ip-sb-off-item" 
+              <ListItem dark
+                icon="add"
+                title=" UPLOAD VIDEOS"
                 onClick={onOpenUpload}
-              >
-                <div tabIndex="-1" className="ip-sb-off-item-con">
-                  <span className="ct-d-r-center-v ip-sb-off-text ip-c-pl-name ip-sb-off-num">
-                    <i className="material-icons" aria-hidden="true">arrow_upward</i> UPLOAD VIDEOS
-                  </span>
-                </div>
-              </button>
+              />
             }
 
-            <Filter //darker
-              searchFor="Videos" 
-              onFilter={onFilter} 
-              onReverse={onReverse} 
-            />
+            {
+              playlist.medias.length > 0
+              &&
+              <Filter //darker
+                searchFor="Videos" 
+                onFilter={onFilter} 
+                onReverse={onReverse} 
+              />
+            }
           </div>
 
           {/* Selecting Buttons */}
@@ -113,6 +136,9 @@ function PlaylistWithRedux({
                 <Video 
                   key={me.id} 
                   media={me} 
+                  current={me.id === currMediaId}
+                  closeMedia={closeMediaId}
+                  openMediaId={openMediaId}
                   courseNumber={offering.courseNumber}
                 />
               ))}
@@ -132,6 +158,7 @@ export const Playlist = withRouter(connectWithRedux(
   [
     'offering',
     'playlist',
+    'playlists',
     'isEditingOffering',
     'isViewingAnalytics'
   ],

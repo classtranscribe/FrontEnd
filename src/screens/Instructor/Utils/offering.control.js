@@ -189,6 +189,7 @@ export const offControl = {
     } catch (error) {
       promptControl.failedToSave('course')
       console.error('failed to create offering')
+      setup.unloading()
       return;
     }
 

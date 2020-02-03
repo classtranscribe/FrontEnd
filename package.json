@@ -19,7 +19,7 @@
     "node-sass": "^4.13.0",
     "npm": "^6.13.4",
     "papaparse": "^5.1.1",
-    "pico-ui": "^0.0.5",
+    "pico-ui": "^0.0.6",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",

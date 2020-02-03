@@ -9,7 +9,7 @@ import {
 
 function PlaylistInfo({
   playlist,
-
+  isTop=true,
 }) {
 
   const [newName, setNewName] = useState('')
@@ -44,7 +44,7 @@ function PlaylistInfo({
   }
 
   return (
-    <div className="ip-p-title ct-d-r-center-v">
+    <div className={"ip-p-title ct-d-r-center-v ip-sticky-top" + (isTop ? '' : ' sticking')}>
       {
         isEditing ?
         <div className="ip-p-pl-name-edit ct-a-fade-in">
@@ -62,29 +62,36 @@ function PlaylistInfo({
           <PlaylistIcon type={playlist.sourceType} size="large" /> <span>{playlist.name}</span>
         </h3>
       }
-      <div className="ct-btn-group">
-        <Button.Group>
-          <Button compact
-            icon={isEditing ? undefined : "edit"}
-            text={isEditing ? "Save" : undefined}
-            color={isEditing ? "transparent teal" : "primary"}
-            plain={isEditing}
-            round={!isEditing}
-            onClick={handleRename}
-            popup={isEditing ? undefined : 'Rename'}
-          />
-          {
-            !isEditing
-            &&
-            <Button round compact
-              icon="delete"
-              color="primary"
-              popup="Delete Playlist"
-              onClick={onDelete}
+
+      {/* Button Group */}
+      {
+        isTop
+        &&
+        <div className="ct-btn-group ct-a-fade-in">
+          <Button.Group>
+            <Button compact
+              icon={isEditing ? undefined : "edit"}
+              text={isEditing ? "Save" : undefined}
+              color={isEditing ? "transparent teal" : "primary"}
+              plain={isEditing}
+              round={!isEditing}
+              onClick={handleRename}
+              popup={isEditing ? undefined : 'Rename'}
             />
-          }
-        </Button.Group>
-      </div>
+            {
+              !isEditing
+              &&
+              <Button round compact
+                icon="delete"
+                color="primary"
+                popup="Delete Playlist"
+                onClick={onDelete}
+              />
+            }
+          </Button.Group>
+        </div>
+      }
+
     </div>
   )
 }
