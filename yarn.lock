@@ -9252,10 +9252,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-pico-ui@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/pico-ui/-/pico-ui-0.0.5.tgz#f9e7b952f8d7148fb3aa5172feef54237b41ae64"
-  integrity sha512-hNBMoa5S+QL6S6XzeVkAkbY23qsbn5PJ2g9Gn0jONABkxcd5T4SWYl7jzUfNeKXNFq0Fcpedlqu6vTv1T3ca3g==
+pico-ui@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/pico-ui/-/pico-ui-0.0.6.tgz#2edf8c1427b5d8bbc8d4cf9f9b38ad59c1ad0d10"
+  integrity sha512-upeS2Qb8doi9Pw1AfzUno/jAjCHH5toA3zemj4hE+wuhgWkcH7CTfZ7faj/1eYs2WDwdzxsVWHs/mlnyh9ceFg==
   dependencies:
     css-loader "^3.4.2"
     prop-types "^15.7.2"
