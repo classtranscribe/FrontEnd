@@ -16,7 +16,13 @@
   text-transform: uppercase;
   margin-left: .3em;
 }
-
+.ip-sb-subt {
+  width: 100%;
+  padding-left: 1em;
+  font-weight: bold;
+  color: rgba(59, 85, 88, 0.671);
+  font-family: var(--ct-font-narrow);
+}
 .ip-sb-filter {
   margin-bottom: 2em;
 }
