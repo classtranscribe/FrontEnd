@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+import { useHistory } from 'react-router'
 import { Button } from 'pico-ui'
 
 import { mediaControl, setup } from '../../../Utils'
@@ -12,9 +12,9 @@ function InlineButtons({
   show=false,
 
   handleRename,
-  history,
 }) {
 
+  const history = useHistory()
   const handleWatch = () => {
     let courseNumber = setup.offering().courseNumber
     let pathname = util.links.watch(courseNumber, media.id)
@@ -68,4 +68,4 @@ function InlineButtons({
   ) : null
 }
 
-export default withRouter(InlineButtons)
+export default InlineButtons

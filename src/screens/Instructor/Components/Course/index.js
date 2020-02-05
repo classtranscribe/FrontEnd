@@ -1,7 +1,5 @@
 import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { withRouter } from 'react-router'
-
 import './index.css'
 import { 
   setup,
@@ -28,8 +26,6 @@ function CourseWithRedux({
 
   isViewingAnalytics=false,
   setIsViewingAnalytics,
-
-  location
 }) {
 
   const [results, setResults] = useState([])
@@ -118,7 +114,7 @@ function CourseWithRedux({
   )
 }
 
-export const Course = withRouter(connectWithRedux(
+export const Course = connectWithRedux(
   CourseWithRedux,
   [
     'offering', 
@@ -131,4 +127,4 @@ export const Course = withRouter(connectWithRedux(
     'setIsEditingOffering',
     'setIsViewingAnalytics'
   ]
-))
+)

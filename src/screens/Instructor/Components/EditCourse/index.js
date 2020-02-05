@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { withRouter } from 'react-router'
 import { Button } from 'pico-ui'
 import {
   CourseSelection,
@@ -135,11 +134,11 @@ function EditCourseWithRedux({
   )
 }
 
-export const EditCourse = withRouter(connectWithRedux(
+export const EditCourse = connectWithRedux(
   EditCourseWithRedux,
   ['offering', 'isEditingOffering'],
   [
     'setOffering',
     'setIsEditingOffering'
   ]
-))
+)

@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { withRouter } from 'react-router'
 import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
@@ -159,7 +158,7 @@ function PlaylistWithRedux({
   )
 }
 
-export const Playlist = withRouter(connectWithRedux(
+export const Playlist = connectWithRedux(
   PlaylistWithRedux,
   [
     'offering',
@@ -169,4 +168,4 @@ export const Playlist = withRouter(connectWithRedux(
     'isViewingAnalytics'
   ],
   []
-))
+)

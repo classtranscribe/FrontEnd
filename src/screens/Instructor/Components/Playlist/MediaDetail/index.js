@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { withRouter } from 'react-router'
+import { useHistory } from 'react-router'
 import { Button } from 'pico-ui'
 import { Poster } from 'components'
 import { ListItem } from '../../ListItem'
@@ -10,9 +10,9 @@ import { setup, mediaControl } from '../../../Utils'
 function MediaDetail({ 
   media, 
   onClose,
-  history,
 }) {
   const { mediaName, id } = api.parseMedia(media)
+  const history = useHistory()
 
   const [newName, setNewName] = useState('')
   const nameRef = useRef()
@@ -154,4 +154,4 @@ function MediaDetail({
   )
 }
 
-export default withRouter(MediaDetail)
+export default MediaDetail
