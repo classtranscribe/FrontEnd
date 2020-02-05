@@ -37,7 +37,7 @@ export const util = {
     instructor: () => '/instructor',
     instOffering: offeringId => `/instructor?offId=${offeringId}`,
     // newOffering: () => `/instructor?offId=ip-new-offering`,
-    // editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
+    instMediaSettings: (mediaId, tab) => '/instructor/media-settings/' + mediaId + (tab ? `#${tab}` : ''),
 
     offering: id => `/offering/${id}`,
     offeringData: offeringId => `/offering/${offeringId}/data`,

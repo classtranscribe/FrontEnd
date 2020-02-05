@@ -1,20 +1,18 @@
 import React from 'react'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-
 import { 
-  NotFound404,
-  Maintenance,
-  OfferingViewing, 
-  Instructor,
-  // InstructorProfile, 
-  // InstructorOffering,
   LoginAndLogout,
   Admin,
+  Instructor,
+  MediaSettings,
+  OfferingViewing, 
   Watch,
+  NotFound404,
+  Maintenance,
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
-import { CTContext } from './components'
+// import { CTContext } from './components'
 import { user } from './utils'
 
 class App extends React.Component {
@@ -22,13 +20,13 @@ class App extends React.Component {
     user.checkExpiration()
   }
 
-  componentDidUpdate(prevProps) {
-    const { location } = this.props
-    if (location !== prevProps.location) {
-      const { removeAlert } = this.context
-      removeAlert()
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   const { location } = this.props
+  //   if (location !== prevProps.location) {
+  //     const { removeAlert } = this.context
+  //     removeAlert()
+  //   }
+  // }
 
   render() {
     // return <Maintenance />
@@ -37,12 +35,17 @@ class App extends React.Component {
         <Route exact path="/" render={() => <Redirect to="/home" />} />
         <Route exact path="/login" component={LoginAndLogout} />
         <Route exact path="/logout" component={LoginAndLogout} />
+
+        {/* Admin */}
+        <Route path="/admin" component={Admin} />
+
+        {/* Instructor */}
+        <Route exact path="/instructor" component={Instructor} />
+        <Route exact path="/instructor/media-settings/:id" component={MediaSettings} />
+
+        {/* Student */}
         <Route path="/home" component={OfferingViewing} />
         <Route exact path="/video" component={Watch} />
-        <Route path="/admin" component={Admin} />
-        <Route path="/instructor" component={Instructor} />
-        {/* <Route path="/offering/:id" component={InstructorOffering} /> */}
-        {/* <Route path="/offering-setting/:type?=:id" component={OfferingSettingPage} /> */}
 
         <Route path="/404" component={NotFound404} />
         <Route component={NotFound404} />
@@ -51,6 +54,6 @@ class App extends React.Component {
   }
 }
 
-App.contextType = CTContext
+// App.contextType = CTContext
 
 export default withRouter(App)

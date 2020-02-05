@@ -65,6 +65,11 @@ function MediaDetail({
     if (isEditing) nameRef.current.focus()
   }, [isEditing])
 
+  const toMediaSettings = tab => () => {
+    let pathname = util.links.instMediaSettings(id, tab)
+    history.push(pathname, { media })
+  }
+
   return (
     <div id="ip-p-md" ref={thisRef}>
       {/* Poster */}
@@ -137,10 +142,12 @@ function MediaDetail({
         <ListItem dark
           icon="closed_caption"
           title="Edit Transcriptions"
+          onClick={toMediaSettings('editTrans')}
         />
         <ListItem dark
           icon="menu_book"
           title="Manage ePub Chapters"
+          onClick={toMediaSettings('epub')}
         />
       </div>
     </div>
