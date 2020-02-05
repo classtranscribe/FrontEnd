@@ -13,15 +13,13 @@ import InlineButtons from './InlineButtons'
 function VideoItemWithRedux({ 
   media=null, 
   current=false,
-  openMediaId=null,
-  closeMediaId=null,
+  openMedia=null,
   isSelectingVideos=false,
   selectedVideos={},
 }) {
   const { id, mediaName, isUnavailable } = api.parseMedia(media)
 
   const [newName, setNewName] = useState('')
-  const [isDeleted, setIsDeleted] = useState(false)
   const nameRef = useRef()
 
   const isEditing = Boolean(newName) && !isSelectingVideos
@@ -49,14 +47,14 @@ function VideoItemWithRedux({
   }
 
   const handleRename = async () => {
-    if (isEditing && nameRef.current.innerText !== mediaName) {
-      console.log(nameRef.current.innerText)
+    let text = nameRef.current.innerText
+    if (isEditing && text && text !== mediaName) {
+      // console.log(nameRef.current.innerText)
       await mediaControl.renameMedia(
         media, 
         setup.playlist().sourceType, 
-        nameRef.current.innerText
+        text
       )
-      // await plControl.renamePlaylist(playlist, newName)
     }
     setNewName( isEditing ? '' : mediaName )
   }
@@ -66,7 +64,7 @@ function VideoItemWithRedux({
                    + (isEditing ? ' edit' : '') 
                    + (isSelectingVideos ? ' selecting' : '')
 
-  return isDeleted ? null : (
+  return (
     <div 
       id={`media-${id}`} 
       className={vClassName} 
@@ -80,7 +78,7 @@ function VideoItemWithRedux({
         isEditing={isEditing}
         isSelected={isSelected}
         isSelectingVideos={isSelectingVideos}
-        onClick={openMediaId(id)}
+        onClick={openMedia(media)}
       />
 
       <InlineButtons 
@@ -89,7 +87,6 @@ function VideoItemWithRedux({
         mediaName={mediaName}
         isUnavailable={isUnavailable}
         handleRename={handleRename}
-        setIsDeleted={setIsDeleted}
       />
 
       {

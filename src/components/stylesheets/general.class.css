@@ -10,6 +10,11 @@
   display: flex;
   flex-direction: row;
 }
+.ct-d-r-end {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
 .ct-d-r-center {
   display: flex;
   flex-direction: row;
@@ -35,5 +40,8 @@
 }
 
 .ct-a-fade-in {
+  animation: fade-in .4s ease-in;
+}
+.ct-a-right-in {
   animation: fade-in .4s ease-in;
 }

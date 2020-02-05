@@ -2,11 +2,13 @@
   position: relative;
   width: 14em;
   height: min-content;
+  overflow: hidden;
 }
 
 .video-poster img {
   width: 14em;
   pointer-events: none;
+  object-fit: cover;
 }
 
 .video-poster .progress-bar {

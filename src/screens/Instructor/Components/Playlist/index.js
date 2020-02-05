@@ -10,7 +10,8 @@ import { PlaceHolder } from '../Placeholder'
 
 import PlaylistInfo from './PlaylistInfo'
 import ButtonBar from './ButtonBar'
-import Video from './Video'
+import VideoItem from './VideoItem'
+import MediaDetail from './MediaDetail'
 
 // import NoPlaylistHolder from './NoPlaylistHolder'
 import NoVideoHolder from './NoVideoHolder'
@@ -51,9 +52,9 @@ function PlaylistWithRedux({
   const onCloseUpload = () => setIsUploading(false)
 
   // Current selected media
-  const [currMediaId, setCurrMediaId] = useState('')
-  const openMediaId = mediaId => () => setCurrMediaId(mediaId)
-  const closeMediaId = () => setCurrMediaId('')
+  const [currMedia, setCurrMedia] = useState('')
+  const openMedia = me => () => setCurrMedia(me)
+  const closeMedia = () => setCurrMedia({})
 
   // The context of the playlist component
   const stickyContextRef = createRef()
@@ -65,6 +66,7 @@ function PlaylistWithRedux({
       setResults(playlist.medias || [])
       if (isUploading) setIsUploading(false)
     }
+    if (currMedia.id) closeMedia()
   }, [playlist])
 
   // Conditions not display playlist
@@ -133,21 +135,25 @@ function PlaylistWithRedux({
             :
             <div className="ct-list-col ip-videos">
               {results.map( me => (
-                <Video 
+                <VideoItem 
                   key={me.id} 
                   media={me} 
-                  current={me.id === currMediaId}
-                  closeMedia={closeMediaId}
-                  openMediaId={openMediaId}
+                  current={me.id === currMedia.id}
+                  openMedia={openMedia}
                   courseNumber={offering.courseNumber}
                 />
               ))}
             </div>
           }
-          
         </div>
         :
         <PlaceHolder />
+      }
+
+      {
+        currMedia.id 
+        && 
+        <MediaDetail media={currMedia} onClose={closeMedia} />
       }
     </div>
   )

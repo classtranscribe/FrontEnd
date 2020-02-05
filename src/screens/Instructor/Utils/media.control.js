@@ -35,6 +35,8 @@ export const mediaControl = {
 
       if (!bulkDelete) setup.playlist({ ...playlist })
       if (!bulkDelete) promptControl.deleted('Video')
+
+      setup.playlist({ ...playlist })
       return true
     } catch (error) {
       if (!bulkDelete) promptControl.failedToDelete('video')

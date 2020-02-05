@@ -32,6 +32,7 @@
   width: 100%;
   padding: .45em .2em;
   margin: 0 1em 0 0;
+  font-family: var(--ct-font-google);
 }
 .ip-p-pl-name span {
   margin-left: .2em;

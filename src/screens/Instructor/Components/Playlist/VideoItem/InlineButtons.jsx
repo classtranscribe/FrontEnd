@@ -12,7 +12,6 @@ function InlineButtons({
   show=false,
 
   handleRename,
-  setIsDeleted,
   history,
 }) {
 
@@ -31,7 +30,6 @@ function InlineButtons({
 
   const handleDelete = async () => {
     await mediaControl.deleteMedia(media)
-    setIsDeleted(true)
   }
 
   const confirmDeletion = () => {
