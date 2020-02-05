@@ -1,6 +1,6 @@
 .ip-playlist {
   position: relative;
-  padding: 4.6em .2em 5em 0;
+  padding: 4.6em .2em 0 0;
   width: 60%;
   height: 100vh;
   overflow-y: auto;
@@ -11,6 +11,7 @@
 .ip-playlist-con {
   width: 100%;
   height: calc(100vh - 4.6em);
+  padding-bottom: 5em;
   overflow-y: auto;
   overflow-x: hidden;
   display: block;
