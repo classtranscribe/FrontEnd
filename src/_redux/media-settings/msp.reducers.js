@@ -12,10 +12,10 @@ const mspReducer = (
   const { type, value } = action
 
   switch (type) {
-    case SET_MEDIA: return { ...state, sidebar: value }
-    case SET_TAB  : return { ...state, tab: value }
+    case SET_MEDIA    : return { ...state, media: value }
+    case SET_TAB      : return { ...state, tab: value }
   
-    default: break;
+    default           : return state
   }
 }
 

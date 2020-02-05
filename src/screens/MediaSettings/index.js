@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
-import { mspStore, connectWithRedux } from '_redux/media-setting'
+import { mspStore, connectWithRedux } from '_redux/media-settings'
 
 export function MediaSettingsWithRedux() {
 

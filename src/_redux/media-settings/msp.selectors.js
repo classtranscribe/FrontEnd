@@ -24,7 +24,7 @@ export const connectWithRedux = (
     })
     return dispatchProps
   }
-  
+
   return connect(
     mapStateToProps, 
     mapDispatchToProps
