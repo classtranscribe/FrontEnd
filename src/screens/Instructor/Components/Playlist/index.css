@@ -1,12 +1,20 @@
-.ip-playlist-con {
+.ip-playlist {
   position: relative;
-  padding-top: 4.5em;
-  padding-bottom: 5em;
+  padding: 4.6em .2em 5em 0;
   width: 60%;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--ct-ip-grey-0);
+  display: block;
+}
+.ip-playlist-con {
+  width: 100%;
+  height: calc(100vh - 4.6em);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+  -webkit-box-orient: vertical;
 }
 
 /* Title */

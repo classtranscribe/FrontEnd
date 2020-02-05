@@ -79,10 +79,10 @@ function PlaylistWithRedux({
   
 
   return (
-    <div ref={stickyContextRef} className="ip-playlist-con">
+    <div ref={stickyContextRef} className="ip-playlist">
       {
         canShowPlaylists ?
-        <div className="w-100 h-auto ct-a-fade-in">
+        <div className="ct-a-fade-in ip-playlist-con" data-scroll>
           {/* Playlist Info */}
           <Sticky pushing
             offset={55}

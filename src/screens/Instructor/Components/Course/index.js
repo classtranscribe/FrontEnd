@@ -86,7 +86,7 @@ function CourseWithRedux({
     <div className="ip-course" ref={stickyContextRef}>
       {
         Boolean(offering.id && playlists.length > 0) ? <>
-        <div className="ct-a-fade-in w-100 h-auto">
+        <div className="ct-a-fade-in ip-course-con" data-scroll>
           {/* Course Info */}
           <CourseInfo 
             offering={offering}

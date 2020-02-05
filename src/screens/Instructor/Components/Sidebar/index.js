@@ -72,7 +72,7 @@ function SideBarWithRedux({
 
   return (
     <aside className="op-sidebar ip-sidebar" style={style} >
-      <div className="w-100 d-flex flex-column">
+      <div className="ip-sidebar-con" data-scroll>
         {/* Title */}
         <div className="ip-sb-title ct-d-r-center-v">
           <i className="material-icons" aria-hidden="true">collections_bookmark</i>
