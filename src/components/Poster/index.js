@@ -13,13 +13,13 @@ export function Poster({
   return (
     <div 
       className="video-poster" 
-      style={{ width, height }} 
       aria-hidden="true" 
       data-round={round.toString()}
     >
       <img 
+        width={width}
+        height={height}
         className={`poster-img ${borderRadius ? 'with-br' : ''}`} 
-        style={{ width, height}}
         src={src} 
         alt="video poster"
       />

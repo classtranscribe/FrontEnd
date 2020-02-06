@@ -1,12 +1,11 @@
 .video-poster {
   position: relative;
-  width: 14em;
-  height: min-content;
+  min-width: max-content;
+  height: auto;
   overflow: hidden;
 }
 
 .video-poster img {
-  width: 14em;
   pointer-events: none;
   object-fit: cover;
 }
