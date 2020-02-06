@@ -67,6 +67,9 @@ $ip-v-file-green: rgb(24, 148, 148);
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 100%;
+    &:hover {
+      color: var(--ct-green-normal);
+    }
   }
 }
 
@@ -91,6 +94,7 @@ $ip-v-file-green: rgb(24, 148, 148);
         border-bottom: 2px black solid;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
+        color: rgb(58, 58, 58);
       }
       &:focus {
         border-bottom-color: var(--ct-green-normal);
