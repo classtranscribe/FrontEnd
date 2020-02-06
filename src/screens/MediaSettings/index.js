@@ -1,18 +1,38 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { Provider } from 'react-redux'
-import { useParams, useLocation } from 'react-router-dom'
 import { mspStore, connectWithRedux } from '_redux/media-settings'
+import './index.scss'
+import {
+  MSPHeader
+} from './Components'
+import {
+  setup
+} from './Utils'
+import { util } from 'utils'
 
-export function MediaSettingsWithRedux() {
+class MediaSettingsWithRedux extends React.Component {
+  constructor(props) {
+    super(props)
 
-  let mediaId = useParams().id
-  let tab = useLocation().hash
+    this.mediaId = props.match.params.id
+    const { tab } = util.links.useHash()
+    this.initTab = tab
+    setup.init(props)
+  }
 
-  return (
-    <div>
-      {mediaId} - tab {tab}
-    </div>
-  )
+  componentDidMount() {
+    setup.setupMedia(this.mediaId, this.initTab)
+  }
+
+  contextRef = createRef()
+
+  render() {
+    return (
+      <div ref={this.contextRef} className="msp-bg">
+        <MSPHeader contextRef={this.contextRef} />
+      </div>
+    )
+  }
 }
 
 
@@ -27,7 +47,10 @@ export function MediaSettings(props) {
       'media', 
       'tab'
     ],
-    []
+    [
+      'setMedia',
+      'setTab'
+    ]
   )
 
   return (

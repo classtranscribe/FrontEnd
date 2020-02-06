@@ -44,30 +44,58 @@ export class ClassTranscribeLinks {
     return VALID_URL.test(value);
   }
 
-  useSearch(href) {
-    var queryString = window.location.search
-    if (href) {
-      if (href[0] !== '?' && !this.isValidUrl(href)) return {};
-      queryString = href.substring(href.indexOf('?'), href.length)
+  useParams(query) {
+    if (!query) return {}
+    var params = {}
+    
+    try {
+      var pairs = query.substr(1).split('&');
+      pairs.forEach( pair => {
+        pair = pair.split('=')
+        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '')
+      })
+    } catch (error) {
+      console.error('Invalid query')
     }
-    if (!queryString) return {}
-    var query = {}
-    var pairs = queryString.substr(1).split('&');
-    pairs.forEach( pair => {
-      pair = pair.split('=')
-      query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '')
-    })
-    return query
+
+    return params
   }
-  createSearch(obj) {
-    var query = '?'
-    for(let key in obj) {
-      if (!Boolean(obj[key])) continue;
-      let value = obj[key]
+  createQuery(params, prefix='') {
+    var query = ''
+    for(let key in params) {
+      if (!params[key]) continue
+
+      let value = params[key]
       if (typeof value === 'string') value = value.replace(/\//g, '-')
-      query += (query === '?' ? '' : '&') + `${key}=${value}`
+      query += `&${key}=${value}`
     }
-    return query === '?' ? '' : query
+    return prefix + query.replace('&', '')
+  }
+
+  useSearch(href) {
+    return this.useParams(
+      this.isValidUrl(href)
+      ?
+      href.substring(href.indexOf('?'), href.length)
+      :
+      window.location.search
+    )
+  }
+  createSearch(params) {
+    return this.createQuery(params, '?')
+  }
+
+  useHash(href) {
+    return this.useParams(
+      this.isValidUrl(href)
+      ?
+      href.substring(href.indexOf('#'), href.length)
+      :
+      window.location.hash
+    )
+  }
+  createHash(params) {
+    return this.createQuery(params, '#')
   }
 }
 

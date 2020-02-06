@@ -43,7 +43,7 @@ export function ClassTranscribeHeader({
           />
         }
         {/* Brand */}
-        <Link className="ct-header-brand" to={homeURL}>
+        <Link className={"ct-header-brand" + (showSiderBar ? '' : ' ml-3')} to={homeURL}>
           <img
             src={imgSrc}
             alt="ClassTranscribe Brand"
