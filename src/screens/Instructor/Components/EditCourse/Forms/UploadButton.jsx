@@ -17,7 +17,7 @@ export function UploadBtn({ addNew }) {
     var reader = new FileReader()
     reader.onload = async function() {
       let { data } = Papa.parse(reader.result)
-      console.log(_.flatten(data))
+      // console.log(_.flatten(data))
       addNew(_.flatten(data))
       setLoading(false)
     }

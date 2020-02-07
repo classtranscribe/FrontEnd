@@ -51,7 +51,7 @@ function CourseSelectionWithRedux({
     if (Boolean(depart)) {
       api.getCoursesByDepartId(depart)
         .then(({ data }) => {
-          console.log('courses', data, depart)
+          // console.log('courses', data, depart)
           let dep = _.find( departments, { id: depart })
           setCourses(
             _.map( data, co => ({ ...co, acronym: dep.acronym }) )
