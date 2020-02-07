@@ -73,7 +73,7 @@ export const util = {
   },
 
   getSelectOptions: function(array=[], tag) {
-    if (Array.isArray(array)) return []
+    if (!Array.isArray(array)) return []
     var options = []
     array.forEach( item => {
       if (!item || !item.id) return
