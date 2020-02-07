@@ -134,7 +134,7 @@ function MediaDetail({
       </div>
 
       {/* Settings */}
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <div className="ip-sb-title ct-d-r-center-v mt-3">
           <i className="material-icons" aria-hidden="true">settings</i>
           <h3>SETTINGS</h3>
@@ -149,7 +149,7 @@ function MediaDetail({
           title="Manage ePub Chapters"
           onClick={toMediaSettings('epub')}
         />
-      </div>
+      </div> */}
     </div>
   )
 }
