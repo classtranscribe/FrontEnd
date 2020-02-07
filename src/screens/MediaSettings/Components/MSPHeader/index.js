@@ -1,26 +1,38 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/media-settings'
-import { Sticky } from 'semantic-ui-react'
 import { ClassTranscribeHeader } from 'components'
+import Tabs from './Tabs'
 import './index.scss'
+
+import { api } from 'utils'
 
 function MSPHeaderWithRedux({
   tab,
-  contextRef
+  media,
 }) {
+  const { mediaName } = api.parseMedia(media)
   return (
     <div className="msp-header">
-      <ClassTranscribeHeader 
+      <ClassTranscribeHeader bordered
+        fixed={false}
+        subtitle="Media Settings"
         leftElem={
-          <div>123</div>
+          <Tabs currTab={tab} />
         }
       />
+      
+      <div className="msp-sub-h">
+        <div>{mediaName}</div>
+      </div>
     </div>
   )
 }
 
 export const MSPHeader = connectWithRedux(
   MSPHeaderWithRedux,
-  ['tab'],
+  [
+    'tab',
+    'media'
+  ],
   []
 )

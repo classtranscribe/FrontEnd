@@ -1,5 +1,49 @@
 .msp-header {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 4.1rem;
-  // border-bottom: 1px solid rgb(228, 228, 228);
+  height: auto;
+
+  .msp-h-tabs-con {
+    height: 4rem;
+    display: flex;
+    flex-direction: row;
+    margin-left: 2rem;
+
+    .msp-h-tab {
+      padding: 1rem .5rem 0 .5rem;
+      height: max-content;
+      overflow: hidden;
+      span {
+        height: 3rem;
+        position: relative;
+        font-size: 1.4em;
+        font-weight: 500;
+        color: rgb(77, 77, 77);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 3px solid transparent;
+        font-family: var(--ct-font-google);
+        // text-transform: uppercase;
+        padding: 0 .2em .3em .2em;
+        transition: all .2s ease-in;
+      }
+
+      &:hover span, &:focus span {
+        color: black;
+        border-color: rgb(59, 59, 59);
+      }
+      &[data-current=true] span {
+        color: var(--ct-text-title);
+        border-color: var(--ct-green-normal);
+      }
+    }
+  }
+
+  .msp-sub-h {
+    width: 100%;
+  }
 }

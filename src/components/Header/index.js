@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button } from 'pico-ui'
 import ProfileMenu from './ProfileMenu'
-import './index.css'
+import './index.scss'
 import { util } from 'utils'
 import { textBrand, darkTextBrand } from '../../images'
 
@@ -11,7 +11,6 @@ import { textBrand, darkTextBrand } from '../../images'
  * Header only for Course Setting Page with a sider bar show-up trigger button
  */
 export function ClassTranscribeHeader({
-  darkMode=false, 
   display=false, 
   showSiderBar=false, 
   children=null, 
@@ -19,7 +18,10 @@ export function ClassTranscribeHeader({
   leftElem=null,
   subtitle=null,
   showProfileMenu=true,
+
+  darkMode=false, 
   fixed=true,
+  bordered=false,
 }) {
   const bg = darkMode ? 'ct-nav-dark' : 'ct-nav-light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
@@ -33,7 +35,11 @@ export function ClassTranscribeHeader({
       id="ct-nav" 
       bg={bg} 
       variant={bg} 
-      className={`ct-nav ${bg + (fixed ? ' fixed' : '')}`}
+      className={`ct-nav ${
+        bg 
+        + (fixed ? ' fixed' : '')
+        + (bordered ? ' bordered' : '')
+      }`}
     >
       {/* Right Elem */}
       <div className="ct-header-left-elem">
@@ -55,7 +61,9 @@ export function ClassTranscribeHeader({
             alt="ClassTranscribe Brand"
           />
         </Link>
-        {subtitle}
+        <div className="ct-h-subtitle">
+          {subtitle}
+        </div>
         {leftElem}
       </div>
 
