@@ -46,7 +46,7 @@ export default function NewPlaylist({
             'Echo360 Access Link' : 
             type === 1 ?
             'YouTube playlist URL' :
-            'Box Playlist URL'
+            'Box Folder URL'
           }.`
         )
       }
@@ -92,7 +92,7 @@ export default function NewPlaylist({
         </div>
 
         <div className="ip-f-p-types-con">
-          <h4>Playlist Types</h4>
+          <h4>Create Your Playlist From</h4>
           <div className="ip-f-p-types-list">
             <div className="ip-f-p-types-item">
               <div className="ip-f-p-types-t"><PlaylistIcon type={0} /> Echo360</div>
@@ -134,6 +134,7 @@ export default function NewPlaylist({
                 options={CTForm.getOptions(api.playlistTypes.slice().reverse(), 'id', 'name', 'description')}
                 onChange={setPlaylistType}
                 description="Choose playlist type."
+                position="up"
               />
             </Grid.Column>
           </Grid.Row>
@@ -142,7 +143,7 @@ export default function NewPlaylist({
             &&
             <>
               <div className="ip-f-p-types-con">
-                <h4>YouTube playlist URL</h4>
+                <h4>YouTube Instruction</h4>
                 <div className="ip-f-p-types-t">For Example</div>
                 <div className="ip-f-p-types-d">{exampleYoutubeURL}</div>
               </div>
@@ -170,7 +171,7 @@ export default function NewPlaylist({
             &&
             <>
               <div className="ip-f-p-types-con">
-                <h4>Echo360 Access Link</h4>
+                <h4>Echo360 Instruction</h4>
                 <div className="ip-f-p-types-t">For Example</div>
                 <div className="ip-f-p-types-d">{exampleEchoAccessLink}</div>
               </div>
@@ -198,7 +199,15 @@ export default function NewPlaylist({
             &&
             <>
               <div className="ip-f-p-types-con">
-                <h4>Box Folder URL</h4>
+                <h4>Box Instruction</h4>
+                <div className="ip-f-p-types-t"><span>IMPORTANT</span></div>
+                <div className="ip-f-p-types-d">
+                  <span>
+                    Before creating the playlist, please 
+                    <strong>SHARE</strong>your Box folder with our Box account 
+                    <strong>cstranscribe@illinois.edu</strong>. 
+                  </span>
+                </div>
                 <div className="ip-f-p-types-t">For Example</div>
                 <div className="ip-f-p-types-d">{exampleBoxURL}</div>
               </div>

@@ -110,15 +110,19 @@ export const plControl = {
    */
   isValidIdURL: function(sourceType, url='') {
     if (sourceType === 2) return true
-
     if (!url) return false
+
     if (sourceType === 0) { // Echo360
       return _.startsWith(url, echo360Prefix)
+
     } else if (sourceType === 1) { // YouTube
       let { list } = util.links.useSearch(url)
       return Boolean(list)
-    } else if (sourceType === 4) {
-      return _.startsWith(url, boxPrefix)
+
+    } else if (sourceType === 4) { // Box
+      return _.startsWith(url, 'https://') 
+            && url.includes('box.com') 
+            && url.includes('/folder/')
     }
 
     return false
