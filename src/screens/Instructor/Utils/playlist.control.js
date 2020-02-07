@@ -52,8 +52,10 @@ export const plControl = {
 
     // extract playlistIdentifier
     if (sourceType === 1) { // YouTube
-      let { list } = util.parseSearchQuery(playlistIdentifier)
+      let { list } = util.links.useSearch(playlistIdentifier)
       playlistIdentifier = list
+    } else if (sourceType === 4) { // Box
+      playlistIdentifier = playlistIdentifier.split('/folder/')[1]
     }
 
     let newPl = { offeringId, name, sourceType, playlistIdentifier }
