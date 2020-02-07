@@ -47,7 +47,6 @@ export const mediaControl = {
   },
 
   renameMedia: async function(media, type, newName) {
-    console.log(media)
     promptControl.saving()
     if (type === 2) {
       media.jsonMetadata.filename = newName

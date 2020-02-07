@@ -92,12 +92,25 @@ export const responseParsers = {
     }
     
     if (!media) return re
-    const { id, playlistId, jsonMetadata, sourceType, video, transcriptions } = media
+    const { 
+      id, 
+      playlistId, 
+      jsonMetadata, 
+      sourceType, 
+      video, 
+      transcriptions, 
+      ready 
+    } = media
+    
     if (!id || !jsonMetadata) return re
+
     re.id = id
     re.createdAt = jsonMetadata.createdAt
     re.playlistId = playlistId
     re.sourceType = sourceType
+    re.transReady = ready
+
+    // console.log('media', media)
 
     /** Media Name */
     // youtube
@@ -106,22 +119,29 @@ export const responseParsers = {
     // echo360
     } else if (sourceType === 0) { 
       let { lessonName, createdAt, title } = jsonMetadata
-      if (title) {
+      if (title) { // After renaming
         re.mediaName = title
       } else {
         let date = new Date(createdAt)
         re.mediaName = `${lessonName || 'Untitled'}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
       }
     // upload
-    } else { 
-      if (jsonMetadata.filename) {
+    } else if (sourceType === 2) { 
+      if (jsonMetadata.filename) { // After renaming
         re.mediaName = jsonMetadata.filename
       } else {
         let fileData = JSON.parse(jsonMetadata.video1)
         re.mediaName = fileData.FileName || 'Untitled'
       }
+
+      re.mediaName = re.mediaName.replace('.mp4', '')
+    // box
+    } else if (sourceType === 4) {
+      re.mediaName = jsonMetadata.name
+
+    } else {
+      re.mediaName = 'Untitled'
     }
-    re.mediaName = re.mediaName.replace('.mp4', '')
 
 
     /** video src */

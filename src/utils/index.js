@@ -72,15 +72,20 @@ export const util = {
     return window.history.state || {}
   },
 
-  getSelectOptions: function(array, tag) {
-    var options = [];
+  getSelectOptions: function(array=[], tag) {
+    if (!Array.isArray(array)) return []
+    var options = []
     array.forEach( item => {
+      if (!item || !item.id) return
       var text = ''
-      if ((tag === 'depart' || tag === 'term') && item.uniName) text = `${item.name} (${item.uniName})`
-      else text = item.name || tag + item.courseNumber;
+      if ((tag === 'depart' || tag === 'term') && item.uniName) {
+        text = `${item.name} (${item.uniName})`
+      } else {
+        text = item.name || tag + item.courseNumber
+      }
       options.push({text: text, value: item.id})
     })
-    return options;
+    return options
   },
 
   getFittedName: function(name, charNum) {

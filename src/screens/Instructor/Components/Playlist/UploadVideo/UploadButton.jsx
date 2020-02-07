@@ -15,7 +15,7 @@ function UploadButton({ addMedia, disabled }) {
 
     setMesg('')
     addMedia(files[0], files[1])
-    console.log('files', files)
+    // console.log('files', files)
   }, [addMedia])
   
   const { getRootProps, getInputProps } = useDropzone()
