@@ -3,10 +3,10 @@
  */
 
 .ct-nav, .ct-nav-dark {
-  position: fixed;
+  position: relative;
   opacity: 1;
   top: 0;
-  width: 100vw;
+  width: 100%;
   height: 4rem;
   display: flex;
   flex-direction: row;
@@ -17,8 +17,9 @@
 }
 .ct-nav-light {
   background: #ffffff;
-  /* border-bottom: 1px solid rgb(207, 207, 207); */
-  /* box-shadow: 0 0 4px #c7c7c786; */
+}
+.ct-nav.fixed {
+  position: fixed;
 }
 .ct-nav-dark {
   background: transparent;

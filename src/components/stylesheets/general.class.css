@@ -32,6 +32,10 @@
   justify-content: center;
 }
 
+.ct-d-c {
+  display: flex;
+  flex-direction: column;
+}
 .ct-d-c-center {
   display: flex;
   flex-direction: column;

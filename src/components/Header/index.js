@@ -19,6 +19,7 @@ export function ClassTranscribeHeader({
   leftElem=null,
   subtitle=null,
   showProfileMenu=true,
+  fixed=true,
 }) {
   const bg = darkMode ? 'ct-nav-dark' : 'ct-nav-light'
   const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
@@ -28,7 +29,12 @@ export function ClassTranscribeHeader({
   if (children !== null) rightElem = children
 
   return (
-    <nav id="ct-nav" sticky="top" bg={bg} variant={bg} className={`ct-nav ${bg}`}>
+    <nav 
+      id="ct-nav" 
+      bg={bg} 
+      variant={bg} 
+      className={`ct-nav ${bg + (fixed ? ' fixed' : '')}`}
+    >
       {/* Right Elem */}
       <div className="ct-header-left-elem">
         { /* Sidebar trigger */
