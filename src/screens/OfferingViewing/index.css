@@ -12,7 +12,7 @@
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: var(--light-bg-color);
+  background-color: white;
   -webkit-overflow-scrolling: touch;
   font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
 }

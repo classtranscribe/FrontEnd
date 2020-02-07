@@ -1,6 +1,6 @@
 .ip-prompt {
   position: absolute;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .ip-pt-box {

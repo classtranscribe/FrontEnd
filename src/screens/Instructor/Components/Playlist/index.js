@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { withRouter } from 'react-router'
 import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
@@ -10,7 +9,8 @@ import { PlaceHolder } from '../Placeholder'
 
 import PlaylistInfo from './PlaylistInfo'
 import ButtonBar from './ButtonBar'
-import Video from './Video'
+import VideoItem from './VideoItem'
+import MediaDetail from './MediaDetail'
 
 // import NoPlaylistHolder from './NoPlaylistHolder'
 import NoVideoHolder from './NoVideoHolder'
@@ -51,9 +51,9 @@ function PlaylistWithRedux({
   const onCloseUpload = () => setIsUploading(false)
 
   // Current selected media
-  const [currMediaId, setCurrMediaId] = useState('')
-  const openMediaId = mediaId => () => setCurrMediaId(mediaId)
-  const closeMediaId = () => setCurrMediaId('')
+  const [currMedia, setCurrMedia] = useState('')
+  const openMedia = me => () => setCurrMedia(me)
+  const closeMedia = () => setCurrMedia({})
 
   // The context of the playlist component
   const stickyContextRef = createRef()
@@ -65,6 +65,7 @@ function PlaylistWithRedux({
       setResults(playlist.medias || [])
       if (isUploading) setIsUploading(false)
     }
+    if (currMedia.id) closeMedia()
   }, [playlist])
 
   // Conditions not display playlist
@@ -79,10 +80,10 @@ function PlaylistWithRedux({
   
 
   return (
-    <div ref={stickyContextRef} className="ip-playlist-con">
+    <div ref={stickyContextRef} className="ip-playlist">
       {
         canShowPlaylists ?
-        <div className="w-100 h-auto ct-a-fade-in">
+        <div className="ct-a-fade-in ip-playlist-con" data-scroll>
           {/* Playlist Info */}
           <Sticky pushing
             offset={55}
@@ -133,27 +134,31 @@ function PlaylistWithRedux({
             :
             <div className="ct-list-col ip-videos">
               {results.map( me => (
-                <Video 
+                <VideoItem 
                   key={me.id} 
                   media={me} 
-                  current={me.id === currMediaId}
-                  closeMedia={closeMediaId}
-                  openMediaId={openMediaId}
+                  current={me.id === currMedia.id}
+                  openMedia={openMedia}
                   courseNumber={offering.courseNumber}
                 />
               ))}
             </div>
           }
-          
         </div>
         :
         <PlaceHolder />
+      }
+
+      {
+        currMedia.id 
+        && 
+        <MediaDetail media={currMedia} onClose={closeMedia} />
       }
     </div>
   )
 }
 
-export const Playlist = withRouter(connectWithRedux(
+export const Playlist = connectWithRedux(
   PlaylistWithRedux,
   [
     'offering',
@@ -163,4 +168,4 @@ export const Playlist = withRouter(connectWithRedux(
     'isViewingAnalytics'
   ],
   []
-))
+)

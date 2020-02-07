@@ -26,9 +26,11 @@
   font-weight: bold;
   font-size: 1.2em;
 }
+.ip-f-p-types-t span {
+  color: red;
+}
 .ip-f-p-types-d {
-  margin-top: .5em;
-  margin-left: 2em;
+  margin: .5em 0 .5em 2em;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -40,4 +42,8 @@
 }
 .ip-f-p-types-d strong {
   color: var(--ct-text-title);
+  padding: 0 .2em;
+}
+.ip-f-p-types-d span {
+  font-size: 1.2em;
 }

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, createRef } from 'react'
 import { connectWithRedux } from '_redux/instructor'
-import { withRouter } from 'react-router'
-
 import './index.css'
 import { 
   setup,
@@ -28,8 +26,6 @@ function CourseWithRedux({
 
   isViewingAnalytics=false,
   setIsViewingAnalytics,
-
-  location
 }) {
 
   const [results, setResults] = useState([])
@@ -86,7 +82,7 @@ function CourseWithRedux({
     <div className="ip-course" ref={stickyContextRef}>
       {
         Boolean(offering.id && playlists.length > 0) ? <>
-        <div className="ct-a-fade-in w-100 h-auto">
+        <div className="ct-a-fade-in ip-course-con" data-scroll>
           {/* Course Info */}
           <CourseInfo 
             offering={offering}
@@ -118,7 +114,7 @@ function CourseWithRedux({
   )
 }
 
-export const Course = withRouter(connectWithRedux(
+export const Course = connectWithRedux(
   CourseWithRedux,
   [
     'offering', 
@@ -131,4 +127,4 @@ export const Course = withRouter(connectWithRedux(
     'setIsEditingOffering',
     'setIsViewingAnalytics'
   ]
-))
+)

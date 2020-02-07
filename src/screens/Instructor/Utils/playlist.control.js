@@ -1,8 +1,10 @@
 import _ from 'lodash'
 import { util, api } from 'utils'
-import { LOADING_D } from './constants'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
+
+const echo360Prefix = 'https://echo360.org/section/'
+const boxPrefix = 'https://uofi.app.box.com/folder/'
 
 // const initPlaylist = {
 //   name: '',
@@ -108,13 +110,19 @@ export const plControl = {
    */
   isValidIdURL: function(sourceType, url='') {
     if (sourceType === 2) return true
-
     if (!url) return false
+
     if (sourceType === 0) { // Echo360
-      return url.includes('https://echo360.org/section/')
+      return _.startsWith(url, echo360Prefix)
+
     } else if (sourceType === 1) { // YouTube
-      let { list } = util.parseSearchQuery(url)
+      let { list } = util.links.useSearch(url)
       return Boolean(list)
+
+    } else if (sourceType === 4) { // Box
+      return _.startsWith(url, 'https://') 
+            && url.includes('box.com') 
+            && url.includes('/folder/')
     }
 
     return false

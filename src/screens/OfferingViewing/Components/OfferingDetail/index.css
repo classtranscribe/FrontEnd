@@ -3,8 +3,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   width: 100%;
   height: 100%;
-  -webkit-overflow-scrolling: touch;
-  background: #fcfcfc;}
+  -webkit-overflow-scrolling: touch;}
   .sp-content .offering-detail .od-course-number {
     font-family: Arial, Helvetica, sans-serif;
     display: block;
@@ -36,14 +35,6 @@
 /* Offering Info */
 .sp-content .offering-detail .offering-info {
   padding-top: 2em;
-}
-.sp-content .offering-detail .offering-info .button {
-  background: #378f8f;
-  color: white;
-}
-.sp-content .offering-detail .offering-info .button[id=starred] {
-  background: #dfe2e2;
-  color: rgb(98, 98, 98);
 }
 
 /* Playlist Loader */
@@ -200,7 +191,7 @@
     min-height: 90vh;
     border-top: none;
     margin-top: 0;
-    background-color: #f6f6f6;
+    background-color: #fbfbfb;
     -webkit-overflow-scrolling: touch;
   }
   .sp-content .offering-detail .divider {

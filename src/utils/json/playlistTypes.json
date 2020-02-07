@@ -1,13 +1,18 @@
 [
   {
-    "name": "Echo360", 
-    "id": 0, 
-    "description": "Host videos from Echo360"
+    "name": "Box",
+    "id": 4,
+    "description": "Host videos from a Box folder"
   },
   {
     "name": "YouTube", 
     "id": 1, 
     "description": "Host videos from YouTube playlist"
+  },
+  {
+    "name": "Echo360", 
+    "id": 0, 
+    "description": "Host videos from Echo360"
   },
   {
     "name": "Upload", 

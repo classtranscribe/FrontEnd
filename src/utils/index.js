@@ -1,9 +1,9 @@
 import $ from 'jquery'
 import { storage } from './storage'
+import { links   } from './links'
 
 export { search           } from './search'
 export { user, userAction } from './user'
-export { sortFunc } from './sort'
 export { handleData       } from './data'
 export { api              } from './HTTP'
 
@@ -15,42 +15,7 @@ export * from './constants'
  */
 export const util = {
   ...storage,
-  links: {
-    title: (title, replace=false) => {
-      if (!replace) {
-        title = title ? `${title} | ClassTranscribe` : 'ClassTranscribe'
-      }
-      document.title = title
-    },
-    currentUrl: () => window.location,
-    home: () => '/home',
-    search: () => '/home/search',
-    starred: () => '/home/starred',
-    history: () => '/home/history',
-    offeringDetail: id => `/home/offering/${id}`,
-    personalAnalytics: () => "/home/personal-report",
-    admin: () => '/admin',
-
-    login: () => '/login',
-    logout: () => '/logout',
-
-    instructor: () => '/instructor',
-    instOffering: offeringId => `/instructor?offId=${offeringId}`,
-    // newOffering: () => `/instructor?offId=ip-new-offering`,
-    // editOffering: (offeringId) => `/offering/${offeringId}/offering-setting/id=${offeringId}`,
-
-    offering: id => `/offering/${id}`,
-    offeringData: offeringId => `/offering/${offeringId}/data`,
-    offeringPlaylist: (offeringId, courseName, playlistId) => `/offering/${offeringId}/playlist/${courseName}=${playlistId}`,
-    newPlaylist: (offeringId) => `/offering/${offeringId}/playlist-setting/new=${offeringId}`,
-    editPlaylist: (offeringId, playlistId) => `/offering/${offeringId}/playlist-setting/id=${playlistId}`,
-    uploadVideo: (offeringId, playlistId) => `/offering/${offeringId}/upload/${playlistId}`,
-    renameVideo: (offeringId, mediaId) => `/offering/${offeringId}/video-rename/${mediaId}`,
-
-    watch: (courseNumber, id, begin, others={}) => `/video${util.createSearchQuery({ courseNumber, id, begin: Math.floor(begin), ...others })}`,
-    notfound404: () => '/404',
-    contactUs: () => 'mailto:classtranscribe@illinois.edu',
-  },
+  links: links,
 
   refresh: function() {
     document.location.reload(true);

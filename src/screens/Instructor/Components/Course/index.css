@@ -2,23 +2,26 @@
   width: 40%;
   min-width: 30em;
   height: 100vh;
-  padding-top: 4.5em;
-  /* background-color: var(--ct-ip-grey-1); */
+  padding-top: 4.6em;
+  padding-right: .2em;
   background-color: white;
-  overflow: auto;
+  overflow: hidden;
   padding-bottom: 4em;
   position: relative;
+  -webkit-box-orient: vertical;
+}
+.ip-course-con {
+  width: 100%;
+  height: calc(100vh - 4.6em);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+  -webkit-box-orient: vertical;
 }
 
 /* Course Info */
 .ip-course-info-1 {
-  /* margin-top: 3em; */
   padding: 1.5em .5em 0.1em 1.5em;
-  position: sticky;
-  display: block;
-  top: 0em;
-  z-index: 1;
-  /* background-color: var(--ct-ip-grey-1); */
   background-color: white;
 }
 .ip-course-info-1 .ip-c-num {

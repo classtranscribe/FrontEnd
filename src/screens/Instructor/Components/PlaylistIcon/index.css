@@ -1,0 +1,10 @@
+.ip-pi-box-logo {
+  width: 18px;
+  margin-right: 7px;
+}
+.ip-pi-box-logo[data-size=normal] {
+  width: 20px;
+}
+.ip-pi-box-logo[data-size=big] {
+  width: 26px;
+}

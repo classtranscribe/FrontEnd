@@ -59,7 +59,7 @@ function PlaylistInfo({
         </div>
         :
         <h3 className="ip-p-pl-name ct-d-r-center-v ct-a-fade-in">
-          <PlaylistIcon type={playlist.sourceType} size="large" /> <span>{playlist.name}</span>
+          <PlaylistIcon type={playlist.sourceType} size="large" svgSize="big" /> <span>{playlist.name}</span>
         </h3>
       }
 

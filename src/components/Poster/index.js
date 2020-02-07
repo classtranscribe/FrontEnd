@@ -7,18 +7,19 @@ export function Poster({
   progress=0, 
   borderRadius=false, 
   width, 
+  height,
   round=false
 }) {
   return (
     <div 
       className="video-poster" 
-      style={{width}} 
       aria-hidden="true" 
       data-round={round.toString()}
     >
       <img 
+        width={width}
+        height={height}
         className={`poster-img ${borderRadius ? 'with-br' : ''}`} 
-        style={{width}}
         src={src} 
         alt="video poster"
       />

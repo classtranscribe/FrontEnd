@@ -6,11 +6,16 @@ import { httpDELETE } from './http.delete'
 import { responseParsers    } from './helper.response-parsers'
 import { userMetadataHelper } from './helper.user-metadata'
 
+import { isDeveloping } from '../constants'
+
 /**
  * Set up http
  */
 export const http = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || window.location.origin,
+  baseURL: (  isDeveloping ? 
+              process.env.REACT_APP_TESTING_API_BASE_URL :
+              process.env.REACT_APP_API_BASE_URL
+            ) || window.location.origin,
   timeout: 100000,
 })
 

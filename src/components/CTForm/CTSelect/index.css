@@ -74,6 +74,9 @@
   z-index: 1;
   animation: ipt-sel-popup .15s ease-in;
 }
+.ct-ipt-con[data-pos=up] .ct-ipt-sel-opts {
+  top: -10em;
+}
 
 @keyframes ipt-sel-popup {
   0% {margin-top: 1em; width: 70%; max-height: 5em;}

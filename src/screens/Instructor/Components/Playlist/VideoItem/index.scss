@@ -1,11 +1,6 @@
 $ip-v-file-green: rgb(24, 148, 148);
 
 /* Videos */
-// .ip-videos {
-//   /* margin-top: 2em; */
-//   padding: 0 .9em;
-// }
-
 .ip-video-card {
   position: relative;
   width: 100%;
@@ -21,13 +16,7 @@ $ip-v-file-green: rgb(24, 148, 148);
 
   transition: min-height .2s ease-in-out, align-items .2s linear;
 
-  // &:first-child {
-  //   border-top-left-radius: 10px;
-  //   border-top-right-radius: 10px;
-  // }
   &:last-child {
-    // border-bottom-left-radius: 10px;
-    // border-bottom-right-radius: 10px;
     border-bottom: none;
   }
   &:hover {
@@ -40,17 +29,6 @@ $ip-v-file-green: rgb(24, 148, 148);
   &:focus-within .ip-video-opts {
     visibility: initial;
     min-width: 10em;
-  }
-
-  &.current {
-    background-color: white;
-    min-height: 100vh;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 3;
-    align-items: flex-start;
-    padding-top: 5em;
   }
 }
 
@@ -89,6 +67,9 @@ $ip-v-file-green: rgb(24, 148, 148);
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 100%;
+    &:hover {
+      color: var(--ct-green-normal);
+    }
   }
 }
 
@@ -113,6 +94,7 @@ $ip-v-file-green: rgb(24, 148, 148);
         border-bottom: 2px black solid;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
+        color: rgb(58, 58, 58);
       }
       &:focus {
         border-bottom-color: var(--ct-green-normal);

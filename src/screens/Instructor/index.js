@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { instpStore, connectWithRedux } from '_redux/instructor'
 
-import { ClassTranscribeHeader, CTContext } from 'components'
+import { ClassTranscribeHeader } from 'components'
 import {
   Loader,
   Course,
@@ -77,8 +77,6 @@ export class InstructorWithRedux extends React.Component {
     )
   }
 }
-
-InstructorWithRedux.contextType = CTContext
 
 export function Instructor(props) {
   const InstpConnectToRedux = withRouter(connectWithRedux(

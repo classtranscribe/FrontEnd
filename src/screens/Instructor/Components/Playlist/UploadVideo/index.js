@@ -58,9 +58,9 @@ function UploadVideo({
   return (
     <>
     {isUploadingMedias && <div className="ip-p-up-loading-wrapper"></div>}
-    <div className="ip-edit-c-con ct-a-fade-in ip-edit-p-con ip-playlist-con ip-p-up-con">
-      <div className="w-100 h-auto ct-a-fade-in">
-        <div className="w-auto">
+    <div className="ip-edit-c-con ct-a-fade-in ip-edit-p-con ip-playlist ip-p-up-con">
+      <div className="ct-a-fade-in ip-playlist-con">
+        <div className="w-auto ml-2">
           <button 
             className="plain-btn ip-goback" 
             onClick={onClose}
@@ -88,71 +88,75 @@ function UploadVideo({
           />
         </div>
 
-        <div className="ip-p-up-tb">
-          <table>
-            <col width="5%" />
-            <col width="43%" />
-            <col width="43%" />
-            <col width="9%" />
-            <tbody>
-              <tr>
-                <th> </th>
-                <th>Video 1 <span>Primary</span></th>
-                <th>Video 2</th>
-                <th> </th>
-              </tr>
-              {uploadedMedias.map( (me, index) => (
-                <tr className="v-content" key={`upload-media-${index}`}>
-                  <td className="v-index"><i className="fas fa-file-video"></i></td>
-                  <td className="v-name">
-                    <span className="name">{me.video1.name}</span>
-                    <span className="size">{fileSizeParser(me.video1.size)}</span>
-                  </td>
-                  <td className="v-name">
-                    <span className={"name" + (me.video2 ? '' : ' empty')}>{me.video2 ? me.video2.name : 'None'}</span>
-                    <span className="size">{me.video2 ? fileSizeParser(me.video2.size) : ''}</span>
-                  </td>
-                  <td className="v-actions">
-                    {
-                      uploadingIndex === index // is uploading this media
-                      ?
-                      <>
-                        <div className="v-prog-1"></div>
-                        <div className="v-prog-2" style={{width: `${80*progress / 100}px`}}></div>
-                        <div className="v-prog-num">{progress}%</div>
-                      </>
-                      :
-                      uploadingIndex > index // finished uploading 
-                      ?
-                      <span className="v-prog-num">Done!</span>
-                      :
-                      isUploadingMedias //  waiting for uploading
-                      ?
-                      <span className="v-prog-num">Waiting</span>
-                      :
-                      <> 
-                        <button 
-                          className="plain-btn v-a-btn" 
-                          disabled={!Boolean(me.video2)}
-                          onClick={handleSwap(index)} 
-                        >
-                          <span tabIndex="-1">
-                            <i className="material-icons">swap_horiz</i>
-                          </span>
-                        </button>
-                        <button className="plain-btn v-a-btn" onClick={handleRemove(me)}>
-                          <span tabIndex="-1">
-                            <i className="material-icons">delete</i>
-                          </span>
-                        </button>
-                      </>
-                    }
-                  </td>
+        {
+          uploadedMedias.length > 0
+          &&
+          <div className="ip-p-up-tb">
+            <table>
+              <col width="5%" />
+              <col width="43%" />
+              <col width="43%" />
+              <col width="9%" />
+              <tbody>
+                <tr>
+                  <th> </th>
+                  <th>Video 1 <span>Primary</span></th>
+                  <th>Video 2</th>
+                  <th> </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                {uploadedMedias.map( (me, index) => (
+                  <tr className="v-content" key={`upload-media-${index}`}>
+                    <td className="v-index"><i className="fas fa-file-video"></i></td>
+                    <td className="v-name">
+                      <span className="name">{me.video1.name}</span>
+                      <span className="size">{fileSizeParser(me.video1.size)}</span>
+                    </td>
+                    <td className="v-name">
+                      <span className={"name" + (me.video2 ? '' : ' empty')}>{me.video2 ? me.video2.name : 'None'}</span>
+                      <span className="size">{me.video2 ? fileSizeParser(me.video2.size) : ''}</span>
+                    </td>
+                    <td className="v-actions">
+                      {
+                        uploadingIndex === index // is uploading this media
+                        ?
+                        <>
+                          <div className="v-prog-1"></div>
+                          <div className="v-prog-2" style={{width: `${80*progress / 100}px`}}></div>
+                          <div className="v-prog-num">{progress}%</div>
+                        </>
+                        :
+                        uploadingIndex > index // finished uploading 
+                        ?
+                        <span className="v-prog-num">Done!</span>
+                        :
+                        isUploadingMedias //  waiting for uploading
+                        ?
+                        <span className="v-prog-num">Waiting</span>
+                        :
+                        <> 
+                          <button 
+                            className="plain-btn v-a-btn" 
+                            disabled={!Boolean(me.video2)}
+                            onClick={handleSwap(index)} 
+                          >
+                            <span tabIndex="-1">
+                              <i className="material-icons">swap_horiz</i>
+                            </span>
+                          </button>
+                          <button className="plain-btn v-a-btn" onClick={handleRemove(me)}>
+                            <span tabIndex="-1">
+                              <i className="material-icons">delete</i>
+                            </span>
+                          </button>
+                        </>
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        }
 
 
         {

@@ -34,7 +34,7 @@ export function ListItem({
               :
               (typeof icon === "number")
               ?
-              <PlaylistIcon type={icon} />
+              <PlaylistIcon type={icon} svgSize="normal" />
               :
               null          
             }

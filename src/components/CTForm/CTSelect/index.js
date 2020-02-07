@@ -13,6 +13,7 @@ export function CTSelect({
   placeholder,
   defaultValue,
   onChange,
+  position="bottom", // up, bottom
 }) {
 
   if (!value) value = defaultValue
@@ -41,6 +42,7 @@ export function CTSelect({
     <div 
       className="ct-ipt-con"
       data-color={color}
+      data-pos={position}
     >
       <label className="ct-ipt-label" htmlFor={id}>
         {label}
