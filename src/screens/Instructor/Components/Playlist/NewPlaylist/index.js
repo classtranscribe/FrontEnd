@@ -12,6 +12,7 @@ import './index.css'
 
 const exampleYoutubeURL = "https://www.youtube.com/playlist?list=PLC3y8-rFHvwgg3vaYJgHGnModB54rxOk3"
 const exampleEchoAccessLink = "https://echo360.org/section/59cc95a1-b088-46e3-80a3-7e3c6921a40f/public"
+const exampleBoxURL = "https://uofi.app.box.com/folder/90057245222"
 
 export default function NewPlaylist({
   offeringId,
@@ -40,7 +41,13 @@ export default function NewPlaylist({
         setUrlError(null)
       } else {
         setUrlError(
-          `Please enter a valid ${type === 0 ? 'Echo360 Access Link' : 'YouTube playlist URL'}.`
+          `Please enter a valid ${
+            type === 0 ? 
+            'Echo360 Access Link' : 
+            type === 1 ?
+            'YouTube playlist URL' :
+            'Box Playlist URL'
+          }.`
         )
       }
     }
@@ -98,6 +105,13 @@ export default function NewPlaylist({
               <div className="ip-f-p-types-t"><PlaylistIcon type={1} /> YouTube</div>
               <div className="ip-f-p-types-d">
                 Host videos from YouTube using <strong>PLAYLIST ID</strong> of your YouTube playlist.
+              </div>
+            </div>
+
+            <div className="ip-f-p-types-item">
+              <div className="ip-f-p-types-t"><PlaylistIcon type={4} /> Box</div>
+              <div className="ip-f-p-types-d">
+                Host videos from your <strong>box folder</strong>.
               </div>
             </div>
 
@@ -172,6 +186,34 @@ export default function NewPlaylist({
                       <InfoIcon 
                         header="Echo360 Access Link Example" 
                         content={exampleEchoAccessLink}
+                      />
+                    }
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </>
+          }
+          {
+            type === 4
+            &&
+            <>
+              <div className="ip-f-p-types-con">
+                <h4>Box Folder URL</h4>
+                <div className="ip-f-p-types-t">For Example</div>
+                <div className="ip-f-p-types-d">{exampleBoxURL}</div>
+              </div>
+              <Grid.Row className="ct-a-fade-in">
+                <Grid.Column>
+                  <CTForm required textarea
+                    label="Box Folder URL"
+                    color="grey"
+                    placeholder="Folder URL"
+                    error={urlError}
+                    onChange={setIndentifier}
+                    info={
+                      <InfoIcon 
+                        header="Box Folder URL Example" 
+                        content={exampleBoxURL}
                       />
                     }
                   />

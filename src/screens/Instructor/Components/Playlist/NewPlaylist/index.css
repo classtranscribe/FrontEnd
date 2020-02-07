@@ -40,4 +40,5 @@
 }
 .ip-f-p-types-d strong {
   color: var(--ct-text-title);
+  padding: 0 .2em;
 }
