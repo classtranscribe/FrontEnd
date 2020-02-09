@@ -34,10 +34,36 @@ class SetupMSP {
     }
   }
 
+  media(media_) {
+    if (media_ === undefined) return this.media_
+    const { setMedia } = this.redux
+    if (setMedia) {
+      setMedia(media_)
+      this.media_ = media_
+    }
+  }
+
+  async getMedia(mediaId) {
+    try {
+      let { data } = await api.getMediaById(mediaId)
+      return api.parseMedia(data)
+    } catch (error) {
+      return api.parseMedia()
+    }
+  }
+
   async setupMedia(mediaId, tab) {
-    console.log('mediaId', mediaId, tab)
+    // console.log('mediaId', mediaId, tab)
     util.links.title('Media Settings')
     this.tab(tab || TAB_DEFAULT)
+
+    let media = await this.getMedia(mediaId)
+    if (!media.id) {
+      // @TODO prompt
+      return
+    }
+
+    this.media(media)
     api.contentLoaded()
   }
 }

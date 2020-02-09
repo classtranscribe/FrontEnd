@@ -1,28 +1,41 @@
 import React from 'react'
 import { connectWithRedux } from '_redux/media-settings'
+import { Popup } from 'semantic-ui-react'
 import { ClassTranscribeHeader } from 'components'
 import Tabs from './Tabs'
 import './index.scss'
 
-import { api } from 'utils'
 
 function MSPHeaderWithRedux({
   tab,
   media,
 }) {
-  const { mediaName } = api.parseMedia(media)
+  const { mediaName } = media
+
   return (
     <div className="msp-header">
-      <ClassTranscribeHeader bordered
+      <ClassTranscribeHeader //bordered
         fixed={false}
         subtitle="Media Settings"
-        leftElem={
-          <Tabs currTab={tab} />
-        }
+        //leftElem={}
       />
       
       <div className="msp-sub-h">
-        <div>{mediaName}</div>
+        <div className="msp-me-info">
+          <Popup inverted
+            openOnTriggerFocus
+            closeOnTriggerBlur
+            content={
+              <div><strong>{mediaName}</strong></div>
+            }
+            trigger={
+              <div tabIndex={0} className="msp-me-name">
+                {mediaName}
+              </div>
+            }
+          />
+        </div>
+        <Tabs currTab={tab} />
       </div>
     </div>
   )

@@ -63,7 +63,7 @@ export default function NewPlaylist({
 
 
   return (
-    <div className="ct-a-fade-in ip-edit-p-con">
+    <div className="ct-a-fade-in ip-edit-p-con" data-scroll>
       <h2 className="ip-title">{noPlaylist ? 'Create Your First Playlist' : 'New Playlist'}</h2>
 
       <div className="ip-f-section">

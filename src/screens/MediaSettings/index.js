@@ -1,12 +1,15 @@
-import React, { createRef } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { mspStore, connectWithRedux } from '_redux/media-settings'
 import './index.scss'
 import {
-  MSPHeader
+  MSPHeader, 
+  EPub
 } from './Components'
 import {
-  setup
+  setup, 
+  epub,
+  TAB_EPUB,
 } from './Utils'
 import { util } from 'utils'
 
@@ -18,18 +21,26 @@ class MediaSettingsWithRedux extends React.Component {
     const { tab } = util.links.useHash()
     this.initTab = tab
     setup.init(props)
+    epub.init(props)
   }
 
   componentDidMount() {
     setup.setupMedia(this.mediaId, this.initTab)
   }
 
-  contextRef = createRef()
-
   render() {
+    const { tab } = this.props
     return (
-      <div ref={this.contextRef} className="msp-bg">
-        <MSPHeader contextRef={this.contextRef} />
+      <div className="msp-bg">
+        <MSPHeader />
+
+        <div className="msp-content">
+          {
+            tab === TAB_EPUB
+            &&
+            <EPub />
+          }
+        </div>
       </div>
     )
   }
@@ -49,7 +60,8 @@ export function MediaSettings(props) {
     ],
     [
       'setMedia',
-      'setTab'
+      'setTab',
+      'setEpubData'
     ]
   )
 

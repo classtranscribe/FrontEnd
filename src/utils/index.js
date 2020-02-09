@@ -89,7 +89,7 @@ export const util = {
   },
 
   getFittedName: function(name, charNum) {
-    if (!name) return 'unknown'
+    if (!name) return ''
 
     let fittedName = name.slice(0, charNum)
     if (fittedName !== name) fittedName += '...'
