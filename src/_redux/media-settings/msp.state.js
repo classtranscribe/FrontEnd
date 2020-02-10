@@ -4,4 +4,5 @@ export const initialState = {
   media: api.parseMedia(),
   tab: '',
   epubData: [],
+  isSettingEpub: false,
 } 

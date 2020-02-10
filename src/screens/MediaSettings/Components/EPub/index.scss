@@ -1,0 +1,96 @@
+.msp-epub-con {
+  width: 100%;
+  height: 100vh;
+  .msp-e-content {
+    padding-left: 300px;
+    padding-top: 93px;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.msp-e-view-con {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--ct-ip-grey-1);
+  .msp-e-view-box {
+    height: calc(100% - 55px);
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    padding-top: 30px;
+    padding-bottom: 80px;
+  }
+  .msp-e-view {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.123);
+    width: 650px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 30px;
+    background-color: white;
+
+    // &:hover {
+    //   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+    // }
+
+    h2 {
+      margin-bottom: 1rem;
+      font-family: var(--ct-font-google);
+      padding-left: 10px;
+    }
+
+    img {
+      width: 570px;
+    }
+
+    .msp-e-v-text {
+      padding: 10px;
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      line-height: 1.6rem;
+      font-family: var(--ct-font-google);
+      border-radius: 10px;
+      border-bottom: 2px solid transparent;
+      min-height: 3rem;
+      width: 100%;
+
+      &:hover {
+        background-color: var(--ct-ip-grey-1);
+        // border-color: black;
+      }
+      &:focus {
+        outline: none;
+        background-color: var(--ct-ip-grey-1);
+        border-color: var(--ct-green-normal);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+
+  .msp-e-v-btns {
+    height: 55px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-top: var(--ct-border-color);
+    padding: 0 1rem;
+
+    &.edit {
+      justify-content: flex-end;
+    }
+  }
+}
