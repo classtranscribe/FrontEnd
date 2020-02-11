@@ -19,42 +19,45 @@ function EpubContent({
   const [isEditing, setIsEditing] = useState(false)
 
   const addATextarea = () => {
-    if (texts.length === 0 || texts[texts.length-1].text) {
+    let txts = epub.texts()
+    if (txts.length === 0 || txts[txts.length-1].text) {
       let newId = new Date().toISOString()
       setAddedNewTxtId(newId)
-      texts.push({ text: '', id: newId })
-      setTexts([ ...texts ])
+      txts.push({ text: '', id: newId })
+      setTexts(epub.textsCopy())
       if (!isEditing) setIsEditing(true)
     }
   }
 
   const removeTextarea = (id) => {
     if (!isEditing) setIsEditing(true)
-    _.remove(texts, { id })
-    setTexts([ ...texts ])
+    let txts = epub.texts()
+    _.remove(txts, { id })
+    setTexts(epub.textsCopy())
   }
 
   const onInput = id => e => {
     if (id === 'title') {
       titleToSave = e.target.innerText
     } else {
-      let txtObj = _.find(texts, { id })
+      let txts = epub.texts()
+      let txtObj = _.find(txts, { id })
       if (txtObj) {
         txtObj.text = e.target.innerText
       } else {
-        console.error('texts', texts, id)
+        console.error('texts', txts, id)
       }
     }
     if (!isEditing) setIsEditing(true)
   }
 
   const onKeyDown = e => {
-    const { keyCode, ctrlKey } = e
+    const { keyCode, ctrlKey, shiftKey } = e
     if (keyCode === 13) { // hit return => new paragraph
       e.preventDefault()
       addATextarea()
     } else if (keyCode === 8) { // hit delete => remove paragraph
-      if (e.target.innerText === '' || ctrlKey) {
+      if (e.target.innerText === '' || (ctrlKey && shiftKey)) {
         removeTextarea(e.target.id)
       }
     }
@@ -67,7 +70,7 @@ function EpubContent({
   }
 
   const onSave = () => {
-    epub.saveTextEdit(id, texts, titleToSave)
+    epub.saveTextEdit(id, titleToSave)
     setIsEditing(false)
   }
 
@@ -94,6 +97,7 @@ function EpubContent({
     }
     if (text !== undefined) {
       setTexts(epub.splitText(text))
+      epub.texts(epub.splitText(text))
     }
     util.scrollToTop('#msp-e-view')
   }, [currChapter])

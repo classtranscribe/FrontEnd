@@ -9,6 +9,8 @@ class Epub {
     this.epubData_ = []
     this.oldEpubData_ = []
     this.isSettingEpub_ = false
+
+    this.textsToSave_ = []
   }
 
   /**
@@ -58,18 +60,24 @@ class Epub {
    * ****************************************************************
    */
 
+  texts(texts_) {
+    if (texts_ === undefined) return this.textsToSave_
+    this.textsToSave_ = texts_
+  }
+  textsCopy() {
+    return this.textsToSave_.map(txt => ({ ...txt }))
+  }
   /**
    * Function used to save new text of a chapter
    * @param {Integer} index 
    * @param {Array.Integer} texts 
    */
-  saveTextEdit(id, texts=[], title='') {
+  saveTextEdit(id, title='') {
     let epubdata = this.epubData()
     let index = _.findIndex(epubdata, { id })
     if (index >= 0) {
-      // console.log(texts)
       epubdata[index].title = title
-      epubdata[index].text = texts.map(t => t.text).join(TEXT_SEP)
+      epubdata[index].text = this.texts().map(t => t.text).join(TEXT_SEP)
       this.epubData([ ...epubdata ])
     }
   }

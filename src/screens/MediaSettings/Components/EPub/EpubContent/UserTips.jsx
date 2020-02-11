@@ -10,12 +10,13 @@ export function UserTipsForEditing() {
           <h5>What you can edit</h5>
           <ul>
             <li>The title of the chapter.</li>
-            <li>The content of the chapter.</li>
+            <li>The paragraphs of the chapter.</li>
           </ul>
           <h5>When you are editing a paragraph:</h5>
           <ul>
-            <li>Hit return to create a new paragraph.</li>
-            <li>Use Ctrl + delete to remove current textarea.</li>
+            <li>Hit return to add a new paragraph after this paragraph.</li>
+            <li>Use <kbd>Ctrl + Shift + delete</kbd> to remove current paragraph.</li>
+            <li>Hit <kbd>delete</kbd> in an empty paragraph can remove this paragraph.</li>
           </ul>
         </div>
       }
