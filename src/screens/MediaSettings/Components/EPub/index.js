@@ -45,6 +45,7 @@ function EPubWithRedux({
       <div className="msp-e-content">
         <EpubView 
           currChapter={currEpub} 
+          handleChapterClick={handleChapterClick}
         />
       </div>
     </div>

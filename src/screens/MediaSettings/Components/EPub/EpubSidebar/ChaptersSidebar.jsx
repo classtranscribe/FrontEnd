@@ -17,10 +17,20 @@ function ChaptersSidebar({
     epub.resetEpub()
   }
 
+  const onClickChapter = chapter => () => {
+    handleChapterClick({})()
+    setTimeout(() => {
+      handleChapterClick(chapter)()
+    }, 300);
+  }
+
   useEffect(() => {
     if (epubData.length > 0) {
       setChapters(epubData)
-      handleChapterClick(epubData[0])()
+      // in case the currchapter switch after editing
+      if (!epubData.find(ch => ch === currChapter)) {
+        handleChapterClick(epubData[0])()
+      }
     } else {
       handleChapterClick({})()
     }
@@ -48,11 +58,12 @@ function ChaptersSidebar({
         <div className="ct-d-c w-100 ct-a-fade-in">
           {chapters.map(chapter => (
             <MSPSidebar.Item
+              key={chapter.id}
               title={chapter.title}
               image={api.getMediaFullPath(chapter.image)}
               current={chapter === currChapter}
-              description={util.getFittedName(chapter.text, 50)}
-              onClick={handleChapterClick(chapter)}
+              description={util.getFittedName(epub.formatText(chapter.text), 50)}
+              onClick={onClickChapter(chapter)}
             />
           ))}
         </div>
