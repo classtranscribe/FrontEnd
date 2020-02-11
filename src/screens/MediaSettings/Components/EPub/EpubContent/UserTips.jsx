@@ -16,7 +16,7 @@ export function UserTipsForEditing() {
           <ul>
             <li>Hit return to add a new paragraph after this paragraph.</li>
             <li>Use <kbd>Ctrl + Shift + delete</kbd> to remove current paragraph.</li>
-            <li>Hit <kbd>delete</kbd> in an empty paragraph can remove this paragraph.</li>
+            <li>Hit <kbd>delete</kbd> in an empty paragraph to remove this paragraph.</li>
           </ul>
         </div>
       }
@@ -26,9 +26,13 @@ export function UserTipsForEditing() {
 
 export function UserTipsForCombining() {
   return (
-    <InfoIcon
+    <InfoIcon important
       header="Combing Texts"
-      content="After combining, the text of this chapter will be added to the previous/next chapter, while the image will be discarded."
+      content={
+        <div>
+        After combining, <strong>ONLY</strong> the text will be added to the previous/next chapter, <strong>while the cover image of this chapter will be DISCARDED</strong>.
+        </div>
+      }
     />
   )
 }
