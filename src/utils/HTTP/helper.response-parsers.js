@@ -79,6 +79,13 @@ export const responseParsers = {
     name = name.slice(0, name.length - 1)
     return name
   },
+
+  /**
+   * Function used to parse media object
+   * @param {Object} media the raw media object
+   * @returns {Object} the uniformly parsed media object 
+   * { id, createdAt, mediaName, sourceType, isTwoScreen, videos, transcriptions, isUnavailable, transReady }
+   */
   parseMedia: function(media) {
     let re = { 
       id: '', 
@@ -89,6 +96,7 @@ export const responseParsers = {
       videos: [], 
       transcriptions: [],
       isUnavailable: true,
+      transReady: false,
     }
     
     if (!media) return re
