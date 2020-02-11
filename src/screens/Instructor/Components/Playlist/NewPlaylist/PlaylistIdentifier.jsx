@@ -5,9 +5,9 @@ import { InfoIcon } from '../../InfoIcon'
 
 import { plControl } from '../../../Utils'
 
-const exampleYoutubeURL = "https://www.youtube.com/playlist?list=PLC3y8-rFHvwgg3vaYJgHGnModB54rxOk3"
-const exampleEchoAccessLink = "https://echo360.org/section/59cc95a1-b088-46e3-80a3-7e3c6921a40f/public"
-const exampleBoxURL = "https://uofi.app.box.com/folder/90057245222"
+const exampleYoutubeURL = "https://www.youtube.com/playlist?list=THis-is-AN-examPle-plaYLIST-iD"
+const exampleEchoAccessLink = "https://echo360.org/section/tHis-iS-an-EXampLE-accESS-LiNk/public"
+const exampleBoxURL = "https://uofi.app.box.com/folder/12345678910"
 const exampleKalturaBUL = "https://mediaspace.illinois.edu/channel/CS+000+-+Fall+2019/123456789"
 
 function PlaylistIdentifier({
