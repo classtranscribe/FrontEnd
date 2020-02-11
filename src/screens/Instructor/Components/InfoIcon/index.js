@@ -9,7 +9,7 @@ export function InfoIcon({
 
   return (
     <div className="ip-info-icon-con">
-      <Popup basic hoverable
+      <Popup basic hoverable wide
         closeOnTriggerBlur
         openOnTriggerFocus
         openOnTriggerClick

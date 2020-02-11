@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connectWithRedux } from '_redux/media-settings'
 
 import EpubSidebar from './EpubSidebar'
-import EpubView from './EpubView'
+import EpubContent from './EpubContent'
 
 import { epub } from '../../Utils'
 import './index.scss'
@@ -43,7 +43,7 @@ function EPubWithRedux({
       />
 
       <div className="msp-e-content">
-        <EpubView 
+        <EpubContent 
           currChapter={currEpub} 
           handleChapterClick={handleChapterClick}
         />

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import _ from 'lodash'
-import { PlaceHolder, InfoIcon } from '../../../Instructor/Components'
 import { Button } from 'pico-ui'
+import { PlaceHolder } from '../../../../Instructor/Components'
+import { UserTipsForEditing, UserTipsForCombining } from './UserTips'
 import { api, util } from 'utils'
-import { epub } from '../../Utils'
+import { epub } from '../../../Utils'
+import _ from 'lodash'
+import './index.scss'
 
-function EpubView({
+function EpubContent({
   currChapter,
   handleChapterClick,
 }) {
@@ -77,8 +79,8 @@ function EpubView({
   }
 
   useEffect(() => {
-    if (texts.length > 0 && addedNewTxtId) {
-      let textElem = document.getElementById(addedNewTxtId)
+    if (texts.length > 0 && (addedNewTxtId || texts[0].text === '')) {
+      let textElem = document.getElementById(addedNewTxtId || texts[0].id)
       // console.log('textElem', textElem, texts[texts.length - 1].id)
       if (textElem && textElem.innerText === '') {
         textElem.focus()
@@ -101,6 +103,11 @@ function EpubView({
   (
     <div className="msp-e-view-con">
       <div id="msp-e-view" className="msp-e-view-box" data-scroll>
+
+        <div className="msp-e-v-instructions">
+          <UserTipsForEditing />
+        </div>
+        
         <div className="msp-e-view">
           <div className="w-100">
             <h2 contentEditable
@@ -124,7 +131,8 @@ function EpubView({
               </div>
             ))}
           </div>
-          <div className="w-100 ct-d-r-end mt-3">
+          <div className="w-100 ct-d-r-end align-items-center mt-3">
+            {/* <UserTipsForEditing /> */}
             <Button uppercase
               icon="add"
               text="add a paragraph"
@@ -135,22 +143,27 @@ function EpubView({
         </div>
       </div>
 
+
+
+      {/* Button Bar */}
       <div className={"msp-e-v-btns" + (isEditing ? " edit" : "")}>
         {
           isEditing
           ?
-          <Button.Group>
-            <Button uppercase
-              text="save changes"
-              color="teal"
-              onClick={onSave}
-            />
-            <Button uppercase
-              text="discard changes"
-              color="teal transparent"
-              onClick={onCancel}
-            />
-          </Button.Group>
+          <>
+            <Button.Group>
+              <Button uppercase
+                text="save changes"
+                color="teal"
+                onClick={onSave}
+              />
+              <Button uppercase
+                text="discard changes"
+                color="teal transparent"
+                onClick={onCancel}
+              />
+            </Button.Group>
+          </>
           :
           <>
             <Button.Group>
@@ -159,10 +172,7 @@ function EpubView({
                 color="teal transparent"
                 onClick={null}
               />
-              <InfoIcon
-                header="Combing Texts"
-                content="After combining, the text of this chapter will be added to the previous/next chapter, while the image will be discarded."
-              />
+              <UserTipsForCombining />
             </Button.Group>
             <Button.Group>
               <Button uppercase
@@ -180,4 +190,4 @@ function EpubView({
   <PlaceHolder />
 }
 
-export default EpubView
+export default EpubContent
