@@ -7,15 +7,13 @@ import { responseParsers    } from './helper.response-parsers'
 import { userMetadataHelper } from './helper.user-metadata'
 
 import { isDeveloping } from '../constants'
+import { env } from '../env'
 
 /**
  * Set up http
  */
 export const http = axios.create({
-  baseURL: (  isDeveloping ? 
-              process.env.REACT_APP_TESTING_API_BASE_URL :
-              process.env.REACT_APP_API_BASE_URL
-            ) || window.location.origin,
+  baseURL: env.baseURL || window.location.origin,
   timeout: 100000,
 })
 
@@ -33,7 +31,7 @@ export const api = {
    * Function called when all the requests executed
    * then hide the loading page
    */
-  baseUrl: () => process.env.REACT_APP_API_BASE_URL || window.location.origin,
+  baseUrl: () => env.baseURL || window.location.origin,
   getMediaFullPath: function(path) { // need to change later
     return `${this.baseUrl()}${path}`
   },
