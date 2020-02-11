@@ -1,5 +1,8 @@
 .DS_Store
 
+# env
+src/env.json
+
 # Logs
 logs
 *.log
