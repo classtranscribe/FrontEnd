@@ -1,6 +1,5 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
-import { transControl, langMap, langOptions } from '../../../Utils'
+import { connectWithRedux, transControl, langMap, langOptions } from '../../../Utils'
 
 function LanguageMenu({
   show=false,

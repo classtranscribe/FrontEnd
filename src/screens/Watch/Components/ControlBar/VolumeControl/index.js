@@ -1,7 +1,6 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import { Popup } from 'semantic-ui-react'
-import { videoControl } from '../../../Utils'
+import { connectWithRedux, videoControl } from '../../../Utils'
 import './index.css'
 import './slider.scss'
 

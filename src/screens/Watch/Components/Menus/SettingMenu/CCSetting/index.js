@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '../../../../../../_redux/watch'
 import MenuRadio from '../MenuRadio'
 import CCStylePicker from './CCStylePicker'
 import './index.css'
 import { 
+  connectWithRedux,
   transControl, 
 } from '../../../../Utils'
 

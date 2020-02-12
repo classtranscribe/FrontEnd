@@ -1,7 +1,7 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import { 
   NORMAL_MODE,
+  connectWithRedux,
   screenModes,
   videoControl
 } from '../../../Utils'

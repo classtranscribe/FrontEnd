@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import { 
+  connectWithRedux,
   playbackRateOptions,
   videoControl
 } from '../../../Utils'

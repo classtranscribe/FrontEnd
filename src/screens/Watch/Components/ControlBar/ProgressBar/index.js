@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import { 
+  connectWithRedux,
   videoControl,
   parseSec
 } from '../../../Utils'

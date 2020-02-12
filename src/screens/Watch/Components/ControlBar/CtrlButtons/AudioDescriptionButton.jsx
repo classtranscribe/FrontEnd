@@ -1,7 +1,6 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import WatchCtrlButton from '../../WatchCtrlButton'
-import { transControl } from '../../../Utils'
+import { connectWithRedux, transControl } from '../../../Utils'
 
 export function AudioDescriptionButtonWithRedux({
   openAD=false,

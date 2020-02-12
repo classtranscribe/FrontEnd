@@ -1,5 +1,4 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../_redux/watch'
 import { ClassTranscribeHeader } from '../../../../components'
 import MediaInfo from './MediaInfo'
 import PlaylistMenuTrigger from './Buttons/PlaylistMenuTrigger'
@@ -8,7 +7,10 @@ import ShortcutsTableTrigger from './Buttons/ShortcutsTableTrigger'
 import ShareTrigger from './Buttons/ShareTrigger'
 
 import Search from './Search'
-import { SEARCH_INIT, SEARCH_HIDE } from '../../Utils'
+import { 
+  connectWithRedux,
+  SEARCH_INIT, SEARCH_HIDE 
+} from '../../Utils'
 
 import './index.css'
 import './Buttons/index.css'

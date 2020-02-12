@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { connectWithRedux } from '../../../../_redux/watch'
 import {
+  connectWithRedux,
   transControl, 
-  NORMAL_MODE, LINE_VIEW, SEARCH_INIT, SEARCH_HIDE, TRANSCRIPT_VIEW
+  NORMAL_MODE, 
+  SEARCH_INIT, SEARCH_HIDE, 
+  TRANSCRIPT_VIEW, LINE_VIEW, 
 } from '../../Utils'
 import './index.css'
 

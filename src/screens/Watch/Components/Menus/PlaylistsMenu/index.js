@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import { connectWithRedux } from '../../../../../_redux/watch'
+import { connectWithRedux } from '../../../Utils'
 import Videos from './Videos'
 import { util } from '../../../../../utils'
 import './index.css'

@@ -22,9 +22,11 @@ import {
 import './index.css'
 import './zIndex.css'
 // Vars
-import { watchStore, connectWithRedux } from '../../_redux/watch'
 import { util } from '../../utils'
 import { 
+  watchStore, 
+  connectWithRedux,
+
   setup,
   videoControl,
   transControl, 

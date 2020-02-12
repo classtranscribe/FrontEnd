@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import { Dropdown } from 'semantic-ui-react'
 import { CTButton } from '../../../../../components'
 import _ from 'lodash'
@@ -7,7 +6,7 @@ import _ from 'lodash'
 import Caption from './Caption'
 
 import './index.css'
-import { transControl } from '../../../Utils'
+import { connectWithRedux, transControl } from '../../../Utils'
 
 const pageOptions = [
   {value: 20, text: '20 lines'},

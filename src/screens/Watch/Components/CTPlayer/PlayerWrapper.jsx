@@ -1,5 +1,4 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../_redux/watch'
 import './index.css'
 import {
   SecondaryPlayerWrapper,
@@ -8,6 +7,7 @@ import {
   AudioDescription,
 } from '../Overlays'
 import { 
+  connectWithRedux,
   videoControl, 
   CTP_LOADING, CTP_ENDED, CTP_ERROR
 } from '../../Utils'

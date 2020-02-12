@@ -1,7 +1,7 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../../_redux/watch'
 import './index.css'
 import { 
+  connectWithRedux,
   transControl, 
   CC_COLOR_BLACK, CC_COLOR_WHITE, CC_SIZE_100, CC_OPACITY_100,
   CC_FONT_SANS_SERIF, CC_POSITION_TOP

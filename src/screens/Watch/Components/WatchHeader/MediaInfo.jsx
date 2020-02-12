@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '../../../../_redux/watch'
+import { connectWithRedux } from '../../Utils'
 import { util } from '../../../../utils'
 // import { Popup } from 'semantic-ui-react'
 

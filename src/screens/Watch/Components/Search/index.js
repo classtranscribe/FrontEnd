@@ -1,8 +1,8 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../_redux/watch'
 import InputBar from './InputBar'
 import Results from './Results'
-import {  
+import { 
+  connectWithRedux, 
   SEARCH_INIT,
   SEARCH_HIDE,
 } from '../../Utils'

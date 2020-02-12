@@ -3,13 +3,13 @@
  */
 
 import React from 'react'
-import { connectWithRedux } from '../../../../_redux/watch'
 import './index.css'
 import './playerModes.css'
 import PlayerWrapper from './PlayerWrapper'
 // Vars
 import { util } from '../../../../utils'
 import { 
+  connectWithRedux,
   videoControl as control, 
   PRIMARY, 
   SECONDARY,
