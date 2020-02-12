@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../../_redux/instructor'
 import { Button } from 'pico-ui'
 import {
   CourseSelection,
@@ -8,7 +7,12 @@ import {
   Staffs,
 } from './Forms'
 import './index.css'
-import { setup, offControl, NEW_OFFERING, NO_OFFERING } from '../../Utils'
+import { 
+  connectWithRedux, 
+  setup, 
+  offControl, 
+  NEW_OFFERING, 
+} from '../../Utils'
 
 function EditCourseWithRedux({
   newCourse=false,

@@ -1,7 +1,7 @@
 
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../../../_redux/instructor'
+import { connectWithRedux } from '../../../Utils'
 import { Button } from 'pico-ui'
 import { CTForm } from '../../../../../components'
 import { UploadBtn } from './UploadButton'

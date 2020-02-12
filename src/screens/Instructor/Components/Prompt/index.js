@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '../../../../_redux/instructor'
 import './index.css'
-import { promptControl } from '../../Utils'
+import { connectWithRedux, promptControl } from '../../Utils'
 
 function PromptsWithRedux({
   prompt=null,

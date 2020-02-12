@@ -1,7 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { instpStore, connectWithRedux } from '../../_redux/instructor'
 
 import { ClassTranscribeHeader } from '../../components'
 import {
@@ -14,6 +13,9 @@ import {
 } from './Components'
 
 import {
+  instpStore, 
+  connectWithRedux,
+
   setup,
   plControl,
   offControl,

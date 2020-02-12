@@ -1,5 +1,5 @@
 import React from 'react'
-import { connectWithRedux } from '../../../../_redux/instructor'
+import { connectWithRedux } from '../../Utils'
 import './index.css'
 
 function LoaderWithRedux({

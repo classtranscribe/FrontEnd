@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { connectWithRedux } from '../../../../_redux/instructor'
 import './index.css'
 
 import { Filter } from '../Filter'
@@ -8,6 +7,7 @@ import { ListItem } from '../ListItem'
 import OfferingList from './OfferingList'
 
 import { 
+  connectWithRedux, 
   setup,
   filterControl, 
   promptControl,

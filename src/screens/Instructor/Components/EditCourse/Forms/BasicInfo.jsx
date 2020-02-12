@@ -1,10 +1,9 @@
 import _ from 'lodash'
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '../../../../../_redux/instructor'
 import { CTForm } from '../../../../../components'
 import { Grid } from 'semantic-ui-react'
 import { api } from '../../../../../utils'
-import { offControl } from '../../../Utils'
+import { connectWithRedux, offControl } from '../../../Utils'
 
 function BasicInfoWithRedux({
   errors=[],

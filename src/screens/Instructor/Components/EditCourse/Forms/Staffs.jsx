@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../../../_redux/instructor'
 import { CTForm } from '../../../../../components'
 import { Button } from 'pico-ui'
 import { UploadBtn } from './UploadButton'
@@ -9,7 +8,7 @@ import { util, user } from '../../../../../utils'
 import {
   filterControl
 } from '../../../Utils/filter.control'
-import { offControl } from '../../../Utils'
+import { connectWithRedux, offControl } from '../../../Utils'
 
 function StaffsWithRedux({
   instructors=[],

@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
-import { connectWithRedux } from '../../../../_redux/instructor'
 import { Button } from 'pico-ui'
-import { mediaControl, setup } from '../../Utils'
+import { connectWithRedux, mediaControl, setup } from '../../Utils'
 
 function ButtonBar({
   results=[],
