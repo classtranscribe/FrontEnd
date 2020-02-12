@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/instructor'
+import { connectWithRedux } from '../../../../_redux/instructor'
 import { Button } from 'pico-ui'
 import {
   CourseSelection,

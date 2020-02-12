@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import $ from 'jquery'
 
-import { api, userAction } from 'utils'
+import { api, userAction } from '../../../utils'
 import { setup } from './setup.control'
 import { transControl } from "./trans.control"
 

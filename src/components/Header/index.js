@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'pico-ui'
 import ProfileMenu from './ProfileMenu'
 import './index.css'
-import { util } from 'utils'
+import { util } from '../../utils'
 import { textBrand, darkTextBrand } from '../../images'
 
 /**

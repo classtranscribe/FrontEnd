@@ -6,7 +6,7 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Dropdown, Form, Grid } from 'semantic-ui-react'
-import { util } from 'utils'
+import { util } from '../../../../../utils'
 
 function Filter({state, onUniSelected, onDepartSelected, onTermSelected, displaySearchHeader, history}) {
   const { universities, departments, terms, uniSelected } = state

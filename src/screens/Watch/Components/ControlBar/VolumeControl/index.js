@@ -1,5 +1,5 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../_redux/watch'
 import { Popup } from 'semantic-ui-react'
 import { videoControl } from '../../../Utils'
 import './index.css'

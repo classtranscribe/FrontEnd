@@ -1,5 +1,5 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../_redux/watch'
 import { parseSec, videoControl } from '../../../Utils'
 import './index.css'
 

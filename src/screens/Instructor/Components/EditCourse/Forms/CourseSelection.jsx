@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/instructor'
-import { CTForm } from 'components'
+import { connectWithRedux } from '../../../../../_redux/instructor'
+import { CTForm } from '../../../../../components'
 import { Grid, Icon, Label } from 'semantic-ui-react'
-import { api } from 'utils'
+import { api } from '../../../../../utils'
 import { InfoIcon } from '../../InfoIcon'
 import { offControl } from '../../../Utils'
 

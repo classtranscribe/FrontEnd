@@ -1,12 +1,12 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../_redux/watch'
 import { withRouter } from 'react-router'
 
 import WatchCtrlButton from '../../WatchCtrlButton'
-import { VideoCard } from 'components'
+import { VideoCard } from '../../../../../components'
 
 import { setup } from '../../../Utils'
-import { api } from 'utils'
+import { api } from '../../../../../utils'
 
 export function NextVideoWithRedux({
   nextBtn=true,

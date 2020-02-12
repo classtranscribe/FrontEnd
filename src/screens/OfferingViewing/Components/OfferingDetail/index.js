@@ -10,8 +10,8 @@ import { Icon } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
 import { Button } from 'pico-ui'
-import { useCTContext } from 'components'
-import { api, util, handleData, user } from 'utils'
+import { useCTContext } from '../../../../components'
+import { api, util, handleData, user } from '../../../../utils'
 import './index.css'
 
 export function OfferingDetail({ id, history, location, state, starOffering, unstarOffering }) {

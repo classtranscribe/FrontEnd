@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Grid } from 'semantic-ui-react'
-import { CTForm } from 'components'
+import { CTForm } from '../../../../../components'
 import { InfoIcon } from '../../InfoIcon'
 
 import { plControl } from '../../../Utils'

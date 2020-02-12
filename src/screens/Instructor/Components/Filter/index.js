@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/instructor'
+import { connectWithRedux } from '../../../../_redux/instructor'
 import './index.scss'
 import { Popup } from 'semantic-ui-react'
 

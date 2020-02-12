@@ -8,7 +8,7 @@ import {
   SEARCH_RESULT, 
   SEARCH_BEGIN, 
 } from '../../../Utils'
-import { util } from 'utils'
+import { util } from '../../../../../utils'
 import './index.css'
 
 function Results({

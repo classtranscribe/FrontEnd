@@ -1,6 +1,6 @@
 import React from 'react'
-import { VideoCard } from 'components'
-import { util, api } from 'utils'
+import { VideoCard } from '../../../../../components'
+import { util } from '../../../../../utils'
 import { OfferingListHolder } from '../PlaceHolder'
 
 export default function HistorySection({ offerings, watchHistory }) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
 import { Icon, Image } from 'semantic-ui-react'
-import { util, user, api, handleData } from 'utils'
+import { util, user, api, handleData } from '../../utils'
 import { Link } from 'react-router-dom'
 
 const menuStyle = {

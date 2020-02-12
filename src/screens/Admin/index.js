@@ -9,7 +9,7 @@ import React from 'react'
 import { Tab } from 'semantic-ui-react'
 import './index.css'
 // Layouts
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader } from '../../components'
 import TermPane from './Terms'
 import UniPane from './Universities'
 import DepartPane from './Departments'
@@ -17,7 +17,7 @@ import CoursePane from './Courses'
 import InstructorPane from './Instructors'
 import More from './More'
 // Vars
-import { api, handleData, util, user } from 'utils'
+import { api, handleData, util, user } from '../../utils'
 
 export class Admin extends React.Component {
   constructor(props) {

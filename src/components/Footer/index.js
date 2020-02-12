@@ -4,7 +4,7 @@ import { Col, Nav, Navbar } from 'react-bootstrap'
 import { Grid, Image } from 'semantic-ui-react'
 import './index.css'
 import { logoOutline as logo } from '../../images'
-import { util } from 'utils'
+import { util } from '../../utils'
 
 
 export function FixedFooter(props) {

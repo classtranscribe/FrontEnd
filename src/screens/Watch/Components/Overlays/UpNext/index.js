@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../_redux/watch'
 import './index.css'
-import { VideoCard } from 'components'
+import { VideoCard } from '../../../../../components'
 import { 
   videoControl,
   findUpNextMedia, 
   CTP_LOADING, CTP_UP_NEXT, CTP_ENDED,  
 } from '../../../Utils'
-import { api, util } from 'utils'
+import { api, util } from '../../../../../utils'
 import _ from 'lodash'
 
 function UpNextWithRedux({

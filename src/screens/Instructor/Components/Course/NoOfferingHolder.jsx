@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { NEW_OFFERING_ID } from '../../Utils'
-import { util } from 'utils'
+import { util } from '../../../../utils'
 
 export default function NoOfferingHolder() {
   return (

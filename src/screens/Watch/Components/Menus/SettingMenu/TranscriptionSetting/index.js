@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../../_redux/watch'
 import MenuRadio from '../MenuRadio'
 import { 
   transControl, 
@@ -8,7 +8,7 @@ import {
   TRANSCRIPT_VIEW,
   HIDE_TRANS
 } from '../../../../Utils'
-import { userAction } from 'utils'
+import { userAction } from '../../../../../../utils'
 
 function TranscriptionSetting({
   show=false,

@@ -1,12 +1,12 @@
 
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/instructor'
+import { connectWithRedux } from '../../../../../_redux/instructor'
 import { Button } from 'pico-ui'
-import { CTForm } from 'components'
+import { CTForm } from '../../../../../components'
 import { UploadBtn } from './UploadButton'
 import { Grid, Icon } from 'semantic-ui-react'
-import { util } from 'utils'
+import { util } from '../../../../../utils'
 
 function StudentsWithRedux({
 

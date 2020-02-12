@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import { Provider } from 'react-redux'
-import { mspStore, connectWithRedux } from '_redux/media-settings'
+import { mspStore, connectWithRedux } from '../../_redux/media-settings'
 import './index.scss'
 import {
   MSPHeader
@@ -8,7 +8,7 @@ import {
 import {
   setup
 } from './Utils'
-import { util } from 'utils'
+import { util } from '../../utils'
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {

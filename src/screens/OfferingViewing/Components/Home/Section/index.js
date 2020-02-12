@@ -9,7 +9,7 @@ import StarredSection from './StarredSection'
 import HistorySection from './HistorySection'
 import './index.css'
 // Vars
-import { handleData, util } from 'utils'
+import { handleData, util } from '../../../../../utils'
 
 function isThisSection(offering, departmentId) {
   if (handleData.find(offering.courses, { departmentId })) return true

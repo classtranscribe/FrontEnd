@@ -1,9 +1,9 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { instpStore, connectWithRedux } from '_redux/instructor'
+import { instpStore, connectWithRedux } from '../../_redux/instructor'
 
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader } from '../../components'
 import {
   Loader,
   Course,
@@ -21,7 +21,7 @@ import {
   promptControl,
 } from './Utils'
 
-import { util } from 'utils'
+import { util } from '../../utils'
 import './index.css'
 
 export class InstructorWithRedux extends React.Component {

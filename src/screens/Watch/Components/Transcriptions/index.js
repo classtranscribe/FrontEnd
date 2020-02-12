@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../_redux/watch'
 import {
   transControl, 
   NORMAL_MODE, LINE_VIEW, SEARCH_INIT, SEARCH_HIDE, TRANSCRIPT_VIEW

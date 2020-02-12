@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useCTContext } from 'components'
-import { api } from 'utils'
+import { useCTContext } from '../../components'
+import { api } from '../../utils'
 
 export function NotFound404({ history }) {
   const { ErrorMesg } = useCTContext()

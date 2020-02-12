@@ -1,6 +1,6 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
-import { ClassTranscribeHeader } from 'components'
+import { connectWithRedux } from '../../../../_redux/watch'
+import { ClassTranscribeHeader } from '../../../../components'
 import MediaInfo from './MediaInfo'
 import PlaylistMenuTrigger from './Buttons/PlaylistMenuTrigger'
 import DownloadMenuTrigger from './Buttons/DownloadMenuTrigger'

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { api } from 'utils'
+import { api } from '../../../utils'
 
 class SetupMSP {
   constructor() {}

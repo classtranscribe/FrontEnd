@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { connectWithRedux } from '_redux/instructor'
+import { connectWithRedux } from '../../../../_redux/instructor'
 import './index.css'
 
 import { Filter } from '../Filter'
@@ -15,7 +15,7 @@ import {
   NEW_OFFERING_ID, 
   ARRAY_INIT,  
 } from '../../Utils'
-import { util } from 'utils'
+import { util } from '../../../../utils'
 
 function SideBarWithRedux({
   terms=[],

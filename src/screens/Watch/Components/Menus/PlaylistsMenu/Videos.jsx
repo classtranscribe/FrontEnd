@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
-import { VideoCard } from 'components'
-import { api, util } from 'utils'
+import { connectWithRedux } from '../../../../../_redux/watch'
+import { VideoCard } from '../../../../../components'
+import { api, util } from '../../../../../utils'
 
 function Videos({
   medias=[],

@@ -3,7 +3,7 @@ import logger from 'redux-logger'
 import instpReducer from './instp.reducers'
 // import * as instpActions_ from './instp.actions'
 
-import { isDeveloping } from 'utils'
+import { isDeveloping } from '../../utils'
 
 export { connectWithRedux } from './instp.selectors'
 

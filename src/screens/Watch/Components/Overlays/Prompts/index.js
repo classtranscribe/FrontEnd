@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../_redux/watch'
 import './index.css'
 
 function PromptsWithRedux({

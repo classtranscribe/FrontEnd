@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
-import { util } from 'utils'
+import { connectWithRedux } from '../../../../_redux/watch'
+import { util } from '../../../../utils'
 // import { Popup } from 'semantic-ui-react'
 
 function MediaInfo({

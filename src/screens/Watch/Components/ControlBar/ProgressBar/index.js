@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../../../../_redux/watch'
 import { 
   videoControl,
   parseSec
