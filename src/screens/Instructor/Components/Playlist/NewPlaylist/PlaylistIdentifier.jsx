@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { CTForm } from 'components'
 import { InfoIcon } from '../../InfoIcon'
@@ -13,6 +13,7 @@ const exampleKalturaBUL = "https://mediaspace.illinois.edu/channel/CS+000+-+Fall
 function PlaylistIdentifier({
   sourceType=2,
   setUrl,
+  url
 }) {
 
   const [urlError, setUrlError] = useState(null)
@@ -37,6 +38,10 @@ function PlaylistIdentifier({
       }
     }
   }
+
+  useEffect(() => {
+    setUrlError(null)
+  }, [sourceType])
 
   switch (sourceType) {
     case 0: // Echo360
@@ -153,6 +158,7 @@ function PlaylistIdentifier({
                   color="grey"
                   placeholder="Folder URL"
                   error={urlError}
+                  value={url}
                   onChange={setIndentifier}
                   info={
                     <InfoIcon 

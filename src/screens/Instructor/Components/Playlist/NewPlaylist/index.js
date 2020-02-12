@@ -26,7 +26,9 @@ export default function NewPlaylist({
   }
 
   const setPlaylistType = type_ => {
-    setType(type_)
+    setType(-1)
+    setTimeout(() => setType(type_), 200)
+    setUrl('')
   }
 
   const onSave = () => {
@@ -82,6 +84,7 @@ export default function NewPlaylist({
         </Grid>
 
         <PlaylistIdentifier 
+          url={url}
           setUrl={setUrl}
           sourceType={type}
         />

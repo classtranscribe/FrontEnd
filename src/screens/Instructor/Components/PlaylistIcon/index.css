@@ -1,6 +1,7 @@
 .ip-pi-box-logo {
   width: 17px;
   margin-right: 8px;
+  pointer-events: none;
 }
 .ip-pi-box-logo[data-size=normal] {
   width: 19px;
