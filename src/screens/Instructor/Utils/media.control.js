@@ -46,16 +46,13 @@ export const mediaControl = {
     return false
   },
 
-  renameMedia: async function(media, type, newName) {
+  renameMedia: async function(media, newName) {
     promptControl.saving()
-    if (type === 2) {
-      media.jsonMetadata.filename = newName
-    } else {
-      media.jsonMetadata.title = newName
-    }
     
     try {
-      await api.updateMediaMetadata(media.id, media.jsonMetadata)
+      await api.renameMedia(media.id, newName)
+      // update the local media object
+      media.name = newName
       promptControl.updated('Media name')
     } catch (error) {
       promptControl.failedToUpdate('media name')

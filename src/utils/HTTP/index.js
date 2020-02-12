@@ -34,13 +34,16 @@ export const api = {
    * then hide the loading page
    */
   baseUrl: () => {
-    return isDeveloping ?
-          process.env.REACT_APP_TESTING_API_BASE_URL :
-          process.env.REACT_APP_API_BASE_URL || window.location.origin
+    return (
+        isDeveloping ?
+        process.env.REACT_APP_TESTING_API_BASE_URL :
+        process.env.REACT_APP_API_BASE_URL
+      ) || window.location.origin
   },
   getMediaFullPath: function(path) { // need to change later
     return `${this.baseUrl()}${path}`
   },
+  
   contentLoaded: function (interval) {
     const ele = document.getElementById('ct-loading-wrapper')
     if(ele) {

@@ -43,7 +43,6 @@ function MediaDetail({
     if (isEditing && text && text !== mediaName) {
       await mediaControl.renameMedia(
         media, 
-        setup.playlist().sourceType, 
         text
       )
     }
