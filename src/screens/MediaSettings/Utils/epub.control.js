@@ -87,6 +87,17 @@ class Epub {
   }
 
   /**
+   * Functions used for handling chapter combining
+   * ****************************************************************
+   */
+  combine(priChapter, secChapter) {
+    priChapter.text += TEXT_SEP + secChapter.text
+    // _.findIndex(this.epubData(), priChapter)
+    // @TODO
+    // add currChapter as a redux state
+  }
+
+  /**
    * Functions used for re-setting the epub chapters
    * ****************************************************************
    */
