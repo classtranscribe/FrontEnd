@@ -5,6 +5,11 @@
     "description": "Host videos from a Box folder"
   },
   {
+    "name": "Kaltura/MediaSpace",
+    "id": 3,
+    "description": "Host videos from Kaltura/MediaSpace"
+  },
+  {
     "name": "YouTube", 
     "id": 1, 
     "description": "Host videos from YouTube playlist"

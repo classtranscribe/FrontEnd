@@ -79,6 +79,13 @@ export const responseParsers = {
     name = name.slice(0, name.length - 1)
     return name
   },
+
+  /**
+   * Function used to parse media object
+   * @param {Object} media the raw media object
+   * @returns {Object} the uniformly parsed media object 
+   * { id, createdAt, mediaName, sourceType, isTwoScreen, videos, transcriptions, isUnavailable, transReady }
+   */
   parseMedia: function(media) {
     let re = { 
       id: '', 
@@ -89,17 +96,21 @@ export const responseParsers = {
       videos: [], 
       transcriptions: [],
       isUnavailable: true,
+      transReady: false,
     }
+
+    // console.log(media)
     
     if (!media) return re
     const { 
       id, 
       playlistId, 
+      name,
       jsonMetadata, 
       sourceType, 
       video, 
       transcriptions, 
-      ready 
+      ready,
     } = media
     
     if (!id || !jsonMetadata) return re
@@ -109,40 +120,7 @@ export const responseParsers = {
     re.playlistId = playlistId
     re.sourceType = sourceType
     re.transReady = ready
-
-    // console.log('media', media)
-
-    /** Media Name */
-    // youtube
-    if (sourceType === 1) { 
-      re.mediaName = jsonMetadata.title || 'Untitled'
-    // echo360
-    } else if (sourceType === 0) { 
-      let { lessonName, createdAt, title } = jsonMetadata
-      if (title) { // After renaming
-        re.mediaName = title
-      } else {
-        let date = new Date(createdAt)
-        re.mediaName = `${lessonName || 'Untitled'}  ${monthMap[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-      }
-    // upload
-    } else if (sourceType === 2) { 
-      if (jsonMetadata.filename) { // After renaming
-        re.mediaName = jsonMetadata.filename
-      } else {
-        let fileData = JSON.parse(jsonMetadata.video1)
-        re.mediaName = fileData.FileName || 'Untitled'
-      }
-
-      re.mediaName = re.mediaName.replace('.mp4', '')
-    // box
-    } else if (sourceType === 4) {
-      re.mediaName = jsonMetadata.name
-
-    } else {
-      re.mediaName = 'Untitled'
-    }
-
+    re.mediaName = name
 
     /** video src */
     const baseUrl = api.baseUrl()

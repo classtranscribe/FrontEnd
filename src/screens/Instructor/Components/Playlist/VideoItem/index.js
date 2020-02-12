@@ -52,7 +52,6 @@ function VideoItemWithRedux({
       // console.log(nameRef.current.innerText)
       await mediaControl.renameMedia(
         media, 
-        setup.playlist().sourceType, 
         text
       )
     }
