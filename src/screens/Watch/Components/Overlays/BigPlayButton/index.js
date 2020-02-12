@@ -1,7 +1,7 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import { 
+  connectWithRedux,
   videoControl, 
   CTP_LOADING, 
   CTP_ENDED

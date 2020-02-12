@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/media-settings'
 import { PlaceHolder } from '../../../../Instructor/Components/Placeholder'
 import { MSPSidebar } from '../../MSPSidebar'
-import { api, util } from 'utils'
-import { epub } from '../../../Utils'
+import { api, util } from '../../../../../utils'
+import { connectWithRedux, epub } from '../../../Utils'
 
 function ChaptersSidebar({
   epubData=[],

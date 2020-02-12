@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { connectWithRedux } from '_redux/media-settings'
 
 import EpubSidebar from './EpubSidebar'
 import EpubContent from './EpubContent'
 
-import { epub } from '../../Utils'
+import { connectWithRedux, epub } from '../../Utils'
 import './index.scss'
 
 function EPubWithRedux({

@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import React, { useEffect, useState, createRef } from 'react'
-import { connectWithRedux } from '_redux/instructor'
 import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
@@ -19,9 +18,10 @@ import NewPlaylist from './NewPlaylist'
 import UploadVideo from './UploadVideo'
 
 import {  
+  connectWithRedux, 
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, 
-  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, NO_OFFERING_ID,
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, //NO_OFFERING_ID,
 } from '../../Utils'
 import './index.css'
 

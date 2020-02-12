@@ -5,11 +5,11 @@
 import React from 'react'
 // UI
 import Filter from  './Filter'
-import { ClassTranscribeFooter, MaintenanceMessage, CTContext } from 'components'
+import { ClassTranscribeFooter, MaintenanceMessage, CTContext } from '../../../../components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
-import { api, user, handleData, util } from 'utils'
+import { api, user, handleData, util } from '../../../../utils'
 
 export class Home extends React.Component {
   constructor(props) {

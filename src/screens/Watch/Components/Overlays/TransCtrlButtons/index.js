@@ -3,9 +3,9 @@
  */
 
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import { 
+  connectWithRedux,
   transControl, 
   searchControl, 
   menuControl, 
@@ -15,7 +15,7 @@ import {
   SMTAB_TRANS,
   HIDE_TRANS, 
 } from '../../../Utils'
-import { STUDENT, INSTRUCTOR } from 'utils'
+import { STUDENT, INSTRUCTOR } from '../../../../../utils'
 
 function TransCtrlButtonsWithRedux({
   transView=LINE_VIEW,

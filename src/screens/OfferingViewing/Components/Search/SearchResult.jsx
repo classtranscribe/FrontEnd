@@ -2,7 +2,7 @@ import React from 'react'
 // UI
 import { List, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { util, user } from 'utils'
+import { util, user } from '../../../../utils'
 
 function SearchResult({ loading, results, searchValue }) {
   return (

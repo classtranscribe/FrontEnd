@@ -1,5 +1,4 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import './index.css'
 import { 
   CC_COLOR_WHITE,
@@ -8,6 +7,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  connectWithRedux,
   transControl,
   WEBVTT_SUBTITLES,
 } from '../../../Utils'

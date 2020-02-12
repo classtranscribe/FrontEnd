@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import $ from 'jquery'
 
-import { api, userAction } from 'utils'
+import { api, userAction } from '../../../utils'
 import { setup } from './setup.control'
 import { transControl } from "./trans.control"
 
@@ -231,7 +231,7 @@ export const searchControl = {
 
     const optNumMap = {
       [SEARCH_TRANS_IN_VIDEO]: [inVideoTransResults, 'caption', 'video'],
-      [SEARCH_IN_PLAYLISTS]: [playlistResults, 'video', 'course'],
+      [SEARCH_IN_PLAYLISTS]: [playlistResults, 'video title', 'course'],
       [SEARCH_TRANS_IN_COURSE]: [inCourseTransResults, 'caption', 'course'],
       [SEARCH_IN_SHORTCUTS]: [shortcutResults, 'shortcut', 'page']
     }

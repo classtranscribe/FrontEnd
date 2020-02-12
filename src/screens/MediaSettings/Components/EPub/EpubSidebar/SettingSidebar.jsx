@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/media-settings'
 import { MSPSidebar } from '../../MSPSidebar'
 import { Button } from 'pico-ui'
-import { epub } from '../../../Utils'
+import { connectWithRedux, epub } from '../../../Utils'
 
 function SettingSidebar({
   epubData=[],

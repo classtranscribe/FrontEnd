@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader } from '../../components'
 import { Link } from 'react-router-dom'
-import { api, util } from 'utils'
+import { api, util } from '../../utils'
 import './index.scss'
 
 export function NotFound404({ history }) {

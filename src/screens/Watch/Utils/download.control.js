@@ -1,4 +1,4 @@
-import { api } from 'utils'
+import { api } from '../../../utils'
 var fileDownload = require('js-file-download')
 
 export const downloadControl = {

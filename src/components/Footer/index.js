@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Grid, Image } from 'semantic-ui-react'
 import './index.css'
 import { logoOutline as logo } from '../../images'
-import { util } from 'utils'
+import { util } from '../../utils'
 
 export function ClassTranscribeFooter() {
   return (

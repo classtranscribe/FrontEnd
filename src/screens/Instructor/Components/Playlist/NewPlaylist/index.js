@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Button } from 'pico-ui'
 import { Grid } from 'semantic-ui-react'
-import { CTForm } from 'components'
+import { CTForm } from '../../../../../components'
 
 import SourceTypes from './SourceTypes'
 import PlaylistIdentifier from './PlaylistIdentifier'
 
-import { api } from 'utils'
+import { api } from '../../../../../utils'
 import { plControl } from '../../../Utils'
 import './index.css'
 

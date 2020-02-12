@@ -1,5 +1,5 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/media-settings'
+import { connectWithRedux } from '../../../Utils'
 import { MSPSidebar } from '../../MSPSidebar'
 import ChaptersSidebar from './ChaptersSidebar'
 import SettingSidebar from './SettingSidebar'

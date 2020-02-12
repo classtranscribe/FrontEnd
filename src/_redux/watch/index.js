@@ -3,7 +3,7 @@ import logger from 'redux-logger'
 import watchReducer from './watch.reducers'
 import * as watchActions_ from './watch.actions'
 
-import { isDeveloping } from 'utils'
+import { isDeveloping } from '../../utils'
 
 export { connectWithRedux } from './watch.selectors'
 

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { api, util } from 'utils'
+import { api, util } from '../../../utils'
 import { TEXT_SEP, textSepRegex } from './constants'
 
 class Epub {

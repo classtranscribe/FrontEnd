@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { api, util, user } from 'utils'
+import { api, util, user } from '../../../utils'
 import { 
   NEW_OFFERING, NO_OFFERING, 
   LOADING_S_OFF, LOADING_INIT, 

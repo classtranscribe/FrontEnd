@@ -120,7 +120,7 @@ export const responseParsers = {
     re.playlistId = playlistId
     re.sourceType = sourceType
     re.transReady = ready
-    re.mediaName = name
+    re.mediaName = _.replace(name, '.mp4', '')
 
     /** video src */
     const baseUrl = api.baseUrl()

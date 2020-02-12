@@ -1,5 +1,5 @@
 import React from 'react'
-// import { connectWithRedux } from '_redux/media-settings'
+// import { connectWithRedux } from '../../Utils'
 import { ListItem } from '../../../Instructor/Components/ListItem'
 import './index.scss'
 

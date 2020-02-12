@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { util, api } from 'utils'
+import { util, api } from '../../../utils'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
 

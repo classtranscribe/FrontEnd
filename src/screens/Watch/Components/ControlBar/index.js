@@ -1,5 +1,5 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
+import { connectWithRedux } from '../../Utils'
 import { 
   PlayButton,
   SettingButton,

@@ -1,17 +1,18 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { mspStore, connectWithRedux } from '_redux/media-settings'
 import './index.scss'
 import {
   MSPHeader, 
   EPub
 } from './Components'
 import {
+  mspStore, 
+  connectWithRedux,
   setup, 
   epub,
   TAB_EPUB,
 } from './Utils'
-import { util } from 'utils'
+import { util } from '../../utils'
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
