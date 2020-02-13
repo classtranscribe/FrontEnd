@@ -7,7 +7,7 @@ import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal } from '../Components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 // Vars
-import { api, handleData, util } from 'utils'
+import { api, handleData, util } from '../../../utils'
 const { initialUni } = api.initialData
 
 export default class UniversityEditing extends React.Component {

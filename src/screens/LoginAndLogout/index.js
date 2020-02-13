@@ -1,5 +1,5 @@
 import React from 'react'
-import { user, util } from 'utils'
+import { user, util } from '../../utils'
 
 export class LoginAndLogout extends React.Component {
   componentDidMount() {

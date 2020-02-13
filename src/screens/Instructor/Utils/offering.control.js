@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { user, api } from 'utils'
+import { user, api } from '../../../utils'
 import { LOADING_D } from './constants'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'

@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { api, userAction } from 'utils'
+import { api, userAction } from '../../../utils'
 import { timeStrToSec, colorMap, autoSize, /* autoSizeAllTextAreas */ } from './helpers'
 import { videoControl } from './player.control'
 import { promptControl } from './prompt.control'

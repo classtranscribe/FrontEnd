@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import { ClassTranscribeHeader } from 'components'
-import { util } from 'utils'
+import { ClassTranscribeHeader } from '../../../components'
+import { util } from '../../../utils'
 
 function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, history }) {
   const [searchValue, setSearchValue] = useState('')

@@ -1,6 +1,6 @@
 import React from 'react'
-import { VideoCard, VideoCardPlaceHolder } from 'components'
-import { util, api } from 'utils'
+import { VideoCard, VideoCardPlaceHolder } from '../../../../components'
+import { util } from '../../../../utils'
 
 export default function WatchHistory({ watchHistory, offerings, removeWatchHistory }) {
 

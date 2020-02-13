@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createRef } from 'react'
-import { connectWithRedux } from '_redux/instructor'
 import './index.css'
 import { 
+  connectWithRedux,
   setup,
   offControl,
   filterControl, 

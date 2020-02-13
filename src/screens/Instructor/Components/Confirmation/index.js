@@ -1,7 +1,6 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/instructor'
 import { Button } from 'pico-ui'
-import { setup } from '../../Utils'
+import { connectWithRedux, setup } from '../../Utils'
 import './index.css'
 
 const DEFAULT_DESCRIP = 'This action cannot be undone.'

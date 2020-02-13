@@ -1,7 +1,7 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/media-settings'
+import { connectWithRedux } from '../../../../_redux/media-settings'
 import { Sticky } from 'semantic-ui-react'
-import { ClassTranscribeHeader } from 'components'
+import { ClassTranscribeHeader } from '../../../../components'
 import './index.scss'
 
 function MSPHeaderWithRedux({

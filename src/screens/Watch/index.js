@@ -5,7 +5,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
-import { CTContext } from 'components'
+import { CTContext } from '../../components'
 import { 
   WatchHeader,
   Menus,
@@ -22,9 +22,11 @@ import {
 import './index.css'
 import './zIndex.css'
 // Vars
-import { watchStore, connectWithRedux } from '_redux/watch'
-import { util } from 'utils'
+import { util } from '../../utils'
 import { 
+  watchStore, 
+  connectWithRedux,
+
   setup,
   videoControl,
   transControl, 

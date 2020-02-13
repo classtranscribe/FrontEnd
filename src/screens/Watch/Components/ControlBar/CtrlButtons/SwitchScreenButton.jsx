@@ -1,7 +1,6 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import WatchCtrlButton from '../../WatchCtrlButton'
-import { videoControl } from '../../../Utils'
+import { connectWithRedux, videoControl } from '../../../Utils'
 
 export function SwitchScreenButtonWithRedux({
   isSwitched=false,

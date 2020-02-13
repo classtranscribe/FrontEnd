@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { Button } from 'pico-ui'
-import { Poster } from 'components'
+import { Poster } from '../../../../../components'
 import { ListItem } from '../../ListItem'
 import './index.scss'
-import { api, util } from 'utils'
+import { api, util } from '../../../../../utils'
 import { setup, mediaControl } from '../../../Utils'
 
 function MediaDetail({ 

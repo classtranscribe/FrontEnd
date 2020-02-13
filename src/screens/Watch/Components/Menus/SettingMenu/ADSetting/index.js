@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
 import MenuRadio from '../MenuRadio'
 import { 
+  connectWithRedux,
   transControl, 
   preferControl,
 } from '../../../../Utils'
-import { userAction } from 'utils'
+import { userAction } from '../../../../../../utils'
 
 function ADSetting({
   show=false,

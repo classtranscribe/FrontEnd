@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import $ from 'jquery'
 import { withRouter } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react'
-import { VideoCard } from 'components'
-import { api, util } from 'utils'
+import { VideoCard } from '../../../../components'
+import { api, util } from '../../../../utils'
 
 function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHistoryJSON }) {
   const { name, medias=[] } = playlist

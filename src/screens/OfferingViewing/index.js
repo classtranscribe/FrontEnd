@@ -6,13 +6,13 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 // UIs
-import { CTContext, SidebarDimmer } from 'components'
+import { CTContext, SidebarDimmer } from '../../components'
 import { Sidebar, Home, Starred, History, Search, OfferingDetail, Analytics } from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
-import { api, util, handleData, user } from 'utils'
+import { api, util, handleData, user } from '../../utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {

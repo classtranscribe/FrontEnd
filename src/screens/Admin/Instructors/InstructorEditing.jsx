@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components'
 import { Grid, Form, Input } from 'semantic-ui-react'
 // Vars
-import { api, util } from 'utils'
+import { api, util } from '../../../utils'
 
 export default function InstructorEditing({ match: {params}, history }) {
   const isNew = params.type === 'new'

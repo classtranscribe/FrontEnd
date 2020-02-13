@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Papa from 'papaparse'
 import { Table, Button, Dimmer, Loader, Segment } from 'semantic-ui-react'
-import { api } from 'utils'
+import { api } from '../../../../../../utils'
 import _ from 'lodash'
 import './index.css'
 var fileDownload = require('js-file-download')

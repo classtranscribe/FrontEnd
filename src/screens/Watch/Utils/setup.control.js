@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { api, util, userAction } from 'utils'
+import { api, util, userAction } from '../../../utils'
 import { transControl } from './trans.control'
 import { videoControl } from './player.control'
 import { menuControl } from './menu.control'

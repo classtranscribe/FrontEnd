@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react'
-import { ClassTranscribeFooter } from 'components'
+import { ClassTranscribeFooter } from '../../../../components'
 import WatchHistory from './WatchHistory'
 import './index.css'
-import { util } from 'utils'
+import { util } from '../../../../utils'
 
 export function History({ state, removeWatchHistory }) {
   useEffect(() => {

@@ -2,10 +2,10 @@
  * Functions for controlling video players
  */
 import _ from 'lodash'
-import { userAction } from 'utils'
+import { userAction } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
-import { menuControl } from './menu.control'
+// import { menuControl } from './menu.control'
 
 import { 
   NORMAL_MODE, PS_MODE, NESTED_MODE, /** THEATRE_MODE, */
