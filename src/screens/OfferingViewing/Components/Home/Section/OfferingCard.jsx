@@ -6,7 +6,7 @@ import { StarredButton } from './Overlays'
 import './index.css'
 // Vars
 import { util, user } from '../../../../../utils'
-import { offeringPosterImg } from '../../../../../images'
+import { offeringPosterImg } from '../../../../../assets/images'
 
 export default function OfferingCard({ offering={}, starredOfferings=[], depart={}, termSelected=[], image=false, ...functions }) {
   // if the full offering data has not yet loaded

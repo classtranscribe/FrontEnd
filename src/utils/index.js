@@ -9,6 +9,8 @@ export { api              } from './HTTP'
 
 export * from './constants'
 
+export { CTPreference } from './js/CTPreference'
+
 
 /**
  * Objects for switching pages and storing some general functions
