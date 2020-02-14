@@ -33,10 +33,13 @@ export const api = {
    * Function called when all the requests executed
    * then hide the loading page
    */
-  baseUrl: () => isDeveloping ? 
-    process.env.REACT_APP_TESTING_API_BASE_URL : 
-    process.env.REACT_APP_API_BASE_URL || window.location.origin,
-
+  baseUrl: () => {
+    return (
+        isDeveloping ?
+        process.env.REACT_APP_TESTING_API_BASE_URL :
+        process.env.REACT_APP_API_BASE_URL
+      ) || window.location.origin
+  },
   getMediaFullPath: function(path) { // need to change later
     return `${this.baseUrl()}${path}`
   },

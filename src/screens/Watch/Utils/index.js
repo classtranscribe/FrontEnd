@@ -13,4 +13,4 @@ export { searchControl    } from './search.control'
 export { preferControl    } from './preference.control'
 export { downloadControl  } from './download.control'
 
-export { connectWithRedux, watchStore } from '../../../_redux/watch'
+export { connectWithRedux, watchStore } from '../../../redux/watch'

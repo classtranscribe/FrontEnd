@@ -103,6 +103,14 @@ export const httpGET = {
     return this.getData('Captions/SearchInOffering', null, { offeringId, query })
   },
 
+  // ePub
+  getEpubData: function(mediaId) {
+    return this.getData('Epub/GetEpubData', null, { mediaId })
+  },
+  requestEpubCreation: function(mediaId) {
+    return this.getData('Epub/RequestEpubCreation', null, { mediaId })
+  },
+
   
   // Admin 
   adminGetLogs: function(from, to) {

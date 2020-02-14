@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon } from 'semantic-ui-react'
-import { boxLogo, kalturaLogo } from '../../../../images'
+import { boxLogo, kalturaLogo } from '../../../../assets/images'
 import './index.css'
 
 export function PlaylistIcon({ 

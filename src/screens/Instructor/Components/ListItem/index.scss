@@ -10,26 +10,34 @@
     }
   }
 
+  img {
+    width: 120px;
+    margin-right: .5rem;
+  }
+
   .ip-li-btn-con {
     background-color: white;
     position: relative;
     padding: 1em 1em;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border-radius: 10px;
     transition: all .2s linear;
     cursor: pointer;
   }
 
-  .ip-li-text {
-    width: 95%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .ip-li-text-con {
+    width: 100%;
     display: flex;
     align-items: center;
     font-family: var(--ct-font-google);
 
+    .ip-li-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: inherit;
+      display: block;
+    }
     .material-icons {
       font-size: 1.1em;
       padding: 0;
@@ -41,16 +49,19 @@
     font-size: 1.4em;
     font-weight: bold;
     color: rgb(34, 34, 34);
+    white-space: nowrap;
   }
   .ip-li-subt {
     font-size: 1.2em;
     color: var(--ct-text-title);
+    white-space: nowrap;
   }
   .ip-li-d {
     font-size: 1em;
     margin-top: .8em;
     padding: .1em .1em;
     color: rgb(77, 77, 77);
+    white-space: normal;
   }
   .ip-li-r-i {
     position: absolute;

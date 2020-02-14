@@ -14,6 +14,7 @@ export function ListItem({
   rightIcon='none', // small, normal
 
   onClick=null,
+  image,
 }) {
   return (
     <button 
@@ -24,45 +25,55 @@ export function ListItem({
     >
       <div tabIndex="-1" className="ip-li-btn-con">
         {
-          title
+          image
           &&
-          <span className="ip-li-text ip-li-t">
-            {
-              (typeof icon === "string")
-              ?
-              <i className="material-icons" aria-hidden="true">{icon}</i>
-              :
-              (typeof icon === "number")
-              ?
-              <PlaylistIcon type={icon} svgSize="normal" />
-              :
-              null          
-            }
-            {title}
-          </span>
+          <div>
+            <img src={image} aria-hidden="true" />
+          </div>
         }
-        {
-          subtitle
-          &&
-          <span className="ip-li-text ip-li-subt">
-            {subtitle}
-          </span>
-        }
-        {
-          description
-          &&
-          <span className="ip-li-text ip-li-d">
-            {description}
-          </span>
-        }
-        {
-          rightIcon != 'none'
-          &&
-          <span className="ip-li-r-i" data-size={rightIcon} aria-hidden="true">
-            <i className="material-icons">chevron_right</i>
-          </span>
-        }
+        <div className={"ct-d-c " + (image ? 'w-50' : 'w-100')}>
+          {
+            title
+            &&
+            <div className="ip-li-text-con ip-li-t">
+              {
+                (typeof icon === "string")
+                ?
+                <i className="material-icons" aria-hidden="true">{icon}</i>
+                :
+                (typeof icon === "number")
+                ?
+                <PlaylistIcon type={icon} svgSize="normal" />
+                :
+                null          
+              }
+              <span className="ip-li-text">{title}</span>
+            </div>
+          }
+          {
+            subtitle
+            &&
+            <span className="ip-li-text-con ip-li-subt">
+              <span className="ip-li-text">{subtitle}</span>
+            </span>
+          }
+          {
+            description
+            &&
+            <span className="ip-li-text-con ip-li-d">
+              <span className="ip-li-text">{description}</span>
+            </span>
+          }
+          {
+            rightIcon != 'none'
+            &&
+            <span className="ip-li-r-i" data-size={rightIcon} aria-hidden="true">
+              <i className="material-icons">chevron_right</i>
+            </span>
+          }
+        </div>
       </div>
+
     </button>
   )
 }
