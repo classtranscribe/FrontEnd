@@ -1,6 +1,7 @@
-export { setup    } from './setup'
-export { epub     } from './epub.control'
+export { mspStore, connectWithRedux } from '../../../redux/media-settings'
 
 export * from './constants'
 
-export { mspStore, connectWithRedux } from '../../../_redux/media-settings'
+export { setup        } from './setup'
+export { epub         } from './epub.control'
+export { prefControl  } from './preference.control'
