@@ -1,94 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import Papa from 'papaparse'
-import { Table, Button, Dimmer, Loader, Segment } from 'semantic-ui-react'
-import { api } from '../../../../../../utils'
+import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react'
+import { Button } from 'pico-ui'
 import _ from 'lodash'
 import './index.css'
-var fileDownload = require('js-file-download')
-
-
-
-function parseCourseLogs(event, data, parsedData, caption) {
-    const toReturn = []
-    if (event === 'timeupdate') {
-        data.forEach( (elem) => {
-            var lastHr = 0, last3days = 0, lastWeek = 0, lastMonth = 0, totalTime = 0, count = 0
-            elem.medias.forEach( media => {
-                lastHr += media.lastHr
-                last3days += media.last3days
-                lastMonth += media.lastMonth
-                lastWeek += media.lastWeek
-                totalTime += media.count
-            })
-            if (parsedData && elem.user) {
-                if (parsedData.filter( data => data.email === elem.user.email)[0]) {
-                    lastHr = parsedData.filter( data => data.email === elem.user.email)[0].lastHr/4.0
-                    last3days = parsedData.filter( data => data.email === elem.user.email)[0].last3days/4.0
-                    lastMonth = parsedData.filter( data => data.email === elem.user.email)[0].lastMonth/4.0
-                    lastWeek = parsedData.filter( data => data.email === elem.user.email)[0].lastWeek/4.0
-                }
-            }
-
-            if (caption && elem.user) {
-                if (caption.filter( data => data.email === elem.user.email)[0]) {
-                    count = caption.filter( data => data.email === elem.user.email)[0].captionEdited
-                }
-            }
-
-            toReturn.push({ 
-                email: (elem.user ? elem.user.email : 'unknown'), 
-                lastHr: lastHr, 
-                last3days: last3days, 
-                lastWeek: lastWeek, 
-                lastMonth: lastMonth, 
-                totalTime: totalTime/4.0, 
-                captionEdited: count
-            })
-        })
-    }
-
-    if (event === 'edittrans') {
-        data.forEach( (elem) => {
-            var count = 0
-            elem.medias.forEach( media => {
-                count += media.count
-            })
-            toReturn.push({ 
-                email: (elem.user ? elem.user.email : 'unknown'), 
-                captionEdited: count
-            })
-        })
-    }
-
-    return toReturn
-}
+import { vtime } from './vtime'
 
 export default function VideoTimeTable({offeringId}){
-    const [parsedData, setParsedData] = useState([])
     const [total, setTotal] = useState([])
     const [column, setColumn] = useState(null)
     const [direction, setDirection] = useState(null)
-    const [caption, setCaption] = useState([])
 
     useEffect(() => {
-        api.getCourseLogs('timeupdate', offeringId)
-        .then(({data}) => {
-            setParsedData(parseCourseLogs('timeupdate', data))
-        }) 
-        api.getCourseLogs('edittrans', offeringId, "2010-04-03T11:11:11.111Z", new Date().toISOString())
-        .then(({data}) => {
-            setCaption(parseCourseLogs('edittrans', data))
-        }) 
+        vtime.init({ offeringId, setTotal })
+        vtime.setup()
     }, [offeringId])
-
-    useEffect(() => {
-        if (parsedData.length){
-            api.getCourseLogs('timeupdate', offeringId, "2010-04-03T11:11:11.111Z", new Date().toISOString()).then(({data}) => {
-                setTotal(parseCourseLogs('timeupdate', data, parsedData, caption))
-                // setLoaded(loaded => loaded + 1)
-            })
-        }
-    }, [parsedData])
     
     
     const handleSort = (clickedColumn) => {
@@ -105,13 +30,17 @@ export default function VideoTimeTable({offeringId}){
 
     }
 
-    const onDownload = () => {
-        const csvStr = Papa.unparse(total)
-        fileDownload(csvStr, 'video-time.csv')
-    }
+    const onDownload = () => vtime.download()
 
     return (<div className = 'analytic_table'>
-        <Button content="Download" onClick={onDownload} primary />
+        <div className="ct-d-r-end">
+            <Button uppercase
+                text="Download" 
+                color="teal"
+                onClick={onDownload}
+                loading={total.length === 0}
+            />
+        </div>
 
         { (total.length === 0)?
             <div>
@@ -159,14 +88,14 @@ export default function VideoTimeTable({offeringId}){
                     Last Month (mins)
                     </Table.HeaderCell>
                     <Table.HeaderCell
-                        sorted={column === 'totalTime' ? direction : null}
-                        onClick={() => handleSort('totalTime')}
+                        sorted={column === 'count' ? direction : null}
+                        onClick={() => handleSort('count')}
                     >
                     Total Video Time (mins)
                     </Table.HeaderCell>
                     <Table.HeaderCell
-                        sorted={column === 'captionEdited' ? direction : null}
-                        onClick={() => handleSort('captionEdited')}
+                        sorted={column === 'editTransCount' ? direction : null}
+                        onClick={() => handleSort('editTransCount')}
                     >
                     Captions Revised
                     </Table.HeaderCell>
@@ -183,8 +112,8 @@ export default function VideoTimeTable({offeringId}){
                                 <Table.Cell>{Math.round(elem.last3days)}</Table.Cell>
                                 <Table.Cell>{Math.round(elem.lastWeek)}</Table.Cell>
                                 <Table.Cell>{Math.round(elem.lastMonth)}</Table.Cell>
-                                <Table.Cell>{Math.round(elem.totalTime)}</Table.Cell>
-                                <Table.Cell>{elem.captionEdited}</Table.Cell>
+                                <Table.Cell>{Math.round(elem.count)}</Table.Cell>
+                                <Table.Cell>{elem.editTransCount}</Table.Cell>
                             </Table.Row>
                         )
                     }
