@@ -5,7 +5,7 @@ import { Button } from 'pico-ui'
 import ProfileMenu from './ProfileMenu'
 import './index.scss'
 import { util } from '../../utils'
-import { textBrand, darkTextBrand } from '../../images'
+import { textBrand, darkTextBrand } from '../../assets/images'
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button

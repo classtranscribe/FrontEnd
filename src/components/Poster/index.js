@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-import { videoPosterImg as defaultImg } from '../../images'
+import { videoPosterImg as defaultImg } from '../../assets/images'
 
 export function Poster({ 
   src=defaultImg, 
