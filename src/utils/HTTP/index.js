@@ -7,6 +7,7 @@ import { responseParsers    } from './helper.response-parsers'
 import { userMetadataHelper } from './helper.user-metadata'
 
 import { isDeveloping } from '../constants'
+import { user } from '../user'
 
 /**
  * Set up http
@@ -60,18 +61,20 @@ export const api = {
   /**
    * Functions for set or get the auth/b2c token
    */
-  authToken: () => localStorage.getItem('authToken'),
-  getAuthToken: function(auth0Token) {
+
+  accountSignIn: function(auth0Token) {
     return http.post(this.baseUrl() + '/api/Account/SignIn', { auth0Token })
   },
-  saveAuthToken: function (authToken) {
-    localStorage.setItem('authToken', authToken)
+
+  testAccountSignIn: function(emailId, password) {
+    return http.post(this.baseUrl() + '/api/Account/TestSignIn', { emailId, password })
   },
+
   withAuth: function (configs) {
     return {
       ...configs,
       headers: {
-        Authorization: 'Bearer ' + this.authToken()
+        Authorization: 'Bearer ' + user.authToken
       }
     }
   },

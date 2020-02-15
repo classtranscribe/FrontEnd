@@ -18,6 +18,7 @@ import InstructorPane from './Instructors'
 import More from './More'
 // Vars
 import { api, handleData, util, user } from '../../utils'
+import LoginAsUser from './LoginAsUser'
 
 export class Admin extends React.Component {
   constructor(props) {
@@ -201,7 +202,8 @@ export class Admin extends React.Component {
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
       { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> },
       { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />},
-      { menuItem: 'More'          , render: () => <More {...this} />}
+      { menuItem: 'More'          , render: () => <More {...this} />},
+      { menuItem: 'Login As User' , render: () => <LoginAsUser {...this} />}
     ]
 
     const { verticalSidebar } = this.state
