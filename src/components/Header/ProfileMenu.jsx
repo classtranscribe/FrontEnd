@@ -60,6 +60,15 @@ export default function ProfileMenu({ darkMode }) {
               <Typography style={fontStyle}>
                 Signed in as <strong>{fullName}</strong><br/>
                 <span>{uniName}</span>
+                {
+                  user.isTestAccount()
+                  &&
+                  <>
+                    <br/><br/>
+                    <span>You are accessing content of <strong>{user.getTestUserInfo().emailId}</strong></span>
+                    <br/>
+                  </>
+                }
               </Typography>
             </div>
           </MenuItem>
