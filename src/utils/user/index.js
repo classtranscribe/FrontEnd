@@ -36,7 +36,25 @@ export class CTUser {
    * @returns {String} UserId
    */
   userId() {
+
+    if (window.location.pathname === '/admin') { // if it's in admin page
+      return this.getUserInfo().userId
+    }
+
     return this.getTestUserInfo().userId || this.getUserInfo().userId
+  }
+
+  set authToken(token) {
+    localStorage.setItem(AUTH_TOKEN_KEY, token)
+  }
+
+  get authToken() {
+
+    if (window.location.pathname === '/admin') { // if it's in admin page
+      return localStorage.getItem(AUTH_TOKEN_KEY)
+    }
+
+    return this.getTestUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY)
   }
 
   /**
@@ -127,14 +145,6 @@ export class CTUser {
     if (exp > new Date()) { // if authToken expired relogin the user
       this.reLogin()
     }
-  }
-
-  set authToken(token) {
-    localStorage.setItem(AUTH_TOKEN_KEY, token)
-  }
-
-  get authToken() {
-    return this.getTestUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY)
   }
 
   isTestAccount() {
