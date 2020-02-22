@@ -67,7 +67,7 @@ export const api = {
   },
 
   testAccountSignIn: function(emailId, password) {
-    return http.post(this.baseUrl() + '/api/Account/TestSignIn', { emailId, password })
+    return http.post(this.baseUrl() + '/api/Account/LoginAs', { emailId, password })
   },
 
   withAuth: function (configs) {
