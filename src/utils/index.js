@@ -2,6 +2,7 @@ import $ from 'jquery'
 import { storage } from './storage'
 import { links   } from './links'
 
+export { env              } from './env'
 export { search           } from './search'
 export { user, userAction } from './user'
 export { handleData       } from './data'
