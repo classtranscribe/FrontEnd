@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Popup } from 'semantic-ui-react'
-import { VideoCard } from 'components'
+import { VideoCard } from '../../../../../components'
 import Placeholder from '../Placeholder'
 import { ShortcutKey } from '../../Menus/ShortcutsTable'
 import { 
@@ -20,7 +20,7 @@ import {
   MENU_SHORTCUTS,
   MENU_PLAYLISTS,
 } from '../../../Utils'
-import { util } from 'utils'
+import { util } from '../../../../../utils'
 
 function ResultList({
   option=SEARCH_TRANS_IN_VIDEO,

@@ -10,6 +10,8 @@ export { api              } from './HTTP'
 
 export * from './constants'
 
+export { CTPreference } from './js/CTPreference'
+
 
 /**
  * Objects for switching pages and storing some general functions
@@ -90,7 +92,7 @@ export const util = {
   },
 
   getFittedName: function(name, charNum) {
-    if (!name) return 'unknown'
+    if (!name) return ''
 
     let fittedName = name.slice(0, charNum)
     if (fittedName !== name) fittedName += '...'

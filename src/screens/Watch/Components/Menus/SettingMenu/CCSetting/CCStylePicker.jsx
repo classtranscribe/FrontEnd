@@ -1,5 +1,4 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import { Select, Form, Grid } from 'semantic-ui-react'
 import { 
   CC_COLOR_WHITE,
@@ -14,6 +13,7 @@ import {
   cc_fontOptions,
   cc_sizeOptions,
 
+  connectWithRedux,
   transControl,
   getCCSelectOptions
 } from '../../../../Utils'

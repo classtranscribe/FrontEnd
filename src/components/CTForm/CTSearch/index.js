@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
 import './index.css'
-import { search } from 'utils'
+import { search } from '../../../utils'
 
 export function CTSearch({
   id='',

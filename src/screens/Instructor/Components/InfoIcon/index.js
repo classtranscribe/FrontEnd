@@ -5,18 +5,23 @@ import './index.css'
 export function InfoIcon({
   header,
   content=null,
+  important=false,
 }) {
 
   return (
     <div className="ip-info-icon-con">
-      <Popup basic hoverable
+      <Popup basic hoverable wide
         closeOnTriggerBlur
         openOnTriggerFocus
         openOnTriggerClick
-        header={header}
-        content={content}
+        content={
+          <div>
+            <h3>{header}</h3>
+            <div>{content}</div>
+          </div>
+        }
         trigger={
-          <div tabIndex="0" className="ip-info-icon">
+          <div tabIndex="0" className={"ip-info-icon" + (important ? " important" : "")}>
             <i className="material-icons">info</i>
           </div>
         }

@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { Button } from 'pico-ui'
-import { Poster } from 'components'
+import { Poster } from '../../../../../components'
 import { ListItem } from '../../ListItem'
 import './index.scss'
-import { api, util } from 'utils'
+import { api, util } from '../../../../../utils'
 import { setup, mediaControl } from '../../../Utils'
+import { TAB_EDIT_TRANS, TAB_EPUB } from '../../../../MediaSettings/Utils'
 
 function MediaDetail({ 
   media, 
@@ -42,7 +43,6 @@ function MediaDetail({
     if (isEditing && text && text !== mediaName) {
       await mediaControl.renameMedia(
         media, 
-        setup.playlist().sourceType, 
         text
       )
     }
@@ -142,12 +142,12 @@ function MediaDetail({
         <ListItem dark
           icon="closed_caption"
           title="Edit Transcriptions"
-          onClick={toMediaSettings('editTrans')}
+          onClick={toMediaSettings(TAB_EDIT_TRANS)}
         />
         <ListItem dark
           icon="menu_book"
           title="Manage ePub Chapters"
-          onClick={toMediaSettings('epub')}
+          onClick={toMediaSettings(TAB_EPUB)}
         />
       </div> */}
     </div>

@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
-import { api, handleData } from 'utils'
+import { api, handleData } from '../../../utils'
 // UI
 import InstructorEditing from './InstructorEditing'
 import InstructorList from './InstructorList'

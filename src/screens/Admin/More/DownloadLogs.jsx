@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DateRangePicker } from 'react-dates'
 import { Button } from 'semantic-ui-react'
-import { api, handleData } from 'utils'
+import { api, handleData } from '../../../utils'
 import moment from 'moment'
 var fileDownload = require('js-file-download');
 

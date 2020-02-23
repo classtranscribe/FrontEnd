@@ -1,5 +1,6 @@
 import $ from 'jquery'
-import { isDeveloping } from 'utils'
+import { isDeveloping } from '../../../utils'
+
 import { videoControl } from './player.control'
 import { menuControl  } from './menu.control'
 import { transControl } from './trans.control'

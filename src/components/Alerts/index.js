@@ -4,14 +4,6 @@ import './index.css'
 
 import alertMesgs from './AlertMesgs'
 
-/**
- * General Alert Component 
- * @param width num || '100'
- * @param fixed true if the alert is not dismissible
- * @param open true if show the alert 
- * @param type enum - mapping to the alertMesgs object above
- * @param onClose function to close the alert
- */
 export function GeneralAlert({width, fixed, open, type, onClose}) {
   const mesg = alertMesgs[type]
   return (

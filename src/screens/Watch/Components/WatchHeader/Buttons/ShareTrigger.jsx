@@ -1,8 +1,9 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import WatchCtrlButton from '../../WatchCtrlButton'
 import { 
-  modalControl, MODAL_SHARE, MODAL_HIDE
+  connectWithRedux,
+  modalControl, 
+  MODAL_SHARE, MODAL_HIDE
 } from '../../../Utils'
 
 function ShareTrigger({

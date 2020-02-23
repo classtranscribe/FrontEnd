@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { util } from 'utils'
+import { util } from '../../../../utils'
 
 export default function PlaylistsView({ playlists=[], handleClick, wasSelected }) {
 

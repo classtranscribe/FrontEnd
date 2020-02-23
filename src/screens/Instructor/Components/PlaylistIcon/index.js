@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon } from 'semantic-ui-react'
-import { boxLogo } from 'images'
+import { boxLogo, kalturaLogo } from '../../../../assets/images'
 import './index.css'
 
 export function PlaylistIcon({ 
@@ -37,7 +37,19 @@ export function PlaylistIcon({
       aria-hidden="true"
       data-size={svgSize}
     />
-  ) : (
+  ) 
+  :
+  type === 3 ?
+  (
+    <img 
+      src={kalturaLogo} 
+      className="ip-pi-box-logo" 
+      aria-hidden="true"
+      data-size={svgSize}
+    />
+  ) 
+  : 
+  (
     <Icon 
       className="mr-2 pt-0"
       size={size} 

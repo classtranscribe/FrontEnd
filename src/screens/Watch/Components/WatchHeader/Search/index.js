@@ -1,6 +1,6 @@
 import React from 'react'
-import { connectWithRedux } from '_redux/watch'
 import { 
+  connectWithRedux,
   searchControl, 
   SEARCH_INIT
 } from '../../../Utils'

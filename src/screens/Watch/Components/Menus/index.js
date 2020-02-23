@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
 import {
+  connectWithRedux,
   menuControl,
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { connectWithRedux } from '_redux/watch'
 import {
+  connectWithRedux,
   modalControl,
   MODAL_HIDE,
   MODAL_SHARE,

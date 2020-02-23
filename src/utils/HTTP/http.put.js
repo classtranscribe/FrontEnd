@@ -27,8 +27,9 @@ export const httpPUT = {
   updatePlaylist: function(data) {
     return this.updateData('Playlists', data)
   },
-  renameMedia: function(mediaId, filename) {
-    return this.updateData('Media/PutJsonMetaData', { filename }, mediaId)
+  renameMedia: function(mediaId, name) {
+    let params = { name, mediaId }
+    return http.put('/api/Media/PutMediaName', null, api.withAuth({ params }))
   },
   updateMediaMetadata: function(mediaId, jsonMetadata) {
     return this.updateData('Media/PutJsonMetaData', jsonMetadata, mediaId)

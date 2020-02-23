@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
 import { Icon, Image } from 'semantic-ui-react'
-import { util, user, api, handleData } from 'utils'
+import { util, user, api, handleData } from '../../utils'
 import { Link } from 'react-router-dom'
 
 const menuStyle = {
@@ -60,6 +60,15 @@ export default function ProfileMenu({ darkMode }) {
               <Typography style={fontStyle}>
                 Signed in as <strong>{fullName}</strong><br/>
                 <span>{uniName}</span>
+                {
+                  user.isTestAccount()
+                  &&
+                  <>
+                    <br/><br/>
+                    <span>You are accessing content of <strong>{user.getTestUserInfo().emailId}</strong></span>
+                    <br/>
+                  </>
+                }
               </Typography>
             </div>
           </MenuItem>

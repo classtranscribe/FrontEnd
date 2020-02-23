@@ -1,0 +1,39 @@
+.nf-bg {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nf-con {
+  width: 400px;
+
+  .nf-texts {
+    padding: 1.2rem;
+
+    .nf-text-t {
+      font-size: 1.3em;
+      font-family: var(--ct-font-google);
+    }
+    .nf-text-d {
+      margin-top: 1em;
+      font-size: 1.1em;
+    }
+    .nf-links {
+      margin-top: 1em;
+      display: flex;
+      flex-direction: column;
+
+      a {
+        font-size: 1.2em;
+        margin-bottom: .5em;
+        color: var(--ct-green-normal);
+        &:hover {
+          color: var(--ct-text-title)
+        }
+      }
+    }
+  }
+} 

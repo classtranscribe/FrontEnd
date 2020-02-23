@@ -1,5 +1,5 @@
 import React from 'react'
-import { user, api } from 'utils'
+import { user, api } from '../../../../utils'
 import { parseTimeUpdate, parseEditTrans, parseFilterTrans } from './util'
 import './index.css'
 import { Message } from 'semantic-ui-react'

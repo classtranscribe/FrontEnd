@@ -6,12 +6,12 @@ import React, { useState, useEffect } from 'react'
 // UI
 import { Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { ClassTranscribeFooter } from 'components'
+import { ClassTranscribeFooter } from '../../../../components'
 import SearchInput from './SearchInput'
 import SearchResult from './SearchResult'
 import './index.css'
 // Vars
-import { search, util } from 'utils'
+import { search, util } from '../../../../utils'
 
 export function Search({offerings, location}) {
   var defaultValue = location.state ? location.state.value : ''

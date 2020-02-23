@@ -9,16 +9,20 @@ import './stylesheets/csstrans.playlist-video.css'
 import './stylesheets/sk-loader.css'
 import './index.css'
 
-export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
 export { ClassTranscribeHeader } from './Header'
-export { FixedFooter, ClassTranscribeFooter } from './Footer'
-export { GeneralModal, DeleteModal } from './Modals'
-export { GeneralAlert } from './Alerts'
-export { GeneralLoader, GeneralPlaceholder, SpinnerLoader } from './Loaders' 
+export { ClassTranscribeFooter } from './Footer'
+
 export { Poster } from './Poster'
 export { VideoCard, VideoCardPlaceHolder } from './Cards'
+
 export { CTButton } from './Buttons'
 export { CTForm  } from './CTForm'
+
+// Need to be removed later
+export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
+export { GeneralModal } from './Modals'
+export { GeneralAlert } from './Alerts'
+export { GeneralLoader } from './Loaders' 
 
 /**
  * General Components
@@ -43,11 +47,6 @@ export function MaintenanceMessage({ }) {
     </Alert>
   )
 }
-
-/**
- * Padding Component
- */
-export const EndPadding5rem = () => <div className="end-padding"></div>
 
 export function SidebarDimmer({show, onClose}) {
   return <div style={{display: show ? 'block' : 'none'}} className="sidebar-dimmer" onClick={onClose}></div>

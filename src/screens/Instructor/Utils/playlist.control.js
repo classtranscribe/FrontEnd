@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { util, api } from 'utils'
+import { util, api } from '../../../utils'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
 
@@ -54,12 +54,15 @@ export const plControl = {
     if (sourceType === 1) { // YouTube
       let { list } = util.links.useSearch(playlistIdentifier)
       playlistIdentifier = list
+    } else if (sourceType === 3) { // Kaltura
+      let items = playlistIdentifier.split('/')
+      playlistIdentifier = items[items.length-1] // the last one is the channel id
     } else if (sourceType === 4) { // Box
-      playlistIdentifier = playlistIdentifier.split('/folder/')[1]
-    }
+      playlistIdentifier = playlistIdentifier.split('/folder/')[1] // the 2nd one is the channel id
+    } 
 
     let newPl = { offeringId, name, sourceType, playlistIdentifier }
-    // console.log('newPl', newPl)
+    console.log('newPl', newPl)
     try {
       let { data } = await api.createPlaylist(newPl)
       newPl = data
@@ -115,17 +118,21 @@ export const plControl = {
     if (!url) return false
 
     if (sourceType === 0) { // Echo360
-      return _.startsWith(url, echo360Prefix)
+      let reg = /https:\/\/echo360.org\/section\/[\s\S]*\/public/
+      return reg.test(url)
 
     } else if (sourceType === 1) { // YouTube
       let { list } = util.links.useSearch(url)
       return Boolean(list)
 
+    } else if (sourceType === 3) { // Kaltura/MediaSpace
+      let reg = /https:\/\/mediaspace.illinois.edu\/channel\/[\s\S]*\/[0-9]{1}/
+      return reg.test(url)
+
     } else if (sourceType === 4) { // Box
-      return _.startsWith(url, 'https://') 
-            && url.includes('box.com') 
-            && url.includes('/folder/')
-    }
+      let reg = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]{1}/
+      return reg.test(url)
+    } 
 
     return false
   }

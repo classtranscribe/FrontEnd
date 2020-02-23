@@ -5,7 +5,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 import { Placeholder, Icon } from 'semantic-ui-react'
-import { util } from 'utils'
+import { util } from '../../../../utils'
 
 /**
  * Placeholder shows up when a offering is loading

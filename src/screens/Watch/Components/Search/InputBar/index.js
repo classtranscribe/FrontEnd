@@ -3,7 +3,7 @@ import {
   searchControl, 
   SEARCH_INIT, SEARCH_RESULT
 } from '../../../Utils'
-import { util } from 'utils'
+import { util } from '../../../../../utils'
 import './index.css'
 
 function InputBar({

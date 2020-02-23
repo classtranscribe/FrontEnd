@@ -1,5 +1,4 @@
 import _ from 'lodash'
-// import { api } from 'utils'
 
 export function fileSizeParser(size) {
   var _size = size;

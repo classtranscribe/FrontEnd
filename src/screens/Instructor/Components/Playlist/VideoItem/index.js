@@ -1,9 +1,8 @@
 import _ from 'lodash'
 import React, { useState, useEffect, useRef } from 'react'
-import { connectWithRedux } from '_redux/instructor'
 import { Button } from 'pico-ui'
-import { api } from 'utils'
-import { mediaControl, setup } from '../../../Utils'
+import { api } from '../../../../../utils'
+import { connectWithRedux, mediaControl } from '../../../Utils'
 import './index.scss'
 
 import MediaName from './MediaName'
@@ -52,7 +51,6 @@ function VideoItemWithRedux({
       // console.log(nameRef.current.innerText)
       await mediaControl.renameMedia(
         media, 
-        setup.playlist().sourceType, 
         text
       )
     }

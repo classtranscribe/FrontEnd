@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { util, api } from 'utils'
+import React from 'react'
 
 export default function SearchHistory({ searchHistory, offerings, removeSearchHistory }) {
   return (

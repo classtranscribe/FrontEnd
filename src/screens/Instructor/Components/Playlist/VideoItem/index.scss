@@ -89,6 +89,8 @@ $ip-v-file-green: rgb(24, 148, 148);
       border-bottom: 2px transparent solid;
       padding-top: calc(.4em + 2px);
       transition: border .2s ease-in-out;
+      text-overflow: initial;
+      white-space: normal;
 
       &:hover, &:focus {
         border-bottom: 2px black solid;

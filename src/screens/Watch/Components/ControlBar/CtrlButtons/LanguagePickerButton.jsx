@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { connectWithRedux } from '_redux/watch'
 import WatchCtrlButton from '../../WatchCtrlButton'
 import { 
+  connectWithRedux,
   MENU_HIDE, MENU_LANGUAGE,
   langMap,
   menuControl
