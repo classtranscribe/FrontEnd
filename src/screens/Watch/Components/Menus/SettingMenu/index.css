@@ -43,7 +43,7 @@
   margin-top: 3em;
   padding-top: 1em;
   width: 100%;
-  max-width: 40em;
+  max-width: 40rem;
   height: auto;
   margin-left: 2em;
   border-top: var(--ct-border-dark);
@@ -72,10 +72,10 @@
   flex-direction: column;
   padding-left: 2em;
   background: rgb(46, 46, 46);
-  animation: var(--ct-animation-expand-padding);
+  /* animation: var(--ct-animation-expand-padding);
   -o-animation: var(--ct-animation-expand-padding);
   -moz-animation: var(--ct-animation-expand-padding);
-  -webkit-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding); */
 }
 .menu-radio:hover {
   background: rgb(58, 58, 58);
