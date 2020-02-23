@@ -261,11 +261,9 @@ export const transControl = {
       } 
 
       // determine whether should scroll smoothly
-      const TIME_SPAN_LIMIT = 10
       let smoothScroll = this.prevCaption_ 
-                      && Math.abs(
-                           timeStrToSec(this.prevCaption_.begin) - timeStrToSec(next.begin)
-                         ) < TIME_SPAN_LIMIT
+                      && next
+                      && Math.abs(this.prevCaption_.index - next.index) == 1
 
       this.prevCaption_ = next
       this.updateCaption(next)
@@ -370,11 +368,13 @@ export const transControl = {
     if (!id) return;
     let capElem = document.getElementById(`caption-line-${id}`)
     let tranBox = document.getElementById('watch-trans-container')
+    let isTwoScreen = videoControl.isTwoScreen()
+
+    smoothScroll = smoothScroll && (tranBox.scrollTop - capElem.offsetTop) < 0
 
     if (!smoothScroll) tranBox.style.scrollBehavior = 'auto'
     if (capElem) {
       capElem.classList.add('curr-line')
-      let isTwoScreen = videoControl.isTwoScreen()
       let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
       // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
       tranBox.scrollTop = scrollTop
