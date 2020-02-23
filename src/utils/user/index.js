@@ -147,8 +147,12 @@ export class CTUser {
 
   checkExpiration () {
     let { exp } = this.getUserInfo()
-    if (!Boolean(exp)) return;
-    if (exp > new Date()) { // if authToken expired relogin the user
+    if (!Boolean(exp)) return
+
+    exp = new Date(exp)
+
+    // if authToken expired relogin the user
+    if (exp < new Date()) {
       this.reLogin()
     }
   }
