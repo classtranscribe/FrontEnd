@@ -26,7 +26,7 @@ function ShareTrigger({
         'aria-label': `Share`,
         //'aria-keyshortcuts': 'Shift+D',
         'aria-controls': 'watch-share-modal',
-        'aria-haspopup': 'true'
+        'aria-expanded' : modal === MODAL_SHARE ? 'false' : 'true',
       }}
     >
       <span className="watch-btn-content watch-header-btn-content" tabIndex="-1">

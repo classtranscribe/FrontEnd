@@ -32,7 +32,7 @@ export function ScreenModeSettingButtonWithRedux({
         'aria-label': 'Screen Mode Menu',
         //'aria-keyshortcuts': 'SHIFT+S',
         'aria-controls': 'watch-screen-mode-menu',
-        'aria-haspopup': 'true'
+        'aria-expanded' : menu === MENU_SCREEN_MODE ? 'false' : 'true',
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">

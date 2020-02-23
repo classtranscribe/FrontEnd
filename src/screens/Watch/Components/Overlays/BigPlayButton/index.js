@@ -24,6 +24,7 @@ function BigPlayButtonWithRedux({
     <div 
       className="wbp-btn-container"
       paused={paused.toString()}
+      aria-hidden="true"
     >
       {
         ctpPriEvent === CTP_ENDED ?

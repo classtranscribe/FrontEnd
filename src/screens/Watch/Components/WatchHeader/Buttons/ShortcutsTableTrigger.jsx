@@ -25,7 +25,7 @@ function ShortcutsTableTrigger({
         'aria-label': `Shortcuts`,
         //'aria-keyshortcuts': 'Shift+D',
         'aria-controls': 'watch-shortcuts-menu',
-        'aria-haspopup': 'true'
+        'aria-expanded' : menu === MENU_SHORTCUTS ? 'false' : 'true',
       }}
     >
       <span className="watch-btn-content watch-header-btn-content" tabIndex="-1">

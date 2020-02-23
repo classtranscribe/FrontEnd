@@ -25,7 +25,7 @@ export function DownloadMenuTrigger({
         'aria-label': `Download Menu`,
         //'aria-keyshortcuts': 'Shift+D',
         'aria-controls': 'watch-download-menu',
-        'aria-haspopup': 'true'
+        'aria-expanded' : menu === MENU_DOWNLOAD ? 'false' : 'true',
       }}
     >
       <span className="watch-btn-content watch-header-btn-content" tabIndex="-1">

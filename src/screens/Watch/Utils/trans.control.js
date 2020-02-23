@@ -253,13 +253,23 @@ export const transControl = {
   updateTranscript: function(now) {
     let next = this.findCurrent(this.transcript_, this.prevCaption_, now)
     if (next && next.id) {
+
+      // pause video if it's AD
       if (next.kind === WEBVTT_DESCRIPTIONS) {
         this.updateDescription(next)
         if (preferControl.pauseWhileAD() && this.prevCaption_ !== next) videoControl.pause()
       } 
+
+      // determine whether should scroll smoothly
+      let smoothScroll = this.prevCaption_ 
+                      && next
+                      && Math.abs(this.prevCaption_.index - next.index) == 1
+
       this.prevCaption_ = next
       this.updateCaption(next)
-      if (preferControl.autoScroll()) this.scrollTransToView(next.id)
+      if (preferControl.autoScroll()) {
+        this.scrollTransToView(next.id, smoothScroll)
+      }
     }
     return next || null
   },
@@ -352,19 +362,24 @@ export const transControl = {
   /**
    * Function that scrolls the captions
    */
-  scrollTransToView: function(id) {
+  scrollTransToView: function(id, smoothScroll=true) {
     if (this.isMourseOverTrans || this.isEditing) return;
     if (id === undefined && Boolean(this.currTrans_)) id = this.currTrans_.id
     if (!id) return;
     let capElem = document.getElementById(`caption-line-${id}`)
     let tranBox = document.getElementById('watch-trans-container')
+    let isTwoScreen = videoControl.isTwoScreen()
+
+    smoothScroll = smoothScroll && (tranBox.scrollTop - capElem.offsetTop) < 0
+
+    if (!smoothScroll) tranBox.style.scrollBehavior = 'auto'
     if (capElem) {
       capElem.classList.add('curr-line')
-      let isTwoScreen = videoControl.isTwoScreen()
       let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
       // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
       tranBox.scrollTop = scrollTop
     }
+    if (!smoothScroll) tranBox.style.scrollBehavior = 'smooth'
   },
 
   /**

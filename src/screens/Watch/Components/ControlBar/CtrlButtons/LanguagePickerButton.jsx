@@ -31,7 +31,7 @@ export function LanguagePickerButtonWithRedux({
         'aria-label': `Language Menu`,
         //'aria-keyshortcuts': 'Shift+L',
         'aria-controls': 'watch-language-menu',
-        'aria-haspopup': 'true'
+        'aria-expanded' : menu === MENU_LANGUAGE ? 'false' : 'true',
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
