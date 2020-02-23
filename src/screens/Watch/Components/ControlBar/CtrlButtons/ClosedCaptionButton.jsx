@@ -25,7 +25,8 @@ export function ClosedCaptionButtonWithRedux({
       ariaTags={{
         'aria-label': `${isOpen ? 'Open' : 'Close'} Closed Caption`,
         //'aria-keyshortcuts': 'c',
-        'aria-controls': 'watch-cc-container'
+        'aria-controls': 'watch-cc-container',
+        'aria-expanded' : openCC ? 'false' : 'true',
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">

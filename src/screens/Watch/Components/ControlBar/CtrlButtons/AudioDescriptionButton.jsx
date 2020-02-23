@@ -20,7 +20,8 @@ export function AudioDescriptionButtonWithRedux({
       ariaTags={{
         'aria-label': `${openAD ? 'Open' : 'Close'} Audio Description`,
         //'aria-keyshortcuts': 'c',
-        'aria-controls': 'watch-ad-container'
+        'aria-controls': 'watch-ad-container',
+        'aria-expanded' : openAD ? 'false' : 'true',
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">

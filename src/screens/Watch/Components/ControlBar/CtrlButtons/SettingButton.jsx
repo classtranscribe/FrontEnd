@@ -28,7 +28,7 @@ export function SettingButtonWithRedux({
         'aria-label': 'Setting Menu',
         //'aria-keyshortcuts': 'SHIFT+C',
         'aria-controls': 'watch-setting-menu',
-        'aria-haspopup': 'true'
+        'aria-expanded' : menu === MENU_SETTING ? 'false' : 'true',
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">

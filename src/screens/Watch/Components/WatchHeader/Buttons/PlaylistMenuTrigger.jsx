@@ -27,7 +27,7 @@ function PlaylistMenuTrigger({
         'aria-label': `Playlists Menu`,
         //'aria-keyshortcuts': 'Shift+P',
         'aria-controls': 'watch-playlists-menu',
-        'aria-haspopup': 'true'
+        'aria-expanded' : menu === MENU_PLAYLISTS ? 'false' : 'true',
       }}
     >
       <span className="watch-btn-content watch-playlist-menu-tigger-content" tabIndex="-1">
