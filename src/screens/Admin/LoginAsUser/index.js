@@ -39,20 +39,12 @@ function LoginAsUser() {
               placeholder="Email"
               onChange={handleEmailInput}
             />
-            <div className="w-100 mt-4">
-              <CTForm required
-                value={password}
-                label="Password"
-                placeholder="Password"
-                onChange={handlePWInput}
-              />
-            </div>
 
             <div className="ct-d-r-end">
               <Button uppercase
                 text="Sign in"
                 color="teal"
-                disabled={!emailId || !password}
+                disabled={!emailId}
                 onClick={onSignIn}
               />
             </div>          

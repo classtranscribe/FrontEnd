@@ -26,7 +26,13 @@ export class CTUser {
    * @returns {Object} userInfo: 
    * - { firstName, lastName, fullName, picture, roles, exp, userId, emailId, universityId, authToken, metadata }
    */
-  getUserInfo () {
+  getUserInfo (options={ allowTestUserOverride: false }) {
+    
+    // if allow the user info be overrided by the test user
+    if (options.allowTestUserOverride && this.isTestAccount()) {
+      return this.getTestUserInfo()
+    }
+
     let userInfoStr = localStorage.getItem(USER_INFO_KEY)
     // console.log(JSON.parse(userInfoStr))
     return userInfoStr ? JSON.parse(userInfoStr) : {}
