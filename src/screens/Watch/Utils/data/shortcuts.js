@@ -81,7 +81,7 @@ export const shortcuts = [
       },
       {
         keys: [{key1: '⇧ Shift', key2: '/'}],
-        action: 'Search for caprions and videos'
+        action: 'Search for captions and videos'
       },
     ]
   },
