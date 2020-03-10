@@ -6,7 +6,7 @@ export const filterControl = {
 
   reverse: function(results=[], setResults) {
     if (results === ARRAY_EMPTY) return;
-    setResults(results.slice().reverse())
+    setResults((results.slice() || []).reverse())
   },
 
   // Function used to get RegExp tests for provided value

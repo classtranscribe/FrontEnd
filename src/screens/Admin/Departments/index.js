@@ -37,7 +37,7 @@ export default function DepartPane(props) {
         <>
           <CreateNewButton name='Create New Department' path='depart' id={currUni.id}/>
           <Divider horizontal>All Departments</Divider>
-          {departments.slice().reverse().map( depart => (
+          {(departments.slice() || []).reverse().map( depart => (
               <AdminListItem 
                 header={depart.name} 
                 path={'depart'}

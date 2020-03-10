@@ -92,7 +92,7 @@ export const setup = {
     let playlistResults = _.map( 
       playlists, 
       pl => _.map(
-        pl.medias.slice().reverse(), 
+        (pl.medias.slice() || []).reverse(), 
         me => ({ ...me, playlistId: pl.id})
       ) 
     )
