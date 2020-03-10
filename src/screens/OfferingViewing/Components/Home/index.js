@@ -10,6 +10,7 @@ import SectionList from './SectionList'
 import './index.css'
 // Vars
 import { api, user, handleData, util } from '../../../../utils'
+import { guide } from '../../Utils'
 
 export class Home extends React.Component {
   constructor(props) {
@@ -49,6 +50,8 @@ export class Home extends React.Component {
     }
     util.fixForAccessbitity('widgets/scripts')
     util.fixForAccessbitity('formSearchDropdown')
+
+    guide.run()
   }
 
   getDepartmentsByUniId = uniId => {

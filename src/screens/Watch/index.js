@@ -26,7 +26,7 @@ import { util } from '../../utils'
 import { 
   watchStore, 
   connectWithRedux,
-
+  guide,
   setup,
   videoControl,
   transControl, 
@@ -59,6 +59,8 @@ export class WatchWithRedux extends React.Component {
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
     this.addWindowResizeListener()
+    //
+    guide.run()
   }
 
   addWindowResizeListener = () => {

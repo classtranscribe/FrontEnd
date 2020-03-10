@@ -10,7 +10,9 @@ export { api              } from './HTTP'
 
 export * from './constants'
 
-export { CTPreference } from './js/CTPreference'
+/** Templates */
+export { CTPreference     } from './js/CTPreference'
+export { CTUserGuide      } from './js/CTUserGuide'
 
 
 /**
