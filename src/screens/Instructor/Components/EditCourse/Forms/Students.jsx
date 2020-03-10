@@ -111,7 +111,7 @@ function StudentsWithRedux({
                   !results.length ? 
                   <p className="guide pt-5 w-100 d-flex justify-content-center">NONE</p> 
                   :
-                  results.slice().reverse().map( email => (
+                  (results.slice() || []).reverse().map( email => (
                     <div className="ip-f-email-item " key={email}>
                       {email}
                       <Icon 

@@ -68,7 +68,7 @@ export class OfferingViewing extends React.Component {
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
-        this.completeOfferings(data.slice().reverse())
+        this.completeOfferings((data.slice() || []).reverse())
         api.contentLoaded()
       })
       .catch(error => {

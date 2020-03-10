@@ -134,7 +134,7 @@ function StaffsWithRedux({
                   </div>
                 }
                 {
-                  results.slice().reverse().map( email => (
+                  (results.slice() || []).reverse().map( email => (
                     <div className="ip-f-email-item" key={email}>
                       {email}
                       <Icon 
