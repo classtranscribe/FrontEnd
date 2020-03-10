@@ -16,6 +16,7 @@ import {
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
+import 'mk-guide/style.css'
 
 import { user } from './utils'
 

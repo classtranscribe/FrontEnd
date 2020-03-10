@@ -14,7 +14,7 @@ class OffViewUserGuide extends CTUserGuide {
   }
 
   run() {
-    // this.start()
+    this.start()
   }
 }
 

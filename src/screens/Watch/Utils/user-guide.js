@@ -18,7 +18,7 @@ class WatchUserGuide extends CTUserGuide {
   }
 
   run() {
-    // this.start()
+    this.start()
   }
 }
 
