@@ -13,6 +13,16 @@ export const httpGET = {
     return http.get(path, api.withAuth({ params }))
   },
 
+  // get latest git commit of FrontEnd repo
+  getLatestGitCommitData: function() {
+    return http.get('https://api.github.com/repos/classtranscribe/Frontend/commits/master')
+  },
+
+  getLatestGitCommitSHA: async function() {
+    let { data } = await this.getLatestGitCommitData()
+    return data.sha
+  },
+
 
   // User Metadata
   getUserMetaData: function() {

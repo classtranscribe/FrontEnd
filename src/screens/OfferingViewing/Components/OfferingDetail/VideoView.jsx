@@ -26,7 +26,7 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHi
       </h2>
 
       <div role="list">
-        {medias.slice().reverse().map( media => (
+        {(medias.slice() || []).reverse().map( media => (
           <Video 
             key={media.id} 
             media={media} 

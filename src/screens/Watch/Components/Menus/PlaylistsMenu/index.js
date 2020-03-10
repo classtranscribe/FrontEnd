@@ -65,7 +65,7 @@ function PlaylistsMenu({
 
       {/* Videos view */}
       <Videos 
-        medias={selectedPlaylist.medias.slice().reverse()} 
+        medias={(selectedPlaylist.medias.slice() || []).reverse()} 
         currMediaId={currMediaId}  
         watchHistory={watchHistory}
         selectedPlaylist={selectedPlaylist}

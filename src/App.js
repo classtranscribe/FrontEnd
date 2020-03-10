@@ -21,7 +21,7 @@ import { user } from './utils'
 
 class App extends React.Component {
   componentDidMount() {
-    user.checkExpiration()
+    user.validate()
   }
 
   render() {

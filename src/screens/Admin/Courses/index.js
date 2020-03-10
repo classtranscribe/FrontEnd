@@ -58,7 +58,7 @@ export default function CoursePane(props) {
           <CreateNewButton name='Create New Course' path='course' id={currDepart.id}/>
 
           <Divider horizontal>All Courses</Divider>
-          {courses.slice().reverse().map( course => (
+          {(courses.slice() || []).reverse().map( course => (
               <AdminListItem 
                 header={`${currDepart.acronym}${course.courseNumber}`} 
                 path={'course'}

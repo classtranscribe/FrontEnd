@@ -15,7 +15,7 @@ export default function UniPane({state: { universities }}) {
       <Route path='/admin/uni/:type?=:id' component={UniversityEditing}/>      
       <CreateNewButton name='Create New University' id='new' path='uni'/>
       <Divider horizontal>All Universities</Divider>
-      {universities.slice().reverse().map( university => (
+      {(universities.slice() || []).reverse().map( university => (
           <AdminListItem 
             header={university.name} 
             path={'uni'}

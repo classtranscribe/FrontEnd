@@ -36,7 +36,7 @@ export default function TermPane(props) {
         <>
           <CreateNewButton name='Create New Terms' path='term' id={currUni.id}/>
           <Divider horizontal>All Terms</Divider>
-          {terms.slice().reverse().map( term => (
+          {(terms.slice() || []).reverse().map( term => (
               <AdminListItem 
                 header={term.name} 
                 path={'term'}

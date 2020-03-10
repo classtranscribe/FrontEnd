@@ -148,7 +148,7 @@ export const setup = {
 
   getTermsByUniversityId: async function() {
     let { data } = await api.getTermsByUniId(user.getUserInfo().universityId)
-    return data.slice().reverse()
+    return (data.slice() || []).reverse()
   },
 
   getFullNumber: function(offs) {
@@ -201,7 +201,7 @@ export const setup = {
     })
   
     // console.log('offerings', offerings)
-    return offerings.slice().reverse()
+    return (offerings.slice() || []).reverse()
   },
 
   getInstructorsByOfferingId: async function(offeringId, setInstructors) {
