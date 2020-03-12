@@ -58,8 +58,12 @@ export const api = {
     return http.post(this.baseUrl() + '/api/Account/SignIn', { auth0Token })
   },
 
-  testAccountSignIn: function(emailId, password) {
-    return http.post(this.baseUrl() + '/api/Account/TestSignIn', { emailId, password })
+  testAccountSignIn: function() {
+    return http.post(this.baseUrl() + '/api/Account/TestSignIn')
+  },
+
+  loginAsAccountSignIn: function(emailId, password) {
+    return http.post(this.baseUrl() + '/api/Account/LoginAs', { emailId, password })
   },
 
   withAuth: function (configs) {

@@ -22,7 +22,7 @@ export default function PlaylistPlaceholder({ noPlaylist, signIn }) {
         && 
         <div className="w-100 d-flex flex-column justify-content-center align-items-center">
           <p className="text-muted">Please Sign In to Watch the Videos</p>
-          <Button secondary compact onClick={() => user.login()}>Sign In</Button>
+          <Button secondary compact onClick={() => user.signin()}>Sign In</Button>
         </div>
       }
     </div>

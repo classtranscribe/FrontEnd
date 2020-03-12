@@ -61,11 +61,11 @@ export default function ProfileMenu({ darkMode }) {
                 Signed in as <strong>{fullName}</strong><br/>
                 <span>{uniName}</span>
                 {
-                  user.isTestAccount()
+                  user.isLoginAsAccount()
                   &&
                   <>
                     <br/><br/>
-                    <span>You are accessing content of <strong>{user.getTestUserInfo().emailId}</strong></span>
+                    <span>You are accessing content of <strong>{user.getLoginAsUserInfo().emailId}</strong></span>
                     <br/>
                   </>
                 }
@@ -129,8 +129,11 @@ export default function ProfileMenu({ darkMode }) {
           onClose={handleClose}
           PaperProps={{style: menuStyle}}
         >
-          <MenuItem title="Sign in" aria-label="Sign in" onClick={() => user.login()}>
+          <MenuItem aria-label="Sign In" onClick={() => user.signin()}>
             <Typography style={fontStyle}>Sign In</Typography>
+          </MenuItem>
+          <MenuItem aria-label="Test Sign In" onClick={() => user.testSignIn()}>
+            <Typography style={fontStyle}>Test Sign In</Typography>
           </MenuItem>
         </Menu>
       }

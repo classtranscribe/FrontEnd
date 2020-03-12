@@ -36,7 +36,7 @@ function SearchResult({ loading, results, searchValue }) {
             <>
               <span>Can't Find Your Courses?</span>
               <span>Sign In to See More</span>
-              <Button compact onClick={() => user.login()}>Sign In</Button>
+              <Button compact onClick={() => user.signin()}>Sign In</Button>
             </>
           }
         </div>

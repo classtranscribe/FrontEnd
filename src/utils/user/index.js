@@ -30,14 +30,14 @@ export class CTUser {
   // ---------------------------------------------------------------------------
 
   // Login the user
-  login() {
+  signin() {
     auth0Client.signIn()
   }
 
   // login the user and clear the localStorage
-  reLogin() {
+  reSignin() {
     localStorage.clear()
-    this.login()
+    this.signin()
   }
 
   // logout the user
@@ -101,7 +101,7 @@ export class CTUser {
 
     // if authToken expired relogin the user
     if (exp < new Date()) {
-      this.reLogin()
+      this.reSignin()
     }
   }
 
@@ -157,8 +157,8 @@ export class CTUser {
   getUserInfo (options={ allowTestUserOverride: false }) {
     
     // if allow the user info be overrided by the test user
-    if (options.allowTestUserOverride && this.isTestAccount()) {
-      return this.getTestUserInfo()
+    if (options.allowTestUserOverride && this.isLoginAsAccount()) {
+      return this.getLoginAsUserInfo()
     }
 
     let userInfoStr = localStorage.getItem(USER_INFO_KEY)
@@ -173,7 +173,7 @@ export class CTUser {
       return this.getUserInfo().userId
     }
 
-    return this.getTestUserInfo().userId || this.getUserInfo().userId
+    return this.getLoginAsUserInfo().userId || this.getUserInfo().userId
   }
 
   // set the authorization token
@@ -187,7 +187,7 @@ export class CTUser {
       return localStorage.getItem(AUTH_TOKEN_KEY)
     }
 
-    return this.getTestUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY)
+    return this.getLoginAsUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY)
   }
 
   // return true if the user is logged in
@@ -213,21 +213,21 @@ export class CTUser {
   // ---------------------------------------------------------------------------
 
   // return true if an admin is logged in as another account
-  isTestAccount() {
-    return Boolean(this.getTestUserInfo().emailId)
+  isLoginAsAccount() {
+    return Boolean(this.getLoginAsUserInfo().emailId)
   }
 
   // return the testing user info if an admin is logged in as another account
-  getTestUserInfo() {
+  getLoginAsUserInfo() {
     // return {}
     let dataStr = localStorage.getItem(TEST_USER_INFO_KEY)
     return dataStr ? JSON.parse(dataStr) : {}
   }
 
   // for admin to sign in as another account
-  async testAccountSignIn (emailId, password) {
+  async loginAsAccountSignIn(emailId, password) {
     try {
-      const { data } = await api.testAccountSignIn(emailId, password)
+      const { data } = await api.loginAsAccountSignIn(emailId, password)
       localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data))
       window.location.reload()
       // console.log(data)
@@ -237,7 +237,7 @@ export class CTUser {
   }
 
   // logout the testing account for admin
-  testAccountSignOut () {
+  loginAsAccountSignOut () {
     localStorage.removeItem(TEST_USER_INFO_KEY)
     window.location.reload()
   }

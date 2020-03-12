@@ -11,23 +11,23 @@ function LoginAsUser() {
    const handlePWInput = text => setPassword(text)
 
    const onSignIn = () => {
-     user.testAccountSignIn(emailId, password)
+     user.loginAsAccountSignIn(emailId, password)
    }
 
   return (
     <div id="ap-lsu" className="w-100">
       <div className="w-100 ct-d-c-center pt-5">
         {
-          user.isTestAccount() 
+          user.isLoginAsAccount() 
           ?
           <div className="w-50">
             <h2>LOGIN AS USER</h2>
             <div className="mb-3 text-dark">
-              Signed in as <strong>{user.getTestUserInfo().emailId}</strong>
+              Signed in as <strong>{user.getLoginAsUserInfo().emailId}</strong>
             </div>
             <Button uppercase
               text="Sign Out"
-              onClick={user.testAccountSignOut}
+              onClick={user.loginAsAccountSignInAccountSignOut}
             />
           </div>
           :

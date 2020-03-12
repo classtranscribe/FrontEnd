@@ -92,7 +92,7 @@ export function Sidebar({
             <Button 
               title="sign in" 
               aria-label="sign in"
-              onClick={() => user.login()}
+              onClick={() => user.signin()}
             >
               Sign In
             </Button>

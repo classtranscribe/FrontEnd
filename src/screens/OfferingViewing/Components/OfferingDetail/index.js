@@ -38,7 +38,7 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
   }
 
   const checkAccessType = accessType => {
-    if (accessType !== 0 && !user.isLoggedIn()) user.login() 
+    if (accessType !== 0 && !user.isLoggedIn()) user.signin() 
   }
 
   const { generalError } = useCTContext()
