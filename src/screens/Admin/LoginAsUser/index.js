@@ -5,13 +5,13 @@ import { user } from '../../../utils'
 
 function LoginAsUser() {
    const [emailId, setEmailId] = useState('')
-   const [password, setPassword] = useState('')
+  //  const [password, setPassword] = useState('')
 
    const handleEmailInput = text => setEmailId(text)
-   const handlePWInput = text => setPassword(text)
+  //  const handlePWInput = text => setPassword(text)
 
    const onSignIn = () => {
-     user.loginAsAccountSignIn(emailId, password)
+     user.loginAsAccountSignIn(emailId)
    }
 
   return (
@@ -27,7 +27,7 @@ function LoginAsUser() {
             </div>
             <Button uppercase
               text="Sign Out"
-              onClick={user.loginAsAccountSignInAccountSignOut}
+              onClick={user.loginAsAccountSignOut}
             />
           </div>
           :

@@ -3,7 +3,7 @@ import { isDeveloping } from "./constants"
 class ReactEnv {
   constructor() {
     const reactEnv = window.env
-    console.log('reactEnv', reactEnv)
+    // console.log('reactEnv', reactEnv)
     this._baseURL = reactEnv.REACT_APP_API_BASE_URL
     this._testingBaseURL = reactEnv.REACT_APP_TESTING_BASE_URL
     this._auth0Domain = reactEnv.AUTH0_DOMAIN

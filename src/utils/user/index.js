@@ -8,6 +8,7 @@ import decoder from 'jwt-decode'
 import auth0Client from './auth0'
 import { api } from '../HTTP'
 import { util } from '../index'
+import { env } from 'utils/env'
 
 export { userAction } from './useraction'
 
@@ -23,7 +24,9 @@ export const ROLE_INST = 'Instructor'
 
 
 export class CTUser {
-  constructor() {}
+  constructor() {
+    this.testAccountSignIn = this.testAccountSignIn.bind(this)
+  }
 
   // ---------------------------------------------------------------------------
   // Sign in/out actions
@@ -43,12 +46,17 @@ export class CTUser {
   // logout the user
   signout () { 
     // remove possible localStorage
+    let userInfo = this.getUserInfo()
     localStorage.clear()
-    auth0Client.signOut()
+    if (userInfo === env._baseURL) {
+      auth0Client.signOut()
+    } else {
+      window.location = window.location.origin
+    }
   }
 
   // Setup the user after being logged in
-  async setUpUser () {
+  async setUpUser() {
     if (!this.isLoggedIn()) {
       await auth0Client.handleAuthentication()
       const { data } = await api.accountSignIn(auth0Client.getAuth0Token())
@@ -132,6 +140,7 @@ export class CTUser {
   saveUserInfo (userInfo) {
     // info from JWT token
     const tokenInfo = decoder(userInfo.authToken)
+    let { iss } = tokenInfo
     let exp = new Date(tokenInfo.exp * 1000) // expiration date
     // info from auth0
     const { given_name, family_name, name, picture } = auth0Client.getProfile()
@@ -139,11 +148,11 @@ export class CTUser {
     let { emailId, universityId, userId } = userInfo
     // store userInfo in localStorage
     localStorage.setItem(USER_INFO_KEY, JSON.stringify({
-      emailId, universityId, userId, exp, picture,
+      emailId, universityId, userId, exp, picture, iss,
       roles: tokenInfo[TOKEN_INFO_KEY],
-      firstName: given_name,
+      firstName: given_name || emailId,
       lastName: family_name,
-      fullName: name,
+      fullName: name || emailId,
     }))
   }
 
@@ -225,9 +234,9 @@ export class CTUser {
   }
 
   // for admin to sign in as another account
-  async loginAsAccountSignIn(emailId, password) {
+  async loginAsAccountSignIn(emailId) {
     try {
-      const { data } = await api.loginAsAccountSignIn(emailId, password)
+      const { data } = await api.loginAsAccountSignIn(emailId)
       localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data))
       window.location.reload()
       // console.log(data)
@@ -242,6 +251,21 @@ export class CTUser {
     window.location.reload()
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Dev - test sign in
+  // ---------------------------------------------------------------------------
+  async testAccountSignIn() {
+    let { data } = await api.testAccountSignIn()
+    // console.log(data)
+    // console.log(decoder(data.authToken))
+    let { authToken } = data
+    // Save AuthToken
+    this.authToken = authToken
+    // Save user info
+    this.saveUserInfo(data)
+    window.location = window.location.origin
+  }
 }
 
 export const user = new CTUser()

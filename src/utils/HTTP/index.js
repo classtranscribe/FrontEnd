@@ -59,14 +59,15 @@ export const api = {
   },
 
   testAccountSignIn: function() {
-    return http.post(this.baseUrl() + '/api/Account/TestSignIn')
+    return http.get(this.baseUrl() + '/api/Account/TestSignIn')
   },
 
-  loginAsAccountSignIn: function(emailId, password) {
-    return http.post(this.baseUrl() + '/api/Account/LoginAs', { emailId, password })
+  loginAsAccountSignIn: function(emailId) {
+    console.log(this.withAuth())
+    return http.post(this.baseUrl() + '/api/Account/LoginAs', { emailId }, this.withAuth())
   },
 
-  withAuth: function (configs) {
+  withAuth: function (configs={}) {
     return {
       ...configs,
       headers: {

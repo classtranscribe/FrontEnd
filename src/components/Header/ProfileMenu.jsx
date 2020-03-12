@@ -129,10 +129,10 @@ export default function ProfileMenu({ darkMode }) {
           onClose={handleClose}
           PaperProps={{style: menuStyle}}
         >
-          <MenuItem aria-label="Sign In" onClick={() => user.signin()}>
+          <MenuItem aria-label="Sign In" onClick={user.signin}>
             <Typography style={fontStyle}>Sign In</Typography>
           </MenuItem>
-          <MenuItem aria-label="Test Sign In" onClick={() => user.testSignIn()}>
+          <MenuItem aria-label="Test Sign In" onClick={user.testAccountSignIn}>
             <Typography style={fontStyle}>Test Sign In</Typography>
           </MenuItem>
         </Menu>
