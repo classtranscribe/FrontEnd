@@ -25,7 +25,15 @@ export const ROLE_INST = 'Instructor'
 
 export class CTUser {
   constructor() {
+    this.signin = this.signin.bind(this)
+    this.reSignin = this.reSignin.bind(this)
+    this.signout = this.signout.bind(this)
+    this.isLoggedIn = this.isLoggedIn.bind(this)
+    this.validate = this.validate.bind(this)
+    this.checkGitUpdates = this.checkGitUpdates.bind(this)
     this.testAccountSignIn = this.testAccountSignIn.bind(this)
+    this.loginAsAccountSignIn = this.loginAsAccountSignIn.bind(this)
+    this.loginAsAccountSignOut = this.loginAsAccountSignOut.bind(this)
   }
 
   // ---------------------------------------------------------------------------
