@@ -38,7 +38,7 @@
   padding: 1em;
   border-radius: 10px;
   margin-top: -6em;
-  background: var(--ct-ip-grey-2);
+  background: var(--ct-ip-grey-1);
 }
 
 .ip-f-seled-course-title {
@@ -79,7 +79,7 @@
     flex-direction: column;
     padding: 10px;
     margin-top: 10px;
-    background: rgb(238, 238, 238);
+    background: var(--ct-ip-grey-1);
     width: 100%;
     border-radius: 5px;
     color: rgb(100, 100, 100);}
@@ -101,7 +101,7 @@
 }
 .ip-f-email-container {
   height: 100%;
-  background: rgb(238, 238, 238);
+  background: var(--ct-ip-grey-1);
   border-radius: 10px;
   padding: 15px 10px 10px 10px;
   display: flex;
@@ -127,7 +127,7 @@
 
 .ip-f-email-group {
   height: 200px;
-  background: rgb(238, 238, 238);
+  background: var(--ct-ip-grey-1);
   border-radius: 10px;
   padding: 10px 5px 5px 5px;
   display: flex;
