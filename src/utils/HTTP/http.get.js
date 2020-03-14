@@ -1,4 +1,5 @@
 import { api, http } from './index'
+import { env } from '../env'
 
 /**
  * GET
@@ -15,7 +16,7 @@ export const httpGET = {
 
   // get latest git commit of FrontEnd repo
   getLatestGitCommitData: function() {
-    return http.get('https://api.github.com/repos/classtranscribe/Frontend/commits/master')
+    return http.get(env.frontendCommitEndpoint)
   },
 
   getLatestGitCommitSHA: async function() {

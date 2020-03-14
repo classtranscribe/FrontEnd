@@ -134,7 +134,7 @@ export const setup = {
 
   checkAuthentication: function() {
     if (!user.isLoggedIn()) {
-      user.login()
+      user.signin()
     } else if (!user.isInstructor()) {
       window.location = util.links.notfound404()
     }
@@ -295,7 +295,10 @@ export const setup = {
     try {
       this.playlists_ = ARRAY_INIT
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
-      // console.error('playlists', data)
+      // if switched offering while loading data
+      if (data.length > 0 && data[0].offeringId !== setup.offering().id) return
+
+      // otherwise, set playlists
       _.forEach(data, pl => _.reverse(pl.medias))
 
       if (data.length === 0) data = ARRAY_EMPTY
