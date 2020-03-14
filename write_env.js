@@ -2,7 +2,7 @@ require('dotenv').config();
 var fs = require('fs');
 var json = process.env
 var str = "window.env={}\n"
-var prefixes = ['REACT_APP_', 'AUTH0_', 'DEV_ENV']
+var prefixes = ['REACT_APP_', 'AUTH0_', 'TEST_SIGN_IN']
 
 for (i = 0; i < prefixes.length; i++) { 
     console.log(prefixes[i]);

@@ -8,7 +8,7 @@ class ReactEnv {
     this._testingBaseURL = reactEnv.REACT_APP_TESTING_BASE_URL
     this._auth0Domain = reactEnv.AUTH0_DOMAIN
     this._auth0ClientID = reactEnv.AUTH0_CLIENT_ID
-    this._dev = reactEnv.DEV_ENV
+    this._dev = reactEnv.TEST_SIGN_IN
     this._frontendCommitEndpoint = reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT
   }
 
