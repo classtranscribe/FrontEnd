@@ -4,7 +4,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
-import { user, util } from '../../../utils'
+import { user, util, env } from '../../../utils'
 import { Icon, Button } from 'semantic-ui-react'
 
 const EK_COURSES = 'courses'
@@ -34,6 +34,7 @@ export function Sidebar({
 
   const style = { marginLeft: displaySideBar ? '0' : '-20rem' }
 
+  const signin = () => env.dev ? user.testAccountSignIn() : user.signin()
   const handleTabChange = () => showSiderBar(window.innerWidth > 900)
 
   return (
@@ -92,7 +93,7 @@ export function Sidebar({
             <Button 
               title="sign in" 
               aria-label="sign in"
-              onClick={() => user.login()}
+              onClick={signin}
             >
               Sign In
             </Button>

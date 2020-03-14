@@ -20,7 +20,7 @@ export class ClassTranscribeLinks {
   personalAnalytics() { return"/home/personal-report" }
   admin() { return'/admin' }
 
-  login() { return'/login' }
+  signin() { return'/login' }
   logout() { return'/logout' }
 
   instructor() { return'/instructor' }

@@ -22,7 +22,6 @@ function StaffsWithRedux({
   const [error, setError] = useState(null)
 
   const myEmailId = user.getUserInfo({ allowTestUserOverride: true }).emailId
-  console.log('user.getUserInfo()', user.getUserInfo())
 
   useEffect(() => {
     setResults(emails)
