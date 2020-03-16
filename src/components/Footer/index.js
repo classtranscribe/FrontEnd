@@ -23,11 +23,11 @@ export function ClassTranscribeFooter() {
             <a href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</a>
           </Grid.Column>
           <Grid.Column className="copy">
-            &copy; 2016-2019 UIUC
+            &copy; 2016-2020 University of Illinois
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      {/* <div className="copy">&copy; 2016-2019 UIUC</div> */}
+      {/* <div className="copy">&copy; 2016-2020 University of Illinois</div> */}
     </footer>
   )
 }
