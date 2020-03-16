@@ -17,6 +17,7 @@ import TimeDisplay from './TimeDisplay'
 import ProgressBar from './ProgressBar'
 
 import './index.css'
+import { isMobile } from 'react-device-detect'
 
 export function ControlBarWithRedux({
   media={},
@@ -24,7 +25,7 @@ export function ControlBarWithRedux({
 }) {
   const { isTwoScreen } = media
 
-  const showScreenModes = isTwoScreen && !bulkEditing
+  const showScreenModes = isTwoScreen && !bulkEditing && !isMobile
   return (
     <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
       <ProgressBar />
@@ -44,8 +45,11 @@ export function ControlBarWithRedux({
         <ClosedCaptionButton />
         <AudioDescriptionButton />
         <LanguagePickerButton />
-        {showScreenModes && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
-        {/* <DownloadButton /> */}
+        {
+          showScreenModes 
+          && 
+          <ScreenModeSettingButton isTwoScreen={isTwoScreen} />
+        }
         <SettingButton />
         <FullscreenButton />
       </div>

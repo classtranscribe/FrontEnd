@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import { isMobile } from 'react-device-detect'
 import './index.css'
 import './playerModes.css'
 import PlayerWrapper from './PlayerWrapper'
@@ -36,18 +37,25 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
       // set src for videos
       const { videos, isTwoScreen } = media
       const { srcPath1, srcPath2 } = videos[0]
-      if (isTwoScreen) setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE)
-      this.setState({ 
-        srcPath1, 
-        srcPath2
-      })
+      // set src paths
+      this.setState({ srcPath1, srcPath2 })
+
+      // if not a mobile device and is two-screen media, 
+      // choose a mode according to the window's width
+      if (isTwoScreen && !isMobile) setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE)
+
       // register video elem for ctrlor
       control.init(this.videoNode1, this.videoNode2, this.props)
-      // console.log('this.videoNode1.textTracks', this.videoNode1.textTracks)
     }
   }
 
-  // Pri
+  handlePause = position => () => {
+    if (position === PRIMARY) {
+      control.handlePause()
+    }
+  }
+
+  // Event handlers for primary video
   onPause = e => {
     control.onPause(e)
   }
@@ -93,7 +101,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onError(e, true)
   }
 
-  // Sec
+  // Event handlers for secondary video
   onLoadStartSec = e => {
     control.onLoadStart(e, false)
   }
@@ -113,16 +121,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onError(e, false)
   }
 
-  handlePause = position => () => {
-    if (position === PRIMARY) {
-      control.handlePause()
-    }
-  }
-
   render() {
     const { srcPath1, srcPath2 } = this.state
     const { media, mode, isSwitched, transView } = this.props
-    const { isTwoScreen, /* transcriptions */ } = media
+    const { isTwoScreen, /** transcriptions */ } = media
 
     const player1Position = isSwitched ? SECONDARY : PRIMARY
     const player2Position = isSwitched ? PRIMARY : SECONDARY
@@ -136,7 +138,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
         >
           <div className="ct-video-contrainer">
             <PlayerWrapper isPrimary={!isSwitched} />
-            <video
+            <video playsInline autoPlay={isMobile}
               className="ct-video"
               id="ct-video-1"
               ref={node => this.videoNode1 = node}
@@ -154,11 +156,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onSeeked={this.onSeekedPri}
               onError={this.onErrorPri}
             >
-              {
-                Boolean(srcPath1) 
-                && 
-                <source src={srcPath1} type="video/mp4"/>
-              }
+              {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4"/>}
+              Your browser doesn't support video tag
             </video>
           </div>
         </div>
@@ -172,7 +171,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           >
             <div className="ct-video-contrainer">
               <PlayerWrapper isPrimary={isSwitched} />
-              <video muted
+              <video muted playsInline
                 className="ct-video"
                 id="ct-video-2"
                 ref={node => this.videoNode2 = node}
@@ -184,6 +183,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 onError={this.onErrorSec}
               >
                 {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
+                Your browser doesn't support video tag
               </video>
             </div>
           </div>

@@ -9,7 +9,7 @@ import {
   MENU_DOWNLOAD,
   MENU_LANGUAGE,
   MENU_SHORTCUTS,
-  MENU_BEFORE_HIDE,
+  // MENU_BEFORE_HIDE,
 } from '../../Utils'
 import PlaylistsMenu from './PlaylistsMenu'
 import PlaybackrateMenu from './PlaybackrateMenu'
@@ -36,34 +36,41 @@ export function MenusWithRedux({
   return (
     <div className={`watch-menus`} data-menu-type={menu}>
       <div className="watch-menu-blur" aria-hidden="true" ></div>
-      <PlaylistsMenu 
-        show={menu === MENU_PLAYLISTS}  
-        onClose={closeMenu}
-      />
-      <PlaybackrateMenu
-        show={menu === MENU_PLAYBACKRATE}  
-        onClose={closeMenu}
-      />
-      <ScreenModeMenu 
-        show={menu === MENU_SCREEN_MODE}
-        onClose={closeMenu}
-      />
-      <SettingMenu 
-        show={menu === MENU_SETTING}
-        onClose={closeMenu}
-      />
-      <LanguageMenu
-        show={menu === MENU_LANGUAGE}
-        onClose={closeMenu}
-      />
-      <DownloadMenu
-        show={menu === MENU_DOWNLOAD}
-        onClose={closeMenu}
-      />
-      <ShortcutsTable
-        show={menu === MENU_SHORTCUTS}
-        onClose={closeMenu}
-      />
+      {
+        menu === MENU_PLAYLISTS
+        &&
+        <PlaylistsMenu onClose={closeMenu} />
+      }
+      {
+        menu === MENU_PLAYBACKRATE 
+        && 
+        <PlaybackrateMenu onClose={closeMenu} />
+      }
+      {
+        menu === MENU_SCREEN_MODE 
+        && 
+        <ScreenModeMenu onClose={closeMenu} />
+      }
+      {
+        menu === MENU_SETTING
+        &&
+        <SettingMenu onClose={closeMenu} />
+      }
+      {
+        menu === MENU_LANGUAGE
+        &&
+        <LanguageMenu onClose={closeMenu} />
+      }
+      {
+        menu === MENU_DOWNLOAD
+        &&
+        <DownloadMenu onClose={closeMenu} />
+      }
+      {
+        menu === MENU_SHORTCUTS
+        &&
+        <ShortcutsTable onClose={closeMenu} />
+      }
     </div>
   )
 }

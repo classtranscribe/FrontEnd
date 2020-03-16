@@ -5,11 +5,12 @@ import _ from 'lodash'
 import { userAction } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
+import { isMobile } from 'react-device-detect'
 // import { menuControl } from './menu.control'
 
 import { 
   NORMAL_MODE, PS_MODE, NESTED_MODE, /** THEATRE_MODE, */
-  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR,
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR, HIDE_TRANS,
 } from './constants.util'
 
 
@@ -17,9 +18,11 @@ function onFullScreenChange(e) {
   const { setFullscreen } = videoControl.externalFunctions
   if (videoControl.isFullscreen) {
     setFullscreen(false)
+    transControl.transView(transControl.LAST_TRANS_VIEW, { updatePrefer: false })
     videoControl.isFullscreen = false
   } else {
     setFullscreen(true)
+    transControl.transView(HIDE_TRANS, { updatePrefer: false })
     videoControl.isFullscreen = true
   }
 }
@@ -62,7 +65,7 @@ export const videoControl = {
   clear: function() {
     this.isSwitched = false
     this.isFullscreen = false
-    this.currentMode = NORMAL_MODE
+    this.SCREEN_MODE = NORMAL_MODE
 
     this.video1CanPlay = false
     this.video2CanPlay = false
@@ -89,8 +92,8 @@ export const videoControl = {
     this.isSwitched = toSet
   },  
 
-  currentMode: NORMAL_MODE,
-  lastMode: NORMAL_MODE,
+  SCREEN_MODE: NORMAL_MODE,
+  LAST_SCREEN_MODE: NORMAL_MODE,
   mode: function(mode, config={}) {
     const { setMode } = this.externalFunctions
     const { sendUserAction=true, restore=false } = config
@@ -98,25 +101,40 @@ export const videoControl = {
       if (window.innerWidth <= 900 && mode === PS_MODE) {
         mode = NESTED_MODE
       } else if (restore) {
-        mode = this.lastMode
+        mode = this.LAST_SCREEN_MODE
       }
       // if (mode === THEATRE_MODE) {
       //   transControl.transView(HIDE_TRANS)
       // }
       setMode(mode)
-      this.lastMode = this.currentMode
-      this.currentMode = mode
+      this.LAST_SCREEN_MODE = this.SCREEN_MODE
+      this.SCREEN_MODE = mode
       if (sendUserAction) userAction.screenmodechange(this.currTime(), mode)
     }
   },
-  addWindowResizeListenerForScreenMode: function() {
-    if (window.innerWidth < 900) {
-      if (this.currentMode === PS_MODE) {
-        this.mode(NESTED_MODE, { sendUserAction: false })
-      } 
+  addWindowEventListener: function() {
+    const that = this
+    if (isMobile) {
+      window.addEventListener('orientationchange', () => {
+        console.log('window.orientation', window.orientation)
+        if ([90, -90].includes(window.orientation)) {
+          if (that.currTime() > 0) {
+            that.enterFullScreen()
+          }
+        }
+      })
+    } else {
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 900) {
+          if (that.SCREEN_MODE === PS_MODE) {
+            that.mode(NESTED_MODE, { sendUserAction: false })
+          } 
+        }
+      })
     }
   },
 
+  PAUSED: true,
   paused: function() {
     if (!this.videoNode1) return;
     return this.videoNode1.paused
@@ -137,8 +155,11 @@ export const videoControl = {
     if (this.videoNode2) this.videoNode2.pause()
 
     const { setPause } = this.externalFunctions
-    if (setPause) setPause(true)
-    userAction.pause(this.currTime())
+    if (setPause) {
+      setPause(true)
+      this.PAUSED = true
+      userAction.pause(this.currTime())
+    }
   },
 
   play: function()  {
@@ -146,8 +167,11 @@ export const videoControl = {
     if (this.videoNode2) this.videoNode2.play()
 
     const { setPause } = this.externalFunctions
-    if (setPause) setPause(false)
-    userAction.play(this.currTime())
+    if (setPause) {
+      setPause(false)
+      this.PAUSED = false
+      userAction.play(this.currTime())
+    }
   },
 
   currTime: function(time) {
@@ -230,47 +254,64 @@ export const videoControl = {
   /** Fullscreen */
   addEventListenerForFullscreenChange: function() {
     const { setFullscreen } = this.externalFunctions
-    if (setFullscreen) {
+    if (setFullscreen && !isMobile) {
       document.removeEventListener('fullscreenchange', onFullScreenChange, true)
       document.addEventListener('fullscreenchange', onFullScreenChange, true)
     }
   },
 
   handleFullScreen: function() {
-    if (this.isFullscreen) {
-      this.exitFullScreen()
-    } else {
+    if (!this.isFullscreen || isMobile) {
       this.enterFullScreen()
+    } else {
+      this.exitFullScreen()
     }
   },
 
   enterFullScreen: function() {
     if (!this.videoNode1) return;
-    var elem = document.getElementById("watch-page") || {}
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      elem.msRequestFullscreen();
+    try {
+      var elem = document.getElementById("watch-page") || {}
+      if (isMobile) {
+        elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
+      }
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.webkitEnterFullscreen) { /* Safari IOS Mobile */
+        elem.webkitEnterFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      } 
+      userAction.fullscreenchange(this.currTime(), true)
+    } catch (error) {
+      console.error('Failed to enter fullscreen.')
     }
-    userAction.fullscreenchange(this.currTime(), true)
   },
 
   exitFullScreen: function() {
-    if (!this.videoNode1) return;
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { /* Firefox */
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { /* IE/Edge */
-      document.msExitFullscreen();
+    try {
+      if (isMobile) {
+        const elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
+        console.log(elem.webkitExitFullscreen)
+      }
+      if (!this.videoNode1) return;
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+      }
+      userAction.fullscreenchange(this.currTime(), false)
+    } catch (error) {
+      console.error('Failed to exit fullscreen.')
     }
-    userAction.fullscreenchange(this.currTime(), false)
   },
 
   /**
@@ -366,6 +407,7 @@ export const videoControl = {
   },
 
   onPlaying: function(e, priVideo=true) {
+    if (this.PAUSED) this.play()
     this.setCTPEvent(CTP_PLAYING, priVideo)
   },
 

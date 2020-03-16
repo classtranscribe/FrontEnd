@@ -147,10 +147,6 @@ export class Admin extends React.Component {
     })
   }
 
-  componentWillMount() {
-    // localStorage.removeItem('activePane')
-  }
-
   onSignOut = () => {
     user.signout()
     this.props.history.goBack()
