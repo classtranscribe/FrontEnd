@@ -11,6 +11,7 @@ import {
   SMTAB_AD,
 } from '../../../Utils'
 import './index.css'
+import { isMobile } from 'react-device-detect'
 
 const panes = [
   { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
@@ -61,7 +62,7 @@ function SettingMenu({
         </div>
 
         <div className="setting-content">
-          <GeneralSetting show={tab === SMTAB_GENERAL} />
+          {!isMobile && <GeneralSetting show={tab === SMTAB_GENERAL} />}
           <TranscriptionSetting show={tab === SMTAB_TRANS} />
           <CCSetting show={tab === SMTAB_CC} />
           <ADSetting show={tab === SMTAB_AD} />

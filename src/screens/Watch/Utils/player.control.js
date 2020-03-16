@@ -134,6 +134,7 @@ export const videoControl = {
     }
   },
 
+  PAUSED: true,
   paused: function() {
     if (!this.videoNode1) return;
     return this.videoNode1.paused
@@ -154,8 +155,11 @@ export const videoControl = {
     if (this.videoNode2) this.videoNode2.pause()
 
     const { setPause } = this.externalFunctions
-    if (setPause) setPause(true)
-    userAction.pause(this.currTime())
+    if (setPause) {
+      setPause(true)
+      this.PAUSED = true
+      userAction.pause(this.currTime())
+    }
   },
 
   play: function()  {
@@ -163,8 +167,11 @@ export const videoControl = {
     if (this.videoNode2) this.videoNode2.play()
 
     const { setPause } = this.externalFunctions
-    if (setPause) setPause(false)
-    userAction.play(this.currTime())
+    if (setPause) {
+      setPause(false)
+      this.PAUSED = false
+      userAction.play(this.currTime())
+    }
   },
 
   currTime: function(time) {
@@ -400,6 +407,7 @@ export const videoControl = {
   },
 
   onPlaying: function(e, priVideo=true) {
+    if (this.PAUSED) this.play()
     this.setCTPEvent(CTP_PLAYING, priVideo)
   },
 

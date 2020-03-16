@@ -26,6 +26,7 @@ import {
   CO_CHANGE_VIDEO,
   BULK_EDIT_MODE,
 } from './constants.util'
+import { isMobile } from 'react-device-detect'
 // import { adSample } from './data'
 
 /**
@@ -108,7 +109,7 @@ export const transControl = {
         this.currTrans(currTrans)
       } else {
         this.transcript(ARRAY_EMPTY)
-        this.transView(HIDE_TRANS, { updatePrefer: false })
+        if (!isMobile) this.transView(HIDE_TRANS, { updatePrefer: false })
       }
     } 
   },
