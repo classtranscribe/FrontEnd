@@ -1,10 +1,21 @@
+/**
+ * The parent class used to store user preference into localStorage
+ */
 export class CTPreference {
   constructor() {
     this.TRUE = 'true'
     this.FALSE = 'false'
   }
 
-  localStorageSET(key, bool, setfalse=false) {
+  init() {}
+
+  /**
+   * Function used to set and get item from localStorage
+   * @param {String} key The key to the localStorage value
+   * @param {Boolean} bool The value to set
+   * @param {Boolean} setfalse if true and bool is false, set the value to be 'false' instead of removing from localStorage
+   */
+  localStorage(key, bool, setfalse=false) {
     if (bool === undefined) return this[key]
     this[key] = Boolean(bool)
     if (Boolean(bool)) {
@@ -18,11 +29,19 @@ export class CTPreference {
     }
   }
 
+  /**
+   * Function used to determine if an elem in localStorage is true
+   * @param {String} key The key to the localStorage value
+   */
   isTrue(key) {
-    return this.localStorageSET(key) === this.TRUE
+    return localStorage.getItem(key) === this.TRUE
   }
 
+  /**
+   * Function used to determine if an elem in localStorage is false
+   * @param {String} key The key to the localStorage value
+   */
   isFalse(key) {
-    return this.localStorageSET(key) === this.FALSE
+    return localStorage.getItem(key) === this.FALSE
   }
 }
