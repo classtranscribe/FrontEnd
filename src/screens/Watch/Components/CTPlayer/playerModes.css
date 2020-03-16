@@ -1,9 +1,13 @@
 
 .ct-player-primary {
   background: black;
+  object-fit: cover;
+  overflow: hidden;
 }
 .ct-player-secondary {
   background: transparent;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=normal-mode] {
@@ -76,8 +80,8 @@
 /* Trans hide */
 .ct-player-primary[data-trans-view*=Hide][mode=normal-mode], .ct-player-primary[data-trans-view*=Hide][mode=nested-mode] {
   top: 8vh;
-  left: calc((100vw - 70vw)/2);
-  width: 70vw;
+  left: calc((100vw - 80vw)/2);
+  width: 80vw;
   height: 85vh;
 }
 

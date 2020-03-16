@@ -131,8 +131,8 @@ export const searchControl = {
   getInVideoTransSearchResults: function(value) {
     if (value === undefined) return this.search_
     let captions = transControl.transcript()
-    if (!value) {
-      return this.openSearch()
+    if (!value || captions === ARRAY_EMPTY) {
+      return []
     }
     let isMatch = this.getMatchFunction(value, 'text')
 

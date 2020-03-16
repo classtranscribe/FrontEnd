@@ -8,6 +8,7 @@ import decoder from 'jwt-decode'
 import auth0Client from './auth0'
 import { api } from '../HTTP'
 import { util } from '../index'
+import { env } from 'utils/env'
 
 export { userAction } from './useraction'
 
@@ -23,32 +24,47 @@ export const ROLE_INST = 'Instructor'
 
 
 export class CTUser {
-  constructor() {}
+  constructor() {
+    this.signin = this.signin.bind(this)
+    this.reSignin = this.reSignin.bind(this)
+    this.signout = this.signout.bind(this)
+    this.isLoggedIn = this.isLoggedIn.bind(this)
+    this.validate = this.validate.bind(this)
+    this.checkGitUpdates = this.checkGitUpdates.bind(this)
+    this.testAccountSignIn = this.testAccountSignIn.bind(this)
+    this.loginAsAccountSignIn = this.loginAsAccountSignIn.bind(this)
+    this.loginAsAccountSignOut = this.loginAsAccountSignOut.bind(this)
+  }
 
   // ---------------------------------------------------------------------------
   // Sign in/out actions
   // ---------------------------------------------------------------------------
 
   // Login the user
-  login() {
+  signin() {
     auth0Client.signIn()
   }
 
   // login the user and clear the localStorage
-  reLogin() {
+  reSignin() {
     localStorage.clear()
-    this.login()
+    this.signin()
   }
 
   // logout the user
   signout () { 
     // remove possible localStorage
+    let userInfo = this.getUserInfo()
     localStorage.clear()
-    auth0Client.signOut()
+    if (userInfo === env._baseURL) {
+      auth0Client.signOut()
+    } else {
+      window.location = window.location.origin
+    }
   }
 
   // Setup the user after being logged in
-  async setUpUser () {
+  async setUpUser() {
     if (!this.isLoggedIn()) {
       await auth0Client.handleAuthentication()
       const { data } = await api.accountSignIn(auth0Client.getAuth0Token())
@@ -101,22 +117,26 @@ export class CTUser {
 
     // if authToken expired relogin the user
     if (exp < new Date()) {
-      this.reLogin()
+      this.reSignin()
     }
   }
 
   // check if the there is a new commit to master
   async checkGitUpdates() {
-    let latestSHA = await api.getLatestGitCommitSHA()
-    let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY)
-    // if it's a first time user, store the latest commit SHA
-    if (!localSHA && !this.isLoggedIn()) {
-      localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
-    }
-    // if there is a new commit, forcely reload the page from server
-    else if (!localSHA || localSHA !== latestSHA) {
-      localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
-      window.location.reload(true)
+    try {
+      let latestSHA = await api.getLatestGitCommitSHA()
+      let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY)
+      // if it's a first time user, store the latest commit SHA
+      if (!localSHA && !this.isLoggedIn()) {
+        localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
+      }
+      // if there is a new commit, forcely reload the page from server
+      else if (!localSHA || localSHA !== latestSHA) {
+        localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
+        window.location.reload(true)
+      }
+    } catch (error) {
+      console.error("Failed to checking the latest commit's SHA on master.")
     }
   }
 
@@ -132,6 +152,7 @@ export class CTUser {
   saveUserInfo (userInfo) {
     // info from JWT token
     const tokenInfo = decoder(userInfo.authToken)
+    let { iss } = tokenInfo
     let exp = new Date(tokenInfo.exp * 1000) // expiration date
     // info from auth0
     const { given_name, family_name, name, picture } = auth0Client.getProfile()
@@ -139,11 +160,11 @@ export class CTUser {
     let { emailId, universityId, userId } = userInfo
     // store userInfo in localStorage
     localStorage.setItem(USER_INFO_KEY, JSON.stringify({
-      emailId, universityId, userId, exp, picture,
+      emailId, universityId, userId, exp, picture, iss,
       roles: tokenInfo[TOKEN_INFO_KEY],
-      firstName: given_name,
+      firstName: given_name || emailId,
       lastName: family_name,
-      fullName: name,
+      fullName: name || emailId,
     }))
   }
 
@@ -157,8 +178,8 @@ export class CTUser {
   getUserInfo (options={ allowTestUserOverride: false }) {
     
     // if allow the user info be overrided by the test user
-    if (options.allowTestUserOverride && this.isTestAccount()) {
-      return this.getTestUserInfo()
+    if (options.allowTestUserOverride && this.isLoginAsAccount()) {
+      return this.getLoginAsUserInfo()
     }
 
     let userInfoStr = localStorage.getItem(USER_INFO_KEY)
@@ -173,7 +194,7 @@ export class CTUser {
       return this.getUserInfo().userId
     }
 
-    return this.getTestUserInfo().userId || this.getUserInfo().userId
+    return this.getLoginAsUserInfo().userId || this.getUserInfo().userId
   }
 
   // set the authorization token
@@ -187,7 +208,7 @@ export class CTUser {
       return localStorage.getItem(AUTH_TOKEN_KEY)
     }
 
-    return this.getTestUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY)
+    return this.getLoginAsUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY)
   }
 
   // return true if the user is logged in
@@ -213,21 +234,21 @@ export class CTUser {
   // ---------------------------------------------------------------------------
 
   // return true if an admin is logged in as another account
-  isTestAccount() {
-    return Boolean(this.getTestUserInfo().emailId)
+  isLoginAsAccount() {
+    return Boolean(this.getLoginAsUserInfo().emailId)
   }
 
   // return the testing user info if an admin is logged in as another account
-  getTestUserInfo() {
+  getLoginAsUserInfo() {
     // return {}
     let dataStr = localStorage.getItem(TEST_USER_INFO_KEY)
     return dataStr ? JSON.parse(dataStr) : {}
   }
 
   // for admin to sign in as another account
-  async testAccountSignIn (emailId, password) {
+  async loginAsAccountSignIn(emailId) {
     try {
-      const { data } = await api.testAccountSignIn(emailId, password)
+      const { data } = await api.loginAsAccountSignIn(emailId)
       localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data))
       window.location.reload()
       // console.log(data)
@@ -237,11 +258,26 @@ export class CTUser {
   }
 
   // logout the testing account for admin
-  testAccountSignOut () {
+  loginAsAccountSignOut () {
     localStorage.removeItem(TEST_USER_INFO_KEY)
     window.location.reload()
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Dev - test sign in
+  // ---------------------------------------------------------------------------
+  async testAccountSignIn() {
+    let { data } = await api.testAccountSignIn()
+    // console.log(data)
+    // console.log(decoder(data.authToken))
+    let { authToken } = data
+    // Save AuthToken
+    this.authToken = authToken
+    // Save user info
+    this.saveUserInfo(data)
+    window.location = window.location.origin
+  }
 }
 
 export const user = new CTUser()

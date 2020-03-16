@@ -59,7 +59,7 @@ export class InstructorWithRedux extends React.Component {
     return (
       <div className="ip-bg">
         <ClassTranscribeHeader
-          //subtitle="Instructor"
+          subtitle="Instructor"
           showSiderBar={this.showSiderBar} 
           display={sidebar}
         />

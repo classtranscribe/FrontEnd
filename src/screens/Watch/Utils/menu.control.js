@@ -1,14 +1,15 @@
 import { 
   MENU_HIDE, 
   MENU_BEFORE_HIDE, 
-  SMTAB_TRANS,
-  CO_CHANGE_VIDEO
+  CO_CHANGE_VIDEO,
+  SMTAB_GENERAL,
+  // SMTAB_TRANS,
 } from './constants.util'
 import { searchControl } from './search.control'
 
 export const menuControl = {
   currentMenu: null,
-  menuTab: SMTAB_TRANS,
+  menuTab: SMTAB_GENERAL,
   menu: function() {
     return this.currentMenu
   },

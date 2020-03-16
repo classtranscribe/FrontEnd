@@ -49,7 +49,7 @@ function PlaybackrateMenu({
     }
   }
 
-  return show ? (
+  return (
     <div id="watch-playbackrate-menu" role="menu" aria-label="Playback Rate Menu" className="watch-playbackrate-menu">
       <button className="plain-btn watch-menu-close-btn watch-playbackrate-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
@@ -127,7 +127,7 @@ function PlaybackrateMenu({
 
       </div>
     </div>
-  ) : null
+  )
 } 
 
 export default connectWithRedux(

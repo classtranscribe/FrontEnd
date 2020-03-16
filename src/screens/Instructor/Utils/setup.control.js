@@ -4,7 +4,7 @@ import {
   NEW_OFFERING, NO_OFFERING, 
   LOADING_S_OFF, LOADING_INIT, 
   ARRAY_INIT, ARRAY_EMPTY,
-  NO_PLAYLIST,
+  // NO_PLAYLIST,
   NEW_PLAYLIST,
 } from './constants'
 import { promptControl } from './prompt.control'
@@ -134,7 +134,7 @@ export const setup = {
 
   checkAuthentication: function() {
     if (!user.isLoggedIn()) {
-      user.login()
+      user.signin()
     } else if (!user.isInstructor()) {
       window.location = util.links.notfound404()
     }
@@ -295,13 +295,18 @@ export const setup = {
     try {
       this.playlists_ = ARRAY_INIT
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
-      // console.error('playlists', data)
+      // if switched offering while loading data
+      if (data.length > 0 && data[0].offeringId !== setup.offering().id) return
+
+      // otherwise, set playlists
       _.forEach(data, pl => _.reverse(pl.medias))
 
       if (data.length === 0) data = ARRAY_EMPTY
       this.playlists(data)
     } catch (error) {
       // Blank
+      console.error('Failed to load playlists.')
+      promptControl.error(['load playlists.'])
     }
   },
 
