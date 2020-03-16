@@ -1,5 +1,5 @@
 .watch-trans-container {
-  position: absolute;
+  position: fixed;
   left: 62vw;
   top: 5em !important;
   width: 38vw;

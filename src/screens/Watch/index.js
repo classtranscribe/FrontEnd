@@ -58,15 +58,9 @@ export class WatchWithRedux extends React.Component {
     /** Add keydown event handler */
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
-    this.addWindowResizeListener()
-    //
-    guide.run()
-  }
+    videoControl.addWindowEventListener()
 
-  addWindowResizeListener = () => {
-    window.addEventListener('resize', () => {
-      videoControl.addWindowResizeListenerForScreenMode()
-    })
+    guide.run()
   }
 
   render() { 

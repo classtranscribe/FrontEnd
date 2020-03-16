@@ -25,9 +25,7 @@
 .ct-nav-light {
   background: #ffffff;
 }
-.ct-nav-dark {
-  background: transparent;
-}
+
 .ct-h-subtitle {
   font-size: 1.6em;
   margin-left: .8rem;
@@ -55,9 +53,7 @@
   height: auto;
   margin-left: .5em;
 }
-.ct-nav-dark .ct-header-brand {
-  margin-left: 1em;
-}
+
 .ct-header-brand img {
   height: 28px;
   width: 182px;
@@ -89,10 +85,11 @@
 .profile-img {
   min-width: 30px;
   cursor: pointer;
-  outline: none;}
-  .profile-img:hover, .profile-img:focus {
+  outline: none;
+  &:hover, &:focus {
     box-shadow: 0 0 1px 2px #8f8f8f63;
   }
+}
 .profile {
   width: 20em;
   display: flex !important;
@@ -110,6 +107,22 @@
 }
 .Mui-disabled[id=profile] {
   opacity: 1 !important;
+}
+
+
+.ct-nav-dark {
+  background: black;
+  
+  .ct-header-brand {
+    margin-left: 1em;
+  }
+  
+  .profile-menu .trigger {
+    color: rgb(241, 241, 241);
+    &:hover {
+      color: rgb(219, 219, 219);
+    }
+  }
 }
 
 

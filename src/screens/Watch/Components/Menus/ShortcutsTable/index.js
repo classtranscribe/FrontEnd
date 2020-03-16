@@ -6,7 +6,7 @@ function ShortcutsTable({
   show=false,
   onClose=null,
 }) {
-  return show ? (
+  return (
     <div id="watch-shortcuts-table-container">
       <div className="w-100 d-flex justify-content-between">
         <h2 className="shortcuts-table-h2">Keyboard Shortcuts</h2>
@@ -36,7 +36,7 @@ function ShortcutsTable({
         ))}
       </span>
     </div>
-  ) : null
+  )
 }
 
 export function ShortcutKey({ skey, index }) {

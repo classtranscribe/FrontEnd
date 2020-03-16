@@ -123,16 +123,20 @@ export class CTUser {
 
   // check if the there is a new commit to master
   async checkGitUpdates() {
-    let latestSHA = await api.getLatestGitCommitSHA()
-    let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY)
-    // if it's a first time user, store the latest commit SHA
-    if (!localSHA && !this.isLoggedIn()) {
-      localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
-    }
-    // if there is a new commit, forcely reload the page from server
-    else if (!localSHA || localSHA !== latestSHA) {
-      localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
-      window.location.reload(true)
+    try {
+      let latestSHA = await api.getLatestGitCommitSHA()
+      let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY)
+      // if it's a first time user, store the latest commit SHA
+      if (!localSHA && !this.isLoggedIn()) {
+        localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
+      }
+      // if there is a new commit, forcely reload the page from server
+      else if (!localSHA || localSHA !== latestSHA) {
+        localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
+        window.location.reload(true)
+      }
+    } catch (error) {
+      console.error("Failed to checking the latest commit's SHA on master.")
     }
   }
 

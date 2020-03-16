@@ -1,22 +1,25 @@
+import { isMobile } from "react-device-detect"
+import {
+  DEFAULT_ROLE,
+} from "../../utils/constants"
+
 import { 
   preferControl, 
+  // constants
   MENU_HIDE,
   NORMAL_MODE,
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
   CC_SIZE_100,
+  CC_SIZE_75,
   CC_FONT_SANS_SERIF,
   CC_OPACITY_75,
   CC_POSITION_BOTTOM,
   SEARCH_INIT,
   CTP_LOADING,
   MODAL_HIDE,
-  MODAL_SHARE
+  // MODAL_SHARE
 } from "../../screens/Watch/Utils"
-
-import {
-  DEFAULT_ROLE,
-} from "../../utils/constants"
 
 export const initialState = {
   // Basics
@@ -72,7 +75,7 @@ export const initialState = {
   // CC options
   cc_color: CC_COLOR_WHITE,
   cc_bg: CC_COLOR_BLACK,
-  cc_size: CC_SIZE_100,
+  cc_size: isMobile ? CC_SIZE_75 : CC_SIZE_100,
   cc_font: CC_FONT_SANS_SERIF,
   cc_position: CC_POSITION_BOTTOM,
   cc_opacity: CC_OPACITY_75,

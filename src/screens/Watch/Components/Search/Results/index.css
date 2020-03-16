@@ -61,6 +61,7 @@
 /* Result List */
 .search-result-list {
   display: flex;
+  flex: 0 0 auto;
   flex-direction: column;
   padding: .5em 0;
   -webkit-overflow-scrolling: touch;

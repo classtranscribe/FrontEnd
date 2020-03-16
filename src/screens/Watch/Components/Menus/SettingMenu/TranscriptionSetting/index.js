@@ -9,6 +9,7 @@ import {
   HIDE_TRANS
 } from '../../../../Utils'
 import { userAction } from '../../../../../../utils'
+import { isMobile } from 'react-device-detect'
 
 function TranscriptionSetting({
   show=false,
@@ -70,7 +71,7 @@ function TranscriptionSetting({
         />
       </div>
       {
-        transView !== HIDE_TRANS
+        (transView !== HIDE_TRANS && !isMobile)
         &&
         <>
           <h3 className="watch-menu-tab-subtitle">Transcription Views</h3>

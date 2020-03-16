@@ -11,6 +11,7 @@ import {
   SMTAB_AD,
 } from '../../../Utils'
 import './index.css'
+import { isMobile } from 'react-device-detect'
 
 const panes = [
   { id: SMTAB_GENERAL, name: 'General', icon: <i className="material-icons watch-icon-icon">settings</i> },
@@ -37,7 +38,7 @@ function SettingMenu({
     menuControl.tab(tabId)
   }
 
-  return show ? (
+  return (
     <div id="watch-setting-menu" aria-label="Setting Menu" className="watch-setting-menu">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
@@ -61,7 +62,7 @@ function SettingMenu({
         </div>
 
         <div className="setting-content">
-          <GeneralSetting show={tab === SMTAB_GENERAL} />
+          {!isMobile && <GeneralSetting show={tab === SMTAB_GENERAL} />}
           <TranscriptionSetting show={tab === SMTAB_TRANS} />
           <CCSetting show={tab === SMTAB_CC} />
           <ADSetting show={tab === SMTAB_AD} />
@@ -69,7 +70,7 @@ function SettingMenu({
 
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default SettingMenu
