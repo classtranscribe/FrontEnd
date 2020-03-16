@@ -10,7 +10,7 @@ import { isMobile } from 'react-device-detect'
 
 import { 
   NORMAL_MODE, PS_MODE, NESTED_MODE, /** THEATRE_MODE, */
-  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR,
+  CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR, HIDE_TRANS,
 } from './constants.util'
 
 
@@ -18,9 +18,11 @@ function onFullScreenChange(e) {
   const { setFullscreen } = videoControl.externalFunctions
   if (videoControl.isFullscreen) {
     setFullscreen(false)
+    transControl.transView(transControl.LAST_TRANS_VIEW, { updatePrefer: false })
     videoControl.isFullscreen = false
   } else {
     setFullscreen(true)
+    transControl.transView(HIDE_TRANS, { updatePrefer: false })
     videoControl.isFullscreen = true
   }
 }
@@ -63,7 +65,7 @@ export const videoControl = {
   clear: function() {
     this.isSwitched = false
     this.isFullscreen = false
-    this.currentMode = NORMAL_MODE
+    this.SCREEN_MODE = NORMAL_MODE
 
     this.video1CanPlay = false
     this.video2CanPlay = false
@@ -90,8 +92,8 @@ export const videoControl = {
     this.isSwitched = toSet
   },  
 
-  currentMode: NORMAL_MODE,
-  lastMode: NORMAL_MODE,
+  SCREEN_MODE: NORMAL_MODE,
+  LAST_SCREEN_MODE: NORMAL_MODE,
   mode: function(mode, config={}) {
     const { setMode } = this.externalFunctions
     const { sendUserAction=true, restore=false } = config
@@ -99,14 +101,14 @@ export const videoControl = {
       if (window.innerWidth <= 900 && mode === PS_MODE) {
         mode = NESTED_MODE
       } else if (restore) {
-        mode = this.lastMode
+        mode = this.LAST_SCREEN_MODE
       }
       // if (mode === THEATRE_MODE) {
       //   transControl.transView(HIDE_TRANS)
       // }
       setMode(mode)
-      this.lastMode = this.currentMode
-      this.currentMode = mode
+      this.LAST_SCREEN_MODE = this.SCREEN_MODE
+      this.SCREEN_MODE = mode
       if (sendUserAction) userAction.screenmodechange(this.currTime(), mode)
     }
   },
@@ -124,7 +126,7 @@ export const videoControl = {
     } else {
       window.addEventListener('resize', () => {
         if (window.innerWidth < 900) {
-          if (that.currentMode === PS_MODE) {
+          if (that.SCREEN_MODE === PS_MODE) {
             that.mode(NESTED_MODE, { sendUserAction: false })
           } 
         }

@@ -108,6 +108,7 @@ export const transControl = {
         this.currTrans(currTrans)
       } else {
         this.transcript(ARRAY_EMPTY)
+        this.transView(HIDE_TRANS, { updatePrefer: false })
       }
     } 
   },
@@ -505,13 +506,17 @@ export const transControl = {
     this.audioDescription( !this.openAD_ )
   },
 
-  // Switch trancript view
+  // Switch trancript view,
+  TRANS_VIEW: preferControl.defaultTransView(),
+  LAST_TRANS_VIEW: preferControl.defaultTransView(),
   transView: function(view, config={}) {
     const { setTransView } = this.externalFunctions
-    const { sendUserAction=true } =  config
+    const { sendUserAction=true, updatePrefer=true } =  config
     if (setTransView) {
+      this.LAST_TRANS_VIEW = this.TRANS_VIEW
+      this.TRANS_VIEW = view
       setTransView(view)
-      preferControl.defaultTransView(view)
+      if (updatePrefer) preferControl.defaultTransView(view)
     }
 
     if (sendUserAction) userAction.transviewchange(videoControl.currTime(), view)

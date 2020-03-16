@@ -22,6 +22,7 @@ function TransCtrlButtonsWithRedux({
   transView=LINE_VIEW,
   userRole=STUDENT,
   bulkEditing=false,
+  isFullscreen=false,
 }) {
 
   const switchTranView = () => {
@@ -80,7 +81,7 @@ function TransCtrlButtonsWithRedux({
     }
   ]
 
-  return bulkEditing ? null : (
+  return (bulkEditing || isFullscreen) ? null : (
     <>
       {buttonGroup.map( btn => btn ? (
         <button 
@@ -103,6 +104,6 @@ function TransCtrlButtonsWithRedux({
 
 export const TransCtrlButtons = connectWithRedux(
   TransCtrlButtonsWithRedux,
-  ['transView', 'userRole', 'bulkEditing'],
+  ['transView', 'userRole', 'bulkEditing', 'isFullscreen'],
   []
 )
