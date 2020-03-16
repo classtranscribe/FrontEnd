@@ -1,7 +1,7 @@
 # Overview
 
 This repository provides the deployment and configuration details for the ClassTranscribe Server. 
-Copyright (C) University of Illinois, USA. 2019
+Copyright (C) University of Illinois, USA. 2019-2020
 
 The source code in this repository is licensed here under the GNU Public License 3.0
 https://www.gnu.org/licenses/gpl-3.0.en.html which is reproduced below
