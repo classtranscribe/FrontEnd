@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { userAction } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
+import { isMobile } from 'react-device-detect'
 // import { menuControl } from './menu.control'
 
 import { 
@@ -230,23 +231,27 @@ export const videoControl = {
   /** Fullscreen */
   addEventListenerForFullscreenChange: function() {
     const { setFullscreen } = this.externalFunctions
-    if (setFullscreen) {
+    if (setFullscreen && !isMobile) {
       document.removeEventListener('fullscreenchange', onFullScreenChange, true)
       document.addEventListener('fullscreenchange', onFullScreenChange, true)
     }
   },
 
   handleFullScreen: function() {
-    if (this.isFullscreen) {
-      this.exitFullScreen()
-    } else {
+    if (!this.isFullscreen || isMobile) {
       this.enterFullScreen()
+    } else {
+      this.exitFullScreen()
     }
   },
 
   enterFullScreen: function() {
     if (!this.videoNode1) return;
     var elem = document.getElementById("watch-page") || {}
+    if (isMobile) {
+      elem = document.getElementById('ct-video-1')
+      console.log('elem', elem.requestFullscreen)
+    }
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
