@@ -4,7 +4,7 @@ import {
   NEW_OFFERING, NO_OFFERING, 
   LOADING_S_OFF, LOADING_INIT, 
   ARRAY_INIT, ARRAY_EMPTY,
-  NO_PLAYLIST,
+  // NO_PLAYLIST,
   NEW_PLAYLIST,
 } from './constants'
 import { promptControl } from './prompt.control'
@@ -305,6 +305,8 @@ export const setup = {
       this.playlists(data)
     } catch (error) {
       // Blank
+      console.error('Failed to load playlists.')
+      promptControl.error(['load playlists.'])
     }
   },
 
