@@ -37,7 +37,7 @@ function SettingMenu({
     menuControl.tab(tabId)
   }
 
-  return show ? (
+  return (
     <div id="watch-setting-menu" aria-label="Setting Menu" className="watch-setting-menu">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
@@ -69,7 +69,7 @@ function SettingMenu({
 
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default SettingMenu

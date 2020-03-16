@@ -30,7 +30,7 @@ function DownloadMenu({
     )
   }
 
-  return show ? (
+  return (
     <div 
       id="watch-download-menu" 
       className="watch-general-menu" 
@@ -67,7 +67,7 @@ function DownloadMenu({
         ))}
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default DownloadMenu

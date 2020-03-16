@@ -31,7 +31,7 @@ function PlaylistsMenu({
     setSelectedPlaylist(playlist)
   }
 
-  return show ? ( 
+  return ( 
     <div id="watch-playlists-menu" className="watch-playlists-menu">
       {/* Close Btn */}
       <button className="plain-btn watch-menu-close-btn watch-playlists-menu-close-btn" onClick={onClose}>
@@ -73,7 +73,7 @@ function PlaylistsMenu({
       />
 
     </div>
-  ) : null;
+  )
 }
 
 export default connectWithRedux(
