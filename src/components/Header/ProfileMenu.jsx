@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
 import { Image } from 'semantic-ui-react'
-import { util, user, api, handleData } from '../../utils'
+import { util, user, api, handleData, env } from '../../utils'
 import { styles } from './styles'
 
 import MenuTrigger from './MenuTrigger'
@@ -165,9 +165,13 @@ export default function ProfileMenu({
           <MenuItem aria-label="Sign In" onClick={user.signin}>
             <Typography style={styles.font}>Sign In</Typography>
           </MenuItem>
-          <MenuItem aria-label="Test Sign In" onClick={user.testAccountSignIn}>
-            <Typography style={styles.font}>Test Sign In</Typography>
-          </MenuItem>
+          {
+            env.dev
+            &&
+            <MenuItem aria-label="Test Sign In" onClick={user.testAccountSignIn}>
+              <Typography style={styles.font}>Test Sign In</Typography>
+            </MenuItem>
+          }
         </Menu>
       }
     </div>
