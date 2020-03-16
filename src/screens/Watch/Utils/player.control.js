@@ -110,11 +110,25 @@ export const videoControl = {
       if (sendUserAction) userAction.screenmodechange(this.currTime(), mode)
     }
   },
-  addWindowResizeListenerForScreenMode: function() {
-    if (window.innerWidth < 900) {
-      if (this.currentMode === PS_MODE) {
-        this.mode(NESTED_MODE, { sendUserAction: false })
-      } 
+  addWindowEventListener: function() {
+    const that = this
+    if (isMobile) {
+      window.addEventListener('orientationchange', () => {
+        console.log('window.orientation', window.orientation)
+        if ([90, -90].includes(window.orientation)) {
+          if (that.currTime() > 0) {
+            that.enterFullScreen()
+          }
+        }
+      })
+    } else {
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 900) {
+          if (that.currentMode === PS_MODE) {
+            that.mode(NESTED_MODE, { sendUserAction: false })
+          } 
+        }
+      })
     }
   },
 
@@ -247,35 +261,48 @@ export const videoControl = {
 
   enterFullScreen: function() {
     if (!this.videoNode1) return;
-    var elem = document.getElementById("watch-page") || {}
-    if (isMobile) {
-      elem = document.getElementById('ct-video-1')
-      console.log('elem', elem.requestFullscreen)
+    try {
+      var elem = document.getElementById("watch-page") || {}
+      if (isMobile) {
+        elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
+      }
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.webkitEnterFullscreen) { /* Safari IOS Mobile */
+        elem.webkitEnterFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      } 
+      userAction.fullscreenchange(this.currTime(), true)
+    } catch (error) {
+      console.error('Failed to enter fullscreen.')
     }
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      elem.msRequestFullscreen();
-    }
-    userAction.fullscreenchange(this.currTime(), true)
   },
 
   exitFullScreen: function() {
-    if (!this.videoNode1) return;
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { /* Firefox */
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { /* IE/Edge */
-      document.msExitFullscreen();
+    try {
+      if (isMobile) {
+        const elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
+        console.log(elem.webkitExitFullscreen)
+      }
+      if (!this.videoNode1) return;
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+      }
+      userAction.fullscreenchange(this.currTime(), false)
+    } catch (error) {
+      console.error('Failed to exit fullscreen.')
     }
-    userAction.fullscreenchange(this.currTime(), false)
   },
 
   /**

@@ -1,4 +1,10 @@
-import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from "./constants.util"
+import { isMobile } from "react-device-detect"
+
+import { 
+  LINE_VIEW, 
+  TRANSCRIPT_VIEW, 
+  SEARCH_TRANS_IN_VIDEO 
+} from "./constants.util"
 
 /**
  * Functions for controlling user preference
@@ -39,6 +45,7 @@ export const preferControl = {
 
   [AUTO_PLAY]: localStorage.getItem(AUTO_PLAY) === TRUE,
   autoPlay: function(bool) {
+    if (isMobile) return false
     return this.localStorageSET(AUTO_PLAY, bool)
   },
 
@@ -54,6 +61,7 @@ export const preferControl = {
 
   [PAUSE_WHILE_EDITING]: localStorage.getItem(PAUSE_WHILE_EDITING) === TRUE,
   pauseWhileEditing: function(bool) {
+    if (isMobile) return false
     return this.localStorageSET(PAUSE_WHILE_EDITING, bool)
   },
 
@@ -79,6 +87,7 @@ export const preferControl = {
 
   [DEFAULT_TRANS_VIEW]: localStorage.getItem(DEFAULT_TRANS_VIEW) === TRUE,
   defaultTransView: function(view) {
+    if (isMobile) return TRANSCRIPT_VIEW
     if (view === undefined) {
       return localStorage.getItem(DEFAULT_TRANS_VIEW) || LINE_VIEW//TRANSCRIPT_VIEW//
     }

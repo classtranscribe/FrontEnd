@@ -19,6 +19,7 @@ export function parseSec(d) {
 }
 
 export function timeStrToSec(str) {
+  if (typeof str !== "string") return ''
   const strs = str.split(':')
   let len3 = strs.length > 2
   let sec = (len3 ? parseFloat(strs[2]) : parseFloat(strs[1])) || 0
@@ -28,6 +29,7 @@ export function timeStrToSec(str) {
 }
 
 export function prettierTimeStr(str) {
+  if (typeof str !== "string") return ''
   const strs = str.split(':')
   var mins = parseInt(strs[0]) * 60 + parseInt(strs[1])
   mins = mins.toString()

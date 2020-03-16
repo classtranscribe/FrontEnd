@@ -16,6 +16,7 @@ import {
   HIDE_TRANS, 
 } from '../../../Utils'
 import { STUDENT, INSTRUCTOR } from '../../../../../utils'
+import { isMobile } from 'react-device-detect'
 
 function TransCtrlButtonsWithRedux({
   transView=LINE_VIEW,
@@ -43,7 +44,14 @@ function TransCtrlButtonsWithRedux({
   const isHide = transView === HIDE_TRANS
 
   const buttonGroup = [
-    {
+    (userRole === INSTRUCTOR && !isMobile) ? {
+      id: 'trans-bulk-edit-btn', 
+      name: 'Bulk Edit', 
+      icon: <i className="material-icons">edit</i>,
+      click: openBulkEdit,
+      ariaTags: {}
+    } : null,
+    isMobile ? null : {
       id: 'trans-setting-btn', 
       name: 'Transcription Settings', 
       icon: <i className="fas fa-cogs"></i>, //settings
@@ -53,7 +61,7 @@ function TransCtrlButtonsWithRedux({
         'aria-haspopup': 'true'
       }
     },
-    {
+    isMobile ? null : {
       id: 'trans-view-switch-btn', 
       name: isLineView ? TRANSCRIPT_VIEW : isHide ? LINE_VIEW : HIDE_TRANS, 
       icon: <i className="material-icons">{isLineView ? 'menu_book' : isHide ? 'subject' : 'close'}</i>, 
@@ -74,22 +82,7 @@ function TransCtrlButtonsWithRedux({
 
   return bulkEditing ? null : (
     <>
-      {
-        userRole === INSTRUCTOR
-        &&
-        <button 
-          className="plain-btn trans-ctrl-btn"
-          onClick={openBulkEdit}
-          id="trans-bulk-edit-btn"
-          aria-label="Bulk Edit"
-        >
-          <span className="trans-ctrl-btn-content" tabIndex="-1">
-            <i className="material-icons">edit</i>
-            <span className="trans-ctrl-btn-text">Bulk Edit</span>
-          </span>
-        </button>
-      }
-      {buttonGroup.map( btn => (
+      {buttonGroup.map( btn => btn ? (
         <button 
           className="plain-btn trans-ctrl-btn"
           onClick={btn.click}
@@ -103,7 +96,7 @@ function TransCtrlButtonsWithRedux({
             <span className="trans-ctrl-btn-text">{btn.name}</span>
           </span>
         </button>
-      ))}
+      ) : null)}
     </>
   )
 }

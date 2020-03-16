@@ -26,10 +26,11 @@ function ModalsWithRedux({
 
   return  (
     <div className="watch-modal" data-modal-type={modal}>
-      <ShareModal 
-        show={modal === MODAL_SHARE || hideBefore}
-        onClose={handleClose}
-      />
+      {
+        (modal === MODAL_SHARE || hideBefore) 
+        && 
+        <ShareModal onClose={handleClose} />
+      }
       <div className="wml-filter" onClick={handleClose}></div>
     </div>
   )

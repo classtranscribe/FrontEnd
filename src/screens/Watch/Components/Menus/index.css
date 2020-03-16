@@ -146,7 +146,7 @@
 
 @media screen and (max-width: 550px) {
   .watch-menus {
-    bottom: 8em;
+    bottom: 200px;
     height: calc(100vh - 4em - 8em);
   }
   .watch-icon-list {
