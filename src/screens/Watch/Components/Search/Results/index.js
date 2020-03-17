@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import ResultList from './ResultList'
 import Placeholder from '../Placeholder'
 import { 
@@ -37,6 +37,12 @@ function Results({
   }
 
   const resultOptions = searchControl.getResultOptions(search, option)
+
+  const searched = () => {
+    setPage(1);
+  }
+
+  useEffect(searched, [search]);
 
   return (
     <div className="watch-search-result-container">
