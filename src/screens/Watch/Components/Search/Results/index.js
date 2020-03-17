@@ -38,11 +38,9 @@ function Results({
 
   const resultOptions = searchControl.getResultOptions(search, option)
 
-  const searched = () => {
-    setPage(1);
-  }
-
-  useEffect(searched, [search]);
+  useEffect(() => {
+    setPage(1)
+  }, [search])
 
   return (
     <div className="watch-search-result-container">
