@@ -4,7 +4,7 @@ import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
 import { ListItem } from '../ListItem'
-import { PlaceHolder } from '../Placeholder'
+import { PlaceHolder } from '../../../../components'
 
 import PlaylistInfo from './PlaylistInfo'
 import ButtonBar from './ButtonBar'

@@ -8,7 +8,7 @@ import {
   NEW_OFFERING,
 } from '../../Utils'
 
-import { PlaceHolder } from '../Placeholder'
+import { PlaceHolder } from '../../../../components'
 import { EditCourse } from '../EditCourse'
 
 import CourseInfo from './CourseInfo'

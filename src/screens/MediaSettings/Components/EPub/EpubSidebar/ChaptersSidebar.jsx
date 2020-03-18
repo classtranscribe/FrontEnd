@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { PlaceHolder } from '../../../../Instructor/Components/Placeholder'
+import { PlaceHolder } from '../../../../../components'
 import { MSPSidebar } from '../../MSPSidebar'
 import { api, util } from '../../../../../utils'
 import { connectWithRedux, epub } from '../../../Utils'
