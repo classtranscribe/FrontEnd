@@ -1,11 +1,12 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 import { ClassTranscribeHeader } from '../../components'
 import {
   Loader,
   Course,
+  NewCourse,
   Sidebar,
   Prompts,
   Playlist,
@@ -71,10 +72,16 @@ export class InstructorWithRedux extends React.Component {
         <Prompts />
 
         <main className="ip-container" style={paddingLeft}>
-          {Boolean(loading.type) && <Loader />}
-          <Course />
-          <Playlist />
+          <Router basename='/instructor'>
+            <Switch>
+              <Route path="/new-offering" component={NewCourse} />
+              <Route path="/:offId" render={() => <><Course /><Playlist /></>} />
+            </Switch>
+          </Router>
+          {/* <Route path='/instructor/:offeringId' render={props => <Course />} /> */}
+
           <Confirmation />
+          {Boolean(loading.type) && <Loader />}
         </main>
       </div>
     )

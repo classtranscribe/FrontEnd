@@ -36,8 +36,8 @@ class App extends React.Component {
         <Route path="/admin" component={Admin} />
 
         {/* Instructor */}
-        <Route exact path="/instructor" component={Instructor} />
-        <Route exact path="/instructor/media-settings/:id" component={MediaSettings} />
+        <Route path={["/instructor", "/instructor/:offId"]} component={Instructor} />
+        <Route exact path="/media-settings/:id" component={MediaSettings} />
 
         {/* Student */}
         <Route path="/home" component={OfferingViewing} />
