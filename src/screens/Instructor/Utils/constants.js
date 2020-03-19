@@ -22,6 +22,8 @@ export const HIDE_PLAYLIST = { id: HIDE_PLAYLIST_ID }
 
 export const OFF_ANALYSIS_ID = 'ip-offering-analysis'
 export const OFF_ANALYSIS = { id: OFF_ANALYSIS_ID }
+export const OFF_SETTINGS_ID = 'ip-offering-settings'
+export const OFF_SETTINGS = { id: OFF_SETTINGS_ID }
 
 // Loading
 export const LOADING_INIT = {

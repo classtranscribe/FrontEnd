@@ -26,13 +26,13 @@ export const setup = {
     const { 
       setDeparts, setTerms, setOfferings, setOffering,
       setPlaylists, setPlaylist, 
-      setLoading, setConfirmation
+      setLoading, setConfirmation, history
     } = props
 
     this.externalFunctions = { 
       setDeparts, setTerms, setOfferings, setOffering,
       setPlaylists, setPlaylist, 
-      setLoading, setConfirmation
+      setLoading, setConfirmation, history
     }
   },
 
@@ -105,12 +105,12 @@ export const setup = {
    */
 
   changeOffering: function(offering, updateSearch=true) {
-    const { setOffering } = this.externalFunctions
+    const { history } = this.externalFunctions
 
     this.playlists_ = []
     if (offering === NEW_OFFERING) {
       this.offering({})
-      setTimeout(() => setOffering(offering), 100);
+      // setTimeout(() => setOffering(offering), 100);
     } else {
       this.offering(offering)
     }
@@ -118,13 +118,18 @@ export const setup = {
     // console.log('o', offering)
 
     if (updateSearch) {
-      let { offId } = util.parseSearchQuery()
-      offId = offering.id
-      let query = util.createSearchQuery({ offId })
-      window.history.replaceState(null, null, query)
+      let offId = offering.id
+      // let query = util.createSearchQuery({ offId })
+      history.replace('/instructor/'+offId)
     }
     
     // history.replace(`${window.location.pathname}${query}`)
+  },
+
+  newOffering: function() {
+    // const { history } = this.externalFunctions
+    // history.push(util.links.instNewOffering())
+    this.offering(NEW_OFFERING)
   },
 
   /**
@@ -279,12 +284,11 @@ export const setup = {
        * @TODO 
        * - determine whether to use this 
        */
-      // // update window hash with playlistId
+      // update window hash with playlistId
       // if (playlist_ && playlist_.id) {
       //   window.history.replaceState(
       //     null, null, 
       //     window.location.pathname +
-      //     window.location.search +
       //     '#pid=' + playlist_.id
       //   )
       // }
@@ -299,7 +303,7 @@ export const setup = {
       if (data.length > 0 && data[0].offeringId !== setup.offering().id) return
 
       // otherwise, set playlists
-      _.forEach(data, pl => _.reverse(pl.medias))
+      // _.forEach(data, pl => _.reverse(pl.medias))
 
       if (data.length === 0) data = ARRAY_EMPTY
       this.playlists(data)
@@ -322,17 +326,6 @@ export const setup = {
       } else {
         // If playlists non-empty set result to playlists
         setResults(playlists)
-
-        // Choose which playlist to visit
-        // let { hash } = window.location
-        // if (hash) { // If the playlistId is in the location.hash
-        //   let pl_ = _.find(playlists, { id: hash.replace('#pid=', '') })
-        //   if (pl_) { // If the playlist exists visit this playlist
-        //     handlePlaylistClick(pl_)()
-        //     return
-        //   }
-        // } 
-        // otherwise visit the first playlist
         this.changePlaylist(playlists[0] || NEW_PLAYLIST)
       }
     } else {
@@ -341,13 +334,17 @@ export const setup = {
     }
   },
 
-  changePlaylist: function(pl, ms=100) {
+  changePlaylist: async function(pl, ms=100) {
     if (ms) {
       this.playlist({})
-      setTimeout(() => this.playlist(pl), 100);
-    } else {
-      this.playlist(pl)
-    }
+    } 
+
+    if (!pl.name) return this.playlist(pl)
+
+    let { data } = await api.getPlaylistById(pl.id)
+    this.playlist(data)
+    // let pid = data.id
+    // window.history.replaceState(null, null, util.links.createHash({ ...util.links.useHash(), pid }))
   },
 
   playlistToView: function(id) {

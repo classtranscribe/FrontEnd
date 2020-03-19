@@ -24,9 +24,10 @@ export class ClassTranscribeLinks {
   logout() { return'/logout' }
 
   instructor() { return'/instructor' }
-  instOffering(offeringId) { return `/instructor?offId=${offeringId}` }
+  instOffering(offeringId) { return `/instructor/${offeringId}` }
+  instNewOffering() { return `/instructor/new-offering` } 
   // newOffering = function() `/instructor?offId=ip-new-offering`
-  instMediaSettings = (mediaId, tab) => '/instructor/media-settings/' + mediaId + (tab ? `#tab=${tab}` : '')
+  instMediaSettings = (mediaId, tab) => '/media-settings/' + mediaId + (tab ? `#tab=${tab}` : '')
 
   watch(courseNumber, id, begin, others={}) {
     return `/video${this.createSearch({ 

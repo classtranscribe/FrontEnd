@@ -50,8 +50,8 @@ export default function Playlists({
             <ListItem
               icon={pl.sourceType}
               title={pl.name}
-              description={pl.medias.length + ' video(s)'}
-              rightIcon="normal"
+              // description={pl.medias.length + ' video(s)'}
+              rightIcon="small"
               current={Boolean(playlist.id === pl.id)}
               onClick={handlePlaylistClick(pl)}
             />

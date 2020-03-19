@@ -329,7 +329,6 @@ export const offControl = {
     }
 
     setup.unloading()
-    // window.location = window.location.pathname + window.location.search
   },
 
   /**

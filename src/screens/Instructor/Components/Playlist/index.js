@@ -21,7 +21,7 @@ import {
   connectWithRedux, 
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, 
-  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, //NO_OFFERING_ID,
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, //NO_OFFERING_ID,
 } from '../../Utils'
 import './index.css'
 
@@ -36,6 +36,7 @@ function PlaylistWithRedux({
 
   // Determine the context
   let newOffering = offering === NEW_OFFERING
+  let offSettings = playlist === OFF_SETTINGS
   let noPlaylist = playlist === NO_PLAYLIST
   let canShowPlaylists = Boolean(playlist.id) && (playlists.length > 0 && offering.id)
                       && (playlist !== OFF_ANALYSIS && playlist !== NEW_PLAYLIST)
@@ -71,7 +72,7 @@ function PlaylistWithRedux({
   // Conditions not display playlist
   if (isEditingOffering || isViewingAnalytics) return null
   if (!offering.id) return null
-  if (newOffering || playlist === HIDE_PLAYLIST) return null
+  if (newOffering || offSettings || playlist === HIDE_PLAYLIST) return null
   
   // Special contexts
   // if (noPlaylist) return <NoPlaylistHolder />
