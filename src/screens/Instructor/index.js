@@ -72,12 +72,10 @@ export class InstructorWithRedux extends React.Component {
         <Prompts />
 
         <main className="ip-container" style={paddingLeft}>
-          <Router basename='/instructor'>
-            <Switch>
-              <Route path="/new-offering" component={NewCourse} />
-              <Route path="/:offId" render={() => <><Course /><Playlist /></>} />
-            </Switch>
-          </Router>
+          <Switch>
+            <Route path="/instructor/new-offering" component={NewCourse} />
+            <Route path="/instructor/:offId" render={() => <><Course /><Playlist /></>} />
+          </Switch>
           {/* <Route path='/instructor/:offeringId' render={props => <Course />} /> */}
 
           <Confirmation />
