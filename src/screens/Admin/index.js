@@ -97,7 +97,7 @@ export class Admin extends React.Component {
      * 1. get userId and authToken
      */
     if (!user.isLoggedIn()) {
-      user.login()
+      user.signin()
     } else {
       if (!user.isAdmin()) window.location = util.links.notfound404()
     }
@@ -145,10 +145,6 @@ export class Admin extends React.Component {
       else if (window.innerWidth >= 700 && !this.state.verticalSidebar)
       this.setState({ verticalSidebar: true })
     })
-  }
-
-  componentWillMount() {
-    // localStorage.removeItem('activePane')
   }
 
   onSignOut = () => {

@@ -17,7 +17,7 @@ import {
   WEBVTT_DESCRIPTIONS,
   ENGLISH,
   ARRAY_EMPTY,
-  PROFANITY_LIST,
+  // PROFANITY_LIST,
 
   TRANSCRIPT_VIEW,
   LINE_VIEW,
@@ -26,6 +26,7 @@ import {
   CO_CHANGE_VIDEO,
   BULK_EDIT_MODE,
 } from './constants.util'
+import { isMobile } from 'react-device-detect'
 // import { adSample } from './data'
 
 /**
@@ -104,7 +105,12 @@ export const transControl = {
 
       // Set the default current-transcription to be English
       const currTrans = this.findTransByLanguage(ENGLISH) //trans.find(tran => tran.language === 'en-US')
-      if (currTrans) this.currTrans(currTrans)
+      if (currTrans) {
+        this.currTrans(currTrans)
+      } else {
+        this.transcript(ARRAY_EMPTY)
+        if (!isMobile) this.transView(HIDE_TRANS, { updatePrefer: false })
+      }
     } 
   },
 
@@ -251,6 +257,7 @@ export const transControl = {
   },
 
   updateTranscript: function(now) {
+    if (this.transcript_ === ARRAY_EMPTY) return null
     let next = this.findCurrent(this.transcript_, this.prevCaption_, now)
     if (next && next.id) {
 
@@ -367,18 +374,18 @@ export const transControl = {
     if (id === undefined && Boolean(this.currTrans_)) id = this.currTrans_.id
     if (!id) return;
     let capElem = document.getElementById(`caption-line-${id}`)
+    if (!capElem || !capElem.offsetTop) return
+
     let tranBox = document.getElementById('watch-trans-container')
     let isTwoScreen = videoControl.isTwoScreen()
 
     smoothScroll = smoothScroll && (tranBox.scrollTop - capElem.offsetTop) < 0
 
     if (!smoothScroll) tranBox.style.scrollBehavior = 'auto'
-    if (capElem) {
-      capElem.classList.add('curr-line')
-      let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
-      // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
-      tranBox.scrollTop = scrollTop
-    }
+    capElem.classList.add('curr-line')
+    let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
+    // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
+    tranBox.scrollTop = scrollTop
     if (!smoothScroll) tranBox.style.scrollBehavior = 'smooth'
   },
 
@@ -500,13 +507,17 @@ export const transControl = {
     this.audioDescription( !this.openAD_ )
   },
 
-  // Switch trancript view
+  // Switch trancript view,
+  TRANS_VIEW: preferControl.defaultTransView(),
+  LAST_TRANS_VIEW: preferControl.defaultTransView(),
   transView: function(view, config={}) {
     const { setTransView } = this.externalFunctions
-    const { sendUserAction=true } =  config
+    const { sendUserAction=true, updatePrefer=true } =  config
     if (setTransView) {
+      this.LAST_TRANS_VIEW = this.TRANS_VIEW
+      this.TRANS_VIEW = view
       setTransView(view)
-      preferControl.defaultTransView(view)
+      if (updatePrefer) preferControl.defaultTransView(view)
     }
 
     if (sendUserAction) userAction.transviewchange(videoControl.currTime(), view)

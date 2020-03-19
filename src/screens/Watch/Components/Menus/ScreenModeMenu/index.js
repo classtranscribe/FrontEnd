@@ -21,7 +21,7 @@ function ScreenModeMenu({
 
   const { isTwoScreen } = media
 
-  return show ? (
+  return (
     <div id="watch-screen-mode-menu" role="menu" aria-label="Screen Mode Menu" className="watch-general-menu">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
@@ -52,7 +52,7 @@ function ScreenModeMenu({
         ))}
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default connectWithRedux(

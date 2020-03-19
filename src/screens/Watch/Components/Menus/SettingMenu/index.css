@@ -220,4 +220,11 @@
   }
 }
 
+@media screen and (max-width: 550px) {
+  .watch-setting-menu {
+    padding: 10em .2em 3em .2em;
+    margin-top: 0;
+  }
+}
+
 

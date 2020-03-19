@@ -1,6 +1,7 @@
 import React from 'react'
 import { Popup } from 'semantic-ui-react'
 import './index.css'
+import { isMobile } from 'react-device-detect'
 
 export default function WatchCtrlButton({
   children,
@@ -37,6 +38,7 @@ export default function WatchCtrlButton({
       openOnTriggerFocus
       closeOnTriggerBlur
       content={<strong>{label}</strong>}
+      disabled={isMobile}
       trigger={
         <button 
           id={id}

@@ -5,6 +5,7 @@ import {
   NORMAL_MODE, 
   SEARCH_INIT, SEARCH_HIDE, 
   TRANSCRIPT_VIEW, LINE_VIEW, 
+  ARRAY_EMPTY,
 } from '../../Utils'
 import './index.css'
 
@@ -54,8 +55,13 @@ function TranscriptionsWithRedux({
         onMouseLeave={handleMourseOver(false)}
       >
         {
-          loadingtranscript ? 
+          transcript.length === 0 ? 
           <PlaceHolder />
+          :
+          transcript === ARRAY_EMPTY ?
+          <div className="w-100 d-flex justify-content-center text-muted text-uppercase">
+            No Transcriptions
+          </div>
           :
           bulkEditing ?
           <BulkEdit transcript={transcript} />

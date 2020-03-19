@@ -12,7 +12,7 @@ function LanguageMenu({
     setTimeout(() => onClose(), 200);
   }
 
-  return show ? (
+  return (
     <div id="watch-language-menu" role="menu" aria-label="Language Menu" className="watch-general-menu">
       <button className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn" onClick={onClose}>
         <i className="material-icons">close</i>
@@ -43,7 +43,7 @@ function LanguageMenu({
         ))}
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default connectWithRedux(

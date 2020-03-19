@@ -39,7 +39,7 @@ function ShareModal({
 
   const shareURL = getShareableURL(begin)
 
-  return show ? (
+  return (
     <div id="watch-share-modal" className="wmodal-box-gen" data-position="right top">
       <div className="wml-header">
         <h3>
@@ -104,10 +104,9 @@ function ShareModal({
           </div>
         </div>
       </div>
-
-
+      
     </div>
-  ) : null
+  )
 }
 
 export default ShareModal

@@ -15,7 +15,7 @@ export class MSPPreference extends CTPreference {
   }
   
   dnnnCombine() {
-    return this.localStorageSET(DNNN_COMBINE, true)
+    return this.localStorage(DNNN_COMBINE, true)
   }
 }
 
