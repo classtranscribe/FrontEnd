@@ -151,6 +151,7 @@ export const searchControl = {
     if (!offeringId) return []
 
     const { data } = await api.searchCaptionInOffering(offeringId, value)
+    console.log('getInCourseTransSearchResults', data)
     let inCourseTransResults = data// = this.highlightSearchedWords(data, value, 'caption.text')
     inCourseTransResults = inCourseTransResults.map( res => {
       const { caption, playlistId, mediaId } = res
@@ -165,7 +166,7 @@ export const searchControl = {
   },
 
   // Function used to get search results from videos in current offering
-  getPlaylistResults: function(value) {
+  getPlaylistResults: async function(value) {
     let isMatch = this.getMatchFunction(value, 'mediaName')
 
     let playlistResults = _.map( setup.playlists(), pl => _.map(pl.medias, m => ({ ...m, playlistName: pl.name })))
@@ -191,20 +192,19 @@ export const searchControl = {
   getResults: async function(value) {
     if (!value) return this.resetResult()
     let inVideoTransResults = this.getInVideoTransSearchResults(value)
-    let playlistResults = this.getPlaylistResults(value)
     let shortcutResults = this.getShortcutResults(value)
     this.updateSearch({ 
+      value,
       status: SEARCH_RESULT, 
       inVideoTransResults, 
-      playlistResults, 
       shortcutResults,
-      value,
+      playlistResults: ARRAY_INIT,
       inCourseTransResults: ARRAY_INIT
     })
+    let playlistResults = await this.getPlaylistResults(value)
+    this.updateSearch({ playlistResults })
     let inCourseTransResults = await this.getInCourseTransSearchResults(value)
-    this.updateSearch({ 
-      inCourseTransResults 
-    })
+    this.updateSearch({ inCourseTransResults })
     this.hasResult = true
 
     await userAction.filtertrans(value)

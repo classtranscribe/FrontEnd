@@ -85,24 +85,17 @@ export const setup = {
     )
   },
 
-  findNeighbors: function(mediaId, playlists) {
+  findNeighbors: function(mediaId, playlist) {
     if (!mediaId) mediaId = this.media().id
-    if (!playlists) playlists = this.playlists()
-
-    let playlistResults = _.map( 
-      playlists, 
-      pl => _.map(
-        (pl.medias.slice() || []).reverse(), 
-        me => ({ ...me, playlistId: pl.id})
-      ) 
-    )
-    playlistResults = _.flatten(playlistResults)
-  
-    let currIdx = _.findIndex(playlistResults, { id: mediaId })
+    if (!playlist) playlist = this.playlist()
+    let { medias } = playlist
+    if (!medias) return {}
+    medias = (medias || []).slice().reverse()
+    let currIdx = _.findIndex(medias, { id: mediaId })
     let nextIdx = currIdx + 1
     let prevIdx = currIdx - 1
-    let next = playlistResults[nextIdx] || null
-    let prev = playlistResults[prevIdx] || null
+    let next = medias[nextIdx] || null
+    let prev = medias[prevIdx] || null
     return { next, prev }
   },
 
@@ -116,15 +109,15 @@ export const setup = {
     const { id } = util.parseSearchQuery()
 
     // if the playlists exist
-    if (this.playlists().length > 0) { 
-      let media = _.find(
-        _.flatten(
-          _.map(this.playlists(), pl => pl.medias)
-        ),
-        { id }
-      )
-      if (media) return api.parseMedia(media)
-    }
+    // if (this.playlists().length > 0) { 
+    //   let media = _.find(
+    //     _.flatten(
+    //       _.map(this.playlists(), pl => pl.medias)
+    //     ),
+    //     { id }
+    //   )
+    //   if (media) return api.parseMedia(media)
+    // }
 
     try {
       let { data } = await api.getMediaById(id)
@@ -135,11 +128,11 @@ export const setup = {
   },
 
   getPlaylist: async function(playlistId) {
-    // if the playlists exist
-    if (this.playlists().length > 0) { 
-      let playlist = _.find(this.playlists(), { id: playlistId })
-      if (playlist) return playlist
-    }
+    // // if the playlists exist
+    // if (this.playlists().length > 0) { 
+    //   let playlist = _.find(this.playlists(), { id: playlistId })
+    //   if (playlist) return playlist
+    // }
 
     let { state } = this.externalFunctions.location
     if (state && state.playlist) return state.playlist
@@ -153,8 +146,8 @@ export const setup = {
   },
 
   getPlaylists: async function(offeringId) {
-    // if the playlists exist
-    if (this.playlists().length > 0) return null 
+    // // if the playlists exist
+    // if (this.playlists().length > 0) return null 
 
     let { state } = this.externalFunctions.location
     if (state && state.playlists) return state.playlists
@@ -193,7 +186,6 @@ export const setup = {
    */
   setupMedias: async function(props, context) {
     this.checkForReset()
-    const { generalError } = context
     // Get media
     let media = await this.getMedia()
     if (!media) {
@@ -214,14 +206,10 @@ export const setup = {
     let playlist = await this.getPlaylist(playlistId)
 
     if (!playlist) {
-      promptControl.error('playlists')
+      promptControl.error('playlist')
       api.contentLoaded()
       return
     }
-
-    // Get playlists
-    let { offeringId } = playlist
-    let playlists = await this.getPlaylists(offeringId)
 
     // set user metadata
     // await this.getUserMetadata()
@@ -229,12 +217,17 @@ export const setup = {
     // Set data
     this.media(media)
     this.playlist(playlist)
+
+    api.contentLoaded()
+
+    // Get playlists
+    let { offeringId } = playlist
+    let playlists = await this.getPlaylists(offeringId)
+
     if (playlists) this.playlists(playlists)
 
     // Initialize user action handler
     let mediaId = media.id
     userAction.init({ offeringId, mediaId })
-
-    api.contentLoaded()
   }
 }

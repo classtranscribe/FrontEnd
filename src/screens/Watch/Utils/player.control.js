@@ -12,6 +12,7 @@ import {
   NORMAL_MODE, PS_MODE, NESTED_MODE, /** THEATRE_MODE, */
   CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR, HIDE_TRANS,
 } from './constants.util'
+import { setup } from './setup.control'
 
 
 function onFullScreenChange(e) {
@@ -441,20 +442,10 @@ export const videoControl = {
 
   findUpNextMedia: function({
     currMediaId='',
-    playlists=[{ medias: [] }],
+    playlist,
   }) {
-    let playlistResults = _.map( 
-      playlists, 
-      pl => _.map(
-        (pl.medias.slice() || []).reverse(), 
-        me => ({ ...me, playlistId: pl.id})
-      ) 
-    )
-    playlistResults = _.flatten(playlistResults)
-  
-    let upNextIdx = _.findIndex(playlistResults, { id: currMediaId }) + 1
-    let upNext = playlistResults[upNextIdx] || null
-    return upNext
+    let { next } = setup.findNeighbors(currMediaId, playlist)
+    return next
   },
 
   timeOut: null,

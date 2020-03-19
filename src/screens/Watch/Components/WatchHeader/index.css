@@ -17,11 +17,17 @@
   color: var(--ct-text-highlight);
   font-family: var(--ct-font-google);
 }
+.watch-header-course-num span {
+  font-weight: normal;
+  color: rgb(209, 209, 209);
+  margin-left: 1rem;
+  font-family: var(--ct-font-narrow);
+}
 
 .watch-header-media-name {
   position: relative;
   font-size: 1.15em;
-  margin: 0;
+  margin: .2rem 0;
   padding: 0;
   width: 25vw;
   white-space: nowrap;
@@ -29,7 +35,7 @@
   text-overflow: ellipsis;
   font-family: var(--ct-font-narrow);
   font-weight: normal;
-  font-style: italic;
+  /* font-style: italic; */
 }
 
 @media screen and (max-width: 550px) {

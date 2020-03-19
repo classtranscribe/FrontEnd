@@ -10,10 +10,10 @@ import { api } from '../../../../../utils'
 export function NextVideoWithRedux({
   nextBtn=true,
   media,
-  playlists=[],
+  playlist={},
 }) {
 
-  let { prev, next } = setup.findNeighbors(media.id, playlists)
+  let { prev, next } = setup.findNeighbors(media.id, playlist)
   prev = api.parseMedia( prev )
   next = api.parseMedia( next )
   let canPlayPrev = Boolean(prev.id)
@@ -98,6 +98,6 @@ function Video({
 export const NextVideoButton = withRouter(
   connectWithRedux(
     NextVideoWithRedux,
-    ['media', 'playlists'],
+    ['media', 'playlist'],
     []
 ))

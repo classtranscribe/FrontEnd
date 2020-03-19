@@ -6,7 +6,6 @@ import { util } from '../../../../../utils'
 import './index.css'
 
 function PlaylistsMenu({
-  show=false,
   onClose=null,
   media={},
   playlist={},
@@ -14,22 +13,22 @@ function PlaylistsMenu({
   watchHistory=[],
 }) {
   const currMedia = media
-  const currPlaylist = playlist
-  const currPlaylistId = currPlaylist.id
+  // const currPlaylist = playlist
+  // const currPlaylistId = currPlaylist.id
   const currMediaId = currMedia.id
 
-  const [selectedPlaylist, setSelectedPlaylist] = useState({ name: '', medias: [], id:'' })
+  // const [selectedPlaylist, setSelectedPlaylist] = useState({ name: '', medias: [], id:'' })
 
-  useEffect(() => {
-    if (playlists.length > 0) {
-      setSelectedPlaylist(_.find(playlists, pl => pl.id === currPlaylistId) || {})
-      util.scrollToCenter(currPlaylistId)
-    }
-  }, [playlists])
+  // useEffect(() => {
+  //   if (playlists.length > 0) {
+  //     setSelectedPlaylist(_.find(playlists, pl => pl.id === currPlaylistId) || {})
+  //     util.scrollToCenter(currPlaylistId)
+  //   }
+  // }, [playlists])
 
-  const handlePlaylistClick = playlist => () => {
-    setSelectedPlaylist(playlist)
-  }
+  // const handlePlaylistClick = playlist => () => {
+  //   setSelectedPlaylist(playlist)
+  // }
 
   return ( 
     <div id="watch-playlists-menu" className="watch-playlists-menu">
@@ -39,7 +38,7 @@ function PlaylistsMenu({
       </button>
 
       {/* Playlists view */}
-      <div className="watch-playlists-list">
+      {/* <div className="watch-playlists-list">
         <div className="watch-list-title"><p>Playlists</p></div>
         <div role="list" className="w-100 d-flex flex-column">
           {playlists.map( playlistItem => (
@@ -61,14 +60,14 @@ function PlaylistsMenu({
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Videos view */}
       <Videos 
-        medias={(selectedPlaylist.medias.slice() || []).reverse()} 
+        medias={(playlist.medias.slice() || []).reverse()} 
         currMediaId={currMediaId}  
         watchHistory={watchHistory}
-        selectedPlaylist={selectedPlaylist}
+        selectedPlaylist={playlist}
         playlists={playlists}
       />
 

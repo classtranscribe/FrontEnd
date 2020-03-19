@@ -13,8 +13,8 @@ function Videos({
 
   useEffect(() => {
     util.scrollToCenter(
-      currMediaId, 
-      false, 
+      '#'+currMediaId, 
+      true, 
       util.scrollToTop('.watch-videos-list')
     )
     // util.scrollToView(currMediaId)
@@ -68,7 +68,7 @@ function Video({
         name={mediaName}
         ratio={ratio}
         posterSize={'100px'}
-        fittedNameSize={40}
+        //fittedNameSize={40}
         listitem={false}
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
