@@ -1,10 +1,18 @@
 import React, { useEffect } from 'react'
-import { util } from '../../../../utils'
 
-export default function PlaylistsView({ playlists=[], handleClick, wasSelected }) {
+export default function PlaylistsView({ 
+  playlists=[],
+  wasSelected='',
+  handleClick, 
+}) {
 
   useEffect(() => {
-    util.scrollToCenter(wasSelected)
+    // Scroll the last selected playlist into view
+    let plElem = document.getElementById(wasSelected)
+    if (plElem) {
+      plElem.scrollIntoView({ block: 'center' })
+      plElem.focus()
+    }
   }, [])
 
   useEffect(() => {
@@ -15,7 +23,7 @@ export default function PlaylistsView({ playlists=[], handleClick, wasSelected }
   }, [playlists])
 
   return (
-    <div className="playlists">
+    <div className="playlists ct-a-fade-in">
       <h2 className="title">
         <i className="material-icons" aria-hidden="true">list</i> Playlists
       </h2>

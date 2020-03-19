@@ -73,7 +73,7 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
     }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
-        // console.log('playlists', data)
+        console.log('playlists', data)
         setPlaylists(() => data)
       })
       .catch(error => {
@@ -144,14 +144,14 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
         <h1 className="od-course-number">{fullNumber}</h1>
 
         <h2 className="od-course-name">
-          {courseName}&emsp;
-          <span>{termName}&ensp;{sectionName}</span>
+          {courseName}
+          <span>{termName} | {sectionName}</span>
         </h2>
         {description && <><p className="offering-description">{description}</p></>}
         {
           user.isLoggedIn()
           &&
-          <Button uppercase compact
+          <Button uppercase
             id="off-star-btn"
             color={isStarred ? "" : "teal"}
             icon={isStarred ? 'star' : 'star_border'}
