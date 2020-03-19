@@ -81,7 +81,9 @@ export const mediaControl = {
   upload: async function(playlistId, { video1, video2 }, onUploadProgress) {
     try {
       const { data } = await api.uploadVideo(playlistId, video1, video2, onUploadProgress)
+      console.error(video1)
       let newMedia = {
+        name: video1.name,
         id: data.id,
         playlistId: data.playlistId,
         sourceType: data.sourceType,
