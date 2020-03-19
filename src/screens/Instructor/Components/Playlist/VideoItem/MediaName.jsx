@@ -42,6 +42,7 @@ function MediaName({
           ref={nameRef}
           className="ip-video-name"
           contentEditable={isEditing}
+          onKeyDown={e => e.keyCode === 13 ? e.preventDefault() : null}
         >
           {mediaName}
         </div>

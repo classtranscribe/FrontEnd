@@ -325,8 +325,11 @@ export const setup = {
         setResults([])
       } else {
         // If playlists non-empty set result to playlists
+        console.log('because of me!', this.playlist(), this.offering().id)
+        if (!this.playlist().isNew) {
+          this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+        }
         setResults(playlists)
-        this.changePlaylist(playlists[0] || NEW_PLAYLIST)
       }
     } else {
       // setResults([])
@@ -334,12 +337,10 @@ export const setup = {
     }
   },
 
-  changePlaylist: async function(pl, ms=100) {
-    if (ms) {
-      this.playlist({})
-    } 
+  changePlaylist: async function(pl, setWithoutLoading=false) {
+    if (!pl.name || setWithoutLoading) return this.playlist(pl)
 
-    if (!pl.name) return this.playlist(pl)
+    this.playlist({})
 
     let { data } = await api.getPlaylistById(pl.id)
     this.playlist(data)

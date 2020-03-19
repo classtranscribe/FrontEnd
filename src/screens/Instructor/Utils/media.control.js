@@ -27,7 +27,7 @@ export const mediaControl = {
    * ************************************************************************
    */
   deleteMedia: async function(media, bulkDelete=false) {
-    if (!bulkDelete) promptControl.deleting()
+    // if (!bulkDelete) promptControl.deleting()
     try {
       await api.deleteMedia(media.id)
       let playlist = setup.playlist()
