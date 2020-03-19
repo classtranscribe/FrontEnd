@@ -34,7 +34,7 @@ export const keydownControl = {
 
   handleKeyDown: function(e) {
     if (window.location.pathname !== '/video') {
-      // document.removeEventListener('keydown', keyDownListener, true)
+      document.removeEventListener('keydown', keyDownListener, true)
       return
     }
     
