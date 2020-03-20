@@ -23,7 +23,7 @@ import {
   NEW_PLAYLIST, OFF_ANALYSIS, 
   NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, //NO_OFFERING_ID,
 } from '../../Utils'
-import './index.css'
+import './index.scss'
 
 
 function PlaylistWithRedux({
