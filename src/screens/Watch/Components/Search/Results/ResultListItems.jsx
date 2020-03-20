@@ -20,16 +20,18 @@ export const CaptionListItem = ({
   option,
 }) => {
 
-  const handleClick = item => () => {
+  let mediaId = item.media ? item.media.id : item.mediaId
+  let mediaName = item.media ? item.media.mediaName : item.mediaName
+  let begin = item.caption ? item.caption.begin : item.begin
+  let text = item.caption ? item.caption.text : item.text
+
+  const handleClick = () => {
     if (option === SEARCH_TRANS_IN_VIDEO) {
-      videoControl.currTime(timeStrToSec(item.begin))
+      videoControl.currTime(timeStrToSec(begin))
     } else if (option === SEARCH_TRANS_IN_COURSE) {
       console.log('?')
       const { courseNumber } = util.parseSearchQuery()
-      window.location = util.links.watch(courseNumber, item.media.id, timeStrToSec(item.begin))
-    } else {
-      const { courseNumber } = util.parseSearchQuery()
-      window.location = util.links.watch(courseNumber, item.id)
+      window.location = util.links.watch(courseNumber, mediaId, timeStrToSec(begin))
     }
   }
 
@@ -37,16 +39,16 @@ export const CaptionListItem = ({
     <button 
       role="listitem" 
       className="plain-btn search-result-listitem"
-      onClick={handleClick(item)}
+      onClick={handleClick}
     >
-      <div className="search-result-time">{prettierTimeStr(item.begin)}</div>
+      <div className="search-result-time">{prettierTimeStr(begin)}</div>
       <p className="search-result-text" kind={item.kind}>
         {item.kind === WEBVTT_DESCRIPTIONS && <span className="text-muted">{'(Description)'}<br/></span>}
-        <span className="search-result-content" dangerouslySetInnerHTML={{__html: item.text}}></span>
+        <span className="search-result-content" dangerouslySetInnerHTML={{__html: text}}></span>
         {
           option === SEARCH_TRANS_IN_COURSE
           &&
-          <span className="search-result-media-name">{item.playlistName}<br/>{item.media.mediaName}<br/></span>
+          <span className="search-result-media-name">{item.playlistName}<br/>{mediaName}<br/></span>
         }
       </p>
     </button>
@@ -61,20 +63,20 @@ export const VideoListItem = ({
   watchHistory=[],
 }) => {
   const courseNumber = util.parseURLFullNumber()
-  const { id, mediaName, playlistName } = media
-  const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
+  const { mediaId, name, playlistName } = media
+  const mediaHistory = watchHistory.filter(mh => mh.mediaId === mediaId)[0] || {}
   const { ratio, timeStamp } = mediaHistory
   return (
     <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
       <VideoCard row dark
-        id={id}
-        name={mediaName}
+        id={mediaId}
+        name={name}
         ratio={ratio}
         posterSize={'100px'}
         listitem={false}
         fittedNameSize={-1}
         description={`Playlist - ${playlistName}`}
-        link={util.links.watch(courseNumber, id, timeStamp)}
+        link={util.links.watch(courseNumber, mediaId, timeStamp)}
       />
     </div>
   )
