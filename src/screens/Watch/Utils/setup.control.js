@@ -108,17 +108,6 @@ export const setup = {
   getMedia: async function() {
     const { id } = util.parseSearchQuery()
 
-    // if the playlists exist
-    // if (this.playlists().length > 0) { 
-    //   let media = _.find(
-    //     _.flatten(
-    //       _.map(this.playlists(), pl => pl.medias)
-    //     ),
-    //     { id }
-    //   )
-    //   if (media) return api.parseMedia(media)
-    // }
-
     try {
       let { data } = await api.getMediaById(id)
       return api.parseMedia(data)
@@ -128,14 +117,9 @@ export const setup = {
   },
 
   getPlaylist: async function(playlistId) {
-    // // if the playlists exist
-    // if (this.playlists().length > 0) { 
-    //   let playlist = _.find(this.playlists(), { id: playlistId })
-    //   if (playlist) return playlist
-    // }
 
-    let { state } = this.externalFunctions.location
-    if (state && state.playlist) return state.playlist
+    // let { state } = this.externalFunctions.location
+    // if (state && state.playlist) return state.playlist
 
     try {
       const { data } = await api.getPlaylistById(playlistId)

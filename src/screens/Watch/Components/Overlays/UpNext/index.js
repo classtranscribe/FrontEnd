@@ -25,7 +25,7 @@ function UpNextWithRedux({
   let upNext = videoControl.findUpNextMedia({ currMediaId: media.id, playlists })
   
   useEffect(() => {
-    let displayUpnext = (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && Boolean(upNext.id)
+    let displayUpnext = (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && upNext && Boolean(upNext.id)
     if (displayUpnext) {
       setShow(true)
     } else {
