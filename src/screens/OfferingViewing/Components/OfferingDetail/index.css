@@ -68,8 +68,8 @@
   position: relative;
   outline: 0;
   cursor: pointer;
-  padding: 1em 1em 0 1em;
-  border-bottom: 1px solid rgb(212, 212, 212);
+  padding: 1.5em 2em 1.5em 2em;
+  border-bottom: 1px solid rgb(230, 230, 230);
   transition: background 0.2s linear;
   width: 100%;
   display: flex;
@@ -82,20 +82,21 @@
   margin-bottom: 100px;
 }
 .sp-content .offering-detail  .playlist-item:hover, .sp-content .offering-detail .playlist-item:focus {
-  background-color: #e9e9e9;
+  background-color: #f3f3f3;
 }
 .sp-content .offering-detail  .playlist-item .playlist-name {
-  color: #318d8d;
+  color: #3f3f3f;
   font-weight: bold;
   font-size: 17px;
   display: flex;
   justify-content: center;
+  margin-bottom: 0;
 }
 .sp-content .offering-detail  .playlist-item .playlist-name i {
   margin-right: .5em;
 }
 .sp-content .offering-detail .playlist-item:hover .playlist-name, .sp-content .offering-detail .playlist-item:focus .playlist-name, .sp-content .offering-detail .playlist-item:hover .playlist-vnum, .sp-content .offering-detail .playlist-item:focus .playlist-vnum {
-  color: rgb(53, 170, 170);
+  color: #318d8d;
 }
 .sp-content .offering-detail .playlist-item .pl-icon {
   position: absolute; 
@@ -110,6 +111,9 @@
 .sp-content .offering-detail .del-icon{
   background: none;
   border: none;
+}
+.sp-content .offering-detail .videos {
+  padding: 0 1em;
 }
 .sp-content .offering-detail .videos .title {
   color: var(--ct-text-primary);
@@ -127,8 +131,7 @@
   cursor: pointer;
   flex-direction: row;
   width: 100%;
-  padding: 1em 1em;
-  border-bottom: 1px solid rgb(212, 212, 212);
+  border-bottom: 1px solid rgb(138, 78, 78);
   outline: none;
 }
 
@@ -158,7 +161,7 @@
   font-weight: bold;
   font-size: 1.2em;
   margin-top: 1em;
-  margin-left: 1em;
+  margin-left: 1.7em;
   display: flex;
   flex-direction: row ;
   align-items: center;
@@ -190,9 +193,9 @@
   .sp-content .offering-detail .playlist-container {
     width: 100%;
     overflow-y: auto;
-    padding-left: 2em;
+    padding-left: 0em;
     margin-right: -2em;
-    padding-right: 2em;
+    padding-right: 0em;
     min-height: 90vh;
     border-top: none;
     margin-top: 0;

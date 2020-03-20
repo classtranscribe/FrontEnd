@@ -39,7 +39,7 @@ export default function PlaylistsView({
               aria-label={`Playlist: ${playlist.name}`}
             >
               <p className="playlist-name"><i className="material-icons">video_library</i>{playlist.name}</p>
-              <p className="playlist-vnum">{playlist.medias.length} video(s)</p>
+              {/* <p className="playlist-vnum">{playlist.medias.length} video(s)</p> */}
               <i className="material-icons pl-icon">chevron_right</i>
             </button>
           ))
