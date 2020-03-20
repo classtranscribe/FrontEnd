@@ -325,7 +325,6 @@ export const setup = {
         setResults([])
       } else {
         // If playlists non-empty set result to playlists
-        console.log('because of me!', this.playlist(), this.offering().id)
         if (!this.playlist().isNew) {
           this.changePlaylist(playlists[0] || NEW_PLAYLIST)
         }

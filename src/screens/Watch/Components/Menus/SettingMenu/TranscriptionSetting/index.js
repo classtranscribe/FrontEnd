@@ -24,7 +24,7 @@ function TranscriptionSetting({
   }
 
   const openAutoScroll = () => {
-    console.error()
+    // console.error()
     preferControl.autoScroll( !autoScroll )
     userAction.autoScrollChange( !autoScroll )
     setAutoScroll( !autoScroll )

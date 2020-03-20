@@ -73,7 +73,7 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
     }
     api.getPlaylistsByOfferingId(id) 
       .then( ({data}) => {
-        console.log('playlists', data)
+        // console.log('playlists', data)
         setPlaylists(() => data)
       })
       .catch(error => {

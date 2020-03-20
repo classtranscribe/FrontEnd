@@ -62,7 +62,7 @@ export const plControl = {
     } 
 
     let newPl = { offeringId, name, sourceType, playlistIdentifier }
-    console.log('newPl', newPl)
+    // console.log('newPl', newPl)
     try {
       let { data } = await api.createPlaylist(newPl)
       newPl = data

@@ -109,7 +109,7 @@ class Epub {
     if (this.isSettingEpub()) return
 
     this.oldEpubData_ = [...this.epubData_]
-    console.log('this.epubData_', this.oldEpubData_)
+    // console.log('this.epubData_', this.oldEpubData_)
     this.isSettingEpub(true)
     this.epubData([])
   }
@@ -120,7 +120,7 @@ class Epub {
   cancelResetEpub() {
     if (!this.isSettingEpub()) return
 
-    console.log('this.epubData_', this.oldEpubData_)
+    // console.log('this.epubData_', this.oldEpubData_)
     this.epubData(this.oldEpubData_)
     this.isSettingEpub(false)
     this.oldEpubData_ = []

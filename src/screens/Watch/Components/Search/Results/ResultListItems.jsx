@@ -29,7 +29,6 @@ export const CaptionListItem = ({
     if (option === SEARCH_TRANS_IN_VIDEO) {
       videoControl.currTime(timeStrToSec(begin))
     } else if (option === SEARCH_TRANS_IN_COURSE) {
-      console.log('?')
       const { courseNumber } = util.parseSearchQuery()
       window.location = util.links.watch(courseNumber, mediaId, timeStrToSec(begin))
     }

@@ -45,7 +45,7 @@ function EpubContent({
       if (txtObj) {
         txtObj.text = e.target.innerText
       } else {
-        console.error('texts', txts, id)
+        // console.error('texts', txts, id)
       }
     }
     if (!isEditing) setIsEditing(true)

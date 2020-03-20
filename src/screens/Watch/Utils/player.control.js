@@ -117,7 +117,7 @@ export const videoControl = {
     const that = this
     if (isMobile) {
       window.addEventListener('orientationchange', () => {
-        console.log('window.orientation', window.orientation)
+        // console.log('window.orientation', window.orientation)
         if ([90, -90].includes(window.orientation)) {
           if (that.currTime() > 0) {
             that.enterFullScreen()
@@ -297,7 +297,7 @@ export const videoControl = {
     try {
       if (isMobile) {
         const elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
-        console.log(elem.webkitExitFullscreen)
+        // console.log(elem.webkitExitFullscreen)
       }
       if (!this.videoNode1) return;
       if (document.exitFullscreen) {
