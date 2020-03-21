@@ -41,8 +41,12 @@ export class CTUser {
   // ---------------------------------------------------------------------------
 
   // Login the user
-  signin() {
-    auth0Client.signIn()
+  signin(options={ allowTestSignIn: false }) {
+    if (env.dev && options.allowTestSignIn) {
+      this.testAccountSignIn()
+    } else {
+      auth0Client.signIn()
+    }
   }
 
   // login the user and clear the localStorage
