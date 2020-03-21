@@ -35,11 +35,11 @@ export default function PlaylistPlaceholder({
             </>
             :
             <>
-              <p className="text-muted">Please Sign In to Watch the Videos</p>
+              <p className="text-muted">This course is only available for signed-in users.</p>
               <Button uppercase
                 id="ofd-signin-btn"
                 color="teal"
-                text="Sign In"
+                text="Sign in to watch videos!"
                 onClick={() => user.signin({ allowTestSignIn: true })}
               />
             </>
