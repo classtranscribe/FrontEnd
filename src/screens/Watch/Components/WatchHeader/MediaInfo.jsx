@@ -5,7 +5,7 @@ import { util } from '../../../../utils'
 
 function MediaInfo({
   media={},
-  // playlist={}
+  playlist={}
 }) {
 
   const { mediaName } = media
@@ -39,7 +39,10 @@ function MediaInfo({
 
   return (
     <div className="watch-media-info" title={mediaName}>
-      <p className="watch-header-course-num">{courseNumber}</p>
+      <div className="watch-header-course-num">
+        {courseNumber}
+        <span>{playlist.name}</span>
+      </div>
       <h1 className="watch-header-media-name">{mediaName}</h1>
     </div>
   )

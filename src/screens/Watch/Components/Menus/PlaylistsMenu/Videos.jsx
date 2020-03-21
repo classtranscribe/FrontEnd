@@ -6,15 +6,14 @@ import { api, util } from '../../../../../utils'
 function Videos({
   medias=[],
   currMediaId='',
-  playlists=[],
   watchHistory=[],
   selectedPlaylist={},
 }) {
 
   useEffect(() => {
     util.scrollToCenter(
-      currMediaId, 
-      false, 
+      '#'+currMediaId, 
+      true, 
       util.scrollToTop('.watch-videos-list')
     )
     // util.scrollToView(currMediaId)
@@ -36,8 +35,6 @@ function Videos({
             <Video 
               key={media.id}
               media={media} 
-              playlist={selectedPlaylist}
-              playlists={playlists}
               currMediaId={currMediaId} 
               watchHistory={watchHistory} 
             />
@@ -52,9 +49,6 @@ function Video({
   media=null, 
   currMediaId='',
   watchHistory=[],
-
-  playlist={},
-  playlists=[],
 }) {
   const courseNumber = util.parseURLFullNumber()
   media = api.parseMedia(media)
@@ -68,11 +62,10 @@ function Video({
         name={mediaName}
         ratio={ratio}
         posterSize={'100px'}
-        fittedNameSize={40}
+        //fittedNameSize={40}
         listitem={false}
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
-        mediaState={{ media, playlist, playlists }}
         link={util.links.watch(courseNumber, id, timeStamp)}
       />
     </li>

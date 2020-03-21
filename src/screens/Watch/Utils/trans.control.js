@@ -624,7 +624,7 @@ export const transControl = {
     if (!this.openCC_) return;
     const size = this.ccSize()
     if ( size - .25 >= 0.75 ) this.ccSize(size - .25)
-    console.log('size - .25', size - .25)
+    // console.log('size - .25', size - .25)
   },
   ccFont: function(value) {
     if (value === undefined) return this.cc_font

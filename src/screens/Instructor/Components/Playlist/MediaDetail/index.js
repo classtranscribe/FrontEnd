@@ -12,7 +12,7 @@ function MediaDetail({
   media, 
   onClose,
 }) {
-  const { mediaName, id } = api.parseMedia(media)
+  const { mediaName, id, createdAt } = api.parseMedia(media)
   const history = useHistory()
 
   const [newName, setNewName] = useState('')
@@ -88,6 +88,9 @@ function MediaDetail({
           </span>
         </button>
 
+        <div className="text-muted mb-1 mt-3">
+          Created at {createdAt.slice(0, 10)}
+        </div>
         <h3 
           ref={nameRef} 
           className={"ip-p-md-mname ct-d-r-center-v" + (isEditing ? " edit" : "")}

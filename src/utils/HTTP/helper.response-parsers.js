@@ -3,6 +3,7 @@ import { util } from '../index'
 import { user } from '../user'
 import { httpGET  } from './http.get'
 import _ from 'lodash'
+import { env } from 'utils/env'
 const monthMap = require('../json/monthNames.json')
 
 export const responseParsers = {
@@ -54,18 +55,17 @@ export const responseParsers = {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
       const { offering, courses, term } = rawOfferings[i]
-      // let { courseName, description } = courses[0]
       let { universityId } = term
       let departmentIds = _.map(courses, 'departmentId')
       parsedOfferings.push({
         ...offering,
-        // courseName, 
-        // description, 
         departmentIds,
         universityId,
         termName: term.name,
         fullNumber: this.getFullNumber(courses),
-        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+        // hide the test course when it's not in the staging server
+        // and the user is not an admin
+        isTestCourse: !env.dev && !user.isAdmin() && _.findIndex(courses, { courseNumber: '000' }) >= 0,
       })
     }
     // console.log('parsedOfferings', parsedOfferings)

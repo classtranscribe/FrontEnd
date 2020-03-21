@@ -97,7 +97,7 @@ export class Home extends React.Component {
     const { displaySearchHeader, starredOfferings, offerings, watchHistory, onboarded } = state
 
     return (
-      <div className="sp-home">
+      <div className="sp-home ct-a-fade-in">
         <div id="home-content">
           <h1 className="accessbility_hide">ClassTranscribe Home - Courses</h1>
           <MaintenanceMessage />

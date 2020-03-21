@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { PlaylistIcon } from '../PlaylistIcon'
 import './index.scss'
 
 export function ListItem({
+  asLink=false,
   icon=null,
   title='',
   subtitle='',
@@ -15,15 +17,11 @@ export function ListItem({
 
   onClick=null,
   image,
+  to='',
 }) {
-  return (
-    <button 
-      className={`plain-btn ip-li-btn ${dark ? 'dark' : ''}`} 
-      data-current={current}
-      onClick={current ? null : onClick}
-      disabled={disabled}
-    >
-      <div tabIndex="-1" className="ip-li-btn-con">
+
+  const listItemContent = (
+    <div tabIndex="-1" className="ip-li-btn-con">
         {
           image
           &&
@@ -73,7 +71,26 @@ export function ListItem({
           }
         </div>
       </div>
+  )
 
+  return asLink ? (
+    <Link
+      className={`plain-btn ip-li-btn ${dark ? 'dark' : ''}`} 
+      data-current={current}
+      disabled={disabled}
+      to={to}
+      onClick={onClick}
+    >
+      {listItemContent}
+    </Link>
+  ) : (
+    <button 
+      className={`plain-btn ip-li-btn ${dark ? 'dark' : ''}`} 
+      data-current={current}
+      onClick={current ? null : onClick}
+      disabled={disabled}
+    >
+      {listItemContent}
     </button>
   )
 }

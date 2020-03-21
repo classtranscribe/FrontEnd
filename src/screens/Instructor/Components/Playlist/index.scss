@@ -39,10 +39,33 @@
   font-size: 1.3em;
   color: rgb(68, 68, 68);
 }
+.ip-p-pl-name-edit-con {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.ip-p-pl-name-edit {
+  width: 100%;
+}
 .ip-p-pl-name-edit-con input {
+  width: 100%;
+  color: black;
+  background: none;
+  border: none;
   font-weight: bold;
-  font-size: 1.7em;
-  padding: .5em 1em;
+  font-size: 1.2em;
+  padding: .85em 1em calc(1em - 2px) 1em;
+  background-color: var(--ct-ip-grey-1);
+  border-bottom: 2px transparent solid;
+  transition: border .2s ease-in-out;
+  &:hover {
+    border-color: black;
+  }
+  &:focus {
+    outline: none;
+    // background-color: var(--ct-ip-grey-2);
+    border-color: var(--ct-green-normal);
+  }
 }
 
 

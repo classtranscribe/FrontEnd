@@ -1,19 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import $ from 'jquery'
-import { withRouter } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react'
-import { VideoCard } from '../../../../components'
+import { VideoCard, PlaceHolder } from '../../../../components'
 import { api, util } from '../../../../utils'
 
-function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHistoryJSON }) {
-  const { name, medias=[] } = playlist
+function VideoView({ 
+  playlistId, 
+  playlists, 
+  goBack, 
+  courseNumber, 
+  watchHistoryJSON 
+}) {
+  const [playlist, setPlaylist] = useState({})
 
   useEffect(() => {
-    $('.sp-content')[0].scrollTop = 0
-  }, [history])
+    util.scrollToTop('.sp-content')
+    api.getPlaylistById(playlistId)
+      .then(({ data }) => setPlaylist(data))
+      .catch(error => console.error(error, 'Failed to load playlist.'))
+  }, [])
 
-  return (
-    <div className="videos">
+  const { name, medias=[] } = playlist
+
+  return name ? (
+    <div className="videos ct-a-fade-in">
       <div className="goback-container">
         <button className="del-icon" onClick={goBack} aria-label="Back to Playlists">
           <Icon name="chevron left" aria-hidden="true" /> Playlists
@@ -38,7 +48,7 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHi
         ))}
       </div>
     </div>
-  )
+  ) : <PlaceHolder />
 }
 
 function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
@@ -58,4 +68,4 @@ function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
   )
 }
 
-export default withRouter(VideoView)
+export default VideoView

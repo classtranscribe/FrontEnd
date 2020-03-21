@@ -74,7 +74,7 @@ export class Admin extends React.Component {
       .then(response => {
         this.setState({terms: response.data})
       })
-      .catch( error => console.log(error) )
+      .catch( error => console.error(error) )
   }
   getDepartsByUniId = (uniId, name) => {
     api.getDepartsByUniId(uniId) 

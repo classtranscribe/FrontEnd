@@ -1,8 +1,11 @@
 import React from 'react'
-import { Loader, Button } from 'semantic-ui-react'
+import { Loader } from 'semantic-ui-react'
+import { Button } from 'pico-ui'
 import { user } from '../../../../utils'
 
-export default function PlaylistPlaceholder({ noPlaylist, signIn }) {
+export default function PlaylistPlaceholder({ 
+  noPlaylist, signIn 
+}) {
   return (
     <div className="playlist-container pl-loader">
       {
@@ -21,8 +24,26 @@ export default function PlaylistPlaceholder({ noPlaylist, signIn }) {
         signIn 
         && 
         <div className="w-100 d-flex flex-column justify-content-center align-items-center">
-          <p className="text-muted">Please Sign In to Watch the Videos</p>
-          <Button secondary compact onClick={() => user.signin()}>Sign In</Button>
+          {
+            user.isLoggedIn()
+            ?
+            <>
+              <p className="text-muted text-center">
+                Sorry, you don't have the access to this course.<br/>
+                Please ask your instructors for permissions.
+              </p>
+            </>
+            :
+            <>
+              <p className="text-muted">This course is only available for signed-in users.</p>
+              <Button uppercase
+                id="ofd-signin-btn"
+                color="teal"
+                text="Sign in to watch videos!"
+                onClick={() => user.signin({ allowTestSignIn: true })}
+              />
+            </>
+          }
         </div>
       }
     </div>

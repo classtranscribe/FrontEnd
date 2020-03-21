@@ -22,7 +22,6 @@ export default function InstructorEditing({ match: {params}, history }) {
     onUpdate: () => 1,
     onSubmit: () => {
       api.createRole(mailId).then(response => {
-        console.log(response)
         window.location = util.links.admin()
       })
     }

@@ -281,7 +281,7 @@ export const offControl = {
 
     // unlink removed courses
     for (let i = 0; i < removedCourses.length; i++) {
-      console.log(`removing course ${i + 1} - id: ${removedCourses[i].id}, offId: ${offeringId}`)
+      // console.log(`removing course ${i + 1} - id: ${removedCourses[i].id}, offId: ${offeringId}`)
       await api.deleteCourseOffering(removedCourses[i].id, offeringId)
               // .then(() => console.log('success'))
               .catch(error => {
@@ -292,7 +292,7 @@ export const offControl = {
 
     // link added staffs to this offering
     if (addedStaffs.length > 0) {
-      console.log('adding staffs', addedStaffs)
+      // console.log('adding staffs', addedStaffs)
       await api.addCourseStaffToOffering(offeringId, addedStaffs)
             // .then(() => console.log('success'))
             .catch(error => console.error('failed to add staffs'))
@@ -329,7 +329,6 @@ export const offControl = {
     }
 
     setup.unloading()
-    // window.location = window.location.pathname + window.location.search
   },
 
   /**

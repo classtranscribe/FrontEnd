@@ -165,44 +165,40 @@ export class OfferingViewing extends React.Component {
             />   
             <Sidebar {...this} />
 
-            <main className="sp-content" style={paddingLeft}>
-              <TransitionGroup>
-                <CSSTransition key={location.key} classNames="fade" timeout={300}>
-                  <Switch location={location}>
-                    {/* Unauthed home page */}
-                    <Route 
-                      exact path="/home" 
-                      render={props => <Home {...props} {...this} />} 
-                    />
-                    {/* Starred */}
-                    <Route 
-                      exact path="/home/starred" 
-                      render={() => <Starred {...this} />}
-                    />
-                    {/* History */}
-                    <Route 
-                      exact path="/home/history" 
-                      render={() => <History {...this} />}
-                    />
-                    {/* Offering Detail page */}
-                    <Route 
-                      exact path='/home/offering/:id'
-                      render={({ match, ...props }) => <OfferingDetail id={match.params.id} {...props} {...this} />}
-                    />
-                    {/* Search Page */}
-                    <Route 
-                      exact path='/home/search' 
-                      render={props => <Search offerings={offerings} {...props} />}
-                    />
+            <main className="sp-content" style={paddingLeft} data-scroll>
+              <Switch location={location}>
+                {/* Unauthed home page */}
+                <Route 
+                  exact path="/home" 
+                  render={props => <Home {...props} {...this} />} 
+                />
+                {/* Starred */}
+                <Route 
+                  exact path="/home/starred" 
+                  render={() => <Starred {...this} />}
+                />
+                {/* History */}
+                <Route 
+                  exact path="/home/history" 
+                  render={() => <History {...this} />}
+                />
+                {/* Offering Detail page */}
+                <Route 
+                  exact path='/home/offering/:id' 
+                  render={() => <OfferingDetail {...this} />}
+                />
+                {/* Search Page */}
+                <Route 
+                  exact path='/home/search' 
+                  render={props => <Search offerings={offerings} {...props} />}
+                />
 
-                    {/* Personal Report */}
-                    <Route 
-                      exact path="/home/personal-report"
-                      render={props => <Analytics {...props} {...this.state} />}
-                    />
-                  </Switch>
-                </CSSTransition>
-              </TransitionGroup>
+                {/* Personal Report */}
+                <Route 
+                  exact path="/home/personal-report"
+                  render={props => <Analytics {...props} {...this.state} />}
+                />
+              </Switch>
             </main>
           </div>
       )}/>

@@ -46,7 +46,7 @@ function ResultList({
       case SEARCH_TRANS_IN_VIDEO:
         return `Seek to this ${item.kind === WEBVTT_DESCRIPTIONS ? 'description' : 'caption'}`
       case SEARCH_TRANS_IN_COURSE:
-        return <>Watch this caption in video <i>{item.media.mediaName}</i></>
+        return <>Watch this caption in video <i>{item.mediaName}</i></>
       case SEARCH_IN_PLAYLISTS:
         return <>Watch video {item.mediaName}</>
       default:

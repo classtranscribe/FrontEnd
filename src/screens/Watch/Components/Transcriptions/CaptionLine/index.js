@@ -10,6 +10,7 @@ import {
   WEBVTT_DESCRIPTIONS
 } from '../../../Utils'
 import './index.css'
+import { isMobile } from 'react-device-detect'
 
 function CaptionLine({
   isCurrent=false,
@@ -97,6 +98,7 @@ function CaptionLine({
             //content={isEditing ? 'Hit return to save changes.' : 'Click to modify this caption!'}
             //trigger={
               <textarea   
+                readOnly={isMobile}
                 ref={ref}
                 rows='2'
                 id={`caption-line-textarea-${id}`}
