@@ -36,7 +36,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     if (prevProps.media !== media) {
       // set src for videos
       const { videos, isTwoScreen } = media
-      const { srcPath1, srcPath2 } = videos[0]
+      const { srcPath1, srcPath2 } = videos[0] || {}
       // set src paths
       this.setState({ srcPath1, srcPath2 })
 

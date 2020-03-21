@@ -35,7 +35,6 @@ function BigPlayButtonWithRedux({
       setPauseStatus(paused ? PS_PAUSE : PS_PLAY)
       lastPaused = paused
       timeOutEl = setTimeout(() => setPauseStatus(PS_NOTHING), 300);
-      console.error('????')
     }
   }, [paused])
 
