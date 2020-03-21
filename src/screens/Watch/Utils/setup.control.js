@@ -59,6 +59,16 @@ export const setup = {
     }
   },
 
+  offering: function(offering_) {
+    if (offering_ === undefined) return this.offering_
+
+    const { setOffering } = this.externalFunctions
+    if (setOffering) {
+      setOffering(offering_)
+      this.offering_ = offering_
+    }
+  },
+
   /**
    * Helper functions
    * ************************************************************************
@@ -72,16 +82,15 @@ export const setup = {
     menuControl.clear()
   },
 
-  changeVideo: function(media, playlist, playlists) {
+  changeVideo: function(media, playlist) {
     const { history } = this.externalFunctions
     const { courseNumber } = util.parseSearchQuery()
 
-    if (!playlists) playlists = this.playlists()
-    if (!playlist) playlist = _.find(playlists, { id: media.playlistId })
+    if (!playlist) playlist = this.playlist()
 
     history.push(
       util.links.watch(courseNumber, media.id), 
-      { media, playlist, playlists }
+      { media, playlist }
     )
   },
 
@@ -123,6 +132,7 @@ export const setup = {
 
     try {
       const { data } = await api.getPlaylistById(playlistId)
+      _.reverse(data.medias || [])
       return data
     } catch (error) {
       return null
@@ -141,6 +151,18 @@ export const setup = {
       return data 
     } catch (error) {
       return null
+    }
+  },
+
+  getOffering: async function(offeringId) {
+    // let { state } = this.externalFunctions.location
+    // if (state && state.offering) return state.offering
+    
+    try {
+      const { data } = await api.getOfferingById(offeringId)
+      return data
+    } catch (error) {
+      return {}
     }
   },
 
@@ -168,7 +190,7 @@ export const setup = {
   /** 
    * Function for getting media, playlist, and playlists
    */
-  setupMedias: async function(props, context) {
+  setupMedias: async function() {
     this.checkForReset()
     // Get media
     let media = await this.getMedia()
@@ -204,11 +226,16 @@ export const setup = {
 
     api.contentLoaded()
 
-    // Get playlists
     let { offeringId } = playlist
-    let playlists = await this.getPlaylists(offeringId)
 
-    if (playlists) this.playlists(playlists)
+    // Get playlists
+    // let playlists = await this.getPlaylists(offeringId)
+    // if (playlists) this.playlists(playlists)
+    
+    // Get offering
+    // let offering = await this.getOffering(offeringId)
+    // console.error('offering', offering, api.getFullNumber(offering.courses))
+    // api.completeSingleOffering(offering, off => console.error(off, api.getFullNumber(off.courses)))
 
     // Initialize user action handler
     let mediaId = media.id

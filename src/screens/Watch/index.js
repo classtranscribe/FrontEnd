@@ -53,8 +53,8 @@ export class WatchWithRedux extends React.Component {
   }
 
   componentDidMount() {
-    /** GET media, playlist, and playlists */
-    setup.setupMedias(this.props, this.context)
+    /** GET media, playlist  */
+    setup.setupMedias()
     /** Add keydown event handler */
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
@@ -89,7 +89,7 @@ WatchWithRedux.contextType = CTContext
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(
     WatchWithRedux,
-    ['media', 'playlist', 'playlists'],
+    ['media', 'playlist'],
     [
       'setMedia', 'setPlaylist', 'setPlaylists', 'changeVideo',
       // transControl
