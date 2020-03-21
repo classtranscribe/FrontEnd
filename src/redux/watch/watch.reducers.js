@@ -46,7 +46,8 @@ import {
   // actions
   SET_STATE,
   CHANGE_VIDEO,
-  TIME_UPDATE
+  TIME_UPDATE,
+  RESET_STATES
 } from './watch.action.types'
 
 import { 
@@ -147,6 +148,8 @@ const watchReducer = (
                                     prompt: null,
                                     search: SEARCH_INIT,
                                   }
+
+    case RESET_STATES           : return initialState
 
     // Default
     default                     : return state

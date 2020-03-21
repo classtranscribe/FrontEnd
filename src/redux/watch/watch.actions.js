@@ -47,6 +47,7 @@ import {
   SET_STATE,
   CHANGE_VIDEO,
   TIME_UPDATE,
+  RESET_STATES,
 } from './watch.action.types'
 
 
@@ -105,3 +106,5 @@ export const setPrompt            = value => ({ type: SET_PROMPT, value })
 export const setReduxState        = value => ({ type: SET_STATE, value })
 export const timeUpdate           = value => ({ type: TIME_UPDATE, value: { time: value[0], currCaption: value[1] } }) 
 export const changeVideo          = value => ({ type: CHANGE_VIDEO, value })
+
+export const resetStates          = value => ({ type: RESET_STATES, value })

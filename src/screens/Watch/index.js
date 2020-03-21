@@ -61,6 +61,10 @@ export class WatchWithRedux extends React.Component {
     videoControl.addWindowEventListener()
   }
 
+  componentWillUnmount() {
+    this.props.resetStates()
+  }
+
   render() { 
     return (
       <main className="watch-bg" id="watch-page">
@@ -97,7 +101,9 @@ export function Watch(props) {
       // promptControl
       'setPrompt',
       // searchControl
-      'setSearch'
+      'setSearch',
+      // others
+      'resetStates',
     ]
   )
   return (
