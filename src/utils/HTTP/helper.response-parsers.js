@@ -116,7 +116,7 @@ export const responseParsers = {
     if (!id || !jsonMetadata) return re
 
     re.id = id
-    re.createdAt = jsonMetadata.createdAt
+    re.createdAt = media.createdAt
     re.playlistId = playlistId
     re.sourceType = sourceType
     re.transReady = ready

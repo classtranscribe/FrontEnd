@@ -28,14 +28,7 @@ function MediaDetail({
   const handleWatch = () => {
     let courseNumber = setup.offering().courseNumber
     let pathname = util.links.watch(courseNumber, id)
-    history.push(
-      pathname, 
-      { 
-        media, 
-        playlist: setup.playlist(), 
-        playlists: setup.playlists() 
-      }
-    )
+    history.push(pathname, { media, })
   }
 
   const handleRename = async () => {
@@ -88,9 +81,13 @@ function MediaDetail({
           </span>
         </button>
 
-        <div className="text-muted mb-1 mt-3">
-          Created at {createdAt.slice(0, 10)}
-        </div>
+        {
+          createdAt
+          &&
+          <div className="text-muted mb-1 mt-3">
+            Created at {createdAt.slice(0, 10)}
+          </div>
+        }
         <h3 
           ref={nameRef} 
           className={"ip-p-md-mname ct-d-r-center-v" + (isEditing ? " edit" : "")}
