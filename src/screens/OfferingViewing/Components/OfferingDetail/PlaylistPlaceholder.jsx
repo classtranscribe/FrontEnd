@@ -40,7 +40,7 @@ export default function PlaylistPlaceholder({
                 accessType === 3 ? // University Only
                 <p className="text-muted text-center">
                   Sorry, this course is only available for students of this university.<br/>
-                  Please make sure you are using the your university authorized email.
+                  Please login with an email account of this particular university.
                 </p>
                 :
                 <p className="text-muted text-center">
