@@ -33,6 +33,7 @@ export function OfferingDetail({
   const [sectionName, setSectionName] = useState('')
   const [description, setDescription] = useState('')
   const [courseName, setCourseName] = useState('Loading...')
+  const [accessType, setAccessType] = useState(0)
 
   const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
   useEffect(() => {
@@ -56,6 +57,7 @@ export function OfferingDetail({
       setDescription(offering.description)
       setSectionName(offering.sectionName)
       setCourseName(offering.courseName)
+      setAccessType(offering.accessType)
       util.links.title(offering.fullNumber+' • '+offering.termName+' • '+offering.sectionName)
     } else {
       try {
@@ -123,6 +125,7 @@ export function OfferingDetail({
       setSectionName(offering.offering.sectionName)
       setCourseName(offering.offering.courseName)
       setDescription(offering.offering.description)
+      setAccessType(offering.offering.accessType)
     }
     util.links.title(fullNumber+' '+termName+' '+sectionName)
   }, [offering])
@@ -139,8 +142,6 @@ export function OfferingDetail({
       pathname = util.links.history()
     }
   }
-
-  // const allLoaded = fullNumber && termName && courseName && description && sectionName
 
   return (
     <div className="offering-detail ct-a-fade-in" >
@@ -181,6 +182,7 @@ export function OfferingDetail({
       {/* Playlists */}
       <Playlists 
         offeringId={id}
+        accessType={accessType}
         history={history} 
         playlists={playlists} 
         fullNumber={fullNumber}  

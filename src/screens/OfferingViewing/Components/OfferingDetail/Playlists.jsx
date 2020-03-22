@@ -5,14 +5,15 @@ import VideoView from './VideoView'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
 
 export default function Playlists({ 
+  accessType=0,
   playlists, 
-  fullNumber, 
+  fullNumber='', 
   watchHistoryJSON 
 }) {
   const [playlistId, setPlaylistId] = useState('prev-')
 
   if (playlists && playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
-  if (playlists && playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn />
+  if (playlists && playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn accessType={accessType} />
   
   const handlePlaylistClick = playlist => {
     setPlaylistId(playlist.id)
