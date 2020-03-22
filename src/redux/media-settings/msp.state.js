@@ -1,8 +1,8 @@
-import { api } from '../../utils'
+import { api, ARRAY_INIT } from '../../utils'
 
 export const initialState = {
   media: api.parseMedia(),
   tab: '',
-  epubData: [],
-  isSettingEpub: false,
+  epubData: ARRAY_INIT,
+  isSettingEpub: true,
 } 

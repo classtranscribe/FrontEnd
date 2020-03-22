@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api, util } from '../../../utils'
-import { TEXT_SEP, textSepRegex } from './constants'
+import { } from './constants'
 
 class Epub {
   constructor() {
@@ -10,7 +10,7 @@ class Epub {
     this.oldEpubData_ = []
     this.isSettingEpub_ = false
 
-    this.textsToSave_ = []
+    this.textToSave_ = []
   }
 
   /**
@@ -60,12 +60,9 @@ class Epub {
    * ****************************************************************
    */
 
-  texts(texts_) {
-    if (texts_ === undefined) return this.textsToSave_
-    this.textsToSave_ = texts_
-  }
-  textsCopy() {
-    return this.textsToSave_.map(txt => ({ ...txt }))
+  text(text_) {
+    if (text_ === undefined) return this.textToSave_
+    this.textToSave_ = text_
   }
   /**
    * Function used to save new text of a chapter
@@ -77,12 +74,13 @@ class Epub {
     let index = _.findIndex(epubdata, { id })
     if (index >= 0) {
       epubdata[index].title = title
-      epubdata[index].text = this.texts().map(t => t.text).join(TEXT_SEP)
+      epubdata[index].text = this.textToSave_
       this.epubData([ ...epubdata ])
     }
   }
 
   cancelTextEdit() {
+    this.textToSave_ = ''
     this.epubData([ ...this.epubData() ])
   }
 
@@ -91,7 +89,7 @@ class Epub {
    * ****************************************************************
    */
   combine(priChapter, secChapter) {
-    priChapter.text += TEXT_SEP + secChapter.text
+    // priChapter.text += TEXT_SEP + secChapter.text
     // _.findIndex(this.epubData(), priChapter)
     // @TODO
     // add currChapter as a redux state
@@ -143,14 +141,6 @@ class Epub {
    */
   genId(prefx='auto-id') {
     return `${prefx}-${Math.random()}`
-  }
-
-  formatText(text='') {
-    return _.replace(text, textSepRegex, ' ')
-  }
-
-  splitText(text='') {
-    return text.split(TEXT_SEP).map((t, i) => ({ text: t, id: 'msp-e-v-text-'+i }))
   }
 
   parseChapter(epub, index) {

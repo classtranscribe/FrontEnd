@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import EpubSidebar from './EpubSidebar'
 import EpubContent from './EpubContent'
+import EpubEditor from './EpubEditor'
 
 import { connectWithRedux, epub } from '../../Utils'
 import './index.scss'
@@ -36,17 +37,27 @@ function EPubWithRedux({
 
   return (
     <div className="msp-epub-con ct-a-fade-in">
-      <EpubSidebar 
-        currChapter={currEpub}
-        handleChapterClick={handleChapterClick}
-      />
+      {
+        isSettingEpub 
+        ?
+        <>
+          <EpubEditor />
+        </>
+        :
+        <>
+          <EpubSidebar 
+            currChapter={currEpub}
+            handleChapterClick={handleChapterClick}
+          />
 
-      <div className="msp-e-content">
-        <EpubContent 
-          currChapter={currEpub} 
-          handleChapterClick={handleChapterClick}
-        />
-      </div>
+          <div className="msp-e-content">
+            <EpubContent 
+              currChapter={currEpub} 
+              handleChapterClick={handleChapterClick}
+            />
+          </div>
+        </>
+      }
     </div>
   )
 }

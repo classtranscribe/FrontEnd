@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { PlaceHolder } from '../../../../../components'
 import { MSPSidebar } from '../../MSPSidebar'
-import { api, util } from '../../../../../utils'
-import { connectWithRedux, epub } from '../../../Utils'
+import { api, util, ARRAY_INIT } from '../../../../../utils'
+import { connectWithRedux, epub, NEW_CHAPTER } from '../../../Utils'
 
 function ChaptersSidebar({
-  epubData=[],
+  epubData=ARRAY_INIT,
   currChapter,
   handleChapterClick,
 }) {
@@ -24,22 +24,24 @@ function ChaptersSidebar({
   }
 
   useEffect(() => {
-    if (epubData.length > 0) {
+    if (epubData !== ARRAY_INIT) {
       setChapters(epubData)
       // in case the currchapter switch after editing
       if (!epubData.find(ch => ch === currChapter)) {
-        handleChapterClick(epubData[0])()
+        handleChapterClick(epubData[0] || NEW_CHAPTER)()
       }
     } else {
       handleChapterClick({})()
     }
+
+    return () => setChapters(ARRAY_INIT)
   }, [epubData])
   
   return (
     <>
       <MSPSidebar.Item dark
         icon="restore_page"
-        title="RESET CHAPTERS"
+        title="MANAGE CHAPTERS"
         onClick={resetChapters}
       />
       <div className="pl-3 pr-3 pb-2 mb-2 ct-border-b">
@@ -52,8 +54,10 @@ function ChaptersSidebar({
       </div>
 
       {
-        chapters.length > 0
+        chapters.length === ARRAY_INIT
         ?
+        <PlaceHolder />
+        :
         <div className="ct-d-c w-100 ct-a-fade-in">
           {chapters.map(chapter => (
             <MSPSidebar.Item
@@ -61,13 +65,11 @@ function ChaptersSidebar({
               title={chapter.title}
               image={api.getMediaFullPath(chapter.image)}
               current={chapter === currChapter}
-              description={util.getFittedName(epub.formatText(chapter.text), 50)}
+              description={util.getFittedName(chapter.text, 50)}
               onClick={onClickChapter(chapter)}
             />
           ))}
         </div>
-        :
-        <PlaceHolder />
       }
     </>
   )
