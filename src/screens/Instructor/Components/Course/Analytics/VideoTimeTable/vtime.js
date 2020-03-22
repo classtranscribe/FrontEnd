@@ -28,7 +28,6 @@ export class VideoTimeLogsHandler {
     const recentTimeupdates = await this.getRecentTimeUpdateLogs()
     // console.log('recentTimeupdates', recentTimeupdates)
     const editTransLogs = await this.getEditTransLogs()
-    console.log('editTransLogs', editTransLogs)
     const totalTimeupdates = await this.getTotalTimeUpdateLogs()
     // console.log('totalTimeupdates', totalTimeupdates)
     const logs = this.combineLogs(
@@ -115,7 +114,6 @@ export class VideoTimeLogsHandler {
 
     _.forEach(editTransLogs, elem => {
       let timeElem = _.find(logs, { email: elem.email })
-      console.log('?', timeElem, elem.email, logs)
       if (timeElem) {
         timeElem.editTransCount = elem.count
       } else {

@@ -6,9 +6,10 @@ import {
   offControl,
   filterControl, 
   NEW_OFFERING,
+  // OFF_SETTINGS,
 } from '../../Utils'
 
-import { PlaceHolder } from '../Placeholder'
+import { PlaceHolder } from '../../../../components'
 import { EditCourse } from '../EditCourse'
 
 import CourseInfo from './CourseInfo'
@@ -45,6 +46,7 @@ function CourseWithRedux({
   const handleEdit = () => {
     offControl.offering(offering)
     setIsEditingOffering(true)
+    // setup.changePlaylist(OFF_SETTINGS)
   }
 
   const viewAnalytics = () => {
@@ -74,7 +76,7 @@ function CourseWithRedux({
 
 
   if (!offering.id) return <NoOfferingHolder />
-  if (offering === NEW_OFFERING) return <EditCourse newCourse />
+  // if (offering === NEW_OFFERING) return <EditCourse newCourse />
   if (isEditingOffering) return <EditCourse />
   if (isViewingAnalytics) return <Analytics />
 

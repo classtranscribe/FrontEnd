@@ -54,3 +54,6 @@ export const SET_STATE = 'watch-set-state'
 export const TIME_UPDATE = 'watch-time-update'
 export const CHANGE_VIDEO = 'watch-change-video'
 
+// actions
+export const RESET_STATES = 'watch-reset-states'
+

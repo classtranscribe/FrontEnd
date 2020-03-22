@@ -146,3 +146,5 @@ export const EditCourse = connectWithRedux(
     'setIsEditingOffering'
   ]
 )
+
+export const NewCourse = () => <EditCourse newCourse />

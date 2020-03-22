@@ -48,7 +48,6 @@ export default class TermEditing extends React.Component {
   }
 
   setDate = (date) => {
-    console.log(date)
     this.setState({ date: date })
   }
 

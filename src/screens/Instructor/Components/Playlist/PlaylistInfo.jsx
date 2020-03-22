@@ -52,7 +52,6 @@ function PlaylistInfo({
             <input 
               ref={plnameRef}
               value={newName}
-              className="ip-filter-input" 
               onChange={handleNameChange}
             />
           </div>

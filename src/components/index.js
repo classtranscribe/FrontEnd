@@ -15,6 +15,7 @@ export { ClassTranscribeFooter } from './Footer'
 export { Poster } from './Poster'
 export { VideoCard, VideoCardPlaceHolder } from './Cards'
 
+export { PlaceHolder } from './Placeholder'
 export { CTButton } from './Buttons'
 export { CTForm  } from './CTForm'
 

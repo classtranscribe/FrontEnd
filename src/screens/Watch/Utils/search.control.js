@@ -150,32 +150,28 @@ export const searchControl = {
     const { offeringId } = setup.playlist()
     if (!offeringId) return []
 
-    const { data } = await api.searchCaptionInOffering(offeringId, value)
-    let inCourseTransResults = data// = this.highlightSearchedWords(data, value, 'caption.text')
-    inCourseTransResults = inCourseTransResults.map( res => {
-      const { caption, playlistId, mediaId } = res
-      let playlist = _.find(setup.playlists(), { id: playlistId })
-      let media = api.parseMedia(_.find(playlist.medias, { id: mediaId }))
-      return {
-        media, playlistName: playlist.name, ...caption
-      }
-    })
-    // console.log('inCourseTransResults', inCourseTransResults)
-    return inCourseTransResults
+    try {
+      const { data } = await api.searchCaptionInOffering(offeringId, value)
+      return data
+    } catch (error) {
+      console.error('Failed to get in-course trans search results')
+      return []
+    }
   },
 
   // Function used to get search results from videos in current offering
-  getPlaylistResults: function(value) {
-    let isMatch = this.getMatchFunction(value, 'mediaName')
+  getPlaylistResults: async function(value) {
+    const { offeringId } = setup.playlist()
+    if (!offeringId) return []
 
-    let playlistResults = _.map( setup.playlists(), pl => _.map(pl.medias, m => ({ ...m, playlistName: pl.name })))
-    playlistResults = _.flatten(playlistResults)
-    playlistResults = _.map( playlistResults, m => ({ ...api.parseMedia(m), playlistName: m.playlistName}) )
-    playlistResults = _.filter(playlistResults, isMatch)
-
-    playlistResults = this.highlightSearchedWords(playlistResults, value, 'mediaName')
-    // console.log('playlistResults', playlistResults)
-    return playlistResults
+    try {
+      let { data } = await api.searchForMedia(offeringId, value)
+      // console.log('playlistResults', data)
+      return data
+    } catch (error) {
+      console.error('Failed to get media results')
+      return []
+    }
   },
 
   getShortcutResults: function(value) {
@@ -191,20 +187,19 @@ export const searchControl = {
   getResults: async function(value) {
     if (!value) return this.resetResult()
     let inVideoTransResults = this.getInVideoTransSearchResults(value)
-    let playlistResults = this.getPlaylistResults(value)
     let shortcutResults = this.getShortcutResults(value)
     this.updateSearch({ 
+      value,
       status: SEARCH_RESULT, 
       inVideoTransResults, 
-      playlistResults, 
       shortcutResults,
-      value,
+      playlistResults: ARRAY_INIT,
       inCourseTransResults: ARRAY_INIT
     })
+    let playlistResults = await this.getPlaylistResults(value)
+    this.updateSearch({ playlistResults })
     let inCourseTransResults = await this.getInCourseTransSearchResults(value)
-    this.updateSearch({ 
-      inCourseTransResults 
-    })
+    this.updateSearch({ inCourseTransResults })
     this.hasResult = true
 
     await userAction.filtertrans(value)

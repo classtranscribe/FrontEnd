@@ -22,7 +22,7 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
     setCurrUni(() => handleData.findById(universities, value))
     api.getRolesByUniId(value).then(({data}) => {
       setInstructors(() => data)
-      console.log('instructors', data)
+      // console.log('instructors', data)
       localStorage.setItem('instCurrUni', value)
       setLoading(false)
     })
