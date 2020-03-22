@@ -63,7 +63,7 @@ export const api = {
   },
 
   loginAsAccountSignIn: function(emailId) {
-    console.log(this.withAuth())
+    // console.log(this.withAuth())
     return http.post(this.baseUrl() + '/api/Account/LoginAs', { emailId }, this.withAuth())
   },
 
