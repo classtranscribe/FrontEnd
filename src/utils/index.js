@@ -128,6 +128,10 @@ export const util = {
     }    
   },
 
+  preventBreakLine(e={}) {
+    if (e.keyCode === 13) e.preventDefault()
+  },
+
   /**
    * Determine whether a imput email is valid
    */
