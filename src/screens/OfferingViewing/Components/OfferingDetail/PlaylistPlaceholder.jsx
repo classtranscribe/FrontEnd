@@ -4,7 +4,9 @@ import { Button } from 'pico-ui'
 import { user } from '../../../../utils'
 
 export default function PlaylistPlaceholder({ 
-  noPlaylist, signIn 
+  noPlaylist=false, 
+  signIn=false,
+  accessType=0,
 }) {
   return (
     <div className="playlist-container pl-loader">
@@ -25,17 +27,31 @@ export default function PlaylistPlaceholder({
         && 
         <div className="w-100 d-flex flex-column justify-content-center align-items-center">
           {
-            user.isLoggedIn()
+            user.isLoggedIn() // If signed in, then it happens when the accessType is 2 or 3
             ?
             <>
-              <p className="text-muted text-center">
-                Sorry, you don't have the access to this course.<br/>
-                Please ask your instructors for permissions.
-              </p>
+              {
+                accessType === 2 ? // Students Only
+                <p className="text-muted text-center">
+                  Sorry, you don't have the access to this course.<br/>
+                  Please ask your instructors for permissions.
+                </p>
+                :
+                accessType === 3 ? // University Only
+                <p className="text-muted text-center">
+                  Sorry, this course is only available for students of this university.<br/>
+                  Please make sure you are using the your university authorized email.
+                </p>
+                :
+                <p className="text-muted text-center">
+                  Oooops, something wrong<br/>
+                  Failed to load playlists: please make sure you have the permissions for this course.
+                </p>
+              }
             </>
-            :
+            : // If unsigned in, ask the user to sign in
             <>
-              <p className="text-muted">This course is only available for signed-in users.</p>
+              <p className="text-muted">Sorry, this course is not available for unsigned-in users.</p>
               <Button uppercase
                 id="ofd-signin-btn"
                 color="teal"

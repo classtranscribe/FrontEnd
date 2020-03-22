@@ -156,7 +156,7 @@ export const responseParsers = {
    * Returns the error status
    */
   parseError: function(error) {
-    console.log(JSON.stringify(error))
+    // console.log(JSON.stringify(error))
     const { response } = error
     if (!Boolean(response)) { // Server Error
       return { status: 500 }
