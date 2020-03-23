@@ -58,12 +58,13 @@ export class CTUser {
   // logout the user
   signout () { 
     // remove possible localStorage
-    let userInfo = this.getUserInfo()
+    // let userInfo = this.getUserInfo()
+    // console.log(userInfo, env._baseURL)
     localStorage.clear()
-    if (userInfo === env._baseURL) {
-      auth0Client.signOut()
-    } else {
+    if (env.dev) {
       window.location = window.location.origin
+    } else {
+      auth0Client.signOut()
     }
   }
 
@@ -130,9 +131,11 @@ export class CTUser {
     try {
       let latestSHA = await api.getLatestGitCommitSHA()
       let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY)
+      // console.log(localSHA, latestSHA, localSHA === latestSHA)
       // if it's a first time user, store the latest commit SHA
       if (!localSHA && !this.isLoggedIn()) {
         localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
+        window.location.reload(true)
       }
       // if there is a new commit, forcely reload the page from server
       else if (!localSHA || localSHA !== latestSHA) {
