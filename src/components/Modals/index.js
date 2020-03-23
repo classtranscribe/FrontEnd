@@ -30,6 +30,7 @@ export function GeneralModal({size, open, onClose, header, children, button, dim
 export function CTModal({
   show=false,
   title='',
+  large=false,
   children,
   // actions
   actions,
@@ -38,9 +39,12 @@ export function CTModal({
   saveBtnText='Save',
   cancelBtnText='Cancel'
 }) {
+
+  let modalStyle = large ? ' large' : ''
   return show ? (
-    <div className="ct-modal ct-d-c-center">
-      <div className="ct-mdl-con">
+
+    <div className="ct-modal ct-d-c-center ct-a-fade-in">
+      <div className={"ct-mdl-con" + modalStyle}>
         {/* Header */}
         <div className="ct-mdl-h-con">
           <h3>{title}</h3>

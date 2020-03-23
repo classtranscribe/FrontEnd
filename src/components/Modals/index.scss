@@ -56,15 +56,25 @@
     width: 30vw;
     min-width: 400px;
     box-shadow: 0 0 10px rgba(27, 27, 27, 0.267);
+    max-height: 70vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &.large {
+      width: 60vw;
+    }
 
     // Header
     .ct-mdl-h-con {
-      position: relative;
+      position: sticky;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       padding: .5em .5em .5em 1em;
+      background-color: white;
 
       h3 {
         font-size: 1.8em;
@@ -83,11 +93,14 @@
     }
 
     .ct-mdl-act {
+      position: sticky;
+      bottom: 0;
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
       padding: 1em;
       padding-top: 3em;
+      background-color: white;
     }
   }
 }
