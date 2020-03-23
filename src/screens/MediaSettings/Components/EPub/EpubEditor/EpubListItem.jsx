@@ -13,12 +13,13 @@ export default function EpubListItem({
   return (
     <div className="ee-el-item ct-d-c">
       <div className="ct-d-r ee-el-i-info">
-        <div className="ee-el-i-img">
-          <img 
-            src={api.getMediaFullPath(item.image)} alt="screenshot"   
-            onMouseEnter={() => magnifyImage(api.getMediaFullPath(item.image))}
-            onMouseLeave={endMagnifyImage}
-          />
+        <div 
+          className="ee-el-i-img"
+          tabIndex="0"
+          onFocus={() => magnifyImage(api.getMediaFullPath(item.image))}
+          onBlur={endMagnifyImage}
+        >
+          <img src={api.getMediaFullPath(item.image)} alt="screenshot" />
         </div>
         <div className="ee-el-i-text">
           {

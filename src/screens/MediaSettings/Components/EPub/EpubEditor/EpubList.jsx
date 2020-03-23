@@ -84,6 +84,7 @@ export default function EpubList({
         &&
         <div className="ee-ep-magnify">
           <img src={magnifiedImg} alt="Magnified screenshot" />
+          <Button round icon="close" />
         </div>
       }
     </div>

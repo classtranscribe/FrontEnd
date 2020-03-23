@@ -12,6 +12,7 @@ import ActionButtons from './ActionButtons'
 import ChapterNavigator from './ChapterNavigator'
 
 const firstTimeEdit = true
+var untitledNum = 0
 
 function EpubEditor({
   epubData=ARRAY_INIT
@@ -41,11 +42,11 @@ function EpubEditor({
   const splitChapter = (chapterIndex, itemIndex) => {
     let items = chapters[chapterIndex].items
     chapters[chapterIndex].items = _.slice(items, 0, itemIndex + 1)
-    let numOfUntitled = _.filter(chapters, chapter => chapter.title.startsWith('Untitled Chapter')).length
     let newChapter = {}
-    newChapter.title = 'Untitled Chapter' + (numOfUntitled === 0 ? '' : (' ' + numOfUntitled))
     newChapter.items = _.slice(items, itemIndex + 1, items.length)
     newChapter.id = epub.genId('epub-ch')
+    newChapter.title = 'Untitled Chapter' + (untitledNum === 0 ? '' : ' ' + untitledNum)
+    untitledNum += 1
 
     // Check if the cover of the curr chapter is in the splitted new chapter
     let cover = chapters[chapterIndex].image
