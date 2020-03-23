@@ -58,13 +58,13 @@ export class CTUser {
   // logout the user
   signout () { 
     // remove possible localStorage
-    let userInfo = this.getUserInfo()
+    // let userInfo = this.getUserInfo()
     // console.log(userInfo, env._baseURL)
     localStorage.clear()
-    if (userInfo.iss === env._baseURL) {
-      auth0Client.signOut()
-    } else {
+    if (env.dev) {
       window.location = window.location.origin
+    } else {
+      auth0Client.signOut()
     }
   }
 
