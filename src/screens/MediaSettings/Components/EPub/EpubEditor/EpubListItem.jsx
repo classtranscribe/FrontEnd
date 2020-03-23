@@ -3,7 +3,10 @@ import { api } from 'utils'
 import { Button } from 'pico-ui'
 
 export default function EpubListItem({
-  item
+  item,
+  itemIndex,
+  chapterIndex,
+  splitChapter,
 }) {
   return (
     <div className="ee-el-item ct-d-c">
@@ -11,7 +14,13 @@ export default function EpubListItem({
         <div className="ee-el-i-img">
           <img src={api.getMediaFullPath(item.image)} alt="screenshot" />
         </div>
-        <div className="ee-el-i-text">{item.text}</div>
+        <div className="ee-el-i-text">
+          {
+            item.text 
+            ||
+            <span className="text-muted"><i>No Transcriptions</i></span>
+          }
+        </div>
       </div>
 
       <div className="ee-el-i-actions">
@@ -20,6 +29,7 @@ export default function EpubListItem({
           text="Split Chapter Here"
           color="teal transparent"
           icon="unfold_more"
+          onClick={() => splitChapter(chapterIndex, itemIndex)}
         />
       </div>
     </div>

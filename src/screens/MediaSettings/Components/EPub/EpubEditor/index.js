@@ -25,6 +25,41 @@ function EpubEditor({
     }
   }
 
+  const changeChapter = chapter => {
+    setCurrChapter(genChaperFromItems(chapter))
+  }
+
+  const splitChapter = (chapterIndex, itemIndex) => {
+    let items = chapters[chapterIndex].items
+    chapters[chapterIndex].items = _.slice(items, 0, itemIndex + 1)
+    let numOfUntitled = _.filter(chapters, chapter => chapter.title.startsWith('Untitled Chapter')).length
+    let newChapter = { title: 'Untitled Chapter' + (numOfUntitled === 0 ? '' : (' ' + numOfUntitled)) }
+    newChapter.items = _.slice(items, itemIndex + 1, items.length)
+    setChapters([
+      ..._.slice(chapters, 0, chapterIndex+1),
+      newChapter,
+      ..._.slice(chapters, chapterIndex+1, chapters.length),
+    ])
+    setCurrChapter(genChaperFromItems(newChapter))
+  }
+
+  const undoSplitChapter = chapterIndex => {
+    let currItems = chapters[chapterIndex].items
+    let prevItems = chapters[chapterIndex - 1].items
+    chapters[chapterIndex - 1].items = [ ...prevItems, ...currItems ]
+    setChapters([
+      ..._.slice(chapters, 0, chapterIndex),
+      ..._.slice(chapters, chapterIndex+1, chapters.length),
+    ])
+    setCurrChapter(genChaperFromItems(chapters[chapterIndex - 1]))
+  }
+
+  const handleTitleChange = (chapterIndex, value) => {
+    chapters[chapterIndex].title = value
+    setChapters([ ...chapters ])
+    setCurrChapter(genChaperFromItems(chapters[chapterIndex]))
+  }
+
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
@@ -48,7 +83,14 @@ function EpubEditor({
           <PlaceHolder />
           :
           <>
-            <EpubList epubData={epubData} chapters={chapters} />
+            <EpubList 
+              epubData={epubData} 
+              chapters={chapters} 
+              splitChapter={splitChapter}
+              undoSplitChapter={undoSplitChapter}
+              changeChapter={changeChapter}
+              handleTitleChange={handleTitleChange}
+            />
             <EpubPreview currChapter={currChapter} />
           </>
         }
