@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal } from 'semantic-ui-react'
-import './index.css'
+import { Button } from 'pico-ui'
+import './index.scss'
 
 /**
  * General modal
@@ -24,4 +25,58 @@ export function GeneralModal({size, open, onClose, header, children, button, dim
       {button && <Modal.Actions className="gm-action">{button}</Modal.Actions>}
     </Modal>
   )
+}
+
+export function CTModal({
+  show=false,
+  title='',
+  children,
+  // actions
+  actions,
+  onClose,
+  onSave,
+  saveBtnText='Save',
+  cancelBtnText='Cancel'
+}) {
+  return show ? (
+    <div className="ct-modal ct-d-c-center">
+      <div className="ct-mdl-con">
+        {/* Header */}
+        <div className="ct-mdl-h-con">
+          <h3>{title}</h3>
+          <Button round
+            icon="close"
+            color="transparent"
+            onClick={onClose} 
+          />
+        </div>
+
+        {/* Content */}
+        <div className="ct-mdl-text-con">
+          {children}
+        </div>
+
+        <div className="ct-mdl-act">
+          {
+            actions 
+            ?
+            actions
+            :
+            <Button.Group>
+              <Button uppercase compact
+                text={saveBtnText}
+                color="transparent teal"
+                onClick={onSave}
+              />
+              <Button uppercase compact
+                text={cancelBtnText}
+                color="teal"
+                onClick={onClose}
+              />
+            </Button.Group>
+          }
+        </div>
+      </div>
+    </div>
+  ) : null
 }

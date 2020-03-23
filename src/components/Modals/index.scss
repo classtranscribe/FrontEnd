@@ -39,3 +39,55 @@
   .general-modal .positive {
     background: #449999 !important;
   }
+
+
+.ct-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(63, 63, 63, 0.514);
+  z-index: 2000;
+
+  .ct-mdl-con {
+    background-color: white;
+    border-radius: 5px;
+    width: 30vw;
+    min-width: 400px;
+    box-shadow: 0 0 10px rgba(27, 27, 27, 0.267);
+
+    // Header
+    .ct-mdl-h-con {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: .5em .5em .5em 1em;
+
+      h3 {
+        font-size: 1.8em;
+        font-family: var(--ct-font-narrow);
+        color: var(--ct-text-title);
+        padding: 0;
+        margin: 0vw;
+        text-transform: uppercase;
+      }
+    }
+
+    // Children
+    .ct-mdl-text-con {
+      padding: .2em 1em;
+      font-family: var(--ct-font-google);
+    }
+
+    .ct-mdl-act {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      padding: 1em;
+      padding-top: 3em;
+    }
+  }
+}
