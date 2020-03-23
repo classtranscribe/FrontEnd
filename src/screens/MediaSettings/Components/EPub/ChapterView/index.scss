@@ -17,9 +17,33 @@
     border-radius: 20px;
   }
 
-  img {
+  .msp-e-v-img-con {
     position: relative;
     max-width: calc(100% - 30px);
+    img {
+      position: relative;
+      max-width: 100%;
+    }
+
+    .msp-e-v-img-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.61);
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &:hover .msp-e-v-img-wrapper {
+      display: flex;
+    }
   }
 
   .msp-e-v-text, h2 {

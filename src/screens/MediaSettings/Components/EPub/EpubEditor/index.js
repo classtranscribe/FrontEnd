@@ -6,6 +6,7 @@ import './index.scss'
 import { PlaceHolder } from 'components'
 import EpubList from './EpubList'
 import EpubPreview from './EpubPreview'
+import CoverPicker from './CoverPicker'
 
 const firstTimeEdit = true
 
@@ -15,12 +16,14 @@ function EpubEditor({
 
   const [chapters, setChapters] = useState([])
   const [currChapter, setCurrChapter] = useState({})
+  const [coverImgs, setCoverImgs] = useState([])
 
   const genChaperFromItems = chapter => {
     return {
-      id: epub.genId(`epub-chapter-`),
+      id: chapter.id,
       title: chapter.title || 'New Chapter',
-      image: (chapter.items[0] || {}).image,
+      image: chapter.image || (chapter.items[0] || {}).image,
+      images: _.map(chapter.items, item => item.image),
       text: _.filter(_.map(chapter.items, item => item.text), txt => txt !== '').join('\n\n')
     }
   }
@@ -33,8 +36,17 @@ function EpubEditor({
     let items = chapters[chapterIndex].items
     chapters[chapterIndex].items = _.slice(items, 0, itemIndex + 1)
     let numOfUntitled = _.filter(chapters, chapter => chapter.title.startsWith('Untitled Chapter')).length
-    let newChapter = { title: 'Untitled Chapter' + (numOfUntitled === 0 ? '' : (' ' + numOfUntitled)) }
+    let newChapter = {}
+    newChapter.title = 'Untitled Chapter' + (numOfUntitled === 0 ? '' : (' ' + numOfUntitled))
     newChapter.items = _.slice(items, itemIndex + 1, items.length)
+    newChapter.id = epub.genId('epub-ch-')
+
+    // Check if the cover of the curr chapter is in the splitted new chapter
+    let cover = chapters[chapterIndex].image
+    if (cover && _.findIndex(newChapter.items, { image: cover })) {
+      chapters[chapterIndex].image = undefined
+    }
+
     setChapters([
       ..._.slice(chapters, 0, chapterIndex+1),
       newChapter,
@@ -60,10 +72,31 @@ function EpubEditor({
     setCurrChapter(genChaperFromItems(chapters[chapterIndex]))
   }
 
+  const pickCoverImage = () => {
+    setCoverImgs(currChapter.images || [])
+  }
+
+  const closeCoverImagePicker = () => {
+    setCoverImgs([])
+  }
+
+  const saveCoverImage = image => {
+    let chapterId = currChapter.id
+    let chapterIndex = _.findIndex(chapters, { id: chapterId })
+    console.log(image, chapterId, chapterIndex)
+    if (chapterIndex >= 0) {
+      chapters[chapterIndex].image = image
+      currChapter.image = image
+      setChapters([ ...chapters ])
+      setCurrChapter({ ...currChapter })
+    }
+    closeCoverImagePicker()
+  }
+
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
-        let chapter1 = { items: epubData, title: 'Chapter 1' }
+        let chapter1 = { items: epubData, title: 'Chapter 1', id: epub.genId('epub-ch-') }
         setChapters([ chapter1 ])
         setCurrChapter(genChaperFromItems(chapter1))
       } else {
@@ -91,7 +124,20 @@ function EpubEditor({
               changeChapter={changeChapter}
               handleTitleChange={handleTitleChange}
             />
-            <EpubPreview currChapter={currChapter} />
+            <EpubPreview 
+              currChapter={currChapter} 
+              pickCoverImage={pickCoverImage}
+            />
+            {
+              coverImgs.length > 0
+              &&
+              <CoverPicker 
+                images={coverImgs} 
+                currChapter={currChapter}
+                saveCoverImage={saveCoverImage}
+                closeCoverImagePicker={closeCoverImagePicker}
+              />
+            }
           </>
         }
       </div>

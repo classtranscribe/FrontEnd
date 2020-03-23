@@ -10,6 +10,8 @@ const ChapterView = ({
   onEdit=null,
   titleOnKeyDown,
   textOnKeyDown,
+  imageOnClick,
+  imageOnClickPrompt,
 }) => {
   const { text, image, title, id } = chapter
   const handleInput = type => e => {
@@ -32,7 +34,21 @@ const ChapterView = ({
           dangerouslySetInnerHTML={{__html: title || "Chapter"}}
         />
       </div>
-      <img src={api.getMediaFullPath(image)} />
+      <div className="msp-e-v-img-con">
+        <img src={api.getMediaFullPath(image)} />
+
+        {
+          imageOnClick 
+          && 
+          <div 
+            tabIndex="0" 
+            className="msp-e-v-img-wrapper"
+            onClick={imageOnClick}
+          >
+            {imageOnClickPrompt}
+          </div>
+        }
+      </div>
       
       <div className="w-100">
         <div 
