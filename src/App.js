@@ -12,7 +12,7 @@ import {
   // General
   LoginAndLogout,
   NotFound404,
-  Maintenance,
+  Maintenance, 
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
