@@ -20,6 +20,7 @@ function EpubEditor({
   const [chapters, setChapters] = useState([])
   const [currChapter, setCurrChapter] = useState({})
   const [coverImgs, setCoverImgs] = useState([])
+  const [magnifiedImg, setMagnifiedImg] = useState(null)
 
   const genChaperFromItems = chapter => {
     return {
@@ -31,10 +32,12 @@ function EpubEditor({
     }
   }
 
+  // Handle change chapters
   const changeChapter = chapter => {
     setCurrChapter(genChaperFromItems(chapter))
   }
 
+  // Handle split chapters
   const splitChapter = (chapterIndex, itemIndex) => {
     let items = chapters[chapterIndex].items
     chapters[chapterIndex].items = _.slice(items, 0, itemIndex + 1)
@@ -69,12 +72,14 @@ function EpubEditor({
     setCurrChapter(genChaperFromItems(chapters[chapterIndex - 1]))
   }
 
+  // handle edit title
   const handleTitleChange = (chapterIndex, value) => {
     chapters[chapterIndex].title = value
     setChapters([ ...chapters ])
     setCurrChapter(genChaperFromItems(chapters[chapterIndex]))
   }
 
+  // handle choosing cover image
   const pickCoverImage = () => {
     setCoverImgs(_.map(currChapter.items, item => item.image))
   }
@@ -96,6 +101,11 @@ function EpubEditor({
     closeCoverImagePicker()
   }
 
+  // handle magnify images
+  const magnifyImage = image => setMagnifiedImg(image)
+  const endMagnifyImage = () => setMagnifiedImg(null)
+
+  // handle save ePub
   const saveEpub = () => {
     let newEpub = _.map(chapters, chapter => genChaperFromItems(chapter))
     console.log('newEpub', newEpub)
@@ -137,6 +147,9 @@ function EpubEditor({
               undoSplitChapter={undoSplitChapter}
               changeChapter={changeChapter}
               handleTitleChange={handleTitleChange}
+              magnifiedImg={magnifiedImg}
+              magnifyImage={magnifyImage}
+              endMagnifyImage={endMagnifyImage}
             />
 
             <EpubPreview 

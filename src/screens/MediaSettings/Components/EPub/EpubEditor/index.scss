@@ -26,6 +26,22 @@
   width: 55%;
 
   ////////////////////////////////////////////////////////////
+  // Image Magnifier
+  ////////////////////////////////////////////////////////////
+  .ee-ep-magnify {
+    position: fixed;
+    top: 120px;
+    left: calc(55% - 500px);
+    width: 500px;
+    z-index: 1;
+    img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.212);
+    }
+  }
+
+  ////////////////////////////////////////////////////////////
   // ePub Chapters Header
   ////////////////////////////////////////////////////////////
   .msp-ee-el-header {
@@ -88,6 +104,11 @@
           border-top: 0;
           border-right: 0;
           border-left: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:focus {
+            text-overflow: initial;
+          }
         }
 
         .ee-el-ch-t-remove-btn {
@@ -122,6 +143,7 @@
               position: relative;
               width: 150px;
               object-fit: contain;
+              cursor: zoom-in;
             }
           }
   
@@ -172,12 +194,14 @@
 // ePub Preview
 ////////////////////////////////////////////////////////////
 .msp-ee-ep-con {
+  position: relative;
   width: 45%;
   padding: 60px 30px 150px 30px;
   position: sticky;
   top: 0;
   height: calc(100vh - 93px);
   overflow-y: auto;
+  overflow-x: visible;
 }
 
 

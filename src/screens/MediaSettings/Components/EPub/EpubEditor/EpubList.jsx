@@ -10,6 +10,9 @@ export default function EpubList({
   undoSplitChapter,
   changeChapter,
   handleTitleChange,
+  magnifyImage,
+  endMagnifyImage,
+  magnifiedImg,
 }) {
 
   return (
@@ -66,6 +69,8 @@ export default function EpubList({
                   itemIndex={itemIndex}
                   chapterIndex={chapterIndex}
                   splitChapter={splitChapter}
+                  magnifyImage={magnifyImage}
+                  endMagnifyImage={endMagnifyImage}
                 />
               ))
             }
@@ -73,6 +78,14 @@ export default function EpubList({
           </div>
         ))}
       </div>
+
+      {
+        magnifiedImg
+        &&
+        <div className="ee-ep-magnify">
+          <img src={magnifiedImg} alt="Magnified screenshot" />
+        </div>
+      }
     </div>
   )
 }

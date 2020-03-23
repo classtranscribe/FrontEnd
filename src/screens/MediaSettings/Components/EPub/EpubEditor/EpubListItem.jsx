@@ -7,12 +7,18 @@ export default function EpubListItem({
   itemIndex,
   chapterIndex,
   splitChapter,
+  magnifyImage,
+  endMagnifyImage,
 }) {
   return (
     <div className="ee-el-item ct-d-c">
       <div className="ct-d-r ee-el-i-info">
         <div className="ee-el-i-img">
-          <img src={api.getMediaFullPath(item.image)} alt="screenshot" />
+          <img 
+            src={api.getMediaFullPath(item.image)} alt="screenshot"   
+            onMouseEnter={() => magnifyImage(api.getMediaFullPath(item.image))}
+            onMouseLeave={endMagnifyImage}
+          />
         </div>
         <div className="ee-el-i-text">
           {

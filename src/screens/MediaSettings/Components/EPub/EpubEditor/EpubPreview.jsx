@@ -3,7 +3,8 @@ import ChapterView from '../ChapterView'
 
 export default function EpubPreview({
   currChapter,
-  pickCoverImage
+  pickCoverImage,
+  magnifiedImg,
 }) {
   return (
     <div className="msp-ee-ep-con ct-a-fade-in">
