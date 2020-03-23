@@ -4,9 +4,12 @@ import { ARRAY_INIT } from '../../../../../utils'
 import _ from 'lodash'
 import './index.scss'
 import { PlaceHolder } from 'components'
+
 import EpubList from './EpubList'
 import EpubPreview from './EpubPreview'
 import CoverPicker from './CoverPicker'
+import ActionButtons from './ActionButtons'
+import ChapterNavigator from './ChapterNavigator'
 
 const firstTimeEdit = true
 
@@ -23,7 +26,7 @@ function EpubEditor({
       id: chapter.id,
       title: chapter.title || 'New Chapter',
       image: chapter.image || (chapter.items[0] || {}).image,
-      images: _.map(chapter.items, item => item.image),
+      items: chapter.items,
       text: _.filter(_.map(chapter.items, item => item.text), txt => txt !== '').join('\n\n')
     }
   }
@@ -39,11 +42,11 @@ function EpubEditor({
     let newChapter = {}
     newChapter.title = 'Untitled Chapter' + (numOfUntitled === 0 ? '' : (' ' + numOfUntitled))
     newChapter.items = _.slice(items, itemIndex + 1, items.length)
-    newChapter.id = epub.genId('epub-ch-')
+    newChapter.id = epub.genId('epub-ch')
 
     // Check if the cover of the curr chapter is in the splitted new chapter
     let cover = chapters[chapterIndex].image
-    if (cover && _.findIndex(newChapter.items, { image: cover })) {
+    if (cover && _.findIndex(newChapter.items, { image: cover }) >= 0) {
       chapters[chapterIndex].image = undefined
     }
 
@@ -73,7 +76,7 @@ function EpubEditor({
   }
 
   const pickCoverImage = () => {
-    setCoverImgs(currChapter.images || [])
+    setCoverImgs(_.map(currChapter.items, item => item.image))
   }
 
   const closeCoverImagePicker = () => {
@@ -93,10 +96,15 @@ function EpubEditor({
     closeCoverImagePicker()
   }
 
+  const saveEpub = () => {
+    let newEpub = _.map(chapters, chapter => genChaperFromItems(chapter))
+    console.log('newEpub', newEpub)
+  }
+
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
-        let chapter1 = { items: epubData, title: 'Chapter 1', id: epub.genId('epub-ch-') }
+        let chapter1 = { items: epubData, title: 'Chapter 1', id: epub.genId('epub-ch') }
         setChapters([ chapter1 ])
         setCurrChapter(genChaperFromItems(chapter1))
       } else {
@@ -116,6 +124,12 @@ function EpubEditor({
           <PlaceHolder />
           :
           <>
+            <ChapterNavigator
+              chapters={chapters}
+              currChapter={currChapter}
+              changeChapter={changeChapter}
+            />
+
             <EpubList 
               epubData={epubData} 
               chapters={chapters} 
@@ -124,10 +138,12 @@ function EpubEditor({
               changeChapter={changeChapter}
               handleTitleChange={handleTitleChange}
             />
+
             <EpubPreview 
               currChapter={currChapter} 
               pickCoverImage={pickCoverImage}
             />
+
             {
               coverImgs.length > 0
               &&
@@ -138,6 +154,10 @@ function EpubEditor({
                 closeCoverImagePicker={closeCoverImagePicker}
               />
             }
+
+            <ActionButtons
+              saveEpub={saveEpub}
+            />
           </>
         }
       </div>

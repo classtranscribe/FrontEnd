@@ -19,15 +19,16 @@ export default function EpubList({
         <p>
           <span className="msp-ee-el-h-p-t">Instruction</span>
           To manage your ePub chapters, set <span>splitting points</span> between screenshots to generate an initial version of ePub chapters. 
-          To change cover images, click the image of the ePub preview on the left.
+          To change <span>cover images</span>, click the image of the ePub preview on the left.
           <br/>
-          After everything is done, hit <span>save button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
+          After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
         </p>
       </div>
 
       <div className="ct-d-c ee-el-chapters">
         {chapters.map((chapter, chapterIndex) => (
           <div 
+            id={chapter.id}
             key={`ee-el-ch-${chapterIndex}`} 
             className="ct-d-c ee-el-items"
             onMouseEnter={() => changeChapter(chapter)}
