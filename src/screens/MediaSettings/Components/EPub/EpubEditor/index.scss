@@ -106,6 +106,7 @@
         z-index: 1;
         background: linear-gradient(-180deg,#fff 90%,transparent);
         padding: 15px 0 15px 90px;
+        animation: ee-el-title-show 200ms linear;
 
         input {
           font-weight: bolder;
@@ -424,4 +425,8 @@
 @keyframes ee-el-ch-show {
   0% { opacity: 0; max-height: 50px; }
   100% { opacity: 1; max-height: 1000px; }
+}
+@keyframes ee-el-title-show {
+  0% { padding: 0 0 0 90px; opacity: 0; }
+  100% { padding: 15px 0 15px 90px; opacity: 1; }
 }
