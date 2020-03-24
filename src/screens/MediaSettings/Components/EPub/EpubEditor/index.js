@@ -24,15 +24,9 @@ function EpubEditor({
   const [magnifiedImg, setMagnifiedImg] = useState(null)
   const [foldedIds, setFoldedIds] = useState([])
 
-  const foldChapter = id => {
-    setFoldedIds([ ...foldedIds, id ])
-  }
-
-  const unfoldChapter = id => {
-    _.remove(foldedIds, fid => fid === id)
-    setFoldedIds([ ...foldedIds ])
-  }
-
+  ///////////////////////////////////////////////////////////////////////////
+  // Generate a chapter based on list of screenshots and transcriptions
+  ///////////////////////////////////////////////////////////////////////////
   const genChaperFromItems = chapter => {
     return {
       id: chapter.id,
@@ -43,12 +37,16 @@ function EpubEditor({
     }
   }
 
+  ///////////////////////////////////////////////////////////////////////////
   // Handle change chapters
+  ///////////////////////////////////////////////////////////////////////////
   const changeChapter = chapter => {
     setCurrChapter(genChaperFromItems(chapter))
   }
 
+  ///////////////////////////////////////////////////////////////////////////
   // Handle split chapters
+  ///////////////////////////////////////////////////////////////////////////
   const splitChapter = (chapterIndex, itemIndex) => {
     let items = chapters[chapterIndex].items
     chapters[chapterIndex].items = _.slice(items, 0, itemIndex + 1)
@@ -83,14 +81,18 @@ function EpubEditor({
     setCurrChapter(genChaperFromItems(chapters[chapterIndex - 1]))
   }
 
+  ///////////////////////////////////////////////////////////////////////////
   // handle edit title
+  ///////////////////////////////////////////////////////////////////////////
   const handleTitleChange = (chapterIndex, value) => {
     chapters[chapterIndex].title = value
     setChapters([ ...chapters ])
     setCurrChapter(genChaperFromItems(chapters[chapterIndex]))
   }
 
+  ///////////////////////////////////////////////////////////////////////////
   // handle choosing cover image
+  ///////////////////////////////////////////////////////////////////////////
   const pickCoverImage = () => {
     setCoverImgs(_.map(currChapter.items, item => item.image))
   }
@@ -112,11 +114,27 @@ function EpubEditor({
     closeCoverImagePicker()
   }
 
+  ///////////////////////////////////////////////////////////////////////////
+  // handle fold/unfold a chapter
+  ///////////////////////////////////////////////////////////////////////////
+  const foldChapter = id => {
+    setFoldedIds([ ...foldedIds, id ])
+  }
+
+  const unfoldChapter = id => {
+    _.remove(foldedIds, fid => fid === id)
+    setFoldedIds([ ...foldedIds ])
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
   // handle magnify images
+  ///////////////////////////////////////////////////////////////////////////
   const magnifyImage = image => setMagnifiedImg(image)
   const endMagnifyImage = () => setMagnifiedImg(null)
 
+  ///////////////////////////////////////////////////////////////////////////
   // handle save ePub
+  ///////////////////////////////////////////////////////////////////////////
   const saveEpub = () => {
     let newEpub = _.map(chapters, chapter => genChaperFromItems(chapter))
     console.log('newEpub', newEpub)
