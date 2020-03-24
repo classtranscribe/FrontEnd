@@ -132,7 +132,9 @@ function EpubEditor({
         {
           epubData === ARRAY_INIT
           ?
-          <PlaceHolder />
+          <div className="w-100">
+            <PlaceHolder />
+          </div>
           :
           <>
             <ChapterNavigator
