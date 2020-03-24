@@ -27,7 +27,9 @@ export class ClassTranscribeLinks {
   instOffering(offeringId) { return `/instructor/${offeringId}` }
   instNewOffering() { return `/instructor/new-offering` } 
   // newOffering = function() `/instructor?offId=ip-new-offering`
-  instMediaSettings = (mediaId, tab) => '/media-settings/' + mediaId + (tab ? `#tab=${tab}` : '')
+  instMediaSettings = (mediaId, tab) => '/media-settings/' + mediaId + (tab ? `/${tab}` : '')
+  mspEpubSettings(mediaId) { return this.instMediaSettings(mediaId, 'epub') }
+  mspTransSettings(mediaId) { return this.instMediaSettings(mediaId, 'trans') }
 
   watch(courseNumber, id, begin, others={}) {
     return `/video${this.createSearch({ 

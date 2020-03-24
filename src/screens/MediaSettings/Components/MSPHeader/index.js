@@ -7,7 +7,6 @@ import './index.scss'
 
 
 function MSPHeaderWithRedux({
-  tab,
   media,
 }) {
   const { mediaName } = media
@@ -35,7 +34,7 @@ function MSPHeaderWithRedux({
             }
           />
         </div>
-        <Tabs currTab={tab} />
+        <Tabs />
       </div>
     </div>
   )
@@ -44,7 +43,6 @@ function MSPHeaderWithRedux({
 export const MSPHeader = connectWithRedux(
   MSPHeaderWithRedux,
   [
-    'tab',
     'media'
   ],
   []

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import './index.scss'
 import {
@@ -11,6 +12,7 @@ import {
   setup, 
   epub,
   TAB_EPUB,
+  TAB_EDIT_TRANS,
 } from './Utils'
 import { util } from '../../utils'
 
@@ -26,21 +28,21 @@ class MediaSettingsWithRedux extends React.Component {
   }
 
   componentDidMount() {
-    setup.setupMedia(this.mediaId, this.initTab)
+    setup.setupMedia(this.mediaId)
   }
 
   render() {
-    const { tab } = this.props
     return (
       <div className="msp-bg">
         <MSPHeader />
 
         <div className="msp-content">
-          {
-            tab === TAB_EPUB
-            &&
-            <EPub />
-          }
+          <Route exact
+            path={util.links.instMediaSettings(this.mediaId)} 
+            render={() => <Redirect to={util.links.instMediaSettings(this.mediaId, TAB_EDIT_TRANS)} />}   
+          />
+
+          <Route path={util.links.instMediaSettings(this.mediaId, TAB_EPUB)} component={EPub} />
         </div>
       </div>
     )
