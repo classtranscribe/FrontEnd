@@ -70,7 +70,7 @@ export default function EpubList({
           trigger={
             <div className="ee-el-ch-t-remove-btn">
               <Button round
-                color="transparent"
+                //color="transparent"
                 icon="unfold_less"
                 onClick={() => undoSplitChapter(chapterIndex)}
               />

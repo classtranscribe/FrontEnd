@@ -137,7 +137,8 @@
           transition: transform 100ms linear;
         }
 
-        &:hover .ee-el-ch-t-remove-btn {
+        &:hover .ee-el-ch-t-remove-btn, 
+        .ee-el-ch-t-remove-btn:focus-within {
           opacity: 1;
         }
       }

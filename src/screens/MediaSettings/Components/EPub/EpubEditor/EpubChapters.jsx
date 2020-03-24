@@ -53,7 +53,7 @@ export default function EpubChapters({
         &&
         <div className="ee-ep-magnify">
           <img src={magnifiedImg} alt="Magnified screenshot" />
-          <Button round icon="close" />
+          {/* <Button round icon="close" /> */}
         </div>
       }
     </div>
