@@ -1,10 +1,11 @@
 import _ from 'lodash'
-import { api, util } from '../../../utils'
+import { api, util, ARRAY_INIT } from '../../../utils'
 import { } from './constants'
 
 class Epub {
   constructor() {
     this.redux = {}
+    this.mediaId = ''
 
     this.epubData_ = []
     this.oldEpubData_ = []
@@ -159,9 +160,9 @@ class Epub {
    * Function used to get epub data given mediaId
    * @param {String} mediaId id of the media
    */
-  async getEpubData(mediaId) {
+  async getEpubData(mediaId, language) {
     try {
-      let { data=[] } = await api.getEpubData(mediaId)
+      let { data=[] } = await api.getEpubData(mediaId, language)
       return this.parseEpubData(data)
     } catch (error) {
       console.error('Failed to get ePub data of media ' + mediaId)
@@ -171,11 +172,18 @@ class Epub {
     return []
   }
 
+  async changeEpubLanguage(language) {
+    this.epubData(ARRAY_INIT)
+    let epubData = await this.getEpubData(this.mediaId, language)
+    this.epubData(epubData)
+  }
+
   /**
    * Function used to set the epub setting page given mediaId
    * @param {String} mediaId id of the media
    */
   async setupEpub(mediaId) {
+    this.mediaId = mediaId
     let epubData = await this.getEpubData(mediaId)
     this.epubData(epubData)
   }

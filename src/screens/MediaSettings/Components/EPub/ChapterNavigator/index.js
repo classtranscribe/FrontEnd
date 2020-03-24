@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'pico-ui'
+import './index.scss'
 
 export default function ChapterNavigator({
   chapters,

@@ -1,10 +1,130 @@
-.msp-epub-con {
+.msp-ee-con {
   width: 100%;
+  position: relative;
+  padding-top: 93px;
+  min-width: 1100px;
   height: 100vh;
-  .msp-e-content {
-    padding-left: 300px;
-    padding-top: 93px;
+  // background-color: rgba(248, 248, 248, 0.459);
+
+  .msp-ee {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 93px);
   }
+}
+
+
+////////////////////////////////////////////////////////////
+// ePub Preview
+////////////////////////////////////////////////////////////
+.msp-ee-ep-con {
+  position: relative;
+  width: 45%;
+  padding: 60px 30px 150px 30px;
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 93px);
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+
+////////////////////////////////////////////////////////////
+// Action Buttons
+////////////////////////////////////////////////////////////
+.msp-ee-act {
+  position: fixed;
+  right: 20px;
+  bottom: 15px;
+
+  .ee-act-btn span {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.384);
+  }
+
+  .ee-act-save-btn {
+    margin-right: 10px;
+  }
+}
+
+////////////////////////////////////////////////////////////
+// Cover Picker
+////////////////////////////////////////////////////////////
+.msp-ee-cp-con {
+  width: 100%;
+  display: flex;
+
+  .ee-cp-imgs {
+    width: 60%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: center;
+    align-items: flex-start;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .ee-cp-img-con {
+      position: relative;
+      margin: 5px;
+      cursor: pointer;
+
+      img {
+        width: 100px;
+      }
+
+      .ee-cp-img-wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.287);
+        }
+
+        i {
+          font-size: 35px;
+          color: white;
+        }
+      }
+
+      &[data-current=true] .ee-cp-img-wrapper {
+        background-color: rgba(0, 0, 0, 0.61);
+      }
+    }
+  }
+
+  .ee-cp-cover {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+@keyframes ee-el-ch-hide {
+  0% { padding: 200px 0; opacity: 0; }
+  100% { padding: 0px 0; opacity: 1; }
+}
+@keyframes ee-el-ch-show {
+  0% { opacity: 0; max-height: 50px; }
+  100% { opacity: 1; max-height: 1000px; }
+}
+@keyframes ee-el-title-show {
+  0% { padding: 0 0 0 90px; opacity: 0; }
+  100% { padding: 15px 0 15px 90px; opacity: 1; }
 }
