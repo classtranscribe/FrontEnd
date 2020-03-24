@@ -5,7 +5,7 @@ import _ from 'lodash'
 import './index.scss'
 import { PlaceHolder } from 'components'
 
-import EpubList from './EpubList'
+import EpubChapters from './EpubChapters'
 import EpubPreview from './EpubPreview'
 import CoverPicker from './CoverPicker'
 import ActionButtons from './ActionButtons'
@@ -22,6 +22,16 @@ function EpubEditor({
   const [currChapter, setCurrChapter] = useState({})
   const [coverImgs, setCoverImgs] = useState([])
   const [magnifiedImg, setMagnifiedImg] = useState(null)
+  const [foldedIds, setFoldedIds] = useState([])
+
+  const foldChapter = id => {
+    setFoldedIds([ ...foldedIds, id ])
+  }
+
+  const unfoldChapter = id => {
+    _.remove(foldedIds, fid => fid === id)
+    setFoldedIds([ ...foldedIds ])
+  }
 
   const genChaperFromItems = chapter => {
     return {
@@ -143,7 +153,7 @@ function EpubEditor({
               changeChapter={changeChapter}
             />
 
-            <EpubList 
+            <EpubChapters 
               epubData={epubData} 
               chapters={chapters} 
               splitChapter={splitChapter}
@@ -153,6 +163,9 @@ function EpubEditor({
               magnifiedImg={magnifiedImg}
               magnifyImage={magnifyImage}
               endMagnifyImage={endMagnifyImage}
+              foldedIds={foldedIds}
+              foldChapter={foldChapter}
+              unfoldChapter={unfoldChapter}
             />
 
             <EpubPreview 

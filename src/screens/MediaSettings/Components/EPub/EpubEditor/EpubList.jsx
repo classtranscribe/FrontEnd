@@ -1,92 +1,108 @@
 import React from 'react'
+import _ from 'lodash'
 import EpubListItem from './EpubListItem'
 import { Button } from 'pico-ui'
 import { Popup } from 'semantic-ui-react'
-import { util } from 'utils'
 
 export default function EpubList({
-  chapters=[],
+  chapter,
+  chapterIndex,
   splitChapter,
   undoSplitChapter,
   changeChapter,
   handleTitleChange,
   magnifyImage,
   endMagnifyImage,
-  magnifiedImg,
+  foldedIds=[],
+  foldChapter,
+  unfoldChapter,
 }) {
 
+  const fold = () => foldChapter(chapter.id)
+  const unfold = () => unfoldChapter(chapter.id)
+
+  const isFolded = foldedIds.includes(chapter.id)
+
+  const getCompactText = () => {
+    return _.map(chapter.items, item => item.text)
+            .filter(txt => txt !== '')
+            .join('. ')
+            .slice(0, 200)
+  }
+
   return (
-    <div className="msp-ee-el-con ct-d-c">
-      <div className="msp-ee-el-header">
-        <h1>Manage Your ePub Book</h1>
-        <p>
-          <span className="msp-ee-el-h-p-t">Instruction</span>
-          To manage your ePub chapters, set <span>splitting points</span> between screenshots to generate an initial version of ePub chapters. 
-          To change <span>cover images</span>, click the image of the ePub preview on the left.
-          <br/>
-          After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
-        </p>
-      </div>
-
-      <div className="ct-d-c ee-el-chapters">
-        {chapters.map((chapter, chapterIndex) => (
-          <div 
-            id={chapter.id}
-            key={`ee-el-ch-${chapterIndex}`} 
-            className="ct-d-c ee-el-items"
-            onMouseEnter={() => changeChapter(chapter)}
-          >
-            <div className="ee-el-ch-title">
-              <input contentEditable
-                className="ct-div-editable"
-                value={chapter.title}
-                onChange={({ target: { value } }) => handleTitleChange(chapterIndex, value)}
-              />
-
-              <Popup inverted basic
-                openOnTriggerMouseEnter
-                openOnTriggerFocus
-                openOnTriggerClick={false}
-                closeOnTriggerBlur
-                content="Undo split"
-                trigger={
-                  <div className="ee-el-ch-t-remove-btn">
-                    <Button round
-                      color="transparent"
-                      icon="unfold_less"
-                      onClick={() => undoSplitChapter(chapterIndex)}
-                    />
-                  </div>
-                }
+    <div 
+      id={chapter.id}
+      className={"ct-d-c ee-el-items" + (isFolded ? ' fold' : '')}
+      onMouseEnter={() => changeChapter(chapter)}
+    >
+      <div className="ee-el-ch-title ct-d-r-center-v">
+        <input contentEditable
+          className="ct-div-editable"
+          value={chapter.title}
+          onChange={({ target: { value } }) => handleTitleChange(chapterIndex, value)}
+        />
+        
+        <Popup inverted basic
+          openOnTriggerMouseEnter
+          openOnTriggerFocus
+          openOnTriggerClick={false}
+          closeOnTriggerBlur
+          content={isFolded ? 'Expand' : 'Collapse'}
+          trigger={
+            <div>
+              <Button round
+                color="transparent"
+                classNames="ee-el-expand-btn"
+                icon="expand_more"
+                onClick={isFolded ? unfold : fold}
               />
             </div>
+          }
+        />
 
-            {
-              chapter.items.map((item, itemIndex) => (
-                <EpubListItem 
-                  key={item.id} 
-                  item={item} 
-                  itemIndex={itemIndex}
-                  chapterIndex={chapterIndex}
-                  splitChapter={splitChapter}
-                  magnifyImage={magnifyImage}
-                  endMagnifyImage={endMagnifyImage}
-                />
-              ))
-            }
-
-          </div>
-        ))}
+        <Popup inverted basic
+          openOnTriggerMouseEnter
+          openOnTriggerFocus
+          openOnTriggerClick={false}
+          closeOnTriggerBlur
+          content="Undo split"
+          trigger={
+            <div className="ee-el-ch-t-remove-btn">
+              <Button round
+                color="transparent"
+                icon="unfold_less"
+                onClick={() => undoSplitChapter(chapterIndex)}
+              />
+            </div>
+          }
+        />
       </div>
 
       {
-        magnifiedImg
-        &&
-        <div className="ee-ep-magnify">
-          <img src={magnifiedImg} alt="Magnified screenshot" />
-          <Button round icon="close" />
+        isFolded 
+        ?
+        <div className="ee-el-ch-compact-txt">
+          <div>
+            {getCompactText()} ...
+          </div>
+        </div>
+        :
+        <div className="ct-d-c ee-el-i-ul">
+          {chapter.items.map((item, itemIndex) => (
+            <EpubListItem 
+              key={item.id} 
+              item={item} 
+              itemIndex={itemIndex}
+              chapterIndex={chapterIndex}
+              splitChapter={splitChapter}
+              magnifyImage={magnifyImage}
+              endMagnifyImage={endMagnifyImage}
+            />
+          ))}
         </div>
       }
+
     </div>
   )
 }

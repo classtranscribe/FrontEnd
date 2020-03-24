@@ -24,6 +24,7 @@
   position: relative;
   display: flex;
   width: 55%;
+  overflow-x: hidden;
 
   ////////////////////////////////////////////////////////////
   // Image Magnifier
@@ -92,6 +93,12 @@
         }
       }
 
+      &.fold {
+        .ee-el-ch-title .ee-el-expand-btn {
+           transform: rotate(180deg);
+        }
+      }
+
       .ee-el-ch-title {
         width: 100%;
         position: sticky;
@@ -125,13 +132,40 @@
           transition: opacity .2s ease-in;
         }
 
+        .ee-el-expand-btn {
+          transition: transform 100ms linear;
+        }
+
         &:hover .ee-el-ch-t-remove-btn {
           opacity: 1;
         }
       }
 
 
-      /** List Item **/
+      ////////////////////////////////////////////////////////////
+      // Compact Chapter View
+      ////////////////////////////////////////////////////////////
+      .ee-el-ch-compact-txt {
+        display: flex;
+        // width: 10px;
+        margin: 0 0 40px 100px;
+        position: relative;
+        white-space: pre-wrap;
+        animation: ee-el-ch-hide 200ms linear;
+        font-size: 17px;
+        line-height: 23px;
+      }
+
+      .ee-el-i-ul {
+        position: relative;
+        flex: 0 0 auto;
+        animation: ee-el-ch-show 200ms linear;
+      }
+
+
+      ////////////////////////////////////////////////////////////
+      // ePub Chapters Item
+      ////////////////////////////////////////////////////////////
       .ee-el-item {
         position: relative;
         width: 100%;
@@ -159,7 +193,6 @@
             white-space: pre-wrap;
             padding-left: 10px;
             font-size: 17px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 23px;
             // height: 92px;
             overflow: hidden;
@@ -334,6 +367,7 @@
   .ee-cn-ch-con {
     width: 270px;
     padding: 0 20px 20px 0;
+    margin-top: -30px;
     // background-color: rgb(226, 226, 226);
     background-color: rgb(242, 246, 246);
     border-radius: 0 20px 20px 0;
@@ -382,4 +416,12 @@
 @keyframes ee-cn-hide {
   0% { margin-left: 0px; }
   100% { margin-left: -270px; }
+}
+@keyframes ee-el-ch-hide {
+  0% { padding: 200px 0; opacity: 0; }
+  100% { padding: 0px 0; opacity: 1; }
+}
+@keyframes ee-el-ch-show {
+  0% { opacity: 0; max-height: 50px; }
+  100% { opacity: 1; max-height: 1000px; }
 }
