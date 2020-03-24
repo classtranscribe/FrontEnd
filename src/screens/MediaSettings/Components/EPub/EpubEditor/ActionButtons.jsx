@@ -8,14 +8,14 @@ export default function ActionButtons({
     <div className="msp-ee-act">
       <Button round size="big"
         classNames="ee-act-btn ee-act-save-btn"
-        text="Save ePub"
+        text="Save and preview ePub"
         color="teal"
         onClick={saveEpub}
       />
 
       <Button round size="big"
         classNames="ee-act-btn"
-        text="Back to ePub view"
+        text="Cancel"
         color="black"
       />
     </div>
