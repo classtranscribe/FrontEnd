@@ -8,10 +8,12 @@ export default function PlaylistsView({
 
   useEffect(() => {
     // Scroll the last selected playlist into view
-    let plElem = document.getElementById(wasSelected)
-    if (plElem) {
-      plElem.scrollIntoView({ block: 'center' })
-      plElem.focus()
+    if (wasSelected) {
+      let plElem = document.getElementById(wasSelected)
+      if (plElem) {
+        plElem.scrollIntoView({ block: 'center' })
+        plElem.focus()
+      }
     }
   }, [])
 
