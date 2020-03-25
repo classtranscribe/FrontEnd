@@ -9,8 +9,6 @@ function ChapterNavigatorWithRedux({
   currChapter,
   changeChapter,
   isEditingEpub=false,
-  language,
-  changeLanguage,
 }) {
 
   const [show, setShow] = useState(null)
@@ -55,13 +53,6 @@ function ChapterNavigatorWithRedux({
       <div className="ee-cn-wrapper" onClick={hideNavihator}></div>
       <div className={"ee-cn-ch-con" + show}>
         <div className="ee-cn-ch-scroll-con" data-scroll>
-          {
-            !isEditingEpub
-            &&
-            <EpubHeader padded={false} title="Preview" language={language} changeLanguage={changeLanguage}>
-
-            </EpubHeader>
-          }
           <div className="ct-d-r-center-v ee-cn-h">
             <h3>Chapters</h3>
             {

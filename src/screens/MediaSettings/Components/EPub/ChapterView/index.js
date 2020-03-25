@@ -23,7 +23,9 @@ const ChapterView = ({
     if (titleOnKeyDown) titleOnKeyDown(e)
   }
 
-  const style = "msp-e-view ct-a-fade-in" + (shadow ? " shadow" : "") + (round ? " round" : "")
+  const style = "msp-e-view ct-a-fade-in" 
+              + (shadow ? " shadow" : "") 
+              + (round ? " round" : "")
 
   return image ? (
     <div className={style}>

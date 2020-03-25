@@ -17,7 +17,7 @@ export default function EpubHeader({
     <div className="msp-ee-el-header" data-padded={padded}>
       <div className="w-100 ct-d-r-center-v msp-ee-el-h1">
         <h1>{title}</h1>
-        <Dropdown pointing='right'
+        <Dropdown pointing='top right'
           trigger={<Button outlined icon="arrow_drop_down" text={langMap[language]} />}
           icon={null}
           value={language}

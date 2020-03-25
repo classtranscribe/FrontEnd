@@ -22,13 +22,18 @@ function EpubPreviewWithRedux({
     lastChapterId = currChapter.id
   }, [currChapter])
 
+  const otherProps = {}
+  if (!isEditingEpub) otherProps['data-scroll'] = true
+
   return (
     <div 
       id="msp-ee-ep-con" 
       className="msp-ee-ep-con ct-a-fade-in"
       data-editing={isEditingEpub}
+      {...otherProps}
     >
-      <ChapterView shadow round
+      <ChapterView round
+        shadow={isEditingEpub} 
         contentEditable={!isEditingEpub}
         chapter={currChapter} 
         imageOnClick={pickCoverImage}

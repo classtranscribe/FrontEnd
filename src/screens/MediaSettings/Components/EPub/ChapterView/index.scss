@@ -1,6 +1,5 @@
 .msp-e-view {
   position: relative;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.123);
   width: 750px;
   max-width: 100%;
   height: max-content;
@@ -9,6 +8,7 @@
   align-items: center;
   padding: 30px;
   background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.123);
 
   &.shadow {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.123);
@@ -20,10 +20,10 @@
   .msp-e-v-img-con {
     margin-top: 10px;
     position: relative;
-    max-width: calc(100% - 20px);
+    width: 100%;
     img {
       position: relative;
-      max-width: 100%;
+      width: 100%;
     }
 
     .msp-e-v-img-wrapper {

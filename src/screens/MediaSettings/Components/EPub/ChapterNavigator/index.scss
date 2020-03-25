@@ -9,7 +9,7 @@
 
   &[data-editing=false] {
     position: relative;
-    width: 26%;
+    width: 23%;
     z-index: 0;
     top: 0;
     animation: ee-cn-expand 200ms linear;
@@ -20,7 +20,9 @@
       box-shadow: none;
       width: 100%;
       animation: none;
-      max-height: 100vh;
+      height: 100vh;
+      padding-top: 20px;
+      max-height: calc(100vh - 150px);
 
       .ee-cn-h {
         background: linear-gradient(-180deg,white 90%,transparent);
@@ -95,11 +97,13 @@
       h3 {
         padding: 0;
         margin: 0;
+        text-transform: uppercase;
       }
     }
 
     .ee-cn-ch-ul {
       padding-right: 10px;
+      padding-bottom: 30px;
       .ee-cn-ch-li span {
         padding-left: 10px;
         text-align: left;
