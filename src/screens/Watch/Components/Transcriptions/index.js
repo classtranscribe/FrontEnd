@@ -74,7 +74,7 @@ function TranscriptionsWithRedux({
                 caption={caption}
                 isCurrent={isCurrent(caption.id)}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
-                shouldHide={Boolean(currCaption) && (index - currCaption.index > 50)}
+                //shouldHide={Boolean(currCaption) && (index - currCaption.index > 50)}
               />
             ))}
           </div>
