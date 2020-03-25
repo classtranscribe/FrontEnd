@@ -16,6 +16,48 @@
   }
 }
 
+////////////////////////////////////////////////////////////
+// ePub Chapters Header
+////////////////////////////////////////////////////////////
+.msp-ee-el-header {
+  margin: 0 0 30px 5%;
+  padding-top: 10px;
+
+  &[data-padded=true] {
+    margin: 0 0 30px 100px;
+    padding-top: 30px;
+  }
+
+  .msp-ee-el-h1 {
+    // flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      font-size: 40px;
+      margin: 10px 20px 10px 0;
+    }
+  }
+
+  p {
+    font-size: 18px;
+    border-left: 4px solid rgba(31, 163, 163, 0.849);
+    margin-top: 1rem;
+    padding: .5rem 1rem;
+    background-color: rgba(24, 131, 131, 0.068);
+    border-radius: 0 10px 10px 0;
+
+    // span {
+    //   background-color: rgba(162, 202, 240, 0.452);
+    // }
+    span.msp-ee-el-h-p-t {
+      display: block;
+      font-weight: bold;
+      font-size: 20px;
+      background-color: transparent;
+    }
+  }
+}
+
 
 ////////////////////////////////////////////////////////////
 // ePub Preview
@@ -28,7 +70,20 @@
   top: 0;
   height: calc(100vh - 93px);
   overflow-y: auto;
-  overflow-x: visible;
+  overflow-x: hidden;
+  transition: width 200ms linear;
+  display: flex;
+
+  &[data-editing=false] {
+    width: 74%;
+    margin-right: 0;
+    // animation: ee-ep-expand 200ms linear;
+  }
+}
+
+@keyframes ee-ep-expand {
+  0% { margin-left: 20%; }
+  100% { margin-left: 0; }
 }
 
 

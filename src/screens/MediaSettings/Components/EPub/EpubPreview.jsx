@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import ChapterView from './ChapterView'
+import { connectWithRedux } from '../../Utils'
 
 var lastChapterId = ''
 
-export default function EpubPreview({
+function EpubPreviewWithRedux({
   currChapter,
   pickCoverImage,
+  isEditingEpub=false,
 }) {
 
   useEffect(() => {
@@ -20,8 +22,13 @@ export default function EpubPreview({
   }, [currChapter])
 
   return (
-    <div id="msp-ee-ep-con" className="msp-ee-ep-con ct-a-fade-in">
+    <div 
+      id="msp-ee-ep-con" 
+      className="msp-ee-ep-con ct-a-fade-in"
+      data-editing={isEditingEpub}
+    >
       <ChapterView shadow round
+        contentEditable={!isEditingEpub}
         chapter={currChapter} 
         imageOnClick={pickCoverImage}
         imageOnClickPrompt="Click to choose cover image"
@@ -29,3 +36,9 @@ export default function EpubPreview({
     </div>
   )
 }
+
+export default connectWithRedux(
+  EpubPreviewWithRedux,
+  ['isEditingEpub'],
+  []
+)

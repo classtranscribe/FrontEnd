@@ -17,7 +17,8 @@ var untitledNum = 0
 
 export function EpubWithRedux({
   media,
-  epubData=ARRAY_INIT
+  epubData=ARRAY_INIT,
+  // isEditingEpub=false,
 }) {
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export function EpubWithRedux({
   const genChaperFromItems = chapter => {
     return {
       id: chapter.id,
-      title: chapter.title || 'New Chapter',
+      title: chapter.title || 'Untitled Chapter',
       image: chapter.image || (chapter.items[0] || {}).image,
       items: chapter.items,
       text: _.filter(_.map(chapter.items, item => item.text), txt => txt !== '').join('\n\n')
@@ -156,12 +157,17 @@ export function EpubWithRedux({
   const saveEpub = () => {
     let newEpub = _.map(chapters, chapter => genChaperFromItems(chapter))
     console.log('newEpub', newEpub)
+    epub.isEditingEpub(false)
+  }
+
+  const cancelEditing = () => {
+    epub.isEditingEpub(false)
   }
 
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
-        let chapter1 = { items: epubData, title: 'Chapter 1', id: epub.genId('epub-ch') }
+        let chapter1 = { items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }
         setChapters([ chapter1 ])
         setCurrChapter(genChaperFromItems(chapter1))
       } else {
@@ -187,6 +193,8 @@ export function EpubWithRedux({
               chapters={chapters}
               currChapter={currChapter}
               changeChapter={changeChapter}
+              language={language}
+              changeLanguage={changeLanguage}
             />
 
             <EpubChapters 
@@ -224,6 +232,7 @@ export function EpubWithRedux({
 
             <ActionButtons
               saveEpub={saveEpub}
+              cancelEditing={cancelEditing}
             />
           </>
         }
@@ -234,7 +243,7 @@ export function EpubWithRedux({
 
 export const EPub = connectWithRedux(
   EpubWithRedux,
-  ['media', 'epubData'],
+  ['media', 'epubData', 'isEditingEpub'],
   []
 )
 

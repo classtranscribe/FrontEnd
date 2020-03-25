@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { connectWithRedux } from '../../../Utils'
 import { Button } from 'pico-ui'
 import './index.scss'
+import EpubHeader from '../EpubHeader'
 
-export default function ChapterNavigator({
+function ChapterNavigatorWithRedux({
   chapters,
   currChapter,
   changeChapter,
+  isEditingEpub=false,
+  language,
+  changeLanguage,
 }) {
 
   const [show, setShow] = useState(null)
@@ -23,7 +28,7 @@ export default function ChapterNavigator({
     if (chElem) {
       chElem.scrollIntoView()
       changeChapter(chapter)
-      hideNavihator()
+      if (isEditingEpub) hideNavihator()
     }
   }
 
@@ -36,20 +41,36 @@ export default function ChapterNavigator({
     }
   }, [show])
 
+  useEffect(() => {
+    if (isEditingEpub && show) {
+      setShow(null)
+    } else if (!isEditingEpub && !show) {
+      setShow(' true')
+    }
+  }, [isEditingEpub])
+
+
   return show ? (
-    <div className="msp-ee-cn-con">
+    <div className="msp-ee-cn-con" data-editing={isEditingEpub}>
       <div className="ee-cn-wrapper" onClick={hideNavihator}></div>
       <div className={"ee-cn-ch-con" + show}>
+        <EpubHeader padded={false} title="Preview" language={language} changeLanguage={changeLanguage}>
+
+        </EpubHeader>
         <div className="ct-d-r-center-v ee-cn-h">
           <h3>Chapters</h3>
-          <Button round
-            icon="close"
-            color="transparent"
-            onClick={hideNavihator} 
-          />
+          {
+            isEditingEpub
+            &&
+            <Button round
+              icon="close"
+              color="transparent"
+              onClick={hideNavihator} 
+            />
+          }
         </div>
         <div className="ee-cn-ch-ul ct-d-c">
-          {chapters.map( chapter => (
+          {chapters.map( (chapter, index) => (
             <Button round
               key={`ee-cn-ch-${chapter.id}`}
               id={`ee-cn-ch-${chapter.id}`}
@@ -57,7 +78,7 @@ export default function ChapterNavigator({
               color={currChapter.id === chapter.id ? "teal" : 'transparent'}
               onClick={navigate(chapter)}
             >
-              {chapter.title}
+              {isEditingEpub ? '' : `${index+1}. `} {chapter.title}
             </Button>
           ))}
         </div>
@@ -76,3 +97,9 @@ export default function ChapterNavigator({
     </div>
   )
 }
+
+export default connectWithRedux(
+  ChapterNavigatorWithRedux,
+  ['isEditingEpub'],
+  []
+)

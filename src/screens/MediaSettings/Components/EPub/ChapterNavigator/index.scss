@@ -7,6 +7,29 @@
   left: 0;
   z-index: 3;
 
+  &[data-editing=false] {
+    position: relative;
+    width: 26%;
+    z-index: 0;
+    top: 0;
+    animation: ee-cn-expand 200ms linear;
+    .ee-cn-wrapper { display: none; }
+    .ee-cn-ch-con {
+      margin-top: 0;
+      background: white;
+      box-shadow: none;
+      width: 100%;
+      animation: none;
+
+      .ee-cn-h {
+        background: white;
+      }
+      .ee-cn-ch-ul {
+        max-width: 300px;
+      }
+    }
+  }
+
   .ee-cn-open-btn {
     animation: ee-cn-show 300ms linear;
     &:hover span {
@@ -85,4 +108,8 @@
 @keyframes ee-cn-hide {
   0% { margin-left: 0px; }
   100% { margin-left: -270px; }
+}
+@keyframes ee-cn-expand {
+  0% { width: 55%; opacity: 0; }
+  100% { width: 26%; opacity: 1; }
 }

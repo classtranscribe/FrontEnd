@@ -9,7 +9,7 @@ class Epub {
 
     this.epubData_ = []
     this.oldEpubData_ = []
-    this.isSettingEpub_ = false
+    this.isEditingEpub_ = false
 
     this.textToSave_ = []
   }
@@ -20,11 +20,11 @@ class Epub {
    */
   init(props) {
     const { 
-      setEpubData, setIsSettingEpub
+      setEpubData, setIsEditingEpub
     } = props
 
     this.redux = { 
-      setEpubData, setIsSettingEpub
+      setEpubData, setIsEditingEpub
     }
   }
 
@@ -43,16 +43,16 @@ class Epub {
   }
 
   /**
-   * Function used to set or get `isSettingEpub`
-   * @param {Boolean|Undefined} isSettingEpub true if reset the chapters
-   * @returns {Boolean|Undefined} returns the current `isSettingEpub` if no params is passed in
+   * Function used to set or get `isEditingEpub`
+   * @param {Boolean|Undefined} isEditingEpub true if reset the chapters
+   * @returns {Boolean|Undefined} returns the current `isEditingEpub` if no params is passed in
    */
-  isSettingEpub(isSettingEpub_) {
-    if (isSettingEpub_ === undefined) return this.isSettingEpub_
-    const { setIsSettingEpub } = this.redux
-    if (setIsSettingEpub) {
-      setIsSettingEpub(isSettingEpub_)
-      this.isSettingEpub_ = isSettingEpub_
+  isEditingEpub(isEditingEpub_) {
+    if (isEditingEpub_ === undefined) return this.isEditingEpub_
+    const { setIsEditingEpub } = this.redux
+    if (setIsEditingEpub) {
+      setIsEditingEpub(isEditingEpub_)
+      this.isEditingEpub_ = isEditingEpub_
     }
   }
 
@@ -105,11 +105,11 @@ class Epub {
    * Function used to begin reset epub chapters
    */
   resetEpub() {
-    if (this.isSettingEpub()) return
+    if (this.isEditingEpub()) return
 
     this.oldEpubData_ = [...this.epubData_]
     // console.log('this.epubData_', this.oldEpubData_)
-    this.isSettingEpub(true)
+    this.isEditingEpub(true)
     this.epubData([])
   }
 
@@ -117,11 +117,11 @@ class Epub {
    * Function used to cancel reset epub chapters
    */
   cancelResetEpub() {
-    if (!this.isSettingEpub()) return
+    if (!this.isEditingEpub()) return
 
     // console.log('this.epubData_', this.oldEpubData_)
     this.epubData(this.oldEpubData_)
-    this.isSettingEpub(false)
+    this.isEditingEpub(false)
     this.oldEpubData_ = []
   }
 
@@ -129,9 +129,9 @@ class Epub {
    * Function used to save new epub chapters
    */
   saveResetEpub() {
-    if (!this.isSettingEpub()) return
+    if (!this.isEditingEpub()) return
 
-    this.isSettingEpub(false)
+    this.isEditingEpub(false)
     this.oldEpubData_ = []
   }
 
@@ -186,6 +186,7 @@ class Epub {
     this.mediaId = mediaId
     let epubData = await this.getEpubData(mediaId)
     this.epubData(epubData)
+    this.isEditingEpub(true)
   }
 }
 

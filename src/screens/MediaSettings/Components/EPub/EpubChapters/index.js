@@ -1,14 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
+import { connectWithRedux } from '../../../Utils'
 import EpubList from './EpubList'
-import { Dropdown } from 'semantic-ui-react'
-import { Button } from 'pico-ui'
-import { langMap } from 'screens/Watch/Utils'
+import EpubHeader from '../EpubHeader'
 import './index.scss'
 
-const langOptions = _.map(langMap, (text, value) => ({ text, value }))
-
-export default function EpubChapters({
+function EpubChaptersWithRedux({
   chapters=[],
   splitChapter,
   undoSplitChapter,
@@ -21,32 +18,23 @@ export default function EpubChapters({
   magnifiedImg,
   foldedIds,
   foldChapter,
-  unfoldChapter
+  unfoldChapter,
+  isEditingEpub=false,
 }) {
 
   // console.log('chapters', chapters)
 
   return (
-    <div className="msp-ee-el-con ct-d-c">
-      <div className="msp-ee-el-header">
-        <div className="w-100 ct-d-r-center-v msp-ee-el-h1">
-          <h1>Manage Your ePub Book</h1>
-          <Dropdown pointing='right'
-            trigger={<Button outlined icon="arrow_drop_down" text={langMap[language]} />}
-            icon={null}
-            value={language}
-            options={langOptions}
-            onChange={(e, { value }) => changeLanguage(value)}
-          />
-        </div>
-        <p>
-          <span className="msp-ee-el-h-p-t">Instruction</span>
+    <div className="msp-ee-el-con ct-d-c ct-a-fade-in" data-editing={isEditingEpub}>
+      <EpubHeader title="Manage Your ePub Book" language={language} changeLanguage={changeLanguage}>
+        <EpubHeader.Text>
+          <EpubHeader.Subtitle className="msp-ee-el-h-p-t" text="Instruction" />
           To manage your ePub chapters, set <span>splitting points</span> between screenshots to generate an initial version of ePub chapters. 
           To change <span>cover images</span>, click the image of the ePub preview on the left.
           <br/>
           After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
-        </p>
-      </div>
+        </EpubHeader.Text>
+      </EpubHeader>
 
       <div className="ct-d-c ee-el-chapters">
         {chapters.map((chapter, chapterIndex) => (
@@ -78,3 +66,9 @@ export default function EpubChapters({
     </div>
   )
 }
+
+export default connectWithRedux(
+  EpubChaptersWithRedux,
+  ['isEditingEpub'],
+  []
+)

@@ -1,7 +1,7 @@
 .msp-e-view {
   position: relative;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.123);
-  width: 650px;
+  width: 750px;
   max-width: 100%;
   height: max-content;
   display: flex;
@@ -18,8 +18,9 @@
   }
 
   .msp-e-v-img-con {
+    margin-top: 10px;
     position: relative;
-    max-width: calc(100% - 30px);
+    max-width: calc(100% - 20px);
     img {
       position: relative;
       max-width: 100%;

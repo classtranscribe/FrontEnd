@@ -4,5 +4,5 @@ export const initialState = {
   media: api.parseMedia(),
   tab: '',
   epubData: ARRAY_INIT,
-  isSettingEpub: true,
+  isEditingEpub: false,
 } 
