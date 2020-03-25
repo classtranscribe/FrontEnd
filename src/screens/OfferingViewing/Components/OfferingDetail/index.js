@@ -50,6 +50,7 @@ export function OfferingDetail({
 
   const getOffering = async () => {
     const propsState = history.location.state
+    console.log(propsState, id)
     if (propsState && propsState.offering) {
       const { offering } = propsState
       setFullNumber(offering.fullNumber)
@@ -106,7 +107,7 @@ export function OfferingDetail({
     util.scrollToTop('.sp-content')
     setupOfferingDetails()
     
-  }, [id, history])
+  }, [id])
 
 
   /**
@@ -128,7 +129,7 @@ export function OfferingDetail({
       setAccessType(offering.offering.accessType)
     }
     util.links.title(fullNumber+' '+termName+' '+sectionName)
-  }, [offering])
+  })
   
   /**
    * Determine which page to go back
