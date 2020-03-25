@@ -50,7 +50,7 @@ export default function Playlists({
             <ListItem
               icon={pl.sourceType}
               title={pl.name}
-              description={pl.createdAt.slice(0,10)}
+              description={(pl.createdAt || new Date().toISOString()).slice(0,10)}
               rightIcon="normal"
               current={Boolean(playlist.id === pl.id)}
               onClick={handlePlaylistClick(pl)}
