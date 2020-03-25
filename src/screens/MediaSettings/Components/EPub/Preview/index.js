@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import ChapterView from './ChapterView'
-import { connectWithRedux } from '../../Utils'
+import ChapterView from '../ChapterView'
+import { connectWithRedux } from '../../../Utils'
+import './index.scss'
 
 var lastChapterId = ''
 

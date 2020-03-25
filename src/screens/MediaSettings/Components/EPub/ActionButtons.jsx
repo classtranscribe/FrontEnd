@@ -24,13 +24,22 @@ function ActionButtonsWithRedux({
       /> */}
     </div>
   ) : (
-    <div className="msp-ee-act ct-a-fade-in">
-      <Button round size="big"
-        classNames="ee-act-btn"
-        text="Manage ePub Chapters"
-        color="black"
-        onClick={() => epub.isEditingEpub(true)}
-      />
+    <div className="msp-ee-act ct-a-fade-in" data-editing="false">
+      <Button.Group>
+        <Button round //size="big"
+          classNames="ee-act-btn"
+          text="Manage ePub Chapters"
+          color="black"
+          onClick={() => epub.isEditingEpub(true)}
+        />
+
+        <Button round //size="big"
+          classNames="ee-act-btn ee-act-save-btn"
+          text="Download"
+          color="teal"
+          //onClick={saveEpub}
+        />
+      </Button.Group>
     </div>
   )
 }

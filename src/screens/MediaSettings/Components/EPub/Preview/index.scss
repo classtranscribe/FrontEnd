@@ -1,0 +1,20 @@
+////////////////////////////////////////////////////////////
+// ePub Preview
+////////////////////////////////////////////////////////////
+.msp-ee-ep-con {
+  position: relative;
+  width: 45%;
+  padding: 60px 30px 150px 30px;
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 93px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 200ms linear;
+  display: flex;
+
+  &[data-editing=false] {
+    width: 74%;
+    margin-right: 0;
+  }
+}

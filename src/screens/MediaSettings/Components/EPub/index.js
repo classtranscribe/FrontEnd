@@ -7,7 +7,7 @@ import './index.scss'
 import { PlaceHolder } from 'components'
 
 import EpubChapters from './EpubChapters'
-import EpubPreview from './EpubPreview'
+import EpubPreview from './Preview'
 import CoverPicker from './CoverPicker'
 import ActionButtons from './ActionButtons'
 import ChapterNavigator from './ChapterNavigator'
@@ -167,9 +167,10 @@ export function EpubWithRedux({
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
-        let chapter1 = { items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }
-        setChapters([ chapter1 ])
-        setCurrChapter(genChaperFromItems(chapter1))
+        // let chapters_ = [{ items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }]
+        let chapters_ = _.map(epubData, (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: epub.genId('epub-ch')}))
+        setChapters(chapters_)
+        setCurrChapter(genChaperFromItems(chapters_[0]))
       } else {
         setChapters(epubData)
       }

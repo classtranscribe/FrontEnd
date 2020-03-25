@@ -20,9 +20,10 @@
       box-shadow: none;
       width: 100%;
       animation: none;
+      max-height: 100vh;
 
       .ee-cn-h {
-        background: white;
+        background: linear-gradient(-180deg,white 90%,transparent);
       }
       .ee-cn-ch-ul {
         max-width: 300px;
@@ -58,7 +59,7 @@
 
   .ee-cn-ch-con {
     width: 270px;
-    padding: 0 20px 20px 0;
+    padding: 10px 5px 20px 0;
     margin-top: -30px;
     // background-color: rgb(226, 226, 226);
     background-color: rgb(242, 246, 246);
@@ -67,8 +68,15 @@
     height: 600px;
     max-height: 70vh;
     animation: ee-cn-show 100ms linear;
-    overflow-x: hidden;
-    overflow-y: auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+
+    .ee-cn-ch-scroll-con {
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      height: 100%;
+    }
 
     &.hide {
       margin-left: -270px;
@@ -83,7 +91,7 @@
       top: 0;
       left: 0;
       z-index: 1;
-      padding: 10px 0 10px 20px;
+      padding: 0px 0 10px 20px;
       h3 {
         padding: 0;
         margin: 0;
@@ -91,6 +99,7 @@
     }
 
     .ee-cn-ch-ul {
+      padding-right: 10px;
       .ee-cn-ch-li span {
         padding-left: 10px;
         text-align: left;
