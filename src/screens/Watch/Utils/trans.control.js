@@ -517,6 +517,9 @@ export const transControl = {
       this.LAST_TRANS_VIEW = this.TRANS_VIEW
       this.TRANS_VIEW = view
       setTransView(view)
+      setTimeout(() => {
+        if (this.currCaption_ && this.currCaption_.id) this.scrollTransToView(this.currCaption_.id, false)
+      }, 200);
       if (updatePrefer) preferControl.defaultTransView(view)
     }
 

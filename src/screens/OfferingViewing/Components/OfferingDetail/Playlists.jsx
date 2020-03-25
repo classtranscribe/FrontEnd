@@ -37,7 +37,7 @@ export default function Playlists({
         <PlaylistsView 
           playlists={playlists} 
           handleClick={handlePlaylistClick} 
-          wasSelected={playlistId.replace('prev-', '')}
+          wasSelected={(playlistId || '').replace('prev-', '')}
         />
         :
         <VideoView 
