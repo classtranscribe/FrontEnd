@@ -19,7 +19,8 @@ function NoVideoHolder({ type }) {
         </div>
       </div>
       <div className="mt-5 text-muted text-center">
-        YOUR VIDEOS WILL BE AVAILABLE SOON. <br/>
+        New videos in this playlist will automatically appear here.<br/>
+        Videos may require up to 2 hours to process. <a href={window.location.pathname}>Refresh Here</a><br/><br/>
       </div>
       <div className="mt-2 text-muted text-center">
         HAVING QUESTIONS? <a href="mailto:classtranscribe@illinois.edu">CONTACT US</a>
