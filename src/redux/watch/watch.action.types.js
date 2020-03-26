@@ -2,6 +2,7 @@
 export const SET_MEDIA = 'watch-set-media'
 export const SET_PLAYLIST = 'watch-set-playlist'
 export const SET_PLAYLISTS = 'watch-set-playlists'
+export const SET_OFFERING = 'watch-set-offering'
 export const SET_WATCH_HISTORY = 'watch-set-watch-history'
 export const SET_STARRED_OFFERINGS = 'watch-set-starred-offerings'
 

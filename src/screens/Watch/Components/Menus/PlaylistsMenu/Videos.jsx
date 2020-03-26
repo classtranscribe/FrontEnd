@@ -54,7 +54,6 @@ function Video({
   currMediaId='',
   watchHistory=[],
 }) {
-  const courseNumber = util.parseURLFullNumber()
   media = api.parseMedia(media)
   const { id, mediaName } = media
   const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
@@ -70,7 +69,7 @@ function Video({
         listitem={false}
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
-        link={util.links.watch(courseNumber, id, timeStamp)}
+        link={util.links.watch(id, { begin: timeStamp })}
       />
     </li>
   )

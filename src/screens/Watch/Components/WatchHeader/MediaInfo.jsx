@@ -5,18 +5,18 @@ import { util } from '../../../../utils'
 
 function MediaInfo({
   media={},
-  playlist={}
+  playlist={},
+  offering={},
 }) {
 
   const { mediaName } = media
-  // const { name } = playlist
-  const courseNumber = util.parseURLFullNumber()
+  const { fullNumber } = offering
 
   useEffect(() => {
-    if (mediaName) {
-      util.links.title(`${mediaName} | ${courseNumber}`)
+    if (mediaName && fullNumber) {
+      util.links.title(`${mediaName} | ${fullNumber}`)
     }
-  }, [media])
+  }, [media, offering])
 
   // return (
   //   <Popup inverted basic wide hoverable
@@ -40,7 +40,7 @@ function MediaInfo({
   return (
     <div className="watch-media-info" title={mediaName}>
       <div className="watch-header-course-num">
-        {courseNumber}
+        {fullNumber}
         <span>{playlist.name}</span>
       </div>
       <h1 className="watch-header-media-name">{mediaName}</h1>
@@ -50,6 +50,6 @@ function MediaInfo({
 
 export default connectWithRedux(
   MediaInfo,
-  ['media', 'playlist'],
+  ['media', 'playlist', 'offering'],
   []
 )

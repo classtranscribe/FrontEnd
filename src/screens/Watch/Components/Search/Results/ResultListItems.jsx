@@ -29,8 +29,7 @@ export const CaptionListItem = ({
     if (option === SEARCH_TRANS_IN_VIDEO) {
       videoControl.currTime(timeStrToSec(begin))
     } else if (option === SEARCH_TRANS_IN_COURSE) {
-      const { courseNumber } = util.parseSearchQuery()
-      window.location = util.links.watch(courseNumber, mediaId, timeStrToSec(begin))
+      window.location = util.links.watch(mediaId, { begin: timeStrToSec(begin) })
     }
   }
 
@@ -61,7 +60,6 @@ export const VideoListItem = ({
   media=null, 
   watchHistory=[],
 }) => {
-  const courseNumber = util.parseURLFullNumber()
   const { mediaId, name, playlistName } = media
   const mediaHistory = watchHistory.filter(mh => mh.mediaId === mediaId)[0] || {}
   const { ratio, timeStamp } = mediaHistory
@@ -75,7 +73,7 @@ export const VideoListItem = ({
         listitem={false}
         fittedNameSize={-1}
         description={`Playlist - ${playlistName}`}
-        link={util.links.watch(courseNumber, mediaId, timeStamp)}
+        link={util.links.watch(mediaId, { begin: timeStamp })}
       />
     </div>
   )

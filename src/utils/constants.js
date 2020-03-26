@@ -4,6 +4,11 @@ export const INSTRUCTOR = 'u-inst'
 export const ADMIN = 'u-admin'
 export const DEFAULT_ROLE = STUDENT // used for testing
 
+// Pages
+export const PAGE_INSTRUCTOR = 'instp'
+export const PAGE_HOME = 'homep'
+export const PAGE_MEDIA_SETTING = 'msp'
+export const PAGE_WATCH = 'watch'
 
 export const isDeveloping = Boolean(
   window.location.hostname === 'localhost' ||

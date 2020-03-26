@@ -26,9 +26,8 @@ function MediaDetail({
   }
 
   const handleWatch = () => {
-    let courseNumber = setup.offering().courseNumber
-    let pathname = util.links.watch(courseNumber, id)
-    history.push(pathname, { media, })
+    let pathname = util.links.watch(id)
+    history.push(pathname)
   }
 
   const handleRename = async () => {

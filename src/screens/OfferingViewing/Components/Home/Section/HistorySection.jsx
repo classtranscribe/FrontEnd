@@ -25,7 +25,7 @@ function MediaCard({ media, offerings }) {
   return fullNumber ? (
     <VideoCard square
       name={mediaName}
-      link={util.links.watch(fullNumber, mediaId, timeStamp)}
+      link={util.links.watch(mediaId, { begin: timeStamp })}
       ratio={ratio}
       description={`${fullNumber} • ${courseName}`}
       descriptionLink={util.links.offeringDetail(offeringId)}
