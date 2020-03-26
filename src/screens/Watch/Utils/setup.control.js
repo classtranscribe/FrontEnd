@@ -148,7 +148,6 @@ export const setup = {
 
     try {
       const { data } = await api.getPlaylistsByOfferingId(offeringId)
-      console.error(data)
       return data 
     } catch (error) {
       return []
