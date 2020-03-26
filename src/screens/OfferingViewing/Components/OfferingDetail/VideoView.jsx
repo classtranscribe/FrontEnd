@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import $ from 'jquery'
 import { Icon } from 'semantic-ui-react'
 import { VideoCard, PlaceHolder } from '../../../../components'
 import { api, util } from '../../../../utils'
@@ -8,7 +7,6 @@ function VideoView({
   playlistId, 
   playlists, 
   goBack, 
-  courseNumber, 
   watchHistoryJSON 
 }) {
   const [playlist, setPlaylist] = useState({})
@@ -42,7 +40,6 @@ function VideoView({
             media={media} 
             playlist={playlist}
             playlists={playlists}
-            courseNumber={courseNumber} 
             watchHistoryJSON={watchHistoryJSON}
           />
         ))}
@@ -51,14 +48,14 @@ function VideoView({
   ) : <PlaceHolder />
 }
 
-function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
+function Video({ media, playlist, playlists, watchHistoryJSON }) {
   const { mediaName, id, isUnavailable } = api.parseMedia(media)
   const { timeStamp, ratio } = watchHistoryJSON[id] || {}
 
   return (
     <VideoCard row
       name={mediaName}
-      link={util.links.watch(courseNumber, id, timeStamp)}
+      link={util.links.watch(id, { begin: timeStamp })}
       ratio={ratio}
       mediaState={{ playlist, playlists }}
       posterSize="150px"

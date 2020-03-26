@@ -1,10 +1,10 @@
 .watch-menus {
-  bottom: 4.5em;
+  bottom: 55px;
   left: 0;
   right: 0;
   position: absolute;
   width: 100vw;
-  height: calc(100vh - 4em - 4.5em);
+  height: calc(100vh - 110px);
   background: var(--watch-page-bg-color-alpha);
   opacity: 1;
   /* Add the blur effect */
@@ -146,8 +146,8 @@
 
 @media screen and (max-width: 550px) {
   .watch-menus {
-    bottom: 200px;
-    height: calc(100vh - 4em - 8em);
+    bottom: 110px;
+    height: calc(100vh - 165px);
   }
   .watch-icon-list {
     width: 100%;

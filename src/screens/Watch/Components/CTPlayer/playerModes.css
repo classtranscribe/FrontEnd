@@ -1,20 +1,18 @@
 
 .ct-player-primary {
   background: black;
-  object-fit: cover;
   overflow: hidden;
 }
 .ct-player-secondary {
   background: transparent;
-  object-fit: cover;
   overflow: hidden;
 }
 
 .ct-player-primary[mode=ps-mode], .ct-player-primary[mode=nested-mode], .ct-player-primary[mode=normal-mode] {
-  top: 8vh;
+  top: 60px;
   left: 1vw;
   width: 60vw;
-  height: calc(100vh - 4.5em - 6em);
+  height: calc(100vh - 60px - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -64,10 +64,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
   onDurationChange = e => {
     control.onDurationChange(e)
-    let { begin, courseNumber, id } = util.parseSearchQuery()
+    let { begin, id } = util.parseSearchQuery()
     if (Boolean(begin)) {
       control.currTime(Number(begin))
-      util.replacePathname( util.links.watch(courseNumber, id) )
+      util.replacePathname( util.links.watch(id) )
     }
   }
   onProgress = e => {

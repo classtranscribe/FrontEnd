@@ -12,13 +12,13 @@ export const setup = {
   externalFunctions : {},
   init: function(props) {
     const { 
-      setMedia, setPlaylist, setPlaylists, 
+      setMedia, setPlaylist, setPlaylists, setOffering,
       setWatchHistory, setStarredOfferings, 
       location, history, changeVideo,
     } = props
 
     this.externalFunctions = { 
-      setMedia, setPlaylist, setPlaylists, 
+      setMedia, setPlaylist, setPlaylists, setOffering,
       setWatchHistory, setStarredOfferings, 
       location, history, changeVideo
     }
@@ -84,14 +84,8 @@ export const setup = {
 
   changeVideo: function(media, playlist) {
     const { history } = this.externalFunctions
-    const { courseNumber } = util.parseSearchQuery()
-
     if (!playlist) playlist = this.playlist()
-
-    history.push(
-      util.links.watch(courseNumber, media.id), 
-      { media, playlist }
-    )
+    history.push(util.links.watch(media.id))
   },
 
   findNeighbors: function(mediaId, playlist) {
@@ -143,14 +137,14 @@ export const setup = {
     // // if the playlists exist
     // if (this.playlists().length > 0) return null 
 
-    let { state } = this.externalFunctions.location
-    if (state && state.playlists) return state.playlists
+    // let { state } = this.externalFunctions.location
+    // if (state && state.playlists) return state.playlists
 
     try {
       const { data } = await api.getPlaylistsByOfferingId(offeringId)
       return data 
     } catch (error) {
-      return null
+      return []
     }
   },
 
@@ -224,18 +218,18 @@ export const setup = {
     this.media(media)
     this.playlist(playlist)
 
-    api.contentLoaded()
-
     let { offeringId } = playlist
 
-    // Get playlists
-    // let playlists = await this.getPlaylists(offeringId)
-    // if (playlists) this.playlists(playlists)
-    
     // Get offering
-    // let offering = await this.getOffering(offeringId)
-    // console.error('offering', offering, api.getFullNumber(offering.courses))
-    // api.completeSingleOffering(offering, off => console.error(off, api.getFullNumber(off.courses)))
+    let offering = await this.getOffering(offeringId)
+    offering = api.parseSingleOffering(offering)
+    this.offering(offering)
+
+    api.contentLoaded()
+
+    // Get playlists
+    let playlists = await this.getPlaylists(offeringId)
+    if (playlists) this.playlists(playlists)
 
     // Initialize user action handler
     let mediaId = media.id
