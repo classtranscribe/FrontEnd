@@ -140,11 +140,11 @@ export function OfferingDetail({
           {offering.termName} | {offering.sectionName}
         </div>
 
-        {
+        {/* {
           offering.instructor 
           && 
-          <div className="od-course-inst">Created by {offering.instructor.fullName}</div>
-        }
+          <div className="od-course-inst">{offering.instructor.fullName}</div>
+        } */}
 
         {
           offering.description 
