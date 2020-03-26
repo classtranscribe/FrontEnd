@@ -143,14 +143,15 @@ export const setup = {
     // // if the playlists exist
     // if (this.playlists().length > 0) return null 
 
-    let { state } = this.externalFunctions.location
-    if (state && state.playlists) return state.playlists
+    // let { state } = this.externalFunctions.location
+    // if (state && state.playlists) return state.playlists
 
     try {
       const { data } = await api.getPlaylistsByOfferingId(offeringId)
+      console.error(data)
       return data 
     } catch (error) {
-      return null
+      return []
     }
   },
 
@@ -229,8 +230,8 @@ export const setup = {
     let { offeringId } = playlist
 
     // Get playlists
-    // let playlists = await this.getPlaylists(offeringId)
-    // if (playlists) this.playlists(playlists)
+    let playlists = await this.getPlaylists(offeringId)
+    if (playlists) this.playlists(playlists)
     
     // Get offering
     // let offering = await this.getOffering(offeringId)

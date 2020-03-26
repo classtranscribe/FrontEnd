@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 import { connectWithRedux } from '../../../Utils'
-import { VideoCard } from '../../../../../components'
+import { VideoCard, PlaceHolder } from '../../../../../components'
 import { api, util } from '../../../../../utils'
 
 function Videos({
-  medias=[],
+  playlist,
   currMediaId='',
   watchHistory=[],
-  selectedPlaylist={},
+  currPlaylist={},
 }) {
+
+  let { medias } = currPlaylist
 
   useEffect(() => {
     util.scrollToCenter(
@@ -16,16 +18,18 @@ function Videos({
       true, 
       util.scrollToTop('.watch-videos-list')
     )
-    // util.scrollToView(currMediaId)
-  }, [medias])
+  }, [currPlaylist])
 
   return (
     <div className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
-        <p><i className="material-icons">video_library</i>{selectedPlaylist.name}</p>
+        <p><i className="material-icons">video_library</i>{currPlaylist.name}</p>
       </div>
       <ul className="w-100 d-flex flex-column p-0">
         {
+          !medias ?
+          <PlaceHolder />
+          :
           medias.length === 0 ?
           <div className="w-100 d-flex justify-content-center align-items-center m-5">
             NO VIDEO
@@ -42,7 +46,7 @@ function Videos({
         }
       </ul>
     </div>
-  );
+  )
 }
 
 function Video({ 
@@ -74,6 +78,6 @@ function Video({
 
 export default connectWithRedux(
   Videos,
-  [],
+  ['playlist'],
   []
 );
