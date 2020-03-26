@@ -49,10 +49,10 @@ export const responseParsers = {
       termName: term.name,
       fullNumber: this.getFullNumber(courses),
       isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
-      instructor: {
-        ...instructorIds[0],
-        fullName: instructorIds[0].firstName + ' ' + instructorIds[0].lastName
-      },
+      instructor: instructorIds ? {
+        ...(instructorIds[0] ? instructorIds[0] : {}),
+        fullName: instructorIds[0] ? instructorIds[0].firstName + ' ' + instructorIds[0].lastName : ''
+      } : null,
     }
   },
   

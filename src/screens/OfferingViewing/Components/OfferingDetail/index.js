@@ -151,6 +151,7 @@ export function OfferingDetail({
           && 
           <p className="offering-description">{offering.description}</p>
         }
+        <br/>
         {
           user.isLoggedIn()
           &&
