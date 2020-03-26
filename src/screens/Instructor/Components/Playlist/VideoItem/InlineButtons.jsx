@@ -16,16 +16,8 @@ function InlineButtons({
 
   const history = useHistory()
   const handleWatch = () => {
-    let courseNumber = setup.offering().courseNumber
-    let pathname = util.links.watch(courseNumber, media.id)
-    history.push(
-      pathname, 
-      { 
-        media, 
-        playlist: setup.playlist(), 
-        playlists: setup.playlists() 
-      }
-    )
+    let pathname = util.links.watch(media.id)
+    history.push(pathname)
   }
 
   const handleDelete = async () => {

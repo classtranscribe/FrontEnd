@@ -8,6 +8,11 @@ export const DEFAULT_ROLE = STUDENT // used for testing
 export const ARRAY_INIT = ['init']
 export const ARRAY_EMPTY = ['empty']
 
+// Pages
+export const PAGE_INSTRUCTOR = 'instp'
+export const PAGE_HOME = 'homep'
+export const PAGE_MEDIA_SETTING = 'msp'
+export const PAGE_WATCH = 'watch'
 
 export const isDeveloping = Boolean(
   window.location.hostname === 'localhost' ||

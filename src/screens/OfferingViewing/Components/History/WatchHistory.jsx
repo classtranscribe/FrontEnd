@@ -35,7 +35,7 @@ function MediaItem({ media, offerings, removeWatchHistory }) {
       name={mediaName}
       ratio={ratio}
       role="listitem"
-      link={util.links.watch(fullNumber, mediaId, timeStamp)}
+      link={util.links.watch(mediaId, { begin: timeStamp })}
       description={`${fullNumber} • ${courseName}`}
       descriptionLink={util.links.offeringDetail(offeringId)}
       descriptionState={{ from: 'history' }}

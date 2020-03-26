@@ -59,7 +59,6 @@ function Video({
   upNext=null, 
 }) {
   const media =  api.parseMedia(upNext)
-  const courseNumber = util.parseURLFullNumber()
   const { id, mediaName } = media
 
   return (
@@ -69,7 +68,7 @@ function Video({
         name={mediaName}
         posterSize={'100px'}
         fittedNameSize={-1}
-        link={util.links.watch(courseNumber, id)}
+        link={util.links.watch(id)}
       />
     </div>
   )

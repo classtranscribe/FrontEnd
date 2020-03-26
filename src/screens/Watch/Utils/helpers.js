@@ -2,6 +2,7 @@ import $ from 'jquery'
 import _ from 'lodash'
 import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
+import { util } from 'utils';
 // import { videoControl } from './player.control'
 
 export function parseSec(d) {
@@ -60,31 +61,17 @@ export function autoSize(e) {
   autosize(elem);
 }
 
-async function autoHelper () {
-  let textareas = $('textarea')
-    for (let i = 0; i < textareas.length; i++) {
-      await setTimeout(() => {
-        // autosize(document.querySelectorAll('textarea'));
-        autosize(textareas[i]);
-      }, 200);
-    }
-}
 export function autoSizeAllTextAreas(timeout=0) {
   return;
-  setTimeout(() => {
-    autoHelper()
-  }, timeout);
 }
 
 
 /** handle Share */
 // Get share url
-export function getShareableURL(time=0) {
-  const { origin, pathname, search } = window.location
-  let url = origin + pathname + search
-  if (time > 0) {
-    url += `&begin=${Math.floor(time)}`
-  }
+export function getShareableURL(begin=0) {
+  const { origin } = window.location
+  const { id } = util.links.useSearch()
+  let pathname = util.links.watch(id, { begin, from: 'sharedlink' })
 
-  return url
+  return origin + pathname
 }

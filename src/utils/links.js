@@ -31,12 +31,14 @@ export class ClassTranscribeLinks {
   mspEpubSettings(mediaId) { return this.instMediaSettings(mediaId, 'epub') }
   mspTransSettings(mediaId) { return this.instMediaSettings(mediaId, 'trans') }
 
-  watch(courseNumber, id, begin, others={}) {
-    return `/video${this.createSearch({ 
-      courseNumber, 
-      id, 
-      begin: Math.floor(begin), ...others 
-    })}`
+  watch(id, params={}) {
+    if (params.begin) {
+      params.begin = Math.floor(Number(params.begin))
+      if (params.begin <= 0) {
+        params.begin = undefined
+      }
+    }
+    return '/video' + this.createSearch({ id, ...params })
   }
     
 
@@ -45,6 +47,12 @@ export class ClassTranscribeLinks {
 
   isValidUrl(value) {
     return VALID_URL.test(value);
+  }
+
+  usePathname(withOrigin=false) {
+    let { origin, pathname } = window.location
+    if (withOrigin) pathname = origin + pathname
+    return pathname
   }
 
   useParams(query) {
@@ -63,6 +71,7 @@ export class ClassTranscribeLinks {
 
     return params
   }
+
   createQuery(params, prefix='') {
     var query = ''
     for(let key in params) {
@@ -84,6 +93,7 @@ export class ClassTranscribeLinks {
       window.location.search
     )
   }
+
   createSearch(params) {
     return this.createQuery(params, '?')
   }
@@ -97,6 +107,7 @@ export class ClassTranscribeLinks {
       window.location.hash
     )
   }
+
   createHash(params) {
     return this.createQuery(params, '#')
   }

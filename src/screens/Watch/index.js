@@ -39,9 +39,9 @@ import {
 export class WatchWithRedux extends React.Component {
   constructor(props) {
     super(props)
-    const { id, courseNumber } = util.parseSearchQuery()
+    const { id } = util.parseSearchQuery()
     this.id = id
-    if (!id || !courseNumber) window.location = util.links.notfound404()
+    if (!id) window.location = util.links.notfound404()
     util.removeStoredOfferings()
 
     /** Init controls */
@@ -91,7 +91,8 @@ export function Watch(props) {
     WatchWithRedux,
     ['media', 'playlist'],
     [
-      'setMedia', 'setPlaylist', 'setPlaylists', 'changeVideo',
+      'setMedia', 'setPlaylist', 'setPlaylists', 
+      'setOffering', 'changeVideo',
       // transControl
       'setCurrTrans', 'setTranscriptions', 'setTranscript', 
       'setCaptions', 'setCurrCaption', 'setDescriptions', 'setCurrDescription',

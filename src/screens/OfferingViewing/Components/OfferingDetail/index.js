@@ -10,8 +10,8 @@ import { Icon } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
 import { Button } from 'pico-ui'
-import { useCTContext } from '../../../../components'
-import { api, util, handleData, user } from '../../../../utils'
+import { useCTContext, PlaceHolder } from '../../../../components'
+import { api, util, user } from '../../../../utils'
 import './index.css'
 
 export function OfferingDetail({ 
@@ -22,23 +22,12 @@ export function OfferingDetail({
   const history = useHistory()
   const location = useLocation()
   const { id } = useParams()
+  const { generalError } = useCTContext()
 
   const { starredOfferingsJSON, watchHistoryJSON } = state
-  const [offering, setOffering] = useState(null)
+  const [offering, setOffering] = useState({})
   const [playlists, setPlaylists] = useState(null)
-  // variables to present
-  const [fullNumber, setFullNumber] = useState('Loading...')
-  // const [courseNumber, setCourseNumber] = useState('Loading...')
-  const [termName, setTermName] = useState('')
-  const [sectionName, setSectionName] = useState('')
-  const [description, setDescription] = useState('')
-  const [courseName, setCourseName] = useState('Loading...')
-  const [accessType, setAccessType] = useState(0)
-
   const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
-  useEffect(() => {
-    setIsStarred(Boolean(starredOfferingsJSON[id]))
-  }, [starredOfferingsJSON])
 
   const handleStar = () => {
     if (isStarred) unstarOffering(id)
@@ -46,23 +35,16 @@ export function OfferingDetail({
     setIsStarred(isStarred => !isStarred)
   }
 
-  const { generalError } = useCTContext()
-
   const getOffering = async () => {
+    let parsedOffering = {}
+
     const propsState = history.location.state
     if (propsState && propsState.offering) {
-      const { offering } = propsState
-      setFullNumber(offering.fullNumber)
-      setTermName(offering.termName)
-      setDescription(offering.description)
-      setSectionName(offering.sectionName)
-      setCourseName(offering.courseName)
-      setAccessType(offering.accessType)
-      util.links.title(offering.fullNumber+' • '+offering.termName+' • '+offering.sectionName)
+      parsedOffering = propsState.offering
     } else {
       try {
         let { data } = await api.getOfferingById(id)
-        api.completeSingleOffering(data, data => setOffering(data))
+        parsedOffering = api.parseSingleOffering(data)
       } catch (error) {
         if (api.isAuthError(error)) {
           setPlaylists(['need-signin'])
@@ -73,6 +55,13 @@ export function OfferingDetail({
         }
       }
     }
+
+    setOffering(parsedOffering)
+    // console.log('parsedOffering', parsedOffering)
+    util.links.title(
+      parsedOffering.fullNumber
+      +' | '+parsedOffering.termName
+      +' | '+parsedOffering.sectionName)
 
     return 200
   }
@@ -105,30 +94,12 @@ export function OfferingDetail({
   useEffect(() => {
     util.scrollToTop('.sp-content')
     setupOfferingDetails()
-    
-  }, [id, history])
+  }, [id])
 
-
-  /**
-   * Set up variables after offerings loaded
-   */
   useEffect(() => {
-    if (!offering) return;
-    if (offering.courses) {
-      const number = api.getFullNumber(offering.courses)
-      if (handleData.isValidCourseNumber(number)) {
-        setFullNumber(number)
-      }
-    }
-    if (offering.offering && offering.offering.termName) {
-      setTermName(offering.offering.termName)
-      setSectionName(offering.offering.sectionName)
-      setCourseName(offering.offering.courseName)
-      setDescription(offering.offering.description)
-      setAccessType(offering.offering.accessType)
-    }
-    util.links.title(fullNumber+' '+termName+' '+sectionName)
-  }, [offering])
+    setIsStarred(Boolean(starredOfferingsJSON[id]))
+  }, [starredOfferingsJSON])
+
   
   /**
    * Determine which page to go back
@@ -143,7 +114,7 @@ export function OfferingDetail({
     }
   }
 
-  return (
+  return Boolean(offering.id) ? (
     <div className="offering-detail ct-a-fade-in" >
       {/* Offering Info */}
       <div className="offering-info">
@@ -159,13 +130,28 @@ export function OfferingDetail({
           </Link>
         </div>
         
-        <h1 className="od-course-number">{fullNumber}</h1>
+        <h1 className="od-course-number">{offering.fullNumber}</h1>
 
         <h2 className="od-course-name">
-          {courseName}
-          <span>{termName} | {sectionName}</span>
+          {offering.courseName}
         </h2>
-        {description && <><p className="offering-description">{description}</p></>}
+
+        <div className="od-course-txt">
+          {offering.termName} | {offering.sectionName}
+        </div>
+
+        {/* {
+          offering.instructor 
+          && 
+          <div className="od-course-inst">{offering.instructor.fullName}</div>
+        } */}
+
+        {
+          offering.description 
+          && 
+          <p className="offering-description">{offering.description}</p>
+        }
+        <br/>
         {
           user.isLoggedIn()
           &&
@@ -182,12 +168,12 @@ export function OfferingDetail({
       {/* Playlists */}
       <Playlists 
         offeringId={id}
-        accessType={accessType}
+        accessType={offering.accessType}
         history={history} 
         playlists={playlists} 
-        fullNumber={fullNumber}  
+        fullNumber={offering.fullNumber}  
         watchHistoryJSON={watchHistoryJSON}
       />
     </div>
-  )
+  ) : <PlaceHolder />
 }
