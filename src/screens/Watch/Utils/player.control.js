@@ -192,12 +192,20 @@ export const videoControl = {
   forward: function(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
-    if (now + sec < this.duration) this.currTime(now + sec)
+    if (now + sec < this.duration) {
+      this.currTime(now + sec)
+    } else {
+      this.currTime(this.duration)
+    }
   },
   rewind: function(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
-    if (now - sec > 0) this.currTime(now - sec)
+    if (now - sec > 0) {
+      this.currTime(now - sec)
+    } else {
+      this.currTime(0)
+    }
   },
   seekToPercentage: function(p=0) {
     if (typeof p !== 'number' || p > 1 || p < 0) return;
