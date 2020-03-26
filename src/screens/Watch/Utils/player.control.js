@@ -61,6 +61,7 @@ export const videoControl = {
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
+    this.playbackrate(preferControl.defaultPlaybackRate())
   },
 
   clear: function() {
