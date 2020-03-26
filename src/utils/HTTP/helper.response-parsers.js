@@ -37,40 +37,36 @@ export const responseParsers = {
       })
   },
 
-  // parseSingleOffering: function(rawOffering) {
-  //   const { offering, courses, term } = rawOffering
-  //     let { universityId } = term
-  //     let departmentIds = _.map(courses, 'departmentId')
-  //     parsedOfferings.push({
-  //       ...offering,
-  //       departmentIds,
-  //       universityId,
-  //       termName: term.name,
-  //       fullNumber: this.getFullNumber(courses),
-  //       isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
-  //     })
-  // },
+  parseSingleOffering: function(rawOffering) {
+    const { offering, courses, term, instructorIds } = rawOffering
+    let { universityId } = term
+    let departmentIds = _.map(courses, 'departmentId')
+    return {
+      ...offering,
+      departmentIds,
+      universityId,
+      instructorIds,
+      termName: term.name,
+      fullNumber: this.getFullNumber(courses),
+      isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+      instructor: {
+        ...instructorIds[0],
+        fullName: instructorIds[0].firstName + ' ' + instructorIds[0].lastName
+      },
+    }
+  },
   
   parseOfferings: async function(rawOfferings) {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
-      const { offering, courses, term } = rawOfferings[i]
-      let { universityId } = term
-      let departmentIds = _.map(courses, 'departmentId')
-      parsedOfferings.push({
-        ...offering,
-        departmentIds,
-        universityId,
-        termName: term.name,
-        fullNumber: this.getFullNumber(courses),
-        // hide the test course when it's not in the staging server
-        // and the user is not an admin
-        isTestCourse: !env.dev && !user.isAdmin() && _.findIndex(courses, { courseNumber: '000' }) >= 0,
-      })
+      parsedOfferings.push(
+        this.parseSingleOffering(rawOfferings[i])
+      )
     }
     // console.log('parsedOfferings', parsedOfferings)
     return parsedOfferings
   },
+
   getFullNumber: function(courses, separator) {
     var name = ''
     courses.forEach( course => {
