@@ -57,7 +57,7 @@ export function OfferingDetail({
     }
 
     setOffering(parsedOffering)
-    console.log('parsedOffering', parsedOffering)
+    // console.log('parsedOffering', parsedOffering)
     util.links.title(
       parsedOffering.fullNumber
       +' | '+parsedOffering.termName
