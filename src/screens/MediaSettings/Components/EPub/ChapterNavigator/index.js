@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../Utils'
+import { connectWithRedux, epub } from '../../../Utils'
 import { Button } from 'pico-ui'
 import './index.scss'
-import EpubHeader from '../EpubHeader'
 
 function ChapterNavigatorWithRedux({
   chapters,
   currChapter,
-  changeChapter,
   isEditingEpub=false,
 }) {
 
@@ -25,7 +23,7 @@ function ChapterNavigatorWithRedux({
     let chElem = document.getElementById(chapter.id)
     if (chElem) {
       chElem.scrollIntoView()
-      changeChapter(chapter)
+      epub.changeChapter(chapter)
       if (isEditingEpub) hideNavihator()
     }
   }

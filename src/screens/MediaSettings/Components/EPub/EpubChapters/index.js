@@ -7,18 +7,9 @@ import './index.scss'
 
 function EpubChaptersWithRedux({
   chapters=[],
-  splitChapter,
-  undoSplitChapter,
-  changeChapter,
   language,
-  changeLanguage,
-  handleTitleChange,
-  magnifyImage,
-  endMagnifyImage,
   magnifiedImg,
   foldedIds,
-  foldChapter,
-  unfoldChapter,
   isEditingEpub=false,
 }) {
 
@@ -26,7 +17,7 @@ function EpubChaptersWithRedux({
 
   return (
     <div className="msp-ee-el-con ct-d-c ct-a-fade-in" data-editing={isEditingEpub}>
-      <EpubHeader title="Manage Your ePub Book" language={language} changeLanguage={changeLanguage}>
+      <EpubHeader title="Manage Your ePub Book" language={language}>
         <EpubHeader.Text>
           <EpubHeader.Subtitle className="msp-ee-el-h-p-t" text="Instruction" />
           To manage your ePub chapters, set <span>splitting points</span> between screenshots to generate an initial version of ePub chapters. 
@@ -42,15 +33,7 @@ function EpubChaptersWithRedux({
             key={`ee-el-ch-${chapterIndex}`} 
             chapter={chapter}
             chapterIndex={chapterIndex}
-            splitChapter={splitChapter}
-            undoSplitChapter={undoSplitChapter}
-            changeChapter={changeChapter}
-            handleTitleChange={handleTitleChange}
-            magnifyImage={magnifyImage}
-            endMagnifyImage={endMagnifyImage}
             foldedIds={foldedIds}
-            foldChapter={foldChapter}
-            unfoldChapter={unfoldChapter}
           />
         ))}
       </div>

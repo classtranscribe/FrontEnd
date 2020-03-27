@@ -5,4 +5,6 @@ export const initialState = {
   tab: '',
   epubData: ARRAY_INIT,
   isEditingEpub: false,
-} 
+
+  error: null
+}

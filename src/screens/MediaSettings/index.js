@@ -65,7 +65,8 @@ export function MediaSettings(props) {
       'setMedia',
       'setTab',
       'setEpubData',
-      'setIsEditingEpub'
+      'setIsEditingEpub',
+      'setError'
     ]
   )
 

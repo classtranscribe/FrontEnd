@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Dropdown } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
 import { langMap } from 'screens/Watch/Utils'
+import { epub } from 'screens/MediaSettings/Utils'
 
 const langOptions = _.map(langMap, (text, value) => ({ text, value }))
 
@@ -10,7 +11,6 @@ export default function EpubHeader({
   title='',
   children,
   language,
-  changeLanguage,
   padded=true,
 }) {
   return (
@@ -22,7 +22,7 @@ export default function EpubHeader({
           icon={null}
           value={language}
           options={langOptions}
-          onChange={(e, { value }) => changeLanguage(value)}
+          onChange={(e, { value }) => epub.changeLanguage(value)}
         />
       </div>
       {children}

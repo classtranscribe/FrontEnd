@@ -3,8 +3,6 @@ import { connectWithRedux, epub } from '../../Utils'
 import { Button } from 'pico-ui'
 
 function ActionButtonsWithRedux({
-  saveEpub,
-  // cancelEditing,
   isEditingEpub=false,
 }) {
   return isEditingEpub ? (
@@ -13,7 +11,7 @@ function ActionButtonsWithRedux({
         classNames="ee-act-btn ee-act-save-btn"
         text="Save and Preview"
         color="teal"
-        onClick={saveEpub}
+        onClick={() => epub.saveChapters()}
       />
 
       {/* <Button round size="big"
@@ -30,7 +28,7 @@ function ActionButtonsWithRedux({
           classNames="ee-act-btn"
           text="Manage ePub Chapters"
           color="black"
-          onClick={() => epub.isEditingEpub(true)}
+          onClick={() => epub.cancelEditChapters()}
         />
 
         <Button round //size="big"

@@ -6,17 +6,27 @@ class SetupMSP {
   constructor() {
     this.redux = {}
     this.media_ = api.parseMedia()
+    this.error_ = null
   }
 
   init(props) {
     const { 
-      setMedia, 
+      setMedia, setError,
       history, location 
     } = props
 
     this.redux = { 
-      setMedia, 
+      setMedia, setError,
       history, location 
+    }
+  }
+
+  error(error_) {
+    if (error_ === undefined) return this.error_
+    const { setError } = this.redux
+    if (setError) {
+      setError(error_)
+      this.error_ = error_
     }
   }
 
@@ -41,6 +51,7 @@ class SetupMSP {
   async setupMedia(mediaId) {
     // console.log('mediaId', mediaId)
     util.links.title('Media Settings')
+    this.error(null)
 
     let media = await this.getMedia(mediaId)
     if (!media.id) {

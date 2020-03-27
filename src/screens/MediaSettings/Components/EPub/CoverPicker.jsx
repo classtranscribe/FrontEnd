@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { CTModal } from 'components'
 import { api } from 'utils'
+import { epub } from 'screens/MediaSettings/Utils'
 
 export default function CoverPicker({
   currChapter,
   images=[],
-  saveCoverImage,
-  closeCoverImagePicker,
 }) {
 
   const [cover, setCover] = useState(currChapter.image)
@@ -16,7 +15,7 @@ export default function CoverPicker({
   }
 
   const onSave = () => {
-    saveCoverImage(cover)
+    epub.saveCoverImage(cover)
   }
 
   return (
@@ -25,7 +24,7 @@ export default function CoverPicker({
       title="Choose cover image"
       saveBtnText="Save cover image"
       onSave={onSave}
-      onClose={closeCoverImagePicker}
+      onClose={() => epub.closeCoverImagePicker()}
     >
       <h3>Screenshots</h3>
       <div className="msp-ee-cp-con">

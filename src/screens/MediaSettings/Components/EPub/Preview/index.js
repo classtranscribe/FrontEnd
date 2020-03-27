@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ChapterView from '../ChapterView'
-import { connectWithRedux } from '../../../Utils'
+import { connectWithRedux, epub } from '../../../Utils'
 import './index.scss'
 
 var lastChapterId = ''
@@ -36,7 +36,7 @@ function EpubPreviewWithRedux({
         shadow={isEditingEpub} 
         contentEditable={!isEditingEpub}
         chapter={currChapter} 
-        imageOnClick={pickCoverImage}
+        imageOnClick={() => epub.pickCoverImage()}
         imageOnClickPrompt="Click to choose cover image"
       />
     </div>

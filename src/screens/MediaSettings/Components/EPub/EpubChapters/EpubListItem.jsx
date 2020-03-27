@@ -1,14 +1,12 @@
 import React from 'react'
 import { api } from 'utils'
 import { Button } from 'pico-ui'
+import { epub } from 'screens/MediaSettings/Utils'
 
 export default function EpubListItem({
   item,
   itemIndex,
   chapterIndex,
-  splitChapter,
-  magnifyImage,
-  endMagnifyImage,
 }) {
   return (
     <div className="ee-el-item ct-d-c">
@@ -16,10 +14,10 @@ export default function EpubListItem({
         <div 
           className="ee-el-i-img"
           tabIndex="0"
-          onMouseEnter={() => magnifyImage(api.getMediaFullPath(item.image))}
-          onMouseLeave={endMagnifyImage}
-          onFocus={() => magnifyImage(api.getMediaFullPath(item.image))}
-          onBlur={endMagnifyImage}
+          onMouseEnter={() => epub.magnifyImage(api.getMediaFullPath(item.image))}
+          onMouseLeave={() => epub.endMagnifyImage}
+          onFocus={() => epub.magnifyImage(api.getMediaFullPath(item.image))}
+          onBlur={() => epub.endMagnifyImage}
         >
           <img src={api.getMediaFullPath(item.image)} alt="screenshot" />
         </div>
@@ -38,7 +36,7 @@ export default function EpubListItem({
           text="Split Chapter Here"
           color="teal transparent"
           icon="unfold_more"
-          onClick={() => splitChapter(chapterIndex, itemIndex)}
+          onClick={() => epub.splitChapter(chapterIndex, itemIndex)}
         />
       </div>
     </div>

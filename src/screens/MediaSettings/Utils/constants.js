@@ -10,3 +10,7 @@ export const mspTabs = [
 /** Epub */
 // epub chapters
 export const NEW_CHAPTER = { id: 'msp-new-chapter' }
+
+
+// Errors
+export const NO_EPUB = 'no-epub'

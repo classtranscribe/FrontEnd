@@ -3,23 +3,16 @@ import _ from 'lodash'
 import EpubListItem from './EpubListItem'
 import { Button } from 'pico-ui'
 import { Popup } from 'semantic-ui-react'
+import { epub } from 'screens/MediaSettings/Utils'
 
 export default function EpubList({
   chapter,
   chapterIndex,
-  splitChapter,
-  undoSplitChapter,
-  changeChapter,
-  handleTitleChange,
-  magnifyImage,
-  endMagnifyImage,
   foldedIds=[],
-  foldChapter,
-  unfoldChapter,
 }) {
 
-  const fold = () => foldChapter(chapter.id)
-  const unfold = () => unfoldChapter(chapter.id)
+  const fold = () => epub.foldChapter(chapter.id)
+  const unfold = () => epub.unfoldChapter(chapter.id)
 
   const isFolded = foldedIds.includes(chapter.id)
 
@@ -34,13 +27,13 @@ export default function EpubList({
     <div 
       id={chapter.id}
       className={"ct-d-c ee-el-items" + (isFolded ? ' fold' : '')}
-      onMouseEnter={() => changeChapter(chapter)}
+      onMouseEnter={() => epub.changeChapter(chapter)}
     >
       <div className="ee-el-ch-title ct-d-r-center-v">
         <input contentEditable
           className="ct-div-editable"
           value={chapter.title}
-          onChange={({ target: { value } }) => handleTitleChange(chapterIndex, value)}
+          onChange={({ target: { value } }) => epub.handleTitleChange(chapterIndex, value)}
         />
         
         <Popup inverted basic
@@ -72,7 +65,7 @@ export default function EpubList({
               <Button round
                 //color="transparent"
                 icon="unfold_less"
-                onClick={() => undoSplitChapter(chapterIndex)}
+                onClick={() => epub.undoSplitChapter(chapterIndex)}
               />
             </div>
           }
@@ -95,9 +88,6 @@ export default function EpubList({
               item={item} 
               itemIndex={itemIndex}
               chapterIndex={chapterIndex}
-              splitChapter={splitChapter}
-              magnifyImage={magnifyImage}
-              endMagnifyImage={endMagnifyImage}
             />
           ))}
         </div>
