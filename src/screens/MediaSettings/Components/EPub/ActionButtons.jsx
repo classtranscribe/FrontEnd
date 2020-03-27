@@ -28,7 +28,7 @@ function ActionButtonsWithRedux({
           classNames="ee-act-btn"
           text="Manage ePub Chapters"
           color="black"
-          onClick={() => epub.cancelEditChapters()}
+          onClick={() => epub.isEditingEpub(true)}
         />
 
         <Button round //size="big"

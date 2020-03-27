@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { Dropdown } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
 import { langMap } from 'screens/Watch/Utils'
-import { epub } from 'screens/MediaSettings/Utils'
+import { epub } from '../../Utils'
 
 const langOptions = _.map(langMap, (text, value) => ({ text, value }))
 

@@ -351,7 +351,7 @@ class Epub {
     this.mediaId = mediaId
     let epubData = await this.getEpubData(mediaId)
     this.epubData(epubData)
-    this.isEditingEpub(true)
+    // this.isEditingEpub(true)
   }
 }
 

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import ChapterView from '../ChapterView'
+import Toolbar from './Toolbar'
 import { connectWithRedux, epub } from '../../../Utils'
 import './index.scss'
 
 var lastChapterId = ''
 
 function EpubPreviewWithRedux({
+  language,
   currChapter,
-  pickCoverImage,
   isEditingEpub=false,
 }) {
 
@@ -39,6 +40,14 @@ function EpubPreviewWithRedux({
         imageOnClick={() => epub.pickCoverImage()}
         imageOnClickPrompt="Click to choose cover image"
       />
+
+      {
+        !isEditingEpub
+        &&
+        <Toolbar 
+          language={language} 
+        />
+      }
     </div>
   )
 }

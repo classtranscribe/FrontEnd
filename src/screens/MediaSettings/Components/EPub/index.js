@@ -90,6 +90,7 @@ export function EpubWithRedux({
 
             <EpubPreview 
               currChapter={currChapter} 
+              language={language}
             />
 
             {

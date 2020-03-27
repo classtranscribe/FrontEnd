@@ -15,9 +15,9 @@ export default function EpubListItem({
           className="ee-el-i-img"
           tabIndex="0"
           onMouseEnter={() => epub.magnifyImage(api.getMediaFullPath(item.image))}
-          onMouseLeave={() => epub.endMagnifyImage}
+          onMouseLeave={() => epub.endMagnifyImage()}
           onFocus={() => epub.magnifyImage(api.getMediaFullPath(item.image))}
-          onBlur={() => epub.endMagnifyImage}
+          onBlur={() => epub.endMagnifyImage()}
         >
           <img src={api.getMediaFullPath(item.image)} alt="screenshot" />
         </div>
