@@ -35,7 +35,7 @@ function ActionButtonsWithRedux({
           classNames="ee-act-btn ee-act-save-btn"
           text="Download"
           color="teal"
-          //onClick={saveEpub}
+          onClick={() => epub.download()}
         />
       </Button.Group>
     </div>

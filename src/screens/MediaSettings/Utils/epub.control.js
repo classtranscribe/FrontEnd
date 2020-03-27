@@ -3,6 +3,8 @@ import { api, util, ARRAY_INIT } from '../../../utils'
 import { NO_EPUB } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
+import AdminZip from 'adm-zip'
+import downloadFile from 'js-file-download'
 
 class Epub {
   constructor() {
@@ -283,6 +285,14 @@ class Epub {
 
     this.isEditingEpub(false)
     this.oldEpubData_ = []
+  }
+
+  download() {
+    let text = this.currChapter.text
+    const zip = new AdminZip()
+    zip.addFile('home/epub.txt', new Buffer(text))
+    console.log(zip.toBuffer().toString('utf8'))
+    downloadFile(zip.toBuffer(), 'local_file.zip')
   }
 
 
