@@ -89,6 +89,12 @@ export const httpGET = {
   getCourseOfferingsByInstructorId: function (id) {
     return this.getData('CourseOfferings/ByInstructor', id)
   },
+  getInstructorsByOfferingId: function (offeringId) {
+    return this.getData(`UserOfferings/GetUsersOfOffering/${offeringId}/Instructor`)
+  },
+  getStudentsByOfferingId: function (offeringId) {
+    return this.getData(`UserOfferings/GetUsersOfOffering/${offeringId}/Student`)
+  },
 
 
   // Playlists

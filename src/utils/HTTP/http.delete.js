@@ -4,9 +4,9 @@ import { api, http } from './index'
  * DELETE
  */
 export const httpDELETE = {
-  deleteData: function (path, id, params) {
+  deleteData: function (path, id, params, data) {
     path = id ? `/api/${path}/${id}` : `/api/${path}` 
-    return http.delete(path, api.withAuth({ params }))
+    return http.delete(path, api.withAuth({ params, data }))
   },
   // University
   deleteUniversity: function(universityId) {
@@ -35,8 +35,11 @@ export const httpDELETE = {
   deleteCourseOffering: function (courseId, offeringId) {
     return this.deleteData(`CourseOfferings/${courseId}/${offeringId}`)
   },
-  deleteCourseStaffFromOffering: function(offeringId, userId) {
-    return this.deleteData(`UserOfferings/${offeringId}/${userId}`)
+  deleteInstructorsFromOffering: function(offeringId, data) {
+    return this.deleteData(`UserOfferings/DeleteUserFromOffering/${offeringId}/Instructor`, null, null, data)
+  },
+  deleteStudentsFromOffering: function(offeringId, data) {
+    return this.deleteData(`UserOfferings/DeleteUserFromOffering/${offeringId}/Student`, null, null, data)
   },
   // Playlist
   deletePlaylist: function(playlistId) {
