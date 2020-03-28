@@ -209,7 +209,7 @@ export const offControl = {
       offeringId = data.id
     } catch (error) {
       promptControl.failedToSave('course')
-      console.error('failed to create offering')
+      console.error('failed to create offering', off)
       setup.unloading()
       return;
     }
@@ -241,7 +241,7 @@ export const offControl = {
     // console.log('adding students')
     if (students.length > 0) {
       await api
-            .addInstructorsToOffering(offeringId, students)
+            .addStudentsToOffering(offeringId, students)
             .catch(error => {
               errors.push('add students')
               console.error('failed to add students')
