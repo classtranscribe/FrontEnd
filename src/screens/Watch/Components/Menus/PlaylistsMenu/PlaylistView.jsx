@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connectWithRedux, setup } from '../../../Utils'
+import { util } from 'utils'
 
 function PlaylistView({
   playlists,
@@ -7,6 +8,14 @@ function PlaylistView({
   currPlaylist,
   setCurrPlaylist,
 }) {
+
+  useEffect(() => {
+    util.scrollToCenter(
+      '#'+currPlaylist.id, 
+      true, 
+      util.scrollToTop('.watch-videos-list')
+    )
+  }, [currPlaylist])
 
   const handlePlaylistClick = id => async () => {
     setCurrPlaylist({})

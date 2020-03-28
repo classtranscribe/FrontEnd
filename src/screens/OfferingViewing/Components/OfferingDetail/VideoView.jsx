@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import _ from 'lodash'
 import { Icon } from 'semantic-ui-react'
 import { VideoCard, PlaceHolder } from '../../../../components'
 import { api, util } from '../../../../utils'
@@ -9,14 +11,28 @@ function VideoView({
   goBack, 
   watchHistoryJSON 
 }) {
+  const history = useHistory()
   const [playlist, setPlaylist] = useState({})
 
   useEffect(() => {
     util.scrollToTop('.sp-content')
     api.getPlaylistById(playlistId)
-      .then(({ data }) => setPlaylist(data))
+      .then(({ data }) => {
+        _.reverse(data.medias)
+        setPlaylist(data)
+      })
       .catch(error => console.error(error, 'Failed to load playlist.'))
   }, [])
+
+  useEffect(() => {
+    if (playlist.id) {
+      const { mid } = util.links.useSearch()
+      if (mid) {
+        util.scrollToCenter('#' + mid)
+        history.replace(history.location.pathname)
+      }
+    }
+  }, [playlist])
 
   const { name, medias=[] } = playlist
 
@@ -54,6 +70,7 @@ function Video({ media, playlist, playlists, watchHistoryJSON }) {
 
   return (
     <VideoCard row
+      id={id}
       name={mediaName}
       link={util.links.watch(id, { begin: timeStamp })}
       ratio={ratio}

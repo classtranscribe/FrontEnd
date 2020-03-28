@@ -1,7 +1,7 @@
 
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../../Utils'
+import { connectWithRedux, offControl } from '../../../Utils'
 import { Button } from 'pico-ui'
 import { CTForm } from '../../../../../components'
 import { UploadBtn } from './UploadButton'
@@ -9,7 +9,7 @@ import { Grid, Icon } from 'semantic-ui-react'
 import { util } from '../../../../../utils'
 
 function StudentsWithRedux({
-
+  students=[]
 }) {
 
   const [emails, setEmails] = useState([])
@@ -21,8 +21,15 @@ function StudentsWithRedux({
   useEffect(() => {
     if (emails.length > 0) {
       setResults(emails)
+      offControl.newStudents(emails)
     }
   }, [emails])
+
+  useEffect(() => {
+    if (students.length > 0) {
+      setEmails(students.slice())
+    }
+  }, [students])
 
   const onInputChange = value => {
     setInputValue(value)

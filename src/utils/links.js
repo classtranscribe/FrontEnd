@@ -16,7 +16,9 @@ export class ClassTranscribeLinks {
   search() { return'/home/search' }
   starred() { return'/home/starred' }
   history() { return'/home/history' }
-  offeringDetail(id) { return `/home/offering/${id}` }
+  offeringDetail(id, plid, mid) { 
+    return `/home/offering/${id}` + this.createSearch({ plid, mid })
+  }
   personalAnalytics() { return"/home/personal-report" }
   admin() { return'/admin' }
 
@@ -81,7 +83,8 @@ export class ClassTranscribeLinks {
       if (typeof value === 'string') value = value.replace(/\//g, '-')
       query += `&${key}=${value}`
     }
-    return prefix + query.replace('&', '')
+    query = query.replace('&', '')
+    return query ? (prefix + query) : ''
   }
 
   useSearch(href) {

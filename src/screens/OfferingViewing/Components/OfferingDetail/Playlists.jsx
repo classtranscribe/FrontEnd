@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PlaceHolder } from '../../../../components'
 import PlaylistsView from './PlaylistsView'
 import VideoView from './VideoView'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
+import { util } from 'utils'
 
 export default function Playlists({ 
   accessType=0,
@@ -11,6 +12,13 @@ export default function Playlists({
   watchHistoryJSON 
 }) {
   const [playlistId, setPlaylistId] = useState('prev-')
+
+  useEffect(() => {
+    const { plid } = util.links.useSearch()
+    if (plid) {
+      setPlaylistId(plid)
+    }
+  }, [])
 
   if (playlists && playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
   if (playlists && playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn accessType={accessType} />

@@ -209,19 +209,20 @@ export const setup = {
     return (offerings.slice() || []).reverse()
   },
 
-  getInstructorsByOfferingId: async function(offeringId, setInstructors) {
+  getLinkedUsersByOfferingId: async function(offeringId, callBack) {
     let instructors = []
-    let instructorIds = []
+    let students = []
     try {
-      let { data } = await api.getOfferingById(offeringId)
-      instructors = _.map(data.instructorIds, inst => inst.email)
-      instructorIds = _.map(data.instructorIds, inst => ({ email: inst.email, id: inst.id }))
+      let instsResp = await api.getInstructorsByOfferingId(offeringId)
+      let stuResp = await api.getStudentsByOfferingId(offeringId)
+      instructors = instsResp.data
+      students = stuResp.data
     } catch (error) {
       
     }
-    let insts = { instructors, instructorIds }
-    if (setInstructors) setInstructors(insts)
-    return insts
+    let users = { instructors, students }
+    if (callBack) callBack(users)
+    return users
   },
 
   getCourseOfferingsByInstructorId: async function(context) {
