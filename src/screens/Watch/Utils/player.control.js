@@ -21,10 +21,12 @@ function onFullScreenChange(e) {
     setFullscreen(false)
     transControl.transView(transControl.LAST_TRANS_VIEW, { updatePrefer: false })
     videoControl.isFullscreen = false
+    // videoControl.mode(videoControl.LAST_SCREEN_MODE)
   } else {
     setFullscreen(true)
     transControl.transView(HIDE_TRANS, { updatePrefer: false })
     videoControl.isFullscreen = true
+    // videoControl.mode(NORMAL_MODE)
   }
 }
 
@@ -62,6 +64,10 @@ export const videoControl = {
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
     this.playbackrate(preferControl.defaultPlaybackRate())
+
+    if (this.videoNode2) {
+      this.SCREEN_MODE = PS_MODE
+    }
   },
 
   clear: function() {

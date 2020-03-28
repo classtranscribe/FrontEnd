@@ -93,7 +93,7 @@ export const setup = {
     if (!playlist) playlist = this.playlist()
     let { medias } = playlist
     if (!medias) return {}
-    medias = (medias || []).slice().reverse()
+    // medias = (medias || []).slice().reverse()
     let currIdx = _.findIndex(medias, { id: mediaId })
     let nextIdx = currIdx + 1
     let prevIdx = currIdx - 1
@@ -126,7 +126,7 @@ export const setup = {
 
     try {
       const { data } = await api.getPlaylistById(playlistId)
-      _.reverse(data.medias || [])
+      // _.reverse(data.medias || [])
       return data
     } catch (error) {
       return null
