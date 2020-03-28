@@ -25,6 +25,10 @@ export const offControl = {
   instructorIds_: [],
   newInstructors_: [],
 
+  students_: [],
+  studentIds_: [],
+  newStudents_: [],
+
   courses_: [],
   newCourses_: [],
 
@@ -130,7 +134,6 @@ export const offControl = {
   instructors: function(value) {
     if (value === undefined) return this.instructors_
     this.instructors_ = value.instructors
-    this.instructorIds_ = value.instructorIds
   },
   newInstructors: function(emails) {
     this.newInstructors_ = emails
@@ -140,6 +143,23 @@ export const offControl = {
   },
   removedInstructors: function() {
     return _.difference(this.instructors_, this.newInstructors_)
+  },
+
+  /**
+   * Students
+   */
+  students: function(value) {
+    if (value === undefined) return this.students_
+    this.students_ = value.students || []
+  },
+  newStudents: function(emails) {
+    this.newStudents_ = emails
+  },
+  addedStudents: function() {
+    return _.difference(this.newStudents_, this.students_)
+  },
+  removedStudents: function() {
+    return _.difference(this.students_, this.newStudents_)
   },
 
 
@@ -158,6 +178,7 @@ export const offControl = {
     let courses = this.newCourses_
     let { userId } = user.getUserInfo()
     let staffs = [...this.newInstructors_]
+    let students = [...this.newStudents_]
 
     // check validity
     let errors = []
@@ -188,7 +209,7 @@ export const offControl = {
       offeringId = data.id
     } catch (error) {
       promptControl.failedToSave('course')
-      console.error('failed to create offering')
+      console.error('failed to create offering', off)
       setup.unloading()
       return;
     }
@@ -209,10 +230,21 @@ export const offControl = {
     // console.log('adding staffs')
     if (staffs.length > 0) {
       await api
-            .addCourseStaffToOffering(offeringId, staffs)
+            .addInstructorsToOffering(offeringId, staffs)
             .catch(error => {
               errors.push('add staffs')
               console.error('failed to add staffs')
+            })
+    }
+
+    // link students to this offering'
+    // console.log('adding students')
+    if (students.length > 0) {
+      await api
+            .addStudentsToOffering(offeringId, students)
+            .catch(error => {
+              errors.push('add students')
+              console.error('failed to add students')
             })
     }
 
@@ -240,8 +272,11 @@ export const offControl = {
     let courses = this.newCourses_
     let addedCourses = this.addedCourses()
     let removedCourses = this.removedCourses()
+
     let addedStaffs = this.addedInstructors()
     let removedStaffs = this.removedInstructors()
+    let addedStudents = this.addedStudents()
+    let removedStudents = this.removedStudents()
 
     // check validity
     let errors = []
@@ -281,7 +316,7 @@ export const offControl = {
 
     // unlink removed courses
     for (let i = 0; i < removedCourses.length; i++) {
-      console.log(`removing course ${i + 1} - id: ${removedCourses[i].id}, offId: ${offeringId}`)
+      // console.log(`removing course ${i + 1} - id: ${removedCourses[i].id}, offId: ${offeringId}`)
       await api.deleteCourseOffering(removedCourses[i].id, offeringId)
               // .then(() => console.log('success'))
               .catch(error => {
@@ -292,25 +327,36 @@ export const offControl = {
 
     // link added staffs to this offering
     if (addedStaffs.length > 0) {
-      console.log('adding staffs', addedStaffs)
-      await api.addCourseStaffToOffering(offeringId, addedStaffs)
+      // console.log('adding staffs', addedStaffs)
+      await api.addInstructorsToOffering(offeringId, addedStaffs)
             // .then(() => console.log('success'))
             .catch(error => console.error('failed to add staffs'))
     }
 
+    // link added students to this offering
+    addedStudents = _.filter(addedStudents, email => !this.newInstructors_.includes(email))
+    if (addedStudents.length > 0) {
+      // console.log('adding students', addedStudents)
+      await api.addStudentsToOffering(offeringId, addedStudents)
+            // .then(() => console.log('success'))
+            .catch(error => console.error('failed to add students'))
+    }
+
     // unlink removed staffs
-    let instructorIds = this.instructorIds_
+    // let instructorIds = this.instructorIds_
     if (removedStaffs.length > 0) {
       // console.log('removing staffs', removedStaffs)
-      for (let i = 0; i < removedStaffs.length; i++) {
-        let instId = _.find(instructorIds, { email: removedStaffs[i] })
-        // console.log(`remove ${instId.email} - id: ${instId.id}`)
-        if (instId) {
-          await api.deleteCourseStaffFromOffering(offeringId, instId.id)
-                  .catch(error => console.error(`failed to remove staff ${removedStaffs[i]}`))
-        }
-      }
+      await api.deleteInstructorsFromOffering(offeringId, removedStaffs)
+              .catch(error => console.error(`failed to remove staffs ${removedStaffs}`))
     }
+
+    // unlink removed students
+    // let studentIds = this.studentIds_
+    if (removedStudents.length > 0) {
+      await api.deleteStudentsFromOffering(offeringId, removedStudents)
+              .catch(error => console.error(`failed to remove students ${removedStudents}`))
+    }
+
 
     try {
       // parse new offering
@@ -329,7 +375,6 @@ export const offControl = {
     }
 
     setup.unloading()
-    // window.location = window.location.pathname + window.location.search
   },
 
   /**

@@ -24,14 +24,17 @@ function EditCourseWithRedux({
 
   const [addStudents, setAddStudents] = useState(false)
   const [instructors, setInstructors] = useState([])
+  const [students, setStudents] = useState([])
   const [errors, setErrors] = useState([]) // { name, mesg }
   const onClose = () => setIsEditingOffering(false)
 
   useEffect(() => {
     if (isEditingOffering) {
-      setup.getInstructorsByOfferingId(offering.id, insts => {
-        setInstructors(insts.instructors)
-        offControl.instructors(insts)
+      setup.getLinkedUsersByOfferingId(offering.id, users => {
+        setInstructors(users.instructors)
+        setStudents(users.students)
+        offControl.instructors(users)
+        offControl.students(users)
       })
     }
   }, [isEditingOffering])
@@ -94,6 +97,7 @@ function EditCourseWithRedux({
               <Students 
                 errors={errors} 
                 setErrors={setErrors} 
+                students={students}
               />
             }
             <Staffs 
@@ -146,3 +150,5 @@ export const EditCourse = connectWithRedux(
     'setIsEditingOffering'
   ]
 )
+
+export const NewCourse = () => <EditCourse newCourse />

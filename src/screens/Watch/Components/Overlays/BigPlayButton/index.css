@@ -31,3 +31,21 @@
 .wbp-btn:focus > .big-play-button-content {
   outline: auto;
 }
+
+.wbp-btn[data-show-and-fade] {
+  background-color: rgba(0, 0, 0, 0.274);
+  opacity: 0;
+  animation: 600ms linear 0ms 1 normal forwards running show-and-fade;
+  border-radius: 100%;
+  padding: 1.5em;
+  pointer-events: none;
+}
+.wbp-btn[data-show-and-fade] .big-play-button-content i {
+  font-size: 6em;
+  color: rgba(255, 255, 255, 0.979);
+}
+
+@keyframes show-and-fade {
+  0% { opacity: .7; transform: scale(0.5); }
+  100% { opacity: 0; transform: scale(1.5);}
+}

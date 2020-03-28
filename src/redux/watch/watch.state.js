@@ -37,6 +37,7 @@ export const initialState = {
   },
   playlist: {},
   playlists: [],
+  offering: {},
   watchHistory: [],
   starredOfferings: [],
 

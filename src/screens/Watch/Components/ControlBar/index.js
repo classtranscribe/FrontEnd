@@ -59,6 +59,6 @@ export function ControlBarWithRedux({
 
 export const ControlBar = connectWithRedux(
   ControlBarWithRedux,
-  ['media', 'bulkEditing'],
+  ['media', 'bulkEditing', 'playlist'],
   []
 )

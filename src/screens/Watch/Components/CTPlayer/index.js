@@ -36,7 +36,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     if (prevProps.media !== media) {
       // set src for videos
       const { videos, isTwoScreen } = media
-      const { srcPath1, srcPath2 } = videos[0]
+      const { srcPath1, srcPath2 } = videos[0] || {}
       // set src paths
       this.setState({ srcPath1, srcPath2 })
 
@@ -64,10 +64,10 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
   onDurationChange = e => {
     control.onDurationChange(e)
-    let { begin, courseNumber, id } = util.parseSearchQuery()
+    let { begin, id } = util.parseSearchQuery()
     if (Boolean(begin)) {
       control.currTime(Number(begin))
-      util.replacePathname( util.links.watch(courseNumber, id) )
+      util.replacePathname( util.links.watch(id) )
     }
   }
   onProgress = e => {
@@ -123,7 +123,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
   render() {
     const { srcPath1, srcPath2 } = this.state
-    const { media, mode, isSwitched, transView } = this.props
+    const { media, mode, isSwitched, transView, isFullscreen } = this.props
     const { isTwoScreen, /** transcriptions */ } = media
 
     const player1Position = isSwitched ? SECONDARY : PRIMARY
@@ -135,6 +135,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           className={`ct-video-row ${player1Position}`} 
           mode={mode} 
           data-trans-view={transView}
+          data-fullscreen={isFullscreen}
         >
           <div className="ct-video-contrainer">
             <PlayerWrapper isPrimary={!isSwitched} />
@@ -168,6 +169,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
             className={`ct-video-row ${player2Position}`} 
             mode={mode}
             data-trans-view={transView}
+            data-fullscreen={isFullscreen}
           >
             <div className="ct-video-contrainer">
               <PlayerWrapper isPrimary={isSwitched} />
@@ -195,7 +197,14 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
 export const ClassTranscribePlayer = connectWithRedux(
   ClassTranscribePlayerWithRedux,
-  ['media', 'mode', 'isSwitched', 'paused', 'transView'],
+  [
+    'media', 
+    'mode', 
+    'isSwitched', 
+    'paused', 
+    'transView',
+    'isFullscreen'
+  ],
   [
     'setMode',
     'setVolume', 

@@ -34,7 +34,7 @@ export const keydownControl = {
 
   handleKeyDown: function(e) {
     if (window.location.pathname !== '/video') {
-      // document.removeEventListener('keydown', keyDownListener, true)
+      document.removeEventListener('keydown', keyDownListener, true)
       return
     }
     
@@ -468,7 +468,7 @@ export const keydownControl = {
     // focus on first elem of list items
     } else if (currMenu === MENU_PLAYBACKRATE) {
       let sliderFocusElem = $('.playbackrate-slider:focus')
-      console.log(sliderFocusElem)
+      // console.log(sliderFocusElem)
       if (sliderFocusElem.length) {
         sliderFocusElem.blur()
         $('.watch-icon-listitem:first-child').focus()

@@ -16,7 +16,9 @@ export class ClassTranscribeLinks {
   search() { return'/home/search' }
   starred() { return'/home/starred' }
   history() { return'/home/history' }
-  offeringDetail(id) { return `/home/offering/${id}` }
+  offeringDetail(id, plid, mid) { 
+    return `/home/offering/${id}` + this.createSearch({ plid, mid })
+  }
   personalAnalytics() { return"/home/personal-report" }
   admin() { return'/admin' }
 
@@ -24,16 +26,19 @@ export class ClassTranscribeLinks {
   logout() { return'/logout' }
 
   instructor() { return'/instructor' }
-  instOffering(offeringId) { return `/instructor?offId=${offeringId}` }
+  instOffering(offeringId) { return `/instructor/${offeringId}` }
+  instNewOffering() { return `/instructor/new-offering` } 
   // newOffering = function() `/instructor?offId=ip-new-offering`
-  instMediaSettings = (mediaId, tab) => '/instructor/media-settings/' + mediaId + (tab ? `#tab=${tab}` : '')
+  instMediaSettings = (mediaId, tab) => '/media-settings/' + mediaId + (tab ? `#tab=${tab}` : '')
 
-  watch(courseNumber, id, begin, others={}) {
-    return `/video${this.createSearch({ 
-      courseNumber, 
-      id, 
-      begin: Math.floor(begin), ...others 
-    })}`
+  watch(id, params={}) {
+    if (params.begin) {
+      params.begin = Math.floor(Number(params.begin))
+      if (params.begin <= 0) {
+        params.begin = undefined
+      }
+    }
+    return '/video' + this.createSearch({ id, ...params })
   }
     
 
@@ -42,6 +47,12 @@ export class ClassTranscribeLinks {
 
   isValidUrl(value) {
     return VALID_URL.test(value);
+  }
+
+  usePathname(withOrigin=false) {
+    let { origin, pathname } = window.location
+    if (withOrigin) pathname = origin + pathname
+    return pathname
   }
 
   useParams(query) {
@@ -60,6 +71,7 @@ export class ClassTranscribeLinks {
 
     return params
   }
+
   createQuery(params, prefix='') {
     var query = ''
     for(let key in params) {
@@ -69,7 +81,8 @@ export class ClassTranscribeLinks {
       if (typeof value === 'string') value = value.replace(/\//g, '-')
       query += `&${key}=${value}`
     }
-    return prefix + query.replace('&', '')
+    query = query.replace('&', '')
+    return query ? (prefix + query) : ''
   }
 
   useSearch(href) {
@@ -81,6 +94,7 @@ export class ClassTranscribeLinks {
       window.location.search
     )
   }
+
   createSearch(params) {
     return this.createQuery(params, '?')
   }
@@ -94,6 +108,7 @@ export class ClassTranscribeLinks {
       window.location.hash
     )
   }
+
   createHash(params) {
     return this.createQuery(params, '#')
   }

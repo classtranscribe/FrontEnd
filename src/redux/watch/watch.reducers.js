@@ -2,6 +2,7 @@ import {
   SET_MEDIA,
   SET_PLAYLIST,
   SET_PLAYLISTS,
+  SET_OFFERING,
   SET_WATCH_HISTORY,
   SET_STARRED_OFFERINGS,
   // Trans
@@ -46,7 +47,8 @@ import {
   // actions
   SET_STATE,
   CHANGE_VIDEO,
-  TIME_UPDATE
+  TIME_UPDATE,
+  RESET_STATES
 } from './watch.action.types'
 
 import { 
@@ -70,6 +72,7 @@ const watchReducer = (
     case SET_MEDIA              : return { ...state, media: value}
     case SET_PLAYLIST           : return { ...state, playlist: value }
     case SET_PLAYLISTS          : return { ...state, playlists: value }
+    case SET_OFFERING           : return { ...state, offering: value }
     case SET_WATCH_HISTORY      : return { ...state, watchHistory: value }
     case SET_STARRED_OFFERINGS  : return { ...state, starredOfferings: value }
 
@@ -147,6 +150,8 @@ const watchReducer = (
                                     prompt: null,
                                     search: SEARCH_INIT,
                                   }
+
+    case RESET_STATES           : return initialState
 
     // Default
     default                     : return state

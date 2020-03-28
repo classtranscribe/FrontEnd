@@ -10,6 +10,7 @@ import {
   WEBVTT_DESCRIPTIONS
 } from '../../../Utils'
 import './index.css'
+import { isMobile } from 'react-device-detect'
 
 function CaptionLine({
   isCurrent=false,
@@ -27,13 +28,14 @@ function CaptionLine({
   }
 
   const handleChange = ({ target }) => {
-    transControl.handleChange(target.value)
+    console.log(target.innerText)
+    transControl.handleChange(target.innerText)
     // console.log(target.value)
   }
 
   const handleFocus = e => {
     transControl.edit(caption)
-    autoSize(ref.current)
+    // autoSize(ref.current)
   }
 
   const handleBlur = () => {
@@ -49,7 +51,9 @@ function CaptionLine({
     if (e.keyCode === 13) {
       e.preventDefault()
       handleSave()
-      ref.current.blur()
+      if (ref && ref.current && typeof ref.current.blur === "function") {
+        ref.current.blur()
+      } 
     } else {
       autoSize(ref.current)
     }
@@ -96,7 +100,21 @@ function CaptionLine({
             //closeOnTriggerBlur
             //content={isEditing ? 'Hit return to save changes.' : 'Click to modify this caption!'}
             //trigger={
-              <textarea   
+              <div
+                ref={ref}
+                contentEditable={!isMobile}
+                id={`caption-line-textarea-${id}`}
+                className="caption-line-text"
+                aria-label={`(${index}) Edit caption at ${timeStr} (Hit return to save changes)`} 
+                dangerouslySetInnerHTML={{__html: text}}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onInput={handleChange}
+                onKeyDown={handleKeyDown}
+                spellCheck={false}
+              />
+              /*<textarea   
+                readOnly={isMobile}
                 ref={ref}
                 rows='2'
                 id={`caption-line-textarea-${id}`}
@@ -108,7 +126,7 @@ function CaptionLine({
                 onBlur={handleBlur}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
-              />
+              />*/
             //}/>
         }
       </div>

@@ -89,6 +89,12 @@ export const httpGET = {
   getCourseOfferingsByInstructorId: function (id) {
     return this.getData('CourseOfferings/ByInstructor', id)
   },
+  getInstructorsByOfferingId: function (offeringId) {
+    return this.getData(`UserOfferings/GetUsersOfOffering/${offeringId}/Instructor`)
+  },
+  getStudentsByOfferingId: function (offeringId) {
+    return this.getData(`UserOfferings/GetUsersOfOffering/${offeringId}/Student`)
+  },
 
 
   // Playlists
@@ -98,12 +104,18 @@ export const httpGET = {
   getPlaylistsByOfferingId: function(offeringId) {
     return this.getData('Playlists/ByOffering', offeringId)
   },
+  searchForMedia: function(offeringId, query) {
+    return this.getData(`Playlists/SearchForMedia/${offeringId}/${query}`)
+  },
 
 
   // media
   getMediaById: function(mediaId) {
     return this.getData('Media', mediaId)
   },
+
+
+  // Captions
   getCaptionsByTranscriptionId: function(transId) {
     return this.getData('Captions/ByTranscription', transId)
   },
@@ -113,6 +125,7 @@ export const httpGET = {
   searchCaptionInOffering: function(offeringId, query) {
     return this.getData('Captions/SearchInOffering', null, { offeringId, query })
   },
+
 
   // ePub
   getEpubData: function(mediaId) {

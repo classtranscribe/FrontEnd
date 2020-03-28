@@ -39,9 +39,9 @@ import {
 export class WatchWithRedux extends React.Component {
   constructor(props) {
     super(props)
-    const { id, courseNumber } = util.parseSearchQuery()
+    const { id } = util.parseSearchQuery()
     this.id = id
-    if (!id || !courseNumber) window.location = util.links.notfound404()
+    if (!id) window.location = util.links.notfound404()
     util.removeStoredOfferings()
 
     /** Init controls */
@@ -53,14 +53,18 @@ export class WatchWithRedux extends React.Component {
   }
 
   componentDidMount() {
-    /** GET media, playlist, and playlists */
-    setup.setupMedias(this.props, this.context)
+    /** GET media, playlist  */
+    setup.setupMedias()
     /** Add keydown event handler */
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
     videoControl.addWindowEventListener()
 
     guide.run()
+  }
+
+  componentWillUnmount() {
+    this.props.resetStates()
   }
 
   render() { 
@@ -87,9 +91,10 @@ WatchWithRedux.contextType = CTContext
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(
     WatchWithRedux,
-    ['media', 'playlist', 'playlists'],
+    ['media', 'playlist'],
     [
-      'setMedia', 'setPlaylist', 'setPlaylists', 'changeVideo',
+      'setMedia', 'setPlaylist', 'setPlaylists', 
+      'setOffering', 'changeVideo',
       // transControl
       'setCurrTrans', 'setTranscriptions', 'setTranscript', 
       'setCaptions', 'setCurrCaption', 'setDescriptions', 'setCurrDescription',
@@ -99,7 +104,9 @@ export function Watch(props) {
       // promptControl
       'setPrompt',
       // searchControl
-      'setSearch'
+      'setSearch',
+      // others
+      'resetStates',
     ]
   )
   return (

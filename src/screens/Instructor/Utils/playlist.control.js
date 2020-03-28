@@ -62,7 +62,7 @@ export const plControl = {
     } 
 
     let newPl = { offeringId, name, sourceType, playlistIdentifier }
-    console.log('newPl', newPl)
+    // console.log('newPl', newPl)
     try {
       let { data } = await api.createPlaylist(newPl)
       newPl = data
@@ -73,10 +73,12 @@ export const plControl = {
     }
 
     newPl.medias = []
+    newPl.isNew = true
     setup.playlists([ ...setup.playlists(), newPl ])
-    setup.changePlaylist(newPl)
+    setup.changePlaylist(newPl, true)
 
     setup.unloading()
+    promptControl.saved('playlist', 'created')
   },
 
   renamePlaylist: async function(playlist, newName) {
@@ -97,7 +99,6 @@ export const plControl = {
   },
 
   deletePlaylist: async function(playlist) {
-    promptControl.deleting()
     try {
       await api.deletePlaylist(playlist.id)
       let playlists = setup.playlists()

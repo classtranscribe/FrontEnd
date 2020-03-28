@@ -24,7 +24,7 @@ function PromptsWithRedux({
   }, [prompt])
 
   const onClose = () => {
-    console.error(text)
+    // console.error(text)
     setPrompt(null)
   }
 

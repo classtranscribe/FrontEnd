@@ -2,12 +2,13 @@ import {
   SET_MEDIA,
   SET_PLAYLIST,
   SET_PLAYLISTS,
-  SET_CAPTIONS,
+  SET_OFFERING,
   SET_WATCH_HISTORY,
   SET_STARRED_OFFERINGS,
   // Trans
   SET_TRANSCPTIONS,
   SET_CURR_TRANS,
+  SET_CAPTIONS,
   SET_TRANSCRIPT,
   SET_CURR_CAPTION,
   SET_DESCRIPTION,
@@ -47,6 +48,7 @@ import {
   SET_STATE,
   CHANGE_VIDEO,
   TIME_UPDATE,
+  RESET_STATES,
 } from './watch.action.types'
 
 
@@ -54,6 +56,7 @@ import {
 export const setMedia             = value => ({ type: SET_MEDIA, value })
 export const setPlaylist          = value => ({ type: SET_PLAYLIST, value })
 export const setPlaylists         = value => ({ type: SET_PLAYLISTS, value })
+export const setOffering          = value => ({ type: SET_OFFERING, value })
 export const setWatchHistory      = value => ({ type: SET_WATCH_HISTORY, value })
 export const setStarredOfferings  = value => ({ type: SET_STARRED_OFFERINGS, value })
 
@@ -105,3 +108,5 @@ export const setPrompt            = value => ({ type: SET_PROMPT, value })
 export const setReduxState        = value => ({ type: SET_STATE, value })
 export const timeUpdate           = value => ({ type: TIME_UPDATE, value: { time: value[0], currCaption: value[1] } }) 
 export const changeVideo          = value => ({ type: CHANGE_VIDEO, value })
+
+export const resetStates          = value => ({ type: RESET_STATES, value })

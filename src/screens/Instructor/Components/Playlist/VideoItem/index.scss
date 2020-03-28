@@ -85,9 +85,10 @@ $ip-v-file-green: rgb(24, 148, 148);
     .ip-video-name {
       width: 100%;
       outline: none;
-      background-color: white;
+      // background-color: white;
+      background-color: var(--ct-ip-grey-1);
       border-bottom: 2px transparent solid;
-      padding-top: calc(.4em + 2px);
+      // padding-top: calc(.4em + 2px);
       transition: border .2s ease-in-out;
       text-overflow: initial;
       white-space: normal;

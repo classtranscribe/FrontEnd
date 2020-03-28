@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'pico-ui'
-import { PlaceHolder } from '../../../../Instructor/Components'
+import { PlaceHolder } from '../../../../../components'
 import { UserTipsForEditing, UserTipsForCombining } from './UserTips'
 import { api, util } from '../../../../../utils'
 import { epub } from '../../../Utils'
@@ -45,7 +45,7 @@ function EpubContent({
       if (txtObj) {
         txtObj.text = e.target.innerText
       } else {
-        console.error('texts', txts, id)
+        // console.error('texts', txts, id)
       }
     }
     if (!isEditing) setIsEditing(true)

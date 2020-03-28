@@ -3,6 +3,7 @@ import { util } from '../index'
 import { user } from '../user'
 import { httpGET  } from './http.get'
 import _ from 'lodash'
+import { env } from 'utils/env'
 const monthMap = require('../json/monthNames.json')
 
 export const responseParsers = {
@@ -36,41 +37,36 @@ export const responseParsers = {
       })
   },
 
-  // parseSingleOffering: function(rawOffering) {
-  //   const { offering, courses, term } = rawOffering
-  //     let { universityId } = term
-  //     let departmentIds = _.map(courses, 'departmentId')
-  //     parsedOfferings.push({
-  //       ...offering,
-  //       departmentIds,
-  //       universityId,
-  //       termName: term.name,
-  //       fullNumber: this.getFullNumber(courses),
-  //       isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
-  //     })
-  // },
+  parseSingleOffering: function(rawOffering) {
+    const { offering, courses, term, instructorIds } = rawOffering
+    let { universityId } = term
+    let departmentIds = _.map(courses, 'departmentId')
+    return {
+      ...offering,
+      departmentIds,
+      universityId,
+      instructorIds,
+      termName: term.name,
+      fullNumber: this.getFullNumber(courses),
+      isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+      instructor: instructorIds ? {
+        ...(instructorIds[0] ? instructorIds[0] : {}),
+        fullName: instructorIds[0] ? instructorIds[0].firstName + ' ' + instructorIds[0].lastName : ''
+      } : null,
+    }
+  },
   
   parseOfferings: async function(rawOfferings) {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
-      const { offering, courses, term } = rawOfferings[i]
-      // let { courseName, description } = courses[0]
-      let { universityId } = term
-      let departmentIds = _.map(courses, 'departmentId')
-      parsedOfferings.push({
-        ...offering,
-        // courseName, 
-        // description, 
-        departmentIds,
-        universityId,
-        termName: term.name,
-        fullNumber: this.getFullNumber(courses),
-        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
-      })
+      parsedOfferings.push(
+        this.parseSingleOffering(rawOfferings[i])
+      )
     }
     // console.log('parsedOfferings', parsedOfferings)
     return parsedOfferings
   },
+
   getFullNumber: function(courses, separator) {
     var name = ''
     courses.forEach( course => {
@@ -116,7 +112,7 @@ export const responseParsers = {
     if (!id || !jsonMetadata) return re
 
     re.id = id
-    re.createdAt = jsonMetadata.createdAt
+    re.createdAt = media.createdAt
     re.playlistId = playlistId
     re.sourceType = sourceType
     re.transReady = ready
@@ -156,7 +152,7 @@ export const responseParsers = {
    * Returns the error status
    */
   parseError: function(error) {
-    console.log(JSON.stringify(error))
+    // console.log(JSON.stringify(error))
     const { response } = error
     if (!Boolean(response)) { // Server Error
       return { status: 500 }

@@ -200,19 +200,11 @@
 
 @media screen and (max-width: 900px) {
   .watch-setting-menu {
-    padding: 3em .3em 6em .3em;
-  }
-  .setting-container {
-    flex-direction: column;
-  }
-  .setting-tabs {
-    display: none;
-    width: 100%;
+    padding: 3em 2em 6em 2em;
   }
   .watch-menu-tab {
     width: 100%;
-    max-width: 100%;
-    margin-left: 0em;
+    max-width: 20em;
     margin-top: 2em;
   }
   .menu-radio {
@@ -220,10 +212,22 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 620px) {
+  .setting-container {
+    flex-direction: column;
+  }
+  .setting-tabs {
+    display: none;
+  }
   .watch-setting-menu {
-    padding: 10em .2em 3em .2em;
+    padding: 5px .2em 3em .2em;
     margin-top: 0;
+    margin-left: 0;
+  }
+  .watch-menu-tab {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
   }
 }
 

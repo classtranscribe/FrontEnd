@@ -4,32 +4,30 @@
  */
 
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useHistory, useParams } from 'react-router-dom'
 // UI
 import { Icon } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
 import { Button } from 'pico-ui'
-import { useCTContext } from '../../../../components'
-import { api, util, handleData, user } from '../../../../utils'
+import { useCTContext, PlaceHolder } from '../../../../components'
+import { api, util, user } from '../../../../utils'
 import './index.css'
 
-export function OfferingDetail({ id, history, location, state, starOffering, unstarOffering }) {
-  const { starredOfferingsJSON, watchHistoryJSON } = state
-  const [offering, setOffering] = useState(null)
-  const [playlists, setPlaylists] = useState(null)
-  // variables to present
-  const [fullNumber, setFullNumber] = useState('Loading...')
-  // const [courseNumber, setCourseNumber] = useState('Loading...')
-  const [termName, setTermName] = useState('')
-  const [sectionName, setSectionName] = useState('')
-  const [description, setDescription] = useState('')
-  const [courseName, setCourseName] = useState('Loading...')
+export function OfferingDetail({ 
+  state, 
+  starOffering, 
+  unstarOffering 
+}) {
+  const history = useHistory()
+  const location = useLocation()
+  const { id } = useParams()
+  const { generalError } = useCTContext()
 
+  const { starredOfferingsJSON, watchHistoryJSON } = state
+  const [offering, setOffering] = useState({})
+  const [playlists, setPlaylists] = useState(null)
   const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
-  useEffect(() => {
-    setIsStarred(Boolean(starredOfferingsJSON[id]))
-  }, [starredOfferingsJSON])
 
   const handleStar = () => {
     if (isStarred) unstarOffering(id)
@@ -37,78 +35,71 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
     setIsStarred(isStarred => !isStarred)
   }
 
-  const checkAccessType = accessType => {
-    if (accessType !== 0 && !user.isLoggedIn()) user.signin() 
+  const getOffering = async () => {
+    let parsedOffering = {}
+
+    const propsState = history.location.state
+    if (propsState && propsState.offering) {
+      parsedOffering = propsState.offering
+    } else {
+      try {
+        let { data } = await api.getOfferingById(id)
+        parsedOffering = api.parseSingleOffering(data)
+      } catch (error) {
+        if (api.isAuthError(error)) {
+          setPlaylists(['need-signin'])
+          return 401
+        } else {
+          generalError({ header: "Couldn't load the offering." })
+          return 500
+        }
+      }
+    }
+
+    setOffering(parsedOffering)
+    // console.log('parsedOffering', parsedOffering)
+    util.links.title(
+      parsedOffering.fullNumber
+      +' | '+parsedOffering.termName
+      +' | '+parsedOffering.sectionName)
+
+    return 200
   }
 
-  const { generalError } = useCTContext()
+  const getPlaylists = async () => {
+    try {
+      let { data } = await api.getPlaylistsByOfferingId(id) 
+      setPlaylists(data)
+    } catch (error) {
+      if (api.isAuthError(error)) {
+        setPlaylists(['need-signin'])
+      } else {
+        setPlaylists([])
+        generalError({ header: "Couldn't load the playlists." })
+      }
+    }
+  }
+
+  const setupOfferingDetails = async () => {
+    let status = await getOffering()
+    if (status === 200) {
+      await getPlaylists()
+      await api.sendUserAction('selectcourse', { offeringId: id })
+    }
+  }
 
   /**
    * Get all offerings and complete offerings
    */
   useEffect(() => {
     util.scrollToTop('.sp-content')
+    setupOfferingDetails()
+  }, [id])
 
-    const propsState = history.location.state
-    if (propsState && propsState.offering) {
-      const { offering } = propsState
-      checkAccessType(offering.accessType)
-      setFullNumber(() => offering.fullNumber)
-      setTermName(() => offering.termName)
-      setDescription(() => offering.description)
-      setSectionName(() => offering.sectionName)
-      setCourseName(() => offering.courseName)
-      util.links.title(offering.fullNumber+' • '+offering.termName+' • '+offering.sectionName)
-    } else {
-      api.getOfferingById(id)
-        .then( ({data}) => {
-          checkAccessType(data.offering.accessType)
-          api.completeSingleOffering(data, function(data) {
-            setOffering(() => data)
-          })
-        })
-        .catch(error => {
-          generalError({ header: "Couldn't load the offering." })
-        })
-    }
-    api.getPlaylistsByOfferingId(id) 
-      .then( ({data}) => {
-        // console.log('playlists', data)
-        setPlaylists(() => data)
-      })
-      .catch(error => {
-        if (api.isAuthError(error)) {
-          setPlaylists(['need-signin'])
-        } else {
-          setPlaylists([])
-          generalError({ header: "Couldn't load the playlists." })
-        }
-      })
-    api.sendUserAction('selectcourse', {
-      offeringId: id
-    })
-  }, [id, history])
-
-
-  /**
-   * Set up variables after offerings loaded
-   */
   useEffect(() => {
-    if (!offering) return;
-    if (offering.courses) {
-      const number = api.getFullNumber(offering.courses)
-      if (handleData.isValidCourseNumber(number)) {
-        setFullNumber(() => number)
-      }
-    }
-    if (offering.offering && offering.offering.termName) {
-      setTermName(() => offering.offering.termName)
-      setSectionName(() => offering.offering.sectionName)
-      setCourseName(() => offering.offering.courseName)
-      setDescription(() => offering.offering.description)
-    }
-    util.links.title(fullNumber+' '+termName+' '+sectionName)
-  })
+    setIsStarred(Boolean(starredOfferingsJSON[id]))
+  }, [starredOfferingsJSON])
+
   
   /**
    * Determine which page to go back
@@ -123,10 +114,8 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
     }
   }
 
-  // const allLoaded = fullNumber && termName && courseName && description && sectionName
-
-  return (
-    <div className="offering-detail" >
+  return Boolean(offering.id) ? (
+    <div className="offering-detail ct-a-fade-in" >
       {/* Offering Info */}
       <div className="offering-info">
         <div className="goback-container">
@@ -141,17 +130,32 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
           </Link>
         </div>
         
-        <h1 className="od-course-number">{fullNumber}</h1>
+        <h1 className="od-course-number">{offering.fullNumber}</h1>
 
         <h2 className="od-course-name">
-          {courseName}&emsp;
-          <span>{termName}&ensp;{sectionName}</span>
+          {offering.courseName}
         </h2>
-        {description && <><p className="offering-description">{description}</p></>}
+
+        <div className="od-course-txt">
+          {offering.termName} | {offering.sectionName}
+        </div>
+
+        {/* {
+          offering.instructor 
+          && 
+          <div className="od-course-inst">{offering.instructor.fullName}</div>
+        } */}
+
+        {
+          offering.description 
+          && 
+          <p className="offering-description">{offering.description}</p>
+        }
+        <br/>
         {
           user.isLoggedIn()
           &&
-          <Button uppercase compact
+          <Button uppercase
             id="off-star-btn"
             color={isStarred ? "" : "teal"}
             icon={isStarred ? 'star' : 'star_border'}
@@ -164,11 +168,12 @@ export function OfferingDetail({ id, history, location, state, starOffering, uns
       {/* Playlists */}
       <Playlists 
         offeringId={id}
+        accessType={offering.accessType}
         history={history} 
         playlists={playlists} 
-        fullNumber={fullNumber}  
+        fullNumber={offering.fullNumber}  
         watchHistoryJSON={watchHistoryJSON}
       />
     </div>
-  )
+  ) : <PlaceHolder />
 }

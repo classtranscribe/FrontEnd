@@ -29,9 +29,10 @@
 .ip-p-md-mname {
   margin-top: 0;
   width: 100%;
-  font-size: 2.3em;
+  font-size: 2em;
   font-family: var(--ct-font-google);
   color: rgb(68, 68, 68);
+  transition: border .2s ease-in-out, padding .2s ease-in-out;
 
   &.edit {
     border-bottom: 3px solid rgb(202, 202, 202);

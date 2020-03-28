@@ -1,19 +1,43 @@
-import React, { useEffect } from 'react'
-import $ from 'jquery'
-import { withRouter } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import _ from 'lodash'
 import { Icon } from 'semantic-ui-react'
-import { VideoCard } from '../../../../components'
+import { VideoCard, PlaceHolder } from '../../../../components'
 import { api, util } from '../../../../utils'
 
-function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHistoryJSON }) {
-  const { name, medias=[] } = playlist
+function VideoView({ 
+  playlistId, 
+  playlists, 
+  goBack, 
+  watchHistoryJSON 
+}) {
+  const history = useHistory()
+  const [playlist, setPlaylist] = useState({})
 
   useEffect(() => {
-    $('.sp-content')[0].scrollTop = 0
-  }, [history])
+    util.scrollToTop('.sp-content')
+    api.getPlaylistById(playlistId)
+      .then(({ data }) => {
+        _.reverse(data.medias)
+        setPlaylist(data)
+      })
+      .catch(error => console.error(error, 'Failed to load playlist.'))
+  }, [])
 
-  return (
-    <div className="videos">
+  useEffect(() => {
+    if (playlist.id) {
+      const { mid } = util.links.useSearch()
+      if (mid) {
+        util.scrollToCenter('#' + mid)
+        history.replace(history.location.pathname)
+      }
+    }
+  }, [playlist])
+
+  const { name, medias=[] } = playlist
+
+  return name ? (
+    <div className="videos ct-a-fade-in">
       <div className="goback-container">
         <button className="del-icon" onClick={goBack} aria-label="Back to Playlists">
           <Icon name="chevron left" aria-hidden="true" /> Playlists
@@ -32,23 +56,23 @@ function VideoView({ playlist, playlists, history, goBack, courseNumber, watchHi
             media={media} 
             playlist={playlist}
             playlists={playlists}
-            courseNumber={courseNumber} 
             watchHistoryJSON={watchHistoryJSON}
           />
         ))}
       </div>
     </div>
-  )
+  ) : <PlaceHolder />
 }
 
-function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
+function Video({ media, playlist, playlists, watchHistoryJSON }) {
   const { mediaName, id, isUnavailable } = api.parseMedia(media)
   const { timeStamp, ratio } = watchHistoryJSON[id] || {}
 
   return (
     <VideoCard row
+      id={id}
       name={mediaName}
-      link={util.links.watch(courseNumber, id, timeStamp)}
+      link={util.links.watch(id, { begin: timeStamp })}
       ratio={ratio}
       mediaState={{ playlist, playlists }}
       posterSize="150px"
@@ -58,4 +82,4 @@ function Video({ media, playlist, playlists, courseNumber, watchHistoryJSON }) {
   )
 }
 
-export default withRouter(VideoView)
+export default VideoView

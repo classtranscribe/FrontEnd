@@ -5,7 +5,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-start;
-  padding: 2em 10vw;
+  padding: 0em 10vw 0 10vw;
   overflow-x: auto;
   overflow-y: auto;
   animation: var(--ct-animation-popup);
@@ -16,19 +16,24 @@
 .watch-playlists-menu-close-btn {
   position: absolute;
   right: 5em;
-  top: 0px;
+  top: 10px;
+  z-index: 2;
 }
 
 .watch-list-title {
-  /* position: fixed;
-  top: 75px; */
+  position: sticky;
+  top: 0;
   font-weight: bold;
   font-size: 18px;
   z-index: 1;
+  width: 100%;
+  padding: 1rem 0;
+  background-color: var(--watch-page-bg-color-alpha);
+  box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.479);
 }
-.watch-list-title[type=pl-name] {
+/* .watch-list-title[type=pl-name] {
   font-size: 18px;
-}
+} */
 .watch-list-title p {
   display: flex;
 }
@@ -38,17 +43,17 @@
 
 /* Playlist */
 .watch-playlists-list {
-  position: relative;
-  width: 25em;
-  min-width: 25em;
+  position: sticky;
+  top: 0;
+  width: 40vw;
+  max-width: 30em;
   height: 100%;
   overflow-y: auto;
   overflow-x: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 1em;
-  /* box-shadow: 0 0 2px snow; */
+  padding: 0 1em;
 }
 
 .watch-playlist-item {
@@ -93,8 +98,10 @@
   width: calc(100% - 45px);
   flex-direction: column;
   justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   border-bottom: var(--ct-border-dark);
-  /* Font */
   font-weight: bold;
   font-size: 15px;
   padding: 0 !important;
@@ -120,16 +127,15 @@
 
 .watch-videos-list {
   position: relative;
-  width: 45%;
-  min-width: 25em;
-  height: 100%;
+  width: 35em;
+  max-width: 100%;
+  /* height: 100%;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: hidden; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-left: 1em;
 }
 
 .watch-video-item {
@@ -151,9 +157,9 @@
 
 
 @media screen and (max-width: 700px) {
-  .watch-playlists-menu {
+  /* .watch-playlists-menu {
     padding-top: 130px;
-  }
+  } */
   .watch-playlists-list {
     display: none;
   }

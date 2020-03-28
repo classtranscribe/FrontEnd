@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import './index.css'
 
 import { Filter } from '../Filter'
@@ -25,6 +26,7 @@ function SideBarWithRedux({
 }) {
 
   const [results, setResults] = useState([])
+  const history = useHistory()
   // Filtering actions
   const onFilter = value => filterControl.filterOfferings(value, offerings, setResults)
   const onReverse = () => filterControl.reverse(results, setResults)
@@ -40,12 +42,15 @@ function SideBarWithRedux({
 
     if (Boolean(offering.id)) return;
 
-    let { offId } = util.parseSearchQuery()
+    let { offId } = util.links.useSearch()
+    if (!offId) {
+      offId = history.location.pathname.split('/')[2]
+    }
 
-    if (offId) { // if the offeringId is in the window's search query 
+    if (offId) { // if the offeringId is in params
       // If it's the artifical id for new offering
-      if (offId === NEW_OFFERING_ID) {
-        handleOfferingClick(NEW_OFFERING)()
+      if (offId === 'new-offering') {
+        // handleOfferingClick(NEW_OFFERING)()
       // Otherwise find and then go to the offering by id
       } else {
         let off = _.find(offerings, { id: offId })
@@ -62,7 +67,11 @@ function SideBarWithRedux({
     // if no id is specified, go to the first offering 
     // or the new offering when the offerings is empty
     } else {
-      handleOfferingClick(offerings[0] || NEW_OFFERING)()
+      if (offerings[0]) {
+        handleOfferingClick(offerings[0])()
+      } else {
+        history.push(util.links.instNewOffering())
+      }
     }
   }, [offerings])
   
@@ -81,12 +90,13 @@ function SideBarWithRedux({
 
         <div className="w-100 ct-list-col ip-sb-filter">
           {/* New Offering Trigger */}
-          <ListItem dark
+          <ListItem dark asLink
             icon="add"
             title=" NEW COURSE"
             current={offering === NEW_OFFERING}
             rightIcon="small"
-            onClick={handleOfferingClick(NEW_OFFERING)}
+            onClick={() => setup.newOffering()}
+            to={util.links.instNewOffering()}
           />
 
           {/* Filter */}

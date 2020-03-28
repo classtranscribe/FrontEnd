@@ -1,45 +1,61 @@
-import React, { useState } from 'react'
-import { CSSTransition } from 'react-transition-group'
+import React, { useState, useEffect } from 'react'
+import { PlaceHolder } from '../../../../components'
 import PlaylistsView from './PlaylistsView'
 import VideoView from './VideoView'
 import PlaylistPlaceholder from './PlaylistPlaceholder'
+import { util } from 'utils'
 
-export default function Playlists({ playlists, fullNumber, watchHistoryJSON }) {
-  const [selectedPlaylist, setSelectedPlaylist] = useState('')
+export default function Playlists({ 
+  accessType=0,
+  playlists, 
+  fullNumber='', 
+  watchHistoryJSON 
+}) {
+  const [playlistId, setPlaylistId] = useState('prev-')
 
-  if (!playlists) return <PlaylistPlaceholder />
-  if (playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
-  if (playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn />
+  useEffect(() => {
+    const { plid } = util.links.useSearch()
+    if (plid) {
+      setPlaylistId(plid)
+    }
+  }, [])
+
+  if (playlists && playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
+  if (playlists && playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn accessType={accessType} />
   
-  const handleClick = playlist => {
-    setSelectedPlaylist(playlist)
+  const handlePlaylistClick = playlist => {
+    setPlaylistId(playlist.id)
   }
 
   const goBack = () => {
-    console.log(selectedPlaylist)
-    setSelectedPlaylist(selectedPlaylist.id)
+    setPlaylistId('prev-' + playlistId)
   }
 
-  const isPlaylistsView = !Boolean(selectedPlaylist.id)
+  const isPlaylistsView = playlistId.startsWith('prev-')
 
   return (
     <div className="playlist-container">
-      <CSSTransition in={isPlaylistsView} unmountOnExit classNames="playlist-view" timeout={0}>
+      {
+        !playlists
+        ?
+        <PlaceHolder />
+        :
+        isPlaylistsView 
+        ?
         <PlaylistsView 
           playlists={playlists} 
-          handleClick={handleClick} 
-          wasSelected={selectedPlaylist}
+          handleClick={handlePlaylistClick} 
+          wasSelected={(playlistId || '').replace('prev-', '')}
         />
-      </CSSTransition>
-      <CSSTransition in={!isPlaylistsView} unmountOnExit classNames="video-view" timeout={0}>
+        :
         <VideoView 
-          playlist={selectedPlaylist} 
+          playlistId={playlistId} 
           playlists={playlists}
           courseNumber={fullNumber}
           watchHistoryJSON={watchHistoryJSON}
           goBack={goBack} 
         />
-      </CSSTransition>
+      }
     </div>
   )
 }

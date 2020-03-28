@@ -12,6 +12,7 @@ import {
   NORMAL_MODE, PS_MODE, NESTED_MODE, /** THEATRE_MODE, */
   CTP_PLAYING, CTP_LOADING, CTP_ENDED, CTP_UP_NEXT, CTP_ERROR, HIDE_TRANS,
 } from './constants.util'
+import { setup } from './setup.control'
 
 
 function onFullScreenChange(e) {
@@ -20,10 +21,12 @@ function onFullScreenChange(e) {
     setFullscreen(false)
     transControl.transView(transControl.LAST_TRANS_VIEW, { updatePrefer: false })
     videoControl.isFullscreen = false
+    // videoControl.mode(videoControl.LAST_SCREEN_MODE)
   } else {
     setFullscreen(true)
     transControl.transView(HIDE_TRANS, { updatePrefer: false })
     videoControl.isFullscreen = true
+    // videoControl.mode(NORMAL_MODE)
   }
 }
 
@@ -60,6 +63,11 @@ export const videoControl = {
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
+    this.playbackrate(preferControl.defaultPlaybackRate())
+
+    if (this.videoNode2) {
+      this.SCREEN_MODE = PS_MODE
+    }
   },
 
   clear: function() {
@@ -116,7 +124,7 @@ export const videoControl = {
     const that = this
     if (isMobile) {
       window.addEventListener('orientationchange', () => {
-        console.log('window.orientation', window.orientation)
+        // console.log('window.orientation', window.orientation)
         if ([90, -90].includes(window.orientation)) {
           if (that.currTime() > 0) {
             that.enterFullScreen()
@@ -190,12 +198,20 @@ export const videoControl = {
   forward: function(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
-    if (now + sec < this.duration) this.currTime(now + sec)
+    if (now + sec < this.duration) {
+      this.currTime(now + sec)
+    } else {
+      this.currTime(this.duration)
+    }
   },
   rewind: function(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
-    if (now - sec > 0) this.currTime(now - sec)
+    if (now - sec > 0) {
+      this.currTime(now - sec)
+    } else {
+      this.currTime(0)
+    }
   },
   seekToPercentage: function(p=0) {
     if (typeof p !== 'number' || p > 1 || p < 0) return;
@@ -296,7 +312,7 @@ export const videoControl = {
     try {
       if (isMobile) {
         const elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
-        console.log(elem.webkitExitFullscreen)
+        // console.log(elem.webkitExitFullscreen)
       }
       if (!this.videoNode1) return;
       if (document.exitFullscreen) {
@@ -441,20 +457,10 @@ export const videoControl = {
 
   findUpNextMedia: function({
     currMediaId='',
-    playlists=[{ medias: [] }],
+    playlist,
   }) {
-    let playlistResults = _.map( 
-      playlists, 
-      pl => _.map(
-        (pl.medias.slice() || []).reverse(), 
-        me => ({ ...me, playlistId: pl.id})
-      ) 
-    )
-    playlistResults = _.flatten(playlistResults)
-  
-    let upNextIdx = _.findIndex(playlistResults, { id: currMediaId }) + 1
-    let upNext = playlistResults[upNextIdx] || null
-    return upNext
+    let { next } = setup.findNeighbors(currMediaId, playlist)
+    return next
   },
 
   timeOut: null,

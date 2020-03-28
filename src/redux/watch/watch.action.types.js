@@ -2,6 +2,7 @@
 export const SET_MEDIA = 'watch-set-media'
 export const SET_PLAYLIST = 'watch-set-playlist'
 export const SET_PLAYLISTS = 'watch-set-playlists'
+export const SET_OFFERING = 'watch-set-offering'
 export const SET_WATCH_HISTORY = 'watch-set-watch-history'
 export const SET_STARRED_OFFERINGS = 'watch-set-starred-offerings'
 
@@ -53,4 +54,7 @@ export const SET_SEARCH = 'watch-set-search'
 export const SET_STATE = 'watch-set-state'
 export const TIME_UPDATE = 'watch-time-update'
 export const CHANGE_VIDEO = 'watch-change-video'
+
+// actions
+export const RESET_STATES = 'watch-reset-states'
 

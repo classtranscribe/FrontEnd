@@ -12,7 +12,7 @@ function MediaDetail({
   media, 
   onClose,
 }) {
-  const { mediaName, id } = api.parseMedia(media)
+  const { mediaName, id, createdAt } = api.parseMedia(media)
   const history = useHistory()
 
   const [newName, setNewName] = useState('')
@@ -26,16 +26,8 @@ function MediaDetail({
   }
 
   const handleWatch = () => {
-    let courseNumber = setup.offering().courseNumber
-    let pathname = util.links.watch(courseNumber, id)
-    history.push(
-      pathname, 
-      { 
-        media, 
-        playlist: setup.playlist(), 
-        playlists: setup.playlists() 
-      }
-    )
+    let pathname = util.links.watch(id)
+    history.push(pathname)
   }
 
   const handleRename = async () => {
@@ -88,6 +80,13 @@ function MediaDetail({
           </span>
         </button>
 
+        {
+          createdAt
+          &&
+          <div className="text-muted mb-1 mt-3">
+            Created at {createdAt.slice(0, 10)}
+          </div>
+        }
         <h3 
           ref={nameRef} 
           className={"ip-p-md-mname ct-d-r-center-v" + (isEditing ? " edit" : "")}

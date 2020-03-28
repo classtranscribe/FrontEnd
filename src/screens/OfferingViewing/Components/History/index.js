@@ -13,7 +13,7 @@ export function History({ state, removeWatchHistory }) {
   }, [])
   
   return (
-    <div className="history-bg">
+    <div className="history-bg ct-a-fade-in">
       <h1 className="accessbility_hide">History</h1>
       <div className="goback-container">
         <Link className="del-icon" to={util.links.home()}>

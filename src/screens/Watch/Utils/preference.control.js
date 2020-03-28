@@ -23,7 +23,7 @@ const DEFAULT_SEARCH_OPTION = 'watch-pref-search-opt'
 class WatchPreference extends CTPreference {
   constructor() {
     super()
-    this[AUTO_PLAY] = this.isTrue(AUTO_PLAY)
+    this[AUTO_PLAY] = !this.isFalse(AUTO_PLAY)
     this[CC_ON] = this.isTrue(CC_ON)
     this[AD_ON] = this.isTrue(AD_ON)
     this[PAUSE_WHILE_EDITING] = this.isTrue(PAUSE_WHILE_EDITING)
@@ -36,7 +36,7 @@ class WatchPreference extends CTPreference {
 
   autoPlay(bool) {
     if (isMobile) return false
-    return this.localStorage(AUTO_PLAY, bool)
+    return this.localStorage(AUTO_PLAY, bool, true)
   }
 
   cc(bool) {

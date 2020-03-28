@@ -4,7 +4,6 @@ import { VideoCard } from '../../../../../components'
 import { 
   connectWithRedux,
   videoControl,
-  // findUpNextMedia, 
   CTP_LOADING, CTP_UP_NEXT, CTP_ENDED,  
 } from '../../../Utils'
 import { api, util } from '../../../../../utils'
@@ -12,7 +11,6 @@ import _ from 'lodash'
 
 function UpNextWithRedux({
   media,
-  playlists,
   ctpPriEvent=CTP_LOADING
 }) {
 
@@ -22,10 +20,10 @@ function UpNextWithRedux({
     setShow(false)
   }
 
-  let upNext = videoControl.findUpNextMedia({ currMediaId: media.id, playlists })
+  let upNext = videoControl.findUpNextMedia({ currMediaId: media.id })
   
   useEffect(() => {
-    let displayUpnext = (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && Boolean(upNext.id)
+    let displayUpnext = (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && upNext && Boolean(upNext.id)
     if (displayUpnext) {
       setShow(true)
     } else {
@@ -50,10 +48,8 @@ function UpNextWithRedux({
             </span>
           </button>
         </div>
-        <Video 
-          upNext={upNext}
-          playlists={playlists}
-        />
+
+        <Video upNext={upNext} />
       </div>
     </div>
   ) : null
@@ -61,12 +57,9 @@ function UpNextWithRedux({
 
 function Video({ 
   upNext=null, 
-  playlists=[]
 }) {
   const media =  api.parseMedia(upNext)
-  const courseNumber = util.parseURLFullNumber()
-  const { id, mediaName, playlistId } = media
-  let playlist = _.find(playlists, { id: playlistId })
+  const { id, mediaName } = media
 
   return (
     <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
@@ -75,8 +68,7 @@ function Video({
         name={mediaName}
         posterSize={'100px'}
         fittedNameSize={-1}
-        mediaState={{ media, playlist, playlists }}
-        link={util.links.watch(courseNumber, id)}
+        link={util.links.watch(id)}
       />
     </div>
   )
@@ -84,6 +76,6 @@ function Video({
 
 export const UpNext = connectWithRedux(
   UpNextWithRedux,
-  ['media', 'playlists', 'ctpPriEvent'],
+  ['media', 'ctpPriEvent'],
   []
 )
