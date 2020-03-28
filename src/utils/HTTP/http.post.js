@@ -34,6 +34,7 @@ export const httpPOST = {
   createCourse: function(data) {
     return this.postData('Courses', data)
   },
+
   // Offerings
   createOffering: function(data) {
     return this.postData('Offerings', data)
@@ -41,9 +42,14 @@ export const httpPOST = {
   createCourseOffering: function (data) {
     return this.postData('CourseOfferings', data)
   },
-  addCourseStaffToOffering: function (offeringId, data) {
-    return this.postData(`Offerings/AddUsers/${offeringId}/Instructor`, data)
+  addInstructorsToOffering: function (offeringId, data) {
+    return this.postData(`UserOfferings/AddUsers/${offeringId}/Instructor`, data)
   },
+  addStudentsToOffering: function (offeringId, data) {
+    console.error('addedStudents', data)
+    return this.postData(`UserOfferings/AddUsers/${offeringId}/Student`, data)
+  },
+
   // Playlists
   createPlaylist: function(data) {
     return this.postData('Playlists', data)
