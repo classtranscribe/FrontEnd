@@ -123,7 +123,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
   render() {
     const { srcPath1, srcPath2 } = this.state
-    const { media, mode, isSwitched, transView } = this.props
+    const { media, mode, isSwitched, transView, isFullscreen } = this.props
     const { isTwoScreen, /** transcriptions */ } = media
 
     const player1Position = isSwitched ? SECONDARY : PRIMARY
@@ -135,6 +135,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
           className={`ct-video-row ${player1Position}`} 
           mode={mode} 
           data-trans-view={transView}
+          data-fullscreen={isFullscreen}
         >
           <div className="ct-video-contrainer">
             <PlayerWrapper isPrimary={!isSwitched} />
@@ -168,6 +169,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
             className={`ct-video-row ${player2Position}`} 
             mode={mode}
             data-trans-view={transView}
+            data-fullscreen={isFullscreen}
           >
             <div className="ct-video-contrainer">
               <PlayerWrapper isPrimary={isSwitched} />
@@ -195,7 +197,14 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
 export const ClassTranscribePlayer = connectWithRedux(
   ClassTranscribePlayerWithRedux,
-  ['media', 'mode', 'isSwitched', 'paused', 'transView'],
+  [
+    'media', 
+    'mode', 
+    'isSwitched', 
+    'paused', 
+    'transView',
+    'isFullscreen'
+  ],
   [
     'setMode',
     'setVolume', 
