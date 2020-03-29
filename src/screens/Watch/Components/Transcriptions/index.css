@@ -13,7 +13,6 @@
   position: relative;
   width: calc(100% - 3vw);
   min-height: 100%;
-  /* background: rgb(107, 107, 107); */
   padding-top: calc(50%);
   padding-bottom: calc(50% + 5em);
 }
@@ -23,8 +22,6 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
 }
 
 .trans-article {
