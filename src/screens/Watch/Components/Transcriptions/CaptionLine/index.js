@@ -131,6 +131,9 @@ function CaptionLine({
         }
       </div>
       <div className="caption-line-btns">
+        <div className="mt-2 mr-3">
+          Hit return to save changes
+        </div>
         <button 
           className="plain-btn caption-line-save-btn" 
           onClick={handleSave}
