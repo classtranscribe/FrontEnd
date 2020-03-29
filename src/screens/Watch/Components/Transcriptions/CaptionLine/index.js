@@ -33,9 +33,9 @@ function CaptionLine({
     // console.log(target.value)
   }
 
-  const handleFocus = e => {
-    transControl.edit(caption)
-    // autoSize(ref.current)
+  const handleFocus = ({ target }) => {
+    // console.error(e.target.innerText)
+    transControl.edit(caption, target.innerText)
   }
 
   const handleBlur = () => {
