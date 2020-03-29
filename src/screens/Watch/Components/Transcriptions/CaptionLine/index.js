@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { Popup } from 'semantic-ui-react'
 
 import {
   transControl,
@@ -19,7 +18,7 @@ function CaptionLine({
   caption={},
 }) {
 
-  const { text='', id, begin, index, kind } = caption
+  const { text='', id, begin, kind } = caption
   const ref = useRef()
 
   const handleSeek = () => {
@@ -33,9 +32,9 @@ function CaptionLine({
     // console.log(target.value)
   }
 
-  const handleFocus = e => {
-    transControl.edit(caption)
-    // autoSize(ref.current)
+  const handleFocus = ({ target }) => {
+    // console.error(e.target.innerText)
+    transControl.edit(caption, target.innerText)
   }
 
   const handleBlur = () => {
@@ -71,21 +70,16 @@ function CaptionLine({
       kind={kind}
     >
       <div className="caption-line-content">
-        {/* <Popup inverted wide basic
-          openOnTriggerClick={false}
-          openOnTriggerFocus
-          closeOnTriggerBlur
-          content={`Jump to ${timeStr}`}
-          trigger={ */}
-            <button 
-              className="plain-btn caption-line-time-display" 
-              onClick={handleSeek}
-              aria-label={`Jump to ${timeStr}`}
-            >
-              <span tabIndex="-1">{timeStr}</span>
-            </button>
-          {/* }/> */}
+      {/* Time Seeking Button */}
+        <button 
+          className="plain-btn caption-line-time-display" 
+          onClick={handleSeek}
+          aria-label={`Jump to ${timeStr}`}
+        >
+          <span tabIndex="-1">{timeStr}</span>
+        </button>
 
+      {/* Caption Line */}
         {
           kind === WEBVTT_DESCRIPTIONS ?
           <div className="description-line-text">
@@ -93,44 +87,29 @@ function CaptionLine({
             <span className="description-line-text-title">(Description)</span>
           </div>
           :
-          //<Popup inverted wide basic
-            //position="top center"
-            //openOnTriggerClick={false}
-            //openOnTriggerFocus
-            //closeOnTriggerBlur
-            //content={isEditing ? 'Hit return to save changes.' : 'Click to modify this caption!'}
-            //trigger={
-              <div
-                ref={ref}
-                contentEditable={!isMobile}
-                id={`caption-line-textarea-${id}`}
-                className="caption-line-text"
-                aria-label={`(${index}) Edit caption at ${timeStr} (Hit return to save changes)`} 
-                dangerouslySetInnerHTML={{__html: text}}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onInput={handleChange}
-                onKeyDown={handleKeyDown}
-                spellCheck={false}
-              />
-              /*<textarea   
-                readOnly={isMobile}
-                ref={ref}
-                rows='2'
-                id={`caption-line-textarea-${id}`}
-                className="caption-line-text"
-                aria-label={`(${index}) Edit caption at ${timeStr} (Hit return to save changes)`} 
-                spellCheck={false}
-                defaultValue={text} 
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-              />*/
-            //}/>
+          <div
+            ref={ref}
+            contentEditable={!isMobile}
+            id={`caption-line-textarea-${id}`}
+            className="caption-line-text"
+            dangerouslySetInnerHTML={{__html: text}}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onInput={handleChange}
+            onKeyDown={handleKeyDown}
+            spellCheck={false}
+            // aria-label={`(${index}) Edit caption at ${timeStr} (Hit return to save changes)`} 
+          />
         }
       </div>
+
+      {/* Action Buttons */}
       <div className="caption-line-btns">
+        <div className="mt-2 mr-3">
+          Hit return to save changes
+        </div>
+
+        {/* Save Button */}
         <button 
           className="plain-btn caption-line-save-btn" 
           onClick={handleSave}
