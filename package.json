@@ -40,6 +40,7 @@
     "redux-logger": "^3.0.6",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3",
+    "uuid": "^7.0.2",
     "victory": "^33.1.7"
   },
   "scripts": {
