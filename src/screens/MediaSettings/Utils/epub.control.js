@@ -1,10 +1,9 @@
 import _ from 'lodash'
-import { api, util, ARRAY_INIT } from '../../../utils'
+import { api, util, ARRAY_INIT, CTEpubGenerator } from '../../../utils'
 import { NO_EPUB } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
-import AdminZip from 'adm-zip'
-import downloadFile from 'js-file-download'
+import { v4 as uuidv4 } from 'uuid'
 
 class Epub {
   constructor() {
@@ -288,11 +287,16 @@ class Epub {
   }
 
   download() {
-    let text = this.currChapter.text
-    const zip = new AdminZip()
-    zip.addFile('home/epub.txt', new Buffer(text))
-    console.log(zip.toBuffer().toString('utf8'))
-    downloadFile(zip.toBuffer(), 'local_file.zip')
+    let chapters = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
+
+    const epubDownloader = new CTEpubGenerator({ 
+      chapters,
+      filename: 'test.epub', 
+      author: 'Test Instructor', 
+      language: this.language,
+      title: 'A Test ePub File'
+    })
+    epubDownloader.download()
   }
 
 
@@ -301,7 +305,7 @@ class Epub {
    * ****************************************************************
    */
   genId(prefx='auto-id') {
-    return `${prefx}-${Math.random()}`
+    return `${prefx}-${uuidv4()}`
   }
 
   parseChapter(epub, index) {

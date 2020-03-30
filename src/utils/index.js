@@ -7,6 +7,7 @@ export { search           } from './search'
 export { user, userAction } from './user'
 export { handleData       } from './data'
 export { api              } from './HTTP'
+export { CTEpubGenerator  } from './epub-gen'
 
 export * from './constants'
 
