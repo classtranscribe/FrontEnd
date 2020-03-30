@@ -13,7 +13,7 @@ export default function Toolbar({
   return (
     <div className="msp-ee-ep-tb ct-a-fade-in">
       {/* <div className="ee-ep-tb-top-holder"></div> */}
-      <Dropdown floating='top right' fluid
+      <Dropdown floating fluid
         trigger={
           <Button outlined
             classNames="ee-tb-btn" 
@@ -33,6 +33,21 @@ export default function Toolbar({
         </Button>
         <Button classNames="ee-tb-btn" color="transparent">
           New Section
+        </Button>
+
+        <Button round
+          classNames="ee-tb-btn ee-tb-btn-me" 
+          color="black" 
+          onClick={() => epub.isEditingEpub(true)}
+        >
+          Manage Chapters
+        </Button>
+        <Button round
+          classNames="ee-tb-btn ee-tb-btn-me" 
+          color="teal" 
+          onClick={() => epub.download()}
+        >
+          Download ePub
         </Button>
       </div>
     </div>

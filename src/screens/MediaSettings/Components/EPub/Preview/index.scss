@@ -29,7 +29,7 @@
   width: 250px;
   height: max-content;
   max-width: 19vw;
-  padding: 50px 10px;
+  padding: 50px 10px 20px 10px;
   height: calc(100vh - 91px);
   position: sticky;
   top: 0;
@@ -43,9 +43,12 @@
 
   .ee-tb-btn {
     width: 100%;
-    // span {
-    //   justify-content: center;
-    // }
+    &.ee-tb-btn-me {
+      margin-top: 1rem;
+      &:hover .pico-btn-con {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.384);
+      }
+    }
   }
 
   .ee-tb-btns {

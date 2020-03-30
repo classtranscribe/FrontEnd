@@ -21,25 +21,27 @@ function ActionButtonsWithRedux({
         onClick={cancelEditing}
       /> */}
     </div>
-  ) : (
-    <div className="msp-ee-act ct-a-fade-in" data-editing="false">
-      <Button.Group>
-        <Button round //size="big"
-          classNames="ee-act-btn"
-          text="Manage ePub Chapters"
-          color="black"
-          onClick={() => epub.isEditingEpub(true)}
-        />
+  ) : null
 
-        <Button round //size="big"
-          classNames="ee-act-btn ee-act-save-btn"
-          text="Download"
-          color="teal"
-          onClick={() => epub.download()}
-        />
-      </Button.Group>
-    </div>
-  )
+  // (
+  //   <div className="msp-ee-act ct-a-fade-in" data-editing="false">
+  //     <Button.Group>
+  //       {/* <Button round //size="big"
+  //         classNames="ee-act-btn"
+  //         text="Manage Chapters"
+  //         color="black"
+  //         onClick={() => epub.isEditingEpub(true)}
+  //       /> */}
+
+  //       <Button round //size="big"
+  //         classNames="ee-act-btn ee-act-save-btn"
+  //         text="Download ePub File"
+  //         color="teal"
+  //         onClick={() => epub.download()}
+  //       />
+  //     </Button.Group>
+  //   </div>
+  // )
 }
 
 export default connectWithRedux(
