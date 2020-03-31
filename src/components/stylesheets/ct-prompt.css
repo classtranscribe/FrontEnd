@@ -21,7 +21,7 @@
   -webkit-animation: ctp-p-br-show .2s linear;
 }
 #ct___prompt.bottom {
-  bottom: 30px;
+  bottom: 20px;
 }
 
 
@@ -45,7 +45,7 @@
   -o-animation: ctp-p-br-hide .11s linear;
   -moz-animation: ctp-p-br-hide .11s linear;
   -webkit-animation: ctp-p-br-hide .11s linear;
-  /* margin-bottom: -30px; */
+  /* margin-bottom: -20px; */
 }
 
 /* Status */
@@ -111,27 +111,27 @@
 
 /* bottom-right */
 @keyframes ctp-p-br-show {
-  0% {bottom: -30px;}
-  100% {bottom: 30px;}}
+  0% {bottom: -20px;}
+  100% {bottom: 20px;}}
 @-o-keyframes ctp-p-br-show {
-  0% {bottom: -30px;}
-  100% {bottom: 30px;}}
+  0% {bottom: -20px;}
+  100% {bottom: 20px;}}
 @-moz-keyframes ctp-p-br-show {
-  0% {bottom: -30px;}
-  100% {bottom: 30px;}}
+  0% {bottom: -20px;}
+  100% {bottom: 20px;}}
 @-webkit-keyframes ctp-p-br-show {
-  0% {bottom: -30px;}
-  100% {bottom: 30px;}}
+  0% {bottom: -20px;}
+  100% {bottom: 20px;}}
 
 @keyframes ctp-p-br-hide {
   0% {margin-bottom: 0; opacity: 1;}
-  100% {margin-bottom: -30px; opacity: 0;}}
+  100% {margin-bottom: -20px; opacity: 0;}}
 @-o-keyframes ctp-p-br-hide {
   0% {margin-bottom: 0; opacity: 1;}
-  100% {margin-bottom: -30px; opacity: 0;}}
+  100% {margin-bottom: -20px; opacity: 0;}}
 @-moz-keyframes ctp-p-br-hide {
   0% {margin-bottom: 0; opacity: 1;}
-  100% {margin-bottom: -30px; opacity: 0;}}
+  100% {margin-bottom: -20px; opacity: 0;}}
 @-webkit-keyframes ctp-p-br-hide {
   0% {margin-bottom: 0; opacity: 1;}
-  100% {margin-bottom: -30px; opacity: 0;}}
+  100% {margin-bottom: -20px; opacity: 0;}}

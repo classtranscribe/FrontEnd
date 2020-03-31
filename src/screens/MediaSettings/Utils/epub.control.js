@@ -274,7 +274,7 @@ class Epub {
       text: 'ePub chapters saved.',
       status: 'success',
       position: 'left bottom',
-      timeout: -1,
+      timeout: 3000,
     })
   }
 
