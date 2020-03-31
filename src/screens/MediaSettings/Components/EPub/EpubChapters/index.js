@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
-import { connectWithRedux } from '../../../Utils'
+import { connectWithRedux, epub } from '../../../Utils'
+import { Button } from 'pico-ui'
 import EpubList from './EpubList'
 import EpubHeader from '../EpubHeader'
 import './index.scss'
@@ -25,6 +26,17 @@ function EpubChaptersWithRedux({
           <br/>
           After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
         </EpubHeader.Text>
+
+        <div className="w-100 d-flex justify-content-end">
+          <Button.Group>
+            <Button outlined onClick={() => epub.undoAllSplit()}>
+              Reset to Default Chapters
+            </Button>
+            <Button outlined onClick={() => epub.splitByScreenshots()}>
+              Split by Screenshots
+            </Button>
+          </Button.Group>
+        </div>
       </EpubHeader>
 
       <div className="ct-d-c ee-el-chapters">

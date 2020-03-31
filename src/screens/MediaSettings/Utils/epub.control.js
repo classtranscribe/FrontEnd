@@ -174,6 +174,21 @@ class Epub {
     this.changeChapter(chapters[chapterIndex - 1])
   }
 
+  undoAllSplit() {
+    let defaultChapter = { items: this.epubData(), title: 'Default Chapter', id: this.genId('epub-ch') }
+    this.setChapters([ defaultChapter ])
+    this.changeChapter(defaultChapter)
+  }
+  
+  splitByScreenshots() {
+    let splitChapters = _.map(
+      this.epubData(), 
+      (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: this.genId('epub-ch')})
+    )
+    this.setChapters(splitChapters)
+    this.changeChapter(splitChapters[0])
+  }
+
   ///////////////////////////////////////////////////////////////////////////
   // handle edit title
   ///////////////////////////////////////////////////////////////////////////
