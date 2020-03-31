@@ -6,7 +6,7 @@ import { httpDELETE } from './http.delete'
 import { responseParsers    } from './helper.response-parsers'
 import { userMetadataHelper } from './helper.user-metadata'
 
-import { isDeveloping } from '../constants'
+// import { isDeveloping } from '../constants'
 import { env } from '../env'
 import { user } from '../user'
 
@@ -15,7 +15,7 @@ import { user } from '../user'
  */
 export const http = axios.create({
   baseURL: env.baseURL || window.location.origin,
-  timeout: 100000,
+  timeout: 20000,
 })
 
 
@@ -68,6 +68,7 @@ export const api = {
   },
 
   withAuth: function (configs={}) {
+    console.log('configs-------------------', configs)
     return {
       ...configs,
       headers: {

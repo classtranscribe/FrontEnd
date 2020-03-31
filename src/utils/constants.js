@@ -4,6 +4,10 @@ export const INSTRUCTOR = 'u-inst'
 export const ADMIN = 'u-admin'
 export const DEFAULT_ROLE = STUDENT // used for testing
 
+// arrays
+export const ARRAY_INIT = ['init']
+export const ARRAY_EMPTY = ['empty']
+
 // Pages
 export const PAGE_INSTRUCTOR = 'instp'
 export const PAGE_HOME = 'homep'

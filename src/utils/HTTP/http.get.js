@@ -128,8 +128,8 @@ export const httpGET = {
 
 
   // ePub
-  getEpubData: function(mediaId) {
-    return this.getData('Epub/GetEpubData', null, { mediaId })
+  getEpubData: function(mediaId, language='en-US') {
+    return this.getData('Epub/GetEpubData', null, { mediaId, language })
   },
   requestEpubCreation: function(mediaId) {
     return this.getData('Epub/RequestEpubCreation', null, { mediaId })

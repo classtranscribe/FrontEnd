@@ -61,7 +61,7 @@ export const httpPOST = {
     formData.append('video2', video2)
     formData.append('playlistId', playlistId)
     // console.log('uploadData', {playlistId, video1, video2})
-    return this.postData('Media', formData, null, { onUploadProgress })
+    return this.postData('Media', formData, null, { onUploadProgress, timeout: 5400000 })
   },
   // Captions
   updateCaptionLine: function(data) {

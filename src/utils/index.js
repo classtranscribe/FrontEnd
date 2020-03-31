@@ -7,10 +7,13 @@ export { search           } from './search'
 export { user, userAction } from './user'
 export { handleData       } from './data'
 export { api              } from './HTTP'
+export { prompt           } from './js/CTPrompt'
+export { CTEpubGenerator  } from './epub-gen'
 
 export * from './constants'
 
 export { CTPreference } from './js/CTPreference'
+export { CTPrompt } from './js/CTPrompt'
 
 
 /**
@@ -126,6 +129,10 @@ export const util = {
       default:
         break;
     }    
+  },
+
+  preventBreakLine(e={}) {
+    if (e.keyCode === 13) e.preventDefault()
   },
 
   /**

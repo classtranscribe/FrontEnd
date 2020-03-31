@@ -21,7 +21,7 @@ export { CTForm  } from './CTForm'
 
 // Need to be removed later
 export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
-export { GeneralModal } from './Modals'
+export { GeneralModal, CTModal } from './Modals'
 export { GeneralAlert } from './Alerts'
 export { GeneralLoader } from './Loaders' 
 

@@ -4,9 +4,9 @@ import { Button } from 'pico-ui'
 import { Poster } from '../../../../../components'
 import { ListItem } from '../../ListItem'
 import './index.scss'
-import { api, util } from '../../../../../utils'
+import { api, util, user } from '../../../../../utils'
 import { setup, mediaControl } from '../../../Utils'
-import { TAB_EDIT_TRANS, TAB_EPUB } from '../../../../MediaSettings/Utils'
+// import { TAB_EDIT_TRANS, TAB_EPUB } from '../../../../MediaSettings/Utils'
 
 function MediaDetail({ 
   media, 
@@ -133,22 +133,26 @@ function MediaDetail({
       </div>
 
       {/* Settings */}
-      {/* <div className="mt-3">
-        <div className="ip-sb-title ct-d-r-center-v mt-3">
-          <i className="material-icons" aria-hidden="true">settings</i>
-          <h3>SETTINGS</h3>
+      {
+        user.isAdmin()
+        &&
+        <div className="mt-3">
+          <div className="ip-sb-title ct-d-r-center-v mt-3">
+            <i className="material-icons" aria-hidden="true">settings</i>
+            <h3>SETTINGS</h3>
+          </div>
+          <ListItem dark asLink
+            icon="closed_caption"
+            title="Edit Transcriptions"
+            to={util.links.mspTransSettings(id)}
+          />
+          <ListItem dark asLink
+            icon="menu_book"
+            title="Manage ePub Chapters"
+            to={util.links.mspEpubSettings(id)}
+          />
         </div>
-        <ListItem dark
-          icon="closed_caption"
-          title="Edit Transcriptions"
-          onClick={toMediaSettings(TAB_EDIT_TRANS)}
-        />
-        <ListItem dark
-          icon="menu_book"
-          title="Manage ePub Chapters"
-          onClick={toMediaSettings(TAB_EPUB)}
-        />
-      </div> */}
+      }
     </div>
   )
 }

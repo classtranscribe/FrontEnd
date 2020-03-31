@@ -1,32 +1,28 @@
 import React from 'react'
 import { 
   mspTabs, 
-  setup,
-  TAB_DEFAULT,
 } from '../../Utils'
+import { Link, useParams, useLocation } from 'react-router-dom'
+import { util } from 'utils'
 
-function Tabs({
-  currTab=TAB_DEFAULT
-}) {
-
-  const changeTab = tabHash => () => {
-    setup.tab(tabHash)
-  }
+function Tabs() {
+  const { id } = useParams()
+  const location = useLocation()
 
   return (
     <div className="msp-h-tabs-con">
       {mspTabs.map( tab => (
-        <button 
+        <Link 
           id={tab.id} 
           key={tab.id}  
           className="plain-btn msp-h-tab"
-          data-current={Boolean(currTab === tab.hash)}
-          onClick={changeTab(tab.hash)}
+          data-current={location.pathname === util.links.instMediaSettings(id, tab.hash)}
+          to={util.links.instMediaSettings(id, tab.hash)}
         >
           <span tabIndex="-1">
             {tab.name}
           </span>
-        </button>
+        </Link>
       ))}
     </div>
   )

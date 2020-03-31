@@ -67,3 +67,16 @@ div[data-scroll]::-webkit-scrollbar-thumb {
 div[data-scroll]:hover::-webkit-scrollbar-thumb {
   background: rgb(207, 207, 207);
 }
+
+[contenteditable].ct-div-editable {
+  border-bottom: 2px solid transparent;
+  transition: border linear 200ms;
+  border-radius: 2px;
+}
+[contenteditable].ct-div-editable:hover {
+  border-color: black;
+}
+[contenteditable].ct-div-editable:focus {
+  border-color: var(--ct-green-normal);
+  outline: none;
+}
