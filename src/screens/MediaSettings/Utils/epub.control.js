@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { api, util, ARRAY_INIT, CTEpubGenerator } from '../../../utils'
+import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
 import { NO_EPUB } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
@@ -178,6 +178,11 @@ class Epub {
     let defaultChapter = { items: this.epubData(), title: 'Default Chapter', id: this.genId('epub-ch') }
     this.setChapters([ defaultChapter ])
     this.changeChapter(defaultChapter)
+    prompt.addOne({
+      text: 'Reset to the default chapters.',
+      position: 'left bottom',
+      timeout: 2000,
+    })
   }
   
   splitByScreenshots() {
@@ -187,6 +192,11 @@ class Epub {
     )
     this.setChapters(splitChapters)
     this.changeChapter(splitChapters[0])
+    prompt.addOne({
+      text: 'Split the chapters by screenshots.',
+      position: 'left bottom',
+      timeout: 2000,
+    })
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -260,6 +270,12 @@ class Epub {
     let newEpub = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
     console.log('newEpub', newEpub)
     this.isEditingEpub(false)
+    prompt.addOne({
+      text: 'ePub chapters saved.',
+      status: 'success',
+      position: 'left bottom',
+      timeout: -1,
+    })
   }
 
   cancelEditChapters = () => {

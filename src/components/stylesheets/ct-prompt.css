@@ -36,7 +36,7 @@
   justify-content: space-between;
   min-width: 200px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.521);
+  box-shadow: 0 0 10px rgba(26, 26, 26, 0.527);
 }
 
 /* Close */
@@ -50,7 +50,7 @@
 
 /* Status */
 #ct___prompt .ct-prompt-box.success {
-  background: rgb(50, 131, 131);
+  background: rgb(15, 126, 126);
 }
 #ct___prompt .ct-prompt-box.error {
   background: rgb(240, 136, 0);
