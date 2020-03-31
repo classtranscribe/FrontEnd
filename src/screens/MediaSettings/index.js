@@ -20,6 +20,8 @@ class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
     super(props)
 
+    setup.verifyUser()
+
     this.mediaId = props.match.params.id
     const { tab } = util.links.useHash()
     this.initTab = tab

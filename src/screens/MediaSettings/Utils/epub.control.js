@@ -348,7 +348,7 @@ class Epub {
       // await api.requestEpubCreation(mediaId)
     }
 
-    return []
+    return ARRAY_INIT
   }
 
   async changeEpubLanguage(language) {
