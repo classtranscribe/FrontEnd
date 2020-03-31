@@ -291,10 +291,10 @@ class Epub {
 
     const epubDownloader = new CTEpubGenerator({ 
       chapters,
-      filename: 'test.epub', 
+      filename: setup.media().mediaName + '.epub', 
       author: 'Test Instructor', 
       language: this.language,
-      title: 'A Test ePub File'
+      title: setup.media().mediaName
     })
     epubDownloader.download()
   }

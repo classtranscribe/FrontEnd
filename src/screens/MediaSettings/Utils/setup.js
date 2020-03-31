@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { api, util } from '../../../utils'
+import { api, util, user } from '../../../utils'
 // import { } from './constants'
 
 class SetupMSP {
@@ -18,6 +18,12 @@ class SetupMSP {
     this.redux = { 
       setMedia, setError,
       history, location 
+    }
+  }
+
+  verifyUser() {
+    if (!user.isAdmin()) {
+      window.location = util.links.notfound404()
     }
   }
 
