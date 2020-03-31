@@ -48,4 +48,8 @@ export const LOADING_UP_V = {
 }
 
 
-// Playlist
+// Ordering
+export const ORD_T_INIT = 'ord-init'
+export const ORD_T_PL = 'Re-Ordering Medias'
+export const ORD_T_MEDIA = 'Re-Ordering Playlists'
+export const ORD_INIT = { type: ORD_T_INIT, items: [], title: '' }

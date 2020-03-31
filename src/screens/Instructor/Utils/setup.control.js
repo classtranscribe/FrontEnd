@@ -25,13 +25,13 @@ export const setup = {
   init: function(props) {
     const { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, 
+      setPlaylists, setPlaylist, setOrdering,
       setLoading, setConfirmation, history
     } = props
 
     this.externalFunctions = { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, 
+      setPlaylists, setPlaylist, setOrdering,
       setLoading, setConfirmation, history
     }
   },
@@ -52,6 +52,11 @@ export const setup = {
   confirm: function(confirmation) {
     const { setConfirmation } = this.externalFunctions
     if (setConfirmation) setConfirmation(confirmation)
+  },
+
+  orderList: function(ordering) {
+    const { setOrdering } = this.externalFunctions
+    if (setOrdering) setOrdering(ordering)
   },
 
   offerings: function(offerings_) {
@@ -301,6 +306,10 @@ export const setup = {
       this.playlists_ = ARRAY_INIT
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
       // if switched offering while loading data
+
+      // TEMPORARY: for sorting
+      data = _.map(data, (pl, index) => ({ ...pl, index }))
+
       if (data.length > 0 && data[0].offeringId !== setup.offering().id) return
 
       // otherwise, set playlists

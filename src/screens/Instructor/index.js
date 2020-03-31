@@ -99,6 +99,7 @@ export function Instructor(props) {
       'setSidebar',
       'setLoading',
       'setConfirmation',
+      'setOrdering',
       // Basics
       'setDeparts',
       'setTerms',
