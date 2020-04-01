@@ -38,6 +38,7 @@ function ButtonBar({
       type: ORD_T_MEDIA,
       name: 'Videos',
       items: playlist.medias,
+      icon: 'play_circle_filled',
       onSave: result => {
         setup.playlist({ ...setup.playlist(), medias: result })
       }
@@ -87,7 +88,7 @@ function ButtonBar({
             &&
             <Button uppercase
               classNames="mr-2"
-              icon="add"
+              icon="publish"
               text="upload videos"
               color="teal"
               onClick={onOpenUpload}

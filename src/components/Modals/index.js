@@ -33,6 +33,7 @@ export function CTModal({
   large=false,
   middle=false,
   children,
+  closeOnBlur=false,
   // actions
   actions,
   onClose,
@@ -41,18 +42,29 @@ export function CTModal({
   cancelBtnText='Cancel'
 }) {
 
+  const handleClose = () => {
+    let modalEl = document.getElementById('ct-mdl-box')
+    if (modalEl) {
+      modalEl.classList.add('ctmdl-close')
+      setTimeout(() => {
+        if (onClose) onClose()
+      }, 100);
+    }
+  }
+
   let modalStyle = large ? ' large' : middle ? ' middle' : ''
   return show ? (
 
-    <div className="ct-modal ct-d-c-center ct-a-fade-in">
-      <div className={"ct-mdl-con" + modalStyle}>
+    <div className="ct-modal ct-d-c-center">
+      <div className="ct-mdl-wrapper"></div>
+      <div id="ct-mdl-box" className={"ct-mdl-con" + modalStyle} data-scroll>
         {/* Header */}
         <div className="ct-mdl-h-con">
           <h3>{title}</h3>
           <Button round
             icon="close"
             color="transparent"
-            onClick={onClose} 
+            onClick={handleClose} 
           />
         </div>
 
@@ -76,7 +88,7 @@ export function CTModal({
               <Button uppercase compact
                 text={cancelBtnText}
                 color="teal"
-                onClick={onClose}
+                onClick={handleClose}
               />
             </Button.Group>
           }

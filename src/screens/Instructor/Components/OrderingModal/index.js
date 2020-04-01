@@ -5,7 +5,7 @@ import { CTModal } from 'components'
 import { ORD_INIT, connectWithRedux } from '../../Utils'
 import './index.scss'
 
-const OrdItem = ({ item, index }) => {
+const OrdItem = ({ item, index, icon }) => {
   return (
     <Draggable draggableId={item.id} index={index}>
       {(provided, snapshot) => (
@@ -16,7 +16,7 @@ const OrdItem = ({ item, index }) => {
           {...provided.dragHandleProps}
         >
           <span className="ip-om-item-drag-icon"><i className="material-icons">drag_handle</i></span>
-          <span className="ip-om-item-icon"><i className="material-icons">video_library</i></span>
+          <span className="ip-om-item-icon"><i className="material-icons">{icon || 'video_library'}</i></span>
           <span className="ip-om-item-name">{item.name}</span>
         </div>
       )}
@@ -29,7 +29,7 @@ function OrderingModalWithRedux({
   setOrdering
 }) {
 
-  const { type, name, items=[], onSave } = ordering
+  const { type, name, items=[], icon, onSave } = ordering
   const [lisitems, setListItems] = useState(items)
 
   const handleClose = () => setOrdering(ORD_INIT)
@@ -66,13 +66,18 @@ function OrderingModalWithRedux({
       onSave={handleSave}
       title={type}
     >
-      <h3 className="ip-om-name">{name}</h3>
+      {/* <h3 className="ip-om-name">{name}</h3> */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={'ip-ord-'+name}>
           {provided => (
             <div className="ip-om" data-scroll ref={provided.innerRef} {...provided.droppableProps}>
               {lisitems.map((item, index) => (
-                <OrdItem index={index} item={item} key={item.id} />
+                <OrdItem 
+                  index={index} 
+                  item={item} 
+                  key={item.id} 
+                  icon={icon}
+                />
               ))}
               {provided.placeholder}
             </div>

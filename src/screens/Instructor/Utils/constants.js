@@ -50,5 +50,5 @@ export const LOADING_UP_V = {
 
 // Ordering
 export const ORD_T_PL = 'Re-Order Playlists'
-export const ORD_T_MEDIA = 'Re-Order Medias'
+export const ORD_T_MEDIA = 'Re-Order Videos'
 export const ORD_INIT = {}

@@ -23,6 +23,7 @@ export default function Playlists({
       type: ORD_T_PL,
       name: 'Playlists',
       items: playlists,
+      icon: 'view_list',
       onSave: result => {
         setup.playlists(result)
       }
@@ -34,12 +35,12 @@ export default function Playlists({
       {/* Title & Filter */}
       <div className="ip-c-title">
         <div className="ip-sb-title ct-d-r-center-v">
-          <i className="material-icons" aria-hidden="true">list_alt</i>
+          <i className="material-icons" aria-hidden="true">view_list</i>
           <h3>PLAYLISTS</h3>
         </div>
 
         <ListItem dark
-          icon="add"
+          icon="playlist_add"
           title=" NEW PLAYLIST"
           rightIcon="small"
           current={playlist === NEW_PLAYLIST}

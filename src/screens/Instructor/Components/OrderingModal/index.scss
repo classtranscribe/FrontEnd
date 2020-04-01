@@ -1,15 +1,18 @@
 .ip-om-name {
-  padding: 0 20px;
+  margin-left: 50px;
   position: sticky;
   top: 0;
   background-color: white;
   width: 100%;
+  text-transform: uppercase;
 }
 
 .ip-om {
-  padding: 0 0px;
-  height: 300px;
-  max-height: 400px;
+  padding: 0 0 40px 0;
+  height: 500px;
+  width: 100%;
+  // min-height: 300px;
+  // max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -32,9 +35,11 @@
 
     .ip-om-item-drag-icon {
       margin-right: 15px;
+      color: rgb(165, 165, 165);
     }
     .ip-om-item-icon {
       margin-right: 10px;
+      color: rgb(8, 143, 143);
     }
     .ip-om-item-name {
       font-size: 16px;
