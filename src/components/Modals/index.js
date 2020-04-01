@@ -31,6 +31,7 @@ export function CTModal({
   show=false,
   title='',
   large=false,
+  middle=false,
   children,
   // actions
   actions,
@@ -40,7 +41,7 @@ export function CTModal({
   cancelBtnText='Cancel'
 }) {
 
-  let modalStyle = large ? ' large' : ''
+  let modalStyle = large ? ' large' : middle ? ' middle' : ''
   return show ? (
 
     <div className="ct-modal ct-d-c-center ct-a-fade-in">

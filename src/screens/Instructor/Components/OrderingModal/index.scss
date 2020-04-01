@@ -1,0 +1,55 @@
+.ip-om-name {
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  width: 100%;
+}
+
+.ip-om {
+  padding: 0 0px;
+  height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .ip-om-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 10px;
+    transition: background 100ms linear;
+
+    span {
+      display: flex;
+      i {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .ip-om-item-drag-icon {
+      margin-right: 15px;
+    }
+    .ip-om-item-icon {
+      margin-right: 10px;
+    }
+    .ip-om-item-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    &:hover {
+      background-color: var(--ct-ip-grey-1);
+    }
+    &:active, &.dragging {
+      // background-color: var(--ct-green-normal);
+      // span { color: white; }
+      // background-color: var(--ct-ip-grey-2);
+      background-color: white;
+      box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.055);
+    }
+  }
+}

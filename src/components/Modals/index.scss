@@ -64,6 +64,11 @@
       width: 60vw;
     }
 
+    &.middle {
+      width: 40vw;
+      min-width: 400px;
+    }
+
     // Header
     .ct-mdl-h-con {
       position: sticky;
@@ -90,6 +95,9 @@
     .ct-mdl-text-con {
       padding: .2em 1em;
       font-family: var(--ct-font-google);
+      max-height: 500px;
+      width: 100%;
+      overflow: hidden;
     }
 
     .ct-mdl-act {

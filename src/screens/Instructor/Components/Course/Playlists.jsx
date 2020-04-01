@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { Button } from 'pico-ui'
 import { Filter } from '../Filter'
 import { ListItem } from '../ListItem'
-import { ARRAY_EMPTY, NEW_PLAYLIST } from '../../Utils'
+import { 
+  setup, 
+  ARRAY_EMPTY, NEW_PLAYLIST, ORD_T_PL 
+} from '../../Utils'
 
 export default function Playlists({
   results,
@@ -15,6 +18,16 @@ export default function Playlists({
 }) {
 
   const [filtering, setFiltering] = useState(false)
+  const orderPlaylists = () => {
+    setup.orderList({
+      type: ORD_T_PL,
+      name: 'Playlists',
+      items: playlists,
+      onSave: result => {
+        setup.playlists(result)
+      }
+    })
+  }
 
   return (
     <>
@@ -41,6 +54,7 @@ export default function Playlists({
               icon="format_list_numbered"
               text="Order Playlists"
               color="transparent"
+              onClick={orderPlaylists}
             />
             <Button uppercase
               icon={filtering ? "close" : "search"}

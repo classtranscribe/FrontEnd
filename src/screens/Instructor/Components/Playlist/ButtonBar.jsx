@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 import { Button } from 'pico-ui'
-import { connectWithRedux, mediaControl, setup } from '../../Utils'
+import { connectWithRedux, mediaControl, setup, ORD_T_MEDIA } from '../../Utils'
 
 function ButtonBar({
   playlist,
@@ -31,6 +31,17 @@ function ButtonBar({
 
   const handleCancelSelect = () => {
     mediaControl.closeSelect()
+  }
+
+  const orderMedias = () => {
+    setup.orderList({
+      type: ORD_T_MEDIA,
+      name: 'Videos',
+      items: playlist.medias,
+      onSave: result => {
+        setup.playlist({ ...setup.playlist(), medias: result })
+      }
+    })
   }
 
   const selectedAll = mediaControl.isSelectedAll(results, selectedVideos)
@@ -96,7 +107,7 @@ function ButtonBar({
                 icon="format_list_numbered"
                 text="order videos"
                 color="transparent"
-                onClick={null}
+                onClick={orderMedias}
               />
               <Button uppercase
                 icon={filtering ? "close" : "search"}

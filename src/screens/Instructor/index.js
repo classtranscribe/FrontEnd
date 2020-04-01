@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { withRouter, Route, Switch } from 'react-router-dom'
+import { withRouter, Route, /**Switch */ } from 'react-router-dom'
 
 import { ClassTranscribeHeader } from '../../components'
 import {
@@ -10,6 +10,7 @@ import {
   Sidebar,
   Playlist,
   Confirmation,
+  OrderingModal,
 } from './Components'
 
 import {
@@ -48,7 +49,8 @@ export class InstructorWithRedux extends React.Component {
   }
 
   render() {
-    const { sidebar, loading } = this.props
+    const { sidebar, loading, ordering } = this.props
+    console.log('ordering', ordering)
     const paddingLeft = {
       paddingLeft: (sidebar && window.innerWidth > 900) ? '19em' : '0'
     }
@@ -70,6 +72,7 @@ export class InstructorWithRedux extends React.Component {
 
           <Confirmation />
           {Boolean(loading.type) && <Loader />}
+          {Boolean(ordering.type) && <OrderingModal />}
         </main>
       </div>
     )
@@ -82,6 +85,7 @@ export function Instructor(props) {
     [
       'sidebar',
       'loading',
+      'ordering',
       'offerings',
     ],
     [
