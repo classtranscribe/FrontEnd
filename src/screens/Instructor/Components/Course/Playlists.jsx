@@ -7,6 +7,7 @@ import { ARRAY_EMPTY, NEW_PLAYLIST } from '../../Utils'
 export default function Playlists({
   results,
   playlist,
+  playlists=[],
 
   onFilter,
   onReverse,
@@ -32,19 +33,23 @@ export default function Playlists({
           onClick={handlePlaylistClick(NEW_PLAYLIST)}
         />
 
-        <div className="w-100 ip-c-actions">
-          <Button uppercase
-            icon="format_list_numbered"
-            text="Order Playlists"
-            color="transparent"
-          />
-          <Button uppercase
-            icon={filtering ? "close" : "search"}
-            text="Filter Playlists"
-            color={filtering ? "" : "transparent"}
-            onClick={() => setFiltering(!filtering)}
-          />
-        </div>
+        {
+          playlists !== ARRAY_EMPTY
+          &&
+          <div className="w-100 ip-c-actions">
+            <Button uppercase
+              icon="format_list_numbered"
+              text="Order Playlists"
+              color="transparent"
+            />
+            <Button uppercase
+              icon={filtering ? "close" : "search"}
+              text="Filter Playlists"
+              color={filtering ? "" : "transparent"}
+              onClick={() => setFiltering(!filtering)}
+            />
+          </div>
+        }
 
         {
           filtering

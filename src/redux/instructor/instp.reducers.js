@@ -16,7 +16,6 @@ import {
   // Others
   SET_LOADING,
   SET_CONFIRMATION,
-  SET_PROMPT,
   SET_ORDERING,
 } from './instp.action.types'
 import { initialState } from './instp.state'
@@ -68,7 +67,6 @@ const instpReducer = (
     // Others
     case SET_LOADING              : return { ...state, loading: value }  
     case SET_CONFIRMATION         : return { ...state, confirmation: value }  
-    case SET_PROMPT               : return { ...state, prompt: value }  
     case SET_ORDERING             : return { ...state, ordering: value }  
 
     // Default

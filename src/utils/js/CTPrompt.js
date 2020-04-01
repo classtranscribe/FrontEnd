@@ -16,7 +16,7 @@ function createPromptBoxElem(text, options) {
   // Text
   const txtEl = document.createElement('div')
   txtEl.className = 'ct-prompt-text'
-  txtEl.innerText = text
+  txtEl.innerHTML = text
   promptBoxEl.appendChild(txtEl)
 
   // Contact Link

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { withRouter, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import { withRouter, Route, Switch } from 'react-router-dom'
 
 import { ClassTranscribeHeader } from '../../components'
 import {
@@ -8,7 +8,6 @@ import {
   Course,
   NewCourse,
   Sidebar,
-  Prompts,
   Playlist,
   Confirmation,
 } from './Components'
@@ -16,12 +15,10 @@ import {
 import {
   instpStore, 
   connectWithRedux,
-
   setup,
   plControl,
   offControl,
   mediaControl,
-  promptControl,
 } from './Utils'
 
 import { util } from '../../utils'
@@ -35,7 +32,6 @@ export class InstructorWithRedux extends React.Component {
     plControl.init(props)
     offControl.init(props)
     mediaControl.init(props)
-    promptControl.init(props)
   }
 
   showSiderBar = value => {
@@ -65,17 +61,11 @@ export class InstructorWithRedux extends React.Component {
           display={sidebar}
         />
 
-        <Sidebar
-          showSiderBar={this.showSiderBar}
-        />
-
-        <Prompts />
+        <Sidebar showSiderBar={this.showSiderBar} />
 
         <main className="ip-container" style={paddingLeft}>
-          <Switch>
-            <Route path="/instructor/new-offering" component={NewCourse} />
-            <Route path="/instructor/:offId" render={() => <><Course /><Playlist /></>} />
-          </Switch>
+          <Route path="/instructor/new-offering" component={NewCourse} />
+          <Route path="/instructor/:offId" render={() => <><Course /><Playlist /></>} />
           {/* <Route path='/instructor/:offeringId' render={props => <Course />} /> */}
 
           <Confirmation />

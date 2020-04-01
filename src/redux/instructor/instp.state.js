@@ -26,5 +26,4 @@ export const initialState = {
   loading: LOADING_INIT,
   confirmation: null,
   ordering: ORD_INIT,
-  prompt: null,
 }

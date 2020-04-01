@@ -27,7 +27,6 @@ export const mediaControl = {
    * ************************************************************************
    */
   deleteMedia: async function(media, bulkDelete=false) {
-    // if (!bulkDelete) promptControl.deleting()
     try {
       await api.deleteMedia(media.id)
       let playlist = setup.playlist()
@@ -95,6 +94,7 @@ export const mediaControl = {
       playlist.medias.push(newMedia)
     } catch (error) {
       console.error('Failed to upload media')
+      promptControl.error('upload video ' + video1.name)
     }
     // setup.playlist({ ...playlist })
   },

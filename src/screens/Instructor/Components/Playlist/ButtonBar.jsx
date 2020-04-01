@@ -4,6 +4,7 @@ import { Button } from 'pico-ui'
 import { connectWithRedux, mediaControl, setup } from '../../Utils'
 
 function ButtonBar({
+  playlist,
   results=[],
   isSelectingVideos=false,
   selectedVideos=[],
@@ -81,24 +82,30 @@ function ButtonBar({
               onClick={onOpenUpload}
             />
           }
-          <Button uppercase
-            icon="check_box_outline_blank"
-            text="Select"
-            color="transparent"
-            onClick={handleOpenSelect}
-          />
-          <Button uppercase
-            icon="format_list_numbered"
-            text="order videos"
-            color="transparent"
-            onClick={null}
-          />
-          <Button uppercase
-            icon={filtering ? "close" : "search"}
-            text="Filter Videos"
-            color={filtering ? "" : "transparent"}
-            onClick={() => setFiltering(!filtering)}
-          />
+          {
+            (playlist && playlist.medias && playlist.medias.length > 0)
+            &&
+            <>
+              <Button uppercase
+                icon="check_box_outline_blank"
+                text="Select"
+                color="transparent"
+                onClick={handleOpenSelect}
+              />
+              <Button uppercase
+                icon="format_list_numbered"
+                text="order videos"
+                color="transparent"
+                onClick={null}
+              />
+              <Button uppercase
+                icon={filtering ? "close" : "search"}
+                text="Filter Videos"
+                color={filtering ? "" : "transparent"}
+                onClick={() => setFiltering(!filtering)}
+              />
+            </>
+          }
         </div>
       }
       </div>
@@ -108,6 +115,6 @@ function ButtonBar({
 
 export default connectWithRedux(
   ButtonBar,
-  ['isSelectingVideos', 'selectedVideos'],
+  ['isSelectingVideos', 'selectedVideos', 'playlist'],
   []
 )
