@@ -99,7 +99,7 @@ function OrderingModalWithRedux({
         </div>
 
         <div className="w-100 ct-d-r-center-v mb-1 mt-2 ml-3 text-muted">
-          <b>DRAG AND DROP ITEMS TO ORDER THR LIST</b>
+          <b>DRAG AND DROP ITEMS TO ORDER THE LIST</b>
         </div>
 
         <DragDropContext onDragEnd={onDragEnd}>
