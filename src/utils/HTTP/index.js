@@ -68,7 +68,6 @@ export const api = {
   },
 
   withAuth: function (configs={}) {
-    console.log('configs-------------------', configs)
     return {
       ...configs,
       headers: {
