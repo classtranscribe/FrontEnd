@@ -56,7 +56,7 @@ export function CTModal({
   return show ? (
 
     <div className="ct-modal ct-d-c-center">
-      <div className="ct-mdl-wrapper"></div>
+      <div className="ct-mdl-wrapper" onClick={closeOnBlur ? handleClose : null}></div>
       <div id="ct-mdl-box" className={"ct-mdl-con" + modalStyle} data-scroll>
         {/* Header */}
         <div className="ct-mdl-h-con">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import _ from 'lodash'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { Button } from 'pico-ui'
 import { CTModal } from 'components'
 import { ORD_INIT, connectWithRedux } from '../../Utils'
 import './index.scss'
@@ -31,6 +32,7 @@ function OrderingModalWithRedux({
 
   const { type, name, items=[], icon, onSave } = ordering
   const [lisitems, setListItems] = useState(items)
+  const [orderby, setOrderby] = useState('')
 
   const handleClose = () => setOrdering(ORD_INIT)
   const handleSave = () => {
@@ -58,6 +60,17 @@ function OrderingModalWithRedux({
     )
 
     setListItems(lisitems_)
+    if (orderby) setOrderby('')
+  }
+
+  const orderByName = () => {
+    setListItems(_.sortBy(items, ['name']))
+    setOrderby('name')
+  }
+
+  const orderByDate = () => {
+    setListItems(_.sortBy(items, ['createdAt']))
+    setOrderby('date')
   }
 
   return (
@@ -67,23 +80,42 @@ function OrderingModalWithRedux({
       title={type}
     >
       {/* <h3 className="ip-om-name">{name}</h3> */}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId={'ip-ord-'+name}>
-          {provided => (
-            <div className="ip-om" data-scroll ref={provided.innerRef} {...provided.droppableProps}>
-              {lisitems.map((item, index) => (
-                <OrdItem 
-                  index={index} 
-                  item={item} 
-                  key={item.id} 
-                  icon={icon}
-                />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div className="ip-om" data-scroll>
+        <div className="w-100 ct-d-r-center-v mb-4">
+          <div className="mr-2 ml-3"><b>ORDER BY</b></div>
+          <Button outlined compact 
+            onClick={orderByDate} 
+            color={orderby === 'date' ? "teal" : ''}
+          >
+            DATE
+          </Button>
+          <Button outlined compact 
+            classNames="ml-2" 
+            color={orderby === 'name' ? "teal" : ''} 
+            onClick={orderByName}
+          >
+            NAME
+          </Button>
+        </div>
+
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId={'ip-ord-'+name}>
+            {provided => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {lisitems.map((item, index) => (
+                  <OrdItem 
+                    index={index} 
+                    item={item} 
+                    key={item.id} 
+                    icon={icon}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     </CTModal>
   )
 }
