@@ -45,9 +45,7 @@ export const mediaControl = {
     return false
   },
 
-  renameMedia: async function(media, newName) {
-    promptControl.saving()
-    
+  renameMedia: async function(media, newName) {    
     try {
       await api.renameMedia(media.id, newName)
       // update the local media object

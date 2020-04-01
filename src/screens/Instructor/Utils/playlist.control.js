@@ -82,9 +82,6 @@ export const plControl = {
   },
 
   renamePlaylist: async function(playlist, newName) {
-    // setup.loading()
-    promptControl.saving()
-
     try {
       playlist.name = newName
       await api.updatePlaylist(playlist)

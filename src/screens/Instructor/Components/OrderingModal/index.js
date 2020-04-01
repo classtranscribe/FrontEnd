@@ -81,8 +81,8 @@ function OrderingModalWithRedux({
     >
       {/* <h3 className="ip-om-name">{name}</h3> */}
       <div className="ip-om" data-scroll>
-        <div className="w-100 ct-d-r-center-v mb-4">
-          <div className="mr-2 ml-3"><b>ORDER BY</b></div>
+        <div className="w-100 ct-d-r-center-v mb-4 ml-3">
+          <div className="mr-2"><b>ORDER BY</b></div>
           <Button outlined compact 
             onClick={orderByDate} 
             color={orderby === 'date' ? "teal" : ''}
@@ -96,6 +96,10 @@ function OrderingModalWithRedux({
           >
             NAME
           </Button>
+        </div>
+
+        <div className="w-100 ct-d-r-center-v mb-1 mt-2 ml-3 text-muted">
+          <b>DRAG AND DROP ITEMS TO ORDER THR LIST</b>
         </div>
 
         <DragDropContext onDragEnd={onDragEnd}>
