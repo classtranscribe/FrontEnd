@@ -50,7 +50,6 @@ export class InstructorWithRedux extends React.Component {
 
   render() {
     const { sidebar, loading, ordering } = this.props
-    console.log('ordering', ordering)
     const paddingLeft = {
       paddingLeft: (sidebar && window.innerWidth > 900) ? '19em' : '0'
     }
