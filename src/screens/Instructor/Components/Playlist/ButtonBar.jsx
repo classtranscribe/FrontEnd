@@ -7,6 +7,10 @@ function ButtonBar({
   results=[],
   isSelectingVideos=false,
   selectedVideos=[],
+  filtering=false,
+  setFiltering,
+  upload=false,
+  onOpenUpload,
 }) {
 
   const handleSelectAll = () => {
@@ -30,8 +34,8 @@ function ButtonBar({
 
   const selectedAll = mediaControl.isSelectedAll(results, selectedVideos)
 
-  return results.length ? (
-    <div className="w-100 ip-p-btns mt-3">
+  return (
+    <div className="w-100 ip-p-btns mt-1">
       <div className="w-100 ct-btn-group ct-d-r-center-v ip-p-btns-con">
       {
         isSelectingVideos
@@ -39,17 +43,23 @@ function ButtonBar({
         <div className="ct-btn-group ct-d-r-center-v">
           <Button.Group>
             <Button uppercase
-              icon={selectedAll ? "close" : "check"}
+              icon={selectedAll ? "check_box" : "check_box_outline_blank"}
               color="yellow"
-              text={selectedAll ? "Remove All" : "Select All"}
+              text="Select All"
               onClick={handleSelectAll}
             />
             <Button uppercase
-              //icon="delete"
+              icon="delete"
               color="red transparent"
               text="Delete"
               disabled={mediaControl.selectedVideosLength() === 0}
               onClick={handleDeleteVideos}
+            />
+            <Button uppercase
+              icon={filtering ? "close" : "search"}
+              text="Filter Videos"
+              color={filtering ? "" : "transparent"}
+              onClick={() => setFiltering(!filtering)}
             />
             <Button uppercase
               text="Cancel"
@@ -60,16 +70,40 @@ function ButtonBar({
         </div>
         :
         <div className="ct-btn-group ct-d-r-center-v">
+          {
+            upload
+            &&
+            <Button uppercase
+              classNames="mr-2"
+              icon="add"
+              text="upload videos"
+              color="teal"
+              onClick={onOpenUpload}
+            />
+          }
           <Button uppercase
+            icon="check_box_outline_blank"
             text="Select"
-            color="transparent teal"
+            color="transparent"
             onClick={handleOpenSelect}
+          />
+          <Button uppercase
+            icon="format_list_numbered"
+            text="order videos"
+            color="transparent"
+            onClick={null}
+          />
+          <Button uppercase
+            icon={filtering ? "close" : "search"}
+            text="Filter Videos"
+            color={filtering ? "" : "transparent"}
+            onClick={() => setFiltering(!filtering)}
           />
         </div>
       }
       </div>
     </div>
-  ) : null
+  )
 }
 
 export default connectWithRedux(
