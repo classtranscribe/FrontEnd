@@ -327,7 +327,22 @@ class Epub {
       language: this.language,
       title: setup.media().mediaName
     })
-    epubDownloader.download()
+
+    epubDownloader.download({
+      onError: error => {
+        if (error.message === 'Network Error') {
+          error.message += ': Failed to download cover images.'
+        } else {
+          error.message += 'Failed to download the ePub file.'
+        }
+
+        prompt.addOne({ 
+          text: error.message,
+          status: 'error',
+          position: 'bottom left'
+        })
+      }
+    })
   }
 
 
