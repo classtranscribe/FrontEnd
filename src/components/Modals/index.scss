@@ -67,8 +67,12 @@
     box-shadow: 0 0 10px rgba(27, 27, 27, 0.089);
     overflow-x: hidden;
     overflow-y: auto;
-    animation: ctmdl-show 100ms linear;
+    animation: ctmdl-show 50ms linear;
+    -o-animation: ctmdl-show 50ms linear;
+    -moz-animation: ctmdl-show 50ms linear;
+    -webkit-animation: ctmdl-show 50ms linear;
     z-index: 1;
+    display: none;
 
     &.large {
       width: 60vw;
@@ -79,8 +83,19 @@
       min-width: 400px;
     }
 
+    &.ctmdl-open {
+      display: block;
+      animation: ctmdl-show 50ms linear;
+      -o-animation: ctmdl-show 50ms linear;
+      -moz-animation: ctmdl-show 50ms linear;
+      -webkit-animation: ctmdl-show 50ms linear;
+    }
+
     &.ctmdl-close {
-      animation: ctmdl-hide 100ms linear;
+      animation: ctmdl-hide 50ms linear;
+      -o-animation: ctmdl-hide 50ms linear;
+      -moz-animation: ctmdl-hide 50ms linear;
+      -webkit-animation: ctmdl-hide 50ms linear;
     }
 
     // Header
@@ -127,27 +142,43 @@
 }
 
 @keyframes ctmdl-show {
-  0% { transform: translateY(30px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% { transform: scale(.5); opacity: 0; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@-o-keyframes ctmdl-hide {
+  0% { transform: scale(.5); opacity: 0; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(1); opacity: 1; }
 }
 @-moz-keyframes ctmdl-show {
-  0% { transform: translateY(30px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% { transform: scale(.5); opacity: 0; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(1); opacity: 1; }
 }
 @-webkit-keyframes ctmdl-show {
-  0% { transform: translateY(30px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% { transform: scale(.5); opacity: 0; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes ctmdl-hide {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(30px); opacity: 0; }
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(.5); opacity: 0; }
+}
+@-o-keyframes  ctmdl-hide {
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(.5); opacity: 0; }
 }
 @-moz-keyframes ctmdl-hide {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(30px); opacity: 0; }
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(.5); opacity: 0; }
 }
 @-webkit-keyframes ctmdl-hide {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(30px); opacity: 0; }
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(.8); opacity: .2; }
+  100% { transform: scale(.5); opacity: 0; }
 }

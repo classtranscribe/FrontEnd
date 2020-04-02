@@ -74,7 +74,7 @@ function OrderingModalWithRedux({
   }
 
   return (
-    <CTModal show middle
+    <CTModal show middle closeOnBlur
       onClose={handleClose} 
       onSave={handleSave}
       title={type}

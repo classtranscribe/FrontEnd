@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
 import './index.scss'
@@ -48,9 +48,18 @@ export function CTModal({
       modalEl.classList.add('ctmdl-close')
       setTimeout(() => {
         if (onClose) onClose()
-      }, 100);
+      }, 50);
     }
   }
+
+  useEffect(() => {
+    if (show) {
+      let modalEl = document.getElementById('ct-mdl-box')
+      if (modalEl) {
+        modalEl.classList.add('ctmdl-open')
+      }
+    }
+  }, [show])
 
   let modalStyle = large ? ' large' : middle ? ' middle' : ''
   return show ? (
