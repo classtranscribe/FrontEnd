@@ -14,7 +14,7 @@ export function testAccountSignIn() {
 }
 
 export function loginAsAccountSignIn(emailId) {
-    return cthttp.get('Account/LoginAs', { emailId })
+    return cthttp.post('Account/LoginAs', { emailId })
 }
 
 // ------------------------------------------------------------
