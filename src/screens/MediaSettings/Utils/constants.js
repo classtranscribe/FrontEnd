@@ -8,7 +8,9 @@ export const mspTabs = [
 ]
 
 /** Epub */
-export const TEXT_SEP = '__TEXT_SEP__'
-export const textSepRegex = /__TEXT_SEP__/gi
 // epub chapters
 export const NEW_CHAPTER = { id: 'msp-new-chapter' }
+
+
+// Errors
+export const NO_EPUB = 'no-epub'

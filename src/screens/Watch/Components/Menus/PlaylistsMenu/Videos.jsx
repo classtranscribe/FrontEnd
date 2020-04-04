@@ -4,7 +4,7 @@ import { VideoCard, PlaceHolder } from '../../../../../components'
 import { api, util } from '../../../../../utils'
 
 function Videos({
-  playlist,
+  // playlist,
   currMediaId='',
   watchHistory=[],
   currPlaylist={},
@@ -16,7 +16,11 @@ function Videos({
     util.scrollToCenter(
       '#'+currMediaId, 
       true, 
-      util.scrollToTop('.watch-videos-list')
+      () => {
+        if (medias && medias[0]) {
+          util.scrollToCenter('#' + medias[0].id, true, () => util.scrollToTop('.watch-videos-list'))
+        }
+      }
     )
   }, [currPlaylist])
 

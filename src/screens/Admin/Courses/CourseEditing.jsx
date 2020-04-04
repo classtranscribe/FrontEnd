@@ -3,11 +3,13 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 // UI
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components'
-import { Grid, Form, Input, TextArea } from 'semantic-ui-react'
+import { Grid, Form, Input } from 'semantic-ui-react'
 // Vars
-import { api, handleData, util } from '../../../utils'
+import { api, util } from '../../../utils'
+import { updateJson } from '../helpers'
 const { initialCourse } = api.initialData
 
 export default class CourseEditing extends React.Component {
@@ -18,8 +20,8 @@ export default class CourseEditing extends React.Component {
       isNew: this.props.match.params.type === 'new',
       loading: true,
 
-      course: handleData.copy(initialCourse),
-      courseInfo: handleData.copy(initialCourse),
+      course: _.clone(initialCourse),
+      courseInfo: _.clone(initialCourse),
       confirmed: false,
     }
   }
@@ -46,7 +48,7 @@ export default class CourseEditing extends React.Component {
 
   onUpdate = () => {
     const { course, courseInfo, id } = this.state
-    var data = handleData.updateJson(courseInfo, course)
+    var data = updateJson(courseInfo, course)
     data.id = id
     api.updateCourse(data).then(() => this.onSave())
   }
@@ -84,7 +86,7 @@ export default class CourseEditing extends React.Component {
 }
 
 function CourseForm({ state: {isNew, course, loading}, onChange}) {
-  if (isNew) course = handleData.copy(initialCourse)
+  if (isNew) course = _.clone(initialCourse)
   return (
     <Form className="ap-form">
       {!loading || isNew ? 

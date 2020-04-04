@@ -7,7 +7,8 @@
   z-index: 1002;
 
   .msp-sub-h {
-    border-bottom: var(--ct-border-color);
+    // border-bottom: var(--ct-border-color);
+    box-shadow: 0 0 10px rgba(165, 185, 187, 0.308);
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -23,7 +24,7 @@
         // font-weight: bold;
         font-size: 1.5em;
         font-family: var(--ct-font-narrow);
-        max-width: 150px;
+        max-width: 160px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;

@@ -1,36 +1,38 @@
 import _ from 'lodash'
-import { api, util } from '../../../utils'
-import { TAB_DEFAULT } from './constants'
+import { api, util, user } from '../../../utils'
+// import { } from './constants'
 
 class SetupMSP {
   constructor() {
     this.redux = {}
-
-    this.tab_ = TAB_DEFAULT
     this.media_ = api.parseMedia()
+    this.error_ = null
   }
 
   init(props) {
     const { 
-      setTab, setMedia, 
+      setMedia, setError,
       history, location 
     } = props
 
     this.redux = { 
-      setTab, setMedia, 
+      setMedia, setError,
       history, location 
     }
   }
 
-  tab(tab_) {
-    if (tab_ === undefined) return this.tab_
-    const { setTab, location } = this.redux
-    if (setTab) {
-      setTab(tab_)
-      this.tab_ = tab_
-      window.history.replaceState(
-        {}, document.title, location.pathname + `#tab=${tab_}`
-      )
+  verifyUser() {
+    if (!user.isAdmin()) {
+      window.location = util.links.notfound404()
+    }
+  }
+
+  error(error_) {
+    if (error_ === undefined) return this.error_
+    const { setError } = this.redux
+    if (setError) {
+      setError(error_)
+      this.error_ = error_
     }
   }
 
@@ -52,10 +54,10 @@ class SetupMSP {
     }
   }
 
-  async setupMedia(mediaId, tab) {
-    // console.log('mediaId', mediaId, tab)
+  async setupMedia(mediaId) {
+    // console.log('mediaId', mediaId)
     util.links.title('Media Settings')
-    this.tab(tab || TAB_DEFAULT)
+    this.error(null)
 
     let media = await this.getMedia(mediaId)
     if (!media.id) {

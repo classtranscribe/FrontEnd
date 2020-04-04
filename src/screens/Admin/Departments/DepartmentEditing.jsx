@@ -3,11 +3,13 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 // UI
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components'
 import { Grid, Form, Input } from 'semantic-ui-react'
 // Vars
-import { api, handleData, util } from '../../../utils'
+import { api, util } from '../../../utils'
+import { updateJson } from '../helpers'
 const { initialDepart } = api.initialData
 
 export default class DepartmentEditing extends React.Component {
@@ -18,8 +20,8 @@ export default class DepartmentEditing extends React.Component {
       isNew: this.props.match.params.type === 'new',
       loading: true,
 
-      depart: handleData.copy(initialDepart),
-      departInfo: handleData.copy(initialDepart),
+      depart: _.clone(initialDepart),
+      departInfo: _.clone(initialDepart),
       confirmed: false,
     }
     this.path = 'Departments'
@@ -47,7 +49,7 @@ export default class DepartmentEditing extends React.Component {
 
   onUpdate = () => {
     const { depart, departInfo, id } = this.state
-    var data = handleData.updateJson(departInfo, depart)
+    var data = updateJson(departInfo, depart)
     data.id = id
     api.updateDepartment(data).then(() => this.onClose())
   }

@@ -1,0 +1,57 @@
+////////////////////////////////////////////////////////////
+// ePub Preview
+////////////////////////////////////////////////////////////
+.msp-ee-ep-con {
+  width: 45%;
+  padding: 60px 30px 150px 30px;
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 91px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 200ms linear;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+
+  &[data-editing=false] {
+    width: 77%;
+    margin-right: 0;
+    padding-top: 0;
+    padding-right: 20px;
+  }
+}
+
+.msp-ee-ep-tb {
+  position: relative;
+  margin-left: 20px;
+  float: right;
+  width: 250px;
+  height: max-content;
+  max-width: 19vw;
+  padding: 50px 10px 20px 10px;
+  height: calc(100vh - 91px);
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .ee-ep-tb-top-holder {
+    height: 200px;
+  }
+
+  .ee-tb-btn {
+    width: 100%;
+    &.ee-tb-btn-me {
+      margin-top: 1rem;
+      &:hover .pico-btn-con {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.384);
+      }
+    }
+  }
+
+  .ee-tb-btns {
+    margin-top: 1rem;
+  }
+}

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { DateRangePicker } from 'react-dates'
 import { Button } from 'semantic-ui-react'
-import { api, handleData } from '../../../utils'
+import { api } from '../../../utils'
 import moment from 'moment'
-var fileDownload = require('js-file-download');
+import { momentToISOString } from '../helpers'
+var fileDownload = require('js-file-download')
 
 export default function DownloadLogs() {
 
@@ -26,8 +27,8 @@ export default function DownloadLogs() {
 
   const onDownload = async () => {
     setDownloading(true)
-    const from = handleData.momentToISOString(startDate)
-    const to = handleData.momentToISOString(endDate)
+    const from = momentToISOString(startDate)
+    const to = momentToISOString(endDate)
     const { data } = await api.adminGetLogs(from, to)
     var filename = `logs (${from.slice(0, 10)} to ${to.slice(0, 10)}).csv`
     fileDownload(data, filename)

@@ -284,7 +284,7 @@ export const transControl = {
   /**
    * Function called when editing selected caption
    */
-  edit: function(caption) {
+  edit: function(caption, innerText) {
     // if no param caption, edit current caption
     if (caption === undefined) caption = this.currCaption_
     const { setCurrEditing } = this.externalFunctions
@@ -292,7 +292,7 @@ export const transControl = {
     if (setCurrEditing) {
       setCurrEditing(caption)
       this.currEditing_ = caption
-      if (Boolean(caption)) this.editText = caption.text
+      if (Boolean(caption)) this.editText = innerText || caption.text
       if (preferControl.pauseWhileEditing()) videoControl.pause()
     }
   },

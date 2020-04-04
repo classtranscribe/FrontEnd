@@ -1,16 +1,21 @@
 import _ from 'lodash'
-import { api, util } from '../../../utils'
-import { TEXT_SEP, textSepRegex } from './constants'
+import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
+import { NO_EPUB } from './constants'
+import { setup } from './setup'
+import { ENGLISH } from 'screens/Watch/Utils'
+import { v4 as uuidv4 } from 'uuid'
 
 class Epub {
   constructor() {
     this.redux = {}
+    this.stateFunc = {}
+    this.mediaId = ''
 
     this.epubData_ = []
     this.oldEpubData_ = []
-    this.isSettingEpub_ = false
+    this.isEditingEpub_ = false
 
-    this.textsToSave_ = []
+    this.textToSave_ = []
   }
 
   /**
@@ -19,11 +24,23 @@ class Epub {
    */
   init(props) {
     const { 
-      setEpubData, setIsSettingEpub
+      setEpubData, setIsEditingEpub
     } = props
 
     this.redux = { 
-      setEpubData, setIsSettingEpub
+      setEpubData, setIsEditingEpub
+    }
+  }
+
+  register(functions={}) {
+    this.stateFunc = { ...this.stateFunc, ...functions }
+  }
+  
+  setState(funcName, stateName, value) {
+    const setState = this.stateFunc[funcName]
+    if (setState) {
+      setState(value)
+      this[stateName] = value
     }
   }
 
@@ -42,16 +59,16 @@ class Epub {
   }
 
   /**
-   * Function used to set or get `isSettingEpub`
-   * @param {Boolean|Undefined} isSettingEpub true if reset the chapters
-   * @returns {Boolean|Undefined} returns the current `isSettingEpub` if no params is passed in
+   * Function used to set or get `isEditingEpub`
+   * @param {Boolean|Undefined} isEditingEpub true if reset the chapters
+   * @returns {Boolean|Undefined} returns the current `isEditingEpub` if no params is passed in
    */
-  isSettingEpub(isSettingEpub_) {
-    if (isSettingEpub_ === undefined) return this.isSettingEpub_
-    const { setIsSettingEpub } = this.redux
-    if (setIsSettingEpub) {
-      setIsSettingEpub(isSettingEpub_)
-      this.isSettingEpub_ = isSettingEpub_
+  isEditingEpub(isEditingEpub_) {
+    if (isEditingEpub_ === undefined) return this.isEditingEpub_
+    const { setIsEditingEpub } = this.redux
+    if (setIsEditingEpub) {
+      setIsEditingEpub(isEditingEpub_)
+      this.isEditingEpub_ = isEditingEpub_
     }
   }
 
@@ -60,57 +77,221 @@ class Epub {
    * ****************************************************************
    */
 
-  texts(texts_) {
-    if (texts_ === undefined) return this.textsToSave_
-    this.textsToSave_ = texts_
-  }
-  textsCopy() {
-    return this.textsToSave_.map(txt => ({ ...txt }))
-  }
+  
+
   /**
-   * Function used to save new text of a chapter
-   * @param {Integer} index 
-   * @param {Array.Integer} texts 
+   * Functions used for managing the epub chapters
+   * ****************************************************************
    */
-  saveTextEdit(id, title='') {
-    let epubdata = this.epubData()
-    let index = _.findIndex(epubdata, { id })
-    if (index >= 0) {
-      epubdata[index].title = title
-      epubdata[index].text = this.texts().map(t => t.text).join(TEXT_SEP)
-      this.epubData([ ...epubdata ])
+
+  currChapter = {}
+  setCurrChapter(currChapter) {
+    this.setState('setCurrChapter', 'currChapter', currChapter)
+  }
+
+  chapters = []
+  setChapters(chapters) {
+    this.setState('setChapters', 'chapters', chapters)
+  }
+
+  language = ENGLISH
+  setLanguage(language) {
+    this.setState('setLanguage', 'language', language)
+  }
+
+  coverImgs = []
+  setCoverImgs(coverImgs) {
+    this.setState('setCoverImgs', 'coverImgs', coverImgs)
+  }
+
+  magnifiedImg = null
+  setMagnifiedImg(magnifiedImg) {
+    this.setState('setMagnifiedImg', 'magnifiedImg', magnifiedImg)
+  }
+
+  foldedIds = []
+  setFoldedIds(foldedIds) {
+    this.setState('setFoldedIds', 'foldedIds', foldedIds)
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Generate a chapter based on list of screenshots and transcriptions
+  ///////////////////////////////////////////////////////////////////////////
+  genChaperFromItems(chapter) {
+    return {
+      id: chapter.id,
+      title: chapter.title || 'Untitled Chapter',
+      image: chapter.image || (chapter.items[0] || {}).image,
+      items: chapter.items,
+      text: _.filter(_.map(chapter.items, item => item.text), txt => txt !== '').join('\n\n')
     }
   }
 
-  cancelTextEdit() {
-    this.epubData([ ...this.epubData() ])
+  ///////////////////////////////////////////////////////////////////////////
+  // Handle change chapters
+  ///////////////////////////////////////////////////////////////////////////
+  changeChapter(chapter) {
+    this.setCurrChapter(this.genChaperFromItems(chapter))
   }
 
-  /**
-   * Functions used for handling chapter combining
-   * ****************************************************************
-   */
-  combine(priChapter, secChapter) {
-    priChapter.text += TEXT_SEP + secChapter.text
-    // _.findIndex(this.epubData(), priChapter)
-    // @TODO
-    // add currChapter as a redux state
+  ///////////////////////////////////////////////////////////////////////////
+  // Handle split chapters
+  ///////////////////////////////////////////////////////////////////////////
+  untitledNum = 0
+  splitChapter(chapterIndex, itemIndex) {
+    let chapters = this.chapters
+    let items = chapters[chapterIndex].items
+    chapters[chapterIndex].items = _.slice(items, 0, itemIndex + 1)
+    let newChapter = {}
+    newChapter.items = _.slice(items, itemIndex + 1, items.length)
+    newChapter.id = epub.genId('epub-ch')
+    newChapter.title = 'Untitled Chapter' + (this.untitledNum === 0 ? '' : ' ' + this.untitledNum)
+    this.untitledNum += 1
+
+    // Check if the cover of the curr chapter is in the splitted new chapter
+    let cover = chapters[chapterIndex].image
+    if (cover && _.findIndex(newChapter.items, { image: cover }) >= 0) {
+      chapters[chapterIndex].image = undefined
+    }
+
+    this.setChapters([
+      ..._.slice(chapters, 0, chapterIndex+1),
+      newChapter,
+      ..._.slice(chapters, chapterIndex+1, chapters.length),
+    ])
+    this.changeChapter(newChapter)
   }
 
-  /**
-   * Functions used for re-setting the epub chapters
-   * ****************************************************************
-   */
+  undoSplitChapter(chapterIndex) {
+    let chapters = this.chapters
+    let currItems = chapters[chapterIndex].items
+    let prevItems = chapters[chapterIndex - 1].items
+    chapters[chapterIndex - 1].items = [ ...prevItems, ...currItems ]
+    this.setChapters([
+      ..._.slice(chapters, 0, chapterIndex),
+      ..._.slice(chapters, chapterIndex+1, chapters.length),
+    ])
+    this.changeChapter(chapters[chapterIndex - 1])
+  }
+
+  undoAllSplit() {
+    let defaultChapter = { items: this.epubData(), title: 'Default Chapter', id: this.genId('epub-ch') }
+    this.setChapters([ defaultChapter ])
+    this.changeChapter(defaultChapter)
+    prompt.addOne({
+      text: 'Reset to the default chapters.',
+      position: 'left bottom',
+      timeout: 2000,
+    })
+  }
+  
+  splitByScreenshots() {
+    let splitChapters = _.map(
+      this.epubData(), 
+      (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: this.genId('epub-ch')})
+    )
+    this.setChapters(splitChapters)
+    this.changeChapter(splitChapters[0])
+    prompt.addOne({
+      text: 'Split the chapters by screenshots.',
+      position: 'left bottom',
+      timeout: 2000,
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // handle edit title
+  ///////////////////////////////////////////////////////////////////////////
+  handleTitleChange(chapterIndex, value) {
+    this.chapters[chapterIndex].title = value
+    this.setChapters([ ...this.chapters ])
+    this.changeChapter(this.chapters[chapterIndex])
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // handle choosing cover image
+  ///////////////////////////////////////////////////////////////////////////
+  pickCoverImage() {
+    this.setCoverImgs(_.map(this.currChapter.items, item => item.image))
+  }
+
+  closeCoverImagePicker() {
+    this.setCoverImgs([])
+  }
+
+  saveCoverImage(image) {
+    let chapterId = this.currChapter.id
+    let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
+    // console.log(image, chapterId, chapterIndex)
+    if (chapterIndex >= 0) {
+      this.chapters[chapterIndex].image = image
+      this.currChapter.image = image
+      this.setChapters([ ...this.chapters ])
+      this.setCurrChapter({ ...this.currChapter })
+    }
+    this.closeCoverImagePicker()
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // handle fold/unfold a chapter
+  ///////////////////////////////////////////////////////////////////////////
+  foldChapter(id) {
+    this.setFoldedIds([ ...this.foldedIds, id ])
+  }
+
+  unfoldChapter(id) {
+    _.remove(this.foldedIds, fid => fid === id)
+    this.setFoldedIds([ ...this.foldedIds ])
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // handle language change
+  ///////////////////////////////////////////////////////////////////////////
+  changeLanguage(lang) {
+    this.setLanguage(lang)
+    this.setChapters(ARRAY_INIT)
+    this.changeEpubLanguage(lang)
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // handle magnify images
+  ///////////////////////////////////////////////////////////////////////////
+  magnifyImage(image) {
+    this.setMagnifiedImg(image)
+  }
+  endMagnifyImage() {
+    this.setMagnifiedImg(null)
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // handle save ePub
+  ///////////////////////////////////////////////////////////////////////////
+  saveChapters = () => {
+    let newEpub = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
+    console.log('newEpub', newEpub)
+    this.isEditingEpub(false)
+    prompt.addOne({
+      text: 'ePub chapters saved.',
+      status: 'success',
+      position: 'left bottom',
+      timeout: 3000,
+    })
+  }
+
+  cancelEditChapters = () => {
+    this.isEditingEpub(false)
+  }
+
 
   /**
    * Function used to begin reset epub chapters
    */
   resetEpub() {
-    if (this.isSettingEpub()) return
+    if (this.isEditingEpub()) return
 
     this.oldEpubData_ = [...this.epubData_]
     // console.log('this.epubData_', this.oldEpubData_)
-    this.isSettingEpub(true)
+    this.isEditingEpub(true)
     this.epubData([])
   }
 
@@ -118,11 +299,11 @@ class Epub {
    * Function used to cancel reset epub chapters
    */
   cancelResetEpub() {
-    if (!this.isSettingEpub()) return
+    if (!this.isEditingEpub()) return
 
     // console.log('this.epubData_', this.oldEpubData_)
     this.epubData(this.oldEpubData_)
-    this.isSettingEpub(false)
+    this.isEditingEpub(false)
     this.oldEpubData_ = []
   }
 
@@ -130,10 +311,23 @@ class Epub {
    * Function used to save new epub chapters
    */
   saveResetEpub() {
-    if (!this.isSettingEpub()) return
+    if (!this.isEditingEpub()) return
 
-    this.isSettingEpub(false)
+    this.isEditingEpub(false)
     this.oldEpubData_ = []
+  }
+
+  download() {
+    let chapters = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
+
+    const epubDownloader = new CTEpubGenerator({ 
+      chapters,
+      filename: setup.media().mediaName + '.epub', 
+      author: 'Test Instructor', 
+      language: this.language,
+      title: setup.media().mediaName
+    })
+    epubDownloader.download()
   }
 
 
@@ -142,15 +336,7 @@ class Epub {
    * ****************************************************************
    */
   genId(prefx='auto-id') {
-    return `${prefx}-${Math.random()}`
-  }
-
-  formatText(text='') {
-    return _.replace(text, textSepRegex, ' ')
-  }
-
-  splitText(text='') {
-    return text.split(TEXT_SEP).map((t, i) => ({ text: t, id: 'msp-e-v-text-'+i }))
+    return `${prefx}-${uuidv4()}`
   }
 
   parseChapter(epub, index) {
@@ -165,20 +351,41 @@ class Epub {
     return _.map(epubData, this.parseChapter)
   }
 
+  async requestEpub(mediaId) {
+    try {
+      await api.requestEpubCreation(mediaId)
+      // set to prevent repeated request
+      localStorage.setItem(NO_EPUB, 'true')
+    } catch (error) {
+      console.error('Failed to request a epub for ' + mediaId)
+    }
+  }
+
   /**
    * Function used to get epub data given mediaId
    * @param {String} mediaId id of the media
    */
-  async getEpubData(mediaId) {
+  async getEpubData(mediaId, language) {
     try {
-      let { data=[] } = await api.getEpubData(mediaId)
+      let { data=[] } = await api.getEpubData(mediaId, language)
+      // clear localstorage
+      if (localStorage.getItem(NO_EPUB) === 'true') {
+        localStorage.removeItem(NO_EPUB)
+      }
       return this.parseEpubData(data)
     } catch (error) {
-      console.error('Failed to get ePub data of media ' + mediaId)
+      console.error('Failed to get ePub data of media for ' + mediaId)
+      setup.error(NO_EPUB)
       // await api.requestEpubCreation(mediaId)
     }
 
-    return []
+    return ARRAY_INIT
+  }
+
+  async changeEpubLanguage(language) {
+    this.epubData(ARRAY_INIT)
+    let epubData = await this.getEpubData(this.mediaId, language)
+    this.epubData(epubData)
   }
 
   /**
@@ -186,8 +393,10 @@ class Epub {
    * @param {String} mediaId id of the media
    */
   async setupEpub(mediaId) {
+    this.mediaId = mediaId
     let epubData = await this.getEpubData(mediaId)
     this.epubData(epubData)
+    // this.isEditingEpub(true)
   }
 }
 
