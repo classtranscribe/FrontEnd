@@ -50,7 +50,7 @@ function VideoView({
       </h2>
 
       <div role="list">
-        {(medias.slice() || []).reverse().map( media => (
+        {(medias || []).slice().reverse().map( media => (
           <Video 
             key={media.id} 
             media={media} 
