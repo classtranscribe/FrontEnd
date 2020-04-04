@@ -48,8 +48,8 @@ export function CTSearch({
 
   const handleSearch = value => {
     if (value === '') return setOpts(options)
-    let isMatch = search.getMatchFunction(value, ['text', 'value'])
-    let searchedOpts = _.filter( options, isMatch )
+    // let isMatch = search.getMatchFunction(value, ['text', 'value'])
+    let searchedOpts = search.getResults(options, value, ['text', 'value'])//_.filter( options, isMatch )
     setOpts(searchedOpts)
   }
 

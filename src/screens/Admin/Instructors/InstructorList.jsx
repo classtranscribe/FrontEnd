@@ -4,7 +4,12 @@ import { Button } from 'semantic-ui-react'
 import { search } from '../../../utils'
 import { AdminListItem } from '../Components'
 
-export default function InstructorList({ instructors, loading, currUni, onInactive }) {
+export default function InstructorList({ 
+  instructors, 
+  loading, 
+  currUni, 
+  onInactive 
+}) {
   const [result, setResult] = useState([])
 
   useEffect(() => {
@@ -13,7 +18,13 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
 
   const onSearch = (keyCode) => {
     if (keyCode === 13) {
-      setResult(search.getInstructorResult(instructors, $('#inst-filter')[0].value))
+      setResult(
+        search.getResults(
+          instructors, 
+          $('#inst-filter')[0].value,
+          ['firstName', 'lastName', 'email']
+        )
+      )
     }
   }
 

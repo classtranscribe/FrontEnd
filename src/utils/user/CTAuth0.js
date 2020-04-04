@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import { env } from '../env';
 
-class Auth0 {
+export class CTAuth0 {
   constructor() {
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
@@ -71,7 +71,3 @@ class Auth0 {
     })
   }
 }
-
-const auth0Client = new Auth0();
-
-export default auth0Client;

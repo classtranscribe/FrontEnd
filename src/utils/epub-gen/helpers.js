@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
-import { api } from 'utils/HTTP'
+import { api } from '../cthttp'
 
 import { 
   OEBPS_TOC_NCX,

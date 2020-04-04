@@ -11,7 +11,8 @@ import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
 // Vars
 import moment from 'moment'
-import { api, handleData, util } from '../../../utils'
+import { api, util } from '../../../utils'
+import { momentToISOString, updateJson } from '../helpers'
 const { initialTerm } = api.initialData
 
 
@@ -23,8 +24,8 @@ export default class TermEditing extends React.Component {
       isNew: this.props.match.params.type === 'new',
       loading: true,
 
-      term: handleData.copy(initialTerm),
-      termInfo: handleData.copy(initialTerm),
+      term: { ...initialTerm },
+      termInfo: { ...initialTerm },
       confirmed: false,
       date: new Date(),
       focusedInput: null
@@ -66,8 +67,8 @@ export default class TermEditing extends React.Component {
     const { termInfo, id } = this.state
     termInfo.universityId = id
 
-    termInfo.startDate = handleData.momentToISOString(termInfo.startDate)
-    termInfo.endDate = handleData.momentToISOString(termInfo.endDate)
+    termInfo.startDate = momentToISOString(termInfo.startDate)
+    termInfo.endDate = momentToISOString(termInfo.endDate)
 
     // console.log(termInfo)
     api.createTerm(termInfo).then(() => this.onClose())
@@ -75,11 +76,11 @@ export default class TermEditing extends React.Component {
 
   onUpdate = () => {
     const { term, termInfo, id } = this.state
-    var data = handleData.updateJson(termInfo, term)
+    var data = updateJson(termInfo, term)
 
     data.id = id
-    data.startDate = handleData.momentToISOString(termInfo.startDate)
-    data.endDate = handleData.momentToISOString(termInfo.endDate)
+    data.startDate = momentToISOString(termInfo.startDate)
+    data.endDate = momentToISOString(termInfo.endDate)
 
     api.updateTerm(data).then(() => this.onClose())
   }
