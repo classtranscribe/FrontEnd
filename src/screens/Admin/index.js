@@ -196,7 +196,7 @@ export class Admin extends React.Component {
       { menuItem: 'Universities'  , render: () => <UniPane {...this} /> },
       { menuItem: 'Terms'         , render: () => <TermPane {...this} /> },
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
-      { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> },
+      { menuItem: 'Course Template'       , render: () => <CoursePane {...this} /> },
       { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />},
       { menuItem: 'More'          , render: () => <More {...this} />},
       { menuItem: 'Login As User' , render: () => <LoginAsUser {...this} />}
