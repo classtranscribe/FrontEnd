@@ -7,7 +7,8 @@ import React from 'react'
 import { SubmitButton, EditButtons, GeneralModal } from '../Components'
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 // Vars
-import { api, handleData, util } from '../../../utils'
+import { api, util } from '../../../utils'
+import { updateJson } from '../helpers'
 const { initialUni } = api.initialData
 
 export default class UniversityEditing extends React.Component {
@@ -18,8 +19,8 @@ export default class UniversityEditing extends React.Component {
       isNew: this.props.match.params.type === 'new',
       loading: true,
 
-      uni: handleData.copy(initialUni),
-      uniInfo: handleData.copy(initialUni),
+      uni: { ...initialUni },
+      uniInfo: { ...initialUni },
       confirmed: false,
     }
   }
@@ -45,7 +46,7 @@ export default class UniversityEditing extends React.Component {
 
   onUpdate = () => {
     const { uni, uniInfo, id } = this.state
-    var data = handleData.updateJson(uniInfo, uni)
+    var data = updateJson(uniInfo, uni)
     data.id = id
     api.updateUniversity(data).then(() => this.onClose())
   }
