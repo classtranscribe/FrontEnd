@@ -1,5 +1,5 @@
 import { isBrowser } from 'react-device-detect'
-import { api } from '../HTTP'
+import { api } from '../http'
 
 export const storage = {
   // keys

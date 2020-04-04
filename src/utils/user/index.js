@@ -6,7 +6,7 @@
 import _ from 'lodash'
 import decoder from 'jwt-decode'
 import auth0Client from './auth0'
-import { api } from '../HTTP'
+import { api } from '../http'
 import { util } from '../index'
 import { env } from 'utils/env'
 

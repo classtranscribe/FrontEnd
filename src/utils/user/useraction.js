@@ -1,4 +1,4 @@
-import { api } from "../HTTP"
+import { api } from "../http"
 
 export const UA_TIME_UPDATE = 'timeupdate'
 export const UA_PLAY = 'play'
