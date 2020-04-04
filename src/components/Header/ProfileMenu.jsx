@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
 import { Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
 import { Image } from 'semantic-ui-react'
-import { util, user, api, handleData, env } from '../../utils'
+import { util, user, api, env } from '../../utils'
 import { styles } from './styles'
 
 import MenuTrigger from './MenuTrigger'
@@ -51,7 +52,8 @@ export default function ProfileMenu({
 
   const isLoggedIn = user.isLoggedIn()
   const { fullName, universityId, picture, roles } = user.getUserInfo()
-  const uniName = handleData.findById(universities, universityId).name
+  let uni = _.find(universities, { id: universityId })
+  let uniName = uni ? uni.name : ''
 
   const open = Boolean(anchorEl)
 

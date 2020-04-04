@@ -42,7 +42,6 @@ export class WatchWithRedux extends React.Component {
     const { id } = util.parseSearchQuery()
     this.id = id
     if (!id) window.location = util.links.notfound404()
-    util.removeStoredOfferings()
 
     /** Init controls */
     setup.init(props)

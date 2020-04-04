@@ -3,8 +3,9 @@
  */
 
 import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
 import { Route } from 'react-router-dom'
-import { api, handleData } from '../../../utils'
+import { api } from '../../../utils'
 // UI
 import InstructorEditing from './InstructorEditing'
 import InstructorList from './InstructorList'
@@ -19,7 +20,7 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
 
   const onUniSelect = ({value}) => {
     setLoading(true)
-    setCurrUni(() => handleData.findById(universities, value))
+    setCurrUni(() => _.find(universities, { id: value }))
     api.getRolesByUniId(value).then(({data}) => {
       setInstructors(() => data)
       // console.log('instructors', data)

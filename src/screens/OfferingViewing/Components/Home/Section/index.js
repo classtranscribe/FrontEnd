@@ -9,12 +9,7 @@ import StarredSection from './StarredSection'
 import HistorySection from './HistorySection'
 import './index.css'
 // Vars
-import { handleData, util } from '../../../../../utils'
-
-function isThisSection(offering, departmentId) {
-  if (handleData.find(offering.courses, { departmentId })) return true
-  return false
-}
+import { util } from '../../../../../utils'
 
 function Section({ history, depart={}, state, offerings=[], starredOfferings=[], watchHistory=[], type, ...functions }) {
   const { universities } = state
