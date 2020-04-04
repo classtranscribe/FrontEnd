@@ -24,7 +24,7 @@ class CTHTTPRequest {
      * HTTP request GET
      * @param {string} pathname 
      * @param {AxiosRequestConfig} config 
-     * @returns {AxiosResponse}
+     * @returns {Promise<AxiosResponse<any>>}
      */
     get(pathname, config={}) {
         return this.request().get('/api/' + pathname, config)
@@ -35,7 +35,7 @@ class CTHTTPRequest {
      * @param {string} pathname 
      * @param {Object} data
      * @param {AxiosRequestConfig} config 
-     * @returns {AxiosResponse}
+     * @returns {Promise<AxiosResponse<any>>}
      */
     post(pathname, data, config={}) {
         return this.request().post('/api/' + pathname, data, config)
@@ -46,7 +46,7 @@ class CTHTTPRequest {
      * @param {string} pathname 
      * @param {Object} data
      * @param {AxiosRequestConfig} config 
-     * @returns {AxiosResponse}
+     * @returns {Promise<AxiosResponse<any>>}
      */
     put(pathname, data, config={}) {
         return this.request().put('/api/' + pathname, data, config)
@@ -56,7 +56,7 @@ class CTHTTPRequest {
      * HTTP request PUT
      * @param {string} pathname 
      * @param {AxiosRequestConfig} config 
-     * @returns {AxiosResponse}
+     * @returns {Promise<AxiosResponse<any>>}
      */
     delete(pathname, config={}) {
         return this.request().delete('/api/' + pathname, config)
