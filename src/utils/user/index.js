@@ -261,6 +261,7 @@ export class CTUser {
       // console.log(data)
     } catch (error) {
       console.error('Failed to sign in as ' + emailId)
+      // console.alert('Your email')
     }
   }
 
