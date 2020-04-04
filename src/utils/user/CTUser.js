@@ -6,7 +6,7 @@
 import _ from 'lodash'
 import decoder from 'jwt-decode'
 import { CTAuth0 } from './CTAuth0'
-import { api } from '../http'
+import { api } from '../cthttp'
 import { links } from '../links'
 import { env } from 'utils/env'
 

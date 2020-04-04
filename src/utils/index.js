@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { links   } from './links'
 
 export { env              } from './env'
-export { api              } from './http'
+export { api              } from './cthttp'
 export { user             } from './user'
 export { search           } from './search'
 export { userAction       } from './useraction'

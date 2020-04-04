@@ -1,4 +1,4 @@
-import { api } from "./http"
+import { api } from "./cthttp"
 
 export const UA_TIME_UPDATE = 'timeupdate'
 export const UA_PLAY = 'play'
