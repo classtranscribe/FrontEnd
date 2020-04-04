@@ -3,13 +3,14 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 // UI
 import Filter from  './Filter'
 import { ClassTranscribeFooter, MaintenanceMessage, CTContext } from '../../../../components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
-import { api, user, handleData, util } from '../../../../utils'
+import { api, user, util } from '../../../../utils'
 
 export class Home extends React.Component {
   constructor(props) {
@@ -72,7 +73,7 @@ export class Home extends React.Component {
     if (!value) {
       api.getDepartments().then(({data}) => {
         data.forEach(depart => {
-          const uni = handleData.findById(this.state.universities, depart.universityId)
+          const uni = _.find(this.state.universities, { id: depart.universityId })
           if (uni) depart.uniName = uni.name
         })
         this.setState({ departments: data })

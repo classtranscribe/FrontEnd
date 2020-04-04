@@ -4,7 +4,7 @@
 
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import _ from 'lodash'
 // UIs
 import { CTContext, SidebarDimmer } from '../../components'
 import { Sidebar, Home, Starred, History, Search, OfferingDetail, Analytics } from './Components'
@@ -12,23 +12,18 @@ import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
 // Vars
-import { api, util, handleData, user } from '../../utils'
+import { api, user } from '../../utils'
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
     this.isLoggedIn = user.isLoggedIn()
 
-    var offerings = util.getStoredOfferings()
-    if (!offerings) {
-      offerings = ['Unloaded']
-    }
-
     this.state = {
       displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn()*/) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
-      offerings: offerings,
+      offerings: ['Unloaded'],
       watchHistory: this.isLoggedIn ? ['unloaded'] : [],
       watchHistoryJSON: {},
       starredOfferings: this.isLoggedIn ? ['unloaded'] : [],
@@ -62,9 +57,6 @@ export class OfferingViewing extends React.Component {
   }
 
   getOfferingsByStudent = () => {
-    const offerings = util.getStoredOfferings()
-    if (offerings) return;
-    
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
@@ -116,7 +108,6 @@ export class OfferingViewing extends React.Component {
   completeOfferings = async rawOfferings => {
     const offerings = await api.parseOfferings(rawOfferings)
     this.setState({ offerings })
-    util.storeOfferings(offerings)
   }
 
   showSiderBar = value => {
@@ -126,7 +117,7 @@ export class OfferingViewing extends React.Component {
 
   removeWatchHistory = mediaId => {
     const { watchHistory, watchHistoryJSON } = this.state
-    handleData.remove(watchHistory, { mediaId })
+    _.remove(watchHistory, { mediaId })
     if (watchHistoryJSON[mediaId]) delete watchHistoryJSON[mediaId]
     this.setState({ watchHistory, watchHistoryJSON }, () => this.updateUserMetadata())
   }
@@ -140,7 +131,7 @@ export class OfferingViewing extends React.Component {
 
   unstarOffering = offeringId => {
     const { starredOfferings, starredOfferingsJSON } = this.state
-    handleData.remove(starredOfferings, id => id === offeringId)
+    _.remove(starredOfferings, id => id === offeringId)
     if (starredOfferingsJSON[offeringId]) delete starredOfferingsJSON[offeringId]
     this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata())
   }
