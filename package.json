@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.8.1",
+    "@microsoft/applicationinsights-react-js": "^2.5.3",
+    "@microsoft/applicationinsights-web": "^2.5.3",
     "adm-zip": "^0.4.14",
     "auth0-js": "^9.12.1",
     "autosize": "^4.0.2",
