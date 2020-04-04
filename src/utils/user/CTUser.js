@@ -9,6 +9,7 @@ import { CTAuth0 } from './CTAuth0'
 import { api } from '../cthttp'
 import { links } from '../links'
 import { env } from 'utils/env'
+import { prompt } from '../prompt'
 
 // keys to localStorage
 export const TOKEN_INFO_KEY = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
@@ -261,7 +262,10 @@ export class CTUser {
       window.location.reload()
       // console.log(data)
     } catch (error) {
-      console.error('Failed to sign in as ' + emailId)
+      prompt.addOne({
+        text: `Failed to sign in as ${emailId}`, 
+        status: 'error'
+      })
     }
   }
 
