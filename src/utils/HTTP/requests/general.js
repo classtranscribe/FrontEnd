@@ -3,7 +3,7 @@ import { env } from '../../env'
 
 // get latest git commit of FrontEnd repo
 export function getLatestGitCommitData() {
-    return cthttp.get(env.frontendCommitEndpoint)
+    return cthttp.request(false).get(env.frontendCommitEndpoint)
 }
 
 export async function getLatestGitCommitSHA() {
@@ -12,5 +12,5 @@ export async function getLatestGitCommitSHA() {
 }
 
 export function getFile(path) {
-    return cthttp.request().get(path)
+    return cthttp.request(false).get(path)
 }
