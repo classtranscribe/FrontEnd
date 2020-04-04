@@ -6,7 +6,7 @@ export { env              } from './env'
 export { search           } from './search'
 export { user, userAction } from './user'
 export { handleData       } from './data'
-export { api              } from './HTTP'
+export { api              } from './http'
 export { prompt           } from './js/CTPrompt'
 export { CTEpubGenerator  } from './epub-gen'
 

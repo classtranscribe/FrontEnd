@@ -1,87 +1,45 @@
-import axios from 'axios'
-import { httpGET    } from './http.get'
-import { httpPOST   } from './http.post'
-import { httpPUT    } from './http.put'
-import { httpDELETE } from './http.delete'
-import { responseParsers    } from './helper.response-parsers'
-import { userMetadataHelper } from './helper.user-metadata'
+import * as statics from './statics'
 
-// import { isDeveloping } from '../constants'
-import { env } from '../env'
-import { user } from '../user'
+import * as general from './requests/general'
 
-/**
- * Set up http
- */
-export const http = axios.create({
-  baseURL: env.baseURL || window.location.origin,
-  timeout: 20000,
-})
+import * as account from './requests/account'
+import * as roles from './requests/roles'
+import * as logs from './requests/logs'
 
+import * as universities from './requests/universities'
+import * as departments from './requests/departments'
+import * as terms from './requests/terms'
+import * as courses from './requests/courses'
+import * as offerings from './requests/offerings'
+import * as playlists from './requests/playlists'
+import * as medias from './requests/medias'
+import * as captions from './requests/captions'
+import * as epub from './requests/epub'
 
-/**
- * api 
- * - Object for http requests from backend
- */
+import * as responseErrors from './responses/errors'
+import * as responseParsers from './responses/parsers'
+
+import * as userMetadata from './userMetadata'
+
 export const api = {
-  initialData: require('../json/initialData.json'),
-  offeringAccessType: require('../json/offeringAccessTypes.json'),
-  playlistTypes: require('../json/playlistTypes.json'),
+    ...statics,
 
-  /**
-   * Function called when all the requests executed
-   * then hide the loading page
-   */
-  baseUrl: () => env.baseURL || window.location.origin,
-  getMediaFullPath: function(path) { // need to change later
-    return `${this.baseUrl()}${path}`
-  },
-  
-  contentLoaded: function (interval) {
-    const ele = document.getElementById('ct-loading-wrapper')
-    if(ele) {
-      // fade out
-      ele.classList.add('available')
-      setTimeout(() => {
-        // remove from DOM
-        if (ele.parentNode) ele.outerHTML = ''
-        // ele.classList.add('hide')
-      }, interval || 500)
-    }
-  },
+    ...general,
+    ...account,
+    ...roles,
+    ...logs,
+    ...universities,
+    ...departments,
+    ...terms,
+    ...courses,
+    ...offerings,
+    ...playlists,
+    ...medias,
+    ...captions,
+    ...epub,
 
-  /**
-   * Functions for set or get the auth/b2c token
-   */
+    ...responseErrors,
+    ...responseParsers,
 
-  accountSignIn: function(auth0Token) {
-    return http.post(this.baseUrl() + '/api/Account/SignIn', { auth0Token })
-  },
-
-  testAccountSignIn: function() {
-    return http.get(this.baseUrl() + '/api/Account/TestSignIn')
-  },
-
-  loginAsAccountSignIn: function(emailId) {
-    // console.log(this.withAuth())
-    return http.post(this.baseUrl() + '/api/Account/LoginAs', { emailId }, this.withAuth())
-  },
-
-  withAuth: function (configs={}) {
-    console.log('configs-------------------', configs)
-    return {
-      ...configs,
-      headers: {
-        Authorization: 'Bearer ' + user.authToken
-      }
-    }
-  },
-  
-  ...httpGET,
-  ...httpPOST,
-  ...httpPUT,
-  ...httpDELETE,
-
-  ...responseParsers,
-  ...userMetadataHelper,
+    ...userMetadata
 }
