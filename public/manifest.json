@@ -1,6 +1,7 @@
 {
-  "short_name": "Class Transcribe",
-  "name": "Class Transcribe",
+  "short_name": "ClassTranscribe",
+  "name": "ClassTranscribe",
+  "description": "ClassTranscribe provides searchable transcribed video lectures.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +11,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#348b86",
   "background_color": "#ffffff"
 }

@@ -22,7 +22,7 @@ export const getMediaFullPath = path => baseUrl() + path
  * @param {number} interval remove the loading page wrapper after <interval> ms
  */
 export const contentLoaded = interval => {
-    const ele = document.getElementById('ct-loading-wrapper')
+    const ele = document.getElementById('ct-page-wrapper')
     if(ele) {
         // fade out
         ele.classList.add('available')
