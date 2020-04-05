@@ -4,7 +4,7 @@ import { Filter } from '../Filter'
 import { ListItem } from '../ListItem'
 import { 
   setup, 
-  ARRAY_EMPTY, NEW_PLAYLIST, ORD_T_PL 
+  ARRAY_EMPTY, NEW_PLAYLIST, ORD_T_PL, offControl 
 } from '../../Utils'
 
 export default function Playlists({
@@ -24,9 +24,7 @@ export default function Playlists({
       name: 'Playlists',
       items: playlists,
       icon: 'view_list',
-      onSave: result => {
-        setup.playlists(result)
-      }
+      onSave: offControl.reorderPlaylists
     })
   }
 

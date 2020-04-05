@@ -24,6 +24,10 @@ export function createPlaylist(data) {
     return cthttp.post('Playlists', data)
 }
 
+export function reorderPlaylists(offeringId, playlistIds) {
+    return cthttp.post('Playlists/Reorder/' + offeringId, playlistIds)
+}
+
 // PUT
 
 export function updatePlaylist(data) {

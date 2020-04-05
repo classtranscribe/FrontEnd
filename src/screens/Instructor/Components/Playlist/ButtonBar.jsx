@@ -1,7 +1,14 @@
 import _ from 'lodash'
 import React from 'react'
 import { Button } from 'pico-ui'
-import { connectWithRedux, mediaControl, setup, ORD_T_MEDIA } from '../../Utils'
+import { 
+  connectWithRedux,
+  setup,
+  mediaControl, 
+  plControl, 
+  ORD_T_MEDIA, 
+} from '../../Utils'
+
 
 function ButtonBar({
   playlist,
@@ -39,9 +46,7 @@ function ButtonBar({
       name: 'Videos',
       items: playlist.medias,
       icon: 'play_circle_filled',
-      onSave: result => {
-        setup.playlist({ ...setup.playlist(), medias: result })
-      }
+      onSave: plControl.reorderMedias
     })
   }
 
