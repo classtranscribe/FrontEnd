@@ -52,4 +52,4 @@ export const appInsightsService = createTelemetryService()
  * Get azure application insights handler
  * @returns {ApplicationInsights} the app insight object
  */
-export const useAppInsights = () => appInsights
+export const getAppInsights = () => appInsights
