@@ -27,7 +27,7 @@ function CaptionLine({
   }
 
   const handleChange = ({ target }) => {
-    console.log(target.innerText)
+    // console.log(target.innerText)
     transControl.handleChange(target.innerText)
     // console.log(target.value)
   }

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import './index.css'
 
 import { Filter } from '../Filter'
@@ -11,9 +11,8 @@ import {
   connectWithRedux, 
   setup,
   filterControl, 
-  promptControl,
   NEW_OFFERING, 
-  NEW_OFFERING_ID, 
+  // NEW_OFFERING_ID, 
   ARRAY_INIT,  
 } from '../../Utils'
 import { util } from '../../../../utils'
@@ -56,10 +55,6 @@ function SideBarWithRedux({
         let off = _.find(offerings, { id: offId })
         if (!off) { // if the id is not valid or does not exist
           handleOfferingClick(offerings[0] || NEW_OFFERING)()
-          promptControl.message(
-            <>Sorry, you don't have the access to offering "{offId}".&emsp;
-            <a href={util.links.contactUs()}>CONTACT US</a></>
-          )
         } else {
           handleOfferingClick(off, false)()
         }

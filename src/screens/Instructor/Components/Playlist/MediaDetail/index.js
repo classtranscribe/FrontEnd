@@ -141,16 +141,18 @@ function MediaDetail({
             <i className="material-icons" aria-hidden="true">settings</i>
             <h3>SETTINGS</h3>
           </div>
-          <ListItem dark asLink
-            icon="closed_caption"
-            title="Edit Transcriptions"
-            to={util.links.mspTransSettings(id)}
-          />
-          <ListItem dark asLink
-            icon="menu_book"
-            title="Manage ePub Chapters"
-            to={util.links.mspEpubSettings(id)}
-          />
+          <div className="ml-3 mr-3">
+            <ListItem dark asLink
+              icon="closed_caption"
+              title=" Edit Transcriptions"
+              to={util.links.mspTransSettings(id)}
+            />
+            <ListItem dark asLink
+              icon="menu_book"
+              title=" Manage ePub Chapters"
+              to={util.links.mspEpubSettings(id)}
+            />
+          </div>
         </div>
       }
     </div>

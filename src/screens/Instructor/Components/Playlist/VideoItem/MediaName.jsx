@@ -21,14 +21,12 @@ function MediaName({
         {
           isSelectingVideos 
           ?
-          <div className="ip-v-check">
-            <div className="ip-v-check-box" data-checked={isSelected}>
-              {
-                isSelected
-                &&
-                <i className="material-icons">check</i>
-              }
-            </div>
+          <div className="ip-v-file-icon">
+            {
+              isSelected 
+              ? <i className="material-icons">check_box</i>
+              : <i className="material-icons">check_box_outline_blank</i>
+            }
           </div>
           :
           <div className="ip-v-file-icon">

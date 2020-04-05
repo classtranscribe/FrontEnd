@@ -60,6 +60,9 @@ function PlaylistWithRedux({
   const stickyContextRef = createRef()
   const [isTop, setIsTop] = useState(true)
 
+  // filter
+  const [filtering, setFiltering] = useState(false)
+
   // Update results when playlist changes
   useEffect(() => {
     if (canShowPlaylists) {
@@ -100,36 +103,31 @@ function PlaylistWithRedux({
             <i className="material-icons" aria-hidden="true">video_library</i>
             <h3>VIDEOS</h3>
           </div>
-          
-          {/* Upload Video Button & Filter */}
-          <div className="w-100">
-            {
-              playlist.sourceType === 2
-              &&
-              <ListItem dark
-                icon="add"
-                title=" UPLOAD VIDEOS"
-                onClick={onOpenUpload}
-              />
-            }
 
-            {
-              playlist.medias.length > 0
-              &&
+          {/* Selecting Buttons */}
+          <ButtonBar 
+            results={results} 
+            filtering={filtering}
+            setFiltering={setFiltering} 
+            upload={playlist.sourceType === 2}
+            onOpenUpload={onOpenUpload}
+          />
+
+          {
+            (playlist.medias.length > 0 && filtering)
+            &&
+            <div className="w-100 ct-a-fade-in mb-2">
               <Filter //darker
                 searchFor="Videos" 
                 onFilter={onFilter} 
                 onReverse={onReverse} 
               />
-            }
-          </div>
-
-          {/* Selecting Buttons */}
-          <ButtonBar results={results} />
+            </div>
+          }
           
           {/* Video Items */}
           {
-            results.length === 0
+            playlist.medias.length === 0
             ?
             <NoVideoHolder type={playlist.sourceType} />
             :

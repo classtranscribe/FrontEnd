@@ -23,8 +23,7 @@ function ConfirmationWithRedux({
   }
 
   return confirmation ? (
-    <CTModal
-      show={true}
+    <CTModal show closeOnBlur
       title={confirmation.title || 'delete confirmation'}
       saveBtnText="Confirm"
       onClose={onClose}

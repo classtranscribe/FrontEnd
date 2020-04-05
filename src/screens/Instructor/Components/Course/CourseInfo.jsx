@@ -49,7 +49,7 @@ export default function CourseInfo({
             <Button uppercase
               text="Settings"
               icon="settings"
-              //color="transparent black"
+              color="black"
               onClick={handleEdit}
             />
             <Button round

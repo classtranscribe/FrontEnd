@@ -1,6 +1,6 @@
 .ip-course {
-  width: 40%;
-  min-width: 30em;
+  width: 43%;
+  min-width: 40em;
   height: 100vh;
   padding-top: 4.6em;
   padding-right: .2em;
@@ -82,8 +82,16 @@
   margin-left: .3em;
 }
 
+/* Actions */
+.ip-c-actions {
+  width: 100%;
+  display: flex;
+  padding: 10px 12px 3px 12px;
+}
+
 
 /* Playlists */
 .ip-c-playlists {
-  margin-top: 2em;
+  margin-top: 1em;
+  padding-bottom: 5em;
 }
