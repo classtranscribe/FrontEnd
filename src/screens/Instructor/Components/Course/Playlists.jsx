@@ -1,38 +1,80 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Button } from 'pico-ui'
 import { Filter } from '../Filter'
 import { ListItem } from '../ListItem'
-import { ARRAY_EMPTY, NEW_PLAYLIST } from '../../Utils'
+import { 
+  setup, 
+  ARRAY_EMPTY, NEW_PLAYLIST, ORD_T_PL, offControl 
+} from '../../Utils'
 
 export default function Playlists({
   results,
   playlist,
+  playlists=[],
 
   onFilter,
   onReverse,
   handlePlaylistClick,
 }) {
+
+  const [filtering, setFiltering] = useState(false)
+  const orderPlaylists = () => {
+    setup.orderList({
+      type: ORD_T_PL,
+      name: 'Playlists',
+      items: playlists,
+      icon: 'view_list',
+      onSave: offControl.reorderPlaylists
+    })
+  }
+
   return (
     <>
       {/* Title & Filter */}
       <div className="ip-c-title">
         <div className="ip-sb-title ct-d-r-center-v">
-          <i className="material-icons" aria-hidden="true">list_alt</i>
+          <i className="material-icons" aria-hidden="true">view_list</i>
           <h3>PLAYLISTS</h3>
         </div>
 
         <ListItem dark
-          icon="add"
+          icon="playlist_add"
           title=" NEW PLAYLIST"
           rightIcon="small"
           current={playlist === NEW_PLAYLIST}
           onClick={handlePlaylistClick(NEW_PLAYLIST)}
         />
 
-        <Filter //darker
-          searchFor="Playlists"
-          onFilter={onFilter}
-          onReverse={onReverse}
-        />
+        {
+          playlists !== ARRAY_EMPTY
+          &&
+          <div className="w-100 ip-c-actions">
+            <Button uppercase
+              icon="format_list_numbered"
+              text="Order Playlists"
+              color="transparent"
+              onClick={orderPlaylists}
+            />
+            <Button uppercase
+              icon={filtering ? "close" : "search"}
+              text="Filter Playlists"
+              color={filtering ? "" : "transparent"}
+              onClick={() => setFiltering(!filtering)}
+            />
+          </div>
+        }
+
+        {
+          filtering
+          &&
+          <div className="w-100 ct-a-fade-in">
+            <Filter //darker
+              searchFor="Playlists"
+              onFilter={onFilter}
+              onReverse={onReverse}
+            />
+          </div>
+        }
       </div>
 
       {/* Playlists */}

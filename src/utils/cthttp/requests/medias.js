@@ -21,6 +21,10 @@ export function uploadVideo(playlistId, video1, video2, onUploadProgress) {
     return cthttp.post('Media', formData, { onUploadProgress, timeout: 5400000 })
 }
 
+export function reorderMedias(playlistId, mediaIds) {
+    return cthttp.post('Media/Reorder/' + playlistId, mediaIds)
+}
+
 // PUT
 
 export function renameMedia(mediaId, name) {

@@ -21,6 +21,9 @@ import * as responseParsers from './responses/parsers'
 
 import * as userMetadata from './userMetadata'
 
+/**
+ * HTTP request tool for ClassTranscribe
+ */
 export const api = {
     ...statics,
 

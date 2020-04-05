@@ -1,4 +1,5 @@
 .ip-filter {
+  margin-top: 3px;
   width: 100%;
   padding: 0 .9em;
 }
@@ -30,6 +31,7 @@
     }
   }
 
+  .ip-filter-order-btn,
   .ip-filter-sort-btn {
     position: relative;
     background-color: var(--ct-ip-grey-1);
@@ -64,6 +66,15 @@
     }
   }
 
+  .ip-filter-order-btn span {
+    white-space: nowrap;
+    width: auto;
+    padding: 0 10px;
+    font-weight: bold;
+    font-family: var(--ct-font-narrow);
+    font-size: 16px;
+  }
+
   &[data-darker=true] {
     .ip-filter-input {
       background-color: var(--ct-ip-grey-2);
@@ -72,6 +83,7 @@
       }
     }
 
+    .ip-filter-order-btn,
     .ip-filter-sort-btn {
       background-color: var(--ct-ip-grey-2);
 

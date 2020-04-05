@@ -1,48 +1,17 @@
 import _ from 'lodash'
-import { util, api } from '../../../utils'
+import { util, api, prompt } from '../../../utils'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
 
-const echo360Prefix = 'https://echo360.org/section/'
-const boxPrefix = 'https://uofi.app.box.com/folder/'
-
-// const initPlaylist = {
-//   name: '',
-//   offeringId: '',
-//   sourceType: 2,
-//   playlistIdentifier: ''
-// }
-
 export const plControl = {
   externalFunctions: {},
-  // playlist_: initPlaylist,
 
-  init: function(props) {
+  init(props) {
     const { setPlaylists, setPlaylist } = props
     this.externalFunctions = { setPlaylists, setPlaylist }
   },
 
-  // playlistSet: function(key, value) {
-  //   if (value === undefined) {
-  //     return _.get(this.playlist_, key)
-  //   }
-  //   _.set(this.playlist_, key, value)
-  // },
-
-  // name: function(val) {
-  //   this.playlistSet('name', val)
-  // },
-  // offeringId: function(val) {
-  //   this.playlistSet('offeringId', val)
-  // },
-  // sourceType: function(val) {
-  //   this.playlistSet('sourceType', val)
-  // },
-  // indentifier: function(val) {
-  //   this.playlistSet('playlistIdentifier', val)
-  // },
-
-  createPlaylist: async function(playlist) {
+  async createPlaylist(playlist) {
     setup.loading()
     let { offeringId, name, sourceType, playlistIdentifier } = playlist
 
@@ -81,10 +50,7 @@ export const plControl = {
     promptControl.saved('playlist', 'created')
   },
 
-  renamePlaylist: async function(playlist, newName) {
-    // setup.loading()
-    promptControl.saving()
-
+  async renamePlaylist(playlist, newName) {
     try {
       playlist.name = newName
       await api.updatePlaylist(playlist)
@@ -98,7 +64,7 @@ export const plControl = {
     // setup.unloading()
   },
 
-  deletePlaylist: async function(playlist) {
+  async deletePlaylist(playlist) {
     try {
       await api.deletePlaylist(playlist.id)
       let playlists = setup.playlists()
@@ -111,10 +77,21 @@ export const plControl = {
     }
   },
 
+  async reorderMedias(results) {
+    try {
+      let mediaIds = _.map(results, ({ id }) => id)
+      await api.reorderMedias(setup.playlist().id, mediaIds)
+      setup.playlist({ ...setup.playlist(), medias: results })
+      prompt.addOne({ text: 'Videos reordered.', timeout: 3000 })
+    } catch (error) {
+      prompt.addOne({ text: 'Failed to reorder videos.', timeout: 5000 })
+    }
+  },
+
   /**
    * Helpers
    */
-  isValidIdURL: function(sourceType, url='') {
+  isValidIdURL(sourceType, url='') {
     if (sourceType === 2) return true
     if (!url) return false
 

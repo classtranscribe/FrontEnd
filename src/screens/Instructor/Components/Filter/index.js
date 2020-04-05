@@ -29,6 +29,16 @@ function FilterWithRedux({
     if (searchFor === "Videos") setReversed(false)
   }, [playlist])
 
+  // Clean up filter
+  useEffect(() => {
+    return () => {
+      onFilter('')
+      if (reversed) {
+        onReverse()
+      }
+    }
+  }, [])
+
   return (
     <div className="ip-filter">
       <div className="ip-filter-con" data-darker={darker.toString()}>
