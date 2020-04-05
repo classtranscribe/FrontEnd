@@ -3,44 +3,13 @@ import { util, api, prompt } from '../../../utils'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
 
-const echo360Prefix = 'https://echo360.org/section/'
-const boxPrefix = 'https://uofi.app.box.com/folder/'
-
-// const initPlaylist = {
-//   name: '',
-//   offeringId: '',
-//   sourceType: 2,
-//   playlistIdentifier: ''
-// }
-
 export const plControl = {
   externalFunctions: {},
-  // playlist_: initPlaylist,
 
   init(props) {
     const { setPlaylists, setPlaylist } = props
     this.externalFunctions = { setPlaylists, setPlaylist }
   },
-
-  // playlistSet(key, value) {
-  //   if (value === undefined) {
-  //     return _.get(this.playlist_, key)
-  //   }
-  //   _.set(this.playlist_, key, value)
-  // },
-
-  // name(val) {
-  //   this.playlistSet('name', val)
-  // },
-  // offeringId(val) {
-  //   this.playlistSet('offeringId', val)
-  // },
-  // sourceType(val) {
-  //   this.playlistSet('sourceType', val)
-  // },
-  // indentifier(val) {
-  //   this.playlistSet('playlistIdentifier', val)
-  // },
 
   async createPlaylist(playlist) {
     setup.loading()

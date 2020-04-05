@@ -5,7 +5,7 @@ import './ErrorMesg.css'
 export default function ErrorMesg({ mesg, notFound404 }) {
   if (!mesg) return null
 
-  console.log('error', mesg)
+  // console.log('error', mesg)
   const { header, error, info } = mesg
   return (
     <div className="context-error">
