@@ -32,8 +32,8 @@ class ReactEnv {
   }
 
   get azureInstrumentationKey() {
-    if (!reactEnv.REACT_APP_AZURE_INSTRUMENTATION_KEY) missingRequiredEnv('REACT_APP_AZURE_INSTRUMENTATION_KEY')
-    return reactEnv.REACT_APP_AZURE_INSTRUMENTATION_KEY
+    if (!reactEnv.APPLICATION_INSIGHTS_KEY) missingRequiredEnv('APPLICATION_INSIGHTS_KEY')
+    return reactEnv.APPLICATION_INSIGHTS_KEY
   }
 
   get productionServer() {
