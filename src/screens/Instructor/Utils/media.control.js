@@ -156,6 +156,8 @@ export const mediaControl = {
   selectAll: function(results) {
     if (this.isSelectedAll(results)) {
       this.setSelectedVideos({})
+    } else if (this.selectedVideosLength(this.selectedVideos) > 0) {
+      this.setSelectedVideos({})
     } else {
       let selectedVideos = {}
       _.forEach(results, re => {

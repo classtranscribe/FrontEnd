@@ -8,6 +8,7 @@ import {
   plControl, 
   ORD_T_MEDIA, 
 } from '../../Utils'
+import { Popup } from 'semantic-ui-react'
 
 
 function ButtonBar({
@@ -51,6 +52,7 @@ function ButtonBar({
   }
 
   const selectedAll = mediaControl.isSelectedAll(results, selectedVideos)
+  const hasSelectedVideos = mediaControl.selectedVideosLength() > 0
 
   return (
     <div className="w-100 ip-p-btns mt-1">
@@ -60,11 +62,34 @@ function ButtonBar({
         ?
         <div className="ct-btn-group ct-d-r-center-v">
           <Button.Group>
-            <Button uppercase
-              icon={selectedAll ? "check_box" : "check_box_outline_blank"}
-              color="yellow"
-              text="Select All"
-              onClick={handleSelectAll}
+            <Popup inverted basic
+              content={
+                hasSelectedVideos
+                ? "Unselect All"
+                : "Select All"
+              }
+              trigger={
+                <div>
+                  <Button uppercase round
+                    icon={
+                      selectedAll 
+                      ? "check_box" 
+                      : hasSelectedVideos
+                      ? "indeterminate_check_box"
+                      : "check_box_outline_blank"
+                    }
+                    color={
+                      selectedAll 
+                      ? "black" 
+                      : hasSelectedVideos
+                      ? ""
+                      : "transparent"
+                    }
+                    //text="Select All"
+                    onClick={handleSelectAll}
+                  />
+                </div>
+              }
             />
             <Button uppercase
               icon="delete"
