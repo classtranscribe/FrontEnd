@@ -9,7 +9,7 @@ const missingRequiredEnv = envName => {
 }
 
 const usingWindowOrigin = envName => {
-  console.warn('Missing environment variable ' + envName + '. Start using window.location.origin.')
+  // console.warn('Missing environment variable ' + envName + '. Start using window.location.origin.')
 }
 
 /**
@@ -24,12 +24,10 @@ class ReactEnv {
   }
 
   get auth0Domain() {
-    if (!reactEnv.AUTH0_DOMAIN) missingRequiredEnv('AUTH0_DOMAIN')
     return reactEnv.AUTH0_DOMAIN
   }
 
   get auth0ClientID() {
-    if (!reactEnv.AUTH0_CLIENT_ID) missingRequiredEnv('AUTH0_CLIENT_ID')
     return reactEnv.AUTH0_CLIENT_ID
   }
 
@@ -38,12 +36,10 @@ class ReactEnv {
   }
 
   get frontendCommitEndpoint() {
-    if (!reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT) missingRequiredEnv('REACT_APP_FRONTEND_COMMIT_ENDPOINT')
     return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT
   }
 
   get azureInstrumentationKey() {
-    if (!reactEnv.APPLICATION_INSIGHTS_KEY) missingRequiredEnv('APPLICATION_INSIGHTS_KEY')
     return reactEnv.APPLICATION_INSIGHTS_KEY
   }
 
