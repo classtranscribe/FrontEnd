@@ -82,7 +82,8 @@ export const setup = {
     menuControl.clear()
   },
 
-  changeVideo: function(media, playlist) {
+  changeVideo: async function(media, playlist) {
+    await videoControl.sendMediaHistories()
     const { history } = this.externalFunctions
     if (!playlist) playlist = this.playlist()
     history.push(util.links.watch(media.id))
@@ -160,12 +161,15 @@ export const setup = {
     }
   },
 
-  getUserMetadata: async function() {
-    const { setWatchHistory, setStarredOfferings } = this.externalFunctions
-    // api.storeUserMetadata({
-    //   setWatchHistory,
-    //   setStarredOfferings
-    // })
+  getMediaWatchHistories: async function(mediaId) {
+    try {
+      const { data } = await api.getMediaWatchHistories(mediaId)
+      console.error('getMediaWatchHistories', data)
+      return data
+    } catch (error) {
+      console.error('Failed to get watch histories.')
+      return {}
+    }
   },
 
   /**
@@ -212,7 +216,10 @@ export const setup = {
     }
 
     // set user metadata
-    // await this.getUserMetadata()
+    let watchHistory = await this.getMediaWatchHistories(media.id)
+    if (watchHistory.json && watchHistory.json.timestamp) {
+      media.begin = watchHistory.json.timestamp
+    }
 
     // Set data
     this.media(media)

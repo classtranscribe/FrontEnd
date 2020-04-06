@@ -73,7 +73,7 @@ function Video({
         listitem={false}
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
-        link={util.links.watch(id, { begin: timeStamp })}
+        link={util.links.watch(id)}
       />
     </li>
   )
