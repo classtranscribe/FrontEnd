@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { links   } from './links'
+import * as loggerToExport from './logger'
 
 export { env              } from './env'
 export { api              } from './cthttp'
@@ -11,6 +12,7 @@ export { CTPrompt, prompt } from './prompt'
 export { CTPreference     } from './user-preference'
 
 export * from './constants'
+export const logger = loggerToExport
 
 
 /**

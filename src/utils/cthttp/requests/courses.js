@@ -11,7 +11,7 @@ export function getCourseById(courseId) {
 }
 
 export function getCoursesByDepartId(departId) {
-    return cthttp.get('Courses/ByDepartment' + departId)
+    return cthttp.get('Courses/ByDepartment/' + departId)
 }
 
 export function getCoursesByInstId(instructorId) {
