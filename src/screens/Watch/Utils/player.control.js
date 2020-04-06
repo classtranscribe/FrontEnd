@@ -467,9 +467,9 @@ export const videoControl = {
   },
 
   async sendMediaHistories() {
-    let mediaId = setup.media().id
-    if (mediaId) {
-      await api.sendMediaWatchHistories(mediaId, this.currTime())
+    let { id, playlistId } = setup.media()
+    if (id) {
+      await api.sendMediaWatchHistories(id, playlistId, this.currTime())
     }
   },
 

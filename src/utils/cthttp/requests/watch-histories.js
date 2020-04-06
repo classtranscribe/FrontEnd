@@ -12,6 +12,6 @@ export function getMediaWatchHistories(mediaId) {
 
 // POST
 
-export function sendMediaWatchHistories(mediaId, timestamp) {
-    return cthttp.post('WatchHistories/' + mediaId, { timestamp })
+export function sendMediaWatchHistories(mediaId, playlistId, timestamp) {
+    return cthttp.post('WatchHistories/' + mediaId, { playlistId, timestamp })
 }
