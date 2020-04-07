@@ -42,7 +42,11 @@ export class CTPrompt {
 
     if (this.promptIds.length === 0) {
       const promptEl = document.getElementById(PROMPT_ID)
-      setTimeout(() => promptEl.remove(), 100)
+      setTimeout(() => {
+        if (promptEl) {
+          promptEl.remove()
+        }
+      }, 100)
     }
   }
 
@@ -67,6 +71,7 @@ export class CTPrompt {
    * @param {Boolean} prompt.refresh - true if add a refresh page trigger
    * @param {Number} prompt.timeout - the close timeout
    * @param {String} prompt.position - The position of the prompt
+   * @param {Number[]} prompt.offset - The offset of the position (pixels from the [bottom/top, right/left])
    * @param {Boolean} replace true if close other exisiting prompts
    * 
    * @property status - determines the color of the prompt box
@@ -84,6 +89,7 @@ export class CTPrompt {
     refresh: false,
     timeout: -1,
     position: 'right bottom',
+    offset: [-1, -1],
   }, replace=false) {
 
     const {
@@ -92,8 +98,9 @@ export class CTPrompt {
       status='primary',
       contact=false,
       refresh=false,
-      timeout= -1,
+      timeout=-1,
       position='right bottom',
+      offset=[-1, -1],
     } = prompt
 
     if (replace) this.closeAll()
@@ -109,6 +116,7 @@ export class CTPrompt {
         contact,
         refresh,
         onClose,
+        offset,
       })
 
       promptEl.appendChild(newBoxEl)
@@ -120,6 +128,7 @@ export class CTPrompt {
         refresh,
         position,
         onClose,
+        offset,
       })
     }
 
@@ -140,6 +149,7 @@ export class CTPrompt {
    * @param {Boolean} prompts[].refresh - true if add a refresh page trigger
    * @param {Number} prompts[].timeout - the close timeout
    * @param {String} prompts[].position - The position of the prompt
+   * @param {Number[]} prompts[].offset - The offset of the position (pixels from the [bottom/top, right/left])
    * @param {Boolean} replace true if close other exisiting prompts
    * 
    * @property status - determines the color of the prompt box

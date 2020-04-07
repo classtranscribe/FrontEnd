@@ -34,7 +34,7 @@ export function createPromptBoxElem(text, options) {
   // Text
   const txtEl = document.createElement('div')
   txtEl.className = 'ct-prompt-text' + (header ? ' ct-prompt-float' : '')
-  txtEl.innerText = text
+  txtEl.innerHTML = text
   promptBoxEl.appendChild(txtEl)
 
   // Contact Link
@@ -75,6 +75,7 @@ export function createPromptBoxElem(text, options) {
  * @param {object} options the options of the prompt
  * @param {String} options.header - The header in prompt
  * @param {string} options.position 'bottom left', 'bottom right'
+ * @param {Number[]} options.offset - The offset of the position (pixels from the [bottom/top, right/left])
  * @param {string} options.status 'success', 'error'
  * @param {boolean} options.contact 
  * @param {boolean} options.refresh
@@ -83,7 +84,7 @@ export function createPromptBoxElem(text, options) {
  * @returns {HTMLDivElement} the Prompt HTML Div Element
  */
 export function createPromptElem(text, options) {
-  let { position } = options
+  let { position, offset } = options
   let promptBoxEl = createPromptBoxElem(text, options)
   // Prompt
   const promptEl = document.createElement('div')
@@ -91,6 +92,20 @@ export function createPromptElem(text, options) {
   promptEl.appendChild(promptBoxEl)
   // promptEl.setAttribute('data-position', position)
   promptEl.className = position
+
+  let offsetX = ''
+  let offsetY = ''
+
+  if (offset[0] !== undefined && offset[0] >= 0) {
+    offsetY = position.includes('top') ? 'top' : 'bottom'
+  }
+
+  if (offset[1] !== undefined && offset[1] >= 0) {
+    offsetX = position.includes('left') ? 'left' : 'right'
+  }
+
+  if (offsetY) promptEl.style[offsetY] = offset[0] + 'px'
+  if (offsetX) promptEl.style[offsetX] = offset[1] + 'px'
   // insert prompt elem after root
   const rootEl = document.getElementById('root')
   rootEl.parentNode.insertBefore(promptEl, rootEl.nextSibling)
