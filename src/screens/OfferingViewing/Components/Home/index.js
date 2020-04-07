@@ -6,11 +6,11 @@ import React from 'react'
 import _ from 'lodash'
 // UI
 import Filter from  './Filter'
-import { ClassTranscribeFooter, MaintenanceMessage, CTContext } from '../../../../components'
+import { ClassTranscribeFooter, MaintenanceMessage } from '../../../../components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
-import { api, user, util } from '../../../../utils'
+import { api, user, util, prompt } from '../../../../utils'
 
 export class Home extends React.Component {
   constructor(props) {
@@ -37,9 +37,13 @@ export class Home extends React.Component {
         api.contentLoaded()
       })
       .catch( error => {
-        const { generalError } = this.context
         api.contentLoaded()
-        generalError({ header: "Couldn't load universities." })
+        prompt.addOne({
+          text: "Couldn't load universities.",
+          refresh: true,
+          position: 'top',
+          status: 'error'
+        })
       })
     if (user.isLoggedIn()) {
       const userUniId = user.getUserInfo().universityId
@@ -120,5 +124,3 @@ export class Home extends React.Component {
     )
   }
 }
-
-Home.contextType = CTContext

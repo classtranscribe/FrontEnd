@@ -6,8 +6,16 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import _ from 'lodash'
 // UIs
-import { CTContext, SidebarDimmer } from '../../components'
-import { Sidebar, Home, Starred, History, Search, OfferingDetail, Analytics } from './Components'
+import { SidebarDimmer } from '../../components'
+import { 
+  Sidebar, 
+  Home, 
+  Starred, 
+  History, 
+  Search, 
+  OfferingDetail, 
+  Analytics 
+} from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
@@ -196,5 +204,3 @@ export class OfferingViewing extends React.Component {
     )
   }
 }
-
-OfferingViewing.contextType = CTContext

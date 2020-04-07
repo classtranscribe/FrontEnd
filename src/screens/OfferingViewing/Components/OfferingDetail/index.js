@@ -10,8 +10,8 @@ import { Icon } from 'semantic-ui-react'
 import Playlists from './Playlists'
 // Vars
 import { Button } from 'pico-ui'
-import { useCTContext, PlaceHolder } from '../../../../components'
-import { api, util, user } from '../../../../utils'
+import { PlaceHolder } from '../../../../components'
+import { api, util, user, prompt } from '../../../../utils'
 import './index.css'
 
 export function OfferingDetail({ 
@@ -22,7 +22,6 @@ export function OfferingDetail({
   const history = useHistory()
   const location = useLocation()
   const { id } = useParams()
-  const { generalError } = useCTContext()
 
   const { starredOfferingsJSON, watchHistoryJSON } = state
   const [offering, setOffering] = useState({})
@@ -50,7 +49,12 @@ export function OfferingDetail({
           setPlaylists(['need-signin'])
           return 401
         } else {
-          generalError({ header: "Couldn't load the offering." })
+          prompt.addOne({
+            text: "Couldn't load the offering.",
+            position: 'top left',
+            refresh: true,
+            status: 'error'
+          })
           return 500
         }
       }
@@ -75,7 +79,12 @@ export function OfferingDetail({
         setPlaylists(['need-signin'])
       } else {
         setPlaylists([])
-        generalError({ header: "Couldn't load the playlists." })
+        prompt.addOne({
+          text: "Couldn't load the playlists.",
+          position: 'top left',
+          refresh: true,
+          status: 'error'
+        })
       }
     }
   }

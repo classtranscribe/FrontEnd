@@ -5,7 +5,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
-import { CTContext } from '../../components'
 import { 
   WatchHeader,
   Menus,
@@ -82,8 +81,6 @@ export class WatchWithRedux extends React.Component {
     )
   }
 }
-
-WatchWithRedux.contextType = CTContext
 
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(
