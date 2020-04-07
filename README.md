@@ -15,7 +15,7 @@ See the [Deployment project](https://github.com/classtranscribe/Deployment) for 
 ### Run ClassTranscribe on Your Machine
 1. Clone `FrontEnd` to your machine, and enter the repo
 ```
-$ git clone https://github.com/classtranscribe/FrontEnd.git && cs FrontEnd
+$ git clone https://github.com/classtranscribe/FrontEnd.git && cd FrontEnd
 ```
 2. In the root directory, add an `.env` file (This file can be obtained from an admin).
 3. Install Node JS dependencies.
