@@ -19,9 +19,9 @@ export { PlaceHolder } from './Placeholder'
 export { CTButton } from './Buttons'
 export { CTForm  } from './CTForm'
 
-// Need to be removed later
-// export { CTContext, useCTContext, CTContextProvider } from './CTContext' 
 export { GeneralModal, CTModal } from './Modals'
+
+// Need to be removed later
 export { GeneralAlert } from './Alerts'
 export { GeneralLoader } from './Loaders' 
 
