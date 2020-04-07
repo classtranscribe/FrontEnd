@@ -57,7 +57,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
   // Event handlers for primary video
   onPause = e => {
-    control.onPause(e)
+    const { paused } = this.props
+    control.onPause(e, paused)
   }
   onTimeUpdate = e => {
     control.onTimeUpdate(e)

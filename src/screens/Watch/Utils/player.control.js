@@ -336,8 +336,11 @@ export const videoControl = {
    * Media events
    * ***********************************************************************************************
    */
-  onPause(e) {
-    this.showControlBar()
+  onPause(e, paused) {
+    // this.showControlBar()
+    if (paused === false) {
+      this.pause()
+    }
   },
 
   onDurationChange({ target: { duration } }) {
