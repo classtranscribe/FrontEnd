@@ -9,15 +9,17 @@ import { Icon, Button } from 'semantic-ui-react'
 
 const EK_COURSES = 'courses'
 const EK_STARRED = 'starred'
+const EK_SEARCH = 'search'
 const EK_HISTORY = 'history'
 const EK_ANALYTICS = 'personal-analytics'
 const EK_NAN = 'NaN'
 
 
 function currentActiveKey() {
-  let { home, starred, history, personalAnalytics } = util.links
+  let { home, starred, history, personalAnalytics, search } = util.links
   switch (window.location.pathname) {
     case home()               : return EK_COURSES
+    case search()             : return EK_SEARCH
     case starred()            : return EK_STARRED
     case history()            : return EK_HISTORY
     case personalAnalytics()  : return EK_ANALYTICS
@@ -51,6 +53,18 @@ export function Sidebar({
           onClick={handleTabChange}
         >
           <Icon name="book" /> &emsp; Courses
+        </ListGroup.Item>
+
+        <ListGroup.Item action
+          className="list"
+          eventKey={EK_SEARCH}
+          as={Link} 
+          to={util.links.search()}
+          title="search" 
+          aria-label="seach"
+          onClick={handleTabChange}
+        >
+          <Icon name="search" /> &emsp; Search
         </ListGroup.Item>
 
         {

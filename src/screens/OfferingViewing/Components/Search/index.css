@@ -11,6 +11,16 @@
         padding: 2rem 0rem;
       }
     }
+.sp-content .search-bar[id=search-bar] h1 {
+  color: rgb(56, 56, 56);
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: linear-gradient(-180deg,white 90%,transparent);
+  display: flex;
+  align-items: center;
+}
 .sp-content .search-bar .input {
   width: 100%;}
   .search-bar[id=search-bar] input {

@@ -38,19 +38,21 @@ export function Search({offerings, location}) {
 
   const onInput = ({ target: {value} }) => {
     setSearchValue(value)
-    // localStorage.setItem('searchValue', value)
-    console.log(offerings)
+    if (!value) {
+      setResults([])
+      return
+    }
     setResults(searchInOfferings(value))
   }
 
   return (
     <div className="search-bar ct-a-fade-in" id="search-bar">
-      <h1 className="accessbility_hide">Search</h1>
-      <div className="goback-container">
+      <h1>Search for Courses</h1>
+      {/* <div className="goback-container">
         <Link className="del-icon" to={util.links.home()} >
           <Icon name="chevron left" /> Back to Courses
         </Link>
-      </div>
+      </div> */}
 
       <SearchInput searchValue={searchValue} onInput={onInput} />
 
