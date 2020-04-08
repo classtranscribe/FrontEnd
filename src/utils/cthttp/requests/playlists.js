@@ -15,7 +15,7 @@ export function getPlaylistsByOfferingId(offeringId) {
 }
 
 export function searchForMedia(offeringId, query) {
-    return cthttp.getf(`Playlists/SearchForMedia/${offeringId}/${query}`)
+    return cthttp.get(`Playlists/SearchForMedia/${offeringId}/${query}`)
 }
 
 // POST

@@ -19,13 +19,17 @@ export function Search({offerings, location}) {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
 
+  const searchInOfferings = value => {
+    return search.getResults(offerings, value, ['termName', 'fullNumber', 'courseName', 'sectionName'])
+  }
+
   useEffect( () => {
     util.scrollToTop('.sp-content')
     util.links.title('Search')
     window.scrollTo(0, 0)
     if (offerings.length) {
       if (defaultValue) {
-        setResults(search.searchInOfferings(offerings, defaultValue))
+        setResults(searchInOfferings(defaultValue))
       }
     }
   }, [offerings])
@@ -34,18 +38,21 @@ export function Search({offerings, location}) {
 
   const onInput = ({ target: {value} }) => {
     setSearchValue(value)
-    // localStorage.setItem('searchValue', value)
-    setResults(search.searchInOfferings(offerings, value))
+    if (!value) {
+      setResults([])
+      return
+    }
+    setResults(searchInOfferings(value))
   }
 
   return (
     <div className="search-bar ct-a-fade-in" id="search-bar">
-      <h1 className="accessbility_hide">Search</h1>
-      <div className="goback-container">
+      <h1>Search for Courses</h1>
+      {/* <div className="goback-container">
         <Link className="del-icon" to={util.links.home()} >
           <Icon name="chevron left" /> Back to Courses
         </Link>
-      </div>
+      </div> */}
 
       <SearchInput searchValue={searchValue} onInput={onInput} />
 

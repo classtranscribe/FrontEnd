@@ -6,7 +6,6 @@ import { api, util } from '../../../../../utils'
 function Videos({
   // playlist,
   currMediaId='',
-  watchHistory=[],
   currPlaylist={},
 }) {
 
@@ -44,7 +43,6 @@ function Videos({
               key={media.id}
               media={media} 
               currMediaId={currMediaId} 
-              watchHistory={watchHistory} 
             />
           ))
         }
@@ -56,24 +54,21 @@ function Videos({
 function Video({ 
   media=null, 
   currMediaId='',
-  watchHistory=[],
 }) {
   media = api.parseMedia(media)
-  const { id, mediaName } = media
-  const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
-  const { ratio, timeStamp } = mediaHistory
+  const { id, mediaName, watchHistory } = media
+  console.log(watchHistory)
   return (
     <li className="watch-video-item" >
       <VideoCard row dark
         id={id}
         name={mediaName}
-        ratio={ratio}
+        ratio={watchHistory.ratio}
         posterSize={'100px'}
-        //fittedNameSize={40}
         listitem={false}
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
-        link={util.links.watch(id, { begin: timeStamp })}
+        link={util.links.watch(id)}
       />
     </li>
   )

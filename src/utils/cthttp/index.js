@@ -15,6 +15,7 @@ import * as playlists from './requests/playlists'
 import * as medias from './requests/medias'
 import * as captions from './requests/captions'
 import * as epub from './requests/epub'
+import * as watchHistories from './requests/watch-histories'
 
 import * as responseErrors from './responses/errors'
 import * as responseParsers from './responses/parsers'
@@ -40,6 +41,7 @@ export const api = {
     ...medias,
     ...captions,
     ...epub,
+    ...watchHistories,
 
     ...responseErrors,
     ...responseParsers,

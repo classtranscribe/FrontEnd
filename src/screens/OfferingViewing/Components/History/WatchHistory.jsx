@@ -1,23 +1,57 @@
-import React from 'react'
-import { VideoCard, VideoCardPlaceHolder } from '../../../../components'
-import { util } from '../../../../utils'
+import React, { useState, useEffect } from 'react'
+import { VideoCard, PlaceHolder } from '../../../../components'
+import { util, api, prompt } from '../../../../utils'
 
-export default function WatchHistory({ watchHistory, offerings, removeWatchHistory }) {
+export default function WatchHistory({ 
+  offerings, 
+}) {
+
+  const [watchHistory, setWatchHistory] = useState(['unloaded'])
+
+  const getMediaById = async mediaId => {
+    let { data } = await api.getMediaById(mediaId)
+    return api.parseMedia(data)
+  }
+
+  const getUserWatchHistories = async () => {
+    try {
+      let { data } = await api.getUserWatchHistories()
+      for (let i = 0; i < data.length; i++) {
+        data[i] = await getMediaById(data[i].mediaId)
+      }
+      setWatchHistory(data)
+    } catch (error) {
+      setWatchHistory([])
+      prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
+    }
+  }
+
+  useEffect(() => {
+    getUserWatchHistories()
+  }, [])
+
 
   return (
     <div className="watch-history">
-      <h2 className="history-title">Watch History</h2>
-      {watchHistory.length === 0 || offerings[0] === 'retry'  ?
-        <div>None</div> :
-        watchHistory[0] === 'unloaded' || offerings[0] === 'Unloaded' ?
-        <VideoCardPlaceHolder row={4} posterSize="10px" /> :
-        <div role="list" className="ct-list-col">
+      <h2 className="history-title">
+        <i className="material-icons">history</i>
+        <span>Watch History</span>
+      </h2>
+      {
+        (watchHistory.length === 0 || offerings[0] === 'retry')  
+        ?
+        <div>None</div> 
+        :
+        (watchHistory[0] === 'unloaded' || offerings[0] === 'Unloaded') 
+        ?
+        <PlaceHolder /> 
+        :
+        <div role="list" className="ct-list-col ct-a-fade-in">
           {watchHistory.map(media => (
             <MediaItem 
-              key={'watchhistory-' + media.mediaId} 
+              key={'watchhistory-' + media.id} 
               media={media} 
               offerings={offerings} 
-              removeWatchHistory={removeWatchHistory}
             />
           ))}
         </div>
@@ -26,21 +60,18 @@ export default function WatchHistory({ watchHistory, offerings, removeWatchHisto
   )
 }
 
-function MediaItem({ media, offerings, removeWatchHistory }) {
-  const { offeringId, mediaName, ratio, mediaId, timeStamp } = media
-  const offering = offerings.filter(offering => offering.id === offeringId)[0] || { }
-  const { fullNumber, courseName } = offering
-  return fullNumber ? (
-    <VideoCard row dismissable
+function MediaItem({ media }) {
+  const { mediaName, watchHistory, id } = media
+  return (
+    <VideoCard row
       name={mediaName}
-      ratio={ratio}
+      ratio={watchHistory.ratio}
       role="listitem"
-      link={util.links.watch(mediaId, { begin: timeStamp })}
-      description={`${fullNumber} • ${courseName}`}
-      descriptionLink={util.links.offeringDetail(offeringId)}
-      descriptionState={{ from: 'history' }}
-      handleDismiss={() => removeWatchHistory(mediaId)}
-      dismissPrompt="Remove from watch history"
+      posterSize="200px"
+      link={util.links.watch(id)}
+      //description={`${fullNumber} • ${courseName}`}
+      //descriptionLink={util.links.offeringDetail(offeringId)}
+      //descriptionState={{ from: 'history' }}
     />
-  ) : null
+  )
 }

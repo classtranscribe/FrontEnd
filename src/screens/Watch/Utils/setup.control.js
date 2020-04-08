@@ -4,6 +4,7 @@ import { transControl } from './trans.control'
 import { videoControl } from './player.control'
 import { menuControl } from './menu.control'
 import { promptControl } from './prompt.control'
+import { isSafari, isBrowser, isMobile, isIPad13, isIPhone13 } from 'react-device-detect'
 
 export const setup = {
   media_: api.parseMedia(),
@@ -82,7 +83,8 @@ export const setup = {
     menuControl.clear()
   },
 
-  changeVideo: function(media, playlist) {
+  changeVideo: async function(media, playlist) {
+    await videoControl.sendMediaHistories()
     const { history } = this.externalFunctions
     if (!playlist) playlist = this.playlist()
     history.push(util.links.watch(media.id))
@@ -160,12 +162,15 @@ export const setup = {
     }
   },
 
-  getUserMetadata: async function() {
-    const { setWatchHistory, setStarredOfferings } = this.externalFunctions
-    // api.storeUserMetadata({
-    //   setWatchHistory,
-    //   setStarredOfferings
-    // })
+  getMediaWatchHistories: async function(mediaId) {
+    try {
+      const { data } = await api.getMediaWatchHistories(mediaId)
+      console.error('getMediaWatchHistories', data)
+      return data
+    } catch (error) {
+      console.error('Failed to get watch histories.')
+      return {}
+    }
   },
 
   /**
@@ -211,8 +216,11 @@ export const setup = {
       return
     }
 
-    // set user metadata
-    // await this.getUserMetadata()
+    // // set user metadata
+    // let watchHistory = await this.getMediaWatchHistories(media.id)
+    // if (watchHistory.json && watchHistory.json.timestamp) {
+    //   media.begin = watchHistory.json.timestamp
+    // }
 
     // Set data
     this.media(media)
@@ -234,5 +242,9 @@ export const setup = {
     // Initialize user action handler
     let mediaId = media.id
     userAction.init({ offeringId, mediaId })
+
+    if (isSafari && isIPad13 && isIPhone13) {
+      promptControl.videoNotLoading()
+    }
   }
 }

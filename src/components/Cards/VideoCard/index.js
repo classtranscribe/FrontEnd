@@ -36,12 +36,12 @@ function VideoCardWithOutRouter({
   const fittedName = fittedNameSize < 0 ? name : util.getFittedName(name, fittedNameSize)
 
   const handleClick = () => {
-      if ($('.description-link:focus').length > 0) return;
-      if (link) history.push(link, mediaState)
-      if (Boolean(handleLinkClick)) {
-        handleLinkClick()
-      } 
-    }
+    if ($('.description-link:focus').length > 0) return;
+    if (link) history.push(link, mediaState)
+    if (Boolean(handleLinkClick)) {
+      handleLinkClick()
+    } 
+  }
 
   const role = listitem ? 'listitem' : null
 

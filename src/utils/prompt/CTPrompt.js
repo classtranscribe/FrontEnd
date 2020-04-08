@@ -42,7 +42,11 @@ export class CTPrompt {
 
     if (this.promptIds.length === 0) {
       const promptEl = document.getElementById(PROMPT_ID)
-      setTimeout(() => promptEl.remove(), 100)
+      setTimeout(() => {
+        if (promptEl) {
+          promptEl.remove()
+        }
+      }, 100)
     }
   }
 
@@ -61,11 +65,14 @@ export class CTPrompt {
    * Add one prompt box
    * @param {Object} prompt - the prompt config 
    * @param {String} prompt.text - The text in prompt
+   * @param {String} prompt.header - The header in prompt
    * @param {String} prompt.status - determines the color of the prompt box
    * @param {Boolean} prompt.contact - true if add a contact link
    * @param {Boolean} prompt.refresh - true if add a refresh page trigger
    * @param {Number} prompt.timeout - the close timeout
    * @param {String} prompt.position - The position of the prompt
+   * @param {Number[]} prompt.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Boolean} replace true if close other exisiting prompts
    * 
    * @property status - determines the color of the prompt box
    * - in 'primary', 'success', 'error' (default 'primary')
@@ -76,21 +83,27 @@ export class CTPrompt {
    */
   addOne(prompt={
     text: '',
+    header: '',
     status: 'primary',
     contact: false,
     refresh: false,
     timeout: -1,
     position: 'right bottom',
-  }) {
+    offset: [-1, -1],
+  }, replace=false) {
 
     const {
       text='',
+      header='',
       status='primary',
       contact=false,
       refresh=false,
-      timeout= -1,
+      timeout=-1,
       position='right bottom',
+      offset=[-1, -1],
     } = prompt
+
+    if (replace) this.closeAll()
     
     const onClose = this.close
     const promptEl = document.getElementById(PROMPT_ID)
@@ -98,20 +111,24 @@ export class CTPrompt {
 
     if (promptEl) {
       newBoxEl = createPromptBoxElem(text, {
+        header,
         status,
         contact,
         refresh,
         onClose,
+        offset,
       })
 
       promptEl.appendChild(newBoxEl)
     } else {
       newBoxEl = createPromptElem(text, {
+        header,
         status,
         contact,
         refresh,
         position,
         onClose,
+        offset,
       })
     }
 
@@ -126,11 +143,14 @@ export class CTPrompt {
    * Add one prompt box
    * @param {Object[]} prompts
    * @param {String} prompts[].text - The text in prompt
+   * @param {String} prompts[].header - The header in prompt
    * @param {String} prompts[].status - determines the color of the prompt box
    * @param {Boolean} prompts[].contact - true if add a contact link
    * @param {Boolean} prompts[].refresh - true if add a refresh page trigger
    * @param {Number} prompts[].timeout - the close timeout
    * @param {String} prompts[].position - The position of the prompt
+   * @param {Number[]} prompts[].offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Boolean} replace true if close other exisiting prompts
    * 
    * @property status - determines the color of the prompt box
    * - in 'primary', 'success', 'error' (default 'primary')
@@ -139,7 +159,8 @@ export class CTPrompt {
    * 
    * @returns {void}
    */
-  addMany(prompts=[]) {
+  addMany(prompts=[], replace=false) {
+    if (replace) this.closeAll()
     _.forEach(prompts, prp => this.addOne(prp))
   }
 }

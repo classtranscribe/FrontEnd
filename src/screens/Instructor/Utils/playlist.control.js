@@ -3,12 +3,33 @@ import { util, api, prompt } from '../../../utils'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
 
+const YOUTUBE_PREFIX = 'https://www.youtube.com/playlist'
+const ECHO360_PREFIX = 'https://echo360.org/section/'
+const BOX_PREFIX = 'https://uofi.app.box.com/folder/'
+
 export const plControl = {
   externalFunctions: {},
 
   init(props) {
     const { setPlaylists, setPlaylist } = props
     this.externalFunctions = { setPlaylists, setPlaylist }
+  },
+
+  getPlaylistSourceURL({ sourceType, playlistIdentifier }) {
+    let source = ''
+    if (!playlistIdentifier) return source
+
+    if (sourceType === 1) { // YouTube
+      source = YOUTUBE_PREFIX + util.links.createSearch({ list: playlistIdentifier })
+    } else if (sourceType === 3) { // Kaltura
+
+    } else if (sourceType === 4) { // Box
+      source = BOX_PREFIX + playlistIdentifier
+    } else if (sourceType === 0) { // echo
+      source = ECHO360_PREFIX + playlistIdentifier + '/public'
+    }
+
+    return source
   },
 
   async createPlaylist(playlist) {

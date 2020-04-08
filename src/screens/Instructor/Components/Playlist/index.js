@@ -21,7 +21,7 @@ import {
   connectWithRedux, 
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, 
-  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, //NO_OFFERING_ID,
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, plControl, //NO_OFFERING_ID,
 } from '../../Utils'
 import './index.scss'
 
@@ -81,7 +81,6 @@ function PlaylistWithRedux({
   // if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
-  
 
   return (
     <div ref={stickyContextRef} className="ip-playlist">
@@ -97,6 +96,24 @@ function PlaylistWithRedux({
           >
             <PlaylistInfo playlist={playlist} isTop={isTop} />
           </Sticky>
+
+          <div className="ip-pl-detail ct-d-c">
+            {
+              playlist.createdAt
+              &&
+              <div>
+                <span>Created at {playlist.createdAt.slice(0,10)}</span>
+              </div>
+            }
+            {
+              plControl.getPlaylistSourceURL(playlist)
+              &&
+              <div>
+                <b>SOURCE</b>
+                <span className="pl-2">{plControl.getPlaylistSourceURL(playlist)}</span>
+              </div>
+            }
+          </div>
 
           {/* Title */}
           <div className="ip-sb-title ct-d-r-center-v mt-3">

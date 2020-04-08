@@ -57,7 +57,9 @@
     text-align: center;
     color: rgb(58, 122, 122);
   }
-
+.op-sidebar .pico.pico-btn .pico-btn-con {
+  justify-content: center;
+}
 .sp-content .goback-container {
   width: 100%;
   padding-bottom: 1rem;}

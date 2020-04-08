@@ -5,19 +5,22 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { user, util } from '../../../utils'
-import { Icon, Button } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+import { Button } from 'pico-ui'
 
 const EK_COURSES = 'courses'
 const EK_STARRED = 'starred'
+const EK_SEARCH = 'search'
 const EK_HISTORY = 'history'
 const EK_ANALYTICS = 'personal-analytics'
 const EK_NAN = 'NaN'
 
 
 function currentActiveKey() {
-  let { home, starred, history, personalAnalytics } = util.links
+  let { home, starred, history, personalAnalytics, search } = util.links
   switch (window.location.pathname) {
     case home()               : return EK_COURSES
+    case search()             : return EK_SEARCH
     case starred()            : return EK_STARRED
     case history()            : return EK_HISTORY
     case personalAnalytics()  : return EK_ANALYTICS
@@ -51,6 +54,18 @@ export function Sidebar({
           onClick={handleTabChange}
         >
           <Icon name="book" /> &emsp; Courses
+        </ListGroup.Item>
+
+        <ListGroup.Item action
+          className="list"
+          eventKey={EK_SEARCH}
+          as={Link} 
+          to={util.links.search()}
+          title="search" 
+          aria-label="seach"
+          onClick={handleTabChange}
+        >
+          <Icon name="search" /> &emsp; Search
         </ListGroup.Item>
 
         {
@@ -91,7 +106,6 @@ export function Sidebar({
           <div className="signin-prompt">
             <p>Can't Find Your Courses?<br/>Sign In to See More</p>
             <Button 
-              title="sign in" 
               aria-label="sign in"
               onClick={signin}
             >

@@ -17,6 +17,11 @@ body {
   overflow: hidden;
 }
 
+#root, .ct-app-insight-provider {
+  height: 100%;
+  width: 100%;
+}
+
 a:focus, button:focus {
   outline-width: 2px;
   outline-color:  rgb(7, 150, 143);

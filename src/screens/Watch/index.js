@@ -5,7 +5,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
-import { CTContext } from '../../components'
 import { 
   WatchHeader,
   Menus,
@@ -15,7 +14,6 @@ import {
   ControlBar,
   Transcriptions,
   TabEventHelperButtons,
-  Prompts,
   UpNext,
   TransCtrlButtons,
 } from './Components'
@@ -29,8 +27,7 @@ import {
 
   setup,
   videoControl,
-  transControl, 
-  promptControl, 
+  transControl,
   searchControl,  
   preferControl,
   keydownControl, 
@@ -47,7 +44,6 @@ export class WatchWithRedux extends React.Component {
     setup.init(props)
     transControl.init(props)
     searchControl.init(props)
-    promptControl.init(props)
     preferControl.init(props)
   }
 
@@ -77,13 +73,10 @@ export class WatchWithRedux extends React.Component {
         <TransCtrlButtons />
         <Transcriptions />
         <ControlBar />
-        <Prompts />
       </main>
     )
   }
 }
-
-WatchWithRedux.contextType = CTContext
 
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(

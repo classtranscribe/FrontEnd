@@ -17,7 +17,7 @@ See the [Deployment project](https://github.com/classtranscribe/Deployment) for 
 ```
 $ git clone https://github.com/classtranscribe/FrontEnd.git && cd FrontEnd
 ```
-2. In the root directory, add an `.env` file (This file can be obtained from an admin).
+2. In the root directory, add an `.env` file (This file should be obtained from an admin).
 3. Install Node JS dependencies.
 ```
 $ yarn install
@@ -26,4 +26,4 @@ $ yarn install
 ```
 $ yarn start
 ```
-5. For more details about the exsiting components, see [here](./utils/README.md)
+5. For more details about the existing structure/components, see [src/README.md](./src/README.md)
