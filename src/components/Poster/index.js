@@ -6,7 +6,7 @@ export function Poster({
   src=defaultImg, 
   progress=0, 
   borderRadius=false, 
-  width, 
+  width='150px', 
   height,
   round=false
 }) {
