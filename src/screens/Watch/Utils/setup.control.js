@@ -4,6 +4,7 @@ import { transControl } from './trans.control'
 import { videoControl } from './player.control'
 import { menuControl } from './menu.control'
 import { promptControl } from './prompt.control'
+import { isSafari, isBrowser, isMobile, isIPad13, isIPhone13 } from 'react-device-detect'
 
 export const setup = {
   media_: api.parseMedia(),
@@ -241,5 +242,9 @@ export const setup = {
     // Initialize user action handler
     let mediaId = media.id
     userAction.init({ offeringId, mediaId })
+
+    if (isSafari && isIPad13 && isIPhone13) {
+      promptControl.videoNotLoading()
+    }
   }
 }

@@ -6,11 +6,11 @@ import { prompt } from 'utils'
 
 export const promptControl = {
 
-  closePrompt: function() {
+  closePrompt() {
     prompt.closeAll()
   },
 
-  editCaptionUsingKeyboard: function() {
+  editCaptionUsingKeyboard() {
     prompt.addOne({
       status: 'success',
       text: 'You are editing the current caption! Hit return to save changes.',
@@ -18,10 +18,10 @@ export const promptControl = {
     })
   },
 
-  savingCaption: function() {
+  savingCaption() {
   },
 
-  savedCaption: function(bool=true) {
+  savedCaption(bool=true) {
     prompt.addOne({
       status: bool ? 'success' : 'primary',
       text: bool ? 'Caption Saved!' : "Couldn't save the caption.",
@@ -30,7 +30,7 @@ export const promptControl = {
     })
   },
 
-  hideSecondaryScreen: function() {
+  hideSecondaryScreen() {
     prompt.addOne({
       text: 'Click <i class="material-icons">video_label</i> to see more screen options.',
       offset: [70, 70],
@@ -38,11 +38,20 @@ export const promptControl = {
     })
   },
 
-  error: function(target='media data') {
+  error(target='media data') {
     let { search, pathname } = window.location
     prompt.addOne({
       text: `Couldn't load ${target}. Please&ensp;<a href="${pathname+search}">refresh</a>&ensp;to retry.`,
       offset: [70, 70],
+      status: 'error'
+    })
+  },
+
+  videoNotLoading() {
+    prompt.addOne({
+      text: `Sorry, if the video can't load, please use Chrome to open the page. 
+        <a href=${'googlechrome-x-callback://x-callback-url/open/?url='+encodeURIComponent(window.location.href)+'&x-source=Safari&x-success='+encodeURIComponent(window.location.href)}>Click to open in Chrome</a>`,
+      position: 'top',
       status: 'error'
     })
   }

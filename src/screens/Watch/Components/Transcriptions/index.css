@@ -65,7 +65,7 @@
     padding-left: 1em;
   }
 }
-@media screen and (max-width: 700px) {
+/* @media screen and (max-width: 700px) {
   .trans-box {
     padding-top: calc(50%);
   }
@@ -74,7 +74,7 @@
   .trans-box {
     padding-top: calc(40%);
   }
-}
+} */
 
 .watch-trans-place-holder {
   width: 100%;
