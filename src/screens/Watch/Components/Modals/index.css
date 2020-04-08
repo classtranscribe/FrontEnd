@@ -1,7 +1,7 @@
 .watch-modal {
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 
 .watch-modal[data-modal-type="modal-hide"] {
@@ -11,7 +11,7 @@
 .wml-filter {
   display: absolute;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: rgba(0, 0, 0, 0.623);
 }
 

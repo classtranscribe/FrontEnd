@@ -42,6 +42,8 @@ class AppInsightsProvider extends Component {
 export default withRouter(
   withAITracking(
     appInsightsService.reactPlugin, 
-    AppInsightsProvider
+    AppInsightsProvider,
+    '',
+    'ct-app-insight-provider'
   )
 )

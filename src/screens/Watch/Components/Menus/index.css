@@ -4,7 +4,7 @@
   right: 0;
   position: absolute;
   width: 100vw;
-  height: calc(100vh - 110px);
+  height: calc(100% - 110px);
   background: var(--watch-page-bg-color-alpha);
   opacity: 1;
   /* Add the blur effect */
@@ -147,7 +147,7 @@
 @media screen and (max-width: 550px) {
   .watch-menus {
     bottom: 110px;
-    height: calc(100vh - 165px);
+    height: calc(100% - 165px);
   }
   .watch-icon-list {
     width: 100%;
