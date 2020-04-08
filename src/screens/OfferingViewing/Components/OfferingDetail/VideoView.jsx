@@ -7,9 +7,7 @@ import { api, util } from '../../../../utils'
 
 function VideoView({ 
   playlistId, 
-  playlists, 
   goBack, 
-  watchHistoryJSON 
 }) {
   const history = useHistory()
   const [playlist, setPlaylist] = useState({})
@@ -54,9 +52,6 @@ function VideoView({
           <Video 
             key={media.id} 
             media={media} 
-            playlist={playlist}
-            playlists={playlists}
-            watchHistoryJSON={watchHistoryJSON}
           />
         ))}
       </div>
@@ -64,17 +59,15 @@ function VideoView({
   ) : <PlaceHolder />
 }
 
-function Video({ media, playlist, playlists, watchHistoryJSON }) {
-  const { mediaName, id, isUnavailable } = api.parseMedia(media)
-  const { timeStamp, ratio } = watchHistoryJSON[id] || {}
+function Video({ media }) {
+  const { mediaName, id, isUnavailable, watchHistory } = api.parseMedia(media)
 
   return (
     <VideoCard row
       id={id}
       name={mediaName}
-      link={util.links.watch(id, { begin: timeStamp })}
-      ratio={ratio}
-      mediaState={{ playlist, playlists }}
+      link={util.links.watch(id)}
+      ratio={watchHistory.ratio}
       posterSize="150px"
       isUnavailable={isUnavailable}
     />

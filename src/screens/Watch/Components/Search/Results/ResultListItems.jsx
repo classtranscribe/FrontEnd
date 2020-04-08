@@ -57,23 +57,19 @@ export const CaptionListItem = ({
  * The result listitem for videos
  */
 export const VideoListItem = ({ 
-  media=null, 
-  watchHistory=[],
+  media=null,
 }) => {
   const { mediaId, name, playlistName } = media
-  const mediaHistory = watchHistory.filter(mh => mh.mediaId === mediaId)[0] || {}
-  const { ratio, timeStamp } = mediaHistory
   return (
     <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
       <VideoCard row dark
         id={mediaId}
         name={name}
-        ratio={ratio}
         posterSize={'100px'}
         listitem={false}
         fittedNameSize={-1}
         description={`Playlist - ${playlistName}`}
-        link={util.links.watch(mediaId, { begin: timeStamp })}
+        link={util.links.watch(mediaId)}
       />
     </div>
   )

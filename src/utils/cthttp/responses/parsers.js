@@ -125,7 +125,8 @@ export function parseOfferings(rawOfferings) {
  *  videos: {srcPath1: string, srcPath2: string}[],
  *  transcriptions: {id: string, language: string, src: string}[],
  *  isUnavailable: boolean,
- *  transReady: boolean
+ *  transReady: boolean,
+ *  watchHistory: { timestamp: number, ratio: number }
  * }} the parsed media data 
  */
 export function parseMedia(media) {
@@ -139,6 +140,7 @@ export function parseMedia(media) {
         transcriptions: [],
         isUnavailable: true,
         transReady: false,
+        watchHistory: { timestamp: 0, ratio: 0 }
     }
 
     // console.log(media)
@@ -153,6 +155,7 @@ export function parseMedia(media) {
         video, 
         transcriptions, 
         ready,
+        watchHistory,
     } = media
     
     if (!id || !jsonMetadata) return re
@@ -191,6 +194,12 @@ export function parseMedia(media) {
             })
         }
     })
+
+    /** Watch history */
+    if (watchHistory && watchHistory.json && watchHistory.json.ratio) {
+        re.watchHistory = watchHistory.json
+        // re.watchHistory.ratio *= 100
+    }
 
     return re
 }

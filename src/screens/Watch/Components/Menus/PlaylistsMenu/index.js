@@ -10,7 +10,6 @@ function PlaylistsMenu({
   onClose=null,
   media={},
   playlist={},
-  watchHistory=[],
 }) {
   const currMedia = media
   const currMediaId = currMedia.id
@@ -40,7 +39,6 @@ function PlaylistsMenu({
       {/* Videos view */}
       <Videos 
         currMediaId={currMediaId}  
-        watchHistory={watchHistory}
         currPlaylist={currPlaylist}
       />
 

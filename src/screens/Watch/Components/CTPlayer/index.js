@@ -31,7 +31,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { media, /** watchHistory, offeringId, */ setMode, } = this.props
+    const { media, /** offeringId, */ setMode, } = this.props
 
     if (prevProps.media !== media) {
       // set src for videos
@@ -67,7 +67,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onDurationChange(e)
     const { media } = this.props
     let search = util.parseSearchQuery()
-    let begin = search.begin || media.begin
+    let begin = search.begin || media.watchHistory.timestamp
     if (Boolean(begin)) {
       control.currTime(Number(begin))
       util.replacePathname( util.links.watch(media.id) )

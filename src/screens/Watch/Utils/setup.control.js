@@ -215,11 +215,11 @@ export const setup = {
       return
     }
 
-    // set user metadata
-    let watchHistory = await this.getMediaWatchHistories(media.id)
-    if (watchHistory.json && watchHistory.json.timestamp) {
-      media.begin = watchHistory.json.timestamp
-    }
+    // // set user metadata
+    // let watchHistory = await this.getMediaWatchHistories(media.id)
+    // if (watchHistory.json && watchHistory.json.timestamp) {
+    //   media.begin = watchHistory.json.timestamp
+    // }
 
     // Set data
     this.media(media)

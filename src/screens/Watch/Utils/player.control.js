@@ -470,9 +470,9 @@ export const videoControl = {
   },
 
   async sendMediaHistories() {
-    let { id, playlistId } = setup.media()
+    let { id } = setup.media()
     if (id) {
-      await api.sendMediaWatchHistories(id, playlistId, this.currTime())
+      await api.sendMediaWatchHistories(id, this.currTime(), (this.currTime() / this.duration) * 100)
     }
   },
 

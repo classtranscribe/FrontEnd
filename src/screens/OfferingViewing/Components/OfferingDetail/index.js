@@ -23,7 +23,7 @@ export function OfferingDetail({
   const location = useLocation()
   const { id } = useParams()
 
-  const { starredOfferingsJSON, watchHistoryJSON } = state
+  const { starredOfferingsJSON } = state
   const [offering, setOffering] = useState({})
   const [playlists, setPlaylists] = useState(null)
   const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
@@ -180,8 +180,6 @@ export function OfferingDetail({
         accessType={offering.accessType}
         history={history} 
         playlists={playlists} 
-        fullNumber={offering.fullNumber}  
-        watchHistoryJSON={watchHistoryJSON}
       />
     </div>
   ) : <PlaceHolder />
