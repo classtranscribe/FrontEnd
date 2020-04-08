@@ -3,7 +3,9 @@ import { useHistory } from 'react-router-dom'
 import _ from 'lodash'
 import { Icon } from 'semantic-ui-react'
 import { VideoCard, PlaceHolder } from '../../../../components'
-import { api, util } from '../../../../utils'
+import { api, util, prompt } from '../../../../utils'
+
+const FAILED = { name: 'failed' }
 
 function VideoView({ 
   playlistId, 
@@ -19,7 +21,13 @@ function VideoView({
         _.reverse(data.medias)
         setPlaylist(data)
       })
-      .catch(error => console.error(error, 'Failed to load playlist.'))
+      .catch(error => {
+        console.error(error, 'Failed to load playlist.')
+        goBack()
+        prompt.addOne({
+          text: "Couldn't open the playlist, please sign in to see more."
+        }, true)
+      })
   }, [])
 
   useEffect(() => {
