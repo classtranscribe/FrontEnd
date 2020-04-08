@@ -19,13 +19,17 @@ export function Search({offerings, location}) {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
 
+  const searchInOfferings = value => {
+    return search.getResults(offerings, value, ['termName', 'fullNumber', 'courseName', 'sectionName'])
+  }
+
   useEffect( () => {
     util.scrollToTop('.sp-content')
     util.links.title('Search')
     window.scrollTo(0, 0)
     if (offerings.length) {
       if (defaultValue) {
-        setResults(search.searchInOfferings(offerings, defaultValue))
+        setResults(searchInOfferings(defaultValue))
       }
     }
   }, [offerings])
@@ -35,7 +39,8 @@ export function Search({offerings, location}) {
   const onInput = ({ target: {value} }) => {
     setSearchValue(value)
     // localStorage.setItem('searchValue', value)
-    setResults(search.searchInOfferings(offerings, value))
+    console.log(offerings)
+    setResults(searchInOfferings(value))
   }
 
   return (

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { isMobile } from 'react-device-detect'
 // UI
 import { Card } from 'react-bootstrap'
 import { StarredButton } from './Overlays'
@@ -30,6 +31,7 @@ export default function OfferingCard({ offering={}, starredOfferings=[], depart=
       }
       <Card 
         className={`offeringCard ${image ? 'image-card' : 'basic-card'}`} 
+        data-mobile={isMobile}
         as={Link} 
         to={{
           pathname: util.links.offeringDetail(id),
