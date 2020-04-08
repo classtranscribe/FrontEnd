@@ -5,7 +5,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { user, util } from '../../../utils'
-import { Icon, Button } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+import { Button } from 'pico-ui'
 
 const EK_COURSES = 'courses'
 const EK_STARRED = 'starred'
@@ -105,7 +106,6 @@ export function Sidebar({
           <div className="signin-prompt">
             <p>Can't Find Your Courses?<br/>Sign In to See More</p>
             <Button 
-              title="sign in" 
               aria-label="sign in"
               onClick={signin}
             >
