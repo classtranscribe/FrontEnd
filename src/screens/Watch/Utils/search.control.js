@@ -169,7 +169,7 @@ export const searchControl = {
       // console.log('playlistResults', data)
       return data
     } catch (error) {
-      console.error('Failed to get media results')
+      console.error(error, 'Failed to get media results')
       return []
     }
   },

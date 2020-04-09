@@ -6,10 +6,13 @@ export function Poster({
   src=defaultImg, 
   progress=0, 
   borderRadius=false, 
-  width, 
+  width='150px', 
   height,
   round=false
 }) {
+
+  progress = progress === 0 ? 0 : progress < 10 ? 10 : progress > 90 ? 100 : progress
+  
   return (
     <div 
       className="video-poster" 

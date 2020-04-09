@@ -5,6 +5,7 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 // UI
 import { Tab } from 'semantic-ui-react'
 import './index.css'
@@ -17,7 +18,7 @@ import CoursePane from './Courses'
 import InstructorPane from './Instructors'
 import More from './More'
 // Vars
-import { api, handleData, util, user } from '../../utils'
+import { api, util, user } from '../../utils'
 import LoginAsUser from './LoginAsUser'
 
 export class Admin extends React.Component {
@@ -169,7 +170,7 @@ export class Admin extends React.Component {
   setCurrent = (name, {value}) => { 
     // set **CurrUni store in localStorage, then get terms/departs cased on this uni id
     if (name.includes('Uni')) { 
-      this.setState({[name]: handleData.findById(this.state.universities, value)})
+      this.setState({[name]: _.find(this.state.universities, { id: value })})
       if (name.includes('term')) { // termCurrUni
         localStorage.setItem('termCurrUni', value)
         this.getTermsByUniId(value) 
@@ -184,7 +185,7 @@ export class Admin extends React.Component {
         this.getDepartsByUniId(value, 'courseCurrDeparts')
       }
     } else if (name.includes('Depart')) { // set courseCurrDepart, then get its courses
-      this.setState({[name]: handleData.findById(this.state.courseCurrDeparts, value)})
+      this.setState({[name]: _.find(this.state.courseCurrDeparts, { id: value })})
       this.getCoursesByDepartId(value)
       localStorage.setItem('courseCurrDepart', value)
     } 
@@ -196,7 +197,7 @@ export class Admin extends React.Component {
       { menuItem: 'Universities'  , render: () => <UniPane {...this} /> },
       { menuItem: 'Terms'         , render: () => <TermPane {...this} /> },
       { menuItem: 'Departments'   , render: () => <DepartPane {...this} /> },
-      { menuItem: 'Courses'       , render: () => <CoursePane {...this} /> },
+      { menuItem: 'Course Template'       , render: () => <CoursePane {...this} /> },
       { menuItem: 'Instructors'   , render: () => <InstructorPane {...this} />},
       { menuItem: 'More'          , render: () => <More {...this} />},
       { menuItem: 'Login As User' , render: () => <LoginAsUser {...this} />}

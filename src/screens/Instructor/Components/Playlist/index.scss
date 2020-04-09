@@ -1,12 +1,19 @@
 .ip-playlist {
   position: relative;
   padding: 4.6em .2em 0 0;
-  width: 60%;
+  width: 57%;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--ct-ip-grey-0);
   display: block;
+
+  .ip-pl-detail {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: var(--ct-ip-grey-1);
+  }
 }
 .ip-playlist-con {
   width: 100%;

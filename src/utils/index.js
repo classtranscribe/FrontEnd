@@ -1,26 +1,24 @@
 import $ from 'jquery'
-import { storage } from './storage'
 import { links   } from './links'
+import * as loggerToExport from './logger'
 
 export { env              } from './env'
+export { api              } from './cthttp'
+export { user             } from './user'
 export { search           } from './search'
-export { user, userAction } from './user'
-export { handleData       } from './data'
-export { api              } from './HTTP'
-export { prompt           } from './js/CTPrompt'
+export { userAction       } from './useraction'
 export { CTEpubGenerator  } from './epub-gen'
+export { CTPrompt, prompt } from './prompt'
+export { CTPreference     } from './user-preference'
 
 export * from './constants'
-
-export { CTPreference } from './js/CTPreference'
-export { CTPrompt } from './js/CTPrompt'
+export const logger = loggerToExport
 
 
 /**
  * Objects for switching pages and storing some general functions
  */
 export const util = {
-  ...storage,
   links: links,
 
   refresh: function() {

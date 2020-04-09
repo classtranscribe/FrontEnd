@@ -21,7 +21,7 @@ import {
   connectWithRedux, 
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, 
-  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, //NO_OFFERING_ID,
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, plControl, //NO_OFFERING_ID,
 } from '../../Utils'
 import './index.scss'
 
@@ -60,6 +60,9 @@ function PlaylistWithRedux({
   const stickyContextRef = createRef()
   const [isTop, setIsTop] = useState(true)
 
+  // filter
+  const [filtering, setFiltering] = useState(false)
+
   // Update results when playlist changes
   useEffect(() => {
     if (canShowPlaylists) {
@@ -78,7 +81,6 @@ function PlaylistWithRedux({
   // if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
-  
 
   return (
     <div ref={stickyContextRef} className="ip-playlist">
@@ -95,41 +97,54 @@ function PlaylistWithRedux({
             <PlaylistInfo playlist={playlist} isTop={isTop} />
           </Sticky>
 
+          <div className="ip-pl-detail ct-d-c">
+            {
+              playlist.createdAt
+              &&
+              <div>
+                <span>Created at {playlist.createdAt.slice(0,10)}</span>
+              </div>
+            }
+            {
+              plControl.getPlaylistSourceURL(playlist)
+              &&
+              <div>
+                <b>SOURCE</b>
+                <span className="pl-2">{plControl.getPlaylistSourceURL(playlist)}</span>
+              </div>
+            }
+          </div>
+
           {/* Title */}
           <div className="ip-sb-title ct-d-r-center-v mt-3">
             <i className="material-icons" aria-hidden="true">video_library</i>
             <h3>VIDEOS</h3>
           </div>
-          
-          {/* Upload Video Button & Filter */}
-          <div className="w-100">
-            {
-              playlist.sourceType === 2
-              &&
-              <ListItem dark
-                icon="add"
-                title=" UPLOAD VIDEOS"
-                onClick={onOpenUpload}
-              />
-            }
 
-            {
-              playlist.medias.length > 0
-              &&
+          {/* Selecting Buttons */}
+          <ButtonBar 
+            results={results} 
+            filtering={filtering}
+            setFiltering={setFiltering} 
+            upload={playlist.sourceType === 2}
+            onOpenUpload={onOpenUpload}
+          />
+
+          {
+            (playlist.medias.length > 0 && filtering)
+            &&
+            <div className="w-100 ct-a-fade-in mb-2">
               <Filter //darker
                 searchFor="Videos" 
                 onFilter={onFilter} 
                 onReverse={onReverse} 
               />
-            }
-          </div>
-
-          {/* Selecting Buttons */}
-          <ButtonBar results={results} />
+            </div>
+          }
           
           {/* Video Items */}
           {
-            results.length === 0
+            playlist.medias.length === 0
             ?
             <NoVideoHolder type={playlist.sourceType} />
             :

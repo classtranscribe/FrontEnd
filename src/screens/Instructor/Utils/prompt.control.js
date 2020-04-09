@@ -1,30 +1,9 @@
 import _ from 'lodash'
+import { prompt } from 'utils'
 
 export const promptControl = {
-  setPrompt: function() {},
-  init: function(props) {
-    this.setPrompt = props.setPrompt
-
-    // For test
-    // this.error(['load offerings', 'departments', 'and terms'])
-  },
-
-  prompt_: null,
-  prompt: function(prompt_) { // { text, position, status, type, timeout }
-    if (this.setPrompt) {
-      this.prompt_ = prompt_
-      this.setPrompt(this.prompt_)
-    }
-  },
-
-  close: function(timeout=0) {
-    setTimeout(() => {
-      this.prompt(null)
-    }, timeout);
-  },
-
   message: function(text, timeout=-1) {
-    this.prompt({
+    prompt.addOne({
       text, timeout,
       position: 'right bottom',
       status: 'success',
@@ -32,28 +11,26 @@ export const promptControl = {
   },
 
   saving: function(action='Saving') {
-    this.prompt({
+    prompt.addOne({
       text: `${action}...`,
       position: 'right bottom',
-      status: 'success',
       timeout: -1,
     })
   },
 
   saved: function(target='', action='saved') {
-    this.prompt({
+    prompt.addOne({
       text: `${target} ${action}`,
       position: 'right bottom',
-      status: 'success',
       timeout: 5000,
     })
   },
 
   failedToSave: function(target='', action='save') {
-    this.prompt({
+    prompt.addOne({
       text: `Failed to ${action} the ${target}`,
       position: 'right bottom',
-      status: 'failed',
+      status: 'error',
       timeout: 9000,
     })
   },
@@ -85,12 +62,11 @@ export const promptControl = {
       if (errors.length === 0) return;
     }
 
-    let errMesg = _.join(errors, ', ')
-    this.prompt({
-      text: `Error(s): failed to ${errMesg}`,
+    prompt.addMany(_.map(errors, errorMesg => ({
+      text: `Error: failed to ${errorMesg}`,
       position: 'right bottom',
-      status: 'failed',
+      status: 'error',
       timeout: -1,
-    })
+    })))
   }
 }

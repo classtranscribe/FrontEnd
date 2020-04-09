@@ -11,6 +11,16 @@
         padding: 2rem 0rem;
       }
     }
+.sp-content .search-bar[id=search-bar] h1 {
+  color: rgb(56, 56, 56);
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: linear-gradient(-180deg,white 90%,transparent);
+  display: flex;
+  align-items: center;
+}
 .sp-content .search-bar .input {
   width: 100%;}
   .search-bar[id=search-bar] input {
@@ -40,18 +50,22 @@
   .sp-content .search-bar .result a {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
-    font-size: 1.4em;
+    font-size: 25px;
     color: rgb(48, 134, 134);}
     .sp-content .search-bar .result a:hover {
       text-decoration: underline;}
   .sp-content .search-bar .result .offering-name {
     color: rgb(69, 90, 92);
-    font-size: 1.2em;
+    font-size: 20px;
     font-weight: bold;
-    margin-top: 0;}
-    .sp-content .search-bar .result .offering-name span {
-      font-size: 1rem;
-      font-weight: 100;}
+    margin: 0;}
+  .sp-content .search-bar .result .offering-description {
+    margin-top: 0;
+    color: rgb(77, 77, 77);
+    font-size: 1rem;}
+  .sp-content .search-bar .result .offering-section {
+    color: rgb(9, 73, 73);
+  }
   @media screen and (max-width: 600px) {
     .sp-content .search-bar .result {
       padding: 0.2rem;}

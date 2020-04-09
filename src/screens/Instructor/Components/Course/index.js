@@ -97,6 +97,7 @@ function CourseWithRedux({
           <Playlists
             results={results}
             playlist={playlist}
+            playlists={playlists}
             onFilter={onFilter}
             onReverse={onReverse}
             handlePlaylistClick={handlePlaylistClick}

@@ -1,5 +1,7 @@
 import {
-  LOADING_INIT, ARRAY_INIT
+  LOADING_INIT, 
+  ARRAY_INIT,
+  ORD_INIT
 } from '../../screens/Instructor/Utils'
 
 export const initialState = {
@@ -23,5 +25,5 @@ export const initialState = {
   // Others
   loading: LOADING_INIT,
   confirmation: null,
-  prompt: null,
+  ordering: ORD_INIT,
 }

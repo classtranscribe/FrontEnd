@@ -38,6 +38,7 @@ function LoginAsUser() {
               label="Email"
               placeholder="Email"
               onChange={handleEmailInput}
+              onReturn={onSignIn}
             />
 
             <div className="ct-d-r-end">
