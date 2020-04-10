@@ -30,5 +30,11 @@
 
   .ee-tb-btns {
     margin-top: 1rem;
+
+    .ee-tb-edit-btns {
+      margin-bottom: 50px;
+      background-color: rgb(243, 243, 243);
+      border-radius: 5px;
+    }
   }
 }

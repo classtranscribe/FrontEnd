@@ -1,8 +1,11 @@
 import React from 'react'
 import { api, util } from 'utils'
 import './index.scss'
+import EpubEditor from '../EpubEditor'
+import { EDITOR_RICHTEXT } from 'screens/MediaSettings/Utils'
 
 const ChapterView = ({
+  editor,
   chapter,
   shadow=false,
   round=false,
@@ -52,16 +55,7 @@ const ChapterView = ({
         }
       </div>
       
-      <div className="w-100">
-        <div 
-          id={`epub-view-${id}`}
-          className="msp-e-v-text"
-          contentEditable={contentEditable}
-          dangerouslySetInnerHTML={{ __html: text }} 
-          onInput={handleInput('epub')}
-          onKeyDown={textOnKeyDown}
-        />
-      </div>
+      <EpubEditor text={text} type={editor} />
     </div>
   ) : null
 }

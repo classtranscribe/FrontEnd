@@ -1,0 +1,32 @@
+.msp-ee-braft-editor {
+  .bf-controlbar {
+    // border-bottom: 2px solid rgb(224, 224, 224) !important;
+    transition: border 200ms linear;
+    position: sticky;
+    top: 0;
+    z-index: 11;
+    background-color: rgb(245, 245, 245) !important;
+    box-shadow: none !important;
+  }
+  .bf-controlbar .control-item.button {
+    color: rgb(170, 170, 170) !important;
+  }
+  &:hover {
+    .bf-controlbar {
+      box-shadow: 0 8px 10px -10px rgba(90, 90, 90, 0.534) !important;
+    }
+    // .bf-controlbar .control-item.button {
+    //   color: rgb(107, 107, 107) !important;
+    // }
+  }
+  &:focus-within {
+    // background-color: rgba(231, 231, 231, 0.801) !important;
+    .bf-controlbar {
+      // border-bottom: 2px solid rgb(7, 139, 139) !important;
+      box-shadow: 0 8px 10px -10px rgba(90, 90, 90, 0.534) !important;
+    }
+    .bf-controlbar .control-item.button {
+      color: rgb(107, 107, 107) !important;
+    }
+  }
+}

@@ -18,9 +18,10 @@ const styles = {
   },
 
   font: { 
-    color: 'black', 
-    fontSize: '1.15rem' 
+    color: 'rgb(70, 70, 70)', 
+    fontSize: '1.15rem'
   },
+
   currfont: { 
     color: 'black', 
     fontSize: '1.15rem',
@@ -37,20 +38,27 @@ export function EpubMenu({
   items=[],
 }) {
 
+  const onClose = () => setAnchorEl(null)
+  
+  const onClick = value => {
+    handleItemClick(value)
+    onClose()
+  }
+
   return (
     <>
     {trigger}
     <Menu
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
-      onClose={() => setAnchorEl(null)}
+      onClose={onClose}
       PaperProps={{style: styles.menu}}
     >
       {items.map( item => (
         <MenuItem
           key={item.text}
           aria-label={item.text}
-          onClick={() => handleItemClick(item.value)}
+          onClick={() => onClick(item.value)}
         >
           {/* <ListItemIcon style={styles.icon}>
             <i className={item.icon}></i>

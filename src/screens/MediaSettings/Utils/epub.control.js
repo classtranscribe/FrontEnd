@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
-import { NO_EPUB } from './constants'
+import { NO_EPUB, EDITOR_TYPE_SPLITTER } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
@@ -352,6 +352,12 @@ class Epub {
    */
   genId(prefx='auto-id') {
     return `${prefx}-${uuidv4()}`
+  }
+
+  parseText(text) {
+    let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
+    let type = splittedTexts[1]
+    return { type, splittedText: splittedTexts[0] }
   }
 
   parseChapter(epub, index) {

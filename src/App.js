@@ -17,6 +17,7 @@ import {
 } from './screens'
 import './App.css'
 import 'semantic-ui-css/semantic.min.css'
+import 'braft-editor/dist/index.css'
 
 import { user } from './utils'
 
