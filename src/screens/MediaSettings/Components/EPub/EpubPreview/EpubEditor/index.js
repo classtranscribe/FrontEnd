@@ -2,15 +2,15 @@ import React from 'react'
 import { RichTextEditor } from './RichTextEditor'
 import { HTMLEditor     } from './HTMLEditor'
 import { MarkDownEditor } from './MarkDownEditor'
-import './index.scss'
-import './braft-editor.scss'
-import './ace-editor.scss'
 import { 
   EDITOR_RICHTEXT, 
   EDITOR_HTML, 
   EDITOR_MARKDOWN,
   EDITOR_NONE
 } from 'screens/MediaSettings/Utils'
+import './index.scss'
+import './braft-editor.scss'
+import './ace-editor.scss'
 
 export default function EpubEditor({
   text,
@@ -36,9 +36,7 @@ export default function EpubEditor({
       {
         type === EDITOR_NONE
         &&
-        <div className="msp-e-v-text">
-          {text}
-        </div>
+        <div className="msp-e-v-text ct-a-fade-in" dangerouslySetInnerHTML={{__html: text}} />
       }
     </div>
   )

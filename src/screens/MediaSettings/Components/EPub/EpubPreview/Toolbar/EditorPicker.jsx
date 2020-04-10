@@ -20,14 +20,16 @@ export default function EditorPicker({
   return (
     <EpubMenu
       trigger={
-        <Button 
-          classNames="ee-tb-btn" 
-          onClick={e => setAnchorEl(e.currentTarget)} 
-          color="transparent" 
-          icon="arrow_drop_down"
-        >
-          {textEditorMap[editor]}
-        </Button>
+        <>
+          <Button outlined
+            // color="transparent"
+            classNames="ee-tb-btn epicker" 
+            onClick={e => setAnchorEl(e.currentTarget)} 
+            icon="arrow_drop_down"
+          >
+            {textEditorMap[editor]}
+          </Button>
+        </>
       }
       anchorEl={anchorEl}
       value={editor}

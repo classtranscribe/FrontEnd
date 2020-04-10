@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ChapterView from './ChapterView'
 import Toolbar from './Toolbar'
-import { connectWithRedux, epub, EDITOR_RICHTEXT, EDITOR_NONE } from '../../../Utils'
+import { connectWithRedux, epub, EDITOR_HTML, EDITOR_NONE } from '../../../Utils'
 import './index.scss'
 
 var lastChapterId = ''
@@ -21,6 +21,7 @@ function EpubPreviewWithRedux({
       if (previewEl) {
         previewEl.scrollTop = 0
       }
+      setEditor(EDITOR_NONE)
     }
     lastChapterId = currChapter.id
   }, [currChapter])

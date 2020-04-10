@@ -9,12 +9,13 @@ export function RichTextEditor({
   const editorState = BraftEditor.createEditorState(text)
 
   return (
-    <div id="msp-ee-editor" className="msp-ee-editor">
+    <div id="msp-ee-editor" className="msp-ee-editor ct-a-fade-in">
       <BraftEditor
         language="en"
         className="msp-ee-braft-editor"
         controls={controls}
-        contentStyle={{height: 'auto', paddingTop: '7px'}}
+        controlBarStyle={{borderRadius: '5px 5px 0 0'}}
+        contentStyle={{height: '500px', paddingTop: '7px'}}
         defaultValue={editorState}
       />
     </div>

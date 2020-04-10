@@ -26,6 +26,10 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.384);
       }
     }
+
+    &.epicker {
+      margin-bottom: 100px;
+    }
   }
 
   .ee-tb-btns {
@@ -33,8 +37,11 @@
 
     .ee-tb-edit-btns {
       margin-bottom: 50px;
-      background-color: rgb(243, 243, 243);
       border-radius: 5px;
+
+      &.editing {
+        margin-bottom: 0;
+      }
     }
   }
 }

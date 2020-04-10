@@ -20,6 +20,10 @@ export default function Toolbar({
   const saveEditing = () => {
     setEditor(EDITOR_NONE)
   }
+  
+  const cancelEditing = () => {
+    setEditor(EDITOR_NONE)
+  }
 
   useEffect(() => {
     let editorEl = document.getElementById('msp-ee-editor')
@@ -53,38 +57,52 @@ export default function Toolbar({
             </Button>
           </div>
           :
-          <div className="ee-tb-edit-btns ct-a-fade-in">
+          <div className="ee-tb-edit-btns editing ct-a-fade-in">
             <EditorPicker
               editor={editor}
               setEditor={setEditor}
             />
-            <Button 
-              classNames="ee-tb-btn" 
+            <Button round
+              classNames="ee-tb-btn ee-tb-btn-me" 
               color="teal" 
               icon="check"
               onClick={saveEditing}
             >
               Save Changes
             </Button>
+            <Button round
+              classNames="ee-tb-btn ee-tb-btn-me" 
+              color="black" 
+              icon="delete"
+              onClick={cancelEditing}
+            >
+              Discard Changes
+            </Button>
           </div>
         }
 
-        <Button round
-          classNames="ee-tb-btn ee-tb-btn-me" 
-          color="black" 
-          icon="edit"
-          onClick={() => epub.isEditingEpub(true)}
-        >
-          Manage Chapters
-        </Button>
-        <Button round
-          classNames="ee-tb-btn ee-tb-btn-me" 
-          color="black" 
-          icon="get_app"
-          onClick={() => epub.download()}
-        >
-          Download ePub
-        </Button>
+        {
+          editor === EDITOR_NONE
+          &&
+          <div className="w-100 ct-a-fade-in">
+            <Button round
+              classNames="ee-tb-btn ee-tb-btn-me" 
+              color="black" 
+              icon="settings"
+              onClick={() => epub.isEditingEpub(true)}
+            >
+              Manage Chapters
+            </Button>
+            <Button round
+              classNames="ee-tb-btn ee-tb-btn-me" 
+              color="black" 
+              icon="get_app"
+              onClick={() => epub.download()}
+            >
+              Download ePub
+            </Button>
+          </div>
+        }
       </div>
     </div>
   )
