@@ -1,30 +1,19 @@
 import React from 'react'
-import _ from 'lodash'
-import { Dropdown } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
-import { langMap } from 'screens/Watch/Utils'
 import { epub } from 'screens/MediaSettings/Utils'
+import './index.scss'
+import { LanguageMenuTrigger } from '../../LanguageMenuTrigger'
 
-const langOptions = _.map(langMap, (text, value) => ({ text, value }))
 
 export default function Toolbar({
   language
 }) {
+
   return (
     <div className="msp-ee-ep-tb ct-a-fade-in">
-      {/* <div className="ee-ep-tb-top-holder"></div> */}
-      <Dropdown floating fluid
-        trigger={
-          <Button outlined
-            classNames="ee-tb-btn" 
-            icon="arrow_drop_down" 
-            text={langMap[language]} 
-          />
-        }
-        icon={null}
-        value={language}
-        options={langOptions}
-        onChange={(e, { value }) => epub.changeLanguage(value)}
+      <LanguageMenuTrigger
+        language={language}
+        classNames="ee-tb-btn"
       />
 
       <div className="ee-tb-btns">

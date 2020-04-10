@@ -8,7 +8,7 @@ import { PlaceHolder } from 'components'
 
 import RequestEpub from './RequestEpub'
 import EpubChapters from './EpubChapters'
-import EpubPreview from './Preview'
+import EpubPreview from './EpubPreview'
 import CoverPicker from './CoverPicker'
 import ActionButtons from './ActionButtons'
 import ChapterNavigator from './ChapterNavigator'

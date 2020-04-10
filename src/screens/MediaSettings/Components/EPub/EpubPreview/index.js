@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ChapterView from '../ChapterView'
+import ChapterView from './ChapterView'
 import Toolbar from './Toolbar'
 import { connectWithRedux, epub } from '../../../Utils'
 import './index.scss'
