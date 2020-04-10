@@ -14,12 +14,12 @@ function ActionButtonsWithRedux({
         onClick={() => epub.saveChapters()}
       />
 
-      {/* <Button round size="big"
+      <Button round size="big"
         classNames="ee-act-btn"
         text="Cancel"
         color="black"
-        onClick={cancelEditing}
-      /> */}
+        onClick={() => epub.cancelEditChapters()}
+      />
     </div>
   ) : null
 

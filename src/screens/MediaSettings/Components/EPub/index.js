@@ -38,10 +38,7 @@ export function EpubWithRedux({
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
-        let chapters_ = [{ items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }]
-        // let chapters_ = _.map(epubData, (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: epub.genId('epub-ch')}))
-        epub.setChapters(chapters_)
-        if (chapters_[0]) epub.changeChapter(chapters_[0])
+        epub.setupChapters(epubData)
       } else {
         setChapters(epubData)
       }

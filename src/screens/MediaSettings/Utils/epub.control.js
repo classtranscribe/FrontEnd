@@ -114,6 +114,13 @@ class Epub {
     this.setState('setFoldedIds', 'foldedIds', foldedIds)
   }
 
+  setupChapters(epubData) {
+    let chapters = [{ items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }]
+    // let chapters_ = _.map(epubData, (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: epub.genId('epub-ch')}))
+    this.setChapters(chapters)
+    if (chapters[0]) this.changeChapter(chapters[0])
+  }
+
   ///////////////////////////////////////////////////////////////////////////
   // Generate a chapter based on list of screenshots and transcriptions
   ///////////////////////////////////////////////////////////////////////////
@@ -267,8 +274,8 @@ class Epub {
   // handle save ePub
   ///////////////////////////////////////////////////////////////////////////
   saveChapters = () => {
-    let newEpub = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
-    console.log('newEpub', newEpub)
+    // let newEpub = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
+    // console.log('newEpub', newEpub)
     this.isEditingEpub(false)
     prompt.addOne({
       text: 'ePub chapters saved.',
@@ -279,6 +286,7 @@ class Epub {
   }
 
   cancelEditChapters = () => {
+    this.setupChapters(this.epubData())
     this.isEditingEpub(false)
   }
 
