@@ -3,15 +3,17 @@
   font-size: 1.2rem;
   line-height: 1.6rem;
   font-family: var(--ct-font-google);
-  border-radius: 10px;
   border-bottom: 2px solid transparent;
   min-height: 3rem;
   width: 100%;
   transition: all .2s ease;
+  padding: 10px 0;
 }
 
 .ee-preview-text-con {
   box-sizing: border-box;
+  max-width: 100%;
+  overflow: auto;
   
   img,
   audio,
@@ -28,15 +30,35 @@
     min-height: 1em;
     margin-bottom: 1em;
   }
+
   pre{
     padding: 15px;
     background-color: #f1f1f1;
     border-radius: 5px;
   }
 
+  /* Code */
   blockquote{
     padding: 15px;
     background-color: #f1f1f1;
     border-left: 3px solid #d1d1d1;
+  }
+
+  /* Table */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+  }
+  
+  table, th, td {
+    padding: 10px 20px;
+    border: 1px solid rgb(209, 209, 209);
+    white-space: nowrap;
+  }
+
+  thead {
+    background-color: rgb(240, 240, 240);
   }
 }

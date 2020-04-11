@@ -47,6 +47,7 @@
     "redux-logger": "^3.0.6",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3",
+    "showdown": "^1.9.1",
     "typescript": "^3.8.3",
     "uuid": "^7.0.2"
   },

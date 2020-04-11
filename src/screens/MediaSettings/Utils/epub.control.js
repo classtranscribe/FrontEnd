@@ -4,6 +4,7 @@ import { NO_EPUB, EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, EDITOR_HTML, EDITOR_RIC
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
+import { Converter } from 'showdown'
 
 class Epub {
   constructor() {
@@ -80,20 +81,22 @@ class Epub {
     let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
     let content = splittedTexts[0]
     let editorType = splittedTexts[1]
-    // switch (editor) {
-    //   case EDITOR_NONE:
-    //   case EDITOR_HTML:
-    //   case EDITOR_RICHTEXT:
-    //     let parags = _.split(content, '\n\n')
-    //     content = _.map(parags, parag => `<p>${parag}</p>`).join('\n')
-    //     break
-    //   case EDITOR_MARKDOWN:
-    //   default:
-    //     break
-    // }
 
     return { content, editorType }
   }
+
+  markdown2HTML(text) {
+    let converter = new Converter({
+      tables: true, 
+      strikethrough: true,
+      parseImgDimensions: true,
+      simplifiedAutoLink: true,
+      excludeTrailingPunctuationFromURLs: true,
+      tasklists: true,
+      simpleLineBreaks: true,
+    })
+    return converter.makeHtml(text)
+  } 
 
   startEditContent(editor) {
     // console.log(editor)

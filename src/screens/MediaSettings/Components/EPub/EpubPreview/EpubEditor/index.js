@@ -20,6 +20,7 @@ export default function EpubEditor({
 }) {
 
   const { content, editorType } = epub.parseText(text, EDITOR_NONE)
+  const displayText = editorType === EDITOR_MARKDOWN ? epub.markdown2HTML(content) : content
   // console.log(content)
   return (
     <div className="w-100 mt-3">
@@ -41,9 +42,9 @@ export default function EpubEditor({
       {
         type === EDITOR_NONE
         &&
-        <div 
+        <div data-scroll
           className={"ee-preview-text-con ct-a-fade-in " + editorType} 
-          dangerouslySetInnerHTML={{__html: content}}
+          dangerouslySetInnerHTML={{__html: displayText}}
         />
       }
     </div>
