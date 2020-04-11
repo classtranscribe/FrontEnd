@@ -1,29 +1,29 @@
 .msp-ee-braft-editor {
-  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.198);
   border-radius: 5px;
   .bf-controlbar {
     transition: border 200ms linear;
     position: sticky;
     top: 0;
     z-index: 11;
-    background-color: rgb(245, 245, 245) !important;
+    background-color: #e8e8e8 !important;
     box-shadow: none !important;
   }
 
   .bf-controlbar .control-item.button {
-    color: rgb(170, 170, 170) !important;
+    color: rgb(129, 129, 129) !important;
     transition: color 200ms linear;
   }
 
   &:hover {
     .bf-controlbar {
-      box-shadow: 0 8px 10px -10px rgba(90, 90, 90, 0.534) !important;
+      box-shadow: 0 7px 10px -10px rgba(90, 90, 90, 0.534) !important;
     }
   }
 
   &:focus-within {
     .bf-controlbar {
-      box-shadow: 0 8px 10px -10px rgba(90, 90, 90, 0.534) !important;
+      box-shadow: 0 7px 10px -10px rgba(90, 90, 90, 0.534) !important;
     }
     .bf-controlbar .control-item.button {
       color: rgb(56, 56, 56) !important;

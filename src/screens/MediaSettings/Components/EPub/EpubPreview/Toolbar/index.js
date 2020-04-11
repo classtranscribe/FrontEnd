@@ -13,10 +13,6 @@ export default function Toolbar({
   setEditor,
 }) {
 
-  const editEpubContent = () => {
-    setEditor(EDITOR_RICHTEXT)
-  }
-
   const saveEditing = () => {
     setEditor(EDITOR_NONE)
   }
@@ -47,18 +43,19 @@ export default function Toolbar({
             <Button classNames="ee-tb-btn" color="transparent" icon="post_add">
               Add Audio Description
             </Button>
-            <Button 
-              classNames="ee-tb-btn" 
-              color="transparent" 
+            <EditorPicker
+              editor={editor}
+              className="ee-tb-btn" 
               icon="edit"
-              onClick={editEpubContent}
-            >
-              Edit Content
-            </Button>
+              color="transparent" 
+              setEditor={setEditor}
+              text="Edit Content"
+            />
           </div>
           :
           <div className="ee-tb-edit-btns editing ct-a-fade-in">
-            <EditorPicker
+            <EditorPicker outlined
+              className="ee-tb-btn epicker"
               editor={editor}
               setEditor={setEditor}
             />

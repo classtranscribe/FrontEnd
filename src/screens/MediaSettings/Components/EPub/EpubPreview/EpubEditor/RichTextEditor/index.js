@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import BraftEditor from 'braft-editor'
-import { controls } from './controls'
+import { setup } from 'screens/MediaSettings/Utils'
+import { controls, getExtendControls } from './controls'
 
 export function RichTextEditor({
   text
 }) {
+
+  const [fullscreen, setFullscreen] = useState(false)
+
+  useEffect(() => {
+    document.addEventListener('fullscreenchange', () => {
+      setFullscreen(fullscreen => !fullscreen)
+      let editorEl = document.getElementById('msp-ee-editor')
+      if (editorEl) {
+        editorEl.scrollIntoView()
+      }
+    })
+  }, [])
 
   const editorState = BraftEditor.createEditorState(text)
 
@@ -15,8 +28,9 @@ export function RichTextEditor({
         className="msp-ee-braft-editor"
         controls={controls}
         controlBarStyle={{borderRadius: '5px 5px 0 0'}}
-        contentStyle={{height: '500px', paddingTop: '7px'}}
+        contentStyle={{height: fullscreen ? '90vh' : '500px', paddingTop: '7px'}}
         defaultValue={editorState}
+        extendControls={getExtendControls(fullscreen)}
       />
     </div>
   )

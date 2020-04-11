@@ -8,26 +8,34 @@ const textEditorOptions = _.map(textEditorMap, (text, value) => ({ text, value }
 
 export default function EditorPicker({
   editor,
-  setEditor
+  setEditor,
+  outlined,
+  color,
+  className,
+  icon="arrow_drop_down",
+  text,
+  after,
 }) {
 
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleItemClick = value => {
     setEditor(value)
+    if (after) after()
   }
 
   return (
     <EpubMenu
       trigger={
         <>
-          <Button outlined
-            // color="transparent"
-            classNames="ee-tb-btn epicker" 
+          <Button 
+            color={color}
+            outlined={outlined}
+            classNames={className}
             onClick={e => setAnchorEl(e.currentTarget)} 
-            icon="arrow_drop_down"
+            icon={icon}
           >
-            {textEditorMap[editor]}
+            {text || textEditorMap[editor]}
           </Button>
         </>
       }

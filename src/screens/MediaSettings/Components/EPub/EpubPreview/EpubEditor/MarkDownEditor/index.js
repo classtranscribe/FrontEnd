@@ -10,7 +10,7 @@ export function MarkDownEditor({
 }) {
 
   const [fullscreen, setFullscreen] = useState(false)
-  const [dark, setDark] = useState(true)
+  const [dark, setDark] = useState(false)
 
   const onChange = (newValue) => {
     console.log("change", newValue);
@@ -74,7 +74,7 @@ export function MarkDownEditor({
         value={text}
         data-scroll
         width="100%"
-        height={fullscreen ? "90vh" : "500px"}
+        height={fullscreen ? "90vh" : "530px"}
         wrapEnabled
         enableLiveAutocompletion
       />
