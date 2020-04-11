@@ -4,17 +4,19 @@ import { epub, EDITOR_NONE, EDITOR_RICHTEXT } from 'screens/MediaSettings/Utils'
 import './index.scss'
 import { LanguageMenuTrigger } from '../../LanguageMenuTrigger'
 import EditorPicker from './EditorPicker'
-import { util } from 'utils'
 
 
 export default function Toolbar({
+  //chapter,
   language,
   editor,
   setEditor,
+  defaultEditor,
 }) {
 
   const saveEditing = () => {
     setEditor(EDITOR_NONE)
+    epub.onSaveText(editor)
   }
   
   const cancelEditing = () => {
@@ -50,6 +52,7 @@ export default function Toolbar({
               color="transparent" 
               setEditor={setEditor}
               text="Edit Content"
+              defaultEditor={defaultEditor}
             />
           </div>
           :

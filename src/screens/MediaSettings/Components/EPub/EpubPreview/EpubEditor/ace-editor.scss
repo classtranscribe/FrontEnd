@@ -2,6 +2,7 @@
   background-color: #2F3129;
   padding: 0 0 0 0;
   overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.425);
 
   .ee-editor-ctrl-bar {
     box-shadow: 0 0 10px rgb(26, 26, 26);
@@ -16,11 +17,12 @@
     border-radius: 5px 5px 0 0;
   }
 
+
   &[data-dark=false] {
     background-color: #e8e8e8;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.226);
     .ee-editor-ctrl-bar {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.144);
       background-color: #e8e8e8;
     }
   }

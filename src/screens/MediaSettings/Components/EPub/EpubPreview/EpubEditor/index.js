@@ -6,16 +6,21 @@ import {
   EDITOR_RICHTEXT, 
   EDITOR_HTML, 
   EDITOR_MARKDOWN,
-  EDITOR_NONE
+  EDITOR_NONE,
+  epub
 } from 'screens/MediaSettings/Utils'
 import './index.scss'
 import './braft-editor.scss'
 import './ace-editor.scss'
+import './text-preview.scss'
 
 export default function EpubEditor({
   text,
   type,
 }) {
+
+  const { content, editorType } = epub.parseText(text, EDITOR_NONE)
+  // console.log(content)
   return (
     <div className="w-100 mt-3">
       {
@@ -36,7 +41,10 @@ export default function EpubEditor({
       {
         type === EDITOR_NONE
         &&
-        <div className="msp-e-v-text ct-a-fade-in" dangerouslySetInnerHTML={{__html: text}} />
+        <div 
+          className={"ee-preview-text-con ct-a-fade-in " + editorType} 
+          dangerouslySetInnerHTML={{__html: content}}
+        />
       }
     </div>
   )

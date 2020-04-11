@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import BraftEditor from 'braft-editor'
-import { setup } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils'
 import { controls, getExtendControls } from './controls'
 
 export function RichTextEditor({
@@ -19,7 +19,7 @@ export function RichTextEditor({
     })
   }, [])
 
-  const editorState = BraftEditor.createEditorState(text)
+  const editorState = BraftEditor.createEditorState(epub.newText)
 
   return (
     <div id="msp-ee-editor" className="msp-ee-editor ct-a-fade-in">
@@ -31,6 +31,7 @@ export function RichTextEditor({
         contentStyle={{height: fullscreen ? '90vh' : '500px', paddingTop: '7px'}}
         defaultValue={editorState}
         extendControls={getExtendControls(fullscreen)}
+        onChange={data => epub.updateText(data.toHTML())}
       />
     </div>
   )

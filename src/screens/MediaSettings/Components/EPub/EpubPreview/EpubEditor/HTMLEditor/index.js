@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AceEditor from 'react-ace'
 import { Button } from 'pico-ui'
-import { setup } from 'screens/MediaSettings/Utils'
+import { setup, epub } from 'screens/MediaSettings/Utils'
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/snippets/html"
 import "ace-builds/src-noconflict/theme-monokai"
@@ -16,8 +16,8 @@ export function HTMLEditor({
   const [fullscreen, setFullscreen] = useState(false)
   const [dark, setDark] = useState(false)
 
-  const onChange = (newValue) => {
-    console.log("change", newValue);
+  const onChange = newValue => {
+    epub.updateText(newValue)
   }
 
   const enterFullscreen = () => {
@@ -55,10 +55,10 @@ export function HTMLEditor({
           classNames="mr-4" 
           text="HTML Editor"
         />
-        <Button round
+        <Button
           classNames="mr-2"
           icon={dark ? 'brightness_7' : 'brightness_4'}
-          color={dark ? "black" : ''}
+          color={dark ? "black" : 'tranparent'}
           text={dark ? "Light Mode" : "Dark Mode"} 
           onClick={() => setDark( dark => !dark )}
         />

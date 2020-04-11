@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
-import { NO_EPUB, EDITOR_TYPE_SPLITTER } from './constants'
+import { NO_EPUB, EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, EDITOR_HTML, EDITOR_RICHTEXT, EDITOR_NONE } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
@@ -73,9 +73,52 @@ class Epub {
   }
 
   /**
-   * Functions used for edit chapters
+   * Functions used for editing chapter
    * ****************************************************************
    */
+  parseText(text, editor='') {
+    let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
+    let content = splittedTexts[0]
+    let editorType = splittedTexts[1]
+    // switch (editor) {
+    //   case EDITOR_NONE:
+    //   case EDITOR_HTML:
+    //   case EDITOR_RICHTEXT:
+    //     let parags = _.split(content, '\n\n')
+    //     content = _.map(parags, parag => `<p>${parag}</p>`).join('\n')
+    //     break
+    //   case EDITOR_MARKDOWN:
+    //   default:
+    //     break
+    // }
+
+    return { content, editorType }
+  }
+
+  startEditContent(editor) {
+    // console.log(editor)
+    let { content } = this.parseText(this.currChapter.text, editor)
+    this.newText = content
+  }
+  
+  newText = ''
+  updateText(newText) {
+    this.newText = newText
+    // console.log(newText)
+  }
+
+  onSaveText(type) {
+    let chapterId = this.currChapter.id
+    let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
+
+    if (chapterIndex >= 0) {
+      this.newText += EDITOR_TYPE_SPLITTER + type
+      this.chapters[chapterIndex].text = this.newText
+      this.currChapter.text = this.newText
+      this.setChapters([ ...this.chapters ])
+      this.setCurrChapter({ ...this.currChapter })
+    }
+  }
 
   
 
@@ -130,7 +173,13 @@ class Epub {
       title: chapter.title || 'Untitled Chapter',
       image: chapter.image || (chapter.items[0] || {}).image,
       items: chapter.items,
-      text: _.filter(_.map(chapter.items, item => item.text), txt => txt !== '').join('\n\n')
+      text: _.map(
+        _.filter(
+          chapter.items,
+          ({ text }) => text !== ''
+        ), 
+        item => `<p>${_.trim(item.text)}</p>`
+      ).join('\n\n')
     }
   }
 
@@ -360,12 +409,6 @@ class Epub {
    */
   genId(prefx='auto-id') {
     return `${prefx}-${uuidv4()}`
-  }
-
-  parseText(text) {
-    let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
-    let type = splittedTexts[1]
-    return { type, splittedText: splittedTexts[0] }
   }
 
   parseChapter(epub, index) {

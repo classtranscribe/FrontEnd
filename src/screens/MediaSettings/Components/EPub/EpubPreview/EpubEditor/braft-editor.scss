@@ -1,6 +1,7 @@
 .msp-ee-braft-editor {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.198);
   border-radius: 5px;
+
   .bf-controlbar {
     transition: border 200ms linear;
     position: sticky;
@@ -15,18 +16,27 @@
     transition: color 200ms linear;
   }
 
+  div[data-block=true] {
+    margin-bottom: 1em !important;
+  }
+
   &:hover {
     .bf-controlbar {
-      box-shadow: 0 7px 10px -10px rgba(90, 90, 90, 0.534) !important;
+      box-shadow: 0 7px 10px -10px rgba(44, 44, 44, 0.274) !important;
     }
   }
 
   &:focus-within {
     .bf-controlbar {
-      box-shadow: 0 7px 10px -10px rgba(90, 90, 90, 0.534) !important;
+      box-shadow: 0 7px 10px -10px rgba(44, 44, 44, 0.274) !important;
     }
     .bf-controlbar .control-item.button {
       color: rgb(56, 56, 56) !important;
     }
   }
+}
+
+.bf-container .public-DraftEditor-content {
+  word-break: normal !important;
+  word-wrap: none !important;
 }

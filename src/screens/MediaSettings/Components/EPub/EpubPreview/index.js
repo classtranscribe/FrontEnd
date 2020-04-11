@@ -12,6 +12,8 @@ function EpubPreviewWithRedux({
   isEditingEpub=false,
 }) {
 
+  const { editorType } = epub.parseText(currChapter.text)
+
   const [editor, setEditor] = useState(EDITOR_NONE)
 
   useEffect(() => {
@@ -53,9 +55,11 @@ function EpubPreviewWithRedux({
         !isEditingEpub
         &&
         <Toolbar 
+          chapter={currChapter} 
           language={language} 
           editor={editor}
           setEditor={setEditor}
+          defaultEditor={editorType}
         />
       }
     </div>

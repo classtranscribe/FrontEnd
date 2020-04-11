@@ -1,0 +1,42 @@
+.ee-preview-text-con {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  font-family: var(--ct-font-google);
+  border-radius: 10px;
+  border-bottom: 2px solid transparent;
+  min-height: 3rem;
+  width: 100%;
+  transition: all .2s ease;
+}
+
+.ee-preview-text-con {
+  box-sizing: border-box;
+  
+  img,
+  audio,
+  video{
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,h2 {
+    padding-left: 0;
+  }
+  
+  p{
+    min-height: 1em;
+    margin-bottom: 1em;
+  }
+  pre{
+    padding: 15px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }
+
+  blockquote{
+    padding: 15px;
+    background-color: #f1f1f1;
+    border-left: 3px solid #d1d1d1;
+  }
+}
