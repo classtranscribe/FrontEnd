@@ -32,6 +32,7 @@ export function RichTextEditor({
         defaultValue={editorState}
         extendControls={getExtendControls(fullscreen)}
         onChange={data => epub.updateText(data.toHTML())}
+        stripPastedStyles
       />
     </div>
   )

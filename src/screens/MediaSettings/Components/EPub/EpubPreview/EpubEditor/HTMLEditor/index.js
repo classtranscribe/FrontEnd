@@ -10,7 +10,8 @@ import "ace-builds/src-min-noconflict/ext-searchbox"
 import "ace-builds/src-min-noconflict/ext-language_tools"
 
 export function HTMLEditor({
-  text
+  text,
+  title
 }) {
 
   const [fullscreen, setFullscreen] = useState(false)
@@ -50,24 +51,28 @@ export function HTMLEditor({
       data-dark={dark}
     >
       <div className="ee-editor-ctrl-bar">
-        <Button disabled compact 
-          color={dark ? "black" : ''} 
-          classNames="mr-4" 
-          text="HTML Editor"
-        />
-        <Button
-          classNames="mr-2"
-          icon={dark ? 'brightness_7' : 'brightness_4'}
-          color={dark ? "black" : 'tranparent'}
-          text={dark ? "Light Mode" : "Dark Mode"} 
-          onClick={() => setDark( dark => !dark )}
-        />
-        <Button round 
-          icon={fullscreen ? "fullscreen_exit" : "fullscreen"}
-          color={dark ? "black" : ''}
-          onClick={fullscreen ? exitFullscreen : enterFullscreen}
-        />
+        <h3>{title}</h3>
+        <div className="d-flex align-items-center">
+          <Button disabled compact 
+            color={dark ? "black" : ''} 
+            classNames="mr-4" 
+            text="Markdown Editor"
+          />
+          <Button
+            classNames="mr-2"
+            icon={dark ? 'brightness_7' : 'brightness_4'}
+            color={dark ? "black" : 'tranparent'}
+            text={dark ? "Light Mode" : "Dark Mode"} 
+            onClick={() => setDark( dark => !dark )}
+          />
+          <Button round 
+            icon={fullscreen ? "fullscreen_exit" : "fullscreen"}
+            color={dark ? "black" : ''}
+            onClick={fullscreen ? exitFullscreen : enterFullscreen}
+          />
+        </div>
       </div>
+
       <AceEditor
         className="msp-ee-html-editor"
         mode="html"

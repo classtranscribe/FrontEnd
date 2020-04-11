@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
-import { NO_EPUB, EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, EDITOR_HTML, EDITOR_RICHTEXT, EDITOR_NONE } from './constants'
+import { NO_EPUB, EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, EDITOR_HTML, EDITOR_RICHTEXT, EDITOR_DISPLAY } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
@@ -98,9 +98,10 @@ class Epub {
     return converter.makeHtml(text)
   } 
 
-  startEditContent(editor) {
-    // console.log(editor)
-    let { content } = this.parseText(this.currChapter.text, editor)
+  startEditContent(txtEditor, description) {
+    // console.log(txtEditor)
+    let text = description ? this.currChapter.audioDescription : this.currChapter.text
+    let { content } = this.parseText(text, txtEditor)
     this.newText = content
   }
   
@@ -121,6 +122,21 @@ class Epub {
       this.setChapters([ ...this.chapters ])
       this.setCurrChapter({ ...this.currChapter })
     }
+    this.newText = ''
+  }
+
+  onSaveAD(type) {
+    let chapterId = this.currChapter.id
+    let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
+
+    if (chapterIndex >= 0) {
+      this.newText += EDITOR_TYPE_SPLITTER + type
+      this.chapters[chapterIndex].audioDescription = this.newText
+      this.currChapter.audioDescription = this.newText
+      this.setChapters([ ...this.chapters ])
+      this.setCurrChapter({ ...this.currChapter })
+    }
+    this.newText = ''
   }
 
   
@@ -176,6 +192,7 @@ class Epub {
       title: chapter.title || 'Untitled Chapter',
       image: chapter.image || (chapter.items[0] || {}).image,
       items: chapter.items,
+      audioDescription: "so the main question why dress here is how can a text information system help users get access to the relevant text data we're going to cover two complementary strategies push versus pull and then we're going to talk about two ways to implement the poor mode querying versus browsing",
       text: _.map(
         _.filter(
           chapter.items,

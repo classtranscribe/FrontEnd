@@ -2,10 +2,11 @@ import React from 'react'
 import { api, util } from 'utils'
 import './index.scss'
 import EpubEditor from '../EpubEditor'
-import { EDITOR_RICHTEXT } from 'screens/MediaSettings/Utils'
+import { EDITOR_RICHTEXT, EDITOR_NONE } from 'screens/MediaSettings/Utils'
 
 const ChapterView = ({
-  editor,
+  txtEditor,
+  adEditor,
   chapter,
   shadow=false,
   round=false,
@@ -16,7 +17,7 @@ const ChapterView = ({
   imageOnClick,
   imageOnClickPrompt,
 }) => {
-  const { text, image, title, id } = chapter
+  const { text, image, title, id, audioDescription } = chapter
   const handleInput = type => e => {
     if (onEdit) onEdit(type, e.target.innerText)
   }
@@ -55,7 +56,17 @@ const ChapterView = ({
         }
       </div>
       
-      <EpubEditor text={text} type={editor} />
+      <EpubEditor description 
+        title="Audio Description Editor"
+        text={audioDescription} 
+        type={adEditor}   
+      />
+
+      <EpubEditor 
+        title="ePub Content Editor"
+        text={text}
+        type={txtEditor}
+      />
     </div>
   ) : null
 }

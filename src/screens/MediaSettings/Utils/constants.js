@@ -17,6 +17,7 @@ export const NO_EPUB = 'no-epub'
 
 // Editor Type
 export const EDITOR_NONE = 'none'
+export const EDITOR_DISPLAY = 'display'
 export const EDITOR_RICHTEXT = 'richtext'
 export const EDITOR_HTML = 'html'
 export const EDITOR_MARKDOWN = 'markdown'

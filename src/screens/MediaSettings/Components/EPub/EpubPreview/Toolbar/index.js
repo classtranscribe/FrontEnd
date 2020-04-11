@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button } from 'pico-ui'
-import { epub, EDITOR_NONE, EDITOR_RICHTEXT } from 'screens/MediaSettings/Utils'
+import { epub, EDITOR_DISPLAY, EDITOR_NONE } from 'screens/MediaSettings/Utils'
 import './index.scss'
 import { LanguageMenuTrigger } from '../../LanguageMenuTrigger'
 import EditorPicker from './EditorPicker'
@@ -9,26 +9,43 @@ import EditorPicker from './EditorPicker'
 export default function Toolbar({
   //chapter,
   language,
-  editor,
-  setEditor,
+  txtEditor,
+  setTxtEditor,
   defaultEditor,
+  adEditor=false,
+  setADEditor,
 }) {
 
+  const noDescription = adEditor === EDITOR_NONE
+  const editingTxt = txtEditor !== EDITOR_DISPLAY
+  const openEditor = (txtEditor === EDITOR_DISPLAY && (adEditor === EDITOR_DISPLAY || adEditor === EDITOR_NONE))
+  const currEditor = editingTxt ? txtEditor : adEditor
+  const currSetEditor = editingTxt ? setTxtEditor : setADEditor
+
   const saveEditing = () => {
-    setEditor(EDITOR_NONE)
-    epub.onSaveText(editor)
+    currSetEditor(
+      editingTxt
+      ? EDITOR_DISPLAY
+      : !Boolean(epub.newText)
+      ? EDITOR_NONE
+      : EDITOR_DISPLAY
+    )
+    if (editingTxt) {
+      epub.onSaveText(currEditor)
+    } else {
+      epub.onSaveAD(currEditor)
+    }
   }
   
   const cancelEditing = () => {
-    setEditor(EDITOR_NONE)
+    currSetEditor(
+      editingTxt
+      ? EDITOR_DISPLAY
+      : noDescription
+      ? EDITOR_NONE
+      : EDITOR_DISPLAY
+    )
   }
-
-  useEffect(() => {
-    let editorEl = document.getElementById('msp-ee-editor')
-    if (editorEl) {
-      editorEl.scrollIntoView()
-    }
-  }, [editor])
 
   return (
     <div className="msp-ee-ep-tb ct-a-fade-in">
@@ -39,18 +56,24 @@ export default function Toolbar({
 
       <div className="ee-tb-btns">
         {
-          editor === EDITOR_NONE
+          openEditor
           ?
           <div className="ee-tb-edit-btns">
-            <Button classNames="ee-tb-btn" color="transparent" icon="post_add">
-              Add Audio Description
-            </Button>
             <EditorPicker
-              editor={editor}
+              editor={adEditor}
+              className="ee-tb-btn" 
+              icon={noDescription ? "post_add" : "rate_review"}
+              color="transparent"
+              setEditor={setADEditor}
+              text={noDescription ? 'Add Audio Description' : 'Edit Audio Description'}
+              defaultEditor={defaultEditor}
+            />
+            <EditorPicker
+              editor={txtEditor}
               className="ee-tb-btn" 
               icon="edit"
               color="transparent" 
-              setEditor={setEditor}
+              setEditor={setTxtEditor}
               text="Edit Content"
               defaultEditor={defaultEditor}
             />
@@ -59,8 +82,8 @@ export default function Toolbar({
           <div className="ee-tb-edit-btns editing ct-a-fade-in">
             <EditorPicker outlined
               className="ee-tb-btn epicker"
-              editor={editor}
-              setEditor={setEditor}
+              editor={currEditor}
+              setEditor={currSetEditor}
             />
             <Button round
               classNames="ee-tb-btn ee-tb-btn-me" 
@@ -82,7 +105,7 @@ export default function Toolbar({
         }
 
         {
-          editor === EDITOR_NONE
+          openEditor
           &&
           <div className="w-100 ct-a-fade-in">
             <Button round

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ChapterView from './ChapterView'
 import Toolbar from './Toolbar'
-import { connectWithRedux, epub, EDITOR_HTML, EDITOR_NONE } from '../../../Utils'
+import { connectWithRedux, epub, EDITOR_HTML, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils'
 import './index.scss'
 
 var lastChapterId = ''
@@ -14,7 +14,12 @@ function EpubPreviewWithRedux({
 
   const { editorType } = epub.parseText(currChapter.text)
 
-  const [editor, setEditor] = useState(EDITOR_NONE)
+  const [txtEditor, setTxtEditor] = useState(EDITOR_DISPLAY)
+  const [adEditor, setADEditor] = useState(
+    currChapter.audioDescription 
+    ? EDITOR_DISPLAY 
+    : EDITOR_NONE
+  )
 
   useEffect(() => {
     // Scroll the preview to top everytime the chapter changed
@@ -23,13 +28,13 @@ function EpubPreviewWithRedux({
       if (previewEl) {
         previewEl.scrollTop = 0
       }
-      setEditor(EDITOR_NONE)
+      setTxtEditor(EDITOR_DISPLAY)
     }
     lastChapterId = currChapter.id
   }, [currChapter])
 
   useEffect(() => {
-    setEditor(EDITOR_NONE)
+    setTxtEditor(EDITOR_DISPLAY)
   }, [isEditingEpub])
 
   const otherProps = {}
@@ -43,10 +48,12 @@ function EpubPreviewWithRedux({
       {...otherProps}
     >
       <ChapterView round
-        editor={editor}
         shadow={isEditingEpub} 
-        contentEditable={!isEditingEpub}
         chapter={currChapter} 
+        contentEditable={!isEditingEpub}
+        txtEditor={txtEditor}
+        adEditor={adEditor} 
+        setADEditor={setADEditor}
         imageOnClick={() => epub.pickCoverImage()}
         imageOnClickPrompt="Click to choose cover image"
       />
@@ -57,9 +64,11 @@ function EpubPreviewWithRedux({
         <Toolbar 
           chapter={currChapter} 
           language={language} 
-          editor={editor}
-          setEditor={setEditor}
+          txtEditor={txtEditor}
+          setTxtEditor={setTxtEditor}
           defaultEditor={editorType}
+          adEditor={adEditor} 
+          setADEditor={setADEditor}
         />
       }
     </div>

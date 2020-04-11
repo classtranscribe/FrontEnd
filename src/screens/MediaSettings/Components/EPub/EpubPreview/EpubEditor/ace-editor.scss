@@ -7,7 +7,7 @@
   .ee-editor-ctrl-bar {
     box-shadow: 0 0 10px rgb(26, 26, 26);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px;
     align-items: center;
     position: sticky;
@@ -15,6 +15,11 @@
     z-index: 11;
     background-color: #2F3129;
     border-radius: 5px 5px 0 0;
+
+    h3 {
+      margin: 0 10px;
+      color: rgb(58, 58, 58);
+    }
   }
 
 
