@@ -1,10 +1,12 @@
 import _ from 'lodash'
-import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
-import { NO_EPUB, EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, EDITOR_HTML, EDITOR_RICHTEXT, EDITOR_DISPLAY } from './constants'
+import { api, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
+import { NO_EPUB, EDITOR_TYPE_SPLITTER, } from './constants'
 import { setup } from './setup'
 import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
-import { Converter } from 'showdown'
+import  showdown from 'showdown'
+import showdownKatex from 'showdown-katex'
+import katex from 'katex'
 
 class Epub {
   constructor() {
@@ -86,15 +88,20 @@ class Epub {
   }
 
   markdown2HTML(text) {
-    let converter = new Converter({
+    let converter = new showdown.Converter({
       tables: true, 
+      simpleLineBreaks: true,
       strikethrough: true,
       parseImgDimensions: true,
       simplifiedAutoLink: true,
       excludeTrailingPunctuationFromURLs: true,
       tasklists: true,
-      simpleLineBreaks: true,
+      extensions: [
+        showdownKatex({
+        }),
+      ]
     })
+
     return converter.makeHtml(text)
   } 
 

@@ -18,6 +18,7 @@
     "jquery": "^3.4.1",
     "js-file-download": "^0.4.9",
     "jwt-decode": "^2.2.0",
+    "katex": "^0.11.1",
     "kind-of": "^6.0.3",
     "lodash": "^4.17.14",
     "moment": "^2.24.0",
@@ -48,6 +49,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3",
     "showdown": "^1.9.1",
+    "showdown-katex": "^0.8.0",
     "typescript": "^3.8.3",
     "uuid": "^7.0.2"
   },

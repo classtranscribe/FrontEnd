@@ -22,9 +22,6 @@ export default function EpubEditor({
 }) {
 
   let { content, editorType } = epub.parseText(text, EDITOR_DISPLAY)
-  if (description && !Boolean(content)) {
-    content = '<h2>Audio Description</h2>\n' + content
-  }
   const displayText = editorType === EDITOR_MARKDOWN ? epub.markdown2HTML(content) : content
 
   useEffect(() => {
