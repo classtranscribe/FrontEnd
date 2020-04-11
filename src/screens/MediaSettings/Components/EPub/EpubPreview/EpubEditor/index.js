@@ -26,17 +26,17 @@ export default function EpubEditor({
       {
         type === EDITOR_RICHTEXT
         &&
-        <RichTextEditor text={text} />
+        <RichTextEditor text={content} />
       }
       {
         type === EDITOR_HTML
         &&
-        <HTMLEditor text={text} />
+        <HTMLEditor text={content} />
       }
       {
         type === EDITOR_MARKDOWN
         &&
-        <MarkDownEditor text={text} />
+        <MarkDownEditor text={content} />
       }
       {
         type === EDITOR_NONE

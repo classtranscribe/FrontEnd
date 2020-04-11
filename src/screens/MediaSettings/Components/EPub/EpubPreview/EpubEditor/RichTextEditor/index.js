@@ -19,7 +19,7 @@ export function RichTextEditor({
     })
   }, [])
 
-  const editorState = BraftEditor.createEditorState(epub.newText)
+  const editorState = BraftEditor.createEditorState(text)
 
   return (
     <div id="msp-ee-editor" className="msp-ee-editor ct-a-fade-in">
