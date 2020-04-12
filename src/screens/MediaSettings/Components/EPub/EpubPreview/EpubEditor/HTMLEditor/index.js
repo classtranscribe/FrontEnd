@@ -78,7 +78,7 @@ export function HTMLEditor({
         </div>
       </div>
 
-      <AceEditor
+      <AceEditor focus
         className="msp-ee-html-editor"
         mode="html"
         theme={dark ? "monokai" : "github"}

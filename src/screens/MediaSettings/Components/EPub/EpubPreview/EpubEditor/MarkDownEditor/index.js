@@ -73,7 +73,7 @@ export function MarkDownEditor({
           />
         </div>
       </div>
-      <AceEditor
+      <AceEditor focus
         className="msp-ee-html-editor"
         mode="markdown"
         theme={dark ? "monokai" : "github"}
