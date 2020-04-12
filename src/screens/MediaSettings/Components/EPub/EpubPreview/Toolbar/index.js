@@ -16,7 +16,6 @@ export default function Toolbar({
   language,
   txtEditor,
   setTxtEditor,
-  defaultEditor,
   adEditor=false,
   setADEditor,
 }) {
