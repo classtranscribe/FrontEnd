@@ -1,9 +1,14 @@
 import React from 'react'
 import { Button } from 'pico-ui'
-import { epub, EDITOR_DISPLAY, EDITOR_NONE } from 'screens/MediaSettings/Utils'
-import './index.scss'
 import { LanguageMenuTrigger } from '../../LanguageMenuTrigger'
 import EditorPicker from './EditorPicker'
+import './index.scss'
+
+import { 
+  epub, 
+  EDITOR_DISPLAY, 
+  EDITOR_NONE 
+} from 'screens/MediaSettings/Utils'
 
 
 export default function Toolbar({

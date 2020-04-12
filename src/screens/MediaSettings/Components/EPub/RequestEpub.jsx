@@ -5,7 +5,7 @@ import { epub, NO_EPUB } from '../../Utils'
 export default function RequestEpub({
   mediaId
 }) {
-  const [requested, setRequested] = useState(localStorage.getItem(NO_EPUB) === 'true' ? 2 : 0)
+  const [requested, setRequested] = useState(0)
 
   const handleRequest = async () => {
     setRequested(1)

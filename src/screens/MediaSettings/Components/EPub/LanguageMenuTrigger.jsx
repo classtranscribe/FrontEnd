@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import _ from 'lodash'
 import { Button } from 'pico-ui'
 import { EpubMenu } from './EpubMenu'
+
+import _ from 'lodash'
 import { langMap } from 'screens/Watch/Utils'
 import { epub } from '../../Utils'
 

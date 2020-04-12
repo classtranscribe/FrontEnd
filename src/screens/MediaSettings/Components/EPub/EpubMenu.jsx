@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core'
+import React from 'react'
+import { Menu, Typography, MenuItem } from '@material-ui/core'
 
 const styles = {
   menu: {
@@ -60,9 +60,6 @@ export function EpubMenu({
           aria-label={item.text}
           onClick={() => onClick(item.value)}
         >
-          {/* <ListItemIcon style={styles.icon}>
-            <i className={item.icon}></i>
-          </ListItemIcon> */}
           <Typography 
             style={item.value === value ? styles.currfont : styles.font}
           >

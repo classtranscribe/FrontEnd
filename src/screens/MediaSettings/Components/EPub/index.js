@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux, epub, NO_EPUB } from '../../Utils'
-import { ARRAY_INIT } from 'utils'
-import { ENGLISH } from 'screens/Watch/Utils'
-import _ from 'lodash'
-import './index.scss'
 import { PlaceHolder } from 'components'
 
 import RequestEpub from './RequestEpub'
@@ -12,6 +7,11 @@ import EpubPreview from './EpubPreview'
 import CoverPicker from './CoverPicker'
 import ActionButtons from './ActionButtons'
 import ChapterNavigator from './ChapterNavigator'
+import './index.scss'
+
+import { ARRAY_INIT } from 'utils'
+import { ENGLISH } from 'screens/Watch/Utils'
+import { connectWithRedux, epub, NO_EPUB } from '../../Utils'
 
 const firstTimeEdit = true
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ChapterView from './ChapterView'
 import Toolbar from './Toolbar'
-import { connectWithRedux, epub, EDITOR_HTML, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils'
 import './index.scss'
+import { connectWithRedux, epub, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils'
 
 var lastChapterId = ''
 

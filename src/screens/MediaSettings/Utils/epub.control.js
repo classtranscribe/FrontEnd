@@ -1,11 +1,12 @@
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
+
 import { 
-  ARRAY_INIT, 
   api, 
   prompt, 
   html,
   CTEpubGenerator,
+  ARRAY_INIT, 
 } from 'utils'
 import { ENGLISH } from 'screens/Watch/Utils' // language code
 import { 
@@ -452,8 +453,6 @@ class Epub {
   async requestEpub(mediaId) {
     try {
       await api.requestEpubCreation(mediaId)
-      // set to prevent repeated request
-      localStorage.setItem(NO_EPUB, 'true')
     } catch (error) {
       console.error('Failed to request a epub for ' + mediaId)
     }
@@ -466,15 +465,10 @@ class Epub {
   async getEpubData(mediaId, language) {
     try {
       let { data=[] } = await api.getEpubData(mediaId, language)
-      // clear localstorage
-      if (localStorage.getItem(NO_EPUB) === 'true') {
-        localStorage.removeItem(NO_EPUB)
-      }
       return this.parseEpubData(data)
     } catch (error) {
       console.error('Failed to get ePub data of media for ' + mediaId)
       setup.error(NO_EPUB)
-      // await api.requestEpubCreation(mediaId)
     }
 
     return ARRAY_INIT
@@ -494,7 +488,6 @@ class Epub {
     this.mediaId = mediaId
     let epubData = await this.getEpubData(mediaId)
     this.epubData(epubData)
-    // this.isEditingEpub(true)
   }
 }
 

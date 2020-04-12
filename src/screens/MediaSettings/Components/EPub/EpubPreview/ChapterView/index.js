@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import { api } from 'utils'
 import { Button } from 'pico-ui'
-import './index.scss'
+
 import EpubEditor from '../EpubEditor'
+import './index.scss'
+
+import { api } from 'utils'
 import { epub } from 'screens/MediaSettings/Utils'
 
 const ChapterView = ({
