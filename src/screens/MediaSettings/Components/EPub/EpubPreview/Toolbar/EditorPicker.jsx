@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import _ from 'lodash'
 import { Button } from 'pico-ui'
 import { EpubMenu } from '../../EpubMenu'
-import { textEditorMap } from 'screens/MediaSettings/Utils'
+import { textEditorMap, prefControl } from 'screens/MediaSettings/Utils'
 
 const textEditorOptions = _.map(textEditorMap, (text, value) => ({ text, value }))
 
 export default function EditorPicker({
-  defaultEditor,
   editor,
   setEditor,
+  defaultEditor,
   outlined,
   color,
   className,
@@ -21,11 +21,14 @@ export default function EditorPicker({
 
   const handleItemClick = value => {
     setEditor(value)
+    prefControl.defaultEditor(value)
   }
 
   const handleTriggerClick = e => {
-    if (defaultEditor) {
-      handleItemClick(defaultEditor)
+    let prefEditor = prefControl.defaultEditor()
+    if (defaultEditor) prefEditor = defaultEditor
+    if (prefEditor && !outlined) {
+      handleItemClick(prefEditor)
     } else {
       setAnchorEl(e.currentTarget)
     }

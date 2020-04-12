@@ -27,6 +27,9 @@ export default function Toolbar({
   const currEditor = editingTxt ? txtEditor : adEditor
   const currSetEditor = editingTxt ? setTxtEditor : setADEditor
 
+  const parsedTxt = epub.parseText(chapter.text)
+  const parsedAD = epub.parseText(chapter.audioDescription)
+
   const saveEditing = () => {
     currSetEditor(EDITOR_DISPLAY)
     if (editingTxt) {
@@ -59,7 +62,7 @@ export default function Toolbar({
               color="transparent"
               setEditor={setADEditor}
               text={noDescription ? 'Add Audio Description' : 'Edit Audio Description'}
-              defaultEditor={defaultEditor}
+              defaultEditor={parsedAD.editorType}
             />
             <EditorPicker
               editor={txtEditor}
@@ -68,7 +71,7 @@ export default function Toolbar({
               color="transparent" 
               setEditor={setTxtEditor}
               text="Edit Content"
-              defaultEditor={defaultEditor}
+              defaultEditor={parsedTxt.editorType}
             />
           </div>
           :

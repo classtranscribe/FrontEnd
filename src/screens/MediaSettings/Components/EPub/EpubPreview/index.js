@@ -12,8 +12,6 @@ function EpubPreviewWithRedux({
   isEditingEpub=false,
 }) {
 
-  const { editorType } = epub.parseText(currChapter.text)
-
   const [txtEditor, setTxtEditor] = useState(EDITOR_DISPLAY)
   const [adEditor, setADEditor] = useState(
     currChapter.audioDescription 
@@ -66,7 +64,6 @@ function EpubPreviewWithRedux({
           language={language} 
           txtEditor={txtEditor}
           setTxtEditor={setTxtEditor}
-          defaultEditor={editorType}
           adEditor={adEditor} 
           setADEditor={setADEditor}
         />

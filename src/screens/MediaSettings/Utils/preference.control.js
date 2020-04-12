@@ -1,21 +1,21 @@
 import { CTPreference } from '../../../utils'
 
-const DNNN_COMBINE = 'msp-dnnn-combine' // Do not nofity next time for combining
+const DEFAULT_EDITOR = 'msp-d-editor' // default content editor
 
 export class MSPPreference extends CTPreference {
   constructor() {
     super()
-
-    // Do not nofity next time for combining
-    this[DNNN_COMBINE] = this.isTrue(DNNN_COMBINE)
   }
 
   init(props) {
-
+    
   }
   
-  dnnnCombine() {
-    return this.localStorage(DNNN_COMBINE, true)
+  defaultEditor(editor) {
+    if (editor === undefined) {
+      return localStorage.getItem(DEFAULT_EDITOR) || ''
+    }
+    localStorage.setItem(DEFAULT_EDITOR, editor)
   }
 }
 
