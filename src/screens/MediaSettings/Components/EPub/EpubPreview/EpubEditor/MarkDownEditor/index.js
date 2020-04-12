@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AceEditor from 'react-ace'
 import { Button } from 'pico-ui'
-import { setup, epub } from 'screens/MediaSettings/Utils'
+import { setup, epub, prefControl } from 'screens/MediaSettings/Utils'
 import "ace-builds/src-noconflict/mode-markdown"
 import "ace-builds/src-noconflict/snippets/markdown"
 
@@ -11,7 +11,7 @@ export function MarkDownEditor({
 }) {
 
   const [fullscreen, setFullscreen] = useState(false)
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(prefControl.darkEditor())
 
   const onChange = newValue => {
     epub.updateText(newValue)
@@ -27,6 +27,11 @@ export function MarkDownEditor({
     if (fullscreen) {
       setup.exitFullscreen()
     }
+  }
+
+  const changeTheme = () => {
+    prefControl.darkEditor(!dark)
+    setDark(!dark)
   }
 
   useEffect(() => {
@@ -59,7 +64,7 @@ export function MarkDownEditor({
             icon={dark ? 'brightness_7' : 'brightness_4'}
             color={dark ? "black" : 'tranparent'}
             text={dark ? "Light Mode" : "Dark Mode"} 
-            onClick={() => setDark( dark => !dark )}
+            onClick={changeTheme}
           />
           <Button round 
             icon={fullscreen ? "fullscreen_exit" : "fullscreen"}
