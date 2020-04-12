@@ -43,7 +43,7 @@ export function HTMLEditor({
       setFullscreen(fullscreen => !fullscreen)
       let editorEl = document.getElementById('msp-ee-editor')
       if (editorEl) {
-        editorEl.scrollIntoView()
+        editorEl.scrollIntoView({ block: 'center' })
       }
     })
   }, [])
@@ -78,7 +78,7 @@ export function HTMLEditor({
         </div>
       </div>
 
-      <AceEditor
+      <AceEditor focus
         className="msp-ee-html-editor"
         mode="html"
         theme={dark ? "monokai" : "github"}

@@ -14,7 +14,7 @@ export function RichTextEditor({
       setFullscreen(fullscreen => !fullscreen)
       let editorEl = document.getElementById('msp-ee-editor')
       if (editorEl) {
-        editorEl.scrollIntoView()
+        editorEl.scrollIntoView({ block: 'center' })
       }
     })
   }, [])
