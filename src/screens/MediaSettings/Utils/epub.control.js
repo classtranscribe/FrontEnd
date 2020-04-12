@@ -1,12 +1,18 @@
 import _ from 'lodash'
-import { api, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
-import { NO_EPUB, EDITOR_TYPE_SPLITTER, } from './constants'
-import { setup } from './setup'
-import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
-import  showdown from 'showdown'
-import showdownKatex from 'showdown-katex'
-import katex from 'katex'
+import { 
+  ARRAY_INIT, 
+  api, 
+  prompt, 
+  html,
+  CTEpubGenerator,
+} from 'utils'
+import { ENGLISH } from 'screens/Watch/Utils' // language code
+import { 
+  NO_EPUB, 
+  EDITOR_TYPE_SPLITTER,
+} from './constants'
+import { setup } from './setup'
 
 class Epub {
   constructor() {
@@ -88,21 +94,7 @@ class Epub {
   }
 
   markdown2HTML(text) {
-    let converter = new showdown.Converter({
-      tables: true, 
-      simpleLineBreaks: true,
-      strikethrough: true,
-      parseImgDimensions: true,
-      simplifiedAutoLink: true,
-      excludeTrailingPunctuationFromURLs: true,
-      tasklists: true,
-      extensions: [
-        showdownKatex({
-        }),
-      ]
-    })
-
-    return converter.makeHtml(text)
+    return html.markdown(text)
   } 
 
   startEditContent(txtEditor, description) {
@@ -199,7 +191,7 @@ class Epub {
       title: chapter.title || 'Untitled Chapter',
       image: chapter.image || (chapter.items[0] || {}).image,
       items: chapter.items,
-      audioDescription: "so the main question why dress here is how can a text information system help users get access to the relevant text data we're going to cover two complementary strategies push versus pull and then we're going to talk about two ways to implement the poor mode querying versus browsing",
+      audioDescription: "",
       text: _.map(
         _.filter(
           chapter.items,

@@ -1,0 +1,33 @@
+import _ from 'lodash'
+import showdown from 'showdown'
+import showdownKatex from 'showdown-katex'
+
+function getMDConverter() {
+  return new showdown.Converter({
+    tables: true, 
+    simpleLineBreaks: true,
+    strikethrough: true,
+    parseImgDimensions: true,
+    simplifiedAutoLink: true,
+    excludeTrailingPunctuationFromURLs: true,
+    tasklists: true,
+    underline: true,
+    extensions: [
+      showdownKatex({
+        
+      }),
+    ],
+  })
+}
+
+/**
+ * Parse markdown input to html
+ * @param {String} markdownData raw markdown text
+ * @returns {String} parsed raw html
+ */
+export function markdown2Html(markdownData) {
+  markdownData = String.raw({ raw: String(markdownData) })
+  let md = getMDConverter()
+  console.log(markdownData)
+  return md.makeHtml(markdownData)
+}
