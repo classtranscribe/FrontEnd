@@ -62,7 +62,7 @@ export class CTEpubGenerator {
         throw Error('filename, title, and chapters are required.')
       }
 
-      console.log('this.chapters', this.chapters)
+      // console.log('this.chapters', this.chapters)
       const zip = new AdmZip()
       // OEBPS/cover.jpeg
       // OEBPS/images/image-id.jpeg

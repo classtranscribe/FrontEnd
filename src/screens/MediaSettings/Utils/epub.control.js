@@ -396,7 +396,6 @@ class Epub {
       }
 
       let parsedAD = this.parseText(chapter.audioDescription)
-      console.log('parsedAD', chapter.audioDescription, parsedAD)
       if (parsedAD.editorType === EDITOR_MARKDOWN) {
         chapter.audioDescription = this.markdown2HTML(parsedAD.content)
       }

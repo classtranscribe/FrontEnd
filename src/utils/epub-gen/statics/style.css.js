@@ -62,11 +62,16 @@ hr {
 .ee-preview-text-con pre {
   padding: 15px;
   border-radius: 5px;
+  background-color: rgb(233, 233, 233);
 }
 
 .ee-preview-text-con blockquote {
   padding: 15px;
-  border-left: 3px solid #d1d1d1;
+  border-left: 3px solid rgba(0, 95, 95, 0.418);
+  background-color: rgb(236, 243, 243);
+  border-radius: 0 5px 5px 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .ee-preview-text-con table {
