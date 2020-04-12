@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import _ from 'lodash'
 import { Button } from 'pico-ui'
 import { EpubMenu } from '../../EpubMenu'
-import { textEditorMap, prefControl } from 'screens/MediaSettings/Utils'
+import { textEditorMap, prefControl, epub } from 'screens/MediaSettings/Utils'
 
 const textEditorOptions = _.map(textEditorMap, (text, value) => ({ text, value }))
 
 export default function EditorPicker({
+  description,
   editor,
   setEditor,
   defaultEditor,
@@ -32,6 +33,8 @@ export default function EditorPicker({
     } else {
       setAnchorEl(e.currentTarget)
     }
+
+    epub.startEditContent(editor, description)
   }
 
   return (

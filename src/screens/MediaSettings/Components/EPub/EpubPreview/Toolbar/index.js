@@ -54,7 +54,7 @@ export default function Toolbar({
           openEditor
           ?
           <div className="ee-tb-edit-btns">
-            <EditorPicker
+            <EditorPicker description
               editor={adEditor}
               className="ee-tb-btn" 
               icon={noDescription ? "post_add" : "rate_review"}
@@ -75,7 +75,8 @@ export default function Toolbar({
           </div>
           :
           <div className="ee-tb-edit-btns editing ct-a-fade-in">
-            <EditorPicker outlined
+            <EditorPicker outlined 
+              description={!editingTxt}
               className="ee-tb-btn epicker"
               editor={currEditor}
               setEditor={currSetEditor}

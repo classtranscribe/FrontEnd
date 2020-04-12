@@ -29,7 +29,6 @@ export default function EpubEditor({
     if (editorEl) {
       editorEl.scrollIntoView({ block: 'center' })
     }
-    epub.startEditContent(type, description)
   }, [type])
 
   // console.log(content)
