@@ -12,6 +12,7 @@ export function MarkDownEditor({
 
   const [fullscreen, setFullscreen] = useState(false)
   const [dark, setDark] = useState(prefControl.darkEditor())
+  const [value, setValue] = useState(text)
 
   const onChange = newValue => {
     epub.updateText(newValue)
@@ -33,6 +34,10 @@ export function MarkDownEditor({
     prefControl.darkEditor(!dark)
     setDark(!dark)
   }
+
+  useEffect(() => {
+    setValue(epub.newText)
+  }, [fullscreen, dark])
 
   useEffect(() => {
     document.addEventListener('fullscreenchange', () => {
@@ -76,11 +81,11 @@ export function MarkDownEditor({
       <AceEditor focus
         className="msp-ee-html-editor"
         mode="markdown"
-        theme={dark ? "monokai" : "github"}
+        theme={dark ? "monokai" : "xcode"}
         onChange={onChange}
         name="msp-ee-html-editor"
         editorProps={{ $blockScrolling: true }}
-        value={text}
+        value={value}
         data-scroll
         width="100%"
         height={fullscreen ? "90vh" : "530px"}

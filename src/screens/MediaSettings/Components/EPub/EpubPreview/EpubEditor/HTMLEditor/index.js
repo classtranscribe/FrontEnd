@@ -5,7 +5,7 @@ import { setup, epub, prefControl } from 'screens/MediaSettings/Utils'
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/snippets/html"
 import "ace-builds/src-noconflict/theme-monokai"
-import "ace-builds/src-noconflict/theme-github"
+import "ace-builds/src-noconflict/theme-xcode"
 import "ace-builds/src-min-noconflict/ext-searchbox"
 import "ace-builds/src-min-noconflict/ext-language_tools"
 
@@ -16,6 +16,7 @@ export function HTMLEditor({
 
   const [fullscreen, setFullscreen] = useState(false)
   const [dark, setDark] = useState(prefControl.darkEditor())
+  const [value, setValue] = useState(text)
 
   const onChange = newValue => {
     epub.updateText(newValue)
@@ -37,6 +38,10 @@ export function HTMLEditor({
     prefControl.darkEditor(!dark)
     setDark(!dark)
   }
+
+  useEffect(() => {
+    setValue(epub.newText)
+  }, [fullscreen, dark])
 
   useEffect(() => {
     document.addEventListener('fullscreenchange', () => {
@@ -81,11 +86,11 @@ export function HTMLEditor({
       <AceEditor focus
         className="msp-ee-html-editor"
         mode="html"
-        theme={dark ? "monokai" : "github"}
+        theme={dark ? "monokai" : "xcode"}
         onChange={onChange}
         name="msp-ee-html-editor"
         editorProps={{ $blockScrolling: true }}
-        value={text}
+        value={value}
         data-scroll
         width="100%"
         height={fullscreen ? "90vh" : "530px"}
