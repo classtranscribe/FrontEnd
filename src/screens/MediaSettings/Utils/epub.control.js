@@ -11,6 +11,7 @@ import { ENGLISH } from 'screens/Watch/Utils' // language code
 import { 
   NO_EPUB, 
   EDITOR_TYPE_SPLITTER,
+  EDITOR_MARKDOWN,
 } from './constants'
 import { setup } from './setup'
 
@@ -184,17 +185,15 @@ class Epub {
   // Generate a chapter based on list of screenshots and transcriptions
   ///////////////////////////////////////////////////////////////////////////
   genChaperFromItems(chapter) {
+    const { id, title, image, items, audioDescription="", text } = chapter
     return {
-      id: chapter.id,
-      title: chapter.title || 'Untitled Chapter',
-      image: chapter.image || (chapter.items[0] || {}).image,
-      items: chapter.items,
-      audioDescription: "",
-      text: _.map(
-        _.filter(
-          chapter.items,
-          ({ text }) => text !== ''
-        ), 
+      id: id,
+      title: title || 'Untitled Chapter',
+      image: image || (items[0] || {}).image,
+      items: items,
+      audioDescription: audioDescription,
+      text: text || _.map(
+        _.filter(items, ({ text }) => text !== ''), 
         item => `<p>${_.trim(item.text)}</p>`
       ).join('\n\n')
     }
@@ -387,7 +386,22 @@ class Epub {
   }
 
   download() {
-    let chapters = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
+    let chapters = _.map(this.chapters, chapter => {
+      chapter = this.genChaperFromItems(chapter)
+
+      let parsedTxt = this.parseText(chapter.text)
+      if (parsedTxt.editorType === EDITOR_MARKDOWN) {
+        chapter.text = this.markdown2HTML(parsedTxt.content)
+      }
+
+      let parsedAD = this.parseText(chapter.audioDescription)
+      console.log('parsedAD', chapter.audioDescription, parsedAD)
+      if (parsedAD.editorType === EDITOR_MARKDOWN) {
+        chapter.audioDescription = this.markdown2HTML(parsedAD.content)
+      }
+
+      return chapter
+    })
 
     const epubDownloader = new CTEpubGenerator({ 
       chapters,

@@ -2,11 +2,11 @@ import _ from 'lodash'
 import AdmZip from 'adm-zip'
 import downloadFile from 'js-file-download'
 
-import { 
-  MIMETYPE, 
-  META_INF_CONTAINER_XML, 
-  OEBPS_STYLE_CSS,
-} from './content-data'
+import { OEBPS_STYLE_CSS        } from './statics/style.css.js'
+import { OEBPS_KATEX_CSS        } from './statics/katex.min.css.js'
+import { META_INF_CONTAINER_XML } from './statics/container.xml.js'
+import { MIMETYPE               } from './statics/mimetype.js'
+
 
 import * as ehelper from './helpers'
 
@@ -62,7 +62,7 @@ export class CTEpubGenerator {
         throw Error('filename, title, and chapters are required.')
       }
 
-      // console.log('this.chapters', this.chapters)
+      console.log('this.chapters', this.chapters)
       const zip = new AdmZip()
       // OEBPS/cover.jpeg
       // OEBPS/images/image-id.jpeg
@@ -74,6 +74,7 @@ export class CTEpubGenerator {
       // OEBPS
       // OEBPS/style.css
       zip.addFile('OEBPS/style.css', new Buffer(OEBPS_STYLE_CSS))
+      zip.addFile('OEBPS/katex.min.css', new Buffer(OEBPS_KATEX_CSS))
       // OEBPS/toc.ncx
       let tox_ncx = ehelper.get_toc_ncx(title, author, chapters)
       zip.addFile('OEBPS/toc.ncx', new Buffer(tox_ncx))
