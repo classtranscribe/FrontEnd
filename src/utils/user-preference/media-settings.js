@@ -1,4 +1,4 @@
-import { CTPreference } from '../../../utils'
+import { CTPreference } from './CTPreference'
 
 const DEFAULT_EDITOR = 'msp-d-editor' // default content editor
 const DARK_EDITOR = 'msp-dark-editor'
@@ -26,4 +26,4 @@ export class MSPPreference extends CTPreference {
   }
 }
 
-export const prefControl = new MSPPreference()
+export const mspPreference = new MSPPreference()

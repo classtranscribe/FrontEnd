@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import _ from 'lodash'
 import { Button } from 'pico-ui'
 import { EpubMenu } from '../../EpubMenu'
-import { textEditorMap, prefControl, epub } from 'screens/MediaSettings/Utils'
+import { mspPreference as pref  } from 'utils/user-preference/media-settings'
+import { textEditorMap, epub } from 'screens/MediaSettings/Utils'
 
 const textEditorOptions = _.map(textEditorMap, (text, value) => ({ text, value }))
 
@@ -22,11 +23,11 @@ export default function EditorPicker({
 
   const handleItemClick = value => {
     setEditor(value)
-    prefControl.defaultEditor(value)
+    pref.defaultEditor(value)
   }
 
   const handleTriggerClick = e => {
-    let prefEditor = prefControl.defaultEditor()
+    let prefEditor = pref.defaultEditor()
     if (defaultEditor) prefEditor = defaultEditor
     if (prefEditor && !outlined) {
       handleItemClick(prefEditor)

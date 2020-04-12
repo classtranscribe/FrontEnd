@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import AceEditor from 'react-ace'
 import { Button } from 'pico-ui'
-import { setup, epub, prefControl } from 'screens/MediaSettings/Utils'
+import { setup, epub } from 'screens/MediaSettings/Utils'
+import { mspPreference as pref  } from 'utils/user-preference/media-settings'
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/snippets/html"
 import "ace-builds/src-noconflict/theme-monokai"
@@ -15,7 +16,7 @@ export function HTMLEditor({
 }) {
 
   const [fullscreen, setFullscreen] = useState(false)
-  const [dark, setDark] = useState(prefControl.darkEditor())
+  const [dark, setDark] = useState(pref.darkEditor())
   const [value, setValue] = useState(text)
 
   const onChange = newValue => {
@@ -35,7 +36,7 @@ export function HTMLEditor({
   }
 
   const changeTheme = () => {
-    prefControl.darkEditor(!dark)
+    pref.darkEditor(!dark)
     setDark(!dark)
   }
 
