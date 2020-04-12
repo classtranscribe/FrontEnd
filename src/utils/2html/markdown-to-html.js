@@ -28,6 +28,5 @@ function getMDConverter() {
 export function markdown2Html(markdownData) {
   markdownData = String.raw({ raw: String(markdownData) })
   let md = getMDConverter()
-  console.log(markdownData)
   return md.makeHtml(markdownData)
 }

@@ -1,8 +1,10 @@
-import React from 'react'
-import { api, util } from 'utils'
+import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
+import { api } from 'utils'
+import { Button } from 'pico-ui'
 import './index.scss'
 import EpubEditor from '../EpubEditor'
-import { EDITOR_RICHTEXT, EDITOR_NONE } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils'
 
 const ChapterView = ({
   txtEditor,
@@ -11,34 +13,58 @@ const ChapterView = ({
   shadow=false,
   round=false,
   contentEditable=false,
-  onEdit=null,
-  titleOnKeyDown,
-  textOnKeyDown,
   imageOnClick,
   imageOnClickPrompt,
 }) => {
-  const { text, image, title, id, audioDescription } = chapter
-  const handleInput = type => e => {
-    if (onEdit) onEdit(type, e.target.innerText)
+  const { text, image, title='', id, audioDescription } = chapter
+
+  const [titleInput, setTitleInput] = useState(title)
+
+  const handleTitleInput = e => {
+    setTitleInput(e.target.value)
   }
 
-  const handleTitleKeydown = e => {
-    util.preventBreakLine(e)
-    if (titleOnKeyDown) titleOnKeyDown(e)
+  const handleTitleKeyDown = ({ keyCode, target }) => {
+    if (keyCode === 13) {
+      saveTitle()
+      target.blur()
+    }
   }
 
+  const saveTitle = () => {
+    let chapterIndex = _.findIndex(epub.chapters, { id })
+    epub.handleTitleChange(chapterIndex, titleInput)
+  }
+
+  useEffect(() => {
+    setTitleInput(title)
+  }, [title])
+
+  const isEditingTitle = titleInput !== title
   const style = "msp-e-view ct-a-fade-in" 
               + (shadow ? " shadow" : "") 
               + (round ? " round" : "")
 
   return image ? (
     <div className={style}>
-      <div className="w-100">
-        <h2 contentEditable={contentEditable}
-          onInput={handleInput('title')}
-          onKeyDown={handleTitleKeydown}
-          dangerouslySetInnerHTML={{__html: title || "Chapter"}}
+      <div className="msp-e-v-title">
+        <input
+          readOnly={!contentEditable}
+          onChange={handleTitleInput}
+          value={titleInput}
+          onKeyDown={handleTitleKeyDown}
         />
+        {
+          isEditingTitle
+          &&
+          <Button plain 
+            classNames="ct-a-fade-in"
+            size="big"
+            text="SAVE"
+            color="teal"
+            onClick={saveTitle}
+          />
+        }
       </div>
       <div className="msp-e-v-img-con">
         <img src={api.getMediaFullPath(image)} />

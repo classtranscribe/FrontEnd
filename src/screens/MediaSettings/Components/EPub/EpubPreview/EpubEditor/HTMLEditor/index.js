@@ -56,7 +56,7 @@ export function HTMLEditor({
           <Button disabled compact 
             color={dark ? "black" : ''} 
             classNames="mr-4" 
-            text="Markdown Editor"
+            text="HTML Editor"
           />
           <Button
             classNames="mr-2"

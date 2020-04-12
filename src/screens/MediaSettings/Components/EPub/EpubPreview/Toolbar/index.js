@@ -7,7 +7,7 @@ import EditorPicker from './EditorPicker'
 
 
 export default function Toolbar({
-  //chapter,
+  chapter,
   language,
   txtEditor,
   setTxtEditor,
@@ -16,20 +16,14 @@ export default function Toolbar({
   setADEditor,
 }) {
 
-  const noDescription = adEditor === EDITOR_NONE
+  const noDescription = chapter.audioDescription.trim() === ""
   const editingTxt = txtEditor !== EDITOR_DISPLAY
   const openEditor = (txtEditor === EDITOR_DISPLAY && (adEditor === EDITOR_DISPLAY || adEditor === EDITOR_NONE))
   const currEditor = editingTxt ? txtEditor : adEditor
   const currSetEditor = editingTxt ? setTxtEditor : setADEditor
 
   const saveEditing = () => {
-    currSetEditor(
-      editingTxt
-      ? EDITOR_DISPLAY
-      : !Boolean(epub.newText)
-      ? EDITOR_NONE
-      : EDITOR_DISPLAY
-    )
+    currSetEditor(EDITOR_DISPLAY)
     if (editingTxt) {
       epub.onSaveText(currEditor)
     } else {
@@ -38,13 +32,7 @@ export default function Toolbar({
   }
   
   const cancelEditing = () => {
-    currSetEditor(
-      editingTxt
-      ? EDITOR_DISPLAY
-      : noDescription
-      ? EDITOR_NONE
-      : EDITOR_DISPLAY
-    )
+    currSetEditor(EDITOR_DISPLAY)
   }
 
   return (

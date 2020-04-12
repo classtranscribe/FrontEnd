@@ -98,7 +98,6 @@ class Epub {
   } 
 
   startEditContent(txtEditor, description) {
-    // console.log(txtEditor)
     let text = description ? this.currChapter.audioDescription : this.currChapter.text
     let { content } = this.parseText(text, txtEditor)
     this.newText = content
@@ -107,7 +106,6 @@ class Epub {
   newText = ''
   updateText(newText) {
     this.newText = newText
-    // console.log(newText)
   }
 
   onSaveText(type) {
@@ -297,7 +295,6 @@ class Epub {
   saveCoverImage(image) {
     let chapterId = this.currChapter.id
     let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
-    // console.log(image, chapterId, chapterIndex)
     if (chapterIndex >= 0) {
       this.chapters[chapterIndex].image = image
       this.currChapter.image = image
@@ -342,8 +339,6 @@ class Epub {
   // handle save ePub
   ///////////////////////////////////////////////////////////////////////////
   saveChapters = () => {
-    // let newEpub = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
-    // console.log('newEpub', newEpub)
     this.isEditingEpub(false)
     prompt.addOne({
       text: 'ePub chapters saved.',
@@ -366,7 +361,6 @@ class Epub {
     if (this.isEditingEpub()) return
 
     this.oldEpubData_ = [...this.epubData_]
-    // console.log('this.epubData_', this.oldEpubData_)
     this.isEditingEpub(true)
     this.epubData([])
   }
@@ -377,7 +371,6 @@ class Epub {
   cancelResetEpub() {
     if (!this.isEditingEpub()) return
 
-    // console.log('this.epubData_', this.oldEpubData_)
     this.epubData(this.oldEpubData_)
     this.isEditingEpub(false)
     this.oldEpubData_ = []
