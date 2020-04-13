@@ -13,7 +13,8 @@ import {
   filterControl, 
   NEW_OFFERING, 
   // NEW_OFFERING_ID, 
-  ARRAY_INIT,  
+  ARRAY_INIT,
+  NEW_OFFERING_ID,  
 } from '../../Utils'
 import { util } from '../../../../utils'
 
@@ -40,9 +41,11 @@ function SideBarWithRedux({
       offId = history.location.pathname.split('/')[2]
     }
 
+    console.log(offId)
+
     if (offId) { // if the offeringId is in params
       // If it's the artifical id for new offering
-      if (offId === 'new-offering') {
+      if (offId === NEW_OFFERING_ID) {
         // handleOfferingClick(NEW_OFFERING)()
       // Otherwise find and then go to the offering by id
       } else {
@@ -88,13 +91,12 @@ function SideBarWithRedux({
 
         <div className="w-100 ct-list-col ip-sb-filter">
           {/* New Offering Trigger */}
-          <ListItem dark asLink
+          <ListItem dark
             icon="add"
             title=" NEW COURSE"
-            current={offering === NEW_OFFERING}
+            current={window.location.pathname === util.links.instNewOffering()}
             rightIcon="small"
-            onClick={() => setup.newOffering()}
-            to={util.links.instNewOffering()}
+            onClick={handleOfferingClick(NEW_OFFERING)}
           />
 
           {/* Filter */}

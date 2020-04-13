@@ -110,7 +110,7 @@ function StudentsWithRedux({
                 value={searchValue}
                 onChange={onSearch}
                 type="text"
-                autocomplete="no"
+                autoComplete="no"
               />
               {/* Email List */}
               <div className="ip-f-email-group" role="list">

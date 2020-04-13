@@ -7,7 +7,7 @@ export const ARRAY_INIT = ['init']
 export const ARRAY_EMPTY = ['empty']
 
 // Forms
-export const NEW_OFFERING_ID = 'ip-new-offering'
+export const NEW_OFFERING_ID = 'new-offering'
 export const NEW_OFFERING = { id: NEW_OFFERING_ID }
 
 export const NO_OFFERING_ID = 'ip-no-off'
