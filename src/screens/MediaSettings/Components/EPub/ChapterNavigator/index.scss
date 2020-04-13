@@ -22,6 +22,7 @@
       animation: none;
       height: 100vh;
       padding-top: 20px;
+      padding-bottom: 0;
       max-height: calc(100vh - 93px);
 
       .ee-cn-h {
@@ -64,8 +65,8 @@
     padding: 10px 5px 20px 0;
     margin-top: -30px;
     // background-color: rgb(226, 226, 226);
-    background-color: rgb(242, 246, 246);
-    border-radius: 0 20px 20px 0;
+    background-color: white;
+    border-radius: 0 10px 10px 0;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.295);
     height: 600px;
     max-height: 70vh;
@@ -88,7 +89,7 @@
     .ee-cn-h {
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(-180deg,rgb(242, 246, 246) 90%,transparent);
+      background: linear-gradient(-180deg,white 90%,transparent);
       position: sticky;
       top: 0;
       left: 0;
