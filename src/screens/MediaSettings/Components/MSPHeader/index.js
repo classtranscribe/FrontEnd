@@ -1,9 +1,11 @@
 import React from 'react'
-import { connectWithRedux } from '../../Utils'
+import { Link } from 'react-router-dom'
 import { Popup } from 'semantic-ui-react'
+import { connectWithRedux } from '../../Utils'
 import { ClassTranscribeHeader } from '../../../../components'
 import Tabs from './Tabs'
 import './index.scss'
+import { util } from 'utils'
 
 
 function MSPHeaderWithRedux({
@@ -28,9 +30,9 @@ function MSPHeaderWithRedux({
               <div><strong>{mediaName}</strong></div>
             }
             trigger={
-              <div tabIndex={0} className="msp-me-name">
+              <Link className="msp-me-name" to={util.links.instructor()}>
                 {mediaName}
-              </div>
+              </Link>
             }
           />
         </div>
