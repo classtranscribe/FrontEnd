@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'pico-ui'
 import { Filter } from '../Filter'
 import { ListItem } from '../ListItem'
@@ -7,7 +7,7 @@ import {
   ARRAY_EMPTY, NEW_PLAYLIST, ORD_T_PL, offControl 
 } from '../../Utils'
 
-export default function Playlists({
+function Playlists({
   results,
   playlist,
   playlists=[],
@@ -27,6 +27,14 @@ export default function Playlists({
       onSave: offControl.reorderPlaylists
     })
   }
+
+  useEffect(() => { 
+    // scroll current playlist item into view
+    if (playlist.id && playlist.id !== (results[0] || {}).id) {
+      let plElem = document.getElementById(playlist.id)
+      if (plElem) plElem.scrollIntoView({ block: 'center' })
+    }
+  }, [results, playlist])
 
   return (
     <>
@@ -104,3 +112,5 @@ export default function Playlists({
     </>
   )
 }
+
+export default Playlists

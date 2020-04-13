@@ -34,13 +34,7 @@ function SideBarWithRedux({
     setup.changeOffering(off, updateSearch)
   }
 
-  useEffect(() => {
-    if (offerings === ARRAY_INIT) return;
-    
-    setResults(offerings)
-
-    if (Boolean(offering.id)) return;
-
+  const chooseOffering = () => {
     let { offId } = util.links.useSearch()
     if (!offId) {
       offId = history.location.pathname.split('/')[2]
@@ -68,6 +62,15 @@ function SideBarWithRedux({
         history.push(util.links.instNewOffering())
       }
     }
+  }
+
+  useEffect(() => {
+    if (offerings === ARRAY_INIT) return;
+    
+    setResults(offerings)
+    // if (Boolean(offering.id)) return;
+    chooseOffering()
+    
   }, [offerings])
   
 

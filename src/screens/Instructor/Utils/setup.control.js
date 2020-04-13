@@ -111,6 +111,7 @@ export const setup = {
 
   changeOffering: function(offering, updateSearch=true) {
     const { history } = this.externalFunctions
+    if (offering.id === this.offering().id) return
 
     this.playlists_ = []
     if (offering === NEW_OFFERING) {
@@ -334,10 +335,19 @@ export const setup = {
         this.changePlaylist(NEW_PLAYLIST)
         setResults([])
       } else {
-        // If playlists non-empty set result to playlists
-        if (!this.playlist().isNew) {
-          this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+        let { plid } = util.links.useSearch()
+        if (plid) { // if the plid is specified in the url
+          let requestPl = _.find(playlists, { id: plid })
+          if (requestPl) {
+            this.changePlaylist(requestPl)
+          }
+        } else { // if the no plid is specified in the url
+          // If playlists non-empty set result to playlists
+          if (!this.playlist().isNew) {
+            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+          }
         }
+
         setResults(playlists)
       }
     } else {
@@ -348,13 +358,14 @@ export const setup = {
 
   changePlaylist: async function(pl, setWithoutLoading=false) {
     if (!pl.name || setWithoutLoading) return this.playlist(pl)
+    if (pl.id === this.playlist().id) return
 
     this.playlist({})
 
     let { data } = await api.getPlaylistById(pl.id)
     this.playlist(data)
-    // let pid = data.id
-    // window.history.replaceState(null, null, util.links.createHash({ ...util.links.useHash(), pid }))
+    // push plid into url
+    util.links.pushSearch({ plid: pl.id })
   },
 
   playlistToView: function(id) {
