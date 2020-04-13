@@ -193,10 +193,7 @@ class Epub {
       image: image || (items[0] || {}).image,
       items: items,
       audioDescription: audioDescription,
-      text: text || _.map(
-        _.filter(items, ({ text }) => text !== ''), 
-        item => `<p>${_.trim(item.text)}</p>`
-      ).join('\n\n')
+      text: text || html.strList(items, 'text')
     }
   }
 
