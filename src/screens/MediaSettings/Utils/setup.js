@@ -6,17 +6,18 @@ class SetupMSP {
   constructor() {
     this.redux = {}
     this.media_ = api.parseMedia()
+    this.playlist_ = {}
     this.error_ = null
   }
 
   init(props) {
     const { 
-      setMedia, setError,
+      setMedia, setPlaylist, setError,
       history, location 
     } = props
 
     this.redux = { 
-      setMedia, setError,
+      setMedia, setPlaylist, setError,
       history, location 
     }
   }
@@ -45,12 +46,30 @@ class SetupMSP {
     }
   }
 
+  playlist(playlist_) {
+    if (playlist_ === undefined) return this.playlist_
+    const { setPlaylist } = this.redux
+    if (setPlaylist) {
+      setPlaylist(playlist_)
+      this.playlist_ = playlist_
+    }
+  }
+
   async getMedia(mediaId) {
     try {
       let { data } = await api.getMediaById(mediaId)
       return api.parseMedia(data)
     } catch (error) {
       return api.parseMedia()
+    }
+  }
+
+  async getPlaylist(playlistId) {
+    try {
+      let { data } = await api.getPlaylistById(playlistId)
+      return data
+    } catch (error) {
+      return {}
     }
   }
 
@@ -67,6 +86,12 @@ class SetupMSP {
 
     this.media(media)
     api.contentLoaded()
+
+    let { playlistId } = media
+    if (playlistId) {
+      let playlist = await this.getPlaylist(playlistId)
+      this.playlist(playlist)
+    }
   }
 
   enterFullscreen(id) {

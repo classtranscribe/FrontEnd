@@ -10,8 +10,10 @@ import { util } from 'utils'
 
 function MSPHeaderWithRedux({
   media,
+  playlist,
 }) {
   const { mediaName } = media
+  const { offeringId } = playlist
 
   return (
     <div className="msp-header">
@@ -30,7 +32,11 @@ function MSPHeaderWithRedux({
               <div><strong>{mediaName}</strong></div>
             }
             trigger={
-              <Link className="msp-me-name" to={util.links.instructor()}>
+              <Link className="msp-me-name" to={
+                (offeringId && playlist.id)
+                ? util.links.instOffering(offeringId, playlist.id, media.id)
+                : util.links.instructor()
+              }>
                 {mediaName}
               </Link>
             }
@@ -45,7 +51,8 @@ function MSPHeaderWithRedux({
 export const MSPHeader = connectWithRedux(
   MSPHeaderWithRedux,
   [
-    'media'
+    'media',
+    'playlist'
   ],
   []
 )
