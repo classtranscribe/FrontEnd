@@ -288,6 +288,6 @@ export class CTUser {
     this.authToken = authToken
     // Save user info
     this.saveUserInfo(data)
-    window.location = window.location.origin
+    window.location.reload()
   }
 }

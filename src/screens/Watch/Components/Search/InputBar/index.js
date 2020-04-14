@@ -25,7 +25,7 @@ function InputBar({
 
   const handleSearch = () => {
     inputRef.current.focus()
-    util.scrollToTop('.watch-search-result-container')
+    util.elem.scrollToTop('watch-search-result-container')
     searchControl.getResults(inputRef.current.value)
   }
 
