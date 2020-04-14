@@ -27,11 +27,10 @@ a:focus, button:focus {
   outline-color:  rgb(7, 150, 143);
 }
 
-::selection {
-  background: rgb(26, 150, 155) !important;
-  color: #fafafa !important;
-}
-
 ::-webkit-scrollbar{
   display: none;
 }
+
+/* ::selection {
+  background: rgb(14, 135, 139) !important;
+} */
