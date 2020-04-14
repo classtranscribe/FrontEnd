@@ -38,7 +38,7 @@ export class CTAuth0 {
   signIn() {
     this.auth0.authorize({
       appState: {
-        redirectURL: window.location.pathname,
+        redirectURL: window.location.href,
         redirectSearch: window.location.search,
         redirectState: window.location.state
       }
