@@ -24,7 +24,7 @@ export function Search({offerings, location}) {
   }
 
   useEffect( () => {
-    util.scrollToTop('.sp-content')
+    util.elem.scrollIntoView('sp-content')
     util.links.title('Search')
     window.scrollTo(0, 0)
     if (offerings.length) {

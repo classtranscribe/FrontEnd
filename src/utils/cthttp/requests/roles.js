@@ -12,8 +12,17 @@ export function getRolesByUniId(universityId) {
 
 // POST
 
-export function createRole(mailId) {
-    return cthttp.post('Roles', null, { params: { mailId } })
+/**
+ * Create a role
+ * @param {String} mailId email
+ * @param {String} role `Instructor`, `Student`, `Admin`
+ */
+export function createRole(mailId, role) {
+    return cthttp.post('Roles', null, { params: { mailId, role } })
+}
+
+export function createInstructor(mailId) {
+    return cthttp.post('Roles', null, { params: { mailId, role: 'Instructor' } })
 }
 
 // DELETE

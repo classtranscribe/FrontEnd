@@ -6,7 +6,7 @@ import { util } from 'utils'
 
 export function History({ state, removeWatchHistory }) {
   useEffect(() => {
-    util.scrollToTop('.sp-content')
+    util.elem.scrollIntoView('sp-content')
     util.links.title('History')
   }, [])
   

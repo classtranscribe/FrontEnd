@@ -101,7 +101,7 @@ export function OfferingDetail({
    * Get all offerings and complete offerings
    */
   useEffect(() => {
-    util.scrollToTop('.sp-content')
+    util.elem.scrollIntoView('sp-content')
     setupOfferingDetails()
   }, [id])
 

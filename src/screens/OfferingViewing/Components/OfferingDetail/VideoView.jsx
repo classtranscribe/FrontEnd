@@ -15,7 +15,7 @@ function VideoView({
   const [playlist, setPlaylist] = useState({})
 
   useEffect(() => {
-    util.scrollToTop('.sp-content')
+    util.elem.scrollIntoView('sp-content')
     api.getPlaylistById(playlistId)
       .then(({ data }) => {
         _.reverse(data.medias)
@@ -34,7 +34,7 @@ function VideoView({
     if (playlist.id) {
       const { mid } = util.links.useSearch()
       if (mid) {
-        util.scrollToCenter('#' + mid)
+        util.elem.scrollIntoCenter(mid, { focus: true })
         history.replace(history.location.pathname)
       }
     }

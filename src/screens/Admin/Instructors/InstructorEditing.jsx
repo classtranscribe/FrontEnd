@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components'
 import { Grid, Form, Input } from 'semantic-ui-react'
 // Vars
-import { api, util } from '../../../utils'
+import { api, util, prompt } from '../../../utils'
 
 export default function InstructorEditing({ match: {params}, history }) {
   const isNew = params.type === 'new'
@@ -21,8 +21,11 @@ export default function InstructorEditing({ match: {params}, history }) {
     onInactive: () => 1,
     onUpdate: () => 1,
     onSubmit: () => {
-      api.createRole(mailId).then(response => {
+      api.createInstructor(mailId).then(() => {
         window.location = util.links.admin()
+      })
+      .catch(() => {
+        prompt.error(`Failed to add ${mailId} as an instructor.`, 5000)
       })
     }
   }

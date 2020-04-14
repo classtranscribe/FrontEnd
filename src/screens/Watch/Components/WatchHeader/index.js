@@ -17,15 +17,16 @@ import './Buttons/index.css'
 
 export function WatchHeaderWithRedux({
   isFullscreen=false,
-  search=SEARCH_INIT
+  search=SEARCH_INIT,
+  plain=false,
 }) {
 
-  const showButtons = search.status === SEARCH_HIDE
+  const showButtons = search.status === SEARCH_HIDE && !plain
 
   return isFullscreen ? null : (
     <ClassTranscribeHeader 
       darkMode 
-      showProfileMenu={showButtons}
+      showProfileMenu={search.status === SEARCH_HIDE}
       leftElem={<MediaInfo />}
       rightElem={ !showButtons ? null :
         <>

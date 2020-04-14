@@ -23,7 +23,7 @@ import {
 export class ClassTranscribePlayerWithRedux extends React.Component {
   constructor(props) {
     super(props)
-    this.mediaId = util.parseSearchQuery().id
+    this.mediaId = util.links.useSearch().id
     this.state = {
       srcPath1: null,
       srcPath2: null,
@@ -66,11 +66,11 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   onDurationChange = e => {
     control.onDurationChange(e)
     const { media } = this.props
-    let search = util.parseSearchQuery()
+    let search = util.links.useSearch()
     let begin = search.begin || media.watchHistory.timestamp
     if (Boolean(begin)) {
       control.currTime(Number(begin))
-      util.replacePathname( util.links.watch(media.id) )
+      window.history.replaceState(null, null, util.links.watch(media.id) )
     }
   }
   onProgress = e => {

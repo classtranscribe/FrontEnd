@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import { Route } from 'react-router-dom'
-import { api } from '../../../utils'
+import { api, prompt } from '../../../utils'
 // UI
 import InstructorEditing from './InstructorEditing'
 import InstructorList from './InstructorList'
@@ -39,7 +39,13 @@ export default function InstructorPane({ state: {universities}, getSelectOptions
 
   const onInactive = (mailId) => {
     api.deleteRole(mailId)
-      .then(() => onUniSelect({ value: currUni.id }))
+      .then(() => {
+        onUniSelect({ value: currUni.id })
+        prompt.addOne({ text: 'Removed instructor ' + mailId, timeout: 3000 })
+      })
+      .catch(() => {
+        prompt.error('Failed to delete the instructor.')
+      })
   }
   
   return (
