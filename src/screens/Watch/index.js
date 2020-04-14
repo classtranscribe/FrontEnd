@@ -6,6 +6,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
 import { 
+  ErrorWrapper,
   WatchHeader,
   Menus,
   Modals,
@@ -24,24 +25,29 @@ import { util } from '../../utils'
 import { 
   watchStore, 
   connectWithRedux,
-
   setup,
   videoControl,
   transControl,
   searchControl,  
   preferControl,
-  keydownControl, 
+  keydownControl,
+  ERR_INVALID_MEDIA_ID, 
 } from './Utils'
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
     super(props)
+
+    let error = null
     const { id } = util.parseSearchQuery()
     this.id = id
-    if (!id) window.location = util.links.notfound404()
+    if (!id) error = ERR_INVALID_MEDIA_ID
+
+    this.state = { error }
+    let setError = error => this.setState({ error })
 
     /** Init controls */
-    setup.init(props)
+    setup.init(props, setError)
     transControl.init(props)
     searchControl.init(props)
     preferControl.init(props)
@@ -61,18 +67,31 @@ export class WatchWithRedux extends React.Component {
   }
 
   render() { 
+    const { error } = this.state
+
     return (
       <main className="watch-bg" id="watch-page">
-        <TabEventHelperButtons />
-        <Modals />
-        <WatchHeader />
-        <Search />
-        <Menus />
-        <ClassTranscribePlayer />
-        <UpNext />
-        <TransCtrlButtons />
-        <Transcriptions />
-        <ControlBar />
+        {
+          Boolean(error)
+          ?
+          <>
+            <WatchHeader plain />
+            <ErrorWrapper error={error} />
+          </>
+          :
+          <>
+            <TabEventHelperButtons />
+            <Modals />
+            <WatchHeader />
+            <Search />
+            <Menus />
+            <ClassTranscribePlayer />
+            <UpNext />
+            <TransCtrlButtons />
+            <Transcriptions />
+            <ControlBar />
+          </>
+        }
       </main>
     )
   }

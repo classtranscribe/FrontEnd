@@ -7,6 +7,17 @@
  */
 // Clear Options
 export const CO_CHANGE_VIDEO = 'co-change-video'
+// Errors
+export const ERR_AUTH = {
+  code: 403,
+  header: "Unauthorized Access",
+  description: "Sorry, you are not authorized for your requested page or resource."
+}
+export const ERR_INVALID_MEDIA_ID = {
+  code: 404,
+  header: "The media cannot be found",
+  description: "Sorry, your requested URL doesn't contain a valid media ID."
+}
 
 /** 
  * Arrays

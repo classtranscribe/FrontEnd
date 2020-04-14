@@ -2,6 +2,7 @@
  * Components used by the watch page
  */
 
+export { ErrorWrapper           } from './ErrorWrapper'
 export { WatchHeader            } from './WatchHeader'
 export { Menus                  } from './Menus'
 export { Modals                 } from './Modals'

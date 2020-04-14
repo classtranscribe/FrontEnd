@@ -4,14 +4,15 @@ import { transControl } from './trans.control'
 import { videoControl } from './player.control'
 import { menuControl } from './menu.control'
 import { promptControl } from './prompt.control'
-import { isSafari, isBrowser, isMobile, isIPad13, isIPhone13 } from 'react-device-detect'
+import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect'
+import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './constants.util'
 
 export const setup = {
   media_: api.parseMedia(),
   playlist_: {},
   playlists_: {},
   externalFunctions : {},
-  init: function(props) {
+  init: function(props, setError) {
     const { 
       setMedia, setPlaylist, setPlaylists, setOffering,
       setWatchHistory, setStarredOfferings, 
@@ -21,7 +22,8 @@ export const setup = {
     this.externalFunctions = { 
       setMedia, setPlaylist, setPlaylists, setOffering,
       setWatchHistory, setStarredOfferings, 
-      location, history, changeVideo
+      location, history, changeVideo,
+      setError,
     }
   },
 
@@ -111,12 +113,18 @@ export const setup = {
    * ************************************************************************
    */
   getMedia: async function() {
+    const { setError } = this.externalFunctions
     const { id } = util.parseSearchQuery()
 
     try {
       let { data } = await api.getMediaById(id)
       return api.parseMedia(data)
     } catch (error) {
+      if (api.parseError(error).status === 404) {
+        setError(ERR_INVALID_MEDIA_ID)
+      } else {
+        setError(ERR_AUTH)
+      }
       return null
     }
   },
