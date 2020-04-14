@@ -21,6 +21,8 @@ export { CTForm  } from './CTForm'
 
 export { GeneralModal, CTModal } from './Modals'
 
+export { CTErrorWrapper } from './CTErrorWrapper'
+
 // Need to be removed later
 export { GeneralAlert } from './Alerts'
 export { GeneralLoader } from './Loaders' 
