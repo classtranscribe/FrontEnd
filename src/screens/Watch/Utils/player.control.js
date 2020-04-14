@@ -2,7 +2,7 @@
  * Functions for controlling video players
  */
 import _ from 'lodash'
-import { userAction, api } from '../../../utils'
+import { userAction, api, user } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
 import { isMobile } from 'react-device-detect'
@@ -471,7 +471,7 @@ export const videoControl = {
 
   async sendMediaHistories() {
     let { id } = setup.media()
-    if (id) {
+    if (id && user.isLoggedIn()) {
       await api.sendMediaWatchHistories(id, this.currTime(), (this.currTime() / this.duration) * 100)
     }
   },
