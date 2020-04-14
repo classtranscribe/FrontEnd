@@ -39,7 +39,7 @@ export class WatchWithRedux extends React.Component {
     super(props)
 
     let error = null
-    const { id } = util.parseSearchQuery()
+    const { id } = util.links.useSearch()
     this.id = id
     if (!id) error = ERR_INVALID_MEDIA_ID
 

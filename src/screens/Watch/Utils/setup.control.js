@@ -114,7 +114,7 @@ export const setup = {
    */
   getMedia: async function() {
     const { setError } = this.externalFunctions
-    const { id } = util.parseSearchQuery()
+    const { id } = util.links.useSearch()
 
     try {
       let { data } = await api.getMediaById(id)
@@ -181,24 +181,10 @@ export const setup = {
     }
   },
 
-  /**
-   * Function used to check whether to reset existing data
-   */
-  checkForReset: function() {
-    const { courseNumber } = util.parseSearchQuery()
-    if (courseNumber !== this.courseNumber) {
-      this.media_ = api.parseMedia()
-      this.playlist_ = {}
-      this.playlists_ = []
-    }
-    this.courseNumber = courseNumber
-  },
-
   /** 
    * Function for getting media, playlist, and playlists
    */
   setupMedias: async function() {
-    this.checkForReset()
     // Get media
     let media = await this.getMedia()
     if (!media) {

@@ -10,10 +10,12 @@ function PlaylistView({
 }) {
 
   useEffect(() => {
-    util.scrollToCenter(
-      '#'+currPlaylist.id, 
-      true, 
-      util.scrollToTop('.watch-videos-list')
+    util.elem.scrollIntoCenter(
+      currPlaylist.id, 
+      {
+        focus: true,
+        alternate: () => util.elem.scrollIntoView('watch-videos-list')
+      }
     )
   }, [currPlaylist])
 
