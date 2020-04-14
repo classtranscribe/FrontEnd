@@ -12,19 +12,17 @@ function Videos({
   let { medias } = currPlaylist
 
   useEffect(() => {
-    util.scrollToCenter(
-      '#'+currMediaId, 
-      true, 
-      () => {
-        if (medias && medias[0]) {
-          util.scrollToCenter('#' + medias[0].id, true, () => util.scrollToTop('.watch-videos-list'))
-        }
+    util.elem.scrollIntoCenter(
+      currMediaId, 
+      {
+        focus: true,
+        alternate: () => util.elem.scrollIntoView('watch-videos-list')
       }
     )
   }, [currPlaylist])
 
   return (
-    <div className="watch-videos-list">
+    <div id="watch-videos-list" className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
         <p><i className="material-icons">video_library</i>{currPlaylist.name}</p>
       </div>

@@ -164,7 +164,7 @@ export class OfferingViewing extends React.Component {
             />   
             <Sidebar {...this} />
 
-            <main className="sp-content" style={paddingLeft} data-scroll>
+            <main id="sp-content" className="sp-content" style={paddingLeft} data-scroll>
               <Switch location={location}>
                 {/* Unauthed home page */}
                 <Route 

@@ -52,6 +52,8 @@ function Filter({state, onUniSelected, onDepartSelected, onTermSelected, display
           <Grid.Row>
             <Grid.Column>
               <Form.Field 
+                id="filter-by-university"
+                title="Filter by University"
                 control={Dropdown}
                 placeholder="Select University"
                 label="Filter by University"
@@ -66,6 +68,7 @@ function Filter({state, onUniSelected, onDepartSelected, onTermSelected, display
             <Grid.Column>
               <Form.Field 
                 control={Dropdown}
+                id="filter-by-departments"
                 placeholder="Select Departments"
                 label="Filter by Departments"
                 aria-label="Select Departments"
@@ -77,6 +80,8 @@ function Filter({state, onUniSelected, onDepartSelected, onTermSelected, display
 
             <Grid.Column style={termStyle}>
               <Form.Field 
+                id="filter-by-terms"
+                title="Filter by Terms"
                 control={Dropdown}
                 placeholder="Select Terms"
                 label="Filter by Terms"

@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { links   } from './links'
+import * as elem from './elements'
 import * as loggerToExport from './logger'
 
 export { env              } from './env'
@@ -20,61 +21,11 @@ export const logger = loggerToExport
  * Objects for switching pages and storing some general functions
  */
 export const util = {
+  elem: elem,
   links: links,
 
   refresh: function() {
     document.location.reload(true);
-  },
-  scrollToTop: function(div) {
-    $(div).scrollTop(0)
-  },
-  scrollToView: function(query) {
-    let div = $(query)
-    div.scrollTop = div.offset().top + div.height() / 2;
-  },
-  scrollToCenter: function(query, focus=true, alter) {
-    let div = $(query)
-    if (div.length > 0) {
-      div.scrollTop = div.offset().top + div.height() / 2;
-      if (focus) div.focus()
-    } else if (alter) {
-      alter()
-    }
-  },
-  parseSearchQuery: function (href) {
-    var queryString = window.location.search
-    if (href) {
-      if (href[0] !== '?' && !this.isValidUrl(href)) return {};
-      queryString = href.substring(href.indexOf('?'), href.length)
-    }
-    if (!queryString) return {}
-    var query = {}
-    var pairs = queryString.substr(1).split('&');
-    pairs.forEach( pair => {
-      pair = pair.split('=')
-      query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '')
-    })
-    return query
-  },
-  createSearchQuery: function(obj) {
-    var query = '?'
-    for(let key in obj) {
-      if (!Boolean(obj[key])) continue;
-      let value = obj[key]
-      if (typeof value === 'string') value = this.getValidURLFullNumber(value)
-      query += (query === '?' ? '' : '&') + `${key}=${value}`
-    }
-    return query === '?' ? '' : query
-  },
-  replacePathname: function(url) {
-    window.history.replaceState(
-      window.history.state , 
-      document.title, 
-      url
-    )
-  },
-  getWindowStates: function () {
-    return window.history.state || {}
   },
 
   getSelectOptions: function(array=[], tag) {
@@ -100,13 +51,6 @@ export const util = {
     if (fittedName !== name) fittedName += '...'
     return fittedName
   },
-  getValidURLFullNumber: function(fullNumber) {
-    return fullNumber.replace(/\//g, '-')
-  },
-  parseURLFullNumber: function(fullNumber) {
-    fullNumber = fullNumber || util.parseSearchQuery().courseNumber
-    return fullNumber.replace(/-/g, '/')
-  },
 
   fixForAccessbitity: function(category) {
     switch (category) {
@@ -121,7 +65,11 @@ export const util = {
       case 'formSearchDropdown':
         $('.search').each(
           (index, elem) => {
-            elem.setAttribute('aria-label', 'search' + index)
+            if (elem.title) {
+              // elem.setAttribute('aria-label', elem.title)
+            } else {
+              elem.setAttribute('aria-label', elem.parentElement.title)
+            }
           }
         )
         break;
