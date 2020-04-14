@@ -9,7 +9,7 @@
 export const CO_CHANGE_VIDEO = 'co-change-video'
 // Errors
 export const ERR_AUTH = {
-  code: 403,
+  code: 401,
   header: "Unauthorized Access",
   description: "Sorry, you are not authorized for your requested page or resource."
 }
