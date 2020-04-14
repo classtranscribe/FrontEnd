@@ -44,6 +44,10 @@ h1, h2, h3, h4, h5, p {
 .ui.selection.active.dropdown, .ui.selection.active.dropdown .menu {
   border-color: #fafafa !important;
 }
+.ui.selection.active.dropdown .menu::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
 
 .ui.multiple.dropdown>.label {
   background: rgb(230, 234, 235);
