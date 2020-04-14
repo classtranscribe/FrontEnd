@@ -43,6 +43,7 @@ h1, h2, h3, h4, h5, p {
 
 .ui.selection.active.dropdown, .ui.selection.active.dropdown .menu {
   border-color: #fafafa !important;
+  box-shadow: 0 0 10px rgba(4, 32, 32, 0.15) !important;
 }
 .ui.selection.active.dropdown .menu::-webkit-scrollbar {
   display: block;

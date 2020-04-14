@@ -120,7 +120,11 @@ export const util = {
       case 'formSearchDropdown':
         $('.search').each(
           (index, elem) => {
-            elem.setAttribute('aria-label', 'search' + index)
+            if (elem.title) {
+              // elem.setAttribute('aria-label', elem.title)
+            } else {
+              elem.setAttribute('aria-label', elem.parentElement.title)
+            }
           }
         )
         break;
