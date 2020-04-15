@@ -59,8 +59,6 @@ export class CTUser {
   // logout the user
   signout () { 
     // remove possible localStorage
-    // let userInfo = this.getUserInfo()
-    // console.log(userInfo, env._baseURL)
     localStorage.clear()
     if (env.dev) {
       window.location = window.location.origin
@@ -69,34 +67,43 @@ export class CTUser {
     }
   }
 
-  // Setup the user after being logged in
+  /**
+   * Setup user after having auth0's id token
+   */
   async setUpUser() {
-    if (!this.isLoggedIn()) {
-      await auth0Client.handleAuthentication()
-      const { data } = await api.accountSignIn(auth0Client.getAuth0Token())
-      let { authToken } = data
-      // Save AuthToken
-      this.authToken = authToken
-      // Save userInfo
-      this.saveUserInfo(data)
-
-      // Redirect
-      var redirectURL = auth0Client.getRedirectURL() // default redirect url
-      const tokenInfo = decoder(authToken)
-      const roles = tokenInfo[TOKEN_INFO_KEY]
-      // redirect admins and instructors to their page
-      if (redirectURL === links.home() && roles) {
-        if (this.isAdmin(roles)) {
-          redirectURL = links.admin()
+    try {
+      if (!this.isLoggedIn()) {
+        // load user info and id token from auth0 (window.location.hash)
+        await auth0Client.handleAuthentication()
+  
+        // get authToken from the backend
+        let id_token = auth0Client.getAuth0Token()
+        const { data } = await api.accountSignIn(id_token)
+        const authToken = data.authToken
+  
+        // save userInfo
+        this.saveUserInfo(data)
+  
+        // start to redirect
+        let tokenInfo = decoder(authToken)
+        let redirectURL = auth0Client.getRedirectURL() // default redirect url
+        let roles = tokenInfo[TOKEN_INFO_KEY]
+        // redirect admins and instructors to their page
+        if (redirectURL === links.home() && roles) {
+          if (this.isAdmin(roles)) {
+            redirectURL = links.admin()
+          } else if (this.isInstructor(roles)) {
+            redirectURL = links.instructor()
+          }
         }
-        else if (this.isInstructor(roles)) {
-          redirectURL = links.instructor()
-        }
+  
+        window.location = redirectURL
+      } else {
+        window.location = auth0Client.getRedirectURL()
       }
-
-      window.location = redirectURL
-    } else {
-      window.location = auth0Client.getRedirectURL()
+    } catch (error) {
+      prompt.error('Failed to sign in')
+      window.history.replaceState(null, null, links.home())
     }
   }
 
@@ -281,11 +288,6 @@ export class CTUser {
   // ---------------------------------------------------------------------------
   async testAccountSignIn() {
     let { data } = await api.testAccountSignIn()
-    // console.log(data)
-    // console.log(decoder(data.authToken))
-    let { authToken } = data
-    // Save AuthToken
-    this.authToken = authToken
     // Save user info
     this.saveUserInfo(data)
     window.location.reload()
