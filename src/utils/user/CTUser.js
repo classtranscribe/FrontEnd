@@ -69,27 +69,42 @@ export class CTUser {
     }
   }
 
-  // Setup the user after being logged in
+  /**
+   * Setup user after loading user info and `id_token` from Auth0
+   */
   async setUpUser() {
     if (!this.isLoggedIn()) {
-      await auth0Client.handleAuthentication()
-      const { data } = await api.accountSignIn(auth0Client.getAuth0Token())
-      let { authToken } = data
-      // Save AuthToken
-      this.authToken = authToken
-      // Save userInfo
-      this.saveUserInfo(data)
+      // load user info and `id_token` from Auth0
+      try {
+        await auth0Client.handleAuthentication()
+      } catch (error) {
+        console.error('Failed to parse Auth0 id_token', error)
+        return
+      }
+      
+      // get authToken from backend using auth0's `id_token`
+      try {
+        let id_token = auth0Client.getAuth0Token()
+        const { data } = await api.accountSignIn(id_token)
+        // Save AuthToken
+        this.authToken = data.authToken
+        // Save userInfo
+        this.saveUserInfo(data)
+      } catch (error) {
+        console.error('Failed to get user data and auth token from backend', error)
+        // this.signin()
+        return
+      }
 
-      // Redirect
-      var redirectURL = auth0Client.getRedirectURL() // default redirect url
-      const tokenInfo = decoder(authToken)
+      // start redirecting
+      let redirectURL = auth0Client.getRedirectURL() // default redirect url
+      const tokenInfo = decoder(this.authToken)
       const roles = tokenInfo[TOKEN_INFO_KEY]
       // redirect admins and instructors to their page
       if (redirectURL === links.home() && roles) {
         if (this.isAdmin(roles)) {
           redirectURL = links.admin()
-        }
-        else if (this.isInstructor(roles)) {
+        } else if (this.isInstructor(roles)) {
           redirectURL = links.instructor()
         }
       }

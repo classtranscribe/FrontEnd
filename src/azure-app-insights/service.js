@@ -1,5 +1,6 @@
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import { ReactPlugin } from '@microsoft/applicationinsights-react-js'
+import { isFirefox } from 'react-device-detect'
 
 let reactPlugin = null
 let appInsights = null
@@ -21,26 +22,35 @@ const createTelemetryService = () => {
             throw new Error('Could not initialize Telemetry Service')
         }
         if (!instrumentationKey) {
-            throw new Error('Instrumentation key not provided in ./src/telemetry-provider.jsx')
+            throw new Error('Instrumentation key not provided')
         }
 
-        reactPlugin = new ReactPlugin()
+        if (isFirefox) { // temporarily disable app insights on firefox
+            return
+        }
 
-        appInsights = new ApplicationInsights({
-            config: {
-                instrumentationKey: instrumentationKey,
-                maxBatchInterval: 0,
-                disableFetchTracking: false,
-                extensions: [reactPlugin],
-                extensionConfig: {
-                    [reactPlugin.identifier]: {
-                        history: browserHistory
-                    }
+        try {
+            reactPlugin = new ReactPlugin()
+
+            appInsights = new ApplicationInsights({
+                config: {
+                    instrumentationKey: instrumentationKey,
+                    maxBatchInterval: 0,
+                    disableFetchTracking: false,
+                    extensions: [reactPlugin],
+                    extensionConfig: {
+                        [reactPlugin.identifier]: {
+                            history: browserHistory
+                        }
+                    },
+                    // enableCorsCorrelation: true,
                 }
-            }
-        })
+            })
 
-        appInsights.loadAppInsights()
+            appInsights.loadAppInsights()
+        } catch (error) {
+            console.error('Failed to connect with application insights')
+        }
     }
 
     return { reactPlugin, appInsights, initialize }

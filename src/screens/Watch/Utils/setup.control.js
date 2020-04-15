@@ -188,7 +188,6 @@ export const setup = {
     // Get media
     let media = await this.getMedia()
     if (!media) {
-      promptControl.error()
       api.contentLoaded()
       return
     }

@@ -18,7 +18,10 @@ export function logErrorToPrompt(text, options) {
  * @param {Error} error the error object
  */
 export function logErrorToAzureAppInsights(error) {
-    getAppInsights().trackException({ error, severityLevel: SeverityLevel.Error })
+    let appInsights = getAppInsights()
+    if (appInsights && typeof appInsights.trackException === 'function') {
+        appInsights.trackException({ error, severityLevel: SeverityLevel.Error })
+    }
 }
 
 /**
