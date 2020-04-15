@@ -165,6 +165,8 @@ export class CTUser {
    * @param {Object} userInfo 
    */
   saveUserInfo (userInfo) {
+    // save auth token
+    this.authToken = userInfo.authToken
     // info from JWT token
     const tokenInfo = decoder(userInfo.authToken)
     let { iss } = tokenInfo
@@ -206,7 +208,7 @@ export class CTUser {
    */
   userId() {
 
-    if (window.location.pathname === '/admin') { // if it's in admin page
+    if (window.location.pathname === links.admin()) { // if it's in admin page
       return this.getUserInfo().userId
     }
 
@@ -220,7 +222,7 @@ export class CTUser {
 
   // return the authorization token
   get authToken() {
-    if (window.location.pathname === '/admin') { // if it's in admin page
+    if (window.location.pathname === links.admin()) { // if it's in admin page
       return localStorage.getItem(AUTH_TOKEN_KEY)
     }
 
