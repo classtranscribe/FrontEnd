@@ -59,6 +59,8 @@ export class CTUser {
   // logout the user
   signout () { 
     // remove possible localStorage
+    // let userInfo = this.getUserInfo()
+    // console.log(userInfo, env._baseURL)
     localStorage.clear()
     if (env.dev) {
       window.location = window.location.origin
@@ -68,42 +70,48 @@ export class CTUser {
   }
 
   /**
-   * Setup user after having auth0's id token
+   * Setup user after loading user info and `id_token` from Auth0
    */
   async setUpUser() {
-    try {
-      if (!this.isLoggedIn()) {
-        // load user info and id token from auth0 (window.location.hash)
+    if (!this.isLoggedIn()) {
+      // load user info and `id_token` from Auth0
+      try {
         await auth0Client.handleAuthentication()
-  
-        // get authToken from the backend
+      } catch (error) {
+        console.error('Failed to parse Auth0 id_token', error)
+        return
+      }
+      
+      // get authToken from backend using auth0's `id_token`
+      try {
         let id_token = auth0Client.getAuth0Token()
         const { data } = await api.accountSignIn(id_token)
-        const authToken = data.authToken
-  
-        // save userInfo
+        // Save AuthToken
+        this.authToken = data.authToken
+        // Save userInfo
         this.saveUserInfo(data)
-  
-        // start to redirect
-        let tokenInfo = decoder(authToken)
-        let redirectURL = auth0Client.getRedirectURL() // default redirect url
-        let roles = tokenInfo[TOKEN_INFO_KEY]
-        // redirect admins and instructors to their page
-        if (redirectURL === links.home() && roles) {
-          if (this.isAdmin(roles)) {
-            redirectURL = links.admin()
-          } else if (this.isInstructor(roles)) {
-            redirectURL = links.instructor()
-          }
-        }
-  
-        window.location = redirectURL
-      } else {
-        window.location = auth0Client.getRedirectURL()
+      } catch (error) {
+        console.error('Failed to get user data and auth token from backend', error)
+        // this.signin()
+        return
       }
-    } catch (error) {
-      prompt.error('Failed to sign in')
-      window.history.replaceState(null, null, links.home())
+
+      // start redirecting
+      let redirectURL = auth0Client.getRedirectURL() // default redirect url
+      const tokenInfo = decoder(this.authToken)
+      const roles = tokenInfo[TOKEN_INFO_KEY]
+      // redirect admins and instructors to their page
+      if (redirectURL === links.home() && roles) {
+        if (this.isAdmin(roles)) {
+          redirectURL = links.admin()
+        } else if (this.isInstructor(roles)) {
+          redirectURL = links.instructor()
+        }
+      }
+
+      window.location = redirectURL
+    } else {
+      window.location = auth0Client.getRedirectURL()
     }
   }
 
@@ -165,8 +173,6 @@ export class CTUser {
    * @param {Object} userInfo 
    */
   saveUserInfo (userInfo) {
-    // save auth token
-    this.authToken = userInfo.authToken
     // info from JWT token
     const tokenInfo = decoder(userInfo.authToken)
     let { iss } = tokenInfo
@@ -208,7 +214,7 @@ export class CTUser {
    */
   userId() {
 
-    if (window.location.pathname === links.admin()) { // if it's in admin page
+    if (window.location.pathname === '/admin') { // if it's in admin page
       return this.getUserInfo().userId
     }
 
@@ -222,7 +228,7 @@ export class CTUser {
 
   // return the authorization token
   get authToken() {
-    if (window.location.pathname === links.admin()) { // if it's in admin page
+    if (window.location.pathname === '/admin') { // if it's in admin page
       return localStorage.getItem(AUTH_TOKEN_KEY)
     }
 
@@ -290,6 +296,11 @@ export class CTUser {
   // ---------------------------------------------------------------------------
   async testAccountSignIn() {
     let { data } = await api.testAccountSignIn()
+    // console.log(data)
+    // console.log(decoder(data.authToken))
+    let { authToken } = data
+    // Save AuthToken
+    this.authToken = authToken
     // Save user info
     this.saveUserInfo(data)
     window.location.reload()

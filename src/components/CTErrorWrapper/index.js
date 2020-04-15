@@ -52,7 +52,7 @@ export function CTErrorWrapper({
               color="teal"
               onClick={() => user.signin()}
             >
-              SIGN IN TO SEE MORE
+              Sign in to continue
             </Button>
           }
           {
