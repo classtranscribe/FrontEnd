@@ -1,5 +1,9 @@
-import auth0 from 'auth0-js';
-import { env } from '../env';
+import auth0 from 'auth0-js'
+import { env } from '../env'
+import { links } from 'utils/links'
+import { v4 as uuid } from 'uuid'
+
+export const REDIRECT_URL_KEY = 'redirect_url'
 
 export class CTAuth0 {
   constructor() {
@@ -31,30 +35,31 @@ export class CTAuth0 {
     return this.auth0Token
   }
 
-  getRedirectURL = () => this.redirectURL + this.redirectSearch
+  getRedirectURL = () => (this.redirectURL || links.home())
   getRedirectSearch = () => this.redirectSearch
   getRedirectState = () => this.redirectState
 
   signIn() {
     this.auth0.authorize({
       appState: {
-        redirectURL: window.location.href,
-        redirectSearch: window.location.search,
-        redirectState: window.location.state
-      }
+        redirectURL: window.location.href
+      },
+      state: uuid()
     });
   }
 
   handleAuthentication() {
     const hash = window.location.hash
     return new Promise((resolve, reject) => {
-      this.auth0.parseHash({hash}, (err, authResult) => {
-        if (err) return reject(err);
-        if (!authResult || !authResult.idToken) {
-          return reject(err);
+      this.auth0.parseHash({ hash }, (err, authResult) => {
+        // throw error when the token is invalid
+        if (err || !authResult || !authResult.idToken) {
+          return reject(err)
         }
-        this.auth0Token = authResult.idToken;
-        this.profile = authResult.idTokenPayload;
+
+        // get the user info from the auth0
+        this.auth0Token = authResult.idToken
+        this.profile = authResult.idTokenPayload
         this.redirectURL = authResult.appState.redirectURL
         this.redirectSearch = authResult.appState.redirectSearch
         this.redirectState = authResult.appState.redirectState
@@ -64,8 +69,6 @@ export class CTAuth0 {
   }
 
   signOut() {
-    this.profile = {}
-    this.idToken = ''
     this.auth0.logout({ 
       returnTo: window.location.origin
     })
