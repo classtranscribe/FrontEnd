@@ -1,4 +1,5 @@
 import auth0 from 'auth0-js'
+import decoder from 'jwt-decode'
 import { env } from '../env'
 import { links } from 'utils/links'
 import { v4 as uuid } from 'uuid'
@@ -35,11 +36,15 @@ export class CTAuth0 {
     return this.auth0Token
   }
 
-  getRedirectURL = () => (this.redirectURL || links.home())
+  getRedirectURL = () => {
+    localStorage.removeItem(REDIRECT_URL_KEY)
+    return this.redirectURL || links.home()
+  }
   getRedirectSearch = () => this.redirectSearch
   getRedirectState = () => this.redirectState
 
   signIn() {
+    localStorage.setItem(REDIRECT_URL_KEY, window.location.href)
     this.auth0.authorize({
       appState: {
         redirectURL: window.location.href
@@ -52,8 +57,17 @@ export class CTAuth0 {
     const hash = window.location.hash
     return new Promise((resolve, reject) => {
       this.auth0.parseHash({ hash }, (err, authResult) => {
-        // throw error when the token is invalid
-        if (err || !authResult || !authResult.idToken) {
+
+        // In the worst case, manually parse the token
+        if (err) {
+          let { id_token } = links.useHash()
+          this.auth0Token = id_token
+          this.profile = decoder(id_token)
+          this.redirectURL = localStorage.getItem(REDIRECT_URL_KEY)
+          resolve();
+        }
+
+        if (!authResult || !authResult.idToken) {
           return reject(err)
         }
 
