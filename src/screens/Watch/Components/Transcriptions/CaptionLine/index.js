@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef } from 'react'
 
 import {
   transControl,
   videoControl,
   timeStrToSec,
   prettierTimeStr,
-  autoSize,
   WEBVTT_DESCRIPTIONS
 } from '../../../Utils'
 import './index.css'
@@ -63,8 +62,6 @@ function CaptionLine({
       e.preventDefault()
       handleSave()
       blurFromInput()
-    } else {
-      autoSize(ref.current)
     }
   }
 

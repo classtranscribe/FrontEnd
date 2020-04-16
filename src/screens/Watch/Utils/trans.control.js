@@ -1,7 +1,6 @@
-import $ from 'jquery'
 import _ from 'lodash'
 import { api, userAction } from '../../../utils'
-import { timeStrToSec, colorMap, autoSize, /* autoSizeAllTextAreas */ } from './helpers'
+import { timeStrToSec, colorMap } from './helpers'
 import { videoControl } from './player.control'
 import { promptControl } from './prompt.control'
 import { preferControl } from './preference.control'
@@ -228,7 +227,6 @@ export const transControl = {
     if (Boolean(currCaption) && Boolean(setCurrCaption)) {
       // setCurrCaption(currCaption)
       this.currCaption_ = currCaption
-      if (currCaption) this.autoSizeTextAreaByCaptionId(currCaption.id)
     }
   },
 
@@ -738,10 +736,6 @@ export const transControl = {
     // if (next) console.error(next.kind)
     // else console.error('null')
     return next
-  },
-
-  autoSizeTextAreaByCaptionId: function(id) {
-    autoSize($(`#caption-line-textarea-${id}`))
   },
 
 }
