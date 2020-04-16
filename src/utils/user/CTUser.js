@@ -121,6 +121,8 @@ export class CTUser {
 
   // check if a user is valid
   async validate() {
+    if (window.location.pathname === links.signin()) return
+    if (window.location.pathname === links.logout()) return
     await this.checkGitUpdates()
     if (!this.isLoggedIn) return;
     await this.checkExpiration()
