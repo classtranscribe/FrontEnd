@@ -22,7 +22,7 @@ class SetupMSP {
   }
 
   verifyUser() {
-    if (!user.isAdmin()) {
+    if (!user.isAdmin) {
       window.location = util.links.notfound404()
     }
   }

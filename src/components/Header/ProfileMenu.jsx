@@ -11,23 +11,23 @@ const { links } = util
 
 const menuItems = [
   {
-    name: 'Student', 
+    name: 'Student ' + (user.isLoginAsAccount() ? `(${user.getLoginAsUserInfo().emailId})` : ''),
     title: 'Switch to student page', 
     href: links.home(), 
     icon: 'fas fa-school', 
-    display: user.isInstructor() || user.isAdmin()
+    display: user.isInstructor || user.isAdmin
   },{
-    name: 'Instructor', 
+    name: 'Instructor ' + (user.isLoginAsAccount() ? `(${user.getLoginAsUserInfo().emailId})` : ''), 
     title: 'Switch to instructor page', 
     href: links.instructor(), 
     icon: 'fas fa-graduation-cap', 
-    display: user.isInstructor()
+    display: user.isInstructor
   },{
-    name: 'Admin', 
+    name: 'Admin ' + (user.isLoginAsAccount() ? '(You)' : ''), 
     title: 'Switch to admin page', 
     href: links.admin(), 
     icon: 'fas fa-user-cog', 
-    display: user.isAdmin()
+    display: user.isAdmin
   }
 ]
 
@@ -51,9 +51,12 @@ export default function ProfileMenu({
   }
 
   const isLoggedIn = user.isLoggedIn()
-  const { fullName, universityId, picture, roles } = user.getUserInfo()
+  const { fullName, universityId, picture, roles } = user.getUserInfo({ allowLoginAsOverride: false })
   let uni = _.find(universities, { id: universityId })
   let uniName = uni ? uni.name : ''
+
+  const loginAsUserInfo = user.getLoginAsUserInfo()
+  let loginAsUserUni = (_.find(universities, { id: loginAsUserInfo.universityId }) || {}).name || ''
 
   const open = Boolean(anchorEl)
 
@@ -88,8 +91,11 @@ export default function ProfileMenu({
                   user.isLoginAsAccount()
                   &&
                   <>
-                    <br/><br/>
-                    <span>You are accessing content of <strong>{user.getLoginAsUserInfo().emailId}</strong></span>
+                    <br/>
+                    <br/>
+                    <span>You are accessing content of <strong>{user.getLoginAsUserInfo().emailId}</strong></span><br/>
+                    <span>{loginAsUserUni}</span>
+                    <br/>
                     <br/>
                   </>
                 }

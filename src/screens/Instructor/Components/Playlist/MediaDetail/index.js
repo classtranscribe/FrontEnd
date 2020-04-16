@@ -134,7 +134,7 @@ function MediaDetail({
 
       {/* Settings */}
       {
-        user.isAdmin()
+        user.isAdmin
         &&
         <div className="mt-3">
           <div className="ip-sb-title ct-d-r-center-v mt-3">

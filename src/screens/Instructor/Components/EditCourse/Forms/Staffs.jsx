@@ -21,7 +21,7 @@ function StaffsWithRedux({
   const [searchValue, setSearchValue] = useState('')
   const [error, setError] = useState(null)
 
-  const myEmailId = user.getUserInfo({ allowTestUserOverride: true }).emailId
+  const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId
 
   useEffect(() => {
     setResults(emails)

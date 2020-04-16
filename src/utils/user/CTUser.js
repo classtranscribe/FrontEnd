@@ -102,9 +102,9 @@ export class CTUser {
       const roles = tokenInfo[TOKEN_INFO_KEY]
       // redirect admins and instructors to their page
       if (redirectURL === links.home() && roles) {
-        if (this.isAdmin(roles)) {
+        if (this.isAdmin) {
           redirectURL = links.admin()
-        } else if (this.isInstructor(roles)) {
+        } else if (this.isInstructor) {
           redirectURL = links.instructor()
         }
       }
@@ -193,13 +193,25 @@ export class CTUser {
 
   /**
    * @param {Object} options options for getting user info
-   * @param {Boolean} options.allowTestUserOverride true if allow the user info be overrided by the test user
-   * @returns {{firstName:string,lastName:string,fullName:string,picture:string,roles:[string],exp:number,userId:string,emailId:string,universityId:string,authToken:string,metadata:Object }} userInfo
+   * @param {Boolean} options.allowLoginAsOverride true if allow the user info be overrided by the test user
+   * @returns {{
+   * firstName:string,
+   * lastName:string,
+   * fullName:string,
+   * picture:string,
+   * roles:[string],
+   * exp:number,
+   * userId:string,
+   * emailId:string,
+   * universityId:string,
+   * authToken:string,
+   * metadata:Object 
+   * }} userInfo
    */
-  getUserInfo (options={ allowTestUserOverride: false }) {
+  getUserInfo (options={ allowLoginAsOverride: true }) {
     
     // if allow the user info be overrided by the test user
-    if (options.allowTestUserOverride && this.isLoginAsAccount()) {
+    if (options.allowLoginAsOverride && this.isLoginAsAccount()) {
       return this.getLoginAsUserInfo()
     }
 
@@ -241,14 +253,14 @@ export class CTUser {
   }
 
   // return true if the user is an admin
-  isAdmin (roles) {
-    if (roles === undefined) roles = this.getUserInfo().roles || []
+  get isAdmin() {
+    let roles = this.getUserInfo({ allowLoginAsOverride: false }).roles || []
     return _.includes(roles, ROLE_ADMIN)
   }
 
   // return true if the user is an instructor
-  isInstructor (roles) {
-    if (roles === undefined) roles = this.getUserInfo().roles || []
+  get isInstructor() {
+    let roles = this.getUserInfo({ allowLoginAsOverride: false }).roles || []
     return _.includes(roles, ROLE_INST)
   }
 
@@ -273,6 +285,7 @@ export class CTUser {
   async loginAsAccountSignIn(emailId) {
     try {
       const { data } = await api.loginAsAccountSignIn(emailId)
+      console.log(data)
       localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data))
       window.location.reload()
       // console.log(data)
