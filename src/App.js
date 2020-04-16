@@ -35,11 +35,23 @@ class App extends React.Component {
           <Route exact path="/logout" component={LoginAndLogout} />
 
           {/* Admin */}
-          <Route path="/admin" component={Admin} />
+          {
+            user.isAdmin
+            &&
+            <Route path="/admin" component={Admin} />
+          }
 
           {/* Instructor */}
-          <Route path={["/instructor", "/instructor/:offId"]} component={Instructor} />
-          <Route path="/media-settings/:id" component={MediaSettings} />
+          {
+            user.isInstructor
+            &&
+            <Route path={["/instructor", "/instructor/:offId"]} component={Instructor} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route path="/media-settings/:id" component={MediaSettings} />
+          }
 
           {/* Student */}
           <Route path="/home" component={OfferingViewing} />
