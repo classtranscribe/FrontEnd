@@ -45,7 +45,7 @@ export class Home extends React.Component {
           status: 'error'
         })
       })
-    if (user.isLoggedIn()) {
+    if (user.isLoggedIn) {
       const userUniId = user.getUserInfo().universityId
       if (userUniId !== "0000") this.onUniSelected(null, {value: userUniId})
       else this.onUniSelected(null, {})

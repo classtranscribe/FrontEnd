@@ -18,7 +18,7 @@ function LoginAsUser() {
     <div id="ap-lsu" className="w-100">
       <div className="w-100 ct-d-c-center pt-5">
         {
-          user.isLoginAsAccount() 
+          user.isLoginAsAccount 
           ?
           <div className="w-50">
             <h2>LOGIN AS USER</h2>

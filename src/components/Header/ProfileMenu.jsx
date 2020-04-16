@@ -11,19 +11,19 @@ const { links } = util
 
 const menuItems = [
   {
-    name: 'Student ' + (user.isLoginAsAccount() ? `(${user.getLoginAsUserInfo().emailId})` : ''),
+    name: 'Student ' + (user.isLoginAsAccount ? `(${user.getLoginAsUserInfo().emailId})` : ''),
     title: 'Switch to student page', 
     href: links.home(), 
     icon: 'fas fa-school', 
     display: user.isInstructor || user.isAdmin
   },{
-    name: 'Instructor ' + (user.isLoginAsAccount() ? `(${user.getLoginAsUserInfo().emailId})` : ''), 
+    name: 'Instructor ' + (user.isLoginAsAccount ? `(${user.getLoginAsUserInfo().emailId})` : ''), 
     title: 'Switch to instructor page', 
     href: links.instructor(), 
     icon: 'fas fa-graduation-cap', 
     display: user.isInstructor
   },{
-    name: 'Admin ' + (user.isLoginAsAccount() ? '(You)' : ''), 
+    name: 'Admin ' + (user.isLoginAsAccount ? '(You)' : ''), 
     title: 'Switch to admin page', 
     href: links.admin(), 
     icon: 'fas fa-user-cog', 
@@ -50,7 +50,7 @@ export default function ProfileMenu({
     setTimeout(() => setAnchorEl(null), 200)
   }
 
-  const isLoggedIn = user.isLoggedIn()
+  const isLoggedIn = user.isLoggedIn
   const { fullName, universityId, picture, roles } = user.getUserInfo({ allowLoginAsOverride: false })
   let uni = _.find(universities, { id: universityId })
   let uniName = uni ? uni.name : ''
@@ -88,7 +88,7 @@ export default function ProfileMenu({
                 Signed in as <strong>{fullName}</strong><br/>
                 <span>{uniName}</span>
                 {
-                  user.isLoginAsAccount()
+                  user.isLoginAsAccount
                   &&
                   <>
                     <br/>

@@ -162,7 +162,7 @@ export function OfferingDetail({
         }
         <br/>
         {
-          user.isLoggedIn()
+          user.isLoggedIn
           &&
           <Button uppercase
             id="off-star-btn"

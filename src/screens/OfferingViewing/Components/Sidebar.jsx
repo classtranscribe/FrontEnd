@@ -33,7 +33,7 @@ export function Sidebar({
   showSiderBar
 }) {
   let activeKey = currentActiveKey()
-  let isLoggedIn = user.isLoggedIn()
+  let isLoggedIn = user.isLoggedIn
 
   const style = { marginLeft: displaySideBar ? '0' : '-20rem' }
 

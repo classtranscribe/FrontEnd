@@ -60,7 +60,7 @@ function Section({
   }
 
   useEffect(() => {
-    if (user.isLoggedIn()) {
+    if (user.isLoggedIn) {
       getUserWatchHistories()
     }
   }, [])

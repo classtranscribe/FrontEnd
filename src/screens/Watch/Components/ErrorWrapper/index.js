@@ -8,7 +8,7 @@ export function ErrorWrapper({
 }) {
   return (
     <CTErrorWrapper show dark
-      signInButton={!user.isLoggedIn()}
+      signInButton={!user.isLoggedIn}
       goHomeButton
       error={error} 
     />
