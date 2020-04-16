@@ -294,6 +294,10 @@ export const transControl = {
       this.currEditing_ = caption
       if (Boolean(caption)) this.editText = innerText || caption.text
       if (preferControl.pauseWhileEditing()) videoControl.pause()
+      if (preferControl.showCaptionTips()) {
+        promptControl.editCaptionTips()
+        preferControl.showCaptionTips(false)
+      }
     }
   },
   /**
@@ -301,8 +305,8 @@ export const transControl = {
    */
   editCurrent: function() {
     let id = this.currCaption_.id
-    let currTextArea = $(`#caption-line-textarea-${id}`)
-    if (currTextArea.length) {
+    let currTextArea = document.getElementById(`caption-line-textarea-${id}`)
+    if (currTextArea) {
       currTextArea.focus()
       promptControl.editCaptionUsingKeyboard()
     }
@@ -318,7 +322,7 @@ export const transControl = {
   /**
    * Function called when save caption
    */
-  saveEdition: async function() {
+  handleSaveEditing: async function() {
     const { setCurrEditing } = this.externalFunctions
     let text = this.editText
     /**
@@ -351,6 +355,14 @@ export const transControl = {
     }
   },
 
+  handleCancelEditing() {
+    const { setCurrEditing } = this.externalFunctions
+    if (setCurrEditing) {
+      setCurrEditing(null)
+      this.isEditing = false
+    }
+  },
+
   /**
    * Function called when mouse over the transcription area
    * To prevent scrolling
@@ -362,7 +374,7 @@ export const transControl = {
    * Function called when blurring on current editing caption
    */
   handleBlur: function() {
-    this.isEditing = false
+    // this.isEditing = false
     // this.edit(null)
   },
 

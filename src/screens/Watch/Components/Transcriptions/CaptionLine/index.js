@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 import {
   transControl,
@@ -15,11 +15,19 @@ function CaptionLine({
   isCurrent=false,
   isEditing=false,
   shouldHide=false,
-  caption={},
+  caption={}
 }) {
 
   const { text='', id, begin, kind } = caption
   const ref = useRef()
+
+  const blurFromInput = () => {
+    if (ref && ref.current && typeof ref.current.blur === "function") {
+      if (document.activeElement.id === ref.current.id) {
+        ref.current.blur()
+      }
+    }
+  }
 
   const handleSeek = () => {
     let time = timeStrToSec(begin)
@@ -41,24 +49,27 @@ function CaptionLine({
     transControl.handleBlur()
   }
 
-  const handleSave = () => {
-    transControl.saveEdition()
-    document.activeElement.blur()
+  const handleSave = cap => {
+    transControl.handleSaveEditing(cap)
+  }
+
+  const handleCancel = () => {
+    ref.current.innerHTML = text
+    transControl.handleCancelEditing()
   }
 
   const handleKeyDown = e => {
     if (e.keyCode === 13) {
       e.preventDefault()
       handleSave()
-      if (ref && ref.current && typeof ref.current.blur === "function") {
-        ref.current.blur()
-      } 
+      blurFromInput()
     } else {
       autoSize(ref.current)
     }
   }
 
   const timeStr = prettierTimeStr(begin)
+  const hasUnsavedChanges = ref && ref.current && (ref.current.innerText !== text)
 
   return (
     <div 
@@ -68,6 +79,7 @@ function CaptionLine({
       editing={isEditing.toString()}
       hide={shouldHide.toString()}
       kind={kind}
+      data-unsaved={hasUnsavedChanges}
     >
       <div className="caption-line-content">
       {/* Time Seeking Button */}
@@ -105,9 +117,13 @@ function CaptionLine({
 
       {/* Action Buttons */}
       <div className="caption-line-btns">
-        <div className="mt-2 mr-3">
-          Hit return to save changes
-        </div>
+        {
+          hasUnsavedChanges
+          &&
+          <div className="mt-2 mr-3 caption-line-prompt">
+            Hit return to save changes
+          </div>
+        }
 
         {/* Save Button */}
         <button 
@@ -117,6 +133,14 @@ function CaptionLine({
           aria-hidden={true}
         >
           Save
+        </button>
+        <button 
+          className="plain-btn caption-line-save-btn" 
+          onClick={handleCancel}
+          tabIndex={-1}
+          aria-hidden={true}
+        >
+          Cancel
         </button>
       </div>
     </div>
