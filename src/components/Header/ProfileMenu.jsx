@@ -85,7 +85,8 @@ export default function ProfileMenu({
                 />
               }
               <Typography style={styles.font}>
-                Signed in as <strong>{fullName}</strong><br/>
+                Signed in as <br/>
+                <strong>{fullName}</strong><br/>
                 <span>{uniName}</span>
                 {
                   user.isLoginAsAccount
