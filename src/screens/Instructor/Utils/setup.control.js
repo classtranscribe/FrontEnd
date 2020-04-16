@@ -233,7 +233,7 @@ export const setup = {
   getCourseOfferingsByInstructorId: async function(context) {
     this.errors = []
     try {
-      let { data } = await api.getCourseOfferingsByInstructorId(user.userId())
+      let { data } = await api.getCourseOfferingsByInstructorId(user.userId)
       let departments = await this.getDepartsByUniversityId()
       let terms = await this.getTermsByUniversityId()
       let offerings = this.parseCourseOfferings(data, departments, terms)

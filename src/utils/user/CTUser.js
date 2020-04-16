@@ -225,7 +225,7 @@ export class CTUser {
   /**
    * @returns {string} userId
    */
-  userId() {
+  get userId() {
 
     if (window.location.pathname === '/admin') { // if it's in admin page
       return this.getUserInfo().userId
@@ -250,7 +250,7 @@ export class CTUser {
 
   // return true if the user is logged in
   get isLoggedIn() {
-    return Boolean(this.userId())
+    return Boolean(this.userId)
   }
 
   // return true if the user is an admin
