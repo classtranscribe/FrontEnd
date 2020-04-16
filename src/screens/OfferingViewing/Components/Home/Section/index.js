@@ -43,7 +43,7 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
     sectionTitle = { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} 
     
   } else if (type === 'history') {
-    if (watchHistory.length < 5) return null
+    // if (watchHistory.length < 5) return null
     sectionTitle = { title: <><Icon name="history" /> Continue Watching</>, subtitle: ''}
   }
 
@@ -76,7 +76,6 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
         : 
         type === 'history' ?
           <HistorySection
-            watchHistory={watchHistory}
             offerings={offerings}
           />
         :

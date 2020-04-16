@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { VideoCard } from '../../../../../components'
-import { util } from '../../../../../utils'
+import { util, api, prompt } from '../../../../../utils'
 import { OfferingListHolder } from '../PlaceHolder'
 
-export default function HistorySection({ offerings, watchHistory }) {
+function HistorySection({ 
+  offerings 
+}) {
+
+  const [watchHistory, setWatchHistory] = useState(['unloaded'])
+
+  const getMediaById = async mediaId => {
+    let { data } = await api.getMediaById(mediaId)
+    return api.parseMedia(data)
+  }
+
+  const getUserWatchHistories = async () => {
+    try {
+      let { data } = await api.getUserWatchHistories()
+      data.filter(me => me.json.ratio < 80)
+      console.log(data)
+      for (let i = 0; i < data.length; i++) {
+        data[i] = await getMediaById(data[i].mediaId)
+      }
+      setWatchHistory(data)
+    } catch (error) {
+      setWatchHistory([])
+      prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
+    }
+  }
+
+  useEffect(() => {
+    getUserWatchHistories()
+  }, [])
+
   return (
     <div className="offerings" id="starred-offerings">
       {
@@ -18,17 +47,16 @@ export default function HistorySection({ offerings, watchHistory }) {
   )
 }
 
-function MediaCard({ media, offerings }) {
-  const { offeringId, mediaName, ratio, mediaId, timeStamp } = media
-  const offering = offerings.filter(offering => offering.id === offeringId)[0] || { courses: [] }
-  const { fullNumber, courseName } = offering
-  return fullNumber ? (
+function MediaCard({ media }) {
+  const { mediaName, watchHistory, id } = media
+
+  return (
     <VideoCard square
       name={mediaName}
-      link={util.links.watch(mediaId, { begin: timeStamp })}
-      ratio={ratio}
-      description={`${fullNumber} • ${courseName}`}
-      descriptionLink={util.links.offeringDetail(offeringId)}
+      link={util.links.watch(id)}
+      ratio={watchHistory.ratio}
     />
-  ) : null
+  )
 }
+
+export default HistorySection
