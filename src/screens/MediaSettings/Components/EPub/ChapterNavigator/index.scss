@@ -26,7 +26,7 @@
       max-height: calc(100vh - 93px);
 
       .ee-cn-h {
-        background: linear-gradient(-180deg,white 90%,transparent);
+        background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
       }
       .ee-cn-ch-ul {
         max-width: 300px;
@@ -89,7 +89,7 @@
     .ee-cn-h {
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(-180deg,white 90%,transparent);
+      background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
       position: sticky;
       top: 0;
       left: 0;

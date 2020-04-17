@@ -98,7 +98,7 @@
         position: sticky;
         top: 0;
         z-index: 1;
-        background: linear-gradient(-180deg,#fff 90%,transparent);
+        background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
         padding: 15px 0 15px 90px;
         animation: ee-el-title-show 200ms linear;
 
