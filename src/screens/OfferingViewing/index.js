@@ -25,10 +25,10 @@ import { api, user } from '../../utils'
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
-    this.isLoggedIn = user.isLoggedIn()
+    this.isLoggedIn = user.isLoggedIn
 
     this.state = {
-      displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn()*/) ? false : true,
+      displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn*/) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
       offerings: ['Unloaded'],
@@ -59,7 +59,7 @@ export class OfferingViewing extends React.Component {
 
       if (window.innerWidth < 900 && displaySideBar) 
         this.setState({ displaySideBar: false })
-      else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn()*/) 
+      else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn*/) 
         this.setState({ displaySideBar: true })
     })
   }

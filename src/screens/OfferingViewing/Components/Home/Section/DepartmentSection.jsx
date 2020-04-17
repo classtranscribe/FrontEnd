@@ -11,7 +11,7 @@ export default function DepartmentSection({ offerings, starredOfferings, depart,
     <div className={`offerings ${showAll ? 'offerings-show-all' : ''}`} role="list">
       {offerings.map( (offering, index) => 
         offering.fullNumber ? 
-        <OfferingCard image
+        <OfferingCard //image
           {...state}
           {...functions}
           key={getKey(offering, index)}

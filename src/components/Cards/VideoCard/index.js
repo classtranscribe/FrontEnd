@@ -27,7 +27,7 @@ function VideoCardWithOutRouter({
   descriptionLink=null,
   descriptionState=null,
   posterSize="",
-  fittedNameSize=56,
+  fittedNameSize=40,
   // buttons
   dismissable=false,
   handleDismiss,

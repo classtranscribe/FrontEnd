@@ -1,21 +1,22 @@
 .video-poster {
   position: relative;
-  min-width: max-content;
   height: auto;
   overflow: hidden;
 }
 
 .video-poster img {
+  position: relative;
   pointer-events: none;
   object-fit: cover;
+  width: 100%;
 }
 
 .video-poster .progress-bar {
   position: absolute;
   bottom: 0;
-  height: .5em;
+  height: 4px;
   width: 100%;
-  background-color: rgb(184, 215, 218);
+  background-color: rgba(114, 114, 114, 0.26);
 }
 
 .video-poster .progress-bar .progress {

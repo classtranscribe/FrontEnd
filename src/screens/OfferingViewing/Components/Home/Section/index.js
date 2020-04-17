@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import _ from 'lodash'
 // UI
@@ -9,14 +9,61 @@ import StarredSection from './StarredSection'
 import HistorySection from './HistorySection'
 import './index.css'
 // Vars
-import { util } from '../../../../../utils'
+import { util, user, api } from '../../../../../utils'
 
-function Section({ history, depart={}, state, offerings=[], starredOfferings=[], watchHistory=[], type, ...functions }) {
+const UNLOAD = ['unload']
+const EMPTY = ['empty']
+
+
+function Section({ 
+  history, 
+  depart={}, 
+  state, 
+  offerings=[], 
+  starredOfferings=[], 
+  type, 
+  ...functions 
+}) {
+
   const { universities } = state
   const uni = _.find(universities, { id: depart.universityId }) || {}
 
   const [showAll, setShowAll] = useState(false)
   const [isFolded, setisFolded] = useState(false)
+  const [watchHistory, setWatchHistory] = useState(EMPTY)
+
+  const getMediaById = async mediaId => {
+    let { data } = await api.getMediaById(mediaId)
+    return api.parseMedia(data)
+  }
+
+  const getUserWatchHistories = async () => {
+    try {
+      setWatchHistory(UNLOAD)
+      let { data } = await api.getUserWatchHistories()
+      data = data.filter(me => me.json.ratio < 80)
+
+      if (data.length < 1) {
+        setWatchHistory(EMPTY)
+        return
+      }
+
+      for (let i = 0; i < data.length; i++) {
+        data[i] = await getMediaById(data[i].mediaId)
+      }
+
+      setWatchHistory(data)
+    } catch (error) {
+      setWatchHistory(EMPTY)
+      prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
+    }
+  }
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      getUserWatchHistories()
+    }
+  }, [])
 
   // Functions handling states' changes
   const handleShowAll = () => {
@@ -43,7 +90,7 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
     sectionTitle = { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} 
     
   } else if (type === 'history') {
-    if (watchHistory.length < 5) return null
+    if (watchHistory === EMPTY) return null
     sectionTitle = { title: <><Icon name="history" /> Continue Watching</>, subtitle: ''}
   }
 
@@ -76,8 +123,8 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
         : 
         type === 'history' ?
           <HistorySection
-            watchHistory={watchHistory}
             offerings={offerings}
+            watchHistory={watchHistory}
           />
         :
         null

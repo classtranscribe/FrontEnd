@@ -45,7 +45,7 @@ export class Home extends React.Component {
           status: 'error'
         })
       })
-    if (user.isLoggedIn()) {
+    if (user.isLoggedIn) {
       const userUniId = user.getUserInfo().universityId
       if (userUniId !== "0000") this.onUniSelected(null, {value: userUniId})
       else this.onUniSelected(null, {})
@@ -99,7 +99,7 @@ export class Home extends React.Component {
 
   render() {
     const { starOffering, unstarOffering, state } = this.props
-    const { displaySearchHeader, starredOfferings, offerings, watchHistory, onboarded } = state
+    const { displaySearchHeader, starredOfferings, offerings } = state
 
     return (
       <div className="sp-home ct-a-fade-in">
@@ -113,7 +113,6 @@ export class Home extends React.Component {
           <SectionList 
             {...this} 
             offerings={offerings}
-            watchHistory={watchHistory}
             starOffering={starOffering}
             unstarOffering={unstarOffering}
             starredOfferings={starredOfferings}  

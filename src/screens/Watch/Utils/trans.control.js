@@ -1,7 +1,6 @@
-import $ from 'jquery'
 import _ from 'lodash'
 import { api, userAction } from '../../../utils'
-import { timeStrToSec, colorMap, autoSize, /* autoSizeAllTextAreas */ } from './helpers'
+import { timeStrToSec, colorMap } from './helpers'
 import { videoControl } from './player.control'
 import { promptControl } from './prompt.control'
 import { preferControl } from './preference.control'
@@ -228,7 +227,6 @@ export const transControl = {
     if (Boolean(currCaption) && Boolean(setCurrCaption)) {
       // setCurrCaption(currCaption)
       this.currCaption_ = currCaption
-      if (currCaption) this.autoSizeTextAreaByCaptionId(currCaption.id)
     }
   },
 
@@ -294,6 +292,10 @@ export const transControl = {
       this.currEditing_ = caption
       if (Boolean(caption)) this.editText = innerText || caption.text
       if (preferControl.pauseWhileEditing()) videoControl.pause()
+      if (preferControl.showCaptionTips()) {
+        promptControl.editCaptionTips()
+        preferControl.showCaptionTips(false)
+      }
     }
   },
   /**
@@ -301,8 +303,8 @@ export const transControl = {
    */
   editCurrent: function() {
     let id = this.currCaption_.id
-    let currTextArea = $(`#caption-line-textarea-${id}`)
-    if (currTextArea.length) {
+    let currTextArea = document.getElementById(`caption-line-textarea-${id}`)
+    if (currTextArea) {
       currTextArea.focus()
       promptControl.editCaptionUsingKeyboard()
     }
@@ -318,7 +320,7 @@ export const transControl = {
   /**
    * Function called when save caption
    */
-  saveEdition: async function() {
+  handleSaveEditing: async function() {
     const { setCurrEditing } = this.externalFunctions
     let text = this.editText
     /**
@@ -351,6 +353,14 @@ export const transControl = {
     }
   },
 
+  handleCancelEditing() {
+    const { setCurrEditing } = this.externalFunctions
+    if (setCurrEditing) {
+      setCurrEditing(null)
+      this.isEditing = false
+    }
+  },
+
   /**
    * Function called when mouse over the transcription area
    * To prevent scrolling
@@ -362,7 +372,7 @@ export const transControl = {
    * Function called when blurring on current editing caption
    */
   handleBlur: function() {
-    this.isEditing = false
+    // this.isEditing = false
     // this.edit(null)
   },
 
@@ -726,10 +736,6 @@ export const transControl = {
     // if (next) console.error(next.kind)
     // else console.error('null')
     return next
-  },
-
-  autoSizeTextAreaByCaptionId: function(id) {
-    autoSize($(`#caption-line-textarea-${id}`))
   },
 
 }

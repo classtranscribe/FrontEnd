@@ -20,6 +20,8 @@ const PAUSE_WHILE_AD = 'watch-pref-pause-ad'
 const PAUSE_WHILE_EDITING = 'watch-pref-pause-edit'
 const DEFAULT_SEARCH_OPTION = 'watch-pref-search-opt'
 
+const SHOW_CAPTION_TIPS = 'watch-pref-cap-tip'
+
 class WatchPreference extends CTPreference {
   constructor() {
     super()
@@ -32,6 +34,13 @@ class WatchPreference extends CTPreference {
     this[DEFAULT_PLAYBACK_RATE] = this.isTrue(DEFAULT_PLAYBACK_RATE)
     this[DEFAULT_TRANS_VIEW] = this.isTrue(DEFAULT_TRANS_VIEW)
     this[DEFAULT_SEARCH_OPTION] = this.isTrue(DEFAULT_SEARCH_OPTION)
+
+    this[SHOW_CAPTION_TIPS] = !this.isFalse(SHOW_CAPTION_TIPS)
+  }
+
+  showCaptionTips(bool) {
+    if (isMobile) return false
+    return this.localStorage(SHOW_CAPTION_TIPS, bool, true)
   }
 
   autoPlay(bool) {

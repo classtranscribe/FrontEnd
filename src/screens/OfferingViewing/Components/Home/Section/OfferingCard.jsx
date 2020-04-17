@@ -15,7 +15,7 @@ export default function OfferingCard({ offering={}, starredOfferings=[], depart=
   const { id, fullNumber, termName, termId, sectionName, courseName, description } = offering
   if (termSelected.length && !termSelected.includes(termId)) return null;
 
-  const isLoggedIn = user.isLoggedIn()
+  const isLoggedIn = user.isLoggedIn
 
   return !fullNumber ? null :
     <div className="offering-card-container" role="listitem">

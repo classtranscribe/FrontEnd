@@ -63,7 +63,7 @@ export function parseSingleOffering(rawOffering) {
         instructorIds,
         termName: term.name,
         fullNumber: getFullNumber(courses),
-        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin,
         instructor: instructorIds ? {
             ...(instructorIds[0] ? instructorIds[0] : {}),
             fullName: instructorIds[0] ? instructorIds[0].firstName + ' ' + instructorIds[0].lastName : ''

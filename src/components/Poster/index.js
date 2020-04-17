@@ -17,6 +17,7 @@ export function Poster({
     <div 
       className="video-poster" 
       aria-hidden="true" 
+      style={{width}}
       data-round={round.toString()}
     >
       <img 

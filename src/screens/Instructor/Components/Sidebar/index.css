@@ -13,8 +13,12 @@
 
 .ip-sb-title {
   /* border-bottom: rgb(241, 241, 241) 1px solid; */
-  padding: .3em 1em;
+  padding: .3em 1em 1em 1em;
   color: var(--ct-text-title);
+  background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .ip-sb-title h2 {
@@ -33,5 +37,6 @@
   font-family: var(--ct-font-narrow);
 }
 .ip-sb-filter {
-  margin-bottom: 2em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
 }

@@ -31,7 +31,7 @@ function SearchResult({ loading, results, searchValue }) {
         && 
         <div className="search-empty-result">
           {
-            user.isLoggedIn() ?
+            user.isLoggedIn ?
             <span>No Results</span>
             :
             <>

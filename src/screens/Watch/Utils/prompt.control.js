@@ -18,6 +18,13 @@ export const promptControl = {
     })
   },
 
+  editCaptionTips() {
+    prompt.addOne({
+      text: 'Hit return to save your changes!',
+      offset: [70, 70]
+    })
+  },
+
   savingCaption() {
   },
 
