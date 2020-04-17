@@ -121,8 +121,8 @@ export class CTUser {
 
   // check if a user is valid
   async validate() {
-    if (window.location.pathname === links.signin()) return
-    if (window.location.pathname === links.logout()) return
+    if (links.isEqual(links.signin())) return
+    if (links.isEqual(links.logout())) return
     await this.checkGitUpdates()
     if (!this.isLoggedIn) return;
     await this.checkExpiration()
@@ -227,7 +227,7 @@ export class CTUser {
    */
   get userId() {
 
-    if (window.location.pathname === '/admin') { // if it's in admin page
+    if (links.isEqual(links.admin())) { // if it's in admin page
       return this.getUserInfo().userId
     }
 
@@ -241,7 +241,7 @@ export class CTUser {
 
   // return the authorization token
   get authToken() {
-    if (window.location.pathname === '/admin') { // if it's in admin page
+    if (links.isEqual(links.admin())) { // if it's in admin page
       return localStorage.getItem(AUTH_TOKEN_KEY)
     }
 

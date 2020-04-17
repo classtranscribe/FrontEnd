@@ -11,6 +11,7 @@ export { userAction       } from './useraction'
 export { CTEpubGenerator  } from './epub-gen'
 export { CTPrompt, prompt } from './prompt'
 export { CTPreference     } from './user-preference'
+export { html             } from './2html'
 
 export * from './constants'
 export const logger = loggerToExport

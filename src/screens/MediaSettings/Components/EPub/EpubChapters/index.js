@@ -1,9 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { connectWithRedux, epub } from '../../../Utils'
-import { Button } from 'pico-ui'
+import { connectWithRedux } from '../../../Utils'
 import EpubList from './EpubList'
-import EpubHeader from '../EpubHeader'
+import EpubHeader from './EpubHeader'
 import './index.scss'
 
 function EpubChaptersWithRedux({
@@ -18,26 +17,7 @@ function EpubChaptersWithRedux({
 
   return (
     <div className="msp-ee-el-con ct-d-c ct-a-fade-in" data-editing={isEditingEpub}>
-      <EpubHeader title="Manage Your ePub Book" language={language}>
-        <EpubHeader.Text>
-          <EpubHeader.Subtitle className="msp-ee-el-h-p-t" text="Instruction" />
-          To manage your ePub chapters, set <span>splitting points</span> between screenshots to generate an initial version of ePub chapters. 
-          To change <span>cover images</span>, click the image of the ePub preview on the left.
-          <br/>
-          After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
-        </EpubHeader.Text>
-
-        <div className="w-100 d-flex justify-content-end">
-          <Button.Group>
-            <Button outlined onClick={() => epub.undoAllSplit()}>
-              Reset to Default Chapters
-            </Button>
-            <Button outlined onClick={() => epub.splitByScreenshots()}>
-              Split by Screenshots
-            </Button>
-          </Button.Group>
-        </div>
-      </EpubHeader>
+      <EpubHeader language={language}/>
 
       <div className="ct-d-c ee-el-chapters">
         {chapters.map((chapter, chapterIndex) => (

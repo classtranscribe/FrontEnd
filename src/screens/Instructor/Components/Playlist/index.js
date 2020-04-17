@@ -3,7 +3,6 @@ import React, { useEffect, useState, createRef } from 'react'
 import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
-import { ListItem } from '../ListItem'
 import { PlaceHolder } from '../../../../components'
 
 import PlaylistInfo from './PlaylistInfo'
@@ -24,6 +23,7 @@ import {
   NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, plControl, //NO_OFFERING_ID,
 } from '../../Utils'
 import './index.scss'
+import { util } from 'utils'
 
 
 function PlaylistWithRedux({
@@ -53,8 +53,14 @@ function PlaylistWithRedux({
 
   // Current selected media
   const [currMedia, setCurrMedia] = useState('')
-  const openMedia = me => () => setCurrMedia(me)
-  const closeMedia = () => setCurrMedia({})
+  const openMedia = me => () => {
+    util.links.pushSearch({ mid: me.id })
+    setCurrMedia(me)
+  }
+  const closeMedia = () => {
+    util.links.pushSearch({ mid: undefined })
+    setCurrMedia({})
+  }
 
   // The context of the playlist component
   const stickyContextRef = createRef()
@@ -70,6 +76,17 @@ function PlaylistWithRedux({
       if (isUploading) setIsUploading(false)
     }
     if (currMedia.id) closeMedia()
+
+    // if mid is specified in the url
+    let { mid } = util.links.useSearch()
+    if (mid && playlist.medias && playlist.medias.length > 0) {
+      let requestMedia = _.find(playlist.medias, { id: mid })
+      if (requestMedia) {
+        openMedia(requestMedia)()
+      } else { // if the mid is incorrect, remove mid from url
+        util.links.pushSearch({ mid: null })
+      }
+    }
   }, [playlist])
 
   // Conditions not display playlist

@@ -1,4 +1,41 @@
 ////////////////////////////////////////////////////////////
+// ePub Chapters Header
+////////////////////////////////////////////////////////////
+.msp-ee-el-header {
+  margin: 0 10px 30px 100px;
+  padding-top: 10px;
+
+  .msp-ee-el-h1 {
+    // flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      font-size: 40px;
+      margin: 10px 20px 10px 0;
+    }
+  }
+
+  p {
+    font-size: 18px;
+    border-left: 4px solid rgba(31, 163, 163, 0.849);
+    margin-top: 1rem;
+    padding: .5rem 1rem;
+    background-color: rgba(24, 131, 131, 0.068);
+    border-radius: 0 10px 10px 0;
+
+    // span {
+    //   background-color: rgba(162, 202, 240, 0.452);
+    // }
+    span.msp-ee-el-h-p-t {
+      display: block;
+      font-weight: bold;
+      font-size: 20px;
+      background-color: transparent;
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////
 // Chapter List
 ////////////////////////////////////////////////////////////
 .msp-ee-el-con {
@@ -61,7 +98,7 @@
         position: sticky;
         top: 0;
         z-index: 1;
-        background: linear-gradient(-180deg,#fff 90%,transparent);
+        background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
         padding: 15px 0 15px 90px;
         animation: ee-el-title-show 200ms linear;
 
@@ -189,7 +226,15 @@
 }
 
 
-@keyframes ee-el-hide {
-  0% { width: 55%;}
-  100% { width: 40%;}
+@keyframes ee-el-ch-hide {
+  0% { padding: 200px 0; opacity: 0; }
+  100% { padding: 0px 0; opacity: 1; }
+}
+@keyframes ee-el-ch-show {
+  0% { opacity: 0; max-height: 50px; }
+  100% { opacity: 1; max-height: 1000px; }
+}
+@keyframes ee-el-title-show {
+  0% { padding: 0 0 0 90px; opacity: 0; }
+  100% { padding: 15px 0 15px 90px; opacity: 1; }
 }

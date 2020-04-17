@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import ChapterView from '../ChapterView'
+import React, { useEffect, useState } from 'react'
+import ChapterView from './ChapterView'
 import Toolbar from './Toolbar'
-import { connectWithRedux, epub } from '../../../Utils'
 import './index.scss'
+import { connectWithRedux, epub, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils'
 
 var lastChapterId = ''
 
@@ -12,6 +12,13 @@ function EpubPreviewWithRedux({
   isEditingEpub=false,
 }) {
 
+  const [txtEditor, setTxtEditor] = useState(EDITOR_DISPLAY)
+  const [adEditor, setADEditor] = useState(
+    currChapter.audioDescription 
+    ? EDITOR_DISPLAY 
+    : EDITOR_NONE
+  )
+
   useEffect(() => {
     // Scroll the preview to top everytime the chapter changed
     if (currChapter.id !== lastChapterId) {
@@ -19,9 +26,14 @@ function EpubPreviewWithRedux({
       if (previewEl) {
         previewEl.scrollTop = 0
       }
+      setTxtEditor(EDITOR_DISPLAY)
     }
     lastChapterId = currChapter.id
   }, [currChapter])
+
+  useEffect(() => {
+    setTxtEditor(EDITOR_DISPLAY)
+  }, [isEditingEpub])
 
   const otherProps = {}
   if (!isEditingEpub) otherProps['data-scroll'] = true
@@ -35,8 +47,11 @@ function EpubPreviewWithRedux({
     >
       <ChapterView round
         shadow={isEditingEpub} 
-        contentEditable={!isEditingEpub}
         chapter={currChapter} 
+        contentEditable={!isEditingEpub}
+        txtEditor={txtEditor}
+        adEditor={adEditor} 
+        setADEditor={setADEditor}
         imageOnClick={() => epub.pickCoverImage()}
         imageOnClickPrompt="Click to choose cover image"
       />
@@ -45,7 +60,12 @@ function EpubPreviewWithRedux({
         !isEditingEpub
         &&
         <Toolbar 
+          chapter={currChapter} 
           language={language} 
+          txtEditor={txtEditor}
+          setTxtEditor={setTxtEditor}
+          adEditor={adEditor} 
+          setADEditor={setADEditor}
         />
       }
     </div>

@@ -1,9 +1,20 @@
 import _ from 'lodash'
-import { api, util, ARRAY_INIT, CTEpubGenerator, prompt } from '../../../utils'
-import { NO_EPUB } from './constants'
-import { setup } from './setup'
-import { ENGLISH } from 'screens/Watch/Utils'
 import { v4 as uuidv4 } from 'uuid'
+
+import { 
+  api, 
+  prompt, 
+  html,
+  CTEpubGenerator,
+  ARRAY_INIT, 
+} from 'utils'
+import { ENGLISH } from 'screens/Watch/Utils' // language code
+import { 
+  NO_EPUB, 
+  EDITOR_TYPE_SPLITTER,
+  EDITOR_MARKDOWN,
+} from './constants'
+import { setup } from './setup'
 
 class Epub {
   constructor() {
@@ -73,9 +84,59 @@ class Epub {
   }
 
   /**
-   * Functions used for edit chapters
+   * Functions used for editing chapter
    * ****************************************************************
    */
+  parseText(text, editor='') {
+    let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
+    let content = splittedTexts[0]
+    let editorType = splittedTexts[1]
+
+    return { content, editorType }
+  }
+
+  markdown2HTML(text) {
+    return html.markdown(text)
+  } 
+
+  startEditContent(txtEditor, description) {
+    let text = description ? this.currChapter.audioDescription : this.currChapter.text
+    let { content } = this.parseText(text, txtEditor)
+    this.newText = content
+  }
+  
+  newText = ''
+  updateText(newText) {
+    this.newText = newText
+  }
+
+  onSaveText(type) {
+    let chapterId = this.currChapter.id
+    let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
+
+    if (chapterIndex >= 0) {
+      this.newText += EDITOR_TYPE_SPLITTER + type
+      this.chapters[chapterIndex].text = this.newText
+      this.currChapter.text = this.newText
+      this.setChapters([ ...this.chapters ])
+      this.setCurrChapter({ ...this.currChapter })
+    }
+    this.newText = ''
+  }
+
+  onSaveAD(type) {
+    let chapterId = this.currChapter.id
+    let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
+
+    if (chapterIndex >= 0) {
+      this.newText += EDITOR_TYPE_SPLITTER + type
+      this.chapters[chapterIndex].audioDescription = this.newText
+      this.currChapter.audioDescription = this.newText
+      this.setChapters([ ...this.chapters ])
+      this.setCurrChapter({ ...this.currChapter })
+    }
+    this.newText = ''
+  }
 
   
 
@@ -114,16 +175,25 @@ class Epub {
     this.setState('setFoldedIds', 'foldedIds', foldedIds)
   }
 
+  setupChapters(epubData) {
+    let chapters = [{ items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }]
+    // let chapters_ = _.map(epubData, (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: epub.genId('epub-ch')}))
+    this.setChapters(chapters)
+    if (chapters[0]) this.changeChapter(chapters[0])
+  }
+
   ///////////////////////////////////////////////////////////////////////////
   // Generate a chapter based on list of screenshots and transcriptions
   ///////////////////////////////////////////////////////////////////////////
   genChaperFromItems(chapter) {
+    const { id, title, image, items, audioDescription="", text } = chapter
     return {
-      id: chapter.id,
-      title: chapter.title || 'Untitled Chapter',
-      image: chapter.image || (chapter.items[0] || {}).image,
-      items: chapter.items,
-      text: _.filter(_.map(chapter.items, item => item.text), txt => txt !== '').join('\n\n')
+      id: id,
+      title: title || 'Untitled Chapter',
+      image: image || (items[0] || {}).image,
+      items: items,
+      audioDescription: audioDescription,
+      text: text || html.strList(items, 'text')
     }
   }
 
@@ -222,7 +292,6 @@ class Epub {
   saveCoverImage(image) {
     let chapterId = this.currChapter.id
     let chapterIndex = _.findIndex(this.chapters, { id: chapterId })
-    // console.log(image, chapterId, chapterIndex)
     if (chapterIndex >= 0) {
       this.chapters[chapterIndex].image = image
       this.currChapter.image = image
@@ -267,8 +336,6 @@ class Epub {
   // handle save ePub
   ///////////////////////////////////////////////////////////////////////////
   saveChapters = () => {
-    let newEpub = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
-    console.log('newEpub', newEpub)
     this.isEditingEpub(false)
     prompt.addOne({
       text: 'ePub chapters saved.',
@@ -279,6 +346,7 @@ class Epub {
   }
 
   cancelEditChapters = () => {
+    this.setupChapters(this.epubData())
     this.isEditingEpub(false)
   }
 
@@ -290,7 +358,6 @@ class Epub {
     if (this.isEditingEpub()) return
 
     this.oldEpubData_ = [...this.epubData_]
-    // console.log('this.epubData_', this.oldEpubData_)
     this.isEditingEpub(true)
     this.epubData([])
   }
@@ -301,7 +368,6 @@ class Epub {
   cancelResetEpub() {
     if (!this.isEditingEpub()) return
 
-    // console.log('this.epubData_', this.oldEpubData_)
     this.epubData(this.oldEpubData_)
     this.isEditingEpub(false)
     this.oldEpubData_ = []
@@ -318,7 +384,21 @@ class Epub {
   }
 
   download() {
-    let chapters = _.map(this.chapters, chapter => this.genChaperFromItems(chapter))
+    let chapters = _.map(this.chapters, chapter => {
+      chapter = this.genChaperFromItems(chapter)
+
+      let parsedTxt = this.parseText(chapter.text)
+      if (parsedTxt.editorType === EDITOR_MARKDOWN) {
+        chapter.text = this.markdown2HTML(parsedTxt.content)
+      }
+
+      let parsedAD = this.parseText(chapter.audioDescription)
+      if (parsedAD.editorType === EDITOR_MARKDOWN) {
+        chapter.audioDescription = this.markdown2HTML(parsedAD.content)
+      }
+
+      return chapter
+    })
 
     const epubDownloader = new CTEpubGenerator({ 
       chapters,
@@ -327,7 +407,22 @@ class Epub {
       language: this.language,
       title: setup.media().mediaName
     })
-    epubDownloader.download()
+
+    epubDownloader.download({
+      onError: error => {
+        if (error.message === 'Network Error') {
+          error.message += ': Failed to download cover images.'
+        } else {
+          error.message += 'Failed to download the ePub file.'
+        }
+
+        prompt.addOne({ 
+          text: error.message,
+          status: 'error',
+          position: 'bottom left'
+        })
+      }
+    })
   }
 
 
@@ -354,8 +449,6 @@ class Epub {
   async requestEpub(mediaId) {
     try {
       await api.requestEpubCreation(mediaId)
-      // set to prevent repeated request
-      localStorage.setItem(NO_EPUB, 'true')
     } catch (error) {
       console.error('Failed to request a epub for ' + mediaId)
     }
@@ -368,15 +461,10 @@ class Epub {
   async getEpubData(mediaId, language) {
     try {
       let { data=[] } = await api.getEpubData(mediaId, language)
-      // clear localstorage
-      if (localStorage.getItem(NO_EPUB) === 'true') {
-        localStorage.removeItem(NO_EPUB)
-      }
       return this.parseEpubData(data)
     } catch (error) {
       console.error('Failed to get ePub data of media for ' + mediaId)
       setup.error(NO_EPUB)
-      // await api.requestEpubCreation(mediaId)
     }
 
     return ARRAY_INIT
@@ -396,7 +484,6 @@ class Epub {
     this.mediaId = mediaId
     let epubData = await this.getEpubData(mediaId)
     this.epubData(epubData)
-    // this.isEditingEpub(true)
   }
 }
 

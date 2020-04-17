@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import { dedent } from 'dentist'
 import { api } from '../cthttp'
 
-import { 
-  OEBPS_TOC_NCX,
-  OEBPS_TOC_XHTML,
-  OEBPS_CONTENT_OPF,
-  OEBPS_CONTENT_XHTML,
-} from './content-data'
+import { OEBPS_TOC_NCX        } from './statics/toc.ncx.js'
+import { OEBPS_TOC_XHTML      } from './statics/toc.xhtml.js'
+import { OEBPS_CONTENT_OPF    } from './statics/content.opf.js'
+import { OEBPS_CONTENT_XHTML  } from './statics/content.xhtml.js'
+import { EDITOR_TYPE_SPLITTER } from 'screens/MediaSettings/Utils/constants'
 
 export function parse_chapters(chapters) {
   return _.map(chapters, chapter => ({
@@ -85,10 +85,46 @@ export function get_content_opf(
   )
 }
 
+function html2xhtml(html) {
+  if (!html) return null
+  html = _.replace(html, /&nbsp;/g, '&#160;')
+  // var doc = new DOMParser().parseFromString(html, 'text/html');
+  // html = new XMLSerializer().serializeToString(doc) 
+  // html = html.split('body')[1]
+  // html = html.substring(1, html.length-2)
+  html = _.replace(html, /<br>/g, '<br/>')
+  return html
+}
+
+function parse_text(text) {
+  let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
+  let content = splittedTexts[0]
+  // let editorType = splittedTexts[1]
+
+  return html2xhtml(content)
+}
+
 export function get_content_xhtml(chapter, language) {
-  let { title, text, imageId } = chapter
-  let texts = _.split(text, '\n')
-  texts = _.map(texts, txt => `<p>${txt}</p>\n`)
-  text = texts.join('')
-  return OEBPS_CONTENT_XHTML(title, text, imageId, language)
+  let { title, text, imageId, audioDescription } = chapter
+  
+  text = parse_text(text)
+  audioDescription = parse_text(audioDescription)
+
+  let content = dedent(`
+    ${
+      audioDescription ?
+      dedent(`
+        <div class="ee-preview-text-con description">
+            ${audioDescription}
+        </div>
+      `)
+      :
+      ''
+    }
+    <div class="ee-preview-text-con">
+        ${text}
+    </div>
+  `)
+
+  return OEBPS_CONTENT_XHTML(title, content, imageId, language)
 }

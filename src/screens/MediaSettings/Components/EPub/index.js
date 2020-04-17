@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { connectWithRedux, epub, NO_EPUB } from '../../Utils'
-import { ARRAY_INIT } from 'utils'
-import { ENGLISH } from 'screens/Watch/Utils'
-import _ from 'lodash'
-import './index.scss'
 import { PlaceHolder } from 'components'
 
 import RequestEpub from './RequestEpub'
 import EpubChapters from './EpubChapters'
-import EpubPreview from './Preview'
+import EpubPreview from './EpubPreview'
 import CoverPicker from './CoverPicker'
 import ActionButtons from './ActionButtons'
 import ChapterNavigator from './ChapterNavigator'
+import './index.scss'
+
+import { ARRAY_INIT } from 'utils'
+import { ENGLISH } from 'screens/Watch/Utils'
+import { connectWithRedux, epub, NO_EPUB } from '../../Utils'
 
 const firstTimeEdit = true
 
@@ -38,10 +38,7 @@ export function EpubWithRedux({
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
       if (firstTimeEdit) {
-        let chapters_ = [{ items: epubData, title: 'Default Chapter', id: epub.genId('epub-ch') }]
-        // let chapters_ = _.map(epubData, (data, idx) => ({items: [data], title: 'Untitled Chapter ' + idx, id: epub.genId('epub-ch')}))
-        epub.setChapters(chapters_)
-        if (chapters_[0]) epub.changeChapter(chapters_[0])
+        epub.setupChapters(epubData)
       } else {
         setChapters(epubData)
       }
