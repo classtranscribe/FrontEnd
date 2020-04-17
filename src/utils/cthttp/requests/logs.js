@@ -47,7 +47,7 @@ export function sendUserAction(eventType, data={}) {
         eventType, 
         mediaId, 
         offeringId,
-        userId: user.userId(),
+        userId: user.userId,
         json: {
             ...json, 
             device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }

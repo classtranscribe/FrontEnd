@@ -1,6 +1,4 @@
-import $ from 'jquery'
 import _ from 'lodash'
-import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
 import { util } from 'utils';
 // import { videoControl } from './player.control'
@@ -55,16 +53,6 @@ export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
   if (!colorStr) return CC_COLOR_BLACK
   return colorStr.replace('*', opacity)
 }
-
-export function autoSize(e) {
-  let elem = e.target || e
-  autosize(elem);
-}
-
-export function autoSizeAllTextAreas(timeout=0) {
-  return;
-}
-
 
 /** handle Share */
 // Get share url

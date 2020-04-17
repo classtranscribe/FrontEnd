@@ -97,10 +97,10 @@ export class Admin extends React.Component {
     /**
      * 1. get userId and authToken
      */
-    if (!user.isLoggedIn()) {
+    if (!user.isLoggedIn) {
       user.signin()
     } else {
-      if (!user.isAdmin()) window.location = util.links.notfound404()
+      if (!user.isAdmin) window.location = util.links.notfound404()
     }
     /**
      * 2. first load of values

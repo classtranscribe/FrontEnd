@@ -471,7 +471,7 @@ export const videoControl = {
 
   async sendMediaHistories() {
     let { id } = setup.media()
-    if (id && user.isLoggedIn()) {
+    if (id && user.isLoggedIn) {
       await api.sendMediaWatchHistories(id, this.currTime(), (this.currTime() / this.duration) * 100)
     }
   },

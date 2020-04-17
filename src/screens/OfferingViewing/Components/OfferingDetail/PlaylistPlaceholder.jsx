@@ -27,7 +27,7 @@ export default function PlaylistPlaceholder({
         && 
         <div className="w-100 d-flex flex-column justify-content-center align-items-center">
           {
-            user.isLoggedIn() // If signed in, then it happens when the accessType is 2 or 3
+            user.isLoggedIn // If signed in, then it happens when the accessType is 2 or 3
             ?
             <>
               {

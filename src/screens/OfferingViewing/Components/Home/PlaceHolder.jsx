@@ -26,11 +26,11 @@ export function OfferingCardHolder({ image=true, width='16rem' }) {
                 <Placeholder.Line length='long' />
                 <Placeholder.Line length='short' />
               </Placeholder.Header>
-              <Placeholder.Paragraph>
+              {/* <Placeholder.Paragraph>
                 <Placeholder.Line length='short' />
                 <Placeholder.Line length='long' />
                 <Placeholder.Line length="medium" />
-              </Placeholder.Paragraph>
+              </Placeholder.Paragraph> */}
             </Placeholder>
           </Card.Body>
         }

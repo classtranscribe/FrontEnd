@@ -29,7 +29,6 @@ export class CTUser {
     this.signin = this.signin.bind(this)
     this.reSignin = this.reSignin.bind(this)
     this.signout = this.signout.bind(this)
-    this.isLoggedIn = this.isLoggedIn.bind(this)
     this.validate = this.validate.bind(this)
     this.checkGitUpdates = this.checkGitUpdates.bind(this)
     this.testAccountSignIn = this.testAccountSignIn.bind(this)
@@ -73,7 +72,7 @@ export class CTUser {
    * Setup user after loading user info and `id_token` from Auth0
    */
   async setUpUser() {
-    if (!this.isLoggedIn()) {
+    if (!this.isLoggedIn) {
       // load user info and `id_token` from Auth0
       try {
         await auth0Client.handleAuthentication()
@@ -102,9 +101,9 @@ export class CTUser {
       const roles = tokenInfo[TOKEN_INFO_KEY]
       // redirect admins and instructors to their page
       if (redirectURL === links.home() && roles) {
-        if (this.isAdmin(roles)) {
+        if (this.isAdmin) {
           redirectURL = links.admin()
-        } else if (this.isInstructor(roles)) {
+        } else if (this.isInstructor) {
           redirectURL = links.instructor()
         }
       }
@@ -122,8 +121,10 @@ export class CTUser {
 
   // check if a user is valid
   async validate() {
+    if (window.location.pathname === links.signin()) return
+    if (window.location.pathname === links.logout()) return
     await this.checkGitUpdates()
-    if (!this.isLoggedIn()) return;
+    if (!this.isLoggedIn) return;
     await this.checkExpiration()
     // api.contentLoaded()
     return true
@@ -149,7 +150,7 @@ export class CTUser {
       let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY)
       // console.log(localSHA, latestSHA, localSHA === latestSHA)
       // if it's a first time user, store the latest commit SHA
-      if (!localSHA && !this.isLoggedIn()) {
+      if (!localSHA && !this.isLoggedIn) {
         localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA)
         window.location.reload(true)
       }
@@ -193,13 +194,25 @@ export class CTUser {
 
   /**
    * @param {Object} options options for getting user info
-   * @param {Boolean} options.allowTestUserOverride true if allow the user info be overrided by the test user
-   * @returns {{firstName:string,lastName:string,fullName:string,picture:string,roles:[string],exp:number,userId:string,emailId:string,universityId:string,authToken:string,metadata:Object }} userInfo
+   * @param {Boolean} options.allowLoginAsOverride true if allow the user info be overrided by the test user
+   * @returns {{
+   * firstName:string,
+   * lastName:string,
+   * fullName:string,
+   * picture:string,
+   * roles:[string],
+   * exp:number,
+   * userId:string,
+   * emailId:string,
+   * universityId:string,
+   * authToken:string,
+   * metadata:Object 
+   * }} userInfo
    */
-  getUserInfo (options={ allowTestUserOverride: false }) {
+  getUserInfo (options={ allowLoginAsOverride: true }) {
     
     // if allow the user info be overrided by the test user
-    if (options.allowTestUserOverride && this.isLoginAsAccount()) {
+    if (options.allowLoginAsOverride && this.isLoginAsAccount) {
       return this.getLoginAsUserInfo()
     }
 
@@ -212,7 +225,7 @@ export class CTUser {
   /**
    * @returns {string} userId
    */
-  userId() {
+  get userId() {
 
     if (window.location.pathname === '/admin') { // if it's in admin page
       return this.getUserInfo().userId
@@ -236,19 +249,19 @@ export class CTUser {
   }
 
   // return true if the user is logged in
-  isLoggedIn() {
-    return Boolean(this.userId())
+  get isLoggedIn() {
+    return Boolean(this.userId)
   }
 
   // return true if the user is an admin
-  isAdmin (roles) {
-    if (roles === undefined) roles = this.getUserInfo().roles || []
+  get isAdmin() {
+    let roles = this.getUserInfo({ allowLoginAsOverride: false }).roles || []
     return _.includes(roles, ROLE_ADMIN)
   }
 
   // return true if the user is an instructor
-  isInstructor (roles) {
-    if (roles === undefined) roles = this.getUserInfo().roles || []
+  get isInstructor() {
+    let roles = this.getUserInfo({ allowLoginAsOverride: false }).roles || []
     return _.includes(roles, ROLE_INST)
   }
 
@@ -258,7 +271,7 @@ export class CTUser {
   // ---------------------------------------------------------------------------
 
   // return true if an admin is logged in as another account
-  isLoginAsAccount() {
+  get isLoginAsAccount() {
     return Boolean(this.getLoginAsUserInfo().emailId)
   }
 
@@ -273,6 +286,7 @@ export class CTUser {
   async loginAsAccountSignIn(emailId) {
     try {
       const { data } = await api.loginAsAccountSignIn(emailId)
+      console.log(data)
       localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data))
       window.location.reload()
       // console.log(data)
