@@ -94,7 +94,7 @@ function SideBarWithRedux({
           <ListItem dark
             icon="add"
             title=" NEW COURSE"
-            current={window.location.pathname === util.links.instNewOffering()}
+            current={util.links.isEqual(util.links.instNewOffering())}
             rightIcon="small"
             onClick={handleOfferingClick(NEW_OFFERING)}
           />

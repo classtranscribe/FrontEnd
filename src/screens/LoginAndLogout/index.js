@@ -3,7 +3,7 @@ import { user, util } from '../../utils'
 
 export class LoginAndLogout extends React.Component {
   componentDidMount() {
-    if (window.location.pathname === util.links.signin()) {
+    if (util.links.isEqual(util.links.signin())) {
       user.setUpUser()
     } else {
       user.signout()

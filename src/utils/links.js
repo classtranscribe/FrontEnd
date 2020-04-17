@@ -14,6 +14,10 @@ export class ClassTranscribeLinks {
     document.title = title
   }
 
+  ////////////////////////////////////////////////////////////////////////////////
+  // Links to pages of ClassTranscribe
+  ////////////////////////////////////////////////////////////////////////////////
+
   /**
    * return current location
    */
@@ -123,6 +127,24 @@ export class ClassTranscribeLinks {
    */
   contactUs() { return'mailto:classtranscribe@illinois.edu' }
 
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // General URL handlers
+  ////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Compare 2 urls
+   * @param {String} href1 a url/pathname
+   * @param {String} href2 a url/pathname (default as the `window.location.pathname`)
+   */
+  isEqual(href1, href2) {
+    if (href2 === undefined) {
+      href2 = window.location.pathname
+    }
+
+    return href1 === href2
+  }
   /**
    * Validate the url
    * @param {String} url a url to validate
