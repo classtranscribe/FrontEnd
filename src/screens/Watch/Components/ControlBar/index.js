@@ -23,8 +23,9 @@ export function ControlBarWithRedux({
   media={},
   bulkEditing=false,
 }) {
-  const { isTwoScreen } = media
+  const { isTwoScreen, transcriptions } = media
 
+  const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile
   return (
     <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
@@ -44,7 +45,11 @@ export function ControlBarWithRedux({
         <PlaybackRateButton />
         <ClosedCaptionButton />
         <AudioDescriptionButton />
-        <LanguagePickerButton />
+        {
+          hasTrans
+          &&
+          <LanguagePickerButton />
+        }
         {
           showScreenModes 
           && 
