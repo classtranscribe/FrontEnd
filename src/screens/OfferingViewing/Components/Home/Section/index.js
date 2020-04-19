@@ -55,7 +55,7 @@ function Section({
       setWatchHistory(data)
     } catch (error) {
       setWatchHistory(EMPTY)
-      prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
+      // prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
     }
   }
 
