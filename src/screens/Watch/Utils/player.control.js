@@ -243,7 +243,10 @@ export const videoControl = {
     this.videoNode1.volume = Number(volume)
 
     const { setVolume } = this.externalFunctions
-    if (setVolume) setVolume(Number(volume))
+    if (setVolume) {
+      setVolume(Number(volume))
+      preferControl.defaultVolume(volume)
+    }
   },
 
   playbackrate(playbackRate) {
