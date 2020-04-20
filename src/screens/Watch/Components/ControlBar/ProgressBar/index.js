@@ -73,11 +73,10 @@ function ProgressBar({
 
   useEffect(() => {
     if (!isDragging) {
-      document.getElementById('progress-amount').style.width = (
-        Boolean(progressRef.current) 
-        ? Math.floor((time / duration) * progressRef.current.offsetWidth) 
-        : 0
-      ) + 'px'
+      let progressEl = document.getElementById('progress-amount')
+      if (progressEl) {
+        progressEl.style.width = ((time / duration) * 100) + '%'
+      }
     }
   }, [time])
 
