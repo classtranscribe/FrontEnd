@@ -20,10 +20,11 @@
   width: max-content;
   height: max-content;
   padding: .5em .5em 1em .5em;
-  max-width: 95vw;
+  max-width: calc(100vw - 2em);
   background: rgb(59, 59, 59);
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(49, 49, 49, 0.671);
+  overflow: hidden;
 }
 
 .wmodal-box-gen[data-position*=left] {
