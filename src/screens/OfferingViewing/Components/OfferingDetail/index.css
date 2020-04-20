@@ -40,11 +40,12 @@
     color: rgb(49, 49, 49);
     white-space: normal;
     font-size: 1.1rem;
-    border-left: 4px #209b9b9a solid;
+    border-left: 4px #246b6b9a solid;
     padding: 5px 5px 5px 7px;
     margin-top: 10px;
-    border-radius: 0 10px 10px 0;
-    background-color: #c1e0e079;
+    border-radius: 0 5px 5px 0;
+    background-color: #e1ebeb79;
+    white-space: pre-wrap;
   }
   @media screen and (max-width: 600px) {
     .sp-content .offering-detail .offering-info {
@@ -136,7 +137,7 @@
   top: 0;
   z-index: 1;
   padding-top: 1rem;
-  background-color: #fbfbfb;
+  background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
 }
 .sp-content .offering-detail .videos .title {
   color: var(--ct-text-primary);
@@ -170,13 +171,15 @@
     flex-direction: row;
   }
   .sp-content .offering-detail .offering-info {
-    padding-right: 1em;
+    padding: 0 1em 100px 0;
     /* border-right: #dbdbdb solid 1px; */
-    height: 92vh;
+    height: calc(100vh - 55px);
     position: sticky;
     top: 0em;
     min-width: 320px;
     max-width: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .sp-content .offering-detail h1 {
@@ -200,5 +203,9 @@
   }
   .sp-content .offering-detail h2 span {
     display: block;
+  }
+
+  .sp-content .offering-detail .videos .goback-container {
+    background: linear-gradient(to bottom,#fbfbfb 90%,rgba(255, 255, 255, 0));
   }
 }
