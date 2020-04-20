@@ -118,13 +118,14 @@ $progress-color: rgb(19, 211, 211);
   height: 14px;
   opacity: 1;
 }
-
-/* #buffered-amount, #progress-amount {
-  transition: var(--ct-progress-transi-w);
-  -o-transition: var(--ct-progress-transi-w);
-  -moz-transition: var(--ct-progress-transi-w);
-  -webkit-transition: var(--ct-progress-transi-w);
-} */
+.watch-progress-bar .progress .end-circle-ghost {
+  background: $progress-color;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  margin-left: -7px;
+  opacity: 0;
+}
 
 @media screen and (max-width: 550px) {
   
