@@ -55,7 +55,6 @@ function Video({
 }) {
   media = api.parseMedia(media)
   const { id, mediaName, watchHistory } = media
-  console.log(watchHistory)
   return (
     <li className="watch-video-item" >
       <VideoCard row dark
