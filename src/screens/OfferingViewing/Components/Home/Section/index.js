@@ -9,7 +9,7 @@ import StarredSection from './StarredSection'
 import HistorySection from './HistorySection'
 import './index.css'
 // Vars
-import { util, user, api } from '../../../../../utils'
+import { util, user, api, prompt } from 'utils'
 
 const UNLOAD = ['unload']
 const EMPTY = ['empty']
@@ -55,7 +55,7 @@ function Section({
       setWatchHistory(data)
     } catch (error) {
       setWatchHistory(EMPTY)
-      prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
+      // prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
     }
   }
 

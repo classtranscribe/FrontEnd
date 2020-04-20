@@ -89,12 +89,14 @@ export const ENGLISH = 'en-US'
 export const SIMPLIFIED_CHINESE = 'zh-Hans'
 export const KOREAN = 'ko'
 export const SPANISH = 'es'
-export const langOptions = [ ENGLISH, SIMPLIFIED_CHINESE, KOREAN, SPANISH ]
+export const FRENCH = 'fr'
+export const langOptions = [ ENGLISH, SIMPLIFIED_CHINESE, KOREAN, SPANISH, FRENCH ]
 export const langMap = {
   "en-US": "English",
   "zh-Hans": "Simplified Chinese",
   "ko": "Korean",
-  "es": "Spanish"
+  "es": "Spanish",
+  "fr": "French"
 }
 
 /**

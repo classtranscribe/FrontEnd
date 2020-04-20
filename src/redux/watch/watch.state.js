@@ -62,7 +62,7 @@ export const initialState = {
 
   // Video player options
   paused: true,
-  volume: 1,
+  volume: preferControl.defaultVolume(),
   muted: false,
   playbackrate: preferControl.defaultPlaybackRate(),
   isSwitched: false,

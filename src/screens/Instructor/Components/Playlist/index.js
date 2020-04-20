@@ -133,7 +133,7 @@ function PlaylistWithRedux({
           </div>
 
           {/* Title */}
-          <div className="ip-sb-title ct-d-r-center-v mt-3">
+          <div className="ip-sb-title ct-d-r-center-v mt-3" style={{background: 'transparent'}}>
             <i className="material-icons" aria-hidden="true">video_library</i>
             <h3>VIDEOS</h3>
           </div>

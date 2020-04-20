@@ -12,6 +12,7 @@ import {
  */
 const AUTO_PLAY = 'watch-pref-auto-play'
 const DEFAULT_PLAYBACK_RATE = 'watch-pref-placyback-rate'
+const DEFAULT_VOLUME = 'watch-pref-volume'
 const CC_ON = 'wath-pref-cc-on' 
 const AD_ON = 'wath-pref-ad-on' 
 const DEFAULT_TRANS_VIEW = 'watch-pref-trans-view'
@@ -31,7 +32,6 @@ class WatchPreference extends CTPreference {
     this[PAUSE_WHILE_EDITING] = this.isTrue(PAUSE_WHILE_EDITING)
     this[PAUSE_WHILE_AD] = this.isTrue(PAUSE_WHILE_AD)
     this[TRANS_AUTO_SCROLL] = !this.isFalse(TRANS_AUTO_SCROLL)
-    this[DEFAULT_PLAYBACK_RATE] = this.isTrue(DEFAULT_PLAYBACK_RATE)
     this[DEFAULT_TRANS_VIEW] = this.isTrue(DEFAULT_TRANS_VIEW)
     this[DEFAULT_SEARCH_OPTION] = this.isTrue(DEFAULT_SEARCH_OPTION)
 
@@ -67,6 +67,15 @@ class WatchPreference extends CTPreference {
 
   autoScroll(bool) {
     return this.localStorage(TRANS_AUTO_SCROLL, bool, true)
+  }
+
+  defaultVolume(vol) {
+    if (vol === undefined) {
+      vol = localStorage.getItem(DEFAULT_VOLUME)
+      if (!vol) return 1
+      return parseFloat(vol)
+    }
+    localStorage.setItem(DEFAULT_VOLUME, vol.toString())
   }
 
   defaultPlaybackRate(rate) {
