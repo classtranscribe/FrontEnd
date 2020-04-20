@@ -162,9 +162,13 @@ export const videoControl = {
     }
   },
 
-  pause() {
-    if (this.videoNode1) this.videoNode1.pause()
-    if (this.videoNode2) this.videoNode2.pause()
+  async pause() {
+    try {
+      if (this.videoNode1) await this.videoNode1.pause()
+      if (this.videoNode2) await this.videoNode2.pause()
+    } catch (error) {
+      return
+    }
 
     const { setPause } = this.externalFunctions
     if (setPause) {
@@ -175,9 +179,13 @@ export const videoControl = {
     }
   },
 
-  play()  {
-    if (this.videoNode1) this.videoNode1.play()
-    if (this.videoNode2) this.videoNode2.play()
+  async play()  {
+    try {
+      if (this.videoNode1) await this.videoNode1.play()
+      if (this.videoNode2) await this.videoNode2.play()
+    } catch (error) {
+      return
+    }
 
     const { setPause } = this.externalFunctions
     if (setPause) {
