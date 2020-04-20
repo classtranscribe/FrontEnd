@@ -11,7 +11,7 @@ export function getMediaWatchHistories(mediaId) {
 }
 
 export function getUserWatchHistories() {
-    return cthttp.get('WatchHistories/GetAllWatchHistoryForUser')
+    return cthttp.get('WatchHistories/GetAllWatchedMediaForUser')
 }
 
 // POST

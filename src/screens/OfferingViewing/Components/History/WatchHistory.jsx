@@ -8,18 +8,10 @@ export default function WatchHistory({
 
   const [watchHistory, setWatchHistory] = useState(['unloaded'])
 
-  const getMediaById = async mediaId => {
-    let { data } = await api.getMediaById(mediaId)
-    return api.parseMedia(data)
-  }
-
   const getUserWatchHistories = async () => {
     try {
       let { data } = await api.getUserWatchHistories()
-      for (let i = 0; i < data.length; i++) {
-        data[i] = await getMediaById(data[i].mediaId)
-      }
-      setWatchHistory(data)
+      setWatchHistory((data || []).slice(0,50))
     } catch (error) {
       setWatchHistory([])
       prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
@@ -47,9 +39,9 @@ export default function WatchHistory({
         <PlaceHolder /> 
         :
         <div role="list" className="ct-list-col ct-a-fade-in">
-          {watchHistory.map(media => (
+          {watchHistory.map((media, index) => (
             <MediaItem 
-              key={'watchhistory-' + media.id} 
+              key={`wh-${index}-${media.id}`} 
               media={media} 
               offerings={offerings} 
             />
@@ -61,17 +53,18 @@ export default function WatchHistory({
 }
 
 function MediaItem({ media }) {
-  const { mediaName, watchHistory, id } = media
-  return (
+  const { mediaName, watchHistory, id } = api.parseMedia(media)
+  return id ? (
     <VideoCard row
       name={mediaName}
       ratio={watchHistory.ratio}
       role="listitem"
       posterSize="200px"
       link={util.links.watch(id)}
+      fittedNameSize={-1}
       //description={`${fullNumber} • ${courseName}`}
       //descriptionLink={util.links.offeringDetail(offeringId)}
       //descriptionState={{ from: 'history' }}
     />
-  )
+  ) : null
 }
