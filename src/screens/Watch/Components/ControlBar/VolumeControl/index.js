@@ -74,7 +74,7 @@ function VolumeControl({
             min={0} 
             max={1}
             step={0.05}
-            value={volume}
+            value={muted ? 0 : volume}
             onKeyDown={handleVolumeKeyDown}
             onChange={handleVolumeChange}
           />

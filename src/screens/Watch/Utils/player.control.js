@@ -63,7 +63,11 @@ export const videoControl = {
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
-    this.playbackrate(preferControl.defaultPlaybackRate())
+
+    // initialize default settings
+    this.playbackrate(preferControl.defaultPlaybackRate(), false)
+    this.volume(preferControl.defaultVolume(), false)
+    this.mute(preferControl.muted(), false)
 
     if (this.videoNode2) {
       this.SCREEN_MODE = PS_MODE
@@ -226,16 +230,19 @@ export const videoControl = {
     this.play()
   },
 
-  mute(bool) {
+  mute(bool, setstate=true) {
     if (!this.videoNode1) return;
     const toSet = bool === undefined ? !this.videoNode1.muted : bool
     this.videoNode1.muted = toSet
 
     const { setMute } = this.externalFunctions
-    if (setMute) setMute(toSet)
+    if (setMute && setstate) {
+      preferControl.muted(toSet)
+      setMute(toSet)
+    }
   },
 
-  volume(volume) {
+  volume(volume, setstate=true) {
     if (!this.videoNode1) return;
     if (volume === undefined) return this.videoNode1.volume
     
@@ -243,22 +250,24 @@ export const videoControl = {
     this.videoNode1.volume = Number(volume)
 
     const { setVolume } = this.externalFunctions
-    if (setVolume) {
+    if (setVolume && setstate) {
       setVolume(Number(volume))
       preferControl.defaultVolume(volume)
     }
   },
 
-  playbackrate(playbackRate) {
+  playbackrate(playbackRate, setstate=true) {
     if (!this.videoNode1) return;
     if (playbackRate === undefined) return this.videoNode1.playbackRate
     this.videoNode1.playbackRate = playbackRate
     if (this.videoNode2) this.videoNode2.playbackRate = playbackRate
 
     const { setPlaybackrate } = this.externalFunctions
-    if (setPlaybackrate) setPlaybackrate(playbackRate)
-    preferControl.defaultPlaybackRate(playbackRate)
-    userAction.changespeed(this.currTime(), playbackRate)
+    if (setPlaybackrate && setstate) {
+      setPlaybackrate(playbackRate)
+      preferControl.defaultPlaybackRate(playbackRate)
+      userAction.changespeed(this.currTime(), playbackRate)
+    }
   },
   playbackRateIncrement() {
     if (!this.videoNode1) return;

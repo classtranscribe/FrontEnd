@@ -13,6 +13,7 @@ import {
 const AUTO_PLAY = 'watch-pref-auto-play'
 const DEFAULT_PLAYBACK_RATE = 'watch-pref-placyback-rate'
 const DEFAULT_VOLUME = 'watch-pref-volume'
+const DEFAULT_MUTED = 'watch-pref-muted'
 const CC_ON = 'wath-pref-cc-on' 
 const AD_ON = 'wath-pref-ad-on' 
 const DEFAULT_TRANS_VIEW = 'watch-pref-trans-view'
@@ -29,6 +30,7 @@ class WatchPreference extends CTPreference {
     this[AUTO_PLAY] = !this.isFalse(AUTO_PLAY)
     this[CC_ON] = this.isTrue(CC_ON)
     this[AD_ON] = this.isTrue(AD_ON)
+    this[DEFAULT_MUTED] = this.isTrue(DEFAULT_MUTED)
     this[PAUSE_WHILE_EDITING] = this.isTrue(PAUSE_WHILE_EDITING)
     this[PAUSE_WHILE_AD] = this.isTrue(PAUSE_WHILE_AD)
     this[TRANS_AUTO_SCROLL] = !this.isFalse(TRANS_AUTO_SCROLL)
@@ -67,6 +69,10 @@ class WatchPreference extends CTPreference {
 
   autoScroll(bool) {
     return this.localStorage(TRANS_AUTO_SCROLL, bool, true)
+  }
+
+  muted(bool) {
+    return this.localStorage(DEFAULT_MUTED, bool)
   }
 
   defaultVolume(vol) {
