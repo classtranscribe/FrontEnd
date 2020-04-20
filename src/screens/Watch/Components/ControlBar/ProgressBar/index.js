@@ -4,7 +4,7 @@ import {
   videoControl,
   parseSec
 } from '../../../Utils'
-import './index.css'
+import './index.scss'
 
 function ProgressBar({
   time=0,
@@ -33,7 +33,7 @@ function ProgressBar({
   const handleOnClick = e => {
     const seekingBar = document.getElementById('seeking')
     const totalWidth = seekingBar.clientWidth
-    const seekTo = ((e.clientX - 11) / totalWidth) * videoControl.duration
+    const seekTo = Math.floor(((e.clientX - 11) / totalWidth) * videoControl.duration)
     videoControl.currTime(seekTo)
   }
 
@@ -42,8 +42,8 @@ function ProgressBar({
       <div 
         ref={progressRef} 
         className="watch-progress-bar" 
-        onMouseMove={handleOnMouseMove}
-        onMouseLeave={handleOnMouseLeave}
+        // onMouseMove={handleOnMouseMove}
+        // onMouseLeave={handleOnMouseLeave}
         onClick={handleOnClick}
       >
 
@@ -56,9 +56,11 @@ function ProgressBar({
         <div className="progress">
           <span 
             id="progress-amount"
-            style={{width: (Boolean(progressRef.current) ? Math.floor((time / duration) * progressRef.current.offsetWidth) : 0) || 0}}
-          ></span>
-          <span className="end-circle"></span>
+            style={{
+              width: (Boolean(progressRef.current) ? Math.floor((time / duration) * progressRef.current.offsetWidth) : 0) || 0
+            }}
+          />
+          <span className="end-circle" />
         </div>
         <div className="seeking" id="seeking">
           <span id="seeking-to"></span>

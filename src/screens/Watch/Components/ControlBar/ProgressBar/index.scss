@@ -1,12 +1,19 @@
+$progress-h: 4px;
+$progress-neg-h: -4px;
+$progress-h-hover: 7px;
+$progress-w: calc(100vw - 20px);
+$progress-border-radius: 5px;
+$progress-color: rgb(19, 211, 211);
+
 .watch-progress-bar-container {
   position: absolute;
   top: 0;
-  padding: 0 0;
+  padding: 0 0 3px 0;
 }
 .watch-progress-bar {
   position: relative;
-  height: var(--ct-progress-h);
-  width: var(--ct-progress-w);
+  height: $progress-h;
+  width: $progress-w;
   overflow: visible;
   cursor: pointer;
 }
@@ -17,7 +24,7 @@
   position: relative;
   background: rgba(85, 85, 85, 0.555);
   width: 100%;
-  border-radius: var(--ct-progress-border-radius);
+  border-radius: $progress-border-radius;
 }
 
 #buffered-amount {
@@ -25,17 +32,17 @@
   height: 100%;
   background-color: #777;
   width: 0;
-  border-radius: var(--ct-progress-border-radius);
+  border-radius: $progress-border-radius;
 }
 
 /* Progress */
 .watch-progress-bar .progress {
-  margin-top: var(--ct-progress-h-neg);
+  margin-top: $progress-neg-h;
   height: 100%;
   position: relative;
   width: 100%;
   background: transparent;
-  border-radius: var(--ct-progress-border-radius);
+  border-radius: $progress-border-radius;
   overflow: visible;
   display: flex;
   flex-direction: row;
@@ -46,28 +53,20 @@
 #progress-amount {
   display: block;
   height: 100%;
-  background-color: var(--ct-progress-color);
+  background-color: $progress-color;
   width: 0;
-  border-radius: var(--ct-progress-border-radius);
-}
-
-.watch-progress-bar .progress .end-circle {
-  background: var(--ct-progress-color);
-  width: var(--ct-progress-h);
-  height: var(--ct-progress-h);
-  border-radius: 100%;
-  margin-left: -7px;
+  border-radius: $progress-border-radius;
 }
 
 /* Seeking */
 .seeking {
-  margin-top: var(--ct-progress-h-neg);
+  margin-top: $progress-neg-h;
   height: 100%;
   position: relative;
   width: 100%;
   background: transparent;
-  border-top-left-radius: var(--ct-progress-border-radius);
-  border-bottom-left-radius: var(--ct-progress-border-radius);
+  border-top-left-radius: $progress-border-radius;
+  border-bottom-left-radius: $progress-border-radius;
   overflow: hidden;
 }
 
@@ -76,8 +75,8 @@
   height: 100%;
   background-color: rgba(0, 161, 167, 0.39);
   width: 0;
-  border-top-left-radius: var(--ct-progress-border-radius);
-  border-bottom-left-radius: var(--ct-progress-border-radius);
+  border-top-left-radius: $progress-border-radius;
+  border-bottom-left-radius: $progress-border-radius;
 }
 
 #seeking-time {
@@ -94,16 +93,30 @@
 }
 
 /* Animations */
-.watch-progress-bar:hover {
-  height: var(--ct-progress-h-hover);
+.watch-progress-bar-container:hover {
+  padding-bottom: 0;
 }
-.watch-progress-bar:hover .progress,
-.watch-progress-bar:hover .seeking {
+.watch-progress-bar-container:hover .watch-progress-bar {
+  height: $progress-h-hover;
+}
+.watch-progress-bar-container:hover .progress,
+.watch-progress-bar-container:hover .seeking {
   margin-top: -7px;
 }
-.watch-progress-bar:hover .progress .end-circle {
-  width: 12px;
-  height: 12px;
+
+/* Scrubber */
+.watch-progress-bar .progress .end-circle {
+  background: $progress-color;
+  width: $progress-h;
+  height: $progress-h;
+  border-radius: 100%;
+  margin-left: -7px;
+  opacity: 0;
+}
+.watch-progress-bar-container:hover .progress .end-circle {
+  width: 14px;
+  height: 14px;
+  opacity: 1;
 }
 
 /* #buffered-amount, #progress-amount {
