@@ -2,7 +2,7 @@
  * Functions for controlling video players
  */
 import _ from 'lodash'
-import { userAction, api, user } from '../../../utils'
+import { userAction, api, user, util } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
 import { isMobile } from 'react-device-detect'
@@ -35,6 +35,7 @@ export const videoControl = {
   videoNode2: null,
   duration: 0,
   isFullscreen: false,
+  timeRestored: false,
 
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
   // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent, 
@@ -75,6 +76,7 @@ export const videoControl = {
   },
 
   clear() {
+    this.timeRestored = false
     this.isSwitched = false
     this.isFullscreen = false
     this.SCREEN_MODE = NORMAL_MODE
@@ -89,6 +91,16 @@ export const videoControl = {
     this.lastBuffered = 0
     this.ctpPriEvent = CTP_LOADING
     this.ctpSecEvent = CTP_LOADING
+  },
+
+  handleRestoreTime(media) {
+    let search = util.links.useSearch()
+    let begin = search.begin || media.watchHistory.timestamp
+    if (Boolean(begin) && !this.timeRestored) {
+      this.currTime(Number(begin))
+      this.timeRestored = true
+      window.history.replaceState(null, null, util.links.watch(media.id) )
+    }
   },
 
   isTwoScreen() {
@@ -427,18 +439,20 @@ export const videoControl = {
   video1CanPlay: false,
   video2CanPlay: false,
   canPlayDone: false,
-  onCanPlay(e, priVideo) {
+  onCanPlay(e, priVideo, media) {
     if (this.canPlayDone || !preferControl.autoPlay()) return;
     if (priVideo) { 
       this.video1CanPlay = true
       if (this.video2CanPlay || !Boolean(this.videoNode2)) {
         this.canPlayDone = true
+        this.handleRestoreTime(media)
         return this.play()
       }
     } else {
       this.video2CanPlay = true
       if (this.video1CanPlay) {
         this.canPlayDone = true
+        this.handleRestoreTime(media)
         return this.play()
       }
     }
