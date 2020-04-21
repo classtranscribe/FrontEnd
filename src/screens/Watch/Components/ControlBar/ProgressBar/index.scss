@@ -139,19 +139,23 @@ $seek-time-w: 70px;
   padding-bottom: 0;
 
   .watch-progress-bar {
-    height: $progress-h-hover;
+    height: $progress-h;
   }
 
   .seeking {
-    margin-top: -7px;
+    margin-top: $progress-neg-h;
   }
 
   .progress {
-    margin-top: -7px;
+    margin-top: $progress-neg-h;
 
     .end-circle {
       opacity: 1;
     }
+  }
+
+  #seeking-to {
+    display: none;
   }
 
   #seeking-time {
