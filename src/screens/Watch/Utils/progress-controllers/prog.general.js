@@ -141,12 +141,16 @@ export class ProgressController {
 
   /**
    * Seek to the time based on the current event position
-   * @param {MouseEvent|DragEvent} e 
+   * @param {MouseEvent|DragEvent|Number} e 
    * @param {Number} offset
    */
   seekTo(e, offset=11) {
-    const seekTo = Math.floor(
-      (((e.clientX || e.screenX) - offset) / this.totalWidth) * videoControl.duration
+    let moveX = typeof e === 'number'
+              ? e
+              : (e.clientX || e.screenX)
+
+    let seekTo = Math.floor(
+      ((moveX - offset) / this.totalWidth) * videoControl.duration
     )
     videoControl.currTime(seekTo)
   }
@@ -169,4 +173,36 @@ export class ProgressController {
   handleDragStart() {}
   handleDrag() {}
   handleDragEnd() {}
+
+  /**
+   * 
+   * @param {TouchEvent} e 
+   */
+  handleTouchStart(e) {
+    // this.isDragging = true
+    if (!videoControl.paused()) {
+      this.wasPlaying = true
+      videoControl.pause()
+    }
+  }
+  /**
+   * 
+   * @param {TouchEvent} e 
+   */
+  handleTouchMove(e) {
+    if (e.touches[0]) {
+      this.seekTo(e.touches[0].clientX)
+    }
+  }
+  /**
+   * 
+   * @param {TouchEvent} e 
+   */
+  handleTouchEnd(e) {
+    // this.isDragging = false
+    if (this.wasPlaying) {
+      this.wasPlaying = false
+      videoControl.play()
+    }
+  }
 }
