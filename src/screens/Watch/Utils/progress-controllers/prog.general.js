@@ -165,6 +165,8 @@ export class ProgressController {
     }
   }
 
+  handleClick() {}
+
   handleMouseDown() {}
   handleMouseMove() {}
   handleMouseLeave() {}
@@ -174,35 +176,7 @@ export class ProgressController {
   handleDrag() {}
   handleDragEnd() {}
 
-  /**
-   * 
-   * @param {TouchEvent} e 
-   */
-  handleTouchStart(e) {
-    // this.isDragging = true
-    if (!videoControl.paused()) {
-      this.wasPlaying = true
-      videoControl.pause()
-    }
-  }
-  /**
-   * 
-   * @param {TouchEvent} e 
-   */
-  handleTouchMove(e) {
-    if (e.touches[0]) {
-      this.seekTo(e.touches[0].clientX)
-    }
-  }
-  /**
-   * 
-   * @param {TouchEvent} e 
-   */
-  handleTouchEnd(e) {
-    // this.isDragging = false
-    if (this.wasPlaying) {
-      this.wasPlaying = false
-      videoControl.play()
-    }
-  }
+  handleTouchStart() {}
+  handleTouchMove() {}
+  handleTouchEnd() {}
 }

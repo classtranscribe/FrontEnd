@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import { connectWithRedux } from '../../../Utils'
 import { prog } from '../../../Utils/progress-controllers'
@@ -9,7 +9,8 @@ function ProgressBar({
   time=0,
   duration=0,
 }) {
-  var progressRef = useRef(null)
+
+  const handleClick = e => prog.handleClick(e)
 
   const handleMouseDown = e => prog.handleMouseDown(e)
   const handleMouseMove = e => prog.handleMouseMove(e, duration)
@@ -35,8 +36,8 @@ function ProgressBar({
   return (
     <div className="watch-progress-bar-container" data-mobile={isMobile}>
       <div 
-        ref={progressRef} 
         className="watch-progress-bar" 
+        onClick={handleClick}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
