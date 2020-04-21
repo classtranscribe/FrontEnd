@@ -1,31 +1,7 @@
 import React, { useRef, useEffect } from 'react'
-import { 
-  connectWithRedux,
-  videoControl,
-  parseSec
-} from '../../../Utils'
+import { connectWithRedux } from '../../../Utils'
+import { prog } from './progress-controller'
 import './index.scss'
-
-var isDragging = false
-
-const displayTime = (e, duration) => {
-  const seekingBar = document.getElementById('seeking')
-    const totalWidth = seekingBar.clientWidth
-    
-    const seekingToBar = document.getElementById('seeking-to')
-    seekingToBar.style.width = (((e.clientX - 11) / totalWidth)*100) + "%"
-
-    const seekingTimeDisplay = document.getElementById('seeking-time')
-    seekingTimeDisplay.style.opacity = 1
-    seekingTimeDisplay.innerHTML = parseSec(Math.floor(((e.clientX - 11) / totalWidth) * duration))
-    seekingTimeDisplay.style.marginLeft = (((e.clientX - 11 - seekingTimeDisplay.clientWidth / 2) / totalWidth) * 100) + "%"
-}
-
-const moveProgressBar = e => {
-  const seekingBar = document.getElementById('seeking')
-  const totalWidth = seekingBar.clientWidth
-  document.getElementById('progress-amount').style.width = (((e.clientX - 11) / totalWidth)*100) + "%"
-}
 
 function ProgressBar({
   time=0,
@@ -33,52 +9,21 @@ function ProgressBar({
 }) {
   var progressRef = useRef(null)
 
-  const handleSeek = (e, settime=true) => {
-    const seekingBar = document.getElementById('seeking')
-    const totalWidth = seekingBar.clientWidth
-    const seekTo = Math.floor(((e.clientX - 11) / totalWidth) * videoControl.duration)
-    if (settime) {
-      videoControl.currTime(seekTo)
-    }
-  }
+  const handleMouseDown = e => prog.handleMouseDown(e)
+  const handleMouseMove = e => prog.handleMouseMove(e, duration)
+  const handleMouseLeave = e => prog.handleMouseLeave(e)
 
-  const handleMouseDown = e => {
-    handleSeek(e)
-  }
-
-  const handleDragStart = e => {
-    isDragging = true
-  }
-
-  const handleDrag = e => {
-    moveProgressBar(e)
-    displayTime(e, duration)
-  }
-
-  const handleDragEnd = e => {
-    isDragging = false
-    handleSeek(e)
-  }
-
-  const handleMouseMove = e => {
-    // display the seeking time box
-    displayTime(e, duration)
-  }
-
-  const handleMouseLeave = e => {
-    // hide the seeking time box
-    document.getElementById('seeking-to').style.width = 0
-    document.getElementById('seeking-time').style.opacity = 0
-  }
+  const handleDragStart = e => prog.handleDragStart(e)
+  const handleDrag = e => prog.handleDrag(e, duration)
+  const handleDragEnd = e => prog.handleDragEnd(e)
 
   useEffect(() => {
-    if (!isDragging) {
-      let progressEl = document.getElementById('progress-amount')
-      if (progressEl) {
-        progressEl.style.width = ((time / duration) * 100) + '%'
-      }
-    }
+    prog.updateTime(time, duration)
   }, [time])
+
+  useEffect(() => {
+    prog.reset()
+  }, [duration])
 
   return (
     <div className="watch-progress-bar-container">

@@ -4,6 +4,7 @@ $progress-h-hover: 7px;
 $progress-w: calc(100vw - 20px);
 $progress-border-radius: 5px;
 $progress-color: rgb(19, 211, 211);
+$seek-time-w: 70px;
 
 .watch-progress-bar-container {
   position: absolute;
@@ -90,6 +91,8 @@ $progress-color: rgb(19, 211, 211);
   justify-content: center;
   background: rgb(47, 47, 47);
   border-radius: 20px;
+  width: $seek-time-w;
+  height: auto;
 }
 
 /* Animations */
@@ -123,7 +126,7 @@ $progress-color: rgb(19, 211, 211);
   width: 14px;
   height: 14px;
   border-radius: 100%;
-  margin-left: -7px;
+  margin-left: -14px;
   opacity: 0;
 }
 
