@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { connectWithRedux } from '../../../Utils'
-import { prog } from './progress-controller'
+import { prog } from '../../../Utils/progress-controllers'
 import './index.scss'
 
 function ProgressBar({
@@ -12,6 +12,7 @@ function ProgressBar({
   const handleMouseDown = e => prog.handleMouseDown(e)
   const handleMouseMove = e => prog.handleMouseMove(e, duration)
   const handleMouseLeave = e => prog.handleMouseLeave(e)
+  const handleMouseUp = e => prog.handleMouseUp(e)
 
   const handleDragStart = e => prog.handleDragStart(e)
   const handleDrag = e => prog.handleDrag(e, duration)
@@ -33,6 +34,7 @@ function ProgressBar({
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
       >
 
         <div id="seeking-time" />
@@ -44,7 +46,8 @@ function ProgressBar({
         <div className="progress">
           <span id="progress-amount" />
           <span className="end-circle" />
-          <span draggable
+          <span 
+            draggable={prog.draggable}
             className="end-circle-ghost"
             onDragStart={handleDragStart}
             onDrag={handleDrag}

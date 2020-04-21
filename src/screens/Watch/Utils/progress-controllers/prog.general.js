@@ -1,7 +1,5 @@
-import { 
-  videoControl,
-  parseSec,
-} from '../../../Utils'
+import { videoControl } from '../player.control'
+import { parseSec } from '../helpers'
 
 // Global HTML elements are declared here
 var progressEl = null
@@ -14,10 +12,11 @@ var totalWidth = 0
 /**
  * Controller for player progress bar
  */
-class ProgressController {
+export class ProgressController {
   constructor() {
-    this.isDragging = false
     this.wasPlaying = false
+    this.isDragging = false
+    this.draggable = false
 
     this.updateTotalWidth = this.updateTotalWidth.bind(this)
 
@@ -136,6 +135,13 @@ class ProgressController {
   }
 
   /**
+   * Hide time box
+   */
+  hideTime() {
+    this.seekingTime.style.opacity = 0
+  }
+
+  /**
    * Seek to the time based on the current event position
    * @param {MouseEvent|DragEvent} e 
    */
@@ -147,65 +153,6 @@ class ProgressController {
   }
 
   /**
-   * @param {MouseEvent} e 
-   */
-  handleMouseDown(e) {
-    this.seekTo(e)
-  }
-
-  /**
-   * @param {MouseEvent} e 
-   * @param {Number} duration 
-   */
-  handleMouseMove(e, duration) {
-    this.displayTime(e, duration)
-  }
-
-  /**
-   * @param {MouseEvent} e 
-   */
-  handleMouseLeave(e) {
-    this.seekToEl.style.width = 0
-    this.seekingTime.style.opacity = 0
-  }
-
-  /**
-   * @param {DragEvent} e 
-   */
-  handleDragStart(e) {
-    // e.dataTransfer.setData('text/html', 'anything')
-    this.isDragging = true
-    if (!videoControl.paused()) {
-      this.wasPlaying = true
-      videoControl.pause()
-    }
-    this.seekToEl.style.width = 0
-  }
-
-  /**
-   * @param {DragEvent} e 
-   * @param {Number} duration 
-   */
-  handleDrag(e, duration) {
-    // console.log('on', e.pageX, e.screenX, e.clientX, e.movementX)
-    this.setProgress((e.clientX - 11) / this.totalWidth)
-    this.displayTime(e, duration, false)
-  }
-
-  /**
-   * @param {DragEvent} e 
-   */
-  handleDragEnd(e) {
-    this.isDragging = false
-    this.seekingTime.style.opacity = 0
-    this.seekTo(e)
-    if (this.wasPlaying) {
-      this.wasPlaying = false
-      videoControl.play()
-    }
-  }
-
-  /**
    * @param {Number} time 
    * @param {Number} duration 
    */
@@ -214,6 +161,13 @@ class ProgressController {
       this.setProgress(time / duration)
     }
   }
-}
 
-export const prog = new ProgressController()
+  handleMouseDown() {}
+  handleMouseMove() {}
+  handleMouseLeave() {}
+  handleMouseUp() {}
+
+  handleDragStart() {}
+  handleDrag() {}
+  handleDragEnd() {}
+}
