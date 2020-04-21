@@ -42,7 +42,6 @@ export function NextVideoWithRedux({
         id="next-video-btn"
         disabled={!canPlayNext}
         popupStyle={{padding: '0'}}
-        popupPosition="0,0"
         ariaTags={{
           'aria-label': 'Next Video',
         }}
@@ -62,7 +61,6 @@ export function NextVideoWithRedux({
         id="prev-video-btn"
         disabled={!canPlayPrev}
         popupStyle={{padding: '0'}}
-        popupPosition="0,0"
         ariaTags={{
           'aria-label': 'Previous Video',
         }}
