@@ -1,9 +1,12 @@
+import { isSafari } from 'react-device-detect'
 import { videoControl } from '../player.control'
 import { ProgressController } from './prog.general'
+// import { parseSec } from '../helpers'
+
 /**
- * Controller for player progress bar
+ * Controller for player progress bar on Chrome/Safari
  */
-class ChromeProgressController extends ProgressController {
+export class ChromeProgressController extends ProgressController {
   constructor() {
     super()
     this.draggable = true
@@ -61,12 +64,11 @@ class ChromeProgressController extends ProgressController {
   handleDragEnd(e) {
     this.isDragging = false
     this.hideTime()
-    this.seekTo(e)
+    let offset = isSafari ? 19 : 11
+    this.seekTo(e, offset)
     if (this.wasPlaying) {
       this.wasPlaying = false
       videoControl.play()
     }
   }
 }
-
-export const chromeProgressCtrller = new ChromeProgressController()

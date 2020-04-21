@@ -60,7 +60,7 @@ export class ProgressController {
    */
   get progressEl() {
     if (!progressEl) {
-      progressEl = document.getElementById('progress-amount')
+      progressEl = document.getElementById('progress-amount') || new HTMLDivElement()
     }
 
     return progressEl
@@ -72,7 +72,7 @@ export class ProgressController {
    */
   get seekBarEl() {
     if (!seekBarEl) {
-      seekBarEl = document.getElementById('seeking')
+      seekBarEl = document.getElementById('seeking') || new HTMLDivElement()
     }
     
     return seekBarEl
@@ -84,7 +84,7 @@ export class ProgressController {
    */
   get seekToEl() {
     if (!seekToEl) {
-      seekToEl = document.getElementById('seeking-to')
+      seekToEl = document.getElementById('seeking-to') || new HTMLDivElement()
     }
     
     return seekToEl
@@ -96,7 +96,7 @@ export class ProgressController {
    */
   get seekingTime() {
     if (!seekingTime) {
-      seekingTime = document.getElementById('seeking-time')
+      seekingTime = document.getElementById('seeking-time') || new HTMLDivElement()
     }
     
     return seekingTime
@@ -117,6 +117,7 @@ export class ProgressController {
    * @param {Number} duration 
    */
   displayTime(e, duration, setSeekTo=true) {
+    if (e.clientX < 46) return
     let totalWidth = this.totalWidth
     if (setSeekTo) {
       this.seekToEl.style.width = (((e.clientX - 11) / totalWidth)*100) + "%"
@@ -128,10 +129,7 @@ export class ProgressController {
     seekingTime.innerText = parseSec(
       Math.floor(((e.clientX - 11) / totalWidth) * duration)
     )
-    let left = (((e.clientX - 46) / totalWidth) * 100)
-    if (left > 0) {
-      seekingTime.style.marginLeft = left + "%"
-    }
+    seekingTime.style.marginLeft = (((e.clientX - 46) / totalWidth) * 100) + "%"
   }
 
   /**
@@ -144,10 +142,11 @@ export class ProgressController {
   /**
    * Seek to the time based on the current event position
    * @param {MouseEvent|DragEvent} e 
+   * @param {Number} offset
    */
-  seekTo(e) {
+  seekTo(e, offset=11) {
     const seekTo = Math.floor(
-      (((e.clientX || e.screenX) - 11) / this.totalWidth) * videoControl.duration
+      (((e.clientX || e.screenX) - offset) / this.totalWidth) * videoControl.duration
     )
     videoControl.currTime(seekTo)
   }

@@ -110,15 +110,13 @@ $seek-time-w: 70px;
 /* Scrubber */
 .watch-progress-bar .progress .end-circle {
   background: $progress-color;
-  width: $progress-h;
-  height: $progress-h;
+  width: 14px;
+  height: 14px;
   border-radius: 100%;
   margin-left: -7px;
   opacity: 0;
 }
 .watch-progress-bar-container:hover .progress .end-circle {
-  width: 14px;
-  height: 14px;
   opacity: 1;
 }
 .watch-progress-bar .progress .end-circle-ghost {

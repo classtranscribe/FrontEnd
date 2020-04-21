@@ -1,9 +1,9 @@
 import { ProgressController } from './prog.general'
 
 /**
- * Controller for player progress bar
+ * Controller for player progress bar on Firefox
  */
-class FireFoxProgressController extends ProgressController {
+export class FireFoxProgressController extends ProgressController {
   constructor() {
     super()
     this.draggable = false
@@ -56,5 +56,3 @@ class FireFoxProgressController extends ProgressController {
     this.isMouseDown = false
   }
 }
-
-export const fireFoxProgressCtrller = new FireFoxProgressController()
