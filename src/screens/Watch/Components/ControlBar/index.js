@@ -34,18 +34,43 @@ export function ControlBarWithRedux({
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
 
-        <NextVideoButton nextBtn={false} />
-        {/* <RewindButton /> */}
+        {
+          isMobile
+          ?
+          <RewindButton />
+          :
+          <NextVideoButton nextBtn={false} />
+        }
         <PlayButton />
-        {/* <ForwardButton /> */}
-        <NextVideoButton />
+        {
+          isMobile
+          ?
+          <ForwardButton />
+          :
+          <NextVideoButton />
+        }
 
-        {isTwoScreen && <SwitchScreenButton />}
+        {
+          isTwoScreen
+          && 
+          <SwitchScreenButton />
+        }
         <VolumeControl />
         <TimeDisplay />
         
       </div>
       <div className="watch-ctrl-bar-right-elems">
+        {
+          isMobile
+          &&
+          <NextVideoButton nextBtn={false} />
+        }
+        {
+          isMobile
+          &&
+          <NextVideoButton />
+        }
+
         <PlaybackRateButton />
         <ClosedCaptionButton />
         <AudioDescriptionButton />
