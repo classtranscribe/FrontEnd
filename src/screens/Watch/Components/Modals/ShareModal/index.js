@@ -91,7 +91,7 @@ function ShareModal({
           </label>
 
           <label className="wml-share-radio-label" htmlFor="wml-share-radio">
-            Share video with current time:
+            Share video with current time
           </label>
 
           <div className="wml-share-time" data-show={Boolean(begin >= 0).toString()}>

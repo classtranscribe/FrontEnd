@@ -1,16 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Grid, Image } from 'semantic-ui-react'
+// import { Link } from 'react-router-dom'
+import { Grid, /* Image */ } from 'semantic-ui-react'
 import './index.css'
-import { logoOutline as logo } from '../../assets/images'
-import { util } from '../../utils'
+// import { logoOutline as logo } from '../../assets/images'
+// import { util } from '../../utils'
 
 export function ClassTranscribeFooter() {
   return (
     <footer className="ct-footer" aria-label="Footer">
       <Grid stackable columns='equal' verticalAlign="middle" textAlign="center">
         <Grid.Row>
-          <Grid.Column>
+          {/* <Grid.Column>
             <Link to={util.links.currentUrl()}>About Us</Link>
           </Grid.Column>
           <Grid.Column>
@@ -21,7 +21,7 @@ export function ClassTranscribeFooter() {
           </Grid.Column>
           <Grid.Column>
             <a href="mailto:classtranscribe@illinois.edu" target="_blank">Contact Us</a>
-          </Grid.Column>
+          </Grid.Column> */}
           <Grid.Column className="copy">
             &copy; 2016-2020 University of Illinois
           </Grid.Column>

@@ -32,24 +32,14 @@ function Section({
   const [isFolded, setisFolded] = useState(false)
   const [watchHistory, setWatchHistory] = useState(EMPTY)
 
-  const getMediaById = async mediaId => {
-    let { data } = await api.getMediaById(mediaId)
-    return api.parseMedia(data)
-  }
-
   const getUserWatchHistories = async () => {
     try {
       setWatchHistory(UNLOAD)
       let { data } = await api.getUserWatchHistories()
-      data = data.filter(me => me.json.ratio < 80)
 
       if (data.length < 1) {
         setWatchHistory(EMPTY)
         return
-      }
-
-      for (let i = 0; i < data.length; i++) {
-        data[i] = await getMediaById(data[i].mediaId)
       }
 
       setWatchHistory(data)

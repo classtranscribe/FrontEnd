@@ -1,8 +1,9 @@
 import React from 'react'
+import { isMobile } from 'react-device-detect'
 import { Popup } from 'semantic-ui-react'
 import './index.css'
 import {
-  transControl,
+  // transControl,
   videoControl,
   timeStrToSec,
   prettierTimeStr,
@@ -36,6 +37,7 @@ export default function TranscriptText({
       openOnTriggerFocus
       closeOnTriggerBlur
       content={timeStr}
+      disabled={isMobile}
       trigger={
         <p 
           id={`caption-line-${id}`} 

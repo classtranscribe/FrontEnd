@@ -8,6 +8,7 @@ export default function WatchCtrlButton({
   position="bottom",
   classNames='',
   onClick=null,
+  onDoubleClick=null,
   active=false,
   colored=false,
   disabled=false,
@@ -18,10 +19,6 @@ export default function WatchCtrlButton({
   mouseEnterDelay=0,
   id=""
 }) { 
-  const handleClick = () => {
-    if (onClick) onClick()
-  }
-
   const handleKeyDown = e => {
     if (e.keyCode === 32) {
       e.preventDefault()
@@ -47,7 +44,8 @@ export default function WatchCtrlButton({
           colored={colored.toString()}
           disabled={disabled}
           position={position}
-          onClick={handleClick}
+          onClick={onClick}
+          onDoubleClick={onDoubleClick}
           onKeyDown={handleKeyDown}
           {...ariaTags}
         >

@@ -2,7 +2,7 @@
  * Functions for controlling video players
  */
 import _ from 'lodash'
-import { userAction, api, user } from '../../../utils'
+import { userAction, api, user, util } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
 import { isMobile } from 'react-device-detect'
@@ -35,6 +35,7 @@ export const videoControl = {
   videoNode2: null,
   duration: 0,
   isFullscreen: false,
+  timeRestored: false,
 
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
   // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent, 
@@ -63,7 +64,11 @@ export const videoControl = {
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
-    this.playbackrate(preferControl.defaultPlaybackRate())
+
+    // initialize default settings
+    this.playbackrate(preferControl.defaultPlaybackRate(), false)
+    this.volume(preferControl.defaultVolume(), false)
+    this.mute(preferControl.muted(), false)
 
     if (this.videoNode2) {
       this.SCREEN_MODE = PS_MODE
@@ -71,6 +76,7 @@ export const videoControl = {
   },
 
   clear() {
+    this.timeRestored = false
     this.isSwitched = false
     this.isFullscreen = false
     this.SCREEN_MODE = NORMAL_MODE
@@ -85,6 +91,16 @@ export const videoControl = {
     this.lastBuffered = 0
     this.ctpPriEvent = CTP_LOADING
     this.ctpSecEvent = CTP_LOADING
+  },
+
+  handleRestoreTime(media) {
+    let search = util.links.useSearch()
+    let begin = search.begin || media.watchHistory.timestamp
+    if (Boolean(begin) && !this.timeRestored) {
+      this.currTime(Number(begin))
+      this.timeRestored = true
+      window.history.replaceState(null, null, util.links.watch(media.id) )
+    }
   },
 
   isTwoScreen() {
@@ -158,9 +174,13 @@ export const videoControl = {
     }
   },
 
-  pause() {
-    if (this.videoNode1) this.videoNode1.pause()
-    if (this.videoNode2) this.videoNode2.pause()
+  async pause() {
+    try {
+      if (this.videoNode1) await this.videoNode1.pause()
+      if (this.videoNode2) await this.videoNode2.pause()
+    } catch (error) {
+      return
+    }
 
     const { setPause } = this.externalFunctions
     if (setPause) {
@@ -171,9 +191,13 @@ export const videoControl = {
     }
   },
 
-  play()  {
-    if (this.videoNode1) this.videoNode1.play()
-    if (this.videoNode2) this.videoNode2.play()
+  async play()  {
+    try {
+      if (this.videoNode1) await this.videoNode1.play()
+      if (this.videoNode2) await this.videoNode2.play()
+    } catch (error) {
+      return
+    }
 
     const { setPause } = this.externalFunctions
     if (setPause) {
@@ -226,16 +250,19 @@ export const videoControl = {
     this.play()
   },
 
-  mute(bool) {
+  mute(bool, setstate=true) {
     if (!this.videoNode1) return;
     const toSet = bool === undefined ? !this.videoNode1.muted : bool
     this.videoNode1.muted = toSet
 
     const { setMute } = this.externalFunctions
-    if (setMute) setMute(toSet)
+    if (setMute && setstate) {
+      preferControl.muted(toSet)
+      setMute(toSet)
+    }
   },
 
-  volume(volume) {
+  volume(volume, setstate=true) {
     if (!this.videoNode1) return;
     if (volume === undefined) return this.videoNode1.volume
     
@@ -243,22 +270,24 @@ export const videoControl = {
     this.videoNode1.volume = Number(volume)
 
     const { setVolume } = this.externalFunctions
-    if (setVolume) {
+    if (setVolume && setstate) {
       setVolume(Number(volume))
       preferControl.defaultVolume(volume)
     }
   },
 
-  playbackrate(playbackRate) {
+  playbackrate(playbackRate, setstate=true) {
     if (!this.videoNode1) return;
     if (playbackRate === undefined) return this.videoNode1.playbackRate
     this.videoNode1.playbackRate = playbackRate
     if (this.videoNode2) this.videoNode2.playbackRate = playbackRate
 
     const { setPlaybackrate } = this.externalFunctions
-    if (setPlaybackrate) setPlaybackrate(playbackRate)
-    preferControl.defaultPlaybackRate(playbackRate)
-    userAction.changespeed(this.currTime(), playbackRate)
+    if (setPlaybackrate && setstate) {
+      setPlaybackrate(playbackRate)
+      preferControl.defaultPlaybackRate(playbackRate)
+      userAction.changespeed(this.currTime(), playbackRate)
+    }
   },
   playbackRateIncrement() {
     if (!this.videoNode1) return;
@@ -410,18 +439,20 @@ export const videoControl = {
   video1CanPlay: false,
   video2CanPlay: false,
   canPlayDone: false,
-  onCanPlay(e, priVideo) {
+  onCanPlay(e, priVideo, media) {
     if (this.canPlayDone || !preferControl.autoPlay()) return;
     if (priVideo) { 
       this.video1CanPlay = true
       if (this.video2CanPlay || !Boolean(this.videoNode2)) {
         this.canPlayDone = true
+        this.handleRestoreTime(media)
         return this.play()
       }
     } else {
       this.video2CanPlay = true
       if (this.video1CanPlay) {
         this.canPlayDone = true
+        this.handleRestoreTime(media)
         return this.play()
       }
     }

@@ -44,6 +44,14 @@ function TransCtrlButtonsWithRedux({
   const isLineView = transView === LINE_VIEW
   const isHide = transView === HIDE_TRANS
 
+  const switchBthName = isMobile
+                        ? isHide ? TRANSCRIPT_VIEW : HIDE_TRANS
+                        : isLineView ? TRANSCRIPT_VIEW : isHide ? LINE_VIEW : HIDE_TRANS
+
+  const switchBtnIcon = isMobile
+                        ? isHide ? 'subject' : 'close'
+                        : isLineView ? 'menu_book' : isHide ? 'subject' : 'close'
+
   const buttonGroup = [
     (userRole === INSTRUCTOR && !isMobile) ? {
       id: 'trans-bulk-edit-btn', 
@@ -62,10 +70,10 @@ function TransCtrlButtonsWithRedux({
         'aria-haspopup': 'true'
       }
     },
-    isMobile ? null : {
+    {
       id: 'trans-view-switch-btn', 
-      name: isLineView ? TRANSCRIPT_VIEW : isHide ? LINE_VIEW : HIDE_TRANS, 
-      icon: <i className="material-icons">{isLineView ? 'menu_book' : isHide ? 'subject' : 'close'}</i>, 
+      name: switchBthName,
+      icon: <i className="material-icons">{switchBtnIcon}</i>, 
       click: switchTranView,
       ariaTags: {}
     },

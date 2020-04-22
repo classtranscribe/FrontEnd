@@ -1,7 +1,10 @@
 import React from 'react'
+import { isMobile } from 'react-device-detect'
 import { connectWithRedux } from '../../Utils'
 import { 
   PlayButton,
+  RewindButton,
+  ForwardButton,
   SettingButton,
   NextVideoButton,
   FullscreenButton,
@@ -17,7 +20,6 @@ import TimeDisplay from './TimeDisplay'
 import ProgressBar from './ProgressBar'
 
 import './index.css'
-import { isMobile } from 'react-device-detect'
 
 export function ControlBarWithRedux({
   media={},
@@ -32,16 +34,43 @@ export function ControlBarWithRedux({
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
 
-        <NextVideoButton nextBtn={false} />
+        {
+          isMobile
+          ?
+          <RewindButton />
+          :
+          <NextVideoButton nextBtn={false} />
+        }
         <PlayButton />
-        <NextVideoButton />
+        {
+          isMobile
+          ?
+          <ForwardButton />
+          :
+          <NextVideoButton />
+        }
 
-        {isTwoScreen && <SwitchScreenButton />}
+        {
+          isTwoScreen
+          && 
+          <SwitchScreenButton />
+        }
         <VolumeControl />
         <TimeDisplay />
         
       </div>
       <div className="watch-ctrl-bar-right-elems">
+        {
+          isMobile
+          &&
+          <NextVideoButton nextBtn={false} />
+        }
+        {
+          isMobile
+          &&
+          <NextVideoButton />
+        }
+
         <PlaybackRateButton />
         <ClosedCaptionButton />
         <AudioDescriptionButton />

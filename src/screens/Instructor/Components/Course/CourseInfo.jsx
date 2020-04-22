@@ -30,9 +30,17 @@ export default function CourseInfo({
         <div className="ip-c-detail">
           {offering.term.name} | {offering.sectionName}
         </div>
-        <div className="ip-c-descrip">
-          {offering.description}
-        </div>
+        {
+          offering.description
+          &&
+          <div className="ip-c-descrip">
+            {
+              offering.description.slice(0,200) === offering.description 
+              ? offering.description
+              : offering.description.slice(0,200) + ' ...'
+            }
+          </div>
+        }
 
         <div className="ip-c-btns-con ct-btn-group">
           <Button.Group>

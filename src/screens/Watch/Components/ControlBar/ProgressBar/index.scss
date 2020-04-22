@@ -1,0 +1,166 @@
+$progress-h: 4px;
+$progress-neg-h: -4px;
+$progress-h-hover: 7px;
+$progress-w: calc(100vw - 20px);
+$progress-border-radius: 5px;
+$progress-color: rgb(19, 211, 211);
+$seek-time-w: 70px;
+
+.watch-progress-bar-container {
+  position: absolute;
+  top: 0;
+  padding: 0 0 3px 0;
+}
+.watch-progress-bar {
+  position: relative;
+  height: $progress-h;
+  width: $progress-w;
+  overflow: visible;
+  cursor: pointer;
+}
+
+/* Buffer */
+.buffered {
+  height: 100%;
+  position: relative;
+  background: rgba(85, 85, 85, 0.555);
+  width: 100%;
+  border-radius: $progress-border-radius;
+}
+
+#buffered-amount {
+  display: block;
+  height: 100%;
+  background-color: #777;
+  width: 0;
+  border-radius: $progress-border-radius;
+}
+
+/* Progress */
+.watch-progress-bar .progress {
+  margin-top: $progress-neg-h;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  background: transparent;
+  border-radius: $progress-border-radius;
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 1;
+}
+
+#progress-amount {
+  display: block;
+  height: 100%;
+  background-color: $progress-color;
+  width: 0;
+  border-radius: $progress-border-radius;
+}
+
+/* Seeking */
+.seeking {
+  margin-top: $progress-neg-h;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  background: transparent;
+  border-top-left-radius: $progress-border-radius;
+  border-bottom-left-radius: $progress-border-radius;
+  overflow: hidden;
+}
+
+#seeking-to {
+  display: block;
+  height: 100%;
+  background-color: rgba(0, 161, 167, 0.39);
+  width: 0;
+  border-top-left-radius: $progress-border-radius;
+  border-bottom-left-radius: $progress-border-radius;
+}
+
+#seeking-time {
+  position: absolute;
+  top: -35px;
+  padding: .5em 1em;
+  display: flex;
+  opacity: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: rgb(47, 47, 47);
+  border-radius: 20px;
+  width: $seek-time-w;
+  height: auto;
+}
+
+/* Scrubber */
+.watch-progress-bar .progress .end-circle {
+  background: $progress-color;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  margin-left: -7px;
+  opacity: 0;
+  cursor: pointer !important;
+}
+.watch-progress-bar .progress .end-circle-ghost {
+  background: $progress-color;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  margin-left: -14px;
+  opacity: 0;
+  cursor: pointer !important;
+}
+
+/* Animations */
+.watch-progress-bar-container:hover {
+  padding-bottom: 0;
+
+  .watch-progress-bar {
+    height: $progress-h-hover;
+  }
+
+  .seeking {
+    margin-top: -7px;
+  }
+
+  .progress {
+    margin-top: -7px;
+
+    .end-circle {
+      opacity: 1;
+    }
+  }
+}
+
+/* Mobile */
+.watch-progress-bar-container[data-mobile=true] {
+  padding-bottom: 0;
+
+  .watch-progress-bar {
+    height: $progress-h;
+  }
+
+  .seeking {
+    margin-top: $progress-neg-h;
+  }
+
+  .progress {
+    margin-top: $progress-neg-h;
+
+    .end-circle {
+      opacity: 1;
+    }
+  }
+
+  #seeking-to {
+    display: none;
+  }
+
+  #seeking-time {
+    display: none;
+  }
+}

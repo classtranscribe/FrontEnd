@@ -1,4 +1,6 @@
 export { PlayButton               } from './PlayButton'
+export { RewindButton             } from './RewindButton'
+export { ForwardButton            } from './ForwardButton'
 export { SettingButton            } from './SettingButton'
 export { NextVideoButton          } from './NextVideoButton'
 export { FullscreenButton         } from './FullscreenButton'

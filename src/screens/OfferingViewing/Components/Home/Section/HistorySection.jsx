@@ -1,6 +1,6 @@
 import React from 'react'
-import { VideoCard } from '../../../../../components'
-import { util } from '../../../../../utils'
+import { VideoCard } from 'components'
+import { util, api } from 'utils'
 import { OfferingListHolder } from '../PlaceHolder'
 
 
@@ -15,8 +15,8 @@ function HistorySection({
         watchHistory[0] === 'unload' ? 
         <OfferingListHolder row={1} title={false} width="220px" />
         :
-        watchHistory.map( media =>  (
-          <MediaCard key={`wh-${media.id}`} media={media} offerings={offerings} />
+        watchHistory.map( (media, index) =>  (
+          <MediaCard key={`wh-${index}-${media.id}`} media={media} offerings={offerings} />
         ))
       }
     </div>
@@ -24,15 +24,15 @@ function HistorySection({
 }
 
 function MediaCard({ media }) {
-  const { mediaName, watchHistory, id } = media
+  const { mediaName, watchHistory, id } = api.parseMedia(media)
 
-  return (
+  return id ? (
     <VideoCard square
       name={mediaName}
       link={util.links.watch(id)}
       ratio={watchHistory.ratio}
     />
-  )
+  ) : null
 }
 
 export default HistorySection

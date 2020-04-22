@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { isMobile } from 'react-device-detect'
 import { api, userAction } from '../../../utils'
 import { timeStrToSec, colorMap } from './helpers'
 import { videoControl } from './player.control'
@@ -25,7 +26,6 @@ import {
   CO_CHANGE_VIDEO,
   BULK_EDIT_MODE,
 } from './constants.util'
-import { isMobile } from 'react-device-detect'
 // import { adSample } from './data'
 
 /**
@@ -540,9 +540,13 @@ export const transControl = {
     if (sendUserAction) userAction.transviewchange(videoControl.currTime(), view)
   },
   handleTransViewSwitch: function() {
-    let view = preferControl.defaultTransView()
+    let view = this.TRANS_VIEW
     if (view === HIDE_TRANS) {
-      this.transView(LINE_VIEW)
+      if (isMobile) {
+        this.transView(TRANSCRIPT_VIEW)
+      } else {
+        this.transView(LINE_VIEW)
+      }
     } else if (view === TRANSCRIPT_VIEW) {
       this.transView(HIDE_TRANS)
     } else {

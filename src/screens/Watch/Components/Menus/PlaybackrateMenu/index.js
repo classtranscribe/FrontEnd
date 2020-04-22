@@ -6,6 +6,7 @@ import {
 } from '../../../Utils'
 import './index.css'
 import './slider.scss'
+import { isMobile } from 'react-device-detect'
 
 function PlaybackrateMenu({
   show=false,
@@ -56,23 +57,27 @@ function PlaybackrateMenu({
       </button>
 
       {/* Playback Rate Customization Slider */}
-      <div className="customize-playbackrate">
-        <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
-          Customized rate - 
-          <span className="customize-playbackrate-num">{sliderValue}</span>
-        </label>
-        <input 
-          id="playback-rate-slider"
-          className="playbackrate-slider"
-          type="range" 
-          min={0.25} 
-          max={4}
-          step={0.05}
-          value={sliderValue} 
-          onChange={handleSliderChange}
-          onKeyDown={handleKeyDown}
-        />
-      </div>
+      {
+        !isMobile
+        &&
+        <div className="customize-playbackrate">
+          <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
+            Customized rate - 
+            <span className="customize-playbackrate-num">{sliderValue}</span>
+          </label>
+          <input 
+            id="playback-rate-slider"
+            className="playbackrate-slider"
+            type="range" 
+            min={0.25} 
+            max={4}
+            step={0.05}
+            value={sliderValue} 
+            onChange={handleSliderChange}
+            onKeyDown={handleKeyDown}
+          />
+        </div>
+      }
 
       {/* Playback Rate option list */}
       <div className="playbackrate-list" role="list">
