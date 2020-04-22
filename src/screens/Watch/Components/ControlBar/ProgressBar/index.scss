@@ -103,6 +103,7 @@ $seek-time-w: 70px;
   border-radius: 100%;
   margin-left: -7px;
   opacity: 0;
+  cursor: pointer !important;
 }
 .watch-progress-bar .progress .end-circle-ghost {
   background: $progress-color;
@@ -111,6 +112,7 @@ $seek-time-w: 70px;
   border-radius: 100%;
   margin-left: -14px;
   opacity: 0;
+  cursor: pointer !important;
 }
 
 /* Animations */

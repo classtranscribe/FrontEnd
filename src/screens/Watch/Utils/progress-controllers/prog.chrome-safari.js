@@ -39,7 +39,7 @@ export class ChromeProgressController extends ProgressController {
    * @param {DragEvent} e 
    */
   handleDragStart(e) {
-    // e.dataTransfer.setData('text/html', 'anything')
+    e.dataTransfer.setData('text/plain', '.')
     this.isDragging = true
     if (!videoControl.paused()) {
       this.wasPlaying = true

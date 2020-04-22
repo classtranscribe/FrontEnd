@@ -34,7 +34,10 @@ function ProgressBar({
   }, [duration])
 
   return (
-    <div className="watch-progress-bar-container" data-mobile={isMobile}>
+    <div
+      className="watch-progress-bar-container" 
+      data-mobile={isMobile} 
+    >
       <div 
         className="watch-progress-bar" 
         onClick={handleClick}
