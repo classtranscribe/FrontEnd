@@ -1,6 +1,7 @@
 import { videoControl } from '../player.control'
 import { parseSec } from '../helpers'
 
+const DEFAULT_ELEM = {style: {}}
 // Global HTML elements are declared here
 var progressEl = null
 var seekBarEl = null
@@ -48,7 +49,7 @@ export class ProgressController {
    */
   get totalWidth() {
     if (!totalWidth) {
-      totalWidth = this.seekBarEl.clientWidth
+      totalWidth = this.seekBarEl.clientWidth || 0
     }
 
     return totalWidth
@@ -60,7 +61,7 @@ export class ProgressController {
    */
   get progressEl() {
     if (!progressEl) {
-      progressEl = document.getElementById('progress-amount') || new HTMLDivElement()
+      progressEl = document.getElementById('progress-amount') || DEFAULT_ELEM
     }
 
     return progressEl
@@ -72,7 +73,7 @@ export class ProgressController {
    */
   get seekBarEl() {
     if (!seekBarEl) {
-      seekBarEl = document.getElementById('seeking') || new HTMLDivElement()
+      seekBarEl = document.getElementById('seeking') || DEFAULT_ELEM
     }
     
     return seekBarEl
@@ -84,7 +85,7 @@ export class ProgressController {
    */
   get seekToEl() {
     if (!seekToEl) {
-      seekToEl = document.getElementById('seeking-to') || new HTMLDivElement()
+      seekToEl = document.getElementById('seeking-to') || DEFAULT_ELEM
     }
     
     return seekToEl
@@ -96,7 +97,7 @@ export class ProgressController {
    */
   get seekingTime() {
     if (!seekingTime) {
-      seekingTime = document.getElementById('seeking-time') || new HTMLDivElement()
+      seekingTime = document.getElementById('seeking-time') || DEFAULT_ELEM
     }
     
     return seekingTime
