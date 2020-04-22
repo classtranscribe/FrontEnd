@@ -106,7 +106,8 @@
   font-weight: bold;
   font-size: 17px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  text-align: left;
   margin-bottom: 0;
 }
 .sp-content .offering-detail  .playlist-item .playlist-name i {
