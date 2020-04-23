@@ -4,15 +4,15 @@ The React.js Frontend for ClassTranscribe
 
 ClassTranscribe provides searchable transcribed video lectures. Copyright 2019-2020 University of Illinois, USA
 
-See the [Deployment project](https://github.com/classtranscribe/Deployment) for more details and how to get started.
+See the [Deployment project](https://github.com/classtranscribe/Deployment) for more details and how to get started for full stack development. 
 
-## Installation
+## Alternate Frontend only (no Docker) installation
 
 ### Prerequisites
-1. Have [Node JS](https://nodejs.org/en/) installed.
-2. Have `yarn` installed. (download [here](https://classic.yarnpkg.com/en/docs/install/)).
+1. Install [Node JS](https://nodejs.org/en/).
+2. Install `yarn` (download [here](https://classic.yarnpkg.com/en/docs/install/)).
 
-### Run ClassTranscribe on Your Machine
+### 
 1. Clone `FrontEnd` to your machine, and enter the repo
 ```
 $ git clone https://github.com/classtranscribe/FrontEnd.git && cd FrontEnd
