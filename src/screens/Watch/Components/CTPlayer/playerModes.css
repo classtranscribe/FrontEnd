@@ -2,10 +2,10 @@
 .ct-player-primary {
   background: black;
   overflow: hidden;
-  top: 60px;
+  top: 50px;
   left: 1vw;
   width: 60vw;
-  height: calc(100% - 60px - 60px);
+  height: calc(100% - 50px - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
