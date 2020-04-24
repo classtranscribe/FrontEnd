@@ -359,7 +359,11 @@ export const setup = {
   },
 
   changePlaylist: async function(pl, setWithoutLoading=false) {
-    if (!pl.name || setWithoutLoading) return this.playlist(pl)
+    if (!pl.name || setWithoutLoading) {
+      return this.playlist(pl)
+    }
+
+    // prevent repeated set the same playlist
     if (pl.id === this.playlist().id) return
 
     this.playlist({})
