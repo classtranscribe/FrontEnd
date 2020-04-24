@@ -46,6 +46,13 @@ function MediaDetail({
     handleClose()
   }
 
+  const handleKeyDown = e => {
+    if (e.keyCode === 13) {
+      e.preventDefault()
+      handleRename()
+    }
+  }
+
   const confirmDeletion = () => {
     setup.confirm({
       text: <div>Are you sure to delete the video <span>{mediaName}</span> ?</div>,
@@ -91,6 +98,7 @@ function MediaDetail({
           ref={nameRef} 
           className={"ip-p-md-mname ct-d-r-center-v" + (isEditing ? " edit" : "")}
           contentEditable={ isEditing }
+          onKeyDown={handleKeyDown}
         >
           {mediaName}
         </h3>
@@ -137,7 +145,7 @@ function MediaDetail({
         user.isAdmin
         &&
         <div className="mt-3">
-          <div className="ip-sb-title ct-d-r-center-v mt-3">
+          <div className="ip-sb-title ct-d-r-center-v mt-3" style={{background: 'transparent'}}>
             <i className="material-icons" aria-hidden="true">settings</i>
             <h3>SETTINGS</h3>
           </div>
