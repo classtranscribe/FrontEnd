@@ -340,6 +340,8 @@ export const setup = {
           let requestPl = _.find(playlists, { id: plid })
           if (requestPl) {
             this.changePlaylist(requestPl)
+          } else {
+            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
           }
         } else { // if the no plid is specified in the url
           // If playlists non-empty set result to playlists

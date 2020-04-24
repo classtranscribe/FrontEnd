@@ -4,8 +4,8 @@ import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
 
 const YOUTUBE_PREFIX = 'https://www.youtube.com/playlist'
-const ECHO360_PREFIX = 'https://echo360.org/section/'
-const BOX_PREFIX = 'https://uofi.app.box.com/folder/'
+// const BOX_PREFIX = 'https://uofi.app.box.com/folder/'
+// const ECHO360_PREFIX = 'https://echo360.org/section/'
 
 export const plControl = {
   externalFunctions: {},
@@ -15,18 +15,21 @@ export const plControl = {
     this.externalFunctions = { setPlaylists, setPlaylist }
   },
 
-  getPlaylistSourceURL({ sourceType, playlistIdentifier }) {
+  getPlaylistSourceURL({ sourceType, playlistIdentifier, jsonMetadata }) {
     let source = ''
     if (!playlistIdentifier) return source
+    if (jsonMetadata && jsonMetadata.source) {
+      return jsonMetadata.source
+    }
 
     if (sourceType === 1) { // YouTube
       source = YOUTUBE_PREFIX + util.links.createSearch({ list: playlistIdentifier })
     } else if (sourceType === 3) { // Kaltura
-
+      source = '(Kaltura Playlist ID) ' + playlistIdentifier
     } else if (sourceType === 4) { // Box
-      source = BOX_PREFIX + playlistIdentifier
+      source = '(Box Folder ID) ' + playlistIdentifier
     } else if (sourceType === 0) { // echo
-      source = ECHO360_PREFIX + playlistIdentifier + '/public'
+      source = playlistIdentifier //ECHO360_PREFIX + playlistIdentifier + '/public'
     }
 
     return source
@@ -35,6 +38,7 @@ export const plControl = {
   async createPlaylist(playlist) {
     setup.loading()
     let { offeringId, name, sourceType, playlistIdentifier } = playlist
+    let playlistURL = playlistIdentifier
 
     // Check validity
     if (!offeringId || !name) return;
@@ -51,21 +55,40 @@ export const plControl = {
       playlistIdentifier = playlistIdentifier.split('/folder/')[1] // the 2nd one is the channel id
     } 
 
-    let newPl = { offeringId, name, sourceType, playlistIdentifier }
-    // console.log('newPl', newPl)
+    // set the `source` in the jsonMetadata to the source URL of this playlist
+    let jsonMetadata = playlistURL ? { source: playlistURL } : null
+
+    let newPl = { 
+      offeringId, 
+      name, 
+      sourceType, 
+      playlistIdentifier, 
+      jsonMetadata,
+      index: setup.playlists().length
+    }
+    // console.error('newPl', newPl)
+
+    // create the playlist
     try {
       let { data } = await api.createPlaylist(newPl)
+      // get the new playlist data from the response
       newPl = data
+      // console.error('newPl', newPl)
     } catch (error) {
       setup.unloading()
       promptControl.failedToSave('playlist')
       return
     }
 
+    // set up the new playlist
     newPl.medias = []
     newPl.isNew = true
+
+    // replace the `plid` in the window.location.search 
+    // to locate the playlist, after the playslists changed
+    util.links.replaceSearch({ plid: newPl.id })
+    // update the playlists
     setup.playlists([ ...setup.playlists(), newPl ])
-    setup.changePlaylist(newPl, true)
 
     setup.unloading()
     promptControl.saved('playlist', 'created')
@@ -73,16 +96,25 @@ export const plControl = {
 
   async renamePlaylist(playlist, newName) {
     try {
+      // update the playlist
       playlist.name = newName
       await api.updatePlaylist(playlist)
       setup.playlist(playlist, 0)
+
+      // if succeed, sync the changed name to the playlists panel
+      let playlists = setup.playlists()
+      let currPlIndex = _.findIndex(playlists, { id: playlist.id })
+      if (currPlIndex >= 0) {
+        playlists[currPlIndex].name = newName
+        setup.playlists([ ...playlists ])
+      }
+
+      // send prompt to user
       promptControl.updated('Playlist name')
     } catch (error) {
       promptControl.failedToUpdate('playlist name')
       console.error(`failed to rename playlist ${playlist.id}`)
     }
-
-    // setup.unloading()
   },
 
   async deletePlaylist(playlist) {
@@ -91,6 +123,7 @@ export const plControl = {
       let playlists = setup.playlists()
       _.remove(playlists, pl => pl.id === playlist.id)
       setup.playlists([ ...playlists ])
+      if (playlists[0]) setup.changePlaylist(playlists[0])
       promptControl.deleted('Playlist')
     } catch (error) {
       promptControl.failedToDelete('playlist')
