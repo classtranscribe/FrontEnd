@@ -13,6 +13,7 @@ import {
   offControl, 
   NEW_OFFERING, 
 } from '../../Utils'
+import { util } from 'utils'
 
 function EditCourseWithRedux({
   newCourse=false,
@@ -26,7 +27,13 @@ function EditCourseWithRedux({
   const [instructors, setInstructors] = useState([])
   const [students, setStudents] = useState([])
   const [errors, setErrors] = useState([]) // { name, mesg }
+
   const onClose = () => setIsEditingOffering(false)
+
+  const handleSave = async () => {
+    await offControl.save(newCourse, setErrors)
+    // setIsEditingOffering(false)
+  }
 
   useEffect(() => {
     if (isEditingOffering) {
@@ -44,6 +51,7 @@ function EditCourseWithRedux({
       if (instructors.length > 0) setInstructors([])
       if (addStudents) setAddStudents(false)
     }
+
   }, [offering])
 
   const is1sOffering = setup.offerings().length === 0
@@ -113,7 +121,7 @@ function EditCourseWithRedux({
                   color="teal"
                   text={isEditingOffering ? "save course" : "create course"}
                   //type="submit"
-                  onClick={() => offControl.save(newCourse, setErrors)}
+                  onClick={handleSave}
                 />
                 {
                   !newCourse

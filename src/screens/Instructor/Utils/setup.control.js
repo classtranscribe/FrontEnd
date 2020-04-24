@@ -286,19 +286,6 @@ export const setup = {
     if (setPlaylist) {
       this.playlist_ = playlist_
       setPlaylist(playlist_)
-
-      /** 
-       * @TODO 
-       * - determine whether to use this 
-       */
-      // update window hash with playlistId
-      // if (playlist_ && playlist_.id) {
-      //   window.history.replaceState(
-      //     null, null, 
-      //     window.location.pathname +
-      //     '#pid=' + playlist_.id
-      //   )
-      // }
     }
   },
 
