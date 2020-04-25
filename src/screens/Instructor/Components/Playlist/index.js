@@ -119,7 +119,8 @@ function PlaylistWithRedux({
               playlist.createdAt
               &&
               <div>
-                <span>Created at {playlist.createdAt.slice(0,10)}</span>
+                <b>CREATED AT</b>
+                <span className="pl-2">{playlist.createdAt.slice(0,10)}</span>
               </div>
             }
             {

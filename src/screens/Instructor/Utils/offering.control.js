@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { user, api, prompt } from '../../../utils'
+import { user, api, prompt, util } from '../../../utils'
 import { LOADING_D } from './constants'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
@@ -166,9 +166,12 @@ export const offControl = {
   /**
    * Save
    */
-  save(newCourse, setErrors) {
-    if (newCourse) this.createOffering(setErrors)
-    else this.updateOffering(setErrors)
+  async save(newCourse, setErrors) {
+    if (newCourse) {
+      await this.createOffering(setErrors)
+    } else {
+      await this.updateOffering(setErrors)
+    }
   },
   /**
    * Function used for creating an offering
@@ -360,16 +363,17 @@ export const offControl = {
 
     try {
       // parse new offering
-      let offerings = setup.offerings()
+      // let offerings = setup.offerings()
       let newOff = this.parseNewOffering({ offeringId, off, courses, termId })
-      let oldOffIdx = _.findIndex(offerings, { id: offeringId })
-      if (oldOffIdx < 0) {
-        // handle error
-      }
-      // console.log('newOff', newOff)
-      offerings[oldOffIdx] = newOff
-      setup.offerings([ ...offerings ])
-      setup.offering(newOff)
+      window.location = window.location.pathname
+      // let oldOffIdx = _.findIndex(offerings, { id: offeringId })
+      // if (oldOffIdx < 0) {
+      //   // handle error
+      // }
+      // // console.log('newOff', newOff)
+      // offerings[oldOffIdx] = newOff
+      // setup.offerings([ ...offerings ])
+      // setup.offering(newOff)
     } catch (error) {
       console.error('failed to parse new offering.')
     }

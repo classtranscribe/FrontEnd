@@ -394,9 +394,7 @@ export const transControl = {
     if (!smoothScroll) tranBox.style.scrollBehavior = 'auto'
     capElem.classList.add('curr-line')
     let scrollTop = (window.innerWidth < 900 || !isTwoScreen) 
-                  ? capElem.offsetTop - 10 
-                  // : (window.innerWidth < 700 || !isTwoScreen) 
-                  // ? capElem.offsetTop - 30
+                  ? capElem.offsetTop - 50 
                   : capElem.offsetTop - 80
     // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
     tranBox.scrollTop = scrollTop

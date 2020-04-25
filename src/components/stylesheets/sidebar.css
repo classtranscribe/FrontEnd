@@ -29,7 +29,7 @@
 .op-sidebar .list {
   border-radius: 0 1.5rem 1.5rem 0;
   width: 19rem;
-  margin: 0.3rem 0;
+  margin: 3px 0;
   color: var(--ct-green-normal);
   background: none;
   border: none;
@@ -45,7 +45,8 @@
   height: 3rem !important;
 }
 .op-sidebar .list-group-item {
-  padding: 11px 20px;
+  line-height: 18px !important;
+  padding: 11px 20px !important;
 }
 .op-sidebar .list-group-item.active {
   background: var(--ct-green-normal);

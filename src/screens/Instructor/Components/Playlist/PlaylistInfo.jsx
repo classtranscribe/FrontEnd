@@ -43,6 +43,12 @@ function PlaylistInfo({
     setNewName(value)
   }
 
+  const handleKeyDown = ({ keyCode }) => {
+    if (keyCode === 13) {
+      handleRename()
+    }
+  }
+
   return (
     <div className={"ip-p-title ct-d-r-center-v ip-sticky-top" + (isTop ? '' : ' sticking')}>
       {
@@ -53,6 +59,7 @@ function PlaylistInfo({
               ref={plnameRef}
               value={newName}
               onChange={handleNameChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

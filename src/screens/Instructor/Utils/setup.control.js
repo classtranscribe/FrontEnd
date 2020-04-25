@@ -286,19 +286,6 @@ export const setup = {
     if (setPlaylist) {
       this.playlist_ = playlist_
       setPlaylist(playlist_)
-
-      /** 
-       * @TODO 
-       * - determine whether to use this 
-       */
-      // update window hash with playlistId
-      // if (playlist_ && playlist_.id) {
-      //   window.history.replaceState(
-      //     null, null, 
-      //     window.location.pathname +
-      //     '#pid=' + playlist_.id
-      //   )
-      // }
     }
   },
 
@@ -340,6 +327,8 @@ export const setup = {
           let requestPl = _.find(playlists, { id: plid })
           if (requestPl) {
             this.changePlaylist(requestPl)
+          } else {
+            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
           }
         } else { // if the no plid is specified in the url
           // If playlists non-empty set result to playlists
@@ -357,7 +346,11 @@ export const setup = {
   },
 
   changePlaylist: async function(pl, setWithoutLoading=false) {
-    if (!pl.name || setWithoutLoading) return this.playlist(pl)
+    if (!pl.name || setWithoutLoading) {
+      return this.playlist(pl)
+    }
+
+    // prevent repeated set the same playlist
     if (pl.id === this.playlist().id) return
 
     this.playlist({})
