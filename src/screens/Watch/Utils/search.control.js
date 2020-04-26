@@ -4,6 +4,7 @@ import $ from 'jquery'
 import { api, userAction } from '../../../utils'
 import { setup } from './setup.control'
 import { transControl } from "./trans.control"
+import { videoControl } from "./player.control"
 
 import { 
   SEARCH_INIT, 
@@ -73,6 +74,8 @@ export const searchControl = {
   resetResult: function() {
     this.updateSearch({ 
       inVideoTransResults: ARRAY_INIT, 
+      inVideoTransResultsAfterCurrent: ARRAY_INIT, 
+      inVideoTransResultsBeforeCurrent: ARRAY_INIT,
       inCourseTransResults: ARRAY_INIT,
       playlistResults: ARRAY_INIT,
       value: '', 
@@ -145,6 +148,35 @@ export const searchControl = {
     return inVideoTransResults
   },
 
+  // Function used to convert HH:MM:SS format into seconds
+  hmsToSecondsOnly: function(str) {
+    var p = str.split(':'),
+        s = 0, m = 1;
+    while (p.length > 0) {
+        s += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+    return s;
+  },
+
+  // Function used to get search results from captions in current video (after current time)
+  getInVideoTransSearchResultsAfterCurrent: function(value) {
+    // get the currentTime to divide inVideoTransResults into 2 parts
+    let currentTime = videoControl.videoNode1.currentTime
+    let inVideoTransResults = this.getInVideoTransSearchResults(value)
+    let inVideoTransResultsAfterCurrent = inVideoTransResults.filter((caption, index) => {return currentTime >= this.hmsToSecondsOnly(caption.begin)})
+    return inVideoTransResultsAfterCurrent;
+  },
+
+  // Function used to get search results from captions in current video (before current time)
+  getInVideoTransSearchResultsBeforeCurrent: function(value) {
+    // get the currentTime to divide inVideoTransResults into 2 parts
+    let currentTime = videoControl.videoNode1.currentTime
+    let inVideoTransResults = this.getInVideoTransSearchResults(value)
+    let inVideoTransResultsBeforeCurrent = inVideoTransResults.filter((caption, index) => {return currentTime < this.hmsToSecondsOnly(caption.begin)})
+    return inVideoTransResultsBeforeCurrent;
+  },
+
   // Function used to get search results from captions in current offering
   getInCourseTransSearchResults: async function(value) {
     const { offeringId } = setup.playlist()
@@ -187,11 +219,15 @@ export const searchControl = {
   getResults: async function(value) {
     if (!value) return this.resetResult()
     let inVideoTransResults = this.getInVideoTransSearchResults(value)
+    let inVideoTransResultsAfterCurrent = this.getInVideoTransSearchResultsAfterCurrent(value)
+    let inVideoTransResultsBeforeCurrent = this.getInVideoTransSearchResultsBeforeCurrent(value)
     let shortcutResults = this.getShortcutResults(value)
     this.updateSearch({ 
       value,
       status: SEARCH_RESULT, 
       inVideoTransResults, 
+      inVideoTransResultsAfterCurrent,
+      inVideoTransResultsBeforeCurrent,
       shortcutResults,
       playlistResults: ARRAY_INIT,
       inCourseTransResults: ARRAY_INIT
