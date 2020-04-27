@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from 'react'
 import { 
   searchControl, 
-  SEARCH_INIT, SEARCH_RESULT
+  SEARCH_INIT, 
+  SEARCH_RESULT, 
+  SEARCH_BEGIN
 } from '../../../Utils'
-import { util } from '../../../../../utils'
+import { util } from 'utils'
 import './index.css'
 
 function InputBar({
@@ -19,7 +21,7 @@ function InputBar({
 
   const clearInput = () => {
     inputRef.current.value = ''
-    searchControl.resetResult()
+    searchControl.resetResult(SEARCH_BEGIN)
     inputRef.current.focus()
   }
 

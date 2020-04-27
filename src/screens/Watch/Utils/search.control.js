@@ -42,6 +42,7 @@ class WatchSearch extends CTSearch {
 	// Function used to set up the external objects & functions used by searching
 	init({ setSearch }) {
 		if (setSearch) this.setSearch = setSearch
+		this.resetResult()
 	}
 
 	// Function used to update `search` state
@@ -86,15 +87,15 @@ class WatchSearch extends CTSearch {
 	}
 
 	// Function used to reset search value & results
-	resetResult() {
+	resetResult(status=SEARCH_HIDE) {
 		this.updateSearch({ 
+			status,
+			value: '',
 			inVideoTransResults: ARRAY_INIT, 
 			inVideoTransResultsAfterCurrent: ARRAY_INIT, 
 			inVideoTransResultsBeforeCurrent: ARRAY_INIT,
 			inCourseTransResults: ARRAY_INIT,
 			playlistResults: ARRAY_INIT,
-			value: '', 
-			status: SEARCH_BEGIN 
 		})
 
 		this.hasResult = false
