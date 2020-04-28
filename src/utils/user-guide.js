@@ -8,10 +8,10 @@ export class CTUserGuide {
      * @param {Object} mkProps - props to mk-guide
      * @see {@link https://www.npmjs.com/package/mk-guide}
      */
-    constructor(guides = [], mkProps = {}, isOnboarded) {
+    constructor(guides = [], isOnboarded, mkProps = {}) {
         this.mask = new MkGuide({
-            buttonColor: "gold",
-            skipButtonColor: "firebrick",
+            buttonColor: '#328383',
+            skipButtonColor: 'rgb(63,63,63)',
             ...mkProps
         })
 
