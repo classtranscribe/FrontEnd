@@ -11,11 +11,11 @@ export { CTEpubGenerator  } from './epub-gen'
 export { CTSearch, search } from './search'
 export { CTPrompt, prompt } from './prompt'
 export { CTPreference     } from './user-preference'
+export { CTUserGuide      } from './user-guide'
 export { html             } from './2html'
 
 export * from './constants'
 export const logger = loggerToExport
-
 
 /**
  * Objects for switching pages and storing some general functions
