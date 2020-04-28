@@ -1,1 +1,1 @@
-export { guide  } from './user-guide'
+export { homeUserGuide } from './user-guide'

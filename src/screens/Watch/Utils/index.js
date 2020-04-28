@@ -2,7 +2,7 @@ export * from './constants.util'
 export * from './data'
 export * from './helpers'
 
-export { guide            } from './user-guide'
+export { watchUserGuide   } from './user-guide'
 export { setup            } from './setup.control'
 export { videoControl     } from './player.control'
 export { menuControl      } from './menu.control'

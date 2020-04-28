@@ -1,4 +1,4 @@
-import { CTUserGuide } from '../../../utils'
+import { CTUserGuide } from 'utils/user-guide'
 
 const guides = [
   {
@@ -11,15 +11,7 @@ const guides = [
   }
 ]
 
-class WatchUserGuide extends CTUserGuide {
-  constructor() {
-    super()
-    this.guides(guides)
-  }
 
-  run() {
-    this.start()
-  }
-}
-
-export const guide = new WatchUserGuide()
+export const watchUserGuide = new CTUserGuide(
+    guides
+)

@@ -11,14 +11,11 @@ export { userAction       } from './useraction'
 export { CTEpubGenerator  } from './epub-gen'
 export { CTPrompt, prompt } from './prompt'
 export { CTPreference     } from './user-preference'
+export { CTUserGuide      } from './user-guide'
 export { html             } from './2html'
 
 export * from './constants'
 export const logger = loggerToExport
-
-/** Templates */
-export { CTPreference     } from './js/CTPreference'
-export { CTUserGuide      } from './js/CTUserGuide'
 
 /**
  * Objects for switching pages and storing some general functions

@@ -6,12 +6,12 @@ import React from 'react'
 import _ from 'lodash'
 // UI
 import Filter from  './Filter'
-import { ClassTranscribeFooter, MaintenanceMessage } from '../../../../components'
+import { ClassTranscribeFooter, MaintenanceMessage } from 'components'
 import SectionList from './SectionList'
 import './index.css'
 // Vars
-import { guide } from '../../Utils'
-import { api, user, util, prompt } from '../../../../utils'
+import { homeUserGuide } from '../../Utils'
+import { api, user, util, prompt } from 'utils'
 
 export class Home extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ export class Home extends React.Component {
     util.fixForAccessbitity('widgets/scripts')
     util.fixForAccessbitity('formSearchDropdown')
 
-    guide.run()
+    homeUserGuide.start()
   }
 
   getDepartmentsByUniId = uniId => {
