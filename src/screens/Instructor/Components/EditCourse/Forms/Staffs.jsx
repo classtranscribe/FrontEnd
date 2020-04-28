@@ -21,7 +21,7 @@ function StaffsWithRedux({
   const [searchValue, setSearchValue] = useState('')
   const [error, setError] = useState(null)
 
-  const myEmailId = user.getUserInfo({ allowTestUserOverride: true }).emailId
+  const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId
 
   useEffect(() => {
     setResults(emails)
@@ -120,7 +120,7 @@ function StaffsWithRedux({
                 value={searchValue}
                 onChange={onSearch}
                 type="text"
-                autocomplete="no"
+                autoComplete="no"
               />
               {/* Email List */}
               <div className="ip-f-email-group" role="list">
@@ -133,7 +133,7 @@ function StaffsWithRedux({
                   </div>
                 }
                 {
-                  (results.slice() || []).reverse().map( email => (
+                  (results || []).slice().reverse().map( email => (
                     <div className="ip-f-email-item" key={email}>
                       {email}
                       <Icon 

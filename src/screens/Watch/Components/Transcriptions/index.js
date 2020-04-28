@@ -72,6 +72,7 @@ function TranscriptionsWithRedux({
               <CaptionLine
                 key={caption.id}
                 caption={caption}
+                currCaption={currCaption}
                 isCurrent={isCurrent(caption.id)}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
                 //shouldHide={Boolean(currCaption) && (index - currCaption.index > 50)}

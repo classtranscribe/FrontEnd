@@ -1,6 +1,6 @@
 import React from 'react'
-import { connectWithRedux, epub } from '../../Utils'
 import { Button } from 'pico-ui'
+import { connectWithRedux, epub } from '../../Utils'
 
 function ActionButtonsWithRedux({
   isEditingEpub=false,
@@ -14,34 +14,14 @@ function ActionButtonsWithRedux({
         onClick={() => epub.saveChapters()}
       />
 
-      {/* <Button round size="big"
+      <Button round size="big"
         classNames="ee-act-btn"
         text="Cancel"
         color="black"
-        onClick={cancelEditing}
-      /> */}
+        onClick={() => epub.cancelEditChapters()}
+      />
     </div>
   ) : null
-
-  // (
-  //   <div className="msp-ee-act ct-a-fade-in" data-editing="false">
-  //     <Button.Group>
-  //       {/* <Button round //size="big"
-  //         classNames="ee-act-btn"
-  //         text="Manage Chapters"
-  //         color="black"
-  //         onClick={() => epub.isEditingEpub(true)}
-  //       /> */}
-
-  //       <Button round //size="big"
-  //         classNames="ee-act-btn ee-act-save-btn"
-  //         text="Download ePub File"
-  //         color="teal"
-  //         onClick={() => epub.download()}
-  //       />
-  //     </Button.Group>
-  //   </div>
-  // )
 }
 
 export default connectWithRedux(

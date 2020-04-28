@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { user, api } from '../../../utils'
+import { user, api, prompt, util } from '../../../utils'
 import { LOADING_D } from './constants'
 import { setup } from './setup.control'
 import { promptControl } from './prompt.control'
@@ -32,7 +32,7 @@ export const offControl = {
   courses_: [],
   newCourses_: [],
 
-  init: function(props) {
+  init(props) {
     const { 
       setOfferings, setOffering, setIsEditingOffering
     } = props
@@ -41,7 +41,7 @@ export const offControl = {
     }
   },
 
-  offering: function(off) {
+  offering(off) {
     if (off === undefined) return this.offering_
 
     let { 
@@ -69,7 +69,7 @@ export const offControl = {
     this.courses_ = courses
   },
 
-  offeringSet: function(key, value) {
+  offeringSet(key, value) {
     if (value === undefined) {
       return _.get(this.offering_, key)
     }
@@ -79,86 +79,86 @@ export const offControl = {
   /**
    * Offering basics
    */
-  id: function(value) {
+  id(value) {
     return this.offeringSet('offering.id', value)
   },
 
-  sectionName: function(value) {
+  sectionName(value) {
     return this.offeringSet('offering.sectionName', value)
   },
 
-  termId: function(value) {
+  termId(value) {
     return this.offeringSet('offering.termId', value)
   },
 
-  accessType: function(value) {
+  accessType(value) {
     return this.offeringSet('offering.accessType', value)
   },
 
-  logEventsFlag: function(value) {
+  logEventsFlag(value) {
     return this.offeringSet('offering.logEventsFlag', value)
   },
 
-  courseName: function(value) {
+  courseName(value) {
     return this.offeringSet('offering.courseName', value)
   },
 
-  description: function(value) {
+  description(value) {
     return this.offeringSet('offering.description', value)
   },
 
-  courseId: function(value) {
+  courseId(value) {
     return this.offeringSet('courseId', value)
   },
 
   /** 
    * Courses
    */
-  courses: function(value) {
+  courses(value) {
     if (value === undefined) return this.courses_
     this.courses_ = value
   },
-  newCourses: function(courses) {
+  newCourses(courses) {
     this.newCourses_ = courses
   },
-  addedCourses: function() {
+  addedCourses() {
     return _.differenceBy(this.newCourses_, this.courses_, 'id')
   },
-  removedCourses: function() {
+  removedCourses() {
     return _.differenceBy(this.courses_, this.newCourses_, 'id')
   },
 
   /** 
    * Instructors
    */
-  instructors: function(value) {
+  instructors(value) {
     if (value === undefined) return this.instructors_
     this.instructors_ = value.instructors
   },
-  newInstructors: function(emails) {
+  newInstructors(emails) {
     this.newInstructors_ = emails
   },
-  addedInstructors: function() {
+  addedInstructors() {
     return _.difference(this.newInstructors_, this.instructors_)
   },
-  removedInstructors: function() {
+  removedInstructors() {
     return _.difference(this.instructors_, this.newInstructors_)
   },
 
   /**
    * Students
    */
-  students: function(value) {
+  students(value) {
     if (value === undefined) return this.students_
     this.students_ = value.students || []
   },
-  newStudents: function(emails) {
+  newStudents(emails) {
     this.newStudents_ = emails
   },
-  addedStudents: function() {
+  addedStudents() {
     return _.difference(this.newStudents_, this.students_)
   },
-  removedStudents: function() {
+  removedStudents() {
     return _.difference(this.students_, this.newStudents_)
   },
 
@@ -166,14 +166,17 @@ export const offControl = {
   /**
    * Save
    */
-  save: function(newCourse, setErrors) {
-    if (newCourse) this.createOffering(setErrors)
-    else this.updateOffering(setErrors)
+  async save(newCourse, setErrors) {
+    if (newCourse) {
+      await this.createOffering(setErrors)
+    } else {
+      await this.updateOffering(setErrors)
+    }
   },
   /**
    * Function used for creating an offering
    */
-  createOffering: async function(setErrors) {
+  async createOffering(setErrors) {
     let off = this.offering_
     let courses = this.newCourses_
     let { userId } = user.getUserInfo()
@@ -267,7 +270,7 @@ export const offControl = {
   /**
    * Function used to update offering info
    */
-  updateOffering: async function(setErrors) {
+  async updateOffering(setErrors) {
     let off = this.offering_
     let courses = this.newCourses_
     let addedCourses = this.addedCourses()
@@ -360,16 +363,17 @@ export const offControl = {
 
     try {
       // parse new offering
-      let offerings = setup.offerings()
+      // let offerings = setup.offerings()
       let newOff = this.parseNewOffering({ offeringId, off, courses, termId })
-      let oldOffIdx = _.findIndex(offerings, { id: offeringId })
-      if (oldOffIdx < 0) {
-        // handle error
-      }
-      // console.log('newOff', newOff)
-      offerings[oldOffIdx] = newOff
-      setup.offerings([ ...offerings ])
-      setup.offering(newOff)
+      window.location = window.location.pathname
+      // let oldOffIdx = _.findIndex(offerings, { id: offeringId })
+      // if (oldOffIdx < 0) {
+      //   // handle error
+      // }
+      // // console.log('newOff', newOff)
+      // offerings[oldOffIdx] = newOff
+      // setup.offerings([ ...offerings ])
+      // setup.offering(newOff)
     } catch (error) {
       console.error('failed to parse new offering.')
     }
@@ -380,7 +384,7 @@ export const offControl = {
   /**
    * Delete Offering
    */
-  deleteOffering: async function(offeringId) {
+  async deleteOffering(offeringId) {
     setup.loading(LOADING_D)
     try {
       await api.deleteOffering(offeringId)
@@ -400,7 +404,7 @@ export const offControl = {
   /**
    * Helpers
    */
-  parseNewOffering: function({ offeringId, off, courses, termId }) {
+  parseNewOffering({ offeringId, off, courses, termId }) {
     let newOff = { ...off.offering, id: offeringId }
     let term = _.find( setup.terms(), { id: termId })
     newOff.term = term
@@ -417,5 +421,16 @@ export const offControl = {
     newOff.courseNumber = courseNumber
     
     return newOff
+  },
+
+  async reorderPlaylists(results) {
+    try {
+      let playlistIds = _.map(results, ({ id }) => id)
+      await api.reorderPlaylists(setup.offering().id, playlistIds)
+      setup.playlists(results)
+      prompt.addOne({ text: 'Playlists reordered.', timeout: 3000 })
+    } catch (error) {
+      prompt.addOne({ text: 'Failed to reorder playlists.', timeout: 5000 })
+    }
   },
 }

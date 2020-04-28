@@ -15,13 +15,17 @@ export function getPlaylistsByOfferingId(offeringId) {
 }
 
 export function searchForMedia(offeringId, query) {
-    return cthttp.getf(`Playlists/SearchForMedia/${offeringId}/${query}`)
+    return cthttp.get(`Playlists/SearchForMedia/${offeringId}/${query}`)
 }
 
 // POST
 
 export function createPlaylist(data) {
     return cthttp.post('Playlists', data)
+}
+
+export function reorderPlaylists(offeringId, playlistIds) {
+    return cthttp.post('Playlists/Reorder/' + offeringId, playlistIds)
 }
 
 // PUT

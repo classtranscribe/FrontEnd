@@ -42,7 +42,6 @@ export function NextVideoWithRedux({
         id="next-video-btn"
         disabled={!canPlayNext}
         popupStyle={{padding: '0'}}
-        popupPosition="0,0"
         ariaTags={{
           'aria-label': 'Next Video',
         }}
@@ -62,7 +61,6 @@ export function NextVideoWithRedux({
         id="prev-video-btn"
         disabled={!canPlayPrev}
         popupStyle={{padding: '0'}}
-        popupPosition="0,0"
         ariaTags={{
           'aria-label': 'Previous Video',
         }}
@@ -79,14 +77,14 @@ function Video({
   media=null, 
   nextVideo=false
 }) {
-  const { id, mediaName } = media
+  const { id, mediaName, watchHistory } = media
   let name = nextVideo ? 'Next' : 'Previous'
   return (
     <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
       <VideoCard row dark
         id={id}
         name={`<span>${name} Video</span> | ${mediaName}`}
-        ratio={0}
+        ratio={watchHistory.ratio}
         posterSize={'100px'}
         fittedNameSize={-1}
         listitem={false}

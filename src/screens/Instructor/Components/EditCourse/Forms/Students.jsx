@@ -110,7 +110,7 @@ function StudentsWithRedux({
                 value={searchValue}
                 onChange={onSearch}
                 type="text"
-                autocomplete="no"
+                autoComplete="no"
               />
               {/* Email List */}
               <div className="ip-f-email-group" role="list">
@@ -118,7 +118,7 @@ function StudentsWithRedux({
                   !results.length ? 
                   <p className="guide pt-5 w-100 d-flex justify-content-center">NONE</p> 
                   :
-                  (results.slice() || []).reverse().map( email => (
+                  (results || []).slice().reverse().map( email => (
                     <div className="ip-f-email-item " key={email}>
                       {email}
                       <Icon 

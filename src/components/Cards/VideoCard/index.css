@@ -5,17 +5,19 @@
 .video-card-container-square {
   width: 222px;
   height: max-content;
-  margin: .5em .5em 1em 0;
+  margin: .5em .5em 0 0;
+  border-radius: 10px !important;
   overflow: hidden;
   flex: 0 0 auto;}
   .video-card-container-square .media-info {
     padding: .3em;}
     .video-card-container-square .media-info .video-name {
-      color: var(--ct-text-primary);
-      font-size: 17px;
-      margin-bottom: .3em;
-      font-family: var(--ct-font-narrow);
-      max-height: 47px;
+      color: rgb(65, 65, 65);
+      font-size: 20px;
+      margin-bottom: 0em;
+      font-family: var(--ct-font-narrow) !important;
+      font-weight: bold;
+      width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       transition: var(--ct-transition-color);

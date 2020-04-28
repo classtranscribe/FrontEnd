@@ -6,26 +6,23 @@ import { api, util } from '../../../../../utils'
 function Videos({
   // playlist,
   currMediaId='',
-  watchHistory=[],
   currPlaylist={},
 }) {
 
   let { medias } = currPlaylist
 
   useEffect(() => {
-    util.scrollToCenter(
-      '#'+currMediaId, 
-      true, 
-      () => {
-        if (medias && medias[0]) {
-          util.scrollToCenter('#' + medias[0].id, true, () => util.scrollToTop('.watch-videos-list'))
-        }
+    util.elem.scrollIntoCenter(
+      currMediaId, 
+      {
+        focus: true,
+        alternate: () => util.elem.scrollIntoView('watch-videos-list')
       }
     )
   }, [currPlaylist])
 
   return (
-    <div className="watch-videos-list">
+    <div id="watch-videos-list" className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
         <p><i className="material-icons">video_library</i>{currPlaylist.name}</p>
       </div>
@@ -44,7 +41,6 @@ function Videos({
               key={media.id}
               media={media} 
               currMediaId={currMediaId} 
-              watchHistory={watchHistory} 
             />
           ))
         }
@@ -56,24 +52,20 @@ function Videos({
 function Video({ 
   media=null, 
   currMediaId='',
-  watchHistory=[],
 }) {
   media = api.parseMedia(media)
-  const { id, mediaName } = media
-  const mediaHistory = watchHistory.filter(mh => mh.mediaId === id)[0] || {}
-  const { ratio, timeStamp } = mediaHistory
+  const { id, mediaName, watchHistory } = media
   return (
     <li className="watch-video-item" >
       <VideoCard row dark
         id={id}
         name={mediaName}
-        ratio={ratio}
+        ratio={watchHistory.ratio}
         posterSize={'100px'}
-        //fittedNameSize={40}
         listitem={false}
         current={currMediaId === id}
         description={ currMediaId === id ? 'Now Playing' : ''}
-        link={util.links.watch(id, { begin: timeStamp })}
+        link={util.links.watch(id)}
       />
     </li>
   )

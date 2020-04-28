@@ -7,6 +7,17 @@
  */
 // Clear Options
 export const CO_CHANGE_VIDEO = 'co-change-video'
+// Errors
+export const ERR_AUTH = {
+  code: 401,
+  header: "Unauthorized Access",
+  description: "Sorry, you are not authorized for your requested page or resource."
+}
+export const ERR_INVALID_MEDIA_ID = {
+  code: 404,
+  header: "The media cannot be found",
+  description: "Sorry, your requested URL doesn't contain a valid media ID."
+}
 
 /** 
  * Arrays
@@ -78,12 +89,14 @@ export const ENGLISH = 'en-US'
 export const SIMPLIFIED_CHINESE = 'zh-Hans'
 export const KOREAN = 'ko'
 export const SPANISH = 'es'
-export const langOptions = [ ENGLISH, SIMPLIFIED_CHINESE, KOREAN, SPANISH ]
+export const FRENCH = 'fr'
+export const langOptions = [ ENGLISH, SIMPLIFIED_CHINESE, KOREAN, SPANISH, FRENCH ]
 export const langMap = {
   "en-US": "English",
   "zh-Hans": "Simplified Chinese",
   "ko": "Korean",
-  "es": "Spanish"
+  "es": "Spanish",
+  "fr": "French"
 }
 
 /**

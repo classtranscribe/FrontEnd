@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import './index.css'
 
 import { Filter } from '../Filter'
@@ -11,10 +11,10 @@ import {
   connectWithRedux, 
   setup,
   filterControl, 
-  promptControl,
   NEW_OFFERING, 
-  NEW_OFFERING_ID, 
-  ARRAY_INIT,  
+  // NEW_OFFERING_ID, 
+  ARRAY_INIT,
+  NEW_OFFERING_ID,  
 } from '../../Utils'
 import { util } from '../../../../utils'
 
@@ -35,31 +35,23 @@ function SideBarWithRedux({
     setup.changeOffering(off, updateSearch)
   }
 
-  useEffect(() => {
-    if (offerings === ARRAY_INIT) return;
-    
-    setResults(offerings)
-
-    if (Boolean(offering.id)) return;
-
+  const chooseOffering = () => {
     let { offId } = util.links.useSearch()
     if (!offId) {
       offId = history.location.pathname.split('/')[2]
     }
 
+    console.log(offId)
+
     if (offId) { // if the offeringId is in params
       // If it's the artifical id for new offering
-      if (offId === 'new-offering') {
+      if (offId === NEW_OFFERING_ID) {
         // handleOfferingClick(NEW_OFFERING)()
       // Otherwise find and then go to the offering by id
       } else {
         let off = _.find(offerings, { id: offId })
         if (!off) { // if the id is not valid or does not exist
           handleOfferingClick(offerings[0] || NEW_OFFERING)()
-          promptControl.message(
-            <>Sorry, you don't have the access to offering "{offId}".&emsp;
-            <a href={util.links.contactUs()}>CONTACT US</a></>
-          )
         } else {
           handleOfferingClick(off, false)()
         }
@@ -73,6 +65,15 @@ function SideBarWithRedux({
         history.push(util.links.instNewOffering())
       }
     }
+  }
+
+  useEffect(() => {
+    if (offerings === ARRAY_INIT) return;
+    
+    setResults(offerings)
+    // if (Boolean(offering.id)) return;
+    chooseOffering()
+    
   }, [offerings])
   
 
@@ -90,13 +91,12 @@ function SideBarWithRedux({
 
         <div className="w-100 ct-list-col ip-sb-filter">
           {/* New Offering Trigger */}
-          <ListItem dark asLink
+          <ListItem dark
             icon="add"
             title=" NEW COURSE"
-            current={offering === NEW_OFFERING}
+            current={util.links.isEqual(util.links.instNewOffering())}
             rightIcon="small"
-            onClick={() => setup.newOffering()}
-            to={util.links.instNewOffering()}
+            onClick={handleOfferingClick(NEW_OFFERING)}
           />
 
           {/* Filter */}

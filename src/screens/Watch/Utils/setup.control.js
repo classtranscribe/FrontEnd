@@ -4,13 +4,15 @@ import { transControl } from './trans.control'
 import { videoControl } from './player.control'
 import { menuControl } from './menu.control'
 import { promptControl } from './prompt.control'
+import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect'
+import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './constants.util'
 
 export const setup = {
   media_: api.parseMedia(),
   playlist_: {},
   playlists_: {},
   externalFunctions : {},
-  init: function(props) {
+  init: function(props, setError) {
     const { 
       setMedia, setPlaylist, setPlaylists, setOffering,
       setWatchHistory, setStarredOfferings, 
@@ -20,7 +22,8 @@ export const setup = {
     this.externalFunctions = { 
       setMedia, setPlaylist, setPlaylists, setOffering,
       setWatchHistory, setStarredOfferings, 
-      location, history, changeVideo
+      location, history, changeVideo,
+      setError,
     }
   },
 
@@ -82,7 +85,8 @@ export const setup = {
     menuControl.clear()
   },
 
-  changeVideo: function(media, playlist) {
+  changeVideo: async function(media, playlist) {
+    await videoControl.sendMediaHistories()
     const { history } = this.externalFunctions
     if (!playlist) playlist = this.playlist()
     history.push(util.links.watch(media.id))
@@ -109,12 +113,18 @@ export const setup = {
    * ************************************************************************
    */
   getMedia: async function() {
-    const { id } = util.parseSearchQuery()
+    const { setError } = this.externalFunctions
+    const { id } = util.links.useSearch()
 
     try {
       let { data } = await api.getMediaById(id)
       return api.parseMedia(data)
     } catch (error) {
+      if (api.parseError(error).status === 404) {
+        setError(ERR_INVALID_MEDIA_ID)
+      } else {
+        setError(ERR_AUTH)
+      }
       return null
     }
   },
@@ -160,36 +170,24 @@ export const setup = {
     }
   },
 
-  getUserMetadata: async function() {
-    const { setWatchHistory, setStarredOfferings } = this.externalFunctions
-    // api.storeUserMetadata({
-    //   setWatchHistory,
-    //   setStarredOfferings
-    // })
-  },
-
-  /**
-   * Function used to check whether to reset existing data
-   */
-  checkForReset: function() {
-    const { courseNumber } = util.parseSearchQuery()
-    if (courseNumber !== this.courseNumber) {
-      this.media_ = api.parseMedia()
-      this.playlist_ = {}
-      this.playlists_ = []
+  getMediaWatchHistories: async function(mediaId) {
+    try {
+      const { data } = await api.getMediaWatchHistories(mediaId)
+      console.error('getMediaWatchHistories', data)
+      return data
+    } catch (error) {
+      console.error('Failed to get watch histories.')
+      return {}
     }
-    this.courseNumber = courseNumber
   },
 
   /** 
    * Function for getting media, playlist, and playlists
    */
   setupMedias: async function() {
-    this.checkForReset()
     // Get media
     let media = await this.getMedia()
     if (!media) {
-      promptControl.error()
       api.contentLoaded()
       return
     }
@@ -211,8 +209,11 @@ export const setup = {
       return
     }
 
-    // set user metadata
-    // await this.getUserMetadata()
+    // // set user metadata
+    // let watchHistory = await this.getMediaWatchHistories(media.id)
+    // if (watchHistory.json && watchHistory.json.timestamp) {
+    //   media.begin = watchHistory.json.timestamp
+    // }
 
     // Set data
     this.media(media)
@@ -234,5 +235,9 @@ export const setup = {
     // Initialize user action handler
     let mediaId = media.id
     userAction.init({ offeringId, mediaId })
+
+    if (isSafari && isIPad13 && isIPhone13) {
+      promptControl.videoNotLoading()
+    }
   }
 }

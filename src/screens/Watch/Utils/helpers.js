@@ -1,22 +1,14 @@
-import $ from 'jquery'
 import _ from 'lodash'
-import autosize from 'autosize'
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util'
 import { util } from 'utils';
+import moment from 'moment';
 // import { videoControl } from './player.control'
 
 export function parseSec(d) {
-  if (d === undefined) return '';
-  d = Number(d);
-  if ( d < 0 ) return ''
-  var h = Math.floor(d / 3600);
-  var m = Math.floor(d % 3600 / 60);
-  var s = Math.floor(d % 3600 % 60);
-
-  var hDisplay = h > 0 ? h + ":" : "";
-  var mDisplay = m > 0 ? m > 9 ? m + ":" : "0" + m + ":" : "00:";
-  var sDisplay = s > 9 ? s : "0" + s;
-  return hDisplay + mDisplay + sDisplay; 
+  let formatter = d < 3600 ? 'mm:ss' : 'H:mm:ss'
+  return moment().startOf('day')
+                 .seconds(d)
+                 .format(formatter);
 }
 
 export function timeStrToSec(str) {
@@ -55,16 +47,6 @@ export function colorMap(color=CC_COLOR_BLACK, opacity=1) {
   if (!colorStr) return CC_COLOR_BLACK
   return colorStr.replace('*', opacity)
 }
-
-export function autoSize(e) {
-  let elem = e.target || e
-  autosize(elem);
-}
-
-export function autoSizeAllTextAreas(timeout=0) {
-  return;
-}
-
 
 /** handle Share */
 // Get share url

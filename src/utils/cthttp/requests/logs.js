@@ -2,12 +2,14 @@ import { deviceType, osVersion, osName, fullBrowserVersion, browserName } from '
 import { user } from '../../user'
 import { cthttp } from './request'
 
+const GET_LOG_TIMEOUT = 6000000
+
 // ------------------------------------------------------------
 // Admin Logs
 // ------------------------------------------------------------
 
 export function adminGetLogs(from, to) {
-    return cthttp.get('Admin/GetLogs', { params: { from, to } })
+    return cthttp.get('Admin/GetLogs', { params: { from, to }, timeout: GET_LOG_TIMEOUT })
 }
 
 
@@ -18,7 +20,7 @@ export function adminGetLogs(from, to) {
 // GET
 
 export function getCourseLogs(eventType, offeringId, start, end) {
-    return cthttp.get('Logs/CourseLogs', { params: { eventType, offeringId, start, end } })
+    return cthttp.get('Logs/CourseLogs', { params: { eventType, offeringId, start, end }, timeout: GET_LOG_TIMEOUT })
 }
 
 export function getUserLogs() {
@@ -26,15 +28,15 @@ export function getUserLogs() {
 }
 
 export function getUserLogsByEvent(eventType, start, end) {
-    return cthttp.get('Logs/UserLogs/ByEvent', { params: { eventType, start, end } })
+    return cthttp.get('Logs/UserLogs/ByEvent', { params: { eventType, start, end }, timeout: GET_LOG_TIMEOUT })
 }
 
 export function getOfferingSearchHistory(offeringId) {
-    return cthttp.get('Logs/OfferingSearchHistory', { params: { offeringId } })
+    return cthttp.get('Logs/OfferingSearchHistory', { params: { offeringId }, timeout: GET_LOG_TIMEOUT })
 }
 
 export function getUserSearchHistoryInOffering(offeringId) {
-    return cthttp.get('Logs/UserSearchHistory', { params: { offeringId } })
+    return cthttp.get('Logs/UserSearchHistory', { params: { offeringId }, timeout: GET_LOG_TIMEOUT })
 }
 
 // POST
@@ -45,7 +47,7 @@ export function sendUserAction(eventType, data={}) {
         eventType, 
         mediaId, 
         offeringId,
-        userId: user.userId(),
+        userId: user.userId,
         json: {
             ...json, 
             device: { deviceType, osVersion, osName, fullBrowserVersion, browserName }

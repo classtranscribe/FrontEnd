@@ -40,15 +40,6 @@
   --ct-animation-fade-out: fade-out .2s linear;
   --ct-animation-right-top-out: right-top-out .1s linear;
   --ct-animation-watch-menu-hide: watch-menu-hide .1s linear;
-
-  /* Watch */
-  --ct-progress-h: 5px;
-  --ct-progress-h-neg: -5px;
-  --ct-progress-h-hover: 7px;
-  --ct-progress-w: calc(100vw - 20px);
-  --ct-progress-border-radius: 5em;
-  --ct-progress-color: rgb(19, 211, 211);
-  --ct-progress-transi-w: width 1s linear;
 }
 
 .fsize-1-2 {

@@ -26,5 +26,5 @@ export function getUserMetaData() {
 }
 
 export function postUserMetaData(metadata={}, onboard={}) {
-    return cthttp.post('Account/PostUserMetadata/PostUserMetadata', { metadata, onboard })
+    return cthttp.post('Account/PostUserMetadata/PostUserMetadata', { ...metadata, onboard })
 }

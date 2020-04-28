@@ -23,7 +23,7 @@ import {
 export class ClassTranscribePlayerWithRedux extends React.Component {
   constructor(props) {
     super(props)
-    this.mediaId = util.parseSearchQuery().id
+    this.mediaId = util.links.useSearch().id
     this.state = {
       srcPath1: null,
       srcPath2: null,
@@ -31,7 +31,7 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { media, /** watchHistory, offeringId, */ setMode, } = this.props
+    const { media, /** offeringId, */ setTime, setMode, } = this.props
 
     if (prevProps.media !== media) {
       // set src for videos
@@ -57,18 +57,14 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
 
   // Event handlers for primary video
   onPause = e => {
-    control.onPause(e)
+    const { paused } = this.props
+    control.onPause(e, paused)
   }
   onTimeUpdate = e => {
     control.onTimeUpdate(e)
   }
   onDurationChange = e => {
     control.onDurationChange(e)
-    let { begin, id } = util.parseSearchQuery()
-    if (Boolean(begin)) {
-      control.currTime(Number(begin))
-      util.replacePathname( util.links.watch(id) )
-    }
   }
   onProgress = e => {
     control.onProgress(e)
@@ -80,7 +76,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onLoadedData(e, true)
   }
   onCanPlayPri = e => {
-    control.onCanPlay(e, true)
+    const { media } = this.props
+    control.onCanPlay(e, true, media)
   }
   onWaitingPri = e => {
     control.onWaiting(e, true)
@@ -109,7 +106,8 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
     control.onLoadedData(e, false)
   }
   onCanPlaySec = e => {
-    control.onCanPlay(e, false)
+    const { media } = this.props
+    control.onCanPlay(e, false, media)
   }
   onWaitingSec = e => {
     control.onWaiting(e, false)

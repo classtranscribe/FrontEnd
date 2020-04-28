@@ -3,7 +3,6 @@ import React, { useEffect, useState, createRef } from 'react'
 import { Sticky } from 'semantic-ui-react'
 
 import { Filter } from '../Filter'
-import { ListItem } from '../ListItem'
 import { PlaceHolder } from '../../../../components'
 
 import PlaylistInfo from './PlaylistInfo'
@@ -21,9 +20,10 @@ import {
   connectWithRedux, 
   filterControl, 
   NEW_PLAYLIST, OFF_ANALYSIS, 
-  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, //NO_OFFERING_ID,
+  NEW_OFFERING, HIDE_PLAYLIST, NO_PLAYLIST, OFF_SETTINGS, plControl, //NO_OFFERING_ID,
 } from '../../Utils'
 import './index.scss'
+import { util } from 'utils'
 
 
 function PlaylistWithRedux({
@@ -53,12 +53,21 @@ function PlaylistWithRedux({
 
   // Current selected media
   const [currMedia, setCurrMedia] = useState('')
-  const openMedia = me => () => setCurrMedia(me)
-  const closeMedia = () => setCurrMedia({})
+  const openMedia = me => () => {
+    util.links.pushSearch({ mid: me.id })
+    setCurrMedia(me)
+  }
+  const closeMedia = () => {
+    util.links.pushSearch({ mid: undefined })
+    setCurrMedia({})
+  }
 
   // The context of the playlist component
   const stickyContextRef = createRef()
   const [isTop, setIsTop] = useState(true)
+
+  // filter
+  const [filtering, setFiltering] = useState(false)
 
   // Update results when playlist changes
   useEffect(() => {
@@ -67,6 +76,17 @@ function PlaylistWithRedux({
       if (isUploading) setIsUploading(false)
     }
     if (currMedia.id) closeMedia()
+
+    // if mid is specified in the url
+    let { mid } = util.links.useSearch()
+    if (mid && playlist.medias && playlist.medias.length > 0) {
+      let requestMedia = _.find(playlist.medias, { id: mid })
+      if (requestMedia) {
+        openMedia(requestMedia)()
+      } else { // if the mid is incorrect, remove mid from url
+        util.links.pushSearch({ mid: null })
+      }
+    }
   }, [playlist])
 
   // Conditions not display playlist
@@ -78,7 +98,6 @@ function PlaylistWithRedux({
   // if (noPlaylist) return <NoPlaylistHolder />
   if (playlist === NEW_PLAYLIST || noPlaylist) return <NewPlaylist offeringId={offering.id} noPlaylist={noPlaylist} />
   if (isUploading) return <UploadVideo playlist={playlist} onClose={onCloseUpload} />
-  
 
   return (
     <div ref={stickyContextRef} className="ip-playlist">
@@ -95,41 +114,55 @@ function PlaylistWithRedux({
             <PlaylistInfo playlist={playlist} isTop={isTop} />
           </Sticky>
 
+          <div className="ip-pl-detail ct-d-c">
+            {
+              playlist.createdAt
+              &&
+              <div>
+                <b>CREATED AT</b>
+                <span className="pl-2">{playlist.createdAt.slice(0,10)}</span>
+              </div>
+            }
+            {
+              plControl.getPlaylistSourceURL(playlist)
+              &&
+              <div>
+                <b>SOURCE</b>
+                <span className="pl-2">{plControl.getPlaylistSourceURL(playlist)}</span>
+              </div>
+            }
+          </div>
+
           {/* Title */}
-          <div className="ip-sb-title ct-d-r-center-v mt-3">
+          <div className="ip-sb-title ct-d-r-center-v mt-3" style={{background: 'transparent'}}>
             <i className="material-icons" aria-hidden="true">video_library</i>
             <h3>VIDEOS</h3>
           </div>
-          
-          {/* Upload Video Button & Filter */}
-          <div className="w-100">
-            {
-              playlist.sourceType === 2
-              &&
-              <ListItem dark
-                icon="add"
-                title=" UPLOAD VIDEOS"
-                onClick={onOpenUpload}
-              />
-            }
 
-            {
-              playlist.medias.length > 0
-              &&
+          {/* Selecting Buttons */}
+          <ButtonBar 
+            results={results} 
+            filtering={filtering}
+            setFiltering={setFiltering} 
+            upload={playlist.sourceType === 2}
+            onOpenUpload={onOpenUpload}
+          />
+
+          {
+            (playlist.medias.length > 0 && filtering)
+            &&
+            <div className="w-100 ct-a-fade-in mb-2">
               <Filter //darker
                 searchFor="Videos" 
                 onFilter={onFilter} 
                 onReverse={onReverse} 
               />
-            }
-          </div>
-
-          {/* Selecting Buttons */}
-          <ButtonBar results={results} />
+            </div>
+          }
           
           {/* Video Items */}
           {
-            results.length === 0
+            playlist.medias.length === 0
             ?
             <NoVideoHolder type={playlist.sourceType} />
             :

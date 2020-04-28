@@ -1,7 +1,7 @@
-import $ from 'jquery'
 import _ from 'lodash'
+import { isMobile } from 'react-device-detect'
 import { api, userAction } from '../../../utils'
-import { timeStrToSec, colorMap, autoSize, /* autoSizeAllTextAreas */ } from './helpers'
+import { timeStrToSec, colorMap } from './helpers'
 import { videoControl } from './player.control'
 import { promptControl } from './prompt.control'
 import { preferControl } from './preference.control'
@@ -26,7 +26,6 @@ import {
   CO_CHANGE_VIDEO,
   BULK_EDIT_MODE,
 } from './constants.util'
-import { isMobile } from 'react-device-detect'
 // import { adSample } from './data'
 
 /**
@@ -228,7 +227,6 @@ export const transControl = {
     if (Boolean(currCaption) && Boolean(setCurrCaption)) {
       // setCurrCaption(currCaption)
       this.currCaption_ = currCaption
-      if (currCaption) this.autoSizeTextAreaByCaptionId(currCaption.id)
     }
   },
 
@@ -294,6 +292,10 @@ export const transControl = {
       this.currEditing_ = caption
       if (Boolean(caption)) this.editText = innerText || caption.text
       if (preferControl.pauseWhileEditing()) videoControl.pause()
+      if (preferControl.showCaptionTips()) {
+        promptControl.editCaptionTips()
+        preferControl.showCaptionTips(false)
+      }
     }
   },
   /**
@@ -301,8 +303,8 @@ export const transControl = {
    */
   editCurrent: function() {
     let id = this.currCaption_.id
-    let currTextArea = $(`#caption-line-textarea-${id}`)
-    if (currTextArea.length) {
+    let currTextArea = document.getElementById(`caption-line-textarea-${id}`)
+    if (currTextArea) {
       currTextArea.focus()
       promptControl.editCaptionUsingKeyboard()
     }
@@ -318,7 +320,7 @@ export const transControl = {
   /**
    * Function called when save caption
    */
-  saveEdition: async function() {
+  handleSaveEditing: async function() {
     const { setCurrEditing } = this.externalFunctions
     let text = this.editText
     /**
@@ -351,6 +353,14 @@ export const transControl = {
     }
   },
 
+  handleCancelEditing() {
+    const { setCurrEditing } = this.externalFunctions
+    if (setCurrEditing) {
+      setCurrEditing(null)
+      this.isEditing = false
+    }
+  },
+
   /**
    * Function called when mouse over the transcription area
    * To prevent scrolling
@@ -362,7 +372,7 @@ export const transControl = {
    * Function called when blurring on current editing caption
    */
   handleBlur: function() {
-    this.isEditing = false
+    // this.isEditing = false
     // this.edit(null)
   },
 
@@ -383,7 +393,9 @@ export const transControl = {
 
     if (!smoothScroll) tranBox.style.scrollBehavior = 'auto'
     capElem.classList.add('curr-line')
-    let scrollTop = (window.innerWidth < 900 || !isTwoScreen) ? capElem.offsetTop - 10 : capElem.offsetTop - 80
+    let scrollTop = (window.innerWidth < 900 || !isTwoScreen) 
+                  ? capElem.offsetTop - 50 
+                  : capElem.offsetTop - 80
     // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
     tranBox.scrollTop = scrollTop
     if (!smoothScroll) tranBox.style.scrollBehavior = 'smooth'
@@ -526,9 +538,13 @@ export const transControl = {
     if (sendUserAction) userAction.transviewchange(videoControl.currTime(), view)
   },
   handleTransViewSwitch: function() {
-    let view = preferControl.defaultTransView()
+    let view = this.TRANS_VIEW
     if (view === HIDE_TRANS) {
-      this.transView(LINE_VIEW)
+      if (isMobile) {
+        this.transView(TRANSCRIPT_VIEW)
+      } else {
+        this.transView(LINE_VIEW)
+      }
     } else if (view === TRANSCRIPT_VIEW) {
       this.transView(HIDE_TRANS)
     } else {
@@ -722,10 +738,6 @@ export const transControl = {
     // if (next) console.error(next.kind)
     // else console.error('null')
     return next
-  },
-
-  autoSizeTextAreaByCaptionId: function(id) {
-    autoSize($(`#caption-line-textarea-${id}`))
   },
 
 }

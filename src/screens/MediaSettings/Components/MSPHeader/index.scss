@@ -17,14 +17,15 @@
       display: flex;
       flex-direction: column;
       margin-left: 1rem;
-      padding-bottom: .8rem;;
+      padding-bottom: .8rem;
       .msp-me-name {
         // color: var(--ct-text-title);
         color: rgb(58, 58, 58);
         // font-weight: bold;
-        font-size: 1.5em;
+        font-size: 18px;
+        line-height: 20px;
         font-family: var(--ct-font-narrow);
-        max-width: 160px;
+        max-width: 260px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -40,13 +41,14 @@
     margin-left: 2rem;
 
     .msp-h-tab {
-      padding: 0em .5rem 0 .5rem;
+      padding: 1px .5rem 0 .5rem;
       height: max-content;
       overflow: hidden;
       span {
         height: auto;
         position: relative;
-        font-size: 1.4em;
+        font-size: 19px;
+        line-height: 19px;
         font-weight: 500;
         color: rgb(104, 104, 104);
         display: flex;
@@ -56,15 +58,19 @@
         border-bottom: 3px solid transparent;
         font-family: var(--ct-font-google);
         // text-transform: uppercase;
-        padding: .3em .2em .5em .2em;
+        padding: 3px .2em 11px .2em;
         transition: all .2s ease-in;
       }
 
       &:hover span, &:focus span {
         color: black;
-        // border-color: rgb(59, 59, 59);
+        border-color: rgb(93, 93, 93);
+      }
+      &:focus {
+        outline: 1px solid rgb(7, 150, 143);
       }
       &[data-current=true] span {
+        font-weight: 500;
         color: var(--ct-text-title);
         border-color: var(--ct-green-normal);
       }

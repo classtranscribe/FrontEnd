@@ -1,7 +1,7 @@
 .watch-modal {
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 
 .watch-modal[data-modal-type="modal-hide"] {
@@ -11,7 +11,7 @@
 .wml-filter {
   display: absolute;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: rgba(0, 0, 0, 0.623);
 }
 
@@ -20,10 +20,11 @@
   width: max-content;
   height: max-content;
   padding: .5em .5em 1em .5em;
-  max-width: 95vw;
+  max-width: calc(100vw - 2em);
   background: rgb(59, 59, 59);
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(49, 49, 49, 0.671);
+  overflow: hidden;
 }
 
 .wmodal-box-gen[data-position*=left] {

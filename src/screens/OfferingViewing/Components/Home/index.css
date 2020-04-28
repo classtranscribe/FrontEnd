@@ -22,16 +22,16 @@
 .sp-home .filter {
   width: 100%;
   margin-top: 1rem;
-  /* padding: 1em 2em .5em 2em; */
   padding: .4em 1em 0 1em;
-  /* border-radius: 10px;
-  background: #ffffff;
-  box-shadow: 0em 0em .8em rgb(218, 218, 218); */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
 }
 @media screen and (max-width: 800px) {
   .sp-home .filter {
-    /* padding: 2em 0 !important; */
     padding: 0 !important;
+    position: relative;
   }
 }
 
@@ -44,13 +44,13 @@
 }
 .sp-home .filter .ui.selection.dropdown {
   background: none !important;
-  border-top-left-radius: 20px !important;
-  border-top-right-radius: 20px !important;
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 5px !important;
   border-color: transparent !important;
 }
 .sp-home .filter .ui.selection.active.dropdown .menu {
-  border-bottom-left-radius: 20px !important;
-  border-bottom-right-radius: 20px !important;
+  border-bottom-left-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
 }
 .sp-home .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
   color: rgb(100, 100, 100) !important;
@@ -67,10 +67,7 @@
   overflow: visible;
   white-space: normal;
 }
-/* .sp-home .filter .ui.dropdown .menu, .sp-home .filter .selection.active.dropdown {
-  border: none !important;
-  box-shadow:0 3px 4px 0 rgba(34,36,38,.15) !important;
-}  */
+
 .sp-home .filter label {
   color: rgb(37, 113, 116) !important;
   padding-left: 1em;

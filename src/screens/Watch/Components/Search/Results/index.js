@@ -28,12 +28,12 @@ function Results({
 
   const nextPage = () => {
     setPage(page + 1)
-    util.scrollToTop('.watch-search-result-container')
+    util.elem.scrollToTop('watch-search-result-container')
   }
 
   const prevPage = () => {
     setPage(page - 1)
-    util.scrollToTop('.watch-search-result-container')
+    util.elem.scrollToTop('watch-search-result-container')
   }
 
   const resultOptions = searchControl.getResultOptions(search, option)
@@ -43,7 +43,7 @@ function Results({
   }, [search])
 
   return (
-    <div className="watch-search-result-container">
+    <div id="watch-search-result-container" className="watch-search-result-container">
       {
         status !== SEARCH_RESULT ?
         null

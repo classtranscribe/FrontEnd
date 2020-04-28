@@ -77,6 +77,7 @@ function VideoItemWithRedux({
         isSelected={isSelected}
         isSelectingVideos={isSelectingVideos}
         onClick={openMedia(media)}
+        handleRename={handleRename}
       />
 
       <InlineButtons 

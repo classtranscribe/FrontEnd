@@ -5,8 +5,8 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
-import { CTContext } from '../../components'
 import { 
+  ErrorWrapper,
   WatchHeader,
   Menus,
   Modals,
@@ -15,7 +15,6 @@ import {
   ControlBar,
   Transcriptions,
   TabEventHelperButtons,
-  Prompts,
   UpNext,
   TransCtrlButtons,
 } from './Components'
@@ -29,25 +28,29 @@ import {
   guide,
   setup,
   videoControl,
-  transControl, 
-  promptControl, 
+  transControl,
   searchControl,  
   preferControl,
-  keydownControl, 
+  keydownControl,
+  ERR_INVALID_MEDIA_ID, 
 } from './Utils'
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
     super(props)
-    const { id } = util.parseSearchQuery()
+
+    let error = null
+    const { id } = util.links.useSearch()
     this.id = id
-    if (!id) window.location = util.links.notfound404()
+    if (!id) error = ERR_INVALID_MEDIA_ID
+
+    this.state = { error }
+    let setError = error => this.setState({ error })
 
     /** Init controls */
-    setup.init(props)
+    setup.init(props, setError)
     transControl.init(props)
     searchControl.init(props)
-    promptControl.init(props)
     preferControl.init(props)
   }
 
@@ -67,25 +70,35 @@ export class WatchWithRedux extends React.Component {
   }
 
   render() { 
+    const { error } = this.state
+
     return (
       <main className="watch-bg" id="watch-page">
-        <TabEventHelperButtons />
-        <Modals />
-        <WatchHeader />
-        <Search />
-        <Menus />
-        <ClassTranscribePlayer />
-        <UpNext />
-        <TransCtrlButtons />
-        <Transcriptions />
-        <ControlBar />
-        <Prompts />
+        {
+          Boolean(error)
+          ?
+          <>
+            <WatchHeader plain />
+            <ErrorWrapper error={error} />
+          </>
+          :
+          <>
+            <TabEventHelperButtons />
+            <Modals />
+            <WatchHeader />
+            <Search />
+            <Menus />
+            <ClassTranscribePlayer />
+            <UpNext />
+            <TransCtrlButtons />
+            <Transcriptions />
+            <ControlBar />
+          </>
+        }
       </main>
     )
   }
 }
-
-WatchWithRedux.contextType = CTContext
 
 export function Watch(props) {
   const WatchConnectToRedux = connectWithRedux(

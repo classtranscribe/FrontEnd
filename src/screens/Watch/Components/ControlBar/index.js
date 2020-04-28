@@ -1,7 +1,10 @@
 import React from 'react'
+import { isMobile } from 'react-device-detect'
 import { connectWithRedux } from '../../Utils'
 import { 
   PlayButton,
+  RewindButton,
+  ForwardButton,
   SettingButton,
   NextVideoButton,
   FullscreenButton,
@@ -17,34 +20,65 @@ import TimeDisplay from './TimeDisplay'
 import ProgressBar from './ProgressBar'
 
 import './index.css'
-import { isMobile } from 'react-device-detect'
 
 export function ControlBarWithRedux({
   media={},
   bulkEditing=false,
 }) {
-  const { isTwoScreen } = media
+  const { isTwoScreen, transcriptions } = media
 
+  const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile
   return (
     <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
 
-        <NextVideoButton nextBtn={false} />
+        {
+          isMobile
+          ?
+          <RewindButton />
+          :
+          <NextVideoButton nextBtn={false} />
+        }
         <PlayButton />
-        <NextVideoButton />
+        {
+          isMobile
+          ?
+          <ForwardButton />
+          :
+          <NextVideoButton />
+        }
 
-        {isTwoScreen && <SwitchScreenButton />}
+        {
+          isTwoScreen
+          && 
+          <SwitchScreenButton />
+        }
         <VolumeControl />
         <TimeDisplay />
         
       </div>
       <div className="watch-ctrl-bar-right-elems">
+        {
+          isMobile
+          &&
+          <NextVideoButton nextBtn={false} />
+        }
+        {
+          isMobile
+          &&
+          <NextVideoButton />
+        }
+
         <PlaybackRateButton />
         <ClosedCaptionButton />
         <AudioDescriptionButton />
-        <LanguagePickerButton />
+        {
+          hasTrans
+          &&
+          <LanguagePickerButton />
+        }
         {
           showScreenModes 
           && 

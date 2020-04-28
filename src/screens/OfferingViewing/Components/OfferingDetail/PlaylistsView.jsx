@@ -40,7 +40,7 @@ export default function PlaylistsView({
               onClick={() => handleClick(playlist)}
               aria-label={`Playlist: ${playlist.name}`}
             >
-              <p className="playlist-name"><i className="material-icons">video_library</i>{playlist.name}</p>
+              <div className="playlist-name"><i className="material-icons">video_library</i>{playlist.name}</div>
               {/* <p className="playlist-vnum">{playlist.medias.length} video(s)</p> */}
               <i className="material-icons pl-icon">chevron_right</i>
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import _ from 'lodash'
 // UI
@@ -9,14 +9,51 @@ import StarredSection from './StarredSection'
 import HistorySection from './HistorySection'
 import './index.css'
 // Vars
-import { util } from '../../../../../utils'
+import { util, user, api, prompt } from 'utils'
 
-function Section({ history, depart={}, state, offerings=[], starredOfferings=[], watchHistory=[], type, ...functions }) {
+const UNLOAD = ['unload']
+const EMPTY = ['empty']
+
+
+function Section({ 
+  history, 
+  depart={}, 
+  state, 
+  offerings=[], 
+  starredOfferings=[], 
+  type, 
+  ...functions 
+}) {
+
   const { universities } = state
   const uni = _.find(universities, { id: depart.universityId }) || {}
 
   const [showAll, setShowAll] = useState(false)
   const [isFolded, setisFolded] = useState(false)
+  const [watchHistory, setWatchHistory] = useState(EMPTY)
+
+  const getUserWatchHistories = async () => {
+    try {
+      setWatchHistory(UNLOAD)
+      let { data } = await api.getUserWatchHistories()
+
+      if (data.length < 1) {
+        setWatchHistory(EMPTY)
+        return
+      }
+
+      setWatchHistory(data)
+    } catch (error) {
+      setWatchHistory(EMPTY)
+      // prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' })
+    }
+  }
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      getUserWatchHistories()
+    }
+  }, [])
 
   // Functions handling states' changes
   const handleShowAll = () => {
@@ -43,7 +80,7 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
     sectionTitle = { title: <><Icon name="bookmark" /> Starred Courses</>, subtitle: ''} 
     
   } else if (type === 'history') {
-    if (watchHistory.length < 5) return null
+    if (watchHistory === EMPTY) return null
     sectionTitle = { title: <><Icon name="history" /> Continue Watching</>, subtitle: ''}
   }
 
@@ -76,8 +113,8 @@ function Section({ history, depart={}, state, offerings=[], starredOfferings=[],
         : 
         type === 'history' ?
           <HistorySection
-            watchHistory={watchHistory}
             offerings={offerings}
+            watchHistory={watchHistory}
           />
         :
         null

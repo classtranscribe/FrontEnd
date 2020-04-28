@@ -18,8 +18,9 @@ function SearchResult({ loading, results, searchValue }) {
                   state: { from: 'search', offering: result, searchedValue: searchValue }
                 }}>{result.fullNumber}</Link>
               </p>
-              <p className="offering-name">{result.courseName}&ensp;<span>{result.description}</span></p>
-              <p className="text-muted">{result.termName}&ensp;{result.sectionName}</p>
+              <p className="offering-name">{result.courseName}</p>
+              <p className="offering-description">{result.description}</p>
+              <p className="offering-section">{result.termName} | {result.sectionName}</p>
             </List.Content>
           </List.Item>
         ))}
@@ -30,7 +31,7 @@ function SearchResult({ loading, results, searchValue }) {
         && 
         <div className="search-empty-result">
           {
-            user.isLoggedIn() ?
+            user.isLoggedIn ?
             <span>No Results</span>
             :
             <>

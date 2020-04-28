@@ -2,7 +2,7 @@
  * Functions for controlling video players
  */
 import _ from 'lodash'
-import { userAction } from '../../../utils'
+import { userAction, api, user, util } from '../../../utils'
 import { transControl } from './trans.control'
 import { preferControl } from './preference.control'
 import { isMobile } from 'react-device-detect'
@@ -35,13 +35,14 @@ export const videoControl = {
   videoNode2: null,
   duration: 0,
   isFullscreen: false,
+  timeRestored: false,
 
   // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans, 
   // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent, 
   // changeVideo, timeUpdate
   externalFunctions: {}, 
 
-  init: function(videoNode1, videoNode2, props) {
+  init(videoNode1, videoNode2, props) {
     this.videoNode1 = videoNode1
     this.videoNode2 = videoNode2
     const { 
@@ -63,14 +64,19 @@ export const videoControl = {
     
     this.addEventListenerForFullscreenChange()
     this.addEventListenerForMouseMove()
-    this.playbackrate(preferControl.defaultPlaybackRate())
+
+    // initialize default settings
+    this.playbackrate(preferControl.defaultPlaybackRate(), false)
+    this.volume(preferControl.defaultVolume(), false)
+    this.mute(preferControl.muted(), false)
 
     if (this.videoNode2) {
       this.SCREEN_MODE = PS_MODE
     }
   },
 
-  clear: function() {
+  clear() {
+    this.timeRestored = false
     this.isSwitched = false
     this.isFullscreen = false
     this.SCREEN_MODE = NORMAL_MODE
@@ -87,12 +93,22 @@ export const videoControl = {
     this.ctpSecEvent = CTP_LOADING
   },
 
-  isTwoScreen: function() {
+  handleRestoreTime(media) {
+    let search = util.links.useSearch()
+    let begin = search.begin || media.watchHistory.timestamp
+    if (Boolean(begin) && !this.timeRestored) {
+      this.currTime(Number(begin))
+      this.timeRestored = true
+      window.history.replaceState(null, null, util.links.watch(media.id) )
+    }
+  },
+
+  isTwoScreen() {
     return Boolean(this.videoNode2)
   },
 
   isSwitched: false,
-  switchVideo: function(bool) {
+  switchVideo(bool) {
     if (!Boolean(this.videoNode2)) return;
     const toSet = bool === undefined ? !this.isSwitched : bool
     const { switchScreen } = this.externalFunctions
@@ -102,7 +118,7 @@ export const videoControl = {
 
   SCREEN_MODE: NORMAL_MODE,
   LAST_SCREEN_MODE: NORMAL_MODE,
-  mode: function(mode, config={}) {
+  mode(mode, config={}) {
     const { setMode } = this.externalFunctions
     const { sendUserAction=true, restore=false } = config
     if (setMode) {
@@ -120,7 +136,7 @@ export const videoControl = {
       if (sendUserAction) userAction.screenmodechange(this.currTime(), mode)
     }
   },
-  addWindowEventListener: function() {
+  addWindowEventListener() {
     const that = this
     if (isMobile) {
       window.addEventListener('orientationchange', () => {
@@ -143,12 +159,12 @@ export const videoControl = {
   },
 
   PAUSED: true,
-  paused: function() {
+  paused() {
     if (!this.videoNode1) return;
     return this.videoNode1.paused
   },
 
-  handlePause: function(bool) {
+  handlePause(bool) {
     if (!this.videoNode1) return;
     if (bool === undefined) bool = this.videoNode1.paused
     if (Boolean(bool)) {
@@ -158,21 +174,30 @@ export const videoControl = {
     }
   },
 
-  pause: function() {
-    if (this.videoNode1) this.videoNode1.pause()
-    if (this.videoNode2) this.videoNode2.pause()
+  async pause() {
+    try {
+      if (this.videoNode1) await this.videoNode1.pause()
+      if (this.videoNode2) await this.videoNode2.pause()
+    } catch (error) {
+      return
+    }
 
     const { setPause } = this.externalFunctions
     if (setPause) {
       setPause(true)
       this.PAUSED = true
       userAction.pause(this.currTime())
+      this.sendMediaHistories()
     }
   },
 
-  play: function()  {
-    if (this.videoNode1) this.videoNode1.play()
-    if (this.videoNode2) this.videoNode2.play()
+  async play()  {
+    try {
+      if (this.videoNode1) await this.videoNode1.play()
+      if (this.videoNode2) await this.videoNode2.play()
+    } catch (error) {
+      return
+    }
 
     const { setPause } = this.externalFunctions
     if (setPause) {
@@ -182,7 +207,7 @@ export const videoControl = {
     }
   },
 
-  currTime: function(time) {
+  currTime(time) {
     if (!this.videoNode1) return;
     if (time === undefined) return this.videoNode1.currentTime
 
@@ -193,9 +218,10 @@ export const videoControl = {
     if (setTime) {
       setTime(time)
       transControl.updateCaption(time)
+      this.sendMediaHistories()
     }
   },
-  forward: function(sec=10) {
+  forward(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
     if (now + sec < this.duration) {
@@ -204,7 +230,7 @@ export const videoControl = {
       this.currTime(this.duration)
     }
   },
-  rewind: function(sec=10) {
+  rewind(sec=10) {
     if (!this.videoNode1) return;
     let now = this.currTime()
     if (now - sec > 0) {
@@ -213,27 +239,30 @@ export const videoControl = {
       this.currTime(0)
     }
   },
-  seekToPercentage: function(p=0) {
+  seekToPercentage(p=0) {
     if (typeof p !== 'number' || p > 1 || p < 0) return;
     let seekTo = this.duration * p
     this.currTime(seekTo)
   },
 
-  replay: function() {
+  replay() {
     this.currTime(0)
     this.play()
   },
 
-  mute: function(bool) {
+  mute(bool, setstate=true) {
     if (!this.videoNode1) return;
     const toSet = bool === undefined ? !this.videoNode1.muted : bool
     this.videoNode1.muted = toSet
 
     const { setMute } = this.externalFunctions
-    if (setMute) setMute(toSet)
+    if (setMute && setstate) {
+      preferControl.muted(toSet)
+      setMute(toSet)
+    }
   },
 
-  volume: function(volume) {
+  volume(volume, setstate=true) {
     if (!this.videoNode1) return;
     if (volume === undefined) return this.videoNode1.volume
     
@@ -241,26 +270,31 @@ export const videoControl = {
     this.videoNode1.volume = Number(volume)
 
     const { setVolume } = this.externalFunctions
-    if (setVolume) setVolume(Number(volume))
+    if (setVolume && setstate) {
+      setVolume(Number(volume))
+      preferControl.defaultVolume(volume)
+    }
   },
 
-  playbackrate: function(playbackRate) {
+  playbackrate(playbackRate, setstate=true) {
     if (!this.videoNode1) return;
     if (playbackRate === undefined) return this.videoNode1.playbackRate
     this.videoNode1.playbackRate = playbackRate
     if (this.videoNode2) this.videoNode2.playbackRate = playbackRate
 
     const { setPlaybackrate } = this.externalFunctions
-    if (setPlaybackrate) setPlaybackrate(playbackRate)
-    preferControl.defaultPlaybackRate(playbackRate)
-    userAction.changespeed(this.currTime(), playbackRate)
+    if (setPlaybackrate && setstate) {
+      setPlaybackrate(playbackRate)
+      preferControl.defaultPlaybackRate(playbackRate)
+      userAction.changespeed(this.currTime(), playbackRate)
+    }
   },
-  playbackRateIncrement: function() {
+  playbackRateIncrement() {
     if (!this.videoNode1) return;
     let currPlaybackRate = this.videoNode1.playbackRate
     if (currPlaybackRate + 0.25 <= 4) this.playbackrate( currPlaybackRate + 0.25 )
   },
-  playbackRateDecrease: function() {
+  playbackRateDecrease() {
     if (!this.videoNode1) return;
     let currPlaybackRate = this.videoNode1.playbackRate
     if (currPlaybackRate - 0.25 >= 0.25) this.playbackrate( currPlaybackRate - 0.25 )
@@ -268,7 +302,7 @@ export const videoControl = {
 
 
   /** Fullscreen */
-  addEventListenerForFullscreenChange: function() {
+  addEventListenerForFullscreenChange() {
     const { setFullscreen } = this.externalFunctions
     if (setFullscreen && !isMobile) {
       document.removeEventListener('fullscreenchange', onFullScreenChange, true)
@@ -276,7 +310,7 @@ export const videoControl = {
     }
   },
 
-  handleFullScreen: function() {
+  handleFullScreen() {
     if (!this.isFullscreen || isMobile) {
       this.enterFullScreen()
     } else {
@@ -284,7 +318,7 @@ export const videoControl = {
     }
   },
 
-  enterFullScreen: function() {
+  enterFullScreen() {
     if (!this.videoNode1) return;
     try {
       var elem = document.getElementById("watch-page") || {}
@@ -308,7 +342,7 @@ export const videoControl = {
     }
   },
 
-  exitFullScreen: function() {
+  exitFullScreen() {
     try {
       if (isMobile) {
         const elem = document.getElementById(this.isSwitched ? 'ct-video-2' : 'ct-video-1') || {}
@@ -334,11 +368,14 @@ export const videoControl = {
    * Media events
    * ***********************************************************************************************
    */
-  onPause: function(e) {
-    this.showControlBar()
+  onPause(e, paused) {
+    // this.showControlBar()
+    if (paused === false) {
+      this.pause()
+    }
   },
 
-  onDurationChange: function({ target: { duration } }) {
+  onDurationChange({ target: { duration } }) {
     const { setDuration } = this.externalFunctions
     setDuration(duration)
     this.duration = duration
@@ -348,7 +385,7 @@ export const videoControl = {
   lastTime: 0,
   lastUpdateCaptionTime: 0,
   lastSendUATime: 0,
-  onTimeUpdate: function({ target: { currentTime } }) {
+  onTimeUpdate({ target: { currentTime } }) {
     const { timeUpdate } = this.externalFunctions
     // Set current time
     if (Math.abs(currentTime - this.lastUpdateCaptionTime) >= 1) {
@@ -361,11 +398,12 @@ export const videoControl = {
     if (Math.abs(currentTime - this.lastSendUATime) >= 15) {
       userAction.timeupdate(this.currTime())
       this.lastSendUATime = currentTime
+      this.sendMediaHistories()
     } 
   },
 
   lastBuffered: 0,
-  onProgress: function({ target: { buffered, currentTime, duration } }) {
+  onProgress({ target: { buffered, currentTime, duration } }) {
     // console.log('buffered', buffered)
     if (duration > 0) {
       for (var i = 0; i < buffered.length; i++) {
@@ -379,7 +417,7 @@ export const videoControl = {
 
   ctpPriEvent: CTP_LOADING,
   ctpSecEvent: CTP_LOADING,
-  setCTPEvent: function(event=CTP_PLAYING, priVideo=true) {
+  setCTPEvent(event=CTP_PLAYING, priVideo=true) {
     const { setCTPPriEvent, setCTPSecEvent } = this.externalFunctions
     if (priVideo) {
       setCTPPriEvent(event)
@@ -390,60 +428,62 @@ export const videoControl = {
     }
   },
 
-  onLoadStart: function(e, priVideo=true) {
+  onLoadStart(e, priVideo=true) {
     this.setCTPEvent(CTP_LOADING, priVideo)
   },
 
-  onLoadedData: function(e, priVideo=true) {
+  onLoadedData(e, priVideo=true) {
     this.setCTPEvent(CTP_PLAYING, priVideo)
   },
 
   video1CanPlay: false,
   video2CanPlay: false,
   canPlayDone: false,
-  onCanPlay: function(e, priVideo) {
+  onCanPlay(e, priVideo, media) {
     if (this.canPlayDone || !preferControl.autoPlay()) return;
     if (priVideo) { 
       this.video1CanPlay = true
       if (this.video2CanPlay || !Boolean(this.videoNode2)) {
         this.canPlayDone = true
+        this.handleRestoreTime(media)
         return this.play()
       }
     } else {
       this.video2CanPlay = true
       if (this.video1CanPlay) {
         this.canPlayDone = true
+        this.handleRestoreTime(media)
         return this.play()
       }
     }
   },
 
-  onWaiting: function(e, priVideo=true) {
+  onWaiting(e, priVideo=true) {
     this.setCTPEvent(CTP_LOADING, priVideo)
   },
 
-  onPlaying: function(e, priVideo=true) {
+  onPlaying(e, priVideo=true) {
     if (this.PAUSED) this.play()
     this.setCTPEvent(CTP_PLAYING, priVideo)
   },
 
-  onEnded: function(e) {
+  onEnded(e) {
     this.setCTPEvent(CTP_ENDED)
     this.pause()
   },
 
-  onError: function(e, priVideo=true) {
+  onError(e, priVideo=true) {
     this.setCTPEvent(CTP_ERROR, priVideo)
   },
 
-  onSeeking: function(e) {
+  onSeeking(e) {
     if (this.ctpPriEvent === CTP_ENDED || this.ctpPriEvent === CTP_UP_NEXT) {
       this.setCTPEvent(CTP_PLAYING)
     }
     userAction.seeking(this.currTime())
   },
 
-  onSeeked: function(e) {
+  onSeeked(e) {
     userAction.seeked(this.currTime())
   },
 
@@ -455,7 +495,7 @@ export const videoControl = {
    * ***********************************************************************************************
    */
 
-  findUpNextMedia: function({
+  findUpNextMedia({
     currMediaId='',
     playlist,
   }) {
@@ -463,8 +503,15 @@ export const videoControl = {
     return next
   },
 
+  async sendMediaHistories() {
+    let { id } = setup.media()
+    if (id && user.isLoggedIn) {
+      await api.sendMediaWatchHistories(id, this.currTime(), (this.currTime() / this.duration) * 100)
+    }
+  },
+
   timeOut: null,
-  addEventListenerForMouseMove: function() {
+  addEventListenerForMouseMove() {
     // let video = this
     // window.addEventListener('mousemove', function() {
     //   clearTimeout(this.timeOut);
@@ -478,7 +525,7 @@ export const videoControl = {
     //   }
     // })
   },
-  showControlBar: function() {
+  showControlBar() {
     // $("#watch-ctrl-bar").show();
     // clearTimeout(this.timeOut);
   },

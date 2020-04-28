@@ -27,7 +27,6 @@ export const mediaControl = {
    * ************************************************************************
    */
   deleteMedia: async function(media, bulkDelete=false) {
-    // if (!bulkDelete) promptControl.deleting()
     try {
       await api.deleteMedia(media.id)
       let playlist = setup.playlist()
@@ -46,9 +45,7 @@ export const mediaControl = {
     return false
   },
 
-  renameMedia: async function(media, newName) {
-    promptControl.saving()
-    
+  renameMedia: async function(media, newName) {    
     try {
       await api.renameMedia(media.id, newName)
       // update the local media object
@@ -95,6 +92,7 @@ export const mediaControl = {
       playlist.medias.push(newMedia)
     } catch (error) {
       console.error('Failed to upload media')
+      promptControl.error('upload video ' + video1.name)
     }
     // setup.playlist({ ...playlist })
   },
@@ -157,6 +155,8 @@ export const mediaControl = {
 
   selectAll: function(results) {
     if (this.isSelectedAll(results)) {
+      this.setSelectedVideos({})
+    } else if (this.selectedVideosLength(this.selectedVideos) > 0) {
       this.setSelectedVideos({})
     } else {
       let selectedVideos = {}

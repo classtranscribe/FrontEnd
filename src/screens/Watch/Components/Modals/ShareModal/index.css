@@ -8,6 +8,7 @@
 .wml-share-url input {
   color: white;
   width: 30em;
+  min-width: 0;
 }
 .wml-share-url input:focus {
   outline: auto;
@@ -52,16 +53,16 @@
 
 .wml-share-radio-label {
   font-size: 1.2em;
-  margin-left: 1em;
+  margin: 0 1em;
 }
 
 .wml-share-time {
-  display: none;
+  opacity: .5;
   align-items: center;
 }
 
 .wml-share-time[data-show=true] {
-  display: flex;
+  opacity: 1;
 }
 
 .wml-share-time input {
@@ -72,5 +73,10 @@
   width: 4em;
   text-align: center;
   font-size: 1.2em;
-  margin-left: 1em;
+}
+
+@media screen and (max-width: 550px) {
+  .wml-share-time {
+    display: none;
+  }
 }

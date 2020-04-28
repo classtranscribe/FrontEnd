@@ -6,8 +6,16 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import _ from 'lodash'
 // UIs
-import { CTContext, SidebarDimmer } from '../../components'
-import { Sidebar, Home, Starred, History, Search, OfferingDetail, Analytics } from './Components'
+import { SidebarDimmer } from '../../components'
+import { 
+  Sidebar, 
+  Home, 
+  Starred, 
+  History, 
+  Search, 
+  OfferingDetail, 
+  Analytics 
+} from './Components'
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
@@ -17,10 +25,10 @@ import { api, user } from '../../utils'
 export class OfferingViewing extends React.Component {
   constructor(props) {
     super(props)
-    this.isLoggedIn = user.isLoggedIn()
+    this.isLoggedIn = user.isLoggedIn
 
     this.state = {
-      displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn()*/) ? false : true,
+      displaySideBar: (window.innerWidth < 900 /*|| user.isLoggedIn*/) ? false : true,
       displaySearchHeader: (window.innerWidth < 600) ? false : true,
 
       offerings: ['Unloaded'],
@@ -51,7 +59,7 @@ export class OfferingViewing extends React.Component {
 
       if (window.innerWidth < 900 && displaySideBar) 
         this.setState({ displaySideBar: false })
-      else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn()*/) 
+      else if (window.innerWidth >= 900 && !displaySideBar/* && !user.isLoggedIn*/) 
         this.setState({ displaySideBar: true })
     })
   }
@@ -60,7 +68,7 @@ export class OfferingViewing extends React.Component {
     this.setState({ offerings: ['Unloaded'] })
     api.getOfferingsByStudent()
       .then(({data}) => {
-        this.completeOfferings((data.slice() || []).reverse())
+        this.completeOfferings((data || []).slice().reverse())
         api.contentLoaded()
       })
       .catch(error => {
@@ -156,7 +164,7 @@ export class OfferingViewing extends React.Component {
             />   
             <Sidebar {...this} />
 
-            <main className="sp-content" style={paddingLeft} data-scroll>
+            <main id="sp-content" className="sp-content" style={paddingLeft} data-scroll>
               <Switch location={location}>
                 {/* Unauthed home page */}
                 <Route 
@@ -196,5 +204,3 @@ export class OfferingViewing extends React.Component {
     )
   }
 }
-
-OfferingViewing.contextType = CTContext

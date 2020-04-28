@@ -2,10 +2,10 @@
 .ct-player-primary {
   background: black;
   overflow: hidden;
-  top: 60px;
+  top: 50px;
   left: 1vw;
   width: 60vw;
-  height: calc(100vh - 60px - 60px);
+  height: calc(100% - 50px - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,11 +17,6 @@
 }
 
 
-/* .ct-player-primary[mode=ps-mode], 
-.ct-player-primary[mode=nested-mode], 
-.ct-player-primary[mode=normal-mode] {
-  
-} */
 .ct-player-primary[mode=bulk-edit-mode] {
   width: 35em;
   top: 5em;
@@ -35,8 +30,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 90vh;
-  max-height: calc(100vh - 5em - 4em);
+  height: 90%;
+  max-height: calc(100% - 5em - 4em);
   overflow: hidden;
 }
 .ct-player-secondary[mode=theatre-mode] {
@@ -81,14 +76,14 @@
 
 /* Trans hide */
 .ct-player-primary[data-trans-view*=Hide][mode=normal-mode], .ct-player-primary[data-trans-view*=Hide][mode=nested-mode] {
-  top: 8vh;
+  top: 8%;
   left: calc((100vw - 80vw)/2);
   width: 80vw;
-  height: 85vh;
+  height: 85%;
 }
 
 .ct-player-secondary[data-trans-view*=Hide][mode=ps-mode] {
-  height: calc(100vh - 4.5em - 6em);
+  height: calc(100% - 4.5em - 6em);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -127,13 +122,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 90vh;
-    max-height: calc(100vh - 5em - 4em);
+    height: 90%;
+    max-height: calc(100% - 5em - 4em);
     overflow: hidden;
   }
 
   .ct-player-secondary[data-trans-view*=Hide][mode=nested-mode] {
-    top: 30vh;
+    top: 30%;
     right: 2vw;
   }
 }
@@ -142,7 +137,7 @@
   top: 20px !important;
   left: 0 !important;
   width: 100vw !important;
-  height: calc(100vh - 20px - 60px);
+  height: calc(100% - 20px - 60px);
 }
 .ct-player-secondary[data-fullscreen=true] {
   display: none !important;

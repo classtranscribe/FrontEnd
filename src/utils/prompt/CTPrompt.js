@@ -9,6 +9,17 @@ import {
   createPromptElem,
 } from './prompt-creators'
 
+const defaultPrompt = {
+  text: '',
+  header: '',
+  status: 'primary',
+  contact: false,
+  refresh: false,
+  timeout: -1,
+  position: 'right bottom',
+  offset: [-1, -1],
+}
+
 /**
  * Class used to create and handle prompt component
  */
@@ -42,7 +53,11 @@ export class CTPrompt {
 
     if (this.promptIds.length === 0) {
       const promptEl = document.getElementById(PROMPT_ID)
-      setTimeout(() => promptEl.remove(), 100)
+      setTimeout(() => {
+        if (promptEl) {
+          promptEl.remove()
+        }
+      }, 100)
     }
   }
 
@@ -59,13 +74,16 @@ export class CTPrompt {
 
   /**
    * Add one prompt box
-   * @param {Object} prompt - the prompt config 
+   * @param {Object} prompt - the prompt config | `text` of the prompt
    * @param {String} prompt.text - The text in prompt
+   * @param {String} prompt.header - The header in prompt
    * @param {String} prompt.status - determines the color of the prompt box
    * @param {Boolean} prompt.contact - true if add a contact link
    * @param {Boolean} prompt.refresh - true if add a refresh page trigger
-   * @param {Number} prompt.timeout - the close timeout
+   * @param {Number} prompt.timeout - the close timeout : default `5000ms`
    * @param {String} prompt.position - The position of the prompt
+   * @param {Number[]} prompt.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Boolean} replace true if close other exisiting prompts
    * 
    * @property status - determines the color of the prompt box
    * - in 'primary', 'success', 'error' (default 'primary')
@@ -74,23 +92,24 @@ export class CTPrompt {
    * 
    * @returns {void}
    */
-  addOne(prompt={
-    text: '',
-    status: 'primary',
-    contact: false,
-    refresh: false,
-    timeout: -1,
-    position: 'right bottom',
-  }) {
+  addOne(prompt, replace=false) {
+
+    if (typeof prompt === 'string') {
+      this.addOne({ ...defaultPrompt, text: prompt })
+    }
 
     const {
       text='',
+      header='',
       status='primary',
       contact=false,
       refresh=false,
-      timeout= -1,
+      timeout=5000,
       position='right bottom',
+      offset=[-1, -1],
     } = prompt
+
+    if (replace) this.closeAll()
     
     const onClose = this.close
     const promptEl = document.getElementById(PROMPT_ID)
@@ -98,20 +117,24 @@ export class CTPrompt {
 
     if (promptEl) {
       newBoxEl = createPromptBoxElem(text, {
+        header,
         status,
         contact,
         refresh,
         onClose,
+        offset,
       })
 
       promptEl.appendChild(newBoxEl)
     } else {
       newBoxEl = createPromptElem(text, {
+        header,
         status,
         contact,
         refresh,
         position,
         onClose,
+        offset,
       })
     }
 
@@ -124,13 +147,16 @@ export class CTPrompt {
 
   /**
    * Add one prompt box
-   * @param {Object[]} prompts
+   * @param {Object[]} prompts the prompt objects | texts
    * @param {String} prompts[].text - The text in prompt
+   * @param {String} prompts[].header - The header in prompt
    * @param {String} prompts[].status - determines the color of the prompt box
    * @param {Boolean} prompts[].contact - true if add a contact link
    * @param {Boolean} prompts[].refresh - true if add a refresh page trigger
    * @param {Number} prompts[].timeout - the close timeout
    * @param {String} prompts[].position - The position of the prompt
+   * @param {Number[]} prompts[].offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Boolean} replace true if close other exisiting prompts
    * 
    * @property status - determines the color of the prompt box
    * - in 'primary', 'success', 'error' (default 'primary')
@@ -139,7 +165,62 @@ export class CTPrompt {
    * 
    * @returns {void}
    */
-  addMany(prompts=[]) {
+  addMany(prompts=[], replace=false) {
+    if (replace) this.closeAll()
     _.forEach(prompts, prp => this.addOne(prp))
+  }
+
+  /**
+   * * Add one prompt box
+   * @param {Object|Object[]} prompt - the prompt config | `text` of the prompt
+   * @param {String} prompt.text - The text in prompt
+   * @param {String} prompt.header - The header in prompt
+   * @param {String} prompt.status - determines the color of the prompt box
+   * @param {Boolean} prompt.contact - true if add a contact link
+   * @param {Boolean} prompt.refresh - true if add a refresh page trigger
+   * @param {Number} prompt.timeout - the close timeout
+   * @param {String} prompt.position - The position of the prompt
+   * @param {Number[]} prompt.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Boolean} replace true if close other exisiting prompts
+   */
+  push(prompt, replace) {
+    if (Array.isArray(prompt)) {
+      this.addMany(prompt, replace)
+    } else {
+      this.addOne(prompt, replace)
+    }
+  }
+
+  /**
+   * * Add one prompt box
+   * @param {Object} message - the prompt config | `text` of the prompt
+   * @param {String} message.text - The text in prompt
+   * @param {String} message.header - The header in prompt
+   * @param {String} message.status - determines the color of the prompt box
+   * @param {Boolean} message.contact - true if add a contact link
+   * @param {Boolean} message.refresh - true if add a refresh page trigger
+   * @param {Number} message.timeout - the close timeout
+   * @param {String} message.position - The position of the prompt
+   * @param {Number[]} message.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Number} timeout the close timeout
+   */
+  error(message, timeout=-1) {
+    if (Array.isArray(message)) {
+      message.forEach( mesg => this.error(mesg) )
+    } else {
+
+      if (typeof message === 'string') {
+        message = { text: message }
+      }
+
+      let prompt = {
+        ...defaultPrompt,
+        ...message,
+        timeout: timeout,
+        status: 'error',
+      }
+
+      this.addOne(prompt, false)
+    }
   }
 }

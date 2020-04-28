@@ -3,10 +3,13 @@ import { user } from '../../user'
 import { env } from '../../env'
 
 /**
- * 
- * @param {*} courses 
- * @param {*} separator 
- * @returns {} parsed offering
+ * Generate full number based on the courses
+ * @param {Object[]} courses 
+ * @param {String} courses[].departmentAcronym
+ * @param {String} courses[].acronym
+ * @param {String} courses[].courseNumber
+ * @param {String} separator 
+ * @returns {String} full number based on the courses
  */
 export function getFullNumber(courses, separator) {
     var name = ''
@@ -60,7 +63,7 @@ export function parseSingleOffering(rawOffering) {
         instructorIds,
         termName: term.name,
         fullNumber: getFullNumber(courses),
-        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin(),
+        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin,
         instructor: instructorIds ? {
             ...(instructorIds[0] ? instructorIds[0] : {}),
             fullName: instructorIds[0] ? instructorIds[0].firstName + ' ' + instructorIds[0].lastName : ''
@@ -68,6 +71,37 @@ export function parseSingleOffering(rawOffering) {
     }
 }
 
+/**
+ * Function used to parse offerings response
+ * @param {Object} rawOfferings 
+ * @returns {{
+ *  id: string,
+ *  fullNumber: string,
+ *  courseName: string,
+ *  description: string,
+ *  accessType: number,
+ *  sectionName: string,
+ *  universityId: string,
+ *  termId: string,
+ *  termName: string,
+ *  departmentIds: [string],
+ *  isTestCourse: boolean,
+ *  instructorIds: [{
+ *      id: string,
+ *      email: string,
+ *      firstName: string,
+ *      lastName: string
+ *  }],
+ *  instructor: {
+ *      id: string,
+ *      email: string,
+ *      fullName: string,
+ *      firstName: string,
+ *      lastName: string
+ *  },
+ *  jsonMetadata?: object,
+ * }[]} parsed offerings data
+ */
 export function parseOfferings(rawOfferings) {
     const parsedOfferings = []
     for (let i = 0; i < rawOfferings.length; i++) {
@@ -86,11 +120,13 @@ export function parseOfferings(rawOfferings) {
  *  id:string,
  *  createdAt: string,
  *  mediaName: string,
- *  sourceType:number,
- *  isTwoScreen:boolean,
- *  videos:[{srcPath1:string,srcPath2:string}],
- *  transcriptions:[{id:string,language:string,src:string}],
- *  isUnavailable:boolean,transReady:boolean
+ *  sourceType: number,
+ *  isTwoScreen: boolean,
+ *  videos: {srcPath1: string, srcPath2: string}[],
+ *  transcriptions: {id: string, language: string, src: string}[],
+ *  isUnavailable: boolean,
+ *  transReady: boolean,
+ *  watchHistory: { timestamp: number, ratio: number }
  * }} the parsed media data 
  */
 export function parseMedia(media) {
@@ -104,6 +140,7 @@ export function parseMedia(media) {
         transcriptions: [],
         isUnavailable: true,
         transReady: false,
+        watchHistory: { timestamp: 0, ratio: 0 }
     }
 
     // console.log(media)
@@ -118,6 +155,7 @@ export function parseMedia(media) {
         video, 
         transcriptions, 
         ready,
+        watchHistory,
     } = media
     
     if (!id || !jsonMetadata) return re
@@ -157,5 +195,11 @@ export function parseMedia(media) {
         }
     })
 
+    /** Watch history */
+    if (watchHistory && watchHistory.json && watchHistory.json.ratio) {
+        re.watchHistory = watchHistory.json
+        // re.watchHistory.ratio *= 100
+    }
+
     return re
-  }
+}

@@ -16,7 +16,7 @@ function VolumeControl({
 
     videoControl.volume(value)
 
-    if (value < 0.1) {
+    if (value < 0.04) {
       videoControl.mute(true)
     }
   }
@@ -32,7 +32,7 @@ function VolumeControl({
     }
   }
 
-  const iconName = muted ? 'volume_off' : volume >= 0.5 ? 'volume_up' : 'volume_down'
+  const iconName = (muted || volume < 0.04) ? 'volume_off' : volume >= 0.5 ? 'volume_up' : 'volume_down'
 
   return (
     <div className="watch-volume-ctrl">
@@ -74,6 +74,7 @@ function VolumeControl({
             min={0} 
             max={1}
             step={0.05}
+            value={muted ? 0 : volume}
             onKeyDown={handleVolumeKeyDown}
             onChange={handleVolumeChange}
           />

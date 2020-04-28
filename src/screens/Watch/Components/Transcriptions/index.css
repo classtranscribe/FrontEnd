@@ -3,7 +3,7 @@
   left: 62vw;
   top: 5em !important;
   width: 38vw;
-  height: calc(100vh - 6em);
+  height: calc(100% - 6em);
   /* background: grey; */
   overflow-x: hidden;
   overflow-y: auto !important;
@@ -58,23 +58,23 @@
     padding: 0 1em;
   }
   .trans-box {
-    padding-top: calc(65vh);
+    padding-top: calc(65%);
     width: 100%;
   }
   .trans-article {
     padding-left: 1em;
   }
 }
-@media screen and (max-width: 700px) {
+/* @media screen and (max-width: 700px) {
   .trans-box {
-    padding-top: calc(50vh);
+    padding-top: calc(50%);
   }
 }
 @media screen and (max-width: 500px) {
   .trans-box {
-    padding-top: calc(40vh);
+    padding-top: calc(40%);
   }
-}
+} */
 
 .watch-trans-place-holder {
   width: 100%;

@@ -7,8 +7,8 @@
     padding: 0;
     margin: 0;
     color: var(--ct-text-primary-light);
-    font-family: var(--ct-font-google);
-    font-size: 1.3rem;}
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 25px;}
     .sp-home .offering-list .section .title span {
       color: rgb(104, 104, 104);
       font-size: 1.1rem;
@@ -23,7 +23,7 @@
         padding-left: 1em;}
         .sp-home .offering-list .section .title span {
           display: block;
-          padding-left: 1em;
+          margin-left: 0;
         }
     }
 
@@ -73,14 +73,14 @@
 
   .sp-home .offering-list .section .offerings {
     position: relative;
-    width: 104%;
+    width: 100%;
     display: flex;
     flex-wrap: nowrap;
     height: max-content;
     overflow-x: auto;
-    padding-left: 2%;
-    margin-left: -2%;
-    margin-right: -2%;
+    padding-left: 10px;
+    margin-top: 5px;
+    padding-bottom: 1em;
     -webkit-overflow-scrolling: touch;}
     .sp-home .offering-list .section .offerings[id=starred-offerings] {
       padding-bottom: 1em;
@@ -187,13 +187,16 @@
     background: #ffffff !important;
     width: 16rem;
     height: 9rem;
-    box-shadow: .5em .6em .8em rgb(149, 149, 149);
+    box-shadow: .5em .6em .8em rgba(149, 149, 149, 0.637);
     border: 0.1rem solid transparent;
   }
-.sp-home .offering-list .section .offerings .offeringCard:hover, .sp-home .offering-list .section .offerings a {
+.sp-home .offering-list .section .offerings .offeringCard[data-mobile=false]:hover, 
+.sp-home .offering-list .section .offerings a {
   outline: none;
 }
-.sp-home .offering-list .section .offerings a:focus, .sp-home .offering-list .section .offerings a:active, .sp-home .offering-list .section .offerings .offeringCard:hover {
+.sp-home .offering-list .section .offerings a[data-mobile=false]:focus, 
+.sp-home .offering-list .section .offerings a[data-mobile=false]:active, 
+.sp-home .offering-list .section .offerings .offeringCard[data-mobile=false]:hover {
   border-radius: 10px !important;
   border-color:rgb(69, 165, 168);
 }
@@ -223,9 +226,10 @@
   color: var(--ct-text-primary-light);
   padding: 0;
   font-family: var(--ct-font-narrow);
+  font-weight: bold;
 }
 .sp-home .offering-list .section .offerings .offeringCard .title p {
-  font-family: var(--ct-font-google);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: var(--ct-text-title);
   font-weight: bold;
   width: 10em !important;
@@ -283,7 +287,7 @@
   cursor: default;
   pointer-events: none;
 }
-.sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder]:hover {
+.sp-home .offering-list .section .offerings .offeringCard[id=offering-card-holder][data-mobile=false]:hover {
   border: 0.1rem solid transparent;
 }
 
@@ -299,7 +303,8 @@
   flex: 0 0 auto;
   /* box-shadow: .5em .6em .8em rgb(149, 149, 149); */
 }
-.media-card-container:hover .media-info .media-name, .media-card-container:focus-within .media-info .media-name {
+.media-card-container:hover .media-info .media-name, 
+.media-card-container:focus-within .media-info .media-name {
   /* border: 1px solid rgb(69, 165, 168); */
   /* border: 1px solid rgb(69, 165, 168) !important; */
   color: rgb(53, 138, 141);

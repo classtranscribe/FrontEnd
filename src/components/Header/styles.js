@@ -2,7 +2,7 @@ export const styles = {
   menu: {
     backgroundColor: '#306868', 
     color: 'rgb(236, 236, 236)',
-    width: '280px'
+    minWidth: '280px'
   },
 
   icon: { 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Popup } from 'semantic-ui-react'
+import { isMobile } from 'react-device-detect'
 
 export function StarredButton({ offeringId, position, starredOfferings=[], starOffering, unstarOffering }) {  
   const isStarred = starredOfferings.includes(offeringId)
@@ -52,7 +53,7 @@ export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
   if (!shouldDisplay) return null
   const content = isFolded ? 'Unfold' : 'Fold'
 
-  return (
+  return isMobile ? null : (
     <Popup 
       content={content}
       position="left center"

@@ -3,32 +3,38 @@ import { useHistory } from 'react-router-dom'
 import _ from 'lodash'
 import { Icon } from 'semantic-ui-react'
 import { VideoCard, PlaceHolder } from '../../../../components'
-import { api, util } from '../../../../utils'
+import { api, util, prompt } from '../../../../utils'
+
+const FAILED = { name: 'failed' }
 
 function VideoView({ 
   playlistId, 
-  playlists, 
   goBack, 
-  watchHistoryJSON 
 }) {
   const history = useHistory()
   const [playlist, setPlaylist] = useState({})
 
   useEffect(() => {
-    util.scrollToTop('.sp-content')
+    util.elem.scrollIntoView('sp-content')
     api.getPlaylistById(playlistId)
       .then(({ data }) => {
         _.reverse(data.medias)
         setPlaylist(data)
       })
-      .catch(error => console.error(error, 'Failed to load playlist.'))
+      .catch(error => {
+        console.error(error, 'Failed to load playlist.')
+        goBack()
+        prompt.addOne({
+          text: "Couldn't open the playlist, please sign in to see more."
+        }, true)
+      })
   }, [])
 
   useEffect(() => {
     if (playlist.id) {
       const { mid } = util.links.useSearch()
       if (mid) {
-        util.scrollToCenter('#' + mid)
+        util.elem.scrollIntoCenter(mid, { focus: true })
         history.replace(history.location.pathname)
       }
     }
@@ -50,13 +56,10 @@ function VideoView({
       </h2>
 
       <div role="list">
-        {(medias.slice() || []).reverse().map( media => (
+        {(medias || []).slice().reverse().map( media => (
           <Video 
             key={media.id} 
             media={media} 
-            playlist={playlist}
-            playlists={playlists}
-            watchHistoryJSON={watchHistoryJSON}
           />
         ))}
       </div>
@@ -64,17 +67,15 @@ function VideoView({
   ) : <PlaceHolder />
 }
 
-function Video({ media, playlist, playlists, watchHistoryJSON }) {
-  const { mediaName, id, isUnavailable } = api.parseMedia(media)
-  const { timeStamp, ratio } = watchHistoryJSON[id] || {}
+function Video({ media }) {
+  const { mediaName, id, isUnavailable, watchHistory } = api.parseMedia(media)
 
   return (
     <VideoCard row
       id={id}
       name={mediaName}
-      link={util.links.watch(id, { begin: timeStamp })}
-      ratio={ratio}
-      mediaState={{ playlist, playlists }}
+      link={util.links.watch(id)}
+      ratio={watchHistory.ratio}
       posterSize="150px"
       isUnavailable={isUnavailable}
     />

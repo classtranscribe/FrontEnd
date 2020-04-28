@@ -14,7 +14,7 @@ function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, histo
   return (
     <ClassTranscribeHeader display={displaySideBar} showSiderBar={showSiderBar}>
       {
-        (displaySearchHeader && window.location.pathname !== util.links.search())
+        (displaySearchHeader && !util.links.isEqual(util.links.search()))
         &&
         <div className="ui icon input header-search" >
           <label className="accessbility_hide" >Search for Courses</label>

@@ -1,5 +1,10 @@
-import auth0 from 'auth0-js';
-import { env } from '../env';
+import auth0 from 'auth0-js'
+import decoder from 'jwt-decode'
+import { env } from '../env'
+import { links } from 'utils/links'
+import { v4 as uuid } from 'uuid'
+
+export const REDIRECT_URL_KEY = 'redirect_url'
 
 export class CTAuth0 {
   constructor() {
@@ -31,30 +36,44 @@ export class CTAuth0 {
     return this.auth0Token
   }
 
-  getRedirectURL = () => this.redirectURL + this.redirectSearch
+  getRedirectURL = () => {
+    localStorage.removeItem(REDIRECT_URL_KEY)
+    return this.redirectURL || links.home()
+  }
   getRedirectSearch = () => this.redirectSearch
   getRedirectState = () => this.redirectState
 
   signIn() {
+    localStorage.setItem(REDIRECT_URL_KEY, window.location.href)
     this.auth0.authorize({
       appState: {
-        redirectURL: window.location.pathname,
-        redirectSearch: window.location.search,
-        redirectState: window.location.state
-      }
+        redirectURL: window.location.href
+      },
+      state: uuid()
     });
   }
 
   handleAuthentication() {
     const hash = window.location.hash
     return new Promise((resolve, reject) => {
-      this.auth0.parseHash({hash}, (err, authResult) => {
-        if (err) return reject(err);
-        if (!authResult || !authResult.idToken) {
-          return reject(err);
+      this.auth0.parseHash({ hash }, (err, authResult) => {
+
+        // In the worst case, manually parse the token
+        if (err) {
+          let { id_token } = links.useHash()
+          this.auth0Token = id_token
+          this.profile = decoder(id_token)
+          this.redirectURL = localStorage.getItem(REDIRECT_URL_KEY)
+          resolve();
         }
-        this.auth0Token = authResult.idToken;
-        this.profile = authResult.idTokenPayload;
+
+        if (!authResult || !authResult.idToken) {
+          return reject(err)
+        }
+
+        // get the user info from the auth0
+        this.auth0Token = authResult.idToken
+        this.profile = authResult.idTokenPayload
         this.redirectURL = authResult.appState.redirectURL
         this.redirectSearch = authResult.appState.redirectSearch
         this.redirectState = authResult.appState.redirectState
@@ -64,8 +83,6 @@ export class CTAuth0 {
   }
 
   signOut() {
-    this.profile = {}
-    this.idToken = ''
     this.auth0.logout({ 
       returnTo: window.location.origin
     })

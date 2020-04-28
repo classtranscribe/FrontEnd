@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { isBrowser } from 'react-device-detect'
 // UI
 import { Card } from 'react-bootstrap'
 import { StarredButton } from './Overlays'
@@ -14,7 +15,7 @@ export default function OfferingCard({ offering={}, starredOfferings=[], depart=
   const { id, fullNumber, termName, termId, sectionName, courseName, description } = offering
   if (termSelected.length && !termSelected.includes(termId)) return null;
 
-  const isLoggedIn = user.isLoggedIn()
+  const isLoggedIn = user.isLoggedIn
 
   return !fullNumber ? null :
     <div className="offering-card-container" role="listitem">
@@ -30,6 +31,7 @@ export default function OfferingCard({ offering={}, starredOfferings=[], depart=
       }
       <Card 
         className={`offeringCard ${image ? 'image-card' : 'basic-card'}`} 
+        data-mobile={!isBrowser}
         as={Link} 
         to={{
           pathname: util.links.offeringDetail(id),

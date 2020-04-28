@@ -8,8 +8,6 @@ import { util } from 'utils'
 export default function Playlists({ 
   accessType=0,
   playlists, 
-  fullNumber='', 
-  watchHistoryJSON 
 }) {
   const [playlistId, setPlaylistId] = useState('prev-')
 
@@ -50,9 +48,6 @@ export default function Playlists({
         :
         <VideoView 
           playlistId={playlistId} 
-          playlists={playlists}
-          courseNumber={fullNumber}
-          watchHistoryJSON={watchHistoryJSON}
           goBack={goBack} 
         />
       }

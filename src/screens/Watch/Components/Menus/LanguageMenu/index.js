@@ -1,11 +1,14 @@
 import React from 'react'
-import { connectWithRedux, transControl, langMap, langOptions } from '../../../Utils'
+import { connectWithRedux, transControl, langMap } from '../../../Utils'
 
 function LanguageMenu({
-  show=false,
+  media,
   currTrans={},
   onClose=null
 }) {
+
+  const { transcriptions } = media
+  let langOptions = (transcriptions || []).map(trans => trans.language)
 
   const handleChooseLanguage = lang => () => {
     transControl.setLanguage(lang)
@@ -48,6 +51,6 @@ function LanguageMenu({
 
 export default connectWithRedux(
   LanguageMenu,
-  ['currTrans'],
+  ['media', 'currTrans'],
   []
 )

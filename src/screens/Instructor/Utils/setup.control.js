@@ -25,13 +25,13 @@ export const setup = {
   init: function(props) {
     const { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, 
+      setPlaylists, setPlaylist, setOrdering,
       setLoading, setConfirmation, history
     } = props
 
     this.externalFunctions = { 
       setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, 
+      setPlaylists, setPlaylist, setOrdering,
       setLoading, setConfirmation, history
     }
   },
@@ -52,6 +52,11 @@ export const setup = {
   confirm: function(confirmation) {
     const { setConfirmation } = this.externalFunctions
     if (setConfirmation) setConfirmation(confirmation)
+  },
+
+  orderList: function(ordering) {
+    const { setOrdering } = this.externalFunctions
+    if (setOrdering) setOrdering(ordering)
   },
 
   offerings: function(offerings_) {
@@ -106,6 +111,7 @@ export const setup = {
 
   changeOffering: function(offering, updateSearch=true) {
     const { history } = this.externalFunctions
+    if (offering.id === this.offering().id) return
 
     this.playlists_ = []
     if (offering === NEW_OFFERING) {
@@ -138,9 +144,9 @@ export const setup = {
    */
 
   checkAuthentication: function() {
-    if (!user.isLoggedIn()) {
+    if (!user.isLoggedIn) {
       user.signin()
-    } else if (!user.isInstructor()) {
+    } else if (!user.isInstructor) {
       window.location = util.links.notfound404()
     }
     return true
@@ -153,7 +159,7 @@ export const setup = {
 
   getTermsByUniversityId: async function() {
     let { data } = await api.getTermsByUniId(user.getUserInfo().universityId)
-    return (data.slice() || []).reverse()
+    return (data || []).slice().reverse()
   },
 
   getFullNumber: function(offs) {
@@ -206,7 +212,7 @@ export const setup = {
     })
   
     // console.log('offerings', offerings)
-    return (offerings.slice() || []).reverse()
+    return (offerings || []).slice().reverse()
   },
 
   getLinkedUsersByOfferingId: async function(offeringId, callBack) {
@@ -228,7 +234,7 @@ export const setup = {
   getCourseOfferingsByInstructorId: async function(context) {
     this.errors = []
     try {
-      let { data } = await api.getCourseOfferingsByInstructorId(user.userId())
+      let { data } = await api.getCourseOfferingsByInstructorId(user.userId)
       let departments = await this.getDepartsByUniversityId()
       let terms = await this.getTermsByUniversityId()
       let offerings = this.parseCourseOfferings(data, departments, terms)
@@ -280,19 +286,6 @@ export const setup = {
     if (setPlaylist) {
       this.playlist_ = playlist_
       setPlaylist(playlist_)
-
-      /** 
-       * @TODO 
-       * - determine whether to use this 
-       */
-      // update window hash with playlistId
-      // if (playlist_ && playlist_.id) {
-      //   window.history.replaceState(
-      //     null, null, 
-      //     window.location.pathname +
-      //     '#pid=' + playlist_.id
-      //   )
-      // }
     }
   },
 
@@ -301,6 +294,10 @@ export const setup = {
       this.playlists_ = ARRAY_INIT
       let { data } = await api.getPlaylistsByOfferingId(offeringId)
       // if switched offering while loading data
+
+      // TEMPORARY: for sorting
+      data = _.map(data, (pl, index) => ({ ...pl, index }))
+
       if (data.length > 0 && data[0].offeringId !== setup.offering().id) return
 
       // otherwise, set playlists
@@ -325,10 +322,21 @@ export const setup = {
         this.changePlaylist(NEW_PLAYLIST)
         setResults([])
       } else {
-        // If playlists non-empty set result to playlists
-        if (!this.playlist().isNew) {
-          this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+        let { plid } = util.links.useSearch()
+        if (plid) { // if the plid is specified in the url
+          let requestPl = _.find(playlists, { id: plid })
+          if (requestPl) {
+            this.changePlaylist(requestPl)
+          } else {
+            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+          }
+        } else { // if the no plid is specified in the url
+          // If playlists non-empty set result to playlists
+          if (!this.playlist().isNew) {
+            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+          }
         }
+
         setResults(playlists)
       }
     } else {
@@ -338,14 +346,19 @@ export const setup = {
   },
 
   changePlaylist: async function(pl, setWithoutLoading=false) {
-    if (!pl.name || setWithoutLoading) return this.playlist(pl)
+    if (!pl.name || setWithoutLoading) {
+      return this.playlist(pl)
+    }
+
+    // prevent repeated set the same playlist
+    if (pl.id === this.playlist().id) return
 
     this.playlist({})
 
     let { data } = await api.getPlaylistById(pl.id)
     this.playlist(data)
-    // let pid = data.id
-    // window.history.replaceState(null, null, util.links.createHash({ ...util.links.useHash(), pid }))
+    // push plid into url
+    util.links.pushSearch({ plid: pl.id })
   },
 
   playlistToView: function(id) {
