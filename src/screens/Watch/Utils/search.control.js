@@ -92,8 +92,6 @@ class WatchSearch extends CTSearch {
 			status,
 			value: '',
 			inVideoTransResults: ARRAY_INIT, 
-			inVideoTransResultsAfterCurrent: ARRAY_INIT, 
-			inVideoTransResultsBeforeCurrent: ARRAY_INIT,
 			inCourseTransResults: ARRAY_INIT,
 			playlistResults: ARRAY_INIT,
 		})
