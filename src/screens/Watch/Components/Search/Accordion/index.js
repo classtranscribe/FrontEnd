@@ -4,6 +4,7 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -16,6 +17,9 @@ const useStyles = makeStyles({
             background: '#717171',
         }
     },
+    ExpandMoreIcon: {
+        color: 'white'
+    }
 });
 
 
@@ -72,22 +76,23 @@ export default function Accordion({ resultsEachItems, title }) {
     };
 
     return (
-        <div>
-            <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                <ExpansionPanelSummary
-                    aria-controls="panel1d-content"
-                    id="panel1d-header"
-                    classes={{ root: classes.ExpansionSummay }}
-                >
-                    <Typography>{title}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    {resultsEachItems}
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+        <ExpansionPanel>
+            <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon classes={{ root: classes.ExpandMoreIcon }}/>}
+                aria-controls="panel1d-content"
+                id="panel1d-header"
+                classes={{ root: classes.ExpansionSummay }}
+            >
+                <Typography>{title}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+            <Typography>
+                {resultsEachItems}
+            </Typography>
+            </ExpansionPanelDetails>
+        </ExpansionPanel>
+    )
 
-        </div>
-    );
 }
 
 
