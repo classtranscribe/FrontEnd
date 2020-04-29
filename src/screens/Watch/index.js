@@ -62,7 +62,7 @@ export class WatchWithRedux extends React.Component {
     /** Add resize event listener */
     videoControl.addWindowEventListener()
 
-    watchUserGuide.start()
+    // watchUserGuide.start()
   }
 
   componentWillUnmount() {

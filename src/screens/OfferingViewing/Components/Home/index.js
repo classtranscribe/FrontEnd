@@ -56,7 +56,7 @@ export class Home extends React.Component {
     util.fixForAccessbitity('widgets/scripts')
     util.fixForAccessbitity('formSearchDropdown')
 
-    homeUserGuide.start()
+    // homeUserGuide.start()
   }
 
   getDepartmentsByUniId = uniId => {

@@ -14,9 +14,6 @@ const guides = [
     },{
         element: 'a[data-rb-event-key="history"]',
         description: 'Browse your watch histories'
-    },{
-        element: '#header_search_input',
-        description: 'Find captions, video names and shortcuts'
     }
 ]
 
