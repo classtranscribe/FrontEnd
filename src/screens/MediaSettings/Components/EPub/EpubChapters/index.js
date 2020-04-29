@@ -16,7 +16,10 @@ function EpubChaptersWithRedux({
   // console.log('chapters', chapters)
 
   return (
-    <div className="msp-ee-el-con ct-d-c ct-a-fade-in" data-editing={isEditingEpub}>
+    <div data-scroll
+      className="msp-ee-el-con ct-d-c ct-a-fade-in" 
+      data-editing={isEditingEpub}
+    >
       <EpubHeader language={language}/>
 
       <div className="ct-d-c ee-el-chapters">

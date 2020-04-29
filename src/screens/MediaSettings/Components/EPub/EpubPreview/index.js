@@ -39,11 +39,11 @@ function EpubPreviewWithRedux({
   if (!isEditingEpub) otherProps['data-scroll'] = true
 
   return (
-    <div 
+    <div data-scroll
       id="msp-ee-ep-con" 
       className="msp-ee-ep-con ct-a-fade-in"
       data-editing={isEditingEpub}
-      {...otherProps}
+      // {...otherProps}
     >
       <ChapterView round
         shadow={isEditingEpub} 

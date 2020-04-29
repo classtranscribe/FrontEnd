@@ -2,11 +2,11 @@
 // ePub Preview
 ////////////////////////////////////////////////////////////
 .msp-ee-ep-con {
-  width: 45%;
-  padding: 60px 30px 150px 30px;
+  width: calc(43% - 15px);
+  padding: 60px 25px 150px 15px;
   position: sticky;
   top: 0;
-  height: calc(100vh - 85px);
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   transition: width 200ms linear;

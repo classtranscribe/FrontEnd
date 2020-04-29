@@ -62,7 +62,7 @@ export function EpubWithRedux({
 
   return (
     <div className="msp-ee-con ct-a-fade-in">
-      <div className="msp-ee" data-scroll>
+      <div className="msp-ee">
         {
           chapters === ARRAY_INIT
           ?

@@ -41,7 +41,8 @@
 .msp-ee-el-con {
   position: relative;
   display: flex;
-  width: 55%;
+  width: calc(57% + 15px);
+  padding-right: 15px;
   overflow-x: hidden;
 
   &[data-editing=false] { 
