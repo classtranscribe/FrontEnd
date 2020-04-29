@@ -4,81 +4,90 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    ExpansionSummay: {
+        background: '#4c4c4c',
+        color: 'white',
+        position: 'sticky',
+        top: '0px',
+        '&:hover': {
+            background: '#717171',
+        }
+    },
+});
+
 
 const ExpansionPanel = withStyles({
-  root: {
-    // border: '1px solid rgba(0, 0, 0, .125)',
-    boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
+    root: {
+        // border: '1px solid rgba(0, 0, 0, .125)',
+        boxShadow: 'none',
+        '&:not(:last-child)': {
+            borderBottom: 0,
+        },
+        '&:before': {
+            display: 'none',
+        },
+        '&$expanded': {
+            margin: 'auto',
+        },
     },
-    '&:before': {
-      display: 'none',
-    },
-    '&$expanded': {
-      margin: 'auto',
-    },
-  },
-  expanded: {},
+    expanded: {},
 })(MuiExpansionPanel);
 
 const ExpansionPanelSummary = withStyles({
-  root: {
-    // backgroundColor: 'rgba(0, 0, 0, .03)',
-    background: '#1f1f1fd1',
-    color: 'white',
-    borderBottom: '1px solid rgba(0, 0, 0, .125)',
-    marginBottom: -1,
-    minHeight: 56,
-    position: 'sticky',
-    top: '0px',
-    '&$expanded': {
-      minHeight: 56,
+    root: {
+        // backgroundColor: 'rgba(0, 0, 0, .03)',
+        borderBottom: '1px solid rgba(0, 0, 0, .125)',
+        marginBottom: -1,
+        minHeight: 56,
+        '&$expanded': {
+            minHeight: 56,
+        },
     },
-    '&:hover': {
-        background: '#1f1f1fc1',
-    }
-  },
-  content: {
-    '&$expanded': {
-      margin: '12px 0',
+    content: {
+        '&$expanded': {
+            margin: '12px 0',
+        },
     },
-  },
-  expanded: {},
+    expanded: {},
 
 })(MuiExpansionPanelSummary);
 
 const ExpansionPanelDetails = withStyles((theme) => ({
-  root: {
-    backgroundColor: '#2a2a2a',
-    padding: theme.spacing(2),
-  },
+    root: {
+        background: '#2a2a2a',
+        // padding: theme.spacing(1),
+    },
 }))(MuiExpansionPanelDetails);
 
-export default function Accordion({resultsEachItems, title}) {
-  const [expanded, setExpanded] = React.useState('panel1');
+export default function Accordion({ resultsEachItems, title }) {
+    const classes = useStyles();
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+    const [expanded, setExpanded] = React.useState('panel1');
 
-  return (
-    <div>
-      <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <ExpansionPanelSummary 
-            aria-controls="panel1d-content" 
-            id="panel1d-header" 
-        >
-          <Typography>{title}</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-            {resultsEachItems}
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+    };
 
-    </div>
-  );
+    return (
+        <div>
+            <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                <ExpansionPanelSummary
+                    aria-controls="panel1d-content"
+                    id="panel1d-header"
+                    classes={{ root: classes.ExpansionSummay }}
+                >
+                    <Typography>{title}</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    {resultsEachItems}
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+
+        </div>
+    );
 }
 
 
