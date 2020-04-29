@@ -1,4 +1,5 @@
 import { api, ARRAY_INIT } from '../../utils'
+import { DEFAULT_IS_EDITING_EPUB } from 'screens/MediaSettings/Utils/constants'
 
 export const initialState = {
   media: api.parseMedia(),
@@ -6,7 +7,7 @@ export const initialState = {
   
   tab: '',
   epubData: ARRAY_INIT,
-  isEditingEpub: false,
+  isEditingEpub: DEFAULT_IS_EDITING_EPUB,
 
   error: null
 }

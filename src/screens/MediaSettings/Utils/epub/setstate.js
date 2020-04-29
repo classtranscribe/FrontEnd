@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { api, util, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
-import { NO_EPUB } from '../constants';
+import { NO_EPUB, DEFAULT_IS_EDITING_EPUB } from '../constants';
 import { setup } from '../setup';
 import { genChaperFromItems } from './util';
 
@@ -52,7 +52,7 @@ class EpubState {
         }
     }
 
-    isEditingEpub = false
+    isEditingEpub = DEFAULT_IS_EDITING_EPUB
     setIsEditingEpub(isEditingEpub) {
         const { setIsEditingEpub } = this.redux;
         if (setIsEditingEpub) {

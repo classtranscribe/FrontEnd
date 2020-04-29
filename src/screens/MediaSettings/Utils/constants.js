@@ -11,6 +11,8 @@ export const mspTabs = [
 // epub chapters
 export const NEW_CHAPTER = { id: 'msp-new-chapter' }
 
+export const DEFAULT_IS_EDITING_EPUB = true
+
 
 // Errors
 export const NO_EPUB = 'no-epub'
