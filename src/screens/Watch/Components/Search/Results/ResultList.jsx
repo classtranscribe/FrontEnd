@@ -6,6 +6,7 @@ import Placeholder from '../Placeholder'
 import OpenMenuButton from './OpenMenuButton'
 import PageControlButtons from './PageControlButtons'
 import { VideoListItem, ShortcutListItem, CaptionListItem } from './ResultListItems'
+import Accordion from '../Accordion'
 
 import { 
   searchControl,
@@ -56,6 +57,32 @@ function ResultList({
 
   const totalPage = searchControl.totalPageNum(results.length)
 
+  const resultsEachItems = (
+    <div role="list" className="w-100 d-flex flex-column">
+      {results.map( (item, index) => searchControl.isInCurrentPage(page, index) ? (
+        <Popup inverted wide basic hideOnScroll 
+          position="top left"
+          openOnTriggerClick={false}
+          openOnTriggerFocus
+          closeOnTriggerBlur
+          disabled={option === SEARCH_IN_SHORTCUTS}
+          key={`search-result-#${index}`}
+          content={popupContent(item)}
+          trigger={
+            option === SEARCH_IN_PLAYLISTS ? // Video results are special
+            <VideoListItem media={item} />
+            :
+            option === SEARCH_IN_SHORTCUTS ?
+            <ShortcutListItem key={item.action} row={item} />
+            :
+            <CaptionListItem item={item} option={option} />
+          }
+        />
+      ) : null)}
+    </div>
+
+  )
+
   return (
     <div className="search-result-list">
       {
@@ -85,29 +112,22 @@ function ResultList({
           />
 
           {/* The Result list */}
-          <div role="list" className="w-100 d-flex flex-column">
-            {results.map( (item, index) => searchControl.isInCurrentPage(page, index) ? (
-              <Popup inverted wide basic hideOnScroll 
-                position="top left"
-                openOnTriggerClick={false}
-                openOnTriggerFocus
-                closeOnTriggerBlur
-                disabled={option === SEARCH_IN_SHORTCUTS}
-                key={`search-result-#${index}`}
-                content={popupContent(item)}
-                trigger={
-                  option === SEARCH_IN_PLAYLISTS ? // Video results are special
-                  <VideoListItem media={item} />
-                  :
-                  option === SEARCH_IN_SHORTCUTS ?
-                  <ShortcutListItem key={item.action} row={item} />
-                  :
-                  <CaptionListItem item={item} option={option} />
-                }
-              />
-            ) : null)}
-          </div>
-
+          {
+          option === SEARCH_TRANS_IN_VIDEO ? 
+          <>
+            <Accordion 
+              resultsEachItems = {resultsEachItems}
+              title = {'Earlier captions in this video'}
+            />
+            <Accordion 
+              resultsEachItems = {resultsEachItems}
+              title = {'Later captions in this video'}
+            />
+          </>
+          : 
+          resultsEachItems
+          }
+          
           <PageControlButtons
             page={page}
             totalPage={totalPage}

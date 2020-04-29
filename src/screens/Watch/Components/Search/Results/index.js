@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import ResultList from './ResultList'
 import Placeholder from '../Placeholder'
+import Accoridion from '../Accordion'
 import { 
   searchControl, 
   preferControl,
