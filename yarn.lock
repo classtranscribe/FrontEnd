@@ -8392,10 +8392,10 @@ mixin-object@^2.0.1:
     for-in "^0.1.3"
     is-extendable "^0.1.1"
 
-mk-guide@^1.9.9:
-  version "1.9.9"
-  resolved "https://registry.yarnpkg.com/mk-guide/-/mk-guide-1.9.9.tgz#f83fec79f0b88783a7bed0956b9ce85d80091da2"
-  integrity sha512-9enF2ZRyMqFOTF32Z3B4VX5/odgntqySkMBDM7w5hrpc5TRxnz9nsWMkChTe4I82UJjlGL7+dxuSsvBQnr6uvA==
+mk-guide@^1.9.10:
+  version "1.9.10"
+  resolved "https://registry.yarnpkg.com/mk-guide/-/mk-guide-1.9.10.tgz#7d47d57326f2414b193a4cb0bb3e477cc15a9fb5"
+  integrity sha512-/v4PQsYz8hsVYvJx/XBEcxC97KplfYolMBjuywGsEnW6Q0rD7FeyVjR2gWmZhYSoyXKNCjZRwU2wIHtd/mwdiQ==
 
 "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
