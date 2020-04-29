@@ -119,7 +119,16 @@ class EpubState {
         this.setEpubData(epubData);
     }
 
+    async requestEpub(mediaId) {
+        try {
+            await api.requestEpubCreation(mediaId)
+        } catch (error) {
+            console.error('Failed to request a epub for ' + mediaId)
+        }
+    }
+
     async getEpubData(mediaId, language) {
+        setup.error('');
         try {
             let { data=[] } = await api.getEpubData(mediaId, language);
             return parseEpubData(data);

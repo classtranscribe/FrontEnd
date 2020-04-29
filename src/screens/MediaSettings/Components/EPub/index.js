@@ -20,6 +20,7 @@ export function EpubWithRedux({
   media,
   epubData=ARRAY_INIT,
   // isEditingEpub=false,
+  // setError,
 }) {
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export function EpubWithRedux({
 
   useEffect(() => {
     // register setState functions
+
     epub.register({ 
       setChapters, setCurrChapter, setFoldedIds, 
       setLanguage, setCoverImgs, setMagnifiedImg 

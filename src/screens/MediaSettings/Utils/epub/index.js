@@ -9,6 +9,7 @@ export const epub = {
     register: epubState.registerSetStateFunc,
     setupEpub: epubState.setupEpub,
     changeChapter: epubState.changeChapter,
+    requestEpub: epubState.requestEpub,
     resetEpubData: () => epubState.setEpubData([]),
 
     ...epubUtils,

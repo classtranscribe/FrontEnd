@@ -76,7 +76,6 @@ class SetupMSP {
   async setupMedia(mediaId) {
     // console.log('mediaId', mediaId)
     util.links.title('Media Settings')
-    this.error(null)
 
     let media = await this.getMedia(mediaId)
     if (!media.id) {
