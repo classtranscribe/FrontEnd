@@ -26,7 +26,7 @@ const ExpansionPanel = withStyles({
 const ExpansionPanelSummary = withStyles({
   root: {
     // backgroundColor: 'rgba(0, 0, 0, .03)',
-    backgroundColor: '#1f1f1fd1',
+    background: '#1f1f1fd1',
     color: 'white',
     borderBottom: '1px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
@@ -37,7 +37,7 @@ const ExpansionPanelSummary = withStyles({
       minHeight: 56,
     },
     '&:hover': {
-        backgroundColor: '#1f1f1fc1',
+        background: '#1f1f1fc1',
     }
   },
   content: {
