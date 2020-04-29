@@ -27,7 +27,7 @@ export default function EpubList({
     <div 
       id={chapter.id}
       className={"ct-d-c ee-el-items" + (isFolded ? ' fold' : '')}
-      onMouseEnter={() => epub.changeChapter(chapter)}
+      onMouseEnter={() => epub.handleMouseOverChapterList(chapter)}
     >
       <div className="ee-el-ch-title ct-d-r-center-v">
         <input contentEditable

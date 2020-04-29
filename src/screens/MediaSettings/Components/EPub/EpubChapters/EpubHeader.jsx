@@ -25,10 +25,10 @@ export default function EpubHeader({
 
       <div className="w-100 d-flex justify-content-end">
         <Button.Group>
-          <Button outlined onClick={() => epub.undoAllSplit()}>
+          <Button outlined onClick={() => epub.resetToDefaultChapters()}>
             Reset to Default Chapters
           </Button>
-          <Button outlined onClick={() => epub.splitByScreenshots()}>
+          <Button outlined onClick={() => epub.splitChaptersByScreenshots()}>
             Split by Screenshots
           </Button>
         </Button.Group>

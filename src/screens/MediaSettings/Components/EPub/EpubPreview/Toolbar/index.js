@@ -108,7 +108,7 @@ export default function Toolbar({
               classNames="ee-tb-btn ee-tb-btn-me" 
               color="black" 
               icon="settings"
-              onClick={() => epub.isEditingEpub(true)}
+              onClick={epub.startManagingEpubChapters}
             >
               Manage Chapters
             </Button>

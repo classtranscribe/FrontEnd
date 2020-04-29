@@ -52,7 +52,7 @@ function EpubPreviewWithRedux({
         txtEditor={txtEditor}
         adEditor={adEditor} 
         setADEditor={setADEditor}
-        imageOnClick={() => epub.pickCoverImage()}
+        imageOnClick={() => epub.openCoverImagePicker()}
         imageOnClickPrompt="Click to choose cover image"
       />
 

@@ -54,7 +54,7 @@ export function EpubWithRedux({
 
     return () => {
       setChapters(ARRAY_INIT)
-      epub.epubData([])
+      epub.resetEpubData()
     }
   }, [])
 
