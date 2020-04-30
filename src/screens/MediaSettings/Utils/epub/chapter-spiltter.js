@@ -309,14 +309,16 @@ export function splitChapterFromSubChapter(chapterIndex, subChapterIndex) {
 export function subdivideChaptersByScreenshots() {
     let { chapters } = epubState;
     _.forEach(chapters, (chapter, chapterIndex) => {
-        chapter.subChapters = _.map(
-            chapter.items,
-            (item, subChapterIndex) => genSubChaperFromItems({ 
-                items: [item],
-                title: 'Untitled Sub-Chapter ' + (subChapterIndex + 1)
-            })
-        );
-        chapter.text = '';
+        chapter.subChapters = [
+            ..._.map(
+                chapter.items,
+                (item, subChapterIndex) => genSubChaperFromItems({ 
+                    items: [item],
+                    title: 'Untitled Sub-Chapter ' + (subChapterIndex + 1)
+                })
+            ),
+            ...chapter.subChapters
+        ];
         chapter.items = [];
 
         chapters[chapterIndex] = genChaperFromItems(chapter)
