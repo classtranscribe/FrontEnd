@@ -43,6 +43,7 @@
   display: flex;
   width: calc(57% + 15px);
   padding-right: 15px;
+  padding-bottom: 100px;
   overflow-x: hidden;
 
   &[data-editing=false] { 
@@ -81,13 +82,6 @@
       width: 100%;
       flex: 0 0 auto;
 
-      &:first-child {
-        .ee-el-ch-title .ee-el-ch-t-remove-btn {
-          pointer-events: none;
-          display: none;
-        }
-      }
-
       &.fold {
         .ee-el-ch-title .ee-el-expand-btn {
            transform: rotate(180deg);
@@ -101,8 +95,13 @@
         z-index: 1;
         background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
         padding: 15px 0 15px 90px;
+        margin-top: 20px;
         animation: ee-el-title-show 200ms linear;
-
+    
+        &.ee-el-sub {
+          padding: 15px 0 15px 180px;
+        }
+    
         input {
           font-weight: bolder;
           margin: 0;
@@ -119,19 +118,19 @@
             text-overflow: initial;
           }
         }
-
+    
         .ee-el-ch-t-remove-btn {
           position: absolute;
           top: 13px;
           left: 40px;
-          opacity: 0;
+          opacity: .5;
           transition: opacity .2s ease-in;
         }
-
+    
         .ee-el-expand-btn {
           transition: transform 100ms linear;
         }
-
+    
         &:hover .ee-el-ch-t-remove-btn, 
         .ee-el-ch-t-remove-btn:focus-within {
           opacity: 1;
@@ -197,30 +196,63 @@
         }
 
         .ee-el-i-actions {
+          width: 100%;
           transition: opacity .2s ease-in;
-          opacity: 0;
+          opacity: .5;
           pointer-events: none;
-
-          .ee-el-i-split-btn {
-            width: 100%;
-            span {
-              border-radius: 0 20px 20px 0 !important;
-            }
-          }
+          border-radius: 0 20px 20px 0;
+          // background-color: rgb(245, 245, 245);
         }
 
-        &:not(:last-child):hover {
+        &:hover {
           .ee-el-i-actions {
             pointer-events: visible;
             opacity: 1;
           }
         }
 
-        // &:not(:last-child) {
-        //   .ee-el-i-actions:hover {
-        //     opacity: 1;
-        //   }
-        // }
+      
+        &.padded {
+          .ee-el-i-actions {
+            padding-left: 100px;
+          }
+        }
+      }
+
+
+
+
+
+      ////////////////////////////////////////////////////////////
+      // Sub-Chapter
+      ////////////////////////////////////////////////////////////
+      &.ee-el-sub {
+        .ee-el-ch-title {
+          position: relative;
+          margin-top: 20px;
+          z-index: 0;
+          input {
+            font-size: 25px;
+          }
+
+          .ee-el-ch-t-remove-btn {
+            left: 130px;
+          }
+        }
+
+        .ee-el-ch-compact-txt {
+          margin-left: 190px;
+        }
+
+        .ee-el-item {
+          .ee-el-i-info {
+            padding-left: 190px;
+          }
+
+          // .ee-el-i-actions {
+          //   // margin-left: 90px;
+          // }
+        }
       }
     }
   }
@@ -236,6 +268,13 @@
   100% { opacity: 1; max-height: 1000px; }
 }
 @keyframes ee-el-title-show {
-  0% { padding: 0 0 0 90px; opacity: 0; }
-  100% { padding: 15px 0 15px 90px; opacity: 1; }
+  0% { 
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  } 100% {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    opacity: 1;
+  }
 }

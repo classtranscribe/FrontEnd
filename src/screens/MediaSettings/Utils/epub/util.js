@@ -1,7 +1,19 @@
 import _ from 'lodash';
-import { html } from 'utils';
+import { html, util } from 'utils';
 import { EDITOR_TYPE_SPLITTER } from '../constants';
 
+
+function parseChapter(epub, index) {
+    return {
+        ...epub,
+        id: util.genId('epub-data'),
+        title: epub.title || `Chapter ${index + 1}`,
+    };
+}
+
+export function parseEpubData(epubData) {
+    return _.map(epubData, parseChapter);
+}
 
 export function genChaperFromItems(chapter) {
     const { 
@@ -9,17 +21,39 @@ export function genChaperFromItems(chapter) {
         title,
         image,
         items,
-        text="",
-        audioDescription="",
+        text = "",
+        audioDescription = "",
+        subChapters = [],
     } = chapter;
 
     return {
-        id: id,
+        id: id || util.genId('epub-ch'),
         title: title || 'Untitled Chapter',
         image: image || (items[0] || {}).image,
         items: items,
         audioDescription: audioDescription,
-        text: text || html.strList(items, 'text')
+        text: text || html.strList(items, 'text'),
+        subChapters,
+    };
+}
+
+export function genSubChaperFromItems(subChapter) {
+    const { 
+        id,
+        title,
+        image,
+        items,
+        text = "",
+        audioDescription = "",
+    } = subChapter;
+
+    return {
+        id: id || util.genId('epub-sub-ch'),
+        title: title || 'Untitled Sub-Chapter',
+        image: image || (items[0] || {}).image,
+        items: items,
+        audioDescription: audioDescription,
+        text: text || html.strList(items, 'text'),
     };
 }
 
@@ -33,4 +67,11 @@ export function parseText(text /* , editor='' */) {
 
 export function markdown2HTML(text) {
     return html.markdown(text);
+}
+
+export const getCompactText = chapter => {
+    return _.map(chapter.items, item => item.text)
+            .filter(txt => txt !== '')
+            .join('. ')
+            .slice(0, 200);
 }

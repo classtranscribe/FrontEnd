@@ -4,8 +4,15 @@ import { LanguageMenuTrigger } from '../LanguageMenuTrigger'
 import { epub } from 'screens/MediaSettings/Utils'
 
 export default function EpubHeader({
+  epubData,
+  chapters=[],
   language,
 }) {
+
+  let showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
+  let showSplitAllBtn = chapters.length !== epubData.length;
+  let showSubdivideAllBtn = true;//chapters.reduce((acc, ch) => acc + ch.items.length, 0) !== 0;
+
   return (
     <div className="msp-ee-el-header">
       <div className="w-100 ct-d-r-center-v msp-ee-el-h1">
@@ -23,16 +30,35 @@ export default function EpubHeader({
         After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
       </p>
 
+      <h4 className="w-100 d-flex justify-content-end pr-2">
+        QUICK ACTIONS
+      </h4>
+
       <div className="w-100 d-flex justify-content-end">
         <Button.Group>
-          <Button outlined onClick={() => epub.resetToDefaultChapters()}>
-            Reset to Default Chapters
-          </Button>
-          <Button outlined onClick={() => epub.splitChaptersByScreenshots()}>
-            Split by Screenshots
-          </Button>
+          {
+            showResetBtn
+            &&
+            <Button outlined onClick={() => epub.resetToDefaultChapters()}>
+              Reset to Default Chapters
+            </Button>
+          }
+          {
+            showSplitAllBtn
+            &&
+            <Button outlined onClick={() => epub.splitChaptersByScreenshots()}>
+              Split by Screenshots
+            </Button>
+          }
+          {
+            showSubdivideAllBtn
+            &&
+            <Button outlined onClick={() => epub.subdivideChaptersByScreenshots()}>
+              Subdivide Chapters by Screenshots
+            </Button>
+          }
         </Button.Group>
       </div>
     </div>
-  )
+  );
 }

@@ -1,15 +1,69 @@
-import React from 'react'
-import { api } from 'utils'
-import { Button } from 'pico-ui'
-import { epub } from 'screens/MediaSettings/Utils'
+import React from 'react';
+import { api } from 'utils';
+import { Button } from 'pico-ui';
+import { epub } from 'screens/MediaSettings/Utils';
+
+const classNames = require('classnames');
 
 export default function EpubListItem({
   item,
   itemIndex,
   chapterIndex,
+  subChapterIndex,
+  isSubChapter=false,
+  canSplit=false,
+  canSplitSubChapter=false,
+  canSubdivide=false,
 }) {
+
+  let itemClass = classNames('ee-el-item ct-d-c', {
+    'padded': !canSplit && !isSubChapter
+  })
+
   return (
-    <div className="ee-el-item ct-d-c">
+    <div className={itemClass}>
+      <div className="ee-el-i-actions">
+        {
+          canSplit
+          &&
+          <Button uppercase round
+            classNames="ee-el-i-split-btn"
+            text="Split Chapter"
+            color="blue transparent"
+            icon="unfold_more"
+            onClick={
+              () => isSubChapter
+              ? epub.splitChapterFromSubChapters(chapterIndex, subChapterIndex, itemIndex)
+              : epub.splitChapter(chapterIndex, itemIndex)
+            }
+          />
+        }
+
+        {
+          canSplitSubChapter
+          &&
+          <Button uppercase round
+            classNames="ee-el-i-split-btn"
+            text="Split Sub-Chapter"
+            color="blue transparent"
+            icon="subdirectory_arrow_right"
+            onClick={() => epub.splitSubChapter(chapterIndex, subChapterIndex, itemIndex)}
+          />
+        }
+
+        {
+          canSubdivide
+          &&
+          <Button uppercase round
+            classNames="ee-el-i-sub-ch-btn"
+            text="subdivide"
+            color="blue transparent"
+            icon="subdirectory_arrow_right"
+            onClick={() => epub.subdivideChapter(chapterIndex, itemIndex)}
+          />
+        }
+      </div>
+
       <div className="ct-d-r ee-el-i-info">
         <div 
           className="ee-el-i-img"
@@ -29,16 +83,6 @@ export default function EpubListItem({
           }
         </div>
       </div>
-
-      <div className="ee-el-i-actions">
-        <Button uppercase
-          classNames="ee-el-i-split-btn"
-          text="Split Chapter Here"
-          color="teal transparent"
-          icon="unfold_more"
-          onClick={() => epub.splitChapter(chapterIndex, itemIndex)}
-        />
-      </div>
     </div>
-  )
+  );
 }

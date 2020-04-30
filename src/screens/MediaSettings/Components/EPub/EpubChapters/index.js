@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { connectWithRedux } from '../../../Utils'
-import EpubList from './EpubList'
+import EpubChapterItem from './EpubChapterItem'
 import EpubHeader from './EpubHeader'
 import './index.scss'
 
@@ -10,6 +10,8 @@ function EpubChaptersWithRedux({
   language,
   magnifiedImg,
   foldedIds,
+
+  epubData,
   isEditingEpub=false,
 }) {
 
@@ -20,15 +22,20 @@ function EpubChaptersWithRedux({
       className="msp-ee-el-con ct-d-c ct-a-fade-in" 
       data-editing={isEditingEpub}
     >
-      <EpubHeader language={language}/>
+      <EpubHeader
+        epubData={epubData}
+        chapters={chapters}
+        language={language}
+      />
 
       <div className="ct-d-c ee-el-chapters">
         {chapters.map((chapter, chapterIndex) => (
-          <EpubList 
+          <EpubChapterItem 
             key={`ee-el-ch-${chapterIndex}`} 
             chapter={chapter}
             chapterIndex={chapterIndex}
             foldedIds={foldedIds}
+            canUndoSplit={chapterIndex > 0}
           />
         ))}
       </div>
@@ -47,6 +54,6 @@ function EpubChaptersWithRedux({
 
 export default connectWithRedux(
   EpubChaptersWithRedux,
-  ['isEditingEpub'],
+  ['isEditingEpub', 'epubData'],
   []
 )

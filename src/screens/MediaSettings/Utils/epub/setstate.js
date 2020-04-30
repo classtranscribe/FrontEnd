@@ -1,21 +1,8 @@
-import _ from 'lodash';
-import { api, util, ARRAY_INIT } from 'utils';
+import { api, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
 import { NO_EPUB, DEFAULT_IS_EDITING_EPUB } from '../constants';
 import { setup } from '../setup';
-import { genChaperFromItems } from './util';
-
-function parseChapter(epub, index) {
-    return {
-        ...epub,
-        id: util.genId('epub-data'),
-        title: epub.title || `Chapter ${index + 1}`,
-    };
-}
-
-function parseEpubData(epubData) {
-    return _.map(epubData, parseChapter);
-}
+import { genChaperFromItems, parseEpubData } from './util';
 
 class EpubState {
     constructor() {
