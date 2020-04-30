@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connectWithRedux, epub } from '../../../Utils'
 import { Button } from 'pico-ui'
 import './index.scss'
+import { util } from 'utils'
 
 function ChapterNavigatorWithRedux({
   chapters,
@@ -20,20 +21,14 @@ function ChapterNavigatorWithRedux({
   }
 
   const navigate = chapter => () => {
-    let chElem = document.getElementById(chapter.id)
-    if (chElem) {
-      chElem.scrollIntoView()
-      epub.changeChapter(chapter)
-      if (isEditingEpub) hideNavihator()
-    }
+    util.elem.scrollIntoView(chapter.id);
+    epub.changeChapter(chapter);
+    if (isEditingEpub) hideNavihator();
   }
 
   useEffect(() => {
     if (show === ' true') {
-      let chTitleElem = document.getElementById('ee-cn-ch-' + currChapter.id)
-      if (chTitleElem) {
-        chTitleElem.scrollIntoView({ block: 'center' })
-      }
+      util.elem.scrollIntoCenter('ee-cn-ch-' + currChapter.id);
     }
   }, [show])
 
@@ -64,16 +59,31 @@ function ChapterNavigatorWithRedux({
             }
           </div>
           <div className="ee-cn-ch-ul ct-d-c">
-            {chapters.map( (chapter, index) => (
-              <Button round
-                key={`ee-cn-ch-${chapter.id}`}
-                id={`ee-cn-ch-${chapter.id}`}
-                classNames="ee-cn-ch-li"
-                color={currChapter.id === chapter.id ? "teal" : 'transparent'}
-                onClick={navigate(chapter)}
-              >
-                {isEditingEpub ? '' : `${index+1}. `} {chapter.title}
-              </Button>
+            {chapters.map( (chapter, chapterIndex) => (
+              <div key={`ee-cn-ch-${chapter.id}`} className="ee-cn-ch-li">
+                <Button round
+                  id={`ee-cn-ch-${chapter.id}`}
+                  classNames="ee-cn-ch-li-ch"
+                  color={currChapter.id === chapter.id ? "teal" : 'transparent'}
+                  onClick={navigate(chapter)}
+                >
+                  {isEditingEpub ? '' : `${chapterIndex+1}. `} {chapter.title}
+                </Button>
+                {
+                  isEditingEpub
+                  &&
+                  chapter.subChapters.map(subChapter => (
+                    <Button round
+                      id={`ee-cn-sub-ch-${subChapter.id}`}
+                      classNames="ee-cn-ch-li-sub-ch"
+                      color={currChapter.id === subChapter.id ? "teal" : 'transparent'}
+                      onClick={navigate(subChapter)}
+                    >
+                      {subChapter.title}
+                    </Button>
+                  ))
+                }
+              </div>
             ))}
           </div>
         </div>

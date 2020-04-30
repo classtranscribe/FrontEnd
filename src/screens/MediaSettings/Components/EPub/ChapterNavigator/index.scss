@@ -105,12 +105,27 @@
     .ee-cn-ch-ul {
       padding-right: 10px;
       padding-bottom: 30px;
-      .ee-cn-ch-li span {
-        padding-left: 10px;
-        text-align: left;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
+      .ee-cn-ch-li {
+        .ee-cn-ch-li-ch {
+          width: 100%;
+          span {
+            padding-left: 10px;
+            text-align: left;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+
+        .ee-cn-ch-li-sub-ch {
+          width: 100%;
+          span {
+            padding-left: 30px;
+            text-align: left;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      } 
     }
   }
 }
