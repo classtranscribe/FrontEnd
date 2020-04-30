@@ -22,13 +22,28 @@ export default function EpubHeader({
         />
       </div>
 
-      <p>
-        <span className="msp-ee-el-h-p-t">Instruction</span>
-        To manage your ePub chapters, set <span>splitting points</span> between screenshots to generate an initial version of ePub chapters. 
-        To change <span>cover images</span>, click the image of the ePub preview on the left.
-        <br/>
-        After everything is done, hit <span>'Save ePub' button</span> to see the preview of your ePub file. You can also edit the ePub contents there.
-      </p>
+      <div className="w-100 ee-el-h-block">
+        <h4>Instruction</h4>
+        <p>
+          To manage your ePub chapters, set <b>splitting points</b> between screenshots to 
+          generate an initial version of ePub chapters. 
+          Each chapter can be further <b>subdivided</b> into sub-chapters.
+        </p>
+        <p>
+          After building the structure of your ePub, hit <b>'Save and Preview' button</b> to 
+          see the preview of your ePub file, and modify the ePub contents there.
+        </p>
+
+        <h4>Actions</h4>
+        <ul>
+          <li>
+            <b>Split</b> - Split screenshots and transcripts into chapters.
+          </li>
+          <li>
+            <b>Subdivide</b> - Divide a chapter into several sub-chapters.
+          </li>
+        </ul>
+      </div>
 
       <h4 className="w-100 d-flex justify-content-end pr-2">
         QUICK ACTIONS
