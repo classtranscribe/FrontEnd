@@ -125,6 +125,14 @@
           left: 40px;
           opacity: .5;
           transition: opacity .2s ease-in;
+
+          &.ee-el-sub-1 {
+            left: 130px;
+          }
+
+          &.ee-el-sub-2 {
+            left: 80px;
+          }
         }
     
         .ee-el-expand-btn {
@@ -148,7 +156,7 @@
         position: relative;
         white-space: pre-wrap;
         animation: ee-el-ch-hide 200ms linear;
-        font-size: 17px;
+        font-size: 14px;
         line-height: 23px;
       }
 
@@ -188,7 +196,7 @@
             position: relative;
             white-space: pre-wrap;
             padding-left: 10px;
-            font-size: 17px;
+            font-size: 14px;
             line-height: 23px;
             // height: 92px;
             overflow: hidden;
@@ -234,10 +242,6 @@
           input {
             font-size: 25px;
           }
-
-          .ee-el-ch-t-remove-btn {
-            left: 130px;
-          }
         }
 
         .ee-el-ch-compact-txt {
@@ -260,7 +264,7 @@
 
 
 @keyframes ee-el-ch-hide {
-  0% { padding: 200px 0; opacity: 0; }
+  0% { padding: 100px 0; opacity: 0; }
   100% { padding: 0px 0; opacity: 1; }
 }
 @keyframes ee-el-ch-show {

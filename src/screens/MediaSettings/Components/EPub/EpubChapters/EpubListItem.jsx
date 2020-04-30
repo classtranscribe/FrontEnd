@@ -33,8 +33,8 @@ export default function EpubListItem({
             icon="unfold_more"
             onClick={
               () => isSubChapter
-              ? epub.splitChapterFromSubChapters(chapterIndex, subChapterIndex, itemIndex)
-              : epub.splitChapter(chapterIndex, itemIndex)
+              ? epub.splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex)
+              : epub.splitChapterFromChaptersItems(chapterIndex, itemIndex)
             }
           />
         }
@@ -44,7 +44,7 @@ export default function EpubListItem({
           &&
           <Button uppercase round
             classNames="ee-el-i-split-btn"
-            text="Split Sub-Chapter"
+            text="New Sub-Chapter"
             color="blue transparent"
             icon="subdirectory_arrow_right"
             onClick={() => epub.splitSubChapter(chapterIndex, subChapterIndex, itemIndex)}

@@ -1,9 +1,7 @@
 import React from 'react';
-import _ from 'lodash';
-import { Button } from 'pico-ui';
-import { Popup } from 'semantic-ui-react';
 import { epub } from 'screens/MediaSettings/Utils';
 
+import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';
 import EpubSubChapterItem from './EpubSubChapterItem';
 
@@ -18,6 +16,8 @@ function EpubChapterItem({
 
   const fold = () => epub.foldChapter(chapter.id);
   const unfold = () => epub.unfoldChapter(chapter.id);
+
+  const undoSplitChapter = () => epub.undoSplitChapter(chapterIndex);
 
   const isFolded = foldedIds.includes(chapter.id);
   
@@ -37,45 +37,23 @@ function EpubChapterItem({
           value={chapter.title}
           onChange={({ target: { value } }) => epub.handleTitleChange(chapterIndex, value)}
         />
-        
-        <Popup inverted basic
-          openOnTriggerMouseEnter
-          openOnTriggerFocus
-          openOnTriggerClick={false}
-          closeOnTriggerBlur
+
+        <ChapterTitleButton show
           content={isFolded ? 'Expand' : 'Collapse'}
-          trigger={
-            <div>
-              <Button round
-                color="transparent"
-                classNames="ee-el-expand-btn"
-                icon="expand_more"
-                onClick={isFolded ? unfold : fold}
-              />
-            </div>
-          }
+          color="transparent"
+          icon="expand_more"
+          className="ee-el-expand-btn"
+          onClick={isFolded ? unfold : fold}
         />
 
-        {
-          canUndoSplit
-          &&
-          <Popup inverted basic
-            openOnTriggerMouseEnter
-            openOnTriggerFocus
-            openOnTriggerClick={false}
-            closeOnTriggerBlur
-            content="Undo split"
-            trigger={
-              <div className="ee-el-ch-t-remove-btn">
-                <Button round
-                  //color="transparent"
-                  icon="unfold_less"
-                  onClick={() => epub.undoSplitChapter(chapterIndex)}
-                />
-              </div>
-            }
-          />
-        }
+        <ChapterTitleButton 
+          show={canUndoSplit}
+          content="Undo split"
+          color="blue"
+          icon="unfold_less"
+          className="ee-el-ch-t-remove-btn"
+          onClick={undoSplitChapter}
+        />
       </div>
 
       {
@@ -111,6 +89,7 @@ function EpubChapterItem({
               subChapterIndex={subChapterIndex}
               canUndoSubdivide={subChapterIndex === 0}
               canUndoSplitSubChapter={subChapterIndex > 0}
+              canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
             />
           ))}
         </div>

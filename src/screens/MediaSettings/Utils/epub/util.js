@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { html, util } from 'utils';
+import { html, util, api } from 'utils';
 import { EDITOR_TYPE_SPLITTER } from '../constants';
 
 
@@ -15,8 +15,26 @@ export function parseEpubData(epubData) {
     return _.map(epubData, parseChapter);
 }
 
-export function genChaperFromItems(chapter) {
-    const { 
+function generateHtml({ items, subChapters }) {
+    let chapterHTML = html.strList(items, 'text');
+    let subChapterHTML = _.reduce(
+        subChapters,
+        (subHtml, subChapter) => subHtml 
+                               + `\n\n<h3>${subChapter.title}</h3>\n\n`
+                               + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n\n`
+                               + html.strList(subChapter.items, 'text')
+        ,
+        ''
+    );
+
+    return chapterHTML + subChapterHTML;
+}
+
+/**
+ * @todo generate text for chapter based on items and subchapters
+ */
+export function genChaperFromItems(chapter, replaceText=true) {
+    let { 
         id,
         title,
         image,
@@ -26,13 +44,15 @@ export function genChaperFromItems(chapter) {
         subChapters = [],
     } = chapter;
 
+    text = (replaceText || !text) ? generateHtml(chapter) : text;
+
     return {
         id: id || util.genId('epub-ch'),
         title: title || 'Untitled Chapter',
         image: image || (items[0] || {}).image,
         items: items,
         audioDescription: audioDescription,
-        text: text || html.strList(items, 'text'),
+        text,
         subChapters,
     };
 }
@@ -60,9 +80,9 @@ export function genSubChaperFromItems(subChapter) {
 export function parseText(text /* , editor='' */) {
     let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER);
     let content = splittedTexts[0];
-    let editorType = splittedTexts[1]
+    let editorType = splittedTexts[1];
 
-    return { content, editorType }
+    return { content, editorType };
 }
 
 export function markdown2HTML(text) {

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button } from 'pico-ui';
-import { Popup } from 'semantic-ui-react';
 import { epub } from 'screens/MediaSettings/Utils';
 
+import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';
 
 const classNames = require('classnames');
@@ -14,10 +13,15 @@ function EpubSubChapterItem({
   subChapterIndex,
   canUndoSubdivide=false,
   canUndoSplitSubChapter=false,
+  canSplitAsNewChapter=false,
 }) {
 
   const fold = () => epub.foldChapter(subChapter.id);
   const unfold = () => epub.unfoldChapter(subChapter.id);
+
+  const undoSubdivideChapter = () => epub.undoSubdivideChapter(chapterIndex);
+  const undoSplitSubChapter = () => epub.undoSplitSubChapter(chapterIndex, subChapterIndex);
+  const splitChapterFromSubChapter = () => epub.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
 
   const isFolded = foldedIds.includes(subChapter.id);
 
@@ -36,66 +40,41 @@ function EpubSubChapterItem({
           value={subChapter.title}
           onChange={({ target: { value } }) => null}
         />
-        
-        <Popup inverted basic
-          openOnTriggerMouseEnter
-          openOnTriggerFocus
-          openOnTriggerClick={false}
-          closeOnTriggerBlur
+
+        <ChapterTitleButton show
           content={isFolded ? 'Expand' : 'Collapse'}
-          trigger={
-            <div>
-              <Button round
-                color="transparent"
-                classNames="ee-el-expand-btn"
-                icon="expand_more"
-                onClick={isFolded ? unfold : fold}
-              />
-            </div>
-          }
+          color="transparent"
+          icon="expand_more"
+          className="ee-el-expand-btn"
+          onClick={isFolded ? unfold : fold}
         />
 
-        {
-          canUndoSubdivide
-          &&
-          <Popup inverted basic
-            openOnTriggerMouseEnter
-            openOnTriggerFocus
-            openOnTriggerClick={false}
-            closeOnTriggerBlur
-            content="Undo Subdivide"
-            trigger={
-              <div className="ee-el-ch-t-remove-btn">
-                <Button round
-                  //color="transparent"
-                  icon="arrow_back"
-                  onClick={() => epub.undoSubdivideChapter(chapterIndex)}
-                />
-              </div>
-            }
-          />
-        }
+        <ChapterTitleButton 
+          show={canUndoSubdivide}
+          content="Undo Subdivide"
+          color="blue"
+          icon="chevron_left"
+          className="ee-el-ch-t-remove-btn ee-el-sub-1"
+          onClick={undoSubdivideChapter}
+        />
 
-        {
-          canUndoSplitSubChapter
-          &&
-          <Popup inverted basic
-            openOnTriggerMouseEnter
-            openOnTriggerFocus
-            openOnTriggerClick={false}
-            closeOnTriggerBlur
-            content="Append to Above Sub-Chapter"
-            trigger={
-              <div className="ee-el-ch-t-remove-btn">
-                <Button round
-                  //color="transparent"
-                  icon="vertical_align_top"
-                  onClick={() => epub.undoSplitSubChapter(chapterIndex, subChapterIndex)}
-                />
-              </div>
-            }
-          />
-        }
+        <ChapterTitleButton 
+          show={canUndoSplitSubChapter}
+          content="Append to Above Sub-Chapter"
+          color="blue"
+          icon="vertical_align_top"
+          className="ee-el-ch-t-remove-btn ee-el-sub-1"
+          onClick={undoSplitSubChapter}
+        />
+
+        <ChapterTitleButton 
+          show={canSplitAsNewChapter}
+          content="As new Chapter"
+          color="black"
+          icon="first_page"
+          className="ee-el-ch-t-remove-btn ee-el-sub-2"
+          onClick={splitChapterFromSubChapter}
+        />
       </div>
 
       {

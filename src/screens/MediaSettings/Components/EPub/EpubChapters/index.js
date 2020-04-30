@@ -1,9 +1,8 @@
-import React from 'react'
-import _ from 'lodash'
-import { connectWithRedux } from '../../../Utils'
-import EpubChapterItem from './EpubChapterItem'
-import EpubHeader from './EpubHeader'
-import './index.scss'
+import React from 'react';
+import { connectWithRedux } from '../../../Utils';
+import EpubChapterItem from './EpubChapterItem';
+import EpubHeader from './EpubHeader';
+import './index.scss';
 
 function EpubChaptersWithRedux({
   chapters=[],
@@ -49,11 +48,11 @@ function EpubChaptersWithRedux({
         </div>
       }
     </div>
-  )
+  );
 }
 
 export default connectWithRedux(
   EpubChaptersWithRedux,
   ['isEditingEpub', 'epubData'],
   []
-)
+);
