@@ -18,6 +18,11 @@ function EpubChapterItem({
   const unfold = () => epub.unfoldChapter(chapter.id);
 
   const undoSplitChapter = () => epub.undoSplitChapter(chapterIndex);
+  const handleMouseOverChapterList = () => epub.handleMouseOverChapterList(chapter);
+
+  const handleChapterTitleChange = ({ target: { value } }) => {
+    epub.handleChapterTitleChange(chapterIndex, value);
+  }
 
   const isFolded = foldedIds.includes(chapter.id);
   
@@ -29,13 +34,13 @@ function EpubChapterItem({
     <div 
       id={chapter.id}
       className={chaperClass}
-      onMouseEnter={() => epub.handleMouseOverChapterList(chapter)}
+      onMouseEnter={handleMouseOverChapterList}
     >
       <div className="ee-el-ch-title ct-d-r-center-v">
         <input contentEditable
           className="ct-div-editable"
           value={chapter.title}
-          onChange={({ target: { value } }) => epub.handleTitleChange(chapterIndex, value)}
+          onChange={handleChapterTitleChange}
         />
 
         <ChapterTitleButton show
@@ -43,13 +48,13 @@ function EpubChapterItem({
           color="transparent"
           icon="expand_more"
           className="ee-el-expand-btn"
+          outlined={false}
           onClick={isFolded ? unfold : fold}
         />
 
         <ChapterTitleButton 
           show={canUndoSplit}
           content="Undo split"
-          color="blue"
           icon="unfold_less"
           className="ee-el-ch-t-remove-btn"
           onClick={undoSplitChapter}

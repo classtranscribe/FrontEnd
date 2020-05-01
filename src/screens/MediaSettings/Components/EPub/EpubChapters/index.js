@@ -2,6 +2,7 @@ import React from 'react';
 import { connectWithRedux } from '../../../Utils';
 import EpubChapterItem from './EpubChapterItem';
 import EpubHeader from './EpubHeader';
+import ImageMagnifier from './ImageMagnifier'
 import './index.scss';
 
 function EpubChaptersWithRedux({
@@ -39,14 +40,7 @@ function EpubChaptersWithRedux({
         ))}
       </div>
 
-      {
-        magnifiedImg
-        &&
-        <div className="ee-ep-magnify">
-          <img src={magnifiedImg} alt="Magnified screenshot" />
-          {/* <Button round icon="close" /> */}
-        </div>
-      }
+      <ImageMagnifier magnifiedImg={magnifiedImg} />
     </div>
   );
 }

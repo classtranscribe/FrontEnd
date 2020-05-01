@@ -3,7 +3,8 @@ import { prompt, util, ARRAY_INIT } from 'utils';
 import { epubState } from "./setstate";
 import { 
     genChaperFromItems, 
-    genSubChaperFromItems 
+    genSubChaperFromItems,
+    getAllItemsInChapter,
 } from './util';
 
 
@@ -309,18 +310,17 @@ export function splitChapterFromSubChapter(chapterIndex, subChapterIndex) {
 export function subdivideChaptersByScreenshots() {
     let { chapters } = epubState;
     _.forEach(chapters, (chapter, chapterIndex) => {
-        chapter.subChapters = [
-            ..._.map(
-                chapter.items,
-                (item, subChapterIndex) => genSubChaperFromItems({ 
-                    items: [item],
-                    title: 'Untitled Sub-Chapter ' + (subChapterIndex + 1)
-                })
-            ),
-            ...chapter.subChapters
-        ];
-        chapter.items = [];
+        let items = getAllItemsInChapter(chapter);
 
+        chapter.subChapters = _.map(
+            items,
+            (item, subChapterIndex) => genSubChaperFromItems({ 
+                items: [item],
+                title: 'Untitled Sub-Chapter ' + (subChapterIndex + 1)
+            })
+        );
+
+        chapter.items = [];
         chapters[chapterIndex] = genChaperFromItems(chapter)
     });
 
@@ -338,12 +338,19 @@ export function subdivideChaptersByScreenshots() {
 // handle edit title
 // **********************************************************************
 
-export function handleTitleChange(chapterIndex, value) {
+export function handleChapterTitleChange(chapterIndex, value) {
     let chapters = epubState.chapters;
     chapters[chapterIndex].title = value;
 
-    epubState.setChapters([ ...chapters ]);
-    epubState.changeChapter(chapters[chapterIndex]);
+    updateEpubChapters(chapters, chapters[chapterIndex]);
+}
+
+export function handleSubChapterTitleChange(chapterIndex, subChapterIndex, value) {
+    let chapters = epubState.chapters;
+    let currChapter = chapters[chapterIndex];
+    currChapter.subChapters[subChapterIndex].title = value;
+
+    updateEpubChapters(chapters, currChapter);
 }
 
 // **********************************************************************
@@ -351,11 +358,9 @@ export function handleTitleChange(chapterIndex, value) {
 // **********************************************************************
 
 export function openCoverImagePicker() {
+    let items = getAllItemsInChapter(epubState.currChapter);
     epubState.setCoverImgs(
-        _.map(
-            epubState.currChapter.items, 
-            item => item.image
-        )
+        _.map(items, item => item.image)
     );
 }
 

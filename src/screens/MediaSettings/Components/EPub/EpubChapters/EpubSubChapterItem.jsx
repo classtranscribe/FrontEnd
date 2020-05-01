@@ -23,6 +23,10 @@ function EpubSubChapterItem({
   const undoSplitSubChapter = () => epub.undoSplitSubChapter(chapterIndex, subChapterIndex);
   const splitChapterFromSubChapter = () => epub.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
 
+  const handleSubChapterTitleChange = ({target: { value }}) => {
+    epub.handleSubChapterTitleChange(chapterIndex, subChapterIndex, value);
+  }
+
   const isFolded = foldedIds.includes(subChapter.id);
 
   let subChaperClass = classNames('ct-d-c ee-el-items ee-el-sub', {
@@ -30,15 +34,15 @@ function EpubSubChapterItem({
   });
 
   return (
-    <div 
-      id={subChapter.id}
-      className={subChaperClass}
-    >
-      <div className="ee-el-ch-title ee-el-sub ct-d-r-center-v">
+    <div className={subChaperClass}>
+      <div 
+        id={subChapter.id} 
+        className="ee-el-ch-title ee-el-sub ct-d-r-center-v"
+      >
         <input contentEditable
           className="ct-div-editable"
           value={subChapter.title}
-          onChange={({ target: { value } }) => null}
+          onChange={handleSubChapterTitleChange}
         />
 
         <ChapterTitleButton show
@@ -46,13 +50,13 @@ function EpubSubChapterItem({
           color="transparent"
           icon="expand_more"
           className="ee-el-expand-btn"
+          outlined={false}
           onClick={isFolded ? unfold : fold}
         />
 
         <ChapterTitleButton 
           show={canUndoSubdivide}
           content="Undo Subdivide"
-          color="blue"
           icon="chevron_left"
           className="ee-el-ch-t-remove-btn ee-el-sub-1"
           onClick={undoSubdivideChapter}
@@ -61,16 +65,15 @@ function EpubSubChapterItem({
         <ChapterTitleButton 
           show={canUndoSplitSubChapter}
           content="Append to Above Sub-Chapter"
-          color="blue"
           icon="vertical_align_top"
           className="ee-el-ch-t-remove-btn ee-el-sub-1"
           onClick={undoSplitSubChapter}
         />
 
-        <ChapterTitleButton 
+        <ChapterTitleButton
           show={canSplitAsNewChapter}
           content="As new Chapter"
-          color="black"
+          // color="black"
           icon="first_page"
           className="ee-el-ch-t-remove-btn ee-el-sub-2"
           onClick={splitChapterFromSubChapter}

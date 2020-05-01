@@ -7,6 +7,7 @@ function ChapterTitleButton({
   content="",
   icon="",
   color="blue",
+  outlined=true,
   className="",
   onClick=null
 }) {
@@ -22,6 +23,7 @@ function ChapterTitleButton({
           <Button round
             icon={icon}
             color={color}
+            outlined={outlined}
             onClick={onClick}
           />
         </div>

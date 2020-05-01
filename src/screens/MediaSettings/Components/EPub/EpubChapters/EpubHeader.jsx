@@ -45,11 +45,11 @@ export default function EpubHeader({
         </ul>
       </div>
 
-      <h4 className="w-100 d-flex justify-content-end pr-2">
+      <h4 className="w-100 pl-2">
         QUICK ACTIONS
       </h4>
 
-      <div className="w-100 d-flex justify-content-end">
+      <div className="w-100">
         <Button.Group>
           {
             showResetBtn
@@ -62,7 +62,7 @@ export default function EpubHeader({
             showSplitAllBtn
             &&
             <Button outlined onClick={() => epub.splitChaptersByScreenshots()}>
-              Split by Screenshots
+              Split Chapters by Screenshots
             </Button>
           }
           {

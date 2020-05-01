@@ -35,7 +35,7 @@ const ChapterView = ({
 
   const saveTitle = () => {
     let chapterIndex = _.findIndex(epub.chapters, { id })
-    epub.handleTitleChange(chapterIndex, titleInput)
+    epub.handleChapterTitleChange(chapterIndex, titleInput)
   }
 
   useEffect(() => {

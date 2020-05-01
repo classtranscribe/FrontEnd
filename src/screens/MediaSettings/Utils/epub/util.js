@@ -15,6 +15,13 @@ export function parseEpubData(epubData) {
     return _.map(epubData, parseChapter);
 }
 
+export function getAllItemsInChapter(chapter) {
+    return _.flatten([
+        chapter.items,
+        ..._.map(chapter.subChapters, subChapter => subChapter.items)
+    ]);
+}
+
 function generateHtml({ items, subChapters }) {
     let chapterHTML = html.strList(items, 'text');
     let subChapterHTML = _.reduce(
