@@ -189,7 +189,7 @@ class WatchSearch extends CTSearch {
 		this.updateSearch({ 
 			value,
 			status: SEARCH_RESULT, 
-			inVideoTransResults: [...inVideoTransResultsEarlier, ...inVideoTransResultsLater], 
+			inVideoTransResults: [inVideoTransResultsEarlier, inVideoTransResultsLater], 
 			shortcutResults,
 			playlistResults: ARRAY_INIT,
 			inCourseTransResults: ARRAY_INIT

@@ -80,8 +80,54 @@ function ResultList({
         />
       ) : null)}
     </div>
-
   )
+
+  const [inVideoTransResultsEarlier, inVideoTransResultsLater] = 
+    option === SEARCH_TRANS_IN_VIDEO ? inVideoTransResults.map(result => 
+      (
+        <div role="list" className="w-100 d-flex flex-column">
+          {result.map( (item, index) => (
+            <Popup inverted wide basic hideOnScroll 
+              position="top left"
+              openOnTriggerClick={false}
+              openOnTriggerFocus
+              closeOnTriggerBlur
+              disabled={option === SEARCH_IN_SHORTCUTS}
+              key={`search-result-#${index}`}
+              content={popupContent(item)}
+              trigger={<CaptionListItem item={item} option={option} />}
+            />
+          ))}
+        </div>
+      ) 
+    )
+    :
+    [null, null]
+
+  const [itemsNumEarlier, itemNumLater] = inVideoTransResults.map(result => result.length)
+  
+  const transResultsItemsData = [
+    {
+      item: inVideoTransResultsEarlier,
+      length: itemsNumEarlier,
+      type: 'earlier'
+    },
+    {
+      item: inVideoTransResultsLater,
+      length: itemNumLater,
+      type: 'later'
+    }
+  ]
+
+  const transResultsItems = 
+  transResultsItemsData
+    .filter(transItem => transItem.length !== 0)
+    .map(transItem => 
+      <Accordion 
+        resultsEachItems = {transItem.item}
+        title = {`${transItem.length} ${transItem.type} captions in this video`}
+      />
+    )
 
   return (
     <div className="search-result-list">
@@ -112,21 +158,7 @@ function ResultList({
           />
 
           {/* The Result list */}
-          {
-          option === SEARCH_TRANS_IN_VIDEO ? 
-          <>
-            <Accordion 
-              resultsEachItems = {resultsEachItems}
-              title = {'Earlier captions in this video'}
-            />
-            <Accordion 
-              resultsEachItems = {resultsEachItems}
-              title = {'Later captions in this video'}
-            />
-          </>
-          : 
-          resultsEachItems
-          }
+          {option === SEARCH_TRANS_IN_VIDEO ? transResultsItems : resultsEachItems}
           
           <PageControlButtons
             page={page}
