@@ -4,32 +4,10 @@ import { epubState } from "./setstate";
 import { 
     genChaperFromItems, 
     genSubChaperFromItems,
-    getAllItemsInChapter,
+    getAllItemsInChapter
 } from './util';
 
-
-export function setupChapters(epubData) {
-    let chapters = [genChaperFromItems(
-        {
-            items: epubData,
-            title: 'Default Chapter'
-        }
-    )];
-
-    epubState.setChapters(chapters);
-
-    if (chapters[0]) {
-        epubState.changeChapter(chapters[0]);
-    }
-}
-
-export function startManagingEpubChapters() {
-    epubState.setIsEditingEpub(true);
-}
-
-export function handleMouseOverChapterList(chapter) {
-    epubState.changeChapter(chapter);
-}
+let { updateEpubChapters } = epubState;
 
 // **********************************************************************
 // Helpers
@@ -40,11 +18,6 @@ function genUntitledName() {
     let name = 'Untitled Chapter' + (untitledNum === 0 ? '' : ' ' + untitledNum);
     untitledNum += 1;
     return name;
-}
-
-function updateEpubChapters(chapters, currChapter) {
-    epubState.setChapters([ ...chapters ]);
-    epubState.changeChapter({ ...currChapter });
 }
 
 // **********************************************************************
@@ -87,6 +60,7 @@ export function splitChapterFromChaptersItems(chapterIndex, itemIndex) {
     newChapter.items = _.slice(items, itemIndex, items.length);
     newChapter.title = genUntitledName();
     newChapter = genChaperFromItems(newChapter);
+    chapters[chapterIndex] = genChaperFromItems(chapters[chapterIndex]);
 
     updateEpubChapters(
         [
@@ -127,6 +101,8 @@ export function undoSplitChapter(chapterIndex) {
 
         prevChapter.subChapters = currChapter.subChapters;
     }
+
+    chapters[chapterIndex - 1] = genChaperFromItems(prevChapter);
 
     updateEpubChapters(
         [
@@ -209,8 +185,6 @@ export function undoSubdivideChapter(chapterIndex) {
     currChapter.items = [...currChapter.items, ...subChapterItems];
 
     currChapter.subChapters = subChapters.slice(1, subChapters.length);
-
-    currChapter.text = '';
     chapters[chapterIndex] = genChaperFromItems(currChapter);
 
     updateEpubChapters(chapters, chapters[chapterIndex]);
@@ -235,7 +209,9 @@ export function splitSubChapter(chapterIndex, subChapterIndex, itemIndex) {
         ..._.slice(subChapters, subChapterIndex + 1, subChapters.length),
     ];
 
-    updateEpubChapters(chapters, currChapter);
+    chapters[chapterIndex] = genChaperFromItems(currChapter);
+
+    updateEpubChapters(chapters, chapters[chapterIndex]);
 }
 
 export function undoSplitSubChapter(chapterIndex, subChapterIndex) {
@@ -253,12 +229,11 @@ export function undoSplitSubChapter(chapterIndex, subChapterIndex) {
     currChapter.subChapters = [
         ..._.slice(subChapters, 0, subChapterIndex),
         ..._.slice(subChapters, subChapterIndex + 1, subChapters.length),
-    ]
+    ];
 
-    currChapter.text = '';
-    currChapter = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = genChaperFromItems(currChapter);
 
-    updateEpubChapters(chapters, currChapter);
+    updateEpubChapters(chapters, chapters[chapterIndex]);
 }
 
 export function splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex) {
@@ -273,6 +248,7 @@ export function splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, 
         items: _.slice(items, itemIndex, items.length),
         title: genUntitledName()
     });
+    chapters[chapterIndex] = genChaperFromItems(currChapter);
 
     updateEpubChapters(
         [
@@ -296,6 +272,7 @@ export function splitChapterFromSubChapter(chapterIndex, subChapterIndex) {
         ...currSubChapter,
         subChapters: _.slice(subChapters, subChapterIndex + 1, subChapters.length)
     });
+    chapters[chapterIndex] = genChaperFromItems(currChapter);
 
     updateEpubChapters(
         [
@@ -416,4 +393,35 @@ export function magnifyImage(image) {
 
 export function endMagnifyImage() {
     epubState.setMagnifiedImg(null);
+}
+
+
+// **********************************************************************
+// Setup
+// **********************************************************************
+
+
+export function setupChapters(epubData) {
+    let chapters = [genChaperFromItems(
+        {
+            items: epubData,
+            title: 'Default Chapter'
+        }
+    )];
+
+    epubState.setChapters(chapters);
+
+    if (chapters[0]) {
+        epubState.changeChapter(chapters[0]);
+    }
+
+    subdivideChaptersByScreenshots();
+}
+
+export function startManagingEpubChapters() {
+    epubState.setIsEditingEpub(true);
+}
+
+export function handleMouseOverChapterList(chapter) {
+    epubState.changeChapter(chapter);
 }
