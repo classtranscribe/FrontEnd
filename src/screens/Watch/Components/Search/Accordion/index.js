@@ -19,7 +19,11 @@ const useStyles = makeStyles({
     },
     ExpandMoreIcon: {
         color: 'white'
+    },
+    Typography: {
+        fontSize: '140%',
     }
+
 });
 
 
@@ -43,7 +47,7 @@ const ExpansionPanel = withStyles({
 const ExpansionPanelSummary = withStyles({
     root: {
         // backgroundColor: 'rgba(0, 0, 0, .03)',
-        borderBottom: '1px solid rgba(100, 100, 100, .125)',
+        border: '1px solid rgba(49, 49, 49, 0.60)',
         marginBottom: -1,
         minHeight: 56,
         '&$expanded': {
@@ -83,12 +87,14 @@ export default function Accordion({ resultsEachItems, title }) {
                 id="panel1d-header"
                 classes={{ root: classes.ExpansionSummay }}
             >
-                <Typography>{title}</Typography>
+            <Typography 
+                classes={{ root: classes.Typography }}
+            >
+                {title}
+            </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-            <Typography>
-                {resultsEachItems}
-            </Typography>
+            <Typography>{resultsEachItems}</Typography>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     )
