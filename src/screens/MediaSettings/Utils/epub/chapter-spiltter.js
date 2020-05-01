@@ -141,7 +141,7 @@ export function resetToDefaultChapters() {
     let defaultChapter = genChaperFromItems({
         items: epubState.epubData,
         title: 'Default Chapter',
-        id: util.genId('epub-ch')
+        id: util.genId()
     });
 
     updateEpubChapters([defaultChapter], defaultChapter);
@@ -159,7 +159,7 @@ export function splitChaptersByScreenshots() {
         (data, idx) => genChaperFromItems({
             items: [data], 
             title: 'Untitled Chapter ' + (idx + 1), 
-            id: util.genId('epub-ch')
+            id: util.genId()
         })
     );
 

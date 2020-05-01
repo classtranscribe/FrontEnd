@@ -6,7 +6,7 @@ import { EDITOR_TYPE_SPLITTER } from '../constants';
 function parseChapter(epub, index) {
     return {
         ...epub,
-        id: util.genId('epub-data'),
+        id: util.genId(),
         title: epub.title || `Chapter ${index + 1}`,
     };
 }
@@ -18,7 +18,10 @@ export function parseEpubData(epubData) {
 export function getAllItemsInChapter(chapter) {
     return _.flatten([
         chapter.items,
-        ..._.map(chapter.subChapters, subChapter => subChapter.items)
+        ..._.map(
+            (chapter.subChapters || []), 
+            subChapter => subChapter.items
+        )
     ]);
 }
 
@@ -54,7 +57,7 @@ export function genChaperFromItems(chapter, replaceText=true) {
     text = (replaceText || !text) ? generateHtml(chapter) : text;
 
     return {
-        id: id || util.genId('epub-ch'),
+        id: id || util.genId(),
         title: title || 'Untitled Chapter',
         image: image || (items[0] || {}).image,
         items: items,
@@ -75,7 +78,7 @@ export function genSubChaperFromItems(subChapter) {
     } = subChapter;
 
     return {
-        id: id || util.genId('epub-sub-ch'),
+        id: id || util.genId(),
         title: title || 'Untitled Sub-Chapter',
         image: image || (items[0] || {}).image,
         items: items,
@@ -97,7 +100,7 @@ export function markdown2HTML(text) {
 }
 
 export const getCompactText = chapter => {
-    return _.map(chapter.items, item => item.text)
+    return _.map(getAllItemsInChapter(chapter), item => item.text)
             .filter(txt => txt !== '')
             .join('. ')
             .slice(0, 200);
