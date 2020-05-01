@@ -25,8 +25,12 @@ export const util = {
   elem: elem,
   links: links,
 
-  genId(prefx='ct') {
-      return `${prefx}-${uuidv4()}`;
+  genId(prefix='') {
+    if (prefix) {
+      prefix += '-';
+    }
+    
+    return prefix + uuidv4();
   },
 
   refresh() {
