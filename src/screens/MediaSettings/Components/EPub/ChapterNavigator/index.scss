@@ -30,6 +30,13 @@
       }
       .ee-cn-ch-ul {
         max-width: 300px;
+        .ee-cn-ch-li {
+          .ee-cn-ch-li-sub-ch {
+            span {
+              padding-left: 20px;
+            }
+          }
+        } 
       }
     }
   }
