@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { connectWithRedux, epub } from '../../../Utils'
-import { Button } from 'pico-ui'
-import './index.scss'
-import { util } from 'utils'
+import React, { useState, useEffect } from 'react';
+import { connectWithRedux, epub } from '../../../Utils';
+import { Button } from 'pico-ui';
+import './index.scss';
+import { util } from 'utils';
 
 function ChapterNavigatorWithRedux({
   chapters,
@@ -10,35 +10,45 @@ function ChapterNavigatorWithRedux({
   isEditingEpub=false,
 }) {
 
-  const [show, setShow] = useState(null)
+  const [show, setShow] = useState(null);
+  const [navId, setNavId] = useState('');
+  const currChapterId = navId || currChapter.id;
 
-  const showNavigator = () => setShow(' true')
+  const showNavigator = () => setShow(' true');
   const hideNavihator = () => {
-    setShow(' hide')
-    setTimeout(() => {
-      setShow(null)
-    }, 100)
+    setShow(' hide');
+    setTimeout(() => setShow(null), 100);
   }
 
-  const navigate = chapter => () => {
+  const navigateChapter = chapter => () => {
     util.elem.scrollIntoView(chapter.id);
     epub.changeChapter(chapter);
+    setNavId(chapter.id);
+
+    if (isEditingEpub) hideNavihator();
+  }
+
+  const navigateSubChapter = (subChapter, chapter) => () => {
+    util.elem.scrollIntoCenter(subChapter.id);
+    epub.changeChapter(chapter);
+    setNavId(subChapter.id);
+
     if (isEditingEpub) hideNavihator();
   }
 
   useEffect(() => {
     if (show === ' true') {
-      util.elem.scrollIntoCenter('ee-cn-ch-' + currChapter.id);
+      util.elem.scrollIntoCenter('ee-cn-ch-' + currChapterId);
     }
-  }, [show])
+  }, [show]);
 
   useEffect(() => {
     if (isEditingEpub && show) {
-      setShow(null)
+      setShow(null);
     } else if (!isEditingEpub && !show) {
-      setShow(' true')
+      setShow(' true');
     }
-  }, [isEditingEpub])
+  }, [isEditingEpub]);
 
 
   return show ? (
@@ -64,22 +74,20 @@ function ChapterNavigatorWithRedux({
                 <Button round
                   id={`ee-cn-ch-${chapter.id}`}
                   classNames="ee-cn-ch-li-ch"
-                  color={currChapter.id === chapter.id ? "teal" : 'transparent'}
-                  onClick={navigate(chapter)}
+                  color={currChapterId === chapter.id ? "teal" : 'transparent'}
+                  onClick={navigateChapter(chapter)}
                 >
                   {isEditingEpub ? '' : `${chapterIndex+1}. `} {chapter.title}
                 </Button>
                 {
-                  isEditingEpub
-                  &&
                   chapter.subChapters.map(subChapter => (
                     <Button round
                       id={`ee-cn-sub-ch-${subChapter.id}`}
                       classNames="ee-cn-ch-li-sub-ch"
-                      color={currChapter.id === subChapter.id ? "teal" : 'transparent'}
-                      onClick={navigate(subChapter)}
+                      color={currChapterId === subChapter.id ? "teal" : 'transparent'}
+                      onClick={navigateSubChapter(subChapter, chapter)}
                     >
-                      {subChapter.title}
+                      --- {subChapter.title}
                     </Button>
                   ))
                 }
@@ -100,11 +108,11 @@ function ChapterNavigatorWithRedux({
         onClick={showNavigator}
       />
     </div>
-  )
+  );
 }
 
 export default connectWithRedux(
   ChapterNavigatorWithRedux,
   ['isEditingEpub'],
   []
-)
+);
