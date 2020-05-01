@@ -38,6 +38,7 @@ function Results({
   }
 
   const resultOptions = searchControl.getResultOptions(search, option)
+  console.log("resultOptions", resultOptions)
 
   useEffect(() => {
     setPage(1)
@@ -53,7 +54,7 @@ function Results({
         {/* Result Option Tabs */}
           <div className="search-result-options">
             Found
-            {resultOptions.map( opt => (
+            {resultOptions.filter( opt => opt.num !== 0).map( opt => (
               <button 
                 className="plain-btn watch-search-btn search-options-btn"
                 current={opt.current.toString()}
