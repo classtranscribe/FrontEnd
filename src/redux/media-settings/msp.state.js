@@ -1,5 +1,5 @@
 import { api, ARRAY_INIT } from '../../utils'
-import { DEFAULT_IS_EDITING_EPUB } from 'screens/MediaSettings/Utils/constants'
+import { DEFAULT_IS_EDITING_EPUB } from 'screens/MediaSettings/Utils/epub/constants'
 
 export const initialState = {
   media: api.parseMedia(),

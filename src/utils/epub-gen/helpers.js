@@ -8,7 +8,7 @@ import { OEBPS_TOC_NCX        } from './statics/toc.ncx.js'
 import { OEBPS_TOC_XHTML      } from './statics/toc.xhtml.js'
 import { OEBPS_CONTENT_OPF    } from './statics/content.opf.js'
 import { OEBPS_CONTENT_XHTML  } from './statics/content.xhtml.js'
-import { EDITOR_TYPE_SPLITTER } from 'screens/MediaSettings/Utils/constants'
+import { EDITOR_TYPE_SPLITTER } from 'screens/MediaSettings/Utils/epub/constants'
 
 export function parse_chapters(chapters) {
   return _.map(chapters, chapter => ({

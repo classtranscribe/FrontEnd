@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { prompt, CTEpubGenerator } from 'utils';
-import { EDITOR_MARKDOWN } from '../constants';
+import { EDITOR_MARKDOWN } from './constants';
 import { setup } from '../setup';
 import { genChaperFromItems } from './util';
 import { markdown2HTML, parseText } from './chapter-html-converter';

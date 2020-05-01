@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChapterView from './ChapterView';
 import Toolbar from './Toolbar';
 import './index.scss';
-import { connectWithRedux, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils';
+import { connectWithRedux, epub } from '../../../Utils';
 
 var lastChapterId = '';
 
@@ -12,11 +12,11 @@ function EpubPreviewWithRedux({
   isEditingEpub=false,
 }) {
 
-  const [txtEditor, setTxtEditor] = useState(EDITOR_DISPLAY);
+  const [txtEditor, setTxtEditor] = useState(epub.EDITOR_DISPLAY);
   const [adEditor, setADEditor] = useState(
     currChapter.audioDescription
-    ? EDITOR_DISPLAY 
-    : EDITOR_NONE
+    ? epub.EDITOR_DISPLAY 
+    : epub.EDITOR_NONE
   );
 
   useEffect(() => {
@@ -26,13 +26,13 @@ function EpubPreviewWithRedux({
       if (previewEl) {
         previewEl.scrollTop = 0;
       }
-      setTxtEditor(EDITOR_DISPLAY);
+      setTxtEditor(epub.EDITOR_DISPLAY);
     }
     lastChapterId = currChapter.id;
   }, [currChapter]);
 
   useEffect(() => {
-    setTxtEditor(EDITOR_DISPLAY);
+    setTxtEditor(epub.EDITOR_DISPLAY);
   }, [isEditingEpub])
 
   return (

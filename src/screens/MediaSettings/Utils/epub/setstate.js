@@ -1,6 +1,6 @@
 import { api, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
-import { NO_EPUB, DEFAULT_IS_EDITING_EPUB } from '../constants';
+import { NO_EPUB, DEFAULT_IS_EDITING_EPUB } from './constants';
 import { setup } from '../setup';
 import { genChaperFromItems, parseEpubData } from './util';
 
@@ -97,6 +97,16 @@ class EpubState {
     foldedIds = []
     setFoldedIds(foldedIds) {
         this.setState('setFoldedIds', 'foldedIds', foldedIds);
+    }
+
+    navId = []
+    setNavId(navId) {
+        this.setState('setNavId', 'navId', navId);
+    }
+
+    showNav = false
+    setShowNav(showNav) {
+        this.setState('setShowNav', 'showNav', showNav);
     }
 
 

@@ -34,9 +34,8 @@ function EpubSubChapterItem({
   });
 
   return (
-    <div className={subChaperClass}>
+    <div id={subChapter.id} className={subChaperClass}>
       <div 
-        id={subChapter.id} 
         className="ee-el-ch-title ee-el-sub ct-d-r-center-v"
       >
         <input contentEditable

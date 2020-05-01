@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { EDITOR_TYPE_SPLITTER } from '../constants';
+import { EDITOR_TYPE_SPLITTER } from './constants';
 import { epubState } from './setstate';
 import { parseText } from './chapter-html-converter';
 

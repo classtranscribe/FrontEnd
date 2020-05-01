@@ -1,14 +1,10 @@
-import React from 'react'
-import { Button } from 'pico-ui'
-import { LanguageMenuTrigger } from '../../LanguageMenuTrigger'
-import EditorPicker from './EditorPicker'
-import './index.scss'
+import React from 'react';
+import { Button } from 'pico-ui';
+import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
+import EditorPicker from './EditorPicker';
+import './index.scss';
 
-import { 
-  epub, 
-  EDITOR_DISPLAY, 
-  EDITOR_NONE 
-} from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils';
 
 
 export default function Toolbar({
@@ -20,27 +16,27 @@ export default function Toolbar({
   setADEditor,
 }) {
 
-  const noDescription = chapter.audioDescription.trim() === ""
-  const editingTxt = txtEditor !== EDITOR_DISPLAY
-  const openEditor = (txtEditor === EDITOR_DISPLAY && (adEditor === EDITOR_DISPLAY || adEditor === EDITOR_NONE))
-  const currEditor = editingTxt ? txtEditor : adEditor
-  const currSetEditor = editingTxt ? setTxtEditor : setADEditor
+  const noDescription = chapter.audioDescription.trim() === "";
+  const editingTxt = txtEditor !== epub.EDITOR_DISPLAY;
+  const openEditor = (txtEditor === epub.EDITOR_DISPLAY && (adEditor === epub.EDITOR_DISPLAY || adEditor === epub.EDITOR_DISPLAY));
+  const currEditor = editingTxt ? txtEditor : adEditor;
+  const currSetEditor = editingTxt ? setTxtEditor : setADEditor;
 
-  const parsedTxt = epub.parseText(chapter.text)
-  const parsedAD = epub.parseText(chapter.audioDescription)
+  const parsedTxt = epub.parseText(chapter.text);
+  const parsedAD = epub.parseText(chapter.audioDescription);
 
   const saveEditing = () => {
-    currSetEditor(EDITOR_DISPLAY)
+    currSetEditor(epub.EDITOR_DISPLAY);
     if (editingTxt) {
-      epub.onSaveText(currEditor)
+      epub.onSaveText(currEditor);
     } else {
-      epub.onSaveAD(currEditor)
+      epub.onSaveAD(currEditor);
     }
-  }
+  };
   
   const cancelEditing = () => {
-    currSetEditor(EDITOR_DISPLAY)
-  }
+    currSetEditor(epub.EDITOR_DISPLAY);
+  };
 
   return (
     <div className="msp-ee-ep-tb ct-a-fade-in">
@@ -124,5 +120,5 @@ export default function Toolbar({
         }
       </div>
     </div>
-  )
+  );
 }

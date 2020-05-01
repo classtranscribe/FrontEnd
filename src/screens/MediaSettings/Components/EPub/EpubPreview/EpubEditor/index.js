@@ -4,10 +4,6 @@ import { RichTextEditor } from './RichTextEditor';
 import { HTMLEditor     } from './HTMLEditor';
 import { MarkDownEditor } from './MarkDownEditor';
 import { 
-  EDITOR_RICHTEXT, 
-  EDITOR_HTML, 
-  EDITOR_MARKDOWN,
-  EDITOR_DISPLAY,
   epub
 } from 'screens/MediaSettings/Utils';
 import './index.scss';
@@ -39,22 +35,22 @@ export default function EpubEditor({
   return (
     <div className="w-100">
       {
-        type === EDITOR_RICHTEXT
+        type === epub.EDITOR_RICHTEXT
         &&
         <RichTextEditor title={title} text={content} />
       }
       {
-        type === EDITOR_HTML
+        type === epub.EDITOR_HTML
         &&
         <HTMLEditor title={title} text={content} />
       }
       {
-        type === EDITOR_MARKDOWN
+        type === epub.EDITOR_MARKDOWN
         &&
         <MarkDownEditor title={title} text={content} />
       }
       {
-        (type === EDITOR_DISPLAY && previewHTML)
+        (type === epub.EDITOR_DISPLAY && previewHTML)
         &&
         <div data-scroll
           className={previewClass}

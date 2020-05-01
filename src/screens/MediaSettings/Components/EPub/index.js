@@ -11,7 +11,7 @@ import './index.scss'
 
 import { ARRAY_INIT } from 'utils'
 import { ENGLISH } from 'screens/Watch/Utils'
-import { connectWithRedux, epub, NO_EPUB } from '../../Utils'
+import { connectWithRedux, epub } from '../../Utils'
 
 const firstTimeEdit = true
 
@@ -60,7 +60,7 @@ export function EpubWithRedux({
     }
   }, [])
 
-  if (error === NO_EPUB) return <RequestEpub mediaId={media.id} />
+  if (error === epub.NO_EPUB) return <RequestEpub mediaId={media.id} />
 
   return (
     <div className="msp-ee-con ct-a-fade-in">

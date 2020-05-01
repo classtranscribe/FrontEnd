@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, SUB_CHAPTER_ID_PREFIX } from '../constants';
+import { EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN, SUB_CHAPTER_ID_PREFIX } from './constants';
 import { html, api } from 'utils';
 // import { openCoverImagePicker } from './chapter-spiltter';
 
