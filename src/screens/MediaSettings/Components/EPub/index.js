@@ -25,7 +25,7 @@ export function EpubWithRedux({
 
   useEffect(() => {
     if (media.id) {
-      epub.setupEpub(media.id)
+      epub.state.setupEpub(media.id)
     }
   }, [media])
 
@@ -49,7 +49,7 @@ export function EpubWithRedux({
   useEffect(() => {
     // register setState functions
 
-    epub.register({ 
+    epub.state.registerSetStateFunc({ 
       setChapters, setCurrChapter, setFoldedIds, 
       setLanguage, setCoverImgs, setMagnifiedImg 
     })

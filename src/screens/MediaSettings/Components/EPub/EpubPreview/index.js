@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import ChapterView from './ChapterView'
-import Toolbar from './Toolbar'
-import './index.scss'
-import { connectWithRedux, epub, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils'
+import React, { useEffect, useState } from 'react';
+import ChapterView from './ChapterView';
+import Toolbar from './Toolbar';
+import './index.scss';
+import { connectWithRedux, EDITOR_DISPLAY, EDITOR_NONE } from '../../../Utils';
 
-var lastChapterId = ''
+var lastChapterId = '';
 
 function EpubPreviewWithRedux({
   language,
@@ -12,38 +12,34 @@ function EpubPreviewWithRedux({
   isEditingEpub=false,
 }) {
 
-  const [txtEditor, setTxtEditor] = useState(EDITOR_DISPLAY)
+  const [txtEditor, setTxtEditor] = useState(EDITOR_DISPLAY);
   const [adEditor, setADEditor] = useState(
-    currChapter.audioDescription 
+    currChapter.audioDescription
     ? EDITOR_DISPLAY 
     : EDITOR_NONE
-  )
+  );
 
   useEffect(() => {
     // Scroll the preview to top everytime the chapter changed
     if (currChapter.id !== lastChapterId) {
-      let previewEl = document.getElementById('msp-ee-ep-con')
+      let previewEl = document.getElementById('msp-ee-ep-con');
       if (previewEl) {
-        previewEl.scrollTop = 0
+        previewEl.scrollTop = 0;
       }
-      setTxtEditor(EDITOR_DISPLAY)
+      setTxtEditor(EDITOR_DISPLAY);
     }
-    lastChapterId = currChapter.id
-  }, [currChapter])
+    lastChapterId = currChapter.id;
+  }, [currChapter]);
 
   useEffect(() => {
-    setTxtEditor(EDITOR_DISPLAY)
+    setTxtEditor(EDITOR_DISPLAY);
   }, [isEditingEpub])
-
-  const otherProps = {}
-  if (!isEditingEpub) otherProps['data-scroll'] = true
 
   return (
     <div data-scroll
       id="msp-ee-ep-con" 
       className="msp-ee-ep-con ct-a-fade-in"
       data-editing={isEditingEpub}
-      // {...otherProps}
     >
       <ChapterView round
         shadow={isEditingEpub} 
@@ -52,8 +48,6 @@ function EpubPreviewWithRedux({
         txtEditor={txtEditor}
         adEditor={adEditor} 
         setADEditor={setADEditor}
-        imageOnClick={() => epub.openCoverImagePicker()}
-        imageOnClickPrompt="Click to choose cover image"
       />
 
       {
@@ -69,11 +63,11 @@ function EpubPreviewWithRedux({
         />
       }
     </div>
-  )
+  );
 }
 
 export default connectWithRedux(
   EpubPreviewWithRedux,
   ['isEditingEpub'],
   []
-)
+);

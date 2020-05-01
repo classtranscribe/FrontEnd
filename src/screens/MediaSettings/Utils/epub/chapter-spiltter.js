@@ -359,9 +359,7 @@ export function handleSubChapterTitleChange(chapterIndex, subChapterIndex, value
 
 export function openCoverImagePicker() {
     let items = getAllItemsInChapter(epubState.currChapter);
-    epubState.setCoverImgs(
-        _.map(items, item => item.image)
-    );
+    epubState.setCoverImgs(_.map(items, item => item.image));
 }
 
 export function closeCoverImagePicker() {
@@ -376,8 +374,8 @@ export function saveCoverImage(image) {
     if (chapterIndex >= 0) {
         chapters[chapterIndex].image = image;
         currChapter.image = image;
-        epubState.setChapters([ ...chapters ]);
-        epubState.setCurrChapter({ ...currChapter });
+
+        updateEpubChapters(chapters, currChapter);
     }
 
     closeCoverImagePicker();

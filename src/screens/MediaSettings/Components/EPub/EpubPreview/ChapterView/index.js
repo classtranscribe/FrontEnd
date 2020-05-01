@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import _ from 'lodash'
-import { Button } from 'pico-ui'
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
+import classNames from 'classnames';
+import { Button } from 'pico-ui';
 
-import EpubEditor from '../EpubEditor'
-import './index.scss'
+import EpubEditor from '../EpubEditor';
+import './index.scss';
 
-import { api } from 'utils'
-import { epub } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils';
 
 const ChapterView = ({
   txtEditor,
@@ -15,39 +15,35 @@ const ChapterView = ({
   shadow=false,
   round=false,
   contentEditable=false,
-  imageOnClick,
-  imageOnClickPrompt,
 }) => {
-  const { text, image, title='', id, audioDescription } = chapter
+  const { text, title='', id, audioDescription } = chapter;
 
-  const [titleInput, setTitleInput] = useState(title)
+  const [titleInput, setTitleInput] = useState(title);
 
   const handleTitleInput = e => {
-    setTitleInput(e.target.value)
+    setTitleInput(e.target.value);
+  }
+
+  const saveTitle = () => {
+    let chapterIndex = _.findIndex(epub.chapters, { id });
+    epub.handleChapterTitleChange(chapterIndex, titleInput);
   }
 
   const handleTitleKeyDown = ({ keyCode, target }) => {
     if (keyCode === 13) {
-      saveTitle()
-      target.blur()
+      saveTitle();
+      target.blur();
     }
   }
 
-  const saveTitle = () => {
-    let chapterIndex = _.findIndex(epub.chapters, { id })
-    epub.handleChapterTitleChange(chapterIndex, titleInput)
-  }
-
   useEffect(() => {
-    setTitleInput(title)
-  }, [title])
+    setTitleInput(title);
+  }, [title]);
 
-  const isEditingTitle = titleInput !== title
-  const style = "msp-e-view ct-a-fade-in" 
-              + (shadow ? " shadow" : "") 
-              + (round ? " round" : "")
+  const isEditingTitle = titleInput !== title;
+  const style = classNames("msp-e-view ct-a-fade-in", {shadow, round});
 
-  return image ? (
+  return (
     <div className={style}>
       <div className="msp-e-v-title">
         <input
@@ -68,21 +64,6 @@ const ChapterView = ({
           />
         }
       </div>
-      <div className="msp-e-v-img-con">
-        <img src={api.getMediaFullPath(image)} />
-
-        {
-          imageOnClick 
-          && 
-          <div 
-            tabIndex="0" 
-            className="msp-e-v-img-wrapper"
-            onClick={imageOnClick}
-          >
-            {imageOnClickPrompt}
-          </div>
-        }
-      </div>
       
       <EpubEditor description 
         title="Audio Description Editor"
@@ -96,7 +77,7 @@ const ChapterView = ({
         type={txtEditor}
       />
     </div>
-  ) : null
+  );
 }
 
-export default ChapterView
+export default ChapterView;

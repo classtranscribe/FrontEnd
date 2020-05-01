@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { EDITOR_TYPE_SPLITTER } from '../constants';
 import { epubState } from './setstate';
-import { parseText } from './util';
+import { parseText } from './chapter-html-converter';
 
 var newText = '';
 

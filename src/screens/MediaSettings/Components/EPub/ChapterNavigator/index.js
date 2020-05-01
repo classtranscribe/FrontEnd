@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connectWithRedux, epub } from '../../../Utils';
+import { connectWithRedux, epub, SUB_CHAPTER_ID_PREFIX } from '../../../Utils';
 import { Button } from 'pico-ui';
 import './index.scss';
 import { util } from 'utils';
@@ -22,15 +22,20 @@ function ChapterNavigatorWithRedux({
 
   const navigateChapter = chapter => () => {
     util.elem.scrollIntoView(chapter.id);
-    epub.changeChapter(chapter);
+    epub.state.changeChapter(chapter);
     setNavId(chapter.id);
 
     if (isEditingEpub) hideNavihator();
   }
 
   const navigateSubChapter = (subChapter, chapter) => () => {
-    util.elem.scrollIntoCenter(subChapter.id);
-    epub.changeChapter(chapter);
+    if (isEditingEpub) {
+      util.elem.scrollIntoCenter(subChapter.id);
+    } else {
+      util.elem.scrollIntoView(`${SUB_CHAPTER_ID_PREFIX}-${subChapter.id}`);
+    }
+    
+    epub.state.changeChapter(chapter);
     setNavId(subChapter.id);
 
     if (isEditingEpub) hideNavihator();

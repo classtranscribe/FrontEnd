@@ -3,17 +3,15 @@ import * as epubUtils from './util';
 import * as editor from './editor';
 import * as chaperSplitter from './chapter-spiltter';
 import * as downloader from './downloader';
+import * as chapterHtmlConverter from './chapter-html-converter';
 
 export const epub = {
-    init: epubState.init,
-    register: epubState.registerSetStateFunc,
-    setupEpub: epubState.setupEpub,
-    changeChapter: epubState.changeChapter,
-    requestEpub: epubState.requestEpub,
+    state: epubState,
     resetEpubData: () => epubState.setEpubData([]),
 
     ...epubUtils,
     ...editor,
     ...chaperSplitter,
     ...downloader,
+    ...chapterHtmlConverter
 };

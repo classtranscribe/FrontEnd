@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { html, util, api } from 'utils';
-import { EDITOR_TYPE_SPLITTER } from '../constants';
+import { html, util } from 'utils';
+import { chapterToHTML } from './chapter-html-converter';
 
 
 function parseChapter(epub, index) {
@@ -25,21 +25,6 @@ export function getAllItemsInChapter(chapter) {
     ]);
 }
 
-function generateHtml({ items, subChapters }) {
-    let chapterHTML = html.strList(items, 'text');
-    let subChapterHTML = _.reduce(
-        subChapters,
-        (subHtml, subChapter) => subHtml 
-                               + `\n\n<h3>${subChapter.title}</h3>\n\n`
-                               + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n\n`
-                               + html.strList(subChapter.items, 'text')
-        ,
-        ''
-    );
-
-    return chapterHTML + subChapterHTML;
-}
-
 /**
  * @todo generate text for chapter based on items and subchapters
  */
@@ -54,12 +39,12 @@ export function genChaperFromItems(chapter, replaceText=true) {
         subChapters = [],
     } = chapter;
 
-    text = (replaceText || !text) ? generateHtml(chapter) : text;
+    text = (replaceText || !text) ? chapterToHTML(chapter) : text;
 
     return {
         id: id || util.genId(),
         title: title || 'Untitled Chapter',
-        image: image || (items[0] || {}).image,
+        image: (items[0] || {}).image,
         items: items,
         audioDescription: audioDescription,
         text,
@@ -87,19 +72,7 @@ export function genSubChaperFromItems(subChapter) {
     };
 }
 
-export function parseText(text /* , editor='' */) {
-    let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER);
-    let content = splittedTexts[0];
-    let editorType = splittedTexts[1];
-
-    return { content, editorType };
-}
-
-export function markdown2HTML(text) {
-    return html.markdown(text);
-}
-
-export const getCompactText = chapter => {
+export function getCompactText(chapter) {
     return _.map(getAllItemsInChapter(chapter), item => item.text)
             .filter(txt => txt !== '')
             .join('. ')

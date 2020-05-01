@@ -26,7 +26,7 @@ class MediaSettingsWithRedux extends React.Component {
     const { tab } = util.links.useHash()
     this.initTab = tab
     setup.init(props)
-    epub.init(props)
+    epub.state.init(props)
   }
 
   componentDidMount() {

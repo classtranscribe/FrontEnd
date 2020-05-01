@@ -9,6 +9,10 @@ export const mspTabs = [
 
 /** Epub */
 export const DEFAULT_IS_EDITING_EPUB = true;
+
+export const CHAPTER_ID_PREFIX = 'epub-ch';
+export const SUB_CHAPTER_ID_PREFIX = 'epub-sub-ch';
+
 // epub chapters
 export const NEW_CHAPTER = { id: 'msp-new-chapter' };
 

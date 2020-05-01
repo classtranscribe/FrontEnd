@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { prompt, CTEpubGenerator } from 'utils';
 import { EDITOR_MARKDOWN } from '../constants';
 import { setup } from '../setup';
-import { parseText, genChaperFromItems, markdown2HTML } from './util';
+import { genChaperFromItems } from './util';
+import { markdown2HTML, parseText } from './chapter-html-converter';
 import { epubState } from './setstate';
 
 

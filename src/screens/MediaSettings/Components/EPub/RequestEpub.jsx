@@ -9,7 +9,7 @@ export default function RequestEpub({
 
   const handleRequest = async () => {
     setRequested(1)
-    await epub.requestEpub(mediaId)
+    await epub.state.requestEpub(mediaId)
     setRequested(2)
   }
 
