@@ -88,6 +88,7 @@ function EpubChapterItem({
           {chapter.subChapters.map((subChapter, subChapterIndex) => (
             <EpubSubChapterItem
               key={subChapter.id}
+              foldedIds={foldedIds}
               subChapter={subChapter}
               chapterIndex={chapterIndex}
               subChapterIndex={subChapterIndex}
