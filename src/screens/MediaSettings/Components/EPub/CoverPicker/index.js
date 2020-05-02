@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-import { CTModal } from 'components'
-import { api } from 'utils'
-import { epub } from 'screens/MediaSettings/Utils/epub'
-import './index.scss'
+import React, { useState } from 'react';
+import { CTModal } from 'components';
+import { api } from 'utils';
+import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import './index.scss';
 
-export default function CoverPicker({
+function CoverPicker({
   currChapter,
-  images=[],
+  coverImgs=[],
 }) {
 
-  const [cover, setCover] = useState(currChapter.image)
+  const [cover, setCover] = useState(currChapter.image);
 
   const onPick = image => () => {
-    setCover(image)
+    setCover(image);
   }
 
   const onSave = () => {
-    epub.saveCoverImage(cover)
+    epub.saveCoverImage(cover);
   }
 
   return (
@@ -30,7 +30,7 @@ export default function CoverPicker({
       <h3>Screenshots</h3>
       <div className="msp-ee-cp-con">
         <div className="ee-cp-imgs" data-scroll>
-          {images.map(imageSrc => (
+          {coverImgs.map(imageSrc => (
             <div 
               key={imageSrc} 
               tabIndex={0}
@@ -54,5 +54,11 @@ export default function CoverPicker({
         </div>
       </div>
     </CTModal>
-  )
+  );
 }
+
+
+export default connectWithRedux(
+  CoverPicker,
+  ['coverImgs', 'currChapter']
+)

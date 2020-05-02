@@ -25,7 +25,7 @@ function genUntitledName() {
 // **********************************************************************
 
 export function saveChapters() {
-    epubState.setIsEditingEpub(false);
+    epubState.setIsManagingChapters(false);
 
     prompt.addOne({
       text: 'ePub chapters saved.',
@@ -37,7 +37,7 @@ export function saveChapters() {
 
 export function cancelEditChapters() {
     setupChapters(epubState.epubData);
-    epubState.setIsEditingEpub(false);
+    epubState.setIsManagingChapters(false);
 }
 
 
@@ -286,6 +286,8 @@ export function splitChapterFromSubChapter(chapterIndex, subChapterIndex) {
 
 export function subdivideChaptersByScreenshots() {
     let { chapters } = epubState;
+    if (chapters === ARRAY_INIT) return;
+    
     _.forEach(chapters, (chapter, chapterIndex) => {
         let items = getAllItemsInChapter(chapter);
 
@@ -402,6 +404,8 @@ export function endMagnifyImage() {
 
 
 export function setupChapters(epubData) {
+    if (epubData === ARRAY_INIT) return;
+
     let chapters = [genChaperFromItems(
         {
             items: epubData,
@@ -419,7 +423,7 @@ export function setupChapters(epubData) {
 }
 
 export function startManagingEpubChapters() {
-    epubState.setIsEditingEpub(true);
+    epubState.setIsManagingChapters(true);
 }
 
 export function handleMouseOverChapterList(chapter) {

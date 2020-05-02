@@ -1,4 +1,5 @@
 import React from 'react';
+import { connectWithRedux } from '../../../Utils/epub';
 
 function ImageMagnifier({
   magnifiedImg
@@ -11,5 +12,8 @@ function ImageMagnifier({
   ) : null;
 }
 
-export default ImageMagnifier;
+export default connectWithRedux(
+  ImageMagnifier,
+  ['magnifiedImg']
+);
 

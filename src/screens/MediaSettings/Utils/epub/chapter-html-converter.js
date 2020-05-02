@@ -21,8 +21,8 @@ function chapterItemsToMarkdown(items) {
 }
 
 export function chapterToHTML({ items, subChapters, image, title }) {
-    let chapterHTML = `## ${title}`
-                    + (image ? `\n\n<img src="${api.getMediaFullPath(image)}" />\n` : '')
+    let chapterHTML = `## ${title}\n\n`
+                    + (image ? `<img src="${api.getMediaFullPath(image)}" />\n` : '')
                     // + html.strList(items, 'text');
                     + chapterItemsToMarkdown(items);
 
@@ -31,7 +31,7 @@ export function chapterToHTML({ items, subChapters, image, title }) {
         (subHtml, subChapter) => subHtml 
             // + `\n\n<h3 id="${SUB_CHAPTER_ID_PREFIX}-${subChapter.id}">\n\t`
             // + `${subChapter.title}\n</h3>\n\n`
-            + `\n\n\n### ${subChapter.title}\n\n`
+            + `\n\n### ${subChapter.title}\n\n`
             + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n`
             // + html.strList(subChapter.items, 'text')
             + chapterItemsToMarkdown(subChapter.items)

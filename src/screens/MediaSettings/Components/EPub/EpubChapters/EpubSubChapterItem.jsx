@@ -1,5 +1,5 @@
 import React from 'react';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
 import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';
@@ -106,4 +106,7 @@ function EpubSubChapterItem({
   );
 }
 
-export default EpubSubChapterItem;
+export default connectWithRedux(
+  EpubSubChapterItem,
+  ['foldedIds']
+);

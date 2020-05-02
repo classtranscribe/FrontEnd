@@ -1,12 +1,13 @@
 import { util } from 'utils';
 import { epubState } from './setstate';
-import { SUB_CHAPTER_ID_PREFIX } from './constants'
+import { 
+    NAV_CLOSE,
+    NAV_HIDE,
+    NAV_SHOW,
+    SUB_CHAPTER_ID_PREFIX
+} from './constants'
 
 const { elem } = util;
-
-export const NAV_SHOW = ' show';
-export const NAV_HIDE = ' hide';
-export const NAV_CLOSE = null;
 
 export const showNavigator = () => {
     epubState.setShowNav(NAV_SHOW);

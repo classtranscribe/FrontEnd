@@ -7,33 +7,26 @@ function ChapterNavigatorWithRedux({
   chapters,
   currChapter,
   isManagingChapters=false,
+  navId,
+  showNav,
 }) {
-
-  const [show, setShow] = useState(epub.NAV_CLOSE);
-  const [navId, setNavId] = useState('');
   const currChapterId = navId || currChapter.id;
 
   useEffect(() => {
     epub.onShowNavChange(currChapterId);
-  }, [show]);
+  }, [showNav]);
 
   useEffect(() => {
-    if (isManagingChapters && show) {
-      setShow(epub.NAV_CLOSE);
-    } else if (!isManagingChapters && !show) {
-      setShow(epub.NAV_SHOW);
+    if (isManagingChapters && showNav) {
+      epub.state.setShowNav(epub.NAV_CLOSE);
+    } else if (!isManagingChapters && !showNav) {
+      epub.state.setShowNav(epub.NAV_SHOW);
     }
 
-    setNavId(currChapter.id);
+    epub.state.setNavId(currChapter.id);
   }, [isManagingChapters]);
 
   useEffect(() => {
-    // register setState funcs to epub state
-    epub.state.registerSetStateFunc({
-      setNavId,
-      setShowNav: setShow
-    });
-
     // add event listener to preview panel's scrolling
     epub.addScrollEventListenerToEpubPreview();
 
@@ -43,10 +36,10 @@ function ChapterNavigatorWithRedux({
   }, []);
 
 
-  return show ? (
+  return showNav ? (
     <div className="msp-ee-cn-con" data-editing={isManagingChapters}>
       <div className="ee-cn-wrapper" onClick={epub.hideNavihator}></div>
-      <div className={"ee-cn-ch-con" + show}>
+      <div className={"ee-cn-ch-con" + showNav}>
         <div className="ee-cn-ch-scroll-con" data-scroll>
           <div className="ct-d-r-center-v ee-cn-h">
             <h3>Chapters</h3>
@@ -76,7 +69,7 @@ function ChapterNavigatorWithRedux({
                   &&
                   chapter.subChapters.map((subChapter, subChapterIndex) => (
                     <Button round
-                      id={`ee-cn-sub-ch-${subChapter.id}`}
+                      id={`ee-cn-ch-${subChapter.id}`}
                       key={`ee-cn-sub-ch-${subChapter.id}`}
                       classNames="ee-cn-ch-li-sub-ch"
                       color={currChapterId === subChapter.id ? "teal" : 'transparent'}
@@ -112,6 +105,11 @@ function ChapterNavigatorWithRedux({
 
 export default connectWithRedux(
   ChapterNavigatorWithRedux,
-  ['isManagingChapters'],
-  []
+  [
+    'isManagingChapters',
+    'chapters',
+    'currChapter',
+    'navId',
+    'showNav'
+  ]
 );

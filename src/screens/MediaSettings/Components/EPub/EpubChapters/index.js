@@ -7,11 +7,6 @@ import './index.scss';
 
 function EpubChaptersWithRedux({
   chapters=[],
-  language,
-  magnifiedImg,
-  foldedIds,
-
-  epubData,
   isManagingChapters=false,
 }) {
 
@@ -23,11 +18,7 @@ function EpubChaptersWithRedux({
       className="msp-ee-el-con ct-d-c ct-a-fade-in" 
       data-editing={isManagingChapters}
     >
-      <EpubHeader
-        epubData={epubData}
-        chapters={chapters}
-        language={language}
-      />
+      <EpubHeader />
 
       <div className="ct-d-c ee-el-chapters">
         {chapters.map((chapter, chapterIndex) => (
@@ -35,19 +26,21 @@ function EpubChaptersWithRedux({
             key={`ee-el-ch-${chapterIndex}`} 
             chapter={chapter}
             chapterIndex={chapterIndex}
-            foldedIds={foldedIds}
             canUndoSplit={chapterIndex > 0}
           />
         ))}
       </div>
 
-      <ImageMagnifier magnifiedImg={magnifiedImg} />
+      <ImageMagnifier />
     </div>
   );
 }
 
 export default connectWithRedux(
   EpubChaptersWithRedux,
-  ['isManagingChapters', 'epubData'],
+  [
+    'isManagingChapters', 
+    'chapters'
+  ],
   []
 );

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button } from 'pico-ui'
 import { LanguageMenuTrigger } from '../LanguageMenuTrigger'
-import { epub } from 'screens/MediaSettings/Utils/epub'
+import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub'
 
-export default function EpubHeader({
+function EpubHeader({
   epubData,
   chapters=[],
   language,
@@ -77,3 +77,12 @@ export default function EpubHeader({
     </div>
   );
 }
+
+export default connectWithRedux(
+  EpubHeader,
+  [
+    'epubData',
+    'chapters',
+    'language'
+  ]
+);

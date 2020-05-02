@@ -68,6 +68,10 @@ function EpubPreviewWithRedux({
 
 export default connectWithRedux(
   EpubPreviewWithRedux,
-  ['isManagingChapters'],
+  [
+    'isManagingChapters',
+    'language',
+    'currChapter'
+  ],
   []
 );

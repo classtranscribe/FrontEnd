@@ -16,7 +16,7 @@ import {
 } from './Utils'
 import { util } from '../../utils'
 
-import { epub, epubContext, epubStore } from './Utils/epub'
+import { epubContext, epubStore } from './Utils/epub'
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
@@ -26,7 +26,6 @@ class MediaSettingsWithRedux extends React.Component {
 
     this.mediaId = props.match.params.id
     setup.init(props)
-    epub.state.init(props)
   }
 
   componentDidMount() {
@@ -65,7 +64,7 @@ export function MediaSettings(props) {
       'setPlaylist',
       'setTab',
       'setEpubData',
-      'setIsEditingEpub',
+      'setIsManagingChapters',
       'setError'
     ],
     mspContext

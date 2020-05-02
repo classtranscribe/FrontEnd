@@ -1,7 +1,6 @@
 import { api, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
 import { NO_EPUB, DEFAULT_IS_MANAGING_CHAPTERS } from './constants';
-import { setup } from '../setup';
 import { parseEpubData } from './util';
 
 class EpubState {
@@ -23,11 +22,20 @@ class EpubState {
      */
     init(props) {
         const { 
-            setEpubData, setIsEditingEpub
+            setEpubData, setIsManagingChapters,
+            setLanguage, setChapters, setCurrChapter,
+            setCoverImgs, setMagnifiedImg, setFoldedIds,
+            setNavId, setShowNav,
+            setTxtEditor, setError,
         } = props;
     
         this.redux = { 
-            setEpubData, setIsEditingEpub
+            ...this.redux,
+            setEpubData, setIsManagingChapters,
+            setLanguage, setChapters, setCurrChapter,
+            setCoverImgs, setMagnifiedImg, setFoldedIds,
+            setNavId, setShowNav,
+            setTxtEditor, setError,
         };
     }
 
@@ -41,10 +49,10 @@ class EpubState {
     }
 
     isManagingChapters = DEFAULT_IS_MANAGING_CHAPTERS
-    setIsEditingEpub(isManagingChapters) {
-        const { setIsEditingEpub } = this.redux;
-        if (setIsEditingEpub) {
-            setIsEditingEpub(isManagingChapters);
+    setIsManagingChapters(isManagingChapters) {
+        const { setIsManagingChapters } = this.redux;
+        if (setIsManagingChapters) {
+            setIsManagingChapters(isManagingChapters);
             this.isManagingChapters = isManagingChapters;
         }
     }
@@ -59,11 +67,16 @@ class EpubState {
     }
 
     setState(funcName, stateName, value) {
-        const setState = this.setStateFunc[funcName];
+        const setState = this.redux[funcName];
         if (setState) {
             setState(value);
             this[stateName] = value;
         }
+    }
+
+    error = null
+    setError(error) {
+        this.setState('setError', 'error', error);
     }
 
     currChapter = {}
@@ -139,13 +152,13 @@ class EpubState {
     }
 
     async getEpubData(mediaId, language) {
-        setup.error('');
+        this.setError('');
         try {
             let { data=[] } = await api.getEpubData(mediaId, language);
             return parseEpubData(data);
         } catch (error) {
             console.error('Failed to get ePub data of media for ' + mediaId);
-            setup.error(NO_EPUB);
+            this.setError(NO_EPUB);
         }
 
         return ARRAY_INIT;

@@ -8,7 +8,7 @@ import { epub } from 'screens/MediaSettings/Utils/epub';
 
 
 export default function Toolbar({
-  chapter,
+  // chapter,
   language,
   txtEditor,
   setTxtEditor,
@@ -16,14 +16,14 @@ export default function Toolbar({
   setADEditor,
 }) {
 
-  const noDescription = chapter.audioDescription.trim() === "";
+  // const noDescription = chapter.audioDescription.trim() === "";
   const editingTxt = txtEditor !== epub.EDITOR_DISPLAY;
   const openEditor = (txtEditor === epub.EDITOR_DISPLAY && (adEditor === epub.EDITOR_DISPLAY || adEditor === epub.EDITOR_NONE));
   const currEditor = editingTxt ? txtEditor : adEditor;
   const currSetEditor = editingTxt ? setTxtEditor : setADEditor;
 
-  const parsedTxt = epub.parseText(chapter.text);
-  const parsedAD = epub.parseText(chapter.audioDescription);
+  // const parsedTxt = epub.parseText(chapter.text);
+  // const parsedAD = epub.parseText(chapter.audioDescription);
 
   const saveEditing = () => {
     currSetEditor(epub.EDITOR_DISPLAY);

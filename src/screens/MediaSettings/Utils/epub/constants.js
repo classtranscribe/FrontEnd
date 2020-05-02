@@ -6,6 +6,11 @@ export const SUB_CHAPTER_ID_PREFIX = 'epub-sub-ch';
 export const NAV_CH_ID_PREFIX = 'ee-cn-ch';
 export const NAV_SUB_CH_ID_PREFIX = 'ee-cn-sub-ch';
 
+// nav
+export const NAV_SHOW = ' show';
+export const NAV_HIDE = ' hide';
+export const NAV_CLOSE = null;
+
 // epub chapters
 export const NEW_CHAPTER = { id: 'msp-new-chapter' };
 
