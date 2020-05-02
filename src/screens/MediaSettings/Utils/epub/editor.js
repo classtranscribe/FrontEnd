@@ -3,7 +3,11 @@ import { EDITOR_TYPE_SPLITTER } from './constants';
 import { epubState } from './setstate';
 import { parseText } from './chapter-html-converter';
 
-var newText = '';
+const { updateEpubChapters } = epubState;
+
+export var newText = '';
+
+export const getNewText = () => newText;
 
 export function startEditContent(txtEditor, description) {
     let text = description 
@@ -14,24 +18,25 @@ export function startEditContent(txtEditor, description) {
     newText = content;
 }
 
-export function updateText(newText) {
-    newText = newText;
+export function updateText(text) {
+    newText = text;
 }
 
 export function onSaveText(type) {
     let { 
         chapters, 
         currChapter 
-    } = epubState.chapters;
+    } = epubState;
 
     let chapterIndex = _.findIndex(chapters, { id: currChapter.id });
+    console.log('chapterIndex', chapterIndex, newText)
 
     if (chapterIndex >= 0) {
         newText += EDITOR_TYPE_SPLITTER + type;
         chapters[chapterIndex].text = newText;
-        currChapter.text = newText;
-        epubState.setChapters([ ...chapters ]);
-        epubState.setCurrChapter({ ...currChapter });
+
+        updateEpubChapters(chapters, chapters[chapterIndex]);
+        console.log(chapters[chapterIndex])
     }
 
     newText = '';
@@ -49,8 +54,8 @@ export function onSaveAD(type) {
         newText += EDITOR_TYPE_SPLITTER + type;
         chapters[chapterIndex].audioDescription = newText;
         currChapter.audioDescription = newText;
-        epubState.setChapters([ ...chapters ]);
-        epubState.setCurrChapter({ ...currChapter });
+
+        updateEpubChapters(chapters, currChapter);
     }
 
     newText = '';

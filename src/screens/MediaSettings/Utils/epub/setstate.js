@@ -14,6 +14,7 @@ class EpubState {
         this.registerSetStateFunc = this.registerSetStateFunc.bind(this);
         this.setupEpub = this.setupEpub.bind(this);
         this.changeChapter = this.changeChapter.bind(this);
+        this.updateEpubChapters = this.updateEpubChapters.bind(this);
     }
 
     /**
@@ -71,12 +72,25 @@ class EpubState {
     }
 
     changeChapter(chapter) {
-        this.setCurrChapter(genChaperFromItems(chapter));
+        this.setCurrChapter(chapter);
     }
 
     chapters = []
     setChapters(chapters) {
         this.setState('setChapters', 'chapters', chapters);
+    }
+
+    updateEpubChapters(chapters, currChapter) {
+        this.setChapters([ ...chapters ]);
+        this.changeChapter({ ...currChapter });
+    }
+
+    switchToEditChapters() {
+
+    }
+
+    switchToSplitChapters() {
+        
     }
 
     language = ENGLISH

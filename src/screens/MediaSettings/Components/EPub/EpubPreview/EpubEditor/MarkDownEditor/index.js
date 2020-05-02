@@ -5,50 +5,51 @@ import { setup, epub } from 'screens/MediaSettings/Utils'
 import { mspPreference as pref  } from 'utils/user-preference/media-settings'
 import "ace-builds/src-noconflict/mode-markdown"
 import "ace-builds/src-noconflict/snippets/markdown"
+import { util } from 'utils';
 
 export function MarkDownEditor({
-  text,
   title
 }) {
 
-  const [fullscreen, setFullscreen] = useState(false)
-  const [dark, setDark] = useState(pref.darkEditor())
-  const [value, setValue] = useState(text)
+  const [fullscreen, setFullscreen] = useState(false);
+  const [dark, setDark] = useState(pref.darkEditor());
+  const [value, setValue] = useState('');
+  const [cursor, setCursor] = useState(1);
 
   const onChange = newValue => {
-    epub.updateText(newValue)
-  }
+    epub.updateText(newValue);
+  };
 
   const enterFullscreen = () => {
     if (!fullscreen) {
-      setup.enterFullscreen('msp-ee-editor')
+      setup.enterFullscreen('msp-ee-editor');
     }
-  }
+  };
 
   const exitFullscreen = () => {
     if (fullscreen) {
       setup.exitFullscreen()
     }
-  }
+  };
 
   const changeTheme = () => {
     pref.darkEditor(!dark)
     setDark(!dark)
-  }
+    setCursor(200);
+  };
 
   useEffect(() => {
-    setValue(epub.newText)
-  }, [fullscreen, dark])
+    setValue(epub.getNewText());
+  }, [fullscreen, dark]);
 
   useEffect(() => {
     document.addEventListener('fullscreenchange', () => {
-      setFullscreen(fullscreen => !fullscreen)
-      let editorEl = document.getElementById('msp-ee-editor')
-      if (editorEl) {
-        editorEl.scrollIntoView({ block: 'center' })
-      }
-    })
-  }, [])
+      setFullscreen(fullscreen => !fullscreen);
+      util.elem.scrollIntoCenter('msp-ee-editor');
+    });
+
+    setValue(epub.getNewText());
+  }, []);
 
   return (
     <div 
@@ -79,6 +80,8 @@ export function MarkDownEditor({
           />
         </div>
       </div>
+
+
       <AceEditor focus
         className="msp-ee-html-editor"
         mode="markdown"
@@ -92,7 +95,9 @@ export function MarkDownEditor({
         height={fullscreen ? "90vh" : "530px"}
         wrapEnabled
         enableLiveAutocompletion
+        cursorStart={cursor}
+        onSelectionChange={e => console.log(e.doc)}
       />
     </div>
-  )
+  );
 }

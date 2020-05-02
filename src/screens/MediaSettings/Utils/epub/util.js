@@ -32,7 +32,7 @@ export function genChaperFromItems(chapter, replaceText=true) {
     let { 
         id,
         title,
-        image,
+        // image,
         items,
         text = "",
         audioDescription = "",
@@ -44,7 +44,7 @@ export function genChaperFromItems(chapter, replaceText=true) {
     return {
         id: id || util.genId(),
         title: title || 'Untitled Chapter',
-        image: (items[0] || {}).image,
+        // image: (items[0] || {}).image,
         items: items,
         audioDescription: audioDescription,
         text,
@@ -56,19 +56,19 @@ export function genSubChaperFromItems(subChapter) {
     const { 
         id,
         title,
-        image,
+        // image,
         items,
         text = "",
-        audioDescription = "",
+        // audioDescription = "",
     } = subChapter;
 
     return {
         id: id || util.genId(),
         title: title || 'Untitled Sub-Chapter',
-        image: image || (items[0] || {}).image,
+        image: (items[0] || {}).image,
         items: items,
-        audioDescription: audioDescription,
-        text: text || html.strList(items, 'text'),
+        // audioDescription: audioDescription,
+        // text: text || html.strList(items, 'text'),
     };
 }
 

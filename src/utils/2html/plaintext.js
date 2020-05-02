@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash';
 
 /**
  * Convert list of objects to html
@@ -8,22 +8,22 @@ import _ from 'lodash'
  * @returns {String} the raw html data
  */
 export function strList2Html(textdata, key) {
-  let paragraphs = []
+  let paragraphs = [];
 
   if (Array.isArray(textdata)) {
     if (key) {
-      paragraphs = textdata.map(data => _.get(data, key))
+      paragraphs = textdata.map(data => _.get(data, key));
     }
   } else {
-    return ''
+    return '';
   }
 
   paragraphs = _.map(
     paragraphs.filter(text => Boolean(_.trim(text.toString()))),
-    text => `<p>${text}</p>`
-  )
+    text => `<p>\n\t${text}\n</p>`
+  );
 
-  return paragraphs.join('\n\n')
+  return paragraphs.join('\n\n');
 }
 
 
@@ -37,9 +37,9 @@ export function strList2Html(textdata, key) {
 export function plaintext2Html(textdata, options={
   paragraphSeparator: '\n'
 }) {
-  if (!textdata) return ''
-  const { paragraphSeparator } = options
+  if (!textdata) return '';
+  const { paragraphSeparator } = options;
 
-  let paragraphs = _.split(textdata, paragraphSeparator)
-  return strList2Html(paragraphs)
+  let paragraphs = _.split(textdata, paragraphSeparator);
+  return strList2Html(paragraphs);
 }

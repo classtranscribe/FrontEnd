@@ -10,6 +10,7 @@ import './index.scss';
 import './braft-editor.scss';
 import './ace-editor.scss';
 import './text-preview.scss';
+import { util } from 'utils';
 
 export default function EpubEditor({
   text,
@@ -25,13 +26,9 @@ export default function EpubEditor({
   });
 
   useEffect(() => {
-    let editorEl = document.getElementById('msp-ee-editor');
-    if (editorEl) {
-      editorEl.scrollIntoView({ block: 'center' });
-    }
+    util.elem.scrollIntoCenter('msp-ee-editor');
   }, [type]);
 
-  // console.log(content)
   return (
     <div className="w-100">
       {

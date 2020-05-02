@@ -18,7 +18,7 @@ export default function Toolbar({
 
   const noDescription = chapter.audioDescription.trim() === "";
   const editingTxt = txtEditor !== epub.EDITOR_DISPLAY;
-  const openEditor = (txtEditor === epub.EDITOR_DISPLAY && (adEditor === epub.EDITOR_DISPLAY || adEditor === epub.EDITOR_DISPLAY));
+  const openEditor = (txtEditor === epub.EDITOR_DISPLAY && (adEditor === epub.EDITOR_DISPLAY || adEditor === epub.EDITOR_NONE));
   const currEditor = editingTxt ? txtEditor : adEditor;
   const currSetEditor = editingTxt ? setTxtEditor : setADEditor;
 
@@ -50,7 +50,7 @@ export default function Toolbar({
           openEditor
           ?
           <div className="ee-tb-edit-btns">
-            <EditorPicker description
+            {/* <EditorPicker description
               editor={adEditor}
               className="ee-tb-btn" 
               icon={noDescription ? "post_add" : "rate_review"}
@@ -58,7 +58,7 @@ export default function Toolbar({
               setEditor={setADEditor}
               text={noDescription ? 'Add Audio Description' : 'Edit Audio Description'}
               defaultEditor={parsedAD.editorType}
-            />
+            /> */}
             <EditorPicker
               editor={txtEditor}
               className="ee-tb-btn" 
@@ -66,7 +66,7 @@ export default function Toolbar({
               color="transparent" 
               setEditor={setTxtEditor}
               text="Edit Content"
-              defaultEditor={parsedTxt.editorType}
+              defaultEditor={epub.EDITOR_MARKDOWN}
             />
           </div>
           :

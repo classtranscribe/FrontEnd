@@ -10,13 +10,13 @@ import { epub } from 'screens/MediaSettings/Utils';
 
 const ChapterView = ({
   txtEditor,
-  adEditor,
+  // adEditor,
   chapter,
   shadow=false,
   round=false,
   contentEditable=false,
 }) => {
-  const { text, title='', id, audioDescription } = chapter;
+  const { text, title='', id } = chapter;
 
   const [titleInput, setTitleInput] = useState(title);
 
@@ -45,7 +45,7 @@ const ChapterView = ({
 
   return (
     <div className={style}>
-      <div className="msp-e-v-title">
+      {/* <div className="msp-e-v-title">
         <input
           readOnly={!contentEditable}
           onChange={handleTitleInput}
@@ -63,13 +63,13 @@ const ChapterView = ({
             onClick={saveTitle}
           />
         }
-      </div>
+      </div> */}
       
-      <EpubEditor description 
+      {/* <EpubEditor description 
         title="Audio Description Editor"
         text={audioDescription} 
         type={adEditor}   
-      />
+      /> */}
 
       <EpubEditor 
         title="ePub Content Editor"

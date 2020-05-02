@@ -15,21 +15,34 @@ export function markdown2HTML(text) {
     return html.markdown(text);
 }
 
-export function chapterToHTML({ items, subChapters, image }) {
-    let chapterHTML = (image ? `<img src="${api.getMediaFullPath(image)}" />\n\n` : '')
-                    + html.strList(items, 'text');
+function chapterItemsToMarkdown(items) {
+    return _.map(items, item => item.text)
+            .join('\n\n')
+}
+
+export function chapterToHTML({ items, subChapters, image, title }) {
+    let chapterHTML = `## ${title}`
+                    + (image ? `\n\n<img src="${api.getMediaFullPath(image)}" />\n` : '')
+                    // + html.strList(items, 'text');
+                    + chapterItemsToMarkdown(items);
 
     let subChapterHTML = _.reduce(
         subChapters,
         (subHtml, subChapter) => subHtml 
-            + `\n\n<h3 id="${SUB_CHAPTER_ID_PREFIX}-${subChapter.id}">${subChapter.title}</h3>\n\n`
-            + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n\n`
-            + html.strList(subChapter.items, 'text')
+            // + `\n\n<h3 id="${SUB_CHAPTER_ID_PREFIX}-${subChapter.id}">\n\t`
+            // + `${subChapter.title}\n</h3>\n\n`
+            + `\n\n\n### ${subChapter.title}\n\n`
+            + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n`
+            // + html.strList(subChapter.items, 'text')
+            + chapterItemsToMarkdown(subChapter.items)
         ,
         ''
     );
 
-    return chapterHTML + subChapterHTML;
+    return chapterHTML 
+         + subChapterHTML 
+         + EDITOR_TYPE_SPLITTER 
+         + EDITOR_MARKDOWN;
 }
 
 export function chapterToPreviewHTML(text) {
