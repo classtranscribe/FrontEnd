@@ -7,6 +7,8 @@ import * as downloader from './downloader';
 import * as chapterHtmlConverter from './chapter-html-converter';
 import * as chapterNavigator from './chapter-navigator';
 
+export { connectWithRedux, epubStore, epubContext } from 'redux/media-settings/epub'
+
 export const epub = {
     state: epubState,
     resetEpubData: () => epubState.setEpubData([]),

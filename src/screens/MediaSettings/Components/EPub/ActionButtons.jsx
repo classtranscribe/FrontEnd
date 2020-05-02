@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button } from 'pico-ui'
-import { connectWithRedux, epub } from '../../Utils'
+import { connectWithRedux, epub } from '../../Utils/epub'
 
 function ActionButtonsWithRedux({
-  isEditingEpub=false,
+  isManagingChapters=false,
 }) {
-  return isEditingEpub ? (
+  return isManagingChapters ? (
     <div className="msp-ee-act ct-a-fade-in">
       <Button round size="big"
         classNames="ee-act-btn ee-act-save-btn"
@@ -26,6 +26,6 @@ function ActionButtonsWithRedux({
 
 export default connectWithRedux(
   ActionButtonsWithRedux,
-  ['isEditingEpub'],
+  ['isManagingChapters'],
   []
 )

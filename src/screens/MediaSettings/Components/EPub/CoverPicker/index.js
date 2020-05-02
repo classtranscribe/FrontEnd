@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CTModal } from 'components'
 import { api } from 'utils'
-import { epub } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils/epub'
 import './index.scss'
 
 export default function CoverPicker({

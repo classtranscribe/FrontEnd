@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import AceEditor from 'react-ace'
 import { Button } from 'pico-ui'
-import { setup, epub } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils/epub'
+import { setup } from 'screens/MediaSettings/Utils'
 import { mspPreference as pref  } from 'utils/user-preference/media-settings'
 import "ace-builds/src-noconflict/mode-markdown"
 import "ace-builds/src-noconflict/snippets/markdown"

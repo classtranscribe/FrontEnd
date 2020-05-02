@@ -6,15 +6,17 @@ import {
   MSPHeader, 
   EPub
 } from './Components'
-import {
-  mspStore, 
-  connectWithRedux,
+import { 
   setup, 
-  epub,
+  connectWithRedux,
+  mspContext,
+  mspStore,
   TAB_EPUB,
   TAB_EDIT_TRANS,
 } from './Utils'
 import { util } from '../../utils'
+
+import { epub, epubContext, epubStore } from './Utils/epub'
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
@@ -23,8 +25,6 @@ class MediaSettingsWithRedux extends React.Component {
     setup.verifyUser()
 
     this.mediaId = props.match.params.id
-    const { tab } = util.links.useHash()
-    this.initTab = tab
     setup.init(props)
     epub.state.init(props)
   }
@@ -59,10 +59,7 @@ export function MediaSettings(props) {
 
   const MspConnectToRedux = connectWithRedux(
     MediaSettingsWithRedux,
-    [
-      'media', 
-      'tab'
-    ],
+    [],
     [
       'setMedia',
       'setPlaylist',
@@ -70,12 +67,15 @@ export function MediaSettings(props) {
       'setEpubData',
       'setIsEditingEpub',
       'setError'
-    ]
+    ],
+    mspContext
   )
 
   return (
-    <Provider store={mspStore} >
-      <MspConnectToRedux {...props} />
+    <Provider store={mspStore} context={mspContext}>
+      <Provider store={epubStore} context={epubContext}>
+        <MspConnectToRedux {...props} />
+      </Provider>
     </Provider>
   )
 }

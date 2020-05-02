@@ -4,7 +4,7 @@ import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 import EditorPicker from './EditorPicker';
 import './index.scss';
 
-import { epub } from 'screens/MediaSettings/Utils';
+import { epub } from 'screens/MediaSettings/Utils/epub';
 
 
 export default function Toolbar({

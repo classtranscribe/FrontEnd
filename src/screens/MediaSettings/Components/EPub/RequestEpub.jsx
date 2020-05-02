@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from 'pico-ui'
-import { epub, NO_EPUB } from '../../Utils'
+import { epub } from '../../Utils/epub'
 
 export default function RequestEpub({
   mediaId

@@ -5,7 +5,7 @@ import { HTMLEditor     } from './HTMLEditor';
 import { MarkDownEditor } from './MarkDownEditor';
 import { 
   epub
-} from 'screens/MediaSettings/Utils';
+} from 'screens/MediaSettings/Utils/epub';
 import './index.scss';
 import './braft-editor.scss';
 import './ace-editor.scss';

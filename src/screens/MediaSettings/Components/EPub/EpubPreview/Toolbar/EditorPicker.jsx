@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { Button } from 'pico-ui'
 import { EpubMenu } from '../../EpubMenu'
 import { mspPreference as pref  } from 'utils/user-preference/media-settings'
-import { epub } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils/epub'
 
 const textEditorOptions = _.map(epub.textEditorMap, (text, value) => ({ text, value }))
 

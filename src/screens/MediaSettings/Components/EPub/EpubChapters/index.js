@@ -1,5 +1,5 @@
 import React from 'react';
-import { connectWithRedux } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils/epub';
 import EpubChapterItem from './EpubChapterItem';
 import EpubHeader from './EpubHeader';
 import ImageMagnifier from './ImageMagnifier'
@@ -12,7 +12,7 @@ function EpubChaptersWithRedux({
   foldedIds,
 
   epubData,
-  isEditingEpub=false,
+  isManagingChapters=false,
 }) {
 
   // console.log('chapters', chapters)
@@ -21,7 +21,7 @@ function EpubChaptersWithRedux({
     <div data-scroll
       id="msp-ee-el-con"
       className="msp-ee-el-con ct-d-c ct-a-fade-in" 
-      data-editing={isEditingEpub}
+      data-editing={isManagingChapters}
     >
       <EpubHeader
         epubData={epubData}
@@ -48,6 +48,6 @@ function EpubChaptersWithRedux({
 
 export default connectWithRedux(
   EpubChaptersWithRedux,
-  ['isEditingEpub', 'epubData'],
+  ['isManagingChapters', 'epubData'],
   []
 );

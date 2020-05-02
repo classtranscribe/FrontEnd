@@ -22,7 +22,7 @@ const mspReducer = (
 
     case SET_TAB              : return { ...state, tab: value }
     case SET_EPUB_DATA        : return { ...state, epubData: value }
-    case SET_IS_EDITING_EPUB  : return { ...state, isEditingEpub: value }
+    case SET_IS_EDITING_EPUB  : return { ...state, isManagingChapters: value }
 
     case SET_ERROR            : return { ...state, error: value }
     default                   : return state

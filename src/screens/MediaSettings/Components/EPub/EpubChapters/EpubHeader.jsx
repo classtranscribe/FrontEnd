@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'pico-ui'
 import { LanguageMenuTrigger } from '../LanguageMenuTrigger'
-import { epub } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils/epub'
 
 export default function EpubHeader({
   epubData,

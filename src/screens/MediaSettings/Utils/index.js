@@ -1,4 +1,4 @@
-export { mspStore, connectWithRedux } from '../../../redux/media-settings'
+export { mspStore, connectWithRedux, mspContext } from '../../../redux/media-settings'
 
 export * from './constants'
 

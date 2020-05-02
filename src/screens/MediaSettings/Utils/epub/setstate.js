@@ -1,8 +1,8 @@
 import { api, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
-import { NO_EPUB, DEFAULT_IS_EDITING_EPUB } from './constants';
+import { NO_EPUB, DEFAULT_IS_MANAGING_CHAPTERS } from './constants';
 import { setup } from '../setup';
-import { genChaperFromItems, parseEpubData } from './util';
+import { parseEpubData } from './util';
 
 class EpubState {
     constructor() {
@@ -31,7 +31,7 @@ class EpubState {
         };
     }
 
-    epubData = []
+    epubData = ARRAY_INIT
     setEpubData(epubData) {
         const { setEpubData } = this.redux;
         if (setEpubData) {
@@ -40,12 +40,12 @@ class EpubState {
         }
     }
 
-    isEditingEpub = DEFAULT_IS_EDITING_EPUB
-    setIsEditingEpub(isEditingEpub) {
+    isManagingChapters = DEFAULT_IS_MANAGING_CHAPTERS
+    setIsEditingEpub(isManagingChapters) {
         const { setIsEditingEpub } = this.redux;
         if (setIsEditingEpub) {
-            setIsEditingEpub(isEditingEpub);
-            this.isEditingEpub = isEditingEpub;
+            setIsEditingEpub(isManagingChapters);
+            this.isManagingChapters = isManagingChapters;
         }
     }
 
@@ -75,7 +75,7 @@ class EpubState {
         this.setCurrChapter(chapter);
     }
 
-    chapters = []
+    chapters = ARRAY_INIT
     setChapters(chapters) {
         this.setState('setChapters', 'chapters', chapters);
     }
@@ -113,7 +113,7 @@ class EpubState {
         this.setState('setFoldedIds', 'foldedIds', foldedIds);
     }
 
-    navId = []
+    navId = ''
     setNavId(navId) {
         this.setState('setNavId', 'navId', navId);
     }

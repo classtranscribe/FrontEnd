@@ -4,7 +4,7 @@ import { EpubMenu } from './EpubMenu'
 
 import _ from 'lodash'
 import { langMap } from 'screens/Watch/Utils'
-import { epub } from '../../Utils'
+import { epub } from '../../Utils/epub'
 
 const langOptions = _.map(langMap, (text, value) => ({ text, value }))
 

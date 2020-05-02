@@ -1,4 +1,4 @@
-export const DEFAULT_IS_EDITING_EPUB = true;
+export const DEFAULT_IS_MANAGING_CHAPTERS = true;
 
 // ID prefix
 export const CHAPTER_ID_PREFIX = 'epub-ch';

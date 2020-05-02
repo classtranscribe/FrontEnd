@@ -11,7 +11,10 @@ import './index.scss'
 
 import { ARRAY_INIT } from 'utils'
 import { ENGLISH } from 'screens/Watch/Utils'
-import { connectWithRedux, epub } from '../../Utils'
+import { 
+  epub,
+  connectWithRedux
+} from '../../Utils/epub';
 
 const firstTimeEdit = true
 
@@ -19,8 +22,9 @@ export function EpubWithRedux({
   error,
   media,
   epubData=ARRAY_INIT,
-  // isEditingEpub=false,
+  // isManagingChapters=false,
   // setError,
+  ...props
 }) {
 
   useEffect(() => {
@@ -48,7 +52,8 @@ export function EpubWithRedux({
 
   useEffect(() => {
     // register setState functions
-
+    epub.state.init(props);
+    
     epub.state.registerSetStateFunc({ 
       setChapters, setCurrChapter, setFoldedIds, 
       setLanguage, setCoverImgs, setMagnifiedImg 
@@ -111,7 +116,8 @@ export function EpubWithRedux({
 
 export const EPub = connectWithRedux(
   EpubWithRedux,
-  ['error', 'media', 'epubData', 'isEditingEpub'],
-  []
+  ['error', 'epubData'],
+  ['all'],
+  ['media']
 )
 

@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import ChapterView from './ChapterView';
 import Toolbar from './Toolbar';
 import './index.scss';
-import { connectWithRedux, epub } from '../../../Utils';
+import { connectWithRedux, epub } from '../../../Utils/epub';
 
 var lastChapterId = '';
 
 function EpubPreviewWithRedux({
   language,
   currChapter,
-  isEditingEpub=false,
+  isManagingChapters=false,
 }) {
 
   const [txtEditor, setTxtEditor] = useState(epub.EDITOR_DISPLAY);
@@ -33,25 +33,25 @@ function EpubPreviewWithRedux({
 
   useEffect(() => {
     setTxtEditor(epub.EDITOR_DISPLAY);
-  }, [isEditingEpub])
+  }, [isManagingChapters])
 
   return (
     <div data-scroll
       id="msp-ee-ep-con" 
       className="msp-ee-ep-con ct-a-fade-in"
-      data-editing={isEditingEpub}
+      data-editing={isManagingChapters}
     >
       <ChapterView round
-        shadow={isEditingEpub} 
+        shadow={isManagingChapters} 
         chapter={currChapter} 
-        contentEditable={!isEditingEpub}
+        contentEditable={!isManagingChapters}
         txtEditor={txtEditor}
         adEditor={adEditor} 
         setADEditor={setADEditor}
       />
 
       {
-        !isEditingEpub
+        !isManagingChapters
         &&
         <Toolbar 
           chapter={currChapter} 
@@ -68,6 +68,6 @@ function EpubPreviewWithRedux({
 
 export default connectWithRedux(
   EpubPreviewWithRedux,
-  ['isEditingEpub'],
+  ['isManagingChapters'],
   []
 );

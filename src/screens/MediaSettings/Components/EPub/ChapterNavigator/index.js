@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connectWithRedux, epub } from '../../../Utils';
+import { connectWithRedux, epub } from '../../../Utils/epub';
 import { Button } from 'pico-ui';
 import './index.scss';
 
 function ChapterNavigatorWithRedux({
   chapters,
   currChapter,
-  isEditingEpub=false,
+  isManagingChapters=false,
 }) {
 
   const [show, setShow] = useState(epub.NAV_CLOSE);
@@ -18,14 +18,14 @@ function ChapterNavigatorWithRedux({
   }, [show]);
 
   useEffect(() => {
-    if (isEditingEpub && show) {
+    if (isManagingChapters && show) {
       setShow(epub.NAV_CLOSE);
-    } else if (!isEditingEpub && !show) {
+    } else if (!isManagingChapters && !show) {
       setShow(epub.NAV_SHOW);
     }
 
     setNavId(currChapter.id);
-  }, [isEditingEpub]);
+  }, [isManagingChapters]);
 
   useEffect(() => {
     // register setState funcs to epub state
@@ -44,14 +44,14 @@ function ChapterNavigatorWithRedux({
 
 
   return show ? (
-    <div className="msp-ee-cn-con" data-editing={isEditingEpub}>
+    <div className="msp-ee-cn-con" data-editing={isManagingChapters}>
       <div className="ee-cn-wrapper" onClick={epub.hideNavihator}></div>
       <div className={"ee-cn-ch-con" + show}>
         <div className="ee-cn-ch-scroll-con" data-scroll>
           <div className="ct-d-r-center-v ee-cn-h">
             <h3>Chapters</h3>
             {
-              isEditingEpub
+              isManagingChapters
               &&
               <Button round
                 icon="close"
@@ -69,10 +69,10 @@ function ChapterNavigatorWithRedux({
                   color={currChapterId === chapter.id ? "teal" : 'transparent'}
                   onClick={epub.navigateChapter(chapter)}
                 >
-                  {isEditingEpub ? '' : `${chapterIndex + 1} - `} {chapter.title}
+                  {isManagingChapters ? '' : `${chapterIndex + 1} - `} {chapter.title}
                 </Button>
                 {
-                  (isEditingEpub || currChapter.id === chapter.id)
+                  (isManagingChapters || currChapter.id === chapter.id)
                   &&
                   chapter.subChapters.map((subChapter, subChapterIndex) => (
                     <Button round
@@ -83,7 +83,7 @@ function ChapterNavigatorWithRedux({
                       onClick={epub.navigateSubChapter(subChapter, chapter)}
                     >
                       {
-                        isEditingEpub 
+                        isManagingChapters 
                         ? ('--- ' + subChapter.title)
                         : `${chapterIndex + 1}.${subChapterIndex + 1} - ${subChapter.title}`
                       }
@@ -112,6 +112,6 @@ function ChapterNavigatorWithRedux({
 
 export default connectWithRedux(
   ChapterNavigatorWithRedux,
-  ['isEditingEpub'],
+  ['isManagingChapters'],
   []
 );

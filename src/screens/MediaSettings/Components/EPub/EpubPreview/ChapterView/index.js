@@ -6,7 +6,7 @@ import { Button } from 'pico-ui';
 import EpubEditor from '../EpubEditor';
 import './index.scss';
 
-import { epub } from 'screens/MediaSettings/Utils';
+import { epub } from 'screens/MediaSettings/Utils/epub';
 
 const ChapterView = ({
   txtEditor,

@@ -1,5 +1,5 @@
-import { api, ARRAY_INIT } from '../../utils'
-import { DEFAULT_IS_EDITING_EPUB } from 'screens/MediaSettings/Utils/epub/constants'
+import { api, ARRAY_INIT } from '../../utils';
+import { DEFAULT_IS_MANAGING_CHAPTERS } from 'screens/MediaSettings/Utils/epub/constants';
 
 export const initialState = {
   media: api.parseMedia(),
@@ -7,7 +7,7 @@ export const initialState = {
   
   tab: '',
   epubData: ARRAY_INIT,
-  isEditingEpub: DEFAULT_IS_EDITING_EPUB,
+  isManagingChapters: DEFAULT_IS_MANAGING_CHAPTERS,
 
   error: null
-}
+};

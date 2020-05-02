@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import BraftEditor from 'braft-editor'
-import { epub } from 'screens/MediaSettings/Utils'
+import { epub } from 'screens/MediaSettings/Utils/epub'
 import { controls, getExtendControls } from './controls'
 
 export function RichTextEditor({

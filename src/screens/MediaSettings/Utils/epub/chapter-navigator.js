@@ -24,7 +24,7 @@ export const navigateChapter = chapter => () => {
     epubState.changeChapter(chapter);
     epubState.setNavId(chapter.id);
 
-    if (epubState.isEditingEpub) {
+    if (epubState.isManagingChapters) {
         hideNavihator();
     }
 }
@@ -32,7 +32,7 @@ export const navigateChapter = chapter => () => {
 export const navigateSubChapter = (subChapter, chapter) => () => {
     epubState.changeChapter(chapter);
 
-    if (epubState.isEditingEpub) {
+    if (epubState.isManagingChapters) {
         elem.scrollToTop('msp-ee-el-con', { 
             scrollElemId: subChapter.id,
             scrollTop: window.innerHeight - 220
