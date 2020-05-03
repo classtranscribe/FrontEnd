@@ -2,21 +2,30 @@ import React from 'react';
 import { epub } from 'screens/MediaSettings/Utils/epub';
 import { Button } from 'pico-ui';
 
+import HeadingPicker from './HeadingPicker';
+
 function MDToolbar({
   dark,
-  editorFullscreen
+  editorFullscreen,
+  cursor,
+  setValue,
 }) {
 
   return (
     <div className="ee-editor-ctrl-bar">
+      <HeadingPicker 
+        dark={dark}
+        setValue={setValue}
+        cursor={cursor}
+      />
       <div className="d-flex align-items-center">
-        <Button compact
+        <Button //compact
           classNames="mr-2"
           icon={dark ? 'brightness_7' : 'brightness_4'}
           color={dark ? "black" : 'transparent'}
           onClick={epub.changeTheme}
         />
-        <Button compact
+        <Button //compact
           icon={editorFullscreen ? "fullscreen_exit" : "fullscreen"}
           color={dark ? "black" : 'transparent'}
           onClick={epub.handleFullscreenChange}

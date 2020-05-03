@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AceEditor from 'react-ace';
 import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
-import MDToolbar from './MDToolbar';
+import MDToolbar from './MDTools';
 
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-xcode";
@@ -23,9 +23,13 @@ export function MarkDownEditorWithRedux({
   const [value, setValue] = useState(text);
   const [cursor, setCursor] = useState(null);
 
-  const onChange = (newValue, event) => {
-    setValue(newValue)
+  const onChange = (newValue) => {
+    setValue(newValue);
   };
+
+  const onCursorChange = e => {
+    setCursor(e);
+  }
 
   useEffect(() => {
     if (value) {
@@ -45,12 +49,14 @@ export function MarkDownEditorWithRedux({
     <div 
       id="msp-ee-editor" 
       className="msp-ee-editor msp-ee-html-editor ct-a-fade-in" 
-      data-editorFullscreen={editorFullscreen}
+      data-fullscreen={editorFullscreen}
       data-dark={dark}
     >
       <MDToolbar 
         dark={dark}
         editorFullscreen={editorFullscreen}
+        setValue={setValue}
+        cursor={cursor}
       />
 
 
@@ -65,12 +71,11 @@ export function MarkDownEditorWithRedux({
           editorProps={{ $blockScrolling: true }}
           value={value}
           data-scroll
-          width="100%"
+          width="700px"
           height={editorFullscreen ? `${window.innerHeight - 50 - 10}px` : `${window.innerHeight - 87 - 50}px`}
           wrapEnabled
           enableLiveAutocompletion
-          // markers={cursor}
-          onCursorChange={(e) => console.log(e.doc.getValue())}
+          onCursorChange={onCursorChange}
           // onSelection={e => console.log(e.doc)}
           // onSelectionChange={e => console.log(e.doc)}
           fontSize={14}

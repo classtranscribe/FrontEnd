@@ -23,7 +23,7 @@ function chapterItemsToMarkdown(items) {
 export function chapterToHTML({ items, subChapters, image, title }) {
     let chapterHTML = '\n\n<!-- Please do not delete the title of the chapter -->\n'
                     + `## ${title}\n\n`
-                    + (image ? `<img src="${api.getMediaFullPath(image)}" />\n` : '')
+                    + (image ? `![Screenshot](${api.getMediaFullPath(image)})\n\n` : '')
                     // + html.strList(items, 'text');
                     + chapterItemsToMarkdown(items);
 
@@ -38,9 +38,9 @@ export function chapterToHTML({ items, subChapters, image, title }) {
             + `![Screenshot](${api.getMediaFullPath(subChapter.image)})\n\n`
             // + html.strList(subChapter.items, 'text')
             + '#### Transcript\n'
-            + chapterItemsToMarkdown(subChapter.items)
+            + chapterItemsToMarkdown(subChapter.items) + '\n'
         ,
-        ''
+        '\n'
     );
 
     return chapterHTML 

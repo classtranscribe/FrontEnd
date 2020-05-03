@@ -61,7 +61,14 @@ export function EpubMenu({
           onClick={() => onClick(item.value)}
         >
           <Typography 
-            style={item.value === value ? styles.currfont : styles.font}
+            style={
+              item.style || 
+              (
+                item.value === value 
+                ? styles.currfont 
+                : styles.font
+              )
+            }
           >
             {item.text}
           </Typography>

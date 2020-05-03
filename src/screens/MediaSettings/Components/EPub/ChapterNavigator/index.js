@@ -46,14 +46,18 @@ function ChapterNavigatorWithRedux({
 
 
   return showNav ? (
-    <div className="msp-ee-cn-con" data-managing={isManagingChapters}>
+    <div 
+      className="msp-ee-cn-con" 
+      data-editing={txtEditor !== epub.EDITOR_DISPLAY}
+      data-managing={isManagingChapters}
+    >
       <div className="ee-cn-wrapper" onClick={epub.hideNavihator}></div>
       <div className={"ee-cn-ch-con" + showNav}>
         <div className="ee-cn-ch-scroll-con" data-scroll>
           <div className="ct-d-r-center-v ee-cn-h">
             <h3>Chapters</h3>
             {
-              isManagingChapters
+              (isManagingChapters || txtEditor !== epub.EDITOR_DISPLAY)
               &&
               <Button round
                 icon="close"

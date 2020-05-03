@@ -35,3 +35,13 @@ export const textEditorMap = {
 };
 
 export const EDITOR_TYPE_SPLITTER = '<!-- EDITOR_TYPE_SPLITTER -->';
+
+export const EPUB_HEADING_1 = 'Chapter Heading';
+export const EPUB_HEADING_2 = 'Sub-Chapter Heading';
+export const EPUB_HEADING_3 = 'Section Heading';
+
+export const epubHeadings = [
+  EPUB_HEADING_1,
+  EPUB_HEADING_2,
+  EPUB_HEADING_3
+];

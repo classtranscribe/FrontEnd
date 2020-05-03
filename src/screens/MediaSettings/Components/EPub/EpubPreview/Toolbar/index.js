@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 import EditorPicker from './EditorPicker';
 import './index.scss';
 
@@ -8,8 +7,6 @@ import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
 
 function Toolbar({
-  // chapter,
-  language,
   txtEditor,
   setTxtEditor,
 }) {
@@ -26,28 +23,22 @@ function Toolbar({
 
   return (
     <div className="msp-ee-ep-tb ct-a-fade-in">
-      <LanguageMenuTrigger
-        language={language}
-        classNames="ee-tb-btn"
-      />
-
-      <div className="ee-tb-btns">
+      <div className="ee-tb-btns top">
         {
           openEditor
           ?
-          <div className="ee-tb-edit-btns">
-            <EditorPicker
-              editor={txtEditor}
-              className="ee-tb-btn" 
-              icon="edit"
-              color="transparent" 
-              setEditor={setTxtEditor}
-              text="Edit Content"
-              defaultEditor={epub.EDITOR_MARKDOWN}
-            />
+          <div className="w-100 ct-a-fade-in">
+            <Button round
+              classNames="ee-tb-btn ee-tb-btn-me" 
+              color="black" 
+              icon="settings"
+              onClick={epub.startManagingEpubChapters}
+            >
+              Manage Chapters
+            </Button>
           </div>
           :
-          <div className="ee-tb-edit-btns editing ct-a-fade-in">
+          <div className="w-100 ct-a-fade-in">
             <Button round
               classNames="ee-tb-btn ee-tb-btn-me" 
               color="teal" 
@@ -66,22 +57,25 @@ function Toolbar({
             </Button>
           </div>
         }
+      </div>
 
-        {
+      {
           openEditor
           &&
-          <div className="w-100 ct-a-fade-in">
-            <Button round
+          <div className="ee-tb-edit-btns">
+            <EditorPicker
+              editor={txtEditor}
+              className="ee-tb-btn" 
+              icon="edit"
+              color="transparent" 
+              setEditor={setTxtEditor}
+              text="Edit Content"
+              defaultEditor={epub.EDITOR_MARKDOWN}
+            />
+
+            <Button
               classNames="ee-tb-btn ee-tb-btn-me" 
-              color="black" 
-              icon="settings"
-              onClick={epub.startManagingEpubChapters}
-            >
-              Manage Chapters
-            </Button>
-            <Button round
-              classNames="ee-tb-btn ee-tb-btn-me" 
-              color="black" 
+              color="transparent" 
               icon="get_app"
               onClick={() => epub.download()}
             >
@@ -89,7 +83,6 @@ function Toolbar({
             </Button>
           </div>
         }
-      </div>
     </div>
   );
 }
@@ -97,7 +90,6 @@ function Toolbar({
 export default connectWithRedux(
   Toolbar,
   [
-    'language',
     'txtEditor',
   ],
   [

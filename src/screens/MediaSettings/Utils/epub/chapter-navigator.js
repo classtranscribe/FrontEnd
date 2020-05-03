@@ -60,6 +60,7 @@ export const onShowNavChange = currChapterId => {
 }
 
 function onEpubPreviewScroll() {
+    return;
     let { currChapter } = epubState;
     let scrollTop = this.scrollTop;
 
