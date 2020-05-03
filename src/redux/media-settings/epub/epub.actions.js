@@ -10,6 +10,8 @@ import {
     SET_NAV_ID,
     SET_SHOW_NAV,
     SET_TXT_EDITOR,
+    SET_EDITOR_THEME,
+    SET_EDITOR_FULLSCREEN,
     SET_ERROR
 } from './epub.action.types';
 import { createAction } from '../../redux-creators';
@@ -30,5 +32,7 @@ export const setNavId               = createAction(SET_NAV_ID);
 export const setShowNav             = createAction(SET_SHOW_NAV);
 
 export const setTxtEditor           = createAction(SET_TXT_EDITOR);
+export const setEditorTheme         = createAction(SET_EDITOR_THEME);
+export const setEditorFullscreen    = createAction(SET_EDITOR_FULLSCREEN);
 
 export const setError               = createAction(SET_ERROR);

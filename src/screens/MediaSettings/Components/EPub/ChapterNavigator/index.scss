@@ -7,7 +7,7 @@
   left: 0;
   z-index: 3;
 
-  &[data-editing=false] {
+  &[data-managing=false] {
     position: relative;
     width: 23%;
     z-index: 0;

@@ -1,19 +1,27 @@
 .msp-e-view {
   position: relative;
-  width: 770px;
+  width: 750px;
   max-width: 100%;
-  height: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 30px;
   background-color: white;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   &.shadow {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.123);
+    height: max-content;
   }
   &.round {
     border-radius: 20px;
+  }
+
+  &.editor {
+    padding: 0 30px;
+    width: 80%;
   }
 
   .msp-e-v-img-con {

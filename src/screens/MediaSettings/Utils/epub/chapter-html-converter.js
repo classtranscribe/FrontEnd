@@ -21,19 +21,23 @@ function chapterItemsToMarkdown(items) {
 }
 
 export function chapterToHTML({ items, subChapters, image, title }) {
-    let chapterHTML = `## ${title}\n\n`
+    let chapterHTML = '\n\n<!-- Please do not delete the title of the chapter -->\n'
+                    + `## ${title}\n\n`
                     + (image ? `<img src="${api.getMediaFullPath(image)}" />\n` : '')
                     // + html.strList(items, 'text');
                     + chapterItemsToMarkdown(items);
 
     let subChapterHTML = _.reduce(
         subChapters,
-        (subHtml, subChapter) => subHtml 
+        (subHtml, subChapter, index) => subHtml 
             // + `\n\n<h3 id="${SUB_CHAPTER_ID_PREFIX}-${subChapter.id}">\n\t`
             // + `${subChapter.title}\n</h3>\n\n`
-            + `\n\n### ${subChapter.title}\n\n`
-            + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n`
+            + `\n\n<!-- Sub-chapter ${index + 1} -->\n`
+            + `### ${subChapter.title}\n\n`
+            // + `<img src="${api.getMediaFullPath(subChapter.image)}" />\n`
+            + `![Screenshot](${api.getMediaFullPath(subChapter.image)})\n\n`
             // + html.strList(subChapter.items, 'text')
+            + '#### Transcript\n'
             + chapterItemsToMarkdown(subChapter.items)
         ,
         ''
@@ -41,6 +45,7 @@ export function chapterToHTML({ items, subChapters, image, title }) {
 
     return chapterHTML 
          + subChapterHTML 
+         + '\n\n\n\n\n\n'
          + EDITOR_TYPE_SPLITTER 
          + EDITOR_MARKDOWN;
 }

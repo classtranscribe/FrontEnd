@@ -1,4 +1,4 @@
-export const DEFAULT_IS_MANAGING_CHAPTERS = true;
+export const DEFAULT_IS_MANAGING_CHAPTERS = false;
 
 // ID prefix
 export const CHAPTER_ID_PREFIX = 'epub-ch';
@@ -23,6 +23,10 @@ export const EDITOR_DISPLAY = 'display';
 export const EDITOR_RICHTEXT = 'richtext';
 export const EDITOR_HTML = 'html';
 export const EDITOR_MARKDOWN = 'markdown';
+
+// Editor Theme
+export const EDITOR_THEME_MONOKAI = 'monokai';
+export const EDITOR_THEME_XCODE = 'xcode';
 
 export const textEditorMap = {
   [EDITOR_RICHTEXT]: 'Rich Text Editor',

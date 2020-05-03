@@ -14,10 +14,14 @@
   flex: 0 0 auto;
   justify-content: space-between;
 
-  &[data-editing=false] {
+  &[data-managing=false] {
     width: 77%;
     margin-right: 0;
     padding-top: 0;
     padding: 0 20px 0 30px;
+  }
+
+  &[data-editing=true] {
+    width: 100%;
   }
 }

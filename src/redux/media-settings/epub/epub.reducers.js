@@ -10,7 +10,9 @@ import {
     SET_NAV_ID,
     SET_SHOW_NAV,
     SET_TXT_EDITOR,
-    SET_ERROR
+    SET_EDITOR_THEME,
+    SET_EDITOR_FULLSCREEN,
+    SET_ERROR,
 } from './epub.action.types';
 import { initialState } from './epub.state';
 
@@ -37,6 +39,8 @@ const epubReducer = (
         case SET_SHOW_NAV                 : return { ...state, showNav: value };
 
         case SET_TXT_EDITOR               : return { ...state, txtEditor: value };
+        case SET_EDITOR_THEME             : return { ...state, editorTheme: value };
+        case SET_EDITOR_FULLSCREEN        : return { ...state, editorFullscreen: value };
 
         case SET_ERROR                    : return { ...state, error: value };
 

@@ -34,7 +34,7 @@
   position: fixed;
   right: 20px;
   bottom: 15px;
-  &[data-editing=false] {
+  &[data-managing=false] {
     left: 20px;
     right: auto;
   }

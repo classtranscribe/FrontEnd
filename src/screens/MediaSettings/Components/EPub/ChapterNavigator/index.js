@@ -9,6 +9,7 @@ function ChapterNavigatorWithRedux({
   isManagingChapters=false,
   navId,
   showNav,
+  txtEditor,
 }) {
   const currChapterId = navId || currChapter.id;
 
@@ -27,6 +28,14 @@ function ChapterNavigatorWithRedux({
   }, [isManagingChapters]);
 
   useEffect(() => {
+    if (txtEditor !== epub.EDITOR_DISPLAY) {
+      epub.state.setShowNav(epub.NAV_CLOSE);
+    } else {
+      epub.state.setShowNav(epub.NAV_SHOW);
+    }
+  }, [txtEditor]);
+
+  useEffect(() => {
     // add event listener to preview panel's scrolling
     epub.addScrollEventListenerToEpubPreview();
 
@@ -37,7 +46,7 @@ function ChapterNavigatorWithRedux({
 
 
   return showNav ? (
-    <div className="msp-ee-cn-con" data-editing={isManagingChapters}>
+    <div className="msp-ee-cn-con" data-managing={isManagingChapters}>
       <div className="ee-cn-wrapper" onClick={epub.hideNavihator}></div>
       <div className={"ee-cn-ch-con" + showNav}>
         <div className="ee-cn-ch-scroll-con" data-scroll>
@@ -110,6 +119,7 @@ export default connectWithRedux(
     'chapters',
     'currChapter',
     'navId',
-    'showNav'
+    'showNav',
+    'txtEditor'
   ]
 );

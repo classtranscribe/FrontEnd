@@ -1,5 +1,12 @@
 import _ from 'lodash';
-import { EDITOR_TYPE_SPLITTER } from './constants';
+import { mspPreference as pref  } from 'utils/user-preference/media-settings';
+import { util } from 'utils';
+import { setup } from '../setup';
+import { 
+    EDITOR_TYPE_SPLITTER, 
+    EDITOR_THEME_XCODE, 
+    EDITOR_THEME_MONOKAI 
+} from './constants';
 import { epubState } from './setstate';
 import { parseText } from './chapter-html-converter';
 
@@ -61,3 +68,51 @@ export function onSaveAD(type) {
     newText = '';
 }
 
+
+// **********************************************************************
+// Handle fullscreen change
+// **********************************************************************
+
+export function enterFullscreen() {
+    if (!epubState.editorFullscreen) {
+        setup.enterFullscreen('msp-ee-editor');
+    }
+}
+
+export function exitFullscreen() {
+    if (epubState.editorFullscreen) {
+        setup.exitFullscreen();
+    }
+}
+
+export function handleFullscreenChange() {
+    if (epubState.editorFullscreen) {
+        exitFullscreen();
+    } else {
+        enterFullscreen();
+    }
+}
+
+function onFullscreenChange() {
+    epubState.setEditorFullscreen(!epubState.editorFullscreen);
+    util.elem.scrollIntoCenter('msp-ee-editor');
+}
+
+export function addEditorFullscreenChangeEventListener() {
+    document.addEventListener('fullscreenchange', onFullscreenChange, true);
+}
+
+export function removeEditorFullscreenChangeEventListener() {
+    document.removeEventListener('fullscreenchange', onFullscreenChange, true);
+}
+
+// **********************************************************************
+// Handle theme change
+// **********************************************************************
+
+export function changeTheme() {
+    let dark = epubState.editorTheme === EDITOR_THEME_MONOKAI;
+    let theme = dark ? EDITOR_THEME_XCODE : EDITOR_THEME_MONOKAI;
+    pref.defaultEditorTheme(theme);
+    epubState.setEditorTheme(theme);
+}

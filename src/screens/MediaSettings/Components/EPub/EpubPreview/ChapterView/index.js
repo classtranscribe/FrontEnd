@@ -5,46 +5,25 @@ import classNames from 'classnames';
 
 import EpubEditor from '../EpubEditor';
 import './index.scss';
+import { epub } from 'screens/MediaSettings/Utils';
 
 // import { epub } from 'screens/MediaSettings/Utils/epub';
 
 const ChapterView = ({
   txtEditor,
-  // adEditor,
   chapter,
   shadow=false,
   round=false,
-  // contentEditable=false,
 }) => {
-  const { text, /** title='', id */ } = chapter;
+  const { text } = chapter;
 
-  // const [titleInput, setTitleInput] = useState(title);
-
-  // const handleTitleInput = e => {
-  //   setTitleInput(e.target.value);
-  // }
-
-  // const saveTitle = () => {
-  //   let chapterIndex = _.findIndex(epub.chapters, { id });
-  //   epub.handleChapterTitleChange(chapterIndex, titleInput);
-  // }
-
-  // const handleTitleKeyDown = ({ keyCode, target }) => {
-  //   if (keyCode === 13) {
-  //     saveTitle();
-  //     target.blur();
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   setTitleInput(title);
-  // }, [title]);
-
-  // const isEditingTitle = titleInput !== title;
-  const style = classNames("msp-e-view ct-a-fade-in", {shadow, round});
+  const style = classNames("msp-e-view ct-a-fade-in", {
+    shadow, round,
+    editor: txtEditor !== epub.EDITOR_DISPLAY
+  });
 
   return (
-    <div className={style}>
+    <div className={style} data-scroll>
       <EpubEditor 
         title="ePub Content Editor"
         text={text}

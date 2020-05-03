@@ -13,5 +13,7 @@ export const SET_NAV_ID = 'epub-set-nav-id';
 export const SET_SHOW_NAV = 'epub-set-show-nav';
 
 export const SET_TXT_EDITOR = 'epub-set-txt-editor';
+export const SET_EDITOR_THEME = 'epub-set-editor-theme';
+export const SET_EDITOR_FULLSCREEN = 'epub-set-editor-fullscreen';
 
 export const SET_ERROR = 'epub-set-error';

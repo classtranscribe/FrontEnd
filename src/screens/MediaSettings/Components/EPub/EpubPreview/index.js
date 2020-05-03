@@ -7,17 +7,12 @@ import { connectWithRedux, epub } from '../../../Utils/epub';
 var lastChapterId = '';
 
 function EpubPreviewWithRedux({
-  language,
   currChapter,
   isManagingChapters=false,
-}) {
+  txtEditor,
 
-  const [txtEditor, setTxtEditor] = useState(epub.EDITOR_DISPLAY);
-  const [adEditor, setADEditor] = useState(
-    currChapter.audioDescription
-    ? epub.EDITOR_DISPLAY 
-    : epub.EDITOR_NONE
-  );
+  setTxtEditor,
+}) {
 
   useEffect(() => {
     // Scroll the preview to top everytime the chapter changed
@@ -32,35 +27,29 @@ function EpubPreviewWithRedux({
   }, [currChapter]);
 
   useEffect(() => {
-    setTxtEditor(epub.EDITOR_DISPLAY);
+    if (txtEditor !== epub.EDITOR_DISPLAY) {
+      setTxtEditor(epub.EDITOR_DISPLAY);
+    }
   }, [isManagingChapters])
 
   return (
     <div data-scroll
       id="msp-ee-ep-con" 
       className="msp-ee-ep-con ct-a-fade-in"
-      data-editing={isManagingChapters}
+      data-managing={isManagingChapters}
+      data-editing={txtEditor !== epub.EDITOR_DISPLAY}
     >
       <ChapterView round
         shadow={isManagingChapters} 
         chapter={currChapter} 
         contentEditable={!isManagingChapters}
         txtEditor={txtEditor}
-        adEditor={adEditor} 
-        setADEditor={setADEditor}
       />
 
       {
         !isManagingChapters
         &&
-        <Toolbar 
-          chapter={currChapter} 
-          language={language} 
-          txtEditor={txtEditor}
-          setTxtEditor={setTxtEditor}
-          adEditor={adEditor} 
-          setADEditor={setADEditor}
-        />
+        <Toolbar />
       }
     </div>
   );
@@ -70,8 +59,10 @@ export default connectWithRedux(
   EpubPreviewWithRedux,
   [
     'isManagingChapters',
-    'language',
-    'currChapter'
+    'currChapter',
+    'txtEditor'
   ],
-  []
+  [
+    'setTxtEditor'
+  ]
 );

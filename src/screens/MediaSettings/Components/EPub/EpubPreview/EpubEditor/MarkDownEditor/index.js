@@ -1,104 +1,89 @@
-import React, { useState, useEffect } from 'react'
-import AceEditor from 'react-ace'
-import { Button } from 'pico-ui'
-import { epub } from 'screens/MediaSettings/Utils/epub'
-import { setup } from 'screens/MediaSettings/Utils'
-import { mspPreference as pref  } from 'utils/user-preference/media-settings'
-import "ace-builds/src-noconflict/mode-markdown"
-import "ace-builds/src-noconflict/snippets/markdown"
-import { util } from 'utils';
+import React, { useState, useEffect } from 'react';
+import AceEditor from 'react-ace';
+import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
-export function MarkDownEditor({
-  title
+import MDToolbar from './MDToolbar';
+
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-xcode";
+import "ace-builds/src-min-noconflict/ext-searchbox";
+import "ace-builds/src-min-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/mode-markdown";
+import "ace-builds/src-noconflict/snippets/markdown";
+
+
+export function MarkDownEditorWithRedux({
+  text='',
+  editorTheme,
+  editorFullscreen,
 }) {
 
-  const [fullscreen, setFullscreen] = useState(false);
-  const [dark, setDark] = useState(pref.darkEditor());
-  const [value, setValue] = useState('');
-  const [cursor, setCursor] = useState(1);
+  const dark = editorTheme === epub.EDITOR_THEME_MONOKAI;
 
-  const onChange = newValue => {
-    epub.updateText(newValue);
-  };
+  const [value, setValue] = useState(text);
+  const [cursor, setCursor] = useState(null);
 
-  const enterFullscreen = () => {
-    if (!fullscreen) {
-      setup.enterFullscreen('msp-ee-editor');
-    }
-  };
-
-  const exitFullscreen = () => {
-    if (fullscreen) {
-      setup.exitFullscreen()
-    }
-  };
-
-  const changeTheme = () => {
-    pref.darkEditor(!dark)
-    setDark(!dark)
-    setCursor(200);
+  const onChange = (newValue, event) => {
+    setValue(newValue)
   };
 
   useEffect(() => {
-    setValue(epub.getNewText());
-  }, [fullscreen, dark]);
+    if (value) {
+      epub.updateText(value);
+    } 
+  }, [value]);
 
   useEffect(() => {
-    document.addEventListener('fullscreenchange', () => {
-      setFullscreen(fullscreen => !fullscreen);
-      util.elem.scrollIntoCenter('msp-ee-editor');
-    });
+    epub.addEditorFullscreenChangeEventListener();
 
-    setValue(epub.getNewText());
+    return () => {
+      epub.removeEditorFullscreenChangeEventListener();
+    }
   }, []);
 
   return (
     <div 
       id="msp-ee-editor" 
-      className="msp-ee-editor msp-ee-html-editor-con ct-a-fade-in" 
-      data-fullscreen={fullscreen}
+      className="msp-ee-editor msp-ee-html-editor ct-a-fade-in" 
+      data-editorFullscreen={editorFullscreen}
       data-dark={dark}
     >
-      <div className="ee-editor-ctrl-bar">
-        <h3>{title}</h3>
-        <div className="d-flex align-items-center">
-          <Button disabled compact 
-            color={dark ? "black" : ''} 
-            classNames="mr-4" 
-            text="Markdown Editor"
-          />
-          <Button
-            classNames="mr-2"
-            icon={dark ? 'brightness_7' : 'brightness_4'}
-            color={dark ? "black" : 'tranparent'}
-            text={dark ? "Light Mode" : "Dark Mode"} 
-            onClick={changeTheme}
-          />
-          <Button round 
-            icon={fullscreen ? "fullscreen_exit" : "fullscreen"}
-            color={dark ? "black" : ''}
-            onClick={fullscreen ? exitFullscreen : enterFullscreen}
-          />
-        </div>
-      </div>
-
-
-      <AceEditor focus
-        className="msp-ee-html-editor"
-        mode="markdown"
-        theme={dark ? "monokai" : "xcode"}
-        onChange={onChange}
-        name="msp-ee-html-editor"
-        editorProps={{ $blockScrolling: true }}
-        value={value}
-        data-scroll
-        width="100%"
-        height={fullscreen ? "90vh" : "530px"}
-        wrapEnabled
-        enableLiveAutocompletion
-        cursorStart={cursor}
-        onSelectionChange={e => console.log(e.doc)}
+      <MDToolbar 
+        dark={dark}
+        editorFullscreen={editorFullscreen}
       />
+
+
+      <div className="msp-ee-ace-editor-con">
+        <AceEditor focus
+          className="msp-ee-ace-editor"
+          mode="markdown"
+          theme={editorTheme}
+          showGutter={false}
+          onChange={onChange}
+          name="msp-ee-ace-editor"
+          editorProps={{ $blockScrolling: true }}
+          value={value}
+          data-scroll
+          width="100%"
+          height={editorFullscreen ? `${window.innerHeight - 50 - 10}px` : `${window.innerHeight - 87 - 50}px`}
+          wrapEnabled
+          enableLiveAutocompletion
+          // markers={cursor}
+          onCursorChange={(e) => console.log(e.doc.getValue())}
+          // onSelection={e => console.log(e.doc)}
+          // onSelectionChange={e => console.log(e.doc)}
+          fontSize={14}
+        />
+      </div>
     </div>
   );
 }
+
+export const MarkDownEditor = connectWithRedux(
+  MarkDownEditorWithRedux,
+  [
+    'editorTheme',
+    'editorFullscreen'
+  ]
+);

@@ -4,38 +4,24 @@ import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 import EditorPicker from './EditorPicker';
 import './index.scss';
 
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
 
-export default function Toolbar({
+function Toolbar({
   // chapter,
   language,
   txtEditor,
   setTxtEditor,
-  adEditor=false,
-  setADEditor,
 }) {
-
-  // const noDescription = chapter.audioDescription.trim() === "";
-  const editingTxt = txtEditor !== epub.EDITOR_DISPLAY;
-  const openEditor = (txtEditor === epub.EDITOR_DISPLAY && (adEditor === epub.EDITOR_DISPLAY || adEditor === epub.EDITOR_NONE));
-  const currEditor = editingTxt ? txtEditor : adEditor;
-  const currSetEditor = editingTxt ? setTxtEditor : setADEditor;
-
-  // const parsedTxt = epub.parseText(chapter.text);
-  // const parsedAD = epub.parseText(chapter.audioDescription);
+  const openEditor = txtEditor === epub.EDITOR_DISPLAY;
 
   const saveEditing = () => {
-    currSetEditor(epub.EDITOR_DISPLAY);
-    if (editingTxt) {
-      epub.onSaveText(currEditor);
-    } else {
-      epub.onSaveAD(currEditor);
-    }
+    setTxtEditor(epub.EDITOR_DISPLAY);
+    epub.onSaveText(txtEditor);
   };
   
   const cancelEditing = () => {
-    currSetEditor(epub.EDITOR_DISPLAY);
+    setTxtEditor(epub.EDITOR_DISPLAY);
   };
 
   return (
@@ -50,15 +36,6 @@ export default function Toolbar({
           openEditor
           ?
           <div className="ee-tb-edit-btns">
-            {/* <EditorPicker description
-              editor={adEditor}
-              className="ee-tb-btn" 
-              icon={noDescription ? "post_add" : "rate_review"}
-              color="transparent"
-              setEditor={setADEditor}
-              text={noDescription ? 'Add Audio Description' : 'Edit Audio Description'}
-              defaultEditor={parsedAD.editorType}
-            /> */}
             <EditorPicker
               editor={txtEditor}
               className="ee-tb-btn" 
@@ -71,12 +48,6 @@ export default function Toolbar({
           </div>
           :
           <div className="ee-tb-edit-btns editing ct-a-fade-in">
-            <EditorPicker outlined 
-              description={!editingTxt}
-              className="ee-tb-btn epicker"
-              editor={currEditor}
-              setEditor={currSetEditor}
-            />
             <Button round
               classNames="ee-tb-btn ee-tb-btn-me" 
               color="teal" 
@@ -122,3 +93,14 @@ export default function Toolbar({
     </div>
   );
 }
+
+export default connectWithRedux(
+  Toolbar,
+  [
+    'language',
+    'txtEditor',
+  ],
+  [
+    'setTxtEditor'
+  ]
+)

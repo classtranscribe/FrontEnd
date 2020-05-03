@@ -30,7 +30,7 @@ export default function EpubEditor({
   }, [type]);
 
   return (
-    <div className="w-100">
+    <div className="w-100 h-100">
       {
         type === epub.EDITOR_RICHTEXT
         &&

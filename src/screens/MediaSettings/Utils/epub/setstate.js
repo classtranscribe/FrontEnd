@@ -1,6 +1,12 @@
 import { api, ARRAY_INIT } from 'utils';
+import { mspPreference as pref  } from 'utils/user-preference/media-settings';
 import { ENGLISH } from 'screens/Watch/Utils';
-import { NO_EPUB, DEFAULT_IS_MANAGING_CHAPTERS } from './constants';
+import { 
+    NO_EPUB, 
+    DEFAULT_IS_MANAGING_CHAPTERS,
+    EDITOR_DISPLAY,
+    EDITOR_THEME_XCODE,
+} from './constants';
 import { parseEpubData } from './util';
 
 class EpubState {
@@ -26,7 +32,8 @@ class EpubState {
             setLanguage, setChapters, setCurrChapter,
             setCoverImgs, setMagnifiedImg, setFoldedIds,
             setNavId, setShowNav,
-            setTxtEditor, setError,
+            setTxtEditor, setEditorTheme, setEditorFullscreen,
+            setError,
         } = props;
     
         this.redux = { 
@@ -35,7 +42,8 @@ class EpubState {
             setLanguage, setChapters, setCurrChapter,
             setCoverImgs, setMagnifiedImg, setFoldedIds,
             setNavId, setShowNav,
-            setTxtEditor, setError,
+            setTxtEditor, setEditorTheme, setEditorFullscreen,
+            setError,
         };
     }
 
@@ -142,6 +150,22 @@ class EpubState {
         let epubData = await this.getEpubData(this.mediaId, language);
         this.setEpubData(epubData);
     }
+
+    txtEditor = EDITOR_DISPLAY
+    setTxtEditor(txtEditor) {
+        this.setState('setTxtEditor', 'txtEditor', txtEditor);
+    }
+
+    editorTheme = pref.defaultEditorTheme() || EDITOR_THEME_XCODE
+    setEditorTheme(editorTheme) {
+        this.setState('setEditorTheme', 'editorTheme', editorTheme);
+    }
+
+    editorFullscreen = false
+    setEditorFullscreen(editorFullscreen) {
+        this.setState('setEditorFullscreen', 'editorFullscreen', editorFullscreen);
+    }
+
 
     async requestEpub(mediaId) {
         try {

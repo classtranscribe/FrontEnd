@@ -16,7 +16,7 @@ function EpubChaptersWithRedux({
     <div data-scroll
       id="msp-ee-el-con"
       className="msp-ee-el-con ct-d-c ct-a-fade-in" 
-      data-editing={isManagingChapters}
+      data-managing={isManagingChapters}
     >
       <EpubHeader />
 

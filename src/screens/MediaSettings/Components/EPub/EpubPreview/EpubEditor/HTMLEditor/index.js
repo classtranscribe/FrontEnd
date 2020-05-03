@@ -6,10 +6,6 @@ import { setup } from 'screens/MediaSettings/Utils'
 import { mspPreference as pref  } from 'utils/user-preference/media-settings'
 import "ace-builds/src-noconflict/mode-html"
 import "ace-builds/src-noconflict/snippets/html"
-import "ace-builds/src-noconflict/theme-monokai"
-import "ace-builds/src-noconflict/theme-xcode"
-import "ace-builds/src-min-noconflict/ext-searchbox"
-import "ace-builds/src-min-noconflict/ext-language_tools"
 
 export function HTMLEditor({
   text,
@@ -58,7 +54,7 @@ export function HTMLEditor({
   return (
     <div 
       id="msp-ee-editor" 
-      className="msp-ee-editor msp-ee-html-editor-con ct-a-fade-in" 
+      className="msp-ee-editor msp-ee-ace-editor-con ct-a-fade-in" 
       data-fullscreen={fullscreen}
       data-dark={dark}
     >
@@ -86,11 +82,11 @@ export function HTMLEditor({
       </div>
 
       <AceEditor focus
-        className="msp-ee-html-editor"
+        className="msp-ee-ace-editor"
         mode="html"
         theme={dark ? "monokai" : "xcode"}
         onChange={onChange}
-        name="msp-ee-html-editor"
+        name="msp-ee-ace-editor"
         editorProps={{ $blockScrolling: true }}
         value={value}
         data-scroll
