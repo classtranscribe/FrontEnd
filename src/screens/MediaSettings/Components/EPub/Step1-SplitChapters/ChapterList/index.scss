@@ -1,0 +1,220 @@
+@import './instruction-heading.scss';
+
+.msp-ee-sch {
+  width: calc(57% + 15px);
+  height: 100%;
+  padding-right: 15px;
+  padding-bottom: 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ee-sch-chapters {
+  position: relative;
+  width: 100%;
+  padding-top: 1rem;
+
+  .ee-sch-items {
+    position: relative;
+    width: 100%;
+    flex: 0 0 auto;
+
+    &.fold {
+      .ee-sch-ch-title .ee-sch-expand-btn {
+         transform: rotate(180deg);
+      }
+    }
+
+    .ee-sch-ch-title {
+      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
+      padding: 15px 0 15px 90px;
+      margin-top: 20px;
+      animation: ee-sch-title-show 200ms linear;
+  
+      &.ee-sch-sub {
+        padding: 15px 0 15px 180px;
+      }
+  
+      input {
+        font-weight: bolder;
+        margin: 0;
+        padding: 0 0 5px 10px;
+        font-size: 32px;
+        // border-top: 3px solid rgb(240, 240, 240);
+        width: 100%;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &:focus {
+          text-overflow: initial;
+        }
+      }
+  
+      .ee-sch-ch-t-remove-btn {
+        position: absolute;
+        top: 13px;
+        left: 40px;
+        opacity: .8;
+        transition: opacity .2s ease-in;
+
+        &.ee-sch-sub-1 {
+          left: 130px;
+        }
+
+        &.ee-sch-sub-2 {
+          left: 80px;
+        }
+      }
+  
+      .ee-sch-expand-btn {
+        transition: transform 100ms linear;
+      }
+  
+      &:hover .ee-sch-ch-t-remove-btn, 
+      .ee-sch-ch-t-remove-btn:focus-within {
+        opacity: 1;
+      }
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    // Compact Chapter View
+    ////////////////////////////////////////////////////////////
+    .ee-sch-ch-compact-txt {
+      display: flex;
+      // width: 10px;
+      margin: 0 0 40px 100px;
+      position: relative;
+      white-space: pre-wrap;
+      animation: ee-sch-ch-hide 200ms linear;
+      font-size: 14px;
+      line-height: 23px;
+    }
+
+    .ee-sch-i-ul {
+      position: relative;
+      flex: 0 0 auto;
+      animation: ee-sch-ch-show 200ms linear;
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    // ePub Chapters Item
+    ////////////////////////////////////////////////////////////
+    .ee-sch-item {
+      position: relative;
+      width: 100%;
+      padding: 0;
+      transition: padding .2s linear;
+
+      .ee-sch-i-info {
+        padding-left: 100px;
+        
+        .ee-sch-i-img {
+          position: relative;
+          min-width: 150px;
+          height: max-content;
+
+          img {
+            position: relative;
+            width: 150px;
+            object-fit: contain;
+            cursor: zoom-in;
+          }
+        }
+
+        .ee-sch-i-text {
+          position: relative;
+          white-space: pre-wrap;
+          padding-left: 10px;
+          font-size: 14px;
+          line-height: 23px;
+          // height: 92px;
+          overflow: hidden;
+        }
+      }
+
+      .ee-sch-i-actions {
+        width: 100%;
+        transition: opacity .2s ease-in;
+        opacity: 0;
+        pointer-events: none;
+        border-radius: 0 20px 20px 0;
+        padding-left: 20px;
+        // background-color: rgb(245, 245, 245);
+      }
+
+      &:hover {
+        .ee-sch-i-actions {
+          pointer-events: visible;
+          opacity: 1;
+        }
+      }
+
+    
+      &.padded {
+        .ee-sch-i-actions {
+          padding-left: 100px;
+        }
+      }
+    }
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    // Sub-Chapter
+    ////////////////////////////////////////////////////////////
+    &.ee-sch-sub {
+      .ee-sch-ch-title {
+        position: relative;
+        margin-top: 20px;
+        z-index: 0;
+        input {
+          font-size: 22px;
+        }
+      }
+
+      .ee-sch-ch-compact-txt {
+        margin-left: 190px;
+      }
+
+      .ee-sch-item {
+        .ee-sch-i-info {
+          padding-left: 190px;
+        }
+
+        // .ee-sch-i-actions {
+        //   // margin-left: 90px;
+        // }
+      }
+    }
+  }
+}
+
+@keyframes ee-sch-ch-hide {
+  0% { padding: 100px 0; opacity: 0; }
+  100% { padding: 0px 0; opacity: 1; }
+}
+@keyframes ee-sch-ch-show {
+  0% { opacity: 0; max-height: 50px; }
+  100% { opacity: 1; max-height: 1000px; }
+}
+@keyframes ee-sch-title-show {
+  0% { 
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  } 100% {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    opacity: 1;
+  }
+}
