@@ -28,6 +28,11 @@ export function getAllItemsInChapter(chapter) {
     ]);
 }
 
+export function getAllImagesInChapter(chapter) {
+    let items = getAllItemsInChapter(chapter);
+    return _.map(items, item => item.image);
+}
+
 /**
  * @todo generate text for chapter based on items and subchapters
  */
@@ -42,6 +47,7 @@ export function genChaperFromItems(chapter, replaceText=true) {
         subChapters = [],
     } = chapter;
 
+    let content = chapterItemsToMarkdown(items);
     text = (replaceText || !text) ? chapterToHTML(chapter) : text;
 
     return {
@@ -49,7 +55,7 @@ export function genChaperFromItems(chapter, replaceText=true) {
         title: title || 'Untitled Chapter',
         items: items,
         audioDescription: audioDescription,
-        content: chapterItemsToMarkdown(items),
+        content,
         text,
         subChapters,
     };
@@ -72,6 +78,7 @@ export function genSubChaperFromItems(subChapter) {
         items: items,
         // audioDescription: audioDescription,
         // text: text || html.strList(items, 'text'),
+        content: chapterItemsToMarkdown(items)
     };
 }
 

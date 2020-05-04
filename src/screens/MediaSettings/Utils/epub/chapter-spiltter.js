@@ -33,7 +33,7 @@ export function proceedToStep2() {
       status: 'success',
       position: 'left bottom',
       timeout: 3000,
-    });
+    }, true);
 }
 
 export function cancelEditChapters() {

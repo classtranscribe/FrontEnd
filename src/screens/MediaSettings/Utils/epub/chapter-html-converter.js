@@ -16,14 +16,15 @@ export function markdown2HTML(text) {
 
 export function chapterItemsToMarkdown(items) {
     return  '\n#### Transcript\n'
-            + _.map(items, item => item.text)
-               .join('\n\n')
+            + _.map(items, item => _.trim(item.text)).join('\n\n')
             + '\n\n'
             + EDITOR_TYPE_SPLITTER 
             + EDITOR_MARKDOWN;
 }
 
-export function chapterToHTML({ content, subChapters, image, title }) {
+export function chapterToHTML({ items, content, subChapters, image, title }) {
+    if (!content) content = chapterItemsToMarkdown(items);
+
     let chapterHTML = '\n\n<!-- Please do not delete the title of the chapter -->\n'
                     + `## ${title}\n\n`
                     + (image ? `![Screenshot](${api.getMediaFullPath(image)})\n\n` : '')
