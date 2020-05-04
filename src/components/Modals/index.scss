@@ -100,8 +100,6 @@
 
     // Header
     .ct-mdl-h-con {
-      position: sticky;
-      top: 0;
       left: 0;
       display: flex;
       flex-direction: row;
@@ -127,11 +125,14 @@
       max-height: 500px;
       width: 100%;
       overflow: hidden;
+      .ct-mdl-text {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
     }
 
     .ct-mdl-act {
-      position: sticky;
-      bottom: 0;
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
