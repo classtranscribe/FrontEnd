@@ -1,0 +1,34 @@
+.ee-ech-ch-title {
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &.focused {
+    cursor: default;
+
+    .ee-ech-ch-h {
+      padding-left: 10px;
+    }
+  }
+
+  .ee-ech-ch-h {
+    transition: padding 200ms linear;
+    width: 100%;
+    margin: 0;
+    padding: 5px 10px;
+
+    &:hover {
+      background-color: rgb(241, 246, 246);
+      border-radius: 5px;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: rgb(241, 246, 246);
+    }
+  }
+}

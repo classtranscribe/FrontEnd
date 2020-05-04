@@ -1,0 +1,14 @@
+.ee-ech-ch-text-con {
+  width: 100%;
+
+  .ee-ech-ch-text {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(241, 246, 246);
+      border-radius: 5px;
+    }
+  }
+}

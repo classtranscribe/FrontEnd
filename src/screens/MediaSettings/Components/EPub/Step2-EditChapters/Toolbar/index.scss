@@ -1,0 +1,34 @@
+.msp-ee-ech-tb {
+  position: relative;
+  margin-left: 20px;
+  width: 30%;
+  min-width: 250px;
+  height: max-content;
+  padding: 50px 20px 20px 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .ee-ech-tb-top-holder {
+    height: 200px;
+  }
+
+  .ee-ech-tb-btn {
+    width: 100% !important;
+    &.ee-ech-tb-btn-me {
+      margin-bottom: 1rem;
+    }
+
+    &.epicker {
+      margin-bottom: 100px;
+    }
+  }
+
+  .ee-ech-tb-btns {
+
+    &.top {
+      margin-bottom: 20px;
+    }
+  }
+}
