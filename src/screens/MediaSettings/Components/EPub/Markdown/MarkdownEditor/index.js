@@ -10,6 +10,7 @@ import { MarkdownPreviewer } from '../MarkdownPreviewer';
 export function MarkdownEditor({
   id = '',
   defaultValue='',
+  placeholder='\n\n#### Transcript\n\n',
   height='400px',
   screenshots=[],
   defaultImage,
@@ -19,7 +20,11 @@ export function MarkdownEditor({
   onChooseImage,
 }) {
 
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(
+    defaultValue.trim()
+    ? defaultValue
+    : placeholder
+  );
   const [ace, setAce] = useState(null);
   const [preview, setPreview] = useState(null);
 
