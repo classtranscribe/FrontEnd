@@ -1,31 +1,25 @@
 import React, { useEffect } from 'react';
+import { ARRAY_INIT } from 'utils';
+import { epub, connectWithRedux } from '../../Utils/epub';
 import { PlaceHolder } from 'components';
-
-import RequestEpub from './RequestEpub';
-import EpubChapters from './EpubChapters';
-import EpubPreview from './EpubPreview';
-import CoverPicker from './CoverPicker';
-import ActionButtons from './ActionButtons';
-import ChapterNavigator from './ChapterNavigator';
 import './index.scss';
 
-import { ARRAY_INIT } from 'utils';
+import RequestEpub from './RequestEpub';
+import ChapterNavigator from './ChapterNavigator';
+import SplitChapter from './Step1-SplitChapters';
+import EditChapters from './Step2-EditChapters';
 
-import { 
-  epub,
-  connectWithRedux
-} from '../../Utils/epub';
 
-const firstTimeEdit = true;
+const { EPUB_STEP_SPLIT, EPUB_STEP_EDIT } = epub;
+
 
 export function EpubWithRedux(props) {
-
   const {
+    step,
     error,
     media,
     epubData = ARRAY_INIT,
     chapters = ARRAY_INIT, 
-    coverImgs,
     setChapters,
   } = props;
 
@@ -37,11 +31,7 @@ export function EpubWithRedux(props) {
 
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
-      if (firstTimeEdit) {
-        epub.setupChapters(epubData);
-      } else {
-        setChapters(epubData);
-      }
+      epub.setupChapters(epubData);
     }
   }, [epubData]);
 
@@ -55,9 +45,10 @@ export function EpubWithRedux(props) {
     }
   }, []);
 
-  if (error === epub.NO_EPUB) return <RequestEpub mediaId={media.id} />;
 
-  return (
+  return error === epub.NO_EPUB ? (
+    <RequestEpub mediaId={media.id} />
+  ) : (
     <div className="msp-ee-con ct-a-fade-in">
       <div className="msp-ee">
         {
@@ -70,17 +61,17 @@ export function EpubWithRedux(props) {
           <>
             <ChapterNavigator />
 
-            <EpubChapters />
-
-            <EpubPreview />
-
             {
-              coverImgs.length > 0
-              &&
-              <CoverPicker />
+              step === EPUB_STEP_SPLIT
+              ?
+              <SplitChapter />
+              :
+              step === EPUB_STEP_EDIT
+              ?
+              <EditChapters />
+              :
+              null
             }
-
-            <ActionButtons />
           </>
         }
       </div>
@@ -91,9 +82,10 @@ export function EpubWithRedux(props) {
 export const EPub = connectWithRedux(
   EpubWithRedux,
   [
-    'error', 'epubData', 
+    'error', 
+    'step',
+    'epubData', 
     'chapters',
-    'coverImgs'
   ],
   ['all'],
   ['media']
