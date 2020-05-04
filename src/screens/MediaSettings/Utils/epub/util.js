@@ -1,9 +1,17 @@
 import _ from 'lodash';
-import { html, util } from 'utils';
+import { html, util, api } from 'utils';
 import {
     chapterToHTML,
     chapterItemsToMarkdown,
 } from './chapter-html-converter';
+
+export function getImageUrl(image='') {
+    if (image.startsWith('blob')) {
+        return image;
+    } else {
+        return api.getMediaFullPath(image);
+    }
+}
 
 
 function parseChapter(epub, index) {

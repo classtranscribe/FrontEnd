@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN } from './constants';
-import { html, api } from 'utils';
+import { html } from 'utils';
+import { getImageUrl } from './util'
 
 export function parseText(text) {
     let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER);
@@ -32,7 +33,7 @@ export function chapterToHTML({ items, content, subChapters, image, title }) {
 
     let chapterHTML = '\n\n<!-- Please do not delete the title of the chapter -->\n'
                     + `## ${title}\n\n`
-                    + (image ? `![Screenshot](${api.getMediaFullPath(image)})\n\n` : '')
+                    + (image ? `![Screenshot](${getImageUrl(image)})\n\n` : '')
                     + parseText(content).content;
 
     let subChapterHTML = _.reduce(
@@ -40,7 +41,7 @@ export function chapterToHTML({ items, content, subChapters, image, title }) {
         (subHtml, subChapter, index) => subHtml 
             + `\n\n<!-- Sub-chapter ${index + 1} -->\n`
             + `### ${subChapter.title}\n\n`
-            + `![Screenshot](${api.getMediaFullPath(subChapter.image)})\n`
+            + `![Screenshot](${getImageUrl(subChapter.image)})\n`
             // + '#### Transcript\n'
             + parseText(subChapter.text).content + '\n'
         ,

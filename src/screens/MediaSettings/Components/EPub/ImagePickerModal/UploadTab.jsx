@@ -1,5 +1,6 @@
 import React from 'react';
 import UploadButton from './UploadButton';
+import { epub } from 'screens/MediaSettings/Utils/epub';
 
 function UploadTab({
   setImgUrl,
@@ -22,7 +23,7 @@ function UploadTab({
         {
           imgUrl
           ?
-          <img src={imgUrl} alt="Selected Cover Image" />
+          <img src={epub.getImageUrl(imgUrl)} alt="Selected Cover Image" />
           :
           <div className="w-100 text-center">No image picked.</div>
         }
