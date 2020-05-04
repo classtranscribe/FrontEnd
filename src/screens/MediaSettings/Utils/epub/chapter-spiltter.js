@@ -420,7 +420,7 @@ export function setupChapters(epubData) {
         epubState.changeChapter(chapters[0]);
     }
 
-    // subdivideChaptersByScreenshots();
+    subdivideChaptersByScreenshots();
 }
 
 export function startManagingEpubChapters() {

@@ -67,7 +67,7 @@ export function genSubChaperFromItems(subChapter) {
         title,
         // image,
         items,
-        text = "",
+        // text = "",
         // audioDescription = "",
     } = subChapter;
 
@@ -78,7 +78,7 @@ export function genSubChaperFromItems(subChapter) {
         items: items,
         // audioDescription: audioDescription,
         // text: text || html.strList(items, 'text'),
-        content: chapterItemsToMarkdown(items)
+        text: chapterItemsToMarkdown(items)
     };
 }
 

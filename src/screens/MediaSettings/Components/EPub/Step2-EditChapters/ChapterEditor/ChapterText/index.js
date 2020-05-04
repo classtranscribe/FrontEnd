@@ -11,6 +11,9 @@ function ChapterText({
   text = '',
   id = '',
   chapter,
+  onChooseImage,
+  onSaveText,
+  screenshots,
 }) {
 
   const [editing, setEditing] = useState(false);
@@ -24,16 +27,12 @@ function ChapterText({
     }
   }
 
-  const onChooseImage = () => {
-    
-  }
-
-  const onSaveText = () => {
+  const onSave = newText => {
+    if (onSaveText) onSaveText(newText);
     closeEditing();
   }
 
   const { content } = epub.parseText(text);
-  const screenshots = epub.getAllImagesInChapter(chapter);
   const { image } = chapter;
 
   return (
@@ -41,15 +40,17 @@ function ChapterText({
       {
         editing
         ?
-        <MarkdownEditor
-          id={id}
-          defaultValue={content}
-          onSave={onSaveText}
-          onClose={closeEditing}
-          screenshots={screenshots}
-          defaultImage={image}
-          onChooseImage={onChooseImage}
-        />
+        <div className="w-100 mb-4">
+          <MarkdownEditor
+            id={id}
+            defaultValue={content}
+            onSave={onSave}
+            onClose={closeEditing}
+            screenshots={screenshots}
+            defaultImage={image}
+            onChooseImage={onChooseImage}
+          />
+        </div>
         :
         <Popup inverted basic
           openOnTriggerFocus
@@ -66,7 +67,13 @@ function ChapterText({
               onClick={startEditing}
               onKeyDown={handleKeyDown}
             >
-              <MarkdownPreviewer value={text} />
+              {
+                Boolean(content.trim())
+                ?
+                <MarkdownPreviewer value={text} />
+                :
+                'Click to add content'
+              }
             </div>
           }
         />

@@ -71,7 +71,7 @@ function ChapterTitle({
       {
         changed
         &&
-        <Button
+        <Button compact
           classNames="ml-2 ct-a-fade-in"
           color="transparent teal"
           text="SAVE"

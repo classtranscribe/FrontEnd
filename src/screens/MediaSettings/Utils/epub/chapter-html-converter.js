@@ -15,7 +15,11 @@ export function markdown2HTML(text) {
 }
 
 export function chapterItemsToMarkdown(items) {
-    return  '\n#### Transcript\n'
+    let subTitle = items.length > 0 
+                 ? '\n#### Transcript\n'
+                 : '';
+
+    return  subTitle
             + _.map(items, item => _.trim(item.text)).join('\n\n')
             + '\n\n'
             + EDITOR_TYPE_SPLITTER 
@@ -35,8 +39,8 @@ export function chapterToHTML({ items, content, subChapters, image, title }) {
         (subHtml, subChapter, index) => subHtml 
             + `\n\n<!-- Sub-chapter ${index + 1} -->\n`
             + `### ${subChapter.title}\n\n`
-            + `![Screenshot](${api.getMediaFullPath(subChapter.image)})\n\n`
-            + '#### Transcript\n'
+            + `![Screenshot](${api.getMediaFullPath(subChapter.image)})\n`
+            // + '#### Transcript\n'
             + chapterItemsToMarkdown(subChapter.items) + '\n'
         ,
         '\n'
