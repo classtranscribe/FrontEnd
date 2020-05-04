@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connectWithRedux, epub } from '../../../Utils/epub';
 import { Button } from 'pico-ui';
 import './index.scss';
+import { util } from 'utils';
 
 function ChapterNavigatorWithRedux({
   step,
@@ -29,15 +30,9 @@ function ChapterNavigatorWithRedux({
     epub.state.setNavId(currChapter.id);
   }, [step]);
 
-
   useEffect(() => {
-    // add event listener to preview panel's scrolling
-    epub.addScrollEventListenerToEpubPreview();
-
-    return () => {
-      epub.removeScrollEventListenerToEpubPreview();
-    }
-  }, []);
+    util.elem.scrollIntoCenter('ee-cn-ch-' + navId);
+  }, [navId])
 
 
   return showNav ? (

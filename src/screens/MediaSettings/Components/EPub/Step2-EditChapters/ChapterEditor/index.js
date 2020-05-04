@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connectWithRedux, epub } from 'screens/MediaSettings/Utils/epub';
 import './index.scss';
 
@@ -11,6 +11,15 @@ function ChapterEditor({
 
   const { subChapters=[] } = currChapter;
   const screenshots = epub.getAllImagesInChapter(currChapter);
+
+  useEffect(() => {
+    // add event listener to preview panel's scrolling
+    epub.addScrollEventListenerToEpubPreview();
+
+    return () => {
+      epub.removeScrollEventListenerToEpubPreview();
+    }
+  }, []);
 
   return (
     <div data-scroll 

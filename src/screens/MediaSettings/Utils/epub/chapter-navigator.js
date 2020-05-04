@@ -27,6 +27,8 @@ export const navigateChapter = chapter => () => {
 
     if (epubState.isStep1) {
         hideNavihator();
+    } else {
+        elem.scrollToTop('ee-ech-ch');
     }
 }
 
@@ -42,9 +44,9 @@ export const navigateSubChapter = (subChapter, chapter) => () => {
         epubState.setNavId(subChapter.id);
         hideNavihator();
     } else {
-        elem.scrollToTop('msp-ee-ep-con', { 
+        elem.scrollToTop('ee-ech-ch', { 
             scrollElemId: `${SUB_CHAPTER_ID_PREFIX}-${subChapter.id}`,
-            scrollTop: -25
+            scrollTop: -100
         });
     }
 }
@@ -60,7 +62,7 @@ export const onShowNavChange = currChapterId => {
 }
 
 function onEpubPreviewScroll() {
-    return;
+    // return;
     let { currChapter } = epubState;
     let scrollTop = this.scrollTop;
 
@@ -80,7 +82,6 @@ function onEpubPreviewScroll() {
 
         if (subChapterElem && elem.isScrolledIntoView(subChapterElem, 300)) {
             epubState.setNavId(subChapter.id);
-            elem.scrollIntoCenter('ee-cn-sub-ch-' + subChapter.id);
             return;
         }
     }
@@ -90,14 +91,14 @@ function onEpubPreviewScroll() {
 }
 
 export function addScrollEventListenerToEpubPreview() {
-    let previewElem = document.getElementById('msp-ee-ep-con');
+    let previewElem = document.getElementById('ee-ech-ch');
     if (Boolean(previewElem)) {
         previewElem.addEventListener('scroll', onEpubPreviewScroll, true);
     }
 }
 
 export function removeScrollEventListenerToEpubPreview() {
-    let previewElem = document.getElementById('msp-ee-ep-con');
+    let previewElem = document.getElementById('ee-ech-ch');
     if (Boolean(previewElem)) {
         previewElem.removeEventListener('scroll', onEpubPreviewScroll);
     }
