@@ -48,6 +48,7 @@ export function genChaperFromItems(chapter, replaceText=true) {
     } = chapter;
 
     let content = chapterItemsToMarkdown(items);
+    chapter.content = content;
     text = (replaceText || !text) ? chapterToHTML(chapter) : text;
 
     return {

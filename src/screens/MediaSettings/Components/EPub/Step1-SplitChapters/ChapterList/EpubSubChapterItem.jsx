@@ -3,6 +3,7 @@ import { epub } from 'screens/MediaSettings/Utils/epub';
 
 import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';
+import ChapterTitle from '../../Step2-EditChapters/ChapterEditor/ChapterTitle';
 
 const classNames = require('classnames');
 
@@ -23,7 +24,7 @@ export default function EpubSubChapterItem({
   const undoSplitSubChapter = () => epub.undoSplitSubChapter(chapterIndex, subChapterIndex);
   const splitChapterFromSubChapter = () => epub.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
 
-  const handleSubChapterTitleChange = ({target: { value }}) => {
+  const handleSubChapterTitleChange = value => {
     epub.handleSubChapterTitleChange(chapterIndex, subChapterIndex, value);
   }
 
@@ -36,12 +37,14 @@ export default function EpubSubChapterItem({
   return (
     <div id={subChapter.id} className={subChaperClass}>
       <div 
-        className="ee-sch-ch-title ee-sch-sub ct-d-r-center-v"
+        className="ee-sch-ch-title-con ee-sch-sub ct-d-r-center-v"
       >
-        <input contentEditable
-          className="ct-div-editable"
+        <ChapterTitle
+          id={'sch-subch-' + subChapter.id}
           value={subChapter.title}
-          onChange={handleSubChapterTitleChange}
+          headingType="h3"
+          onSave={handleSubChapterTitleChange}
+          className="ee-sch-ch-title"
         />
 
         <ChapterTitleButton show

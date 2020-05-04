@@ -4,6 +4,7 @@ import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';
 import EpubSubChapterItem from './EpubSubChapterItem';
+import ChapterTitle from '../../Step2-EditChapters/ChapterEditor/ChapterTitle';
 
 const classNames = require('classnames');
 
@@ -20,7 +21,7 @@ function EpubChapterItem({
   const undoSplitChapter = () => epub.undoSplitChapter(chapterIndex);
   const handleMouseOverChapterList = () => epub.handleMouseOverChapterList(chapter);
 
-  const handleChapterTitleChange = ({ target: { value } }) => {
+  const handleChapterTitleChange = value => {
     epub.handleChapterTitleChange(chapterIndex, value);
   }
 
@@ -36,11 +37,13 @@ function EpubChapterItem({
       className={chaperClass}
       onMouseEnter={handleMouseOverChapterList}
     >
-      <div className="ee-sch-ch-title ct-d-r-center-v">
-        <input contentEditable
-          className="ct-div-editable"
+      <div className="ee-sch-ch-title-con ct-d-r-center-v">
+        <ChapterTitle
+          id={'sch-ch-' + chapter.id}
           value={chapter.title}
-          onChange={handleChapterTitleChange}
+          onSave={handleChapterTitleChange}
+          headingType="h2"
+          className="ee-sch-ch-title"
         />
 
         <ChapterTitleButton show

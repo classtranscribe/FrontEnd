@@ -25,13 +25,13 @@
       }
     }
 
-    .ee-sch-ch-title {
+    .ee-sch-ch-title-con {
       width: 100%;
       position: sticky;
       top: 0;
       z-index: 1;
       background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
-      padding: 15px 0 15px 90px;
+      padding: 10px 0 10px 90px;
       margin-top: 20px;
       animation: ee-sch-title-show 200ms linear;
   
@@ -39,7 +39,7 @@
         padding: 15px 0 15px 180px;
       }
   
-      input {
+      .ee-sch-ch-title {
         font-weight: bolder;
         margin: 0;
         padding: 0 0 5px 10px;
@@ -49,11 +49,6 @@
         border-top: 0;
         border-right: 0;
         border-left: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        &:focus {
-          text-overflow: initial;
-        }
       }
   
       .ee-sch-ch-t-remove-btn {
@@ -89,7 +84,7 @@
     .ee-sch-ch-compact-txt {
       display: flex;
       // width: 10px;
-      margin: 0 0 40px 100px;
+      margin: 0 0 20px 100px;
       position: relative;
       white-space: pre-wrap;
       animation: ee-sch-ch-hide 200ms linear;
@@ -173,13 +168,13 @@
     // Sub-Chapter
     ////////////////////////////////////////////////////////////
     &.ee-sch-sub {
-      .ee-sch-ch-title {
+      .ee-sch-ch-title-con {
         position: relative;
-        margin-top: 20px;
+        margin-top: 10px;
         z-index: 0;
-        input {
-          font-size: 22px;
-        }
+        // .ee-sch-ch-title {
+        //   margin: none;
+        // }
       }
 
       .ee-sch-ch-compact-txt {

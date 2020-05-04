@@ -28,6 +28,7 @@ export function chapterItemsToMarkdown(items) {
 
 export function chapterToHTML({ items, content, subChapters, image, title }) {
     if (!content) content = chapterItemsToMarkdown(items);
+    content = parseText(content).content;
 
     let chapterHTML = '\n\n<!-- Please do not delete the title of the chapter -->\n'
                     + `## ${title}\n\n`
@@ -41,7 +42,7 @@ export function chapterToHTML({ items, content, subChapters, image, title }) {
             + `### ${subChapter.title}\n\n`
             + `![Screenshot](${api.getMediaFullPath(subChapter.image)})\n`
             // + '#### Transcript\n'
-            + chapterItemsToMarkdown(subChapter.items) + '\n'
+            + parseText(subChapter.text).content + '\n'
         ,
         '\n'
     );
