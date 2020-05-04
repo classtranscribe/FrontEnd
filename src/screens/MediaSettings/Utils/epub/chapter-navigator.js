@@ -25,7 +25,7 @@ export const navigateChapter = chapter => () => {
     epubState.changeChapter(chapter);
     epubState.setNavId(chapter.id);
 
-    if (epubState.isManagingChapters) {
+    if (epubState.isStep1) {
         hideNavihator();
     }
 }
@@ -33,8 +33,8 @@ export const navigateChapter = chapter => () => {
 export const navigateSubChapter = (subChapter, chapter) => () => {
     epubState.changeChapter(chapter);
 
-    if (epubState.isManagingChapters) {
-        elem.scrollToTop('msp-ee-el-con', { 
+    if (epubState.isStep1) {
+        elem.scrollToTop('msp-ee-sch-list', { 
             scrollElemId: subChapter.id,
             scrollTop: window.innerHeight - 220
         });

@@ -1,6 +1,5 @@
-export { mspStore, connectWithRedux, mspContext } from '../../../redux/media-settings'
+export { mspStore, connectWithRedux, mspContext } from 'redux/media-settings';
 
-export * from './constants'
+export * from './constants';
 
-export { setup        } from './setup'
-export { epub         } from './epub'
+export { setup        } from './setup';

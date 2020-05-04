@@ -6,6 +6,10 @@ import {
     DEFAULT_IS_MANAGING_CHAPTERS,
     EDITOR_DISPLAY,
     EDITOR_THEME_XCODE,
+    EPUB_DEFAULT_STEP,
+    EPUB_STEP_SPLIT,
+    EPUB_STEP_EDIT,
+    EPUB_STEP_DOWNLOAD,
 } from './constants';
 import { parseEpubData } from './util';
 
@@ -16,7 +20,6 @@ class EpubState {
         this.setStateFunc = {};
 
         this.init = this.init.bind(this);
-        this.registerSetStateFunc = this.registerSetStateFunc.bind(this);
         this.setupEpub = this.setupEpub.bind(this);
         this.changeChapter = this.changeChapter.bind(this);
         this.updateEpubChapters = this.updateEpubChapters.bind(this);
@@ -33,7 +36,7 @@ class EpubState {
             setCoverImgs, setMagnifiedImg, setFoldedIds,
             setNavId, setShowNav,
             setTxtEditor, setEditorTheme, setEditorFullscreen,
-            setError,
+            setError, setStep,
         } = props;
     
         this.redux = { 
@@ -43,36 +46,10 @@ class EpubState {
             setCoverImgs, setMagnifiedImg, setFoldedIds,
             setNavId, setShowNav,
             setTxtEditor, setEditorTheme, setEditorFullscreen,
-            setError,
+            setError, setStep,
         };
     }
 
-    epubData = ARRAY_INIT
-    setEpubData(epubData) {
-        const { setEpubData } = this.redux;
-        if (setEpubData) {
-            setEpubData(epubData);
-            this.epubData = epubData;
-        }
-    }
-
-    isManagingChapters = DEFAULT_IS_MANAGING_CHAPTERS
-    setIsManagingChapters(isManagingChapters) {
-        const { setIsManagingChapters } = this.redux;
-        if (setIsManagingChapters) {
-            setIsManagingChapters(isManagingChapters);
-            this.isManagingChapters = isManagingChapters;
-        }
-    }
-
-
-    /**
-     * Function used to register react setState functions
-     * @param {Object} functions 
-     */
-    registerSetStateFunc(functions={}) {
-        this.setStateFunc = { ...this.setStateFunc, ...functions };
-    }
 
     setState(funcName, stateName, value) {
         const setState = this.redux[funcName];
@@ -85,6 +62,33 @@ class EpubState {
     error = null
     setError(error) {
         this.setState('setError', 'error', error);
+    }
+
+    step = EPUB_DEFAULT_STEP
+    setStep(step) {
+        this.setState('setStep', 'step', step);
+    }
+
+    get isStep1() {
+        return this.step === EPUB_STEP_SPLIT;
+    }
+
+    get isStep2() {
+        return this.step === EPUB_STEP_EDIT;
+    }
+
+    get isStep3() {
+        return this.step === EPUB_STEP_DOWNLOAD;
+    }
+
+    epubData = ARRAY_INIT
+    setEpubData(epubData) {
+        this.setState('setEpubData', 'epubData', epubData);
+    }
+
+    isManagingChapters = DEFAULT_IS_MANAGING_CHAPTERS
+    setIsManagingChapters(isManagingChapters) {
+        this.setState('setIsManagingChapters', 'isManagingChapters', isManagingChapters);
     }
 
     currChapter = {}
@@ -104,14 +108,6 @@ class EpubState {
     updateEpubChapters(chapters, currChapter) {
         this.setChapters([ ...chapters ]);
         this.changeChapter({ ...currChapter });
-    }
-
-    switchToEditChapters() {
-
-    }
-
-    switchToSplitChapters() {
-        
     }
 
     language = ENGLISH

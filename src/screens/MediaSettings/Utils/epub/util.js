@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import { html, util } from 'utils';
-import { chapterToHTML } from './chapter-html-converter';
+import {
+    chapterToHTML,
+    chapterItemsToMarkdown,
+} from './chapter-html-converter';
 
 
 function parseChapter(epub, index) {
@@ -44,9 +47,9 @@ export function genChaperFromItems(chapter, replaceText=true) {
     return {
         id: id || util.genId(),
         title: title || 'Untitled Chapter',
-        // image: (items[0] || {}).image,
         items: items,
         audioDescription: audioDescription,
+        content: chapterItemsToMarkdown(items),
         text,
         subChapters,
     };

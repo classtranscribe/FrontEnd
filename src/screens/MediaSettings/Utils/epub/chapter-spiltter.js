@@ -6,6 +6,7 @@ import {
     genSubChaperFromItems,
     getAllItemsInChapter
 } from './util';
+import { EPUB_STEP_EDIT } from './constants';
 
 let { updateEpubChapters } = epubState;
 
@@ -24,11 +25,11 @@ function genUntitledName() {
 // handle save ePub
 // **********************************************************************
 
-export function saveChapters() {
-    epubState.setIsManagingChapters(false);
+export function proceedToStep2() {
+    epubState.setStep(EPUB_STEP_EDIT);
 
     prompt.addOne({
-      text: 'ePub chapters saved.',
+      text: "Start editing your chapters' contents.",
       status: 'success',
       position: 'left bottom',
       timeout: 3000,
@@ -419,7 +420,7 @@ export function setupChapters(epubData) {
         epubState.changeChapter(chapters[0]);
     }
 
-    subdivideChaptersByScreenshots();
+    // subdivideChaptersByScreenshots();
 }
 
 export function startManagingEpubChapters() {
