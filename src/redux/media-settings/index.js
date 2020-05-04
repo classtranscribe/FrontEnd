@@ -8,14 +8,14 @@ export const mspContext = createContext();
 const connectWithMSPRedux = createSelector(mspActions);
 
 export const connectWithRedux = (
-  Component,
-  requestedStates,
-  requestedDispatches
+    Component,
+    requestedStates,
+    requestedDispatches
 ) => connectWithMSPRedux(
-  Component,
-  requestedStates,
-  requestedDispatches,
-  mspContext
+    Component,
+    requestedStates,
+    requestedDispatches,
+    mspContext
 );
 
 

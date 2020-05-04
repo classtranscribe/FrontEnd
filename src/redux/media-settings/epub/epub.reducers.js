@@ -1,5 +1,6 @@
 import {
     SET_LANGUAGE, 
+    SET_STEP,
     SET_IS_MANAGING_CHAPTERS,
     SET_EPUB_DATA,
     SET_CHAPTERS,
@@ -25,6 +26,7 @@ const epubReducer = (
 
     switch (type) {
         case SET_LANGUAGE                 : return { ...state, language: value };
+        case SET_STEP                     : return { ...state, step: value };
         case SET_IS_MANAGING_CHAPTERS     : return { ...state, isManagingChapters: value };
 
         case SET_EPUB_DATA                : return { ...state, epubData: value };

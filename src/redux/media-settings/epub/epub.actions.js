@@ -1,5 +1,6 @@
 import {
     SET_LANGUAGE, 
+    SET_STEP,
     SET_IS_MANAGING_CHAPTERS,
     SET_EPUB_DATA,
     SET_CHAPTERS,
@@ -18,6 +19,7 @@ import { createAction } from '../../redux-creators';
 
 
 export const setLanguage            = createAction(SET_LANGUAGE);
+export const setStep                = createAction(SET_STEP);
 export const setIsManagingChapters  = createAction(SET_IS_MANAGING_CHAPTERS);
 
 export const setEpubData            = createAction(SET_EPUB_DATA);

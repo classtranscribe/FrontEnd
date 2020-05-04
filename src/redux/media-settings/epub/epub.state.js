@@ -1,7 +1,8 @@
 import { ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils/constants.util';
 import { mspPreference as pref  } from 'utils/user-preference/media-settings';
-import { 
+import {
+    EPUB_DEFAULT_STEP,
     DEFAULT_IS_MANAGING_CHAPTERS, 
     EDITOR_DISPLAY,
     NAV_CLOSE,
@@ -10,6 +11,7 @@ import {
 
 export const initialState = {
     language: ENGLISH,
+    step: EPUB_DEFAULT_STEP,
     isManagingChapters: DEFAULT_IS_MANAGING_CHAPTERS,
 
     epubData: ARRAY_INIT,

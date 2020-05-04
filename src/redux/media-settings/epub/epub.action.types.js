@@ -1,4 +1,5 @@
 export const SET_LANGUAGE = 'epub-set-lang';
+export const SET_STEP = 'epub-set-step';
 export const SET_IS_MANAGING_CHAPTERS = 'epub-is-managing-chps';
 
 export const SET_EPUB_DATA = 'epub-set-epub-data';
