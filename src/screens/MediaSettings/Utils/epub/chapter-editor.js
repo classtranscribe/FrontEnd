@@ -30,6 +30,7 @@ export function proceedToStep3() {
 
     prompt.addOne({
         text: "Finish step! Download your ePub file.",
+        status: 'success',
         position: 'left bottom',
         timeout: 4000,
     }, true);

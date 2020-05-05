@@ -1,11 +1,16 @@
-.ee-dl-tb-filename {
-  font-size: 15px;
-  line-height: 20px;
-  border-radius: 5px;
-}
+.msp-ee-dl-tb {
+  width: 40% !important;
+  padding-left: 30px;
 
-label.ee-dl-tb-label {
-  font-weight: bold;
-  font-size: 15px;
-  margin-bottom: 0;
+  .ee-dl-tb-filename {
+    font-size: 15px;
+    line-height: 20px;
+    border-radius: 5px;
+  }
+  
+  label.ee-dl-tb-label {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 0;
+  }
 }
