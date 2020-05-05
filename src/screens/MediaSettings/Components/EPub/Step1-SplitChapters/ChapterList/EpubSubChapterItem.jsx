@@ -50,7 +50,7 @@ export default function EpubSubChapterItem({
         <ChapterTitleButton show
           content={isFolded ? 'Expand' : 'Collapse'}
           color="transparent"
-          icon="expand_more"
+          icon={isFolded ? "expand_more" : "expand_less"}
           className="ee-sch-expand-btn"
           outlined={false}
           onClick={isFolded ? unfold : fold}
