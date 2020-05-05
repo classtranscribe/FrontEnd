@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab } from 'semantic-ui-react';
 import { CTModal } from 'components';
 import './index.scss'
@@ -22,6 +22,10 @@ function ImagePickerModal({
       onSave(imgUrl);
     }
   }
+
+  useEffect(() => {
+    setImgUrl(defaultImage);
+  }, [defaultImage])
 
   const panes = [
     { 

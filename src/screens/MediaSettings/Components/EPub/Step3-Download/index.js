@@ -11,18 +11,26 @@ function EpubDownloader({
 }) {
 
   const [title, setTitle] = useState(media.mediaName);
+  const [cover, setCover] = useState('');
   const [filename, setFilename] = useState(media.mediaName);
   const [author, setAuthor] = useState('Anonymous');
 
   const onSaveTitle = value => setTitle(value);
+  const onSaveCover = value => setCover(value);
   const onSaveAuthor = value => setAuthor(value);
   const onSaveFilename = value => setFilename(value);
+
+  let screenshots = epub.getAllImagesInChapters(chapters);
 
   useEffect(() => {
     if (media && media.mediaName) {
       setFilename(media.mediaName);
     }
   }, [media]);
+
+  useEffect(() => {
+    setCover(screenshots[0] || '');
+  }, [chapters]);
 
   return (
     <div className="msp-ee-step-con">
@@ -32,9 +40,12 @@ function EpubDownloader({
         onSaveTitle={onSaveTitle}
       />
       <Toolbar
+        cover={cover}
         title={title}
         author={author}
         filename={filename}
+        screenshots={screenshots}
+        onSaveCover={onSaveCover}
         onSaveAuthor={onSaveAuthor}
         onSaveFilename={onSaveFilename}
       />

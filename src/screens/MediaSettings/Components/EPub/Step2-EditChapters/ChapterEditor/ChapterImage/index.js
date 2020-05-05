@@ -48,12 +48,16 @@ function ChapterImage({
           Click to Choose Image
         </div>
 
-        <Button round
-          classNames="ee-ech-ch-img-rm-btn"
-          icon="delete"
-          text="Remove this image."
-          onClick={onRemoveImage}
-        />
+        {
+          Boolean(onRemoveImage)
+          &&
+          <Button round
+            classNames="ee-ech-ch-img-rm-btn"
+            icon="delete"
+            text="Remove this image."
+            onClick={onRemoveImage}
+          />
+        }
       </div>
       :
       <div className="ee-ech-ch-text-con">
