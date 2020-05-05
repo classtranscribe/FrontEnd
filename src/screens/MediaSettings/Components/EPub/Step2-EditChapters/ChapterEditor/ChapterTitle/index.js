@@ -38,7 +38,7 @@ function ChapterTitle({
       e.preventDefault();
 
       handleSave();
-      // e.target.blur();
+      e.target.blur();
     }
   }
 

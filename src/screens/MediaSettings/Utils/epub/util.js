@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { html, util, api } from 'utils';
+import { util, api } from 'utils';
 import {
     chapterToHTML,
     chapterItemsToMarkdown,
@@ -44,50 +44,57 @@ export function getAllImagesInChapter(chapter) {
 /**
  * @todo generate text for chapter based on items and subchapters
  */
-export function genChaperFromItems(chapter, replaceText=true) {
+export function genChaperFromItems(chapter, replace=true) {
     let { 
         id,
-        title,
-        // image,
-        items,
-        text = "",
+        title = 'Untitled Chapter',
+        image,
+        items = [],
+        // text = "",
         audioDescription = "",
         subChapters = [],
+        content,
     } = chapter;
 
-    let content = chapterItemsToMarkdown(items);
-    chapter.content = content;
-    text = (replaceText || !text) ? chapterToHTML(chapter) : text;
+    if (replace) {
+        content = chapterItemsToMarkdown(items);
+        chapter.content = content;
+    }
 
     return {
         id: id || util.genId(),
-        title: title || 'Untitled Chapter',
+        title,
+        image,
         items: items,
-        audioDescription: audioDescription,
+        audioDescription,
         content,
-        text,
+        text: chapterToHTML(chapter),
         subChapters,
     };
 }
 
-export function genSubChaperFromItems(subChapter) {
+export function genSubChaperFromItems(subChapter, replace=true) {
     const { 
         id,
         title,
-        // image,
-        items,
-        // text = "",
+        image,
+        items = [],
+        text = "",
         // audioDescription = "",
     } = subChapter;
 
     return {
         id: id || util.genId(),
         title: title || 'Untitled Sub-Chapter',
-        image: (items[0] || {}).image,
+        image: replace
+            ? (items[0] || {}).image
+            : image,
         items: items,
         // audioDescription: audioDescription,
         // text: text || html.strList(items, 'text'),
-        text: chapterItemsToMarkdown(items)
+        text: replace 
+            ? chapterItemsToMarkdown(items)
+            : text
     };
 }
 

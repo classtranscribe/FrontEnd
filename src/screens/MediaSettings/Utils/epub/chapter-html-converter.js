@@ -27,7 +27,13 @@ export function chapterItemsToMarkdown(items) {
             + EDITOR_MARKDOWN;
 }
 
-export function chapterToHTML({ items, content, subChapters, image, title }) {
+export function chapterToHTML({ 
+    items, 
+    content, 
+    subChapters, 
+    image, 
+    title 
+}) {
     if (!content) content = chapterItemsToMarkdown(items);
     content = parseText(content).content;
 
@@ -41,7 +47,7 @@ export function chapterToHTML({ items, content, subChapters, image, title }) {
         (subHtml, subChapter, index) => subHtml 
             + `\n\n<!-- Sub-chapter ${index + 1} -->\n`
             + `### ${subChapter.title}\n\n`
-            + `![Screenshot](${getImageUrl(subChapter.image)})\n`
+            + (subChapter.image ? `![Screenshot](${getImageUrl(subChapter.image)})\n` : '')
             // + '#### Transcript\n'
             + parseText(subChapter.text).content + '\n'
         ,
@@ -80,11 +86,3 @@ export function chapterToPreviewHTML(text) {
         previewHTML: phtml //parsedHtml.body.innerHTML,
     };
 }
-
-// export function addEventsToPreviewHTML() {
-//     let imgWrappers = document.getElementsByClassName('msp-e-v-img-wrapper');
-//     _.forEach(imgWrappers, wrapper => {
-//         wrapper.addEventListener('click', openCoverImagePicker)
-//         console.log(wrapper)
-//     })
-// }

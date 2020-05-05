@@ -15,12 +15,15 @@ function ChapterNavigatorWithRedux({
   const currChapterId = navId || currChapter.id;
   
   const isStep1 = step === epub.EPUB_STEP_SPLIT;
+  const isStep3 = step === epub.EPUB_STEP_DOWNLOAD;
 
   useEffect(() => {
+    if (isStep3) return null;
     epub.onShowNavChange(currChapterId);
   }, [showNav]);
 
   useEffect(() => {
+    if (isStep3) return null;
     if (isStep1 && showNav) {
       epub.state.setShowNav(epub.NAV_CLOSE);
     } else if (!isStep1 && !showNav) {
@@ -31,8 +34,11 @@ function ChapterNavigatorWithRedux({
   }, [step]);
 
   useEffect(() => {
+    if (isStep3) return;
     util.elem.scrollIntoCenter('ee-cn-ch-' + navId);
   }, [navId])
+
+  if (isStep3) return null;
 
 
   return showNav ? (

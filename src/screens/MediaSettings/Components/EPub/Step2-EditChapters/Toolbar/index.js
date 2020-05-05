@@ -12,10 +12,18 @@ function Toolbar() {
         <Button round
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
-          icon="settings"
+          icon="arrow_back"
           onClick={epub.backToStep1}
         >
-          Back to chapter splitter
+          Back to Chapter Splitter
+        </Button>
+        <Button round
+          classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
+          color="teal" 
+          icon="arrow_forward"
+          onClick={epub.proceedToStep3}
+        >
+          Proceed to ePub Downloader
         </Button>
       </div>
     </div>

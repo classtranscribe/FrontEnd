@@ -7,7 +7,8 @@ function ProceedButton() {
     <div className="msp-ee-act ct-a-fade-in">
       <Button round size="big"
         classNames="ee-act-btn ee-act-save-btn"
-        text="Save and Preview"
+        icon="arrow_forward"
+        text="Proceed to Chapter Editor"
         color="teal"
         onClick={epub.proceedToStep2}
       />

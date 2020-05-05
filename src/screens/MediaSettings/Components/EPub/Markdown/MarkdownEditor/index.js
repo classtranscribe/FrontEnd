@@ -39,6 +39,11 @@ export function MarkdownEditor({
     console.log(ace_)
   }
 
+  const handleSave = () => {
+    let newText = ace.getValue();
+    if (onSave) onSave(newText);
+  }
+
   const openPreview = () => {
     setPreview(epub.markdown2HTML(value));
   }
@@ -89,7 +94,7 @@ export function MarkdownEditor({
       </div>
 
       <ActionButtonGroup
-        onSave={onSave}
+        onSave={handleSave}
         onClose={onClose}
       />
     </div>

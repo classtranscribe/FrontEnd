@@ -29,10 +29,10 @@ export function proceedToStep2() {
     epubState.setStep(EPUB_STEP_EDIT);
 
     prompt.addOne({
-      text: "Start editing your chapters' contents.",
-      status: 'success',
-      position: 'left bottom',
-      timeout: 3000,
+        text: "Start editing your chapters' contents.",
+        status: 'success',
+        position: 'left bottom',
+        timeout: 3000,
     }, true);
 }
 
@@ -116,7 +116,7 @@ export function undoSplitChapter(chapterIndex) {
 
 export function resetToDefaultChapters() {
     let defaultChapter = genChaperFromItems({
-        items: epubState.epubData,
+        items: _.filter(epubState.epubData, data => _.trim(data.text)),
         title: 'Default Chapter',
         id: util.genId()
     });
@@ -132,7 +132,7 @@ export function resetToDefaultChapters() {
 
 export function splitChaptersByScreenshots() {
     let splitChapters = _.map(
-        epubState.epubData, 
+        _.filter(epubState.epubData, data => _.trim(data.text)), 
         (data, idx) => genChaperFromItems({
             items: [data], 
             title: 'Untitled Chapter ' + (idx + 1), 
@@ -251,6 +251,7 @@ export function splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, 
         items: _.slice(items, itemIndex, items.length),
         title: genUntitledName()
     });
+    
     chapters[chapterIndex] = genChaperFromItems(currChapter);
 
     updateEpubChapters(

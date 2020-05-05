@@ -17,6 +17,12 @@ function ImagePickerModal({
 
   const [imgUrl, setImgUrl] = useState(defaultImage);
 
+  const onSaveImage = () => {
+    if (onSave) {
+      onSave(imgUrl);
+    }
+  }
+
   const panes = [
     { 
       menuItem: 'Screenshots', 
@@ -49,7 +55,7 @@ function ImagePickerModal({
       onClose={onClose}
       actions={
         <ImagePickerModalActions 
-          onSave={onSave}
+          onSave={onSaveImage}
           onClose={onClose}
         />
       }

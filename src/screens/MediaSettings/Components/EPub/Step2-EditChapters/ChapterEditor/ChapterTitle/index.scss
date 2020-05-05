@@ -6,9 +6,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 10px;
 
   &.focused {
-    cursor: default;
+    cursor: text;
 
     .ee-ech-ch-h {
       padding-left: 10px;
@@ -20,10 +21,10 @@
     width: 100%;
     margin: 0;
     padding: 5px 10px;
+    border-radius: 5px;
 
     &:hover {
       background-color: rgb(241, 246, 246);
-      border-radius: 5px;
     }
 
     &:focus {

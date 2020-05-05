@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { api } from 'utils';
+import { Button } from 'pico-ui';
 import './index.scss';
+import { epub } from 'screens/MediaSettings/Utils/epub';
 
 import ImagePickerModal from '../../../ImagePickerModal';
 
 function ChapterImage({
+  id,
   image='',
-  onChooseImage,
   screenshots=[],
+  onChooseImage,
+  onRemoveImage,
 }) {
 
   const [pickImg, setPickImage] = useState(false);
@@ -15,34 +18,65 @@ function ChapterImage({
   const openImagePicker = () => setPickImage(true);
   const closeImagePicker = () => setPickImage(false);
 
-  const onSave = () => {
+  const onSave = newImage => {
     if (onChooseImage) {
-      onChooseImage(pickImg);
+      onChooseImage(newImage);
     }
     
     closeImagePicker();
   }
 
-  let imageUrl = image.startsWith('blob') 
-               ? image 
-               : api.getMediaFullPath(image);
+  const handleOnKeyDown = ({ keyCode }) => {
+    if (keyCode === 13 || keyCode === 32) {
+      openImagePicker();
+    }
+  }
   
-  return Boolean(image) ? (
-    <div className="ee-ech-ch-img-con">
-      <img src={imageUrl} alt="Cover image" />
-      <div tabIndex="0" className="ee-ech-ch-img-wrapper">
-        Click to Choose Image
-      </div>
+  return (
+    <>
+    {
+      Boolean(image)
+      ?
+      <div id={id} className="ee-ech-ch-img-con">
+        <img src={epub.getImageUrl(image)} alt="Cover image" />
+        <div
+          tabIndex="0" 
+          className="ee-ech-ch-img-wrapper"
+          onClick={openImagePicker}
+          onKeyDown={handleOnKeyDown}
+        >
+          Click to Choose Image
+        </div>
 
-      <ImagePickerModal
-        show={pickImg}
-        onSave={onSave}
-        onClose={closeImagePicker}
-        defaultImage={image}
-        screenshots={screenshots}
-      />
-    </div>
-  ) : null;
+        <Button round
+          classNames="ee-ech-ch-img-rm-btn"
+          icon="delete"
+          text="Remove this image."
+          onClick={onRemoveImage}
+        />
+      </div>
+      :
+      <div className="ee-ech-ch-text-con">
+        <div
+          className="ee-ech-ch-text"
+          tabIndex={0}
+          onClick={openImagePicker}
+          onKeyDown={handleOnKeyDown}
+        >
+          <div className="text-muted">Click to insert images</div>
+        </div>
+      </div>
+    }
+
+    <ImagePickerModal
+      show={pickImg}
+      onSave={onSave}
+      onClose={closeImagePicker}
+      defaultImage={image}
+      screenshots={screenshots}
+    />
+    </>
+  );
 }
 
 export default ChapterImage;

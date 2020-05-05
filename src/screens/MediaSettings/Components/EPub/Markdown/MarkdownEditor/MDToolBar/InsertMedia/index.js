@@ -16,9 +16,9 @@ export default function InsertMedia({
   const openImagePicker = () => setPickImage(true);
   const closeImagePicker = () => setPickImage(false);
 
-  const onSave = () => {
+  const onSave = newImage => {
     if (onChooseImage) {
-      onChooseImage(pickImg);
+      onChooseImage(newImage);
     }
     
     closeImagePicker();

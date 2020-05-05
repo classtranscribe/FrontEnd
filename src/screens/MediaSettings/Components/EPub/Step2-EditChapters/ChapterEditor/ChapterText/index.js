@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MarkdownPreviewer,
   MarkdownEditor
@@ -6,6 +6,7 @@ import {
 import './index.scss';
 import { epub } from 'screens/MediaSettings/Utils/epub';
 import { Popup } from 'semantic-ui-react';
+import { util } from 'utils';
 
 function ChapterText({
   text = '',
@@ -35,14 +36,23 @@ function ChapterText({
   const { content } = epub.parseText(text);
   const { image } = chapter;
 
+  const isNotEmpty = Boolean(content.trim());
+
+  useEffect(() => {
+    if (editing) {
+      util.elem.scrollIntoCenter(id);
+    }
+  }, [editing])
+
   return (
-    <div className="ee-ech-ch-text-con">
+    <div id={id} className="ee-ech-ch-text-con">
       {
         editing
         ?
         <div className="w-100 mb-4">
           <MarkdownEditor
-            id={id}
+            height='300px'
+            id={'md-editor' + id}
             defaultValue={content}
             onSave={onSave}
             onClose={closeEditing}
@@ -59,7 +69,8 @@ function ChapterText({
           closeOnTriggerMouseLeave
           closeOnTriggerBlur
           content="Click to Edit"
-          position="top center"
+          position="bottom center"
+          disabled={!isNotEmpty}
           trigger={
             <div
               className="ee-ech-ch-text"
@@ -68,11 +79,11 @@ function ChapterText({
               onKeyDown={handleKeyDown}
             >
               {
-                Boolean(content.trim())
+                isNotEmpty
                 ?
                 <MarkdownPreviewer value={text} />
                 :
-                'Click to add content'
+                <div className="text-muted">Click to add content</div>
               }
             </div>
           }
