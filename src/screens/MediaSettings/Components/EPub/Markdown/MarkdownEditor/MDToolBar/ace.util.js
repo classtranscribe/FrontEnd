@@ -102,3 +102,25 @@ export function insertLink(ace) {
     setOuterText(ace, '[', '](url)');
     focus(ace);
 }
+
+export function insertImgae(ace, image) {
+    let { selection, session } = ace;
+    let { cursor, doc, anchor } = selection;
+    let pos = {
+        row: cursor.row + 1,
+        column: 0
+    };
+    doc.insertNewLine(pos);
+
+    session.insert(pos, `![Image Alt](${image})`);
+
+    pos.row += 1;
+    doc.insertNewLine(pos);
+
+    anchor.setPosition(pos.row - 1, 2);
+    cursor.setPosition(pos.row - 1, 11);
+
+    console.log(doc.insertNewLine, image);
+
+    focus(ace);
+}

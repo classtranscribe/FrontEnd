@@ -3,12 +3,14 @@ import './index.scss';
 
 import InsertMediaTrigger from './InsertMediaTrigger';
 import ImagePickerModal from '../../../../ImagePickerModal';
+import { getImageUrl } from 'screens/MediaSettings/Utils/epub/util';
+import { insertImgae } from '../ace.util';
 
 export default function InsertMedia({
   ace,
   screenshots=[],
+  chapterScreenshots=[],
   defaultImage,
-  onChooseImage,
 }) {
 
   const [pickImg, setPickImage] = useState(false);
@@ -17,9 +19,8 @@ export default function InsertMedia({
   const closeImagePicker = () => setPickImage(false);
 
   const onSave = newImage => {
-    if (onChooseImage) {
-      onChooseImage(newImage);
-    }
+    let imgsrc = getImageUrl(newImage);
+    insertImgae(ace, imgsrc);
     
     closeImagePicker();
   }
@@ -30,9 +31,9 @@ export default function InsertMedia({
         onClick={openImagePicker}
       />
       <ImagePickerModal
-        ace={ace}
         show={pickImg}
         screenshots={screenshots}
+        chapterScreenshots={chapterScreenshots}
         defaultImage={defaultImage}
         onClose={closeImagePicker}
         onSave={onSave}

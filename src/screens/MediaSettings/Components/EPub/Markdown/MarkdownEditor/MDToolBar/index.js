@@ -16,11 +16,11 @@ function MDToolBar({
   ace,
   isPreview,
   screenshots,
+  chapterScreenshots,
   defaultImage,
 
   openPreview,
   closePreview,
-  onChooseImage,
 }) {
 
   return (
@@ -57,8 +57,8 @@ function MDToolBar({
           <InsertMedia
             ace={ace}
             screenshots={screenshots}
+            chapterScreenshots={chapterScreenshots}
             defaultImage={defaultImage}
-            onChooseImage={onChooseImage}
           />
         </div>
       }

@@ -13,11 +13,11 @@ export function MarkdownEditor({
   placeholder='\n\n#### Transcript\n\n',
   height='400px',
   screenshots=[],
+  chapterScreenshots=[],
   defaultImage,
 
   onSave,
   onClose,
-  onChooseImage,
 }) {
 
   const [value, setValue] = useState(
@@ -36,7 +36,6 @@ export function MarkdownEditor({
 
   const onLoad = ace_ => {
     setAce(ace_);
-    console.log(ace_)
   }
 
   const handleSave = () => {
@@ -69,10 +68,10 @@ export function MarkdownEditor({
           ace={ace}
           isPreview={isPreview}
           screenshots={screenshots}
+          chapterScreenshots={chapterScreenshots}
           defaultImage={defaultImage}
           openPreview={openPreview}
           closePreview={closePreview}
-          onChooseImage={onChooseImage}
         />
 
         <div data-scroll className="ee-md-editor-preview" style={{height}}>
