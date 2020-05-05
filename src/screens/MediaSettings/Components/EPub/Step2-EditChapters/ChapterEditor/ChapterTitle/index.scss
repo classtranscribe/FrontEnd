@@ -8,7 +8,8 @@
   align-items: center;
   margin-top: 10px;
 
-  &.focused {
+  &.focused,
+  &:focus-within {
     cursor: text;
 
     .ee-ech-ch-h {

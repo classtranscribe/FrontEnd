@@ -1,7 +1,8 @@
-import React, { createElement, useState } from 'react';
+import React, { createElement, useState, useRef, useEffect } from 'react';
 import { Button } from 'pico-ui'
 import classNames from 'classnames';
 import './index.scss';
+import { util } from 'utils';
 
 function ChapterTitle({
   id,
@@ -13,23 +14,14 @@ function ChapterTitle({
   ...otherProps
 }) {
 
-  const [changed, setChanged] = useState(false);
-  const [focused, setFocused] = useState(focus);
   const [inputValue, setInputValue] = useState(value);
+  const inputRef = useRef();
 
   const handleInput = e => {
     setInputValue(e.target.innerText);
-
-    if (e.target.innerText === value) {
-      setChanged(false);
-    } else {
-      setChanged(true);
-    }
   }
 
   const handleSave = () => {
-    setChanged(false);
-
     if (onSave) {
       onSave(inputValue);
     }
@@ -48,19 +40,28 @@ function ChapterTitle({
     className,
     headingType,
     {
-      focused
+      focused: focus
     }
   );
 
+  useEffect(() => {
+    util.elem.addPastePlainTextEventListener(inputRef.current);
+  }, []);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  const changed = value !== inputValue;
+
   const inputComponent = createElement(headingType, {
+    ref: inputRef,
     className: 'ee-ech-ch-h',
     contentEditable: true,
     children: value,
     tabIndex: 0,
     onInput: handleInput,
     onKeyDown: onKeyDown,
-    onFocus: () => setFocused(true),
-    onBlur: () => setFocused(focus || false),
     ...otherProps
   });
 
@@ -69,18 +70,18 @@ function ChapterTitle({
       id={id}
       className={style}
     >
-      {inputComponent}
-
       {
         changed
         &&
         <Button compact
-          classNames="ml-2 ct-a-fade-in"
+          classNames="mr-2 ct-a-fade-in"
           color="transparent teal"
           text="SAVE"
           onClick={handleSave}
         />
       }
+
+      {inputComponent}
     </div>
   )
 }
