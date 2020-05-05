@@ -56,16 +56,19 @@
 
 div[data-scroll]::-webkit-scrollbar {
   display: block;
-  width: 7px;
+  width: 8px;
 }
 div[data-scroll]::-webkit-scrollbar-track {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0);
+}
+div[data-scroll]::-webkit-scrollbar-track:hover {
+  background-color: rgba(0, 0, 0, 0.075);
 }
 div[data-scroll]::-webkit-scrollbar-thumb {
   background: transparent;
 }
 div[data-scroll]:hover::-webkit-scrollbar-thumb {
-  background: rgb(221, 221, 221);
+  background: rgba(0, 0, 0, 0.349);
 }
 
 [contenteditable].ct-div-editable {
