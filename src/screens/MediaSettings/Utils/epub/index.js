@@ -3,7 +3,7 @@ import { mspPreference  } from 'utils/user-preference/media-settings';
 import { epubState } from './setstate';
 import * as epubConstants from './constants';
 import * as epubUtils from './util';
-import * as editor from './editor';
+import * as chapterEditor from './chapter-editor';
 import * as chaperSplitter from './chapter-spiltter';
 import * as downloader from './downloader';
 import * as chapterHtmlConverter from './chapter-html-converter';
@@ -19,7 +19,7 @@ export const epub = {
 
     ...epubConstants,
     ...epubUtils,
-    ...editor,
+    ...chapterEditor,
     ...chaperSplitter,
     ...downloader,
     ...chapterHtmlConverter,
