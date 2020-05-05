@@ -325,8 +325,9 @@ export function subdivideChaptersByScreenshots() {
 export function handleChapterTitleChange(chapterIndex, value) {
     let chapters = epubState.chapters;
     chapters[chapterIndex].title = value;
+    chapters[chapterIndex] = genChaperFromItems(chapters[chapterIndex]);
 
-    updateEpubChapters(chapters, genChaperFromItems(chapters[chapterIndex]));
+    updateEpubChapters(chapters, chapters[chapterIndex]);
 }
 
 export function handleSubChapterTitleChange(chapterIndex, subChapterIndex, value) {
