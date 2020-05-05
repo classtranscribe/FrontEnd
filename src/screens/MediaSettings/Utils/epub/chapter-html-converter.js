@@ -86,3 +86,11 @@ export function chapterToPreviewHTML(text) {
         previewHTML: phtml //parsedHtml.body.innerHTML,
     };
 }
+
+export function chaptersToMarkdown(chapters) {
+    return  _.map(chapters, chapter => parseText(chapter.text).content)
+             .join('\n\n\n')
+            + '\n\n'
+            + EDITOR_TYPE_SPLITTER 
+            + EDITOR_MARKDOWN;
+}

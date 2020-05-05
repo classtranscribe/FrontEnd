@@ -8,6 +8,7 @@ import RequestEpub from './RequestEpub';
 import ChapterNavigator from './ChapterNavigator';
 import SplitChapter from './Step1-SplitChapters';
 import EditChapters from './Step2-EditChapters';
+import EpubDownloader from './Step3-Download';
 
 
 const { EPUB_STEP_SPLIT, EPUB_STEP_EDIT } = epub;
@@ -70,7 +71,7 @@ export function EpubWithRedux(props) {
               ?
               <EditChapters />
               :
-              null
+              <EpubDownloader />
             }
           </>
         }

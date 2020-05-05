@@ -8,7 +8,11 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
+
+  &.bottom {
+    justify-content: flex-end;
+  }
 
   .ee-ech-tb-top-holder {
     height: 200px;
@@ -19,16 +23,9 @@
     &.ee-ech-tb-btn-me {
       margin-bottom: 1rem;
     }
-
-    &.epicker {
-      margin-bottom: 100px;
-    }
   }
 
   .ee-ech-tb-btns {
-
-    &.top {
-      margin-bottom: 20px;
-    }
+    margin-bottom: 20px;
   }
 }

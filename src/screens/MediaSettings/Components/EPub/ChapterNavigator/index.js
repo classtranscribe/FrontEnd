@@ -18,12 +18,12 @@ function ChapterNavigatorWithRedux({
   const isStep3 = step === epub.EPUB_STEP_DOWNLOAD;
 
   useEffect(() => {
-    if (isStep3) return null;
+    // if (isStep3) return null;
     epub.onShowNavChange(currChapterId);
   }, [showNav]);
 
   useEffect(() => {
-    if (isStep3) return null;
+    // if (isStep3) return null;
     if (isStep1 && showNav) {
       epub.state.setShowNav(epub.NAV_CLOSE);
     } else if (!isStep1 && !showNav) {

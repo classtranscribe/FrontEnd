@@ -15,23 +15,28 @@ function formatEpubChapter(rawChapter) {
         chapter.text = markdown2HTML(parsedTxt.content);
     }
 
-    let parsedAD = parseText(chapter.audioDescription);
-    if (parsedAD.editorType === EDITOR_MARKDOWN) {
-        chapter.audioDescription = markdown2HTML(parsedAD.content);
-    }
+    // let parsedAD = parseText(chapter.audioDescription);
+    // if (parsedAD.editorType === EDITOR_MARKDOWN) {
+    //     chapter.audioDescription = markdown2HTML(parsedAD.content);
+    // }
 
     return chapter;
 }
 
-function getEpubGeneratorOptions(chapters) {
+function getEpubGeneratorOptions({
+    filname,
+    author,
+    title,
+    chapters,
+}) {
     let { mediaName } = setup.media();
 
     return { 
         chapters,
-        filename: mediaName + '.epub', 
-        author: 'Test Instructor', 
+        filename: filname || mediaName + '.epub', 
+        author: author || 'Anonymous', 
         language: epubState.language,
-        title: mediaName
+        title: title || mediaName
     };
 }
 
@@ -50,10 +55,20 @@ function handleError(error) {
 }
 
 
-export function downloadEpub() {
+export function downloadAsEpub({
+    filename, 
+    author,
+    title
+}) {
     let chapters = _.map(epubState.chapters, formatEpubChapter);
   
-    let options = getEpubGeneratorOptions(chapters);
+    let options = getEpubGeneratorOptions({ 
+        filename, 
+        author,
+        title,
+        chapters 
+    });
+
     const epubDownloader = new CTEpubGenerator(options);
   
     epubDownloader.download({

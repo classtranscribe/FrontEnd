@@ -8,11 +8,13 @@ function ChapterTitle({
   className='',
   value,
   onSave,
-  headingType='h3'
+  headingType='h3',
+  focus,
+  ...otherProps
 }) {
 
   const [changed, setChanged] = useState(false);
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(focus);
   const [inputValue, setInputValue] = useState(value);
 
   const handleInput = e => {
@@ -58,7 +60,8 @@ function ChapterTitle({
     onInput: handleInput,
     onKeyDown: onKeyDown,
     onFocus: () => setFocused(true),
-    onBlur: () => setFocused(false),
+    onBlur: () => setFocused(focus || false),
+    ...otherProps
   });
 
   return (

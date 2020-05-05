@@ -2,13 +2,13 @@ import React from 'react';
 import { Button } from 'pico-ui';
 import './index.scss';
 
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/Utils/epub';
 
 
 function Toolbar() {
   return (
-    <div className="msp-ee-ech-tb ct-a-fade-in">
-      <div className="ee-ech-tb-btns top">
+    <div className="msp-ee-ech-tb ct-a-fade-in bottom">
+      <div className="ee-ech-tb-btns">
         <Button round
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
@@ -30,7 +30,4 @@ function Toolbar() {
   );
 }
 
-export default connectWithRedux(
-  Toolbar,
-  []
-)
+export default Toolbar;
