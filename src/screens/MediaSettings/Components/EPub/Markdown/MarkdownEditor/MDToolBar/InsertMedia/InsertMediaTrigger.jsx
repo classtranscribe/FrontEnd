@@ -8,7 +8,7 @@ function InsertMediaTrigger({
   return (
     <MDToolButton
       icon="add_photo_alternate"
-      popup="Add Chapter Cover Image"
+      popup="Insert Images"
       onClick={onClick}
     />
   );
