@@ -16,14 +16,15 @@ export const OEBPS_TOC_XHTML = (title, language, nav_contents) => dedent(`
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-<h1 class="h1">Table Of Contents</h1>
+<h1>${title}</h1>
+<h2 class="h1">Table Of Contents</h2>
 <nav id="toc" epub:type="toc">
-    <ol>
-        <li class="table-of-content">
+    <dl>
+        <dt class="table-of-content">
             <a href="toc.xhtml">- Table Of Contents -</a>
-        </li>
+        </dt>
         ${nav_contents} 
-    </ol>
+    </dl>
 </nav>
 
 </body>

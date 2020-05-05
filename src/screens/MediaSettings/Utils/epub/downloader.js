@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { prompt, CTEpubGenerator } from 'utils';
 import { EDITOR_MARKDOWN } from './constants';
 import { setup } from '../setup';
-import { genChaperFromItems } from './util';
+import { genChaperFromItems, getImageUrl } from './util';
 import { markdown2HTML, parseText } from './chapter-html-converter';
 import { epubState } from './setstate';
 
@@ -24,16 +24,18 @@ function formatEpubChapter(rawChapter) {
 }
 
 function getEpubGeneratorOptions({
-    filname,
+    filename,
     author,
     title,
+    cover,
     chapters,
 }) {
     let { mediaName } = setup.media();
 
     return { 
         chapters,
-        filename: filname || mediaName + '.epub', 
+        cover: getImageUrl(cover),
+        filename: (filename || mediaName) + '.epub', 
         author: author || 'Anonymous', 
         language: epubState.language,
         title: title || mediaName
@@ -58,7 +60,8 @@ function handleError(error) {
 export function downloadAsEpub({
     filename, 
     author,
-    title
+    title,
+    cover,
 }) {
     let chapters = _.map(epubState.chapters, formatEpubChapter);
   
@@ -66,7 +69,8 @@ export function downloadAsEpub({
         filename, 
         author,
         title,
-        chapters 
+        cover,
+        chapters,
     });
 
     const epubDownloader = new CTEpubGenerator(options);

@@ -1,130 +1,142 @@
-import _ from 'lodash'
-import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
-import { dedent } from 'dentist'
-import { api } from '../cthttp'
+import _ from 'lodash';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { dedent } from 'dentist';
 
-import { OEBPS_TOC_NCX        } from './statics/toc.ncx.js'
-import { OEBPS_TOC_XHTML      } from './statics/toc.xhtml.js'
-import { OEBPS_CONTENT_OPF    } from './statics/content.opf.js'
-import { OEBPS_CONTENT_XHTML  } from './statics/content.xhtml.js'
-import { EDITOR_TYPE_SPLITTER } from 'screens/MediaSettings/Utils/epub/constants'
+import { OEBPS_TOC_NCX        } from './statics/toc.ncx.js';
+import { OEBPS_TOC_XHTML      } from './statics/toc.xhtml.js';
+import { OEBPS_CONTENT_OPF    } from './statics/content.opf.js';
+import { OEBPS_CONTENT_XHTML  } from './statics/content.xhtml.js';
+import { EDITOR_TYPE_SPLITTER } from 'screens/MediaSettings/Utils/epub/constants';
+// import { getImageUrl, } from 'screens/MediaSettings/Utils/epub/util';
 
 export function parse_chapters(chapters) {
-  return _.map(chapters, chapter => ({
-    ...chapter,
-    imageId: 'img-' + uuidv4(),
-    image: api.getMediaFullPath(chapter.image)
-  }))
+    return _.map(chapters, chapter => ({
+        ...chapter,
+        imageId: 'img-' + uuidv4(),
+        image: chapter.image
+    }));
 }
 
-export async function load_and_add_images(zip, chapters) {
-  let coverURL = chapters[0].image
-  let coverResp = await axios.get(coverURL, { responseType: 'arraybuffer' })
-  zip.addFile(`OEBPS/cover.jpeg`, new Buffer(coverResp.data))
+export async function load_and_add_images(zip, chapters, cover) {
+    let coverResp = await axios.get(cover, { responseType: 'arraybuffer' });
+    zip.addFile(`OEBPS/cover.jpeg`, new Buffer(coverResp.data));
 
-  for(let i = 0; i < chapters.length; i++) {
-    let ch = chapters[i]
-    let { data } = await axios.get(ch.image, { responseType: 'arraybuffer' })
-    zip.addFile(`OEBPS/images/${ch.imageId}.jpeg`, new Buffer(data))
-  }
+    for(let i = 0; i < chapters.length; i++) {
+        let ch = chapters[i];
+        if (ch.image) {
+            let { data } = await axios.get(ch.image, { responseType: 'arraybuffer' });
+            zip.addFile(`OEBPS/images/${ch.imageId}.jpeg`, new Buffer(data));
+        }
+    }
 }
 
 export function get_toc_ncx(title, author, chapters) {
-  let nav_points = ''
-  _.forEach(chapters, (ch, index) => {
-    nav_points += `
-        <navPoint id="${ch.id}" playOrder="${index + 1}" class="chapter">
+    let nav_points = '';
+    let playOrder = 0;
+
+    const getPlayOrder = () => {
+        playOrder += 1;
+        return playOrder;
+    }
+
+    _.forEach(chapters, (ch, index) => {
+        nav_points += `
+        <navPoint id="${ch.id}" playOrder="${getPlayOrder()}" class="chapter">
             <navLabel>
-                <text>${index + 1}. ${ch.title}</text>
+                <text>${index + 1} - ${ch.title}</text>
             </navLabel>
             <content src="${ch.id}.xhtml"/>
-        </navPoint>
-  `
-  })
 
-  return OEBPS_TOC_NCX(title, author, nav_points)
+            ${
+                _.map(ch.subChapters, (subCh, subIndex) => `
+            <navPoint id="${subCh.id}" playOrder="${getPlayOrder()}">
+                <navLabel>
+                    <text>${index + 1}.${subIndex + 1} - ${subCh.title}</text>
+                </navLabel>
+                <content src="${ch.id}.xhtml#${subCh.id}" />
+            </navPoint>`).join('\n\t\t\t\t')
+            }
+        </navPoint>
+        `
+    });
+
+    return OEBPS_TOC_NCX(title, author, nav_points);
 }
 
 export function get_toc_xhtml(title, language, chapters) {
-  let nav_contents = ''
-  _.forEach(chapters, ch => {
-    nav_contents += `
-        <li class="table-of-content">
-            <a href="${ch.id}.xhtml">${ch.title}</a>
-        </li>
-  `
-  })
-  return OEBPS_TOC_XHTML(title, language, nav_contents)
+    let nav_contents = '';
+    _.forEach(chapters, (ch, index) => {
+        nav_contents += `
+        <dt class="table-of-content">
+            <a href="${ch.id}.xhtml">${index + 1} - ${ch.title}</a>
+        </dt>
+        ${
+            _.map(ch.subChapters, (subCh, subIndex) => `
+            <dd>
+                <a href="${ch.id}.xhtml#${subCh.id}">
+                    ${index + 1}.${subIndex + 1} - ${subCh.title}
+                </a>
+            </dd>`).join('\n\t\t\t')
+        }
+        `
+    });
+
+    return OEBPS_TOC_XHTML(title, language, nav_contents);
 }
 
 export function get_content_opf(
-  title, author, language, publisher,
-  date, chapters
+    title, 
+    author, 
+    language, 
+    publisher,
+    date, 
+    chapters
 ) {
-  let image0ID = api.getMediaFullPath(chapters[0].image)
-  // items
-  let content_items = ''
-  _.forEach(chapters, ch => {
-    content_items += `
-        <item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />
-  `
-  })
+    let image0ID = `OEBPS/cover.jpeg`;
+    // items
+    let content_items = _.map(chapters, ch => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`)
+                         .join('\n\t\t');
   // itemrefs
-  let content_items_refs = ''
-  _.forEach(chapters, ch => {
-    content_items_refs += `
-        <itemref idref="${ch.id}"/>
-  `
-  })
+    let content_items_refs = _.map(chapters, ch => `<itemref idref="${ch.id}"/>`)
+                              .join('\n\t\t');
 
-  return OEBPS_CONTENT_OPF(
-    title, author, language, publisher, 
-    date, image0ID, 
-    content_items, content_items_refs
-  )
+    return OEBPS_CONTENT_OPF(
+        title, author, 
+        language, 
+        publisher, 
+        date, 
+        image0ID, 
+        content_items, 
+        content_items_refs
+    );
 }
 
 function html2xhtml(html) {
-  if (!html) return null
-  html = _.replace(html, /&nbsp;/g, '&#160;')
-  // var doc = new DOMParser().parseFromString(html, 'text/html');
-  // html = new XMLSerializer().serializeToString(doc) 
-  // html = html.split('body')[1]
-  // html = html.substring(1, html.length-2)
-  html = _.replace(html, /<br>/g, '<br/>')
-  return html
-}
+    if (!html) return null;
+    html = _.replace(html, /&nbsp;/g, '&#160;');
+    html = _.replace(html, /<br>/g, '<br/>');
 
-function parse_text(text) {
-  let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER)
-  let content = splittedTexts[0]
-  // let editorType = splittedTexts[1]
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    let xhtml = new XMLSerializer().serializeToString(doc);
 
-  return html2xhtml(content)
+    // only keep codes inside the <body>
+    xhtml = xhtml.replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '');
+    xhtml = xhtml.replace('</body></html>', '');
+
+    return xhtml;
 }
 
 export function get_content_xhtml(chapter, language) {
-  let { title, text, imageId, audioDescription } = chapter
-  
-  text = parse_text(text)
-  audioDescription = parse_text(audioDescription)
+    let { title, text } = chapter;
 
-  let content = dedent(`
-    ${
-      audioDescription ?
-      dedent(`
-        <div class="ee-preview-text-con description">
-            ${audioDescription}
+    text = html2xhtml(text);
+
+    let content = dedent(`
+        <div class="ee-preview-text-con">
+            ${text}
         </div>
-      `)
-      :
-      ''
-    }
-    <div class="ee-preview-text-con">
-        ${text}
-    </div>
-  `)
+    `);
 
-  return OEBPS_CONTENT_XHTML(title, content, imageId, language)
+    return OEBPS_CONTENT_XHTML(title, content, language);
 }

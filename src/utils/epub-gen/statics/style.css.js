@@ -46,6 +46,7 @@ hr {
 .ee-preview-text-con img,
 .ee-preview-text-con audio,
 .ee-preview-text-con video{
+  margin: 15px 0;
   max-width: 100%;
   height: auto;
 }
@@ -57,6 +58,7 @@ hr {
 
 .ee-preview-text-con p {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: .5em 0;
 }
 
 .ee-preview-text-con pre {
@@ -66,7 +68,7 @@ hr {
 }
 
 .ee-preview-text-con blockquote {
-  padding: 15px;
+  padding: 5px 15px;
   border-left: 3px solid rgba(0, 95, 95, 0.418);
   background-color: rgb(236, 243, 243);
   border-radius: 0 5px 5px 0;

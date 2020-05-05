@@ -60,7 +60,7 @@ export const OEBPS_CONTENT_OPF = (
         <item id="css" href="style.css" media-type="text/css" />
         <item id="image_cover" href="cover.jpeg" media-type="image/jpeg" />
 
-        <item id="image_0" href="images/${image0ID}.jpeg" media-type="image/jpeg" />
+        <!-- <item id="image_0" href="images/${image0ID}.jpeg" media-type="image/jpeg" /> -->
 
         ${content_items}
         

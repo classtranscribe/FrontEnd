@@ -28,6 +28,7 @@ export function chapterItemsToMarkdown(items) {
 }
 
 export function chapterToHTML({ 
+    id,
     items, 
     content, 
     subChapters, 
@@ -37,8 +38,7 @@ export function chapterToHTML({
     if (!content) content = chapterItemsToMarkdown(items);
     content = parseText(content).content;
 
-    let chapterHTML = '\n\n<!-- Please do not delete the title of the chapter -->\n'
-                    + `## ${title}\n\n`
+    let chapterHTML = `\n\n<h2 id="${id}">${title}</h2>\n\n`
                     + (image ? `![Screenshot](${getImageUrl(image)})\n\n` : '')
                     + parseText(content).content;
 
@@ -46,7 +46,7 @@ export function chapterToHTML({
         subChapters,
         (subHtml, subChapter, index) => subHtml 
             + `\n\n<!-- Sub-chapter ${index + 1} -->\n`
-            + `### ${subChapter.title}\n\n`
+            + `<h3 id="${subChapter.id}">${subChapter.title}</h3>\n\n`
             + (subChapter.image ? `![Screenshot](${getImageUrl(subChapter.image)})\n` : '')
             // + '#### Transcript\n'
             + parseText(subChapter.text).content + '\n'

@@ -41,6 +41,12 @@ export function getAllImagesInChapter(chapter) {
     return _.map(items, item => item.image);
 }
 
+export function getAllImagesInChapters(chapters) {
+    return _.flatten(
+        _.map(chapters, chapter => getAllImagesInChapter(chapter))
+    );
+}
+
 /**
  * @todo generate text for chapter based on items and subchapters
  */

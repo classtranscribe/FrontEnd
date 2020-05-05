@@ -18,8 +18,6 @@ export const OEBPS_CONTENT_XHTML = (title, content, imageId, language) => dedent
         <link rel="stylesheet" type="text/css" href="katex.min.css" />
     </head>
     <body>
-        <h1>${title}</h1>
-        <img src="images/${imageId}.jpeg" alt="image-placeholder"/>
         ${content}
     </body>
 </html>

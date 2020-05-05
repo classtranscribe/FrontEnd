@@ -48,6 +48,9 @@ class EpubState {
             setTxtEditor, setEditorTheme, setEditorFullscreen,
             setError, setStep,
         };
+
+        this.setStep(EPUB_DEFAULT_STEP);
+        this.setEpubData(ARRAY_INIT);
     }
 
 
