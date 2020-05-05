@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @param {String|HTMLElement} elem - the html elem / elem's id
+ * @returns {HTMLElement}
+ */
 function getElement(elem) {
     if (typeof elem === 'string') {
         return document.getElementById(elem);
@@ -103,4 +107,45 @@ export function isScrolledIntoView(elem, offsetTop=200) {
     }
 
     return false;
+}
+
+
+/**
+ * Allow pasting only plain text without any HTML markup
+ * @param {Event} event 
+ * @see {@link https://stackoverflow.com/questions/12027137/javascript-trick-for-paste-as-plain-text-in-execcommand}
+ */
+function pastePlainText(event) {
+    // cancel paste
+    event.preventDefault();
+
+    // get text representation of clipboard
+    var text = (event.originalEvent || event).clipboardData.getData('text/plain');
+
+    // insert text manually
+    document.execCommand("insertHTML", false, text);
+}
+
+/**
+ * Add event listener to `paste` event for `*[contenteditable=true]`.
+ * Pasting only plain text without any HTML markup.
+ * @param {String|HTMLElement} elem - the html elem / elem's id
+ * @see {@link https://stackoverflow.com/questions/12027137/javascript-trick-for-paste-as-plain-text-in-execcommand}
+ */
+export function addPastePlainTextEventListener(elem) {
+    elem = getElement(elem);
+    if (elem) {
+        elem.addEventListener("paste", pastePlainText, true);
+    }
+}
+
+/**
+ * Remove event listener to `paste` event for `*[contenteditable=true]`.
+ * @param {String|HTMLElement} elem - the html elem / elem's id
+ */
+export function removePastePlainTextEventListener(elem) {
+    elem = getElement(elem);
+    if (elem) {
+        elem.removeEventListener("paste", pastePlainText, true);
+    }
 }
