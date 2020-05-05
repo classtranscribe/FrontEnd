@@ -12,9 +12,9 @@ function ChapterText({
   text = '',
   id = '',
   chapter,
-  onChooseImage,
   onSaveText,
   screenshots,
+  chapterScreenshots,
 }) {
 
   const [editing, setEditing] = useState(false);
@@ -40,6 +40,12 @@ function ChapterText({
 
   useEffect(() => {
     if (editing) {
+      setEditing(false);
+    }
+  }, [chapter]);
+
+  useEffect(() => {
+    if (editing) {
       util.elem.scrollIntoCenter(id);
     }
   }, [editing])
@@ -57,8 +63,8 @@ function ChapterText({
             onSave={onSave}
             onClose={closeEditing}
             screenshots={screenshots}
+            chapterScreenshots={chapterScreenshots}
             defaultImage={image}
-            onChooseImage={onChooseImage}
           />
         </div>
         :

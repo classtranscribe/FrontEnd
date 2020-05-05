@@ -2,23 +2,16 @@ import _ from 'lodash';
 import { prompt, CTEpubGenerator } from 'utils';
 import { EDITOR_MARKDOWN } from './constants';
 import { setup } from '../setup';
-import { genChaperFromItems, getImageUrl } from './util';
+import { getImageUrl } from './util';
 import { markdown2HTML, parseText } from './chapter-html-converter';
 import { epubState } from './setstate';
 
 
-function formatEpubChapter(rawChapter) {
-    let chapter = genChaperFromItems(rawChapter);
-  
+function formatEpubChapter(chapter) {
     let parsedTxt = parseText(chapter.text);
     if (parsedTxt.editorType === EDITOR_MARKDOWN) {
         chapter.text = markdown2HTML(parsedTxt.content);
     }
-
-    // let parsedAD = parseText(chapter.audioDescription);
-    // if (parsedAD.editorType === EDITOR_MARKDOWN) {
-    //     chapter.audioDescription = markdown2HTML(parsedAD.content);
-    // }
 
     return chapter;
 }

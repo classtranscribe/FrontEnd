@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import './index.scss';
 import { epub } from 'screens/MediaSettings/Utils/epub';
@@ -9,6 +9,8 @@ function ChapterImage({
   id,
   image='',
   screenshots=[],
+  chapterScreenshots=[],
+
   onChooseImage,
   onRemoveImage,
 }) {
@@ -31,6 +33,12 @@ function ChapterImage({
       openImagePicker();
     }
   }
+
+  useEffect(() => {
+    if (pickImg) {
+      setPickImage(false);
+    }
+  }, [image])
   
   return (
     <>
@@ -78,6 +86,7 @@ function ChapterImage({
       onClose={closeImagePicker}
       defaultImage={image}
       screenshots={screenshots}
+      chapterScreenshots={chapterScreenshots}
     />
     </>
   );

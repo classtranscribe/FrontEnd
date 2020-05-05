@@ -6,11 +6,13 @@ import ChapterInfo from './ChapterInfo';
 import SubChapterItem from './SubChapterItem';
 
 function ChapterEditor({
-  currChapter
+  chapters,
+  currChapter,
 }) {
 
   const { subChapters=[] } = currChapter;
-  const screenshots = epub.getAllImagesInChapter(currChapter);
+  const screenshots = epub.getAllImagesInChapters(chapters);
+  const chapterScreenshots = epub.getAllImagesInChapter(currChapter)
 
   useEffect(() => {
     // add event listener to preview panel's scrolling
@@ -27,7 +29,11 @@ function ChapterEditor({
       className="ee-ech-ch-con"
     >
       <div className="ee-ech-ch">
-        <ChapterInfo chapter={currChapter} screenshots={screenshots} />
+        <ChapterInfo 
+          chapter={currChapter} 
+          screenshots={screenshots}
+          chapterScreenshots={chapterScreenshots}
+        />
 
         <div className="ee-ech-ch-subchapters">
           {subChapters.map((subChapter, subChapterIndex) => (
@@ -36,6 +42,7 @@ function ChapterEditor({
               subChapter={subChapter}
               subChapterIndex={subChapterIndex}
               screenshots={screenshots}
+              chapterScreenshots={chapterScreenshots}
             />
           ))}
         </div>
@@ -46,5 +53,8 @@ function ChapterEditor({
 
 export default connectWithRedux(
   ChapterEditor,
-  ['currChapter']
+  [
+    'currChapter',
+    'chapters'
+  ]
 );

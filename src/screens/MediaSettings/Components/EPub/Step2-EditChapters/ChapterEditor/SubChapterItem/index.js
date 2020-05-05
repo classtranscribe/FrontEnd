@@ -9,6 +9,7 @@ function SubChapterItem({
   subChapter,
   subChapterIndex,
   screenshots,
+  chapterScreenshots,
 }) {
   const { title, text, id, image } = subChapter;
 
@@ -42,6 +43,7 @@ function SubChapterItem({
         id={'epub-sub-ch-img-' + id}
         image={image}
         screenshots={screenshots}
+        chapterScreenshots={chapterScreenshots}
         onChooseImage={onChooseImage}
         onRemoveImage={onRemoveImage}
       />
@@ -51,6 +53,7 @@ function SubChapterItem({
         chapter={subChapter}
         text={text}
         screenshots={screenshots}
+        chapterScreenshots={chapterScreenshots}
         onSaveText={onSaveText}
         onChooseImage={onChooseImage}
       />

@@ -11,7 +11,8 @@ function ImagePickerModal({
   show=false,
   onSave,
   onClose,
-  screenshots,
+  screenshots=[],
+  chapterScreenshots=[],
   defaultImage,
 }) {
 
@@ -27,9 +28,9 @@ function ImagePickerModal({
     setImgUrl(defaultImage);
   }, [defaultImage])
 
-  const panes = [
+  let panes = [
     { 
-      menuItem: 'Screenshots', 
+      menuItem: 'All Screenshots', 
       render: () => (
         <Tab.Pane>
           <ScreenshotTab 
@@ -51,6 +52,24 @@ function ImagePickerModal({
         </Tab.Pane>
       ) },
   ];
+
+  if (chapterScreenshots.length > 0) {
+    panes = [
+      {
+        menuItem: 'Chapter Screenshots', 
+        render: () => (
+          <Tab.Pane>
+            <ScreenshotTab 
+              screenshots={chapterScreenshots} 
+              imgUrl={imgUrl} 
+              setImgUrl={setImgUrl}
+            /> 
+          </Tab.Pane>
+        )
+      },
+      ...panes
+    ];
+  }
 
   return (
     <CTModal large

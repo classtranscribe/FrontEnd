@@ -6,7 +6,7 @@ import {
 } from './chapter-html-converter';
 
 export function getImageUrl(image='') {
-    if (image.startsWith('blob')) {
+    if (image.startsWith('blob') || image.startsWith('http')) {
         return image;
     } else {
         return api.getMediaFullPath(image);
@@ -65,6 +65,7 @@ export function genChaperFromItems(chapter, replace=true) {
     if (replace) {
         content = chapterItemsToMarkdown(items);
         chapter.content = content;
+        console.log('here')
     }
 
     return {

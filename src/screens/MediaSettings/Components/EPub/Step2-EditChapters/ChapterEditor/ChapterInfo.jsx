@@ -9,6 +9,7 @@ import ChapterText from './ChapterText';
 function ChapterInfo({
   chapter,
   screenshots,
+  chapterScreenshots,
 }) {
 
   const { title, content, id, image } = chapter;
@@ -42,6 +43,7 @@ function ChapterInfo({
         id={'epub-ch-img-' + id}
         image={image}
         screenshots={screenshots}
+        chapterScreenshots={chapterScreenshots}
         onChooseImage={onChooseImage}
         onRemoveImage={onRemoveImage}
       />
@@ -51,6 +53,7 @@ function ChapterInfo({
         text={content}
         chapter={chapter}
         screenshots={screenshots}
+        chapterScreenshots={chapterScreenshots}
         onSaveText={onSaveText}
         onChooseImage={onChooseImage}
       />
