@@ -7,15 +7,44 @@ import { OEBPS_TOC_NCX        } from './statics/toc.ncx.js';
 import { OEBPS_TOC_XHTML      } from './statics/toc.xhtml.js';
 import { OEBPS_CONTENT_OPF    } from './statics/content.opf.js';
 import { OEBPS_CONTENT_XHTML  } from './statics/content.xhtml.js';
-import { EDITOR_TYPE_SPLITTER } from 'screens/MediaSettings/Utils/epub/constants';
-// import { getImageUrl, } from 'screens/MediaSettings/Utils/epub/util';
+
 
 export function parse_chapters(chapters) {
-    return _.map(chapters, chapter => ({
-        ...chapter,
-        imageId: 'img-' + uuidv4(),
-        image: chapter.image
-    }));
+    return _.map(chapters, chapter => {;
+        let html = chapter.text;
+        // Remove invalid syntax for xhtml
+        html = _.replace(html, /&nbsp;/g, '&#160;');
+        html = _.replace(html, /<br>/g, '<br/>');
+
+        let doc = new DOMParser().parseFromString(html, 'text/html');
+
+        // get all images from html
+        let imgEls = doc.getElementsByTagName('img');
+        let images = _.map(
+            imgEls, 
+            imgEl => {
+                let src = imgEl.src;
+                let imgID = 'img-' + uuidv4();
+                imgEl.src = `images/${imgID}.jpeg`;
+                return { src, id: imgID };
+            }
+        );
+
+        // Serialize xhtml
+        let xhtml = new XMLSerializer().serializeToString(doc);
+
+        // only keep codes inside the <body>..</body>
+        xhtml = xhtml.replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '');
+        xhtml = xhtml.replace('</body></html>', '');
+
+        return {
+            id: chapter.id,
+            title: chapter.title,
+            text: xhtml,
+            images,
+            subChapters: chapter.subChapters
+        };
+    });
 }
 
 export async function load_and_add_images(zip, chapters, cover) {
@@ -24,9 +53,12 @@ export async function load_and_add_images(zip, chapters, cover) {
 
     for(let i = 0; i < chapters.length; i++) {
         let ch = chapters[i];
-        if (ch.image) {
-            let { data } = await axios.get(ch.image, { responseType: 'arraybuffer' });
-            zip.addFile(`OEBPS/images/${ch.imageId}.jpeg`, new Buffer(data));
+        if (ch.images) {
+            for (let j = 0; j < ch.images.length; j++) {
+                let img = ch.images[j];
+                let { data } = await axios.get(img.src, { responseType: 'arraybuffer' });
+                zip.addFile(`OEBPS/images/${img.id}.jpeg`, new Buffer(data));
+            }
         }
     }
 }
@@ -112,25 +144,10 @@ export function get_content_opf(
     );
 }
 
-function html2xhtml(html) {
-    if (!html) return null;
-    html = _.replace(html, /&nbsp;/g, '&#160;');
-    html = _.replace(html, /<br>/g, '<br/>');
-
-    var doc = new DOMParser().parseFromString(html, 'text/html');
-    let xhtml = new XMLSerializer().serializeToString(doc);
-
-    // only keep codes inside the <body>
-    xhtml = xhtml.replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '');
-    xhtml = xhtml.replace('</body></html>', '');
-
-    return xhtml;
-}
-
 export function get_content_xhtml(chapter, language) {
     let { title, text } = chapter;
 
-    text = html2xhtml(text);
+    // text = html2xhtml(text);
 
     let content = dedent(`
         <div class="ee-preview-text-con">
