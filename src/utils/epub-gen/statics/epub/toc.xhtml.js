@@ -1,4 +1,4 @@
-import { dedent } from 'dentist'
+import { dedent } from 'dentist';
 
 /**
  * String data of OEBPS/toc.xhtml
@@ -29,4 +29,4 @@ export const OEBPS_TOC_XHTML = (title, language, nav_contents) => dedent(`
 
 </body>
 </html>
-`)
+`);

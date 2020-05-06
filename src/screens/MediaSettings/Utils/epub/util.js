@@ -51,6 +51,8 @@ export function getAllImagesInChapters(chapters) {
  * @todo generate text for chapter based on items and subchapters
  */
 export function genChaperFromItems(chapter, replace=true) {
+    chapter.id = chapter.id || util.genId();
+
     let { 
         id,
         title = 'Untitled Chapter',
@@ -65,11 +67,10 @@ export function genChaperFromItems(chapter, replace=true) {
     if (replace) {
         content = chapterItemsToMarkdown(items);
         chapter.content = content;
-        console.log('here')
     }
 
     return {
-        id: id || util.genId(),
+        id,
         title,
         image,
         items: items,

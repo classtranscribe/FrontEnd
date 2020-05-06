@@ -67,23 +67,10 @@ export function chapterToPreviewHTML(text) {
               ? markdown2HTML(content) 
               : content;
 
-    // let parser = new DOMParser();
-    // let parsedHtml = parser.parseFromString(phtml, 'text/html');
-    // let images = parsedHtml.getElementsByTagName('img');
-    // _.forEach(images, img => {
-    //   img.outerHTML = '<div class="msp-e-v-img-con">\n\t'
-    //                 + img.outerHTML
-    //                 + '\n\t<div tabindex="0" class="msp-e-v-img-wrapper">'
-    //                 + 'Click to choose cover image</div>'
-    //                 + '\n</div>';
-    // });
-
-    // console.log(parsedHtml.body.innerHTML)
-
     return {
         content,
         editorType,
-        previewHTML: phtml //parsedHtml.body.innerHTML,
+        previewHTML: phtml
     };
 }
 

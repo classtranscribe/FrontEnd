@@ -25,6 +25,15 @@ function Toolbar({
     });
   }
 
+  const downloadAsHTML = () => {
+    epub.downloadAsHTML({
+      cover,
+      title,
+      author,
+      filename,
+    });
+  }
+
   return (
     <div data-scroll className="msp-ee-ech-tb msp-ee-dl-tb ct-a-fade-in">
       <div className="w-100">
@@ -92,7 +101,7 @@ function Toolbar({
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="transparent" 
           icon={<i className="fas fa-file-code"></i>}
-          // onClick={}
+          onClick={downloadAsHTML}
         >
           Save as HTML (.html)
         </Button>

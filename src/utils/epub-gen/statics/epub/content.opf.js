@@ -57,7 +57,9 @@ export const OEBPS_CONTENT_OPF = (
     <manifest>
         <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
         <item id="toc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>
-        <item id="css" href="style.css" media-type="text/css" />
+        <item id="style" href="style.css" media-type="text/css" />
+        <item id="katex" href="katex.min.css" media-type="text/css" />
+
         <item id="image_cover" href="cover.jpeg" media-type="image/jpeg" />
 
         <!-- <item id="image_0" href="images/${image0ID}.jpeg" media-type="image/jpeg" /> -->
@@ -76,4 +78,4 @@ export const OEBPS_CONTENT_OPF = (
         <reference type="text" title="Table of Content" href="toc.xhtml"/>
     </guide>
 </package>
-`)
+`);

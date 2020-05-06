@@ -1,4 +1,4 @@
-import { dedent } from 'dentist'
+import { dedent } from 'dentist';
 
 /**
  * 
@@ -32,4 +32,4 @@ export const OEBPS_TOC_NCX = (title, author, nav_points) => dedent(`
         ${nav_points}
     </navMap>
 </ncx>
-`)
+`);

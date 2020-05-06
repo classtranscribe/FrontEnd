@@ -28,7 +28,7 @@ function getEpubGeneratorOptions({
     return { 
         chapters,
         cover: getImageUrl(cover),
-        filename: (filename || mediaName) + '.epub', 
+        filename: (filename || mediaName), 
         author: author || 'Anonymous', 
         language: epubState.language,
         title: title || mediaName
@@ -66,9 +66,32 @@ export function downloadAsEpub({
         chapters,
     });
 
-    const epubDownloader = new CTEpubGenerator(options);
+    const epubgen = new CTEpubGenerator(options);
   
-    epubDownloader.download({
+    epubgen.downloadEpub({
+        onError: handleError
+    });
+}
+
+export function downloadAsHTML({
+    filename, 
+    author,
+    title,
+    cover,
+}) {
+    let chapters = _.map(epubState.chapters, formatEpubChapter);
+  
+    let options = getEpubGeneratorOptions({ 
+        filename, 
+        author,
+        title,
+        cover,
+        chapters,
+    });
+
+    const epubgen = new CTEpubGenerator(options);
+  
+    epubgen.downloadHTML({
         onError: handleError
     });
 }
