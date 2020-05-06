@@ -1,7 +1,7 @@
-export const INDEX_HTML = (
+export const LOCAL_INDEX_HTML = (
   title,
   nav_contents,
-  content,
+  content
 ) => `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,6 +13,7 @@ export const INDEX_HTML = (
   </head>
   <body>
     <div id="root" role="main">
+      <img id="epub_cover" src="images/cover.jpeg" alt="Cover image" />
       <h1 id="epub_title">${title}</h1>
 
       <a id="skip_toc" href="#content">Skip the table of Content</a>

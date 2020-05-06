@@ -2,7 +2,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-export function parse_chapters(chapters) {
+export function parse_chapters(chapters, replaceSrc=true) {
     return _.map(chapters, chapter => {;
         let html = chapter.text;
         // Remove invalid syntax for xhtml
@@ -18,7 +18,10 @@ export function parse_chapters(chapters) {
             imgEl => {
                 let src = imgEl.src;
                 let imgID = 'img-' + uuidv4();
-                imgEl.src = `images/${imgID}.jpeg`;
+                if (replaceSrc) {
+                    imgEl.src = `images/${imgID}.jpeg`;
+                }
+                
                 return { src, id: imgID };
             }
         );

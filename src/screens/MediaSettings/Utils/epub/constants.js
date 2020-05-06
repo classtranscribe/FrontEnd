@@ -3,7 +3,7 @@ export const DEFAULT_IS_MANAGING_CHAPTERS = false;
 export const EPUB_STEP_SPLIT = 'split';
 export const EPUB_STEP_EDIT = 'edit';
 export const EPUB_STEP_DOWNLOAD = 'download';
-export const EPUB_DEFAULT_STEP = EPUB_STEP_DOWNLOAD;
+export const EPUB_DEFAULT_STEP = EPUB_STEP_SPLIT;
 
 // ID prefix
 export const CHAPTER_ID_PREFIX = 'epub-ch';

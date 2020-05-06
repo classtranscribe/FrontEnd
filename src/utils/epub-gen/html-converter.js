@@ -3,9 +3,10 @@ import AdmZip from 'adm-zip';
 
 import { load_images_buffers } from './util';
 
-import { KATEX_CSS      } from './statics/katex.min.css.js';
-import { STYLE_CSS      } from './statics/html/styles.css.js';
-import { INDEX_HTML     } from './statics/html/index.html.js';
+import { KATEX_CSS          } from './statics/katex.min.css.js';
+import { STYLE_CSS          } from './statics/html/styles.css.js';
+import { LOCAL_INDEX_HTML   } from './statics/html/index.local.html.js';
+import { LIVE_INDEX_HTML    } from './statics/html/index.live.html.js';
 
 async function load_and_add_images(zip, chapters, cover) {
     let { 
@@ -13,14 +14,21 @@ async function load_and_add_images(zip, chapters, cover) {
         images, 
     } = await load_images_buffers({ chapters, cover });
 
-    zip.addFile(`cover.jpeg`, coverBuffer);
+    zip.addFile(`images/cover.jpeg`, coverBuffer);
 
     _.forEach(images, img => {
         zip.addFile(`images/${img.id}.jpeg`, img.buffer);
     });
 }
 
-function get_index_html(title, author, chapters) {
+function get_index_html({
+    title, 
+    author, 
+    chapters, 
+    withStyles=false, 
+    print=false,
+    cover
+}) {
     let nav_contents = _.map(chapters, (ch, chIndex) => `
                     <h3><a href="#${ch.id}">${chIndex + 1} - ${ch.title}</a></h3>
                     <ol>
@@ -39,10 +47,12 @@ function get_index_html(title, author, chapters) {
     `).join('\n\t\t\t');
 
     
-    return INDEX_HTML(title, nav_contents, content);
+    return withStyles
+            ? LIVE_INDEX_HTML(title, nav_contents, content, cover, print)
+            : LOCAL_INDEX_HTML(title, nav_contents, content);
 }
 
-async function html_converter({ 
+export async function html_converter({ 
   title, 
   author, 
   language, 
@@ -67,10 +77,30 @@ async function html_converter({
     zip.addFile('styles/katex.min.css', new Buffer(KATEX_CSS));
 
     // index.html
-    let index_html = get_index_html(title, author, chapters);
-    zip.addFile('index.html', new Buffer(index_html));
+    let index_html = get_index_html({ title, author, chapters });
+    zip.addFile(filename + '.html', new Buffer(index_html));
 
     return zip.toBuffer();
 }
 
-export default html_converter;
+export function html_previewer({
+    title, 
+    author, 
+    language, 
+    filename, 
+    chapters, 
+    cover
+}, print=true) {
+    let html = get_index_html({
+        title, 
+        author, 
+        chapters, 
+        withStyles: true, 
+        print, 
+        cover
+    });
+
+    let htmlBlob = new Blob([html], { type: 'text/html' });
+    let htmlUrl = URL.createObjectURL(htmlBlob);
+    window.open(htmlUrl, '_blank');
+}

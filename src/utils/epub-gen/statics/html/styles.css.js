@@ -1,7 +1,6 @@
 import { ROOT_CSS } from '../root.css';
 
-export const STYLE_CSS = `@charset "UTF-8";
-
+export const STYLE_CSS = `
 body, html {
   margin: 0;
   /* width: 100%; */
@@ -29,6 +28,29 @@ body, html {
 
 #toc_container ol li {
   margin: 5px 0;
+}
+
+#epub_title {
+  text-align: center;
+}
+
+#epub_cover {
+  display: none;
+  justify-content: center;
+}
+
+@media print {
+  #epub_cover {
+    display: flex;
+  }
+  #epub_content h2, 
+  #epub_content h3,
+  #toc_container {
+    page-break-before: always;
+  }
+  #skip_toc {
+    display: none;
+  }
 }
 
 ` + ROOT_CSS;

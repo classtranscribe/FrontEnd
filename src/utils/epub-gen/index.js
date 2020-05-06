@@ -2,24 +2,27 @@ import _ from 'lodash';
 import downloadFile from 'js-file-download';
 
 import { parse_chapters } from './util';
-
 import epub_converter from './epub-converter';
-import html_converter from './html-converter';
+import {
+    html_converter,
+    html_previewer,
+} from './html-converter';
+
 
 export class CTEpubGenerator {
     /**
      * Class used to create a ePub-file generator for ClassTranscribe
-     * @param {Object} options Options to initialize the ePub generator
-     * @param {String} options.filename the filename of the ePub -> filename.epub
-     * @param {String} options.title the title of the ePub file
-     * @param {String} options.language the language of the ePub file
-     * @param {String} options.author the author of the ePub file
-     * @param {Object[]} options.chapters the chapters of the ePub
-     * @param {String} options.chapters[].id the unique id of a chapter
-     * @param {String} options.chapters[].title the title of the chapter
-     * @param {String} options.chapters[].image the cover image of the chapter
-     * @param {String} options.chapters[].text the content of the chapter
-     * @param {Object[]} options.chapters[].items the included screenshots of this chapter
+     * @param {Object} options - Options to initialize the ePub generator
+     * @param {String} options.filename - the filename of the ePub -> filename.epub
+     * @param {String} options.title - the title of the ePub file
+     * @param {String} options.language - the language of the ePub file
+     * @param {String} options.author - the author of the ePub file
+     * @param {Object[]} options.chapters - the chapters of the ePub
+     * @param {String} options.chapters[].id - the unique id of a chapter
+     * @param {String} options.chapters[].title - the title of the chapter
+     * @param {String} options.chapters[].image - the cover image of the chapter
+     * @param {String} options.chapters[].text - the content of the chapter
+     * @param {Object[]} options.chapters[].items - the included screenshots of this chapter
      */
     constructor(options={ 
         filename: '', 
@@ -35,7 +38,7 @@ export class CTEpubGenerator {
         }
 
         this.filename = filename;
-        this.chapters = parse_chapters(chapters);
+        this.chapters = chapters;
         this.title = title;
         this.author = author;
         this.language = language;
@@ -43,17 +46,18 @@ export class CTEpubGenerator {
     }
 
     /**
-     * Download the ePub file
-     * @param {Object} config the callback functions
-     * @param {Function} config.onDownloaded the function called when the file has been downloaded
-     * @param {Function} config.onError the function called when error occurs
+     * Save as a ePub file
+     * @param {Object} config - the callback functions
+     * @param {Function} config.onDownloaded - the function called when the file has been downloaded
+     * @param {Function} config.onError - the function called when error occurs
      */
     async downloadEpub(config={
         onDownloaded: null,
         onError: null,
     }) {
         const { onDownloaded, onError } = config;
-        const { title, author, language, filename, chapters, cover } = this;
+        const { title, author, language, filename, cover } = this;
+        const chapters = parse_chapters(this.chapters);
         
         try {
             let epubBuffer = await epub_converter({
@@ -81,17 +85,18 @@ export class CTEpubGenerator {
     }
 
     /**
-     * Download the HTML file
-     * @param {Object} config the callback functions
-     * @param {Function} config.onDownloaded the function called when the file has been downloaded
-     * @param {Function} config.onError the function called when error occurs
+     * Save as a HTML file
+     * @param {Object} config - the callback functions
+     * @param {Function} config.onDownloaded - the function called when the file has been downloaded
+     * @param {Function} config.onError - the function called when error occurs
      */
     async downloadHTML(config={
         onDownloaded: null,
         onError: null,
     }) {
         const { onDownloaded, onError } = config;
-        const { title, author, language, filename, chapters, cover } = this;
+        const { title, author, language, filename, cover } = this;
+        const chapters = parse_chapters(this.chapters);
         
         try {
             let htmlBuffer = await html_converter({
@@ -108,6 +113,38 @@ export class CTEpubGenerator {
             if (onDownloaded) {
                 onDownloaded();
             }
+        
+        } catch (error) {
+            if (onError) {
+                onError(error);
+            } else {
+                console.error(error);
+            }
+        }
+    }
+
+    /**
+     * Preview the ePub as HTML
+     * @param {Object} config - the callback functions
+     * @param {Boolean} config.print - true if request a print action to browser
+     * @param {Function} config.onError - the function called when error occurs
+     */
+    async preview(config={
+        print: true,
+        onError: null,
+    }) {
+        const { print, onError } = config;
+        const { title, author, language, filename, cover, chapters } = this;
+        
+        try {
+            html_previewer({
+                title, 
+                author, 
+                language, 
+                filename, 
+                chapters, 
+                cover
+            }, print);
         
         } catch (error) {
             if (onError) {

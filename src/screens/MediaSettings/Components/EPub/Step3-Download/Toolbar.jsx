@@ -16,22 +16,27 @@ function Toolbar({
   onSaveFilename,
 }) {
 
+  const getDownloadOptions = () => ({
+    cover,
+    title,
+    author,
+    filename,
+  })
+
   const downloadAsEpub = () => {
-    epub.downloadAsEpub({
-      cover,
-      title,
-      author,
-      filename,
-    });
+    epub.downloadAsEpub(getDownloadOptions());
   }
 
   const downloadAsHTML = () => {
-    epub.downloadAsHTML({
-      cover,
-      title,
-      author,
-      filename,
-    });
+    epub.downloadAsHTML(getDownloadOptions());
+  }
+
+  const downloadAsPDF = () => {
+    epub.downloadAsPDF(getDownloadOptions());
+  }
+
+  const previewEpub = () => {
+    epub.downloadAsPDF(getDownloadOptions(), false);
   }
 
   return (
@@ -87,19 +92,43 @@ function Toolbar({
       <hr/>
 
       <div className="ee-ech-tb-btns">
-        <h3>Download</h3>
-        <Button underlined
+        <h3>Preview</h3>
+        <Button
           classNames="ee-ech-tb-btn" 
           color="transparent" 
-          icon={<i className="fas fa-book"></i>}
+          icon={<i class="fas fa-file-invoice"></i>}
+          onClick={previewEpub}
+        >
+          Preview ePub
+        </Button>
+
+        <hr/>
+      </div>
+
+      <div className="ee-ech-tb-btns">
+        <h3>Download</h3>
+
+        <Button //underlined
+          classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
+          color="black" 
+          icon={<i class="fas fa-file-alt"></i>}
           onClick={downloadAsEpub}
         >
           Save as ePub (.epub)
         </Button>
 
-        <Button underlined
+        <Button //underlined
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
-          color="transparent" 
+          color="black" 
+          icon={<i className="fas fa-file-pdf"></i>}
+          onClick={downloadAsPDF}
+        >
+          Print/Save as PDF (.pdf)
+        </Button>
+
+        <Button //underlined
+          classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
+          color="black" 
           icon={<i className="fas fa-file-code"></i>}
           onClick={downloadAsHTML}
         >

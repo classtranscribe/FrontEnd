@@ -39,7 +39,7 @@ function handleError(error) {
     if (error.message === 'Network Error') {
         error.message += ': Failed to download cover images.';
     } else {
-        error.message += 'Failed to download the ePub file.';
+        error.message = 'Failed: ' + error.message;
     }
 
     prompt.addOne({ 
@@ -49,8 +49,7 @@ function handleError(error) {
     });
 }
 
-
-export function downloadAsEpub({
+function getEpubGen({
     filename, 
     author,
     title,
@@ -67,8 +66,24 @@ export function downloadAsEpub({
     });
 
     const epubgen = new CTEpubGenerator(options);
-  
-    epubgen.downloadEpub({
+
+    return epubgen;
+}
+
+
+export function downloadAsEpub({
+    filename, 
+    author,
+    title,
+    cover,
+}) {
+    getEpubGen({
+        filename, 
+        author,
+        title,
+        cover,
+    })
+    .downloadEpub({
         onError: handleError
     });
 }
@@ -79,19 +94,31 @@ export function downloadAsHTML({
     title,
     cover,
 }) {
-    let chapters = _.map(epubState.chapters, formatEpubChapter);
-  
-    let options = getEpubGeneratorOptions({ 
+    getEpubGen({
         filename, 
         author,
         title,
         cover,
-        chapters,
+    })
+    .downloadHTML({
+        onError: handleError
     });
+}
 
-    const epubgen = new CTEpubGenerator(options);
-  
-    epubgen.downloadHTML({
+export function downloadAsPDF({
+    filename, 
+    author,
+    title,
+    cover,
+}, print=true) {
+    getEpubGen({
+        filename, 
+        author,
+        title,
+        cover,
+    })
+    .preview({
+        print,
         onError: handleError
     });
 }
