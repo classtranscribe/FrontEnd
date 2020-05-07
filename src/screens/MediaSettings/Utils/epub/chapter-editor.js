@@ -9,8 +9,8 @@ import {
 } from './constants';
 
 import {
-    genChaperFromItems,
-    genSubChaperFromItems
+    buildChapter,
+    buildSubChapter
 } from './util';
 
 
@@ -45,7 +45,7 @@ function saveChapterAttr(chapterId, attr, value) {
     if (chapterIndex < 0) return;
 
     chapters[chapterIndex][attr] = value;
-    chapters[chapterIndex] = genChaperFromItems(chapters[chapterIndex], false);
+    chapters[chapterIndex] = buildChapter(chapters[chapterIndex], false);
     epubState.updateEpubChapters(chapters, chapters[chapterIndex]);
 }
 
@@ -58,8 +58,8 @@ function saveSubChapterAttr(subChapterIndex, attr, value) {
     let subChapters = chapters[chapterIndex].subChapters;
 
     subChapters[subChapterIndex][attr] = value;
-    subChapters[subChapterIndex] = genSubChaperFromItems(subChapters[subChapterIndex], false);
-    chapters[chapterIndex] = genChaperFromItems(chapters[chapterIndex], false);
+    subChapters[subChapterIndex] = buildSubChapter(subChapters[subChapterIndex], false);
+    chapters[chapterIndex] = buildChapter(chapters[chapterIndex], false);
     epubState.updateEpubChapters(chapters, chapters[chapterIndex]);
 }
 

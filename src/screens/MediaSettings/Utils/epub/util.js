@@ -47,7 +47,7 @@ export function getAllImagesInChapters(chapters) {
     );
 }
 
-export function genChaperFromItems(chapter, replace=true) {
+export function buildChapter(chapter, replace=true) {
     chapter.id = chapter.id || util.genId();
 
     let { 
@@ -78,7 +78,7 @@ export function genChaperFromItems(chapter, replace=true) {
     };
 }
 
-export function genSubChaperFromItems(subChapter, replace=true) {
+export function buildSubChapter(subChapter, replace=true) {
     const { 
         id,
         title,

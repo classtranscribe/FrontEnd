@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { prompt, util, ARRAY_INIT } from 'utils';
 import { epubState } from './epub-state';
 import {
-    genChaperFromItems,
-    genSubChaperFromItems,
+    buildChapter,
+    buildSubChapter,
     getAllItemsInChapter
 } from './util';
 import { EPUB_STEP_EDIT } from './constants';
@@ -60,8 +60,8 @@ export function splitChapterFromChaptersItems(chapterIndex, itemIndex) {
     // setup new chapter
     newChapter.items = _.slice(items, itemIndex, items.length);
     newChapter.title = genUntitledName();
-    newChapter = genChaperFromItems(newChapter);
-    chapters[chapterIndex] = genChaperFromItems(chapters[chapterIndex]);
+    newChapter = buildChapter(newChapter);
+    chapters[chapterIndex] = buildChapter(chapters[chapterIndex]);
 
     updateEpubChapters(
         [
@@ -89,7 +89,7 @@ export function undoSplitChapter(chapterIndex) {
         } else {
             prevChapter.subChapters = [
                 ...prevChapter.subChapters,
-                genSubChaperFromItems(currChapter),
+                buildSubChapter(currChapter),
                 ...currChapter.subChapters,
             ];
         }
@@ -103,7 +103,7 @@ export function undoSplitChapter(chapterIndex) {
         prevChapter.subChapters = currChapter.subChapters;
     }
 
-    chapters[chapterIndex - 1] = genChaperFromItems(prevChapter);
+    chapters[chapterIndex - 1] = buildChapter(prevChapter);
 
     updateEpubChapters(
         [
@@ -115,7 +115,7 @@ export function undoSplitChapter(chapterIndex) {
 }
 
 export function resetToDefaultChapters() {
-    let defaultChapter = genChaperFromItems({
+    let defaultChapter = buildChapter({
         items: _.filter(epubState.epubData, data => _.trim(data.text)),
         title: 'Default Chapter',
         id: util.genId()
@@ -133,7 +133,7 @@ export function resetToDefaultChapters() {
 export function splitChaptersByScreenshots() {
     let splitChapters = _.map(
         _.filter(epubState.epubData, data => _.trim(data.text)), 
-        (data, idx) => genChaperFromItems({
+        (data, idx) => buildChapter({
             items: [data], 
             title: 'Untitled Chapter ' + (idx + 1), 
             id: util.genId()
@@ -161,12 +161,12 @@ export function subdivideChapter(chapterIndex, itemIndex) {
     let items = currChapter.items;
     currChapter.items = _.slice(items, 0, itemIndex);
 
-    let subChapter = genSubChaperFromItems({
+    let subChapter = buildSubChapter({
         items: _.slice(items, itemIndex, items.length)
     });
 
     currChapter.subChapters = [subChapter, ...currChapter.subChapters];
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(
         [
@@ -186,7 +186,7 @@ export function undoSubdivideChapter(chapterIndex) {
     currChapter.items = [...currChapter.items, ...subChapterItems];
 
     currChapter.subChapters = subChapters.slice(1, subChapters.length);
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(chapters, chapters[chapterIndex]);
 }
@@ -201,7 +201,7 @@ export function splitSubChapter(chapterIndex, subChapterIndex, itemIndex) {
 
     let newSubChapter = {};
     newSubChapter.items = _.slice(items, itemIndex, items.length);
-    newSubChapter = genSubChaperFromItems(newSubChapter);
+    newSubChapter = buildSubChapter(newSubChapter);
 
     let subChapters = currChapter.subChapters;
     currChapter.subChapters = [
@@ -210,7 +210,7 @@ export function splitSubChapter(chapterIndex, subChapterIndex, itemIndex) {
         ..._.slice(subChapters, subChapterIndex + 1, subChapters.length),
     ];
 
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(chapters, chapters[chapterIndex]);
 }
@@ -226,7 +226,7 @@ export function undoSplitSubChapter(chapterIndex, subChapterIndex) {
         ...currSubChapter.items
     ];
 
-    currChapter.subChapters[subChapterIndex - 1] = genSubChaperFromItems(prevSubChapter);
+    currChapter.subChapters[subChapterIndex - 1] = buildSubChapter(prevSubChapter);
 
     let subChapters = currChapter.subChapters;
     currChapter.subChapters = [
@@ -234,7 +234,7 @@ export function undoSplitSubChapter(chapterIndex, subChapterIndex) {
         ..._.slice(subChapters, subChapterIndex + 1, subChapters.length),
     ];
 
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(chapters, chapters[chapterIndex]);
 }
@@ -247,12 +247,12 @@ export function splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, 
 
     currSubChapter.items = _.slice(items, 0, itemIndex);
 
-    let newChapter = genChaperFromItems({
+    let newChapter = buildChapter({
         items: _.slice(items, itemIndex, items.length),
         title: genUntitledName()
     });
     
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(
         [
@@ -272,12 +272,12 @@ export function splitChapterFromSubChapter(chapterIndex, subChapterIndex) {
     let subChapters = currChapter.subChapters;
     currChapter.subChapters = _.slice(subChapters, 0, subChapterIndex);
     
-    let newChapter = genChaperFromItems({
+    let newChapter = buildChapter({
         ...currSubChapter,
         image: undefined,
         subChapters: _.slice(subChapters, subChapterIndex + 1, subChapters.length)
     });
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(
         [
@@ -298,14 +298,14 @@ export function subdivideChaptersByScreenshots() {
 
         chapter.subChapters = _.map(
             items,
-            (item, subChapterIndex) => genSubChaperFromItems({ 
+            (item, subChapterIndex) => buildSubChapter({ 
                 items: [item],
                 title: 'Untitled Sub-Chapter ' + (subChapterIndex + 1)
             })
         );
 
         chapter.items = [];
-        chapters[chapterIndex] = genChaperFromItems(chapter)
+        chapters[chapterIndex] = buildChapter(chapter)
     });
 
     updateEpubChapters(chapters, chapters[0]);
@@ -325,7 +325,7 @@ export function subdivideChaptersByScreenshots() {
 export function handleChapterTitleChange(chapterIndex, value) {
     let chapters = epubState.chapters;
     chapters[chapterIndex].title = value;
-    chapters[chapterIndex] = genChaperFromItems(chapters[chapterIndex]);
+    chapters[chapterIndex] = buildChapter(chapters[chapterIndex]);
 
     updateEpubChapters(chapters, chapters[chapterIndex]);
 }
@@ -336,8 +336,8 @@ export function handleSubChapterTitleChange(chapterIndex, subChapterIndex, value
     let currSubChapter = currChapter.subChapters[subChapterIndex];
     currSubChapter.title = value;
 
-    currChapter.subChapters[subChapterIndex] = genSubChaperFromItems(currSubChapter);
-    chapters[chapterIndex] = genChaperFromItems(currChapter);
+    currChapter.subChapters[subChapterIndex] = buildSubChapter(currSubChapter);
+    chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(chapters, chapters[chapterIndex]);
 }
@@ -416,7 +416,7 @@ export function endMagnifyImage() {
 export function setupChapters(epubData) {
     if (epubData === ARRAY_INIT) return;
 
-    let chapters = [genChaperFromItems(
+    let chapters = [buildChapter(
         {
             items: _.filter(epubData, data => _.trim(data.text)),
             title: 'Default Chapter'
