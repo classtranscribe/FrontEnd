@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import { Button } from 'pico-ui'
-import { EpubMenu } from './EpubMenu'
+import React, { useState } from 'react';
+import { Button } from 'pico-ui';
+import { EpubMenu } from './EpubMenu';
 
-import _ from 'lodash'
-import { langMap } from 'screens/Watch/Utils'
-import { epub } from '../../Utils/epub'
+import _ from 'lodash';
+import { langMap } from 'screens/Watch/Utils';
+import { epub } from '../../Utils/epub';
 
-const langOptions = _.map(langMap, (text, value) => ({ text, value }))
+const langOptions = _.map(langMap, (text, value) => ({ text, value }));
 
 export function LanguageMenuTrigger({
   language,
   classNames,
 }) {
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null);
   
   return (
     <EpubMenu
@@ -31,5 +31,5 @@ export function LanguageMenuTrigger({
       setAnchorEl={setAnchorEl}
       handleItemClick={value => epub.changeLanguage(value)}
     />
-  )
+  );
 }

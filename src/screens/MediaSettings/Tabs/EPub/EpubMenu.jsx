@@ -1,5 +1,5 @@
-import React from 'react'
-import { Menu, Typography, MenuItem } from '@material-ui/core'
+import React from 'react';
+import { Menu, Typography, MenuItem } from '@material-ui/core';
 
 const styles = {
   menu: {
@@ -27,7 +27,7 @@ const styles = {
     fontSize: '1.15rem',
     fontWeight: 'bold' 
   },
-}
+};
 
 export function EpubMenu({
   trigger,
@@ -38,11 +38,11 @@ export function EpubMenu({
   items=[],
 }) {
 
-  const onClose = () => setAnchorEl(null)
+  const onClose = () => setAnchorEl(null);
   
   const onClick = value => {
-    handleItemClick(value)
-    onClose()
+    handleItemClick(value);
+    onClose();
   }
 
   return (
@@ -76,5 +76,5 @@ export function EpubMenu({
       ))}
     </Menu>
     </>
-  )
+  );
 }

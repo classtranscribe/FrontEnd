@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { epub, connectWithRedux } from '../../../../Utils/epub';
+import { epub } from 'screens/MediaSettings/Utils/epub';
 import { MarkdownPreviewer } from '../../Markdown';
-import ChapterTitle from '../../Step2-EditChapters/ChapterEditor/ChapterTitle';
 
 function EpubEditor({
   chapters,
-  title,
-  onSaveTitle
+  title
 }) {
 
   const [epubHtml, setEpubHtml] = useState(

@@ -1,7 +1,8 @@
 import React from 'react';
 import { CTForm } from 'components';
-import UploadButton from './UploadButton';
 import { epub } from 'screens/MediaSettings/Utils/epub';
+
+import UploadButton from './UploadButton';
 
 function UploadTab({
   setImgUrl,

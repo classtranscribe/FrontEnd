@@ -1,5 +1,4 @@
 import React from 'react';
-import { api } from 'utils';
 import { Button } from 'pico-ui';
 import { epub } from 'screens/MediaSettings/Utils/epub';
 

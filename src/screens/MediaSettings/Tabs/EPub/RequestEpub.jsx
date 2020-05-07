@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import { Button } from 'pico-ui'
-import { epub } from '../../Utils/epub'
+import React, { useState } from 'react';
+import { Button } from 'pico-ui';
+import { epub } from '../../Utils/epub';
 
 export default function RequestEpub({
   mediaId
 }) {
-  const [requested, setRequested] = useState(0)
+  const [requested, setRequested] = useState(0);
 
   const handleRequest = async () => {
-    setRequested(1)
-    await epub.state.requestEpub(mediaId)
-    setRequested(2)
+    setRequested(1);
+    await epub.state.requestEpub(mediaId);
+    setRequested(2);
   }
 
   return (
@@ -48,5 +48,5 @@ export default function RequestEpub({
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -1,9 +1,7 @@
 import React from 'react';
-
+import { connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 import { MarkdownPreviewer } from '../../Markdown';
 import './index.scss';
-
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
 
 function ChapterPreview({

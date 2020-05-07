@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import AceEditor from 'react-ace';
 import './index.scss';
 
-import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-xcode";
-import "ace-builds/src-noconflict/theme-github";
+// import "ace-builds/src-noconflict/theme-github";
+// import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-markdown";

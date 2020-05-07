@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Popup } from 'semantic-ui-react';
+import { util } from 'utils';
+import { epub } from 'screens/MediaSettings/Utils/epub';
+import './index.scss';
+
 import {
   MarkdownPreviewer,
   MarkdownEditor
 } from '../../../Markdown';
-import './index.scss';
-import { epub } from 'screens/MediaSettings/Utils/epub';
-import { Popup } from 'semantic-ui-react';
-import { util } from 'utils';
 
 function ChapterText({
   text = '',
