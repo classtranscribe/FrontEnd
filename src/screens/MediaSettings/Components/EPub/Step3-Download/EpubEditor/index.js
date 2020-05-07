@@ -16,12 +16,7 @@ function EpubEditor({
   
   return (
     <div data-scroll className="ee-dl-con">
-      <ChapterTitle focus
-        value={title}
-        aria-label="ePub Title"
-        headingType="h1"
-        onSave={onSaveTitle}
-      />
+      <h1>{title}</h1>
       <MarkdownPreviewer
         value={epubHtml}
         className="ee-dl-preview"

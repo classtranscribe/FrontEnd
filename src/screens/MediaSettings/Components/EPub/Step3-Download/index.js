@@ -45,6 +45,7 @@ function EpubDownloader({
         author={author}
         filename={filename}
         screenshots={screenshots}
+        onSaveTitle={onSaveTitle}
         onSaveCover={onSaveCover}
         onSaveAuthor={onSaveAuthor}
         onSaveFilename={onSaveFilename}

@@ -1,7 +1,8 @@
 import React from 'react';
+import { Grid } from 'semantic-ui-react';
+import { CTForm } from 'components';
 import { Button } from 'pico-ui';
 import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
-import ChapterTitle from '../Step2-EditChapters/ChapterEditor/ChapterTitle';
 import ChapterImage from '../Step2-EditChapters/ChapterEditor/ChapterImage';
 
 function Toolbar({
@@ -11,6 +12,7 @@ function Toolbar({
   filename,
   screenshots = [],
 
+  onSaveTitle,
   onSaveCover,
   onSaveAuthor,
   onSaveFilename,
@@ -67,26 +69,43 @@ function Toolbar({
       </div>
 
       <div className="ee-ech-tb-btns">
-        <label className="ee-dl-tb-label" htmlFor="ee-dl-tb-filename">Filename</label>
-        <ChapterTitle focus
-          id="ee-dl-tb-filename"
-          value={filename}
-          className="ee-dl-tb-filename"
-          headingType="div"
-          aria-label="Filename"
-          onSave={onSaveFilename}
-        />
-      </div>
-      <div className="ee-ech-tb-btns">
-        <label className="ee-dl-tb-label" htmlFor="ee-dl-tb-author">Author</label>
-        <ChapterTitle focus
-          id="ee-dl-tb-author"
-          value={author}
-          className="ee-dl-tb-filename"
-          headingType="div"
-          aria-label="Author"
-          onSave={onSaveAuthor}
-        />
+        <Grid columns='equal' stackable>
+          <Grid.Row>
+            <Grid.Column>
+              <CTForm required
+                label="ePub Title"
+                color="grey"
+                placeholder="ePub title"
+                onChange={onSaveTitle}
+                defaultValue={title}
+              />
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <CTForm required
+                label="Filename"
+                color="grey"
+                placeholder="Filename"
+                onChange={onSaveFilename}
+                defaultValue={filename}
+              />
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <CTForm required
+                label="Author / Instructor"
+                color="grey"
+                placeholder="Author"
+                onChange={onSaveAuthor}
+                defaultValue={author}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
 
       <hr/>
@@ -95,11 +114,11 @@ function Toolbar({
         <h3>Preview</h3>
         <Button
           classNames="ee-ech-tb-btn" 
-          color="transparent" 
-          icon={<i class="fas fa-file-invoice"></i>}
+          color="black" 
+          icon={<i class="fas fa-external-link-alt"></i>}
           onClick={previewEpub}
         >
-          Preview ePub
+          Preview ePub in HTML
         </Button>
 
         <hr/>
