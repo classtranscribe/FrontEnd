@@ -1,11 +1,9 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import './index.scss'
-import {
-  MSPHeader, 
-  EPub
-} from './Components'
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import './index.scss';
+import { MSPHeader } from './Components';
+import { EPub } from './Tabs';
 import { 
   setup, 
   connectWithRedux,
@@ -13,23 +11,23 @@ import {
   mspStore,
   TAB_EPUB,
   TAB_EDIT_TRANS,
-} from './Utils'
-import { util } from '../../utils'
+} from './Utils';
+import { util } from 'utils';
 
-import { epubContext, epubStore } from './Utils/epub'
+import { epubContext, epubStore } from './Utils/epub';
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    setup.verifyUser()
+    setup.verifyUser();
 
-    this.mediaId = props.match.params.id
-    setup.init(props)
+    this.mediaId = props.match.params.id;
+    setup.init(props);
   }
 
   componentDidMount() {
-    setup.setupMedia(this.mediaId)
+    setup.setupMedia(this.mediaId);
   }
 
   render() {
@@ -46,7 +44,7 @@ class MediaSettingsWithRedux extends React.Component {
           <Route path={util.links.instMediaSettings(this.mediaId, TAB_EPUB)} component={EPub} />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -68,7 +66,7 @@ export function MediaSettings(props) {
       'setError'
     ],
     mspContext
-  )
+  );
 
   return (
     <Provider store={mspStore} context={mspContext}>
@@ -76,5 +74,5 @@ export function MediaSettings(props) {
         <MspConnectToRedux {...props} />
       </Provider>
     </Provider>
-  )
+  );
 }
