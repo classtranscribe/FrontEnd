@@ -1,7 +1,7 @@
 import React from 'react';
 import { epub } from 'screens/MediaSettings/Utils/epub';
 
-import ChapterTitle from './ChapterTitle/';
+import ChapterTitle from './ChapterTitle';
 import ChapterImage from './ChapterImage';
 import ChapterText from './ChapterText';
 
@@ -37,6 +37,8 @@ function ChapterInfo({
         value={title}
         headingType="h2"
         onSave={onSaveTitle}
+        label="Chapter Title"
+        placeholder="Chapter Title"
       />
 
       <ChapterImage

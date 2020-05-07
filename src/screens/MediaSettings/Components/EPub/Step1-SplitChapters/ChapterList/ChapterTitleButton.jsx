@@ -9,7 +9,7 @@ function ChapterTitleButton({
   color="blue",
   outlined=true,
   className="",
-  onClick=null
+  onClick=null,
 }) {
   return show ? (
     <Popup inverted basic
@@ -25,6 +25,7 @@ function ChapterTitleButton({
             color={color}
             outlined={outlined}
             onClick={onClick}
+            aria-label={content}
           />
         </div>
       }

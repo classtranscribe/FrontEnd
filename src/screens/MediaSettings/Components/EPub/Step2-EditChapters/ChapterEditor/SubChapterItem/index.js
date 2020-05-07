@@ -37,6 +37,8 @@ function SubChapterItem({
         value={title}
         headingType="h3"
         onSave={onSaveTitle}
+        label="Sub-Chapter Title"
+        placeholder="Sub-Chapter Title"
       />
 
       <ChapterImage

@@ -8,9 +8,13 @@ function ChapterTitle({
   id,
   className='',
   value,
-  onSave,
   headingType='h3',
   focus,
+  label='Title',
+  placeholder='Title',
+  required=true,
+
+  onSave,
   ...otherProps
 }) {
 
@@ -62,6 +66,10 @@ function ChapterTitle({
     tabIndex: 0,
     onInput: handleInput,
     onKeyDown: onKeyDown,
+    role: 'textbox',
+    'aria-placeholder': placeholder,
+    'aria-label': label,
+    'aria-required': required,
     ...otherProps
   });
 

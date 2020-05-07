@@ -52,6 +52,7 @@ function ChapterImage({
           className="ee-ech-ch-img-wrapper"
           onClick={openImagePicker}
           onKeyDown={handleOnKeyDown}
+          role="button"
         >
           Click to Choose Image
         </div>
@@ -74,6 +75,7 @@ function ChapterImage({
           tabIndex={0}
           onClick={openImagePicker}
           onKeyDown={handleOnKeyDown}
+          role="button"
         >
           <div className="text-muted">Click to insert images</div>
         </div>
