@@ -1,5 +1,3 @@
-import { mspPreference  } from 'utils/user-preference/media-settings';
-
 import { epubState } from './setstate';
 import * as epubConstants from './constants';
 import * as epubUtils from './util';
@@ -13,7 +11,6 @@ export { connectWithRedux, epubStore, epubContext } from 'redux/media-settings/e
 
 export const epub = {
     state: epubState,
-    pref: mspPreference,
     
     resetEpubData: () => epubState.setEpubData([]),
 
