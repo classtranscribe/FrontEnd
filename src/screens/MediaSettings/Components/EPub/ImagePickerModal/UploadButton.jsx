@@ -11,7 +11,7 @@ function UploadButton({ onUpload }) {
   const { getRootProps, getInputProps } = useDropzone();
 
   return (
-    <div className="ip-upload-btn ct-d-c-center mt-3">
+    <div className="mt-3">
       <Button 
         type="button"
         size="big" 
