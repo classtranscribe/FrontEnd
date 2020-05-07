@@ -1,5 +1,6 @@
 import { api, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
+import { parseEpubData } from './util';
 import { 
     NO_EPUB,
     EPUB_DEFAULT_STEP,
@@ -7,7 +8,6 @@ import {
     EPUB_STEP_EDIT,
     EPUB_STEP_DOWNLOAD,
 } from './constants';
-import { parseEpubData } from './util';
 
 class EpubState {
     constructor() {

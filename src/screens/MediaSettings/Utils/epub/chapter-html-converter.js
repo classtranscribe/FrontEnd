@@ -1,7 +1,11 @@
 import _ from 'lodash';
-import { EDITOR_TYPE_SPLITTER, EDITOR_MARKDOWN } from './constants';
 import { html } from 'utils';
-import { getImageUrl } from './util'
+import { getImageUrl } from './util';
+import { 
+    EDITOR_TYPE_SPLITTER, 
+    EDITOR_MARKDOWN 
+} from './constants';
+
 
 export function parseText(text) {
     let splittedTexts = _.split(text, EDITOR_TYPE_SPLITTER);

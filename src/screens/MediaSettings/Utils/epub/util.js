@@ -47,9 +47,6 @@ export function getAllImagesInChapters(chapters) {
     );
 }
 
-/**
- * @todo generate text for chapter based on items and subchapters
- */
 export function genChaperFromItems(chapter, replace=true) {
     chapter.id = chapter.id || util.genId();
 

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { prompt, util, ARRAY_INIT } from 'utils';
-import { epubState } from "./setstate";
-import { 
-    genChaperFromItems, 
+import { epubState } from './epub-state';
+import {
+    genChaperFromItems,
     genSubChaperFromItems,
     getAllItemsInChapter
 } from './util';

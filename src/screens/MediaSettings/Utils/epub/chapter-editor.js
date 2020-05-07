@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { prompt } from "utils";
-import { epubState } from "./setstate";
+import { prompt } from 'utils';
+import { epubState } from './epub-state';
 import {
     EPUB_STEP_SPLIT,
     EPUB_STEP_DOWNLOAD,
     EDITOR_TYPE_SPLITTER,
     EDITOR_MARKDOWN,
-} from "./constants";
+} from './constants';
 
 import {
     genChaperFromItems,
