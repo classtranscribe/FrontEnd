@@ -1,6 +1,6 @@
 import React from 'react';
 import MDToolButton from './MDToolButton';
-import { addBulletedList } from './ace.util';
+import { addBulletedList } from '../ace/ace-controller';
 
 function BulletedListTrigger({
   ace,

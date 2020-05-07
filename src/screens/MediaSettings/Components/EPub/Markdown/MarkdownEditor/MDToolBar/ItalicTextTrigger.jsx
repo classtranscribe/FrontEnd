@@ -1,6 +1,7 @@
 import React from 'react';
 import MDToolButton from './MDToolButton';
-import { addItalicText } from './ace.util';
+import { addItalicText } from '../ace/ace-controller';
+import { getShortcut } from '../ace/ace-shortcut';
 
 function ItalicTextTrigger({
   ace,
@@ -11,7 +12,7 @@ function ItalicTextTrigger({
   return (
     <MDToolButton
       icon="format_italic"
-      popup="Add Italic Text <cmd+i>"
+      popup={"Add Italic Text " + getShortcut('i')}
       onClick={handleAddItalicText}
     />
   );

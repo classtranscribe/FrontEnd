@@ -1,6 +1,6 @@
 import React from 'react';
 import MDToolButton from './MDToolButton';
-import { insertCode } from './ace.util'
+import { insertCode } from '../ace/ace-controller'
 
 function CodeTrigger({
   ace,

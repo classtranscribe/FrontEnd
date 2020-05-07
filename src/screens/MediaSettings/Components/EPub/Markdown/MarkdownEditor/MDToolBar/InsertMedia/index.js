@@ -4,7 +4,7 @@ import './index.scss';
 import InsertMediaTrigger from './InsertMediaTrigger';
 import ImagePickerModal from '../../../../ImagePickerModal';
 import { getImageUrl } from 'screens/MediaSettings/Utils/epub/util';
-import { insertImgae } from '../ace.util';
+import { insertImgae } from '../../ace/ace-controller';
 
 export default function InsertMedia({
   ace,

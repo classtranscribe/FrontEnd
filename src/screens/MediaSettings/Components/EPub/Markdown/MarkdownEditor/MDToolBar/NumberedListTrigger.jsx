@@ -1,6 +1,6 @@
 import React from 'react';
 import MDToolButton from './MDToolButton';
-import { addNumberedList } from './ace.util';
+import { addNumberedList } from '../ace/ace-controller';
 
 function NumberedListTrigger({
   ace,

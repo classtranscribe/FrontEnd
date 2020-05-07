@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { epub } from 'screens/MediaSettings/Utils/epub';
+import { getAceShortcutHandler } from './ace/ace-shortcut';
 
 import MDTextArea from './MDTextArea';
 import MDToolBar from './MDToolBar';
 import ActionButtonGroup from './ActionButtonGroup';
 import { MarkdownPreviewer } from '../MarkdownPreviewer';
+
 
 export function MarkdownEditor({
   id = '',
@@ -63,7 +65,10 @@ export function MarkdownEditor({
 
   return (
     <div className="ee-md-editor-con">
-      <div className="ee-md-editor">
+      <div 
+        className="ee-md-editor" 
+        onKeyDown={getAceShortcutHandler(ace)}
+      >
         <MDToolBar
           ace={ace}
           isPreview={isPreview}

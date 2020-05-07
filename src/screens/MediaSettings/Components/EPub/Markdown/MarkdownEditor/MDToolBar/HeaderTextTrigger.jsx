@@ -1,6 +1,7 @@
 import React from 'react';
 import MDToolButton from './MDToolButton';
-import { addHeaderText } from './ace.util';
+import { addHeaderText } from '../ace/ace-controller';
+import { getShortcut } from '../ace/ace-shortcut';
 
 function HeaderTextTrigger({
   ace,
@@ -11,7 +12,7 @@ function HeaderTextTrigger({
   return (
     <MDToolButton
       icon="title"
-      popup="Add Header Text <cmd+h>"
+      popup={"Add Header Text " + getShortcut('h')}
       onClick={handleAddHeaderText}
     />
   );

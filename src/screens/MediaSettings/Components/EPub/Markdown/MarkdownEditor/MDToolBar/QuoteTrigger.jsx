@@ -1,6 +1,6 @@
 import React from 'react';
 import MDToolButton from './MDToolButton';
-import { insertQuote } from './ace.util';
+import { insertQuote } from '../ace/ace-controller';
 
 function QuoteTrigger({
   ace,
