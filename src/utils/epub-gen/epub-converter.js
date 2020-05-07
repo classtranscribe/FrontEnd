@@ -90,20 +90,34 @@ function get_content_opf(
     date, 
     chapters
 ) {
-    let image0ID = `OEBPS/cover.jpeg`;
-    // items
-    let content_items = _.map(chapters, ch => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`)
-                         .join('\n\t\t');
-  // itemrefs
-    let content_items_refs = _.map(chapters, ch => `<itemref idref="${ch.id}"/>`)
-                              .join('\n\t\t');
+    // image items
+    let images = _.flatten(_.map(chapters, ch => ch.images));
+    let image_items = _.map(
+        images, 
+        img => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="application/xhtml+xml" />`
+    )
+    .join('\n\t\t');
+
+    // content items
+    let content_items = _.map(
+        chapters, 
+        ch => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`
+    )
+    .join('\n\t\t');
+    
+    // content itemrefs
+    let content_items_refs = _.map(
+        chapters,
+        ch => `<itemref idref="${ch.id}"/>`
+    )
+    .join('\n\t\t');
 
     return OEBPS_CONTENT_OPF(
         title, author, 
         language, 
         publisher, 
         date, 
-        image0ID, 
+        image_items, 
         content_items, 
         content_items_refs
     );

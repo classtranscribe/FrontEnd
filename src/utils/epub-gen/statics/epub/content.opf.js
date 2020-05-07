@@ -14,9 +14,9 @@ import { dedent } from 'dentist'
 export const OEBPS_CONTENT_OPF = (
   title, author, language, publisher,
   date=new Date(),
-  image0ID,
+  image_items,
   content_items,
-  content_items_refs,
+  content_items_refs
 ) => dedent(`
 <?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf"
@@ -61,8 +61,7 @@ export const OEBPS_CONTENT_OPF = (
         <item id="katex" href="katex.min.css" media-type="text/css" />
 
         <item id="image_cover" href="cover.jpeg" media-type="image/jpeg" />
-
-        <!-- <item id="image_0" href="images/${image0ID}.jpeg" media-type="image/jpeg" /> -->
+        ${image_items}
 
         ${content_items}
         
