@@ -113,7 +113,7 @@ function get_content_xhtml(chapter, language) {
     let { title, text } = chapter;
 
     let content = dedent(`
-        <div class="ee-preview-text-con">
+        <div class="epub-ch">
             ${text}
         </div>
     `);

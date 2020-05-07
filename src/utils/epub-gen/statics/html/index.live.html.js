@@ -1,12 +1,13 @@
 import { STYLE_CSS } from './styles.css.js';
 
-export const LIVE_INDEX_HTML = (
+export const LIVE_INDEX_HTML = ({
   title,
   nav_contents,
   content,
   cover,
+  author,
   print=false,
-) => `<!DOCTYPE html>
+}) => `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -27,6 +28,7 @@ export const LIVE_INDEX_HTML = (
         <img src="${cover}" alt="Cover image" />
       </div>
       <h1 id="epub_title">${title}</h1>
+      <div id="epub_author">${author}</div>
 
       <a id="skip_toc" href="#epub_content">Skip the table of Content</a>
 

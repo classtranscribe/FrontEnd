@@ -3,7 +3,11 @@ import { ROOT_CSS } from '../root.css';
 export const STYLE_CSS = `
 body, html {
   margin: 0;
-  /* width: 100%; */
+  color: #272727;
+  font-family: -apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 /* TOC */
@@ -33,6 +37,12 @@ body, html {
 #epub_title {
   text-align: center;
 }
+#epub_author {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
 
 #epub_cover {
   display: none;
@@ -43,11 +53,20 @@ body, html {
   #epub_cover {
     display: flex;
   }
-  #epub_content h2, 
+  #epub_content h2,
   #epub_content h3,
   #toc_container {
     page-break-before: always;
   }
+
+  #epub_content h3 {
+    page-break-after: avoid;
+  }
+
+  .epub-sub-ch {
+    display: inline-block;
+  }
+
   #skip_toc {
     display: none;
   }

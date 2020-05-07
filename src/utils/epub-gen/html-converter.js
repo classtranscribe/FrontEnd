@@ -48,8 +48,8 @@ function get_index_html({
 
     
     return withStyles
-            ? LIVE_INDEX_HTML(title, nav_contents, content, cover, print)
-            : LOCAL_INDEX_HTML(title, nav_contents, content);
+            ? LIVE_INDEX_HTML({ title, nav_contents, content, cover, author, print })
+            : LOCAL_INDEX_HTML({ title, nav_contents, content, author });
 }
 
 export async function html_converter({ 
