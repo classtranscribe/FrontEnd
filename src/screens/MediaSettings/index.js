@@ -1,20 +1,18 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import './index.scss';
-import { MSPHeader } from './Components';
-import { EPub } from './Tabs';
+import { util } from 'utils';
 import { 
-  setup, 
-  connectWithRedux,
-  mspContext,
-  mspStore,
+  setup,
   TAB_EPUB,
   TAB_EDIT_TRANS,
 } from './Utils';
-import { util } from 'utils';
+import withMSPReduxProvider from './Utils/msp-redux-provider';
 
-import { epubContext, epubStore } from './Utils/epub';
+import { MSPHeader } from './Components';
+import { EPub } from './Tabs';
+
+import './index.scss';
+
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
@@ -31,48 +29,29 @@ class MediaSettingsWithRedux extends React.Component {
   }
 
   render() {
+    let mediaId = this.mediaId;
+
+    let mspPath = util.links.instMediaSettings(mediaId);
+    let transPath = util.links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
+    let epubPath = util.links.instMediaSettings(mediaId, TAB_EPUB);
+
     return (
       <div className="msp-bg">
         <MSPHeader />
 
         <div className="msp-content">
           <Route exact
-            path={util.links.instMediaSettings(this.mediaId)} 
-            render={() => <Redirect to={util.links.instMediaSettings(this.mediaId, TAB_EDIT_TRANS)} />}   
+            path={mspPath} 
+            render={() => <Redirect to={transPath} />}   
           />
 
-          <Route path={util.links.instMediaSettings(this.mediaId, TAB_EPUB)} component={EPub} />
+          <Route path={epubPath} component={EPub} />
+
+          {/* <Route path={transPath} component={} /> */}
         </div>
       </div>
     );
   }
 }
 
-
-/** 
- * Component used to connect to msp redux store
- */
-export function MediaSettings(props) {
-
-  const MspConnectToRedux = connectWithRedux(
-    MediaSettingsWithRedux,
-    [],
-    [
-      'setMedia',
-      'setPlaylist',
-      'setTab',
-      'setEpubData',
-      'setIsManagingChapters',
-      'setError'
-    ],
-    mspContext
-  );
-
-  return (
-    <Provider store={mspStore} context={mspContext}>
-      <Provider store={epubStore} context={epubContext}>
-        <MspConnectToRedux {...props} />
-      </Provider>
-    </Provider>
-  );
-}
+export const MediaSettings = withMSPReduxProvider(MediaSettingsWithRedux);
