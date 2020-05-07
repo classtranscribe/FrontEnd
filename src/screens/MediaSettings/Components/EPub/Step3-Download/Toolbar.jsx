@@ -68,7 +68,7 @@ function Toolbar({
         />
       </div>
 
-      <div className="ee-ech-tb-btns">
+      <div className="ee-ech-tb-btns ee-dl-file-form">
         <Grid columns='equal' stackable>
           <Grid.Row>
             <Grid.Column>
