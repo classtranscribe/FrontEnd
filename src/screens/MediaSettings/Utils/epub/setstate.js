@@ -1,11 +1,7 @@
 import { api, ARRAY_INIT } from 'utils';
-import { mspPreference as pref  } from 'utils/user-preference/media-settings';
 import { ENGLISH } from 'screens/Watch/Utils';
 import { 
-    NO_EPUB, 
-    DEFAULT_IS_MANAGING_CHAPTERS,
-    EDITOR_DISPLAY,
-    EDITOR_THEME_XCODE,
+    NO_EPUB,
     EPUB_DEFAULT_STEP,
     EPUB_STEP_SPLIT,
     EPUB_STEP_EDIT,
@@ -35,7 +31,6 @@ class EpubState {
             setLanguage, setChapters, setCurrChapter,
             setCoverImgs, setMagnifiedImg, setFoldedIds,
             setNavId, setShowNav,
-            setTxtEditor, setEditorTheme, setEditorFullscreen,
             setError, setStep,
         } = props;
     
@@ -45,7 +40,6 @@ class EpubState {
             setLanguage, setChapters, setCurrChapter,
             setCoverImgs, setMagnifiedImg, setFoldedIds,
             setNavId, setShowNav,
-            setTxtEditor, setEditorTheme, setEditorFullscreen,
             setError, setStep,
         };
 
@@ -87,11 +81,6 @@ class EpubState {
     epubData = ARRAY_INIT
     setEpubData(epubData) {
         this.setState('setEpubData', 'epubData', epubData);
-    }
-
-    isManagingChapters = DEFAULT_IS_MANAGING_CHAPTERS
-    setIsManagingChapters(isManagingChapters) {
-        this.setState('setIsManagingChapters', 'isManagingChapters', isManagingChapters);
     }
 
     currChapter = {}
@@ -148,21 +137,6 @@ class EpubState {
         this.setEpubData(ARRAY_INIT);
         let epubData = await this.getEpubData(this.mediaId, language);
         this.setEpubData(epubData);
-    }
-
-    txtEditor = EDITOR_DISPLAY
-    setTxtEditor(txtEditor) {
-        this.setState('setTxtEditor', 'txtEditor', txtEditor);
-    }
-
-    editorTheme = pref.defaultEditorTheme() || EDITOR_THEME_XCODE
-    setEditorTheme(editorTheme) {
-        this.setState('setEditorTheme', 'editorTheme', editorTheme);
-    }
-
-    editorFullscreen = false
-    setEditorFullscreen(editorFullscreen) {
-        this.setState('setEditorFullscreen', 'editorFullscreen', editorFullscreen);
     }
 
 

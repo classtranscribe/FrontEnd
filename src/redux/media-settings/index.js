@@ -4,6 +4,7 @@ import mspReducer from './msp.reducers';
 import * as mspActions from './msp.actions';
 
 export const mspContext = createContext();
+export const mspStore = createReduxStore(mspReducer);
 
 const connectWithMSPRedux = createSelector(mspActions);
 
@@ -17,6 +18,3 @@ export const connectWithRedux = (
     requestedDispatches,
     mspContext
 );
-
-
-export const mspStore = createReduxStore(mspReducer);

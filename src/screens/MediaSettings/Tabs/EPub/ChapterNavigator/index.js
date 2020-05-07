@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import { connectWithRedux, epub } from '../../../Utils/epub';
 import { Button } from 'pico-ui';
-import './index.scss';
 import { util } from 'utils';
+import { connectWithRedux, epub } from '../../../Utils/epub';
+import './index.scss';
 
 function ChapterNavigatorWithRedux({
   step,
   chapters,
   currChapter,
   navId,
-  showNav,
-  txtEditor,
+  showNav
 }) {
   const currChapterId = navId || currChapter.id;
   
@@ -44,7 +43,6 @@ function ChapterNavigatorWithRedux({
   return showNav ? (
     <div 
       className="msp-ee-cn-con" 
-      data-editing={txtEditor !== epub.EDITOR_DISPLAY}
       data-managing={isStep1}
       data-step={step}
     >
@@ -117,11 +115,9 @@ export default connectWithRedux(
   ChapterNavigatorWithRedux,
   [
     'step',
-    'isManagingChapters',
     'chapters',
     'currChapter',
     'navId',
-    'showNav',
-    'txtEditor'
+    'showNav'
   ]
 );

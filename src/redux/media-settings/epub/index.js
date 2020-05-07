@@ -1,17 +1,17 @@
 import { createContext } from 'react';
-import { createReduxStore, createSelector } from '../../redux-creators';
-import epubReducer from './epub.reducers';
-import * as epubActions from './epub.actions';
 import { compose } from 'redux';
 
-import { 
-    connectWithRedux as connectWithMSPRedux 
-} from '../index'
+import { createReduxStore, createSelector } from '../../redux-creators';
+import { connectWithRedux as connectWithMSPRedux } from '../index';
+
+import epubReducer from './epub.reducers';
+import * as epubActions from './epub.actions';
+
+export const epubContext = createContext();
+export const epubStore = createReduxStore(epubReducer);
 
 
 const connectWithEpubRedux = createSelector(epubActions);
-
-export const epubContext = createContext();
 
 export const connectWithRedux = (
     Component,
@@ -23,5 +23,3 @@ export const connectWithRedux = (
     connectWithEpubRedux(null, requestedStatesToEpub, requestedDispatchesToEpub, epubContext),
     connectWithMSPRedux(null, requestedStatesToMSP, requestedDispatchesToMSP)
 )(Component);
-
-export const epubStore = createReduxStore(epubReducer);

@@ -1,5 +1,3 @@
-export const DEFAULT_IS_MANAGING_CHAPTERS = false;
-
 export const EPUB_STEP_SPLIT = 'split';
 export const EPUB_STEP_EDIT = 'edit';
 export const EPUB_STEP_DOWNLOAD = 'download';
@@ -29,24 +27,4 @@ export const EDITOR_RICHTEXT = 'richtext';
 export const EDITOR_HTML = 'html';
 export const EDITOR_MARKDOWN = 'markdown';
 
-// Editor Theme
-export const EDITOR_THEME_MONOKAI = 'monokai';
-export const EDITOR_THEME_XCODE = 'xcode';
-
-export const textEditorMap = {
-  [EDITOR_RICHTEXT]: 'Rich Text Editor',
-  [EDITOR_HTML]: 'HTML Editor',
-  [EDITOR_MARKDOWN]: 'Markdown Editor'
-};
-
 export const EDITOR_TYPE_SPLITTER = '<!-- EDITOR_TYPE_SPLITTER -->';
-
-export const EPUB_HEADING_1 = 'Chapter Heading';
-export const EPUB_HEADING_2 = 'Sub-Chapter Heading';
-export const EPUB_HEADING_3 = 'Section Heading';
-
-export const epubHeadings = [
-  EPUB_HEADING_1,
-  EPUB_HEADING_2,
-  EPUB_HEADING_3
-];
