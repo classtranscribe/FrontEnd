@@ -94,7 +94,7 @@ function get_content_opf(
     let images = _.flatten(_.map(chapters, ch => ch.images));
     let image_items = _.map(
         images, 
-        img => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="application/xhtml+xml" />`
+        img => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`
     )
     .join('\n\t\t');
 
