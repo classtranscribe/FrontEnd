@@ -56,7 +56,7 @@ export default function PlaylistPlaceholder({
                 id="ofd-signin-btn"
                 color="teal"
                 text="Sign in to watch videos!"
-                onClick={() => user.signin({ allowTestSignIn: true })}
+                onClick={() => user.signIn()}
               />
             </>
           }

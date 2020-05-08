@@ -50,7 +50,7 @@ export function CTErrorWrapper({
             &&
             <Button
               color="teal"
-              onClick={() => user.signin()}
+              onClick={() => user.signIn()}
             >
               Sign in to continue
             </Button>

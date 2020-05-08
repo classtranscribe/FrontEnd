@@ -153,7 +153,7 @@ export default function ProfileMenu({
             <Typography style={styles.font}>Contact Us</Typography>
           </MenuItem>
 
-          <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signout()}>
+          <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signOut()}>
             <ListItemIcon style={styles.icon}>
               <i className="fas fa-sign-out-alt"></i>
             </ListItemIcon>
@@ -171,13 +171,13 @@ export default function ProfileMenu({
           onClose={handleClose}
           PaperProps={{style: styles.menu}}
         >
-          <MenuItem aria-label="Sign In" onClick={user.signin}>
+          <MenuItem aria-label="Sign In" onClick={user.signIn}>
             <Typography style={styles.font}>Sign In</Typography>
           </MenuItem>
           {
             env.dev
             &&
-            <MenuItem aria-label="Test Sign In" onClick={user.testAccountSignIn}>
+            <MenuItem aria-label="Test Sign In" onClick={user.testSignIn}>
               <Typography style={styles.font}>Test Sign In</Typography>
             </MenuItem>
           }

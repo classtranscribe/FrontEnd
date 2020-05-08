@@ -37,7 +37,7 @@ export function Sidebar({
 
   const style = { marginLeft: displaySideBar ? '0' : '-20rem' }
 
-  const signin = () => user.signin({ allowTestSignIn: true })
+  const signin = () => user.signIn()
   const handleTabChange = () => showSiderBar(window.innerWidth > 900)
 
   return (
