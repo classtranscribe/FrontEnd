@@ -5,7 +5,8 @@ import { Image } from 'semantic-ui-react'
 import { util, user, api, env } from '../../utils'
 import { styles } from './styles'
 
-import MenuTrigger from './MenuTrigger'
+import MenuTrigger from './MenuTrigger';
+import SignInMenu from './SignInMenu';
 
 const { links } = util
 
@@ -162,26 +163,13 @@ export default function ProfileMenu({
         </Menu>
 
 
-      : 
-      /** Unsigned in menu */
-        <Menu
-          anchorEl={anchorEl}
-          keepMounted
+      : (
+        <SignInMenu
           open={open}
-          onClose={handleClose}
-          PaperProps={{style: styles.menu}}
-        >
-          <MenuItem aria-label="Sign In" onClick={user.signIn}>
-            <Typography style={styles.font}>Sign In</Typography>
-          </MenuItem>
-          {
-            env.dev
-            &&
-            <MenuItem aria-label="Test Sign In" onClick={user.testSignIn}>
-              <Typography style={styles.font}>Test Sign In</Typography>
-            </MenuItem>
-          }
-        </Menu>
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+        />
+      )
       }
     </div>
   )

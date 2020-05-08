@@ -1,12 +1,12 @@
-export { LoginAndLogout     } from './LoginAndLogout'
+export { SetupUser          } from './SetupUser';
 
-export { Admin              } from './Admin'
+export { Admin              } from './Admin';
 
-export { Instructor         } from './Instructor'
-export { MediaSettings      } from './MediaSettings'
+export { Instructor         } from './Instructor';
+export { MediaSettings      } from './MediaSettings';
 
-export { OfferingViewing    } from './OfferingViewing'
-export { Watch              } from './Watch'
+export { OfferingViewing    } from './OfferingViewing';
+export { Watch              } from './Watch';
 
-export { NotFound404        } from './NotFound404'
-export { Maintenance        } from './Maintenance'
+export { NotFound404        } from './NotFound404';
+export { Maintenance        } from './Maintenance';

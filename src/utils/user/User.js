@@ -9,14 +9,18 @@ import { api } from '../cthttp';
 import { env } from '../env';
 import { links } from '../links';
 import { prompt } from '../prompt';
+
 import { Auth0 } from './Auth0';
+import { CILogon } from './CILogon';
 
 import {
+    // keys to localstorage
     TOKEN_INFO_KEY,
     USER_INFO_KEY,
     AUTH_TOKEN_KEY,
     TEST_USER_INFO_KEY,
     LATEST_COMMIT_SHA_KEY,
+    // user roles
     ROLE_ADMIN,
     ROLE_INST,
     // auth methods
@@ -29,6 +33,7 @@ import {
 export class User {
     constructor() {
         this.auth0Client = new Auth0();
+        this.ciLogonClient = new CILogon();
 
         // binding
         this.signIn = this.signIn.bind(this);
@@ -49,7 +54,6 @@ export class User {
     };
 
     callbackPaths = [
-        links.signin(),
         links.auth0Callback(),
         links.ciLogonCallback()
     ];
@@ -84,7 +88,7 @@ export class User {
     // ---------------------------------------------------------------------------
     // Sign in
     // ---------------------------------------------------------------------------
-
+    /** method: `Auth0`, `CILogon`, `Test` */
     signIn(options={ 
         method: AUTH_AUTH0 
     }) {
@@ -104,7 +108,7 @@ export class User {
     }
 
     ciLogonSignIn() {
-        
+        this.ciLogonClient.authorize();
     }
 
     async testSignIn() {
@@ -117,17 +121,17 @@ export class User {
         window.location.reload();
     }
 
-    // login the user and clear the localStorage
     reSignIn() {
+        let { authMethod } = this.getUserInfo({ allowLoginAsOverride: false });
         localStorage.clear();
-        this.signIn();
+        this.signIn({ method: authMethod });
     }
 
     // ---------------------------------------------------------------------------
     // Sign out
     // ---------------------------------------------------------------------------
 
-    signOut () {
+    signOut() {
         localStorage.clear();
 
         let { authMethod } = this.getUserInfo();
@@ -193,29 +197,45 @@ export class User {
      * Setup user after loading user info and `id_token` from Auth0
      */
     async auth0Setup() {
-        if (!this.isLoggedIn) {
-            // load user info and `id_token` from Auth0
-            try {
-                await this.auth0Client.handleAuthentication();
-            } catch (error) {
-                console.error('Failed to parse Auth0 id_token', error);
-                return;
-            }
-            
-            // get authToken from backend using auth0's `id_token`
-            let id_token = this.auth0Client.getAuth0Token();
-            let profile = this.auth0Client.getProfile();
-            let successed = await this.setupUser(id_token, profile, AUTH_AUTH0);
-            if (!successed) {
-                return;
-            }
-
-            // start redirecting
-            let redirectURL = this.auth0Client.getRedirectURL(); // default redirect url
-            this.redirect(redirectURL);
-        } else {
-            window.location = this.auth0Client.getRedirectURL();
+        if (this.isLoggedIn) {
+            window.location = links.home();
         }
+
+        // load user info and `id_token` from Auth0
+        try {
+            await this.auth0Client.handleAuthentication();
+        } catch (error) {
+            console.error('Failed to parse Auth0 id_token', error);
+            return;
+        }
+        
+        // get authToken from backend using auth0's `id_token`
+        let id_token = this.auth0Client.getAuth0Token();
+        let profile = this.auth0Client.getProfile();
+        let successed = await this.setupUser(id_token, profile, AUTH_AUTH0);
+        if (!successed) {
+            return;
+        }
+
+        // start redirecting
+        let redirectURL = this.auth0Client.getRedirectURL(); // default redirect url
+        this.redirect(redirectURL);
+    }
+
+    async ciLogonSetup() {
+        if (this.isLoggedIn) {
+            window.location = links.home();
+        }
+
+        let { 
+            token, 
+            redirect_uri 
+        } = this.ciLogonClient.parseCallback();
+
+        const { data } = await api.accountSignIn(token, AUTH_CILOGON);
+        console.log('redirect uri', redirect_uri);
+        console.log('cilogon', data);
+        console.log('decoded auth token', decoder(data.authToken));
     }
 
 
@@ -225,10 +245,16 @@ export class User {
 
     // check if a user is valid
     async validate() {
-        if (links.isEqual(links.signin())) return;
-        if (links.isEqual(links.logout())) return;
+        if (this.callbackPaths.includes(window.location.pathname)) {
+            return;
+        }
+
         await this.checkGitUpdates();
-        if (!this.isLoggedIn) return;
+
+        if (!this.isLoggedIn) {
+            return;
+        }
+        
         await this.checkExpiration();
         // api.contentLoaded()
         return true;
@@ -237,7 +263,9 @@ export class User {
     // check if the auth token is valid
     async checkExpiration() {
         let { exp } = this.getUserInfo();
-        if (!Boolean(exp)) return;
+        if (!Boolean(exp)) {
+            return;
+        }
 
         exp = new Date(exp);
 
@@ -330,7 +358,7 @@ export class User {
      * metadata:Object 
      * }} userInfo
      */
-    getUserInfo (options={ allowLoginAsOverride: true }) {
+    getUserInfo(options={ allowLoginAsOverride: true }) {
         // if allow the user info be overrided by the test user
         if (options.allowLoginAsOverride && this.isLoginAsAccount) {
             return this.getLoginAsUserInfo();
@@ -387,7 +415,7 @@ export class User {
     }
 
     // logout the testing account for admin
-    loginAsAccountSignOut () {
+    loginAsAccountSignOut() {
         localStorage.removeItem(TEST_USER_INFO_KEY);
         window.location.reload();
     }

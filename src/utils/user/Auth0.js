@@ -3,8 +3,7 @@ import decoder from 'jwt-decode';
 import { v4 as uuid } from 'uuid';
 import { env } from '../env';
 import { links } from '../links';
-
-export const REDIRECT_URL_KEY = 'redirect_url';
+import { redirect } from './redirect';
 
 export class Auth0 {
     constructor() {
@@ -37,7 +36,7 @@ export class Auth0 {
     }
 
     getRedirectURL() {
-        localStorage.removeItem(REDIRECT_URL_KEY);
+        redirect.clear();
         return this.redirectURL || links.home();
     }
     
@@ -46,7 +45,7 @@ export class Auth0 {
     }
 
     signIn() {
-        localStorage.setItem(REDIRECT_URL_KEY, window.location.href);
+        redirect.saveRedirectURI();
         this.auth0.authorize({
             appState: {
                 redirectURL: window.location.href
@@ -64,7 +63,7 @@ export class Auth0 {
                     let { id_token } = links.useHash();
                     this.auth0Token = id_token;
                     this.profile = decoder(id_token);
-                    this.redirectURL = localStorage.getItem(REDIRECT_URL_KEY);
+                    this.redirectURL = redirect.getRedirectURI();
                     resolve();
                 }
 

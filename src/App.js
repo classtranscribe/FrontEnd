@@ -1,6 +1,7 @@
-import React from 'react'
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
-import AppInsightsProvider from './azure-app-insights'
+import React from 'react';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import AppInsightsProvider from './azure-app-insights';
+
 import { 
   // Admin
   Admin,
@@ -11,19 +12,21 @@ import {
   OfferingViewing, 
   Watch,
   // General
-  LoginAndLogout,
+  SetupUser,
   NotFound404,
   Maintenance, 
-} from './screens'
-import './App.css'
-import 'semantic-ui-css/semantic.min.css'
-import 'braft-editor/dist/index.css'
+} from './screens';
 
-import { user } from './utils'
+import './App.css';
+import 'semantic-ui-css/semantic.min.css';
+import 'braft-editor/dist/index.css';
+
+import { user } from './utils';
+
 
 class App extends React.Component {
   componentDidMount() {
-    user.validate()
+    user.validate();
   }
 
   render() {
@@ -32,8 +35,7 @@ class App extends React.Component {
       <AppInsightsProvider>
         <Switch>
           <Route exact path="/" render={() => <Redirect to="/home" />} />
-          <Route exact path="/login" component={LoginAndLogout} />
-          <Route exact path="/logout" component={LoginAndLogout} />
+          <Route exact path={user.callbackPaths} component={SetupUser} />
 
           {/* Admin */}
           {
@@ -62,8 +64,8 @@ class App extends React.Component {
           <Route component={NotFound404} />
         </Switch>
       </AppInsightsProvider>
-    )
+    );
   }
 }
 
-export default withRouter(App)
+export default withRouter(App);
