@@ -6,7 +6,6 @@ import { cthttp } from './request'
 // ------------------------------------------------------------
 
 export function accountSignIn(token, authMethod) {
-    console.log({ token, authMethod });
     return cthttp.post('Account/SignIn', { token, authMethod });
 }
 

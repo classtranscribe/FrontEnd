@@ -15,7 +15,7 @@ import { CILogon } from './CILogon';
 
 import {
     // keys to localstorage
-    TOKEN_INFO_KEY,
+    TOKEN_INFO_ROLES,
     USER_INFO_KEY,
     AUTH_TOKEN_KEY,
     TEST_USER_INFO_KEY,
@@ -27,7 +27,10 @@ import {
     AUTH_AUTH0,
     AUTH_CILOGON,
     AUTH_TEST,
+    TOKEN_INFO_GIVEN_NAME,
+    TOKEN_INFO_FAMILY_NAME,
 } from './constants';
+import { user } from '.';
 
 
 export class User {
@@ -132,6 +135,7 @@ export class User {
     // ---------------------------------------------------------------------------
 
     signOut() {
+        if (!user.isLoggedIn) return;
         localStorage.clear();
 
         let { authMethod } = this.getUserInfo();
@@ -152,7 +156,7 @@ export class User {
     }
 
     ciLogonSignOut() {
-        
+        window.location = window.location.origin;
     }
 
     testSignOut() {
@@ -232,10 +236,12 @@ export class User {
             redirect_uri 
         } = this.ciLogonClient.parseCallback();
 
-        const { data } = await api.accountSignIn(token, AUTH_CILOGON);
-        console.log('redirect uri', redirect_uri);
-        console.log('cilogon', data);
-        console.log('decoded auth token', decoder(data.authToken));
+        let successed = await this.setupUser(token, {}, AUTH_CILOGON);
+        if (!successed) {
+            return;
+        }
+
+        this.redirect(redirect_uri);
     }
 
 
@@ -280,16 +286,13 @@ export class User {
         try {
             let latestSHA = await api.getLatestGitCommitSHA();
             let localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY);
-            // console.log(localSHA, latestSHA, localSHA === latestSHA)
-            // if it's a first time user, store the latest commit SHA
-            if (!localSHA && !this.isLoggedIn) {
-                localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA);
-                window.location.reload(true);
-            }
-            // if there is a new commit, forcely reload the page from server
-            else if (!localSHA || localSHA !== latestSHA) {
-                localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA);
-                window.location.reload(true);
+            if (!localSHA || localSHA !== latestSHA) {
+                if (this.isLoggedIn) {
+                    this.signOut();
+                } else {
+                    localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA);
+                    window.location.reload(true);
+                }
             }
         } catch (error) {
             console.error("Failed to checking the latest commit's SHA on master.");
@@ -305,17 +308,16 @@ export class User {
      * Function used to save user info to localStorage
      */
     saveUserInfo(userInfo, profile, authMethod) {
-        // info from JWT token
+        // info from token
         const tokenInfo = decoder(userInfo.authToken);
-        let { iss } = tokenInfo;
-        let exp = new Date(tokenInfo.exp * 1000); // expiration date
+        const exp = new Date(tokenInfo.exp * 1000); // expiration date
+        let roles = tokenInfo[TOKEN_INFO_ROLES];
+        let lastName = tokenInfo[TOKEN_INFO_FAMILY_NAME] || 'Test';
+        let firstName = tokenInfo[TOKEN_INFO_GIVEN_NAME] || 'User';
+        let fullName = firstName + ' ' + lastName;
+
         // info from auth0
-        const {
-            name,
-            given_name,
-            family_name,
-            picture,
-        } = profile;
+        const { picture } = profile;
 
         // info from CT backend
         let {
@@ -327,16 +329,15 @@ export class User {
         // store userInfo in localStorage
         localStorage.setItem(USER_INFO_KEY, JSON.stringify({
             exp,
-            iss,
+            roles,
+            firstName,
+            lastName,
+            fullName,
             userId,
             emailId,
             picture,
             authMethod,
             universityId,
-            roles: tokenInfo[TOKEN_INFO_KEY],
-            firstName: given_name || emailId,
-            lastName: family_name,
-            fullName: name || emailId,
         }));
     }
 
@@ -365,7 +366,6 @@ export class User {
         }
 
         let userInfoStr = localStorage.getItem(USER_INFO_KEY);
-        // console.log(JSON.parse(userInfoStr))
         return userInfoStr ? JSON.parse(userInfoStr) : {};
     }
 
@@ -403,7 +403,6 @@ export class User {
     async loginAsAccountSignIn(emailId) {
         try {
             const { data } = await api.loginAsAccountSignIn(emailId);
-            // console.log(data);
             localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data));
             window.location.reload();
         } catch (error) {
