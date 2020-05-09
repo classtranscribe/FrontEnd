@@ -26,13 +26,13 @@ function SignInMenu({
         <ListItemIcon style={styles.icon}>
           <i className="fas fa-university"></i>
         </ListItemIcon>
-        <Typography style={styles.font}>Sign in using CILogon</Typography>
+        <Typography style={styles.font}>University Credential Sign In</Typography>
       </MenuItem>
       <MenuItem aria-label="Sign in using email" onClick={auth0SignIn}>
         <ListItemIcon style={styles.icon}>
           <i className="fas fa-envelope"></i>
         </ListItemIcon>
-        <Typography style={styles.font}>Sign in using email</Typography>
+        <Typography style={styles.font}>Email Sign In</Typography>
       </MenuItem>
       {
         env.dev
@@ -41,7 +41,7 @@ function SignInMenu({
           <ListItemIcon style={styles.icon}>
             <i className="fas fa-laptop-code"></i>
           </ListItemIcon>
-          <Typography style={styles.font}>Test sign in</Typography>
+          <Typography style={styles.font}>Test Sign In</Typography>
         </MenuItem>
       }
     </Menu>

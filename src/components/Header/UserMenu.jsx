@@ -1,0 +1,95 @@
+import React, { useState, useEffect } from 'react';
+import { Menu } from '@material-ui/core';
+
+import _ from 'lodash';
+import { user, api } from '../../utils';
+import { styles } from './styles';
+
+import MenuTrigger from './MenuTrigger';
+import SignInMenu from './SignInMenu';
+import ProfileInfo from './ProfileInfo';
+import ProfileMenu from './ProfileMenu';
+
+function UserMenu({ 
+  darkMode 
+}) {
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [universities, setUniversities] = useState([]);
+
+  useEffect(() => {
+    api.getUniversities().then( ({ data }) => setUniversities(data) );
+  }, [darkMode])
+
+  const handleClick = e => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setTimeout(() => setAnchorEl(null), 200);
+  };
+
+  const {
+    fullName='',
+    universityId,
+    picture,
+    emailId,
+    roles
+  } = user.getUserInfo({ allowLoginAsOverride: false });
+
+  let uni = _.find(universities, { id: universityId });
+  let uniName = uni ? uni.name : '';
+
+  const loginAsUserInfo = user.getLoginAsUserInfo();
+  let loginAsUserUni = _.find(universities, { id: loginAsUserInfo.universityId }) 
+                     || { name: '' };
+
+  const open = Boolean(anchorEl);
+
+  return (
+    <div className="profile-menu">
+      <MenuTrigger
+        picture={picture}
+        isLoggedIn={user.isLoggedIn}
+        usernameInitial={fullName.slice(0, 1)}
+        handleClick={handleClick}
+      />
+
+      {
+        user.isLoggedIn
+        ?
+        /** Signed in menu */
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          PaperProps={{style: styles.menu}}
+        >
+          <ProfileInfo
+            uniName={uniName}
+            picture={picture}
+            emailId={emailId}
+            fullName={fullName}
+            isLoginAsAccount={user.isLoginAsAccount}
+            loginAsUserUni={loginAsUserUni}
+            loginAsEmailId={loginAsUserInfo.emailId}
+          />
+
+          <ProfileMenu roles={roles} />
+        </Menu>
+
+
+      : (
+        <SignInMenu
+          open={open}
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+        />
+      )
+      }
+    </div>
+  );
+}
+
+export default UserMenu;
