@@ -6,9 +6,9 @@ import { user, api } from '../../utils';
 import { styles } from './styles';
 
 import MenuTrigger from './MenuTrigger';
-import SignInMenu from './SignInMenu';
 import ProfileInfo from './ProfileInfo';
 import ProfileMenu from './ProfileMenu';
+import { SignInMenu } from './SignInMenu';
 
 function UserMenu({ 
   darkMode 

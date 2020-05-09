@@ -4,7 +4,7 @@ import { Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core';
 import { user, env } from '../../utils';
 import { styles } from './styles';
 
-function SignInMenu({
+export function SignInMenu({
   open,
   anchorEl,
   handleClose,
@@ -47,5 +47,3 @@ function SignInMenu({
     </Menu>
   );
 }
-
-export default SignInMenu;
