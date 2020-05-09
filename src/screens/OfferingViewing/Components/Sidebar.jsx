@@ -1,12 +1,14 @@
 /**
  * Sidebar Component of Student page/OV page
  */
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { user, util } from '../../../utils'
 import { Icon } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
+
+import { SignInMenu } from 'components'
 
 const EK_COURSES = 'courses'
 const EK_STARRED = 'starred'
@@ -35,9 +37,18 @@ export function Sidebar({
   let activeKey = currentActiveKey()
   let isLoggedIn = user.isLoggedIn
 
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = e => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setTimeout(() => setAnchorEl(null), 200);
+  };
+
   const style = { marginLeft: displaySideBar ? '0' : '-20rem' }
 
-  const signin = () => user.signIn()
   const handleTabChange = () => showSiderBar(window.innerWidth > 900)
 
   return (
@@ -107,10 +118,15 @@ export function Sidebar({
             <p>Can't Find Your Courses?<br/>Sign In to See More</p>
             <Button 
               aria-label="sign in"
-              onClick={signin}
+              onClick={handleClick}
             >
               Sign In
             </Button>
+            <SignInMenu 
+              open={Boolean(anchorEl)} 
+              anchorEl={anchorEl}
+              handleClose={handleClose}
+            />
           </div>
         }
         </ListGroup>
