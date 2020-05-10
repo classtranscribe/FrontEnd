@@ -38,7 +38,7 @@ const ExpansionPanel = withStyles({
             display: 'none',
         },
         '&$expanded': {
-            margin: 'auto',
+            margin: '0px',
         },
     },
     expanded: {},
@@ -67,6 +67,8 @@ const ExpansionPanelDetails = withStyles((theme) => ({
     root: {
         background: '#2a2a2a',
         // padding: theme.spacing(1),
+        display: 'block',
+        padding: '0px'
     },
 }))(MuiExpansionPanelDetails);
 

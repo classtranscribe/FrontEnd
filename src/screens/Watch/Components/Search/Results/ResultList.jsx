@@ -105,6 +105,8 @@ function ResultList({
     [null, null]
 
   const [itemsNumEarlier, itemNumLater] = inVideoTransResults.map(result => result.length)
+
+  const resultsNum = option === SEARCH_TRANS_IN_VIDEO ? itemsNumEarlier + itemNumLater : results.length
   
   const transResultsItemsData = [
     {
@@ -118,6 +120,7 @@ function ResultList({
       type: 'later'
     }
   ]
+
 
   const transResultsItems = 
   transResultsItemsData
@@ -142,7 +145,7 @@ function ResultList({
             nextPage={nextPage}
             prevPage={prevPage}
             value={value}
-            resultsNum={results.length}
+            resultsNum={resultsNum}
           />
 
           <OpenMenuButton
