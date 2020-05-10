@@ -19,7 +19,7 @@ import {
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
-import { homeUserGuide } from './Utils'
+import { generateHomeUserGuide } from './Utils'
 
 // Vars
 import { api, user } from '../../utils'
@@ -147,6 +147,7 @@ export class OfferingViewing extends React.Component {
   }
 
   showHomeGuideButton = () => {
+    let homeUserGuide = generateHomeUserGuide()
     homeUserGuide.start()
   }
 

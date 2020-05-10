@@ -25,7 +25,7 @@ import { util } from '../../utils'
 import { 
   watchStore, 
   connectWithRedux,
-  watchUserGuide,
+  generateWatchUserGuide,
   setup,
   videoControl,
   transControl,
@@ -68,6 +68,7 @@ export class WatchWithRedux extends React.Component {
   }
 
   showHWatchUserGuide = () => {
+    let watchUserGuide = generateWatchUserGuide()
     watchUserGuide.start()
   }
 

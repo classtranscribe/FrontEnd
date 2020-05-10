@@ -26,7 +26,15 @@ async function isHomepageOnBoarded() {
     return false
 }
 
-export const homeUserGuide = new CTUserGuide(
-    guides,
-    isHomepageOnBoarded
-)
+export const generateHomeUserGuide = () => {
+    return new CTUserGuide(
+        guides,
+        isHomepageOnBoarded
+    )
+}
+
+
+// export const homeUserGuide = new CTUserGuide(
+//     guides,
+//     isHomepageOnBoarded
+// )

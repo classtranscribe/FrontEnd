@@ -25,9 +25,17 @@ async function isWatchPageOnBoarded() {
     return false
 }
 
+export const generateWatchUserGuide = () => {
+    return new CTUserGuide(
+        guides,
+        isWatchPageOnBoarded,
+        { mode: 'dark'}  // switch mode into dark
+    )
+}
 
-export const watchUserGuide = new CTUserGuide(
-    guides,
-    isWatchPageOnBoarded,
-    { mode: 'dark'}  // switch mode into dark
-)
+
+// export const watchUserGuide = new CTUserGuide(
+//     guides,
+//     isWatchPageOnBoarded,
+//     { mode: 'dark'}  // switch mode into dark
+// )
