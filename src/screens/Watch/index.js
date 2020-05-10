@@ -61,12 +61,14 @@ export class WatchWithRedux extends React.Component {
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
     videoControl.addWindowEventListener()
-
-    watchUserGuide.start()
   }
 
   componentWillUnmount() {
     this.props.resetStates()
+  }
+
+  showHWatchUserGuide = () => {
+    watchUserGuide.start()
   }
 
   render() { 
@@ -85,7 +87,7 @@ export class WatchWithRedux extends React.Component {
           <>
             <TabEventHelperButtons />
             <Modals />
-            <WatchHeader />
+            <WatchHeader showGuide={this.showHWatchUserGuide}/>
             <Search />
             <Menus />
             <ClassTranscribePlayer />

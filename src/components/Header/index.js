@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button } from 'pico-ui'
 import ProfileMenu from './ProfileMenu'
+import GuideButton from './GuideButton'
 import './index.scss'
 import { util } from '../../utils'
 import { textBrand, darkTextBrand } from '../../assets/images'
@@ -18,6 +19,7 @@ export function ClassTranscribeHeader({
   leftElem=null,
   subtitle=null,
   showProfileMenu=true,
+  showGuide=false, 
 
   darkMode=false, 
   fixed=true,
@@ -70,6 +72,7 @@ export function ClassTranscribeHeader({
       {/* Left Elem */}
       <div className="ct-header-right-elem">
         {rightElem}
+        {showGuide && <GuideButton handleClick={showGuide}/>}  {/* Check if display the guide button or not */}
         {showProfileMenu && <ProfileMenu darkMode={darkMode} />}
       </div>
     </nav>

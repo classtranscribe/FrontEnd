@@ -19,6 +19,8 @@ import {
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
+import { homeUserGuide } from './Utils'
+
 // Vars
 import { api, user } from '../../utils'
 
@@ -144,6 +146,10 @@ export class OfferingViewing extends React.Component {
     this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata())
   }
 
+  showHomeGuideButton = () => {
+    homeUserGuide.start()
+  }
+
   render() {
     const { displaySideBar, displaySearchHeader, offerings } = this.state
     // the padding style of the content when sidebar is not floating
@@ -161,6 +167,7 @@ export class OfferingViewing extends React.Component {
               displaySearchHeader={displaySearchHeader}
               showSiderBar={this.showSiderBar} 
               display={displaySideBar}
+              showGuide={this.showHomeGuideButton} 
             />   
             <Sidebar {...this} />
 

@@ -19,6 +19,7 @@ export function WatchHeaderWithRedux({
   isFullscreen=false,
   search=SEARCH_INIT,
   plain=false,
+  showGuide=false,
 }) {
 
   const showButtons = search.status === SEARCH_HIDE && !plain
@@ -27,6 +28,7 @@ export function WatchHeaderWithRedux({
     <ClassTranscribeHeader 
       darkMode 
       showProfileMenu={search.status === SEARCH_HIDE}
+      showGuide={showGuide}
       leftElem={<MediaInfo />}
       rightElem={ !showButtons ? null :
         <>
