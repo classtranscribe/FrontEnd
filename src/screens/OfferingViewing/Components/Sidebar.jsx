@@ -68,6 +68,7 @@ export function Sidebar({
         </ListGroup.Item>
 
         <ListGroup.Item action
+          id="hp-search-tab"
           className="list"
           eventKey={EK_SEARCH}
           as={Link} 
@@ -85,6 +86,7 @@ export function Sidebar({
           <>
             {/* History Tab */}
             <ListGroup.Item action
+              id="hp-history-tab"
               className="list"  
               eventKey={EK_HISTORY} 
               as={Link} 

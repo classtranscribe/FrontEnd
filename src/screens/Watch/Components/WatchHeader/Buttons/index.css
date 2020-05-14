@@ -38,7 +38,9 @@
 } 
 
 @media screen and (max-width: 630px) {
-  .watch-ctrl-button[id=menu-shortcuts], .watch-ctrl-button[id=menu-download] {
+  #menu-shortcuts,
+  #help-guide-btn,
+  #menu-download {
     display: none;
   }
 } 

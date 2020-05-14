@@ -5,6 +5,7 @@ import PlaylistMenuTrigger from './Buttons/PlaylistMenuTrigger'
 import DownloadMenuTrigger from './Buttons/DownloadMenuTrigger'
 import ShortcutsTableTrigger from './Buttons/ShortcutsTableTrigger'
 import ShareTrigger from './Buttons/ShareTrigger'
+import GuideTrigger from './Buttons/GuideTrigger'
 
 import Search from './Search'
 import { 
@@ -34,6 +35,7 @@ export function WatchHeaderWithRedux({
           <ShortcutsTableTrigger />
           <ShareTrigger />
           <DownloadMenuTrigger />
+          <GuideTrigger/>
           <PlaylistMenuTrigger />
         </>
       }

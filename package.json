@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.8.1",
+    "@material-ui/icons": "^4.9.1",
     "@microsoft/applicationinsights-react-js": "^2.5.3",
     "@microsoft/applicationinsights-web": "^2.5.3",
     "acorn": "^6.4.1",
@@ -22,6 +23,7 @@
     "jwt-decode": "^2.2.0",
     "kind-of": "^6.0.3",
     "lodash": "^4.17.14",
+    "mk-guide": "^1.10.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "npm": "^6.13.4",
