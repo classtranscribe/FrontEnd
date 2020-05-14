@@ -31,12 +31,6 @@
   width: max-content;
 }
 
-.watch-header-btn-guide {
-  padding: 0px;
-  width: 25px !important;
-  height: 30px !important;
-}
-
 @media screen and (max-width: 450px) {
   .playlist-menu-btn {
     margin-right: 10px !important;
@@ -44,7 +38,9 @@
 } 
 
 @media screen and (max-width: 630px) {
-  .watch-ctrl-button[id=menu-shortcuts], .watch-ctrl-button[id=menu-download] {
+  #menu-shortcuts,
+  #help-guide-btn,
+  #menu-download {
     display: none;
   }
 } 
