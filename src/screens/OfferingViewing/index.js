@@ -19,7 +19,6 @@ import {
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
-import { generateHomeUserGuide } from './Utils'
 
 // Vars
 import { api, user } from '../../utils'
@@ -146,10 +145,7 @@ export class OfferingViewing extends React.Component {
     this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata())
   }
 
-  showHomeGuideButton = () => {
-    let homeUserGuide = generateHomeUserGuide()
-    homeUserGuide.start()
-  }
+
 
   render() {
     const { displaySideBar, displaySearchHeader, offerings } = this.state
@@ -168,7 +164,6 @@ export class OfferingViewing extends React.Component {
               displaySearchHeader={displaySearchHeader}
               showSiderBar={this.showSiderBar} 
               display={displaySideBar}
-              showGuide={this.showHomeGuideButton} 
             />   
             <Sidebar {...this} />
 

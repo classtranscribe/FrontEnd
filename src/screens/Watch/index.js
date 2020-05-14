@@ -88,7 +88,7 @@ export class WatchWithRedux extends React.Component {
           <>
             <TabEventHelperButtons />
             <Modals />
-            <WatchHeader showGuide={this.showHWatchUserGuide}/>
+            <WatchHeader/>
             <Search />
             <Menus />
             <ClassTranscribePlayer />

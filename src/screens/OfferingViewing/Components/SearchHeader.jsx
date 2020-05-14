@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { ClassTranscribeHeader } from '../../../components'
 import { util } from '../../../utils'
 
-function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, history, showGuide }) {
+function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, history }) {
   const [searchValue, setSearchValue] = useState('')
   const handleOnKeyDown = e => {
     if (e.keyCode === 13) {
@@ -12,7 +12,7 @@ function SearchHeader({ displaySideBar, showSiderBar, displaySearchHeader, histo
     }
   }
   return (
-    <ClassTranscribeHeader display={displaySideBar} showSiderBar={showSiderBar} showGuide={showGuide}>
+    <ClassTranscribeHeader display={displaySideBar} showSiderBar={showSiderBar}>
       {
         (displaySearchHeader && !util.links.isEqual(util.links.search()))
         &&

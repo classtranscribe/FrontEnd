@@ -5,6 +5,7 @@ import PlaylistMenuTrigger from './Buttons/PlaylistMenuTrigger'
 import DownloadMenuTrigger from './Buttons/DownloadMenuTrigger'
 import ShortcutsTableTrigger from './Buttons/ShortcutsTableTrigger'
 import ShareTrigger from './Buttons/ShareTrigger'
+import GuideTrigger from './Buttons/GuideTrigger'
 
 import Search from './Search'
 import { 
@@ -19,7 +20,6 @@ export function WatchHeaderWithRedux({
   isFullscreen=false,
   search=SEARCH_INIT,
   plain=false,
-  showGuide=false,
 }) {
 
   const showButtons = search.status === SEARCH_HIDE && !plain
@@ -28,7 +28,6 @@ export function WatchHeaderWithRedux({
     <ClassTranscribeHeader 
       darkMode 
       showProfileMenu={search.status === SEARCH_HIDE}
-      showGuide={showGuide}
       leftElem={<MediaInfo />}
       rightElem={ !showButtons ? null :
         <>
@@ -36,6 +35,7 @@ export function WatchHeaderWithRedux({
           <ShortcutsTableTrigger />
           <ShareTrigger />
           <DownloadMenuTrigger />
+          <GuideTrigger/>
           <PlaylistMenuTrigger />
         </>
       }
