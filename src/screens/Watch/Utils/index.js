@@ -2,6 +2,7 @@ export * from './constants.util'
 export * from './data'
 export * from './helpers'
 
+export { generateWatchUserGuide   } from './user-guide'
 export { setup            } from './setup.control'
 export { videoControl     } from './player.control'
 export { menuControl      } from './menu.control'
