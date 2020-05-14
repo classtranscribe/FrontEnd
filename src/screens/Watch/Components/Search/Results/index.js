@@ -7,7 +7,8 @@ import {
   preferControl,
   SEARCH_INIT, 
   SEARCH_RESULT, 
-  SEARCH_BEGIN, 
+  SEARCH_BEGIN,
+  SEARCH_TRANS_IN_VIDEO, 
 } from '../../../Utils'
 import { util } from '../../../../../utils'
 import './index.css'
@@ -18,12 +19,13 @@ function Results({
 
   const { value='', status=SEARCH_BEGIN } = search
 
-  const [option, setOption] = useState(preferControl.defaultSearchOption())
+  const [option, setOption] = useState(SEARCH_TRANS_IN_VIDEO)
   const [page, setPage] = useState(1) // 20 results per page
+  const [resultOptions, setResultOptions] = useState([])
 
   const handleChangeOption = opt => () => {
     setOption(opt)
-    preferControl.defaultSearchOption(opt)
+    // preferControl.defaultSearchOption(opt)
     setPage(1)
   }
 
@@ -37,12 +39,16 @@ function Results({
     util.elem.scrollToTop('watch-search-result-container')
   }
 
-  const resultOptions = searchControl.getResultOptions(search, option)
-  console.log("resultOptions", resultOptions)
+  useEffect(() => {
+    setPage(1);
+    setResultOptions(searchControl.getResultOptions(search, opt => handleChangeOption(opt)()))
+  }, [search])
 
   useEffect(() => {
-    setPage(1)
-  }, [search])
+    if (resultOptions.length > 0 && !resultOptions[0].init) {
+      handleChangeOption(resultOptions[0].opt)()
+    }
+  }, [resultOptions])
 
   return (
     <div id="watch-search-result-container" className="watch-search-result-container">
@@ -54,10 +60,10 @@ function Results({
         {/* Result Option Tabs */}
           <div className="search-result-options">
             Found
-            {resultOptions.filter( opt => opt.num !== 0).map( opt => (
+            {resultOptions.map( opt => (
               <button 
                 className="plain-btn watch-search-btn search-options-btn"
-                current={opt.current.toString()}
+                data-current={Boolean(opt.opt === option)}
                 onClick={handleChangeOption(opt.opt)}
                 aria-label={opt.content}
                 key={`result-option-${opt.opt}`}
@@ -67,17 +73,26 @@ function Results({
                 </span>
               </button>
             ))}
+            {
+              resultOptions.length === 0
+              &&
+              ' 0 results '
+            }
             for '{value}'
           </div>
 
           {/* List of results */}
-          <ResultList 
-            search={search}
-            option={option}
-            page={page}
-            nextPage={nextPage}
-            prevPage={prevPage}
-          />
+          {
+            resultOptions.length > 0
+            &&
+            <ResultList 
+              search={search}
+              option={option}
+              page={page}
+              nextPage={nextPage}
+              prevPage={prevPage}
+            />
+          }
         </>
       }
     </div>
