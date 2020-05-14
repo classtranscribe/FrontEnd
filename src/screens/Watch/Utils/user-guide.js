@@ -1,6 +1,5 @@
-import { isMobile } from 'react-device-detect'
-import { logoOutline } from 'assets/images'
-import { user, CTUserGuide } from 'utils'
+// import { isMobile } from 'react-device-detect'
+import { /* user, */ CTUserGuide } from 'utils'
 
 const guides = [
     // {
@@ -13,25 +12,25 @@ const guides = [
         intro: false,
         element: '#wp-h-search-btn',
         header: '1/3. Search in this video',
-        description: 'Find captions, video names, and shortcuts here.'
-    },
-    {
-        element: '#watch-share-btn',
-        header: '2/3. Share this video moment with your class',
-        description: 'Find captions, video names, and shortcuts here.'
+        description: 'Find captions, video names, and shortcuts here. You can also search the captions across an entire course.'
     },
     {
         element: '#menu-language',
-        header: '3/3. Captions in other languages',
-        description: 'Find captions, video names, and shortcuts here.'
-    }
+        header: '2/3. Captions in other languages',
+        description: 'We support multiple languages for the video transcriptions. Select your native language here!'
+    },
+    {
+        element: '#watch-share-btn',
+        header: '3/3. Share this video moment with your class',
+        description: 'You can get a shareable link of this video here.'
+    },
 ]
 
 async function isWatchPageOnBoarded() {
-    // only display user guide for logged-in users
-    if (!user.isLoggedIn || isMobile) {
-        return true
-    }
+    // // only display user guide for logged-in users
+    // if (!user.isLoggedIn || isMobile) {
+    //     return true
+    // }
 
     return false
 }
@@ -40,13 +39,6 @@ export const generateWatchUserGuide = () => {
     return new CTUserGuide(
         guides,
         isWatchPageOnBoarded,
-        { mode: 'dark'}  // switch mode into dark
+        { mode: 'dark' }  // switch mode into dark
     )
 }
-
-
-// export const watchUserGuide = new CTUserGuide(
-//     guides,
-//     isWatchPageOnBoarded,
-//     { mode: 'dark'}  // switch mode into dark
-// )
