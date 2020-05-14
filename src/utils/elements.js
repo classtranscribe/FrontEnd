@@ -1,5 +1,17 @@
 
 /**
+ * Focus on the elem
+ * @param {String} elemId the id of the html elem 
+ */
+export function focus(elemId) {
+	let elem = document.getElementById(elemId)
+	if (elem && typeof elem.focus === 'function') {
+		elem.focus()
+	}
+}
+
+
+/**
  * Scroll the elem into view based on its `id`
  * @param {String} elemId the id of the html elem
  * @param {Object} options options for scrolling
@@ -19,13 +31,13 @@ export function scrollIntoView(elemId, options={
 	const { center, nearest, smooth, focus, alternate } = options
 	
 	let elem = document.getElementById(elemId)
-	if (elem) {
+	if (elem && typeof elem.scrollIntoView === 'function') {
 		elem.scrollIntoView({
 			block: center ? 'center' : nearest ? 'nearest' : 'start',
 			behavior: smooth ? 'smooth' : 'auto'
 		})
 
-		if (focus && elem.focus) {
+		if (focus && typeof elem.focus === 'function') {
 			elem.focus()
 		}
 	} else if (typeof alternate === 'function') {
