@@ -12,7 +12,7 @@ const useStyles = makeStyles({
         background: '#4c4c4c',
         color: 'white',
         position: 'sticky',
-        top: '0px',
+        top: '-1px',
         '&:hover': {
             background: '#717171',
         }
