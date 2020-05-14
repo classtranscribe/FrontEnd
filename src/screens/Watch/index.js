@@ -25,7 +25,7 @@ import { util } from '../../utils'
 import { 
   watchStore, 
   connectWithRedux,
-  watchUserGuide,
+  generateWatchUserGuide,
   setup,
   videoControl,
   transControl,
@@ -61,12 +61,15 @@ export class WatchWithRedux extends React.Component {
     keydownControl.addKeyDownListener()
     /** Add resize event listener */
     videoControl.addWindowEventListener()
-
-    // watchUserGuide.start()
   }
 
   componentWillUnmount() {
     this.props.resetStates()
+  }
+
+  showHWatchUserGuide = () => {
+    let watchUserGuide = generateWatchUserGuide()
+    watchUserGuide.start()
   }
 
   render() { 
@@ -85,7 +88,7 @@ export class WatchWithRedux extends React.Component {
           <>
             <TabEventHelperButtons />
             <Modals />
-            <WatchHeader />
+            <WatchHeader/>
             <Search />
             <Menus />
             <ClassTranscribePlayer />
