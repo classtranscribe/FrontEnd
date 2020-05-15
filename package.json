@@ -19,7 +19,7 @@
     "clipboard": "^2.0.4",
     "dentist": "^1.0.3",
     "highlight.js": "^10.0.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "js-file-download": "^0.4.9",
     "jwt-decode": "^2.2.0",
     "kind-of": "^6.0.3",

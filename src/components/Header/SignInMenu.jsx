@@ -1,0 +1,49 @@
+import React from 'react';
+import { Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core';
+
+import { user, env } from '../../utils';
+import { styles } from './styles';
+
+export function SignInMenu({
+  open,
+  anchorEl,
+  handleClose,
+}) {
+
+  const auth0SignIn = () => user.signIn({ method: user.method.AUTH0 });
+  const ciLogonSignIn = () => user.signIn({ method: user.method.CILOGON });
+  const testSignIn = () => user.signIn({ method: user.method.TEST });
+
+  return (
+    <Menu
+      anchorEl={anchorEl}
+      keepMounted
+      open={open}
+      onClose={handleClose}
+      PaperProps={{style: styles.menu}}
+    >
+      <MenuItem aria-label="Sign //" onClick={ciLogonSignIn}>
+        <ListItemIcon style={styles.icon}>
+          <i className="fas fa-university"></i>
+        </ListItemIcon>
+        <Typography style={styles.font}>University Credential Sign In</Typography>
+      </MenuItem>
+      <MenuItem aria-label="Sign in using email" onClick={auth0SignIn}>
+        <ListItemIcon style={styles.icon}>
+          <i className="fas fa-envelope"></i>
+        </ListItemIcon>
+        <Typography style={styles.font}>(Old) Email Sign In</Typography>
+      </MenuItem>
+      {
+        env.dev
+        &&
+        <MenuItem aria-label="Test Sign In" onClick={testSignIn}>
+          <ListItemIcon style={styles.icon}>
+            <i className="fas fa-laptop-code"></i>
+          </ListItemIcon>
+          <Typography style={styles.font}>Test Sign In</Typography>
+        </MenuItem>
+      }
+    </Menu>
+  );
+}

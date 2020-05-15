@@ -1,13 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Loader } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
-import { user } from '../../../../utils'
+import { user } from 'utils'
+import { SignInMenu } from 'components'
 
 export default function PlaylistPlaceholder({ 
   noPlaylist=false, 
   signIn=false,
   accessType=0,
 }) {
+
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = e => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setTimeout(() => setAnchorEl(null), 200);
+  };
+
   return (
     <div className="playlist-container pl-loader">
       {
@@ -56,7 +68,12 @@ export default function PlaylistPlaceholder({
                 id="ofd-signin-btn"
                 color="teal"
                 text="Sign in to watch videos!"
-                onClick={() => user.signin({ allowTestSignIn: true })}
+                onClick={handleClick}
+              />
+              <SignInMenu 
+                open={Boolean(anchorEl)} 
+                anchorEl={anchorEl}
+                handleClose={handleClose}
               />
             </>
           }

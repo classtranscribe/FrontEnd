@@ -10,6 +10,7 @@ import './stylesheets/sk-loader.css'
 import './index.css'
 
 export { ClassTranscribeHeader } from './Header'
+export { SignInMenu } from './Header/SignInMenu'
 export { ClassTranscribeFooter } from './Footer'
 
 export { Poster } from './Poster'

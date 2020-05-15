@@ -1,11 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Button } from 'pico-ui'
-import ProfileMenu from './ProfileMenu'
-import './index.scss'
-import { util } from '../../utils'
-import { textBrand, darkTextBrand } from '../../assets/images'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'pico-ui';
+import './index.scss';
+
+import classNames from 'classnames';
+import { util } from '../../utils';
+import { textBrand, darkTextBrand } from '../../assets/images';
+
+import UserMenu from './UserMenu';
 
 /**
  * Header only for Course Setting Page with a sider bar show-up trigger button
@@ -23,27 +25,32 @@ export function ClassTranscribeHeader({
   fixed=true,
   bordered=false,
 }) {
-  const bg = darkMode ? 'ct-nav-dark' : 'ct-nav-light'
-  const sidebarTrggerTitle = display ? "Hide Sidebar" : "Show Sidebar"
-  const homeURL = util.links.home()
-  const imgSrc = darkMode ? darkTextBrand : textBrand
+  const sidebarTrggerTitle = display 
+                            ? "Hide Sidebar" 
+                            : "Show Sidebar";
+  const imgSrc = darkMode 
+                ? darkTextBrand 
+                : textBrand;
 
-  if (children !== null) rightElem = children
+  if (children !== null) {
+    rightElem = children;
+  }
+
+  let headerStyle = classNames('ct-nav', {
+    'ct-nav-dark': darkMode,
+    'fixed': fixed,
+    'bordered': bordered
+  });
+
+  let bandStyle = classNames('ct-header-brand', {
+    'ml-3': !showSiderBar
+  });
 
   return (
-    <nav 
-      id="ct-nav" 
-      bg={bg} 
-      variant={bg} 
-      className={`ct-nav ${
-        bg 
-        + (fixed ? ' fixed' : '')
-        + (bordered ? ' bordered' : '')
-      }`}
-    >
+    <nav id="ct-nav" className={headerStyle}>
       {/* Right Elem */}
       <div className="ct-header-left-elem">
-        { /* Sidebar trigger */
+        {
           showSiderBar 
           &&
           <Button round compact
@@ -54,31 +61,35 @@ export function ClassTranscribeHeader({
             onClick={showSiderBar}
           />
         }
-        {/* Brand */}
-        <Link className={"ct-header-brand" + (showSiderBar ? '' : ' ml-3')} to={homeURL}>
+
+        <Link className={bandStyle} to={util.links.home()}>
           <img
             src={imgSrc}
             alt="ClassTranscribe Brand"
           />
         </Link>
-        <div className="ct-h-subtitle">
-          {subtitle}
-        </div>
+
+        {
+          subtitle
+          &&
+          <div className="ct-h-subtitle">
+            {subtitle}
+          </div>
+        }
+
         {leftElem}
       </div>
 
       {/* Left Elem */}
       <div className="ct-header-right-elem">
         {rightElem}
-        {showProfileMenu && <ProfileMenu darkMode={darkMode} />}
+
+        {
+          showProfileMenu
+          &&
+          <UserMenu darkMode={darkMode} />
+        }
       </div>
     </nav>
-  )
-}
-
-ClassTranscribeHeader.propTypes = {
-  darkMode: PropTypes.bool,
-  showSiderBar: PropTypes.func,
-  display: PropTypes.bool,
-  onSignOut: PropTypes.func
+  );
 }
