@@ -32,7 +32,7 @@ export function SignInMenu({
         <ListItemIcon style={styles.icon}>
           <i className="fas fa-envelope"></i>
         </ListItemIcon>
-        <Typography style={styles.font}>Email Sign In</Typography>
+        <Typography style={styles.font}>(Old) Email Sign In</Typography>
       </MenuItem>
       {
         env.dev
