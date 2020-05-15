@@ -16,6 +16,7 @@ function Search({
 
   return (
     <button
+      id="wp-h-search-btn"
       className="plain-btn watch-header-search-btn"
       aria-label="Search"
       aria-controls="watch-search-container"

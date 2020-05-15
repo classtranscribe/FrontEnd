@@ -22,7 +22,7 @@
 .watch-search-btn:active span {
   background: rgba(68, 68, 68, 0.781);
 }
-.watch-search-btn[current=true] span {
+.watch-search-btn[data-current=true] span {
   background: rgb(190, 162, 0);
   color: black;
 }
