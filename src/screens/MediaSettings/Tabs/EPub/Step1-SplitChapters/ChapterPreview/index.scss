@@ -1,9 +1,10 @@
 .msp-ee-sch-pview-con {
   width: calc(43% - 15px);
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 80px 15px;
+
+  .msp-ee-sch-pview-scroll {
+    padding: 80px 15px;
+  }
 
   .ee-sch-pview {
     width: 100%;

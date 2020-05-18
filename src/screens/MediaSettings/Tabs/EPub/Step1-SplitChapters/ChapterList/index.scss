@@ -3,10 +3,11 @@
 .msp-ee-sch {
   width: calc(57% + 15px);
   height: 100%;
-  padding-right: 15px;
-  padding-bottom: 100px;
-  overflow-y: auto;
-  overflow-x: hidden;
+
+  .msp-ee-sch-scroll {
+    padding-right: 15px;
+    padding-bottom: 100px;
+  }
 }
 
 .ee-sch-chapters {

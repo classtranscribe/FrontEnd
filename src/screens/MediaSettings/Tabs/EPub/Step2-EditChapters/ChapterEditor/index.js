@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { ScrollArea } from 'components/ScrollArea';
 import { connectWithRedux, epub } from 'screens/MediaSettings/Utils/epub';
 import './index.scss';
 
@@ -24,30 +25,30 @@ function ChapterEditor({
   }, []);
 
   return (
-    <div data-scroll 
+    <ScrollArea
       id="ee-ech-ch"
       className="ee-ech-ch-con"
+      scrollClassName="ee-ech-ch"
+      scrollToTopButton="right"
     >
-      <div className="ee-ech-ch">
-        <ChapterInfo 
-          chapter={currChapter} 
-          screenshots={screenshots}
-          chapterScreenshots={chapterScreenshots}
-        />
+      <ChapterInfo 
+        chapter={currChapter} 
+        screenshots={screenshots}
+        chapterScreenshots={chapterScreenshots}
+      />
 
-        <div className="ee-ech-ch-subchapters">
-          {subChapters.map((subChapter, subChapterIndex) => (
-            <SubChapterItem
-              key={'ee-ech-' + subChapter.id}
-              subChapter={subChapter}
-              subChapterIndex={subChapterIndex}
-              screenshots={screenshots}
-              chapterScreenshots={chapterScreenshots}
-            />
-          ))}
-        </div>
+      <div className="ee-ech-ch-subchapters">
+        {subChapters.map((subChapter, subChapterIndex) => (
+          <SubChapterItem
+            key={'ee-ech-' + subChapter.id}
+            subChapter={subChapter}
+            subChapterIndex={subChapterIndex}
+            screenshots={screenshots}
+            chapterScreenshots={chapterScreenshots}
+          />
+        ))}
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 

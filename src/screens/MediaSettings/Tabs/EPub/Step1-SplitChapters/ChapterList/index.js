@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollArea } from 'components/ScrollArea';
 import { connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 import EpubChapterItem from './EpubChapterItem';
 import InstructionHeading from './InstructionHeading';
@@ -8,7 +9,12 @@ function ChapterList({
   chapters
 }) {
   return (
-    <div id="msp-ee-sch-list" className="msp-ee-sch" data-scroll>
+    <ScrollArea
+      id="msp-ee-sch-list" 
+      className="msp-ee-sch"
+      scrollClassName="msp-ee-sch-scroll"
+      scrollToTopButton="left"
+    >
       <InstructionHeading />
 
       <div className="ct-d-c ee-sch-chapters">
@@ -21,7 +27,7 @@ function ChapterList({
           />
         ))}
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 
