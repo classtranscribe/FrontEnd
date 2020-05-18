@@ -98,7 +98,7 @@ export class Admin extends React.Component {
      * 1. get userId and authToken
      */
     if (!user.isLoggedIn) {
-      user.signin()
+      user.signIn()
     } else {
       if (!user.isAdmin) window.location = util.links.notfound404()
     }
@@ -149,7 +149,7 @@ export class Admin extends React.Component {
   }
 
   onSignOut = () => {
-    user.signout()
+    user.signOut()
     this.props.history.goBack()
   }
 

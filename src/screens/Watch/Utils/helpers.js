@@ -4,13 +4,23 @@ import { util } from 'utils';
 import moment from 'moment';
 // import { videoControl } from './player.control'
 
-export function parseSec(d) {
-  let formatter = d < 3600 ? 'mm:ss' : 'H:mm:ss'
+/**
+ * Convert seconds to a readable time string `H:mm:ss`
+ * @param {Number} sec - seconds
+ * @returns {String} H:mm:ss
+ */
+export function parseSec(sec) {
+  let formatter = sec < 3600 ? 'mm:ss' : 'H:mm:ss'
   return moment().startOf('day')
-                 .seconds(d)
+                 .seconds(sec)
                  .format(formatter);
 }
 
+/**
+ * Parse time string H:mm:ss to seconds
+ * @param {String} str - time string H:mm:ss
+ * @returns {Number} seconds
+ */
 export function timeStrToSec(str) {
   if (typeof str !== "string") return ''
   const strs = str.split(':')
@@ -19,6 +29,22 @@ export function timeStrToSec(str) {
   let min = (len3 ? parseFloat(strs[1]) : parseFloat(strs[0])) * 60 || 0
   let hr = (len3 ? parseFloat(strs[0]) : 0) * 3600 || 0
   return sec + min + hr
+}
+
+/**
+ * @param {Number} time current time
+ * @returns {()=>Boolean}
+ */
+export function isEarlier(time) {
+  return ({ begin }) => time >= timeStrToSec(begin)
+}
+
+/**
+ * @param {Number} time current time
+ * @returns {()=>Boolean}
+ */
+export function isLater(time) {
+  return ({ begin }) => time <= timeStrToSec(begin)
 }
 
 export function prettierTimeStr(str) {

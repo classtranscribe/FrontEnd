@@ -1,12 +1,14 @@
 /**
  * Sidebar Component of Student page/OV page
  */
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 import { user, util } from '../../../utils'
 import { Icon } from 'semantic-ui-react'
 import { Button } from 'pico-ui'
+
+import { SignInMenu } from 'components'
 
 const EK_COURSES = 'courses'
 const EK_STARRED = 'starred'
@@ -35,9 +37,18 @@ export function Sidebar({
   let activeKey = currentActiveKey()
   let isLoggedIn = user.isLoggedIn
 
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = e => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setTimeout(() => setAnchorEl(null), 200);
+  };
+
   const style = { marginLeft: displaySideBar ? '0' : '-20rem' }
 
-  const signin = () => user.signin({ allowTestSignIn: true })
   const handleTabChange = () => showSiderBar(window.innerWidth > 900)
 
   return (
@@ -57,6 +68,7 @@ export function Sidebar({
         </ListGroup.Item>
 
         <ListGroup.Item action
+          id="hp-search-tab"
           className="list"
           eventKey={EK_SEARCH}
           as={Link} 
@@ -74,6 +86,7 @@ export function Sidebar({
           <>
             {/* History Tab */}
             <ListGroup.Item action
+              id="hp-history-tab"
               className="list"  
               eventKey={EK_HISTORY} 
               as={Link} 
@@ -107,10 +120,15 @@ export function Sidebar({
             <p>Can't Find Your Courses?<br/>Sign In to See More</p>
             <Button 
               aria-label="sign in"
-              onClick={signin}
+              onClick={handleClick}
             >
               Sign In
             </Button>
+            <SignInMenu 
+              open={Boolean(anchorEl)} 
+              anchorEl={anchorEl}
+              handleClose={handleClose}
+            />
           </div>
         }
         </ListGroup>

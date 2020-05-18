@@ -1,3 +1,3 @@
-import { CTUser } from './CTUser'
+import { User } from './User';
 
-export const user = new CTUser()
+export const user = new User();

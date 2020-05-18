@@ -1,9 +1,10 @@
-import React from 'react'
-import './index.scss'
-import { ClassTranscribeHeader } from 'components/Header'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'pico-ui'
 import { util, user } from 'utils'
+import './index.scss'
+
+import { ClassTranscribeHeader, SignInMenu } from 'components'
 
 const defaultError = {
   code: '404',
@@ -16,10 +17,21 @@ export function CTErrorWrapper({
   show=false,
   navbar=false,
   retry=true,
-  signInButton=false,
+  signInButton=true,
   goHomeButton=false,
   error=defaultError
 }) {
+
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = e => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setTimeout(() => setAnchorEl(null), 200);
+  };
+
   error = { ...defaultError, ...error }
   const { code, header, description } = error
   let darkclass = dark ? ' dark' : ''
@@ -46,14 +58,21 @@ export function CTErrorWrapper({
 
         <div className="ct-ew-actions">
           {
-            signInButton
+            (signInButton && user.isLoggedIn)
             &&
-            <Button
-              color="teal"
-              onClick={() => user.signin()}
-            >
-              Sign in to continue
-            </Button>
+            <>
+              <Button
+                color="teal"
+                onClick={handleClick}
+              >
+                Sign in to continue
+              </Button>
+              <SignInMenu
+                open={Boolean(anchorEl)} 
+                anchorEl={anchorEl}
+                handleClose={handleClose}
+              />
+            </>
           }
           {
             goHomeButton

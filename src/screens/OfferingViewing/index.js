@@ -19,6 +19,7 @@ import {
 import SearchHeader from './Components/SearchHeader'
 import './transition.css'
 import './index.css'
+
 // Vars
 import { api, user } from '../../utils'
 
@@ -143,6 +144,8 @@ export class OfferingViewing extends React.Component {
     if (starredOfferingsJSON[offeringId]) delete starredOfferingsJSON[offeringId]
     this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata())
   }
+
+
 
   render() {
     const { displaySideBar, displaySearchHeader, offerings } = this.state

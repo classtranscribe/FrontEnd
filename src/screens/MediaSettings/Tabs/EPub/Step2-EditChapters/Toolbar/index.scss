@@ -1,0 +1,30 @@
+.msp-ee-ech-tb {
+  position: relative;
+  width: 30%;
+  min-width: 250px;
+  height: 100%;
+  padding: 20px 20px 20px 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &.bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .ee-ech-tb-top-holder {
+    height: 200px;
+  }
+
+  .ee-ech-tb-btn {
+    width: 100% !important;
+    &.ee-ech-tb-btn-me {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .ee-ech-tb-btns {
+    margin-bottom: 20px;
+  }
+}
