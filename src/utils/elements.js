@@ -85,8 +85,9 @@ export function scrollIntoCenter(elem, options={
 export function scrollToTop(elem, options={
     scrollTop: 0,
     scrollElemId: null,
+    smooth: false,
 }) {
-    let { scrollTop, scrollElemId } = options;
+    let { scrollTop, scrollElemId, smooth } = options;
 
     elem = getElement(elem);
     if (elem) {
@@ -95,8 +96,14 @@ export function scrollToTop(elem, options={
         if (scrollElem) {
             scrollTop += scrollElem.offsetTop;
         }
-    
+        if (smooth) {
+            elem.style.scrollBehavior = 'smooth';
+        }
         elem.scrollTop = scrollTop;
+
+        if (smooth) {
+            elem.style.scrollBehavior = 'auto';
+        }
     }
 }
 
