@@ -55,7 +55,7 @@ export default function EpubListItem({
           <Button uppercase round
             classNames="ee-sch-i-split-btn"
             text="Split Chapter"
-            color="blue transparent"
+            color="teal transparent"
             icon="unfold_more"
             onClick={handleSplitChapter}
           />
@@ -67,7 +67,7 @@ export default function EpubListItem({
           <Button uppercase round
             classNames="ee-sch-i-split-btn"
             text="New Sub-Chapter"
-            color="blue transparent"
+            color="teal transparent"
             icon="subdirectory_arrow_right"
             onClick={splitSubChapter}
           />
@@ -79,7 +79,7 @@ export default function EpubListItem({
           <Button uppercase round
             classNames="ee-sch-i-sub-ch-btn"
             text="subdivide"
-            color="blue transparent"
+            color="teal transparent"
             icon="subdirectory_arrow_right"
             onClick={subdivideChapter}
           />
