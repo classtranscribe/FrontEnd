@@ -1,12 +1,16 @@
-import { cthttp } from './request'
+import { cthttp } from './request';
 
 
 // ------------------------------------------------------------
 // SignIn
 // ------------------------------------------------------------
 
-export function accountSignIn(token, authMethod) {
-    return cthttp.post('Account/SignIn', { token, authMethod });
+export function accountSignIn(token, authMethod, callbackURL) {
+    return cthttp.post('Account/SignIn', {
+        token,
+        authMethod,
+        callbackURL
+    });
 }
 
 export function testSignIn() {
