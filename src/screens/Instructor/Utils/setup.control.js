@@ -145,7 +145,7 @@ export const setup = {
 
   checkAuthentication: function() {
     if (!user.isLoggedIn) {
-      user.signin()
+      user.signIn()
     } else if (!user.isInstructor) {
       window.location = util.links.notfound404()
     }

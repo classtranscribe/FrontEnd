@@ -1,34 +1,48 @@
-import React from 'react'
-import { IconButton } from '@material-ui/core'
-import { Icon, Image } from 'semantic-ui-react'
+import React from 'react';
+import { Button } from 'pico-ui';
+import { Image } from 'semantic-ui-react';
 
 
-function MenuTrigger({ 
-  picture, 
-  handleClick 
+function MenuTrigger({
+  picture,
+  isLoggedIn,
+  usernameInitial,
+  handleClick
 }) {
-  return picture ? (
-    <Image 
-      tabIndex={0} onClick={handleClick} 
-      src={picture}  circular size="mini" 
-      className="profile-img"
+  return !isLoggedIn ? (
+    <Button uppercase
+      color="teal"
+      text="Sign in"
+      onClick={handleClick}
+    />
+  ) : picture ? (
+    <Image circular
+      role="button"
+      size="mini"
+      tabIndex={0}
+      src={picture}
       alt="profile picture"
+      title="Profile Menu"
+      aria-label="Profile Menu"
       aria-haspopup="true"
-      aria-label="Menu trigger"
-      title="Menu"
+      aria-controls="profile-menu"
+      className="profile-img"
+      onClick={handleClick}
     />
   ) : (
-    <IconButton
-      aria-label="Menu trigger"
-      title="Menu"
-      aria-controls="profile-menu"
+    <div 
+      role="button"
+      tabIndex={0}
+      title="Profile Menu"
+      aria-label="Profile Menu"
       aria-haspopup="true"
+      aria-controls="profile-menu"
+      className="profile-img-alt"
       onClick={handleClick}
-      className="trigger"
     >
-      <Icon name='user' circular/>
-    </IconButton>
-  )
+      <div>{usernameInitial}</div>
+    </div>
+  );
 }
 
-export default MenuTrigger
+export default MenuTrigger;
