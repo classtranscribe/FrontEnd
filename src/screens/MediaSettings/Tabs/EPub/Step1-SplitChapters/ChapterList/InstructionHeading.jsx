@@ -3,6 +3,8 @@ import { Button } from 'pico-ui';
 import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 
+import EpubStepper from '../../Stepper';
+
 function InstructionHeading({
   epubData,
   chapters=[],
@@ -21,6 +23,8 @@ function InstructionHeading({
           language={language}
         />
       </div>
+
+      <EpubStepper />
 
       <div className="w-100 ee-sch-h-block">
         <h4>Instruction</h4>

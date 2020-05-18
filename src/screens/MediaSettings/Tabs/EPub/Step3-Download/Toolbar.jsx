@@ -43,7 +43,7 @@ function Toolbar({
 
   return (
     <div data-scroll className="msp-ee-ech-tb msp-ee-dl-tb ct-a-fade-in">
-      <div className="w-100">
+      {/* <div className="w-100">
         <Button round
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
@@ -52,9 +52,9 @@ function Toolbar({
         >
           Back to Chapter Editor
         </Button>
-      </div>
+      </div> */}
 
-      <hr/>
+      {/* <hr/> */}
       <h3>File Information</h3>
 
 

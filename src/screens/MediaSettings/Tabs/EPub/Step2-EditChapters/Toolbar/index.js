@@ -4,10 +4,14 @@ import './index.scss';
 
 import { epub } from 'screens/MediaSettings/Utils/epub';
 
+import EpubStepper from '../../Stepper';
+
 
 function Toolbar() {
   return (
     <div className="msp-ee-ech-tb ct-a-fade-in bottom">
+      <EpubStepper vertical />
+
       <div className="ee-ech-tb-btns">
         <Button round
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
