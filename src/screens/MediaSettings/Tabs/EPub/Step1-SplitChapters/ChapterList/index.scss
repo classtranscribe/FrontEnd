@@ -33,18 +33,18 @@
       background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
       padding: 10px 0 10px 90px;
       margin-top: 30px;
-      animation: ee-sch-title-show 200ms linear;
+      // animation: ee-sch-title-show 200ms linear;
   
       &.ee-sch-sub {
         padding: 15px 0 15px 180px;
+        animation: none !important;
       }
   
       .ee-sch-ch-title {
         font-weight: bolder;
         margin: 0;
-        padding: 0 0 5px 10px;
+        padding: 5px 10px;
         font-size: 32px;
-        // border-top: 3px solid rgb(240, 240, 240);
         width: 100%;
         border-top: 0;
         border-right: 0;
@@ -54,16 +54,20 @@
       .ee-sch-ch-t-remove-btn {
         position: absolute;
         top: 13px;
-        left: 40px;
+        left: 55px;
         opacity: .8;
         transition: opacity .2s ease-in;
 
+        &.ee-sch-ch-2 {
+          left: 10px;
+        }
+
         &.ee-sch-sub-1 {
-          left: 130px;
+          left: 140px;
         }
 
         &.ee-sch-sub-2 {
-          left: 80px;
+          left: 95px;
         }
       }
   

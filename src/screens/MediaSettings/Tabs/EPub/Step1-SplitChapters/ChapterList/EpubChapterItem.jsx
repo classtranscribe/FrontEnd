@@ -19,6 +19,7 @@ function EpubChapterItem({
   const unfold = () => epub.unfoldChapter(chapter.id);
 
   const undoSplitChapter = () => epub.undoSplitChapter(chapterIndex);
+  const appendChapterAsSubChapter = () => epub.appendChapterAsSubChapter(chapterIndex);
   const handleMouseOverChapterList = () => epub.handleMouseOverChapterList(chapter);
 
   const handleChapterTitleChange = value => {
@@ -61,6 +62,14 @@ function EpubChapterItem({
           icon="unfold_less"
           className="ee-sch-ch-t-remove-btn"
           onClick={undoSplitChapter}
+        />
+
+        <ChapterTitleButton 
+          show={canUndoSplit}
+          content="Undo split"
+          icon="chevron_right"
+          className="ee-sch-ch-t-remove-btn ee-sch-ch-2"
+          onClick={appendChapterAsSubChapter}
         />
       </div>
 

@@ -114,6 +114,35 @@ export function undoSplitChapter(chapterIndex) {
     );
 }
 
+export function appendChapterAsSubChapter(chapterIndex) {
+    let { chapters } = epubState;
+    let currChapter = chapters[chapterIndex];
+    let prevChapter = chapters[chapterIndex - 1];
+    
+    if (currChapter.items.length === 0) {
+        prevChapter.subChapters = [
+            ...prevChapter.subChapters,
+            ...currChapter.subChapters,
+        ];
+    } else {
+        prevChapter.subChapters = [
+            ...prevChapter.subChapters,
+            buildSubChapter(currChapter),
+            ...currChapter.subChapters,
+        ];
+    }
+
+    chapters[chapterIndex - 1] = buildChapter(prevChapter);
+
+    updateEpubChapters(
+        [
+            ..._.slice(chapters, 0, chapterIndex),
+            ..._.slice(chapters, chapterIndex + 1, chapters.length),
+        ],
+        chapters[chapterIndex - 1]
+    );
+}
+
 export function resetToDefaultChapters() {
     let defaultChapter = buildChapter({
         items: _.filter(epubState.epubData, data => _.trim(data.text)),
