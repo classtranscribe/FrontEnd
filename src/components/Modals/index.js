@@ -66,7 +66,7 @@ export function CTModal({
 
     <div className="ct-modal ct-d-c-center">
       <div className="ct-mdl-wrapper" onClick={closeOnBlur ? handleClose : null}></div>
-      <div id="ct-mdl-box" className={"ct-mdl-con" + modalStyle} data-scroll>
+      <div id="ct-mdl-box" className={"ct-mdl-con" + modalStyle}>
         {/* Header */}
         <div className="ct-mdl-h-con">
           <h3>{title}</h3>
@@ -79,7 +79,9 @@ export function CTModal({
 
         {/* Content */}
         <div className="ct-mdl-text-con">
-          {children}
+          <div className="ct-mdl-text" data-scroll>
+            {children}
+          </div>
         </div>
 
         <div className="ct-mdl-act">

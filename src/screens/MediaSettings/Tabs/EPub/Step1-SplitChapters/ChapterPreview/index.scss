@@ -1,0 +1,17 @@
+.msp-ee-sch-pview-con {
+  width: calc(43% - 15px);
+  height: 100%;
+
+  .msp-ee-sch-pview-scroll {
+    padding: 80px 15px;
+  }
+
+  .ee-sch-pview {
+    width: 100%;
+    position: relative;
+
+    border-radius: 20px;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    padding: 30px;
+  }
+}

@@ -1,12 +1,8 @@
-import { api, ARRAY_INIT } from '../../utils'
+import { api } from 'utils/cthttp';
 
 export const initialState = {
-  media: api.parseMedia(),
-  playlist: {},
-  
-  tab: '',
-  epubData: ARRAY_INIT,
-  isEditingEpub: false,
+    media: api.parseMedia(),
+    playlist: {},
 
-  error: null
-}
+    error: null
+};
