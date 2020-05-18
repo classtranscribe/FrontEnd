@@ -17,10 +17,10 @@ function getElement(elem) {
  * @param {String} elemId the id of the html elem 
  */
 export function focus(elemId) {
-		let elem = document.getElementById(elemId)
-		if (elem && typeof elem.focus === 'function') {
-				elem.focus()
-		}
+    let elem = document.getElementById(elemId);
+    if (elem && typeof elem.focus === 'function') {
+        elem.focus();
+    }
 }
 
 
@@ -35,27 +35,28 @@ export function focus(elemId) {
  * @param {Function} options.alternate function get called if can't find the elem
  */
 export function scrollIntoView(elemId, options={
-		center: false,
-		nearest: false,
-		smooth: false,
-		focus: false,
-		alternate: null,
+    center: false,
+    nearest: false,
+    smooth: false,
+    focus: false,
+    alternate: null,
 }) {
-		const { center, nearest, smooth, focus, alternate } = options;
-	
-		let elem = document.getElementById(elemId)
-		if (elem && typeof elem.scrollIntoView === 'function') {
-				elem.scrollIntoView({
-						block: center ? 'center' : nearest ? 'nearest' : 'start',
-						behavior: smooth ? 'smooth' : 'auto'
-				});
+    const { center, nearest, smooth, focus, alternate } = options;
 
-				if (focus && typeof elem.focus === 'function') {
-						elem.focus()
-				}
-		} else if (typeof alternate === 'function') {
-				alternate();
-		}
+    let elem = document.getElementById(elemId)
+    if (elem && typeof elem.scrollIntoView === 'function') {
+        elem.scrollIntoView({
+            block: center ? 'center' : nearest ? 'nearest' : 'start',
+            behavior: smooth ? 'smooth' : 'auto'
+        });
+
+        if (focus && typeof elem.focus === 'function') {
+            elem.focus();
+        }
+
+    } else if (typeof alternate === 'function') {
+        alternate();
+    }
 }
 
 /**
@@ -67,11 +68,11 @@ export function scrollIntoView(elemId, options={
  * @param {Function} options.alternate - function get called if can't find the elem
  */
 export function scrollIntoCenter(elem, options={
-		smooth: false,
-		focus: false,
-		alternate: null,
+    smooth: false,
+    focus: false,
+    alternate: null,
 }) {
-		scrollIntoView(elem, { center: true, ...options });
+	scrollIntoView(elem, { center: true, ...options });
 }
 
 /**
@@ -82,21 +83,21 @@ export function scrollIntoCenter(elem, options={
  * @param {String} options.scrollElemId - scrollTop += scrollElem.offsetTop
  */
 export function scrollToTop(elem, options={
-		scrollTop: 0,
-		scrollElemId: null,
+    scrollTop: 0,
+    scrollElemId: null,
 }) {
     let { scrollTop, scrollElemId } = options;
 
-		elem = getElement(elem);
-		if (elem) {
+    elem = getElement(elem);
+    if (elem) {
         let scrollElem = null;
         if (scrollElemId) scrollElem = document.getElementById(scrollElemId);
         if (scrollElem) {
             scrollTop += scrollElem.offsetTop;
         }
-		
-				elem.scrollTop = scrollTop;
-		}
+    
+        elem.scrollTop = scrollTop;
+    }
 }
 
 /**
@@ -106,7 +107,7 @@ export function scrollToTop(elem, options={
  */
 export function isScrolledIntoView(elem, offsetTop=200) {
     elem = getElement(elem);
-		if (elem && typeof elem.getBoundingClientRect === 'function') {
+	if (elem && typeof elem.getBoundingClientRect === 'function') {
         var rect = elem.getBoundingClientRect();
         var elemTop = rect.top;
         // var elemBottom = rect.bottom;
