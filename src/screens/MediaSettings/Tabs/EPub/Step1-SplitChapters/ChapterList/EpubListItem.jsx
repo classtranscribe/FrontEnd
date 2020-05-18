@@ -15,9 +15,36 @@ export default function EpubListItem({
   canSubdivide=false,
 }) {
 
+  const imgSrc = epub.getImageUrl(item.image);
+
+  const splitChapterFromSubChaptersItems = () => {
+    epub.splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex);
+  };
+
+  const splitChapterFromChaptersItems = () => {
+    epub.splitChapterFromChaptersItems(chapterIndex, itemIndex);
+  };
+
+  const handleSplitChapter = isSubChapter 
+                            ? splitChapterFromSubChaptersItems
+                            : splitChapterFromChaptersItems;
+
+  const splitSubChapter = () => {
+    epub.splitSubChapter(chapterIndex, subChapterIndex, itemIndex);
+  };
+
+  const subdivideChapter = () => {
+    epub.subdivideChapter(chapterIndex, itemIndex);
+  };
+
+  const magnifyImage = () => epub.magnifyImage(imgSrc);
+  const endMagnifyImage = () => epub.endMagnifyImage();
+
+
   let itemClass = classNames('ee-sch-item ct-d-c', {
     'padded': !canSplit && !isSubChapter
-  })
+  });
+
 
   return (
     <div className={itemClass}>
@@ -30,11 +57,7 @@ export default function EpubListItem({
             text="Split Chapter"
             color="blue transparent"
             icon="unfold_more"
-            onClick={
-              () => isSubChapter
-              ? epub.splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex)
-              : epub.splitChapterFromChaptersItems(chapterIndex, itemIndex)
-            }
+            onClick={handleSplitChapter}
           />
         }
 
@@ -46,7 +69,7 @@ export default function EpubListItem({
             text="New Sub-Chapter"
             color="blue transparent"
             icon="subdirectory_arrow_right"
-            onClick={() => epub.splitSubChapter(chapterIndex, subChapterIndex, itemIndex)}
+            onClick={splitSubChapter}
           />
         }
 
@@ -58,7 +81,7 @@ export default function EpubListItem({
             text="subdivide"
             color="blue transparent"
             icon="subdirectory_arrow_right"
-            onClick={() => epub.subdivideChapter(chapterIndex, itemIndex)}
+            onClick={subdivideChapter}
           />
         }
       </div>
@@ -67,12 +90,12 @@ export default function EpubListItem({
         <div 
           className="ee-sch-i-img"
           tabIndex="0"
-          // onMouseEnter={() => epub.magnifyImage(epub.getImageUrl(item.image))}
-          // onMouseLeave={() => epub.endMagnifyImage()}
-          onFocus={() => epub.magnifyImage(epub.getImageUrl(item.image))}
-          onBlur={() => epub.endMagnifyImage()}
+          // onMouseEnter={magnifyImage}
+          // onMouseLeave={endMagnifyImage}
+          onFocus={magnifyImage}
+          onBlur={endMagnifyImage}
         >
-          <img src={epub.getImageUrl(item.image)} alt="screenshot" />
+          <img src={imgSrc} alt="screenshot" />
         </div>
         <div className="ee-sch-i-text">
           {
