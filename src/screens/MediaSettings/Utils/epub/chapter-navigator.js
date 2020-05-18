@@ -33,13 +33,16 @@ export const navigateChapter = chapter => () => {
 }
 
 export const navigateSubChapter = (subChapter, chapter) => () => {
-    epubState.changeChapter(chapter);
+    if (!epubState.currChapter || epubState.currChapter.id !== chapter.id) {
+        epubState.changeChapter(chapter);
+    }
 
     if (epubState.isStep1) {
-        elem.scrollToTop('msp-ee-sch-list', { 
-            scrollElemId: subChapter.id,
-            scrollTop: window.innerHeight - 220
-        });
+        // elem.scrollToTop('msp-ee-sch-list', { 
+        //     scrollElemId: subChapter.id,
+        //     scrollTop: window.innerHeight - 220
+        // });
+        elem.scrollIntoCenter('sch-subch-' + subChapter.id)
 
         epubState.setNavId(subChapter.id);
         hideNavihator();
