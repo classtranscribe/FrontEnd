@@ -227,6 +227,7 @@ export function splitSubChapter(chapterIndex, subChapterIndex, itemIndex) {
     let items = currSubChapter.items;
 
     currSubChapter.items = _.slice(items, 0, itemIndex);
+    currChapter.subChapters[subChapterIndex] = buildSubChapter(currSubChapter);
 
     let newSubChapter = {};
     newSubChapter.items = _.slice(items, itemIndex, items.length);
@@ -273,14 +274,18 @@ export function splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, 
     let currChapter = chapters[chapterIndex];
     let currSubChapter = currChapter.subChapters[subChapterIndex];
     let items = currSubChapter.items;
-
-    currSubChapter.items = _.slice(items, 0, itemIndex);
+    let subChapters = currChapter.subChapters;
 
     let newChapter = buildChapter({
         items: _.slice(items, itemIndex, items.length),
-        title: genUntitledName()
+        title: genUntitledName(),
+        subChapters: _.slice(subChapters, subChapterIndex + 1, subChapters.length)
     });
-    
+
+    currSubChapter.items = _.slice(items, 0, itemIndex);
+    currChapter.subChapters[subChapterIndex] = buildSubChapter(currSubChapter);
+
+    currChapter.subChapters = _.slice(subChapters, 0, subChapterIndex + 1);
     chapters[chapterIndex] = buildChapter(currChapter);
 
     updateEpubChapters(
