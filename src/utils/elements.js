@@ -18,6 +18,7 @@ function getElement(elem) {
  */
 export function focus(elemId) {
     let elem = document.getElementById(elemId);
+
     if (elem && typeof elem.focus === 'function') {
         elem.focus();
     }
