@@ -74,7 +74,7 @@ export default function EpubSubChapterItem({
 
         <ChapterTitleButton
           show={canSplitAsNewChapter}
-          content="As new Chapter"
+          content="As a new Chapter"
           // color="black"
           icon="first_page"
           className="ee-sch-ch-t-remove-btn ee-sch-sub-2"
