@@ -66,7 +66,7 @@ function EpubChapterItem({
 
         <ChapterTitleButton 
           show={canUndoSplit}
-          content="Undo split"
+          content="As a Sub-Chapter"
           icon="chevron_right"
           className="ee-sch-ch-t-remove-btn ee-sch-ch-2"
           onClick={appendChapterAsSubChapter}
