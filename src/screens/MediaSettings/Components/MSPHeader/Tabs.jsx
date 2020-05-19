@@ -1,13 +1,11 @@
-import React from 'react'
-import { 
-  mspTabs, 
-} from '../../Utils'
-import { Link, useParams, useLocation } from 'react-router-dom'
-import { util } from 'utils'
+import React from 'react';
+import { Link, useParams, useLocation } from 'react-router-dom';
+import { util } from 'utils';
+import { mspTabs } from '../../Utils';
 
 function Tabs() {
-  const { id } = useParams()
-  const location = useLocation()
+  const { id } = useParams();
+  const location = useLocation();
 
   return (
     <div className="msp-h-tabs-con">
@@ -25,7 +23,7 @@ function Tabs() {
         </Link>
       ))}
     </div>
-  )
+  );
 }
 
-export default Tabs
+export default Tabs;

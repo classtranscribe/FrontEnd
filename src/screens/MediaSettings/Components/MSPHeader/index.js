@@ -1,19 +1,20 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Popup } from 'semantic-ui-react'
-import { connectWithRedux } from '../../Utils'
-import { ClassTranscribeHeader } from '../../../../components'
-import Tabs from './Tabs'
-import './index.scss'
-import { util } from 'utils'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Popup } from 'semantic-ui-react';
+import { util } from 'utils';
+import { ClassTranscribeHeader } from 'components';
+import { connectWithRedux } from '../../Utils';
+import './index.scss';
+
+import Tabs from './Tabs';
 
 
 function MSPHeaderWithRedux({
   media,
   playlist,
 }) {
-  const { mediaName } = media
-  const { offeringId } = playlist
+  const { mediaName } = media;
+  const { offeringId } = playlist;
 
   return (
     <div className="msp-header">
@@ -37,7 +38,8 @@ function MSPHeaderWithRedux({
                 ? util.links.instOffering(offeringId, playlist.id, media.id)
                 : util.links.instructor()
               }>
-                {mediaName}
+                <i aria-hidden="true" className="material-icons">chevron_left</i>
+                <span>{mediaName}</span>
               </Link>
             }
           />
@@ -45,7 +47,7 @@ function MSPHeaderWithRedux({
         <Tabs />
       </div>
     </div>
-  )
+  );
 }
 
 export const MSPHeader = connectWithRedux(
@@ -55,4 +57,4 @@ export const MSPHeader = connectWithRedux(
     'playlist'
   ],
   []
-)
+);
