@@ -43,7 +43,7 @@ export function EpubWithRedux(props) {
     if (steps.includes(stepVal)) {
       epub.state.setStep(stepVal);
     } else {
-      epub.state.toStep(EPUB_STEP_SPLIT);
+      epub.state.setStep(EPUB_STEP_SPLIT);
     }
   }, [hash]);
 
@@ -55,7 +55,6 @@ export function EpubWithRedux(props) {
 
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
-      epub.state.toStep(EPUB_STEP_SPLIT);
       epub.setupChapters(epubData);
     }
   }, [epubData]);
