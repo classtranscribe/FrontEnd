@@ -285,6 +285,16 @@ export class ClassTranscribeLinks {
         );
     }
 
+    setHash(hash='#') {
+        if (!hash.startsWith('#')) {
+            hash = '#' + hash;
+        }
+
+        let aElem = document.createElement('a');
+        aElem.href = hash;
+        aElem.click();
+    }
+
     /**
      * Create a window.location.hash query
      * @param {Object} params hash query's params
