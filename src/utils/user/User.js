@@ -168,9 +168,10 @@ export class User {
     // Setup user
     // ---------------------------------------------------------------------------
 
-    async setupUser(token, profile, method) {
+    async setupUser(token, profile, method, callbackURL) {
         try {
-            const { data } = await api.accountSignIn(token, method);
+            callbackURL = window.location.origin + callbackURL
+            const { data } = await api.accountSignIn(token, method, callbackURL);
             // Save AuthToken
             this.authToken = data.authToken;
             // Save userInfo
@@ -216,7 +217,7 @@ export class User {
         // get authToken from backend using auth0's `id_token`
         let id_token = this.auth0Client.getAuth0Token();
         let profile = this.auth0Client.getProfile();
-        let successed = await this.setupUser(id_token, profile, AUTH_AUTH0);
+        let successed = await this.setupUser(id_token, profile, AUTH_AUTH0, links.auth0Callback());
         if (!successed) {
             return;
         }
@@ -236,7 +237,7 @@ export class User {
             redirect_uri 
         } = this.ciLogonClient.parseCallback();
 
-        let successed = await this.setupUser(token, {}, AUTH_CILOGON);
+        let successed = await this.setupUser(token, {}, AUTH_CILOGON, links.ciLogonCallback());
         if (!successed) {
             return;
         }
