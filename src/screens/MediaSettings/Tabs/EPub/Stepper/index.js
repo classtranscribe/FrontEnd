@@ -9,7 +9,6 @@ import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
 import './index.scss';
 
 import {
-  useStyles,
   getSteps,
   getStepIndexMap,
   isStepComplete
@@ -19,11 +18,10 @@ function EpubStepper({
   step,
   vertical=false,
 }) {
-  const classes = useStyles();
   const steps = getSteps();
 
   return (
-    <div className="w-100">
+    <div aria-hidden="true" className="w-100">
       <Stepper 
         nonLinear
         activeStep={getStepIndexMap()[step]}

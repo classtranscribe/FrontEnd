@@ -1,23 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
 import {
     EPUB_STEP_SPLIT,
     EPUB_STEP_EDIT,
     EPUB_STEP_DOWNLOAD,
 } from 'screens/MediaSettings/Utils/epub/constants';
-
-export const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-    },
-    completed: {
-        display: 'inline-block',
-    },
-    stepBtn: {
-        '.MuiStepIcon-root.MuiStepIcon-active': {
-            color: 'black !important'
-        }
-    }
-}));
 
 export function getSteps() {
     return [
