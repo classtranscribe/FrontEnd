@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { ARRAY_INIT } from 'utils';
 import { epub, connectWithRedux } from '../../Utils/epub';
 import { PlaceHolder } from 'components';
@@ -11,7 +12,11 @@ import EditChapters from './Step2-EditChapters';
 import EpubDownloader from './Step3-Download';
 
 
-const { EPUB_STEP_SPLIT, EPUB_STEP_EDIT } = epub;
+const {
+  EPUB_STEP_SPLIT,
+  EPUB_STEP_EDIT,
+  EPUB_STEP_DOWNLOAD
+} = epub;
 
 
 export function EpubWithRedux(props) {
@@ -24,6 +29,24 @@ export function EpubWithRedux(props) {
     setChapters,
   } = props;
 
+  let { hash } = useLocation();
+
+  useEffect(() => {
+    // update step when hash changes
+    let steps = [
+      EPUB_STEP_SPLIT,
+      EPUB_STEP_EDIT,
+      EPUB_STEP_DOWNLOAD
+    ];
+
+    let stepVal = hash.replace('#', '');
+    if (steps.includes(stepVal)) {
+      epub.state.setStep(stepVal);
+    } else {
+      epub.state.toStep(EPUB_STEP_SPLIT);
+    }
+  }, [hash]);
+
   useEffect(() => {
     if (media.id) {
       epub.state.setupEpub(media.id);
@@ -32,6 +55,7 @@ export function EpubWithRedux(props) {
 
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
+      epub.state.toStep(EPUB_STEP_SPLIT);
       epub.setupChapters(epubData);
     }
   }, [epubData]);

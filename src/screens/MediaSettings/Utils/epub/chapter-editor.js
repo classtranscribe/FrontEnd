@@ -16,7 +16,7 @@ import {
 
 
 export function backToStep1() {
-    epubState.setStep(EPUB_STEP_SPLIT);
+    epubState.toStep(EPUB_STEP_SPLIT);
 
     prompt.addOne({
         text: "Splitting chapters might lost the changes you made.",
@@ -26,7 +26,7 @@ export function backToStep1() {
 }
 
 export function proceedToStep3() {
-    epubState.setStep(EPUB_STEP_DOWNLOAD);
+    epubState.toStep(EPUB_STEP_DOWNLOAD);
 
     prompt.addOne({
         text: "Finish step! Download your ePub file.",

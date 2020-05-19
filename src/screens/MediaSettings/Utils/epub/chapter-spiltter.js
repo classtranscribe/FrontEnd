@@ -26,7 +26,7 @@ function genUntitledName() {
 // **********************************************************************
 
 export function proceedToStep2() {
-    epubState.setStep(EPUB_STEP_EDIT);
+    epubState.toStep(EPUB_STEP_EDIT);
 
     prompt.addOne({
         text: "Start editing your chapters' contents.",

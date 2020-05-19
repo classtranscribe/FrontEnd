@@ -1,6 +1,7 @@
-import { api, ARRAY_INIT } from 'utils';
+import { api, util, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
 import { parseEpubData } from './util';
+
 import { 
     NO_EPUB,
     EPUB_DEFAULT_STEP,
@@ -8,6 +9,7 @@ import {
     EPUB_STEP_EDIT,
     EPUB_STEP_DOWNLOAD,
 } from './constants';
+
 
 class EpubState {
     constructor() {
@@ -64,6 +66,10 @@ class EpubState {
     step = EPUB_DEFAULT_STEP
     setStep(step) {
         this.setState('setStep', 'step', step);
+    }
+
+    toStep(step) {
+        util.links.setHash(step);
     }
 
     get isStep1() {

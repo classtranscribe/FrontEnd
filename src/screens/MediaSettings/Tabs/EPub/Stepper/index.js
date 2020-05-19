@@ -34,7 +34,7 @@ function EpubStepper({
           >
             <StepButton 
               className="ee-step-btn"
-              onClick={() => epub.state.setStep(stepItem.value)}
+              onClick={() => epub.state.toStep(stepItem.value)}
             >
               {stepItem.name}
             </StepButton>

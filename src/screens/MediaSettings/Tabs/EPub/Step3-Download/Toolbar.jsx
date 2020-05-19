@@ -48,7 +48,7 @@ function Toolbar({
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
           icon="arrow_back"
-          onClick={() => epub.state.setStep(epub.EPUB_STEP_EDIT)}
+          onClick={() => epub.state.toStep(epub.EPUB_STEP_EDIT)}
         >
           Back to Chapter Editor
         </Button>
