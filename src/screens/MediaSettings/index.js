@@ -1,13 +1,16 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
-import { util } from 'utils';
+import { util, api } from 'utils';
 import { 
   setup,
   TAB_EPUB,
   TAB_EDIT_TRANS,
 } from './Utils';
+
 import withMSPReduxProvider from './Utils/msp-redux-provider';
 
+import { CTErrorWrapper } from 'components';
 import { MSPHeader } from './Components';
 import { EPub } from './Tabs';
 
@@ -25,7 +28,11 @@ class MediaSettingsWithRedux extends React.Component {
   }
 
   componentDidMount() {
-    setup.setupMedia(this.mediaId);
+    if (!isMobile) {
+      setup.setupMedia(this.mediaId);
+    } else {
+      api.contentLoaded();
+    }
   }
 
   render() {
@@ -35,7 +42,19 @@ class MediaSettingsWithRedux extends React.Component {
     let transPath = util.links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
     let epubPath = util.links.instMediaSettings(mediaId, TAB_EPUB);
 
-    return (
+    return isMobile ? (
+      <div className="msp-bg">
+        <CTErrorWrapper show navbar
+          retry={false}
+          signInButton={false}
+          error={{
+            code: <i className="material-icons">laptop_mac</i>,
+            header: 'Please open this page in a computer/laptop browser.',
+            description: ''
+          }}
+        />
+      </div>
+    ) : (
       <div className="msp-bg">
         <MSPHeader />
 
