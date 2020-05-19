@@ -30,12 +30,12 @@ function InstructionHeading({
         <h4>Instruction</h4>
         <p>
           To manage your ePub chapters, set <b>splitting points</b> between screenshots to 
-          generate an initial version of ePub chapters. 
+          generate an initial layout of your ePub chapters. 
           Each chapter can be further <b>subdivided</b> into sub-chapters.
         </p>
         <p>
-          After building the structure of your ePub, hit <b>'Save and Preview' button</b> to 
-          see the preview of your ePub file, and modify the ePub contents there.
+          After building the structure of your ePub, proceed to the <b>Chapter Editor</b> to modify the 
+          texts and images there.
         </p>
 
         <h4>Actions</h4>
