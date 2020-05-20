@@ -1,8 +1,4 @@
-import {
-  LOADING_INIT, 
-  ARRAY_INIT,
-  ORD_INIT
-} from '../../screens/Instructor/Utils'
+import { LOADING_INIT, ARRAY_INIT, ORD_INIT } from '../../screens/Instructor/Utils';
 
 export const initialState = {
   // Sidebar
@@ -12,7 +8,7 @@ export const initialState = {
   terms: [],
 
   // Course
-  offering : {},
+  offering: {},
   playlists: [],
   playlist: {},
   isEditingOffering: false,
@@ -26,4 +22,4 @@ export const initialState = {
   loading: LOADING_INIT,
   confirmation: null,
   ordering: ORD_INIT,
-}
+};
