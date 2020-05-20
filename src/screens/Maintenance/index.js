@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react'
-import { api } from '../../utils'
-import './index.css'
+import React, { useEffect } from 'react';
+import { api } from 'utils';
+import './index.css';
 
-export function Maintenance({ }) {
+export function Maintenance() {
   useEffect(() => {
-    api.contentLoaded()
-  })
+    api.contentLoaded();
+  });
   return (
     <body>
-      <div class="holder">
-        <div class="logo">
+      <div className="holder">
+        <div className="logo">
           <h1>CLASSTRANSCRIBE</h1>
           <h5>ClassTranscribe is down for maintenance till 8pm today</h5>
         </div>
       </div>
     </body>
-  )
+  );
 }

@@ -1,56 +1,47 @@
-import React, { useState, useEffect } from 'react'
-import { PlaceHolder } from '../../../../components'
-import PlaylistsView from './PlaylistsView'
-import VideoView from './VideoView'
-import PlaylistPlaceholder from './PlaylistPlaceholder'
-import { util } from 'utils'
+import React, { useState, useEffect } from 'react';
+import { PlaceHolder } from 'components';
+import { util } from 'utils';
+import PlaylistsView from './PlaylistsView';
+import VideoView from './VideoView';
+import PlaylistPlaceholder from './PlaylistPlaceholder';
 
-export default function Playlists({ 
-  accessType=0,
-  playlists, 
-}) {
-  const [playlistId, setPlaylistId] = useState('prev-')
+export default function Playlists({ accessType = 0, playlists }) {
+  const [playlistId, setPlaylistId] = useState('prev-');
 
   useEffect(() => {
-    const { plid } = util.links.useSearch()
+    const { plid } = util.links.useSearch();
     if (plid) {
-      setPlaylistId(plid)
+      setPlaylistId(plid);
     }
-  }, [])
+  }, []);
 
-  if (playlists && playlists.length === 0) return <PlaylistPlaceholder noPlaylist />
-  if (playlists && playlists[0] === 'need-signin') return <PlaylistPlaceholder signIn accessType={accessType} />
-  
-  const handlePlaylistClick = playlist => {
-    setPlaylistId(playlist.id)
-  }
+  if (playlists && playlists.length === 0) return <PlaylistPlaceholder noPlaylist />;
+  if (playlists && playlists[0] === 'need-signin')
+    return <PlaylistPlaceholder signIn accessType={accessType} />;
+
+  const handlePlaylistClick = (playlist) => {
+    setPlaylistId(playlist.id);
+  };
 
   const goBack = () => {
-    setPlaylistId('prev-' + playlistId)
-  }
+    setPlaylistId(`prev-${playlistId}`);
+  };
 
-  const isPlaylistsView = playlistId.startsWith('prev-')
+  const isPlaylistsView = playlistId.startsWith('prev-');
 
   return (
     <div className="playlist-container">
-      {
-        !playlists
-        ?
+      {!playlists ? (
         <PlaceHolder />
-        :
-        isPlaylistsView 
-        ?
-        <PlaylistsView 
-          playlists={playlists} 
-          handleClick={handlePlaylistClick} 
+      ) : isPlaylistsView ? (
+        <PlaylistsView
+          playlists={playlists}
+          handleClick={handlePlaylistClick}
           wasSelected={(playlistId || '').replace('prev-', '')}
         />
-        :
-        <VideoView 
-          playlistId={playlistId} 
-          goBack={goBack} 
-        />
-      }
+      ) : (
+        <VideoView playlistId={playlistId} goBack={goBack} />
+      )}
     </div>
-  )
+  );
 }

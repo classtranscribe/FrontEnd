@@ -3,147 +3,137 @@
  * - contains offering info and playlists
  */
 
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useHistory, useParams } from 'react-router-dom'
-// UI
-import { Icon } from 'semantic-ui-react'
-import Playlists from './Playlists'
-// Vars
-import { Button } from 'pico-ui'
-import { PlaceHolder } from '../../../../components'
-import { api, util, user, prompt } from '../../../../utils'
-import './index.css'
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useHistory, useParams } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
+import { Button } from 'pico-ui';
+import { PlaceHolder } from 'components';
+import { api, util, user, prompt } from 'utils';
+import './index.css';
 
-export function OfferingDetail({ 
-  state, 
-  starOffering, 
-  unstarOffering 
-}) {
-  const history = useHistory()
-  const location = useLocation()
-  const { id } = useParams()
+import Playlists from './Playlists';
 
-  const { starredOfferingsJSON } = state
-  const [offering, setOffering] = useState({})
-  const [playlists, setPlaylists] = useState(null)
-  const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]))
+export function OfferingDetail({ state, starOffering, unstarOffering }) {
+  const history = useHistory();
+  const location = useLocation();
+  const { id } = useParams();
+
+  const { starredOfferingsJSON } = state;
+  const [offering, setOffering] = useState({});
+  const [playlists, setPlaylists] = useState(null);
+  const [isStarred, setIsStarred] = useState(Boolean(starredOfferingsJSON[id]));
 
   const handleStar = () => {
-    if (isStarred) unstarOffering(id)
-    else starOffering(id)
-    setIsStarred(isStarred => !isStarred)
-  }
+    if (isStarred) unstarOffering(id);
+    else starOffering(id);
+    setIsStarred((isStarred_) => !isStarred_);
+  };
 
   const getOffering = async () => {
-    let parsedOffering = {}
+    let parsedOffering = {};
 
-    const propsState = history.location.state
+    const propsState = history.location.state;
     if (propsState && propsState.offering) {
-      parsedOffering = propsState.offering
+      parsedOffering = propsState.offering;
     } else {
       try {
-        let { data } = await api.getOfferingById(id)
-        parsedOffering = api.parseSingleOffering(data)
+        const { data } = await api.getOfferingById(id);
+        parsedOffering = api.parseSingleOffering(data);
       } catch (error) {
         if (api.isAuthError(error)) {
-          setPlaylists(['need-signin'])
-          return 401
-        } else {
-          prompt.addOne({
-            text: "Couldn't load the offering.",
-            position: 'top left',
-            refresh: true,
-            status: 'error'
-          })
-          return 500
+          setPlaylists(['need-signin']);
+          return 401;
         }
+        prompt.addOne({
+          text: "Couldn't load the offering.",
+          position: 'top left',
+          refresh: true,
+          status: 'error',
+        });
+        return 500;
       }
     }
 
-    setOffering(parsedOffering)
+    setOffering(parsedOffering);
     // console.log('parsedOffering', parsedOffering)
     util.links.title(
-      parsedOffering.fullNumber
-      +' | '+parsedOffering.termName
-      +' | '+parsedOffering.sectionName)
+      `${parsedOffering.fullNumber} | ${parsedOffering.termName} | ${parsedOffering.sectionName}`,
+    );
 
-    return 200
-  }
+    return 200;
+  };
 
   const getPlaylists = async () => {
     try {
-      let { data } = await api.getPlaylistsByOfferingId(id) 
-      setPlaylists(data)
+      const { data } = await api.getPlaylistsByOfferingId(id);
+      setPlaylists(data);
     } catch (error) {
       if (api.isAuthError(error)) {
-        setPlaylists(['need-signin'])
+        setPlaylists(['need-signin']);
       } else {
-        setPlaylists([])
+        setPlaylists([]);
         prompt.addOne({
           text: "Couldn't load the playlists.",
           position: 'top left',
           refresh: true,
-          status: 'error'
-        })
+          status: 'error',
+        });
       }
     }
-  }
+  };
 
   const setupOfferingDetails = async () => {
-    let status = await getOffering()
+    const status = await getOffering();
     if (status === 200) {
-      await getPlaylists()
-      await api.sendUserAction('selectcourse', { offeringId: id })
+      await getPlaylists();
+      await api.sendUserAction('selectcourse', { offeringId: id });
     }
-  }
+  };
 
   /**
    * Get all offerings and complete offerings
    */
   useEffect(() => {
-    util.elem.scrollIntoView('sp-content')
-    setupOfferingDetails()
-  }, [id])
+    util.elem.scrollIntoView('sp-content');
+    setupOfferingDetails();
+  }, [id]);
 
   useEffect(() => {
-    setIsStarred(Boolean(starredOfferingsJSON[id]))
-  }, [starredOfferingsJSON])
+    setIsStarred(Boolean(starredOfferingsJSON[id]));
+  }, [starredOfferingsJSON]);
 
-  
   /**
    * Determine which page to go back
    */
-  var pathname = util.links.home()
+  let pathname = util.links.home();
   if (history.location.state) {
-    const { from } = history.location.state
+    const { from } = history.location.state;
     if (from === 'search') {
-      pathname = util.links.search()
+      pathname = util.links.search();
     } else if (from === 'history') {
-      pathname = util.links.history()
+      pathname = util.links.history();
     }
   }
 
-  return Boolean(offering.id) ? (
-    <div className="offering-detail ct-a-fade-in" >
+  return offering.id ? (
+    <div className="offering-detail ct-a-fade-in">
       {/* Offering Info */}
       <div className="offering-info">
         <div className="goback-container">
-          <Link 
-            className="del-icon" 
+          <Link
+            className="del-icon"
             to={{
-              pathname: pathname, 
+              pathname,
               state: { value: location.state ? location.state.searchedValue : '' },
             }}
           >
             <Icon name="chevron left" /> Go Back
           </Link>
         </div>
-        
+
         <h1 className="od-course-number">{offering.fullNumber}</h1>
 
-        <h2 className="od-course-name">
-          {offering.courseName}
-        </h2>
+        <h2 className="od-course-name">{offering.courseName}</h2>
 
         <div className="od-course-txt">
           {offering.termName} | {offering.sectionName}
@@ -155,32 +145,29 @@ export function OfferingDetail({
           <div className="od-course-inst">{offering.instructor.fullName}</div>
         } */}
 
-        {
-          offering.description 
-          && 
-          <p className="offering-description">{offering.description}</p>
-        }
-        <br/>
-        {
-          user.isLoggedIn
-          &&
-          <Button uppercase
+        {offering.description && <p className="offering-description">{offering.description}</p>}
+        <br />
+        {user.isLoggedIn && (
+          <Button
+            uppercase
             id="off-star-btn"
-            color={isStarred ? "" : "teal"}
+            color={isStarred ? '' : 'teal'}
             icon={isStarred ? 'star' : 'star_border'}
             text={isStarred ? 'unstar' : 'star'}
             onClick={handleStar}
           />
-        }
+        )}
       </div>
-      
+
       {/* Playlists */}
-      <Playlists 
+      <Playlists
         offeringId={id}
         accessType={offering.accessType}
-        history={history} 
-        playlists={playlists} 
+        history={history}
+        playlists={playlists}
       />
     </div>
-  ) : <PlaceHolder />
+  ) : (
+    <PlaceHolder />
+  );
 }

@@ -3,85 +3,92 @@
  * - offerings are organized by departments
  */
 
-import React from 'react'
-import _ from 'lodash'
-// UI
-import { OfferingListHolder, ReloadContents } from './PlaceHolder'
-import Section from './Section'
-// Vars
+import React from 'react';
+import { OfferingListHolder, ReloadContents } from './PlaceHolder';
+import Section from './Section';
 
-export default function SectionList({ state, offerings, watchHistory, starredOfferings, getOfferingsByStudent, displaySearchHeader, ...functions }) {
-  const { departments, departSelected, termSelected } = state
-  if (offerings[0] === 'Unloaded' || departments[0] === 'unloaded') return <OfferingListHolder />
-  if (offerings[0] === 'retry' || departments[0] === 'retry') return <ReloadContents onRetry={getOfferingsByStudent} />
+export default function SectionList({
+  state,
+  offerings,
+  watchHistory,
+  starredOfferings,
+  getOfferingsByStudent,
+  displaySearchHeader,
+  ...functions
+}) {
+  const { departments, departSelected, termSelected } = state;
+  if (offerings[0] === 'Unloaded' || departments[0] === 'unloaded') return <OfferingListHolder />;
+  if (offerings[0] === 'retry' || departments[0] === 'retry')
+    return <ReloadContents onRetry={getOfferingsByStudent} />;
 
   function notEmpty(depart) {
-    for (let i = 0; i < offerings.length; i++) {
-      const hasOfferings = offerings[i].departmentIds.includes(depart.id)
-      const hasTerm = !termSelected.length || termSelected.includes(offerings[i].termId)
-      if (hasOfferings && hasTerm) return true
+    for (let i = 0; i < offerings.length; i += 1) {
+      const hasOfferings = offerings[i].departmentIds.includes(depart.id);
+      const hasTerm = !termSelected.length || termSelected.includes(offerings[i].termId);
+      if (hasOfferings && hasTerm) return true;
     }
-    return false
+    return false;
   }
 
-  var nonEmptyDepartments = []
-  for (var i = 0; i < departments.length; i++) {
-    if ((!departSelected.length || departSelected.includes(departments[i].id)) && (notEmpty(departments[i]))) {
-      nonEmptyDepartments.push(departments[i])
+  let nonEmptyDepartments = [];
+  for (let i = 0; i < departments.length; i += 1) {
+    if (
+      (!departSelected.length || departSelected.includes(departments[i].id)) &&
+      notEmpty(departments[i])
+    ) {
+      nonEmptyDepartments.push(departments[i]);
     }
   }
 
   if (nonEmptyDepartments.length === 0) {
-    return <OfferingListHolder noCourse />
+    return <OfferingListHolder noCourse />;
   }
 
   // sections
-  const sections = ['history', ...nonEmptyDepartments]
-  const onFilter = departSelected.length > 0 || termSelected.length > 0
+  const sections = ['history', ...nonEmptyDepartments];
+  const onFilter = departSelected.length > 0 || termSelected.length > 0;
 
   return (
     <div className="offering-list" role="list">
       {/* Starred */}
-      {
-        !onFilter
-        &&
-        <Section 
+      {!onFilter && (
+        <Section
           {...functions}
-          type="starred" 
+          type="starred"
           offerings={offerings}
           state={state}
           starredOfferings={starredOfferings}
         />
-      }
+      )}
       {/* History */}
 
       {/* Offerings */}
-      {sections.map( section => 
-        section === 'history' ? 
-          onFilter ? null :
+      {sections.map((section) =>
+        section === 'history' ? (
+          onFilter ? null : (
+            <Section
+              {...functions}
+              key="history-section"
+              type="history"
+              offerings={offerings}
+              state={state}
+              watchHistory={watchHistory}
+              starredOfferings={starredOfferings}
+            />
+          )
+        ) : section ? (
           <Section
             {...functions}
-            key='history-section'
-            type="history" 
-            offerings={offerings}
-            state={state}
-            watchHistory={watchHistory}
-            starredOfferings={starredOfferings}
-          />
-        :
-        section ? 
-          <Section 
-            {...functions}
-            key={section.id} 
+            key={section.id}
             type="department"
-            depart={section} 
+            depart={section}
             offerings={offerings}
             state={state}
             displaySearchHeader={displaySearchHeader}
             starredOfferings={starredOfferings}
           />
-        : 
-        null)}
+        ) : null,
+      )}
     </div>
-  )
+  );
 }
