@@ -2,11 +2,11 @@ import { STYLE_CSS } from './styles.css.js';
 
 export const LIVE_INDEX_HTML = ({
   title,
-  nav_contents,
+  navContents,
   content,
   cover,
   author,
-  print=false,
+  print = false,
 }) => `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,7 +35,7 @@ export const LIVE_INDEX_HTML = ({
       <div id="toc_container">
         <h2 id="toc_title">Contents</h2>
         <div id="toc_list">
-          ${nav_contents}
+          ${navContents}
         </div>
       </div>
 
@@ -45,4 +45,4 @@ export const LIVE_INDEX_HTML = ({
     </div>
   </body>
 </html>
-`
+`;

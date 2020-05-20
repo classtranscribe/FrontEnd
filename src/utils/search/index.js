@@ -1,5 +1,5 @@
-import { CTSearch } from './CTSearch'
+import { CTSearch } from './CTSearch';
 
-export { CTSearch } from './CTSearch'
+export { CTSearch } from './CTSearch';
 
-export const search = new CTSearch()
+export const search = new CTSearch();

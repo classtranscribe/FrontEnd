@@ -12,20 +12,19 @@ export function strList2Html(textdata, key) {
 
   if (Array.isArray(textdata)) {
     if (key) {
-      paragraphs = textdata.map(data => _.get(data, key));
+      paragraphs = textdata.map((data) => _.get(data, key));
     }
   } else {
     return '';
   }
 
   paragraphs = _.map(
-    paragraphs.filter(text => Boolean(_.trim(text.toString()))),
-    text => `<p>\n\t${text}\n</p>`
+    paragraphs.filter((text) => Boolean(_.trim(text.toString()))),
+    (text) => `<p>\n\t${text}\n</p>`,
   );
 
   return paragraphs.join('\n\n');
 }
-
 
 /**
  * Convert plain text to html
@@ -34,12 +33,15 @@ export function strList2Html(textdata, key) {
  * @param {String} options.paragraphSeparator the paragraph separator in the plain text
  * @returns {String} the raw html data
  */
-export function plaintext2Html(textdata, options={
-  paragraphSeparator: '\n'
-}) {
+export function plaintext2Html(
+  textdata,
+  options = {
+    paragraphSeparator: '\n',
+  },
+) {
   if (!textdata) return '';
   const { paragraphSeparator } = options;
 
-  let paragraphs = _.split(textdata, paragraphSeparator);
+  const paragraphs = _.split(textdata, paragraphSeparator);
   return strList2Html(paragraphs);
 }

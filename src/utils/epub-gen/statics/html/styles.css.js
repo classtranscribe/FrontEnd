@@ -72,4 +72,4 @@ body, html {
   }
 }
 
-` + ROOT_CSS;
+${ROOT_CSS}`;

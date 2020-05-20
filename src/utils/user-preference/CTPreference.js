@@ -3,8 +3,8 @@
  */
 export class CTPreference {
   constructor() {
-    this.TRUE = 'true'
-    this.FALSE = 'false'
+    this.TRUE = 'true';
+    this.FALSE = 'false';
   }
 
   init() {}
@@ -13,20 +13,19 @@ export class CTPreference {
    * Function used to set and get item from localStorage
    * @param {String} key The key to the localStorage value
    * @param {Boolean} bool The value to set
-   * @param {Boolean} setfalse if true and bool is false, set the value to be 'false' instead of removing from localStorage
+   * @param {Boolean} setfalse if true and bool is false,
+   *   set the value to be 'false' instead of removing from localStorage
    * @returns {string} the value stored in localStorage if no bool provided
    */
-  localStorage(key, bool, setfalse=false) {
-    if (bool === undefined) return this[key]
-    this[key] = Boolean(bool)
-    if (Boolean(bool)) {
-      localStorage.setItem(key, this.TRUE)
+  localStorage(key, bool, setfalse = false) {
+    if (bool === undefined) return this[key];
+    this[key] = Boolean(bool);
+    if (bool) {
+      localStorage.setItem(key, this.TRUE);
+    } else if (setfalse) {
+      localStorage.setItem(key, this.FALSE);
     } else {
-      if (setfalse) {
-        localStorage.setItem(key, this.FALSE)
-      } else {
-        localStorage.removeItem(key)
-      }
+      localStorage.removeItem(key);
     }
   }
 
@@ -36,7 +35,7 @@ export class CTPreference {
    * @returns {Boolean} if an elem in localStorage is true
    */
   isTrue(key) {
-    return localStorage.getItem(key) === this.TRUE
+    return localStorage.getItem(key) === this.TRUE;
   }
 
   /**
@@ -45,6 +44,6 @@ export class CTPreference {
    * @returns {Boolean} if an elem in localStorage is false
    */
   isFalse(key) {
-    return localStorage.getItem(key) === this.FALSE
+    return localStorage.getItem(key) === this.FALSE;
   }
 }

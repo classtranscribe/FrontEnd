@@ -1,4 +1,4 @@
-import { dedent } from 'dentist'
+import { dedent } from 'dentist';
 
 /**
  * String data of OEBPS/content.opf
@@ -8,16 +8,20 @@ import { dedent } from 'dentist'
  * @param {String} publisher ePub publisher
  * @param {Date} date ePub publish data
  * @param {String} image0ID ePub's cover image
- * @param {String} content_items ePub content
- * @param {String} content_items_refs ePub content refs
+ * @param {String} contentItems ePub content
+ * @param {String} contentItemsRefs ePub content refs
  */
 export const OEBPS_CONTENT_OPF = (
-  title, author, language, publisher,
-  date=new Date(),
-  image_items,
-  content_items,
-  content_items_refs
-) => dedent(`
+  title,
+  author,
+  language,
+  publisher,
+  date = new Date(),
+  imageItems,
+  contentItems,
+  contentItemsRefs,
+) =>
+  dedent(`
 <?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf"
          version="3.0"
@@ -61,16 +65,16 @@ export const OEBPS_CONTENT_OPF = (
         <item id="katex" href="katex.min.css" media-type="text/css" />
 
         <item id="image_cover" href="cover.jpeg" media-type="image/jpeg" />
-        ${image_items}
+        ${imageItems}
 
-        ${content_items}
+        ${contentItems}
         
     </manifest>
 
     <spine toc="ncx">   
         <itemref idref="toc" />
 
-        ${content_items_refs}
+        ${contentItemsRefs}
 
     </spine>
     <guide>

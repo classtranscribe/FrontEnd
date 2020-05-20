@@ -1,24 +1,24 @@
-import _ from 'lodash'
-import { user } from '../../user'
-import { env } from '../../env'
+import _ from 'lodash';
+import { user } from '../../user';
+import { env } from '../../env';
 
 /**
  * Generate full number based on the courses
- * @param {Object[]} courses 
+ * @param {Object[]} courses
  * @param {String} courses[].departmentAcronym
  * @param {String} courses[].acronym
  * @param {String} courses[].courseNumber
- * @param {String} separator 
+ * @param {String} separator
  * @returns {String} full number based on the courses
  */
 export function getFullNumber(courses, separator) {
-    var name = ''
-    courses.forEach( course => {
-        name += (course.departmentAcronym || course.acronym || '') 
-                + course.courseNumber + (separator || '/')
-    })
-    name = name.slice(0, name.length - 1)
-    return name
+  let name = '';
+  courses.forEach((course) => {
+    name +=
+      (course.departmentAcronym || course.acronym || '') + course.courseNumber + (separator || '/');
+  });
+  name = name.slice(0, name.length - 1);
+  return name;
 }
 
 /**
@@ -53,27 +53,31 @@ export function getFullNumber(courses, separator) {
  * }} parsed offering data
  */
 export function parseSingleOffering(rawOffering) {
-    const { offering, courses, term, instructorIds } = rawOffering
-    let { universityId } = term
-    let departmentIds = _.map(courses, 'departmentId')
-    return {
-        ...offering,
-        departmentIds,
-        universityId,
-        instructorIds,
-        termName: term.name,
-        fullNumber: getFullNumber(courses),
-        isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin,
-        instructor: instructorIds ? {
-            ...(instructorIds[0] ? instructorIds[0] : {}),
-            fullName: instructorIds[0] ? instructorIds[0].firstName + ' ' + instructorIds[0].lastName : ''
-        } : null,
-    }
+  const { offering, courses, term, instructorIds } = rawOffering;
+  const { universityId } = term;
+  const departmentIds = _.map(courses, 'departmentId');
+  return {
+    ...offering,
+    departmentIds,
+    universityId,
+    instructorIds,
+    termName: term.name,
+    fullNumber: getFullNumber(courses),
+    isTestCourse: _.findIndex(courses, { courseNumber: '000' }) >= 0 && !user.isAdmin,
+    instructor: instructorIds
+      ? {
+          ...(instructorIds[0] ? instructorIds[0] : {}),
+          fullName: instructorIds[0]
+            ? `${instructorIds[0].firstName} ${instructorIds[0].lastName}`
+            : '',
+        }
+      : null,
+  };
 }
 
 /**
  * Function used to parse offerings response
- * @param {Object} rawOfferings 
+ * @param {Object} rawOfferings
  * @returns {{
  *  id: string,
  *  fullNumber: string,
@@ -103,14 +107,12 @@ export function parseSingleOffering(rawOffering) {
  * }[]} parsed offerings data
  */
 export function parseOfferings(rawOfferings) {
-    const parsedOfferings = []
-    for (let i = 0; i < rawOfferings.length; i++) {
-        parsedOfferings.push(
-            parseSingleOffering(rawOfferings[i])
-        )
-    }
-    // console.log('parsedOfferings', parsedOfferings)
-    return parsedOfferings
+  const parsedOfferings = [];
+  for (let i = 0; i < rawOfferings.length; i += 1) {
+    parsedOfferings.push(parseSingleOffering(rawOfferings[i]));
+  }
+  // console.log('parsedOfferings', parsedOfferings)
+  return parsedOfferings;
 }
 
 /**
@@ -127,79 +129,79 @@ export function parseOfferings(rawOfferings) {
  *  isUnavailable: boolean,
  *  transReady: boolean,
  *  watchHistory: { timestamp: number, ratio: number }
- * }} the parsed media data 
+ * }} the parsed media data
  */
 export function parseMedia(media) {
-    let re = { 
-        id: '', 
-        mediaName: '', 
-        createdAt: '', 
-        sourceType: 1,
-        isTwoScreen: false, 
-        videos: [], 
-        transcriptions: [],
-        isUnavailable: true,
-        transReady: false,
-        watchHistory: { timestamp: 0, ratio: 0 }
+  const re = {
+    id: '',
+    mediaName: '',
+    createdAt: '',
+    sourceType: 1,
+    isTwoScreen: false,
+    videos: [],
+    transcriptions: [],
+    isUnavailable: true,
+    transReady: false,
+    watchHistory: { timestamp: 0, ratio: 0 },
+  };
+
+  // console.log(media)
+
+  if (!media) return re;
+  const {
+    id,
+    playlistId,
+    name,
+    jsonMetadata,
+    sourceType,
+    video,
+    transcriptions,
+    ready,
+    watchHistory,
+  } = media;
+
+  if (!id || !jsonMetadata) return re;
+
+  re.id = id;
+  re.createdAt = media.createdAt;
+  re.playlistId = playlistId;
+  re.sourceType = sourceType;
+  re.transReady = ready;
+  re.mediaName = _.replace(name, '.mp4', '');
+
+  /** video src */
+  const baseUrl = env.baseURL;
+  let srcPath1 = null;
+  let srcPath2 = null;
+  if (video) {
+    // video1
+    if (video.video1Path) srcPath1 = baseUrl + video.video1Path;
+    else if (video.video1 && video.video1.path) srcPath1 = baseUrl + video.video1.path;
+    // video2
+    if (video.video2Path) srcPath2 = baseUrl + video.video2Path;
+    else if (video.video2 && video.video2.path) srcPath2 = baseUrl + video.video2.path;
+  }
+
+  re.isUnavailable = !srcPath1;
+  re.isTwoScreen = Boolean(srcPath2);
+  re.videos.push({ srcPath1, srcPath2 });
+
+  /** Transcriptions */
+  _.forEach(transcriptions, (trans) => {
+    if (trans.file || trans.path) {
+      re.transcriptions.push({
+        id: trans.id,
+        language: trans.language,
+        src: `${baseUrl}${trans.path || trans.file.path}`,
+      });
     }
+  });
 
-    // console.log(media)
-    
-    if (!media) return re
-    const { 
-        id, 
-        playlistId, 
-        name,
-        jsonMetadata, 
-        sourceType, 
-        video, 
-        transcriptions, 
-        ready,
-        watchHistory,
-    } = media
-    
-    if (!id || !jsonMetadata) return re
+  /** Watch history */
+  if (watchHistory && watchHistory.json && watchHistory.json.ratio) {
+    re.watchHistory = watchHistory.json;
+    // re.watchHistory.ratio *= 100
+  }
 
-    re.id = id
-    re.createdAt = media.createdAt
-    re.playlistId = playlistId
-    re.sourceType = sourceType
-    re.transReady = ready
-    re.mediaName = _.replace(name, '.mp4', '')
-
-    /** video src */
-    const baseUrl = env.baseURL
-    let srcPath1 = null
-    let srcPath2 = null
-    if (video) {
-      // video1
-        if (video.video1Path) srcPath1 = baseUrl + video.video1Path
-        else if (video.video1 && video.video1.path) srcPath1 = baseUrl + video.video1.path
-        // video2
-        if (video.video2Path) srcPath2 = baseUrl + video.video2Path
-        else if (video.video2 && video.video2.path) srcPath2 = baseUrl + video.video2.path
-    }
-
-    re.isUnavailable = !Boolean(srcPath1)
-    re.isTwoScreen = Boolean(srcPath2)
-    re.videos.push({ srcPath1, srcPath2 })
-
-    /** Transcriptions */
-    _.forEach(transcriptions, trans => {
-        if (trans.file || trans.path) {
-            re.transcriptions.push({
-                id: trans.id,
-                language: trans.language,
-                src: `${baseUrl}${trans.path || trans.file.path}`
-            })
-        }
-    })
-
-    /** Watch history */
-    if (watchHistory && watchHistory.json && watchHistory.json.ratio) {
-        re.watchHistory = watchHistory.json
-        // re.watchHistory.ratio *= 100
-    }
-
-    return re
+  return re;
 }

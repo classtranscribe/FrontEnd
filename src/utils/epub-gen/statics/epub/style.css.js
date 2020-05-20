@@ -36,4 +36,4 @@ export const OEBPS_STYLE_CSS = `
   orphans: 2;
 }
 
-` + ROOT_CSS;
+${ROOT_CSS}`;
