@@ -1,76 +1,74 @@
-import _ from 'lodash'
-import React, { useState, useEffect, useRef } from 'react'
-import { Button } from 'pico-ui'
-import { api } from '../../../../../utils'
-import { connectWithRedux, mediaControl } from '../../../Utils'
-import './index.scss'
+import _ from 'lodash';
+import classNames from 'classnames';
+import React, { useState, useEffect, useRef } from 'react';
+import { Button } from 'pico-ui';
+import { api } from 'utils';
+import { connectWithRedux, mediaControl } from '../../../Utils';
+import './index.scss';
 
-import MediaName from './MediaName'
-import InlineButtons from './InlineButtons'
+import MediaName from './MediaName';
+import InlineButtons from './InlineButtons';
 
-
-function VideoItemWithRedux({ 
-  media=null, 
-  current=false,
-  openMedia=null,
-  isSelectingVideos=false,
-  selectedVideos={},
+function VideoItemWithRedux({
+  media = null,
+  current = false,
+  openMedia = null,
+  isSelectingVideos = false,
+  selectedVideos = {},
 }) {
-  const { id, mediaName, isUnavailable } = api.parseMedia(media)
+  const { id, mediaName, isUnavailable } = api.parseMedia(media);
 
-  const [newName, setNewName] = useState('')
-  const nameRef = useRef()
+  const [newName, setNewName] = useState('');
+  const nameRef = useRef();
 
-  const isEditing = Boolean(newName) && !isSelectingVideos
-  const isSelected = Boolean(selectedVideos[id])
+  const isEditing = Boolean(newName) && !isSelectingVideos;
+  const isSelected = Boolean(selectedVideos[id]);
 
   useEffect(() => {
-    if (isEditing) nameRef.current.focus()
-  }, [newName])
-
+    if (isEditing) nameRef.current.focus();
+  }, [newName]);
 
   const handleSelect = () => {
     if (isSelectingVideos) {
       if (isSelected) {
-        mediaControl.handleRemove(media)
+        mediaControl.handleRemove(media);
       } else {
-        mediaControl.handleSelect(media)
+        mediaControl.handleSelect(media);
       }
-    } 
-  }
+    }
+  };
 
   const handleKeydownSelect = ({ keyCode }) => {
     if (keyCode === 13) {
-      handleSelect()
+      handleSelect();
     }
-  }
+  };
 
   const handleRename = async () => {
-    let text = nameRef.current.innerText
+    const text = nameRef.current.innerText;
     if (isEditing && text && text !== mediaName) {
       // console.log(nameRef.current.innerText)
-      await mediaControl.renameMedia(
-        media, 
-        text
-      )
+      await mediaControl.renameMedia(media, text);
     }
-    setNewName( isEditing ? '' : mediaName )
-  }
+    setNewName(isEditing ? '' : mediaName);
+  };
 
-  const vClassName = 'ip-video-card' 
-                   + (current ? ' current' : '')
-                   + (isEditing ? ' edit' : '') 
-                   + (isSelectingVideos ? ' selecting' : '')
+  const classes = classNames('ip-video-card', {
+    current,
+    edit: isEditing,
+    selecting: isSelectingVideos,
+  });
 
   return (
-    <div 
-      id={`media-${id}`} 
-      className={vClassName} 
-      tabIndex={ isSelectingVideos ? 0 : -1 }
+    <div
+      id={`media-${id}`}
+      className={classes}
+      tabIndex={isSelectingVideos ? 0 : -1}
+      role="button"
       onClick={handleSelect}
       onKeyDown={handleKeydownSelect}
     >
-      <MediaName 
+      <MediaName
         nameRef={nameRef}
         mediaName={mediaName}
         isEditing={isEditing}
@@ -80,7 +78,7 @@ function VideoItemWithRedux({
         handleRename={handleRename}
       />
 
-      <InlineButtons 
+      <InlineButtons
         show={!isSelectingVideos && !isEditing}
         media={media}
         mediaName={mediaName}
@@ -88,27 +86,13 @@ function VideoItemWithRedux({
         handleRename={handleRename}
       />
 
-      {
-        isEditing
-        &&
+      {isEditing && (
         <div className="ip-video-opts ct-btn-group">
-          <Button compact uppercase
-            text="Save"
-            color="teal transparent"
-            onClick={handleRename}
-          />
+          <Button compact uppercase text="Save" color="teal transparent" onClick={handleRename} />
         </div>
-      }
+      )}
     </div>
-  )
+  );
 }
 
-export default connectWithRedux(
-  VideoItemWithRedux,
-  [
-    'isSelectingVideos',
-    'selectedVideos'
-  ],
-  []
-)
-
+export default connectWithRedux(VideoItemWithRedux, ['isSelectingVideos', 'selectedVideos']);

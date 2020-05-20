@@ -1,30 +1,33 @@
-import React, { useState, useCallback } from 'react'
-import _ from 'lodash'
-import Papa from 'papaparse'
-import { Button } from 'semantic-ui-react'
-import { useDropzone } from 'react-dropzone'
-import { InfoIcon } from '../../InfoIcon'
+import React, { useState, useCallback } from 'react';
+import _ from 'lodash';
+import Papa from 'papaparse';
+import { Button } from 'semantic-ui-react';
+import { useDropzone } from 'react-dropzone';
+import { InfoIcon } from '../../InfoIcon';
 
 export function UploadBtn({ addNew }) {
-  const [mesg, setMesg] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [mesg, setMesg] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const onChange = useCallback( ({ target: { files } }) => {
-    if (files.length > 1) {
-      setMesg(`Only one file (${files[0].name}) was read.`)
-    }
-    setLoading(true)
-    var reader = new FileReader()
-    reader.onload = async function() {
-      let { data } = Papa.parse(reader.result)
-      // console.log(_.flatten(data))
-      addNew(_.flatten(data))
-      setLoading(false)
-    }
-    reader.readAsBinaryString(files[0])
-  }, [addNew])
-  
-  const { getRootProps, getInputProps } = useDropzone()
+  const onChange = useCallback(
+    ({ target: { files } }) => {
+      if (files.length > 1) {
+        setMesg(`Only one file (${files[0].name}) was read.`);
+      }
+      setLoading(true);
+      let reader = new FileReader();
+      reader.onload = async function () {
+        let { data } = Papa.parse(reader.result);
+        // console.log(_.flatten(data))
+        addNew(_.flatten(data));
+        setLoading(false);
+      };
+      reader.readAsBinaryString(files[0]);
+    },
+    [addNew],
+  );
+
+  const { getRootProps, getInputProps } = useDropzone();
 
   return (
     <div className="ip-upload-btn ct-list-col ">
@@ -33,11 +36,11 @@ export function UploadBtn({ addNew }) {
         Upload a csv/txt file
       </Button>
       <span>{mesg}</span>
-      
+
       {/* Instructions */}
       <span className="text-muted">
-        Please upload a <strong>.csv/.txt file</strong> with a <strong>list of emails</strong>. 
-        <InfoIcon 
+        Please upload a <strong>.csv/.txt file</strong> with a <strong>list of emails</strong>.
+        <InfoIcon
           header="Example"
           content={
             <div className="csv-demo ct-list-col" aria-hidden="true">
@@ -51,5 +54,5 @@ export function UploadBtn({ addNew }) {
         />
       </span>
     </div>
-  )
+  );
 }
