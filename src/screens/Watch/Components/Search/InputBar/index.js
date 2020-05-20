@@ -1,55 +1,46 @@
-import React, { useRef, useEffect } from 'react'
-import { 
-  searchControl, 
-  SEARCH_INIT, 
-  SEARCH_RESULT, 
-  SEARCH_BEGIN
-} from '../../../Utils'
-import { util } from 'utils'
-import './index.css'
+import React, { useRef, useEffect } from 'react';
+import { util } from 'utils';
+import { searchControl, SEARCH_INIT, SEARCH_RESULT, SEARCH_BEGIN } from '../../../Utils';
+import './index.css';
 
-function InputBar({
-  search=SEARCH_INIT,
-}) {
-
-  const inputRef = useRef()
-  const inputPlaceholder = 'Search Transcriptions, Videos...'
+function InputBar({ search = SEARCH_INIT }) {
+  const inputRef = useRef();
+  const inputPlaceholder = 'Search Transcriptions, Videos...';
 
   useEffect(() => {
-    inputRef.current.focus()
-  }, [])
+    inputRef.current.focus();
+  }, []);
 
   const clearInput = () => {
-    inputRef.current.value = ''
-    searchControl.resetResult(SEARCH_BEGIN)
-    inputRef.current.focus()
-  }
+    inputRef.current.value = '';
+    searchControl.resetResult(SEARCH_BEGIN);
+    inputRef.current.focus();
+  };
 
   const handleSearch = () => {
-    inputRef.current.focus()
-    util.elem.scrollToTop('watch-search-result-container')
-    searchControl.getAllResults(inputRef.current.value)
-  }
+    inputRef.current.focus();
+    util.elem.scrollToTop('watch-search-result-container');
+    searchControl.getAllResults(inputRef.current.value);
+  };
 
-  const handleOnKeyDown = e => {
+  const handleOnKeyDown = (e) => {
     if (e.keyCode === 13) {
-      e.preventDefault()
-      handleSearch()
+      e.preventDefault();
+      handleSearch();
     }
-  }
+  };
 
   const handleClose = () => {
-    searchControl.closeSearch()
-  }
+    searchControl.closeSearch();
+  };
 
-  const defaultInput = search.value || ''
-
+  const defaultInput = search.value || '';
 
   return (
     <div className="watch-search-input-bar">
       <div className="search-input-container">
         {/* Search Button */}
-        <button 
+        <button
           className="plain-btn search-input-bar-btn"
           aria-label="Search"
           action="search"
@@ -72,10 +63,8 @@ function InputBar({
           aria-label={inputPlaceholder}
         />
         {/* Clear Input Button */}
-        {
-          search.status === SEARCH_RESULT
-          &&
-          <button 
+        {search.status === SEARCH_RESULT && (
+          <button
             className="plain-btn search-input-bar-btn"
             onClick={clearInput}
             action="clear"
@@ -85,11 +74,11 @@ function InputBar({
               <i className="material-icons">close</i>
             </span>
           </button>
-        }
+        )}
       </div>
 
       {/* Close Button */}
-      <button 
+      <button
         className="plain-btn search-input-bar-btn"
         onClick={handleClose}
         action="close"
@@ -100,7 +89,7 @@ function InputBar({
         </span>
       </button>
     </div>
-  )
+  );
 }
 
-export default InputBar
+export default InputBar;

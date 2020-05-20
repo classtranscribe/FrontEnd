@@ -1,22 +1,18 @@
-import React from 'react'
-import WatchCtrlButton from '../../WatchCtrlButton'
-import { connectWithRedux, transControl } from '../../../Utils'
+import React from 'react';
+import WatchCtrlButton from '../../WatchCtrlButton';
+import { connectWithRedux, transControl } from '../../../Utils';
 
-export function ClosedCaptionButtonWithRedux({
-  openCC=false,
-  captions=[]
-}) {
-
+export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [] }) {
   const handleCCTrigger = () => {
-    transControl.handleOpenCC()
-  }
+    transControl.handleOpenCC();
+  };
 
-  let disabled = captions.length <= 0
+  let disabled = captions.length <= 0;
 
-  let isOpen = openCC && !disabled
+  let isOpen = openCC && !disabled;
 
   return (
-    <WatchCtrlButton 
+    <WatchCtrlButton
       onClick={handleCCTrigger}
       label={disabled ? `No Closed Caption` : `Closed Caption: ${isOpen ? 'ON' : 'OFF'} (c)`}
       id="closed-caption-btn"
@@ -24,20 +20,19 @@ export function ClosedCaptionButtonWithRedux({
       disabled={disabled}
       ariaTags={{
         'aria-label': `${isOpen ? 'Open' : 'Close'} Closed Caption`,
-        //'aria-keyshortcuts': 'c',
+        // 'aria-keyshortcuts': 'c',
         'aria-controls': 'watch-cc-container',
-        'aria-expanded' : openCC ? 'false' : 'true',
+        'aria-expanded': openCC ? 'false' : 'true',
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
-        <i className="fas fa-closed-captioning"></i>    
+        <i className="fas fa-closed-captioning" />
       </span>
     </WatchCtrlButton>
-  )
+  );
 }
 
-export const ClosedCaptionButton = connectWithRedux(
-  ClosedCaptionButtonWithRedux,
-  ['openCC', 'captions'],
-  []
-)
+export const ClosedCaptionButton = connectWithRedux(ClosedCaptionButtonWithRedux, [
+  'openCC',
+  'captions',
+]);

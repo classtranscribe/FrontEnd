@@ -1,45 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import './index.css'
-import { VideoCard } from '../../../../../components'
-import { 
+import React, { useEffect, useState } from 'react';
+import { VideoCard } from 'components';
+import { api, util } from 'utils';
+import {
   connectWithRedux,
   videoControl,
-  CTP_LOADING, CTP_UP_NEXT, CTP_ENDED,  
-} from '../../../Utils'
-import { api, util } from '../../../../../utils'
-import _ from 'lodash'
+  CTP_LOADING,
+  CTP_UP_NEXT,
+  CTP_ENDED,
+} from '../../../Utils';
+import './index.css';
 
-function UpNextWithRedux({
-  media,
-  ctpPriEvent=CTP_LOADING
-}) {
-
-  const [show, setShow] = useState(false)
+function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING }) {
+  const [show, setShow] = useState(false);
 
   const onClose = () => {
-    setShow(false)
-  }
+    setShow(false);
+  };
 
-  let upNext = videoControl.findUpNextMedia({ currMediaId: media.id })
-  
+  const upNext = videoControl.findUpNextMedia({ currMediaId: media.id });
+
   useEffect(() => {
-    let displayUpnext = (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && upNext && Boolean(upNext.id)
+    const displayUpnext =
+      (ctpPriEvent === CTP_UP_NEXT || ctpPriEvent === CTP_ENDED) && upNext && Boolean(upNext.id);
+
     if (displayUpnext) {
-      setShow(true)
+      setShow(true);
     } else {
-      setShow(false)
+      setShow(false);
     }
-  }, [ctpPriEvent])
+  }, [ctpPriEvent]);
 
   return show ? (
-    <div 
-      className="watch-prompt watch-upn" 
-      data-position="bottom left"
-    >
+    <div className="watch-prompt watch-upn" data-position="bottom left">
       <div className="prompt-upnext" id="watch-upnext">
         <div className="wml-header watch-un-header">
           <h3>
-            <i className="material-icons" aria-hidden="true">skip_next</i>
+            <i className="material-icons" aria-hidden="true">
+              skip_next
+            </i>
             Next Video
           </h3>
           <button className="plain-btn wml-close-btn" aria-label="Close" onClick={onClose}>
@@ -52,30 +50,26 @@ function UpNextWithRedux({
         <Video upNext={upNext} />
       </div>
     </div>
-  ) : null
+  ) : null;
 }
 
-function Video({ 
-  upNext=null, 
-}) {
-  const media =  api.parseMedia(upNext)
-  const { id, mediaName } = media
+function Video({ upNext = null }) {
+  const media = api.parseMedia(upNext);
+  const { id, mediaName } = media;
 
   return (
-    <div role="listitem"  className="watch-video-item search-result-listitem search-result-videos">
-      <VideoCard row dark
+    <div role="listitem" className="watch-video-item search-result-listitem search-result-videos">
+      <VideoCard
+        row
+        dark
         id={id}
         name={mediaName}
-        posterSize={'100px'}
+        posterSize="100px"
         fittedNameSize={-1}
         link={util.links.watch(id)}
       />
     </div>
-  )
+  );
 }
 
-export const UpNext = connectWithRedux(
-  UpNextWithRedux,
-  ['media', 'ctpPriEvent'],
-  []
-)
+export const UpNext = connectWithRedux(UpNextWithRedux, ['media', 'ctpPriEvent']);

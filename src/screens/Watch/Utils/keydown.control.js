@@ -1,52 +1,50 @@
-import $ from 'jquery'
-import { isDeveloping } from '../../../utils'
+import $ from 'jquery';
+// import { isDeveloping } from '../../../utils';
 
-import { videoControl } from './player.control'
-import { menuControl  } from './menu.control'
-import { transControl } from './trans.control'
-import { searchControl } from './search.control'
+import { videoControl } from './player.control';
+import { menuControl } from './menu.control';
+import { transControl } from './trans.control';
+import { searchControl } from './search.control';
 
-import { 
-  MENU_LANGUAGE, 
-  MENU_SCREEN_MODE, 
-  MENU_PLAYLISTS, 
-  MENU_PLAYBACKRATE, 
+import {
+  MENU_LANGUAGE,
+  MENU_SCREEN_MODE,
+  MENU_PLAYLISTS,
+  MENU_PLAYBACKRATE,
   MENU_SETTING,
   MENU_DOWNLOAD,
-  MENU_SHORTCUTS
-} from './constants.util'
-
-
-function keyDownListener(e) {
-  const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
-  if (isDeveloping) console.log('keydown', { keyCode, metaKey, ctrlKey, shiftKey, altKey })
-  keydownControl.handleKeyDown(e)
-}
-
+  MENU_SHORTCUTS,
+} from './constants.util';
 
 export const keydownControl = {
   addedKeyDownListener: false,
-  addKeyDownListener: function() {
-    if (this.addedKeyDownListener) return;
-    document.addEventListener('keydown', keyDownListener, true)
-    this.addedKeyDownListener = true
+
+  keyDownListener(e) {
+    // const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e;
+    // if (isDeveloping) console.log('keydown', { keyCode, metaKey, ctrlKey, shiftKey, altKey });
+    keydownControl.handleKeyDown(e);
   },
 
-  handleKeyDown: function(e) {
+  addKeyDownListener() {
+    if (this.addedKeyDownListener) return;
+    document.addEventListener('keydown', this.keyDownListener, true);
+    this.addedKeyDownListener = true;
+  },
+
+  handleKeyDown(e) {
     if (window.location.pathname !== '/video') {
-      document.removeEventListener('keydown', keyDownListener, true)
-      return
+      document.removeEventListener('keydown', this.keyDownListener, true);
+      return;
     }
-    
-    const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e
-    const ctrlKey_ = ctrlKey || metaKey
+
+    const { keyCode, metaKey, ctrlKey, shiftKey, altKey } = e;
+    const ctrlKey_ = ctrlKey || metaKey;
 
     // quit if any <input/>'s are been focusing
     if (this.inputFocusing(e)) return;
 
     if (ctrlKey_) {
       switch (keyCode) {
-        
         default:
           return;
       }
@@ -54,7 +52,6 @@ export const keydownControl = {
 
     if (altKey) {
       switch (keyCode) {
-        
         default:
           return;
       }
@@ -66,74 +63,74 @@ export const keydownControl = {
     if (shiftKey) {
       switch (keyCode) {
         // `+` (Shift + +) - increase closed caption size
-        case 187: 
-          return transControl.ccIncreaseSize()
+        case 187:
+          return transControl.ccIncreaseSize();
         // `_` (Shift + -) - decrease closed caption
-        case 189: 
-          return transControl.ccDecreaseSize()
+        case 189:
+          return transControl.ccDecreaseSize();
         // `<` (Shift + ,) - switch videos
         case 188:
-          return videoControl.switchVideo()
+          return videoControl.switchVideo();
         // `?` (Shift + /) - open Search
         case 191:
-          e.preventDefault()
-          return searchControl.openSearch()
+          e.preventDefault();
+          return searchControl.openSearch();
         // Up Arrow
         case 38:
-          return videoControl.playbackRateIncrement()
+          return videoControl.playbackRateIncrement();
         // Down Arrow
         case 40:
-          return videoControl.playbackRateDecrease()
+          return videoControl.playbackRateDecrease();
         // Menu events
         default:
-          return this.shortcutsForMenus(keyCode)
+          return this.shortcutsForMenus(keyCode);
       }
     }
 
-    /** 
+    /**
      * One key events
      */
     switch (keyCode) {
       // `Space` / `k` : Pause or play
       case 32:
-        return this.handleSpaceKey(e)
+        return this.handleSpaceKey(e);
       // Left Arrow
       case 37:
-        return this.handleLeftArrow(e)
+        return this.handleLeftArrow(e);
       // Up Arrow
       case 38:
-        return this.handleUpArrow(e)
+        return this.handleUpArrow(e);
       // Right Arrow
       case 39:
-        return this.handleRightArrow(e)
+        return this.handleRightArrow(e);
       // Down Arrow
       case 40:
-        return this.handleDownArrow(e)
+        return this.handleDownArrow(e);
       // `c` - closed caption on/off
       case 67:
-        return transControl.handleOpenCC()
+        return transControl.handleOpenCC();
       // `d` - Audio Description on/off
       case 68:
-        return transControl.handleOpenAD()
+        return transControl.handleOpenAD();
       // Alt + e - edit current caption
       case 69:
-          e.preventDefault()
-          return transControl.editCurrent()
+        e.preventDefault();
+        return transControl.editCurrent();
       // `f` - enter full screen
       case 70:
-        return videoControl.handleFullScreen()
+        return videoControl.handleFullScreen();
       // `j` - rewind 10s
       case 74:
-        return videoControl.rewind()
+        return videoControl.rewind();
       // `k` - play/pause
       case 75:
-        return videoControl.handlePause()
+        return videoControl.handlePause();
       // `l` - forward 10s
       case 76:
-        return videoControl.forward()
+        return videoControl.forward();
       // `m` : mute
       case 77:
-        return videoControl.mute()
+        return videoControl.mute();
 
       // `0-9`: seek to 0%-90% of duration
       case 48:
@@ -146,62 +143,69 @@ export const keydownControl = {
       case 55:
       case 56:
       case 57:
-        return videoControl.seekToPercentage((keyCode - 48) / 10.0)
+        return videoControl.seekToPercentage((keyCode - 48) / 10.0);
       default:
         break;
     }
   },
 
-  inputFocusing: function(e) {
+  inputFocusing(e) {
     if (e.target) {
-      if (e.target.localName === 'input' && e.target.type === 'text') return true
-      if (e.target.localName === 'textarea') return true
-      if (e.target.contentEditable === 'true') return true
+      if (e.target.localName === 'input' && e.target.type === 'text') return true;
+      if (e.target.localName === 'textarea') return true;
+      if (e.target.contentEditable === 'true') return true;
     }
   },
 
   /**
    * Keydown handler for menu-related operations
    * Have to be under `Shift key`
-   * @param {Number} keyCode 
-   * @return {Boolean} - true if it's a menu-related shortcut 
+   * @param {Number} keyCode
+   * @return {Boolean} - true if it's a menu-related shortcut
    */
-  shortcutsForMenus: function(keyCode) {
-    
-    const openMenu = menuType => {
-      menuControl.open(menuType, 'b')
-      return true
-    }
+  shortcutsForMenus(keyCode) {
+    const openMenu = (menuType) => {
+      menuControl.open(menuType, 'b');
+      return true;
+    };
 
     switch (keyCode) {
       // `⇧ Shift + Q` : Close Menu
       case 81:
-        menuControl.close()
-        return true
+        menuControl.close();
+        return true;
       // `⇧ Shift + S` : Open Closed Caption Setting Menu
-      case 67:  return openMenu(MENU_SETTING)
+      case 67:
+        return openMenu(MENU_SETTING);
       // `⇧ Shift + D` : Open Download Menu
-      case 68:  return openMenu(MENU_DOWNLOAD)
+      case 68:
+        return openMenu(MENU_DOWNLOAD);
       // `⇧ Shift + L` : Open Language Menu
-      case 76:  return openMenu(MENU_LANGUAGE)
+      case 76:
+        return openMenu(MENU_LANGUAGE);
       // `⇧ Shift + S` : Open Playlists Menu
-      case 80:  return openMenu(MENU_PLAYLISTS)
+      case 80:
+        return openMenu(MENU_PLAYLISTS);
       // `⇧ Shift + S` : Open Playback Rates Menu
-      case 82:  return openMenu(MENU_PLAYBACKRATE)
+      case 82:
+        return openMenu(MENU_PLAYBACKRATE);
       // `⇧ Shift + S` : Open Screen Mode Menu
-      case 83:  return openMenu(MENU_SCREEN_MODE)
+      case 83:
+        return openMenu(MENU_SCREEN_MODE);
       // Not a menu-related shortcut
-      case 220: return openMenu(MENU_SHORTCUTS)
-      default:  return false
+      case 220:
+        return openMenu(MENU_SHORTCUTS);
+      default:
+        return false;
     }
   },
 
-  handleSpaceKey: function(e) {
-    e.preventDefault()
+  handleSpaceKey(e) {
+    e.preventDefault();
     // If there is no menu opening - play or pause
     if (!menuControl.isOpen()) {
-      videoControl.handlePause()
-    } 
+      videoControl.handlePause();
+    }
   },
 
   // handleVideoShortcuts: function(type) {
@@ -220,11 +224,10 @@ export const keydownControl = {
   /**
    * Function for handling down-arrow key down
    */
-  handleDownArrow: function(e) {
-    
+  handleDownArrow(e) {
     // If there is no menu opening - decrease the volume by 0.1 each time
     if (!menuControl.isOpen()) {
-      $('#volume-slider').focus() // NEED TO MODIFY
+      $('#volume-slider').focus(); // NEED TO MODIFY
       return;
     }
 
@@ -239,38 +242,35 @@ export const keydownControl = {
     }
 
     // If menu is open switch the focus on the list items
-    let currMenu = menuControl.menu()
+    const currMenu = menuControl.menu();
     if (currMenu === MENU_SETTING) {
       return;
 
-    // For the playlists menu
-    // Focus on the next playlist or video item
-    } else if (currMenu === MENU_PLAYLISTS) {
-      e.preventDefault()
-      this.keydownForPlaylistsMenu('down')
-      return;
-    
+      // For the playlists menu
+      // Focus on the next playlist or video item
+    }
+    if (currMenu === MENU_PLAYLISTS) {
+      e.preventDefault();
+      this.keydownForPlaylistsMenu('down');
     } else if (currMenu === MENU_SHORTCUTS) {
-      return;
-    
-    // Operations for language, playback rate, 
-    // download, and screen mode menus
+      // Operations for language, playback rate,
+      // download, and screen mode menus
     } else {
-      let currFocusElem = $('.watch-icon-listitem:focus')
-      let nextElem = null
+      const currFocusElem = $('.watch-icon-listitem:focus');
+      let nextElem = null;
       // If there is a focused item, focus its next one
       if (currFocusElem.length) {
-        nextElem = currFocusElem.next()
-      // If no existing focused item, focus on the first one
+        nextElem = currFocusElem.next();
+        // If no existing focused item, focus on the first one
       } else {
-        nextElem = $('.watch-icon-listitem:first-child')
+        nextElem = $('.watch-icon-listitem:first-child');
       }
 
       if (nextElem.length) {
-        nextElem.focus()
-      // if it's the last one, focus on menu trigger
+        nextElem.focus();
+        // if it's the last one, focus on menu trigger
       } else {
-        $(`#${currMenu}`).focus()
+        $(`#${currMenu}`).focus();
       }
     }
   },
@@ -278,19 +278,19 @@ export const keydownControl = {
   /**
    * Function for handling up-arrow key down
    */
-  handleUpArrow: function(e) {
+  handleUpArrow(e) {
     // If there is no menu opening - increment the volume by 0.1 each time
     if (!menuControl.isOpen()) {
       if ($(`.watch-ctrl-button:focus`).length) {
         /**
          * @TODO need to modify when finish transcription part
          */
-        document.activeElement.blur() 
+        document.activeElement.blur();
       } else {
-        $('#volume-slider').focus() 
+        $('#volume-slider').focus();
       }
       return;
-    } 
+    }
 
     // If it's a slider operation
     if ($('#volume-slider:focus').length || $('#playback-rate-slider:focus').length) {
@@ -303,38 +303,35 @@ export const keydownControl = {
     }
 
     // If menu is open switch the focus on the list items
-    let currMenu = menuControl.menu()
+    const currMenu = menuControl.menu();
     if (currMenu === MENU_SETTING) {
       return;
-    
-    // For the playlists menu
-    // Focus on the previous playlist or video item
-    } else if (currMenu === MENU_PLAYLISTS) {
-      e.preventDefault()
-      this.keydownForPlaylistsMenu('up')
-      return;
-    
+
+      // For the playlists menu
+      // Focus on the previous playlist or video item
+    }
+    if (currMenu === MENU_PLAYLISTS) {
+      e.preventDefault();
+      this.keydownForPlaylistsMenu('up');
     } else if (currMenu === MENU_SHORTCUTS) {
-      return;
-    
-    // Operations for language, playback rate, 
-    // download, and screen mode menus
+      // Operations for language, playback rate,
+      // download, and screen mode menus
     } else {
-      let currFocusElem = $('.watch-icon-listitem:focus')
-      let nextElem = null
+      const currFocusElem = $('.watch-icon-listitem:focus');
+      let nextElem = null;
       // If there is a focused item, focus its previous one
       if (currFocusElem.length) {
-        nextElem = currFocusElem.prev()
-      // If no existing focused item, focus on the last one
+        nextElem = currFocusElem.prev();
+        // If no existing focused item, focus on the last one
       } else {
-        nextElem = $('.watch-icon-listitem:last-child')
+        nextElem = $('.watch-icon-listitem:last-child');
       }
-      
+
       if (nextElem.length) {
-        nextElem.focus()
-      // if it's the first one, focus on the close btn
+        nextElem.focus();
+        // if it's the first one, focus on the close btn
       } else {
-        $(`.watch-menu-close-btn`).focus()
+        $(`.watch-menu-close-btn`).focus();
       }
     }
   },
@@ -342,228 +339,224 @@ export const keydownControl = {
   /**
    * Function for handling left-arrow key down
    */
-  handleLeftArrow: function(e) {
-    const skipBtnFocus = $('.skip-btn:focus')
+  handleLeftArrow(e) {
+    const skipBtnFocus = $('.skip-btn:focus');
     if (skipBtnFocus.length) {
-      skipBtnFocus.prev().focus()
+      skipBtnFocus.prev().focus();
       return;
     }
-    // If is focusing on the volume slider, 
+    // If is focusing on the volume slider,
     // then focus on the volume mute trigger
     if ($('#volume-slider:focus').length) {
-      $('#volume-mute-btn').focus()
+      $('#volume-mute-btn').focus();
       return;
-    } 
-    // If is focusing on the volume mute button, 
+    }
+    // If is focusing on the volume mute button,
     // then focus on the switch screen trigger
     if ($('#volume-mute-btn:focus').length) {
-      let switchScreenBtnElem = $('#switch-screen-btn')
-      if (switchScreenBtnElem.length) switchScreenBtnElem.focus()
-      else $('#play-btn').focus()
+      const switchScreenBtnElem = $('#switch-screen-btn');
+      if (switchScreenBtnElem.length) switchScreenBtnElem.focus();
+      else $('#play-btn').focus();
       return;
     }
     // if is focusing on the playback rate menu trigger
     // focus on the volume slider
     if ($(`#${MENU_PLAYBACKRATE}:focus`).length) {
-      $('#volume-slider').focus()
+      $('#volume-slider').focus();
       return;
-    } 
+    }
 
     // If it's other triggers in the control bar
     // focus on its previous one
-    let menuTriggerFocusElem = $(`.watch-ctrl-button:focus`)
+    const menuTriggerFocusElem = $(`.watch-ctrl-button:focus`);
     if (menuTriggerFocusElem.length) {
-      menuTriggerFocusElem.prev().focus()
+      menuTriggerFocusElem.prev().focus();
       return;
-    } 
+    }
 
     if (!menuControl.isOpen()) {
       // NEED TO MODIFY
-      videoControl.rewind()
+      videoControl.rewind();
       return;
-    } 
+    }
 
-    let currMenu = menuControl.menu()
+    const currMenu = menuControl.menu();
 
     if (currMenu === MENU_SETTING) {
-      return;
-    
-    // For the playlists menu
-    // Focus on the current playlist elem
+      // For the playlists menu
+      // Focus on the current playlist elem
     } else if (currMenu === MENU_PLAYLISTS) {
-      e.preventDefault()
-      this.keydownForPlaylistsMenu('left')
-      return;
+      e.preventDefault();
+      this.keydownForPlaylistsMenu('left');
 
-    // For the playback rate menu
-    // focus on the slider
+      // For the playback rate menu
+      // focus on the slider
     } else if (currMenu === MENU_PLAYBACKRATE) {
-      let sliderElem = $('.playbackrate-slider')
-      sliderElem.focus()
-      return;
-    // Operations for simple menus, 
-    // i.e. language, download, and screen mode menus
-    } else {
-      return;
+      const sliderElem = $('.playbackrate-slider');
+      sliderElem.focus();
+
+      // Operations for simple menus,
+      // i.e. language, download, and screen mode menus
     }
   },
 
   /**
    * Function for handling right-arrow key down
    */
-  handleRightArrow: function(e) {
-    const skipBtnFocus = $('.skip-btn:focus')
+  handleRightArrow(e) {
+    const skipBtnFocus = $('.skip-btn:focus');
     if (skipBtnFocus.length) {
-      skipBtnFocus.next().focus()
+      skipBtnFocus.next().focus();
       return;
     }
 
-    // If is focusing on the volume slider, 
+    // If is focusing on the volume slider,
     // then focus on the playback rate menu trigger
     if ($('#volume-slider:focus').length) {
-      $(`#${MENU_PLAYBACKRATE}`).focus()
+      $(`#${MENU_PLAYBACKRATE}`).focus();
       return;
-    } 
+    }
 
     // If is focusing on the switch screen trigger
     // then focus on the  volume mute button
     if (!$('#switch-screen-btn').length) {
       if ($('#play-btn:focus').length) {
-        $('#volume-mute-btn').focus()
+        $('#volume-mute-btn').focus();
         return;
       }
     }
 
     if ($('#switch-screen-btn:focus').length) {
-      $('#volume-mute-btn').focus()
+      $('#volume-mute-btn').focus();
       return;
     }
 
     // If it's other triggers in the control bar
     // focus on its next one
-    let menuTriggerFocusElem = $(`.watch-ctrl-button:focus`)
+    const menuTriggerFocusElem = $(`.watch-ctrl-button:focus`);
     if (menuTriggerFocusElem.length) {
-      menuTriggerFocusElem.next().focus()
+      menuTriggerFocusElem.next().focus();
       return;
     }
 
     if (!menuControl.isOpen()) {
       // NEED TO MODIFY
-      videoControl.forward()
+      videoControl.forward();
       return;
-    } 
+    }
 
-    let currMenu = menuControl.menu()
+    const currMenu = menuControl.menu();
     if (currMenu === MENU_SETTING) {
-      return;
-
-    // For the playlists menu
-    // Focus on the first video card elem
+      // For the playlists menu
+      // Focus on the first video card elem
     } else if (currMenu === MENU_PLAYLISTS) {
-      e.preventDefault()
-      this.keydownForPlaylistsMenu('right')
-      return;
+      e.preventDefault();
+      this.keydownForPlaylistsMenu('right');
 
-    // For the playback rate menu
-    // focus on first elem of list items
+      // For the playback rate menu
+      // focus on first elem of list items
     } else if (currMenu === MENU_PLAYBACKRATE) {
-      let sliderFocusElem = $('.playbackrate-slider:focus')
+      const sliderFocusElem = $('.playbackrate-slider:focus');
       // console.log(sliderFocusElem)
       if (sliderFocusElem.length) {
-        sliderFocusElem.blur()
-        $('.watch-icon-listitem:first-child').focus()
+        sliderFocusElem.blur();
+        $('.watch-icon-listitem:first-child').focus();
       }
-      return;
-    // Operations for simple menus, 
-    // i.e. language, download, and screen mode menus
-    } else {
-      return;
+
+      // Operations for simple menus,
+      // i.e. language, download, and screen mode menus
     }
   },
 
-  keydownForPlaylistsMenu: function(type) {
-    let playlistFocusElem = $('.watch-playlist-item:focus')
-    let videoCardFocusElem = $('.video-card:focus')
-    let videoCardFirstChild = $('.video-card[current=true]')
+  keydownForPlaylistsMenu(type) {
+    const playlistFocusElem = $('.watch-playlist-item:focus');
+    const videoCardFocusElem = $('.video-card:focus');
+    let videoCardFirstChild = $('.video-card[current=true]');
     if (!videoCardFirstChild.length) {
-      videoCardFirstChild = $('.video-card')[0]
+      videoCardFirstChild = $('.video-card')[0];
     }
     switch (type) {
       // Down
       case 'down':
         if (playlistFocusElem.length) {
-          playlistFocusElem.next().focus()
+          playlistFocusElem.next().focus();
         } else if (videoCardFocusElem.length) {
           videoCardFocusElem
-            .parent().parent().next()
+            .parent()
+            .parent()
+            .next()
             .children('.video-card-container-row')
             .children('.video-card')
-            .focus()
-        } else {
-          if (videoCardFirstChild) videoCardFirstChild.focus()
-        }
+            .focus();
+        } else if (videoCardFirstChild) videoCardFirstChild.focus();
         return;
       // Up
-      case 'up': 
+      case 'up':
         if (playlistFocusElem.length) {
-          let prevPlaylistElem = playlistFocusElem.prev()
-          if(prevPlaylistElem.length) {
-            prevPlaylistElem.focus()
+          const prevPlaylistElem = playlistFocusElem.prev();
+          if (prevPlaylistElem.length) {
+            prevPlaylistElem.focus();
           } else {
-            $('.watch-menu-close-btn').focus()
+            $('.watch-menu-close-btn').focus();
           }
         } else if (videoCardFocusElem.length) {
-          let prevVideoCardElem = videoCardFocusElem
-            .parent().parent().prev()
+          const prevVideoCardElem = videoCardFocusElem
+            .parent()
+            .parent()
+            .prev()
             .children('.video-card-container-row')
-            .children('.video-card')
+            .children('.video-card');
           if (prevVideoCardElem.length) {
-            prevVideoCardElem.focus()
+            prevVideoCardElem.focus();
           } else {
-            $('.watch-menu-close-btn').focus()
+            $('.watch-menu-close-btn').focus();
           }
         } else {
-          let lastVideoCardElem = $('.video-card[current=true]')
-          if (!lastVideoCardElem.length) lastVideoCardElem = $('.watch-video-item:last-child').children('.video-card-container-row').children('.video-card')
-          lastVideoCardElem.focus()
+          let lastVideoCardElem = $('.video-card[current=true]');
+          if (!lastVideoCardElem.length)
+            lastVideoCardElem = $('.watch-video-item:last-child')
+              .children('.video-card-container-row')
+              .children('.video-card');
+          lastVideoCardElem.focus();
         }
         return;
       case 'right':
-        playlistFocusElem.click()
-        videoCardFirstChild = $('.video-card[current=true]')
+        playlistFocusElem.click();
+        videoCardFirstChild = $('.video-card[current=true]');
         if (!videoCardFirstChild.length) {
-          videoCardFirstChild = $('.video-card')[0]
+          videoCardFirstChild = $('.video-card')[0];
         }
         if (!$('.video-card:focus').length) {
           if (videoCardFirstChild) {
-            videoCardFirstChild.focus()
+            videoCardFirstChild.focus();
           }
         } else {
-          $('.watch-menu-close-btn').focus()
+          $('.watch-menu-close-btn').focus();
         }
         return;
       case 'left':
         if ($('.watch-menu-close-btn:focus').length) {
-          if (videoCardFirstChild) videoCardFirstChild.focus()
+          if (videoCardFirstChild) videoCardFirstChild.focus();
         } else if (!$('.watch-playlist-item:focus').length) {
-          $('.watch-playlist-item[active=true]').focus()
+          $('.watch-playlist-item[active=true]').focus();
         }
-        return;
+
+        break;
       default:
         break;
     }
   },
 
-  openTabHelper: function() {
-    $('#skip-to-ctrl-bar').focus()
+  openTabHelper() {
+    $('#skip-to-ctrl-bar').focus();
   },
-  skipToControlBar: function() {
-    $('#play-btn').focus()
+  skipToControlBar() {
+    $('#play-btn').focus();
   },
-  skipToCaptionBox: function() {
-    $('#trans-setting-btn').focus()
+  skipToCaptionBox() {
+    $('#trans-setting-btn').focus();
   },
-  skipToContinue: function() {
-    $('#brand').focus()
-  }
-}
+  skipToContinue() {
+    $('#brand').focus();
+  },
+};

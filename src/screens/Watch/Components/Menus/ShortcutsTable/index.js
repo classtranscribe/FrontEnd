@@ -1,11 +1,8 @@
-import React from 'react'
-import { shortcuts } from '../../../Utils'
-import './index.css'
+import React from 'react';
+import { shortcuts } from '../../../Utils';
+import './index.css';
 
-function ShortcutsTable({
-  show=false,
-  onClose=null,
-}) {
+function ShortcutsTable({ onClose = null }) {
   return (
     <div id="watch-shortcuts-table-container">
       <div className="w-100 d-flex justify-content-between">
@@ -14,18 +11,19 @@ function ShortcutsTable({
           <i className="material-icons">close</i>
         </button>
       </div>
+
       <span className="shortcuts-table-row">
-        {shortcuts.map( catagory => (
+        {shortcuts.map((catagory) => (
           <div className="shortcuts-table-col" key={catagory.name}>
             <h3 className="shortcuts-table-h3">{catagory.name}</h3>
             <table className="shortcuts-table" role="presentation">
               <tbody>
-                {catagory.rows.map( row => (
+                {catagory.rows.map((row) => (
                   <tr className="shortcuts-tr" key={row.action}>
                     <td className="shortcuts-des">{row.action}</td>
                     <td className="shortcuts-key">
-                      {row.keys.map( (key, index) => (
-                        <ShortcutKey skey={key} key={`${row.action}-${index}`} index={index} />
+                      {row.keys.map((key, index) => (
+                        <ShortcutKey skey={key} key={row.action} index={index} />
                       ))}
                     </td>
                   </tr>
@@ -36,19 +34,24 @@ function ShortcutsTable({
         ))}
       </span>
     </div>
-  )
+  );
 }
 
 export function ShortcutKey({ skey, index }) {
-  let prefix = index > 0 ? ' or ' : ''
-  let { key1, key2 } = skey
+  const prefix = index > 0 ? ' or ' : '';
+  const { key1, key2 } = skey;
   return (
     <>
       {prefix}
       <kbd>{key1}</kbd>
-      {key2 && <> + <kbd>{key2}</kbd></>}
+      {key2 && (
+        <>
+          {' '}
+          + <kbd>{key2}</kbd>
+        </>
+      )}
     </>
-  )
+  );
 }
 
-export default ShortcutsTable
+export default ShortcutsTable;

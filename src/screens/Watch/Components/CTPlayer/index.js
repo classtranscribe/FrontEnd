@@ -2,145 +2,147 @@
  * The Player which supports different screen modes
  */
 
-import React from 'react'
-import { isMobile } from 'react-device-detect'
-import './index.css'
-import './playerModes.css'
-import PlayerWrapper from './PlayerWrapper'
-// Vars
-import { util } from '../../../../utils'
-import { 
+import React from 'react';
+import { isMobile } from 'react-device-detect';
+import { util } from 'utils';
+import {
   connectWithRedux,
-  videoControl as control, 
-  PRIMARY, 
+  videoControl as control,
+  PRIMARY,
   SECONDARY,
   PS_MODE,
   NESTED_MODE,
-} from '../../Utils'
+} from '../../Utils';
+import './index.css';
+import './playerModes.css';
 
-
+import PlayerWrapper from './PlayerWrapper';
 
 export class ClassTranscribePlayerWithRedux extends React.Component {
   constructor(props) {
-    super(props)
-    this.mediaId = util.links.useSearch().id
+    super(props);
+    this.mediaId = util.links.useSearch().id;
     this.state = {
       srcPath1: null,
       srcPath2: null,
-    }
+    };
   }
 
   componentDidUpdate(prevProps) {
-    const { media, /** offeringId, */ setTime, setMode, } = this.props
+    const { media, setMode } = this.props;
 
     if (prevProps.media !== media) {
       // set src for videos
-      const { videos, isTwoScreen } = media
-      const { srcPath1, srcPath2 } = videos[0] || {}
+      const { videos, isTwoScreen } = media;
+      const { srcPath1, srcPath2 } = videos[0] || {};
       // set src paths
-      this.setState({ srcPath1, srcPath2 })
+      this.setState({ srcPath1, srcPath2 });
 
-      // if not a mobile device and is two-screen media, 
+      // if not a mobile device and is two-screen media,
       // choose a mode according to the window's width
-      if (isTwoScreen && !isMobile) setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE)
+      if (isTwoScreen && !isMobile) {
+        setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE);
+      }
 
       // register video elem for ctrlor
-      control.init(this.videoNode1, this.videoNode2, this.props)
+      control.init(this.videoNode1, this.videoNode2, this.props);
     }
   }
 
-  handlePause = position => () => {
+  handlePause = (position) => () => {
     if (position === PRIMARY) {
-      control.handlePause()
+      control.handlePause();
     }
-  }
+  };
 
   // Event handlers for primary video
-  onPause = e => {
-    const { paused } = this.props
-    control.onPause(e, paused)
-  }
-  onTimeUpdate = e => {
-    control.onTimeUpdate(e)
-  }
-  onDurationChange = e => {
-    control.onDurationChange(e)
-  }
-  onProgress = e => {
-    control.onProgress(e)
-  }
-  onLoadStartPri = e => {
-    control.onLoadStart(e, true)
-  }
-  onLoadedDataPri = e => {
-    control.onLoadedData(e, true)
-  }
-  onCanPlayPri = e => {
-    const { media } = this.props
-    control.onCanPlay(e, true, media)
-  }
-  onWaitingPri = e => {
-    control.onWaiting(e, true)
-  }
-  onPlayingPri = e => {
-    control.onPlaying(e, true)
-  }
-  onEndedPri = e => {
-    control.onEnded(e)
-  }
-  onSeekingPri = e => {
-    control.onSeeking(e)
-  }
-  onSeekedPri = e => {
-    control.onSeeked(e)
-  }
-  onErrorPri = e => {
-    control.onError(e, true)
-  }
+  onPause = (e) => {
+    const { paused } = this.props;
+    control.onPause(e, paused);
+  };
+  onTimeUpdate = (e) => {
+    control.onTimeUpdate(e);
+  };
+  onDurationChange = (e) => {
+    control.onDurationChange(e);
+  };
+  onProgress = (e) => {
+    control.onProgress(e);
+  };
+  onLoadStartPri = (e) => {
+    control.onLoadStart(e, true);
+  };
+  onLoadedDataPri = (e) => {
+    control.onLoadedData(e, true);
+  };
+  onCanPlayPri = (e) => {
+    const { media } = this.props;
+    control.onCanPlay(e, true, media);
+  };
+  onWaitingPri = (e) => {
+    control.onWaiting(e, true);
+  };
+  onPlayingPri = (e) => {
+    control.onPlaying(e, true);
+  };
+  onEndedPri = (e) => {
+    control.onEnded(e);
+  };
+  onSeekingPri = (e) => {
+    control.onSeeking(e);
+  };
+  onSeekedPri = (e) => {
+    control.onSeeked(e);
+  };
+  onErrorPri = (e) => {
+    control.onError(e, true);
+  };
 
   // Event handlers for secondary video
-  onLoadStartSec = e => {
-    control.onLoadStart(e, false)
-  }
-  onLoadedDataSec = e => {
-    control.onLoadedData(e, false)
-  }
-  onCanPlaySec = e => {
-    const { media } = this.props
-    control.onCanPlay(e, false, media)
-  }
-  onWaitingSec = e => {
-    control.onWaiting(e, false)
-  }
-  onPlayingSec = e => {
-    control.onPlaying(e, false)
-  }
-  onErrorSec = e => {
-    control.onError(e, false)
-  }
+  onLoadStartSec = (e) => {
+    control.onLoadStart(e, false);
+  };
+  onLoadedDataSec = (e) => {
+    control.onLoadedData(e, false);
+  };
+  onCanPlaySec = (e) => {
+    const { media } = this.props;
+    control.onCanPlay(e, false, media);
+  };
+  onWaitingSec = (e) => {
+    control.onWaiting(e, false);
+  };
+  onPlayingSec = (e) => {
+    control.onPlaying(e, false);
+  };
+  onErrorSec = (e) => {
+    control.onError(e, false);
+  };
 
   render() {
-    const { srcPath1, srcPath2 } = this.state
-    const { media, mode, isSwitched, transView, isFullscreen } = this.props
-    const { isTwoScreen, /** transcriptions */ } = media
+    const { srcPath1, srcPath2 } = this.state;
+    const { media, mode, isSwitched, transView, isFullscreen } = this.props;
+    const { isTwoScreen /** transcriptions */ } = media;
 
-    const player1Position = isSwitched ? SECONDARY : PRIMARY
-    const player2Position = isSwitched ? PRIMARY : SECONDARY
+    const player1Position = isSwitched ? SECONDARY : PRIMARY;
+    const player2Position = isSwitched ? PRIMARY : SECONDARY;
 
     return (
       <>
-        <div 
-          className={`ct-video-row ${player1Position}`} 
-          mode={mode} 
+        <div
+          className={`ct-video-row ${player1Position}`}
+          mode={mode}
           data-trans-view={transView}
           data-fullscreen={isFullscreen}
         >
           <div className="ct-video-contrainer">
             <PlayerWrapper isPrimary={!isSwitched} />
-            <video playsInline autoPlay={isMobile}
+            <video
+              playsInline
+              autoPlay={isMobile}
               className="ct-video"
               id="ct-video-1"
-              ref={node => this.videoNode1 = node}
+              ref={(node) => (this.videoNode1 = node)}
               onDurationChange={this.onDurationChange}
               onTimeUpdate={this.onTimeUpdate}
               onProgress={this.onProgress}
@@ -155,26 +157,26 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
               onSeeked={this.onSeekedPri}
               onError={this.onErrorPri}
             >
-              {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4"/>}
-              Your browser doesn't support video tag
+              {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4" />}
+              Your browser does not support video tag.
             </video>
           </div>
         </div>
-        {
-          isTwoScreen
-          &&
-          <div 
-            className={`ct-video-row ${player2Position}`} 
+        {isTwoScreen && (
+          <div
+            className={`ct-video-row ${player2Position}`}
             mode={mode}
             data-trans-view={transView}
             data-fullscreen={isFullscreen}
           >
             <div className="ct-video-contrainer">
               <PlayerWrapper isPrimary={isSwitched} />
-              <video muted playsInline
+              <video
+                muted
+                playsInline
                 className="ct-video"
                 id="ct-video-2"
-                ref={node => this.videoNode2 = node}
+                ref={(node) => (this.videoNode2 = node)}
                 onCanPlay={this.onCanPlaySec}
                 onLoadStart={this.onLoadStartSec}
                 onLoadedData={this.onLoadedDataSec}
@@ -182,33 +184,26 @@ export class ClassTranscribePlayerWithRedux extends React.Component {
                 onPlaying={this.onPlayingSec}
                 onError={this.onErrorSec}
               >
-                {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4"/>}
-                Your browser doesn't support video tag
+                {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4" />}
+                Your browser does not support video tag.
               </video>
             </div>
           </div>
-        }
+        )}
       </>
-    )
+    );
   }
 }
 
 export const ClassTranscribePlayer = connectWithRedux(
   ClassTranscribePlayerWithRedux,
-  [
-    'media', 
-    'mode', 
-    'isSwitched', 
-    'paused', 
-    'transView',
-    'isFullscreen'
-  ],
+  ['media', 'mode', 'isSwitched', 'paused', 'transView', 'isFullscreen'],
   [
     'setMode',
-    'setVolume', 
-    'setPause', 
-    'setPlaybackrate', 
-    'setTime', 
+    'setVolume',
+    'setPause',
+    'setPlaybackrate',
+    'setTime',
     'setMute',
     'switchScreen',
     'setDuration',
@@ -218,6 +213,6 @@ export const ClassTranscribePlayer = connectWithRedux(
     'setCTPSecEvent',
 
     'timeUpdate',
-    'changeVideo'
-  ]
-)
+    'changeVideo',
+  ],
+);

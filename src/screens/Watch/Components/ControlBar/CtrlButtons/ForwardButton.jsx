@@ -1,15 +1,14 @@
-import React from 'react'
-import WatchCtrlButton from '../../WatchCtrlButton'
-import { connectWithRedux, videoControl } from '../../../Utils'
+import React from 'react';
+import WatchCtrlButton from '../../WatchCtrlButton';
+import { connectWithRedux, videoControl } from '../../../Utils';
 
 export function ForwardButtonWithRedux() {
-
   const handleForward = () => {
-    videoControl.forward(10)
-  }
+    videoControl.forward(10);
+  };
 
   return (
-    <WatchCtrlButton 
+    <WatchCtrlButton
       onClick={handleForward}
       label="Forward 10 Seconds"
       id="forward-screen-btn"
@@ -18,14 +17,10 @@ export function ForwardButtonWithRedux() {
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">forward_10</i>       
+        <i className="material-icons">forward_10</i>
       </span>
     </WatchCtrlButton>
-  )
+  );
 }
 
-export const ForwardButton = connectWithRedux(
-  ForwardButtonWithRedux,
-  [],
-  []
-)
+export const ForwardButton = connectWithRedux(ForwardButtonWithRedux);

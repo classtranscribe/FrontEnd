@@ -1,21 +1,15 @@
-import React from 'react'
-import WatchCtrlButton from '../../WatchCtrlButton'
-import { 
-  MENU_HIDE, MENU_DOWNLOAD, 
-  connectWithRedux,
-  menuControl
-} from '../../../Utils'
+import React from 'react';
+import { connectWithRedux, menuControl, MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
 
-export function DownloadMenuTrigger({
-  menu=MENU_HIDE,
-}) {
+import WatchCtrlButton from '../../WatchCtrlButton';
 
+function DownloadMenuTrigger({ menu = MENU_HIDE }) {
   const handleMenuTrigger = () => {
-    menuControl.open(MENU_DOWNLOAD, 'b')
-  }
+    menuControl.open(MENU_DOWNLOAD, 'b');
+  };
 
   return (
-    <WatchCtrlButton 
+    <WatchCtrlButton
       onClick={handleMenuTrigger}
       active={menu === MENU_DOWNLOAD}
       position="top"
@@ -23,20 +17,16 @@ export function DownloadMenuTrigger({
       id={MENU_DOWNLOAD}
       ariaTags={{
         'aria-label': `Download Menu`,
-        //'aria-keyshortcuts': 'Shift+D',
+        // 'aria-keyshortcuts': 'Shift+D',
         'aria-controls': 'watch-download-menu',
-        'aria-expanded' : menu === MENU_DOWNLOAD ? 'false' : 'true',
+        'aria-expanded': menu === MENU_DOWNLOAD ? 'false' : 'true',
       }}
     >
       <span className="watch-btn-content watch-header-btn-content" tabIndex="-1">
-        <i className="material-icons">cloud_download</i>     
+        <i className="material-icons">cloud_download</i>
       </span>
     </WatchCtrlButton>
-  )
+  );
 }
 
-export default connectWithRedux(
-  DownloadMenuTrigger,
-  ['menu'],
-  []
-)
+export default connectWithRedux(DownloadMenuTrigger, ['menu']);

@@ -1,45 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import MenuRadio from '../MenuRadio'
-import { 
+import React, { useState, useEffect } from 'react';
+import MenuRadio from '../MenuRadio';
+import {
   connectWithRedux,
   // videoControl,
   preferControl,
-} from '../../../../Utils'
+} from '../../../../Utils';
 
-function GeneralSetting({
-  show=false,
-}) {
-
-  const [autoPlay, setAutoPlay] = useState(preferControl.autoPlay())
+function GeneralSetting({ show = false }) {
+  const [autoPlay, setAutoPlay] = useState(preferControl.autoPlay());
 
   const handleAutoPlay = () => {
-    setAutoPlay( !autoPlay )
-    preferControl.autoPlay( !autoPlay )
-  }
+    setAutoPlay(!autoPlay);
+    preferControl.autoPlay(!autoPlay);
+  };
 
   useEffect(() => {
     if (show) {
-      document.getElementById('general-settings').scrollIntoView({ block: 'center' })
+      document.getElementById('general-settings').scrollIntoView({ block: 'center' });
     }
-  }, [show])
+  }, [show]);
 
   return (
     <form className="watch-menu-tab" id="general-settings">
       <h2 className="watch-menu-tab-title">General</h2>
       <div className="w-100">
-        <MenuRadio 
+        <MenuRadio
           id="auto-play-checkbox"
-          label="Auto Play" 
+          label="Auto Play"
           onChange={handleAutoPlay}
           checked={autoPlay}
         />
       </div>
     </form>
-  )
+  );
 }
 
-export default connectWithRedux(
-  GeneralSetting,
-  [],
-  []
-)
+export default connectWithRedux(GeneralSetting);
