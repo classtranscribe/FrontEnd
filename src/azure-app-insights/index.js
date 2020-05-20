@@ -1,7 +1,7 @@
-import AppInsightsProvider from './AppInsightsProvider'
+import AppInsightsProvider from './AppInsightsProvider';
 
-export default AppInsightsProvider
+export default AppInsightsProvider;
 
-export { getAppInsights } from './service'
+export { getAppInsights } from './service';
 
-export { SeverityLevel } from '@microsoft/applicationinsights-web'
+export { SeverityLevel } from '@microsoft/applicationinsights-web';
