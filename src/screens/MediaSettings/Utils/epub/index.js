@@ -1,4 +1,4 @@
-import { epubState } from '././epub-state';
+import { epubState } from './epub-state';
 
 import * as epubConstants from './constants';
 import * as epubUtils from './util';
@@ -9,20 +9,16 @@ import * as chapterEditor from './chapter-editor';
 import * as epubDownloader from './epub-downloader';
 
 export const epub = {
-    state: epubState,
-    resetEpubData: () => epubState.setEpubData([]),
+  state: epubState,
+  resetEpubData: () => epubState.setEpubData([]),
 
-    ...epubConstants,
-    ...epubUtils,
-    ...chapterHtmlConverter,
-    ...chapterNavigator,
-    ...chaperSplitter,
-    ...chapterEditor,
-    ...epubDownloader
+  ...epubConstants,
+  ...epubUtils,
+  ...chapterHtmlConverter,
+  ...chapterNavigator,
+  ...chaperSplitter,
+  ...chapterEditor,
+  ...epubDownloader,
 };
 
-export { 
-    epubStore, 
-    epubContext, 
-    connectWithRedux 
-} from 'redux/media-settings/epub';
+export { epubStore, epubContext, connectWithRedux } from 'redux/media-settings/epub';

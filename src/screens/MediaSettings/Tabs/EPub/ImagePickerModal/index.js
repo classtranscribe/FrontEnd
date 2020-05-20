@@ -1,87 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import { Tab } from 'semantic-ui-react';
 import { CTModal } from 'components';
-import './index.scss'
+import './index.scss';
 
 import ScreenshotTab from './ScreenshotTab';
 import UploadTab from './UploadTab';
 import ImagePickerModalActions from './ImagePickerModalActions';
 
 function ImagePickerModal({
-  show=false,
+  show = false,
   onSave,
   onClose,
-  screenshots=[],
-  chapterScreenshots=[],
+  screenshots = [],
+  chapterScreenshots = [],
   defaultImage,
 }) {
-
   const [imgUrl, setImgUrl] = useState(defaultImage);
 
   const onSaveImage = () => {
     if (onSave) {
       onSave(imgUrl);
     }
-  }
+  };
 
   useEffect(() => {
     setImgUrl(defaultImage);
-  }, [defaultImage])
+  }, [defaultImage]);
 
   let panes = [
-    { 
-      menuItem: 'All Screenshots', 
+    {
+      menuItem: 'All Screenshots',
       render: () => (
         <Tab.Pane>
-          <ScreenshotTab 
-            screenshots={screenshots} 
-            imgUrl={imgUrl} 
-            setImgUrl={setImgUrl}
-          /> 
+          <ScreenshotTab screenshots={screenshots} imgUrl={imgUrl} setImgUrl={setImgUrl} />
         </Tab.Pane>
-      )
+      ),
     },
-    { 
-      menuItem: 'Upload', 
+    {
+      menuItem: 'Upload',
       render: () => (
         <Tab.Pane>
-          <UploadTab
-            imgUrl={imgUrl}
-            setImgUrl={setImgUrl}
-          />
+          <UploadTab imgUrl={imgUrl} setImgUrl={setImgUrl} />
         </Tab.Pane>
-      ) },
+      ),
+    },
   ];
 
   if (chapterScreenshots.length > 0) {
     panes = [
       {
-        menuItem: 'Chapter Screenshots', 
+        menuItem: 'Chapter Screenshots',
         render: () => (
           <Tab.Pane>
-            <ScreenshotTab 
-              screenshots={chapterScreenshots} 
-              imgUrl={imgUrl} 
-              setImgUrl={setImgUrl}
-            /> 
+            <ScreenshotTab screenshots={chapterScreenshots} imgUrl={imgUrl} setImgUrl={setImgUrl} />
           </Tab.Pane>
-        )
+        ),
       },
-      ...panes
+      ...panes,
     ];
   }
 
   return (
-    <CTModal large
+    <CTModal
+      large
       show={show}
       title="Choose Cover Image"
       onClose={onClose}
-      actions={
-        <ImagePickerModalActions 
-          onSave={onSaveImage}
-          onClose={onClose}
-        />
-      }
+      actions={<ImagePickerModalActions onSave={onSaveImage} onClose={onClose} />}
     >
       <Tab panes={panes} />
     </CTModal>
