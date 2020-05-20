@@ -1,26 +1,26 @@
-import React from 'react'
-import './index.css'
-import { Popup } from 'semantic-ui-react'
+import React from 'react';
+import './index.css';
+import { Popup } from 'semantic-ui-react';
 
 export function CTButton({
-  id=`ct-btn-${Math.random()}`,
-  type="button",
-  classNames='',
-  spanClassNames='',
-  color='primary', // primary, light, green, yellow, black
-  size='normal',
-  icon=null,
-  iconContent=null,
-  circle=false,
+  id = `ct-btn-${Math.random()}`,
+  type = 'button',
+  classNames = '',
+  spanClassNames = '',
+  color = 'primary', // primary, light, green, yellow, black
+  size = 'normal',
+  icon = null,
+  iconContent = null,
+  circle = false,
 
-  onClick=null,
-  text='',
-  disabled=false,
+  onClick = null,
+  text = '',
+  disabled = false,
 
-  popup=null,
-  popupAttrs={},
-  popupBasic=true,
-  popupDelay=0,
+  popup = null,
+  popupAttrs = {},
+  popupBasic = true,
+  popupDelay = 0,
 
   title,
   ariaLabel,
@@ -30,18 +30,18 @@ export function CTButton({
   children,
   ...others
 }) {
-
   return (
-    <Popup inverted 
+    <Popup
+      inverted
       mouseEnterDelay={popupDelay}
       basic={popupBasic}
-      disabled={!Boolean(popup)}
+      disabled={!popup}
       openOnTriggerFocus
       closeOnTriggerBlur
       {...popupAttrs}
       content={popup}
       trigger={
-        <button 
+        <button
           id={id}
           type={type}
           className={`ct-btn ${classNames}`}
@@ -52,33 +52,26 @@ export function CTButton({
           disabled={disabled}
           onClick={onClick}
           title={title}
-          aira-label={Boolean(ariaLabel) ? ariaLabel : text}
+          aira-label={ariaLabel || text}
           aria-haspopup={ariaHasPopup}
           aria-controls={ariaControls}
           {...others}
         >
           <span className="ct-btn-content" tabIndex="-1">
-            {
-              Boolean(icon) 
-              && 
+            {Boolean(icon) && (
               <span className="ct-btn-icon" aria-hidden="true">
-                {
-                  Boolean(iconContent) ? 
-                  iconContent : 
-                  <i className="material-icons">{icon}</i>
-                }
+                {iconContent || <i className="material-icons">{icon}</i>}
               </span>
-            }
-            {
-              Boolean(text) 
-              &&
+            )}
+            {Boolean(text) && (
               <span className={`ct-btn-text ${spanClassNames}`} aria-hidden="true">
-                {text}{children}
+                {text}
+                {children}
               </span>
-            }
+            )}
           </span>
         </button>
       }
     />
-  )
+  );
 }
