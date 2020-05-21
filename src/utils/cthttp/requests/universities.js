@@ -1,4 +1,4 @@
-import { cthttp } from './request'
+import { cthttp } from './request';
 
 // ------------------------------------------------------------
 // Universities
@@ -7,27 +7,27 @@ import { cthttp } from './request'
 // GET
 
 export function getUniversities() {
-    return cthttp.get('Universities')
+  return cthttp.get('Universities');
 }
 
 export function getUniversityById(universityId) {
-    return cthttp.get('Universities/' + universityId)
+  return cthttp.get(`Universities/${universityId}`);
 }
 
 // POST
 
 export function createUniversity(data) {
-    return cthttp.post('Universities', data)
+  return cthttp.post('Universities', data);
 }
 
 // PUT
 
 export function updateUniversity(data) {
-    return cthttp.put('Universities/' + data.id, data)
+  return cthttp.put(`Universities/${data.id}`, data);
 }
 
 // DELETE
 
 export function deleteUniversity(universityId) {
-    return cthttp.delete('Universities/' + universityId)
+  return cthttp.delete(`Universities/${universityId}`);
 }

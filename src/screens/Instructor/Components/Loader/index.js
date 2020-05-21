@@ -1,29 +1,21 @@
-import React from 'react'
-import { connectWithRedux } from '../../Utils'
-import './index.css'
+import React from 'react';
+import { connectWithRedux } from '../../Utils';
+import './index.css';
 
-function LoaderWithRedux({
-  loading={}
-}) {
+function LoaderWithRedux({ loading = {} }) {
   return (
     <div className="ip-loader-con">
       <div className="sk-wave">
-        <div className="sk-wave-rect"></div>
-        <div className="sk-wave-rect"></div>
-        <div className="sk-wave-rect"></div>
-        <div className="sk-wave-rect"></div>
-        <div className="sk-wave-rect"></div>
+        <div className="sk-wave-rect" />
+        <div className="sk-wave-rect" />
+        <div className="sk-wave-rect" />
+        <div className="sk-wave-rect" />
+        <div className="sk-wave-rect" />
       </div>
 
-      <div className="ip-l-title">
-        {loading.title}
-      </div>
+      <div className="ip-l-title">{loading.title}</div>
     </div>
-  )
+  );
 }
 
-export const Loader = connectWithRedux(
-  LoaderWithRedux,
-  ['loading'],
-  []
-)
+export const Loader = connectWithRedux(LoaderWithRedux, ['loading']);

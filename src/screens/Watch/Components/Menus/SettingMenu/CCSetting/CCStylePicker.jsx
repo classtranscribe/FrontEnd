@@ -1,6 +1,6 @@
-import React from 'react'
-import { Select, Form, Grid } from 'semantic-ui-react'
-import { 
+import React from 'react';
+import { Select, Form, Grid } from 'semantic-ui-react';
+import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
   CC_OPACITY_100,
@@ -9,35 +9,32 @@ import {
   CC_SIZE_100,
   cc_colorOptions,
   cc_opacityOptions,
-  cc_positionOptions,
-  cc_fontOptions,
+  // cc_positionOptions,
+  // cc_fontOptions,
   cc_sizeOptions,
-
   connectWithRedux,
   transControl,
-  getCCSelectOptions
-} from '../../../../Utils'
+  getCCSelectOptions,
+} from '../../../../Utils';
 
-const CC_EXAMPLE = 'This is an example of closed caption'
+const CC_EXAMPLE = 'This is an example of closed caption';
 
 function SettingMenu({
-  cc_color=CC_COLOR_WHITE,
-  cc_bg=CC_COLOR_BLACK,
-  cc_size=CC_SIZE_100,
-  cc_opacity=CC_OPACITY_100,
-  cc_font=CC_FONT_SANS_SERIF,
-  cc_position=CC_POSITION_BOTTOM,
+  cc_color = CC_COLOR_WHITE,
+  cc_bg = CC_COLOR_BLACK,
+  cc_size = CC_SIZE_100,
+  cc_opacity = CC_OPACITY_100,
+  cc_font = CC_FONT_SANS_SERIF,
+  cc_position = CC_POSITION_BOTTOM,
 }) {
-
-  const { ccStyle } = transControl.getCCStyle({ 
-    cc_color, 
+  const { ccStyle } = transControl.getCCStyle({
     cc_color,
     cc_bg,
     cc_size,
     cc_opacity,
     cc_font,
     cc_position,
-  })
+  });
 
   return (
     <div className="w-100">
@@ -48,7 +45,7 @@ function SettingMenu({
         </div>
       </div>
       <div className="ccstyle-selection-area">
-        <Grid stackable columns='equal'>
+        <Grid stackable columns="equal">
           {/* <Grid.Row>
             <Grid.Column>
               <Form.Field
@@ -77,24 +74,24 @@ function SettingMenu({
           <Grid.Row>
             <Grid.Column>
               <Form.Field
-                fluid 
+                fluid
                 control={Select}
                 label="Background Color"
                 aria-label="Background Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_bg}
-                onChange={(event, {value}) => transControl.ccBG(value)}
+                onChange={(event, { value }) => transControl.ccBG(value)}
               />
             </Grid.Column>
             <Grid.Column>
               <Form.Field
-                fluid 
+                fluid
                 control={Select}
                 label="Font Color"
                 aria-label="Font Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_color}
-                onChange={(event, {value}) => transControl.ccColor(value)}
+                onChange={(event, { value }) => transControl.ccColor(value)}
               />
             </Grid.Column>
           </Grid.Row>
@@ -102,35 +99,38 @@ function SettingMenu({
           <Grid.Row>
             <Grid.Column>
               <Form.Field
-                fluid 
+                fluid
                 control={Select}
                 label="Font Size"
                 aria-label="Font Size"
-                options={getCCSelectOptions(cc_sizeOptions, item => item * 100 + '%')}
+                options={getCCSelectOptions(cc_sizeOptions, (item) => `${item * 100}%`)}
                 value={cc_size}
-                onChange={(event, {value}) => transControl.ccSize(value)}
+                onChange={(event, { value }) => transControl.ccSize(value)}
               />
             </Grid.Column>
             <Grid.Column>
               <Form.Field
-                fluid 
+                fluid
                 control={Select}
                 label="Background Opacity"
                 aria-label="Background Opacity"
-                options={getCCSelectOptions(cc_opacityOptions, item => item * 100 + '%')}
+                options={getCCSelectOptions(cc_opacityOptions, (item) => `${item * 100}%`)}
                 value={cc_opacity}
-                onChange={(event, {value}) => transControl.ccOpacity(value)}
+                onChange={(event, { value }) => transControl.ccOpacity(value)}
               />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </div>
     </div>
-  )
+  );
 }
 
-export default connectWithRedux(
-  SettingMenu,
-  ['cc_color', 'cc_bg', 'cc_size', 'cc_opacity', 'cc_font', 'cc_position'],
-  []
-)
+export default connectWithRedux(SettingMenu, [
+  'cc_color',
+  'cc_bg',
+  'cc_size',
+  'cc_opacity',
+  'cc_font',
+  'cc_position',
+]);

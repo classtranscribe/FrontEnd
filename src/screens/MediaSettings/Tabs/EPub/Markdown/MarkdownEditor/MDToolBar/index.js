@@ -22,28 +22,27 @@ function MDToolBar({
   openPreview,
   closePreview,
 }) {
-
   return (
     <div className="ee-md-toolbar">
       <div className="ee-md-tool-l">
         <Button.Group>
-          <Button compact
-            color={isPreview ? "transparent teal" : "teal"}
+          <Button
+            compact
+            color={isPreview ? 'transparent teal' : 'teal'}
             text="Edit"
             onClick={closePreview}
           />
 
-          <Button compact
-            color={!isPreview ? "transparent teal" : "teal"}
+          <Button
+            compact
+            color={!isPreview ? 'transparent teal' : 'teal'}
             text="Preview"
             onClick={openPreview}
           />
         </Button.Group>
       </div>
 
-      {
-        !isPreview
-        &&
+      {!isPreview && (
         <div className="ee-md-tool-r">
           <HeaderTextTrigger ace={ace} />
           <BoldTextTrigger ace={ace} />
@@ -52,7 +51,7 @@ function MDToolBar({
           <CodeTrigger ace={ace} />
           <BulletedListTrigger ace={ace} />
           <NumberedListTrigger ace={ace} />
-          
+
           <InsertLinkTrigger ace={ace} />
           <InsertMedia
             ace={ace}
@@ -61,7 +60,7 @@ function MDToolBar({
             defaultImage={defaultImage}
           />
         </div>
-      }
+      )}
     </div>
   );
 }

@@ -1,78 +1,62 @@
-import React, { useEffect } from 'react'
-import { connectWithRedux } from '../../../Utils'
-import { VideoCard, PlaceHolder } from '../../../../../components'
-import { api, util } from '../../../../../utils'
+import React, { useEffect } from 'react';
+import { VideoCard, PlaceHolder } from 'components';
+import { api, util } from 'utils';
+import { connectWithRedux } from '../../../Utils';
 
 function Videos({
   // playlist,
-  currMediaId='',
-  currPlaylist={},
+  currMediaId = '',
+  currPlaylist = {},
 }) {
-
-  let { medias } = currPlaylist
+  let { medias } = currPlaylist;
 
   useEffect(() => {
-    util.elem.scrollIntoCenter(
-      currMediaId, 
-      {
-        focus: true,
-        alternate: () => util.elem.scrollIntoView('watch-videos-list')
-      }
-    )
-  }, [currPlaylist])
+    util.elem.scrollIntoCenter(currMediaId, {
+      focus: true,
+      alternate: () => util.elem.scrollIntoView('watch-videos-list'),
+    });
+  }, [currPlaylist]);
 
   return (
     <div id="watch-videos-list" className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
-        <p><i className="material-icons">video_library</i>{currPlaylist.name}</p>
+        <p>
+          <i className="material-icons">video_library</i>
+          {currPlaylist.name}
+        </p>
       </div>
       <ul className="w-100 d-flex flex-column p-0">
-        {
-          !medias ?
+        {!medias ? (
           <PlaceHolder />
-          :
-          medias.length === 0 ?
-          <div className="w-100 d-flex justify-content-center align-items-center m-5">
-            NO VIDEO
-          </div>
-          :
-          medias.map( media => (
-            <Video 
-              key={media.id}
-              media={media} 
-              currMediaId={currMediaId} 
-            />
-          ))
-        }
+        ) : medias.length === 0 ? (
+          <div className="w-100 d-flex justify-content-center align-items-center m-5">NO VIDEO</div>
+        ) : (
+          medias.map((media) => <Video key={media.id} media={media} currMediaId={currMediaId} />)
+        )}
       </ul>
     </div>
-  )
+  );
 }
 
-function Video({ 
-  media=null, 
-  currMediaId='',
-}) {
-  media = api.parseMedia(media)
-  const { id, mediaName, watchHistory } = media
+function Video({ media = null, currMediaId = '' }) {
+  media = api.parseMedia(media);
+  const { id, mediaName, watchHistory } = media;
   return (
-    <li className="watch-video-item" >
-      <VideoCard row dark
+    <li className="watch-video-item">
+      <VideoCard
+        row
+        dark
         id={id}
         name={mediaName}
         ratio={watchHistory.ratio}
-        posterSize={'100px'}
+        posterSize="100px"
         listitem={false}
         current={currMediaId === id}
-        description={ currMediaId === id ? 'Now Playing' : ''}
+        description={currMediaId === id ? 'Now Playing' : ''}
         link={util.links.watch(id)}
       />
     </li>
-  )
+  );
 }
 
-export default connectWithRedux(
-  Videos,
-  ['playlist'],
-  []
-);
+export default connectWithRedux(Videos, ['playlist']);

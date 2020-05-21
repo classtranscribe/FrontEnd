@@ -1,39 +1,32 @@
-import React, { useEffect } from 'react'
-import { connectWithRedux, setup } from '../../../Utils'
-import { util } from 'utils'
+import React, { useEffect } from 'react';
+import { util } from 'utils';
+import { connectWithRedux, setup } from '../../../Utils';
 
-function PlaylistView({
-  playlists,
-  playlist,
-  currPlaylist,
-  setCurrPlaylist,
-}) {
-
+function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
   useEffect(() => {
-    util.elem.scrollIntoCenter(
-      currPlaylist.id, 
-      {
-        focus: true,
-        alternate: () => util.elem.scrollIntoView('watch-videos-list')
-      }
-    )
-  }, [currPlaylist])
+    util.elem.scrollIntoCenter(currPlaylist.id, {
+      focus: true,
+      alternate: () => util.elem.scrollIntoView('watch-videos-list'),
+    });
+  }, [currPlaylist]);
 
-  const handlePlaylistClick = id => async () => {
-    setCurrPlaylist({})
-    let data = await setup.getPlaylist(id)
-    setCurrPlaylist(data)
-  }
+  const handlePlaylistClick = (id) => async () => {
+    setCurrPlaylist({});
+    let data = await setup.getPlaylist(id);
+    setCurrPlaylist(data);
+  };
 
   return (
     <div className="watch-playlists-list">
-      <div className="watch-list-title"><p>Playlists</p></div>
+      <div className="watch-list-title">
+        <p>Playlists</p>
+      </div>
       <div role="list" className="w-100 d-flex flex-column">
-        {playlists.map( playlistItem => (
-          <button 
+        {playlists.map((playlistItem) => (
+          <button
             id={playlistItem.id}
             key={playlistItem.id}
-            className="watch-playlist-item plain-btn" 
+            className="watch-playlist-item plain-btn"
             role="listitem"
             onClick={handlePlaylistClick(playlistItem.id)}
             current={Boolean(playlist.id === playlistItem.id).toString()}
@@ -42,18 +35,19 @@ function PlaylistView({
             <i className="material-icons library-icon">video_library</i>
             <div className="playlist-name">
               {playlistItem.name}
-              {playlist.id === playlistItem.id && <><br/><span>Current Playlist</span></>}
+              {playlist.id === playlistItem.id && (
+                <>
+                  <br />
+                  <span>Current Playlist</span>
+                </>
+              )}
             </div>
             <i className="material-icons right-arrow">chevron_right</i>
           </button>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default connectWithRedux(
-  PlaylistView,
-  ['playlists', 'playlist'],
-  []
-)
+export default connectWithRedux(PlaylistView, ['playlists', 'playlist']);

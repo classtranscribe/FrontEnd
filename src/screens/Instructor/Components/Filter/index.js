@@ -1,63 +1,64 @@
-import React, { useState, useEffect } from 'react'
-import { connectWithRedux } from '../../Utils'
-import './index.scss'
-import { Popup } from 'semantic-ui-react'
+import React, { useState, useEffect } from 'react';
+import { Popup } from 'semantic-ui-react';
+import { connectWithRedux } from '../../Utils';
+import './index.scss';
 
 function FilterWithRedux({
-  searchFor="",
-  darker=false,
+  searchFor = '',
+  darker = false,
   onFilter,
   onReverse,
 
-  playlist={}
+  playlist = {},
 }) {
+  const [value, setValue] = useState('');
+  const [reversed, setReversed] = useState(false);
 
-  let [value, setValue] = useState('')
-  let [reversed, setReversed] = useState(false)
-
-  const handleInput = ({ target: { value } }) => {
-    setValue(value)
-    if (onFilter) onFilter(value)
-  }
+  const handleInput = ({ target }) => {
+    setValue(target.value);
+    if (onFilter) onFilter(target.value);
+  };
 
   const handleReverse = () => {
-    if (onReverse) onReverse()
-    setReversed( !reversed )
-  }
+    if (onReverse) onReverse();
+    setReversed(!reversed);
+  };
 
   useEffect(() => {
-    if (searchFor === "Videos") setReversed(false)
-  }, [playlist])
+    if (searchFor === 'Videos') setReversed(false);
+  }, [playlist]);
 
   // Clean up filter
   useEffect(() => {
     return () => {
-      onFilter('')
+      onFilter('');
       if (reversed) {
-        onReverse()
+        onReverse();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div className="ip-filter">
       <div className="ip-filter-con" data-darker={darker.toString()}>
-        <input 
+        <input
           className="ip-filter-input"
           value={value}
           placeholder={`Filter ${searchFor}...`}
           onChange={handleInput}
         />
 
-        <Popup inverted basic
+        <Popup
+          inverted
+          basic
           openOnTriggerMouseEnter
           openOnTriggerFocus
           closeOnTriggerBlur
           closeOnTriggerMouseLeave
           content="Reverse order"
           trigger={
-            <button 
-              className="plain-btn ip-filter-sort-btn" 
+            <button
+              className="plain-btn ip-filter-sort-btn"
               onClick={handleReverse}
               data-active={reversed.toString()}
             >
@@ -69,11 +70,7 @@ function FilterWithRedux({
         />
       </div>
     </div>
-  )
+  );
 }
 
-export const Filter = connectWithRedux(
-  FilterWithRedux,
-  ['playlist'],
-  []
-)
+export const Filter = connectWithRedux(FilterWithRedux, ['playlist']);

@@ -1,35 +1,33 @@
-import React from 'react'
-import _ from 'lodash'
-import './index.css'
-import { CTInput } from './CTInput'
-import { CTSelect, getOptions } from './CTSelect'
-import { CTSearch } from './CTSearch'
-import { CTTextarea } from './CTTextarea'
-import { CTCheckbox } from './CTCheckbox'
+import React from 'react';
+import './index.css';
+import { CTInput } from './CTInput';
+import { CTSelect, getOptions } from './CTSelect';
+import { CTSearch } from './CTSearch';
+import { CTTextarea } from './CTTextarea';
+import { CTCheckbox } from './CTCheckbox';
 
 export function CTForm({
-  id='',
-  label='',
+  id = '',
+  label = '',
   value,
   defaultValue,
-  placeholder='Input Here...',
-  required=false,
+  placeholder = 'Input Here...',
+  required = false,
   description,
   onChange,
 
-  color='primary',
-  classNames='',
+  color = 'primary',
+  classNames = '',
 
-  checkbox=false,
-  textarea=false,
+  checkbox = false,
+  textarea = false,
   row,
-  select=false,
-  search=false,
-  options=[],
+  select = false,
+  search = false,
+  options = [],
   ...others
 }) {
-
-  if (!Boolean(id)) id = `ct-input-${Math.random()}`
+  if (!id) id = `ct-input-${Math.random()}`;
 
   if (checkbox) {
     return (
@@ -44,7 +42,7 @@ export function CTForm({
         onChange={onChange}
         {...others}
       />
-    )
+    );
   }
 
   if (search) {
@@ -64,7 +62,7 @@ export function CTForm({
         onChange={onChange}
         {...others}
       />
-    )
+    );
   }
 
   if (select) {
@@ -84,7 +82,7 @@ export function CTForm({
         onChange={onChange}
         {...others}
       />
-    )
+    );
   }
 
   if (textarea) {
@@ -103,7 +101,7 @@ export function CTForm({
         onChange={onChange}
         {...others}
       />
-    )
+    );
   }
 
   return (
@@ -120,7 +118,7 @@ export function CTForm({
       onChange={onChange}
       {...others}
     />
-  )
+  );
 }
 
-CTForm.getOptions = getOptions
+CTForm.getOptions = getOptions;

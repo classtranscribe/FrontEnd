@@ -1,72 +1,73 @@
-import _ from 'lodash'
-import { prompt } from 'utils'
+import _ from 'lodash';
+import { prompt } from 'utils';
 
 export const promptControl = {
-  message: function(text, timeout=-1) {
+  message(text, timeout = -1) {
     prompt.addOne({
-      text, timeout,
+      text,
+      timeout,
       position: 'right bottom',
       status: 'success',
-    })
+    });
   },
 
-  saving: function(action='Saving') {
+  saving(action = 'Saving') {
     prompt.addOne({
       text: `${action}...`,
       position: 'right bottom',
       timeout: -1,
-    })
+    });
   },
 
-  saved: function(target='', action='saved') {
+  saved(target = '', action = 'saved') {
     prompt.addOne({
       text: `${target} ${action}`,
       position: 'right bottom',
       timeout: 5000,
-    })
+    });
   },
 
-  failedToSave: function(target='', action='save') {
+  failedToSave(target = '', action = 'save') {
     prompt.addOne({
       text: `Failed to ${action} the ${target}`,
       position: 'right bottom',
       status: 'error',
       timeout: 9000,
-    })
+    });
   },
 
-  updated: function(target='') {
-    this.saved(target, 'updated')
+  updated(target = '') {
+    this.saved(target, 'updated');
   },
 
-  failedToUpdate: function(target='') {
-    this.failedToSave(target, 'update')
+  failedToUpdate(target = '') {
+    this.failedToSave(target, 'update');
   },
 
-  deleting: function() {
-    this.saving('Deleting')
+  deleting() {
+    this.saving('Deleting');
   },
 
-  deleted: function(target='') {
-    this.saved(target, 'deleted')
+  deleted(target = '') {
+    this.saved(target, 'deleted');
   },
 
-  failedToDelete: function(target='') {
-    this.failedToSave(target, 'delete')
+  failedToDelete(target = '') {
+    this.failedToSave(target, 'delete');
   },
 
-  error: function(errors) {
+  error(errors) {
     if (typeof errors === 'string') {
-      errors = [errors]
-    } else {
-      if (errors.length === 0) return;
-    }
+      errors = [errors];
+    } else if (errors.length === 0) return;
 
-    prompt.addMany(_.map(errors, errorMesg => ({
-      text: `Error: failed to ${errorMesg}`,
-      position: 'right bottom',
-      status: 'error',
-      timeout: -1,
-    })))
-  }
-}
+    prompt.addMany(
+      _.map(errors, (errorMesg) => ({
+        text: `Error: failed to ${errorMesg}`,
+        position: 'right bottom',
+        status: 'error',
+        timeout: -1,
+      })),
+    );
+  },
+};

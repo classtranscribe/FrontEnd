@@ -1,0 +1,5 @@
+build/*
+nginx/*
+node_modules/*
+
+write_env.js

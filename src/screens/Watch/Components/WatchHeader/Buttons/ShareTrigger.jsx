@@ -1,32 +1,25 @@
-import React from 'react'
-import WatchCtrlButton from '../../WatchCtrlButton'
-import { 
-  connectWithRedux,
-  modalControl, 
-  MODAL_SHARE, MODAL_HIDE
-} from '../../../Utils'
+import React from 'react';
+import { connectWithRedux, modalControl, MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
 
-function ShareTrigger({
-  modal=MODAL_HIDE
-}) {
+import WatchCtrlButton from '../../WatchCtrlButton';
 
+function ShareTrigger({ modal = MODAL_HIDE }) {
   const handleShare = () => {
-    modalControl.open(MODAL_SHARE)
-  }
+    modalControl.open(MODAL_SHARE);
+  };
 
   return (
-    <WatchCtrlButton 
+    <WatchCtrlButton
       onClick={handleShare}
-      active={false}
       position="top"
       label="Share"
       id="watch-share-btn"
       active={modal === MODAL_SHARE}
       ariaTags={{
         'aria-label': `Share`,
-        //'aria-keyshortcuts': 'Shift+D',
+        // 'aria-keyshortcuts': 'Shift+D',
         'aria-controls': 'watch-share-modal',
-        'aria-expanded' : modal === MODAL_SHARE ? 'false' : 'true',
+        'aria-expanded': modal === MODAL_SHARE ? 'false' : 'true',
       }}
     >
       <span className="watch-btn-content watch-header-btn-content" tabIndex="-1">
@@ -34,11 +27,7 @@ function ShareTrigger({
         {/* <i className="fas fa-share"></i> */}
       </span>
     </WatchCtrlButton>
-  )
+  );
 }
 
-export default connectWithRedux(
-  ShareTrigger,
-  ['modal'],
-  []
-)
+export default connectWithRedux(ShareTrigger, ['modal']);

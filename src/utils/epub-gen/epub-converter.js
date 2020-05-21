@@ -2,188 +2,173 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 
-import { load_images_buffers } from './util';
+import { loadImagesBuffers } from './util';
 
-import { KATEX_CSS        } from './statics/katex.min.css.js';
-import { OEBPS_STYLE_CSS        } from './statics/epub/style.css.js';
+import { KATEX_CSS } from './statics/katex.min.css.js';
+import { OEBPS_STYLE_CSS } from './statics/epub/style.css.js';
 import { META_INF_CONTAINER_XML } from './statics/epub/container.xml.js';
-import { MIMETYPE               } from './statics/epub/mimetype.js';
-import { OEBPS_TOC_NCX          } from './statics/epub/toc.ncx.js';
-import { OEBPS_TOC_XHTML        } from './statics/epub/toc.xhtml.js';
-import { OEBPS_CONTENT_OPF      } from './statics/epub/content.opf.js';
-import { OEBPS_CONTENT_XHTML    } from './statics/epub/content.xhtml.js';
+import { MIMETYPE } from './statics/epub/mimetype.js';
+import { OEBPS_TOC_NCX } from './statics/epub/toc.ncx.js';
+import { OEBPS_TOC_XHTML } from './statics/epub/toc.xhtml.js';
+import { OEBPS_CONTENT_OPF } from './statics/epub/content.opf.js';
+import { OEBPS_CONTENT_XHTML } from './statics/epub/content.xhtml.js';
 
+async function loadAndAddImages(zip, chapters, cover) {
+  const { coverBuffer, images } = await loadImagesBuffers({ chapters, cover });
 
+  zip.addFile(`OEBPS/cover.jpeg`, coverBuffer);
 
-async function load_and_add_images(zip, chapters, cover) {
-    let { 
-        coverBuffer, 
-        images, 
-    } = await load_images_buffers({ chapters, cover });
-
-    zip.addFile(`OEBPS/cover.jpeg`, coverBuffer);
-
-    _.forEach(images, img => {
-        zip.addFile(`OEBPS/images/${img.id}.jpeg`, img.buffer);
-    });
+  _.forEach(images, (img) => {
+    zip.addFile(`OEBPS/images/${img.id}.jpeg`, img.buffer);
+  });
 }
 
-function get_toc_ncx(title, author, chapters) {
-    let nav_points = '';
-    let playOrder = 0;
+function getTocNCX(title, author, chapters) {
+  let navPoints = '';
+  let playOrder = 0;
 
-    const getPlayOrder = () => {
-        playOrder += 1;
-        return playOrder;
-    }
+  const getPlayOrder = () => {
+    playOrder += 1;
+    return playOrder;
+  };
 
-    _.forEach(chapters, (ch, index) => {
-        nav_points += `
+  _.forEach(chapters, (ch, index) => {
+    navPoints += `
         <navPoint id="${ch.id}" playOrder="${getPlayOrder()}" class="chapter">
             <navLabel>
                 <text>${index + 1} - ${ch.title}</text>
             </navLabel>
             <content src="${ch.id}.xhtml"/>
 
-            ${
-                _.map(ch.subChapters, (subCh, subIndex) => `
+            ${_.map(
+              ch.subChapters,
+              (subCh, subIndex) => `
             <navPoint id="${subCh.id}" playOrder="${getPlayOrder()}">
                 <navLabel>
                     <text>${index + 1}.${subIndex + 1} - ${subCh.title}</text>
                 </navLabel>
                 <content src="${ch.id}.xhtml#${subCh.id}" />
-            </navPoint>`).join('\n\t\t\t\t')
-            }
+            </navPoint>`,
+            ).join('\n\t\t\t\t')}
         </navPoint>
-        `
-    });
+        `;
+  });
 
-    return OEBPS_TOC_NCX(title, author, nav_points);
+  return OEBPS_TOC_NCX(title, author, navPoints);
 }
 
-function get_toc_xhtml(title, language, chapters) {
-    let nav_contents = '';
-    _.forEach(chapters, (ch, index) => {
-        nav_contents += `
+function getTocXHTML(title, language, chapters) {
+  let navContents = '';
+  _.forEach(chapters, (ch, index) => {
+    navContents += `
         <dt class="table-of-content">
             <a href="${ch.id}.xhtml">${index + 1} - ${ch.title}</a>
         </dt>
-        ${
-            _.map(ch.subChapters, (subCh, subIndex) => `
+        ${_.map(
+          ch.subChapters,
+          (subCh, subIndex) => `
             <dd>
                 <a href="${ch.id}.xhtml#${subCh.id}">
                     ${index + 1}.${subIndex + 1} - ${subCh.title}
                 </a>
-            </dd>`).join('\n\t\t\t')
-        }
-        `
-    });
+            </dd>`,
+        ).join('\n\t\t\t')}
+        `;
+  });
 
-    return OEBPS_TOC_XHTML(title, language, nav_contents);
+  return OEBPS_TOC_XHTML(title, language, navContents);
 }
 
-function get_content_opf(
-    title, 
-    author, 
-    language, 
+function getContentOPF(title, author, language, publisher, date, chapters) {
+  // image items
+  const images = _.flatten(_.map(chapters, (ch) => ch.images));
+  const imageItems = _.map(
+    images,
+    (img) => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
+  ).join('\n\t\t');
+
+  // content items
+  const contentItems = _.map(
+    chapters,
+    (ch) => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`,
+  ).join('\n\t\t');
+
+  // content itemrefs
+  const contentItemsRefs = _.map(chapters, (ch) => `<itemref idref="${ch.id}"/>`).join('\n\t\t');
+
+  return OEBPS_CONTENT_OPF(
+    title,
+    author,
+    language,
     publisher,
-    date, 
-    chapters
-) {
-    // image items
-    let images = _.flatten(_.map(chapters, ch => ch.images));
-    let image_items = _.map(
-        images, 
-        img => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`
-    )
-    .join('\n\t\t');
-
-    // content items
-    let content_items = _.map(
-        chapters, 
-        ch => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`
-    )
-    .join('\n\t\t');
-    
-    // content itemrefs
-    let content_items_refs = _.map(
-        chapters,
-        ch => `<itemref idref="${ch.id}"/>`
-    )
-    .join('\n\t\t');
-
-    return OEBPS_CONTENT_OPF(
-        title, author, 
-        language, 
-        publisher, 
-        date, 
-        image_items, 
-        content_items, 
-        content_items_refs
-    );
+    date,
+    imageItems,
+    contentItems,
+    contentItemsRefs,
+  );
 }
 
-function get_content_xhtml(chapter, language) {
-    let { title, text } = chapter;
+function getContentXHTML(chapter, language) {
+  const { title, text } = chapter;
 
-    let content = dedent(`
+  const content = dedent(`
         <div class="epub-ch">
             ${text}
         </div>
     `);
 
-    return OEBPS_CONTENT_XHTML(title, content, language);
+  return OEBPS_CONTENT_XHTML(title, content, language);
 }
 
-async function epub_converter({ 
-    title, 
-    author, 
-    language, 
-    filename, 
-    chapters, 
-    cover 
-}) {
-    if (!filename || !chapters || !title) {
-        throw Error('filename, title, and chapters are required.');
-    }
+async function epubConverter({ title, author, language, filename, chapters, cover }) {
+  if (!filename || !chapters || !title) {
+    throw Error('filename, title, and chapters are required.');
+  }
 
-    const zip = new AdmZip();
+  const zip = new AdmZip();
 
-    // OEBPS/cover.jpeg
-    // OEBPS/images/image-id.jpeg
-    await load_and_add_images(zip, chapters, cover);
+  // OEBPS/cover.jpeg
+  // OEBPS/images/image-id.jpeg
+  await loadAndAddImages(zip, chapters, cover);
 
-    // mimetype
-    zip.addFile('mimetype', new Buffer(MIMETYPE));
+  // mimetype
+  zip.addFile('mimetype', Buffer.from(MIMETYPE));
 
-    // META-INF/container.xml
-    zip.addFile('META-INF/container.xml', new Buffer(META_INF_CONTAINER_XML));
+  // META-INF/container.xml
+  zip.addFile('META-INF/container.xml', Buffer.from(META_INF_CONTAINER_XML));
 
-    // OEBPS
-    // OEBPS/style.css
-    zip.addFile('OEBPS/style.css', new Buffer(OEBPS_STYLE_CSS));
-    // OEBPS/katex.min.css
-    zip.addFile('OEBPS/katex.min.css', new Buffer(KATEX_CSS));
+  // OEBPS
+  // OEBPS/style.css
+  zip.addFile('OEBPS/style.css', Buffer.from(OEBPS_STYLE_CSS));
+  // OEBPS/katex.min.css
+  zip.addFile('OEBPS/katex.min.css', Buffer.from(KATEX_CSS));
 
-    // OEBPS/toc.ncx
-    let tox_ncx = get_toc_ncx(title, author, chapters);
-    zip.addFile('OEBPS/toc.ncx', new Buffer(tox_ncx));
+  // OEBPS/toc.ncx
+  const toxNCX = getTocNCX(title, author, chapters);
+  zip.addFile('OEBPS/toc.ncx', Buffer.from(toxNCX));
 
-    // OEBPS/toc.xhtml
-    let toc_xhtml = get_toc_xhtml(title, language, chapters);
-    zip.addFile('OEBPS/toc.xhtml', new Buffer(toc_xhtml));
-    
-    // OEBPS/content.opf
-    let content_opf = get_content_opf(title, author, language, 'ClassTranscribe', new Date(), chapters);
-    zip.addFile('OEBPS/content.opf', new Buffer(content_opf));
+  // OEBPS/toc.xhtml
+  const tocXHTML = getTocXHTML(title, language, chapters);
+  zip.addFile('OEBPS/toc.xhtml', Buffer.from(tocXHTML));
 
-    // OEBPS/chapter-id.xhtml
-    _.forEach(chapters, ch => {
-        let content_xhtml = get_content_xhtml(ch, language);
-        zip.addFile(`OEBPS/${ch.id}.xhtml`, new Buffer(content_xhtml));
-    });
+  // OEBPS/content.opf
+  const contentOPF = getContentOPF(
+    title,
+    author,
+    language,
+    'ClassTranscribe',
+    new Date(),
+    chapters,
+  );
+  zip.addFile('OEBPS/content.opf', Buffer.from(contentOPF));
 
-    return zip.toBuffer();
+  // OEBPS/chapter-id.xhtml
+  _.forEach(chapters, (ch) => {
+    const contentXHTML = getContentXHTML(ch, language);
+    zip.addFile(`OEBPS/${ch.id}.xhtml`, Buffer.from(contentXHTML));
+  });
+
+  return zip.toBuffer();
 }
 
-export default epub_converter;
+export default epubConverter;

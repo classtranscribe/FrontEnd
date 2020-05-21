@@ -1,5 +1,5 @@
-import { getAppInsights, SeverityLevel } from 'azure-app-insights'
-import { prompt as prp } from './prompt'
+import { getAppInsights, SeverityLevel } from 'azure-app-insights';
+import { prompt as prp } from './prompt';
 
 /**
  * Log error to the UI
@@ -9,8 +9,8 @@ import { prompt as prp } from './prompt'
  * @param {Number} options.timeout
  */
 export function logErrorToPrompt(text, options) {
-    let { position, timeout } = options
-    prp.addOne({ text, position, timeout })
+  const { position, timeout } = options;
+  prp.addOne({ text, position, timeout });
 }
 
 /**
@@ -18,10 +18,10 @@ export function logErrorToPrompt(text, options) {
  * @param {Error} error the error object
  */
 export function logErrorToAzureAppInsights(error) {
-    let appInsights = getAppInsights()
-    if (appInsights && typeof appInsights.trackException === 'function') {
-        appInsights.trackException({ error, severityLevel: SeverityLevel.Error })
-    }
+  const appInsights = getAppInsights();
+  if (appInsights && typeof appInsights.trackException === 'function') {
+    appInsights.trackException({ error, severityLevel: SeverityLevel.Error });
+  }
 }
 
 /**
@@ -29,8 +29,12 @@ export function logErrorToAzureAppInsights(error) {
  * @param {Error|String} error the error message or error object
  */
 export function logErrorToConsole(error) {
-    if (typeof error === 'object') error = error.message
-    console.error(error)
+  let message = error;
+  if (typeof error === 'object') {
+    message = error.message;
+  }
+
+  console.error(message);
 }
 
 /**
@@ -39,37 +43,35 @@ export function logErrorToConsole(error) {
  * @param {Object} options the options of logger
  * @param {Boolean} options.toPrompt true if log to prompt
  * @param {Boolean} options.toConsole true if log to console
- * @param {Boolean} options.toAppInsights true if log to Azure Application Insights 
+ * @param {Boolean} options.toAppInsights true if log to Azure Application Insights
  * @param {Number} options.promptText the text of the prompt
  * @param {String} options.promptPosition the position of the prompt (default 'bottom right')
  * @param {Number} options.promptTimeout the timeout (in `ms`) of the prompt (default -1)
  */
-export function logError(error, options={}) {
-    let { 
-        toAppInsights=true, toConsole=true,
-        prompt=true, 
-        promptPosition='bottom right', 
-        promptTimeout=-1,
-        promptText=''
-    } = options
+export function logError(error, options = {}) {
+  const {
+    toAppInsights = true,
+    toConsole = true,
+    prompt = true,
+    promptPosition = 'bottom right',
+    promptTimeout = -1,
+    promptText = '',
+  } = options;
 
-    error = typeof error === 'string' ? new Error(error) : error
+  const errorObj = typeof error === 'string' ? new Error(error) : error;
 
-    if (prompt) {
-        logErrorToPrompt(
-            promptText || error.message, 
-            { 
-                position: promptPosition, 
-                timeout: promptTimeout 
-            }
-        )
-    }
+  if (prompt) {
+    logErrorToPrompt(promptText || errorObj.message, {
+      position: promptPosition,
+      timeout: promptTimeout,
+    });
+  }
 
-    if (toAppInsights) {
-        logErrorToAzureAppInsights(error)
-    }
+  if (toAppInsights) {
+    logErrorToAzureAppInsights(errorObj);
+  }
 
-    if (toConsole) {
-        logErrorToConsole(promptText || error)
-    }
+  if (toConsole) {
+    logErrorToConsole(promptText || errorObj);
+  }
 }

@@ -1,16 +1,14 @@
-import React from 'react'
-import { Popup } from 'semantic-ui-react'
-import './index.css'
+import React from 'react';
+import { Popup } from 'semantic-ui-react';
+import './index.css';
 
-export function InfoIcon({
-  header,
-  content=null,
-  important=false,
-}) {
-
+export function InfoIcon({ header, content = null, important = false }) {
   return (
     <div className="ip-info-icon-con">
-      <Popup basic hoverable wide
+      <Popup
+        basic
+        hoverable
+        wide
         closeOnTriggerBlur
         openOnTriggerFocus
         openOnTriggerClick
@@ -21,11 +19,11 @@ export function InfoIcon({
           </div>
         }
         trigger={
-          <div tabIndex="0" className={"ip-info-icon" + (important ? " important" : "")}>
+          <div tabIndex="0" className={`ip-info-icon${important ? ' important' : ''}`}>
             <i className="material-icons">info</i>
           </div>
         }
       />
     </div>
-  )
+  );
 }

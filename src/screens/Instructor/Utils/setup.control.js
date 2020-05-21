@@ -1,13 +1,16 @@
-import _ from 'lodash'
-import { api, util, user } from '../../../utils'
-import { 
-  NEW_OFFERING, NO_OFFERING, 
-  LOADING_S_OFF, LOADING_INIT, 
-  ARRAY_INIT, ARRAY_EMPTY,
+import _ from 'lodash';
+import { api, util, user } from 'utils';
+import {
+  NEW_OFFERING,
+  NO_OFFERING,
+  LOADING_S_OFF,
+  LOADING_INIT,
+  ARRAY_INIT,
+  ARRAY_EMPTY,
   // NO_PLAYLIST,
   NEW_PLAYLIST,
-} from './constants'
-import { promptControl } from './prompt.control'
+} from './constants';
+import { promptControl } from './prompt.control';
 
 export const setup = {
   externalFunctions: {},
@@ -17,91 +20,104 @@ export const setup = {
   offering_: {},
 
   /**
-   * @param {Function} 
+   * @param {Function}
    * setDeparts, setTerms,
    * setOfferings, setOffering,
    * setPlaylists, setPlaylist,
    */
-  init: function(props) {
-    const { 
-      setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, setOrdering,
-      setLoading, setConfirmation, history
-    } = props
+  init(props) {
+    const {
+      setDeparts,
+      setTerms,
+      setOfferings,
+      setOffering,
+      setPlaylists,
+      setPlaylist,
+      setOrdering,
+      setLoading,
+      setConfirmation,
+      history,
+    } = props;
 
-    this.externalFunctions = { 
-      setDeparts, setTerms, setOfferings, setOffering,
-      setPlaylists, setPlaylist, setOrdering,
-      setLoading, setConfirmation, history
-    }
+    this.externalFunctions = {
+      setDeparts,
+      setTerms,
+      setOfferings,
+      setOffering,
+      setPlaylists,
+      setPlaylist,
+      setOrdering,
+      setLoading,
+      setConfirmation,
+      history,
+    };
   },
 
-  loading: function(opt=LOADING_S_OFF) {
-    const { setLoading } = this.externalFunctions
-    if (setLoading) setLoading(opt)
+  loading(opt = LOADING_S_OFF) {
+    const { setLoading } = this.externalFunctions;
+    if (setLoading) setLoading(opt);
   },
 
-  unloading: function() {
-    this.loading(LOADING_INIT)
+  unloading() {
+    this.loading(LOADING_INIT);
   },
 
   /**
-   * 
+   *
    * @param {Object} confirmation { title, text, onConfirm }
    */
-  confirm: function(confirmation) {
-    const { setConfirmation } = this.externalFunctions
-    if (setConfirmation) setConfirmation(confirmation)
+  confirm(confirmation) {
+    const { setConfirmation } = this.externalFunctions;
+    if (setConfirmation) setConfirmation(confirmation);
   },
 
-  orderList: function(ordering) {
-    const { setOrdering } = this.externalFunctions
-    if (setOrdering) setOrdering(ordering)
+  orderList(ordering) {
+    const { setOrdering } = this.externalFunctions;
+    if (setOrdering) setOrdering(ordering);
   },
 
-  offerings: function(offerings_) {
+  offerings(offerings_) {
     if (offerings_ === undefined) {
       if (
-        this.offerings_ === NO_OFFERING || 
+        this.offerings_ === NO_OFFERING ||
         this.offerings_ === ARRAY_EMPTY ||
         this.offerings_ === ARRAY_INIT
       ) {
-        return []
-      } else {
-        return this.offerings_
+        return [];
       }
+      return this.offerings_;
     }
 
-    let { setOfferings } = this.externalFunctions
+    const { setOfferings } = this.externalFunctions;
     if (setOfferings) {
-      this.offerings_ = offerings_
-      setOfferings(offerings_)
+      this.offerings_ = offerings_;
+      setOfferings(offerings_);
     }
   },
-  terms: function(terms_) {
-    if (terms_ === undefined) return this.terms_
-    let { setTerms } = this.externalFunctions
+  terms(terms_) {
+    if (terms_ === undefined) return this.terms_;
+    const { setTerms } = this.externalFunctions;
     if (setTerms) {
-      this.terms_ = terms_
-      setTerms(terms_)
+      this.terms_ = terms_;
+      setTerms(terms_);
     }
   },
-  departments: function(departments_) {
-    if (departments_ === undefined) return this.departments_
-    let { setDeparts } = this.externalFunctions
+  departments(departments_) {
+    if (departments_ === undefined) return this.departments_;
+    const { setDeparts } = this.externalFunctions;
     if (setDeparts) {
-      this.departments_ = departments_
-      setDeparts(departments_)
+      this.departments_ = departments_;
+      setDeparts(departments_);
     }
   },
-  offering: function(offering_) {
-    if (offering_ === undefined) return this.offering_
-    let { setOffering } = this.externalFunctions
+  offering(offering_) {
+    if (offering_ === undefined) return this.offering_;
+    const { setOffering } = this.externalFunctions;
     if (setOffering) {
-      this.offering_ = offering_
-      setOffering(offering_)
+      this.offering_ = offering_;
+      setOffering(offering_);
       // Update the document title w/ offering number
-      util.links.title(offering_.courseNumber)
+      util.links.title(offering_.courseNumber);
     }
   },
   /**
@@ -109,33 +125,33 @@ export const setup = {
    * ********************************************************************************************
    */
 
-  changeOffering: function(offering, updateSearch=true) {
-    const { history } = this.externalFunctions
-    if (offering.id === this.offering().id) return
+  changeOffering(offering, updateSearch = true) {
+    const { history } = this.externalFunctions;
+    if (offering.id === this.offering().id) return;
 
-    this.playlists_ = []
+    this.playlists_ = [];
     if (offering === NEW_OFFERING) {
-      this.offering({})
+      this.offering({});
       // setTimeout(() => setOffering(offering), 100);
     } else {
-      this.offering(offering)
+      this.offering(offering);
     }
 
     // console.log('o', offering)
 
     if (updateSearch) {
-      let offId = offering.id
+      const offId = offering.id;
       // let query = util.createSearchQuery({ offId })
-      history.replace('/instructor/'+offId)
+      history.replace(`/instructor/${offId}`);
     }
-    
+
     // history.replace(`${window.location.pathname}${query}`)
   },
 
-  newOffering: function() {
+  newOffering() {
     // const { history } = this.externalFunctions
     // history.push(util.links.instNewOffering())
-    this.offering(NEW_OFFERING)
+    this.offering(NEW_OFFERING);
   },
 
   /**
@@ -143,124 +159,121 @@ export const setup = {
    * ********************************************************************************************
    */
 
-  checkAuthentication: function() {
+  checkAuthentication() {
     if (!user.isLoggedIn) {
-      user.signIn()
+      user.signIn();
     } else if (!user.isInstructor) {
-      window.location = util.links.notfound404()
+      window.location = util.links.notfound404();
     }
-    return true
+    return true;
   },
 
-  getDepartsByUniversityId: async function() {
-    let { data } = await api.getDepartsByUniId(user.getUserInfo().universityId)
-    return data
+  async getDepartsByUniversityId() {
+    const { data } = await api.getDepartsByUniId(user.getUserInfo().universityId);
+    return data;
   },
 
-  getTermsByUniversityId: async function() {
-    let { data } = await api.getTermsByUniId(user.getUserInfo().universityId)
-    return (data || []).slice().reverse()
+  async getTermsByUniversityId() {
+    const { data } = await api.getTermsByUniId(user.getUserInfo().universityId);
+    return (data || []).slice().reverse();
   },
 
-  getFullNumber: function(offs) {
-    let fullNumber = ''
-    _.forEach( offs, (off, index) => {
-      let { courseNumber } = off
-      let { acronym } = off.depart
-      if (index > 0) fullNumber += '/'
-      fullNumber += acronym + courseNumber
-    })
-  
-    return fullNumber
+  getFullNumber(offs) {
+    let fullNumber = '';
+    _.forEach(offs, (off, index) => {
+      const { courseNumber } = off;
+      const { acronym } = off.depart;
+      if (index > 0) fullNumber += '/';
+      fullNumber += acronym + courseNumber;
+    });
+
+    return fullNumber;
   },
-  
-  parseCourseOfferings: function(courseOfferings=[], departs, terms) {
+
+  parseCourseOfferings(courseOfferings = [], departs, terms) {
     // console.log('rawOfferings', courseOfferings)
-    if (courseOfferings.length === 0) return []
+    if (courseOfferings.length === 0) return [];
 
-    let offerArray = _.map( 
-      courseOfferings, 
-      co => {
-        let { courseNumber, departmentId } = co.course
-        let depart = _.find( departs, { id: departmentId } )
-        let offerings = _.map( 
-          co.offerings, 
-          off => {
-            let term = _.find( terms, { id: off.termId })
-            return { 
-              ...off, term, depart, courseNumber, 
-              course: { ...co.course, acronym: depart.acronym, depart }
-            }
-        })
-  
-        return offerings
-    })
-  
-    let offerIds = _.groupBy(_.flatten(offerArray), 'id')
-    let offerings = _.map( offerIds, offs => {
-      let off = offs[0]
+    const offerArray = _.map(courseOfferings, (co) => {
+      const { courseNumber, departmentId } = co.course;
+      const depart = _.find(departs, { id: departmentId });
+      const offerings = _.map(co.offerings, (off) => {
+        const term = _.find(terms, { id: off.termId });
+        return {
+          ...off,
+          term,
+          depart,
+          courseNumber,
+          course: { ...co.course, acronym: depart.acronym, depart },
+        };
+      });
 
-      let courses = _.map(offs, o => o.course)
-      off.courses = courses
+      return offerings;
+    });
 
-      let fullNumber = this.getFullNumber(offs)
-      off.courseNumber = fullNumber
+    const offerIds = _.groupBy(_.flatten(offerArray), 'id');
+    const offerings = _.map(offerIds, (offs) => {
+      const off = offs[0];
 
-      if (Boolean(off.course)) delete off.course
-      if (Boolean(off.depart)) delete off.depart
-      return off
-    })
-  
+      const courses = _.map(offs, (o) => o.course);
+      off.courses = courses;
+
+      const fullNumber = this.getFullNumber(offs);
+      off.courseNumber = fullNumber;
+
+      if (off.course) delete off.course;
+      if (off.depart) delete off.depart;
+      return off;
+    });
+
     // console.log('offerings', offerings)
-    return (offerings || []).slice().reverse()
+    return (offerings || []).slice().reverse();
   },
 
-  getLinkedUsersByOfferingId: async function(offeringId, callBack) {
-    let instructors = []
-    let students = []
+  async getLinkedUsersByOfferingId(offeringId, callBack) {
+    const users = { instructors: [], students: [] };
     try {
-      let instsResp = await api.getInstructorsByOfferingId(offeringId)
-      let stuResp = await api.getStudentsByOfferingId(offeringId)
-      instructors = instsResp.data
-      students = stuResp.data
+      const instsResp = await api.getInstructorsByOfferingId(offeringId);
+      const stuResp = await api.getStudentsByOfferingId(offeringId);
+      users.instructors = instsResp.data;
+      users.students = stuResp.data;
     } catch (error) {
-      
+      return users;
     }
-    let users = { instructors, students }
-    if (callBack) callBack(users)
-    return users
+
+    if (callBack) callBack(users);
+    return users;
   },
 
-  getCourseOfferingsByInstructorId: async function(context) {
-    this.errors = []
+  async getCourseOfferingsByInstructorId() {
+    this.errors = [];
     try {
-      let { data } = await api.getCourseOfferingsByInstructorId(user.userId)
-      let departments = await this.getDepartsByUniversityId()
-      let terms = await this.getTermsByUniversityId()
-      let offerings = this.parseCourseOfferings(data, departments, terms)
+      const { data } = await api.getCourseOfferingsByInstructorId(user.userId);
+      const departments = await this.getDepartsByUniversityId();
+      const terms = await this.getTermsByUniversityId();
+      const offerings = this.parseCourseOfferings(data, departments, terms);
 
       // console.log('offerings', offerings)
       // console.log('departments', departments)
       // console.log('terms', terms)
 
-      this.terms(terms)
-      this.departments(departments)
-      this.offerings(offerings)
+      this.terms(terms);
+      this.departments(departments);
+      this.offerings(offerings);
 
-      api.contentLoaded()
+      api.contentLoaded();
     } catch (error) {
-      promptControl.error(['load offerings', 'departments', 'and terms'])
+      promptControl.error(['load offerings', 'departments', 'and terms']);
     }
   },
 
-  setupOfferings: async function(context) {
+  async setupOfferings(context) {
     if (this.offerings().length > 0) return;
 
     if (this.checkAuthentication()) {
-      await this.getCourseOfferingsByInstructorId(context)
+      await this.getCourseOfferingsByInstructorId(context);
     }
   },
-
 
   /**
    * Setup Playlists
@@ -268,76 +281,75 @@ export const setup = {
    */
   playlists_: [],
   playlist_: {},
-  playlists: function(playlists_) {
+  playlists(playlists_) {
     if (playlists_ === undefined) {
-      if (this.playlists_ === ARRAY_EMPTY) return []
-      return this.playlists_
+      if (this.playlists_ === ARRAY_EMPTY) return [];
+      return this.playlists_;
     }
-    let { setPlaylists } = this.externalFunctions
+    const { setPlaylists } = this.externalFunctions;
     if (setPlaylists) {
-      this.playlists_ = playlists_
-      setPlaylists(playlists_)
+      this.playlists_ = playlists_;
+      setPlaylists(playlists_);
     }
   },
 
-  playlist: function(playlist_) {
-    if (playlist_ === undefined) return this.playlist_
-    let { setPlaylist } = this.externalFunctions
+  playlist(playlist_) {
+    if (playlist_ === undefined) return this.playlist_;
+    const { setPlaylist } = this.externalFunctions;
     if (setPlaylist) {
-      this.playlist_ = playlist_
-      setPlaylist(playlist_)
+      this.playlist_ = playlist_;
+      setPlaylist(playlist_);
     }
   },
 
-  setUpPlaylists: async function(offeringId) {
+  async setUpPlaylists(offeringId) {
     try {
-      this.playlists_ = ARRAY_INIT
-      let { data } = await api.getPlaylistsByOfferingId(offeringId)
+      this.playlists_ = ARRAY_INIT;
+      let { data } = await api.getPlaylistsByOfferingId(offeringId);
       // if switched offering while loading data
 
       // TEMPORARY: for sorting
-      data = _.map(data, (pl, index) => ({ ...pl, index }))
+      data = _.map(data, (pl, index) => ({ ...pl, index }));
 
-      if (data.length > 0 && data[0].offeringId !== setup.offering().id) return
+      if (data.length > 0 && data[0].offeringId !== setup.offering().id) return;
 
       // otherwise, set playlists
       // _.forEach(data, pl => _.reverse(pl.medias))
 
-      if (data.length === 0) data = ARRAY_EMPTY
-      this.playlists(data)
+      if (data.length === 0) data = ARRAY_EMPTY;
+      this.playlists(data);
     } catch (error) {
       // Blank
-      console.error('Failed to load playlists.')
-      promptControl.error(['load playlists.'])
+      console.error('Failed to load playlists.');
+      promptControl.error(['load playlists.']);
     }
   },
 
-  setupPlaylist: function(
-    setResults
-  ) {
-    let playlists = this.playlists()
+  setupPlaylist(setResults) {
+    const playlists = this.playlists();
 
     if (playlists !== ARRAY_INIT) {
-      if (playlists === ARRAY_EMPTY) { // If there is no playlist
-        this.changePlaylist(NEW_PLAYLIST)
-        setResults([])
+      if (playlists === ARRAY_EMPTY) {
+        // If there is no playlist
+        this.changePlaylist(NEW_PLAYLIST);
+        setResults([]);
       } else {
-        let { plid } = util.links.useSearch()
-        if (plid) { // if the plid is specified in the url
-          let requestPl = _.find(playlists, { id: plid })
+        const { plid } = util.links.useSearch();
+        if (plid) {
+          // if the plid is specified in the url
+          const requestPl = _.find(playlists, { id: plid });
           if (requestPl) {
-            this.changePlaylist(requestPl)
+            this.changePlaylist(requestPl);
           } else {
-            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
+            this.changePlaylist(playlists[0] || NEW_PLAYLIST);
           }
-        } else { // if the no plid is specified in the url
+        } else if (!this.playlist().isNew) {
+          // if the no plid is specified in the url
           // If playlists non-empty set result to playlists
-          if (!this.playlist().isNew) {
-            this.changePlaylist(playlists[0] || NEW_PLAYLIST)
-          }
+          this.changePlaylist(playlists[0] || NEW_PLAYLIST);
         }
 
-        setResults(playlists)
+        setResults(playlists);
       }
     } else {
       // setResults([])
@@ -345,24 +357,26 @@ export const setup = {
     }
   },
 
-  changePlaylist: async function(pl, setWithoutLoading=false) {
+  async changePlaylist(pl, setWithoutLoading = false) {
     if (!pl.name || setWithoutLoading) {
-      return this.playlist(pl)
+      return this.playlist(pl);
     }
 
     // prevent repeated set the same playlist
-    if (pl.id === this.playlist().id) return
+    if (pl.id === this.playlist().id) return;
 
-    this.playlist({})
+    this.playlist({});
 
-    let { data } = await api.getPlaylistById(pl.id)
-    this.playlist(data)
+    const { data } = await api.getPlaylistById(pl.id);
+    this.playlist(data);
     // push plid into url
-    util.links.pushSearch({ plid: pl.id })
+    util.links.pushSearch({ plid: pl.id });
   },
 
-  playlistToView: function(id) {
-    let plElem = document.getElementById(id)
-    if (plElem) plElem.scrollIntoView({ behavior: "smooth", block: "nearest" })
-  }
-}
+  playlistToView(id) {
+    const plElem = document.getElementById(id);
+    if (plElem) {
+      plElem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  },
+};

@@ -1,32 +1,35 @@
-import React from 'react'
-import { Popup } from 'semantic-ui-react'
-import './index.css'
-import { isMobile } from 'react-device-detect'
+import React from 'react';
+import { Popup } from 'semantic-ui-react';
+import './index.css';
+import { isMobile } from 'react-device-detect';
 
 export default function WatchCtrlButton({
   children,
-  position="bottom",
-  classNames='',
-  onClick=null,
-  onDoubleClick=null,
-  active=false,
-  colored=false,
-  disabled=false,
-  label="",
-  ariaTags={},
-  popupStyle={},
-  popupPosition="0, 15px",
-  mouseEnterDelay=0,
-  id=""
-}) { 
-  const handleKeyDown = e => {
+  position = 'bottom',
+  classNames = '',
+  onClick = null,
+  onDoubleClick = null,
+  active = false,
+  colored = false,
+  disabled = false,
+  label = '',
+  ariaTags = {},
+  popupStyle = {},
+  popupPosition = '0, 15px',
+  mouseEnterDelay = 0,
+  id = '',
+}) {
+  const handleKeyDown = (e) => {
     if (e.keyCode === 32) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
 
   return (
-    <Popup inverted wide basic
+    <Popup
+      inverted
+      wide
+      basic
       style={popupStyle}
       position={`${position} center`}
       offset={position === 'bottom' ? popupPosition : undefined}
@@ -37,9 +40,9 @@ export default function WatchCtrlButton({
       content={<strong>{label}</strong>}
       disabled={isMobile}
       trigger={
-        <button 
+        <button
           id={id}
-          className={`watch-ctrl-button ${classNames}`} 
+          className={`watch-ctrl-button ${classNames}`}
           active={active.toString()}
           colored={colored.toString()}
           disabled={disabled}
@@ -53,5 +56,5 @@ export default function WatchCtrlButton({
         </button>
       }
     />
-  )
+  );
 }
