@@ -1,4 +1,4 @@
-import { cthttp } from './request'
+import { cthttp } from './request';
 
 // ------------------------------------------------------------
 // Watch Histories
@@ -7,15 +7,15 @@ import { cthttp } from './request'
 // GET
 
 export function getMediaWatchHistories(mediaId) {
-    return cthttp.get('WatchHistories/' + mediaId)
+  return cthttp.get(`WatchHistories/${mediaId}`);
 }
 
 export function getUserWatchHistories() {
-    return cthttp.get('WatchHistories/GetAllWatchedMediaForUser')
+  return cthttp.get('WatchHistories/GetAllWatchedMediaForUser');
 }
 
 // POST
 
 export function sendMediaWatchHistories(mediaId, timestamp, ratio) {
-    return cthttp.post('WatchHistories/' + mediaId, { timestamp, ratio })
+  return cthttp.post(`WatchHistories/${mediaId}`, { timestamp, ratio });
 }

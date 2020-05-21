@@ -1,60 +1,65 @@
-import React from 'react'
-import { Button, Popup } from 'semantic-ui-react'
-import { isMobile } from 'react-device-detect'
+import React from 'react';
+import { Button, Popup } from 'semantic-ui-react';
+import { isMobile } from 'react-device-detect';
 
-export function StarredButton({ offeringId, position, starredOfferings=[], starOffering, unstarOffering }) {  
-  const isStarred = starredOfferings.includes(offeringId)
+export function StarredButton({
+  offeringId,
+  position,
+  starredOfferings = [],
+  starOffering,
+  unstarOffering,
+}) {
+  const isStarred = starredOfferings.includes(offeringId);
   const handleClick = () => {
     if (isStarred) {
-      unstarOffering(offeringId)
+      unstarOffering(offeringId);
     } else {
-      starOffering(offeringId)
+      starOffering(offeringId);
     }
     // console.log('starred Offerings', util.getStarredOfferingsArray())
-  }
+  };
 
-  const iconName = isStarred ? 'star' : 'star outline'
-  const popupContent = isStarred ? 'Remove from Starred' : 'Add to Starred'
+  const iconName = isStarred ? 'star' : 'star outline';
+  const popupContent = isStarred ? 'Remove from Starred' : 'Add to Starred';
 
   return (
-    <Popup 
+    <Popup
       content={popupContent}
       position="right center"
       inverted
       openOnTriggerFocus
       closeOnTriggerBlur
       trigger={
-        <Button 
-          circular compact
-          className={`overlay-btn star-btn-${position} ${ isStarred ? 'starred-btn' : '' }`} 
-          icon={iconName} 
+        <Button
+          circular
+          compact
+          className={`overlay-btn star-btn-${position} ${isStarred ? 'starred-btn' : ''}`}
+          icon={iconName}
           onClick={handleClick}
           aria-label="Star Button"
         />
       }
     />
-  )
+  );
 }
 
 export function SectionShowMoreButton({ shouldDisplay, showAll, handleShowAll }) {
-  if (!shouldDisplay) return null
-  const content = showAll ? 'Collapse' : 'Show More'
+  if (!shouldDisplay) return null;
+  const content = showAll ? 'Collapse' : 'Show More';
 
   return (
     <Button type="offering-show-all-btn" compact onClick={handleShowAll} aria-label={content}>
-      <span tabIndex="-1">
-        {content}
-      </span>
+      <span tabIndex="-1">{content}</span>
     </Button>
-  )
+  );
 }
 
 export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
-  if (!shouldDisplay) return null
-  const content = isFolded ? 'Unfold' : 'Fold'
+  if (!shouldDisplay) return null;
+  const content = isFolded ? 'Unfold' : 'Fold';
 
   return isMobile ? null : (
-    <Popup 
+    <Popup
       content={content}
       position="left center"
       mouseEnterDelay={1000}
@@ -63,12 +68,18 @@ export function SectionFoldButton({ shouldDisplay, isFolded, handleFold }) {
       openOnTriggerClick={false}
       inverted
       trigger={
-        <Button circular type={`offering-close-btn${isFolded ? '-reverse' : ''}`} compact onClick={handleFold} aria-label={content}>
+        <Button
+          circular
+          type={`offering-close-btn${isFolded ? '-reverse' : ''}`}
+          compact
+          onClick={handleFold}
+          aria-label={content}
+        >
           <span tabIndex="-1">
             <i className="material-icons">expand_less</i>
           </span>
         </Button>
       }
     />
-  )
+  );
 }

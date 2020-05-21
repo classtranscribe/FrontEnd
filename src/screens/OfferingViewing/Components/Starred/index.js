@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export function Starred(props) {
-  return (
-    <div>In Progress</div>
-  )
+  return <div>In Progress</div>;
 }

@@ -1,53 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import _ from 'lodash'
-import { connectWithRedux } from '../../../Utils'
-import PlaylistView from './PlaylistView'
-import Videos from './Videos'
-import './index.css'
-import { isMobile } from 'react-device-detect'
+import React, { useState, useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
+import { connectWithRedux } from '../../../Utils';
+import './index.css';
 
-function PlaylistsMenu({
-  onClose=null,
-  media={},
-  playlist={},
-}) {
-  const currMedia = media
-  const currMediaId = currMedia.id
+import PlaylistView from './PlaylistView';
+import Videos from './Videos';
 
-  const [currPlaylist, setCurrPlaylist] = useState({})
+function PlaylistsMenu({ onClose = null, media = {}, playlist = {} }) {
+  const currMedia = media;
+  const currMediaId = currMedia.id;
+
+  const [currPlaylist, setCurrPlaylist] = useState({});
 
   useEffect(() => {
-    setCurrPlaylist(playlist)
-  }, [playlist])
+    setCurrPlaylist(playlist);
+  }, [playlist]);
 
-  return ( 
+  return (
     <div id="watch-playlists-menu" className="watch-playlists-menu">
       {/* Close Btn */}
-      <button className="plain-btn watch-menu-close-btn watch-playlists-menu-close-btn" onClick={onClose}>
+      <button
+        className="plain-btn watch-menu-close-btn watch-playlists-menu-close-btn"
+        onClick={onClose}
+      >
         <i className="material-icons">close</i>
       </button>
 
-      {
-        !isMobile
-        &&
-        <PlaylistView 
-          currPlaylist={currPlaylist}
-          setCurrPlaylist={setCurrPlaylist}
-        />
-      }
+      {!isMobile && <PlaylistView currPlaylist={currPlaylist} setCurrPlaylist={setCurrPlaylist} />}
 
       {/* Videos view */}
-      <Videos 
-        currMediaId={currMediaId}  
-        currPlaylist={currPlaylist}
-      />
-
+      <Videos currMediaId={currMediaId} currPlaylist={currPlaylist} />
     </div>
-  )
+  );
 }
 
-export default connectWithRedux(
-  PlaylistsMenu,
-  ['media', 'playlist'],
-  []
-)
+export default connectWithRedux(PlaylistsMenu, ['media', 'playlist']);

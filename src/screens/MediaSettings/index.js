@@ -2,20 +2,15 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
 import { util, api } from 'utils';
-import { 
-  setup,
-  TAB_EPUB,
-  TAB_EDIT_TRANS,
-} from './Utils';
+import { CTErrorWrapper } from 'components';
+import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './Utils';
 
 import withMSPReduxProvider from './Utils/msp-redux-provider';
 
-import { CTErrorWrapper } from 'components';
 import { MSPHeader } from './Components';
 import { EPub } from './Tabs';
 
 import './index.scss';
-
 
 class MediaSettingsWithRedux extends React.Component {
   constructor(props) {
@@ -44,13 +39,15 @@ class MediaSettingsWithRedux extends React.Component {
 
     return isMobile ? (
       <div className="msp-bg">
-        <CTErrorWrapper show navbar
+        <CTErrorWrapper
+          show
+          navbar
           retry={false}
           signInButton={false}
           error={{
             code: <i className="material-icons">laptop_mac</i>,
             header: 'Please open this page in a computer/laptop browser.',
-            description: ''
+            description: '',
           }}
         />
       </div>
@@ -59,10 +56,7 @@ class MediaSettingsWithRedux extends React.Component {
         <MSPHeader />
 
         <div className="msp-content">
-          <Route exact
-            path={mspPath} 
-            render={() => <Redirect to={transPath} />}   
-          />
+          <Route exact path={mspPath} render={() => <Redirect to={transPath} />} />
 
           <Route path={epubPath} component={EPub} />
 

@@ -1,47 +1,43 @@
-import React, { useState, useEffect } from 'react'
-import { Button } from 'pico-ui'
-import { Grid } from 'semantic-ui-react'
-import { CTForm } from '../../../../../components'
+import React, { useState, useEffect } from 'react';
+import { Button } from 'pico-ui';
+import { Grid } from 'semantic-ui-react';
+import { CTForm } from 'components';
+import { api, util } from 'utils';
+import { plControl } from '../../../Utils';
+import './index.css';
 
-import SourceTypes from './SourceTypes'
-import PlaylistIdentifier from './PlaylistIdentifier'
+import SourceTypes from './SourceTypes';
+import PlaylistIdentifier from './PlaylistIdentifier';
 
-import { api, util } from '../../../../../utils'
-import { plControl } from '../../../Utils'
-import './index.css'
+export default function NewPlaylist({ offeringId, noPlaylist = false }) {
+  const [name, setName] = useState('');
+  const [type, setType] = useState(2);
+  const [url, setUrl] = useState('');
 
-export default function NewPlaylist({
-  offeringId,
-  noPlaylist=false
-}) {
+  const defaultType = 2;
 
-  const [name, setName] = useState('')
-  const [type, setType] = useState(2)
-  const [url, setUrl] = useState('')
+  const setPlaylistName = (name_) => {
+    setName(name_);
+  };
 
-  const defaultType = 2
-
-  const setPlaylistName = name_ => {
-    setName(name_)
-  }
-
-  const setPlaylistType = type_ => {
-    setType(-1)
-    setTimeout(() => setType(type_), 200)
-    setUrl('')
-  }
+  const setPlaylistType = (type_) => {
+    setType(-1);
+    setTimeout(() => setType(type_), 200);
+    setUrl('');
+  };
 
   const onSave = () => {
     plControl.createPlaylist({
-      offeringId, name, 
+      offeringId,
+      name,
       sourceType: type,
-      playlistIdentifier: url
-    })
-  }
+      playlistIdentifier: url,
+    });
+  };
 
   useEffect(() => {
-    util.links.replaceSearch({})
-  }, [])
+    util.links.replaceSearch({});
+  }, []);
 
   return (
     <div className="ct-a-fade-in ip-edit-p-con" data-scroll>
@@ -51,12 +47,12 @@ export default function NewPlaylist({
         <div className="ip-f-title">
           <h3>playlist name</h3>
         </div>
-      
 
-        <Grid columns='equal' stackable className="ip-f-grid">
+        <Grid columns="equal" stackable className="ip-f-grid">
           <Grid.Row>
             <Grid.Column>
-              <CTForm required
+              <CTForm
+                required
                 label="Playlist Name"
                 color="grey"
                 placeholder="Playlist Name"
@@ -70,14 +66,21 @@ export default function NewPlaylist({
       <div className="ip-f-section">
         <SourceTypes />
 
-        <Grid columns='equal' stackable className="ip-f-grid">
+        <Grid columns="equal" stackable className="ip-f-grid">
           <Grid.Row>
             <Grid.Column>
-              <CTForm required select
+              <CTForm
+                required
+                select
                 label="Playlist Type"
                 color="grey"
                 defaultValue={defaultType}
-                options={CTForm.getOptions(api.playlistTypes.slice().reverse(), 'id', 'name', 'description')}
+                options={CTForm.getOptions(
+                  api.playlistTypes.slice().reverse(),
+                  'id',
+                  'name',
+                  'description',
+                )}
                 onChange={setPlaylistType}
                 description="Choose playlist type."
                 position="up"
@@ -86,16 +89,13 @@ export default function NewPlaylist({
           </Grid.Row>
         </Grid>
 
-        <PlaylistIdentifier 
-          url={url}
-          setUrl={setUrl}
-          sourceType={type}
-        />
+        <PlaylistIdentifier url={url} setUrl={setUrl} sourceType={type} />
       </div>
 
       <div className="ip-f-form-con">
         <div className="ct-d-r-center-v w-100 mt-3 ip-f-btn-group ct-btn-group">
-          <Button uppercase
+          <Button
+            uppercase
             color="teal"
             text="create playlist"
             onClick={onSave}
@@ -104,5 +104,5 @@ export default function NewPlaylist({
         </div>
       </div>
     </div>
-  )
+  );
 }

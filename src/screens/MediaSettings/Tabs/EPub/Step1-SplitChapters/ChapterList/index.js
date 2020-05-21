@@ -5,12 +5,10 @@ import EpubChapterItem from './EpubChapterItem';
 import InstructionHeading from './InstructionHeading';
 import './index.scss';
 
-function ChapterList({
-  chapters
-}) {
+function ChapterList({ chapters }) {
   return (
     <ScrollArea
-      id="msp-ee-sch-list" 
+      id="msp-ee-sch-list"
       className="msp-ee-sch"
       scrollClassName="msp-ee-sch-scroll"
       scrollToTopButton="left"
@@ -20,7 +18,7 @@ function ChapterList({
       <div className="ct-d-c ee-sch-chapters">
         {chapters.map((chapter, chapterIndex) => (
           <EpubChapterItem
-            key={`ee-sch-ch-${chapterIndex}`} 
+            key={`ee-sch-ch-${chapter.id}`}
             chapter={chapter}
             chapterIndex={chapterIndex}
             canUndoSplit={chapterIndex > 0}
@@ -31,7 +29,4 @@ function ChapterList({
   );
 }
 
-export default connectWithRedux(
-  ChapterList,
-  ['chapters']
-);
+export default connectWithRedux(ChapterList, ['chapters']);

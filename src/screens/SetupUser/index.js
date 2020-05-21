@@ -5,7 +5,7 @@ const { links } = util;
 
 export class SetupUser extends React.Component {
   componentDidMount() {
-    let pathname = window.location.pathname;
+    const pathname = window.location.pathname;
     if (pathname === links.auth0Callback()) {
       user.auth0Setup();
     } else if (pathname === links.ciLogonCallback()) {
@@ -16,6 +16,6 @@ export class SetupUser extends React.Component {
   }
 
   render() {
-    return <div></div>;
+    return <div />;
   }
 }

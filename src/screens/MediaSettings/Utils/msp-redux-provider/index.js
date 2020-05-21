@@ -1,23 +1,18 @@
 import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { 
-  mspStore,
-  mspContext,
-  connectWithRedux as mspConnect
-} from 'redux/media-settings';
+import { mspStore, mspContext, connectWithRedux as mspConnect } from 'redux/media-settings';
 import { getTab } from '../helpers';
 
-import { 
+import {
   TAB_EPUB,
-  TAB_EDIT_TRANS,
+  // TAB_EDIT_TRANS,
 } from '../constants';
 
 import EpubReduxProvider from './EpubReduxProvider';
 
-
 function providerSelector(pathname) {
-  let tab = getTab(pathname);
+  const tab = getTab(pathname);
   switch (tab) {
     case TAB_EPUB:
       return EpubReduxProvider;
@@ -27,19 +22,13 @@ function providerSelector(pathname) {
 }
 
 function withMSPReduxProvider(MediaSettingsWithRedux) {
-  
-  const MspConnectToRedux = mspConnect(
-    MediaSettingsWithRedux,
-    [],
-    ['all'],
-    mspContext
-  );
+  const MspConnectToRedux = mspConnect(MediaSettingsWithRedux, [], ['all'], mspContext);
 
   function MSPReduxProvider(props) {
-    let { pathname } = useLocation();
-  
+    const { pathname } = useLocation();
+
     const TabProvider = providerSelector(pathname);
-    
+
     return (
       <Provider store={mspStore} context={mspContext}>
         <TabProvider>
@@ -53,4 +42,3 @@ function withMSPReduxProvider(MediaSettingsWithRedux) {
 }
 
 export default withMSPReduxProvider;
-

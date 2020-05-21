@@ -8,37 +8,41 @@ import './index.scss';
 
 import Tabs from './Tabs';
 
-
-function MSPHeaderWithRedux({
-  media,
-  playlist,
-}) {
+function MSPHeaderWithRedux({ media, playlist }) {
   const { mediaName } = media;
   const { offeringId } = playlist;
 
   return (
     <div className="msp-header">
-      <ClassTranscribeHeader //bordered
+      <ClassTranscribeHeader // bordered
         fixed={false}
         subtitle="Media Settings"
-        //leftElem={}
+        // leftElem={}
       />
-      
+
       <div className="msp-sub-h">
         <div className="msp-me-info">
-          <Popup inverted
+          <Popup
+            inverted
             openOnTriggerFocus
             closeOnTriggerBlur
             content={
-              <div><strong>{mediaName}</strong></div>
+              <div>
+                <strong>{mediaName}</strong>
+              </div>
             }
             trigger={
-              <Link className="msp-me-name" to={
-                (offeringId && playlist.id)
-                ? util.links.instOffering(offeringId, playlist.id, media.id)
-                : util.links.instructor()
-              }>
-                <i aria-hidden="true" className="material-icons">chevron_left</i>
+              <Link
+                className="msp-me-name"
+                to={
+                  offeringId && playlist.id
+                    ? util.links.instOffering(offeringId, playlist.id, media.id)
+                    : util.links.instructor()
+                }
+              >
+                <i aria-hidden="true" className="material-icons">
+                  chevron_left
+                </i>
                 <span>{mediaName}</span>
               </Link>
             }
@@ -50,11 +54,4 @@ function MSPHeaderWithRedux({
   );
 }
 
-export const MSPHeader = connectWithRedux(
-  MSPHeaderWithRedux,
-  [
-    'media',
-    'playlist'
-  ],
-  []
-);
+export const MSPHeader = connectWithRedux(MSPHeaderWithRedux, ['media', 'playlist']);

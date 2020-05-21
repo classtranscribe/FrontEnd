@@ -1,21 +1,18 @@
-import _ from 'lodash';
 import showdown from 'showdown';
 import showdownKatex from 'showdown-katex';
 
 function getMDConverter() {
-    return new showdown.Converter({
-        tables: true, 
-        simpleLineBreaks: true,
-        strikethrough: true,
-        parseImgDimensions: true,
-        simplifiedAutoLink: true,
-        excludeTrailingPunctuationFromURLs: true,
-        tasklists: true,
-        underline: true,
-        extensions: [
-            showdownKatex({}),
-        ],
-    });
+  return new showdown.Converter({
+    tables: true,
+    simpleLineBreaks: true,
+    strikethrough: true,
+    parseImgDimensions: true,
+    simplifiedAutoLink: true,
+    excludeTrailingPunctuationFromURLs: true,
+    tasklists: true,
+    underline: true,
+    extensions: [showdownKatex({})],
+  });
 }
 
 /**
@@ -24,8 +21,6 @@ function getMDConverter() {
  * @returns {String} parsed raw html
  */
 export function markdown2Html(markdownData) {
-    let md = getMDConverter();
-    return md.makeHtml(markdownData);
+  const md = getMDConverter();
+  return md.makeHtml(markdownData);
 }
-
-

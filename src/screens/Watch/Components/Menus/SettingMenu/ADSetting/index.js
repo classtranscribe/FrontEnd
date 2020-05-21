@@ -1,53 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import MenuRadio from '../MenuRadio'
-import { 
-  connectWithRedux,
-  transControl, 
-  preferControl,
-} from '../../../../Utils'
-import { userAction } from '../../../../../../utils'
+import React, { useState, useEffect } from 'react';
+import { userAction } from 'utils';
+import { connectWithRedux, transControl, preferControl } from '../../../../Utils';
 
-function ADSetting({
-  show=false,
-  openAD=false,
-  descriptions=[]
-}) {
+import MenuRadio from '../MenuRadio';
 
-  const [pauseWhileAD, setPauseWhileAD] = useState(preferControl.pauseWhileAD())
+function ADSetting({ show = false, openAD = false, descriptions = [] }) {
+  const [pauseWhileAD, setPauseWhileAD] = useState(preferControl.pauseWhileAD());
 
   const handleAD = ({ target: { checked } }) => {
-    transControl.handleOpenAD()
-  }
+    transControl.handleOpenAD();
+  };
 
   const handlePauseWhileAD = () => {
-    preferControl.pauseWhileAD( !pauseWhileAD )
-    userAction.pauseWhenADStarts( !pauseWhileAD )
-    setPauseWhileAD( !pauseWhileAD )
-  }
+    preferControl.pauseWhileAD(!pauseWhileAD);
+    userAction.pauseWhenADStarts(!pauseWhileAD);
+    setPauseWhileAD(!pauseWhileAD);
+  };
 
   useEffect(() => {
     if (show) {
-      document.getElementById('ad-settings').scrollIntoView({ block: 'center' })
+      document.getElementById('ad-settings').scrollIntoView({ block: 'center' });
     }
-  }, [show])
+  }, [show]);
 
-  let disabled = descriptions.length <= 0
+  const disabled = descriptions.length <= 0;
 
   return (
     <form className="watch-menu-tab" id="ad-settings">
       <h2 className="watch-menu-tab-title">Audio Description</h2>
-      { disabled && <p>Sorry, audio description of this video is currently unavailable.</p> }
+      {disabled && <p>Sorry, audio description of this video is currently unavailable.</p>}
       <div className="w-100">
-        <MenuRadio 
+        <MenuRadio
           id="ad-open-radio"
-          label="Open Audio Description" 
+          label="Open Audio Description"
           onChange={handleAD}
           checked={openAD && !disabled}
           disabled={disabled}
         />
-        <MenuRadio 
+        <MenuRadio
           id="ad-pause-radio"
-          label="Pause video when Audio Description starts" 
+          label="Pause video when Audio Description starts"
           onChange={handlePauseWhileAD}
           checked={pauseWhileAD && !disabled}
           disabled={disabled}
@@ -55,11 +47,7 @@ function ADSetting({
         />
       </div>
     </form>
-  )
+  );
 }
 
-export default connectWithRedux(
-  ADSetting,
-  ['openAD', 'descriptions'],
-  []
-)
+export default connectWithRedux(ADSetting, ['openAD', 'descriptions']);

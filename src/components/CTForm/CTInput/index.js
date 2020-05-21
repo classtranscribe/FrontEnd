@@ -1,48 +1,43 @@
-import React from 'react'
-import _ from 'lodash'
-import './index.css'
+import React from 'react';
+import './index.css';
 
 export function CTInput({
-  id='',
-  label='',
+  id = '',
+  label = '',
   defaultValue,
   value,
   description,
-  placeholder='Input Here...',
-  required=false,
+  placeholder = 'Input Here...',
+  required = false,
 
   type,
-  color='primary',
+  color = 'primary',
   error,
-  info=null,
-  classNames='',
+  info = null,
+  classNames = '',
 
   onChange,
   onReturn,
 }) {
+  const handleChange = ({ target }) => {
+    if (onChange) onChange(target.value);
+  };
 
-  const handleChange = ({ target: { value } }) => {
-    if (onChange) onChange(value)
-  }
-
-  const onKeyDown = ({ keyCode, target: { value } }) => {
+  const onKeyDown = ({ keyCode, target }) => {
     if (keyCode === 13) {
-      if (onReturn) onReturn(value)
+      if (onReturn) onReturn(target.value);
     }
-  }
+  };
 
   return (
-    <div 
-      className="ct-ipt-con"
-      data-color={color}
-    >
+    <div className="ct-ipt-con" data-color={color}>
       <div className="ct-ipt-label" data-error={Boolean(error)}>
         {label}
-        {
-          required
-          &&
-          <span className="ct-ipt-required-icon" aria-hidden="true">*</span>
-        }
+        {required && (
+          <span className="ct-ipt-required-icon" aria-hidden="true">
+            *
+          </span>
+        )}
         {info}
       </div>
 
@@ -61,20 +56,8 @@ export function CTInput({
           />
         </div>
       </label>
-      {
-        Boolean(description)
-        &&
-        <div className="ct-ipt-description">
-          {description}
-        </div>
-      }
-      {
-        Boolean(error)
-        &&
-        <div className="ct-ipt-description ct-ipt-error">
-          {error}
-        </div>
-      }
+      {Boolean(description) && <div className="ct-ipt-description">{description}</div>}
+      {Boolean(error) && <div className="ct-ipt-description ct-ipt-error">{error}</div>}
     </div>
-  )
+  );
 }

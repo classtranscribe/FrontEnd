@@ -1,10 +1,8 @@
-import { isMobile } from "react-device-detect"
-import {
-  DEFAULT_ROLE,
-} from "../../utils/constants"
+import { isMobile } from 'react-device-detect';
+import { DEFAULT_ROLE } from '../../utils/constants';
 
-import { 
-  preferControl, 
+import {
+  preferControl,
   // constants
   MENU_HIDE,
   NORMAL_MODE,
@@ -19,21 +17,21 @@ import {
   CTP_LOADING,
   MODAL_HIDE,
   // MODAL_SHARE
-} from "../../screens/Watch/Utils"
+} from '../../screens/Watch/Utils';
 
 export const initialState = {
   // Basics
   userRole: DEFAULT_ROLE,
-  
+
   // Metadata
-  media: { 
-    id: "", 
-    mediaName: "", 
-    createdAt: "", 
-    isTwoScreen: false, 
-    videos: [], 
+  media: {
+    id: '',
+    mediaName: '',
+    createdAt: '',
+    isTwoScreen: false,
+    videos: [],
     transcriptions: [],
-    isUnavailable: false
+    isUnavailable: false,
   },
   playlist: {},
   playlists: [],
@@ -84,4 +82,4 @@ export const initialState = {
   // Others
   prompt: null,
   search: SEARCH_INIT,
-}
+};

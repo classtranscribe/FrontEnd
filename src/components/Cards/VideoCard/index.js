@@ -1,75 +1,84 @@
-import React from 'react'
-import $ from 'jquery'
-import { Link, withRouter } from 'react-router-dom'
-import { Poster } from '../../Poster'
-import { DismissButton } from './VideoCard.Overlays'
-import { util } from '../../../utils'
-import './index.css'
+import React from 'react';
+import $ from 'jquery';
+import { Link, withRouter } from 'react-router-dom';
+import { util } from 'utils';
+import './index.css';
 
-function VideoCardWithOutRouter({ 
-  square=false,
-  row=false,
-  dark=false,
-  id=null,
-  name='Loading...', 
-  current=false,
-  listitem=true,
+import { Poster } from '../../Poster';
+import { DismissButton } from './VideoCard.Overlays';
+
+function VideoCardWithOutRouter({
+  square = false,
+  row = false,
+  dark = false,
+  id = null,
+  name = 'Loading...',
+  current = false,
+  listitem = true,
 
   history,
-  link=window.location.pathname,  
-  mediaState=null,
-  handleLinkClick=null,
+  link = window.location.pathname,
+  mediaState = null,
+  handleLinkClick = null,
 
-  ratio=0,
-  timeStamp=0,
-  isUnavailable=false,
-  description=null,
-  descriptionLink=null,
-  descriptionState=null,
-  posterSize="",
-  fittedNameSize=40,
+  ratio = 0,
+  // timeStamp = 0,
+  isUnavailable = false,
+  description = null,
+  descriptionLink = null,
+  descriptionState = null,
+  posterSize = '',
+  fittedNameSize = 40,
   // buttons
-  dismissable=false,
+  dismissable = false,
   handleDismiss,
   dismissPrompt,
 }) {
-  const fittedName = fittedNameSize < 0 ? name : util.getFittedName(name, fittedNameSize)
+  const fittedName = fittedNameSize < 0 ? name : util.getFittedName(name, fittedNameSize);
 
   const handleClick = () => {
     if ($('.description-link:focus').length > 0) return;
-    if (link) history.push(link, mediaState)
-    if (Boolean(handleLinkClick)) {
-      handleLinkClick()
-    } 
-  }
+    if (link) history.push(link, mediaState);
+    if (handleLinkClick) {
+      handleLinkClick();
+    }
+  };
 
-  const role = listitem ? 'listitem' : null
+  const role = listitem ? 'listitem' : null;
 
-  if (square) return (
-    <div 
-      className="video-card-container-square" 
-      unavailable={isUnavailable.toString()}
-      role={role}
-    >
-      <button 
-        className="video-card plain-btn" 
-        onClick={handleClick}
-        aria-label={`Watch video ${name}`}
-        current={current.toString()}
+  if (square)
+    return (
+      <div
+        className="video-card-container-square"
+        unavailable={isUnavailable.toString()}
+        role={role}
       >
-        <Poster progress={ratio} width="220px" />
-        <div className="media-info">
-          <p className="video-name">{fittedName}</p>
-          {!descriptionLink && <p className="description text-muted">{description}</p>}
-          {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
-        </div>
-      </button>
-    </div>
-  )
+        <button
+          className="video-card plain-btn"
+          onClick={handleClick}
+          aria-label={`Watch video ${name}`}
+          current={current.toString()}
+        >
+          <Poster progress={ratio} width="220px" />
+          <div className="media-info">
+            <p className="video-name">{fittedName}</p>
+            {!descriptionLink && <p className="description text-muted">{description}</p>}
+            {descriptionLink && (
+              <Link
+                className="description-link plain-btn"
+                to={{ pathname: descriptionLink, state: descriptionState }}
+              >
+                {description}
+              </Link>
+            )}
+          </div>
+        </button>
+      </div>
+    );
 
   // if (row) return (
   //   <button
-  //     className="plain-btn ct-vc ct-vc-row" 
+  //     className="plain-btn ct-vc ct-vc-row"
   //     onClick={handleClick}
   //     aria-label={`Watch video ${name}`}
   //   >
@@ -85,33 +94,46 @@ function VideoCardWithOutRouter({
   //   </button>
   // )
 
-  if (row) return (
-    <div 
-      className="video-card-container-row" 
-      unavailable={isUnavailable.toString()}
-      dark={dark.toString()}
-      role={role}
-    >
-      <button
-        id={id}
-        className="video-card plain-btn" 
-        onClick={handleClick}
-        aria-label={`Watch video ${name}`}
-        current={current.toString()}
+  if (row)
+    return (
+      <div
+        className="video-card-container-row"
+        unavailable={isUnavailable.toString()}
+        dark={dark.toString()}
+        role={role}
       >
-        <Poster progress={ratio} width={posterSize} />
-        <div className="media-info">
-          <p className="media-name" dangerouslySetInnerHTML={{__html: fittedNameSize === 56 ? name : fittedName}}></p>
-          {isUnavailable && <p className="description text-muted">Sorry this video is currently unavailable.</p>}
-          {!descriptionLink && <p className="description text-muted">{description}</p>}
-          {descriptionLink && <Link className="description-link plain-btn" to={{pathname: descriptionLink, state: descriptionState}}>{description}</Link>}
-        </div>
-      </button>
-      {dismissable && <DismissButton handleDismiss={handleDismiss} dismissPrompt={dismissPrompt} />}
-    </div>
-  )
+        <button
+          id={id}
+          className="video-card plain-btn"
+          onClick={handleClick}
+          aria-label={`Watch video ${name}`}
+          current={current.toString()}
+        >
+          <Poster progress={ratio} width={posterSize} />
+          <div className="media-info">
+            <p
+              className="media-name"
+              dangerouslySetInnerHTML={{ __html: fittedNameSize === 56 ? name : fittedName }}
+            />
+            {isUnavailable && (
+              <p className="description text-muted">Sorry this video is currently unavailable.</p>
+            )}
+            {!descriptionLink && <p className="description text-muted">{description}</p>}
+            {descriptionLink && (
+              <Link
+                className="description-link plain-btn"
+                to={{ pathname: descriptionLink, state: descriptionState }}
+              >
+                {description}
+              </Link>
+            )}
+          </div>
+        </button>
+        {dismissable && (
+          <DismissButton handleDismiss={handleDismiss} dismissPrompt={dismissPrompt} />
+        )}
+      </div>
+    );
 }
 
-
-
-export const VideoCard = withRouter(VideoCardWithOutRouter)
+export const VideoCard = withRouter(VideoCardWithOutRouter);

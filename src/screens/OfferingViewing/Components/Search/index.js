@@ -2,63 +2,59 @@
  * SearchBar, a sub screen of Home page, shows up when user want to search a course
  */
 
-import React, { useState, useEffect } from 'react'
-// UI
-import { Icon } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
-import { ClassTranscribeFooter } from '../../../../components'
-import SearchInput from './SearchInput'
-import SearchResult from './SearchResult'
-import './index.css'
-// Vars
-import { search, util } from '../../../../utils'
+import React, { useState, useEffect } from 'react';
+import { ClassTranscribeFooter } from 'components';
+import { search, util } from 'utils';
+import './index.css';
 
-export function Search({offerings, location}) {
-  var defaultValue = location.state ? location.state.value : ''
-  const [searchValue, setSearchValue] = useState(defaultValue)
-  const [results, setResults] = useState([])
-  const [loading, setLoading] = useState(false)
+import SearchInput from './SearchInput';
+import SearchResult from './SearchResult';
 
-  const searchInOfferings = value => {
-    return search.getResults(offerings, value, ['termName', 'fullNumber', 'courseName', 'sectionName'])
-  }
+export function Search({ offerings, location }) {
+  const defaultValue = location.state ? location.state.value : '';
+  const [searchValue, setSearchValue] = useState(defaultValue);
+  const [results, setResults] = useState([]);
 
-  useEffect( () => {
-    util.elem.scrollIntoView('sp-content')
-    util.links.title('Search')
-    window.scrollTo(0, 0)
+  const searchInOfferings = (value) => {
+    return search.getResults(offerings, value, [
+      'termName',
+      'fullNumber',
+      'courseName',
+      'sectionName',
+    ]);
+  };
+
+  useEffect(() => {
+    util.elem.scrollIntoView('sp-content');
+    util.links.title('Search');
+    window.scrollTo(0, 0);
     if (offerings.length) {
       if (defaultValue) {
-        setResults(searchInOfferings(defaultValue))
+        setResults(searchInOfferings(defaultValue));
       }
     }
-  }, [offerings])
+  }, [offerings]);
 
-  if (!offerings.length) return null
+  if (!offerings.length) return null;
 
-  const onInput = ({ target: {value} }) => {
-    setSearchValue(value)
+  const onInput = ({ target: { value } }) => {
+    setSearchValue(value);
     if (!value) {
-      setResults([])
-      return
+      setResults([]);
+      return;
     }
-    setResults(searchInOfferings(value))
-  }
+    setResults(searchInOfferings(value));
+  };
 
   return (
     <div className="search-bar ct-a-fade-in" id="search-bar">
       <h1>Search for Courses</h1>
-      {/* <div className="goback-container">
-        <Link className="del-icon" to={util.links.home()} >
-          <Icon name="chevron left" /> Back to Courses
-        </Link>
-      </div> */}
 
       <SearchInput searchValue={searchValue} onInput={onInput} />
 
-      <SearchResult loading={loading} results={results} searchValue={searchValue} />
-      
+      <SearchResult results={results} searchValue={searchValue} />
+
       <ClassTranscribeFooter />
     </div>
-  )
+  );
 }

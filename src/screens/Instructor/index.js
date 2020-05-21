@@ -1,8 +1,13 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import { withRouter, Route, /**Switch */ } from 'react-router-dom'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
 
-import { ClassTranscribeHeader } from '../../components'
+import { ClassTranscribeHeader } from 'components';
+import { util } from 'utils';
+
+import { instpStore, connectWithRedux, setup, plControl, offControl, mediaControl } from './Utils';
+import './index.css';
+
 import {
   Loader,
   Course,
@@ -11,54 +16,42 @@ import {
   Playlist,
   Confirmation,
   OrderingModal,
-} from './Components'
-
-import {
-  instpStore, 
-  connectWithRedux,
-  setup,
-  plControl,
-  offControl,
-  mediaControl,
-} from './Utils'
-
-import { util } from '../../utils'
-import './index.css'
+} from './Components';
 
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
-    super(props)
-    util.links.title('My Courses')
-    setup.init(props)
-    plControl.init(props)
-    offControl.init(props)
-    mediaControl.init(props)
+    super(props);
+    util.links.title('My Courses');
+    setup.init(props);
+    plControl.init(props);
+    offControl.init(props);
+    mediaControl.init(props);
   }
 
-  showSiderBar = value => {
-    const { setSidebar, sidebar } = this.props
-    if (typeof value === "boolean") {
-      setSidebar( value )
+  showSiderBar = (value) => {
+    const { setSidebar, sidebar } = this.props;
+    if (typeof value === 'boolean') {
+      setSidebar(value);
     } else {
-      setSidebar( !sidebar )
+      setSidebar(!sidebar);
     }
-  }
+  };
 
   componentDidMount() {
-    setup.setupOfferings()
+    setup.setupOfferings();
   }
 
   render() {
-    const { sidebar, loading, ordering } = this.props
+    const { sidebar, loading, ordering } = this.props;
     const paddingLeft = {
-      paddingLeft: (sidebar && window.innerWidth > 900) ? '19em' : '0'
-    }
+      paddingLeft: sidebar && window.innerWidth > 900 ? '19em' : '0',
+    };
 
     return (
       <div className="ip-bg">
         <ClassTranscribeHeader
           subtitle="Instructor"
-          showSiderBar={this.showSiderBar} 
+          showSiderBar={this.showSiderBar}
           display={sidebar}
         />
 
@@ -66,7 +59,15 @@ export class InstructorWithRedux extends React.Component {
 
         <main className="ip-container" style={paddingLeft}>
           <Route path="/instructor/new-offering" component={NewCourse} />
-          <Route path="/instructor/:offId" render={() => <><Course /><Playlist /></>} />
+          <Route
+            path="/instructor/:offId"
+            render={() => (
+              <>
+                <Course />
+                <Playlist />
+              </>
+            )}
+          />
           {/* <Route path='/instructor/:offeringId' render={props => <Course />} /> */}
 
           <Confirmation />
@@ -74,44 +75,18 @@ export class InstructorWithRedux extends React.Component {
           {Boolean(ordering.type) && <OrderingModal />}
         </main>
       </div>
-    )
+    );
   }
 }
 
 export function Instructor(props) {
-  const InstpConnectToRedux = withRouter(connectWithRedux(
-    InstructorWithRedux,
-    [
-      'sidebar',
-      'loading',
-      'ordering',
-      'offerings',
-    ],
-    [
-      'setPrompt',
-      'setSidebar',
-      'setLoading',
-      'setConfirmation',
-      'setOrdering',
-      // Basics
-      'setDeparts',
-      'setTerms',
-      'setOfferings', 
-      // Course
-      'setOffering',
-      'setIsEditingOffering',
-      // Playlists
-      'setPlaylists',
-      'setPlaylist',
-      // media
-      'setIsSelectingVideos',
-      'setSelectedVideos'
-    ]
-  ))
+  const InstpConnectToRedux = withRouter(
+    connectWithRedux(InstructorWithRedux, ['sidebar', 'loading', 'ordering', 'offerings'], ['all']),
+  );
 
   return (
     <Provider store={instpStore}>
       <InstpConnectToRedux {...props} />
     </Provider>
-  )
+  );
 }

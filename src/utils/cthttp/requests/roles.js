@@ -1,4 +1,4 @@
-import { cthttp } from './request'
+import { cthttp } from './request';
 
 // ------------------------------------------------------------
 // Roles
@@ -7,7 +7,7 @@ import { cthttp } from './request'
 // GET
 
 export function getRolesByUniId(universityId) {
-    return cthttp.get('Roles', { params: { universityId } })
+  return cthttp.get('Roles', { params: { universityId } });
 }
 
 // POST
@@ -18,15 +18,15 @@ export function getRolesByUniId(universityId) {
  * @param {String} role `Instructor`, `Student`, `Admin`
  */
 export function createRole(mailId, role) {
-    return cthttp.post('Roles', null, { params: { mailId, role } })
+  return cthttp.post('Roles', null, { params: { mailId, role } });
 }
 
 export function createInstructor(mailId) {
-    return cthttp.post('Roles', null, { params: { mailId, role: 'Instructor' } })
+  return cthttp.post('Roles', null, { params: { mailId, role: 'Instructor' } });
 }
 
 // DELETE
 
 export function deleteRole(mailId) {
-    return cthttp.delete('Roles', { params: { mailId } })
+  return cthttp.delete('Roles', { params: { mailId } });
 }

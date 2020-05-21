@@ -1,9 +1,9 @@
-import React from 'react'
-import { Button, Popup } from 'semantic-ui-react'
+import React from 'react';
+import { Button, Popup } from 'semantic-ui-react';
 
 export function DismissButton({ handleDismiss, dismissPrompt }) {
   return (
-    <Popup 
+    <Popup
       content={dismissPrompt}
       position="left center"
       inverted
@@ -17,5 +17,5 @@ export function DismissButton({ handleDismiss, dismissPrompt }) {
         </Button>
       }
     />
-  )
+  );
 }

@@ -1,2 +1,3 @@
-export const adSample = require('./ad.example.json')
-export { shortcuts } from './shortcuts'
+export const adSample = require('./ad.example.json');
+
+export { shortcuts } from './shortcuts';

@@ -1,13 +1,9 @@
-import _ from 'lodash'
+import _ from 'lodash';
 
 // import stylesheet of prompt element
-import 'components/stylesheets/ct-prompt.css'
+import 'components/stylesheets/ct-prompt.css';
 
-import {
-  PROMPT_ID,
-  createPromptBoxElem,
-  createPromptElem,
-} from './prompt-creators'
+import { PROMPT_ID, createPromptBoxElem, createPromptElem } from './prompt-creators';
 
 const defaultPrompt = {
   text: '',
@@ -18,22 +14,21 @@ const defaultPrompt = {
   timeout: -1,
   position: 'right bottom',
   offset: [-1, -1],
-}
+};
 
 /**
  * Class used to create and handle prompt component
  */
 export class CTPrompt {
   constructor() {
-    this.promptIds = []
+    this.promptIds = [];
 
     // Binding
-    this.close = this.close.bind(this)
-    this.closeAll = this.closeAll.bind(this)
-    this.addOne = this.addOne.bind(this)
-    this.addMany = this.addMany.bind(this)
+    this.close = this.close.bind(this);
+    this.closeAll = this.closeAll.bind(this);
+    this.addOne = this.addOne.bind(this);
+    this.addMany = this.addMany.bind(this);
   }
-
 
   /**
    * Close a prompt box
@@ -42,22 +37,22 @@ export class CTPrompt {
    */
   close(boxId) {
     if (boxId === undefined) {
-      this.closeAll()
+      this.closeAll();
     }
-    const promptBoxEl = document.getElementById(boxId)
+    const promptBoxEl = document.getElementById(boxId);
     if (promptBoxEl) {
-      _.remove(this.promptIds, id => id === boxId)
-      promptBoxEl.classList.add('ctp-close')
-      setTimeout(() => promptBoxEl.remove(), 90)
+      _.remove(this.promptIds, (id) => id === boxId);
+      promptBoxEl.classList.add('ctp-close');
+      setTimeout(() => promptBoxEl.remove(), 90);
     }
 
     if (this.promptIds.length === 0) {
-      const promptEl = document.getElementById(PROMPT_ID)
+      const promptEl = document.getElementById(PROMPT_ID);
       setTimeout(() => {
         if (promptEl) {
-          promptEl.remove()
+          promptEl.remove();
         }
-      }, 100)
+      }, 100);
     }
   }
 
@@ -66,10 +61,10 @@ export class CTPrompt {
    * @returns {void}
    */
   closeAll() {
-    const closePrompt = this.close
-    _.forEach(this.promptIds, promptId => {
-      closePrompt(promptId)
-    })
+    const closePrompt = this.close;
+    _.forEach(this.promptIds, (promptId) => {
+      closePrompt(promptId);
+    });
   }
 
   /**
@@ -82,38 +77,38 @@ export class CTPrompt {
    * @param {Boolean} prompt.refresh - true if add a refresh page trigger
    * @param {Number} prompt.timeout - the close timeout : default `5000ms`
    * @param {String} prompt.position - The position of the prompt
-   * @param {Number[]} prompt.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Number[]} prompt.offset - The offset of the position
+   *      (pixels from the [bottom/top, right/left])
    * @param {Boolean} replace true if close other exisiting prompts
-   * 
+   *
    * @property status - determines the color of the prompt box
    * - in 'primary', 'success', 'error' (default 'primary')
    * @property position - The position of the prompt
    * - in 'bottom left', 'bottom right' (default 'bottom right')
-   * 
+   *
    * @returns {void}
    */
-  addOne(prompt, replace=false) {
-
+  addOne(prompt, replace = false) {
     if (typeof prompt === 'string') {
-      this.addOne({ ...defaultPrompt, text: prompt })
+      this.addOne({ ...defaultPrompt, text: prompt });
     }
 
     const {
-      text='',
-      header='',
-      status='primary',
-      contact=false,
-      refresh=false,
-      timeout=5000,
-      position='right bottom',
-      offset=[-1, -1],
-    } = prompt
+      text = '',
+      header = '',
+      status = 'primary',
+      contact = false,
+      refresh = false,
+      timeout = 5000,
+      position = 'right bottom',
+      offset = [-1, -1],
+    } = prompt;
 
-    if (replace) this.closeAll()
-    
-    const onClose = this.close
-    const promptEl = document.getElementById(PROMPT_ID)
-    var newBoxEl = null
+    if (replace) this.closeAll();
+
+    const onClose = this.close;
+    const promptEl = document.getElementById(PROMPT_ID);
+    let newBoxEl = null;
 
     if (promptEl) {
       newBoxEl = createPromptBoxElem(text, {
@@ -123,9 +118,9 @@ export class CTPrompt {
         refresh,
         onClose,
         offset,
-      })
+      });
 
-      promptEl.appendChild(newBoxEl)
+      promptEl.appendChild(newBoxEl);
     } else {
       newBoxEl = createPromptElem(text, {
         header,
@@ -135,15 +130,14 @@ export class CTPrompt {
         position,
         onClose,
         offset,
-      })
+      });
     }
 
-    this.promptIds.push(newBoxEl.id)
+    this.promptIds.push(newBoxEl.id);
     if (timeout > 0) {
-      setTimeout(() => onClose(newBoxEl.id), timeout)
+      setTimeout(() => onClose(newBoxEl.id), timeout);
     }
   }
-
 
   /**
    * Add one prompt box
@@ -155,19 +149,20 @@ export class CTPrompt {
    * @param {Boolean} prompts[].refresh - true if add a refresh page trigger
    * @param {Number} prompts[].timeout - the close timeout
    * @param {String} prompts[].position - The position of the prompt
-   * @param {Number[]} prompts[].offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Number[]} prompts[].offset - The offset of the position
+   *      (pixels from the [bottom/top, right/left])
    * @param {Boolean} replace true if close other exisiting prompts
-   * 
+   *
    * @property status - determines the color of the prompt box
    * - in 'primary', 'success', 'error' (default 'primary')
    * @property position - The position of the prompt
    * - in 'bottom left', 'bottom right' (default 'bottom right')
-   * 
+   *
    * @returns {void}
    */
-  addMany(prompts=[], replace=false) {
-    if (replace) this.closeAll()
-    _.forEach(prompts, prp => this.addOne(prp))
+  addMany(prompts = [], replace = false) {
+    if (replace) this.closeAll();
+    _.forEach(prompts, (prp) => this.addOne(prp));
   }
 
   /**
@@ -180,47 +175,49 @@ export class CTPrompt {
    * @param {Boolean} prompt.refresh - true if add a refresh page trigger
    * @param {Number} prompt.timeout - the close timeout
    * @param {String} prompt.position - The position of the prompt
-   * @param {Number[]} prompt.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Number[]} prompt.offset - The offset of the position
+   *      (pixels from the [bottom/top, right/left])
    * @param {Boolean} replace true if close other exisiting prompts
    */
   push(prompt, replace) {
     if (Array.isArray(prompt)) {
-      this.addMany(prompt, replace)
+      this.addMany(prompt, replace);
     } else {
-      this.addOne(prompt, replace)
+      this.addOne(prompt, replace);
     }
   }
 
   /**
    * * Add one prompt box
-   * @param {Object} message - the prompt config | `text` of the prompt
-   * @param {String} message.text - The text in prompt
-   * @param {String} message.header - The header in prompt
-   * @param {String} message.status - determines the color of the prompt box
-   * @param {Boolean} message.contact - true if add a contact link
-   * @param {Boolean} message.refresh - true if add a refresh page trigger
-   * @param {Number} message.timeout - the close timeout
-   * @param {String} message.position - The position of the prompt
-   * @param {Number[]} message.offset - The offset of the position (pixels from the [bottom/top, right/left])
+   * @param {Object} messages - the prompt config | `text` of the prompt
+   * @param {String} messages.text - The text in prompt
+   * @param {String} messages.header - The header in prompt
+   * @param {String} messages.status - determines the color of the prompt box
+   * @param {Boolean} messages.contact - true if add a contact link
+   * @param {Boolean} messages.refresh - true if add a refresh page trigger
+   * @param {Number} messages.timeout - the close timeout
+   * @param {String} messages.position - The position of the prompt
+   * @param {Number[]} messages.offset - The offset of the position
+   *      (pixels from the [bottom/top, right/left])
    * @param {Number} timeout the close timeout
    */
-  error(message, timeout=-1) {
-    if (Array.isArray(message)) {
-      message.forEach( mesg => this.error(mesg) )
+  error(messages, timeout = -1) {
+    if (Array.isArray(messages)) {
+      messages.forEach((mesg) => this.error(mesg));
     } else {
-
-      if (typeof message === 'string') {
-        message = { text: message }
+      let prompt = messages;
+      if (typeof prompt === 'string') {
+        prompt = { text: prompt };
       }
 
-      let prompt = {
+      prompt = {
         ...defaultPrompt,
-        ...message,
-        timeout: timeout,
+        ...prompt,
+        timeout,
         status: 'error',
-      }
+      };
 
-      this.addOne(prompt, false)
+      this.addOne(prompt, false);
     }
   }
 }

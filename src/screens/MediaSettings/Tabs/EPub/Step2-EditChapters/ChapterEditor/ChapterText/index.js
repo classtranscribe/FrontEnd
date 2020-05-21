@@ -4,20 +4,9 @@ import { util } from 'utils';
 import { epub } from 'screens/MediaSettings/Utils/epub';
 import './index.scss';
 
-import {
-  MarkdownPreviewer,
-  MarkdownEditor
-} from '../../../Markdown';
+import { MarkdownPreviewer, MarkdownEditor } from '../../../Markdown';
 
-function ChapterText({
-  text = '',
-  id = '',
-  chapter,
-  onSaveText,
-  screenshots,
-  chapterScreenshots,
-}) {
-
+function ChapterText({ text = '', id = '', chapter, onSaveText, screenshots, chapterScreenshots }) {
   const [editing, setEditing] = useState(false);
 
   const startEditing = () => setEditing(true);
@@ -27,12 +16,12 @@ function ChapterText({
     if (keyCode === 13 || keyCode === 32) {
       startEditing();
     }
-  }
+  };
 
-  const onSave = newText => {
+  const onSave = (newText) => {
     if (onSaveText) onSaveText(newText);
     closeEditing();
-  }
+  };
 
   const { content } = epub.parseText(text);
   const { image } = chapter;
@@ -49,17 +38,15 @@ function ChapterText({
     if (editing) {
       util.elem.scrollIntoCenter(id);
     }
-  }, [editing])
+  }, [editing]);
 
   return (
     <div id={id} className="ee-ech-ch-text-con">
-      {
-        editing
-        ?
+      {editing ? (
         <div className="w-100 mb-4">
           <MarkdownEditor
-            height='300px'
-            id={'md-editor' + id}
+            height="300px"
+            id={`md-editor${id}`}
             defaultValue={content}
             onSave={onSave}
             onClose={closeEditing}
@@ -68,8 +55,10 @@ function ChapterText({
             defaultImage={image}
           />
         </div>
-        :
-        <Popup inverted basic
+      ) : (
+        <Popup
+          inverted
+          basic
           openOnTriggerFocus
           openOnTriggerClick={false}
           openOnTriggerMouseEnter
@@ -82,20 +71,19 @@ function ChapterText({
             <div
               className="ee-ech-ch-text"
               tabIndex={0}
+              role="button"
               onClick={startEditing}
               onKeyDown={handleKeyDown}
             >
-              {
-                isNotEmpty
-                ?
+              {isNotEmpty ? (
                 <MarkdownPreviewer value={text} />
-                :
+              ) : (
                 <div className="text-muted">Click to add content</div>
-              }
+              )}
             </div>
           }
         />
-      }
+      )}
     </div>
   );
 }
