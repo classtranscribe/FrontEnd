@@ -59,10 +59,9 @@ const ExpansionPanelSummary = withStyles({
   expanded: {},
 })(MuiExpansionPanelSummary);
 
-const ExpansionPanelDetails = withStyles((theme) => ({
+const ExpansionPanelDetails = withStyles(() => ({
   root: {
     background: '#2a2a2a',
-    // padding: theme.spacing(1),
     display: 'block',
     padding: '0px',
   },
@@ -70,12 +69,6 @@ const ExpansionPanelDetails = withStyles((theme) => ({
 
 export default function Accordion({ resultsEachItems, title }) {
   const classes = useStyles();
-
-  const [expanded, setExpanded] = React.useState('panel1');
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
 
   return (
     <ExpansionPanel>
