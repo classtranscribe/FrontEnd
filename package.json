@@ -24,9 +24,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx}": [
-      "yarn lint:fix",
-      "pretty-quick — staged",
-      "git add"
+      "yarn lint:fix"
     ]
   },
   "eslintConfig": {
