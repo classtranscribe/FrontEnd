@@ -39,15 +39,7 @@
         "ignoreTemplateLiterals": true
       }
     ],
-    "camelcase": [
-      "error",
-      {
-        "properties": "never",
-        "ignoreDestructuring": true,
-        "ignoreImports": true,
-        "allow": ["cc_*"]
-      }
-    ],
+    "camelcase": ["warn", { "properties": "never" }],
     "prefer-promise-reject-errors": ["off"],
     "prefer-destructuring": "off",
     "jsx-a11y/alt-text": "warn",
