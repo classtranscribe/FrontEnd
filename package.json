@@ -17,6 +17,18 @@
     "prettier": "prettier --list-different \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "yarn lint:fix",
+      "pretty-quick — staged",
+      "git add"
+    ]
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
