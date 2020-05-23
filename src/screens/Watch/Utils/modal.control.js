@@ -17,7 +17,7 @@ export const modalControl = {
    *
    * @param {Sting} type - modal type
    */
-  open(type, option = 'a', tab) {
+  open(type, option = 'a') {
     searchControl.closeSearch();
     if (option === 'b' && this.currentModal === type) {
       return this.close();

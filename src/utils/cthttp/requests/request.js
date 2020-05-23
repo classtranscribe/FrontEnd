@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
-import { env } from '../../env';
-import { user } from '../../user';
+import { env } from 'utils/env';
+import { links } from 'utils/links';
+import { accountStorage } from 'utils/user/storage';
 
 class CTHTTPRequest {
   /**
@@ -9,11 +10,20 @@ class CTHTTPRequest {
    * @returns {AxiosInstance} the axios instance with ClassTranscribe authorization
    */
   request(withAuth = true) {
+    let authToken = accountStorage.authToken;
+    let loginAsAuthToken = accountStorage.loginAsUserInfo.authToken;
+    if (!links.isEqual(links.admin()) && loginAsAuthToken) {
+      authToken = loginAsAuthToken;
+    }
+
     return axios.create({
       baseURL: env.baseURL || window.location.origin,
       timeout: 20000,
       headers: {
-        Authorization: user.authToken && withAuth ? `Bearer ${user.authToken}` : undefined,
+        Authorization: 
+          authToken && withAuth 
+            ? `Bearer ${authToken}` 
+            : undefined,
       },
     });
   }

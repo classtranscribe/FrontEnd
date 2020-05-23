@@ -7,7 +7,7 @@ import MenuRadio from '../MenuRadio';
 function ADSetting({ show = false, openAD = false, descriptions = [] }) {
   const [pauseWhileAD, setPauseWhileAD] = useState(preferControl.pauseWhileAD());
 
-  const handleAD = ({ target: { checked } }) => {
+  const handleAD = (/** { target: { checked } } */) => {
     transControl.handleOpenAD();
   };
 
