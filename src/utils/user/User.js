@@ -13,14 +13,9 @@ import { prompt } from '../prompt';
 
 import { Auth0 } from './Auth0';
 import { CILogon } from './CILogon';
+import { accountStorage } from './storage';
 
 import {
-  // keys to localstorage
-  TOKEN_INFO_ROLES,
-  USER_INFO_KEY,
-  AUTH_TOKEN_KEY,
-  TEST_USER_INFO_KEY,
-  LATEST_COMMIT_SHA_KEY,
   // user roles
   ROLE_ADMIN,
   ROLE_INST,
@@ -28,10 +23,10 @@ import {
   AUTH_AUTH0,
   AUTH_CILOGON,
   AUTH_TEST,
+  TOKEN_INFO_ROLES,
   TOKEN_INFO_GIVEN_NAME,
   TOKEN_INFO_FAMILY_NAME,
 } from './constants';
-import { user } from '.';
 
 export class User {
   constructor() {
@@ -117,7 +112,7 @@ export class User {
     const { data } = await account.testSignIn();
     const { authToken } = data;
     // Save AuthToken
-    this.authToken = authToken;
+    accountStorage.setAuthToken(authToken);
     // Save user info
     this.saveUserInfo(data, {}, AUTH_TEST);
     window.location.reload();
@@ -134,7 +129,7 @@ export class User {
   // ---------------------------------------------------------------------------
 
   signOut() {
-    if (!user.isLoggedIn) return;
+    if (!this.isLoggedIn) return;
     localStorage.clear();
 
     const { authMethod } = this.getUserInfo();
@@ -171,7 +166,7 @@ export class User {
       const fullCallbackURL = window.location.origin + callbackURL;
       const { data } = await account.accountSignIn(token, method, fullCallbackURL);
       // Save AuthToken
-      this.authToken = data.authToken;
+      accountStorage.setAuthToken(data.authToken);
       // Save userInfo
       this.saveUserInfo(data, profile, method);
 
@@ -281,12 +276,12 @@ export class User {
   async checkGitUpdates() {
     try {
       const latestSHA = await getLatestGitCommitSHA();
-      const localSHA = localStorage.getItem(LATEST_COMMIT_SHA_KEY);
+      const localSHA = accountStorage.latestCommitSHA;
       if (!localSHA || localSHA !== latestSHA) {
         if (this.isLoggedIn) {
           this.signOut();
         } else {
-          localStorage.setItem(LATEST_COMMIT_SHA_KEY, latestSHA);
+          accountStorage.setLatestCommitSHA(latestSHA);
           window.location.reload(true);
         }
       }
@@ -318,21 +313,20 @@ export class User {
     const { userId, emailId, universityId } = userInfo;
 
     // store userInfo in localStorage
-    localStorage.setItem(
-      USER_INFO_KEY,
-      JSON.stringify({
-        exp,
-        roles,
-        firstName,
-        lastName,
-        fullName,
-        userId,
-        emailId,
-        picture,
-        authMethod,
-        universityId,
-      }),
-    );
+    let userInfoStr = JSON.stringify({
+      exp,
+      roles,
+      firstName,
+      lastName,
+      fullName,
+      userId,
+      emailId,
+      picture,
+      authMethod,
+      universityId,
+    });
+
+    accountStorage.setUserInfo(userInfoStr);
   }
 
   /**
@@ -357,26 +351,20 @@ export class User {
   getUserInfo(options = { allowLoginAsOverride: true }) {
     // if allow the user info be overrided by the test user
     if (options.allowLoginAsOverride && this.isLoginAsAccount) {
-      return this.getLoginAsUserInfo();
+      return accountStorage.loginAsUserInfo;
     }
 
-    const userInfoStr = localStorage.getItem(USER_INFO_KEY);
-    return userInfoStr ? JSON.parse(userInfoStr) : {};
-  }
-
-  // set the authorization token
-  set authToken(token) {
-    localStorage.setItem(AUTH_TOKEN_KEY, token);
+    return accountStorage.userInfo;
   }
 
   // return the authorization token
   get authToken() {
     if (links.isEqual(links.admin())) {
       // if it's in admin page
-      return localStorage.getItem(AUTH_TOKEN_KEY);
+      return accountStorage.authToken;
     }
 
-    return this.getLoginAsUserInfo().authToken || localStorage.getItem(AUTH_TOKEN_KEY);
+    return this.getLoginAsUserInfo().authToken || accountStorage.authToken;
   }
 
   // ---------------------------------------------------------------------------
@@ -390,15 +378,14 @@ export class User {
 
   // return the testing user info if an admin is logged in as another account
   getLoginAsUserInfo() {
-    const dataStr = localStorage.getItem(TEST_USER_INFO_KEY);
-    return dataStr ? JSON.parse(dataStr) : {};
+    return accountStorage.loginAsUserInfo;
   }
 
   // for admin to sign in as another account
   async loginAsAccountSignIn(emailId) {
     try {
       const { data } = await account.loginAsAccountSignIn(emailId);
-      localStorage.setItem(TEST_USER_INFO_KEY, JSON.stringify(data));
+      accountStorage.setLoginAsUserInfo(data);
       window.location.reload();
     } catch (error) {
       prompt.addOne({
@@ -410,7 +397,7 @@ export class User {
 
   // logout the testing account for admin
   loginAsAccountSignOut() {
-    localStorage.removeItem(TEST_USER_INFO_KEY);
+    accountStorage.remove(accountStorage.LOGIN_AS_USER_INFO_KEY);
     window.location.reload();
   }
 }
