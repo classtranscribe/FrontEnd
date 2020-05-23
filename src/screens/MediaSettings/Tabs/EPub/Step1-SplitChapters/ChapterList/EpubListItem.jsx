@@ -14,15 +14,14 @@ export default function EpubListItem({
   canSplitSubChapter=false,
   canSubdivide=false,
 }) {
-
   const imgSrc = epub.getImageUrl(item.image);
 
   const splitChapterFromSubChaptersItems = () => {
-    epub.splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex);
+    epub.sch.splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex);
   };
 
   const splitChapterFromChaptersItems = () => {
-    epub.splitChapterFromChaptersItems(chapterIndex, itemIndex);
+    epub.sch.splitChapterFromChaptersItems(chapterIndex, itemIndex);
   };
 
   const handleSplitChapter = isSubChapter 
@@ -30,15 +29,15 @@ export default function EpubListItem({
                             : splitChapterFromChaptersItems;
 
   const splitSubChapter = () => {
-    epub.splitSubChapter(chapterIndex, subChapterIndex, itemIndex);
+    epub.sch.splitSubChapter(chapterIndex, subChapterIndex, itemIndex);
   };
 
   const subdivideChapter = () => {
-    epub.subdivideChapter(chapterIndex, itemIndex);
+    epub.sch.subdivideChapter(chapterIndex, itemIndex);
   };
 
-  const magnifyImage = () => epub.magnifyImage(imgSrc);
-  const endMagnifyImage = () => epub.endMagnifyImage();
+  const magnifyImage = () => epub.sch.magnifyImage(imgSrc);
+  const endMagnifyImage = () => epub.sch.endMagnifyImage();
 
 
   let itemClass = classNames('ee-sch-item ct-d-c', {
@@ -52,7 +51,9 @@ export default function EpubListItem({
         {
           canSplit
           &&
-          <Button uppercase round
+          <Button
+            uppercase
+            round
             classNames="ee-sch-i-split-btn"
             text="Split Chapter"
             color="teal transparent"
@@ -64,7 +65,9 @@ export default function EpubListItem({
         {
           canSplitSubChapter
           &&
-          <Button uppercase round
+          <Button
+            uppercase
+            round
             classNames="ee-sch-i-split-btn"
             text="New Sub-Chapter"
             color="teal transparent"
@@ -76,7 +79,9 @@ export default function EpubListItem({
         {
           canSubdivide
           &&
-          <Button uppercase round
+          <Button
+            uppercase
+            round
             classNames="ee-sch-i-sub-ch-btn"
             text="subdivide"
             color="teal transparent"

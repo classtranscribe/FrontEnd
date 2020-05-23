@@ -14,16 +14,15 @@ function EpubChapterItem({
   foldedIds=[],
   canUndoSplit=false,
 }) {
+  const fold = () => epub.sch.foldChapter(chapter.id);
+  const unfold = () => epub.sch.unfoldChapter(chapter.id);
 
-  const fold = () => epub.foldChapter(chapter.id);
-  const unfold = () => epub.unfoldChapter(chapter.id);
-
-  const undoSplitChapter = () => epub.undoSplitChapter(chapterIndex);
-  const appendChapterAsSubChapter = () => epub.appendChapterAsSubChapter(chapterIndex);
-  const handleMouseOverChapterList = () => epub.handleMouseOverChapterList(chapter);
+  const undoSplitChapter = () => epub.sch.undoSplitChapter(chapterIndex);
+  const appendChapterAsSubChapter = () => epub.sch.appendChapterAsSubChapter(chapterIndex);
+  const handleMouseOverChapterList = () => epub.sch.handleMouseOverChapterList(chapter);
 
   const handleChapterTitleChange = value => {
-    epub.handleChapterTitleChange(chapterIndex, value);
+    epub.sch.handleChapterTitleChange(chapterIndex, value);
   }
 
   const isFolded = foldedIds.includes(chapter.id);
@@ -40,14 +39,15 @@ function EpubChapterItem({
     >
       <div className="ee-sch-ch-title-con ct-d-r-center-v">
         <ChapterTitle
-          id={'sch-ch-' + chapter.id}
+          id={`sch-ch-${ chapter.id}`}
           value={chapter.title}
           onSave={handleChapterTitleChange}
           headingType="h2"
           className="ee-sch-ch-title"
         />
 
-        <ChapterTitleButton show
+        <ChapterTitleButton
+          show
           content={isFolded ? 'Expand' : 'Collapse'}
           color="transparent"
           icon={isFolded ? "expand_more" : "expand_less"}
@@ -76,41 +76,41 @@ function EpubChapterItem({
       {
         isFolded 
         ?
-        <div className="ee-sch-ch-compact-txt">
-          <div>
-            {epub.getCompactText(chapter)} ...
+          <div className="ee-sch-ch-compact-txt">
+            <div>
+              {epub.getCompactText(chapter)} ...
+            </div>
           </div>
-        </div>
         :
-        <>
-        <div className="ct-d-c ee-sch-i-ul">
-          {chapter.items.map((item, itemIndex) => (
-            <EpubListItem 
-              key={item.id} 
-              item={item} 
-              itemIndex={itemIndex}
-              chapterIndex={chapterIndex}
-              canSplit={itemIndex > 0}
-              canSubdivide
-            />
+          <>
+            <div className="ct-d-c ee-sch-i-ul">
+              {chapter.items.map((item, itemIndex) => (
+                <EpubListItem 
+                  key={item.id} 
+                  item={item} 
+                  itemIndex={itemIndex}
+                  chapterIndex={chapterIndex}
+                  canSplit={itemIndex > 0}
+                  canSubdivide
+                />
           ))}
-        </div>
+            </div>
 
-        <div className="ct-d-c ee-sch-i-ul">
-          {chapter.subChapters.map((subChapter, subChapterIndex) => (
-            <EpubSubChapterItem
-              key={subChapter.id}
-              foldedIds={foldedIds}
-              subChapter={subChapter}
-              chapterIndex={chapterIndex}
-              subChapterIndex={subChapterIndex}
-              canUndoSubdivide={subChapterIndex === 0}
-              canUndoSplitSubChapter={subChapterIndex > 0}
-              canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
-            />
+            <div className="ct-d-c ee-sch-i-ul">
+              {chapter.subChapters.map((subChapter, subChapterIndex) => (
+                <EpubSubChapterItem
+                  key={subChapter.id}
+                  foldedIds={foldedIds}
+                  subChapter={subChapter}
+                  chapterIndex={chapterIndex}
+                  subChapterIndex={subChapterIndex}
+                  canUndoSubdivide={subChapterIndex === 0}
+                  canUndoSplitSubChapter={subChapterIndex > 0}
+                  canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
+                />
           ))}
-        </div>
-        </>
+            </div>
+          </>
       }
 
     </div>

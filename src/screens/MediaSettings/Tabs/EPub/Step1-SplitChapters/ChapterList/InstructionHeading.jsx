@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 
 import EpubStepper from '../../Stepper';
 
@@ -10,10 +10,9 @@ function InstructionHeading({
   chapters=[],
   language,
 }) {
-
   let showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   let showSplitAllBtn = chapters.length !== epubData.length;
-  let showSubdivideAllBtn = true;//chapters.reduce((acc, ch) => acc + ch.items.length, 0) !== 0;
+  let showSubdivideAllBtn = true;// chapters.reduce((acc, ch) => acc + ch.items.length, 0) !== 0;
 
   return (
     <div className="msp-ee-sch-instr-h">
@@ -34,7 +33,8 @@ function InstructionHeading({
           Each chapter can be further <b>subdivided</b> into sub-chapters.
         </p>
         <p>
-          After building the structure of your ePub, proceed to the <b>Chapter Editor</b> to modify the 
+          After building the structure of your ePub, 
+          proceed to the <b>Chapter Editor</b> to modify the 
           texts and images there.
         </p>
 
@@ -58,21 +58,21 @@ function InstructionHeading({
           {
             showResetBtn
             &&
-            <Button outlined onClick={() => epub.resetToDefaultChapters()}>
+            <Button outlined onClick={epub.sch.resetToDefaultChapters}>
               Reset to Default Chapters
             </Button>
           }
           {
             showSplitAllBtn
             &&
-            <Button outlined onClick={() => epub.splitChaptersByScreenshots()}>
+            <Button outlined onClick={epub.sch.splitChaptersByScreenshots}>
               Split Chapters by Screenshots
             </Button>
           }
           {
             showSubdivideAllBtn
             &&
-            <Button outlined onClick={() => epub.subdivideChaptersByScreenshots()}>
+            <Button outlined onClick={epub.sch.subdivideChaptersByScreenshots}>
               Subdivide Chapters by Screenshots
             </Button>
           }

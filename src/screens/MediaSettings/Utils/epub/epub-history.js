@@ -1,123 +1,160 @@
 import _ from 'lodash';
+import { prompt } from 'utils';
 import { epubState } from './epub-state';
 
 class EpubHistory {
+  #history = [];
+  #currentIndex = -1;
+
   constructor() {
-    this.__history__ = [];
-    this.currentIndex = -1;
+    this.undo = this.undo.bind(this);
+    this.redo = this.redo.bind(this);
   }
 
-  logger() {
-    // console.info('history', this.currentIndex, this.__history__);
-  }
-
-  ACTION = 'action';
-  DATA = 'data';
+  static ACTION = 'action';
+  static DATA = 'data';
 
   getHistory() {
-    return this.__history__;
+    return this.#history;
   }
 
   setHistory(history) {
-    this.__history__ = history;
+    this.#history = history;
   }
 
-  isEmpty() {
-    return this.getHistory().length === 0;
+  clear() {
+    this.setHistory([]);
+    this.#currentIndex = -1;
   }
 
-  canRedo() {
-    return this.currentIndex + 1 < this.getHistory().length;
+  get isEmpty() {
+    return this.#history.length === 0;
+  }
+
+  get canUndo() {
+    return this.#currentIndex >= 0;
+  }
+
+  get canRedo () {
+    return this.#currentIndex + 1 < this.getHistory().length;
   }
 
   getItem(index) {
-    return JSON.parse(this.getHistory()[index] || '{}');
+    return this.getHistory()[index] || {}
+    // JSON.parse(this.getHistory()[index] || '{}');
   }
 
   push(historyItem) {
-    this.currentIndex += 1;
+    this.#currentIndex += 1;
     let history = this.getHistory();
 
-    history = [...history.slice(0, this.currentIndex), JSON.stringify(historyItem)];
+    history = [
+      ...history.slice(0, this.#currentIndex), 
+      historyItem // JSON.stringify(historyItem)
+    ];
 
     this.setHistory(history);
     this.logger();
   }
 
   pushAction(
+    name = 'Untitled Action',
     action = {
-      name: 'Untitled Action',
       undo() {},
       redo() {},
     },
   ) {
-    action.type = this.ACTION;
+    action.name = name;
+    action.type = EpubHistory.ACTION;
     this.push(action);
   }
 
+  createData(prev, next) {
+    return {
+      getPrev: () => [...prev.map(item => ({ ...item }))],
+      getNext: () => [...next.map(item => ({ ...item }))],
+    }
+  }
+
   pushData(
+    name,
     data = {
-      chapters: [],
+      getPrev: () => [],
+      getNext: () => []
     },
   ) {
-    data.type = this.DATA;
+    data.name = name;
+    data.type = EpubHistory.DATA;
     this.push(data);
   }
 
+  revertToChapters(chapters) {
+    let currChapterId = epubState.currChapter.id;
+    let currChapterIndex = _.findIndex(chapters, { id: currChapterId });
+    if (currChapterIndex < 0) currChapterIndex = 0;
+
+    epubState.updateEpubChapters(chapters, chapters[currChapterIndex]);
+  }
+
   undo() {
-    if (this.isEmpty()) {
+    if (!this.canUndo) {
       return;
     }
 
-    let curr = this.getItem(this.currentIndex);
+    let curr = this.getItem(this.#currentIndex);
 
     switch (curr.type) {
-      case this.ACTION:
+      case EpubHistory.ACTION:
         curr.undo();
         break;
 
-      case this.DATA:
-        // let chapters = curr.chapters;
-        // let currChapterId = epubState.currChapter.id;
-        // let currChapterIndex = _.findIndex(chapters, { id: currChapterId });
-        // if (currChapterIndex < 0) currChapterIndex = 0;
-
-        // epubState.updateEpubChapters(chapters, chapters[currChapterIndex]);
+      case EpubHistory.DATA:
+        this.revertToChapters(curr.getPrev());
         break;
       default:
         break;
     }
 
-    this.currentIndex -= 1;
+    this.#currentIndex -= 1;
     this.logger();
+    this.$feed('UNDO', curr.name);
   }
 
   redo() {
-    if (!this.canRedo()) {
+    if (!this.canRedo) {
       return;
     }
 
-    let next = this.getItem(this.currentIndex + 1);
+    let next = this.getItem(this.#currentIndex + 1);
 
     switch (next.type) {
-      case this.ACTION:
+      case EpubHistory.ACTION:
         next.redo();
         break;
 
-      case this.DATA:
-        // let chapters = next.chapters;
-        // let currChapterId = epubState.currChapter.id;
-        // let currChapterIndex = _.findIndex(chapters, { id: currChapterId });
-        // if (currChapterIndex < 0) currChapterIndex = 0;
-
-        // epubState.updateEpubChapters(chapters, chapters[currChapterIndex]);
+      case EpubHistory.DATA:
+        this.revertToChapters(next.getNext());
         break;
       default:
         break;
     }
 
-    this.currentIndex += 1;
+    this.#currentIndex += 1;
     this.logger();
+    this.$feed('REDO', next.name);
+  }
+
+
+  logger() {
+    // console.info('history', this.#currentIndex, this.#history);
+  }
+
+  $feed(action, name) {
+    prompt.addOne({
+      text: `${action}: ${name}`,
+      timeout: 2000,
+      position: 'bottom left'
+    });
   }
 }
 

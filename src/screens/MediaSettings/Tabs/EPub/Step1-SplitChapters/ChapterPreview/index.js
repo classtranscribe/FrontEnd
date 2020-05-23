@@ -22,7 +22,7 @@ function ChapterPreview({ currChapter }) {
       id="msp-ee-sch-pview-con"
       className="msp-ee-sch-pview-con"
       scrollClassName="msp-ee-sch-pview-scroll"
-      scrollToTopButton="left"
+      scrollToTopButton="right top"
     >
       <MarkdownPreviewer value={text} className="ee-sch-pview" />
     </ScrollArea>

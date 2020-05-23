@@ -16,16 +16,23 @@ export default function EpubSubChapterItem({
   canUndoSplitSubChapter=false,
   canSplitAsNewChapter=false,
 }) {
+  const fold = () => epub.sch.foldChapter(subChapter.id);
+  const unfold = () => epub.sch.unfoldChapter(subChapter.id);
 
-  const fold = () => epub.foldChapter(subChapter.id);
-  const unfold = () => epub.unfoldChapter(subChapter.id);
+  const undoSubdivideChapter = () => {
+    epub.sch.undoSubdivideChapter(chapterIndex);
+  };
 
-  const undoSubdivideChapter = () => epub.undoSubdivideChapter(chapterIndex);
-  const undoSplitSubChapter = () => epub.undoSplitSubChapter(chapterIndex, subChapterIndex);
-  const splitChapterFromSubChapter = () => epub.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
+  const undoSplitSubChapter = () => {
+    epub.sch.undoSplitSubChapter(chapterIndex, subChapterIndex);
+  };
+  
+  const splitChapterFromSubChapter = () => {
+    epub.sch.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
+  };
 
   const handleSubChapterTitleChange = value => {
-    epub.handleSubChapterTitleChange(chapterIndex, subChapterIndex, value);
+    epub.sch.handleSubChapterTitleChange(chapterIndex, subChapterIndex, value);
   }
 
   const isFolded = foldedIds.includes(subChapter.id);
@@ -40,14 +47,15 @@ export default function EpubSubChapterItem({
         className="ee-sch-ch-title-con ee-sch-sub ct-d-r-center-v"
       >
         <ChapterTitle
-          id={'sch-subch-' + subChapter.id}
+          id={`sch-subch-${ subChapter.id}`}
           value={subChapter.title}
           headingType="h3"
           onSave={handleSubChapterTitleChange}
           className="ee-sch-ch-title"
         />
 
-        <ChapterTitleButton show
+        <ChapterTitleButton
+          show
           content={isFolded ? 'Expand' : 'Collapse'}
           color="transparent"
           icon={isFolded ? "expand_more" : "expand_less"}
@@ -85,25 +93,26 @@ export default function EpubSubChapterItem({
       {
         isFolded 
         ?
-        <div className="ee-sch-ch-compact-txt">
-          <div>
-            {epub.getCompactText(subChapter)} ...
+          <div className="ee-sch-ch-compact-txt">
+            <div>
+              {epub.getCompactText(subChapter)} ...
+            </div>
           </div>
-        </div>
         :
-        <div className="ct-d-c ee-sch-i-ul">
-          {subChapter.items.map((item, itemIndex) => (
-            <EpubListItem isSubChapter
-              key={item.id} 
-              item={item} 
-              itemIndex={itemIndex}
-              chapterIndex={chapterIndex}
-              subChapterIndex={subChapterIndex}
-              canSplit={itemIndex > 0}
-              canSplitSubChapter={itemIndex > 0}
-            />
+          <div className="ct-d-c ee-sch-i-ul">
+            {subChapter.items.map((item, itemIndex) => (
+              <EpubListItem
+                isSubChapter
+                key={item.id} 
+                item={item} 
+                itemIndex={itemIndex}
+                chapterIndex={chapterIndex}
+                subChapterIndex={subChapterIndex}
+                canSplit={itemIndex > 0}
+                canSplitSubChapter={itemIndex > 0}
+              />
           ))}
-        </div>
+          </div>
       }
     </div>
   );

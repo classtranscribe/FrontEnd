@@ -38,7 +38,7 @@ export function EpubWithRedux(props) {
 
   useEffect(() => {
     if (epubData !== ARRAY_INIT) {
-      epub.setupChapters(epubData);
+      epub.sch.setupChapters(epubData);
     }
   }, [epubData]);
 
