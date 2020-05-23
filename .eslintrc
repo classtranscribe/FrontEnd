@@ -39,7 +39,7 @@
         "ignoreTemplateLiterals": true
       }
     ],
-    "camelcase": ["warn", { "properties": "never" }],
+    "camelcase": "off",// ["warn", { "properties": "never" }],
     "prefer-promise-reject-errors": ["off"],
     "prefer-destructuring": "off",
     "jsx-a11y/alt-text": "warn",
