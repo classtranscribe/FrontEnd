@@ -36,7 +36,7 @@ function completeAction(
 // handle save ePub
 // **********************************************************************
 
-class EpubChapterSplitter {
+class EpubChapterSplitterController {
   constructor() {
     this.proceedToStep2 = this.proceedToStep2.bind(this);
     this.resetToDefaultChapters = this.resetToDefaultChapters.bind(this);
@@ -505,4 +505,4 @@ class EpubChapterSplitter {
   }
 }
 
-export const chapterSplitter = new EpubChapterSplitter();
+export const chapterSplitter = new EpubChapterSplitterController();

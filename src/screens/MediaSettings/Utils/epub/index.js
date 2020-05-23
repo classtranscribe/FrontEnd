@@ -1,13 +1,13 @@
 import { epubState } from './epub-state';
 import { epubHistory } from './epub-history';
 
-import { chapterSplitter } from './chapter.splitter.js'
+import { chapterSplitter } from './chapter.splitter.js';
+import { chapterEditor } from './chapter.editor.js';
 
 import * as epubConstants from './constants';
 import * as epubUtils from './util';
 import * as chapterHtmlConverter from './chapter-html-converter';
 import * as chapterNavigator from './chapter-navigator';
-import * as chapterEditor from './chapter-editor';
 import * as epubDownloader from './epub-downloader';
 
 export const epub = {
@@ -16,12 +16,12 @@ export const epub = {
   resetEpubData: () => epubState.setEpubData([]),
 
   sch: chapterSplitter,
+  ech: chapterEditor,
 
   ...epubConstants,
   ...epubUtils,
   ...chapterHtmlConverter,
   ...chapterNavigator,
-  ...chapterEditor,
   ...epubDownloader,
 };
 

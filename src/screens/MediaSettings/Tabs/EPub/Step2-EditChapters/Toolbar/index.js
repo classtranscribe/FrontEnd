@@ -17,7 +17,7 @@ function Toolbar() {
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me"
           color="black"
           icon="arrow_back"
-          onClick={epub.backToStep1}
+          onClick={epub.ech.backToStep1}
         >
           Back to Chapter Splitter
         </Button>
@@ -26,7 +26,7 @@ function Toolbar() {
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me"
           color="teal"
           icon="arrow_forward"
-          onClick={epub.proceedToStep3}
+          onClick={epub.ech.proceedToStep3}
         >
           Proceed to ePub Downloader
         </Button>

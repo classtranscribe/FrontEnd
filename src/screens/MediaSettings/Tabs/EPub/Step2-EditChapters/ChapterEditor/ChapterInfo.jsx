@@ -11,15 +11,14 @@ function ChapterInfo({
   screenshots,
   chapterScreenshots,
 }) {
-
   const { title, content, id, image } = chapter;
 
   const onSaveTitle = newTitle => {
-    epub.saveChapterTitle(id, newTitle);
+    epub.ech.saveChapterTitle(id, newTitle);
   }
 
   const onChooseImage = newImage => {
-    epub.saveChapterImage(id, newImage);
+    epub.ech.saveChapterImage(id, newImage);
   }
 
   const onRemoveImage = () => {
@@ -27,13 +26,13 @@ function ChapterInfo({
   }
 
   const onSaveText = newText => {
-    epub.saveChapterText(id, newText)
+    epub.ech.saveChapterText(id, newText)
   }
 
   return (
     <div className="ee-ech-ch-info">
       <ChapterTitle
-        id={'epub-ch-' + id}
+        id={`epub-ch-${ id}`}
         value={title}
         headingType="h2"
         onSave={onSaveTitle}
@@ -42,7 +41,7 @@ function ChapterInfo({
       />
 
       <ChapterImage
-        id={'epub-ch-img-' + id}
+        id={`epub-ch-img-${ id}`}
         image={image}
         screenshots={screenshots}
         chapterScreenshots={chapterScreenshots}
@@ -51,7 +50,7 @@ function ChapterInfo({
       />
       
       <ChapterText
-        id={'epub-ch-txt-' + id}
+        id={`epub-ch-txt-${ id}`}
         text={content}
         chapter={chapter}
         screenshots={screenshots}
