@@ -37,7 +37,7 @@ export class Home extends React.Component {
         this.setState({ universities: data.filter((uni) => uni.id !== '0000') });
         api.contentLoaded();
       })
-      .catch((error) => {
+      .catch(() => {
         api.contentLoaded();
         prompt.addOne({
           text: "Couldn't load universities.",

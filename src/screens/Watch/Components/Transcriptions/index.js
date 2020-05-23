@@ -54,7 +54,7 @@ function TranscriptionsWithRedux({
           <BulkEdit transcript={transcript} />
         ) : transView === LINE_VIEW ? (
           <div className="trans-list">
-            {transcript.map((caption, index) => (
+            {transcript.map((caption) => (
               <CaptionLine
                 key={caption.id}
                 caption={caption}
@@ -66,7 +66,7 @@ function TranscriptionsWithRedux({
           </div>
         ) : transView === TRANSCRIPT_VIEW ? (
           <div className="trans-article">
-            {transcript.map((caption, index) => (
+            {transcript.map((caption) => (
               <TranscriptText
                 key={caption.id}
                 caption={caption}

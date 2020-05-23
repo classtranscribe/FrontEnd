@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import classNames from 'classnames';
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'pico-ui';

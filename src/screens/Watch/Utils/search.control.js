@@ -226,7 +226,7 @@ class WatchSearch extends CTSearch {
   }
 
   // Function used to get the options for results
-  getResultOptions(search = SEARCH_INIT, handleChangeOption) {
+  getResultOptions(search = SEARCH_INIT) {
     const {
       inVideoTransResults = [],
       inCourseTransResults = [],
