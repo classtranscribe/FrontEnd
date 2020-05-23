@@ -13,10 +13,10 @@ function ChapterEditor({ chapters, currChapter }) {
 
   useEffect(() => {
     // add event listener to preview panel's scrolling
-    epub.addScrollEventListenerToEpubPreview();
+    epub.nav.addScrollEventListenerToEpubPreview();
 
     return () => {
-      epub.removeScrollEventListenerToEpubPreview();
+      epub.nav.removeScrollEventListenerToEpubPreview();
     };
   }, []);
 

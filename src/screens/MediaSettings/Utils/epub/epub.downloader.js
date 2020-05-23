@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { prompt, CTEpubGenerator } from 'utils';
 import { setup } from '../setup';
 import { getImageUrl } from './util';
-import { markdown2HTML, parseText } from './chapter-html-converter';
+import { markdown2HTML, parseText } from './chapter.html-converter';
 import { epubState } from './epub.state';
 import { EDITOR_MARKDOWN } from './constants';
 

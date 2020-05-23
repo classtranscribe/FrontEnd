@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { util, api } from 'utils';
-import { chapterToHTML, chapterItemsToMarkdown } from './chapter-html-converter';
+import { chapterToHTML, chapterItemsToMarkdown } from './chapter.html-converter';
 
 export function getImageUrl(image = '') {
   if (image.startsWith('blob') || image.startsWith('http')) {

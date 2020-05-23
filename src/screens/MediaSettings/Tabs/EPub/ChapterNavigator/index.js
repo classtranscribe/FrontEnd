@@ -12,7 +12,7 @@ function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav
 
   useEffect(() => {
     // if (isStep3) return null;
-    epub.onShowNavChange(currChapterId);
+    epub.nav.onShowNavChange(currChapterId);
   }, [showNav]);
 
   useEffect(() => {
@@ -35,13 +35,13 @@ function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav
 
   return showNav ? (
     <div className="msp-ee-cn-con" data-managing={isStep1} data-step={step}>
-      <div className="ee-cn-wrapper" onClick={epub.hideNavihator} />
+      <div className="ee-cn-wrapper" onClick={epub.nav.hideNavihator} />
       <div className={`ee-cn-ch-con${showNav}`}>
         <div className="ee-cn-ch-scroll-con" data-scroll>
           <div className="ct-d-r-center-v ee-cn-h">
             <h3>Chapters</h3>
             {isStep1 && (
-              <Button round icon="close" color="transparent" onClick={epub.hideNavihator} />
+              <Button round icon="close" color="transparent" onClick={epub.nav.hideNavihator} />
             )}
           </div>
           <div className="ee-cn-ch-ul ct-d-c">
@@ -52,7 +52,7 @@ function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav
                   id={`ee-cn-ch-${chapter.id}`}
                   classNames="ee-cn-ch-li-ch"
                   color={currChapterId === chapter.id ? 'teal' : 'transparent'}
-                  onClick={epub.navigateChapter(chapter)}
+                  onClick={epub.nav.navigateChapter(chapter)}
                 >
                   {isStep1 ? '' : `${chapterIndex + 1} - `} {chapter.title}
                 </Button>
@@ -64,7 +64,7 @@ function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav
                       key={`ee-cn-sub-ch-${subChapter.id}`}
                       classNames="ee-cn-ch-li-sub-ch"
                       color={currChapterId === subChapter.id ? 'teal' : 'transparent'}
-                      onClick={epub.navigateSubChapter(subChapter, chapter)}
+                      onClick={epub.nav.navigateSubChapter(subChapter, chapter)}
                     >
                       {isStep1
                         ? `--- ${subChapter.title}`
@@ -84,7 +84,7 @@ function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav
         classNames="ee-cn-open-btn"
         icon="list"
         color="teal"
-        onClick={epub.showNavigator}
+        onClick={epub.nav.showNavigator}
       />
     </div>
   );
