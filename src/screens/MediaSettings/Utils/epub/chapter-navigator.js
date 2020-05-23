@@ -1,5 +1,5 @@
 import { util } from 'utils';
-import { epubState } from './epub-state';
+import { epubState } from './epub.state';
 import { NAV_CLOSE, NAV_HIDE, NAV_SHOW, SUB_CHAPTER_ID_PREFIX } from './constants';
 
 const { elem } = util;

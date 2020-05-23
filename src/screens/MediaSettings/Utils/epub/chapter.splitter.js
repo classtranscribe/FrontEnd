@@ -1,9 +1,13 @@
 import _ from 'lodash';
 import { prompt, util, ARRAY_INIT } from 'utils';
-import { epubState } from './epub-state';
-import { buildChapter, buildSubChapter, getAllItemsInChapter } from './util';
+import { epubState } from './epub.state';
+import { epubHistory } from './epub.history';
 import { EPUB_STEP_EDIT } from './constants';
-import { epubHistory } from './epub-history';
+import { 
+  buildChapter, 
+  buildSubChapter, 
+  getAllItemsInChapter 
+} from './util';
 
 let { updateEpubChapters } = epubState;
 

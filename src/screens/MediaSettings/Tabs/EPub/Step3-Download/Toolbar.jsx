@@ -17,7 +17,6 @@ function Toolbar({
   onSaveAuthor,
   onSaveFilename,
 }) {
-
   const getDownloadOptions = () => ({
     cover,
     title,
@@ -26,25 +25,26 @@ function Toolbar({
   })
 
   const downloadAsEpub = () => {
-    epub.downloadAsEpub(getDownloadOptions());
+    epub.download.asEpub(getDownloadOptions());
   }
 
   const downloadAsHTML = () => {
-    epub.downloadAsHTML(getDownloadOptions());
+    epub.download.asHTML(getDownloadOptions());
   }
 
   const downloadAsPDF = () => {
-    epub.downloadAsPDF(getDownloadOptions());
+    epub.download.asPDF(getDownloadOptions());
   }
 
   const previewEpub = () => {
-    epub.downloadAsPDF(getDownloadOptions(), false);
+    epub.download.asPDF(getDownloadOptions(), false);
   }
 
   return (
     <div data-scroll className="msp-ee-ech-tb msp-ee-dl-tb ct-a-fade-in">
       <div className="w-100">
-        <Button round
+        <Button
+          round
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
           icon="arrow_back"
@@ -54,7 +54,7 @@ function Toolbar({
         </Button>
       </div>
 
-      <hr/>
+      <hr />
 
       <h3>File Information</h3>
 
@@ -73,7 +73,8 @@ function Toolbar({
         <Grid columns='equal' stackable>
           <Grid.Row>
             <Grid.Column>
-              <CTForm required
+              <CTForm
+                required
                 label="ePub Title"
                 color="grey"
                 placeholder="ePub title"
@@ -85,7 +86,8 @@ function Toolbar({
 
           <Grid.Row>
             <Grid.Column>
-              <CTForm required
+              <CTForm
+                required
                 label="Filename"
                 color="grey"
                 placeholder="Filename"
@@ -97,7 +99,8 @@ function Toolbar({
 
           <Grid.Row>
             <Grid.Column>
-              <CTForm required
+              <CTForm
+                required
                 label="Author / Instructor"
                 color="grey"
                 placeholder="Author"
@@ -109,47 +112,47 @@ function Toolbar({
         </Grid>
       </div>
 
-      <hr/>
+      <hr />
 
       <div className="ee-ech-tb-btns">
         <h3>Preview</h3>
         <Button
           classNames="ee-ech-tb-btn" 
           color="black" 
-          icon={<i class="fas fa-external-link-alt"></i>}
+          icon={<i className="fas fa-external-link-alt" />}
           onClick={previewEpub}
         >
           Preview ePub in HTML
         </Button>
 
-        <hr/>
+        <hr />
       </div>
 
       <div className="ee-ech-tb-btns">
         <h3>Download</h3>
 
-        <Button //underlined
+        <Button // underlined
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
-          icon={<i class="fas fa-file-alt"></i>}
+          icon={<i className="fas fa-file-alt" />}
           onClick={downloadAsEpub}
         >
           Save as ePub (.epub)
         </Button>
 
-        <Button //underlined
+        <Button // underlined
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
-          icon={<i className="fas fa-file-pdf"></i>}
+          icon={<i className="fas fa-file-pdf" />}
           onClick={downloadAsPDF}
         >
           Print/Save as PDF (.pdf)
         </Button>
 
-        <Button //underlined
+        <Button // underlined
           classNames="ee-ech-tb-btn ee-ech-tb-btn-me" 
           color="black" 
-          icon={<i className="fas fa-file-code"></i>}
+          icon={<i className="fas fa-file-code" />}
           onClick={downloadAsHTML}
         >
           Save as HTML (.html)

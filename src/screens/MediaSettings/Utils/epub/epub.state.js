@@ -58,7 +58,7 @@ class EpubState {
       setStep,
     };
 
-    this.setStep(EPUB_DEFAULT_STEP);
+    // this.setStep(EPUB_DEFAULT_STEP);
     this.setEpubData(ARRAY_INIT);
   }
 

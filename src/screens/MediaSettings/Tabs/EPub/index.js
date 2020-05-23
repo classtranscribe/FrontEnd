@@ -19,6 +19,16 @@ export function EpubWithRedux(props) {
   let { hash } = useLocation();
 
   useEffect(() => {
+    // register setState functions
+    epub.state.init(props);
+
+    return () => {
+      setChapters(ARRAY_INIT);
+      epub.resetEpubData();
+    };
+  }, []);
+  
+  useEffect(() => {
     // update step when hash changes
     let steps = [EPUB_STEP_SPLIT, EPUB_STEP_EDIT, EPUB_STEP_DOWNLOAD];
 
@@ -41,16 +51,6 @@ export function EpubWithRedux(props) {
       epub.sch.setupChapters(epubData);
     }
   }, [epubData]);
-
-  useEffect(() => {
-    // register setState functions
-    epub.state.init(props);
-
-    return () => {
-      setChapters(ARRAY_INIT);
-      epub.resetEpubData();
-    };
-  }, []);
 
   return error === epub.NO_EPUB ? (
     <RequestEpub mediaId={media.id} />

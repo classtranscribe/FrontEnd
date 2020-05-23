@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { prompt } from 'utils';
-import { epubState } from './epub-state';
+import { epubState } from './epub.state';
 import {
   EPUB_STEP_SPLIT,
   EPUB_STEP_DOWNLOAD,
