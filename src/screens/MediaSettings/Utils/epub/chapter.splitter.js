@@ -36,10 +36,6 @@ function completeAction(
   updateEpubChapters(nextChapters, currChapter);
 }
 
-// **********************************************************************
-// handle save ePub
-// **********************************************************************
-
 class EpubChapterSplitterController {
   constructor() {
     this.proceedToStep2 = this.proceedToStep2.bind(this);
@@ -61,6 +57,14 @@ class EpubChapterSplitterController {
       true,
     );
   }
+
+  handleMouseOverChapterList(chapter) {
+    epubState.changeChapter(chapter);
+  }
+
+  // **********************************************************************
+  // Setup
+  // **********************************************************************
 
   setupChapters(epubData) {
     if (epubData === ARRAY_INIT) return;
@@ -182,6 +186,7 @@ class EpubChapterSplitterController {
 
   appendChapterAsSubChapter(chapterIndex) {
     let { chapters } = epubState;
+    let prevChapters = _.cloneDeep(chapters);
     let currChapter = chapters[chapterIndex];
     let prevChapter = chapters[chapterIndex - 1];
 
@@ -197,12 +202,14 @@ class EpubChapterSplitterController {
 
     chapters[chapterIndex - 1] = buildChapter(prevChapter);
 
-    updateEpubChapters(
+    completeAction(
+      'Append to above sub-chapter',
+      prevChapters,
       [
         ..._.slice(chapters, 0, chapterIndex),
         ..._.slice(chapters, chapterIndex + 1, chapters.length),
       ],
-      chapters[chapterIndex - 1],
+      chapters[chapterIndex - 1]
     );
   }
 
@@ -212,6 +219,7 @@ class EpubChapterSplitterController {
 
   subdivideChapter(chapterIndex, itemIndex) {
     let { chapters } = epubState;
+    let prevChapters = _.cloneDeep(chapters);
 
     let currChapter = chapters[chapterIndex];
     let items = currChapter.items;
@@ -224,17 +232,20 @@ class EpubChapterSplitterController {
     currChapter.subChapters = [subChapter, ...currChapter.subChapters];
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    updateEpubChapters(
+    completeAction(
+      'Subdivide the chapter',
+      prevChapters,
       [
         ..._.slice(chapters, 0, chapterIndex + 1),
         ..._.slice(chapters, chapterIndex + 1, chapters.length),
       ],
-      chapters[chapterIndex],
+      chapters[chapterIndex]
     );
   }
 
   undoSubdivideChapter(chapterIndex) {
     let { chapters } = epubState;
+    let prevChapters = _.cloneDeep(chapters);
     let currChapter = chapters[chapterIndex];
     let subChapters = currChapter.subChapters;
 
@@ -244,11 +255,17 @@ class EpubChapterSplitterController {
     currChapter.subChapters = subChapters.slice(1, subChapters.length);
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    updateEpubChapters(chapters, chapters[chapterIndex]);
+    completeAction(
+      'Undo subdivide the chapter',
+      prevChapters,
+      chapters,
+      chapters[chapterIndex]
+    );
   }
 
   splitSubChapter(chapterIndex, subChapterIndex, itemIndex) {
     let { chapters } = epubState;
+    let prevChapters = _.cloneDeep(chapters);
     let currChapter = chapters[chapterIndex];
     let currSubChapter = currChapter.subChapters[subChapterIndex];
     let items = currSubChapter.items;
@@ -269,11 +286,17 @@ class EpubChapterSplitterController {
 
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    updateEpubChapters(chapters, chapters[chapterIndex]);
+    completeAction(
+      'Split the sub-chapter',
+      prevChapters,
+      chapters,
+      chapters[chapterIndex]
+    );
   }
 
   undoSplitSubChapter(chapterIndex, subChapterIndex) {
     let { chapters } = epubState;
+    let prevChapters = _.cloneDeep(chapters);
     let currChapter = chapters[chapterIndex];
     let currSubChapter = currChapter.subChapters[subChapterIndex];
     let prevSubChapter = currChapter.subChapters[subChapterIndex - 1];
@@ -290,11 +313,17 @@ class EpubChapterSplitterController {
 
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    updateEpubChapters(chapters, chapters[chapterIndex]);
+    completeAction(
+      'Subdivide the chapter',
+      prevChapters,
+      chapters,
+      chapters[chapterIndex]
+    );
   }
 
   splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex) {
     let { chapters } = epubState;
+    let prevChapters = _.cloneDeep(chapters);
     let currChapter = chapters[chapterIndex];
     let currSubChapter = currChapter.subChapters[subChapterIndex];
     let items = currSubChapter.items;
@@ -312,13 +341,15 @@ class EpubChapterSplitterController {
     currChapter.subChapters = _.slice(subChapters, 0, subChapterIndex + 1);
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    updateEpubChapters(
+    completeAction(
+      'Split chapters',
+      prevChapters,
       [
         ..._.slice(chapters, 0, chapterIndex + 1),
         newChapter,
         ..._.slice(chapters, chapterIndex + 1, chapters.length),
       ],
-      newChapter,
+      newChapter
     );
   }
 
@@ -444,14 +475,21 @@ class EpubChapterSplitterController {
 
   handleChapterTitleChange(chapterIndex, value) {
     let chapters = epubState.chapters;
+    let prevChapters = _.cloneDeep(chapters);
     chapters[chapterIndex].title = value;
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex]);
 
-    updateEpubChapters(chapters, chapters[chapterIndex]);
+    completeAction(
+      'Edit chapter title',
+      prevChapters, 
+      chapters, 
+      chapters[chapterIndex]
+    );
   }
 
   handleSubChapterTitleChange(chapterIndex, subChapterIndex, value) {
     let chapters = epubState.chapters;
+    let prevChapters = _.cloneDeep(chapters);
     let currChapter = chapters[chapterIndex];
     let currSubChapter = currChapter.subChapters[subChapterIndex];
     currSubChapter.title = value;
@@ -459,7 +497,12 @@ class EpubChapterSplitterController {
     currChapter.subChapters[subChapterIndex] = buildSubChapter(currSubChapter);
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    updateEpubChapters(chapters, chapters[chapterIndex]);
+    completeAction(
+      'Edit sub-chapter title',
+      prevChapters, 
+      chapters, 
+      chapters[chapterIndex]
+    );
   }
 
 
@@ -498,14 +541,6 @@ class EpubChapterSplitterController {
 
   endMagnifyImage() {
     epubState.setMagnifiedImg(null);
-  }
-
-  // **********************************************************************
-  // Setup
-  // **********************************************************************
-
-  handleMouseOverChapterList(chapter) {
-    epubState.changeChapter(chapter);
   }
 }
 

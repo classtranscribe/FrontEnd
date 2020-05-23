@@ -40,7 +40,12 @@ class EpubHistory {
   }
 
   getItem(index) {
-    return this.getHistory()[index] || {}
+    let item = { ...(this.getHistory()[index] || {}) };
+    if (item.type === EpubHistory.DATA) {
+      item.data = JSON.parse(item.data);
+    }
+
+    return item;
     // JSON.parse(this.getHistory()[index] || '{}');
   }
 
@@ -70,22 +75,18 @@ class EpubHistory {
   }
 
   createData(prev, next) {
-    return {
-      getPrev: () => [...prev.map(item => ({ ...item }))],
-      getNext: () => [...next.map(item => ({ ...item }))],
-    }
+    return { prev, next };
   }
 
   pushData(
     name,
-    data = {
-      getPrev: () => [],
-      getNext: () => []
-    },
+    data,
   ) {
-    data.name = name;
-    data.type = EpubHistory.DATA;
-    this.push(data);
+    let item = {};
+    item.name = name;
+    item.type = EpubHistory.DATA;
+    item.data = JSON.stringify(data);
+    this.push(item);
   }
 
   revertToChapters(chapters) {
@@ -109,7 +110,7 @@ class EpubHistory {
         break;
 
       case EpubHistory.DATA:
-        this.revertToChapters(curr.getPrev());
+        this.revertToChapters(curr.data.prev);
         break;
       default:
         break;
@@ -133,7 +134,7 @@ class EpubHistory {
         break;
 
       case EpubHistory.DATA:
-        this.revertToChapters(next.getNext());
+        this.revertToChapters(next.data.next);
         break;
       default:
         break;
