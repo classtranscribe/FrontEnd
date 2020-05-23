@@ -112,7 +112,7 @@ export const mediaControl = {
     }
   },
 
-  handleOpenSelect(bool) {
+  handleOpenSelect() {
     if (!this.isSelectingVideos) {
       this.openSelect();
     } else {
