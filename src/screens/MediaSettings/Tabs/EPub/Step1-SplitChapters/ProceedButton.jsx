@@ -1,30 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from 'pico-ui';
 import { epub } from '../../../Utils/epub';
 
-import UndoAndRedoButtons from '../UndoAndRedoButtons';
-
 function ProceedButton() {
-  const [showUndo, setShowUndo] = useState(false);
-
-  useEffect(() => {
-    setShowUndo(true);
-  }, []);
-
   return (
-    <div className="msp-ee-act ct-a-fade-in">
-      {
-        showUndo
-        &&
-        <UndoAndRedoButtons
-          buttonClasses="ee-act-btn ee-act-save-btn"
-        />
-      }
-
+    <div className="sch-act-buttons proceed-btns ct-a-fade-in">
       <Button
         round
         size="big"
-        classNames="ee-act-btn ee-act-save-btn"
+        classNames="sch-act-btn"
         icon="arrow_forward"
         text="Proceed to Chapter Editor"
         color="teal"
@@ -32,7 +16,7 @@ function ProceedButton() {
       />
 
       {/* <Button round size="big"
-        classNames="ee-act-btn"
+        classNames="sch-proceed-btn"
         text="Cancel"
         color="black"
         onClick={() => epub.sch.cancelEditChapters()}

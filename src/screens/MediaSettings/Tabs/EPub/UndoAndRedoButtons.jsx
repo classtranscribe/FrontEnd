@@ -50,7 +50,7 @@ function UndoAndRedoButtons({
               <Button
                 round // size="big"
                 icon="redo"
-                text={(epub.history.canUndo && hideOnDiabled) ? null : "Redo"}
+                text="Redo"
                 color={buttonColor}
                 onClick={epub.history.redo}
                 disabled={!epub.history.canRedo}

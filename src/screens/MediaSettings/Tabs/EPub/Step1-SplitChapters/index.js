@@ -2,6 +2,7 @@ import React from 'react';
 import ImageMagnifier from './ImageMagnifier';
 import ChapterList from './ChapterList';
 import ChapterPreview from './ChapterPreview';
+import ActionButtons from './ActionButtons';
 import ProceedButton from './ProceedButton';
 import './index.scss';
 
@@ -14,6 +15,7 @@ function SplitChapter() {
       <ChapterList />
       <ChapterPreview />
       <ImageMagnifier />
+      <ActionButtons />
       <ProceedButton />
     </div>
   );
