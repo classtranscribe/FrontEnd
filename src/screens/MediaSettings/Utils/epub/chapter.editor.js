@@ -9,6 +9,7 @@ import {
 } from './constants';
 
 import { buildChapter, buildSubChapter } from './util';
+import { epubHistory } from './epub.history';
 
 
 class EpubChapterEditorController {
@@ -49,16 +50,28 @@ class EpubChapterEditorController {
   // //////////////////////////////////////////////////////////////////
   saveChapterAttr(chapterId, attr, value) {
     const chapters = epubState.chapters;
+    const prevChapters = _.cloneDeep(chapters);
     const chapterIndex = _.findIndex(chapters, { id: chapterId });
     if (chapterIndex < 0) return;
 
     chapters[chapterIndex][attr] = value;
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex], false);
-    epubState.updateEpubChapters(chapters, chapters[chapterIndex]);
+
+    epubHistory.completeAction(
+      (
+        value === undefined
+        ? `Remove chapter ${ attr}`
+        : `Update chapter ${ attr}`
+      ),
+      prevChapters,
+      chapters,
+      chapters[chapterIndex]
+    );
   }
 
   saveSubChapterAttr(subChapterIndex, attr, value) {
     const chapters = epubState.chapters;
+    const prevChapters = _.cloneDeep(chapters);
     const chapterId = epubState.currChapter.id;
     const chapterIndex = _.findIndex(chapters, { id: chapterId });
     if (chapterIndex < 0) return;
@@ -68,7 +81,17 @@ class EpubChapterEditorController {
     subChapters[subChapterIndex][attr] = value;
     subChapters[subChapterIndex] = buildSubChapter(subChapters[subChapterIndex], false);
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex], false);
-    epubState.updateEpubChapters(chapters, chapters[chapterIndex]);
+
+    epubHistory.completeAction(
+      (
+        value === undefined
+        ? `Remove sub-chapter ${ attr}`
+        : `Update sub-chapter ${ attr}`
+      ),
+      prevChapters,
+      chapters,
+      chapters[chapterIndex]
+    );
   }
 
   
@@ -109,11 +132,19 @@ class EpubChapterEditorController {
   // //////////////////////////////////////////////////////////////////
   
   saveChapterText(chapterId, content) {
-    this.saveChapterAttr(chapterId, 'content', content + EDITOR_TYPE_SPLITTER + EDITOR_MARKDOWN);
+    this.saveChapterAttr(
+      chapterId, 
+      'content', 
+      content + EDITOR_TYPE_SPLITTER + EDITOR_MARKDOWN
+    );
   }
   
   saveSubChapterText(subChapterIndex, text) {
-    this.saveSubChapterAttr(subChapterIndex, 'text', text + EDITOR_TYPE_SPLITTER + EDITOR_MARKDOWN);
+    this.saveSubChapterAttr(
+      subChapterIndex, 
+      'text', 
+      text + EDITOR_TYPE_SPLITTER + EDITOR_MARKDOWN
+    );
   }
 }
 

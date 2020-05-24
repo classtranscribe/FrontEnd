@@ -14,7 +14,14 @@ import EpubDownloader from './Step3-Download';
 const { EPUB_STEP_SPLIT, EPUB_STEP_EDIT, EPUB_STEP_DOWNLOAD } = epub;
 
 export function EpubWithRedux(props) {
-  const { step, error, media, epubData = ARRAY_INIT, chapters = ARRAY_INIT, setChapters } = props;
+  const { 
+    step, 
+    error, 
+    media, 
+    epubData = ARRAY_INIT, 
+    chapters = ARRAY_INIT, 
+    setChapters 
+  } = props;
 
   let { hash } = useLocation();
 
@@ -51,6 +58,10 @@ export function EpubWithRedux(props) {
       epub.sch.setupChapters(epubData);
     }
   }, [epubData]);
+
+  useEffect(() => {
+    epub.history.clear();
+  }, [step])
 
   return error === epub.NO_EPUB ? (
     <RequestEpub mediaId={media.id} />

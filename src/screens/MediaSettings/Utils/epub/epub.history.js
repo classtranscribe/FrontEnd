@@ -145,6 +145,20 @@ class EpubHistory {
     this.$feed('REDO', next.name);
   }
 
+  completeAction(
+    actionName, 
+    prevChapters, 
+    nextChapters, 
+    currChapter
+  ) {
+    this.pushData(
+      actionName, 
+      this.createData(prevChapters, nextChapters)
+    );
+  
+    epubState.updateEpubChapters(nextChapters, currChapter);
+  }
+
 
   logger() {
     // console.info('history', this.#currentIndex, this.#history);

@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import { epub } from '../../../Utils/epub';
 
 import UndoAndRedoButtons from '../UndoAndRedoButtons';
 
 function ProceedButton() {
+  const [showUndo, setShowUndo] = useState(false);
+
+  useEffect(() => {
+    setShowUndo(true);
+  }, []);
+
   return (
     <div className="msp-ee-act ct-a-fade-in">
-      <UndoAndRedoButtons
-        buttonClasses="ee-act-btn ee-act-save-btn"
-      />
+      {
+        showUndo
+        &&
+        <UndoAndRedoButtons
+          buttonClasses="ee-act-btn ee-act-save-btn"
+        />
+      }
 
       <Button
         round

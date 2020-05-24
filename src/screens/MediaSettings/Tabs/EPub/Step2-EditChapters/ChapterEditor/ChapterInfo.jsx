@@ -22,7 +22,7 @@ function ChapterInfo({
   }
 
   const onRemoveImage = () => {
-    epub.removeChapterImage(id);
+    epub.ech.removeChapterImage(id);
   }
 
   const onSaveText = newText => {

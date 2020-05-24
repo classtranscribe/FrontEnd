@@ -9,8 +9,6 @@ import {
   getAllItemsInChapter 
 } from './util';
 
-let { updateEpubChapters } = epubState;
-
 // **********************************************************************
 // Helpers
 // **********************************************************************
@@ -20,20 +18,6 @@ function genUntitledName() {
   let name = `Untitled Chapter${untitledNum === 0 ? '' : ` ${untitledNum}`}`;
   untitledNum += 1;
   return name;
-}
-
-function completeAction(
-  actionName, 
-  prevChapters, 
-  nextChapters, 
-  currChapter
-) {
-  epubHistory.pushData(
-    actionName, 
-    epubHistory.createData(prevChapters, nextChapters)
-  );
-
-  updateEpubChapters(nextChapters, currChapter);
 }
 
 class EpubChapterSplitterController {
@@ -111,7 +95,7 @@ class EpubChapterSplitterController {
     newChapter = buildChapter(newChapter);
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex]);
 
-    updateEpubChapters(
+    epubState.updateEpubChapters(
       [
         ..._.slice(chapters, 0, chapterIndex + 1),
         newChapter,
@@ -161,7 +145,7 @@ class EpubChapterSplitterController {
     
 
     if (pushHistory) {
-      completeAction(
+      epubHistory.completeAction(
         'Undo split chapters',
         prevChapters,
         [
@@ -171,7 +155,7 @@ class EpubChapterSplitterController {
         chapters[chapterIndex - 1]
       )
     } else {
-      updateEpubChapters(
+      epubState.updateEpubChapters(
         [
           ..._.slice(chapters, 0, chapterIndex),
           ..._.slice(chapters, chapterIndex + 1, chapters.length),
@@ -202,7 +186,7 @@ class EpubChapterSplitterController {
 
     chapters[chapterIndex - 1] = buildChapter(prevChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Append to above sub-chapter',
       prevChapters,
       [
@@ -232,7 +216,7 @@ class EpubChapterSplitterController {
     currChapter.subChapters = [subChapter, ...currChapter.subChapters];
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Subdivide the chapter',
       prevChapters,
       [
@@ -255,7 +239,7 @@ class EpubChapterSplitterController {
     currChapter.subChapters = subChapters.slice(1, subChapters.length);
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Undo subdivide the chapter',
       prevChapters,
       chapters,
@@ -286,7 +270,7 @@ class EpubChapterSplitterController {
 
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Split the sub-chapter',
       prevChapters,
       chapters,
@@ -313,7 +297,7 @@ class EpubChapterSplitterController {
 
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Subdivide the chapter',
       prevChapters,
       chapters,
@@ -341,7 +325,7 @@ class EpubChapterSplitterController {
     currChapter.subChapters = _.slice(subChapters, 0, subChapterIndex + 1);
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Split chapters',
       prevChapters,
       [
@@ -369,7 +353,7 @@ class EpubChapterSplitterController {
     });
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Split Chapters',
       prevChapters, 
       [
@@ -395,7 +379,7 @@ class EpubChapterSplitterController {
 
     let nextChapters = [defaultChapter];
 
-    completeAction(
+    epubHistory.completeAction(
       'Split Chapters by Screenshots',
       epubState.chapters, 
       nextChapters, 
@@ -420,7 +404,7 @@ class EpubChapterSplitterController {
         }),
     );
 
-    completeAction(
+    epubHistory.completeAction(
       'Split Chapters by Screenshots',
       epubState.chapters, 
       splitChapters, 
@@ -454,7 +438,7 @@ class EpubChapterSplitterController {
       chapters[chapterIndex] = buildChapter(chapter);
     });
 
-    completeAction(
+    epubHistory.completeAction(
       'Subdivide Chapters by Screenshots',
       prevChapters, 
       chapters, 
@@ -479,7 +463,7 @@ class EpubChapterSplitterController {
     chapters[chapterIndex].title = value;
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex]);
 
-    completeAction(
+    epubHistory.completeAction(
       'Edit chapter title',
       prevChapters, 
       chapters, 
@@ -497,7 +481,7 @@ class EpubChapterSplitterController {
     currChapter.subChapters[subChapterIndex] = buildSubChapter(currSubChapter);
     chapters[chapterIndex] = buildChapter(currChapter);
 
-    completeAction(
+    epubHistory.completeAction(
       'Edit sub-chapter title',
       prevChapters, 
       chapters, 
