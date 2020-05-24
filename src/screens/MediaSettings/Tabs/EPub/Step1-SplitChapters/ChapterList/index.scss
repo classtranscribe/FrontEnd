@@ -33,7 +33,7 @@
       z-index: 1;
       background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
       padding: 10px 0 10px 90px;
-      margin-top: 30px;
+      margin-top: 20px;
       // animation: ee-sch-title-show 200ms linear;
   
       &.ee-sch-sub {
@@ -112,6 +112,10 @@
       width: 100%;
       padding: 0;
       transition: padding .2s linear;
+
+      &:last-child {
+        padding-bottom: 20px;
+      }
 
       .ee-sch-i-info {
         padding-left: 100px;
