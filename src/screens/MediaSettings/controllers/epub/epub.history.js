@@ -184,7 +184,8 @@ class EpubHistory {
     prompt.addOne({
       text: `${action}: ${name}`,
       timeout: 2000,
-      position: 'bottom left'
+      position: 'bottom left',
+      offset: [80, 30]
     });
   }
 }
