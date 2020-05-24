@@ -2,7 +2,7 @@ import {
     EPUB_STEP_SPLIT,
     EPUB_STEP_EDIT,
     EPUB_STEP_DOWNLOAD,
-} from 'screens/MediaSettings/Utils/epub/constants';
+} from 'screens/MediaSettings/controllers/epub/constants';
 
 export function getSteps() {
     return [

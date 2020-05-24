@@ -3,7 +3,7 @@ import { ENGLISH } from 'screens/Watch/Utils/constants.util';
 import {
     EPUB_DEFAULT_STEP,
     NAV_CLOSE,
-} from 'screens/MediaSettings/Utils/epub/constants';
+} from 'screens/MediaSettings/controllers/epub/constants';
 
 export const initialState = {
     language: ENGLISH,

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { ARRAY_INIT } from 'utils';
 import { PlaceHolder } from 'components';
-import { epub, connectWithRedux } from '../../Utils/epub';
+import { epub, connectWithRedux } from '../../controllers/epub';
 import './index.scss';
 
 import RequestEpub from './RequestEpub';

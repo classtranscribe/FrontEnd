@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { epub } from '../../../Utils/epub';
+import { epub } from '../../../controllers/epub';
 
 function ProceedButton() {
   return (

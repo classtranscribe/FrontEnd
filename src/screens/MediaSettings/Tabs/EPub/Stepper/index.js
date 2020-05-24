@@ -4,7 +4,7 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 
 import './index.scss';
 

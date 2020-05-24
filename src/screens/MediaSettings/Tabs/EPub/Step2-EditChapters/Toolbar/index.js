@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import './index.scss';
 
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 
 import EpubStepper from '../../Stepper';
 import UndoAndRedoButtons from '../../UndoAndRedoButtons';

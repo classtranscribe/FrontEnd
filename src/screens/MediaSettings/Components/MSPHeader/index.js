@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Popup } from 'semantic-ui-react';
 import { util } from 'utils';
 import { ClassTranscribeHeader } from 'components';
-import { connectWithRedux } from '../../Utils';
+import { connectWithRedux } from '../../controllers';
 import './index.scss';
 
 import Tabs from './Tabs';

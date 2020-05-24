@@ -1,5 +1,5 @@
 import React from 'react';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 
 import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';

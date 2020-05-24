@@ -1,5 +1,5 @@
 import React from 'react';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 
 import ChapterTitleButton from './ChapterTitleButton';
 import EpubListItem from './EpubListItem';

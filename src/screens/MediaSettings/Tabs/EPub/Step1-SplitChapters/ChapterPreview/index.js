@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { util } from 'utils';
 import { ScrollArea } from 'components/ScrollArea';
-import { connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import { MarkdownPreviewer } from '../../Markdown';
 import './index.scss';
 

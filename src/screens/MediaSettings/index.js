@@ -3,9 +3,9 @@ import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
 import { util, api } from 'utils';
 import { CTErrorWrapper } from 'components';
-import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './Utils';
+import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './controllers';
 
-import withMSPReduxProvider from './Utils/msp-redux-provider';
+import withMSPReduxProvider from './controllers/msp-redux-provider';
 
 import { MSPHeader } from './Components';
 import { EPub } from './Tabs';

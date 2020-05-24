@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 
 const classNames = require('classnames');
 

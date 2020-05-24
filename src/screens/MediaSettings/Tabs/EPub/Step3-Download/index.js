@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
 import EpubEditor from './EpubEditor';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 import { MarkdownPreviewer } from '../../Markdown';
 
 import EpubStepper from '../../Stepper';

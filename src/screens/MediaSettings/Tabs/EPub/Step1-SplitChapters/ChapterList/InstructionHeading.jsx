@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
 
 import EpubStepper from '../../Stepper';

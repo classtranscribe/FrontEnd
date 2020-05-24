@@ -4,7 +4,7 @@ import { Button } from 'pico-ui';
 import _ from 'lodash';
 import { langMap } from 'screens/Watch/Utils';
 import { EpubMenu } from './EpubMenu';
-import { epub } from '../../Utils/epub';
+import { epub } from '../../controllers/epub';
 
 const langOptions = _.map(langMap, (text, value) => ({ text, value }));
 

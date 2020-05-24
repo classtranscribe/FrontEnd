@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { util } from 'utils';
-import { mspTabs } from '../../Utils';
+import { mspTabs } from '../../controllers';
 
 function Tabs() {
   const { id } = useParams();

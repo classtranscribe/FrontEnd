@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ScrollArea } from 'components/ScrollArea';
-import { connectWithRedux, epub } from 'screens/MediaSettings/Utils/epub';
+import { connectWithRedux, epub } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
 import ChapterInfo from './ChapterInfo';

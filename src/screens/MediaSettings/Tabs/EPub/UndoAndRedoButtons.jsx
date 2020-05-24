@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Popup } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
-import { epub } from '../../Utils/epub';
+import { epub } from '../../controllers/epub';
 
 function UndoAndRedoButtons({
   buttonColor = 'black',

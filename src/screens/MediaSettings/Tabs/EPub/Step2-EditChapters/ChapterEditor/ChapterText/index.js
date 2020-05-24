@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Popup } from 'semantic-ui-react';
 import { util } from 'utils';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
 import { MarkdownPreviewer, MarkdownEditor } from '../../../Markdown';

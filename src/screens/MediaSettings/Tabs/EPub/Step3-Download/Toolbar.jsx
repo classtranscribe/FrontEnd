@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { CTForm } from 'components';
 import { Button } from 'pico-ui';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import ChapterImage from '../Step2-EditChapters/ChapterEditor/ChapterImage';
 
 function Toolbar({

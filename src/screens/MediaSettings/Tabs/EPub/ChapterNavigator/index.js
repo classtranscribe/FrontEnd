@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button } from 'pico-ui';
 import { util } from 'utils';
-import { connectWithRedux, epub } from '../../../Utils/epub';
+import { connectWithRedux, epub } from '../../../controllers/epub';
 import './index.scss';
 
 function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav }) {
