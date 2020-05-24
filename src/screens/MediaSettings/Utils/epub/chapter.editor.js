@@ -57,7 +57,7 @@ class EpubChapterEditorController {
     chapters[chapterIndex][attr] = value;
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex], false);
 
-    epubHistory.completeAction(
+    epubHistory.updateChaptersAndHistory(
       (
         value === undefined
         ? `Remove chapter ${ attr}`
@@ -82,7 +82,7 @@ class EpubChapterEditorController {
     subChapters[subChapterIndex] = buildSubChapter(subChapters[subChapterIndex], false);
     chapters[chapterIndex] = buildChapter(chapters[chapterIndex], false);
 
-    epubHistory.completeAction(
+    epubHistory.updateChaptersAndHistory(
       (
         value === undefined
         ? `Remove sub-chapter ${ attr}`

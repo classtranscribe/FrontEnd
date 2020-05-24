@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { prompt } from 'utils';
+import { prompt, util } from 'utils';
 import { epubState } from './epub.state';
 
 class EpubHistory {
@@ -68,9 +68,11 @@ class EpubHistory {
       undo() {},
       redo() {},
     },
+    targetId = null
   ) {
     action.name = name;
     action.type = EpubHistory.ACTION;
+    action.targetId = targetId;
     this.push(action);
   }
 
@@ -81,10 +83,12 @@ class EpubHistory {
   pushData(
     name,
     data,
+    targetId = null
   ) {
     let item = {};
     item.name = name;
     item.type = EpubHistory.DATA;
+    item.targetId = targetId;
     item.data = JSON.stringify(data);
     this.push(item);
   }
@@ -97,6 +101,12 @@ class EpubHistory {
     epubState.updateEpubChapters(chapters, chapters[currChapterIndex]);
   }
 
+  navigateToTarget(targetId) {
+    if (targetId) {
+      util.elem.scrollIntoCenter(targetId)
+    }
+  }
+
   undo() {
     if (!this.canUndo) {
       return;
@@ -107,10 +117,12 @@ class EpubHistory {
     switch (curr.type) {
       case EpubHistory.ACTION:
         curr.undo();
+        this.navigateToTarget(curr.targetId);
         break;
 
       case EpubHistory.DATA:
         this.revertToChapters(curr.data.prev);
+        this.navigateToTarget(curr.targetId);
         break;
       default:
         break;
@@ -131,10 +143,12 @@ class EpubHistory {
     switch (next.type) {
       case EpubHistory.ACTION:
         next.redo();
+        this.navigateToTarget(next.targetId);
         break;
 
       case EpubHistory.DATA:
         this.revertToChapters(next.data.next);
+        this.navigateToTarget(next.targetId);
         break;
       default:
         break;
@@ -145,15 +159,17 @@ class EpubHistory {
     this.$feed('REDO', next.name);
   }
 
-  completeAction(
+  updateChaptersAndHistory(
     actionName, 
     prevChapters, 
     nextChapters, 
-    currChapter
+    currChapter,
+    targetId,
   ) {
     this.pushData(
       actionName, 
-      this.createData(prevChapters, nextChapters)
+      this.createData(prevChapters, nextChapters),
+      targetId
     );
   
     epubState.updateEpubChapters(nextChapters, currChapter);
