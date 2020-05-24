@@ -264,14 +264,14 @@ export class ClassTranscribeLinks {
     window.history.pushState(null, null, window.location.pathname + newQuery);
   }
 
-  /**
-   * Get parsed window.location.hash query of href
-   * @param {String} href default to window.href
-   */
-  useHash(href) {
-    return this.useParams(
-      this.isValidUrl(href) ? href.substring(href.indexOf('#'), href.length) : window.location.hash,
-    );
+  setHash(hash = '#') {
+    if (!hash.startsWith('#')) {
+      hash = `#${hash}`;
+    }
+
+    let aElem = document.createElement('a');
+    aElem.href = hash;
+    aElem.click();
   }
 
   /**

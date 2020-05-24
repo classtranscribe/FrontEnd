@@ -1,4 +1,4 @@
-import { api, util, user } from '../../../utils';
+import { api, util, user } from 'utils';
 // import { } from './constants'
 
 class SetupMSP {

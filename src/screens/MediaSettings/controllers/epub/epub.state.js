@@ -1,6 +1,7 @@
-import { api, ARRAY_INIT } from 'utils';
+import { api, util, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
 import { parseEpubData } from './util';
+
 import {
   NO_EPUB,
   EPUB_DEFAULT_STEP,
@@ -57,7 +58,7 @@ class EpubState {
       setStep,
     };
 
-    this.setStep(EPUB_DEFAULT_STEP);
+    // this.setStep(EPUB_DEFAULT_STEP);
     this.setEpubData(ARRAY_INIT);
   }
 
@@ -77,6 +78,10 @@ class EpubState {
   step = EPUB_DEFAULT_STEP;
   setStep(step) {
     this.setState('setStep', 'step', step);
+  }
+
+  toStep(step) {
+    util.links.setHash(step);
   }
 
   get isStep1() {
@@ -147,7 +152,7 @@ class EpubState {
 
   async changeEpubLanguage(language) {
     this.setEpubData(ARRAY_INIT);
-    const epubData = await this.getEpubData(this.mediaId, language);
+    let epubData = await this.getEpubData(this.mediaId, language);
     this.setEpubData(epubData);
   }
 
@@ -162,7 +167,7 @@ class EpubState {
   async getEpubData(mediaId, language) {
     this.setError('');
     try {
-      const { data = [] } = await api.getEpubData(mediaId, language);
+      let { data = [] } = await api.getEpubData(mediaId, language);
       return parseEpubData(data);
     } catch (error) {
       console.error(`Failed to get ePub data of media for ${mediaId}`);
@@ -174,7 +179,7 @@ class EpubState {
 
   async setupEpub(mediaId) {
     this.mediaId = mediaId;
-    const epubData = await this.getEpubData(mediaId);
+    let epubData = await this.getEpubData(mediaId);
     this.setEpubData(epubData);
   }
 }

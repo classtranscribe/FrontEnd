@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 import { getAceShortcutHandler } from './ace/ace-shortcut';
 
 import MDTextArea from './MDTextArea';

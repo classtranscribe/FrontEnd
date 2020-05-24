@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { ARRAY_INIT } from 'utils';
 import { PlaceHolder } from 'components';
-import { epub, connectWithRedux } from '../../Utils/epub';
+import { epub, connectWithRedux } from '../../controllers/epub';
 import './index.scss';
 
 import RequestEpub from './RequestEpub';
@@ -10,22 +11,19 @@ import SplitChapter from './Step1-SplitChapters';
 import EditChapters from './Step2-EditChapters';
 import EpubDownloader from './Step3-Download';
 
-const { EPUB_STEP_SPLIT, EPUB_STEP_EDIT } = epub;
+const { EPUB_STEP_SPLIT, EPUB_STEP_EDIT, EPUB_STEP_DOWNLOAD } = epub;
 
 export function EpubWithRedux(props) {
-  const { step, error, media, epubData = ARRAY_INIT, chapters = ARRAY_INIT, setChapters } = props;
+  const { 
+    step, 
+    error, 
+    media, 
+    epubData = ARRAY_INIT, 
+    chapters = ARRAY_INIT, 
+    setChapters 
+  } = props;
 
-  useEffect(() => {
-    if (media.id) {
-      epub.state.setupEpub(media.id);
-    }
-  }, [media]);
-
-  useEffect(() => {
-    if (epubData !== ARRAY_INIT) {
-      epub.setupChapters(epubData);
-    }
-  }, [epubData]);
+  let { hash } = useLocation();
 
   useEffect(() => {
     // register setState functions
@@ -36,6 +34,34 @@ export function EpubWithRedux(props) {
       epub.resetEpubData();
     };
   }, []);
+  
+  useEffect(() => {
+    // update step when hash changes
+    let steps = [EPUB_STEP_SPLIT, EPUB_STEP_EDIT, EPUB_STEP_DOWNLOAD];
+
+    let stepVal = hash.replace('#', '');
+    if (steps.includes(stepVal)) {
+      epub.state.setStep(stepVal);
+    } else {
+      epub.state.setStep(EPUB_STEP_SPLIT);
+    }
+  }, [hash]);
+
+  useEffect(() => {
+    if (media.id) {
+      epub.state.setupEpub(media.id);
+    }
+  }, [media]);
+
+  useEffect(() => {
+    if (epubData !== ARRAY_INIT) {
+      epub.sch.setupChapters(epubData);
+    }
+  }, [epubData]);
+
+  useEffect(() => {
+    epub.history.clear();
+  }, [step])
 
   return error === epub.NO_EPUB ? (
     <RequestEpub mediaId={media.id} />

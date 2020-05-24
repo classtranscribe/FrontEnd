@@ -1,5 +1,5 @@
 import React from 'react';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 
 import ChapterTitle from '../ChapterTitle';
 import ChapterImage from '../ChapterImage';
@@ -9,20 +9,20 @@ function SubChapterItem({ subChapter, subChapterIndex, screenshots, chapterScree
   const { title, text, id, image } = subChapter;
 
   const onSaveTitle = (newTitle) => {
-    epub.saveSubChapterTitle(subChapterIndex, newTitle);
+    epub.ech.saveSubChapterTitle(subChapterIndex, newTitle);
   };
 
   // let { content } = epub.parseText(text);
   const onChooseImage = (newImage) => {
-    epub.saveSubChapterImage(subChapterIndex, newImage);
+    epub.ech.saveSubChapterImage(subChapterIndex, newImage);
   };
 
   const onRemoveImage = () => {
-    epub.removeSubChapterImage(subChapterIndex);
+    epub.ech.removeSubChapterImage(subChapterIndex);
   };
 
   const onSaveText = (newText) => {
-    epub.saveSubChapterText(subChapterIndex, newText);
+    epub.ech.saveSubChapterText(subChapterIndex, newText);
   };
 
   return (

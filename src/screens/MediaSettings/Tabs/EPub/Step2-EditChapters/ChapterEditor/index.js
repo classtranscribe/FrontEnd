@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ScrollArea } from 'components/ScrollArea';
-import { connectWithRedux, epub } from 'screens/MediaSettings/Utils/epub';
+import { connectWithRedux, epub } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
 import ChapterInfo from './ChapterInfo';
@@ -13,10 +13,10 @@ function ChapterEditor({ chapters, currChapter }) {
 
   useEffect(() => {
     // add event listener to preview panel's scrolling
-    epub.addScrollEventListenerToEpubPreview();
+    epub.nav.addScrollEventListenerToEpubPreview();
 
     return () => {
-      epub.removeScrollEventListenerToEpubPreview();
+      epub.nav.removeScrollEventListenerToEpubPreview();
     };
   }, []);
 

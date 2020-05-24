@@ -1,5 +1,5 @@
 import React from 'react';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 
 function ScreenshotTab({
   screenshots,
@@ -17,7 +17,7 @@ function ScreenshotTab({
             data-current={img === imgUrl}
             onClick={() => setImgUrl(img)}
           >
-            <img src={epub.getImageUrl(img)} alt="Cover Image" />
+            <img src={epub.getImageUrl(img)} alt="Chapter Cover" />
             <div className="ee-cp-img-wrapper ct-d-r-center">
               {
                 img === imgUrl
@@ -32,9 +32,9 @@ function ScreenshotTab({
         {
           imgUrl
           ?
-          <img src={epub.getImageUrl(imgUrl)} alt="Selected Cover Image" />
+            <img src={epub.getImageUrl(imgUrl)} alt="Selected Cover" />
           :
-          <div className="w-100 text-center">No image picked.</div>
+            <div className="w-100 text-center">No image picked.</div>
         }
       </div>
     </div>

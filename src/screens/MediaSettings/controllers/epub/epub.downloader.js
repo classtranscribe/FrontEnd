@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { prompt, CTEpubGenerator } from 'utils';
 import { setup } from '../setup';
 import { getImageUrl } from './util';
-import { markdown2HTML, parseText } from './chapter-html-converter';
-import { epubState } from './epub-state';
+import { markdown2HTML, parseText } from './chapter.html-converter';
+import { epubState } from './epub.state';
 import { EDITOR_MARKDOWN } from './constants';
 
 function formatEpubChapter(chapter) {
@@ -58,36 +58,40 @@ function getEpubGen({ filename, author, title, cover }) {
   return epubgen;
 }
 
-export function downloadAsEpub({ filename, author, title, cover }) {
-  getEpubGen({
-    filename,
-    author,
-    title,
-    cover,
-  }).downloadEpub({
-    onError: handleError,
-  });
+class EpubDownloader {
+  asEpub({ filename, author, title, cover }) {
+    getEpubGen({
+      filename,
+      author,
+      title,
+      cover,
+    }).downloadEpub({
+      onError: handleError,
+    });
+  }
+
+  asHTML({ filename, author, title, cover }) {
+    getEpubGen({
+      filename,
+      author,
+      title,
+      cover,
+    }).downloadHTML({
+      onError: handleError,
+    });
+  }
+
+  asPDF({ filename, author, title, cover }, print = true) {
+    getEpubGen({
+      filename,
+      author,
+      title,
+      cover,
+    }).preview({
+      print,
+      onError: handleError,
+    });
+  }
 }
 
-export function downloadAsHTML({ filename, author, title, cover }) {
-  getEpubGen({
-    filename,
-    author,
-    title,
-    cover,
-  }).downloadHTML({
-    onError: handleError,
-  });
-}
-
-export function downloadAsPDF({ filename, author, title, cover }, print = true) {
-  getEpubGen({
-    filename,
-    author,
-    title,
-    cover,
-  }).preview({
-    print,
-    onError: handleError,
-  });
-}
+export const epubDownloader = new EpubDownloader();

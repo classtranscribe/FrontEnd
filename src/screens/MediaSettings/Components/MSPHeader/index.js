@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Popup } from 'semantic-ui-react';
 import { util } from 'utils';
-import { connectWithRedux } from '../../Utils';
-import { ClassTranscribeHeader } from '../../../../components';
-import Tabs from './Tabs';
+import { ClassTranscribeHeader } from 'components';
+import { connectWithRedux } from '../../controllers';
 import './index.scss';
+
+import Tabs from './Tabs';
 
 function MSPHeaderWithRedux({ media, playlist }) {
   const { mediaName } = media;
@@ -39,7 +40,10 @@ function MSPHeaderWithRedux({ media, playlist }) {
                     : util.links.instructor()
                 }
               >
-                {mediaName}
+                <i aria-hidden="true" className="material-icons">
+                  chevron_left
+                </i>
+                <span>{mediaName}</span>
               </Link>
             }
           />
@@ -50,4 +54,4 @@ function MSPHeaderWithRedux({ media, playlist }) {
   );
 }
 
-export const MSPHeader = connectWithRedux(MSPHeaderWithRedux, ['media', 'playlist'], []);
+export const MSPHeader = connectWithRedux(MSPHeaderWithRedux, ['media', 'playlist']);

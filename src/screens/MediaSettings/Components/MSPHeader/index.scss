@@ -16,12 +16,12 @@
     .msp-me-info {
       display: flex;
       flex-direction: column;
-      margin-left: 1rem;
-      padding-bottom: .8rem;
+      margin-left: 8px;
+      padding-bottom: 10px;
       .msp-me-name {
-        // color: var(--ct-text-title);
         color: rgb(58, 58, 58);
-        // font-weight: bold;
+        display: flex;
+        align-items: center;
         font-size: 18px;
         line-height: 20px;
         font-family: var(--ct-font-narrow);
@@ -30,6 +30,9 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         cursor: pointer;
+        &:hover {
+          color: var(--ct-green-normal);
+        }
       }
     }
   }

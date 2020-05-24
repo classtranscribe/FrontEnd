@@ -1,17 +1,18 @@
 import React from 'react';
 import { Button } from 'pico-ui';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import { LanguageMenuTrigger } from '../../LanguageMenuTrigger';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+
+import EpubStepper from '../../Stepper';
 
 function InstructionHeading({
   epubData,
   chapters=[],
   language,
 }) {
-
   let showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   let showSplitAllBtn = chapters.length !== epubData.length;
-  let showSubdivideAllBtn = true;//chapters.reduce((acc, ch) => acc + ch.items.length, 0) !== 0;
+  let showSubdivideAllBtn = true;// chapters.reduce((acc, ch) => acc + ch.items.length, 0) !== 0;
 
   return (
     <div className="msp-ee-sch-instr-h">
@@ -22,16 +23,19 @@ function InstructionHeading({
         />
       </div>
 
+      <EpubStepper />
+
       <div className="w-100 ee-sch-h-block">
         <h4>Instruction</h4>
         <p>
           To manage your ePub chapters, set <b>splitting points</b> between screenshots to 
-          generate an initial version of ePub chapters. 
+          generate an initial layout of your ePub chapters. 
           Each chapter can be further <b>subdivided</b> into sub-chapters.
         </p>
         <p>
-          After building the structure of your ePub, hit <b>'Save and Preview' button</b> to 
-          see the preview of your ePub file, and modify the ePub contents there.
+          After building the structure of your ePub, 
+          proceed to the <b>Chapter Editor</b> to modify the 
+          texts and images there.
         </p>
 
         <h4>Actions</h4>
@@ -54,21 +58,21 @@ function InstructionHeading({
           {
             showResetBtn
             &&
-            <Button outlined onClick={() => epub.resetToDefaultChapters()}>
+            <Button outlined onClick={epub.sch.resetToDefaultChapters}>
               Reset to Default Chapters
             </Button>
           }
           {
             showSplitAllBtn
             &&
-            <Button outlined onClick={() => epub.splitChaptersByScreenshots()}>
+            <Button outlined onClick={epub.sch.splitChaptersByScreenshots}>
               Split Chapters by Screenshots
             </Button>
           }
           {
             showSubdivideAllBtn
             &&
-            <Button outlined onClick={() => epub.subdivideChaptersByScreenshots()}>
+            <Button outlined onClick={epub.sch.subdivideChaptersByScreenshots}>
               Subdivide Chapters by Screenshots
             </Button>
           }
