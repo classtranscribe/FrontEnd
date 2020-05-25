@@ -3,32 +3,31 @@ import classNames from 'classnames';
 import AceEditor from 'react-ace';
 import './index.scss';
 
-import "ace-builds/src-noconflict/theme-xcode";
+import 'ace-builds/src-noconflict/theme-xcode';
 // import "ace-builds/src-noconflict/theme-github";
 // import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-min-noconflict/ext-searchbox";
-import "ace-builds/src-min-noconflict/ext-language_tools";
-import "ace-builds/src-noconflict/mode-markdown";
-import "ace-builds/src-noconflict/snippets/markdown";
+import 'ace-builds/src-min-noconflict/ext-searchbox';
+import 'ace-builds/src-min-noconflict/ext-language_tools';
+import 'ace-builds/src-noconflict/mode-markdown';
+import 'ace-builds/src-noconflict/snippets/markdown';
 
 function AceTextArea({
   id = '',
   value = '',
-  height='400px',
+  height = '400px',
   onLoad,
   onFocus,
   onChange,
   onCursorChange,
-  isPreview=false,
+  isPreview = false,
 }) {
-
-  let style = classNames('ee-md-textarea-con', {
-    preview: isPreview
+  const style = classNames('ee-md-textarea-con', {
+    preview: isPreview,
   });
 
   return (
     <div className={style}>
-      <AceEditor 
+      <AceEditor
         focus
         wrapEnabled
         highlightActiveLine
@@ -36,7 +35,7 @@ function AceTextArea({
         enableBasicAutocompletion
         className="ee-md-textarea"
         showGutter={false}
-        name={'ace-md-'+id}
+        name={`ace-md-${id}`}
         mode="markdown"
         theme="xcode"
         value={value}
@@ -52,7 +51,7 @@ function AceTextArea({
         // onSelectionChange={e => console.log(e.doc)}
       />
     </div>
-  )
+  );
 }
 
 export default AceTextArea;

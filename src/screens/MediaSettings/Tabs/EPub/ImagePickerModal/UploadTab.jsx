@@ -1,6 +1,6 @@
 import React from 'react';
 import { CTForm } from 'components';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 
 import UploadButton from './UploadButton';
 
@@ -8,7 +8,6 @@ function UploadTab({
   setImgUrl,
   imgUrl,
 }) {
-
   const onUpload = image => {
     let url = URL.createObjectURL(image)
     setImgUrl(url);
@@ -22,7 +21,7 @@ function UploadTab({
             <UploadButton onUpload={onUpload} />
           </div>
 
-          <hr/>
+          <hr />
 
           <div className="w-100 pr-3">
             <CTForm
@@ -40,9 +39,9 @@ function UploadTab({
         {
           imgUrl
           ?
-          <img src={epub.getImageUrl(imgUrl)} alt="Selected Cover Image" />
+            <img src={epub.getImageUrl(imgUrl)} alt="Selected Cover" />
           :
-          <div className="w-100 text-center">No image picked.</div>
+            <div className="w-100 text-center">No image picked.</div>
         }
       </div>
     </div>

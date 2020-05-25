@@ -1,46 +1,34 @@
-import React, { useState } from 'react'
-import { 
-  transControl, 
-  videoControl,
-  timeStrToSec,
-} from '../../../Utils'
+import React from 'react';
+import { transControl, videoControl, timeStrToSec } from '../../../Utils';
 
-export default function Caption({
-  caption,
-  actualIndex,
-}) {
-
-  const { text, index, begin, end, id } = caption
-
-  // const [textVal, setTextVal] = useState(text)
-  // const [beginVal, setBeginVal] = useState(begin.slice(0,11))
-  // const [endVal, setEndVal] = useState(end.slice(0,11))
+export default function Caption({ caption, actualIndex }) {
+  const { text, begin, end } = caption;
 
   const seekTo = () => {
-    let time = timeStrToSec(begin)
-    videoControl.currTime(time)
-  }
+    const time = timeStrToSec(begin);
+    videoControl.currTime(time);
+  };
 
   const onEdit = (e, key) => {
-    let value = e.currentTarget.innerHTML
-    transControl.bulkEditOnChange(actualIndex, key, value)
-  }
+    const value = e.currentTarget.innerHTML;
+    transControl.bulkEditOnChange(actualIndex, key, value);
+  };
 
-  const beginOnInput = e => onEdit(e, 'begin')
-  const endOnInput = e => onEdit(e, 'end')
-  const textOnInput = e => onEdit(e, 'text')
+  const beginOnInput = (e) => onEdit(e, 'begin');
+  const endOnInput = (e) => onEdit(e, 'end');
+  const textOnInput = (e) => onEdit(e, 'text');
 
   const onMergeDown = () => {
-    transControl.bulkEditOnMergeDown(actualIndex)
-  }
+    transControl.bulkEditOnMergeDown(actualIndex);
+  };
 
   const onDelete = () => {
-    transControl.bulkEditOnDelete(actualIndex)
-  }
+    transControl.bulkEditOnDelete(actualIndex);
+  };
 
   const onInsertAbove = () => {
-    transControl.bulkEditOnInsert(actualIndex)
-  }
+    transControl.bulkEditOnInsert(actualIndex);
+  };
 
   return (
     <tr id={`bulk-edit-capline-${actualIndex}`}>
@@ -53,14 +41,19 @@ export default function Caption({
 
       {/* Time */}
       <td contentEditable className="td-center td-time" onInput={beginOnInput}>
-        {begin.slice(0,11)}
+        {begin.slice(0, 11)}
       </td>
       <td contentEditable className="td-center td-time" onInput={endOnInput}>
-        {end.slice(0,11)}
+        {end.slice(0, 11)}
       </td>
 
       {/* Text */}
-      <td contentEditable placeholder="Caption Text" className="td-border td-text" onInput={textOnInput}>
+      <td
+        contentEditable
+        placeholder="Caption Text"
+        className="td-border td-text"
+        onInput={textOnInput}
+      >
         {text}
       </td>
 
@@ -79,9 +72,9 @@ export default function Caption({
       </td>
       <button className="plain-btn td-btn tr-add-btn" onClick={onInsertAbove}>
         <span tabIndex="-1">
-          <i className="material-icons">add</i> 
+          <i className="material-icons">add</i>
         </span>
       </button>
     </tr>
-  )
+  );
 }

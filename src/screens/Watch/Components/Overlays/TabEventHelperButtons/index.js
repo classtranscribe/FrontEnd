@@ -1,16 +1,9 @@
-import React from 'react'
-import { Button } from 'semantic-ui-react'
-import './index.css'
-import {
-  keydownControl,
-  menuControl,
-  MENU_SHORTCUTS,
-} from '../../../Utils'
+import React from 'react';
+import { Button } from 'semantic-ui-react';
+import { keydownControl, menuControl, MENU_SHORTCUTS } from '../../../Utils';
+import './index.css';
 
-export function TabEventHelperButtons({
-
-}) {
-  
+export function TabEventHelperButtons() {
   return (
     <div className="watch-tab-helper">
       <Button.Group>
@@ -44,5 +37,5 @@ export function TabEventHelperButtons({
         </Button>
       </Button.Group>
     </div>
-  )
+  );
 }

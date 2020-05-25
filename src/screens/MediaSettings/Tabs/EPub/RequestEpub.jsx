@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'pico-ui';
-import { epub } from '../../Utils/epub';
+import { epub } from '../../controllers/epub';
 
 export default function RequestEpub({
   mediaId
@@ -25,18 +25,19 @@ export default function RequestEpub({
             <div className="ct-d-c-center">
               <div className="mt-5">
                 <div className="sk-wave">
-                  <div className="sk-wave-rect"></div>
-                  <div className="sk-wave-rect"></div>
-                  <div className="sk-wave-rect"></div>
-                  <div className="sk-wave-rect"></div>
-                  <div className="sk-wave-rect"></div>
+                  <div className="sk-wave-rect" />
+                  <div className="sk-wave-rect" />
+                  <div className="sk-wave-rect" />
+                  <div className="sk-wave-rect" />
+                  <div className="sk-wave-rect" />
                 </div>
               </div>
               {'Request has been sent successfully.\nThe file is processing right now, please check it later.'}
             </div>
           }
         </div>
-        <Button round 
+        <Button
+          round 
           size="big"
           color="teal" 
           classNames="ee-act-btn"

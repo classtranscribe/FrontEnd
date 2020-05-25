@@ -1,46 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import _ from 'lodash'
-import { Icon } from 'semantic-ui-react'
-import { VideoCard, PlaceHolder } from '../../../../components'
-import { api, util, prompt } from '../../../../utils'
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import _ from 'lodash';
+import { Icon } from 'semantic-ui-react';
+import { VideoCard, PlaceHolder } from 'components';
+import { api, util, prompt } from 'utils';
 
-const FAILED = { name: 'failed' }
-
-function VideoView({ 
-  playlistId, 
-  goBack, 
-}) {
-  const history = useHistory()
-  const [playlist, setPlaylist] = useState({})
+function VideoView({ playlistId, goBack }) {
+  const history = useHistory();
+  const [playlist, setPlaylist] = useState({});
 
   useEffect(() => {
-    util.elem.scrollIntoView('sp-content')
-    api.getPlaylistById(playlistId)
+    util.elem.scrollIntoView('sp-content');
+    api
+      .getPlaylistById(playlistId)
       .then(({ data }) => {
-        _.reverse(data.medias)
-        setPlaylist(data)
+        _.reverse(data.medias);
+        setPlaylist(data);
       })
-      .catch(error => {
-        console.error(error, 'Failed to load playlist.')
-        goBack()
-        prompt.addOne({
-          text: "Couldn't open the playlist, please sign in to see more."
-        }, true)
-      })
-  }, [])
+      .catch((error) => {
+        console.error(error, 'Failed to load playlist.');
+        goBack();
+        prompt.addOne(
+          {
+            text: "Couldn't open the playlist, please sign in to see more.",
+          },
+          true,
+        );
+      });
+  }, []);
 
   useEffect(() => {
     if (playlist.id) {
-      const { mid } = util.links.useSearch()
+      const { mid } = util.links.useSearch();
       if (mid) {
-        util.elem.scrollIntoCenter(mid, { focus: true })
-        history.replace(history.location.pathname)
+        util.elem.scrollIntoCenter(mid, { focus: true });
+        history.replace(history.location.pathname);
       }
     }
-  }, [playlist])
+  }, [playlist]);
 
-  const { name, medias=[] } = playlist
+  const { name, medias = [] } = playlist;
 
   return name ? (
     <div className="videos ct-a-fade-in">
@@ -51,27 +50,32 @@ function VideoView({
       </div>
 
       <h2 className="title">
-        <i className="material-icons" aria-hidden="true">video_library</i>
+        <i className="material-icons" aria-hidden="true">
+          video_library
+        </i>
         {name}
       </h2>
 
       <div role="list">
-        {(medias || []).slice().reverse().map( media => (
-          <Video 
-            key={media.id} 
-            media={media} 
-          />
-        ))}
+        {(medias || [])
+          .slice()
+          .reverse()
+          .map((media) => (
+            <Video key={media.id} media={media} />
+          ))}
       </div>
     </div>
-  ) : <PlaceHolder />
+  ) : (
+    <PlaceHolder />
+  );
 }
 
 function Video({ media }) {
-  const { mediaName, id, isUnavailable, watchHistory } = api.parseMedia(media)
+  const { mediaName, id, isUnavailable, watchHistory } = api.parseMedia(media);
 
   return (
-    <VideoCard row
+    <VideoCard
+      row
       id={id}
       name={mediaName}
       link={util.links.watch(id)}
@@ -79,8 +83,7 @@ function Video({ media }) {
       posterSize="150px"
       isUnavailable={isUnavailable}
     />
-    
-  )
+  );
 }
 
-export default VideoView
+export default VideoView;

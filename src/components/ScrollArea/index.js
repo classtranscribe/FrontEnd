@@ -4,6 +4,18 @@ import { Button } from 'pico-ui';
 import './index.scss';
 import { util } from 'utils';
 
+function addScrollEventListener(scrollEl, offsetTop, setIsTop) {
+  scrollEl.addEventListener('scroll', function () {
+    if (this.scrollTop <= offsetTop && this.isNotTop) {
+      setIsTop(true);
+      this.isNotTop = false;
+    } else if (!this.isNotTop) {
+      setIsTop(false);
+      this.isNotTop = true;
+    }
+  });
+}
+
 export function ScrollArea({
   id = null,
   className = null,
@@ -17,7 +29,6 @@ export function ScrollArea({
   children = null,
   ...otherProps
 }) {
-  
   const scrollRef = useRef();
   const [isTop, setIsTop] = useState(true);
 
@@ -27,39 +38,22 @@ export function ScrollArea({
     }
 
     if (scrollToTopButton !== 'hide') {
-      scrollRef.current.addEventListener('scroll', function() {
-        if (this.scrollTop <= offsetTop && this.isNotTop) {
-          setIsTop(true);
-          this.isNotTop = false;
-        } else if (!this.isNotTop) {
-          setIsTop(false);
-          this.isNotTop = true;
-        }
-      });
+      addScrollEventListener(scrollRef.current, offsetTop, setIsTop);
     }
   }, []);
 
   const scrollToTop = () => util.elem.scrollToTop(scrollRef.current);
 
-  let classes = classNames('ct-scroll-area-con', className);
-  let scrollClasses = classNames('ct-scroll-area', scrollClassName);
-  let scrollTopBtnClasses = classNames(
-    'ct-sa-to-top-btn', 
-    'ct-a-fade-in',
-    scrollToTopButton,
-    {
-      'is-top': isTop 
-    }
-  );
+  const classes = classNames('ct-scroll-area-con', className);
+  const scrollClasses = classNames('ct-scroll-area', scrollClassName);
+  const scrollTopBtnClasses = classNames('ct-sa-to-top-btn', 'ct-a-fade-in', scrollToTopButton, {
+    'is-top': isTop,
+  });
 
   return (
     <div className={classes}>
       <div style={scrollToTopButtonStyle} className={scrollTopBtnClasses}>
-        <Button round
-          icon="arrow_upward"
-          color={dark ? "teal" : "black"}
-          onClick={scrollToTop}
-        />
+        <Button round icon="arrow_upward" color={dark ? 'teal' : 'black'} onClick={scrollToTop} />
       </div>
       <div
         id={id}

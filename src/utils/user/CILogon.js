@@ -1,34 +1,34 @@
 import { env } from '../env';
 import { links } from '../links';
-import { redirect } from './redirect';
+import redirect from './redirect';
 
 export class CILogon {
-    constructor() {
-        this.callback = window.location.origin + links.ciLogonCallback();
-    }
+  constructor() {
+    this.callback = window.location.origin + links.ciLogonCallback();
+  }
 
-    authorize() {
-        redirect.saveRedirectURI();
+  authorize() {
+    redirect.saveRedirectURI();
 
-        let query = links.createSearch({
-            response_type: 'code',
-            client_id: env.ciLogonClientID,
-            redirect_uri: this.callback,
-            scope: 'openid profile email org.cilogon.userinfo edu.uiuc.ncsa.myproxy.getcert'
-        });
+    const query = links.createSearch({
+      response_type: 'code',
+      client_id: env.ciLogonClientID,
+      redirect_uri: this.callback,
+      scope: 'openid profile email org.cilogon.userinfo edu.uiuc.ncsa.myproxy.getcert',
+    });
 
-        window.location = 'https://cilogon.org/authorize' + query;
-    }
+    window.location = `https://cilogon.org/authorize${query}`;
+  }
 
-    parseCallback() {
-        let redirect_uri = redirect.getRedirectURI();
-        redirect.clear();
+  parseCallback() {
+    const redirectUri = redirect.getRedirectURI();
+    redirect.clear();
 
-        let { code } = links.useSearch();
+    const { code } = links.useSearch();
 
-        return {
-            token: code,
-            redirect_uri,
-        };
-    }
+    return {
+      token: code,
+      redirect_uri: redirectUri,
+    };
+  }
 }

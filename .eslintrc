@@ -1,0 +1,79 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "prefer-const": "off",
+    "newline-per-chained-call": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "complexity": ["warn", 10],
+    "global-require": "off",
+    "lines-between-class-members": "off",
+    "no-unused-vars": ["warn"],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+    "no-return-assign": ["error", "except-parens"],
+    "no-underscore-dangle": "off",
+    "no-param-reassign": ["warn", { "props": false }],
+    "no-nested-ternary": "off",
+    "no-await-in-loop": "warn",
+    "padded-blocks": [
+      "error",
+      {
+        "blocks": "never",
+        "switches": "never",
+        "classes": "never"
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "ignoreUrls": true,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreComments": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "camelcase": "off",// ["warn", { "properties": "never" }],
+    "prefer-promise-reject-errors": ["off"],
+    "prefer-destructuring": "off",
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/label-has-for": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/role-has-required-aria-props": "warn",
+    "jsx-a11y/no-interactive-element-to-noninteractive-role": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/no-noninteractive-tabindex": "warn",
+    "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/media-has-caption": "off", // Media elements such as <audio> and <video> must have a <track> for captions
+    "import/prefer-default-export": "off",
+    "import/no-cycle": ["warn"],
+    "import/no-dynamic-require": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "import/no-webpack-loader-syntax": "off",
+    "import/extensions": "off",
+    "react/prop-types": "off", // should turn in the future
+    "react/button-has-type": "off",
+    "react/destructuring-assignment": "off",
+    "react/forbid-prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-wrap-multilines": "off",
+    "react/no-unused-prop-types": "off",
+    "react/no-unused-state": "off",
+    "react/no-did-update-set-state": ["warn"],
+    "react/sort-comp": "off",
+    "react/require-default-props": "off",
+    "react/no-array-index-key": "warn"
+  }
+}

@@ -1,23 +1,25 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { epub } from '../../../Utils/epub';
+import { epub } from '../../../controllers/epub';
 
 function ProceedButton() {
   return (
-    <div className="msp-ee-act ct-a-fade-in">
-      <Button round size="big"
-        classNames="ee-act-btn ee-act-save-btn"
+    <div className="sch-act-buttons proceed-btns ct-a-fade-in">
+      <Button
+        round
+        size="big"
+        classNames="sch-act-btn"
         icon="arrow_forward"
         text="Proceed to Chapter Editor"
         color="teal"
-        onClick={epub.proceedToStep2}
+        onClick={epub.sch.proceedToStep2}
       />
 
       {/* <Button round size="big"
-        classNames="ee-act-btn"
+        classNames="sch-proceed-btn"
         text="Cancel"
         color="black"
-        onClick={() => epub.cancelEditChapters()}
+        onClick={() => epub.sch.cancelEditChapters()}
       /> */}
     </div>
   );

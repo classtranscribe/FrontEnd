@@ -1,30 +1,42 @@
-import _ from 'lodash'
-import { api, util, userAction } from '../../../utils'
-import { transControl } from './trans.control'
-import { videoControl } from './player.control'
-import { menuControl } from './menu.control'
-import { promptControl } from './prompt.control'
-import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect'
-import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './constants.util'
+import _ from 'lodash';
+import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
+import { api, util, userAction } from 'utils';
+import { transControl } from './trans.control';
+import { videoControl } from './player.control';
+import { menuControl } from './menu.control';
+import { promptControl } from './prompt.control';
+import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './constants.util';
 
 export const setup = {
   media_: api.parseMedia(),
   playlist_: {},
   playlists_: {},
-  externalFunctions : {},
-  init: function(props, setError) {
-    const { 
-      setMedia, setPlaylist, setPlaylists, setOffering,
-      setWatchHistory, setStarredOfferings, 
-      location, history, changeVideo,
-    } = props
+  externalFunctions: {},
+  init(props, setError) {
+    const {
+      setMedia,
+      setPlaylist,
+      setPlaylists,
+      setOffering,
+      setWatchHistory,
+      setStarredOfferings,
+      location,
+      history,
+      changeVideo,
+    } = props;
 
-    this.externalFunctions = { 
-      setMedia, setPlaylist, setPlaylists, setOffering,
-      setWatchHistory, setStarredOfferings, 
-      location, history, changeVideo,
+    this.externalFunctions = {
+      setMedia,
+      setPlaylist,
+      setPlaylists,
+      setOffering,
+      setWatchHistory,
+      setStarredOfferings,
+      location,
+      history,
+      changeVideo,
       setError,
-    }
+    };
   },
 
   /**
@@ -32,43 +44,43 @@ export const setup = {
    * ************************************************************************
    */
 
-  media: function(media_) {
-    if (media_ === undefined) return this.media_
+  media(media_) {
+    if (media_ === undefined) return this.media_;
 
-    const { setMedia } = this.externalFunctions
+    const { setMedia } = this.externalFunctions;
     if (setMedia) {
-      setMedia(media_)
-      this.media_ = media_
+      setMedia(media_);
+      this.media_ = media_;
     }
   },
 
-  playlist: function(playlist_) {
-    if (playlist_ === undefined) return this.playlist_
+  playlist(playlist_) {
+    if (playlist_ === undefined) return this.playlist_;
 
-    const { setPlaylist } = this.externalFunctions
+    const { setPlaylist } = this.externalFunctions;
     if (setPlaylist) {
-      setPlaylist(playlist_)
-      this.playlist_ = playlist_
+      setPlaylist(playlist_);
+      this.playlist_ = playlist_;
     }
   },
 
-  playlists: function(playlists_) {
-    if (playlists_ === undefined) return this.playlists_
+  playlists(playlists_) {
+    if (playlists_ === undefined) return this.playlists_;
 
-    const { setPlaylists } = this.externalFunctions
+    const { setPlaylists } = this.externalFunctions;
     if (setPlaylists) {
-      setPlaylists(playlists_)
-      this.playlists_ = playlists_
+      setPlaylists(playlists_);
+      this.playlists_ = playlists_;
     }
   },
 
-  offering: function(offering_) {
-    if (offering_ === undefined) return this.offering_
+  offering(offering_) {
+    if (offering_ === undefined) return this.offering_;
 
-    const { setOffering } = this.externalFunctions
+    const { setOffering } = this.externalFunctions;
     if (setOffering) {
-      setOffering(offering_)
-      this.offering_ = offering_
+      setOffering(offering_);
+      this.offering_ = offering_;
     }
   },
 
@@ -76,137 +88,143 @@ export const setup = {
    * Helper functions
    * ************************************************************************
    */
-  clear: function(media) {
-    const { changeVideo } = this.externalFunctions
-    if (changeVideo) changeVideo({})
-    userAction.changevideo(videoControl.currTime(), media.id)
-    videoControl.clear()
-    transControl.clear()
-    menuControl.clear()
+  clear(media) {
+    const { changeVideo } = this.externalFunctions;
+    if (changeVideo) changeVideo({});
+    userAction.changevideo(videoControl.currTime(), media.id);
+    videoControl.clear();
+    transControl.clear();
+    menuControl.clear();
   },
 
-  changeVideo: async function(media, playlist) {
-    await videoControl.sendMediaHistories()
-    const { history } = this.externalFunctions
-    if (!playlist) playlist = this.playlist()
-    history.push(util.links.watch(media.id))
+  async changeVideo(media) {
+    await videoControl.sendMediaHistories();
+    const { history } = this.externalFunctions;
+    // if (!playlist) {
+    //   playlist = this.playlist()
+    // }
+    history.push(util.links.watch(media.id));
   },
 
-  findNeighbors: function(mediaId, playlist) {
-    if (!mediaId) mediaId = this.media().id
-    if (!playlist) playlist = this.playlist()
-    let { medias } = playlist
-    if (!medias) return {}
+  findNeighbors(mediaId, playlist) {
+    let mid = mediaId;
+    if (!mid) {
+      mid = this.media().id;
+    }
+
+    let playlist_ = playlist;
+    if (!playlist_) {
+      playlist_ = this.playlist();
+    }
+    const { medias } = playlist_;
+    if (!medias) return {};
     // medias = (medias || []).slice().reverse()
-    let currIdx = _.findIndex(medias, { id: mediaId })
-    let nextIdx = currIdx + 1
-    let prevIdx = currIdx - 1
-    let next = medias[nextIdx] || null
-    let prev = medias[prevIdx] || null
-    return { next, prev }
+    const currIdx = _.findIndex(medias, { id: mid });
+    const nextIdx = currIdx + 1;
+    const prevIdx = currIdx - 1;
+    const next = medias[nextIdx] || null;
+    const prev = medias[prevIdx] || null;
+    return { next, prev };
   },
-
-
 
   /**
    * Funcitons for setup watch page
    * ************************************************************************
    */
-  getMedia: async function() {
-    const { setError } = this.externalFunctions
-    const { id } = util.links.useSearch()
+  async getMedia() {
+    const { setError } = this.externalFunctions;
+    const { id } = util.links.useSearch();
 
     try {
-      let { data } = await api.getMediaById(id)
-      return api.parseMedia(data)
+      const { data } = await api.getMediaById(id);
+      return api.parseMedia(data);
     } catch (error) {
       if (api.parseError(error).status === 404) {
-        setError(ERR_INVALID_MEDIA_ID)
+        setError(ERR_INVALID_MEDIA_ID);
       } else {
-        setError(ERR_AUTH)
+        setError(ERR_AUTH);
       }
-      return null
+      return null;
     }
   },
 
-  getPlaylist: async function(playlistId) {
-
+  async getPlaylist(playlistId) {
     // let { state } = this.externalFunctions.location
     // if (state && state.playlist) return state.playlist
 
     try {
-      const { data } = await api.getPlaylistById(playlistId)
+      const { data } = await api.getPlaylistById(playlistId);
       // _.reverse(data.medias || [])
-      return data
+      return data;
     } catch (error) {
-      return null
+      return null;
     }
   },
 
-  getPlaylists: async function(offeringId) {
+  async getPlaylists(offeringId) {
     // // if the playlists exist
-    // if (this.playlists().length > 0) return null 
+    // if (this.playlists().length > 0) return null
 
     // let { state } = this.externalFunctions.location
     // if (state && state.playlists) return state.playlists
 
     try {
-      const { data } = await api.getPlaylistsByOfferingId(offeringId)
-      return data 
+      const { data } = await api.getPlaylistsByOfferingId(offeringId);
+      return data;
     } catch (error) {
-      return []
+      return [];
     }
   },
 
-  getOffering: async function(offeringId) {
+  async getOffering(offeringId) {
     // let { state } = this.externalFunctions.location
     // if (state && state.offering) return state.offering
-    
+
     try {
-      const { data } = await api.getOfferingById(offeringId)
-      return data
+      const { data } = await api.getOfferingById(offeringId);
+      return data;
     } catch (error) {
-      return {}
+      return {};
     }
   },
 
-  getMediaWatchHistories: async function(mediaId) {
+  async getMediaWatchHistories(mediaId) {
     try {
-      const { data } = await api.getMediaWatchHistories(mediaId)
-      console.error('getMediaWatchHistories', data)
-      return data
+      const { data } = await api.getMediaWatchHistories(mediaId);
+      console.error('getMediaWatchHistories', data);
+      return data;
     } catch (error) {
-      console.error('Failed to get watch histories.')
-      return {}
+      console.error('Failed to get watch histories.');
+      return {};
     }
   },
 
-  /** 
+  /**
    * Function for getting media, playlist, and playlists
    */
-  setupMedias: async function() {
+  async setupMedias() {
     // Get media
-    let media = await this.getMedia()
+    const media = await this.getMedia();
     if (!media) {
-      api.contentLoaded()
-      return
+      api.contentLoaded();
+      return;
     }
 
-    // reset data 
-    this.clear(media)
+    // reset data
+    this.clear(media);
 
     // Set transcriptions
-    let { transcriptions } = media
-    transControl.transcriptions(transcriptions)
+    const { transcriptions } = media;
+    transControl.transcriptions(transcriptions);
 
     // Get Playlist
-    let { playlistId } = media
-    let playlist = await this.getPlaylist(playlistId)
+    const { playlistId } = media;
+    const playlist = await this.getPlaylist(playlistId);
 
     if (!playlist) {
-      promptControl.error('playlist')
-      api.contentLoaded()
-      return
+      promptControl.error('playlist');
+      api.contentLoaded();
+      return;
     }
 
     // // set user metadata
@@ -216,28 +234,28 @@ export const setup = {
     // }
 
     // Set data
-    this.media(media)
-    this.playlist(playlist)
+    this.media(media);
+    this.playlist(playlist);
 
-    let { offeringId } = playlist
+    const { offeringId } = playlist;
 
     // Get offering
-    let offering = await this.getOffering(offeringId)
-    offering = api.parseSingleOffering(offering)
-    this.offering(offering)
+    let offering = await this.getOffering(offeringId);
+    offering = api.parseSingleOffering(offering);
+    this.offering(offering);
 
-    api.contentLoaded()
+    api.contentLoaded();
 
     // Get playlists
-    let playlists = await this.getPlaylists(offeringId)
-    if (playlists) this.playlists(playlists)
+    const playlists = await this.getPlaylists(offeringId);
+    if (playlists) this.playlists(playlists);
 
     // Initialize user action handler
-    let mediaId = media.id
-    userAction.init({ offeringId, mediaId })
+    const mediaId = media.id;
+    userAction.init({ offeringId, mediaId });
 
     if (isSafari && isIPad13 && isIPhone13) {
-      promptControl.videoNotLoading()
+      promptControl.videoNotLoading();
     }
-  }
-}
+  },
+};

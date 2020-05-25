@@ -4,11 +4,11 @@
  * - also transfers some components from the folder components
  */
 
-import React from 'react'
-import { Button, Message, Icon } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Button, Message, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
+export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components';
 
 /**
  * List Item component for Admin Page
@@ -17,32 +17,35 @@ export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components'
  * @param path path to the editing page
  * @param id the id of the item, for completing the path to editing page
  */
-export function AdminListItem({header, items, path, id, inactive, loading}) {
+export function AdminListItem({ header, items, path, id, inactive, loading }) {
   return (
-    <Message className='ap-listitem'>
-      <div className='ap-iteminfo'>
+    <Message className="ap-listitem">
+      <div className="ap-iteminfo">
         <Message.Header>{header}</Message.Header>
-        <Message.List items={items} role="list"/>
+        <Message.List items={items} role="list" />
       </div>
       <div className="ap-buttons">
-        {
-          inactive ? 
+        {inactive ? (
           <Button secondary compact onClick={inactive} loading={loading}>
-            <Icon name="trash" />Inactive
+            <Icon name="trash" />
+            Inactive
           </Button>
-          :
-          <Button 
-            as={Link} secondary compact
-            to={`/admin/${path}/id=${id}`} 
+        ) : (
+          <Button
+            as={Link}
+            secondary
+            compact
+            to={`/admin/${path}/id=${id}`}
             title="Edit"
             aria-label="Edit"
           >
-            <Icon name="edit" />Edit
+            <Icon name="edit" />
+            Edit
           </Button>
-        }
+        )}
       </div>
     </Message>
-  )
+  );
 }
 
 /**
@@ -51,9 +54,9 @@ export function AdminListItem({header, items, path, id, inactive, loading}) {
  * @param path path to the creating page
  * @param name the text will show on the button
  */
-export function CreateNewButton({path, id, name}) {
+export function CreateNewButton({ path, id, name }) {
   return (
-    <div className='ap-buttons'>
+    <div className="ap-buttons">
       <Button
         as={Link}
         to={`/admin/${path}/new=${id}`}
@@ -62,53 +65,30 @@ export function CreateNewButton({path, id, name}) {
         aria-label={name}
       />
     </div>
-  )
+  );
 }
 
 /**
  * Button Group for creating
  */
-export function SubmitButton({onSubmit, onCancel}) {
+export function SubmitButton({ onSubmit, onCancel }) {
   return (
     <>
-      <Button 
-        secondary 
-        onClick={onSubmit}
-        content="Submit"
-        aria-label="submit"
-      />
-      <Button 
-        onClick={onCancel}
-        content="Cancel"
-        aria-label="cancel"
-      />
+      <Button secondary onClick={onSubmit} content="Submit" aria-label="submit" />
+      <Button onClick={onCancel} content="Cancel" aria-label="cancel" />
     </>
-  )
+  );
 }
 
 /**
  * Button Group for updating
  */
-export function EditButtons({onUpdate, onInactive, onCancel}) {
+export function EditButtons({ onUpdate, onInactive, onCancel }) {
   return (
     <>
-      <Button 
-        positive
-        onClick={onUpdate}
-        content="Update"
-        aria-label="update"
-      />
-      <Button 
-        onClick={onInactive}
-        content="Inactive"
-        aria-label="inactive"
-      />
-      <Button 
-        secondary
-        onClick={onCancel}
-        content="Cancel"
-        aria-label="cancel"
-      />
+      <Button positive onClick={onUpdate} content="Update" aria-label="update" />
+      <Button onClick={onInactive} content="Inactive" aria-label="inactive" />
+      <Button secondary onClick={onCancel} content="Cancel" aria-label="cancel" />
     </>
-  )
+  );
 }

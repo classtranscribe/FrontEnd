@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import { epub } from 'screens/MediaSettings/Utils/epub';
+import { epub } from 'screens/MediaSettings/controllers/epub';
 import { getAceShortcutHandler } from './ace/ace-shortcut';
 
 import MDTextArea from './MDTextArea';
@@ -8,67 +8,58 @@ import MDToolBar from './MDToolBar';
 import ActionButtonGroup from './ActionButtonGroup';
 import { MarkdownPreviewer } from '../MarkdownPreviewer';
 
-
 export function MarkdownEditor({
   id = '',
-  defaultValue='',
-  placeholder='\n\n#### Transcript\n\n',
-  height='400px',
-  screenshots=[],
-  chapterScreenshots=[],
+  defaultValue = '',
+  placeholder = '\n\n#### Transcript\n\n',
+  height = '400px',
+  screenshots = [],
+  chapterScreenshots = [],
   defaultImage,
 
   onSave,
   onClose,
 }) {
-
-  const [value, setValue] = useState(
-    defaultValue.trim()
-    ? defaultValue
-    : placeholder
-  );
+  const [value, setValue] = useState(defaultValue.trim() ? defaultValue : placeholder);
   const [ace, setAce] = useState(null);
   const [preview, setPreview] = useState(null);
 
   const isPreview = Boolean(preview);
 
-  const onChange = newValue => {
+  const onChange = (newValue) => {
     setValue(newValue);
   };
 
-  const onLoad = ace_ => {
+  const onLoad = (ace_) => {
     setAce(ace_);
-  }
+  };
 
   const handleSave = () => {
-    let newText = ace.getValue();
+    const newText = ace.getValue();
     if (onSave) onSave(newText);
-  }
+  };
 
   const openPreview = () => {
     setPreview(epub.markdown2HTML(value));
-  }
+  };
 
   const closePreview = () => {
     setPreview(null);
-  }
+  };
 
   useEffect(() => {
     if (!isPreview && ace) {
       ace.textInput.focus();
-    } 
-  }, [preview])
+    }
+  }, [preview]);
 
   useEffect(() => {
     setValue(defaultValue);
-  }, [defaultValue])
+  }, [defaultValue]);
 
   return (
     <div className="ee-md-editor-con">
-      <div 
-        className="ee-md-editor" 
-        onKeyDown={getAceShortcutHandler(ace)}
-      >
+      <div className="ee-md-editor" onKeyDown={getAceShortcutHandler(ace)}>
         <MDToolBar
           ace={ace}
           isPreview={isPreview}
@@ -79,12 +70,8 @@ export function MarkdownEditor({
           closePreview={closePreview}
         />
 
-        <div data-scroll className="ee-md-editor-preview" style={{height}}>
-          {
-            isPreview
-            &&
-            <MarkdownPreviewer value={preview} className="p-4" />
-          }
+        <div data-scroll className="ee-md-editor-preview" style={{ height }}>
+          {isPreview && <MarkdownPreviewer value={preview} className="p-4" />}
 
           <MDTextArea
             id={id}
@@ -97,10 +84,7 @@ export function MarkdownEditor({
         </div>
       </div>
 
-      <ActionButtonGroup
-        onSave={handleSave}
-        onClose={onClose}
-      />
+      <ActionButtonGroup onSave={handleSave} onClose={onClose} />
     </div>
   );
 }

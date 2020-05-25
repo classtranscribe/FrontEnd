@@ -1,63 +1,64 @@
-import React from 'react'
-import { useHistory } from 'react-router'
-import { Button } from 'pico-ui'
+import React from 'react';
+import { useHistory } from 'react-router';
+import { Button } from 'pico-ui';
+import { util } from 'utils';
 
-import { mediaControl, setup } from '../../../Utils'
-import { util } from '../../../../../utils'
+import { mediaControl, setup } from '../../../Utils';
 
 function InlineButtons({
-  isUnavailable=false,
-  mediaName='',
+  isUnavailable = false,
+  mediaName = '',
   media,
-  show=false,
+  show = false,
 
   handleRename,
 }) {
-
-  const history = useHistory()
+  const history = useHistory();
   const handleWatch = () => {
-    let pathname = util.links.watch(media.id)
-    history.push(pathname)
-  }
+    let pathname = util.links.watch(media.id);
+    history.push(pathname);
+  };
 
   const handleDelete = async () => {
-    await mediaControl.deleteMedia(media)
-  }
+    await mediaControl.deleteMedia(media);
+  };
 
   const confirmDeletion = () => {
     setup.confirm({
-      text: <div>Are you sure to delete the video <span>{mediaName}</span> ?</div>,
-      onConfirm: handleDelete
-    })
-  }
+      text: (
+        <div>
+          Are you sure to delete the video <span>{mediaName}</span> ?
+        </div>
+      ),
+      onConfirm: handleDelete,
+    });
+  };
 
   return show ? (
     <div className="ip-video-opts ct-btn-group">
-      <Button round compact
+      <Button
+        round
+        compact
         classNames="ip-v-w-btn"
-        popup={isUnavailable ? "" : 'Watch'}
+        popup={isUnavailable ? '' : 'Watch'}
         icon="play_circle_filled"
         color="transparent"
         onClick={handleWatch}
         disabled={isUnavailable}
       />
 
-      <Button round compact
-        popup="Rename"
-        icon="edit"
-        color="light"
-        color="transparent"
-        onClick={handleRename}
-      />
+      <Button round compact popup="Rename" icon="edit" color="transparent" onClick={handleRename} />
 
-      <Button round compact
+      <Button
+        round
+        compact
         popup="Delete"
         icon="delete"
         color="transparent"
         onClick={confirmDeletion}
       />
     </div>
-  ) : null
+  ) : null;
 }
 
-export default InlineButtons
+export default InlineButtons;

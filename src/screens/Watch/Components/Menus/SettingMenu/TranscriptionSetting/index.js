@@ -1,92 +1,87 @@
-import React, { useState, useEffect } from 'react'
-import MenuRadio from '../MenuRadio'
-import { 
+import React, { useState, useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
+import { userAction } from 'utils';
+import {
   connectWithRedux,
-  transControl, 
-  preferControl, 
+  transControl,
+  preferControl,
   LINE_VIEW,
   TRANSCRIPT_VIEW,
-  HIDE_TRANS
-} from '../../../../Utils'
-import { userAction } from '../../../../../../utils'
-import { isMobile } from 'react-device-detect'
+  HIDE_TRANS,
+} from '../../../../Utils';
 
-function TranscriptionSetting({
-  show=false,
-  transView=LINE_VIEW,
-}) {
+import MenuRadio from '../MenuRadio';
 
-  const [autoScroll, setAutoScroll] = useState(preferControl.autoScroll())
-  const [pauseWhileEditing, setPauseWhileEditing] = useState(preferControl.pauseWhileEditing())
+function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
+  const [autoScroll, setAutoScroll] = useState(preferControl.autoScroll());
+  const [pauseWhileEditing, setPauseWhileEditing] = useState(preferControl.pauseWhileEditing());
 
   const openTranscript = () => {
-    transControl.handleOpenTrans()
-  }
+    transControl.handleOpenTrans();
+  };
 
   const openAutoScroll = () => {
     // console.error()
-    preferControl.autoScroll( !autoScroll )
-    userAction.autoScrollChange( !autoScroll )
-    setAutoScroll( !autoScroll )
-  }
+    preferControl.autoScroll(!autoScroll);
+    userAction.autoScrollChange(!autoScroll);
+    setAutoScroll(!autoScroll);
+  };
 
   const handlePauseWhileEditing = () => {
-    preferControl.pauseWhileEditing( !pauseWhileEditing )
-    userAction.pauseWhenEdit( !pauseWhileEditing )
-    setPauseWhileEditing( !pauseWhileEditing )
-  }
+    preferControl.pauseWhileEditing(!pauseWhileEditing);
+    userAction.pauseWhenEdit(!pauseWhileEditing);
+    setPauseWhileEditing(!pauseWhileEditing);
+  };
 
   const handleTransView = () => {
-    transControl.transView(transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW)
-  }
+    transControl.transView(transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW);
+  };
 
   useEffect(() => {
     if (show) {
-      document.getElementById('trans-settings').scrollIntoView({ block: 'center' })
+      document.getElementById('trans-settings').scrollIntoView({ block: 'center' });
     }
-  }, [show])
+  }, [show]);
 
   return (
     <form className="watch-menu-tab" id="trans-settings">
       <h2 className="watch-menu-tab-title">Transcriptions</h2>
       <div className="w-100">
-        <MenuRadio 
+        <MenuRadio
           id="trans-open-radio"
           checked={transView !== HIDE_TRANS}
-          label="Open Transcription" 
+          label="Open Transcription"
           onChange={openTranscript}
         />
-        <MenuRadio 
+        <MenuRadio
           id="trans-auto-scroll-radio"
-          label="Automatically scroll" 
+          label="Automatically scroll"
           onChange={openAutoScroll}
           checked={autoScroll}
         />
-        <MenuRadio 
+        <MenuRadio
           id="edit-pause-radio"
-          label="Pause video while editing captions" 
+          label="Pause video while editing captions"
           onChange={handlePauseWhileEditing}
           checked={pauseWhileEditing}
           description="Turn on to automatically pause video if you start to edit captions."
         />
       </div>
-      {
-        (transView !== HIDE_TRANS && !isMobile)
-        &&
+      {transView !== HIDE_TRANS && !isMobile && (
         <>
           <h3 className="watch-menu-tab-subtitle">Transcription Views</h3>
           <div className="w-100">
-            <MenuRadio 
+            <MenuRadio
               id="transcript-view-radio"
-              label="Transcript View" 
+              label="Transcript View"
               type="radio"
               onChange={handleTransView}
               checked={transView === TRANSCRIPT_VIEW}
               description="Default Transcription View."
             />
-            <MenuRadio 
+            <MenuRadio
               id="line-view-radio"
-              label="Caption Line View" 
+              label="Caption Line View"
               type="radio"
               onChange={handleTransView}
               checked={transView === LINE_VIEW}
@@ -94,13 +89,9 @@ function TranscriptionSetting({
             />
           </div>
         </>
-      }
+      )}
     </form>
-  )
+  );
 }
 
-export default connectWithRedux(
-  TranscriptionSetting,
-  ['transView'],
-  []
-)
+export default connectWithRedux(TranscriptionSetting, ['transView']);

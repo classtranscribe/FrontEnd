@@ -13,12 +13,19 @@
     max-width: 600px;
 
     .ct-ew-info {
+      display: flex;
+      flex-direction: column;
+
       .ct-ew-code {
         font-size: 150px;
         line-height: 150px;
         font-family: var(--ct-font-narrow);
         color: var(--ct-green-normal);
         font-weight: bold;
+
+        i {
+          font-size: 100px;
+        }
       }
 
       .ct-ew-descrip {
@@ -55,6 +62,23 @@
     .ct-ew-info {
       .ct-ew-code {
         color: var(--ct-text-highlight);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .ct-error-wrapper {
+    padding: 80px 10px 10px 10px;
+    justify-content: flex-start;
+    .ct-ew-body {
+      .ct-ew-info {
+        align-items: center;
+        .ct-ew-header {
+          text-align: center;
+          font-size: 20px;
+          margin-top: 0;
+        }
       }
     }
   }

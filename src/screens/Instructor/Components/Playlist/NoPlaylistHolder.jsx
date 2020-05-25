@@ -1,20 +1,18 @@
-import React from 'react'
-import { Button } from 'pico-ui'
-import { setup, NEW_PLAYLIST } from '../../Utils'
+import React from 'react';
+import { Button } from 'pico-ui';
+import { setup, NEW_PLAYLIST } from '../../Utils';
 
 function NoPlaylistHolder() {
-
   const createNewPlaylist = () => {
-    setup.changePlaylist(NEW_PLAYLIST, 0)
-  }
+    setup.changePlaylist(NEW_PLAYLIST, 0);
+  };
 
   return (
     <div className="ip-playlist-con ct-a-fade-in ip-create-new-con">
-      <div className="ip-create-new-text">
-
-      </div>
+      <div className="ip-create-new-text" />
       <div className="ip-create-new-btn">
-        <Button uppercase
+        <Button
+          uppercase
           text="Create Your First Playlist"
           color="teal"
           icon="add"
@@ -22,7 +20,7 @@ function NoPlaylistHolder() {
         />
       </div>
     </div>
-  )
+  );
 }
 
-export default NoPlaylistHolder
+export default NoPlaylistHolder;

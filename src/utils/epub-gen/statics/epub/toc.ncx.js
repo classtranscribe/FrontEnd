@@ -1,12 +1,13 @@
 import { dedent } from 'dentist';
 
 /**
- * 
+ *
  * @param {String} title ePub title
  * @param {String} author ePub author
- * @param {String} nav_points nav points
+ * @param {String} navPoints nav points
  */
-export const OEBPS_TOC_NCX = (title, author, nav_points) => dedent(`
+export const OEBPS_TOC_NCX = (title, author, navPoints) =>
+  dedent(`
 <?xml version="1.0" encoding="UTF-8"?>
 <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
     <head>
@@ -29,7 +30,7 @@ export const OEBPS_TOC_NCX = (title, author, nav_points) => dedent(`
             </navLabel>
             <content src="toc.xhtml"/>
         </navPoint>
-        ${nav_points}
+        ${navPoints}
     </navMap>
 </ncx>
 `);

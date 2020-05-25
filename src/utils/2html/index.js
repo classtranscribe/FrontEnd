@@ -1,8 +1,5 @@
-import { markdown2Html  } from './markdown';
-import { 
-  strList2Html,
-  plaintext2Html,
-} from './plaintext';
+import { markdown2Html } from './markdown';
+import { strList2Html, plaintext2Html } from './plaintext';
 
 /**
  * Parse raw texts to HTML

@@ -1,37 +1,36 @@
-import React from 'react'
-import { isMobile } from 'react-device-detect'
-import { Popup } from 'semantic-ui-react'
-import './index.css'
+import React from 'react';
+import { isMobile } from 'react-device-detect';
+import { Popup } from 'semantic-ui-react';
+import './index.css';
 import {
   // transControl,
   videoControl,
   timeStrToSec,
   prettierTimeStr,
-  WEBVTT_DESCRIPTIONS
-} from '../../../Utils'
+  WEBVTT_DESCRIPTIONS,
+} from '../../../Utils';
 
-export default function TranscriptText({
-  caption={},
-  isCurrent=false,
-}) {
-
-  const { text='', id, begin, index, kind } = caption
+export default function TranscriptText({ caption = {}, isCurrent = false }) {
+  const { text = '', id, begin, kind } = caption;
 
   const handleSeek = () => {
-    let time = timeStrToSec(begin)
-    videoControl.currTime(time)
-  }
+    const time = timeStrToSec(begin);
+    videoControl.currTime(time);
+  };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
-      handleSeek()
-    } 
-  }
+      handleSeek();
+    }
+  };
 
-  const timeStr = prettierTimeStr(begin)
+  const timeStr = prettierTimeStr(begin);
 
   return (
-    <Popup inverted wide basic
+    <Popup
+      inverted
+      wide
+      basic
       position="top left"
       openOnTriggerClick={false}
       openOnTriggerFocus
@@ -39,24 +38,27 @@ export default function TranscriptText({
       content={timeStr}
       disabled={isMobile}
       trigger={
-        <p 
-          id={`caption-line-${id}`} 
+        <div
+          id={`caption-line-${id}`}
           className="article-text"
           kind={kind}
+          role="button"
+          tabIndex="0"
           current={isCurrent.toString()}
           onClick={handleSeek}
-          //onDoubleClick={() => alert('tes')} // maybe for editing in the future ?
+          // onDoubleClick={() => alert('tes')} // maybe for editing in the future ?
           onKeyDown={handleKeyDown}
-          //tabIndex="0"
+          // tabIndex="0"
         >
-          {
-            kind === WEBVTT_DESCRIPTIONS 
-            && 
-            <span className="description-line-text-title">(Description)<br/></span>
-          }
+          {kind === WEBVTT_DESCRIPTIONS && (
+            <span className="description-line-text-title">
+              (Description)
+              <br />
+            </span>
+          )}
           {text}
-        </p>
+        </div>
       }
     />
-  )
+  );
 }

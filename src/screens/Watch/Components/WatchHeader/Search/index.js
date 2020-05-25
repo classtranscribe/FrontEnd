@@ -1,18 +1,11 @@
-import React from 'react'
-import { 
-  connectWithRedux,
-  searchControl, 
-  SEARCH_INIT
-} from '../../../Utils'
-import './index.css'
+import React from 'react';
+import { connectWithRedux, searchControl, SEARCH_INIT } from '../../../Utils';
+import './index.css';
 
-function Search({
-  search=SEARCH_INIT
-}) {
-
+function Search() {
   const handleOpenSearch = () => {
-    searchControl.openSearch()
-  }
+    searchControl.openSearch();
+  };
 
   return (
     <button
@@ -24,14 +17,13 @@ function Search({
       onClick={handleOpenSearch}
     >
       <span className="header-search-btn-content" tabIndex="-1">
-        <i aria-hidden="true" className="material-icons">search</i> Search
+        <i aria-hidden="true" className="material-icons">
+          search
+        </i>{' '}
+        Search
       </span>
     </button>
-  )
+  );
 }
 
-export default connectWithRedux(
-  Search,
-  ['search'],
-  []
-)
+export default connectWithRedux(Search);

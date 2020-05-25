@@ -1,0 +1,10 @@
+# editor configs
+.idea/
+.vscode/
+
+build/*
+nginx/*
+node_modules/*
+
+package.json
+write_env.js

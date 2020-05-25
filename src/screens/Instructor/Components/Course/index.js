@@ -1,72 +1,74 @@
-import React, { useEffect, useState, createRef } from 'react'
-import './index.css'
-import { 
+import React, { useEffect, useState, createRef } from 'react';
+import './index.css';
+import {
   connectWithRedux,
   setup,
   offControl,
-  filterControl, 
+  filterControl,
   NEW_OFFERING,
   // OFF_SETTINGS,
-} from '../../Utils'
+} from '../../Utils';
 
-import { PlaceHolder } from '../../../../components'
-import { EditCourse } from '../EditCourse'
+import { PlaceHolder } from '../../../../components';
+import { EditCourse } from '../EditCourse';
 
-import CourseInfo from './CourseInfo'
-import Playlists from './Playlists'
-import Analytics from './Analytics'
-import NoOfferingHolder from './NoOfferingHolder'
+import CourseInfo from './CourseInfo';
+import Playlists from './Playlists';
+import Analytics from './Analytics';
+import NoOfferingHolder from './NoOfferingHolder';
 
 function CourseWithRedux({
-  offering={},
-  playlists=[],
-  playlist={},
+  offering = {},
+  playlists = [],
+  playlist = {},
 
-  isEditingOffering=false,
+  isEditingOffering = false,
   setIsEditingOffering,
 
-  isViewingAnalytics=false,
+  isViewingAnalytics = false,
   setIsViewingAnalytics,
 }) {
-
-  const [results, setResults] = useState([])
-  const stickyContextRef = createRef()
+  const [results, setResults] = useState([]);
+  const stickyContextRef = createRef();
 
   const handleDelete = () => {
     setup.confirm({
-      text: <div>Are you sure to delete the course <span>{offering.courseName}</span> ?</div>,
-      onConfirm: () => offControl.deleteOffering(offering.id)
-    })
-  }
+      text: (
+        <div>
+          Are you sure to delete the course <span>{offering.courseName}</span> ?
+        </div>
+      ),
+      onConfirm: () => offControl.deleteOffering(offering.id),
+    });
+  };
 
-  const handlePlaylistClick = pl => () => {
-    setup.changePlaylist(pl)
-  }
+  const handlePlaylistClick = (pl) => () => {
+    setup.changePlaylist(pl);
+  };
 
   const handleEdit = () => {
-    offControl.offering(offering)
-    setIsEditingOffering(true)
+    offControl.offering(offering);
+    setIsEditingOffering(true);
     // setup.changePlaylist(OFF_SETTINGS)
-  }
+  };
 
   const viewAnalytics = () => {
-    setIsViewingAnalytics(true)
-  }
+    setIsViewingAnalytics(true);
+  };
 
-  const onFilter = value => filterControl.filterPlaylists(value, playlists, setResults)
-  const onReverse = () => filterControl.reverse(results, setResults)
-
+  const onFilter = (value) => filterControl.filterPlaylists(value, playlists, setResults);
+  const onReverse = () => filterControl.reverse(results, setResults);
 
   useEffect(() => {
     if (offering.courseNumber) {
       if (offering === NEW_OFFERING) return;
-      setup.setUpPlaylists(offering.id)
+      setup.setUpPlaylists(offering.id);
     }
-  }, [offering])
+  }, [offering]);
 
   useEffect(() => {
-    setup.setupPlaylist(setResults)
-  }, [playlists])
+    setup.setupPlaylist(setResults);
+  }, [playlists]);
 
   // useEffect(() => {
   //   if (results.length > 0) {
@@ -74,60 +76,50 @@ function CourseWithRedux({
   //   }
   // }, [results])
 
-
-  if (!offering.id) return <NoOfferingHolder />
+  if (!offering.id) return <NoOfferingHolder />;
   // if (offering === NEW_OFFERING) return <EditCourse newCourse />
-  if (isEditingOffering) return <EditCourse />
-  if (isViewingAnalytics) return <Analytics />
+  if (isEditingOffering) return <EditCourse />;
+  if (isViewingAnalytics) return <Analytics />;
 
   return (
     <div className="ip-course" ref={stickyContextRef}>
-      {
-        Boolean(offering.id && playlists.length > 0) ? <>
-        <div className="ct-a-fade-in ip-course-con" data-scroll>
-          {/* Course Info */}
-          <CourseInfo 
-            offering={offering}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-            viewAnalytics={viewAnalytics}
-            stickyContextRef={stickyContextRef}
-          />
+      {offering.id && playlists.length > 0 ? (
+        <>
+          <div className="ct-a-fade-in ip-course-con" data-scroll>
+            {/* Course Info */}
+            <CourseInfo
+              offering={offering}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              viewAnalytics={viewAnalytics}
+              stickyContextRef={stickyContextRef}
+            />
 
-          <Playlists
-            results={results}
-            playlist={playlist}
-            playlists={playlists}
-            onFilter={onFilter}
-            onReverse={onReverse}
-            handlePlaylistClick={handlePlaylistClick}
-          />
-        </div>
+            <Playlists
+              results={results}
+              playlist={playlist}
+              playlists={playlists}
+              onFilter={onFilter}
+              onReverse={onReverse}
+              handlePlaylistClick={handlePlaylistClick}
+            />
+          </div>
 
-
-        {/* Placeholder */}
-        </> : <>
+          {/* Placeholder */}
+        </>
+      ) : (
+        <>
           <div className="ip-c-placeholder">
             <PlaceHolder />
           </div>
         </>
-      }
-      
+      )}
     </div>
-  )
+  );
 }
 
 export const Course = connectWithRedux(
   CourseWithRedux,
-  [
-    'offering', 
-    'playlists', 
-    'playlist',
-    'isEditingOffering',
-    'isViewingAnalytics'
-  ],
-  [
-    'setIsEditingOffering',
-    'setIsViewingAnalytics'
-  ]
-)
+  ['offering', 'playlists', 'playlist', 'isEditingOffering', 'isViewingAnalytics'],
+  ['setIsEditingOffering', 'setIsViewingAnalytics'],
+);

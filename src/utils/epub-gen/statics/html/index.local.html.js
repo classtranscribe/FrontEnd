@@ -1,10 +1,4 @@
-export const LOCAL_INDEX_HTML = ({
-  title,
-  nav_contents,
-  content,
-  author,
-  cover
-}) => `<!DOCTYPE html>
+export const LOCAL_INDEX_HTML = ({ title, navContents, content, author, cover }) => `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -27,7 +21,7 @@ export const LOCAL_INDEX_HTML = ({
       <div id="toc_container">
         <h2 id="toc_title">Contents</h2>
         <div id="toc_list">
-          ${nav_contents}
+          ${navContents}
         </div>
       </div>
 
@@ -37,4 +31,4 @@ export const LOCAL_INDEX_HTML = ({
     </div>
   </body>
 </html>
-`
+`;

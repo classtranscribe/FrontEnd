@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
+import { util } from 'utils';
 import { ScrollArea } from 'components/ScrollArea';
-import { connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import { MarkdownPreviewer } from '../../Markdown';
 import './index.scss';
-import { util } from 'utils';
 
-var lastChapterId = null;
+let lastChapterId = null;
 
-
-function ChapterPreview({
-  currChapter
-}) {
-  let { text } = currChapter;
+function ChapterPreview({ currChapter }) {
+  const { text } = currChapter;
 
   useEffect(() => {
     if (currChapter && currChapter.id !== lastChapterId) {
@@ -21,21 +18,15 @@ function ChapterPreview({
   }, [currChapter]);
 
   return (
-    <ScrollArea 
-      id="msp-ee-sch-pview-con" 
+    <ScrollArea
+      id="msp-ee-sch-pview-con"
       className="msp-ee-sch-pview-con"
       scrollClassName="msp-ee-sch-pview-scroll"
-      scrollToTopButton="left"
+      scrollToTopButton="right top"
     >
-      <MarkdownPreviewer
-        value={text}
-        className="ee-sch-pview"
-      />
+      <MarkdownPreviewer value={text} className="ee-sch-pview" />
     </ScrollArea>
   );
 }
 
-export default connectWithRedux(
-  ChapterPreview,
-  ['currChapter']
-);
+export default connectWithRedux(ChapterPreview, ['currChapter']);

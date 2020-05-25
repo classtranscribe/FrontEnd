@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { epub, connectWithRedux } from 'screens/MediaSettings/Utils/epub';
+import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
-import EpubEditor from './EpubEditor'
+import EpubEditor from './EpubEditor';
 import Toolbar from './Toolbar';
 
-function EpubDownloader({
-  media,
-  chapters,
-}) {
-
+function EpubDownloader({ media, chapters }) {
   const [title, setTitle] = useState(media.mediaName);
   const [cover, setCover] = useState('');
   const [filename, setFilename] = useState(media.mediaName);
   const [author, setAuthor] = useState('Anonymous');
 
-  const onSaveTitle = value => setTitle(value);
-  const onSaveCover = value => setCover(value);
-  const onSaveAuthor = value => setAuthor(value);
-  const onSaveFilename = value => setFilename(value);
+  const onSaveTitle = (value) => setTitle(value);
+  const onSaveCover = (value) => setCover(value);
+  const onSaveAuthor = (value) => setAuthor(value);
+  const onSaveFilename = (value) => setFilename(value);
 
-  let screenshots = epub.getAllImagesInChapters(chapters);
+  const screenshots = epub.getAllImagesInChapters(chapters);
 
   useEffect(() => {
     if (media && media.mediaName) {
@@ -34,11 +30,7 @@ function EpubDownloader({
 
   return (
     <div className="msp-ee-step-con">
-      <EpubEditor
-        title={title}
-        chapters={chapters}
-        onSaveTitle={onSaveTitle}
-      />
+      <EpubEditor title={title} chapters={chapters} onSaveTitle={onSaveTitle} />
       <Toolbar
         cover={cover}
         title={title}
@@ -54,9 +46,4 @@ function EpubDownloader({
   );
 }
 
-export default connectWithRedux(
-  EpubDownloader,
-  ['chapters'],
-  [],
-  ['media']
-);
+export default connectWithRedux(EpubDownloader, ['chapters'], [], ['media']);

@@ -1,24 +1,23 @@
 import { cthttp } from './request';
 
-
 // ------------------------------------------------------------
 // SignIn
 // ------------------------------------------------------------
 
 export function accountSignIn(token, authMethod, callbackURL) {
-    return cthttp.post('Account/SignIn', {
-        token,
-        authMethod,
-        callbackURL
-    });
+  return cthttp.post('Account/SignIn', {
+    token,
+    authMethod,
+    callbackURL,
+  });
 }
 
 export function testSignIn() {
-    return cthttp.get('Account/TestSignIn');
+  return cthttp.get('Account/TestSignIn');
 }
 
 export function loginAsAccountSignIn(emailId) {
-    return cthttp.post('Account/LoginAs', { emailId });
+  return cthttp.post('Account/LoginAs', { emailId });
 }
 
 // ------------------------------------------------------------
@@ -26,9 +25,9 @@ export function loginAsAccountSignIn(emailId) {
 // ------------------------------------------------------------
 
 export function getUserMetaData() {
-    return cthttp.get('Account/GetUserMetadata/GetUserMetadata');
+  return cthttp.get('Account/GetUserMetadata/GetUserMetadata');
 }
 
-export function postUserMetaData(metadata={}, onboard={}) {
-    return cthttp.post('Account/PostUserMetadata/PostUserMetadata', { ...metadata, onboard });
+export function postUserMetaData(metadata = {}, onboard = {}) {
+  return cthttp.post('Account/PostUserMetadata/PostUserMetadata', { ...metadata, onboard });
 }

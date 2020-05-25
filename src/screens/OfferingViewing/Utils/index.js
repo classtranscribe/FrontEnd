@@ -1,1 +1,1 @@
-export { generateHomeUserGuide } from './user-guide'
+export { generateHomeUserGuide } from './user-guide';

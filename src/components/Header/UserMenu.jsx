@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from '@material-ui/core';
 
 import _ from 'lodash';
-import { user, api } from '../../utils';
+import { user, api } from 'utils';
 import { styles } from './styles';
 
 import MenuTrigger from './MenuTrigger';
@@ -10,18 +10,15 @@ import ProfileInfo from './ProfileInfo';
 import ProfileMenu from './ProfileMenu';
 import { SignInMenu } from './SignInMenu';
 
-function UserMenu({ 
-  darkMode 
-}) {
-
+function UserMenu({ darkMode }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [universities, setUniversities] = useState([]);
 
   useEffect(() => {
-    api.getUniversities().then( ({ data }) => setUniversities(data) );
-  }, [darkMode])
+    api.getUniversities().then(({ data }) => setUniversities(data));
+  }, [darkMode]);
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
 
@@ -29,20 +26,15 @@ function UserMenu({
     setTimeout(() => setAnchorEl(null), 200);
   };
 
-  const {
-    fullName='',
-    universityId,
-    picture,
-    emailId,
-    roles
-  } = user.getUserInfo({ allowLoginAsOverride: false });
+  const { fullName = '', universityId, picture, emailId, roles } = user.getUserInfo({
+    allowLoginAsOverride: false,
+  });
 
   let uni = _.find(universities, { id: universityId });
   let uniName = uni ? uni.name : '';
 
   const loginAsUserInfo = user.getLoginAsUserInfo();
-  let loginAsUserUni = _.find(universities, { id: loginAsUserInfo.universityId }) 
-                     || { name: '' };
+  let loginAsUserUni = _.find(universities, { id: loginAsUserInfo.universityId }) || { name: '' };
 
   const open = Boolean(anchorEl);
 
@@ -55,16 +47,14 @@ function UserMenu({
         handleClick={handleClick}
       />
 
-      {
-        user.isLoggedIn
-        ?
+      {user.isLoggedIn ? (
         /** Signed in menu */
         <Menu
           anchorEl={anchorEl}
           keepMounted
           open={open}
           onClose={handleClose}
-          PaperProps={{style: styles.menu}}
+          PaperProps={{ style: styles.menu }}
         >
           <ProfileInfo
             uniName={uniName}
@@ -78,16 +68,9 @@ function UserMenu({
 
           <ProfileMenu roles={roles} />
         </Menu>
-
-
-      : (
-        <SignInMenu
-          open={open}
-          anchorEl={anchorEl}
-          handleClose={handleClose}
-        />
-      )
-      }
+      ) : (
+        <SignInMenu open={open} anchorEl={anchorEl} handleClose={handleClose} />
+      )}
     </div>
   );
 }
