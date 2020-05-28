@@ -6,6 +6,7 @@ import './index.scss';
 import { ScrollArea } from 'components/ScrollArea';
 import { CTNavHeader, CTNavHeaderPropsTypes } from './CTNavHeader';
 import { CTNavSidebar, CTNavSidebarPropTypes } from './CTNavSidebar';
+import { createCTLayoutProps } from './create-layout-props';
 import NavSidebarTrigger from './NavSidebarTrigger';
 
 import {
@@ -134,7 +135,7 @@ export function CTLayout(props) {
   );
 }
 
-CTLayout.propTypes = {
+export const CTLayoutPropTypes = {
   /** Additional classes. */
   className: PropTypes.string,
 
@@ -165,3 +166,6 @@ CTLayout.propTypes = {
   /** Props to the sidebar */
   sidebarProps: PropTypes.shape(CTNavSidebarPropTypes)
 };
+
+CTLayout.propTypes = CTLayoutPropTypes;
+CTLayout.createProps = createCTLayoutProps;
