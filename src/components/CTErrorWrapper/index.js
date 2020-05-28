@@ -4,7 +4,7 @@ import { Button } from 'pico-ui';
 import { util, user } from 'utils';
 import './index.scss';
 
-import { ClassTranscribeHeader, SignInMenu } from 'components';
+import { CTNavHeader, SignInMenu } from 'components';
 
 const defaultError = {
   code: '404',
@@ -38,7 +38,7 @@ export function CTErrorWrapper({
 
   return show ? (
     <div className={`ct-error-wrapper${darkclass}`}>
-      {navbar && <ClassTranscribeHeader />}
+      {navbar && <CTNavHeader fixed />}
       <div className="ct-ew-body">
         <div className="ct-ew-info">
           <div className="ct-ew-code">{code}</div>
