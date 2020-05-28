@@ -26,7 +26,7 @@ export function CTNavSidebar(props) {
     items = getDefaultNSBItems();
   }
 
-  const sidebarClasses = classNames({ float, show, mini });
+  const sidebarClasses = classNames({ show, mini, float });
   const drawerClasses = classNames({ show, 'ct-nav-dark': darkMode });
 
   return (

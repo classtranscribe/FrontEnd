@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './index.scss';
@@ -7,6 +7,12 @@ import { ScrollArea } from 'components/ScrollArea';
 import { CTNavHeader, CTNavHeaderPropsTypes } from './CTNavHeader';
 import { CTNavSidebar, CTNavSidebarPropTypes } from './CTNavSidebar';
 import NavSidebarTrigger from './NavSidebarTrigger';
+
+import {
+  getDefaultSidebarType,
+  getScreenResizeListener,
+  handleOpenResponsiveSidebar
+} from './responsive';
 
 /**
  * A general page container with the nav header and sidebar
@@ -30,25 +36,40 @@ export function CTLayout(props) {
 
   let { float = false, mini = false } = sidebarProps;
 
-  const defaultSidebar = !defaultOpenSidebar ? null : float ? 'float' : mini ? 'mini' : 'normal';
+  let defaultSidebar = getDefaultSidebarType(responsive, defaultOpenSidebar, { float, mini });
   const [sidebar, setSidebar] = useState(defaultSidebar);
 
-  const isNormal = sidebar === 'normal';
-        const isMini = sidebar === 'mini';
-        const isFloat = sidebar === 'float';
-        const isOpen = Boolean(sidebar);
-        const isClose = !isOpen;
+  useEffect(() => {
+    if (responsive) {
+      const { 
+        addScreenResizeListener, 
+        removeScreenResizeListener 
+      } = getScreenResizeListener(defaultSidebar, setSidebar);
+      
+      addScreenResizeListener();
+
+      return removeScreenResizeListener;
+    }
+  }, []);
+
+  const isOpen = Boolean(sidebar);
+  const isClose = !isOpen;
+  const isNormal = isOpen && sidebar.includes('normal');
+  const isMini = isOpen && sidebar.includes('mini');
+  const isFloat = isOpen && sidebar.includes('float');
 
   const handleOpenSidebar = () => {
-    if (isMini) {
-      setSidebar('normal');
-    } else if (isNormal) {
-      setSidebar('mini');
-    } else if (isFloat) {
-      setSidebar(null);
-    } else if (isClose) {
-      setSidebar(float ? 'float' : mini ? 'mini' : 'normal');
-    }
+    if (responsive) {
+      handleOpenResponsiveSidebar(setSidebar);
+    } else if (isMini) {
+        setSidebar('normal');
+      } else if (isNormal) {
+        setSidebar('mini');
+      } else if (isFloat) {
+        setSidebar(null);
+      } else if (isClose) {
+        setSidebar(float ? 'float' : mini ? 'mini' : 'normal');
+      }
   };
 
   const brandElemProps = {
