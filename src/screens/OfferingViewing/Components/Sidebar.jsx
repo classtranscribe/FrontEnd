@@ -34,7 +34,7 @@ function currentActiveKey() {
   }
 }
 
-export function Sidebar({ state: { displaySideBar }, showSiderBar }) {
+export function Sidebar({ state: { displaySideBar }, handleShowSidebar }) {
   let activeKey = currentActiveKey();
   let isLoggedIn = user.isLoggedIn;
 
@@ -50,7 +50,7 @@ export function Sidebar({ state: { displaySideBar }, showSiderBar }) {
 
   const style = { marginLeft: displaySideBar ? '0' : '-20rem' };
 
-  const handleTabChange = () => showSiderBar(window.innerWidth > 900);
+  const handleTabChange = () => handleShowSidebar(window.innerWidth > 900);
 
   return (
     <aside className="op-sidebar" style={style}>

@@ -5,7 +5,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Route, Switch } from 'react-router-dom';
-import { SidebarDimmer } from 'components';
+import { SidebarDimmer, CTLayout } from 'components';
 import { api, user } from 'utils';
 import './transition.css';
 import './index.css';
@@ -113,7 +113,7 @@ export class OfferingViewing extends React.Component {
     this.setState({ offerings });
   };
 
-  showSiderBar = (value) => {
+  handleShowSidebar = (value) => {
     if (typeof value === 'boolean') this.setState({ displaySideBar: value });
     else this.setState((prevState) => ({ displaySideBar: !prevState.displaySideBar }));
   };
@@ -141,6 +141,15 @@ export class OfferingViewing extends React.Component {
     this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata());
   };
 
+  getLayoutProps() {
+    return {
+      transition: true,
+      defaultOpenSidebar: true,
+      headerProps: {},
+      sidebarProps: {}
+    }
+  }
+
   render() {
     const { displaySideBar, displaySearchHeader, offerings } = this.state;
     // the padding style of the content when sidebar is not floating
@@ -152,19 +161,8 @@ export class OfferingViewing extends React.Component {
     return (
       <Route
         render={({ location }) => (
-          <div className="sp-bg" ref={this.listen}>
-            <SidebarDimmer
-              show={displaySideBar && window.innerWidth < 900}
-              onClose={() => this.showSiderBar(false)}
-            />
-            <SearchHeader
-              displaySearchHeader={displaySearchHeader}
-              showSiderBar={this.showSiderBar}
-              display={displaySideBar}
-            />
-            <Sidebar {...this} />
-
-            <main id="sp-content" className="sp-content" style={paddingLeft} data-scroll>
+          <CTLayout {...this.getLayoutProps()}>
+            <div id="sp-content" className="sp-content">
               <Switch location={location}>
                 {/* Unauthed home page */}
                 <Route exact path="/home" render={(props) => <Home {...props} {...this} />} />
@@ -192,8 +190,8 @@ export class OfferingViewing extends React.Component {
                   render={(props) => <Analytics {...props} {...this.state} />}
                 />
               </Switch>
-            </main>
-          </div>
+            </div>
+          </CTLayout>
         )}
       />
     );
