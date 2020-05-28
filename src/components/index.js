@@ -11,7 +11,7 @@ import './index.css';
 
 export { CTLayout } from './CTLayout';
 export { CTNavHeader } from './CTLayout/CTNavHeader';
-export { SignInMenu } from './Header/SignInMenu';
+export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
 
 export { ClassTranscribeFooter } from './Footer';
 
