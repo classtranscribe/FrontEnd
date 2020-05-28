@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 
 export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components';
 
+export const AdminHeading = ({ name }) => <><h1>{name}</h1><hr /></>;
+
 /**
  * List Item component for Admin Page
  * @param header header for a list item

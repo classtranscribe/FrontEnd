@@ -7,7 +7,7 @@ import { Route } from 'react-router-dom';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import CourseEditing from './CourseEditing';
-import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components';
+import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
 
 export default function CoursePane(props) {
   const { universities, courseCurrUni, courseCurrDeparts, courseCurrDepart, courses } = props.state;
@@ -20,7 +20,8 @@ export default function CoursePane(props) {
 
   return (
     <Tab.Pane attached={false} className="ap-list">
-      <Route path="/admin/course/:type?=:id" component={CourseEditing} />
+      <AdminHeading name="Course Templates" />
+      <Route path="/admin/course-template/:type?=:id" component={CourseEditing} />
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -62,7 +63,7 @@ export default function CoursePane(props) {
         <GeneralAlert type="selectDepart" open fixed />
       ) : (
         <>
-          <CreateNewButton name="Create New Course" path="course" id={currDepart.id} />
+          <CreateNewButton name="Create New Course" path="course-template" id={currDepart.id} />
 
           <Divider horizontal>All Courses</Divider>
           {(courses || [])
@@ -71,7 +72,7 @@ export default function CoursePane(props) {
             .map((course) => (
               <AdminListItem
                 header={`${currDepart.acronym}${course.courseNumber}`}
-                path="course"
+                path="course-template"
                 id={course.id}
                 key={course.id}
               />

@@ -7,7 +7,7 @@ import { Route } from 'react-router-dom';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import DepartmentEditing from './DepartmentEditing';
-import { CreateNewButton, AdminListItem, GeneralAlert } from '../Components';
+import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
 
 export default function DepartPane(props) {
   const { departments, universities, departCurrUni } = props.state;
@@ -16,7 +16,8 @@ export default function DepartPane(props) {
 
   return (
     <Tab.Pane attached={false} className="ap-list">
-      <Route path="/admin/depart/:type?=:id" component={DepartmentEditing} />
+      <AdminHeading name="Departments" />
+      <Route path="/admin/departments/:type?=:id" component={DepartmentEditing} />
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -37,7 +38,7 @@ export default function DepartPane(props) {
         <GeneralAlert type="selectUni" open fixed />
       ) : (
         <>
-          <CreateNewButton name="Create New Department" path="depart" id={currUni.id} />
+          <CreateNewButton name="Create New Department" path="departments" id={currUni.id} />
           <Divider horizontal>All Departments</Divider>
           {(departments || [])
             .slice()
@@ -45,7 +46,7 @@ export default function DepartPane(props) {
             .map((depart) => (
               <AdminListItem
                 header={depart.name}
-                path="depart"
+                path="departments"
                 id={depart.id}
                 key={depart.id}
                 items={[`Acronym: ${depart.acronym}`, currUni.name]}
