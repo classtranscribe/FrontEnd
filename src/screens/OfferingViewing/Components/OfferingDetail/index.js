@@ -116,20 +116,9 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
   }
 
   return offering.id ? (
-    <div className="offering-detail ct-a-fade-in">
+    <div className="offering-detail ct-a-fade-in" data-scroll>
       {/* Offering Info */}
       <div className="offering-info">
-        <div className="goback-container">
-          <Link
-            className="del-icon"
-            to={{
-              pathname,
-              state: { value: location.state ? location.state.searchedValue : '' },
-            }}
-          >
-            <Icon name="chevron left" /> Go Back
-          </Link>
-        </div>
 
         <h1 className="od-course-number">{offering.fullNumber}</h1>
 
