@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import { Provider } from 'react-redux';
 import { util } from 'utils';
 import { CTLayout } from 'components';
@@ -79,6 +80,7 @@ export class WatchWithRedux extends React.Component {
       transition: true,
       darkMode: true,
       fill: true,
+      logoBrand: isMobile,
       headerProps: {
         show: !isFullscreen,
         leftElem: <WatchHeaderLeftElem />,
