@@ -107,9 +107,4 @@
 }
 .search-bar .search-empty-result span {
   font-size: 1.1em;
-  color: rgb(71, 71, 71);
-}
-.search-bar .search-empty-result button {
-  margin-top: 20px;
-  width: 150px;
 }
