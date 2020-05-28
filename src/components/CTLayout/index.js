@@ -28,60 +28,88 @@ export function CTLayout(props) {
     sidebarProps = {}
   } = props;
 
-  let { float = false } = sidebarProps;
+  let { float = false, mini = false } = sidebarProps;
 
-  const [openSidebar, setOpenSidebar] = useState(defaultOpenSidebar);
-  const [floatSidebar, setFloatSidebar] = useState(float);
+  const defaultSidebar = !defaultOpenSidebar ? null : float ? 'float' : mini ? 'mini' : 'normal';
+  const [sidebar, setSidebar] = useState(defaultSidebar);
+
+  const isNormal = sidebar === 'normal';
+        const isMini = sidebar === 'mini';
+        const isFloat = sidebar === 'float';
+        const isOpen = Boolean(sidebar);
+        const isClose = !isOpen;
+
   const handleOpenSidebar = () => {
-    setOpenSidebar(openSidebar_ => !openSidebar_);
+    if (isMini) {
+      setSidebar('normal');
+    } else if (isNormal) {
+      setSidebar('mini');
+    } else if (isFloat) {
+      setSidebar(null);
+    } else if (isClose) {
+      setSidebar(float ? 'float' : mini ? 'mini' : 'normal');
+    }
   };
 
-  const headerBrandElem = NavSidebarTrigger({
+  const brandElemProps = {
     darkMode,
-    showSidebar: openSidebar,
+    showSidebar: isOpen,
     onSidebarTriggerClick: handleOpenSidebar,
-  });
+  };
+  const sidebarBrandElem = <NavSidebarTrigger {...brandElemProps} />;
+  brandElemProps.withTrigger = !isMini;
+  const headerBrandElem = isNormal 
+                        ? <div /> 
+                        : <NavSidebarTrigger {...brandElemProps} />;
 
-  const mainClasses = classNames(className);
-  const pageClasses = classNames('ct-layout-page', { fill });
-  const contentClasses = classNames(
-    'ct-layout-content', 
+  const containerClasses = classNames(className);
+  const mainClasses = classNames(
+    'ct-layout-main', 
     { 
+      fill,
       transition,
-      'padded-240': !float && openSidebar,
+      'padded-240': isNormal,
+      'padded-50': isMini,
     }
   );
 
+  const pageElement = fill 
+                    ? <div className="ct-layout-fill">{children}</div>
+                    : children;
+
   return (
-    <ScrollArea 
-      role={role}
+    <div 
       scrollToTopButton="bottom right"
-      id="ct-layout-main" 
-      className={mainClasses}
-      disabled={fill}
+      id="ct-layout-container" 
+      className={containerClasses}
     >
-      <CTNavHeader
-        {...headerProps}
-        sticky
+      <CTNavSidebar
+        {...sidebarProps}
         darkMode={darkMode}
-        brandElem={headerBrandElem}
+        show={isOpen}
+        float={isFloat}
+        mini={isMini}
+        transition={transition}
+        brandElem={sidebarBrandElem}
+        onClose={handleOpenSidebar}
       />
 
-      <div className={pageClasses}>
-        <CTNavSidebar
-          {...sidebarProps}
+      <ScrollArea 
+        role={role}
+        scrollToTopButton="bottom right"
+        scrollClassName={mainClasses}
+        disabled={fill}
+      >
+        <CTNavHeader
+          {...headerProps}
+          sticky
           darkMode={darkMode}
-          show={openSidebar}
-          float={floatSidebar}
-          transition={transition}
-          onClose={handleOpenSidebar}
+          brandElem={headerBrandElem}
         />
 
-        <div className={contentClasses}>
-          {children}
-        </div>
-      </div>
-    </ScrollArea>
+        {pageElement}
+      </ScrollArea>
+    </div>
   );
 }
 

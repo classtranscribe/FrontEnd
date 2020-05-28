@@ -5,13 +5,19 @@ import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 export function SidebarNavItems(props) {
   let {
     darkMode = false,
+    mini,
     items
   } = props;
 
   return (
     <div className="ct-nsb-ul">
       {items.map( item => (
-        <SidebarItem darkMode={darkMode} breakline={item === 'breakline'} {...item} />
+        <SidebarItem 
+          mini={mini}
+          darkMode={darkMode} 
+          breakline={item === 'breakline'} 
+          {...item}
+        />
       ))}
     </div>
   );
@@ -20,6 +26,9 @@ export function SidebarNavItems(props) {
 SidebarNavItems.propTypes = {
   /** Sidebar supports dark mode */
   darkMode: PropTypes.bool,
+
+  /** The sidebar supports a mini view */
+  mini: PropTypes.bool,
 
   /** Nav items */
   items: PropTypes.arrayOf(SidebarItemPropTypes)

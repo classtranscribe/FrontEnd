@@ -19,6 +19,7 @@ export function SidebarItem(props) {
     onClick,
     active = false,
     activeType = 'exact', // 'exact', 'default'
+    mini = false,
     items = [],
     reloadOnPathnameChange = false,
   } = props;
@@ -64,7 +65,7 @@ export function SidebarItem(props) {
       {itemActionElem}
 
       {
-        (active && hasItems)
+        (active && hasItems && !mini)
         &&
         <div className="ct-nsb-ul-sub">
           {items.map(item => <SidebarSubItem {...item} />)}
@@ -104,6 +105,9 @@ export const SidebarItemPropTypes = {
 
   /** Methods to deterine if the tab is active */
   activeType: PropTypes.oneOf(['starts', 'exact', 'default']),
+
+  /** The sidebar supports a mini view */
+  mini: PropTypes.bool,
 
   /** Sub-items of this tab */
   items: PropTypes.arrayOf(PropTypes.shape(SidebarSubItemPropTypes)),

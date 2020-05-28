@@ -8,23 +8,27 @@ import { CTBrand } from './CTNavHeader/CTBrand';
  */
 function NavSidebarTrigger(props) {
   let {
+    withTrigger = true,
     darkMode = false,
     showSidebar = true,
     onSidebarTriggerClick,
   } = props;
 
   return (
-    <>
-      <Button
-        round
-        id="ct-nav-header-sb-trigger"
-        icon="menu"
-        color="transparent"
-        onClick={onSidebarTriggerClick}
-      />
+    <div className="ct-nav-header-sb-trigger-con">
+      {
+        withTrigger
+        &&
+        <Button
+          round
+          icon="menu"
+          color="transparent"
+          onClick={onSidebarTriggerClick}
+        />
+      }
 
       <CTBrand darkMode={darkMode} />
-    </>
+    </div>
   )
 }
 
