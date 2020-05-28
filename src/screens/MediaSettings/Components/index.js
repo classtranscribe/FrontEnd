@@ -1,1 +1,1 @@
-export { MSPHeader } from './MSPHeader';
+export { MSPHeaderTabTitle } from './MSPHeaderTabTitle';
