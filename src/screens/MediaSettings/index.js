@@ -30,38 +30,35 @@ class MediaSettingsWithRedux extends React.Component {
     }
   }
 
-  getTabs() {
+  getLayoutProps() {
     let mediaId = this.mediaId;
     let transPath = util.links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
     let epubPath = util.links.instMediaSettings(mediaId, TAB_EPUB);
 
-    return [
-      {
-        text: 'ePub',
-        active: window.location.pathname === epubPath,
-        href: epubPath
-      },
-      {
-        text: 'Transcriptions',
-        active: window.location.pathname === transPath,
-        href: transPath
-      }
-    ]
-  }
-
-  getLayoutProps() {
-    return {
+    return CTLayout.createProps({
+      fill: true,
       transition: true,
+      sidebarProps: {
+        float: true,
+      },
       headerProps: {
         shadowed: true,
         subtitle: 'Media Settings',
         tabTitleElem: <MSPHeaderTabTitle />,
-        tabs: this.getTabs()
-      },
-      sidebarProps: {
-        float: true,
+        tabs: [
+          {
+            text: 'Transcriptions',
+            active: window.location.pathname === transPath,
+            href: transPath
+          },
+          {
+            text: 'ePub',
+            active: window.location.pathname === epubPath,
+            href: epubPath
+          }
+        ]
       }
-    }
+    });
   }
 
   render() {

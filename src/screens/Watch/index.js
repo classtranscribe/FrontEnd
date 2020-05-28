@@ -75,7 +75,7 @@ export class WatchWithRedux extends React.Component {
   };
 
   getLayoutProps({ isFullscreen, error }) {
-    return {
+    return CTLayout.createProps({
       transition: true,
       darkMode: true,
       fill: true,
@@ -87,7 +87,7 @@ export class WatchWithRedux extends React.Component {
       sidebarProps: {
         float: true
       }
-    }
+    });
   }
 
   render() {

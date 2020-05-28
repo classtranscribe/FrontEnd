@@ -42,17 +42,16 @@ export class InstructorWithRedux extends React.Component {
   }
 
   getLayoutProps() {
-    return {
-      transition: true,
+    return CTLayout.createProps({
       fill: true,
-      // defaultOpenSidebar: true,
+      transition: true,
       headerProps: {
         subtitle: 'Instructor',
       },
       sidebarProps: {
         float: true,
       }
-    }
+    });
   }
 
   render() {

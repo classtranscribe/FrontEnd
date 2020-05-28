@@ -133,15 +133,14 @@ export class Admin extends React.Component {
   };
 
   getLayoutProps() {
-    return {
+    return CTLayout.createProps({
       responsive: true,
       transition: true,
       defaultOpenSidebar: true,
       headerProps: {
         subtitle: 'Admin',
-      },
-      sidebarProps: {}
-    }
+      }
+    });
   }
 
   render() {

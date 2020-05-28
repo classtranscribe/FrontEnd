@@ -126,13 +126,11 @@ export class OfferingViewing extends React.Component {
   };
 
   getLayoutProps() {
-    return {
+    return CTLayout.createProps({
       transition: true,
-      defaultOpenSidebar: true,
       responsive: true,
-      headerProps: {},
-      sidebarProps: {}
-    }
+      defaultOpenSidebar: true,
+    });
   }
 
   render() {
