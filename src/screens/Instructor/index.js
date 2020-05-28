@@ -44,6 +44,7 @@ export class InstructorWithRedux extends React.Component {
   getLayoutProps() {
     return {
       transition: true,
+      fill: true,
       // defaultOpenSidebar: true,
       headerProps: {
         subtitle: 'Instructor',
@@ -55,17 +56,11 @@ export class InstructorWithRedux extends React.Component {
   }
 
   render() {
-    const { sidebar, loading, ordering } = this.props;
+    const { loading, ordering } = this.props;
 
     return (
       <CTLayout {...this.getLayoutProps()}>
         <div className="ip-bg">
-          <CTNavHeader
-            subtitle="Instructor"
-            handleShowSidebar={this.handleShowSidebar}
-            display={sidebar}
-          />
-
           <Sidebar handleShowSidebar={this.handleShowSidebar} />
 
           <div className="ip-container">
