@@ -100,11 +100,7 @@ export function CTLayout(props) {
                     : children;
 
   return (
-    <div 
-      scrollToTopButton="bottom right"
-      id="ct-layout-container" 
-      className={containerClasses}
-    >
+    <div id="ct-layout-container" className={containerClasses}>
       <CTNavSidebar
         {...sidebarProps}
         darkMode={darkMode}

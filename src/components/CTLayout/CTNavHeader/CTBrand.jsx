@@ -23,7 +23,7 @@ export function CTBrand(props) {
                 : textBrand;
 
   return (
-    <Link className={brandClasses} to={links.home()}>
+    <Link aria-label="Home" className={brandClasses} to={links.home()}>
       <img src={imgSrc} alt="ClassTranscribe Brand" />
     </Link>
   );

@@ -17,7 +17,7 @@ export function NavHeaderTabPanel(props) {
       </div>
 
       <div className="ct-nh-tabs-con">
-        {tabs.map(tab => <NavHeaderTab {...tab} />)}
+        {tabs.map(tab => <NavHeaderTab key={tab.text} {...tab} />)}
       </div>
     </div>
   );

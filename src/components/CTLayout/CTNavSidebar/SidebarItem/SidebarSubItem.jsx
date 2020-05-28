@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 export function SidebarSubItem(props) {
   let {
+    value,
     text,
     children,
     href,
@@ -28,13 +29,16 @@ export function SidebarSubItem(props) {
   const itemClasses = classNames('ct-nsb-li-sub', { active });
 
   return (
-    <div role="listitem" className={itemClasses}>
+    <div id={value} role="listitem" className={itemClasses}>
       {itemActionElem}
     </div>
   );
 }
 
 export const SidebarSubItemPropTypes = {
+  /** A unique value for each sidebar sub-item */
+  value: PropTypes.string.isRequired,
+
   /** Text content of the sub-item */
   text: PropTypes.string.isRequired,
 

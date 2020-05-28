@@ -11,6 +11,7 @@ import { SidebarSubItem, SidebarSubItemPropTypes } from './SidebarSubItem';
  */
 export function SidebarItem(props) {
   let {
+    value,
     darkMode,
     breakline,
     text,
@@ -38,20 +39,24 @@ export function SidebarItem(props) {
     href = items[0].href;
   }
 
+  const itemContentElem = (
+    <>
+      <i aria-hidden="true" className="material-icons">{icon}</i>
+      <span>{text}</span>
+    </>
+  );
+
   const itemActionElem = typeof onClick === 'function' ? (
     <button className="ct-nsb-li-content" onClick={onClick}>
-      <i className="material-icons">{icon}</i>
-      <span>{text}</span>
+      {itemContentElem}
     </button>
   ) : reloadOnPathnameChange ? (
     <a className="ct-nsb-li-content" href={href}>
-      <i className="material-icons">{icon}</i>
-      <span>{text}</span>
+      {itemContentElem}
     </a>
   ) : (
     <Link className="ct-nsb-li-content" to={href}>
-      <i className="material-icons">{icon}</i>
-      <span>{text}</span>
+      {itemContentElem}
     </Link>
   );
 
@@ -61,14 +66,14 @@ export function SidebarItem(props) {
   });
 
   return (
-    <div role="listitem" className={itemClasses}>
+    <div id={value} role="listitem" className={itemClasses}>
       {itemActionElem}
 
       {
         (active && hasItems && !mini)
         &&
-        <div className="ct-nsb-ul-sub">
-          {items.map(item => <SidebarSubItem {...item} />)}
+        <div className="ct-nsb-ul-sub" role="list">
+          {items.map(item => <SidebarSubItem key={item.value} {...item} />)}
         </div>
       }
     </div>
@@ -76,6 +81,9 @@ export function SidebarItem(props) {
 }
 
 export const SidebarItemPropTypes = {
+  /** A unique value for each sidebar item */
+  value: PropTypes.string,
+
   /** The sidebar item supports dark mode */
   darkMode: PropTypes.bool,
 

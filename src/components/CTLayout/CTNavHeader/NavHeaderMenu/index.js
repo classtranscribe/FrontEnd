@@ -73,7 +73,7 @@ function UserMenu(props) {
               emailId={emailId}
               fullName={fullName}
               isLoginAsAccount={user.isLoginAsAccount}
-              loginAsUserUni={loginAsUserUni}
+              loginAsUserUni={loginAsUserUni.name}
               loginAsEmailId={loginAsUserInfo.emailId}
             />
 

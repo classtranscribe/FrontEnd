@@ -27,6 +27,7 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @typedef {Object} CTNavSidebarItemProps
  * @property {Boolean} darkMode - The sidebar item supports dark mode
  * @property {Boolean} breakline - The item can represent a `<hr />`
+ * @property {String} value - A unique value for each sidebar item
  * @property {String} text - Text content of the sub-item
  * @property {*} children - Node content of the sub-item
  * @property {String} icon - True if show the sidebar

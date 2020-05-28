@@ -46,7 +46,7 @@ function ProfileInfo(props) {
               <br />
               <br />
               <span>You are accessing content of <strong>{loginAsEmailId}</strong></span><br />
-              <span>{loginAsUserUni.name}</span>
+              <span>{loginAsUserUni}</span>
               <br />
               <br />
             </>
@@ -58,12 +58,25 @@ function ProfileInfo(props) {
 }
 
 ProfileInfo.propTypes = {
+  /** University name of the user */
   uniName: PropTypes.string,
+
+  /** Profile image of the user */
   picture: PropTypes.string,
+
+  /** Full name of the user */
   fullName: PropTypes.string,
+
+  /** Email of the user */
   emailId: PropTypes.string,
+
+  /** True if is in the login-as-mode */
   isLoginAsAccount: PropTypes.bool,
+
+  /** The login-as user's univeristy */
   loginAsUserUni: PropTypes.string,
+
+  /** The login-as user's email  */
   loginAsEmailId: PropTypes.string,
 };
 
