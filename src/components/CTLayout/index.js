@@ -58,8 +58,8 @@ export function CTLayout(props) {
       className={mainClasses}
     >
       <CTNavHeader
-        sticky
         {...headerProps}
+        sticky
         darkMode={darkMode}
         brandElem={headerBrandElem}
       />

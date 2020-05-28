@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import './index.scss';
 
 import { CTBrand } from './CTBrand';
+import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
 
 /**
@@ -12,11 +13,14 @@ import UserMenu from './NavHeaderMenu';
 export function CTNavHeader(props) {
   let {
     // children
-    brandElem = null,
-    subtitle = null,
-    leftElem = null,
-    children = null,
-    rightElem = null,
+    brandElem,
+    subtitle,
+    leftElem,
+    children,
+    rightElem,
+    // tabs
+    tabs = [],
+    tabTitleElem,
     // profile menu
     showProfileMenu = true,
     // styles
@@ -24,6 +28,7 @@ export function CTNavHeader(props) {
     fixed = false,
     sticky = false,
     bordered = false,
+    shadowed = false,
   } = props;
 
   const hasExtenalBrandElem = Boolean(brandElem);
@@ -36,27 +41,36 @@ export function CTNavHeader(props) {
     'pl-3': !hasExtenalBrandElem,
     fixed,
     sticky,
-    bordered
+    bordered,
+    shadowed
   });
 
   return (
     <nav id="ct-nav-header" className={headerClasses}>
-      {/* Right Elem */}
-      <div className="ct-header-left-elem">
-        {brandElem}
+      <div id="ct-nh-primary">
+        {/* Right Elem */}
+        <div className="ct-header-left-elem">
+          {brandElem}
 
-        {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
+          {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
 
-        {leftElem}
+          {leftElem}
+        </div>
+
+        {/* Left Elem */}
+        <div className="ct-header-right-elem">
+          {children}
+          {rightElem}
+
+          {showProfileMenu && <UserMenu darkMode={darkMode} />}
+        </div>
       </div>
 
-      {/* Left Elem */}
-      <div className="ct-header-right-elem">
-        {children}
-        {rightElem}
-
-        {showProfileMenu && <UserMenu darkMode={darkMode} />}
-      </div>
+      {
+        tabs.length > 0
+        &&
+        <NavHeaderTabPanel tabs={tabs} tabTitleElem={tabTitleElem} />
+      }
     </nav>
   );
 }
@@ -76,6 +90,12 @@ export const CTNavHeaderPropsTypes = {
 
   /** Right side element */
   rightElem: PropTypes.node,
+
+  /** The Nav Header can have nav tabs */
+  tabs: NavHeaderTabPanelPropsTypes.tabs,
+
+  /** The Nav Header can have a title element for tabs */
+  tabTitleElem: NavHeaderTabPanelPropsTypes.tabTitleElem,
 
   /** The Nav Header supports profile menu */
   showProfileMenu: PropTypes.bool,

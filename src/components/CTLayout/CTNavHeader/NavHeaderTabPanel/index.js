@@ -1,0 +1,34 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import './index.scss';
+
+import { NavHeaderTab, NavHeaderTabPropTypes } from './NavHeaderTab';
+
+export function NavHeaderTabPanel(props) {
+  let {
+    tabs = [],
+    tabTitleElem,
+  } = props;
+
+  return (
+    <div className="ct-nh-tab-panel">
+      <div className="ct-nh-tab-title-con">
+        {tabTitleElem}
+      </div>
+
+      <div className="ct-nh-tabs-con">
+        {tabs.map(tab => <NavHeaderTab {...tab} />)}
+      </div>
+    </div>
+  );
+}
+
+export const NavHeaderTabPanelPropsTypes = {
+  /** Nav tab objects */
+  tabs: PropTypes.arrayOf(NavHeaderTabPropTypes),
+
+  /** The Nav Header can have a title element for tabs */
+  tabTitleElem: PropTypes.node,
+};
+
+NavHeaderTabPanel.propTypes = NavHeaderTabPanelPropsTypes;
