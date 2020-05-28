@@ -20,7 +20,6 @@ export class Admin extends React.Component {
     super(props);
     util.links.title('Admin');
     this.state = {
-      verticalSidebar: window.innerWidth > 700,
       loading: true,
 
       universities: [],
@@ -96,13 +95,6 @@ export class Admin extends React.Component {
      * 2. first load of values
      */
     this.getAll();
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 700 && this.state.verticalSidebar)
-        this.setState({ verticalSidebar: false });
-      else if (window.innerWidth >= 700 && !this.state.verticalSidebar)
-        this.setState({ verticalSidebar: true });
-    });
   }
 
   /**
@@ -142,6 +134,7 @@ export class Admin extends React.Component {
 
   getLayoutProps() {
     return {
+      responsive: true,
       transition: true,
       defaultOpenSidebar: true,
       headerProps: {

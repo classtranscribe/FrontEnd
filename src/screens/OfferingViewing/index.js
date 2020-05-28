@@ -26,9 +26,6 @@ export class OfferingViewing extends React.Component {
     this.isLoggedIn = user.isLoggedIn;
 
     this.state = {
-      displaySideBar: !((window.innerWidth < 900) /* || user.isLoggedIn */),
-      displaySearchHeader: !(window.innerWidth < 600),
-
       offerings: ['Unloaded'],
       watchHistory: this.isLoggedIn ? ['unloaded'] : [],
       watchHistoryJSON: {},
@@ -45,20 +42,6 @@ export class OfferingViewing extends React.Component {
      */
     this.getOfferingsByStudent();
     this.getUserMetadata();
-    /**
-     * 2. listen on window size for showing or hiding sidebar
-     */
-    window.addEventListener('resize', () => {
-      const { displaySideBar, displaySearchHeader } = this.state;
-      if (window.innerWidth < 600 && displaySearchHeader)
-        this.setState({ displaySearchHeader: false });
-      else if (window.innerWidth >= 600 && !displaySearchHeader)
-        this.setState({ displaySearchHeader: true });
-
-      if (window.innerWidth < 900 && displaySideBar) this.setState({ displaySideBar: false });
-      else if (window.innerWidth >= 900 && !displaySideBar /* && !user.isLoggedIn */)
-        this.setState({ displaySideBar: true });
-    });
   }
 
   getOfferingsByStudent = () => {
@@ -119,11 +102,6 @@ export class OfferingViewing extends React.Component {
     this.setState({ offerings });
   };
 
-  handleShowSidebar = (value) => {
-    if (typeof value === 'boolean') this.setState({ displaySideBar: value });
-    else this.setState((prevState) => ({ displaySideBar: !prevState.displaySideBar }));
-  };
-
   removeWatchHistory = (mediaId) => {
     const { watchHistory, watchHistoryJSON } = this.state;
     _.remove(watchHistory, { mediaId });
@@ -151,18 +129,14 @@ export class OfferingViewing extends React.Component {
     return {
       transition: true,
       defaultOpenSidebar: true,
+      responsive: true,
       headerProps: {},
       sidebarProps: {}
     }
   }
 
   render() {
-    const { displaySideBar, displaySearchHeader, offerings } = this.state;
-    // the padding style of the content when sidebar is not floating
-    const paddingLeft = {
-      paddingLeft:
-        displaySideBar && window.innerWidth > 900 ? '22rem' : displaySearchHeader ? '2rem' : '0rem',
-    };
+    const { offerings } = this.state;
 
     return (
       <Route
