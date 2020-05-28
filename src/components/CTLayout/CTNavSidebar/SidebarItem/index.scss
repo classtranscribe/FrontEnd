@@ -2,7 +2,13 @@
   width: 100%;
   border-left: 3px solid rgba(255, 255, 255, 0);
   transition: border 200ms linear, background 200ms linear;
-  background-color: white;
+  // background-color: white;
+
+  &.ct-nav-dark {
+    .ct-nsb-li-content {
+      color: white;
+    }
+  }
 
   &:hover {
     border-color: rgba(176, 199, 204, 0.116);

@@ -11,6 +11,7 @@ import { SidebarSubItem, SidebarSubItemPropTypes } from './SidebarSubItem';
  */
 export function SidebarItem(props) {
   let {
+    darkMode,
     breakline,
     text,
     href,
@@ -53,7 +54,10 @@ export function SidebarItem(props) {
     </Link>
   );
 
-  const itemClasses = classNames('ct-nsb-li', { active });
+  const itemClasses = classNames('ct-nsb-li', {
+    active,
+    'ct-nav-dark': darkMode
+  });
 
   return (
     <div role="listitem" className={itemClasses}>
@@ -71,6 +75,9 @@ export function SidebarItem(props) {
 }
 
 export const SidebarItemPropTypes = {
+  /** The sidebar item supports dark mode */
+  darkMode: PropTypes.bool,
+
   /** The item can represent a `<hr />` */
   breakline: PropTypes.bool,
 

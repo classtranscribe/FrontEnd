@@ -20,6 +20,7 @@ export function CTLayout(props) {
     darkMode = false,
     transition = false,
     responsive = false,
+    fill = false,
     // children
     children,
     // child props
@@ -42,6 +43,7 @@ export function CTLayout(props) {
   });
 
   const mainClasses = classNames(className);
+  const pageClasses = classNames('ct-layout-page', { fill });
   const contentClasses = classNames(
     'ct-layout-content', 
     { 
@@ -56,6 +58,7 @@ export function CTLayout(props) {
       scrollToTopButton="bottom right"
       id="ct-layout-main" 
       className={mainClasses}
+      disabled={fill}
     >
       <CTNavHeader
         {...headerProps}
@@ -64,7 +67,7 @@ export function CTLayout(props) {
         brandElem={headerBrandElem}
       />
 
-      <div className="ct-layout-page">
+      <div className={pageClasses}>
         <CTNavSidebar
           {...sidebarProps}
           darkMode={darkMode}
@@ -100,6 +103,9 @@ CTLayout.propTypes = {
 
   /** Sidebar can be responsive to the screen width */
   responsive: PropTypes.bool,
+
+  /** True if fill the whole page */
+  fill: PropTypes.bool,
   
   /** Page content */
   children: PropTypes.node,

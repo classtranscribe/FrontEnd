@@ -43,7 +43,7 @@ export function CTNavSidebar(props) {
           {
             items.length > 0 
             ? 
-              <SidebarNavItems items={items} />
+              <SidebarNavItems darkMode={darkMode} items={items} />
             :
             children
           }

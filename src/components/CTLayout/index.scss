@@ -9,6 +9,13 @@
     height: auto;
     overflow: auto;
 
+    &.fill {
+      height: 100%;
+      .ct-layout-content {
+        height: 100%;
+      }
+    }
+
     .ct-layout-content {
       width: 100%;
       overflow: auto;
