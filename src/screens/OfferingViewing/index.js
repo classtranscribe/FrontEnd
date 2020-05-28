@@ -5,14 +5,20 @@
 import React from 'react';
 import _ from 'lodash';
 import { Route, Switch } from 'react-router-dom';
-import { SidebarDimmer, CTLayout } from 'components';
+import { CTLayout } from 'components';
 import { api, user } from 'utils';
 import './transition.css';
 import './index.css';
 
-import { Sidebar, Home, Starred, History, Search, OfferingDetail, Analytics } from './Components';
+import { 
+  Home, 
+  Starred, 
+  History, 
+  Search, 
+  OfferingDetail, 
+  Analytics 
+} from './Components';
 
-import SearchHeader from './Components/SearchHeader';
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
