@@ -24,6 +24,7 @@
   width: 100%;
   height: auto;
   display: flex;
+  padding-left: 19em;
   flex-direction: row;
   transition: all 0.2s linear;
   -o-transition: all 0.2s linear;

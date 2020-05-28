@@ -115,7 +115,7 @@ function PlaylistWithRedux({
           {/* Playlist Info */}
           <Sticky
             pushing
-            offset={55}
+            offset={48}
             context={stickyContextRef}
             onStick={() => setIsTop(false)}
             onUnstick={() => setIsTop(true)}
