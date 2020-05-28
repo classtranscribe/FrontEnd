@@ -164,7 +164,7 @@ export class Admin extends React.Component {
     return (
       <CTLayout {...this.getLayoutProps()}>
         <div className="admin-bg">
-          {/* <Redirect exact path={util.links.admin()} to={routes[0].href} /> */}
+          <Route exact path={util.links.admin()} render={() => <Redirect to={routes[0].href} />} />
 
           {routes.map( route => (
             <Route
