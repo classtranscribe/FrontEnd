@@ -17,6 +17,7 @@ export function SidebarItem(props) {
     icon,
     onClick,
     active = false,
+    activeType = 'exact', // 'exact', 'default'
     items = [],
   } = props;
 
@@ -24,7 +25,11 @@ export function SidebarItem(props) {
 
   const hasItems = items.length > 0;
 
-  active = active || window.location.pathname.startsWith(href);
+  if (activeType === 'starts') {
+    active = window.location.pathname.startsWith(href);
+  } else if (activeType === 'exact') {
+    active = window.location.pathname === href;
+  }
 
   if (hasItems && items[0].href) {
     href = items[0].href;
@@ -80,6 +85,9 @@ export const SidebarItemPropTypes = {
 
   /** True if the tab is active */
   active: PropTypes.bool,
+
+  /** Methods to deterine if the tab is active */
+  activeType: PropTypes.oneOf(['starts', 'exact', 'default']),
 
   /** Sub-items of this tab */
   items: PropTypes.arrayOf(PropTypes.shape(SidebarSubItemPropTypes)),
