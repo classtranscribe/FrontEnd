@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Button } from 'pico-ui';
 import './index.scss';
 
+import { CTBrand } from '../CTNavHeader/CTBrand';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
 import { getDefaultNSBItems } from './default-sidebar-props';
@@ -10,12 +12,11 @@ import { getDefaultNSBItems } from './default-sidebar-props';
 export function CTNavSidebar(props) {
   let {
     show = true,
-    // children
     items = [],
     children,
-    // styles
     float = false,
     darkMode = false,
+    onClose,
   } = props;
 
   if (!items || items.length === 0) {
@@ -27,10 +28,18 @@ export function CTNavSidebar(props) {
 
   return (
     <div id="ct-nav-sidebar" className={sidebarClasses}>
-      <div className="ct-nsb-wrapper" />
-
+      <div className="ct-nsb-wrapper" onClick={onClose} />
       <div id="ct-nsb-drawer" className={drawerClasses}>
         <div id="ct-nsb-con">
+          {
+            float 
+            && 
+            <div className="ct-nsb-brand">
+              <CTBrand small darkMode={darkMode} />
+              <Button round icon="close" color="transparent" onClick={onClose} />
+            </div>
+          }
+
           {
             items.length > 0 
             ? 
@@ -59,6 +68,9 @@ export const CTNavSidebarPropTypes = {
 
   /** The sidebar supports dark mode */
   darkMode: PropTypes.bool,
+
+  /** Handle close the sidebar */
+  onClose: PropTypes.func
 };
 
 CTNavSidebar.propTypes = CTNavSidebarPropTypes;

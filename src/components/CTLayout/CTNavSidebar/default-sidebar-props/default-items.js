@@ -30,23 +30,27 @@ export const getDefaultNSBItems = () => {
   }
 
   if (isInstructor) {
-    nsbitems.push(createNSBItem(
+    let instItem = createNSBItem(
       'My Courses',
       'class',
       links.instructor(),
       'starts',
       getInstructorNavItems()
-    ));
+    );
+    instItem.reloadOnPathnameChange = true;
+    nsbitems.push(instItem);
   }
 
   if (isAdmin) {
-    nsbitems.push(createNSBItem(
+    let adminItem = createNSBItem(
       'Admin', 
       'supervisor_account', 
       links.admin(), 
       'starts',
       getAdminNavItems()
-    ));
+    );
+    adminItem.reloadOnPathnameChange = true;
+    nsbitems.push(adminItem);
   }
 
   return nsbitems;

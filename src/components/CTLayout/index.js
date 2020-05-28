@@ -71,6 +71,7 @@ export function CTLayout(props) {
           show={openSidebar}
           float={floatSidebar}
           transition={transition}
+          onClose={handleOpenSidebar}
         />
 
         <div className={contentClasses}>

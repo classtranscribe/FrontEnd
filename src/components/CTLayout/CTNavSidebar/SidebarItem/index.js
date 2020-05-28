@@ -19,6 +19,7 @@ export function SidebarItem(props) {
     active = false,
     activeType = 'exact', // 'exact', 'default'
     items = [],
+    reloadOnPathnameChange = false,
   } = props;
 
   if (breakline) return <hr />;
@@ -40,6 +41,11 @@ export function SidebarItem(props) {
       <i className="material-icons">{icon}</i>
       <span>{text}</span>
     </button>
+  ) : reloadOnPathnameChange ? (
+    <a className="ct-nsb-li-content" href={href}>
+      <i className="material-icons">{icon}</i>
+      <span>{text}</span>
+    </a>
   ) : (
     <Link className="ct-nsb-li-content" to={href}>
       <i className="material-icons">{icon}</i>
@@ -79,6 +85,9 @@ export const SidebarItemPropTypes = {
 
   /** Sub-item as a link */
   href: PropTypes.string,
+
+  /** True if reload the page when access */
+  reloadOnPathnameChange: PropTypes.bool,
 
   /** Sub-item as a button */
   onClick: PropTypes.func,

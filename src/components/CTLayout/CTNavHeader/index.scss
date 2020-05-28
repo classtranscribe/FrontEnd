@@ -46,22 +46,6 @@
     border-bottom: var(--ct-border-color);
   }
 
-  /* Sidebar trigger */
-  .ct-header-sidebar-trigger {
-    margin-left: .5em !important;
-  }
-  /* Brand */
-  .ct-header-brand {
-    width: auto;
-    height: auto;
-    margin-left: .5em;
-
-    img {
-      height: 28px;
-      width: 182px;
-    }
-  }
-
   /* Subtitle */
   .ct-h-subtitle {
     font-size: 1.6em;
@@ -159,6 +143,29 @@
 .profile img {
   margin-bottom: .5em;
   width: 4em;
+}
+
+/* Brand */
+.ct-header-brand {
+  width: auto;
+  height: max-content;
+  margin-left: .5em;
+  display: flex;
+
+  &.small img {
+    height: 20px;
+    width: 140px;
+  }
+
+  &.logo img {
+    height: 28px;
+    width: auto;
+  }
+
+  img {
+    height: 28px;
+    width: 182px;
+  }
 }
 
 .Mui-disabled[id=profile] {
