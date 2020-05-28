@@ -2,6 +2,7 @@ import { links } from 'utils/links';
 import { user } from 'utils/user';
 
 import { getAdminNavItems } from './admin-items';
+import { getInstructorNavItems } from './instructor-items';
 
 const createNSBItem = (text, icon, href, items=[]) => ({
   text,
@@ -28,11 +29,21 @@ export const getDefaultNSBItems = () => {
   }
 
   if (isInstructor) {
-    nsbitems.push(createNSBItem('My Courses', 'class', links.instructor(), getAdminNavItems()));
+    nsbitems.push(createNSBItem(
+      'My Courses',
+      'class', 
+      links.instructor(),
+      getInstructorNavItems()
+    ));
   }
 
   if (isAdmin) {
-    nsbitems.push(createNSBItem('Admin', 'supervisor_account', links.admin(), getAdminNavItems()));
+    nsbitems.push(createNSBItem(
+      'Admin', 
+      'supervisor_account', 
+      links.admin(), 
+      getAdminNavItems()
+    ));
   }
 
   return nsbitems;

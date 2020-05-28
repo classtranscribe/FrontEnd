@@ -1,6 +1,6 @@
 import { links } from 'utils/links';
 
-export const getAdminNavItems = () => {
+export const getInstructorNavItems = () => {
   return [
     {
       value: 'ip-nsb-courses',

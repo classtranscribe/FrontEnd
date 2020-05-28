@@ -22,7 +22,13 @@ export function SidebarItem(props) {
 
   if (breakline) return <hr />;
 
+  const hasItems = items.length > 0;
+
   active = active || window.location.pathname.startsWith(href);
+
+  if (hasItems && items[0].href) {
+    href = items[0].href;
+  }
 
   const itemActionElem = typeof onClick === 'function' ? (
     <button className="ct-nsb-li-content" onClick={onClick}>
@@ -43,7 +49,7 @@ export function SidebarItem(props) {
       {itemActionElem}
 
       {
-        (active && items.length > 0)
+        (active && hasItems)
         &&
         <div className="ct-nsb-ul-sub">
           {items.map(item => <SidebarSubItem {...item} />)}
