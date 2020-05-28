@@ -10,7 +10,7 @@
     overflow: auto;
 
     &.fill {
-      height: 100%;
+      height: calc(100% - 50px);
       .ct-layout-content {
         height: 100%;
       }
