@@ -1,0 +1,25 @@
+#ct-nav-header-sb-trigger {
+  margin-left: 5px;
+}
+
+#ct-layout-main {
+  .ct-layout-page {
+    display: flex;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+
+    .ct-layout-content {
+      width: 100%;
+      overflow: auto;
+
+      &.transition {
+        transition: padding 200ms linear;
+      }
+
+      &.padded-240 {
+        padding-left: 240px;
+      }
+    }
+  }
+}

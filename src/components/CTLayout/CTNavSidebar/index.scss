@@ -1,0 +1,47 @@
+#ct-nav-sidebar {
+  height: 100%;
+  width: 240px;
+  z-index: 1010;
+  position: fixed;
+  top: 0;
+  padding-top: 5em;
+  transition: transform 200ms linear;
+  transform: translateX(-240px);
+  visibility: hidden;
+
+  &.show {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  &.float {
+    padding-top: 0;
+    width: 100%;
+    position: fixed;
+    -webkit-position: fixed;
+    -moz-position: fixed;
+    z-index: -1;
+
+    &.show {
+      z-index: 2010;
+      display: block;
+      transform: translateY(0);
+    }
+  }
+
+  #ct-nsb-drawer {
+    width: 240px;
+    height: 100%;
+    background-color: #ffffff;
+
+    #ct-nsb-con {
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    &.ct-nav-dark {
+      background-color: black;
+    }
+  }
+}
