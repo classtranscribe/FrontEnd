@@ -5,14 +5,20 @@
 import React from 'react';
 import _ from 'lodash';
 import { Route, Switch } from 'react-router-dom';
-import { SidebarDimmer } from 'components';
+import { CTLayout } from 'components';
 import { api, user } from 'utils';
 import './transition.css';
 import './index.css';
 
-import { Sidebar, Home, Starred, History, Search, OfferingDetail, Analytics } from './Components';
+import { 
+  Home, 
+  Starred, 
+  History, 
+  Search, 
+  OfferingDetail, 
+  Analytics 
+} from './Components';
 
-import SearchHeader from './Components/SearchHeader';
 
 export class OfferingViewing extends React.Component {
   constructor(props) {
@@ -20,9 +26,6 @@ export class OfferingViewing extends React.Component {
     this.isLoggedIn = user.isLoggedIn;
 
     this.state = {
-      displaySideBar: !((window.innerWidth < 900) /* || user.isLoggedIn */),
-      displaySearchHeader: !(window.innerWidth < 600),
-
       offerings: ['Unloaded'],
       watchHistory: this.isLoggedIn ? ['unloaded'] : [],
       watchHistoryJSON: {},
@@ -39,20 +42,6 @@ export class OfferingViewing extends React.Component {
      */
     this.getOfferingsByStudent();
     this.getUserMetadata();
-    /**
-     * 2. listen on window size for showing or hiding sidebar
-     */
-    window.addEventListener('resize', () => {
-      const { displaySideBar, displaySearchHeader } = this.state;
-      if (window.innerWidth < 600 && displaySearchHeader)
-        this.setState({ displaySearchHeader: false });
-      else if (window.innerWidth >= 600 && !displaySearchHeader)
-        this.setState({ displaySearchHeader: true });
-
-      if (window.innerWidth < 900 && displaySideBar) this.setState({ displaySideBar: false });
-      else if (window.innerWidth >= 900 && !displaySideBar /* && !user.isLoggedIn */)
-        this.setState({ displaySideBar: true });
-    });
   }
 
   getOfferingsByStudent = () => {
@@ -113,11 +102,6 @@ export class OfferingViewing extends React.Component {
     this.setState({ offerings });
   };
 
-  showSiderBar = (value) => {
-    if (typeof value === 'boolean') this.setState({ displaySideBar: value });
-    else this.setState((prevState) => ({ displaySideBar: !prevState.displaySideBar }));
-  };
-
   removeWatchHistory = (mediaId) => {
     const { watchHistory, watchHistoryJSON } = this.state;
     _.remove(watchHistory, { mediaId });
@@ -141,59 +125,49 @@ export class OfferingViewing extends React.Component {
     this.setState({ starredOfferings, starredOfferingsJSON }, () => this.updateUserMetadata());
   };
 
+  getLayoutProps() {
+    return CTLayout.createProps({
+      transition: true,
+      responsive: true,
+      defaultOpenSidebar: true,
+    });
+  }
+
   render() {
-    const { displaySideBar, displaySearchHeader, offerings } = this.state;
-    // the padding style of the content when sidebar is not floating
-    const paddingLeft = {
-      paddingLeft:
-        displaySideBar && window.innerWidth > 900 ? '22rem' : displaySearchHeader ? '2rem' : '0rem',
-    };
+    const { offerings } = this.state;
 
     return (
       <Route
         render={({ location }) => (
-          <div className="sp-bg" ref={this.listen}>
-            <SidebarDimmer
-              show={displaySideBar && window.innerWidth < 900}
-              onClose={() => this.showSiderBar(false)}
-            />
-            <SearchHeader
-              displaySearchHeader={displaySearchHeader}
-              showSiderBar={this.showSiderBar}
-              display={displaySideBar}
-            />
-            <Sidebar {...this} />
+          <CTLayout {...this.getLayoutProps()}>
+            <Switch location={location}>
+              {/* Unauthed home page */}
+              <Route exact path="/home" render={(props) => <Home {...props} {...this} />} />
+              {/* Starred */}
+              <Route exact path="/home/starred" render={() => <Starred {...this} />} />
+              {/* History */}
+              <Route exact path="/home/history" render={() => <History {...this} />} />
+              {/* Offering Detail page */}
+              <Route
+                exact
+                path="/home/offering/:id"
+                render={() => <OfferingDetail {...this} />}
+              />
+              {/* Search Page */}
+              <Route
+                exact
+                path="/home/search"
+                render={(props) => <Search offerings={offerings} {...props} />}
+              />
 
-            <main id="sp-content" className="sp-content" style={paddingLeft} data-scroll>
-              <Switch location={location}>
-                {/* Unauthed home page */}
-                <Route exact path="/home" render={(props) => <Home {...props} {...this} />} />
-                {/* Starred */}
-                <Route exact path="/home/starred" render={() => <Starred {...this} />} />
-                {/* History */}
-                <Route exact path="/home/history" render={() => <History {...this} />} />
-                {/* Offering Detail page */}
-                <Route
-                  exact
-                  path="/home/offering/:id"
-                  render={() => <OfferingDetail {...this} />}
-                />
-                {/* Search Page */}
-                <Route
-                  exact
-                  path="/home/search"
-                  render={(props) => <Search offerings={offerings} {...props} />}
-                />
-
-                {/* Personal Report */}
-                <Route
-                  exact
-                  path="/home/personal-report"
-                  render={(props) => <Analytics {...props} {...this.state} />}
-                />
-              </Switch>
-            </main>
-          </div>
+              {/* Personal Report */}
+              <Route
+                exact
+                path="/home/personal-report"
+                render={(props) => <Analytics {...props} {...this.state} />}
+              />
+            </Switch>
+          </CTLayout>
         )}
       />
     );

@@ -16,10 +16,12 @@ function LoginAsUser() {
 
   return (
     <div id="ap-lsu" className="w-100">
-      <div className="w-100 ct-d-c-center pt-5">
+      <h1>Login As Account</h1>
+      <hr />
+      
+      <div className="w-100">
         {user.isLoginAsAccount ? (
           <div className="w-50">
-            <h2>LOGIN AS USER</h2>
             <div className="mb-3 text-dark">
               Signed in as <strong>{user.getLoginAsUserInfo().emailId}</strong>
             </div>
@@ -27,7 +29,6 @@ function LoginAsUser() {
           </div>
         ) : (
           <div className="w-50">
-            <h2>LOGIN AS USER</h2>
             <CTForm
               required
               value={emailId}

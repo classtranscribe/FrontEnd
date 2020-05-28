@@ -1,83 +1,21 @@
 /**
  * Stylesheet for Home screen
  */
- 
-.sp-home {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  padding-bottom: 2rem;
-}
 
 /* Content */
 
-.sp-home .hide {
+ .hide {
   display: none;}
   @keyframes fadeOut {
     0% {opacity: 1;}
     100% {opacity: 0;}}
 
-/* Filter */
-
-.sp-home .filter {
-  width: 100%;
-  margin-top: 1rem;
-  padding: .4em 1em 0 1em;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
-}
-@media screen and (max-width: 800px) {
-  .sp-home .filter {
-    padding: 0 !important;
-    position: relative;
-  }
-}
-
-.sp-home .filter .search-bar {
-  border-bottom: 1px solid rgb(228, 228, 228);
-  background: white;
-}
-.ui.stackable.grid>.row>.column[id=filter-search] {
-  padding-top: 0 !important;
-}
-.sp-home .filter .ui.selection.dropdown {
-  background: none !important;
-  border-top-left-radius: 5px !important;
-  border-top-right-radius: 5px !important;
-  border-color: transparent !important;
-}
-.sp-home .filter .ui.selection.active.dropdown .menu {
-  border-bottom-left-radius: 5px !important;
-  border-bottom-right-radius: 5px !important;
-}
-.sp-home .ui.default.dropdown:not(.button)>.text, .ui.dropdown:not(.button)>.default.text {
-  color: rgb(100, 100, 100) !important;
-}
-.sp-home .filter .ui.dropdown .menu>.item {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  -webkit-transition: all 0.2s linear;
-}
-.sp-home .filter .ui.dropdown .menu>.item:hover {
-  overflow: visible;
-  white-space: normal;
-}
-
-.sp-home .filter label {
-  color: rgb(37, 113, 116) !important;
-  padding-left: 1em;
-}
-
 
 /* Offering list */
 
-.sp-home .offering-list {
+.offering-list {
   margin-top: 0rem;
+  padding: 0 15px;
 }
 
 

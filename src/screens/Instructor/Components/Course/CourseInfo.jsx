@@ -15,7 +15,7 @@ export default function CourseInfo({
     <>
       <Sticky
         pushing
-        offset={53}
+        offset={48}
         context={stickyContextRef}
         onStick={() => setIsTop(false)}
         onUnstick={() => setIsTop(true)}

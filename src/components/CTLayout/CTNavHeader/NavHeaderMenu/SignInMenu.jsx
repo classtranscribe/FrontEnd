@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Menu, ListItemIcon, Typography, MenuItem } from '@material-ui/core';
 
 import { user, env } from 'utils';
 import { styles } from './styles';
 
-export function SignInMenu({ open, anchorEl, handleClose }) {
+export function SignInMenu(props) {
+  let { open, anchorEl, handleClose } = props;
+
   const auth0SignIn = () => user.signIn({ method: user.method.AUTH0 });
   const ciLogonSignIn = () => user.signIn({ method: user.method.CILOGON });
   const testSignIn = () => user.signIn({ method: user.method.TEST });
@@ -40,3 +43,14 @@ export function SignInMenu({ open, anchorEl, handleClose }) {
     </Menu>
   );
 }
+
+SignInMenu.propTypes = {
+  /** Show the sign-in menu */
+  open: PropTypes.bool,
+
+  /** Menu Element */
+  anchorEl: PropTypes.element,
+
+  /** Handle menu close */
+  handleClose: PropTypes.func
+};

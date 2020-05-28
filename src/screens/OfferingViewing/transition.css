@@ -19,13 +19,13 @@
 
 
 /* top in */
-.search-bar-enter {
+.sp-search-bar-enter {
   opacity: 0;
   transform: translateY(-40px) scaleX(1.03);
   -o-transform: translateY(-40px) scaleX(1.03);
   -webkit-transform: translateY(-40px) scaleX(1.03);
 }
-.search-bar-enter-active {
+.sp-search-bar-enter-active {
   opacity: 1;
   transform: translateX(0) scaleX(1);
   -o-transform: translateX(0) scaleX(1);

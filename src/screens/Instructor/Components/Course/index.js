@@ -1,4 +1,6 @@
 import React, { useEffect, useState, createRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { links } from 'utils/links';
 import './index.css';
 import {
   connectWithRedux,
@@ -70,11 +72,8 @@ function CourseWithRedux({
     setup.setupPlaylist(setResults);
   }, [playlists]);
 
-  // useEffect(() => {
-  //   if (results.length > 0) {
-  //     setup.playlistToView(location.hash.replace('#pid=', ''))
-  //   }
-  // }, [results])
+  const { pathname } = useLocation();
+  if (pathname === links.instNewOffering()) return null;
 
   if (!offering.id) return <NoOfferingHolder />;
   // if (offering === NEW_OFFERING) return <EditCourse newCourse />

@@ -2,16 +2,11 @@
  * Stylesheet for ClassTranscribe Header
  */
 
-.ct-nav {
+#ct-nav-header {
   position: relative;
   opacity: 1;
-  top: 0;
   width: 100%;
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  height: max-content;
   z-index: 1020;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: #ffffff;
@@ -33,26 +28,31 @@
 
   &.fixed {
     position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  &.sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
   }
 
   &.bordered {
     border-bottom: var(--ct-border-color);
   }
 
-  /* Sidebar trigger */
-  .ct-header-sidebar-trigger {
-    margin-left: .5em !important;
+  &.shadowed {
+    box-shadow: 0 0 10px rgba(165, 185, 187, 0.308);
   }
-  /* Brand */
-  .ct-header-brand {
-    width: auto;
-    height: auto;
-    margin-left: .5em;
 
-    img {
-      height: 28px;
-      width: 182px;
-    }
+  #ct-nh-primary {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   /* Subtitle */
@@ -154,6 +154,29 @@
   width: 4em;
 }
 
+/* Brand */
+.ct-header-brand {
+  width: auto;
+  height: max-content;
+  margin-left: .5em;
+  display: flex;
+
+  &.small img {
+    height: 20px;
+    width: 140px;
+  }
+
+  &.logo img {
+    height: 28px;
+    width: auto;
+  }
+
+  img {
+    height: 28px;
+    width: 170px;
+  }
+}
+
 .Mui-disabled[id=profile] {
   opacity: 1 !important;
 }
@@ -161,7 +184,7 @@
 
 
 @media screen and (max-width: 600px) {
-  .ct-nav {
+  #ct-nav-header {
     .ct-nav-light {
       box-shadow: none;
     }

@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import React, { useEffect, useState, createRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Sticky } from 'semantic-ui-react';
 import { PlaceHolder } from 'components';
-import { util } from 'utils';
+import { links } from 'utils/links';
 
 import {
   connectWithRedux,
@@ -61,11 +62,11 @@ function PlaylistWithRedux({
   // Current selected media
   const [currMedia, setCurrMedia] = useState('');
   const openMedia = (me) => () => {
-    util.links.pushSearch({ mid: me.id });
+    links.pushSearch({ mid: me.id });
     setCurrMedia(me);
   };
   const closeMedia = () => {
-    util.links.pushSearch({ mid: undefined });
+    links.pushSearch({ mid: undefined });
     setCurrMedia({});
   };
 
@@ -85,18 +86,21 @@ function PlaylistWithRedux({
     if (currMedia.id) closeMedia();
 
     // if mid is specified in the url
-    const { mid } = util.links.useSearch();
+    const { mid } = links.useSearch();
     if (mid && playlist.medias && playlist.medias.length > 0) {
       const requestMedia = _.find(playlist.medias, { id: mid });
       if (requestMedia) {
         openMedia(requestMedia)();
       } else {
         // if the mid is incorrect, remove mid from url
-        util.links.pushSearch({ mid: null });
+        links.pushSearch({ mid: null });
       }
     }
   }, [playlist]);
 
+  const { pathname } = useLocation();
+
+  if (pathname === links.instNewOffering()) return null;
   // Conditions not display playlist
   if (isEditingOffering || isViewingAnalytics) return null;
   if (!offering.id) return null;
@@ -115,7 +119,7 @@ function PlaylistWithRedux({
           {/* Playlist Info */}
           <Sticky
             pushing
-            offset={55}
+            offset={48}
             context={stickyContextRef}
             onStick={() => setIsTop(false)}
             onUnstick={() => setIsTop(true)}

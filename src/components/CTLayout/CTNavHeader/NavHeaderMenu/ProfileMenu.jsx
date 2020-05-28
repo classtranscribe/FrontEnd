@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ListItemIcon, Typography, MenuItem } from '@material-ui/core';
 
 import { util, user } from 'utils';
@@ -30,7 +31,9 @@ const menuItems = [
   },
 ];
 
-export default function ProfileMenu({ roles }) {
+function ProfileMenu(props) {
+  let { roles } = props;
+
   const onContactUs = () => {
     window.location = links.contactUs();
   };
@@ -88,3 +91,10 @@ export default function ProfileMenu({ roles }) {
     </>
   );
 }
+
+ProfileMenu.propTypes = {
+  /** Roles of the user */
+  roles: PropTypes.arrayOf(PropTypes.string)
+};
+
+export default ProfileMenu;

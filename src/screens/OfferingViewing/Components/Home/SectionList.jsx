@@ -49,7 +49,7 @@ export default function SectionList({
   const onFilter = departSelected.length > 0 || termSelected.length > 0;
 
   return (
-    <div className="offering-list" role="list">
+    <div className="offering-list ct-a-fade-in" role="list">
       {/* Starred */}
       {!onFilter && (
         <Section

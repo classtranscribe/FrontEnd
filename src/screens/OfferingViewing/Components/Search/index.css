@@ -1,17 +1,16 @@
-.sp-content .search-bar[id=search-bar] {
+.sp-search-bar[id=sp-search-bar] {
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   width: 100%;
-  height: 100vh;
   padding: 2rem;}
-  .sp-content .search-bar[id=search-bar] .ui.sticky.fixed.top {
+  .sp-search-bar[id=sp-search-bar] .ui.sticky.fixed.top {
     top: 5rem !important;}
     @media screen and (max-width: 600px) {
-      .sp-content .search-bar[id=search-bar] {
+      .sp-search-bar[id=sp-search-bar] {
         padding: 2rem 0rem;
       }
     }
-.sp-content .search-bar[id=search-bar] h1 {
+.sp-search-bar[id=sp-search-bar] h1 {
   color: rgb(56, 56, 56);
   padding: 10px 20px;
   position: sticky;
@@ -21,55 +20,56 @@
   display: flex;
   align-items: center;
 }
-.sp-content .search-bar .input {
-  width: 100%;}
-  .search-bar[id=search-bar] input {
+.sp-search-bar .input {
+  width: 100%;
+}
+  .sp-search-bar[id=sp-search-bar] input {
     min-height: 3em;
   }
-.search-bar .del-icon {
+.sp-search-bar .del-icon {
   margin-bottom: 1rem;}
   @media screen and (max-width: 600px) {
     .del-icon {
       margin-left: 1em;
     }
   }
-.sp-content .search-bar .sb-input {
+.sp-search-bar .sb-input {
   width: 100%;
   padding: 2%;}
   @media screen and (max-width: 600px) {
-    .sp-content .search-bar .sb-input {
+    .sp-search-bar .sb-input {
       border-bottom: 1px solid rgb(226, 226, 226);}
   }
-.sp-content .search-bar .result {
+.sp-search-bar .result {
   width: 100%;
   padding: 1rem;}
-  .sp-content .search-bar .result .resultItem {
+  .sp-search-bar .result .resultItem {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
     margin: 0rem 1rem;}
-  .sp-content .search-bar .result a {
+  .sp-search-bar .result a {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
     font-size: 25px;
     color: rgb(48, 134, 134);}
-    .sp-content .search-bar .result a:hover {
+    .sp-search-bar .result a:hover {
       text-decoration: underline;}
-  .sp-content .search-bar .result .offering-name {
+  .sp-search-bar .result .offering-name {
     color: rgb(69, 90, 92);
     font-size: 20px;
     font-weight: bold;
     margin: 0;}
-  .sp-content .search-bar .result .offering-description {
+  .sp-search-bar .result .offering-description {
     margin-top: 0;
     color: rgb(77, 77, 77);
     font-size: 1rem;}
-  .sp-content .search-bar .result .offering-section {
+  .sp-search-bar .result .offering-section {
     color: rgb(9, 73, 73);
   }
   @media screen and (max-width: 600px) {
-    .sp-content .search-bar .result {
+    .sp-search-bar .result {
       padding: 0.2rem;}
-      .sp-content .search-bar .result .resultItem {
+      .sp-search-bar .result .resultItem {
         padding: 0.5rem 0.5rem;
       }
   }
@@ -85,32 +85,27 @@
 .header-search:focus-within {
   width: 20em;
 }
-.header-search>input::placeholder, .search-bar input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.header-search>input::placeholder, .sp-search-bar input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(126, 126, 126) !important;
   font-size: 1.1em;
   opacity: 1; /* Firefox */
 }
-.header-search>input, .search-bar input {
+.header-search>input, .sp-search-bar input {
   border: 0 !important;
   border-radius: .3em !important;
   background-color: rgb(241, 241, 241) !important;
 }
-.header-search>input:focus, .search-bar input:focus {
+.header-search>input:focus, .sp-search-bar input:focus {
   background-color: rgb(228, 237, 238) !important;
 }
 
-.search-bar .search-empty-result {
+.sp-search-bar .search-empty-result {
   width: 100%;
   height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.search-bar .search-empty-result span {
+.sp-search-bar .search-empty-result span {
   font-size: 1.1em;
-  color: rgb(71, 71, 71);
-}
-.search-bar .search-empty-result button {
-  margin-top: 20px;
-  width: 150px;
 }

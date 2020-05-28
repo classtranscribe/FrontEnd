@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
 
-import { ClassTranscribeHeader } from 'components';
+import { CTNavHeader, CTLayout } from 'components';
 import { util } from 'utils';
 
 import { instpStore, connectWithRedux, setup, plControl, offControl, mediaControl } from './Utils';
@@ -28,7 +28,7 @@ export class InstructorWithRedux extends React.Component {
     mediaControl.init(props);
   }
 
-  showSiderBar = (value) => {
+  handleShowSidebar = (value) => {
     const { setSidebar, sidebar } = this.props;
     if (typeof value === 'boolean') {
       setSidebar(value);
@@ -41,40 +41,45 @@ export class InstructorWithRedux extends React.Component {
     setup.setupOfferings();
   }
 
+  getLayoutProps() {
+    return CTLayout.createProps({
+      fill: true,
+      transition: true,
+      headerProps: {
+        subtitle: 'Instructor',
+      },
+      sidebarProps: {
+        float: true,
+      }
+    });
+  }
+
   render() {
-    const { sidebar, loading, ordering } = this.props;
-    const paddingLeft = {
-      paddingLeft: sidebar && window.innerWidth > 900 ? '19em' : '0',
-    };
+    const { loading, ordering } = this.props;
 
     return (
-      <div className="ip-bg">
-        <ClassTranscribeHeader
-          subtitle="Instructor"
-          showSiderBar={this.showSiderBar}
-          display={sidebar}
-        />
+      <CTLayout {...this.getLayoutProps()}>
+        <div className="ip-bg">
+          <Sidebar handleShowSidebar={this.handleShowSidebar} />
 
-        <Sidebar showSiderBar={this.showSiderBar} />
+          <div className="ip-container">
+            <Route path="/instructor/new-offering" component={NewCourse} />
+            <Route
+              path="/instructor/:offId"
+              render={() => (
+                <>
+                  <Course />
+                  <Playlist />
+                </>
+              )}
+            />
 
-        <main className="ip-container" style={paddingLeft}>
-          <Route path="/instructor/new-offering" component={NewCourse} />
-          <Route
-            path="/instructor/:offId"
-            render={() => (
-              <>
-                <Course />
-                <Playlist />
-              </>
-            )}
-          />
-          {/* <Route path='/instructor/:offeringId' render={props => <Course />} /> */}
-
-          <Confirmation />
-          {Boolean(loading.type) && <Loader />}
-          {Boolean(ordering.type) && <OrderingModal />}
-        </main>
-      </div>
+            <Confirmation />
+            {Boolean(loading.type) && <Loader />}
+            {Boolean(ordering.type) && <OrderingModal />}
+          </div>
+        </div>
+      </CTLayout>
     );
   }
 }

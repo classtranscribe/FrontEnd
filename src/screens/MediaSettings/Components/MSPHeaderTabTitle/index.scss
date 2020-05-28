@@ -1,0 +1,16 @@
+.msp-me-name {
+  color: rgb(58, 58, 58);
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  line-height: 20px;
+  font-family: var(--ct-font-narrow);
+  max-width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  &:hover {
+    color: var(--ct-green-normal);
+  }
+}

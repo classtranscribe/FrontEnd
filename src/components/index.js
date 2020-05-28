@@ -9,8 +9,11 @@ import './stylesheets/csstrans.playlist-video.css';
 import './stylesheets/sk-loader.css';
 import './index.css';
 
-export { ClassTranscribeHeader } from './Header';
-export { SignInMenu } from './Header/SignInMenu';
+export { CTLayout } from './CTLayout';
+export { CTNavHeader } from './CTLayout/CTNavHeader';
+export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
+export { SignInPrompt } from './SignInPrompt';
+
 export { ClassTranscribeFooter } from './Footer';
 
 export { Poster } from './Poster';

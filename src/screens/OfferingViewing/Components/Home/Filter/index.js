@@ -7,13 +7,13 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Dropdown, Form, Grid } from 'semantic-ui-react';
 import { util } from 'utils';
+import './index.css';
 
 function Filter({
   state,
   onUniSelected,
   onDepartSelected,
   onTermSelected,
-  displaySearchHeader,
   history,
 }) {
   const { universities, departments, terms, uniSelected } = state;
@@ -21,41 +21,15 @@ function Filter({
   // get selecting options
   const uniOptions = util.getSelectOptions(universities);
   const termOptions = util.getSelectOptions((terms || []).slice().reverse(), 'term');
-  const departOptions =
-    departments[0] === 'unloaded' ? [] : util.getSelectOptions(departments, 'depart');
-
-  const [searchValue, setSearchValue] = useState('');
-  const handleOnKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      setSearchValue('');
-      history.push(util.links.search(), { value: searchValue });
-    }
-  };
+  const departOptions = departments[0] === 'unloaded' 
+                      ? [] 
+                      : util.getSelectOptions(departments, 'depart');
 
   const termStyle = terms.length ? {} : { display: 'none' };
   return (
-    <div className="filter">
+    <div className="sp-filter ct-a-fade-in">
       <Form>
         <Grid stackable columns="equal">
-          {!displaySearchHeader && (
-            <Grid.Row className="search-bar">
-              <Grid.Column id="filter-search">
-                <div className="ui icon input" style={{ width: '100%' }}>
-                  <input
-                    type="text"
-                    className="prompt"
-                    aria-label="Search for courses"
-                    value={searchValue}
-                    onChange={({ target: { value } }) => setSearchValue(value)}
-                    placeholder="Search for Courses ..."
-                    onKeyDown={handleOnKeyDown}
-                  />
-                  <i aria-hidden="true" className="search icon" />
-                </div>
-              </Grid.Column>
-            </Grid.Row>
-          )}
-
           <Grid.Row>
             <Grid.Column>
               <Form.Field

@@ -1,22 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import { Image } from 'semantic-ui-react';
 
 
-function MenuTrigger({
-  picture,
-  isLoggedIn,
-  usernameInitial,
-  handleClick
-}) {
+function MenuTrigger(props) {
+  let {
+    picture,
+    isLoggedIn,
+    usernameInitial,
+    handleClick
+  } = props;
+
   return !isLoggedIn ? (
-    <Button uppercase
+    <Button
+      uppercase
       color="teal"
       text="Sign in"
       onClick={handleClick}
     />
   ) : picture ? (
-    <Image circular
+    <Image
+      circular
       role="button"
       size="mini"
       tabIndex={0}
@@ -44,5 +49,19 @@ function MenuTrigger({
     </div>
   );
 }
+
+MenuTrigger.propTypes = {
+  /** User profile image */
+  picture: PropTypes.string,
+
+  /** True if the user is logged in */
+  isLoggedIn: PropTypes.bool,
+
+  /** Initial letter of the user's name */
+  usernameInitial: PropTypes.string,
+
+  /** Handle menu trigger click */
+  handleClick: PropTypes.func
+};
 
 export default MenuTrigger;

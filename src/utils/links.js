@@ -69,8 +69,9 @@ export class ClassTranscribeLinks {
   /**
    * to `/admin`
    */
-  admin() {
-    return '/admin';
+  admin(tab = '') {
+    if (tab) tab = `/${ tab}`;
+    return `/admin${ tab}`;
   }
 
   /**

@@ -1,5 +1,4 @@
-import React from 'react';
-import { ClassTranscribeHeader } from 'components';
+import React, { Fragment } from 'react';
 import { connectWithRedux, SEARCH_INIT, SEARCH_HIDE } from '../../Utils';
 import './index.css';
 import './Buttons/index.css';
@@ -12,32 +11,30 @@ import ShareTrigger from './Buttons/ShareTrigger';
 import GuideTrigger from './Buttons/GuideTrigger';
 import Search from './Search';
 
-export function WatchHeaderWithRedux({
-  isFullscreen = false,
-  search = SEARCH_INIT,
-  plain = false,
-}) {
+
+function WatchHeaderRightElemWithRedux(props) {
+  let {
+    search = SEARCH_INIT,
+    plain = false,
+  } = props;
+
   const showButtons = search.status === SEARCH_HIDE && !plain;
 
-  return isFullscreen ? null : (
-    <ClassTranscribeHeader
-      darkMode
-      showProfileMenu={search.status === SEARCH_HIDE}
-      leftElem={<MediaInfo />}
-      rightElem={
-        !showButtons ? null : (
-          <>
-            <Search />
-            <ShortcutsTableTrigger />
-            <ShareTrigger />
-            <DownloadMenuTrigger />
-            <GuideTrigger />
-            <PlaylistMenuTrigger />
-          </>
-        )
-      }
-    />
-  );
-}
+  return showButtons ? (
+    <>
+      <Search />
+      <ShortcutsTableTrigger />
+      <ShareTrigger />
+      <DownloadMenuTrigger />
+      <GuideTrigger />
+      <PlaylistMenuTrigger />
+    </>
+  ) : null;
+};
 
-export const WatchHeader = connectWithRedux(WatchHeaderWithRedux, ['isFullscreen', 'search']);
+export const WatchHeaderRightElem = connectWithRedux(
+  WatchHeaderRightElemWithRedux, 
+  ['isFullscreen', 'search']
+);
+
+export const WatchHeaderLeftElem = MediaInfo;

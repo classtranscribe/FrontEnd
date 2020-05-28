@@ -5,6 +5,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { util } from 'utils';
+import { CTLayout } from 'components';
 import {
   watchStore,
   connectWithRedux,
@@ -22,7 +23,8 @@ import './zIndex.css';
 
 import {
   ErrorWrapper,
-  WatchHeader,
+  WatchHeaderLeftElem,
+  WatchHeaderRightElem,
   Menus,
   Modals,
   ClassTranscribePlayer,
@@ -33,6 +35,7 @@ import {
   UpNext,
   TransCtrlButtons,
 } from './Components';
+
 
 export class WatchWithRedux extends React.Component {
   constructor(props) {
@@ -71,37 +74,64 @@ export class WatchWithRedux extends React.Component {
     watchUserGuide.start();
   };
 
+  getLayoutProps({ isFullscreen, error }) {
+    return CTLayout.createProps({
+      transition: true,
+      darkMode: true,
+      fill: true,
+      headerProps: {
+        show: !isFullscreen,
+        leftElem: <WatchHeaderLeftElem />,
+        rightElem: <WatchHeaderRightElem plain={error} />
+      },
+      sidebarProps: {
+        float: true
+      }
+    });
+  }
+
   render() {
     const { error } = this.state;
+    const { isFullscreen } = this.props;
+    const layoutProps = this.getLayoutProps({ isFullscreen, error });
 
     return (
-      <main className="watch-bg" id="watch-page">
-        {error ? (
-          <>
-            <WatchHeader plain />
-            <ErrorWrapper error={error} />
-          </>
-        ) : (
-          <>
-            <TabEventHelperButtons />
-            <Modals />
-            <WatchHeader />
-            <Search />
-            <Menus />
-            <ClassTranscribePlayer />
-            <UpNext />
-            <TransCtrlButtons />
-            <Transcriptions />
-            <ControlBar />
-          </>
-        )}
-      </main>
+      <CTLayout {...layoutProps}>
+        <div className="watch-bg" id="watch-page">
+          {
+            error ? (
+              <ErrorWrapper error={error} />
+            ) : (
+              <>
+                <TabEventHelperButtons />
+                <Modals />
+                {/* <WatchHeader /> */}
+                <Search />
+                <Menus />
+                <ClassTranscribePlayer />
+                <UpNext />
+                <TransCtrlButtons />
+                <Transcriptions />
+                <ControlBar />
+              </>
+            )
+          }
+        </div>
+      </CTLayout>
     );
   }
 }
 
 export function Watch(props) {
-  const WatchConnectToRedux = connectWithRedux(WatchWithRedux, ['media', 'playlist'], ['all']);
+  const WatchConnectToRedux = connectWithRedux(
+    WatchWithRedux, 
+    [
+      'media', 
+      'playlist',
+      'isFullscreen'
+    ], 
+    ['all']
+  );
 
   return (
     <Provider store={watchStore}>

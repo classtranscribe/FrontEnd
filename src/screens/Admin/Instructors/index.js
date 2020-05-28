@@ -10,7 +10,7 @@ import { api, prompt } from '../../../utils';
 // UI
 import InstructorEditing from './InstructorEditing';
 import InstructorList from './InstructorList';
-import { CreateNewButton, GeneralAlert } from '../Components';
+import { CreateNewButton, GeneralAlert, AdminHeading } from '../Components';
 
 export default function InstructorPane({ state: { universities }, getSelectOptions }) {
   const [instructors, setInstructors] = useState([]); // 'unset'
@@ -51,7 +51,9 @@ export default function InstructorPane({ state: { universities }, getSelectOptio
 
   return (
     <Tab.Pane attached={false} className="ap-list" loading={false}>
-      <Route path="/admin/instructor/:type?=:id" component={InstructorEditing} />
+      <AdminHeading name="Instructors" />
+
+      <Route path="/admin/instructors/:type?=:id" component={InstructorEditing} />
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
@@ -72,7 +74,7 @@ export default function InstructorPane({ state: { universities }, getSelectOptio
         <GeneralAlert type="selectUni" open fixed />
       ) : (
         <>
-          <CreateNewButton name="Add New Instructor" path="instructor" id={currUni.id} />
+          <CreateNewButton name="Add New Instructor" path="instructors" id={currUni.id} />
           <Divider horizontal>All Instructors</Divider>
           <InstructorList
             loading={loading}

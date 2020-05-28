@@ -2,13 +2,13 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
 import { util, api } from 'utils';
-import { CTErrorWrapper } from 'components';
+import { CTErrorWrapper, CTLayout } from 'components';
 import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './controllers';
 
-import withMSPReduxProvider from './controllers/msp-redux-provider';
-
-import { MSPHeader } from './Components';
+import { MSPHeaderTabTitle } from './Components';
 import { EPub } from './Tabs';
+
+import withMSPReduxProvider from './controllers/msp-redux-provider';
 
 import './index.scss';
 
@@ -28,6 +28,37 @@ class MediaSettingsWithRedux extends React.Component {
     } else {
       api.contentLoaded();
     }
+  }
+
+  getLayoutProps() {
+    let mediaId = this.mediaId;
+    let transPath = util.links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
+    let epubPath = util.links.instMediaSettings(mediaId, TAB_EPUB);
+
+    return CTLayout.createProps({
+      fill: true,
+      transition: true,
+      sidebarProps: {
+        float: true,
+      },
+      headerProps: {
+        shadowed: true,
+        subtitle: 'Media Settings',
+        tabTitleElem: <MSPHeaderTabTitle />,
+        tabs: [
+          {
+            text: 'Transcriptions',
+            active: window.location.pathname === transPath,
+            href: transPath
+          },
+          {
+            text: 'ePub',
+            active: window.location.pathname === epubPath,
+            href: epubPath
+          }
+        ]
+      }
+    });
   }
 
   render() {
@@ -52,17 +83,18 @@ class MediaSettingsWithRedux extends React.Component {
         />
       </div>
     ) : (
-      <div className="msp-bg">
-        <MSPHeader />
+      <CTLayout {...this.getLayoutProps()}>
+        <div className="msp-bg">
 
-        <div className="msp-content">
-          <Route exact path={mspPath} render={() => <Redirect to={transPath} />} />
+          <div className="msp-content">
+            <Route exact path={mspPath} render={() => <Redirect to={transPath} />} />
 
-          <Route path={epubPath} component={EPub} />
+            <Route path={epubPath} component={EPub} />
 
-          {/* <Route path={transPath} component={} /> */}
+            {/* <Route path={transPath} component={} /> */}
+          </div>
         </div>
-      </div>
+      </CTLayout>
     );
   }
 }

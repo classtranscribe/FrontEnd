@@ -2,7 +2,7 @@
  * Home sub-screen for Offering Viewing screen
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import _ from 'lodash';
 // UI
 import { ClassTranscribeFooter, MaintenanceMessage } from 'components';
@@ -105,21 +105,18 @@ export class Home extends React.Component {
     const { displaySearchHeader, starredOfferings, offerings } = state;
 
     return (
-      <div className="sp-home ct-a-fade-in">
-        <div id="home-content">
-          <h1 className="accessbility_hide">ClassTranscribe Home - Courses</h1>
-          <MaintenanceMessage />
-          <Filter {...this} displaySearchHeader={displaySearchHeader} />
-          <SectionList
-            {...this}
-            offerings={offerings}
-            starOffering={starOffering}
-            unstarOffering={unstarOffering}
-            starredOfferings={starredOfferings}
-          />
-          <ClassTranscribeFooter />
-        </div>
-      </div>
+      <>
+        <MaintenanceMessage />
+        <Filter {...this} displaySearchHeader={displaySearchHeader} />
+        <SectionList
+          {...this}
+          offerings={offerings}
+          starOffering={starOffering}
+          unstarOffering={unstarOffering}
+          starredOfferings={starredOfferings}
+        />
+        <ClassTranscribeFooter />
+      </>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-// UI
-import { List, Button } from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { SignInPrompt } from 'components';
 import { util, user } from 'utils';
 
 function SearchResult({ loading, results, searchValue }) {
@@ -35,15 +35,13 @@ function SearchResult({ loading, results, searchValue }) {
       {results.length === 0 && (
         <div className="search-empty-result">
           {user.isLoggedIn ? (
-            <span>No Results</span>
+            <div>No Results</div>
           ) : (
-            <>
-              <span>Cannot Find Your Courses?</span>
-              <span>Sign In to See More</span>
-              <Button compact onClick={() => user.signIn()}>
-                Sign In
-              </Button>
-            </>
+            <SignInPrompt
+              topDescription={
+                <>Can&#39;t find your courses? <br />Sign in to see more.</>
+              }
+            />
           )}
         </div>
       )}
