@@ -17,10 +17,13 @@ export const getDefaultNSBItems = () => {
   let nsbitems = [
     // homepage
     createNSBItem('Home', 'home', links.home(), 'exact'),
-    createNSBItem('Search', 'search', links.search()),
-    createNSBItem('History', 'history', links.history()),
-    createNSBItem('Analytics', 'bar_chart', links.personalAnalytics()),
+    createNSBItem('Search', 'search', links.search())
   ];
+
+  if (user.isLoggedIn) {
+    nsbitems.push(createNSBItem('History', 'history', links.history()));
+    nsbitems.push(createNSBItem('Analytics', 'bar_chart', links.personalAnalytics()));
+  }
 
   const isInstructor = user.isInstructor;
   const isAdmin = user.isAdmin;

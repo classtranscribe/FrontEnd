@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { user } from 'utils/user';
 import { Button } from 'pico-ui';
 import './index.scss';
 
+import { SignInPrompt } from '../../SignInPrompt';
 import { CTBrand } from '../CTNavHeader/CTBrand';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
 import { getDefaultNSBItems } from './default-sidebar-props';
+
 
 export function CTNavSidebar(props) {
   let {
@@ -46,6 +49,16 @@ export function CTNavSidebar(props) {
               <SidebarNavItems darkMode={darkMode} items={items} />
             :
             children
+          }
+
+          {
+            !user.isLoggedIn
+            &&
+            <SignInPrompt
+              topDescription={
+                <>Can&#39;t find your courses? <br />Sign in to see more.</>
+              }
+            />
           }
         </div>
       </div>
