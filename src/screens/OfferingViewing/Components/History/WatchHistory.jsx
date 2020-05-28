@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { VideoCard, PlaceHolder } from 'components';
 import { util, api, prompt } from 'utils';
 
@@ -20,23 +20,28 @@ export default function WatchHistory({ offerings }) {
   }, []);
 
   return (
-    <div className="watch-history">
-      <h2 className="history-title">
+    <>
+      <h2 className="history-title ct-a-fade-in">
         <i className="material-icons">history</i>
         <span>Watch History</span>
       </h2>
-      {watchHistory.length === 0 || offerings[0] === 'retry' ? (
-        <div>None</div>
-      ) : watchHistory[0] === 'unloaded' || offerings[0] === 'Unloaded' ? (
-        <PlaceHolder />
-      ) : (
-        <div role="list" className="ct-list-col ct-a-fade-in">
-          {watchHistory.map((media, index) => (
-            <MediaItem key={`wh-${index}-${media.id}`} media={media} offerings={offerings} />
-          ))}
-        </div>
-      )}
-    </div>
+      <div className="watch-history-ul">
+        {
+          watchHistory.length === 0 || offerings[0] === 'retry' 
+          ? (
+            <div>None</div>
+          ) : watchHistory[0] === 'unloaded' || offerings[0] === 'Unloaded' ? (
+            <PlaceHolder />
+          ) : (
+            <div role="list" className="ct-list-col ct-a-fade-in">
+              {watchHistory.map((media, index) => (
+                <MediaItem key={`wh-${index}-${media.id}`} media={media} offerings={offerings} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </>
   );
 }
 

@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Dropdown, Form, Grid } from 'semantic-ui-react';
 import { util } from 'utils';
+import './index.css';
 
 function Filter({
   state,
@@ -34,11 +35,11 @@ function Filter({
 
   const termStyle = terms.length ? {} : { display: 'none' };
   return (
-    <div className="filter">
+    <div className="sp-filter ct-a-fade-in">
       <Form>
         <Grid stackable columns="equal">
           {!displaySearchHeader && (
-            <Grid.Row className="search-bar">
+            <Grid.Row className="sp-search-bar">
               <Grid.Column id="filter-search">
                 <div className="ui icon input" style={{ width: '100%' }}>
                   <input

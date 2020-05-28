@@ -47,7 +47,7 @@ export function Search({ offerings, location }) {
   };
 
   return (
-    <div className="search-bar ct-a-fade-in" id="search-bar">
+    <div className="sp-search-bar ct-a-fade-in" id="sp-search-bar">
       <h1>Search for Courses</h1>
 
       <SearchInput searchValue={searchValue} onInput={onInput} />

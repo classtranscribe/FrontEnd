@@ -39,7 +39,7 @@ function Filter({
       <Form>
         <Grid stackable columns="equal">
           {!displaySearchHeader && (
-            <Grid.Row className="search-bar">
+            <Grid.Row className="sp-search-bar">
               <Grid.Column id="filter-search">
                 <div className="ui icon input" style={{ width: '100%' }}>
                   <input

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { util } from 'utils';
 import { ClassTranscribeFooter } from 'components';
 import WatchHistory from './WatchHistory';
@@ -11,9 +11,9 @@ export function History({ state, removeWatchHistory }) {
   }, []);
 
   return (
-    <div className="history-bg ct-a-fade-in">
+    <>
       <WatchHistory {...state} removeWatchHistory={removeWatchHistory} />
       <ClassTranscribeFooter />
-    </div>
+    </>
   );
 }

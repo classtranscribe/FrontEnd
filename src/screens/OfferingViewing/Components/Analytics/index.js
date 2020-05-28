@@ -58,11 +58,8 @@ export class Analytics extends React.Component {
   render() {
     const { parsedData } = this.state;
     return (
-      <div className="ct-a-fade-in">
-        <h1 className="accessbility_hide">Personal Analytics</h1>
-        <div>
-          <p style={{ fontSize: '24px' }}>Here is a summary of your activities:</p>
-        </div>
+      <div className="ct-a-fade-in pl-4 pr-4">
+        <h1>Personal Analytics</h1>
 
         {parsedData.map((elem) => (
           <Message key={elem.offeringId}>
