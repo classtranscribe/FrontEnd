@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import { CTBrand } from './CTNavHeader/CTBrand';
@@ -8,9 +8,10 @@ import { CTBrand } from './CTNavHeader/CTBrand';
  */
 function NavSidebarTrigger(props) {
   let {
-    withTrigger = true,
+    // showSidebar = true,
+    logo = false,
     darkMode = false,
-    showSidebar = true,
+    withTrigger = true,
     onSidebarTriggerClick,
   } = props;
 
@@ -27,12 +28,18 @@ function NavSidebarTrigger(props) {
         />
       }
 
-      <CTBrand darkMode={darkMode} />
+      <CTBrand logo={logo} darkMode={darkMode} />
     </div>
   )
 }
 
 NavSidebarTrigger.propTypes = {
+  /** Determine use text-brand or logo */
+  logo: PropTypes.bool,
+
+  /** Determine if display the sidebar trigger */
+  withTrigger: PropTypes.bool,
+
   /** The `CTLayout` supports the dark mode */
   darkMode: PropTypes.bool,
 
