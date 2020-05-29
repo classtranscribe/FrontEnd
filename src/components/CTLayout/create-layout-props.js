@@ -65,6 +65,7 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @property {Boolean} transition - True if smoothly show and hide sidebar
  * @property {Boolean} responsive - Sidebar can be responsive to the screen width
  * @property {Boolean} fill - True if fill the whole page
+ * @property {Boolean} logoBrand - Determine display the logo brand or text-brand, default: `false`
  * @property {CTNavHeaderProps} headerProps - Props to the nav header
  * @property {CTNavSidebarProps} sidebarProps - Props to the sidebar
  */

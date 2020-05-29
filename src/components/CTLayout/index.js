@@ -23,11 +23,12 @@ export function CTLayout(props) {
     role = "main",
     className,
     // styles
-    defaultOpenSidebar = false,
+    fill = false,
     darkMode = false,
+    logoBrand = false,
     transition = false,
     responsive = false,
-    fill = false,
+    defaultOpenSidebar = false,
     // children
     children,
     // child props
@@ -73,17 +74,7 @@ export function CTLayout(props) {
       }
   };
 
-  const brandElemProps = {
-    darkMode,
-    showSidebar: isOpen,
-    onSidebarTriggerClick: handleOpenSidebar,
-  };
-  const sidebarBrandElem = <NavSidebarTrigger {...brandElemProps} />;
-  brandElemProps.withTrigger = !isMini;
-  const headerBrandElem = isNormal 
-                        ? <div /> 
-                        : <NavSidebarTrigger {...brandElemProps} />;
-
+  // Classes
   const containerClasses = classNames(className);
   const mainClasses = classNames(
     'ct-layout-main', 
@@ -95,6 +86,21 @@ export function CTLayout(props) {
     }
   );
 
+  // Brand Element
+  const brandElemProps = {
+    darkMode,
+    showSidebar: isOpen,
+    onSidebarTriggerClick: handleOpenSidebar,
+  };
+  const sidebarBrandElem = <NavSidebarTrigger {...brandElemProps} />;
+
+  brandElemProps.withTrigger = !isMini;
+  brandElemProps.logo = logoBrand;
+  const headerBrandElem = isNormal 
+                        ? <div /> 
+                        : <NavSidebarTrigger {...brandElemProps} />;
+
+  // Page Element
   const pageElement = fill 
                     ? <div className="ct-layout-fill">{children}</div>
                     : children;
@@ -137,12 +143,15 @@ export const CTLayoutPropTypes = {
 
   /** Role of the `CTLayout`, default to be `role="main"` */
   role: PropTypes.string,
-  
-  /** True if open the sidebar when the `CTLayout` rendered */
-  defaultOpenSidebar: PropTypes.bool,
+
+  /** True if fill the whole page */
+  fill: PropTypes.bool,
 
   /** The `CTLayout` supports the dark mode */
   darkMode: PropTypes.bool,
+
+  /** Determine display the logo brand or text-brand, default: `false` */
+  logoBrand: PropTypes.bool,
 
   /** True if smoothly show and hide sidebar */
   transition: PropTypes.bool,
@@ -150,8 +159,8 @@ export const CTLayoutPropTypes = {
   /** Sidebar can be responsive to the screen width */
   responsive: PropTypes.bool,
 
-  /** True if fill the whole page */
-  fill: PropTypes.bool,
+  /** True if open the sidebar when the `CTLayout` rendered */
+  defaultOpenSidebar: PropTypes.bool,
   
   /** Page content */
   children: PropTypes.node,
