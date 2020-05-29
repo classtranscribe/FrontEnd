@@ -9,7 +9,7 @@ import {
   Instructor,
   MediaSettings,
   // Student
-  OfferingViewing, 
+  Home, 
   Search,
   History,
   Analytics,
@@ -60,7 +60,7 @@ class App extends React.Component {
           }
 
           {/* Student */}
-          <Route path="/home" component={OfferingViewing} />
+          <Route path="/home" component={Home} />
           <Route path="/search" component={Search} />
           <Route path="/history" component={History} />
           <Route path="/personal-analytics" component={Analytics} />

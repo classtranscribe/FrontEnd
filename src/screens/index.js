@@ -5,7 +5,7 @@ export { Admin } from './Admin';
 export { Instructor } from './Instructor';
 export { MediaSettings } from './MediaSettings';
 
-export { OfferingViewing } from './OfferingViewing';
+export { Home } from './Home';
 export { Search } from './Search';
 export { History } from './History';
 export { Analytics } from './Analytics';

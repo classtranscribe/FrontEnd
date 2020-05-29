@@ -11,12 +11,12 @@ import './transition.css';
 import './index.css';
 
 import { 
-  Home, 
+  Home as Feed, 
   OfferingDetail
 } from './Components';
 
 
-export class OfferingViewing extends React.Component {
+export class Home extends React.Component {
   constructor(props) {
     super(props);
     this.isLoggedIn = user.isLoggedIn;
@@ -138,7 +138,7 @@ export class OfferingViewing extends React.Component {
           <CTLayout {...this.getLayoutProps()}>
             <Switch location={location}>
               {/* Unauthed home page */}
-              <Route exact path="/home" render={(props) => <Home {...props} {...this} />} />
+              <Route exact path="/home" render={(props) => <Feed {...props} {...this} />} />
 
               {/* Offering Detail page */}
               <Route
