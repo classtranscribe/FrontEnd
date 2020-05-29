@@ -1,7 +1,7 @@
 .ct-heading {
   margin-top: 0 !important;
   font-size: 30px;
-  padding: 30px 20px 20px 20px;
+  padding: 30px 30px 20px 30px;
   position: sticky;
   z-index: 1;
   display: flex;
@@ -16,8 +16,8 @@
   }
 
   i {
-    margin-right: 1rem;
-    font-size: 35px;
+    margin-right: 5px;
+    font-size: 30px;
     font-weight: bold;
     color: var(--ct-green-normal);
   }
