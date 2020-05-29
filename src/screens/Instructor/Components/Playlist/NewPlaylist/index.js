@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import { Grid } from 'semantic-ui-react';
 import { CTForm } from 'components';
-import { api, util } from 'utils';
+import { api, uurl } from 'utils';
 import { plControl } from '../../../Utils';
 import './index.css';
 
@@ -36,7 +36,7 @@ export default function NewPlaylist({ offeringId, noPlaylist = false }) {
   };
 
   useEffect(() => {
-    util.links.replaceSearch({});
+    uurl.replaceSearch({});
   }, []);
 
   return (

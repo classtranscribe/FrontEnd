@@ -5,7 +5,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { withReduxProvider } from 'redux/redux-provider';
-import { util } from 'utils';
+import { uurl } from 'utils/use-url';
 import { CTLayout } from 'components';
 import {
   watchStore,
@@ -43,7 +43,7 @@ export class WatchWithRedux extends React.Component {
     super(props);
 
     let error = null;
-    const { id } = util.links.useSearch();
+    const { id } = uurl.useSearch();
     this.id = id;
     if (!id) error = ERR_INVALID_MEDIA_ID;
 

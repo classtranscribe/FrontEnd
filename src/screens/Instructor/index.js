@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'components';
-import { util } from 'utils';
+import { links } from 'utils/links';
 
 import { 
   instpStore, 
@@ -27,7 +27,7 @@ import {
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
     super(props);
-    util.links.title('My Courses');
+    links.title('My Courses');
     setup.init(props);
     plControl.init(props);
     offControl.init(props);

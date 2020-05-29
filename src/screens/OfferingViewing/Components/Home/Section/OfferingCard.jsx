@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { isBrowser } from 'react-device-detect';
 import { Card } from 'react-bootstrap';
-import { util, user } from 'utils';
+import { links, user } from 'utils';
 import { offeringPosterImg } from 'assets/images';
 import './index.css';
 
@@ -39,7 +39,7 @@ export default function OfferingCard({
         data-mobile={!isBrowser}
         as={Link}
         to={{
-          pathname: util.links.offeringDetail(id),
+          pathname: links.offeringDetail(id),
           state: { from: 'home', offering },
         }}
         aria-label={`${fullNumber} of section ${sectionName} in ${termName}`}

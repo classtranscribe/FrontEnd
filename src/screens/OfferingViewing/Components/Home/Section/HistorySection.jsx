@@ -1,6 +1,6 @@
 import React from 'react';
 import { VideoCard } from 'components';
-import { util, api } from 'utils';
+import { links, api } from 'utils';
 import { OfferingListHolder } from '../PlaceHolder';
 
 function HistorySection({ offerings, watchHistory }) {
@@ -21,7 +21,7 @@ function MediaCard({ media }) {
   const { mediaName, watchHistory, id } = api.parseMedia(media);
 
   return id ? (
-    <VideoCard square name={mediaName} link={util.links.watch(id)} ratio={watchHistory.ratio} />
+    <VideoCard square name={mediaName} link={links.watch(id)} ratio={watchHistory.ratio} />
   ) : null;
 }
 

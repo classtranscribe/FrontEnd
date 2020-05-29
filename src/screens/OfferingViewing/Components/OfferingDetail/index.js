@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Button } from 'pico-ui';
 import { PlaceHolder } from 'components';
-import { api, util, user, prompt } from 'utils';
+import { api, util, user, prompt, links } from 'utils';
 import './index.css';
 
 import Playlists from './Playlists';
@@ -54,7 +54,7 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
 
     setOffering(parsedOffering);
     // console.log('parsedOffering', parsedOffering)
-    util.links.title(
+    links.title(
       `${parsedOffering.fullNumber} | ${parsedOffering.termName} | ${parsedOffering.sectionName}`,
     );
 

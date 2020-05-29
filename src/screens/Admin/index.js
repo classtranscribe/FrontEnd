@@ -10,15 +10,15 @@ import { Route, Redirect } from 'react-router-dom';
 // UI
 import './index.css';
 // Layouts
-import { CTLayout } from '../../components';
+import { CTLayout } from 'components';
 // Vars
-import { api, util, user } from '../../utils';
+import { api, util, user, links } from 'utils';
 import { tabs } from './tabs';
 
 export class Admin extends React.Component {
   constructor(props) {
     super(props);
-    util.links.title('Admin');
+    links.title('Admin');
     this.state = {
       loading: true,
 
@@ -90,7 +90,7 @@ export class Admin extends React.Component {
      */
     if (!user.isLoggedIn) {
       user.signIn();
-    } else if (!user.isAdmin) window.location = util.links.notfound404();
+    } else if (!user.isAdmin) window.location = links.notfound404();
     /**
      * 2. first load of values
      */
@@ -156,7 +156,7 @@ export class Admin extends React.Component {
     return (
       <CTLayout {...this.getLayoutProps()}>
         <div className="admin-bg">
-          <Route exact path={util.links.admin()} render={() => <Redirect to={routes[0].href} />} />
+          <Route exact path={links.admin()} render={() => <Redirect to={routes[0].href} />} />
 
           {routes.map( route => (
             <Route

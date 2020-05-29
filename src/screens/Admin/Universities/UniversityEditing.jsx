@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react';
-import { api, util } from 'utils';
+import { api, links } from 'utils';
 import { updateJson } from '../helpers';
 
 import { SubmitButton, EditButtons, GeneralModal } from '../Components';
@@ -61,7 +61,7 @@ export default class UniversityEditing extends React.Component {
   };
 
   onClose = () => {
-    window.location = util.links.admin();
+    window.location = links.admin();
   };
 
   onCancel = () => {

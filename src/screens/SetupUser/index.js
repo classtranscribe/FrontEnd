@@ -1,7 +1,5 @@
 import React from 'react';
-import { user, util } from '../../utils';
-
-const { links } = util;
+import { user, links } from 'utils';
 
 export class SetupUser extends React.Component {
   componentDidMount() {

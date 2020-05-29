@@ -5,7 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { Placeholder, Icon } from 'semantic-ui-react';
-import { util } from 'utils';
+import { links } from 'utils/links';
 
 /**
  * Placeholder shows up when a offering is loading
@@ -85,7 +85,7 @@ export function ReloadContents({ onRetry }) {
   return (
     <div className="reload-prompt d-flex justify-content-center align-items-center w-100 m-5">
       Could not load courses. &ensp;
-      <Link to={util.links.home()} onClick={onRetry}>
+      <Link to={links.home()} onClick={onRetry}>
         Retry
         <Icon name="redo" />
       </Link>

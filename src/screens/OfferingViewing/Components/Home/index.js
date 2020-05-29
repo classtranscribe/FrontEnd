@@ -2,11 +2,11 @@
  * Home sub-screen for Offering Viewing screen
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import _ from 'lodash';
 // UI
 import { ClassTranscribeFooter, MaintenanceMessage } from 'components';
-import { api, user, util, prompt } from 'utils';
+import { api, user, util, links, prompt } from 'utils';
 import './index.css';
 
 import Filter from './Filter';
@@ -15,7 +15,7 @@ import SectionList from './SectionList';
 export class Home extends React.Component {
   constructor(props) {
     super(props);
-    util.links.title();
+    links.title();
     this.state = {
       universities: [],
       terms: [],

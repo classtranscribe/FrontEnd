@@ -1,6 +1,6 @@
 import React from 'react';
 import { VideoCard } from 'components';
-import { util, api } from 'utils';
+import { links, api } from 'utils';
 
 function MediaItem({ media }) {
   const { mediaName, watchHistory, id } = api.parseMedia(media);
@@ -12,7 +12,7 @@ function MediaItem({ media }) {
       ratio={watchHistory.ratio}
       role="listitem"
       posterSize="200px"
-      link={util.links.watch(id)}
+      link={links.watch(id)}
       fittedNameSize={-1}
     />
   ) : null;

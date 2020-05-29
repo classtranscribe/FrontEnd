@@ -1,5 +1,4 @@
-import { api, util, user } from 'utils';
-// import { } from './constants'
+import { api, links, user } from 'utils';
 
 class SetupMSP {
   constructor() {
@@ -23,7 +22,7 @@ class SetupMSP {
 
   verifyUser() {
     if (!user.isAdmin) {
-      window.location = util.links.notfound404();
+      window.location = links.notfound404();
     }
   }
 
@@ -74,7 +73,7 @@ class SetupMSP {
 
   async setupMedia(mediaId) {
     // console.log('mediaId', mediaId)
-    util.links.title('Media Settings');
+    links.title('Media Settings');
 
     const media = await this.getMedia(mediaId);
     if (!media.id) {

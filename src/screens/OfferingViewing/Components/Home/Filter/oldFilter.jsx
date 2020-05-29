@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Dropdown, Form, Grid } from 'semantic-ui-react';
-import { util } from 'utils';
+import { util, links } from 'utils';
 
 function Filter({
   state,
@@ -28,7 +28,7 @@ function Filter({
   const handleOnKeyDown = (e) => {
     if (e.keyCode === 13) {
       setSearchValue('');
-      history.push(util.links.search(), { value: searchValue });
+      history.push(links.search(), { value: searchValue });
     }
   };
 

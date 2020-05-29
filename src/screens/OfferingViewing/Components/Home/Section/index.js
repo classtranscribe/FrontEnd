@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import { util, user, api } from 'utils';
+import { links, user, api } from 'utils';
 import './index.css';
 
 import { SectionShowMoreButton, SectionFoldButton } from './Overlays';
@@ -55,7 +55,7 @@ function Section({
   // Functions handling states' changes
   const handleShowAll = () => {
     if (type === 'history') {
-      history.push(util.links.history());
+      history.push(links.history());
     } else {
       setShowAll((showAll_) => !showAll_);
     }

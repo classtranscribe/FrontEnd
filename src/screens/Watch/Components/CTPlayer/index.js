@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { util } from 'utils';
+import { uurl } from 'utils/use-url';
 import {
   connectWithRedux,
   videoControl as control,
@@ -21,7 +21,7 @@ import PlayerWrapper from './PlayerWrapper';
 export class ClassTranscribePlayerWithRedux extends React.Component {
   constructor(props) {
     super(props);
-    this.mediaId = util.links.useSearch().id;
+    this.mediaId = uurl.useSearch().id;
     this.state = {
       srcPath1: null,
       srcPath2: null,

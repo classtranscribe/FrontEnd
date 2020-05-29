@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { api, ARRAY_INIT } from 'utils';
-import { links } from 'utils/links';
+import { uurl } from 'utils/use-url';
 import { StateController } from 'utils/state-controller'
 
 class SetupSearchPage extends StateController {
@@ -42,7 +42,7 @@ class SetupSearchPage extends StateController {
   }
 
   parseSearchValue() {
-    let { q } = links.useSearch();
+    let { q } = uurl.useSearch();
     if (q) {
       let value = _.replace(q, /\+/i, ' ');
       this.setSearchValue(value);

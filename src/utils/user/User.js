@@ -10,6 +10,7 @@ import { getLatestGitCommitSHA } from '../cthttp/requests/general';
 import { env } from '../env';
 import { links } from '../links';
 import { prompt } from '../prompt';
+import { uurl } from '../use-url';
 
 import { Auth0 } from './Auth0';
 import { CILogon } from './CILogon';
@@ -72,7 +73,7 @@ export class User {
 
   /** returns the id of the user, or test id if it exists */
   get userId() {
-    if (links.isEqual(links.admin())) {
+    if (uurl.isEqual(links.admin())) {
       // if it's in admin page
       return this.getUserInfo().userId;
     }
@@ -359,7 +360,7 @@ export class User {
 
   // return the authorization token
   get authToken() {
-    if (links.isEqual(links.admin())) {
+    if (uurl.isEqual(links.admin())) {
       // if it's in admin page
       return accountStorage.authToken;
     }

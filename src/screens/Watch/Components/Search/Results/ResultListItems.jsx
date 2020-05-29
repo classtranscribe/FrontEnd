@@ -1,6 +1,6 @@
 import React from 'react';
 import { VideoCard } from 'components';
-import { util } from 'utils';
+import { links } from 'utils/links';
 import {
   videoControl,
   timeStrToSec,
@@ -25,7 +25,7 @@ export const CaptionListItem = ({ item, option }) => {
     if (option === SEARCH_TRANS_IN_VIDEO) {
       videoControl.currTime(timeStrToSec(begin));
     } else if (option === SEARCH_TRANS_IN_COURSE) {
-      window.location = util.links.watch(mediaId, { begin: timeStrToSec(begin) });
+      window.location = links.watch(mediaId, { begin: timeStrToSec(begin) });
     }
   };
 
@@ -71,7 +71,7 @@ export const VideoListItem = ({ media = null }) => {
         listitem={false}
         fittedNameSize={-1}
         description={`Playlist - ${playlistName}`}
-        link={util.links.watch(mediaId)}
+        link={links.watch(mediaId)}
       />
     </div>
   );

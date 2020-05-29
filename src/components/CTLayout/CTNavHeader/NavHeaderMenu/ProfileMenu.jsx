@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItemIcon, Typography, MenuItem } from '@material-ui/core';
 
-import { util, user } from 'utils';
+import { user, links } from 'utils';
 import { styles } from './styles';
-
-const { links } = util;
 
 const menuItems = [
   {

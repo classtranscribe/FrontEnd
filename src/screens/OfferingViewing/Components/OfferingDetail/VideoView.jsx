@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Icon } from 'semantic-ui-react';
 import { VideoCard, PlaceHolder } from 'components';
-import { api, util, prompt } from 'utils';
+import { api, util, prompt, uurl, links } from 'utils';
 
 function VideoView({ playlistId, goBack }) {
   const history = useHistory();
@@ -31,7 +31,7 @@ function VideoView({ playlistId, goBack }) {
 
   useEffect(() => {
     if (playlist.id) {
-      const { mid } = util.links.useSearch();
+      const { mid } = uurl.useSearch();
       if (mid) {
         util.elem.scrollIntoCenter(mid, { focus: true });
         history.replace(history.location.pathname);
@@ -78,7 +78,7 @@ function Video({ media }) {
       row
       id={id}
       name={mediaName}
-      link={util.links.watch(id)}
+      link={links.watch(id)}
       ratio={watchHistory.ratio}
       posterSize="150px"
       isUnavailable={isUnavailable}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
-import { util, api } from 'utils';
+import { links, api } from 'utils';
 import { CTErrorWrapper, CTLayout } from 'components';
 import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './controllers';
 
@@ -32,8 +32,8 @@ class MediaSettingsWithRedux extends React.Component {
 
   getLayoutProps() {
     let mediaId = this.mediaId;
-    let transPath = util.links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
-    let epubPath = util.links.instMediaSettings(mediaId, TAB_EPUB);
+    let transPath = links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
+    let epubPath = links.instMediaSettings(mediaId, TAB_EPUB);
 
     return CTLayout.createProps({
       fill: true,
@@ -64,9 +64,9 @@ class MediaSettingsWithRedux extends React.Component {
   render() {
     let mediaId = this.mediaId;
 
-    let mspPath = util.links.instMediaSettings(mediaId);
-    let transPath = util.links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
-    let epubPath = util.links.instMediaSettings(mediaId, TAB_EPUB);
+    let mspPath = links.instMediaSettings(mediaId);
+    let transPath = links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
+    let epubPath = links.instMediaSettings(mediaId, TAB_EPUB);
 
     return isMobile ? (
       <div className="msp-bg">

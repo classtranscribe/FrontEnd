@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { CTForm } from 'components';
 import { Button } from 'pico-ui';
 import { Grid, Icon } from 'semantic-ui-react';
-import { util, user } from 'utils';
+import { user, uurl } from 'utils';
 
 import { filterControl } from '../../../Utils/filter.control';
 import { connectWithRedux, offControl } from '../../../Utils';
@@ -32,7 +32,7 @@ function StaffsWithRedux({ instructors = [], isEditingOffering = false }) {
 
   const onInputChange = (value) => {
     setInputValue(value);
-    if (util.isValidEmail(value) && Boolean(error)) {
+    if (uurl.isValidEmail(value) && Boolean(error)) {
       setError(null);
     }
   };
@@ -44,7 +44,7 @@ function StaffsWithRedux({ instructors = [], isEditingOffering = false }) {
 
   const addStaff = () => {
     if (!inputValue) return;
-    if (!util.isValidEmail(inputValue)) {
+    if (!uurl.isValidEmail(inputValue)) {
       return setError('Please enter a valid email.');
     }
     let includes = _.includes(emails, inputValue);
@@ -59,7 +59,7 @@ function StaffsWithRedux({ instructors = [], isEditingOffering = false }) {
 
   const addNew = (newEmails) => {
     newEmails = _.filter(newEmails, (email) => {
-      if (!email || !util.isValidEmail(email)) {
+      if (!email || !uurl.isValidEmail(email)) {
         return false;
       }
 
