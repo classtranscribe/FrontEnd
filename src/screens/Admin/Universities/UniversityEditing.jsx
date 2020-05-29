@@ -61,7 +61,7 @@ export default class UniversityEditing extends React.Component {
   };
 
   onClose = () => {
-    window.location = links.admin();
+    window.location = links.admin('universities');
   };
 
   onCancel = () => {

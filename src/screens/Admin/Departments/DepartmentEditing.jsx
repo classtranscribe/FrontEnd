@@ -60,7 +60,7 @@ export default class DepartmentEditing extends React.Component {
   };
 
   onClose = () => {
-    window.location = links.admin();
+    window.location = links.admin('departments');
   };
 
   onCancel = () => {

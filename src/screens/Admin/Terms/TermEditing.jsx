@@ -93,7 +93,7 @@ export default class TermEditing extends React.Component {
   };
 
   onClose = () => {
-    window.location = links.admin();
+    window.location = links.admin('terms');
   };
 
   onCancel = () => {

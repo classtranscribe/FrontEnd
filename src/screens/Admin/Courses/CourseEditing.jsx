@@ -59,7 +59,7 @@ export default class CourseEditing extends React.Component {
   };
 
   onSave = () => {
-    window.location = links.admin();
+    window.location = links.admin('course-template');
   };
 
   onCancel = () => {
