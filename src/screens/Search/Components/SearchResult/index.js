@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SignInPrompt } from 'components';
+import { SignInPrompt, CTFragment } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
 import { user } from 'utils/user';
 import { connectWithRedux, searchControl } from '../../controllers';
@@ -31,12 +31,12 @@ function SearchResultWithRedux(props) {
   }
 
   return (
-    <div className="sp-result-con">
+    <CTFragment padding={[0, 30]} className="mt-4">
       <hr />
-      <div role="list" className="sp-result-ul">
+      <CTFragment padding={[0, 10, 20, 10]} list role="list">
         {resultListElement}
-      </div>
-      
+      </CTFragment>
+
       {
         !user.isLoggedIn
         &&
@@ -44,7 +44,7 @@ function SearchResultWithRedux(props) {
           topDescription={<>Can&#39;t find your courses? <br />Sign in to see more.</>}
         />
       }
-    </div>
+    </CTFragment>
   );
 }
 
