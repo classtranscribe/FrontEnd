@@ -7,6 +7,7 @@ import { ScrollArea } from 'components/ScrollArea';
 import { CTNavHeader } from './CTNavHeader';
 import { CTNavSidebar } from './CTNavSidebar';
 import { CTHeading } from './CTHeading';
+import { CTFooter } from './CTFooter';
 import NavSidebarTrigger from './NavSidebarTrigger';
 
 import { createCTLayoutProps } from './create-layout-props';
@@ -30,6 +31,7 @@ export function CTLayout(props) {
     transition = false,
     responsive = false,
     defaultOpenSidebar = false,
+    footer = false,
     // children
     children,
     // child props
@@ -109,6 +111,8 @@ export function CTLayout(props) {
   const pageElement = fill 
                     ? <div className="ct-layout-fill">{children}</div>
                     : children;
+  
+  const footerElement = footer ? <CTFooter /> : null;
 
   return (
     <div id="ct-layout-container" className={containerClasses}>
@@ -138,6 +142,7 @@ export function CTLayout(props) {
 
         {headingElement}
         {pageElement}
+        {footerElement}
 
       </ScrollArea>
     </div>
@@ -168,6 +173,9 @@ export const CTLayoutPropTypes = {
 
   /** True if open the sidebar when the `CTLayout` rendered */
   defaultOpenSidebar: PropTypes.bool,
+
+  /** The page content can have a default footer */
+  footer: PropTypes.bool,
   
   /** Page content */
   children: PropTypes.node,

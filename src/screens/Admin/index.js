@@ -136,6 +136,7 @@ export class Admin extends React.Component {
     return CTLayout.createProps({
       responsive: true,
       transition: true,
+      footer: true,
       defaultOpenSidebar: true,
       headerProps: {
         subtitle: 'Admin',

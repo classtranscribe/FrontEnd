@@ -5,7 +5,7 @@
 import React from 'react';
 import _ from 'lodash';
 // UI
-import { ClassTranscribeFooter, MaintenanceMessage } from 'components';
+import { CTFooter, MaintenanceMessage } from 'components';
 import { api, user, util, links, prompt } from 'utils';
 import './index.css';
 
@@ -115,7 +115,7 @@ export class Home extends React.Component {
           unstarOffering={unstarOffering}
           starredOfferings={starredOfferings}
         />
-        <ClassTranscribeFooter />
+        <CTFooter />
       </>
     );
   }

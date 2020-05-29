@@ -28,6 +28,7 @@ class SearchWithRedux extends React.Component {
     const layoutProps = CTLayout.createProps({
       transition: true,
       responsive: true,
+      footer: true,
       headerProps: {
         subtitle: 'Search'
       },
