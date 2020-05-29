@@ -8,6 +8,11 @@ import {
   setup,
 } from './controllers';
 
+import {
+  SearchInput,
+  SearchResult
+} from './Components';
+
 class SearchWithRedux extends React.Component {
   constructor(props) {
     super();
@@ -36,7 +41,8 @@ class SearchWithRedux extends React.Component {
 
     return (
       <CTLayout {...layoutProps}>
-        Search
+        <SearchInput />
+        <SearchResult />
       </CTLayout>
     )
   }

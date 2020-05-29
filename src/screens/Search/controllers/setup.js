@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import { api, ARRAY_INIT } from 'utils';
+import { links } from 'utils/links';
 import { StateController } from 'utils/state-controller'
 
 class SetupSearchPage extends StateController {
@@ -12,6 +14,8 @@ class SetupSearchPage extends StateController {
       setOfferings,
       setSearchValue, setSearchResult
     });
+
+    this.parseSearchValue();
   }
 
   offerings = ARRAY_INIT
@@ -26,7 +30,7 @@ class SetupSearchPage extends StateController {
 
   searchResult = {}
   setSearchResult(searchResult) {
-    this.setState('setOfferings', 'setSearchResult', searchResult);
+    this.setState('setSearchResult', 'searchResult', searchResult);
   }
 
   async setupSearchPage() {
@@ -35,6 +39,14 @@ class SetupSearchPage extends StateController {
     this.setOfferings(offerings);
 
     api.contentLoaded();
+  }
+
+  parseSearchValue() {
+    let { q } = links.useSearch();
+    if (q) {
+      let value = _.replace(q, /\+/i, ' ');
+      this.setSearchValue(value);
+    }
   }
 }
 
