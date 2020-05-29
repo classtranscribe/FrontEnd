@@ -11,6 +11,7 @@ import './index.css';
 
 export { CTLayout } from './CTLayout';
 export { CTNavHeader } from './CTLayout/CTNavHeader';
+export { CTFragment } from './CTLayout/CTFragment';
 export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
 export { SignInPrompt } from './SignInPrompt';
 

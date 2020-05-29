@@ -59,7 +59,6 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @property {String} heading - The Content of the heading
  * @property {String} icon - Icon name of the material-icons
  * @property {Boolean} sticky - The heading can be sticky
- * @property {Boolean} fade - The heading can fade in
  * @property {Boolean} gradient - The background of the heading can be gradient
  * @property {Number} offsetTop - Set the offset top of the sticky heading
  */
