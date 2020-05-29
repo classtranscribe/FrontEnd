@@ -9,6 +9,7 @@ export function CTFragment(props) {
     role,
     className,
     styles = {},
+    // styles
     center = false,
     vCenter = false,
     hCenter = false,
@@ -17,7 +18,10 @@ export function CTFragment(props) {
     sticky = false,
     offsetTop = 0,
     padding = 0,
-    children
+    // content
+    as = 'div',
+    children,
+    ...otherProps
   } = props;
 
   // format padding styles
@@ -49,14 +53,12 @@ export function CTFragment(props) {
     id,
     role,
     className: fragmentClassses,
-    style: fragmentStyles
+    style: fragmentStyles,
+    children,
+    ...otherProps
   };
 
-  return (
-    <div {...fragmentProps}>
-      {children}
-    </div>
-  );
+  return React.createElement(as, fragmentProps);
 }
 
 const paddingTypes = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
@@ -107,6 +109,14 @@ CTFragment.propTypes = {
     paddingTypes,
     PropTypes.arrayOf(paddingTypes)
   ]),
+
+  /**
+   * A HTML tag name for this fragment, default as `div`
+   * @example
+   * <CTFragment as="a" ... >...</CTFragment> // <a ... >...</a>
+   * <CTFragment as="ul" ... >...</CTFragment> // <ul ... >...</ul>
+   */
+  as: PropTypes.string,
 
   /** The primary content */
   children: PropTypes.node
