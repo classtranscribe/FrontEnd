@@ -1,8 +1,8 @@
 import React, { createElement, useState, useRef, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import classNames from 'classnames';
+import { elem } from 'utils/use-elem';
 import './index.scss';
-import { util } from 'utils';
 
 function ChapterTitle({
   id,
@@ -44,7 +44,7 @@ function ChapterTitle({
   });
 
   useEffect(() => {
-    util.elem.addPastePlainTextEventListener(inputRef.current);
+    elem.addPastePlainTextEventListener(inputRef.current);
   }, []);
 
   useEffect(() => {

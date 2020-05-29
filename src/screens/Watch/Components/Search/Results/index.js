@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import {
   searchControl,
   // preferControl,
@@ -28,12 +28,12 @@ function Results({ search = SEARCH_INIT }) {
 
   const nextPage = () => {
     setPage(page + 1);
-    util.elem.scrollToTop('watch-search-result-container');
+    elem.scrollToTop('watch-search-result-container');
   };
 
   const prevPage = () => {
     setPage(page - 1);
-    util.elem.scrollToTop('watch-search-result-container');
+    elem.scrollToTop('watch-search-result-container');
   };
 
   useEffect(() => {

@@ -17,30 +17,6 @@
   font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
 }
 
-.sp-content {
-  position: relative;
-  width: 100%;
-  padding: 0 2rem 0rem 2rem;
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  transition: all 0.2s linear;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media screen and (max-width: 600px) {
-  .sp-content {
-    padding-right: 0;
-    padding-left: 0;
-  }
-}
-@media screen and (max-width: 900px) {
-  .sp-content {
-    padding-left: 2rem;
-  }
-}
-
 .prompt {
   border-radius: 3rem !important;
 }
@@ -59,10 +35,10 @@
 .op-sidebar .pico.pico-btn .pico-btn-con {
   justify-content: center;
 }
-.sp-content .goback-container {
+.goback-container {
   width: 100%;
   padding-bottom: 1rem;}
-.sp-content .goback-container .del-icon {
+.goback-container .del-icon {
   transition: margin 0.2s linear;
   -o-transition: margin 0.2s linear;
   -webkit-transition: margin 0.2s linear;
@@ -70,5 +46,5 @@
   margin-right: 2rem;
   cursor: pointer;
   font-size: 1.2rem;}
-  .sp-content .del-icon:hover, .sp-content .del-icon:focus, .sp-content .del-icon:active {
+  .del-icon:hover, .del-icon:focus, .del-icon:active {
     margin-left: 1rem;}

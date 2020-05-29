@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Button } from 'pico-ui';
-import { util } from 'utils';
+import { links } from 'utils/links';
 
 import { mediaControl, setup } from '../../../Utils';
 
@@ -15,7 +15,7 @@ function InlineButtons({
 }) {
   const history = useHistory();
   const handleWatch = () => {
-    let pathname = util.links.watch(media.id);
+    let pathname = links.watch(media.id);
     history.push(pathname);
   };
 

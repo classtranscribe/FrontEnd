@@ -5,7 +5,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Grid, Form, Input } from 'semantic-ui-react';
-import { api, util } from 'utils';
+import { api, links } from 'utils';
 import { updateJson } from '../helpers';
 
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components';
@@ -59,7 +59,7 @@ export default class CourseEditing extends React.Component {
   };
 
   onSave = () => {
-    window.location = util.links.admin();
+    window.location = links.admin('course-template');
   };
 
   onCancel = () => {

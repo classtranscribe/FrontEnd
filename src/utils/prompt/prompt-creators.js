@@ -1,5 +1,5 @@
 import { v4 as uuid4 } from 'uuid';
-import { util } from 'utils';
+import { links } from 'utils/links';
 
 export const PROMPT_ID = 'ct___prompt';
 
@@ -40,7 +40,7 @@ export function createPromptBoxElem(text, options) {
   if (contact) {
     const contactLinkEl = document.createElement('a');
     contactLinkEl.className = 'ct-prompt-link';
-    contactLinkEl.href = util.links.contactUs();
+    contactLinkEl.href = links.contactUs();
     contactLinkEl.innerText = 'CONTACT US';
     txtEl.appendChild(contactLinkEl);
   }

@@ -1,11 +1,17 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { withRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { withReduxProvider } from 'redux/redux-provider';
+import { CTLayout } from 'components';
+import { links } from 'utils/links';
 
-import { CTNavHeader, CTLayout } from 'components';
-import { util } from 'utils';
-
-import { instpStore, connectWithRedux, setup, plControl, offControl, mediaControl } from './Utils';
+import { 
+  instpStore, 
+  connectWithRedux, 
+  setup, 
+  plControl, 
+  offControl, 
+  mediaControl
+} from './Utils';
 import './index.css';
 
 import {
@@ -21,7 +27,7 @@ import {
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
     super(props);
-    util.links.title('My Courses');
+    links.title('My Courses');
     setup.init(props);
     plControl.init(props);
     offControl.init(props);
@@ -84,14 +90,10 @@ export class InstructorWithRedux extends React.Component {
   }
 }
 
-export function Instructor(props) {
-  const InstpConnectToRedux = withRouter(
-    connectWithRedux(InstructorWithRedux, ['sidebar', 'loading', 'ordering', 'offerings'], ['all']),
-  );
-
-  return (
-    <Provider store={instpStore}>
-      <InstpConnectToRedux {...props} />
-    </Provider>
-  );
-}
+export const Instructor = withReduxProvider(
+  InstructorWithRedux,
+  instpStore,
+  connectWithRedux,
+  ['sidebar', 'loading', 'ordering', 'offerings'],
+  ['all']
+);

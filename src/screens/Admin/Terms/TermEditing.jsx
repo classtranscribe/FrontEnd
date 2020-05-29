@@ -9,7 +9,7 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 // Vars
 import Moment from 'moment';
-import { api, util } from 'utils';
+import { api, links } from 'utils';
 import { momentToISOString, updateJson } from '../helpers';
 
 import { SubmitButton, EditButtons, GeneralModal } from '../Components';
@@ -93,7 +93,7 @@ export default class TermEditing extends React.Component {
   };
 
   onClose = () => {
-    window.location = util.links.admin();
+    window.location = links.admin('terms');
   };
 
   onCancel = () => {

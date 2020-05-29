@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import { ScrollArea } from 'components/ScrollArea';
 import { connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import { MarkdownPreviewer } from '../../Markdown';
@@ -12,7 +12,7 @@ function ChapterPreview({ currChapter }) {
 
   useEffect(() => {
     if (currChapter && currChapter.id !== lastChapterId) {
-      util.elem.scrollToTop('msp-ee-sch-pview-con');
+      elem.scrollToTop('msp-ee-sch-pview-con');
       lastChapterId = currChapter.id;
     }
   }, [currChapter]);

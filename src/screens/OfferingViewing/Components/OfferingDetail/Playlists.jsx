@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PlaceHolder } from 'components';
-import { util } from 'utils';
+import { uurl } from 'utils';
 import PlaylistsView from './PlaylistsView';
 import VideoView from './VideoView';
 import PlaylistPlaceholder from './PlaylistPlaceholder';
@@ -9,7 +9,7 @@ export default function Playlists({ accessType = 0, playlists }) {
   const [playlistId, setPlaylistId] = useState('prev-');
 
   useEffect(() => {
-    const { plid } = util.links.useSearch();
+    const { plid } = uurl.useSearch();
     if (plid) {
       setPlaylistId(plid);
     }
@@ -30,7 +30,7 @@ export default function Playlists({ accessType = 0, playlists }) {
   const isPlaylistsView = playlistId.startsWith('prev-');
 
   return (
-    <div className="playlist-container">
+    <div className="playlist-container" data-scroll>
       {!playlists ? (
         <PlaceHolder />
       ) : isPlaylistsView ? (

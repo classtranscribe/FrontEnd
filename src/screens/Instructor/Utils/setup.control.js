@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { api, util, user } from 'utils';
+import { api, uurl, links, user } from 'utils';
 import {
   NEW_OFFERING,
   NO_OFFERING,
@@ -117,7 +117,7 @@ export const setup = {
       this.offering_ = offering_;
       setOffering(offering_);
       // Update the document title w/ offering number
-      util.links.title(offering_.courseNumber);
+      links.title(offering_.courseNumber);
     }
   },
   /**
@@ -141,7 +141,6 @@ export const setup = {
 
     if (updateSearch) {
       const offId = offering.id;
-      // let query = util.createSearchQuery({ offId })
       history.replace(`/instructor/${offId}`);
     }
 
@@ -150,7 +149,6 @@ export const setup = {
 
   newOffering() {
     // const { history } = this.externalFunctions
-    // history.push(util.links.instNewOffering())
     this.offering(NEW_OFFERING);
   },
 
@@ -163,7 +161,7 @@ export const setup = {
     if (!user.isLoggedIn) {
       user.signIn();
     } else if (!user.isInstructor) {
-      window.location = util.links.notfound404();
+      window.location = links.notfound404();
     }
     return true;
   },
@@ -334,7 +332,7 @@ export const setup = {
         this.changePlaylist(NEW_PLAYLIST);
         setResults([]);
       } else {
-        const { plid } = util.links.useSearch();
+        const { plid } = uurl.useSearch();
         if (plid) {
           // if the plid is specified in the url
           const requestPl = _.find(playlists, { id: plid });
@@ -370,7 +368,7 @@ export const setup = {
     const { data } = await api.getPlaylistById(pl.id);
     this.playlist(data);
     // push plid into url
-    util.links.pushSearch({ plid: pl.id });
+    uurl.pushSearch({ plid: pl.id });
   },
 
   playlistToView(id) {

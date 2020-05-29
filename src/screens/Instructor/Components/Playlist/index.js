@@ -3,7 +3,7 @@ import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Sticky } from 'semantic-ui-react';
 import { PlaceHolder } from 'components';
-import { links } from 'utils/links';
+import { links, uurl } from 'utils';
 
 import {
   connectWithRedux,
@@ -62,11 +62,11 @@ function PlaylistWithRedux({
   // Current selected media
   const [currMedia, setCurrMedia] = useState('');
   const openMedia = (me) => () => {
-    links.pushSearch({ mid: me.id });
+    uurl.pushSearch({ mid: me.id });
     setCurrMedia(me);
   };
   const closeMedia = () => {
-    links.pushSearch({ mid: undefined });
+    uurl.pushSearch({ mid: undefined });
     setCurrMedia({});
   };
 
@@ -86,14 +86,14 @@ function PlaylistWithRedux({
     if (currMedia.id) closeMedia();
 
     // if mid is specified in the url
-    const { mid } = links.useSearch();
+    const { mid } = uurl.useSearch();
     if (mid && playlist.medias && playlist.medias.length > 0) {
       const requestMedia = _.find(playlist.medias, { id: mid });
       if (requestMedia) {
         openMedia(requestMedia)();
       } else {
         // if the mid is incorrect, remove mid from url
-        links.pushSearch({ mid: null });
+        uurl.pushSearch({ mid: null });
       }
     }
   }, [playlist]);

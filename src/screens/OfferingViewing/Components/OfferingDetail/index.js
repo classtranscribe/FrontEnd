@@ -4,18 +4,16 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useHistory, useParams } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
+import { useHistory, useParams } from 'react-router-dom';
 import { Button } from 'pico-ui';
 import { PlaceHolder } from 'components';
-import { api, util, user, prompt } from 'utils';
+import { api, user, prompt, links } from 'utils';
 import './index.css';
 
 import Playlists from './Playlists';
 
 export function OfferingDetail({ state, starOffering, unstarOffering }) {
   const history = useHistory();
-  const location = useLocation();
   const { id } = useParams();
 
   const { starredOfferingsJSON } = state;
@@ -56,7 +54,7 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
 
     setOffering(parsedOffering);
     // console.log('parsedOffering', parsedOffering)
-    util.links.title(
+    links.title(
       `${parsedOffering.fullNumber} | ${parsedOffering.termName} | ${parsedOffering.sectionName}`,
     );
 
@@ -94,7 +92,6 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
    * Get all offerings and complete offerings
    */
   useEffect(() => {
-    util.elem.scrollIntoView('sp-content');
     setupOfferingDetails();
   }, [id]);
 
@@ -102,21 +99,8 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
     setIsStarred(Boolean(starredOfferingsJSON[id]));
   }, [starredOfferingsJSON]);
 
-  /**
-   * Determine which page to go back
-   */
-  let pathname = util.links.home();
-  if (history.location.state) {
-    const { from } = history.location.state;
-    if (from === 'search') {
-      pathname = util.links.search();
-    } else if (from === 'history') {
-      pathname = util.links.history();
-    }
-  }
-
   return offering.id ? (
-    <div className="offering-detail ct-a-fade-in" data-scroll>
+    <div className="offering-detail ct-a-fade-in">
       {/* Offering Info */}
       <div className="offering-info">
 
@@ -127,12 +111,6 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
         <div className="od-course-txt">
           {offering.termName} | {offering.sectionName}
         </div>
-
-        {/* {
-          offering.instructor 
-          && 
-          <div className="od-course-inst">{offering.instructor.fullName}</div>
-        } */}
 
         {offering.description && <p className="offering-description">{offering.description}</p>}
         <br />

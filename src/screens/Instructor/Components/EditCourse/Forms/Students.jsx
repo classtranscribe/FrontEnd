@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
-import { CTForm } from 'components';
 import { Grid, Icon } from 'semantic-ui-react';
-import { util } from 'utils';
+import { CTForm } from 'components';
+import { uurl } from 'utils/use-url';
 
 import { connectWithRedux, offControl } from '../../../Utils';
 
@@ -39,7 +39,7 @@ function StudentsWithRedux({ students = [] }) {
 
   const addStudent = () => {
     if (!inputValue) return;
-    if (!util.isValidEmail(inputValue)) {
+    if (!uurl.isValidEmail(inputValue)) {
       return setError('Please enter a valid email.');
     }
 
@@ -53,7 +53,7 @@ function StudentsWithRedux({ students = [] }) {
 
   const addNew = (newEmails) => {
     newEmails = _.filter(newEmails, (email) => {
-      if (!email || !util.isValidEmail(email)) return false;
+      if (!email || !uurl.isValidEmail(email)) return false;
       if (_.includes(emails, email)) return false;
 
       return true;

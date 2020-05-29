@@ -1,6 +1,5 @@
 import _ from 'lodash';
-
-const VALID_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+import { uurl } from './use-url';
 
 export class ClassTranscribeLinks {
   /**
@@ -36,8 +35,8 @@ export class ClassTranscribeLinks {
   /**
    * to `/home/search`
    */
-  search() {
-    return '/home/search';
+  search(query) {
+    return `/search${ this.createSearch({ q: query })}`;
   }
   /**
    * to `/home/starred`
@@ -49,7 +48,7 @@ export class ClassTranscribeLinks {
    * to `/home/history`
    */
   history() {
-    return '/home/history';
+    return '/history';
   }
   /**
    * to `/home/offering/<offering_id>?plid=<playlist_id>&mid=<media_id>`
@@ -174,13 +173,6 @@ export class ClassTranscribeLinks {
     const href2_ = href2 === undefined ? window.location.pathname : href2;
     return href1 === href2_;
   }
-  /**
-   * Validate the url
-   * @param {String} url a url to validate
-   */
-  isValidUrl(url) {
-    return VALID_URL.test(url);
-  }
 
   /**
    * Get parsed query object
@@ -232,7 +224,7 @@ export class ClassTranscribeLinks {
    */
   useSearch(href) {
     return this.useParams(
-      this.isValidUrl(href)
+      uurl.isValidUrl(href)
         ? href.substring(href.indexOf('?'), href.length)
         : window.location.search,
     );

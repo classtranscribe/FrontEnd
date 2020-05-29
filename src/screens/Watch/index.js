@@ -4,8 +4,8 @@
 
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { Provider } from 'react-redux';
-import { util } from 'utils';
+import { withReduxProvider } from 'redux/redux-provider';
+import { uurl } from 'utils/use-url';
 import { CTLayout } from 'components';
 import {
   watchStore,
@@ -43,7 +43,7 @@ export class WatchWithRedux extends React.Component {
     super(props);
 
     let error = null;
-    const { id } = util.links.useSearch();
+    const { id } = uurl.useSearch();
     this.id = id;
     if (!id) error = ERR_INVALID_MEDIA_ID;
 
@@ -124,20 +124,10 @@ export class WatchWithRedux extends React.Component {
   }
 }
 
-export function Watch(props) {
-  const WatchConnectToRedux = connectWithRedux(
-    WatchWithRedux, 
-    [
-      'media', 
-      'playlist',
-      'isFullscreen'
-    ], 
-    ['all']
-  );
-
-  return (
-    <Provider store={watchStore}>
-      <WatchConnectToRedux {...props} />
-    </Provider>
-  );
-}
+export const Watch = withReduxProvider(
+  WatchWithRedux,
+  watchStore,
+  connectWithRedux,
+  ['media', 'playlist', 'isFullscreen'], 
+  ['all']
+);

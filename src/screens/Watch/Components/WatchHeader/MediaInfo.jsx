@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Popup } from 'semantic-ui-react';
-import { util } from 'utils';
+import { links } from 'utils/links';
 import { connectWithRedux } from '../../Utils';
 
 function MediaInfo({ media = {}, playlist = {}, offering = {} }) {
@@ -10,7 +10,7 @@ function MediaInfo({ media = {}, playlist = {}, offering = {} }) {
 
   useEffect(() => {
     if (mediaName && fullNumber) {
-      util.links.title(`${mediaName} | ${fullNumber}`);
+      links.title(`${mediaName} | ${fullNumber}`);
     }
   }, [media, offering]);
 
@@ -26,7 +26,7 @@ function MediaInfo({ media = {}, playlist = {}, offering = {} }) {
       trigger={
         <Link
           className="watch-media-info"
-          to={util.links.offeringDetail(playlist.offeringId, playlist.id, media.id)}
+          to={links.offeringDetail(playlist.offeringId, playlist.id, media.id)}
         >
           <span className="watch-header-course-num">
             {fullNumber}

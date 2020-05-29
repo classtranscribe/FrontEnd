@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { util } from 'utils';
+import { links, uurl } from 'utils';
 import './index.css';
 
 import {
@@ -30,7 +30,7 @@ function SideBarWithRedux({ terms = [], offerings = [], offering = {}, sidebar }
   };
 
   const chooseOffering = () => {
-    let { offId } = util.links.useSearch();
+    let { offId } = uurl.useSearch();
     if (!offId) {
       offId = history.location.pathname.split('/')[2];
     }
@@ -55,7 +55,7 @@ function SideBarWithRedux({ terms = [], offerings = [], offering = {}, sidebar }
     } else if (offerings[0]) {
       handleOfferingClick(offerings[0])();
     } else {
-      history.push(util.links.instNewOffering());
+      history.push(links.instNewOffering());
     }
   };
 
@@ -87,7 +87,7 @@ function SideBarWithRedux({ terms = [], offerings = [], offering = {}, sidebar }
             dark
             icon="add"
             title=" NEW COURSE"
-            current={util.links.isEqual(util.links.instNewOffering())}
+            current={uurl.isEqual(links.instNewOffering())}
             rightIcon="small"
             onClick={handleOfferingClick(NEW_OFFERING)}
           />

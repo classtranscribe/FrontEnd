@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'pico-ui';
-import { util, user } from 'utils';
+import { user, links } from 'utils';
 import './index.scss';
 
 import { CTNavHeader, SignInMenu } from 'components';
@@ -55,8 +55,8 @@ export function CTErrorWrapper({
               <SignInMenu open={Boolean(anchorEl)} anchorEl={anchorEl} handleClose={handleClose} />
             </>
           )}
-          {goHomeButton && <Link to={util.links.home()}>GO HOME</Link>}
-          {retry && <a href={util.links.currentUrl()}>REFRESH THE PAGE</a>}
+          {goHomeButton && <Link to={links.home()}>GO HOME</Link>}
+          {retry && <a href={links.currentUrl()}>REFRESH THE PAGE</a>}
         </div>
       </div>
     </div>

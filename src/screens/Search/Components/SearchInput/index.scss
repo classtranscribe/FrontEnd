@@ -1,0 +1,29 @@
+.sp-input-con-outer {
+  width: 100%;
+  padding: 0 30px;
+
+  .sp-input-con-inner {
+    width: 100%;
+    background: rgb(246, 246, 246);
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 0 0px 0 20px;
+    display: flex;
+    align-items: center;
+
+    &:focus-within {
+      background: rgb(236, 242, 243);
+    }
+
+    #sp-input {
+      background: rgba(0,0,0,0);
+      width: 100%;
+      border: none;
+      font-size: 15px;
+  
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

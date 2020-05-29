@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { api, userAction, CTSearch, util } from 'utils';
+import { api, elem, userAction, CTSearch } from 'utils';
 import { setup } from './setup.control';
 import { transControl } from './trans.control';
 import { videoControl } from './player.control';
@@ -61,7 +61,7 @@ class WatchSearch extends CTSearch {
   // Function used to open search
   openSearch() {
     if (this.search_.status !== SEARCH_HIDE) {
-      util.elem.focus('watch-search-input');
+      elem.focus('watch-search-input');
       return;
     }
 

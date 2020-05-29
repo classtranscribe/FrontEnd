@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Button } from 'pico-ui';
 import { Poster } from 'components';
-import { api, util, user } from 'utils';
+import { api, links, user } from 'utils';
 import { setup, mediaControl } from '../../../Utils';
 import './index.scss';
 
@@ -23,7 +23,7 @@ function MediaDetail({ media, onClose }) {
   };
 
   const handleWatch = () => {
-    const pathname = util.links.watch(id);
+    const pathname = links.watch(id);
     history.push(pathname);
   };
 
@@ -143,14 +143,14 @@ function MediaDetail({ media, onClose }) {
               asLink
               icon="closed_caption"
               title=" Edit Transcriptions"
-              to={util.links.mspTransSettings(id)}
+              to={links.mspTransSettings(id)}
             />
             <ListItem
               dark
               asLink
               icon="menu_book"
               title=" Manage ePub Chapters"
-              to={util.links.mspEpubSettings(id)}
+              to={links.mspEpubSettings(id)}
             />
           </div>
         </div>

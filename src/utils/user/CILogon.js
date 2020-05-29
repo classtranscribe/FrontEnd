@@ -1,5 +1,6 @@
 import { env } from '../env';
 import { links } from '../links';
+import { uurl } from '../use-url';
 import redirect from './redirect';
 
 export class CILogon {
@@ -10,7 +11,7 @@ export class CILogon {
   authorize() {
     redirect.saveRedirectURI();
 
-    const query = links.createSearch({
+    const query = uurl.createSearch({
       response_type: 'code',
       client_id: env.ciLogonClientID,
       redirect_uri: this.callback,
@@ -24,7 +25,7 @@ export class CILogon {
     const redirectUri = redirect.getRedirectURI();
     redirect.clear();
 
-    const { code } = links.useSearch();
+    const { code } = uurl.useSearch();
 
     return {
       token: code,
