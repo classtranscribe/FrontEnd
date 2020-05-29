@@ -3,14 +3,14 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Icon } from 'semantic-ui-react';
 import { VideoCard, PlaceHolder } from 'components';
-import { api, util, prompt, uurl, links } from 'utils';
+import { api, elem, prompt, uurl, links } from 'utils';
 
 function VideoView({ playlistId, goBack }) {
   const history = useHistory();
   const [playlist, setPlaylist] = useState({});
 
   useEffect(() => {
-    util.elem.scrollIntoView('sp-content');
+    elem.scrollIntoView('sp-content');
     api
       .getPlaylistById(playlistId)
       .then(({ data }) => {
@@ -33,7 +33,7 @@ function VideoView({ playlistId, goBack }) {
     if (playlist.id) {
       const { mid } = uurl.useSearch();
       if (mid) {
-        util.elem.scrollIntoCenter(mid, { focus: true });
+        elem.scrollIntoCenter(mid, { focus: true });
         history.replace(history.location.pathname);
       }
     }

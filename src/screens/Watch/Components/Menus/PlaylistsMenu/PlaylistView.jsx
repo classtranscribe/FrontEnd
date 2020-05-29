@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import { connectWithRedux, setup } from '../../../Utils';
 
 function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
   useEffect(() => {
-    util.elem.scrollIntoCenter(currPlaylist.id, {
+    elem.scrollIntoCenter(currPlaylist.id, {
       focus: true,
-      alternate: () => util.elem.scrollIntoView('watch-videos-list'),
+      alternate: () => elem.scrollIntoView('watch-videos-list'),
     });
   }, [currPlaylist]);
 

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Button } from 'pico-ui';
 import { PlaceHolder } from 'components';
-import { api, util, user, prompt, links } from 'utils';
+import { api, user, prompt, links } from 'utils';
 import './index.css';
 
 import Playlists from './Playlists';
@@ -92,7 +92,6 @@ export function OfferingDetail({ state, starOffering, unstarOffering }) {
    * Get all offerings and complete offerings
    */
   useEffect(() => {
-    util.elem.scrollIntoView('sp-content');
     setupOfferingDetails();
   }, [id]);
 

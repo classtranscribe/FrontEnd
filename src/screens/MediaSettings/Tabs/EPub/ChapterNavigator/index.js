@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button } from 'pico-ui';
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import { connectWithRedux, epub } from '../../../controllers/epub';
 import './index.scss';
 
@@ -28,7 +28,7 @@ function ChapterNavigatorWithRedux({ step, chapters, currChapter, navId, showNav
 
   useEffect(() => {
     if (isStep3) return;
-    util.elem.scrollIntoCenter(`ee-cn-ch-${navId}`);
+    elem.scrollIntoCenter(`ee-cn-ch-${navId}`);
   }, [navId]);
 
   if (isStep3) return null;

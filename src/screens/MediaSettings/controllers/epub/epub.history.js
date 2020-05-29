@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { prompt, util } from 'utils';
+import { prompt, elem } from 'utils';
 import { epubState } from './epub.state';
 
 class EpubHistory {
@@ -103,7 +103,7 @@ class EpubHistory {
 
   navigateToTarget(targetId) {
     if (targetId) {
-      util.elem.scrollIntoCenter(targetId)
+      elem.scrollIntoCenter(targetId)
     }
   }
 

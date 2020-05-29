@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import { v4 as uuidv4 } from 'uuid';
-import * as elem from './elements';
 import * as loggerToExport from './logger';
 
 export { env } from './env';
@@ -13,6 +12,7 @@ export { CTPrompt, prompt } from './prompt';
 export { CTPreference } from './user-preference';
 export { CTUserGuide } from './user-guide';
 export { html } from './2html';
+export { elem } from './use-elem';
 export { uurl } from './use-url';
 export { links } from './links';
 
@@ -23,8 +23,6 @@ export const logger = loggerToExport;
  * Objects for switching pages and storing some general functions
  */
 export const util = {
-  elem,
-
   genId(prefix = '') {
     return (prefix ? `${prefix}-` : '') + uuidv4();
   },

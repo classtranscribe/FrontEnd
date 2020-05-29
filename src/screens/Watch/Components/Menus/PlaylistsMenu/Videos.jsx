@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { VideoCard, PlaceHolder } from 'components';
-import { api, util, links } from 'utils';
+import { api, elem, links } from 'utils';
 import { connectWithRedux } from '../../../Utils';
 
 function Videos({
@@ -11,9 +11,9 @@ function Videos({
   let { medias } = currPlaylist;
 
   useEffect(() => {
-    util.elem.scrollIntoCenter(currMediaId, {
+    elem.scrollIntoCenter(currMediaId, {
       focus: true,
-      alternate: () => util.elem.scrollIntoView('watch-videos-list'),
+      alternate: () => elem.scrollIntoView('watch-videos-list'),
     });
   }, [currPlaylist]);
 

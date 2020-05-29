@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'pico-ui';
+import { elem } from 'utils/use-elem';
 import './index.scss';
-import { util } from 'utils';
 
 function addScrollEventListener(scrollEl, offsetTop, setIsTop) {
   scrollEl.addEventListener('scroll', function () {
@@ -49,7 +49,7 @@ export function ScrollArea(props) {
     }
   }, []);
 
-  const scrollToTop = () => util.elem.scrollToTop(scrollRef.current);
+  const scrollToTop = () => elem.scrollToTop(scrollRef.current);
 
   const classes = classNames('ct-scroll-area-con', className);
   const scrollClasses = classNames('ct-scroll-area', scrollClassName);

@@ -1,4 +1,4 @@
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import { epubState } from './epub.state';
 import { 
   NAV_CLOSE, 
@@ -6,8 +6,6 @@ import {
   NAV_SHOW, 
   SUB_CHAPTER_ID_PREFIX 
 } from './constants';
-
-const { elem } = util;
 
 function onEpubPreviewScroll() {
   // return;
