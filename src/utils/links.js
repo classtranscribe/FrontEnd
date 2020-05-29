@@ -37,7 +37,7 @@ export class ClassTranscribeLinks {
    * to `/home/search`
    */
   search() {
-    return '/home/search';
+    return '/search';
   }
   /**
    * to `/home/starred`

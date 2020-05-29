@@ -10,6 +10,7 @@ import {
   MediaSettings,
   // Student
   OfferingViewing, 
+  Search,
   Watch,
   // General
   SetupUser,
@@ -58,6 +59,7 @@ class App extends React.Component {
 
           {/* Student */}
           <Route path="/home" component={OfferingViewing} />
+          <Route path="/search" component={Search} />
           <Route exact path="/video" component={Watch} />
 
           <Route path="/404" component={NotFound404} />
