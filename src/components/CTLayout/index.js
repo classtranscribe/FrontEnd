@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import './index.scss';
 
 import { ScrollArea } from 'components/ScrollArea';
-import { CTNavHeader, CTNavHeaderPropsTypes } from './CTNavHeader';
-import { CTNavSidebar, CTNavSidebarPropTypes } from './CTNavSidebar';
-import { createCTLayoutProps } from './create-layout-props';
+import { CTNavHeader } from './CTNavHeader';
+import { CTNavSidebar } from './CTNavSidebar';
+import { CTHeading } from './CTHeading';
 import NavSidebarTrigger from './NavSidebarTrigger';
 
+import { createCTLayoutProps } from './create-layout-props';
 import {
   getDefaultSidebarType,
   getScreenResizeListener,
@@ -33,7 +34,8 @@ export function CTLayout(props) {
     children,
     // child props
     headerProps = {},
-    sidebarProps = {}
+    sidebarProps = {},
+    headingProps,
   } = props;
 
   let { float = false, mini = false } = sidebarProps;
@@ -100,6 +102,9 @@ export function CTLayout(props) {
                         ? <div /> 
                         : <NavSidebarTrigger {...brandElemProps} />;
 
+  const headingElement = headingProps
+                        ? <CTHeading {...headingProps} />
+                        : null;
   // Page Element
   const pageElement = fill 
                     ? <div className="ct-layout-fill">{children}</div>
@@ -131,7 +136,9 @@ export function CTLayout(props) {
           brandElem={headerBrandElem}
         />
 
+        {headingElement}
         {pageElement}
+
       </ScrollArea>
     </div>
   );
@@ -166,10 +173,13 @@ export const CTLayoutPropTypes = {
   children: PropTypes.node,
   
   /** Props to the nav header */
-  headerProps: PropTypes.shape(CTNavHeaderPropsTypes),
+  headerProps: PropTypes.shape(CTNavHeader.propTypes),
 
   /** Props to the sidebar */
-  sidebarProps: PropTypes.shape(CTNavSidebarPropTypes)
+  sidebarProps: PropTypes.shape(CTNavSidebar.propTypes),
+
+  /** Props to the heading */
+  headingProps: PropTypes.shape(CTHeading.propTypes)
 };
 
 CTLayout.propTypes = CTLayoutPropTypes;

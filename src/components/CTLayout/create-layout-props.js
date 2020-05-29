@@ -53,6 +53,16 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @property {Function} onClose - Handle close the sidebar
  */
 
+ /**
+ * The props for CTHeading component
+ * @typedef {Object} CTHeadingProps
+ * @property {String} heading - The Content of the heading
+ * @property {String} icon - Icon name of the material-icons
+ * @property {Boolean} sticky - The heading can be sticky
+ * @property {Boolean} fade - The heading can fade in
+ * @property {Boolean} gradient - The background of the heading can be gradient
+ * @property {Number} offsetTop - Set the offset top of the sticky heading
+ */
 
 /**
  * The props for CTLayout component
@@ -68,6 +78,8 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @property {Boolean} logoBrand - Determine display the logo brand or text-brand, default: `false`
  * @property {CTNavHeaderProps} headerProps - Props to the nav header
  * @property {CTNavSidebarProps} sidebarProps - Props to the sidebar
+ * @property {CTHeadingProps} headingProps - Props to the general heading
+ * 
  */
 
 /**
