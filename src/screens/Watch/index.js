@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { Provider } from 'react-redux';
+import { withReduxProvider } from 'redux/redux-provider';
 import { util } from 'utils';
 import { CTLayout } from 'components';
 import {
@@ -124,20 +124,10 @@ export class WatchWithRedux extends React.Component {
   }
 }
 
-export function Watch(props) {
-  const WatchConnectToRedux = connectWithRedux(
-    WatchWithRedux, 
-    [
-      'media', 
-      'playlist',
-      'isFullscreen'
-    ], 
-    ['all']
-  );
-
-  return (
-    <Provider store={watchStore}>
-      <WatchConnectToRedux {...props} />
-    </Provider>
-  );
-}
+export const Watch = withReduxProvider(
+  WatchWithRedux,
+  watchStore,
+  connectWithRedux,
+  ['media', 'playlist', 'isFullscreen'], 
+  ['all']
+);

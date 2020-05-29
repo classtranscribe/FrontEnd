@@ -1,11 +1,17 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { withRouter, Route } from 'react-router-dom';
-
-import { CTNavHeader, CTLayout } from 'components';
+import { Route } from 'react-router-dom';
+import { withReduxProvider } from 'redux/redux-provider';
+import { CTLayout } from 'components';
 import { util } from 'utils';
 
-import { instpStore, connectWithRedux, setup, plControl, offControl, mediaControl } from './Utils';
+import { 
+  instpStore, 
+  connectWithRedux, 
+  setup, 
+  plControl, 
+  offControl, 
+  mediaControl
+} from './Utils';
 import './index.css';
 
 import {
@@ -84,14 +90,10 @@ export class InstructorWithRedux extends React.Component {
   }
 }
 
-export function Instructor(props) {
-  const InstpConnectToRedux = withRouter(
-    connectWithRedux(InstructorWithRedux, ['sidebar', 'loading', 'ordering', 'offerings'], ['all']),
-  );
-
-  return (
-    <Provider store={instpStore}>
-      <InstpConnectToRedux {...props} />
-    </Provider>
-  );
-}
+export const Instructor = withReduxProvider(
+  InstructorWithRedux,
+  instpStore,
+  connectWithRedux,
+  ['sidebar', 'loading', 'ordering', 'offerings'],
+  ['all']
+);
