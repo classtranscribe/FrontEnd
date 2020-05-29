@@ -36,6 +36,7 @@ class SearchWithRedux extends React.Component {
         icon: 'search',
         sticky: true,
         gradient: true,
+        offsetTop: 30
       }
     });
 
