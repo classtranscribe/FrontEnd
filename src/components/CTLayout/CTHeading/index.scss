@@ -1,15 +1,14 @@
-.ct-heading {
-  margin-top: 0 !important;
-  font-size: 30px;
-  padding: 30px 30px 20px 30px;
-  position: sticky;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-
-  &.sticky {
-    position: sticky;
+.ct-heading-con {
+  .ct-heading {
+    margin-top: 0 !important;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
   }
+
+  // &.sticky {
+  //   position: sticky;
+  // }
 
   &.gradient {
     background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
