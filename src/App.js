@@ -11,6 +11,7 @@ import {
   // Student
   OfferingViewing, 
   Search,
+  History,
   Watch,
   // General
   SetupUser,
@@ -60,6 +61,7 @@ class App extends React.Component {
           {/* Student */}
           <Route path="/home" component={OfferingViewing} />
           <Route path="/search" component={Search} />
+          <Route path="/history" component={History} />
           <Route exact path="/video" component={Watch} />
 
           <Route path="/404" component={NotFound404} />

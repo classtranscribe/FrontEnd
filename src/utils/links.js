@@ -36,8 +36,8 @@ export class ClassTranscribeLinks {
   /**
    * to `/home/search`
    */
-  search() {
-    return '/search';
+  search(query) {
+    return `/search${ this.createSearch({ q: query })}`;
   }
   /**
    * to `/home/starred`
@@ -49,7 +49,7 @@ export class ClassTranscribeLinks {
    * to `/home/history`
    */
   history() {
-    return '/home/history';
+    return '/history';
   }
   /**
    * to `/home/offering/<offering_id>?plid=<playlist_id>&mid=<media_id>`
