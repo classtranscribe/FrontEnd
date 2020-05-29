@@ -12,8 +12,6 @@ import './index.css';
 
 import { 
   Home, 
-  Starred, 
-  History,
   OfferingDetail, 
   Analytics 
 } from './Components';
@@ -142,10 +140,7 @@ export class OfferingViewing extends React.Component {
             <Switch location={location}>
               {/* Unauthed home page */}
               <Route exact path="/home" render={(props) => <Home {...props} {...this} />} />
-              {/* Starred */}
-              <Route exact path="/home/starred" render={() => <Starred {...this} />} />
-              {/* History */}
-              <Route exact path="/home/history" render={() => <History {...this} />} />
+
               {/* Offering Detail page */}
               <Route
                 exact
