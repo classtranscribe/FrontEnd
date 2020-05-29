@@ -1,8 +1,7 @@
 import React from 'react';
-import { PlaceHolder } from 'components';
+import { PlaceHolder, CTFragment } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
-import './index.scss';
 
 import MediaItem from './MediaItem';
 
@@ -19,11 +18,11 @@ function WatchHistoriesWithRedux(props) {
   }
 
   return (
-    <div className="hp-wh-ul-con ct-a-fade-in">
-      <div role="list" className="hp-wh-ul">
+    <CTFragment fade padding={[0, 35, 50, 35]}>
+      <CTFragment list role="list">
         {whElement}
-      </div>
-    </div>
+      </CTFragment>
+    </CTFragment>
   );
 }
 

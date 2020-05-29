@@ -21,6 +21,7 @@ class HistoryWithRedux extends Component {
     let layoutProps = CTLayout.createProps({
       transition: true,
       responsive: true,
+      footer: true,
       headerProps: {
         subtitle: 'Search'
       },

@@ -4,7 +4,7 @@
  
 .admin-bg {
   width: 100%;
-  padding: 1em 2rem 5rem 2rem;
+  padding: 1em 2rem 0 2rem;
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'pico-ui';
+import { CTFragment } from 'components';
 import { connectWithRedux, searchControl } from '../../controllers';
 import './index.scss';
 
@@ -7,8 +8,8 @@ function SearchInputWithRedux(props) {
   let { searchValue = '' } = props;
 
   return (
-    <div className="sp-input-con-outer">
-      <div className="sp-input-con-inner">
+    <CTFragment padding={[0, 30]}>
+      <CTFragment hCenter padding={[0, 0, 0, 20]} className="sp-input-con">
         <input
           id="sp-input"
           placeholder="Search for courses ..."
@@ -22,8 +23,8 @@ function SearchInputWithRedux(props) {
           icon="search" 
           color="transparent"
         />
-      </div>
-    </div>
+      </CTFragment>
+    </CTFragment>
   );
 }
 

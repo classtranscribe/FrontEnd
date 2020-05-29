@@ -59,7 +59,6 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @property {String} heading - The Content of the heading
  * @property {String} icon - Icon name of the material-icons
  * @property {Boolean} sticky - The heading can be sticky
- * @property {Boolean} fade - The heading can fade in
  * @property {Boolean} gradient - The background of the heading can be gradient
  * @property {Number} offsetTop - Set the offset top of the sticky heading
  */
@@ -76,6 +75,7 @@ import { getDefaultNSBItems } from './CTNavSidebar';
  * @property {Boolean} responsive - Sidebar can be responsive to the screen width
  * @property {Boolean} fill - True if fill the whole page
  * @property {Boolean} logoBrand - Determine display the logo brand or text-brand, default: `false`
+ * @property {Boolean} footer = The page content can have a default footer
  * @property {CTNavHeaderProps} headerProps - Props to the nav header
  * @property {CTNavSidebarProps} sidebarProps - Props to the sidebar
  * @property {CTHeadingProps} headingProps - Props to the general heading

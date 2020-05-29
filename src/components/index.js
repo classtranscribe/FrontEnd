@@ -11,10 +11,10 @@ import './index.css';
 
 export { CTLayout } from './CTLayout';
 export { CTNavHeader } from './CTLayout/CTNavHeader';
+export { CTFragment } from './CTLayout/CTFragment';
+export { CTFooter } from './CTLayout/CTFooter';
 export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
 export { SignInPrompt } from './SignInPrompt';
-
-export { ClassTranscribeFooter } from './Footer';
 
 export { Poster } from './Poster';
 export { VideoCard, VideoCardPlaceHolder } from './Cards';

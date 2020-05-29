@@ -3,32 +3,34 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
 
+import { CTFragment } from '../CTFragment';
+
 export function CTHeading(props) {
   let {
     heading = 'Heading',
     icon,
     sticky = false,
-    fade = true,
     gradient = true,
     offsetTop = 0,
   } = props;
 
-  const headingClasses = classNames(
-    'ct-heading', 
-    {
-      sticky,
-      gradient,
-      'ct-a-fade-in': fade,
-    }
-  );
-
   const top = `${offsetTop }px`;
 
+  const fragmentProps = {
+    fade: true,
+    sticky,
+    padding: [30, 30, 20, 30],
+    offsetTop,
+    className: classNames('ct-heading-con', { gradient })
+  };
+
   return (
-    <h1 className={headingClasses} style={{ top }}>
-      {icon && <i className="material-icons">{icon}</i>}
-      <span className="content">{heading}</span>
-    </h1>
+    <CTFragment {...fragmentProps}>
+      <h1 className="ct-heading" style={{ top }}>
+        {icon && <i className="material-icons">{icon}</i>}
+        <span className="content">{heading}</span>
+      </h1>
+    </CTFragment>
   );
 }
 
@@ -41,9 +43,6 @@ CTHeading.propTypes = {
 
   /** The heading can be sticky */
   sticky: PropTypes.bool,
-
-  /** The heading can fade in */
-  fade: PropTypes.bool,
 
   /** The background of the heading can be gradient */
   gradient: PropTypes.bool,
