@@ -30,7 +30,7 @@ export default function Playlists({ accessType = 0, playlists }) {
   const isPlaylistsView = playlistId.startsWith('prev-');
 
   return (
-    <div className="playlist-container">
+    <div className="playlist-container" data-scroll>
       {!playlists ? (
         <PlaceHolder />
       ) : isPlaylistsView ? (

@@ -1,24 +1,25 @@
-.sp-content .offering-detail {
+.offering-detail {
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   width: 100%;
   height: calc(100vh - 50px);
+  padding: 0 25px;
   -webkit-overflow-scrolling: touch;}
-  .sp-content .offering-detail .od-course-number {
+  .offering-detail .od-course-number {
     font-family: var(--ct-font-google);
     display: block;
     margin-top: 0em;
     margin-bottom: 0;
     color: rgb(48, 134, 134);
     font-size: 30px;}
-  .sp-content .offering-detail .od-course-name {
+  .offering-detail .od-course-name {
     font-size: 30px;
     white-space: normal;
     display: block;
     margin: 0 0 2rem 0;
     font-family: var(--ct-font-google);
     color: rgb(75, 88, 87);}
-  .sp-content .offering-detail .od-course-txt {
+  .offering-detail .od-course-txt {
     display: block;
     white-space: normal;
     color: rgb(31, 31, 31);
@@ -26,7 +27,7 @@
     font-weight: normal;
     margin-bottom: .3rem;
   }
-  .sp-content .offering-detail .od-course-inst {
+  .offering-detail .od-course-inst {
     display: block;
     white-space: normal;
     color: rgb(57, 80, 78);
@@ -35,7 +36,7 @@
     font-weight: normal;
     margin-bottom: .3rem;
   }
-  .sp-content .offering-detail .offering-description {
+  .offering-detail .offering-description {
     display: block;
     color: rgb(49, 49, 49);
     white-space: normal;
@@ -48,13 +49,13 @@
     white-space: pre-wrap;
   }
   @media screen and (max-width: 600px) {
-    .sp-content .offering-detail .offering-info {
+    .offering-detail .offering-info {
       padding-left: 1em;
     }
   }
 
 /* Offering Info */
-.sp-content .offering-detail .offering-info {
+.offering-detail .offering-info {
   padding-top: 2em;
   max-width: 1000px;
 }
@@ -68,20 +69,20 @@
 
 
 /* Playlist View */
-.sp-content .offering-detail .playlist-container {
+.offering-detail .playlist-container {
   border-top: 1px solid rgb(218, 218, 218);
   margin-top: 1em;
 }
-.sp-content .offering-detail .playlist-container button {
+.offering-detail .playlist-container button {
   background: none;
   border-top: none;
   border-left: none;
   border-right: none;
 }
-.sp-content .offering-detail .playlist-container .playlists {
+.offering-detail .playlist-container .playlists {
   position: relative;
 }
-.sp-content .offering-detail .playlist-item {
+.offering-detail .playlist-item {
   position: relative;
   outline: 0;
   cursor: pointer;
@@ -94,14 +95,14 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
-.sp-content .offering-detail .playlist-item:last-child {
+.offering-detail .playlist-item:last-child {
   border-color: transparent;
   margin-bottom: 100px;
 }
-.sp-content .offering-detail  .playlist-item:hover, .sp-content .offering-detail .playlist-item:focus {
+.offering-detail  .playlist-item:hover, .offering-detail .playlist-item:focus {
   background-color: #f3f3f3a4;
 }
-.sp-content .offering-detail  .playlist-item .playlist-name {
+.offering-detail  .playlist-item .playlist-name {
   color: #3f3f3f;
   font-weight: bold;
   font-size: 17px;
@@ -110,37 +111,37 @@
   text-align: left;
   margin-bottom: 0;
 }
-.sp-content .offering-detail  .playlist-item .playlist-name i {
+.offering-detail  .playlist-item .playlist-name i {
   margin-right: .5em;
 }
-.sp-content .offering-detail .playlist-item:hover .playlist-name, .sp-content .offering-detail .playlist-item:focus .playlist-name, .sp-content .offering-detail .playlist-item:hover .playlist-vnum, .sp-content .offering-detail .playlist-item:focus .playlist-vnum {
+.offering-detail .playlist-item:hover .playlist-name, .offering-detail .playlist-item:focus .playlist-name, .offering-detail .playlist-item:hover .playlist-vnum, .offering-detail .playlist-item:focus .playlist-vnum {
   color: #318d8d;
 }
-.sp-content .offering-detail .playlist-item .pl-icon {
+.offering-detail .playlist-item .pl-icon {
   position: absolute; 
   right: .5em;
   top: 35%;
   color: #5f6161;
 }
-.sp-content .offering-detail .playlist-item:hover .pl-icon, .sp-content .offering-detail .playlist-item:focus .pl-icon {
+.offering-detail .playlist-item:hover .pl-icon, .offering-detail .playlist-item:focus .pl-icon {
   color: #0e9191;
 }
 
-.sp-content .offering-detail .del-icon{
+.offering-detail .del-icon{
   background: none;
   border: none;
 }
-.sp-content .offering-detail .videos {
+.offering-detail .videos {
   padding: 0 2em;
 }
-.sp-content .offering-detail .videos .goback-container {
+.offering-detail .videos .goback-container {
   position: sticky;
   top: 0;
   z-index: 1;
   padding-top: 1rem;
   background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
 }
-.sp-content .offering-detail .videos .title {
+.offering-detail .videos .title {
   color: var(--ct-text-primary);
   font-size: 1.4em !important;
   display: flex;
@@ -148,11 +149,11 @@
   flex-direction: column;
   align-items: center;
 }
-.sp-content .offering-detail .videos .title i {
+.offering-detail .videos .title i {
   margin-right: .5em;
 }
 
-.sp-content .offering-detail .playlist-container .title {
+.offering-detail .playlist-container .title {
   font-weight: bold;
   font-size: 1.2em;
   margin-top: 1em;
@@ -161,17 +162,17 @@
   flex-direction: row ;
   align-items: center;
 }
-.sp-content .offering-detail .playlist-container .title i {
+.offering-detail .playlist-container .title i {
   margin-right: 10px;
 }
 
 /* Playlist view 2.0 */
 @media screen and (min-width: 1000px) {
-  .sp-content .offering-detail {
+  .offering-detail {
     display: flex;
     flex-direction: row;
   }
-  .sp-content .offering-detail .offering-info {
+  .offering-detail .offering-info {
     padding: 0 1em 100px 0;
     /* border-right: #dbdbdb solid 1px; */
     height: calc(100vh - 55px);
@@ -183,11 +184,11 @@
     overflow-x: hidden;
   }
 
-  .sp-content .offering-detail h1 {
+  .offering-detail h1 {
     word-break: break-all;
   }
   
-  .sp-content .offering-detail .playlist-container {
+  .offering-detail .playlist-container {
     width: 100%;
     overflow-y: auto;
     padding-left: 0em;
@@ -199,14 +200,14 @@
     background-color: #fbfbfb;
     -webkit-overflow-scrolling: touch;
   }
-  .sp-content .offering-detail .divider {
+  .offering-detail .divider {
     display: none;
   }
-  .sp-content .offering-detail h2 span {
+  .offering-detail h2 span {
     display: block;
   }
 
-  .sp-content .offering-detail .videos .goback-container {
+  .offering-detail .videos .goback-container {
     background: linear-gradient(to bottom,#fbfbfb 90%,rgba(255, 255, 255, 0));
   }
 }
