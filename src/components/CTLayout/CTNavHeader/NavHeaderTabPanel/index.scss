@@ -19,11 +19,13 @@
   margin-left: 2rem;
 
   .ct-nh-tab {
-    padding: 1px .5rem 0 .5rem;
+    padding: 1px 0 0 0;
     height: max-content;
     overflow: hidden;
+    border-bottom: 3px solid transparent;
     span {
       height: auto;
+      display: flex;
       position: relative;
       font-size: 19px;
       line-height: 19px;
@@ -33,24 +35,27 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      border-bottom: 3px solid transparent;
+      
       font-family: var(--ct-font-google);
       // text-transform: uppercase;
-      padding: 3px .2em 11px .2em;
+      padding: 3px .7em 11px .7em;
       transition: all .2s ease-in;
     }
 
-    &:hover span, &:focus span {
+    &:hover, &:focus {
       color: black;
       border-color: rgb(93, 93, 93);
     }
     &:focus {
       outline: 1px solid rgb(7, 150, 143);
     }
-    &.active span {
-      font-weight: 500;
-      color: var(--ct-text-title);
+    &.active {
       border-color: var(--ct-green-normal);
+
+      span {
+        font-weight: 500;
+        color: var(--ct-green-normal);
+      }
     }
   }
 }
