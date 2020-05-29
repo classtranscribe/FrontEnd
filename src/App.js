@@ -12,6 +12,7 @@ import {
   OfferingViewing, 
   Search,
   History,
+  Analytics,
   Watch,
   // General
   SetupUser,
@@ -23,7 +24,7 @@ import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
 
-import { user } from './utils';
+import { user } from './utils/user';
 
 
 class App extends React.Component {
@@ -62,6 +63,7 @@ class App extends React.Component {
           <Route path="/home" component={OfferingViewing} />
           <Route path="/search" component={Search} />
           <Route path="/history" component={History} />
+          <Route path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
 
           <Route path="/404" component={NotFound404} />

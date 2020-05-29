@@ -63,7 +63,7 @@ export class ClassTranscribeLinks {
    * to `/home/personal-report`
    */
   personalAnalytics() {
-    return '/home/personal-report';
+    return '/personal-analytics';
   }
   /**
    * to `/admin`
