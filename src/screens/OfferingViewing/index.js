@@ -13,8 +13,7 @@ import './index.css';
 import { 
   Home, 
   Starred, 
-  History, 
-  Search, 
+  History,
   OfferingDetail, 
   Analytics 
 } from './Components';
@@ -152,12 +151,6 @@ export class OfferingViewing extends React.Component {
                 exact
                 path="/home/offering/:id"
                 render={() => <OfferingDetail {...this} />}
-              />
-              {/* Search Page */}
-              <Route
-                exact
-                path="/home/search"
-                render={(props) => <Search offerings={offerings} {...props} />}
               />
 
               {/* Personal Report */}
