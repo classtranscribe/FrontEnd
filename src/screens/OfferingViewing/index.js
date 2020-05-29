@@ -12,8 +12,7 @@ import './index.css';
 
 import { 
   Home, 
-  OfferingDetail, 
-  Analytics 
+  OfferingDetail
 } from './Components';
 
 
@@ -146,13 +145,6 @@ export class OfferingViewing extends React.Component {
                 exact
                 path="/home/offering/:id"
                 render={() => <OfferingDetail {...this} />}
-              />
-
-              {/* Personal Report */}
-              <Route
-                exact
-                path="/home/personal-report"
-                render={(props) => <Analytics {...props} {...this.state} />}
               />
             </Switch>
           </CTLayout>
