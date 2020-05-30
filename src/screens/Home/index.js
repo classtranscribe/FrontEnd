@@ -4,15 +4,12 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { Route, Switch } from 'react-router-dom';
 import { CTLayout } from 'components';
 import { api, user } from 'utils';
 import './transition.css';
 import './index.css';
 
-import { 
-  Home as Feed,
-} from './Components';
+import { Feed } from './Components';
 
 
 export class Home extends React.Component {
@@ -129,19 +126,10 @@ export class Home extends React.Component {
   }
 
   render() {
-    const { offerings } = this.state;
-
     return (
-      <Route
-        render={({ location }) => (
-          <CTLayout {...this.getLayoutProps()}>
-            <Switch location={location}>
-              {/* Unauthed home page */}
-              <Route exact path="/home" render={(props) => <Feed {...props} {...this} />} />
-            </Switch>
-          </CTLayout>
-        )}
-      />
+      <CTLayout {...this.getLayoutProps()}>
+        <Feed {...this} />
+      </CTLayout>
     );
   }
 }

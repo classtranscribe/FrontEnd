@@ -38,7 +38,6 @@ class App extends React.Component {
     return (
       <AppInsightsProvider>
         <Switch>
-          <Route exact path="/" render={() => <Redirect to="/home" />} />
           <Route exact path={user.callbackPaths} component={SetupUser} />
 
           {/* Admin */}
@@ -61,7 +60,8 @@ class App extends React.Component {
           }
 
           {/* Student */}
-          <Route path="/home" component={Home} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" render={() => <Redirect to="/" />} />
           <Route path="/offering/:id" component={Course} />
           <Route path="/search" component={Search} />
           <Route path="/history" component={History} />
