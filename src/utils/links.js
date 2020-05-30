@@ -30,7 +30,7 @@ export class ClassTranscribeLinks {
    * to `/home`
    */
   home() {
-    return '/home';
+    return '/';
   }
   /**
    * to `/home/search`
@@ -57,13 +57,13 @@ export class ClassTranscribeLinks {
    * @param {String} mid media id (optional)
    */
   offeringDetail(id, plid, mid) {
-    return `/home/offering/${id}${this.createSearch({ plid, mid })}`;
+    return `/offering/${id}${this.createSearch({ plid, mid })}`;
   }
   /**
    * to `/home/personal-report`
    */
   personalAnalytics() {
-    return '/home/personal-report';
+    return '/personal-analytics';
   }
   /**
    * to `/admin`

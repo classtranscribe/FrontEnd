@@ -18,13 +18,10 @@ class HistoryWithRedux extends Component {
   }
 
   render() {
-    let layoutProps = CTLayout.createProps({
+    const layoutProps = CTLayout.createProps({
       transition: true,
       responsive: true,
       footer: true,
-      headerProps: {
-        subtitle: 'Search'
-      },
       headingProps: {
         heading: 'Watch History',
         icon: 'history',

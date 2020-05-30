@@ -12,7 +12,7 @@ import './index.css';
 import Filter from './Filter';
 import SectionList from './SectionList';
 
-export class Home extends React.Component {
+export class Feed extends React.Component {
   constructor(props) {
     super(props);
     links.title();

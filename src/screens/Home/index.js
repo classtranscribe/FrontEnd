@@ -4,20 +4,15 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { Route, Switch } from 'react-router-dom';
 import { CTLayout } from 'components';
 import { api, user } from 'utils';
 import './transition.css';
 import './index.css';
 
-import { 
-  Home, 
-  OfferingDetail, 
-  Analytics 
-} from './Components';
+import { Feed } from './Components';
 
 
-export class OfferingViewing extends React.Component {
+export class Home extends React.Component {
   constructor(props) {
     super(props);
     this.isLoggedIn = user.isLoggedIn;
@@ -86,9 +81,8 @@ export class OfferingViewing extends React.Component {
   };
 
   updateUserMetadata = () => {
-    const { watchHistoryJSON, starredOfferingsJSON } = this.state;
+    const { starredOfferingsJSON } = this.state;
     api.postUserMetaData({
-      watchHistory: JSON.stringify(watchHistoryJSON),
       starredOfferings: JSON.stringify(starredOfferingsJSON),
     });
     // console.log(watchHistoryJSON, starredOfferingsJSON)
@@ -97,15 +91,6 @@ export class OfferingViewing extends React.Component {
   completeOfferings = async (rawOfferings) => {
     const offerings = await api.parseOfferings(rawOfferings);
     this.setState({ offerings });
-  };
-
-  removeWatchHistory = (mediaId) => {
-    const { watchHistory, watchHistoryJSON } = this.state;
-    _.remove(watchHistory, { mediaId });
-    if (watchHistoryJSON[mediaId]) {
-      delete watchHistoryJSON[mediaId];
-    }
-    this.setState({ watchHistory, watchHistoryJSON }, () => this.updateUserMetadata());
   };
 
   starOffering = (offeringId) => {
@@ -131,33 +116,10 @@ export class OfferingViewing extends React.Component {
   }
 
   render() {
-    const { offerings } = this.state;
-
     return (
-      <Route
-        render={({ location }) => (
-          <CTLayout {...this.getLayoutProps()}>
-            <Switch location={location}>
-              {/* Unauthed home page */}
-              <Route exact path="/home" render={(props) => <Home {...props} {...this} />} />
-
-              {/* Offering Detail page */}
-              <Route
-                exact
-                path="/home/offering/:id"
-                render={() => <OfferingDetail {...this} />}
-              />
-
-              {/* Personal Report */}
-              <Route
-                exact
-                path="/home/personal-report"
-                render={(props) => <Analytics {...props} {...this.state} />}
-              />
-            </Switch>
-          </CTLayout>
-        )}
-      />
+      <CTLayout {...this.getLayoutProps()}>
+        <Feed {...this} />
+      </CTLayout>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VideoCard, PlaceHolder } from 'components';
+import { VideoCard, CTLoader } from 'components';
 import { api, elem, links } from 'utils';
 import { connectWithRedux } from '../../../Utils';
 
@@ -27,7 +27,7 @@ function Videos({
       </div>
       <ul className="w-100 d-flex flex-column p-0">
         {!medias ? (
-          <PlaceHolder />
+          <CTLoader />
         ) : medias.length === 0 ? (
           <div className="w-100 d-flex justify-content-center align-items-center m-5">NO VIDEO</div>
         ) : (

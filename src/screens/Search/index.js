@@ -29,9 +29,6 @@ class SearchWithRedux extends React.Component {
       transition: true,
       responsive: true,
       footer: true,
-      headerProps: {
-        subtitle: 'Search'
-      },
       headingProps: {
         heading: 'Search',
         icon: 'search',
