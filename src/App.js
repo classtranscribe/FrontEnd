@@ -6,7 +6,7 @@ import {
   // Admin
   Admin,
   // Instructor
-  Instructor,
+  // Instructor,
   MediaSettings,
   // Student
   Home,
@@ -48,11 +48,11 @@ class App extends React.Component {
           }
 
           {/* Instructor */}
-          {
+          {/* {
             user.isInstructor
             &&
             <Route path={["/instructor", "/instructor/:offId"]} component={Instructor} />
-          }
+          } */}
           {
             user.isInstructor
             &&
