@@ -2,7 +2,7 @@ export { SetupUser } from './SetupUser';
 
 export { Admin } from './Admin';
 
-// export { Instructor } from './Instructor';
+export { MyCourses } from './Instructor';
 export { MediaSettings } from './MediaSettings';
 
 export { Home } from './Home';

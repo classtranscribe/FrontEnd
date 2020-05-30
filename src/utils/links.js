@@ -27,40 +27,34 @@ export class ClassTranscribeLinks {
     return window.location.href;
   }
   /**
-   * to `/home`
+   * to `/`
    */
   home() {
     return '/';
   }
   /**
-   * to `/home/search`
+   * to `/search`
    */
   search(query) {
-    return `/search${ this.createSearch({ q: query })}`;
+    return `/search${ uurl.createSearch({ q: query })}`;
   }
   /**
-   * to `/home/starred`
-   */
-  starred() {
-    return '/home/starred';
-  }
-  /**
-   * to `/home/history`
+   * to `/history`
    */
   history() {
     return '/history';
   }
   /**
-   * to `/home/offering/<offering_id>?plid=<playlist_id>&mid=<media_id>`
+   * to `/offering/<offering_id>?plid=<playlist_id>&mid=<media_id>`
    * @param {String} id offering id
    * @param {String} plid playlist id (optional)
    * @param {String} mid media id (optional)
    */
   offeringDetail(id, plid, mid) {
-    return `/offering/${id}${this.createSearch({ plid, mid })}`;
+    return `/offering/${id}${uurl.createSearch({ plid, mid })}`;
   }
   /**
-   * to `/home/personal-report`
+   * to `/personal-report`
    */
   personalAnalytics() {
     return '/personal-analytics';
@@ -93,6 +87,14 @@ export class ClassTranscribeLinks {
     return '/instructor';
   }
 
+  myCourses() {
+    return '/instructor/my-courses';
+  }
+
+  newCourse() {
+    return '/instructor/new-course';
+  }
+
   /**
    * to `/instructor/<offering_id>?plid=<playlist_id>&mid=<media_id>`
    * @param {String} offeringId offering id
@@ -100,7 +102,7 @@ export class ClassTranscribeLinks {
    * @param {String} mid media id (optional)
    */
   instOffering(offeringId, plid, mid) {
-    return `/instructor/${offeringId}${this.createSearch({ plid, mid })}`;
+    return `/instructor/${offeringId}${uurl.createSearch({ plid, mid })}`;
   }
   /**
    * to `/instructor/new-offering`
@@ -143,7 +145,7 @@ export class ClassTranscribeLinks {
         params.begin = undefined;
       }
     }
-    return `/video${this.createSearch({ id, ...params })}`;
+    return `/video${uurl.createSearch({ id, ...params })}`;
   }
 
   /**
@@ -158,121 +160,6 @@ export class ClassTranscribeLinks {
    */
   contactUs() {
     return 'mailto:classtranscribe@illinois.edu';
-  }
-
-  // //////////////////////////////////////////////////////////////////////////////
-  // General URL handlers
-  // //////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * Compare 2 urls
-   * @param {String} href1 a url/pathname
-   * @param {String} href2 a url/pathname (default as the `window.location.pathname`)
-   */
-  isEqual(href1, href2) {
-    const href2_ = href2 === undefined ? window.location.pathname : href2;
-    return href1 === href2_;
-  }
-
-  /**
-   * Get parsed query object
-   * @param {String} query query string
-   */
-  useParams(query) {
-    if (!query) return {};
-    const params = {};
-
-    try {
-      const pairs = query.substr(1).split('&');
-      pairs.forEach((pair) => {
-        const [name = '', value = ''] = pair.split('=');
-        params[decodeURIComponent(name)] = decodeURIComponent(value);
-      });
-    } catch (error) {
-      console.error('Invalid query');
-    }
-
-    return params;
-  }
-
-  /**
-   * Create a query based on the values in params
-   * @param {Object} params search query's params
-   * @param {String} prefix the first char in the query '?' or '#'
-   */
-  createQuery(params, prefix = '') {
-    let query = '';
-    const keys = Object.keys(params);
-    _.forEach(keys, (key) => {
-      if (params[key]) {
-        let value = params[key];
-        if (typeof value === 'string') {
-          value = encodeURIComponent(value);
-        }
-
-        query += `&${key}=${value}`;
-      }
-    });
-
-    query = query.replace('&', '');
-    return query ? prefix + query : '';
-  }
-
-  /**
-   * Get parsed window.location.search query of href
-   * @param {String} href default to window.href
-   */
-  useSearch(href) {
-    return this.useParams(
-      uurl.isValidUrl(href)
-        ? href.substring(href.indexOf('?'), href.length)
-        : window.location.search,
-    );
-  }
-
-  /**
-   * Create a window.location.search query
-   * @param {Object} params search query's params
-   */
-  createSearch(params) {
-    return this.createQuery(params, '?');
-  }
-
-  /**
-   * Replace current window.location.search
-   * @param {Object} params search query's params
-   */
-  replaceSearch(params) {
-    const query = this.createSearch(params);
-    window.history.pushState(null, null, window.location.pathname + query);
-  }
-
-  /**
-   * Push new value to current window.location.search
-   * @param {Object} params search query's params
-   */
-  pushSearch(params) {
-    const allParams = { ...this.useSearch(), ...params };
-    const newQuery = this.createSearch(allParams);
-    window.history.pushState(null, null, window.location.pathname + newQuery);
-  }
-
-  setHash(hash = '#') {
-    if (!hash.startsWith('#')) {
-      hash = `#${hash}`;
-    }
-
-    let aElem = document.createElement('a');
-    aElem.href = hash;
-    aElem.click();
-  }
-
-  /**
-   * Create a window.location.hash query
-   * @param {Object} params hash query's params
-   */
-  createHash(params) {
-    return this.createQuery(params, '#');
   }
 }
 

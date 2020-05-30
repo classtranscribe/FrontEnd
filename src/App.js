@@ -6,7 +6,7 @@ import {
   // Admin
   Admin,
   // Instructor
-  // Instructor,
+  MyCourses,
   MediaSettings,
   // Student
   Home,
@@ -48,11 +48,12 @@ class App extends React.Component {
           }
 
           {/* Instructor */}
-          {/* {
+          <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
+          {
             user.isInstructor
             &&
-            <Route path={["/instructor", "/instructor/:offId"]} component={Instructor} />
-          } */}
+            <Route exact path="/instructor/my-courses" component={MyCourses} />
+          }
           {
             user.isInstructor
             &&

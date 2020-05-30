@@ -58,12 +58,25 @@ export class DefaultSidebarItems {
 
   get myCourses() {
     return this.create({
+      value: 'ct-nsb-inst',
       text: 'My Courses',
       icon: 'class',
       href: links.instructor(),
       activeType: 'starts',
-      items: [],
-      reloadOnPathnameChange: true
+      items: [
+        {
+          value: 'ct-nsb-inst-courses',
+          text: 'Courses',
+          href: links.myCourses(),
+          active: window.location.pathname === links.myCourses()
+        },
+        {
+          value: 'ct-nsb-inst-new',
+          text: 'New Courses',
+          href: links.newCourse(),
+          active: window.location.pathname === links.newCourse()
+        }
+      ]
     });
   }
 
