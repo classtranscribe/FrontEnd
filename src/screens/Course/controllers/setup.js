@@ -2,9 +2,21 @@ import { StateController } from 'utils/state-controller';
 import { api, NOT_FOUND_404, ARRAY_INIT } from 'utils';
 
 class SetupCoursePage extends StateController {
+  constructor() {
+    super();
+    this.clear = this.clear.bind(this);
+  }
   init(props) {
-    let { setOffering, setPlaylists, setPlaylist } = props;
-    this.register({ setOffering, setPlaylists, setPlaylist });
+    let { 
+      setOffering, 
+      setPlaylists, setPlaylist, 
+      clearCourseData 
+    } = props;
+    this.register({ 
+      setOffering, 
+      setPlaylists, setPlaylist,
+      clearCourseData
+    });
   }
 
   offering = null
@@ -20,6 +32,11 @@ class SetupCoursePage extends StateController {
   playlist = null
   setPlaylist(playlist) {
     this.setState('setPlaylist', 'playlist', playlist);
+  }
+
+  clear() {
+    const { clearCourseData } = this.dispatches;
+    if (clearCourseData) clearCourseData();
   }
 
   async getOfferingById(offeringId) {
@@ -41,7 +58,14 @@ class SetupCoursePage extends StateController {
     }
   }
 
+  lastOfferingId = null
   async setupCoursePage(offeringId) {
+    if (this.lastOfferingId !== offeringId) {
+      this.clear();
+    }
+
+    this.lastOfferingId = offeringId;
+    
     let offering = await this.getOfferingById(offeringId);
     this.setOffering(offering);
 
@@ -51,6 +75,21 @@ class SetupCoursePage extends StateController {
 
     let playlists = await this.getPlaylistsByOfferingId(offeringId);
     this.setPlaylists(playlists);
+  }
+
+  async getPlaylistById(playlistId) {
+    if (!playlistId) return null;
+    try {
+      let { data } = await api.getPlaylistById(playlistId);
+      return data;
+    } catch (error) {
+      return NOT_FOUND_404;
+    }
+  }
+
+  async setupPlaylist(playlistId) {
+    let playlist = await this.getPlaylistById(playlistId);
+    this.setPlaylist(playlist);
   }
 }
 

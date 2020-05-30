@@ -3,4 +3,12 @@
   left: 0;
   height: calc(100% - 50px);
   display: flex;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 1000px) {
+  #cp-container {
+    flex-direction: column;
+    height: max-content;
+  }
 }
