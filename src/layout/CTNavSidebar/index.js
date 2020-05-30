@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { user } from 'utils/user';
 import './index.scss';
 
-import { SignInPrompt } from '../../SignInPrompt';
+import { SignInPrompt } from 'components/SignInPrompt';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
 import { getDefaultNSBItems } from './default-sidebar-props';

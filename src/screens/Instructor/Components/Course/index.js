@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CTLoader } from 'components';
+import { CTLoader } from 'layout';
 import { links } from 'utils/links';
 import './index.css';
 import {

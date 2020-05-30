@@ -1,9 +1,9 @@
 export { CTLayout } from './CTLayout';
-export { CTNavHeader } from './CTLayout/CTNavHeader';
-export { CTFragment } from './CTLayout/CTFragment';
-export { CTFooter } from './CTLayout/CTFooter';
-export { CTErrorWrapper } from './CTLayout/CTErrorWrapper';
-export { CTLoader } from './CTLayout/CTLoader';
-export { CTLoadable } from './CTLayout/CTLoadable';
+export { CTNavHeader } from './CTNavHeader';
+export { CTFragment } from './CTFragment';
+export { CTFooter } from './CTFooter';
+export { CTErrorWrapper } from './CTErrorWrapper';
+export { CTLoader } from './CTLoader';
+export { CTLoadable } from './CTLoadable';
 
-export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
+export { SignInMenu } from './CTNavHeader/NavHeaderMenu/SignInMenu';

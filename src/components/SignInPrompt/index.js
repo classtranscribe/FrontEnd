@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './index.scss';
 
 import { Button } from 'pico-ui';
-import { SignInMenu } from '../CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
+import { SignInMenu } from 'layout/CTNavHeader/NavHeaderMenu/SignInMenu';
 
 export function SignInPrompt(props) {
   let {

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { SignInPrompt, CTFragment } from 'components';
+import { CTFragment } from 'layout';
+import { SignInPrompt } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
 import { user } from 'utils/user';
 import { connectWithRedux, searchControl } from '../../controllers';

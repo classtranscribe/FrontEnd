@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 
 import { historyStore, connectWithRedux, setup } from './controllers';
 import { WatchHistories } from './Components';

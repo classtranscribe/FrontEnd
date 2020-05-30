@@ -1,6 +1,6 @@
 import React from 'react';
 import { ARRAY_INIT } from 'utils';
-import { CTFragment, CTFooter } from 'components';
+import { CTFragment, CTFooter } from 'layout';
 import { Link } from 'react-router-dom';
 
 function PlaylistsView({
