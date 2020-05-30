@@ -1,4 +1,4 @@
-import { getDefaultNSBItems } from './CTNavSidebar';
+import { getDefaultNSBItems } from '../CTNavSidebar';
 /**
  * The props for CTNavHeaderTab component
  * @typedef {Object} CTNavHeaderTabProps

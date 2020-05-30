@@ -1,6 +1,9 @@
 import React from 'react';
 import { CTFragment } from '../CTFragment';
 
+/**
+ * A general footer for ClassTranscribe
+ */
 export function CTFooter() {
   return (
     <CTFragment padding={[50, 20]} center as="footer" id="ct-footer">
