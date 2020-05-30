@@ -132,16 +132,9 @@ export class Home extends React.Component {
     const { offerings } = this.state;
 
     return (
-      <Route
-        render={({ location }) => (
-          <CTLayout {...this.getLayoutProps()}>
-            <Switch location={location}>
-              {/* Unauthed home page */}
-              <Route exact path="/home" render={(props) => <Feed {...props} {...this} />} />
-            </Switch>
-          </CTLayout>
-        )}
-      />
+      <CTLayout {...this.getLayoutProps()}>
+        <Feed {...this} />
+      </CTLayout>
     );
   }
 }
