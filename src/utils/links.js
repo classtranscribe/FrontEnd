@@ -57,7 +57,7 @@ export class ClassTranscribeLinks {
    * @param {String} mid media id (optional)
    */
   offeringDetail(id, plid, mid) {
-    return `/home/offering/${id}${this.createSearch({ plid, mid })}`;
+    return `/offering/${id}${this.createSearch({ plid, mid })}`;
   }
   /**
    * to `/home/personal-report`
