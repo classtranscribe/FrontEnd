@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Sticky } from 'semantic-ui-react';
-import { PlaceHolder } from 'components';
+import { CTLoader } from 'components';
 import { links, uurl } from 'utils';
 
 import {
@@ -187,7 +187,7 @@ function PlaylistWithRedux({
           )}
         </div>
       ) : (
-        <PlaceHolder />
+        <CTLoader />
       )}
 
       {currMedia.id && <MediaDetail media={currMedia} onClose={closeMedia} />}

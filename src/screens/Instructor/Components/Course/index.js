@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { CTLoader } from 'components';
 import { links } from 'utils/links';
 import './index.css';
 import {
@@ -11,9 +12,7 @@ import {
   // OFF_SETTINGS,
 } from '../../Utils';
 
-import { PlaceHolder } from '../../../../components';
 import { EditCourse } from '../EditCourse';
-
 import CourseInfo from './CourseInfo';
 import Playlists from './Playlists';
 import Analytics from './Analytics';
@@ -103,15 +102,9 @@ function CourseWithRedux({
               handlePlaylistClick={handlePlaylistClick}
             />
           </div>
-
-          {/* Placeholder */}
         </>
       ) : (
-        <>
-          <div className="ip-c-placeholder">
-            <PlaceHolder />
-          </div>
-        </>
+        <CTLoader />
       )}
     </div>
   );
