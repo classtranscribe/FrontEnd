@@ -14,6 +14,8 @@ export { CTNavHeader } from './CTLayout/CTNavHeader';
 export { CTFragment } from './CTLayout/CTFragment';
 export { CTFooter } from './CTLayout/CTFooter';
 export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
+export { CTErrorWrapper } from './CTLayout/CTErrorWrapper';
+
 export { SignInPrompt } from './SignInPrompt';
 
 export { Poster } from './Poster';
@@ -25,7 +27,7 @@ export { CTForm } from './CTForm';
 
 export { GeneralModal, CTModal } from './Modals';
 
-export { CTErrorWrapper } from './CTErrorWrapper';
+// export { CTErrorWrapper } from './CTErrorWrapper';
 
 // Need to be removed later
 export { GeneralAlert } from './Alerts';

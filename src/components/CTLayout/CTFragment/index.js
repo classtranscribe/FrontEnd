@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
+import { CTLoadable } from '../CTLoadable';
+import { createCTFragmentProps } from './create-props';
 
 export function CTFragment(props) {
   let {
@@ -17,7 +19,12 @@ export function CTFragment(props) {
     fade = false,
     sticky = false,
     offsetTop = 0,
-    padding = 0,
+    padding,
+    // loadable
+    error = false,
+    errorElement,
+    loading = false,
+    loadingElement,
     // content
     as = 'div',
     children,
@@ -28,7 +35,8 @@ export function CTFragment(props) {
   if (typeof padding === 'number' || typeof padding === 'string') {
     padding = [padding];
   }
-  let paddingStr = `${padding.join('px ') }px`;
+  
+  let paddingStr = Array.isArray(padding) ? `${padding.join('px ') }px` : undefined;
 
   const fragmentStyles = {
     top: `${offsetTop }px`,
@@ -58,13 +66,27 @@ export function CTFragment(props) {
     ...otherProps
   };
 
-  return React.createElement(as, fragmentProps);
+  const Element = React.createElement(as, fragmentProps);
+  const loadableProps = {
+    error,
+    errorElement,
+    loading,
+    loadingElement
+  };
+
+  return (
+    <CTLoadable {...loadableProps}>
+      {Element}
+    </CTLoadable>
+  );
 }
 
 const paddingTypes = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
 
 CTFragment.propTypes = {
-  /** A unique ID to the element */
+  ...CTLoadable.propTypes,
+
+  /** The unique ID to the element */
   id: PropTypes.string,
 
   /** The Additional classes */
@@ -85,10 +107,10 @@ CTFragment.propTypes = {
   /** Horizontally centering its children */
   hCenter: PropTypes.bool,
 
-  /** The element can be a flex list */
+  /** The fragment can be a flex list */
   list: PropTypes.bool,
 
-  /** The heading can fade in */
+  /** The fragment can fade in */
   fade: PropTypes.bool,
 
   /** The fragment can be sticky */
@@ -119,5 +141,7 @@ CTFragment.propTypes = {
   as: PropTypes.string,
 
   /** The primary content */
-  children: PropTypes.node
+  children: PropTypes.node,
 };
+
+CTFragment.createProps = createCTFragmentProps;
