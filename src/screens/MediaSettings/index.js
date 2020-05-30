@@ -75,11 +75,8 @@ class MediaSettingsWithRedux extends React.Component {
           navbar
           retry={false}
           signInButton={false}
-          error={{
-            code: <i className="material-icons">laptop_mac</i>,
-            header: 'Please open this page in a computer/laptop browser.',
-            description: '',
-          }}
+          code={<i className="material-icons">laptop_mac</i>}
+          header="Please open this page in a computer/laptop browser."
         />
       </div>
     ) : (
