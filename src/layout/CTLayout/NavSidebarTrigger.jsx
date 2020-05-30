@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
-import { CTBrand } from './CTNavHeader/CTBrand';
+import { CTBrand } from '../CTNavHeader/CTBrand';
 
 /**
  * A button controlling sidebar open/close on nav header

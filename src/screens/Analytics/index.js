@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 import { api } from 'utils';
 
 export class Analytics extends Component {

@@ -13,14 +13,12 @@ import './index.css';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
-import BulkEdit from './BulkEdit';
 
 import PlaceHolder from './PlaceHolder';
 
 function TranscriptionsWithRedux({
   transcript = [],
   currCaption = {},
-  bulkEditing = false,
   mode = NORMAL_MODE,
   transView = LINE_VIEW,
   currEditing = null,
@@ -50,8 +48,6 @@ function TranscriptionsWithRedux({
           <div className="w-100 d-flex justify-content-center text-muted text-uppercase">
             No Transcriptions
           </div>
-        ) : bulkEditing ? (
-          <BulkEdit transcript={transcript} />
         ) : transView === LINE_VIEW ? (
           <div className="trans-list">
             {transcript.map((caption) => (

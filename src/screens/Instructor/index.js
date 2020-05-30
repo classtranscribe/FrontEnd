@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 import { links } from 'utils/links';
 
 import { 

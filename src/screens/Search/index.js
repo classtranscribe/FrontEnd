@@ -1,6 +1,6 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 
 import {
   searchStore,

@@ -6,8 +6,12 @@ import { Button } from 'pico-ui';
 import { user, links } from 'utils';
 import './index.scss';
 
-import { CTNavHeader, SignInMenu } from 'components';
+import { CTNavHeader } from '../CTNavHeader';
+import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
 
+/**
+ * A general error wrapper
+ */
 export function CTErrorWrapper(props) {
   let {
     show = false,

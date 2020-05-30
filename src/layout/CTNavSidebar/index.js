@@ -4,11 +4,9 @@ import classNames from 'classnames';
 import { user } from 'utils/user';
 import './index.scss';
 
-import { SignInPrompt } from '../../SignInPrompt';
+import { SignInPrompt } from 'components/SignInPrompt';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
-import { getDefaultNSBItems } from './default-sidebar-props';
-
 
 export function CTNavSidebar(props) {
   let {
@@ -21,10 +19,6 @@ export function CTNavSidebar(props) {
     darkMode = false,
     onClose,
   } = props;
-
-  if (!items || items.length === 0) {
-    items = getDefaultNSBItems();
-  }
 
   const sidebarClasses = classNames({ show, mini, float });
   const drawerClasses = classNames({ show, 'ct-nav-dark': darkMode });

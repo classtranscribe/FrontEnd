@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { NOT_FOUND_404 } from 'utils';
-import { CTLayout, CTFragment, CTErrorWrapper } from 'components';
+import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
 import {
   setup,
   courseStore,

@@ -2,7 +2,7 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
 import { links, api } from 'utils';
-import { CTErrorWrapper, CTLayout } from 'components';
+import { CTErrorWrapper, CTLayout } from 'layout';
 import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './controllers';
 
 import { MSPHeaderTabTitle } from './Components';
