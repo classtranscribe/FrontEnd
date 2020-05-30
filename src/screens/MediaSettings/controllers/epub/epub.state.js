@@ -1,4 +1,4 @@
-import { api, util, ARRAY_INIT } from 'utils';
+import { api, uurl, ARRAY_INIT } from 'utils';
 import { ENGLISH } from 'screens/Watch/Utils';
 import { parseEpubData } from './util';
 
@@ -81,7 +81,7 @@ class EpubState {
   }
 
   toStep(step) {
-    util.links.setHash(step);
+    uurl.setHash(step);
   }
 
   get isStep1() {

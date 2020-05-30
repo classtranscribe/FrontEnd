@@ -1,10 +1,11 @@
 .ip-sidebar {
+  padding-top: 0;
   width: 19em;
   overflow: hidden;
 }
 .ip-sidebar-con {
   width: 100%;
-  height: calc(100vh - 4.5rem);
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   display: block;

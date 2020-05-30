@@ -9,22 +9,27 @@ import './stylesheets/csstrans.playlist-video.css';
 import './stylesheets/sk-loader.css';
 import './index.css';
 
-export { ClassTranscribeHeader } from './Header';
-export { SignInMenu } from './Header/SignInMenu';
-export { ClassTranscribeFooter } from './Footer';
+export { CTLayout } from './CTLayout';
+export { CTNavHeader } from './CTLayout/CTNavHeader';
+export { CTFragment } from './CTLayout/CTFragment';
+export { CTFooter } from './CTLayout/CTFooter';
+export { SignInMenu } from './CTLayout/CTNavHeader/NavHeaderMenu/SignInMenu';
+export { CTErrorWrapper } from './CTLayout/CTErrorWrapper';
+export { CTLoader } from './CTLayout/CTLoader';
+export { CTLoadable } from './CTLayout/CTLoadable';
+
+export { SignInPrompt } from './SignInPrompt';
 
 export { Poster } from './Poster';
 export { VideoCard, VideoCardPlaceHolder } from './Cards';
 
-export { PlaceHolder } from './Placeholder';
-export { CTButton } from './Buttons';
-export { CTForm } from './CTForm';
-
 export { GeneralModal, CTModal } from './Modals';
 
-export { CTErrorWrapper } from './CTErrorWrapper';
+// export { CTErrorWrapper } from './CTErrorWrapper';
 
 // Need to be removed later
+export { CTButton } from './Buttons';
+export { CTForm } from './CTForm';
 export { GeneralAlert } from './Alerts';
 export { GeneralLoader } from './Loaders';
 

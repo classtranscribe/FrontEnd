@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Popup } from 'semantic-ui-react';
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import { epub } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
@@ -36,7 +36,7 @@ function ChapterText({ text = '', id = '', chapter, onSaveText, screenshots, cha
 
   useEffect(() => {
     if (editing) {
-      util.elem.scrollIntoCenter(id);
+      elem.scrollIntoCenter(id);
     }
   }, [editing]);
 

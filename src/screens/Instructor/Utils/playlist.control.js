@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { util, api, prompt } from 'utils';
+import { uurl, api, prompt } from 'utils';
 import { setup } from './setup.control';
 import { promptControl } from './prompt.control';
 
@@ -24,7 +24,7 @@ export const plControl = {
 
     if (sourceType === 1) {
       // YouTube
-      source = YOUTUBE_PREFIX + util.links.createSearch({ list: playlistIdentifier });
+      source = YOUTUBE_PREFIX + uurl.createSearch({ list: playlistIdentifier });
     } else if (sourceType === 3) {
       // Kaltura
       source = `(Kaltura Playlist ID) ${playlistIdentifier}`;
@@ -51,7 +51,7 @@ export const plControl = {
     // extract playlistIdentifier
     if (sourceType === 1) {
       // YouTube
-      const { list } = util.links.useSearch(playlistIdentifier);
+      const { list } = uurl.useSearch(playlistIdentifier);
       playlistIdentifier = list;
     } else if (sourceType === 3) {
       // Kaltura
@@ -93,7 +93,7 @@ export const plControl = {
 
     // replace the `plid` in the window.location.search
     // to locate the playlist, after the playslists changed
-    util.links.replaceSearch({ plid: newPl.id });
+    uurl.replaceSearch({ plid: newPl.id });
     // update the playlists
     setup.playlists([...setup.playlists(), newPl]);
 
@@ -164,7 +164,7 @@ export const plControl = {
     }
     if (sourceType === 1) {
       // YouTube
-      const { list } = util.links.useSearch(url);
+      const { list } = uurl.useSearch(url);
       return Boolean(list);
     }
     if (sourceType === 3) {

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { util } from 'utils';
+import { elem } from 'utils/use-elem';
 import { searchControl, SEARCH_INIT, SEARCH_RESULT, SEARCH_BEGIN } from '../../../Utils';
 import './index.css';
 
@@ -19,7 +19,7 @@ function InputBar({ search = SEARCH_INIT }) {
 
   const handleSearch = () => {
     inputRef.current.focus();
-    util.elem.scrollToTop('watch-search-result-container');
+    elem.scrollToTop('watch-search-result-container');
     searchControl.getAllResults(inputRef.current.value);
   };
 

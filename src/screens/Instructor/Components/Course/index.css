@@ -1,8 +1,7 @@
 .ip-course {
   width: 43%;
   min-width: 40em;
-  height: 100vh;
-  padding-top: 4.6em;
+  height: 100%;
   padding-right: .2em;
   background-color: white;
   overflow: hidden;

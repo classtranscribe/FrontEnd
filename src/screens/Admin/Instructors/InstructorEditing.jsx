@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api, util, prompt } from 'utils';
+import { api, links, prompt } from 'utils';
 import { Grid, Form, Input } from 'semantic-ui-react';
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components';
 
@@ -13,14 +13,16 @@ export default function InstructorEditing({ match: { params }, history }) {
 
   const callBack = {
     onCancel: () => history.goBack(),
-    onClose: () => util.toAdminPage(),
+    onClose: () => {
+      window.location = links.admin('instructors');
+    },
     onInactive: () => 1,
     onUpdate: () => 1,
     onSubmit: () => {
       api
         .createInstructor(mailId)
         .then(() => {
-          window.location = util.links.admin();
+          window.location = links.admin('instructors');
         })
         .catch(() => {
           prompt.error(`Failed to add ${mailId} as an instructor.`, 5000);

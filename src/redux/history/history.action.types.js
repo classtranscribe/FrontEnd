@@ -1,0 +1,1 @@
+export const SET_WATCH_HISTORIES = 'his-set-watch-histories';

@@ -1,11 +1,17 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { withRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { withReduxProvider } from 'redux/redux-provider';
+import { CTLayout } from 'components';
+import { links } from 'utils/links';
 
-import { ClassTranscribeHeader } from 'components';
-import { util } from 'utils';
-
-import { instpStore, connectWithRedux, setup, plControl, offControl, mediaControl } from './Utils';
+import { 
+  instpStore, 
+  connectWithRedux, 
+  setup, 
+  plControl, 
+  offControl, 
+  mediaControl
+} from './Utils';
 import './index.css';
 
 import {
@@ -21,14 +27,14 @@ import {
 export class InstructorWithRedux extends React.Component {
   constructor(props) {
     super(props);
-    util.links.title('My Courses');
+    links.title('My Courses');
     setup.init(props);
     plControl.init(props);
     offControl.init(props);
     mediaControl.init(props);
   }
 
-  showSiderBar = (value) => {
+  handleShowSidebar = (value) => {
     const { setSidebar, sidebar } = this.props;
     if (typeof value === 'boolean') {
       setSidebar(value);
@@ -41,52 +47,53 @@ export class InstructorWithRedux extends React.Component {
     setup.setupOfferings();
   }
 
+  getLayoutProps() {
+    return CTLayout.createProps({
+      fill: true,
+      transition: true,
+      headerProps: {
+        subtitle: 'Instructor',
+      },
+      sidebarProps: {
+        float: true,
+      }
+    });
+  }
+
   render() {
-    const { sidebar, loading, ordering } = this.props;
-    const paddingLeft = {
-      paddingLeft: sidebar && window.innerWidth > 900 ? '19em' : '0',
-    };
+    const { loading, ordering } = this.props;
 
     return (
-      <div className="ip-bg">
-        <ClassTranscribeHeader
-          subtitle="Instructor"
-          showSiderBar={this.showSiderBar}
-          display={sidebar}
-        />
+      <CTLayout {...this.getLayoutProps()}>
+        <div className="ip-bg">
+          <Sidebar handleShowSidebar={this.handleShowSidebar} />
 
-        <Sidebar showSiderBar={this.showSiderBar} />
+          <div className="ip-container">
+            <Route path="/instructor/new-offering" component={NewCourse} />
+            <Route
+              path="/instructor/:offId"
+              render={() => (
+                <>
+                  <Course />
+                  <Playlist />
+                </>
+              )}
+            />
 
-        <main className="ip-container" style={paddingLeft}>
-          <Route path="/instructor/new-offering" component={NewCourse} />
-          <Route
-            path="/instructor/:offId"
-            render={() => (
-              <>
-                <Course />
-                <Playlist />
-              </>
-            )}
-          />
-          {/* <Route path='/instructor/:offeringId' render={props => <Course />} /> */}
-
-          <Confirmation />
-          {Boolean(loading.type) && <Loader />}
-          {Boolean(ordering.type) && <OrderingModal />}
-        </main>
-      </div>
+            <Confirmation />
+            {Boolean(loading.type) && <Loader />}
+            {Boolean(ordering.type) && <OrderingModal />}
+          </div>
+        </div>
+      </CTLayout>
     );
   }
 }
 
-export function Instructor(props) {
-  const InstpConnectToRedux = withRouter(
-    connectWithRedux(InstructorWithRedux, ['sidebar', 'loading', 'ordering', 'offerings'], ['all']),
-  );
-
-  return (
-    <Provider store={instpStore}>
-      <InstpConnectToRedux {...props} />
-    </Provider>
-  );
-}
+export const Instructor = withReduxProvider(
+  InstructorWithRedux,
+  instpStore,
+  connectWithRedux,
+  ['sidebar', 'loading', 'ordering', 'offerings'],
+  ['all']
+);

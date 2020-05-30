@@ -89,3 +89,14 @@
   text-align: left;
 }
 
+/* No result class */
+.no-results {
+  width: 100%;
+  text-align: center;
+  color: grey;
+}
+
+.no-results.left {
+  text-align: start;
+}
+

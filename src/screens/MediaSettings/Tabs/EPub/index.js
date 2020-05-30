@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { ARRAY_INIT } from 'utils';
-import { PlaceHolder } from 'components';
+import { CTLoader } from 'components';
 import { epub, connectWithRedux } from '../../controllers/epub';
 import './index.scss';
 
@@ -70,7 +70,7 @@ export function EpubWithRedux(props) {
       <div className="msp-ee">
         {chapters === ARRAY_INIT ? (
           <div className="w-100">
-            <PlaceHolder />
+            <CTLoader />
           </div>
         ) : (
           <>

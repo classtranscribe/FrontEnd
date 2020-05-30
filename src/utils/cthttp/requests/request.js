@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
 import { env } from 'utils/env';
-import { links } from 'utils/links';
+import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';
 
 class CTHTTPRequest {
@@ -12,7 +12,7 @@ class CTHTTPRequest {
   request(withAuth = true) {
     let authToken = accountStorage.authToken;
     let loginAsAuthToken = accountStorage.loginAsUserInfo.authToken;
-    if (!links.isEqual(links.admin()) && loginAsAuthToken) {
+    if (!uurl.isEqual(links.admin()) && loginAsAuthToken) {
       authToken = loginAsAuthToken;
     }
 

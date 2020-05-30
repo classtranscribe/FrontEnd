@@ -4,7 +4,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { api, util } from 'utils';
+import { api, links } from 'utils';
 import { Grid, Form, Input } from 'semantic-ui-react';
 import { updateJson } from '../helpers';
 
@@ -60,7 +60,7 @@ export default class DepartmentEditing extends React.Component {
   };
 
   onClose = () => {
-    window.location = util.links.admin();
+    window.location = links.admin('departments');
   };
 
   onCancel = () => {

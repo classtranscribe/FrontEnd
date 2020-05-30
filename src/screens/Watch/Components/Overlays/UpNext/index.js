@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { VideoCard } from 'components';
-import { api, util } from 'utils';
+import { api, links } from 'utils';
 import {
   connectWithRedux,
   videoControl,
@@ -66,7 +66,7 @@ function Video({ upNext = null }) {
         name={mediaName}
         posterSize="100px"
         fittedNameSize={-1}
-        link={util.links.watch(id)}
+        link={links.watch(id)}
       />
     </div>
   );

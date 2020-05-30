@@ -1,0 +1,26 @@
+.ct-signin-prompt {
+  margin: 10px 0;
+  width: 100%;
+  padding: 0 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .ct-signin-card {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    // background-color: rgb(241, 246, 246);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+
+    .ct-signin-descrip {
+      text-align: center;
+      margin: 10px 0;
+      font-size: 14px;
+      color: rgb(61, 61, 61);
+    }
+  }
+}

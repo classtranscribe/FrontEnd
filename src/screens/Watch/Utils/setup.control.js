@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
-import { api, util, userAction } from 'utils';
+import { api, links, uurl, userAction } from 'utils';
 import { transControl } from './trans.control';
 import { videoControl } from './player.control';
 import { menuControl } from './menu.control';
@@ -103,7 +103,7 @@ export const setup = {
     // if (!playlist) {
     //   playlist = this.playlist()
     // }
-    history.push(util.links.watch(media.id));
+    history.push(links.watch(media.id));
   },
 
   findNeighbors(mediaId, playlist) {
@@ -133,7 +133,7 @@ export const setup = {
    */
   async getMedia() {
     const { setError } = this.externalFunctions;
-    const { id } = util.links.useSearch();
+    const { id } = uurl.useSearch();
 
     try {
       const { data } = await api.getMediaById(id);

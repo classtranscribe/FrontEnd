@@ -2,7 +2,7 @@
  * Functions for controlling video players
  */
 import { isMobile } from 'react-device-detect';
-import { userAction, api, user, util } from 'utils';
+import { userAction, api, user, links, uurl } from 'utils';
 import { setup } from './setup.control';
 import { transControl } from './trans.control';
 import { preferControl } from './preference.control';
@@ -102,12 +102,12 @@ export const videoControl = {
   },
 
   handleRestoreTime(media) {
-    const search = util.links.useSearch();
+    const search = uurl.useSearch();
     const begin = search.begin || media.watchHistory.timestamp;
     if (Boolean(begin) && !this.timeRestored) {
       this.currTime(Number(begin));
       this.timeRestored = true;
-      window.history.replaceState(null, null, util.links.watch(media.id));
+      window.history.replaceState(null, null, links.watch(media.id));
     }
   },
 

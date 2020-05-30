@@ -1,4 +1,4 @@
-import { util } from 'utils';
+import { uurl, links } from 'utils';
 import moment from 'moment';
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util';
 // import { videoControl } from './player.control'
@@ -75,8 +75,8 @@ export function colorMap(color = CC_COLOR_BLACK, opacity = 1) {
 // Get share url
 export function getShareableURL(begin = 0) {
   const { origin } = window.location;
-  const { id } = util.links.useSearch();
-  const pathname = util.links.watch(id, { begin, from: 'sharedlink' });
+  const { id } = uurl.useSearch();
+  const pathname = links.watch(id, { begin, from: 'sharedlink' });
 
   return origin + pathname;
 }

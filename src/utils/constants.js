@@ -1,18 +1,19 @@
 // user roles
-export const STUDENT = 'u-stu'
-export const INSTRUCTOR = 'u-inst'
-export const ADMIN = 'u-admin'
-export const DEFAULT_ROLE = STUDENT // used for testing
+export const STUDENT = 'u-stu';
+export const INSTRUCTOR = 'u-inst';
+export const ADMIN = 'u-admin';
+export const DEFAULT_ROLE = STUDENT; // used for testing
 
 // arrays
-export const ARRAY_INIT = ['init']
-export const ARRAY_EMPTY = ['empty']
+export const ARRAY_INIT = ['init'];
+export const ARRAY_EMPTY = ['empty'];
+export const NOT_FOUND_404 = '404';
 
 // Pages
-export const PAGE_INSTRUCTOR = 'instp'
-export const PAGE_HOME = 'homep'
-export const PAGE_MEDIA_SETTING = 'msp'
-export const PAGE_WATCH = 'watch'
+export const PAGE_INSTRUCTOR = 'instp';
+export const PAGE_HOME = 'homep';
+export const PAGE_MEDIA_SETTING = 'msp';
+export const PAGE_WATCH = 'watch';
 
 export const isMac = /Mac/i.test(navigator.platform);
 export const isApple = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
@@ -25,4 +26,4 @@ export const isDeveloping = Boolean(
     window.location.hostname.match(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
-)
+);

@@ -6,28 +6,20 @@
 
 import React from 'react';
 import _ from 'lodash';
+import { Route, Redirect } from 'react-router-dom';
 // UI
-import { Tab } from 'semantic-ui-react';
 import './index.css';
 // Layouts
-import { ClassTranscribeHeader } from '../../components';
-import TermPane from './Terms';
-import UniPane from './Universities';
-import DepartPane from './Departments';
-import CoursePane from './Courses';
-import InstructorPane from './Instructors';
-import More from './More';
+import { CTLayout } from 'components';
 // Vars
-import { api, util, user } from '../../utils';
-import LoginAsUser from './LoginAsUser';
+import { api, util, user, links } from 'utils';
+import { tabs } from './tabs';
 
 export class Admin extends React.Component {
   constructor(props) {
     super(props);
-    util.links.title('Admin');
+    links.title('Admin');
     this.state = {
-      activePane: parseInt(localStorage.getItem('activePane'), 10) || 0,
-      verticalSidebar: window.innerWidth > 700,
       loading: true,
 
       universities: [],
@@ -98,64 +90,12 @@ export class Admin extends React.Component {
      */
     if (!user.isLoggedIn) {
       user.signIn();
-    } else if (!user.isAdmin) window.location = util.links.notfound404();
+    } else if (!user.isAdmin) window.location = links.notfound404();
     /**
      * 2. first load of values
      */
     this.getAll();
-    /**
-     * 3. Load data from last selected options after jump back from editing page.
-     */
-    [
-      ['terms', 'termCurrUni', this.getTermsByUniId],
-      ['departments', 'departCurrUni', this.getDepartsByUniId],
-      ['courseCurrDeparts', 'courseCurrUni', this.getDepartsByUniId],
-    ].forEach((key) => {
-      const uniId = localStorage.getItem(key[1]);
-      const callBack = key[2];
-      if (uniId) {
-        // get University by id in localStorage
-        api.getUniversityById(uniId).then((response) => {
-          this.setState({ [key[1]]: response.data });
-          // get terms or departs based on loaded univeristy data
-          callBack(uniId, key[0]);
-          // To load courses. first load courseCurrDepart
-          if (key[1].includes('course')) {
-            const departId = localStorage.getItem('courseCurrDepart');
-            if (departId) {
-              // load courseCurrDepart by id
-              api.getDepartById(departId).then((response_) => {
-                this.setState({ courseCurrDepart: response_.data });
-                // load courses based on this department
-                this.getCoursesByDepartId(departId);
-              });
-            }
-          }
-        });
-      }
-    });
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 700 && this.state.verticalSidebar)
-        this.setState({ verticalSidebar: false });
-      else if (window.innerWidth >= 700 && !this.state.verticalSidebar)
-        this.setState({ verticalSidebar: true });
-    });
   }
-
-  onSignOut = () => {
-    user.signOut();
-    this.props.history.goBack();
-  };
-
-  /**
-   * Used for jumping back from edit page
-   * Set selected active pane, and store in localStorage
-   */
-  setActivePane = (index) => {
-    this.setState({ activePane: index });
-    localStorage.setItem('activePane', `${index}`);
-  };
 
   /**
    * set current selected options and get corresponding data
@@ -168,17 +108,13 @@ export class Admin extends React.Component {
       this.setState((prevState) => ({ [name]: _.find(prevState.universities, { id: value }) }));
       if (name.includes('term')) {
         // termCurrUni
-        localStorage.setItem('termCurrUni', value);
         this.getTermsByUniId(value);
       } else if (name.includes('depart')) {
         // departCurrUni
-        localStorage.setItem('departCurrUni', value);
         this.getDepartsByUniId(value, 'departments');
       } else if (name.includes('course')) {
         // courseCurrUni
-        localStorage.setItem('courseCurrUni', value);
         // reset the 'courseCurrDepart' after change the 'courseCurrUni'
-        localStorage.removeItem('courseCurrDepart');
         this.setState({ courseCurrDepart: null, courses: [] });
         this.getDepartsByUniId(value, 'courseCurrDeparts');
       }
@@ -188,44 +124,50 @@ export class Admin extends React.Component {
         [name]: _.find(prevState.courseCurrDeparts, { id: value }),
       }));
       this.getCoursesByDepartId(value);
-      localStorage.setItem('courseCurrDepart', value);
     }
   };
 
+  onSignOut = () => {
+    user.signOut();
+    this.props.history.goBack();
+  };
+
+  getLayoutProps() {
+    return CTLayout.createProps({
+      responsive: true,
+      transition: true,
+      footer: true,
+      defaultOpenSidebar: true,
+      headerProps: {
+        subtitle: 'Admin',
+      }
+    });
+  }
+
   render() {
     // Tab panes of the contents
-    const panes = [
-      { menuItem: 'Universities', render: () => <UniPane {...this} /> },
-      { menuItem: 'Terms', render: () => <TermPane {...this} /> },
-      { menuItem: 'Departments', render: () => <DepartPane {...this} /> },
-      { menuItem: 'Course Template', render: () => <CoursePane {...this} /> },
-      { menuItem: 'Instructors', render: () => <InstructorPane {...this} /> },
-      { menuItem: 'More', render: () => <More {...this} /> },
-      { menuItem: 'Login As User', render: () => <LoginAsUser {...this} /> },
-    ];
-
-    const { verticalSidebar } = this.state;
+    const routes = tabs.map(tab => {
+      let RouteElem = tab.component;
+      return {
+        ...tab,
+        render: () => <RouteElem {...this} />
+      };
+    });
 
     return (
-      <div>
-        <ClassTranscribeHeader subtitle="Admin" />
+      <CTLayout {...this.getLayoutProps()}>
         <div className="admin-bg">
-          <Tab
-            menuPosition="left"
-            className="ap-tab"
-            activeIndex={this.state.activePane}
-            menu={{
-              borderless: true,
-              attached: false,
-              tabular: false,
-              fluid: true,
-              vertical: verticalSidebar,
-            }}
-            panes={panes}
-            onTabChange={(event, data) => this.setActivePane(data.activeIndex)}
-          />
+          <Route exact path={links.admin()} render={() => <Redirect to={routes[0].href} />} />
+
+          {routes.map( route => (
+            <Route
+              key={route.value} 
+              path={route.href} 
+              render={route.render}
+            />
+          ))}
         </div>
-      </div>
+      </CTLayout>
     );
   }
 }
