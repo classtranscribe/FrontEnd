@@ -14,15 +14,12 @@ export { SignInPrompt } from './SignInPrompt';
 export { Poster } from './Poster';
 export { VideoCard, VideoCardPlaceHolder } from './Cards';
 
-export { GeneralModal, CTModal } from './Modals';
+export { CTModal } from './Modals';
 
 // export { CTErrorWrapper } from './CTErrorWrapper';
 
 // Need to be removed later
-export { CTButton } from './Buttons';
 export { CTForm } from './CTForm';
-export { GeneralAlert } from './Alerts';
-export { GeneralLoader } from './Loaders';
 
 /**
  * General Components

@@ -5,10 +5,31 @@
  */
 
 import React from 'react';
-import { Button, Message, Icon } from 'semantic-ui-react';
+import { Button, Message, Icon, Modal } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-export { GeneralLoader, GeneralModal, GeneralAlert } from '../../components';
+export { CTLoader as GeneralLoader } from 'layout';
+export { GeneralAlert } from './Alerts';
+
+export function GeneralModal({ size, open, onClose, header, children, button, dimmer }) {
+  return (
+    <Modal
+      className="general-modal"
+      size={size || 'small'}
+      open={open}
+      onClose={onClose}
+      dimmer={dimmer}
+    >
+      {header && <Modal.Header className="gm-header">{header}</Modal.Header>}
+      {children && (
+        <Modal.Content image className="gm-content">
+          {children}
+        </Modal.Content>
+      )}
+      {button && <Modal.Actions className="gm-action">{button}</Modal.Actions>}
+    </Modal>
+  );
+}
 
 export const AdminHeading = ({ name }) => <><h1>{name}</h1><hr /></>;
 

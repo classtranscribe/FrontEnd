@@ -1,30 +1,6 @@
 import React, { useEffect } from 'react';
-import { Modal } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
 import './index.scss';
-
-/**
- * General modal
- */
-export function GeneralModal({ size, open, onClose, header, children, button, dimmer }) {
-  return (
-    <Modal
-      className="general-modal"
-      size={size || 'small'}
-      open={open}
-      onClose={onClose}
-      dimmer={dimmer}
-    >
-      {header && <Modal.Header className="gm-header">{header}</Modal.Header>}
-      {children && (
-        <Modal.Content image className="gm-content">
-          {children}
-        </Modal.Content>
-      )}
-      {button && <Modal.Actions className="gm-action">{button}</Modal.Actions>}
-    </Modal>
-  );
-}
 
 export function CTModal({
   show = false,
