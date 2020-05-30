@@ -1,19 +1,21 @@
 import { StateController } from 'utils/state-controller';
-import { api, NOT_FOUND_404, ARRAY_INIT } from 'utils';
+import { api, NOT_FOUND_404, ARRAY_INIT, prompt } from 'utils';
 
 class SetupCoursePage extends StateController {
   constructor() {
     super();
     this.clear = this.clear.bind(this);
+    this.star = this.star.bind(this);
+    this.unstar = this.unstar.bind(this);
   }
   init(props) {
     let { 
-      setOffering, 
-      setPlaylists, setPlaylist, 
-      clearCourseData 
+      setOffering, setStarredOfferings,
+      setPlaylists, setPlaylist,
+      clearCourseData,
     } = props;
     this.register({ 
-      setOffering, 
+      setOffering, setStarredOfferings,
       setPlaylists, setPlaylist,
       clearCourseData
     });
@@ -34,9 +36,45 @@ class SetupCoursePage extends StateController {
     this.setState('setPlaylist', 'playlist', playlist);
   }
 
+  starredOfferings = {}
+  setStarredOfferings(starredOfferings) {
+    this.setState('setStarredOfferings', 'starredOfferings', starredOfferings)
+  }
+
   clear() {
     const { clearCourseData } = this.dispatches;
     if (clearCourseData) clearCourseData();
+  }
+
+  async star() {
+    this.starredOfferings[this.offering.id] = 'starred';
+    try {
+      await api.postUserMetaData({ 
+        starredOfferings: JSON.stringify(this.starredOfferings) 
+      });
+
+      this.setStarredOfferings({ ...this.starredOfferings });
+    } catch (error) {
+      delete this.starredOfferings[this.offering.id];
+      prompt.addOne({ text: 'Faild to star the course', status: 'error' });
+    }
+  }
+
+  async unstar() {
+    if (this.starredOfferings[this.offering.id]) {
+      delete this.starredOfferings[this.offering.id];
+    }
+
+    try {
+      await api.postUserMetaData({ 
+        starredOfferings: JSON.stringify(this.starredOfferings) 
+      });
+
+      this.setStarredOfferings({ ...this.starredOfferings });
+    } catch (error) {
+      this.starredOfferings[this.offering.id] = 'starred';
+      prompt.addOne({ text: 'Faild to unstar the course', status: 'error' });
+    }
   }
 
   async getOfferingById(offeringId) {
@@ -58,6 +96,19 @@ class SetupCoursePage extends StateController {
     }
   }
 
+  async getStarredOfferings() {
+    try {
+      let { data } = await api.getUserMetaData();
+      let { starredOfferings } = data;
+      if (starredOfferings) {
+        return JSON.parse(starredOfferings);
+      } 
+        return {};
+    } catch (error) {
+      return {};
+    }
+  }
+
   lastOfferingId = null
   async setupCoursePage(offeringId) {
     if (this.lastOfferingId !== offeringId) {
@@ -75,6 +126,9 @@ class SetupCoursePage extends StateController {
 
     let playlists = await this.getPlaylistsByOfferingId(offeringId);
     this.setPlaylists(playlists);
+
+    let starredOfferings = await this.getStarredOfferings();
+    this.setStarredOfferings(starredOfferings);
   }
 
   async getPlaylistById(playlistId) {

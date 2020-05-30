@@ -81,9 +81,8 @@ export class Home extends React.Component {
   };
 
   updateUserMetadata = () => {
-    const { watchHistoryJSON, starredOfferingsJSON } = this.state;
+    const { starredOfferingsJSON } = this.state;
     api.postUserMetaData({
-      watchHistory: JSON.stringify(watchHistoryJSON),
       starredOfferings: JSON.stringify(starredOfferingsJSON),
     });
     // console.log(watchHistoryJSON, starredOfferingsJSON)
@@ -92,15 +91,6 @@ export class Home extends React.Component {
   completeOfferings = async (rawOfferings) => {
     const offerings = await api.parseOfferings(rawOfferings);
     this.setState({ offerings });
-  };
-
-  removeWatchHistory = (mediaId) => {
-    const { watchHistory, watchHistoryJSON } = this.state;
-    _.remove(watchHistory, { mediaId });
-    if (watchHistoryJSON[mediaId]) {
-      delete watchHistoryJSON[mediaId];
-    }
-    this.setState({ watchHistory, watchHistoryJSON }, () => this.updateUserMetadata());
   };
 
   starOffering = (offeringId) => {

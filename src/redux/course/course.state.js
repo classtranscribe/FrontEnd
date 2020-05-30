@@ -4,4 +4,5 @@ export const initialState = {
   offering: null,
   playlists: ARRAY_INIT,
   playlist: null,
+  starredOfferings: {}
 };
