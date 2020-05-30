@@ -92,7 +92,7 @@ class SetupCoursePage extends StateController {
       let { data } = await api.getPlaylistsByOfferingId(offeringId);
       return data;
     } catch (error) {
-      return [];
+      return NOT_FOUND_404;
     }
   }
 

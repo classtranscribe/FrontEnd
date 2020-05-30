@@ -84,5 +84,3 @@ CTNavSidebar.propTypes = CTNavSidebarPropTypes;
 // Sub components
 CTNavSidebar.Items = SidebarNavItems;
 CTNavSidebar.Item = SidebarItem;
-
-export { getDefaultNSBItems } from './default-sidebar-props';
