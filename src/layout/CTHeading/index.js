@@ -5,6 +5,8 @@ import './index.scss';
 
 import { CTFragment } from '../CTFragment';
 
+import { createCTHeadingProps } from './create-props';
+
 /**
  * The controlled heading component
  */
@@ -69,3 +71,5 @@ CTHeading.propTypes = {
   /** The icon can be highlighted to teal color */
   highlightIcon: PropTypes.bool,
 };
+
+CTHeading.createProps = createCTHeadingProps;
