@@ -5,36 +5,49 @@ import './index.scss';
 
 import { CTFragment } from '../CTFragment';
 
+/**
+ * The controlled heading component
+ */
 export function CTHeading(props) {
   let {
+    as = 'h1',
     heading = 'Heading',
     icon,
     sticky = false,
     gradient = true,
     offsetTop = 0,
+    highlight = false,
+    highlightIcon = false,
   } = props;
 
-  const top = `${offsetTop }px`;
+  const headingClasses = classNames('ct-heading', { 
+    gradient,
+    highlight,
+    highlightIcon,
+  });
 
-  const fragmentProps = {
+  const fragmentProps = CTFragment.createProps({
+    as,
     fade: true,
     sticky,
     padding: [30, 30, 20, 30],
     offsetTop,
-    className: classNames('ct-heading-con', { gradient })
-  };
+    vCenter: true,
+    className: headingClasses
+  });
 
   return (
     <CTFragment {...fragmentProps}>
-      <h1 className="ct-heading" style={{ top }}>
-        {icon && <i className="material-icons">{icon}</i>}
-        <span className="content">{heading}</span>
-      </h1>
+      {icon && <i className="material-icons">{icon}</i>}
+      <span className="content">{heading}</span>
     </CTFragment>
   );
 }
 
 CTHeading.propTypes = {
+  /** The heading supports `'h1', 'h2', 'h3', 'h4', 'h5'` */
+  as: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5']),
+
   /** The Content of the heading */
   heading: PropTypes.string,
 
@@ -49,4 +62,10 @@ CTHeading.propTypes = {
 
   /** Set the offset top of the sticky heading */
   offsetTop: PropTypes.number,
+
+  /** The heading can be highlighted to teal color */
+  highlight: PropTypes.bool,
+
+  /** The icon can be highlighted to teal color */
+  highlightIcon: PropTypes.bool,
 };
