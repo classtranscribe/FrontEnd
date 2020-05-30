@@ -11,8 +11,7 @@ import './transition.css';
 import './index.css';
 
 import { 
-  Home as Feed, 
-  OfferingDetail
+  Home as Feed,
 } from './Components';
 
 
@@ -139,13 +138,6 @@ export class Home extends React.Component {
             <Switch location={location}>
               {/* Unauthed home page */}
               <Route exact path="/home" render={(props) => <Feed {...props} {...this} />} />
-
-              {/* Offering Detail page */}
-              <Route
-                exact
-                path="/home/offering/:id"
-                render={() => <OfferingDetail {...this} />}
-              />
             </Switch>
           </CTLayout>
         )}
