@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { StateController } from 'utils/state-controller';
-import { api, user, ARRAY_INIT, } from 'utils';
+import { api, user, ARRAY_INIT, NOT_FOUND_404, } from 'utils';
 
 class SetupMyCoursesPage extends StateController {
   init(props) {
@@ -16,6 +16,27 @@ class SetupMyCoursesPage extends StateController {
   offerings = ARRAY_INIT;
   setOfferings(offerings) {
     this.setState('setOfferings', 'offerings', offerings);
+  }
+
+  sortOfferings(offerings = [], terms = []) {
+    let currentOfferings = [];
+    let pastOfferings = [];
+
+    if (offerings === ARRAY_INIT || offerings === NOT_FOUND_404) {
+      return { currentOfferings, pastOfferings };
+    }
+
+    let currTermId = (terms[0] || {}).id;
+
+    _.forEach(offerings, off => {
+      if (off.term.id === currTermId) {
+        currentOfferings.push(off);
+      } else {
+        pastOfferings.push(off);
+      }
+    });
+    // console.log({ currentOfferings, pastOfferings })
+    return { currentOfferings, pastOfferings };
   }
 
   async getMyOfferings() {
