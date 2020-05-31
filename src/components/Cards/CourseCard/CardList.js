@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { CTFragment } from 'layout';
-import { CourseCard } from './CourseCard';
+import { CourseCard } from './Card';
 
 export function CourseCardList(props) {
   let {
