@@ -15,7 +15,7 @@ function SearchInputWithRedux(props) {
           placeholder="Search for courses ..."
           value={searchValue}
           onChange={searchControl.handleSearchInputChange}
-          autoComplete={false}
+          autoComplete="off"
         />
 
         <Button
