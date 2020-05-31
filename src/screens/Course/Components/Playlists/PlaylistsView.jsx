@@ -1,10 +1,14 @@
 import React from 'react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { CTFragment, CTFooter, CTLoadable } from 'layout';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils';
-import { CTFragment, CTFooter } from 'layout';
-import { Link } from 'react-router-dom';
+import { plControl, setup } from '../../controllers';
+
+import PlaylistItem from './PlaylistItem';
 import PlaylistsErrorWrapper from './PlaylistsErrorWrapper';
 
 function PlaylistsView({
+  role,
   accessType,
   playlists
 }) {
@@ -20,23 +24,29 @@ function PlaylistsView({
         <span>Playlists</span>
       </CTFragment>
 
-      <CTFragment list role="list" error={error} errorElement={errorElement}>
-        {error ? null : playlists.map(pl => (
-          <Link
-            className="pl-item"
-            key={pl.id}
-            id={pl.id}
-            role="listitem"
-            to={`#plid=${ pl.id}`}
-          >
-            <CTFragment vCenter className="pl-name">
-              <i className="material-icons">video_library</i>
-              <span>{pl.name}</span>
-            </CTFragment>
-            <i className="material-icons pl-icon">chevron_right</i>
-          </Link>
-        ))}
-      </CTFragment>
+      <DragDropContext onDragEnd={plControl.onDragEnd}>
+        <Droppable isDropDisabled={!setup.isInstructor(role)} droppableId="pl-ord">
+          {(provided) => (
+            <CTLoadable error={error} errorElement={errorElement}>
+              <div 
+                role="list" 
+                className="d-flex flex-column"
+                ref={provided.innerRef} 
+                {...provided.droppableProps}
+              >
+                {error ? null : playlists.map((pl, index) => (
+                  <PlaylistItem
+                    key={`pl-${pl.id}=${pl.name}`}
+                    playlist={pl}
+                    index={index}
+                    role={role}
+                  />
+                ))}
+              </div>
+            </CTLoadable>
+          )}
+        </Droppable>
+      </DragDropContext>
       
       <CTFooter />
     </CTFragment>

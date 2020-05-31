@@ -9,6 +9,7 @@ import PlaylistsView from './PlaylistsView';
 import VideosView from './VideosView';
 
 function PlaylistsWithRedux({
+  role,
   offering,
   playlist,
   playlists,
@@ -35,7 +36,7 @@ function PlaylistsWithRedux({
   const viewElement = (
     isPlaylistView
     ? <VideosView playlist={playlist} />
-    : <PlaylistsView playlists={playlists} accessType={offering.accessType} />
+    : <PlaylistsView role={role} playlists={playlists} accessType={offering.accessType} />
   );
 
   return (
@@ -47,6 +48,6 @@ function PlaylistsWithRedux({
 
 export const Playlists = connectWithRedux(
   PlaylistsWithRedux,
-  ['playlists', 'playlist', 'offering'],
+  ['playlists', 'playlist', 'offering', 'role'],
   ['setPlaylist']
 );

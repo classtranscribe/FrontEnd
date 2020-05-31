@@ -6,6 +6,7 @@ import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
 
 function CourseInfoWithRedux({
+  role,
   offering,
   starredOfferings,
 }) {
@@ -28,16 +29,25 @@ function CourseInfoWithRedux({
       {
         user.isLoggedIn
         &&
-        <CTFragment padding={[20, 0, 0, 0]}>
-          <Button
-            uppercase
-            outlined={isStarred}
-            icon={isStarred ? 'star' : 'star_border'}
-            color={isStarred ? 'primary' : 'teal'}
-            onClick={isStarred ? setup.unstar : setup.star}
-          >
-            {isStarred ? 'unstar' : 'star'}
-          </Button>
+        <CTFragment vCenter padding={[20, 0, 0, 0]}>
+          <Button.Group>
+            {
+              setup.isInstructor(role)
+              &&
+              <Button uppercase icon="settings">
+                Settings
+              </Button>
+            }
+            <Button
+              uppercase
+              outlined={isStarred}
+              icon={isStarred ? 'star' : 'star_border'}
+              color={isStarred ? 'teal' : 'teal'}
+              onClick={isStarred ? setup.unstar : setup.star}
+            >
+              {isStarred ? 'unstar' : 'star'}
+            </Button>
+          </Button.Group>
         </CTFragment>
       }
 
@@ -48,7 +58,7 @@ function CourseInfoWithRedux({
 
 export const CourseInfo = connectWithRedux(
   CourseInfoWithRedux,
-  ['offering', 'starredOfferings']
+  ['offering', 'starredOfferings', 'role']
 );
 
 
