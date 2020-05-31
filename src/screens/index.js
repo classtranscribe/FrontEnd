@@ -2,7 +2,13 @@ export { SetupUser } from './SetupUser';
 
 export { Admin } from './Admin';
 
-export { MyCourses } from './Instructor';
+export { 
+  MyCourses, 
+  NewCourse,
+  CourseSettings,
+  CourseAnalytics,
+  InstPlaylist
+} from './Instructor';
 export { MediaSettings } from './MediaSettings';
 
 export { Home } from './Home';

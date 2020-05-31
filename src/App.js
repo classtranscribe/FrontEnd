@@ -7,6 +7,10 @@ import {
   Admin,
   // Instructor
   MyCourses,
+  NewCourse,
+  CourseSettings,
+  CourseAnalytics,
+  InstPlaylist,
   MediaSettings,
   // Student
   Home,
@@ -53,6 +57,26 @@ class App extends React.Component {
             user.isInstructor
             &&
             <Route exact path="/instructor/my-courses" component={MyCourses} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/new-course" component={NewCourse} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/course-analytics/:id" component={CourseAnalytics} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/playlist/:id" component={InstPlaylist} />
           }
           {
             user.isInstructor

@@ -43,7 +43,7 @@ class MyCoursesWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTFragment loading={loading}>
+        <CTFragment fade loading={loading}>
           <CourseList title="Current Courses" offerings={currentOfferings} />
           <CourseList title="Past Courses" offerings={pastOfferings} />
         </CTFragment>

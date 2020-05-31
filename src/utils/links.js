@@ -95,24 +95,20 @@ export class ClassTranscribeLinks {
     return `/instructor/playlist/${playlistId}`;
   }
 
+  instMedia(mediaId) {
+    return `/instructor/media/${mediaId}`;
+  }
+
   newCourse() {
     return '/instructor/new-course';
   }
 
-  /**
-   * to `/instructor/<offering_id>?plid=<playlist_id>&mid=<media_id>`
-   * @param {String} offeringId offering id
-   * @param {String} plid playlist id (optional)
-   * @param {String} mid media id (optional)
-   */
-  instOffering(offeringId, plid, mid) {
-    return `/instructor/${offeringId}${uurl.createSearch({ plid, mid })}`;
+  courseSettings(offeringId) {
+    return `/instructor/course-settings/${offeringId}`;
   }
-  /**
-   * to `/instructor/new-offering`
-   */
-  instNewOffering() {
-    return '/instructor/new-offering';
+
+  courseAnalytics(offeringId) {
+    return `/instructor/course-analytics/${offeringId}`;
   }
 
   /**
