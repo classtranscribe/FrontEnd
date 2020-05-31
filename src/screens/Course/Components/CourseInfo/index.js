@@ -1,7 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button } from 'pico-ui';
 import { CTFragment } from 'layout';
-import { user } from 'utils';
+import { user, uurl, links } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
 
@@ -18,7 +19,14 @@ function CourseInfoWithRedux({
     description
   } = offering;
 
+  const history = useHistory();
   const isStarred = Boolean(starredOfferings[offering.id]);
+  const goToCourseSettings = () => {
+    history.push(links.courseSettings(offering.id));
+  };
+  const goToCourseAnalytics = () => {
+    history.push(links.courseAnalytics(offering.id));
+  };
   
   return (
     <CTFragment list id="cp-course-info">
@@ -34,9 +42,14 @@ function CourseInfoWithRedux({
             {
               setup.isInstructor(role)
               &&
-              <Button uppercase icon="settings">
-                Settings
-              </Button>
+              <>
+                <Button uppercase icon="settings" onClick={goToCourseSettings}>
+                  Settings
+                </Button>
+                <Button uppercase icon="bar_chart" onClick={goToCourseAnalytics}>
+                  Analytics
+                </Button>
+              </>
             }
             <Button
               uppercase

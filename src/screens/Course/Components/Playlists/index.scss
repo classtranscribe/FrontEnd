@@ -59,8 +59,14 @@
         font-size: 17px;
         display: flex;
         align-items: center;
-        text-align: left;
         margin-bottom: 0;
+        white-space: nowrap;
+        span {
+          overflow: hidden;
+          width: calc(100% - 55px);
+          text-overflow: ellipsis;
+        }
+
         i {
           margin-right: .5em;
         }

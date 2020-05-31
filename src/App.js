@@ -87,10 +87,10 @@ class App extends React.Component {
           {/* Student */}
           <Route exact path="/" component={Home} />
           <Route exact path="/home" render={() => <Redirect to="/" />} />
-          <Route path="/offering/:id" component={Course} />
-          <Route path="/search" component={Search} />
-          <Route path="/history" component={History} />
-          <Route path="/personal-analytics" component={Analytics} />
+          <Route exact path="/offering/:id" component={Course} />
+          <Route exact path="/search" component={Search} />
+          <Route exact path="/history" component={History} />
+          <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
 
           <Route path="/404" component={NotFound404} />
