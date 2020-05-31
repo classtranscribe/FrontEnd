@@ -14,7 +14,7 @@ export function SidebarNavItems(props) {
     <div className="ct-nsb-ul">
       {items.map( item => (
         <SidebarItem
-          key={typeof item === 'string' ? `breakline-${uuid()}` : item.value}
+          key={item.value || `breakline-${uuid()}`}
           mini={mini}
           darkMode={darkMode} 
           breakline={item === 'breakline'} 

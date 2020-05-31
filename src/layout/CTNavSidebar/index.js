@@ -58,7 +58,10 @@ export const CTNavSidebarPropTypes = {
   show: PropTypes.bool,
 
   /** Nav list items on sidebar */
-  items: PropTypes.arrayOf(PropTypes.shape(SidebarItemPropTypes)),
+  items: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.shape(SidebarItemPropTypes),
+    PropTypes.string
+  ])),
 
   /** The sidebar can have a brand element */
   brandElem: PropTypes.node,
