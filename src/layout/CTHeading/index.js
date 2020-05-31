@@ -21,7 +21,10 @@ export function CTHeading(props) {
     highlight = false,
     highlightIcon = false,
     padding,
+    children,
   } = props;
+
+  const headingElement = children || heading;
 
   const headingClasses = classNames('ct-heading', { 
     gradient,
@@ -42,7 +45,7 @@ export function CTHeading(props) {
   return (
     <CTFragment {...fragmentProps}>
       {icon && <i className="material-icons">{icon}</i>}
-      <span className="content">{heading}</span>
+      <span className="content">{headingElement}</span>
     </CTFragment>
   );
 }
@@ -73,6 +76,9 @@ CTHeading.propTypes = {
   highlightIcon: PropTypes.bool,
 
   padding: CTFragment.propTypes.padding,
+
+  /** The Content of the heading */
+  children: PropTypes.node
 };
 
 CTHeading.createProps = createCTHeadingProps;
