@@ -20,6 +20,7 @@ export function CTHeading(props) {
     offsetTop = 0,
     highlight = false,
     highlightIcon = false,
+    padding,
   } = props;
 
   const headingClasses = classNames('ct-heading', { 
@@ -32,10 +33,10 @@ export function CTHeading(props) {
     as,
     fade: true,
     sticky,
-    padding: [30, 30, 20, 30],
     offsetTop,
     vCenter: true,
-    className: headingClasses
+    className: headingClasses,
+    padding,
   });
 
   return (
@@ -70,6 +71,8 @@ CTHeading.propTypes = {
 
   /** The icon can be highlighted to teal color */
   highlightIcon: PropTypes.bool,
+
+  padding: CTFragment.propTypes.padding,
 };
 
 CTHeading.createProps = createCTHeadingProps;

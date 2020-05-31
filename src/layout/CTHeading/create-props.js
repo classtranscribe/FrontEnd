@@ -9,6 +9,7 @@
  * @property {Number} offsetTop - Set the offset top of the sticky heading
  * @property {Boolean} highlight - The heading can be highlighted to teal color
  * @property {Boolean} highlightIcon - The icon can be highlighted to teal color
+ * @property {Number|String|Number[]|String[]} padding - The padding in `x 10px`, allows 1,2,3,4,5
  */
 
 /**
