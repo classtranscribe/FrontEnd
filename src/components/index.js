@@ -12,7 +12,12 @@ import './index.css';
 export { SignInPrompt } from './SignInPrompt';
 
 export { Poster } from './Poster';
-export { VideoCard, VideoCardPlaceHolder } from './Cards';
+export { 
+  VideoCard, 
+  VideoCardPlaceHolder, 
+  CourseCard,
+  CourseCardList
+} from './Cards';
 
 export { CTModal } from './Modals';
 
