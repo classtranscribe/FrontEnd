@@ -21,10 +21,8 @@ export {
 
 export { CTModal } from './Modals';
 
-// export { CTErrorWrapper } from './CTErrorWrapper';
 
 // Need to be removed later
-export { CTForm } from './CTForm';
 
 /**
  * General Components
