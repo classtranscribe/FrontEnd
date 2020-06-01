@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { CTLayout, CTFormHeading, CTForm, CTFormHelp, CTFormRow, CTInput, CTCheckbox } from 'layout'
+import { 
+  CTLayout, 
+  CTForm, 
+  CTFormHeading, 
+  CTFormHelp,
+  CTFormRow, 
+  CTInput,
+  CTSelect,
+  CTCheckbox
+} from 'layout';
 import { api } from 'utils';
 
 export class NewCourse extends Component {
@@ -21,6 +30,8 @@ export class NewCourse extends Component {
       }
     });
 
+    const alertValue = ({ target: { value }}) => alert(value);
+
     return (
       <CTLayout {...layoutProps}>
         <CTForm
@@ -32,7 +43,7 @@ export class NewCourse extends Component {
           onSave={() => 1}
           onCancel={() => 1}
         >
-          <CTFormHeading>Section 1</CTFormHeading>
+          <CTFormHeading>Input & Textarea</CTFormHeading>
 
           <CTFormRow>
             <CTInput
@@ -60,7 +71,7 @@ export class NewCourse extends Component {
             />
           </CTFormRow>
 
-          <CTFormHeading>Section 2</CTFormHeading>
+          <CTFormHeading>Instruction box</CTFormHeading>
 
           <CTFormHelp title="Help">
             You can write a instruction here
@@ -85,6 +96,8 @@ export class NewCourse extends Component {
             />
           </CTFormRow>
 
+          <CTFormHeading>Checkbox</CTFormHeading>
+
           <CTFormRow padding={[0, 10]}>
             <CTCheckbox 
               id="log-event"
@@ -101,6 +114,39 @@ export class NewCourse extends Component {
               legend="An checkbox example with error"
               label="Log student events"
               helpText="An error occurs"
+            />
+          </CTFormRow>
+
+          <CTFormHeading>Selection</CTFormHeading>
+
+          <CTFormRow>
+            <CTSelect
+              id="sel-1"
+              label="Selection"
+              defaultValue="opt-1"
+              options={[
+                {value: 'opt-1', text: 'Option 1'},
+                {value: 'opt-2', text: 'Option 2'},
+                {value: 'opt-3', text: 'Option 3', description: 'A description to option 3'},
+                {value: 'opt-4', text: 'Option 4', description: 'A description to option 4'}
+              ]}
+              onChange={alertValue}
+            />
+
+            <CTSelect
+              underlined
+              error
+              id="sel-2"
+              label="Underlined Selection"
+              defaultValue="opt-1"
+              helpText="There is an error occurred"
+              options={[
+                {value: 'opt-1', text: 'Option 1'},
+                {value: 'opt-2', text: 'Option 2'},
+                {value: 'opt-3', text: 'Option 3', description: 'A description to option 3'},
+                {value: 'opt-4', text: 'Option 4', description: 'A description to option 4'}
+              ]}
+              onChange={alertValue}
             />
           </CTFormRow>
         </CTForm>

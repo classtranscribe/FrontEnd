@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
-const useStyles = makeStyles({
+export const useStyles = makeStyles({
   root: {
     '& label.Mui-focused': {
       color: '#348b86',
@@ -35,7 +35,7 @@ export function Input(props) {
     value,
     required = false,
     error = false,
-    diabled = false,
+    disabled = false,
     textarea = false,
     underlined = false,
   } = props;
@@ -59,7 +59,7 @@ export function Input(props) {
         multiline={textarea}
         error={error}
         required={required}
-        disabled={diabled}
+        disabled={disabled}
       />
     </FormControl>
   );
@@ -97,7 +97,7 @@ Input.propTypes = {
   error: PropTypes.bool,
 
   /** The input field can be disabled */
-  diabled: PropTypes.bool,
+  disabled: PropTypes.bool,
 
   /** The input field can be underlined */
   underlined: PropTypes.bool
