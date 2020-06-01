@@ -1,6 +1,10 @@
 .ct-heading {
   color: inherit;
 
+  &.uppercase {
+    text-transform: uppercase;
+  }
+
   &.gradient {
     background: linear-gradient(to bottom,white 90%,rgba(255, 255, 255, 0));
   }

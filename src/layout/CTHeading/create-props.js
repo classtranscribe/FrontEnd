@@ -6,6 +6,7 @@
  * @property {Element} children - The Content of the heading
  * @property {String} icon - Icon name of the material-icons
  * @property {Boolean} sticky - The heading can be sticky
+ * @property {Boolean} uppercase - The heading can be uppercase
  * @property {Boolean} gradient - The background of the heading can be gradient
  * @property {Number} offsetTop - Set the offset top of the sticky heading
  * @property {Boolean} highlight - The heading can be highlighted to teal color

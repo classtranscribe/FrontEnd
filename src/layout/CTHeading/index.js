@@ -18,6 +18,7 @@ export function CTHeading(props) {
     sticky = false,
     gradient = true,
     offsetTop = 0,
+    uppercase = false,
     highlight = false,
     highlightIcon = false,
     padding,
@@ -27,6 +28,7 @@ export function CTHeading(props) {
   const headingElement = children || heading;
 
   const headingClasses = classNames('ct-heading', { 
+    uppercase,
     gradient,
     highlight,
     highlightIcon,
@@ -68,6 +70,9 @@ CTHeading.propTypes = {
 
   /** Set the offset top of the sticky heading */
   offsetTop: PropTypes.number,
+
+  /** The heading can be uppercase */
+  uppercase: PropTypes.bool,
 
   /** The heading can be highlighted to teal color */
   highlight: PropTypes.bool,
