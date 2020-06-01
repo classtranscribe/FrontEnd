@@ -24,11 +24,7 @@ function MSPHeaderTabTitleWithRedux(props) {
       trigger={
         <Link
           className="msp-me-name"
-          to={
-            offeringId && playlist.id
-              ? links.instOffering(offeringId, playlist.id, media.id)
-              : links.instructor()
-          }
+          to={links.instructor()}
         >
           <i aria-hidden="true" className="material-icons">
             chevron_left

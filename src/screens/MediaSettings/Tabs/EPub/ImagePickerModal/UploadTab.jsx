@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTForm } from 'components';
+import { CTInput } from 'layout';
 import { epub } from 'screens/MediaSettings/controllers/epub';
 
 import UploadButton from './UploadButton';
@@ -24,12 +24,10 @@ function UploadTab({
           <hr />
 
           <div className="w-100 pr-3">
-            <CTForm
+            <CTInput
               label="Insert Image by URL"
-              color="grey"
               placeholder="Image URL"
-              onChange={url => setImgUrl(url)}
-              defaultValue=""
+              onChange={({ target: { value }}) => setImgUrl(value)}
             />
           </div>
         </div>
