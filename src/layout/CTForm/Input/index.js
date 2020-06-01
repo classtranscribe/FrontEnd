@@ -38,6 +38,7 @@ export function Input(props) {
     disabled = false,
     textarea = false,
     underlined = false,
+    ...otherProps
   } = props;
 
   const inputClasses = useStyles();
@@ -60,6 +61,7 @@ export function Input(props) {
         error={error}
         required={required}
         disabled={disabled}
+        {...otherProps}
       />
     </FormControl>
   );

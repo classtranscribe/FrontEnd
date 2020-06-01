@@ -10,6 +10,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import { useStyles } from '../Input';
 
+/**
+ * The controlled select component used in `CTForm`
+ */
 export function Select(props) {
   let {
     id,

@@ -6,6 +6,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button } from 'pico-ui';
+
 import { CTFragment } from '../../CTFragment';
 import { CTHeading } from '../../CTHeading';
 
@@ -23,6 +24,7 @@ export function Form(props) {
     onSaveButtonText = 'save',
     onCancelButtonText = 'cancel',
     heading,
+    details,
     children,
   } = props;
 
@@ -41,9 +43,12 @@ export function Form(props) {
           aria-controls={`ct-form-content-${id}`}
           id={`ct-form-heading-${id}`}
         >
-          <CTHeading as="h3">
-            {heading}
-          </CTHeading>
+          <CTFragment list>
+            <CTHeading as="h3">
+              {heading}
+            </CTHeading>
+            {Boolean(details) && <div className="text-muted">{details}</div>}
+          </CTFragment>
         </ExpansionPanelSummary>
         <form id={id} onSubmit={onSave} autoComplete="off">
           <ExpansionPanelDetails id={`ct-form-content-${id}`}>
@@ -101,6 +106,9 @@ Form.propTypes = {
 
   /** Heading of the form */
   heading: PropTypes.node,
+
+  /** Details about the form */
+  details: PropTypes.node,
 
   /** Form contents */
   children: PropTypes.node,
