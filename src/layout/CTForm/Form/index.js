@@ -5,6 +5,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Divider from '@material-ui/core/Divider';
 import { Button } from 'pico-ui';
 
 import { CTFragment } from '../../CTFragment';
@@ -50,6 +51,9 @@ export function Form(props) {
             {Boolean(details) && <div className="text-muted">{details}</div>}
           </CTFragment>
         </ExpansionPanelSummary>
+
+        <Divider />
+
         <form id={id} onSubmit={onSave} autoComplete="off">
           <ExpansionPanelDetails id={`ct-form-content-${id}`}>
             <CTFragment list>
@@ -68,7 +72,7 @@ export function Form(props) {
             {
               Boolean(onSave)
               &&
-              <Button uppercase color="transparent teal" onClick={onSave}>
+              <Button uppercase color="teal" onClick={onSave}>
                 {onSaveButtonText}
               </Button>
             }

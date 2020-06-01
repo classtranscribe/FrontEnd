@@ -135,7 +135,7 @@ function AdvancedForm() {
       collapsible
       padding={[10, 35]}
       id="ctform-sel"
-      heading="Selections"
+      heading="Advanced Usage"
       details="Advacted usage of the CTForm, includes Select and AutoComplete."
       onSaveButtonText="Create" 
       onSave={() => 1}
