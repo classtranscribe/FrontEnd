@@ -44,26 +44,25 @@ export function Input(props) {
   const inputClasses = useStyles();
 
   return (
-    <FormControl fullWidth>
-      <TextField
-        id={id}
-        InputLabelProps={{ htmlFor: id }}
-        type="text"
-        variant={underlined ? "standard" : "outlined"}
-        classes={inputClasses}
-        label={label}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        value={value}
-        helperText={helpText}
-        onChange={onChange}
-        multiline={textarea}
-        error={error}
-        required={required}
-        disabled={disabled}
-        {...otherProps}
-      />
-    </FormControl>
+    <TextField
+      fullWidth
+      id={id}
+      InputLabelProps={{ htmlFor: id }}
+      type="text"
+      variant={underlined ? "standard" : "outlined"}
+      classes={inputClasses}
+      label={label}
+      placeholder={placeholder}
+      defaultValue={defaultValue}
+      value={value}
+      helperText={helpText}
+      onChange={onChange}
+      multiline={textarea}
+      error={error}
+      required={required}
+      disabled={disabled}
+      {...otherProps}
+    />
   );
 }
 

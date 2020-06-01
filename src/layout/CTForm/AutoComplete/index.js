@@ -1,8 +1,11 @@
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
+import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import MuiAutocomplete from '@material-ui/lab/Autocomplete';
 import { Input } from '../Input';
+
+const getOption = (options, value) => _.find(options, { value });
 
 /**
  * A auto complete component based on material-ui's Autocomplete
@@ -11,41 +14,39 @@ import { Input } from '../Input';
 export function AutoComplete(props) {
   let {
     value,
+    defaultValue,
     options = [],
     onChange,
+    label,
     ...inputProps
   } = props;
 
-  let option = _.find(options, { value }) || {};
+  const [option, setOption] = useState(getOption(options, value || defaultValue));
 
-  const [inputVal, setInputVal] = useState(option.text);
+  const renderInput = (params) => (
+    <Input {...params} {...inputProps} label={label} />
+  );
 
   const handleChange = (event, newOption) => {
     if (typeof onChange === 'function' && newOption) {
       onChange(newOption.value);
+      setOption(getOption(options, newOption.value));
     }
   };
 
-  const handleInputChange = (event) => {
-    setInputVal(event ? event.target.value : '');
-  };
-
   useEffect(() => {
-    setInputVal(option.text || '');
-  }, [value]);
-
-  const renderInput = (params) => (
-    <Input {...params} {...inputProps} />
-  );
+    let opt = getOption(options, value);
+    if (opt.value !== option.value) {
+      setOption(opt);
+    }
+  }, [value])
 
   return (
     <MuiAutocomplete
       autoHighlight
-      disableClearable
-      value={value}
-      inputValue={inputVal}
+      clearOnBlur={false}
       options={options}
-      onInputChange={handleInputChange}
+      value={option}
       getOptionLabel={(opt) => opt.text}
       onChange={handleChange}
       renderInput={renderInput}
