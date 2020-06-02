@@ -20,3 +20,5 @@ export { Watch } from './Watch';
 
 export { NotFound404 } from './NotFound404';
 export { Maintenance } from './Maintenance';
+
+export { Example } from './Example';

@@ -23,6 +23,7 @@ import {
   SetupUser,
   NotFound404,
   Maintenance, 
+  Example,
 } from './screens';
 
 import './App.css';
@@ -92,6 +93,8 @@ class App extends React.Component {
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
+
+          <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />
           <Route component={NotFound404} />
