@@ -14,7 +14,7 @@ import { CTLayout ,
 import { CTFormExampleUsage } from 'layout/CTForm/ExampleUsage';
 import { api } from 'utils';
 
-export function NewCourseForm() {
+function NewCourseForm() {
   const [inputVal, setInputVal] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   
@@ -75,11 +75,8 @@ export function NewCourseForm() {
           underlined
           id="sel-term"
           label="Select Term"
-          defaultValue="Select Term"
-          options={[{value: 'opt-1', text: 'Fall 2019'},
-          {value: 'opt-2', text: 'Spring 2020'},
-          {value: 'opt-3', text: 'Fall 2020'},
-          {value: 'opt-4', text: 'Spring 2021'}]}
+          defaultValue="Term"
+          options={[api.getTermById(5)]}
           value={option}
           onChange={handleSelect}
         />
@@ -91,7 +88,6 @@ export class NewCourse extends Component {
   componentDidMount() {
     api.contentLoaded();
   }
-  
 
   render() {
     const layoutProps = CTLayout.createProps({
