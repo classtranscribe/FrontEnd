@@ -19,7 +19,7 @@ export function CourseForm() {
   const [errors, setErrors] = useState([]);
   const [inputVal, setInputVal] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  
+
   const handleCancel = () => 1;
   const [courseName, setcourseName] = useState('');
   const setCourseName = ({ target: { value }}) => setcourseName(value);
@@ -28,6 +28,22 @@ export function CourseForm() {
 
   const [term, selTerm] = useState('');
   const handleTerm = ({ target: { value }}) => selTerm(value);
+
+  const getSelectOptions = (array = [], tag) => {
+    if (!Array.isArray(array)) return [];
+    const options = [];
+    array.forEach((item) => {
+      if (!item) return;
+      let text = '';
+      if ((tag === 'depart' || tag === 'term') && item.uniName) {
+        text = `${item.name} (${item.uniName})`;
+      } else {
+        text = item.name || tag + item.courseNumber;
+      }
+      options.push({ text, value: item.id });
+    });
+    return options;
+  };
 
   const [accessType, selAccess] = useState('');
   const handleVisibility = ({ target: { value }}) => selAccess(value);
@@ -82,7 +98,7 @@ const exampleOptions = [
       </CTFormRow>
       <CTFormRow>
         <CTSelect
-          error={term === '' ? 'This field is required' : undefined}
+          error={term === ''}
           underlined
           id="sel-term"
           label="Select Term"
@@ -96,7 +112,7 @@ const exampleOptions = [
           id="vis-type"
           label="Visibility"
           defaultValue="0"
-          options={util.getSelectOptions(api.offeringAccessType, 'id', 'name', 'description')}
+          options={getSelectOptions(api.offeringAccessType, 'name')}
           value={accessType}
           onChange={handleVisibility}
         />
