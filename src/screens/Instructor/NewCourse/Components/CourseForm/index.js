@@ -12,27 +12,47 @@ import { CTLayout ,
 } from 'layout';
 
 import { CTFormExampleUsage } from 'layout/CTForm/ExampleUsage';
-import { api } from 'utils';
+import { api, util } from 'utils';
 import './index.scss';
 
 export function CourseForm() {
+  const [errors, setErrors] = useState([]);
   const [inputVal, setInputVal] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-
   
-  
-  const [option, setOption] = useState('opt-1');
-
-  const handleSelect = ({ target: { value }}) => setOption(value);
-
-  const handleInputChange = ({ target: { value }}) => setInputVal(value);
-  const handleCheckChange = ({ target: { checked }}) => setIsChecked(checked);
-  const handleSave = () => 1;
   const handleCancel = () => 1;
   const [courseName, setcourseName] = useState('');
   const setCourseName = ({ target: { value }}) => setcourseName(value);
   const [sectionName, setsectionName] = useState('');
   const setSectionName = ({ target: { value }}) => setsectionName(value);
+
+  const [term, selTerm] = useState('');
+  const handleTerm = ({ target: { value }}) => selTerm(value);
+
+  const [accessType, selAccess] = useState('');
+  const handleVisibility = ({ target: { value }}) => selAccess(value);
+
+  const handleSave = () => {
+    if (errors === []) {
+      api.createOffering({
+        "sectionName": "AB",
+        "termId": "0001",
+        "accessType": 0,
+        "logEventsFlag": false,
+        "courseName": "Test Course",
+        "description": null,
+        "jsonMetadata": null,
+        "visibility": 0,
+        "id": "1111"
+    })}
+    };
+const exampleOptions = [
+  {value: 'opt-1', text: 'Computer Science'},
+  {value: 'opt-2', text: 'Mathematics'},
+  {value: 'opt-3', text: 'Business'},
+  {value: 'opt-4', text: 'Statistics'}
+];
+
   return (
     <CTForm
       heading="Information"
@@ -62,22 +82,23 @@ export function CourseForm() {
       </CTFormRow>
       <CTFormRow>
         <CTSelect
+          error={term === '' ? 'This field is required' : undefined}
           underlined
           id="sel-term"
           label="Select Term"
-          defaultValue="Term"
-          options={[api.getTermById(0)]}
-          value={option}
-          onChange={handleSelect}
+          defaultValue=""
+          options={[{value: 'opt-1', text: 'Test Term'}]}
+          value={term}
+          onChange={handleTerm}
         />
         <CTSelect
           underlined
           id="vis-type"
           label="Visibility"
-          defaultValue="Visibility"
-          options={[api.getTermById(0)]}
-          value={option}
-          onChange={handleSelect}
+          defaultValue="0"
+          options={util.getSelectOptions(api.offeringAccessType, 'id', 'name', 'description')}
+          value={accessType}
+          onChange={handleVisibility}
         />
       </CTFormRow>
     </CTForm>
