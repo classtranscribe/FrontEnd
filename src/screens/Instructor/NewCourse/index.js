@@ -26,7 +26,7 @@ export class NewCourse extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm />
+        <CTFormExampleUsage />
       </CTLayout>
     )
   }

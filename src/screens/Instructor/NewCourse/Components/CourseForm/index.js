@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { CTLayout ,
   CTFragment,
   CTForm, 
@@ -45,30 +45,37 @@ export function CourseForm() {
     return options;
   };
 
+  // assign terms
+  let terms = [];
+  useEffect(() => {
+    const getTerm = async () => {
+      let res = await api.getTermsByUniId('1001');
+      if (res.status === '200') {
+        terms = getSelectOptions(res.data, 'term');
+      } else {
+        terms = [{value: 'opt-2', text: 'Mathematics'}];
+      }
+    };
+    terms = getTerm();
+  }, [])
+
   const [accessType, selAccess] = useState('');
   const handleVisibility = ({ target: { value }}) => selAccess(value);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (errors === []) {
       api.createOffering({
-        "sectionName": "AB",
-        "termId": "0001",
-        "accessType": 0,
+        "sectionName": sectionName,
+        "termId": term,
+        "accessType": accessType,
         "logEventsFlag": false,
-        "courseName": "Test Course",
+        "courseName": courseName,
         "description": null,
         "jsonMetadata": null,
         "visibility": 0,
         "id": "1111"
     })}
     };
-const exampleOptions = [
-  {value: 'opt-1', text: 'Computer Science'},
-  {value: 'opt-2', text: 'Mathematics'},
-  {value: 'opt-3', text: 'Business'},
-  {value: 'opt-4', text: 'Statistics'}
-];
-
   return (
     <CTForm
       heading="Information"
@@ -98,12 +105,12 @@ const exampleOptions = [
       </CTFormRow>
       <CTFormRow>
         <CTSelect
-          error={term === ''}
+          error={false}
           underlined
           id="sel-term"
           label="Select Term"
           defaultValue=""
-          options={[{value: 'opt-1', text: 'Test Term'}]}
+          options={terms}
           value={term}
           onChange={handleTerm}
         />
@@ -111,8 +118,8 @@ const exampleOptions = [
           underlined
           id="vis-type"
           label="Visibility"
-          defaultValue="0"
-          options={getSelectOptions(api.offeringAccessType, 'name')}
+          defaultValue=""
+          options={getSelectOptions(api.offeringAccessType, 'id', 'name', 'description')}
           value={accessType}
           onChange={handleVisibility}
         />
