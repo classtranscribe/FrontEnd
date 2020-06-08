@@ -18,6 +18,12 @@ export class VideoController {
     this.pause = this.pause.bind(this);
     this.togglePause = this.togglePause.bind(this);
     this.replay = this.replay.bind(this);
+    this.setCurrentTime = this.setCurrentTime.bind(this);
+    this.mute = this.mute.bind(this);
+    this.unmute = this.unmute.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
+    this.setVolume = this.setVolume.bind(this);
+    this.setPlaybackRate = this.setPlaybackRate.bind(this);
     this.toggleCC = this.toggleCC.bind(this);
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onProgress = this.onProgress.bind(this);
@@ -84,6 +90,41 @@ export class VideoController {
     if (this.video2) {
       this.video2.setCurrentTime(time);
     }
+  }
+
+  muted = false;
+  mute() {
+    if (!this.video1) return;
+    this.video1.mute();
+    this.setState('muted', true);
+  }
+
+  unmute() {
+    if (!this.video1) return;
+    this.video1.unmute();
+    this.setState('muted', false);
+  }
+
+  toggleMute() {
+    if (this.muted) {
+      this.unmute();
+    } else {
+      this.mute();
+    }
+  }
+
+  volume = 1;
+  setVolume(volume) {
+    if (!this.video1) return;
+    this.video1.setVolume(volume);
+    this.setState('volume', volume);
+  }
+
+  playbackRate = 1;
+  setPlaybackRate(playbackRate) {
+    if (!this.video1) return;
+    this.video1.setPlaybackRate(playbackRate);
+    this.setState('playbackRate', playbackRate);
   }
 
   openCC = false;

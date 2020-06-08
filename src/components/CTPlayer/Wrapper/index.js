@@ -18,6 +18,8 @@ function Wrapper(props) {
     duration,
     time,
     bufferedTime,
+    muted,
+    volume,
     playbackRate,
   } = props;
 
@@ -58,6 +60,8 @@ function Wrapper(props) {
     duration,
     time,
     bufferedTime,
+    muted,
+    volume,
     playbackRate,
   };
 

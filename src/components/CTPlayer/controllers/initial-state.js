@@ -1,3 +1,5 @@
+import { ENGLISH, langMap } from 'screens/Watch/Utils/constants.util';
+
 export const initialState = {
   // media
   media: null,
@@ -7,6 +9,7 @@ export const initialState = {
   openCC: false,
   transcriptions: [],
   currTranscription: null,
+  language: {code: ENGLISH, text: langMap[ENGLISH]},
   captions: [],
   currCaption: null,
   // video

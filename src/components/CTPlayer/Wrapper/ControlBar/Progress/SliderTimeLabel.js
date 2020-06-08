@@ -13,9 +13,9 @@ function SliderTimeLabel(props) {
 }
 
 SliderTimeLabel.propTypes = {
-  children: PropTypes.element.isRequired,
-  open: PropTypes.bool.isRequired,
-  value: PropTypes.number.isRequired,
+  children: PropTypes.element,
+  open: PropTypes.bool,
+  value: PropTypes.any,
 };
 
 export default SliderTimeLabel;

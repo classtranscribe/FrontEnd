@@ -45,7 +45,14 @@ export class Player extends React.Component {
         if (isTwoScreen) {
           this.setState({ src2: videos[0].srcPath2 });
         }
+
+        this.player.setupTranscriptions(media);
       }
+    }
+
+    const { currTranscription } = this.state;
+    if (prevState.currTranscription !== currTranscription) {
+      this.player.setupCaptions(currTranscription);
     }
   }
 
@@ -69,15 +76,17 @@ export class Player extends React.Component {
 
     const {
       src1,
-      duration,
-      time,
-      bufferedTime,
-      playbackRate,
       isEnded,
       isPaused,
       isFullscreen,
       isSwitchedScreen,
       openCC,
+      duration,
+      time,
+      bufferedTime,
+      muted,
+      volume,
+      playbackRate,
     } = this.state;
 
     const playerProps = {
@@ -107,6 +116,8 @@ export class Player extends React.Component {
       duration,
       time,
       bufferedTime,
+      muted,
+      volume,
       playbackRate,
       allowRangePicker,
       range,

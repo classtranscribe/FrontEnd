@@ -47,6 +47,11 @@ export class VideoNode {
     this.node.muted = true;
   }
 
+  unmute() {
+    if (!this.node) return;
+    this.node.muted = false;
+  }
+
   setVolume(volume) {
     if (!this.node) return;
     this.node.volume = volume;

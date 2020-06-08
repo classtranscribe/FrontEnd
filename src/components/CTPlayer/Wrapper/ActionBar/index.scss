@@ -22,13 +22,25 @@
     padding-left: 5px;
 
     .media-name {
-      color: white;
-      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       padding-left: 10px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      font-weight: bold;
+      width: 100%;
+
+      .ctp.ct-logo {
+        width: 20px;
+      }
+
+      a {
+        color: white;
+        width: calc(100% - 25px);
+        padding-left: 5px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: bold;
+      }
     }
   }
 }

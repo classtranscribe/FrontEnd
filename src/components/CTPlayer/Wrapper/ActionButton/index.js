@@ -13,6 +13,7 @@ function ActionButton(props) {
     active,
     highlighted,
     onClick,
+    ...ariaProps
   } = props;
 
   const actBtnClasses = cx('ctp', 'act-btn', {
@@ -34,6 +35,7 @@ function ActionButton(props) {
         aria-label={label} 
         className={actBtnClasses} 
         onClick={onClick}
+        {...ariaProps}
       >
         <span tabIndex="-1">
           {iconElement}
@@ -46,7 +48,7 @@ function ActionButton(props) {
 ActionButton.propTypes = {
   label: PropTypes.string,
   labelPlacement: PropTypes.oneOf(['top', 'bottom']),
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   active: PropTypes.bool,
   highlighted: PropTypes.bool,
   onClick: PropTypes.func,

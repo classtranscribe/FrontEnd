@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
-
+import { getSettingsMenu } from '../../controllers/settings-menu';
 import Progress from './Progress';
 
 import PauseButton from './PauseButton';
 import PlayButton from './PlayButton';
 import ReplayButton from './ReplayButton';
+import Volume from './Volume';
 import TimeDisplay from './TimeDisplay';
 
 import ClosedCaptionButton from './ClosedCaptionButton';
+import Settings from './Settings';
 import EnterFullScreenButton from './EnterFullScreenButton';
 import ExitFullScreenButton from './ExitFullScreenButton';
 
@@ -23,6 +25,8 @@ function ControlBar(props) {
     duration,
     time,
     bufferedTime,
+    muted,
+    volume,
     playbackRate,
   } = props;
 
@@ -41,12 +45,19 @@ function ControlBar(props) {
   );
 
   const progressProps = {
-    player,
     duration,
     time,
     bufferedTime,
     playbackRate,
+    setCurrentTime: player.setCurrentTime
   };
+
+  const volumeProps = {
+    muted,
+    volume,
+    onVolumeChange: player.setVolume,
+    onToggleMute: player.toggleMute,
+  }
 
   return (
     <div className="ctp control-bar">
@@ -56,10 +67,14 @@ function ControlBar(props) {
         <div className="right">
           {pauseToggleElement}
 
+          <Volume {...volumeProps} />
+
           <TimeDisplay duration={duration} time={time} />
         </div>
         <div className="left">
           <ClosedCaptionButton openCC={openCC} onClick={player.toggleCC} />
+
+          <Settings getSettingsMenu={() => getSettingsMenu(player)} />
 
           {fullscreenToggleElement}
         </div>

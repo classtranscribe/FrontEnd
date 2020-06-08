@@ -8,10 +8,10 @@ import SliderTimeLabel from './SliderTimeLabel';
 
 function Progress(props) {
   let {
-    player,
     duration,
     time,
     bufferedTime,
+    setCurrentTime
   } = props;
 
   const [mouseLeft, setMouseLeft] = useState(-1);
@@ -30,7 +30,9 @@ function Progress(props) {
   };
 
   const handleSeekTime = (e, newTime) => {
-    player.setCurrentTime(newTime);
+    if (typeof setCurrentTime === 'function') {
+      setCurrentTime(newTime);
+    }
   };
 
   const bufferSliderProps = {
