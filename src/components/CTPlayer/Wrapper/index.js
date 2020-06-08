@@ -15,6 +15,10 @@ function Wrapper(props) {
     isPaused,
     isFullscreen,
     openCC,
+    duration,
+    time,
+    bufferedTime,
+    playbackRate,
   } = props;
 
   const [hover, setHover] = useState(false);
@@ -51,6 +55,10 @@ function Wrapper(props) {
     isPaused,
     isFullscreen,
     openCC,
+    duration,
+    time,
+    bufferedTime,
+    playbackRate,
   };
 
   return (

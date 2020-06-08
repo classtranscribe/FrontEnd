@@ -15,15 +15,16 @@
 
   .left {
     justify-content: flex-end;
-    padding-right: 10px;
+    padding-right: 5px;
   }
 
   .right {
-    padding-left: 10px;
+    padding-left: 5px;
 
     .media-name {
       color: white;
       width: 100%;
+      padding-left: 10px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

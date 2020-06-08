@@ -6,7 +6,8 @@
   justify-content: flex-end;
 
   .ctp.action-bar {
-    height: 40px;
-    padding-bottom: 10px;
+    z-index: 1;
+    height: 35px;
+    padding-bottom: 5px;
   }
 }

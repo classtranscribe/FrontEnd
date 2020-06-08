@@ -12,6 +12,8 @@ export function TranscriptionsWithRedux({
         <CTFragment padding={30}>
           <CTPlayer
             media={media}
+            width={540}
+            height={315}
           />
         </CTFragment>
       </div>

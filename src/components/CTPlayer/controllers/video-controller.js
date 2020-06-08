@@ -19,6 +19,8 @@ export class VideoController {
     this.togglePause = this.togglePause.bind(this);
     this.replay = this.replay.bind(this);
     this.toggleCC = this.toggleCC.bind(this);
+    this.onDurationChange = this.onDurationChange.bind(this);
+    this.onProgress = this.onProgress.bind(this);
   }
 
   setState(key, value) {
@@ -30,8 +32,16 @@ export class VideoController {
 
   PLAYBACK_RATES = playbackRateOptions;
 
+  /**
+   * 
+   * @param {HTMLVideoElement} node 
+   */
   registerVideo1(node) {
     this.video1 = new VideoNode(node);
+    if (node) {
+      node.addEventListener('durationchange', this.onDurationChange);
+      node.addEventListener('progress', this.onProgress);
+    }
   }
 
   registerVideo2(node) {
@@ -66,6 +76,16 @@ export class VideoController {
     this.play();
   }
 
+  time = 0;
+  setCurrentTime(time) {
+    if (!this.video1) return;
+    this.video1.setCurrentTime(time);
+    this.setState('time', time);
+    if (this.video2) {
+      this.video2.setCurrentTime(time);
+    }
+  }
+
   openCC = false;
   toggleCC() {
     this.setState('openCC', !this.openCC);
@@ -77,5 +97,22 @@ export class VideoController {
 
   exitFullscreen() {
 
+  }
+
+  onDurationChange(e) {
+    this.setState('duration', e.target.duration);
+  }
+
+  bufferedTime = 0;
+  onProgress({ target: { buffered, currentTime, duration } }) {
+    // console.log('buffered', buffered)
+    if (duration > 0) {
+      for (let i = 0; i < buffered.length; i += 1) {
+        if (buffered.start(buffered.length - 1 - i) < currentTime) {
+          this.setState('bufferedTime', buffered.end(buffered.length - 1 - i));
+          break;
+        }
+      }
+    }
   }
 }

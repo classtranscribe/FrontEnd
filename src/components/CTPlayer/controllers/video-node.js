@@ -27,6 +27,11 @@ export class VideoNode {
     return this.node.playbackRate;
   }
 
+  get currentTime() {
+    if (!this.node) return 0;
+    return this.node.currentTime;
+  }
+
   play() {
     if (!this.node) return;
     this.node.play();
@@ -50,5 +55,9 @@ export class VideoNode {
   setPlaybackRate(playbackRate) {
     if (!this.node) return;
     this.node.playbackRate = playbackRate;
+  }
+
+  setCurrentTime(time) {
+    this.node.currentTime = time;
   }
 }
