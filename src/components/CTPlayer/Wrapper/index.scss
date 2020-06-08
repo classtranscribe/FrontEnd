@@ -1,0 +1,51 @@
+@mixin hidable {
+  opacity: 0;
+}
+
+.ctp.main-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // opacity: 1;
+  transition: background 200ms linear;
+
+  &:focus-within, &.show {
+    transition: none;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.329);
+
+    .ctp.ctrl-bar-con {
+      transform: translateY(0px);;
+    }
+
+    .ctp.dismissible {
+      opacity: 1;
+    }
+  }
+
+  .ctp.dismissible {
+    opacity: 0;
+    transition: opacity 200ms linear;
+  }
+
+  .ctp.action-bar-con {
+    display: flex;
+    width: 100%;
+    height: 50px;
+  }
+
+  .ctp.center-con {
+    height: calc(100% - 100px);
+    width: 100%;
+    display: flex;
+  }
+
+  .ctp.ctrl-bar-con {
+    width: 100%;
+    height: 50px;
+    transform: translateY(40px);
+    transition: transform 100ms linear;
+  }
+}

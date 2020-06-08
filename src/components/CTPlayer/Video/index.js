@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
+import { CTPlayerController } from '../controllers';
 
 import VideoLoader from './VideoLoader';
 
@@ -9,6 +10,7 @@ function Video(props) {
   let {
     id,
     className,
+    player,
     src,
     trackSrc,
     muted = false,
@@ -46,6 +48,22 @@ function Video(props) {
     if (isWaiting) setIsWaiting(false);
   };
 
+  const handleLoadStart = (e) => {
+    if (typeof onLoadStart === 'function') {
+      onLoadStart(e);
+    }
+
+    if (!isWaiting) setIsWaiting(true);
+  };
+
+  const handleLoadedData = (e) => {
+    if (typeof onLoadedData === 'function') {
+      onLoadedData(e);
+    }
+
+    if (isWaiting) setIsWaiting(false);
+  };
+
 
   const videoClasses = cx('ctp', 'ct-video', className);
   const videoProps = {
@@ -54,8 +72,8 @@ function Video(props) {
     className: videoClasses,
     playsInline: true,
     muted,
-    onLoadStart,
-    onLoadedData,
+    onLoadStart: handleLoadStart,
+    onLoadedData: handleLoadedData,
     onDurationChange,
     onCanPlay,
     onPause,
@@ -69,7 +87,9 @@ function Video(props) {
     onTimeUpdate
   };
 
-  const wrapperClasses = cx('ctp', 'ct-video-wrapper');
+  const wrapperClasses = cx('ctp', 'ct-video-wrapper', 'blur', {
+    show: isWaiting
+  });
 
   return (
     <div className="ctp ct-video-con">
@@ -89,6 +109,7 @@ function Video(props) {
 Video.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
+  player: PropTypes.instanceOf(CTPlayerController),
   src: PropTypes.string,
   trackSrc: PropTypes.string,
   muted: PropTypes.bool,

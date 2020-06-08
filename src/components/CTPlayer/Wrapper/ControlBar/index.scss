@@ -1,0 +1,12 @@
+.ctp.control-bar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  .ctp.action-bar {
+    height: 40px;
+    padding-bottom: 10px;
+  }
+}

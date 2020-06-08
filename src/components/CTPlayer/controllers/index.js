@@ -1,24 +1,29 @@
-import { playbackRateOptions } from 'screens/Watch/Utils/constants.util';
-import { VideoNodeController } from './video-node';
+import { api } from 'utils';
+import { VideoController } from './video-controller';
 
 export { initialState } from './initial-state';
 
-export class CTPlayerController {
-  constructor() {
-    this.video1 = null;
-    this.video2 = null;
+export class CTPlayerController extends VideoController {
+  /**
+   * Create a CTPlayer controller
+   * @param {Function} setPlayerState - function used to set states in CTPlayer
+   */
+  constructor(setPlayerState) {
+    super(setPlayerState);
 
-    this.registerVideo1 = this.registerVideo1.bind(this);
-    this.registerVideo2 = this.registerVideo2.bind(this);
+    this.media = null;
   }
 
-  PLAYBACK_RATES = playbackRateOptions;
-
-  registerVideo1(node) {
-    this.video1 = new VideoNodeController(node);
+  setMedia(media) {
+    this.setState('media', media);
   }
 
-  registerVideo2(node) {
-    this.video2 = new VideoNodeController(node);
+  setupMedia(mediaId) {
+    try {
+      let { data } = api.getMediaById(mediaId);
+      this.setMedia(api.parseMedia(data));
+    } catch (error) {
+      // TODO
+    }
   }
 }

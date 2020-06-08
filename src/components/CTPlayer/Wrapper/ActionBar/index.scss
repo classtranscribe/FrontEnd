@@ -1,0 +1,33 @@
+.ctp.action-bar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .left, .right {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .left {
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+
+  .right {
+    padding-left: 10px;
+
+    .media-name {
+      color: white;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-export class VideoNodeController {
+export class VideoNode {
   /**
    * Create a video node controller
    * @param {HTMLVideoElement} node - the video node

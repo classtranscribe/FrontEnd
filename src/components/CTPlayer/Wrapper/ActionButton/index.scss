@@ -1,0 +1,40 @@
+.ctp.act-btn {
+  position: relative;
+  background: none;
+  color: var(--ct-text-white);
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: none;
+  margin: 0 .5em;
+  width: auto;
+
+  &:active {
+    opacity: 0.6;
+  }
+
+  &.highlighted {
+    span i {
+      color: rgb(0, 236, 236);
+    }
+  }
+
+  span {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+
+    i.material-icons {
+      font-size: 25px;
+      width: max-content;
+    }
+  
+    i.fas {
+      font-size: 20px;
+    }
+  }
+}

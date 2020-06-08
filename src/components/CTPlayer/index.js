@@ -1,0 +1,1 @@
+export { Player as CTPlayer } from './Player';
