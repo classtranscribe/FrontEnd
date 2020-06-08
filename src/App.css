@@ -23,6 +23,7 @@ body {
 }
 
 a:focus, button:focus, div[tabindex="0"]:focus {
+  outline-style: solid;
   outline-width: 2px;
   outline-color:  rgb(7, 150, 143);
 }
