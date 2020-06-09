@@ -55,8 +55,7 @@ function Wrapper(props) {
   };
 
   const wrapperClasses = cx('ctp', 'main-wrapper', {
-    show: hover || isPaused || isEnded,
-    'bottom-bar': openRange,
+    show: hover || isPaused || isEnded
   });
 
   const actionBarProps = {

@@ -26,12 +26,6 @@
     }
   }
 
-  &.bottom-bar {
-    .ctp.ctrl-bar-con {
-      transform: translateY(0);
-    }
-  }
-
   .ctp.dismissible {
     opacity: 0;
     transition: opacity 200ms linear;
@@ -52,7 +46,7 @@
   .ctp.ctrl-bar-con {
     width: 100%;
     height: 75px;
-    transform: translateY(80px);
+    transform: translateY(40px);
     transition: transform 100ms linear;
   }
 }

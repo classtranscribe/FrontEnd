@@ -157,8 +157,6 @@ export class Player extends React.Component {
     return (
       <div {...playerProps}>
         <Video {...video1Props} />
-
-        {openRange && <div className="ctp range-space-holder" />}
         <Wrapper {...wrapperProps} />
       </div>
     );

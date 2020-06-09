@@ -1,14 +1,8 @@
 .ctp.main-wrapper {
-  &:focus-within, &.show, &.bottom-bar {
+  &:focus-within, &.show {
     .ctp.progress-con {
       padding: 0 8px;
       transition: padding 100ms linear;
-    }
-  }
-
-  &.bottom-bar {
-    .ctp.progress-con {
-      padding: 0 20px;
     }
   }
 

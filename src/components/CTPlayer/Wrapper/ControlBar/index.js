@@ -5,7 +5,6 @@ import { getSettingsMenu } from '../../controllers/settings-menu';
 
 import ClosedCaption from './ClosedCaption';
 
-import { RangeSlider, RangeContolBar } from './Range';
 import Progress from './Progress';
 
 import PauseButton from './PauseButton';
@@ -33,7 +32,6 @@ function ControlBar(props) {
     playbackRate,
     openCC,
     currCaption,
-    allowRangePicker,
     openRange,
     range,
     onRangeChange,
@@ -95,10 +93,6 @@ function ControlBar(props) {
         <ClosedCaption {...closedCaptionProps} />
       </div>
 
-      <div className="ctp range-con">
-        <RangeSlider {...rangeSliderProps} />
-      </div>
-
       <Progress {...progressProps} />
 
       <div className="ctp action-bar">
@@ -117,8 +111,6 @@ function ControlBar(props) {
           {fullscreenToggleElement}
         </div>
       </div>
-
-      <RangeContolBar {...rangeCtrlProps} />
     </div>
   );
 }

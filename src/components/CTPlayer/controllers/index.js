@@ -115,8 +115,9 @@ export class CTPlayerController extends VideoController {
     const { id, language, src } = currTranscription;
     this.setLanguage({ code: language, text: langMap[language] });
     let captions = await this.getCaptionsByTranscriptionId(id);
+    captions = _.map(captions, (cap, index) => ({ ...cap, index }));
     this.setCaptions(captions);
-    // console.log(captions);
+    this.setCurrCaption(null);
   }
 
   changeLanguage(language) {
@@ -142,15 +143,15 @@ export class CTPlayerController extends VideoController {
 
     // if it's the first time to find captions
     if (!next) {
-      next = _.find(captions, isCurrent) || null;
+      next = _.find(captions, isCurrent) || next;
 
       // if looking for caption that is after the current one
     } else if (now > timeStrToSec(next.begin)) {
-      next = _.find(captions, isCurrent, next.index - 1) || null;
+      next = _.find(captions, isCurrent, next.index + 1) || next;
 
       // if looking for caption that is prior to the current one
     } else if (now < timeStrToSec(next.end)) {
-      next = _.findLast(captions, isCurrent, next.index) || null;
+      next = _.findLast(captions, isCurrent, next.index - 1) || next;
     }
 
     this.setCurrCaption(next);
