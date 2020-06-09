@@ -13,6 +13,13 @@ export class CTPlayerController extends VideoController {
   constructor(setPlayerState) {
     super(setPlayerState);
 
+    // Node of the player
+    this.playerNode = null;
+
+    // Mouse over timer for wrapper
+    this.mouseOverTimer = null;
+
+    // Initialize states
     this.media = null;
     this.transcriptions = [];
     this.currTranscription = null;
@@ -21,8 +28,25 @@ export class CTPlayerController extends VideoController {
     this.currCaption = null;
 
     this.languages = [];
+    this.isFullscreen = false;
 
+    // Binding functions to player object
+    this.registerPlayer = this.registerPlayer.bind(this);
     this.changeLanguage = this.changeLanguage.bind(this);
+    this.enterFullscreen = this.enterFullscreen.bind(this);
+    this.exitFullscreen = this.exitFullscreen.bind(this);
+    this.onFullscreenChange = this.onFullscreenChange.bind(this);
+  }
+
+  /**
+   * 
+   * @param {HTMLDivnodeent} node 
+   */
+  registerPlayer(node) {
+    this.playerNode = node;
+    if (node) {
+      node.addEventListener('fullscreenchange', this.onFullscreenChange);
+    }
   }
 
   setMedia(media) {
@@ -99,5 +123,51 @@ export class CTPlayerController extends VideoController {
     if (targetIndex >= 0) {
       this.setCurrTranscription(this.transcriptions[targetIndex]);
     }
+  }
+
+  enterFullscreen() {
+    if (document.fullscreen) return;
+
+    let node = this.playerNode;
+    if (node.requestFullscreen) {
+      node.requestFullscreen();
+    } else if (node.mozRequestFullScreen) {
+      /* Firefox */
+      node.mozRequestFullScreen();
+    } else if (node.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      node.webkitRequestFullscreen();
+    } else if (node.webkitEnterFullscreen) {
+      /* Safari IOS Mobile */
+      node.webkitEnterFullscreen();
+    } else if (node.msRequestFullscreen) {
+      /* IE/Edge */
+      node.msRequestFullscreen();
+    }
+  }
+
+  exitFullscreen() {
+    if (!document.fullscreen) return;
+
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      /* Firefox */
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      /* Chrome, Safari and Opera */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      /* IE/Edge */
+      document.msExitFullscreen();
+    }
+  }
+
+  onMouseOverWrapper() {
+
+  }
+
+  onFullscreenChange(e) {
+    this.setState('isFullscreen', document.fullscreen);
   }
 }

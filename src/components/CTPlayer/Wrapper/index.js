@@ -29,10 +29,23 @@ function Wrapper(props) {
     setHover(true);
   };
 
+  const handleMouseMove = () => {
+    if (player.mouseOverTimer !== null) {
+      clearTimeout(player.mouseOverTimer);
+      player.mouseOverTimer = null;
+    }
+    
+    if (!hover) {
+      setHover(true);
+    }
+
+    player.mouseOverTimer = setTimeout(() => {
+      setHover(false);
+      player.mouseOverTimer = null;
+    }, 3000);
+  }
+
   const handleMouseLeave = () => {
-    // setTimeout(() => {
-    //   setHover(false);
-    // }, 1000);
     setHover(false);
   };
 
@@ -69,6 +82,7 @@ function Wrapper(props) {
     <div 
       className={wrapperClasses}
       onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <div className="ctp action-bar-con dismissible">

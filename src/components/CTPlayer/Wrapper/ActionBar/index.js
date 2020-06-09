@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
-import { links } from 'utils/links';
+import { links, uurl } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
 import { CTPlayerController } from '../../controllers';
 import ShareButton from './ShareButton';
@@ -18,7 +18,8 @@ function ActionBar(props) {
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
-    window.location = links.watch(id, { begin: player.time });
+    let url = links.watch(id, { begin: player.time });
+    uurl.openNewTab(url);
   };
 
   return (

@@ -132,14 +132,6 @@ export class VideoController {
     this.setState('openCC', !this.openCC);
   }
 
-  enterFullscreen() {
-
-  }
-
-  exitFullscreen() {
-
-  }
-
   onDurationChange(e) {
     this.setState('duration', e.target.duration);
   }

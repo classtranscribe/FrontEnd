@@ -91,6 +91,7 @@ export class Player extends React.Component {
 
     const playerProps = {
       id,
+      ref: this.player.registerPlayer,
       style: {
         width: width || '560px',
         height: height || 'max-content'
