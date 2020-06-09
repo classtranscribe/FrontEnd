@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
 import { getSettingsMenu } from '../../controllers/settings-menu';
+
+import ClosedCaption from './ClosedCaption';
+
 import Progress from './Progress';
 
 import PauseButton from './PauseButton';
@@ -21,13 +24,14 @@ function ControlBar(props) {
     isPaused,
     isEnded,
     isFullscreen,
-    openCC,
     duration,
     time,
     bufferedTime,
     muted,
     volume,
     playbackRate,
+    openCC,
+    currCaption,
   } = props;
 
   const pauseToggleElement = (
@@ -61,6 +65,10 @@ function ControlBar(props) {
 
   return (
     <div className="ctp control-bar">
+      <div className="ctp cc-con">
+        <ClosedCaption open={openCC} currCaption={currCaption} />
+      </div>
+
       <Progress {...progressProps} />
 
       <div className="ctp action-bar">

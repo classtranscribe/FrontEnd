@@ -10,4 +10,11 @@
     height: 35px;
     padding-bottom: 5px;
   }
+
+  .ctp.cc-con {
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

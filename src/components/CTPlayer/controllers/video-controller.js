@@ -12,6 +12,13 @@ export class VideoController {
 
     this.setPlayerState = setPlayerState;
 
+    this.time = 0;
+    this.bufferedTime = 0;
+    this.muted = false;
+    this.volume = 1;
+    this.playbackRate = 1;
+    this.openCC = false;
+
     this.registerVideo1 = this.registerVideo1.bind(this);
     this.registerVideo2 = this.registerVideo2.bind(this);
     this.play = this.play.bind(this);
@@ -27,6 +34,7 @@ export class VideoController {
     this.toggleCC = this.toggleCC.bind(this);
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onProgress = this.onProgress.bind(this);
+    this.onTimeUpdate = this.onTimeUpdate.bind(this);
   }
 
   setState(key, value) {
@@ -47,6 +55,7 @@ export class VideoController {
     if (node) {
       node.addEventListener('durationchange', this.onDurationChange);
       node.addEventListener('progress', this.onProgress);
+      node.addEventListener('timeupdate', this.onTimeUpdate);
     }
   }
 
@@ -82,7 +91,6 @@ export class VideoController {
     this.play();
   }
 
-  time = 0;
   setCurrentTime(time) {
     if (!this.video1) return;
     this.video1.setCurrentTime(time);
@@ -92,7 +100,6 @@ export class VideoController {
     }
   }
 
-  muted = false;
   mute() {
     if (!this.video1) return;
     this.video1.mute();
@@ -113,21 +120,18 @@ export class VideoController {
     }
   }
 
-  volume = 1;
   setVolume(volume) {
     if (!this.video1) return;
     this.video1.setVolume(volume);
     this.setState('volume', volume);
   }
 
-  playbackRate = 1;
   setPlaybackRate(playbackRate) {
     if (!this.video1) return;
     this.video1.setPlaybackRate(playbackRate);
     this.setState('playbackRate', playbackRate);
   }
 
-  openCC = false;
   toggleCC() {
     this.setState('openCC', !this.openCC);
   }
@@ -136,9 +140,7 @@ export class VideoController {
     this.setState('duration', e.target.duration);
   }
 
-  bufferedTime = 0;
   onProgress({ target: { buffered, currentTime, duration } }) {
-    // console.log('buffered', buffered)
     if (duration > 0) {
       for (let i = 0; i < buffered.length; i += 1) {
         if (buffered.start(buffered.length - 1 - i) < currentTime) {
@@ -148,4 +150,14 @@ export class VideoController {
       }
     }
   }
+
+  lastCCUpdatedTime = 0;
+  onTimeUpdate({ target: { currentTime } }) {
+    if (Math.abs(this.time - currentTime) > 0.4) {
+      this.setState('time', currentTime);
+      this.updateCurrCaption(currentTime);
+    }
+  }
+
+  updateCurrCaption() {}
 }

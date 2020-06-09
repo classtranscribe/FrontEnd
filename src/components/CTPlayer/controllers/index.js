@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { api } from 'utils';
 import { ENGLISH, langMap } from 'screens/Watch/Utils/constants.util';
+import { timeStrToSec } from 'screens/Watch/Utils/helpers';
 import { VideoController } from './video-controller';
 
 export { initialState } from './initial-state';
@@ -125,6 +126,35 @@ export class CTPlayerController extends VideoController {
     }
   }
 
+  updateCurrCaption(now) {
+    if (!this.openCC || this.captions.length <= 0) return;
+    let captions = this.captions;
+
+    const isCurrent = (item) => {
+      if (!item) return false;
+      const end = timeStrToSec(item.end);
+      const begin = timeStrToSec(item.begin);
+      return begin <= now && now <= end;
+    };
+
+    let next = this.currCaption;
+
+    // if it's the first time to find captions
+    if (!next) {
+      next = _.find(captions, isCurrent) || null;
+
+      // if looking for caption that is after the current one
+    } else if (now > timeStrToSec(next.begin)) {
+      next = _.find(captions, isCurrent, next.index - 1) || null;
+
+      // if looking for caption that is prior to the current one
+    } else if (now < timeStrToSec(next.end)) {
+      next = _.findLast(captions, isCurrent, next.index) || null;
+    }
+
+    this.setCurrCaption(next);
+  }
+
   enterFullscreen() {
     if (document.fullscreen) return;
 
@@ -161,10 +191,6 @@ export class CTPlayerController extends VideoController {
       /* IE/Edge */
       document.msExitFullscreen();
     }
-  }
-
-  onMouseOverWrapper() {
-
   }
 
   onFullscreenChange(e) {
