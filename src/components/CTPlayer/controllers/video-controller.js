@@ -18,6 +18,10 @@ export class VideoController {
     this.volume = 1;
     this.playbackRate = 1;
     this.openCC = false;
+    this.openRange = false;
+    this.range = null;
+
+    this.isPlayingRange = false;
 
     this.registerVideo1 = this.registerVideo1.bind(this);
     this.registerVideo2 = this.registerVideo2.bind(this);
@@ -32,6 +36,9 @@ export class VideoController {
     this.setVolume = this.setVolume.bind(this);
     this.setPlaybackRate = this.setPlaybackRate.bind(this);
     this.toggleCC = this.toggleCC.bind(this);
+    this.setRange = this.setRange.bind(this);
+    this.toggleRange = this.toggleRange.bind(this);
+    this.playRange = this.playRange.bind(this);
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onTimeUpdate = this.onTimeUpdate.bind(this);
@@ -136,8 +143,31 @@ export class VideoController {
     this.setState('openCC', !this.openCC);
   }
 
+  toggleRange() {
+    this.setState('openRange', !this.openRange);
+    this.isPlayingRange = false;
+  }
+
+  setRange(range) {
+    this.setState('range', range);
+    this.isPlayingRange = false;
+  }
+
+  playRange() {
+    if (this.range && this.openRange) {
+      this.play();
+      this.setCurrentTime(this.range[0]);
+      this.isPlayingRange = true;
+    }
+  }
+
   onDurationChange(e) {
-    this.setState('duration', e.target.duration);
+    let { duration } = e.target;
+    this.setState('duration', duration);
+
+    if (this.openRange && !this.range) {
+      this.setRange([0, duration]);
+    }
   }
 
   onProgress({ target: { buffered, currentTime, duration } }) {
@@ -156,6 +186,13 @@ export class VideoController {
     if (Math.abs(this.time - currentTime) > 0.4) {
       this.setState('time', currentTime);
       this.updateCurrCaption(currentTime);
+    }
+
+    if (this.isPlayingRange) {
+      if (this.range[1] <= currentTime) {
+        this.pause();
+        this.isPlayingRange = false;
+      }
     }
   }
 

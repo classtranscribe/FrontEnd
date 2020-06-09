@@ -26,6 +26,21 @@ export const getSettingsMenu = (player) => {
         onClick: player.changeLanguage,
         active: lang.code === player.language.code
       }))
+    },
+    {
+      text: 'Range Picker',
+      menus: [
+        {
+          text: 'ON',
+          onClick: player.toggleRange,
+          active: player.openRange
+        },
+        {
+          text: 'OFF',
+          onClick: player.toggleRange,
+          active: !player.openRange
+        }
+      ]
     }
   ]
 }

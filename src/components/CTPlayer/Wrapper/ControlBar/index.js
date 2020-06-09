@@ -5,6 +5,7 @@ import { getSettingsMenu } from '../../controllers/settings-menu';
 
 import ClosedCaption from './ClosedCaption';
 
+import { RangeSlider, RangeContolBar } from './Range';
 import Progress from './Progress';
 
 import PauseButton from './PauseButton';
@@ -32,6 +33,10 @@ function ControlBar(props) {
     playbackRate,
     openCC,
     currCaption,
+    allowRangePicker,
+    openRange,
+    range,
+    onRangeChange,
   } = props;
 
   const pauseToggleElement = (
@@ -53,7 +58,9 @@ function ControlBar(props) {
     time,
     bufferedTime,
     playbackRate,
-    setCurrentTime: player.setCurrentTime
+    setCurrentTime: player.setCurrentTime,
+    openRange,
+    range
   };
 
   const volumeProps = {
@@ -61,12 +68,35 @@ function ControlBar(props) {
     volume,
     onVolumeChange: player.setVolume,
     onToggleMute: player.toggleMute,
-  }
+  };
+
+  const rangeSliderProps = {
+    range,
+    openRange,
+    duration,
+    onRangeChange,
+  };
+
+  const rangeCtrlProps = {
+    range,
+    openRange,
+    onRangeChange,
+    onPlayRange: player.playRange
+  };
+
+  const closedCaptionProps = {
+    open: openCC,
+    currCaption,
+  };
 
   return (
     <div className="ctp control-bar">
       <div className="ctp cc-con">
-        <ClosedCaption open={openCC} currCaption={currCaption} />
+        <ClosedCaption {...closedCaptionProps} />
+      </div>
+
+      <div className="ctp range-con">
+        <RangeSlider {...rangeSliderProps} />
       </div>
 
       <Progress {...progressProps} />
@@ -87,6 +117,8 @@ function ControlBar(props) {
           {fullscreenToggleElement}
         </div>
       </div>
+
+      <RangeContolBar {...rangeCtrlProps} />
     </div>
   );
 }

@@ -23,4 +23,7 @@ export const initialState = {
   isEnded: false,
   isSwitchedScreen: false,
   isFullscreen: false,
+  // range
+  openRange: false,
+  range: null,
 };

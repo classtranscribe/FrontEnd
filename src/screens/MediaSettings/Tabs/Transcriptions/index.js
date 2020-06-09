@@ -13,7 +13,9 @@ export function TranscriptionsWithRedux({
           <CTPlayer
             media={media}
             width={540}
-            height={315}
+            allowRangePicker
+            defaultOpenRangePicker
+            // defaultRange={[0,20]}
           />
         </CTFragment>
       </div>

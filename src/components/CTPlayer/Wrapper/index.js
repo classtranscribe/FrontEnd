@@ -22,6 +22,10 @@ function Wrapper(props) {
     playbackRate,
     openCC,
     currCaption,
+    allowRangePicker,
+    openRange,
+    range,
+    onRangeChange,
   } = props;
 
   const [hover, setHover] = useState(false);
@@ -51,7 +55,8 @@ function Wrapper(props) {
   };
 
   const wrapperClasses = cx('ctp', 'main-wrapper', {
-    show: hover || isPaused || isEnded
+    show: hover || isPaused || isEnded,
+    'bottom-bar': openRange,
   });
 
   const actionBarProps = {
@@ -78,6 +83,10 @@ function Wrapper(props) {
     playbackRate,
     openCC,
     currCaption,
+    allowRangePicker,
+    openRange,
+    range,
+    onRangeChange,
   };
 
   return (

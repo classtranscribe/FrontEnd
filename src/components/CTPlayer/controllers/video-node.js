@@ -34,12 +34,16 @@ export class VideoNode {
 
   play() {
     if (!this.node) return;
-    this.node.play();
+    if (this.node.paused) {
+      this.node.play();
+    }
   }
 
   pause() {
     if (!this.node) return;
-    this.node.pause();
+    if (!this.node.paused) {
+      this.node.pause();
+    }
   }
 
   mute() {

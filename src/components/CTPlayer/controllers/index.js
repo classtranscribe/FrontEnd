@@ -122,6 +122,7 @@ export class CTPlayerController extends VideoController {
   changeLanguage(language) {
     let targetIndex = _.findIndex(this.transcriptions, { language });
     if (targetIndex >= 0) {
+      this.setLanguage({ code: language, text: langMap[language] });
       this.setCurrTranscription(this.transcriptions[targetIndex]);
     }
   }

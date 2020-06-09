@@ -16,15 +16,33 @@ export class Player extends React.Component {
   }
 
   setPlayerState(key, value) {
-    this.setState({ [key]: value });
+    this.setState({ [key]: value }, () => {
+      // console.info(`set ${key}`);
+      // console.info(this.state);
+    });
   }
 
   componentDidMount() {
-    const { mediaId, media } = this.props;
+    const {
+      mediaId,
+      media,
+      allowRangePicker,
+      defaultOpenRangePicker,
+      range,
+      defaultRange,
+    } = this.props;
+
     if (media && media.id) {
       this.player.setMedia(media);
     } else {
       this.player.setupMedia(mediaId);
+    }
+
+    if (allowRangePicker && defaultOpenRangePicker) {
+      this.player.toggleRange();
+      if (range || defaultRange) {
+        this.player.setRange(range || defaultRange);
+      }
     }
   }
 
@@ -56,6 +74,15 @@ export class Player extends React.Component {
     }
   }
 
+  setRange = (range) => {
+    const { onRangePicked } = this.props;
+
+    this.player.setRange(range);
+    if (typeof onRangePicked === 'function') {
+      onRangePicked(range);
+    }
+  }
+
   render() {
     let {
       id,
@@ -69,9 +96,6 @@ export class Player extends React.Component {
       allowTwoScreen = false,
       // Range picker
       allowRangePicker = false,
-      defaultRange,
-      range,
-      onRangePicked,
     } = this.props;
 
     const {
@@ -88,6 +112,8 @@ export class Player extends React.Component {
       playbackRate,
       openCC,
       currCaption,
+      openRange,
+      range
     } = this.state;
 
     const playerProps = {
@@ -123,14 +149,16 @@ export class Player extends React.Component {
       openCC,
       currCaption,
       allowRangePicker,
+      openRange,
       range,
-      defaultRange,
-      onRangePicked,
+      onRangeChange: this.setRange,
     };
   
     return (
       <div {...playerProps}>
         <Video {...video1Props} />
+
+        {openRange && <div className="ctp range-space-holder" />}
         <Wrapper {...wrapperProps} />
       </div>
     );
@@ -149,6 +177,7 @@ Player.propTypes = {
   beginAt: numOrStr,
   // Range picker
   allowRangePicker: PropTypes.bool,
+  defaultOpenRangePicker: PropTypes.bool,
   defaultRange: PropTypes.arrayOf(numOrStr),
   range: PropTypes.arrayOf(numOrStr),
   onRangePicked: PropTypes.func,

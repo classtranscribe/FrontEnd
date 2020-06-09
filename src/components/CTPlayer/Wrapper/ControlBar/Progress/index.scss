@@ -1,8 +1,14 @@
 .ctp.main-wrapper {
-  &:focus-within, &.show {
+  &:focus-within, &.show, &.bottom-bar {
     .ctp.progress-con {
       padding: 0 8px;
       transition: padding 100ms linear;
+    }
+  }
+
+  &.bottom-bar {
+    .ctp.progress-con {
+      padding: 0 20px;
     }
   }
 
@@ -50,6 +56,11 @@
           transform: scale(0.1);
           transition: transform 100ms linear;
           // margin-top: -4px;
+        }
+
+        .MuiSlider-markLabel {
+          top: -15px;
+          color: white;
         }
     
         &:hover, &:focus-within {

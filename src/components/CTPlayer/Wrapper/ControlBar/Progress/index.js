@@ -11,13 +11,20 @@ function Progress(props) {
     duration,
     time,
     bufferedTime,
-    setCurrentTime
+    setCurrentTime,
+    openRange,
+    range,
   } = props;
 
   const [mouseLeft, setMouseLeft] = useState(-1);
   const handleMouseLeave = () => {
     setMouseLeft(-1);
   };
+
+  let marks = [];
+  if (openRange && range) {
+    marks = range.map(val => ({ value: val, label: parseSec(val) }));
+  }
 
   const handleMouseMove = (e) => {
     let offsetX = e.nativeEvent.offsetX;
@@ -49,6 +56,7 @@ function Progress(props) {
     max: duration,
     step: 0.001,
     value: time,
+    marks,
     onChange: handleSeekTime,
     valueLabelFormat: parseSec,
     ValueLabelComponent: SliderTimeLabel
@@ -63,8 +71,6 @@ function Progress(props) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <div id="seeking-time" />
-
         <Slider {...bufferSliderProps} />
         <Slider {...timeSliderProps} />
       </div>
