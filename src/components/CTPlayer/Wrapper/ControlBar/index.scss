@@ -5,10 +5,15 @@
   flex-direction: column;
   justify-content: flex-end;
 
+
   .ctp.action-bar {
     z-index: 1;
     height: 35px;
     padding-bottom: 5px;
+
+    .left {
+      padding-right: 5px;
+    }
   }
 
   .ctp.cc-con {

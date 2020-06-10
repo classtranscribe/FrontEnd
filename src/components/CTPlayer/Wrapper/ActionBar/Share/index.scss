@@ -1,0 +1,36 @@
+.ctp.share-root {
+  position: relative;
+  z-index: 10;
+
+  .ctp.share-popup {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: rgba(27, 27, 27, 0.932);
+    width: 300px;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+
+    .ctp.share-link {
+      width: 100%;
+      margin-bottom: 10px;
+      input {
+        width: 100%;
+        color: white;
+        border: none;
+        background-color: rgb(56, 56, 56);
+        padding: 10px;
+
+        &:focus {
+          outline: none;
+        }
+
+        &::selection {
+          color: white;
+          background-color: rgb(25, 133, 133);
+        }
+      }
+    }
+  }
+}

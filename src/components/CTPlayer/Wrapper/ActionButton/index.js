@@ -1,8 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import './index.scss';
+
+export const useStyles = makeStyles({
+  tooltip: {
+    backgroundColor: '#363636'
+  },
+  arrow: {
+    color: '#363636'
+  }
+});
 
 function ActionButton(props) {
   let {
@@ -16,6 +26,8 @@ function ActionButton(props) {
     ...ariaProps
   } = props;
 
+  const labelClasses = useStyles();
+
   const actBtnClasses = cx('ctp', 'act-btn', {
     active,
     highlighted
@@ -27,6 +39,7 @@ function ActionButton(props) {
 
   return (
     <Tooltip 
+      classes={labelClasses}
       title={label} 
       placement={labelPlacement} 
       enterDelay={labelEnterDelay}

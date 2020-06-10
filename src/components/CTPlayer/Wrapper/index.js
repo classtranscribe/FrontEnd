@@ -53,7 +53,7 @@ function Wrapper(props) {
   }
 
   const handleMouseLeave = () => {
-    setHover(false);
+    // setHover(false);
   };
 
   const wrapperClasses = cx('ctp', 'wrapper', 'main-wrapper', {
@@ -62,7 +62,7 @@ function Wrapper(props) {
 
   const actionBarProps = {
     media,
-    player,
+    time,
   };
 
   const centerWrapperProps = {
@@ -70,11 +70,13 @@ function Wrapper(props) {
     userReady,
     isEnded,
     isPaused,
+    volume,
     onTogglePause: player.togglePause
   };
 
   const controlBarProps = {
     player,
+    userReady,
     isEnded,
     isPaused,
     isFullscreen,

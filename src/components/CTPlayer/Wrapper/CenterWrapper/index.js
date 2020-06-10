@@ -10,6 +10,7 @@ function CenterWrapper(props) {
     event,
     isPaused,
     isEnded,
+    volume,
     onTogglePause,
     onReplay,
   } = props;
@@ -33,7 +34,7 @@ function CenterWrapper(props) {
       className="ctp center-wrapper ct-d-c-center"
       onClick={onTogglePause}
     >
-      <EventVisualPopup event={event} />
+      <EventVisualPopup event={event} volume={volume} />
       {buttonElement}
     </div>
   );

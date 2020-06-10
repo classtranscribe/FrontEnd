@@ -19,6 +19,7 @@ import ExitFullScreenButton from './ExitFullScreenButton';
 function ControlBar(props) {
   let {
     player,
+    userReady,
     isPaused,
     isEnded,
     isFullscreen,
@@ -70,8 +71,8 @@ function ControlBar(props) {
     currCaption,
   };
 
-  return (
-    <div className="ctp control-bar">
+  return userReady ? (
+    <div className="ctp control-bar ct-a-fade-in">
       <div className="ctp cc-con">
         <ClosedCaption {...closedCaptionProps} />
       </div>
@@ -95,7 +96,7 @@ function ControlBar(props) {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 ControlBar.propTypes = {

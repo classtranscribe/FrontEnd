@@ -66,6 +66,7 @@ export class VideoController {
   static E_PAUSE = 'pause';
   static E_REWIND = 'rewind';
   static E_FORWARD = 'forward';
+  static E_MUTE = 'mute';
   static E_VOLUME_UP = 'volume-up';
   static E_VOLUME_DOWN = 'volume-down';
 
@@ -169,12 +170,14 @@ export class VideoController {
     if (!this.video1) return;
     this.video1.mute();
     this.setState('muted', true);
+    this.toggleEvent(VideoController.E_MUTE);
   }
 
   unmute() {
     if (!this.video1) return;
     this.video1.unmute();
     this.setState('muted', false);
+    this.toggleEvent(VideoController.E_VOLUME_UP);
   }
 
   toggleMute() {

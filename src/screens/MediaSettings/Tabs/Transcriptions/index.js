@@ -9,14 +9,16 @@ export function TranscriptionsWithRedux({
   return (
     <div className="msp-ee-con ct-a-fade-in">
       <div className="msp-ee">
-        <CTFragment padding={30}>
-          <CTPlayer
-            media={media}
-            width={540}
-            allowRangePicker
-            defaultOpenRangePicker
-            // defaultRange={[0,20]}
-          />
+        <CTFragment list>
+          <CTFragment padding={30}>
+            <CTPlayer
+              media={media}
+              width={540}
+              allowRangePicker
+              defaultOpenRangePicker
+              // defaultRange={[0,20]}
+            />
+          </CTFragment>
         </CTFragment>
       </div>
     </div>

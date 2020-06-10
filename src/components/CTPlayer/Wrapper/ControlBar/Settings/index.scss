@@ -1,5 +1,6 @@
 .ctp.settings-root {
   position: relative;
+  z-index: 10;
 
   .ctp.settings-menu-con {
     position: absolute;
@@ -9,9 +10,8 @@
     // min-height: 100px;
     max-height: 200px;
     overflow: auto;
-    background-color: rgba(17, 17, 17, 0.897);
-    padding: 5px 0;
-    z-index: 10;
+    background-color: rgba(27, 27, 27, 0.897);
+    padding: 10px 0;
 
     .ctp.settings-menuitem {
       width: 100%;
@@ -22,9 +22,14 @@
       padding: 8px 10px;
       white-space: nowrap;
 
+      &:hover {
+        background-color: rgba(65, 65, 65, 0.575);
+      }
+
       &.go-back-btn {
         border-bottom: 1px solid grey;
         margin-bottom: 5px;
+        padding: 10px 10px;
       }
 
       span {

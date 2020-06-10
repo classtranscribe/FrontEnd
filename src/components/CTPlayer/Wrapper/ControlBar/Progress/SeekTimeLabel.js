@@ -5,7 +5,7 @@ import { parseSec } from 'screens/Watch/Utils/helpers';
 function SeekTimeLabel(props) {
   const { width, left, duration } = props;
   // left += 10;
-  const sec = Math.floor((left / width) * duration);
+  const sec = Math.round((left / width) * duration);
   const shouldDisplay = sec <= duration && width > 100 && left >= 0;
 
   return shouldDisplay ? (
