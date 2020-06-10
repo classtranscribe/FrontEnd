@@ -4,6 +4,7 @@ import Slider from '@material-ui/core/Slider';
 import { parseSec } from 'screens/Watch/Utils/helpers';
 import './index.scss';
 
+import SeekTimeLabel from './SeekTimeLabel';
 import SliderTimeLabel from './SliderTimeLabel';
 
 function Progress(props) {
@@ -16,18 +17,18 @@ function Progress(props) {
     range,
   } = props;
 
-  const [mouseLeft, setMouseLeft] = useState(-1);
+  const [mousePos, setMousePos] = useState([-1, -1]);
   const handleMouseLeave = () => {
-    setMouseLeft(-1);
+    setMousePos([-1, -1]);
   };
 
   const handleMouseMove = (e) => {
-    let offsetX = e.nativeEvent.offsetX;
-    // console.log(offsetX);
+    let { offsetX } = e.nativeEvent;
+    let { width } = e.target.getBoundingClientRect();
     if (offsetX >= 0) {
-      setMouseLeft(offsetX);
+      setMousePos([width, offsetX]);
     } else {
-      setMouseLeft(-1);
+      setMousePos([width, -1]);
     }
   };
 
@@ -61,6 +62,12 @@ function Progress(props) {
     <div 
       className="ctp progress-con"
     >
+      <SeekTimeLabel
+        width={mousePos[0]}
+        left={mousePos[1]}
+        duration={duration}
+      />
+
       <div 
         className="ctp time-slider-con"
         onMouseMove={handleMouseMove}

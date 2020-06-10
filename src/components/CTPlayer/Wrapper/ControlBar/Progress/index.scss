@@ -12,6 +12,17 @@
     position: relative;
     overflow: visible;
 
+    .ctp.seek-time-prompt {
+      position: absolute;
+      width: 60px;
+      top: -25px;
+      padding: 3px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.555);
+      margin-left: -23px;
+      color: white;
+    }
+
     .ctp.time-slider-con {
       width: 100%;
       height: 20px;
@@ -31,25 +42,17 @@
     
       .ctp.time-slider {
         transform: translateY(-33px);
-        // position: absolute;
-        // top: 0;
-        // left: 0;
   
         .MuiSlider-rail {
           background-color: white;
-          // height: 3px;
         }
     
         .MuiSlider-track, .MuiSlider-thumb {
           background-color: rgb(0, 236, 236);
         }
-        // .MuiSlider-track {
-        //   height: 3px;
-        // }
         .MuiSlider-thumb {
           transform: scale(0.1);
           transition: transform 100ms linear;
-          // margin-top: -4px;
         }
 
         .MuiSlider-markLabel {
