@@ -7,9 +7,7 @@ import ClosedCaption from './ClosedCaption';
 
 import Progress from './Progress';
 
-import PauseButton from './PauseButton';
 import PlayButton from './PlayButton';
-import ReplayButton from './ReplayButton';
 import Volume from './Volume';
 import TimeDisplay from './TimeDisplay';
 
@@ -34,16 +32,15 @@ function ControlBar(props) {
     currCaption,
     openRange,
     range,
-    onRangeChange,
   } = props;
 
-  const pauseToggleElement = (
-    isEnded
-    ? <ReplayButton onClick={player.replay} />
-    : isPaused
-    ? <PlayButton onClick={player.play} />
-    : <PauseButton onClick={player.pause} />
-  );
+  const playButtonProps = {
+    isEnded,
+    isPaused,
+    onPlay: player.play,
+    onPause: player.pause,
+    onReplay: player.replay
+  };
 
   const fullscreenToggleElement = (
     isFullscreen
@@ -68,20 +65,6 @@ function ControlBar(props) {
     onToggleMute: player.toggleMute,
   };
 
-  const rangeSliderProps = {
-    range,
-    openRange,
-    duration,
-    onRangeChange,
-  };
-
-  const rangeCtrlProps = {
-    range,
-    openRange,
-    onRangeChange,
-    onPlayRange: player.playRange
-  };
-
   const closedCaptionProps = {
     open: openCC,
     currCaption,
@@ -97,7 +80,7 @@ function ControlBar(props) {
 
       <div className="ctp action-bar">
         <div className="right">
-          {pauseToggleElement}
+          <PlayButton {...playButtonProps} />
 
           <Volume {...volumeProps} />
 

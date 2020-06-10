@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { v4 as uuid } from 'uuid';
 import { initialState, CTPlayerController } from '../controllers';
 import Video from '../Video';
 import Wrapper from '../Wrapper';
@@ -12,7 +13,8 @@ export class Player extends React.Component {
     this.state = initialState;
     this.setPlayerState = this.setPlayerState.bind(this);
 
-    this.player = new CTPlayerController(this.setPlayerState);
+    const { id } = props;
+    this.player = new CTPlayerController(this.setPlayerState, id);
   }
 
   setPlayerState(key, value) {
@@ -85,7 +87,6 @@ export class Player extends React.Component {
 
   render() {
     let {
-      id,
       mediaId,
       media,
       fill = false,
@@ -100,6 +101,8 @@ export class Player extends React.Component {
 
     const {
       src1,
+      event,
+      userReady,
       isEnded,
       isPaused,
       isFullscreen,
@@ -116,14 +119,26 @@ export class Player extends React.Component {
       range
     } = this.state;
 
-    const playerProps = {
+    const id = this.player.id;
+
+    const containerProps = {
       id,
+      className: 'ctp ct-player-con',
+      style: {
+        width: width || '560px',
+        height: 'max-content'
+      },
+    };
+
+    const playerProps = {
+      id: `ct-player-${id}`,
       ref: this.player.registerPlayer,
       style: {
         width: width || '560px',
         height: height || 'max-content'
       },
-      className: cx('ctp', 'ct-player', { fill })
+      className: cx('ctp', 'ct-player', { fill }),
+      tabIndex: '0'
     };
 
     const video1Props = {
@@ -137,6 +152,8 @@ export class Player extends React.Component {
     const wrapperProps = {
       media: this.state.media,
       player: this.player,
+      event,
+      userReady,
       isEnded,
       isPaused,
       isFullscreen,
@@ -155,9 +172,11 @@ export class Player extends React.Component {
     };
   
     return (
-      <div {...playerProps}>
-        <Video {...video1Props} />
-        <Wrapper {...wrapperProps} />
+      <div {...containerProps}>
+        <div {...playerProps}>
+          <Video {...video1Props} />
+          <Wrapper {...wrapperProps} />
+        </div>
       </div>
     );
   }

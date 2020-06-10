@@ -11,6 +11,8 @@ function Wrapper(props) {
   let {
     media,
     player,
+    event,
+    userReady,
     isEnded,
     isPaused,
     isFullscreen,
@@ -54,7 +56,7 @@ function Wrapper(props) {
     setHover(false);
   };
 
-  const wrapperClasses = cx('ctp', 'main-wrapper', {
+  const wrapperClasses = cx('ctp', 'wrapper', 'main-wrapper', {
     show: hover || isPaused || isEnded
   });
 
@@ -64,6 +66,8 @@ function Wrapper(props) {
   };
 
   const centerWrapperProps = {
+    event,
+    userReady,
     isEnded,
     isPaused,
     onTogglePause: player.togglePause
@@ -98,7 +102,7 @@ function Wrapper(props) {
       <div className="ctp action-bar-con dismissible">
         <ActionBar {...actionBarProps} />
       </div>
-      <div className="ctp center-con dismissible">
+      <div className="ctp center-con">
         <CenterWrapper {...centerWrapperProps} />
       </div>
       <div className="ctp ctrl-bar-con">

@@ -1,5 +1,15 @@
-.ctp.ct-player {
-  background-color: black;
-  position: relative;
-  overflow: hidden;
+.ctp.ct-player-con {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  height: max-content;
+
+  .ctp.ct-player {
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+    &:focus {
+      outline: none;
+    }
+  }
 }

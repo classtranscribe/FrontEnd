@@ -1,8 +1,10 @@
 import _ from 'lodash';
+import { v4 as uuid } from 'uuid';
 import { api } from 'utils';
 import { ENGLISH, langMap } from 'screens/Watch/Utils/constants.util';
 import { timeStrToSec } from 'screens/Watch/Utils/helpers';
 import { VideoController } from './video-controller';
+import { handleKeyDownEvent } from './keydown-event';
 
 export { initialState } from './initial-state';
 
@@ -11,8 +13,9 @@ export class CTPlayerController extends VideoController {
    * Create a CTPlayer controller
    * @param {Function} setPlayerState - function used to set states in CTPlayer
    */
-  constructor(setPlayerState) {
+  constructor(setPlayerState, id) {
     super(setPlayerState);
+    this.id = id || uuid();
 
     // Node of the player
     this.playerNode = null;
@@ -37,16 +40,18 @@ export class CTPlayerController extends VideoController {
     this.enterFullscreen = this.enterFullscreen.bind(this);
     this.exitFullscreen = this.exitFullscreen.bind(this);
     this.onFullscreenChange = this.onFullscreenChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   /**
    * 
-   * @param {HTMLDivnodeent} node 
+   * @param {HTMLDivElement} node 
    */
   registerPlayer(node) {
     this.playerNode = node;
     if (node) {
       node.addEventListener('fullscreenchange', this.onFullscreenChange);
+      node.addEventListener('keydown', this.onKeyDown);
     }
   }
 
@@ -75,6 +80,7 @@ export class CTPlayerController extends VideoController {
   }
 
   async setupMedia(mediaId) {
+    if (!mediaId) return;
     try {
       let { data } = await api.getMediaById(mediaId);
       this.setMedia(api.parseMedia(data));
@@ -197,5 +203,9 @@ export class CTPlayerController extends VideoController {
 
   onFullscreenChange(e) {
     this.setState('isFullscreen', document.fullscreen);
+  }
+
+  onKeyDown(e) {
+    handleKeyDownEvent(e, this);
   }
 }

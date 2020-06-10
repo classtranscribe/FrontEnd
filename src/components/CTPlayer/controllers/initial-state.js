@@ -5,6 +5,7 @@ export const initialState = {
   media: null,
   src1: null,
   src2: null,
+  userReady: false,
   // captions
   openCC: false,
   transcriptions: [],
@@ -23,6 +24,7 @@ export const initialState = {
   isEnded: false,
   isSwitchedScreen: false,
   isFullscreen: false,
+  event: null,
   // range
   openRange: false,
   range: null,

@@ -9,14 +9,17 @@ export class VideoController {
   constructor(setPlayerState) {
     this.video1 = null;
     this.video2 = null;
+    this.userReady = false;
 
     this.setPlayerState = setPlayerState;
-
+    
+    this.duration = 0;
     this.time = 0;
     this.bufferedTime = 0;
     this.muted = false;
     this.volume = 1;
     this.playbackRate = 1;
+    this.event = null;
     this.openCC = false;
     this.openRange = false;
     this.range = null;
@@ -39,9 +42,14 @@ export class VideoController {
     this.setRange = this.setRange.bind(this);
     this.toggleRange = this.toggleRange.bind(this);
     this.playRange = this.playRange.bind(this);
+
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onTimeUpdate = this.onTimeUpdate.bind(this);
+    this.onPause = this.onPause.bind(this);
+    this.onPlay = this.onPlay.bind(this);
+    this.onSeeking = this.onSeeking.bind(this);
+    this.onEnded = this.onEnded.bind(this);
   }
 
   setState(key, value) {
@@ -53,6 +61,14 @@ export class VideoController {
 
   PLAYBACK_RATES = playbackRateOptions;
 
+  // user interaction events
+  static E_PLAY = 'play';
+  static E_PAUSE = 'pause';
+  static E_REWIND = 'rewind';
+  static E_FORWARD = 'forward';
+  static E_VOLUME_UP = 'volume-up';
+  static E_VOLUME_DOWN = 'volume-down';
+
   /**
    * 
    * @param {HTMLVideoElement} node 
@@ -63,6 +79,10 @@ export class VideoController {
       node.addEventListener('durationchange', this.onDurationChange);
       node.addEventListener('progress', this.onProgress);
       node.addEventListener('timeupdate', this.onTimeUpdate);
+      node.addEventListener('seeking', this.onSeeking);
+      node.addEventListener('ended', this.onEnded);
+      node.addEventListener('pause', this.onPause);
+      node.addEventListener('play', this.onPlay);
     }
   }
 
@@ -70,18 +90,39 @@ export class VideoController {
     this.video2 = new VideoNode(node);
   }
 
+  userIsReady() {
+    this.setState('userReady', true);
+  }
+
+  setEvent(event) {
+    this.setState('event', event);
+  }
+
+  eventTimer = null;
+  toggleEvent(event) {
+    if (this.eventTimer) {
+      clearTimeout(this.eventTimer);
+    }
+
+    this.setEvent(null);
+    this.setEvent(event);
+    this.eventTimer = setTimeout(() => {
+      this.setEvent(null);
+    }, 600);
+  }
+
   pause() {
     if (!this.video1) return;
     this.video1.pause();
     if (this.video2) this.video2.pause();
-    this.setState('isPaused', true);
+    this.toggleEvent(VideoController.E_PAUSE);
   }
 
   play() {
     if (!this.video1) return;
     this.video1.play();
     if (this.video2) this.video2.play();
-    this.setState('isPaused', false);
+    this.toggleEvent(VideoController.E_PLAY);
   }
 
   togglePause() {
@@ -96,15 +137,32 @@ export class VideoController {
   replay() {
     this.setState('time', 0);
     this.play();
+    if (this.isEnded) this.setState('isEnded', false);
   }
 
   setCurrentTime(time) {
     if (!this.video1) return;
+    if (time < 0) {
+      time = 0;
+    } else if (time > this.duration) {
+      time = this.duration;
+    }
+
     this.video1.setCurrentTime(time);
     this.setState('time', time);
     if (this.video2) {
       this.video2.setCurrentTime(time);
     }
+  }
+
+  forward() {
+    this.setCurrentTime(this.time + 5);
+    this.toggleEvent(VideoController.E_FORWARD);
+  }
+
+  rewind() {
+    this.setCurrentTime(this.time - 5);
+    this.toggleEvent(VideoController.E_REWIND);
   }
 
   mute() {
@@ -129,8 +187,19 @@ export class VideoController {
 
   setVolume(volume) {
     if (!this.video1) return;
+    if (volume > 1 || volume < 0) return;
     this.video1.setVolume(volume);
     this.setState('volume', volume);
+  }
+
+  volumeUp() {
+    this.setVolume(this.volume + 0.05);
+    this.toggleEvent(VideoController.E_VOLUME_UP);
+  }
+
+  volumeDown() {
+    this.setVolume(this.volume - 0.05);
+    this.toggleEvent(VideoController.E_VOLUME_DOWN);
   }
 
   setPlaybackRate(playbackRate) {
@@ -197,4 +266,21 @@ export class VideoController {
   }
 
   updateCurrCaption() {}
+
+  onPause() {
+    this.setState('isPaused', true);
+  }
+
+  onPlay() {
+    this.setState('isPaused', false);
+    if (!this.userReady) this.userIsReady();
+  }
+
+  onSeeking() {
+    if (this.isEnded) this.setState('isEnded', false);
+  }
+
+  onEnded() {
+    this.setState('isEnded', true);
+  }
 }
