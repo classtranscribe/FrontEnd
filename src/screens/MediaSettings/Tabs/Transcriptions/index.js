@@ -12,8 +12,11 @@ export function TranscriptionsWithRedux({
         <CTFragment list>
           <CTFragment padding={30}>
             <CTPlayer
+              // mediaId="c9a54a76-9cf0-4ec2-ab2f-89d496326562"
               media={media}
               width={540}
+              hideWrapperOnMouseLeave
+              defaultOpenCC
               allowRangePicker
               defaultOpenRangePicker
               // defaultRange={[0,20]}

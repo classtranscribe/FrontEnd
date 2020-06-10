@@ -24,6 +24,7 @@ function Wrapper(props) {
     playbackRate,
     openCC,
     currCaption,
+    hideWrapperOnMouseLeave,
     allowRangePicker,
     openRange,
     range,
@@ -53,7 +54,9 @@ function Wrapper(props) {
   }
 
   const handleMouseLeave = () => {
-    // setHover(false);
+    if (hideWrapperOnMouseLeave) {
+      setHover(false);
+    }
   };
 
   const wrapperClasses = cx('ctp', 'wrapper', 'main-wrapper', {

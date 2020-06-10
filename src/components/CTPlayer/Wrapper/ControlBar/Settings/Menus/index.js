@@ -28,11 +28,8 @@ function SettingsMenu(props) {
 
 
   return open ? (
-    <ClickAwayListener 
-      role="menu"
-      onClickAway={closeMenu}
-    >
-      <div className="ctp settings-menu-con" data-scroll="light">
+    <ClickAwayListener onClickAway={closeMenu}>
+      <div role="menu" className="ctp settings-menu-con" data-scroll="light">
         {
           canGoBack
           &&
@@ -54,6 +51,7 @@ function SettingsMenu(props) {
         <div className="ctp settings-menu">
           {currMenus.map((menu, index) => (
             <MenuItem
+              key={menu.text}
               isFirst={index === 0}
               item={menu}
               setMenus={toMenu}

@@ -74,7 +74,7 @@ const menuItemPropType = {
 
 MenuItem.propTypes = {
   item: PropTypes.shape({
-    menus: PropTypes.arrayOf(menuItemPropType),
+    menus: PropTypes.arrayOf(PropTypes.shape(menuItemPropType)),
     ...menuItemPropType
   }), 
   setMenus: PropTypes.func,

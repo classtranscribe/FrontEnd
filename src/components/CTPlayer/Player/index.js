@@ -13,7 +13,7 @@ export class Player extends React.Component {
     this.state = initialState;
     this.setPlayerState = this.setPlayerState.bind(this);
 
-    const { id } = props;
+    const { id, defaultOpenCC } = props;
     this.player = new CTPlayerController(this.setPlayerState, id);
   }
 
@@ -28,6 +28,7 @@ export class Player extends React.Component {
     const {
       mediaId,
       media,
+      defaultOpenCC,
       allowRangePicker,
       defaultOpenRangePicker,
       range,
@@ -38,6 +39,10 @@ export class Player extends React.Component {
       this.player.setMedia(media);
     } else {
       this.player.setupMedia(mediaId);
+    }
+
+    if (defaultOpenCC) {
+      this.player.toggleCC();
     }
 
     if (allowRangePicker && defaultOpenRangePicker) {
@@ -93,6 +98,7 @@ export class Player extends React.Component {
       width,
       height,
       beginAt,
+      hideWrapperOnMouseLeave = false,
       //
       allowTwoScreen = false,
       // Range picker
@@ -165,6 +171,7 @@ export class Player extends React.Component {
       playbackRate,
       openCC,
       currCaption,
+      hideWrapperOnMouseLeave,
       allowRangePicker,
       openRange,
       range,
@@ -192,6 +199,8 @@ Player.propTypes = {
   height: numOrStr,
   allowTwoScreen: PropTypes.bool,
   beginAt: numOrStr,
+  defaultOpenCC: PropTypes.bool,
+  hideWrapperOnMouseLeave: PropTypes.bool,
   // Range picker
   allowRangePicker: PropTypes.bool,
   defaultOpenRangePicker: PropTypes.bool,

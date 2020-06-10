@@ -19,7 +19,7 @@ function ActionBar(props) {
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
-    let url = links.watch(id, { begin: time });
+    let url = window.location.origin + links.watch(id, { begin: time });
     uurl.openNewTab(url);
   };
 

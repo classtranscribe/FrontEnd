@@ -8,8 +8,18 @@ function SeekTimeLabel(props) {
   const sec = Math.round((left / width) * duration);
   const shouldDisplay = sec <= duration && width > 100 && left >= 0;
 
+  let styleLeft = left;
+  if (left < 30) {
+    styleLeft = 30;
+  } else if (left > width - 30) {
+    styleLeft = width - 30;
+  }
+
   return shouldDisplay ? (
-    <div className="ctp seek-time-prompt ct-d-c-center" style={{ left: `${left }px` }}>
+    <div 
+      className="ctp seek-time-prompt ct-d-c-center" 
+      style={{ left: `${styleLeft}px` }}
+    >
       {parseSec(sec)}
     </div>
   ) : null;
