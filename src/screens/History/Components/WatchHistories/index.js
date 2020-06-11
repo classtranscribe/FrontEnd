@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTLoader, CTFragment } from 'components';
+import { CTLoader, CTFragment } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
 

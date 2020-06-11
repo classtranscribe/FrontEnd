@@ -6,7 +6,11 @@ import {
   // Admin
   Admin,
   // Instructor
-  Instructor,
+  MyCourses,
+  NewCourse,
+  CourseSettings,
+  CourseAnalytics,
+  InstPlaylist,
   MediaSettings,
   // Student
   Home,
@@ -19,6 +23,7 @@ import {
   SetupUser,
   NotFound404,
   Maintenance, 
+  Example,
 } from './screens';
 
 import './App.css';
@@ -48,10 +53,31 @@ class App extends React.Component {
           }
 
           {/* Instructor */}
+          <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
           {
             user.isInstructor
             &&
-            <Route path={["/instructor", "/instructor/:offId"]} component={Instructor} />
+            <Route exact path="/instructor/my-courses" component={MyCourses} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/new-course" component={NewCourse} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/course-analytics/:id" component={CourseAnalytics} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/playlist/:id" component={InstPlaylist} />
           }
           {
             user.isInstructor
@@ -62,11 +88,13 @@ class App extends React.Component {
           {/* Student */}
           <Route exact path="/" component={Home} />
           <Route exact path="/home" render={() => <Redirect to="/" />} />
-          <Route path="/offering/:id" component={Course} />
-          <Route path="/search" component={Search} />
-          <Route path="/history" component={History} />
-          <Route path="/personal-analytics" component={Analytics} />
+          <Route exact path="/offering/:id" component={Course} />
+          <Route exact path="/search" component={Search} />
+          <Route exact path="/history" component={History} />
+          <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
+
+          <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />
           <Route component={NotFound404} />

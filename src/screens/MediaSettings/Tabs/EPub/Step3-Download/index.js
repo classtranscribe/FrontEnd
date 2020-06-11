@@ -11,10 +11,10 @@ function EpubDownloader({ media, chapters }) {
   const [filename, setFilename] = useState(media.mediaName);
   const [author, setAuthor] = useState('Anonymous');
 
-  const onSaveTitle = (value) => setTitle(value);
-  const onSaveCover = (value) => setCover(value);
-  const onSaveAuthor = (value) => setAuthor(value);
-  const onSaveFilename = (value) => setFilename(value);
+  const onSaveTitle = ({ target: { value }}) => setTitle(value);
+  const onSaveCover = ({ target: { value }}) => setCover(value);
+  const onSaveAuthor = ({ target: { value }}) => setAuthor(value);
+  const onSaveFilename = ({ target: { value }}) => setFilename(value);
 
   const screenshots = epub.getAllImagesInChapters(chapters);
 

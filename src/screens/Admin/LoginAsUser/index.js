@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from 'pico-ui';
-import { CTForm } from 'components';
+import { CTForm, CTInput } from 'layout';
 import { user } from 'utils';
 
 function LoginAsUser() {
   const [emailId, setEmailId] = useState('');
   //  const [password, setPassword] = useState('')
 
-  const handleEmailInput = (text) => setEmailId(text);
+  const handleEmailInput = ({ target: { value }}) => setEmailId(value);
   //  const handlePWInput = text => setPassword(text)
 
   const onSignIn = () => {
@@ -30,23 +30,20 @@ function LoginAsUser() {
         ) : (
           <div className="w-50">
             <CTForm
-              required
-              value={emailId}
-              label="Email"
-              placeholder="Email"
-              onChange={handleEmailInput}
-              onReturn={onSignIn}
-            />
-
-            <div className="ct-d-r-end">
-              <Button
-                uppercase
-                text="Sign in"
-                color="teal"
-                disabled={!emailId}
-                onClick={onSignIn}
+              id="login-as-user-form"
+              heading="Login As User"
+              onSave={onSignIn}
+              onSaveButtonText="Sign In"
+            >
+              <CTInput
+                required
+                id="course-number"
+                label="Email"
+                placeholder="Email Id"
+                value={emailId}
+                onChange={handleEmailInput}
               />
-            </div>
+            </CTForm>
           </div>
         )}
       </div>

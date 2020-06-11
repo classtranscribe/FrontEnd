@@ -1,11 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button } from 'pico-ui';
-import { CTFragment } from 'components';
-import { user } from 'utils';
+import { CTFragment } from 'layout';
+import { user, uurl, links } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
 
 function CourseInfoWithRedux({
+  role,
   offering,
   starredOfferings,
 }) {
@@ -17,7 +19,14 @@ function CourseInfoWithRedux({
     description
   } = offering;
 
+  const history = useHistory();
   const isStarred = Boolean(starredOfferings[offering.id]);
+  const goToCourseSettings = () => {
+    history.push(links.courseSettings(offering.id));
+  };
+  const goToCourseAnalytics = () => {
+    history.push(links.courseAnalytics(offering.id));
+  };
   
   return (
     <CTFragment list id="cp-course-info">
@@ -28,16 +37,30 @@ function CourseInfoWithRedux({
       {
         user.isLoggedIn
         &&
-        <CTFragment padding={[20, 0, 0, 0]}>
-          <Button
-            uppercase
-            outlined={isStarred}
-            icon={isStarred ? 'star' : 'star_border'}
-            color={isStarred ? 'primary' : 'teal'}
-            onClick={isStarred ? setup.unstar : setup.star}
-          >
-            {isStarred ? 'unstar' : 'star'}
-          </Button>
+        <CTFragment vCenter padding={[20, 0, 0, 0]}>
+          <Button.Group>
+            {
+              setup.isInstructor(role)
+              &&
+              <>
+                <Button uppercase icon="settings" onClick={goToCourseSettings}>
+                  Settings
+                </Button>
+                <Button uppercase icon="bar_chart" onClick={goToCourseAnalytics}>
+                  Analytics
+                </Button>
+              </>
+            }
+            <Button
+              uppercase
+              outlined={isStarred}
+              icon={isStarred ? 'star' : 'star_border'}
+              color={isStarred ? 'teal' : 'teal'}
+              onClick={isStarred ? setup.unstar : setup.star}
+            >
+              {isStarred ? 'unstar' : 'star'}
+            </Button>
+          </Button.Group>
         </CTFragment>
       }
 
@@ -48,7 +71,7 @@ function CourseInfoWithRedux({
 
 export const CourseInfo = connectWithRedux(
   CourseInfoWithRedux,
-  ['offering', 'starredOfferings']
+  ['offering', 'starredOfferings', 'role']
 );
 
 

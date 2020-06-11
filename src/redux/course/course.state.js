@@ -1,8 +1,9 @@
-import { ARRAY_INIT } from 'utils';
+import { ARRAY_INIT, STUDENT } from 'utils';
 
 export const initialState = {
   offering: null,
   playlists: ARRAY_INIT,
   playlist: null,
-  starredOfferings: {}
+  starredOfferings: {},
+  role: STUDENT
 };

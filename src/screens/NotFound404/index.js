@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { CTErrorWrapper } from '../../components';
-import { api } from '../../utils';
+import { CTErrorWrapper } from 'layout';
+import { api } from 'utils';
 
 export function NotFound404() {
   useEffect(() => {

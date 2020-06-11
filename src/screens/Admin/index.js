@@ -10,7 +10,7 @@ import { Route, Redirect } from 'react-router-dom';
 // UI
 import './index.css';
 // Layouts
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 // Vars
 import { api, util, user, links } from 'utils';
 import { tabs } from './tabs';
