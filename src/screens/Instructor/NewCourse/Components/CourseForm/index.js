@@ -20,6 +20,8 @@ export function CourseForm() {
   const uniId = user.getUserInfo().universityId;
   // errors
   const [errors, setErrors] = useState([]);
+  const emptyCourseName = errors.includes('courseName');
+  const emptySecName = errors.includes('sectionName');
 
   const handleCancel = () => 1;
   // handle course name
@@ -30,14 +32,14 @@ export function CourseForm() {
   const setSectionName = ({ target: { value }}) => setsectionName(value);
   // handle term
   const [term, selTerm] = useState('');
+  const [terms, setTerms] = useState([]);
   const handleTerm = ({ target: { value }}) => selTerm(value);
   // handle course number (department + course)
-  const [depart, setDepart] = useState('2001');
-  const [departs, setDeparts] = useState([{value: '2001', text: ''}]);
-  const [courses, setCourses] = useState([{value: 'test', text: ''}]);
-  const [course, setCourse] = useState('test');
+  const [depart, setDepart] = useState('');
+  const [departs, setDeparts] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [course, setCourse] = useState('');
   const [selCourses, setSelCourses] = useState([]);
-  const NotSetDepart = depart === '0';
 
   const onDepartChange = (value) => {
     setDepart(value);
@@ -50,14 +52,13 @@ export function CourseForm() {
     if (!Array.isArray(array)) return [];
     const options = [];
     array.forEach((item) => {
-      if (!item) return;
+      // before: !iterm || !item.id
+      // fixed here, id coule be 0 for termId
+      if (!item || item.id === undefined) return;
       let text = '';
       if ((tag === 'depart' || tag === 'term') && item.uniName) {
         text = `${item.name} (${item.uniName})`;
-      } else if (tag === 'depart') {
-        text = [item.name, item.acronym]
-      }
-      else {
+      } else {
         text = item.name || tag + item.courseNumber;
       }
       options.push({ text, value: item.id });
@@ -70,7 +71,7 @@ export function CourseForm() {
     try {
       const res = await api.getTermsByUniId(uniId);
       if (res.status === 200) {
-        return getSelectOptions(res.data, 'term')
+        return util.getSelectOptions(res.data, 'term')
       } 
         return [];
     } catch (err) {
@@ -81,31 +82,37 @@ export function CourseForm() {
     try {
       const res = await api.getDepartsByUniId(uniId);
       if (res.status === 200) {
-        return getSelectOptions(res.data, 'name')
+        return util.getSelectOptions(res.data, 'name')
       } 
         return [];
     } catch (err) {
       return [];
     }
   }
-  const getCourses = async () => {
-    try {
-      const res = await api.getCoursesByDepartId(depart);
-      const name = await api.getDepartById(depart);
-      if (res.status === 200) {
-        return getSelectOptions(res.data, name.data.acronym)
-      } 
-        return [];
-    } catch (err) {
-      return [];
-    }
-  }
-  const [terms, setTerms] = useState([]);
+
   useEffect(async () => {
     setTerms(await getTerms());
     setDeparts(await getDepartments());
-    setCourses(await getCourses());
   }, [])
+
+  useEffect( () => {
+    // Need improvements here
+    if (depart) {
+      api.getCoursesByDepartId(depart).then( res => {
+        api.getDepartById(depart).then(name => {
+          if (res && name) {
+            setCourses(util.getSelectOptions(res.data, name.data.acronym));
+            setCourse('');
+          }
+        })
+      });
+    }
+    setCourse('');
+  }, [depart])
+
+  // useEffect( () => {
+  //   setCourse('');
+  // }, [depart])
   
 
   const [accessType, selAccess] = useState('');
@@ -113,14 +120,16 @@ export function CourseForm() {
 
   // save information provided
   const handleSave = async () => {
+    if (courseName) {
+      _.concat(errors, 'courseName');
+    }
     // testing 
-    // console.log(departs);
-    // console.log(depart);
-    // console.log(courses);
+     // console.log(course);
+   // console.log(errors);
     // console.log(await api.getCoursesByDepartId(depart))
     // console.log(user.getUserInfo().universityId);
     if (errors === []) {
-      api.createOffering({
+      api.createCourseOffering({
         "sectionName": sectionName,
         "termId": term,
         "accessType": accessType,
@@ -145,6 +154,7 @@ export function CourseForm() {
       <CTFormHeading>Course Number</CTFormHeading>
       <CTFormRow>
         <CTAutoComplete 
+          className='sel-dep info'
           underlined
           id="sel-dep"
           label="Select a Department"
@@ -153,26 +163,31 @@ export function CourseForm() {
           onChange={onDepartChange}
         />
       </CTFormRow>
+
       <CTFormRow>
         <CTAutoComplete 
+          className='sel-courses info'
           underlined
-          disabled={NotSetDepart}
+          disabled={depart === ''}
           id="sel-courses"
           label="Select Courses"
+          defaultValue=""
           options={courses}
           value={course}
           onChange={onCourseChange}
         />
       </CTFormRow>
-        
-      <CTFragment list>
-        <CTHeading as='h4'>Selected Courses</CTHeading>
+      <CTFragment>
+        <CTFormHeading>
+          Selected Courses
+        </CTFormHeading>
       </CTFragment>
       <CTFormHeading>Basic Information</CTFormHeading>
       <CTFormRow>
         <CTInput
           required
           id="course-name"
+          error={emptyCourseName}
           label="Course Name"
           placeholder="Course Name"
           value={courseName}

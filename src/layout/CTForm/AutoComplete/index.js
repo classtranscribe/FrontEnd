@@ -36,8 +36,12 @@ export function AutoComplete(props) {
 
   useEffect(() => {
     let opt = getOption(options, value);
-    if (opt.value !== option.value) {
-      setOption(opt);
+    if (options !== [] && value !== '') {
+      if (opt.value !== option.value) {
+        setOption(opt);
+      }
+    } else {
+      setOption({});
     }
   }, [value])
 
