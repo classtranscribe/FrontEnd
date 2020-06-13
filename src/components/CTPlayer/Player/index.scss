@@ -8,6 +8,20 @@
     background-color: black;
     position: relative;
     overflow: hidden;
+
+    font-size: 13px;
+    line-height: 18px;
+
+    &.md {
+      font-size: 17px;
+      line-height: 21px;
+    }
+
+    &.lg {
+      font-size: 20px;
+      line-height: 24px;
+    }
+
     &:focus {
       outline: none;
     }

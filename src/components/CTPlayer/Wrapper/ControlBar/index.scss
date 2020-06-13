@@ -11,6 +11,10 @@
     height: 35px;
     padding-bottom: 5px;
 
+    .left, .right {
+      width: 50%;
+    }
+
     .left {
       padding-right: 5px;
     }

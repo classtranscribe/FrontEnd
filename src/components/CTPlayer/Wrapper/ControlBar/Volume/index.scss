@@ -25,3 +25,33 @@
     width: 90px;
   }
 }
+
+.md {
+  .ctp.volume-con {
+    width: 40px;
+
+    .ctp.volume-slider {
+      min-width: 70px;
+      width: 70px;
+    }
+
+    &:hover, &:focus-within {
+      width: 130px;
+    }
+  }
+}
+
+.lg {
+  .ctp.volume-con {
+    width: 50px;
+
+    .ctp.volume-slider {
+      min-width: 70px;
+      width: 70px;
+    }
+
+    &:hover, &:focus-within {
+      width: 140px;
+    }
+  }
+}

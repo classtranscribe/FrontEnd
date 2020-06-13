@@ -19,6 +19,7 @@ export class CTPlayerController extends VideoController {
 
     // Node of the player
     this.playerNode = null;
+    this.size = 'xs';
 
     // Mouse over timer for wrapper
     this.mouseOverTimer = null;
@@ -41,6 +42,7 @@ export class CTPlayerController extends VideoController {
     this.exitFullscreen = this.exitFullscreen.bind(this);
     this.onFullscreenChange = this.onFullscreenChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.handlePlayerSize = this.handlePlayerSize.bind(this);
   }
 
   /**
@@ -52,7 +54,24 @@ export class CTPlayerController extends VideoController {
     if (node) {
       node.addEventListener('fullscreenchange', this.onFullscreenChange);
       node.addEventListener('keydown', this.onKeyDown);
+      this.handlePlayerSize();
     }
+  }
+
+  handlePlayerSize() {
+    if (!this.playerNode) return;
+    const { width } = this.playerNode.getBoundingClientRect();
+    if (width >= 1000) {
+      this.setSize('lg');
+    } else if (width >= 700) {
+      this.setSize('md');
+    } else {
+      this.setSize('xs');
+    }
+  }
+
+  setSize(size) {
+    this.setState('size', size);
   }
 
   setMedia(media) {
@@ -124,6 +143,8 @@ export class CTPlayerController extends VideoController {
     captions = _.map(captions, (cap, index) => ({ ...cap, index }));
     this.setCaptions(captions);
     this.setCurrCaption(null);
+    this.updateCurrCaption(this.time);
+    if (!this.openCC) this.toggleCC();
   }
 
   changeLanguage(language) {
@@ -203,6 +224,7 @@ export class CTPlayerController extends VideoController {
 
   onFullscreenChange(e) {
     this.setState('isFullscreen', document.fullscreen);
+    this.handlePlayerSize();
   }
 
   onKeyDown(e) {

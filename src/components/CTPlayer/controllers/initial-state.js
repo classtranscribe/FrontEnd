@@ -6,6 +6,7 @@ export const initialState = {
   src1: null,
   src2: null,
   userReady: false,
+  size: 'xs',
   // captions
   openCC: false,
   transcriptions: [],

@@ -106,6 +106,7 @@ export class Player extends React.Component {
     } = this.props;
 
     const {
+      size,
       src1,
       event,
       userReady,
@@ -126,12 +127,13 @@ export class Player extends React.Component {
     } = this.state;
 
     const id = this.player.id;
+    const playerWidth = width || 560;
 
     const containerProps = {
       id,
       className: 'ctp ct-player-con',
       style: {
-        width: width || '560px',
+        width: `${playerWidth }px`,
         height: 'max-content'
       },
     };
@@ -140,10 +142,10 @@ export class Player extends React.Component {
       id: `ct-player-${id}`,
       ref: this.player.registerPlayer,
       style: {
-        width: width || '560px',
+        width: `${playerWidth }px`,
         height: height || 'max-content'
       },
-      className: cx('ctp', 'ct-player', { fill }),
+      className: cx('ctp', 'ct-player', size, { fill }),
       tabIndex: '0'
     };
 

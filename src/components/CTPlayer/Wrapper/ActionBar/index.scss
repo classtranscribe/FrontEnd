@@ -13,13 +13,13 @@
   }
 
   .left {
-    width: 40%;
+    width: 20%;
     justify-content: flex-end;
     padding-right: 10px;
   }
 
   .right {
-    width: 60%;
+    width: 80%;
     padding-left: 5px;
 
     .media-name {
@@ -28,6 +28,7 @@
       align-items: center;
       padding-left: 10px;
       width: 100%;
+      font-size: 1.1em;
 
       .ctp.ct-logo {
         width: 20px;
