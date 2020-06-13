@@ -7,6 +7,7 @@ import BigCenterButton from './BigCenterButton';
 
 function StartLayer(props) {
   let {
+    videoReady,
     userReady,
     onTogglePause,
   } = props;
@@ -16,7 +17,7 @@ function StartLayer(props) {
     'wrapper', 
     'start', 
     'ct-d-c-center', 
-    { show: !userReady }
+    { show: !userReady && videoReady }
   );
 
   return (
@@ -27,6 +28,7 @@ function StartLayer(props) {
 }
 
 StartLayer.propTypes = {
+  videoReady: PropTypes.bool,
   userReady: PropTypes.bool,
   onTogglePause: PropTypes.func,
 };

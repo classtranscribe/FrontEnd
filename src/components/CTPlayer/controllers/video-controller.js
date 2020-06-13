@@ -9,7 +9,12 @@ export class VideoController {
   constructor(setPlayerState) {
     this.video1 = null;
     this.video2 = null;
+
+    this.video1Ready = false;
+    this.video2Ready = true;
+    this.videoReady = false;
     this.userReady = false;
+    this.beginAt = 0;
 
     this.setPlayerState = setPlayerState;
     
@@ -44,6 +49,7 @@ export class VideoController {
     this.playRange = this.playRange.bind(this);
 
     this.onDurationChange = this.onDurationChange.bind(this);
+    this.onVideo1CanPlay = this.onVideo1CanPlay.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onTimeUpdate = this.onTimeUpdate.bind(this);
     this.onPause = this.onPause.bind(this);
@@ -84,11 +90,32 @@ export class VideoController {
       node.addEventListener('ended', this.onEnded);
       node.addEventListener('pause', this.onPause);
       node.addEventListener('play', this.onPlay);
+      node.addEventListener('canplay', this.onVideo1CanPlay);
     }
   }
 
   registerVideo2(node) {
     this.video2 = new VideoNode(node);
+    if (node) {
+      this.video2Ready = false;
+      node.addEventListener('canplay', this.onVideo2CanPlay);
+    }
+  }
+
+  setBeginAt(beginAt) {
+    if (typeof beginAt === 'number') {
+      this.beginAt = beginAt;
+    }
+  }
+
+  videoIsReady() {
+    if (this.video1Ready && (this.video2Ready || !this.video2)) {
+      this.setState('videoReady', true);
+
+      if (this.beginAt > 0) {
+        this.setCurrentTime(this.beginAt);
+      }
+    }
   }
 
   userIsReady() {
@@ -233,12 +260,25 @@ export class VideoController {
     }
   }
 
-  onDurationChange(e) {
-    let { duration } = e.target;
+  onDurationChange({ target: { duration } }) {
     this.setState('duration', duration);
 
     if (this.openRange && !this.range) {
       this.setRange([0, duration]);
+    }
+  }
+
+  onVideo1CanPlay({ target: { readyState } }) {
+    if (readyState > 0 && !this.videoReady) {
+      this.video1Ready = true;
+      this.videoIsReady();
+    }
+  }
+
+  onVideo2CanPlay({ target: { readyState } }) {
+    if (readyState > 0 && !this.videoReady) {
+      this.video2Ready = true;
+      this.videoIsReady();
     }
   }
 

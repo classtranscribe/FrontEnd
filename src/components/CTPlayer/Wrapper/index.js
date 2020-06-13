@@ -12,6 +12,7 @@ function Wrapper(props) {
     media,
     player,
     event,
+    videoReady,
     userReady,
     isEnded,
     isPaused,
@@ -32,6 +33,7 @@ function Wrapper(props) {
   } = props;
 
   const startLayerProps = {
+    videoReady,
     userReady,
     onTogglePause: player.togglePause
   };

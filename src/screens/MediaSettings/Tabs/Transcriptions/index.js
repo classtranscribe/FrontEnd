@@ -19,6 +19,7 @@ export function TranscriptionsWithRedux({
               defaultOpenCC
               allowRangePicker
               defaultOpenRangePicker
+              beginAt={100}
               // defaultRange={[0,20]}
             />
           </CTFragment>

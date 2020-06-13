@@ -5,6 +5,7 @@ export const initialState = {
   media: null,
   src1: null,
   src2: null,
+  videoReady: false,
   userReady: false,
   size: 'xs',
   // captions

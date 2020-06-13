@@ -28,6 +28,7 @@ export class Player extends React.Component {
     const {
       mediaId,
       media,
+      beginAt,
       defaultOpenCC,
       allowRangePicker,
       defaultOpenRangePicker,
@@ -39,6 +40,10 @@ export class Player extends React.Component {
       this.player.setMedia(media);
     } else {
       this.player.setupMedia(mediaId);
+    }
+
+    if (beginAt) {
+      this.player.setBeginAt(beginAt);
     }
 
     if (defaultOpenCC) {
@@ -109,6 +114,7 @@ export class Player extends React.Component {
       size,
       src1,
       event,
+      videoReady,
       userReady,
       isEnded,
       isPaused,
@@ -161,6 +167,7 @@ export class Player extends React.Component {
       media: this.state.media,
       player: this.player,
       event,
+      videoReady,
       userReady,
       isEnded,
       isPaused,
@@ -200,7 +207,7 @@ Player.propTypes = {
   width: numOrStr,
   height: numOrStr,
   allowTwoScreen: PropTypes.bool,
-  beginAt: numOrStr,
+  beginAt: PropTypes.number,
   defaultOpenCC: PropTypes.bool,
   hideWrapperOnMouseLeave: PropTypes.bool,
   // Range picker
