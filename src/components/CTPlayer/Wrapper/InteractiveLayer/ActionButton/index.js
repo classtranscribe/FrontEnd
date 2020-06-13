@@ -7,7 +7,8 @@ import './index.scss';
 
 export const useStyles = makeStyles({
   tooltip: {
-    backgroundColor: '#363636'
+    backgroundColor: '#363636',
+    fontSize: '13px'
   },
   arrow: {
     color: '#363636'
@@ -23,6 +24,7 @@ function ActionButton(props) {
     active,
     highlighted,
     onClick,
+    playButton,
     ...ariaProps
   } = props;
 
@@ -30,7 +32,8 @@ function ActionButton(props) {
 
   const actBtnClasses = cx('ctp', 'act-btn', {
     active,
-    highlighted
+    highlighted,
+    playButton
   });
 
   const iconElement = typeof icon === 'string'
@@ -65,6 +68,7 @@ ActionButton.propTypes = {
   active: PropTypes.bool,
   highlighted: PropTypes.bool,
   onClick: PropTypes.func,
+  playButton: PropTypes.bool
 };
 
 export default ActionButton;

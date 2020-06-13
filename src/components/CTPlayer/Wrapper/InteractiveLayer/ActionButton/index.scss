@@ -1,3 +1,5 @@
+$highlighted-color: rgb(0, 218, 218);
+
 .ctp.act-btn {
   position: relative;
   background: none;
@@ -5,7 +7,6 @@
   border: none;
   box-shadow: none;
   padding: 0;
-  margin: none;
   margin: 0 .5em;
 
   &:active {
@@ -14,13 +15,27 @@
 
   &.highlighted {
     span i {
-      color: rgb(0, 236, 236);
+      color: $highlighted-color;
     }
+    border-bottom: 2px solid $highlighted-color;
   }
 
+  // &.playButton {
+  //   margin: 0 0 0 10px;
+  //   &:active {
+  //     opacity: 1;
+  //   }
+  //   span {
+  //     background-color: rgb(11, 167, 167);
+  //     width: 1.7em;
+  //     height: 1.7em;
+  //     border-radius: 20px;
+  //   }
+  // }
+
   span {
-    width: 1.5em;
-    height: 30px;
+    width: 1.3em;
+    height: 1.3em;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -10,18 +10,24 @@
     // transition: background 100ms linear;
   }
 
-  .ctp.action-bar {
-    z-index: 1;
+  .ctp.control-btns {
     height: 40px;
     padding-bottom: 5px;
 
     .left, .right {
       width: 50%;
+      z-index: 1;
     }
 
     .left {
-      padding-right: 5px;
+      padding-left: 5px;
     }
+
+    .right {
+      padding-right: 5px;
+      justify-content: flex-end;
+    }
+    
   }
 
   .ctp.center-area {
@@ -44,10 +50,10 @@
 .ctp.wrapper.interact {
   &:focus-within, &.show {
     .ctp.bottom-bar {
-      background: linear-gradient(to top,rgba(0, 0, 0, 0.658) 10%,rgba(0, 0, 0, 0.432));
+      background: linear-gradient(to top,rgba(0, 0, 0, 0.658) 5%,rgba(0, 0, 0, 0.288));
     }
     .ctp.center-area {
-      background: linear-gradient(to top,rgba(0, 0, 0, 0.432) 10%,rgba(0, 0, 0, 0));
+      background: linear-gradient(to top,rgba(0, 0, 0, 0.288) 5%,rgba(0, 0, 0, 0) 70%);
     }
   }
 }

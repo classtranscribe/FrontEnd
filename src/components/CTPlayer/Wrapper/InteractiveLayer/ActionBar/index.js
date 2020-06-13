@@ -25,7 +25,7 @@ function ActionBar(props) {
 
   return (
     <div className="ctp action-bar">
-      <div className="right">
+      <div className="left">
         <div className="media-name">
           <img
             alt="ClassTranscribe Logo"
@@ -40,7 +40,8 @@ function ActionBar(props) {
           </Tooltip>
         </div>
       </div>
-      <div className="left">
+      
+      <div className="right">
         <Share media={media} time={time} />
         {/* <ShortcutButton /> */}
       </div>

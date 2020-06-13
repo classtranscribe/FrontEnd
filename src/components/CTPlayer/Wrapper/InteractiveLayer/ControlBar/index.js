@@ -78,15 +78,15 @@ function ControlBar(props) {
       <div className="ctp bottom-bar">
         <Progress {...progressProps} />
 
-        <div className="ctp action-bar">
-          <div className="right">
+        <div className="ctp control-btns ct-d-r-center-v">
+          <div className="left ct-d-r-center-v">
             <PlayButton {...playButtonProps} />
 
             <Volume {...volumeProps} />
 
             <TimeDisplay duration={duration} time={time} />
           </div>
-          <div className="left">
+          <div className="right ct-d-r-center-v">
             <ClosedCaptionButton openCC={openCC} onClick={player.toggleCC} />
 
             <Settings getSettingsMenu={() => getSettingsMenu(player)} />

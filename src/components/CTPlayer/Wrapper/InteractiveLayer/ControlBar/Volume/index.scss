@@ -2,9 +2,10 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
-  width: 35px;
+  width: 30px;
   transition: width 100ms linear;
   overflow: hidden;
+  margin-right: 5px;
 
   .ctp.volume-slider {
     min-width: 40px;
@@ -28,7 +29,7 @@
 
 .md {
   .ctp.volume-con {
-    width: 40px;
+    width: 35px;
 
     .ctp.volume-slider {
       min-width: 70px;
@@ -43,7 +44,7 @@
 
 .lg {
   .ctp.volume-con {
-    width: 50px;
+    width: 45px;
 
     .ctp.volume-slider {
       min-width: 70px;
