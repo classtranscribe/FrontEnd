@@ -1,0 +1,40 @@
+.ctp.wrapper.interact {
+  cursor: none;
+  z-index: 2;
+
+  &:focus-within, &.show {
+    transition: none;
+    cursor: auto;
+    opacity: 1;
+
+    .ctp.ctrl-bar-con {
+      transform: translateY(0px);
+    }
+
+    .ctp.dismissible {
+      opacity: 1;
+    }
+  }
+
+  .ctp.dismissible {
+    opacity: 0;
+    transition: opacity 200ms linear;
+  }
+
+  .ctp.action-bar-con {
+    display: flex;
+    width: 100%;
+    height: 70px;
+    z-index: 10;
+    background: linear-gradient(to bottom,rgba(0, 0, 0, 0.411) 30%,rgba(0, 0, 0, 0));
+  }
+
+  .ctp.ctrl-bar-con {
+    width: 100%;
+    height: calc(100% - 70px);
+    z-index: 10;
+    transform: translateY(45px);
+    transition: transform 100ms linear;
+    background: rgba(0, 0, 0, 0);
+  }
+}

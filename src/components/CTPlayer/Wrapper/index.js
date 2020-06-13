@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import './index.scss';
 
-import ActionBar from './ActionBar';
-import CenterWrapper from './CenterWrapper';
-import ControlBar from './ControlBar';
+import StartLayer from './StartLayer';
+import InteractiveLayer from './InteractiveLayer';
+import NonInteractiveLayer from './NonInteractiveLayer';
 
 function Wrapper(props) {
   let {
@@ -25,50 +25,18 @@ function Wrapper(props) {
     openCC,
     currCaption,
     hideWrapperOnMouseLeave,
-    allowRangePicker,
-    openRange,
-    range,
-    onRangeChange,
+    // allowRangePicker,
+    // openRange,
+    // range,
+    // onRangeChange,
   } = props;
 
-  const [hover, setHover] = useState(false);
-
-  const handleMouseEnter = () => {
-    setHover(true);
+  const startLayerProps = {
+    userReady,
+    onTogglePause: player.togglePause
   };
 
-  const handleMouseMove = () => {
-    if (player.mouseOverTimer !== null) {
-      clearTimeout(player.mouseOverTimer);
-      player.mouseOverTimer = null;
-    }
-    
-    if (!hover) {
-      setHover(true);
-    }
-
-    player.mouseOverTimer = setTimeout(() => {
-      setHover(false);
-      player.mouseOverTimer = null;
-    }, 3000);
-  }
-
-  const handleMouseLeave = () => {
-    if (hideWrapperOnMouseLeave) {
-      setHover(false);
-    }
-  };
-
-  const wrapperClasses = cx('ctp', 'wrapper', 'main-wrapper', {
-    show: hover || isPaused || isEnded
-  });
-
-  const actionBarProps = {
-    media,
-    time,
-  };
-
-  const centerWrapperProps = {
+  const nonInteractiveLayerProps = {
     event,
     userReady,
     isEnded,
@@ -77,7 +45,9 @@ function Wrapper(props) {
     onTogglePause: player.togglePause
   };
 
-  const controlBarProps = {
+  const interactiveLayerProps = {
+    hideWrapperOnMouseLeave,
+    media,
     player,
     userReady,
     isEnded,
@@ -91,28 +61,14 @@ function Wrapper(props) {
     playbackRate,
     openCC,
     currCaption,
-    allowRangePicker,
-    openRange,
-    range,
-    onRangeChange,
   };
 
   return (
-    <div 
-      className={wrapperClasses}
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="ctp action-bar-con dismissible">
-        <ActionBar {...actionBarProps} />
-      </div>
-      <div className="ctp center-con">
-        <CenterWrapper {...centerWrapperProps} />
-      </div>
-      <div className="ctp ctrl-bar-con">
-        <ControlBar {...controlBarProps} />
-      </div>
+    <div className="ctp wrapper main-wrapper">
+      <NonInteractiveLayer {...nonInteractiveLayerProps} />
+      <InteractiveLayer {...interactiveLayerProps} />
+
+      <StartLayer {...startLayerProps} />
     </div>
   );
 }

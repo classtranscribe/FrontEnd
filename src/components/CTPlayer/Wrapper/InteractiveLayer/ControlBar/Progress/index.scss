@@ -1,4 +1,4 @@
-.ctp.main-wrapper {
+.ctp.wrapper.interact {
   &:focus-within, &.show {
     .ctp.progress-con {
       padding: 0 8px;
@@ -30,7 +30,7 @@
 
       .ctp.buffer-slider {
         .MuiSlider-rail {
-          opacity: 0;
+          background-color: rgb(240, 240, 240);
           // height: 3px;
         }
         .MuiSlider-thumb {
@@ -45,7 +45,7 @@
         transform: translateY(-33px);
   
         .MuiSlider-rail {
-          background-color: white;
+          background-color: rgb(240, 240, 240);
         }
     
         .MuiSlider-track, .MuiSlider-thumb {

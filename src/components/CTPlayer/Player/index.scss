@@ -5,9 +5,11 @@
   height: max-content;
 
   .ctp.ct-player {
-    background-color: black;
     position: relative;
     overflow: hidden;
+
+    background-color: black;
+    color: white;
 
     font-size: 13px;
     line-height: 18px;

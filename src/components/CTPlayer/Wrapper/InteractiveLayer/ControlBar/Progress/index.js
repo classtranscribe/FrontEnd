@@ -13,8 +13,6 @@ function Progress(props) {
     time,
     bufferedTime,
     setCurrentTime,
-    openRange,
-    range,
   } = props;
 
   const [mousePos, setMousePos] = useState([-1, -1]);

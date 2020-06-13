@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { getSettingsMenu } from '../../controllers/settings-menu';
+import { getSettingsMenu } from '../../../controllers/settings-menu';
 
 import ClosedCaption from './ClosedCaption';
 
@@ -31,8 +31,6 @@ function ControlBar(props) {
     playbackRate,
     openCC,
     currCaption,
-    openRange,
-    range,
   } = props;
 
   const playButtonProps = {
@@ -55,8 +53,6 @@ function ControlBar(props) {
     bufferedTime,
     playbackRate,
     setCurrentTime: player.setCurrentTime,
-    openRange,
-    range
   };
 
   const volumeProps = {
@@ -73,26 +69,30 @@ function ControlBar(props) {
 
   return userReady ? (
     <div className="ctp control-bar ct-a-fade-in">
-      <div className="ctp cc-con">
-        <ClosedCaption {...closedCaptionProps} />
+      <div className="ctp center-area" onClick={player.togglePause}>
+        <div className="ctp cc-con">
+          <ClosedCaption {...closedCaptionProps} />
+        </div>
       </div>
 
-      <Progress {...progressProps} />
+      <div className="ctp bottom-bar">
+        <Progress {...progressProps} />
 
-      <div className="ctp action-bar">
-        <div className="right">
-          <PlayButton {...playButtonProps} />
+        <div className="ctp action-bar">
+          <div className="right">
+            <PlayButton {...playButtonProps} />
 
-          <Volume {...volumeProps} />
+            <Volume {...volumeProps} />
 
-          <TimeDisplay duration={duration} time={time} />
-        </div>
-        <div className="left">
-          <ClosedCaptionButton openCC={openCC} onClick={player.toggleCC} />
+            <TimeDisplay duration={duration} time={time} />
+          </div>
+          <div className="left">
+            <ClosedCaptionButton openCC={openCC} onClick={player.toggleCC} />
 
-          <Settings getSettingsMenu={() => getSettingsMenu(player)} />
+            <Settings getSettingsMenu={() => getSettingsMenu(player)} />
 
-          {fullscreenToggleElement}
+            {fullscreenToggleElement}
+          </div>
         </div>
       </div>
     </div>

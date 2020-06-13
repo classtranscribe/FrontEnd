@@ -7,49 +7,5 @@
 }
 
 .ctp.main-wrapper {
-  cursor: none;
 
-  &:focus-within, &.show {
-    transition: none;
-    cursor: auto;
-    opacity: 1;
-
-    .ctp.ctrl-bar-con {
-      transform: translateY(0px);
-      background: linear-gradient(to top,rgba(0, 0, 0, 0.411) 10%,rgba(0, 0, 0, 0));
-    }
-
-    .ctp.dismissible {
-      opacity: 1;
-    }
-  }
-
-  .ctp.dismissible {
-    opacity: 0;
-    transition: opacity 200ms linear;
-  }
-
-  .ctp.action-bar-con {
-    display: flex;
-    width: 100%;
-    height: 50px;
-    z-index: 10;
-    background: linear-gradient(to bottom,rgba(0, 0, 0, 0.411) 30%,rgba(0, 0, 0, 0));
-  }
-
-  .ctp.center-con {
-    position: relative;
-    height: calc(100% - 125px);
-    width: 100%;
-    display: flex;
-  }
-
-  .ctp.ctrl-bar-con {
-    width: 100%;
-    height: 75px;
-    z-index: 10;
-    transform: translateY(40px);
-    transition: transform 100ms linear;
-    background: rgba(0, 0, 0, 0);
-  }
 }
