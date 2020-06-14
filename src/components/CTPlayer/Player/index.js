@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 import { initialState, CTPlayerController } from '../controllers';
+import { getPlayerSize } from '../controllers/helpers';
 import Video from '../Video';
 import Wrapper from '../Wrapper';
 import './index.scss';
@@ -13,7 +13,7 @@ export class Player extends React.Component {
     this.state = initialState;
     this.setPlayerState = this.setPlayerState.bind(this);
 
-    const { id, defaultOpenCC } = props;
+    const { id } = props;
     this.player = new CTPlayerController(this.setPlayerState, id);
   }
 
@@ -59,7 +59,7 @@ export class Player extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let { media, mediaId } = this.props;
+    let { media, mediaId, triggerTime } = this.props;
 
     if (media !== prevProps.media && media.id) {
       this.player.setMedia(media);
@@ -84,6 +84,10 @@ export class Player extends React.Component {
     if (prevState.currTranscription !== currTranscription) {
       this.player.setupCaptions(currTranscription);
     }
+
+    if (prevProps.triggerTime !== triggerTime) {
+      this.player.setCurrentTime(triggerTime);
+    }
   }
 
   setRange = (range) => {
@@ -97,12 +101,9 @@ export class Player extends React.Component {
 
   render() {
     let {
-      mediaId,
-      media,
       fill = false,
       width,
       height,
-      beginAt,
       hideWrapperOnMouseLeave = false,
       //
       allowTwoScreen = false,
@@ -133,13 +134,13 @@ export class Player extends React.Component {
     } = this.state;
 
     const id = this.player.id;
-    const playerWidth = width || 560;
+    const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
 
     const containerProps = {
       id,
       className: 'ctp ct-player-con',
       style: {
-        width: `${playerWidth }px`,
+        width: playerSize.width,
         height: 'max-content'
       },
     };
@@ -148,8 +149,8 @@ export class Player extends React.Component {
       id: `ct-player-${id}`,
       ref: this.player.registerPlayer,
       style: {
-        width: `${playerWidth }px`,
-        height: height || 'max-content'
+        width: playerSize.width,
+        height: playerSize.height
       },
       className: cx('ctp', 'ct-player', size, { fill }),
       tabIndex: '0'
@@ -208,6 +209,7 @@ Player.propTypes = {
   height: numOrStr,
   allowTwoScreen: PropTypes.bool,
   beginAt: PropTypes.number,
+  triggerTime: PropTypes.number,
   defaultOpenCC: PropTypes.bool,
   hideWrapperOnMouseLeave: PropTypes.bool,
   // Range picker
@@ -217,4 +219,3 @@ Player.propTypes = {
   range: PropTypes.arrayOf(numOrStr),
   onRangePicked: PropTypes.func,
 };
-

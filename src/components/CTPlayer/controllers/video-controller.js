@@ -170,6 +170,8 @@ export class VideoController {
 
   setCurrentTime(time) {
     if (!this.video1) return;
+    if (typeof time !== 'number') return;
+  
     if (time < 0) {
       time = 0;
     } else if (time > this.duration) {

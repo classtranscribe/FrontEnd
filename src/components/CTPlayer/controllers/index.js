@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import { isSafari } from 'react-device-detect';
 import { v4 as uuid } from 'uuid';
-import { api } from 'utils';
+import { api, elem } from 'utils';
 import { ENGLISH, langMap } from 'screens/Watch/Utils/constants.util';
 import { timeStrToSec } from 'screens/Watch/Utils/helpers';
 import { VideoController } from './video-controller';
@@ -52,8 +53,12 @@ export class CTPlayerController extends VideoController {
   registerPlayer(node) {
     this.playerNode = node;
     if (node) {
-      node.addEventListener('fullscreenchange', this.onFullscreenChange);
       node.addEventListener('keydown', this.onKeyDown);
+      if (isSafari) {
+        node.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
+      } else {
+        node.addEventListener('fullscreenchange', this.onFullscreenChange);
+      }
       this.handlePlayerSize();
     }
   }
@@ -185,45 +190,18 @@ export class CTPlayerController extends VideoController {
   }
 
   enterFullscreen() {
-    if (document.fullscreen) return;
-
     let node = this.playerNode;
-    if (node.requestFullscreen) {
-      node.requestFullscreen();
-    } else if (node.mozRequestFullScreen) {
-      /* Firefox */
-      node.mozRequestFullScreen();
-    } else if (node.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      node.webkitRequestFullscreen();
-    } else if (node.webkitEnterFullscreen) {
-      /* Safari IOS Mobile */
-      node.webkitEnterFullscreen();
-    } else if (node.msRequestFullscreen) {
-      /* IE/Edge */
-      node.msRequestFullscreen();
-    }
+    if (!node) return;
+
+    elem.enterFullscreen(node);
   }
 
   exitFullscreen() {
-    if (!document.fullscreen) return;
-
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      /* Firefox */
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      /* Chrome, Safari and Opera */
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      /* IE/Edge */
-      document.msExitFullscreen();
-    }
+    elem.exitFullScreen();
   }
 
   onFullscreenChange(e) {
-    this.setState('isFullscreen', document.fullscreen);
+    this.setState('isFullscreen', elem.isInFullScreen);
     this.handlePlayerSize();
   }
 
