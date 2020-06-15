@@ -24,6 +24,7 @@ function Wrapper(props) {
     volume,
     playbackRate,
     openCC,
+    language,
     currCaption,
     hideWrapperOnMouseLeave,
     // allowRangePicker,
@@ -62,6 +63,7 @@ function Wrapper(props) {
     volume,
     playbackRate,
     openCC,
+    language,
     currCaption,
   };
 

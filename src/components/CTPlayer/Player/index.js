@@ -7,7 +7,7 @@ import Video from '../Video';
 import Wrapper from '../Wrapper';
 import './index.scss';
 
-export class Player extends React.Component {
+class Player extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialState;
@@ -128,6 +128,7 @@ export class Player extends React.Component {
       volume,
       playbackRate,
       openCC,
+      language,
       currCaption,
       openRange,
       range
@@ -180,6 +181,7 @@ export class Player extends React.Component {
       volume,
       playbackRate,
       openCC,
+      language,
       currCaption,
       hideWrapperOnMouseLeave,
       allowRangePicker,
@@ -219,3 +221,5 @@ Player.propTypes = {
   range: PropTypes.arrayOf(numOrStr),
   onRangePicked: PropTypes.func,
 };
+
+export default Player;

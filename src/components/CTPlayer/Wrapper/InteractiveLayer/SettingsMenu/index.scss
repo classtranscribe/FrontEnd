@@ -1,17 +1,25 @@
-.ctp.settings-root {
-  position: relative;
-  z-index: 10;
+.ctp.menu.settings {
+  bottom: 60px;
+  right: 20px;
+  width: max-content;
+  min-width: 230px;
+  height: max-content;
+  max-height: calc(100% - 60px - 70px);
+  overflow-y: auto;
+  padding: 10px 0;
 
-  .ctp.settings-menu-con {
-    position: absolute;
-    bottom: 45px;
-    right: 0;
-    min-width: 230px;
-    // min-height: 100px;
-    max-height: 200px;
-    overflow: auto;
-    background-color: rgba(27, 27, 27, 0.897);
-    padding: 10px 0;
+  color: white;
+  background-color: rgba(27, 27, 27, 0.897);
+  display: none;
+
+  &.open {
+    display: block;
+  }
+
+  .ctp.settings-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
     .ctp.settings-menuitem {
       width: 100%;
@@ -19,14 +27,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 10px;
+      padding: 10px 10px;
       white-space: nowrap;
 
       &:hover {
         background-color: rgba(65, 65, 65, 0.575);
       }
 
-      &.go-back-btn {
+      &.go-back {
         border-bottom: 1px solid grey;
         margin-bottom: 5px;
         padding: 10px 10px;
@@ -36,6 +44,10 @@
         display: flex;
         align-items: center;
         width: max-content;
+      }
+
+      .current-value {
+        margin-left: 15px;
       }
 
       .ctp.check-icon {

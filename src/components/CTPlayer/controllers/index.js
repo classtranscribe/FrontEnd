@@ -38,6 +38,7 @@ export class CTPlayerController extends VideoController {
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
+    this.closeCC = this.closeCC.bind(this);
     this.changeLanguage = this.changeLanguage.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
     this.exitFullscreen = this.exitFullscreen.bind(this);
@@ -142,6 +143,13 @@ export class CTPlayerController extends VideoController {
   }
 
   async setupCaptions(currTranscription) {
+    if (!currTranscription || !currTranscription.id) {
+      this.setCaptions([]);
+      this.setCurrCaption(null);
+      if (this.openCC) this.toggleCC();
+      return;
+    }
+
     const { id, language, src } = currTranscription;
     this.setLanguage({ code: language, text: langMap[language] });
     let captions = await this.getCaptionsByTranscriptionId(id);
@@ -152,11 +160,19 @@ export class CTPlayerController extends VideoController {
     if (!this.openCC) this.toggleCC();
   }
 
+  closeCC() {
+    this.setOpenCC(false);
+    this.changeLanguage(null);
+  }
+
   changeLanguage(language) {
     let targetIndex = _.findIndex(this.transcriptions, { language });
     if (targetIndex >= 0) {
       this.setLanguage({ code: language, text: langMap[language] });
       this.setCurrTranscription(this.transcriptions[targetIndex]);
+    } else {
+      this.setLanguage({ code: null, text: null });
+      this.setCurrTranscription(null);
     }
   }
 

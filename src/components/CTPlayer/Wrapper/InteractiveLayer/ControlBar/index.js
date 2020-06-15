@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { getSettingsMenu } from '../../../controllers/settings-menu';
 
 import ClosedCaption from './ClosedCaption';
 
@@ -12,7 +11,7 @@ import Volume from './Volume';
 import TimeDisplay from './TimeDisplay';
 
 import ClosedCaptionButton from './ClosedCaptionButton';
-import Settings from './Settings';
+import SettingsButton from './SettingsButton';
 import EnterFullScreenButton from './EnterFullScreenButton';
 import ExitFullScreenButton from './ExitFullScreenButton';
 
@@ -31,6 +30,8 @@ function ControlBar(props) {
     playbackRate,
     openCC,
     currCaption,
+    openSettings,
+    onOpenSettings
   } = props;
 
   const playButtonProps = {
@@ -89,7 +90,7 @@ function ControlBar(props) {
           <div className="right ct-d-r-center-v">
             <ClosedCaptionButton openCC={openCC} onClick={player.toggleCC} />
 
-            <Settings getSettingsMenu={() => getSettingsMenu(player)} />
+            <SettingsButton onClick={onOpenSettings} active={openSettings} />
 
             {fullscreenToggleElement}
           </div>

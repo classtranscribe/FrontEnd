@@ -5,6 +5,7 @@ import './index.scss';
 
 import ActionBar from './ActionBar';
 import ControlBar from './ControlBar';
+import SettingsMenu from './SettingsMenu';
 
 function InteractiveLayer(props) {
   let {
@@ -22,10 +23,17 @@ function InteractiveLayer(props) {
     volume,
     playbackRate,
     openCC,
+    language,
     currCaption,
   } = props;
 
   const [hover, setHover] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
+
+  const handleOpenSettings = () => {
+    setOpenSettings(true);
+  }
+  const handleCloseSettings = () => setOpenSettings(false);
 
   const handleMouseEnter = () => {
     setHover(true);
@@ -76,6 +84,22 @@ function InteractiveLayer(props) {
     playbackRate,
     openCC,
     currCaption,
+    openSettings,
+    onOpenSettings: handleOpenSettings
+  };
+
+  const settingsProps = {
+    id: `ctp-settings-${player.id}`,
+    open: openSettings,
+    openCC,
+    language,
+    languages: player.languages,
+    playbackRate,
+    playbackRates: player.PLAYBACK_RATES,
+    setPlaybackRate: player.setPlaybackRate,
+    setLanguage: player.changeLanguage,
+    onCloseCC: player.closeCC,
+    onClose: handleCloseSettings
   };
 
   return (
@@ -91,6 +115,8 @@ function InteractiveLayer(props) {
       <div className="ctp ctrl-bar-con">
         <ControlBar {...controlBarProps} />
       </div>
+
+      <SettingsMenu {...settingsProps} />
     </div>
   );
 }

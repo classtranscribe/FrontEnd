@@ -4,8 +4,8 @@ import ActionButton from '../ActionButton';
 
 function PlayButton(props) {
   let {
-    isEnded,
-    isPaused,
+    isEnded = false,
+    isPaused = false,
     onPlay,
     onPause,
     onReplay

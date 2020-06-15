@@ -1,4 +1,3 @@
-import { playbackRateOptions } from 'screens/Watch/Utils/constants.util';
 import { VideoNode } from './video-node';
 
 export class VideoController {
@@ -43,6 +42,7 @@ export class VideoController {
     this.toggleMute = this.toggleMute.bind(this);
     this.setVolume = this.setVolume.bind(this);
     this.setPlaybackRate = this.setPlaybackRate.bind(this);
+    this.setOpenCC = this.setOpenCC.bind(this);
     this.toggleCC = this.toggleCC.bind(this);
     this.setRange = this.setRange.bind(this);
     this.toggleRange = this.toggleRange.bind(this);
@@ -65,7 +65,7 @@ export class VideoController {
     }
   }
 
-  PLAYBACK_RATES = playbackRateOptions;
+  PLAYBACK_RATES = [2, 1.75, 1.5, 1.25, 1, 0.75, 0.5, 0.25];
 
   // user interaction events
   static E_PLAY = 'play';
@@ -240,8 +240,12 @@ export class VideoController {
     this.setState('playbackRate', playbackRate);
   }
 
+  setOpenCC(openCC) {
+    this.setState('openCC', openCC);
+  }
+
   toggleCC() {
-    this.setState('openCC', !this.openCC);
+    this.setOpenCC(!this.openCC);
   }
 
   toggleRange() {
