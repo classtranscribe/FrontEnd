@@ -1,0 +1,15 @@
+.email-list-container {
+    .email-list-left {
+        margin-top: 1em;
+        width: 100%;
+    }
+    .email-list-right {
+        margin-top: 1em;
+        height: 100%;
+        background: rgb(245, 245, 245);
+        border-radius: 10px;
+        padding: 15px 10px 10px 10px;
+        display: flex;
+        flex-direction: column;
+    }
+  }
