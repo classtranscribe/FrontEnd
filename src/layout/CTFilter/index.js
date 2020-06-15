@@ -6,6 +6,38 @@ import { search } from 'utils/search';
 import DefaultFilter from './DefaultFilter';
 import './index.scss';
 
+/**
+ * a general filter component for classtranscribe
+ * can be used to get the data at least one of specified attributes of which 
+ * contains all the target values
+ * @param {[object]} data - data to be filtered
+ * @param {string} value - target values (delimitered by space)
+ * @param {[string]|string} keys - the attrs on which  data are filtered
+ * @param {string} regexFlags - the flags of RegExp used to search for the target value
+ * @param {bool} reversed - an indicator for whether the result is reversed
+ * @param {bool} withDefaultFilter - an indicator for whether a default input field will be provided
+ * @param {function} children - a function that takes the filtered result and returns the component showing the result
+ * @param {function} onFilterValueChange - a call back function of changing target value
+ * @param {function} onReversed - a call back function of clicking reverse button
+ * 
+ * @example
+ * // render a filter with input field, which will filter the data on 'name' for the value entered in the input field 
+ * and show the result as a list of MediaItem.
+ * <CTFilter
+      withDefaultFilter
+      data={[{name:1,instructor:a},{name:2,instructor:b},...,{name:4,instructor:c}]}
+      keys={['name']}
+    >
+      {(result) => {
+        whElement = result.map(media => <MediaItem media={media} />);
+        return (
+        <CTFragment list role="list">
+          {whElement}
+        </CTFragment>
+        );
+      }}
+    </CTFilter>
+ */
 export function CTFilter(props) {
   let {
     data = [],
@@ -36,12 +68,14 @@ export function CTFilter(props) {
   };
   
   useEffect(() => {
-    // update search value when value changes
+    // in the case when withDefaultFilter = false,
+    // update target value when new `value` passed from the outer input field changes
     setFilterVal(value);
   }, [value]);
 
   useEffect(() => {
-    // update search value when value changes
+    // in the case when withDefaultFilter = false,
+    // update reversed when new `reversed` passed  from the outer input field changes
     setThisReversed(reversed);
   }, [reversed]);
 
@@ -53,7 +87,7 @@ export function CTFilter(props) {
   }, [data]);
 
   useEffect(() => {
-    // update result when search value changes
+    // update result when target value changes
     let res = getResult(filterVal);
     setResult(res);
 
@@ -75,6 +109,7 @@ export function CTFilter(props) {
   }, [thisReversed]);
 
   let defaultFilterElement = null;
+  // default input field component where target value can be entered
   if (withDefaultFilter) {
     const defaultFilterProps = {
       value: filterVal,
@@ -87,6 +122,7 @@ export function CTFilter(props) {
   }
 
   let resultReceiver = null;
+  // component showing filtered result
   if (typeof children === 'function') {
     resultReceiver = children(result);
   }
@@ -100,13 +136,30 @@ export function CTFilter(props) {
 }
 
 CTFilter.propTypes = {
+  /** an array of objects, data to be filtered */
   data: PropTypes.array.isRequired,
+
+  /** target value */
   value: PropTypes.string,
+
+  /** attributes on which the data will be fitered */
   keys: PropTypes.arrayOf(PropTypes.string),
+
+  /** specify  the flag of RegExp, default 'gi' */
   regexFlags: PropTypes.string,
+
+  /** indicate whether the result has been reversed */
   reversed: PropTypes.bool,
+
+  /** indicate whether the component will provide a default input field where target value can be entered */
   withDefaultFilter: PropTypes.bool,
+
+  /** function that takes the filtered result and returns a component showing the result */
   children: PropTypes.func,
+
+  /** call-back function for changing 'value' which takes 'value' as param */
   onFilterValueChange: PropTypes.func,
+
+  /** call-back function for changing 'reversed' which takes 'reversed' as param */
   onReversed: PropTypes.func
 };
