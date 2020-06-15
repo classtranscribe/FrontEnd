@@ -14,6 +14,8 @@ import { CTHeading } from 'layout/CTHeading';
 import { api, util, user } from 'utils';
 import './index.scss';
 import _ from 'lodash';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 
 export function CourseForm() {
   // user infomation
@@ -31,15 +33,21 @@ export function CourseForm() {
   const [sectionName, setsectionName] = useState('');
   const setSectionName = ({ target: { value }}) => setsectionName(value);
   // handle term
-  const [term, selTerm] = useState('');
+  const [term, setTerm] = useState('');
   const [terms, setTerms] = useState([]);
-  const handleTerm = ({ target: { value }}) => selTerm(value);
+  const handleTerm = ({ target: { value }}) => setTerm(value);
   // handle course number (department + course)
   const [depart, setDepart] = useState('');
   const [departs, setDeparts] = useState([]);
   const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState('');
   const [selCourses, setSelCourses] = useState([]);
+  // log event
+  const [logEventsFlag, setLogEventsFlag] = useState(false);
+  const onLogEventsFlagChange = ({ target: { checked }}) => setLogEventsFlag(checked);
+  // course description
+  const [description, setDescription] = useState('');
+  const onDescriptionChange = ({ target: { value }}) => setDescription(value);
 
   const onDepartChange = (value) => {
     setDepart(value);
@@ -61,7 +69,11 @@ export function CourseForm() {
       } else {
         text = item.name || tag + item.courseNumber;
       }
-      options.push({ text, value: item.id });
+      if (tag !== 'visibility') {
+        options.push({ text, value: item.id });
+      } else {
+        options.push({ text, value: item.id, description: item.description });
+      }
     });
     return options;
   };
@@ -93,6 +105,9 @@ export function CourseForm() {
   useEffect(async () => {
     setTerms(await getTerms());
     setDeparts(await getDepartments());
+    if (terms !== []) {
+      setTerm(terms[0]);
+    }
   }, [])
 
   useEffect( () => {
@@ -102,20 +117,24 @@ export function CourseForm() {
         api.getDepartById(depart).then(name => {
           if (res && name) {
             setCourses(util.getSelectOptions(res.data, name.data.acronym));
-            setCourse('');
           }
         })
       });
     }
-    setCourse('');
   }, [depart])
 
-  // useEffect( () => {
-  //   setCourse('');
-  // }, [depart])
+  // add/remove selected courses
+
+
+
+  useEffect( () => {
+    if (course) {
+      setSelCourses([...selCourses, course])
+    }
+  }, [course])
   
 
-  const [accessType, selAccess] = useState('');
+  const [accessType, selAccess] = useState('0');
   const handleVisibility = ({ target: { value }}) => selAccess(value);
 
   // save information provided
@@ -124,8 +143,8 @@ export function CourseForm() {
       _.concat(errors, 'courseName');
     }
     // testing 
-     // console.log(course);
-   // console.log(errors);
+    //  console.log(api.getDepartsByUniId(uniId));
+    // console.log(description);
     // console.log(await api.getCoursesByDepartId(depart))
     // console.log(user.getUserInfo().universityId);
     if (errors === []) {
@@ -181,6 +200,18 @@ export function CourseForm() {
         <CTFormHeading>
           Selected Courses
         </CTFormHeading>
+        <Paper elevation={0}>
+          {selCourses.map((data) => {
+        return (
+          <li key={data}>
+            <Chip
+              label={data}
+              // onDelete={handleDelete(data)}
+            />
+          </li>
+        );
+      })}
+        </Paper>
       </CTFragment>
       <CTFormHeading>Basic Information</CTFormHeading>
       <CTFormRow>
@@ -218,10 +249,29 @@ export function CourseForm() {
           id="sel-1"
           label="Visibility"
           helpText="Choose the user group of this course."
-          defaultValue=""
-          options={getSelectOptions(api.offeringAccessType, 'id', 'name', 'description')}
+          defaultValue="0"
+          options={getSelectOptions(api.offeringAccessType, 'visibility')}
           value={accessType}
           onChange={handleVisibility}
+        />
+      </CTFormRow>
+      <CTFormRow>
+        <CTInput 
+          textarea
+          id="course-description"
+          helpText="The description for this class"
+          label="Course description"
+          value={description}
+          onChange={onDescriptionChange}
+        />
+      </CTFormRow>
+      <CTFormRow padding={[0, 10]}>
+        <CTCheckbox
+          id="log-event"
+          helpText="Turn it on if you would like to receive the statistics of students' perfermance in the future."
+          label="Log student events"
+          checked={logEventsFlag}
+          onChange={onLogEventsFlagChange}
         />
       </CTFormRow>
      
