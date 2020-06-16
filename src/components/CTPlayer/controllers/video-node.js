@@ -1,4 +1,4 @@
-export class VideoNode {
+class VideoNode {
   /**
    * Create a video node controller
    * @param {HTMLVideoElement} node - the video node
@@ -75,3 +75,5 @@ export class VideoNode {
     this.node.currentTime = time;
   }
 }
+
+export default VideoNode;

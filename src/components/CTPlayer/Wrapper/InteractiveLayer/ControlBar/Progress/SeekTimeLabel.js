@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { parseSec } from 'screens/Watch/Utils/helpers';
+import timestr from 'utils/time-string';
 
 function SeekTimeLabel(props) {
   const { width, left, duration } = props;
@@ -20,7 +20,7 @@ function SeekTimeLabel(props) {
       className="ctp seek-time-prompt ct-d-c-center" 
       style={{ left: `${styleLeft}px` }}
     >
-      {parseSec(sec)}
+      {timestr.toSeconds(sec)}
     </div>
   ) : null;
 }

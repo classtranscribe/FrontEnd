@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { CTPlayerConstants as Constants } from '../../controllers';
 import './index.scss';
 
 import ActionBar from './ActionBar';
@@ -95,7 +96,7 @@ function InteractiveLayer(props) {
     language,
     languages: player.languages,
     playbackRate,
-    playbackRates: player.PLAYBACK_RATES,
+    playbackRates: Constants.PLAYBACK_RATES,
     setPlaybackRate: player.setPlaybackRate,
     setLanguage: player.changeLanguage,
     onCloseCC: player.closeCC,

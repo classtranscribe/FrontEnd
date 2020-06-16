@@ -15,6 +15,7 @@ export { html } from './2html';
 export { elem } from './use-elem';
 export { uurl } from './use-url';
 export { links } from './links';
+export { default as timestr } from './time-string';
 
 export * from './constants';
 export const logger = loggerToExport;

@@ -3,8 +3,8 @@
  * @param {KeyboardEvent} event 
  * @param {CTPlayerController} player 
  */
-export function handleKeyDownEvent(event, player) {
-  const { keyCode, metaKey } = event;
+function playerKeyDownEventHandler(event, player) {
+  const { keyCode, /* metaKey */ } = event;
   switch (keyCode) {
     // k or space - pause/play
     case 75:
@@ -46,3 +46,5 @@ export function handleKeyDownEvent(event, player) {
     default:
   }
 }
+
+export default playerKeyDownEventHandler;

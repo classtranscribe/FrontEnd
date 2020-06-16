@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Slider from '@material-ui/core/Slider';
-import { parseSec } from 'screens/Watch/Utils/helpers';
+import timestr from 'utils/time-string';
 
 import RangeTimeLabel from './RangeTimeLabel';
 
@@ -28,7 +28,7 @@ export function RangeSlider(props) {
     step: 0.001,
     value: range,
     onChange: handleRangeChange,
-    valueLabelFormat: parseSec,
+    valueLabelFormat: timestr.toSeconds,
     valueLabelDisplay: displayLabel ? 'on' : 'off',
     ValueLabelComponent: RangeTimeLabel
   };

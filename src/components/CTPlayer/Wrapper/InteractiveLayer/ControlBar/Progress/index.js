@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Slider from '@material-ui/core/Slider';
-import { parseSec } from 'screens/Watch/Utils/helpers';
+import timestr from 'utils/time-string';
 import './index.scss';
 
 import SeekTimeLabel from './SeekTimeLabel';
@@ -52,7 +52,7 @@ function Progress(props) {
     value: time,
     // marks,
     onChange: handleSeekTime,
-    valueLabelFormat: parseSec,
+    valueLabelFormat: timestr.toSeconds,
     ValueLabelComponent: SliderTimeLabel
   };
 
@@ -79,7 +79,10 @@ function Progress(props) {
 }
 
 Progress.propTypes = {
-
+  duration: PropTypes.number,
+  time: PropTypes.number,
+  bufferedTime: PropTypes.number,
+  setCurrentTime: PropTypes.func,
 };
 
 export default Progress;

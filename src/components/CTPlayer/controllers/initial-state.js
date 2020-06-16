@@ -1,6 +1,6 @@
-import { ENGLISH, langMap } from 'screens/Watch/Utils/constants.util';
+import Constants from './player-constants';
 
-export const initialState = {
+export default {
   // media
   media: null,
   src1: null,
@@ -12,7 +12,10 @@ export const initialState = {
   openCC: false,
   transcriptions: [],
   currTranscription: null,
-  language: {code: ENGLISH, text: langMap[ENGLISH]},
+  language: {
+    code: Constants.ENGLISH, 
+    text: Constants.LANG_MAP[Constants.ENGLISH]
+  },
   captions: [],
   currCaption: null,
   // video

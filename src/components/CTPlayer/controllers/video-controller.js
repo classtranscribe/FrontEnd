@@ -1,35 +1,43 @@
-import { VideoNode } from './video-node';
+import iniState from './initial-state';
+import VideoNode from './video-node';
+import Constants from './player-constants';
 
-export class VideoController {
+class VideoController {
   /**
    * Create a Video Controller for CTPlayer
-   * @param {Function} setPlayerState - function used to set states in CTPlayer
+   * @param {Function} setStateFunction - function used to set states in CTPlayer
    */
-  constructor(setPlayerState) {
+  constructor(setStateFunction) {
+    // register set state function
+    this.___SET_STATE___ = setStateFunction;
+
+    // video nodes
     this.video1 = null;
     this.video2 = null;
 
+    // ready states
     this.video1Ready = false;
     this.video2Ready = true;
-    this.videoReady = false;
-    this.userReady = false;
-    this.beginAt = 0;
-
-    this.setPlayerState = setPlayerState;
+    this.videoReady = iniState.videoReady;
+    this.userReady = iniState.userReady;
     
-    this.duration = 0;
-    this.time = 0;
-    this.bufferedTime = 0;
-    this.muted = false;
-    this.volume = 1;
-    this.playbackRate = 1;
-    this.event = null;
-    this.openCC = false;
-    this.openRange = false;
-    this.range = null;
+    // video attributes
+    this.beginAt = 0;
+    this.duration = iniState.duration;
+    this.time = iniState.time;
+    this.bufferedTime = iniState.bufferedTime;
+    this.muted = iniState.muted;
+    this.volume = iniState.volume;
+    this.playbackRate = iniState.playbackRate;
+    this.event = iniState.event;
+    this.openCC = iniState.openCC;
 
+    // range
+    this.openRange = iniState.openRange;
+    this.range = iniState.range;
     this.isPlayingRange = false;
 
+    // binding functions
     this.registerVideo1 = this.registerVideo1.bind(this);
     this.registerVideo2 = this.registerVideo2.bind(this);
     this.play = this.play.bind(this);
@@ -48,6 +56,7 @@ export class VideoController {
     this.toggleRange = this.toggleRange.bind(this);
     this.playRange = this.playRange.bind(this);
 
+    // video event handlers
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onVideo1CanPlay = this.onVideo1CanPlay.bind(this);
     this.onProgress = this.onProgress.bind(this);
@@ -59,22 +68,11 @@ export class VideoController {
   }
 
   setState(key, value) {
-    if (typeof this.setPlayerState === 'function') {
-      this.setPlayerState(key, value);
+    if (typeof this.___SET_STATE___ === 'function') {
+      this.___SET_STATE___(key, value);
       this[key] = value;
     }
   }
-
-  PLAYBACK_RATES = [2, 1.75, 1.5, 1.25, 1, 0.75, 0.5, 0.25];
-
-  // user interaction events
-  static E_PLAY = 'play';
-  static E_PAUSE = 'pause';
-  static E_REWIND = 'rewind';
-  static E_FORWARD = 'forward';
-  static E_MUTE = 'mute';
-  static E_VOLUME_UP = 'volume-up';
-  static E_VOLUME_DOWN = 'volume-down';
 
   /**
    * 
@@ -143,14 +141,14 @@ export class VideoController {
     if (!this.video1) return;
     this.video1.pause();
     if (this.video2) this.video2.pause();
-    this.toggleEvent(VideoController.E_PAUSE);
+    this.toggleEvent(Constants.CTPE_PAUSE);
   }
 
   play() {
     if (!this.video1) return;
     this.video1.play();
     if (this.video2) this.video2.play();
-    this.toggleEvent(VideoController.E_PLAY);
+    this.toggleEvent(Constants.CTPE_PLAY);
   }
 
   togglePause() {
@@ -187,26 +185,26 @@ export class VideoController {
 
   forward() {
     this.setCurrentTime(this.time + 5);
-    this.toggleEvent(VideoController.E_FORWARD);
+    this.toggleEvent(Constants.CTPE_FORWARD);
   }
 
   rewind() {
     this.setCurrentTime(this.time - 5);
-    this.toggleEvent(VideoController.E_REWIND);
+    this.toggleEvent(Constants.CTPE_REWIND);
   }
 
   mute() {
     if (!this.video1) return;
     this.video1.mute();
     this.setState('muted', true);
-    this.toggleEvent(VideoController.E_MUTE);
+    this.toggleEvent(Constants.CTPE_MUTE);
   }
 
   unmute() {
     if (!this.video1) return;
     this.video1.unmute();
     this.setState('muted', false);
-    this.toggleEvent(VideoController.E_VOLUME_UP);
+    this.toggleEvent(Constants.CTPE_VOLUME_UP);
   }
 
   toggleMute() {
@@ -226,12 +224,12 @@ export class VideoController {
 
   volumeUp() {
     this.setVolume(this.volume + 0.05);
-    this.toggleEvent(VideoController.E_VOLUME_UP);
+    this.toggleEvent(Constants.CTPE_VOLUME_UP);
   }
 
   volumeDown() {
     this.setVolume(this.volume - 0.05);
-    this.toggleEvent(VideoController.E_VOLUME_DOWN);
+    this.toggleEvent(Constants.CTPE_VOLUME_DOWN);
   }
 
   setPlaybackRate(playbackRate) {
@@ -333,3 +331,5 @@ export class VideoController {
     this.setState('isEnded', true);
   }
 }
+
+export default VideoController;

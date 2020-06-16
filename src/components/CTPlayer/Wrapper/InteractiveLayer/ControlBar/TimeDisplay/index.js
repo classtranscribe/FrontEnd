@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { parseSec } from 'screens/Watch/Utils/helpers';
+import timestr from 'utils/time-string';
 import './index.scss';
 
 function TimeDisplay(props) {
@@ -11,15 +11,16 @@ function TimeDisplay(props) {
 
   return (
     <div className="ctp time-display">
-      <span>{parseSec(time)}</span>
+      <span>{timestr.toSeconds(time)}</span>
       <span className="time-separator">/</span>
-      <span>{parseSec(duration)}</span>
+      <span>{timestr.toSeconds(duration)}</span>
     </div>
   );
 }
 
 TimeDisplay.propTypes = {
-
+  duration: PropTypes.number,
+  time: PropTypes.number
 };
 
 export default TimeDisplay;

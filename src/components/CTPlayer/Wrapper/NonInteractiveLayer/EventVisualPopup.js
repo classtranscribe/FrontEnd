@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTPlayerController } from '../../controllers';
+import { CTPlayerConstants } from '../../controllers';
 
 function EventIcon(props) {
   let { icon } = props;
@@ -19,26 +19,26 @@ function EventVisualPopup(props) {
   let { event, volume } = props;
 
   const {
-    E_PLAY,
-    E_PAUSE,
-    E_REWIND,
-    E_FORWARD,
-    E_MUTE,
-    E_VOLUME_UP,
-    E_VOLUME_DOWN,
-  } = CTPlayerController;
+    CTPE_PLAY,
+    CTPE_PAUSE,
+    CTPE_REWIND,
+    CTPE_FORWARD,
+    CTPE_MUTE,
+    CTPE_VOLUME_UP,
+    CTPE_VOLUME_DOWN,
+  } = CTPlayerConstants;
 
   let eventIconMap = {
-    [E_PLAY]: 'play_arrow',
-    [E_PAUSE]: 'pause',
-    [E_REWIND]: 'replay_5',
-    [E_FORWARD]: 'forward_5',
-    [E_MUTE]: 'volume_off',
-    [E_VOLUME_UP]: 'volume_up',
-    [E_VOLUME_DOWN]: 'volume_down'
+    [CTPE_PLAY]: 'play_arrow',
+    [CTPE_PAUSE]: 'pause',
+    [CTPE_REWIND]: 'replay_5',
+    [CTPE_FORWARD]: 'forward_5',
+    [CTPE_MUTE]: 'volume_off',
+    [CTPE_VOLUME_UP]: 'volume_up',
+    [CTPE_VOLUME_DOWN]: 'volume_down'
   };
 
-  const showVolume = [E_VOLUME_UP, E_VOLUME_DOWN].includes(event);
+  const showVolume = [CTPE_VOLUME_UP, CTPE_VOLUME_DOWN].includes(event);
   const icon = eventIconMap[event];
 
   return (
