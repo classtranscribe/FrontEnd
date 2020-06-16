@@ -10,7 +10,6 @@ function Video(props) {
   let {
     id,
     className,
-    player,
     src,
     trackSrc,
     muted = false,
@@ -65,11 +64,11 @@ function Video(props) {
   };
 
 
-  const videoClasses = cx('ctp', 'ct-video', className);
+  const videoContainerClasses = cx('ctp', 'ct-video-con', className);
   const videoProps = {
     id,
     ref: getVideoNode,
-    className: videoClasses,
+    className: 'ctp ct-video',
     playsInline: true,
     muted,
     onLoadStart: handleLoadStart,
@@ -92,7 +91,7 @@ function Video(props) {
   });
 
   return (
-    <div className="ctp ct-video-con">
+    <div className={videoContainerClasses}>
       <video {...videoProps}>
         {Boolean(src) && <source src={src} type="video/mp4" />}
         {Boolean(trackSrc) && <track src={trackSrc} lang="english" />}

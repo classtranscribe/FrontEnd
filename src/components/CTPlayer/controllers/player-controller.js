@@ -20,6 +20,8 @@ class PlayerController extends VideoController {
     this.playerNode = null;
 
     this.size = iniState.size;
+    this.screenMode = iniState.screenMode;
+    this.isSwappedScreen = iniState.isSwappedScreen;
     this.isFullscreen = iniState.isFullscreen;
 
     // Mouse over timer for wrapper
@@ -43,6 +45,8 @@ class PlayerController extends VideoController {
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
+    this.swapScreens = this.swapScreens.bind(this);
+    this.setScreenMode = this.setScreenMode.bind(this);
     this.setOpenCC = this.setOpenCC.bind(this);
     this.closeCC = this.closeCC.bind(this);
     this.toggleCC = this.toggleCC.bind(this);
@@ -90,6 +94,14 @@ class PlayerController extends VideoController {
 
   setSize(size) {
     this.setState('size', size);
+  }
+
+  setScreenMode(screenMode) {
+    this.setState('screenMode', screenMode);
+  }
+
+  swapScreens() {
+    this.setState('isSwappedScreen', !this.isSwappedScreen);
   }
 
   setCCFontSize(ccFontSize) {

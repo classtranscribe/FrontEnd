@@ -61,7 +61,7 @@ class PlayerConstants {
     PlayerConstants.CC_FSIZCTPE_300,
     PlayerConstants.CC_FSIZCTPE_400,
   ];
-
+  // Opacity
   static CC_OPACITY_0 = 0;
   static CC_OPACITY_25 = 0.25;
   static CC_OPACITY_50 = 0.5;
@@ -74,6 +74,16 @@ class PlayerConstants {
     PlayerConstants.CC_OPACITY_75,
     PlayerConstants.CC_OPACITY_100,
   ];
+
+  // Two Screen Modes
+  static SCREEN_PS = 'p-s';
+  static SCREEN_NEST = 'nest';
+  static SCREEN_NORMAL = 'normal';
+  static SCREEN_MODES_MAP = {
+    [PlayerConstants.SCREEN_PS]: 'Primary-Secondary View',
+    [PlayerConstants.SCREEN_NEST]: 'Nested View',
+    [PlayerConstants.SCREEN_NORMAL]: 'One-Screen View'
+  };
 }
 
 export default PlayerConstants;

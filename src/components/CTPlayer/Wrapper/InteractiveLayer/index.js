@@ -13,6 +13,8 @@ function InteractiveLayer(props) {
     hideWrapperOnMouseLeave,
     media,
     player,
+    isTwoScreen,
+    screenMode,
     userReady,
     isEnded,
     isPaused,
@@ -77,6 +79,7 @@ function InteractiveLayer(props) {
 
   const controlBarProps = {
     player,
+    isTwoScreen,
     userReady,
     isEnded,
     isPaused,
@@ -100,6 +103,8 @@ function InteractiveLayer(props) {
   const settingsProps = {
     id: `ctp-settings-${player.id}`,
     open: openSettings,
+    isTwoScreen,
+    screenMode,
     openCC,
     ccFontSize,
     ccFontColor,
@@ -112,11 +117,13 @@ function InteractiveLayer(props) {
     language,
     languages: player.languages,
     playbackRate,
+    onClose: handleCloseSettings,
     playbackRates: Constants.PLAYBACK_RATES,
     setPlaybackRate: player.setPlaybackRate,
     setLanguage: player.changeLanguage,
     onCloseCC: player.closeCC,
-    onClose: handleCloseSettings
+    setScreenMode: player.setScreenMode,
+    onSwapScreens: player.swapScreens,
   };
 
   return (

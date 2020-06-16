@@ -56,6 +56,7 @@ class VideoController {
     // video event handlers
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onVideo1CanPlay = this.onVideo1CanPlay.bind(this);
+    this.onVideo2CanPlay = this.onVideo2CanPlay.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onTimeUpdate = this.onTimeUpdate.bind(this);
     this.onPause = this.onPause.bind(this);

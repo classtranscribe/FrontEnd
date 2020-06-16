@@ -1,7 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { initialState, CTPlayerController } from '../controllers';
+import {
+  initialState,
+  CTPlayerConstants as Constants,
+  CTPlayerController
+} from '../controllers';
 import { getPlayerSize } from '../controllers/helpers';
 import Video from '../Video';
 import Wrapper from '../Wrapper';
@@ -59,7 +63,12 @@ class Player extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let { media, mediaId, triggerTime } = this.props;
+    let {
+      media,
+      mediaId,
+      triggerTime,
+      allowTwoScreen
+    } = this.props;
 
     if (media !== prevProps.media && media.id) {
       this.player.setMedia(media);
@@ -74,6 +83,10 @@ class Player extends React.Component {
         this.setState({ src1: videos[0].srcPath1 });
         if (isTwoScreen) {
           this.setState({ src2: videos[0].srcPath2 });
+
+          if (allowTwoScreen) {
+            this.setState({ screenMode: Constants.SCREEN_NEST });
+          }
         }
 
         this.player.setupTranscriptions(media);
@@ -105,22 +118,24 @@ class Player extends React.Component {
       width,
       height,
       hideWrapperOnMouseLeave = false,
-      //
+      // 2 screen options
       allowTwoScreen = false,
-      // Range picker
+      // Range picker options
       allowRangePicker = false,
     } = this.props;
 
     const {
       size,
       src1,
+      src2,
       event,
+      screenMode,
       videoReady,
       userReady,
       isEnded,
       isPaused,
       isFullscreen,
-      isSwitchedScreen,
+      isSwappedScreen,
       duration,
       time,
       bufferedTime,
@@ -139,6 +154,7 @@ class Player extends React.Component {
     } = this.state;
 
     const id = this.player.id;
+    const display2Screen = allowTwoScreen && Boolean(src2);
     const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
 
     const containerProps = {
@@ -162,17 +178,28 @@ class Player extends React.Component {
     };
 
     const video1Props = {
-      id: id ? `v1-${id}` : null,
+      id: `v1-${id}`,
       src: src1,
-      className: isSwitchedScreen ? 'secondary' : 'primary',
+      className: cx({ secondary: isSwappedScreen }, screenMode),
       player: this.player,
       getVideoNode: this.player.registerVideo1
+    };
+
+    const video2Props = {
+      id: `v2-${id}`,
+      src: src2,
+      muted: true,
+      className: cx({ secondary: !isSwappedScreen }, screenMode),
+      player: this.player,
+      getVideoNode: this.player.registerVideo2
     };
 
     const wrapperProps = {
       media: this.state.media,
       player: this.player,
       event,
+      isTwoScreen: display2Screen,
+      screenMode,
       videoReady,
       userReady,
       isEnded,
@@ -202,6 +229,12 @@ class Player extends React.Component {
       <div {...containerProps}>
         <div {...playerProps}>
           <Video {...video1Props} />
+          {
+            display2Screen
+            &&
+            <Video {...video2Props} />
+          }
+
           <Wrapper {...wrapperProps} />
         </div>
       </div>

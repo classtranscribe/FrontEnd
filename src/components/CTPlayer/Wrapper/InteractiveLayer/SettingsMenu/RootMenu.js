@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CTPlayerConstants as Constants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function RootMenu(props) {
-  let {
+  const {
+    isTwoScreen,
+    screenMode,
     openCC,
     language,
     playbackRate,
     onOpenCCMenu,
-    openPlaybackRateMenu
+    openPlaybackRateMenu,
+    onOpenScreenModeManu
   } = props;
 
   const currentLang = !openCC ? 'OFF' : (language.text || 'OFF');
@@ -16,24 +20,37 @@ function RootMenu(props) {
   return (
     <div className="ctp settings-menu">
       <MenuItem
-        isSubMenu
         active
-        text="Closed Caption"
-        current={currentLang}
-        onClick={onOpenCCMenu}
-      />
-
-      <MenuItem
         isSubMenu
         text="Playback Rate"
         current={`${playbackRate }x`}
         onClick={openPlaybackRateMenu}
       />
+
+      <MenuItem
+        isSubMenu
+        text="Closed Caption"
+        current={currentLang}
+        onClick={onOpenCCMenu}
+      />
+
+      {
+        isTwoScreen
+        &&
+        <MenuItem
+          isSubMenu
+          text="Screen Mode"
+          current={Constants.SCREEN_MODES_MAP[screenMode]}
+          onClick={onOpenScreenModeManu}
+        />
+      }
     </div>
   );
 }
 
 RootMenu.propTypes = {
+  isTwoScreen: PropTypes.bool,
+  screenMode: PropTypes.string,
   openCC: PropTypes.bool,
   language: PropTypes.shape({
     code: PropTypes.string,
@@ -41,7 +58,8 @@ RootMenu.propTypes = {
   }),
   playbackRate: PropTypes.number,
   onOpenCCMenu: PropTypes.func,
-  openPlaybackRateMenu: PropTypes.func
+  openPlaybackRateMenu: PropTypes.func,
+  onOpenScreenModeManu: PropTypes.func
 };
 
 export default RootMenu;

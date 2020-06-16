@@ -9,6 +9,8 @@ const initialState = {
   userReady: false,
   size: 'xs',
   event: null,
+  screenMode: Constants.SCREEN_NORMAL,
+  isSwappedScreen: false,
 
   // video
   duration: 0,
@@ -19,7 +21,6 @@ const initialState = {
   playbackRate: 1,
   isPaused: true,
   isEnded: false,
-  isSwitchedScreen: false,
   isFullscreen: false,
 
   // captions

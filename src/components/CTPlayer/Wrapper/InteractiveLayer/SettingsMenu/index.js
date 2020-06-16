@@ -11,13 +11,15 @@ import CCFontSizesMenu from './CCFontSizesMenu';
 import CCFontColorsMenu from './CCFontColorsMenu';
 import CCOpacityMenu from './CCOpacityMenu';
 import CCBackgroundColorsMenu from './CCBackgroundColorsMenu';
+import ScreenModesMenu from './ScreenModesMenu';
 import './index.scss';
 
 function SettingsMenu(props) {
   const {
     id,
     open = false,
-    onClose,
+    isTwoScreen,
+    screenMode,
     openCC,
     ccFontSize,
     ccFontColor,
@@ -27,6 +29,9 @@ function SettingsMenu(props) {
     languages,
     playbackRate,
     playbackRates,
+    onClose,
+    setScreenMode,
+    onSwapScreens,
     onCloseCC,
     setLanguage,
     setPlaybackRate,
@@ -51,11 +56,14 @@ function SettingsMenu(props) {
   switch (menuType) {
     case 'root':
       menuProps = {
+        isTwoScreen,
+        screenMode,
         openCC,
         language,
         playbackRate,
         onOpenCCMenu: handleOpenMenu('cc'),
-        openPlaybackRateMenu: handleOpenMenu('pbr')
+        openPlaybackRateMenu: handleOpenMenu('pbr'),
+        onOpenScreenModeManu: handleOpenMenu('screen-mode')
       };
       menuElement = <RootMenu {...menuProps} />;
       break;
@@ -134,6 +142,16 @@ function SettingsMenu(props) {
       menuElement = <CCBackgroundColorsMenu {...menuProps} />;
       break;
 
+    case 'screen-mode':
+      menuProps = {
+        screenMode,
+        setScreenMode,
+        onSwapScreens,
+        onGoBack: handleOpenMenu('root')
+      };
+      menuElement = <ScreenModesMenu {...menuProps} />
+      break;
+
     default:
   }
 
@@ -150,7 +168,9 @@ function SettingsMenu(props) {
 
 SettingsMenu.propTypes = {
   id: PropTypes.string,
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
+  isTwoScreen: PropTypes.bool,
+  screenMode: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   openCC: PropTypes.bool.isRequired,
   ccFontSize: PropTypes.number.isRequired,
@@ -161,6 +181,8 @@ SettingsMenu.propTypes = {
   languages: ClosedCaptionMenu.propTypes.languages.isRequired,
   playbackRate: PlaybackRateMenu.propTypes.playbackRate.isRequired,
   playbackRates: PlaybackRateMenu.propTypes.playbackRates.isRequired,
+  setScreenMode: PropTypes.func,
+  onSwapScreens: PropTypes.func,
   onCloseCC: PropTypes.func.isRequired,
   setLanguage: PropTypes.func.isRequired,
   setPlaybackRate: PropTypes.func.isRequired,

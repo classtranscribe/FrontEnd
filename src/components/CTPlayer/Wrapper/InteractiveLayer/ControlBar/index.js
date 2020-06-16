@@ -7,6 +7,7 @@ import ClosedCaption from './ClosedCaption';
 import Progress from './Progress';
 
 import PlayButton from './PlayButton';
+import SwapScreenButton from './SwapScreenButton';
 import Volume from './Volume';
 import TimeDisplay from './TimeDisplay';
 
@@ -16,8 +17,9 @@ import EnterFullScreenButton from './EnterFullScreenButton';
 import ExitFullScreenButton from './ExitFullScreenButton';
 
 function ControlBar(props) {
-  let {
+  const {
     player,
+    isTwoScreen,
     userReady,
     isPaused,
     isEnded,
@@ -90,6 +92,8 @@ function ControlBar(props) {
         <div className="ctp control-btns ct-d-r-center-v">
           <div className="left ct-d-r-center-v">
             <PlayButton {...playButtonProps} />
+
+            {isTwoScreen && <SwapScreenButton onClick={player.swapScreens} />}
 
             <Volume {...volumeProps} />
 
