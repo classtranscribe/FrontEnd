@@ -3,9 +3,10 @@ import { EmailList } from '../EmailList';
 
 function StudentsWithRedux() {
     return (
-      <div>
-        <EmailList />
-      </div>
+      <EmailList
+        title="Students"
+        description="Add students"
+      />
     );
 }
 

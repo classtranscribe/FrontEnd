@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { CTLayout } from 'layout'
 import { api } from 'utils';
-import { Students } from './Components';
+import { Students, Staffs } from './Components';
 
 export class CourseSettings extends Component {
   componentDidMount() {
@@ -25,6 +25,7 @@ export class CourseSettings extends Component {
     return (
       <CTLayout {...layoutProps}>
         <Students />
+        <Staffs />
       </CTLayout>
       // <CTLayout {...layoutProps} />
     )

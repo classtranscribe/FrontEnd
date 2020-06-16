@@ -11,7 +11,8 @@ import { uurl } from 'utils/use-url';
 import { UploadButton } from '../UploadButton'
 import './index.scss';
 
-function EmailListWithRedux() {
+function EmailListWithRedux(props) {
+  let { title, description, onSave } = props;
   const [emails, setEmails] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
@@ -33,12 +34,12 @@ function EmailListWithRedux() {
   return (
     <CTFragment className="email-list-container">
       <CTForm
+        collapsible
         id="email-list" 
         padding={[10, 35]}
-        heading="ADD XXX" 
-        details="Add XXX"
-        onSave={() => 1}
-        onCancel={() => 1}
+        heading={title}
+        details={description}
+        onSave={onSave}
       >     
         <CTFormRow>
           <CTFragment className="email-list-left">
