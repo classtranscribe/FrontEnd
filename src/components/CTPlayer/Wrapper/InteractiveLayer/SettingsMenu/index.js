@@ -51,6 +51,7 @@ function SettingsMenu(props) {
   switch (menuType) {
     case 'root':
       menuProps = {
+        openCC,
         language,
         playbackRate,
         onOpenCCMenu: handleOpenMenu('cc'),

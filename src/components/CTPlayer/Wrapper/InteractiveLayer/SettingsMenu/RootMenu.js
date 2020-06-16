@@ -4,18 +4,22 @@ import MenuItem from './MenuItem';
 
 function RootMenu(props) {
   let {
+    openCC,
     language,
     playbackRate,
     onOpenCCMenu,
     openPlaybackRateMenu
   } = props;
+
+  const currentLang = !openCC ? 'OFF' : (language.text || 'OFF');
+
   return (
     <div className="ctp settings-menu">
       <MenuItem
         isSubMenu
         active
         text="Closed Caption"
-        current={language.text || 'OFF'}
+        current={currentLang}
         onClick={onOpenCCMenu}
       />
 
@@ -30,6 +34,7 @@ function RootMenu(props) {
 }
 
 RootMenu.propTypes = {
+  openCC: PropTypes.bool,
   language: PropTypes.shape({
     code: PropTypes.string,
     text: PropTypes.string

@@ -15,10 +15,10 @@ function MenuItem(props) {
 
   const menuItemClasses = cx('plain-btn', 'ctp', 'settings-menuitem', {
     'go-back': goBack,
-    bordered
+    bordered,
+    active
   });
   const checkIconClasses = cx('ctp', 'check-icon', { checked: (active || goBack) });
-  const rightArrowClasses = cx('ctp', 'right-arrow', { show: isSubMenu });
 
   return (
     <button 
@@ -54,8 +54,8 @@ function MenuItem(props) {
         {
           isSubMenu
           &&
-          <span className={rightArrowClasses} aria-hidden="true">
-            <i className="material-icons">chevron_right</i>
+          <span className="ctp right-arrow" aria-hidden="true">
+            <i className="material-icons">arrow_forward_ios</i>
           </span>
         }
       </span>

@@ -2,7 +2,7 @@
   bottom: 60px;
   right: 20px;
   width: max-content;
-  min-width: 250px;
+  min-width: 18em;
   height: max-content;
   max-height: calc(100% - 60px - 70px);
   overflow-y: auto;
@@ -62,7 +62,14 @@
         }
 
         i {
-          font-size: 15px;
+          font-size: 1em;
+        }
+      }
+
+      .ctp.right-arrow {
+        margin-left: 5px;
+        i {
+          font-size: 1em;
         }
       }
 
