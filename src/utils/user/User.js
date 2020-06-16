@@ -163,17 +163,31 @@ export class User {
   // ---------------------------------------------------------------------------
 
   async setupUser(token, profile, method, callbackURL) {
+    let userData = null;
     try {
+      // GET user data from backend
       const fullCallbackURL = window.location.origin + callbackURL;
       const { data } = await account.accountSignIn(token, method, fullCallbackURL);
-      // Save AuthToken
-      accountStorage.setAuthToken(data.authToken);
-      // Save userInfo
-      this.saveUserInfo(data, profile, method);
+      if (!data) {
+        throw Error(`No data returned in the sign-in request's response.`);
+      }
 
-      return true;
+      userData = data;
     } catch (error) {
       console.error('Failed to get user data and auth token from backend', error);
+      return false;
+    }
+
+    try {
+      // Save AuthToken
+      accountStorage.setAuthToken(userData.authToken);
+      // Save userInfo
+      this.saveUserInfo(userData, profile, method);
+
+      // Done
+      return true;
+    } catch (error) {
+      console.error('Failed to save user data and auth token.', error);
     }
 
     return false;
@@ -299,19 +313,25 @@ export class User {
    * Function used to save user info to localStorage
    */
   saveUserInfo(userInfo, profile, authMethod) {
+    // info from CT backend
+    const { userId, emailId, universityId } = userInfo;
+
     // info from token
     const tokenInfo = decoder(userInfo.authToken);
     const exp = new Date(tokenInfo.exp * 1000); // expiration date
     const roles = tokenInfo[TOKEN_INFO_ROLES];
-    const lastName = tokenInfo[TOKEN_INFO_FAMILY_NAME] || 'Test';
-    const firstName = tokenInfo[TOKEN_INFO_GIVEN_NAME] || 'User';
-    const fullName = `${firstName} ${lastName}`;
+
+    let lastName = tokenInfo[TOKEN_INFO_FAMILY_NAME] || '';
+    let firstName = tokenInfo[TOKEN_INFO_GIVEN_NAME] || '';
+    if (!lastName && !firstName) {
+      lastName = emailId;
+    }
+
+    const fullName = _.trim(`${firstName} ${lastName}`);
 
     // info from auth0
-    const { picture } = profile;
-
-    // info from CT backend
-    const { userId, emailId, universityId } = userInfo;
+    let picture = null;
+    if (profile) picture = profile.picture;
 
     // store userInfo in localStorage
     let userInfoStr = JSON.stringify({
