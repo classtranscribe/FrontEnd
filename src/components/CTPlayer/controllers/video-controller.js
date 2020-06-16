@@ -30,7 +30,6 @@ class VideoController {
     this.volume = iniState.volume;
     this.playbackRate = iniState.playbackRate;
     this.event = iniState.event;
-    this.openCC = iniState.openCC;
 
     // range
     this.openRange = iniState.openRange;
@@ -50,8 +49,6 @@ class VideoController {
     this.toggleMute = this.toggleMute.bind(this);
     this.setVolume = this.setVolume.bind(this);
     this.setPlaybackRate = this.setPlaybackRate.bind(this);
-    this.setOpenCC = this.setOpenCC.bind(this);
-    this.toggleCC = this.toggleCC.bind(this);
     this.setRange = this.setRange.bind(this);
     this.toggleRange = this.toggleRange.bind(this);
     this.playRange = this.playRange.bind(this);
@@ -236,14 +233,6 @@ class VideoController {
     if (!this.video1) return;
     this.video1.setPlaybackRate(playbackRate);
     this.setState('playbackRate', playbackRate);
-  }
-
-  setOpenCC(openCC) {
-    this.setState('openCC', openCC);
-  }
-
-  toggleCC() {
-    this.setOpenCC(!this.openCC);
   }
 
   toggleRange() {

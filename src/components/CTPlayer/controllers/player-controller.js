@@ -29,6 +29,7 @@ class PlayerController extends VideoController {
     this.media = iniState.media;
     this.transcriptions = iniState.transcriptions;
     this.currTranscription = iniState.currTranscription;
+    this.openCC = iniState.openCC;
     this.languages = [];
     this.language = iniState.language;
     this.captions = iniState.captions;
@@ -42,7 +43,9 @@ class PlayerController extends VideoController {
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
+    this.setOpenCC = this.setOpenCC.bind(this);
     this.closeCC = this.closeCC.bind(this);
+    this.toggleCC = this.toggleCC.bind(this);
     this.changeLanguage = this.changeLanguage.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
     this.exitFullscreen = this.exitFullscreen.bind(this);
@@ -129,6 +132,18 @@ class PlayerController extends VideoController {
     this.setState('currCaption', currCaption);
   }
 
+  setOpenCC(openCC) {
+    this.setState('openCC', openCC);
+  }
+  
+  closeCC() {
+    this.setOpenCC(false);
+  }
+
+  toggleCC() {
+    this.setOpenCC(!this.openCC);
+  }
+
   async setupMedia(mediaId) {
     if (!mediaId) return;
     try {
@@ -186,12 +201,8 @@ class PlayerController extends VideoController {
     if (!this.openCC) this.toggleCC();
   }
 
-  closeCC() {
-    this.setOpenCC(false);
-    this.changeLanguage(null);
-  }
-
   changeLanguage(language) {
+    if (!this.openCC) this.setOpenCC(true);
     let targetIndex = _.findIndex(this.transcriptions, { language });
     if (targetIndex >= 0) {
       this.setLanguage({ code: language, text: Constants.LANG_MAP[language] });

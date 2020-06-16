@@ -27,7 +27,7 @@ function ClosedCaptionMenu(props) {
       {languages.map(lang => (
         <MenuItem
           key={lang.code}
-          active={lang.code === language.code}
+          active={openCC && lang.code === language.code}
           text={lang.text}
           onClick={() => setLanguage(lang.code)}
         />
