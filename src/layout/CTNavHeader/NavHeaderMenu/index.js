@@ -31,7 +31,7 @@ function UserMenu(props) {
   };
 
   const { 
-    fullName = '', 
+    fullName, 
     universityId, 
     picture, 
     emailId, 
@@ -53,7 +53,7 @@ function UserMenu(props) {
       <MenuTrigger
         picture={picture}
         isLoggedIn={user.isLoggedIn}
-        usernameInitial={fullName.slice(0, 1)}
+        email={emailId}
         handleClick={handleClick}
       />
 
