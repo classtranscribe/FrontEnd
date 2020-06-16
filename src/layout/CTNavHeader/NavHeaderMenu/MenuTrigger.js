@@ -8,7 +8,7 @@ function MenuTrigger(props) {
   let {
     picture,
     isLoggedIn,
-    usernameInitial,
+    email = '',
     handleClick
   } = props;
 
@@ -45,7 +45,7 @@ function MenuTrigger(props) {
       className="profile-img-alt"
       onClick={handleClick}
     >
-      <div>{usernameInitial}</div>
+      <div>{email.slice(0, 1)}</div>
     </div>
   );
 }
@@ -58,7 +58,7 @@ MenuTrigger.propTypes = {
   isLoggedIn: PropTypes.bool,
 
   /** Initial letter of the user's name */
-  usernameInitial: PropTypes.string,
+  email: PropTypes.string,
 
   /** Handle menu trigger click */
   handleClick: PropTypes.func
