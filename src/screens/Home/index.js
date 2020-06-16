@@ -4,7 +4,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 import { api, user } from 'utils';
 import './transition.css';
 import './index.css';

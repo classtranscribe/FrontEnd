@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CTFragment } from 'components';
+import { CTFragment } from 'layout';
 import { uurl, NOT_FOUND_404 } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
@@ -9,6 +9,7 @@ import PlaylistsView from './PlaylistsView';
 import VideosView from './VideosView';
 
 function PlaylistsWithRedux({
+  offering,
   playlist,
   playlists,
   setPlaylist
@@ -34,7 +35,7 @@ function PlaylistsWithRedux({
   const viewElement = (
     isPlaylistView
     ? <VideosView playlist={playlist} />
-    : <PlaylistsView playlists={playlists} />
+    : <PlaylistsView playlists={playlists} accessType={offering.accessType} />
   );
 
   return (
@@ -46,6 +47,6 @@ function PlaylistsWithRedux({
 
 export const Playlists = connectWithRedux(
   PlaylistsWithRedux,
-  ['playlists', 'playlist'],
+  ['playlists', 'playlist', 'offering'],
   ['setPlaylist']
 );

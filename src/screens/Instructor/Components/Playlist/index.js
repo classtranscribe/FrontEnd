@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Sticky } from 'semantic-ui-react';
-import { CTLoader } from 'components';
+import { CTLoader } from 'layout';
 import { links, uurl } from 'utils';
 
 import {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CTFragment, VideoCard, CTFooter } from 'components';
+import { CTFragment, CTFooter } from 'layout';
+import { VideoCard } from 'components';
 import { NOT_FOUND_404, links, api } from 'utils';
 
 function Video({ media }) {

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './index.scss';
 
 import { ScrollArea } from 'components/ScrollArea';
-import { CTNavHeader } from './CTNavHeader';
-import { CTNavSidebar } from './CTNavSidebar';
-import { CTHeading } from './CTHeading';
-import { CTFooter } from './CTFooter';
+import { CTNavHeader } from '../CTNavHeader';
+import { CTNavSidebar } from '../CTNavSidebar';
+import { CTHeading } from '../CTHeading';
+import { CTFooter } from '../CTFooter';
 import NavSidebarTrigger from './NavSidebarTrigger';
+import './index.scss';
 
-import { createCTLayoutProps } from './create-layout-props';
+import { createCTLayoutProps } from './create-props';
 import {
   getDefaultSidebarType,
   getScreenResizeListener,
@@ -105,7 +105,7 @@ export function CTLayout(props) {
                         : <NavSidebarTrigger {...brandElemProps} />;
 
   const headingElement = headingProps
-                        ? <CTHeading {...headingProps} />
+                        ? <CTHeading {...headingProps} highlightIcon />
                         : null;
   // Page Element
   const pageElement = fill 

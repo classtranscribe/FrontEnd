@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { VideoCard, CTLoader } from 'components';
+import { CTLoader } from 'layout';
+import { VideoCard } from 'components';
 import { api, elem, links } from 'utils';
 import { connectWithRedux } from '../../../Utils';
 

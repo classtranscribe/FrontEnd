@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { ARRAY_INIT } from 'utils';
-import { CTLoader } from 'components';
+import { CTLoader } from 'layout';
 import { epub, connectWithRedux } from '../../controllers/epub';
 import './index.scss';
 

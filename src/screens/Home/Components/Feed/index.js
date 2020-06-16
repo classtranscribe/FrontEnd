@@ -5,7 +5,8 @@
 import React from 'react';
 import _ from 'lodash';
 // UI
-import { CTFooter, MaintenanceMessage } from 'components';
+import { CTFooter } from 'layout';
+import { MaintenanceMessage } from 'components';
 import { api, user, util, links, prompt } from 'utils';
 import './index.css';
 

@@ -7,6 +7,8 @@ import { CTBrand } from './CTBrand';
 import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
 
+import { createCTNavHeaderProps } from './create-props';
+
 /**
  * Navigation Header
  */
@@ -114,3 +116,4 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 
 // Sub components
 CTNavHeader.Brand = CTBrand;
+CTNavHeader.createProps = createCTNavHeaderProps;
