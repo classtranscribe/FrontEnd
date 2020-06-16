@@ -7,12 +7,16 @@ function MenuItem(props) {
     text, 
     current,
     active = false,
+    bordered = false,
     isSubMenu = false,
     goBack = false,
     onClick, 
   } = props;
 
-  const menuItemClasses = cx('plain-btn', 'ctp', 'settings-menuitem', { 'go-back': goBack });
+  const menuItemClasses = cx('plain-btn', 'ctp', 'settings-menuitem', {
+    'go-back': goBack,
+    bordered
+  });
   const checkIconClasses = cx('ctp', 'check-icon', { checked: (active || goBack) });
   const rightArrowClasses = cx('ctp', 'right-arrow', { show: isSubMenu });
 
@@ -27,7 +31,7 @@ function MenuItem(props) {
     >
       <span className="left">
         {
-          !isSubMenu
+          (!isSubMenu || bordered)
           &&
           <span className={checkIconClasses} aria-hidden="true">
             {
@@ -63,6 +67,7 @@ MenuItem.propTypes = {
   text: PropTypes.string, 
   current: PropTypes.string,
   active: PropTypes.bool,
+  bordered: PropTypes.bool,
   isSubMenu: PropTypes.bool,
   goBack: PropTypes.bool,
   onClick: PropTypes.func,

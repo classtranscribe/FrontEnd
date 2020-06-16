@@ -20,7 +20,7 @@ function SeekTimeLabel(props) {
       className="ctp seek-time-prompt ct-d-c-center" 
       style={{ left: `${styleLeft}px` }}
     >
-      {timestr.toSeconds(sec)}
+      {timestr.toTimeString(sec)}
     </div>
   ) : null;
 }

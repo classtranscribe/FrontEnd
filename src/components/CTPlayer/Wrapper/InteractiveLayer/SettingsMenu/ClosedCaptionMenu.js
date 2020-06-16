@@ -8,13 +8,15 @@ function ClosedCaptionMenu(props) {
     language,
     languages,
     onGoBack,
+    onOpenCCOptions,
     onCloseCC,
     setLanguage,
   } = props;
 
   return (
     <div className="ctp settings-menu">
-      <MenuItem goBack text="GO BACK" onClick={onGoBack} />
+      <MenuItem goBack text="Closed Caption" onClick={onGoBack} />
+      <MenuItem isSubMenu bordered text="Custom" onClick={onOpenCCOptions} />
 
       <MenuItem
         active={!openCC}
@@ -35,18 +37,18 @@ function ClosedCaptionMenu(props) {
 }
 
 ClosedCaptionMenu.propTypes = {
-  openCC: PropTypes.bool,
+  openCC: PropTypes.bool.isRequired,
   language: PropTypes.shape({
     code: PropTypes.string,
     text: PropTypes.string
-  }),
+  }).isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     text: PropTypes.string
-  })),
-  onGoBack: PropTypes.func,
-  onCloseCC: PropTypes.func,
-  setLanguage: PropTypes.func
+  })).isRequired,
+  onGoBack: PropTypes.func.isRequired,
+  onCloseCC: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired
 };
 
 export default ClosedCaptionMenu;

@@ -29,6 +29,10 @@ function ControlBar(props) {
     volume,
     playbackRate,
     openCC,
+    ccFontSize,
+    ccFontColor,
+    ccOpacity,
+    ccBackgroundColor,
     currCaption,
     openSettings,
     onOpenSettings
@@ -65,6 +69,10 @@ function ControlBar(props) {
 
   const closedCaptionProps = {
     open: openCC,
+    ccFontSize,
+    ccFontColor,
+    ccOpacity,
+    ccBackgroundColor,
     currCaption,
   };
 

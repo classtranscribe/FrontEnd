@@ -1,8 +1,22 @@
 .ctp.closed-caption {
-  background-color: rgba(27, 27, 27, 0.678);
+  position: relative;
   text-align: center;
   padding: 5px 10px;
-  color: white;
   border-radius: 5px;
-  font-size: 1em;
+  line-height: normal;
+  overflow: hidden;
+
+  .cc-text {
+    position: relative;
+    display: flex;
+  }
+
+  .cc-bg {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }

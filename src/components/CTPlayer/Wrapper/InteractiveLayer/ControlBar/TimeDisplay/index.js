@@ -11,9 +11,9 @@ function TimeDisplay(props) {
 
   return (
     <div className="ctp time-display">
-      <span>{timestr.toSeconds(time)}</span>
+      <span>{timestr.toTimeString(time)}</span>
       <span className="time-separator">/</span>
-      <span>{timestr.toSeconds(duration)}</span>
+      <span>{timestr.toTimeString(duration)}</span>
     </div>
   );
 }

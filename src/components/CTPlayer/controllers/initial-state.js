@@ -1,6 +1,6 @@
 import Constants from './player-constants';
 
-export default {
+const initialState = {
   // media
   media: null,
   src1: null,
@@ -8,16 +8,8 @@ export default {
   videoReady: false,
   userReady: false,
   size: 'xs',
-  // captions
-  openCC: false,
-  transcriptions: [],
-  currTranscription: null,
-  language: {
-    code: Constants.ENGLISH, 
-    text: Constants.LANG_MAP[Constants.ENGLISH]
-  },
-  captions: [],
-  currCaption: null,
+  event: null,
+
   // video
   duration: 0,
   time: 0,
@@ -29,8 +21,27 @@ export default {
   isEnded: false,
   isSwitchedScreen: false,
   isFullscreen: false,
-  event: null,
+
+  // captions
+  openCC: false,
+  transcriptions: [],
+  currTranscription: null,
+  language: {
+    code: Constants.ENGLISH, 
+    text: Constants.LANG_MAP[Constants.ENGLISH]
+  },
+  captions: [],
+  currCaption: null,
+
+  // cc styles
+  ccFontSize: Constants.CC_FSIZCTPE_100,
+  ccFontColor: Constants.CC_COLOR_WHITE,
+  ccOpacity: Constants.CC_OPACITY_75,
+  ccBackgroundColor: Constants.CC_COLOR_BLACK,
+
   // range
   openRange: false,
   range: null,
 };
+
+export default initialState;

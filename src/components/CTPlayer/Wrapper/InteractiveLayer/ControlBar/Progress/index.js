@@ -52,7 +52,7 @@ function Progress(props) {
     value: time,
     // marks,
     onChange: handleSeekTime,
-    valueLabelFormat: timestr.toSeconds,
+    valueLabelFormat: timestr.toTimeString,
     ValueLabelComponent: SliderTimeLabel
   };
 

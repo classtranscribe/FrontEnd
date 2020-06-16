@@ -18,7 +18,9 @@ class PlayerController extends VideoController {
 
     // Node of the player
     this.playerNode = null;
+
     this.size = iniState.size;
+    this.isFullscreen = iniState.isFullscreen;
 
     // Mouse over timer for wrapper
     this.mouseOverTimer = null;
@@ -31,8 +33,12 @@ class PlayerController extends VideoController {
     this.language = iniState.language;
     this.captions = iniState.captions;
     this.currCaption = iniState.currCaption;
-  
-    this.isFullscreen = iniState.isFullscreen;
+
+    // CC styles
+    this.ccFontSize = iniState.ccFontSize;
+    this.ccFontColor = iniState.ccFontColor;
+    this.ccOpacity = iniState.ccOpacity;
+    this.ccBackgroundColor = iniState.ccBackgroundColor;
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
@@ -43,6 +49,11 @@ class PlayerController extends VideoController {
     this.onFullscreenChange = this.onFullscreenChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.handlePlayerSize = this.handlePlayerSize.bind(this);
+
+    this.setCCFontSize = this.setCCFontSize.bind(this);
+    this.setCCFontColor = this.setCCFontColor.bind(this);
+    this.setCCOpacity = this.setCCOpacity.bind(this);
+    this.setCCBackgroundColor = this.setCCBackgroundColor.bind(this);
   }
 
   /**
@@ -76,6 +87,22 @@ class PlayerController extends VideoController {
 
   setSize(size) {
     this.setState('size', size);
+  }
+
+  setCCFontSize(ccFontSize) {
+    this.setState('ccFontSize', ccFontSize);
+  }
+
+  setCCFontColor(ccFontColor) {
+    this.setState('ccFontColor', ccFontColor);
+  }
+
+  setCCOpacity(ccOpacity) {
+    this.setState('ccOpacity', ccOpacity);
+  }
+
+  setCCBackgroundColor(ccBackgroundColor) {
+    this.setState('ccBackgroundColor', ccBackgroundColor);
   }
 
   setMedia(media) {

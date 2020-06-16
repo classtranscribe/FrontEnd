@@ -12,7 +12,7 @@ function PlaybackRateMenu(props) {
 
   return (
     <div className="ctp settings-menu">
-      <MenuItem goBack text="GO BACK" onClick={onGoBack} />
+      <MenuItem goBack text="Playback Rate" onClick={onGoBack} />
 
       {playbackRates.map(pbr => (
         <MenuItem
