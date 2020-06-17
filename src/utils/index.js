@@ -14,6 +14,7 @@ export { CTUserGuide } from './user-guide';
 export { html } from './2html';
 export { elem } from './use-elem';
 export { uurl } from './use-url';
+export { uemail } from './use-email';
 export { links } from './links';
 
 export * from './constants';
