@@ -118,6 +118,7 @@ class Player extends React.Component {
       fill = false,
       width,
       height,
+      padded = false,
       hideWrapperOnMouseLeave = false,
       // 2 screen options
       allowTwoScreen = false,
@@ -174,7 +175,7 @@ class Player extends React.Component {
         width: playerSize.width,
         height: playerSize.height
       },
-      className: cx('ctp', 'ct-player', size, { fill }),
+      className: cx('ctp', 'ct-player', size, { fill, padded }),
       tabIndex: '0'
     };
 
@@ -277,6 +278,7 @@ Player.propTypes = {
   fill: PropTypes.bool,
   width: numOrStr,
   height: numOrStr,
+  padded: PropTypes.bool,
   allowTwoScreen: PropTypes.bool,
   beginAt: PropTypes.number,
   triggerTime: PropTypes.number,
