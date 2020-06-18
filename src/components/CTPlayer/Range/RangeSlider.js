@@ -1,13 +1,14 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Slider from '@material-ui/core/Slider';
-import timestr from 'utils/time-string';
+import timestr from 'utils/use-time';
 
 import RangeTimeLabel from './RangeTimeLabel';
+import SliderTimeLabel from '../Wrapper/InteractiveLayer/ControlBar/Progress/SliderTimeLabel';
 
-export function RangeSlider(props) {
+function RangeSlider(props) {
   let {
-    openRange,
     range,
     duration,
     onRangeChange
@@ -19,25 +20,36 @@ export function RangeSlider(props) {
     }
   }
 
-  const displayLabel = range && range[1] - range[0] < 180;
+  let max = duration;
+  let min = 0;
+  if (Array.isArray(range)) {
+    min = range[0]
+    max = range[1]
+    let pad = max - min;
+    pad = pad < 5 ? 5 : pad;
+    min = range[0] - pad < 0 ? 0 : range[0] - pad;
+    max = range[1] + pad > duration ? duration : range[1] + pad;
+  }
 
   const rangeSliderProps = {
     className: 'ctp range-slider',
-    min: 0,
-    max: duration,
+    min,
+    max,
     step: 0.001,
     value: range,
     onChange: handleRangeChange,
-    valueLabelFormat: timestr.toSeconds,
-    valueLabelDisplay: displayLabel ? 'on' : 'off',
-    ValueLabelComponent: RangeTimeLabel
+    valueLabelFormat: timestr.toDecimalTimeString,
+    valueLabelDisplay: 'on',
+    ValueLabelComponent: RangeTimeLabel,
+    'aria-label': 'Range Slider',
+    // marks: _.map(range, rg => ({ value: rg, label: timestr.toTimeString(rg) }))
   };
 
-  return openRange ? (
-    <div className="ctp range">
+  return (
+    <div className="ctp range-slider-con">
       <Slider {...rangeSliderProps} />
     </div>
-  ) : null;
+  );
 }
 
 RangeSlider.propTypes = {
@@ -46,3 +58,5 @@ RangeSlider.propTypes = {
   duration: PropTypes.number,
   onRangeChange: PropTypes.func
 };
+
+export default RangeSlider;

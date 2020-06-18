@@ -1,15 +1,21 @@
+$ct-player-bg: black;
+$ct-player-extra-bg: rgb(231, 240, 239);
+
 .ctp.ct-player-con {
   display: flex;
   flex-direction: column;
   width: max-content;
   height: max-content;
+  overflow: hidden;
 
   .ctp.ct-player {
     position: relative;
     overflow: hidden;
 
-    background-color: black;
     color: white;
+    background-color: $ct-player-bg;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.719);
+    z-index: 1;
 
     font-size: 14px;
     line-height: 19px;
@@ -46,5 +52,15 @@
         display: none;
       }
     }
+  }
+
+
+  .ctp.ct-player-extra {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: $ct-player-extra-bg;
+    border-radius: 0 0 5px 5px;
   }
 }

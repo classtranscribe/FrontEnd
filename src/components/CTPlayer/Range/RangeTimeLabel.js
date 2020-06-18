@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SliderTimeLabel from '../Wrapper/ControlBar/Progress/SliderTimeLabel';
+import SliderTimeLabel from '../Wrapper/InteractiveLayer/ControlBar/Progress/SliderTimeLabel';
 
 function RangeTimeLabel(props) {
   const { index } = props;

@@ -9,6 +9,7 @@ import {
 import { getPlayerSize } from '../controllers/helpers';
 import Video from '../Video';
 import Wrapper from '../Wrapper';
+import Range from '../Range';
 import './index.scss';
 
 class Player extends React.Component {
@@ -162,7 +163,7 @@ class Player extends React.Component {
       className: 'ctp ct-player-con',
       style: {
         width: playerSize.width,
-        height: 'max-content'
+        height: 'auto'
       },
     };
 
@@ -175,6 +176,15 @@ class Player extends React.Component {
       },
       className: cx('ctp', 'ct-player', size, { fill }),
       tabIndex: '0'
+    };
+
+    const extraProps = {
+      id: `ct-player-extra-${id}`,
+      className: 'ctp ct-player-extra',
+      style: {
+        width: playerSize.width,
+        height: 'auto'
+      }
     };
 
     const video1Props = {
@@ -224,6 +234,15 @@ class Player extends React.Component {
       range,
       onRangeChange: this.setRange,
     };
+
+    const rangeProps = {
+      id: `range-${ id}`,
+      duration,
+      time,
+      range,
+      onRangeChange: this.setRange,
+      onPlayRange: this.player.playRange
+    };
   
     return (
       <div {...containerProps}>
@@ -237,6 +256,14 @@ class Player extends React.Component {
 
           <Wrapper {...wrapperProps} />
         </div>
+
+        {
+          openRange 
+          && 
+          <div {...extraProps}>
+            <Range {...rangeProps} />
+          </div>
+        }
       </div>
     );
   }

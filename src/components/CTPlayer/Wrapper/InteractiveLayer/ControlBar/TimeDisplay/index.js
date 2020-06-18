@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import timestr from 'utils/time-string';
+import timestr from 'utils/use-time';
 import './index.scss';
 
 function TimeDisplay(props) {

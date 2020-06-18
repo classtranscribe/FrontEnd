@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ActionButton from '../../Wrapper/InteractiveLayer/ActionButton';
 
 function RangePlayButton(props) {
   const {
@@ -7,12 +8,12 @@ function RangePlayButton(props) {
   } = props;
 
   return (
-    <button className="plain-btn ctp range-play-btn" onClick={onClick}>
-      <span tabIndex="-1">
-        <i className="material-icons">play_arrow</i>
-        Play Time Range
-      </span>
-    </button>
+    <ActionButton
+      icon="play_arrow"
+      label="Play the Range"
+      onClick={onClick}
+      color="teal"
+    />
   );
 }
 

@@ -24,16 +24,15 @@ function ActionButton(props) {
     active,
     highlighted,
     onClick,
-    playButton,
+    color,
     ...ariaProps
   } = props;
 
   const labelClasses = useStyles();
 
-  const actBtnClasses = cx('ctp', 'act-btn', {
+  const actBtnClasses = cx('ctp', 'act-btn', color, {
     active,
     highlighted,
-    playButton
   });
 
   const iconElement = typeof icon === 'string'

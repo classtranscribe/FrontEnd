@@ -17,11 +17,11 @@ export function TranscriptionsWithRedux({
               width={540}
               allowTwoScreen
               hideWrapperOnMouseLeave
+              beginAt={100}
               defaultOpenCC
               allowRangePicker
               defaultOpenRangePicker
-              beginAt={100}
-              // defaultRange={[0,20]}
+              defaultRange={[200,400]}
             />
           </CTFragment>
         </CTFragment>

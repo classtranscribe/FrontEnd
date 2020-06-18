@@ -1,4 +1,4 @@
-$highlighted-color: rgb(0, 218, 218);
+$highlighted-color: rgb(20, 190, 190);
 
 .ctp.act-btn {
   position: relative;
@@ -10,7 +10,7 @@ $highlighted-color: rgb(0, 218, 218);
   margin: 0 .5em;
 
   &:active {
-    opacity: 0.6;
+    opacity: 0.8;
   }
 
   &.active {
@@ -24,18 +24,23 @@ $highlighted-color: rgb(0, 218, 218);
     border-bottom: 2px solid $highlighted-color;
   }
 
-  // &.playButton {
-  //   margin: 0 0 0 10px;
-  //   &:active {
-  //     opacity: 1;
-  //   }
-  //   span {
-  //     background-color: rgb(11, 167, 167);
-  //     width: 1.7em;
-  //     height: 1.7em;
-  //     border-radius: 20px;
-  //   }
-  // }
+  &.teal {
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.418);
+
+    span {
+      width: 40px;
+      height: 40px;
+      i.material-icons {
+        font-size: 2em;
+      }
+    }
+  }
+
+  &.teal {
+    background: rgb(23, 167, 167);
+  }
 
   span {
     width: 1.3em;

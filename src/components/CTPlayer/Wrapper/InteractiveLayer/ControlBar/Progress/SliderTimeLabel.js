@@ -5,7 +5,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 export const useStyles = makeStyles({
   tooltip: {
-    backgroundColor: '#363636'
+    backgroundColor: '#363636',
+    fontSize: '1em'
   },
   arrow: {
     color: '#363636'
