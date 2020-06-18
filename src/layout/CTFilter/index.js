@@ -7,36 +7,27 @@ import DefaultFilter from './DefaultFilter';
 import './index.scss';
 
 /**
- * a general filter component for classtranscribe
+ * A general filter component for classtranscribe
  * can be used to get the data at least one of specified attributes of which 
  * contains all the target values
- * @param {[object]} data - data to be filtered
- * @param {string} value - target values (delimitered by space)
- * @param {[string]|string} keys - the attrs on which  data are filtered
- * @param {string} regexFlags - the flags of RegExp used to search for the target value
- * @param {bool} reversed - an indicator for whether the result is reversed
- * @param {bool} withDefaultFilter - an indicator for whether a default input field will be provided
- * @param {function} children - a function that takes the filtered result and returns the component showing the result
- * @param {function} onFilterValueChange - a call back function of changing target value
- * @param {function} onReversed - a call back function of clicking reverse button
  * 
  * @example
  * // render a filter with input field, which will filter the data on 'name' for the value entered in the input field 
  * and show the result as a list of MediaItem.
  * <CTFilter
-      withDefaultFilter
-      data={[{name:1,instructor:a},{name:2,instructor:b},...,{name:4,instructor:c}]}
-      keys={['name']}
-    >
-      {(result) => {
-        whElement = result.map(media => <MediaItem media={media} />);
-        return (
-        <CTFragment list role="list">
-          {whElement}
-        </CTFragment>
-        );
-      }}
-    </CTFilter>
+ *    withDefaultFilter
+ *    data={[{name:'aaaa',instructor:a},...,{name:'zzzz',instructor:z}]}
+ *    keys={['name']}
+ *  >
+ *    {(result) => {
+ *      whElement = result.map(media => <MediaItem media={media} />);
+ *      return (
+ *      <CTFragment list role="list">
+ *        {whElement}
+ *      </CTFragment>
+ *      );
+ *    }}
+ *  </CTFilter>
  */
 export function CTFilter(props) {
   let {
