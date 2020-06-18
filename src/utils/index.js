@@ -16,6 +16,7 @@ export { elem } from './use-elem';
 export { uurl } from './use-url';
 export { uemail } from './use-email';
 export { links } from './links';
+export { default as timestr } from './use-time';
 
 export * from './constants';
 export const logger = loggerToExport;

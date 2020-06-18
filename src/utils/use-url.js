@@ -25,6 +25,15 @@ class UrlHandler {
   }
 
   /**
+   * Open url in a new browser tab
+   * @param {String} url 
+   */
+  openNewTab(url) {
+    let win = window.open(url, '_blank');
+    win.focus();
+  }
+
+  /**
    * Get parsed query object
    * @param {String} query query string
    */
