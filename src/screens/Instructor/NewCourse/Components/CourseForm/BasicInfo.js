@@ -49,12 +49,6 @@ export function BasicInfo() {
       }
     })
   }, [])
-//   useEffect( () => {
-//     if (terms.length > 0) {
-//       courseContext.setTerm(terms[0])
-//     }
-//  }, [terms])
-
   return (
     <CTFragment>
       <CTFormHeading>Basic Information</CTFormHeading>

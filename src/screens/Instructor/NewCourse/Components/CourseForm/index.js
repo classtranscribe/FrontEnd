@@ -22,31 +22,35 @@ const errorReducer = (error, action) => {
     return error
 }
 
-export function CourseForm(off) {
+export function CourseForm({
+  defaultCourseName = '',
+  defaultSectionName = '',
+  defaultLogFlag = false,
+  defaultTerm = '',
+  defaultDescription = '',
+  defaultAccessType = '0',
+  defaultSelCourses = []
+}) {
   // basic information
-  const [courseName, setcourseName] = useState('');
-  const [sectionName, setsectionName] = useState('');
-  const [term, setTerm] = useState('0001');
-  const [logEventsFlag, setLogEventsFlag] = useState(false);
-  const [description, setDescription] = useState('');
-  const [accessType, selAccess] = useState('0');
+  const [courseName, setcourseName] = useState(defaultCourseName);
+  const [sectionName, setsectionName] = useState(defaultSectionName);
+  const [term, setTerm] = useState(defaultTerm);
+  const [logEventsFlag, setLogEventsFlag] = useState(defaultLogFlag);
+  const [description, setDescription] = useState(defaultDescription);
+  const [accessType, selAccess] = useState(defaultAccessType);
+  useEffect(() => {
+    api.getTermsByUniId(user.getUserInfo().universityId).then((res) => {
+      if (res.status === 200 && res.data[0]) {
+        setTerm(res.data[0].id)
+      }
+    })
+  }, [])
   // course selection
-  const [selCourses, setSelCourses] = useState([]);
-
+  const [selCourses, setSelCourses] = useState(defaultSelCourses);
   // errors
   const [error, errorDispatch] = useReducer(errorReducer, initErrors)
   const [enable, setEnable] = useState(false);
 
-  const reset = () => {
-    setcourseName('')
-    setsectionName('')
-    setTerm('0001')
-    setLogEventsFlag(false)
-    setDescription('')
-    selAccess('0')
-    setSelCourses([])
-    setEnable(false)
-  }
   useEffect(() => {
     if (courseName === '') {
       errorDispatch([true, 'courseName'])
@@ -64,11 +68,12 @@ export function CourseForm(off) {
     }
   }, [courseName, sectionName, selCourses])
 
-  const handleCancel = () => 1;
+  const handleCancel = () => {
+    window.open('/instructor/', "_self")
+};
   // save information provided
   const handleSave = async () => {
-    let offeringId = null;
-    
+    let offeringId = null;    
     setEnable(true);
     try {
       if (error.length === 0) {
@@ -97,7 +102,6 @@ export function CourseForm(off) {
           position : 'top',
           offset : [-1, -1],
         } ,false)
-        reset()
       }
     } catch (err) {
       return;
@@ -110,6 +114,7 @@ export function CourseForm(off) {
         }
       )
     })
+    setTimeout(() => window.open('/instructor/', "_self"), 2100)
   };
 
   

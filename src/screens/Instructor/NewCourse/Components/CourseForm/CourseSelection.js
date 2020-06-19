@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     listStyle: 'none',
     padding: theme.spacing(0.5),
     margin: 0,
+    height: theme.spacing(6)
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -120,7 +121,7 @@ export function CourseSelection() {
           value={depart}
           onChange={onDepartChange}
         />
-        <Paper className={classes.root} elevation={0}>
+        <Paper className={classes.root} elevation={1}>
         
           {courseContext.selCourses.map((data) => {
         return (
@@ -146,7 +147,7 @@ export function CourseSelection() {
           defaultValue=""
           options={courses}
           value={course}
-          onChange={onCourseChange}
+          onChange={depart === '' ? undefined : onCourseChange}
         />
         
       </CTFormRow>
