@@ -29,7 +29,7 @@ class SetupMyCoursesPage extends StateController {
     let currTermId = (terms[0] || {}).id;
 
     _.forEach(offerings, off => {
-      if (off.term.id === currTermId) {
+      if (off.term && off.term.id === currTermId) {
         currentOfferings.push(off);
       } else {
         pastOfferings.push(off);
