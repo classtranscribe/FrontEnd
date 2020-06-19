@@ -7,7 +7,11 @@ import { links } from 'utils/links';
 
 export const useStyles = makeStyles({
   button: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: 5,
+    '&:hover': {
+      color: 'teal'
+    }
   }
 });
 

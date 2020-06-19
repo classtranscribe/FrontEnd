@@ -20,8 +20,10 @@ function CourseInfoWithRedux({
   } = offering;
   
   return (
-    <CTFragment list id="cp-course-info">
-      <h1 className="number">{fullNumber}</h1>
+    <CTFragment list id="cp-course-info" data-scroll>
+      <div>
+        <h1 className="number">{fullNumber}</h1>
+      </div>
       <div className="name">{courseName}</div>
       <div className="term">{termName} | {sectionName}</div>
 
