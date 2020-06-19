@@ -10,9 +10,9 @@ export function CourseList({
 }) {
   return offerings.length > 0 ? (
     <CTFragment className="mc-c-ul-con">
-      <CTHeading heading={title} as="h4" padding={[10, 40]} />
+      <CTHeading heading={title} as="h4" padding={[10, 10]} />
 
-      <CourseCardList padding={[0, 30]} courses={offerings} />
+      <CourseCardList courses={offerings} />
     </CTFragment>
   ) : null;
 }
