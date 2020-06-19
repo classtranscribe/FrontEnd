@@ -1,0 +1,38 @@
+.ct-dnd.dnd-item-con {
+  display: flex;
+  align-items: center;
+  position: relative;
+  outline: 0;
+  padding-left: 10px;
+  transition: background 0.2s linear;
+  background: white;
+
+  &.disabled {
+    .ct-dnd.dnd-icon {
+      display: none;
+    }
+
+    .ct-dnd.dnd-item {
+      width: 100%;
+      padding-left: 10px;
+    }
+  }
+
+  &.dragging {
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.171);
+  }
+
+  .ct-dnd.dnd-icon {
+    width: 35px;
+    display: flex;
+    align-items: center;
+    i.material-icons {
+      color: rgb(93, 93, 93);
+    }
+  }
+
+  .ct-dnd.dnd-item {
+    cursor: auto;
+    width: calc(100% - 35px);
+  }
+}

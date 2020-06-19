@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTFragment } from 'layout';
+import { CTLayout, CTFragment, CTFilter } from 'layout';
 import { ARRAY_INIT } from 'utils';
 import { setup, myCoursesStore, connectWithRedux } from './controllers';
 
@@ -33,19 +33,34 @@ class MyCoursesWithRedux extends Component {
     });
 
     const { offerings, terms } = this.props;
-
-    const {
-      currentOfferings,
-      pastOfferings
-    } = setup.sortOfferings(offerings, terms);
-
     const loading = offerings === ARRAY_INIT;
 
-    return (
-      <CTLayout {...layoutProps}>
+    const offeringResult = (result) => {
+      const {
+        currentOfferings,
+        pastOfferings
+      } = setup.sortOfferings(result, terms);
+
+      return (
         <CTFragment fade loading={loading}>
           <CourseList title="Current Courses" offerings={currentOfferings} />
           <CourseList title="Past Courses" offerings={pastOfferings} />
+        </CTFragment>
+      );
+    };
+
+    const filterProps = {
+      withDefaultFilter: true,
+      data: offerings,
+      keys: ['courseName', 'fullNumber', 'sectionName', 'termName']
+    };
+
+    return (
+      <CTLayout {...layoutProps}>
+        <CTFragment padding={[0, 30]}>
+          <CTFilter {...filterProps}>
+            {offeringResult}
+          </CTFilter>
         </CTFragment>
       </CTLayout>
     );
