@@ -4,6 +4,7 @@ import {
   SET_PLAYLIST,
   SET_STARRED_OFF,
   SET_ROLE,
+  SET_IS_INST_MODE,
   CLEAR_COURSE_DATA
 } from './course.action.types';
 import { initialState } from './course.state';
@@ -26,6 +27,9 @@ const courseReducer = (state = initialState, action) => {
     
     case SET_ROLE:
       return { ...state, role: value };
+
+    case SET_IS_INST_MODE:
+      return { ...state, isInstMode: value };
 
     case CLEAR_COURSE_DATA:
       return initialState;

@@ -8,7 +8,7 @@ import PlaylistItem from './PlaylistItem';
 import PlaylistsErrorWrapper from './PlaylistsErrorWrapper';
 
 function PlaylistsView({
-  role,
+  isInstMode,
   accessType,
   playlists
 }) {
@@ -25,7 +25,7 @@ function PlaylistsView({
       </CTFragment>
 
       <DragDropContext onDragEnd={plControl.onDragEnd}>
-        <Droppable isDropDisabled={!setup.isInstructor(role)} droppableId="pl-ord">
+        <Droppable isDropDisabled={!isInstMode} droppableId="pl-ord">
           {(provided) => (
             <CTLoadable error={error} errorElement={errorElement}>
               <div 
@@ -39,7 +39,7 @@ function PlaylistsView({
                     key={`pl-${pl.id}=${pl.name}`}
                     playlist={pl}
                     index={index}
-                    role={role}
+                    draggable={isInstMode}
                   />
                 ))}
               </div>
