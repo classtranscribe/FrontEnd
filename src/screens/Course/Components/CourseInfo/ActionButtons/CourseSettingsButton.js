@@ -2,14 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { makeStyles } from '@material-ui/core/styles';
 import { links } from 'utils/links';
-
-export const useStyles = makeStyles({
-  button: {
-    fontWeight: 'bold'
-  }
-});
+import { useStyles } from './CourseAnalyticsButton';
 
 function CourseSettingsButton(props) {
   const { offeringId } = props;

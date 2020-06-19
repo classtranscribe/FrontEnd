@@ -9,7 +9,15 @@ import { setup } from '../../../controllers';
 export const useStyles = makeStyles({
   button: {
     fontWeight: 'bold',
-    marginLeft: 5
+    marginLeft: 5,
+    marginBottom: 5,
+    '&:not(.MuiButton-outlined)': {
+      background: 'teal',
+      color: 'white',
+      '&:hover': {
+        background: 'var(--ct-green-normal)',
+      }
+    }
   }
 });
 
