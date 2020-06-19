@@ -20,6 +20,7 @@ export {
 } from './Cards';
 
 export { CTModal } from './Modals';
+export { default as CTPopoverLabel } from './CTPopoverLabel';
 
 
 // Need to be removed later

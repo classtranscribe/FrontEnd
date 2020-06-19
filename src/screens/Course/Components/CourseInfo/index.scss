@@ -11,13 +11,13 @@
     color: rgb(48, 134, 134);
     font-size: 35px;
     margin-bottom: 0;
+    line-height: 40px;
   }
 
   .name {
     font-size: 30px;
-    line-height: 30px;
+    line-height: normal;
     white-space: normal;
-    display: block;
     margin: 0 0 20px 0;
     font-family: var(--ct-font-google);
     color: rgb(75, 88, 87);
@@ -27,6 +27,7 @@
     color: rgb(36, 36, 36);
     font-size: 20px;
     line-height: 20px;
+    margin-bottom: 15px;
   }
 
   .description {
@@ -37,6 +38,17 @@
     padding: 5px 5px 5px 7px;
     border-left: 4px #0983839a solid;
     background-color: #e2f1f179;
+  }
+
+  .cp-action-bar {
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    width: 100%;
   }
 }
 

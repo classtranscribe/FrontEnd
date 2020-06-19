@@ -5,5 +5,6 @@ export const initialState = {
   playlists: ARRAY_INIT,
   playlist: null,
   starredOfferings: {},
-  role: STUDENT
+  role: STUDENT,
+  isInstMode: false,
 };

@@ -1,0 +1,67 @@
+$range-slider-color: rgb(255, 208, 0);
+
+.ctp.range {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 15px 10px;
+
+  .ctp.range-slider-con {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .MuiSlider-root {
+      width: auto;
+    }
+  }
+
+  .ctp.range-play-btn {
+    margin-bottom: 5px;
+    width: max-content;
+
+    &:active {
+      span { background-color: rgb(99, 77, 6); }
+    }
+
+    span {
+      font-weight: bold;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      padding: 5px 10px 5px 5px;
+      border-radius: 5px;
+      color: white;
+      background-color: $range-slider-color;
+    }
+  }
+
+  .ctp.range-slider-con {
+    width: 100%;
+    padding: 0 15px;
+    background-color: rgb(59, 59, 59);
+    border-radius: 3px;
+
+    .ctp.range-slider {
+      .MuiSlider-rail {
+        background-color: rgb(255, 255, 255);
+      }
+    
+      .MuiSlider-track, .MuiSlider-thumb {
+        background-color: $range-slider-color;
+      }
+  
+      .MuiSlider-thumb {
+        border-radius: 0;
+        width: 6px;
+        margin-left: -3px;
+        box-shadow: 0px 0px 0px 8px rgba(0, 0, 0, 0);
+  
+        &.MuiSlider-active {
+          box-shadow: 0px 0px 0px 15px rgba(255, 145, 0, 0.1);
+        }
+      }
+    }
+  }
+}
