@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { CTFragment } from 'layout';
+import { CTFragment, CTText } from 'layout';
 import './index.scss';
 
 import { parseCourse } from './parse-course';
@@ -36,16 +36,18 @@ export function CourseCard(props) {
   return (
     <CTFragment {...cardProps}>
       <div className="title">
-        <div className="number">
+        <CTText teal className="number" size="large" margin={[0, 10, 0, 0]}>
           {number}
-        </div>
+        </CTText>
 
-        <div className="name">{name}</div>
+        <CTText bold size="big">{name}</CTText>
       </div>
 
-      <div className="term">{term} | {section}</div>
+      <CTText celadon size="medium">
+        {term} | {section}
+      </CTText>
 
-      <div className="description">{description}</div>
+      <CTText fluid muted line={2} margin={[3, 0, 0, 0]}>{description}</CTText>
     </CTFragment>
   );
 }

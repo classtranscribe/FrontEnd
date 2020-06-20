@@ -39,7 +39,7 @@ export function FormRow(props) {
     <CTFragment padding={padding}>
       <Grid className={rowClasses.root} container spacing={2}>
         {colElements.map(colElem => (
-          <Grid key={colElem.key} item lg={xs} md={xs} sm={12} className={rowClasses.item}>
+          <Grid key={colElem.key} item lg={xs} md={xs} sm={12} xs={12} className={rowClasses.item}>
             {colElem}
           </Grid>
         ))}
