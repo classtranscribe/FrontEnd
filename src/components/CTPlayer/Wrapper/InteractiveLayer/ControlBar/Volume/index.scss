@@ -1,0 +1,65 @@
+.ctp.volume-con {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  width: 30px;
+  transition: width 100ms linear;
+  overflow: hidden;
+  margin-right: 5px;
+
+  .ctp.volume-slider {
+    min-width: 40px;
+    width: 40px;
+    overflow: visible;
+    margin-top: 2px;
+    .MuiSlider-rail {
+      background-color: white;
+      // height: 3px;
+    }
+  
+    .MuiSlider-track, .MuiSlider-thumb {
+      background-color: rgb(0, 236, 236);
+    }
+
+    .MuiSlider-thumb {
+      box-shadow: 0px 0px 0px 8px rgba(0, 236, 236, 0.137);
+    }
+    .MuiSlider-thumb.MuiSlider-active {
+      box-shadow: 0px 0px 0px 8px rgba(0, 236, 236, 0.363);
+    }
+  }
+
+  &:hover, &:focus-within {
+    width: 90px;
+  }
+}
+
+.md {
+  .ctp.volume-con {
+    width: 35px;
+
+    .ctp.volume-slider {
+      min-width: 70px;
+      width: 70px;
+    }
+
+    &:hover, &:focus-within {
+      width: 130px;
+    }
+  }
+}
+
+.lg {
+  .ctp.volume-con {
+    width: 45px;
+
+    .ctp.volume-slider {
+      min-width: 70px;
+      width: 70px;
+    }
+
+    &:hover, &:focus-within {
+      width: 140px;
+    }
+  }
+}

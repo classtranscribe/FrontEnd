@@ -21,12 +21,12 @@ class SetupCoursePage extends StateController {
     let { 
       setOffering, setStarredOfferings,
       setPlaylists, setPlaylist,
-      clearCourseData, setRole,
+      clearCourseData, setRole, setIsInstMode
     } = props;
     this.register({ 
       setOffering, setStarredOfferings,
       setPlaylists, setPlaylist,
-      clearCourseData, setRole,
+      clearCourseData, setRole, setIsInstMode
     });
   }
 
@@ -39,6 +39,10 @@ class SetupCoursePage extends StateController {
     return role === INSTRUCTOR;
   }
 
+  isInstMode = false;
+  setIsInstMode(isInstMode) {
+    this.setState('setIsInstMode', 'isInstMode', isInstMode);
+  }
 
   offering = null;
   setOffering(offering) {
@@ -131,7 +135,8 @@ class SetupCoursePage extends StateController {
   lastOfferingId = null;
   async setupCoursePage(offeringId) {
     // determine whether to reset the redux store
-    if (this.lastOfferingId !== offeringId) {
+    let shouldClear = this.lastOfferingId !== offeringId;
+    if (shouldClear) {
       this.clear();
     }
 
@@ -153,6 +158,7 @@ class SetupCoursePage extends StateController {
 
     if (instIndex >= 0) {
       this.setRole(INSTRUCTOR);
+      if (shouldClear) this.setIsInstMode(true);
     }
 
     // get playlists

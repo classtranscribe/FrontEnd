@@ -1,0 +1,11 @@
+.ctp.time-display {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-size: 0.9em;
+  padding: 2px 0 0 3px;
+  
+  span.time-separator {
+    padding: 0 3px;
+  }
+}
