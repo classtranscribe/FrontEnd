@@ -9,5 +9,6 @@ export { CTFilter } from './CTFilter';
 
 export { SignInMenu } from './CTNavHeader/NavHeaderMenu/SignInMenu';
 
+export * from './CTText';
 export * from './CTForm';
 export * from './CTDnd';
