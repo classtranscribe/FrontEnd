@@ -3,7 +3,10 @@ import { EmailList } from '../EmailList';
 
 function StaffsWithRedux() {
     return (
-      <EmailList />
+      <EmailList
+        title="Staffs"
+        description="Add staffs"
+      />
     );
 }
 

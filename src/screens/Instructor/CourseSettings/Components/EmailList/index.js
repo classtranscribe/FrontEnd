@@ -3,11 +3,12 @@ import {
   CTFragment,
   CTForm, 
   CTFormRow, 
-  CTInput
+  CTInput,
+  CTFormHelp
 } from 'layout';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
-import { uurl } from 'utils/use-url';
+import { user, uurl } from 'utils';
 import { UploadButton } from '../UploadButton'
 import './index.scss';
 
@@ -16,6 +17,8 @@ function EmailListWithRedux(props) {
   const [emails, setEmails] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
+
+  const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId;
 
   const handleInputChange = ({ target: { value }}) => setInputValue(value);
 
@@ -28,7 +31,16 @@ function EmailListWithRedux(props) {
   };
 
   const addNew = (newEmails) => {
-    
+    newEmails = _.filter(newEmails, (email) => {
+      if (!email || !uurl.isValidEmail(email)) {
+        return false;
+      }
+      if (_.includes(emails, email) || email === myEmailId) {
+        return false;
+      }
+      return true;
+    });
+    setEmails([...emails, ...newEmails]);
   };
 
   return (
@@ -43,6 +55,21 @@ function EmailListWithRedux(props) {
       >     
         <CTFormRow>
           <CTFragment className="email-list-left">
+            <CTFormHelp title="INSTRUCTION">
+              <CTFragment>
+                Please upload a <strong>.csv/.txt file</strong> 
+                with a <strong>list of emails</strong>.
+              </CTFragment>
+              <hr />
+              <CTFragment className="email-list-uploadbtw-example">
+                <h4><strong>EXAMPLAE</strong></h4>
+                <CTFragment>{'<demo.txt>'}</CTFragment>
+                <CTFragment>shawn@university.edu</CTFragment>
+                <CTFragment>micheal2@university.edu</CTFragment>
+                <CTFragment>xiaoming@university.edu</CTFragment>
+                <CTFragment>...</CTFragment>
+              </CTFragment>
+            </CTFormHelp>
             <UploadButton addNew={addNew} />
           </CTFragment>
 
