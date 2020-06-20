@@ -30,19 +30,10 @@
     .pl-item {
       position: relative;
       outline: 0;
-      cursor: pointer;
-      padding: 15px 25px;
+      padding: 0 25px 0 10px;
       border-bottom: 1px solid rgb(255, 255, 255);
       transition: background 0.2s linear;
       background: rgb(251, 251, 251);
-
-      &.draggable {
-        padding-left: 45px;
-      }
-
-      &.dragging {
-        box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.171);
-      }
 
       &:last-child {
         border-color: transparent;
@@ -57,10 +48,13 @@
         color: #3f3f3f;
         font-weight: bold;
         font-size: 17px;
+        line-height: normal;
         display: flex;
         align-items: center;
         margin-bottom: 0;
         white-space: nowrap;
+        padding: 15px 0;
+        
         span {
           overflow: hidden;
           width: calc(100% - 55px);

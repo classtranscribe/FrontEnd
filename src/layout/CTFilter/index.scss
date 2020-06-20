@@ -1,0 +1,35 @@
+.ct-filter.d-input-con {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 20px;
+
+  background: rgb(246, 246, 246);
+  border-radius: 20px;
+  overflow: hidden;
+
+  &:focus-within {
+    background: rgb(236, 242, 243);
+  }
+
+  input {
+    background: rgba(0,0,0,0);
+    width: 100%;
+    border: none;
+    font-size: 15px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .ct-filter.reverse-btn{
+    transition: transform 100ms linear;
+    transform: rotateZ(0);
+
+    &.reversed {
+      transform: rotateZ(180deg);
+    }
+  }
+}
+
