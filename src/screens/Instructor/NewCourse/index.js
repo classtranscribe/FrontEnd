@@ -1,7 +1,5 @@
 import React, { Component, useState } from 'react';
 import { CTLayout } from 'layout';
-
-import { CTFormExampleUsage } from 'layout/CTForm/ExampleUsage';
 import { api } from 'utils';
 import { CourseForm } from './Components'
 
@@ -23,10 +21,12 @@ export class NewCourse extends Component {
         offsetTop: 30
       }
     });
+    const courseProps = {
 
+    }
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm />
+        <CourseForm {...courseProps} />
       </CTLayout>
     )
   }

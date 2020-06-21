@@ -2,35 +2,25 @@ import React, { useState, useEffect, useReducer } from 'react';
 import {
   CTForm
 } from 'layout';
-import { api, util, user, prompt } from 'utils';
+import { api, util, user, prompt, links } from 'utils';
 import './index.scss';
 import _ from 'lodash';
-import {BasicInfo} from './BasicInfo'
-import {CourseSelection} from './CourseSelection'
+import { useHistory } from 'react-router-dom'
+import { BasicInfo } from './BasicInfo'
+import { CourseSelection } from './CourseSelection'
+import { CourseContext } from './ContextProvider'
 
-export const CourseContext = React.createContext();
-
-const initErrors = [];
-
-const errorReducer = (error, action) => {
-  if (Array.isArray(action)) {
-    if (action[0]) {
-      return _.concat(error, action[1])
-    } 
-      return _.pull(error, action[1])
-  } 
-    return error
-}
-
-export function CourseForm({
-  defaultCourseName = '',
-  defaultSectionName = '',
-  defaultLogFlag = false,
-  defaultTerm = '',
-  defaultDescription = '',
-  defaultAccessType = '0',
-  defaultSelCourses = []
-}) {
+export function CourseForm(props) {
+  let {
+    defaultCourseName = '',
+    defaultSectionName = '',
+    defaultLogFlag = false,
+    defaultTerm = '',
+    defaultDescription = '',
+    defaultAccessType = '0',
+    defaultSelCourses = []
+  } = props;
+  const history = useHistory();
   // basic information
   const [courseName, setcourseName] = useState(defaultCourseName);
   const [sectionName, setsectionName] = useState(defaultSectionName);
@@ -38,6 +28,8 @@ export function CourseForm({
   const [logEventsFlag, setLogEventsFlag] = useState(defaultLogFlag);
   const [description, setDescription] = useState(defaultDescription);
   const [accessType, selAccess] = useState(defaultAccessType);
+  const [coursesText, setCoursesText] = useState('');
+
   useEffect(() => {
     api.getTermsByUniId(user.getUserInfo().universityId).then((res) => {
       if (res.status === 200 && res.data[0]) {
@@ -48,6 +40,16 @@ export function CourseForm({
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
   // errors
+  const initErrors = [];
+  const errorReducer = (error, action) => {
+    if (Array.isArray(action)) {
+      if (action[0]) {
+        return _.concat(error, action[1])
+      }
+      return _.pull(error, action[1])
+    }
+    return error
+  }
   const [error, errorDispatch] = useReducer(errorReducer, initErrors)
   const [enable, setEnable] = useState(false);
 
@@ -60,7 +62,8 @@ export function CourseForm({
     if (sectionName === '') {
       errorDispatch([true, 'sectionName'])
     } else {
-      errorDispatch([false, 'sectionName'])}
+      errorDispatch([false, 'sectionName'])
+    }
     if (selCourses.length === 0) {
       errorDispatch([true, 'selCourses'])
     } else {
@@ -69,11 +72,11 @@ export function CourseForm({
   }, [courseName, sectionName, selCourses])
 
   const handleCancel = () => {
-    window.open('/instructor/', "_self")
-};
+    history.push(links.instructor())
+  };
   // save information provided
   const handleSave = async () => {
-    let offeringId = null;    
+    let offeringId = null;
     setEnable(true);
     try {
       if (error.length === 0) {
@@ -95,29 +98,28 @@ export function CourseForm({
         )
         offeringId = data.id;
         prompt.addOne({
-          text : 'Course Created!',
-          header :'Success',
-          status : 'success',
-          timeout : 2000,
-          position : 'top',
-          offset : [-1, -1],
-        } ,false)
+          text: 'Course Created.',
+          header: 'Success',
+          status: 'success',
+          timeout: 2200,
+          position: 'top',
+          offset: [-1, -1],
+        }, false)
+      }
+      if (offeringId !== null) {
+        history.push(links.offeringDetail(offeringId))
       }
     } catch (err) {
       return;
     }
-    
-    _.forEach(selCourses, async (val) => {
-      await api.createCourseOffering({courseId: val[2], offeringId}).catch(
-        ()=>{
-          console.error(`failed to add course ${val}`);
+    for (let i = 0; i < selCourses.length; i += 1) {
+      await api.createCourseOffering({ courseId: selCourses[i][2], offeringId }).catch(
+        () => {
+          console.error(`failed to add course ${selCourses[i]}`);
         }
       )
-    })
-    setTimeout(() => window.open('/instructor/', "_self"), 2100)
+    }
   };
-
-  
 
   return (
     <CourseContext.Provider
@@ -139,21 +141,23 @@ export function CourseForm({
         selAccess,
         selCourses,
         setSelCourses,
-        }}
+        coursesText,
+        setCoursesText
+      }}
     >
-        
+
       <CTForm
         heading="Course Information Form"
-        padding={[10, 35]} 
-        id="ctform-basics" 
+        padding={[10, 35]}
+        id="ctform-basics"
         onSave={handleSave}
-        onSaveButtonText="Create" 
+        onSaveButtonText="Create"
         onCancel={handleCancel}
       >
         <CourseSelection />
         <BasicInfo />
       </CTForm>
     </CourseContext.Provider>
-    
+
   );
 }

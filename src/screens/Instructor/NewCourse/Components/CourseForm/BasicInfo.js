@@ -1,20 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CTLayout ,
+import {
   CTFragment,
-  CTForm, 
-  CTFormHeading, 
-  CTFormHelp,
-  CTFormRow, 
+  CTFormHeading,
+  CTFormRow,
   CTInput,
   CTSelect,
   CTCheckbox,
-  CTAutoComplete
 } from 'layout';
-import { CTHeading } from 'layout/CTHeading';
 import { api, util, user } from 'utils';
 import './index.scss';
 import _ from 'lodash';
-import {CourseContext} from './index';
+import { CourseContext } from './ContextProvider';
 
 export function BasicInfo() {
   const courseContext = useContext(CourseContext)
@@ -24,13 +20,16 @@ export function BasicInfo() {
   const emptyCourseName = courseContext.error.includes('courseName') && courseContext.enable;
   const emptySecName = courseContext.error.includes('sectionName') && courseContext.enable;
   // handle basic info from courseContext
-  const setCourseName = ({ target: { value }}) => courseContext.setcourseName(value);  
-  const setSectionName = ({ target: { value }}) => courseContext.setsectionName(value);
-  const handleTerm = ({ target: { value }}) => courseContext.setTerm(value);
+  const setCourseName = ({ target: { value } }) => courseContext.setcourseName(value);
+  const setSectionName = ({ target: { value } }) => courseContext.setsectionName(value);
+  const handleTerm = ({ target: { value } }) => courseContext.setTerm(value);
   const [terms, setTerms] = useState([]);
-  const onLogEventsFlagChange = ({ target: { checked }}) => courseContext.setLogEventsFlag(checked);
-  const onDescriptionChange = ({ target: { value }}) => courseContext.setDescription(value);
-  const handleVisibility = ({ target: { value }}) => courseContext.selAccess(value);
+  const onLogEventsFlagChange = ({ target: { checked } }) =>
+    courseContext.setLogEventsFlag(checked);
+  const onDescriptionChange = ({ target: { value } }) =>
+    courseContext.setDescription(value);
+  const handleVisibility = ({ target: { value } }) =>
+    courseContext.selAccess(value);
 
   const getAccessTypes = (array = []) => {
     if (!Array.isArray(array)) return [];
@@ -42,8 +41,8 @@ export function BasicInfo() {
     return options;
   };
   // Get terms list
-  useEffect( () => {
-     api.getTermsByUniId(uniId).then(res => {
+  useEffect(() => {
+    api.getTermsByUniId(uniId).then(res => {
       if (res.status === 200 && res.data) {
         setTerms(util.getSelectOptions(res.data, 'term'));
       }
@@ -85,7 +84,7 @@ export function BasicInfo() {
           onChange={handleTerm}
         />
         <CTSelect
-          required 
+          required
           id="sel-1"
           label="Visibility"
           helpText="Choose the user group of this course."
@@ -96,7 +95,7 @@ export function BasicInfo() {
         />
       </CTFormRow>
       <CTFormRow>
-        <CTInput 
+        <CTInput
           textarea
           id="course-description"
           helpText="The description for this class"
@@ -114,6 +113,6 @@ export function BasicInfo() {
           onChange={onLogEventsFlagChange}
         />
       </CTFormRow>
-    </CTFragment> 
+    </CTFragment>
   );
 }
