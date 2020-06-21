@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { CTFragment } from '../CTFragment';
+import CTFragment from '../CTFragment';
 
 /**
  * A controlled text component for ClassTranscribe

@@ -6,13 +6,13 @@ import { Button } from 'pico-ui';
 import { user, links } from 'utils';
 import './index.scss';
 
-import { CTNavHeader } from '../CTNavHeader';
+import CTNavHeader from '../CTNavHeader';
 import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
 
 /**
  * A general error wrapper
  */
-export function CTErrorWrapper(props) {
+function CTErrorWrapper(props) {
   let {
     show = false,
     darkMode = false,
@@ -104,3 +104,5 @@ CTErrorWrapper.propTypes = {
   /** The error description */
   description: PropTypes.any
 };
+
+export default CTErrorWrapper;

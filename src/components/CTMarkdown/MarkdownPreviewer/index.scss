@@ -1,0 +1,60 @@
+.ct-md.preview {
+  width: 100%;
+  height: max-content;
+
+  .ct-md.preview-html {
+    width: 100%;
+    
+    img,
+    audio,
+    video{
+      max-width: 100%;
+      height: auto;
+      margin: 15px 0;
+    }
+
+    h1,h2,h3 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    
+    p {
+      font-size: 14px;
+      min-height: 1em;
+      margin: .5em 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    pre {
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    /* Code */
+    blockquote{
+      padding: 5px 15px;
+      border-left: 4px #069292c7 solid;
+      background-color: #e2f1f179;
+      border-radius: 0 5px 5px 0;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    /* Table */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 100%;
+      overflow: auto;
+    }
+    
+    table, th, td {
+      padding: 10px 20px;
+      border: 1px solid rgb(209, 209, 209);
+      white-space: nowrap;
+    }
+
+    thead {
+      background-color: rgb(240, 240, 240);
+    }
+  }
+}

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Button } from 'pico-ui';
-import { CTFragment } from '../CTFragment';
+import CTFragment from '../CTFragment';
 
 /**
  * default input field component for CTFilter: a general filter component for classtranscribe

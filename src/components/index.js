@@ -20,7 +20,8 @@ export {
 } from './Cards';
 
 export { CTModal } from './Modals';
-export { default as CTPopoverLabel } from './CTPopoverLabel';
+export { default as CTImagePickerModal } from './CTImagePickerModal';
+export { CTMarkdownEditor, CTMarkdownPreviewer } from './CTMarkdown';
 
 
 // Need to be removed later

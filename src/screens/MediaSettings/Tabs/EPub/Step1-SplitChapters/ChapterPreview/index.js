@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { elem } from 'utils/use-elem';
-import { ScrollArea } from 'components/ScrollArea';
+import { CTScrollArea } from 'layout';
 import { connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import { MarkdownPreviewer } from '../../Markdown';
 import './index.scss';
@@ -18,14 +18,14 @@ function ChapterPreview({ currChapter }) {
   }, [currChapter]);
 
   return (
-    <ScrollArea
+    <CTScrollArea
       id="msp-ee-sch-pview-con"
       className="msp-ee-sch-pview-con"
       scrollClassName="msp-ee-sch-pview-scroll"
       scrollToTopButton="right top"
     >
       <MarkdownPreviewer value={text} className="ee-sch-pview" />
-    </ScrollArea>
+    </CTScrollArea>
   );
 }
 

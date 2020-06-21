@@ -1,16 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import CTFragment from '../CTFragment';
 import './index.scss';
-
-import { CTFragment } from '../CTFragment';
 
 import { createCTHeadingProps } from './create-props';
 
 /**
  * The controlled heading component
  */
-export function CTHeading(props) {
+function CTHeading(props) {
   let {
     as = 'h1',
     heading = 'Heading',
@@ -87,3 +86,5 @@ CTHeading.propTypes = {
 };
 
 CTHeading.createProps = createCTHeadingProps;
+
+export default CTHeading;

@@ -1,0 +1,55 @@
+import {
+  CTForm,
+  CTInput,
+  CTFormRow
+} from 'layout/CTForm';
+
+import { ExampleForm } from 'docs/component-usage/ct-form/ct-form.js';
+
+# CTForm
+--------
+
+> The CTForm and its components is designed for ClassTranscribe's form interfaces. It contains
+> `Input`, `Checkbox`, `Select`, `AutoComplete`, `Upload` and many other helper components.
+> There is an exhausted example in `src/layout/CTForm/ExampleUsage.js` for you to explore.
+
+## CTForm
+```js
+import { CTForm, CTInput, CTFormRow } from 'layout/CTForm';
+
+const ExampleForm = () => (
+  <CTForm
+    collapsible
+    padding={[10, 35]} 
+    id="ctform-basics" 
+    heading="Example Form" 
+    details="This is a description for the Example Form"
+    onSave={() => alert('save')}
+    onCancel={() => alert('cancel')}
+  >
+    <CTFormRow>
+      <CTInput
+        required
+        id="input-name"
+        label="Name"
+        placeholder="Course Number"
+        defaultValue="Shawn"
+      />
+
+      <CTInput
+        id="input-gender"
+        label="Gender"
+        defaultValue="Male"
+      />
+    </CTFormRow>
+  </CTForm>
+);
+```
+
+#### Example
+
+<details>
+  <summary>Example Form</summary>
+
+  <ExampleForm />
+</details>

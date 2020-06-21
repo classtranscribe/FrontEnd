@@ -8,7 +8,7 @@ import { SignInPrompt } from 'components/SignInPrompt';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
 
-export function CTNavSidebar(props) {
+function CTNavSidebar(props) {
   let {
     show = true,
     items = [],
@@ -87,3 +87,5 @@ CTNavSidebar.propTypes = CTNavSidebarPropTypes;
 // Sub components
 CTNavSidebar.Items = SidebarNavItems;
 CTNavSidebar.Item = SidebarItem;
+
+export default CTNavSidebar;

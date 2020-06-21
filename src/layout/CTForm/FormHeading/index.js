@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTHeading } from '../../CTHeading';
+import CTHeading from '../../CTHeading';
 
 /**
  * A section heading component used in `CTForm`
  */
-export function FormHeading(props) {
+function FormHeading(props) {
   let {
     padding,
     children
@@ -25,3 +25,5 @@ FormHeading.propTypes = {
   /** The primary content */
   children: PropTypes.node
 };
+
+export default FormHeading;
