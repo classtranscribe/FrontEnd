@@ -29,7 +29,7 @@ import './index.scss';
  *    }}
  *  </CTFilter>
  */
-export function CTFilter(props) {
+function CTFilter(props) {
   let {
     data = [],
     value = '',
@@ -154,3 +154,5 @@ CTFilter.propTypes = {
   /** call-back function for changing 'reversed' which takes 'reversed' as param */
   onReversed: PropTypes.func
 };
+
+export default CTFilter;

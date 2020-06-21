@@ -12,7 +12,7 @@ import { createCTNavHeaderProps } from './create-props';
 /**
  * Navigation Header
  */
-export function CTNavHeader(props) {
+function CTNavHeader(props) {
   let {
     // children
     brandElem,
@@ -117,3 +117,5 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 // Sub components
 CTNavHeader.Brand = CTBrand;
 CTNavHeader.createProps = createCTNavHeaderProps;
+
+export default CTNavHeader;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTHeading } from '../../CTHeading';
+import CTHeading from '../../CTHeading';
 
 /**
  * A section heading component used in `CTForm`

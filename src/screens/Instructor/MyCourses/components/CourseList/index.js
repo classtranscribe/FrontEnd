@@ -1,7 +1,7 @@
 import React from 'react';
-import { CTFragment } from 'layout';
+import { CTFragment , CTHeading } from 'layout';
 import { CourseCardList } from 'components';
-import { CTHeading } from 'layout/CTHeading';
+
 import './index.scss';
 
 export function CourseList({

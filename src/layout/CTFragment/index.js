@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { CTLoadable } from '../CTLoadable';
+import CTLoadable from '../CTLoadable';
 import { createCTFragmentProps } from './create-props';
 
-export function CTFragment(props) {
+function CTFragment(props) {
   let {
     id,
     role,
@@ -195,3 +195,5 @@ CTFragment.propTypes = {
 };
 
 CTFragment.createProps = createCTFragmentProps;
+
+export default CTFragment;
