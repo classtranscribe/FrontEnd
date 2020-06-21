@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { CTPlayerConstants as Constants } from '../../controllers';
+import { CTPlayerConstants as Constants, CTPlayerController } from '../../controllers';
 import './index.scss';
 
 import ActionBar from './ActionBar';
@@ -89,7 +89,6 @@ function InteractiveLayer(props) {
     bufferedTime,
     muted,
     volume,
-    playbackRate,
     openCC,
     ccFontSize,
     ccFontColor,
@@ -146,7 +145,28 @@ function InteractiveLayer(props) {
 }
 
 InteractiveLayer.propTypes = {
-
+  media: PropTypes.object,
+  player: PropTypes.instanceOf(CTPlayerController),
+  isTwoScreen: PropTypes.bool,
+  screenMode: PropTypes.string,
+  userReady: PropTypes.bool,
+  isEnded: PropTypes.bool,
+  isPaused: PropTypes.bool,
+  isFullscreen: PropTypes.bool,
+  duration: PropTypes.number,
+  time: PropTypes.number,
+  bufferedTime: PropTypes.number,
+  muted: PropTypes.bool,
+  volume: PropTypes.number,
+  playbackRate: SettingsMenu.propTypes.playbackRate,
+  openCC: SettingsMenu.propTypes.openCC,
+  ccFontSize: SettingsMenu.propTypes.ccFontSize,
+  ccFontColor: SettingsMenu.propTypes.ccFontColor,
+  ccOpacity: SettingsMenu.propTypes.ccOpacity,
+  ccBackgroundColor: SettingsMenu.propTypes.ccBackgroundColor,
+  language: SettingsMenu.propTypes.language,
+  currCaption: ControlBar.propTypes.currCaption,
+  hideWrapperOnMouseLeave: PropTypes.bool,
 };
 
 export default InteractiveLayer;

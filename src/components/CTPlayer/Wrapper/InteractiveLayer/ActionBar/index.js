@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 import { links, uurl } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
-import { CTPlayerController } from '../../../controllers';
 
 import Share from './Share';
-import ShortcutButton from './ShortcutButton';
+// import ShortcutButton from './ShortcutButton';
 import './index.scss';
 
 function ActionBar(props) {
@@ -51,7 +50,7 @@ function ActionBar(props) {
 
 ActionBar.propTypes = {
   media: PropTypes.object,
-  player: PropTypes.instanceOf(CTPlayerController)
+  time: PropTypes.number
 };
 
 export default ActionBar;

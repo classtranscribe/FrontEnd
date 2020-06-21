@@ -63,7 +63,8 @@ function EventVisualPopup(props) {
 }
 
 EventVisualPopup.propTypes = {
-  event: PropTypes.string
+  event: PropTypes.string,
+  volume: PropTypes.number
 };
 
 export default EventVisualPopup;

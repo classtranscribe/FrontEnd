@@ -7,6 +7,9 @@ import Constants from './player-constants';
 import VideoController from './video-controller';
 import playerKeyDownEventHandler from './keydown-event';
 
+/**
+ * The video player controller
+ */
 class PlayerController extends VideoController {
   /**
    * Create a CTPlayer controller

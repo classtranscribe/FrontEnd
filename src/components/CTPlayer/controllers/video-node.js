@@ -1,3 +1,7 @@
+
+/**
+ * A video node controller class
+ */
 class VideoNode {
   /**
    * Create a video node controller

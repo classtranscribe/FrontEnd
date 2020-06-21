@@ -80,7 +80,10 @@ function RangeInput(props) {
 }
 
 RangeInput.propTypes = {
-
+  id: PropTypes.string,
+  duration: PropTypes.number,
+  range: PropTypes.arrayOf(PropTypes.number),
+  onRangeChange: PropTypes.func,
 };
 
 export default RangeInput;

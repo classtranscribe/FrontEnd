@@ -1,5 +1,5 @@
 /**
- * 
+ * The keydown event handler for the video player
  * @param {KeyboardEvent} event 
  * @param {CTPlayerController} player 
  */

@@ -35,7 +35,8 @@ function Share(props) {
 }
 
 Share.propTypes = {
-
+  media: PropTypes.object, 
+  time: PropTypes.number
 };
 
 export default Share;

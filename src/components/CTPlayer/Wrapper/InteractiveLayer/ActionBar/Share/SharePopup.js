@@ -53,6 +53,7 @@ function SharePopup(props) {
 }
 
 SharePopup.propTypes = {
+  open: PropTypes.bool,
   shareLink: PropTypes.string,
   onClose: PropTypes.func,
 };

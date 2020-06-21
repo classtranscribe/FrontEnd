@@ -14,7 +14,7 @@ function PauseButton(props) {
 }
 
 PauseButton.propTypes = {
-
+  onClick: PropTypes.func
 };
 
 export default PauseButton;
