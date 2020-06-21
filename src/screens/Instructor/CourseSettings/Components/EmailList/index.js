@@ -12,6 +12,12 @@ import _ from 'lodash';
 import { user, uurl } from 'utils';
 import './index.scss';
 
+// add a function which is not work before.
+function validateEmail(email) {
+  const re = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i;
+  return re.test(String(email).toLowerCase());
+}
+//
 function EmailListWithRedux(props) {
   let { title, description, onSave } = props;
   const [emails, setEmails] = useState([]);
@@ -24,10 +30,22 @@ function EmailListWithRedux(props) {
 
   const addEmailAddress = () => {
     if (!inputValue) return;
-    if (!uurl.isValidEmail(inputValue)) {
+    // has an error in this place.
+    // if (!uurl.isValidEmail(inputValue)) {
+      // return setError('Please enter a valid email.');
+    // }
+    if (!validateEmail(inputValue)) {
       return setError('Please enter a valid email.');
     }
-    return setError('Please enter a valid email.');
+    // return setError('Please enter a valid email.');
+    let includes = _.includes(emails, inputValue);
+    includes = includes || inputValue === myEmailId;
+    if (!includes) {
+      let newEmails = [...emails, inputValue];
+      setEmails(newEmails);
+      setInputValue('');
+      if (error) setError(null);
+    }
   };
 
   const handleFileUpload = (files) => {
