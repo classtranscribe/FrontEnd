@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////
 // Cover Picker
 ////////////////////////////////////////////////////////////
-.msp-ee-cp-con {
+.ct-img-picker-con {
   width: 100%;
   display: flex;
 
-  .ee-cp-imgs {
+  .ct-img-picker-imgs {
     width: 60%;
     display: -webkit-box;
     display: -webkit-flex;
@@ -21,7 +21,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    .ee-cp-img-con {
+    .ct-img-picker-img-con {
       position: relative;
       margin: 5px;
       cursor: pointer;
@@ -30,7 +30,7 @@
         width: 100px;
       }
 
-      .ee-cp-img-wrapper {
+      .ct-img-picker-img-wrapper {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -47,13 +47,13 @@
         }
       }
 
-      &[data-current=true] .ee-cp-img-wrapper {
+      &[data-current=true] .ct-img-picker-img-wrapper {
         background-color: rgba(0, 0, 0, 0.61);
       }
     }
   }
 
-  .ee-cp-cover {
+  .ct-img-picker-cover {
     width: 40%;
     display: flex;
     flex-direction: column;

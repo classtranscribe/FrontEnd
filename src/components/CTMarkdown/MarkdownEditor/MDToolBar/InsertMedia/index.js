@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
-import './index.scss';
+import PropTypes from 'prop-types';
 
-import { getImageUrl } from 'screens/MediaSettings/controllers/epub/util';
-import InsertMediaTrigger from './InsertMediaTrigger';
-import ImagePickerModal from '../../../../ImagePickerModal';
+import { uurl } from 'utils/use-url';
+import ImagePickerModal from '../../../../CTImagePickerModal';
 import { insertImgae } from '../../ace/ace-controller';
+import InsertMediaTrigger from './InsertMediaTrigger';
 
-export default function InsertMedia({
-  ace,
-  screenshots = [],
-  chapterScreenshots = [],
-  defaultImage,
-}) {
+function InsertMedia(props) {
+  const {
+    ace,
+    imageTabs,
+    defaultImage,
+  } = props;
+
   const [pickImg, setPickImage] = useState(false);
 
   const openImagePicker = () => setPickImage(true);
   const closeImagePicker = () => setPickImage(false);
 
   const onSave = (newImage) => {
-    const imgsrc = getImageUrl(newImage);
+    const imgsrc = uurl.getMediaUrl(newImage);
     insertImgae(ace, imgsrc);
 
     closeImagePicker();
@@ -29,8 +30,7 @@ export default function InsertMedia({
       <InsertMediaTrigger onClick={openImagePicker} />
       <ImagePickerModal
         show={pickImg}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
+        tabs={imageTabs}
         defaultImage={defaultImage}
         onClose={closeImagePicker}
         onSave={onSave}
@@ -38,3 +38,11 @@ export default function InsertMedia({
     </>
   );
 }
+
+InsertMedia.propTypes = {
+  ace: PropTypes.any,
+  imageTabs: ImagePickerModal.propTypes.tabs,
+  defaultImage: PropTypes.string,
+};
+
+export default InsertMedia;

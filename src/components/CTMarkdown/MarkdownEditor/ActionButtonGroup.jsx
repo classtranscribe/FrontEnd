@@ -1,22 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 
-function ActionButtonGroup({
-  onSave,
-  onClose,
-}) {
+function ActionButtonGroup(props) {
+  const { onSave, onClose } = props;
+
   return (
-    <div className="ee-md-act-btns-con">
+    <div className="ct-md-act-btns-con">
       <Button.Group>
         <Button
-          classNames="ee-md-act-btn"
+          classNames="ct-md-act-btn"
           color="transparent teal"
           text="SAVE"
           onClick={onSave}
         />
 
         <Button
-          classNames="ee-md-act-btn"
+          classNames="ct-md-act-btn"
           color="transparent"
           text="CANCEL"
           onClick={onClose}
@@ -25,5 +25,10 @@ function ActionButtonGroup({
     </div>
   );
 }
+
+ActionButtonGroup.propTypes = {
+  onSave: PropTypes.func,
+  onClose: PropTypes.func
+};
 
 export default ActionButtonGroup;

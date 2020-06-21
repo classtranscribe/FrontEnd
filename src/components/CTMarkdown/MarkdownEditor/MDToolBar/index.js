@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import './index.scss';
 
@@ -12,19 +13,19 @@ import NumberedListTrigger from './NumberedListTrigger';
 import InsertLinkTrigger from './InsertLinkTrigger';
 import InsertMedia from './InsertMedia';
 
-function MDToolBar({
-  ace,
-  isPreview,
-  screenshots,
-  chapterScreenshots,
-  defaultImage,
+function MDToolBar(props) {
+  const {
+    ace,
+    isPreview,
+    imageTabs,
+    defaultImage,
+    openPreview,
+    closePreview,
+  } = props;
 
-  openPreview,
-  closePreview,
-}) {
   return (
-    <div className="ee-md-toolbar">
-      <div className="ee-md-tool-l">
+    <div className="ct-md-toolbar">
+      <div className="ct-md-tool-l">
         <Button.Group>
           <Button
             compact
@@ -43,7 +44,7 @@ function MDToolBar({
       </div>
 
       {!isPreview && (
-        <div className="ee-md-tool-r">
+        <div className="ct-md-tool-r">
           <HeaderTextTrigger ace={ace} />
           <BoldTextTrigger ace={ace} />
           <ItalicTextTrigger ace={ace} />
@@ -55,8 +56,7 @@ function MDToolBar({
           <InsertLinkTrigger ace={ace} />
           <InsertMedia
             ace={ace}
-            screenshots={screenshots}
-            chapterScreenshots={chapterScreenshots}
+            imageTabs={imageTabs}
             defaultImage={defaultImage}
           />
         </div>
@@ -64,5 +64,14 @@ function MDToolBar({
     </div>
   );
 }
+
+MDToolBar.propTypes = {
+  ace: PropTypes.any.isRequired,
+  isPreview: PropTypes.bool,
+  imageTabs: InsertMedia.propTypes.imageTabs,
+  defaultImage: InsertMedia.propTypes.defaultImage,
+  openPreview: PropTypes.func,
+  closePreview: PropTypes.func,
+};
 
 export default MDToolBar;

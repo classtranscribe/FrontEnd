@@ -1,11 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MDToolButton from './MDToolButton';
 import { insertCode } from '../ace/ace-controller'
 
-function CodeTrigger({
-  ace,
-}) {
-
+function CodeTrigger(props) {
+  const { ace } = props;
   const handleInsertCode = () => insertCode(ace);
 
   return (
@@ -16,5 +15,9 @@ function CodeTrigger({
     />
   );
 }
+
+CodeTrigger.propTypes = {
+  ace: PropTypes.any
+};
 
 export default CodeTrigger;

@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import { Popup } from 'semantic-ui-react';
-
 
 function MDToolButton({
   popup = "",
@@ -10,7 +10,6 @@ function MDToolButton({
   color = "transparent",
   onClick,
 }) {
-
   return (
     <Popup 
       inverted
@@ -23,7 +22,8 @@ function MDToolButton({
       content={popup}
       trigger={
         <div>
-          <Button compact
+          <Button
+            compact
             classNames="ml-2"
             icon={icon}
             color={color}
@@ -36,5 +36,13 @@ function MDToolButton({
     />
   );
 }
+
+MDToolButton.propTypes = {
+  popup: PropTypes.string,
+  children: PropTypes.node,
+  icon: PropTypes.string,
+  color: PropTypes.string,
+  onClick: PropTypes.func,
+};
 
 export default MDToolButton;
