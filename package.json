@@ -15,7 +15,13 @@
     "lint": "cross-env NODE_ENV=production eslint .",
     "lint:fix": "yarn lint --fix",
     "prettier": "prettier --list-different \"**/*.{js,jsx,ts,tsx}\"",
-    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "build:staging": "docker build -t classtranscribe/frontend:staging .",
+    "build:prod": "docker build -t classtranscribe/frontend:latest .",
+    "push:staging": "docker push classtranscribe/frontend:staging",
+    "push:prod": "docker push classtranscribe/frontend",
+    "deploy:staging": "yarn build:staging && yarn push:staging",
+    "deploy:prod": "yarn build:prod && yarn push:prod"
   },
   "husky": {
     "hooks": {
