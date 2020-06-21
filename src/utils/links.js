@@ -149,6 +149,14 @@ export class ClassTranscribeLinks {
   }
 
   /**
+   * to `/docs/component-api/<name>`
+   * @param {String} name - name of the docs
+   */
+  componentAPI(name) {
+    return `/docs/component-api/${name}`;
+  }
+
+  /**
    * to `/404`
    */
   notfound404() {
