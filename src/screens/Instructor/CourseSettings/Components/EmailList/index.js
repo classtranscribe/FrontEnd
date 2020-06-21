@@ -4,12 +4,12 @@ import {
   CTForm, 
   CTFormRow, 
   CTInput,
-  CTFormHelp
+  CTFormHelp,
+  CTUploadButton
 } from 'layout';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
 import { user, uurl } from 'utils';
-import { UploadButton } from '../UploadButton'
 import './index.scss';
 
 function EmailListWithRedux(props) {
@@ -30,17 +30,10 @@ function EmailListWithRedux(props) {
     return setError('Please enter a valid email.');
   };
 
-  const addNew = (newEmails) => {
-    newEmails = _.filter(newEmails, (email) => {
-      if (!email || !uurl.isValidEmail(email)) {
-        return false;
-      }
-      if (_.includes(emails, email) || email === myEmailId) {
-        return false;
-      }
-      return true;
-    });
-    setEmails([...emails, ...newEmails]);
+  const handleFileUpload = (files) => {
+    if (files.length > 0) {
+      alert(`Uploaded file ${files[0].name}`);
+    }
   };
 
   return (
@@ -70,7 +63,12 @@ function EmailListWithRedux(props) {
                 <CTFragment>...</CTFragment>
               </CTFragment>
             </CTFormHelp>
-            <UploadButton addNew={addNew} />
+            <CTUploadButton 
+              fluid 
+              id="upload-email-list"
+              onFileChange={handleFileUpload}
+              accept=".csv,.txt"
+            />
           </CTFragment>
 
           <CTFragment className="email-list-right">
