@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 /**
  * The Row component used in `CTForm`
  */
-export function FormRow(props) {
+function FormRow(props) {
   let {
     children,
     padding,
@@ -55,3 +55,5 @@ FormRow.propTypes = {
   /** The padding for `CTFragment` */
   padding: CTFragment.propTypes.padding,
 };
+
+export default FormRow;

@@ -14,7 +14,7 @@ import { CTHeading } from '../../CTHeading';
 /**
  * A general collapsible form component
  */
-export function Form(props) {
+function Form(props) {
   let {
     id,
     padding,
@@ -118,3 +118,4 @@ Form.propTypes = {
   children: PropTypes.node,
 };
 
+export default Form;

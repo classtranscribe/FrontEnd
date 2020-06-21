@@ -23,7 +23,7 @@ export const useStyles = makeStyles({
 /**
  * The controlled input component used in `CTForm`
  */
-export function Input(props) {
+function Input(props) {
   let {
     id,
     label,
@@ -102,4 +102,6 @@ Input.propTypes = {
   /** The input field can be underlined */
   underlined: PropTypes.bool
 };
+
+export default Input;
 

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 /**
  * An instruction block component used in `CTForm`
  */
-export function FormHelp(props) {
+function FormHelp(props) {
   let {
     title,
     children,
@@ -52,4 +52,6 @@ FormHelp.propTypes = {
   /** The padding to the `CTFragment` */
   padding: CTFragment.propTypes.padding
 };
+
+export default FormHelp;
 
