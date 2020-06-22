@@ -58,15 +58,18 @@ function EmailListWithRedux(props) {
     // return setError('Please enter a valid email.');
   };
 
+  const onLoadFile = async (event) => {
+    let results = uemail.extract(event.target.result);
+    if (!Array.isArray(results)) return;
+    
+    setEmails(oldEmails => ([...oldEmails, ..._.difference(results, oldEmails)]));
+  };
+
   const handleFileUpload = (files) => {
     if (files.length > 0) {
       for (let i = 0; i < files.length; i += 1) {
         const reader = new FileReader()
-        reader.onload = async (e) => { 
-          const text = (e.target.result)
-          let newEmails = [...emails, ...uemail.extract(text)];
-          setEmails(newEmails);
-        };
+        reader.onload = onLoadFile;
         reader.readAsText(files[i])
       }
     }
