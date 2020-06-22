@@ -9,7 +9,7 @@ import {
 } from 'layout';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
-import { user, uurl } from 'utils';
+import { user } from 'utils';
 import './index.scss';
 
 // add a function which is not work before.
@@ -17,7 +17,7 @@ function validateEmail(email) {
   const re = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i;
   return re.test(String(email).toLowerCase());
 }
-//
+
 function EmailListWithRedux(props) {
   let { title, description, onSave } = props;
   const [emails, setEmails] = useState([]);
@@ -50,7 +50,16 @@ function EmailListWithRedux(props) {
 
   const handleFileUpload = (files) => {
     if (files.length > 0) {
-      alert(`Uploaded file ${files[0].name}`);
+      // console.log(files)
+      // console.log(files.length)
+      for (let i = 0; i < files.length; i += 1) {
+        const reader = new FileReader()
+        reader.onload = async (e) => { 
+          const text = (e.target.result)
+          // console.log(text)
+        };
+        reader.readAsText(files[i])
+      }
     }
   };
 
