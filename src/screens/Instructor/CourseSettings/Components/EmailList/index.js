@@ -9,7 +9,7 @@ import {
 } from 'layout';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
-import { user, uurl , uemail } from 'utils';
+import { user, uemail } from 'utils';
 import './index.scss';
 
 
@@ -60,13 +60,12 @@ function EmailListWithRedux(props) {
 
   const handleFileUpload = (files) => {
     if (files.length > 0) {
-      // console.log(files)
-      // console.log(files.length)
       for (let i = 0; i < files.length; i += 1) {
         const reader = new FileReader()
         reader.onload = async (e) => { 
           const text = (e.target.result)
-          // console.log(text)
+          let newEmails = [...emails, ...uemail.extract(text)];
+          setEmails(newEmails);
         };
         reader.readAsText(files[i])
       }
