@@ -9,15 +9,10 @@ import {
 } from 'layout';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
-import { user, uurl } from 'utils';
+import { user, uurl , uemail } from 'utils';
 import './index.scss';
 
-// add a function which is not work before.
-function validateEmail(email) {
-  const re = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i;
-  return re.test(String(email).toLowerCase());
-}
-//
+
 function EmailListWithRedux(props) {
   let { title, description, onSave } = props;
   const [emails, setEmails] = useState([]);
@@ -30,14 +25,9 @@ function EmailListWithRedux(props) {
 
   const addEmailAddress = () => {
     if (!inputValue) return;
-    // has an error in this place.
-    // if (!uurl.isValidEmail(inputValue)) {
-      // return setError('Please enter a valid email.');
-    // }
-    if (!validateEmail(inputValue)) {
+    if (!uemail.isValid(inputValue)) {
       return setError('Please enter a valid email.');
     }
-    // return setError('Please enter a valid email.');
     let includes = _.includes(emails, inputValue);
     includes = includes || inputValue === myEmailId;
     if (!includes) {
@@ -46,6 +36,26 @@ function EmailListWithRedux(props) {
       setInputValue('');
       if (error) setError(null);
     }
+    // if (!uemail.isValid(newEmail)) {
+    //   return false;
+    // } else if (_.includes(emails, newEmail) || newEmail === myEmailId) {
+    //   return false;
+    // } else {
+    //   setEmails([...emails, ...newEmail]);
+    // }
+    // .......................................
+    // if (!_.includes(emails, inputValue)) {
+    //   setEmails([...emails, ...inputValue]);
+    //   setInputValue('');
+    //   if (error) {
+    //     setError(null);
+    //   }
+    // }
+    // has an error in this place.
+    // if (!uurl.isValidEmail(inputValue)) {
+      // return setError('Please enter a valid email.');
+    // }
+    // return setError('Please enter a valid email.');
   };
 
   const handleFileUpload = (files) => {
@@ -109,6 +119,31 @@ function EmailListWithRedux(props) {
                 onClick={addEmailAddress}
               />
             </CTFragment>
+            {/* email list */}
+            <CTFragment className="email-list" role="list">
+              {
+                <div className="ip-f-email-item">
+                  {myEmailId}
+                  <i>(You)</i>
+                </div>
+              }
+              {(emails || [])
+                  .slice()
+                  .reverse()
+                  .map((email) => (
+                    <div className="ip-f-email-item" key={email}>
+                      {email}
+                      {/* <Icon
+                        name="trash"
+                        onClick={() => removeStaff(email)}
+                        title="remove"
+                        aria-label="remove"
+                        role="button"
+                      /> */}
+                    </div>
+                  ))}
+            </CTFragment>
+            
           </CTFragment>
         </CTFormRow>
       </CTForm>
