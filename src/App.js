@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
-import { 
+import {
   // Admin
   Admin,
   // Instructor
@@ -22,7 +22,7 @@ import {
   // General
   SetupUser,
   NotFound404,
-  Maintenance, 
+  Maintenance,
   Example,
 } from './screens';
 
@@ -31,7 +31,6 @@ import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
 
 import { user } from './utils/user';
-
 
 class App extends React.Component {
   componentDidMount() {
@@ -46,44 +45,23 @@ class App extends React.Component {
           <Route exact path={user.callbackPaths} component={SetupUser} />
 
           {/* Admin */}
-          {
-            user.isAdmin
-            &&
-            <Route path="/admin" component={Admin} />
-          }
+          {user.isAdmin && <Route path="/admin" component={Admin} />}
 
           {/* Instructor */}
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
-          {
-            user.isInstructor
-            &&
-            <Route exact path="/instructor/my-courses" component={MyCourses} />
-          }
-          {
-            user.isInstructor
-            &&
-            <Route exact path="/instructor/new-course" component={NewCourse} />
-          }
-          {
-            user.isInstructor
-            &&
+          {user.isInstructor && <Route exact path="/instructor/my-courses" component={MyCourses} />}
+          {user.isInstructor && <Route exact path="/instructor/new-course" component={NewCourse} />}
+          {user.isInstructor && (
             <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
-          }
-          {
-            user.isInstructor
-            &&
+          )}
+          {user.isInstructor && (
             <Route exact path="/instructor/course-analytics/:id" component={CourseAnalytics} />
-          }
-          {
-            user.isInstructor
-            &&
+          )}
+          {user.isInstructor && (
             <Route exact path="/instructor/playlist/:id" component={InstPlaylist} />
-          }
-          {
-            user.isInstructor
-            &&
-            <Route path="/media-settings/:id" component={MediaSettings} />
-          }
+          )}
+
+          {user.isInstructor && <Route path="/media-settings/:id" component={MediaSettings} />}
 
           {/* Student */}
           <Route exact path="/" component={Home} />
