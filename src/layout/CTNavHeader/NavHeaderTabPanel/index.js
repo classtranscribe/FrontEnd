@@ -25,7 +25,7 @@ export function NavHeaderTabPanel(props) {
 
 export const NavHeaderTabPanelPropsTypes = {
   /** Nav tab objects */
-  tabs: PropTypes.arrayOf(NavHeaderTabPropTypes),
+  tabs: PropTypes.arrayOf(PropTypes.shape(NavHeaderTabPropTypes)),
 
   /** The Nav Header can have a title element for tabs */
   tabTitleElem: PropTypes.node,

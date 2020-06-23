@@ -15,7 +15,13 @@
     "lint": "cross-env NODE_ENV=production eslint .",
     "lint:fix": "yarn lint --fix",
     "prettier": "prettier --list-different \"**/*.{js,jsx,ts,tsx}\"",
-    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "build:staging": "docker build -t classtranscribe/frontend:staging .",
+    "build:prod": "docker build -t classtranscribe/frontend:latest .",
+    "push:staging": "docker push classtranscribe/frontend:staging",
+    "push:prod": "docker push classtranscribe/frontend",
+    "deploy:staging": "yarn build:staging && yarn push:staging",
+    "deploy:prod": "yarn build:prod && yarn push:prod"
   },
   "husky": {
     "hooks": {
@@ -64,6 +70,7 @@
     "jwt-decode": "^2.2.0",
     "kind-of": "^6.0.3",
     "lodash": "^4.17.14",
+    "mdx.macro": "^0.2.9",
     "mk-guide": "^1.10.5",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
@@ -71,6 +78,7 @@
     "papaparse": "^5.1.1",
     "pico-ui": "^0.0.6",
     "popper.js": "^1.16.1",
+    "prismjs": "^1.20.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-ace": "^8.1.0",

@@ -8,7 +8,8 @@ import {
   CTInput,
   CTSelect,
   CTCheckbox,
-  CTAutoComplete
+  CTAutoComplete,
+  CTUploadButton,
 } from 'layout';
 
 function BasicForm() {
@@ -193,6 +194,47 @@ function AdvancedForm() {
   );
 }
 
+
+function UploadForm() {
+  const handleFileUpload = (files) => {
+    if (files.length > 0) {
+      alert(`Uploaded file ${files[0].name}`);
+    }
+  };
+
+  return (
+    <CTForm
+      expanded
+      collapsible
+      padding={[10, 35]}
+      id="ctform-upload"
+      heading="Upload Usage"
+      details="Usage for upload files"
+    >
+      <CTFormHeading>Upload Button</CTFormHeading>
+      <CTUploadButton id="upload-btn" onFileChange={handleFileUpload} />
+
+      <CTFormHeading>Fluid Upload Button</CTFormHeading>
+      <CTUploadButton fluid id="upload-fluid" onFileChange={handleFileUpload} />
+
+      <CTFormHeading>Upload Images</CTFormHeading>
+      <CTFormHelp title="Usage">
+        You can only upload image files
+      </CTFormHelp>
+
+      <CTUploadButton 
+        id="upload-images" 
+        onFileChange={handleFileUpload}
+        accept="image/*"
+        icon="add_a_photo"
+        fluid
+      >
+        Browse Images
+      </CTUploadButton>
+    </CTForm>
+  )
+}
+
 /**
  * The basic usage of the CTForm and its components
  */
@@ -201,6 +243,7 @@ export function CTFormExampleUsage() {
     <CTFragment>
       <BasicForm />
       <AdvancedForm />
+      <UploadForm />
     </CTFragment>
   );
 }

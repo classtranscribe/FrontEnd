@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { CTPlayerController } from '../controllers';
 
 import VideoLoader from './VideoLoader';
 
@@ -108,7 +107,6 @@ function Video(props) {
 Video.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
-  player: PropTypes.instanceOf(CTPlayerController),
   src: PropTypes.string,
   trackSrc: PropTypes.string,
   muted: PropTypes.bool,

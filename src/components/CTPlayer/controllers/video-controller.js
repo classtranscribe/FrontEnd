@@ -2,6 +2,9 @@ import iniState from './initial-state';
 import VideoNode from './video-node';
 import Constants from './player-constants';
 
+/**
+ * The video event controller for the player
+ */
 class VideoController {
   /**
    * Create a Video Controller for CTPlayer

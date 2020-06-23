@@ -12,7 +12,8 @@ function BigCenterButton(props) {
     <button 
       className="plain-btn ctp big-center-btn" 
       onClick={onClick} 
-      aria-hidden="true"
+      aria-hidden={label ? "false" : "true"}
+      aria-label={label}
     >
       <span tabIndex="-1">
         <i className="material-icons">{icon}</i>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CTPlayerController } from '../../../controllers';
 import './index.scss';
 
 import ClosedCaption from './ClosedCaption';
@@ -29,7 +30,6 @@ function ControlBar(props) {
     bufferedTime,
     muted,
     volume,
-    playbackRate,
     openCC,
     ccFontSize,
     ccFontColor,
@@ -58,7 +58,6 @@ function ControlBar(props) {
     duration,
     time,
     bufferedTime,
-    playbackRate,
     setCurrentTime: player.setCurrentTime,
   };
 
@@ -113,7 +112,25 @@ function ControlBar(props) {
 }
 
 ControlBar.propTypes = {
-
+  player: PropTypes.instanceOf(CTPlayerController),
+  isTwoScreen: PropTypes.bool,
+  userReady: PropTypes.bool,
+  isPaused: PropTypes.bool,
+  isEnded: PropTypes.bool,
+  isFullscreen: PropTypes.bool,
+  duration: Progress.propTypes.duration,
+  time: Progress.propTypes.time,
+  bufferedTime: Progress.propTypes.bufferedTime,
+  muted: Volume.propTypes.muted,
+  volume: Volume.propTypes.volume,
+  openCC: ClosedCaption.propTypes.open,
+  ccFontSize: ClosedCaption.propTypes.ccFontSize,
+  ccFontColor: ClosedCaption.propTypes.ccFontColor,
+  ccOpacity: ClosedCaption.propTypes.ccOpacity,
+  ccBackgroundColor: ClosedCaption.propTypes.ccBackgroundColor,
+  currCaption: ClosedCaption.propTypes.currCaption,
+  openSettings: PropTypes.bool,
+  onOpenSettings: PropTypes.func
 };
 
 export default ControlBar;

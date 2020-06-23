@@ -23,6 +23,7 @@ import {
   SetupUser,
   NotFound404,
   Maintenance, 
+  ComponentAPI,
   Example,
 } from './screens';
 
@@ -93,6 +94,7 @@ class App extends React.Component {
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
+          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
 
           <Route exact path="/example" component={Example} />
 

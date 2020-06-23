@@ -15,7 +15,7 @@ function EnterFullScreenButton(props) {
 }
 
 EnterFullScreenButton.propTypes = {
-
+  onClick: PropTypes.func
 };
 
 export default EnterFullScreenButton;

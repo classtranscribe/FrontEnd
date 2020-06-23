@@ -5,11 +5,13 @@ import { plControl } from '../../controllers';
 
 import PlaylistItem from './PlaylistItem';
 import PlaylistsErrorWrapper from './PlaylistsErrorWrapper';
+import NewPlaylistButton from './NewPlaylistButton';
 
 function PlaylistsView({
   isInstMode,
   accessType,
-  playlists
+  offeringId,
+  playlists,
 }) {
   const loading = playlists === ARRAY_INIT;
   const error = playlists === NOT_FOUND_404;
@@ -44,6 +46,11 @@ function PlaylistsView({
       <CTFragment sticky vCenter className="title" as="h3">
         <i className="material-icons">list</i>
         <span>Playlists</span>
+        {
+          isInstMode
+          &&
+          <NewPlaylistButton offeringId={offeringId} />
+        }
       </CTFragment>
 
       <CTLoadable error={error} errorElement={errorElement}>

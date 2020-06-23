@@ -18,7 +18,7 @@ export const useStyles = makeStyles({
   },
 });
 
-export function Checkbox(props) {
+function Checkbox(props) {
   let {
     id,
     legend,
@@ -81,4 +81,6 @@ Checkbox.propTypes = {
   /** The checkbox can be diabled */
   disabled: PropTypes.bool
 };
+
+export default Checkbox;
 

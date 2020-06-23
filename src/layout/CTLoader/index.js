@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTFragment } from '../CTFragment';
+import CTFragment from '../CTFragment';
 import './index.css';
 
-export function CTLoader(props) {
+function CTLoader(props) {
   let { darkMode = false, height = 400 } = props;
 
   const loaderStyles = { height: `${height }px` };
@@ -32,4 +32,6 @@ CTLoader.propTypes = {
   /** The height of the loader */
   height: PropTypes.number
 };
+
+export default CTLoader;
 

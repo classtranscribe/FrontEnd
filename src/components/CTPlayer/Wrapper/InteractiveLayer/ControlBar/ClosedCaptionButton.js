@@ -19,7 +19,8 @@ function ClosedCaptionButton(props) {
 }
 
 ClosedCaptionButton.propTypes = {
-
+  openCC: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 export default ClosedCaptionButton;

@@ -13,7 +13,7 @@ import { useStyles } from '../Input';
 /**
  * The controlled select component used in `CTForm`
  */
-export function Select(props) {
+function Select(props) {
   let {
     id,
     value,
@@ -106,3 +106,5 @@ Select.propTypes = {
   /** The input field can be underlined */
   underlined: PropTypes.bool
 };
+
+export default Select;
