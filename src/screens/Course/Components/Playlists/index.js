@@ -36,7 +36,8 @@ function PlaylistsWithRedux({
   const playlistsProps = {
     isInstMode,
     playlists,
-    accessType: offering.accessType
+    offeringId: offering.id,
+    accessType: offering.accessType,
   };
 
   const viewElement = (

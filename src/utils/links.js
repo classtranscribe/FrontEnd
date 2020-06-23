@@ -95,6 +95,10 @@ export class ClassTranscribeLinks {
     return `/instructor/playlist/${playlistId}`;
   }
 
+  instNewPlaylist(offeringId) {
+    return `/instructor/${offeringId}/new-playlist`;
+  }
+
   instMedia(mediaId) {
     return `/instructor/media/${mediaId}`;
   }
