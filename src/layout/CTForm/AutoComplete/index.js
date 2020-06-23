@@ -35,7 +35,7 @@ function AutoComplete(props) {
 
   useEffect(() => {
     let opt = getOption(options, value);
-    if (options !== [] && value !== '') {
+    if (options.length > 0 && value !== '') {
       if (opt.value !== option.value) {
         setOption(opt);
       }
