@@ -95,7 +95,7 @@ function CourseForm(props) {
 
   return (
     <CTForm
-      heading="Course Information Form"
+      heading="Course Information"
       padding={[10, 35]}
       id="ctform-basics"
       onSave={handleSave}
