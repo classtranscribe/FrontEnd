@@ -7,65 +7,87 @@ import {
   CTSelect,
   CTCheckbox,
 } from 'layout';
-import { api, util, user } from 'utils';
-import './index.scss';
-import _ from 'lodash';
+import { api, util, user, prompt } from 'utils';
 
-export function BasicInfo(props) {
-  let {
-    courseName,
-    setcourseName,
-    term,
-    setTerm,
-    logEventsFlag,
-    setLogEventsFlag,
-    description,
-    setDescription,
-    accessType,
-    selAccess,
+function BasicInfo(props) {
+  const {
     error,
     enable,
-    setsectionName,
-    sectionName
+    courseName,
+    sectionName,
+    term,
+    accessType,
+    description,
+    logEventsFlag,
+    setCourseName,
+    setSectionName,
+    setTerm,
+    setAccess,
+    setDescription,
+    setLogEventsFlag
   } = props;
 
   // user infomation
-  const uniId = user.getUserInfo().universityId;
+  const { universityId } = user.getUserInfo();
+
+  const [terms, setTerms] = useState([]);
+
   // errors
   const emptyCourseName = error.includes('courseName') && enable;
   const emptySecName = error.includes('sectionName') && enable;
+  
   // handle basic info
-  const setCourseName = ({ target: { value } }) => setcourseName(value);
-  const setSectionName = ({ target: { value } }) => setsectionName(value);
-  const handleTerm = ({ target: { value } }) => setTerm(value);
-  const [terms, setTerms] = useState([]);
-  const onLogEventsFlagChange = ({ target: { checked } }) =>
-    setLogEventsFlag(checked);
-  const onDescriptionChange = ({ target: { value } }) =>
-    setDescription(value);
-  const handleVisibility = ({ target: { value } }) =>
-    selAccess(value);
-
-  const getAccessTypes = (array = []) => {
-    if (!Array.isArray(array)) return [];
-    const options = [];
-    array.forEach((item) => {
-      if (!item || item.id === undefined) return;
-      options.push({ text: item.name, value: item.id, description: item.description });
-    });
-    return options;
+  const handleCourseNameChange = ({ target: { value } }) => {
+    setCourseName(value);
   };
-  // Get terms list
-  useEffect(() => {
-    api.getTermsByUniId(uniId).then(res => {
-      if (res.status === 200 && res.data) {
-        setTerms(util.getSelectOptions(res.data, 'term'));
+
+  const handleSectionNameChange = ({ target: { value } }) => {
+    setSectionName(value);
+  };
+
+  const handleTermChange = ({ target: { value } }) => {
+    setTerm(value);
+  };
+
+  const handleLogEventsFlagChange = ({ target: { checked } }) => {
+    setLogEventsFlag(checked);
+  };
+
+  const handleDescriptionChange = ({ target: { value } }) => {
+    setDescription(value);
+  };
+
+  const handleVisibilityChange = ({ target: { value } }) => {
+    setAccess(value);
+  };
+
+  const setupTermOptions = async () => {
+    try {
+      const { data } = await api.getTermsByUniId(universityId);
+      setTerms(util.getSelectOptions(data, 'term'));
+
+      if (data.length > 0) {
+        setTerm(data[0].id);
       }
-    })
-  }, [])
+    } catch (error_) {
+      prompt.error('Could not load terms.');
+    }
+  };
+
+  useEffect(() => {
+    // Get terms list
+    setupTermOptions();
+  }, []);
+
+  const visibilityOptions = api.offeringAccessType.map(type => ({
+    text: type.name,
+    value: type.id,
+    description: type.description
+  }));
+
   return (
     <CTFragment>
-      <CTFormHeading>Basic Information</CTFormHeading>
+      <CTFormHeading padding={[20, 0, 0, 0]}>Basic Information</CTFormHeading>
       <CTFormRow>
         <CTInput
           required
@@ -74,7 +96,7 @@ export function BasicInfo(props) {
           label="Course Name"
           placeholder="Course Name"
           value={courseName}
-          onChange={setCourseName}
+          onChange={handleCourseNameChange}
           helpText={emptyCourseName ? "Course Name is required." : ''}
         />
         <CTInput
@@ -84,10 +106,11 @@ export function BasicInfo(props) {
           label="Section Name"
           placeholder="Section Name"
           value={sectionName}
-          onChange={setSectionName}
+          onChange={handleSectionNameChange}
           helpText={emptySecName ? "Section Name is required." : ''}
         />
       </CTFormRow>
+
       <CTFormRow>
         <CTSelect
           required
@@ -96,7 +119,7 @@ export function BasicInfo(props) {
           label="Select a Term"
           options={terms}
           value={term}
-          onChange={handleTerm}
+          onChange={handleTermChange}
         />
         <CTSelect
           required
@@ -104,11 +127,12 @@ export function BasicInfo(props) {
           label="Visibility"
           helpText="Choose the user group of this course."
           defaultValue="0"
-          options={getAccessTypes(api.offeringAccessType)}
+          options={visibilityOptions}
           value={accessType}
-          onChange={handleVisibility}
+          onChange={handleVisibilityChange}
         />
       </CTFormRow>
+
       <CTFormRow>
         <CTInput
           textarea
@@ -116,18 +140,21 @@ export function BasicInfo(props) {
           helpText="The description for this class"
           label="Course description"
           value={description}
-          onChange={onDescriptionChange}
+          onChange={handleDescriptionChange}
         />
       </CTFormRow>
+
       <CTFormRow padding={[0, 10]}>
         <CTCheckbox
           id="log-event"
           helpText="Turn it on if you would like to receive the statistics of students' perfermance in the future."
           label="Log student events"
           checked={logEventsFlag}
-          onChange={onLogEventsFlagChange}
+          onChange={handleLogEventsFlagChange}
         />
       </CTFormRow>
     </CTFragment>
   );
 }
+
+export default BasicInfo;

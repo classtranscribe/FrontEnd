@@ -1,170 +1,188 @@
+import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   CTFragment,
   CTFormHeading,
   CTFormHelp,
   CTFormRow,
-  CTAutoComplete
+  CTAutoComplete,
+  CTText,
+  CTHeading
 } from 'layout';
 import { api, util, user } from 'utils';
-import './index.scss';
-import _ from 'lodash';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
 
-export function CourseSelection(props) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    listStyle: 'none',
+    padding: 15,
+    margin: 0,
+    height: 'auto',
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+    fontWeight: 'bold'
+  },
+  row: {
+    width: '49%'
+  }
+}));
+
+function CourseSelection(props) {
   let {
+    error,
+    enable,
     selCourses,
     setSelCourses,
-    enable,
-    error
   } = props;
-  // Styling for the course selection section
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      listStyle: 'none',
-      padding: theme.spacing(0.5),
-      margin: 0,
-      height: theme.spacing(6),
-      color: "gray",
-    },
-    chip: {
-      margin: theme.spacing(0.5),
-    },
-    row: {
-      width: '49%'
-    }
-  }))
-  const classes = useStyles()
 
   // user infomation
-  const uniId = user.getUserInfo().universityId;
+  const { universityId } = user.getUserInfo();
   // handle errors
   // selCoursesError: no course selected while user has clicked the 'create' button
   // noCourseSelected: no course selected
   const selCoursesError = error.includes('selCourses') && enable;
   const noCourseSelected = selCourses.length === 0;
+
   // manage selected depart, list of departs, selected course and list of courses
-  const [depart, setDepart] = useState('');
+  const [depart, setDepart] = useState({});
   const [departs, setDeparts] = useState([]);
 
-  const [course, setCourse] = useState('');
+  const [course, setCourse] = useState({});
   const [courses, setCourses] = useState([]);
 
-  const onDepartChange = (value) => {
-    setDepart(value);
+  const handleDepartChange = (departmentId) => {
+    setDepart(_.find(departs, { id: departmentId }));
   };
-  const onCourseChange = (value) => {
-    setCourse(value);
+
+  const handleCourseChange = (courseId) => {
+    setCourse(_.find(courses, { id: courseId }));
   };
-  // get the list of departs
+
+  const setupDepartmentOptions = async () => {
+    try {
+      const { data } = await api.getDepartsByUniId(universityId);
+      setDeparts(data);
+    } catch (error_) {
+      prompt.error('Could not load departments.');
+    }
+  };
+
+  const setupCourseOptions = async () => {
+    try {
+      const { data } = await api.getCoursesByDepartId(depart.id);
+      setCourses(data);
+    } catch (error_) {
+      prompt.error('Could not load departments.');
+    }
+  };
+
   useEffect(() => {
-    api.getDepartsByUniId(uniId).then((res) => {
-      if (res.status === 200) {
-        setDeparts(util.getSelectOptions(res.data, 'name'))
-      }
-    })
-  }, [])
+    // get the list of departs
+    setupDepartmentOptions();
+  }, []);
 
   useEffect(() => {
     // Could be improved: when selected depart changed, the selected course stay the same
-    if (depart) {
-      api.getCoursesByDepartId(depart).then(res => {
-        api.getDepartById(depart).then(name => {
-          if (res && name) {
-            setCourses(util.getSelectOptions(res.data, name.data.acronym))
-          }
-        })
-      })
+    if (depart.id) {
+      setupCourseOptions();
     }
-  }, [depart])
-
-  // add/remove selected courses
+  }, [depart]);
 
   useEffect(() => {
-    if (course) {
-      api.getCourseById(course).then(res => {
-        if (res && res.status === 200) {
-          api.getDepartById(res.data.departmentId).then(name => {
-            if (name) {
-              if (_.flattenDeep(selCourses).includes(name.data.acronym)) {
-                setSelCourses(_.remove(selCourses, (elem) => {
-                  return elem[0] === name.data.acronym
-                }))
-              }
-              setSelCourses(
-                [...selCourses,
-                [name.data.acronym, res.data.courseNumber, res.data.id]])
-            }
-          })
-        }
-      })
+    // add/remove selected courses
+    if (course.id && depart.id) {
+      setSelCourses([
+        ..._.filter(selCourses, item => item.acronym !== depart.acronym), 
+        { ...course, acronym: depart.acronym }
+      ]);
     }
   }, [course])
 
-  const handleDelete = (chipToDelete) => () => {
-    setSelCourses(
-      (chips) => chips.filter((chip) => chip !== chipToDelete)
-    );
+  const handleDeleteSelCourses = (courseId) => () => {
+    setSelCourses(_.filter(selCourses, item => item.id !== courseId));
   };
 
 
+  const departmentOptions = util.getSelectOptions(departs, 'name');
+  const courseOptions = util.getSelectOptions(courses, depart.acronym);
+
+  const classes = useStyles();
+  const fullNumber = _.join(_.map(selCourses, (val) => val.acronym + val.courseNumber), '/');
+
   return (
     <CTFragment>
-      <CTFormHelp title="Why multiple course number?">
-        Some offerings may be held by multiple departments.
-        For Example, CS425 and ECE428 are the same course.<br />
-        Note that for each department, only one course number can be selected.
+      <CTFormHeading padding={[20, 0, 0, 0]}>Course Number</CTFormHeading>
+      <CTFormHelp title="Course number selection">
+        Since one course might be held by multiple departments (e.g. <b>CS425/ECE428</b>), 
+        ClassTranscribe allows you to select multiple course numbers. 
+        For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to 
+        generate the course number <b>CS357/MATH357</b>.
       </CTFormHelp>
+      
       <CTFormRow>
-        <CTFormHeading>{`Course Number ${_.join(_.map(selCourses, (val) => val[0] + val[1]), '/')}`}
-        </CTFormHeading>
-        <CTFormHeading>Selected Courses</CTFormHeading>
-      </CTFormRow>
-      <CTFormRow>
-        <CTAutoComplete
-          error={selCoursesError}
-          underlined
-          id="sel-dep"
-          label="Select a Department"
-          options={departs}
-          value={depart}
-          onChange={onDepartChange}
-        />
-        <Paper className={classes.root} elevation={1}>
-          {noCourseSelected ? 'No course number selected' : ''}
-          {selCourses.map((data) => {
-            return (
-              <Chip
-                label={_.dropRight(data)}
-                onDelete={handleDelete(data)}
-                className={classes.chip}
-              />
-            );
-          })}
-        </Paper>
-      </CTFormRow>
+        <div>
+          <CTAutoComplete
+            error={selCoursesError}
+            underlined
+            id="sel-dep"
+            label="Select a Department"
+            options={departmentOptions}
+            value={depart.id}
+            onChange={handleDepartChange}
+          />
 
-      <CTFormRow>
-        <CTAutoComplete
-          error={selCoursesError}
-          helpText={selCoursesError ? 'Please select at least one course number.' : ''}
-          className={classes.row}
-          underlined
-          disabled={depart === ''}
-          id="sel-courses"
-          label="Select Courses"
-          defaultValue=""
-          options={courses}
-          value={course}
-          onChange={depart === '' ? undefined : onCourseChange}
-        />
+          <CTAutoComplete
+            error={selCoursesError}
+            helpText={selCoursesError ? 'Please select at least one course number.' : ''}
+            className="mt-3"
+            underlined
+            disabled={depart === ''}
+            id="sel-courses"
+            label="Select a Course Number"
+            defaultValue=""
+            options={courseOptions}
+            value={course.id}
+            onChange={depart === '' ? undefined : handleCourseChange}
+          />
+        </div>
 
+        <div>
+          <Paper className={classes.root} elevation={1}>
+            <CTHeading as="h4" uppercase>
+              Selected Courses
+              {
+                !noCourseSelected 
+                &&
+                `: ${ fullNumber}`
+              }
+            </CTHeading>
+
+            {
+              noCourseSelected 
+              && 
+              <CTText muted margin={10} center>No course number selected</CTText>
+            }
+
+            {selCourses.map((item) => {
+              return (
+                <Chip
+                  key={item.id}
+                  label={item.acronym + item.courseNumber}
+                  onDelete={handleDeleteSelCourses(item.id)}
+                  className={classes.chip}
+                />
+              );
+            })}
+          </Paper>
+        </div>
       </CTFormRow>
     </CTFragment>
-
-  )
+  );
 }
+
+export default CourseSelection;
