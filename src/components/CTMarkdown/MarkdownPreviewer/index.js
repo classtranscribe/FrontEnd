@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { html } from 'utils';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism-tomorrow.css';
 import './index.scss';
+import 'prismjs/themes/prism-tomorrow.css';
 
 /**
  * An Markdown Preview converter
@@ -18,9 +18,9 @@ function MarkdownPreviewer(props) {
   } = props;
 
   useEffect(() => {
+    require('prismjs/components/prism-jsx.min');
     Prism.highlightAll();
-  }, [])
-  
+  }, []);
 
   const previewClasses = cx('ct-md', 'preview', className);
   const htmlClasses = cx('ct-md', 'preview-html');
