@@ -40,7 +40,7 @@ export function CourseCard(props) {
           {number}
         </CTText>
 
-        <CTText bold size="big">{name}</CTText>
+        <CTText bold size="big" line={2}>{name}</CTText>
       </div>
 
       <CTText celadon size="medium">
