@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CTLayout } from 'layout';
 import { api } from 'utils';
-import { CTFormNewPlaylist } from './NewPlaylistForm';
+import { NewPlaylistForm } from './Components';
 
 export class NewPlaylist extends Component {
   componentDidMount() {
@@ -24,7 +24,7 @@ export class NewPlaylist extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTFormNewPlaylist />
+        <NewPlaylistForm />
       </CTLayout>
     );
   }
