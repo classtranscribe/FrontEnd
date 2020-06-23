@@ -10,7 +10,7 @@ import {
 import { Button } from 'pico-ui';
 import _ from 'lodash';
 import { user, uemail } from 'utils';
-import { EmailFilter } from '../EmailFilter' 
+import { EmailFilter } from './EmailFilter' 
 import './index.scss';
 
 
