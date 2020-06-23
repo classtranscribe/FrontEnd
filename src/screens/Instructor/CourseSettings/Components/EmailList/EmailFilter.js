@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   CTFragment,
   CTInput
@@ -7,7 +8,7 @@ import { user, uemail } from 'utils';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
 
-export function EmailFilter(props) {
+function EmailFilter(props) {
   const {
     emails,
     setEmails,
@@ -104,3 +105,14 @@ export function EmailFilter(props) {
     </CTFragment>
   );
 }
+
+EmailFilter.propTypes = {
+  emails: PropTypes.array,
+  setEmails: PropTypes.func,
+  inputValue: PropTypes.string,
+  setInputValue: PropTypes.func,
+  error: PropTypes.array,
+  setError: PropTypes.func
+};
+
+export default EmailFilter;
