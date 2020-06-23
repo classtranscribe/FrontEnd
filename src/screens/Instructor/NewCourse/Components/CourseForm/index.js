@@ -105,9 +105,6 @@ export function CourseForm(props) {
           offset: [-1, -1],
         }, false)
       }
-      if (offeringId !== null) {
-        history.push(links.offeringDetail(offeringId))
-      }
     } catch (err) {
       return;
     }
@@ -117,6 +114,9 @@ export function CourseForm(props) {
           console.error(`failed to add course ${selCourses[i]}`);
         }
       )
+    }
+    if (offeringId !== null) {
+      history.push(links.offeringDetail(offeringId))
     }
   };
   const basicInfoProps = {
