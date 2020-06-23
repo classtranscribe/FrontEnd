@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { CTFragment, CTFormHeading, CTFormRow, CTInput, CTSelect, CTCheckbox } from 'layout';
 import { api, util, user } from 'utils';
 
-export function PlaylistName() {
+function PlaylistName() {
   const [playlistName, setPlaylistName] = useState('');
   const handlePlaylistNameChange = ({ target: { value } }) => setPlaylistName(value);
   return (
@@ -19,3 +19,4 @@ export function PlaylistName() {
     </CTFragment>
   );
 }
+export default PlaylistName;
