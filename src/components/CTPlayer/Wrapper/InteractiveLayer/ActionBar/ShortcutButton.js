@@ -15,7 +15,7 @@ function ShortcutButton(props) {
 }
 
 ShortcutButton.propTypes = {
-
+  onClick: PropTypes.func
 };
 
 export default ShortcutButton;

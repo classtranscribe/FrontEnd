@@ -12,7 +12,7 @@ import {
   CTUploadButton,
 } from 'layout';
 
-function BasicForm() {
+export function BasicForm() {
   const [inputVal, setInputVal] = useState('');
   const [isChecked, setIsChecked] = useState(false);
 
@@ -119,7 +119,7 @@ function BasicForm() {
   );
 }
 
-function AdvancedForm() {
+export function AdvancedForm() {
   const [option, setOption] = useState('opt-1');
   const handleSelect = ({ target: { value }}) => setOption(value);
 
@@ -132,7 +132,6 @@ function AdvancedForm() {
 
   return (
     <CTForm
-      expanded
       collapsible
       padding={[10, 35]}
       id="ctform-sel"
@@ -195,7 +194,7 @@ function AdvancedForm() {
 }
 
 
-function UploadForm() {
+export function UploadForm() {
   const handleFileUpload = (files) => {
     if (files.length > 0) {
       alert(`Uploaded file ${files[0].name}`);
@@ -204,7 +203,6 @@ function UploadForm() {
 
   return (
     <CTForm
-      expanded
       collapsible
       padding={[10, 35]}
       id="ctform-upload"
@@ -232,7 +230,7 @@ function UploadForm() {
         Browse Images
       </CTUploadButton>
     </CTForm>
-  )
+  );
 }
 
 /**

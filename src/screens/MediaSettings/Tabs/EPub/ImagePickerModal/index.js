@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Tab } from 'semantic-ui-react';
-import { CTModal } from 'components';
-import './index.scss';
+import React from 'react';
+import { CTImagePickerModal } from 'components';
 
-import ScreenshotTab from './ScreenshotTab';
-import UploadTab from './UploadTab';
-import ImagePickerModalActions from './ImagePickerModalActions';
 
 function ImagePickerModal({
   show = false,
@@ -15,61 +10,31 @@ function ImagePickerModal({
   chapterScreenshots = [],
   defaultImage,
 }) {
-  const [imgUrl, setImgUrl] = useState(defaultImage);
-
-  const onSaveImage = () => {
-    if (onSave) {
-      onSave(imgUrl);
-    }
-  };
-
-  useEffect(() => {
-    setImgUrl(defaultImage);
-  }, [defaultImage]);
-
-  let panes = [
+  let tabs = [
     {
-      menuItem: 'All Screenshots',
-      render: () => (
-        <Tab.Pane>
-          <ScreenshotTab screenshots={screenshots} imgUrl={imgUrl} setImgUrl={setImgUrl} />
-        </Tab.Pane>
-      ),
+      name: 'All Screenshots',
+      images: screenshots,
     },
-    {
-      menuItem: 'Upload',
-      render: () => (
-        <Tab.Pane>
-          <UploadTab imgUrl={imgUrl} setImgUrl={setImgUrl} />
-        </Tab.Pane>
-      ),
-    },
+    'upload'
   ];
 
   if (chapterScreenshots.length > 0) {
-    panes = [
-      {
-        menuItem: 'Chapter Screenshots',
-        render: () => (
-          <Tab.Pane>
-            <ScreenshotTab screenshots={chapterScreenshots} imgUrl={imgUrl} setImgUrl={setImgUrl} />
-          </Tab.Pane>
-        ),
-      },
-      ...panes,
-    ];
+    tabs = [{
+      name: 'Chapter Screenshots',
+      images: chapterScreenshots
+    }, ...tabs];
   }
 
+  const imgPickerProps = {
+    show,
+    defaultImage,
+    tabs,
+    onSave,
+    onClose
+  };
+
   return (
-    <CTModal
-      large
-      show={show}
-      title="Choose Cover Image"
-      onClose={onClose}
-      actions={<ImagePickerModalActions onSave={onSaveImage} onClose={onClose} />}
-    >
-      <Tab panes={panes} />
-    </CTModal>
+    <CTImagePickerModal {...imgPickerProps} />
   );
 }
 

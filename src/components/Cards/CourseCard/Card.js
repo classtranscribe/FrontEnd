@@ -36,11 +36,11 @@ export function CourseCard(props) {
   return (
     <CTFragment {...cardProps}>
       <div className="title">
-        <CTText teal className="number" size="large" margin={[0, 10, 0, 0]}>
+        <CTText teal className="number" size="large" line={1}>
           {number}
         </CTText>
 
-        <CTText bold size="big">{name}</CTText>
+        <CTText bold size="big" line={2}>{name}</CTText>
       </div>
 
       <CTText celadon size="medium">

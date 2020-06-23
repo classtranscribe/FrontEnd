@@ -15,7 +15,7 @@ function ExitFullScreenButton(props) {
 }
 
 ExitFullScreenButton.propTypes = {
-
+  onClick: PropTypes.func
 };
 
 export default ExitFullScreenButton;

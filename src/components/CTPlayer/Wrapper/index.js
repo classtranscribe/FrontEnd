@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import './index.scss';
 
 import StartLayer from './StartLayer';
@@ -33,10 +32,6 @@ function Wrapper(props) {
     language,
     currCaption,
     hideWrapperOnMouseLeave,
-    // allowRangePicker,
-    // openRange,
-    // range,
-    // onRangeChange,
   } = props;
 
   const startLayerProps = {
@@ -47,9 +42,6 @@ function Wrapper(props) {
 
   const nonInteractiveLayerProps = {
     event,
-    userReady,
-    isEnded,
-    isPaused,
     volume,
     onTogglePause: player.togglePause
   };
@@ -83,14 +75,42 @@ function Wrapper(props) {
     <div className="ctp wrapper main-wrapper">
       <NonInteractiveLayer {...nonInteractiveLayerProps} />
       <InteractiveLayer {...interactiveLayerProps} />
-
       <StartLayer {...startLayerProps} />
     </div>
   );
 }
 
 Wrapper.propTypes = {
+  /** The media data for this player */
+  media: InteractiveLayer.propTypes.media,
 
+  /** The player controller instance */
+  player: InteractiveLayer.propTypes.player,
+
+  /** The video playback event */
+  event: NonInteractiveLayer.propTypes.event,
+
+  isTwoScreen: InteractiveLayer.propTypes.isTwoScreen,
+  screenMode: InteractiveLayer.propTypes.screenMode,
+  videoReady: StartLayer.propTypes.videoReady,
+  userReady: InteractiveLayer.propTypes.userReady,
+  isEnded: InteractiveLayer.propTypes.isEnded,
+  isPaused: InteractiveLayer.propTypes.isPaused,
+  isFullscreen: InteractiveLayer.propTypes.isFullscreen,
+  duration: InteractiveLayer.propTypes.duration,
+  time: InteractiveLayer.propTypes.time,
+  bufferedTime: InteractiveLayer.propTypes.bufferedTime,
+  muted: InteractiveLayer.propTypes.muted,
+  volume: InteractiveLayer.propTypes.volume,
+  playbackRate: InteractiveLayer.propTypes.playbackRate,
+  openCC: InteractiveLayer.propTypes.openCC,
+  ccFontSize: InteractiveLayer.propTypes.ccFontSize,
+  ccFontColor: InteractiveLayer.propTypes.ccFontColor,
+  ccOpacity: InteractiveLayer.propTypes.ccOpacity,
+  ccBackgroundColor: InteractiveLayer.propTypes.ccBackgroundColor,
+  language: InteractiveLayer.propTypes.language,
+  currCaption: InteractiveLayer.propTypes.currCaption,
+  hideWrapperOnMouseLeave: InteractiveLayer.propTypes.hideWrapperOnMouseLeave
 };
 
 export default Wrapper;

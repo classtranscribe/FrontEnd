@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { CTFragment } from '../CTFragment';
+import CTFragment from '../CTFragment';
 
 /**
  * A controlled text component for ClassTranscribe
@@ -50,7 +50,7 @@ function Text(props) {
   }, className);
 
   const textStyle = {
-    '-webkit-line-clamp': toString(line)
+    '-webkit-line-clamp': `${line }`
   };
 
   const textProps = {

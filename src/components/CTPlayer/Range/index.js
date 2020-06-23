@@ -41,6 +41,8 @@ function Range(props) {
 }
 
 Range.propTypes = {
+  id: PropTypes.string,
+  time: PropTypes.number,
   duration: PropTypes.number,
   range: PropTypes.arrayOf(PropTypes.number),
   onRangeChange: PropTypes.func,

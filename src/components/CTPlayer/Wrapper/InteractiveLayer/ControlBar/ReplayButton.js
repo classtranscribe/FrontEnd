@@ -14,7 +14,7 @@ function ReplayButton(props) {
 }
 
 ReplayButton.propTypes = {
-
+  onClick: PropTypes.func
 };
 
 export default ReplayButton;

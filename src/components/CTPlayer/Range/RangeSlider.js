@@ -5,7 +5,6 @@ import Slider from '@material-ui/core/Slider';
 import timestr from 'utils/use-time';
 
 import RangeTimeLabel from './RangeTimeLabel';
-import SliderTimeLabel from '../Wrapper/InteractiveLayer/ControlBar/Progress/SliderTimeLabel';
 
 function RangeSlider(props) {
   let {
@@ -41,7 +40,7 @@ function RangeSlider(props) {
     valueLabelFormat: timestr.toDecimalTimeString,
     valueLabelDisplay: 'on',
     ValueLabelComponent: RangeTimeLabel,
-    'aria-label': 'Range Slider',
+    getAriaLabel: () => 'Range Slider',
     // marks: _.map(range, rg => ({ value: rg, label: timestr.toTimeString(rg) }))
   };
 
@@ -53,7 +52,6 @@ function RangeSlider(props) {
 }
 
 RangeSlider.propTypes = {
-  openRange: PropTypes.bool,
   range: PropTypes.arrayOf(PropTypes.number),
   duration: PropTypes.number,
   onRangeChange: PropTypes.func

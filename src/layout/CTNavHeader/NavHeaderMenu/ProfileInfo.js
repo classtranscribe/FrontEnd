@@ -12,11 +12,12 @@ function ProfileInfo(props) {
     emailId = '',
     isLoginAsAccount = false,
     loginAsUserUni = '',
-    loginAsEmailId = ''
+    loginAsEmailId = '',
+    ...otherProps
   } = props;
 
   return (
-    <MenuItem disabled id="profile">
+    <MenuItem disabled id="profile" {...otherProps}>
       <div className="profile">
         {
           picture 

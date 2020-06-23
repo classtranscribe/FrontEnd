@@ -1,3 +1,7 @@
+
+/**
+ * The class contains all the static values for the video player
+ */
 class PlayerConstants {
   // Playback Rates
   static PLAYBACK_RATES = [2, 1.75, 1.5, 1.25, 1, 0.75, 0.5, 0.25];

@@ -8,13 +8,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import { Button } from 'pico-ui';
 
-import { CTFragment } from '../../CTFragment';
-import { CTHeading } from '../../CTHeading';
+import CTFragment from '../../CTFragment';
+import CTHeading from '../../CTHeading';
 
 /**
  * A general collapsible form component
  */
-export function Form(props) {
+function Form(props) {
   let {
     id,
     padding,
@@ -118,3 +118,4 @@ Form.propTypes = {
   children: PropTypes.node,
 };
 
+export default Form;

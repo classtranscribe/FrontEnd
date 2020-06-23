@@ -32,7 +32,12 @@ function RangeContolBar(props) {
 }
 
 RangeContolBar.propTypes = {
-
+  id: PropTypes.string,
+  duration: PropTypes.number,
+  time: PropTypes.number,
+  range: PropTypes.arrayOf(PropTypes.number),
+  onRangeChange: PropTypes.func,
+  onPlayRange: PropTypes.func
 };
 
 export default RangeContolBar;

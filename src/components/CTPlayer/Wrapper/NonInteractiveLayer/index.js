@@ -6,13 +6,9 @@ import EventVisualPopup from './EventVisualPopup';
 
 function NonInteractiveLayer(props) {
   let {
-    userReady,
     event,
-    isPaused,
-    isEnded,
     volume,
     onTogglePause,
-    onReplay,
   } = props;
 
   return (
@@ -26,10 +22,9 @@ function NonInteractiveLayer(props) {
 }
 
 NonInteractiveLayer.propTypes = {
-  isPaused: PropTypes.bool,
-  isEnded: PropTypes.bool,
+  event: PropTypes.string,
+  volume: PropTypes.number,
   onTogglePause: PropTypes.func,
-  onReplay: PropTypes.func,
 };
 
 export default NonInteractiveLayer;
