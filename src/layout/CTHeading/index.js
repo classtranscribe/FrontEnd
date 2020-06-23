@@ -43,9 +43,14 @@ function CTHeading(props) {
     padding,
   });
 
+  const iconElement = typeof icon === 'string'
+                    ? <i className="material-icons">{icon}</i>
+                    : icon;
+
   return (
     <CTFragment {...fragmentProps}>
-      {icon && <i className="material-icons">{icon}</i>}
+      {iconElement}
+
       <span className="content">{headingElement}</span>
     </CTFragment>
   );
