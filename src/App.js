@@ -12,6 +12,8 @@ import {
   CourseAnalytics,
   InstPlaylist,
   MediaSettings,
+  NewPlaylist,
+
   // Student
   Home,
   Course,
@@ -52,6 +54,9 @@ class App extends React.Component {
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
           {user.isInstructor && <Route exact path="/instructor/my-courses" component={MyCourses} />}
           {user.isInstructor && <Route exact path="/instructor/new-course" component={NewCourse} />}
+          {user.isInstructor && (
+            <Route exact path="/instructor/:id/new-playlist" component={NewPlaylist} />
+          )}
           {user.isInstructor && (
             <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
           )}
