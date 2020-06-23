@@ -36,7 +36,7 @@ export function CourseCard(props) {
   return (
     <CTFragment {...cardProps}>
       <div className="title">
-        <CTText teal className="number" size="large" margin={[0, 10, 0, 0]}>
+        <CTText teal className="number" size="large" line={1}>
           {number}
         </CTText>
 

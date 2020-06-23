@@ -50,7 +50,7 @@ function Text(props) {
   }, className);
 
   const textStyle = {
-    '-webkit-line-clamp': toString(line)
+    '-webkit-line-clamp': `${line }`
   };
 
   const textProps = {
