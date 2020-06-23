@@ -1,13 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import MaterialCheckbox from '@material-ui/core/Checkbox';
+import MuiCheckbox from '@material-ui/core/Checkbox';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
+export const useStyles = makeStyles({
+  root: {
+    '&.MuiIconButton-colorSecondary:hover': {
+      backgroundColor: 'rgba(51, 138, 133, 0.13)'
+    },
+    '&.MuiCheckbox-colorSecondary.Mui-checked': {
+      color: '#348b86'
+    }
+  },
+});
 
-export function Checkbox(props) {
+function Checkbox(props) {
   let {
     id,
     legend,
@@ -19,8 +30,18 @@ export function Checkbox(props) {
     onChange,
   } = props;
 
+  const cbClasses = useStyles();
+
+  const checkboxProps = {
+    id,
+    disabled,
+    checked,
+    classes: useStyles(),
+    onChange
+  };
+
   const checkboxElement = (
-    <MaterialCheckbox id={id} disabled={disabled} checked={checked} onChange={onChange} />
+    <MuiCheckbox {...checkboxProps} />
   );
 
   return (
@@ -60,4 +81,6 @@ Checkbox.propTypes = {
   /** The checkbox can be diabled */
   disabled: PropTypes.bool
 };
+
+export default Checkbox;
 

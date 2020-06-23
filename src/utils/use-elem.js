@@ -10,6 +10,10 @@ function getElement(elem) {
 }
 
 class ElementHandler {
+  constructor() {
+    this.exitFullScreen = this.exitFullScreen.bind(this);
+    this.enterFullscreen = this.enterFullscreen.bind(this);
+  }
   /**
    * Focus on the elem
    * @param {String} elemId the id of the html elem
@@ -178,6 +182,61 @@ class ElementHandler {
     const elem = getElement(el);
     if (elem) {
       elem.removeEventListener('paste', this.pastePlainText, true);
+    }
+  }
+
+  /**
+   * Determine if there is a fullscreen element
+   */
+  get isInFullScreen() {
+    return (document.fullscreenElement && document.fullscreenElement !== null) ||
+    (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+    (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+    (document.msFullscreenElement && document.msFullscreenElement !== null);
+  }
+
+  /**
+   * Display the element as fullscreen view
+   * @param {*} elemId - the html elem / elem's id
+   */
+  enterFullscreen(elemId) {
+    const elem = getElement(elemId);
+    if (this.isInFullScreen) return;
+
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      /* Firefox */
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      elem.webkitRequestFullscreen();
+    } else if (elem.webkitEnterFullscreen) {
+      /* Safari IOS Mobile */
+      elem.webkitEnterFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      /* IE/Edge */
+      elem.msRequestFullscreen();
+    }
+  }
+
+  /**
+   * Exit the fullscreen view
+   */
+  exitFullScreen() {
+    if (!this.isInFullScreen) return;
+
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      /* Firefox */
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      /* Chrome, Safari and Opera */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      /* IE/Edge */
+      document.msExitFullscreen();
     }
   }
 }

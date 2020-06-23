@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 
 export const useStyles = makeStyles({
   root: {
@@ -24,7 +23,7 @@ export const useStyles = makeStyles({
 /**
  * The controlled input component used in `CTForm`
  */
-export function Input(props) {
+function Input(props) {
   let {
     id,
     label,
@@ -103,4 +102,6 @@ Input.propTypes = {
   /** The input field can be underlined */
   underlined: PropTypes.bool
 };
+
+export default Input;
 
