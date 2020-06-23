@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CTFragment,
   CTFormHeading,
@@ -12,10 +12,14 @@ import _ from 'lodash';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import { CourseContext } from './ContextProvider';
 
-
-export function CourseSelection() {
+export function CourseSelection(props) {
+  let {
+    selCourses,
+    setSelCourses,
+    enable,
+    error
+  } = props;
   // Styling for the course selection section
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,17 +37,16 @@ export function CourseSelection() {
     row: {
       width: '49%'
     }
-  }));
-  const classes = useStyles();
-  const courseContext = useContext(CourseContext)
+  }))
+  const classes = useStyles()
 
   // user infomation
   const uniId = user.getUserInfo().universityId;
   // handle errors
   // selCoursesError: no course selected while user has clicked the 'create' button
   // noCourseSelected: no course selected
-  const selCoursesError = courseContext.error.includes('selCourses') && courseContext.enable;
-  const noCourseSelected = courseContext.selCourses.length === 0;
+  const selCoursesError = error.includes('selCourses') && enable;
+  const noCourseSelected = selCourses.length === 0;
   // manage selected depart, list of departs, selected course and list of courses
   const [depart, setDepart] = useState('');
   const [departs, setDeparts] = useState([]);
@@ -72,10 +75,10 @@ export function CourseSelection() {
       api.getCoursesByDepartId(depart).then(res => {
         api.getDepartById(depart).then(name => {
           if (res && name) {
-            setCourses(util.getSelectOptions(res.data, name.data.acronym));
+            setCourses(util.getSelectOptions(res.data, name.data.acronym))
           }
         })
-      });
+      })
     }
   }, [depart])
 
@@ -87,13 +90,13 @@ export function CourseSelection() {
         if (res && res.status === 200) {
           api.getDepartById(res.data.departmentId).then(name => {
             if (name) {
-              if (_.flattenDeep(courseContext.selCourses).includes(name.data.acronym)) {
-                courseContext.setSelCourses(_.remove(courseContext.selCourses, (elem) => {
+              if (_.flattenDeep(selCourses).includes(name.data.acronym)) {
+                setSelCourses(_.remove(selCourses, (elem) => {
                   return elem[0] === name.data.acronym
                 }))
               }
-              courseContext.setSelCourses(
-                [...courseContext.selCourses,
+              setSelCourses(
+                [...selCourses,
                 [name.data.acronym, res.data.courseNumber, res.data.id]])
             }
           })
@@ -103,7 +106,7 @@ export function CourseSelection() {
   }, [course])
 
   const handleDelete = (chipToDelete) => () => {
-    courseContext.setSelCourses(
+    setSelCourses(
       (chips) => chips.filter((chip) => chip !== chipToDelete)
     );
   };
@@ -117,7 +120,7 @@ export function CourseSelection() {
         Note that for each department, only one course number can be selected.
       </CTFormHelp>
       <CTFormRow>
-        <CTFormHeading>{`Course Number ${ _.join(_.map(courseContext.selCourses, (val) => val[0] + val[1]), '/')}`}
+        <CTFormHeading>{`Course Number ${_.join(_.map(selCourses, (val) => val[0] + val[1]), '/')}`}
         </CTFormHeading>
         <CTFormHeading>Selected Courses</CTFormHeading>
       </CTFormRow>
@@ -133,7 +136,7 @@ export function CourseSelection() {
         />
         <Paper className={classes.root} elevation={1}>
           {noCourseSelected ? 'No course number selected' : ''}
-          {courseContext.selCourses.map((data) => {
+          {selCourses.map((data) => {
             return (
               <Chip
                 label={_.dropRight(data)}
@@ -161,9 +164,7 @@ export function CourseSelection() {
         />
 
       </CTFormRow>
-
-
     </CTFragment>
 
-  );
+  )
 }

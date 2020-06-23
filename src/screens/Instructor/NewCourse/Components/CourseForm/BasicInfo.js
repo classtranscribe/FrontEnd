@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CTFragment,
   CTFormHeading,
@@ -10,26 +10,41 @@ import {
 import { api, util, user } from 'utils';
 import './index.scss';
 import _ from 'lodash';
-import { CourseContext } from './ContextProvider';
 
-export function BasicInfo() {
-  const courseContext = useContext(CourseContext)
+export function BasicInfo(props) {
+  let {
+    courseName,
+    setcourseName,
+    term,
+    setTerm,
+    logEventsFlag,
+    setLogEventsFlag,
+    description,
+    setDescription,
+    accessType,
+    selAccess,
+    error,
+    enable,
+    setsectionName,
+    sectionName
+  } = props;
+
   // user infomation
   const uniId = user.getUserInfo().universityId;
   // errors
-  const emptyCourseName = courseContext.error.includes('courseName') && courseContext.enable;
-  const emptySecName = courseContext.error.includes('sectionName') && courseContext.enable;
-  // handle basic info from courseContext
-  const setCourseName = ({ target: { value } }) => courseContext.setcourseName(value);
-  const setSectionName = ({ target: { value } }) => courseContext.setsectionName(value);
-  const handleTerm = ({ target: { value } }) => courseContext.setTerm(value);
+  const emptyCourseName = error.includes('courseName') && enable;
+  const emptySecName = error.includes('sectionName') && enable;
+  // handle basic info
+  const setCourseName = ({ target: { value } }) => setcourseName(value);
+  const setSectionName = ({ target: { value } }) => setsectionName(value);
+  const handleTerm = ({ target: { value } }) => setTerm(value);
   const [terms, setTerms] = useState([]);
   const onLogEventsFlagChange = ({ target: { checked } }) =>
-    courseContext.setLogEventsFlag(checked);
+    setLogEventsFlag(checked);
   const onDescriptionChange = ({ target: { value } }) =>
-    courseContext.setDescription(value);
+    setDescription(value);
   const handleVisibility = ({ target: { value } }) =>
-    courseContext.selAccess(value);
+    selAccess(value);
 
   const getAccessTypes = (array = []) => {
     if (!Array.isArray(array)) return [];
@@ -58,7 +73,7 @@ export function BasicInfo() {
           error={emptyCourseName}
           label="Course Name"
           placeholder="Course Name"
-          value={courseContext.courseName}
+          value={courseName}
           onChange={setCourseName}
           helpText={emptyCourseName ? "Course Name is required." : ''}
         />
@@ -68,7 +83,7 @@ export function BasicInfo() {
           error={emptySecName}
           label="Section Name"
           placeholder="Section Name"
-          value={courseContext.sectionName}
+          value={sectionName}
           onChange={setSectionName}
           helpText={emptySecName ? "Section Name is required." : ''}
         />
@@ -80,7 +95,7 @@ export function BasicInfo() {
           id="sel-1"
           label="Select a Term"
           options={terms}
-          value={courseContext.term}
+          value={term}
           onChange={handleTerm}
         />
         <CTSelect
@@ -90,7 +105,7 @@ export function BasicInfo() {
           helpText="Choose the user group of this course."
           defaultValue="0"
           options={getAccessTypes(api.offeringAccessType)}
-          value={courseContext.accessType}
+          value={accessType}
           onChange={handleVisibility}
         />
       </CTFormRow>
@@ -100,7 +115,7 @@ export function BasicInfo() {
           id="course-description"
           helpText="The description for this class"
           label="Course description"
-          value={courseContext.description}
+          value={description}
           onChange={onDescriptionChange}
         />
       </CTFormRow>
@@ -109,7 +124,7 @@ export function BasicInfo() {
           id="log-event"
           helpText="Turn it on if you would like to receive the statistics of students' perfermance in the future."
           label="Log student events"
-          checked={courseContext.logEventsFlag}
+          checked={logEventsFlag}
           onChange={onLogEventsFlagChange}
         />
       </CTFormRow>

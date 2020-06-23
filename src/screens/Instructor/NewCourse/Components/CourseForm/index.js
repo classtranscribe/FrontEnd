@@ -2,13 +2,12 @@ import React, { useState, useEffect, useReducer } from 'react';
 import {
   CTForm
 } from 'layout';
-import { api, util, user, prompt, links } from 'utils';
+import { api, user, prompt, links } from 'utils';
 import './index.scss';
 import _ from 'lodash';
-import { useHistory } from 'react-router-dom'
-import { BasicInfo } from './BasicInfo'
-import { CourseSelection } from './CourseSelection'
-import { CourseContext } from './ContextProvider'
+import { useHistory } from 'react-router-dom';
+import { BasicInfo } from './BasicInfo';
+import { CourseSelection } from './CourseSelection';
 
 export function CourseForm(props) {
   let {
@@ -57,7 +56,7 @@ export function CourseForm(props) {
     if (courseName === '') {
       errorDispatch([true, 'courseName'])
     } else {
-      errorDispatch([false, 'courseName']);
+      errorDispatch([false, 'courseName'])
     }
     if (sectionName === '') {
       errorDispatch([true, 'sectionName'])
@@ -120,44 +119,43 @@ export function CourseForm(props) {
       )
     }
   };
-
+  const basicInfoProps = {
+    courseName,
+    setcourseName,
+    term,
+    setTerm,
+    logEventsFlag,
+    setLogEventsFlag,
+    description,
+    setDescription,
+    accessType,
+    selAccess,
+    coursesText,
+    setCoursesText,
+    enable,
+    error,
+    sectionName,
+    setsectionName
+  }
+  const courseSelectionProps = {
+    selCourses,
+    setSelCourses,
+    enable,
+    error
+  }
   return (
-    <CourseContext.Provider
-      value={{
-        error,
-        errorDispatch,
-        enable,
-        courseName,
-        sectionName,
-        setsectionName,
-        setcourseName,
-        term,
-        setTerm,
-        logEventsFlag,
-        setLogEventsFlag,
-        description,
-        setDescription,
-        accessType,
-        selAccess,
-        selCourses,
-        setSelCourses,
-        coursesText,
-        setCoursesText
-      }}
-    >
 
-      <CTForm
-        heading="Course Information Form"
-        padding={[10, 35]}
-        id="ctform-basics"
-        onSave={handleSave}
-        onSaveButtonText="Create"
-        onCancel={handleCancel}
-      >
-        <CourseSelection />
-        <BasicInfo />
-      </CTForm>
-    </CourseContext.Provider>
+    <CTForm
+      heading="Course Information Form"
+      padding={[10, 35]}
+      id="ctform-basics"
+      onSave={handleSave}
+      onSaveButtonText="Create"
+      onCancel={handleCancel}
+    >
+      <CourseSelection {...courseSelectionProps} />
+      <BasicInfo {...basicInfoProps} />
+    </CTForm>
 
   );
 }

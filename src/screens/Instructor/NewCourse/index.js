@@ -21,12 +21,9 @@ export class NewCourse extends Component {
         offsetTop: 30
       }
     });
-    const courseProps = {
-
-    }
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm {...courseProps} />
+        <CourseForm />
       </CTLayout>
     )
   }
