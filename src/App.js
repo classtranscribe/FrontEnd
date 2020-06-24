@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
-import { 
+import {
   // Admin
   Admin,
   // Instructor
@@ -22,9 +22,10 @@ import {
   // General
   SetupUser,
   NotFound404,
-  Maintenance, 
+  Maintenance,
   ComponentAPI,
   Example,
+  Embed
 } from './screens';
 
 import './App.css';
@@ -84,6 +85,11 @@ class App extends React.Component {
             user.isInstructor
             &&
             <Route path="/media-settings/:id" component={MediaSettings} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/embed" component={Embed} />
           }
 
           {/* Student */}
