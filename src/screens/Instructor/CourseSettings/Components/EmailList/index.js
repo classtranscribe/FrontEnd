@@ -4,17 +4,20 @@ import {
   CTForm, 
   CTFormRow
 } from 'layout';
-import { Button } from 'pico-ui';
-import _ from 'lodash';
-import { user, uemail } from 'utils';
 import EmailFilter from './EmailFilter';
 import UploadFile from './UploadFile';
 import './index.scss';
 
+const sampleEmails = [
+  'shawn@gmail.com',
+  'david@illinois.edu',
+  'alice@illinois.edu',
+  'michael@gmail.com'
+];
 
 function EmailListWithRedux(props) {
   let { title, description, onSave } = props;
-  const [emails, setEmails] = useState([]);
+  const [emails, setEmails] = useState(sampleEmails);
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
 

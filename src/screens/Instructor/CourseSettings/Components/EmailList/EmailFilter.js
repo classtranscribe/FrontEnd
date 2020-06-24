@@ -1,13 +1,10 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  CTFragment,
-  CTInput,  
-  CTFilter
-} from 'layout';
+import { CTFragment, CTFilter, CTInput, CTText } from 'layout';
 import { user, uemail } from 'utils';
 import { Button } from 'pico-ui';
-import _ from 'lodash';
+import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
   const {
@@ -21,38 +18,57 @@ function EmailFilter(props) {
 
   const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId;
 
-  const handleInputChange = ({ target: { value }}) => setInputValue(value);
+  const handleInputChange = ({ target: { value }}) => {
+    setInputValue(value);
+    if (error && uemail.isValid(inputValue)) {
+      setError(null);
+    }
+  };
 
   const addEmailAddress = () => {
     if (!inputValue) return;
     if (!uemail.isValid(inputValue)) {
       return setError('Please enter a valid email.');
     }
-    let includes = _.includes(emails, inputValue);
-    includes = includes || inputValue === myEmailId;
+
+    let includes = inputValue === myEmailId || _.includes(emails, inputValue);
     if (!includes) {
-      let newEmails = [...emails, inputValue];
+      const newEmails = [...emails, inputValue];
       setEmails(newEmails);
       setInputValue('');
       if (error) setError(null);
     }
   };
-  const demailFilter = (result) => {
-    let x = null;
+
+  const emailResult = (result) => {
+    let emailListElement = null;
     if (result.length === 0) {
-      x = (
-        <div className="no-email">
-          <span>You have not add this email before.</span>
-        </div>
+      emailListElement = (
+        <CTFragment list>
+          <CTText margin={[10, 0]} center muted>No result</CTText>
+          <CTFragment hCenter>
+            <Button
+              uppercase
+              compact
+              text="Add this email"
+              color="teal"
+              onClick={addEmailAddress}
+            />
+          </CTFragment>
+        </CTFragment>
       );
     } else {
-      // not work
-      x = result.map(email => <myEmailId email={emails} />)// how to check the email in the emails
+      if (result.length === emails.length) {
+        result = [`${myEmailId} (You)`, ...result];
+      }
+      emailListElement = result.map(email => (
+        <EmailItem email={email} /** `onDelete` goes here */ />
+      ));
     }
+
     return (
-      // what's this means
-      <CTFragment list role="list">
-        {x}
+      <CTFragment list role="list" padding={[20, 0, 0, 0]}>
+        {emailListElement}
       </CTFragment>
     );
   }
@@ -69,56 +85,15 @@ function EmailFilter(props) {
         placeholder="Enter email here..."
         value={inputValue}
         onChange={handleInputChange}
+        error={error}
+        helpText={error}
       />
       <CTFilter
-        withDefaultFilter
+        value={inputValue}
         data={emails}
       >
-        {demailFilter}
+        {emailResult}
       </CTFilter>
-      <CTFragment hCenter padding={[20, 0, 0, 0]} className="email-list-add-btn">
-        <Button
-          uppercase
-          compact
-          text="Add"
-          color="teal transparent"
-          onClick={addEmailAddress}
-        />
-      </CTFragment>
-      {/* set the filter return ???????????????? */}
-      {/* <CTFragment>
-        <CTFilter
-          withDefaultFilter
-          data={emails}
-        >
-          {demailFilter}
-        </CTFilter>
-      </CTFragment> */}
-      {/* ??????????????????????????????????????? */}
-      {/* email list */}
-      <CTFragment className="email-list" role="list">
-        {
-          <div className="ip-f-email-item">
-            {myEmailId}
-            <i>(You)</i>
-          </div>
-        }
-        {(emails || [])
-          .slice()
-          .reverse()
-          .map((email) => (
-            <div className="ip-f-email-item" key={email}>
-              {email}
-              {/* <Icon
-            name="trash"
-            onClick={() => removeStaff(email)}
-            title="remove"
-            aria-label="remove"
-            role="button"
-          /> */}
-            </div>
-          ))}
-      </CTFragment>
     </CTFragment>
   );
 }
