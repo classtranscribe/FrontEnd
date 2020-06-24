@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   CTFragment,
-  CTInput
+  CTInput,  
+  CTFilter
 } from 'layout';
 import { user, uemail } from 'utils';
 import { Button } from 'pico-ui';
@@ -35,29 +36,29 @@ function EmailFilter(props) {
       setInputValue('');
       if (error) setError(null);
     }
-    // if (!uemail.isValid(newEmail)) {
-    //   return false;
-    // } else if (_.includes(emails, newEmail) || newEmail === myEmailId) {
-    //   return false;
-    // } else {
-    //   setEmails([...emails, ...newEmail]);
-    // }
-    // .......................................
-    // if (!_.includes(emails, inputValue)) {
-    //   setEmails([...emails, ...inputValue]);
-    //   setInputValue('');
-    //   if (error) {
-    //     setError(null);
-    //   }
-    // }
-    // has an error in this place.
-    // if (!uurl.isValidEmail(inputValue)) {
-      // return setError('Please enter a valid email.');
-    // }
-    // return setError('Please enter a valid email.');
   };
+  const demailFilter = (result) => {
+    let x = null;
+    if (result.length === 0) {
+      x = (
+        <div className="no-email">
+          <span>You have not add this email before.</span>
+        </div>
+      );
+    } else {
+      // not work
+      x = result.map(email => <myEmailId email={emails} />)// how to check the email in the emails
+    }
+    return (
+      // what's this means
+      <CTFragment list role="list">
+        {x}
+      </CTFragment>
+    );
+  }
 
   return (
+    // what's hCenter means
     <CTFragment>
       <CTInput
         underlined
@@ -69,6 +70,12 @@ function EmailFilter(props) {
         value={inputValue}
         onChange={handleInputChange}
       />
+      <CTFilter
+        withDefaultFilter
+        data={emails}
+      >
+        {demailFilter}
+      </CTFilter>
       <CTFragment hCenter padding={[20, 0, 0, 0]} className="email-list-add-btn">
         <Button
           uppercase
@@ -78,6 +85,16 @@ function EmailFilter(props) {
           onClick={addEmailAddress}
         />
       </CTFragment>
+      {/* set the filter return ???????????????? */}
+      {/* <CTFragment>
+        <CTFilter
+          withDefaultFilter
+          data={emails}
+        >
+          {demailFilter}
+        </CTFilter>
+      </CTFragment> */}
+      {/* ??????????????????????????????????????? */}
       {/* email list */}
       <CTFragment className="email-list" role="list">
         {
