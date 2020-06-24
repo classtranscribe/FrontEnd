@@ -25,7 +25,7 @@ class MyCoursesWithRedux extends Component {
       footer: true,
       headingProps: {
         heading: 'My Courses',
-        icon: 'class',
+        icon: 'collections_bookmark',
         sticky: true,
         gradient: true,
         offsetTop: 30

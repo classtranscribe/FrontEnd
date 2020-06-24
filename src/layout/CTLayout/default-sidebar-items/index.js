@@ -1,4 +1,4 @@
-import { user, links } from 'utils';
+import { user, links, uurl } from 'utils';
 import { createCTNavSidebarItemProps } from '../../CTNavSidebar/create-props';
 import { getAdminNavItem } from './admin-items';
 
@@ -14,7 +14,7 @@ export class DefaultSidebarItems {
       text: 'Home',
       icon: 'home',
       href: links.home(),
-      activeType: 'exact',
+      active: uurl.isEqual(links.home()),
       items: []
     });
   }
@@ -25,7 +25,7 @@ export class DefaultSidebarItems {
       text: 'Search',
       icon: 'search',
       href: links.search(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.search()),
       items: []
     });
   }
@@ -36,7 +36,7 @@ export class DefaultSidebarItems {
       text: 'History',
       icon: 'history',
       href: links.history(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.history()),
       items: []
     });
   }
@@ -47,7 +47,7 @@ export class DefaultSidebarItems {
       text: 'Analytics',
       icon: 'bar_chart',
       href: links.personalAnalytics(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.personalAnalytics()),
       items: []
     });
   }
@@ -60,9 +60,10 @@ export class DefaultSidebarItems {
     return this.create({
       value: 'ct-nsb-inst',
       text: 'My Courses',
-      icon: 'class',
+      icon: 'collections_bookmark',
       href: links.instructor(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.myCourses()) 
+            || uurl.isEqual(links.newCourse()),
       items: [
         {
           value: 'ct-nsb-inst-courses',
@@ -108,6 +109,47 @@ export class DefaultSidebarItems {
     }
 
     return items;
+  }
+
+  getCoursePageSidebarItems(offering) {
+    if (!offering || !offering.id) return this.defaultItems;
+  
+    const tabs = [
+      {
+        value: 'off-settings-tab',
+        text: 'Course Settings',
+        href: links.courseSettings(offering.id),
+        active: uurl.isEqual(links.courseSettings(offering.id))
+      },
+      {
+        value: 'off-new-pl-tab',
+        text: 'New Playlist',
+        href: links.instNewPlaylist(offering.id),
+        active: uurl.isEqual(links.instNewPlaylist(offering.id))
+      }
+    ];
+  
+    if (offering) {
+      tabs.unshift({
+        value: 'off-analytics-tab',
+        text: 'Course Anaytics',
+        href: links.courseAnalytics(offering.id),
+        active: uurl.isEqual(links.courseAnalytics(offering.id))
+      });
+    }
+  
+    const offeringItem = {
+      text: offering.fullNumber,
+      active: true,
+      icon: 'book',
+      items: tabs
+    };
+  
+    return [
+      ...this.defaultItems.slice(0, 5),
+      offeringItem,
+      ...this.defaultItems.slice(5)
+    ];
   }
 }
 

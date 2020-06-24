@@ -6,6 +6,8 @@ import Prism from 'prismjs';
 import './index.scss';
 import 'prismjs/themes/prism-tomorrow.css';
 
+html.registerHighlightLanguages();
+
 /**
  * An Markdown Preview converter
  */
@@ -18,9 +20,8 @@ function MarkdownPreviewer(props) {
   } = props;
 
   useEffect(() => {
-    require('prismjs/components/prism-jsx.min');
     Prism.highlightAll();
-  }, []);
+  }, [value]);
 
   const previewClasses = cx('ct-md', 'preview', className);
   const htmlClasses = cx('ct-md', 'preview-html');

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { NOT_FOUND_404 } from 'utils';
+import { NOT_FOUND_404, INSTRUCTOR } from 'utils';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
 import {
   setup,
@@ -24,17 +24,16 @@ class CourseWithRedux extends Component {
     setup.setupCoursePage(this.offeringId);
   }
 
-  componentWillUnmount() {
-    // setup.clear();
-  }
-
   render() {
-    const layoutProps = CTLayout.createProps({
+    const { offering, role } = this.props;
+
+    const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
-    });
-
-    const { offering } = this.props;
+      sidebarProps: role === INSTRUCTOR ? {
+        items: sidebar.getCoursePageSidebarItems(offering)
+      } : undefined
+    }));
 
     const errorProps = {
       show: true,
@@ -66,6 +65,6 @@ export const Course = withReduxProvider(
   CourseWithRedux,
   courseStore,
   connectWithRedux,
-  ['offering'],
+  ['offering', 'role'],
   ['all']
 );
