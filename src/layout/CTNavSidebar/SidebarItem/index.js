@@ -19,7 +19,6 @@ export function SidebarItem(props) {
     icon,
     onClick,
     active = false,
-    activeType = 'exact', // 'exact', 'default'
     mini = false,
     items = [],
     reloadOnPathnameChange = false,
@@ -28,12 +27,6 @@ export function SidebarItem(props) {
   if (breakline) return <hr />;
 
   const hasItems = items.length > 0;
-
-  if (activeType === 'starts') {
-    active = window.location.pathname.startsWith(href);
-  } else if (activeType === 'exact') {
-    active = window.location.pathname === href;
-  }
 
   if (hasItems && items[0].href) {
     href = items[0].href;
@@ -110,9 +103,6 @@ export const SidebarItemPropTypes = {
 
   /** True if the tab is active */
   active: PropTypes.bool,
-
-  /** Methods to deterine if the tab is active */
-  activeType: PropTypes.oneOf(['starts', 'exact', 'default']),
 
   /** The sidebar supports a mini view */
   mini: PropTypes.bool,

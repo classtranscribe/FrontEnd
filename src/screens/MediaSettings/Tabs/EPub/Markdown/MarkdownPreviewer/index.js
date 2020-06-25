@@ -11,7 +11,7 @@ export function MarkdownPreviewer({ value, className }) {
   return (
     <CTMarkdownPreviewer 
       value={value}
-      parseMarkdown={parseMarkdown}
+      // parseMarkdown={parseMarkdown}
       className={className}
     />
   );
