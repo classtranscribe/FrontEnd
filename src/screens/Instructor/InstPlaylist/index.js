@@ -3,7 +3,8 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
-  PlaylistInfo
+  PlaylistInfo,
+  MediaList
 } from './components';
 
 export class InstPlaylistWithRedux extends Component {
@@ -31,6 +32,7 @@ export class InstPlaylistWithRedux extends Component {
     return (
       <CTLayout {...layoutProps}>
         <PlaylistInfo />
+        <MediaList />
       </CTLayout>
     )
   }
