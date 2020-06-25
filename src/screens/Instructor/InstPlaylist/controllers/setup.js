@@ -4,11 +4,13 @@ import { StateController } from 'utils/state-controller';
 class InstPlaylistSetup extends StateController {
   init(props) {
     const {
-      setOffering, setPlaylist, setMedias
+      setOffering, setPlaylist, setMedias,
+      clearData
     } = props;
 
     this.register({
-      setOffering, setPlaylist, setMedias
+      setOffering, setPlaylist, setMedias,
+      clearData
     });
   }
 
@@ -45,7 +47,14 @@ class InstPlaylistSetup extends StateController {
     }
   }
 
+  clearData() {
+    const { clearData } = this.dispatches;
+    clearData();
+  }
+
   async setupInstPlaylistPage(playlistId) {
+    this.clearData();
+
     const playlist = await this.getPlaylistById(playlistId);
     this.setPlaylist(playlist);
 

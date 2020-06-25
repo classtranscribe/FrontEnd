@@ -8,8 +8,10 @@ function MediaListWithRedux({
   medias,
 }) {
   return (
-    <CTFragment padding={[10, 30]} className="ipl-media-li-con">
-      {medias.map(media => <div>{media.name}</div>)}
+    <CTFragment fade padding={[10, 30]} className="ipl-media-li-con">
+      <CTFragment list role="list" className="ipl-media-li">
+        {medias.map(media => <div>{media.name}</div>)}
+      </CTFragment>
     </CTFragment>
   );
 }

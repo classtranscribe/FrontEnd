@@ -8,7 +8,7 @@ function PlaylistInfoWithRedux({
 }) {
   const { name } = playlist;
   return (
-    <CTFragment padding={[30]}>
+    <CTFragment fade padding={[30]}>
       <div>{name}</div>
     </CTFragment>
   );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'layout';
+import { CTLayout, CTLoadable } from 'layout';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
@@ -31,8 +31,10 @@ export class InstPlaylistWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <PlaylistInfo />
-        <MediaList />
+        <CTLoadable loading={!offering.id}>
+          <PlaylistInfo />
+          <MediaList />
+        </CTLoadable>
       </CTLayout>
     )
   }
