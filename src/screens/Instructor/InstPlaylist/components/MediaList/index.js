@@ -16,6 +16,7 @@ function MediaListWithRedux({
   const [filterValue, setFilterValue] = useState('');
   const [selectedVideos, setSelectedVideos] = useState([]);
   const selecting = selectedVideos.length > 0;
+  const filtering = Boolean(filterValue);
 
 
   const handleFilterChange = ({ target: { value } }) => {
@@ -68,7 +69,7 @@ function MediaListWithRedux({
                 medias={result} 
                 error={error} 
                 loading={loading}
-                selecting={selecting}
+                filtering={filtering}
                 handleSelect={handleSelect}
                 isSelected={isSelected}
               />

@@ -12,7 +12,6 @@ import MediaItemActions from './MediaItemActions';
 
 function MediaItem({
   media,
-  selecting,
   handleSelect,
   isSelected,
 }) {

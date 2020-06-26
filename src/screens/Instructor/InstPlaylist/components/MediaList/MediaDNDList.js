@@ -6,7 +6,7 @@ import MediaItem from './MediaItem';
 
 function MediaDNDList({
   medias,
-  selecting,
+  filtering,
   loading,
   error,
   handleSelect,
@@ -16,7 +16,6 @@ function MediaDNDList({
 
   if (!loading && !error) {
     const mediaProps = {
-      selecting,
       handleSelect,
       isSelected,
     };
@@ -32,7 +31,7 @@ function MediaDNDList({
     onDragEnd: mediaControl.onDragEnd,
     items: dndItems,
     itemClassName: 'media-item-con',
-    disabled: isMobile
+    disabled: isMobile || filtering
   };
 
   return <CTDNDList {...dndProps} />;
