@@ -9,23 +9,23 @@ function DNDContext(props) {
     className,
     role = 'list',
     disabled = false,
+    onDragStart,
     onDragEnd,
     children,
   } = props;
 
-  const dndClasses = cx('d-flex', 'flex-column', className);
-
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Droppable isDropDisabled={disabled} droppableId={contextId}>
-        {(provided) => (
+        {(provided, { isDraggingOver }) => (
           <div 
             role={role} 
-            className={dndClasses}
+            className={cx('ct-dnd', 'dnd-li', className, { dragging: isDraggingOver })}
             ref={provided.innerRef} 
             {...provided.droppableProps}
           >
             {children}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
@@ -45,6 +45,9 @@ DNDContext.propTypes = {
 
   /** The dnd can be disabled */
   disabled: PropTypes.bool,
+
+  /** Function called when the drag events start in the dnd context */
+  onDragStart: PropTypes.func,
 
   /** Function called when the drag events end in the dnd context */
   onDragEnd: PropTypes.func,
