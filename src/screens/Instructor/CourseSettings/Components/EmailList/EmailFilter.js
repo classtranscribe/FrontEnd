@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CTFragment, CTFilter, CTInput, CTText } from 'layout';
 import { user, uemail } from 'utils';
 import { Button } from 'pico-ui';
+import { Icon } from 'semantic-ui-react';
 import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
@@ -23,6 +24,12 @@ function EmailFilter(props) {
     if (error && uemail.isValid(inputValue)) {
       setError(null);
     }
+  };
+
+  // move the email
+  const removeEmailAddress = () => {
+    _.remove(emails, (e) => e === inputValue);
+    setEmails([...emails]);
   };
 
   const addEmailAddress = () => {
@@ -62,7 +69,19 @@ function EmailFilter(props) {
         result = [`${myEmailId} (You)`, ...result];
       }
       emailListElement = result.map(email => (
-        <EmailItem email={email} /** `onDelete` goes here */ />
+        // <EmailItem email = {email}>
+        <div className="ip-f-email-item" key={email}>
+          {email}
+          <Icon
+            name="trash"
+            onClick={removeEmailAddress}
+            title="remove"
+            aria-label="remove"
+            role="button"
+          />
+        </div>
+        // </EmailItem>
+        
       ));
     }
 
@@ -74,7 +93,6 @@ function EmailFilter(props) {
   }
 
   return (
-    // what's hCenter means
     <CTFragment>
       <CTInput
         underlined
