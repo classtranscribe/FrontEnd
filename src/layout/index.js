@@ -16,7 +16,7 @@ export { default as CTLoader } from './CTLoader';
 
 export { default as CTLoadable } from './CTLoadable';
 
-export { default as CTFilter } from './CTFilter';
+export { default as CTFilter, CTFilterInput } from './CTFilter';
 
 export { SignInMenu } from './CTNavHeader/NavHeaderMenu/SignInMenu';
 

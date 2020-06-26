@@ -6,6 +6,8 @@ import { search } from 'utils/search';
 import DefaultFilter from './DefaultFilter';
 import './index.scss';
 
+export { default as CTFilterInput } from './DefaultFilter';
+
 /**
  * A general filter component for classtranscribe
  * can be used to get the data at least one of specified attributes of which 
