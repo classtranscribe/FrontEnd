@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { CTFragment, CTFormHeading, CTFormRow, CTInput, CTSelect, CTCheckbox } from 'layout';
 import { api, util, user } from 'utils';
 
-function PlaylistType() {
-  const [option, setOption] = useState('opt-1');
-  const handleSelect = ({ target: { value } }) => setOption(value);
+function PlaylistType(props) {
+  let { sourceType, setsourceType } = props;
+  const handleSelect = ({ target: { value } }) => setsourceType(value);
 
   const typeOptions = [
     { value: 'opt-1', text: 'Upload', description: 'Manually upload videos' },
@@ -29,7 +29,7 @@ function PlaylistType() {
           label="Selection"
           defaultValue="opt-1"
           options={typeOptions}
-          value={option}
+          value={sourceType}
           onChange={handleSelect}
         />
       </CTFormRow>
