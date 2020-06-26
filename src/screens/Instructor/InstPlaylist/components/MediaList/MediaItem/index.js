@@ -5,7 +5,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiCheckbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import { CTPopoverLabel, CTCheckbox } from 'layout';
+import { CTPopoverLabel, CTCheckbox, CTText } from 'layout';
 import { mediaControl } from '../../../controllers';
 import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
@@ -65,6 +65,7 @@ function MediaItem({
             checked={checked}
             onChange={handleCheck}
             aria-label={checked ? 'Unselect' : 'Select'}
+            className="media-check-box"
           />
 
           <MediaName 
@@ -89,6 +90,9 @@ function MediaItem({
       </ExpansionPanelSummary>
 
       <ExpansionPanelDetails>
+        <CTText size="medium" padding={[0, 0, 5, 10]}>
+          Created at: {(media.createdAt || '').slice(0, 10)}
+        </CTText>
         <MediaItemActions mediaId={id} />
       </ExpansionPanelDetails>
     </ExpansionPanel>

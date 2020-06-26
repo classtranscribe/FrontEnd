@@ -12,7 +12,7 @@ function ActionBar({
   handleFilterChange
 }) {
   return (
-    <CTFragment vCenter className="ipl-media-actions" padding={[0, 10, 5, 33]}>
+    <CTFragment vCenter className="ipl-media-actions" padding={[0, 10, 5, 23]}>
       <SelectionButton
         selecting={selecting}
         isSelectedAll={isSelectedAll}

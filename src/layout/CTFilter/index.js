@@ -92,7 +92,13 @@ function CTFilter(props) {
 
   useEffect(() => {
     // update result when reversed changes
-    let res = result.slice().reverse();
+    let res = [];
+    if (thisReversed) {
+      res = result.slice().reverse();
+    } else {
+      res = result;
+    }
+    
     setResult(res);
 
     // if the callback is provided
