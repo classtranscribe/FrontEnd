@@ -28,7 +28,7 @@ a:focus, button:focus, div[tabindex="0"]:focus {
   outline-color:  rgb(7, 150, 143);
 }
 
-a:active {
+a:active, button:active {
   outline: none;
 }
 
