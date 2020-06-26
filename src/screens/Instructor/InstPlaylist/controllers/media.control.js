@@ -15,7 +15,7 @@ class MediaController {
     return result;
   }
 
-  onDragEnd(result) {
+  onDragEnd(result, callback) {
     if (!result.destination) {
       return;
     }
@@ -29,12 +29,13 @@ class MediaController {
       result.destination.index
     );
 
-    this.onReorderMedias(medias)
+    this.onReorderMedias(medias, callback);
   }
 
-  async onReorderMedias(medias) {
+  async onReorderMedias(medias, callback) {
     const oldMedias = [...setup.medias];
     setup.setMedias(medias);
+    if (typeof callback === 'function') callback(medias);
 
     try {
       const mediaIds = _.map(medias, ({ id }) => id);
@@ -42,6 +43,7 @@ class MediaController {
       prompt.addOne({ text: 'Videos reordered.', timeout: 3000 });
     } catch (error) {
       setup.setMedias(oldMedias);
+      if (typeof callback === 'function') callback(oldMedias);
       prompt.addOne({ text: 'Failed to reorder videos.', timeout: 5000 });
     }
   }

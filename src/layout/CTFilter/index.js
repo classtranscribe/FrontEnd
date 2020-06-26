@@ -123,7 +123,7 @@ function CTFilter(props) {
   let resultReceiver = null;
   // component showing filtered result
   if (typeof children === 'function') {
-    resultReceiver = children(result);
+    resultReceiver = children(result, setResult);
   }
 
   return (

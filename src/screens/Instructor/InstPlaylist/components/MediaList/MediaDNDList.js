@@ -10,8 +10,13 @@ function MediaDNDList({
   loading,
   error,
   handleSelect,
-  isSelected
+  isSelected,
+  setFilterResult
 }) {
+  const onDragEnd = (res) => {
+    mediaControl.onDragEnd(res, setFilterResult);
+  };
+
   let dndItems = [];
 
   if (!loading && !error) {
@@ -28,7 +33,7 @@ function MediaDNDList({
 
   let dndProps = {
     contextId: 'media-ord',
-    onDragEnd: mediaControl.onDragEnd,
+    onDragEnd,
     items: dndItems,
     itemClassName: 'media-item-con',
     disabled: isMobile || filtering

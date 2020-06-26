@@ -62,7 +62,7 @@ function MediaListWithRedux({
           value={filterValue}
           keys={['mediaName']}
         >
-          {(result) => (
+          {(result, setResult) => (
             result.length > 0 
             ?
               <MediaDNDList 
@@ -72,6 +72,7 @@ function MediaListWithRedux({
                 filtering={filtering}
                 handleSelect={handleSelect}
                 isSelected={isSelected}
+                setFilterResult={setResult}
               />
             :
               <CTText muted center margin={[30, 0]}>No Result</CTText>
