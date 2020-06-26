@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import {
-  CTForm
+  CTForm,
+  CTFormRow,
+  CTSelect,
+  CTFormHeading
 } from 'layout';
-import { api, user, prompt, links } from 'utils';
+import { api, user, prompt, links, util } from 'utils';
 import './index.scss';
 import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -20,6 +23,7 @@ export function CourseForm(props) {
     defaultSelCourses = []
   } = props;
   const history = useHistory();
+  const defaultUniId = user.getUserInfo().universityId;
   // basic information
   const [courseName, setcourseName] = useState(defaultCourseName);
   const [sectionName, setsectionName] = useState(defaultSectionName);
@@ -28,13 +32,25 @@ export function CourseForm(props) {
   const [description, setDescription] = useState(defaultDescription);
   const [accessType, selAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
+  const [uniId, setUniId] = useState(defaultUniId);
+  const [uniIdOptions, setUniIdOptions] = useState([]);
+  const handleUniId = ({ target: { value } }) => setUniId(value);
 
   useEffect(() => {
-    api.getTermsByUniId(user.getUserInfo().universityId).then((res) => {
+    api.getTermsByUniId(uniId).then((res) => {
       if (res.status === 200 && res.data[0]) {
         setTerm(res.data[0].id)
       }
     })
+  }, [uniId])
+  useEffect(() => {
+    if (user.isAdmin) {
+      api.getUniversities().then((res) => {
+        if (res.status === 200) {
+          setUniIdOptions(util.getSelectOptions(res.data, 'name'))
+        }
+      })
+    }
   }, [])
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
@@ -135,13 +151,15 @@ export function CourseForm(props) {
     enable,
     error,
     sectionName,
-    setsectionName
+    setsectionName,
+    uniId
   }
   const courseSelectionProps = {
     selCourses,
     setSelCourses,
     enable,
-    error
+    error,
+    uniId
   }
   return (
 
@@ -153,9 +171,25 @@ export function CourseForm(props) {
       onSaveButtonText="Create"
       onCancel={handleCancel}
     >
+      {!user.isAdmin &&
+        <div>
+          <CTFormRow>
+            <CTFormHeading>
+              University Selection
+            </CTFormHeading>
+          </CTFormRow>
+          <CTFormRow>
+            <CTSelect
+              required
+              label="Select an University"
+              options={uniIdOptions}
+              value={uniId}
+              onChange={handleUniId}
+            />
+          </CTFormRow>
+        </div>}
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
     </CTForm>
-
   );
 }

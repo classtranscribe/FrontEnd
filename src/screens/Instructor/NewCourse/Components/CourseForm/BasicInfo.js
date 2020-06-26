@@ -7,7 +7,7 @@ import {
   CTSelect,
   CTCheckbox,
 } from 'layout';
-import { api, util, user } from 'utils';
+import { api, util } from 'utils';
 import './index.scss';
 import _ from 'lodash';
 
@@ -26,11 +26,10 @@ export function BasicInfo(props) {
     error,
     enable,
     setsectionName,
-    sectionName
+    sectionName,
+    uniId
   } = props;
 
-  // user infomation
-  const uniId = user.getUserInfo().universityId;
   // errors
   const emptyCourseName = error.includes('courseName') && enable;
   const emptySecName = error.includes('sectionName') && enable;
@@ -55,6 +54,13 @@ export function BasicInfo(props) {
     });
     return options;
   };
+  // reset values when university changed
+  useEffect(() => {
+    setLogEventsFlag(false)
+    setsectionName('')
+    setcourseName('')
+    setDescription('')
+  }, [uniId])
   // Get terms list
   useEffect(() => {
     api.getTermsByUniId(uniId).then(res => {
@@ -62,7 +68,7 @@ export function BasicInfo(props) {
         setTerms(util.getSelectOptions(res.data, 'term'));
       }
     })
-  }, [])
+  }, [uniId])
   return (
     <CTFragment>
       <CTFormHeading>Basic Information</CTFormHeading>

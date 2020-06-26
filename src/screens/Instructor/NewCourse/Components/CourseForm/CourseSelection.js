@@ -6,7 +6,7 @@ import {
   CTFormRow,
   CTAutoComplete
 } from 'layout';
-import { api, util, user } from 'utils';
+import { api, util } from 'utils';
 import './index.scss';
 import _ from 'lodash';
 import Chip from '@material-ui/core/Chip';
@@ -18,7 +18,8 @@ export function CourseSelection(props) {
     selCourses,
     setSelCourses,
     enable,
-    error
+    error,
+    uniId
   } = props;
   // Styling for the course selection section
   const useStyles = makeStyles((theme) => ({
@@ -40,8 +41,6 @@ export function CourseSelection(props) {
   }))
   const classes = useStyles()
 
-  // user infomation
-  const uniId = user.getUserInfo().universityId;
   // handle errors
   // selCoursesError: no course selected while user has clicked the 'create' button
   // noCourseSelected: no course selected
@@ -60,6 +59,13 @@ export function CourseSelection(props) {
   const onCourseChange = (value) => {
     setCourse(value);
   };
+  useEffect(() => {
+    setCourses([])
+    setDeparts([])
+    setCourse('')
+    setDepart('')
+    setSelCourses([])
+  }, [uniId])
   // get the list of departs
   useEffect(() => {
     api.getDepartsByUniId(uniId).then((res) => {
@@ -67,7 +73,7 @@ export function CourseSelection(props) {
         setDeparts(util.getSelectOptions(res.data, 'name'))
       }
     })
-  }, [])
+  }, [uniId])
 
   useEffect(() => {
     // Could be improved: when selected depart changed, the selected course stay the same
@@ -80,7 +86,7 @@ export function CourseSelection(props) {
         })
       })
     }
-  }, [depart])
+  }, [depart, uniId])
 
   // add/remove selected courses
 
