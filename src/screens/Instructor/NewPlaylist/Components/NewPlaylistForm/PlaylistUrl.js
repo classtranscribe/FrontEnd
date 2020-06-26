@@ -66,7 +66,7 @@ function PlaylistUrl(props) {
               <strong> SHARE </strong>your Box folder with our Box account
               <strong> cstranscribe@illinois.edu </strong>
             </span>
-            An Box Folder URL Example {exampleKalturaBUL}
+            An Box Folder URL Example {exampleBoxURL}
           </CTFormHelp>
           <CTInput
             required
