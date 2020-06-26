@@ -3,7 +3,7 @@
   align-items: center;
   position: relative;
   outline: 0;
-  padding-left: 10px;
+  padding-left: 5px;
   transition: background 0.2s linear;
   background: white;
 
@@ -23,7 +23,7 @@
   }
 
   .ct-dnd.dnd-icon {
-    width: 35px;
+    width: 30px;
     display: flex;
     align-items: center;
     i.material-icons {
@@ -33,6 +33,6 @@
 
   .ct-dnd.dnd-item {
     cursor: auto;
-    width: calc(100% - 35px);
+    width: calc(100% - 30px);
   }
 }

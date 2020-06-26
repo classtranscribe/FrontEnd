@@ -42,7 +42,7 @@ function DNDItem(props) {
           {...provided.dragHandleProps}
         >
           <div className="ct-dnd dnd-icon" aria-hidden="true">
-            <i className="material-icons">drag_handle</i>
+            <i className="material-icons">drag_indicator</i>
           </div>
 
           <div className="ct-dnd dnd-item">{children}</div>
