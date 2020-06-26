@@ -12,6 +12,7 @@ import {
   CourseAnalytics,
   InstPlaylist,
   MediaSettings,
+  Embed,
   // Student
   Home,
   Course,
@@ -24,8 +25,7 @@ import {
   NotFound404,
   Maintenance,
   ComponentAPI,
-  Example,
-  Embed
+  Example
 } from './screens';
 
 import './App.css';
