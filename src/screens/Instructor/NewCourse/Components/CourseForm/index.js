@@ -171,7 +171,7 @@ export function CourseForm(props) {
       onSaveButtonText="Create"
       onCancel={handleCancel}
     >
-      {!user.isAdmin &&
+      {user.isAdmin &&
         <div>
           <CTFormRow>
             <CTFormHeading>
