@@ -1,16 +1,17 @@
-import { api, ARRAY_INIT, NOT_FOUND_404 } from 'utils';
+import _ from 'lodash';
+import { api, uurl, ARRAY_INIT, NOT_FOUND_404 } from 'utils';
 import { StateController } from 'utils/state-controller';
 
 class InstPlaylistSetup extends StateController {
   init(props) {
     const {
       setOffering, setPlaylist, setMedias,
-      clearData
+      setMedia, clearData
     } = props;
 
     this.register({
       setOffering, setPlaylist, setMedias,
-      clearData
+      setMedia, clearData
     });
   }
 
@@ -27,6 +28,11 @@ class InstPlaylistSetup extends StateController {
   medias = ARRAY_INIT;
   setMedias(medias) {
     this.setState('setMedias', 'medias', medias);
+  }
+
+  media = null;
+  setMedia(media) {
+    this.setState('setMedia', 'media', media);
   }
 
   async getPlaylistById(playlistId) {
@@ -47,21 +53,40 @@ class InstPlaylistSetup extends StateController {
     }
   }
 
+  playlistId = null;
   clearData() {
     const { clearData } = this.dispatches;
     clearData();
+    this.playlistId = null;
+  }
+
+  setupMediaDetail() {
+    const { mid } = uurl.useHash();
+    if (mid) {
+      const currMedia = _.find(this.medias, { id: mid });
+      if (currMedia) {
+        this.setMedia(currMedia);
+      }
+    }
   }
 
   async setupInstPlaylistPage(playlistId) {
-    this.clearData();
+    // if (this.playlistId !== playlistId) {
+    //   this.clearData();
+    // }
 
+    // sestup playlist
     const playlist = await this.getPlaylistById(playlistId);
     this.setPlaylist(playlist);
 
     if (!playlist.id) return;
-    const { offeringId, medias } = playlist; 
-    this.setMedias(medias);
+    const { offeringId, medias } = playlist;
+    this.playlistId = playlist.id; 
 
+    // sestup medias
+    this.setMedias(_.map(medias, api.parseMedia));
+
+    // setup offering
     if (!playlist.offeringId) return;
     const offering = await this.getOfferingById(offeringId);
     this.setOffering(offering);

@@ -18,6 +18,10 @@ export class InstPlaylistWithRedux extends Component {
     setup.setupInstPlaylistPage(playlistId);
   }
 
+  componentWillUnmount() {
+    setup.clearData();
+  }
+
   render() {
     const { offering } = this.props;
     const layoutProps = CTLayout.createProps((sidebar) => ({
