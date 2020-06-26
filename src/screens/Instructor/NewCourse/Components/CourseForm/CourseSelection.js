@@ -12,7 +12,7 @@ import {
   CTText,
   CTHeading
 } from 'layout';
-import { api, util, user } from 'utils';
+import { api, util } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,10 +38,9 @@ function CourseSelection(props) {
     enable,
     selCourses,
     setSelCourses,
+    uniId
   } = props;
 
-  // user infomation
-  const { universityId } = user.getUserInfo();
   // handle errors
   // selCoursesError: no course selected while user has clicked the 'create' button
   // noCourseSelected: no course selected
@@ -65,7 +64,7 @@ function CourseSelection(props) {
 
   const setupDepartmentOptions = async () => {
     try {
-      const { data } = await api.getDepartsByUniId(universityId);
+      const { data } = await api.getDepartsByUniId(uniId);
       setDeparts(data);
     } catch (error_) {
       prompt.error('Could not load departments.');
@@ -84,20 +83,27 @@ function CourseSelection(props) {
   useEffect(() => {
     // get the list of departs
     setupDepartmentOptions();
-  }, []);
+  }, [uniId]);
+  // reset when uniId changed
+  useEffect(() => {
+    setCourses([])
+    setDeparts([])
+    setCourse({})
+    setDepart({})
+  }, [uniId])
 
   useEffect(() => {
     // Could be improved: when selected depart changed, the selected course stay the same
     if (depart.id) {
       setupCourseOptions();
     }
-  }, [depart]);
+  }, [depart, uniId]);
 
   useEffect(() => {
     // add/remove selected courses
     if (course.id && depart.id) {
       setSelCourses([
-        ..._.filter(selCourses, item => item.acronym !== depart.acronym), 
+        ..._.filter(selCourses, item => item.acronym !== depart.acronym),
         { ...course, acronym: depart.acronym }
       ]);
     }
@@ -118,12 +124,12 @@ function CourseSelection(props) {
     <CTFragment>
       <CTFormHeading padding={[20, 0, 0, 0]}>Course Number</CTFormHeading>
       <CTFormHelp title="Course number selection">
-        Since one course might be held by multiple departments (e.g. <b>CS425/ECE428</b>), 
-        ClassTranscribe allows you to select multiple course numbers. 
-        For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to 
+        Since one course might be held by multiple departments (e.g. <b>CS425/ECE428</b>),
+        ClassTranscribe allows you to select multiple course numbers.
+        For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
         generate the course number <b>CS357/MATH357</b>.
       </CTFormHelp>
-      
+
       <CTFormRow>
         <div>
           <CTAutoComplete
@@ -156,15 +162,15 @@ function CourseSelection(props) {
             <CTHeading as="h4" uppercase>
               Selected Courses
               {
-                !noCourseSelected 
+                !noCourseSelected
                 &&
-                `: ${ fullNumber}`
+                `: ${fullNumber}`
               }
             </CTHeading>
 
             {
-              noCourseSelected 
-              && 
+              noCourseSelected
+              &&
               <CTText muted margin={10} center>No course number selected</CTText>
             }
 

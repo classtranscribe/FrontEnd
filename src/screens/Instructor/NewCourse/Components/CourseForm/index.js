@@ -1,10 +1,16 @@
 import _ from 'lodash';
 import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { CTForm } from 'layout';
-
+import {
+  CTForm,
+  CTFormRow,
+  CTSelect,
+  CTFormHeading
+} from 'layout';
+import { api, util, user } from 'utils';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
+
 
 function CourseForm(props) {
   const {
@@ -18,6 +24,7 @@ function CourseForm(props) {
     defaultSelCourses = [],
     onSave,
   } = props;
+  const defaultUniId = user.getUserInfo().universityId;
 
   // basic information
   const [courseName, setCourseName] = useState(defaultCourseName);
@@ -27,6 +34,9 @@ function CourseForm(props) {
   const [description, setDescription] = useState(defaultDescription);
   const [accessType, setAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
+  const [uniId, setUniId] = useState(defaultUniId);
+  const [uniIdOptions, setUniIdOptions] = useState([]);
+  const handleUniId = ({ target: { value } }) => setUniId(value);
 
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
@@ -41,6 +51,26 @@ function CourseForm(props) {
     }
     return error;
   };
+
+  // get list of universities
+  useEffect(() => {
+    if (user.isAdmin) {
+      api.getUniversities().then((res) => {
+        if (res.status === 200) {
+          setUniIdOptions(util.getSelectOptions(res.data, 'name'))
+        }
+      })
+    }
+  }, [])
+  // reset values when uniId changed
+  useEffect(() => {
+    setSelCourses(defaultSelCourses)
+    setLogEventsFlag(defaultLogFlag)
+    setSectionName(defaultSectionName)
+    setCourseName(defaultCourseName)
+    setDescription(defaultDescription)
+    setAccess(defaultAccessType)
+  }, [uniId])
 
   const [error, errorDispatch] = useReducer(errorReducer, initErrors);
   const [enable, setEnable] = useState(false);
@@ -84,6 +114,7 @@ function CourseForm(props) {
     setDescription,
     setLogEventsFlag,
     setCoursesText,
+    uniId
   };
 
   const courseSelectionProps = {
@@ -91,6 +122,7 @@ function CourseForm(props) {
     enable,
     selCourses,
     setSelCourses,
+    uniId
   };
 
   return (
@@ -103,6 +135,23 @@ function CourseForm(props) {
       collapsible={collapsible}
       details="The basic information for a course"
     >
+      {user.isAdmin &&
+        <div>
+          <CTFormRow>
+            <CTFormHeading>
+              University Selection
+            </CTFormHeading>
+          </CTFormRow>
+          <CTFormRow>
+            <CTSelect
+              required
+              label="Select an University"
+              options={uniIdOptions}
+              value={uniId}
+              onChange={handleUniId}
+            />
+          </CTFormRow>
+        </div>}
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
     </CTForm>
