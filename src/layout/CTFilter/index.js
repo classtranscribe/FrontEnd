@@ -6,6 +6,8 @@ import { search } from 'utils/search';
 import DefaultFilter from './DefaultFilter';
 import './index.scss';
 
+export { default as CTFilterInput } from './DefaultFilter';
+
 /**
  * A general filter component for classtranscribe
  * can be used to get the data at least one of specified attributes of which 
@@ -90,7 +92,13 @@ function CTFilter(props) {
 
   useEffect(() => {
     // update result when reversed changes
-    let res = result.slice().reverse();
+    let res = [];
+    if (thisReversed) {
+      res = result.slice().reverse();
+    } else {
+      res = result;
+    }
+    
     setResult(res);
 
     // if the callback is provided
@@ -115,7 +123,7 @@ function CTFilter(props) {
   let resultReceiver = null;
   // component showing filtered result
   if (typeof children === 'function') {
-    resultReceiver = children(result);
+    resultReceiver = children(result, setResult);
   }
 
   return (

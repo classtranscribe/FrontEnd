@@ -1,9 +1,4 @@
-#cp-playlists {
-  width: 60%;
-  height: 100%;
-  padding: 0;
-  background: rgb(251, 251, 251);
-
+#cp-pls-view {
   .title {
     padding: 10px 25px;
     background: rgb(251, 251, 251);
@@ -23,69 +18,56 @@
     }
   }
 
-  #cp-pls-view {
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  .pl-item {
+    position: relative;
+    outline: 0;
+    padding: 0 25px 0 5px;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    // transition: background 0.2s linear;
+    background: rgb(251, 251, 251);
 
-    .pl-item {
-      position: relative;
-      outline: 0;
-      padding: 0 25px 0 10px;
-      border-bottom: 1px solid rgb(255, 255, 255);
-      transition: background 0.2s linear;
-      background: rgb(251, 251, 251);
+    &:last-child {
+      border-color: transparent;
+    }
 
-      &:last-child {
-        border-color: transparent;
+    &:focus, &:hover {
+      background-color: #f3f3f3a4;
+      .pl-name, .pl-icon { color: #318d8d; }
+    }
+
+    .pl-name {
+      color: #3f3f3f;
+      font-weight: bold;
+      font-size: 17px;
+      line-height: normal;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      white-space: nowrap;
+      padding: 15px 0;
+      
+      span {
+        overflow: hidden;
+        width: calc(100% - 55px);
+        text-overflow: ellipsis;
       }
 
-      &:focus, &:hover {
-        background-color: #f3f3f3a4;
-        .pl-name, .pl-icon { color: #318d8d; }
-      }
-
-      .pl-name {
-        color: #3f3f3f;
-        font-weight: bold;
-        font-size: 17px;
-        line-height: normal;
-        display: flex;
-        align-items: center;
-        margin-bottom: 0;
-        white-space: nowrap;
-        padding: 15px 0;
-        
-        span {
-          overflow: hidden;
-          width: calc(100% - 55px);
-          text-overflow: ellipsis;
-        }
-
-        i {
-          margin-right: .5em;
-        }
-      }
-
-      .pl-icon {
-        position: absolute; 
-        right: 10px;
-        top: 30%;
-        color: #5f6161;
-
-        &.left { 
-          cursor: grab;
-          left: 10px; 
-          right: auto;
-        }
+      i {
+        margin-right: .5em;
       }
     }
-  }
-}
 
-@media screen and (max-width: 1000px) {
-  #cp-playlists {
-    width: 100%;
-    height: max-content;
+    .pl-icon {
+      position: absolute; 
+      right: 10px;
+      top: 30%;
+      color: #5f6161;
+
+      &.left { 
+        cursor: grab;
+        left: 10px; 
+        right: auto;
+      }
+    }
   }
 }

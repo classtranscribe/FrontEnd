@@ -6,7 +6,7 @@ export const getAdminNavItem = () => {
     text: 'Admin',
     icon: 'supervisor_account',
     href: links.admin(),
-    activeType: 'starts',
+    active: window.location.pathname.startsWith('/admin'),
     reloadOnPathnameChange: true,
     items: [
       {
