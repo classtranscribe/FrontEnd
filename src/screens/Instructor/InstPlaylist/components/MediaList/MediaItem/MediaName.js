@@ -16,11 +16,13 @@ function MediaName({
   return editing ? (
     <CTInput
       label="Video Name"
+      placeholder={mediaName}
       value={inputValue}
       onChange={onInputChange}
       onReturn={onSave}
       onFocus={handleFocus}
       onClick={handleFocus}
+      className="ml-3"
       autoFocus
     />
   ) : (

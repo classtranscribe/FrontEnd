@@ -11,22 +11,24 @@
         padding-left: 0;
       }
 
-      .media-item .MuiButtonBase-root.MuiExpansionPanelSummary-root {
-        padding-left: 0;
-      }
-
-      // &:not(:last-child) {
-      //   border-bottom: 1px solid rgb(255, 255, 255);
-      // }
-
-      &:hover, &:focus-within {
+      &:hover {
         background: rgb(243, 243, 243) !important;
       }
 
+      // Icons
       i.file-icon, i.rename-icon {
         color: var(--ct-green-normal) !important;
       }
 
+      i.delete {
+        color: rgb(235, 0, 0);
+      }
+
+      i.watch {
+        color: var(--ct-green-normal);
+      }
+
+      // Media Item
       .media-item {
         box-shadow: none;
         background: none;
@@ -34,15 +36,27 @@
         width: 100%;
 
         &.Mui-expanded {
-          .media-name {
-            color: var(--ct-green-normal);
-          }
+          border-top: 1px solid rgb(223, 223, 223);
         }
 
-        .MuiExpansionPanelSummary-content {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+        .MuiExpansionPanelSummary-root {
+          padding-left: 0 !important;
+          outline: none !important;
+          &:focus-within {
+            background: none !important;
+          }
+
+          .MuiExpansionPanelSummary-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            &:hover {
+              .media-name {
+                color: var(--ct-green-normal);
+              }
+            }
+          }
         }
 
         .MuiExpansionPanelDetails-root {
@@ -71,6 +85,13 @@
           padding: 5px;
           background: rgb(228, 228, 228);
           border-radius: 10px;
+          -webkit-flex-direction: row;
+          flex-direction: row;
+          -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+          -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+          width: 100%;
 
           .media-item-button {
             padding: 5px 10px;

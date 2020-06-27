@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import StarIcon from '@material-ui/icons/Star';
@@ -10,7 +11,7 @@ export const useStyles = makeStyles({
   button: {
     fontWeight: 'bold',
     marginLeft: 5,
-    marginBottom: 5,
+    minWidth: 'max-content',
     '&:not(.MuiButton-outlined)': {
       background: 'teal',
       color: 'white',
@@ -24,12 +25,12 @@ export const useStyles = makeStyles({
 function StarButton(props) {
   const { isStarred } = props;
 
-  const buttonClasses = useStyles();
+  const classes = useStyles();
 
   return (
     <Button 
       variant={isStarred ? 'outlined' : 'contained'}
-      className={buttonClasses.button} 
+      className={cx(classes.button, 'mb-2')} 
       startIcon={isStarred ? <StarBorderIcon /> : <StarIcon />}
       size="large"
       onClick={isStarred ? setup.unstar : setup.star}

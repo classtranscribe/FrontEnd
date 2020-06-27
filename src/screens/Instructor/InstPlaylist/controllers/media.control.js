@@ -44,23 +44,64 @@ class MediaController {
     } catch (error) {
       setup.setMedias(oldMedias);
       if (typeof callback === 'function') callback(oldMedias);
-      prompt.addOne({ text: 'Failed to reorder videos.', timeout: 5000 });
+      prompt.error('Failed to reorder videos.', { timeout: 5000 });
     }
   }
 
-  async renameMedia(id, name) {
+  async renameMedia(mediaId, name) {
     try {
-      await api.renameMedia(id, name);
+      await api.renameMedia(mediaId, name);
       let medias = setup.medias;
-      let currIdx = _.findIndex(medias, { id });
+      let currIdx = _.findIndex(medias, { id: mediaId });
       if (currIdx >= 0) {
         medias[currIdx].mediaName = name;
         setup.setMedias([...medias]);
+        prompt.addOne({ text: 'Video renamed.', timeout: 3000 });
+      } else {
+        throw Error('No such video');
       }
-      prompt.addOne({ text: 'Video renamed.', timeout: 3000 });
     } catch (error) {
-      prompt.addOne({ text: 'Failed to rename the video.', timeout: 5000 });
+      prompt.error('Failed to rename the video.', { timeout: 5000 });
     }
+  }
+
+  async deleteMedia(mediaId) {
+    try {
+      await api.deleteMedia(mediaId);
+      setup.setMedias(_.filter(setup.medias, me => me.id !== mediaId));
+      prompt.addOne({ text: 'Video deleted.', timeout: 3000 }); 
+    } catch (error) {
+      prompt.error('Failed to delete the video.', { timeout: 5000 });
+    }
+  }
+
+  confirmDeleteMedia(mediaId) {
+    setup.confirm({
+      text: 'Are you sure to delete this video? (This acrion cannot be undone)',
+      onConfirm: () => this.deleteMedia(mediaId)
+    });
+  }
+
+  async deleteMedias(mediaIds) {
+    try {
+      await Promise
+        .all(mediaIds.map((mediaId) => new Promise((resolve) => {
+          api.deleteMedia(mediaId).then(() => resolve());
+        })));
+      setup.setMedias(_.filter(setup.medias, me => !_.includes(mediaIds, me.id)));
+      prompt.addOne({ text: 'Videos deleted.', timeout: 3000 }); 
+    } catch (error) {
+      prompt.error('Failed to delete the selected video.', { timeout: 5000 });
+    }
+  }
+
+  confirmDeleteMedias(mediaIds) {
+    setup.confirm({
+      text: `Are you sure to delete the selected ${mediaIds.length} `
+            + `video${mediaIds.length > 1 ? 's' : ''}? `
+            + '(This acrion cannot be undone)',
+      onConfirm: () => this.deleteMedias(mediaIds)
+    });
   }
 }
 

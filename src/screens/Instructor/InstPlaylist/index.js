@@ -4,7 +4,8 @@ import { CTLayout, CTLoadable } from 'layout';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
-  MediaList
+  MediaList,
+  Confirmation
 } from './components';
 
 export class InstPlaylistWithRedux extends Component {
@@ -23,7 +24,7 @@ export class InstPlaylistWithRedux extends Component {
   }
 
   render() {
-    const { offering } = this.props;
+    const { offering, confirmation } = this.props;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
@@ -38,6 +39,7 @@ export class InstPlaylistWithRedux extends Component {
         <CTLoadable loading={!offering.id}>
           <PlaylistInfo />
           <MediaList />
+          {confirmation && <Confirmation />}
         </CTLoadable>
       </CTLayout>
     )
@@ -48,6 +50,6 @@ export const InstPlaylist = withReduxProvider(
   InstPlaylistWithRedux,
   instPlaylistStore,
   connectWithRedux,
-  ['offering'],
+  ['offering', 'confirmation'],
   ['all']
 );

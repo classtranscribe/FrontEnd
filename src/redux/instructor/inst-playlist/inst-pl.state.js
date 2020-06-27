@@ -4,5 +4,5 @@ export const initialState = {
   offering: {},
   playlist: {},
   medias: ARRAY_INIT,
-  media: null,
+  confirmation: null,
 };

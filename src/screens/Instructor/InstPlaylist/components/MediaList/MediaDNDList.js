@@ -11,6 +11,8 @@ function MediaDNDList({
   error,
   handleSelect,
   isSelected,
+  handleExpand,
+  isExpanded,
   setFilterResult
 }) {
   const onDragEnd = (res) => {
@@ -23,6 +25,8 @@ function MediaDNDList({
     const mediaProps = {
       handleSelect,
       isSelected,
+      handleExpand,
+      isExpanded
     };
 
     dndItems = medias.map(media => ({

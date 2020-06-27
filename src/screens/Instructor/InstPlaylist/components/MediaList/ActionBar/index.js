@@ -1,22 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 import { Button } from 'pico-ui';
 import { CTFragment, CTFilterInput } from 'layout';
+import { mediaControl } from '../../../controllers';
+
 import SelectionButton from './SelectionButton';
+import UploadButton from './UploadButton';
 
 function ActionBar({
+  playlist,
+  result,
   selecting,
   selectAll,
   removeAll,
-  isSelectedAll,
+  selectedVideos,
   filterValue,
   handleFilterChange
 }) {
+  const handleSelectAll = () => {
+    selectAll(result);
+  };
+
+  const padded = Boolean(filterValue) || isMobile;
+  const showUploadBtn = !padded && playlist.sourceType === 2;
+  const isSelectedAll = selectedVideos.length > 0 
+                      && selectedVideos.length === result.length;
+
+  useEffect(() => {
+    if (selectedVideos.length > 0) {
+      removeAll();
+    }
+  }, [result]);
+
+  const handleDeleteVideos = () => {
+    mediaControl.confirmDeleteMedias(
+      selectedVideos.map(video => video.id)
+    );
+  }
+  
   return (
-    <CTFragment vCenter className="ipl-media-actions" padding={[0, 10, 5, 23]}>
+    <CTFragment
+      vCenter 
+      className="ipl-media-actions" 
+      padding={[0, 10, 5, (padded ? 0 : 23)]}
+    >
       <SelectionButton
         selecting={selecting}
         isSelectedAll={isSelectedAll}
-        selectAll={selectAll}
+        selectAll={handleSelectAll}
         removeAll={removeAll}
       />
       
@@ -29,17 +60,23 @@ function ActionBar({
           color="red transparent"
           text="Delete"
           classNames="mr-2"
-          // onClick={handleDeleteVideos}
+          onClick={handleDeleteVideos}
         />
       }
 
-      <CTFilterInput
-        grey
-        value={filterValue}
-        padding={[0]}
-        placeholder="Filter videos ..."
-        onInputChange={handleFilterChange}
-      />
+      {
+        !isMobile
+        &&
+        <CTFilterInput
+          grey
+          value={filterValue}
+          padding={[0]}
+          placeholder="Filter videos ..."
+          onInputChange={handleFilterChange}
+        />
+      }
+
+      {showUploadBtn && <UploadButton playlistId={playlist.id} />}
 
     </CTFragment>
   );

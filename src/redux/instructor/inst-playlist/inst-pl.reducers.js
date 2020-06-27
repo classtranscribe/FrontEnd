@@ -2,7 +2,7 @@ import {
   SET_OFFERING,
   SET_PLAYLIST,
   SET_MEDIAS,
-  SET_MEDIA,
+  SET_CONFIRMATION,
   CLEAR_PLAYLIST_DATA
 } from './inst-pl.action.types';
 import { initialState } from './inst-pl.state';
@@ -20,8 +20,8 @@ const myCoursesReducer = (state = initialState, action) => {
     case SET_MEDIAS:
       return { ...state, medias: value };
 
-    case SET_MEDIA:
-      return { ...state, media: value };
+    case SET_CONFIRMATION:
+      return { ...state, confirmation: value };
 
     case CLEAR_PLAYLIST_DATA:
       return initialState;

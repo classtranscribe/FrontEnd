@@ -3,15 +3,20 @@ import { api, uurl, ARRAY_INIT, NOT_FOUND_404 } from 'utils';
 import { StateController } from 'utils/state-controller';
 
 class InstPlaylistSetup extends StateController {
+  constructor() {
+    super();
+    this.closeConfirmation = this.closeConfirmation.bind(this);
+  }
+  
   init(props) {
     const {
       setOffering, setPlaylist, setMedias,
-      setMedia, clearData
+      setConfirmation, clearData
     } = props;
 
     this.register({
       setOffering, setPlaylist, setMedias,
-      setMedia, clearData
+      setConfirmation, clearData
     });
   }
 
@@ -30,9 +35,25 @@ class InstPlaylistSetup extends StateController {
     this.setState('setMedias', 'medias', medias);
   }
 
-  media = null;
-  setMedia(media) {
-    this.setState('setMedia', 'media', media);
+  confirmation = null;
+  setConfirmation(confirmation) {
+    this.setState('setConfirmation', 'confirmation', confirmation);
+  }
+
+  confirm({
+    title,
+    text,
+    onConfirm
+  }) {
+    this.setConfirmation({
+      title,
+      text,
+      onConfirm
+    });
+  }
+
+  closeConfirmation() {
+    this.setConfirmation(null);
   }
 
   async getPlaylistById(playlistId) {

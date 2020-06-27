@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -12,7 +13,7 @@ function CourseSettingsButton(props) {
 
   return (
     <Button
-      className={buttonClasses.button}
+      className={cx(buttonClasses.button, 'mb-2')}
       startIcon={<SettingsIcon />}
       size="large"
       href={links.courseSettings(offeringId)}

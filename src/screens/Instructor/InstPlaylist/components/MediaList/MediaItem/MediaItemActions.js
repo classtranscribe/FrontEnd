@@ -3,6 +3,7 @@ import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useStyles } from 'screens/Course/Components/CourseInfo/ActionButtons/CourseAnalyticsButton';
+import { mediaControl } from '../../../controllers';
 
 function MediaItemActions({
   mediaId
@@ -10,11 +11,15 @@ function MediaItemActions({
   const buttonClasses = useStyles();
   const btnClassName = cx(buttonClasses.button, 'media-item-button');
 
+  const handleDelete = () => {
+    mediaControl.confirmDeleteMedia(mediaId);
+  };
+
   return (
     <div className="media-item-actions">
       <Button 
         className={btnClassName}
-        startIcon={<i className="material-icons">play_circle_filled</i>}
+        startIcon={<i className="material-icons watch">play_circle_filled</i>}
         href={links.watch(mediaId)}
       >
         Watch
@@ -34,6 +39,14 @@ function MediaItemActions({
         href={links.mspEpubSettings(mediaId)}
       >
         ePub
+      </Button>
+
+      <Button 
+        className={btnClassName}
+        startIcon={<i className="material-icons delete">delete</i>}
+        onClick={handleDelete}
+      >
+        delete
       </Button>
     </div>
   );
