@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { NOT_FOUND_404, INSTRUCTOR } from 'utils';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
+import { InfoAndListLayout } from 'components';
 import {
   setup,
   courseStore,
   connectWithRedux
 } from './controllers';
-import './index.scss';
 
 import { CourseInfo, Playlists } from './Components';
 
@@ -52,10 +52,10 @@ class CourseWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTFragment {...pageFragmentProps}>
+        <InfoAndListLayout {...pageFragmentProps}>
           <CourseInfo />
           <Playlists />
-        </CTFragment>
+        </InfoAndListLayout>
       </CTLayout>
     );
   }

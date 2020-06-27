@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTFragment } from 'layout';
+import { CTLayout } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
@@ -35,17 +36,11 @@ export class InstPlaylistWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTFragment id="cp-container" loading={!offering.id}>
-          <CTFragment list id="cp-course-info" data-scroll>
-            <PlaylistInfo />
-          </CTFragment>
-
-          <CTFragment id="cp-playlists">
-            <MediaList />
-          </CTFragment>
-
+        <InfoAndListLayout loading={!offering.id}>
+          <PlaylistInfo />
+          <MediaList />
           {confirmation && <Confirmation />}
-        </CTFragment>
+        </InfoAndListLayout>
       </CTLayout>
     )
   }

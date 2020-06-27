@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { CTFragment } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { connectWithRedux, plControl } from '../../controllers';
 
 import BreadCrumb from './BreadCrumb';
@@ -54,13 +54,13 @@ function PlaylistInfoWithRedux({
   };
 
   return (
-    <CTFragment fade padding={[10]} id="ipl-pl-info">
+    <InfoAndListLayout.Info id="ipl-pl-info">
       <BreadCrumb offering={offering} playlist={playlist} />
 
       <PlaylistName {...plNameprops} />
 
       <Actions {...actionProps} />
-    </CTFragment>
+    </InfoAndListLayout.Info>
   );
 }
 

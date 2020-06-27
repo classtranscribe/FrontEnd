@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { CTFragment, CTFilter, CTText, CTFooter } from 'layout';
+import { CTFilter, CTText, CTFooter } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
 import './index.scss';
@@ -84,39 +85,37 @@ function MediaListWithRedux({
   };
 
   return (
-    <div className="ipl-media-li-con">
-      <CTFragment fade list role="list" className="ipl-media-li" data-scroll>
-        <CTFilter
-          data={medias}
-          value={filterValue}
-          keys={['mediaName']}
-        >
-          {(result, setResult) => (
-            <>
-              <ActionBar
-                result={result}
-                {...actionProps}
-              />
-              {
-                result.length > 0 ? (
-                  <MediaDNDList 
-                    medias={result}
-                    setFilterResult={setResult}
-                    {...dndListProps}
-                  />
-                ) : (
-                  <CTText muted center margin={[30, 0]}>
-                    No Result
-                  </CTText>
-                )
-              }
-            </>
-          )}
-        </CTFilter>
+    <InfoAndListLayout.List id="ipl-media-li">
+      <CTFilter
+        data={medias}
+        value={filterValue}
+        keys={['mediaName']}
+      >
+        {(result, setResult) => (
+          <>
+            <ActionBar
+              result={result}
+              {...actionProps}
+            />
+            {
+              result.length > 0 ? (
+                <MediaDNDList 
+                  medias={result}
+                  setFilterResult={setResult}
+                  {...dndListProps}
+                />
+              ) : (
+                <CTText muted center margin={[30, 0]}>
+                  No Result
+                </CTText>
+              )
+            }
+          </>
+        )}
+      </CTFilter>
 
-        <CTFooter />
-      </CTFragment>
-    </div>
+      <CTFooter />
+    </InfoAndListLayout.List>
   );
 }
 
