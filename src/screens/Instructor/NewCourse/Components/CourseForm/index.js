@@ -7,7 +7,7 @@ import {
   CTSelect,
   CTFormHeading
 } from 'layout';
-import { api, util, user } from 'utils';
+import { api, util, user, prompt } from 'utils';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
 
@@ -24,6 +24,7 @@ function CourseForm(props) {
     defaultSelCourses = [],
     onSave,
   } = props;
+
   const defaultUniId = user.getUserInfo().universityId;
 
   // basic information
@@ -34,9 +35,10 @@ function CourseForm(props) {
   const [description, setDescription] = useState(defaultDescription);
   const [accessType, setAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
+
+  const [universities, setUniversities] = useState([]);
   const [uniId, setUniId] = useState(defaultUniId);
-  const [uniIdOptions, setUniIdOptions] = useState([]);
-  const handleUniId = ({ target: { value } }) => setUniId(value);
+  const handleUniChange = ({ target: { value } }) => setUniId(value);
 
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
@@ -52,24 +54,25 @@ function CourseForm(props) {
     return error;
   };
 
+  const setupUniveristies = async () => {
+    try {
+      const { data } = await api.getUniversities();
+      setUniversities(data);
+    } catch (error) {
+      prompt.error('Could not load universities.');
+    }
+  };
+
   // get list of universities
   useEffect(() => {
     if (user.isAdmin) {
-      api.getUniversities().then((res) => {
-        if (res.status === 200) {
-          setUniIdOptions(util.getSelectOptions(res.data, 'name'))
-        }
-      })
+      setupUniveristies();
     }
-  }, [])
+  }, []);
+
   // reset values when uniId changed
   useEffect(() => {
-    setSelCourses(defaultSelCourses)
-    setLogEventsFlag(defaultLogFlag)
-    setSectionName(defaultSectionName)
-    setCourseName(defaultCourseName)
-    setDescription(defaultDescription)
-    setAccess(defaultAccessType)
+    setSelCourses(defaultSelCourses);
   }, [uniId])
 
   const [error, errorDispatch] = useReducer(errorReducer, initErrors);
@@ -125,6 +128,8 @@ function CourseForm(props) {
     uniId
   };
 
+  const uniOptions = util.getSelectOptions(universities, 'name');
+
   return (
     <CTForm
       heading="Course Information"
@@ -135,23 +140,23 @@ function CourseForm(props) {
       collapsible={collapsible}
       details="The basic information for a course"
     >
-      {user.isAdmin &&
-        <div>
-          <CTFormRow>
-            <CTFormHeading>
-              University Selection
-            </CTFormHeading>
-          </CTFormRow>
+      {
+        user.isAdmin 
+        &&
+        <>
+          <CTFormHeading>University Selection</CTFormHeading>
           <CTFormRow>
             <CTSelect
               required
               label="Select an University"
-              options={uniIdOptions}
+              options={uniOptions}
               value={uniId}
-              onChange={handleUniId}
+              onChange={handleUniChange}
             />
           </CTFormRow>
-        </div>}
+        </>
+      }
+
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
     </CTForm>
@@ -159,6 +164,7 @@ function CourseForm(props) {
 }
 
 CourseForm.propTypes = {
+  collapsible: PropTypes.bool,
   defaultCourseName: PropTypes.string,
   defaultSectionName: PropTypes.string,
   defaultLogFlag: PropTypes.bool,

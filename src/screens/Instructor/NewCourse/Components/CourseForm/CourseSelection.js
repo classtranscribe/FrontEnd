@@ -12,7 +12,7 @@ import {
   CTText,
   CTHeading
 } from 'layout';
-import { api, util } from 'utils';
+import { api, util, prompt } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,24 +80,23 @@ function CourseSelection(props) {
     }
   };
 
-  useEffect(() => {
-    // get the list of departs
-    setupDepartmentOptions();
+  useEffect(() => {    
+    if (uniId) {
+      // reset when uniId changed
+      setCourses([]);
+      setDeparts([]);
+      setCourse({});
+      setDepart({});
+      // get the list of departs
+      setupDepartmentOptions();
+    }
   }, [uniId]);
-  // reset when uniId changed
-  useEffect(() => {
-    setCourses([])
-    setDeparts([])
-    setCourse({})
-    setDepart({})
-  }, [uniId])
 
   useEffect(() => {
-    // Could be improved: when selected depart changed, the selected course stay the same
     if (depart.id) {
       setupCourseOptions();
     }
-  }, [depart, uniId]);
+  }, [depart]);
 
   useEffect(() => {
     // add/remove selected courses
@@ -132,29 +131,37 @@ function CourseSelection(props) {
 
       <CTFormRow>
         <div>
-          <CTAutoComplete
-            error={selCoursesError}
-            underlined
-            id="sel-dep"
-            label="Select a Department"
-            options={departmentOptions}
-            value={depart.id}
-            onChange={handleDepartChange}
-          />
+          {
+            departs.length > 0
+            &&
+            <CTAutoComplete
+              error={selCoursesError}
+              underlined
+              id="sel-dep"
+              label="Select a Department"
+              options={departmentOptions}
+              value={depart.id}
+              onChange={handleDepartChange}
+            />
+          }
 
-          <CTAutoComplete
-            error={selCoursesError}
-            helpText={selCoursesError ? 'Please select at least one course number.' : ''}
-            className="mt-3"
-            underlined
-            disabled={depart === ''}
-            id="sel-courses"
-            label="Select a Course Number"
-            defaultValue=""
-            options={courseOptions}
-            value={course.id}
-            onChange={depart === '' ? undefined : handleCourseChange}
-          />
+          {
+            courses.length > 0
+            &&
+            <CTAutoComplete
+              error={selCoursesError}
+              helpText={selCoursesError ? 'Please select at least one course number.' : ''}
+              className="mt-3"
+              underlined
+              disabled={depart === ''}
+              id="sel-courses"
+              label="Select a Course Number"
+              defaultValue=""
+              options={courseOptions}
+              value={course.id}
+              onChange={depart === '' ? undefined : handleCourseChange}
+            />
+          }
         </div>
 
         <div>
