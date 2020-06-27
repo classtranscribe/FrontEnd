@@ -144,7 +144,6 @@ class Player extends React.Component {
 
     const display2Screen = allowTwoScreen && Boolean(src2);
     const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
-  
     return (
       <div {...this.getContainerProps(playerSize)}>
         <div {...this.getPlayerProps(playerSize)}>
@@ -160,7 +159,7 @@ class Player extends React.Component {
 
         {
           openRange
-          && 
+          &&
           <div {...this.getExtraProps(playerSize)}>
             <Range {...this.getRangeProps()} />
           </div>
