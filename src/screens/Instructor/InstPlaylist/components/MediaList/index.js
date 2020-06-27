@@ -62,7 +62,26 @@ function MediaListWithRedux({
     return expandedVideo === media;
   }, [expandedVideo]);
 
-  const isSelectedAll = medias.length === selectedVideos.length;
+  const actionProps = {
+    playlist,
+    selecting,
+    selectedVideos,
+    filterValue,
+    handleFilterChange,
+    selectAll,
+    removeAll,
+  };
+
+  const dndListProps = {
+    error,
+    loading,
+    selecting,
+    filtering,
+    isSelected,
+    handleSelect,
+    isExpanded,
+    handleExpand
+  };
 
   return (
     <div className="ipl-media-li-con">
@@ -75,30 +94,20 @@ function MediaListWithRedux({
           {(result, setResult) => (
             <>
               <ActionBar
-                playlist={playlist}
                 result={result}
-                selecting={selecting}
-                selectedVideos={selectedVideos}
-                selectAll={selectAll}
-                removeAll={removeAll}
-                filterValue={filterValue}
-                handleFilterChange={handleFilterChange}
+                {...actionProps}
               />
               {
                 result.length > 0 ? (
                   <MediaDNDList 
-                    medias={result} 
-                    error={error} 
-                    loading={loading}
-                    filtering={filtering}
-                    handleSelect={handleSelect}
-                    isSelected={isSelected}
-                    handleExpand={handleExpand}
-                    isExpanded={isExpanded}
+                    medias={result}
                     setFilterResult={setResult}
+                    {...dndListProps}
                   />
                 ) : (
-                  <CTText muted center margin={[30, 0]}>No Result</CTText>
+                  <CTText muted center margin={[30, 0]}>
+                    No Result
+                  </CTText>
                 )
               }
             </>

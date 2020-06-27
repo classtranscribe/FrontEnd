@@ -12,6 +12,7 @@ import { createCTHeadingProps } from './create-props';
 function CTHeading(props) {
   let {
     as = 'h1',
+    className,
     heading = 'Heading',
     icon,
     sticky = false,
@@ -31,7 +32,7 @@ function CTHeading(props) {
     gradient,
     highlight,
     highlightIcon,
-  });
+  }, className);
 
   const fragmentProps = CTFragment.createProps({
     as,

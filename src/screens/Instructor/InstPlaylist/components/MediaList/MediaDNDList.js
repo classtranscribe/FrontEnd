@@ -7,6 +7,7 @@ import MediaItem from './MediaItem';
 function MediaDNDList({
   medias,
   filtering,
+  selecting,
   loading,
   error,
   handleSelect,
@@ -23,6 +24,8 @@ function MediaDNDList({
 
   if (!loading && !error) {
     const mediaProps = {
+      selecting,
+      filtering,
       handleSelect,
       isSelected,
       handleExpand,

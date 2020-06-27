@@ -6,7 +6,8 @@ import { useStyles } from 'screens/Course/Components/CourseInfo/ActionButtons/Co
 import { mediaControl } from '../../../controllers';
 
 function MediaItemActions({
-  mediaId
+  mediaId,
+  isUnavailable
 }) {
   const buttonClasses = useStyles();
   const btnClassName = cx(buttonClasses.button, 'media-item-button');
@@ -18,6 +19,7 @@ function MediaItemActions({
   return (
     <div className="media-item-actions">
       <Button 
+        disabled={isUnavailable}
         className={btnClassName}
         startIcon={<i className="material-icons watch">play_circle_filled</i>}
         href={links.watch(mediaId)}

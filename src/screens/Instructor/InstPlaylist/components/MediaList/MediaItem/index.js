@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -13,12 +13,14 @@ import MediaItemActions from './MediaItemActions';
 
 function MediaItem({
   media,
+  selecting,
+  filtering,
   handleSelect,
   isSelected,
   handleExpand,
   isExpanded
 }) {
-  const { mediaName, id } = media;
+  const { mediaName, id, isUnavailable } = media;
   const selected = isSelected(media);
   const expanded = isExpanded(media);
 
@@ -40,7 +42,7 @@ function MediaItem({
   const handleRename = (event) => {
     stopPropagation(event);
     setEditing(false);
-    if (inputValue !== mediaName) {
+    if (inputValue && inputValue !== mediaName) {
       mediaControl.renameMedia(id, inputValue);
     }
   };
@@ -57,6 +59,13 @@ function MediaItem({
   const handleExpansionChange = (event, expand) => {
     handleExpand(media, expand);
   };
+
+  useEffect(() => {
+    if (editing) {
+      setEditing(false);
+      setInputValue(mediaName);
+    }
+  }, [filtering, selecting]);
 
   const renameBtnIcon = editing ? 'check' : 'edit';
   const renameBtnLabel = editing ? 'Save' : 'Rename';
@@ -112,10 +121,11 @@ function MediaItem({
       </ExpansionPanelSummary>
 
       <ExpansionPanelDetails>
-        <CTText size="medium" padding={[0, 0, 5, 10]}>
-          Created at: {(media.createdAt || '').slice(0, 10)}
+        <CTText muted padding={[0, 0, 5, 10]}>
+          Created at {(media.createdAt || '').slice(0, 10)}
         </CTText>
-        <MediaItemActions mediaId={id} />
+
+        <MediaItemActions mediaId={id} isUnavailable={isUnavailable} />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
