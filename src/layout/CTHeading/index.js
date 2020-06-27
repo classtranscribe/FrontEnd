@@ -1,18 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import CTFragment from '../CTFragment';
 import './index.scss';
-
-import { CTFragment } from '../CTFragment';
 
 import { createCTHeadingProps } from './create-props';
 
 /**
  * The controlled heading component
  */
-export function CTHeading(props) {
+function CTHeading(props) {
   let {
     as = 'h1',
+    className,
     heading = 'Heading',
     icon,
     sticky = false,
@@ -32,7 +32,7 @@ export function CTHeading(props) {
     gradient,
     highlight,
     highlightIcon,
-  });
+  }, className);
 
   const fragmentProps = CTFragment.createProps({
     as,
@@ -44,9 +44,14 @@ export function CTHeading(props) {
     padding,
   });
 
+  const iconElement = typeof icon === 'string'
+                    ? <i className="material-icons">{icon}</i>
+                    : icon;
+
   return (
     <CTFragment {...fragmentProps}>
-      {icon && <i className="material-icons">{icon}</i>}
+      {iconElement}
+
       <span className="content">{headingElement}</span>
     </CTFragment>
   );
@@ -87,3 +92,5 @@ CTHeading.propTypes = {
 };
 
 CTHeading.createProps = createCTHeadingProps;
+
+export default CTHeading;

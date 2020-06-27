@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 
 export const useStyles = makeStyles({
   root: {
@@ -24,12 +23,13 @@ export const useStyles = makeStyles({
 /**
  * The controlled input component used in `CTForm`
  */
-export function Input(props) {
+function Input(props) {
   let {
     id,
     label,
     helpText,
     onChange,
+    onReturn,
     placeholder,
     defaultValue,
     value,
@@ -42,6 +42,11 @@ export function Input(props) {
   } = props;
 
   const inputClasses = useStyles();
+  const handleKeyDown = ({ keyCode }) => {
+    if (typeof onReturn === 'function' && keyCode === 13) {
+      onReturn();
+    }
+  };
 
   return (
     <TextField
@@ -61,6 +66,7 @@ export function Input(props) {
       error={error}
       required={required}
       disabled={disabled}
+      onKeyDown={handleKeyDown}
       {...otherProps}
     />
   );
@@ -88,6 +94,9 @@ Input.propTypes = {
   /** The onchange callback for the input */
   onChange: PropTypes.func,
 
+  /** The callback function when user hit return key */
+  onReturn: PropTypes.func,
+
   /** The input can be a textarea */
   textarea: PropTypes.bool,
 
@@ -103,4 +112,6 @@ Input.propTypes = {
   /** The input field can be underlined */
   underlined: PropTypes.bool
 };
+
+export default Input;
 

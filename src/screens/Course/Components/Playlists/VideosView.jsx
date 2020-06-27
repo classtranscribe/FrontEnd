@@ -36,7 +36,7 @@ function VideosView({
       </CTFragment>
 
       <CTFragment list role="list" className="pl-4 pr-4">
-        {medias.map( me => <Video media={me} /> )}
+        {medias.map( me => <Video key={me.id} media={me} /> )}
       </CTFragment>
 
       <CTFooter />

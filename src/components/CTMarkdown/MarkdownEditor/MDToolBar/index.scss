@@ -1,0 +1,15 @@
+.ct-md-toolbar {
+  // background-color: rgb(224, 224, 224);
+  min-height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  padding: 0 10px;
+
+  .ct-md-tool-r {
+    display: flex;
+    align-items: center;
+  }
+}

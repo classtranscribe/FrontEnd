@@ -95,6 +95,14 @@ export class ClassTranscribeLinks {
     return `/instructor/playlist/${playlistId}`;
   }
 
+  instNewPlaylist(offeringId) {
+    return `/offering/${offeringId}/new-playlist`;
+  }
+
+  instPlaylistUploadMedia(playlistId) {
+    return `instructor/upload/pl/${playlistId}`;
+  }
+
   instMedia(mediaId) {
     return `/instructor/media/${mediaId}`;
   }
@@ -146,6 +154,14 @@ export class ClassTranscribeLinks {
       }
     }
     return `/video${uurl.createSearch({ id, ...params })}`;
+  }
+
+  /**
+   * to `/docs/component-api/<name>`
+   * @param {String} name - name of the docs
+   */
+  componentAPI(name) {
+    return `/docs/component-api/${name}`;
   }
 
   /**

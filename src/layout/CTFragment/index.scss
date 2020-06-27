@@ -1,3 +1,5 @@
+$border: solid 1px grey;
+
 .ct-fragment {
   width: 100%;
 
@@ -12,9 +14,19 @@
     align-items: center;
   }
 
+  &.vEnd {
+    display: flex;
+    align-items: flex-end;
+  }
+
   &.hCenter {
     display: flex;
     justify-content: center;
+  }
+
+  &.hEnd {
+    display: flex;
+    justify-content: flex-end;
   }
 
   &.list {
@@ -26,5 +38,21 @@
     top: 0;
     position: sticky;
     z-index: 10;
+  }
+
+  &.border-top {
+    border-top: $border;
+  }
+
+  &.border-right {
+    border-right: $border;
+  }
+
+  &.border-bottom {
+    border-bottom: $border;
+  }
+
+  &.border-left {
+    border-left: $border;
   }
 }

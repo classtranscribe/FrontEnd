@@ -1,7 +1,7 @@
 import React from 'react';
-import { CTFragment } from 'layout';
+import { CTFragment , CTHeading } from 'layout';
 import { CourseCardList } from 'components';
-import { CTHeading } from 'layout/CTHeading';
+
 import './index.scss';
 
 export function CourseList({
@@ -10,9 +10,9 @@ export function CourseList({
 }) {
   return offerings.length > 0 ? (
     <CTFragment className="mc-c-ul-con">
-      <CTHeading heading={title} as="h4" padding={[10, 40]} />
+      <CTHeading heading={title} as="h4" padding={[10, 10]} />
 
-      <CourseCardList padding={[0, 30]} courses={offerings} />
+      <CourseCardList courses={offerings} />
     </CTFragment>
   ) : null;
 }

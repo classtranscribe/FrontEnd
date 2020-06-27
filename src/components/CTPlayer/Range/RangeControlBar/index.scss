@@ -1,0 +1,19 @@
+.ctp.range-ctrl {
+  margin-top: 15px;
+
+  .ctp.range-input-con {
+    margin-left: 10px;
+
+    input {
+      border-radius: 3px;
+      border-width: 1px;
+      border-color: rgba(190, 197, 197, 0);
+      border-style: solid;
+      padding: 3px 5px;
+      &:focus {
+        border-color: rgb(1, 184, 184);
+        outline: none;
+      }
+    }
+  }
+}

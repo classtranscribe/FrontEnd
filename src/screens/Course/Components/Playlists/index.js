@@ -9,7 +9,7 @@ import PlaylistsView from './PlaylistsView';
 import VideosView from './VideosView';
 
 function PlaylistsWithRedux({
-  role,
+  isInstMode,
   offering,
   playlist,
   playlists,
@@ -33,10 +33,17 @@ function PlaylistsWithRedux({
 
   const isPlaylistView = Boolean(playlistId);
 
+  const playlistsProps = {
+    isInstMode,
+    playlists,
+    offeringId: offering.id,
+    accessType: offering.accessType,
+  };
+
   const viewElement = (
     isPlaylistView
     ? <VideosView playlist={playlist} />
-    : <PlaylistsView role={role} playlists={playlists} accessType={offering.accessType} />
+    : <PlaylistsView {...playlistsProps} />
   );
 
   return (
@@ -48,6 +55,11 @@ function PlaylistsWithRedux({
 
 export const Playlists = connectWithRedux(
   PlaylistsWithRedux,
-  ['playlists', 'playlist', 'offering', 'role'],
+  [
+    'playlists',
+    'playlist',
+    'offering',
+    'isInstMode'
+  ],
   ['setPlaylist']
 );
