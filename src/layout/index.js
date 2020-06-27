@@ -27,3 +27,5 @@ export { CTText, CTParagraph } from './CTText';
 export * from './CTForm';
 
 export { CTDNDContext, CTDNDItem, CTDNDList } from './CTDnd';
+
+export { CTModal, CTConfirmation } from './CTModal';
