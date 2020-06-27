@@ -44,7 +44,7 @@ function MarkdownEditor(props) {
   };
 
   const openPreview = () => {
-    setPreview(html.markdown(value));
+    setPreview(value);
   };
 
   const closePreview = () => {

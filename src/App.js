@@ -55,7 +55,7 @@ class App extends React.Component {
           {user.isInstructor && <Route exact path="/instructor/my-courses" component={MyCourses} />}
           {user.isInstructor && <Route exact path="/instructor/new-course" component={NewCourse} />}
           {user.isInstructor && (
-            <Route exact path="/instructor/:id/new-playlist" component={NewPlaylist} />
+            <Route exact path="/offering/:offeringId/new-playlist" component={NewPlaylist} />
           )}
           {user.isInstructor && (
             <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
