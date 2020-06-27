@@ -29,6 +29,7 @@ function Input(props) {
     label,
     helpText,
     onChange,
+    onReturn,
     placeholder,
     defaultValue,
     value,
@@ -41,6 +42,11 @@ function Input(props) {
   } = props;
 
   const inputClasses = useStyles();
+  const handleKeyDown = ({ keyCode }) => {
+    if (typeof onReturn === 'function' && keyCode === 13) {
+      onReturn();
+    }
+  };
 
   return (
     <TextField
@@ -60,6 +66,7 @@ function Input(props) {
       error={error}
       required={required}
       disabled={disabled}
+      onKeyDown={handleKeyDown}
       {...otherProps}
     />
   );
@@ -86,6 +93,9 @@ Input.propTypes = {
 
   /** The onchange callback for the input */
   onChange: PropTypes.func,
+
+  /** The callback function when user hit return key */
+  onReturn: PropTypes.func,
 
   /** The input can be a textarea */
   textarea: PropTypes.bool,

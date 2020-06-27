@@ -31,9 +31,9 @@
     .pl-item {
       position: relative;
       outline: 0;
-      padding: 0 25px 0 10px;
+      padding: 0 25px 0 5px;
       border-bottom: 1px solid rgb(255, 255, 255);
-      transition: background 0.2s linear;
+      // transition: background 0.2s linear;
       background: rgb(251, 251, 251);
 
       &:last-child {

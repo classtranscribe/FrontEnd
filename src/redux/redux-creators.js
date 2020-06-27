@@ -17,6 +17,7 @@ export function createAction(type) {
  * @param {Object} options options for creating a Redux selector
  * @param {String[]} options.defaultRequestedStates default states to connect
  * @param {String[]} options.defaultRequestedDispatches default dispatches to connect
+ * @returns {Function} the function used to connect with the redux store
  */
 export function createSelector(
   actions,
