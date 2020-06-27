@@ -15,7 +15,7 @@ function PlaylistName({
   const plIconElem = <CTPlaylistIcon type={sourceType} size="big" />;
 
   return editing ? (
-    <CTFragment padding={[20, 20, 0, 20]}>
+    <CTFragment padding={[20, 0, 0, 0]}>
       <CTInput
         autoFocus
         label="Playlist Name"
@@ -27,7 +27,7 @@ function PlaylistName({
     </CTFragment>
   ) : (
     <>
-      <CTHeading icon={plIconElem} className="pl-name">
+      <CTHeading fade={false} icon={plIconElem} className="pl-name">
         {name}
       </CTHeading>
       <hr />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTLoadable } from 'layout';
+import { CTLayout, CTFragment } from 'layout';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
@@ -19,16 +19,15 @@ export class InstPlaylistWithRedux extends Component {
     setup.setupInstPlaylistPage(playlistId);
   }
 
-  componentWillUnmount() {
-    setup.clearData();
-  }
+  // componentWillUnmount() {
+  //   setup.clearData();
+  // }
 
   render() {
     const { offering, confirmation } = this.props;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
-      footer: true,
       sidebarProps: {
         items: sidebar.getCoursePageSidebarItems(offering)
       }
@@ -36,11 +35,17 @@ export class InstPlaylistWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTLoadable loading={!offering.id}>
-          <PlaylistInfo />
-          <MediaList />
+        <CTFragment id="cp-container" loading={!offering.id}>
+          <CTFragment list id="cp-course-info" data-scroll>
+            <PlaylistInfo />
+          </CTFragment>
+
+          <CTFragment id="cp-playlists">
+            <MediaList />
+          </CTFragment>
+
           {confirmation && <Confirmation />}
-        </CTLoadable>
+        </CTFragment>
       </CTLayout>
     )
   }

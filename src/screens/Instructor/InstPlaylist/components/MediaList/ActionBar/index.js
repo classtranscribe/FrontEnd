@@ -41,8 +41,9 @@ function ActionBar({
   return (
     <CTFragment
       vCenter 
-      className="ipl-media-actions" 
-      padding={[0, 10, 5, (padded ? 0 : 23)]}
+      sticky
+      id="ipl-media-actions" 
+      padding={[10, 10, 10, (padded ? 0 : 23)]}
     >
       <SelectionButton
         selecting={selecting}

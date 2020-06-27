@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { CTFragment, CTFilter, CTText } from 'layout';
+import { CTFragment, CTFilter, CTText, CTFooter } from 'layout';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
 import './index.scss';
@@ -85,7 +85,7 @@ function MediaListWithRedux({
 
   return (
     <div className="ipl-media-li-con">
-      <CTFragment list role="list" className="ipl-media-li">
+      <CTFragment fade list role="list" className="ipl-media-li" data-scroll>
         <CTFilter
           data={medias}
           value={filterValue}
@@ -113,6 +113,8 @@ function MediaListWithRedux({
             </>
           )}
         </CTFilter>
+
+        <CTFooter />
       </CTFragment>
     </div>
   );

@@ -54,7 +54,7 @@ function PlaylistInfoWithRedux({
   };
 
   return (
-    <CTFragment padding={[30, 30, 10, 30]} id="ipl-pl-info">
+    <CTFragment fade padding={[10]} id="ipl-pl-info">
       <BreadCrumb offering={offering} playlist={playlist} />
 
       <PlaylistName {...plNameprops} />

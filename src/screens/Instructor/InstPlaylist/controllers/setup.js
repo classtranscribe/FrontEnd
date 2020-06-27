@@ -92,9 +92,9 @@ class InstPlaylistSetup extends StateController {
   }
 
   async setupInstPlaylistPage(playlistId) {
-    // if (this.playlistId !== playlistId) {
-    //   this.clearData();
-    // }
+    if (this.playlistId !== playlistId) {
+      this.clearData();
+    }
 
     // sestup playlist
     const playlist = await this.getPlaylistById(playlistId);
