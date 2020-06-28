@@ -121,12 +121,19 @@ function CourseSelection(props) {
 
   return (
     <CTFragment>
-      <CTFormHeading padding={[20, 0, 0, 0]}>Course Number</CTFormHeading>
+      <CTFormHeading>Course Number</CTFormHeading>
       <CTFormHelp title="Course number selection">
-        Since one course might be held by multiple departments (e.g. <b>CS425/ECE428</b>),
-        ClassTranscribe allows you to select multiple course numbers.
-        For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
-        generate the course number <b>CS357/MATH357</b>.
+        <div>
+          ClassTranscribe allows you to select multiple course numbers.
+          For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
+          generate the course number <b>CS357/MATH357</b>.
+        </div>
+        <h5 className="mt-2 mb-1">INSTRUCTION</h5>
+        <ol>
+          <li>Please select a department of your university.</li>
+          <li>Then select a course under the selected department.</li>
+          <li>Repeat the above steps to select multiple courses.</li>
+        </ol>
       </CTFormHelp>
 
       <CTFormRow>
