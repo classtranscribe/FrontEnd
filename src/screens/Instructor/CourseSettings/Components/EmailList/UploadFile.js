@@ -2,30 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     CTFragment,
-    CTForm, 
-    CTFormRow, 
-    CTInput,
     CTFormHelp,
-    CTUploadButton
+    CTUploadButton,
+    CTText
 } from 'layout';
 import _ from 'lodash';
-import { user, uemail } from 'utils';
+import { user, uemail, prompt } from 'utils';
 
 function UploadFile(props) {
   const {
     emails,
     setEmails,
-    inputValue,
-    setInputValue,
-    error,
-    setError
   } = props;
 
   const onLoadFile = async (event) => {
     let results = uemail.extract(event.target.result);
     if (!Array.isArray(results)) return;
     
-    setEmails(oldEmails => ([...oldEmails, ..._.difference(results, oldEmails)]));
+    setEmails(oldEmails => {
+      let newEmails = _.difference(results, oldEmails);
+      prompt.addOne({ text: `Added ${newEmails.length} emails.`, timeout: 3000 });
+      return [...newEmails, ...oldEmails];
+    });
   };
 
   const handleFileUpload = (files) => {
@@ -42,17 +40,25 @@ function UploadFile(props) {
     <CTFragment>
       <CTFormHelp title="INSTRUCTION">
         <CTFragment>
-          Please upload a <strong>.csv/.txt file</strong> 
-          with a <strong>list of emails</strong>.
+          Please upload a text file (e.g. .csv/.txt) with a list of emails. 
+          The emails can be separated by 
+          <code> &apos;,&apos;</code>, 
+          <code> &apos;;&apos;</code>, 
+          <code> &apos;{'<>'}&apos;</code>, 
+          <code> &apos;:&apos;</code>, 
+          <code> space</code>, and 
+          <code> breakline</code>
         </CTFragment>
         <hr />
         <CTFragment className="email-list-uploadbtw-example">
-          <h4><strong>EXAMPLAE</strong></h4>
-          <CTFragment>{'<demo.txt>'}</CTFragment>
-          <CTFragment>shawn@university.edu</CTFragment>
-          <CTFragment>micheal2@university.edu</CTFragment>
-          <CTFragment>xiaoming@university.edu</CTFragment>
-          <CTFragment>...</CTFragment>
+          <CTText bold>EXAMPLAES</CTText>
+          <div>shawn@abc.edu,david@efg.com</div>
+          <div>micheal@123.com;alice@456.edu</div>
+          <div>micheal2@university.edu</div>
+          <div>xiaoming@university.edu</div>
+          <div>{'<lee1988@university.cs.edu>'}</div>
+          <div>{'<alice2020@university.edu>'}</div>
+          <div>...</div>
         </CTFragment>
       </CTFormHelp>
       <CTUploadButton 

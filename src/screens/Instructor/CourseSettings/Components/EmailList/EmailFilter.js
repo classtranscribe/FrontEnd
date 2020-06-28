@@ -58,8 +58,7 @@ function EmailFilter(props) {
 
     let includes = inputValue === myEmailId || _.includes(emails, inputValue);
     if (!includes) {
-      const newEmails = [...emails, inputValue];
-      setEmails(newEmails);
+      setEmails([inputValue, ...emails]);
       setInputValue('');
       if (error) setError(null);
     }
@@ -147,6 +146,7 @@ function EmailFilter(props) {
         placeholder="Enter email here..."
         value={inputValue}
         onChange={handleInputChange}
+        onReturn={handleAddEmail}
         error={error}
         helpText={error}
       />
