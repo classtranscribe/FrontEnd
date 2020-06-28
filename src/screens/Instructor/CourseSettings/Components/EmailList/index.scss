@@ -1,15 +1,34 @@
 .email-list-container {
-    .email-list-left {
-        margin-top: 1em;
-        width: 100%;
+  .email-list-left {
+    margin-top: 1em;
+    width: 100%;
+  }
+  .email-list-right {
+    margin-top: 1em;
+    height: 100%;
+    background: rgb(245, 245, 245);
+    border-radius: 10px;
+    padding: 5px 10px 0 10px;
+    display: flex;
+    flex-direction: column;
+
+    .cs-email-filter-ol {
+      padding: 10px 0;
+      height: 200px;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      .cs-email-filter-li {
+        padding-right: 5px;
+        justify-content: space-between;
+        &:hover {
+          background-color: rgb(231, 231, 231);
+        }
+      } 
     }
-    .email-list-right {
-        margin-top: 1em;
-        height: 100%;
-        background: rgb(245, 245, 245);
-        border-radius: 10px;
-        padding: 15px 10px 10px 10px;
-        display: flex;
-        flex-direction: column;
+
+    .cs-email-filter-actions {
+      border-top: 1px solid rgb(180, 180, 180);
     }
   }
+}

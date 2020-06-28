@@ -1,21 +1,41 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import MuiCheckbox from '@material-ui/core/Checkbox';
+import { CTPopoverLabel, CTCheckbox, CTFragment } from 'layout';
 
-function EmailItem(props) {
-  const { email } = props;
+function EmailItem({
+  email,
+  isSelected,
+  handleSelectEmail,
+  handleRemoveEmail,
+}) {
+  const checkBoxClasses = CTCheckbox.useStyles();
+  const handleCheckChange = ({ target: { checked } }) => {
+    handleSelectEmail(email, checked);
+  };
 
-  // Add scss styles to this component
-  // And add delete button to it
   return (
-    <div>
-      {email}
-    </div>
+    <CTFragment role="listitem" vCenter className="cs-email-filter-li">
+      <div className="d-flex align-items-center">
+        <MuiCheckbox
+          classes={checkBoxClasses}
+          checked={isSelected(email)}
+          onChange={handleCheckChange}
+        />
+        <span>{email}</span>
+      </div>
+
+      <div>
+        <CTPopoverLabel label="Remove this email">
+          <IconButton size="small" onClick={() => handleRemoveEmail(email)}>
+            <DeleteIcon />
+          </IconButton>
+        </CTPopoverLabel>
+      </div>
+    </CTFragment>
   );
 }
-
-EmailItem.propTypes = {
-  email: PropTypes.string
-};
 
 export default EmailItem;
 

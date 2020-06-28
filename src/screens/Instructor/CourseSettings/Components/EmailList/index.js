@@ -12,14 +12,18 @@ const sampleEmails = [
   'shawn@gmail.com',
   'david@illinois.edu',
   'alice@illinois.edu',
-  'michael@gmail.com'
+  'michael@gmail.com',
+  'alice2@gmail.com',
+  'michael1988@gmail.com',
+  'david2020@illinois.edu',
+  'shawn@illinois.cs.com',
+  'alice.cs.2019@gmail.com',
+  'alice.career.2019@gmail.com',
 ];
 
 function EmailListWithRedux(props) {
   let { title, description, onSave } = props;
   const [emails, setEmails] = useState(sampleEmails);
-  const [inputValue, setInputValue] = useState('');
-  const [error, setError] = useState(null);
 
   return (
     <CTFragment className="email-list-container">
@@ -36,10 +40,6 @@ function EmailListWithRedux(props) {
             <UploadFile
               emails={emails}
               setEmails={setEmails}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              error={error}
-              setError={setError}
             />
           </CTFragment>
 
@@ -47,10 +47,6 @@ function EmailListWithRedux(props) {
             <EmailFilter 
               emails={emails}
               setEmails={setEmails}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              error={error}
-              setError={setError}
             />
           </CTFragment>
           
