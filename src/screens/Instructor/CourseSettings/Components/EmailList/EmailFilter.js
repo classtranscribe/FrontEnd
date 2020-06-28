@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { CTFragment, CTFilter, CTInput, CTText } from 'layout';
 import { user, uemail } from 'utils';
 import { Button } from 'pico-ui';
-import { Icon } from 'semantic-ui-react';
+import IconButton from '@material-ui/core/Button'
+import {Delete} from '@material-ui/icons';
 import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
@@ -69,25 +70,18 @@ function EmailFilter(props) {
         result = [`${myEmailId} (You)`, ...result];
       }
       emailListElement = result.map(email => (
-        // <EmailItem email = {email}>
-        <div className="ip-f-email-item" key={email}>
-          {email}
-          <Icon
-            name="trash"
-            onClick={removeEmailAddress}
-            title="remove"
-            aria-label="remove"
-            role="button"
-          />
-        </div>
-        // </EmailItem>
-        
+        <EmailItem email={email} removeEmailAddress={removeEmailAddress} />
       ));
     }
 
     return (
       <CTFragment list role="list" padding={[20, 0, 0, 0]}>
         {emailListElement}
+        <IconButton>
+          <Delete
+            onClick={removeEmailAddress}
+          />
+        </IconButton> 
       </CTFragment>
     );
   }
