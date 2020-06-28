@@ -99,6 +99,10 @@ export class ClassTranscribeLinks {
     return `/offering/${offeringId}/new-playlist`;
   }
 
+  instPlaylistUploadMedia(playlistId) {
+    return `instructor/upload/pl/${playlistId}`;
+  }
+
   instMedia(mediaId) {
     return `/instructor/media/${mediaId}`;
   }
@@ -108,7 +112,7 @@ export class ClassTranscribeLinks {
   }
 
   courseSettings(offeringId) {
-    return `/instructor/course-settings/${offeringId}`;
+    return `/offering/${offeringId}/settings`;
   }
 
   courseAnalytics(offeringId) {

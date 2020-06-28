@@ -28,7 +28,7 @@ export function SidebarItem(props) {
 
   const hasItems = items.length > 0;
 
-  if (hasItems && items[0].href) {
+  if (hasItems && !href && items[0].href) {
     href = items[0].href;
   }
 

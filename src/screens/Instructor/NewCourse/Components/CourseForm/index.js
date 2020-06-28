@@ -2,9 +2,11 @@ import _ from 'lodash';
 import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { CTForm } from 'layout';
-
+import { api, user, prompt } from 'utils';
+import UniversitySelection from './UniversitySelection';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
+
 
 function CourseForm(props) {
   const {
@@ -16,8 +18,12 @@ function CourseForm(props) {
     defaultDescription = '',
     defaultAccessType = '0',
     defaultSelCourses = [],
+    saveButtonText = 'create',
     onSave,
+    allowUniSelection = false,
   } = props;
+
+  const defaultUniId = user.getUserInfo().universityId;
 
   // basic information
   const [courseName, setCourseName] = useState(defaultCourseName);
@@ -27,6 +33,10 @@ function CourseForm(props) {
   const [description, setDescription] = useState(defaultDescription);
   const [accessType, setAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
+
+  const [universities, setUniversities] = useState([]);
+  const [uniId, setUniId] = useState(defaultUniId);
+  const handleUniChange = ({ target: { value } }) => setUniId(value);
 
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
@@ -41,6 +51,27 @@ function CourseForm(props) {
     }
     return error;
   };
+
+  const setupUniveristies = async () => {
+    try {
+      const { data } = await api.getUniversities();
+      setUniversities(data);
+    } catch (error) {
+      prompt.error('Could not load universities.');
+    }
+  };
+
+  // get list of universities
+  useEffect(() => {
+    if (user.isAdmin) {
+      setupUniveristies();
+    }
+  }, []);
+
+  // reset values when uniId changed
+  useEffect(() => {
+    setSelCourses(defaultSelCourses);
+  }, [uniId])
 
   const [error, errorDispatch] = useReducer(errorReducer, initErrors);
   const [enable, setEnable] = useState(false);
@@ -67,6 +98,12 @@ function CourseForm(props) {
     }
   };
 
+  const uniSelProps = {
+    uniId,
+    universities,
+    handleUniChange
+  };
+
   const basicInfoProps = {
     error,
     enable,
@@ -84,6 +121,7 @@ function CourseForm(props) {
     setDescription,
     setLogEventsFlag,
     setCoursesText,
+    uniId
   };
 
   const courseSelectionProps = {
@@ -91,6 +129,7 @@ function CourseForm(props) {
     enable,
     selCourses,
     setSelCourses,
+    uniId
   };
 
   return (
@@ -99,10 +138,12 @@ function CourseForm(props) {
       padding={[10, 35]}
       id="ctform-basics"
       onSave={handleSave}
-      onSaveButtonText="Create"
+      onSaveButtonText={saveButtonText}
       collapsible={collapsible}
       details="The basic information for a course"
     >
+      {allowUniSelection && <UniversitySelection {...uniSelProps} />}
+
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
     </CTForm>
@@ -110,6 +151,7 @@ function CourseForm(props) {
 }
 
 CourseForm.propTypes = {
+  collapsible: PropTypes.bool,
   defaultCourseName: PropTypes.string,
   defaultSectionName: PropTypes.string,
   defaultLogFlag: PropTypes.bool,
@@ -117,7 +159,9 @@ CourseForm.propTypes = {
   defaultDescription: PropTypes.string,
   defaultAccessType: PropTypes.string,
   defaultSelCourses: PropTypes.array,
-  onSave: PropTypes.func
+  saveButtonText: PropTypes.string,
+  onSave: PropTypes.func,
+  allowUniSelection: PropTypes.bool
 };
 
 export default CourseForm;

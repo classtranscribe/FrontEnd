@@ -9,13 +9,14 @@ export class NewCourse extends Component {
   }
 
   createCourseOfferings = async (courseIds, offeringId) => {
-    Promise
-      .all(courseIds.map(async (courseId) => {
-        await api.createCourseOffering({ courseId, offeringId });
-      }))
+    await Promise
+      .all(courseIds.map((courseId) => new Promise((resolve) => {
+        api.createCourseOffering({ courseId, offeringId })
+          .then(() => resolve());
+      })))
       .catch((error) => {
         console.error(error);
-      });
+      });    
   }
 
   createOffering = async (newOffering) => {
@@ -87,7 +88,7 @@ export class NewCourse extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm onSave={this.createOffering} />
+        <CourseForm allowUniSelection onSave={this.createOffering} />
       </CTLayout>
     );
   }

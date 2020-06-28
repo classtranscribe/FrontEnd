@@ -12,7 +12,7 @@ import {
   CTText,
   CTHeading
 } from 'layout';
-import { api, util, user } from 'utils';
+import { api, util, prompt } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,10 +38,9 @@ function CourseSelection(props) {
     enable,
     selCourses,
     setSelCourses,
+    uniId
   } = props;
 
-  // user infomation
-  const { universityId } = user.getUserInfo();
   // handle errors
   // selCoursesError: no course selected while user has clicked the 'create' button
   // noCourseSelected: no course selected
@@ -65,7 +64,7 @@ function CourseSelection(props) {
 
   const setupDepartmentOptions = async () => {
     try {
-      const { data } = await api.getDepartsByUniId(universityId);
+      const { data } = await api.getDepartsByUniId(uniId);
       setDeparts(data);
     } catch (error_) {
       prompt.error('Could not load departments.');
@@ -81,13 +80,19 @@ function CourseSelection(props) {
     }
   };
 
-  useEffect(() => {
-    // get the list of departs
-    setupDepartmentOptions();
-  }, []);
+  useEffect(() => {    
+    if (uniId) {
+      // reset when uniId changed
+      setCourses([]);
+      setDeparts([]);
+      setCourse({});
+      setDepart({});
+      // get the list of departs
+      setupDepartmentOptions();
+    }
+  }, [uniId]);
 
   useEffect(() => {
-    // Could be improved: when selected depart changed, the selected course stay the same
     if (depart.id) {
       setupCourseOptions();
     }
@@ -97,8 +102,8 @@ function CourseSelection(props) {
     // add/remove selected courses
     if (course.id && depart.id) {
       setSelCourses([
-        ..._.filter(selCourses, item => item.acronym !== depart.acronym), 
-        { ...course, acronym: depart.acronym }
+        ..._.filter(selCourses, item => item.acronym !== depart.acronym),
+        { ...course, departmentAcronym: depart.acronym }
       ]);
     }
   }, [course])
@@ -112,43 +117,61 @@ function CourseSelection(props) {
   const courseOptions = util.getSelectOptions(courses, depart.acronym);
 
   const classes = useStyles();
-  const fullNumber = _.join(_.map(selCourses, (val) => val.acronym + val.courseNumber), '/');
+  const fullNumber = _.join(
+    _.map(selCourses, (val) => val.departmentAcronym + val.courseNumber), 
+    '/'
+  );
 
   return (
     <CTFragment>
-      <CTFormHeading padding={[20, 0, 0, 0]}>Course Number</CTFormHeading>
+      <CTFormHeading>Course Number</CTFormHeading>
       <CTFormHelp title="Course number selection">
-        Since one course might be held by multiple departments (e.g. <b>CS425/ECE428</b>), 
-        ClassTranscribe allows you to select multiple course numbers. 
-        For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to 
-        generate the course number <b>CS357/MATH357</b>.
+        <div>
+          ClassTranscribe allows you to select multiple course numbers.
+          For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
+          generate the course number <b>CS357/MATH357</b>.
+        </div>
+        <h5 className="mt-2 mb-1">INSTRUCTION</h5>
+        <ol>
+          <li>Please select a department of your university.</li>
+          <li>Then select a course under the selected department.</li>
+          <li>Repeat the above steps to select multiple courses.</li>
+        </ol>
       </CTFormHelp>
-      
+
       <CTFormRow>
         <div>
-          <CTAutoComplete
-            error={selCoursesError}
-            underlined
-            id="sel-dep"
-            label="Select a Department"
-            options={departmentOptions}
-            value={depart.id}
-            onChange={handleDepartChange}
-          />
+          {
+            departs.length > 0
+            &&
+            <CTAutoComplete
+              error={selCoursesError}
+              underlined
+              id="sel-dep"
+              label="Select a Department"
+              options={departmentOptions}
+              value={depart.id}
+              onChange={handleDepartChange}
+            />
+          }
 
-          <CTAutoComplete
-            error={selCoursesError}
-            helpText={selCoursesError ? 'Please select at least one course number.' : ''}
-            className="mt-3"
-            underlined
-            disabled={depart === ''}
-            id="sel-courses"
-            label="Select a Course Number"
-            defaultValue=""
-            options={courseOptions}
-            value={course.id}
-            onChange={depart === '' ? undefined : handleCourseChange}
-          />
+          {
+            courses.length > 0
+            &&
+            <CTAutoComplete
+              error={selCoursesError}
+              helpText={selCoursesError ? 'Please select at least one course number.' : ''}
+              className="mt-3"
+              underlined
+              disabled={depart === ''}
+              id="sel-courses"
+              label="Select a Course Number"
+              defaultValue=""
+              options={courseOptions}
+              value={course.id}
+              onChange={depart === '' ? undefined : handleCourseChange}
+            />
+          }
         </div>
 
         <div>
@@ -156,15 +179,15 @@ function CourseSelection(props) {
             <CTHeading as="h4" uppercase>
               Selected Courses
               {
-                !noCourseSelected 
+                !noCourseSelected
                 &&
-                `: ${ fullNumber}`
+                `: ${fullNumber}`
               }
             </CTHeading>
 
             {
-              noCourseSelected 
-              && 
+              noCourseSelected
+              &&
               <CTText muted margin={10} center>No course number selected</CTText>
             }
 
@@ -172,7 +195,7 @@ function CourseSelection(props) {
               return (
                 <Chip
                   key={item.id}
-                  label={item.acronym + item.courseNumber}
+                  label={item.departmentAcronym + item.courseNumber}
                   onDelete={handleDeleteSelCourses(item.id)}
                   className={classes.chip}
                 />

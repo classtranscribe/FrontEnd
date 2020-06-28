@@ -7,7 +7,7 @@ import {
   CTSelect,
   CTCheckbox,
 } from 'layout';
-import { api, util, user, prompt } from 'utils';
+import { api, util, prompt } from 'utils';
 
 function BasicInfo(props) {
   const {
@@ -24,18 +24,16 @@ function BasicInfo(props) {
     setTerm,
     setAccess,
     setDescription,
-    setLogEventsFlag
+    setLogEventsFlag,
+    uniId
   } = props;
-
-  // user infomation
-  const { universityId } = user.getUserInfo();
 
   const [terms, setTerms] = useState([]);
 
   // errors
   const emptyCourseName = error.includes('courseName') && enable;
   const emptySecName = error.includes('sectionName') && enable;
-  
+
   // handle basic info
   const handleCourseNameChange = ({ target: { value } }) => {
     setCourseName(value);
@@ -63,7 +61,7 @@ function BasicInfo(props) {
 
   const setupTermOptions = async () => {
     try {
-      const { data } = await api.getTermsByUniId(universityId);
+      const { data } = await api.getTermsByUniId(uniId);
       setTerms(util.getSelectOptions(data, 'term'));
 
       if (data.length > 0) {
@@ -77,7 +75,7 @@ function BasicInfo(props) {
   useEffect(() => {
     // Get terms list
     setupTermOptions();
-  }, []);
+  }, [uniId]);
 
   const visibilityOptions = api.offeringAccessType.map(type => ({
     text: type.name,
@@ -87,7 +85,7 @@ function BasicInfo(props) {
 
   return (
     <CTFragment>
-      <CTFormHeading padding={[20, 0, 0, 0]}>Basic Information</CTFormHeading>
+      <CTFormHeading>Basic Information</CTFormHeading>
       <CTFormRow>
         <CTInput
           required
