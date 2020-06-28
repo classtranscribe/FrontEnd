@@ -30,8 +30,6 @@ function Checkbox(props) {
     onChange,
   } = props;
 
-  const cbClasses = useStyles();
-
   const checkboxProps = {
     id,
     disabled,
@@ -81,6 +79,8 @@ Checkbox.propTypes = {
   /** The checkbox can be diabled */
   disabled: PropTypes.bool
 };
+
+Checkbox.useStyles = useStyles;
 
 export default Checkbox;
 

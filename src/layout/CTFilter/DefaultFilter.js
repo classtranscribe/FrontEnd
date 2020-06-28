@@ -27,20 +27,23 @@ import CTFragment from '../CTFragment';
  */
 function DefaultFilter(props) {
   const {
+    grey,
     value,
     placeholder,
     reversed,
     onInputChange,
     onToggleReverse,
+    padding = [20, 0],
   } = props;
 
   // check whether a reverse button should be provided
   const supportReverse = typeof onToggleReverse === 'function';
+  const containerClasses = cx('ct-filter', 'd-input-con', { grey });
   const reverseBtnClasses = cx('ct-filter', 'reverse-btn', { reversed });
 
   return (
-    <CTFragment padding={[20, 0]}>
-      <div className="ct-filter d-input-con">
+    <CTFragment padding={padding}>
+      <div className={containerClasses}>
         <input 
           value={value}
           placeholder={placeholder}
@@ -81,7 +84,12 @@ DefaultFilter.propTypes = {
   onInputChange: PropTypes.func,
 
   /** call-back function for clicking reverse button */
-  onToggleReverse: PropTypes.func
+  onToggleReverse: PropTypes.func,
+
+  /** Use the grey theme */
+  grey: PropTypes.bool,
+
+  padding: CTFragment.propTypes.padding
 };
 
 export default DefaultFilter;

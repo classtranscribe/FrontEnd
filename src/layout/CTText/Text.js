@@ -29,6 +29,7 @@ function Text(props) {
     size = 'normal', // small, normal, large, huge
     line,
     children,
+    ...otherProps
   } = props;
 
   const limitedLine = Boolean(line);
@@ -63,7 +64,7 @@ function Text(props) {
   };
 
   return (
-    <CTFragment {...textProps}>
+    <CTFragment {...textProps} {...otherProps}>
       {children}
     </CTFragment>
   );  
@@ -104,6 +105,15 @@ Text.propTypes = {
 
   /** The text can have a highlighted color */
   highlighted: PropTypes.bool,
+
+  /** Underline the text when mouse over */
+  hoverUnderlined: PropTypes.bool,
+
+  /** Set color to be `teal` when mouse over */
+  hoverTeal: PropTypes.bool,
+
+  /** Highlight the text when mouse over */
+  hoverHighlighted: PropTypes.bool,
 
   /**
    * you can set margin of the text, 

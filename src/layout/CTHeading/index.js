@@ -12,8 +12,10 @@ import { createCTHeadingProps } from './create-props';
 function CTHeading(props) {
   let {
     as = 'h1',
+    className,
     heading = 'Heading',
     icon,
+    fade = true,
     sticky = false,
     gradient = true,
     offsetTop = 0,
@@ -31,11 +33,11 @@ function CTHeading(props) {
     gradient,
     highlight,
     highlightIcon,
-  });
+  }, className);
 
   const fragmentProps = CTFragment.createProps({
     as,
-    fade: true,
+    fade,
     sticky,
     offsetTop,
     vCenter: true,
@@ -65,6 +67,9 @@ CTHeading.propTypes = {
 
   /** Icon name of the material-icons */
   icon: PropTypes.string,
+
+  /** The heading can be faded in */
+  fade: PropTypes.bool,
 
   /** The heading can be sticky */
   sticky: PropTypes.bool,

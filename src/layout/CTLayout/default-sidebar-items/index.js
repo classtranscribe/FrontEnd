@@ -142,7 +142,8 @@ export class DefaultSidebarItems {
       text: offering.fullNumber,
       active: true,
       icon: 'book',
-      items: tabs
+      items: tabs,
+      href: links.offeringDetail(offering.id)
     };
   
     return [
