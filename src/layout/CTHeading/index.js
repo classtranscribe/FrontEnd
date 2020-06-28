@@ -17,7 +17,7 @@ function CTHeading(props) {
     icon,
     fade = true,
     sticky = false,
-    gradient = true,
+    gradient = false,
     offsetTop = 0,
     uppercase = false,
     highlight = false,
