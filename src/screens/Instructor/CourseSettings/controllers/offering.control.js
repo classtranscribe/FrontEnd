@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { prompt, api } from 'utils';
+import { prompt, api, links } from 'utils';
 import { setup } from './setup';
 
 class OfferingControl {
@@ -60,7 +60,7 @@ class OfferingControl {
       // setup.setOffering({ ...setup.offering, })
     } catch (error) {
       console.error(error);
-      prompt.error('Failed to update the offering.');
+      prompt.error('Failed to update the course info.');
       return;
     }
 
@@ -68,6 +68,18 @@ class OfferingControl {
     // await this.updateCourseOfferings(newOffering);
 
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
+  }
+
+  async deleteOffering(history) {
+    const offeringId = setup.offering.id;
+    try {
+      await api.deleteOffering(offeringId);
+      prompt.addOne({ text: 'Course deleted.', timeout: 3000 });
+      history.push(links.myCourses());
+    } catch (error) {
+      console.error(error);
+      prompt.error('Failed to delete the course.');
+    }
   }
 }
 
