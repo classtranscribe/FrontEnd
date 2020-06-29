@@ -62,7 +62,7 @@ function CourseForm(props) {
         logEventsFlag,
         courseName,
         description,
-        courseIds: selCourses.map(course => course.id)
+        courseIds: selCourses.map((course) => course.id),
       });
     }
   };
@@ -117,7 +117,7 @@ CourseForm.propTypes = {
   defaultDescription: PropTypes.string,
   defaultAccessType: PropTypes.string,
   defaultSelCourses: PropTypes.array,
-  onSave: PropTypes.func
+  onSave: PropTypes.func,
 };
 
 export default CourseForm;
