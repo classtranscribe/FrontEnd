@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { uurl } from 'utils/use-url'
 import { api } from 'utils'
 import { CTPlayer } from 'components/CTPlayer';
-import { CTFragment, CTLayout } from 'layout';
-import { CTPlayerConstants as Constants } from 'components/CTPlayer/controllers';
-import { Example } from '../Example'
+import { CTPlayerConstants as Constants, CTPlayerController } from 'components/CTPlayer/controllers';
 
 /* 
 Able to set begin time: beginAt
@@ -15,14 +13,14 @@ Able to set default playback rate: playbackRate
 
 export function Embed() {
   const {
-    id = "",
+    id = "c9a54a76-9cf0-4ec2-ab2f-89d496326562",
     begin = 100,
-    opencc = 'true',
+    opencc = 'false',
     language = {
-      code: Constants.ENGLISH,
-      text: Constants.LANG_MAP[Constants.ENGLISH]
+      code: Constants.SIMPLIFIED_CHINESE,
+      text: Constants.LANG_MAP[Constants.SIMPLIFIED_CHINESE]
     },
-    playbackRate,
+    playbackRate = Constants.PLAYBACK_RATES[0],
   } = uurl.useSearch();
 
   useEffect(() => {
@@ -36,10 +34,10 @@ export function Embed() {
         fill
         allowTwoScreen
         beginAt={parseInt(begin, 10)}
-        defaultOpenCC={opencc === 'true'}
+        openCC={opencc === 'true'}
         allowRangePicker={false}
-        language="French"
-        playbackRate={1.5}
+        language="zh-Hans"
+        playbackRate={playbackRate}
       />
     </div>
   )
