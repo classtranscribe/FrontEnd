@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { CTFragment, CTFormHeading, CTFormRow, CTInput, CTSelect, CTCheckbox } from 'layout';
-import { api, util, user } from 'utils';
+import React from 'react';
+import { CTFragment, CTFormHeading, CTInput } from 'layout';
 
 function PlaylistName(props) {
-  let { playlistName, setplaylistName } = props;
-  const handleOnchanged = ({ target: { value } }) => setplaylistName(value);
+  let { name, setName } = props;
+  const handleOnchanged = ({ target: { value } }) => setName(value);
+
   return (
     <CTFragment>
       <CTFormHeading>PLAYLIST NAME</CTFormHeading>
@@ -13,7 +13,7 @@ function PlaylistName(props) {
         id="playlist-name"
         label="Playlist Name"
         placeholder="Playlist Name"
-        value={playlistName}
+        value={name}
         onChange={handleOnchanged}
       />
     </CTFragment>

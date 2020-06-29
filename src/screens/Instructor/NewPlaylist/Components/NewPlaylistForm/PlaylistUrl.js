@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTFragment, CTFormHeading, CTFormHelp, CTFormRow, CTAutoComplete, CTInput } from 'layout';
+import { CTFragment, CTFormHelp, CTInput } from 'layout';
 
 const exampleYoutubeURL = 'https://www.youtube.com/playlist?list=THis-is-AN-examPle-plaYLIST-iD';
 const exampleEchoAccessLink = 'https://echo360.org/section/tHis-iS-an-EXampLE-accESS-LiNk/public';
@@ -8,8 +8,9 @@ const exampleKalturaBUL = 'https://mediaspace.illinois.edu/channel/CS+000+-+Fall
 function PlaylistUrl(props) {
   let { sourceType, url, setUrl } = props;
   const handleOnchanged = ({ target: { value } }) => setUrl(value);
+
   switch (sourceType) {
-    case 'opt-2': // Echo 360
+    case 0: // Echo 360
       return (
         <CTFragment>
           <CTFormHelp title="Echo 360 INSTRUCTION">
@@ -25,7 +26,7 @@ function PlaylistUrl(props) {
           />
         </CTFragment>
       );
-    case 'opt-3': // Youtube
+    case 1: // Youtube
       return (
         <CTFragment>
           <CTFormHelp title="Youtube INSTRUCTION">
@@ -41,7 +42,7 @@ function PlaylistUrl(props) {
           />
         </CTFragment>
       );
-    case 'opt-4': // Kaltura/MediaSpace
+    case 3: // Kaltura/MediaSpace
       return (
         <CTFragment>
           <CTFormHelp title="Kaltura Instruction">
@@ -57,7 +58,7 @@ function PlaylistUrl(props) {
           />
         </CTFragment>
       );
-    case 'opt-5': // Box
+    case 4: // Box
       return (
         <CTFragment>
           <CTFormHelp title="Box Instruction">
@@ -78,7 +79,7 @@ function PlaylistUrl(props) {
           />
         </CTFragment>
       );
-    case 'opt-1':
+    case 2: // Upload
     default:
       return null;
   }

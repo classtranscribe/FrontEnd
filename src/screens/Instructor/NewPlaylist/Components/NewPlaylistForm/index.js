@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { CTForm } from 'layout';
-import { api, util, user } from 'utils';
 import PlaylistType from './PlaylistSelection';
 import PlaylistName from './PlaylistName';
 import PlaylistUrl from './PlaylistUrl';
@@ -8,20 +7,19 @@ import PlaylistUrl from './PlaylistUrl';
 export function NewPlaylistForm(props) {
   const { onSave } = props;
 
-  const [playlistName, setplaylistName] = useState('');
-  const [sourceType, setsourceType] = useState('opt-1');
+  const [name, setName] = useState('');
+  const [sourceType, setsourceType] = useState(2);
   const [url, setUrl] = useState('');
+  const [errors, setErrors] = useState([]);
 
-  const playlistNameProps = { playlistName, setplaylistName };
+  const playlistNameProps = { name, setName };
   const sourceTypeProps = { sourceType, setsourceType };
   const playlistUrlProps = { sourceType, url, setUrl };
 
   const handleSave = async () => {
-    onSave({
-      playlistName,
-      sourceType,
-      url,
-    });
+    if (typeof onSave === 'function') {
+      onSave({ name, sourceType, url });
+    }
   };
 
   return (

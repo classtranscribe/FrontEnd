@@ -9,7 +9,7 @@ export class NewPlaylist extends Component {
   }
 
   onSave = async (newPlayList) => {
-    const { playlistName, sourceType, url } = newPlayList;
+    const { name, sourceType, url } = newPlayList;
     let playlistId = null;
     const offeringId = this.props.match.params.offeringId;
     try {
@@ -18,15 +18,17 @@ export class NewPlaylist extends Component {
       // console.log(url);
       const { data } = await api.createPlaylist({
         offeringId,
-        name: 'hhh',
+        name: 'ahhh',
         sourceType: 2,
-        // playlistIdentifier: '',
+        playlistIdentifier: '',
       });
       playlistId = data.id;
     } catch (e) {
+      console.error(e);
       prompt.error('Failed to create the new playlist.');
       return;
     }
+
     prompt.addOne(
       {
         text: 'NewPlaylist Created.',
@@ -38,8 +40,9 @@ export class NewPlaylist extends Component {
       },
       false,
     );
+
     if (playlistId) {
-      this.props.history.push(links.history());
+      this.props.history.push(links.offeringDetail(offeringId));
     }
   };
 

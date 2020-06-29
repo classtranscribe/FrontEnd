@@ -1,22 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { CTFragment, CTFormHeading, CTFormRow, CTInput, CTSelect, CTCheckbox } from 'layout';
-import { api, util, user } from 'utils';
+import React from 'react';
+import { CTFragment, CTFormHeading, CTFormRow, CTSelect } from 'layout';
+import { api } from 'utils';
 
 function PlaylistType(props) {
   let { sourceType, setsourceType } = props;
   const handleSelect = ({ target: { value } }) => setsourceType(value);
 
-  const typeOptions = [
-    { value: 'opt-1', text: 'Upload', description: 'Manually upload videos' },
-    { value: 'opt-2', text: 'Echo360', description: 'Host videos from Echo360' },
-    { value: 'opt-3', text: 'YouTube', description: 'Host videos from YouTube playlist' },
-    {
-      value: 'opt-4',
-      text: 'Kaltura/MediaSpace',
-      description: 'Host videos from Kaltura/MediaSpace',
-    },
-    { value: 'opt-5', text: 'Box', description: 'Host videos from a Box folder' },
-  ];
+  const typeOptions = api.playlistTypes.map(plType => ({
+    value: plType.id,
+    text: plType.name,
+    description: plType.description
+  }));
 
   return (
     <CTFragment>
@@ -25,9 +19,8 @@ function PlaylistType(props) {
 
       <CTFormRow>
         <CTSelect
-          id="sel-1"
-          label="Selection"
-          defaultValue="opt-1"
+          id="pl-type-sel"
+          label="Playlist Type"
           options={typeOptions}
           value={sourceType}
           onChange={handleSelect}
