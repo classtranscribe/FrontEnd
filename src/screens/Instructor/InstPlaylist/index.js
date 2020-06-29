@@ -19,7 +19,7 @@ export class InstPlaylistWithRedux extends Component {
 
   componentDidMount() {
     const playlistId = this.props.match.params.id;
-    setup.setupInstPlaylistPage(playlistId);
+    setup.setupInstPlaylistPage(playlistId, this.props.location.state);
   }
 
   // componentWillUnmount() {
@@ -27,7 +27,7 @@ export class InstPlaylistWithRedux extends Component {
   // }
 
   render() {
-    const { offering, confirmation } = this.props;
+    const { offering, confirmation, playlist } = this.props;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
@@ -38,7 +38,7 @@ export class InstPlaylistWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <InfoAndListLayout loading={!offering.id}>
+        <InfoAndListLayout loading={!playlist.id}>
           <PlaylistInfo />
           <MediaList />
           {confirmation && <Confirmation />}
@@ -54,6 +54,6 @@ export const InstPlaylist = withReduxProvider(
   InstPlaylistWithRedux,
   instPlaylistStore,
   connectWithRedux,
-  ['offering', 'confirmation'],
+  ['offering', 'confirmation', 'playlist'],
   ['all']
 );
