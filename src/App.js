@@ -86,11 +86,6 @@ class App extends React.Component {
             &&
             <Route path="/media-settings/:id" component={MediaSettings} />
           }
-          {
-            user.isInstructor
-            &&
-            <Route exact path="/embed" component={Embed} />
-          }
 
           {/* Student */}
           <Route exact path="/" component={Home} />
@@ -100,8 +95,9 @@ class App extends React.Component {
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
-          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
+          <Route exact path="/embed" component={Embed} />
 
+          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
           <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />

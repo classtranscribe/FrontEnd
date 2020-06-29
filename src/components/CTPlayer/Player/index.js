@@ -55,6 +55,7 @@ class Player extends React.Component {
       media,
       beginAt,
       defaultOpenCC,
+      defaultPlaybackRate,
       allowRangePicker,
       defaultOpenRangePicker,
       range,
@@ -78,6 +79,10 @@ class Player extends React.Component {
       this.player.toggleCC();
     }
 
+    if (typeof defaultPlaybackRate === 'number') {
+      this.player.setPlaybackRate(defaultPlaybackRate);
+    }
+
     // Setup the time range picker if it's allowed by user
     if (allowRangePicker && defaultOpenRangePicker) {
       this.player.toggleRange();
@@ -92,6 +97,7 @@ class Player extends React.Component {
       media,
       mediaId,
       triggerTime,
+      defaultLanguage,
       allowTwoScreen,
       range
     } = this.props;
@@ -117,7 +123,7 @@ class Player extends React.Component {
           }
         }
 
-        this.player.setupTranscriptions(media);
+        this.player.setupTranscriptions(media, defaultLanguage);
       }
     }
 
@@ -172,12 +178,13 @@ class Player extends React.Component {
    * @returns {Object} the props for player's container
    */
   getContainerProps(playerSize) {
+    const { fill } = this.props;
     return {
       id: this.player.id,
       className: 'ctp ct-player-con',
       style: {
         width: playerSize.width,
-        height: 'auto'
+        height: fill ? '100%' : 'auto'
       },
     };
   }
@@ -347,6 +354,12 @@ Player.propTypes = {
 
   /** The player supports the closed captions */
   defaultOpenCC: PropTypes.bool,
+
+  /** The lang code */
+  defaultLanguage: PropTypes.string,
+
+  /** Set the default playback rate */
+  defaultPlaybackRate: PropTypes.number,
 
   /** Hide the overlayed wrapper when mouse leaving */
   hideWrapperOnMouseLeave: PropTypes.bool,
