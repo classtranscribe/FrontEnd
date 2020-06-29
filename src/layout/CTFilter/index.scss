@@ -8,8 +8,16 @@
   border-radius: 20px;
   overflow: hidden;
 
+  &.grey {
+    background: rgb(236, 236, 236);
+
+    &:focus-within {
+      background: rgb(225, 233, 235);
+    }
+  }
+
   &:focus-within {
-    background: rgb(236, 242, 243);
+    background: rgb(235, 237, 238);
   }
 
   input {
@@ -17,6 +25,7 @@
     width: 100%;
     border: none;
     font-size: 15px;
+    padding: 10px 0;
 
     &:focus {
       outline: none;

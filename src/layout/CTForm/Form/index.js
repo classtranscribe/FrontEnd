@@ -10,6 +10,7 @@ import { Button } from 'pico-ui';
 
 import CTFragment from '../../CTFragment';
 import CTHeading from '../../CTHeading';
+import './index.scss';
 
 /**
  * A general collapsible form component
@@ -32,17 +33,23 @@ function Form(props) {
   const expandIcon = collapsible ? <ExpandMoreIcon /> : null;
 
   const ExpansionPanelProps = {
+    className: 'ct-form',
     defaultExpanded: expanded,
   };
-  if (!collapsible) ExpansionPanelProps.expanded = true;
+
+  if (!collapsible) {
+    ExpansionPanelProps.expanded = true;
+  }
 
   return (
     <CTFragment padding={padding}>
-      <ExpansionPanel {...ExpansionPanelProps}>
+      <ExpansionPanel square {...ExpansionPanelProps}>
         <ExpansionPanelSummary
           expandIcon={expandIcon}
           aria-controls={`ct-form-content-${id}`}
           id={`ct-form-heading-${id}`}
+          tabIndex={collapsible ? 0 : -1}
+          className={collapsible ? 'collapsible' : null}
         >
           <CTFragment list>
             <CTHeading as="h3">

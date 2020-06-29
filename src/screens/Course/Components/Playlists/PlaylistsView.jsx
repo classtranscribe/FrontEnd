@@ -1,5 +1,6 @@
 import React from 'react';
 import { CTFragment, CTFooter, CTLoadable, CTDNDList } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils';
 import { plControl } from '../../controllers';
 
@@ -42,7 +43,7 @@ function PlaylistsView({
   
 
   return (
-    <CTFragment fade loading={loading} id="cp-pls-view" data-scroll>
+    <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
       <CTFragment sticky vCenter className="title" as="h3">
         <i className="material-icons">list</i>
         <span>Playlists</span>
@@ -58,7 +59,7 @@ function PlaylistsView({
       </CTLoadable>
 
       <CTFooter />
-    </CTFragment>
+    </InfoAndListLayout.List>
   )
 }
 

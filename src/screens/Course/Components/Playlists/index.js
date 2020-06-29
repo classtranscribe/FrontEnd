@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CTFragment } from 'layout';
 import { uurl, NOT_FOUND_404 } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
@@ -46,11 +45,7 @@ function PlaylistsWithRedux({
     : <PlaylistsView {...playlistsProps} />
   );
 
-  return (
-    <CTFragment id="cp-playlists">
-      {viewElement}
-    </CTFragment>
-  );
+  return viewElement;
 }
 
 export const Playlists = connectWithRedux(
