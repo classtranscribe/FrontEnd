@@ -10,21 +10,20 @@ import NewPlaylistButton from './NewPlaylistButton';
 
 function PlaylistsView({
   isInstMode,
-  accessType,
-  offeringId,
+  offering,
   playlists,
 }) {
   const loading = playlists === ARRAY_INIT;
   const error = playlists === NOT_FOUND_404;
 
-  const errorElement = <PlaylistsErrorWrapper accessType={accessType} />;
+  const errorElement = <PlaylistsErrorWrapper accessType={offering.accessType} />;
 
   const getDNDItems = () => {
     let dndItems = [];
     if (!loading && !error) {
       dndItems = playlists.map(pl => ({
         id: `pl-${pl.id}=${pl.name}`,
-        node: <PlaylistItem isInstMode={isInstMode} playlist={pl} />
+        node: <PlaylistItem isInstMode={isInstMode} playlist={pl} offering={offering} />
       }));
     }
 
@@ -50,7 +49,7 @@ function PlaylistsView({
         {
           isInstMode
           &&
-          <NewPlaylistButton offeringId={offeringId} />
+          <NewPlaylistButton offeringId={offering.id} />
         }
       </CTFragment>
 
