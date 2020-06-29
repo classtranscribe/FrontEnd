@@ -79,7 +79,7 @@ class App extends React.Component {
           {
             user.isInstructor
             &&
-            <Route exact path="/instructor/playlist/:id" component={InstPlaylist} />
+            <Route path="/playlist/:id" component={InstPlaylist} />
           }
           {
             user.isInstructor

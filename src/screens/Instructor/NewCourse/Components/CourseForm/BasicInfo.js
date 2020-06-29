@@ -85,7 +85,7 @@ function BasicInfo(props) {
 
   return (
     <CTFragment>
-      <CTFormHeading padding={[20, 0, 0, 0]}>Basic Information</CTFormHeading>
+      <CTFormHeading>Basic Information</CTFormHeading>
       <CTFormRow>
         <CTInput
           required

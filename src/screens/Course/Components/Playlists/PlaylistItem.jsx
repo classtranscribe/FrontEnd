@@ -1,19 +1,24 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { CTFragment } from 'layout';
 import { links } from 'utils/links';
 
 function PlaylistItem({
   isInstMode,
-  playlist
+  playlist,
+  offering
 }) {
   const { id, name } = playlist;
+
+  const linkToInstPl = {
+    pathname: links.playlist(id),
+    state: { playlist, offering }
+  };
 
   return (
     <Link
       id={id}
-      to={isInstMode ? links.instPlaylist(id) : `#plid=${id}`}
+      to={isInstMode ? linkToInstPl : `#plid=${id}`}
     >
       <CTFragment vCenter className="pl-name">
         <i className="material-icons">video_library</i>

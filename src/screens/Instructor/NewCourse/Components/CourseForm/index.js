@@ -1,13 +1,9 @@
 import _ from 'lodash';
 import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import {
-  CTForm,
-  CTFormRow,
-  CTSelect,
-  CTFormHeading
-} from 'layout';
-import { api, util, user, prompt } from 'utils';
+import { CTForm } from 'layout';
+import { api, user, prompt } from 'utils';
+import UniversitySelection from './UniversitySelection';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
 
@@ -23,6 +19,7 @@ function CourseForm(props) {
     defaultAccessType = '0',
     defaultSelCourses = [],
     onSave,
+    allowUniSelection = false
   } = props;
 
   const defaultUniId = user.getUserInfo().universityId;
@@ -100,6 +97,12 @@ function CourseForm(props) {
     }
   };
 
+  const uniSelProps = {
+    uniId,
+    universities,
+    handleUniChange
+  };
+
   const basicInfoProps = {
     error,
     enable,
@@ -128,8 +131,6 @@ function CourseForm(props) {
     uniId
   };
 
-  const uniOptions = util.getSelectOptions(universities, 'name');
-
   return (
     <CTForm
       heading="Course Information"
@@ -140,22 +141,7 @@ function CourseForm(props) {
       collapsible={collapsible}
       details="The basic information for a course"
     >
-      {
-        user.isAdmin 
-        &&
-        <>
-          <CTFormHeading>University Selection</CTFormHeading>
-          <CTFormRow>
-            <CTSelect
-              required
-              label="Select an University"
-              options={uniOptions}
-              value={uniId}
-              onChange={handleUniChange}
-            />
-          </CTFormRow>
-        </>
-      }
+      {allowUniSelection && <UniversitySelection {...uniSelProps} />}
 
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
@@ -172,7 +158,8 @@ CourseForm.propTypes = {
   defaultDescription: PropTypes.string,
   defaultAccessType: PropTypes.string,
   defaultSelCourses: PropTypes.array,
-  onSave: PropTypes.func
+  onSave: PropTypes.func,
+  allowUniSelection: PropTypes.bool
 };
 
 export default CourseForm;

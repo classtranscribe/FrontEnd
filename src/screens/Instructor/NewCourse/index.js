@@ -88,7 +88,7 @@ export class NewCourse extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm onSave={this.createOffering} />
+        <CourseForm allowUniSelection onSave={this.createOffering} />
       </CTLayout>
     );
   }

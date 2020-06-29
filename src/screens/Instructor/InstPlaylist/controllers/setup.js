@@ -91,9 +91,15 @@ class InstPlaylistSetup extends StateController {
     }
   }
 
-  async setupInstPlaylistPage(playlistId) {
+  async setupInstPlaylistPage(playlistId, state) {
     if (this.playlistId !== playlistId) {
       this.clearData();
+    }
+
+    let offeringLoaded = false;
+    if (state && state.offering) {
+      this.setOffering(state.offering);
+      offeringLoaded = true;
     }
 
     // sestup playlist
@@ -109,8 +115,10 @@ class InstPlaylistSetup extends StateController {
 
     // setup offering
     if (!playlist.offeringId) return;
-    const offering = await this.getOfferingById(offeringId);
-    this.setOffering(offering);
+    if (!offeringLoaded) {
+      const offering = await this.getOfferingById(offeringId);
+      this.setOffering(offering);
+    }
 
     api.contentLoaded();
   }
