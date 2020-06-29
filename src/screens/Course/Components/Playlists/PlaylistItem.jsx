@@ -13,7 +13,7 @@ function PlaylistItem({
   return (
     <Link
       id={id}
-      to={isInstMode ? links.instPlaylist(id) : `#plid=${id}`}
+      to={isInstMode ? links.playlist(id) : `#plid=${id}`}
     >
       <CTFragment vCenter className="pl-name">
         <i className="material-icons">video_library</i>
