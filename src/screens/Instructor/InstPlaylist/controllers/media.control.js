@@ -103,6 +103,31 @@ class MediaController {
       onConfirm: () => this.deleteMedias(mediaIds)
     });
   }
+
+  async handleUpload(
+    playlistId, 
+    uploadedMedias, 
+    setUploadingIndex, 
+    setProgress, 
+    onUploadProgress
+  ) {
+    for (let i = 0; i < uploadedMedias.length; i += 1) {
+      setUploadingIndex(i);
+      setProgress(0);
+      await this.upload(playlistId, uploadedMedias[i], onUploadProgress);
+    }
+
+    prompt.addOne({ text: `Uploaded ${uploadedMedias.length} videos.`, timeout: 4000 });
+  }
+
+  async upload(playlistId, { video1, video2 }, onUploadProgress) {
+    try {
+      await api.uploadVideo(playlistId, video1, video2, onUploadProgress);
+    } catch (error) {
+      console.error(error);
+      prompt.error(`Failed to upload video ${video1.name}.`)
+    }
+  }
 }
 
 export const mediaControl = new MediaController();

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { InfoAndListLayout } from 'components';
@@ -6,7 +7,8 @@ import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
   MediaList,
-  Confirmation
+  Confirmation,
+  UploadFiles
 } from './components';
 
 export class InstPlaylistWithRedux extends Component {
@@ -40,6 +42,8 @@ export class InstPlaylistWithRedux extends Component {
           <PlaylistInfo />
           <MediaList />
           {confirmation && <Confirmation />}
+
+          <Route path="/playlist/:id/upload-files" component={UploadFiles} />
         </InfoAndListLayout>
       </CTLayout>
     )
