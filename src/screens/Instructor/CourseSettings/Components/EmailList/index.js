@@ -5,19 +5,6 @@ import EmailFilter from './EmailFilter';
 import UploadFile from './UploadFile';
 import './index.scss';
 
-const sampleEmails = [
-  'shawn@gmail.com',
-  'david@illinois.edu',
-  'alice@illinois.edu',
-  'michael@gmail.com',
-  'alice2@gmail.com',
-  'michael1988@gmail.com',
-  'david2020@illinois.edu',
-  'shawn@illinois.cs.com',
-  'alice.cs.2019@gmail.com',
-  'alice.career.2019@gmail.com',
-];
-
 export function EmailList(props) {
   let { defaultEmails, title, description, onSave } = props;
   const emails = useArray(defaultEmails);
