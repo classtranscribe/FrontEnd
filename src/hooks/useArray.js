@@ -136,6 +136,39 @@ export function useArray(initialValue, onChange) {
   };
 
   /**
+   * Find the index of the predicated item in the array
+   * @param {Any} predicate - the function invoked per iteration
+   * @returns {Number} the index of the predicated item in the array
+   */
+  const findIndex = (predicate) => {
+    return _.findIndex(value, predicate)
+  };
+
+  /**
+   * Find the predicated item in the array
+   * @param {Any} predicate - the function invoked per iteration
+   * @returns {Any} the predicated item in the array
+   */
+  const find = (predicate) => {
+    return _.find(value, predicate);
+  };
+
+  /**
+   * Sort the array based on iteratee (https://lodash.com/docs/4.17.15#sortBy)
+   * @param {Function[]|String[]} iteratee - See https://lodash.com/docs/4.17.15#sortBy
+   */
+  const sortBy = (iteratee) => {
+    setValue(_.sortBy(value, iteratee));
+  };
+
+  /**
+   * Reverse the array
+   */
+  const reverse = () => {
+    setValue(value.slice().reverse());
+  };
+
+  /**
    * Compares two array, and returns the items in this array and not anothor array
    * See https://lodash.com/docs/4.17.15#differenceBy for more
    * @param {Any[]} array - the another array to compare
@@ -173,8 +206,12 @@ export function useArray(initialValue, onChange) {
     insert,
     updateIndex,
     update,
+    findIndex,
+    find,
+    sortBy,
     reorder,
+    reverse,
     includesMore,
-    includesLess
+    includesLess,
   };
 }
