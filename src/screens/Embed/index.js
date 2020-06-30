@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { api, uurl } from 'utils';
 import { CTPlayer, CTPlayerConstants as Constants } from 'components/CTPlayer';
+import { useParams } from "react-router-dom";
 
 /* 
-Able to set begin time: beginAt
-Able to set default open/close CC: defaultOpenCC
-Able to set default language: language
-Able to set default playback rate: playbackRate
+Set begin time in second: begin
+Set default open/close CC: defaultOpenCC
+Set default language: lang
+Options: en-US, zh-Hans, ko, es, fr
+Set default playback rate: playbackRate
+0 for 2x speed, 1 for 1.75x, and so on. 4 for original speed (1x)
 */
 
 export function Embed() {
   const {
-    id = "c9a54a76-9cf0-4ec2-ab2f-89d496326562",
-    begin = 80,
-    opencc = 'true',
-    lang = Constants.SIMPLIFIED_CHINESE,
-    playbackrate = Constants.PLAYBACK_RATES[0],
+    begin = 0,
+    openCC = 'false',
+    lang = Constants.ENGLISH,
+    playbackrate = 4,
   } = uurl.useSearch();
-
+  // get video id from url
+  // e.g. c9a54a76-9cf0-4ec2-ab2f-89d496326562
+  let { id } = useParams()
   useEffect(() => {
     api.contentLoaded();
   }, []);
@@ -30,9 +34,9 @@ export function Embed() {
         allowTwoScreen
         hideWrapperOnMouseLeave
         beginAt={parseInt(begin, 10)}
-        defaultOpenCC={opencc === 'true'}
+        defaultOpenCC={openCC === 'true'}
         defaultLanguage={lang}
-        defaultPlaybackRate={playbackrate}
+        defaultPlaybackRate={Constants.PLAYBACK_RATES[playbackrate]}
       />
     </div>
   );
