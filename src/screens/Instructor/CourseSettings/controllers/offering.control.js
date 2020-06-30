@@ -57,7 +57,7 @@ class OfferingControl {
     try {
       await api.updateOffering(updatedOff);
       // update state ?
-      // setup.setOffering({ ...setup.offering, })
+      setup.setOffering({ ...setup.offering, ...updatedOff })
     } catch (error) {
       console.error(error);
       prompt.error('Failed to update the course info.');

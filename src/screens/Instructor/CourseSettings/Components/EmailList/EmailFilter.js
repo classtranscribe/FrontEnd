@@ -55,8 +55,7 @@ function EmailFilter(props) {
       return setError('Please enter a valid email.');
     }
 
-    let includes = inputValue === myEmailId || emails.includes(inputValue);
-    if (!includes) {
+    if (!emails.includes(inputValue)) {
       emails.pushStart(inputValue);
       setInputValue('');
       if (error) setError(null);
