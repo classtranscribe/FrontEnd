@@ -1,0 +1,59 @@
+.ipl-upl-tb-con {
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(214, 214, 214);
+  max-height: 350px;
+
+  .tb-cell {
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+
+    &.header {
+      font-weight: bold;
+      font-size: 14px;
+      flex-direction: row;
+
+      &.video1::after {
+        margin-top: 2px;
+        content: 'Primary';
+        font-size: 12px;
+        margin-left: 8px;
+        color: var(--ct-green-normal);
+      }
+    }
+
+    &.actions {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    span.name {
+      display: flex;
+      align-items: center;
+      font-family: var(--ct-font-narrow);
+      color: rgb(46, 46, 46);
+      font-size: 17px;
+      line-height: normal;
+      white-space: nowrap;
+      overflow: hidden;
+
+      i.fa-file-video {
+        margin-right: 5px;
+        color: var(--ct-green-normal);
+      }
+    }
+
+    span.size {
+      display: block;
+      color: grey;
+      font-size: .9em;
+      margin: 5px 0 0 5px;
+    }
+
+    span.progress-txt {
+      font-weight: bold;
+      color: rgb(0, 153, 153);
+    }
+  }
+}
