@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { InfoAndListLayout } from 'components';
+import { links } from 'utils';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
@@ -22,9 +23,12 @@ export class InstPlaylistWithRedux extends Component {
     setup.setupInstPlaylistPage(playlistId, this.props.location.state);
   }
 
-  // componentWillUnmount() {
-  //   setup.clearData();
-  // }
+  componentDidUpdate() {
+    const { offering, playlist } = this.props;
+    if (playlist && offering && playlist.id && offering.id) {
+      links.title(`${playlist.name} | ${offering.fullNumber}`);
+    }
+  }
 
   render() {
     const { offering, confirmation, playlist } = this.props;

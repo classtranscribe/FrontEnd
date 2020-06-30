@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { useCTDocTitle } from 'hooks';
 import { CTModal, CTUploadButton, CTFormHelp } from 'layout';
 import { links } from 'utils';
 import { mediaControl } from '../../controllers';
@@ -16,6 +17,8 @@ export function UploadFiles() {
   const [progress, setProgress] = useState(0);
 
   const uploading = uploadIndex >= 0;
+
+  useCTDocTitle('Upload Videos');
 
   const handleAddVideo = (files) => {
     let [video1, video2] = files;

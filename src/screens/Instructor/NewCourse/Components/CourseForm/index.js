@@ -18,8 +18,9 @@ function CourseForm(props) {
     defaultDescription = '',
     defaultAccessType = '0',
     defaultSelCourses = [],
+    saveButtonText = 'create',
     onSave,
-    allowUniSelection = false
+    allowUniSelection = false,
   } = props;
 
   const defaultUniId = user.getUserInfo().universityId;
@@ -137,7 +138,7 @@ function CourseForm(props) {
       padding={[10, 35]}
       id="ctform-basics"
       onSave={handleSave}
-      onSaveButtonText="Create"
+      onSaveButtonText={saveButtonText}
       collapsible={collapsible}
       details="The basic information for a course"
     >
@@ -158,6 +159,7 @@ CourseForm.propTypes = {
   defaultDescription: PropTypes.string,
   defaultAccessType: PropTypes.string,
   defaultSelCourses: PropTypes.array,
+  saveButtonText: PropTypes.string,
   onSave: PropTypes.func,
   allowUniSelection: PropTypes.bool
 };
