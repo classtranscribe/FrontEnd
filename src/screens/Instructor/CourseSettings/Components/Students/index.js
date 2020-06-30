@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useArray } from 'hooks';
+import { offControl } from '../../controllers';
 import { EmailList } from '../EmailList';
 
-function StudentsWithRedux() {
-    return (
-      <EmailList
-        title="Students"
-        description="Add students"
-        defaultEmails={[]}
-      />
-    );
-}
+export function Students() {
+  const { id } = useParams();
+  const students = useArray([]);
 
-export const Students = StudentsWithRedux;
+  const getStudents = async () => {
+    const data = await offControl.getStudentsByOfferingId(id);
+    students.setValue(data);
+  };
+
+  useEffect(() => {
+    getStudents();
+  }, []);
+
+  const handleSave = ({
+    addedEmails,
+    removedEmails
+  }) => {
+    offControl.updateStudents(id, addedEmails, removedEmails);
+  };
+
+  return (
+    <EmailList
+      title="Students"
+      description="Add students"
+      defaultEmails={students.value}
+      onSave={handleSave}
+    />
+  );
+}

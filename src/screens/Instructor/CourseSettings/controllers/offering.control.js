@@ -85,6 +85,7 @@ class OfferingControl {
   async getInstructorsByOfferingId(offeringId) {
     try {
       const { data } = await api.getInstructorsByOfferingId(offeringId);
+      // console.log(data);
       return data;
     } catch (error) {
       prompt.error('Failed to get instructors.');
@@ -105,6 +106,33 @@ class OfferingControl {
       prompt.addOne({ text: 'Updated instructor list.', timeout: 3000 });
     } catch (error) {
       prompt.error('Failed to update instructor list.');
+    }
+  }
+
+  async getStudentsByOfferingId(offeringId) {
+    try {
+      const { data } = await api.getStudentsByOfferingId(offeringId);
+      // console.log(data);
+      return data;
+    } catch (error) {
+      prompt.error('Failed to get students.');
+      return [];
+    }
+  }
+
+  async updateStudents(offeringId, addedEmails, removedEmails) {
+    try {
+      if (addedEmails.length > 0) {
+        await api.addStudentsToOffering(offeringId, addedEmails);
+      }
+  
+      if (removedEmails.length > 0) {
+        await api.deleteStudentsFromOffering(offeringId, removedEmails);
+      }
+  
+      prompt.addOne({ text: 'Updated student list.', timeout: 3000 });
+    } catch (error) {
+      prompt.error('Failed to update student list.');
     }
   }
 }

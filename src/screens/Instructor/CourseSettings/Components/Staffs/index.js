@@ -9,9 +9,13 @@ export function Staffs() {
   const { id } = useParams();
   const instructors = useArray([]);
 
-  useEffect(async () => {
+  const getInstructors = async () => {
     const data = await offControl.getInstructorsByOfferingId(id);
     instructors.setValue(data);
+  };
+
+  useEffect(() => {
+    getInstructors();
   }, []);
 
   const handleSave = ({
