@@ -13,13 +13,38 @@ const isValidIndex = (index, array) => (
  * @param {Function} onChange - callback function on array changes
  */
 export function useArray(initialValue, onChange) {
-  const [value, setValue] = useState(initialValue || []);
+  const [value, setValue] = useState(Array.isArray(initialValue) ? initialValue : []);
 
   useEffect(() => {
     if (typeof onChange === 'function') {
       onChange(value);
     }
   }, [value]);
+
+  /**
+   * Push item the to end of the array
+   * @param {Any} item the item to push to the array
+   */
+  const push = (item) => {
+    setValue([ ...value, item ]);
+  };
+
+  /**
+   * Push item the to start of the array
+   * @param {Any} item the item to push to the array
+   */
+  const pushStart = (item) => {
+    setValue([ item, ...value ]);
+  };
+
+  /**
+   * Determine if an item is in the array
+   * @param {Any} item the item that could be in the array
+   * @returns {Boolean} true if the item is in the array
+   */
+  const includes = (item) => {
+    return _.includes(value, item);
+  }
 
   /**
    * Remove item at the index from the array
@@ -111,13 +136,46 @@ export function useArray(initialValue, onChange) {
   };
 
   /**
+   * Find the index of the predicated item in the array
+   * @param {Any} predicate - the function invoked per iteration
+   * @returns {Number} the index of the predicated item in the array
+   */
+  const findIndex = (predicate) => {
+    return _.findIndex(value, predicate)
+  };
+
+  /**
+   * Find the predicated item in the array
+   * @param {Any} predicate - the function invoked per iteration
+   * @returns {Any} the predicated item in the array
+   */
+  const find = (predicate) => {
+    return _.find(value, predicate);
+  };
+
+  /**
+   * Sort the array based on iteratee (https://lodash.com/docs/4.17.15#sortBy)
+   * @param {Function[]|String[]} iteratee - See https://lodash.com/docs/4.17.15#sortBy
+   */
+  const sortBy = (iteratee) => {
+    setValue(_.sortBy(value, iteratee));
+  };
+
+  /**
+   * Reverse the array
+   */
+  const reverse = () => {
+    setValue(value.slice().reverse());
+  };
+
+  /**
    * Compares two array, and returns the items in this array and not anothor array
    * See https://lodash.com/docs/4.17.15#differenceBy for more
    * @param {Any[]} array - the another array to compare
    * @param {Any} iteratee - See https://lodash.com/docs/4.17.15#differenceBy for more 
    * @returns {Any[]} the items that the another array don't contains
    */
-  const differentMore = (array, iteratee) => {
+  const includesMore = (array, iteratee) => {
     return _.differenceBy(value, array, iteratee);
   };
 
@@ -128,24 +186,32 @@ export function useArray(initialValue, onChange) {
    * @param {Any} iteratee - See https://lodash.com/docs/4.17.15#differenceBy for more
    * @returns {Any[]} the items in anothor array and not in this array
    */
-  const differentLess = (array, iteratee) => {
+  const includesLess = (array, iteratee) => {
     return _.differenceBy(array, value, iteratee);
   };
 
   return {
     value,
+    length: value.length,
     isEmpty: value.length === 0,
     setValue,
     clear: () => setValue([]),
     reset: () => setValue(initialValue),
+    includes,
+    push,
+    pushStart,
     removeIndex,
     removeExact,
     remove,
     insert,
     updateIndex,
     update,
+    findIndex,
+    find,
+    sortBy,
     reorder,
-    differentMore,
-    differentLess
+    reverse,
+    includesMore,
+    includesLess,
   };
 }
