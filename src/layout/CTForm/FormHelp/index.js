@@ -5,12 +5,12 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import CTFragment from '../../CTFragment';
 
 const useStyles = makeStyles({
-  root: {
+  standardInfo: {
     background: '#f2fafa',
-    marginBottom: '20px'
-  },
-  icon: {
-    color: '#348b86 !important'
+    marginBottom: '20px',
+    '& .MuiAlert-icon': {
+      color: '#348b86 !important'
+    }
   },
   message: {
     '& .MuiAlertTitle-root': {
@@ -27,6 +27,7 @@ function FormHelp(props) {
   let {
     title,
     children,
+    severity = 'info',
     padding,
   } = props;
 
@@ -34,7 +35,7 @@ function FormHelp(props) {
 
   return (
     <CTFragment padding={padding}>
-      <Alert severity="info" classes={classes}>
+      <Alert severity={severity} classes={classes}>
         {Boolean(title) && <AlertTitle>{title}</AlertTitle>}
         {children}
       </Alert>
@@ -48,6 +49,8 @@ FormHelp.propTypes = {
 
   /** The primary content */
   children: PropTypes.node,
+
+  severity: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
 
   /** The padding to the `CTFragment` */
   padding: CTFragment.propTypes.padding

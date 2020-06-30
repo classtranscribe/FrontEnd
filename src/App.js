@@ -13,7 +13,7 @@ import {
   InstPlaylist,
   MediaSettings,
   NewPlaylist,
-
+  Embed,
   // Student
   Home,
   Course,
@@ -26,7 +26,7 @@ import {
   NotFound404,
   Maintenance,
   ComponentAPI,
-  Example,
+  Example
 } from './screens';
 
 import './App.css';
@@ -52,22 +52,41 @@ class App extends React.Component {
 
           {/* Instructor */}
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
-          {user.isInstructor && <Route exact path="/instructor/my-courses" component={MyCourses} />}
-          {user.isInstructor && <Route exact path="/instructor/new-course" component={NewCourse} />}
-          {user.isInstructor && (
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/my-courses" component={MyCourses} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/instructor/new-course" component={NewCourse} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/offering/:id/settings" component={CourseSettings} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
+          }
+          {
+            user.isInstructor 
+            &&
             <Route exact path="/offering/:offeringId/new-playlist" component={NewPlaylist} />
-          )}
-          {user.isInstructor && (
-            <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
-          )}
-          {user.isInstructor && (
-            <Route exact path="/instructor/course-analytics/:id" component={CourseAnalytics} />
-          )}
-          {user.isInstructor && (
-            <Route exact path="/instructor/playlist/:id" component={InstPlaylist} />
-          )}
-
-          {user.isInstructor && <Route path="/media-settings/:id" component={MediaSettings} />}
+          }
+          {
+            user.isInstructor
+            &&
+            <Route path="/playlist/:id" component={InstPlaylist} />
+          }
+          {
+            user.isInstructor
+            &&
+            <Route path="/media-settings/:id" component={MediaSettings} />
+          }
 
           {/* Student */}
           <Route exact path="/" component={Home} />
@@ -77,8 +96,9 @@ class App extends React.Component {
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
-          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
+          <Route exact path="/embed/:id" component={Embed} />
 
+          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
           <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />

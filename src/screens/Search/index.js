@@ -1,9 +1,8 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
-
+import { links } from 'utils';
 import { searchStore, connectWithRedux, setup } from './controllers';
-
 import { SearchInput, SearchResult } from './Components';
 
 class SearchWithRedux extends React.Component {
@@ -15,6 +14,7 @@ class SearchWithRedux extends React.Component {
 
   componentDidMount() {
     setup.setupSearchPage();
+    links.title('Search');
   }
 
   render() {

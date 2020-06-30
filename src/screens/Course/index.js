@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { NOT_FOUND_404, INSTRUCTOR } from 'utils';
+import { NOT_FOUND_404, INSTRUCTOR, links } from 'utils';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
 import {
@@ -22,6 +22,15 @@ class CourseWithRedux extends Component {
 
   componentDidMount() {
     setup.setupCoursePage(this.offeringId);
+  }
+
+  componentDidUpdate() {
+    const { offering, playlist } = this.props;
+    if (playlist && playlist.id) {
+      links.title(`${playlist.name} | ${offering.fullNumber}`);
+    } else if (offering && offering.id) {
+      links.title(offering.fullNumber);
+    }
   }
 
   render() {
@@ -65,6 +74,6 @@ export const Course = withReduxProvider(
   CourseWithRedux,
   courseStore,
   connectWithRedux,
-  ['offering', 'role'],
+  ['offering', 'role', 'playlist'],
   ['all']
 );

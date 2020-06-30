@@ -6,6 +6,7 @@ import { CourseForm } from './Components';
 export class NewCourse extends Component {
   componentDidMount() {
     api.contentLoaded();
+    links.title('New Course');
   }
 
   createCourseOfferings = async (courseIds, offeringId) => {

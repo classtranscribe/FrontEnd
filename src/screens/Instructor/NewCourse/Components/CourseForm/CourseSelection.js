@@ -103,7 +103,7 @@ function CourseSelection(props) {
     if (course.id && depart.id) {
       setSelCourses([
         ..._.filter(selCourses, item => item.acronym !== depart.acronym),
-        { ...course, acronym: depart.acronym }
+        { ...course, departmentAcronym: depart.acronym }
       ]);
     }
   }, [course])
@@ -117,7 +117,10 @@ function CourseSelection(props) {
   const courseOptions = util.getSelectOptions(courses, depart.acronym);
 
   const classes = useStyles();
-  const fullNumber = _.join(_.map(selCourses, (val) => val.acronym + val.courseNumber), '/');
+  const fullNumber = _.join(
+    _.map(selCourses, (val) => val.departmentAcronym + val.courseNumber), 
+    '/'
+  );
 
   return (
     <CTFragment>
@@ -192,7 +195,7 @@ function CourseSelection(props) {
               return (
                 <Chip
                   key={item.id}
-                  label={item.acronym + item.courseNumber}
+                  label={item.departmentAcronym + item.courseNumber}
                   onDelete={handleDeleteSelCourses(item.id)}
                   className={classes.chip}
                 />

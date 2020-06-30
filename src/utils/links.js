@@ -91,16 +91,16 @@ export class ClassTranscribeLinks {
     return '/instructor/my-courses';
   }
 
-  instPlaylist(playlistId) {
-    return `/instructor/playlist/${playlistId}`;
+  playlist(playlistId) {
+    return `/playlist/${playlistId}`;
   }
 
   instNewPlaylist(offeringId) {
     return `/offering/${offeringId}/new-playlist`;
   }
 
-  instPlaylistUploadMedia(playlistId) {
-    return `instructor/upload/pl/${playlistId}`;
+  playlistUploadFiles(playlistId) {
+    return `/playlist/${playlistId}/upload-files`;
   }
 
   instMedia(mediaId) {
@@ -112,11 +112,11 @@ export class ClassTranscribeLinks {
   }
 
   courseSettings(offeringId) {
-    return `/instructor/course-settings/${offeringId}`;
+    return `/offering/${offeringId}/settings`;
   }
 
   courseAnalytics(offeringId) {
-    return `/instructor/course-analytics/${offeringId}`;
+    return `/offering/${offeringId}/analytics`;
   }
 
   /**

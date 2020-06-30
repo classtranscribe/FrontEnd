@@ -178,7 +178,7 @@ class PlayerController extends VideoController {
     }
   }
 
-  setupTranscriptions(media) {
+  setupTranscriptions(media, defaultLang = Constants.ENGLISH) {
     const { transcriptions } = media;
 
     if (Array.isArray(transcriptions) && transcriptions.length > 0) {
@@ -188,7 +188,11 @@ class PlayerController extends VideoController {
         text: Constants.LANG_MAP[trans.language]
       }));
 
-      const currTranscription = _.find(transcriptions, { language: Constants.ENGLISH });
+      // if (defaultLang) {
+      //   this.setOpenCC(true);
+      // }
+
+      const currTranscription = _.find(transcriptions, { language: defaultLang });
       if (currTranscription) {
         this.setCurrTranscription(currTranscription);
       } else {
@@ -213,7 +217,7 @@ class PlayerController extends VideoController {
     this.setCaptions(captions);
     this.setCurrCaption(null);
     this.updateCurrCaption(this.time);
-    if (!this.openCC) this.toggleCC();
+    // if (!this.openCC) this.toggleCC();
   }
 
   changeLanguage(language) {
