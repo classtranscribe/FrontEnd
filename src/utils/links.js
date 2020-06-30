@@ -116,7 +116,7 @@ export class ClassTranscribeLinks {
   }
 
   courseAnalytics(offeringId) {
-    return `/instructor/course-analytics/${offeringId}`;
+    return `/offering/${offeringId}/analytics`;
   }
 
   /**
