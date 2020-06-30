@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -21,6 +22,8 @@ function Form(props) {
     padding,
     collapsible = false,
     expanded = false,
+    danger,
+    warning,
     onSave,
     onCancel,
     onSaveButtonText = 'save',
@@ -33,7 +36,7 @@ function Form(props) {
   const expandIcon = collapsible ? <ExpandMoreIcon /> : null;
 
   const ExpansionPanelProps = {
-    className: 'ct-form',
+    className: cx('ct-form', { danger, warning }),
     defaultExpanded: expanded,
   };
 
@@ -102,6 +105,12 @@ Form.propTypes = {
 
   /** Default expanded the form, if collapsible */
   expanded: PropTypes.bool,
+
+  /** This form can be a danger zone */
+  danger: PropTypes.bool,
+
+  /** This form can be a warning zone */
+  warning: PropTypes.bool,
 
   /** Function called on submitting the form */
   onSave: PropTypes.func,
