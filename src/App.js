@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
-import { 
+import {
   // Admin
   Admin,
   // Instructor
@@ -12,6 +12,7 @@ import {
   CourseAnalytics,
   InstPlaylist,
   MediaSettings,
+  Embed,
   // Student
   Home,
   Course,
@@ -22,9 +23,9 @@ import {
   // General
   SetupUser,
   NotFound404,
-  Maintenance, 
+  Maintenance,
   ComponentAPI,
-  Example,
+  Example
 } from './screens';
 
 import './App.css';
@@ -94,8 +95,9 @@ class App extends React.Component {
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
-          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
+          <Route exact path="/embed/:id" component={Embed} />
 
+          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
           <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />

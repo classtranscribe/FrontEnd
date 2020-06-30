@@ -2,8 +2,8 @@ export { SetupUser } from './SetupUser';
 
 export { Admin } from './Admin';
 
-export { 
-  MyCourses, 
+export {
+  MyCourses,
   NewCourse,
   CourseSettings,
   CourseAnalytics,
@@ -22,3 +22,4 @@ export { NotFound404 } from './NotFound404';
 export { Maintenance } from './Maintenance';
 export { ComponentAPI } from './ComponentAPI';
 export { Example } from './Example';
+export { Embed } from './Embed'
