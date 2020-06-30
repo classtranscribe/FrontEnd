@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment, CTFilter } from 'layout';
-import { ARRAY_INIT } from 'utils';
+import { ARRAY_INIT, links } from 'utils';
 import { setup, myCoursesStore, connectWithRedux } from './controllers';
 
 import { CourseList } from './components';
@@ -15,6 +15,7 @@ class MyCoursesWithRedux extends Component {
 
   componentDidMount() {
     setup.setupMyCoursesPage();
+    links.title('My Courses');
   }
 
 
