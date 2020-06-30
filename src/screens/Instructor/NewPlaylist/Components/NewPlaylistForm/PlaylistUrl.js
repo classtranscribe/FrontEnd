@@ -6,8 +6,9 @@ const exampleEchoAccessLink = 'https://echo360.org/section/tHis-iS-an-EXampLE-ac
 const exampleBoxURL = 'https://uofi.app.box.com/folder/12345678910';
 const exampleKalturaBUL = 'https://mediaspace.illinois.edu/channel/CS+000+-+Fall+2019/123456789';
 function PlaylistUrl(props) {
-  let { sourceType, url, setUrl } = props;
+  let { error, enable, sourceType, url, setUrl } = props;
   const handleOnchanged = ({ target: { value } }) => setUrl(value);
+  const emptyPlaylistUrl = error.includes('playlistUrl') && enable;
 
   switch (sourceType) {
     case 0: // Echo 360
@@ -18,6 +19,8 @@ function PlaylistUrl(props) {
           </CTFormHelp>
           <CTInput
             required
+            error={emptyPlaylistUrl}
+            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
             id="360-url"
             label="Echo360 Access Link"
             placeholder="Access Link"
@@ -34,6 +37,8 @@ function PlaylistUrl(props) {
           </CTFormHelp>
           <CTInput
             required
+            error={emptyPlaylistUrl}
+            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
             id="youtube-url"
             label="YouTube Playlist URL"
             placeholder="Playlist URL"
@@ -50,6 +55,8 @@ function PlaylistUrl(props) {
           </CTFormHelp>
           <CTInput
             required
+            error={emptyPlaylistUrl}
+            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
             id="Kaltura-url"
             label="Kaltura Channel URL"
             placeholder="Kaltura Channel URL"
@@ -71,6 +78,8 @@ function PlaylistUrl(props) {
           </CTFormHelp>
           <CTInput
             required
+            error={emptyPlaylistUrl}
+            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
             id="box-url"
             label="Box Folder URL"
             placeholder="Folder URL"

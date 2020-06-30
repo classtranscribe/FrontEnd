@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import _ from 'lodash';
+import React, { useState, useEffect, useReducer } from 'react';
 import { CTForm } from 'layout';
+import PropTypes from 'prop-types';
 import PlaylistType from './PlaylistSelection';
 import PlaylistName from './PlaylistName';
 import PlaylistUrl from './PlaylistUrl';
@@ -8,16 +10,38 @@ export function NewPlaylistForm(props) {
   const { onSave } = props;
 
   const [name, setName] = useState('');
-  const [sourceType, setsourceType] = useState(2);
+  const [sourceType, setsourceType] = useState(-1);
   const [url, setUrl] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const playlistNameProps = { name, setName };
-  const sourceTypeProps = { sourceType, setsourceType };
-  const playlistUrlProps = { sourceType, url, setUrl };
+  // errors
+  const initErrors = [];
+  const errorReducer = (error, action) => {
+    if (Array.isArray(action)) {
+      if (action[0]) {
+        return _.concat(error, action[1]);
+      }
+      return _.pull(error, action[1]);
+    }
+    return error;
+  };
+
+  const [error, errorDispatch] = useReducer(errorReducer, initErrors);
+  const [enable, setEnable] = useState(false);
+
+  const playlistNameProps = { error, enable, name, setName };
+  const sourceTypeProps = { error, enable, sourceType, setsourceType };
+  const playlistUrlProps = { error, enable, sourceType, url, setUrl };
+
+  useEffect(() => {
+    errorDispatch([name === '', 'playlistName']);
+    errorDispatch([url === '', 'playlistUrl']);
+    errorDispatch([sourceType < 0, 'playlistType']);
+  }, [name, url, sourceType]);
 
   const handleSave = async () => {
-    if (typeof onSave === 'function') {
+    setEnable(true);
+    if (error.length === 0 && typeof onSave === 'function') {
       onSave({ name, sourceType, url });
     }
   };
@@ -37,3 +61,6 @@ export function NewPlaylistForm(props) {
     </CTForm>
   );
 }
+NewPlaylistForm.propTypes = {
+  onSave: PropTypes.func,
+};
