@@ -6,6 +6,7 @@ import { connectWithRedux } from '../../controllers';
 import './index.scss';
 import MediaDNDList from './MediaDNDList';
 import ActionBar from './ActionBar';
+import NoVideoHolder from './NoVideoHolder';
 
 function MediaListWithRedux({
   playlist,
@@ -98,7 +99,9 @@ function MediaListWithRedux({
               {...actionProps}
             />
             {
-              result.length > 0 ? (
+              medias.length === 0 ? (
+                <NoVideoHolder type={playlist.sourceType} />
+              ) : result.length > 0 ? (
                 <MediaDNDList 
                   medias={result}
                   setFilterResult={setResult}
