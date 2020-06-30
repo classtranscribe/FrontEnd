@@ -1,9 +1,6 @@
-import React, {useState} from 'react';
-import {
-  CTFragment,
-  CTForm, 
-  CTFormRow
-} from 'layout';
+import React, { useEffect } from 'react';
+import { useArray } from 'hooks';
+import { CTFragment, CTForm, CTFormRow } from 'layout';
 import EmailFilter from './EmailFilter';
 import UploadFile from './UploadFile';
 import './index.scss';
@@ -21,9 +18,22 @@ const sampleEmails = [
   'alice.career.2019@gmail.com',
 ];
 
-function EmailListWithRedux(props) {
-  let { title, description, onSave } = props;
-  const [emails, setEmails] = useState(sampleEmails);
+export function EmailList(props) {
+  let { defaultEmails, title, description, onSave } = props;
+  const emails = useArray(defaultEmails);
+
+  useEffect(() => {
+    emails.setValue(defaultEmails);
+  }, [defaultEmails]);
+
+  const handleSave = () => {
+    if (typeof onSave === 'function') {
+      onSave({
+        addedEmails: emails.includesMore(defaultEmails),
+        removedEmails: emails.includesLess(defaultEmails)
+      });
+    }
+  };
 
   return (
     <CTFragment className="email-list-container">
@@ -33,27 +43,19 @@ function EmailListWithRedux(props) {
         padding={[10, 35]}
         heading={title}
         details={description}
-        onSave={onSave}
+        onSave={handleSave}
+        onSaveButtonText="Update Emails"
       >     
         <CTFormRow>
           <CTFragment className="email-list-left">
-            <UploadFile
-              emails={emails}
-              setEmails={setEmails}
-            />
+            <UploadFile emails={emails} />
           </CTFragment>
 
           <CTFragment className="email-list-right">
-            <EmailFilter 
-              emails={emails}
-              setEmails={setEmails}
-            />
+            <EmailFilter emails={emails} />
           </CTFragment>
-          
         </CTFormRow>
       </CTForm>
     </CTFragment>
   );
 }
-
-export const EmailList = EmailListWithRedux;

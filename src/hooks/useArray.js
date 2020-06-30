@@ -13,13 +13,38 @@ const isValidIndex = (index, array) => (
  * @param {Function} onChange - callback function on array changes
  */
 export function useArray(initialValue, onChange) {
-  const [value, setValue] = useState(initialValue || []);
+  const [value, setValue] = useState(Array.isArray(initialValue) ? initialValue : []);
 
   useEffect(() => {
     if (typeof onChange === 'function') {
       onChange(value);
     }
   }, [value]);
+
+  /**
+   * Push item the to end of the array
+   * @param {Any} item the item to push to the array
+   */
+  const push = (item) => {
+    setValue([ ...value, item ]);
+  };
+
+  /**
+   * Push item the to start of the array
+   * @param {Any} item the item to push to the array
+   */
+  const pushStart = (item) => {
+    setValue([ item, ...value ]);
+  };
+
+  /**
+   * Determine if an item is in the array
+   * @param {Any} item the item that could be in the array
+   * @returns {Boolean} true if the item is in the array
+   */
+  const includes = (item) => {
+    return _.includes(value, item);
+  }
 
   /**
    * Remove item at the index from the array
@@ -117,7 +142,7 @@ export function useArray(initialValue, onChange) {
    * @param {Any} iteratee - See https://lodash.com/docs/4.17.15#differenceBy for more 
    * @returns {Any[]} the items that the another array don't contains
    */
-  const differentMore = (array, iteratee) => {
+  const includesMore = (array, iteratee) => {
     return _.differenceBy(value, array, iteratee);
   };
 
@@ -128,16 +153,20 @@ export function useArray(initialValue, onChange) {
    * @param {Any} iteratee - See https://lodash.com/docs/4.17.15#differenceBy for more
    * @returns {Any[]} the items in anothor array and not in this array
    */
-  const differentLess = (array, iteratee) => {
+  const includesLess = (array, iteratee) => {
     return _.differenceBy(array, value, iteratee);
   };
 
   return {
     value,
+    length: value.length,
     isEmpty: value.length === 0,
     setValue,
     clear: () => setValue([]),
     reset: () => setValue(initialValue),
+    includes,
+    push,
+    pushStart,
     removeIndex,
     removeExact,
     remove,
@@ -145,7 +174,7 @@ export function useArray(initialValue, onChange) {
     updateIndex,
     update,
     reorder,
-    differentMore,
-    differentLess
+    includesMore,
+    includesLess
   };
 }

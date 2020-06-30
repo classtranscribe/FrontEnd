@@ -1,41 +1,40 @@
-import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
+import { useArray } from 'hooks';
 import PropTypes from 'prop-types';
+import { Button } from 'pico-ui';
 import { CTFragment, CTFilter, CTInput, CTText } from 'layout';
 import { user, uemail } from 'utils';
-import { Button } from 'pico-ui';
 import SelectionButton from 'screens/Instructor/InstPlaylist/components/MediaList/ActionBar/SelectionButton';
 import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
   const {
     emails,
-    setEmails
   } = props;
   const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId;
 
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
-  const [selectedEmails, setSelectedEmails] = useState([]);
-  const selecting = selectedEmails.length > 0;
+  const selectedEmails = useArray([]);
+  const selecting = !selectedEmails.isEmpty;
 
   // add/remove emails to the selected emails
   const handleSelectEmail = (email, select) => {
     if (select) {
-      setSelectedEmails([...selectedEmails, email]);
+      selectedEmails.push(email);
     } else {
-      setSelectedEmails(_.filter(selectedEmails, selEmail => selEmail !== email));
+      selectedEmails.removeExact(email);
     }
   };
 
   // remove all selected emails 
   const removeSelectedEmails = () => {
     setInputValue('');
-    setEmails(_.filter(emails, email => !selectedEmails.includes(email)));
+    emails.remove(email => selectedEmails.includes(email));
   };
 
   // returns if an email is in the selected emails
-  const isSelected = (email) => _.includes(selectedEmails, email);
+  const isSelected = selectedEmails.includes;
 
   const handleInputChange = ({ target: { value }}) => {
     setInputValue(value);
@@ -46,7 +45,7 @@ function EmailFilter(props) {
 
   // remove the email
   const handleRemoveEmail = (email) => {
-    setEmails(_.filter(emails, em => em !== email));
+    emails.removeExact(email);
   };
 
   // add an email from the input
@@ -56,9 +55,9 @@ function EmailFilter(props) {
       return setError('Please enter a valid email.');
     }
 
-    let includes = inputValue === myEmailId || _.includes(emails, inputValue);
+    let includes = inputValue === myEmailId || emails.includes(inputValue);
     if (!includes) {
-      setEmails([inputValue, ...emails]);
+      emails.pushStart(inputValue);
       setInputValue('');
       if (error) setError(null);
     }
@@ -66,7 +65,7 @@ function EmailFilter(props) {
 
   useEffect(() => {
     // remove non-exist emails in the selected emails when emails changed
-    setSelectedEmails(_.filter(selectedEmails, email => emails.includes(email)));
+    selectedEmails.remove(email => !emails.includes(email))
   }, [emails]);
 
   const emailResult = (result) => {
@@ -110,8 +109,8 @@ function EmailFilter(props) {
     // props to the select handler button
     const selectBtnProps = {
       selecting,
-      selectAll: () => setSelectedEmails(result),
-      removeAll: () => setSelectedEmails([]),
+      selectAll: () => selectedEmails.setValue(result),
+      removeAll: selectedEmails.clear,
       isSelectedAll: result.length === selectedEmails.length
     };
 
@@ -152,7 +151,7 @@ function EmailFilter(props) {
       />
       <CTFilter
         value={inputValue}
-        data={emails}
+        data={emails.value}
         regexFlags="i"
       >
         {emailResult}
@@ -162,8 +161,7 @@ function EmailFilter(props) {
 }
 
 EmailFilter.propTypes = {
-  emails: PropTypes.array,
-  setEmails: PropTypes.func
+  emails: PropTypes.any,
 };
 
 export default EmailFilter;

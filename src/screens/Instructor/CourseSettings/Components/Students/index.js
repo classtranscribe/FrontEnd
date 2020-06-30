@@ -6,6 +6,7 @@ function StudentsWithRedux() {
       <EmailList
         title="Students"
         description="Add students"
+        defaultEmails={[]}
       />
     );
 }

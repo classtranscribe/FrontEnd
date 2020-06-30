@@ -1,25 +1,19 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    CTFragment,
-    CTFormHelp,
-    CTUploadButton,
-    CTText
-} from 'layout';
-import _ from 'lodash';
-import { user, uemail, prompt } from 'utils';
+import { CTFragment, CTFormHelp, CTUploadButton, CTText } from 'layout';
+import { uemail, prompt } from 'utils';
 
 function UploadFile(props) {
   const {
     emails,
-    setEmails,
   } = props;
 
   const onLoadFile = async (event) => {
     let results = uemail.extract(event.target.result);
     if (!Array.isArray(results)) return;
     
-    setEmails(oldEmails => {
+    emails.setValue(oldEmails => {
       let newEmails = _.difference(results, oldEmails);
       prompt.addOne({ text: `Added ${newEmails.length} emails.`, timeout: 3000 });
       return [...newEmails, ...oldEmails];
@@ -29,9 +23,9 @@ function UploadFile(props) {
   const handleFileUpload = (files) => {
     if (files.length > 0) {
       for (let i = 0; i < files.length; i += 1) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = onLoadFile;
-        reader.readAsText(files[i])
+        reader.readAsText(files[i]);
       }
     }
   };
@@ -49,7 +43,6 @@ function UploadFile(props) {
           <code> space</code>, and 
           <code> breakline</code>
         </CTFragment>
-        <hr />
         <CTFragment className="email-list-uploadbtw-example">
           <CTText bold>EXAMPLAES</CTText>
           <div>shawn@abc.edu,david@efg.com</div>
@@ -72,12 +65,7 @@ function UploadFile(props) {
 }
 
 UploadFile.propTypes = {
-    emails: PropTypes.array,
-    setEmails: PropTypes.func,
-    inputValue: PropTypes.string,
-    setInputValue: PropTypes.func,
-    error: PropTypes.array,
-    setError: PropTypes.func
+    emails: PropTypes.any,
 };
 
 export default UploadFile;

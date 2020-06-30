@@ -81,6 +81,32 @@ class OfferingControl {
       prompt.error('Failed to delete the course.');
     }
   }
+
+  async getInstructorsByOfferingId(offeringId) {
+    try {
+      const { data } = await api.getInstructorsByOfferingId(offeringId);
+      return data;
+    } catch (error) {
+      prompt.error('Failed to get instructors.');
+      return [];
+    }
+  }
+
+  async updateInstructors(offeringId, addedEmails, removedEmails) {
+    try {
+      if (addedEmails.length > 0) {
+        await api.addInstructorsToOffering(offeringId, addedEmails);
+      }
+
+      if (removedEmails.length > 0) {
+        await api.deleteInstructorsFromOffering(offeringId, removedEmails);
+      }
+
+      prompt.addOne({ text: 'Updated instructor list.', timeout: 3000 });
+    } catch (error) {
+      prompt.error('Failed to update instructor list.');
+    }
+  }
 }
 
 export const offControl = new OfferingControl();

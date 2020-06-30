@@ -5,9 +5,15 @@
 
     .email-list-uploadbtw-example {
       font-family: monospace;
+      margin-top: 5px;
       padding: 10px;
-      background-color: rgb(235, 235, 235);
+      background-color: rgb(255, 255, 255);
       border-radius: 5px;
+      border: 1px solid rgb(228, 228, 228);
+    }
+
+    code {
+      color: rgb(4, 121, 156);
     }
   }
   .email-list-right {
