@@ -82,20 +82,15 @@ export class NewPlaylist extends Component {
       return;
     }
 
-    prompt.addOne(
-      {
-        text: 'NewPlaylist Created.',
-        header: 'Success',
-        status: 'success',
-        timeout: 2200,
-        position: 'top',
-        offset: [-1, -1],
-      },
-      false,
-    );
+    prompt.addOne({
+      text: 'Playlist Created.',
+      status: 'success',
+      timeout: 3000,
+      position: 'top'
+    });
 
     if (playlistId) {
-      this.props.history.push(links.offeringDetail(offeringId));
+      this.props.history.push(links.playlist(playlistId));
     }
   };
 
@@ -115,7 +110,7 @@ export class NewPlaylist extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <NewPlaylistForm onSave={this.onSave} />
+        <NewPlaylistForm onSave={this.onSave} isValidIdURL={this.isValidIdURL} />
       </CTLayout>
     );
   }

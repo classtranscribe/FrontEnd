@@ -7,12 +7,11 @@ import PlaylistName from './PlaylistName';
 import PlaylistUrl from './PlaylistUrl';
 
 export function NewPlaylistForm(props) {
-  const { onSave } = props;
+  const { onSave, isValidIdURL } = props;
 
   const [name, setName] = useState('');
-  const [sourceType, setsourceType] = useState(-1);
+  const [sourceType, setsourceType] = useState(2);
   const [url, setUrl] = useState('');
-  const [errors, setErrors] = useState([]);
 
   // errors
   const initErrors = [];
@@ -35,9 +34,9 @@ export function NewPlaylistForm(props) {
 
   useEffect(() => {
     errorDispatch([name === '', 'playlistName']);
-    errorDispatch([url === '', 'playlistUrl']);
-    errorDispatch([sourceType < 0, 'playlistType']);
-  }, [name, url, sourceType]);
+    errorDispatch([url === '' && sourceType !== 2, 'playlistUrl']);
+    errorDispatch([url && !isValidIdURL(sourceType, url), 'valid-id']);
+  }, [name, url]);
 
   const handleSave = async () => {
     setEnable(true);
@@ -61,6 +60,8 @@ export function NewPlaylistForm(props) {
     </CTForm>
   );
 }
+
 NewPlaylistForm.propTypes = {
   onSave: PropTypes.func,
+  isValidIdURL: PropTypes.func
 };

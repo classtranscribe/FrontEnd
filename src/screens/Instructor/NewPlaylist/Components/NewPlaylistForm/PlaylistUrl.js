@@ -9,18 +9,27 @@ function PlaylistUrl(props) {
   let { error, enable, sourceType, url, setUrl } = props;
   const handleOnchanged = ({ target: { value } }) => setUrl(value);
   const emptyPlaylistUrl = error.includes('playlistUrl') && enable;
+  const invalidUrl = error.includes('valid-id');
+
+  const hasError = emptyPlaylistUrl || invalidUrl;
 
   switch (sourceType) {
     case 0: // Echo 360
       return (
         <CTFragment>
-          <CTFormHelp title="Echo 360 INSTRUCTION">
-            An Echo360 Access Link Example {exampleEchoAccessLink}
+          <CTFormHelp title="Provide the Echo360 Access Link">
+            Echo360 Access Link Example {exampleEchoAccessLink}
           </CTFormHelp>
           <CTInput
             required
-            error={emptyPlaylistUrl}
-            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
+            error={hasError}
+            helpText={
+              emptyPlaylistUrl 
+              ? 'Playlist Url is required' 
+              : invalidUrl
+              ? 'Invalid Echo360 Access Link'
+              : ''
+            }
             id="360-url"
             label="Echo360 Access Link"
             placeholder="Access Link"
@@ -32,13 +41,19 @@ function PlaylistUrl(props) {
     case 1: // Youtube
       return (
         <CTFragment>
-          <CTFormHelp title="Youtube INSTRUCTION">
+          <CTFormHelp title="Provide the YouTube Playlist URL">
             YouTube Playlist URL Example {exampleYoutubeURL}
           </CTFormHelp>
           <CTInput
             required
-            error={emptyPlaylistUrl}
-            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
+            error={hasError}
+            helpText={
+              emptyPlaylistUrl 
+              ? 'Playlist Url is required' 
+              : invalidUrl
+              ? 'Invalid YouTube Playlist URL'
+              : ''
+            }
             id="youtube-url"
             label="YouTube Playlist URL"
             placeholder="Playlist URL"
@@ -50,13 +65,19 @@ function PlaylistUrl(props) {
     case 3: // Kaltura/MediaSpace
       return (
         <CTFragment>
-          <CTFormHelp title="Kaltura Instruction">
-            An Kaltura Channel URL Example {exampleKalturaBUL}
+          <CTFormHelp title="Provide the Kaltura Channel URL">
+            Kaltura Channel URL Example {exampleKalturaBUL}
           </CTFormHelp>
           <CTInput
             required
-            error={emptyPlaylistUrl}
-            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
+            error={hasError}
+            helpText={
+              emptyPlaylistUrl 
+              ? 'Playlist Url is required' 
+              : invalidUrl
+              ? 'Invalid Kaltura Channel URL'
+              : ''
+            }
             id="Kaltura-url"
             label="Kaltura Channel URL"
             placeholder="Kaltura Channel URL"
@@ -68,18 +89,26 @@ function PlaylistUrl(props) {
     case 4: // Box
       return (
         <CTFragment>
-          <CTFormHelp title="Box Instruction">
-            <span>
-              Before creating the playlist, please
-              <strong> SHARE </strong>your Box folder with our Box account
-              <strong> cstranscribe@illinois.edu </strong>
-            </span>
-            An Box Folder URL Example {exampleBoxURL}
+          <CTFormHelp title="Provide the Box Folder URL">
+            <CTFragment list>
+              <div>
+                Before creating the playlist, please
+                <strong> SHARE </strong>your Box folder with our Box account
+                <strong> cstranscribe@illinois.edu </strong>
+              </div>
+              <div>Box Folder URL Example {exampleBoxURL}</div>
+            </CTFragment>
           </CTFormHelp>
           <CTInput
             required
-            error={emptyPlaylistUrl}
-            helpText={emptyPlaylistUrl ? 'Playlist Url is required' : ''}
+            error={hasError}
+            helpText={
+              emptyPlaylistUrl 
+              ? 'Playlist Url is required' 
+              : invalidUrl
+              ? 'Invalid Box Folder URL'
+              : ''
+            }
             id="box-url"
             label="Box Folder URL"
             placeholder="Folder URL"
