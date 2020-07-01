@@ -65,7 +65,7 @@ function BasicInfo(props) {
       setTerms(util.getSelectOptions(data, 'term'));
 
       if (data.length > 0) {
-        setTerm(data[0].id);
+        if (!term) setTerm(data[0].id);
       }
     } catch (error_) {
       prompt.error('Could not load terms.');

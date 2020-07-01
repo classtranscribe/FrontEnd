@@ -40,7 +40,7 @@ class SetupCoursePage extends StateController {
   lastOfferingId = null;
   async setupCourseSettingsPage(offeringId) {
     // determine whether to reset the redux store
-    let shouldClear = this.lastOfferingId !== offeringId;
+    let shouldClear = this.lastOfferingId && this.lastOfferingId !== offeringId;
     if (shouldClear) {
       this.clear();
     }

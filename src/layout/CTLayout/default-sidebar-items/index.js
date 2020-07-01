@@ -73,7 +73,7 @@ export class DefaultSidebarItems {
         },
         {
           value: 'ct-nsb-inst-new',
-          text: 'New Courses',
+          text: 'New Course',
           href: links.newCourse(),
           active: window.location.pathname === links.newCourse()
         }
@@ -117,7 +117,7 @@ export class DefaultSidebarItems {
     const tabs = [
       {
         value: 'off-settings-tab',
-        text: 'Course Settings',
+        text: 'Settings',
         href: links.courseSettings(offering.id),
         active: uurl.isEqual(links.courseSettings(offering.id))
       },
@@ -129,10 +129,10 @@ export class DefaultSidebarItems {
       }
     ];
   
-    if (offering) {
+    if (offering.logEventsFlag) {
       tabs.unshift({
         value: 'off-analytics-tab',
-        text: 'Course Anaytics',
+        text: 'Anaytics',
         href: links.courseAnalytics(offering.id),
         active: uurl.isEqual(links.courseAnalytics(offering.id))
       });
@@ -147,9 +147,9 @@ export class DefaultSidebarItems {
     };
   
     return [
-      ...this.defaultItems.slice(0, 5),
+      ...this.defaultItems.slice(0, 6),
       offeringItem,
-      ...this.defaultItems.slice(5)
+      ...this.defaultItems.slice(6)
     ];
   }
 }
