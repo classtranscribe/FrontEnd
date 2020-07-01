@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
-import { uurl, api, prompt, links } from 'utils';
 import { courseStore, connectWithRedux, setup, plControl } from './controllers';
 import { NewPlaylistForm } from './Components';
 

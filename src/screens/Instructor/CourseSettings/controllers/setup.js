@@ -1,7 +1,7 @@
 import { StateController } from 'utils/state-controller';
 import { api, NOT_FOUND_404 } from 'utils';
 
-class SetupCoursePage extends StateController {
+export class SetupCoursePage extends StateController {
   constructor() {
     super();
     this.clear = this.clear.bind(this);
