@@ -14,6 +14,8 @@ function Text(props) {
     className,
     fluid,
     center,
+    uppercase,
+    capitalize,
     bold,
     underline,
     italic,
@@ -36,6 +38,8 @@ function Text(props) {
 
   const textClasses = cx('ct', 'ct-text', size, {
     fluid,
+    uppercase,
+    capitalize,
     bold,
     underline,
     italic,
@@ -90,6 +94,12 @@ Text.propTypes = {
 
   /** The text can be at center */
   center: PropTypes.bool,
+
+  /** The text can be transformed to uppercase */
+  uppercase: PropTypes.bool,
+
+  /** The text can be transformed to capitalized */
+  capitalize: PropTypes.bool,
 
   /** The text can be bold */
   bold: PropTypes.bool,

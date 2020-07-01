@@ -27,6 +27,14 @@ $highlighted: var(--ct-text-highlight);
     width: 100%;
   }
 
+  &.uppercase {
+    text-transform: uppercase;
+  }
+
+  &.capitalize {
+    text-transform: capitalize;
+  }
+
   &.bold {
     font-weight: bold;
   }

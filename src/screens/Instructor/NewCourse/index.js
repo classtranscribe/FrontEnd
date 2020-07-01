@@ -61,11 +61,9 @@ export class NewCourse extends Component {
 
     prompt.addOne({
       text: 'Course Created.',
-      header: 'Success',
       status: 'success',
-      timeout: 2200,
+      timeout: 3000,
       position: 'top',
-      offset: [-1, -1],
     }, false);
 
     if (offeringId) {

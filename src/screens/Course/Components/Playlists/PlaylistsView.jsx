@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTFragment, CTFooter, CTLoadable, CTDNDList } from 'layout';
+import { CTFragment, CTFooter, CTLoadable, CTDNDList, CTText } from 'layout';
 import { InfoAndListLayout } from 'components';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils';
 import { plControl } from '../../controllers';
@@ -38,7 +38,9 @@ function PlaylistsView({
     return <CTDNDList {...dndProps} />;
   };
 
-  const playlistDNDElement = getDNDItems();
+  const playlistDNDElement = playlists.length > 0 
+                            ? getDNDItems()
+                            : <CTText center muted padding={[30, 0]}>No Playlist</CTText>;
   
 
   return (

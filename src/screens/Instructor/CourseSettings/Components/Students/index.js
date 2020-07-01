@@ -27,7 +27,7 @@ export function Students() {
   return (
     <EmailList
       title="Students"
-      description="Add students"
+      description="Manage the students who can access this course"
       defaultEmails={students.value}
       onSave={handleSave}
     />

@@ -140,7 +140,7 @@ function CourseForm(props) {
       onSave={handleSave}
       onSaveButtonText={saveButtonText}
       collapsible={collapsible}
-      details="The basic information for a course"
+      details="The basic course information"
     >
       {allowUniSelection && <UniversitySelection {...uniSelProps} />}
 

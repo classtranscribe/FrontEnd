@@ -23,7 +23,7 @@ export class NewPlaylistWithRedux extends Component {
       responsive: true,
       footer: true,
       headingProps: {
-        heading: 'Playlist',
+        heading: 'New Playlist',
         icon: 'add',
         sticky: true,
         gradient: true,

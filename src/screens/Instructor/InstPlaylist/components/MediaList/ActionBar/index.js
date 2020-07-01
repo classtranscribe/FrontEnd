@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { Button } from 'pico-ui';
 import { CTFragment, CTFilterInput } from 'layout';
+import { SelectCtrlButton } from 'components';
 import { mediaControl } from '../../../controllers';
 
-import SelectionButton from './SelectionButton';
 import UploadButton from './UploadButton';
 
 function ActionBar({
@@ -45,7 +45,7 @@ function ActionBar({
       id="ipl-media-actions" 
       padding={[10, 10, 10, (padded ? 0 : 23)]}
     >
-      <SelectionButton
+      <SelectCtrlButton
         selecting={selecting}
         isSelectedAll={isSelectedAll}
         selectAll={handleSelectAll}
