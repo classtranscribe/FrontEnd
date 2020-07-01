@@ -7,7 +7,8 @@ export {
   NewCourse,
   CourseSettings,
   CourseAnalytics,
-  InstPlaylist
+  InstPlaylist,
+  NewPlaylist,
 } from './Instructor';
 export { MediaSettings } from './MediaSettings';
 

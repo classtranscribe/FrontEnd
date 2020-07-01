@@ -24,6 +24,7 @@ function CTHeading(props) {
     highlightIcon = false,
     padding,
     children,
+    ...otherProps
   } = props;
 
   const headingElement = children || heading;
@@ -43,6 +44,7 @@ function CTHeading(props) {
     vCenter: true,
     className: headingClasses,
     padding,
+    ...otherProps
   });
 
   const iconElement = typeof icon === 'string'

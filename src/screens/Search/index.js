@@ -27,8 +27,8 @@ class SearchWithRedux extends React.Component {
         icon: 'search',
         sticky: true,
         gradient: true,
-        offsetTop: 30
-      }
+        offsetTop: 30,
+      },
     });
 
     return (
@@ -36,7 +36,7 @@ class SearchWithRedux extends React.Component {
         <SearchInput />
         <SearchResult />
       </CTLayout>
-    )
+    );
   }
 }
 
@@ -45,5 +45,5 @@ export const Search = withReduxProvider(
   searchStore,
   connectWithRedux,
   [],
-  ['all']
+  ['all'],
 );

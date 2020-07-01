@@ -12,6 +12,7 @@ import {
   CourseAnalytics,
   InstPlaylist,
   MediaSettings,
+  NewPlaylist,
   Embed,
   // Student
   Home,
@@ -34,7 +35,6 @@ import 'braft-editor/dist/index.css';
 
 import { user } from './utils/user';
 
-
 class App extends React.Component {
   componentDidMount() {
     user.validate();
@@ -48,11 +48,7 @@ class App extends React.Component {
           <Route exact path={user.callbackPaths} component={SetupUser} />
 
           {/* Admin */}
-          {
-            user.isAdmin
-            &&
-            <Route path="/admin" component={Admin} />
-          }
+          {user.isAdmin && <Route path="/admin" component={Admin} />}
 
           {/* Instructor */}
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
@@ -75,6 +71,11 @@ class App extends React.Component {
             user.isInstructor
             &&
             <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
+          }
+          {
+            user.isInstructor 
+            &&
+            <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
           }
           {
             user.isInstructor

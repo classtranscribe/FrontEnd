@@ -93,7 +93,7 @@ function CourseForm(props) {
         logEventsFlag,
         courseName,
         description,
-        courseIds: selCourses.map(course => course.id)
+        courseIds: selCourses.map((course) => course.id),
       });
     }
   };
