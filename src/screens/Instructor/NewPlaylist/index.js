@@ -1,101 +1,25 @@
 import React, { Component } from 'react';
+import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { uurl, api, prompt, links } from 'utils';
+import { courseStore, connectWithRedux, setup, plControl } from './controllers';
 import { NewPlaylistForm } from './Components';
 
-export class NewPlaylist extends Component {
+export class NewPlaylistWithRedux extends Component {
+  constructor(props) {
+    super(props);
+    this.offeringId = this.props.match.params.id;
+
+    setup.init(props);
+  }
+
   componentDidMount() {
-    api.contentLoaded();
+    setup.setupCourseSettingsPage(this.offeringId);
   }
-
-  isValidIdURL(sourceType, url = '') {
-    if (sourceType === 2) return true;
-    if (!url) return false;
-
-    if (sourceType === 0) {
-      // Echo360
-      const reg = /https:\/\/echo360.org\/section\/[\s\S]*\/public/;
-      return reg.test(url);
-    }
-    if (sourceType === 1) {
-      // YouTube
-      const { list } = uurl.useSearch(url);
-      return Boolean(list);
-    }
-    if (sourceType === 3) {
-      // Kaltura/MediaSpace
-      const reg = /https:\/\/mediaspace.illinois.edu\/channel\/[\s\S]*\/[0-9]{1}/;
-      return reg.test(url);
-    }
-    if (sourceType === 4) {
-      // Box
-      const reg = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]{1}/;
-      return reg.test(url);
-    }
-
-    return false;
-  }
-
-  onSave = async (newPlayList) => {
-    const { name, sourceType, url } = newPlayList;
-    let playlistId = null;
-    const offeringId = this.props.match.params.offeringId;
-    let playlistIdentifier = url;
-    let playlistURL = url;
-
-    // Check validity
-    if (!offeringId || !name) return;
-    if (!this.isValidIdURL(sourceType, url)) return;
-
-    // extract url
-    if (sourceType === 1) {
-      // YouTube
-      const { list } = uurl.useSearch(url);
-      playlistIdentifier = list;
-    } else if (sourceType === 3) {
-      // Kaltura
-      const items = url.split('/');
-      playlistIdentifier = items[items.length - 1]; // the last one is the channel id
-    } else if (sourceType === 4) {
-      // Box
-      playlistIdentifier = url.split('/folder/')[1]; // the 2nd one is the channel id
-    }
-
-    // set the `source` in the jsonMetadata to the source URL of this playlist
-    const jsonMetadata = playlistURL ? { source: playlistURL } : null;
-
-    let newPl = {
-      offeringId,
-      name,
-      sourceType,
-      playlistIdentifier,
-      jsonMetadata,
-    };
-
-    try {
-      const { data } = await api.createPlaylist(newPl);
-      newPl = data;
-      playlistId = data.id;
-    } catch (e) {
-      console.error(e);
-      prompt.error('Failed to create the new playlist.');
-      return;
-    }
-
-    prompt.addOne({
-      text: 'Playlist Created.',
-      status: 'success',
-      timeout: 3000,
-      position: 'top'
-    });
-
-    if (playlistId) {
-      this.props.history.push(links.playlist(playlistId));
-    }
-  };
 
   render() {
-    const layoutProps = CTLayout.createProps({
+    const { offering } = this.props;
+    const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
       footer: true,
@@ -106,12 +30,34 @@ export class NewPlaylist extends Component {
         gradient: true,
         offsetTop: 30,
       },
-    });
+      sidebarProps: {
+        items: sidebar.getCoursePageSidebarItems(offering)
+      }
+    }));
+
+    const onSave = (newPlaylist) => {
+      plControl.updatePlaylist(
+        this.offeringId, 
+        newPlaylist, 
+        this.props.history
+      );
+    };
 
     return (
       <CTLayout {...layoutProps}>
-        <NewPlaylistForm onSave={this.onSave} isValidIdURL={this.isValidIdURL} />
+        <NewPlaylistForm 
+          onSave={onSave} 
+          isValidIdURL={plControl.isValidIdURL} 
+        />
       </CTLayout>
     );
   }
 }
+
+export const NewPlaylist = withReduxProvider(
+  NewPlaylistWithRedux,
+  courseStore,
+  connectWithRedux,
+  ['offering'],
+  ['all']
+);
