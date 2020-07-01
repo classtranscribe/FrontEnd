@@ -18,12 +18,14 @@ class CourseSettingsWithRedux extends Component {
 
   render() {
     const { offering } = this.props;
+    const loading = !offering;
+
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
       footer: true,
       headingProps: {
-        heading: 'Course Settings',
+        heading: loading ? '' : `${offering.fullNumber} Settings`,
         icon: 'settings',
         sticky: true,
         gradient: true,
@@ -33,8 +35,6 @@ class CourseSettingsWithRedux extends Component {
         items: sidebar.getCoursePageSidebarItems(offering)
       }
     }));
-
-    const loading = !offering;
 
     return (
       <CTLayout {...layoutProps}>

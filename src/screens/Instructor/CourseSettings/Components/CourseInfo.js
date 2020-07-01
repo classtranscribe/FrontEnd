@@ -15,10 +15,12 @@ export function CourseInfoWithRedux({
     logEventsFlag,
   } = offering || {};
 
+  const selCourses = courses.map(course => ({ ...course, id: course.courseId }));
+
   return (
     <CourseForm
       collapsible
-      defaultSelCourses={courses}
+      defaultSelCourses={selCourses}
       defaultCourseName={courseName}
       defaultSectionName={sectionName}
       defaultTerm={termId}
