@@ -33,8 +33,8 @@ export function NewPlaylistForm(props) {
   const playlistUrlProps = { error, enable, sourceType, url, setUrl };
 
   useEffect(() => {
-    errorDispatch([name === '', 'playlistName']);
-    errorDispatch([url === '' && sourceType !== 2, 'playlistUrl']);
+    errorDispatch([!name, 'playlistName']);
+    errorDispatch([!url && sourceType !== 2, 'playlistUrl']);
     errorDispatch([url && !isValidIdURL(sourceType, url), 'valid-id']);
   }, [name, url]);
 

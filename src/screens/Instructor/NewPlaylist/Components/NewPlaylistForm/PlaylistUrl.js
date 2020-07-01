@@ -25,7 +25,7 @@ function PlaylistUrl(props) {
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Playlist Url is required' 
+              ? 'Echo360 Access Link is required' 
               : invalidUrl
               ? 'Invalid Echo360 Access Link'
               : ''
@@ -49,7 +49,7 @@ function PlaylistUrl(props) {
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Playlist Url is required' 
+              ? 'YouTube Playlist URL is required' 
               : invalidUrl
               ? 'Invalid YouTube Playlist URL'
               : ''
@@ -65,6 +65,10 @@ function PlaylistUrl(props) {
     case 3: // Kaltura/MediaSpace
       return (
         <CTFragment>
+          <CTFormHelp severity="warning" title="Notice">
+            ClassTranscribe only copy videos not the access settings. 
+            The access settings may be different.
+          </CTFormHelp>
           <CTFormHelp title="Provide the Kaltura Channel URL">
             Kaltura Channel URL Example {exampleKalturaBUL}
           </CTFormHelp>
@@ -73,7 +77,7 @@ function PlaylistUrl(props) {
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Playlist Url is required' 
+              ? 'Kaltura Channel URL is required' 
               : invalidUrl
               ? 'Invalid Kaltura Channel URL'
               : ''
@@ -89,6 +93,10 @@ function PlaylistUrl(props) {
     case 4: // Box
       return (
         <CTFragment>
+          <CTFormHelp severity="warning" title="Notice">
+            ClassTranscribe only copy videos not the access settings. 
+            The access settings may be different.
+          </CTFormHelp>
           <CTFormHelp title="Provide the Box Folder URL">
             <CTFragment list>
               <div>
@@ -104,7 +112,7 @@ function PlaylistUrl(props) {
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Playlist Url is required' 
+              ? 'Box Folder URL is required' 
               : invalidUrl
               ? 'Invalid Box Folder URL'
               : ''
