@@ -68,3 +68,6 @@ out/
 # next.js build output
 .next
 
+# vs code config file
+.vscode/
+
