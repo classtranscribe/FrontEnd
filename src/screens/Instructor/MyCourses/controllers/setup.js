@@ -82,11 +82,17 @@ class SetupMyCoursesPage extends StateController {
     // console.log('rawOfferings', courseOfferings)
     if (courseOfferings.length === 0) return [];
 
-    const offerArray = _.map(courseOfferings, (co) => {
+    let offerArray = _.map(courseOfferings, (co) => {
       const { courseNumber, departmentId } = co.course;
       const depart = _.find(departs, { id: departmentId });
       const offerings = _.map(co.offerings, (off) => {
         const term = _.find(terms, { id: off.termId });
+
+        if (!term || !depart) {
+          console.error('Detect invalid offering', off.id);
+          return null;
+        }
+
         return {
           ...off,
           termName: term.name,
@@ -100,7 +106,9 @@ class SetupMyCoursesPage extends StateController {
       return offerings;
     });
 
-    const offerIds = _.groupBy(_.flatten(offerArray), 'id');
+    offerArray = _.filter(_.flatten(offerArray), off => off !== null);
+
+    const offerIds = _.groupBy(offerArray, 'id');
     const offerings = _.map(offerIds, (offs) => {
       const off = offs[0];
 

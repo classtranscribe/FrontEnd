@@ -31,7 +31,7 @@ function CourseInfoWithRedux({
         show={user.isLoggedIn}
         isInsructor={setup.isInstructor(role)} 
         isInstMode={isInstMode}
-        offeringId={offering.id}
+        offering={offering}
         starredOfferings={starredOfferings}
       />
 

@@ -36,7 +36,7 @@ function CTFilter(props) {
     data = [],
     value = '',
     keys,
-    regexFlags = 'gi',
+    regexFlags = 'i',
     reversed = false,
     withDefaultFilter = false,
     children,
@@ -91,21 +91,16 @@ function CTFilter(props) {
   }, [filterVal]);
 
   useEffect(() => {
-    // update result when reversed changes
-    let res = [];
-    if (thisReversed) {
-      res = result.slice().reverse();
-    } else {
-      res = result;
-    }
-    
-    setResult(res);
-
     // if the callback is provided
     if (typeof onReversed === 'function') {
       onReversed(thisReversed);
     }
   }, [thisReversed]);
+
+  const handleReverse = () => {
+    setThisReversed(rev => !rev)
+    setResult(result.slice().reverse());
+  };
 
   let defaultFilterElement = null;
   // default input field component where target value can be entered
@@ -115,7 +110,7 @@ function CTFilter(props) {
       placeholder: 'Filter...',
       reversed: thisReversed,
       onInputChange: ({ target }) => setFilterVal(target.value),
-      onToggleReverse: () => setThisReversed(rev => !rev),
+      onToggleReverse: handleReverse
     };
     defaultFilterElement = <DefaultFilter {...defaultFilterProps} />;
   }
