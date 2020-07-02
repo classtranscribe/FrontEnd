@@ -11,11 +11,11 @@ class OfferingControl {
     const oldOffering = setup.offering;
     const offeringId = setup.offering.id;
     let newCourses = newOffering.courseIds;
-    let oldCourses = _.map(oldOffering.courses, course => course.id);
+    let oldCourses = _.map(oldOffering.courses, course => course.courseId);
 
     let added = _.difference(newCourses, oldCourses);
     let removed = _.difference(oldCourses, newCourses);
-
+    
     // link added courses to this offering
     if (added.length > 0) {
       await Promise
@@ -56,8 +56,6 @@ class OfferingControl {
 
     try {
       await api.updateOffering(updatedOff);
-      // update state ?
-      setup.setOffering({ ...setup.offering, ...updatedOff })
     } catch (error) {
       console.error(error);
       prompt.error('Failed to update the course info.');
@@ -65,9 +63,10 @@ class OfferingControl {
     }
 
     // handle linked course templates ?
-    // await this.updateCourseOfferings(newOffering);
+    await this.updateCourseOfferings(newOffering);
 
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
+    setup.setupCourseSettingsPage(oldOffering.id);
   }
 
   async deleteOffering(history) {

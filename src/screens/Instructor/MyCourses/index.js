@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTFragment, CTFilter } from 'layout';
+import { CTLayout, CTFragment, CTFilter, CTText } from 'layout';
 import { ARRAY_INIT, links } from 'utils';
 import { setup, myCoursesStore, connectWithRedux } from './controllers';
 
-import { CourseList } from './components';
+import { CourseList, NoCourseHolder } from './components';
 
 class MyCoursesWithRedux extends Component {
   constructor(props) {
@@ -35,6 +35,7 @@ class MyCoursesWithRedux extends Component {
 
     const { offerings, terms } = this.props;
     const loading = offerings === ARRAY_INIT;
+    const noOffering = !loading && offerings.length === 0;
 
     const offeringResult = (result) => {
       const {
@@ -59,9 +60,15 @@ class MyCoursesWithRedux extends Component {
     return (
       <CTLayout {...layoutProps}>
         <CTFragment padding={[0, 30]}>
-          <CTFilter {...filterProps}>
-            {offeringResult}
-          </CTFilter>
+          {
+            noOffering ? (
+              <NoCourseHolder />
+            ) : (
+              <CTFilter {...filterProps}>
+                {offeringResult}
+              </CTFilter>
+            )
+          }
         </CTFragment>
       </CTLayout>
     );

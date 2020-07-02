@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import { CTFragment, CTFilter, CTInput, CTText } from 'layout';
 import { user, uemail } from 'utils';
-import SelectionButton from 'screens/Instructor/InstPlaylist/components/MediaList/ActionBar/SelectionButton';
+import { SelectCtrlButton } from 'components';
 import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
@@ -119,7 +119,7 @@ function EmailFilter(props) {
           {emailListElement}
         </CTFragment>
         <CTFragment padding={[10, 0]} vCenter className="cs-email-filter-actions">
-          <SelectionButton {...selectBtnProps} />
+          <SelectCtrlButton {...selectBtnProps} />
           <Button 
             uppercase 
             icon="delete" 

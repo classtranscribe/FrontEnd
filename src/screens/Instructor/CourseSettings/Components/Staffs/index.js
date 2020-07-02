@@ -27,8 +27,8 @@ export function Staffs() {
 
   return (
     <EmailList
-      title="Staffs"
-      description="Add staffs"
+      title="Course Staffs"
+      description="Manage the instructor access for course staffs"
       defaultEmails={instructors.value}
       onSave={handleSave}
     />

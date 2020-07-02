@@ -47,7 +47,7 @@ export function NewPlaylistForm(props) {
 
   return (
     <CTForm
-      heading="Playlist"
+      heading="Playlist Information"
       padding={[10, 35]}
       id="ctform-basics"
       onSave={handleSave}
