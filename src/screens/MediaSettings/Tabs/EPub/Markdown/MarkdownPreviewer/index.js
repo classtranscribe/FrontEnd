@@ -1,16 +1,18 @@
 import React from 'react';
-import './index.scss';
-import classNames from 'classnames';
+import { CTMarkdownPreviewer } from 'components'
 import { chapterToPreviewHTML } from 'screens/MediaSettings/controllers/epub/chapter.html-converter';
 
 export function MarkdownPreviewer({ value, className }) {
-  const { previewHTML } = chapterToPreviewHTML(value);
-
-  const style = classNames('ee-md-pview', className);
+  const parseMarkdown = markdown => {
+    const { previewHTML } = chapterToPreviewHTML(markdown);
+    return previewHTML;
+  };
 
   return (
-    <div className={style}>
-      <div className="ee-md-pview-html" dangerouslySetInnerHTML={{ __html: previewHTML }} />
-    </div>
+    <CTMarkdownPreviewer 
+      value={value}
+      // parseMarkdown={parseMarkdown}
+      className={className}
+    />
   );
 }

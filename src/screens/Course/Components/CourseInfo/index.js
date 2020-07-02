@@ -1,54 +1,53 @@
 import React from 'react';
-import { Button } from 'pico-ui';
-import { CTFragment } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { user } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
+import ActionButtons from './ActionButtons';
 import './index.scss';
 
 function CourseInfoWithRedux({
+  role,
+  isInstMode,
   offering,
   starredOfferings,
 }) {
-  let {
+  const {
     fullNumber,
     courseName,
     termName,
     sectionName,
     description
   } = offering;
-
-  const isStarred = Boolean(starredOfferings[offering.id]);
   
   return (
-    <CTFragment list id="cp-course-info">
-      <h1 className="number">{fullNumber}</h1>
+    <InfoAndListLayout.Info id="cp-course-info">
+      <div>
+        <h1 className="number">{fullNumber}</h1>
+      </div>
       <div className="name">{courseName}</div>
       <div className="term">{termName} | {sectionName}</div>
 
-      {
-        user.isLoggedIn
-        &&
-        <CTFragment padding={[20, 0, 0, 0]}>
-          <Button
-            uppercase
-            outlined={isStarred}
-            icon={isStarred ? 'star' : 'star_border'}
-            color={isStarred ? 'primary' : 'teal'}
-            onClick={isStarred ? setup.unstar : setup.star}
-          >
-            {isStarred ? 'unstar' : 'star'}
-          </Button>
-        </CTFragment>
-      }
+      <ActionButtons 
+        show={user.isLoggedIn}
+        isInsructor={setup.isInstructor(role)} 
+        isInstMode={isInstMode}
+        offeringId={offering.id}
+        starredOfferings={starredOfferings}
+      />
 
       {description && <div className="description">{description}</div>}
-    </CTFragment>
+    </InfoAndListLayout.Info>
   );
 }
 
 export const CourseInfo = connectWithRedux(
   CourseInfoWithRedux,
-  ['offering', 'starredOfferings']
+  [
+    'offering', 
+    'starredOfferings', 
+    'role',
+    'isInstMode'
+  ]
 );
 
 

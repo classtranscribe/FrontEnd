@@ -64,11 +64,17 @@ div[data-scroll]::-webkit-scrollbar-track {
 div[data-scroll]::-webkit-scrollbar-track:hover {
   background-color: rgba(0, 0, 0, 0.075);
 }
+div[data-scroll=light]::-webkit-scrollbar-track:hover {
+  background-color: rgba(131, 131, 131, 0.075);
+}
 div[data-scroll]::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: rgba(0, 0, 0, 0);
 }
 div[data-scroll]:hover::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.349);
+}
+div[data-scroll=light]:hover::-webkit-scrollbar-thumb {
+  background: rgba(146, 146, 146, 0.349);
 }
 
 [contenteditable].ct-div-editable {

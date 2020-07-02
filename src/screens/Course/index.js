@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { NOT_FOUND_404 } from 'utils';
+import { NOT_FOUND_404, INSTRUCTOR, links } from 'utils';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
+import { InfoAndListLayout } from 'components';
 import {
   setup,
   courseStore,
   connectWithRedux
 } from './controllers';
-import './index.scss';
 
 import { CourseInfo, Playlists } from './Components';
 
@@ -24,17 +24,25 @@ class CourseWithRedux extends Component {
     setup.setupCoursePage(this.offeringId);
   }
 
-  componentWillUnmount() {
-    // setup.clear();
+  componentDidUpdate() {
+    const { offering, playlist } = this.props;
+    if (playlist && playlist.id) {
+      links.title(`${playlist.name} | ${offering.fullNumber}`);
+    } else if (offering && offering.id) {
+      links.title(offering.fullNumber);
+    }
   }
 
   render() {
-    const layoutProps = CTLayout.createProps({
+    const { offering, role } = this.props;
+
+    const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
-    });
-
-    const { offering } = this.props;
+      sidebarProps: role === INSTRUCTOR ? {
+        items: sidebar.getCoursePageSidebarItems(offering)
+      } : undefined
+    }));
 
     const errorProps = {
       show: true,
@@ -53,10 +61,10 @@ class CourseWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTFragment {...pageFragmentProps}>
+        <InfoAndListLayout {...pageFragmentProps}>
           <CourseInfo />
           <Playlists />
-        </CTFragment>
+        </InfoAndListLayout>
       </CTLayout>
     );
   }
@@ -66,6 +74,6 @@ export const Course = withReduxProvider(
   CourseWithRedux,
   courseStore,
   connectWithRedux,
-  ['offering'],
+  ['offering', 'role', 'playlist'],
   ['all']
 );

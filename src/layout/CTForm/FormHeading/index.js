@@ -1,0 +1,29 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import CTHeading from '../../CTHeading';
+
+/**
+ * A section heading component used in `CTForm`
+ */
+function FormHeading(props) {
+  let {
+    padding = [20, 0, 0, 0],
+    children
+  } = props;
+
+  return (
+    <CTHeading uppercase highlight padding={padding} as="h4">
+      {children}
+    </CTHeading>
+  );
+}
+
+FormHeading.propTypes = {
+  /** The padding of the `CTFragment` */
+  padding: CTHeading.propTypes.padding,
+
+  /** The primary content */
+  children: PropTypes.node
+};
+
+export default FormHeading;

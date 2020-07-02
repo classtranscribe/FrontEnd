@@ -1,5 +1,14 @@
+import _ from 'lodash';
 import { StateController } from 'utils/state-controller';
-import { api, NOT_FOUND_404, ARRAY_INIT, prompt } from 'utils';
+import { 
+  api, 
+  user,
+  prompt, 
+  NOT_FOUND_404, 
+  ARRAY_INIT, 
+  STUDENT, 
+  INSTRUCTOR,
+} from 'utils';
 
 class SetupCoursePage extends StateController {
   constructor() {
@@ -12,31 +21,45 @@ class SetupCoursePage extends StateController {
     let { 
       setOffering, setStarredOfferings,
       setPlaylists, setPlaylist,
-      clearCourseData,
+      clearCourseData, setRole, setIsInstMode
     } = props;
     this.register({ 
       setOffering, setStarredOfferings,
       setPlaylists, setPlaylist,
-      clearCourseData
+      clearCourseData, setRole, setIsInstMode
     });
   }
 
-  offering = null
+  role = STUDENT;
+  setRole(role) {
+    this.setState('setRole', 'role', role);
+  }
+
+  isInstructor(role) {
+    return role === INSTRUCTOR;
+  }
+
+  isInstMode = false;
+  setIsInstMode(isInstMode) {
+    this.setState('setIsInstMode', 'isInstMode', isInstMode);
+  }
+
+  offering = null;
   setOffering(offering) {
     this.setState('setOffering', 'offering', offering);
   }
 
-  playlists = ARRAY_INIT
+  playlists = ARRAY_INIT;
   setPlaylists(playlists) {
     this.setState('setPlaylists', 'playlists', playlists);
   }
 
-  playlist = null
+  playlist = null;
   setPlaylist(playlist) {
     this.setState('setPlaylist', 'playlist', playlist);
   }
 
-  starredOfferings = {}
+  starredOfferings = {};
   setStarredOfferings(starredOfferings) {
     this.setState('setStarredOfferings', 'starredOfferings', starredOfferings)
   }
@@ -109,14 +132,18 @@ class SetupCoursePage extends StateController {
     }
   }
 
-  lastOfferingId = null
+  lastOfferingId = null;
   async setupCoursePage(offeringId) {
-    if (this.lastOfferingId !== offeringId) {
+    // determine whether to reset the redux store
+    let shouldClear = this.lastOfferingId && this.lastOfferingId !== offeringId;
+    let shouldUpdateInstMode = shouldClear || !this.lastOfferingId;
+    if (shouldClear) {
       this.clear();
     }
 
     this.lastOfferingId = offeringId;
     
+    // get the offering
     let offering = await this.getOfferingById(offeringId);
     this.setOffering(offering);
 
@@ -124,9 +151,22 @@ class SetupCoursePage extends StateController {
 
     if (offering === NOT_FOUND_404) return;
 
+    // determine role of the user for this offering
+    let instIndex = _.findIndex(
+      offering.instructorIds,
+      { email: user.getUserInfo().emailId }
+    );
+
+    if (instIndex >= 0) {
+      this.setRole(INSTRUCTOR);
+      if (shouldUpdateInstMode) this.setIsInstMode(true);
+    }
+
+    // get playlists
     let playlists = await this.getPlaylistsByOfferingId(offeringId);
     this.setPlaylists(playlists);
 
+    // get starred offerings
     let starredOfferings = await this.getStarredOfferings();
     this.setStarredOfferings(starredOfferings);
   }

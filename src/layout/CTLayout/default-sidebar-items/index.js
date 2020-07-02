@@ -1,4 +1,4 @@
-import { user, links } from 'utils';
+import { user, links, uurl } from 'utils';
 import { createCTNavSidebarItemProps } from '../../CTNavSidebar/create-props';
 import { getAdminNavItem } from './admin-items';
 
@@ -14,7 +14,7 @@ export class DefaultSidebarItems {
       text: 'Home',
       icon: 'home',
       href: links.home(),
-      activeType: 'exact',
+      active: uurl.isEqual(links.home()),
       items: []
     });
   }
@@ -25,7 +25,7 @@ export class DefaultSidebarItems {
       text: 'Search',
       icon: 'search',
       href: links.search(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.search()),
       items: []
     });
   }
@@ -36,7 +36,7 @@ export class DefaultSidebarItems {
       text: 'History',
       icon: 'history',
       href: links.history(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.history()),
       items: []
     });
   }
@@ -47,7 +47,7 @@ export class DefaultSidebarItems {
       text: 'Analytics',
       icon: 'bar_chart',
       href: links.personalAnalytics(),
-      activeType: 'starts',
+      active: uurl.isEqual(links.personalAnalytics()),
       items: []
     });
   }
@@ -58,12 +58,26 @@ export class DefaultSidebarItems {
 
   get myCourses() {
     return this.create({
+      value: 'ct-nsb-inst',
       text: 'My Courses',
-      icon: 'class',
+      icon: 'collections_bookmark',
       href: links.instructor(),
-      activeType: 'starts',
-      items: [],
-      reloadOnPathnameChange: true
+      active: uurl.isEqual(links.myCourses()) 
+            || uurl.isEqual(links.newCourse()),
+      items: [
+        {
+          value: 'ct-nsb-inst-courses',
+          text: 'Courses',
+          href: links.myCourses(),
+          active: window.location.pathname === links.myCourses()
+        },
+        {
+          value: 'ct-nsb-inst-new',
+          text: 'New Course',
+          href: links.newCourse(),
+          active: window.location.pathname === links.newCourse()
+        }
+      ]
     });
   }
 
@@ -95,6 +109,48 @@ export class DefaultSidebarItems {
     }
 
     return items;
+  }
+
+  getCoursePageSidebarItems(offering) {
+    if (!offering || !offering.id) return this.defaultItems;
+  
+    const tabs = [
+      {
+        value: 'off-settings-tab',
+        text: 'Settings',
+        href: links.courseSettings(offering.id),
+        active: uurl.isEqual(links.courseSettings(offering.id))
+      },
+      {
+        value: 'off-new-pl-tab',
+        text: 'New Playlist',
+        href: links.instNewPlaylist(offering.id),
+        active: uurl.isEqual(links.instNewPlaylist(offering.id))
+      }
+    ];
+  
+    if (offering.logEventsFlag) {
+      tabs.unshift({
+        value: 'off-analytics-tab',
+        text: 'Anaytics',
+        href: links.courseAnalytics(offering.id),
+        active: uurl.isEqual(links.courseAnalytics(offering.id))
+      });
+    }
+  
+    const offeringItem = {
+      text: offering.fullNumber,
+      active: true,
+      icon: 'book',
+      items: tabs,
+      href: links.offeringDetail(offering.id)
+    };
+  
+    return [
+      ...this.defaultItems.slice(0, 6),
+      offeringItem,
+      ...this.defaultItems.slice(6)
+    ];
   }
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CTFragment } from 'layout';
 import { uurl, NOT_FOUND_404 } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
@@ -9,6 +8,7 @@ import PlaylistsView from './PlaylistsView';
 import VideosView from './VideosView';
 
 function PlaylistsWithRedux({
+  isInstMode,
   offering,
   playlist,
   playlists,
@@ -32,21 +32,28 @@ function PlaylistsWithRedux({
 
   const isPlaylistView = Boolean(playlistId);
 
+  const playlistsProps = {
+    isInstMode,
+    playlists,
+    offering,
+  };
+
   const viewElement = (
     isPlaylistView
     ? <VideosView playlist={playlist} />
-    : <PlaylistsView playlists={playlists} accessType={offering.accessType} />
+    : <PlaylistsView {...playlistsProps} />
   );
 
-  return (
-    <CTFragment id="cp-playlists">
-      {viewElement}
-    </CTFragment>
-  );
+  return viewElement;
 }
 
 export const Playlists = connectWithRedux(
   PlaylistsWithRedux,
-  ['playlists', 'playlist', 'offering'],
+  [
+    'playlists',
+    'playlist',
+    'offering',
+    'isInstMode'
+  ],
   ['setPlaylist']
 );

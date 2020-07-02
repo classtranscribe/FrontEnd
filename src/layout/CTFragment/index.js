@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
-import { CTLoadable } from '../CTLoadable';
+import CTLoadable from '../CTLoadable';
 import { createCTFragmentProps } from './create-props';
 
-export function CTFragment(props) {
+function CTFragment(props) {
   let {
     id,
     role,
@@ -14,12 +14,19 @@ export function CTFragment(props) {
     // styles
     center = false,
     vCenter = false,
+    vEnd = false,
     hCenter = false,
+    hEnd = false,
     list = false,
     fade = false,
     sticky = false,
     offsetTop = 0,
     padding,
+    margin,
+    borderTop = false,
+    borderRight = false,
+    borderBottom = false,
+    borderLeft = false,
     // loadable
     error = false,
     errorElement,
@@ -35,12 +42,18 @@ export function CTFragment(props) {
   if (typeof padding === 'number' || typeof padding === 'string') {
     padding = [padding];
   }
+
+  if (typeof margin === 'number' || typeof margin === 'string') {
+    margin = [margin];
+  }
   
-  let paddingStr = Array.isArray(padding) ? `${padding.join('px ') }px` : undefined;
+  let paddingStr = Array.isArray(padding) ? `${padding.join('px ')}px` : undefined;
+  let marginStr = Array.isArray(margin) ? `${margin.join('px ')}px` : undefined;
 
   const fragmentStyles = {
     top: `${offsetTop }px`,
     padding: paddingStr,
+    margin: marginStr,
     ...styles
   };
 
@@ -50,10 +63,16 @@ export function CTFragment(props) {
     { 
       center,
       vCenter,
+      vEnd,
       hCenter,
+      hEnd,
       list,
       sticky,
-      'ct-a-fade-in': fade
+      'ct-a-fade-in': fade,
+      'border-top': borderTop,
+      'border-right': borderRight,
+      'border-bottom': borderBottom,
+      'border-left': borderLeft
     }
   );
 
@@ -104,8 +123,14 @@ CTFragment.propTypes = {
   /** Vertially centering its children */
   vCenter: PropTypes.bool,
 
+  /** display its children at the end vertically */
+  vEnd: PropTypes.bool,
+
   /** Horizontally centering its children */
   hCenter: PropTypes.bool,
+
+  /** display its children at the end horizontally */
+  hEnd: PropTypes.bool,
 
   /** The fragment can be a flex list */
   list: PropTypes.bool,
@@ -133,6 +158,31 @@ CTFragment.propTypes = {
   ]),
 
   /**
+   * The margin in `x 10px`, allows 1,2,3,4,5
+   * @example
+   * <CTFragment margin="1" ... /> // margin: 10px;
+   * <CTFragment margin={3} ... /> // margin: 30px;
+   * <CTFragment margin={[1,5]} ... /> // margin: 10px 50px;
+   * <CTFragment margin={[2,3,4,5]} ... /> // margin: 20px 30px 40px 50px;
+   */
+  margin: PropTypes.oneOfType([
+    paddingTypes,
+    PropTypes.arrayOf(paddingTypes)
+  ]),
+
+  /** True if has a top border */
+  borderTop: PropTypes.bool,
+
+  /** True if has a right border */
+  borderRight: PropTypes.bool,
+
+  /** True if has a bottom border */
+  borderBottom: PropTypes.bool,
+
+  /** True if has a left border */
+  borderLeft: PropTypes.bool,
+
+  /**
    * A HTML tag name for this fragment, default as `div`
    * @example
    * <CTFragment as="a" ... >...</CTFragment> // <a ... >...</a>
@@ -145,3 +195,5 @@ CTFragment.propTypes = {
 };
 
 CTFragment.createProps = createCTFragmentProps;
+
+export default CTFragment;
