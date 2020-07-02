@@ -1,13 +1,9 @@
 import _ from 'lodash';
 import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import {
-  CTForm,
-  CTFormRow,
-  CTSelect,
-  CTFormHeading
-} from 'layout';
-import { api, util, user, prompt } from 'utils';
+import { CTForm } from 'layout';
+import { api, user, prompt } from 'utils';
+import UniversitySelection from './UniversitySelection';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
 
@@ -22,7 +18,9 @@ function CourseForm(props) {
     defaultDescription = '',
     defaultAccessType = '0',
     defaultSelCourses = [],
+    saveButtonText = 'create',
     onSave,
+    allowUniSelection = false,
   } = props;
 
   const defaultUniId = user.getUserInfo().universityId;
@@ -95,9 +93,15 @@ function CourseForm(props) {
         logEventsFlag,
         courseName,
         description,
-        courseIds: selCourses.map(course => course.id)
+        courseIds: selCourses.map((course) => course.id),
       });
     }
+  };
+
+  const uniSelProps = {
+    uniId,
+    universities,
+    handleUniChange
   };
 
   const basicInfoProps = {
@@ -128,34 +132,17 @@ function CourseForm(props) {
     uniId
   };
 
-  const uniOptions = util.getSelectOptions(universities, 'name');
-
   return (
     <CTForm
       heading="Course Information"
       padding={[10, 35]}
       id="ctform-basics"
       onSave={handleSave}
-      onSaveButtonText="Create"
+      onSaveButtonText={saveButtonText}
       collapsible={collapsible}
-      details="The basic information for a course"
+      details="The basic course information"
     >
-      {
-        user.isAdmin 
-        &&
-        <>
-          <CTFormHeading>University Selection</CTFormHeading>
-          <CTFormRow>
-            <CTSelect
-              required
-              label="Select an University"
-              options={uniOptions}
-              value={uniId}
-              onChange={handleUniChange}
-            />
-          </CTFormRow>
-        </>
-      }
+      {allowUniSelection && <UniversitySelection {...uniSelProps} />}
 
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
@@ -172,7 +159,9 @@ CourseForm.propTypes = {
   defaultDescription: PropTypes.string,
   defaultAccessType: PropTypes.string,
   defaultSelCourses: PropTypes.array,
-  onSave: PropTypes.func
+  saveButtonText: PropTypes.string,
+  onSave: PropTypes.func,
+  allowUniSelection: PropTypes.bool
 };
 
 export default CourseForm;

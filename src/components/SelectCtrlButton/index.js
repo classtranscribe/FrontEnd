@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'pico-ui';
 import { CTPopoverLabel } from 'layout';
 
-function SelectionButton({
+export function SelectCtrlButton({
   selecting,
   selectAll,
   removeAll,
@@ -25,7 +25,7 @@ function SelectionButton({
                     : 'Select All'; 
   
   const handleSelBtnClick = () => {
-    if (selecting) {
+    if (isSelectedAll) {
       removeAll();
     } else {
       selectAll();
@@ -46,5 +46,3 @@ function SelectionButton({
     </CTPopoverLabel>
   );
 }
-
-export default SelectionButton;

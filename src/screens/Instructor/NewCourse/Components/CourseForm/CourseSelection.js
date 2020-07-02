@@ -103,7 +103,7 @@ function CourseSelection(props) {
     if (course.id && depart.id) {
       setSelCourses([
         ..._.filter(selCourses, item => item.acronym !== depart.acronym),
-        { ...course, acronym: depart.acronym }
+        { ...course, departmentAcronym: depart.acronym }
       ]);
     }
   }, [course])
@@ -117,16 +117,26 @@ function CourseSelection(props) {
   const courseOptions = util.getSelectOptions(courses, depart.acronym);
 
   const classes = useStyles();
-  const fullNumber = _.join(_.map(selCourses, (val) => val.acronym + val.courseNumber), '/');
+  const fullNumber = _.join(
+    _.map(selCourses, (val) => val.departmentAcronym + val.courseNumber), 
+    '/'
+  );
 
   return (
     <CTFragment>
-      <CTFormHeading padding={[20, 0, 0, 0]}>Course Number</CTFormHeading>
+      <CTFormHeading>Course Number</CTFormHeading>
       <CTFormHelp title="Course number selection">
-        Since one course might be held by multiple departments (e.g. <b>CS425/ECE428</b>),
-        ClassTranscribe allows you to select multiple course numbers.
-        For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
-        generate the course number <b>CS357/MATH357</b>.
+        <div>
+          ClassTranscribe allows you to select multiple course numbers.
+          For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
+          generate the course number <b>CS357/MATH357</b>.
+        </div>
+        <h5 className="mt-2 mb-1">INSTRUCTION</h5>
+        <ol>
+          <li>Please select a department of your university.</li>
+          <li>Then select a course under the selected department.</li>
+          <li>Repeat the above steps to select multiple courses.</li>
+        </ol>
       </CTFormHelp>
 
       <CTFormRow>
@@ -185,7 +195,7 @@ function CourseSelection(props) {
               return (
                 <Chip
                   key={item.id}
-                  label={item.acronym + item.courseNumber}
+                  label={item.departmentAcronym + item.courseNumber}
                   onDelete={handleDeleteSelCourses(item.id)}
                   className={classes.chip}
                 />

@@ -7,7 +7,7 @@ import CTHeading from '../../CTHeading';
  */
 function FormHeading(props) {
   let {
-    padding,
+    padding = [20, 0, 0, 0],
     children
   } = props;
 

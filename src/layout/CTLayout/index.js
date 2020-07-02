@@ -105,7 +105,7 @@ function CTLayout(props) {
                         : <NavSidebarTrigger {...brandElemProps} />;
 
   const headingElement = headingProps
-                        ? <CTHeading {...headingProps} highlightIcon />
+                        ? <CTHeading gradient highlightIcon {...headingProps} />
                         : null;
   // Page Element
   const pageElement = fill 

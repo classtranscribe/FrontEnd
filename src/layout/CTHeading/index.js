@@ -15,14 +15,16 @@ function CTHeading(props) {
     className,
     heading = 'Heading',
     icon,
+    fade = true,
     sticky = false,
-    gradient = true,
+    gradient = false,
     offsetTop = 0,
     uppercase = false,
     highlight = false,
     highlightIcon = false,
     padding,
     children,
+    ...otherProps
   } = props;
 
   const headingElement = children || heading;
@@ -36,12 +38,13 @@ function CTHeading(props) {
 
   const fragmentProps = CTFragment.createProps({
     as,
-    fade: true,
+    fade,
     sticky,
     offsetTop,
     vCenter: true,
     className: headingClasses,
     padding,
+    ...otherProps
   });
 
   const iconElement = typeof icon === 'string'
@@ -66,6 +69,9 @@ CTHeading.propTypes = {
 
   /** Icon name of the material-icons */
   icon: PropTypes.string,
+
+  /** The heading can be faded in */
+  fade: PropTypes.bool,
 
   /** The heading can be sticky */
   sticky: PropTypes.bool,

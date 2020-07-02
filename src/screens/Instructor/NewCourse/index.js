@@ -6,6 +6,7 @@ import { CourseForm } from './Components';
 export class NewCourse extends Component {
   componentDidMount() {
     api.contentLoaded();
+    links.title('New Course');
   }
 
   createCourseOfferings = async (courseIds, offeringId) => {
@@ -60,11 +61,9 @@ export class NewCourse extends Component {
 
     prompt.addOne({
       text: 'Course Created.',
-      header: 'Success',
       status: 'success',
-      timeout: 2200,
+      timeout: 3000,
       position: 'top',
-      offset: [-1, -1],
     }, false);
 
     if (offeringId) {
@@ -88,7 +87,7 @@ export class NewCourse extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm onSave={this.createOffering} />
+        <CourseForm allowUniSelection onSave={this.createOffering} />
       </CTLayout>
     );
   }

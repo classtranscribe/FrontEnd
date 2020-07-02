@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCTDocTitle } from 'hooks';
 import { CTLayout } from 'layout';
 import { MDXDocsContainer } from 'docs/layouts';
 import { api } from 'utils';
@@ -26,6 +27,8 @@ export function ComponentAPI(props) {
   useEffect(() => {
     api.contentLoaded();
   }, []);
+
+  useCTDocTitle(`${Docs.title} | Component API`);
 
   return (
     <CTLayout {...layoutProps}>

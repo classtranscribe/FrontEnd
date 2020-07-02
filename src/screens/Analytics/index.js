@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
-import { api } from 'utils';
+import { api, links } from 'utils';
 import Plots from './Components/Plots';
 
 export class Analytics extends Component {
   componentDidMount() {
     api.contentLoaded();
+    links.title('Analytics');
   }
 
   render() {

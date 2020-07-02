@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTFragment } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { user } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import ActionButtons from './ActionButtons';
@@ -20,7 +20,7 @@ function CourseInfoWithRedux({
   } = offering;
   
   return (
-    <CTFragment list id="cp-course-info" data-scroll>
+    <InfoAndListLayout.Info id="cp-course-info">
       <div>
         <h1 className="number">{fullNumber}</h1>
       </div>
@@ -36,7 +36,7 @@ function CourseInfoWithRedux({
       />
 
       {description && <div className="description">{description}</div>}
-    </CTFragment>
+    </InfoAndListLayout.Info>
   );
 }
 

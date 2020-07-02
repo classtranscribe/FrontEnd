@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { CTFragment, CTFilter, CTText } from 'layout';
+import { CTFilter, CTText, CTFooter } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
 import './index.scss';
 import MediaDNDList from './MediaDNDList';
 import ActionBar from './ActionBar';
+import NoVideoHolder from './NoVideoHolder';
 
 function MediaListWithRedux({
   playlist,
@@ -84,37 +86,39 @@ function MediaListWithRedux({
   };
 
   return (
-    <div className="ipl-media-li-con">
-      <CTFragment list role="list" className="ipl-media-li">
-        <CTFilter
-          data={medias}
-          value={filterValue}
-          keys={['mediaName']}
-        >
-          {(result, setResult) => (
-            <>
-              <ActionBar
-                result={result}
-                {...actionProps}
-              />
-              {
-                result.length > 0 ? (
-                  <MediaDNDList 
-                    medias={result}
-                    setFilterResult={setResult}
-                    {...dndListProps}
-                  />
-                ) : (
-                  <CTText muted center margin={[30, 0]}>
-                    No Result
-                  </CTText>
-                )
-              }
-            </>
-          )}
-        </CTFilter>
-      </CTFragment>
-    </div>
+    <InfoAndListLayout.List id="ipl-media-li">
+      <CTFilter
+        data={medias}
+        value={filterValue}
+        keys={['mediaName']}
+      >
+        {(result, setResult) => (
+          <>
+            <ActionBar
+              result={result}
+              {...actionProps}
+            />
+            {
+              medias.length === 0 ? (
+                <NoVideoHolder type={playlist.sourceType} />
+              ) : result.length > 0 ? (
+                <MediaDNDList 
+                  medias={result}
+                  setFilterResult={setResult}
+                  {...dndListProps}
+                />
+              ) : (
+                <CTText muted center margin={[30, 0]}>
+                  No Result
+                </CTText>
+              )
+            }
+          </>
+        )}
+      </CTFilter>
+
+      <CTFooter />
+    </InfoAndListLayout.List>
   );
 }
 

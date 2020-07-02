@@ -1,5 +1,6 @@
 import React from 'react';
-import { CTFragment, CTFooter, CTLoadable, CTDNDList } from 'layout';
+import { CTFragment, CTFooter, CTLoadable, CTDNDList, CTText } from 'layout';
+import { InfoAndListLayout } from 'components';
 import { ARRAY_INIT, NOT_FOUND_404 } from 'utils';
 import { plControl } from '../../controllers';
 
@@ -9,21 +10,20 @@ import NewPlaylistButton from './NewPlaylistButton';
 
 function PlaylistsView({
   isInstMode,
-  accessType,
-  offeringId,
+  offering,
   playlists,
 }) {
   const loading = playlists === ARRAY_INIT;
   const error = playlists === NOT_FOUND_404;
 
-  const errorElement = <PlaylistsErrorWrapper accessType={accessType} />;
+  const errorElement = <PlaylistsErrorWrapper accessType={offering.accessType} />;
 
   const getDNDItems = () => {
     let dndItems = [];
     if (!loading && !error) {
       dndItems = playlists.map(pl => ({
         id: `pl-${pl.id}=${pl.name}`,
-        node: <PlaylistItem isInstMode={isInstMode} playlist={pl} />
+        node: <PlaylistItem isInstMode={isInstMode} playlist={pl} offering={offering} />
       }));
     }
 
@@ -38,18 +38,20 @@ function PlaylistsView({
     return <CTDNDList {...dndProps} />;
   };
 
-  const playlistDNDElement = getDNDItems();
+  const playlistDNDElement = playlists.length > 0 
+                            ? getDNDItems()
+                            : <CTText center muted padding={[30, 0]}>No Playlist</CTText>;
   
 
   return (
-    <CTFragment fade loading={loading} id="cp-pls-view" data-scroll>
+    <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
       <CTFragment sticky vCenter className="title" as="h3">
         <i className="material-icons">list</i>
         <span>Playlists</span>
         {
           isInstMode
           &&
-          <NewPlaylistButton offeringId={offeringId} />
+          <NewPlaylistButton offeringId={offering.id} />
         }
       </CTFragment>
 
@@ -58,7 +60,7 @@ function PlaylistsView({
       </CTLoadable>
 
       <CTFooter />
-    </CTFragment>
+    </InfoAndListLayout.List>
   )
 }
 

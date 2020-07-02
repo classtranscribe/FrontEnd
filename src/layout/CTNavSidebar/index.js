@@ -39,7 +39,7 @@ function CTNavSidebar(props) {
           }
 
           {
-            !user.isLoggedIn
+            (!user.isLoggedIn && (!mini || float))
             &&
             <SignInPrompt
               topDescription={

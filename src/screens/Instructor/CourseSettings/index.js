@@ -1,28 +1,58 @@
-import React, { Component } from 'react'
-import { CTLayout } from 'layout'
-import { api } from 'utils';
+import React, { Component } from 'react';
+import { withReduxProvider } from 'redux/redux-provider';
+import { CTLayout, CTFragment } from 'layout';
+import { courseStore, connectWithRedux, setup } from './controllers';
+import { Students, Staffs, CourseInfo, RemoveCourse } from './Components';
 
-export class CourseSettings extends Component {
+class CourseSettingsWithRedux extends Component {
+  constructor(props) {
+    super(props);
+    this.offeringId = this.props.match.params.id;
+
+    setup.init(props);
+  }
+
   componentDidMount() {
-    api.contentLoaded();
+    setup.setupCourseSettingsPage(this.offeringId);
   }
 
   render() {
-    const layoutProps = CTLayout.createProps({
+    const { offering } = this.props;
+    const loading = !offering;
+
+    const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
       footer: true,
       headingProps: {
-        heading: 'Course Settings',
+        heading: loading ? '' : `${offering.fullNumber} Settings`,
         icon: 'settings',
         sticky: true,
         gradient: true,
         offsetTop: 30
+      },
+      sidebarProps: {
+        items: sidebar.getCoursePageSidebarItems(offering)
       }
-    });
+    }));
 
     return (
-      <CTLayout {...layoutProps} />
-    )
+      <CTLayout {...layoutProps}>
+        <CTFragment loading={loading}>
+          <CourseInfo />
+          {(offering && offering.accessType === 2) && <Students />}
+          <Staffs />
+          <RemoveCourse />
+        </CTFragment>
+      </CTLayout>
+    );
   }
 }
+
+export const CourseSettings = withReduxProvider(
+  CourseSettingsWithRedux,
+  courseStore,
+  connectWithRedux,
+  ['offering'],
+  ['all']
+);

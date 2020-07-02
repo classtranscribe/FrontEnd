@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
-import { 
+import {
   // Admin
   Admin,
   // Instructor
@@ -12,6 +12,8 @@ import {
   CourseAnalytics,
   InstPlaylist,
   MediaSettings,
+  NewPlaylist,
+  Embed,
   // Student
   Home,
   Course,
@@ -22,9 +24,9 @@ import {
   // General
   SetupUser,
   NotFound404,
-  Maintenance, 
+  Maintenance,
   ComponentAPI,
-  Example,
+  Example
 } from './screens';
 
 import './App.css';
@@ -32,7 +34,6 @@ import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
 
 import { user } from './utils/user';
-
 
 class App extends React.Component {
   componentDidMount() {
@@ -47,11 +48,7 @@ class App extends React.Component {
           <Route exact path={user.callbackPaths} component={SetupUser} />
 
           {/* Admin */}
-          {
-            user.isAdmin
-            &&
-            <Route path="/admin" component={Admin} />
-          }
+          {user.isAdmin && <Route path="/admin" component={Admin} />}
 
           {/* Instructor */}
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
@@ -68,17 +65,22 @@ class App extends React.Component {
           {
             user.isInstructor
             &&
-            <Route exact path="/instructor/course-settings/:id" component={CourseSettings} />
+            <Route exact path="/offering/:id/settings" component={CourseSettings} />
           }
           {
             user.isInstructor
             &&
-            <Route exact path="/instructor/course-analytics/:id" component={CourseAnalytics} />
+            <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
+          }
+          {
+            user.isInstructor 
+            &&
+            <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
           }
           {
             user.isInstructor
             &&
-            <Route exact path="/instructor/playlist/:id" component={InstPlaylist} />
+            <Route path="/playlist/:id" component={InstPlaylist} />
           }
           {
             user.isInstructor
@@ -94,8 +96,9 @@ class App extends React.Component {
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
-          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
+          <Route exact path="/embed/:id" component={Embed} />
 
+          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
           <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />

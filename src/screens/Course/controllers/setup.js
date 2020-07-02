@@ -135,7 +135,8 @@ class SetupCoursePage extends StateController {
   lastOfferingId = null;
   async setupCoursePage(offeringId) {
     // determine whether to reset the redux store
-    let shouldClear = this.lastOfferingId !== offeringId;
+    let shouldClear = this.lastOfferingId && this.lastOfferingId !== offeringId;
+    let shouldUpdateInstMode = shouldClear || !this.lastOfferingId;
     if (shouldClear) {
       this.clear();
     }
@@ -158,7 +159,7 @@ class SetupCoursePage extends StateController {
 
     if (instIndex >= 0) {
       this.setRole(INSTRUCTOR);
-      if (shouldClear) this.setIsInstMode(true);
+      if (shouldUpdateInstMode) this.setIsInstMode(true);
     }
 
     // get playlists

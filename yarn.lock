@@ -6872,6 +6872,11 @@ inquirer@^6.2.2:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
+install@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.13.0.tgz#6af6e9da9dd0987de2ab420f78e60d9c17260776"
+  integrity sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==
+
 internal-ip@^4.2.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-4.3.0.tgz#845452baad9d2ca3b69c635a137acb9a0dad0907"
@@ -11604,6 +11609,14 @@ react-error-overlay@^6.0.3:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
+react-file-reader@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-file-reader/-/react-file-reader-1.1.4.tgz#1838f1f3fa70dcfdef4ef525d74dda3c6312089a"
+  integrity sha512-xTeHFrDIopZpzk4aMZyILzIQbytQ6GCKR32/7kBDzO5lrAr1idbK5PkmpjP4wnT9s5F+TALviuhnWk8UeksddA==
+  dependencies:
+    prop-types "^15.5.0"
+    uuid4 "^1.0.0"
+
 react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -14319,6 +14332,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+uuid4@^1.0.0:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-1.1.4.tgz#80fa0618749110bdb8aa47cc2cc2167c6331f4eb"
+  integrity sha512-Gr1q2k40LpF8CokcnQFjPDsdslzJbTCTBG5xQIEflUov431gFkY5KduiGIeKYAamkQnNn4IfdHJbLnl9Bib8TQ==
 
 uuid@^3.0.1, uuid@^3.3.2, uuid@^3.3.3:
   version "3.4.0"

@@ -13,7 +13,7 @@ function Actions({
   const tealClasses = useStyles();
 
   return (
-    <CTFragment list className="actions" padding={[10, 20, 10, 10]}>
+    <CTFragment list className="actions" padding={[10, 0]}>
       {
         editing ? (
           <>

@@ -22,7 +22,7 @@ export function TranscriptionsWithRedux({
               defaultOpenCC
               allowRangePicker
               defaultOpenRangePicker
-              defaultRange={[200,400]}
+              defaultRange={[200, 400]}
             />
           </CTFragment>
         </CTFragment>
