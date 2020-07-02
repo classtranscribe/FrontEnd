@@ -2,10 +2,12 @@ import React, { useRef, useEffect, useState } from 'react';
 import { getShareableURL, videoControl, parseSec } from '../../../Utils';
 import './index.css';
 
+
 function ShareModal({ show = false, onClose }) {
   const inputRef = useRef();
   const [begin, setBegin] = useState(-1); // -1 X, >0 √
   const [copy, setCopy] = useState(0); // -1 unset, 0 copying, 1 copied
+  const [embed, setEmbed] = useState(false);
 
   const onCopy = () => {
     inputRef.current.select();
@@ -14,6 +16,10 @@ function ShareModal({ show = false, onClose }) {
     inputRef.current.blur();
     setTimeout(() => setCopy(-1), 2000);
   };
+
+  const onEmbed = () => {
+    setEmbed(true);
+  }
 
   const onRadioChange = () => {
     if (begin >= 0) {
@@ -28,6 +34,12 @@ function ShareModal({ show = false, onClose }) {
       setBegin(videoControl.currTime());
     }
   }, [show]);
+
+  useEffect(() => {
+    if (embed) {
+      onClose();
+    }
+  }, [embed]);
 
   const shareURL = getShareableURL(begin);
 
@@ -46,7 +58,6 @@ function ShareModal({ show = false, onClose }) {
           </span>
         </button>
       </div>
-
       <div className="wml-content">
         <div className="w-100 d-flex align-items-center wml-share-url">
           <input
@@ -71,7 +82,7 @@ function ShareModal({ show = false, onClose }) {
                 <>
                   <i className="material-icons">file_copy</i>COPY
                 </>
-              )}
+                )}
             </span>
           </button>
         </div>
@@ -100,6 +111,15 @@ function ShareModal({ show = false, onClose }) {
               value={parseSec(videoControl.currTime())}
             />
           </div>
+          <button
+            className="plain-btn embed-video-url"
+            aria-label="Embed"
+            onClick={onEmbed}
+          >
+            <span tabIndex="-1">
+              <i className="material-icons">code</i>EMBED
+            </span>
+          </button>
         </div>
       </div>
     </div>

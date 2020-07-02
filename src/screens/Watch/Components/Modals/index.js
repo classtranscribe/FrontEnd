@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { CTModal } from 'layout';
 import {
   connectWithRedux,
   modalControl,
@@ -26,6 +27,9 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
     <div className="watch-modal" data-modal-type={modal}>
       {(modal === MODAL_SHARE || hideBefore) && <ShareModal onClose={handleClose} />}
       <div className="wml-filter" onClick={handleClose} />
+      {/* <CTModal
+        oepn={true}
+      /> */}
     </div>
   );
 }
