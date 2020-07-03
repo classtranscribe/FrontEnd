@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { CTModal } from 'layout';
+import React, { useEffect, useState } from 'react';
+import { prompt } from 'utils'
+import EmbedVideo from 'layout/CTModal/EmbedVideo'
 import {
   connectWithRedux,
   modalControl,
@@ -7,7 +8,6 @@ import {
   MODAL_SHARE,
   MODAL_BEFORE_HIDE,
 } from '../../Utils';
-
 import ShareModal from './ShareModal';
 import './index.css';
 
@@ -21,15 +21,23 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
     modalControl.close();
   };
 
+  const [embed, setEmbed] = useState(false);
   const hideBefore = modal === MODAL_BEFORE_HIDE;
 
   return (
     <div className="watch-modal" data-modal-type={modal}>
-      {(modal === MODAL_SHARE || hideBefore) && <ShareModal onClose={handleClose} />}
+      {(modal === MODAL_SHARE || hideBefore) &&
+        <ShareModal onClose={handleClose} embed={embed} setEmbed={setEmbed} />}
       <div className="wml-filter" onClick={handleClose} />
-      {/* <CTModal
-        oepn={true}
-      /> */}
+      <EmbedVideo
+        open={embed}
+        onClose={() => setEmbed(false)}
+        onConfirm={() => prompt.addOne({
+          text: 'Content copied to clipboard.',
+          status: 'success',
+          timeout: 2000,
+        }, false)}
+      />
     </div>
   );
 }

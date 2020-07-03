@@ -2,12 +2,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import { getShareableURL, videoControl, parseSec } from '../../../Utils';
 import './index.css';
 
-
-function ShareModal({ show = false, onClose }) {
+function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
   const inputRef = useRef();
   const [begin, setBegin] = useState(-1); // -1 X, >0 √
   const [copy, setCopy] = useState(0); // -1 unset, 0 copying, 1 copied
-  const [embed, setEmbed] = useState(false);
 
   const onCopy = () => {
     inputRef.current.select();
@@ -16,10 +14,6 @@ function ShareModal({ show = false, onClose }) {
     inputRef.current.blur();
     setTimeout(() => setCopy(-1), 2000);
   };
-
-  const onEmbed = () => {
-    setEmbed(true);
-  }
 
   const onRadioChange = () => {
     if (begin >= 0) {
@@ -114,7 +108,7 @@ function ShareModal({ show = false, onClose }) {
           <button
             className="plain-btn embed-video-url"
             aria-label="Embed"
-            onClick={onEmbed}
+            onClick={() => setEmbed(true)}
           >
             <span tabIndex="-1">
               <i className="material-icons">code</i>EMBED

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { CTInput } from 'layout/CTForm'
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { api, uurl } from 'utils';
+import { baseUrl } from 'utils/cthttp/statics'
 import Modal from './Modal';
 
 const useStyles = makeStyles({
@@ -18,20 +21,25 @@ const useStyles = makeStyles({
         background: 'var(--ct-green-normal)',
       }
     }
+  },
+  modal: {
+    width: '40vw',
+    marginLeft: '58vw',
+    marginTop: '-42vh',
   }
 });
 
-function Confirmation(props) {
+function EmbedVideo(props) {
   const {
     open = false,
     responsive = true,
-    title = 'Confirmation',
+    title = 'Embed Video',
     text,
     children,
     onClose,
     onConfirm,
     cancelButtonText = 'Cancel',
-    confirmButtonText = 'Confirm',
+    confirmButtonText = 'Copy',
     ...otherProps
   } = props;
 
@@ -62,7 +70,7 @@ function Confirmation(props) {
   const modalProps = {
     open,
     title,
-    size: 'sm',
+    size: 'xs',
     responsive,
     onClose,
     action: actionElement,
@@ -70,13 +78,17 @@ function Confirmation(props) {
   };
 
   return (
-    <Modal {...modalProps}>
-      {contentElement}
+    <Modal {...modalProps} className={classes.modal}>
+      <CTInput
+        textarea
+        underlined
+        value={`${window.location.origin }/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?padded=true`}
+      />
     </Modal>
   );
 }
 
-Confirmation.propTypes = {
+EmbedVideo.propTypes = {
   /** True if open the modal */
   open: Modal.propTypes.open,
 
@@ -105,5 +117,5 @@ Confirmation.propTypes = {
   confirmButtonText: PropTypes.string,
 };
 
-export default Confirmation;
+export default EmbedVideo;
 
