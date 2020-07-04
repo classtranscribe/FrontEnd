@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { CTFragment } from 'components';
+import { CTFragment } from 'layout';
 import { connectWithRedux, searchControl } from '../../controllers';
 import './index.scss';
 
@@ -15,7 +15,7 @@ function SearchInputWithRedux(props) {
           placeholder="Search for courses ..."
           value={searchValue}
           onChange={searchControl.handleSearchInputChange}
-          autoComplete={false}
+          autoComplete="off"
         />
 
         <Button

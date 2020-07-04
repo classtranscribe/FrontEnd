@@ -13,6 +13,14 @@ export function parseError(error) {
   return { status: response.status };
 }
 
+export function errorType(error) {
+  return parseError(error).status;
+}
+
+export function isError(errorLike) {
+  return typeof errorLike === 'number';
+}
+
 /**
  * Determine if the error type is an authorization error
  * @param {Error} error error object

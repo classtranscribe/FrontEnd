@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { CTLayout } from 'components';
-import { api } from 'utils';
+import { CTLayout } from 'layout';
+import { api, links } from 'utils';
 
 export class Analytics extends Component {
   componentDidMount() {
     api.contentLoaded();
+    links.title('Analytics');
   }
 
   render() {

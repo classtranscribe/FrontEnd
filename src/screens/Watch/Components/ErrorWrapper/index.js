@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTErrorWrapper } from 'components';
+import { CTErrorWrapper } from 'layout';
 import { user } from 'utils';
 
 export function ErrorWrapper({ error = {} }) {

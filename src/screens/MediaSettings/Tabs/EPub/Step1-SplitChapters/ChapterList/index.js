@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollArea } from 'components/ScrollArea';
+import { CTScrollArea } from 'layout';
 import { connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import EpubChapterItem from './EpubChapterItem';
 import InstructionHeading from './InstructionHeading';
@@ -7,7 +7,7 @@ import './index.scss';
 
 function ChapterList({ chapters }) {
   return (
-    <ScrollArea
+    <CTScrollArea
       id="msp-ee-sch-list"
       className="msp-ee-sch"
       scrollClassName="msp-ee-sch-scroll"
@@ -25,7 +25,7 @@ function ChapterList({ chapters }) {
           />
         ))}
       </div>
-    </ScrollArea>
+    </CTScrollArea>
   );
 }
 

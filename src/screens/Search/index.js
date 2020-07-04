@@ -1,17 +1,9 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'components';
-
-import {
-  searchStore,
-  connectWithRedux,
-  setup,
-} from './controllers';
-
-import {
-  SearchInput,
-  SearchResult
-} from './Components';
+import { CTLayout } from 'layout';
+import { links } from 'utils';
+import { searchStore, connectWithRedux, setup } from './controllers';
+import { SearchInput, SearchResult } from './Components';
 
 class SearchWithRedux extends React.Component {
   constructor(props) {
@@ -22,6 +14,7 @@ class SearchWithRedux extends React.Component {
 
   componentDidMount() {
     setup.setupSearchPage();
+    links.title('Search');
   }
 
   render() {
@@ -34,8 +27,8 @@ class SearchWithRedux extends React.Component {
         icon: 'search',
         sticky: true,
         gradient: true,
-        offsetTop: 30
-      }
+        offsetTop: 30,
+      },
     });
 
     return (
@@ -43,7 +36,7 @@ class SearchWithRedux extends React.Component {
         <SearchInput />
         <SearchResult />
       </CTLayout>
-    )
+    );
   }
 }
 
@@ -52,5 +45,5 @@ export const Search = withReduxProvider(
   searchStore,
   connectWithRedux,
   [],
-  ['all']
+  ['all'],
 );

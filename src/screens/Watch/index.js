@@ -6,7 +6,7 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { withReduxProvider } from 'redux/redux-provider';
 import { uurl } from 'utils/use-url';
-import { CTLayout } from 'components';
+import { CTLayout } from 'layout';
 import {
   watchStore,
   connectWithRedux,

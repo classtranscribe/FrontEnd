@@ -1,0 +1,81 @@
+#ct-nav-sidebar {
+  height: 100%;
+  width: 240px;
+  z-index: 1020;
+  position: fixed;
+  top: 0;
+  transition: visibility 200ms linear, width 200ms linear;
+  visibility: hidden;
+  overflow-x: hidden;
+
+  &.show {
+    visibility: visible;
+
+    #ct-nsb-drawer {
+      transform: translateX(0);
+    }
+  }
+
+  &.mini {
+    width: 50px;
+    #ct-nsb-drawer {
+      background-color: rgb(248, 248, 248);
+    }
+  }
+
+  &.float {
+    padding-top: 0;
+    width: 100%;
+    transition: none;
+    position: fixed;
+    -webkit-position: fixed;
+    -moz-position: fixed;
+
+    #ct-nsb-drawer {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.205);
+    }
+
+    &.show {
+      display: block;
+      
+      .ct-nsb-wrapper {
+        background-color: rgba(0, 0, 0, 0.336);
+        z-index: -1;
+        visibility: visible;
+      }
+    }
+  }
+
+  .ct-nsb-wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    visibility: hidden;
+  }
+
+  #ct-nsb-drawer {
+    width: 240px;
+    min-width: 240px;
+    height: 100%;
+    background-color: #ffffff;
+    transition: transform 200ms linear;
+    transform: translateX(-240px);
+
+    #ct-nsb-con {
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 2px 2px 0;
+    }
+
+    &.ct-nav-dark {
+      background-color: rgb(44, 44, 44);
+    }
+
+    .ct-nsb-ul {
+      margin-top: 10px;
+    }
+  }
+}

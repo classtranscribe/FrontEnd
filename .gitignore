@@ -64,6 +64,7 @@ typings/
 .env
 
 out/
+deployment.sh
 
 # next.js build output
 .next

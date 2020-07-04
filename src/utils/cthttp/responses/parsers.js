@@ -58,6 +58,7 @@ export function parseSingleOffering(rawOffering) {
   const departmentIds = _.map(courses, 'departmentId');
   return {
     ...offering,
+    courses,
     departmentIds,
     universityId,
     instructorIds,

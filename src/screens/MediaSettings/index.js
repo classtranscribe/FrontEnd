@@ -2,11 +2,11 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Route, Redirect } from 'react-router-dom';
 import { links, api } from 'utils';
-import { CTErrorWrapper, CTLayout } from 'components';
+import { CTErrorWrapper, CTLayout } from 'layout';
 import { setup, TAB_EPUB, TAB_EDIT_TRANS } from './controllers';
 
 import { MSPHeaderTabTitle } from './Components';
-import { EPub } from './Tabs';
+import { EPub, Transcriptions } from './Tabs';
 
 import withMSPReduxProvider from './controllers/msp-redux-provider';
 
@@ -88,7 +88,7 @@ class MediaSettingsWithRedux extends React.Component {
 
             <Route path={epubPath} component={EPub} />
 
-            {/* <Route path={transPath} component={} /> */}
+            <Route path={transPath} component={Transcriptions} />
           </div>
         </div>
       </CTLayout>

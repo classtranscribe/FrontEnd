@@ -1,0 +1,48 @@
+.ct-form {
+  box-shadow: none !important;
+  border: 1px solid rgba(218, 218, 218, 0);
+
+  // &:first-child {
+  //   border-radius: 10px 10px 0 0;
+  // }
+
+  // &:not(:first-child) {
+  //   margin-top: -1px;
+  // }
+  
+  // &:last-child {
+  //   border-radius: 0 0 10px 10px;
+  // }
+
+  &.danger {
+    h3.ct-heading {
+      color: rgb(195, 0, 0) !important;
+    }
+  }
+
+  &.warning {
+    border-color: rgb(224, 146, 0);
+    h3.ct-heading {
+      color: rgb(224, 146, 0) !important;
+    }
+  }
+
+  &.Mui-expanded {
+    border-radius: 10px;
+    border: 1px solid rgb(218, 218, 218);
+    &.danger {
+      border-color: rgb(195, 0, 0);
+    }
+
+    &.warning {
+      border-color: rgb(224, 146, 0);
+    }
+  }
+
+  .MuiAccordionSummary-root {
+    outline: none !important;
+    &:not(.collapsible) {
+      cursor: default !important;
+    }
+  }
+}
