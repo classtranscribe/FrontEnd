@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiCheckbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
@@ -74,12 +72,12 @@ function MediaItem({
   const checkBoxClasses = CTCheckbox.useStyles();
 
   return (
-    <ExpansionPanel 
+    <Accordion 
       className="media-item" 
       expanded={expanded} 
       onChange={handleExpansionChange}
     >
-      <ExpansionPanelSummary 
+      <AccordionSummary 
         expandIcon={<ExpandMoreIcon />}
         tabIndex={-1}
         IconButtonProps={{
@@ -118,16 +116,16 @@ function MediaItem({
             <i className="material-icons rename-icon">{renameBtnIcon}</i>
           </IconButton>
         </CTPopoverLabel>
-      </ExpansionPanelSummary>
+      </AccordionSummary>
 
-      <ExpansionPanelDetails>
+      <AccordionDetails>
         <CTText muted padding={[0, 0, 5, 10]}>
           Created at {(media.createdAt || '').slice(0, 10)}
         </CTText>
 
         <MediaItemActions mediaId={id} isUnavailable={isUnavailable} />
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
 }
 

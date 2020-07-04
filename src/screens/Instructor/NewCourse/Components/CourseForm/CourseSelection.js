@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 15,
     margin: 0,
     height: 'auto',
+    boxShadow: 'none',
+    border: '1px solid rgb(218, 218, 218);'
   },
   chip: {
     margin: theme.spacing(0.5),

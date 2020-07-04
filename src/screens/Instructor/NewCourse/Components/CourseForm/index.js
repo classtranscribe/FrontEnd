@@ -140,7 +140,7 @@ function CourseForm(props) {
       onSave={handleSave}
       onSaveButtonText={saveButtonText}
       collapsible={collapsible}
-      details="The basic course information"
+      details="The basic course information: course number, name, section, term, visibility, and description."
     >
       {/** 
         * Temporarily disable this feature for admins

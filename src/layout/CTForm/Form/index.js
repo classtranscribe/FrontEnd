@@ -1,10 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionActions from '@material-ui/core/AccordionActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import { Button } from 'pico-ui';
@@ -20,6 +20,7 @@ function Form(props) {
   let {
     id,
     padding,
+    className,
     collapsible = false,
     expanded = false,
     danger,
@@ -35,61 +36,59 @@ function Form(props) {
 
   const expandIcon = collapsible ? <ExpandMoreIcon /> : null;
 
-  const ExpansionPanelProps = {
-    className: cx('ct-form', { danger, warning }),
+  const AccordionProps = {
+    className: cx('ct-form', className, { danger, warning }),
     defaultExpanded: expanded,
   };
 
   if (!collapsible) {
-    ExpansionPanelProps.expanded = true;
+    AccordionProps.expanded = true;
   }
 
   return (
-    <CTFragment padding={padding}>
-      <ExpansionPanel square {...ExpansionPanelProps}>
-        <ExpansionPanelSummary
-          expandIcon={expandIcon}
-          aria-controls={`ct-form-content-${id}`}
-          id={`ct-form-heading-${id}`}
-          tabIndex={collapsible ? 0 : -1}
-          className={collapsible ? 'collapsible' : null}
-        >
+    <Accordion square {...AccordionProps}>
+      <AccordionSummary
+        expandIcon={expandIcon}
+        aria-controls={`ct-form-content-${id}`}
+        id={`ct-form-heading-${id}`}
+        tabIndex={collapsible ? 0 : -1}
+        className={collapsible ? 'collapsible' : null}
+      >
+        <CTFragment list>
+          <CTHeading as="h3">
+            {heading}
+          </CTHeading>
+          {Boolean(details) && <div className="text-muted">{details}</div>}
+        </CTFragment>
+      </AccordionSummary>
+
+      <Divider />
+
+      <form id={id} onSubmit={onSave} autoComplete="off">
+        <AccordionDetails id={`ct-form-content-${id}`}>
           <CTFragment list>
-            <CTHeading as="h3">
-              {heading}
-            </CTHeading>
-            {Boolean(details) && <div className="text-muted">{details}</div>}
+            {children}
           </CTFragment>
-        </ExpansionPanelSummary>
-
-        <Divider />
-
-        <form id={id} onSubmit={onSave} autoComplete="off">
-          <ExpansionPanelDetails id={`ct-form-content-${id}`}>
-            <CTFragment list>
-              {children}
-            </CTFragment>
-          </ExpansionPanelDetails>
-            
-          <ExpansionPanelActions>
-            {
-              Boolean(onCancel)
-              &&
-              <Button uppercase color="transparent" onClick={onCancel}>
-                {onCancelButtonText}
-              </Button>
-            }
-            {
-              Boolean(onSave)
-              &&
-              <Button uppercase color="teal" onClick={onSave}>
-                {onSaveButtonText}
-              </Button>
-            }
-          </ExpansionPanelActions>
-        </form>
-      </ExpansionPanel>
-    </CTFragment>
+        </AccordionDetails>
+          
+        <AccordionActions>
+          {
+            Boolean(onCancel)
+            &&
+            <Button uppercase color="transparent" onClick={onCancel}>
+              {onCancelButtonText}
+            </Button>
+          }
+          {
+            Boolean(onSave)
+            &&
+            <Button uppercase color="teal" onClick={onSave}>
+              {onSaveButtonText}
+            </Button>
+          }
+        </AccordionActions>
+      </form>
+    </Accordion>
   );
 }
 
@@ -99,6 +98,9 @@ Form.propTypes = {
 
   /** CTFragment's padding prop */
   padding: CTFragment.propTypes.padding,
+
+  /** Additional classes */
+  className: PropTypes.string,
 
   /** The form can be collapsible */
   collapsible: PropTypes.bool,
