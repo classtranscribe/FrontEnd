@@ -1,0 +1,19 @@
+.ct-md-textarea-con {
+  overflow: hidden;
+  padding: 0 0 0 10px;
+  overflow: hidden;
+  
+  // &:not(:focus-within) {
+  //   // box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.205);
+  // }
+
+  &.preview {
+    display: none;
+  }
+
+  .ct-md-textarea{
+    *::-webkit-scrollbar {
+      display: block;
+    }
+  }
+}

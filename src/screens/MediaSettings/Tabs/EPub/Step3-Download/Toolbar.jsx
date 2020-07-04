@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
-import { CTForm } from 'components';
+import { CTInput, CTFormRow } from 'layout';
 import { Button } from 'pico-ui';
 import { epub, connectWithRedux } from 'screens/MediaSettings/controllers/epub';
 import ChapterImage from '../Step2-EditChapters/ChapterEditor/ChapterImage';
@@ -70,46 +69,35 @@ function Toolbar({
       </div>
 
       <div className="ee-ech-tb-btns ee-dl-file-form">
-        <Grid columns='equal' stackable>
-          <Grid.Row>
-            <Grid.Column>
-              <CTForm
-                required
-                label="ePub Title"
-                color="grey"
-                placeholder="ePub title"
-                onChange={onSaveTitle}
-                defaultValue={title}
-              />
-            </Grid.Column>
-          </Grid.Row>
+        <CTFormRow>
+          <CTInput
+            required // underlined
+            label="ePub Title"
+            placeholder="ePub title"
+            onChange={onSaveTitle}
+            value={title}
+          />
+        </CTFormRow>
 
-          <Grid.Row>
-            <Grid.Column>
-              <CTForm
-                required
-                label="Filename"
-                color="grey"
-                placeholder="Filename"
-                onChange={onSaveFilename}
-                defaultValue={filename}
-              />
-            </Grid.Column>
-          </Grid.Row>
+        <CTFormRow>
+          <CTInput
+            required // underlined
+            label="Filename"
+            placeholder="Filename"
+            onChange={onSaveFilename}
+            value={filename}
+          />
+        </CTFormRow>
 
-          <Grid.Row>
-            <Grid.Column>
-              <CTForm
-                required
-                label="Author / Instructor"
-                color="grey"
-                placeholder="Author"
-                onChange={onSaveAuthor}
-                defaultValue={author}
-              />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <CTFormRow>
+          <CTInput
+            required // underlined
+            label="Author / Instructor"
+            placeholder="Author"
+            onChange={onSaveAuthor}
+            value={author}
+          />
+        </CTFormRow>
       </div>
 
       <hr />

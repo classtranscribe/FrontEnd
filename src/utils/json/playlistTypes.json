@@ -1,18 +1,8 @@
 [
   {
-    "name": "Box",
-    "id": 4,
-    "description": "Host videos from a Box folder"
-  },
-  {
-    "name": "Kaltura/MediaSpace",
-    "id": 3,
-    "description": "Host videos from Kaltura/MediaSpace"
-  },
-  {
-    "name": "YouTube", 
-    "id": 1, 
-    "description": "Host videos from YouTube playlist"
+    "name": "Upload", 
+    "id": 2, 
+    "description": "Manually upload videos"
   },
   {
     "name": "Echo360", 
@@ -20,8 +10,18 @@
     "description": "Host videos from Echo360"
   },
   {
-    "name": "Upload", 
-    "id": 2, 
-    "description": "Manually upload videos"
+    "name": "YouTube", 
+    "id": 1, 
+    "description": "Host videos from YouTube playlist"
+  },
+  {
+    "name": "Kaltura/MediaSpace",
+    "id": 3,
+    "description": "Host videos from Kaltura/MediaSpace"
+  },
+  {
+    "name": "Box",
+    "id": 4,
+    "description": "Host videos from a Box folder"
   }
 ]

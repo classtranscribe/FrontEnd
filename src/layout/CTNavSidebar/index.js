@@ -8,7 +8,7 @@ import { SignInPrompt } from 'components/SignInPrompt';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
 
-export function CTNavSidebar(props) {
+function CTNavSidebar(props) {
   let {
     show = true,
     items = [],
@@ -39,7 +39,7 @@ export function CTNavSidebar(props) {
           }
 
           {
-            !user.isLoggedIn
+            (!user.isLoggedIn && (!mini || float))
             &&
             <SignInPrompt
               topDescription={
@@ -58,7 +58,10 @@ export const CTNavSidebarPropTypes = {
   show: PropTypes.bool,
 
   /** Nav list items on sidebar */
-  items: PropTypes.arrayOf(PropTypes.shape(SidebarItemPropTypes)),
+  items: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.shape(SidebarItemPropTypes),
+    PropTypes.string
+  ])),
 
   /** The sidebar can have a brand element */
   brandElem: PropTypes.node,
@@ -84,3 +87,5 @@ CTNavSidebar.propTypes = CTNavSidebarPropTypes;
 // Sub components
 CTNavSidebar.Items = SidebarNavItems;
 CTNavSidebar.Item = SidebarItem;
+
+export default CTNavSidebar;

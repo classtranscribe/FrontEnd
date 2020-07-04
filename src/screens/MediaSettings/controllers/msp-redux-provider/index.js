@@ -6,9 +6,10 @@ import { getTab } from '../helpers';
 
 import {
   TAB_EPUB,
-  // TAB_EDIT_TRANS,
+  TAB_EDIT_TRANS,
 } from '../constants';
 
+import TransReduxProvider from './TransReduxProvider';
 import EpubReduxProvider from './EpubReduxProvider';
 
 function providerSelector(pathname) {
@@ -16,6 +17,8 @@ function providerSelector(pathname) {
   switch (tab) {
     case TAB_EPUB:
       return EpubReduxProvider;
+    case TAB_EDIT_TRANS:
+      return TransReduxProvider;
     default:
       return Fragment;
   }

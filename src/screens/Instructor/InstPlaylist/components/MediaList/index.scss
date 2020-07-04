@@ -1,0 +1,113 @@
+#ipl-media-li {
+  #ipl-media-actions {
+    background: linear-gradient(to bottom, rgba(251, 251, 251, 0.938) 90%, rgba(0, 0, 0, 0));
+  }
+
+  .media-item-con {
+    background: rgb(251, 251, 251) !important;
+    margin-bottom: 2px;
+
+    &.disabled {
+      padding-left: 0;
+    }
+
+    &:hover {
+      background: rgb(243, 243, 243) !important;
+    }
+
+    // Icons
+    i.file-icon, i.rename-icon {
+      color: var(--ct-green-normal) !important;
+    }
+
+    i.delete {
+      color: rgb(235, 0, 0);
+    }
+
+    i.watch {
+      color: var(--ct-green-normal);
+    }
+
+    // Media Item
+    .media-item {
+      box-shadow: none;
+      background: none;
+      border-radius: 0;
+      width: 100%;
+
+      &.Mui-expanded {
+        border-top: 1px solid rgb(223, 223, 223);
+      }
+
+      .MuiAccordionSummary-root {
+        padding-left: 0 !important;
+        outline: none !important;
+        &:focus-within {
+          background: none !important;
+        }
+
+        .MuiAccordionSummary-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          &:hover {
+            .media-name {
+              color: var(--ct-green-normal);
+            }
+          }
+        }
+      }
+
+      .MuiAccordionDetails-root {
+        flex-direction: column;
+        padding-top: 0;
+        border-bottom: 1px solid rgb(223, 223, 223);
+      }
+
+      .media-check-box {
+        margin-left: -10px;
+      }
+
+      i.file-icon {
+        margin-left: 2%;
+        margin-right: 5px;
+      }
+
+      .media-name {
+        font-size: 17px;
+      }
+
+      .media-item-actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        background: rgb(228, 228, 228);
+        border-radius: 10px;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-justify-content: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+
+        .media-item-button {
+          padding: 5px 10px;
+          margin: 0 5px 0 0;
+
+          .MuiButton-label {
+            display: flex;
+            width: max-content;
+            align-items: center;
+
+            i.material-icons {
+              margin-top: -5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

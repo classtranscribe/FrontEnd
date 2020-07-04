@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTLoader } from '../CTLoader';
+import CTLoader from '../CTLoader';
 
-export function CTLoadable(props) {
+function CTLoadable(props) {
   let {
     error = false,
-    errorElement,
+    errorElement = null,
     loading = false,
-    loadingElement,
-    children,
+    loadingElement = null,
+    children = null,
   } = props;
 
   if (error) {
@@ -39,3 +39,4 @@ CTLoadable.propTypes = {
   children: PropTypes.node
 };
 
+export default CTLoadable;

@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { CTFragment } from 'layout';
-import { SignInPrompt } from 'components';
+import { SignInPrompt, CourseCardList } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
 import { user } from 'utils/user';
 import { connectWithRedux, searchControl } from '../../controllers';
-
-import CourseResultItem from './CourseResultItem';
 
 function SearchResultWithRedux(props) {
   let {
@@ -28,13 +26,13 @@ function SearchResultWithRedux(props) {
   } else if (courseResult.length === 0) {
     resultListElement = <div className="no-results"><span>No Results</span></div>;
   } else if (courseResult.length > 0) {
-    resultListElement = courseResult.map(res => <CourseResultItem key={res.id} offering={res} />);
+    resultListElement = <CourseCardList row courses={courseResult} />
   }
 
   return (
     <CTFragment padding={[0, 30]} className="mt-4">
       <hr />
-      <CTFragment padding={[0, 10, 20, 10]} list role="list">
+      <CTFragment padding={[0, 10, 20, 10]} list>
         {resultListElement}
       </CTFragment>
 

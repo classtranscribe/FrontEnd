@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollArea } from 'components/ScrollArea';
+import { CTScrollArea } from 'layout';
 import { connectWithRedux, epub } from 'screens/MediaSettings/controllers/epub';
 import './index.scss';
 
@@ -21,7 +21,7 @@ function ChapterEditor({ chapters, currChapter }) {
   }, []);
 
   return (
-    <ScrollArea
+    <CTScrollArea
       id="ee-ech-ch"
       className="ee-ech-ch-con"
       scrollClassName="ee-ech-ch"
@@ -44,7 +44,7 @@ function ChapterEditor({ chapters, currChapter }) {
           />
         ))}
       </div>
-    </ScrollArea>
+    </CTScrollArea>
   );
 }
 

@@ -1,47 +1,61 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import CTFragment from '../CTFragment';
 import './index.scss';
-
-import { CTFragment } from '../CTFragment';
 
 import { createCTHeadingProps } from './create-props';
 
 /**
  * The controlled heading component
  */
-export function CTHeading(props) {
+function CTHeading(props) {
   let {
     as = 'h1',
+    className,
     heading = 'Heading',
     icon,
+    fade = true,
     sticky = false,
-    gradient = true,
+    gradient = false,
     offsetTop = 0,
+    uppercase = false,
     highlight = false,
     highlightIcon = false,
+    padding,
+    children,
+    ...otherProps
   } = props;
 
+  const headingElement = children || heading;
+
   const headingClasses = classNames('ct-heading', { 
+    uppercase,
     gradient,
     highlight,
     highlightIcon,
-  });
+  }, className);
 
   const fragmentProps = CTFragment.createProps({
     as,
-    fade: true,
+    fade,
     sticky,
-    padding: [30, 30, 20, 30],
     offsetTop,
     vCenter: true,
-    className: headingClasses
+    className: headingClasses,
+    padding,
+    ...otherProps
   });
+
+  const iconElement = typeof icon === 'string'
+                    ? <i className="material-icons">{icon}</i>
+                    : icon;
 
   return (
     <CTFragment {...fragmentProps}>
-      {icon && <i className="material-icons">{icon}</i>}
-      <span className="content">{heading}</span>
+      {iconElement}
+
+      <span className="content">{headingElement}</span>
     </CTFragment>
   );
 }
@@ -56,6 +70,9 @@ CTHeading.propTypes = {
   /** Icon name of the material-icons */
   icon: PropTypes.string,
 
+  /** The heading can be faded in */
+  fade: PropTypes.bool,
+
   /** The heading can be sticky */
   sticky: PropTypes.bool,
 
@@ -65,11 +82,21 @@ CTHeading.propTypes = {
   /** Set the offset top of the sticky heading */
   offsetTop: PropTypes.number,
 
+  /** The heading can be uppercase */
+  uppercase: PropTypes.bool,
+
   /** The heading can be highlighted to teal color */
   highlight: PropTypes.bool,
 
   /** The icon can be highlighted to teal color */
   highlightIcon: PropTypes.bool,
+
+  padding: CTFragment.propTypes.padding,
+
+  /** The Content of the heading */
+  children: PropTypes.node
 };
 
 CTHeading.createProps = createCTHeadingProps;
+
+export default CTHeading;

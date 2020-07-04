@@ -6,14 +6,15 @@ import { Button } from 'pico-ui';
 import { user, links } from 'utils';
 import './index.scss';
 
-import { CTNavHeader } from '../CTNavHeader';
+import CTNavHeader from '../CTNavHeader';
 import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
 
 /**
  * A general error wrapper
  */
-export function CTErrorWrapper(props) {
+function CTErrorWrapper(props) {
   let {
+    fixed = true,
     show = false,
     darkMode = false,
     navbar = false,
@@ -35,7 +36,7 @@ export function CTErrorWrapper(props) {
     setTimeout(() => setAnchorEl(null), 200);
   };
 
-  const wrapperClasses = classNames('ct-error-wrapper', { dark: darkMode });
+  const wrapperClasses = classNames('ct-error-wrapper', { dark: darkMode, fixed });
 
   return show ? (
     <div className={wrapperClasses}>
@@ -104,3 +105,5 @@ CTErrorWrapper.propTypes = {
   /** The error description */
   description: PropTypes.any
 };
+
+export default CTErrorWrapper;

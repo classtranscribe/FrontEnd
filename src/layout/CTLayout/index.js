@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { ScrollArea } from 'components/ScrollArea';
-import { CTNavHeader } from '../CTNavHeader';
-import { CTNavSidebar } from '../CTNavSidebar';
-import { CTHeading } from '../CTHeading';
-import { CTFooter } from '../CTFooter';
+import CTScrollArea from '../CTScrollArea';
+import CTNavHeader from '../CTNavHeader';
+import CTNavSidebar from '../CTNavSidebar';
+import CTHeading from '../CTHeading';
+import CTFooter from '../CTFooter';
 import NavSidebarTrigger from './NavSidebarTrigger';
 import './index.scss';
 
@@ -20,7 +20,7 @@ import {
 /**
  * A general page container with the nav header and sidebar
  */
-export function CTLayout(props) {
+function CTLayout(props) {
   let {
     role = "main",
     className,
@@ -105,7 +105,7 @@ export function CTLayout(props) {
                         : <NavSidebarTrigger {...brandElemProps} />;
 
   const headingElement = headingProps
-                        ? <CTHeading {...headingProps} highlightIcon />
+                        ? <CTHeading gradient highlightIcon {...headingProps} />
                         : null;
   // Page Element
   const pageElement = fill 
@@ -127,7 +127,7 @@ export function CTLayout(props) {
         onClose={handleOpenSidebar}
       />
 
-      <ScrollArea 
+      <CTScrollArea 
         role={role}
         scrollToTopButton="bottom right"
         scrollClassName={mainClasses}
@@ -144,7 +144,7 @@ export function CTLayout(props) {
         {pageElement}
         {footerElement}
 
-      </ScrollArea>
+      </CTScrollArea>
     </div>
   );
 }
@@ -192,3 +192,5 @@ export const CTLayoutPropTypes = {
 
 CTLayout.propTypes = CTLayoutPropTypes;
 CTLayout.createProps = createCTLayoutProps;
+
+export default CTLayout;

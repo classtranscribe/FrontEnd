@@ -1,0 +1,82 @@
+.ctp.wrapper.interact {
+  &:focus-within, &.show {
+    .ctp.progress-con {
+      padding: 0 8px;
+      transition: padding 100ms linear;
+    }
+  }
+
+  .ctp.progress-con {
+    width: 100%;
+    height: 20px;
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+    font-size: 1em;
+    line-height: normal;
+
+    .ctp.seek-time-prompt {
+      position: absolute;
+      width: 60px;
+      top: -25px;
+      padding: 3px;
+      border-radius: 10px;
+      background: rgba(39, 39, 39, 0.925);
+      margin-left: -23px;
+      color: white;
+      z-index: 10;
+    }
+
+    .ctp.time-slider-con {
+      width: 100%;
+      height: 20px;
+      position: relative;
+
+      .ctp.buffer-slider {
+        .MuiSlider-rail {
+          background-color: rgb(240, 240, 240);
+          // height: 3px;
+        }
+        .MuiSlider-thumb {
+          display: none;
+        }
+        .MuiSlider-track {
+          background-color: rgb(130, 146, 145);
+        }
+      }
+    
+      .ctp.time-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+  
+        .MuiSlider-rail {
+          background-color: rgb(240, 240, 240);
+        }
+    
+        .MuiSlider-track, .MuiSlider-thumb {
+          background-color: rgb(0, 236, 236);
+        }
+        .MuiSlider-thumb {
+          transform: scale(0.1);
+          transition: transform 100ms linear;
+          box-shadow: 0px 0px 0px 8px rgba(0, 236, 236, 0.137);
+        }
+        .MuiSlider-thumb.MuiSlider-active {
+          box-shadow: 0px 0px 0px 15px rgba(0, 236, 236, 0.363);
+        }
+
+        .MuiSlider-markLabel {
+          top: -15px;
+          color: white;
+        }
+    
+        &:hover, &:focus-within {
+          .MuiSlider-thumb {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
+}
