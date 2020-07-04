@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
+import { CTLayout, CTFragment } from 'layout';
 import { api, links } from 'utils';
 import WatchTimeAnalytics from './Components/WatchTimeAnalytics/WatchTimeAnalytics';
 

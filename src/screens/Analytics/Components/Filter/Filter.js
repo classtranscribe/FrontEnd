@@ -25,7 +25,7 @@ export default function Filter(props) {
                 name="timeFilterGroup"
                 value={period}
                 checked={checkedTimePeriod === period}
-                onChange={(e, { value }) => setCheckedTimePeriod(period)}
+                onChange={() => setCheckedTimePeriod(period)}
               />
             ))}
           </Form.Field>
