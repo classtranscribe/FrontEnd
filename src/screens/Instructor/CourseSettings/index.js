@@ -38,7 +38,7 @@ class CourseSettingsWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CTFragment loading={loading}>
+        <CTFragment loading={loading} padding={[0, 30]}>
           <CourseInfo />
           {(offering && offering.accessType === 2) && <Students />}
           <Staffs />

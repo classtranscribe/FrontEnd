@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CTLayout } from 'layout';
+import { CTLayout, CTFragment } from 'layout';
 import { api, user, prompt, links } from 'utils';
 import { CourseForm } from './Components';
 
@@ -87,7 +87,9 @@ export class NewCourse extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <CourseForm allowUniSelection onSave={this.createOffering} />
+        <CTFragment padding={[0, 30]}>
+          <CourseForm allowUniSelection onSave={this.createOffering} />
+        </CTFragment>
       </CTLayout>
     );
   }

@@ -5,10 +5,10 @@ import CTLoader from '../CTLoader';
 function CTLoadable(props) {
   let {
     error = false,
-    errorElement,
+    errorElement = null,
     loading = false,
-    loadingElement,
-    children,
+    loadingElement = null,
+    children = null,
   } = props;
 
   if (error) {
