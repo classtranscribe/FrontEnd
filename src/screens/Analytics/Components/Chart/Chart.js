@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import CustomTooltip from '../Tooltip/CustomTooltip';
+import CustomTooltip from '../CustomTooltip/CustomTooltip';
 import './Chart.scss';
 
 export default function Chart(props) {
@@ -25,7 +25,7 @@ export default function Chart(props) {
     <>
       <h3>{course.courseName}</h3>
       <ResponsiveContainer width="95%" height={400}>
-        <LineChart width={700} height={300} data={course.watchHistory}>
+        <LineChart data={course.watchHistory}>
           <Line type="linear" dataKey="duration" stroke="#348b85" />
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />

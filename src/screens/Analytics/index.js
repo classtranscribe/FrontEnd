@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
 import { api, links } from 'utils';
-import Plots from './Components/Plots';
+import WatchTimeAnalytics from './Components/WatchTimeAnalytics/WatchTimeAnalytics';
 
 export class Analytics extends Component {
   componentDidMount() {
@@ -27,7 +27,7 @@ export class Analytics extends Component {
       <>
         <CTLayout {...layoutProps}>
           <CTFragment>
-            <Plots />
+            <WatchTimeAnalytics />
           </CTFragment>
         </CTLayout>
       </>
