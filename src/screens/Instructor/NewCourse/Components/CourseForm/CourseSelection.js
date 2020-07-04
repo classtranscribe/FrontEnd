@@ -144,7 +144,8 @@ function CourseSelection(props) {
           {
             departs.length > 0
             &&
-            <CTAutoComplete
+            <CTAutoComplete 
+              required
               error={selCoursesError}
               underlined
               id="sel-dep"
@@ -159,6 +160,7 @@ function CourseSelection(props) {
             courses.length > 0
             &&
             <CTAutoComplete
+              required
               error={selCoursesError}
               helpText={selCoursesError ? 'Please select at least one course number.' : ''}
               className="mt-3"

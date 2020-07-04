@@ -142,7 +142,11 @@ function CourseForm(props) {
       collapsible={collapsible}
       details="The basic course information"
     >
-      {allowUniSelection && <UniversitySelection {...uniSelProps} />}
+      {/** 
+        * Temporarily disable this feature for admins
+        * Need new "get-offerings-by-instructor" APIs to avoid errors
+        */}
+      {/* {allowUniSelection && <UniversitySelection {...uniSelProps} />} */}
 
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />

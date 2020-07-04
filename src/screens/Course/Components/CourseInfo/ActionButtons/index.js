@@ -11,21 +11,22 @@ function ActionButtons(props) {
     show = false,
     isInsructor = false,
     isInstMode = false,
-    offeringId,
+    offering,
     starredOfferings = [],
   } = props;
 
-  const isStarred = Boolean(starredOfferings[offeringId]);
+  const isStarred = Boolean(starredOfferings[offering.id]);
+  const hasAnalytics = isInstMode && offering.logEventsFlag;
 
   return show ? (
     <>
       {
-      isInsructor
-      &&
-      <CTFragment hEnd>
-        <InstModeCheckBox isInstMode={isInstMode} />
-      </CTFragment> 
-    }
+        isInsructor
+        &&
+        <CTFragment hEnd>
+          <InstModeCheckBox isInstMode={isInstMode} />
+        </CTFragment> 
+      }
 
       <CTFragment
         vCenter
@@ -33,14 +34,8 @@ function ActionButtons(props) {
         padding={[10, 0, 10, 0]}
         className="cp-action-bar"
       >
-        {
-        isInstMode
-        &&
-        <>
-          <CourseAnalyticsButton offeringId={offeringId} />
-          <CourseSettingsButton offeringId={offeringId} />
-        </>
-      }
+        {hasAnalytics && <CourseAnalyticsButton offeringId={offering.id} />}
+        {isInstMode && <CourseSettingsButton offeringId={offering.id} />}
 
         <StarButton isStarred={isStarred} />
       </CTFragment>
@@ -51,7 +46,7 @@ function ActionButtons(props) {
 ActionButtons.propTypes = {
   show: PropTypes.bool,
   isInsructor: PropTypes.bool,
-  offeringId: PropTypes.string,
+  offering: PropTypes.object,
   starredOfferings: PropTypes.object
 };
 
