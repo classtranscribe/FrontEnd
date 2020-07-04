@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CTInput } from 'layout/CTForm'
+import { CTInput, CTCheckbox, CTFormRow, CTSelect } from 'layout/CTForm'
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { api, uurl } from 'utils';
@@ -40,19 +40,20 @@ function EmbedVideo(props) {
     onConfirm,
     cancelButtonText = 'Cancel',
     confirmButtonText = 'Copy',
+    parseSec,
+    videoControl,
     ...otherProps
   } = props;
 
   const classes = useStyles();
+  const inputRef = useRef();
 
   const contentElement = text ? <Modal.Text>{text}</Modal.Text> : children;
   const handleConform = () => {
     if (typeof onConfirm === 'function') {
       onConfirm();
-    }
-
-    if (typeof onClose === 'function') {
-      onClose();
+      inputRef.current.select();
+      document.execCommand('copy');
     }
   }
 
@@ -80,10 +81,50 @@ function EmbedVideo(props) {
   return (
     <Modal {...modalProps} className={classes.modal}>
       <CTInput
+        inputRef={inputRef}
         textarea
         underlined
-        value={`${window.location.origin }/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?padded=true`}
+        value={`${window.location.origin}/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?padded=true`}
       />
+
+      <CTFormRow>
+        <CTCheckbox
+          id="begin-time"
+          label="Set begin time"
+        // checked={isChecked}
+        // onChange={handleCheckChange}
+        />
+        <CTInput
+          value={parseSec(parseInt(videoControl.currTime(), 10))}
+        />
+      </CTFormRow>
+      <CTFormRow>
+        <CTCheckbox
+          id="open-cc"
+          label="Default open closed caption"
+        // checked={isChecked}
+        // onChange={handleCheckChange}
+        />
+      </CTFormRow>
+      <CTFormRow>
+        <CTSelect
+          id="sel-2"
+          label="Closed caption language"
+          options={[]}
+          value="1"
+        // onChange={handleTermChange}
+        />
+      </CTFormRow>
+      <CTFormRow>
+        <CTSelect
+          id="sel-3"
+          label="Playback rate"
+          options={[]}
+          value="1"
+        // onChange={handleTermChange}
+        />
+      </CTFormRow>
+
     </Modal>
   );
 }

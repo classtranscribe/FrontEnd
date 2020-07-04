@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { prompt } from 'utils'
 import EmbedVideo from 'layout/CTModal/EmbedVideo'
-import {
+import { getShareableURL, videoControl, parseSec ,
   connectWithRedux,
   modalControl,
   MODAL_HIDE,
   MODAL_SHARE,
   MODAL_BEFORE_HIDE,
 } from '../../Utils';
+
 import ShareModal from './ShareModal';
 import './index.css';
 
@@ -36,7 +37,9 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
           text: 'Content copied to clipboard.',
           status: 'success',
           timeout: 2000,
-        }, false)}
+        }, true)}
+        videoControl={videoControl}
+        parseSec={parseSec}
       />
     </div>
   );
