@@ -5,7 +5,9 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { api, uurl } from 'utils';
 import { baseUrl } from 'utils/cthttp/statics'
+import { CTPlayerConstants as Constants } from 'components/CTPlayer';
 import Modal from './Modal';
+
 
 const useStyles = makeStyles({
   cancelBtn: {
@@ -42,11 +44,33 @@ function EmbedVideo(props) {
     confirmButtonText = 'Copy',
     parseSec,
     videoControl,
+    ccLanguage,
+    handleCCLanguageChange,
+    playbackRate,
+    handlePlaybackRateChange,
     ...otherProps
   } = props;
-
   const classes = useStyles();
   const inputRef = useRef();
+  const [embedHTML, setEmbedHTML] = useState('')
+
+  const ccLanguageOptions = [
+    { text: 'English', value: 'en-US' },
+    { text: 'Simplified Chinese', value: 'zh-Hans' },
+    { text: 'Korean', value: 'ko' },
+    { text: 'Spanish', value: 'es' },
+    { text: 'French', value: 'fr' }
+  ]
+  const playbackRatesOptions = [
+    { text: '2', value: 0 },
+    { text: '1.75', value: 1 },
+    { text: '1.5', value: 2 },
+    { text: '1.25', value: 3 },
+    { text: '1', value: 4 },
+    { text: '0.75', value: 5 },
+    { text: '0.5', value: 6 },
+    { text: '0.25', value: 7 },
+  ]
 
   const contentElement = text ? <Modal.Text>{text}</Modal.Text> : children;
   const handleConform = () => {
@@ -78,13 +102,21 @@ function EmbedVideo(props) {
     ...otherProps
   };
 
+  useEffect(() => {
+    setEmbedHTML('<iframe width="560" height="315" src="' +
+      `${window.location.origin}/embed/${uurl.useSearch().id}`
+      + '" ></iframe>')
+  }
+
+    , [ccLanguage, playbackRate])
+
   return (
     <Modal {...modalProps} className={classes.modal}>
       <CTInput
         inputRef={inputRef}
         textarea
         underlined
-        value={`${window.location.origin}/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?padded=true`}
+        value={embedHTML}
       />
 
       <CTFormRow>
@@ -108,20 +140,20 @@ function EmbedVideo(props) {
       </CTFormRow>
       <CTFormRow>
         <CTSelect
-          id="sel-2"
+          id="sel-lang"
           label="Closed caption language"
-          options={[]}
-          value="1"
-        // onChange={handleTermChange}
+          options={ccLanguageOptions}
+          value={ccLanguage}
+          onChange={handleCCLanguageChange}
         />
       </CTFormRow>
       <CTFormRow>
         <CTSelect
-          id="sel-3"
+          id="sel-rate"
           label="Playback rate"
-          options={[]}
-          value="1"
-        // onChange={handleTermChange}
+          options={playbackRatesOptions}
+          value={playbackRate}
+          onChange={handlePlaybackRateChange}
         />
       </CTFormRow>
 

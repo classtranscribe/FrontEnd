@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { prompt } from 'utils'
 import EmbedVideo from 'layout/CTModal/EmbedVideo'
-import { getShareableURL, videoControl, parseSec ,
+import {
+  videoControl,
+  parseSec,
   connectWithRedux,
   modalControl,
   MODAL_HIDE,
@@ -23,6 +25,16 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
   };
 
   const [embed, setEmbed] = useState(false);
+  const [ccLanguage, setCCLanguage] = useState('en-US')
+  const [playbackRate, setplaybackRate] = useState(4)
+
+  const handleCCLanguageChange = ({ target: { value } }) => {
+    setCCLanguage(value);
+  };
+  const handlePlaybackRateChange = ({ target: { value } }) => {
+    setplaybackRate(value);
+  };
+
   const hideBefore = modal === MODAL_BEFORE_HIDE;
 
   return (
@@ -40,6 +52,10 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
         }, true)}
         videoControl={videoControl}
         parseSec={parseSec}
+        ccLanguage={ccLanguage}
+        handleCCLanguageChange={handleCCLanguageChange}
+        playbackRate={playbackRate}
+        handlePlaybackRateChange={handlePlaybackRateChange}
       />
     </div>
   );
