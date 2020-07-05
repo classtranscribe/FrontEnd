@@ -54,8 +54,8 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
         parseSec={parseSec}
         ccLanguage={ccLanguage}
         handleCCLanguageChange={handleCCLanguageChange}
-        playbackRate={playbackRate}
-        handlePlaybackRateChange={handlePlaybackRateChange}
+        playbackRate={4} 
+        // handlePlaybackRateChange={handlePlaybackRateChange}
       />
     </div>
   );

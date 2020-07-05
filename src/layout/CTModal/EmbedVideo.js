@@ -44,10 +44,12 @@ function EmbedVideo(props) {
     confirmButtonText = 'Copy',
     parseSec,
     videoControl,
+    // isCaptionChecked,
+    // handleCaptionCheckChange,
     ccLanguage,
-    handleCCLanguageChange,
+    // handleCCLanguageChange,
     playbackRate,
-    handlePlaybackRateChange,
+    // handlePlaybackRateChange,
     ...otherProps
   } = props;
   const classes = useStyles();
@@ -61,6 +63,11 @@ function EmbedVideo(props) {
     { text: 'Spanish', value: 'es' },
     { text: 'French', value: 'fr' }
   ]
+
+  const handleCCLanguageChange = () => {
+
+  };
+
   const playbackRatesOptions = [
     { text: '2', value: 0 },
     { text: '1.75', value: 1 },
@@ -71,6 +78,10 @@ function EmbedVideo(props) {
     { text: '0.5', value: 6 },
     { text: '0.25', value: 7 },
   ]
+
+  const handlePlaybackRateChange = () => {
+
+  };
 
   const contentElement = text ? <Modal.Text>{text}</Modal.Text> : children;
   const handleConform = () => {
@@ -133,15 +144,15 @@ function EmbedVideo(props) {
       <CTFormRow>
         <CTCheckbox
           id="open-cc"
-          label="Default open closed caption"
-        // checked={isChecked}
-        // onChange={handleCheckChange}
+          label="Default open caption"
+          // checked={isCaptionChecked}
+          // onChange={handleCaptionCheckChange}
         />
       </CTFormRow>
       <CTFormRow>
         <CTSelect
           id="sel-lang"
-          label="Closed caption language"
+          label="Choose caption language"
           options={ccLanguageOptions}
           value={ccLanguage}
           onChange={handleCCLanguageChange}
