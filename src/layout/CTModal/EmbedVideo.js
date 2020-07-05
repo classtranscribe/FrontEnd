@@ -105,9 +105,9 @@ function EmbedVideo(props) {
   useEffect(() => {
     setEmbedHTML('<iframe width="560" height="315" src="' +
       `${window.location.origin}/embed/${uurl.useSearch().id}`
-      + '" ></iframe>')
+      +
+      '" ></iframe>')
   }
-
     , [ccLanguage, playbackRate])
 
   return (
