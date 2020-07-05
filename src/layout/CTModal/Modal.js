@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -18,29 +18,37 @@ function Modal(props) {
     children,
     action,
     onClose,
+    darkMode = false,
     ...otherProps
   } = props;
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: darkMode ? 'dark' : 'light',
+    },
+  });
 
   return (
-    <Dialog
-      fullScreen={responsive ? fullScreen : false}
-      fullWidth={fullWidth}
-      maxWidth={size}
-      open={open}
-      onClose={onClose}
-      {...otherProps}
-    >
-      {title && <DialogTitle>{title}</DialogTitle>}
+    <ThemeProvider theme={darkTheme}>
+      <Dialog
+        fullScreen={responsive ? fullScreen : false}
+        fullWidth={fullWidth}
+        maxWidth={size}
+        open={open}
+        onClose={onClose}
+        {...otherProps}
+      >
+        {title && <DialogTitle>{title}</DialogTitle>}
 
-      <DialogContent>
-        {children}
-      </DialogContent>
+        <DialogContent>
+          {children}
+        </DialogContent>
 
-      {action && <DialogActions>{action}</DialogActions>}
-    </Dialog>
+        {action && <DialogActions>{action}</DialogActions>}
+      </Dialog>
+    </ThemeProvider>
   );
 }
 
@@ -68,6 +76,9 @@ Modal.propTypes = {
 
   /** The action element of the modal */
   action: PropTypes.node,
+
+  /** The CTModal supports darkMode */
+  darkMode: PropTypes.bool,
 };
 
 Modal.Text = DialogContentText;

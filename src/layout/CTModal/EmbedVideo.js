@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   modal: {
     width: '40vw',
     marginLeft: '58vw',
-    marginTop: '-42vh',
+    marginTop: '-32vh',
   }
 });
 
@@ -111,7 +111,7 @@ function EmbedVideo(props) {
     , [ccLanguage, playbackRate])
 
   return (
-    <Modal {...modalProps} className={classes.modal}>
+    <Modal {...modalProps} className={classes.modal} darkMode>
       <CTInput
         inputRef={inputRef}
         textarea

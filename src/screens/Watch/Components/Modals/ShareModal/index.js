@@ -108,7 +108,10 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
           <button
             className="plain-btn embed-video-url"
             aria-label="Embed"
-            onClick={() => setEmbed(true)}
+            onClick={() => {
+              setEmbed(true)
+              videoControl.pause()
+            }}
           >
             <span tabIndex="-1">
               <i className="material-icons">code</i>EMBED
