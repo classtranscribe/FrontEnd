@@ -44,7 +44,7 @@ class SetupMyCoursesPage extends StateController {
       let { data } = await api.getCourseOfferingsByInstructorId(user.userId);
       return data;
     } catch (error) {
-      return [];
+      return api.errorType(error);
     }
   }
 
@@ -132,13 +132,15 @@ class SetupMyCoursesPage extends StateController {
     this.setTerms(terms);
 
     let departs = await this.getDepartments();
-
     let offerings = await this.getMyOfferings();
 
-    
-    this.setOfferings(this.parseCourseOfferings(offerings, departs, terms));
-
     api.contentLoaded();
+    if (api.isError(offerings)) {
+      this.setOfferings(offerings);
+      return;
+    }
+
+    this.setOfferings(this.parseCourseOfferings(offerings, departs, terms));
   }
 }
 

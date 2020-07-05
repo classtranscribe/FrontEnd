@@ -23,26 +23,25 @@ export function EmailList(props) {
   };
 
   return (
-    <CTFragment className="email-list-container">
-      <CTForm
-        collapsible
-        id="email-list" 
-        padding={[10, 35]}
-        heading={title}
-        details={description}
-        onSave={handleSave}
-        onSaveButtonText="Update Emails"
-      >     
-        <CTFormRow>
-          <CTFragment className="email-list-left">
-            <UploadFile emails={emails} />
-          </CTFragment>
+    <CTForm
+      collapsible
+      id="email-list" 
+      padding={[10, 35]}
+      heading={title}
+      details={description}
+      onSave={handleSave}
+      onSaveButtonText="Update Emails"
+      className="email-list-container"
+    >     
+      <CTFormRow>
+        <CTFragment className="email-list-left">
+          <UploadFile emails={emails} />
+        </CTFragment>
 
-          <CTFragment className="email-list-right">
-            <EmailFilter emails={emails} />
-          </CTFragment>
-        </CTFormRow>
-      </CTForm>
-    </CTFragment>
+        <CTFragment className="email-list-right">
+          <EmailFilter emails={emails} />
+        </CTFragment>
+      </CTFormRow>
+    </CTForm>
   );
 }

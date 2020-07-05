@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTFragment, CTHeading } from 'layout';
+import { CTLayout, CTFragment } from 'layout';
 import { courseStore, connectWithRedux, setup } from './controllers';
 import TempVideoTimeTable from './components/TempVideoTimeTable';
 

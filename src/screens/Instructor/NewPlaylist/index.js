@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'layout';
+import { CTLayout, CTFragment } from 'layout';
 import { courseStore, connectWithRedux, setup, plControl } from './controllers';
 import { NewPlaylistForm } from './Components';
 
@@ -23,7 +23,7 @@ export class NewPlaylistWithRedux extends Component {
       responsive: true,
       footer: true,
       headingProps: {
-        heading: 'New Playlist',
+        heading: `Create New Playlist for ${offering ? offering.fullNumber : '...'}`,
         icon: 'add',
         sticky: true,
         gradient: true,
@@ -44,10 +44,12 @@ export class NewPlaylistWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        <NewPlaylistForm 
-          onSave={onSave} 
-          isValidIdURL={plControl.isValidIdURL} 
-        />
+        <CTFragment padding={[0, 30]}>
+          <NewPlaylistForm 
+            onSave={onSave} 
+            isValidIdURL={plControl.isValidIdURL} 
+          />
+        </CTFragment>
       </CTLayout>
     );
   }

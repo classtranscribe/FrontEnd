@@ -14,6 +14,7 @@ import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
  */
 function CTErrorWrapper(props) {
   let {
+    fixed = true,
     show = false,
     darkMode = false,
     navbar = false,
@@ -35,7 +36,7 @@ function CTErrorWrapper(props) {
     setTimeout(() => setAnchorEl(null), 200);
   };
 
-  const wrapperClasses = classNames('ct-error-wrapper', { dark: darkMode });
+  const wrapperClasses = classNames('ct-error-wrapper', { dark: darkMode, fixed });
 
   return show ? (
     <div className={wrapperClasses}>
