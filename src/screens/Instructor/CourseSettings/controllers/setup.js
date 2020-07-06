@@ -1,10 +1,11 @@
 import { StateController } from 'utils/state-controller';
-import { api, NOT_FOUND_404 } from 'utils';
+import { api, NOT_FOUND_404, links } from 'utils';
 
 export class SetupCoursePage extends StateController {
-  constructor() {
+  constructor(title) {
     super();
     this.clear = this.clear.bind(this);
+    this.title = title;
   }
 
   init(props) {
@@ -53,8 +54,9 @@ export class SetupCoursePage extends StateController {
 
     api.contentLoaded();
 
-    // if (offering === NOT_FOUND_404) return;
+    if (offering === NOT_FOUND_404) return;
+    links.title(`${this.title} | ${offering.fullNumber}`);
   }
 }
 
-export const setup = new SetupCoursePage();
+export const setup = new SetupCoursePage('Settings');

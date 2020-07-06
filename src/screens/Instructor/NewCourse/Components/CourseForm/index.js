@@ -140,9 +140,13 @@ function CourseForm(props) {
       onSave={handleSave}
       onSaveButtonText={saveButtonText}
       collapsible={collapsible}
-      details="The basic course information"
+      details="The basic course information: course number, name, section, term, visibility, and description."
     >
-      {allowUniSelection && <UniversitySelection {...uniSelProps} />}
+      {/** 
+        * Temporarily disable this feature for admins
+        * Need new "get-offerings-by-instructor" APIs to avoid errors
+        */}
+      {/* {allowUniSelection && <UniversitySelection {...uniSelProps} />} */}
 
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />

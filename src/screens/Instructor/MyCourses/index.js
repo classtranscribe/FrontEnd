@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTFragment, CTFilter, CTText } from 'layout';
-import { ARRAY_INIT, links } from 'utils';
+import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
+import { ARRAY_INIT, NOT_FOUND_404, links, api } from 'utils';
 import { setup, myCoursesStore, connectWithRedux } from './controllers';
 
 import { CourseList, NoCourseHolder } from './components';
@@ -35,6 +35,7 @@ class MyCoursesWithRedux extends Component {
 
     const { offerings, terms } = this.props;
     const loading = offerings === ARRAY_INIT;
+    const error = api.isError(offerings);
     const noOffering = !loading && offerings.length === 0;
 
     const offeringResult = (result) => {
@@ -44,7 +45,7 @@ class MyCoursesWithRedux extends Component {
       } = setup.sortOfferings(result, terms);
 
       return (
-        <CTFragment fade loading={loading}>
+        <CTFragment fade loading={loading} error={error}>
           <CourseList title="Current Courses" offerings={currentOfferings} />
           <CourseList title="Past Courses" offerings={pastOfferings} />
         </CTFragment>
@@ -57,10 +58,26 @@ class MyCoursesWithRedux extends Component {
       keys: ['courseName', 'fullNumber', 'sectionName', 'termName']
     };
 
+    const errorProps = {
+      fixed: false,
+      show: true,
+      code: offerings,
+      header: 'There is an error when loading your courses.',
+      description: 'Please try to refresh page or contact us if have problems.',
+      signInButton: false,
+    };
+
+    const fragmentProps = {
+      padding: [0, 30],
+      error,
+      errorElement: <CTErrorWrapper {...errorProps} />
+    };
+
     return (
       <CTLayout {...layoutProps}>
-        <CTFragment padding={[0, 30]}>
+        <CTFragment {...fragmentProps}>
           {
+            error ? null :
             noOffering ? (
               <NoCourseHolder />
             ) : (

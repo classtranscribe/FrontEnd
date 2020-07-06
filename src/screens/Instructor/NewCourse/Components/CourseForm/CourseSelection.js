@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 15,
     margin: 0,
     height: 'auto',
+    boxShadow: 'none',
+    border: '1px solid rgb(218, 218, 218);'
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -144,7 +146,8 @@ function CourseSelection(props) {
           {
             departs.length > 0
             &&
-            <CTAutoComplete
+            <CTAutoComplete 
+              required
               error={selCoursesError}
               underlined
               id="sel-dep"
@@ -159,6 +162,7 @@ function CourseSelection(props) {
             courses.length > 0
             &&
             <CTAutoComplete
+              required
               error={selCoursesError}
               helpText={selCoursesError ? 'Please select at least one course number.' : ''}
               className="mt-3"

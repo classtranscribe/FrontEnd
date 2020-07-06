@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiBreadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
+import MuiLink from '@material-ui/core/Link';
 import { links } from 'utils/links';
 
 const useStyles = makeStyles({
@@ -19,14 +20,19 @@ function BreadCrumb({
 }) {
   const classes = useStyles();
 
+  const linkProps = {
+    component: Link,
+    className: classes.link
+  };
+
   return (
     <MuiBreadcrumbs aria-label="breadcrumb">
-      <Link className={classes.link} href={links.offeringDetail(offering.id)}>
+      <MuiLink {...linkProps} to={links.offeringDetail(offering.id)}>
         {offering.fullNumber}
-      </Link>
-      <Link className={classes.link}>
+      </MuiLink>
+      <MuiLink className={classes.link}>
         {playlist.name}
-      </Link>
+      </MuiLink>
     </MuiBreadcrumbs>
   );
 }
