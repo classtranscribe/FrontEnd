@@ -60,6 +60,10 @@ function EmbedVideo(props) {
   const handleBeginTime =
     ({ target: { value } }) => setBeginTime(value);
 
+  const beginTimeParser = () => {
+    return parseSec(beginTime)
+  }
+
   const ccLanguageOptions = [
     { text: 'English', value: 'en-US' },
     { text: 'Simplified Chinese', value: 'zh-Hans' },
@@ -124,7 +128,6 @@ function EmbedVideo(props) {
         underlined
         value={embedHTML}
       />
-
       <CTFormRow>
         <CTCheckbox
           id="begin-time"
@@ -134,6 +137,7 @@ function EmbedVideo(props) {
         />
         <CTInput
           // value={parseSec(parseInt(videoControl.currTime(), 10))}
+          defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
           disabled={!enableBeginTime}
           value={beginTime}
           onChange={handleBeginTime}
