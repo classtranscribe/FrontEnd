@@ -49,16 +49,22 @@ function EmbedVideo(props) {
     handlePlaybackRateChange,
     ...otherProps
   } = props;
+
   const classes = useStyles();
   const inputRef = useRef();
   const [embedHTML, setEmbedHTML] = useState('')
   const [enableBeginTime, setEnableBeginTime] = useState(false)
+  const [beginTime, setBeginTime] = useState(0)
+  const [enableCaption, setEnableCaption] = useState(false)
+
   const handleEnableBeginTime =
     ({ target: { checked } }) => setEnableBeginTime(checked)
-  const [beginTime, setBeginTime] = useState(0)
 
   const handleBeginTime =
     ({ target: { value } }) => setBeginTime(value);
+  
+  const handleEnableCaption = 
+    ({ target: { checked } }) => setEnableCaption(checked)
 
   const ccLanguageOptions = [
     { text: 'English', value: 'en-US' },
@@ -111,10 +117,13 @@ function EmbedVideo(props) {
   useEffect(() => {
     setEmbedHTML('<iframe width="560" height="315" src="' +
       `${window.location.origin}/embed/${uurl.useSearch().id}`
-      + `?begin=${beginTime}&` +
-      '" ></iframe>')
+      + `?begin=${beginTime}&` 
+      + `playbackrate=${playbackRate}&` 
+      + `openCC=${enableCaption}&`
+      + `lang=${ccLanguage}&` 
+      + '" ></iframe>')
   }
-    , [ccLanguage, playbackRate, beginTime])
+    , [enableCaption, ccLanguage, playbackRate, beginTime])
 
   return (
     <Modal {...modalProps} className={classes.modal} darkMode>
@@ -142,15 +151,16 @@ function EmbedVideo(props) {
       <CTFormRow>
         <CTCheckbox
           id="open-cc"
-          label="Default open closed caption"
-        // checked={isChecked}
-        // onChange={handleCheckChange}
+          label="Default open caption"
+          checked={enableCaption}
+          value={enableCaption}
+          onChange={handleEnableCaption}
         />
       </CTFormRow>
       <CTFormRow>
         <CTSelect
           id="sel-lang"
-          label="Closed caption language"
+          label="Choose caption language"
           options={ccLanguageOptions}
           value={ccLanguage}
           onChange={handleCCLanguageChange}
