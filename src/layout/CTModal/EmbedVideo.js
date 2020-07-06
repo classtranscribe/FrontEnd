@@ -8,7 +8,6 @@ import { baseUrl } from 'utils/cthttp/statics'
 import { CTPlayerConstants as Constants } from 'components/CTPlayer';
 import Modal from './Modal';
 
-
 const useStyles = makeStyles({
   cancelBtn: {
     fontWeight: 'bold'
@@ -27,7 +26,7 @@ const useStyles = makeStyles({
   modal: {
     width: '40vw',
     marginLeft: '58vw',
-    marginTop: '-32vh',
+    marginTop: '-22vh',
   }
 });
 
@@ -53,6 +52,13 @@ function EmbedVideo(props) {
   const classes = useStyles();
   const inputRef = useRef();
   const [embedHTML, setEmbedHTML] = useState('')
+  const [enableBeginTime, setEnableBeginTime] = useState(false)
+  const handleEnableBeginTime =
+    ({ target: { checked } }) => setEnableBeginTime(checked)
+  const [beginTime, setBeginTime] = useState(0)
+
+  const handleBeginTime =
+    ({ target: { value } }) => setBeginTime(value);
 
   const ccLanguageOptions = [
     { text: 'English', value: 'en-US' },
@@ -105,10 +111,10 @@ function EmbedVideo(props) {
   useEffect(() => {
     setEmbedHTML('<iframe width="560" height="315" src="' +
       `${window.location.origin}/embed/${uurl.useSearch().id}`
-      +
+      + `?begin=${beginTime}&` +
       '" ></iframe>')
   }
-    , [ccLanguage, playbackRate])
+    , [ccLanguage, playbackRate, beginTime])
 
   return (
     <Modal {...modalProps} className={classes.modal} darkMode>
@@ -123,11 +129,14 @@ function EmbedVideo(props) {
         <CTCheckbox
           id="begin-time"
           label="Set begin time"
-        // checked={isChecked}
-        // onChange={handleCheckChange}
+          checked={enableBeginTime}
+          onChange={handleEnableBeginTime}
         />
         <CTInput
-          value={parseSec(parseInt(videoControl.currTime(), 10))}
+          // value={parseSec(parseInt(videoControl.currTime(), 10))}
+          disabled={!enableBeginTime}
+          value={beginTime}
+          onChange={handleBeginTime}
         />
       </CTFormRow>
       <CTFormRow>
