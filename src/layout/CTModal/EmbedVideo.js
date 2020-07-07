@@ -131,19 +131,27 @@ function EmbedVideo(props) {
   };
 
   useEffect(() => {
-    setEmbedHTML(`<iframe width="${width}" height="${height}" src="${ 
-      + `${window.location.origin}/embed/${uurl.useSearch().id}"`
-       }?begin=${beginTime}&`
-      + `playbackrate=${playbackRate}&`
-      + `openCC=${enableCaption}&`
+    setEmbedHTML(`<iframe width="${width}" height="${height}" 
+    src="`
+      + `${window.location.origin}/embed/${uurl.useSearch().id}`
+      + `?begin=${beginTime}&`
+      + `playbackRate=${playbackRate.toString()}&`
+      + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
+      + `padded=${"false"}&`
       + `" ></iframe>`)
+    // console.log(embedHTML)
   }
     , [enableCaption, ccLanguage, playbackRate, beginTime, width, height])
 
+
+  useEffect(() => {
+    setBeginTime(parseSec(parseInt(videoControl.currTime(), 10)))
+  },
+    [enableBeginTime])
+
   return (
     <>
-
       <Modal {...modalProps} className={classes.modal} darkMode>
         <div dangerouslySetInnerHTML={{ __html: embedHTML }} />
         <CTInput
@@ -205,6 +213,15 @@ function EmbedVideo(props) {
             options={playbackRatesOptions}
             value={playbackRate}
             onChange={handlePlaybackRateChange}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="padded"
+            label="Padded video player"
+            checked={enableCaption}
+            value={enableCaption}
+            onChange={handleEnableCaption}
           />
         </CTFormRow>
 

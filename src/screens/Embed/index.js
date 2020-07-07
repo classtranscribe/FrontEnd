@@ -17,7 +17,7 @@ export function Embed() {
     begin = 0,
     openCC = 'false',
     lang = Constants.ENGLISH,
-    playbackrate = 4,
+    playbackRate = 4,
     padded = 'false'
   } = uurl.useSearch();
   // get video id from url
@@ -37,7 +37,7 @@ export function Embed() {
         beginAt={parseInt(begin, 10)}
         defaultOpenCC={openCC === 'true'}
         defaultLanguage={lang}
-        defaultPlaybackRate={Constants.PLAYBACK_RATES[playbackrate]}
+        defaultPlaybackRate={Constants.PLAYBACK_RATES[playbackRate]}
         padded={padded === 'true'}
       />
     </div>
