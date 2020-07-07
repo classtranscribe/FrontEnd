@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { CTInput, CTCheckbox, CTFormRow, CTSelect } from 'layout/CTForm'
+import { timeStrToSec, videoControl, parseSec } from '../../../Utils';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { api, uurl } from 'utils';
@@ -49,8 +50,6 @@ function EmbedModal(props) {
     onConfirm,
     cancelButtonText = 'Cancel',
     confirmButtonText = 'Copy',
-    parseSec,
-    videoControl,
     ...otherProps
   } = props;
 
@@ -90,10 +89,6 @@ function EmbedModal(props) {
   const handleEnablePadded =
     ({ target: { checked } }) => setEnablePadded(checked)
 
-  const beginTimeParser = () => {
-    return parseSec(beginTime)
-  }
-
   const ccLanguageOptions = [
     { text: 'English', value: 'en-US' },
     { text: 'Simplified Chinese', value: 'zh-Hans' },
@@ -113,6 +108,7 @@ function EmbedModal(props) {
   ]
 
   const contentElement = text ? <Modal.Text>{text}</Modal.Text> : children;
+
   const handleConform = () => {
     if (typeof onConfirm === 'function') {
       onConfirm();
@@ -146,7 +142,7 @@ function EmbedModal(props) {
     setEmbedHTML(`<iframe width="${width}" height="${height}" 
     src="`
       + `${window.location.origin}/embed/${uurl.useSearch().id}`
-      + `?begin=${beginTime}&`
+      + `?begin=${enableBeginTime? timeStrToSec(beginTime) : 0}&`
       + `playbackRate=${playbackRate.toString()}&`
       + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
@@ -154,7 +150,7 @@ function EmbedModal(props) {
       + `" ></iframe>`)
     // console.log(embedHTML)
   }
-    , [enableCaption, ccLanguage, playbackRate, beginTime, width, height, enablePadded])
+    , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime, width, height, enablePadded])
 
 
   useEffect(() => {
@@ -181,7 +177,7 @@ function EmbedModal(props) {
           />
           <CTInput
             // value={parseSec(parseInt(videoControl.currTime(), 10))}
-            defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
+            // defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
             disabled={!enableBeginTime}
             value={beginTime}
             onChange={handleBeginTime}

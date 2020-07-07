@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { prompt } from 'utils'
 import {
-  videoControl,
-  parseSec,
   connectWithRedux,
   modalControl,
   MODAL_HIDE,
@@ -41,8 +39,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
           status: 'success',
           timeout: 2000,
         }, true)}
-        videoControl={videoControl}
-        parseSec={parseSec}
       />
     </div>
   );
