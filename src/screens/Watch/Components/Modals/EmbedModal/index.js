@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { api, uurl } from 'utils';
 import { baseUrl } from 'utils/cthttp/statics'
 import { CTPlayerConstants as Constants } from 'components/CTPlayer';
-import Modal from './Modal';
+import Modal from 'layout/CTModal/Modal';
 
 const useStyles = makeStyles({
   cancelBtn: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles({
   }
 });
 
-function EmbedVideo(props) {
+function EmbedModal(props) {
   const {
     open = false,
     responsive = true,
@@ -51,32 +51,44 @@ function EmbedVideo(props) {
     confirmButtonText = 'Copy',
     parseSec,
     videoControl,
-    ccLanguage,
-    handleCCLanguageChange,
-    playbackRate,
-    handlePlaybackRateChange,
-    width,
-    height,
-    handleWidthChange,
-    handleHeightChange,
     ...otherProps
   } = props;
 
   const classes = useStyles();
   const inputRef = useRef();
+  const [ccLanguage, setCCLanguage] = useState('en-US')
+  const [playbackRate, setplaybackRate] = useState(4)
+  const [width, setWidth] = useState(480);
+  const [height, setHeight] = useState(270);
   const [embedHTML, setEmbedHTML] = useState('')
   const [enableBeginTime, setEnableBeginTime] = useState(false)
   const [beginTime, setBeginTime] = useState(0)
   const [enableCaption, setEnableCaption] = useState(false)
+  const [enablePadded, setEnablePadded] = useState(false)
+
+  const handleWidthChange = 
+    ({ target: { value } }) => setWidth(value)
+
+  const handleHeightChange = 
+    ({ target: { value } }) => setHeight(value)
+
+  const handleCCLanguageChange = 
+    ({ target: { value } }) => setCCLanguage(value)
+
+  const handlePlaybackRateChange = 
+    ({ target: { value } }) => setplaybackRate(value)
 
   const handleEnableBeginTime =
     ({ target: { checked } }) => setEnableBeginTime(checked)
 
   const handleBeginTime =
-    ({ target: { value } }) => setBeginTime(value);
+    ({ target: { value } }) => setBeginTime(value)
 
   const handleEnableCaption =
     ({ target: { checked } }) => setEnableCaption(checked)
+
+  const handleEnablePadded =
+    ({ target: { checked } }) => setEnablePadded(checked)
 
   const beginTimeParser = () => {
     return parseSec(beginTime)
@@ -138,11 +150,11 @@ function EmbedVideo(props) {
       + `playbackRate=${playbackRate.toString()}&`
       + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
-      + `padded=${"false"}&`
+      + `padded=${enablePadded.toString()}&`
       + `" ></iframe>`)
     // console.log(embedHTML)
   }
-    , [enableCaption, ccLanguage, playbackRate, beginTime, width, height])
+    , [enableCaption, ccLanguage, playbackRate, beginTime, width, height, enablePadded])
 
 
   useEffect(() => {
@@ -193,7 +205,6 @@ function EmbedVideo(props) {
             id="open-cc"
             label="Default open caption"
             checked={enableCaption}
-            value={enableCaption}
             onChange={handleEnableCaption}
           />
         </CTFormRow>
@@ -219,9 +230,8 @@ function EmbedVideo(props) {
           <CTCheckbox
             id="padded"
             label="Padded video player"
-            checked={enableCaption}
-            value={enableCaption}
-            onChange={handleEnableCaption}
+            checked={enablePadded}
+            onChange={handleEnablePadded}
           />
         </CTFormRow>
 
@@ -230,7 +240,7 @@ function EmbedVideo(props) {
   );
 }
 
-EmbedVideo.propTypes = {
+EmbedModal.propTypes = {
   /** True if open the modal */
   open: Modal.propTypes.open,
 
@@ -259,5 +269,5 @@ EmbedVideo.propTypes = {
   confirmButtonText: PropTypes.string,
 };
 
-export default EmbedVideo;
+export default EmbedModal;
 

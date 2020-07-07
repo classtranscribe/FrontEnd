@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { prompt } from 'utils'
-import EmbedVideo from 'layout/CTModal/EmbedVideo'
 import {
   videoControl,
   parseSec,
@@ -11,6 +10,7 @@ import {
   MODAL_BEFORE_HIDE,
 } from '../../Utils';
 
+import EmbedModal from './EmbedModal'
 import ShareModal from './ShareModal';
 import './index.css';
 
@@ -25,23 +25,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
   };
 
   const [embed, setEmbed] = useState(false);
-  const [ccLanguage, setCCLanguage] = useState('en-US')
-  const [playbackRate, setplaybackRate] = useState(4)
-  const [width, setWidth] = useState(480);
-  const [height, setHeight] = useState(270);
-  const handleWidthChange = ({ target: { value } }) => {
-    setWidth(value);
-  };
-  const handleHeightChange = ({ target: { value } }) => {
-    setHeight(value);
-  };
-
-  const handleCCLanguageChange = ({ target: { value } }) => {
-    setCCLanguage(value);
-  };
-  const handlePlaybackRateChange = ({ target: { value } }) => {
-    setplaybackRate(value);
-  };
 
   const hideBefore = modal === MODAL_BEFORE_HIDE;
 
@@ -50,7 +33,7 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
       {(modal === MODAL_SHARE || hideBefore) &&
         <ShareModal onClose={handleClose} embed={embed} setEmbed={setEmbed} />}
       <div className="wml-filter" onClick={handleClose} />
-      <EmbedVideo
+      <EmbedModal
         open={embed}
         onClose={() => setEmbed(false)}
         onConfirm={() => prompt.addOne({
@@ -60,14 +43,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
         }, true)}
         videoControl={videoControl}
         parseSec={parseSec}
-        ccLanguage={ccLanguage}
-        handleCCLanguageChange={handleCCLanguageChange}
-        playbackRate={playbackRate}
-        handlePlaybackRateChange={handlePlaybackRateChange}
-        width={width}
-        height={height}
-        handleWidthChange={handleWidthChange}
-        handleHeightChange={handleHeightChange}
       />
     </div>
   );
