@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { CTInput, CTCheckbox, CTFormRow, CTSelect } from 'layout/CTForm'
-import { timeStrToSec, videoControl, parseSec } from '../../../Utils';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { api, uurl } from 'utils';
 import { baseUrl } from 'utils/cthttp/statics'
 import { CTPlayerConstants as Constants } from 'components/CTPlayer';
 import Modal from 'layout/CTModal/Modal';
+import { timeStrToSec, videoControl, parseSec } from '../../../Utils';
 
 const useStyles = makeStyles({
   cancelBtn: {
@@ -49,12 +49,13 @@ function EmbedModal(props) {
     onClose,
     onConfirm,
     cancelButtonText = 'Cancel',
-    confirmButtonText = 'Copy',
+    // confirmButtonText = 'Copy',
     ...otherProps
   } = props;
 
   const classes = useStyles();
   const inputRef = useRef();
+  const [confirmButtonText, setconfirmButtonText] = useState('Copy')
   const [ccLanguage, setCCLanguage] = useState('en-US')
   const [playbackRate, setplaybackRate] = useState(4)
   const [width, setWidth] = useState(480);
@@ -88,6 +89,18 @@ function EmbedModal(props) {
 
   const handleEnablePadded =
     ({ target: { checked } }) => setEnablePadded(checked)
+  
+  const handleCopied =
+    ({ target: { value } }) => setconfirmButtonText('Copy')
+
+  const handleConform = () => {
+      if (typeof onConfirm === 'function') {
+        onConfirm();
+        setconfirmButtonText('Copied');
+        inputRef.current.select();
+        document.execCommand('copy');
+      }
+  }
 
   const ccLanguageOptions = [
     { text: 'English', value: 'en-US' },
@@ -108,14 +121,6 @@ function EmbedModal(props) {
   ]
 
   const contentElement = text ? <Modal.Text>{text}</Modal.Text> : children;
-
-  const handleConform = () => {
-    if (typeof onConfirm === 'function') {
-      onConfirm();
-      inputRef.current.select();
-      document.execCommand('copy');
-    }
-  }
 
   const actionElement = (
     <>
@@ -150,7 +155,8 @@ function EmbedModal(props) {
       + `" ></iframe>`)
     // console.log(embedHTML)
   }
-    , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime, width, height, enablePadded])
+    , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime, 
+      width, height, enablePadded])
 
 
   useEffect(() => {
@@ -162,12 +168,15 @@ function EmbedModal(props) {
     <>
       <Modal {...modalProps} className={classes.modal} darkMode>
         <div dangerouslySetInnerHTML={{ __html: embedHTML }} />
-        <CTInput
-          inputRef={inputRef}
-          textarea
-          underlined
-          value={embedHTML}
-        />
+        <CTFormRow>
+          <CTInput
+            inputRef={inputRef}
+            textarea
+            underlined
+            onChange={handleCopied}
+            value={embedHTML}
+          />
+        </CTFormRow>
         <CTFormRow>
           <CTCheckbox
             id="begin-time"
@@ -178,6 +187,7 @@ function EmbedModal(props) {
           <CTInput
             // value={parseSec(parseInt(videoControl.currTime(), 10))}
             // defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
+            underlined
             disabled={!enableBeginTime}
             value={beginTime}
             onChange={handleBeginTime}
