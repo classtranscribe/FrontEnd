@@ -18,7 +18,7 @@ export function Embed() {
     openCC = 'false',
     lang = Constants.ENGLISH,
     playbackrate = 4,
-    padded = 'true'
+    padded = 'false'
   } = uurl.useSearch();
   // get video id from url
   // e.g. c9a54a76-9cf0-4ec2-ab2f-89d496326562

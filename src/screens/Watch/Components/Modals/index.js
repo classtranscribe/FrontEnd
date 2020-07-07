@@ -27,6 +27,14 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
   const [embed, setEmbed] = useState(false);
   const [ccLanguage, setCCLanguage] = useState('en-US')
   const [playbackRate, setplaybackRate] = useState(4)
+  const [width, setWidth] = useState(480);
+  const [height, setHeight] = useState(270);
+  const handleWidthChange = ({ target: { value } }) => {
+    setWidth(value);
+  };
+  const handleHeightChange = ({ target: { value } }) => {
+    setHeight(value);
+  };
 
   const handleCCLanguageChange = ({ target: { value } }) => {
     setCCLanguage(value);
@@ -56,6 +64,10 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
         handleCCLanguageChange={handleCCLanguageChange}
         playbackRate={playbackRate}
         handlePlaybackRateChange={handlePlaybackRateChange}
+        width={width}
+        height={height}
+        handleWidthChange={handleWidthChange}
+        handleHeightChange={handleHeightChange}
       />
     </div>
   );

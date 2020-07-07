@@ -26,7 +26,15 @@ const useStyles = makeStyles({
   modal: {
     width: '40vw',
     marginLeft: '58vw',
-    marginTop: '-22vh',
+  },
+  beginText: {
+    // cannot edit for some reason...
+    width: '18em'
+  },
+  beginTime: {
+    width: '8em',
+    // cannot edit for some reason...
+    height: '1em'
   }
 });
 
@@ -47,6 +55,10 @@ function EmbedVideo(props) {
     handleCCLanguageChange,
     playbackRate,
     handlePlaybackRateChange,
+    width,
+    height,
+    handleWidthChange,
+    handleHeightChange,
     ...otherProps
   } = props;
 
@@ -62,8 +74,8 @@ function EmbedVideo(props) {
 
   const handleBeginTime =
     ({ target: { value } }) => setBeginTime(value);
-  
-  const handleEnableCaption = 
+
+  const handleEnableCaption =
     ({ target: { checked } }) => setEnableCaption(checked)
 
   const beginTimeParser = () => {
@@ -119,68 +131,85 @@ function EmbedVideo(props) {
   };
 
   useEffect(() => {
-    setEmbedHTML('<iframe width="560" height="315" src="' +
-      `${window.location.origin}/embed/${uurl.useSearch().id}`
-      + `?begin=${beginTime}&` 
-      + `playbackrate=${playbackRate}&` 
+    setEmbedHTML(`<iframe width="${width}" height="${height}" src="${ 
+      + `${window.location.origin}/embed/${uurl.useSearch().id}"`
+       }?begin=${beginTime}&`
+      + `playbackrate=${playbackRate}&`
       + `openCC=${enableCaption}&`
-      + `lang=${ccLanguage}&` 
-      + '" ></iframe>')
+      + `lang=${ccLanguage}&`
+      + `" ></iframe>`)
   }
-    , [enableCaption, ccLanguage, playbackRate, beginTime])
+    , [enableCaption, ccLanguage, playbackRate, beginTime, width, height])
 
   return (
-    <Modal {...modalProps} className={classes.modal} darkMode>
-      <CTInput
-        inputRef={inputRef}
-        textarea
-        underlined
-        value={embedHTML}
-      />
-      <CTFormRow>
-        <CTCheckbox
-          id="begin-time"
-          label="Set begin time"
-          checked={enableBeginTime}
-          onChange={handleEnableBeginTime}
-        />
-        <CTInput
-          // value={parseSec(parseInt(videoControl.currTime(), 10))}
-          defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
-          disabled={!enableBeginTime}
-          value={beginTime}
-          onChange={handleBeginTime}
-        />
-      </CTFormRow>
-      <CTFormRow>
-        <CTCheckbox
-          id="open-cc"
-          label="Default open caption"
-          checked={enableCaption}
-          value={enableCaption}
-          onChange={handleEnableCaption}
-        />
-      </CTFormRow>
-      <CTFormRow>
-        <CTSelect
-          id="sel-lang"
-          label="Choose caption language"
-          options={ccLanguageOptions}
-          value={ccLanguage}
-          onChange={handleCCLanguageChange}
-        />
-      </CTFormRow>
-      <CTFormRow>
-        <CTSelect
-          id="sel-rate"
-          label="Playback rate"
-          options={playbackRatesOptions}
-          value={playbackRate}
-          onChange={handlePlaybackRateChange}
-        />
-      </CTFormRow>
+    <>
 
-    </Modal>
+      <Modal {...modalProps} className={classes.modal} darkMode>
+        <div dangerouslySetInnerHTML={{ __html: embedHTML }} />
+        <CTInput
+          inputRef={inputRef}
+          textarea
+          underlined
+          value={embedHTML}
+        />
+        <CTFormRow>
+          <CTCheckbox
+            id="begin-time"
+            label="Set begin time"
+            checked={enableBeginTime}
+            onChange={handleEnableBeginTime}
+          />
+          <CTInput
+            // value={parseSec(parseInt(videoControl.currTime(), 10))}
+            defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
+            disabled={!enableBeginTime}
+            value={beginTime}
+            onChange={handleBeginTime}
+            className={classes.beginTime}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTInput
+            label="Width"
+            value={width}
+            onChange={handleWidthChange}
+          />
+          <CTInput
+            label="Height"
+            value={height}
+            onChange={handleHeightChange}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="open-cc"
+            label="Default open caption"
+            checked={enableCaption}
+            value={enableCaption}
+            onChange={handleEnableCaption}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTSelect
+            id="sel-lang"
+            label="Choose caption language"
+            options={ccLanguageOptions}
+            value={ccLanguage}
+            onChange={handleCCLanguageChange}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTSelect
+            id="sel-rate"
+            label="Playback rate"
+            options={playbackRatesOptions}
+            value={playbackRate}
+            onChange={handlePlaybackRateChange}
+          />
+        </CTFormRow>
+
+      </Modal>
+    </>
   );
 }
 
