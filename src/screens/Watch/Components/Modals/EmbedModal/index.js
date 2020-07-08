@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CTInput, CTCheckbox, CTFormRow, CTSelect } from 'layout/CTForm'
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { api, uurl } from 'utils';
+import { api, uurl, prompt } from 'utils';
 import { baseUrl } from 'utils/cthttp/statics'
 import { CTPlayerConstants as Constants } from 'components/CTPlayer';
 import Modal from 'layout/CTModal/Modal';
@@ -58,8 +58,8 @@ function EmbedModal(props) {
   const [confirmButtonText, setconfirmButtonText] = useState('Copy')
   const [ccLanguage, setCCLanguage] = useState('en-US')
   const [playbackRate, setplaybackRate] = useState(4)
-  const [width, setWidth] = useState(480);
-  const [height, setHeight] = useState(270);
+  const [width, setWidth] = useState(380);
+  const [height, setHeight] = useState(220);
   const [embedHTML, setEmbedHTML] = useState('')
   const [enableBeginTime, setEnableBeginTime] = useState(false)
   const [beginTime, setBeginTime] = useState(0)
@@ -90,16 +90,17 @@ function EmbedModal(props) {
   const handleEnablePadded =
     ({ target: { checked } }) => setEnablePadded(checked)
 
-  const handleCopied =
-    ({ target: { value } }) => setconfirmButtonText('Copy')
+  // used for change the confirmButton text from 'copied' to 'copy'
+  let temp_confirmButton;
 
   const handleConform = () => {
-    if (typeof onConfirm === 'function') {
-      onConfirm();
-      setconfirmButtonText('Copied');
-      inputRef.current.select();
-      document.execCommand('copy');
-    }
+    // if (typeof onConfirm === 'function') {
+    // onConfirm();
+    temp_confirmButton = embedHTML;
+    setconfirmButtonText('Copied');
+    inputRef.current.select();
+    document.execCommand('copy');
+    // }
   }
 
   const ccLanguageOptions = [
@@ -152,8 +153,9 @@ function EmbedModal(props) {
       + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
       + `padded=${enablePadded.toString()}&`
-      + `" ></iframe>`)
+      + `" allowfullscreen ></iframe>`)
     // console.log(embedHTML)
+    if (embedHTML !== temp_confirmButton) setconfirmButtonText('Copy');
   }
     , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime,
       width, height, enablePadded])
@@ -173,7 +175,6 @@ function EmbedModal(props) {
             inputRef={inputRef}
             textarea
             underlined
-            onChange={handleCopied}
             value={embedHTML}
           />
         </CTFormRow>
@@ -185,8 +186,6 @@ function EmbedModal(props) {
             onChange={handleEnableBeginTime}
           />
           <CTInput
-            // value={parseSec(parseInt(videoControl.currTime(), 10))}
-            // defaultValue={parseSec(parseInt(videoControl.currTime(), 10))}
             underlined
             disabled={!enableBeginTime}
             value={beginTime}
