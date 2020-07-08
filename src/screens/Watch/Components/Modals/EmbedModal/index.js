@@ -66,16 +66,16 @@ function EmbedModal(props) {
   const [enableCaption, setEnableCaption] = useState(false)
   const [enablePadded, setEnablePadded] = useState(false)
 
-  const handleWidthChange = 
+  const handleWidthChange =
     ({ target: { value } }) => setWidth(value)
 
-  const handleHeightChange = 
+  const handleHeightChange =
     ({ target: { value } }) => setHeight(value)
 
-  const handleCCLanguageChange = 
+  const handleCCLanguageChange =
     ({ target: { value } }) => setCCLanguage(value)
 
-  const handlePlaybackRateChange = 
+  const handlePlaybackRateChange =
     ({ target: { value } }) => setplaybackRate(value)
 
   const handleEnableBeginTime =
@@ -89,17 +89,17 @@ function EmbedModal(props) {
 
   const handleEnablePadded =
     ({ target: { checked } }) => setEnablePadded(checked)
-  
+
   const handleCopied =
     ({ target: { value } }) => setconfirmButtonText('Copy')
 
   const handleConform = () => {
-      if (typeof onConfirm === 'function') {
-        onConfirm();
-        setconfirmButtonText('Copied');
-        inputRef.current.select();
-        document.execCommand('copy');
-      }
+    if (typeof onConfirm === 'function') {
+      onConfirm();
+      setconfirmButtonText('Copied');
+      inputRef.current.select();
+      document.execCommand('copy');
+    }
   }
 
   const ccLanguageOptions = [
@@ -147,7 +147,7 @@ function EmbedModal(props) {
     setEmbedHTML(`<iframe width="${width}" height="${height}" 
     src="`
       + `${window.location.origin}/embed/${uurl.useSearch().id}`
-      + `?begin=${enableBeginTime? timeStrToSec(beginTime) : 0}&`
+      + `?begin=${enableBeginTime ? timeStrToSec(beginTime) : 0}&`
       + `playbackRate=${playbackRate.toString()}&`
       + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
@@ -155,7 +155,7 @@ function EmbedModal(props) {
       + `" ></iframe>`)
     // console.log(embedHTML)
   }
-    , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime, 
+    , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime,
       width, height, enablePadded])
 
 
