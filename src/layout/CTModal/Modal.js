@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { CTFormRow } from 'layout/CTForm'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -19,6 +20,7 @@ function Modal(props) {
     action,
     onClose,
     darkMode = false,
+    closeForkIcon,
     ...otherProps
   } = props;
 
@@ -40,7 +42,10 @@ function Modal(props) {
         onClose={onClose}
         {...otherProps}
       >
-        {title && <DialogTitle>{title}</DialogTitle>}
+        <CTFormRow>
+          {title && <DialogTitle>{title}</DialogTitle>}
+          {closeForkIcon && <DialogActions>{closeForkIcon}</DialogActions>}
+        </CTFormRow>
 
         <DialogContent>
           {children}
@@ -79,6 +84,8 @@ Modal.propTypes = {
 
   /** The CTModal supports darkMode */
   darkMode: PropTypes.bool,
+
+  closeForkIcon: PropTypes.node,
 };
 
 Modal.Text = DialogContentText;

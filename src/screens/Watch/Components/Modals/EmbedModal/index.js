@@ -48,7 +48,7 @@ function EmbedModal(props) {
     text,
     children,
     onClose,
-    onConfirm,
+    // onConfirm,
     cancelButtonText = 'Cancel',
     // confirmButtonText = 'Copy',
     ...otherProps
@@ -102,6 +102,9 @@ function EmbedModal(props) {
     setconfirmButtonText('Copied');
     inputRef.current.select();
     document.execCommand('copy');
+    setTimeout (() => {
+      setconfirmButtonText('Copy');
+    }, 2000);
     // }
   }
 
@@ -127,13 +130,21 @@ function EmbedModal(props) {
 
   const actionElement = (
     <>
-      <Button size="large" className={classes.cancelBtn} onClick={onClose}>
+      {/* <Button size="large" className={classes.cancelBtn} onClick={onClose}>
         {cancelButtonText}
-      </Button>
+      </Button> */}
       <Button size="large" className={classes.confirmBtn} onClick={handleConform}>
         {confirmButtonText}
       </Button>
     </>
+  );
+
+  const closeButton = (
+    <button size="large" className="plain-btn wml-close-btn" aria-label="Close" onClick={onClose}>
+      <span tabIndex="-1">
+        <i className="material-icons">close</i>
+      </span>
+    </button>
   );
 
   const modalProps = {
@@ -143,6 +154,7 @@ function EmbedModal(props) {
     responsive,
     onClose,
     action: actionElement,
+    closeForkIcon: closeButton,
     ...otherProps
   };
 
