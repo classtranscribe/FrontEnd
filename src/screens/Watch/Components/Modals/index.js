@@ -34,11 +34,13 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
       <EmbedModal
         open={embed}
         onClose={() => setEmbed(false)}
-        // onConfirm={() => prompt.addOne({
-        //   // text: 'Content copied to clipboard.',
-        //   status: 'success',
-        //   timeout: 2000,
-        // }, true)}
+        onConfirm={() => prompt.addOne({
+          text: 'Content copied to clipboard.',
+          status: 'success',
+          timeout: 2000,
+          position: 'bottom left',
+          offset: [60, 40]
+        }, true)}
       />
     </div>
   );

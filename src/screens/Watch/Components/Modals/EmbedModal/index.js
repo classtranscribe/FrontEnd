@@ -29,12 +29,10 @@ const useStyles = makeStyles({
     marginLeft: '58vw',
   },
   beginText: {
-    // cannot edit for some reason...
     width: '18em'
   },
   beginTime: {
     width: '8em',
-    // cannot edit for some reason...
     height: '1em'
   },
 
@@ -48,9 +46,8 @@ function EmbedModal(props) {
     text,
     children,
     onClose,
-    // onConfirm,
     cancelButtonText = 'Cancel',
-    // confirmButtonText = 'Copy',
+    onConfirm,
     ...otherProps
   } = props;
 
@@ -96,16 +93,16 @@ function EmbedModal(props) {
   let temp_confirmButton;
 
   const handleConform = () => {
-    // if (typeof onConfirm === 'function') {
-    // onConfirm();
+    if (typeof onConfirm === 'function') {
+      onConfirm();
+    }
     temp_confirmButton = embedHTML;
     setconfirmButtonText('Copied');
     inputRef.current.select();
     document.execCommand('copy');
-    setTimeout (() => {
+    setTimeout(() => {
       setconfirmButtonText('Copy');
     }, 2000);
-    // }
   }
 
   const ccLanguageOptions = [
@@ -126,13 +123,8 @@ function EmbedModal(props) {
     { text: '0.25', value: 7 },
   ]
 
-  const contentElement = text ? <Modal.Text>{text}</Modal.Text> : children;
-
   const actionElement = (
     <>
-      {/* <Button size="large" className={classes.cancelBtn} onClick={onClose}>
-        {cancelButtonText}
-      </Button> */}
       <Button size="large" className={classes.confirmBtn} onClick={handleConform}>
         {confirmButtonText}
       </Button>
@@ -159,8 +151,14 @@ function EmbedModal(props) {
   };
 
   useEffect(() => {
+    if (videoControl.duration < timeStrToSec(beginTime)) {
+      setBeginTime(parseSec(parseInt(videoControl.duration, 10)))
+    }
+  }, [beginTime])
+
+  useEffect(() => {
     setURL(`${window.location.origin}/embed/${uurl.useSearch().id}`
-      + `?begin=${enableBeginTime ? timeStrToSec(beginTime) : 0}&`
+      + `?begin=${enableBeginTime ? timeStrToSec(beginTime) : timeStrToSec(0)}&`
       + `playbackRate=${playbackRate.toString()}&`
       + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
@@ -170,11 +168,10 @@ function EmbedModal(props) {
       enablePadded])
 
   useEffect(() => {
-    // document.getElementById("preview").innerHTML.src = 
     setEmbedHTML(`<iframe width="${width}" height="${height}" 
     src="${
-       URL
-       }" allowfullscreen ></iframe>`)
+      URL
+      }" allowfullscreen ></iframe>`)
     if (embedHTML !== temp_confirmButton) setconfirmButtonText('Copy');
   }, [URL, width, height])
 
