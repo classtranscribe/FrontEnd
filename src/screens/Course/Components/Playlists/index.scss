@@ -30,7 +30,7 @@
       border-color: transparent;
     }
 
-    &:focus, &:hover {
+    &:focus-within, &:hover{
       background-color: #f3f3f3a4;
       .pl-name, .pl-icon { color: #318d8d; }
     }
