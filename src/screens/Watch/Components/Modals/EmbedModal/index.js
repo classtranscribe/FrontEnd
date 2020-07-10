@@ -36,7 +36,8 @@ const useStyles = makeStyles({
     width: '8em',
     // cannot edit for some reason...
     height: '1em'
-  }
+  },
+
 });
 
 function EmbedModal(props) {
@@ -65,6 +66,7 @@ function EmbedModal(props) {
   const [beginTime, setBeginTime] = useState(0)
   const [enableCaption, setEnableCaption] = useState(false)
   const [enablePadded, setEnablePadded] = useState(false)
+  const [URL, setURL] = useState('');
 
   const handleWidthChange =
     ({ target: { value } }) => setWidth(value)
@@ -145,20 +147,24 @@ function EmbedModal(props) {
   };
 
   useEffect(() => {
-    setEmbedHTML(`<iframe width="${width}" height="${height}" 
-    src="`
-      + `${window.location.origin}/embed/${uurl.useSearch().id}`
+    setURL(`${window.location.origin}/embed/${uurl.useSearch().id}`
       + `?begin=${enableBeginTime ? timeStrToSec(beginTime) : 0}&`
       + `playbackRate=${playbackRate.toString()}&`
       + `openCC=${enableCaption.toString()}&`
       + `lang=${ccLanguage}&`
-      + `padded=${enablePadded.toString()}&`
-      + `" allowfullscreen ></iframe>`)
-    // console.log(embedHTML)
-    if (embedHTML !== temp_confirmButton) setconfirmButtonText('Copy');
+      + `padded=${enablePadded.toString()}&`)
   }
     , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime,
-      width, height, enablePadded])
+      enablePadded])
+
+  useEffect(() => {
+    // document.getElementById("preview").innerHTML.src = 
+    setEmbedHTML(`<iframe width="${width}" height="${height}" 
+    src="${
+       URL
+       }" allowfullscreen ></iframe>`)
+    if (embedHTML !== temp_confirmButton) setconfirmButtonText('Copy');
+  }, [URL, width, height])
 
 
   useEffect(() => {
@@ -169,7 +175,8 @@ function EmbedModal(props) {
   return (
     <>
       <Modal {...modalProps} className={classes.modal} darkMode>
-        <div dangerouslySetInnerHTML={{ __html: embedHTML }} />
+        {(URL === '') ? <div /> :
+        <iframe width="400" height="220" title="preview" src={URL} />}
         <CTFormRow>
           <CTInput
             inputRef={inputRef}
