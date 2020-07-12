@@ -1,0 +1,18 @@
+#wp-embed-iframe {
+  iframe {
+    margin: 10px 0 10px 0;
+    border: none;
+    box-shadow: 0 0 8px 10px rgba(34, 34, 34, 0.171);
+  }
+}
+.wp-embed-code {
+  textarea::selection {
+    background: rgb(0, 136, 146);
+    color: white !important;
+  }
+}
+
+.wp-embed-btime {
+  padding-top: 5px !important;
+  width: 8em !important;
+}
