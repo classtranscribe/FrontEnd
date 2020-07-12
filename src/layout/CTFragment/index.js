@@ -17,6 +17,7 @@ function CTFragment(props) {
     vEnd = false,
     hCenter = false,
     hEnd = false,
+    hBetween = false,
     list = false,
     fade = false,
     sticky = false,
@@ -66,6 +67,7 @@ function CTFragment(props) {
       vEnd,
       hCenter,
       hEnd,
+      hBetween,
       list,
       sticky,
       'ct-a-fade-in': fade,
@@ -131,6 +133,9 @@ CTFragment.propTypes = {
 
   /** display its children at the end horizontally */
   hEnd: PropTypes.bool,
+
+  /** justify-content: space-between */
+  hBetween: PropTypes.bool,
 
   /** The fragment can be a flex list */
   list: PropTypes.bool,

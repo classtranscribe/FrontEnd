@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { CTFormRow } from 'layout/CTForm'
+import { CTFragment } from 'layout';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
 
 function Modal(props) {
   const {
@@ -20,7 +21,7 @@ function Modal(props) {
     action,
     onClose,
     darkMode = false,
-    closeForkIcon,
+    withCloseButton = false,
     ...otherProps
   } = props;
 
@@ -42,10 +43,16 @@ function Modal(props) {
         onClose={onClose}
         {...otherProps}
       >
-        <CTFormRow>
+        <CTFragment hBetween vCenter padding={[0, 10, 0, 0]}>
           {title && <DialogTitle>{title}</DialogTitle>}
-          {closeForkIcon && <DialogActions>{closeForkIcon}</DialogActions>}
-        </CTFormRow>
+          {
+            withCloseButton 
+            && 
+            <IconButton onClick={onClose} aria-label="close">
+              <i className="material-icons">close</i>
+            </IconButton>
+          }
+        </CTFragment>
 
         <DialogContent>
           {children}
@@ -85,10 +92,10 @@ Modal.propTypes = {
   /** The CTModal supports darkMode */
   darkMode: PropTypes.bool,
 
-  closeForkIcon: PropTypes.node,
+  /** True if display a close button at the top */
+  withCloseButton: PropTypes.bool,
 };
 
 Modal.Text = DialogContentText;
 
 export default Modal;
-

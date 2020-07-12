@@ -16,6 +16,9 @@ export const useStyles = makeStyles({
       '&.Mui-focused fieldset': {
         borderColor: '#348b86',
       }
+    },
+    '& div[tabindex="0"]': {
+      outline: 'none !important'
     }
   },
 });

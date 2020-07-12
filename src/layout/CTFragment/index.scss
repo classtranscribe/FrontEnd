@@ -29,6 +29,11 @@ $border: solid 1px grey;
     justify-content: flex-end;
   }
 
+  &.hBetween {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &.list {
     display: flex;
     flex-direction: column;
