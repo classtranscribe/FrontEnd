@@ -128,6 +128,7 @@ function CTLayout(props) {
       />
 
       <CTScrollArea 
+        id="ct-layout-scroll"
         role={role}
         scrollToTopButton="bottom right"
         scrollClassName={mainClasses}

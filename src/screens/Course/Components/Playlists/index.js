@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { uurl, NOT_FOUND_404 } from 'utils';
+import { uurl, elem, NOT_FOUND_404 } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
 
@@ -19,8 +19,13 @@ function PlaylistsWithRedux({
 
   useEffect(() => {
     let { plid } = uurl.useHash();
-    setPlaylistId(plid);
-    setup.setupPlaylist(plid);
+    if (plid) {
+      setPlaylistId(plid);
+      setup.setupPlaylist(plid);
+    } else {
+      setPlaylistId(null);
+      setPlaylist(null);
+    }
   }, [hash]);
 
   useEffect(() => {
@@ -29,6 +34,16 @@ function PlaylistsWithRedux({
       setPlaylist(null);
     }
   }, [playlist]);
+
+  useEffect(() => {
+    if (!playlistId) {
+      setup.scrollToPlaylist(setup.prevPlaylistId);
+    } else if (window.innerWidth >= 1000) {
+        elem.scrollToTop('cp-pls-view');
+      } else {
+        elem.scrollToTop('ct-layout-scroll');
+      }
+  }, [playlistId])
 
   const isPlaylistView = Boolean(playlistId);
 
