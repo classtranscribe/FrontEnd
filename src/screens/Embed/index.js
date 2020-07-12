@@ -17,7 +17,8 @@ export function Embed() {
     begin = 0,
     openCC = 'false',
     lang = Constants.ENGLISH,
-    playbackrate = 4,
+    playbackRate = 4,
+    padded = 'false'
   } = uurl.useSearch();
   // get video id from url
   // e.g. c9a54a76-9cf0-4ec2-ab2f-89d496326562
@@ -36,7 +37,8 @@ export function Embed() {
         beginAt={parseInt(begin, 10)}
         defaultOpenCC={openCC === 'true'}
         defaultLanguage={lang}
-        defaultPlaybackRate={Constants.PLAYBACK_RATES[playbackrate]}
+        defaultPlaybackRate={Constants.PLAYBACK_RATES[playbackRate]}
+        padded={padded === 'true'}
       />
     </div>
   );

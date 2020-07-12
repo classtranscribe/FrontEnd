@@ -66,26 +66,24 @@ export function EpubWithRedux(props) {
   return error === epub.NO_EPUB ? (
     <RequestEpub mediaId={media.id} />
   ) : (
-    <div className="msp-ee-con ct-a-fade-in">
-      <div className="msp-ee">
-        {chapters === ARRAY_INIT ? (
-          <div className="w-100">
-            <CTLoader />
-          </div>
-        ) : (
-          <>
-            <ChapterNavigator />
+    <div className="msp-tab-con ct-a-fade-in">
+      {chapters === ARRAY_INIT ? (
+        <div className="w-100">
+          <CTLoader />
+        </div>
+      ) : (
+        <>
+          <ChapterNavigator />
 
-            {step === EPUB_STEP_SPLIT ? (
-              <SplitChapter />
-            ) : step === EPUB_STEP_EDIT ? (
-              <EditChapters />
-            ) : (
-              <EpubDownloader />
-            )}
-          </>
-        )}
-      </div>
+          {step === EPUB_STEP_SPLIT ? (
+            <SplitChapter />
+          ) : step === EPUB_STEP_EDIT ? (
+            <EditChapters />
+          ) : (
+            <EpubDownloader />
+          )}
+        </>
+      )}
     </div>
   );
 }

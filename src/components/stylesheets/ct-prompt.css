@@ -1,6 +1,6 @@
 #ct___prompt {
   position: fixed;
-  z-index: 1200;
+  z-index: 12000;
   display: flex;
   flex-direction: column;
 }
