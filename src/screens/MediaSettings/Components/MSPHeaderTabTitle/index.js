@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Popup } from 'semantic-ui-react';
+import { CTPopoverLabel } from 'layout';
 import { links } from 'utils/links';
 import { connectWithRedux } from '../../controllers';
 import './index.scss';
@@ -9,30 +9,20 @@ function MSPHeaderTabTitleWithRedux(props) {
   let { media, playlist } = props;
   
   const { mediaName } = media;
-  const { offeringId } = playlist;
+  // const { offeringId } = playlist;
 
   return (
-    <Popup
-      inverted
-      openOnTriggerFocus
-      closeOnTriggerBlur
-      content={
-        <div>
-          <strong>{mediaName}</strong>
-        </div>
-      }
-      trigger={
-        <Link
-          className="msp-me-name"
-          to={links.instructor()}
-        >
-          <i aria-hidden="true" className="material-icons">
-            chevron_left
-          </i>
-          <span>{mediaName}</span>
-        </Link>
-      }
-    />
+    <CTPopoverLabel label={<strong>{mediaName}</strong>}>
+      <Link
+        className="msp-me-name-con"
+        to={links.playlist(playlist.id, media.id)}
+      >
+        <i aria-hidden="true" className="material-icons">
+          chevron_left
+        </i>
+        <span className="name">{mediaName}</span>
+      </Link>
+    </CTPopoverLabel>
   )
 }
 
