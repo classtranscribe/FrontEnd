@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Hooks that returns the dynamically updated window's size
+ * @returns {Number[]} the latest [window.innerWidth, window.innerHeight]
+ */
 export function useWindowSize() {
   const [size, setSize] = useState(window.innerWidth);
   useEffect(() => {
