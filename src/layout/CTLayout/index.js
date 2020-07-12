@@ -40,7 +40,8 @@ function CTLayout(props) {
     headingProps,
   } = props;
 
-  let { float = false, mini = false } = sidebarProps;
+  const { float = false, mini = false } = sidebarProps;
+  const { tabs } = headerProps;
 
   let defaultSidebar = getDefaultSidebarType(responsive, defaultOpenSidebar, { float, mini });
   const [sidebar, setSidebar] = useState(defaultSidebar);
@@ -84,6 +85,7 @@ function CTLayout(props) {
     'ct-layout-main', 
     { 
       fill,
+      'tab-header': Array.isArray(tabs) && tabs.length > 0,
       transition,
       'padded-240': isNormal,
       'padded-50': isMini,
