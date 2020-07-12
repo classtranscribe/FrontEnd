@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { prompt } from 'utils'
 import {
   connectWithRedux,
   modalControl,
@@ -7,7 +6,6 @@ import {
   MODAL_SHARE,
   MODAL_BEFORE_HIDE,
 } from '../../Utils';
-
 import EmbedModal from './EmbedModal'
 import ShareModal from './ShareModal';
 import './index.css';
@@ -27,23 +25,23 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
   const hideBefore = modal === MODAL_BEFORE_HIDE;
 
   return (
-    <div className="watch-modal" data-modal-type={modal}>
-      {(modal === MODAL_SHARE || hideBefore) &&
-        <ShareModal onClose={handleClose} embed={embed} setEmbed={setEmbed} />}
-      <div className="wml-filter" onClick={handleClose} />
-      <EmbedModal
-        open={embed}
-        onClose={() => setEmbed(false)}
-        onConfirm={() => prompt.addOne({
-          text: 'Content copied to clipboard.',
-          status: 'success',
-          timeout: 2000,
-          position: 'bottom left',
-          offset: [60, 40]
-        }, true)}
-      />
-    </div>
+    <>
+      <div className="watch-modal" data-modal-type={modal}>
+        {(modal === MODAL_SHARE || hideBefore) &&
+          <ShareModal onClose={handleClose} embed={embed} setEmbed={setEmbed} />}
+        <div className="wml-filter" onClick={handleClose} />
+      </div>
+      {
+        embed
+        &&
+        <EmbedModal onClose={() => setEmbed(false)} />
+      }
+    </>
   );
 }
 
-export const Modals = connectWithRedux(ModalsWithRedux, ['modal'], ['setModal']);
+export const Modals = connectWithRedux(
+  ModalsWithRedux, 
+  ['modal'], 
+  ['setModal']
+);

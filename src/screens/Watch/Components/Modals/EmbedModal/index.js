@@ -1,109 +1,74 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CTInput, CTCheckbox, CTFormRow, CTSelect } from 'layout/CTForm'
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { api, uurl, prompt } from 'utils';
-import { baseUrl } from 'utils/cthttp/statics'
+import { Button } from 'pico-ui';
+import { 
+  CTFragment,
+  CTModal,
+  CTInput,
+  CTCheckbox,
+  CTFormRow,
+  CTSelect,
+  CTFormHeading
+} from 'layout';
+import { uurl, prompt, timestr } from 'utils';
 import { CTPlayerConstants as Constants } from 'components/CTPlayer';
-import Modal from 'layout/CTModal/Modal';
-import { timeStrToSec, videoControl, parseSec } from '../../../Utils';
-
-const useStyles = makeStyles({
-  cancelBtn: {
-    fontWeight: 'bold'
-  },
-  confirmBtn: {
-    fontWeight: 'bold',
-    marginLeft: 5,
-    '&:not(.MuiButton-outlined)': {
-      background: 'teal',
-      color: 'white',
-      '&:hover': {
-        background: 'var(--ct-green-normal)',
-      }
-    }
-  },
-  modal: {
-    width: '40vw',
-    marginLeft: '58vw',
-  },
-  beginText: {
-    width: '18em'
-  },
-  beginTime: {
-    width: '8em',
-    height: '1em'
-  },
-
-});
+import { videoControl } from '../../../Utils';
+import './index.scss';
 
 function EmbedModal(props) {
-  const {
-    open = false,
-    responsive = true,
-    title = 'Embed Video',
-    text,
-    children,
-    onClose,
-    cancelButtonText = 'Cancel',
-    onConfirm,
-    ...otherProps
-  } = props;
+  const { onClose } = props;
 
-  const classes = useStyles();
   const inputRef = useRef();
-  const [confirmButtonText, setconfirmButtonText] = useState('Copy')
-  const [ccLanguage, setCCLanguage] = useState('en-US')
-  const [playbackRate, setplaybackRate] = useState(4)
-  const [width, setWidth] = useState(380);
-  const [height, setHeight] = useState(220);
-  const [embedHTML, setEmbedHTML] = useState('')
-  const [enableBeginTime, setEnableBeginTime] = useState(false)
-  const [beginTime, setBeginTime] = useState(0)
-  const [enableCaption, setEnableCaption] = useState(false)
-  const [enablePadded, setEnablePadded] = useState(false)
-  const [URL, setURL] = useState('');
+  const iframeRef = useRef();
+  const [confirmButtonText, setconfirmButtonText] = useState('Copy');
+  const [ccLanguage, setCCLanguage] = useState('en-US');
+  const [playbackRate, setplaybackRate] = useState(4);
+  const [embedHTML, setEmbedHTML] = useState('');
+  const [enableBeginTime, setEnableBeginTime] = useState(false);
+  const [beginTime, setBeginTime] = useState('0:00');
+  const [enableCaption, setEnableCaption] = useState(false);
+  const [enablePadded, setEnablePadded] = useState(false);
 
-  const handleWidthChange =
-    ({ target: { value } }) => setWidth(value)
-
-  const handleHeightChange =
-    ({ target: { value } }) => setHeight(value)
+  const handleEmbedHTMLChange = 
+    ({ target: { value } }) => setEmbedHTML(value);
 
   const handleCCLanguageChange =
-    ({ target: { value } }) => setCCLanguage(value)
+    ({ target: { value } }) => setCCLanguage(value);
 
   const handlePlaybackRateChange =
-    ({ target: { value } }) => setplaybackRate(value)
+    ({ target: { value } }) => setplaybackRate(value);
 
   const handleEnableBeginTime =
-    ({ target: { checked } }) => setEnableBeginTime(checked)
+    ({ target: { checked } }) => setEnableBeginTime(checked);
 
   const handleBeginTime =
-    ({ target: { value } }) => setBeginTime(value)
+    ({ target: { value } }) => setBeginTime(value);
 
   const handleEnableCaption =
-    ({ target: { checked } }) => setEnableCaption(checked)
+    ({ target: { checked } }) => setEnableCaption(checked);
 
   const handleEnablePadded =
-    ({ target: { checked } }) => setEnablePadded(checked)
-
-  // used for change the confirmButton text from 'copied' to 'copy'
-  let temp_confirmButton;
+    ({ target: { checked } }) => setEnablePadded(checked);
 
   const handleConform = () => {
-    if (typeof onConfirm === 'function') {
-      onConfirm();
-    }
-    temp_confirmButton = embedHTML;
     setconfirmButtonText('Copied');
     inputRef.current.select();
     document.execCommand('copy');
     setTimeout(() => {
       setconfirmButtonText('Copy');
     }, 2000);
-  }
+    prompt.addOne({
+      text: 'Content copied to clipboard.',
+      status: 'success',
+      timeout: 3000,
+      position: 'bottom left',
+      offset: [60, 40]
+    }, true);
+  };
+
+  const handleFocus = () => {
+    inputRef.current.select();
+  };
 
   const ccLanguageOptions = [
     { text: 'English', value: 'en-US' },
@@ -112,182 +77,130 @@ function EmbedModal(props) {
     { text: 'Spanish', value: 'es' },
     { text: 'French', value: 'fr' }
   ]
-  const playbackRatesOptions = [
-    { text: '2', value: 0 },
-    { text: '1.75', value: 1 },
-    { text: '1.5', value: 2 },
-    { text: '1.25', value: 3 },
-    { text: '1', value: 4 },
-    { text: '0.75', value: 5 },
-    { text: '0.5', value: 6 },
-    { text: '0.25', value: 7 },
-  ]
-
-  const actionElement = (
-    <>
-      <Button size="large" className={classes.confirmBtn} onClick={handleConform}>
-        {confirmButtonText}
-      </Button>
-    </>
+  const playbackRatesOptions = Constants.PLAYBACK_RATES.map(
+    (plb, index) => ({ text: plb, value: index })
   );
 
-  const closeButton = (
-    <button size="large" className="plain-btn wml-close-btn" aria-label="Close" onClick={onClose}>
-      <span tabIndex="-1">
-        <i className="material-icons">close</i>
-      </span>
-    </button>
+  useEffect(() => {
+    // validate the begin time
+    if (videoControl.duration < timestr.toSeconds(beginTime)) {
+      setBeginTime(timestr.toTimeString(videoControl.duration));
+    }
+  }, [beginTime]);
+
+  useEffect(() => {
+    // update the embedable code
+    const iframeEl = iframeRef.current;
+    if (iframeEl) {
+      let vid = uurl.useSearch().id;
+      let embedQuery = uurl.createSearch({
+        begin: enableBeginTime ? timestr.toSeconds(beginTime) : null,
+        playbackRate: playbackRate === 4 ? null : playbackRatesOptions[playbackRate].text,
+        openCC: enableCaption ? 'true': null,
+        lang: ccLanguage === Constants.ENGLISH ? null : ccLanguage,
+        padded: enablePadded ? 'true' : null
+      });
+      iframeEl.src = `${window.location.origin}/embed/${vid}${embedQuery}`;
+      setEmbedHTML(iframeEl.outerHTML);
+    }
+  });
+
+  useEffect(() => {
+    if (enableBeginTime) {
+      setBeginTime(timestr.toTimeString(videoControl.currTime()));
+    }
+  },[enableBeginTime]);
+
+  const actionElement = (
+    <Button color="teal" onClick={handleConform}>
+      {confirmButtonText}
+    </Button>
   );
 
   const modalProps = {
-    open,
-    title,
-    size: 'xs',
-    responsive,
+    id: 'wp-embed-modal',
+    open: true,
+    title: 'Embed Video',
+    size: 'md',
+    responsive: true,
     onClose,
     action: actionElement,
-    closeForkIcon: closeButton,
-    ...otherProps
+    withCloseButton: true
   };
 
-  useEffect(() => {
-    if (videoControl.duration < timeStrToSec(beginTime)) {
-      setBeginTime(parseSec(parseInt(videoControl.duration, 10)))
-    }
-  }, [beginTime])
-
-  useEffect(() => {
-    setURL(`${window.location.origin}/embed/${uurl.useSearch().id}`
-      + `?begin=${enableBeginTime ? timeStrToSec(beginTime) : timeStrToSec(0)}&`
-      + `playbackRate=${playbackRate.toString()}&`
-      + `openCC=${enableCaption.toString()}&`
-      + `lang=${ccLanguage}&`
-      + `padded=${enablePadded.toString()}&`)
-  }
-    , [enableCaption, enableBeginTime, ccLanguage, playbackRate, beginTime,
-      enablePadded])
-
-  useEffect(() => {
-    setEmbedHTML(`<iframe width="${width}" height="${height}" 
-    src="${
-      URL
-      }" allowfullscreen ></iframe>`)
-    if (embedHTML !== temp_confirmButton) setconfirmButtonText('Copy');
-  }, [URL, width, height])
-
-
-  useEffect(() => {
-    setBeginTime(parseSec(parseInt(videoControl.currTime(), 10)))
-  },
-    [enableBeginTime])
-
   return (
-    <>
-      <Modal {...modalProps} className={classes.modal} darkMode>
-        {(URL === '') ? <div /> :
-        <iframe width="400" height="220" title="preview" src={URL} />}
-        <CTFormRow>
-          <CTInput
-            inputRef={inputRef}
-            textarea
-            underlined
-            value={embedHTML}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
-            id="begin-time"
-            label="Set begin time"
-            checked={enableBeginTime}
-            onChange={handleEnableBeginTime}
-          />
-          <CTInput
-            underlined
-            disabled={!enableBeginTime}
-            value={beginTime}
-            onChange={handleBeginTime}
-            className={classes.beginTime}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTInput
-            label="Width"
-            value={width}
-            onChange={handleWidthChange}
-          />
-          <CTInput
-            label="Height"
-            value={height}
-            onChange={handleHeightChange}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
-            id="open-cc"
-            label="Default open caption"
-            checked={enableCaption}
-            onChange={handleEnableCaption}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTSelect
-            id="sel-lang"
-            label="Choose caption language"
-            options={ccLanguageOptions}
-            value={ccLanguage}
-            onChange={handleCCLanguageChange}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTSelect
-            id="sel-rate"
-            label="Playback rate"
-            options={playbackRatesOptions}
-            value={playbackRate}
-            onChange={handlePlaybackRateChange}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
-            id="padded"
-            label="Padded video player"
-            checked={enablePadded}
-            onChange={handleEnablePadded}
-          />
-        </CTFormRow>
-
-      </Modal>
-    </>
+    <CTModal {...modalProps} darkMode>
+      <CTFragment hCenter id="wp-embed-iframe">
+        <iframe ref={iframeRef} width="560" height="315" title="preview" />
+      </CTFragment>
+      <CTFragment padding={[20, 0, 5, 0]}>
+        <CTInput
+          label="Embedable code"
+          inputRef={inputRef}
+          textarea
+          value={embedHTML}
+          onFocus={handleFocus}
+          onChange={handleEmbedHTMLChange}
+          className="wp-embed-code"
+        />
+      </CTFragment>
+      <CTFormHeading padding={[5, 0]}>Default player options</CTFormHeading>
+      <CTFragment>
+        <CTCheckbox
+          id="begin-time"
+          label="Start at"
+          checked={enableBeginTime}
+          onChange={handleEnableBeginTime}
+        />
+        <CTInput
+          underlined
+          disabled={!enableBeginTime}
+          value={beginTime}
+          onChange={handleBeginTime}
+          className="wp-embed-btime"
+          aria-label="time"
+        />
+      </CTFragment>
+      <CTFormRow>
+        <CTCheckbox
+          id="open-cc"
+          label="Default open subtitles"
+          checked={enableCaption}
+          onChange={handleEnableCaption}
+        />
+      </CTFormRow>
+      <CTFormRow>
+        <CTSelect
+          id="sel-lang"
+          label="Default subtitle language"
+          options={ccLanguageOptions}
+          value={ccLanguage}
+          onChange={handleCCLanguageChange}
+        />
+        <CTSelect
+          id="sel-rate"
+          label="Default playback rate"
+          options={playbackRatesOptions}
+          value={playbackRate}
+          onChange={handlePlaybackRateChange}
+        />
+      </CTFormRow>
+      <CTFormRow>
+        <CTCheckbox
+          id="padded"
+          label="Padding for tool bars"
+          checked={enablePadded}
+          onChange={handleEnablePadded}
+          helpText="The player can have paddings so that the video will not be covered by the top an bottom tool bars."
+        />
+      </CTFormRow>
+    </CTModal>
   );
 }
 
 EmbedModal.propTypes = {
-  /** True if open the modal */
-  open: Modal.propTypes.open,
-
-  /** The size of the modal can be responsive to window's width */
-  responsive: Modal.propTypes.responsive,
-
-  /** The confirmation title */
-  title: PropTypes.node,
-
-  /** The confirmation text */
-  text: PropTypes.node,
-
-  /** Primary content */
-  children: PropTypes.node,
-
   /** callback on close */
-  onClose: PropTypes.func,
-
-  /** callback on confirm */
-  onConfirm: PropTypes.func,
-
-  /** Customize the cancel-button's text */
-  cancelButtonText: PropTypes.string,
-
-  /** Customize the confirm-button's text */
-  confirmButtonText: PropTypes.string,
+  onClose: PropTypes.func
 };
 
 export default EmbedModal;

@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { getShareableURL, videoControl, parseSec } from '../../../Utils';
+import { isMobile } from 'react-device-detect';
+import { timestr } from 'utils';
+import { getShareableURL, videoControl } from '../../../Utils';
 import './index.css';
 
 function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
@@ -21,6 +23,11 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
     } else {
       setBegin(videoControl.currTime());
     }
+  };
+
+  const openEmbedModal = () => {
+    setEmbed(true)
+    videoControl.pause()
   };
 
   useEffect(() => {
@@ -102,21 +109,24 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
               aria-label="time"
               id="wml-share-time"
               className="plain-btn"
-              value={parseSec(videoControl.currTime())}
+              value={timestr.toTimeString(videoControl.currTime())}
             />
           </div>
-          <button
-            className="plain-btn embed-video-url"
-            aria-label="Embed"
-            onClick={() => {
-              setEmbed(true)
-              videoControl.pause()
-            }}
-          >
-            <span tabIndex="-1">
-              <i className="material-icons">code</i>EMBED
-            </span>
-          </button>
+
+          {
+            !isMobile
+            &&
+            <button
+              className="plain-btn wml-share-url-cpy"
+              aria-haspopup="true"
+              aria-controls="wp-embed-modal"
+              onClick={openEmbedModal}
+            >
+              <span tabIndex="-1">
+                <i className="material-icons">code</i>EMBED
+              </span>
+            </button>
+          }
         </div>
       </div>
     </div>
