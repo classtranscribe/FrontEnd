@@ -10,7 +10,7 @@ export function TranscriptionsWithRedux({
   return (
     <CTFragment fade className="msp-tab-con">
       <Player />
-      <TransTable />
+      <TransTable media={media} />
     </CTFragment>
   );
 }
