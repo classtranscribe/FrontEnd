@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useCTDocTitle } from 'hooks';
+import { useCTDocTitle, useLoaded } from 'hooks';
 import { CTLayout } from 'layout';
 import { MDXDocsContainer } from 'docs/layouts';
-import { api } from 'utils';
 import docsSelector from './docs-selector';
 
 export function ComponentAPI(props) {
   const { name } = useParams();
-
   const Docs = docsSelector(name);
+  
+  useLoaded();
+  useCTDocTitle(`${Docs.title} | Component API`);
 
   const layoutProps = CTLayout.createProps({
     transition: true,
@@ -18,17 +19,11 @@ export function ComponentAPI(props) {
     headingProps: {
       heading: Docs.title,
       icon: 'description',
-      sticky: true,
+      sticky: false,
       gradient: true,
       offsetTop: 30
     }
   });
-
-  useEffect(() => {
-    api.contentLoaded();
-  }, []);
-
-  useCTDocTitle(`${Docs.title} | Component API`);
 
   return (
     <CTLayout {...layoutProps}>

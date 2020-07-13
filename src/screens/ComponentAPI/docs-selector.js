@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { CTFormUsage } from 'docs';
 
-const getDocsData = (title, Component) => ({
+const createDocsData = (title, Component) => ({
   title,
   Component: Component || Fragment
 });
@@ -13,8 +13,8 @@ const getDocsData = (title, Component) => ({
  */
 export default function(name) {
   const docsSelector = {
-    'ct-form': getDocsData('CTForm', CTFormUsage)
+    'ct-form': createDocsData('CTForm', CTFormUsage)
   };
 
-  return docsSelector[name] || getDocsData('Unknown');
+  return docsSelector[name] || createDocsData('Unknown');
 }
