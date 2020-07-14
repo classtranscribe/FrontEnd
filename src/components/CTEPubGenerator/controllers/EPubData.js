@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
+import { buildEPubDataFromArray, buildChapter, buildSubChapter } from './utils';
 
-export class EPubData {
+export default class EPubData {
   __data__ = require('./epub-data.json');
 
   /**
@@ -9,19 +10,31 @@ export class EPubData {
    * @param {Any} data - the initial data for the ePub
    */
   constructor(data) {
-    // if the input data is the raw data
+    // if the input data is the raw epub data
     if (Array.isArray(data)) {
-      this.chapters = _.map(data, this.initializeRawEPubData);
+      this.chapters = buildEPubDataFromArray(data);
+      this.id = uuid();
     }
 
-    // if the input data is the "valid" epub data 
+    // if the input data is the epub-like
     else if (Object.isObject(data)) {
-      this.__data__ = data;
+      this.__data__ = {
+        ...this.__data__,
+        ...data
+      };
     }
 
     else {
       throw Error('Invalid ePub data');
     }
+  }
+
+  set id(id) {
+    this.__data__.id = id;
+  }
+
+  get id() {
+    return this.__data__.id;
   }
 
   set filename(filename) {
@@ -75,6 +88,10 @@ export class EPubData {
     return this.__data__.chapters;
   }
 
+  toObject() {
+    return _.cloneDeep(this.__data__);
+  }
+
   getChapter(chapterIndex) {
     return this.chapters[chapterIndex];
   }
@@ -88,16 +105,17 @@ export class EPubData {
     return null;
   }
 
-  setChapter(chapterIndex, chapterLike, resetText) {
+  rebuildChapter(chapterIndex, chapterLike, resetText) {
     let chapters = this.chapters;
     // if there is such a chapter in the epub data
     // update the subchapter item
     if (chapters[chapterIndex]) {
-      chapters[chapterIndex] = this.buildChapter(chapterLike, resetText);
+      let toBuild = chapterLike || chapters[chapterIndex];
+      chapters[chapterIndex] = buildChapter(toBuild, resetText);
     }
   }
 
-  setSubChapter(chapterIndex, subChapterIndex, subChapterLike, resetText) {
+  rebuildSubChapter(chapterIndex, subChapterIndex, subChapterLike, resetText) {
     let chapters = this.chapters;
     let currChapter = chapters[chapterIndex];
     if (currChapter) {
@@ -105,14 +123,15 @@ export class EPubData {
       // if there is such a subchapter in the epub data
       // update the subchapter item
       if (subChapters[subChapterIndex]) {
-        subChapters[subChapterIndex] = this.buildSubChapter(subChapterLike, resetText);
+        let toBuild = subChapterLike || subChapters[subChapterIndex];
+        subChapters[subChapterIndex] = buildSubChapter(toBuild, resetText);
       }
     }
   }
 
   insertChapter(index, chapterLike) {
     const chapters = this.chapters;
-    let newChapter = this.buildChapter(chapterLike);
+    let newChapter = buildChapter(chapterLike);
 
     this.chapters = [
       ...chapters.slice(0, index + 1),
@@ -124,7 +143,7 @@ export class EPubData {
   }
 
   insertSubChapter(chapterIndex, subChapterIndex, subChapterLike) {
-    let newSubChapter = this.buildSubChapter(subChapterLike);
+    let newSubChapter = buildSubChapter(subChapterLike);
     let chapter = this.getChapter(chapterIndex);
     chapter.subChapters = [
       ...chapter.subChapters.slice(0, subChapterIndex + 1),
@@ -155,63 +174,5 @@ export class EPubData {
     ];
     
     return subChapter;
-  }
-
-
-
-  untitledChapterNum = -1;
-  createChapterTitle() {
-    this.untitledChapterNum += 1;
-    return `Untitled Chapter${
-           this.untitledChapterNum}` > 0 
-          ? ` (${this.untitledChapterNum})`
-          : '';
-  }
-
-  buildChapter(chapterLike, resetText = true) {
-    const {
-      id,
-      items,
-      title,
-      image,
-      text,
-      subChapters
-    } = chapterLike;
-  
-    return {
-      id: id || uuid(),
-      items: Array.isArray(items) ? items : [],
-      title: title || this.createChapterTitle(),
-      image,
-      text: resetText ? '' : text,
-      subChapters: Array.isArray(subChapters) ? subChapters : []
-    };
-  }
-
-  buildSubChapter(subChapterLike, resetText) {
-    const {
-      id,
-      title,
-      items,
-      image,
-      text
-    } = subChapterLike;
-  
-    return {
-      id: id || uuid(),
-      items: Array.isArray(items) ? items : [],
-      title: title || 'Untitled Sub-Chapter',
-      image,
-      text: resetText ? '' : text
-    };
-  }
-
-  initializeRawEPubData(epubData) {
-    return [
-      this.buildChapter({
-        items: _.filter(epubData, (item) => Boolean(_.trim(item.text))),
-        title: 'Default Chapter',
-      })
-    ];
   }
 }
