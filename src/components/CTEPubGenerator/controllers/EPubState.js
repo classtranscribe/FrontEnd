@@ -1,48 +1,58 @@
-import { ARRAY_INIT } from 'utils/constants';
 import { StateController } from 'utils/state-controller';
-import { CTPlayerConstants as PCons } from '../../CTPlayer';
-import Constants from './EPubConstants';
+import { initialState } from '../redux/state';
+// import Constants from './EPubConstants';
 
 export default class EPubState extends StateController {
   constructor() {
     super();
-    this.error = null;
-    this.step = Constants.EPUB_STEP_SPLIT;
-    this.language = PCons.ENGLISH;
-    this.rawEpubData = ARRAY_INIT;
-    this.chapters = [];
-    this.currChIndex = 0;
-    this.navId = null;
-    this.showNav = false;
-    this.magnifiedImg = null;
-    this.foldedIds = [];
+
+    this.error = initialState.error;
+    this.step = initialState.step;
+    this.language = initialState.language;
+    this.rawEPubData = initialState.rawEPubData;
+    this.epubs = initialState.epubs;
+    this.currEPubIndex = initialState.currEPubIndex;
+    this.chapters = initialState.chapters;
+    this.currChIndex = initialState.currChIndex;
+    this.navId = initialState.navId;
+    this.showNav = initialState.showNav;
+    this.magnifiedImg = initialState.magnifiedImg;
+    this.foldedIds = initialState.foldedIds;
+
+    this.resetStates = this.resetStates.bind(this);
   }
 
   init(props) {
     const {
       setError,
       setStep,
-      setEpubData,
       setLanguage,
+      setRawEPubData,
+      setEPubs,
+      setCurrEPubIndex,
       setChapters,
       setCurrChIndex,
       setNavId,
       setShowNav,
       setMagnifiedImg,
-      setFoldedIds
+      setFoldedIds,
+      resetStates
     } = props;
 
     this.register({
       setError,
       setStep,
-      setEpubData,
       setLanguage,
+      setRawEPubData,
+      setEPubs,
+      setCurrEPubIndex,
       setChapters,
       setCurrChIndex,
       setNavId,
       setShowNav,
       setMagnifiedImg,
-      setFoldedIds
+      setFoldedIds,
+      resetStates
     });
   }
 
@@ -50,12 +60,24 @@ export default class EPubState extends StateController {
     this.setState('setError', 'error', error);
   }
 
+  setStep(step) {
+    this.setState('setStep', 'step', step);
+  }
+
   setLanguage(language) {
     this.setState('setLanguage', 'language', language);
   }
 
-  setRawEpubData(rawEpubData) {
-    this.setState('setRawEpubData', 'rawEpubData', rawEpubData);
+  setRawEPubData(rawEPubData) {
+    this.setState('setRawEPubData', 'rawEPubData', rawEPubData);
+  }
+
+  setEPubs(epubs) {
+    this.setState('setEPubs', 'epubs', epubs);
+  }
+
+  setCurrEPubIndex(currEPubIndex) {
+    this.setState('setCurrEPubIndex', 'currEPubIndex', currEPubIndex);
   }
 
   setChapters(chapters) {
@@ -85,6 +107,13 @@ export default class EPubState extends StateController {
   updateContentChanges(chapters, currChIndex) {
     this.setChapters(chapters);
     this.setCurrChIndex(currChIndex);
+  }
+
+  resetStates() {
+    const { resetStates } = this.dispatches;
+    if (resetStates) {
+      resetStates();
+    }
   }
 }
 

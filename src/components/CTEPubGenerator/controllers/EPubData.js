@@ -10,10 +10,12 @@ export default class EPubData {
    * @param {Any} data - the initial data for the ePub
    */
   constructor(data) {
+    if (data instanceof EPubData) {
+      this.__data__ = data.__data__;
+    }
     // if the input data is the raw epub data
-    if (Array.isArray(data)) {
+    else if (Array.isArray(data)) {
       this.chapters = buildEPubDataFromArray(data);
-      this.id = uuid();
     }
 
     // if the input data is the epub-like
@@ -26,6 +28,11 @@ export default class EPubData {
 
     else {
       throw Error('Invalid ePub data');
+    }
+
+    // create an id if there's no id in the epub data
+    if (!this.id) {
+      this.id = uuid();
     }
   }
 

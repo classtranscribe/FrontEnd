@@ -6,6 +6,24 @@ export function buildID(preflix, id) {
   return (preflix ? `${preflix }-` : '') + (id || uuid());
 }
 
+export class EPubIDs {
+  static chID(chId) {
+    return buildID(Constants.CH_ID_PREFIX, chId);
+  }
+
+  static schID(schId) {
+    return buildID(Constants.SCH_ID_PREFIX, schId);
+  }
+
+  static navChID(chId) {
+    return buildID(Constants.NAV_CH_ID_PREFIX, chId);
+  }
+
+  static navSChID(schId) {
+    return buildID(Constants.NAV_SCH_ID_PREFIX, schId);
+  }
+}
+
 let untitledChapterNum = -1;
 function createChapterTitle() {
   untitledChapterNum += 1;
@@ -83,22 +101,4 @@ export function buildEPubDataFromArray(epubData) {
       title: 'Default Chapter',
     })
   ];
-}
-
-export class EPubIDs {
-  static chID(chId) {
-    return buildID(Constants.CH_ID_PREFIX, chId);
-  }
-
-  static schID(schId) {
-    return buildID(Constants.SCH_ID_PREFIX, schId);
-  }
-
-  static navChID(chId) {
-    return buildID(Constants.NAV_CH_ID_PREFIX, chId);
-  }
-
-  static navSChID(schId) {
-    return buildID(Constants.NAV_SCH_ID_PREFIX, schId);
-  }
 }
