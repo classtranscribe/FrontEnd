@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
+import { CTLoader } from 'layout';
 import { epubStore, connectWithRedux } from './redux';
 import { epub, CTEPubConstants as Constants } from './controllers';
+import SplitChapter from './Step1-SplitChapters';
+import './index.scss';
 
 function EPubGenerator(props) {
   const {
@@ -12,11 +15,12 @@ function EPubGenerator(props) {
     error,
     language,
     rawEPubData,
+    chapters,
     epubs,
     currEPubIndex
   } = props;
   const { hash } = useLocation();
-  const loading = epub.ctrl.isLoading(rawEPubData);
+  const loading = epub.ctrl.isLoading(chapters);
 
   useEffect(() => {
     // register redux dispatch functions
@@ -27,10 +31,10 @@ function EPubGenerator(props) {
 
   useEffect(() => {
     let stepVal = hash.replace('#', '');
-    if (Constants.EPUB_STEPS.includes(stepVal)) {
+    if (Constants.EPubSteps.includes(stepVal)) {
       epub.state.setStep(stepVal);
     } else {
-      epub.state.setStep(Constants.EPUB_STEP_SPLIT);
+      epub.state.setStep(Constants.EPubStepSplitChapters);
     }
   }, [hash]);
 
@@ -45,13 +49,23 @@ function EPubGenerator(props) {
     // reset the chapters and related states 
     // when epubs loaded or currEPubIndex changed
     if (epubs.length > 0 && !error) {
-      const chapters = epub.data.initEPubData(epubs[currEPubIndex], title);
-      epub.ctrl.changeEPub(currEPubIndex, chapters);
+      const newChapters = epub.data.initEPubData(epubs[currEPubIndex], title);
+      epub.ctrl.changeEPub(currEPubIndex, newChapters);
     }
   }, [title, epubs, currEPubIndex]);
 
   return (
-    <div id="ct-epb-con" />
+    <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
+      {
+        loading ? (
+          <div className="w-100"><CTLoader /></div>
+        ) : (
+          <>
+            <SplitChapter />
+          </>
+        )
+      }
+    </div>
   );
 };
 
@@ -64,6 +78,7 @@ export default withReduxProvider(
     'language',
     'rawEPubData',
     'epubs',
+    'chapters',
     'currEPubIndex'
   ],
   ['all']

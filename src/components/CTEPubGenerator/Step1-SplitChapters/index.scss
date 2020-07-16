@@ -1,0 +1,31 @@
+////////////////////////////////////////////////////////////
+// Image Magnifier
+////////////////////////////////////////////////////////////
+.ct-epb.img-magnifier {
+  position: fixed;
+  top: 120px;
+  right: 10%;
+  width: 600px;
+  z-index: 1;
+  cursor: zoom-out;
+  button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.26);
+  }
+}
+
+.ct-epb.sch.proceed-btns {
+  height: fit-content;
+  width: auto;
+  position: fixed;
+  top: auto !important;
+  left: auto;
+  right: 30px;
+  bottom: 15px;
+}

@@ -4,12 +4,12 @@ import Constants from '../controllers/EPubConstants';
 
 export const initialState = {
   error: null,
-  step: Constants.EPUB_STEP_SPLIT,
+  step: Constants.EPubStepDefaultFirstStep,
   language: PConstants.ENGLISH,
   rawEPubData: ARRAY_INIT,
   epubs: [],
   currEPubIndex: 0,
-  chapters: [],
+  chapters: ARRAY_INIT,
   currChIndex: 0,
   navId: null,
   showNav: false,

@@ -1,5 +1,5 @@
-// import _ from 'lodash';
-import { api, prompt, ARRAY_INIT } from 'utils';
+import _ from 'lodash';
+import { api, prompt, uurl, ARRAY_INIT } from 'utils';
 import Constants from './EPubConstants';
 import { epubState } from './EPubState';
 import EPubData from './EPubData';
@@ -9,11 +9,69 @@ class EPubController {
   constructor() {
     this.mediaId = null;
     this.currEPubIndex = null;
+
+    this.proceedToStep2 = this.proceedToStep2.bind(this);
   }
 
-  isLoading(rawEPubData) {
-    return rawEPubData === ARRAY_INIT;
+  isLoading(chapters) {
+    return chapters === ARRAY_INIT;
   }
+
+  /// ///////////////////////////////////////////////////////////////
+  // Steps
+  /// ///////////////////////////////////////////////////////////////
+
+  get isStep1() {
+    return epubState.step === Constants.EPubStepSplitChapters;
+  }
+
+  get isStep2() {
+    return epubState.step === Constants.EPubStepEditChapters;
+  }
+
+  get isStep3() {
+    return epubState.step === Constants.EPubStepDownload;
+  }
+
+  toStep(step) {
+    uurl.setHash(step);
+  }
+
+  proceedToStep2() {
+    this.toStep(Constants.EPubStepEditChapters);
+    prompt.addOne({
+      text: "Start editing your chapters' contents.",
+      status: 'success',
+      position: 'left bottom',
+      timeout: 3000,
+    }, true);
+  }
+
+  /// ///////////////////////////////////////////////////////////////
+  // States
+  /// ///////////////////////////////////////////////////////////////
+
+  foldChapter(id) {
+    epubState.setFoldedIds([...epubState.foldedIds, id]);
+  }
+
+  unfoldChapter(id) {
+    let foldedIds = epubState.foldedIds;
+    epubState.setFoldedIds(_.filter(foldedIds, (fid) => fid !== id));
+  }
+
+  magnifyImage(image) {
+    epubState.setMagnifiedImg(image);
+  }
+
+  endMagnifyImage() {
+    epubState.setMagnifiedImg(null);
+  }
+
+
+  /// ///////////////////////////////////////////////////////////////
+  // Networks
+  /// ///////////////////////////////////////////////////////////////
 
   async requestEPub(mediaId) {
     try {
@@ -36,10 +94,18 @@ class EPubController {
     } catch (error) {
       // default as 404 error
       console.error(error, `Failed to get ePub data of media for ${mediaId}, ${language}`);
-      epubState.setError(Constants.ERR_NO_EPUB);
+      epubState.setError(Constants.NoEPubDataRequestedError);
     }
 
     return null;
+  }
+
+  async changeLanguage(language) {
+    const rawEPubData = await this.getRawEPubData(this.mediaId, language);
+
+    if (!rawEPubData) return;
+    epubState.setRawEPubData(rawEPubData);
+    epubState.setEPubs([ ...epubState.epubs, new EPubData(rawEPubData) ]);
   }
 
   async setupEPubGenWithMediaId(mediaId, language) {

@@ -1,9 +1,16 @@
 import _ from 'lodash';
+import { prompt } from 'utils';
 // import Constants from './EPubConstants';
 import EPubData from './EPubData';
 import { epubState } from './EPubState';
 import { epubHistory } from './EPubHistory';
-import { buildSubChapter as bsch } from './utils';
+import {
+  buildChapter as bch,
+  buildSubChapter as bsch,
+  filterTrivalItems,
+  buildEPubDataFromArray,
+  getAllItemsInChapter
+} from './utils';
 
 class EPubDataController {
   constructor() {
@@ -35,7 +42,7 @@ class EPubDataController {
       actionName,
       // the cloned new chapters
       this.data.toObject().chapters,
-      (currChIndex || epubState.currChIndex)
+      (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
     );
   }
 
@@ -195,6 +202,79 @@ class EPubDataController {
 
     this.data.rebuildChapter(chapterIdx, null, false);
     this.updateAll('Split chapters', chapterIdx + 1);
+  }
+
+  /// ////////////////////////////////////////////////////////////////////////
+  // Quick Actions
+  /// ////////////////////////////////////////////////////////////////////////
+
+  resetToDefaultChapters() {
+    let defaultChapters = buildEPubDataFromArray(epubState.rawEPubData);
+    this.data.chapters = defaultChapters;
+    this.updateAll('Reset to the default chapters', 0);
+    prompt.addOne({
+      text: 'Reset to the default chapters.',
+      position: 'left bottom',
+      timeout: 2000,
+    });
+  }
+
+  splitChaptersByScreenshots() {
+    let splitChapters = _.map(
+      filterTrivalItems(epubState.rawEPubData),
+      (data, idx) =>
+        bch({
+          items: [data],
+          title: `Untitled Chapter ${idx + 1}`,
+        }),
+    );
+    this.data.chapters = splitChapters;
+    this.updateAll('Split chapters by screenshots', 0);
+    prompt.addOne({
+      text: 'Split chapters by screenshots.',
+      position: 'left bottom',
+      timeout: 2000,
+    });
+  }
+
+  subdivideChaptersByScreenshots() {
+    let newChapters = _.map(this.data.chapters, (chapter) => {
+      let items = getAllItemsInChapter(chapter);
+
+      chapter.subChapters = _.map(items, (item, subChapterIndex) =>
+        bsch({
+          items: [item],
+          title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
+        }),
+      );
+
+      chapter.items = [];
+      return bch(chapter);
+    });
+
+    this.data.chapters = newChapters;
+    this.updateAll('Subdivided all the chapters by screenshots', 0);
+    prompt.addOne({
+      text: 'Subdivided all the chapters by screenshots.',
+      position: 'left bottom',
+      timeout: 2000,
+    });
+  }
+
+  /// ////////////////////////////////////////////////////////////////////////
+  // handle edit title
+  /// ////////////////////////////////////////////////////////////////////////
+
+  handleChapterTitleChange(chapterIdx, value) {
+    let chapter = this.data.getChapter(chapterIdx);
+    chapter.title = value;
+    this.updateAll('Edit the chapter title', chapterIdx);
+  }
+
+  handleSubChapterTitleChange(chapterIdx, subChapterIdx, value) {
+    let subChapter = this.data.getSubChapter(chapterIdx, subChapterIdx);
+    subChapter.title = value;
+    this.updateAll('Edit the sub-chapter title', chapterIdx);
   }
 }
 
