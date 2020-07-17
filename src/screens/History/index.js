@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
-import { links } from 'utils';
 import { historyStore, connectWithRedux, setup } from './controllers';
 import { WatchHistories } from './Components';
 
@@ -15,7 +14,6 @@ class HistoryWithRedux extends Component {
 
   componentDidMount() {
     setup.setupHisoryPage();
-    links.title('History');
   }
 
   render() {
@@ -29,6 +27,10 @@ class HistoryWithRedux extends Component {
         sticky: true,
         gradient: true,
         offsetTop: 30
+      }, 
+      metaTagsProps: {
+        title: 'History',
+        description: 'Track your activities in ClassTranscribe.'
       }
     });
 

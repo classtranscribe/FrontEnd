@@ -1,7 +1,6 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
-import { links } from 'utils';
 import { searchStore, connectWithRedux, setup } from './controllers';
 import { SearchInput, SearchResult } from './Components';
 
@@ -14,7 +13,6 @@ class SearchWithRedux extends React.Component {
 
   componentDidMount() {
     setup.setupSearchPage();
-    links.title('Search');
   }
 
   render() {
@@ -29,6 +27,10 @@ class SearchWithRedux extends React.Component {
         gradient: true,
         offsetTop: 30,
       },
+      metaTagsProps: {
+        title: 'Search',
+        description: 'Find your courses in ClassTranscribe.'
+      }
     });
 
     return (
