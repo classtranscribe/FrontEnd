@@ -3,13 +3,14 @@ import { CTScrollArea } from 'layout';
 import { elem } from 'utils/use-elem';
 import { connectWithRedux } from '../../redux';
 import { MDPreviewer } from '../../components';
-import { CTEPubConstants as Constants } from '../../controllers';
+import { CTEPubConstants as Constants, buildHTMLFromChapter } from '../../controllers';
 import './index.scss';
 
 let lastChapterId = null;
 
 function ChapterPreview({ chapters, currChIndex }) {
-  const { text, id } = chapters[currChIndex] || chapters[0];
+  const currChapter = chapters[currChIndex] || chapters[0];
+  const { id } = currChapter;
 
   useEffect(() => {
     if (id !== lastChapterId) {
@@ -29,7 +30,7 @@ function ChapterPreview({ chapters, currChIndex }) {
       scrollClassName="ct-epb sch pview-scroll"
       scrollToTopButton="right top"
     >
-      <MDPreviewer value={text} className="ct-epb sch md-pview" />
+      <MDPreviewer value={buildHTMLFromChapter(currChapter)} className="ct-epb sch md-pview" />
     </CTScrollArea>
   );
 }

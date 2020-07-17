@@ -1,5 +1,5 @@
-import React from 'react';
-import { CTEPubConstants as Constants } from '../controllers';
+import React, { useEffect } from 'react';
+import { CTEPubConstants as Constants, epub } from '../controllers';
 import ImageMagnifier from './ImageMagnifier';
 import ChapterList from './ChapterList';
 import ChapterPreview from './ChapterPreview';
@@ -8,6 +8,12 @@ import ProceedButton from './ProceedButton';
 import './index.scss';
 
 function SplitChapter() {
+  useEffect(() => {
+    epub.nav.addScrollListenerForChapterList();
+
+    return epub.nav.removeScrollListenerForChapterList;
+  }, []);
+
   return (
     <div
       id={Constants.SplitChapterContainerID}

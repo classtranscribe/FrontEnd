@@ -133,12 +133,12 @@ class ElementHandler {
     if (elem && typeof elem.getBoundingClientRect === 'function') {
       const rect = elem.getBoundingClientRect();
       const elemTop = rect.top;
-      // var elemBottom = rect.bottom;
+      const elemBottom = rect.bottom;
 
       // Only completely visible elements return true:
-      const isVisible = elemTop >= 0 && elemTop <= offsetTop;
+      // let isVisible = elemTop >= 0 && elemTop <= offsetTop;
       // Partially visible elements return true:
-      // isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+      let isVisible = elemTop < window.innerHeight && elemBottom >= offsetTop;
       return isVisible;
     }
 

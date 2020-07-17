@@ -20,6 +20,10 @@ export function ChapterTitle({
   const [inputValue, setInputValue] = useState(value);
   const inputRef = useRef();
 
+  const handleFocus = (e) => {
+    // to do select all
+  };
+
   const handleInput = (e) => {
     setInputValue(e.target.innerText);
   };
@@ -57,6 +61,7 @@ export function ChapterTitle({
     contentEditable: true,
     children: value,
     tabIndex: 0,
+    onFocus: handleFocus,
     onInput: handleInput,
     onKeyDown,
     role: 'textbox',

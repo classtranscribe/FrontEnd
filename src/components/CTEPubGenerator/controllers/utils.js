@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
+import { buildMarkdownFromItems } from './html-converters';
 
 export function buildID(preflix, id) {
-  return (preflix ? `${preflix }-` : '') + (id || uuid());
+  return (preflix ? `${preflix}=` : '') + (id || uuid());
 }
 
 let untitledChapterNum = -1;
@@ -11,12 +12,6 @@ function createChapterTitle() {
   return `Untitled Chapter${untitledChapterNum > 0 
         ? ` (${untitledChapterNum})`
         : ''}`;
-}
-
-export function buildMarkdownFromItems(items) {
-  const subTitle = items.length > 0 ? '\n#### Transcript\n\n' : '';
-
-  return subTitle + _.map(items, (item) => _.trim(item.text)).join('\n\n');
 }
 
 export function buildChapter(chapterLike, resetText = true) {
@@ -51,7 +46,7 @@ export function buildChapter(chapterLike, resetText = true) {
   };
 }
 
-export function buildSubChapter(subChapterLike, resetText) {
+export function buildSubChapter(subChapterLike, resetText = true) {
   const {
     id,
     title,

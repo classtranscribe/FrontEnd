@@ -90,6 +90,8 @@
   position: relative;
   width: 100%;
   flex: 0 0 auto;
+  padding-bottom: 20px;
+  border-top: solid 1px rgb(236, 236, 236);
 
   &.fold {
     .ch-item-title .ch-item-expand-btn {
@@ -174,6 +176,8 @@
   // ePub Sub-Chapter Item
   ////////////////////////////////////////////////////////////
   &.sub {
+    border-top: none;
+
     .ch-item-title-con {
       position: relative;
       margin-top: 10px;

@@ -26,7 +26,7 @@ function EPubGenerator(props) {
     // register redux dispatch functions
     epub.state.init(props);
     // reset the redux store when the component is unmounted
-    return epub.state.resetStates;
+    // return epub.state.resetStates;
   }, []);
 
   useEffect(() => {

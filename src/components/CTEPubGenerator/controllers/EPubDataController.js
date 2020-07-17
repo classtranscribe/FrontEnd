@@ -15,6 +15,10 @@ import {
 class EPubDataController {
   constructor() {
     this.data = null;  
+
+    this.resetToDefaultChapters = this.resetToDefaultChapters.bind(this);
+    this.splitChaptersByScreenshots = this.splitChaptersByScreenshots.bind(this);
+    this.subdivideChaptersByScreenshots = this.subdivideChaptersByScreenshots.bind(this);
   }
 
   initEPubData(ePubLike, title) {

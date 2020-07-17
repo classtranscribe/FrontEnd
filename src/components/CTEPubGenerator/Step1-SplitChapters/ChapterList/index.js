@@ -9,7 +9,7 @@ import './index.scss';
 function ChapterList({ chapters }) {
   return (
     <CTScrollArea
-      id={Constants.SplitChapterChapterListID}
+      id={Constants.EPubChapterListID}
       className="ct-epb sch-con"
       scrollClassName="ct-epb sch-scroll"
       scrollToTopButton="left"
