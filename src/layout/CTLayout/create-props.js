@@ -2,6 +2,15 @@ import { DefaultSidebarItems } from './default-sidebar-items';
 
 /**
  * The props for CTLayout component
+ * @typedef {Object} CTMetaTagsProps
+ * @property {String} title - <title>{title}</title>
+ * @property {String} description - <meta name="description" content={description} />
+ * @property {String} keywords - <meta name="keywords" content={keywords} />
+ * 
+ */
+
+/**
+ * The props for CTLayout component
  * @typedef {Object} CTLayoutProps
  * @property {*} children - Page content
  * @property {String} className - Additional classes.
@@ -16,7 +25,7 @@ import { DefaultSidebarItems } from './default-sidebar-items';
  * @property {import("../CTNavHeader/create-props.js").CTNavHeaderProps} headerProps - Props to the nav header
  * @property {import("../CTNavSidebar/create-props.js").CTNavSidebarProps} sidebarProps - Props to the sidebar
  * @property {import("../CTHeading/create-props.js").CTHeadingProps} headingProps - Props to the general heading
- * 
+ * @property {CTMetaTagsProps} metaTagsProps - Props to the CTMetaTags
  */
 
 /**

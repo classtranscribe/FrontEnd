@@ -120,7 +120,8 @@ function CTLayout(props) {
 
   return (
     <div id="ct-layout-container" className={containerClasses}>
-      <CTMetaTags metaTags={metaTagsProps} />
+      <CTMetaTags {...metaTagsProps} />
+      
       <CTNavSidebar
         {...sidebarProps}
         darkMode={darkMode}
@@ -193,7 +194,10 @@ export const CTLayoutPropTypes = {
   sidebarProps: PropTypes.shape(CTNavSidebar.propTypes),
 
   /** Props to the heading */
-  headingProps: PropTypes.shape(CTHeading.propTypes)
+  headingProps: PropTypes.shape(CTHeading.propTypes),
+
+  /** Meta tags */
+  metaTagsProps: PropTypes.shape(CTMetaTags.propTypes)
 };
 
 CTLayout.propTypes = CTLayoutPropTypes;
