@@ -63,7 +63,7 @@
     "js-file-download": "^0.4.9",
     "jwt-decode": "^2.2.0",
     "kind-of": "^6.0.3",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.19",
     "mdx.macro": "^0.2.9",
     "mk-guide": "^1.10.5",
     "moment": "^2.24.0",
