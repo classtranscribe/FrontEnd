@@ -17,7 +17,7 @@ function SplitChapter() {
   return (
     <div
       id={Constants.SplitChapterContainerID}
-      className="ct-epb step-con ct-a-fade-in"
+      className="ct-epb step-con split-ch-con ct-a-fade-in"
     >
       <ChapterList />
       <ChapterPreview />

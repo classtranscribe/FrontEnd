@@ -28,7 +28,7 @@ function ChapterPreview({ chapters, currChIndex }) {
       id={Constants.SplitChapterMDPreviewerID}
       className="ct-epb sch pview-con"
       scrollClassName="ct-epb sch pview-scroll"
-      scrollToTopButton="right top"
+      scrollToTopButton="top right"
     >
       <MDPreviewer value={buildHTMLFromChapter(currChapter)} className="ct-epb sch md-pview" />
     </CTScrollArea>

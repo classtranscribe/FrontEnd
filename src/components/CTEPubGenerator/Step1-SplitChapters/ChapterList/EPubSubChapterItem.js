@@ -39,7 +39,7 @@ function EPubSubChapterItem({
   return (
     <div id={epub.const.schID(subChapter.id)} className={schClasses}>
       <div
-        className="ch-item-title-con ee-sch-sub ct-d-r-center-v"
+        className="ch-item-title-con sub ct-d-r-center-v"
       >
         <ChapterTitle
           id={epub.const.schTitleID(subChapter.id)}

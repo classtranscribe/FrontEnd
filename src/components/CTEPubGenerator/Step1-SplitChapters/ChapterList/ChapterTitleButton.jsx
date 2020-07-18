@@ -6,8 +6,8 @@ function ChapterTitleButton({
   show=false,
   content="",
   icon="",
-  color="normal",
-  outlined=false,
+  color="transparent",
+  outlined=true,
   className="",
   onClick=null,
 }) {

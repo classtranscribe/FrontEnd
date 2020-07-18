@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLoader } from 'layout';
+import { CTLoader, altEl } from 'layout';
 import { epubStore, connectWithRedux } from './redux';
 import { epub, CTEPubConstants as Constants } from './controllers';
+import { ChapterNavigation } from './components';
 import SplitChapter from './Step1-SplitChapters';
 import './index.scss';
 
@@ -13,6 +14,7 @@ function EPubGenerator(props) {
     title,
     // states
     error,
+    step,
     language,
     rawEPubData,
     chapters,
@@ -54,15 +56,21 @@ function EPubGenerator(props) {
     }
   }, [title, epubs, currEPubIndex]);
 
+  const splitChapterElement = altEl(SplitChapter, step === Constants.EPubStepSplitChapters);
+  const editChapterElement = altEl(null, step === Constants.EPubStepEditChapters);
+  const downloadElement = altEl(null, step === Constants.EPubStepDownload);
+
   return (
     <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
       {
         loading ? (
           <div className="w-100"><CTLoader /></div>
         ) : (
-          <>
-            <SplitChapter />
-          </>
+          <ChapterNavigation open>
+            {splitChapterElement}
+            {editChapterElement}
+            {downloadElement}
+          </ChapterNavigation>
         )
       }
     </div>
@@ -75,6 +83,7 @@ export default withReduxProvider(
   connectWithRedux,
   [
     'error',
+    'step',
     'language',
     'rawEPubData',
     'epubs',

@@ -1,9 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import { CTText } from 'layout';
-import { epub, getCompactText } from '../../controllers';
-import { connectWithRedux } from '../../redux';
 import { ChapterTitle } from '../../components';
+import { epub, getCompactText } from '../../controllers';
 import ChapterTitleButton from './ChapterTitleButton';
 import EPubListItem from './EPubListItem';
 import EPubSubChapterItem from './EPubSubChapterItem';
@@ -12,7 +11,8 @@ function EPubChapterItem({
   chapter,
   chapterIndex,
   foldedIds=[],
-  canUndoSplit=false,
+  canUndoSplit = false,
+  canDisplayFull = false
 }) {
   const fold = () => epub.ctrl.foldChapter(chapter.id);
   const unfold = () => epub.ctrl.unfoldChapter(chapter.id);
@@ -27,6 +27,8 @@ function EPubChapterItem({
   const isFolded = foldedIds.includes(chapter.id);
   
   const chClasses = cx('ct-epb', 'sch', 'ch-item', 'ct-d-c', { fold: isFolded });
+
+  const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3);
 
   return (
     <div 
@@ -79,7 +81,7 @@ function EPubChapterItem({
         :
           <>
             <div className="ch-item-ol ct-d-c">
-              {chapter.items.map((item, itemIndex) => (
+              {itemsToDisplay.map((item, itemIndex) => (
                 <EPubListItem 
                   key={item.id} 
                   item={item} 
@@ -112,7 +114,4 @@ function EPubChapterItem({
   );
 }
 
-export default connectWithRedux(
-  EPubChapterItem,
-  ['foldedIds']
-);
+export default EPubChapterItem;

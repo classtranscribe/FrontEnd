@@ -6,7 +6,7 @@
 
   .ct-epb.sch-scroll {
     padding-right: 15px;
-    padding-bottom: 100px;
+    padding-bottom: 50%;
   }
 }
 
@@ -109,9 +109,9 @@
     margin-top: 20px;
     // animation: epb-ch-title-show 200ms linear;
 
-    &.ee-sch-sub {
+    &.sub {
       padding: 15px 0 15px 180px;
-      animation: none !important;
+      // animation: none !important;
     }
 
     .ch-item-title {
@@ -127,7 +127,7 @@
 
     .ch-item-act-btn {
       position: absolute;
-      top: 13px;
+      top: 9px;
       left: 55px;
       opacity: .8;
       transition: opacity .2s ease-in;
@@ -150,7 +150,7 @@
     }
 
     &:hover .ch-item-act-btn, 
-    .ch-item-act-btn:focus-within {
+    &:focus-within .ch-item-act-btn {
       opacity: 1;
     }
   }

@@ -141,9 +141,9 @@ export default class EPubData {
     let newChapter = buildChapter(chapterLike);
 
     this.chapters = [
-      ...chapters.slice(0, index + 1),
+      ...chapters.slice(0, index),
       newChapter,
-      ...chapters.slice(index + 1)
+      ...chapters.slice(index)
     ];
 
     return newChapter;
@@ -153,9 +153,9 @@ export default class EPubData {
     let newSubChapter = buildSubChapter(subChapterLike);
     let chapter = this.getChapter(chapterIndex);
     chapter.subChapters = [
-      ...chapter.subChapters.slice(0, subChapterIndex + 1),
+      ...chapter.subChapters.slice(0, subChapterIndex),
       newSubChapter,
-      ...chapter.subChapters.slice(subChapterIndex + 1)
+      ...chapter.subChapters.slice(subChapterIndex)
     ];
 
     return newSubChapter;

@@ -1,6 +1,7 @@
-////////////////////////////////////////////////////////////
-// Image Magnifier
-////////////////////////////////////////////////////////////
+.ct-epb.split-ch-con {
+  border-left: solid 1px rgb(236, 236, 236);
+}
+
 .ct-epb.img-magnifier {
   position: fixed;
   top: 120px;
@@ -23,7 +24,7 @@
 .ct-epb.sch.proceed-btns {
   height: fit-content;
   width: auto;
-  position: fixed;
+  position: absolute;
   top: auto !important;
   left: auto;
   right: 30px;

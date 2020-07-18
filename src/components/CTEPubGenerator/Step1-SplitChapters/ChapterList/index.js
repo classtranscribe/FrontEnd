@@ -6,13 +6,13 @@ import EPubChapterItem from './EPubChapterItem';
 import InstructionHeading from './InstructionHeading';
 import './index.scss';
 
-function ChapterList({ chapters }) {
+function ChapterList({ chapters, /** currChIndex, */ foldedIds }) {
   return (
     <CTScrollArea
       id={Constants.EPubChapterListID}
       className="ct-epb sch-con"
       scrollClassName="ct-epb sch-scroll"
-      scrollToTopButton="left"
+      scrollToTopButton="right"
     >
       <InstructionHeading />
 
@@ -21,8 +21,10 @@ function ChapterList({ chapters }) {
           <EPubChapterItem
             key={chapter.id}
             chapter={chapter}
+            canDisplayFull
             chapterIndex={chapterIndex}
             canUndoSplit={chapterIndex > 0}
+            foldedIds={foldedIds}
           />
         ))}
       </div>
@@ -30,4 +32,7 @@ function ChapterList({ chapters }) {
   );
 }
 
-export default connectWithRedux(ChapterList, ['chapters']);
+export default connectWithRedux(
+  ChapterList, 
+  ['chapters', 'currChIndex', 'foldedIds']
+);

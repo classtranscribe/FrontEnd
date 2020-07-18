@@ -35,7 +35,7 @@ export function buildChapter(chapterLike, resetText = true) {
   }
 
   return {
-    id: id || uuid(),
+    id: id || buildID(),
     items,
     title: title || createChapterTitle(),
     image: resetText ? (items[0] ? items[0].image : '') : image,
@@ -56,7 +56,7 @@ export function buildSubChapter(subChapterLike, resetText = true) {
   } = subChapterLike;
 
   return {
-    id: id || uuid(),
+    id: id || buildID(),
     items: Array.isArray(items) ? items : [],
     title: title || 'Untitled Sub-Chapter',
     image: resetText ? items[0].image : image,
@@ -64,6 +64,10 @@ export function buildSubChapter(subChapterLike, resetText = true) {
     start: items[0].start,
     end: items[items.length - 1].end
   };
+}
+
+export function parseRawEPubData(rawEPubData) {
+  return _.map(rawEPubData, item => ({ ...item, id: buildID() }));
 }
 
 export function buildEPubChapterFromRaw(rawChapter) {

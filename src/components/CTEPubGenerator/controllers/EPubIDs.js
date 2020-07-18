@@ -3,6 +3,7 @@ import { buildID } from './utils';
 export default class EPubIDs {
   // ID
   static EPubGeneratorContainerID = 'ct-epb-con';
+  static EPubNavigatorContainerID = 'ct-epb-nav-con';
   static EPubChapterListID = 'ct-epb-ch-list';
   static EPubChapterNavListID = 'ct-epb-nav-list';
   static SplitChapterContainerID = 'ct-epb-sch-con';

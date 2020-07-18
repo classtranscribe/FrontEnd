@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Button } from 'pico-ui';
+import { CTText } from 'layout';
 import { uurl } from 'utils/use-url';
 import { epub } from '../../controllers';
 
@@ -41,7 +42,7 @@ function EPubListItem({
   });
 
   return (
-    <div role="listitem" className={itemClass}>
+    <div id={item.id} role="listitem" className={itemClass}>
       <div className="item-actions">
         {
           canSplit
@@ -97,13 +98,13 @@ function EPubListItem({
         >
           <img src={imgSrc} alt="screenshot" />
         </div>
-        <div className="item-text">
+        <CTText line={5} className="item-text">
           {
             item.text 
             ||
             <span className="text-muted"><i>No Transcriptions</i></span>
           }
-        </div>
+        </CTText>
       </div>
     </div>
   );

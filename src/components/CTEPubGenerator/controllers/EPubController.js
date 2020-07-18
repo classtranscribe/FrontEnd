@@ -3,6 +3,7 @@ import { api, prompt, uurl, ARRAY_INIT } from 'utils';
 import Constants from './EPubConstants';
 import { epubState } from './EPubState';
 import EPubData from './EPubData';
+import { parseRawEPubData } from './utils';
 // import { buildSubChapter as bsch } from './utils';
 
 class EPubController {
@@ -90,7 +91,7 @@ class EPubController {
     epubState.setError('');
     try {
       let { data } = await api.getEpubData(mediaId, language);
-      return data;
+      return parseRawEPubData(data);
     } catch (error) {
       // default as 404 error
       console.error(error, `Failed to get ePub data of media for ${mediaId}, ${language}`);
