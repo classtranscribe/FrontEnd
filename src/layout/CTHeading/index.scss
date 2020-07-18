@@ -1,6 +1,10 @@
 .ct-heading {
   color: rgb(51, 51, 51);
 
+  &.sticky {
+    background-color: white;
+  }
+
   &.uppercase {
     text-transform: uppercase;
   }

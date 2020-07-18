@@ -10397,11 +10397,12 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-pico-ui@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/pico-ui/-/pico-ui-0.0.6.tgz#2edf8c1427b5d8bbc8d4cf9f9b38ad59c1ad0d10"
-  integrity sha512-upeS2Qb8doi9Pw1AfzUno/jAjCHH5toA3zemj4hE+wuhgWkcH7CTfZ7faj/1eYs2WDwdzxsVWHs/mlnyh9ceFg==
+pico-ui@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/pico-ui/-/pico-ui-0.0.13.tgz#c7b8b83ab78d0602344476a92833f28b8a0f9b9b"
+  integrity sha512-wA+dZfWavDK+RcxKmCvA8F3DY6Ax6H/USw4Yef/VfP++BCJ9YkBlF55PfYfdyfcQpI6yeIwyZkIpGzXd01IAJA==
   dependencies:
+    classnames "^2.2.6"
     css-loader "^3.4.2"
     prop-types "^15.7.2"
     react "^16.10.2"
