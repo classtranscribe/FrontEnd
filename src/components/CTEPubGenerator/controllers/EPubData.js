@@ -1,9 +1,15 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { buildEPubDataFromArray, buildChapter, buildSubChapter } from './utils';
+import { 
+  buildEPubDataFromArray, 
+  buildChapter, 
+  buildSubChapter, 
+  getAllImagesInChapters 
+} from './utils';
 
 export default class EPubData {
   __data__ = require('./epub-data.json');
+  images = [];
 
   /**
    * Create a ePub data instance
@@ -33,6 +39,20 @@ export default class EPubData {
     // create an id if there's no id in the epub data
     if (!this.id) {
       this.id = uuid();
+    }
+
+    // setup default values
+    this.images = getAllImagesInChapters(this.chapters);
+    if (!this.cover && this.images.length > 0) {
+      this.cover = this.images[0];
+    }
+
+    if (!this.author) {
+      this.author = 'Anonymous';
+    }
+
+    if (!this.language) {
+      this.language = 'en-US';
     }
   }
 
@@ -84,6 +104,14 @@ export default class EPubData {
     return this.__data__.cover;
   }
 
+  set language(language) {
+    this.__data__.language = language;
+  }
+
+  get language() {
+    return this.__data__.language;
+  }
+
   set chapters(chapters) {
     this.__data__.chapters = chapters;
   }
@@ -96,7 +124,7 @@ export default class EPubData {
   }
 
   toObject() {
-    return _.cloneDeep(this.__data__);
+    return _.cloneDeep(this.__data__);;
   }
 
   getChapter(chapterIndex) {

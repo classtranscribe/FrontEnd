@@ -19,14 +19,14 @@ function ChapterNavigationProvider({
 
   useEffect(() => {
     if (navId && open) {
-      elem.scrollIntoCenter(navId);
+      elem.scrollIntoCenter(navId, { focus: false });
     }
   }, [navId, showNav]);
 
   const openBtnElement = altEl(NavTrigger, !epub.ctrl.isStep2, { open });
 
   return (
-    <Sidebar.Pushable>
+    <Sidebar.Pushable className="w-100">
       <Sidebar
         id={epub.const.EPubNavigatorContainerID}
         animation="uncover"

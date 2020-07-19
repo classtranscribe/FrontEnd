@@ -23,7 +23,7 @@ const epubReducer = (state = initialState, action) => {
     case SET_ERROR:
       return { ...state, error: value };
     case SET_STEP:
-      return { ...state, step: value };
+      return { ...state, step: value, showNav: false, navId: null };
     case SET_LANGUAGE:
       return { ...state, language: value };
 

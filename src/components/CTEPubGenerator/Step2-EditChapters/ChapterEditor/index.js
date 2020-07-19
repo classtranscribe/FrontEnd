@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { CTScrollArea, CTFragment } from 'layout';
 import { elem } from 'utils';
-import { epub, getAllImagesInChapters, getAllImagesInChapter } from '../../controllers';
+import { epub, getAllImagesInChapter } from '../../controllers';
 import { connectWithRedux } from '../../redux';
 import ChapterInfo from './ChapterInfo';
 import SubChapterItem from './SubChapterItem';
@@ -10,7 +10,7 @@ import './index.scss';
 function ChapterEditor({ chapters, currChIndex }) {
   const currChapter = chapters[currChIndex] || {};
   const { subChapters = [] } = currChapter;
-  const screenshots = getAllImagesInChapters(chapters);
+  const screenshots = epub.data.data.images;
   const chapterScreenshots = getAllImagesInChapter(currChapter);
 
   useEffect(() => {

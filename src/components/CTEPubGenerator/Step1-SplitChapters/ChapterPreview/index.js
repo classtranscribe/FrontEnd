@@ -3,7 +3,7 @@ import { CTScrollArea } from 'layout';
 import { elem } from 'utils/use-elem';
 import { connectWithRedux } from '../../redux';
 import { MDPreviewer } from '../../components';
-import { CTEPubConstants as Constants, buildMDFromChapter } from '../../controllers';
+import { epub, buildMDFromChapter } from '../../controllers';
 import './index.scss';
 
 let lastChapterId = null;
@@ -14,7 +14,7 @@ function ChapterPreview({ chapters, currChIndex }) {
 
   useEffect(() => {
     if (id !== lastChapterId) {
-      elem.scrollToTop(Constants.SplitChapterMDPreviewerID);
+      elem.scrollToTop(epub.const.SplitChapterMDPreviewerID);
       lastChapterId = id;
     }
 
@@ -25,10 +25,11 @@ function ChapterPreview({ chapters, currChIndex }) {
 
   return (
     <CTScrollArea
-      id={Constants.SplitChapterMDPreviewerID}
+      id={epub.const.SplitChapterMDPreviewerID}
       className="ct-epb sch pview-con"
       scrollClassName="ct-epb sch pview-scroll"
       scrollToTopButton="top right"
+      onClick={epub.nav.closeNavigator}
     >
       <MDPreviewer value={buildMDFromChapter(currChapter)} className="ct-epb sch md-pview" />
     </CTScrollArea>

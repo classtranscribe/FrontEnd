@@ -1,10 +1,6 @@
 import _ from 'lodash';
 import { html, uurl } from 'utils';
 
-export function buildHTMLFromMD(text) {
-  return html.markdown(text);
-}
-
 export function buildMarkdownFromItems(items) {
   const subTitle = items.length > 0 ? '\n#### Transcript\n\n' : '';
 
@@ -36,4 +32,12 @@ export function buildMDFromChapter({ id, items, text, subChapters, image, title 
 
 export function buildMDFromChapters(chapters) {
   return _.map(chapters, buildMDFromChapter).join('\n\n');
+}
+
+export function buildHTMLFromMD(text) {
+  return html.markdown(text);
+}
+
+export function buildHTMLFromChapter(chapter) {
+  return html.markdown(buildMDFromChapter(chapter));
 }

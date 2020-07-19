@@ -91,7 +91,9 @@ class EPubController {
   }
 
   closeEPubItemCarousel = () => {
-    epubState.setEPubItemId(null);
+    if (epubState.ePubItemId) {
+      epubState.setEPubItemId(null);
+    }
   }
 
 

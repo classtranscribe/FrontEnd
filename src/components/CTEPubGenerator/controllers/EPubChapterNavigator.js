@@ -23,23 +23,33 @@ class EPubChapterNavigator {
   };
 
   closeNavigator = () => {
-    epubState.setShowNav(false);
+    if (epubState.showNav) {
+      epubState.setShowNav(false);
+    }
   };
 
   navigateChapter = (chId) => {
     if (epubState.step === Constants.EPubStepSplitChapters) {
       elem.scrollIntoView(Constants.chID(chId));
-    } else {
+    } else if (epubState.step === Constants.EPubStepEditChapters) {
       let chIdx = _.findIndex(epubState.chapters, { id: chId });
       if (chIdx >= 0) {
         epubState.setCurrChIndex(chIdx);
         epubState.setNavId(Constants.chNavItemID(chId));
       }
+    } else {
+      elem.scrollIntoView(chId);
+      epubState.setNavId(Constants.chNavItemID(chId));
     }
   };
 
   navigateSubChapter = (schId) => {
-    elem.scrollIntoCenter(Constants.schTitleID(schId));
+    if (epubState.step === Constants.EPubStepDownload) {
+      elem.scrollIntoView(schId);
+      epubState.setNavId(Constants.schNavItemID(schId));
+    } else {
+      elem.scrollIntoCenter(Constants.schTitleID(schId));
+    }
   };
 
   /**
@@ -99,6 +109,34 @@ class EPubChapterNavigator {
     });
   }
 
+  /**
+   * @param {Event} e
+   */
+  updateNavIdForDownloadEPub(e) {
+    // console.log(e.target.scrollTop)
+    // _.forEach(epubState.chapters, (chapter) => {
+    //   const chId = chapter.id;
+    //   if (elem.isScrolledIntoView(chId, 0)) {
+    //     let foundNavId = false;
+
+    //     _.forEach(chapter.subChapters, (subChapter) => {
+    //       const schId = subChapter.id;
+    //       if (elem.isScrolledIntoView(schId, 0)) {
+    //         foundNavId = true;
+    //         epubState.setNavId(Constants.schNavItemID(subChapter.id));
+    //         return false;
+    //       }
+    //     });
+        
+    //     if (!foundNavId) {
+    //       epubState.setNavId(Constants.chNavItemID(chapter.id));
+    //     }
+
+    //     return false
+    //   }
+    // });
+  }
+
   onScroll = _.debounce((e) => {
     switch (epubState.step) {
       case Constants.EPubStepSplitChapters:
@@ -107,7 +145,9 @@ class EPubChapterNavigator {
       case Constants.EPubStepEditChapters:
         this.updateNavIdForEditChaper(e);
         break;
-
+      case Constants.EPubStepDownload:
+        this.updateNavIdForDownloadEPub(e);
+        break;
       default:
         break;
     }

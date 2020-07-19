@@ -41,11 +41,13 @@ export function MDEditor({
   return <CTMarkdownEditor {...editorProps} />;
 }
 
-export function MDPreviewer({ value, className }) {
+export function MDPreviewer({ value, className, id, ...otherProps }) {
   return (
     <CTMarkdownPreviewer 
+      id={id}
       value={value}
       className={className}
+      {...otherProps}
     />
   );
 }

@@ -6,6 +6,7 @@ import { epubStore, connectWithRedux } from './redux';
 import { epub, CTEPubConstants as Constants } from './controllers';
 import SplitChapters from './Step1-SplitChapters';
 import EditChapters from './Step2-EditChapters';
+import DowloadEPub from './Step3-DowloadEPub';
 import './index.scss';
 
 function EPubGenerator(props) {
@@ -58,7 +59,7 @@ function EPubGenerator(props) {
 
   const splitChapterElement = altEl(SplitChapters, step === Constants.EPubStepSplitChapters);
   const editChapterElement = altEl(EditChapters, step === Constants.EPubStepEditChapters);
-  const downloadElement = altEl(null, step === Constants.EPubStepDownload);
+  const downloadElement = altEl(DowloadEPub, step === Constants.EPubStepDownload);
 
   return (
     <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
