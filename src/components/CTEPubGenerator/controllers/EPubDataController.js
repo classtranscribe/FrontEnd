@@ -265,20 +265,59 @@ class EPubDataController {
     });
   }
 
-  /// ////////////////////////////////////////////////////////////////////////
+  /// /////////////////////////////////////////////////////////////////////////
   // handle edit title
-  /// ////////////////////////////////////////////////////////////////////////
+  /// /////////////////////////////////////////////////////////////////////////
 
-  handleChapterTitleChange(chapterIdx, value) {
+  saveChapterTitle(chapterIdx, value) {
     let chapter = this.data.getChapter(chapterIdx);
     chapter.title = value;
     this.updateAll('Edit the chapter title', chapterIdx);
   }
 
-  handleSubChapterTitleChange(chapterIdx, subChapterIdx, value) {
+  saveSubChapterTitle(chapterIdx, subChapterIdx, value) {
     let subChapter = this.data.getSubChapter(chapterIdx, subChapterIdx);
     subChapter.title = value;
     this.updateAll('Edit the sub-chapter title', chapterIdx);
+  }
+
+  /// /////////////////////////////////////////////////////////////////////////
+  // handle edit image
+  /// /////////////////////////////////////////////////////////////////////////
+
+  saveCurrChapterImage(image) {
+    let chapter = this.data.getChapter(epubState.currChIndex);
+    chapter.image = image;
+    this.updateAll('Change the chapter image');
+  }
+
+  removeCurrChapterImage = () => {
+    this.saveCurrChapterImage(/** undefined */);
+  }
+
+  saveSubChapterImage(subChapterIdx, image) {
+    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
+    subChapter.image = image;
+    this.updateAll('Change the sub-chapter image');
+  }
+  
+  removeSubChapterImage(subChapterIdx) {
+    this.saveSubChapterImage(subChapterIdx);
+  }
+
+  /// /////////////////////////////////////////////////////////////////////////
+  // handle edit text
+  /// /////////////////////////////////////////////////////////////////////////
+  saveCurrChapterText(text) {
+    let chapter = this.data.getChapter(epubState.currChIndex);
+    chapter.text = text;
+    this.updateAll('Change the chapter text');
+  }
+
+  saveSubChapterText(subChapterIdx, text) {
+    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
+    subChapter.text = text;
+    this.updateAll('Change the sub-chapter text');
   }
 }
 

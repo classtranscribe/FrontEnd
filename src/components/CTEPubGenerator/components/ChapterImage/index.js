@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import { uurl } from 'utils/use-url';
-import ImagePicker from '../ImagePicker';
+import { ImagePicker } from '../ImagePicker';
 import './index.scss';
 
-function ChapterImage({
+export function ChapterImage({
   id,
   image = '',
   screenshots = [],
@@ -87,5 +87,3 @@ function ChapterImage({
     </>
   );
 }
-
-export default ChapterImage;

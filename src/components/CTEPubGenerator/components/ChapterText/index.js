@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { CTPopoverLabel } from 'layout';
+import { Popup } from 'semantic-ui-react';
 import { elem } from 'utils/use-elem';
-// import { epub } from '../../controllers';
 import { MDPreviewer, MDEditor } from '../Markdown';
 import './index.scss';
 
-function ChapterText({
+export function ChapterText({
   text = '',
   id = '',
   chapter,
@@ -63,28 +62,34 @@ function ChapterText({
           />
         </div>
       ) : (
-        <CTPopoverLabel 
-          label="Click to edit"
-          placement="bottom center"
+        <Popup
+          inverted
+          basic
+          openOnTriggerFocus
+          openOnTriggerClick={false}
+          openOnTriggerMouseEnter
+          closeOnTriggerMouseLeave
+          closeOnTriggerBlur
+          content="Click to edit"
+          position="top center"
           disabled={!isNotEmpty}
-        >
-          <div
-            className="ch-text"
-            tabIndex={0}
-            role="button"
-            onClick={startEditing}
-            onKeyDown={handleKeyDown}
-          >
-            {isNotEmpty ? (
-              <MDPreviewer value={text} />
-            ) : (
-              <div className="text-muted">Click to add content</div>
-            )}
-          </div>
-        </CTPopoverLabel>
+          trigger={
+            <div
+              className="ch-text"
+              tabIndex={0}
+              role="button"
+              onClick={startEditing}
+              onKeyDown={handleKeyDown}
+            >
+              {isNotEmpty ? (
+                <MDPreviewer value={text} />
+              ) : (
+                <div className="text-muted">Click to add content</div>
+              )}
+            </div>
+          }
+        />
       )}
     </div>
   );
 }
-
-export default ChapterText;

@@ -10,8 +10,6 @@ class EPubController {
   constructor() {
     this.mediaId = null;
     this.currEPubIndex = null;
-
-    this.proceedToStep2 = this.proceedToStep2.bind(this);
   }
 
   isLoading(chapters) {
@@ -38,7 +36,16 @@ class EPubController {
     uurl.setHash(step);
   }
 
-  proceedToStep2() {
+  backToStep1 = () => {
+    this.toStep(Constants.EPubStepSplitChapters);
+    prompt.addOne({
+      text: 'Splitting chapters might lost the changes you made.',
+      position: 'left bottom',
+      timeout: 4000,
+    }, true);
+  };
+
+  proceedToStep2 = () => {
     this.toStep(Constants.EPubStepEditChapters);
     prompt.addOne({
       text: "Start editing your chapters' contents.",
@@ -46,7 +53,17 @@ class EPubController {
       position: 'left bottom',
       timeout: 3000,
     }, true);
-  }
+  };
+
+  proceedToStep3 = () => {
+    this.toStep(Constants.EPubStepDownload);
+    prompt.addOne({
+      text: 'Finish step! Download your ePub file.',
+      status: 'success',
+      position: 'left bottom',
+      timeout: 4000,
+    }, true);
+  };
 
   /// ///////////////////////////////////////////////////////////////
   // States

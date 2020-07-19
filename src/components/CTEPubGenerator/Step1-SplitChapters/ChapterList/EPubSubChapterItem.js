@@ -27,8 +27,8 @@ function EPubSubChapterItem({
   const splitChapterFromSubChapter = () =>
     epub.data.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
 
-  const handleSubChapterTitleChange = value => 
-    epub.data.handleSubChapterTitleChange(chapterIndex, subChapterIndex, value);
+  const saveSubChapterTitle = value => 
+    epub.data.saveSubChapterTitle(chapterIndex, subChapterIndex, value);
 
   const isFolded = foldedIds.includes(subChapter.id);
 
@@ -45,7 +45,7 @@ function EPubSubChapterItem({
           id={epub.const.schTitleID(subChapter.id)}
           value={subChapter.title}
           headingType="h3"
-          onSave={handleSubChapterTitleChange}
+          onSave={saveSubChapterTitle}
           className="ch-item-title"
         />
 

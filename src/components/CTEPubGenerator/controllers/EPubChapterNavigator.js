@@ -19,23 +19,34 @@ class EPubChapterNavigator {
   };
 
   navigateChapter = (chId) => {
-    elem.scrollIntoView(Constants.chID(chId));
+    if (epubState.step === Constants.EPubStepSplitChapters) {
+      elem.scrollIntoView(Constants.chID(chId));
+    } else {
+      let chIdx = _.findIndex(epubState.chapters, { id: chId });
+      if (chIdx >= 0) {
+        epubState.setCurrChIndex(chIdx);
+        epubState.setNavId(Constants.chNavItemID(chId));
+      }
+    }
   };
 
   navigateSubChapter = (schId) => {
-    elem.scrollIntoCenter(Constants.schTitleID(schId));
-    // epubState.setNavId(Constants.schNavItemID(schId));
-    // elem.scrollToTop(Constants.EPubChapterListID, {
-    //   scrollElemId: Constants.schID(schId),
-    //   scrollTop: 800,
-    // });
+    if (epubState.step === Constants.EPubStepSplitChapters) {
+      elem.scrollIntoCenter(Constants.schTitleID(schId));
+      // epubState.setNavId(Constants.schNavItemID(schId));
+      // elem.scrollToTop(Constants.EPubChapterListID, {
+      //   scrollElemId: Constants.schID(schId),
+      //   scrollTop: 800,
+      // });
+    } else {
+      elem.scrollIntoView(Constants.schTitleID(schId));
+    }
   };
 
   /**
-   * 
-   * @param {Event} e 
+   * @param {Event} e
    */
-  updateCurrChIndex(e) {
+  updateNavIdForSplitChaper(e) {
     // console.log(e.target.scrollTop)
     if (e.target.scrollTop < 500 && epubState.currChIndex !== 0) {
       epubState.setCurrChIndex(0);
@@ -69,10 +80,32 @@ class EPubChapterNavigator {
     });
   }
 
+  /**
+   * @param {Event} e
+   */
+  updateNavIdForEditChaper(e) {
+    const currChapter = epubState.chapters[epubState.currChIndex];
+
+    if (e.target.scrollTop === 0) {
+      epubState.setNavId(Constants.chNavItemID(currChapter.id));
+      return;
+    }
+
+    _.forEach(currChapter.subChapters, (schp) => {
+      if (elem.isScrolledIntoView(Constants.schID(schp.id), 300)) {
+        epubState.setNavId(Constants.schNavItemID(schp.id));
+        return false;
+      }
+    });
+  }
+
   onScroll = _.debounce((e) => {
     switch (epubState.step) {
       case Constants.EPubStepSplitChapters:
-        this.updateCurrChIndex(e);
+        this.updateNavIdForSplitChaper(e);
+        break;
+      case Constants.EPubStepEditChapters:
+        this.updateNavIdForEditChaper(e);
         break;
 
       default:

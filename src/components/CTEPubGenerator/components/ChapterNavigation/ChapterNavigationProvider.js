@@ -37,7 +37,11 @@ function ChapterNavigationProvider({
         className="ct-epb ch-nav-con"
         data-scroll
       >
-        <ChapterNavigationMenu chapters={chapters} navId={navId} />
+        <ChapterNavigationMenu 
+          autoScrollToNavItem={navId && open} 
+          chapters={chapters} 
+          navId={navId}
+        />
       </Sidebar>
 
       <Sidebar.Pusher className="w-100 h-100 ct-epb ch-nav-main">
