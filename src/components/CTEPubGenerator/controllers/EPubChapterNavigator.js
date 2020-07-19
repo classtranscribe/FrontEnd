@@ -10,6 +10,14 @@ class EPubChapterNavigator {
       this.removeScrollListenerForChapterList.bind(this);
   }
 
+  get schOffsetTopTol() {
+    return (window.innerHeight / 2) + 50;
+  }
+
+  get chOffsetTopTol() {
+    return (window.innerHeight / 2) - 80;
+  }
+
   showNavigator = () => {
     epubState.setShowNav(true);
   };
@@ -31,16 +39,7 @@ class EPubChapterNavigator {
   };
 
   navigateSubChapter = (schId) => {
-    if (epubState.step === Constants.EPubStepSplitChapters) {
-      elem.scrollIntoCenter(Constants.schTitleID(schId));
-      // epubState.setNavId(Constants.schNavItemID(schId));
-      // elem.scrollToTop(Constants.EPubChapterListID, {
-      //   scrollElemId: Constants.schID(schId),
-      //   scrollTop: 800,
-      // });
-    } else {
-      elem.scrollIntoView(Constants.schTitleID(schId));
-    }
+    elem.scrollIntoCenter(Constants.schTitleID(schId));
   };
 
   /**
@@ -55,7 +54,7 @@ class EPubChapterNavigator {
 
     _.forEach(epubState.chapters, (chapter, index) => {
       const chId = Constants.chID(chapter.id);
-      if (elem.isScrolledIntoView(chId, 350)) {
+      if (elem.isScrolledIntoView(chId, this.chOffsetTopTol)) {
         if (epubState.currChIndex !== index) {
           this.prevScrollTop = e.target.scrollTop;
           epubState.setCurrChIndex(index);
@@ -64,7 +63,7 @@ class EPubChapterNavigator {
 
         _.forEach(chapter.subChapters, (subChapter) => {
           const schId = Constants.schID(subChapter.id);
-          if (elem.isScrolledIntoView(schId, 450)) {
+          if (elem.isScrolledIntoView(schId, this.schOffsetTopTol)) {
             foundNavId = true;
             epubState.setNavId(Constants.schNavItemID(subChapter.id));
             return false;
@@ -92,7 +91,8 @@ class EPubChapterNavigator {
     }
 
     _.forEach(currChapter.subChapters, (schp) => {
-      if (elem.isScrolledIntoView(Constants.schID(schp.id), 300)) {
+      let schId = Constants.schID(schp.id);
+      if (elem.isScrolledIntoView(schId, this.schOffsetTopTol)) {
         epubState.setNavId(Constants.schNavItemID(schp.id));
         return false;
       }

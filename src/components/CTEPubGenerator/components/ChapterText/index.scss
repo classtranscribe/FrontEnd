@@ -4,14 +4,17 @@
 
   .ch-text {
     width: 100%;
-    padding: 10px;
+    padding: 9px;
     cursor: pointer;
     font-size: 14px;
     border-radius: 5px;
+    border: dashed 1px rgba(0, 0, 0, 0);
+    transition: all linear 100ms;
 
     &:hover,
     &:focus {
-      background-color: rgb(241, 246, 246);
+      border-color: rgb(41, 41, 41);
+      background-color: rgb(246, 248, 248);
     }
   }
 }

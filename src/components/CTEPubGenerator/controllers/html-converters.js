@@ -11,7 +11,7 @@ export function buildMarkdownFromItems(items) {
   return subTitle + _.map(items, (item) => _.trim(item.text)).join('\n\n');
 }
 
-export function buildHTMLFromChapter({ id, items, text, subChapters, image, title }) {
+export function buildMDFromChapter({ id, items, text, subChapters, image, title }) {
   /*eslint-disable */
   const content = text || buildMarkdownFromItems(items);
 
@@ -32,4 +32,8 @@ export function buildHTMLFromChapter({ id, items, text, subChapters, image, titl
   /*eslint eqeqeq:0*/
 
   return chapterHTML + subChapterHTML;
+}
+
+export function buildMDFromChapters(chapters) {
+  return _.map(chapters, buildMDFromChapter).join('\n\n');
 }
