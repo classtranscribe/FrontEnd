@@ -23,10 +23,11 @@ class EPubChapterNavigator {
   };
 
   navigateSubChapter = (schId) => {
-    elem.scrollIntoCenter(Constants.schID(schId));
+    elem.scrollIntoCenter(Constants.schTitleID(schId));
+    // epubState.setNavId(Constants.schNavItemID(schId));
     // elem.scrollToTop(Constants.EPubChapterListID, {
     //   scrollElemId: Constants.schID(schId),
-    //   scrollTop: 600,
+    //   scrollTop: 800,
     // });
   };
 
@@ -52,7 +53,7 @@ class EPubChapterNavigator {
 
         _.forEach(chapter.subChapters, (subChapter) => {
           const schId = Constants.schID(subChapter.id);
-          if (elem.isScrolledIntoView(schId, 350)) {
+          if (elem.isScrolledIntoView(schId, 450)) {
             foundNavId = true;
             epubState.setNavId(Constants.schNavItemID(subChapter.id));
             return false;
