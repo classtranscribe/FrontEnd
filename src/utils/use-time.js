@@ -47,6 +47,16 @@ class TimeString {
 
     return seconds;
   }
+
+  static toPrettierTimeString(str) {
+    if (typeof str !== 'string') return '';
+    let timestr = str.slice(0, 8);
+    if (timestr.startsWith('00:')) {
+      return timestr.slice(4);
+    }
+
+    return timestr;
+  }
 }
 
 export default TimeString;

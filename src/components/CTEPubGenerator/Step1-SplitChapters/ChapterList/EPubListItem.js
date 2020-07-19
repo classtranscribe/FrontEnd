@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import { Button } from 'pico-ui';
-import { CTText } from 'layout';
+import { CTText, altEl } from 'layout';
+import timestr from 'utils/use-time';
 import { uurl } from 'utils/use-url';
 import { epub } from '../../controllers';
 
@@ -37,55 +38,45 @@ function EPubListItem({
   const openCarousel = () => epub.ctrl.openEPubItemCarousel(item.id);
 
 
-  let itemClass = cx('ct-epb', 'sch', 'epb-data-item', 'ct-d-c', {
+  const itemClass = cx('ct-epb', 'sch', 'epb-data-item', 'ct-d-c', {
     sub: isSubChapter,
     'padded-actions': !canSplit && !isSubChapter,
+  });
+
+  const btnProps = {
+    round: true,
+    uppercase: true,
+    classNames: 'item-action-btn',
+    color: 'teal transparent'
+  };
+
+  const splitBtnElement = altEl(Button, canSplit, {
+    ...btnProps,
+    text: 'Split Chapter',
+    icon: 'unfold_more',
+    onClick: handleSplitChapter
+  });
+
+  const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
+    ...btnProps,
+    text: 'New Sub-Chapter',
+    icon: 'subdirectory_arrow_right',
+    onClick: splitSubChapter
+  });
+
+  const subdivideBtnElement = altEl(Button, canSubdivide, {
+    ...btnProps,
+    text: 'subdivide',
+    icon: 'subdirectory_arrow_right',
+    onClick: subdivideChapter
   });
 
   return (
     <div role="listitem" className={itemClass}>
       <div className="item-actions">
-        {
-          canSplit
-          &&
-          <Button
-            uppercase
-            round
-            classNames="item-action-btn"
-            text="Split Chapter"
-            color="teal transparent"
-            icon="unfold_more"
-            onClick={handleSplitChapter}
-          />
-        }
-
-        {
-          canSplitSubChapter
-          &&
-          <Button
-            uppercase
-            round
-            classNames="item-action-btn"
-            text="New Sub-Chapter"
-            color="teal transparent"
-            icon="subdirectory_arrow_right"
-            onClick={splitSubChapter}
-          />
-        }
-
-        {
-          canSubdivide
-          &&
-          <Button
-            uppercase
-            round
-            classNames="item-action-btn"
-            text="subdivide"
-            color="teal transparent"
-            icon="subdirectory_arrow_right"
-            onClick={subdivideChapter}
-          />
-        }
+        {splitBtnElement}
+        {splitSChBtnElement}
+        {subdivideBtnElement}
       </div>
 
       <div 
@@ -95,6 +86,16 @@ function EPubListItem({
         className="ct-d-r item-info"
         onClick={openCarousel}
       >
+
+        <div className="item-time-con">
+          <div className="item-time">
+            {timestr.toPrettierTimeString(item.start)}
+          </div>
+          <div className="item-time">
+            {timestr.toPrettierTimeString(item.end)}
+          </div>
+        </div>
+        
         <div 
           className="item-img-con"
           // tabIndex="0"

@@ -24,11 +24,31 @@
   }
 
   .item-info {
+    position: relative;
     margin-left: 95px;
     padding: 5px;
     cursor: pointer;
+    
     &:hover {
       background-color: rgb(248, 248, 248);
+    }
+
+    .item-time-con {
+      position: absolute;
+      right: calc(100% + 10px);
+      top: 10px;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+  
+      .item-time {
+        font-size: 14px;
+        color: grey;
+  
+        &:first-child {
+          margin-bottom: 10px;
+        }
+      }
     }
     
     .item-img-con {

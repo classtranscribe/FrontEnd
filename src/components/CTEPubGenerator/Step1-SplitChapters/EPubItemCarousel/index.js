@@ -2,8 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 import { Button } from 'pico-ui';
 import { SwipeableDrawer } from '@material-ui/core';
-import { CTFragment, CTHeading, CTText } from 'layout';
-import { uurl, elem } from 'utils';
+import { CTFragment, CTHeading, CTText, CTParagraph } from 'layout';
+import { uurl, elem, timestr } from 'utils';
 import { epub } from '../../controllers';
 import { connectWithRedux } from '../../redux';
 import CarouselButton from './CarouselButton';
@@ -27,6 +27,8 @@ function EPubItemCarousel({
   const [item, itemIdx] = getEPubItem(rawEPubData, ePubItemId);
   const onClose = epub.ctrl.closeEPubItemCarousel;
   const open = Boolean(item.id);
+  const startTimeStr = timestr.toPrettierTimeString(item.start);
+  const endTimeStr = timestr.toPrettierTimeString(item.end);
 
   const toPrev = () => {
     if (itemIdx > 0) {
@@ -84,16 +86,20 @@ function EPubItemCarousel({
         </CarouselButton>
         <Button round icon="close" aria-label="close" onClick={onClose} />
       </CTFragment>
+
       <CTFragment list padding={[0, 20, 20, 20]}>
         <CTFragment id="epb-carousel-con" padding={[0, 20]}>
           <CTFragment className="epb-carl-img">
             <img src={uurl.getMediaUrl(item.image)} />
           </CTFragment>
 
-          <CTFragment vCenter className="epb-carl-txt-con" padding={[0, 20]} data-scroll>
-            <CTText size="medium">
-              {item.text}
+          <CTFragment list className="epb-carl-txt-con" padding={[0, 20]} data-scroll>
+            <CTText celadon bold margin={[10, 0]} size="medium">
+              {startTimeStr} - {endTimeStr}
             </CTText>
+            <CTParagraph size="medium">
+              {item.text}
+            </CTParagraph>
           </CTFragment>
         </CTFragment>
       </CTFragment>
