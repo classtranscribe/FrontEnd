@@ -8,6 +8,7 @@ export default class EPubIDs {
   static EPubChapterNavListID = 'ct-epb-nav-list';
   static SplitChapterContainerID = 'ct-epb-sch-con';
   static SplitChapterMDPreviewerID = 'ct-epb-sch-md-pview-con';
+  static SplitChapterItemCarouselID = 'ct-epb-sch-it-carousel';
 
   // Prefix
   static ChapterIDPrefix = 'epb-ch';

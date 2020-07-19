@@ -66,16 +66,16 @@ export function buildSubChapter(subChapterLike, resetText = true) {
   };
 }
 
-export function parseRawEPubData(rawEPubData) {
-  return _.map(rawEPubData, item => ({ ...item, id: buildID() }));
-}
-
 export function buildEPubChapterFromRaw(rawChapter) {
   return buildChapter(rawChapter);
 }
 
 export function filterTrivalItems(epubData) {
   return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
+}
+
+export function parseRawEPubData(rawEPubData) {
+  return _.map(filterTrivalItems(rawEPubData), item => ({ ...item, id: buildID() }));
 }
 
 export function buildEPubDataFromArray(epubData) {

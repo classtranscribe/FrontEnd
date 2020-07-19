@@ -32,8 +32,9 @@ function EPubListItem({
 
   const subdivideChapter = () => epub.data.subdivideChapter(chapterIndex, itemIndex);
 
-  const magnifyImage = () => epub.ctrl.magnifyImage(imgSrc);
-  const endMagnifyImage = () => epub.ctrl.endMagnifyImage();
+  // const magnifyImage = () => epub.ctrl.magnifyImage(imgSrc);
+  // const endMagnifyImage = () => epub.ctrl.endMagnifyImage();
+  const openCarousel = () => epub.ctrl.openEPubItemCarousel(item.id);
 
 
   let itemClass = cx('ct-epb', 'sch', 'epb-data-item', 'ct-d-c', {
@@ -42,7 +43,7 @@ function EPubListItem({
   });
 
   return (
-    <div id={item.id} role="listitem" className={itemClass}>
+    <div role="listitem" className={itemClass}>
       <div className="item-actions">
         {
           canSplit
@@ -87,14 +88,20 @@ function EPubListItem({
         }
       </div>
 
-      <div className="ct-d-r item-info">
+      <div 
+        id={item.id}
+        role="button" 
+        tabIndex="0" 
+        className="ct-d-r item-info"
+        onClick={openCarousel}
+      >
         <div 
           className="item-img-con"
-          tabIndex="0"
+          // tabIndex="0"
           // onMouseEnter={magnifyImage}
           // onMouseLeave={endMagnifyImage}
-          onFocus={magnifyImage}
-          onBlur={endMagnifyImage}
+          // onFocus={magnifyImage}
+          // onBlur={endMagnifyImage}
         >
           <img src={imgSrc} alt="screenshot" />
         </div>

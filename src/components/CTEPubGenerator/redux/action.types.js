@@ -12,6 +12,7 @@ export const SET_NAV_ID = 'epb-set-nav-id';
 export const SET_SHOW_NAV = 'epb-set-show-nav';
 
 export const SET_MAGNIFIED_IMG = 'epb-set-mag-img';
+export const SET_EPUB_ITEM_ID = 'epb-set-epb-item-id';
 export const SET_FOLDED_IDS = 'epb-set-folded-ids';
 
 export const RESET_STATES = 'epb-reset';

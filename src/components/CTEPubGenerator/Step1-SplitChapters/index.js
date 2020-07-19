@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { ChapterNavigationProvider } from '../components';
 import { CTEPubConstants as Constants, epub } from '../controllers';
-import ImageMagnifier from './ImageMagnifier';
 import ChapterList from './ChapterList';
 import ChapterPreview from './ChapterPreview';
-// import ActionButtons from './ActionButtons';
+import EPubItemCarousel from './EPubItemCarousel';
 import ProceedButton from './ProceedButton';
+// import ImageMagnifier from './ImageMagnifier';
 import './index.scss';
 
 function SplitChapter() {
@@ -15,16 +16,17 @@ function SplitChapter() {
   }, []);
 
   return (
-    <div
-      id={Constants.SplitChapterContainerID}
-      className="ct-epb step-con split-ch-con ct-a-fade-in"
-    >
-      <ChapterList />
-      <ChapterPreview />
-      <ImageMagnifier />
-      {/* <ActionButtons /> */}
-      <ProceedButton />
-    </div>
+    <ChapterNavigationProvider>
+      <div
+        id={Constants.SplitChapterContainerID}
+        className="ct-epb step-con split-ch-con ct-a-fade-in"
+      >
+        <ChapterList />
+        <ChapterPreview />
+        <ProceedButton />
+        <EPubItemCarousel />
+      </div>
+    </ChapterNavigationProvider>
   );
 }
 

@@ -4,7 +4,6 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTLoader, altEl } from 'layout';
 import { epubStore, connectWithRedux } from './redux';
 import { epub, CTEPubConstants as Constants } from './controllers';
-import { ChapterNavigation } from './components';
 import SplitChapter from './Step1-SplitChapters';
 import './index.scss';
 
@@ -66,11 +65,11 @@ function EPubGenerator(props) {
         loading ? (
           <div className="w-100"><CTLoader /></div>
         ) : (
-          <ChapterNavigation open>
+          <>
             {splitChapterElement}
             {editChapterElement}
             {downloadElement}
-          </ChapterNavigation>
+          </>
         )
       }
     </div>

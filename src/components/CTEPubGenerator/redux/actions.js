@@ -11,6 +11,7 @@ import {
   SET_NAV_ID,
   SET_SHOW_NAV,
   SET_MAGNIFIED_IMG,
+  SET_EPUB_ITEM_ID,
   SET_FOLDED_IDS,
   RESET_STATES
 } from './action.types';
@@ -29,6 +30,7 @@ export const setNavId = createAction(SET_NAV_ID);
 export const setShowNav = createAction(SET_SHOW_NAV);
 
 export const setMagnifiedImg = createAction(SET_MAGNIFIED_IMG);
+export const setEPubItemId = createAction(SET_EPUB_ITEM_ID);
 export const setFoldedIds = createAction(SET_FOLDED_IDS);
 
 export const resetStates = createAction(RESET_STATES);

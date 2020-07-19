@@ -1,4 +1,7 @@
-export { default as ChapterNavigation } from './ChapterNavigation';
+export {
+  ChapterNavigationProvider,
+  ChapterNavigationMenu
+} from './ChapterNavigation';
 export { MDEditor, MDPreviewer } from './Markdown';
 export { ImagePicker } from './ImagePicker';
 export { EPubMenu } from './EPubMenu';

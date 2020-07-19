@@ -69,6 +69,14 @@ class EPubController {
     epubState.setMagnifiedImg(null);
   }
 
+  openEPubItemCarousel(ePubItemId) {
+    epubState.setEPubItemId(ePubItemId);
+  }
+
+  closeEPubItemCarousel = () => {
+    epubState.setEPubItemId(null);
+  }
+
 
   /// ///////////////////////////////////////////////////////////////
   // Networks

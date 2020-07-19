@@ -17,6 +17,7 @@ export default class EPubState extends StateController {
     this.navId = initialState.navId;
     this.showNav = initialState.showNav;
     this.magnifiedImg = initialState.magnifiedImg;
+    this.ePubItemId = initialState.ePubItemId;
     this.foldedIds = initialState.foldedIds;
 
     this.resetStates = this.resetStates.bind(this);
@@ -35,6 +36,7 @@ export default class EPubState extends StateController {
       setNavId,
       setShowNav,
       setMagnifiedImg,
+      setEPubItemId,
       setFoldedIds,
       resetStates
     } = props;
@@ -51,6 +53,7 @@ export default class EPubState extends StateController {
       setNavId,
       setShowNav,
       setMagnifiedImg,
+      setEPubItemId,
       setFoldedIds,
       resetStates
     });
@@ -94,6 +97,10 @@ export default class EPubState extends StateController {
 
   setMagnifiedImg(magnifiedImg) {
     this.setState('setMagnifiedImg', 'magnifiedImg', magnifiedImg);
+  }
+
+  setEPubItemId(ePubItemId) {
+    this.setState('setEPubItemId', 'ePubItemId', ePubItemId);
   }
 
   setFoldedIds(foldedIds) {

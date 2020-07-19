@@ -11,6 +11,7 @@ import {
   SET_NAV_ID,
   SET_SHOW_NAV,
   SET_MAGNIFIED_IMG,
+  SET_EPUB_ITEM_ID,
   SET_FOLDED_IDS,
   RESET_STATES
 } from './action.types';
@@ -54,6 +55,8 @@ const epubReducer = (state = initialState, action) => {
 
     case SET_MAGNIFIED_IMG:
       return { ...state, magnifiedImg: value };
+    case SET_EPUB_ITEM_ID:
+      return { ...state, ePubItemId: value };
     case SET_FOLDED_IDS:
       return { ...state, foldedIds: value };
 

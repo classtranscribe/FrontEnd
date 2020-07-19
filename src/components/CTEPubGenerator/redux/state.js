@@ -15,4 +15,5 @@ export const initialState = {
   showNav: false,
   magnifiedImg: null,
   foldedIds: [],
+  ePubItemId: null,
 };
