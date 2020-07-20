@@ -2,7 +2,8 @@ import EPubIDs from './EPubIDs';
 
 export default class EPubConstants extends EPubIDs {
   // errors
-  static NoEPubDataRequestedError = 'no-epub';
+  static EPubDataNotRequestedError = 'epub-not-requested';
+  static EPubDataRequestedError = 'epub-requested';
   
   // steps
   static EPubStepSplitChapters = 'split';

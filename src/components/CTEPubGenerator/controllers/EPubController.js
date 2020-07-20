@@ -115,14 +115,13 @@ class EPubController {
   }
 
   async getRawEPubData(mediaId, language) {
-    epubState.setError('');
     try {
       let { data } = await api.getEpubData(mediaId, language);
       return parseRawEPubData(data);
     } catch (error) {
       // default as 404 error
       console.error(error, `Failed to get ePub data of media for ${mediaId}, ${language}`);
-      epubState.setError(Constants.NoEPubDataRequestedError);
+      epubState.setError(Constants.EPubDataNotRequestedError);
     }
 
     return null;
@@ -139,6 +138,7 @@ class EPubController {
   async setupEPubGenWithMediaId(mediaId, language) {
     // skip if the media id is not changed
     if (this.mediaId === mediaId) return;
+    epubState.setError(null);
 
     this.mediaId = mediaId;
     // display the loader while getting the epub data

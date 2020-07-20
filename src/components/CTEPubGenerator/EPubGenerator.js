@@ -4,6 +4,7 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTLoader, altEl } from 'layout';
 import { epubStore, connectWithRedux } from './redux';
 import { epub, CTEPubConstants as Constants } from './controllers';
+import { NoEPubWrapper } from './components';
 import SplitChapters from './Step1-SplitChapters';
 import EditChapters from './Step2-EditChapters';
 import DowloadEPub from './Step3-DowloadEPub';
@@ -64,7 +65,9 @@ function EPubGenerator(props) {
   return (
     <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
       {
-        loading ? (
+        error ? (
+          <NoEPubWrapper mediaId={mediaId} />
+        ) : loading ? (
           <div className="w-100"><CTLoader /></div>
         ) : (
           <>
