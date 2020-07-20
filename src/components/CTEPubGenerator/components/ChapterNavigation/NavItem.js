@@ -28,6 +28,7 @@ function NavItem({
       className={cx('ct-epb', 'ch-nav-item', { sub: isSub })}
       color={current ? 'teal' : 'transparent'}
       onClick={() => onNavigate(id)}
+      title={navTxt}
     >
       {navTxt}
     </Button>

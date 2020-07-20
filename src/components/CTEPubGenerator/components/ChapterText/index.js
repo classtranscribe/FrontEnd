@@ -75,7 +75,7 @@ export function ChapterText({
           disabled={!isNotEmpty}
           trigger={
             <div
-              className="ch-text"
+              className="ct-epb ch-text clickable"
               tabIndex={0}
               role="button"
               onClick={startEditing}

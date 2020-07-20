@@ -42,6 +42,14 @@ function EPubItemCarousel({
     }
   };
 
+  const handleKeyDown = ({ keyCode }) => {
+    if (keyCode === 39) {
+      toNext();
+    } else if (keyCode === 37) {
+      toPrev();
+    }
+  };
+
   const navigate = () => {
     onClose();
     setTimeout(() => {
@@ -56,6 +64,7 @@ function EPubItemCarousel({
       open={open}
       onClose={onClose}
       classes={{paperAnchorBottom: 'epb-ch-item-carousel'}}
+      onKeyDown={handleKeyDown}
     >
       <CTFragment sticky vCenter hBetween padding="20">
         <CTHeading as="h3" margin="0">ePub Screenshots</CTHeading>
@@ -84,7 +93,7 @@ function EPubItemCarousel({
         >
           Next screenshot
         </CarouselButton>
-        <Button round icon="close" aria-label="close" onClick={onClose} />
+        <Button round icon="close" aria-label="close" onClick={onClose} autoFocus />
       </CTFragment>
 
       <CTFragment list padding={[0, 20, 20, 20]}>

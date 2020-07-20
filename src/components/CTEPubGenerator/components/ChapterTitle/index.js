@@ -57,7 +57,7 @@ export function ChapterTitle({
 
   const inputComponent = createElement(headingType, {
     ref: inputRef,
-    className: 'ch-edit-title-txt',
+    className: 'ct-epb ch-edit-title-txt clickable',
     contentEditable: true,
     children: value,
     tabIndex: 0,

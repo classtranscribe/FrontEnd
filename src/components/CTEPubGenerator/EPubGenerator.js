@@ -14,11 +14,10 @@ function EPubGenerator(props) {
   const {
     mediaId,
     title,
-    // states
     error,
     step,
     language,
-    rawEPubData,
+    // rawEPubData,
     chapters,
     epubs,
     currEPubIndex
@@ -66,7 +65,7 @@ function EPubGenerator(props) {
     <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
       {
         error ? (
-          <NoEPubWrapper mediaId={mediaId} />
+          <NoEPubWrapper mediaId={mediaId} error={error} />
         ) : loading ? (
           <div className="w-100"><CTLoader /></div>
         ) : (

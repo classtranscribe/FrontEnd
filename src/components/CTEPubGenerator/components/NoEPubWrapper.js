@@ -18,7 +18,7 @@ function NoEPubWrapper({ mediaId, error }) {
   // }, [error])
 
   return (
-    <CTFragment hCenter vCenter fade>
+    <CTFragment center fade>
       <CTFragment list hCenter>
         {
           !requested ? (
@@ -27,14 +27,12 @@ function NoEPubWrapper({ mediaId, error }) {
             </CTText>
           ) : (
             <div className="ct-d-c-center">
-              <div className="mt-5">
-                <div className="sk-wave">
-                  <div className="sk-wave-rect" />
-                  <div className="sk-wave-rect" />
-                  <div className="sk-wave-rect" />
-                  <div className="sk-wave-rect" />
-                  <div className="sk-wave-rect" />
-                </div>
+              <div className="sk-wave">
+                <div className="sk-wave-rect" />
+                <div className="sk-wave-rect" />
+                <div className="sk-wave-rect" />
+                <div className="sk-wave-rect" />
+                <div className="sk-wave-rect" />
               </div>
               <CTText size="medium" center bold margin={[10, 0]}>
                 Request has been sent successfully.
@@ -49,7 +47,7 @@ function NoEPubWrapper({ mediaId, error }) {
         {
           !requested
           &&
-          <CTFragment vCenter hCenter margin={[30, 0]}>
+          <CTFragment center margin={[30, 0]}>
             <Button
               round 
               size="big"

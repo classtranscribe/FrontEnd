@@ -83,7 +83,7 @@ function EPubListItem({
         id={item.id}
         role="button" 
         tabIndex="0" 
-        className="ct-d-r item-info"
+        className="ct-epb clickable ct-d-r item-info"
         onClick={openCarousel}
       >
 

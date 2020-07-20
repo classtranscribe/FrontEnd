@@ -20,10 +20,17 @@
 
 .ct-epb.ch-nav-item {
   width: 100%;
-  span {
+  span.pico-btn-con {
     padding-left: 0px;
     text-align: left;
     border-radius: 0 30px 30px 0 !important;
+  }
+
+  span.pbtn-span.pbtn-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &:not(.sub) {
@@ -31,7 +38,7 @@
   }
 
   &.sub {
-    span {
+    span.pico-btn-con {
       padding-left: 20px;
     }
   }

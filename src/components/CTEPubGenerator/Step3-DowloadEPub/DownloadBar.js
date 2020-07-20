@@ -29,7 +29,7 @@ function DownloadBar({
             id="ee-dl-tb-cover"
             image={cover.value}
             screenshots={screenshots}
-            onChooseImage={cover.onChange}
+            onChooseImage={cover.setValue}
           />
         </CTFormRow>
 

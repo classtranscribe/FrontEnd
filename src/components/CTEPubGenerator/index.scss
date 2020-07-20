@@ -21,3 +21,17 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.384);
   }
 }
+
+.ct-epb.clickable {
+  border: dashed 1px rgba(0, 0, 0, 0);
+  transition: all linear 200ms;
+  &:hover {
+    border-color: rgb(41, 41, 41);
+    background-color: rgb(251, 251, 251);
+  }
+
+  &:focus {
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgb(246, 248, 248);
+  }
+}
