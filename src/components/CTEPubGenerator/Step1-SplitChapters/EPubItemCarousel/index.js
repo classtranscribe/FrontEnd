@@ -4,6 +4,7 @@ import { Button } from 'pico-ui';
 import { SwipeableDrawer } from '@material-ui/core';
 import { CTFragment, CTHeading, CTText, CTParagraph } from 'layout';
 import { uurl, elem, timestr } from 'utils';
+import CTImageMagnifer from '../../../CTImageMagnifer';
 import { epub } from '../../controllers';
 import { connectWithRedux } from '../../redux';
 import CarouselButton from './CarouselButton';
@@ -98,8 +99,12 @@ function EPubItemCarousel({
 
       <CTFragment list padding={[0, 20, 20, 20]}>
         <CTFragment id="epb-carousel-con" padding={[0, 20]}>
-          <CTFragment className="epb-carl-img">
-            <img src={uurl.getMediaUrl(item.image)} />
+          <CTFragment className="epb-carl-img-con">
+            <CTImageMagnifer 
+              className="epb-carl-img" 
+              src={uurl.getMediaUrl(item.image)}
+              alt="screenshot"
+            />
           </CTFragment>
 
           <CTFragment list className="epb-carl-txt-con" padding={[0, 20]} data-scroll>

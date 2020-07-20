@@ -8,18 +8,18 @@ function ImagePickerModalActions(props) {
     <Button.Group>
       <Button
         uppercase
-        compact
         text="Save"
         color="teal"
         onClick={onSave}
+        className="mr-4 mb-2"
       />
-      <Button
+      {/* <Button
         uppercase
         compact
         text="Close"
         color="transparent teal"
         onClick={onClose}
-      />
+      /> */}
     </Button.Group>
   );
 }
