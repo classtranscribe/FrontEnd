@@ -1,0 +1,22 @@
+#cookie-agreement-dialog-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cookie-agreement-dialog-title {
+    display: flex;
+    margin-top: 10px;
+    font-size: 42px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.cookie-agreement-dialog-title h2 {
+    padding: 0px;
+    margin: 0px;
+}
+.cookie-agreement-dialog-title img {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 42px;
+    width: 255px;
+}
