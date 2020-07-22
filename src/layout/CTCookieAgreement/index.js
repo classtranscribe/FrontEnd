@@ -7,7 +7,8 @@ import './index.scss';
 export const AGREEMENT_ACCEPTED_KEY = 'class_transcribe_agreement_accepted';
 
 function CTCookieAgreement() {
-  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'false'));
+  // Set true to false for testing purposes
+  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true'));
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleAcceptLoginClick = (e) => {
