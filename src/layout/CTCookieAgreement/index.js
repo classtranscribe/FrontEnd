@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
 import './index.scss';
-import useStyle from './styles';
 
 export const AGREEMENT_ACCEPTED_KEY = 'class_transcribe_agreement_accepted';
 
 function CTCookieAgreement() {
-  const styleClasses = useStyle();
-  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true'));
+  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'false'));
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleAcceptLoginClick = (e) => {
@@ -39,37 +36,56 @@ function CTCookieAgreement() {
       fullWidth
       maxWidth='sm'
     >
-      <div id='cookie-agreement-dialog-wrapper'>
-        <div className="cookie-agreement-dialog-title">
-          <h2 className='cookie-agreement-dialog-title'>Welcome To </h2>
-          <img 
+      <div id='cookie-agreement-inner-wrapper'>
+        <div className="cookie-agreement-title">
+          <h2>Welcome To </h2>
+          <img
             src="/static/media/brand-text.320ee44d.png"
             alt="ClassTranscribe" 
           />
         </div>
           
         <p id="cookie-agreement-desc">
-          By continuing you agree to the <Link to='/policy/acceptableUse'> acceptable_use policy </Link> and <Link to='/policy/cookie'>cookie policy</Link>.
+          By continuing you agree to the <Link to='/policy/acceptableUse'> acceptable_use policy</Link> and <Link to='/policy/cookie'>cookie policy</Link>.
         </p>
-        <div id="cookie-agreement-button-group">
-          <Button
-            className={styleClasses.cookieAgreementButton}
+        <div id="cookie-agreement-btn-grp">
+          <div
+            className="cookie-agreement-btn"
             onClick={handleAcceptLoginClick}
+            role='button'
+            tabIndex='0'
           >
-            Accept & Login
-          </Button>
-          <Button
-            className={styleClasses.cookieAgreementButton}
-            onClick={handleAcceptSkipLogin}
+            <h3>
+              Accept & Login
+            </h3>
+            <p>
+              Access all Eligible Videos and Courses
+            </p>
+          </div>
+          <div
+            className="cookie-agreement-btn"
+            onClick={handleAcceptSkipLogin}  
+            role='button'
+            tabIndex='0'
           >
-            Accept & Skip Login
-          </Button>
-          <Button
-            className={styleClasses.cookieAgreementButton}
-            onClick={handleCloseBrowserWindow}
+            <h3>
+              Accept & Skip Login
+            </h3>
+            <p>
+              Access only Public Courses
+            </p>
+          </div>
+          <div
+            className="cookie-agreement-btn"
+            onClick={handleCloseBrowserWindow}  
+            role='button'
+            tabIndex='0'
           >
-            Decline & Close Window
-          </Button>
+            <h3>
+              Decline and Close Window
+            </h3>
+            
+          </div>
         </div>
 
         <SignInMenu 
