@@ -7,7 +7,7 @@
     margin-top: 20px;
     font-size: 42px;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -21,4 +21,20 @@
     margin-right: 10px;
     height: 42px;
     width: 255px;
+}
+#cookie-agreement-desc {
+    color: #4e4e4e;
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#cookie-agreement-button-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    
 }

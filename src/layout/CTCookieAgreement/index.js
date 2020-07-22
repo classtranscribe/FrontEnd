@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
-import CTLayout from '../CTLayout';
 import './index.scss';
+import useStyle from './styles';
 
 export const AGREEMENT_ACCEPTED_KEY = 'agreement_accepted';
 
 function CTCookieAgreement() {
-    const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'false'));// change to true
+  const styleClasses = useStyle();
+  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'false'));// change to true
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (e) => {
       setAnchorEl(e.currentTarget);
@@ -45,12 +46,30 @@ function CTCookieAgreement() {
             />
           </div>
           
-          <p>
-            By continuing you agree to the  acceptable_use policy and cookie policy.
+          <p id="cookie-agreement-desc">
+            By continuing you agree to the <Link to='/policy/acceptableUse'> acceptable_use policy </Link> and <Link to='/policy/cookie'>cookie policy</Link>.
           </p>
-          <Button onClick={handleClick}>Accept and Login</Button>
-          <Button onClick={acceptSkipLogin}>Accept and Skip Login</Button>
-          <Button onClick={closeWindow}>Decline and Close Window</Button>
+          <div id="cookie-agreement-button-group">
+            <Button
+              className={styleClasses.cookieAgreementButton}
+              onClick={handleClick}
+            >
+              Accept & Login
+            </Button>
+            <Button
+              className={styleClasses.cookieAgreementButton}
+              onClick={acceptSkipLogin}
+            >
+              Accept & Skip Login
+            </Button>
+            <Button
+              className={styleClasses.cookieAgreementButton}
+              onClick={closeWindow}
+            >
+              Decline & Close Window
+            </Button>
+          </div>
+
           <SignInMenu 
             open={Boolean(anchorEl)} 
             anchorEl={anchorEl} 
