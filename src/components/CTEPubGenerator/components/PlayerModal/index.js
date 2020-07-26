@@ -25,10 +25,12 @@ function PlayerModal({
       classes={{paperAnchorBottom: 'ct-epb player-modal'}}
     >
       <CTFragment sticky dark vCenter hBetween padding="20">
-        <CTHeading as="h3" margin="0">{title}</CTHeading>
-        <CTText highlighted>
-          {timestr.toTimeString(begin)} - {timestr.toTimeString(end)}
-        </CTText>
+        <CTFragment vCenter>
+          <CTHeading as="h3" margin="0">{title}</CTHeading>
+          <CTText highlighted size="medium" margin={[0, 20]}>
+            {timestr.toTimeString(begin)} - {timestr.toTimeString(end)}
+          </CTText>
+        </CTFragment>
         <Button 
           round 
           icon="close" 

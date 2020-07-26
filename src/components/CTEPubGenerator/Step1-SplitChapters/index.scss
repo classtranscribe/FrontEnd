@@ -26,3 +26,17 @@
   right: 30px;
   bottom: 15px;
 }
+
+.ct-epb.sch.undo-redo-btns {
+  z-index: 1;
+  height: fit-content;
+  width: auto;
+  position: absolute;
+  top: auto !important;
+  left: 0;
+  padding: 10px 10px 10px 80px;
+  bottom: 12px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.281);
+  border-radius: 0 30px 30px 0;
+}

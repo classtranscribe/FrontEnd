@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { prompt } from 'utils';
 import { epubState } from './EPubState';
+import { epubData } from './EPubDataController';
 
 export default class EPubHistory {
   constructor() {
@@ -45,7 +46,7 @@ export default class EPubHistory {
   }
 
   get canRedo () {
-    return this.__index__ + 1 < this.length;
+    return !this.isEmpty && (this.__index__ + 1 < this.length);
   }
 
   logger() {
@@ -54,6 +55,7 @@ export default class EPubHistory {
 
   revertToChapters(chapters) {
     epubState.updateContentChanges(chapters, epubState.currChIndex);
+    epubData.setChapters(chapters);
   }
 
   getItem(index) {
@@ -96,7 +98,7 @@ export default class EPubHistory {
 
     let next = this.getItem(this.__index__ + 1);
     this.revertToChapters(next.next);
-    this.stepBack();
+    this.stepForward();
     this.feed('REDO', next.name);
     this.logger();
   }

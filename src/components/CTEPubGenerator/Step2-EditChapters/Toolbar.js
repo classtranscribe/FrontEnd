@@ -35,29 +35,35 @@ function Toolbar({
           Watch the video ({beginstr} - {endstr})
         </Button>
 
-        {/* <CTFragment vCenter margin={[0, 0, 20, 0]}>
+        <CTFragment vCenter margin={[0, 0, 20, 0]}>
           <Button
-            round outlined uppercase
+            round
+            outlined
+            uppercase
             className="ech tool-bar-btn mr-1"
             icon="undo"
+            disabled={!epub.history.canUndo}
             onClick={epub.history.undo}
           >
             undo
           </Button>
 
           <Button
-            round outlined uppercase
+            round
+            outlined
+            uppercase
             className="ech tool-bar-btn ml-1"
             icon="redo"
+            disabled={!epub.history.canRedo}
             onClick={epub.history.redo}
           >
             redo
           </Button>
-        </CTFragment> */}
+        </CTFragment>
 
         <Button
           round
-          className="ech tool-bar-btn"
+          className="ech tool-bar-btn ct-epb shadow-btn"
           color="teal"
           icon="arrow_forward"
           onClick={epub.ctrl.proceedToStep3}

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { api, prompt, uurl, timestr, ARRAY_INIT } from 'utils';
 import Constants from './EPubConstants';
 import { epubState } from './EPubState';
+import { epubData } from './EPubDataController';
 import EPubData from './EPubData';
 import { parseRawEPubData } from './utils';
 // import { buildSubChapter as bsch } from './utils';
@@ -168,12 +169,15 @@ class EPubController {
     epubState.setEPubs([ new EPubData(rawEPubData) ]);
   }
 
-  changeEPub(currEPubIndex, chapters) {
+  changeEPub(currEPubIndex, title) {
     if (this.currEPubIndex === currEPubIndex) return;
     this.currEPubIndex = currEPubIndex;
 
+    // initialize epub data controller
+    const epubDataLike = epubData.initEPubData(epubState.epubs[currEPubIndex], title);
+
     epubState.setCurrEPubIndex(currEPubIndex);
-    epubState.setChapters(chapters);
+    epubState.setChapters(epubDataLike.chapters);
   }
 }
 

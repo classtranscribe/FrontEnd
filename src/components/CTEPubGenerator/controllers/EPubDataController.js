@@ -21,6 +21,10 @@ class EPubDataController {
     this.subdivideChaptersByScreenshots = this.subdivideChaptersByScreenshots.bind(this);
   }
 
+  setChapters(chapters) {
+    this.data.chapters = _.cloneDeep(chapters);
+  }
+
   initEPubData(ePubLike, title) {
     if (ePubLike instanceof EPubData) {
       this.data = ePubLike;
@@ -38,7 +42,7 @@ class EPubDataController {
       this.data.filename = title;
     }
 
-    return this.data.chapters;
+    return this.data.toObject();
   }
 
   updateAll(actionName, currChIndex) {
@@ -364,4 +368,4 @@ class EPubDataController {
   };
 }
 
-export default EPubDataController;
+export const epubData = new EPubDataController();

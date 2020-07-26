@@ -53,7 +53,7 @@ class TimeString {
     if (typeof str !== 'string') return '';
     let timestr = str.slice(0, 8);
     if (timestr.startsWith('00:')) {
-      return timestr.slice(4);
+      return timestr.slice(3);
     }
 
     return timestr;

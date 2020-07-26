@@ -5,6 +5,7 @@ import ChapterList from './ChapterList';
 import ChapterPreview from './ChapterPreview';
 import EPubItemCarousel from './EPubItemCarousel';
 import ProceedButton from './ProceedButton';
+import UndoRedoButtons from './UndoRedoButtons';
 // import ImageMagnifier from './ImageMagnifier';
 import './index.scss';
 
@@ -23,6 +24,7 @@ function SplitChapter() {
       >
         <ChapterList />
         <ChapterPreview />
+        <UndoRedoButtons />
         <ProceedButton />
         <EPubItemCarousel />
       </div>

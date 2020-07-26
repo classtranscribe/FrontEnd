@@ -53,8 +53,7 @@ function EPubGenerator(props) {
     // reset the chapters and related states 
     // when epubs loaded or currEPubIndex changed
     if (epubs.length > 0 && !error) {
-      const newChapters = epub.data.initEPubData(epubs[currEPubIndex], title);
-      epub.ctrl.changeEPub(currEPubIndex, newChapters);
+      epub.ctrl.changeEPub(currEPubIndex, title);
     }
   }, [title, epubs, currEPubIndex]);
 
