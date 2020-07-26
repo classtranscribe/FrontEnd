@@ -1,11 +1,24 @@
 import React from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment } from 'layout';
+import timestr from 'utils/use-time';
 import { epub } from '../controllers';
 import { EPubStepper } from '../components';
+import { connectWithRedux } from '../redux';
 import './index.scss';
 
-function Toolbar() {
+function Toolbar({
+  chapters,
+  currChIndex,
+}) {
+  const currChapter = chapters[currChIndex] || {};
+  const beginstr = timestr.toPrettierTimeString(currChapter.start);
+  const endstr = timestr.toPrettierTimeString(currChapter.end);
+
+  const watchInPlayer = () => {
+    epub.ctrl.openPlayerModal(currChapter.title, currChapter.start, currChapter.end);
+  };
+
   return (
     <CTFragment list className="ct-epb ech tool-bar" data-scroll>
       <EPubStepper vertical />
@@ -13,13 +26,35 @@ function Toolbar() {
       <CTFragment>
         <Button
           round
+          outlined
+          uppercase
           className="ech tool-bar-btn"
-          color="black"
-          icon="arrow_back"
-          onClick={epub.ctrl.backToStep1}
+          icon="play_circle_filled"
+          onClick={watchInPlayer}
         >
-          Back to Chapter Splitter
+          Watch the video ({beginstr} - {endstr})
         </Button>
+
+        {/* <CTFragment vCenter margin={[0, 0, 20, 0]}>
+          <Button
+            round outlined uppercase
+            className="ech tool-bar-btn mr-1"
+            icon="undo"
+            onClick={epub.history.undo}
+          >
+            undo
+          </Button>
+
+          <Button
+            round outlined uppercase
+            className="ech tool-bar-btn ml-1"
+            icon="redo"
+            onClick={epub.history.redo}
+          >
+            redo
+          </Button>
+        </CTFragment> */}
+
         <Button
           round
           className="ech tool-bar-btn"
@@ -34,4 +69,7 @@ function Toolbar() {
   );
 }
 
-export default Toolbar;
+export default connectWithRedux(
+  Toolbar,
+  ['chapters', 'currChIndex']
+);

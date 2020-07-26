@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLoader, altEl } from 'layout';
+import { CTLoader, altEl, makeEl } from 'layout';
 import { epubStore, connectWithRedux } from './redux';
 import { epub, CTEPubConstants as Constants } from './controllers';
-import { NoEPubWrapper } from './components';
+import { NoEPubWrapper, PlayerModal } from './components';
 import SplitChapters from './Step1-SplitChapters';
 import EditChapters from './Step2-EditChapters';
 import DowloadEPub from './Step3-DowloadEPub';
@@ -20,7 +20,8 @@ function EPubGenerator(props) {
     // rawEPubData,
     chapters,
     epubs,
-    currEPubIndex
+    currEPubIndex,
+    playerData
   } = props;
   const { hash } = useLocation();
   const loading = epub.ctrl.isLoading(chapters);
@@ -61,6 +62,9 @@ function EPubGenerator(props) {
   const editChapterElement = altEl(EditChapters, step === Constants.EPubStepEditChapters);
   const downloadElement = altEl(DowloadEPub, step === Constants.EPubStepDownload);
 
+  const playerProps = { ...playerData, open: Boolean(playerData), mediaId };
+  const playerModalElement = makeEl(PlayerModal, playerProps);
+
   return (
     <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
       {
@@ -73,6 +77,7 @@ function EPubGenerator(props) {
             {splitChapterElement}
             {editChapterElement}
             {downloadElement}
+            {playerModalElement}
           </>
         )
       }
@@ -91,7 +96,8 @@ export default withReduxProvider(
     'rawEPubData',
     'epubs',
     'chapters',
-    'currEPubIndex'
+    'currEPubIndex',
+    'playerData'
   ],
   ['all']
 );

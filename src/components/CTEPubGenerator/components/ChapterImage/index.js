@@ -65,7 +65,7 @@ export function ChapterImage({
       ) : (
         <div className="ct-epb ch-text-con">
           <div
-            className="ch-text"
+            className="ct-epb ch-text clickable"
             tabIndex={0}
             onClick={openImagePicker}
             onKeyDown={handleOnKeyDown}

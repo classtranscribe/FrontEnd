@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { api, prompt, uurl, ARRAY_INIT } from 'utils';
+import { api, prompt, uurl, timestr, ARRAY_INIT } from 'utils';
 import Constants from './EPubConstants';
 import { epubState } from './EPubState';
 import EPubData from './EPubData';
@@ -94,6 +94,18 @@ class EPubController {
     if (epubState.ePubItemId) {
       epubState.setEPubItemId(null);
     }
+  }
+
+  openPlayerModal = (title, begin, end) => {
+    epubState.setPlayerData({
+      title,
+      begin: timestr.toSeconds(begin),
+      end: timestr.toSeconds(end)
+    });
+  }
+
+  closePlayerModal = () => {
+    epubState.setPlayerData(null);
   }
 
 

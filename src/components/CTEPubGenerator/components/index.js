@@ -11,3 +11,4 @@ export { ChapterTitle } from './ChapterTitle';
 export { ChapterImage } from './ChapterImage';
 export { ChapterText } from './ChapterText';
 export { default as NoEPubWrapper } from './NoEPubWrapper';
+export { default as PlayerModal } from './PlayerModal';

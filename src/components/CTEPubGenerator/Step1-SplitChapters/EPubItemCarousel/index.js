@@ -58,6 +58,10 @@ function EPubItemCarousel({
     }, 300);
   };
 
+  const watchInPlayer = () => {
+    epub.ctrl.openPlayerModal(`Screenshot #${itemIdx + 1}`, item.start, item.end);
+  };
+
   return (
     <SwipeableDrawer
       id={epub.const.SplitChapterItemCarouselID}
@@ -68,7 +72,10 @@ function EPubItemCarousel({
       onKeyDown={handleKeyDown}
     >
       <CTFragment sticky vCenter hBetween padding="20">
-        <CTHeading as="h3" margin="0">ePub Screenshots</CTHeading>
+        <CTHeading as="h3" margin="0">
+          Screenshot {itemIdx + 1}/{rawEPubData.length}
+        </CTHeading>
+
         <CarouselButton
           outlined
           disabled={itemIdx <= 0}
@@ -79,7 +86,6 @@ function EPubItemCarousel({
         </CarouselButton>
 
         <CarouselButton
-          disabled={itemIdx >= rawEPubData.length - 1}
           startIcon={<span className="material-icons">near_me</span>}
           onClick={navigate}
         >
@@ -108,9 +114,18 @@ function EPubItemCarousel({
           </CTFragment>
 
           <CTFragment list className="epb-carl-txt-con" padding={[0, 20]} data-scroll>
-            <CTText celadon bold margin={[10, 0]} size="medium">
-              {startTimeStr} - {endTimeStr}
-            </CTText>
+            <CTFragment vCenter padding={[10, 0]}>
+              <CTText celadon bold margin={[0, 20, 0, 0]} size="medium">
+                {startTimeStr} - {endTimeStr}
+              </CTText>
+              <CarouselButton
+                outlined
+                startIcon={<span className="material-icons">play_circle_filled</span>}
+                onClick={watchInPlayer}
+              >
+                Watch the video
+              </CarouselButton>
+            </CTFragment>
             <CTParagraph size="medium">
               {item.text}
             </CTParagraph>

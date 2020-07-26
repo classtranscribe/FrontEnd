@@ -61,4 +61,9 @@ $border: solid 1px grey;
   &.border-left {
     border-left: $border;
   }
+
+  &.dark {
+    background-color: rgb(29, 29, 29);
+    color: white;
+  }
 }

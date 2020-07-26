@@ -16,4 +16,5 @@ export const initialState = {
   magnifiedImg: null,
   foldedIds: [],
   ePubItemId: null,
+  playerData: null
 };

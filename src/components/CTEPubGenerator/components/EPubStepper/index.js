@@ -4,7 +4,7 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
-import { epub } from '../../controllers';
+// import { epub } from '../../controllers';
 import { connectWithRedux } from '../../redux';
 import './index.scss';
 
@@ -33,8 +33,9 @@ function EPubStepper({
             completed={isStepComplete(stepItem.value, step)}
           >
             <StepButton 
+              href={`#${stepItem.value}`}
               className="ct-epb step-btn"
-              onClick={() => epub.ctrl.toStep(stepItem.value)}
+              // onClick={() => epub.ctrl.toStep(stepItem.value)}
             >
               {stepItem.name}
             </StepButton>

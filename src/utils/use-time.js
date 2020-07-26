@@ -7,6 +7,7 @@ class TimeString {
    * @returns {String} H:mm:ss
    */
   static toTimeString(sec) {
+    if (typeof sec !== 'number') return '';
     const formatter = sec < 3600 ? 'mm:ss' : 'H:mm:ss';
     return moment()
             .startOf('day')
