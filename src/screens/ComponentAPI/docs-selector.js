@@ -16,5 +16,5 @@ export default function(name) {
     'ct-form': createDocsData('CTForm', CTFormUsage)
   };
 
-  return docsSelector[name] || createDocsData('Unknown');
+  return /* docsSelector[name] ||  */ createDocsData('Unknown');
 }

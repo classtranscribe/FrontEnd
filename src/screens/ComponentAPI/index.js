@@ -7,7 +7,7 @@ import docsSelector from './docs-selector';
 
 export function ComponentAPI(props) {
   const { name } = useParams();
-  const Docs = docsSelector(name);
+  const Docs = docsSelector(name || 'ct-form');
   
   useLoaded();
   useCTDocTitle(`${Docs.title} | Component API`);
