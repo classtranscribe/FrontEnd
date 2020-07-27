@@ -8,13 +8,13 @@ const createDocsData = (title, Component) => ({
 
 /**
  * Get the docs data for a component
- * @param {String} name - the name of the component api
+ * @param {String} type - the type of the component api
  * @returns {{title:string, Component:ReactNode}} the docs data
  */
-export default function(name) {
+export default function(type) {
   const docsSelector = {
     'ct-form': createDocsData('CTForm', CTFormUsage)
   };
 
-  return /* docsSelector[name] ||  */ createDocsData('Unknown');
+  return docsSelector[type] || createDocsData('Unknown');
 }
