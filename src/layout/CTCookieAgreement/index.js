@@ -9,7 +9,7 @@ export const AGREEMENT_ACCEPTED_KEY = 'class_transcribe_agreement_accepted';
 
 function CTCookieAgreement() {
   // Set true to false for testing purposes
-  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'false'));
+  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true'));
   const [anchorEl, setAnchorEl] = useState(null);
   const [showPolicy, setShowPolicy] = useState('none');
   const [policyToShow, setPolicyToShow] = useState(null);
