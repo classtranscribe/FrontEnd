@@ -1,17 +1,18 @@
 import React, {useState} from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import { Link } from 'react-router-dom';
+import { Dialog, ButtonBase, DialogContent, DialogActions} from '@material-ui/core';
 import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
 import { useStyles } from './styles';
+import { CookiePoilcy, AcceptableUsePolicy } from './policies';
 import './index.scss';
 
 export const AGREEMENT_ACCEPTED_KEY = 'class_transcribe_agreement_accepted';
 
 function CTCookieAgreement() {
   // Set true to false for testing purposes
-  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true'));
+  const [dialogOpen, setDialogOpen] = useState(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'false'));
   const [anchorEl, setAnchorEl] = useState(null);
+  const [showPolicy, setShowPolicy] = useState('none');
+  const [policyToShow, setPolicyToShow] = useState(null);
   const styleClasses = useStyles();
 
   const handleAcceptLoginClick = (e) => {
@@ -32,6 +33,11 @@ function CTCookieAgreement() {
     localStorage.setItem(AGREEMENT_ACCEPTED_KEY, 'true');
   }
 
+  const handlePolicyClicking = (policyName) => {
+    setShowPolicy('block');
+    setPolicyToShow(policyName);
+  }
+
   return (
     <Dialog
       open={dialogOpen} 
@@ -39,6 +45,8 @@ function CTCookieAgreement() {
       disableEscapeKeyDown
       fullWidth
       maxWidth='sm'
+      scroll='paper'
+
     >
       <div id='cookie-agreement-inner-wrapper'>
         <div className="cookie-agreement-title">
@@ -50,48 +58,69 @@ function CTCookieAgreement() {
         </div>
           
         <p id="cookie-agreement-desc">
-          By continuing you agree to the <Link to='/policy/acceptableUse'> acceptable_use policy</Link> and <Link to='/policy/cookie'>cookie policy</Link>.
+          By continuing you agree to our 
+          <ButtonBase 
+            className={styleClasses.policyButton} 
+            onClick={() => handlePolicyClicking('Acceptable Use')}
+          > Acceptable Use Policy
+          </ButtonBase> and our 
+          <ButtonBase 
+            className={styleClasses.policyButton}
+            onClick={() => handlePolicyClicking('Cookie')}
+          >
+            Cookie Policy.
+          </ButtonBase>
         </p>
-        <div id="cookie-agreement-btn-grp">
-          <ButtonBase
-            className={styleClasses.button}
-            onClick={handleAcceptLoginClick}
-            role='button'
-            tabIndex='0'
-          >
-            <h3 className='cookie-agreement-btn-h3'>
-              Accept & Login
-            </h3>
-            <p className='cookie-agreement-btn-p'>
-              Access all Eligible Videos and Courses
-            </p>
-          </ButtonBase>
-          <ButtonBase
-            className={styleClasses.button}
-            onClick={handleAcceptSkipLogin}  
-            role='button'
-            tabIndex='0'
-          >
-            <h3 className='cookie-agreement-btn-h3'>
-              Accept & Skip Login
-            </h3>
-            <p className='cookie-agreement-btn-p'>
-              Access only Public Courses
-            </p>
-          </ButtonBase>
-          <ButtonBase
-            className={styleClasses.button}
-            onClick={handleCloseBrowserWindow}  
-            role='button'
-            tabIndex='0'
-          >
-            <h3 className='cookie-agreement-btn-h3'>
-              Decline and Close Window
-            </h3>
-            <p> </p>
-          </ButtonBase> 
-        </div>
-
+        <DialogContent 
+          dividers
+          style={{display : showPolicy}}
+        >
+          {policyToShow === 'Acceptable Use' && 
+          <AcceptableUsePolicy />}
+          {policyToShow === 'Cookie' && 
+          <CookiePoilcy />}
+        </DialogContent>
+        <DialogActions>
+          <div id="cookie-agreement-btn-grp">
+            <ButtonBase
+              className={styleClasses.loginButton}
+              onClick={handleAcceptLoginClick}
+              role='button'
+              tabIndex='0'
+            >
+              <h3 className='cookie-agreement-btn-h3'>
+                Accept & Login
+              </h3>
+              <p className='cookie-agreement-btn-p'>
+                Access all Eligible Videos and Courses
+              </p>
+            </ButtonBase>
+            <ButtonBase
+              className={styleClasses.loginButton}
+              onClick={handleAcceptSkipLogin}  
+              role='button'
+              tabIndex='0'
+            >
+              <h3 className='cookie-agreement-btn-h3'>
+                Accept & Skip Login
+              </h3>
+              <p className='cookie-agreement-btn-p'>
+                Access only Public Courses
+              </p>
+            </ButtonBase>
+            <ButtonBase
+              className={styleClasses.loginButton}
+              onClick={handleCloseBrowserWindow}  
+              role='button'
+              tabIndex='0'
+            >
+              <h3 className='cookie-agreement-btn-h3'>
+                Decline and Close Window
+              </h3>
+              <p> </p>
+            </ButtonBase> 
+          </div>
+        </DialogActions>
         <SignInMenu 
           open={Boolean(anchorEl)} 
           anchorEl={anchorEl} 

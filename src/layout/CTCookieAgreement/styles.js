@@ -1,7 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
-  button: {
+  loginButton: {
     background: '#328383',
     marginLeft : '10px',
     marginRight : '10px',
@@ -20,5 +20,10 @@ export const useStyles = makeStyles((theme) => ({
       height: '50px',
       padding: '10px 20px',
     },
-    }
+    },
+  policyButton : {
+    color: '#328383',
+    marginLeft: '4px',
+    marginRight: '4px',
+  },
 }));

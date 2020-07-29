@@ -3,8 +3,7 @@
     display: flex;
     flex-direction: column;
 }
-
-
+ 
 .cookie-agreement-title {
     display: flex;
     margin-top: 20px;
@@ -27,6 +26,7 @@
     width: 255px;
 }
 #cookie-agreement-desc {
+    display: flex;
     color: #4e4e4e;
     font-size: 15px;
     margin-bottom: 10px;
