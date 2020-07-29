@@ -63,7 +63,7 @@ function CTCookieAgreement() {
             className={styleClasses.policyButton} 
             onClick={() => handlePolicyClicking('Acceptable Use')}
           > Acceptable Use Policy
-          </ButtonBase> and our 
+          </ButtonBase>and our 
           <ButtonBase 
             className={styleClasses.policyButton}
             onClick={() => handlePolicyClicking('Cookie')}
