@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Dialog, ButtonBase, DialogContent, DialogActions} from '@material-ui/core';
-import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
+import { SignInMenu } from '../../layout/CTNavHeader/NavHeaderMenu/SignInMenu'
 import { useStyles } from './styles';
 import { CookiePoilcy, AcceptableUsePolicy } from './policies';
 import './index.scss';
