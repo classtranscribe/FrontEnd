@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ErrorWrapper from './ErrorWrapper';
+import EventVisualPopup from './EventVisualPopup';
 import './index.scss';
 
-import EventVisualPopup from './EventVisualPopup';
 
 function NonInteractiveLayer(props) {
   let {
+    error,
     event,
     volume,
     onTogglePause,
@@ -16,6 +18,7 @@ function NonInteractiveLayer(props) {
       className="ctp wrapper non-interact ct-d-c-center"
       onClick={onTogglePause}
     >
+      {error && <ErrorWrapper error={error} />}
       <EventVisualPopup event={event} volume={volume} />
     </div>
   );

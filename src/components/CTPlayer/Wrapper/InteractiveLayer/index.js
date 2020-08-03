@@ -10,6 +10,7 @@ import SettingsMenu from './SettingsMenu';
 
 function InteractiveLayer(props) {
   let {
+    error,
     hideWrapperOnMouseLeave,
     media,
     player,
@@ -75,6 +76,7 @@ function InteractiveLayer(props) {
   });
 
   const actionBarProps = {
+    error,
     media,
     time,
   };

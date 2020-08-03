@@ -2,6 +2,7 @@ import Constants from './PlayerConstants';
 
 const initialState = {
   // media
+  error: null,
   media: null,
   src1: null,
   src2: null,

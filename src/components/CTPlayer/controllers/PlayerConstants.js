@@ -4,6 +4,10 @@ import Languages from './Languages';
  * The class contains all the static values for the video player
  */
 class PlayerConstants extends Languages {
+  // Player Errors
+  static MediaError404 = 404;
+  static MediaError401 = 401;
+
   // Playback Rates
   static PlaybackRates = [2, 1.75, 1.5, 1.25, 1, 0.75, 0.5, 0.25];
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
+import { altEl, makeEl } from 'layout';
 import {
   initialState,
   CTPlayerConstants as Constants,
   CTPlayerController
 } from '../controllers';
 import { getPlayerSize } from '../controllers/helpers';
-
 import Video from '../Video';
 import Wrapper from '../Wrapper';
 import Range from '../Range';
@@ -150,28 +150,29 @@ class Player extends React.Component {
 
   render() {
     const { fill, width, height, allowTwoScreen } = this.props;
-    const { src2, isFullscreen, openRange } = this.state;
+    const { src2, isFullscreen, openRange, error } = this.state;
 
     const display2Screen = allowTwoScreen && Boolean(src2);
     const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
+
+    const video1Element = altEl(Video, !error, this.getVideo1Props());
+    const video2Element = altEl(Video, !error && display2Screen, this.getVideo2Props());
+    const wrapperElement = makeEl(Wrapper, this.getWrapperProps(display2Screen));
+    const rangeElement = altEl(Range, openRange, this.getRangeProps());
+    
     return (
       <div {...this.getContainerProps(playerSize)}>
         <div {...this.getPlayerProps(playerSize)}>
-          <Video {...this.getVideo1Props()} />
-          {
-            display2Screen
-            &&
-            <Video {...this.getVideo2Props()} />
-          }
-
-          <Wrapper {...this.getWrapperProps(display2Screen)} />
+          {video1Element}
+          {video2Element}
+          {wrapperElement}
         </div>
 
         {
           openRange
           &&
           <div {...this.getExtraProps(playerSize)}>
-            <Range {...this.getRangeProps()} />
+            {rangeElement}
           </div>
         }
       </div>
@@ -248,6 +249,7 @@ class Player extends React.Component {
       hideWrapperOnMouseLeave 
     } = this.props;
     const {
+      error,
       event,
       screenMode,
       videoReady,
@@ -271,6 +273,7 @@ class Player extends React.Component {
     } = this.state;
 
     return {
+      error,
       media: this.state.media,
       player: this.player,
       event,

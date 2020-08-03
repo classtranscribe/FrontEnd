@@ -30,7 +30,8 @@ class PlayerController extends VideoController {
     // Mouse over timer for wrapper
     this.mouseOverTimer = null;
 
-    // Initialize states
+    // Initialize state
+    this.error = iniState.error;
     this.media = iniState.media;
     this.transcriptions = iniState.transcriptions;
     this.currTranscription = iniState.currTranscription;
@@ -123,6 +124,10 @@ class PlayerController extends VideoController {
     this.setState('ccBackgroundColor', ccBackgroundColor);
   }
 
+  setError(error) {
+    this.setState('error', error);
+  }
+
   setMedia(media) {
     this.setState('media', media);
   }
@@ -166,6 +171,7 @@ class PlayerController extends VideoController {
       this.setMedia(api.parseMedia(data));
     } catch (error) {
       // TODO
+      this.setError(api.errorType(error));
     }
   }
 
