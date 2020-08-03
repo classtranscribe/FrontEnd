@@ -14,7 +14,7 @@ function CCBackgroundColorsMenu(props) {
     <div className="ctp settings-menu">
       <MenuItem goBack text="CC Background Color" onClick={onGoBack} />
 
-      {Constants.CC_COLORS.map(color => (
+      {Constants.CCColors.map(color => (
         <MenuItem
           key={color}
           text={color}

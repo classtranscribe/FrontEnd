@@ -117,7 +117,7 @@ function InteractiveLayer(props) {
     languages: player.languages,
     playbackRate,
     onClose: handleCloseSettings,
-    playbackRates: Constants.PLAYBACK_RATES,
+    playbackRates: Constants.PlaybackRates,
     setPlaybackRate: player.setPlaybackRate,
     setLanguage: player.changeLanguage,
     onCloseCC: player.closeCC,

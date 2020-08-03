@@ -3,7 +3,7 @@ import { SwipeableDrawer } from '@material-ui/core';
 import { Button } from 'pico-ui';
 import timestr from 'utils/use-time';
 import { CTFragment, CTHeading, CTText } from 'layout';
-import { CTPlayer } from '../../../CTPlayer';
+import CTPlayer from '../../../CTPlayer';
 import { epub } from '../../controllers';
 import './index.scss';
 

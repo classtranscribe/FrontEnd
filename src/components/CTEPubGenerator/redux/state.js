@@ -5,7 +5,7 @@ import Constants from '../controllers/EPubConstants';
 export const initialState = {
   error: null,
   step: Constants.EPubStepDefaultFirstStep,
-  language: PConstants.ENGLISH,
+  language: PConstants.English,
   rawEPubData: ARRAY_INIT,
   epubs: ARRAY_INIT,
   currEPub: null,

@@ -1,5 +1,6 @@
 export { default as initialState } from './initial-state';
 
-export { default as CTPlayerConstants } from './player-constants';
-export { default as VideoNode } from './video-node';
-export { default as CTPlayerController } from './player-controller';
+export { default as Languages } from './Languages';
+export { default as CTPlayerConstants } from './PlayerConstants';
+export { default as VideoNode } from './VideoNode';
+export { default as CTPlayerController } from './PlayerController';

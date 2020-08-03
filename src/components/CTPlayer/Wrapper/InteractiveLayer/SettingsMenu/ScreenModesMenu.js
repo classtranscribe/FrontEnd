@@ -21,11 +21,11 @@ function ScreenModesMenu(props) {
         onClick={onSwapScreens}
       />
 
-      {[Constants.SCREEN_NORMAL, Constants.SCREEN_NEST].map(mode => (
+      {[Constants.ScreenModeNormal, Constants.ScreenModeNested].map(mode => (
         <MenuItem
           key={mode}
           active={screenMode === mode}
-          text={Constants.SCREEN_MODES_MAP[mode]}
+          text={Constants.ScreenModesMap[mode]}
           onClick={() => setScreenMode(mode)}
         />
       ))}
