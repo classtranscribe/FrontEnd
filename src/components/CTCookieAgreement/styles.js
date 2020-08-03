@@ -25,5 +25,6 @@ export const useStyles = makeStyles((theme) => ({
     color: '#328383',
     marginLeft: '4px',
     marginRight: '4px',
+    paddingBottom: '2px'
   },
 }));

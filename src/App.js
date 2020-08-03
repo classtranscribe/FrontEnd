@@ -32,7 +32,7 @@ import {
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
-import CTCookieAgreement from './layout/CTCookieAgreement'
+import CTCookieAgreement from './components/CTCookieAgreement'
 import { user } from './utils/user';
 
 class App extends React.Component {
