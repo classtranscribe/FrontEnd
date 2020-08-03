@@ -30,6 +30,6 @@ export { CTDNDContext, CTDNDItem, CTDNDList } from './CTDnd';
 
 export { CTModal, CTConfirmation } from './CTModal';
 
-export { default as CTFileButton } from './CTFileButton';
+export { useButtonStyles, CTFileButton } from './CTButtons';
 
 export * from './tools';

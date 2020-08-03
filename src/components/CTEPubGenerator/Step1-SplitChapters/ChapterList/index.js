@@ -2,19 +2,21 @@ import React from 'react';
 import { CTScrollArea } from 'layout';
 import { CTEPubConstants as Constants } from '../../controllers';
 import { connectWithRedux } from '../../redux';
+import EPubInfo from './EPubInfo';
+import Instruction from './Instruction';
 import EPubChapterItem from './EPubChapterItem';
-import InstructionHeading from './InstructionHeading';
 import './index.scss';
 
-function ChapterList({ chapters, /** currChIndex, */ foldedIds }) {
+function ChapterList({ chapters, foldedIds }) {
   return (
     <CTScrollArea
       id={Constants.EPubChapterListID}
       className="ct-epb sch-con"
       scrollClassName="ct-epb sch-scroll"
-      scrollToTopButton="right"
+      scrollToTopButton="bottom right"
     >
-      <InstructionHeading />
+      <EPubInfo />
+      <Instruction />
 
       <div className="ct-d-c ee-sch-chapters">
         {chapters.map((chapter, chapterIndex) => (
@@ -33,6 +35,6 @@ function ChapterList({ chapters, /** currChIndex, */ foldedIds }) {
 }
 
 export default connectWithRedux(
-  ChapterList, 
-  ['chapters', 'currChIndex', 'foldedIds']
+  ChapterList,
+  ['chapters', 'foldedIds']
 );
