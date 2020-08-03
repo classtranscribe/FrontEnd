@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { CTPlayerConstants as PConstants } from '../../CTPlayer';
+import { Languages } from '../../CTPlayer';
 import { 
   buildEPubDataFromArray, 
   buildChapter, 
@@ -63,8 +63,8 @@ export default class EPubData {
   static create(rawEPubData, language, mediaName) {
     return new EPubData({
       language,
-      title: `${mediaName} (${PConstants.LANG_MAP[language]})`,
-      filename: `${mediaName} (${PConstants.LANG_MAP[language]})`,
+      title: `${mediaName} (${Languages.decode(language)})`,
+      filename: `${mediaName} (${Languages.decode(language)})`,
       chapters: buildEPubDataFromArray(rawEPubData)
     });
   }

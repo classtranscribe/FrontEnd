@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'pico-ui';
-import { CTPlayerConstants as PConstants } from '../../CTPlayer';
+import { Languages } from '../../CTPlayer';
 import { EPubMenu } from './EPubMenu';
 import { epub } from '../controllers';
 
@@ -9,7 +9,6 @@ export function LanguageMenuTrigger({
   classNames,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const langOptions = PConstants.LANG_MAP.map((text, value) => ({ text, value }));
   
   return (
     <EPubMenu
@@ -18,11 +17,11 @@ export function LanguageMenuTrigger({
           outlined 
           icon="arrow_drop_down" 
           classNames={classNames}
-          text={PConstants.LANG_MAP[language]} 
+          text={Languages.decode(language)} 
           onClick={e => setAnchorEl(e.currentTarget)}
         />
       }
-      items={langOptions}
+      items={Languages.LanguageOptions}
       value={language}
       anchorEl={anchorEl}
       setAnchorEl={setAnchorEl}

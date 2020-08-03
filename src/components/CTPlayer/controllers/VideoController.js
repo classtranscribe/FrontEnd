@@ -1,6 +1,7 @@
+import { prompt } from 'utils/prompt'
 import iniState from './initial-state';
-import VideoNode from './video-node';
-import Constants from './player-constants';
+import VideoNode from './VideoNode';
+import Constants from './PlayerConstants';
 
 /**
  * The video event controller for the player
@@ -26,6 +27,7 @@ class VideoController {
     
     // video attributes
     this.beginAt = 0;
+    this.endAt = null;
     this.duration = iniState.duration;
     this.time = iniState.time;
     this.bufferedTime = iniState.bufferedTime;
@@ -107,6 +109,12 @@ class VideoController {
     }
   }
 
+  setEndAt(endAt) {
+    if (typeof endAt === 'number') {
+      this.endAt = endAt;
+    }
+  }
+
   videoIsReady() {
     if (this.video1Ready && (this.video2Ready || !this.video2)) {
       this.setState('videoReady', true);
@@ -142,14 +150,14 @@ class VideoController {
     if (!this.video1) return;
     this.video1.pause();
     if (this.video2) this.video2.pause();
-    this.toggleEvent(Constants.CTPE_PAUSE);
+    this.toggleEvent(Constants.PlayerEventPause);
   }
 
   play() {
     if (!this.video1) return;
     this.video1.play();
     if (this.video2) this.video2.play();
-    this.toggleEvent(Constants.CTPE_PLAY);
+    this.toggleEvent(Constants.PlayerEventPlay);
   }
 
   togglePause() {
@@ -186,26 +194,26 @@ class VideoController {
 
   forward() {
     this.setCurrentTime(this.time + 5);
-    this.toggleEvent(Constants.CTPE_FORWARD);
+    this.toggleEvent(Constants.PlayerEventForward);
   }
 
   rewind() {
     this.setCurrentTime(this.time - 5);
-    this.toggleEvent(Constants.CTPE_REWIND);
+    this.toggleEvent(Constants.PlayerEventRewind);
   }
 
   mute() {
     if (!this.video1) return;
     this.video1.mute();
     this.setState('muted', true);
-    this.toggleEvent(Constants.CTPE_MUTE);
+    this.toggleEvent(Constants.PlayerEventMute);
   }
 
   unmute() {
     if (!this.video1) return;
     this.video1.unmute();
     this.setState('muted', false);
-    this.toggleEvent(Constants.CTPE_VOLUME_UP);
+    this.toggleEvent(Constants.PlayerEventVolumeUp);
   }
 
   toggleMute() {
@@ -225,12 +233,12 @@ class VideoController {
 
   volumeUp() {
     this.setVolume(this.volume + 0.05);
-    this.toggleEvent(Constants.CTPE_VOLUME_UP);
+    this.toggleEvent(Constants.PlayerEventVolumeUp);
   }
 
   volumeDown() {
     this.setVolume(this.volume - 0.05);
-    this.toggleEvent(Constants.CTPE_VOLUME_DOWN);
+    this.toggleEvent(Constants.PlayerEventVolumeDown);
   }
 
   setPlaybackRate(playbackRate) {
@@ -291,6 +299,7 @@ class VideoController {
   }
 
   lastCCUpdatedTime = 0;
+  shouldPauseOnEndAt = false;
   onTimeUpdate({ target: { currentTime } }) {
     if (Math.abs(this.time - currentTime) > 0.4) {
       this.setState('time', currentTime);
@@ -301,6 +310,24 @@ class VideoController {
       if (this.range[1] <= currentTime) {
         this.pause();
         this.isPlayingRange = false;
+      }
+    }
+
+    // Pause the video automatically at the endAt timestamp
+    if (typeof this.endAt === 'number') {
+      if (currentTime < this.endAt && !this.shouldPauseOnEndAt) {
+        this.shouldPauseOnEndAt = true;
+        // console.log('1 this.shouldPauseOnEndAt = true;')
+      } else if (this.shouldPauseOnEndAt 
+                && currentTime >= this.endAt 
+                && currentTime <= this.endAt + 1) {
+        this.pause();
+        this.shouldPauseOnEndAt = false;
+        prompt.addOne({ text: 'Video paused at the breakpoint.', timeout: 3000 });
+        // console.log('2 this.shouldPauseOnEndAt = false;')
+      } else if (this.shouldPauseOnEndAt && currentTime > this.endAt) {
+        this.shouldPauseOnEndAt = false;
+        // console.log('3 this.shouldPauseOnEndAt = false;')
       }
     }
   }

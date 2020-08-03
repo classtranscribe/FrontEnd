@@ -70,14 +70,8 @@ function EmbedModal(props) {
     inputRef.current.select();
   };
 
-  const ccLanguageOptions = [
-    { text: 'English', value: 'en-US' },
-    { text: 'Simplified Chinese', value: 'zh-Hans' },
-    { text: 'Korean', value: 'ko' },
-    { text: 'Spanish', value: 'es' },
-    { text: 'French', value: 'fr' }
-  ]
-  const playbackRatesOptions = Constants.PLAYBACK_RATES.map(
+  const ccLanguageOptions = Constants.LanguageOptions;
+  const playbackRatesOptions = Constants.PlaybackRates.map(
     (plb, index) => ({ text: plb, value: index })
   );
 
@@ -97,7 +91,7 @@ function EmbedModal(props) {
         begin: enableBeginTime ? timestr.toSeconds(beginTime) : null,
         playbackRate: playbackRate === 4 ? null : playbackRatesOptions[playbackRate].text,
         openCC: enableCaption ? 'true': null,
-        lang: ccLanguage === Constants.ENGLISH ? null : ccLanguage,
+        lang: ccLanguage === Constants.English ? null : ccLanguage,
         padded: enablePadded ? 'true' : null
       });
       iframeEl.src = `${window.location.origin}/embed/${vid}${embedQuery}`;

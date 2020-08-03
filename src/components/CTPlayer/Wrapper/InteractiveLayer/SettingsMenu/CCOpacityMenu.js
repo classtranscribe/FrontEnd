@@ -14,7 +14,7 @@ function CCOpacityMenu(props) {
     <div className="ctp settings-menu">
       <MenuItem goBack text="CC Background Opacity" onClick={onGoBack} />
 
-      {Constants.CC_OPACITIES.map(opacity => (
+      {Constants.CCOpacities.map(opacity => (
         <MenuItem
           key={opacity}
           text={opacity}

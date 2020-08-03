@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { CTPlayerConstants as PConstants } from '../../CTPlayer';
+import { Languages } from '../../CTPlayer';
 import { buildMarkdownFromItems } from './html-converters';
 
 export function buildID(preflix, id) {
@@ -121,7 +121,7 @@ export function getLanguageOptions(media) {
   }
 
   return _.map(media.transcriptions, trans => ({
-    text: PConstants.LANG_MAP[trans.language],
+    text: Languages.decode(trans.language),
     value: trans.language
   }));
 }

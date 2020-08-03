@@ -1,13 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
+import { altEl, makeEl } from 'layout';
 import {
   initialState,
   CTPlayerConstants as Constants,
   CTPlayerController
 } from '../controllers';
 import { getPlayerSize } from '../controllers/helpers';
-
 import Video from '../Video';
 import Wrapper from '../Wrapper';
 import Range from '../Range';
@@ -54,6 +53,7 @@ class Player extends React.Component {
       mediaId,
       media,
       beginAt,
+      endAt,
       defaultOpenCC,
       defaultPlaybackRate,
       allowRangePicker,
@@ -72,6 +72,10 @@ class Player extends React.Component {
     // Set default begin time
     if (beginAt) {
       this.player.setBeginAt(beginAt);
+    }
+
+    if (endAt) {
+      this.player.setEndAt(endAt);
     }
 
     // Set default open CC
@@ -119,7 +123,7 @@ class Player extends React.Component {
           this.setState({ src2: videos[0].srcPath2 });
 
           if (allowTwoScreen) {
-            this.setState({ screenMode: Constants.SCREEN_NEST });
+            this.setState({ screenMode: Constants.ScreenModeNested });
           }
         }
 
@@ -146,28 +150,29 @@ class Player extends React.Component {
 
   render() {
     const { fill, width, height, allowTwoScreen } = this.props;
-    const { src2, isFullscreen, openRange } = this.state;
+    const { src2, isFullscreen, openRange, error } = this.state;
 
     const display2Screen = allowTwoScreen && Boolean(src2);
     const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
+
+    const video1Element = altEl(Video, !error, this.getVideo1Props());
+    const video2Element = altEl(Video, !error && display2Screen, this.getVideo2Props());
+    const wrapperElement = makeEl(Wrapper, this.getWrapperProps(display2Screen));
+    const rangeElement = altEl(Range, openRange, this.getRangeProps());
+    
     return (
       <div {...this.getContainerProps(playerSize)}>
         <div {...this.getPlayerProps(playerSize)}>
-          <Video {...this.getVideo1Props()} />
-          {
-            display2Screen
-            &&
-            <Video {...this.getVideo2Props()} />
-          }
-
-          <Wrapper {...this.getWrapperProps(display2Screen)} />
+          {video1Element}
+          {video2Element}
+          {wrapperElement}
         </div>
 
         {
           openRange
           &&
           <div {...this.getExtraProps(playerSize)}>
-            <Range {...this.getRangeProps()} />
+            {rangeElement}
           </div>
         }
       </div>
@@ -238,8 +243,13 @@ class Player extends React.Component {
    * @returns {Object} the props for wrapper component
    */
   getWrapperProps(display2Screen) {
-    const { hideWrapperOnMouseLeave } = this.props;
+    const { 
+      beginAt,
+      endAt,
+      hideWrapperOnMouseLeave 
+    } = this.props;
     const {
+      error,
       event,
       screenMode,
       videoReady,
@@ -263,6 +273,7 @@ class Player extends React.Component {
     } = this.state;
 
     return {
+      error,
       media: this.state.media,
       player: this.player,
       event,
@@ -273,6 +284,8 @@ class Player extends React.Component {
       isEnded,
       isPaused,
       isFullscreen,
+      beginAt,
+      endAt,
       duration,
       time,
       bufferedTime,
@@ -319,66 +332,5 @@ class Player extends React.Component {
     };
   }
 }
-
-const numOrStr = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
-Player.propTypes = {
-  /** An unique id for the player */
-  id: PropTypes.string,
-
-  /** The media's id used to get media data */
-  mediaId: PropTypes.string,
-
-  /** The media object */
-  media: PropTypes.object,
-
-  /** The player can fill it's container */
-  fill: PropTypes.bool,
-
-  /** The width of the player in pixel */
-  width: numOrStr,
-
-  /** The width of the player in pixel */
-  height: numOrStr,
-
-  /** Set true if you don't want the control bars to overlay on the video */
-  padded: PropTypes.bool,
-
-  /** The player supports two screen mode */
-  allowTwoScreen: PropTypes.bool,
-
-  /** Set the default begin time for the video */
-  beginAt: PropTypes.number,
-
-  /** Set the current time of the video */
-  triggerTime: PropTypes.number,
-
-  /** The player supports the closed captions */
-  defaultOpenCC: PropTypes.bool,
-
-  /** The lang code */
-  defaultLanguage: PropTypes.string,
-
-  /** Set the default playback rate */
-  defaultPlaybackRate: PropTypes.number,
-
-  /** Hide the overlayed wrapper when mouse leaving */
-  hideWrapperOnMouseLeave: PropTypes.bool,
-
-  // Range picker
-  /** The player supports time range picker */
-  allowRangePicker: PropTypes.bool,
-
-  /** Open the range picker when the player rendered */
-  defaultOpenRangePicker: PropTypes.bool,
-
-  /** Set the default time range */
-  defaultRange: PropTypes.arrayOf(numOrStr),
-
-  /** Set the current range */
-  range: PropTypes.arrayOf(numOrStr),
-
-  /** Callback function when the range changes */
-  onRangePicked: PropTypes.func
-};
 
 export default Player;

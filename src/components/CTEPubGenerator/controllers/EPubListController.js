@@ -90,7 +90,7 @@ class EPubListController {
 
     // check if the raw epub data exists
     // if not raise the error and ternimate the setup
-    const rawEPubData = await this.getRawEPubData(media.id, PConstants.ENGLISH);
+    const rawEPubData = await this.getRawEPubData(media.id, PConstants.English);
     if (!rawEPubData) return;
 
     // if the epub exists, get the epubs

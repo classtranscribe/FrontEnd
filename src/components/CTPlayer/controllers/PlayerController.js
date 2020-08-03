@@ -3,8 +3,8 @@ import { isSafari } from 'react-device-detect';
 import { v4 as uuid } from 'uuid';
 import { api, elem, timestr } from 'utils';
 import iniState from './initial-state';
-import Constants from './player-constants';
-import VideoController from './video-controller';
+import Languages from './Languages';
+import VideoController from './VideoController';
 import playerKeyDownEventHandler from './keydown-event';
 
 /**
@@ -30,7 +30,8 @@ class PlayerController extends VideoController {
     // Mouse over timer for wrapper
     this.mouseOverTimer = null;
 
-    // Initialize states
+    // Initialize state
+    this.error = iniState.error;
     this.media = iniState.media;
     this.transcriptions = iniState.transcriptions;
     this.currTranscription = iniState.currTranscription;
@@ -123,6 +124,10 @@ class PlayerController extends VideoController {
     this.setState('ccBackgroundColor', ccBackgroundColor);
   }
 
+  setError(error) {
+    this.setState('error', error);
+  }
+
   setMedia(media) {
     this.setState('media', media);
   }
@@ -166,6 +171,7 @@ class PlayerController extends VideoController {
       this.setMedia(api.parseMedia(data));
     } catch (error) {
       // TODO
+      this.setError(api.errorType(error));
     }
   }
 
@@ -178,14 +184,14 @@ class PlayerController extends VideoController {
     }
   }
 
-  setupTranscriptions(media, defaultLang = Constants.ENGLISH) {
+  setupTranscriptions(media, defaultLang = Languages.English) {
     const { transcriptions } = media;
 
     if (Array.isArray(transcriptions) && transcriptions.length > 0) {
       this.setTranscriptions(transcriptions);
       this.languages = _.map(transcriptions, trans => ({ 
         code: trans.language, 
-        text: Constants.LANG_MAP[trans.language]
+        text: Languages.decode(trans.language)
       }));
 
       // if (defaultLang) {
@@ -210,7 +216,7 @@ class PlayerController extends VideoController {
     }
 
     const { id, language, src } = currTranscription;
-    this.setLanguage({ code: language, text: Constants.LANG_MAP[language] });
+    this.setLanguage({ code: language, text: Languages.decode(language) });
 
     let captions = await this.getCaptionsByTranscriptionId(id);
     captions = _.map(captions, (cap, index) => ({ ...cap, index }));
@@ -224,7 +230,7 @@ class PlayerController extends VideoController {
     if (!this.openCC) this.setOpenCC(true);
     let targetIndex = _.findIndex(this.transcriptions, { language });
     if (targetIndex >= 0) {
-      this.setLanguage({ code: language, text: Constants.LANG_MAP[language] });
+      this.setLanguage({ code: language, text: (language) });
       this.setCurrTranscription(this.transcriptions[targetIndex]);
     } else {
       this.setLanguage({ code: null, text: null });

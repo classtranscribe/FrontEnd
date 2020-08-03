@@ -2,7 +2,7 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { CTPlayerConstants as PConstants } from '../../CTPlayer';
+import { Languages } from '../../CTPlayer';
 import { epub } from '../controllers';
 
 function EPubListItem({ epubItem, divider }) {
@@ -17,7 +17,7 @@ function EPubListItem({ epubItem, divider }) {
       </ListItemIcon>
       <ListItemText 
         primary={epubItem.title}
-        secondary={`${PConstants.LANG_MAP[epubItem.language]}`}
+        secondary={`${Languages.decode(epubItem.language)}`}
       />
     </ListItem>
   );

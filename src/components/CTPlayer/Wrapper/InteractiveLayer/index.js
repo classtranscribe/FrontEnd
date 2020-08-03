@@ -10,6 +10,7 @@ import SettingsMenu from './SettingsMenu';
 
 function InteractiveLayer(props) {
   let {
+    error,
     hideWrapperOnMouseLeave,
     media,
     player,
@@ -20,6 +21,8 @@ function InteractiveLayer(props) {
     isPaused,
     isFullscreen,
     duration,
+    beginAt,
+    endAt,
     time,
     bufferedTime,
     muted,
@@ -73,6 +76,7 @@ function InteractiveLayer(props) {
   });
 
   const actionBarProps = {
+    error,
     media,
     time,
   };
@@ -84,6 +88,8 @@ function InteractiveLayer(props) {
     isEnded,
     isPaused,
     isFullscreen,
+    beginAt,
+    endAt,
     duration,
     time,
     bufferedTime,
@@ -117,7 +123,7 @@ function InteractiveLayer(props) {
     languages: player.languages,
     playbackRate,
     onClose: handleCloseSettings,
-    playbackRates: Constants.PLAYBACK_RATES,
+    playbackRates: Constants.PlaybackRates,
     setPlaybackRate: player.setPlaybackRate,
     setLanguage: player.changeLanguage,
     onCloseCC: player.closeCC,

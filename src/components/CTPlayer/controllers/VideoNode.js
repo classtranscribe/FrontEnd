@@ -76,6 +76,7 @@ class VideoNode {
   }
 
   setCurrentTime(time) {
+    if (!this.node) return;
     this.node.currentTime = time;
   }
 }
