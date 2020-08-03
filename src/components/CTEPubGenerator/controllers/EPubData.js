@@ -8,6 +8,9 @@ import {
   getAllImagesInChapters 
 } from './utils';
 
+/**
+ * The class for an ePub data
+ */
 export default class EPubData {
   __data__ = require('./epub-data.json');
   images = [];

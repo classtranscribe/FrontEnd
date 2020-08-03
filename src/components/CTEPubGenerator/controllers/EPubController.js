@@ -5,6 +5,9 @@ import { epubState } from './EPubState';
 import { epubData } from './EPubDataController';
 import { getAllItemsInChapters } from './utils';
 
+/**
+ * The controller for handling general ePub generating events
+ */
 class EPubController {
   constructor() {
     this.epubId = null;

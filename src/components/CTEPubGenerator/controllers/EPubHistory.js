@@ -3,6 +3,9 @@ import { prompt } from 'utils';
 import { epubState } from './EPubState';
 import { epubData } from './EPubDataController';
 
+/**
+ * The controller for histories of a ePub generating process
+ */
 export default class EPubHistory {
   constructor() {
     this.__history__ = [];

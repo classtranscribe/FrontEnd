@@ -1,5 +1,8 @@
 import EPubIDs from './EPubIDs';
 
+/**
+ * The contants used for generating ePub files
+ */
 export default class EPubConstants extends EPubIDs {
   // errors
   static EPubDataNotRequestedError = 'epub-not-requested';

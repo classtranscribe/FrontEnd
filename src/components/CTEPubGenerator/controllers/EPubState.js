@@ -2,6 +2,9 @@ import { StateController } from 'utils/state-controller';
 import { initialState } from '../redux/state';
 // import Constants from './EPubConstants';
 
+/**
+ * The redux state controller for CTEPubGenerator
+ */
 export default class EPubState extends StateController {
   constructor() {
     super();

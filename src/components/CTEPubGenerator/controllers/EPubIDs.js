@@ -1,5 +1,9 @@
 import { buildID } from './utils';
 
+
+/**
+ * Identifiers for elements in the CTEPubGenerator
+ */
 export default class EPubIDs {
   // ID
   static EPubGeneratorContainerID = 'ct-epb-con';

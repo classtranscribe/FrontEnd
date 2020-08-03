@@ -3,6 +3,9 @@ import { elem } from 'utils';
 import Constants from './EPubConstants';
 import { epubState } from './EPubState';
 
+/**
+ * The controller for scrolling events and indicates the current active item of the ePub
+ */
 class EPubChapterNavigator {
   constructor() {
     this.prevScrollTop = 0;

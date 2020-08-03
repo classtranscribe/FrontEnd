@@ -6,14 +6,16 @@ import { CTLoader } from 'layout';
 import { NoEPubWrapper } from '../components';
 import { epub, CTEPubConstants as Constants } from '../controllers';
 import { epubStore, connectWithRedux } from '../redux';
-import EPubGenerator from '../EPubGenerator';
+import EPubGenerator from './EPubGenerator';
 import Poster from './Poster';
 import EPubList from './EPubList';
 import './index.scss';
 
 function LaunchScreenWithRedux(props) {
   const {
+    // props
     media,
+    // states
     error,
     epubs,
     currEPub,
@@ -44,12 +46,6 @@ function LaunchScreenWithRedux(props) {
 
     epub.list.determineStep(hash);
   }, [hash]);
-
-  // useEffect(() => {
-  //   if (currEPub && currEPub.id) {
-  //     //epub.list.proceedToEPubGenerator(currEPub);
-  //   }
-  // }, [currEPub]);
 
   return (
     <div 

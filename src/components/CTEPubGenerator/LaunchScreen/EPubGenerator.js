@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CTLoader, altEl, makeEl } from 'layout';
-import { connectWithRedux } from './redux';
-import { epub, CTEPubData, CTEPubConstants as Constants } from './controllers';
-import { PlayerModal } from './components';
-import SplitChapters from './Step1-SplitChapters';
-import EditChapters from './Step2-EditChapters';
-import DowloadEPub from './Step3-DowloadEPub';
-import './index.scss';
+import { connectWithRedux } from '../redux';
+import { epub, CTEPubData, CTEPubConstants as Constants } from '../controllers';
+import { PlayerModal } from '../components';
+import SplitChapters from '../Step1-SplitChapters';
+import EditChapters from '../Step2-EditChapters';
+import DowloadEPub from '../Step3-DowloadEPub';
 
 function EPubGeneratorWithRedux(props) {
   const {

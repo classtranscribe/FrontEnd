@@ -21,9 +21,7 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      // box-shadow: 0 0 1rem .2rem rgba(0, 0, 0, 0.13);
       overflow: hidden;
-      // border-radius: 10px;
 
       h1 {
         font-size: 40px;
@@ -35,8 +33,6 @@
         bottom: 20vh;
         width: 100%;
         text-align: center;
-        // border-bottom: 2px solid black;
-        // border-top: 2px solid black;
       }
 
       img.ct-epb.epub-example {
@@ -53,6 +49,5 @@
     overflow-x: hidden;
     overflow-y: auto;
     box-shadow: 0 0 1rem .2rem rgba(0, 0, 0, 0.089);
-    // border-left: 1px solid rgb(233, 233, 233);
   }
 }

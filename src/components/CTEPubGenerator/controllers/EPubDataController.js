@@ -12,6 +12,9 @@ import {
   getAllItemsInChapter,
 } from './utils';
 
+/**
+ * The controller for handling the ePub data
+ */
 class EPubDataController {
   constructor() {
     this.data = null;  

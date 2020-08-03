@@ -6,6 +6,9 @@ import EPubData from './EPubData';
 import { epubState } from './EPubState';
 import { parseRawEPubData } from './utils';
 
+/**
+ * The controller for handling events for the ePubs books
+ */
 class EPubListController {
   constructor() {
     this.media = {};
