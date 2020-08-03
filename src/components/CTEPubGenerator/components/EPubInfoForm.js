@@ -42,7 +42,7 @@ function EPubInfoForm({
   return (
     <CTForm
       id="download-form"
-      heading="Download ePub"
+      heading="ePub Information"
       details={`Title, author, filename${withDownload ? ', download' : ''}`}
       {...otherProps}
     >
