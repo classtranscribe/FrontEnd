@@ -242,7 +242,11 @@ class Player extends React.Component {
    * @returns {Object} the props for wrapper component
    */
   getWrapperProps(display2Screen) {
-    const { hideWrapperOnMouseLeave } = this.props;
+    const { 
+      beginAt,
+      endAt,
+      hideWrapperOnMouseLeave 
+    } = this.props;
     const {
       event,
       screenMode,
@@ -277,6 +281,8 @@ class Player extends React.Component {
       isEnded,
       isPaused,
       isFullscreen,
+      beginAt,
+      endAt,
       duration,
       time,
       bufferedTime,

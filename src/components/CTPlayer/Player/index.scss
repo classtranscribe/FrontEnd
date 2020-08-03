@@ -14,7 +14,7 @@ $ct-player-extra-bg: rgb(231, 240, 239);
 
     color: white;
     background-color: $ct-player-bg;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.719);
+    // box-shadow: 0 0 8px rgba(0, 0, 0, 0.719);
     z-index: 1;
 
     font-size: 14px;
@@ -64,7 +64,9 @@ $ct-player-extra-bg: rgb(231, 240, 239);
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: $ct-player-extra-bg;
+    // background: $ct-player-extra-bg;
+    border: 1px solid rgb(235, 235, 235);
+    border-top: none;
     border-radius: 0 0 5px 5px;
   }
 }

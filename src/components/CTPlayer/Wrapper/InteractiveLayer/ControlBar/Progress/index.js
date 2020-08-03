@@ -9,11 +9,15 @@ import SliderTimeLabel from './SliderTimeLabel';
 
 function Progress(props) {
   let {
+    beginAt,
+    endAt,
     duration,
     time,
     bufferedTime,
     setCurrentTime,
   } = props;
+
+  const marks = (beginAt || endAt) ? [{ value: beginAt }, { value: endAt }] : undefined;
 
   const [mousePos, setMousePos] = useState([-1, -1]);
   const handleMouseLeave = () => {
@@ -51,7 +55,7 @@ function Progress(props) {
     max: duration,
     step: 0.001,
     value: time,
-    // marks,
+    marks,
     onChange: handleSeekTime,
     valueLabelFormat: timestr.toTimeString,
     ValueLabelComponent: SliderTimeLabel,

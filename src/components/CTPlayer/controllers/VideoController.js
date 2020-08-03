@@ -1,3 +1,4 @@
+import { prompt } from 'utils/prompt'
 import iniState from './initial-state';
 import VideoNode from './VideoNode';
 import Constants from './PlayerConstants';
@@ -298,6 +299,7 @@ class VideoController {
   }
 
   lastCCUpdatedTime = 0;
+  shouldPauseOnEndAt = false;
   onTimeUpdate({ target: { currentTime } }) {
     if (Math.abs(this.time - currentTime) > 0.4) {
       this.setState('time', currentTime);
@@ -308,6 +310,24 @@ class VideoController {
       if (this.range[1] <= currentTime) {
         this.pause();
         this.isPlayingRange = false;
+      }
+    }
+
+    // Pause the video automatically at the endAt timestamp
+    if (typeof this.endAt === 'number') {
+      if (currentTime < this.endAt && !this.shouldPauseOnEndAt) {
+        this.shouldPauseOnEndAt = true;
+        // console.log('1 this.shouldPauseOnEndAt = true;')
+      } else if (this.shouldPauseOnEndAt 
+                && currentTime >= this.endAt 
+                && currentTime <= this.endAt + 1) {
+        this.pause();
+        this.shouldPauseOnEndAt = false;
+        prompt.addOne({ text: 'Video paused at the breakpoint.', timeout: 3000 });
+        // console.log('2 this.shouldPauseOnEndAt = false;')
+      } else if (this.shouldPauseOnEndAt && currentTime > this.endAt) {
+        this.shouldPauseOnEndAt = false;
+        // console.log('3 this.shouldPauseOnEndAt = false;')
       }
     }
   }

@@ -16,6 +16,7 @@ function Player({
         allowTwoScreen
         hideWrapperOnMouseLeave
         beginAt={100}
+        endAt={300}
         defaultOpenCC
         allowRangePicker
         defaultOpenRangePicker
