@@ -1,15 +1,21 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import { CTFragment, CTHeading, CTText } from 'layout';
+import { NoEPubWrapper } from '../components';
 import { connectWithRedux } from '../redux';
 import EPubListItem from './EPubListItem';
 import NewEPubButton from './NewEPubButton';
 
 function EPubList({
+  error,
   epubs,
   media
 }) {
-  return (
+  return error ? (
+    <div className="ct-epb epub-list-con" data-scroll>
+      <NoEPubWrapper mediaId={media.id} error={error} />
+    </div>
+  ) : (
     <div className="ct-epb epub-list-con" data-scroll>
       {
         epubs.length > 0 
@@ -45,5 +51,5 @@ function EPubList({
 
 export default connectWithRedux(
   EPubList,
-  ['epubs']
+  ['epubs', 'error']
 );

@@ -22,9 +22,14 @@ function NoEPubWrapper({ mediaId, error }) {
       <CTFragment list hCenter>
         {
           !requested ? (
-            <CTText size="medium" center>
-              There is no ePub data for this media now. Please make a request for this video.
-            </CTText>
+            <>
+              <CTText size="medium" center>
+                There is no ePub data for this media now.
+              </CTText>
+              <CTText size="medium" center>
+                Please make a request for this video.
+              </CTText>
+            </>
           ) : (
             <div className="ct-d-c-center">
               <div className="sk-wave">

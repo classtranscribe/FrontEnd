@@ -15,8 +15,8 @@ class EPubListController {
     this.currEPub = null;
   }
 
-  isLoading(epubs) {
-    return epubs === ARRAY_INIT;
+  isLoading(error, epubs) {
+    return !error && epubs === ARRAY_INIT;
   }
 
   canStartGenerator(currEPub, step) {
@@ -77,6 +77,12 @@ class EPubListController {
     this.media = media;
     // console.log('setupLaunchScreen')
 
+    // clear location's hash if any
+    const { step } = uurl.useHash();
+    if (step) {
+      window.location.replace(window.location.pathname);
+    }
+
     epubState.setError(null);
     if (epubState.epubs !== ARRAY_INIT) {
       epubState.setEPubs(ARRAY_INIT);
@@ -93,13 +99,20 @@ class EPubListController {
   }
 
   async createEPub(language) {
+    prompt.addOne({ text: 'Initializing the ePub data ...', timeout: -1 });
+
+    // get epub data for the chosen language
     const rawEPubData = await this.getRawEPubData(this.media.id, language);
     if (!rawEPubData) return;
     epubState.setRawEPubData(rawEPubData);
+
+    // create a proto epub from the raw epub data
     const newEPub = EPubData.create(rawEPubData, language, this.media.mediaName);
     epubState.setEPubs([ ...epubState.epubs, newEPub ]);
     epubState.setCurrEPub(newEPub);
     this.proceedToEPubGenerator(newEPub);
+
+    prompt.closeAll();
   }
 
   changeEPub(epubDataLike) {

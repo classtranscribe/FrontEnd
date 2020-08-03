@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLoader } from 'layout';
-import { NoEPubWrapper } from '../components';
 import { epub, CTEPubConstants as Constants } from '../controllers';
 import { epubStore, connectWithRedux } from '../redux';
 import EPubGenerator from './EPubGenerator';
@@ -23,7 +22,7 @@ function LaunchScreenWithRedux(props) {
   } = props;
 
   const { hash } = useLocation();
-  const loading = epub.list.isLoading(epubs);
+  const loading = epub.list.isLoading(error, epubs);
   const canStartGenerator = epub.list.canStartGenerator(currEPub, step);
 
   useEffect(() => {
@@ -53,9 +52,7 @@ function LaunchScreenWithRedux(props) {
       className="ct-epb launch-con ct-a-fade-in"
     >
       {
-        error ? (
-          <NoEPubWrapper mediaId={media.id} error={error} />
-        ) : loading ? (
+        loading ? (
           <div className="w-100"><CTLoader /></div>
         ) : canStartGenerator ? (
           <EPubGenerator media={media} epubDataLike={currEPub} />
