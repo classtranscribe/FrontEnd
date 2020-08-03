@@ -90,6 +90,10 @@ class UrlHandler {
     return query ? prefix + query : '';
   }
 
+  clearQuery() {
+    window.history.pushState(null, null, window.location.pathname);
+  }
+
   /**
    * Get parsed window.location.search query of href
    * @param {String} href default to window.href
@@ -149,6 +153,12 @@ class UrlHandler {
     let aElem = document.createElement('a');
     aElem.href = hash;
     aElem.click();
+  }
+
+  pushHash(params) {
+    const allParams = { ...this.useHash(), ...params };
+    const newHash = this.createHash(allParams);
+    window.history.pushState(null, null, window.location.pathname + newHash);
   }
 
   /**
