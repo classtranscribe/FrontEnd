@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'pico-ui';
 import { epub } from '../../controllers';
 import { connectWithRedux } from '../../redux';
-import { EPubStepper, /** LanguageMenuTrigger */ } from '../../components';
+import { EPubStepper, ChapterTitle } from '../../components';
 
 function InstructionHeading({
   rawEPubData,
@@ -13,13 +13,21 @@ function InstructionHeading({
   let showSplitAllBtn = chapters.length !== rawEPubData.length;
   let showSubdivideAllBtn = true;
 
+  const [title, setTitle] = useState(epub.data.data.title);
+  const handleTitleChange = val => {
+    setTitle(val);
+    epub.data.saveEPubTitle(val);
+  };
+
   return (
     <div className="ct-epb inst-heading">
       <div className="inst-h-h1-con w-100 ct-d-r-center-v">
-        <h1>Manage Your ePub Book</h1>
-        {/* <LanguageMenuTrigger
-          language={language}
-        /> */}
+        <ChapterTitle
+          headingType="h1" 
+          label="ePub title"
+          value={title} 
+          onSave={handleTitleChange}
+        />
       </div>
 
       <EPubStepper />

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { CTFragment, CTHeading } from 'layout';
+import { CTFragment, CTHeading, CTScrollArea } from 'layout';
 import { EPubStepper, MDPreviewer } from '../components';
 import { epub, buildMDFromChapters } from '../controllers';
 
@@ -12,17 +12,18 @@ function EPubPreviewer({ chapters, title }) {
   }, []);
 
   return (
-    <CTFragment 
+    <CTScrollArea 
       id={epub.const.EPubChapterListID}
-      className="ct-epb dch-preview-con" 
-      data-scroll
+      className="ct-epb dch-preview-con"
+      scrollClassName="ct-epb dch-preview-con-scroll"
+      scrollToTopButton="bottom right"
     >
       <EPubStepper />
       <CTHeading>{title}</CTHeading>
       <CTFragment padding={[0, 30]}>
         <MDPreviewer value={epubHTML} />
       </CTFragment>
-    </CTFragment>
+    </CTScrollArea>
   );
 }
 

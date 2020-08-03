@@ -48,6 +48,22 @@ class EPubDataController {
     return this.data.toObject();
   }
 
+  saveEPubTitle = (title) => {
+    this.data.title = title;
+  }
+
+  saveEPubFilename = (filename) => {
+    this.data.filename = filename;
+  }
+
+  saveEPubCover = (cover) => {
+    this.data.cover = cover;
+  }
+
+  saveEPubAuthor = (author) => {
+    this.data.author = author;
+  }
+
   updateAll(actionName, currChIndex) {
     epubHistory.pushAndUpdateAll(
       actionName,

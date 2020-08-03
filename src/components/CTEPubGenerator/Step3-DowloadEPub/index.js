@@ -11,10 +11,10 @@ function DowloadEPub({ chapters }) {
   const epubData = epub.data.data;
   const screenshots = epubData.images;
 
-  const title = useInput(epubData.title, val => { epubData.title = val; });
-  const filename = useInput(epubData.filename, val => { epubData.filename = val; });
-  const cover = useInput(epubData.cover, val => { epubData.cover = val; });
-  const author = useInput(epubData.author, val => { epubData.author = val; });
+  const title = useInput(epubData.title, epub.data.saveEPubTitle);
+  const filename = useInput(epubData.filename, epub.data.saveEPubFilename);
+  const cover = useInput(epubData.cover, epub.data.saveEPubCover);
+  const author = useInput(epubData.author, epub.data.saveEPubAuthor);
 
   return (
     <ChapterNavigationProvider>

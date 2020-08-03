@@ -1,10 +1,10 @@
 #ct-epb-download-con {
   .ct-epb.dch-preview-con {
     width: 55%;
-    padding: 20px 40px 40px 40px;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+
+    .ct-epb.dch-preview-con-scroll {
+      padding: 20px 40px 180px 40px;
+    }
   }
 
   .ct-epb.dch-bar-con {
