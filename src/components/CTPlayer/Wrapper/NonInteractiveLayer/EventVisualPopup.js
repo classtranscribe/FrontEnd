@@ -19,26 +19,26 @@ function EventVisualPopup(props) {
   let { event, volume } = props;
 
   const {
-    CTPE_PLAY,
-    CTPE_PAUSE,
-    CTPE_REWIND,
-    CTPE_FORWARD,
-    CTPE_MUTE,
-    CTPE_VOLUME_UP,
-    CTPE_VOLUME_DOWN,
+    PlayerEventPlay,
+    PlayerEventPause,
+    PlayerEventRewind,
+    PlayerEventForward,
+    PlayerEventMute,
+    PlayerEventVolumeUp,
+    PlayerEventVolumeDown,
   } = CTPlayerConstants;
 
   let eventIconMap = {
-    [CTPE_PLAY]: 'play_arrow',
-    [CTPE_PAUSE]: 'pause',
-    [CTPE_REWIND]: 'replay_5',
-    [CTPE_FORWARD]: 'forward_5',
-    [CTPE_MUTE]: 'volume_off',
-    [CTPE_VOLUME_UP]: 'volume_up',
-    [CTPE_VOLUME_DOWN]: 'volume_down'
+    [PlayerEventPlay]: 'play_arrow',
+    [PlayerEventPause]: 'pause',
+    [PlayerEventRewind]: 'replay_5',
+    [PlayerEventForward]: 'forward_5',
+    [PlayerEventMute]: 'volume_off',
+    [PlayerEventVolumeUp]: 'volume_up',
+    [PlayerEventVolumeDown]: 'volume_down'
   };
 
-  const showVolume = [CTPE_VOLUME_UP, CTPE_VOLUME_DOWN].includes(event);
+  const showVolume = [PlayerEventVolumeUp, PlayerEventVolumeDown].includes(event);
   const icon = eventIconMap[event];
 
   return (

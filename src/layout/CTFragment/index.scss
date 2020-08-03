@@ -4,6 +4,7 @@ $border: solid 1px grey;
   width: 100%;
 
   &.center {
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +44,7 @@ $border: solid 1px grey;
     top: 0;
     position: sticky;
     z-index: 10;
+    background-color: white;
   }
 
   &.border-top {
@@ -59,5 +61,10 @@ $border: solid 1px grey;
 
   &.border-left {
     border-left: $border;
+  }
+
+  &.dark {
+    background-color: rgb(29, 29, 29);
+    color: white;
   }
 }

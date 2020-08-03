@@ -91,10 +91,10 @@ CTHeading.propTypes = {
   /** The icon can be highlighted to teal color */
   highlightIcon: PropTypes.bool,
 
-  padding: CTFragment.propTypes.padding,
-
   /** The Content of the heading */
-  children: PropTypes.node
+  children: PropTypes.node,
+
+  ...CTFragment.propTypes
 };
 
 CTHeading.createProps = createCTHeadingProps;

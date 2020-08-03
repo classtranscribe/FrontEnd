@@ -55,6 +55,10 @@ $highlighted: var(--ct-text-highlight);
     color: $celadon;
   }
 
+  &.white {
+    color: white;
+  }
+
   &.teal {
     color: $teal;
   }

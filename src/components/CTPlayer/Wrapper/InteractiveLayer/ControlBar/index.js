@@ -25,6 +25,8 @@ function ControlBar(props) {
     isPaused,
     isEnded,
     isFullscreen,
+    beginAt,
+    endAt,
     duration,
     time,
     bufferedTime,
@@ -55,6 +57,8 @@ function ControlBar(props) {
   );
 
   const progressProps = {
+    beginAt,
+    endAt,
     duration,
     time,
     bufferedTime,

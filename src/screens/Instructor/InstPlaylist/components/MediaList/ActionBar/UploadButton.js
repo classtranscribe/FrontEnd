@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import UploadIcon from '@material-ui/icons/CloudUpload';
 import { links } from 'utils/links';
-import { useStyles } from 'screens/Course/Components/CourseInfo/ActionButtons/StarButton';
+import { useButtonStyles } from 'layout';
 
 function UploadButton({
   playlistId
 }) {
-  const classes = useStyles();
+  const btn = useButtonStyles();
+  
   return (
     <Button
       component={Link}
-      className={cx(classes.button, 'ml-3')}
+      className={cx(btn.teal, 'ml-3')}
       startIcon={<UploadIcon />}
       variant="contained"
       to={links.playlistUploadFiles(playlistId)}

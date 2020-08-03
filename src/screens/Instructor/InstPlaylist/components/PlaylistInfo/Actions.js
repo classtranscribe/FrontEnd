@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { CTFragment } from 'layout';
-import { useStyles } from 'screens/Course/Components/CourseInfo/ActionButtons/StarButton';
+import { CTFragment, useButtonStyles } from 'layout';
 
 function Actions({
   editing,
@@ -10,7 +9,7 @@ function Actions({
   handleCancelRename,
   handleDelete
 }) {
-  const tealClasses = useStyles();
+  const btn = useButtonStyles();
 
   return (
     <CTFragment list className="actions" padding={[10, 0]}>
@@ -32,7 +31,7 @@ function Actions({
             <CTFragment hEnd>
               <Button 
                 id="pl-rename-save-btn"
-                className={tealClasses.button} 
+                className={btn.teal} 
                 startIcon={<i className="material-icons">check</i>}
                 onClick={handleRename}
                 variant="contained"

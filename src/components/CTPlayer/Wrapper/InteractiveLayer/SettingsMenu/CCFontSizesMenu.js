@@ -14,7 +14,7 @@ function CCFontSizesMenu(props) {
     <div className="ctp settings-menu">
       <MenuItem goBack text="CC Font Size" onClick={onGoBack} />
 
-      {Constants.CC_FONT_SIZES.map(size => (
+      {Constants.CCFontSizes.map(size => (
         <MenuItem
           key={size}
           text={size}

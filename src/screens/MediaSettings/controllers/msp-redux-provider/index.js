@@ -10,13 +10,12 @@ import {
 } from '../constants';
 
 import TransReduxProvider from './TransReduxProvider';
-import EpubReduxProvider from './EpubReduxProvider';
 
 function providerSelector(pathname) {
   const tab = getTab(pathname);
   switch (tab) {
     case TAB_EPUB:
-      return EpubReduxProvider;
+      return Fragment;
     case TAB_EDIT_TRANS:
       return TransReduxProvider;
     default:

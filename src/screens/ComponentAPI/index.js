@@ -6,8 +6,8 @@ import { MDXDocsContainer } from 'docs/layouts';
 import docsSelector from './docs-selector';
 
 export function ComponentAPI(props) {
-  const { name } = useParams();
-  const Docs = docsSelector(name);
+  const { type } = useParams();
+  const Docs = docsSelector(type || 'ct-form');
   
   useLoaded();
   useCTDocTitle(`${Docs.title} | Component API`);

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { api, uurl } from 'utils';
-import { CTPlayer, CTPlayerConstants as Constants } from 'components/CTPlayer';
+import CTPlayer, { CTPlayerConstants as Constants } from 'components/CTPlayer';
 import { useParams } from "react-router-dom";
 
 /* 
@@ -16,7 +16,7 @@ export function Embed() {
   const {
     begin = 0,
     openCC = 'false',
-    lang = Constants.ENGLISH,
+    lang = Constants.English,
     playbackRate = 4,
     padded = 'false'
   } = uurl.useSearch();
@@ -37,7 +37,7 @@ export function Embed() {
         beginAt={parseInt(begin, 10)}
         defaultOpenCC={openCC === 'true'}
         defaultLanguage={lang}
-        defaultPlaybackRate={Constants.PLAYBACK_RATES[playbackRate]}
+        defaultPlaybackRate={Constants.PlaybackRates[playbackRate]}
         padded={padded === 'true'}
       />
     </div>

@@ -1,0 +1,22 @@
+.epb-ch-item-carousel {
+  height: 80vh !important;
+  min-width: 1100px !important;
+  h3 {
+    width: max-content !important;
+  }
+
+  #epb-carousel-con {
+    display: flex;
+    height: max-content;
+  
+    .epb-carl-img-con {
+      width: 50%;
+    }
+  
+    .epb-carl-txt-con {
+      width: 50%;
+      overflow-y: auto;
+      justify-content: center;
+    }
+  }
+}
