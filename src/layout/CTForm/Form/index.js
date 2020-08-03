@@ -27,8 +27,10 @@ function Form(props) {
     warning,
     onSave,
     onCancel,
+    onDelete,
     onSaveButtonText = 'save',
     onCancelButtonText = 'cancel',
+    onDeleteButtonText = 'delete',
     heading,
     details,
     children,
@@ -86,6 +88,13 @@ function Form(props) {
             &&
             <Button className={btn.teal} variant="contained" onClick={onSave}>
               {onSaveButtonText}
+            </Button>
+          }
+          {
+            Boolean(onDelete)
+            &&
+            <Button color="secondary" className={btn.bold} onClick={onDelete}>
+              {onDeleteButtonText}
             </Button>
           }
         </AccordionActions>

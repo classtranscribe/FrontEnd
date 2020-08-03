@@ -80,7 +80,7 @@ class EPubListController {
     // clear location's hash if any
     const { step } = uurl.useHash();
     if (step) {
-      window.location.replace(window.location.pathname);
+      uurl.clearQuery();
     }
 
     epubState.setError(null);
@@ -98,9 +98,9 @@ class EPubListController {
     epubState.setEPubs(epubs);
 
     // For Test Only
-    if (isDeveloping) {
-      await this.createEPub(Languages.English);
-    }
+    // if (isDeveloping) {
+    //   await this.createEPub(Languages.English);
+    // }
   }
 
   async createEPub(language) {
@@ -115,6 +115,7 @@ class EPubListController {
     const newEPub = EPubData.create(rawEPubData, language, this.media.mediaName);
     epubState.setEPubs([ ...epubState.epubs, newEPub ]);
     epubState.setCurrEPub(newEPub);
+    this.currEPub = newEPub;
     this.proceedToEPubGenerator(newEPub);
 
     prompt.closeAll();
@@ -124,9 +125,14 @@ class EPubListController {
     // if (this.currEPub && epubDataLike.id === this.currEPub.id) return;
     // console.log('changeEPub')
 
-    this.currEPub = epubDataLike;
     epubState.setCurrEPub(epubDataLike);
+    this.currEPub = epubDataLike;
     this.proceedToEPubGenerator(epubDataLike);
+  }
+
+  async deleteEPub(epubDataLike) {
+    epubState.setEPubs(_.filter(epubState.epubs, epb => epb !== epubDataLike));
+    this.currEPub = null;
   }
 }
 
