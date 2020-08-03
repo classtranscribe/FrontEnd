@@ -2,15 +2,15 @@ import React from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
-import { useStyles } from 'screens/Course/Components/CourseInfo/ActionButtons/CourseAnalyticsButton';
+import { useButtonStyles } from 'layout';
 import { mediaControl } from '../../../controllers';
 
 function MediaItemActions({
   mediaId,
   isUnavailable
 }) {
-  const buttonClasses = useStyles();
-  const btnClassName = cx(buttonClasses.button, 'media-item-button');
+  const btn = useButtonStyles();
+  const btnClassName = cx(btn.tealLink, 'media-item-button');
 
   const handleDelete = () => {
     mediaControl.confirmDeleteMedia(mediaId);
