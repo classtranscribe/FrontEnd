@@ -10397,11 +10397,12 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-pico-ui@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/pico-ui/-/pico-ui-0.0.6.tgz#2edf8c1427b5d8bbc8d4cf9f9b38ad59c1ad0d10"
-  integrity sha512-upeS2Qb8doi9Pw1AfzUno/jAjCHH5toA3zemj4hE+wuhgWkcH7CTfZ7faj/1eYs2WDwdzxsVWHs/mlnyh9ceFg==
+pico-ui@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/pico-ui/-/pico-ui-0.0.13.tgz#c7b8b83ab78d0602344476a92833f28b8a0f9b9b"
+  integrity sha512-wA+dZfWavDK+RcxKmCvA8F3DY6Ax6H/USw4Yef/VfP++BCJ9YkBlF55PfYfdyfcQpI6yeIwyZkIpGzXd01IAJA==
   dependencies:
+    classnames "^2.2.6"
     css-loader "^3.4.2"
     prop-types "^15.7.2"
     react "^16.10.2"
@@ -11677,6 +11678,21 @@ react-file-reader@^1.1.4:
   dependencies:
     prop-types "^15.5.0"
     uuid4 "^1.0.0"
+
+react-image-magnifiers@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-image-magnifiers/-/react-image-magnifiers-1.4.0.tgz#0472e93491d5a199a278d4efc855f03542214601"
+  integrity sha512-ZszHusdsYteccKGysHXUOgLRGtHqfRYuG1koHh3VAvuhrzF4BEs1Ot5tSe1WA2v+EsjAEfYcrRyi/Is4QDD61A==
+  dependencies:
+    prop-types "^15.7.2"
+    react-input-position "^1.3.1"
+
+react-input-position@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-input-position/-/react-input-position-1.3.1.tgz#331a0d5995dfc952e28336b5ba1196a9c9874b37"
+  integrity sha512-iProucwA5fgdRhfAwUuqbwsYidJGmigdd/vFLmpol4awmIgRACbD4T4p9Ion7DsL7k9PxReLsZRTDbkbTomsvA==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-is@^16.13.1, react-is@^16.3.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.13.1"

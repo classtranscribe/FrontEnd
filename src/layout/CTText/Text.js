@@ -55,7 +55,7 @@ function Text(props) {
   }, className);
 
   const textStyle = {
-    '-webkit-line-clamp': `${line }`
+    WebkitLineClamp: `${line }`
   };
 
   const textProps = {
