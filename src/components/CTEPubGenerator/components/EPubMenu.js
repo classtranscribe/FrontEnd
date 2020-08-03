@@ -36,7 +36,9 @@ export function EPubMenu({
   const onClose = () => setAnchorEl(null);
   
   const onClick = val => {
-    handleItemClick(val);
+    if (typeof handleItemClick === 'function') {
+      handleItemClick(val);
+    }
     onClose();
   };
 

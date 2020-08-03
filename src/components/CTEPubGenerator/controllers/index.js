@@ -1,3 +1,4 @@
+import EPubListController from './EPubListController';
 import { epubState } from './EPubState';
 import { epubHistory } from './EPubHistory';
 import { epubData } from './EPubDataController';
@@ -7,10 +8,12 @@ import EPubChapterNavigator from './EPubChapterNavigator';
 
 const ePubCtrl = new EPubController();
 const ePubNav = new EPubChapterNavigator();
+const epubList = new EPubListController();
 
 export const epub = {
   const: EPubConstants,
   state: epubState,
+  list: epubList,
   history: epubHistory,
   data: epubData,
   ctrl: ePubCtrl,
@@ -18,5 +21,6 @@ export const epub = {
 };
 
 export { default as CTEPubConstants } from './EPubConstants';
+export { default as CTEPubData } from './EPubData';
 export * from './utils';
 export * from './html-converters';

@@ -11,7 +11,7 @@ export default class EPubState extends StateController {
     this.language = initialState.language;
     this.rawEPubData = initialState.rawEPubData;
     this.epubs = initialState.epubs;
-    this.currEPubIndex = initialState.currEPubIndex;
+    this.currEPub = initialState.currEPub;
     this.chapters = initialState.chapters;
     this.currChIndex = initialState.currChIndex;
     this.navId = initialState.navId;
@@ -31,7 +31,7 @@ export default class EPubState extends StateController {
       setLanguage,
       setRawEPubData,
       setEPubs,
-      setCurrEPubIndex,
+      setCurrEPub,
       setChapters,
       setCurrChIndex,
       setNavId,
@@ -49,7 +49,7 @@ export default class EPubState extends StateController {
       setLanguage,
       setRawEPubData,
       setEPubs,
-      setCurrEPubIndex,
+      setCurrEPub,
       setChapters,
       setCurrChIndex,
       setNavId,
@@ -82,8 +82,8 @@ export default class EPubState extends StateController {
     this.setState('setEPubs', 'epubs', epubs);
   }
 
-  setCurrEPubIndex(currEPubIndex) {
-    this.setState('setCurrEPubIndex', 'currEPubIndex', currEPubIndex);
+  setCurrEPub(currEPub) {
+    this.setState('setCurrEPub', 'currEPub', currEPub);
   }
 
   setChapters(chapters) {

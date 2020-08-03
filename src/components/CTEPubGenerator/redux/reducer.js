@@ -5,7 +5,7 @@ import {
   SET_LANGUAGE,
   SET_RAW_EPUB_DATA,
   SET_EPUBS,
-  SET_CURR_EPUB_IDX,
+  SET_CURR_EPUB,
   SET_CHAPTERS,
   SET_CURR_CH_IDX,
   SET_NAV_ID,
@@ -32,10 +32,10 @@ const epubReducer = (state = initialState, action) => {
       return { ...state, rawEPubData: value };
     case SET_EPUBS:
       return { ...state, epubs: value, currEPubIndex: 0 };
-    case SET_CURR_EPUB_IDX:
+    case SET_CURR_EPUB:
       return { 
         ...state,
-        currEPubIndex: value,
+        currEPub: value,
         // reset the rest chapter-related states
         chapters: initialState.chapters,
         currChIndex: initialState.currChIndex,

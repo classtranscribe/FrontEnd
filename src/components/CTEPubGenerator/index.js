@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EPubGenerator from './EPubGenerator';
+import LaunchScreen from './LaunchScreen';
 
 function CTEPubGenerator(props) {
-  return <EPubGenerator {...props} />
+  return <LaunchScreen {...props} />
 };
 
 CTEPubGenerator.propTypes = {
-  mediaId: PropTypes.string,
-  title: PropTypes.string
+  media: PropTypes.object
 };
 
 export default CTEPubGenerator;

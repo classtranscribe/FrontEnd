@@ -48,6 +48,8 @@ function EPubItemCarousel({
       toNext();
     } else if (keyCode === 37) {
       toPrev();
+    } else if (keyCode === 81) {
+      onClose();
     }
   };
 

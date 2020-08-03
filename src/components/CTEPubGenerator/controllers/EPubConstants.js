@@ -6,10 +6,12 @@ export default class EPubConstants extends EPubIDs {
   static EPubDataRequestedError = 'epub-requested';
   
   // steps
+  static EPubStepLaunchScreen = 'launch';
   static EPubStepSplitChapters = 'split';
   static EPubStepEditChapters = 'edit';
   static EPubStepDownload = 'download';
-  static EPubStepDefaultFirstStep = EPubConstants.EPubStepSplitChapters;
+  static EPubStepDefaultFirstStep = EPubConstants.EPubStepLaunchScreen;
+  // static EPubStepDefaultFirstStep = EPubConstants.EPubStepSplitChapters;
   static EPubSteps = [
     EPubConstants.EPubStepSplitChapters,
     EPubConstants.EPubStepEditChapters,

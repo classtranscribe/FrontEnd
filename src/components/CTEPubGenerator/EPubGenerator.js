@@ -1,75 +1,49 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { withReduxProvider } from 'redux/redux-provider';
+import PropTypes from 'prop-types';
 import { CTLoader, altEl, makeEl } from 'layout';
-import { epubStore, connectWithRedux } from './redux';
-import { epub, CTEPubConstants as Constants } from './controllers';
-import { NoEPubWrapper, PlayerModal } from './components';
+import { connectWithRedux } from './redux';
+import { epub, CTEPubData, CTEPubConstants as Constants } from './controllers';
+import { PlayerModal } from './components';
 import SplitChapters from './Step1-SplitChapters';
 import EditChapters from './Step2-EditChapters';
 import DowloadEPub from './Step3-DowloadEPub';
 import './index.scss';
 
-function EPubGenerator(props) {
+function EPubGeneratorWithRedux(props) {
   const {
-    mediaId,
-    title,
-    error,
-    step,
-    language,
-    // rawEPubData,
+    // props
+    media,
+    epubDataLike,
+    // states
+    rawEPubData,
     chapters,
-    epubs,
-    currEPubIndex,
     playerData
   } = props;
-  const { hash } = useLocation();
-  const loading = epub.ctrl.isLoading(chapters);
+  
+  const loading = epub.ctrl.isLoading(rawEPubData, chapters);
 
   useEffect(() => {
-    // register redux dispatch functions
-    epub.state.init(props);
-    // reset the redux store when the component is unmounted
-    // return epub.state.resetStates;
+    epub.history.clear();
   }, []);
 
   useEffect(() => {
-    let stepVal = hash.replace('#', '');
-    if (Constants.EPubSteps.includes(stepVal)) {
-      epub.state.setStep(stepVal);
-    } else {
-      epub.state.setStep(Constants.EPubStepSplitChapters);
-    }
-  }, [hash]);
-
-  useEffect(() => {
     // when language is changed, set up the epub data
-    if (mediaId) {
-      epub.ctrl.setupEPubGenWithMediaId(mediaId, language);
+    if (epubDataLike && epubDataLike.id) {
+      epub.ctrl.setupEPubGenerator(epubDataLike);
     }
-  }, [mediaId, language]);
+  }, [epubDataLike]);
 
-  useEffect(() => {
-    // reset the chapters and related states 
-    // when epubs loaded or currEPubIndex changed
-    if (epubs.length > 0 && !error) {
-      epub.ctrl.changeEPub(currEPubIndex, title);
-    }
-  }, [title, epubs, currEPubIndex]);
+  const splitChapterElement = altEl(SplitChapters, epub.ctrl.isStep1);
+  const editChapterElement = altEl(EditChapters, epub.ctrl.isStep2);
+  const downloadElement = altEl(DowloadEPub, epub.ctrl.isStep3);
 
-  const splitChapterElement = altEl(SplitChapters, step === Constants.EPubStepSplitChapters);
-  const editChapterElement = altEl(EditChapters, step === Constants.EPubStepEditChapters);
-  const downloadElement = altEl(DowloadEPub, step === Constants.EPubStepDownload);
-
-  const playerProps = { ...playerData, open: Boolean(playerData), mediaId };
+  const playerProps = { ...playerData, open: Boolean(playerData), media };
   const playerModalElement = makeEl(PlayerModal, playerProps);
 
   return (
     <div id={Constants.EPubGeneratorContainerID} className="ct-epb epb-gen-con">
       {
-        error ? (
-          <NoEPubWrapper mediaId={mediaId} error={error} />
-        ) : loading ? (
+        loading ? (
           <div className="w-100"><CTLoader /></div>
         ) : (
           <>
@@ -84,19 +58,14 @@ function EPubGenerator(props) {
   );
 };
 
-export default withReduxProvider(
-  EPubGenerator,
-  epubStore,
-  connectWithRedux,
-  [
-    'error',
-    'step',
-    'language',
-    'rawEPubData',
-    'epubs',
-    'chapters',
-    'currEPubIndex',
-    'playerData'
-  ],
-  ['all']
+const EPubGenerator = connectWithRedux(
+  EPubGeneratorWithRedux,
+  ['rawEPubData', 'chapters', 'playerData']
 );
+
+EPubGenerator.propTypes = {
+  media: PropTypes.object,
+  epubDataLike: PropTypes.instanceOf(CTEPubData).isRequired
+};
+
+export default EPubGenerator;

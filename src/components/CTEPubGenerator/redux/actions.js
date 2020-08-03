@@ -5,7 +5,7 @@ import {
   SET_LANGUAGE,
   SET_RAW_EPUB_DATA,
   SET_EPUBS,
-  SET_CURR_EPUB_IDX,
+  SET_CURR_EPUB,
   SET_CHAPTERS,
   SET_CURR_CH_IDX,
   SET_NAV_ID,
@@ -23,7 +23,7 @@ export const setLanguage = createAction(SET_LANGUAGE);
 
 export const setRawEPubData = createAction(SET_RAW_EPUB_DATA);
 export const setEPubs = createAction(SET_EPUBS);
-export const setCurrEPubIndex = createAction(SET_CURR_EPUB_IDX);
+export const setCurrEPub = createAction(SET_CURR_EPUB);
 export const setChapters = createAction(SET_CHAPTERS);
 export const setCurrChIndex = createAction(SET_CURR_CH_IDX);
 

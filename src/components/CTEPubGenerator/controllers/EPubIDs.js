@@ -8,6 +8,8 @@ export default class EPubIDs {
   static EPubChapterNavListID = 'ct-epb-nav-list';
   static EPubPlayerModal = 'ct-epb-player-modal';
 
+  static LaunchScreenContainerID = 'ct-epb-ls-con';
+
   static SplitChapterContainerID = 'ct-epb-sch-con';
   static SplitChapterMDPreviewerID = 'ct-epb-sch-md-pview-con';
   static SplitChapterItemCarouselID = 'ct-epb-sch-it-carousel';

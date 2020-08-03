@@ -10,7 +10,7 @@ import './index.scss';
 function PlayerModal({
   open,
   title,
-  mediaId,
+  media,
   begin,
   end,
 }) {
@@ -46,7 +46,7 @@ function PlayerModal({
           fill
           defaultOpenCC
           hideWrapperOnMouseLeave
-          mediaId={mediaId}
+          media={media}
           beginAt={begin}
           endAt={end}
         />

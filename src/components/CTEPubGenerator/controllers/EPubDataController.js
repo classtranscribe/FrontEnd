@@ -25,7 +25,7 @@ class EPubDataController {
     this.data.chapters = _.cloneDeep(chapters);
   }
 
-  initEPubData(ePubLike, title) {
+  initEPubData(ePubLike) {
     if (ePubLike instanceof EPubData) {
       this.data = ePubLike;
     } else {
@@ -34,12 +34,12 @@ class EPubDataController {
 
     // the ePub data doesn't contain the `title`
     if (!this.data.title) {
-      this.data.title = title;
+      this.data.title = 'Untitled ePub'
     }
 
     // the ePub data doesn't contain the `filename`
     if (!this.data.filename) {
-      this.data.filename = title;
+      this.data.filename = 'Untitled ePub';
     }
 
     return this.data.toObject();

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
+import { CTPlayerConstants as PConstants } from '../../CTPlayer';
 import { 
   buildEPubDataFromArray, 
   buildChapter, 
@@ -25,7 +26,7 @@ export default class EPubData {
     }
 
     // if the input data is the epub-like
-    else if (Object.isObject(data)) {
+    else if (typeof data === 'object') {
       this.__data__ = {
         ...this.__data__,
         ...data
@@ -54,6 +55,15 @@ export default class EPubData {
     if (!this.language) {
       this.language = 'en-US';
     }
+  }
+
+  static create(rawEPubData, language, mediaName) {
+    return new EPubData({
+      language,
+      title: `${mediaName} (${PConstants.LANG_MAP[language]})`,
+      filename: `${mediaName} (${PConstants.LANG_MAP[language]})`,
+      chapters: buildEPubDataFromArray(rawEPubData)
+    });
   }
 
   set id(id) {

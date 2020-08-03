@@ -4,7 +4,7 @@ export const SET_LANGUAGE = 'epb-set-lang';
 
 export const SET_RAW_EPUB_DATA = 'epb-set-raw-epb-data';
 export const SET_EPUBS = 'epb-set-epubs';
-export const SET_CURR_EPUB_IDX = 'epb-set-curr-epb-idx';
+export const SET_CURR_EPUB = 'epb-set-curr-epb';
 export const SET_CHAPTERS = 'epb-set-chps';
 export const SET_CURR_CH_IDX = 'epb-set-curr-ch-idx';
 

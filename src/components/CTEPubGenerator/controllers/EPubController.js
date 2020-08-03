@@ -1,25 +1,26 @@
 import _ from 'lodash';
-import { api, prompt, uurl, timestr, ARRAY_INIT } from 'utils';
+import { prompt, uurl, timestr, ARRAY_INIT } from 'utils';
 import Constants from './EPubConstants';
 import { epubState } from './EPubState';
 import { epubData } from './EPubDataController';
-import EPubData from './EPubData';
-import { parseRawEPubData } from './utils';
-// import { buildSubChapter as bsch } from './utils';
+import { getAllItemsInChapters } from './utils';
 
 class EPubController {
   constructor() {
-    this.mediaId = null;
-    this.currEPubIndex = null;
+    this.epubId = null;
   }
 
-  isLoading(chapters) {
-    return chapters === ARRAY_INIT;
+  isLoading(rawEPubData, chapters) {
+    return rawEPubData === ARRAY_INIT || chapters === ARRAY_INIT;
   }
 
   /// ///////////////////////////////////////////////////////////////
   // Steps
   /// ///////////////////////////////////////////////////////////////
+
+  get isStep0() {
+    return epubState.step === Constants.EPubStepLaunchScreen;
+  }
 
   get isStep1() {
     return epubState.step === Constants.EPubStepSplitChapters;
@@ -33,8 +34,12 @@ class EPubController {
     return epubState.step === Constants.EPubStepDownload;
   }
 
+  createHash(step) {
+    return uurl.createHash({ step, eid: this.epubId });
+  }
+
   toStep(step) {
-    uurl.setHash(step);
+    uurl.setHash(this.createHash(step));
   }
 
   backToStep1 = () => {
@@ -111,73 +116,18 @@ class EPubController {
 
 
   /// ///////////////////////////////////////////////////////////////
-  // Networks
+  // Setup scripts
   /// ///////////////////////////////////////////////////////////////
+  setupEPubGenerator(epubDataLike) {
+    // // skip if the epub id is not changed
+    // if (this.epubId === epubDataLike.id) return;
 
-  async requestEPub(mediaId) {
-    try {
-      await api.requestEPubCreation(mediaId);
-      prompt.addOne({
-        text: 'Request sent.',
-        status: 'success',
-        timeout: 3000
-      });
-    } catch (error) {
-      console.error(`Failed to request a epub for ${mediaId}`);
-    }
-  }
+    this.epubId = epubDataLike.id;
+    const data = epubData.initEPubData(epubDataLike);
 
-  async getRawEPubData(mediaId, language) {
-    try {
-      let { data } = await api.getEpubData(mediaId, language);
-      return parseRawEPubData(data);
-    } catch (error) {
-      // default as 404 error
-      console.error(error, `Failed to get ePub data of media for ${mediaId}, ${language}`);
-      epubState.setError(Constants.EPubDataNotRequestedError);
-    }
-
-    return null;
-  }
-
-  async changeLanguage(language) {
-    const rawEPubData = await this.getRawEPubData(this.mediaId, language);
-
-    if (!rawEPubData) return;
+    const rawEPubData = getAllItemsInChapters(data.chapters);
     epubState.setRawEPubData(rawEPubData);
-    epubState.setEPubs([ ...epubState.epubs, new EPubData(rawEPubData) ]);
-  }
-
-  async setupEPubGenWithMediaId(mediaId, language) {
-    // skip if the media id is not changed
-    if (this.mediaId === mediaId) return;
-    epubState.setError(null);
-
-    this.mediaId = mediaId;
-    // display the loader while getting the epub data
-    if (epubState.rawEPubData !== ARRAY_INIT) {
-      epubState.setRawEPubData(ARRAY_INIT);
-    }
-
-    const rawEPubData = await this.getRawEPubData(mediaId, language);
-
-    if (!rawEPubData) return;
-    epubState.setRawEPubData(rawEPubData);
-
-    // temporarily create a fake epubs array
-    // in the future this should be obtained from server
-    epubState.setEPubs([ new EPubData(rawEPubData) ]);
-  }
-
-  changeEPub(currEPubIndex, title) {
-    if (this.currEPubIndex === currEPubIndex) return;
-    this.currEPubIndex = currEPubIndex;
-
-    // initialize epub data controller
-    const epubDataLike = epubData.initEPubData(epubState.epubs[currEPubIndex], title);
-
-    epubState.setCurrEPubIndex(currEPubIndex);
-    epubState.setChapters(epubDataLike.chapters);
+    epubState.setChapters(data.chapters);
   }
 }
 

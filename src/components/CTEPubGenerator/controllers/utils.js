@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
+import { CTPlayerConstants as PConstants } from '../../CTPlayer';
 import { buildMarkdownFromItems } from './html-converters';
 
 export function buildID(preflix, id) {
@@ -94,6 +95,10 @@ export function getAllItemsInChapter(chapter) {
   ]);
 }
 
+export function getAllItemsInChapters(chapters) {
+  return _.flatten(_.map(chapters, (chapter) => getAllItemsInChapter(chapter)));
+}
+
 export function getAllImagesInChapter(chapter) {
   const items = getAllItemsInChapter(chapter);
   return _.map(items, (item) => item.image);
@@ -108,4 +113,15 @@ export function getCompactText(chapter) {
     .filter((txt) => txt !== '')
     .join('. ')
     // .slice(0, 200);
+}
+
+export function getLanguageOptions(media) {
+  if (!media || !media.transcriptions) {
+    return [];
+  }
+
+  return _.map(media.transcriptions, trans => ({
+    text: PConstants.LANG_MAP[trans.language],
+    value: trans.language
+  }));
 }
