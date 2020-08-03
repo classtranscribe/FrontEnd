@@ -1,27 +1,12 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import { makeStyles } from '@material-ui/core/styles';
+import { useButtonStyles } from 'layout';
 import { EPubMenu } from '../components';
 import { epub, getLanguageOptions } from '../controllers';
 
-const useStyles = makeStyles({
-  button: {
-    fontWeight: 'bold',
-    marginLeft: 5,
-    minWidth: 'max-content',
-    '&:not(.MuiButton-outlined)': {
-      background: 'teal',
-      color: 'white',
-      '&:hover': {
-        background: 'var(--ct-green-normal)',
-      }
-    }
-  }
-});
-
 function NewEPubButton({ media }) {
-  const classes = useStyles();
+  const btn = useButtonStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleCreate = (language) => {
@@ -31,7 +16,7 @@ function NewEPubButton({ media }) {
   const buttonElement = (
     <Button
       variant="contained"
-      className={classes.button}
+      className={btn.teal}
       startIcon={<AddIcon />}
       onClick={e => setAnchorEl(e.currentTarget)}
     >

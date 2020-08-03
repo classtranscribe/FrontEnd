@@ -11,6 +11,7 @@ export function ChapterImage({
   chapterScreenshots = [],
   onChooseImage,
   onRemoveImage,
+  promptText = 'Click to Choose Image'
 }) {
   const [pickImg, setPickImage] = useState(false);
 
@@ -49,7 +50,7 @@ export function ChapterImage({
             onKeyDown={handleOnKeyDown}
             role="button"
           >
-            Click to Choose Image
+            {promptText}
           </div>
 
           {Boolean(onRemoveImage) && (

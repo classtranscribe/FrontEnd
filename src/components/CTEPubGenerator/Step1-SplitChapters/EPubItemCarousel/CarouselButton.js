@@ -1,19 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-
-export const useStyles = makeStyles({
-  button: {
-    fontWeight: 'bold',
-    '&:not(.MuiButton-outlined)': {
-      background: 'teal',
-      color: 'white',
-      '&:hover': {
-        background: 'var(--ct-green-normal)',
-      }
-    }
-  }
-});
+import { useButtonStyles } from 'layout';
 
 function CarouselButton({
   children,
@@ -23,14 +10,14 @@ function CarouselButton({
   outlined,
   ...otherProps
 }) {
-  const classes = useStyles();
+  const btn = useButtonStyles();
 
   return (
     <Button
       onClick={onClick}
       startIcon={startIcon}
       endIcon={endIcon}
-      className={classes.button}
+      className={btn.teal}
       variant={outlined ? "outlined" : "contained"}
       size="large"
       {...otherProps}

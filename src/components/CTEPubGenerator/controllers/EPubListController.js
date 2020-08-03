@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { api, prompt, uurl, ARRAY_INIT } from 'utils';
-import { CTPlayerConstants as PConstants } from '../../CTPlayer';
+import { api, prompt, uurl, ARRAY_INIT, isDeveloping } from 'utils';
+import { Languages } from '../../CTPlayer';
 import Constants from './EPubConstants';
 import EPubData from './EPubData';
 import { epubState } from './EPubState';
@@ -90,12 +90,17 @@ class EPubListController {
 
     // check if the raw epub data exists
     // if not raise the error and ternimate the setup
-    const rawEPubData = await this.getRawEPubData(media.id, PConstants.English);
+    const rawEPubData = await this.getRawEPubData(media.id, Languages.English);
     if (!rawEPubData) return;
 
     // if the epub exists, get the epubs
     const epubs = await this.getEPubs(media.id);
     epubState.setEPubs(epubs);
+
+    // For Test Only
+    if (isDeveloping) {
+      await this.createEPub(Languages.English);
+    }
   }
 
   async createEPub(language) {

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'pico-ui';
+import { CTFragment } from 'layout';
 import { epub } from '../../controllers';
 import { connectWithRedux } from '../../redux';
-import { EPubStepper, ChapterTitle } from '../../components';
+import { EPubStepper } from '../../components';
 
 function InstructionHeading({
   rawEPubData,
@@ -13,26 +14,11 @@ function InstructionHeading({
   let showSplitAllBtn = chapters.length !== rawEPubData.length;
   let showSubdivideAllBtn = true;
 
-  const [title, setTitle] = useState(epub.data.data.title);
-  const handleTitleChange = val => {
-    setTitle(val);
-    epub.data.saveEPubTitle(val);
-  };
-
   return (
-    <div className="ct-epb inst-heading">
-      <div className="inst-h-h1-con w-100 ct-d-r-center-v">
-        <ChapterTitle
-          headingType="h1" 
-          label="ePub title"
-          value={title} 
-          onSave={handleTitleChange}
-        />
-      </div>
-
+    <CTFragment className="ct-epb inst-heading">
       <EPubStepper />
 
-      <div className="inst-h-quote w-100">
+      <CTFragment className="inst-h-quote">
         <h4>Instruction</h4>
         <p>
           To manage your ePub chapters, set <b>splitting points</b> between screenshots to 
@@ -54,7 +40,7 @@ function InstructionHeading({
             <b>Subdivide</b> - Divide a chapter into several sub-chapters.
           </li>
         </ul>
-      </div>
+      </CTFragment>
 
       <h4 className="w-100 pl-2">
         QUICK ACTIONS
@@ -85,7 +71,7 @@ function InstructionHeading({
           }
         </Button.Group>
       </div>
-    </div>
+    </CTFragment>
   );
 }
 
