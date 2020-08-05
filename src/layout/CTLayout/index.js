@@ -97,6 +97,7 @@ function CTLayout(props) {
   // Brand Element
   const brandElemProps = {
     darkMode,
+    linkDisabled: !isNormal,
     showSidebar: isOpen,
     onSidebarTriggerClick: handleOpenSidebar,
   };
@@ -104,6 +105,7 @@ function CTLayout(props) {
 
   brandElemProps.withTrigger = !isMini;
   brandElemProps.logo = logoBrand;
+  brandElemProps.linkDisabled = false;
   const headerBrandElem = altEl(NavSidebarTrigger, !isNormal, brandElemProps, <div />);
 
   const headingElement = altEl(CTHeading, Boolean(headingProps), {
