@@ -5,7 +5,7 @@ import {
   CTFormRow,
   CTInput,
   CTSelect,
-  CTCheckbox,
+  CTRadio,
 } from 'layout';
 import { api, util, prompt } from 'utils';
 
@@ -47,8 +47,9 @@ function BasicInfo(props) {
     setTerm(value);
   };
 
-  const handleLogEventsFlagChange = ({ target: { checked } }) => {
-    setLogEventsFlag(checked);
+  const handleLogEventsFlagChange = ({ target: { value } }) => {
+    let value1 = value == 1 ? true : false;
+    setLogEventsFlag(value1);
   };
 
   const handleDescriptionChange = ({ target: { value } }) => {
@@ -77,12 +78,18 @@ function BasicInfo(props) {
     setupTermOptions();
   }, [uniId]);
 
-  const visibilityOptions = api.offeringAccessType.map(type => ({
-    text: type.name,
-    value: type.id,
-    description: type.description
+  const visibilityOptions = api.offeringAccessType.filter(type => !type.name.includes("Public")).map(type => ({
+      text: type.name,
+      value: type.id,
+      description: type.description
+    
   }));
 
+  const options = [
+    "Do not log student events",
+    "Log student events"
+    
+  ];
   return (
     <CTFragment>
       <CTFormHeading>Basic Information</CTFormHeading>
@@ -143,12 +150,12 @@ function BasicInfo(props) {
       </CTFormRow>
 
       <CTFormRow padding={[0, 10]}>
-        <CTCheckbox
+        <CTRadio
           id="log-event"
-          helpText="Turn it on if you would like to receive the statistics of students' perfermance in the future."
-          label="Log student events"
-          checked={logEventsFlag}
+          helpText="Turn it on if you would like to receive the statistics of students' performance in the future."
+          label= {options}
           onChange={handleLogEventsFlagChange}
+          value={logEventsFlag == true ? 1 : 0}
         />
       </CTFormRow>
     </CTFragment>
