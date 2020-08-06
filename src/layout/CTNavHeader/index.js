@@ -41,6 +41,7 @@ function CTNavHeader(props) {
   const headerClasses = classNames({
     'ct-nav-dark': darkMode,
     'pl-3': !hasExtenalBrandElem,
+    tabHeader: tabs.length > 0,
     fixed,
     sticky,
     bordered,

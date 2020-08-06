@@ -13,7 +13,10 @@
  * @property {Boolean} center - Vertially and horizontally centering its children
  * @property {Boolean} vCenter - Vertially centering its children
  * @property {Boolean} hCenter - Horizontally centering its children
+ * @property {Boolean} hEnd - display its children at the end horizontally
+ * @property {Boolean} hBetween - justify-content: space-between
  * @property {Boolean} list - The fragment can be a flex list
+ * @property {Boolean} dark - The fragment supports dark mode
  * @property {Boolean} fade - The fragment can fade in
  * @property {Boolean} sticky - The fragment can be sticky
  * @property {Boolean} offsetTop -  The `top` css attribute (in `px`) for the fragment element

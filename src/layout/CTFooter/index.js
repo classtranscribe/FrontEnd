@@ -6,7 +6,7 @@ import CTFragment from '../CTFragment';
  */
 function CTFooter() {
   return (
-    <CTFragment padding={[50, 20]} center as="footer" id="ct-footer">
+    <CTFragment padding={[50, 20]} hCenter as="footer" id="ct-footer">
       <span>&copy; 2016-2020 University of Illinois</span>
     </CTFragment>
   );

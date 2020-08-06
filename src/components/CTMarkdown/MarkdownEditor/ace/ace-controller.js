@@ -75,7 +75,7 @@ export function addBoldText(ace) {
 }
 
 export function addItalicText(ace) {
-  setOuterText(ace, '_');
+  setOuterText(ace, '*');
   focus(ace);
 }
 

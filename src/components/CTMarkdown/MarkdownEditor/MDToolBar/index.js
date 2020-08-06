@@ -29,16 +29,22 @@ function MDToolBar(props) {
         <Button.Group>
           <Button
             compact
+            uppercase
             color={isPreview ? 'transparent teal' : 'teal'}
             text="Edit"
             onClick={closePreview}
+            role="radio"
+            aria-checked={!isPreview}
           />
 
           <Button
             compact
+            uppercase
             color={!isPreview ? 'transparent teal' : 'teal'}
             text="Preview"
             onClick={openPreview}
+            role="radio"
+            aria-checked={isPreview}
           />
         </Button.Group>
       </div>
@@ -66,7 +72,7 @@ function MDToolBar(props) {
 }
 
 MDToolBar.propTypes = {
-  ace: PropTypes.any.isRequired,
+  ace: PropTypes.any,
   isPreview: PropTypes.bool,
   imageTabs: InsertMedia.propTypes.imageTabs,
   defaultImage: InsertMedia.propTypes.defaultImage,

@@ -17,7 +17,9 @@ function CTFragment(props) {
     vEnd = false,
     hCenter = false,
     hEnd = false,
+    hBetween = false,
     list = false,
+    dark = false,
     fade = false,
     sticky = false,
     offsetTop = 0,
@@ -57,7 +59,7 @@ function CTFragment(props) {
     ...styles
   };
 
-  const fragmentClassses = classNames(
+  const fragmentClasses = classNames(
     'ct-fragment',
     className,
     { 
@@ -66,8 +68,10 @@ function CTFragment(props) {
       vEnd,
       hCenter,
       hEnd,
+      hBetween,
       list,
       sticky,
+      dark,
       'ct-a-fade-in': fade,
       'border-top': borderTop,
       'border-right': borderRight,
@@ -79,7 +83,7 @@ function CTFragment(props) {
   const fragmentProps = {
     id,
     role,
-    className: fragmentClassses,
+    className: fragmentClasses,
     style: fragmentStyles,
     children,
     ...otherProps
@@ -132,8 +136,14 @@ CTFragment.propTypes = {
   /** display its children at the end horizontally */
   hEnd: PropTypes.bool,
 
+  /** justify-content: space-between */
+  hBetween: PropTypes.bool,
+
   /** The fragment can be a flex list */
   list: PropTypes.bool,
+
+  /** The fragment supports dark mode */
+  dark: PropTypes.bool,
 
   /** The fragment can fade in */
   fade: PropTypes.bool,

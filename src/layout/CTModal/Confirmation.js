@@ -81,7 +81,7 @@ Confirmation.propTypes = {
   open: Modal.propTypes.open,
 
   /** The size of the modal can be responsive to window's width */
-  responsive:  Modal.propTypes.responsive,
+  responsive: Modal.propTypes.responsive,
 
   /** The confirmation title */
   title: PropTypes.node,

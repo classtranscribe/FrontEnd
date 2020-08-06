@@ -25,14 +25,14 @@ import {
   SetupUser,
   NotFound404,
   Maintenance,
-  ComponentAPI,
+  // ComponentAPI,
   Example
 } from './screens';
 
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
-
+import CTCookieAgreement from './components/CTCookieAgreement'
 import { user } from './utils/user';
 
 class App extends React.Component {
@@ -44,7 +44,9 @@ class App extends React.Component {
     // return <Maintenance />
     return (
       <AppInsightsProvider>
+        <CTCookieAgreement />
         <Switch>
+          
           <Route exact path={user.callbackPaths} component={SetupUser} />
 
           {/* Admin */}
@@ -98,7 +100,7 @@ class App extends React.Component {
           <Route exact path="/video" component={Watch} />
           <Route exact path="/embed/:id" component={Embed} />
 
-          <Route exact path="/docs/component-api/:name" component={ComponentAPI} />
+          {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
           <Route exact path="/example" component={Example} />
 
           <Route path="/404" component={NotFound404} />

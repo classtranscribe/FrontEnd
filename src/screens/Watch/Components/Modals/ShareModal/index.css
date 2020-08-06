@@ -59,6 +59,7 @@
 .wml-share-time {
   opacity: .5;
   align-items: center;
+  margin-right: 30px;
 }
 
 .wml-share-time[data-show=true] {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { NOT_FOUND_404, INSTRUCTOR, links } from 'utils';
+import { NOT_FOUND_404, INSTRUCTOR } from 'utils';
 import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
 import {
@@ -24,24 +24,23 @@ class CourseWithRedux extends Component {
     setup.setupCoursePage(this.offeringId);
   }
 
-  componentDidUpdate() {
-    const { offering, playlist } = this.props;
-    if (playlist && playlist.id) {
-      links.title(`${playlist.name} | ${offering.fullNumber}`);
-    } else if (offering && offering.id) {
-      links.title(offering.fullNumber);
-    }
-  }
-
   render() {
-    const { offering, role } = this.props;
+    const { offering, role, playlist } = this.props;
+    const offeringLoaded = offering && offering.id;
+    const playlistLoaded = playlist && playlist.id;
 
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
       sidebarProps: role === INSTRUCTOR ? {
         items: sidebar.getCoursePageSidebarItems(offering)
-      } : undefined
+      } : undefined,
+      metaTagsProps: offeringLoaded ? {
+        title: playlistLoaded 
+            ? `${playlist.name} | ${offering.fullNumber}` 
+            : offering.fullNumber,
+        description: offering.description
+      } : undefined,
     }));
 
     const errorProps = {

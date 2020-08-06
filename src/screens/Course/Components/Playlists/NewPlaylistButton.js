@@ -4,19 +4,18 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { links } from 'utils/links';
-import { useStyles } from '../CourseInfo/ActionButtons/StarButton';
+import { useButtonStyles } from 'layout';
 
 function NewPlaylistButton({
   offeringId
 }) {
-  const classes = useStyles();
-  const buttonClasses = cx(classes.button, 'ml-3');
+  const btn = useButtonStyles();
 
   return (
     <Button
       component={Link}
       variant="contained"
-      className={buttonClasses}
+      className={cx(btn.teal, 'ml-3')}
       size="large"
       startIcon={<AddIcon />}
       to={links.instNewPlaylist(offeringId)}

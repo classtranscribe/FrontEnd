@@ -102,7 +102,7 @@ MarkdownEditor.propTypes = {
   placeholder: PropTypes.string,
   height: PropTypes.string,
   imageTabs: MDToolBar.propTypes.imageTabs,
-  defaultImage: MDToolBar.propTypes.imageTabs,
+  defaultImage: MDToolBar.propTypes.defaultImage,
   onSave: PropTypes.func,
   onClose: PropTypes.func,
 };

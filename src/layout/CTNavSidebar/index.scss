@@ -64,10 +64,10 @@
     transform: translateX(-240px);
 
     #ct-nsb-con {
+      position: relative;
       -webkit-overflow-scrolling: touch;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 0 2px 2px 0;
     }
 
     &.ct-nav-dark {
@@ -76,6 +76,7 @@
 
     .ct-nsb-ul {
       margin-top: 10px;
+      padding: 0 3px 3px 0;
     }
   }
 }

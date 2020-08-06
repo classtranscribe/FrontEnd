@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import MuiSelect from '@material-ui/core/Select';
 import ListItemText from '@material-ui/core/ListItemText';
 
-
 import { useStyles } from '../Input';
 
 /**
@@ -40,6 +39,7 @@ function Select(props) {
       disabled={disabled} 
       classes={classes}
       variant={underlined ? "standard" : "outlined"}
+      className="ct-form-sel"
     >
       <InputLabel htmlFor={id}>{label}</InputLabel>
       <MuiSelect

@@ -40,6 +40,7 @@ function DNDItem(props) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          tabIndex="-1"
         >
           <div className="ct-dnd dnd-icon" aria-hidden="true">
             <i className="material-icons">drag_indicator</i>

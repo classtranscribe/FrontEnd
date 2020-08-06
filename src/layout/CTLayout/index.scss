@@ -31,5 +31,11 @@
     .ct-layout-fill {
       height: calc(100% - 50px);
     }
+
+    &.tab-header {
+      .ct-layout-fill {
+        height: calc(100% - 87px);
+      }
+    }
   }
 }

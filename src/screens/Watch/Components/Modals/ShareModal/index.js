@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { getShareableURL, videoControl, parseSec } from '../../../Utils';
+import { isMobile } from 'react-device-detect';
+import { timestr } from 'utils';
+import { getShareableURL, videoControl } from '../../../Utils';
 import './index.css';
 
-function ShareModal({ show = false, onClose }) {
+function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
   const inputRef = useRef();
   const [begin, setBegin] = useState(-1); // -1 X, >0 √
   const [copy, setCopy] = useState(0); // -1 unset, 0 copying, 1 copied
@@ -23,11 +25,22 @@ function ShareModal({ show = false, onClose }) {
     }
   };
 
+  const openEmbedModal = () => {
+    setEmbed(true)
+    videoControl.pause()
+  };
+
   useEffect(() => {
     if (show) {
       setBegin(videoControl.currTime());
     }
   }, [show]);
+
+  useEffect(() => {
+    if (embed) {
+      onClose();
+    }
+  }, [embed]);
 
   const shareURL = getShareableURL(begin);
 
@@ -46,7 +59,6 @@ function ShareModal({ show = false, onClose }) {
           </span>
         </button>
       </div>
-
       <div className="wml-content">
         <div className="w-100 d-flex align-items-center wml-share-url">
           <input
@@ -71,7 +83,7 @@ function ShareModal({ show = false, onClose }) {
                 <>
                   <i className="material-icons">file_copy</i>COPY
                 </>
-              )}
+                )}
             </span>
           </button>
         </div>
@@ -97,9 +109,24 @@ function ShareModal({ show = false, onClose }) {
               aria-label="time"
               id="wml-share-time"
               className="plain-btn"
-              value={parseSec(videoControl.currTime())}
+              value={timestr.toTimeString(videoControl.currTime())}
             />
           </div>
+
+          {
+            !isMobile
+            &&
+            <button
+              className="plain-btn wml-share-url-cpy"
+              aria-haspopup="true"
+              aria-controls="wp-embed-modal"
+              onClick={openEmbedModal}
+            >
+              <span tabIndex="-1">
+                <i className="material-icons">code</i>EMBED
+              </span>
+            </button>
+          }
         </div>
       </div>
     </div>

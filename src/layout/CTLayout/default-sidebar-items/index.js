@@ -1,6 +1,7 @@
-import { user, links, uurl } from 'utils';
+import { user, links, uurl, env } from 'utils';
 import { createCTNavSidebarItemProps } from '../../CTNavSidebar/create-props';
 import { getAdminNavItem } from './admin-items';
+import { getComponentAPINavItem } from './component-api-items';
 
 
 export class DefaultSidebarItems {
@@ -81,6 +82,10 @@ export class DefaultSidebarItems {
     });
   }
 
+  get componentAPIs() {
+    return getComponentAPINavItem();
+  }
+
   get breakline() {
     return 'breakline';
   }
@@ -106,6 +111,11 @@ export class DefaultSidebarItems {
 
     if (isAdmin) {
       items.push(this.admin);
+    }
+
+    if (env.dev) {
+      items.push('breakline');
+      items.push(this.componentAPIs);
     }
 
     return items;

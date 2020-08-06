@@ -7,8 +7,8 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionActions from '@material-ui/core/AccordionActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
-import { Button } from 'pico-ui';
-
+import Button from '@material-ui/core/Button';
+import { useButtonStyles } from '../../CTButtons';
 import CTFragment from '../../CTFragment';
 import CTHeading from '../../CTHeading';
 import './index.scss';
@@ -27,12 +27,16 @@ function Form(props) {
     warning,
     onSave,
     onCancel,
+    onDelete,
     onSaveButtonText = 'save',
     onCancelButtonText = 'cancel',
+    onDeleteButtonText = 'delete',
     heading,
     details,
     children,
   } = props;
+
+  const btn = useButtonStyles();
 
   const expandIcon = collapsible ? <ExpandMoreIcon /> : null;
 
@@ -75,15 +79,22 @@ function Form(props) {
           {
             Boolean(onCancel)
             &&
-            <Button uppercase color="transparent" onClick={onCancel}>
+            <Button onClick={onCancel}>
               {onCancelButtonText}
             </Button>
           }
           {
             Boolean(onSave)
             &&
-            <Button uppercase color="teal" onClick={onSave}>
+            <Button className={btn.teal} variant="contained" onClick={onSave}>
               {onSaveButtonText}
+            </Button>
+          }
+          {
+            Boolean(onDelete)
+            &&
+            <Button color="secondary" className={btn.bold} onClick={onDelete}>
+              {onDeleteButtonText}
             </Button>
           }
         </AccordionActions>
