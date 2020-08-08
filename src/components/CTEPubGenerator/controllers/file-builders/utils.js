@@ -64,35 +64,30 @@ export function parseEPubData(epubData, replaceSrc = true) {
   return data;
 }
 
-export async function loadImagesBuffers({ cover, chapters }) {
-  let coverResp = null;
+export async function loadImageBuffer(src) {
   try {
-    coverResp = await axios.get(cover, { responseType: 'arraybuffer' });
+    const { data } = await axios.get(uurl.getMediaUrl(src), { responseType: 'arraybuffer' });
+    return Buffer.from(data);
   } catch (error) {
     throw LoadImageError;
   }
-  const coverBuffer = Buffer.from(coverResp.data);
+}
+
+export async function loadEPubImageBuffers({ cover, chapters }) {
+  const coverBuffer = await loadImageBuffer(cover);
 
   const images = [];
-  try {
-    for (let i = 0; i < chapters.length; i += 1) {
-      const ch = chapters[i];
-      if (ch.images) {
-        /* eslint-disable no-await-in-loop */
-        for (let j = 0; j < ch.images.length; j += 1) {
-          const img = ch.images[j];
-  
-          const { data } = await axios.get(img.src, { responseType: 'arraybuffer' });
-          images.push({
-            ...img,
-            buffer: Buffer.from(data),
-          });
-        }
-        /* eslint-enable no-await-in-loop */
+  for (let i = 0; i < chapters.length; i += 1) {
+    const ch = chapters[i];
+    if (ch.images) {
+      /* eslint-disable no-await-in-loop */
+      for (let j = 0; j < ch.images.length; j += 1) {
+        const img = ch.images[j];
+        const buffer = await loadImageBuffer(img.src);
+        images.push({ ...img, buffer });
       }
+      /* eslint-enable no-await-in-loop */
     }
-  } catch (error) {
-    throw LoadImageError;
   }
 
   return {

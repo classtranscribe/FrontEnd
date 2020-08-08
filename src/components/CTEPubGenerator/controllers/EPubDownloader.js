@@ -1,10 +1,10 @@
 import download from 'js-file-download';
 import { prompt } from 'utils/prompt';
-import { EPubFileBuilder, HTMLFileBuilder } from './file-builders';
+import { EPubFileBuilder, HTMLFileBuilder, ScreenshotsBuilder } from './file-builders';
 import { epubData } from './EPubDataController';
 
-const _download = async (Builder, fileType) => {
-  const filename = `${epubData.data.filename }.${ fileType}`;
+const _download = async (Builder, filenameSuffix) => {
+  const filename = epubData.data.filename + filenameSuffix;
   const fileBuffer = await Builder.toBuffer(epubData.data);
   download(fileBuffer, filename);
 };
@@ -21,7 +21,7 @@ const _logError = (error) => {
 class EPubDownloader {
   static async downloadEPub(onDownloaded) {
     try {
-      await _download(EPubFileBuilder, 'epub');
+      await _download(EPubFileBuilder, '.epub');
       if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
@@ -30,7 +30,7 @@ class EPubDownloader {
 
   static async downloadHTML(onDownloaded) {
     try {
-      await _download(HTMLFileBuilder, 'zip');
+      await _download(HTMLFileBuilder, '.zip');
       if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
@@ -51,6 +51,15 @@ class EPubDownloader {
 
   static async downloadPDF(onDownloaded) {
     EPubDownloader.preview(true);
+  }
+
+  static async downloadScreenshots(onDownloaded) {
+    try {
+      await _download(ScreenshotsBuilder, ' - Screenshots.zip');
+      if (typeof onDownloaded === 'function') onDownloaded();
+    } catch (error) {
+      _logError(error);
+    }
   }
 }
 

@@ -26,6 +26,7 @@
     transition: border 200ms linear, background 100ms linear;
   
     .ct-file-btn-icon {
+      padding-top: 5px;
       width: 35px;
       &.download {
         display: none;
@@ -52,11 +53,14 @@
         font-weight: bold;
         font-size: 17px;
         font-family: var(--ct-font-google);
+        text-align: left;
+        line-height: normal;
       }
   
       .description {
         margin-top: 5px;
         color: rgb(83, 83, 83);
+        text-align: left;
       }
     }
   }

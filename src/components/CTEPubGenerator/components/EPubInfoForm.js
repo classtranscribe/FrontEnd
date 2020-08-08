@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'pico-ui';
 import { useInput } from 'hooks';
 import {
   CTForm,
@@ -8,7 +9,7 @@ import {
   CTFormHeading,
   CTFragment
 } from 'layout';
-import { ChapterImage } from ".";
+import { ChapterImage } from './ChapterImage';
 import { epub } from '../controllers';
 
 export function useEPubInfo() {
@@ -95,6 +96,12 @@ function EPubInfoForm({
         <>
           <CTFormHeading padding="0">Download files</CTFormHeading>
 
+          <CTFragment hEnd margin={[-40, 0, 10, 0]} padding={[0, 20]}>
+            <Button icon="launch" outlined onClick={epub.download.preview}>
+              Preview ePub
+            </Button>
+          </CTFragment>
+
           <CTFragment list padding={[0,15,0,0]}>
             <CTFileButton 
               icon={<i className="fas fa-file-alt" />}
@@ -102,6 +109,14 @@ function EPubInfoForm({
               onClick={epub.download.downloadEPub}
             >
               {filename.value}.epub
+            </CTFileButton>
+
+            <CTFileButton 
+              icon={<i className="fas fa-file-archive" />}
+              description="Save as HTML files with CSS styles and images"
+              onClick={epub.download.downloadHTML}
+            >
+              {filename.value}.zip
             </CTFileButton>
 
             <CTFileButton 
@@ -113,11 +128,11 @@ function EPubInfoForm({
             </CTFileButton>
 
             <CTFileButton 
-              icon={<i className="fas fa-file-code" />}
-              description="Download HTML/CSS files and images"
-              onClick={epub.download.downloadHTML}
+              icon={<i className="fas fa-file-image" />}
+              description="Save all the screenshots of the ePub data"
+              onClick={epub.download.downloadScreenshots}
             >
-              {filename.value}.zip
+              {filename.value} - screenshots.zip
             </CTFileButton>
           </CTFragment>
         </>

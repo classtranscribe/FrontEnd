@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import EPubData from '../EPubData';
-import { loadImagesBuffers, parseEPubData } from './utils';
+import { loadEPubImageBuffers, parseEPubData } from './utils';
 import { KATEX_MIN_CSS } from './file-templates/styles';
 import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS } from './file-templates/html';
 
@@ -32,7 +32,7 @@ class HTMLFileBuilder {
 
   async insertImagesToZip() {
     const { chapters, cover } = this.data;
-    const { coverBuffer, images } = await loadImagesBuffers({ chapters, cover });
+    const { coverBuffer, images } = await loadEPubImageBuffers({ chapters, cover });
   
     this.zip.addFile(`images/cover.jpeg`, coverBuffer);
   
@@ -66,6 +66,8 @@ class HTMLFileBuilder {
         </div>
       `,
     ).join('\n');
+
+    print = print && typeof print === 'boolean';
   
     return withStyles
       ? INDEX_HTML_LIVE({ title, navContents, content, cover, author, print })
