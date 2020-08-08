@@ -99,7 +99,7 @@ function EPubInfoForm({
             <CTFileButton 
               icon={<i className="fas fa-file-alt" />}
               description="Save as ePub file"
-              onClick={epub.data.downloadEPub}
+              onClick={epub.download.downloadEPub}
             >
               {filename.value}.epub
             </CTFileButton>
@@ -107,7 +107,7 @@ function EPubInfoForm({
             <CTFileButton 
               icon={<i className="fas fa-file-pdf" />}
               description="Print/Save as PDF file"
-              onClick={epub.data.downloadPDF}
+              onClick={epub.download.downloadPDF}
             >
               {filename.value}.pdf
             </CTFileButton>
@@ -115,7 +115,7 @@ function EPubInfoForm({
             <CTFileButton 
               icon={<i className="fas fa-file-code" />}
               description="Download HTML/CSS files and images"
-              onClick={epub.data.downloadHTML}
+              onClick={epub.download.downloadHTML}
             >
               {filename.value}.zip
             </CTFileButton>

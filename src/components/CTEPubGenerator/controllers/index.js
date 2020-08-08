@@ -5,6 +5,7 @@ import { epubData } from './EPubDataController';
 import EPubController from './EPubController';
 import EPubConstants from './EPubConstants';
 import EPubChapterNavigator from './EPubChapterNavigator';
+import EPubDownloader from './EPubDownloader';
 
 const ePubCtrl = new EPubController();
 const ePubNav = new EPubChapterNavigator();
@@ -17,7 +18,8 @@ export const epub = {
   history: epubHistory,
   data: epubData,
   ctrl: ePubCtrl,
-  nav: ePubNav
+  nav: ePubNav,
+  download: EPubDownloader
 };
 
 export { default as CTEPubConstants } from './EPubConstants';

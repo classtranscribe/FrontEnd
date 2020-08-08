@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import { prompt, uurl, CTEpubGenerator } from 'utils';
+import { prompt } from 'utils';
 import EPubData from './EPubData';
 import { epubState } from './EPubState';
 import { epubHistory } from './EPubHistory';
-import { buildHTMLFromChapter } from './html-converters';
 import {
   buildChapter as bch,
   buildSubChapter as bsch,
@@ -342,49 +341,6 @@ class EPubDataController {
     subChapter.text = text;
     this.updateAll('Change the sub-chapter text');
   }
-
-  /// /////////////////////////////////////////////////////////////////////////
-  // handle download
-  /// /////////////////////////////////////////////////////////////////////////
-  createEPubDownloader() {
-    const options = this.data.toObject();
-    options.cover = uurl.getMediaUrl(options.cover);
-    options.chapters = _.map(
-      options.chapters, 
-      chp => ({
-        ...chp,
-        text: buildHTMLFromChapter(chp),
-        // image: uurl.getMediaUrl(chp.image)
-      })
-    );
-    return new CTEpubGenerator(options);
-  }
-
-  handleDownloadError(error) {
-    if (error.message === 'Network Error') {
-      error.message += ': Failed to download cover images.';
-    } else {
-      error.message = `Failed: ${error.message}`;
-    }
-  
-    prompt.addOne({
-      text: error.message,
-      status: 'error',
-      position: 'bottom left',
-    });
-  }
-
-  downloadEPub = () => {
-    this.createEPubDownloader().downloadEpub({ onError: this.handleDownloadError });
-  };
-
-  downloadHTML = () => {
-    this.createEPubDownloader().downloadHTML({ onError: this.handleDownloadError });
-  };
-
-  downloadPDF = (print = true) => {
-    this.createEPubDownloader().preview({ print, onError: this.handleDownloadError });
-  };
 }
 
 export const epubData = new EPubDataController();
