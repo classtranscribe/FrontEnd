@@ -3,7 +3,7 @@ import axios from 'axios';
 import { uurl } from 'utils';
 import EPubData from '../EPubData';
 import { buildHTMLFromChapter } from '../html-converters';
-import { EPubValidationError } from './errors';
+import { EPubValidationError, LoadImageError } from './errors';
 
 export function parseChapters(chapters, replaceSrc = true) {
   return _.map(chapters, (chapter, chIdx) => {
@@ -54,7 +54,7 @@ export function parseChapters(chapters, replaceSrc = true) {
 
 export function parseEPubData(epubData, replaceSrc = true) {
   if (!(epubData instanceof EPubData)) {
-    throw EPubValidationError();
+    throw EPubValidationError;
   }
 
   const data = epubData.toObject();
@@ -65,25 +65,34 @@ export function parseEPubData(epubData, replaceSrc = true) {
 }
 
 export async function loadImagesBuffers({ cover, chapters }) {
-  const coverResp = await axios.get(cover, { responseType: 'arraybuffer' });
+  let coverResp = null;
+  try {
+    coverResp = await axios.get(cover, { responseType: 'arraybuffer' });
+  } catch (error) {
+    throw LoadImageError;
+  }
   const coverBuffer = Buffer.from(coverResp.data);
 
   const images = [];
-  for (let i = 0; i < chapters.length; i += 1) {
-    const ch = chapters[i];
-    if (ch.images) {
-      /* eslint-disable no-await-in-loop */
-      for (let j = 0; j < ch.images.length; j += 1) {
-        const img = ch.images[j];
-
-        const { data } = await axios.get(img.src, { responseType: 'arraybuffer' });
-        images.push({
-          ...img,
-          buffer: Buffer.from(data),
-        });
+  try {
+    for (let i = 0; i < chapters.length; i += 1) {
+      const ch = chapters[i];
+      if (ch.images) {
+        /* eslint-disable no-await-in-loop */
+        for (let j = 0; j < ch.images.length; j += 1) {
+          const img = ch.images[j];
+  
+          const { data } = await axios.get(img.src, { responseType: 'arraybuffer' });
+          images.push({
+            ...img,
+            buffer: Buffer.from(data),
+          });
+        }
+        /* eslint-enable no-await-in-loop */
       }
-      /* eslint-enable no-await-in-loop */
     }
+  } catch (error) {
+    throw LoadImageError;
   }
 
   return {
