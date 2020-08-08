@@ -6,7 +6,6 @@ export { env } from './env';
 export { api } from './cthttp';
 export { user } from './user';
 export { userAction } from './useraction';
-export { CTEpubGenerator } from './epub-gen';
 export { CTSearch, search } from './search';
 export { CTPrompt, prompt } from './prompt';
 export { CTPreference } from './user-preference';
