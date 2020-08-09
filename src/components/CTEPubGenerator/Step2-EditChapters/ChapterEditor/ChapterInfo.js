@@ -28,6 +28,7 @@ function ChapterInfo({
         onSave={onSaveTitle}
         label="Chapter Title"
         placeholder="Chapter Title"
+        bordered
       />
 
       <ChapterImage

@@ -26,7 +26,7 @@ function ImageWrapper({
             <Button 
               uppercase 
               color="white" 
-              icon="add_photo_alternate"
+              icon="image"
               className="ct-epb shadow-btn"
               onClick={onChooseImage}
             >

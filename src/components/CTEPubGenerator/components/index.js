@@ -7,6 +7,7 @@ export { ImagePicker } from './ImagePicker';
 export { EPubMenu } from './EPubMenu';
 export { LanguageMenuTrigger } from './LanguageMenuTrigger';
 export { default as EPubStepper } from './EPubStepper';
+export { default as ChapterEditButton } from './ChapterEditButton';
 export { ChapterTitle } from './ChapterTitle';
 export { ChapterImage } from './ChapterImage';
 export { ChapterText } from './ChapterText';

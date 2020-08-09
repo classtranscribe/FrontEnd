@@ -30,6 +30,7 @@ function SubChapterItem({
         onSave={onSaveTitle}
         label="Sub-Chapter Title"
         placeholder="Sub-Chapter Title"
+        bordered
       />
 
       <ChapterImage

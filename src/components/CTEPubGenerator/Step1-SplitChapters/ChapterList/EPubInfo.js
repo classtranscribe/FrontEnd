@@ -36,7 +36,6 @@ function EPubInfo() {
         onSave={handleOnSave} 
         onSaveButtonText="Done"
         onDelete={handleDelete}
-        withCover
       />
       <CTConfirmation
         open={confirm}
@@ -52,9 +51,8 @@ function EPubInfo() {
         id="ct-epb-cover-img"
         image={uurl.getMediaUrl(epubInfo.cover.value)}
         imageAlt={`Cover for ${epubInfo.title.value}`}
-        screenshots={epubInfo.screenshots} 
-        promptText="Click to Choose cover image"
-        onChooseImage={epubInfo.cover.setValue}
+        screenshots={epubInfo.screenshots}
+        disableDescription
       />
 
       <CTHeading as="h1">{epubInfo.title.value}</CTHeading>

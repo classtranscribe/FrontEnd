@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import cx from 'classnames';
 import { uurl } from 'utils/use-url';
 import { ImagePicker } from '../ImagePicker';
+import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
+import ImageDescription from './ImageDescription';
 import './index.scss';
 
-const NewImageButton = ({ openImagePicker, handleOnKeyDown }) => (
-  <div className="ct-epb ch-text-con">
-    <div
-      className="ct-epb ch-text clickable"
-      tabIndex={0}
-      onClick={openImagePicker}
-      onKeyDown={handleOnKeyDown}
-      role="button"
-    >
-      <div className="text-muted">Click to insert images</div>
-    </div>
-  </div>
+const NewImageButton = ({ onClick }) => (
+  <ChapterEditButton muted onClick={onClick}>
+    Click to insert images
+  </ChapterEditButton>
 );
 
 export function ChapterImage({
   id,
   image = '',
   imageAlt = '',
+  disableDescription,
   screenshots = [],
   chapterScreenshots = [],
   onChooseImage,
-  onRemoveImage
+  onRemoveImage,
+  onChangeImageAlt,
+  onChangeImageDescription
 }) {
   const [pickImg, setPickImage] = useState(false);
 
@@ -40,35 +38,35 @@ export function ChapterImage({
     closeImagePicker();
   };
 
-  const handleOnKeyDown = ({ keyCode }) => {
-    if (keyCode === 13 || keyCode === 32) {
-      openImagePicker();
-    }
-  };
-
   useEffect(() => {
     if (pickImg) {
       setPickImage(false);
     }
   }, [image]);
 
+  const imgConClasses = cx('ct-epb', 'ch-img-con');
+
   return (
     <>
       {image ? (
-        <div id={id} className="ct-epb ch-img-con">
-          <img src={uurl.getMediaUrl(image)} alt="Cover" />
-          <ImageWrapper 
-            id={id} 
-            imageAlt={imageAlt}
-            onChooseImage={openImagePicker} 
-            onRemoveImage={onRemoveImage}
-          />
+        <div id={id} className={imgConClasses}>
+          <div className="ct-epb ch-img">
+            <img src={uurl.getMediaUrl(image)} alt={imageAlt} />
+            <ImageWrapper 
+              id={id} 
+              imageAlt={imageAlt}
+              onChooseImage={openImagePicker} 
+              onRemoveImage={onRemoveImage}
+            />
+          </div>
+          {
+            !disableDescription
+            &&
+            <ImageDescription id={id} description="" />
+          }
         </div>
       ) : (
-        <NewImageButton 
-          openImagePicker={openImagePicker} 
-          handleOnKeyDown={handleOnKeyDown}
-        />
+        <NewImageButton onClick={openImagePicker} />
       )}
 
       <ImagePicker
