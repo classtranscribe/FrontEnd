@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { Languages } from '../../CTPlayer';
-import { buildMarkdownFromItems } from './html-converters';
+import { buildMDFromItems } from './html-converters';
 
 export function buildID(preflix, id) {
   return (preflix ? `${preflix}=` : '') + (id || uuid());
@@ -15,6 +15,25 @@ function createChapterTitle() {
         : ''}`;
 }
 
+export function findChapterTimeSpan(chapterLike) {
+  const { items, subChapters } = chapterLike;
+  let start = '00:00:00';
+  let end = '00:00:00';
+  if (items.length > 0) {
+    start = items[0].start;
+  } else if (subChapters && subChapters.length > 0) {
+    start = subChapters[0].start;
+  }
+
+  if (subChapters && subChapters.length > 0) {
+    end = subChapters[subChapters.length - 1].end;
+  } else if (items.length > 0) {
+    end = items[items.length - 1].end;
+  }
+
+  return { start, end };
+}
+
 export function buildChapter(chapterLike, resetText = true) {
   const {
     id,
@@ -25,22 +44,14 @@ export function buildChapter(chapterLike, resetText = true) {
     subChapters = []
   } = chapterLike;
 
-  let start = '';
-  let end = '';
-  if (items.length > 0) {
-    start = items[0].start;
-    end = items[items.length - 1].end;
-  } else {
-    start = subChapters[0].start;
-    end = subChapters[subChapters.length - 1].end;
-  }
+  const { start, end } = findChapterTimeSpan(chapterLike);
 
   return {
     id: id || buildID(),
     items,
     title: title || createChapterTitle(),
     image: resetText ? (items[0] ? items[0].image : '') : image,
-    text: resetText ? buildMarkdownFromItems(items) : text,
+    text: resetText ? buildMDFromItems(items) : text,
     subChapters,
     start,
     end
@@ -61,7 +72,7 @@ export function buildSubChapter(subChapterLike, resetText = true) {
     items: Array.isArray(items) ? items : [],
     title: title || 'Untitled Sub-Chapter',
     image: resetText ? items[0].image : image,
-    text: resetText ? buildMarkdownFromItems(items) : text,
+    text: resetText ? buildMDFromItems(items) : text,
     start: items[0].start,
     end: items[items.length - 1].end
   };

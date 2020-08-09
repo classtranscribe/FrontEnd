@@ -54,6 +54,7 @@ function EPubInfoForm({
           <ChapterImage
             id="ee-dl-tb-cover"
             image={cover.value}
+            imageAlt={`Cover for ${title.value}`}
             screenshots={screenshots}
             onChooseImage={cover.setValue}
           />
@@ -63,6 +64,7 @@ function EPubInfoForm({
       <CTFormHeading padding="0">ePub Information</CTFormHeading>
       <CTFormRow>
         <CTInput
+          id="ct-epb-author-title"
           required // underlined
           label="ePub Title"
           placeholder="ePub title"
@@ -73,6 +75,7 @@ function EPubInfoForm({
 
       <CTFormRow>
         <CTInput
+          id="ct-epb-author-filename"
           required // underlined
           label="Filename"
           placeholder="Filename"
@@ -83,6 +86,7 @@ function EPubInfoForm({
 
       <CTFormRow>
         <CTInput
+          id="ct-epb-author-input"
           required // underlined
           label="Author / Instructor"
           placeholder="Author"

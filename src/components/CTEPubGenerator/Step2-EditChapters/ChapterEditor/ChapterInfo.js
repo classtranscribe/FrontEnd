@@ -33,6 +33,7 @@ function ChapterInfo({
       <ChapterImage
         id={epub.const.chImgID(id)}
         image={image}
+        imageAlt={title}
         screenshots={screenshots}
         chapterScreenshots={chapterScreenshots}
         onChooseImage={onChooseImage}

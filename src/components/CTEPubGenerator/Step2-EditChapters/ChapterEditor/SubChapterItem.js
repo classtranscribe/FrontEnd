@@ -20,7 +20,7 @@ function SubChapterItem({
   const onRemoveImage = () => epub.data.removeSubChapterImage(subChapterIndex);
 
   const onSaveText = (newText) => epub.data.saveSubChapterText(subChapterIndex, newText);
-
+  
   return (
     <CTFragment id={epub.const.schID(id)}>
       <ChapterTitle
@@ -35,6 +35,7 @@ function SubChapterItem({
       <ChapterImage
         id={epub.const.schImgID(id)}
         image={image}
+        imageAlt={title}
         screenshots={screenshots}
         chapterScreenshots={chapterScreenshots}
         onChooseImage={onChooseImage}

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { html, uurl } from 'utils';
 
-export function buildMarkdownFromItems(items) {
+export function buildMDFromItems(items) {
   const subTitle = items.length > 0 ? '\n#### Transcript\n\n' : '';
 
   return subTitle + _.map(items, (item) => _.trim(item.text)).join('\n\n');
@@ -9,7 +9,7 @@ export function buildMarkdownFromItems(items) {
 
 export function buildMDFromChapter({ id, items, text, subChapters, image, title }) {
   /*eslint-disable */
-  const content = text || buildMarkdownFromItems(items);
+  const content = text || buildMDFromItems(items);
 
   const chapterHTML = `\n\n<h2 data-ch id="${id}">${title}</h2>\n\n`
                     + (image ? `![Screenshot](${uurl.getMediaUrl(image)})\n\n` : '')
