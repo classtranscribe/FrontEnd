@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import EPubData from '../EPubData';
-import { loadImageBuffer } from './utils';
+import EPubParser from './EPubParser';
 
 class ScreenshotsBuilder {
   /**
@@ -28,7 +28,7 @@ class ScreenshotsBuilder {
     const images = this.screenshots;
     /* eslint-disable no-await-in-loop */
     for (let i = 0; i < images.length; i += 1) {
-      let data = await loadImageBuffer(images[i]);
+      let data = await EPubParser.loadImageBuffer(images[i]);
       this.zip.addFile(`image-${i + 1}.jpeg`, data);
     }
     /* eslint-enable no-await-in-loop */

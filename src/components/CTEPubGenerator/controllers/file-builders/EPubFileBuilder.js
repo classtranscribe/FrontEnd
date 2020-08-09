@@ -2,7 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import EPubData from '../EPubData';
-import { loadEPubImageBuffers, parseEPubData } from './utils';
+import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS } from './file-templates/styles';
 import {
   MIMETYPE,
@@ -24,7 +24,7 @@ class EPubFileBuilder {
    */
   constructor(ePubData) {
     this.zip = new AdmZip();
-    this.data = parseEPubData(ePubData);
+    this.data = EPubParser.parse(ePubData);
   }
 
   /**
@@ -40,7 +40,8 @@ class EPubFileBuilder {
 
   async insertImagesToZip() {
     const { cover, chapters } = this.data;
-    const { coverBuffer, images } = await loadEPubImageBuffers({ chapters, cover });
+    const { coverBuffer, images } = 
+      await EPubParser.loadEPubImageBuffers({ chapters, cover });
 
     this.zip.addFile(`OEBPS/cover.jpeg`, coverBuffer);
     _.forEach(images, (img) => {
