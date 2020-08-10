@@ -23,7 +23,7 @@ class EPubParser {
     }
 
     const data = epubData.toObject();
-    data.cover = uurl.getMediaUrl(data.cover);
+    data.cover.src = uurl.getMediaUrl(data.cover.src);
     data.chapters = this.parseChapters(data.chapters, replaceImageSrc);
     this.data = data;
   }
@@ -54,7 +54,7 @@ class EPubParser {
   }
 
   static async loadEPubImageBuffers({ cover, chapters }) {
-    const coverBuffer = await EPubParser.loadImageBuffer(cover);
+    const coverBuffer = await EPubParser.loadImageBuffer(cover.src);
   
     const images = [];
     for (let i = 0; i < chapters.length; i += 1) {
