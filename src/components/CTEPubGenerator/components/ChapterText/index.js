@@ -73,6 +73,7 @@ export function ChapterText({
               onClick={startEditing} 
               muted={!isNotEmpty} 
               attached={attached}
+              data-empty={isNotEmpty}
             >
               {isNotEmpty ? <MDPreviewer value={text} /> : addNewText}
             </ChapterEditButton>

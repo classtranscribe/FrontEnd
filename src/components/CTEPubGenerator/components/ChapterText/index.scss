@@ -4,5 +4,11 @@
 
   &.attached {
     margin: 0;
+    
+    .ct-epb.clickable.bordered[data-empty=true] {
+      padding-top: 0;
+      color: rgb(85, 85, 85);
+      // text-align: center;
+    }
   }
 }

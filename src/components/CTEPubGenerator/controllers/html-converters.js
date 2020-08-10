@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { html, uurl } from 'utils';
+import { buildID } from './utils';
 
 export function buildMDFromItems(items) {
   if (!items || items.length === 0) return '';
@@ -11,7 +12,20 @@ export function buildMDFromItems(items) {
 
 export function buildMDFromContent(content) {
   if (typeof content === 'string') return content;
-  return `![${content.alt}](${uurl.getMediaUrl(content.src)})`;
+  if (_.trim(content.description)) {
+    let despId = buildID();
+    return [
+      '<div class="img-block">',
+      `\t<img src="${uurl.getMediaUrl(content.src)}" alt="${content.alt}" aria-describedby="${despId}" />`,
+      `\t<div id="${despId}">${html.markdown(content.description)}</div>`,
+      '</div>'
+    ].join('\n');
+  } 
+    return [
+      '<div class="img-block">',
+      `\t<img src="${uurl.getMediaUrl(content.src)}" alt="${content.alt}" />`,
+      '</div>'
+    ].join('\n');
 }
 
 export function buildMDFromSubChapter({ id, title, contents }) {

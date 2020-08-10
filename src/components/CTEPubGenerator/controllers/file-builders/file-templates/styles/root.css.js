@@ -69,6 +69,16 @@ const RootCSS = `
 #root thead {
   background-color: rgb(240, 240, 240);
 }
+
+#root .img-block p {
+  // text-align: center;
+  color: grey;
+  margin-top: 0;
+}
+
+#root .img-block img {
+  margin-bottom: 5px;
+}
 `;
 
 export default RootCSS;
