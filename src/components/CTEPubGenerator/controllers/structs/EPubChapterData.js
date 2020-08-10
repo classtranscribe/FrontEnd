@@ -1,5 +1,5 @@
-import EPubChapterLike from './EPubChapterLike';
-import EPubSubChapter from './EPubSubChapter';
+import EPubChapterDataLike from './EPubChapterDataLike';
+import EPubSubChapterData from './EPubSubChapterData';
 
 let untitledChapterNum = -1;
 function _createChapterTitle() {
@@ -8,8 +8,8 @@ function _createChapterTitle() {
   return `Untitled Chapter${chapterNum}`;
 }
 
-class EPubChapter extends EPubChapterLike {
-  constructor(chapterLike, resetText) {
+class EPubChapterData extends EPubChapterDataLike {
+  constructor(chapterLike, resetText = true) {
     super(chapterLike, resetText, _createChapterTitle);
     const { subChapters = [] } = chapterLike;
     this.subChapters = subChapters;
@@ -25,10 +25,10 @@ class EPubChapter extends EPubChapterLike {
   }
 
   /**
-   * @returns {EPubSubChapter[]}
+   * @returns {EPubSubChapterData[]}
    */
   get subChapters() {
-    return this.__data__.id;
+    return this.__data__.subChapters;
   }
 
   set subChapters(subChapters) {
@@ -36,4 +36,4 @@ class EPubChapter extends EPubChapterLike {
   }
 }
 
-export default EPubChapter;
+export default EPubChapterData;

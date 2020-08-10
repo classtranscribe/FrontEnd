@@ -1,3 +1,4 @@
-export { default as EPubImage } from './EPubImage';
-export { default as EPubChapter } from './EPubChapter';
-export { default as EPubSubChapter } from './EPubSubChapter';
+export { default as EPubImageData } from './EPubImageData';
+export { default as EPubChapterData } from './EPubChapterData';
+export { default as EPubSubChapterData } from './EPubSubChapterData';
+export { default as EPubData, EPubDataValidationError } from './EPubData';

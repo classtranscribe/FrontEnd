@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
-import EPubData from '../EPubData';
+import { EPubData } from '../structs';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS } from './file-templates/styles';
 import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS } from './file-templates/html';

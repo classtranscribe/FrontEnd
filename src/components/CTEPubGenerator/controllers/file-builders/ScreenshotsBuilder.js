@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
-import EPubData from '../EPubData';
+import { EPubData } from '../structs';
 import EPubParser from './EPubParser';
 
 class ScreenshotsBuilder {

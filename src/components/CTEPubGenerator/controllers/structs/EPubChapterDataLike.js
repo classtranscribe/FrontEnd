@@ -1,16 +1,24 @@
 import _ from 'lodash';
-import timestr from 'utils/use-time';
+import { timestr, uurl } from 'utils';
 import { findChapterTimeSpan, buildID } from '../utils';
 import { buildMDFromItems } from '../html-converters';
-import EPubImage from './EPubImage';
+import EPubImageData from './EPubImageData';
 
 function _buildContentsFromItems(items) {
-  const image = items[0] ? items[0].image : '';
+  const content = [];
+  if (items[0]) {
+    content.push(new EPubImageData(items[0].image));
+  }
+
   const text = buildMDFromItems(items);
-  return [image, text];
+  if (_.trim(text)) {
+    content.push(text);
+  }
+
+  return content;
 }
 
-class EPubChapterLike {
+class EPubChapterDataLike {
   __data__ = {
     id: '',
     title: '',
@@ -42,6 +50,10 @@ class EPubChapterLike {
       items,
       contents: resetText ? _buildContentsFromItems(items) : contents
     };
+  }
+
+  toShallowObject() {
+    return { ...this.__data__ };
   }
 
   /**
@@ -118,7 +130,7 @@ class EPubChapterLike {
   }
 
   /**
-   * @returns {[String|EPubImage]}
+   * @returns {[String|EPubImageData]}
    */
   get contents() {
     return this.__data__.contents;
@@ -129,7 +141,7 @@ class EPubChapterLike {
   }
 
   contentToObject(content) {
-    return content instanceof EPubImage ? content.toObject() : content;
+    return content instanceof EPubImageData ? content.toObject() : content;
   }
 
   contentsToObject() {
@@ -139,7 +151,7 @@ class EPubChapterLike {
   /**
    * 
    * @param {Number} index 
-   * @returns {String|EPubImage} content at index
+   * @returns {String|EPubImageData} content at index
    */
   getContent(index) {
     return this.contents[index];
@@ -148,7 +160,7 @@ class EPubChapterLike {
   /**
    * 
    * @param {Number} index 
-   * @param {String|EPubImage} content 
+   * @param {String|EPubImageData} content 
    */
   setContent(index, content) {
     this.contents[index] = content;
@@ -156,7 +168,7 @@ class EPubChapterLike {
 
   /**
    * 
-   * @returns {String|EPubImage} content at index
+   * @returns {String|EPubImageData} content at index
    */
   get last() {
     return this.getContent(this.contents.length - 1);
@@ -164,11 +176,49 @@ class EPubChapterLike {
 
   /**
    * 
-   * @param {String|EPubImage} content 
+   * @param {String|EPubImageData} content 
    */
   push(content) {
     this.contents.push(content)
   }
+
+  pushImage(imageLike) {
+    this.push(new EPubImageData(imageLike));
+  }
+
+  /**
+   * @param {Number} index
+   * @param {String|EPubImageData} content 
+   */
+  insert(index, content) {
+    this.contents = [
+      ...this.contents.slice(0, index),
+      content,
+      ...this.contents.slice(index)
+    ];
+  }
+
+  insertImage(imageLike) {
+    this.insert(new EPubImageData(imageLike))
+  }
+
+  /**
+   * 
+   * @param {Number|String|EPubImageData} predictor 
+   */
+  remove(predictor) {
+    if (typeof predictor === 'number') {
+      if (predictor >= 0 && predictor < this.contents.length) {
+        this.contents = [
+          ...this.contents.slice(0, predictor),
+          ...this.contents.slice(predictor + 1)
+        ];
+      }
+    } else {
+      let currIndex = _.findIndex(this.contents, (val) => val === predictor);
+      this.remove(currIndex);
+    }
+  }
 }
 
-export default EPubChapterLike;
+export default EPubChapterDataLike;

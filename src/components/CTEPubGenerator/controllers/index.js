@@ -23,6 +23,6 @@ export const epub = {
 };
 
 export { default as CTEPubConstants } from './EPubConstants';
-export { default as CTEPubData } from './EPubData';
+export * from './structs';
 export * from './utils';
 export * from './html-converters';

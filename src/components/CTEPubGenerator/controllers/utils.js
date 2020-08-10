@@ -1,25 +1,17 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { Languages } from '../../CTPlayer';
-import { buildMDFromItems } from './html-converters';
+import { EPubChapterData } from './structs';
 
 export function buildID(preflix, id) {
   return (preflix ? `${preflix}=` : '') + (id || uuid());
-}
-
-let untitledChapterNum = -1;
-function createChapterTitle() {
-  untitledChapterNum += 1;
-  return `Untitled Chapter${untitledChapterNum > 0 
-        ? ` (${untitledChapterNum})`
-        : ''}`;
 }
 
 export function findChapterTimeSpan(chapterLike) {
   const { items, subChapters } = chapterLike;
   let start = '00:00:00';
   let end = '00:00:00';
-  if (items.length > 0) {
+  if (items && items.length > 0) {
     start = items[0].start;
   } else if (subChapters && subChapters.length > 0) {
     start = subChapters[0].start;
@@ -27,59 +19,11 @@ export function findChapterTimeSpan(chapterLike) {
 
   if (subChapters && subChapters.length > 0) {
     end = subChapters[subChapters.length - 1].end;
-  } else if (items.length > 0) {
+  } else if (items && items.length > 0) {
     end = items[items.length - 1].end;
   }
 
   return { start, end };
-}
-
-export function buildChapter(chapterLike, resetText = true) {
-  const {
-    id,
-    items = [],
-    title,
-    image,
-    text,
-    subChapters = []
-  } = chapterLike;
-
-  const { start, end } = findChapterTimeSpan(chapterLike);
-
-  return {
-    id: id || buildID(),
-    items,
-    title: title || createChapterTitle(),
-    image: resetText ? (items[0] ? items[0].image : '') : image,
-    text: resetText ? buildMDFromItems(items) : text,
-    subChapters,
-    start,
-    end
-  };
-}
-
-export function buildSubChapter(subChapterLike, resetText = true) {
-  const {
-    id,
-    title,
-    items,
-    image,
-    text
-  } = subChapterLike;
-
-  return {
-    id: id || buildID(),
-    items: Array.isArray(items) ? items : [],
-    title: title || 'Untitled Sub-Chapter',
-    image: resetText ? items[0].image : image,
-    text: resetText ? buildMDFromItems(items) : text,
-    start: items[0].start,
-    end: items[items.length - 1].end
-  };
-}
-
-export function buildEPubChapterFromRaw(rawChapter) {
-  return buildChapter(rawChapter);
 }
 
 export function filterTrivalItems(epubData) {
@@ -90,19 +34,23 @@ export function parseRawEPubData(rawEPubData) {
   return _.map(filterTrivalItems(rawEPubData), item => ({ ...item, id: buildID() }));
 }
 
-export function buildEPubDataFromArray(epubData) {
+export function buildEPubDataFromArray(rawEPubData) {
   return [
-    buildChapter({
-      items: filterTrivalItems(epubData),
+    new EPubChapterData({
+      items: _.cloneDeep(rawEPubData),
       title: 'Default Chapter',
     })
   ];
 }
 
+/**
+ * 
+ * @param {EPubChapterData} chapter 
+ */
 export function getAllItemsInChapter(chapter) {
   return _.flatten([
     chapter.items,
-    ..._.map(chapter.subChapters || [], (subChapter) => subChapter.items),
+    ..._.map(chapter.subChapters, (subChapter) => subChapter.items),
   ]);
 }
 
@@ -121,8 +69,8 @@ export function getAllImagesInChapters(chapters) {
 
 export function getCompactText(chapter) {
   return _.map(getAllItemsInChapter(chapter), (item) => item.text)
-    .filter((txt) => txt !== '')
-    .join('. ')
+    // .filter((txt) => txt !== '')
+    // .join('. ')
     // .slice(0, 200);
 }
 

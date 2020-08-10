@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
-import EPubData from '../EPubData';
+import { EPubData } from '../structs';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS } from './file-templates/styles';
 import {

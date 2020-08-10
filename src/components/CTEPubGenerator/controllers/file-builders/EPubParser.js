@@ -1,17 +1,12 @@
 import _ from 'lodash';
 import { uurl, api, CTError } from 'utils';
-import EPubData from '../EPubData';
+import { EPubData, EPubDataValidationError } from '../structs';
 import { buildHTMLFromChapter } from '../html-converters';
 
 /**
  * The error which occurred while loading the images for an ePub
  */
 export const LoadImageError = new CTError('LoadImageError', 'Failed to load images.');
-
-/**
- * The error which occurred when the required information for creating an ePub file is invalid
- */
-export const EPubValidationError = new CTError('EPubValidationError', 'Invalid ePub data.');
 
 /**
  * EPubData parser for file builders
@@ -24,7 +19,7 @@ class EPubParser {
    */
   constructor(epubData, replaceImageSrc) {
     if (!(epubData instanceof EPubData)) {
-      throw EPubValidationError;
+      throw EPubDataValidationError;
     }
 
     const data = epubData.toObject();

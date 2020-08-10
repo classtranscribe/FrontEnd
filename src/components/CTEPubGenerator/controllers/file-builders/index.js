@@ -1,4 +1,4 @@
-export { EPubValidationError, LoadImageError } from './EPubParser';
+export { LoadImageError } from './EPubParser';
 
 export { default as HTMLFileBuilder } from './HTMLFileBuilder';
 export { default as EPubFileBuilder } from './EPubFileBuilder';

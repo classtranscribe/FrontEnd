@@ -1,18 +1,36 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { Languages } from '../../CTPlayer';
-import { 
-  buildEPubDataFromArray, 
-  buildChapter, 
-  buildSubChapter, 
+import CTError from 'utils/use-error';
+import { Languages } from 'components/CTPlayer';
+import {
+  buildEPubDataFromArray,
   getAllImagesInChapters 
-} from './utils';
+} from '../utils';
+import EPubChapterData from './EPubChapterData';
+import EPubSubChapterData from './EPubSubChapterData';
+
+/**
+ * The error which occurred when the required information 
+ * for creating an ePub file is invalid
+ */
+export const EPubDataValidationError = 
+  new CTError('EPubDataValidationError', 'Invalid ePub data.');
 
 /**
  * The class for an ePub data
  */
 export default class EPubData {
-  __data__ = require('./epub-data.json');
+  __data__ = {
+    id: '',
+    title: '',
+    filename: '',
+    language: 'en-US',
+    author: 'Anonymous',
+    publisher: 'ClassTranscribe',
+    cover: '',
+    chapters: []
+  };
+
   images = [];
 
   /**
@@ -37,7 +55,7 @@ export default class EPubData {
     }
 
     else {
-      throw Error('Invalid ePub data');
+      throw EPubDataValidationError;
     }
 
     // create an id if there's no id in the epub data
@@ -46,17 +64,11 @@ export default class EPubData {
     }
 
     // setup default values
+
     this.images = getAllImagesInChapters(this.chapters);
+
     if (!this.cover && this.images.length > 0) {
       this.cover = this.images[0];
-    }
-
-    if (!this.author) {
-      this.author = 'Anonymous';
-    }
-
-    if (!this.language) {
-      this.language = 'en-US';
     }
   }
 
@@ -130,14 +142,17 @@ export default class EPubData {
   }
 
   /**
-   * @returns {Any[]}
+   * @returns {EPubChapterData[]}
    */
   get chapters() {
     return this.__data__.chapters;
   }
 
   toObject() {
-    return _.cloneDeep(this.__data__);;
+    return {
+      ...this.__data__,
+      chapters: this.chapters.map(chapter => chapter.toObject())
+    };
   }
 
   getChapter(chapterIndex) {
@@ -159,7 +174,7 @@ export default class EPubData {
     // update the subchapter item
     if (chapters[chapterIndex]) {
       let toBuild = chapterLike || chapters[chapterIndex];
-      chapters[chapterIndex] = buildChapter(toBuild, resetText);
+      chapters[chapterIndex] = new EPubChapterData(toBuild, resetText);
     }
   }
 
@@ -172,14 +187,14 @@ export default class EPubData {
       // update the subchapter item
       if (subChapters[subChapterIndex]) {
         let toBuild = subChapterLike || subChapters[subChapterIndex];
-        subChapters[subChapterIndex] = buildSubChapter(toBuild, resetText);
+        subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText);
       }
     }
   }
 
   insertChapter(index, chapterLike) {
     const chapters = this.chapters;
-    let newChapter = buildChapter(chapterLike);
+    let newChapter = new EPubChapterData(chapterLike);
 
     this.chapters = [
       ...chapters.slice(0, index),
@@ -191,7 +206,7 @@ export default class EPubData {
   }
 
   insertSubChapter(chapterIndex, subChapterIndex, subChapterLike) {
-    let newSubChapter = buildSubChapter(subChapterLike);
+    let newSubChapter = new EPubSubChapterData(subChapterLike);
     let chapter = this.getChapter(chapterIndex);
     chapter.subChapters = [
       ...chapter.subChapters.slice(0, subChapterIndex),

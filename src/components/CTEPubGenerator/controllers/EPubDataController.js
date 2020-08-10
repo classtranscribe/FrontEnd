@@ -1,15 +1,14 @@
 import _ from 'lodash';
 import { prompt } from 'utils';
-import EPubData from './EPubData';
+import { EPubData , EPubChapterData, EPubSubChapterData } from './structs';
 import { epubState } from './EPubState';
 import { epubHistory } from './EPubHistory';
 import {
-  buildChapter as bch,
-  buildSubChapter as bsch,
   filterTrivalItems,
   buildEPubDataFromArray,
   getAllItemsInChapter,
 } from './utils';
+
 
 /**
  * The controller for handling the ePub data
@@ -100,8 +99,11 @@ class EPubDataController {
     // otherwise, convert itself as a sub chapter 
     // and append to the prev chapter.subChapters along w/ its sub chapters
     else {
-      prevChp.subChapters = 
-        _.concat(prevChp.subChapters, bsch(currChp), currChp.subChapters);
+      prevChp.subChapters = _.concat(
+        prevChp.subChapters, 
+        new EPubSubChapterData(currChp), 
+        currChp.subChapters
+      );
     }
 
     this.data.rebuildChapter(chapterIdx - 1, null, false);
@@ -218,7 +220,7 @@ class EPubDataController {
     // create a new chp w/ items after itemIdx of this subChapter.items
     // and sub chps of the rest of curr chp
     this.data.insertChapter(chapterIdx + 1, {
-      ...subChapter,
+      ...subChapter.toShallowObject(),
       image: undefined,
       subChapters: _.slice(chapter.subChapters, subChapterIdx + 1)
     });
@@ -249,7 +251,7 @@ class EPubDataController {
     let splitChapters = _.map(
       filterTrivalItems(epubState.rawEPubData),
       (data, idx) =>
-        bch({
+        new EPubChapterData({
           items: [data],
           title: `Untitled Chapter ${idx + 1}`,
         }),
@@ -268,14 +270,14 @@ class EPubDataController {
       let items = getAllItemsInChapter(chapter);
 
       chapter.subChapters = _.map(items, (item, subChapterIndex) =>
-        bsch({
+        new EPubSubChapterData({
           items: [item],
           title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
         }),
       );
 
       chapter.items = [];
-      return bch(chapter);
+      return new EPubChapterData(chapter);
     });
 
     this.data.chapters = newChapters;

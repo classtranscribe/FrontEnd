@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { api, prompt, uurl, ARRAY_INIT, isDeveloping } from 'utils';
 import { Languages } from '../../CTPlayer';
 import Constants from './EPubConstants';
-import EPubData from './EPubData';
+import { EPubData } from './structs';
 import { epubState } from './EPubState';
 import { parseRawEPubData } from './utils';
 
@@ -98,9 +98,9 @@ class EPubListController {
     epubState.setEPubs(epubs);
 
     // For Test Only
-    // if (isDeveloping) {
-    //   await this.createEPub(Languages.English);
-    // }
+    if (isDeveloping) {
+      await this.createEPub(Languages.English);
+    }
   }
 
   async createEPub(language) {

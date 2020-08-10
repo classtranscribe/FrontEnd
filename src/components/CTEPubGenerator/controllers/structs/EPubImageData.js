@@ -1,12 +1,14 @@
-class EPubImage {
+class EPubImageData {
   __data__ = {
     src: '',
-    alt: '',
+    alt: 'Video screenshot',
     description: ''
   };
   
   constructor(imageLike) {
-    if (typeof imageLike === 'string') {
+    if (imageLike instanceof EPubImageData) {
+      this.__data__ = { ...imageLike.__data__ };
+    } else if (typeof imageLike === 'string') {
       this.src = imageLike;
     } else {
       this.src = imageLike.src;
@@ -44,4 +46,4 @@ class EPubImage {
   }
 }
 
-export default EPubImage;
+export default EPubImageData;

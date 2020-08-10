@@ -2,32 +2,31 @@ import _ from 'lodash';
 import { html, uurl } from 'utils';
 
 export function buildMDFromItems(items) {
-  const subTitle = items.length > 0 ? '\n#### Transcript\n\n' : '';
-
-  return subTitle + _.map(items, (item) => _.trim(item.text)).join('\n\n');
+  if (!items || items.length === 0) return '';
+  return `\n#### Transcript\n\n${ 
+         _.map(items, (item) => _.trim(item.text)).join('\n\n')}`;
 }
 
-export function buildMDFromChapter({ id, items, text, subChapters, image, title }) {
-  /*eslint-disable */
-  const content = text || buildMDFromItems(items);
+export function buildMDFromContent(content) {
+  if (typeof content === 'string') return content;
+  return `![${content.alt}](${uurl.getMediaUrl(content.src)})`;
+}
 
-  const chapterHTML = `\n\n<h2 data-ch id="${id}">${title}</h2>\n\n`
-                    + (image ? `![Screenshot](${uurl.getMediaUrl(image)})\n\n` : '')
-                    + content + '\n\n';
+export function buildMDFromSubChapter({ id, title, contents }) {
+  let mdString = `<!-- Sub-Chapter -->\n<h3 data-sub-ch id="${id}">${title}</h3>\n\n`;
+  mdString += _.map(contents, buildMDFromContent).join('\n\n');
 
-  const subChapterHTML = _.reduce(
-    subChapters,
-    (subHtml, subChapter, index) =>
-      `${subHtml}\n\n<!-- Sub-chapter ${index + 1} -->\n` 
-      + `<h3 data-sub-ch id="${subChapter.id}">${subChapter.title}</h3>\n\n`
-      + (subChapter.image ? `![Screenshot](${uurl.getMediaUrl(subChapter.image)})\n` : '')
-      + subChapter.text
-    ,
-    '\n',
-  );
-  /*eslint eqeqeq:0*/
+  return `${mdString }\n`;
+}
 
-  return chapterHTML + subChapterHTML;
+export function buildMDFromChapter({ id, contents, text, subChapters, image, title }) {
+  let mdString = [
+    `<!-- Chapter -->\n<h2 data-ch id="${id}">${title}</h2>`,
+    _.map(contents, buildMDFromContent).join('\n\n'),
+    _.map(subChapters, buildMDFromSubChapter).join('\n\n')
+  ].join('\n\n\n');
+
+  return mdString;
 }
 
 export function buildMDFromChapters(chapters) {
