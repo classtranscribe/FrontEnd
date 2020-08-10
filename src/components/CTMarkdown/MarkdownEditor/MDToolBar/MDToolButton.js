@@ -28,6 +28,7 @@ function MDToolButton({
             icon={icon}
             color={color}
             onClick={onClick}
+            aria-label={popup}
           >
             {children}
           </Button>

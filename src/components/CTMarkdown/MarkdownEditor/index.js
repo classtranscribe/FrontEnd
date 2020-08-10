@@ -36,6 +36,7 @@ function MarkdownEditor(props) {
   };
 
   const onLoad = (ace_) => {
+    ace_.selection.selectAll();
     setAce(ace_);
   };
 

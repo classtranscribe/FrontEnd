@@ -104,6 +104,11 @@ export function insertLink(ace) {
   focus(ace);
 }
 
+export function insertMathCodeBlock(ace) {
+  setOuterText(ace, '\n```latex\n\n', '```\n');
+  focus(ace);
+}
+
 export function insertImgae(ace, image) {
   const { selection, session } = ace;
   const { cursor, doc, anchor } = selection;
