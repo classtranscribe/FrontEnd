@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
+import { CTText, CTFragment } from 'layout';
 
 function ActionButtonGroup(props) {
   const { onSave, onClose } = props;
 
   return (
-    <div className="ct-md-act-btns-con">
+    <CTFragment vCenter hBetween className="ct-md-act-btns-con">
+      <CTText padding={[0, 20]}><b>cmd + s</b> to save the changes</CTText>
+
       <Button.Group>
         <Button
           classNames="ct-md-act-btn"
@@ -22,7 +25,7 @@ function ActionButtonGroup(props) {
           onClick={onClose}
         />
       </Button.Group>
-    </div>
+    </CTFragment>
   );
 }
 

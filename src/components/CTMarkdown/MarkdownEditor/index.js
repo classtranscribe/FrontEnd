@@ -53,6 +53,8 @@ function MarkdownEditor(props) {
     setPreview(null);
   };
 
+  const handleKeyDown = getAceShortcutHandler(ace, handleSave, onClose);
+
   useEffect(() => {
     if (!isPreview && ace) {
       ace.textInput.focus();
@@ -83,7 +85,7 @@ function MarkdownEditor(props) {
 
   return (
     <div className={cx('ct-md-editor-con', attached)}>
-      <div className="ct-md-editor" onKeyDown={getAceShortcutHandler(ace)}>
+      <div className="ct-md-editor" onKeyDown={handleKeyDown}>
         <MDToolBar {...toolBarProps} />
 
         <div data-scroll className="ct-md-editor-preview" style={{ height }}>
