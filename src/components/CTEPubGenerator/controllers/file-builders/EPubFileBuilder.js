@@ -3,7 +3,7 @@ import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import { EPubData } from '../structs';
 import EPubParser from './EPubParser';
-import { KATEX_MIN_CSS } from './file-templates/styles';
+import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   MIMETYPE,
   META_INF_CONTAINER_XML,
@@ -169,6 +169,8 @@ class EPubFileBuilder {
     zip.addFile('OEBPS/style.css', Buffer.from(OEBPS_STYLE_CSS));
     // OEBPS/katex.min.css
     zip.addFile('OEBPS/katex.min.css', Buffer.from(KATEX_MIN_CSS));
+    // OEBPS/prism.css
+    zip.addFile('OEBPS/prism.css', Buffer.from(PRISM_CSS));
 
     // OEBPS/toc.ncx
     const toxNCX = this.getTocNCX(title, author, chapters);

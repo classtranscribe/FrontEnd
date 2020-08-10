@@ -1,4 +1,7 @@
-import StyleCSS from './style.css.js';
+import raw from 'raw.macro';
+import { ROOT_CSS, PRISM_CSS } from '../styles';
+
+export const STYLE_CSS = raw('./style.css') + ROOT_CSS;
 
 export default ({
   title = '',
@@ -17,10 +20,8 @@ export default ({
           href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" 
           integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" 
           crossorigin="anonymous">
-
-    <style>
-      ${StyleCSS.split('\n').join('\n\t\t\t')}
-    </style>
+    <style>${PRISM_CSS}</style>
+    <style>${STYLE_CSS}</style>
   </head>
   <body ${print ? 'onload="window.print()"' : ''}>
     <div id="root" role="main">

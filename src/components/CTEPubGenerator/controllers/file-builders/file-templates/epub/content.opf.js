@@ -52,6 +52,7 @@ export default ({
         <item id="toc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>
         <item id="style" href="style.css" media-type="text/css" />
         <item id="katex" href="katex.min.css" media-type="text/css" />
+        <item id="prism" href="prism.css" media-type="text/css" />
 
         <item id="image_cover" href="cover.jpeg" media-type="image/jpeg" />
         ${imageItems}

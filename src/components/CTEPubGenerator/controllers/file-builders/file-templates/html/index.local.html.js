@@ -12,6 +12,7 @@ export default ({
     <title>${title}</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
     <link rel="stylesheet" type="text/css" href="styles/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="styles/prism.css" />
   </head>
   <body>
     <div id="root" role="main">

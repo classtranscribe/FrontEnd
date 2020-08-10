@@ -4,7 +4,8 @@ import cx from 'classnames';
 import { html } from 'utils';
 import Prism from 'prismjs';
 import './index.scss';
-import 'prismjs/themes/prism-tomorrow.css';
+// import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/themes/prism.css';
 
 html.registerHighlightLanguages();
 

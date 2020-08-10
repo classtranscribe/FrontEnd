@@ -1,6 +1,3 @@
-import { ROOT_CSS } from '../styles';
-
-const StyleCSS = `
 .epub-author {
   color: #555;
 }
@@ -36,6 +33,3 @@ const StyleCSS = `
   orphans: 2;
 }
 
-${ROOT_CSS}`;
-
-export default StyleCSS;

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Prism from 'prismjs';
 import { uurl, api, CTError } from 'utils';
 import { EPubData, EPubDataValidationError } from '../structs';
 import { buildHTMLFromChapter } from '../html-converters';
@@ -145,6 +146,7 @@ class EPubParser {
       const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
       
       const dom = this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
+      Prism.highlightAllUnder(dom);
   
       return {
         id: chapterId,

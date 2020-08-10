@@ -1,4 +1,3 @@
-const RootCSS = `
 /**
  * Basic styles for HTML tags within the root container of the ePub content
  */
@@ -70,8 +69,15 @@ const RootCSS = `
   background-color: rgb(240, 240, 240);
 }
 
+#root p code {
+  background-color: rgb(236, 236, 236);
+  border-radius: 5px;
+  padding: 3px;
+  color: black;
+}
+
 #root .img-block p {
-  // text-align: center;
+  /* text-align: center; */
   color: grey;
   margin-top: 0;
 }
@@ -79,6 +85,4 @@ const RootCSS = `
 #root .img-block img {
   margin-bottom: 5px;
 }
-`;
 
-export default RootCSS;

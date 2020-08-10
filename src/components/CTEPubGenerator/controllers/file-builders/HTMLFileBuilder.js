@@ -2,8 +2,13 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { EPubData } from '../structs';
 import EPubParser from './EPubParser';
-import { KATEX_MIN_CSS } from './file-templates/styles';
-import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS } from './file-templates/html';
+import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
+import {
+  INDEX_HTML_LIVE,
+  INDEX_HTML_LOCAL,
+  STYLE_CSS,
+  PRISM_JS
+} from './file-templates/html';
 
 /**
  * File buffer builder for .epub
@@ -63,7 +68,7 @@ class HTMLFileBuilder {
       chapters,
       (ch) => `
         <div class="ee-preview-text-con">
-          ${ch.text.replace(/\n/g, '\n\t\t\t\t\t')}
+          ${ch.text/** .replace(/\n/g, '\n\t\t\t\t\t') */}
         </div>
       `,
     ).join('\n');
@@ -88,6 +93,11 @@ class HTMLFileBuilder {
     zip.addFile('styles/style.css', Buffer.from(STYLE_CSS));
     // styles/katex.min.css
     zip.addFile('styles/katex.min.css', Buffer.from(KATEX_MIN_CSS));
+    // styles/prism.css
+    zip.addFile('styles/prism.css', Buffer.from(PRISM_CSS));
+    
+    // // scripts/prism.js
+    // zip.addFile('scripts/prism.js', Buffer.from(PRISM_JS));
 
     // index.html
     const indexHTML = this.getIndexHTML();

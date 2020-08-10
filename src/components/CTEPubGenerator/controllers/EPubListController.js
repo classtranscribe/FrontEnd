@@ -29,7 +29,7 @@ class EPubListController {
     let step = Constants.EPubStepSplitChapters;
     // // For Test Only
     // if (isDeveloping) {
-    //   step = Constants.EPubStepDownload;
+    //   step = Constants.EPubStepEditChapters;
     // }
     
     uurl.setHash(
