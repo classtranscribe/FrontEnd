@@ -13,6 +13,9 @@ export const useButtonStyles = makeStyles({
       color: 'white',
       '&:hover': {
         background: 'var(--ct-green-normal)',
+      },
+      '&:disabled': {
+        opacity: 0.8
       }
     }
   },

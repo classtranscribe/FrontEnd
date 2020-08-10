@@ -60,11 +60,15 @@ function MDToolBar(props) {
           <NumberedListTrigger ace={ace} />
 
           <InsertLinkTrigger ace={ace} />
-          <InsertMedia
-            ace={ace}
-            imageTabs={imageTabs}
-            defaultImage={defaultImage}
-          />
+          {
+            Boolean(imageTabs.length)
+            &&
+            <InsertMedia
+              ace={ace}
+              imageTabs={imageTabs}
+              defaultImage={defaultImage}
+            />
+          }
         </div>
       )}
     </div>

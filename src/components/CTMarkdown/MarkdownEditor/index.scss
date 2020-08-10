@@ -1,11 +1,22 @@
 .ct-md-editor-con {
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
   border: 1px solid rgb(224, 224, 224);
+  transition: border linear 150ms;
 
-  // .ct-mdeditor {
-    
-  // }
+  &:focus-within {
+    border-color: teal;
+  }
+
+  &.top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &.bottom {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 
   .ct-md-act-btns-con {
     border-top: 1px solid rgb(224, 224, 224);
