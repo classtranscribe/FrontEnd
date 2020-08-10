@@ -65,7 +65,7 @@ function ImagePickerModal(props) {
     <CTModal
       size='md'
       open={show}
-      title="Choose Cover Image"
+      title="Choose an Image"
       onClose={onClose}
       withCloseButton
       action={actionElement}

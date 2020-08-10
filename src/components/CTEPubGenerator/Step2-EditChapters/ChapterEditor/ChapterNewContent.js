@@ -51,6 +51,7 @@ function ChapterNewContent({
         show={openMDEditor}
         onClose={handleClose}
         onSave={handleSave}
+        title="Insert New Text"
       />
     </CTFragment>
   );

@@ -6,13 +6,14 @@ function MDEditorModal({
   show,
   value,
   onSave,
-  onClose
+  onClose,
+  title = 'Edit Markdown Text'
 }) {
   return (
     <CTModal
       open={show}
       size="md"
-      title="Edit ePub Content"
+      title={title}
       responsive
       withCloseButton
       onClose={onClose}
