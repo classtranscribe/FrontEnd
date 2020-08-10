@@ -26,8 +26,14 @@ class EPubListController {
 
   proceedToEPubGenerator(currEPub) {
     // console.log('proceedToEPubGenerator')
+    let step = Constants.EPubStepSplitChapters;
+    // For Test Only
+    if (isDeveloping) {
+      step = Constants.EPubStepEditChapters;
+    }
+    
     uurl.setHash(
-      uurl.createHash({ step: Constants.EPubStepSplitChapters, eid: currEPub.id })
+      uurl.createHash({ step, eid: currEPub.id })
     );
   }
 

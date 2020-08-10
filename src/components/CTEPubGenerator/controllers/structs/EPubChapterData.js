@@ -12,7 +12,7 @@ class EPubChapterData extends EPubChapterDataLike {
   constructor(chapterLike, resetText = true) {
     super(chapterLike, resetText, _createChapterTitle);
     const { subChapters = [] } = chapterLike;
-    this.subChapters = subChapters;
+    this.subChapters = subChapters.map(sch => new EPubSubChapterData(sch, resetText));
   }
 
   toObject() {

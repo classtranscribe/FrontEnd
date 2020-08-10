@@ -49,10 +49,10 @@ function EPubInfo() {
     <CTFragment list padding={[0, 0, 10, 100]} className="ct-epb epb-info">
       <ChapterImage
         id="ct-epb-cover-img"
-        image={uurl.getMediaUrl(epubInfo.cover.value)}
-        imageAlt={`Cover for ${epubInfo.title.value}`}
+        image={epubInfo.cover.value}
         screenshots={epubInfo.screenshots}
         disableDescription
+        onChooseImage={epubInfo.cover.setValue}
       />
 
       <CTHeading as="h1">{epubInfo.title.value}</CTHeading>

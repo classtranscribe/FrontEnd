@@ -3,7 +3,8 @@ import { ChapterText } from '../ChapterText'
 
 function ImageDescription({
   id,
-  description
+  description,
+  onChange
 }) {
   return (
     <ChapterText
@@ -11,6 +12,8 @@ function ImageDescription({
       text={description}
       attached="top"
       addNewText="Add description for above image"
+      onSaveText={onChange}
+      height='200px'
     />
   );
 }

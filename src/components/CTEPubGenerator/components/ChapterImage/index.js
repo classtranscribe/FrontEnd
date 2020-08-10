@@ -15,16 +15,15 @@ const NewImageButton = ({ onClick }) => (
 
 export function ChapterImage({
   id,
-  image = '',
-  imageAlt = '',
+  image = {},
   disableDescription,
   screenshots = [],
   chapterScreenshots = [],
   onChooseImage,
-  onRemoveImage,
-  onChangeImageAlt,
-  onChangeImageDescription
+  onRemoveImage
 }) {
+  const { alt, src, description } = image;
+
   const [pickImg, setPickImage] = useState(false);
 
   const openImagePicker = () => setPickImage(true);
@@ -37,6 +36,14 @@ export function ChapterImage({
 
     closeImagePicker();
   };
+
+  const handleImageChange = (imgLike) => {
+    onSave({ src, alt, description, ...imgLike });
+  };
+
+  const onSrcChange = (val) => handleImageChange({ src: val });
+  const onAltChange = (val) => handleImageChange({ alt: val });
+  const onDescriptionChange = (val) => handleImageChange({ description: val });
 
   useEffect(() => {
     if (pickImg) {
@@ -51,18 +58,23 @@ export function ChapterImage({
       {image ? (
         <div id={id} className={imgConClasses}>
           <div className="ct-epb ch-img">
-            <img src={uurl.getMediaUrl(image)} alt={imageAlt} />
+            <img src={uurl.getMediaUrl(src)} alt={alt} />
             <ImageWrapper 
               id={id} 
-              imageAlt={imageAlt}
+              imageAlt={alt}
               onChooseImage={openImagePicker} 
               onRemoveImage={onRemoveImage}
+              onImageAltChange={onAltChange}
             />
           </div>
           {
             !disableDescription
             &&
-            <ImageDescription id={id} description="" />
+            <ImageDescription 
+              id={id} 
+              description={description}
+              onChange={onDescriptionChange}
+            />
           }
         </div>
       ) : (
@@ -71,9 +83,9 @@ export function ChapterImage({
 
       <ImagePicker
         show={pickImg}
-        onSave={onSave}
+        onSave={onSrcChange}
         onClose={closeImagePicker}
-        defaultImage={image}
+        defaultImage={src}
         screenshots={screenshots}
         chapterScreenshots={chapterScreenshots}
       />

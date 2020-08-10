@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { prompt } from 'utils';
-import { EPubData , EPubChapterData, EPubSubChapterData } from './structs';
+import { EPubData , EPubChapterData, EPubSubChapterData, EPubImageData } from './structs';
 import { epubState } from './EPubState';
 import { epubHistory } from './EPubHistory';
 import {
@@ -23,7 +23,7 @@ class EPubDataController {
   }
 
   setChapters(chapters) {
-    this.data.chapters = _.cloneDeep(chapters);
+    this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
   }
 
   initEPubData(ePubLike) {
@@ -55,7 +55,7 @@ class EPubDataController {
   }
 
   saveEPubCover = (cover) => {
-    this.data.cover = cover;
+    this.data.cover = new EPubImageData(cover);
   }
 
   saveEPubAuthor = (author) => {
@@ -69,6 +69,10 @@ class EPubDataController {
       this.data.toObject().chapters,
       (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
     );
+  }
+
+  feed(mesg = 'Saved.') {
+    prompt.addOne({ text: mesg, timeout: 2000, position: 'left bottom' });
   }
 
   splitChapterFromChaptersItems(chapterIdx, itemIdx) {
@@ -306,42 +310,83 @@ class EPubDataController {
   }
 
   /// /////////////////////////////////////////////////////////////////////////
-  // handle edit image
+  // handle edit chapter contents
   /// /////////////////////////////////////////////////////////////////////////
 
-  saveCurrChapterImage(image) {
+  setChapterContent(contentIdx, value) {
     let chapter = this.data.getChapter(epubState.currChIndex);
-    chapter.image = image;
-    this.updateAll('Change the chapter image');
+    chapter.setContent(contentIdx, value);
+    this.updateAll('Update the chapter content');
+    this.feed();
   }
 
-  removeCurrChapterImage = () => {
-    this.saveCurrChapterImage(/** undefined */);
+  setChapterImageContent(contentIdx, value) {
+    this.setChapterContent(contentIdx, new EPubImageData(value));
   }
 
-  saveSubChapterImage(subChapterIdx, image) {
-    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
-    subChapter.image = image;
-    this.updateAll('Change the sub-chapter image');
-  }
-  
-  removeSubChapterImage(subChapterIdx) {
-    this.saveSubChapterImage(subChapterIdx);
-  }
-
-  /// /////////////////////////////////////////////////////////////////////////
-  // handle edit text
-  /// /////////////////////////////////////////////////////////////////////////
-  saveCurrChapterText(text) {
+  insertChapterContent(contentIdx, value) {
     let chapter = this.data.getChapter(epubState.currChIndex);
-    chapter.text = text;
-    this.updateAll('Change the chapter text');
+    chapter.insert(contentIdx, value);
+    this.updateAll('Insert chapter content');
+    this.feed();
   }
 
-  saveSubChapterText(subChapterIdx, text) {
+  insertChapterImageContent(contentIdx, value) {
+    this.insertChapterContent(contentIdx, new EPubImageData(value));
+  }
+
+  // pushChapterContent(contentIdx, value) {
+  //   let chapter = this.data.getChapter(epubState.currChIndex);
+  //   chapter.push(contentIdx, value);
+  //   this.updateAll('Push chapter content');
+  // }
+
+  // pushChapterImageContent(contentIdx, value) {
+  //   this.pushChapterContent(contentIdx, new EPubImageData(value));
+  // }
+
+  removeChapterContent(contentIdx) {
+    let chapter = this.data.getChapter(epubState.currChIndex);
+    chapter.remove(contentIdx);
+    this.updateAll('Remove the chapter content');
+    this.feed('Removed.');
+  }
+
+  /// /////////////////////////////////////////////////////////////////////////
+  // handle edit sub-chapter contents
+  /// /////////////////////////////////////////////////////////////////////////
+
+  setSubChapterContent(subChapterIdx, contentIdx, value) {
     let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
-    subChapter.text = text;
-    this.updateAll('Change the sub-chapter text');
+    subChapter.setContent(contentIdx, value);
+    this.updateAll('Update the sub-chapter content');
+    this.feed();
+  }
+
+  setSubChapterImageContent(subChapterIdx, contentIdx, value) {
+    this.setSubChapterContent(
+      subChapterIdx, 
+      contentIdx, 
+      new EPubImageData(value)
+    );
+  }
+
+  insertSubChapterContent(subChapterIdx, contentIdx, value) {
+    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
+    subChapter.insert(contentIdx, value);
+    this.updateAll('Insert sub-chapter content');
+    this.feed();
+  }
+
+  insertSubChapterImageContent(subChapterIdx, contentIdx, value) {
+    this.insertChapterContent(subChapterIdx, contentIdx, new EPubImageData(value));
+  }
+
+  removeSubChapterContent(subChapterIdx, contentIdx) {
+    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
+    subChapter.remove(contentIdx);
+    this.updateAll('Remove the sub-chapter content');
+    this.feed('Removed.');
   }
 }
 

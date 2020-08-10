@@ -11,9 +11,17 @@ class EPubImageData {
     } else if (typeof imageLike === 'string') {
       this.src = imageLike;
     } else {
-      this.src = imageLike.src;
-      this.alt = imageLike.alt;
-      this.description = imageLike.description;
+      if (imageLike.src) {
+        this.src = imageLike.src;
+      }
+      
+      if (imageLike.alt) {
+        this.alt = imageLike.alt;
+      }
+
+      if (imageLike.description) {
+        this.description = imageLike.description;
+      }
     }
   }
 

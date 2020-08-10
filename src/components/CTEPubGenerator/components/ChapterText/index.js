@@ -10,12 +10,10 @@ export function ChapterText({
   text = '',
   id = '',
   className,
-  chapter,
   onSaveText,
   addNewText = 'Click to add content',
-  screenshots,
-  chapterScreenshots,
-  attached
+  attached,
+  height = '300px'
 }) {
   const [editing, setEditing] = useState(false);
 
@@ -29,15 +27,13 @@ export function ChapterText({
     closeEditing();
   };
 
-  const { image } = chapter || {};
-
   const isNotEmpty = Boolean(text.trim());
 
   useEffect(() => {
     if (editing) {
       setEditing(false);
     }
-  }, [chapter]);
+  }, [text]);
 
   useEffect(() => {
     if (editing) {
@@ -45,21 +41,19 @@ export function ChapterText({
     }
   }, [editing]);
 
-  const txtConClasses = cx('ct-epb', 'ch-text-con', { attached })
+  const txtConClasses = cx('ct-epb', 'ch-text-con', className, { attached });
 
   return (
     <div id={id} className={txtConClasses}>
       {editing ? (
         <div className="w-100 mb-4">
           <MDEditor
-            height="300px"
+            height={height}
             id={`md-editor-${id}`}
             defaultValue={text}
             onSave={onSave}
             onClose={closeEditing}
-            screenshots={screenshots}
-            chapterScreenshots={chapterScreenshots}
-            defaultImage={image}
+            attached={attached}
           />
         </div>
       ) : (

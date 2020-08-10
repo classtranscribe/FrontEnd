@@ -8,6 +8,7 @@ import {
 } from '../utils';
 import EPubChapterData from './EPubChapterData';
 import EPubSubChapterData from './EPubSubChapterData';
+import EPubImageData from './EPubImageData';
 
 /**
  * The error which occurred when the required information 
@@ -68,7 +69,7 @@ export default class EPubData {
     this.images = getAllImagesInChapters(this.chapters);
 
     if (!this.cover && this.images.length > 0) {
-      this.cover = this.images[0];
+      this.cover = new EPubImageData({ src: this.images[0], alt: `Cover for ${ this.title}` });
     }
   }
 

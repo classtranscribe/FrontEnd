@@ -33,7 +33,7 @@ class EPubChapterDataLike {
       id,
       title,
       items,
-      contents
+      contents = []
     } = data;
 
     const { start, end } = findChapterTimeSpan(data);
@@ -48,7 +48,9 @@ class EPubChapterDataLike {
       end,
       title: title || 'Untitled',
       items,
-      contents: resetText ? _buildContentsFromItems(items) : contents
+      contents: resetText 
+        ? _buildContentsFromItems(items) 
+        : contents.map(con => typeof con === 'string' ? con : new EPubImageData(con))
     };
   }
 
@@ -182,24 +184,20 @@ class EPubChapterDataLike {
     this.contents.push(content)
   }
 
-  pushImage(imageLike) {
-    this.push(new EPubImageData(imageLike));
-  }
-
   /**
    * @param {Number} index
    * @param {String|EPubImageData} content 
    */
   insert(index, content) {
-    this.contents = [
-      ...this.contents.slice(0, index),
-      content,
-      ...this.contents.slice(index)
-    ];
-  }
-
-  insertImage(imageLike) {
-    this.insert(new EPubImageData(imageLike))
+    if (index >= this.contents.length) {
+      this.push(content);
+    } else {
+      this.contents = [
+        ...this.contents.slice(0, index),
+        content,
+        ...this.contents.slice(index)
+      ];
+    }
   }
 
   /**

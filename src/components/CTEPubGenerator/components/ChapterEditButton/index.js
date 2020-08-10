@@ -8,6 +8,7 @@ function ChapterEditButton({
   children,
   attached,
   onClick,
+  className,
   ...props
 }) {
   const btnClasses = cx(
@@ -15,7 +16,8 @@ function ChapterEditButton({
     {
       'text-muted': muted
     },
-    attached
+    attached,
+    className
   );
 
   const clickProps = useCustomizedButton(onClick);

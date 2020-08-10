@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'pico-ui';
-import { useTheme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CTFragment, CTInput } from 'layout';
+import { useInput } from 'hooks';
 
 function ImageWrapper({
   id,
@@ -11,12 +12,25 @@ function ImageWrapper({
   onImageAltChange
 }) {
   const canRemoveImage = Boolean(onRemoveImage);
+  const alt = useInput(imageAlt);
+
+  useEffect(() => {
+    if (imageAlt !== alt.value) {
+      alt.setValue(imageAlt);
+    }
+  }, [imageAlt]);
 
   const darkTheme = createMuiTheme({
     palette: {
       type: 'dark',
     },
   });
+
+  const handleSaveAlt = () => {
+    if (typeof onImageAltChange === 'function') {
+      onImageAltChange(alt.value);
+    }
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -39,6 +53,7 @@ function ImageWrapper({
               <Button
                 uppercase 
                 icon="delete"
+                color="white" 
                 className="ct-epb shadow-btn"
                 onClick={onRemoveImage}
               >
@@ -48,15 +63,27 @@ function ImageWrapper({
           </Button.Group>
         </CTFragment>
 
-        <CTFragment>
+        <CTFragment vEnd>
           <CTInput 
-            textarea
+            // textarea
             underlined
             id={`image-alt-input-${id}`}
             label="Image Alt"
-            defaultValue={imageAlt}
-            onChange={onImageAltChange}
+            value={alt.value}
+            onChange={alt.onChange}
+            onReturn={handleSaveAlt}
+            className="mr-3"
           />
+
+          <Button
+            color="white"
+            uppercase
+            compact
+            disabled={alt.value === imageAlt}
+            onClick={handleSaveAlt}
+          >
+            Save
+          </Button>
         </CTFragment>
       </CTFragment>
     </ThemeProvider>

@@ -1,23 +1,40 @@
 import React from 'react';
 import { CTFragment } from 'layout';
 import { epub } from '../../controllers';
-import { ChapterTitle, ChapterImage, ChapterText } from '../../components';
+import { ChapterTitle } from '../../components';
+import ChapterContent from './ChapterContent';
+import ChapterNewContent from './ChapterNewContent';
 
 function ChapterInfo({
   chapter,
   screenshots,
   chapterScreenshots,
 }) {
-  const { title, text, id, image } = chapter;
+  const { id, title, contents } = chapter;
 
-  const onSaveTitle = newTitle =>
+  const onSaveTitle = newTitle => {
     epub.data.saveChapterTitle(epub.state.currChIndex, newTitle);
+  };
 
-  const onChooseImage = newImage => epub.data.saveCurrChapterImage(newImage);
+  const onRemove = (index) => () => {
+    epub.data.removeChapterContent(index);
+  };
 
-  const onRemoveImage = () => epub.data.removeCurrChapterImage();
-  
-  const onSaveText = newText => epub.data.saveCurrChapterText(newText);
+  const onTextChange = (index) => (val) => {
+    if (!val) {
+      epub.data.removeChapterContent(index);
+    } else {
+      epub.data.setChapterContent(index, val);
+    }
+  };
+
+  const onImageChange = (index) => (val) => {
+    epub.data.setChapterImageContent(index, val);
+  };
+
+  const onInsert = (index) => (val) => {
+    epub.data.insertChapterContent(index, val);
+  };
 
   return (
     <CTFragment list>
@@ -25,30 +42,31 @@ function ChapterInfo({
         id={epub.const.chTitleID(id)}
         value={title}
         headingType="h2"
-        onSave={onSaveTitle}
         label="Chapter Title"
         placeholder="Chapter Title"
         bordered
+        onSave={onSaveTitle}
       />
 
-      <ChapterImage
-        id={epub.const.chImgID(id)}
-        image={image}
-        imageAlt={title}
+      {contents.map((content, index) => (
+        <ChapterContent
+          id={`ch-content-${id}-${index}`}
+          key={`ch-content-${id}-${index}`}
+          index={index}
+          content={content}
+          screenshots={screenshots}
+          chapterScreenshots={chapterScreenshots}
+          onInsert={onInsert(index)}
+          onRemove={onRemove(index)}
+          onTextChange={onTextChange(index)}
+          onImageChange={onImageChange(index)}
+        />
+      ))}
+
+      <ChapterNewContent
+        onInsert={onInsert(contents.length)}
         screenshots={screenshots}
         chapterScreenshots={chapterScreenshots}
-        onChooseImage={onChooseImage}
-        onRemoveImage={onRemoveImage}
-      />
-      
-      <ChapterText
-        id={epub.const.chTextID(id)}
-        text={text}
-        chapter={chapter}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-        onSaveText={onSaveText}
-        onChooseImage={onChooseImage}
       />
     </CTFragment>
   );
