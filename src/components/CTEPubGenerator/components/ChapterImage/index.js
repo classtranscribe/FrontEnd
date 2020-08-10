@@ -41,9 +41,15 @@ export function ChapterImage({
     onSave({ src, alt, description, ...imgLike });
   };
 
-  const onSrcChange = (val) => handleImageChange({ src: val });
-  const onAltChange = (val) => handleImageChange({ alt: val });
-  const onDescriptionChange = (val) => handleImageChange({ description: val });
+  const onSrcChange = (val) => {
+    if (val !== src) handleImageChange({ src: val });
+  };
+  const onAltChange = (val) => {
+    if (val !== alt) handleImageChange({ alt: val });
+  };
+  const onDescriptionChange = (val) => {
+    if (val !== description) handleImageChange({ description: val });
+  };
 
   useEffect(() => {
     if (pickImg) {

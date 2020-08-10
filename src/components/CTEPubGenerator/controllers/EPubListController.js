@@ -27,10 +27,10 @@ class EPubListController {
   proceedToEPubGenerator(currEPub) {
     // console.log('proceedToEPubGenerator')
     let step = Constants.EPubStepSplitChapters;
-    // For Test Only
-    if (isDeveloping) {
-      step = Constants.EPubStepEditChapters;
-    }
+    // // For Test Only
+    // if (isDeveloping) {
+    //   step = Constants.EPubStepEditChapters;
+    // }
     
     uurl.setHash(
       uurl.createHash({ step, eid: currEPub.id })
@@ -103,10 +103,10 @@ class EPubListController {
     const epubs = await this.getEPubs(media.id);
     epubState.setEPubs(epubs);
 
-    // For Test Only
-    if (isDeveloping) {
-      await this.createEPub(Languages.English);
-    }
+    // // For Test Only
+    // if (isDeveloping) {
+    //   await this.createEPub(Languages.English);
+    // }
   }
 
   async createEPub(language) {

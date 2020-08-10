@@ -19,7 +19,7 @@ export function buildMDFromSubChapter({ id, title, contents }) {
   return `${mdString }\n`;
 }
 
-export function buildMDFromChapter({ id, contents, text, subChapters, image, title }) {
+export function buildMDFromChapter({ id, contents, subChapters, title }) {
   let mdString = [
     `<!-- Chapter -->\n<h2 data-ch id="${id}">${title}</h2>`,
     _.map(contents, buildMDFromContent).join('\n\n'),

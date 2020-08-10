@@ -21,7 +21,7 @@ export function ChapterText({
   const closeEditing = () => setEditing(false);
 
   const onSave = (newText) => {
-    if (typeof onSaveText === 'function') {
+    if (typeof onSaveText === 'function' && newText !== text) {
       onSaveText(newText);
     }
     closeEditing();
