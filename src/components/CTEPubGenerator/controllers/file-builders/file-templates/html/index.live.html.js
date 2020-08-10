@@ -4,7 +4,7 @@ export default ({
   title = '',
   navContents = '',
   content = '',
-  cover = '',
+  cover = {},
   author = '',
   print = false
 }) => `<!DOCTYPE html>
@@ -25,7 +25,7 @@ export default ({
   <body ${print ? 'onload="window.print()"' : ''}>
     <div id="root" role="main">
       <div id="epub_cover">
-        <img src="${cover}" alt="Cover image" />
+        <img src="${cover.src}" alt="${cover.alt}" />
       </div>
       <h1 id="epub_title">${title}</h1>
       <div id="epub_author">${author}</div>

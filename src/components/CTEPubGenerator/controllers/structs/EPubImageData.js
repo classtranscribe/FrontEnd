@@ -10,7 +10,7 @@ class EPubImageData {
       this.__data__ = { ...imageLike.__data__ };
     } else if (typeof imageLike === 'string') {
       this.src = imageLike;
-    } else {
+    } else if (imageLike) {
       if (imageLike.src) {
         this.src = imageLike.src;
       }

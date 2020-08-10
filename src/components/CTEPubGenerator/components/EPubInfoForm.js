@@ -54,9 +54,9 @@ function EPubInfoForm({
           <ChapterImage
             id="ee-dl-tb-cover"
             image={cover.value}
-            imageAlt={`Cover for ${title.value}`}
             screenshots={screenshots}
             onChooseImage={cover.setValue}
+            disableDescription
           />
         </CTFormRow>
       }

@@ -28,7 +28,7 @@ export default class EPubData {
     language: 'en-US',
     author: 'Anonymous',
     publisher: 'ClassTranscribe',
-    cover: '',
+    cover: null,
     chapters: []
   };
 
@@ -46,7 +46,6 @@ export default class EPubData {
     else if (Array.isArray(data)) {
       this.chapters = buildEPubDataFromArray(data);
     }
-
     // if the input data is the epub-like
     else if (typeof data === 'object') {
       this.__data__ = {
@@ -54,7 +53,6 @@ export default class EPubData {
         ...data
       };
     }
-
     else {
       throw EPubDataValidationError;
     }
@@ -64,12 +62,18 @@ export default class EPubData {
       this.id = uuid();
     }
 
-    // setup default values
-
+    // extract all the images from the chapters
     this.images = getAllImagesInChapters(this.chapters);
 
-    if (!this.cover && this.images.length > 0) {
-      this.cover = new EPubImageData({ src: this.images[0], alt: `Cover for ${ this.title}` });
+    // set up cover image
+    if (!this.cover) {
+      if (this.images.length > 0) {
+        this.cover = new EPubImageData({ src: this.images[0], alt: `Cover for ${ this.title}` });
+      } else {
+        this.cover = new EPubImageData();
+      }
+    } else if (!(this.cover instanceof EPubImageData)) {
+      this.cover = new EPubImageData(this.cover);
     }
   }
 
