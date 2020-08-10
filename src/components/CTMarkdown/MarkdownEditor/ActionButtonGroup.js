@@ -8,7 +8,7 @@ function ActionButtonGroup(props) {
 
   return (
     <CTFragment vCenter hBetween className="ct-md-act-btns-con">
-      <CTText padding={[0, 20]}><b>cmd + s</b> to save the changes</CTText>
+      <CTText padding={[0, 20]}><b>ctrl + s</b> to save the changes</CTText>
 
       <Button.Group>
         <Button
