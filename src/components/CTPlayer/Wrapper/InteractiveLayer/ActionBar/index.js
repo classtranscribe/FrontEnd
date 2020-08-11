@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Tooltip from '@material-ui/core/Tooltip';
+import { useParams } from 'react-router-dom';
 import { links, uurl } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
-
+import { CTPopoverLabel } from 'layout';
 import Share from './Share';
 // import ShortcutButton from './ShortcutButton';
 import './index.scss';
 
 function ActionBar(props) {
   let {
+    error,
     media,
     time
   } = props;
 
-  const { mediaName, id } = media || {};
+  const { mediaName } = media || {};
+  const { id } = useParams();
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
@@ -32,16 +34,16 @@ function ActionBar(props) {
             className="ctp ct-logo"
           />
 
-          <Tooltip title="Watch this video on ClassTranscribe" placement="bottom">
+          <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">
             <a href={links.watch(id)} onClick={watchOnClassTranscribe}>
-              {mediaName}
+              {mediaName || 'Go to watch page for more details'}
             </a>
-          </Tooltip>
+          </CTPopoverLabel>
         </div>
       </div>
       
       <div className="right">
-        <Share media={media} time={time} />
+        {!error && <Share media={media} time={time} />}
         {/* <ShortcutButton /> */}
       </div>
     </div>

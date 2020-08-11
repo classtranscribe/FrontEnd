@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-
+import cx from 'classnames';
+import { altEl, makeEl } from '../tools';
 import CTScrollArea from '../CTScrollArea';
 import CTNavHeader from '../CTNavHeader';
 import CTNavSidebar from '../CTNavSidebar';
 import CTHeading from '../CTHeading';
 import CTFooter from '../CTFooter';
+import CTMetaTags from '../CTMetaTags';
 import NavSidebarTrigger from './NavSidebarTrigger';
 import './index.scss';
 
@@ -38,9 +39,11 @@ function CTLayout(props) {
     headerProps = {},
     sidebarProps = {},
     headingProps,
+    metaTagsProps = {}
   } = props;
 
-  let { float = false, mini = false } = sidebarProps;
+  const { float = false, mini = false } = sidebarProps;
+  const { tabs } = headerProps;
 
   let defaultSidebar = getDefaultSidebarType(responsive, defaultOpenSidebar, { float, mini });
   const [sidebar, setSidebar] = useState(defaultSidebar);
@@ -79,11 +82,12 @@ function CTLayout(props) {
   };
 
   // Classes
-  const containerClasses = classNames(className);
-  const mainClasses = classNames(
+  const containerClasses = cx(className);
+  const mainClasses = cx(
     'ct-layout-main', 
     { 
       fill,
+      'tab-header': Array.isArray(tabs) && tabs.length > 0,
       transition,
       'padded-240': isNormal,
       'padded-50': isMini,
@@ -93,29 +97,33 @@ function CTLayout(props) {
   // Brand Element
   const brandElemProps = {
     darkMode,
+    linkDisabled: !isNormal,
     showSidebar: isOpen,
     onSidebarTriggerClick: handleOpenSidebar,
   };
-  const sidebarBrandElem = <NavSidebarTrigger {...brandElemProps} />;
+  const sidebarBrandElem = makeEl(NavSidebarTrigger, brandElemProps);
 
   brandElemProps.withTrigger = !isMini;
   brandElemProps.logo = logoBrand;
-  const headerBrandElem = isNormal 
-                        ? <div /> 
-                        : <NavSidebarTrigger {...brandElemProps} />;
+  brandElemProps.linkDisabled = false;
+  const headerBrandElem = altEl(NavSidebarTrigger, !isNormal, brandElemProps, <div />);
 
-  const headingElement = headingProps
-                        ? <CTHeading gradient highlightIcon {...headingProps} />
-                        : null;
+  const headingElement = altEl(CTHeading, Boolean(headingProps), {
+    gradient: true,
+    highlightIcon: true,
+    ...headingProps
+  });
+
   // Page Element
-  const pageElement = fill 
-                    ? <div className="ct-layout-fill">{children}</div>
-                    : children;
+  const pageElement = altEl(
+    children, !fill, null, <div className="ct-layout-fill">{children}</div>);
   
-  const footerElement = footer ? <CTFooter /> : null;
+  const footerElement = altEl(CTFooter, footer);
 
   return (
     <div id="ct-layout-container" className={containerClasses}>
+      <CTMetaTags {...metaTagsProps} />
+      
       <CTNavSidebar
         {...sidebarProps}
         darkMode={darkMode}
@@ -128,6 +136,7 @@ function CTLayout(props) {
       />
 
       <CTScrollArea 
+        id="ct-layout-scroll"
         role={role}
         scrollToTopButton="bottom right"
         scrollClassName={mainClasses}
@@ -187,7 +196,10 @@ export const CTLayoutPropTypes = {
   sidebarProps: PropTypes.shape(CTNavSidebar.propTypes),
 
   /** Props to the heading */
-  headingProps: PropTypes.shape(CTHeading.propTypes)
+  headingProps: PropTypes.shape(CTHeading.propTypes),
+
+  /** Meta tags */
+  metaTagsProps: PropTypes.shape(CTMetaTags.propTypes)
 };
 
 CTLayout.propTypes = CTLayoutPropTypes;

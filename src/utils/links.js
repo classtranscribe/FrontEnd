@@ -51,7 +51,7 @@ export class ClassTranscribeLinks {
    * @param {String} mid media id (optional)
    */
   offeringDetail(id, plid, mid) {
-    return `/offering/${id}${uurl.createSearch({ plid, mid })}`;
+    return `/offering/${id}${uurl.createHash({ plid, mid })}`;
   }
   /**
    * to `/personal-report`

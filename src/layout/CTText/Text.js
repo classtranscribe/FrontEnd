@@ -20,6 +20,7 @@ function Text(props) {
     underline,
     italic,
     muted,
+    white,
     celadon,
     teal,
     highlighted,
@@ -44,6 +45,7 @@ function Text(props) {
     underline,
     italic,
     center,
+    white,
     muted,
     teal,
     celadon,
@@ -55,7 +57,7 @@ function Text(props) {
   }, className);
 
   const textStyle = {
-    '-webkit-line-clamp': `${line }`
+    WebkitLineClamp: `${line }`
   };
 
   const textProps = {

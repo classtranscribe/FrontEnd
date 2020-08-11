@@ -82,7 +82,6 @@ class MediaSettingsWithRedux extends React.Component {
     ) : (
       <CTLayout {...this.getLayoutProps()}>
         <div className="msp-bg">
-
           <div className="msp-content">
             <Route exact path={mspPath} render={() => <Redirect to={transPath} />} />
 

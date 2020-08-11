@@ -75,7 +75,7 @@ export function addBoldText(ace) {
 }
 
 export function addItalicText(ace) {
-  setOuterText(ace, '_');
+  setOuterText(ace, '*');
   focus(ace);
 }
 
@@ -101,6 +101,11 @@ export function addNumberedList(ace) {
 
 export function insertLink(ace) {
   setOuterText(ace, '[', '](url)');
+  focus(ace);
+}
+
+export function insertMathCodeBlock(ace) {
+  setOuterText(ace, '\n```latex\n\n', '```\n');
   focus(ace);
 }
 

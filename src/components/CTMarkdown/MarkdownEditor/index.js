@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { html } from 'utils';
+import cx from 'classnames';
 import { getAceShortcutHandler } from './ace/ace-shortcut';
 import MarkdownPreviewer from '../MarkdownPreviewer';
 
@@ -22,6 +22,7 @@ function MarkdownEditor(props) {
     defaultImage,
     onSave,
     onClose,
+    attached
   } = props;
 
   const [value, setValue] = useState(defaultValue.trim() ? defaultValue : placeholder);
@@ -35,6 +36,7 @@ function MarkdownEditor(props) {
   };
 
   const onLoad = (ace_) => {
+    ace_.selection.selectAll();
     setAce(ace_);
   };
 
@@ -50,6 +52,8 @@ function MarkdownEditor(props) {
   const closePreview = () => {
     setPreview(null);
   };
+
+  const handleKeyDown = getAceShortcutHandler(ace, handleSave, onClose);
 
   useEffect(() => {
     if (!isPreview && ace) {
@@ -80,8 +84,8 @@ function MarkdownEditor(props) {
   };
 
   return (
-    <div className="ct-md-editor-con">
-      <div className="ct-md-editor" onKeyDown={getAceShortcutHandler(ace)}>
+    <div className={cx('ct-md-editor-con', attached)}>
+      <div className="ct-md-editor" onKeyDown={handleKeyDown}>
         <MDToolBar {...toolBarProps} />
 
         <div data-scroll className="ct-md-editor-preview" style={{ height }}>
@@ -102,9 +106,10 @@ MarkdownEditor.propTypes = {
   placeholder: PropTypes.string,
   height: PropTypes.string,
   imageTabs: MDToolBar.propTypes.imageTabs,
-  defaultImage: MDToolBar.propTypes.imageTabs,
+  defaultImage: MDToolBar.propTypes.defaultImage,
   onSave: PropTypes.func,
   onClose: PropTypes.func,
+  attached: PropTypes.oneOf(['top', 'bottom'])
 };
 
 export default MarkdownEditor;

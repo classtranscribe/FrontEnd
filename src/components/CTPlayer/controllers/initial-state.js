@@ -1,7 +1,8 @@
-import Constants from './player-constants';
+import Constants from './PlayerConstants';
 
 const initialState = {
   // media
+  error: null,
   media: null,
   src1: null,
   src2: null,
@@ -9,7 +10,7 @@ const initialState = {
   userReady: false,
   size: 'xs',
   event: null,
-  screenMode: Constants.SCREEN_NORMAL,
+  screenMode: Constants.ScreenModeNormal,
   isSwappedScreen: false,
 
   // video
@@ -28,17 +29,17 @@ const initialState = {
   transcriptions: [],
   currTranscription: null,
   language: {
-    code: Constants.ENGLISH, 
-    text: Constants.LANG_MAP[Constants.ENGLISH]
+    code: Constants.English, 
+    text: Constants.decode(Constants.English)
   },
   captions: [],
   currCaption: null,
 
   // cc styles
-  ccFontSize: Constants.CC_FSIZCTPE_100,
-  ccFontColor: Constants.CC_COLOR_WHITE,
-  ccOpacity: Constants.CC_OPACITY_75,
-  ccBackgroundColor: Constants.CC_COLOR_BLACK,
+  ccFontSize: Constants.CCFontSize100,
+  ccFontColor: Constants.CCColorWhite,
+  ccOpacity: Constants.CCOpacity75,
+  ccBackgroundColor: Constants.CCColorBlack,
 
   // range
   openRange: false,

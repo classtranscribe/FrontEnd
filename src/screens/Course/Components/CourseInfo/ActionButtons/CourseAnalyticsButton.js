@@ -4,27 +4,18 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import { makeStyles } from '@material-ui/core/styles';
 import { links } from 'utils/links';
-
-export const useStyles = makeStyles({
-  button: {
-    fontWeight: 'bold',
-    '&:hover': {
-      color: 'teal'
-    }
-  }
-});
+import { useButtonStyles } from 'layout';
 
 function CourseAnalyticsButton(props) {
   const { offeringId } = props;
 
-  const buttonClasses = useStyles();
+  const btn = useButtonStyles();
 
   return (
     <Button 
       component={Link}
-      className={cx(buttonClasses.button, 'mb-2')}
+      className={cx(btn.tealLink, 'mb-2')}
       startIcon={<BarChartIcon />} 
       size="large" 
       to={links.courseAnalytics(offeringId)}

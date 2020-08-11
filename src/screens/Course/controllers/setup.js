@@ -3,6 +3,7 @@ import { StateController } from 'utils/state-controller';
 import { 
   api, 
   user,
+  elem,
   prompt, 
   NOT_FOUND_404, 
   ARRAY_INIT, 
@@ -132,6 +133,12 @@ class SetupCoursePage extends StateController {
     }
   }
 
+  scrollToPlaylist(playlistId) {
+    if (playlistId) {
+      elem.scrollIntoCenter(playlistId, { focus: true });
+    }
+  }
+
   lastOfferingId = null;
   async setupCoursePage(offeringId) {
     // determine whether to reset the redux store
@@ -157,7 +164,7 @@ class SetupCoursePage extends StateController {
       { email: user.getUserInfo().emailId }
     );
 
-    if (instIndex >= 0) {
+    if (instIndex >= 0 || user.isAdmin) {
       this.setRole(INSTRUCTOR);
       if (shouldUpdateInstMode) this.setIsInstMode(true);
     }
@@ -181,7 +188,9 @@ class SetupCoursePage extends StateController {
     }
   }
 
+  prevPlaylistId = null;
   async setupPlaylist(playlistId) {
+    this.prevPlaylistId = playlistId;
     let playlist = await this.getPlaylistById(playlistId);
     this.setPlaylist(playlist);
   }

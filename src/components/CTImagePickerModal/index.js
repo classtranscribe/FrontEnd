@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from 'semantic-ui-react';
-import { CTModal } from '../Modals';
+import { CTModal, makeEl } from 'layout';
 import './index.scss';
 
 import ImagesTab from './ImagesTab';
@@ -55,13 +55,20 @@ function ImagePickerModal(props) {
     }
   });
 
+  const actionElement = makeEl(ImagePickerModalActions, {
+    canSave: Boolean(imgUrl),
+    onSave: onSaveImage,
+    onClose
+  });
+
   return (
     <CTModal
-      large
-      show={show}
-      title="Choose Cover Image"
+      size='md'
+      open={show}
+      title="Choose an Image"
       onClose={onClose}
-      actions={<ImagePickerModalActions onSave={onSaveImage} onClose={onClose} />}
+      withCloseButton
+      action={actionElement}
     >
       <Tab panes={panes} />
     </CTModal>

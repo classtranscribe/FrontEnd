@@ -7,6 +7,7 @@ class TimeString {
    * @returns {String} H:mm:ss
    */
   static toTimeString(sec) {
+    if (typeof sec !== 'number') return '';
     const formatter = sec < 3600 ? 'mm:ss' : 'H:mm:ss';
     return moment()
             .startOf('day')
@@ -46,6 +47,16 @@ class TimeString {
     });
 
     return seconds;
+  }
+
+  static toPrettierTimeString(str) {
+    if (typeof str !== 'string') return '';
+    let timestr = str.slice(0, 8);
+    if (timestr.startsWith('00:')) {
+      return timestr.slice(3);
+    }
+
+    return timestr;
   }
 }
 

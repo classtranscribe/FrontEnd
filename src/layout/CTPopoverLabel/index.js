@@ -18,11 +18,12 @@ function CTPopoverLabel(props) {
     children,
     label,
     placement,
+    disabled
   } = props;
 
   const labelClasses = useStyles();
 
-  return (
+  return disabled ? children : (
     <Tooltip classes={labelClasses} title={label} placement={placement}>
       {children}
     </Tooltip>
@@ -33,6 +34,7 @@ CTPopoverLabel.propTypes = {
   children: PropTypes.node,
   label: PropTypes.node,
   placement: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
 export default CTPopoverLabel;

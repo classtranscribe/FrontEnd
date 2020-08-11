@@ -12,6 +12,7 @@ import BulletedListTrigger from './BulletedListTrigger';
 import NumberedListTrigger from './NumberedListTrigger';
 import InsertLinkTrigger from './InsertLinkTrigger';
 import InsertMedia from './InsertMedia';
+import MathBlockTrigger from './MathBlockTrigger';
 
 function MDToolBar(props) {
   const {
@@ -29,16 +30,22 @@ function MDToolBar(props) {
         <Button.Group>
           <Button
             compact
+            uppercase
             color={isPreview ? 'transparent teal' : 'teal'}
             text="Edit"
             onClick={closePreview}
+            role="radio"
+            aria-checked={!isPreview}
           />
 
           <Button
             compact
+            uppercase
             color={!isPreview ? 'transparent teal' : 'teal'}
             text="Preview"
             onClick={openPreview}
+            role="radio"
+            aria-checked={isPreview}
           />
         </Button.Group>
       </div>
@@ -52,13 +59,18 @@ function MDToolBar(props) {
           <CodeTrigger ace={ace} />
           <BulletedListTrigger ace={ace} />
           <NumberedListTrigger ace={ace} />
+          <MathBlockTrigger ace={ace} />
 
           <InsertLinkTrigger ace={ace} />
-          <InsertMedia
-            ace={ace}
-            imageTabs={imageTabs}
-            defaultImage={defaultImage}
-          />
+          {
+            Boolean(imageTabs.length)
+            &&
+            <InsertMedia
+              ace={ace}
+              imageTabs={imageTabs}
+              defaultImage={defaultImage}
+            />
+          }
         </div>
       )}
     </div>
@@ -66,7 +78,7 @@ function MDToolBar(props) {
 }
 
 MDToolBar.propTypes = {
-  ace: PropTypes.any.isRequired,
+  ace: PropTypes.any,
   isPreview: PropTypes.bool,
   imageTabs: InsertMedia.propTypes.imageTabs,
   defaultImage: InsertMedia.propTypes.defaultImage,

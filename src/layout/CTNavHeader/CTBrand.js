@@ -12,6 +12,7 @@ export function CTBrand(props) {
     darkMode = false,
     small = false,
     logo = false,
+    disabled = false
   } = props;
 
   const brandClasses = classNames('ct-header-brand', { small, logo })
@@ -22,8 +23,15 @@ export function CTBrand(props) {
                 ? darkTextBrand 
                 : textBrand;
 
+  const linkProps = {
+    'aria-label': 'Home',
+    tabIndex: disabled ? '-1' : '0',
+    className: brandClasses,
+    to: links.home()
+  };
+
   return (
-    <Link aria-label="Home" className={brandClasses} to={links.home()}>
+    <Link {...linkProps}>
       <img src={imgSrc} alt="ClassTranscribe Brand" />
     </Link>
   );

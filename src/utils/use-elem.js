@@ -128,17 +128,19 @@ class ElementHandler {
    * @param {String|HTMLElement} elem - the html elem / elem's id
    * @param {Number} offsetTop - offset top
    */
-  isScrolledIntoView(el, offsetTop = 200) {
+  isScrolledIntoView(el, offsetTop, completely) {
     const elem = getElement(el);
     if (elem && typeof elem.getBoundingClientRect === 'function') {
       const rect = elem.getBoundingClientRect();
       const elemTop = rect.top;
-      // var elemBottom = rect.bottom;
+      const elemBottom = rect.bottom;
 
-      // Only completely visible elements return true:
-      const isVisible = elemTop >= 0 && elemTop <= offsetTop;
-      // Partially visible elements return true:
-      // isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+      let isVisible = false;
+      if (completely) { // Only completely visible elements return true:
+        isVisible = elemTop >= 0 && elemTop <= (offsetTop || window.innerHeight);
+      } else { // Partially visible elements return true:
+        isVisible = elemTop < window.innerHeight && elemBottom >= offsetTop;
+      }
       return isVisible;
     }
 

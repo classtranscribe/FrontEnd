@@ -4,7 +4,8 @@ import cx from 'classnames';
 import { html } from 'utils';
 import Prism from 'prismjs';
 import './index.scss';
-import 'prismjs/themes/prism-tomorrow.css';
+// import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/themes/prism.css';
 
 html.registerHighlightLanguages();
 
@@ -13,10 +14,12 @@ html.registerHighlightLanguages();
  */
 function MarkdownPreviewer(props) {
   const {
+    id,
     value = '',
     className,
     children,
-    parseMarkdown
+    parseMarkdown,
+    ...otherProps
   } = props;
 
   useEffect(() => {
@@ -32,14 +35,16 @@ function MarkdownPreviewer(props) {
                       : html.markdown(value);
 
     const previewProps = {
+      id,
       className: htmlClasses,
-      dangerouslySetInnerHTML: { __html: previewHTML }
+      dangerouslySetInnerHTML: { __html: previewHTML },
+      ...otherProps
     };
 
     previewElement = <div {...previewProps} />;
   } else {
     previewElement = (
-      <div className={htmlClasses}>
+      <div id={id} className={htmlClasses} {...otherProps}>
         {children}
       </div>
     );
@@ -53,7 +58,9 @@ function MarkdownPreviewer(props) {
 }
 
 MarkdownPreviewer.propTypes = {
-  /** The  */
+  id: PropTypes.string,
+
+  /** The markdown text to preview */
   value: PropTypes.string,
 
   /** Additional Classes */

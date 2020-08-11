@@ -9,3 +9,7 @@ export const kalturaLogo = require('./kaltura-logo.png');
 
 export const videoPosterImg = require('./video-poster.jpg');
 export const offeringPosterImg = require('./offering-poster.jpg');
+
+export const epubExampleTop = require('./epub-example-top.png');
+export const epubExampleBottom = require('./epub-example-bottom.png');
+

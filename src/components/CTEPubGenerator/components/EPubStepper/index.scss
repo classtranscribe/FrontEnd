@@ -1,0 +1,12 @@
+.ct-epb.step-btn {
+  .MuiStepIcon-root.MuiStepIcon-active,
+  .MuiStepIcon-root.MuiStepIcon-completed {
+    color: var(--ct-green-normal) !important;
+  }
+  .MuiStepLabel-label.MuiStepLabel-active {
+    font-weight: bold !important;
+  }
+  .MuiStepLabel-label {
+    font-size: 15px !important;
+  }
+}

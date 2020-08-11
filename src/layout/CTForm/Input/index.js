@@ -16,6 +16,41 @@ export const useStyles = makeStyles({
       '&.Mui-focused fieldset': {
         borderColor: '#348b86',
       }
+    },
+    '& div[tabindex="0"]': {
+      outline: 'none !important'
+    }
+  },
+});
+
+const useDarkStyles = makeStyles({
+  root: {
+    '& label': {
+      color: 'white',
+    },
+    '& .MuiInput-underline::before, & .MuiInput-underline:hover::before': {
+      borderBottomColor: 'white',
+    },
+    '& input': {
+      color: 'white',
+    },
+    '& label.Mui-focused': {
+      color: '#348b86',
+      fontWeight: 'bold'
+    },
+    '& .MuiInput-underline.Mui-focused::after': {
+      borderBottomColor: '#348b86',
+    },
+    '& .MuiOutlinedInput-root': {
+      '&.Mui-focused fieldset': {
+        borderColor: '#348b86',
+      }
+    },
+    '& div[tabindex="0"]': {
+      outline: 'none !important'
+    },
+    '& input::selection': {
+      background: 'white',
     }
   },
 });
@@ -33,6 +68,7 @@ function Input(props) {
     placeholder,
     defaultValue,
     value,
+    darkMode,
     required = false,
     error = false,
     disabled = false,
@@ -41,7 +77,8 @@ function Input(props) {
     ...otherProps
   } = props;
 
-  const inputClasses = useStyles();
+  const classes = useStyles();
+  const darkClasses = useDarkStyles();
   const handleKeyDown = ({ keyCode }) => {
     if (typeof onReturn === 'function' && keyCode === 13) {
       onReturn();
@@ -55,7 +92,7 @@ function Input(props) {
       InputLabelProps={{ htmlFor: id }}
       type="text"
       variant={underlined ? "standard" : "outlined"}
-      classes={inputClasses}
+      classes={darkMode ? darkClasses : classes}
       label={label}
       placeholder={placeholder}
       defaultValue={defaultValue}

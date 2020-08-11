@@ -19,7 +19,7 @@ class AppInsightsProvider extends Component {
   }
 
   componentDidMount() {
-    const { history, after } = this.props;
+    const { history } = this.props;
     const { initialized } = this.state;
     const instrumentationKey = env.azureInstrumentationKey;
 
@@ -27,15 +27,11 @@ class AppInsightsProvider extends Component {
       appInsightsService.initialize(instrumentationKey, history);
       this.setState({ initialized: true });
     }
-
-    if (typeof after === 'function') {
-      after();
-    }
   }
 
   render() {
     const { children } = this.props;
-    return <>{children}</>;
+    return children;
   }
 }
 

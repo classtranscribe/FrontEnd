@@ -12,6 +12,7 @@ function NavSidebarTrigger(props) {
     logo = false,
     darkMode = false,
     withTrigger = true,
+    linkDisabled = false,
     onSidebarTriggerClick,
   } = props;
 
@@ -28,7 +29,7 @@ function NavSidebarTrigger(props) {
         />
       }
 
-      <CTBrand logo={logo} darkMode={darkMode} />
+      <CTBrand logo={logo} darkMode={darkMode} disabled={linkDisabled} />
     </div>
   )
 }

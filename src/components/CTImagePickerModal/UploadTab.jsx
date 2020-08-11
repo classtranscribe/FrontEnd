@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CTInput, CTUploadButton } from 'layout';
-import { uurl } from 'utils/use-url';
+import ImagePreview from './ImagePreview';
 
 function UploadTab(props) {
   const { imgUrl, setImgUrl } = props;
@@ -40,15 +40,7 @@ function UploadTab(props) {
         </div>
         
       </div>
-      <div className="ct-img-picker-cover">
-        {
-          imgUrl
-          ?
-            <img src={uurl.getMediaUrl(imgUrl)} alt="Selected Cover" />
-          :
-            <div className="w-100 text-center">No image picked.</div>
-        }
-      </div>
+      <ImagePreview imgUrl={imgUrl} />
     </div>
   )
 }

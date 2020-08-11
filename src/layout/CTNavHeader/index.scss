@@ -46,6 +46,11 @@
     box-shadow: 0 0 10px rgba(165, 185, 187, 0.308);
   }
 
+  &.tabHeader {
+    height: 87px;
+    overflow-y: hidden;
+  }
+
   #ct-nh-primary {
     width: 100%;
     height: 50px;

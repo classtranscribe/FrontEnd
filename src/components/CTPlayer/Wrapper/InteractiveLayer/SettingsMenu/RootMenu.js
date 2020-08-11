@@ -40,7 +40,7 @@ function RootMenu(props) {
         <MenuItem
           isSubMenu
           text="Screen Mode"
-          current={Constants.SCREEN_MODES_MAP[screenMode]}
+          current={Constants.ScreenModesMap[screenMode]}
           onClick={onOpenScreenModeManu}
         />
       }

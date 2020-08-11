@@ -8,6 +8,7 @@ import NonInteractiveLayer from './NonInteractiveLayer';
 
 function Wrapper(props) {
   let {
+    error,
     media,
     player,
     event,
@@ -18,6 +19,8 @@ function Wrapper(props) {
     isEnded,
     isPaused,
     isFullscreen,
+    beginAt,
+    endAt,
     duration,
     time,
     bufferedTime,
@@ -41,6 +44,7 @@ function Wrapper(props) {
   };
 
   const nonInteractiveLayerProps = {
+    error,
     event,
     volume,
     onTogglePause: player.togglePause
@@ -48,6 +52,7 @@ function Wrapper(props) {
 
   const interactiveLayerProps = {
     hideWrapperOnMouseLeave,
+    error,
     media,
     player,
     isTwoScreen,
@@ -56,6 +61,8 @@ function Wrapper(props) {
     isEnded,
     isPaused,
     isFullscreen,
+    beginAt,
+    endAt,
     duration,
     time,
     bufferedTime,
@@ -75,7 +82,7 @@ function Wrapper(props) {
     <div className="ctp wrapper main-wrapper">
       <NonInteractiveLayer {...nonInteractiveLayerProps} />
       <InteractiveLayer {...interactiveLayerProps} />
-      <StartLayer {...startLayerProps} />
+      {!error && <StartLayer {...startLayerProps} />}
     </div>
   );
 }
