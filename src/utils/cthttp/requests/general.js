@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { cthttp } from './request';
 import { env } from '../../env';
 
@@ -13,4 +14,14 @@ export async function getLatestGitCommitSHA() {
 
 export function getFile(path) {
   return cthttp.request(false).get(path);
+}
+
+/**
+ * load src buffer
+ * @param {String} path path to the src
+ * @returns {Promise<Buffer>} the loaded src buffer
+ */
+export async function getBuffer(path) {
+  const { data } = await axios.get(path, { responseType: 'arraybuffer' });
+  return Buffer.from(data);
 }

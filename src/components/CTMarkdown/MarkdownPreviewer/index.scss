@@ -53,8 +53,25 @@
       white-space: nowrap;
     }
 
+    p code {
+      background-color: rgb(236, 236, 236);
+      border-radius: 5px;
+      padding: 3px;
+      color: black;
+    }
+
     thead {
       background-color: rgb(240, 240, 240);
+    }
+
+    .img-block p {
+      color: grey !important;
+      margin-top: 0 !important;
+      // text-align: center;
+    }
+    
+    .img-block img {
+      margin-bottom: 5px !important;
     }
   }
 }

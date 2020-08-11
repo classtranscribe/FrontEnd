@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'pico-ui';
+import cx from 'classnames';
 import { uurl } from 'utils/use-url';
 import { ImagePicker } from '../ImagePicker';
+import ChapterEditButton from '../ChapterEditButton';
+import ImageWrapper from './ImageWrapper';
+import ImageDescription from './ImageDescription';
 import './index.scss';
+
+const NewImageButton = ({ onClick }) => (
+  <ChapterEditButton muted onClick={onClick}>
+    Click to insert images
+  </ChapterEditButton>
+);
 
 export function ChapterImage({
   id,
-  image = '',
+  image = {},
+  disableDescription,
   screenshots = [],
   chapterScreenshots = [],
   onChooseImage,
-  onRemoveImage,
-  promptText = 'Click to Choose Image'
+  onRemoveImage
 }) {
+  const { alt, src, description } = image;
+
   const [pickImg, setPickImage] = useState(false);
 
   const openImagePicker = () => setPickImage(true);
@@ -26,10 +37,18 @@ export function ChapterImage({
     closeImagePicker();
   };
 
-  const handleOnKeyDown = ({ keyCode }) => {
-    if (keyCode === 13 || keyCode === 32) {
-      openImagePicker();
-    }
+  const handleImageChange = (imgLike) => {
+    onSave({ src, alt, description, ...imgLike });
+  };
+
+  const onSrcChange = (val) => {
+    if (val !== src) handleImageChange({ src: val });
+  };
+  const onAltChange = (val) => {
+    if (val !== alt) handleImageChange({ alt: val });
+  };
+  const onDescriptionChange = (val) => {
+    if (val !== description) handleImageChange({ description: val });
   };
 
   useEffect(() => {
@@ -38,50 +57,41 @@ export function ChapterImage({
     }
   }, [image]);
 
+  const imgConClasses = cx('ct-epb', 'ch-img-con');
+
   return (
     <>
       {image ? (
-        <div id={id} className="ct-epb ch-img-con">
-          <img src={uurl.getMediaUrl(image)} alt="Cover" />
-          <div
-            tabIndex="0"
-            className="ch-img-wrapper"
-            onClick={openImagePicker}
-            onKeyDown={handleOnKeyDown}
-            role="button"
-          >
-            {promptText}
-          </div>
-
-          {Boolean(onRemoveImage) && (
-            <Button
-              round
-              classNames="ch-img-rm-btn"
-              icon="delete"
-              text="Remove this image."
-              onClick={onRemoveImage}
+        <div id={id} className={imgConClasses}>
+          <div className="ct-epb ch-img">
+            <img src={uurl.getMediaUrl(src)} alt={alt} />
+            <ImageWrapper 
+              id={id} 
+              imageAlt={alt}
+              onChooseImage={openImagePicker} 
+              onRemoveImage={onRemoveImage}
+              onImageAltChange={onAltChange}
             />
-          )}
+          </div>
+          {
+            !disableDescription
+            &&
+            <ImageDescription 
+              id={id} 
+              description={description}
+              onChange={onDescriptionChange}
+            />
+          }
         </div>
       ) : (
-        <div className="ct-epb ch-text-con">
-          <div
-            className="ct-epb ch-text clickable"
-            tabIndex={0}
-            onClick={openImagePicker}
-            onKeyDown={handleOnKeyDown}
-            role="button"
-          >
-            <div className="text-muted">Click to insert images</div>
-          </div>
-        </div>
+        <NewImageButton onClick={openImagePicker} />
       )}
 
       <ImagePicker
         show={pickImg}
-        onSave={onSave}
+        onSave={onSrcChange}
         onClose={closeImagePicker}
-        defaultImage={image}
+        defaultImage={src}
         screenshots={screenshots}
         chapterScreenshots={chapterScreenshots}
       />

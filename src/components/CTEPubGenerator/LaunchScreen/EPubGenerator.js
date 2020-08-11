@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CTLoader, altEl, makeEl } from 'layout';
 import { connectWithRedux } from '../redux';
-import { epub, CTEPubData, CTEPubConstants as Constants } from '../controllers';
+import { epub, EPubData, CTEPubConstants as Constants } from '../controllers';
 import { PlayerModal } from '../components';
 import SplitChapters from '../Step1-SplitChapters';
 import EditChapters from '../Step2-EditChapters';
@@ -64,7 +64,7 @@ const EPubGenerator = connectWithRedux(
 
 EPubGenerator.propTypes = {
   media: PropTypes.object,
-  epubDataLike: PropTypes.instanceOf(CTEPubData).isRequired
+  epubDataLike: PropTypes.instanceOf(EPubData).isRequired
 };
 
 export default EPubGenerator;

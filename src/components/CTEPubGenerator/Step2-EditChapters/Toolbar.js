@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment } from 'layout';
 import timestr from 'utils/use-time';
 import { epub } from '../controllers';
 import { EPubStepper } from '../components';
 import { connectWithRedux } from '../redux';
+import PreviewChapterModal from './PreviewChapterModal';
 import './index.scss';
 
 function Toolbar({
@@ -15,6 +16,10 @@ function Toolbar({
   const beginstr = timestr.toPrettierTimeString(currChapter.start);
   const endstr = timestr.toPrettierTimeString(currChapter.end);
 
+  const [previewing, setPreviewing] = useState(false);
+  const openPreview = () => setPreviewing(true);
+  const closePreview = () => setPreviewing(false);
+
   const watchInPlayer = () => {
     epub.ctrl.openPlayerModal(currChapter.title, currChapter.start, currChapter.end);
   };
@@ -24,6 +29,19 @@ function Toolbar({
       <EPubStepper vertical />
 
       <CTFragment>
+        <Button
+          round
+          outlined
+          uppercase
+          className="ech tool-bar-btn"
+          icon="preview"
+          onClick={openPreview}
+        >
+          Preview Chapter
+        </Button>
+
+        <PreviewChapterModal show={previewing} chapter={currChapter} onClose={closePreview} />
+
         <Button
           round
           outlined

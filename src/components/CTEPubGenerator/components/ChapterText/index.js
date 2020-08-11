@@ -1,36 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import cx from 'classnames';
 import { Popup } from 'semantic-ui-react';
 import { elem } from 'utils/use-elem';
 import { MDPreviewer, MDEditor } from '../Markdown';
+import ChapterEditButton from '../ChapterEditButton';
 import './index.scss';
 
 export function ChapterText({
   text = '',
   id = '',
-  chapter,
+  className,
   onSaveText,
-  screenshots,
-  chapterScreenshots
+  addNewText = 'Click to add content',
+  attached,
+  height = '300px'
 }) {
   const [editing, setEditing] = useState(false);
 
   const startEditing = () => setEditing(true);
   const closeEditing = () => setEditing(false);
 
-  const handleKeyDown = ({ keyCode }) => {
-    if (keyCode === 13 || keyCode === 32) {
-      startEditing();
-    }
-  };
-
   const onSave = (newText) => {
-    if (typeof onSaveText === 'function') {
+    if (typeof onSaveText === 'function' && newText !== text) {
       onSaveText(newText);
     }
     closeEditing();
   };
-
-  const { image } = chapter;
 
   const isNotEmpty = Boolean(text.trim());
 
@@ -38,7 +33,7 @@ export function ChapterText({
     if (editing) {
       setEditing(false);
     }
-  }, [chapter]);
+  }, [text]);
 
   useEffect(() => {
     if (editing) {
@@ -46,19 +41,19 @@ export function ChapterText({
     }
   }, [editing]);
 
+  const txtConClasses = cx('ct-epb', 'ch-text-con', className, { attached });
+
   return (
-    <div id={id} className="ct-epb ch-text-con">
+    <div id={id} className={txtConClasses}>
       {editing ? (
         <div className="w-100 mb-4">
           <MDEditor
-            height="300px"
+            height={height}
             id={`md-editor-${id}`}
             defaultValue={text}
             onSave={onSave}
             onClose={closeEditing}
-            screenshots={screenshots}
-            chapterScreenshots={chapterScreenshots}
-            defaultImage={image}
+            attached={attached}
           />
         </div>
       ) : (
@@ -74,19 +69,14 @@ export function ChapterText({
           position="top center"
           disabled={!isNotEmpty}
           trigger={
-            <div
-              className="ct-epb ch-text clickable"
-              tabIndex={0}
-              role="button"
-              onClick={startEditing}
-              onKeyDown={handleKeyDown}
+            <ChapterEditButton 
+              onClick={startEditing} 
+              muted={!isNotEmpty} 
+              attached={attached}
+              data-empty={isNotEmpty}
             >
-              {isNotEmpty ? (
-                <MDPreviewer value={text} />
-              ) : (
-                <div className="text-muted">Click to add content</div>
-              )}
-            </div>
+              {isNotEmpty ? <MDPreviewer value={text} /> : addNewText}
+            </ChapterEditButton>
           }
         />
       )}

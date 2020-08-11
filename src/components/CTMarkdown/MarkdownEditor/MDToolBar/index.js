@@ -12,6 +12,7 @@ import BulletedListTrigger from './BulletedListTrigger';
 import NumberedListTrigger from './NumberedListTrigger';
 import InsertLinkTrigger from './InsertLinkTrigger';
 import InsertMedia from './InsertMedia';
+import MathBlockTrigger from './MathBlockTrigger';
 
 function MDToolBar(props) {
   const {
@@ -58,13 +59,18 @@ function MDToolBar(props) {
           <CodeTrigger ace={ace} />
           <BulletedListTrigger ace={ace} />
           <NumberedListTrigger ace={ace} />
+          <MathBlockTrigger ace={ace} />
 
           <InsertLinkTrigger ace={ace} />
-          <InsertMedia
-            ace={ace}
-            imageTabs={imageTabs}
-            defaultImage={defaultImage}
-          />
+          {
+            Boolean(imageTabs.length)
+            &&
+            <InsertMedia
+              ace={ace}
+              imageTabs={imageTabs}
+              defaultImage={defaultImage}
+            />
+          }
         </div>
       )}
     </div>

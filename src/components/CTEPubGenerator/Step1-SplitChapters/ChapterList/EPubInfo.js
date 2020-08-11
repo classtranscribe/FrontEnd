@@ -36,7 +36,6 @@ function EPubInfo() {
         onSave={handleOnSave} 
         onSaveButtonText="Done"
         onDelete={handleDelete}
-        withCover
       />
       <CTConfirmation
         open={confirm}
@@ -49,9 +48,10 @@ function EPubInfo() {
   ) : (
     <CTFragment list padding={[0, 0, 10, 100]} className="ct-epb epb-info">
       <ChapterImage
-        screenshots={epubInfo.screenshots} 
-        image={uurl.getMediaUrl(epubInfo.cover.value)}
-        promptText="Click to Choose cover image"
+        id="ct-epb-cover-img"
+        image={epubInfo.cover.value}
+        screenshots={epubInfo.screenshots}
+        disableDescription
         onChooseImage={epubInfo.cover.setValue}
       />
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'pico-ui';
 import { useInput } from 'hooks';
 import {
   CTForm,
@@ -8,7 +9,7 @@ import {
   CTFormHeading,
   CTFragment
 } from 'layout';
-import { ChapterImage } from ".";
+import { ChapterImage } from './ChapterImage';
 import { epub } from '../controllers';
 
 export function useEPubInfo() {
@@ -55,6 +56,7 @@ function EPubInfoForm({
             image={cover.value}
             screenshots={screenshots}
             onChooseImage={cover.setValue}
+            disableDescription
           />
         </CTFormRow>
       }
@@ -62,6 +64,7 @@ function EPubInfoForm({
       <CTFormHeading padding="0">ePub Information</CTFormHeading>
       <CTFormRow>
         <CTInput
+          id="ct-epb-author-title"
           required // underlined
           label="ePub Title"
           placeholder="ePub title"
@@ -72,6 +75,7 @@ function EPubInfoForm({
 
       <CTFormRow>
         <CTInput
+          id="ct-epb-author-filename"
           required // underlined
           label="Filename"
           placeholder="Filename"
@@ -82,6 +86,7 @@ function EPubInfoForm({
 
       <CTFormRow>
         <CTInput
+          id="ct-epb-author-input"
           required // underlined
           label="Author / Instructor"
           placeholder="Author"
@@ -95,29 +100,43 @@ function EPubInfoForm({
         <>
           <CTFormHeading padding="0">Download files</CTFormHeading>
 
+          <CTFragment hEnd margin={[-40, 0, 10, 0]} padding={[0, 20]}>
+            <Button icon="launch" outlined onClick={epub.download.preview}>
+              Preview ePub
+            </Button>
+          </CTFragment>
+
           <CTFragment list padding={[0,15,0,0]}>
             <CTFileButton 
               icon={<i className="fas fa-file-alt" />}
               description="Save as ePub file"
-              onClick={epub.data.downloadEPub}
+              onClick={epub.download.downloadEPub}
             >
               {filename.value}.epub
             </CTFileButton>
 
             <CTFileButton 
+              icon={<i className="fas fa-file-archive" />}
+              description="Save as HTML files with CSS styles and images"
+              onClick={epub.download.downloadHTML}
+            >
+              {filename.value}.zip
+            </CTFileButton>
+
+            <CTFileButton 
               icon={<i className="fas fa-file-pdf" />}
               description="Print/Save as PDF file"
-              onClick={epub.data.downloadPDF}
+              onClick={epub.download.downloadPDF}
             >
               {filename.value}.pdf
             </CTFileButton>
 
             <CTFileButton 
-              icon={<i className="fas fa-file-code" />}
-              description="Download HTML/CSS files and images"
-              onClick={epub.data.downloadHTML}
+              icon={<i className="fas fa-file-image" />}
+              description="Save all the screenshots of the ePub data"
+              onClick={epub.download.downloadScreenshots}
             >
-              {filename.value}.zip
+              {filename.value} - screenshots.zip
             </CTFileButton>
           </CTFragment>
         </>

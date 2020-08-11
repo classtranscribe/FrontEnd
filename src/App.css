@@ -22,7 +22,7 @@ body {
   width: 100%;
 }
 
-a:focus, button:focus, div[tabindex="0"]:focus {
+a:focus, button:focus, div[tabindex="0"]:focus, *[contenteditable="true"]:focus {
   outline-style: solid;
   outline-width: 2px;
   outline-color:  rgb(7, 150, 143);

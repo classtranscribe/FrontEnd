@@ -13,7 +13,7 @@ export function ChapterTitle({
   label = 'Title',
   placeholder = 'Title',
   required = true,
-
+  bordered,
   onSave,
   ...otherProps
 }) {
@@ -57,7 +57,7 @@ export function ChapterTitle({
 
   const inputComponent = createElement(headingType, {
     ref: inputRef,
-    className: 'ct-epb ch-edit-title-txt clickable',
+    className: cx('ct-epb ch-edit-title-txt clickable', { bordered }),
     contentEditable: true,
     children: value,
     tabIndex: 0,

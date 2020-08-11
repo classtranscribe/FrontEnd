@@ -1,7 +1,9 @@
 import React from 'react';
 import { CTFragment } from 'layout';
 import { epub } from '../../controllers';
-import { ChapterTitle, ChapterImage, ChapterText } from '../../components';
+import { ChapterTitle } from '../../components';
+import ChapterContent from './ChapterContent';
+import ChapterNewContent from './ChapterNewContent';
 
 function SubChapterItem({
   subChapter,
@@ -9,47 +11,59 @@ function SubChapterItem({
   screenshots,
   chapterScreenshots
 }) {
-  const { title, text, id, image } = subChapter;
+  const { title, id, contents } = subChapter;
 
   const onSaveTitle = (newTitle) =>
     epub.data.saveSubChapterTitle(epub.state.currChIndex, subChapterIndex, newTitle);
 
-  const onChooseImage = (newImage) => 
-    epub.data.saveSubChapterImage(subChapterIndex, newImage);
+  const onRemove = (index) => () => {
+    epub.data.removeSubChapterContent(subChapterIndex, index);
+  };
 
-  const onRemoveImage = () => epub.data.removeSubChapterImage(subChapterIndex);
+  const onTextChange = (index) => (val) => {
+    if (!val) {
+      epub.data.removeSubChapterContent(subChapterIndex, index);
+    } else {
+      epub.data.setSubChapterContent(subChapterIndex, index, val);
+    }
+  };
 
-  const onSaveText = (newText) => epub.data.saveSubChapterText(subChapterIndex, newText);
+  const onImageChange = (index) => (val) => {
+    epub.data.setSubChapterImageContent(subChapterIndex, index, val);
+  };
 
+  const onInsert = (index) => (val) => {
+    epub.data.insertSubChapterContent(subChapterIndex, index, val);
+  };
+  
   return (
     <CTFragment id={epub.const.schID(id)}>
       <ChapterTitle
         id={epub.const.schTitleID(id)}
         value={title}
         headingType="h3"
-        onSave={onSaveTitle}
         label="Sub-Chapter Title"
         placeholder="Sub-Chapter Title"
+        bordered
+        onSave={onSaveTitle}
       />
 
-      <ChapterImage
-        id={epub.const.schImgID(id)}
-        image={image}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-        onChooseImage={onChooseImage}
-        onRemoveImage={onRemoveImage}
-      />
+      {contents.map((content, index) => (
+        <ChapterContent
+          id={`sch-content-${id}-${index}`}
+          key={`sch-content-${id}-${index}`}
+          index={index}
+          content={content}
+          screenshots={screenshots}
+          chapterScreenshots={chapterScreenshots}
+          onInsert={onInsert(index)}
+          onRemove={onRemove(index)}
+          onTextChange={onTextChange(index)}
+          onImageChange={onImageChange(index)}
+        />
+      ))}
 
-      <ChapterText
-        id={epub.const.schTextID(id)}
-        chapter={subChapter}
-        text={text}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-        onSaveText={onSaveText}
-        onChooseImage={onChooseImage}
-      />
+      <ChapterNewContent index={subChapter.contents.length} />
     </CTFragment>
   );
 }

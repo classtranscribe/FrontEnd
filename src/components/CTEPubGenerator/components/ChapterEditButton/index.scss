@@ -1,0 +1,16 @@
+.ct-epb.ch-edit-btn {
+  padding: 9px;
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+
+  &.top {
+    border-top: none !important;
+    padding-top: 13px;
+  }
+
+  &.bottom {
+    border-bottom: none !important;
+    padding-bottom: 13px;
+  }
+}

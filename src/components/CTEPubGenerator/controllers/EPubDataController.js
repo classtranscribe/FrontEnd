@@ -1,16 +1,14 @@
 import _ from 'lodash';
-import { prompt, uurl, CTEpubGenerator } from 'utils';
-import EPubData from './EPubData';
+import { prompt } from 'utils';
+import { EPubData , EPubChapterData, EPubSubChapterData, EPubImageData } from './structs';
 import { epubState } from './EPubState';
 import { epubHistory } from './EPubHistory';
-import { buildHTMLFromChapter } from './html-converters';
 import {
-  buildChapter as bch,
-  buildSubChapter as bsch,
   filterTrivalItems,
   buildEPubDataFromArray,
   getAllItemsInChapter,
 } from './utils';
+
 
 /**
  * The controller for handling the ePub data
@@ -25,7 +23,7 @@ class EPubDataController {
   }
 
   setChapters(chapters) {
-    this.data.chapters = _.cloneDeep(chapters);
+    this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
   }
 
   initEPubData(ePubLike) {
@@ -57,7 +55,7 @@ class EPubDataController {
   }
 
   saveEPubCover = (cover) => {
-    this.data.cover = cover;
+    this.data.cover = new EPubImageData(cover);
   }
 
   saveEPubAuthor = (author) => {
@@ -71,6 +69,10 @@ class EPubDataController {
       this.data.toObject().chapters,
       (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
     );
+  }
+
+  feed(mesg = 'Saved.') {
+    prompt.addOne({ text: mesg, timeout: 2000, position: 'left bottom' });
   }
 
   splitChapterFromChaptersItems(chapterIdx, itemIdx) {
@@ -101,8 +103,11 @@ class EPubDataController {
     // otherwise, convert itself as a sub chapter 
     // and append to the prev chapter.subChapters along w/ its sub chapters
     else {
-      prevChp.subChapters = 
-        _.concat(prevChp.subChapters, bsch(currChp), currChp.subChapters);
+      prevChp.subChapters = _.concat(
+        prevChp.subChapters, 
+        new EPubSubChapterData(currChp), 
+        currChp.subChapters
+      );
     }
 
     this.data.rebuildChapter(chapterIdx - 1, null, false);
@@ -219,7 +224,7 @@ class EPubDataController {
     // create a new chp w/ items after itemIdx of this subChapter.items
     // and sub chps of the rest of curr chp
     this.data.insertChapter(chapterIdx + 1, {
-      ...subChapter,
+      ...subChapter.toShallowObject(),
       image: undefined,
       subChapters: _.slice(chapter.subChapters, subChapterIdx + 1)
     });
@@ -250,7 +255,7 @@ class EPubDataController {
     let splitChapters = _.map(
       filterTrivalItems(epubState.rawEPubData),
       (data, idx) =>
-        bch({
+        new EPubChapterData({
           items: [data],
           title: `Untitled Chapter ${idx + 1}`,
         }),
@@ -269,14 +274,14 @@ class EPubDataController {
       let items = getAllItemsInChapter(chapter);
 
       chapter.subChapters = _.map(items, (item, subChapterIndex) =>
-        bsch({
+        new EPubSubChapterData({
           items: [item],
           title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
         }),
       );
 
       chapter.items = [];
-      return bch(chapter);
+      return new EPubChapterData(chapter);
     });
 
     this.data.chapters = newChapters;
@@ -305,86 +310,84 @@ class EPubDataController {
   }
 
   /// /////////////////////////////////////////////////////////////////////////
-  // handle edit image
+  // handle edit chapter contents
   /// /////////////////////////////////////////////////////////////////////////
 
-  saveCurrChapterImage(image) {
+  setChapterContent(contentIdx, value) {
     let chapter = this.data.getChapter(epubState.currChIndex);
-    chapter.image = image;
-    this.updateAll('Change the chapter image');
+    chapter.setContent(contentIdx, value);
+    this.updateAll('Update the chapter content');
+    this.feed();
   }
 
-  removeCurrChapterImage = () => {
-    this.saveCurrChapterImage(/** undefined */);
+  setChapterImageContent(contentIdx, value) {
+    this.setChapterContent(contentIdx, new EPubImageData(value));
   }
 
-  saveSubChapterImage(subChapterIdx, image) {
-    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
-    subChapter.image = image;
-    this.updateAll('Change the sub-chapter image');
-  }
-  
-  removeSubChapterImage(subChapterIdx) {
-    this.saveSubChapterImage(subChapterIdx);
-  }
-
-  /// /////////////////////////////////////////////////////////////////////////
-  // handle edit text
-  /// /////////////////////////////////////////////////////////////////////////
-  saveCurrChapterText(text) {
+  insertChapterContent(contentIdx, value) {
     let chapter = this.data.getChapter(epubState.currChIndex);
-    chapter.text = text;
-    this.updateAll('Change the chapter text');
+    chapter.insert(contentIdx, value);
+    this.updateAll('Insert chapter content');
+    this.feed();
   }
 
-  saveSubChapterText(subChapterIdx, text) {
+  insertChapterImageContent(contentIdx, value) {
+    this.insertChapterContent(contentIdx, new EPubImageData(value));
+  }
+
+  // pushChapterContent(contentIdx, value) {
+  //   let chapter = this.data.getChapter(epubState.currChIndex);
+  //   chapter.push(contentIdx, value);
+  //   this.updateAll('Push chapter content');
+  // }
+
+  // pushChapterImageContent(contentIdx, value) {
+  //   this.pushChapterContent(contentIdx, new EPubImageData(value));
+  // }
+
+  removeChapterContent(contentIdx) {
+    let chapter = this.data.getChapter(epubState.currChIndex);
+    chapter.remove(contentIdx);
+    this.updateAll('Remove the chapter content');
+    this.feed('Removed.');
+  }
+
+  /// /////////////////////////////////////////////////////////////////////////
+  // handle edit sub-chapter contents
+  /// /////////////////////////////////////////////////////////////////////////
+
+  setSubChapterContent(subChapterIdx, contentIdx, value) {
     let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
-    subChapter.text = text;
-    this.updateAll('Change the sub-chapter text');
+    subChapter.setContent(contentIdx, value);
+    this.updateAll('Update the sub-chapter content');
+    this.feed();
   }
 
-  /// /////////////////////////////////////////////////////////////////////////
-  // handle download
-  /// /////////////////////////////////////////////////////////////////////////
-  createEPubDownloader() {
-    const options = this.data.toObject();
-    options.cover = uurl.getMediaUrl(options.cover);
-    options.chapters = _.map(
-      options.chapters, 
-      chp => ({
-        ...chp,
-        text: buildHTMLFromChapter(chp),
-        // image: uurl.getMediaUrl(chp.image)
-      })
+  setSubChapterImageContent(subChapterIdx, contentIdx, value) {
+    this.setSubChapterContent(
+      subChapterIdx, 
+      contentIdx, 
+      new EPubImageData(value)
     );
-    return new CTEpubGenerator(options);
   }
 
-  handleDownloadError(error) {
-    if (error.message === 'Network Error') {
-      error.message += ': Failed to download cover images.';
-    } else {
-      error.message = `Failed: ${error.message}`;
-    }
-  
-    prompt.addOne({
-      text: error.message,
-      status: 'error',
-      position: 'bottom left',
-    });
+  insertSubChapterContent(subChapterIdx, contentIdx, value) {
+    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
+    subChapter.insert(contentIdx, value);
+    this.updateAll('Insert sub-chapter content');
+    this.feed();
   }
 
-  downloadEPub = () => {
-    this.createEPubDownloader().downloadEpub({ onError: this.handleDownloadError });
-  };
+  insertSubChapterImageContent(subChapterIdx, contentIdx, value) {
+    this.insertChapterContent(subChapterIdx, contentIdx, new EPubImageData(value));
+  }
 
-  downloadHTML = () => {
-    this.createEPubDownloader().downloadHTML({ onError: this.handleDownloadError });
-  };
-
-  downloadPDF = (print = true) => {
-    this.createEPubDownloader().preview({ print, onError: this.handleDownloadError });
-  };
+  removeSubChapterContent(subChapterIdx, contentIdx) {
+    let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
+    subChapter.remove(contentIdx);
+    this.updateAll('Remove the sub-chapter content');
+    this.feed('Removed.');
+  }
 }
 
 export const epubData = new EPubDataController();

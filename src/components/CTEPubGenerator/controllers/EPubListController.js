@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { api, prompt, uurl, ARRAY_INIT, isDeveloping } from 'utils';
 import { Languages } from '../../CTPlayer';
 import Constants from './EPubConstants';
-import EPubData from './EPubData';
+import { EPubData } from './structs';
 import { epubState } from './EPubState';
 import { parseRawEPubData } from './utils';
 
@@ -26,8 +26,14 @@ class EPubListController {
 
   proceedToEPubGenerator(currEPub) {
     // console.log('proceedToEPubGenerator')
+    let step = Constants.EPubStepSplitChapters;
+    // // For Test Only
+    // if (isDeveloping) {
+    //   step = Constants.EPubStepEditChapters;
+    // }
+    
     uurl.setHash(
-      uurl.createHash({ step: Constants.EPubStepSplitChapters, eid: currEPub.id })
+      uurl.createHash({ step, eid: currEPub.id })
     );
   }
 
@@ -97,7 +103,7 @@ class EPubListController {
     const epubs = await this.getEPubs(media.id);
     epubState.setEPubs(epubs);
 
-    // For Test Only
+    // // For Test Only
     // if (isDeveloping) {
     //   await this.createEPub(Languages.English);
     // }
