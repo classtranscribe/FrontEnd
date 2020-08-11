@@ -5,7 +5,7 @@ import {
   CTFormRow,
   CTInput,
   CTSelect,
-  CTCheckbox,
+  CTRadio,
 } from 'layout';
 import { api, util, prompt } from 'utils';
 
@@ -47,8 +47,8 @@ function BasicInfo(props) {
     setTerm(value);
   };
 
-  const handleLogEventsFlagChange = ({ target: { checked } }) => {
-    setLogEventsFlag(checked);
+  const handleLogEventsFlagChange = ({ target: { value } }) => {
+    setLogEventsFlag(value === 1);
   };
 
   const handleDescriptionChange = ({ target: { value } }) => {
@@ -77,11 +77,16 @@ function BasicInfo(props) {
     setupTermOptions();
   }, [uniId]);
 
-  const visibilityOptions = api.offeringAccessType.map(type => ({
+  const visibilityOptions = api.offeringAccessType.slice(1).map(type => ({
     text: type.name,
     value: type.id,
     description: type.description
   }));
+
+  const logEventOptions = [
+    { value: 0, text: 'Yes' },
+    { value: 1, text: 'No' }
+  ];
 
   return (
     <CTFragment>
@@ -143,12 +148,13 @@ function BasicInfo(props) {
       </CTFormRow>
 
       <CTFormRow padding={[0, 10]}>
-        <CTCheckbox
+        <CTRadio
           id="log-event"
-          helpText="Turn it on if you would like to receive the statistics of students' perfermance in the future."
-          label="Log student events"
-          checked={logEventsFlag}
+          legend="Do you want to receive the statistics of students' performance in the future?"
+          options={logEventOptions}
           onChange={handleLogEventsFlagChange}
+          value={logEventsFlag ? 1 : 0}
+          helpText="By choosing yes, we are going log students' performance for your course."
         />
       </CTFormRow>
     </CTFragment>

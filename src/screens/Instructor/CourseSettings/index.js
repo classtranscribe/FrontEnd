@@ -26,7 +26,7 @@ class CourseSettingsWithRedux extends Component {
       footer: true,
       headingProps: {
         heading: loading ? '' : `${offering.fullNumber} Settings`,
-        icon: 'settings',
+        // icon: 'settings',
         sticky: true,
         gradient: true,
         offsetTop: 30
