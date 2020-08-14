@@ -47,8 +47,8 @@ function BasicInfo(props) {
     setTerm(value);
   };
 
-  const handleLogEventsFlagChange = ({ target: { value } }) => {
-    setLogEventsFlag(value === 1);
+  const handleLogEventsFlagChange = (event, value) => {
+    setLogEventsFlag(value === 'yes');
   };
 
   const handleDescriptionChange = ({ target: { value } }) => {
@@ -62,7 +62,11 @@ function BasicInfo(props) {
   const setupTermOptions = async () => {
     try {
       const { data } = await api.getTermsByUniId(uniId);
-      setTerms(util.getSelectOptions(data, 'term'));
+      const _terms = util.getSelectOptions(data, 'term');
+      if (_terms[0]) {
+        _terms[0].description = 'Current term';
+      }
+      setTerms(_terms);
 
       if (data.length > 0) {
         if (!term) setTerm(data[0].id);
@@ -84,8 +88,8 @@ function BasicInfo(props) {
   }));
 
   const logEventOptions = [
-    { value: 0, text: 'Yes' },
-    { value: 1, text: 'No' }
+    { value: 'yes', text: 'Yes' },
+    { value: 'no', text: 'No' }
   ];
 
   return (
@@ -153,7 +157,7 @@ function BasicInfo(props) {
           legend="Do you want to receive the statistics of students' performance in the future?"
           options={logEventOptions}
           onChange={handleLogEventsFlagChange}
-          value={logEventsFlag ? 1 : 0}
+          value={logEventsFlag ? 'yes' : 'no'}
           helpText="By choosing yes, we are going log students' performance for your course."
         />
       </CTFormRow>
