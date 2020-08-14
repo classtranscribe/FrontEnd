@@ -51,8 +51,8 @@ function Radio(props) {
           <FormControlLabel
             key={opt.value}
             value={opt.value}
-            control={RadioElement}
             label={opt.text}
+            control={RadioElement}
             className={classes.formCtrlLabel}
           />
         ))}
