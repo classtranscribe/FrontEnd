@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import { isMobile } from 'react-device-detect';
-import { api, userAction } from '../../../utils';
+import { api } from 'utils';
 import { timeStrToSec, colorMap } from './helpers';
 import { videoControl } from './player.control';
 import { promptControl } from './prompt.control';
 import { preferControl } from './preference.control';
+import { uEvent } from './UserEventController';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -127,6 +128,7 @@ export const transControl = {
 
       // Set the default current-transcription to be English
       const currTrans = this.findTransByLanguage(ENGLISH); // trans.find(tran => tran.language === 'en-US')
+      uEvent.registerLanguage(ENGLISH);
       if (currTrans) {
         this.currTrans(currTrans);
       } else {
@@ -361,7 +363,7 @@ export const transControl = {
     if (setCurrEditing) {
       const { id } = this.currEditing_;
       // send user event
-      userAction.edittrans(videoControl.currTime(), this.currEditing_.text, text);
+      uEvent.edittrans(videoControl.currTime(), this.currEditing_.text, text);
       // update new text
       this.currEditing_.text = text;
       setCurrEditing(null);
@@ -512,7 +514,8 @@ export const transControl = {
     if (currTrans) {
       this.currTrans(currTrans);
     }
-    userAction.langchange(videoControl.currTime(), language);
+    uEvent.langchange(videoControl.currTime(), language);
+    uEvent.registerLanguage(language);
   },
 
   // Close or open CC
@@ -560,7 +563,7 @@ export const transControl = {
       if (updatePrefer) preferControl.defaultTransView(view);
     }
 
-    if (sendUserAction) userAction.transviewchange(videoControl.currTime(), view);
+    if (sendUserAction) uEvent.transviewchange(videoControl.currTime(), view);
   },
   handleTransViewSwitch() {
     const view = this.TRANS_VIEW;
