@@ -198,7 +198,7 @@ CTFragment.propTypes = {
    * <CTFragment as="a" ... >...</CTFragment> // <a ... >...</a>
    * <CTFragment as="ul" ... >...</CTFragment> // <ul ... >...</ul>
    */
-  as: PropTypes.string,
+  as: PropTypes.elementType,
 
   /** The primary content */
   children: PropTypes.node,
