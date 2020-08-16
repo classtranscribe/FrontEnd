@@ -7,7 +7,7 @@ import './index.scss';
 
 import { parseCourse } from './parse-course';
 
-export function CourseCard(props) {
+function CourseCard(props) {
   let {
     id,
     className,
@@ -89,3 +89,4 @@ CourseCard.propTypes = {
 
 CourseCard.parse = parseCourse;
 
+export default CourseCard;

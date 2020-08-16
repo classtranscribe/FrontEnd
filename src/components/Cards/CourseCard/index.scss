@@ -24,6 +24,10 @@
   margin: 0 5px 10px 5px;
   width: 250px;
   min-width: 250px;
+
+  &.disabled {
+    pointer-events: none;
+  }
   
   &:not(.row) {
     // background-color: rgb(250, 250, 250);

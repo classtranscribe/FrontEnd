@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout, CTLoadable, altEl } from 'layout';
+import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import { homeStore, connectWithRedux, home } from './controllers';
-import { SectionList, CourseFilter } from './components';
+import { Placeholder, SectionList, CourseFilter } from './components';
 
 class HomeWithRedux extends Component {
   constructor(props) {
@@ -25,12 +25,13 @@ class HomeWithRedux extends Component {
     });
 
     const loading = sections === ARRAY_INIT;
+    const loaderElement = makeEl(Placeholder);
     const sectionElement = altEl(SectionList, !loading, { sections });
     const filterElement = altEl(CourseFilter, !loading);
 
     return (
       <CTLayout {...layoutProps}>
-        <CTLoadable loading={loading}>
+        <CTLoadable loading={loading} loadingElement={loaderElement}>
           {filterElement}
           {sectionElement}
         </CTLoadable>
