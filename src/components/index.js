@@ -16,7 +16,8 @@ export {
   VideoCard, 
   VideoCardPlaceHolder, 
   CourseCard,
-  CourseCardList
+  CourseCardList,
+  MediaCard
 } from './Cards';
 
 export { CTModal } from './Modals';

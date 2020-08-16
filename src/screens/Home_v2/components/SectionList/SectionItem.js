@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CourseCard } from 'components';
+import { CourseCard, MediaCard } from 'components';
 import {
   CTFragment,
   CTHeading,
@@ -10,7 +10,6 @@ import {
   altEl
 } from 'layout';
 import { home } from '../../controllers';
-import MediaCard from './MediaCard';
 
 function sectionItemsElements(section) {
   const { type, items } = section;
@@ -18,7 +17,7 @@ function sectionItemsElements(section) {
     case home.const.FSectionCourses:
       return items.map((item) => <CourseCard key={item.id} {...CourseCard.parse(item)} />);
     case home.const.FSectionVideos:
-      return items.map((item) => <MediaCard key={item.id} media={item} />);
+      return items.map((item) => <MediaCard key={item.id} {...MediaCard.parse(item)} />);
     default:
       return null;
   }
