@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'layout';
+import { CTLayout, CTLoadable, altEl } from 'layout';
+import { ARRAY_INIT } from 'utils/constants';
 import { homeStore, connectWithRedux, home } from './controllers';
-import { SectionList } from './components';
+import { SectionList, CourseFilter } from './components';
 
 class HomeWithRedux extends Component {
   constructor(props) {
@@ -16,15 +17,23 @@ class HomeWithRedux extends Component {
   }
 
   render() {
+    const { sections } = this.props;
     const layoutProps = CTLayout.createProps({
       transition: true,
       responsive: true,
       footer: true,
     });
 
+    const loading = sections === ARRAY_INIT;
+    const sectionElement = altEl(SectionList, !loading);
+    const filterElement = altEl(CourseFilter, !loading);
+
     return (
       <CTLayout {...layoutProps}>
-        <SectionList />
+        <CTLoadable loading={loading}>
+          {filterElement}
+          {sectionElement}
+        </CTLoadable>
       </CTLayout>
     )
   }
@@ -34,6 +43,6 @@ export const Home = withReduxProvider(
   HomeWithRedux,
   homeStore,
   connectWithRedux,
-  [],
+  ['sections'],
   ['all']
 );

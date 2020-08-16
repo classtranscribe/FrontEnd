@@ -1,9 +1,13 @@
 import _ from 'lodash';
-import { api, prompt, ARRAY_INIT, NOT_FOUND_404, user } from 'utils';
+import { api, prompt, ARRAY_INIT, NOT_FOUND_404, user, links } from 'utils';
 import { homeState } from './HomeState';
 import HomeConstants from './HomeConstants';
 
 class HomeController {
+  constructor() {
+    this.selectUniversity = this.selectUniversity.bind(this);
+  }
+
   async setupHomepage() {
     const universities = await this.getUniversities();
     homeState.setUniversities(universities);
@@ -51,6 +55,16 @@ class HomeController {
     this.buildSections();
   }
 
+  async selectDepartments(selDepartments) {
+    homeState.setSelDepartments(selDepartments);
+    this.buildSections();
+  }
+
+  async selectTerms(selTerms) {
+    homeState.setSelTerms(selTerms);
+    this.buildSections();
+  }
+
   async buildStarredOfferings() {
     const starredOfferingIds = await this.getStarredOfferings();
     const starredOfferings = starredOfferingIds
@@ -71,8 +85,12 @@ class HomeController {
       watchHistory
     } = homeState;
 
+    const hasDepSelected = selDepartments.length > 0;
+    const hasTermSelected = selTerms.length > 0;
+    const hasSelected = hasDepSelected || hasTermSelected;
+
     let sections = [];
-    if (starredOfferings.length > 0) {
+    if (starredOfferings.length > 0 && !hasSelected) {
       sections.push({
         type: HomeConstants.FSectionCourses,
         id: 'starred-offs-section',
@@ -82,20 +100,21 @@ class HomeController {
       });
     }
 
-    if (watchHistory.length > 0) {
+    if (watchHistory.length > 0 && !hasSelected) {
       sections.push({
         type: HomeConstants.FSectionVideos,
         id: 'watch-history-section',
         title: 'Continue Watching',
         icon: 'history',
-        items: watchHistory
+        items: watchHistory,
+        link: links.history()
       });
     }
 
     // build departments sections
     let currDepartments = departments;
-    if (selDepartments.length > 0) {
-      currDepartments = departments.map((depart) => selDepartments.includes(depart.id));
+    if (hasDepSelected) {
+      currDepartments = departments.filter((depart) => selDepartments.includes(depart.id));
     }
 
     let departSections = currDepartments

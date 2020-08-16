@@ -15,6 +15,14 @@
       line-height: normal;
     }
 
+    a.ct-homep.section-title:hover::after {
+      content: ' > See More';
+      color: rgb(104, 104, 104);
+      font-size: 16px;
+      margin-left: 10px;
+      font-weight: normal;
+    }
+
     // .ct-homep.section-title-con {
 
     // }

@@ -25,9 +25,10 @@ const useStyles = makeStyles({
  * The Row component used in `CTForm`
  */
 function FormRow(props) {
-  let {
+  const {
     children,
     padding,
+    ...otherProps
   } = props;
 
   const rowClasses = useStyles();
@@ -36,7 +37,7 @@ function FormRow(props) {
   const xs = Math.floor(12 / colElements.length);
 
   return (
-    <CTFragment padding={padding}>
+    <CTFragment padding={padding} {...otherProps}>
       <Grid className={rowClasses.root} container spacing={2}>
         {colElements.map(colElem => (
           <Grid key={colElem.key} item lg={xs} md={xs} sm={12} xs={12} className={rowClasses.item}>

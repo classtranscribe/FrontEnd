@@ -25,11 +25,20 @@ function Select(props) {
     required = false,
     disabled = false,
     underlined = false,
+    multiple = false,
     onChange,
+    ...otherProps
   } = props;
 
   const classes = useStyles();
   const labelId = `ct-form-sel-label-${ id}`;
+
+  let renderValue = null;
+  if (multiple) {
+    renderValue = (values) => values
+      .map((val) => options.find(opt => opt.value === val).text)
+      .join(', ');
+  }
 
   return (
     <FormControl
@@ -47,9 +56,12 @@ function Select(props) {
         labelId={labelId}
         label={label}
         value={value}
+        renderValue={renderValue}
         placeholder={placeholder}
         defaultValue={defaultValue}
         onChange={onChange}
+        multiple={multiple}
+        {...otherProps}
       >
         {options.map(item => (
           <MenuItem dense key={item.value} value={item.value}>
@@ -104,7 +116,10 @@ Select.propTypes = {
   disabled: PropTypes.bool,
 
   /** The input field can be underlined */
-  underlined: PropTypes.bool
+  underlined: PropTypes.bool,
+
+  /** Use multiple select */
+  multiple: PropTypes.bool
 };
 
 export default Select;
