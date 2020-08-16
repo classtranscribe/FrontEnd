@@ -82,15 +82,15 @@ class HomeController {
       });
     }
 
-    if (watchHistory.length > 0) {
-      sections.push({
-        type: HomeConstants.FSectionVideos,
-        id: 'watch-history-section',
-        title: 'Continue Watching',
-        icon: 'history',
-        items: watchHistory
-      });
-    }
+    // if (watchHistory.length > 0) {
+    //   sections.push({
+    //     type: HomeConstants.FSectionVideos,
+    //     id: 'watch-history-section',
+    //     title: 'Continue Watching',
+    //     icon: 'history',
+    //     items: watchHistory
+    //   });
+    // }
 
     // build departments sections
     let currDepartments = departments;

@@ -13,7 +13,9 @@ function SectionList({
 
   return (
     <CTFragment list role="list" loading={loading} padding="10">
-      {sections.map((section) => <SectionItem section={section} />)}
+      {sections.map((section, index) => (
+        <SectionItem key={section.id + index} section={section} />
+      ))}
     </CTFragment>
   );
 }

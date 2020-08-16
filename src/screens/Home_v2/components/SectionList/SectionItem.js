@@ -1,25 +1,36 @@
 import React from 'react';
-import { CTFragment, CTHeading, CTText, makeEl, altEl } from 'layout';
+import { Link } from 'react-router-dom';
+import { CourseCard } from 'components';
+import {
+  CTFragment,
+  CTHeading,
+  CTText,
+  CTHorizontalScroll,
+  makeEl,
+  altEl
+} from 'layout';
 import { home } from '../../controllers';
+import MediaCard from './MediaCard';
 
-function SectionItemsSelector(section) {
-  const { type } = section;
+function sectionItemsElements(section) {
+  const { type, items } = section;
   switch (type) {
     case home.const.FSectionCourses:
-      return type;
+      return items.map((item) => <CourseCard key={item.id} {...CourseCard.parse(item)} />);
     case home.const.FSectionVideos:
-      return type;
+      return items.map((item) => <MediaCard key={item.id} media={item} />);
     default:
       return null;
   }
 }
 
 function SectionItem({ section }) {
-  const { title, subTitle, icon } = section;
+  const { title, subTitle, icon, link } = section;
 
   const titleElement = makeEl(CTHeading, {
-    as: 'h3',
+    as: link ? Link : 'h3',
     icon,
+    to: link,
     highlightIcon: true,
     className: 'ct-homep section-title',
     children: title
@@ -34,12 +45,14 @@ function SectionItem({ section }) {
 
   return (
     <CTFragment className="ct-homep section-con">
-      <CTFragment vEnd className="ct-homep section-title-con">
+      <CTFragment className="ct-homep section-title-con">
         {titleElement}
         {subTitleElement}
       </CTFragment>
       <CTFragment>
-        {SectionItemsSelector(section)}
+        <CTHorizontalScroll>
+          {sectionItemsElements(section)}
+        </CTHorizontalScroll>
       </CTFragment>
     </CTFragment>
   );
