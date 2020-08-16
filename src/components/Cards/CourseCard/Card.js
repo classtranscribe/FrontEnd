@@ -43,7 +43,7 @@ function CourseCard(props) {
         <CTText bold size="big" line={2}>{name}</CTText>
       </div>
 
-      <CTText celadon size="medium">
+      <CTText celadon size="medium" line={1}>
         {term} | {section}
       </CTText>
 

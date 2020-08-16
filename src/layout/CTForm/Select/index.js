@@ -6,7 +6,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import MuiSelect from '@material-ui/core/Select';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import { CTText } from '../../CTText';
 import { useStyles } from '../Input';
 
 /**
@@ -27,6 +27,7 @@ function Select(props) {
     underlined = false,
     multiple = false,
     onChange,
+    noItemsHolder = 'No items',
     ...otherProps
   } = props;
 
@@ -63,11 +64,11 @@ function Select(props) {
         multiple={multiple}
         {...otherProps}
       >
-        {options.map(item => (
+        {options.length > 0 ? options.map(item => (
           <MenuItem dense key={item.value} value={item.value}>
             <ListItemText primary={item.text} secondary={item.description} />
           </MenuItem>
-        ))}
+        )) : <CTText muted padding="10">{noItemsHolder}</CTText>}
       </MuiSelect>
       <FormHelperText>{helpText}</FormHelperText>
     </FormControl>
@@ -85,7 +86,7 @@ Select.propTypes = {
   placeholder: PropTypes.string,
 
   /** The value for the selection */
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 
   /** The default value for the selection */
   defaultValue: PropTypes.string,
@@ -119,7 +120,10 @@ Select.propTypes = {
   underlined: PropTypes.bool,
 
   /** Use multiple select */
-  multiple: PropTypes.bool
+  multiple: PropTypes.bool,
+
+  /** text holder when no selection options available */
+  noItemsHolder: PropTypes.string
 };
 
 export default Select;

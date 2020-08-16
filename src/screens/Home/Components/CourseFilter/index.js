@@ -32,8 +32,10 @@ function CourseFilter({
     <CTFragment sticky offsetTop="50" className="ct-homep course-filter">
       <CTFormRow padding={[10, 0, 0, 10]} vEnd gridClassName="course-filter-item">
         <CTSelect
+          id="home-uni-filter"
           placeholder="University"
           label="University"
+          noItemsHolder="No universities"
           value={selUniversity}
           options={universityOptions}
           onChange={handleUniversityChange}
@@ -43,8 +45,10 @@ function CourseFilter({
           (selUniversity && !isMobile)
           &&
           <CTSelect
+            id="home-departs-filter"
             placeholder="Filter by departments"
             label="Filter by departments"
+            noItemsHolder="No departments"
             value={selDepartments}
             options={departmentOptions}
             onChange={handleDepartmentsChange}
@@ -57,8 +61,10 @@ function CourseFilter({
           (selUniversity && !isMobile)
           &&
           <CTSelect
+            id="home-terms-filter"
             placeholder="Filter by terms"
             label="Filter by terms"
+            noItemsHolder="No terms"
             value={selTerms}
             options={termOptions}
             onChange={handleTermsChange}
