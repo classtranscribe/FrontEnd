@@ -25,7 +25,7 @@ class HomeWithRedux extends Component {
     });
 
     const loading = sections === ARRAY_INIT;
-    const sectionElement = altEl(SectionList, !loading);
+    const sectionElement = altEl(SectionList, !loading, { sections });
     const filterElement = altEl(CourseFilter, !loading);
 
     return (

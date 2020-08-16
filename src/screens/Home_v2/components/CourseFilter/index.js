@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import { CTFragment, CTSelect, CTFormRow } from 'layout';
 import { connectWithRedux, home } from '../../controllers';
 import './index.scss';
@@ -29,7 +30,7 @@ function CourseFilter({
 
   return (
     <CTFragment sticky offsetTop="50" className="ct-homep course-filter">
-      <CTFormRow padding={[10, 10, 0, 15]} vEnd>
+      <CTFormRow padding={[10, 0, 0, 10]} vEnd gridClassName="course-filter-item">
         <CTSelect
           placeholder="University"
           label="University"
@@ -39,7 +40,7 @@ function CourseFilter({
           // underlined
         />
         {
-          selUniversity
+          (selUniversity && !isMobile)
           &&
           <CTSelect
             placeholder="Filter by departments"
@@ -53,7 +54,7 @@ function CourseFilter({
         }
 
         {
-          selUniversity
+          (selUniversity && !isMobile)
           &&
           <CTSelect
             placeholder="Filter by terms"

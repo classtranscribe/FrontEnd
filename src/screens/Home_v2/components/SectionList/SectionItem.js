@@ -48,7 +48,7 @@ function SectionItem({ section }) {
         {titleElement}
         {subTitleElement}
       </CTFragment>
-      <CTFragment>
+      <CTFragment padding={[0,0,0,5]}>
         <CTHorizontalScroll>
           {sectionItemsElements(section)}
         </CTHorizontalScroll>

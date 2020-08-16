@@ -1,7 +1,6 @@
 import React from 'react';
 import { CTFragment } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
-import { connectWithRedux, home } from '../../controllers';
 import SectionItem from './SectionItem';
 import './index.scss';
 
@@ -20,7 +19,4 @@ function SectionList({
   );
 }
 
-export default connectWithRedux(
-  SectionList,
-  ['sections']
-);
+export default SectionList;
