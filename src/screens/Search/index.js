@@ -2,7 +2,7 @@ import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { searchStore, connectWithRedux, setup } from './controllers';
-import { SearchInput, SearchResult } from './Components';
+import { SearchInput, SearchResult } from './components';
 
 class SearchWithRedux extends React.Component {
   constructor(props) {

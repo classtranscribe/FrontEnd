@@ -1,5 +1,5 @@
 import React from 'react';
-import { CourseForm } from 'screens/Instructor/NewCourse/Components';
+import { CourseForm } from 'screens/Instructor/NewCourse/components';
 import { connectWithRedux, offControl } from '../controllers';
 
 export function CourseInfoWithRedux({

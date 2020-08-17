@@ -124,6 +124,7 @@ class HomeController {
         id: depart.id,
         title: depart.name,
         subTitle: depart.university ? depart.university.name : '',
+        link: links.search(depart.acronym),
         items: _.filter(offerings, off => {
           return off.departmentIds.includes(depart.id)
                 && (selTerms.length === 0 || selTerms.includes(off.termId))

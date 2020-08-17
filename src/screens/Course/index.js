@@ -8,8 +8,7 @@ import {
   courseStore,
   connectWithRedux
 } from './controllers';
-
-import { CourseInfo, Playlists } from './Components';
+import { CourseInfo, Playlists } from './components';
 
 
 class CourseWithRedux extends Component {
