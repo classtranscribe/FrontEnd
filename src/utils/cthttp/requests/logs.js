@@ -1,3 +1,11 @@
+import {
+  deviceType,
+  osVersion,
+  osName,
+  fullBrowserVersion,
+  browserName,
+} from 'react-device-detect';
+import { user } from '../../user';
 import { cthttp } from './request';
 
 const GET_LOG_TIMEOUT = 6000000;
@@ -47,6 +55,16 @@ export function getUserSearchHistoryInOffering(offeringId) {
 
 // POST
 
-export function sendUserAction(data) {
-  return cthttp.post('Logs', data);
+export function sendUserAction(eventType, data = {}) {
+  const { json, mediaId, offeringId } = data;
+  return cthttp.post('Logs', {
+    eventType,
+    mediaId,
+    offeringId,
+    userId: user.userId,
+    json: {
+      ...json,
+      device: { deviceType, osVersion, osName, fullBrowserVersion, browserName },
+    },
+  });
 }

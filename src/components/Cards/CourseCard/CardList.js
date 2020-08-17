@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { CTFragment } from 'layout';
-import CourseCard from './Card';
+import { CourseCard } from './Card';
 
-function CourseCardList(props) {
+export function CourseCardList(props) {
   let {
     row = false,
     className,
@@ -37,4 +37,3 @@ CourseCardList.propTypes = {
   courses: PropTypes.arrayOf(PropTypes.shape())
 };
 
-export default CourseCardList;

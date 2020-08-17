@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { connectWithRedux, transControl, preferControl, uEvent } from '../../../../Utils';
+import { userAction } from 'utils';
+import { connectWithRedux, transControl, preferControl } from '../../../../Utils';
 
 import MenuRadio from '../MenuRadio';
 
@@ -12,7 +13,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [] }) {
 
   const handlePauseWhileAD = () => {
     preferControl.pauseWhileAD(!pauseWhileAD);
-    uEvent.pauseWhenADStarts(!pauseWhileAD);
+    userAction.pauseWhenADStarts(!pauseWhileAD);
     setPauseWhileAD(!pauseWhileAD);
   };
 

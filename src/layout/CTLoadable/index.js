@@ -8,8 +8,6 @@ function CTLoadable(props) {
     errorElement = null,
     loading = false,
     loadingElement = null,
-    alt = false,
-    altElement = null,
     children = null,
   } = props;
 
@@ -19,10 +17,6 @@ function CTLoadable(props) {
 
   if (loading) {
     return loadingElement || <CTLoader />;
-  }
-
-  if (alt) {
-    return altElement;
   }
 
   return children;
@@ -40,12 +34,6 @@ CTLoadable.propTypes = {
 
   /** The loader element */
   loadingElement: PropTypes.node,
-
-  /** Use the alternate element */
-  alt: PropTypes.bool,
-
-  /** The alternate element  */
-  altElement: PropTypes.node,
 
   /** The primary content */
   children: PropTypes.node

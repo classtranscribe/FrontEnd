@@ -2,11 +2,12 @@
  * Functions for controlling video players
  */
 import { isMobile } from 'react-device-detect';
-import { api, user, links, uurl } from 'utils';
+import { userAction, api, user, links, uurl } from 'utils';
 import { setup } from './setup.control';
 import { transControl } from './trans.control';
 import { preferControl } from './preference.control';
-import { uEvent } from './UserEventController';
+// import { menuControl } from './menu.control'
+
 import {
   NORMAL_MODE,
   PS_MODE,
@@ -140,7 +141,7 @@ export const videoControl = {
       setMode(mode);
       this.LAST_SCREEN_MODE = this.SCREEN_MODE;
       this.SCREEN_MODE = mode;
-      if (sendUserAction) uEvent.screenmodechange(this.currTime(), mode);
+      if (sendUserAction) userAction.screenmodechange(this.currTime(), mode);
     }
   },
   addWindowEventListener() {
@@ -193,7 +194,7 @@ export const videoControl = {
     if (setPause) {
       setPause(true);
       this.PAUSED = true;
-      uEvent.pause(this.currTime());
+      userAction.pause(this.currTime());
       this.sendMediaHistories();
     }
   },
@@ -210,7 +211,7 @@ export const videoControl = {
     if (setPause) {
       setPause(false);
       this.PAUSED = false;
-      uEvent.play(this.currTime());
+      userAction.play(this.currTime());
     }
   },
 
@@ -293,7 +294,7 @@ export const videoControl = {
     if (setPlaybackrate && setstate) {
       setPlaybackrate(playbackRate);
       preferControl.defaultPlaybackRate(playbackRate);
-      uEvent.changespeed(this.currTime(), playbackRate);
+      userAction.changespeed(this.currTime(), playbackRate);
     }
   },
   playbackRateIncrement() {
@@ -346,7 +347,7 @@ export const videoControl = {
         /* IE/Edge */
         elem.msRequestFullscreen();
       }
-      uEvent.fullscreenchange(this.currTime(), true);
+      userAction.fullscreenchange(this.currTime(), true);
     } catch (error) {
       console.error('Failed to enter fullscreen.');
     }
@@ -371,7 +372,7 @@ export const videoControl = {
         /* IE/Edge */
         document.msExitFullscreen();
       }
-      uEvent.fullscreenchange(this.currTime(), false);
+      userAction.fullscreenchange(this.currTime(), false);
     } catch (error) {
       console.error('Failed to exit fullscreen.');
     }
@@ -409,7 +410,7 @@ export const videoControl = {
       this.lastUpdateCaptionTime = currentTime;
     }
     if (Math.abs(currentTime - this.lastSendUATime) >= 15) {
-      uEvent.timeupdate(this.currTime());
+      userAction.timeupdate(this.currTime());
       this.lastSendUATime = currentTime;
       this.sendMediaHistories();
     }
@@ -495,11 +496,11 @@ export const videoControl = {
     if (this.ctpPriEvent === CTP_ENDED || this.ctpPriEvent === CTP_UP_NEXT) {
       this.setCTPEvent(CTP_PLAYING);
     }
-    uEvent.seeking(this.currTime());
+    userAction.seeking(this.currTime());
   },
 
   onSeeked(e) {
-    uEvent.seeked(this.currTime());
+    userAction.seeked(this.currTime());
   },
 
   /**

@@ -1,12 +1,11 @@
 import _ from 'lodash';
 import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
-import { api, links, uurl } from 'utils';
-import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './constants.util';
+import { api, links, uurl, userAction } from 'utils';
 import { transControl } from './trans.control';
 import { videoControl } from './player.control';
 import { menuControl } from './menu.control';
 import { promptControl } from './prompt.control';
-import { uEvent } from './UserEventController';
+import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './constants.util';
 
 export const setup = {
   media_: api.parseMedia(),
@@ -91,7 +90,8 @@ export const setup = {
    */
   clear(media) {
     const { changeVideo } = this.externalFunctions;
-    if (changeVideo) changeVideo(media);
+    if (changeVideo) changeVideo({});
+    userAction.changevideo(videoControl.currTime(), media.id);
     videoControl.clear();
     transControl.clear();
     menuControl.clear();
@@ -227,6 +227,12 @@ export const setup = {
       return;
     }
 
+    // // set user metadata
+    // let watchHistory = await this.getMediaWatchHistories(media.id)
+    // if (watchHistory.json && watchHistory.json.timestamp) {
+    //   media.begin = watchHistory.json.timestamp
+    // }
+
     // Set data
     this.media(media);
     this.playlist(playlist);
@@ -238,16 +244,15 @@ export const setup = {
     offering = api.parseSingleOffering(offering);
     this.offering(offering);
 
-    // register the ids to the user event controller
-    uEvent.registerIds(media.id, offeringId);
-    // send select video event
-    uEvent.selectvideo(media.id);
-
     api.contentLoaded();
 
     // Get playlists
     const playlists = await this.getPlaylists(offeringId);
     if (playlists) this.playlists(playlists);
+
+    // Initialize user action handler
+    const mediaId = media.id;
+    userAction.init({ offeringId, mediaId });
 
     if (isSafari && isIPad13 && isIPhone13) {
       promptControl.videoNotLoading();

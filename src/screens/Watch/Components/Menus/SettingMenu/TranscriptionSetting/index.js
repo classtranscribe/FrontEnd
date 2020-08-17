@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
+import { userAction } from 'utils';
 import {
   connectWithRedux,
   transControl,
   preferControl,
-  uEvent,
   LINE_VIEW,
   TRANSCRIPT_VIEW,
   HIDE_TRANS,
@@ -23,13 +23,13 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
   const openAutoScroll = () => {
     // console.error()
     preferControl.autoScroll(!autoScroll);
-    uEvent.autoScrollChange(!autoScroll);
+    userAction.autoScrollChange(!autoScroll);
     setAutoScroll(!autoScroll);
   };
 
   const handlePauseWhileEditing = () => {
     preferControl.pauseWhileEditing(!pauseWhileEditing);
-    uEvent.pauseWhenEdit(!pauseWhileEditing);
+    userAction.pauseWhenEdit(!pauseWhileEditing);
     setPauseWhileEditing(!pauseWhileEditing);
   };
 
