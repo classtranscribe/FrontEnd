@@ -6,7 +6,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import MuiSelect from '@material-ui/core/Select';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import { CTText } from '../../CTText';
 import { useStyles } from '../Input';
 
 /**
@@ -25,11 +25,21 @@ function Select(props) {
     required = false,
     disabled = false,
     underlined = false,
+    multiple = false,
     onChange,
+    noItemsHolder = 'No items',
+    ...otherProps
   } = props;
 
   const classes = useStyles();
   const labelId = `ct-form-sel-label-${ id}`;
+
+  let renderValue = null;
+  if (multiple) {
+    renderValue = (values) => values
+      .map((val) => options.find(opt => opt.value === val).text)
+      .join(', ');
+  }
 
   return (
     <FormControl
@@ -47,15 +57,18 @@ function Select(props) {
         labelId={labelId}
         label={label}
         value={value}
+        renderValue={renderValue}
         placeholder={placeholder}
         defaultValue={defaultValue}
         onChange={onChange}
+        multiple={multiple}
+        {...otherProps}
       >
-        {options.map(item => (
+        {options.length > 0 ? options.map(item => (
           <MenuItem dense key={item.value} value={item.value}>
             <ListItemText primary={item.text} secondary={item.description} />
           </MenuItem>
-        ))}
+        )) : <CTText muted padding="10">{noItemsHolder}</CTText>}
       </MuiSelect>
       <FormHelperText>{helpText}</FormHelperText>
     </FormControl>
@@ -73,7 +86,7 @@ Select.propTypes = {
   placeholder: PropTypes.string,
 
   /** The value for the selection */
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 
   /** The default value for the selection */
   defaultValue: PropTypes.string,
@@ -104,7 +117,13 @@ Select.propTypes = {
   disabled: PropTypes.bool,
 
   /** The input field can be underlined */
-  underlined: PropTypes.bool
+  underlined: PropTypes.bool,
+
+  /** Use multiple select */
+  multiple: PropTypes.bool,
+
+  /** text holder when no selection options available */
+  noItemsHolder: PropTypes.string
 };
 
 export default Select;

@@ -8,7 +8,7 @@ import {
   connectWithRedux
 } from './controllers';
 
-import { OfferingList } from './Components';
+import { OfferingList } from './components';
 
 class ExampleWithRedux extends Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
 import { courseStore, connectWithRedux, setup } from './controllers';
-import { Students, Staffs, CourseInfo, RemoveCourse } from './Components';
+import { Students, Staffs, CourseInfo, RemoveCourse } from './components';
 
 class CourseSettingsWithRedux extends Component {
   constructor(props) {

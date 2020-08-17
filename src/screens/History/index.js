@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { historyStore, connectWithRedux, setup } from './controllers';
-import { WatchHistories } from './Components';
+import { WatchHistories } from './components';
 
 
 class HistoryWithRedux extends Component {
