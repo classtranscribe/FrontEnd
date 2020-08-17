@@ -8791,6 +8791,11 @@ lodash.without@~4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
   integrity sha1-PNRXSgC2e643OpS3SHcmQFB7eqw=
 
+lodash@4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
 "lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.1.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.17.5, lodash@~4.17.10:
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
@@ -11789,6 +11794,13 @@ react-outside-click-handler@^1.2.0:
     document.contains "^1.0.1"
     object.values "^1.1.0"
     prop-types "^15.7.2"
+
+react-overflow-wrapper@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-overflow-wrapper/-/react-overflow-wrapper-0.4.3.tgz#542e3b50ba50a4eebeab9b75abdc24478c024d78"
+  integrity sha512-/iNeW17vauTFcaCPusFi7q95ChqHLsRvvVJFnNAcBdwo62MghJiZXG/pMJ9J3VlrLsYKTWrgFwr6vU6Q0OL/8g==
+  dependencies:
+    lodash "4.17.15"
 
 react-overlays@^4.1.0:
   version "4.1.0"
