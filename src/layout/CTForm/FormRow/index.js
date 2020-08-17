@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CTFragment from '../../CTFragment';
@@ -25,32 +26,45 @@ const useStyles = makeStyles({
  * The Row component used in `CTForm`
  */
 function FormRow(props) {
-  let {
+  const {
     children,
     padding,
+    gridClassName,
+    ...otherProps
   } = props;
 
   const rowClasses = useStyles();
 
   const colElements = React.Children.toArray(children);
   const xs = Math.floor(12 / colElements.length);
+  const gridProps = {
+    item: true,
+    lg: xs,
+    md: xs,
+    sm: 12,
+    xs: 12,
+    className: cx(rowClasses.item, gridClassName)
+  };
 
   return (
-    <CTFragment padding={padding}>
+    <CTFragment padding={padding} {...otherProps}>
       <Grid className={rowClasses.root} container spacing={2}>
         {colElements.map(colElem => (
-          <Grid key={colElem.key} item lg={xs} md={xs} sm={12} xs={12} className={rowClasses.item}>
+          <Grid key={colElem.key} {...gridProps}>
             {colElem}
           </Grid>
         ))}
       </Grid>
     </CTFragment>
-  )
+  );
 }
 
 FormRow.propTypes = {
   /** Primary Contents */
   children: PropTypes.node,
+
+  /** classes to the grid item */
+  gridClassName: PropTypes.string,
 
   /** The padding for `CTFragment` */
   padding: CTFragment.propTypes.padding,
