@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
-import { api, elem, userAction, CTSearch } from 'utils';
+import { api, elem, CTSearch } from 'utils';
 import { setup } from './setup.control';
 import { transControl } from './trans.control';
 import { videoControl } from './player.control';
 import { isEarlier, isLater } from './helpers';
-
+import { uEvent } from './UserEventController';
 import {
   SEARCH_INIT,
   ARRAY_INIT,
@@ -209,7 +209,7 @@ class WatchSearch extends CTSearch {
     this.hasResult = true;
 
     // send user action to logs
-    userAction.filtertrans(value);
+    uEvent.filtertrans(value);
   }
 
   /**

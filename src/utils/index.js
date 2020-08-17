@@ -5,7 +5,6 @@ import * as loggerToExport from './logger';
 export { env } from './env';
 export { api } from './cthttp';
 export { user } from './user';
-export { userAction } from './useraction';
 export { CTSearch, search } from './search';
 export { CTPrompt, prompt } from './prompt';
 export { CTPreference } from './user-preference';
