@@ -7,7 +7,7 @@ import './index.scss';
 
 import { parseCourse } from './parse-course';
 
-function CourseCard(props) {
+export function CourseCard(props) {
   let {
     id,
     className,
@@ -43,7 +43,7 @@ function CourseCard(props) {
         <CTText bold size="big" line={2}>{name}</CTText>
       </div>
 
-      <CTText celadon size="medium" line={1}>
+      <CTText celadon size="medium">
         {term} | {section}
       </CTText>
 
@@ -89,4 +89,3 @@ CourseCard.propTypes = {
 
 CourseCard.parse = parseCourse;
 
-export default CourseCard;

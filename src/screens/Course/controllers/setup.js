@@ -8,9 +8,8 @@ import {
   NOT_FOUND_404, 
   ARRAY_INIT, 
   STUDENT, 
-  INSTRUCTOR
+  INSTRUCTOR,
 } from 'utils';
-import UserEventManager from 'entities/UserEvent';
 
 class SetupCoursePage extends StateController {
   constructor() {
@@ -143,17 +142,10 @@ class SetupCoursePage extends StateController {
   lastOfferingId = null;
   async setupCoursePage(offeringId) {
     // determine whether to reset the redux store
-    let shouldSendChangeOffEvent = offeringId && this.lastOfferingId !== offeringId;
-    let shouldClear = this.lastOfferingId && shouldSendChangeOffEvent;
+    let shouldClear = this.lastOfferingId && this.lastOfferingId !== offeringId;
     let shouldUpdateInstMode = shouldClear || !this.lastOfferingId;
     if (shouldClear) {
       this.clear();
-    }
-
-    // send selectcourse event to Logs
-    if (shouldSendChangeOffEvent) {
-      const uevent = new UserEventManager();
-      uevent.selectcourse(offeringId);
     }
 
     this.lastOfferingId = offeringId;

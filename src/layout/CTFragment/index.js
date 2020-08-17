@@ -34,8 +34,6 @@ function CTFragment(props) {
     errorElement,
     loading = false,
     loadingElement,
-    alt,
-    altElement,
     // content
     as = 'div',
     children,
@@ -96,9 +94,7 @@ function CTFragment(props) {
     error,
     errorElement,
     loading,
-    loadingElement,
-    alt,
-    altElement,
+    loadingElement
   };
 
   return (
@@ -202,7 +198,7 @@ CTFragment.propTypes = {
    * <CTFragment as="a" ... >...</CTFragment> // <a ... >...</a>
    * <CTFragment as="ul" ... >...</CTFragment> // <ul ... >...</ul>
    */
-  as: PropTypes.elementType,
+  as: PropTypes.string,
 
   /** The primary content */
   children: PropTypes.node,
