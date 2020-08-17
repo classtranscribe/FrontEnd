@@ -1,5 +1,7 @@
 import React from 'react';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { isMobile } from 'react-device-detect';
 import OverflowWrapper from 'react-overflow-wrapper';
 import ArrowButton from './ArrowButton';
 import './index.scss';
@@ -9,12 +11,13 @@ function CTHorizontalScroll(props) {
 
   const arrowLeftElement = <ArrowButton isLeft />;
   const arrowRightElement = <ArrowButton />;
+  const scrollClasses = cx('ct-h-scroll', 'scroll-con', { mobile: isMobile });
 
   return (
     <OverflowWrapper
       leftIcon={arrowLeftElement}
       rightIcon={arrowRightElement}
-      className="ct-h-scroll scroll-con"
+      className={scrollClasses}
     >
       {children}
     </OverflowWrapper>

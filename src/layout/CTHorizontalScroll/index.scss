@@ -8,7 +8,20 @@
 }
 
 .ct-h-scroll.scroll-con {
-  position: relative;
+  // position: relative;
   padding: 5px 0 0 0;
-  overflow: auto;
+
+  .react-overflow-wrapper__icon-right, 
+  .react-overflow-wrapper__icon-left {
+    background: rgba(255, 255, 255, 0.664) !important;
+  }
+
+  &.mobile {
+    overflow: auto !important;
+
+    .react-overflow-wrapper__icon-right, 
+    .react-overflow-wrapper__icon-left {
+      display: none !important;
+    }
+  }
 }
