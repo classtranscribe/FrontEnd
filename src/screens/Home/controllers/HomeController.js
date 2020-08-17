@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { api, prompt, ARRAY_INIT, NOT_FOUND_404, user, links } from 'utils';
+import { api, prompt, NOT_FOUND_404, user, links } from 'utils';
 import { homeState } from './HomeState';
 import HomeConstants from './HomeConstants';
 
