@@ -34,6 +34,8 @@ function CTFragment(props) {
     errorElement,
     loading = false,
     loadingElement,
+    alt,
+    altElement,
     // content
     as = 'div',
     children,
@@ -94,7 +96,9 @@ function CTFragment(props) {
     error,
     errorElement,
     loading,
-    loadingElement
+    loadingElement,
+    alt,
+    altElement,
   };
 
   return (

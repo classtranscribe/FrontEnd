@@ -43,7 +43,7 @@ function SectionItem({ section }) {
   });
 
   return (
-    <CTFragment className="ct-homep section-con">
+    <CTFragment role="listitem" className="ct-homep section-con">
       <CTFragment className="ct-homep section-title-con">
         {titleElement}
         {subTitleElement}

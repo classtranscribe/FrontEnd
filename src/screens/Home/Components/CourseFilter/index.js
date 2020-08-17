@@ -29,7 +29,7 @@ function CourseFilter({
   };
 
   return (
-    <CTFragment sticky offsetTop="50" className="ct-homep course-filter">
+    <CTFragment sticky={!isMobile} offsetTop="50" className="ct-homep course-filter">
       <CTFormRow padding={[10, 0, 0, 10]} vEnd gridClassName="course-filter-item">
         <CTSelect
           id="home-uni-filter"
