@@ -9,11 +9,13 @@ class HomeController {
   }
 
   async setupHomepage() {
+    api.contentLoaded();
+    
     const universities = await this.getUniversities();
     homeState.setUniversities(universities);
 
     const offerings = await this.getOfferings();
-    homeState.setOfferings(api.parseOfferings(offerings));
+    homeState.setOfferings(offerings);
 
     const watchHistory = await this.getWatchHistory();
     homeState.setWatchHistory(watchHistory);
@@ -30,8 +32,6 @@ class HomeController {
     } else {
       await this.selectUniversity(null);
     }
-
-    api.contentLoaded();
   }
 
   async selectUniversity(universityId) {
@@ -74,6 +74,7 @@ class HomeController {
   }
 
   buildSections() {
+    if (homeState.error) return;
     const {
       universities,
       selUniversity,
@@ -140,7 +141,7 @@ class HomeController {
       // filter out the default university
       return _.filter(data, uni => uni.id !== HomeConstants.UnknownUniversityID);
     } catch (error) {
-      homeState.setError(HomeConstants.CTHomepageLoadError);
+      this.pageLoadError();
       return NOT_FOUND_404;
     }
   }
@@ -154,7 +155,7 @@ class HomeController {
         const { data } = await api.getDepartments();
         return this.parseDepartments(data);
     } catch (error) {
-      prompt.error('Failed to load departments.');
+      this.pageLoadError();
       return [];
     }
   }
@@ -176,7 +177,7 @@ class HomeController {
       const { data } = await api.getTermsByUniId(universityId);
       return data;
     } catch (error) {
-      prompt.error('Failed to load terms.');
+      this.pageLoadError();
       return [];
     }
   }
@@ -184,9 +185,9 @@ class HomeController {
   async getOfferings() {
     try {
       const { data } = await api.getOfferingsByStudent();
-      return data;
+      return api.parseOfferings(data);
     } catch (error) {
-      prompt.error('Failed to load courses.');
+      this.pageLoadError();
       return NOT_FOUND_404;
     }
   }
@@ -212,6 +213,19 @@ class HomeController {
     } catch (error) {
       return [];
     }
+  }
+
+  pageLoadError() {
+    if (homeState.error === HomeConstants.CTHomepageLoadError) return;
+
+    homeState.setError(HomeConstants.CTHomepageLoadError);
+    prompt.addOne({
+      text: 'Failed to load the page contents.',
+      status: 'error',
+      position: 'top',
+      timeout: -1,
+      refresh: true
+    });
   }
 }
 
