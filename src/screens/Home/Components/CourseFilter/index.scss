@@ -8,11 +8,16 @@
     // padding-bottom: 20px;
 
     #home-uni-filter {
-      padding: 10px 15px !important;
       .MuiListItemText-root span {
         overflow: hidden !important;
         white-space: nowrap !important;
         text-overflow: ellipsis !important;
+      }
+    }
+
+    .selected {
+      #home-uni-filter {
+        padding: 10px 15px !important;
       }
     }
   }
