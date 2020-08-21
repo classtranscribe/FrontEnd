@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 import { CTFragment, CTSelect, CTFormRow } from 'layout';
 import { connectWithRedux, home } from '../../controllers';
@@ -39,7 +40,7 @@ function CourseFilter({
           value={selUniversity}
           options={universityOptions}
           onChange={handleUniversityChange}
-          // underlined
+          className={cx({ 'selected': Boolean(selUniversity) })}
         />
         {
           (selUniversity && !isMobile)

@@ -107,10 +107,13 @@ export function parseSingleOffering(rawOffering) {
  *  jsonMetadata?: object,
  * }[]} parsed offerings data
  */
-export function parseOfferings(rawOfferings) {
+export function parseOfferings(rawOfferings, filterTestCourses = false) {
   const parsedOfferings = [];
   for (let i = 0; i < rawOfferings.length; i += 1) {
-    parsedOfferings.push(parseSingleOffering(rawOfferings[i]));
+    let parsedOffering = parseSingleOffering(rawOfferings[i]);
+    if (!filterTestCourses || !parsedOffering.fullNumber.includes('CS000')) {
+      parsedOfferings.push(parsedOffering);
+    }
   }
   // console.log('parsedOfferings', parsedOfferings)
   return parsedOfferings;

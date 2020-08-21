@@ -186,7 +186,7 @@ class HomeController {
   async getOfferings() {
     try {
       const { data } = await api.getOfferingsByStudent();
-      return api.parseOfferings(data);
+      return api.parseOfferings(data, !user.isAdmin);
     } catch (error) {
       this.pageLoadError();
       return NOT_FOUND_404;
