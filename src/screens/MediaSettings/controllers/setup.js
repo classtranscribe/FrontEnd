@@ -21,9 +21,9 @@ class SetupMSP {
   }
 
   verifyUser() {
-    if (!user.isAdmin) {
-      window.location = links.notfound404();
-    }
+    // if (!user.isAdmin) {
+    //   window.location = links.notfound404();
+    // }
   }
 
   error(error_) {
