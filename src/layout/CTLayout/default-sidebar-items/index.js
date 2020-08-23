@@ -142,7 +142,7 @@ export class DefaultSidebarItems {
     if (offering.logEventsFlag) {
       tabs.unshift({
         value: 'off-analytics-tab',
-        text: 'Anaytics',
+        text: 'Analytics',
         href: links.courseAnalytics(offering.id),
         active: uurl.isEqual(links.courseAnalytics(offering.id))
       });
