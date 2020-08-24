@@ -38,7 +38,9 @@ class PlaylistController {
     const { name, sourceType, url } = newPlayList;
     let playlistId = null;
     let playlistIdentifier = url;
-    let playlistURL = url;
+
+    // set the `source` in the jsonMetadata to the source URL of this playlist
+    let jsonMetadata = url ? { source: url } : null;
 
     // Check validity
     if (!offeringId || !name) return;
@@ -50,16 +52,17 @@ class PlaylistController {
       const { list } = uurl.useSearch(url);
       playlistIdentifier = list;
     } else if (sourceType === 3) {
-      // Kaltura
+      // Kaltura/MediaSpace
       const items = url.split('/');
       playlistIdentifier = items[items.length - 1]; // the last one is the channel id
+      // set jsonMetadata.isChannel to be 1 iff it's a MediaSpace channel URL
+      if (url.includes('channel')) {
+        jsonMetadata.isChannel = 1;
+      }
     } else if (sourceType === 4) {
       // Box
       playlistIdentifier = url.split('/folder/')[1]; // the 2nd one is the channel id
     }
-
-    // set the `source` in the jsonMetadata to the source URL of this playlist
-    const jsonMetadata = playlistURL ? { source: playlistURL } : null;
 
     let newPl = {
       offeringId,
