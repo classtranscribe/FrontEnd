@@ -7,7 +7,7 @@ import {
   CTSelect,
   CTRadio,
 } from 'layout';
-import { api, util, prompt } from 'utils';
+import { api, prompt, _getSelectOptions } from 'utils';
 
 function BasicInfo(props) {
   const {
@@ -62,7 +62,7 @@ function BasicInfo(props) {
   const setupTermOptions = async () => {
     try {
       const { data } = await api.getTermsByUniId(uniId);
-      let _terms = util.getSelectOptions(data, 'term');
+      let _terms = _getSelectOptions(data, 'term');
       _terms = _terms.slice().reverse();
       if (_terms[0]) {
         _terms[0].description = 'Current term';

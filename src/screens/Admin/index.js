@@ -12,7 +12,7 @@ import './index.css';
 // Layouts
 import { CTLayout } from 'layout';
 // Vars
-import { api, util, user, links } from 'utils';
+import { api, user, links, _getSelectOptions } from 'utils';
 import { tabs } from './tabs';
 
 export class Admin extends React.Component {
@@ -37,7 +37,7 @@ export class Admin extends React.Component {
 
       instructors: [],
     };
-    this.getSelectOptions = util.getSelectOptions;
+    this.getSelectOptions = _getSelectOptions;
     this.getAll = this.getAll.bind(this);
   }
 

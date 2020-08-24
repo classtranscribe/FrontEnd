@@ -7,7 +7,7 @@ import {
   CTSelect,
   CTFormHelp
 } from 'layout';
-import { util, user } from 'utils';
+import { user, _getSelectOptions } from 'utils';
 
 function UniversitySelection(props) {
   const {
@@ -16,7 +16,7 @@ function UniversitySelection(props) {
     handleUniChange
   } = props;
 
-  const uniOptions = util.getSelectOptions(universities, 'name');
+  const uniOptions = _getSelectOptions(universities, 'name');
 
   return user.isAdmin ? (
     <CTFragment>
