@@ -62,14 +62,15 @@ function BasicInfo(props) {
   const setupTermOptions = async () => {
     try {
       const { data } = await api.getTermsByUniId(uniId);
-      const _terms = util.getSelectOptions(data, 'term');
+      let _terms = util.getSelectOptions(data, 'term');
+      _terms = _terms.slice().reverse();
       if (_terms[0]) {
         _terms[0].description = 'Current term';
       }
       setTerms(_terms);
 
-      if (data.length > 0) {
-        if (!term) setTerm(data[0].id);
+      if (_terms.length > 0) {
+        if (!term) setTerm(_terms[0].value);
       }
     } catch (error_) {
       prompt.error('Could not load terms.');
