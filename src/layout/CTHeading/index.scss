@@ -22,6 +22,12 @@
   &.highlightIcon i { 
     color: var(--ct-green-normal); 
   }
+
+  .content {
+    span {
+      color: var(--ct-green-normal);
+    }
+  }
 }
 
 h1.ct-heading {

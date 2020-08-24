@@ -31,6 +31,9 @@ export class NewPlaylistWithRedux extends Component {
       },
       sidebarProps: {
         items: sidebar.getCoursePageSidebarItems(offering)
+      },
+      metaTagsProps: {
+        title: offering ? `New Playlist | ${offering.fullNumber}` : `New Playlist`
       }
     }));
 

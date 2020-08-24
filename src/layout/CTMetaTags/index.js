@@ -14,12 +14,14 @@ const defaultMetaTags = {
 
 function CTMetaTags(props) {
   const {
-    title,
+    title = defaultMetaTags.title,
     description = defaultMetaTags.description,
     keywords = defaultMetaTags.keywords
   } = props;
 
-  const fullTitle = title ? `${title} | ClassTranscribe` : defaultMetaTags.title;
+  const fullTitle = defaultMetaTags.title === title 
+                  ? title 
+                  : `${title} | ClassTranscribe`;
   
   return (
     <MetaTags>

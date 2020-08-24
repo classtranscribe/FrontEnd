@@ -21,7 +21,7 @@ class HomeWithRedux extends Component {
     const layoutProps = CTLayout.createProps({
       transition: true,
       responsive: true,
-      footer: true,
+      footer: true
     });
 
     const loading = sections === ARRAY_INIT;
