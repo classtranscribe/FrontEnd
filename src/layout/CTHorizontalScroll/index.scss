@@ -8,8 +8,11 @@
 }
 
 .ct-h-scroll.scroll-con {
-  // position: relative;
   padding: 5px 0 0 0;
+  
+  .react-overflow-wrapper__content {
+    align-items: unset !important;
+  }
 
   .react-overflow-wrapper__icon-right, 
   .react-overflow-wrapper__icon-left {
