@@ -22,12 +22,12 @@ class PlaylistController {
     }
     if (sourceType === 3) {
       // Kaltura/MediaSpace
-      const reg = /https:\/\/mediaspace.illinois.edu\/channel\/[\s\S]*\/[0-9]{1}/;
+      const reg = /https:\/\/mediaspace.illinois.edu\/(channel|playlist)\/[\s\S]*\/*/;
       return reg.test(url);
     }
     if (sourceType === 4) {
       // Box
-      const reg = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]{1}/;
+      const reg = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]*/;
       return reg.test(url);
     }
 
