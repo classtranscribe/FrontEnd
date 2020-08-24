@@ -29,7 +29,7 @@
 @media screen and (min-width : 660px) {
   .ct-layout-main:not(.mobile) {
     .ct-homep.section-con:hover {
-      .ct-homep.section-title-con .ct-homep.section-title span.content::after {
+      .ct-homep.section-title-con a.ct-homep.section-title span.content::after {
         content: ' > See more';
         color: rgb(104, 104, 104);
         font-size: 16px;
