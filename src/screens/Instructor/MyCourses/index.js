@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
-import { ARRAY_INIT, NOT_FOUND_404, links, api } from 'utils';
+import { ARRAY_INIT, api } from 'utils';
 import { setup, myCoursesStore, connectWithRedux } from './controllers';
 
 import { CourseList, NoCourseHolder } from './components';
@@ -15,7 +15,6 @@ class MyCoursesWithRedux extends Component {
 
   componentDidMount() {
     setup.setupMyCoursesPage();
-    links.title('My Courses');
   }
 
 
@@ -30,6 +29,9 @@ class MyCoursesWithRedux extends Component {
         sticky: true,
         gradient: true,
         offsetTop: 30
+      },
+      metaTagsProps: {
+        title: 'My Courses'
       }
     });
 

@@ -1,6 +1,11 @@
-import $ from 'jquery';
-import { v4 as uuidv4 } from 'uuid';
-import * as loggerToExport from './logger';
+/**
+ * 
+ * Utilities for the ClassTranscribe FrontEnd
+ * 
+ */
+
+// import * as loggerToExport from './logger';
+// export const logger = loggerToExport;
 
 export { env } from './env';
 export { api } from './cthttp';
@@ -15,70 +20,27 @@ export { uurl } from './use-url';
 export { uemail } from './use-email';
 export { links } from './links';
 export { default as timestr } from './use-time';
-export { default as CTError } from './use-error';
+export { default as CTError, InvalidDataError } from './use-error';
 
 export * from './constants';
-export const logger = loggerToExport;
 
 /**
- * Objects for switching pages and storing some general functions
+ * Function used to convert a data array to options for selections
+ * @param {Any[]} array - source for the options
+ * @param {String} tag - prefix tag for each item
  */
-export const util = {
-  genId(prefix = '') {
-    return (prefix ? `${prefix}-` : '') + uuidv4();
-  },
-
-  refresh() {
-    document.location.reload(true);
-  },
-
-  getSelectOptions(array = [], tag) {
-    if (!Array.isArray(array)) return [];
-    const options = [];
-    array.forEach((item) => {
-      if (!item || !item.id) return;
-      let text = '';
-      if ((tag === 'depart' || tag === 'term') && item.uniName) {
-        text = `${item.name} (${item.uniName})`;
-      } else {
-        text = item.name || tag + item.courseNumber;
-      }
-      options.push({ text, value: item.id });
-    });
-    return options;
-  },
-
-  getFittedName(name, charNum) {
-    if (!name) return '';
-
-    let fittedName = name.slice(0, charNum);
-    if (fittedName !== name) fittedName += '...';
-    return fittedName;
-  },
-
-  fixForAccessbitity(category) {
-    switch (category) {
-      case 'widgets/scripts':
-        $('.default').each((index, el) => {
-          el.removeAttribute('aria-live');
-          el.removeAttribute('role');
-        });
-        break;
-      case 'formSearchDropdown':
-        $('.search').each((index, el) => {
-          if (el.title) {
-            // elem.setAttribute('aria-label', elem.title)
-          } else {
-            el.setAttribute('aria-label', el.parentElement.title);
-          }
-        });
-        break;
-      default:
-        break;
+export function _getSelectOptions(array, tag) {
+  if (!Array.isArray(array)) return [];
+  const options = [];
+  array.forEach((item) => {
+    if (!item || !item.id) return;
+    let text = '';
+    if ((tag === 'depart' || tag === 'term') && item.uniName) {
+      text = `${item.name} (${item.uniName})`;
+    } else {
+      text = item.name || tag + item.courseNumber;
     }
-  },
-
-  preventBreakLine(e = {}) {
-    if (e.keyCode === 13) e.preventDefault();
-  }
-};
+    options.push({ text, value: item.id });
+  });
+  return options;
+}

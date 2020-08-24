@@ -1,5 +1,12 @@
 import _ from 'lodash';
-import { api, prompt, NOT_FOUND_404, user, links } from 'utils';
+import { 
+  api,
+  user,
+  links,
+  prompt,
+  InvalidDataError,
+  NOT_FOUND_404
+} from 'utils';
 import { homeState } from './HomeState';
 import HomeConstants from './HomeConstants';
 
@@ -76,7 +83,7 @@ class HomeController {
   buildSections() {
     if (homeState.error) return;
     const {
-      universities,
+      // universities,
       selUniversity,
       departments,
       selDepartments,
@@ -140,7 +147,11 @@ class HomeController {
     try {
       const { data } = await api.getUniversities();
       // filter out the default university
-      return _.filter(data, uni => uni.id !== HomeConstants.UnknownUniversityID);
+      if (Array.isArray(data)) {
+        return _.filter(data, uni => uni.id !== HomeConstants.UnknownUniversityID)
+                .reverse();
+      } 
+        throw InvalidDataError;
     } catch (error) {
       this.pageLoadError();
       return NOT_FOUND_404;
@@ -153,8 +164,9 @@ class HomeController {
         const { data } = await api.getDepartsByUniId(universityId);
         return this.parseDepartments(data, universityId);
       } 
-        const { data } = await api.getDepartments();
-        return this.parseDepartments(data);
+
+      const { data } = await api.getDepartments();
+      return this.parseDepartments(data);
     } catch (error) {
       this.pageLoadError();
       return [];
@@ -168,7 +180,8 @@ class HomeController {
     }
 
     return _.map(departments, (depart) => {
-      let departUni = university || _.find(homeState.universities, { id: depart.universityId });
+      let departUni = university 
+                    || _.find(homeState.universities, { id: depart.universityId });
       return { ...depart, university: departUni };
     });
   }
@@ -176,7 +189,10 @@ class HomeController {
   async getTerms(universityId) {
     try {
       const { data } = await api.getTermsByUniId(universityId);
-      return data;
+      if (Array.isArray(data)) {
+        return data.slice().reverse();
+      } 
+        throw InvalidDataError;
     } catch (error) {
       this.pageLoadError();
       return [];
@@ -186,7 +202,10 @@ class HomeController {
   async getOfferings() {
     try {
       const { data } = await api.getOfferingsByStudent();
-      return api.parseOfferings(data, !user.isAdmin);
+      if (Array.isArray(data)) {
+        return api.parseOfferings(data.slice().reverse(), !user.isAdmin);
+      } 
+        throw InvalidDataError;
     } catch (error) {
       this.pageLoadError();
       return NOT_FOUND_404;

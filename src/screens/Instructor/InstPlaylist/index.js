@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
 import { InfoAndListLayout } from 'components';
-import { links } from 'utils';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
@@ -23,13 +22,6 @@ export class InstPlaylistWithRedux extends Component {
     setup.setupInstPlaylistPage(playlistId, this.props.location.state);
   }
 
-  componentDidUpdate() {
-    const { offering, playlist } = this.props;
-    if (playlist && offering && playlist.id && offering.id) {
-      links.title(`${playlist.name} | ${offering.fullNumber}`);
-    }
-  }
-
   render() {
     const { offering, confirmation, playlist } = this.props;
     const layoutProps = CTLayout.createProps((sidebar) => ({
@@ -39,6 +31,17 @@ export class InstPlaylistWithRedux extends Component {
         items: sidebar.getCoursePageSidebarItems(offering)
       }
     }));
+
+    // Handle meta tags
+    if (playlist && offering && playlist.id && offering.id) {
+      let metaTitle = `${playlist.name} | ${offering.fullNumber}`;
+
+      if (window.location.pathname.includes('/upload-files')) {
+        metaTitle = `Upload Videos | ${metaTitle}`;
+      }
+
+      layoutProps.metaTagsProps = { title: metaTitle };
+    }
 
     return (
       <CTLayout {...layoutProps}>

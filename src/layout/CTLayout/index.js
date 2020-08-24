@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { isMobile } from 'react-device-detect';
 import { altEl, makeEl } from '../tools';
 import CTScrollArea from '../CTScrollArea';
 import CTNavHeader from '../CTNavHeader';
@@ -91,6 +92,7 @@ function CTLayout(props) {
       transition,
       'padded-240': isNormal,
       'padded-50': isMini,
+      mobile: isMobile
     }
   );
 

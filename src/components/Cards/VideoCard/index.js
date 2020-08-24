@@ -1,11 +1,18 @@
 import React from 'react';
 import $ from 'jquery';
 import { Link, withRouter } from 'react-router-dom';
-import { util } from 'utils';
 import './index.css';
 
 import { Poster } from '../../Poster';
 import { DismissButton } from './VideoCard.Overlays';
+
+function getFittedName(name, charNum) {
+  if (!name) return '';
+
+  let fittedName = name.slice(0, charNum);
+  if (fittedName !== name) fittedName += '...';
+  return fittedName;
+}
 
 function VideoCardWithOutRouter({
   square = false,
@@ -34,7 +41,7 @@ function VideoCardWithOutRouter({
   handleDismiss,
   dismissPrompt,
 }) {
-  const fittedName = fittedNameSize < 0 ? name : util.getFittedName(name, fittedNameSize);
+  const fittedName = fittedNameSize < 0 ? name : getFittedName(name, fittedNameSize);
 
   const handleClick = () => {
     if ($('.description-link:focus').length > 0) return;

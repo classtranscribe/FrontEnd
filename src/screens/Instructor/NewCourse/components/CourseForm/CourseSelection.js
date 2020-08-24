@@ -12,7 +12,7 @@ import {
   CTText,
   CTHeading
 } from 'layout';
-import { api, util, prompt } from 'utils';
+import { api, prompt, _getSelectOptions } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,8 +115,8 @@ function CourseSelection(props) {
   };
 
 
-  const departmentOptions = util.getSelectOptions(departs, 'name');
-  const courseOptions = util.getSelectOptions(courses, depart.acronym);
+  const departmentOptions = _getSelectOptions(departs, 'name');
+  const courseOptions = _getSelectOptions(courses, depart.acronym);
 
   const classes = useStyles();
   const fullNumber = _.join(

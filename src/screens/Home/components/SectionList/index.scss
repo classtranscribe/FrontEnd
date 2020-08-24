@@ -9,7 +9,8 @@
     .ct-homep.section-title {
       font-size: 25px;
       color: rgb(42, 42, 42);
-      // width: max-content;
+      width: auto;
+      max-width: max-content;
       margin: 0 10px 0 0;
       font-weight: bolder;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -21,17 +22,23 @@
       span.content {
         text-decoration: underline;
       }
-      &::after {
-        content: ' > See More';
+    }
+  }
+}
+
+@media screen and (min-width : 660px) {
+  .ct-layout-main:not(.mobile) {
+    .ct-homep.section-con:hover {
+      .ct-homep.section-title-con .ct-homep.section-title span.content::after {
+        content: ' > See more';
         color: rgb(104, 104, 104);
         font-size: 16px;
         margin-left: 10px;
         font-weight: normal;
+        text-decoration: none;
+        display: inline-block;
+        animation: expand-padding-h 160ms linear;
       }
     }
-
-    // .ct-homep.section-title-con {
-
-    // }
   }
 }
