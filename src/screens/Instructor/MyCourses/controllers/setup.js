@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { StateController } from 'utils/state-controller';
-import { api, user, ARRAY_INIT, NOT_FOUND_404, } from 'utils';
+import { api, user, prompt, InvalidDataError, ARRAY_INIT, NOT_FOUND_404 } from 'utils';
 
 class SetupMyCoursesPage extends StateController {
   init(props) {
@@ -50,9 +50,13 @@ class SetupMyCoursesPage extends StateController {
 
   async getTerms() {
     try {
-      let { data } = await api.getTermsByUniId(user.getUserInfo().universityId);
-      return data;
+      const { data } = await api.getTermsByUniId(user.getUserInfo().universityId);
+      if (Array.isArray(data)) {
+        return data.slice().reverse();
+      } 
+        throw InvalidDataError;
     } catch (error) {
+      prompt.error('Failed to load terms.');
       return [];
     }
   }
