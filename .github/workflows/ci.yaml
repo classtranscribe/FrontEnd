@@ -37,4 +37,6 @@ jobs:
           yarn install
 
       - name: Compile application
+        env:
+          CI: false
         run: yarn build
