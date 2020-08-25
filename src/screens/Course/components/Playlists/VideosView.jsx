@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CTFragment, CTFooter } from 'layout';
+import { CTFragment, CTFooter, CTText } from 'layout';
 import { InfoAndListLayout, MediaCard } from 'components';
 import { NOT_FOUND_404 } from 'utils';
 
@@ -11,6 +11,15 @@ function VideosView({
 
   const loading = playlist === null;
   const error = playlist === NOT_FOUND_404;
+  const empty = medias.length === 0;
+
+  const vListProps = {
+    list: true,
+    role: 'list',
+    className: 'pl-1 pr-1',
+    alt: empty,
+    altElement: <CTText hCenter muted padding={[20, 0]}>No video posted</CTText>
+  };
 
   return error ? null : (
     <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
@@ -19,7 +28,7 @@ function VideosView({
         <span>{name}</span>
       </CTFragment>
 
-      <CTFragment list role="list" className="pl-4">
+      <CTFragment {...vListProps}>
         {medias.map((me) => <MediaCard row posterSize='normal' {...MediaCard.parse(me)} /> )}
       </CTFragment>
 
