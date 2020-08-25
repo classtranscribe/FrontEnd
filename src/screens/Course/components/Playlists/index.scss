@@ -1,8 +1,10 @@
 #cp-pls-view {
   .title {
     padding: 10px 25px;
-    background: linear-gradient(to bottom, rgba(251, 251, 251, 0.938) 90%, rgba(251, 251, 251, 0));
+    background: rgba(251, 251, 251, 0.938);
+    // background: linear-gradient(to bottom, rgba(251, 251, 251, 0.938) 90%, rgba(251, 251, 251, 0));
     margin: 0;
+    overflow-x: visible;
 
     i.material-icons {
       margin-right: 5px;
@@ -11,9 +13,11 @@
     &.link {
       font-weight: bold;
       font-size: 16px;
-      color: #318d8d;
-      &:hover {
-        color: #1da8a8;
+      color: teal;
+      padding: 15px;
+      margin-bottom: 3px;
+      & span:hover, &:focus span {
+        text-decoration: underline;
       }
     }
   }

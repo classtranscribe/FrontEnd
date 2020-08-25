@@ -1,25 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CTFragment, CTFooter } from 'layout';
-import { InfoAndListLayout , VideoCard } from 'components';
-
-import { NOT_FOUND_404, links, api } from 'utils';
-
-function Video({ media }) {
-  const { mediaName, id, isUnavailable, watchHistory } = api.parseMedia(media);
-
-  return (
-    <VideoCard
-      row
-      id={id}
-      name={mediaName}
-      link={links.watch(id)}
-      ratio={watchHistory.ratio}
-      posterSize="150px"
-      isUnavailable={isUnavailable}
-    />
-  );
-}
+import { InfoAndListLayout, MediaCard } from 'components';
+import { NOT_FOUND_404 } from 'utils';
 
 function VideosView({
   playlist,
@@ -32,12 +15,12 @@ function VideosView({
   return error ? null : (
     <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
       <CTFragment sticky vCenter className="title link" as={Link} to={window.location.pathname}>
-        <i className="material-icons">arrow_back_ios</i>
+        <i className="material-icons" aria-hidden="true">arrow_back</i>
         <span>{name}</span>
       </CTFragment>
 
-      <CTFragment list role="list" className="pl-4 pr-4">
-        {medias.map( me => <Video key={me.id} media={me} /> )}
+      <CTFragment list role="list" className="pl-4">
+        {medias.map((me) => <MediaCard row posterSize='normal' {...MediaCard.parse(me)} /> )}
       </CTFragment>
 
       <CTFooter />
