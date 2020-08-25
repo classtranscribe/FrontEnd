@@ -1,0 +1,77 @@
+name: Docker
+
+# This will run when:
+# - when new code is pushed to master/develop to push the tags
+#   latest and develop
+# - when a pull request is created and updated  to make sure the
+#   Dockerfile is still valid.
+# To be able to push to dockerhub, this execpts the following
+# secrets to be set in the project:
+# - DOCKERHUB_USERNAME : username that can push to the org
+# - DOCKERHUB_PASSWORD : password asscoaited with the username
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+  pull_request:
+
+# Certain actions will only run when this is the master repo.
+env:
+  MASTER_REPO: classtranscribe/FrontEnd
+  DOCKERHUB_ORG: classtranscribe
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # calculate some variables that are used later
+      - name: github branch
+        run: |
+          BRANCH=${GITHUB_REF##*/}          
+          echo "::set-env name=GITHUB_BRANCH::${BRANCH}"
+
+      # build the docker image, this will always run to make sure
+      # the Dockerfile still works.
+      - name: Build image
+        run: |
+          docker build \
+            --build-arg BRANCH=${GITHUB_BRANCH} \
+            --build-arg BUILDNUMBER=${{ github.run_number }} \
+            --build-arg GITSHA1=${{ github.sha  }} \
+            --tag image \
+            .
+
+      # this will publish to the actor (person) github packages
+      - name: Publish to GitHub
+        if: github.event_name == 'push'
+        uses: elgohr/Publish-Docker-Github-Action@2.18
+        env:
+          BRANCH: ${{ env.GITHUB_BRANCH }}
+          BUILDNUMBER: ${{ github.run_number }}
+          GITSHA1: ${{ github.sha  }}
+        with:
+          name: ${{ github.repository_owner }}/classtranscribe/frontend
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          tags: "${{ env.GITHUB_BRANCH }}"
+          registry: docker.pkg.github.com
+          buildargs: BRANCH,,BUILDNUMBER,GITSHA1
+
+      # this will publish to the classtranscribe dockerhub repo
+      - name: Publish to Docker Hub
+        if: github.event_name == 'push' && github.repository == env.MASTER_REPO
+        uses: elgohr/Publish-Docker-Github-Action@2.18
+        env:
+          BRANCH: ${{ env.GITHUB_BRANCH }}
+          BUILDNUMBER: ${{ github.run_number }}
+          GITSHA1: ${{ github.sha  }}
+        with:
+          name: ${{ env.DOCKERHUB_ORG }}/frontend
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          tags: "${{ env.GITHUB_BRANCH }}"
+          buildargs: BRANCH,BUILDNUMBER,GITSHA1
