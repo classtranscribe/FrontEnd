@@ -1,6 +1,13 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - staging
+    tags:
+      - '*'
+  pull_request:
 
 jobs:
   build:
@@ -27,7 +34,9 @@ jobs:
 
       - name: Install project dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true' # Over here!
-        run: yarn
+        run: |
+          yarn
+          yarn install
 
       - name: Compile application
         run: yarn build
