@@ -14,7 +14,6 @@ on:
     branches:
       - master
       - staging
-      - '*'
   pull_request:
 
 # Certain actions will only run when this is the master repo.
@@ -54,7 +53,7 @@ jobs:
           BUILDNUMBER: ${{ github.run_number }}
           GITSHA1: ${{ github.sha  }}
         with:
-          name: ${{ github.repository_owner }}/classtranscribe/frontend
+          name: ${{ github.repository_owner }}/FrontEnd/frontend
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           tags: "${{ env.GITHUB_BRANCH }}"
