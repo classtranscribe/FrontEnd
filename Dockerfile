@@ -1,15 +1,31 @@
-FROM node:latest AS frontend
+# ----------------------------------------------------------------------
+# COMPILE REACT APP
+# ----------------------------------------------------------------------
+FROM node:14 AS frontend
+
 WORKDIR /frontend
-COPY package.json package.json
-RUN yarn
-RUN yarn install
-COPY . .
+
+COPY package.json yarn.lock /frontend/
+RUN yarn && yarn install
+
+COPY jsconfig.json .
+COPY public/ public/
+COPY src/ src/
+
 RUN yarn build
 
-FROM nginx:1.15-alpine as nginx
-RUN apk add --update nodejs npm
-RUN npm install dotenv
-COPY /write_env.js /write_env.js
-COPY --from=frontend /frontend/build /build
-COPY nginx /etc/nginx/conf.d
-CMD node write_env.js /build/config.js; exec nginx -g 'daemon off;'
+# ----------------------------------------------------------------------
+# FINAL IMAGE
+# ----------------------------------------------------------------------
+FROM nginx:alpine
+
+COPY --from=frontend /frontend/build /usr/share/nginx/html
+COPY config.template /config.template
+
+ENV REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/master" \
+    AUTH0_CLIENT_ID="" \
+    AUTH0_DOMAIN="" \
+	CILOGON_CLIENT_ID="" \
+	APPLICATION_INSIGHTS_KEY=""
+
+CMD envsubst < /config.template > /usr/share/nginx/html/config.js && nginx -g 'daemon off;'
