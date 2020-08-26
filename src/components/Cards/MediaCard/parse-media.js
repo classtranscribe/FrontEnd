@@ -7,6 +7,7 @@ export function parseMedia(mediaLike) {
   }
 
   return {
+    key: media.id,
     id: media.id,
     name: media.mediaName,
     ratio: media.watchHistory.ratio,

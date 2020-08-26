@@ -2,10 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { CTFragment, CTText } from 'layout';
+import { CTFragment, CTText, makeEl, altEl } from 'layout';
 import { Poster } from '../../Poster';
 import { parseMedia } from './parse-media';
 import './index.scss';
+
+const _posterSizes = {
+  'small': '110px',
+  'normal': '150px',
+  'medium': '170px',
+  'big': '250px'
+};
 
 function MediaCard(props) {
   const {
@@ -16,8 +23,10 @@ function MediaCard(props) {
     href,
     ratio,
     isUnavailable,
+    label,
     description,
-    posterWidth = '250px',
+    nameSize = 'medium',
+    posterSize,
     ...otherProps
   } = props;
 
@@ -26,15 +35,42 @@ function MediaCard(props) {
     id,
     as: Link,
     to: href,
-    className: cardClasses
+    className: cardClasses,
+    role: 'listitem'
   };
+
+  const mediaNameElement = makeEl(CTText, {
+    bold: true,
+    size: nameSize,
+    line: 2,
+    className: 'media-name',
+    children: name
+  });
+
+  const labelElement = altEl(CTText, Boolean(label), {
+    bold: true,
+    teal: true,
+    children: label
+  });
+
+  const descripElement = altEl(CTText, Boolean(description), {
+    line: 2,
+    fluid: true,
+    muted: true,
+    margin: [3, 0, 0, 0],
+    children: description,
+    className: 'media-description'
+  });
+
+  const posterWidth = _posterSizes[posterSize] || _posterSizes.big;
 
   return (
     <CTFragment {...cardProps} {...otherProps}>
       <Poster progress={ratio} width={posterWidth} />
       <div className="info-con">
-        <CTText className="media-name" size="medium" bold line={2}>{name}</CTText>
-        <CTText fluid muted line={2} margin={[3, 0, 0, 0]}>{description}</CTText>
+        {mediaNameElement}
+        {labelElement}
+        {descripElement}
       </div>
     </CTFragment>
   );
@@ -44,12 +80,16 @@ MediaCard.propTypes = {
   row: PropTypes.bool,
   dark: PropTypes.bool,
   id: PropTypes.string,
-  name: PropTypes.string,
+  name: PropTypes.node.isRequired,
   href: PropTypes.string,
   ratio: PropTypes.number,
   isUnavailable: PropTypes.bool,
-  description: PropTypes.string,
-  posterWidth: PropTypes.string
+  description: PropTypes.node,
+  label: PropTypes.node,
+  /** Size for the media name, one of 'normal', 'medium', 'big', 'large', 'huge' */
+  nameSize: CTText.propTypes.size,
+  /** Size of the poster, one of 'small', 'medium', 'big' */
+  posterSize: PropTypes.oneOf(['small', 'normal', 'medium', 'big'])
 };
 
 MediaCard.parse = parseMedia;

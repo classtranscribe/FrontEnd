@@ -1,25 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CTFragment, CTFooter } from 'layout';
-import { InfoAndListLayout , VideoCard } from 'components';
-
-import { NOT_FOUND_404, links, api } from 'utils';
-
-function Video({ media }) {
-  const { mediaName, id, isUnavailable, watchHistory } = api.parseMedia(media);
-
-  return (
-    <VideoCard
-      row
-      id={id}
-      name={mediaName}
-      link={links.watch(id)}
-      ratio={watchHistory.ratio}
-      posterSize="150px"
-      isUnavailable={isUnavailable}
-    />
-  );
-}
+import { CTFragment, CTFooter, CTText } from 'layout';
+import { InfoAndListLayout, MediaCard } from 'components';
+import { NOT_FOUND_404 } from 'utils';
 
 function VideosView({
   playlist,
@@ -28,16 +11,25 @@ function VideosView({
 
   const loading = playlist === null;
   const error = playlist === NOT_FOUND_404;
+  const empty = medias.length === 0;
+
+  const vListProps = {
+    list: true,
+    role: 'list',
+    className: 'pl-1 pr-1',
+    alt: empty,
+    altElement: <CTText hCenter muted padding={[20, 0]}>No video posted</CTText>
+  };
 
   return error ? null : (
     <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
       <CTFragment sticky vCenter className="title link" as={Link} to={window.location.pathname}>
-        <i className="material-icons">arrow_back_ios</i>
+        <i className="material-icons" aria-hidden="true">arrow_back</i>
         <span>{name}</span>
       </CTFragment>
 
-      <CTFragment list role="list" className="pl-4 pr-4">
-        {medias.map( me => <Video key={me.id} media={me} /> )}
+      <CTFragment {...vListProps}>
+        {medias.map((me) => <MediaCard row posterSize='normal' {...MediaCard.parse(me)} /> )}
       </CTFragment>
 
       <CTFooter />

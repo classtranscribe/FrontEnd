@@ -1,10 +1,19 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { VideoCard } from 'components';
+import { MediaCard } from 'components';
 import { api } from 'utils';
 import { setup, connectWithRedux } from '../../../Utils';
-
 import WatchCtrlButton from '../../WatchCtrlButton';
+
+const Video = ({ media = null, label = false }) => (
+  <MediaCard
+    {...MediaCard.parse(media)}
+    row
+    dark
+    posterSize="normal"
+    label={label}
+  />
+);
 
 export function NextVideoWithRedux({ nextBtn = true, media, playlist = {} }) {
   let { prev, next } = setup.findNeighbors(media.id, playlist);
@@ -25,8 +34,8 @@ export function NextVideoWithRedux({ nextBtn = true, media, playlist = {} }) {
     handleChangeVideo(prev);
   };
 
-  const watchPrev = <Video media={prev} />;
-  const watchNext = <Video media={next} nextVideo />;
+  const watchPrev = <Video media={prev} label="Previous video" />;
+  const watchNext = <Video media={next} label="Next Video" />;
 
   if (nextBtn) {
     return (
@@ -61,25 +70,6 @@ export function NextVideoWithRedux({ nextBtn = true, media, playlist = {} }) {
         <i className="material-icons">skip_previous</i>
       </span>
     </WatchCtrlButton>
-  );
-}
-
-function Video({ media = null, nextVideo = false }) {
-  const { id, mediaName, watchHistory } = media;
-  let name = nextVideo ? 'Next' : 'Previous';
-  return (
-    <div role="listitem" className="watch-video-item search-result-listitem search-result-videos">
-      <VideoCard
-        row
-        dark
-        id={id}
-        name={`<span>${name} Video</span> | ${mediaName}`}
-        ratio={watchHistory.ratio}
-        posterSize="100px"
-        fittedNameSize={-1}
-        listitem={false}
-      />
-    </div>
   );
 }
 

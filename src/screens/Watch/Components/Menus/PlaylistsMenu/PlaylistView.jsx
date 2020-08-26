@@ -19,7 +19,7 @@ function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
   return (
     <div className="watch-playlists-list">
       <div className="watch-list-title">
-        <p>Playlists</p>
+        Playlists
       </div>
       <div role="list" className="w-100 d-flex flex-column">
         {playlists.map((playlistItem) => (
