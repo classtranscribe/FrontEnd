@@ -25,7 +25,7 @@ COPY config.template /config.template
 ENV REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/master" \
     AUTH0_CLIENT_ID="" \
     AUTH0_DOMAIN="" \
-	CILOGON_CLIENT_ID="" \
-	APPLICATION_INSIGHTS_KEY=""
+    CILOGON_CLIENT_ID="" \
+    APPLICATION_INSIGHTS_KEY=""
 
 CMD envsubst < /config.template > /usr/share/nginx/html/config.js && nginx -g 'daemon off;'

@@ -1,8 +1,6 @@
 window.env={}
-window.env.REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/master"
+window.env.REACT_APP_FRONTEND_COMMIT_ENDPOINT="$REACT_APP_FRONTEND_COMMIT_ENDPOINT"
+window.env.AUTH0_CLIENT_ID="$AUTH0_CLIENT_ID"
 window.env.AUTH0_DOMAIN="$AUTH0_DOMAIN"
-window.env.AUTH0_CLIENT_ID="xXXY7dlDM3Ddz8bZ87pAtYzUN7yixz7C"
-window.env.CILOGON_DOMAIN="cilogon.org"
-window.env.CILOGON_CLIENT_ID="cilogon:/client_id/3c7e9528486a4ab9f141cf7379a7f54a"
-window.env.CILOGON_CLIENT_SECRET="heeBG8SwUvO8rUp-6bpv_nJj3SgNTeSI6CsptQratQdmKB70hD7jW4xqOTSjd7Bxj2s0UQUALLC_WRpztcK2JA"
-window.env.APPLICATION_INSIGHTS_KEY="cb70981b-228b-4798-9943-f7cc99e88b6d"
+window.env.CILOGON_CLIENT_ID="$CILOGON_CLIENT_ID"
+window.env.APPLICATION_INSIGHTS_KEY="$APPLICATION_INSIGHTS_KEY"
