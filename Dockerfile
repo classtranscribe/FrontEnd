@@ -26,6 +26,7 @@ ENV REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtransc
     AUTH0_CLIENT_ID="" \
     AUTH0_DOMAIN="" \
     CILOGON_CLIENT_ID="" \
-    APPLICATION_INSIGHTS_KEY=""
+    APPLICATION_INSIGHTS_KEY="" \
+    TEST_SIGN_IN=""
 
 CMD envsubst < /config.template > /usr/share/nginx/html/config.js && nginx -g 'daemon off;'
