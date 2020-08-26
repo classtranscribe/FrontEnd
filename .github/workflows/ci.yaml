@@ -35,7 +35,7 @@ jobs:
         run: |
           yarn
           yarn install
-          yarn global react-scripts
+          yarn global add react-scripts
 
       - name: Compile application
         env:
