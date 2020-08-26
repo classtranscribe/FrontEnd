@@ -7,7 +7,7 @@
     "url": "git+ssh://github.com/classtranscribe/FrontEnd.git"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "./node_modules/.bin/react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
