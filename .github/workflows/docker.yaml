@@ -32,6 +32,11 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF##*/}          
           echo "::set-env name=GITHUB_BRANCH::${BRANCH}"
+          if [ "$BRANCH" == "master" ]; then
+            echo "::set-env name=TAGS::latest"
+          else
+            echo "::set-env name=TAGS::${BRANCH}"
+          fi
 
       # build the docker image, this will always run to make sure
       # the Dockerfile still works.
@@ -56,7 +61,7 @@ jobs:
           name: ${{ github.repository_owner }}/FrontEnd/frontend
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          tags: "${{ env.GITHUB_BRANCH }}"
+          tags: "${{ env.TAGS }}"
           registry: docker.pkg.github.com
           buildargs: BRANCH,,BUILDNUMBER,GITSHA1
 
@@ -72,5 +77,5 @@ jobs:
           name: ${{ env.DOCKERHUB_ORG }}/frontend
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          tags: "${{ env.GITHUB_BRANCH }}"
+          tags: "${{ env.TAGS }}"
           buildargs: BRANCH,BUILDNUMBER,GITSHA1
