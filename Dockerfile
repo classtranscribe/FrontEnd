@@ -19,10 +19,17 @@ RUN yarn build
 # ----------------------------------------------------------------------
 FROM nginx:alpine
 
+ARGS BRANCH="unknown" \
+     BUILDNUMBER="local" \
+     GITSHA1="unknown"
+
 COPY --from=frontend /frontend/build /usr/share/nginx/html
 COPY config.template /config.template
 
-ENV REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/master" \
+ENV BRANCH="${BRANCH}" \
+    BUILDNUMBER="${BUILDNUMBER}" \
+    GITSHA1="${GITSHA1}" \
+    REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/master" \
     AUTH0_CLIENT_ID="" \
     AUTH0_DOMAIN="" \
     CILOGON_CLIENT_ID="" \
