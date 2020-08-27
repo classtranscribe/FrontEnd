@@ -37,4 +37,4 @@ ENV BRANCH="${BRANCH}" \
     APPLICATION_INSIGHTS_KEY="" \
     TEST_SIGN_IN=""
 
-CMD envsubst < /config.template > /usr/share/nginx/html/config.js && nginx -g 'daemon off;'
+CMD envsubst < /config.template > /build/config.js && nginx -g 'daemon off;'
