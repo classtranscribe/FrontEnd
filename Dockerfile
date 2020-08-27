@@ -19,9 +19,9 @@ RUN yarn build
 # ----------------------------------------------------------------------
 FROM nginx:alpine
 
-ARGS BRANCH="unknown" \
-     BUILDNUMBER="local" \
-     GITSHA1="unknown"
+ARG BRANCH="unknown" \
+    BUILDNUMBER="local" \
+    GITSHA1="unknown"
 
 COPY --from=frontend /frontend/build /usr/share/nginx/html
 COPY config.template /config.template
