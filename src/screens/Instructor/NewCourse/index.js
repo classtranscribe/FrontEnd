@@ -6,7 +6,6 @@ import { CourseForm } from './components';
 export class NewCourse extends Component {
   componentDidMount() {
     api.contentLoaded();
-    links.title('New Course');
   }
 
   createCourseOfferings = async (courseIds, offeringId) => {
@@ -82,6 +81,9 @@ export class NewCourse extends Component {
         sticky: true,
         gradient: true,
         offsetTop: 30
+      },
+      metaTagsProps: {
+        title: 'New Course'
       }
     });
 

@@ -25,16 +25,24 @@ class CourseSettingsWithRedux extends Component {
       responsive: true,
       footer: true,
       headingProps: {
-        heading: loading ? '' : `${offering.fullNumber} Settings`,
-        // icon: 'settings',
+        heading: 'Course Settings',
+        icon: 'settings',
         sticky: true,
         gradient: true,
         offsetTop: 30
       },
       sidebarProps: {
         items: sidebar.getCoursePageSidebarItems(offering)
+      },
+      metaTagsProps: {
+        title: 'Course Settings'
       }
     }));
+
+    if (!loading && offering.fullNumber) {
+      layoutProps.headingProps.heading = <><span>{offering.fullNumber}</span> Settings</>;
+      layoutProps.metaTagsProps.title = `Settings | ${offering.fullNumber}`;
+    }
 
     return (
       <CTLayout {...layoutProps}>

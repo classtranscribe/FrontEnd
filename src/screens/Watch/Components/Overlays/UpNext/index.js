@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { VideoCard } from 'components';
-import { api, links } from 'utils';
+import { MediaCard } from 'components';
 import {
   connectWithRedux,
   videoControl,
@@ -47,29 +46,19 @@ function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING }) {
           </button>
         </div>
 
-        <Video upNext={upNext} />
+        <MediaCard
+          row
+          dark
+          {...MediaCard.parse(upNext)}
+          label="Up Next"
+          posterSize="medium"
+        />
       </div>
     </div>
   ) : null;
 }
 
-function Video({ upNext = null }) {
-  const media = api.parseMedia(upNext);
-  const { id, mediaName } = media;
-
-  return (
-    <div role="listitem" className="watch-video-item search-result-listitem search-result-videos">
-      <VideoCard
-        row
-        dark
-        id={id}
-        name={mediaName}
-        posterSize="100px"
-        fittedNameSize={-1}
-        link={links.watch(id)}
-      />
-    </div>
-  );
-}
-
-export const UpNext = connectWithRedux(UpNextWithRedux, ['media', 'ctpPriEvent']);
+export const UpNext = connectWithRedux(
+  UpNextWithRedux, 
+  ['media', 'ctpPriEvent']
+);

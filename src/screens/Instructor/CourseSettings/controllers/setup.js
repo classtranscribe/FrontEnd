@@ -1,5 +1,5 @@
 import { StateController } from 'utils/state-controller';
-import { api, NOT_FOUND_404, links } from 'utils';
+import { api, NOT_FOUND_404 } from 'utils';
 
 export class SetupCoursePage extends StateController {
   constructor(title) {
@@ -54,8 +54,7 @@ export class SetupCoursePage extends StateController {
 
     api.contentLoaded();
 
-    if (offering === NOT_FOUND_404) return;
-    links.title(`${this.title} | ${offering.fullNumber}`);
+    // if (offering === NOT_FOUND_404) return;
   }
 }
 

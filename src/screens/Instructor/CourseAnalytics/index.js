@@ -31,8 +31,16 @@ export class CourseAnalyticsWithRedux extends Component {
       },
       sidebarProps: {
         items: sidebar.getCoursePageSidebarItems(offering)
+      },
+      metaTagsProps: {
+        title: 'Course Analytics'
       }
     }));
+
+    if (offering && offering.fullNumber) {
+      layoutProps.headingProps.heading = <><span>{offering.fullNumber}</span> Analytics</>;
+      layoutProps.metaTagsProps.title = `Analytics | ${offering.fullNumber}`;
+    }
 
     return (
       <CTLayout {...layoutProps}>

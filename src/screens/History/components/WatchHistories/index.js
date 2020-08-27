@@ -1,9 +1,8 @@
 import React from 'react';
 import { CTFragment, CTFilter } from 'layout';
+import { MediaCard } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
-
-import MediaItem from './MediaItem';
 
 function WatchHistoriesWithRedux(props) {
   let { watchHistories = ARRAY_INIT } = props;
@@ -19,7 +18,8 @@ function WatchHistoriesWithRedux(props) {
         </div>
       );
     } else {
-      whElement = result.map(media => <MediaItem media={media} />);
+      whElement = 
+        result.map(media => <MediaCard nameSize="big" posterSize="medium" row {...MediaCard.parse(media)} />);
     }
 
     return (

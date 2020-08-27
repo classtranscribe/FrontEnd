@@ -1,6 +1,6 @@
 .video-poster {
   position: relative;
-  height: auto;
+  height: max-content;
   overflow: hidden;
 }
 

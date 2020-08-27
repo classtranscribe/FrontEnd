@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { CTLoader } from 'layout';
-import { VideoCard } from 'components';
-import { api, elem, links } from 'utils';
+import { MediaCard } from 'components';
+import { elem } from 'utils';
 import { connectWithRedux } from '../../../Utils';
 
 function Videos({
@@ -21,10 +21,12 @@ function Videos({
   return (
     <div id="watch-videos-list" className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
-        <p>
-          <i className="material-icons">video_library</i>
-          {currPlaylist.name}
-        </p>
+        {
+          currPlaylist.name 
+          && 
+          <i className="material-icons" aria-hidden="true">video_library</i>
+        }
+        <span>{currPlaylist.name}</span>
       </div>
       <ul className="w-100 d-flex flex-column p-0">
         {!medias ? (
@@ -32,31 +34,18 @@ function Videos({
         ) : medias.length === 0 ? (
           <div className="w-100 d-flex justify-content-center align-items-center m-5">NO VIDEO</div>
         ) : (
-          medias.map((media) => <Video key={media.id} media={media} currMediaId={currMediaId} />)
+          medias.map((me) => (
+            <MediaCard 
+              row 
+              dark 
+              posterSize="small" 
+              label={currMediaId === me.id ? 'NOW PLAYING' : null}
+              {...MediaCard.parse(me)}
+            />
+          ))
         )}
       </ul>
     </div>
-  );
-}
-
-function Video({ media = null, currMediaId = '' }) {
-  media = api.parseMedia(media);
-  const { id, mediaName, watchHistory } = media;
-  return (
-    <li className="watch-video-item">
-      <VideoCard
-        row
-        dark
-        id={id}
-        name={mediaName}
-        ratio={watchHistory.ratio}
-        posterSize="100px"
-        listitem={false}
-        current={currMediaId === id}
-        description={currMediaId === id ? 'Now Playing' : ''}
-        link={links.watch(id)}
-      />
-    </li>
   );
 }
 

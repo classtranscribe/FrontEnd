@@ -1,5 +1,5 @@
 import React from 'react';
-import { VideoCard } from 'components';
+import { MediaCard } from 'components';
 import { links } from 'utils/links';
 import {
   videoControl,
@@ -9,7 +9,6 @@ import {
   SEARCH_TRANS_IN_VIDEO,
   SEARCH_TRANS_IN_COURSE,
 } from '../../../Utils';
-
 import { ShortcutKey } from '../../Menus/ShortcutsTable';
 
 /**
@@ -61,19 +60,14 @@ export const CaptionListItem = ({ item, option }) => {
 export const VideoListItem = ({ media = null }) => {
   const { mediaId, name, playlistName } = media;
   return (
-    <div role="listitem" className="watch-video-item search-result-listitem search-result-videos">
-      <VideoCard
-        row
-        dark
-        id={mediaId}
-        name={name}
-        posterSize="100px"
-        listitem={false}
-        fittedNameSize={-1}
-        description={`Playlist - ${playlistName}`}
-        link={links.watch(mediaId)}
-      />
-    </div>
+    <MediaCard
+      row
+      dark
+      id={mediaId}
+      name={name}
+      description={`Playlist - ${playlistName}`}
+      posterSize="small"
+    />
   );
 };
 
