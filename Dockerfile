@@ -23,8 +23,9 @@ ARG BRANCH="unknown"
 ARG BUILDNUMBER="local"
 ARG GITSHA1="unknown"
 
-COPY --from=frontend /frontend/build /usr/share/nginx/html
+COPY --from=frontend /frontend/build /build/
 COPY config.template /config.template
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 ENV BRANCH="${BRANCH}" \
     BUILDNUMBER="${BUILDNUMBER}" \
