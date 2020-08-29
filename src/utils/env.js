@@ -3,7 +3,7 @@ const reactEnv = window.env;
 /**
  * Throw the error on missing a required environment variable
  */
-const missingRequiredEnv = (envName) => {
+const _missingRequiredEnv = (envName) => {
   throw Error(`Missing required environment variable ${envName}`);
 };
 
@@ -11,8 +11,7 @@ const requiredEnvs = [
   'AUTH0_DOMAIN',
   'AUTH0_CLIENT_ID',
   'CILOGON_CLIENT_ID',
-  'APPLICATION_INSIGHTS_KEY',
-  'REACT_APP_FRONTEND_COMMIT_ENDPOINT',
+  'APPLICATION_INSIGHTS_KEY'
 ];
 
 /**
@@ -23,7 +22,7 @@ class ReactEnv {
     for (let i = 0; i < requiredEnvs.length; i += 1) {
       const envName = requiredEnvs[i];
       if (!reactEnv[envName]) {
-        missingRequiredEnv(envName);
+        _missingRequiredEnv(envName);
       }
     }
   }
@@ -62,6 +61,18 @@ class ReactEnv {
 
   get baseURL() {
     return this.dev ? this.devServer : this.productionServer;
+  }
+
+  get gitSHA() {
+    return reactEnv.GITSHA1;
+  }
+
+  get buildNum() {
+    return reactEnv.BUILDNUMBER;
+  }
+
+  get branchName() {
+    return reactEnv.BRANCH;
   }
 }
 

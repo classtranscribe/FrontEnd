@@ -80,7 +80,7 @@ function ProfileMenu(props) {
         <Typography style={styles.font}>Contact Us</Typography>
       </MenuItem>
 
-      <MenuItem title="Sign out" aria-label="Sign out" onClick={user.signOut}>
+      <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signOut()}>
         <ListItemIcon style={styles.icon}>
           <i className="fas fa-sign-out-alt" />
         </ListItemIcon>

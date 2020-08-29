@@ -81,9 +81,7 @@ export class Auth0 {
     });
   }
 
-  signOut() {
-    this.auth0.logout({
-      returnTo: window.location.origin,
-    });
+  signOut(returnTo = window.location.origin) {
+    this.auth0.logout({ returnTo });
   }
 }
