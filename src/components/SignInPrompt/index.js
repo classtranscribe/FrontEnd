@@ -1,31 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { SignInButton } from 'layout';
+import { user } from 'utils';
 import './index.scss';
-
-import { Button } from 'pico-ui';
-import { SignInMenu } from 'layout/CTNavHeader/NavHeaderMenu/SignInMenu';
 
 export function SignInPrompt(props) {
   let {
-    buttonColor = 'teal',
     buttonText = 'Sign In',
-    topDescription = '',
+    topDescription = <>Can&#39;t find your courses? <br />Sign in to see more.</>,
     bottomDescription = '',
     darkMode = false
   } = props;
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClose = () => {
-    setTimeout(() => setAnchorEl(null), 200);
-  };
-
-  const handleOpen = e => setAnchorEl(e.target);
-
   const promptClasses = classNames('ct-signin-prompt', { dark: darkMode });
 
-  return (
+  return user.isLoggedIn ? null : (
     <div className={promptClasses}>
       <div className="ct-signin-card">
         {
@@ -34,20 +24,7 @@ export function SignInPrompt(props) {
           <div className="ct-signin-descrip">{topDescription}</div>
         }
 
-        <Button
-          compact
-          uppercase
-          color={buttonColor}
-          text={buttonText}
-          onClick={handleOpen}
-        />
-        
-        <SignInMenu
-          open={Boolean(anchorEl)}
-          darkMode={darkMode}
-          anchorEl={anchorEl} 
-          handleClose={handleClose}
-        />
+        <SignInButton>{buttonText}</SignInButton>
 
         {
           bottomDescription

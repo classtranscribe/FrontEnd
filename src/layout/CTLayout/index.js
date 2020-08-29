@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
+import CTCookieAgreement from 'components/CTCookieAgreement'
 import { altEl, makeEl } from '../tools';
 import CTScrollArea from '../CTScrollArea';
 import CTNavHeader from '../CTNavHeader';
@@ -40,7 +41,8 @@ function CTLayout(props) {
     headerProps = {},
     sidebarProps = {},
     headingProps,
-    metaTagsProps = {}
+    metaTagsProps = {},
+    cookieAgreementModal = true
   } = props;
 
   const { float = false, mini = false } = sidebarProps;
@@ -121,6 +123,7 @@ function CTLayout(props) {
     children, !fill, null, <div className="ct-layout-fill">{children}</div>);
   
   const footerElement = altEl(CTFooter, footer);
+  const cookieAgreementElement = altEl(CTCookieAgreement, cookieAgreementModal);
 
   return (
     <div id="ct-layout-container" className={containerClasses}>
@@ -150,7 +153,8 @@ function CTLayout(props) {
           darkMode={darkMode}
           brandElem={headerBrandElem}
         />
-
+        
+        {cookieAgreementElement}
         {headingElement}
         {pageElement}
         {footerElement}

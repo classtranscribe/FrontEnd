@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Dialog, ButtonBase, DialogContent, DialogActions} from '@material-ui/core';
-import { SignInMenu } from 'layout';
+import { useSignButtonProps } from 'layout';
 import { user } from 'utils';
 import { useStyles } from './styles';
 import { CookiePoilcy, AcceptableUsePolicy } from './policies';
@@ -19,6 +19,7 @@ function CTCookieAgreement() {
   const [showPolicy, setShowPolicy] = useState('none');
   const [policyToShow, setPolicyToShow] = useState(null);
   const styleClasses = useStyles();
+  const signinButtonProps = useSignButtonProps();
 
   const handleAcceptLoginClick = (e) => {
     // localStorage.setItem(AGREEMENT_ACCEPTED_KEY, 'true');
@@ -66,8 +67,10 @@ function CTCookieAgreement() {
         <ButtonBase 
           className={styleClasses.policyButton} 
           onClick={() => handlePolicyClicking('Acceptable Use')}
-        > Acceptable Use Policy
-        </ButtonBase>and our 
+        > 
+          Acceptable Use Policy
+        </ButtonBase>
+        and our 
         <ButtonBase 
           className={styleClasses.policyButton}
           onClick={() => handlePolicyClicking('Cookie')}
@@ -87,10 +90,10 @@ function CTCookieAgreement() {
       <DialogActions>
         <div id="cookie-agreement-btn-grp">
           <ButtonBase
+            {...signinButtonProps}
             className={styleClasses.loginButton}
-            onClick={handleAcceptLoginClick}
+            // onClick={handleAcceptLoginClick}
             role='button'
-            tabIndex='0'
           >
             <h3 className='cookie-agreement-btn-h3'>
               Accept & Login
@@ -103,7 +106,6 @@ function CTCookieAgreement() {
             className={styleClasses.loginButton}
             onClick={handleAcceptSkipLogin}  
             role='button'
-            tabIndex='0'
           >
             <h3 className='cookie-agreement-btn-h3'>
               Accept & Skip Login
@@ -116,7 +118,6 @@ function CTCookieAgreement() {
             className={styleClasses.loginButton}
             onClick={handleCloseBrowserWindow}  
             role='button'
-            tabIndex='0'
           >
             <h3 className='cookie-agreement-btn-h3'>
               Decline and Close Window
@@ -125,11 +126,6 @@ function CTCookieAgreement() {
           </ButtonBase> 
         </div>
       </DialogActions>
-      <SignInMenu 
-        open={Boolean(anchorEl)} 
-        anchorEl={anchorEl} 
-        handleClose={handleAcceptLoginClose}
-      />
     </Dialog>
   );
 }

@@ -33,7 +33,6 @@ import {
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
-import CTCookieAgreement from './components/CTCookieAgreement'
 import { user } from './utils/user';
 
 class App extends React.Component {
@@ -45,7 +44,6 @@ class App extends React.Component {
     // return <Maintenance />
     return (
       <AppInsightsProvider>
-        {/* <CTCookieAgreement /> */}
         <Switch>
           
           <Route exact path={user.callbackPaths} component={AuthCallback} />

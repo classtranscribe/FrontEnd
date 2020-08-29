@@ -119,5 +119,9 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 CTNavHeader.Brand = CTBrand;
 CTNavHeader.createProps = createCTNavHeaderProps;
 export { CTBrand } from './CTBrand';
+export { 
+  default as SignInButton, 
+  useSignButtonProps
+} from './NavHeaderMenu/SignInButton';
 
 export default CTNavHeader;
