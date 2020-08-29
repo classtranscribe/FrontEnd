@@ -3,6 +3,8 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
 import {
+  SignIn,
+  AuthCallback,
   // Admin
   Admin,
   // Instructor
@@ -22,7 +24,6 @@ import {
   Analytics,
   Watch,
   // General
-  SetupUser,
   NotFound404,
   Maintenance,
   // ComponentAPI,
@@ -44,10 +45,11 @@ class App extends React.Component {
     // return <Maintenance />
     return (
       <AppInsightsProvider>
-        <CTCookieAgreement />
+        {/* <CTCookieAgreement /> */}
         <Switch>
           
-          <Route exact path={user.callbackPaths} component={SetupUser} />
+          <Route exact path={user.callbackPaths} component={AuthCallback} />
+          <Route exact path="/sign-in" component={SignIn} />
 
           {/* Admin */}
           {user.isAdmin && <Route path="/admin" component={Admin} />}

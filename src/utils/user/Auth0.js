@@ -44,12 +44,10 @@ export class Auth0 {
     return this.redirectState;
   }
 
-  signIn() {
-    redirect.saveRedirectURI();
+  signIn(redirectURL = window.location.href) {
+    redirect.saveRedirectURI(redirectURL);
     this.auth0.authorize({
-      appState: {
-        redirectURL: window.location.href,
-      },
+      appState: { redirectURL },
       state: uuid(),
     });
   }

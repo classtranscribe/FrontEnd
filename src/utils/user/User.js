@@ -52,6 +52,12 @@ export class User {
     TEST: AUTH_TEST,
   };
 
+  authMethods = [
+    AUTH_AUTH0,
+    AUTH_CILOGON,
+    AUTH_TEST
+  ];
+
   callbackPaths = [links.auth0Callback(), links.ciLogonCallback()];
 
   /** return true if the user is logged in */
@@ -88,35 +94,36 @@ export class User {
   signIn(
     options = {
       method: AUTH_AUTH0,
+      redirectURL: window.location.href
     },
   ) {
-    const { method } = options;
+    const { method, redirectURL } = options;
 
     if (env.dev && method === AUTH_TEST) {
-      this.testSignIn();
+      this.testSignIn(redirectURL);
     } else if (method === AUTH_CILOGON) {
-      this.ciLogonSignIn();
+      this.ciLogonSignIn(redirectURL);
     } else {
-      this.auth0SignIn();
+      this.auth0SignIn(redirectURL);
     }
   }
 
-  auth0SignIn() {
-    this.auth0Client.signIn();
+  auth0SignIn(redirectURL) {
+    this.auth0Client.signIn(redirectURL);
   }
 
-  ciLogonSignIn() {
-    this.ciLogonClient.authorize();
+  ciLogonSignIn(redirectURL) {
+    this.ciLogonClient.authorize(redirectURL);
   }
 
-  async testSignIn() {
+  async testSignIn(redirectURL) {
     const { data } = await Account.testSignIn();
     const { authToken } = data;
     // Save AuthToken
     accountStorage.setAuthToken(authToken);
     // Save user info
     this.saveUserInfo(data, {}, AUTH_TEST);
-    window.location.reload();
+    window.location = redirectURL;
   }
 
   reSignIn() {
@@ -233,6 +240,7 @@ export class User {
 
     // start redirecting
     const redirectURL = this.auth0Client.getRedirectURL(); // default redirect url
+    alert(redirectURL);
     this.redirect(redirectURL);
   }
 

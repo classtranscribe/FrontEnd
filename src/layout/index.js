@@ -1,6 +1,6 @@
 export { default as CTScrollArea } from './CTScrollArea';
 
-export { default as CTNavHeader } from './CTNavHeader';
+export { default as CTNavHeader, CTBrand } from './CTNavHeader';
 
 export { default as CTFragment } from './CTFragment';
 

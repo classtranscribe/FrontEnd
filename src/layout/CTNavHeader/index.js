@@ -118,5 +118,6 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 // Sub components
 CTNavHeader.Brand = CTBrand;
 CTNavHeader.createProps = createCTNavHeaderProps;
+export { CTBrand } from './CTBrand';
 
 export default CTNavHeader;

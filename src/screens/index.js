@@ -1,4 +1,8 @@
 export { SetupUser } from './SetupUser';
+export {
+  SignIn,
+  AuthCallback,
+} from './Authentication';
 
 export { Admin } from './Admin';
 
@@ -23,4 +27,4 @@ export { NotFound404 } from './NotFound404';
 export { Maintenance } from './Maintenance';
 // export { ComponentAPI } from './ComponentAPI';
 export { Example } from './Example';
-export { Embed } from './Embed'
+export { Embed } from './Embed';
