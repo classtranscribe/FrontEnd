@@ -240,7 +240,6 @@ export class User {
 
     // start redirecting
     const redirectURL = this.auth0Client.getRedirectURL(); // default redirect url
-    alert(redirectURL);
     this.redirect(redirectURL);
   }
 

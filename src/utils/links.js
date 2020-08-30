@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { uurl } from './use-url';
 
 export class ClassTranscribeLinks {
