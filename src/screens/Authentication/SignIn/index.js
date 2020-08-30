@@ -46,8 +46,8 @@ function SignIn() {
   }
 
   return (
-    <CTFragment role="main" center className="h-100">
-      <CTFragment className="ct-signin-card">
+    <CTFragment fade role="main" center className="h-100" id="ct-signin-main">
+      <CTFragment className="ct-signin-card shadow">
         <CTFragment padding={[0,20,30,20]} vEnd>
           <CTBrand size="large" />
           <CTText as="h1" muted uppercase size="big" margin={[0,0,0,10]}>
@@ -55,7 +55,7 @@ function SignIn() {
           </CTText>
         </CTFragment>
 
-        <CTText muted margin={[0,0,10,25]} as="h3">
+        <CTText muted margin={[0,0,10,25]} size="medium" as="h3">
           Choose a sign-in or sign-up method
         </CTText>
 

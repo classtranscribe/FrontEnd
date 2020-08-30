@@ -205,4 +205,10 @@
       margin-right: .5em;
     }
   }
+
+  .ct-header-brand {
+    &.large img {
+      height: 28px;
+    }
+  }
 }
