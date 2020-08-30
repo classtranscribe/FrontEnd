@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Slide,
@@ -93,8 +94,11 @@ function CTCookieAgreement() {
       id="cookie-agreement-inner-wrapper"
       TransitionComponent={Transition}
     >
-      <CTFragment hCenter vEnd padding={[30, 0]}>
-        <CTText size="huge" bold>Welcome To</CTText>
+      <CTFragment
+        padding={[30, 0]} 
+        className="cookie-acp-title"
+      >
+        <CTText size="huge" bold className="welcome-txt">Welcome To</CTText>
         <CTBrand size="large" />
       </CTFragment>
         
@@ -124,7 +128,7 @@ function CTCookieAgreement() {
         {policyToShow === 'Cookie' && <CookiePoilcy />}
       </DialogContent>
 
-      <DialogActions className="policy-acp-btns">
+      <DialogActions className="cookie-acp-btns">
         <CTFragment 
           list 
           role="list" 
