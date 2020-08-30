@@ -4,34 +4,34 @@
   border-radius: 10px;
   border: solid 1px rgb(233, 233, 233);
   padding: 30px 0;
+}
 
-  #ct-signin-opts {
-    .ct-signin-opt {
-      padding: 0 25px;
+.ct-signin-opts {
+  .ct-signin-opt {
+    padding: 0 25px;
 
-      span.material-icons {
-        color: rgb(61, 61, 61);
-        padding-right: 15px;
-        font-size: 30px;
-      }
+    span.material-icons {
+      color: rgb(61, 61, 61);
+      padding-right: 15px;
+      font-size: 30px;
+    }
 
+    .opt-text {
+      padding: 10px 0;
+    }
+
+    &:not(:last-child) {
       .opt-text {
-        padding: 10px 0;
+        border-bottom: 1px solid rgb(233, 233, 233);
       }
+    }
 
-      &:not(:last-child) {
-        .opt-text {
-          border-bottom: 1px solid rgb(233, 233, 233);
-        }
-      }
-
-      &:hover {
-        transition: background 200ms ease-in-out;
-        background-color: rgb(243, 243, 243);
-        span.material-icons,
-        .opt-text .opt-name {
-          color: teal !important;
-        }
+    &:hover {
+      transition: background 200ms ease-in-out;
+      background-color: rgb(243, 243, 243);
+      span.material-icons,
+      .opt-text .opt-name {
+        color: teal !important;
       }
     }
   }

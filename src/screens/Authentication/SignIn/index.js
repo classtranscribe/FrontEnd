@@ -59,7 +59,7 @@ function SignIn() {
           Choose a sign-in or sign-up method
         </CTText>
 
-        <CTFragment role="list" list id="ct-signin-opts">
+        <CTFragment role="list" list className="ct-signin-opts">
           {signInOptions.map(opt => (
             <CTFragment 
               vCenter
