@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { user } from 'utils/user';
 import './index.scss';
 
 import { SignInPrompt } from 'components/SignInPrompt';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 import { SidebarNavItems } from './SidebarNavItems';
+import { altEl } from '../tools';
 
 function CTNavSidebar(props) {
   let {
@@ -22,6 +22,7 @@ function CTNavSidebar(props) {
 
   const sidebarClasses = classNames({ show, mini, float });
   const drawerClasses = classNames({ show, 'ct-nav-dark': darkMode });
+  const signinPromptElement = altEl(SignInPrompt, !mini || float);
 
   return (
     <div id="ct-nav-sidebar" className={sidebarClasses}>
@@ -38,15 +39,7 @@ function CTNavSidebar(props) {
             children
           }
 
-          {
-            (!user.isLoggedIn && (!mini || float))
-            &&
-            <SignInPrompt
-              topDescription={
-                <>Can&#39;t find your courses? <br />Sign in to see more.</>
-              }
-            />
-          }
+          {signinPromptElement}
         </div>
       </div>
     </div>

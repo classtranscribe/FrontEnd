@@ -36,7 +36,7 @@ function CourseCard(props) {
   return (
     <CTFragment {...cardProps}>
       <div className="title">
-        <CTText teal className="number" size="large" line={1}>
+        <CTText teal bold className="number" size="large" line={1}>
           {number}
         </CTText>
 

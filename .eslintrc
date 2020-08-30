@@ -17,7 +17,7 @@
     "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
     "no-return-assign": ["error", "except-parens"],
     "no-underscore-dangle": "off",
-    "no-param-reassign": ["warn", { "props": false }],
+    "no-param-reassign": "off",
     "no-nested-ternary": "off",
     "no-await-in-loop": "warn",
     "padded-blocks": [

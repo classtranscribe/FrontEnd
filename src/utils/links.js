@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { uurl } from './use-url';
 
 export class ClassTranscribeLinks {
@@ -26,6 +25,21 @@ export class ClassTranscribeLinks {
   currentUrl() {
     return window.location.href;
   }
+
+  /**
+   * to `/sign-in?method=<auth method>&redirect=<redirect-uri>`
+   * @param {Object} config - sign in config
+   * @param {String} config.redirect - redirect-uri
+   * @param {String} config.method - auth method
+   */
+  signIn(config) {
+    const {
+      redirect = window.location.href,
+      method
+    } = config || {};
+    return `/sign-in${uurl.createSearch({ redirect, method })}`
+  }
+
   /**
    * to `/`
    */

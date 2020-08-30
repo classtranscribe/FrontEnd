@@ -1,47 +1,86 @@
-import React, {useState} from 'react';
-import { Dialog, ButtonBase, DialogContent, DialogActions} from '@material-ui/core';
-import { SignInMenu } from 'layout';
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  Slide,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  ButtonBase,
+} from '@material-ui/core';
+import { useSignButtonProps, CTFragment, CTText, CTBrand } from 'layout';
 import { user } from 'utils';
-import { useStyles } from './styles';
 import { CookiePoilcy, AcceptableUsePolicy } from './policies';
+import CookieOption from './CookieOption';
 import './index.scss';
 
-export const AGREEMENT_ACCEPTED_KEY = 'class_transcribe_agreement_accepted';
+export const useStyles = makeStyles({
+  policyButton : {
+    color: '#328383',
+    marginLeft: '4px',
+    marginRight: '4px',
+    paddingBottom: '2px'
+  },
+});
+
+export const AGREEMENT_ACCEPTED_KEY = 'ct-cookie-accepted';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function CTCookieAgreement() {
   // Set true to false for testing purposes
-  const [dialogOpen, setDialogOpen] = useState(
-    !(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true')
-    &&
-    !user.isLoggedIn
-  );
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [showPolicy, setShowPolicy] = useState('none');
   const [policyToShow, setPolicyToShow] = useState(null);
-  const styleClasses = useStyles();
+  const classes = useStyles();
+  const signinButtonProps = useSignButtonProps();
 
-  const handleAcceptLoginClick = (e) => {
-    // localStorage.setItem(AGREEMENT_ACCEPTED_KEY, 'true');
-    setAnchorEl(e.currentTarget);
-  };
-  
-  const handleAcceptLoginClose = () => {
-    setTimeout(() => setAnchorEl(null), 200);
-  };
+  useEffect(() => {
+    setTimeout(() => {
+      setDialogOpen(
+        !(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true')
+        &&
+        !user.isLoggedIn
+      );
+    }, 1500);
+  }, []);
 
   const handleCloseBrowserWindow = () => {
     window.open('about:blank', '_self').close();
-  }
+  };
 
   const handleAcceptSkipLogin = () => {
     setDialogOpen(false);
     localStorage.setItem(AGREEMENT_ACCEPTED_KEY, 'true');
-  }
+  };
 
   const handlePolicyClicking = (policyName) => {
     setShowPolicy('block');
     setPolicyToShow(policyName);
-  }
+  };
+
+  const cookieOptions = [
+    {
+      name: 'Accept and Sign In',
+      desp: 'Access all eligible videos and courses.',
+      icon: 'verified_user',// 'perm_identity',//'login',
+      ...signinButtonProps
+    },
+    {
+      name: 'Accept and Skip Sign In',
+      desp: 'Access only public sources.',
+      icon: 'check_circle_outline',
+      onClick: handleAcceptSkipLogin
+    },
+    {
+      name: 'Decline and Close Window',
+      desp: `Accepting cookie policies are required to access ClassTranscribe's content.`,
+      muted: true,
+      icon: 'block',// 'error_outline',
+      onClick: handleCloseBrowserWindow
+    }
+  ];
 
   return (
     <Dialog
@@ -52,84 +91,54 @@ function CTCookieAgreement() {
       maxWidth='sm'
       scroll='paper'
       id="cookie-agreement-inner-wrapper"
+      TransitionComponent={Transition}
     >
-      <div className="cookie-agreement-title">
-        <h2>Welcome To </h2>
-        <img
-          src="/static/media/brand-text.320ee44d.png"
-          alt="ClassTranscribe" 
-        />
-      </div>
+      <CTFragment hCenter vEnd padding={[30, 0]}>
+        <CTText size="huge" bold>Welcome To</CTText>
+        <CTBrand size="large" />
+      </CTFragment>
         
-      <p id="cookie-agreement-desc">
+      <CTText size="medium" muted padding={[0, 20, 20, 25]}>
         By continuing you agree to our 
         <ButtonBase 
-          className={styleClasses.policyButton} 
+          className={classes.policyButton} 
           onClick={() => handlePolicyClicking('Acceptable Use')}
-        > Acceptable Use Policy
-        </ButtonBase>and our 
+        > 
+          Acceptable Use Policy
+        </ButtonBase>
+        and our 
         <ButtonBase 
-          className={styleClasses.policyButton}
+          className={classes.policyButton}
           onClick={() => handlePolicyClicking('Cookie')}
         >
           Cookie Policy.
         </ButtonBase>
-      </p>
+      </CTText>
+
       <DialogContent 
         dividers
         style={{display : showPolicy}}
+        className="policy-container"
       >
-        {policyToShow === 'Acceptable Use' && 
-        <AcceptableUsePolicy />}
-        {policyToShow === 'Cookie' && 
-        <CookiePoilcy />}
+        {policyToShow === 'Acceptable Use' && <AcceptableUsePolicy />}
+        {policyToShow === 'Cookie' && <CookiePoilcy />}
       </DialogContent>
-      <DialogActions>
-        <div id="cookie-agreement-btn-grp">
-          <ButtonBase
-            className={styleClasses.loginButton}
-            onClick={handleAcceptLoginClick}
-            role='button'
-            tabIndex='0'
-          >
-            <h3 className='cookie-agreement-btn-h3'>
-              Accept & Login
-            </h3>
-            <p className='cookie-agreement-btn-p'>
-              Access all Eligible Videos and Courses
-            </p>
-          </ButtonBase>
-          <ButtonBase
-            className={styleClasses.loginButton}
-            onClick={handleAcceptSkipLogin}  
-            role='button'
-            tabIndex='0'
-          >
-            <h3 className='cookie-agreement-btn-h3'>
-              Accept & Skip Login
-            </h3>
-            <p className='cookie-agreement-btn-p'>
-              Access only Public Courses
-            </p>
-          </ButtonBase>
-          <ButtonBase
-            className={styleClasses.loginButton}
-            onClick={handleCloseBrowserWindow}  
-            role='button'
-            tabIndex='0'
-          >
-            <h3 className='cookie-agreement-btn-h3'>
-              Decline and Close Window
-            </h3>
-            <p> </p>
-          </ButtonBase> 
-        </div>
+
+      <DialogActions className="policy-acp-btns">
+        <CTFragment 
+          list 
+          role="list" 
+          className="ct-signin-opts"
+          padding={[0,0,20,0]}
+        >
+          {cookieOptions.map(opt => (
+            <CookieOption
+              {...opt}
+              key={opt.name}
+            />
+          ))}
+        </CTFragment>
       </DialogActions>
-      <SignInMenu 
-        open={Boolean(anchorEl)} 
-        anchorEl={anchorEl} 
-        handleClose={handleAcceptLoginClose}
-      />
     </Dialog>
   );
 }

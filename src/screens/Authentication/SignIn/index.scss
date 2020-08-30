@@ -1,0 +1,63 @@
+#ct-signin-main {
+  background: teal;
+}
+
+.ct-signin-card {
+  width: 500px;
+  max-width: 100%;
+  border-radius: 10px;
+  border: solid 1px rgb(233, 233, 233);
+  padding: 30px 0;
+  background: white;
+
+  &.shadow {
+    border: none;
+    box-shadow: 0 0 8px 8px rgb(44, 44, 44);
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .ct-signin-card {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    border: none;
+    padding: 30px 0;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.ct-signin-opts {
+  .ct-signin-opt {
+    padding: 0 25px;
+
+    span.material-icons {
+      color: rgb(61, 61, 61);
+      padding-right: 15px;
+      font-size: 30px;
+    }
+
+    .opt-text {
+      padding: 10px 0;
+    }
+
+    &:not(:last-child) {
+      .opt-text {
+        border-bottom: 1px solid rgb(233, 233, 233);
+      }
+    }
+
+    &:hover {
+      transition: background 200ms ease-in-out;
+      background-color: rgb(243, 243, 243);
+      span.material-icons,
+      .opt-text .opt-name {
+        color: teal !important;
+      }
+    }
+  }
+}

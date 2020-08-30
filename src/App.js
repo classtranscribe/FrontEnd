@@ -3,6 +3,11 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
 import {
+  // General
+  NotFound404,
+  Maintenance,
+  SignIn,
+  AuthCallback,
   // Admin
   Admin,
   // Instructor
@@ -21,10 +26,6 @@ import {
   History,
   Analytics,
   Watch,
-  // General
-  SetupUser,
-  NotFound404,
-  Maintenance,
   // ComponentAPI,
   Example
 } from './screens';
@@ -32,7 +33,6 @@ import {
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'braft-editor/dist/index.css';
-import CTCookieAgreement from './components/CTCookieAgreement'
 import { user } from './utils/user';
 
 class App extends React.Component {
@@ -44,10 +44,10 @@ class App extends React.Component {
     // return <Maintenance />
     return (
       <AppInsightsProvider>
-        <CTCookieAgreement />
         <Switch>
           
-          <Route exact path={user.callbackPaths} component={SetupUser} />
+          <Route exact path={user.callbackPaths} component={AuthCallback} />
+          <Route exact path="/sign-in" component={SignIn} />
 
           {/* Admin */}
           {user.isAdmin && <Route path="/admin" component={Admin} />}

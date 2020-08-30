@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from 'pico-ui';
-import { CTForm, CTInput } from 'layout';
+import Button from '@material-ui/core/Button';
+import { CTFragment, CTInput, useButtonStyles } from 'layout';
 import { user } from 'utils';
 
 function LoginAsUser() {
@@ -14,6 +14,8 @@ function LoginAsUser() {
     user.loginAsAccountSignIn(emailId);
   };
 
+  const btn = useButtonStyles();
+
   return (
     <div id="ap-lsu" className="w-100">
       <h1>Login As Account</h1>
@@ -25,26 +27,33 @@ function LoginAsUser() {
             <div className="mb-3 text-dark">
               Signed in as <strong>{user.getLoginAsUserInfo().emailId}</strong>
             </div>
-            <Button uppercase text="Sign Out" onClick={user.loginAsAccountSignOut} />
+            <Button 
+              variant="contained" 
+              className={btn.bold} 
+              onClick={user.loginAsAccountSignOut}
+            >
+              Sign Out
+            </Button>
           </div>
         ) : (
-          <div className="w-50">
-            <CTForm
-              id="login-as-user-form"
-              heading="Login As User"
-              onSave={onSignIn}
-              onSaveButtonText="Sign In"
-            >
-              <CTInput
-                required
-                id="course-number"
-                label="Email"
-                placeholder="Email Id"
-                value={emailId}
-                onChange={handleEmailInput}
-              />
-            </CTForm>
-          </div>
+          <CTFragment>
+            <CTInput
+              required
+              autoFocus
+              id="course-number"
+              label="Email"
+              placeholder="Email Id"
+              value={emailId}
+              onReturn={onSignIn}
+              onChange={handleEmailInput}
+            />
+
+            <CTFragment hEnd padding="10">
+              <Button variant="contained" className={btn.teal} onClick={onSignIn}>
+                Sign In
+              </Button>
+            </CTFragment>
+          </CTFragment>
         )}
       </div>
     </div>
