@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { CTFragment } from 'layout';
-import { SignInPrompt, CourseCardList } from 'components';
+import { CourseCardList } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
-import { user } from 'utils/user';
 import { connectWithRedux, searchControl } from '../../controllers';
 
 function SearchResultWithRedux(props) {
@@ -35,14 +34,6 @@ function SearchResultWithRedux(props) {
       <CTFragment padding={[0, 10, 20, 10]} list>
         {resultListElement}
       </CTFragment>
-
-      {
-        !user.isLoggedIn
-        &&
-        <SignInPrompt
-          topDescription={<>Can&#39;t find your courses? <br />Sign in to see more.</>}
-        />
-      }
     </CTFragment>
   );
 }

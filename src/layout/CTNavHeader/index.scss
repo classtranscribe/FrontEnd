@@ -180,6 +180,11 @@
     height: 28px;
     width: 170px;
   }
+
+  &.large img {
+    height: 40px;
+    width: auto;
+  }
 }
 
 .Mui-disabled[id=profile] {
@@ -198,6 +203,12 @@
     }
     .profile-menu {
       margin-right: .5em;
+    }
+  }
+
+  .ct-header-brand {
+    &.large img {
+      height: 28px;
     }
   }
 }

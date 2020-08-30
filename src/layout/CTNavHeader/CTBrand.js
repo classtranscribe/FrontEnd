@@ -9,13 +9,14 @@ import { textBrand, darkTextBrand, logoOutline } from 'assets/images';
 
 export function CTBrand(props) {
   let { 
+    size = 'normal',
     darkMode = false,
     small = false,
     logo = false,
     disabled = false
   } = props;
 
-  const brandClasses = classNames('ct-header-brand', { small, logo })
+  const brandClasses = classNames('ct-header-brand', size, { small, logo })
 
   const imgSrc = logo 
                 ? logoOutline 
@@ -32,7 +33,7 @@ export function CTBrand(props) {
 
   return (
     <Link {...linkProps}>
-      <img src={imgSrc} alt="ClassTranscribe Brand" />
+      <img src={imgSrc} alt="ClassTranscribe" />
     </Link>
   );
 }
@@ -46,4 +47,7 @@ CTBrand.propTypes = {
 
   /** The brand supports a smaller size */
   small: PropTypes.bool,
+
+  /** Brand size, one of 'small', 'normal', 'large' */
+  size: PropTypes.oneOf(['small', 'normal', 'large'])
 };

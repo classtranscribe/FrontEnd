@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'pico-ui';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import { useButtonStyles } from 'layout';
+import { links } from 'utils';
 import { Image } from 'semantic-ui-react';
 
 
@@ -12,13 +15,17 @@ function MenuTrigger(props) {
     handleClick
   } = props;
 
+  const btn = useButtonStyles();
+
   return !isLoggedIn ? (
-    <Button
-      uppercase
-      color="teal"
-      text="Sign in"
-      onClick={handleClick}
-    />
+    <Button 
+      component={Link} 
+      variant="contained" 
+      to={links.signIn()} 
+      className={btn.teal}
+    >
+      SIGN IN
+    </Button>
   ) : picture ? (
     <Image
       circular

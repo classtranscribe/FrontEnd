@@ -68,7 +68,7 @@ function Form(props) {
 
       <Divider />
 
-      <form id={id} onSubmit={onSave} autoComplete="off">
+      <form id={id} autoComplete="off" autoSave="off">
         <AccordionDetails id={`ct-form-content-${id}`}>
           <CTFragment list>
             {children}
@@ -86,14 +86,14 @@ function Form(props) {
           {
             Boolean(onSave)
             &&
-            <Button className={btn.teal} variant="contained" onClick={onSave}>
+            <Button type="button" className={btn.teal} variant="contained" onClick={onSave}>
               {onSaveButtonText}
             </Button>
           }
           {
             Boolean(onDelete)
             &&
-            <Button color="secondary" className={btn.bold} onClick={onDelete}>
+            <Button type="button" color="secondary" className={btn.bold} onClick={onDelete}>
               {onDeleteButtonText}
             </Button>
           }

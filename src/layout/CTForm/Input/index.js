@@ -79,8 +79,9 @@ function Input(props) {
 
   const classes = useStyles();
   const darkClasses = useDarkStyles();
-  const handleKeyDown = ({ keyCode }) => {
-    if (typeof onReturn === 'function' && keyCode === 13) {
+  const handleKeyDown = (e) => {
+    if (typeof onReturn === 'function' && e.keyCode === 13) {
+      e.preventDefault();
       onReturn();
     }
   };

@@ -30,13 +30,15 @@ jobs:
       # calculate some variables that are used later
       - name: github branch
         run: |
-          BRANCH=${GITHUB_REF##*/}          
-          echo "::set-env name=GITHUB_BRANCH::${BRANCH}"
+          BRANCH=${GITHUB_REF##*/} 
           if [ "$BRANCH" == "master" ]; then
-            echo "::set-env name=TAGS::latest"
+            TAGS="latest,$(date +'%Y%m%d')}"
           else
-            echo "::set-env name=TAGS::${BRANCH}"
+            TAGS="$BRANCH"
           fi
+          TAGS="${TAGS},${BRANCH}-${{ github.run_number }}"
+          echo "::set-env name=TAGS::${TAGS}"
+          echo "::set-env name=GITHUB_BRANCH::${BRANCH}"
 
       # build the docker image, this will always run to make sure
       # the Dockerfile still works.

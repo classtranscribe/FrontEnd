@@ -5,8 +5,8 @@
 
 import _ from 'lodash';
 import decoder from 'jwt-decode';
-import * as account from '../cthttp/requests/account';
-import { getLatestGitCommitSHA } from '../cthttp/requests/general';
+import * as Account from '../cthttp/requests/account';
+// import { getLatestGitCommitSHA } from '../cthttp/requests/general';
 import { env } from '../env';
 import { links } from '../links';
 import { prompt } from '../prompt';
@@ -39,7 +39,7 @@ export class User {
     this.reSignIn = this.reSignIn.bind(this);
     this.signOut = this.signOut.bind(this);
     this.validate = this.validate.bind(this);
-    this.checkGitUpdates = this.checkGitUpdates.bind(this);
+    this.checkAppVersion = this.checkAppVersion.bind(this);
     this.testSignIn = this.testSignIn.bind(this);
     this.loginAsAccountSignIn = this.loginAsAccountSignIn.bind(this);
     this.loginAsAccountSignOut = this.loginAsAccountSignOut.bind(this);
@@ -51,6 +51,12 @@ export class User {
     CILOGON: AUTH_CILOGON,
     TEST: AUTH_TEST,
   };
+
+  authMethods = [
+    AUTH_AUTH0,
+    AUTH_CILOGON,
+    AUTH_TEST
+  ];
 
   callbackPaths = [links.auth0Callback(), links.ciLogonCallback()];
 
@@ -88,35 +94,36 @@ export class User {
   signIn(
     options = {
       method: AUTH_AUTH0,
+      redirectURL: window.location.href
     },
   ) {
-    const { method } = options;
+    const { method, redirectURL } = options;
 
     if (env.dev && method === AUTH_TEST) {
-      this.testSignIn();
+      this.testSignIn(redirectURL);
     } else if (method === AUTH_CILOGON) {
-      this.ciLogonSignIn();
+      this.ciLogonSignIn(redirectURL);
     } else {
-      this.auth0SignIn();
+      this.auth0SignIn(redirectURL);
     }
   }
 
-  auth0SignIn() {
-    this.auth0Client.signIn();
+  auth0SignIn(redirectURL) {
+    this.auth0Client.signIn(redirectURL);
   }
 
-  ciLogonSignIn() {
-    this.ciLogonClient.authorize();
+  ciLogonSignIn(redirectURL) {
+    this.ciLogonClient.authorize(redirectURL);
   }
 
-  async testSignIn() {
-    const { data } = await account.testSignIn();
+  async testSignIn(redirectURL) {
+    const { data } = await Account.testSignIn();
     const { authToken } = data;
     // Save AuthToken
     accountStorage.setAuthToken(authToken);
     // Save user info
     this.saveUserInfo(data, {}, AUTH_TEST);
-    window.location.reload();
+    window.location = redirectURL;
   }
 
   reSignIn() {
@@ -129,33 +136,33 @@ export class User {
   // Sign out
   // ---------------------------------------------------------------------------
 
-  signOut() {
+  signOut(returnTo) {
+    const { authMethod } = this.getUserInfo();
     if (!this.isLoggedIn) return;
     localStorage.clear();
 
-    const { authMethod } = this.getUserInfo();
     switch (authMethod) {
       case AUTH_TEST:
-        this.testSignOut();
+        this.testSignOut(returnTo || window.location.origin);
         break;
       case AUTH_CILOGON:
-        this.ciLogonSignOut();
+        this.ciLogonSignOut(returnTo || window.location.origin);
         break;
       default:
-        this.auth0SignOut();
+        this.auth0SignOut(returnTo || window.location.origin);
     }
   }
 
-  auth0SignOut() {
-    this.auth0Client.signOut();
+  auth0SignOut(returnTo) {
+    this.auth0Client.signOut(returnTo);
   }
 
-  ciLogonSignOut() {
-    window.location = window.location.origin;
+  ciLogonSignOut(returnTo) {
+    window.location = returnTo;
   }
 
-  testSignOut() {
-    window.location = window.location.origin;
+  testSignOut(returnTo) {
+    window.location = returnTo;
   }
 
   // ---------------------------------------------------------------------------
@@ -167,7 +174,7 @@ export class User {
     try {
       // GET user data from backend
       const fullCallbackURL = window.location.origin + callbackURL;
-      const { data } = await account.accountSignIn(token, method, fullCallbackURL);
+      const { data } = await Account.accountSignIn(token, method, fullCallbackURL);
       if (!data) {
         throw Error(`No data returned in the sign-in request's response.`);
       }
@@ -261,7 +268,7 @@ export class User {
       return;
     }
 
-    await this.checkGitUpdates();
+    this.checkAppVersion();
 
     if (!this.isLoggedIn) {
       return;
@@ -288,9 +295,14 @@ export class User {
   }
 
   // check if the there is a new commit to master
-  async checkGitUpdates() {
+  checkAppVersion() {
     try {
-      const latestSHA = await getLatestGitCommitSHA();
+      const latestSHA = env.gitSHA;
+      if (!latestSHA) {
+        console.warn(`Couldn't get latest git SHA for FrontEnd.`);
+        return;
+      }
+
       const localSHA = accountStorage.latestCommitSHA;
       if (!localSHA || localSHA !== latestSHA) {
         if (this.isLoggedIn) {
@@ -405,7 +417,7 @@ export class User {
   // for admin to sign in as another account
   async loginAsAccountSignIn(emailId) {
     try {
-      const { data } = await account.loginAsAccountSignIn(emailId);
+      const { data } = await Account.loginAsAccountSignIn(emailId);
       accountStorage.setLoginAsUserInfo(data);
       window.location.reload();
     } catch (error) {

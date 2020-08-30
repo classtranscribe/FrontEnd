@@ -16,6 +16,7 @@ function SearchInputWithRedux(props) {
           value={searchValue}
           onChange={searchControl.handleSearchInputChange}
           autoComplete="off"
+          autoFocus
         />
 
         <Button

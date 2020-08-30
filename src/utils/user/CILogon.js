@@ -8,8 +8,8 @@ export class CILogon {
     this.callback = window.location.origin + links.ciLogonCallback();
   }
 
-  authorize() {
-    redirect.saveRedirectURI();
+  authorize(redirectURL) {
+    redirect.saveRedirectURI(redirectURL);
 
     const query = uurl.createSearch({
       response_type: 'code',

@@ -1,131 +1,21 @@
-.cookie-agreement-title {
+#cookie-agreement-inner-wrapper {
+  .cookie-acp-title {
     display: flex;
-    margin-top: 20px;
-    font-size: 42px;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.cookie-agreement-title h2 {
-    font-size: 42px;
-    color: #4e4e4e;
-    padding: 0px;
-    margin: 0px;
-}
-.cookie-agreement-title img {
-    margin-left: 10px;
-    margin-right: 10px;
-    height: 42px;
-    width: 255px;
-}
-#cookie-agreement-desc {
-    display: block;
-    color: #4e4e4e;
-    font-size: 15px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-#cookie-agreement-btn-grp {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .policy-container {
+    background: rgb(245, 245, 245);
+  }
+  .cookie-acp-btns {
+    padding: 0 !important;
+  }
 }
 
-.cookie-agreement-btn-h3 {
-    font-size: 19px;
-    font-weight: 500;
-    margin: 0px;
-    color: white;
-}
-
-.cookie-agreement-btn-p {
-    font-size: 15px;
-    color: #caf1e4;
-    margin-bottom: 1px;
-}
-
-
-
-
-@media screen and (max-width : 660px) {
-    .cookie-agreement-title h2 {
-        font-size: 32px;
+@media screen and (max-width: 520px) {
+  #cookie-agreement-inner-wrapper {
+    .cookie-acp-title .welcome-txt {
+      display: none;
     }
-    .cookie-agreement-title img {
-        height: 32px;
-        width: 194px;
-    }
-    #cookie-agreement-desc {
-        font-size: 15px;
-        margin-left: 25px;
-        margin-right: 25px;
-    }
-}
-
-@media screen and (max-width : 495px) {
-    .cookie-agreement-title h2 {
-        font-size: 26px;
-    }
-    .cookie-agreement-title img {
-        height: 26px;
-        width: 158px;
-    }
-    #cookie-agreement-desc {
-        font-size: 13px;
-        margin-left: 30px;
-        margin-right: 30px;
-    }
-}
-
-@media screen and (max-width : 430px) {
-    .cookie-agreement-title h2 {
-        font-size: 23px;
-    }
-    .cookie-agreement-title img {
-        height: 23px;
-        width: 140px;
-        margin-left: 6px;
-        margin-right: 6px;
-    }
-    #cookie-agreement-desc {
-        font-size: 13px;
-        margin-left: 30px;
-        margin-right: 30px;
-    }
-    
-    .cookie-agreement-btn-h3 {
-        font-size: 16px;
-    }
-    
-    .cookie-agreement-btn-p {
-        font-size: 13px; 
-    }
-}
-
-@media screen and (max-width : 375px) {
-    .cookie-agreement-title h2 {
-        font-size: 18px;
-    }
-    .cookie-agreement-title img {
-        height: 18px;
-        width: 110px;
-    }
-    #cookie-agreement-desc {
-        font-size: 11px;
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    
-    .cookie-agreement-btn-h3 {
-        font-size: 14px;
-    }
-    
-    .cookie-agreement-btn-p {
-        font-size: 10px; 
-    }
+  }
 }

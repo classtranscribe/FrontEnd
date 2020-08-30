@@ -38,6 +38,9 @@ $highlighted: var(--ct-text-highlight);
   &.bold {
     font-weight: bold;
   }
+  &:not(.bold) {
+    font-weight: normal;
+  }
 
   &.underline {
     text-decoration: underline;
@@ -85,7 +88,7 @@ $highlighted: var(--ct-text-highlight);
   }
 
   &.huge {
-    font-size: 25px;
+    font-size: 28px;
   }
 
   &.limitedLine {
