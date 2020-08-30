@@ -62,13 +62,13 @@ function CTCookieAgreement() {
 
   const cookieOptions = [
     {
-      name: 'Accept and sign in',
+      name: 'Accept and Sign In',
       desp: 'Access all eligible videos and courses.',
       icon: 'verified_user',// 'perm_identity',//'login',
       ...signinButtonProps
     },
     {
-      name: 'Accept and skip sign in',
+      name: 'Accept and Skip Sign In',
       desp: 'Access only public sources.',
       icon: 'check_circle_outline',
       onClick: handleAcceptSkipLogin
