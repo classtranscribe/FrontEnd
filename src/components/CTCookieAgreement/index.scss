@@ -1,8 +1,21 @@
 #cookie-agreement-inner-wrapper {
+  .cookie-acp-title {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
   .policy-container {
     background: rgb(245, 245, 245);
   }
-  .policy-acp-btns {
+  .cookie-acp-btns {
     padding: 0 !important;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  #cookie-agreement-inner-wrapper {
+    .cookie-acp-title .welcome-txt {
+      display: none;
+    }
   }
 }
