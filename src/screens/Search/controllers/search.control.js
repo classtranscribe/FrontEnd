@@ -26,12 +26,16 @@ class SearchController extends CTSearch {
     const offerings = setup.offerings;
     if (offerings === ARRAY_INIT) return;
 
-    let courseResult = this.getResults(offerings, value, [
-      'termName',
-      'fullNumber',
-      'courseName',
-      'sectionName',
-    ]);
+    let courseResult = this.getResults(
+      offerings.filter(off => !off.isTestCourse),
+      value, 
+      [
+        'termName',
+        'fullNumber',
+        'courseName',
+        'sectionName',
+      ]
+    );
 
     setup.setSearchResult({ courseResult });
   }
