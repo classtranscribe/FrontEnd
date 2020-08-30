@@ -34,6 +34,7 @@ function DefaultFilter(props) {
     onInputChange,
     onToggleReverse,
     padding = [20, 0],
+    autoFocus = true,
   } = props;
 
   // check whether a reverse button should be provided
@@ -48,6 +49,7 @@ function DefaultFilter(props) {
           value={value}
           placeholder={placeholder}
           onChange={onInputChange}
+          autoFocus={autoFocus}
         />
 
         {
@@ -89,7 +91,9 @@ DefaultFilter.propTypes = {
   /** Use the grey theme */
   grey: PropTypes.bool,
 
-  padding: CTFragment.propTypes.padding
+  padding: CTFragment.propTypes.padding,
+
+  autoFocus: PropTypes.bool
 };
 
 export default DefaultFilter;
