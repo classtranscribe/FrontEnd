@@ -3,6 +3,9 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppInsightsProvider from './azure-app-insights';
 
 import {
+  // General
+  NotFound404,
+  Maintenance,
   SignIn,
   AuthCallback,
   // Admin
@@ -23,9 +26,6 @@ import {
   History,
   Analytics,
   Watch,
-  // General
-  NotFound404,
-  Maintenance,
   // ComponentAPI,
   Example
 } from './screens';

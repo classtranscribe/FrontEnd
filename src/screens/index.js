@@ -1,4 +1,3 @@
-export { SetupUser } from './SetupUser';
 export {
   SignIn,
   AuthCallback,
