@@ -32,7 +32,7 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF##*/} 
           if [ "$BRANCH" == "master" ]; then
-            TAGS="latest,$(date +'%Y%m%d')}"
+            TAGS="latest,$(date +'%Y%m%d')"
           else
             TAGS="$BRANCH"
           fi
