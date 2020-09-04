@@ -29,6 +29,7 @@ function CourseCard(props) {
     as: Link,
     to: href,
     className: cardClasses,
+    title: `${number} | ${name} | ${term} | ${section}`
   });
 
   if (listitem) cardProps.role = 'listitem';
