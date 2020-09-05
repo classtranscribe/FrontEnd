@@ -70,7 +70,7 @@
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "npm": "^6.14.6",
-    "papaparse": "^5.1.1",
+    "papaparse": "^5.2.0",
     "pico-ui": "^0.0.13",
     "popper.js": "^1.16.1",
     "prismjs": "^1.20.0",
