@@ -24,8 +24,8 @@ function PlayerModal({
       onClose={onClose}
       classes={{paperAnchorBottom: 'ct-epb player-modal'}}
     >
-      <CTFragment sticky dark vCenter hBetween padding="20">
-        <CTFragment vCenter>
+      <CTFragment sticky dark alignItCenter justConBetween padding="20">
+        <CTFragment alignItCenter>
           <CTHeading as="h3" margin="0">{title}</CTHeading>
           <CTText highlighted size="medium" margin={[0, 20]}>
             {timestr.toTimeString(begin)} - {timestr.toTimeString(end)}
@@ -41,7 +41,7 @@ function PlayerModal({
         />
       </CTFragment>
 
-      <CTFragment dark hCenter className="ct-epb player-modal-player-con">
+      <CTFragment dark justConCenter className="ct-epb player-modal-player-con">
         <CTPlayer
           fill
           defaultOpenCC

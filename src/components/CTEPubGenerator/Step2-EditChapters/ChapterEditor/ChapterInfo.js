@@ -37,7 +37,7 @@ function ChapterInfo({
   };
 
   return (
-    <CTFragment list>
+    <CTFragment dFlexCol>
       <ChapterTitle
         id={epub.const.chTitleID(id)}
         value={title}

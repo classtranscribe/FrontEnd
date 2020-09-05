@@ -9,7 +9,7 @@ function ImagePickerModalActions(props) {
   const btn = useButtonStyles();
 
   return (
-    <CTFragment hEnd padding={[0, 20, 10, 0]}>
+    <CTFragment justConEnd padding={[0, 20, 10, 0]}>
       <Button
         disabled={!canSave}
         onClick={onSave}

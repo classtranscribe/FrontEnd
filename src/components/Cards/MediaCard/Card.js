@@ -36,7 +36,8 @@ function MediaCard(props) {
     as: Link,
     to: href,
     className: cardClasses,
-    role: 'listitem'
+    role: 'listitem',
+    title: name
   };
 
   const mediaNameElement = makeEl(CTText, {

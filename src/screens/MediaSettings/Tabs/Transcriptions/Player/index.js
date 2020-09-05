@@ -8,7 +8,7 @@ function Player({
   media
 }) {
   return (
-    <CTFragment id="msp-t-player-con" list data-scroll>
+    <CTFragment id="msp-t-player-con" dFlexCol data-scroll>
       <CTPlayer
         id="msp-t-player"
         media={media}

@@ -50,12 +50,12 @@ class CourseWithRedux extends Component {
       description: 'Please check if provided the URL is correct.'
     };
 
-    const pageFragmentProps = CTFragment.createProps({
+    const pageFragmentProps = {
       id: 'cp-container',
       loading: offering === null,
       error: offering === NOT_FOUND_404,
       errorElement: <CTErrorWrapper {...errorProps} />
-    });
+    };
 
     return (
       <CTLayout {...layoutProps}>

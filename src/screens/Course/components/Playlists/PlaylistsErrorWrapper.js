@@ -7,8 +7,8 @@ export default function PlaylistsErrorWrapper({
   accessType = 0,
 }) {
   return (
-    <CTFragment hCenter>
-      <CTFragment hCenter className="w-75">
+    <CTFragment justConCenter>
+      <CTFragment justConCenter className="w-75">
         {
           user.isLoggedIn ? ( // If signed in, then it happens when the accessType is 2 or 3
             <>

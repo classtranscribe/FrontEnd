@@ -24,12 +24,13 @@ function CourseCard(props) {
 
   const cardClasses = cx('ct-course-card', className, { fluid, row });
 
-  const cardProps = CTFragment.createProps({
+  const cardProps = {
     id,
     as: Link,
     to: href,
     className: cardClasses,
-  });
+    title: `${number} | ${name} | ${term} | ${section}`
+  };
 
   if (listitem) cardProps.role = 'listitem';
 

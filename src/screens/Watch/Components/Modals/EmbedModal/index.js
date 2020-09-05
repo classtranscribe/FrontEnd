@@ -124,7 +124,7 @@ function EmbedModal(props) {
 
   return (
     <CTModal {...modalProps} darkMode>
-      <CTFragment hCenter id="wp-embed-iframe">
+      <CTFragment justConCenter id="wp-embed-iframe">
         <iframe ref={iframeRef} width="560" height="315" title="preview" />
       </CTFragment>
       <CTFragment padding={[20, 0, 5, 0]}>
