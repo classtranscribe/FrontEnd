@@ -24,7 +24,7 @@ function ChapterNavigationMenu({
       </CTHeading>
 
       <CTFragment 
-        list 
+        dFlexCol 
         role="menu" 
         id={Constants.EPubChapterNavListID}
         margin={[2, 0]}

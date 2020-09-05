@@ -47,7 +47,7 @@ class MyCoursesWithRedux extends Component {
       } = setup.sortOfferings(result, terms);
 
       return (
-        <CTFragment fade loading={loading} error={error}>
+        <CTFragment fadeIn loading={loading} error={error}>
           <CourseList title="Current Courses" offerings={currentOfferings} />
           <CourseList title="Past Courses" offerings={pastOfferings} />
         </CTFragment>

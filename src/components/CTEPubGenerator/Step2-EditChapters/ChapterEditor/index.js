@@ -36,7 +36,7 @@ function ChapterEditor({ chapters, currChIndex }) {
         chapterScreenshots={chapterScreenshots}
       />
 
-      <CTFragment list role="list">
+      <CTFragment dFlexCol role="list">
         {subChapters.map((subChapter, subChapterIndex) => (
           <SubChapterItem
             key={`ee-ech-${subChapter.id}`}

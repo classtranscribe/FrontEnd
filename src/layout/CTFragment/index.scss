@@ -2,42 +2,10 @@ $border: solid 1px grey;
 
 .ct-fragment {
   width: 100%;
-
-  &.center {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &.vCenter {
-    display: flex;
-    align-items: center;
-  }
-
-  &.vEnd {
-    display: flex;
-    align-items: flex-end;
-  }
-
-  &.hCenter {
-    display: flex;
-    justify-content: center;
-  }
-
-  &.hEnd {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  &.hBetween {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &.list {
-    display: flex;
-    flex-direction: column;
+  
+  &.raised {
+    border-radius: 5px;
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
   }
 
   &.sticky {

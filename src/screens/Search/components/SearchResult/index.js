@@ -31,7 +31,7 @@ function SearchResultWithRedux(props) {
   return (
     <CTFragment padding={[0, 30]} className="mt-4">
       <hr />
-      <CTFragment padding={[0, 10, 20, 10]} list>
+      <CTFragment padding={[0, 10, 20, 10]} dFlexCol>
         {resultListElement}
       </CTFragment>
     </CTFragment>

@@ -20,7 +20,7 @@ function PlaylistItem({
       id={id}
       to={isInstMode ? linkToInstPl : `#plid=${id}`}
     >
-      <CTFragment vCenter className="pl-name">
+      <CTFragment alignItCenter className="pl-name">
         <i className="material-icons">video_library</i>
         <span>{name}</span>
       </CTFragment>

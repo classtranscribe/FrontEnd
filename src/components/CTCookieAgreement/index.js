@@ -130,7 +130,7 @@ function CTCookieAgreement() {
 
       <DialogActions className="cookie-acp-btns">
         <CTFragment 
-          list 
+          dFlexCol 
           role="list" 
           className="ct-signin-opts"
           padding={[0,0,20,0]}

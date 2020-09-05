@@ -9,7 +9,7 @@ function SearchInputWithRedux(props) {
 
   return (
     <CTFragment padding={[0, 30]}>
-      <CTFragment hCenter padding={[0, 0, 0, 20]} className="sp-input-con">
+      <CTFragment justConCenter padding={[0, 0, 0, 20]} className="sp-input-con">
         <input
           id="sp-input"
           placeholder="Search for courses ..."

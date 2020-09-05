@@ -5,7 +5,7 @@ import { epub } from '../controllers';
 
 function ProceedButton() {
   return (
-    <CTFragment fade vCenter className="ct-epb sch proceed-btns">
+    <CTFragment fadeIn alignItCenter className="ct-epb sch proceed-btns">
       <Button
         round
         size="big"

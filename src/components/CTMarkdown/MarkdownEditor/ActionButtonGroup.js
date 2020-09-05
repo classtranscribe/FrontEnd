@@ -7,7 +7,7 @@ function ActionButtonGroup(props) {
   const { onSave, onClose } = props;
 
   return (
-    <CTFragment vCenter hBetween className="ct-md-act-btns-con">
+    <CTFragment alignItCenter justConBetween className="ct-md-act-btns-con">
       <CTText padding={[0, 20]}><b>ctrl + s</b> to save the changes</CTText>
 
       <Button.Group>

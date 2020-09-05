@@ -8,7 +8,7 @@ export function TranscriptionsWithRedux({
   media,
 }) {
   return (
-    <CTFragment fade className="msp-tab-con">
+    <CTFragment fadeIn className="msp-tab-con">
       {/* <Player />
       <TransTable media={media} /> */}
       <CTFragment center padding={[30, 0]}>

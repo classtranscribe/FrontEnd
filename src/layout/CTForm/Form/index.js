@@ -58,7 +58,7 @@ function Form(props) {
         tabIndex={collapsible ? 0 : -1}
         className={collapsible ? 'collapsible' : null}
       >
-        <CTFragment list>
+        <CTFragment dFlexCol>
           <CTHeading as="h3">
             {heading}
           </CTHeading>
@@ -70,7 +70,7 @@ function Form(props) {
 
       <form id={id} autoComplete="off" autoSave="off">
         <AccordionDetails id={`ct-form-content-${id}`}>
-          <CTFragment list>
+          <CTFragment dFlexCol>
             {children}
           </CTFragment>
         </AccordionDetails>

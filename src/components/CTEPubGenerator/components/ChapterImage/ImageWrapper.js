@@ -26,8 +26,8 @@ function ImageWrapper({
   };
 
   return (
-    <CTFragment list hBetween className="ch-img-wrapper" padding="20">
-      <CTFragment hEnd>
+    <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
+      <CTFragment justConEnd>
         <Button.Group>
           <Button 
             uppercase 
@@ -55,7 +55,7 @@ function ImageWrapper({
         </Button.Group>
       </CTFragment>
 
-      <CTFragment vEnd>
+      <CTFragment alignItEnd>
         <CTInput 
           // textarea
           underlined
