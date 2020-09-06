@@ -72,16 +72,16 @@ function EmailFilter(props) {
     // if the result is empty and no email input
     if (result.length === 0 && !inputValue) {
       emailListElement = (
-        <CTFragment list>
+        <CTFragment dFlexCol>
           <CTText margin={[10, 0]} center muted>No Emails</CTText>
         </CTFragment>
       );
     // if the result is empty and ready to add an input email
     } else if (result.length === 0) {
       emailListElement = (
-        <CTFragment list>
+        <CTFragment dFlexCol>
           <CTText margin={[10, 0]} center muted>No result</CTText>
-          <CTFragment hCenter>
+          <CTFragment justConCenter>
             <Button
               uppercase
               compact
@@ -118,7 +118,7 @@ function EmailFilter(props) {
         <CTFragment className="cs-email-filter-ol" role="list" data-scroll>
           {emailListElement}
         </CTFragment>
-        <CTFragment padding={[10, 0]} vCenter className="cs-email-filter-actions">
+        <CTFragment padding={[10, 0]} alignItCenter className="cs-email-filter-actions">
           <SelectCtrlButton {...selectBtnProps} />
           <Button 
             uppercase 

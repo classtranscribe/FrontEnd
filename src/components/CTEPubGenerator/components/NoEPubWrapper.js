@@ -18,8 +18,8 @@ function NoEPubWrapper({ mediaId, error }) {
   // }, [error])
 
   return (
-    <CTFragment center fade>
-      <CTFragment list hCenter>
+    <CTFragment center fadeIn>
+      <CTFragment dFlexCol justConCenter>
         {
           !requested ? (
             <>

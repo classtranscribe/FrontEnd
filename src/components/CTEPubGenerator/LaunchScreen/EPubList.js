@@ -20,8 +20,8 @@ function EPubList({
       {
         epubs.length > 0 
         && 
-        <CTFragment hBetween padding={[0, 20, 0, 40]}>
-          <CTHeading as="h3" vCenter padding="0" margin="0">
+        <CTFragment justConBetween padding={[0, 20, 0, 40]}>
+          <CTHeading as="h3" alignItCenter padding="0" margin="0">
             Your ePub Books
           </CTHeading>
 
@@ -31,7 +31,7 @@ function EPubList({
 
       <List>
         {epubs.length === 0 ? (
-          <CTFragment margin={[50, 0, 0, 0]} list center>
+          <CTFragment margin={[50, 0, 0, 0]} dFlexCol center>
             <CTText center muted padding="20">No ePub books</CTText>
             <NewEPubButton media={media} />
           </CTFragment>

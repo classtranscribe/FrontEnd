@@ -43,7 +43,7 @@ function Modal(props) {
         onClose={onClose}
         {...otherProps}
       >
-        <CTFragment hBetween vCenter padding={[0, 10, 0, 0]}>
+        <CTFragment justConBetween alignItCenter padding={[0, 10, 0, 0]}>
           {title && <DialogTitle>{title}</DialogTitle>}
           {
             withCloseButton 

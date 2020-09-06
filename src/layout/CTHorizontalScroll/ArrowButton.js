@@ -12,7 +12,7 @@ function ArrowButton(props) {
   const btnClasses = cx('ct-h-scroll', 'arrow-btn', { left: isLeft, right: !isLeft });
 
   return (
-    <CTFragment vCenter className="h-100" aria-hidden="true">
+    <CTFragment alignItCenter h100 aria-hidden="true">
       <ButtonBase aria-label={label} className={btnClasses}>
         <span className="material-icons">{icon}</span>
       </ButtonBase>

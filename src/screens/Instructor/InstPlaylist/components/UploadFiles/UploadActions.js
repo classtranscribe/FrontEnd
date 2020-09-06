@@ -9,7 +9,7 @@ function UploadActions({
   handleUpload
 }) {
   return (
-    <CTFragment hCenter padding={[10, 0]}>
+    <CTFragment justConCenter padding={[10, 0]}>
       <Button.Group>
         <Button
           uppercase

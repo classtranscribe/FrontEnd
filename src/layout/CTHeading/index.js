@@ -15,7 +15,7 @@ function CTHeading(props) {
     className,
     heading = 'Heading',
     icon,
-    fade = true,
+    fadeIn = true,
     sticky = false,
     gradient = false,
     offsetTop = 0,
@@ -36,16 +36,16 @@ function CTHeading(props) {
     highlightIcon,
   }, className);
 
-  const fragmentProps = CTFragment.createProps({
+  const fragmentProps = {
     as,
-    fade,
+    fadeIn,
     sticky,
     offsetTop,
-    vCenter: true,
+    alignItCenter: true,
     className: headingClasses,
     padding,
     ...otherProps
-  });
+  };
 
   const iconElement = typeof icon === 'string'
                     ? <i className="material-icons">{icon}</i>
@@ -61,6 +61,8 @@ function CTHeading(props) {
 }
 
 CTHeading.propTypes = {
+  ...CTFragment.propTypes,
+  
   /** The heading supports `'h1', 'h2', 'h3', 'h4', 'h5'` */
   as: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5']),
 
@@ -93,8 +95,6 @@ CTHeading.propTypes = {
 
   /** The Content of the heading */
   children: PropTypes.node,
-
-  ...CTFragment.propTypes
 };
 
 CTHeading.createProps = createCTHeadingProps;

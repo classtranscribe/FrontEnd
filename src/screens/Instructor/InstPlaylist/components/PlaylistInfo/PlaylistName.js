@@ -27,11 +27,11 @@ function PlaylistName({
     </CTFragment>
   ) : (
     <>
-      <CTHeading fade={false} icon={plIconElem} className="pl-name">
+      <CTHeading fadeIn={false} icon={plIconElem} className="pl-name">
         {name}
       </CTHeading>
       <hr />
-      <CTFragment list role="list" className="details">
+      <CTFragment dFlexCol role="list" className="details">
         {
           createdAt
           &&

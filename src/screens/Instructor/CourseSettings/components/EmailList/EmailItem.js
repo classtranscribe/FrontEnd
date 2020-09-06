@@ -16,15 +16,15 @@ function EmailItem({
   };
 
   return (
-    <CTFragment role="listitem" vCenter className="cs-email-filter-li">
-      <div className="d-flex align-items-center">
+    <CTFragment role="listitem" alignItCenter className="cs-email-filter-li">
+      <CTFragment alignItCenter>
         <MuiCheckbox
           classes={checkBoxClasses}
           checked={isSelected(email)}
           onChange={handleCheckChange}
         />
         <span>{email}</span>
-      </div>
+      </CTFragment>
 
       <div>
         <CTPopoverLabel label="Remove this email">

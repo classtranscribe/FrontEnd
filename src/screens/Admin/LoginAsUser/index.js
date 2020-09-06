@@ -48,7 +48,7 @@ function LoginAsUser() {
               onChange={handleEmailInput}
             />
 
-            <CTFragment hEnd padding="10">
+            <CTFragment justConEnd padding="10">
               <Button variant="contained" className={btn.teal} onClick={onSignIn}>
                 Sign In
               </Button>

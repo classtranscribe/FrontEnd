@@ -30,7 +30,7 @@ function ChapterNewContent({
   const handleOpenImgPicker = () => setInsertType('img');
 
   return (
-    <CTFragment vCenter>
+    <CTFragment alignItCenter>
       <ChapterEditButton muted className="mr-1" onClick={handleOpenMDEditor}>
         Insert texts
       </ChapterEditButton>

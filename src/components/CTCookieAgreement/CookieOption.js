@@ -16,7 +16,7 @@ function CookieOption({
   return (
     <ButtonBase {...otherProps} role="listitem" className="ct-signin-opt">
       <span className="material-icons">{icon}</span>
-      <CTFragment list className="opt-text text-left">
+      <CTFragment dFlexCol className="opt-text text-left">
         <CTText
           bold 
           muted={muted} 

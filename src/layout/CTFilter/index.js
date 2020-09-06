@@ -24,7 +24,7 @@ export { default as CTFilterInput } from './DefaultFilter';
  *    {(result) => {
  *      whElement = result.map(media => <MediaItem media={media} />);
  *      return (
- *      <CTFragment list role="list">
+ *      <CTFragment dFlexCol role="list">
  *        {whElement}
  *      </CTFragment>
  *      );

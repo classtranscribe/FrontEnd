@@ -46,9 +46,9 @@ function SignIn() {
   }
 
   return (
-    <CTFragment fade role="main" center className="h-100" id="ct-signin-main">
+    <CTFragment fadeIn role="main" center className="h-100" id="ct-signin-main">
       <CTFragment className="ct-signin-card shadow">
-        <CTFragment padding={[0,20,30,20]} vEnd>
+        <CTFragment padding={[0,20,30,20]} alignItEnd>
           <CTBrand size="large" />
           <CTText as="h1" muted uppercase size="big" margin={[0,0,0,10]}>
             Sign In
@@ -59,10 +59,10 @@ function SignIn() {
           Choose a sign-in or sign-up method
         </CTText>
 
-        <CTFragment role="list" list className="ct-signin-opts">
+        <CTFragment role="list" dFlexCol className="ct-signin-opts">
           {signInOptions.map(opt => (
             <CTFragment 
-              vCenter
+              alignItCenter
               as={Link}
               to={uurl.createSearch({ method: opt.method, redirect })}
               role="listitem"
@@ -70,7 +70,7 @@ function SignIn() {
               key={opt.method}
             >
               <span className="material-icons">{opt.icon}</span>
-              <CTFragment list className="opt-text">
+              <CTFragment dFlexCol className="opt-text">
                 <CTText bold size="medium" padding={[0,0,5,0]} className="opt-name">
                   {opt.name}
                 </CTText>

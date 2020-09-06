@@ -100,13 +100,13 @@ function EPubInfoForm({
         <>
           <CTFormHeading padding="0">Download files</CTFormHeading>
 
-          <CTFragment hEnd margin={[-40, 0, 10, 0]} padding={[0, 20]}>
+          <CTFragment justConEnd margin={[-40, 0, 10, 0]} padding={[0, 20]}>
             <Button icon="launch" outlined onClick={epub.download.preview}>
               Preview ePub
             </Button>
           </CTFragment>
 
-          <CTFragment list padding={[0,15,0,0]}>
+          <CTFragment dFlexCol padding={[0,15,0,0]}>
             <CTFileButton 
               icon={<i className="fas fa-file-alt" />}
               description="Save as ePub file"

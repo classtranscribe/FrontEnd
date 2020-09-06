@@ -14,16 +14,22 @@ function VideosView({
   const empty = medias.length === 0;
 
   const vListProps = {
-    list: true,
+    dFlexCol: true,
     role: 'list',
     className: 'pl-1 pr-1',
     alt: empty,
-    altElement: <CTText hCenter muted padding={[20, 0]}>No video posted</CTText>
+    altElement: <CTText justConCenter muted padding={[20, 0]}>No video posted</CTText>
   };
 
   return error ? null : (
-    <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
-      <CTFragment sticky vCenter className="title link" as={Link} to={window.location.pathname}>
+    <InfoAndListLayout.List fadeIn loading={loading} id="cp-pls-view">
+      <CTFragment 
+        sticky 
+        alignItCenter 
+        className="title link" 
+        as={Link} 
+        to={window.location.pathname}
+      >
         <i className="material-icons" aria-hidden="true">arrow_back</i>
         <span>{name}</span>
       </CTFragment>
