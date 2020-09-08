@@ -7,7 +7,7 @@ function NoEPubWrapper({ mediaId, error }) {
   const [requested, setRequested] = useState(false);
 
   const handleRequest = async () => {
-    await epub.ctrl.requestEPub(mediaId);
+    await epub.list.requestEPub(mediaId);
     setRequested(true);
   };
 

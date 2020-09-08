@@ -215,7 +215,7 @@ class HomeController {
   async getWatchHistory() {
     try {
       const { data } = await api.getUserWatchHistories();
-      return data;
+      return data.filter(media => Boolean(media.id));
     } catch (error) {
       return [];
     }
