@@ -1,7 +1,14 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { CTModal, CTUploadButton, CTFormHelp, CTCheckbox, CTFragment } from 'layout';
+import {
+  CTModal,
+  CTUploadButton,
+  CTFormHelp,
+  CTCheckbox,
+  CTFragment,
+  CTConfirmation
+} from 'layout';
 import { useCheckbox } from 'hooks';
 import { links } from 'utils';
 import { mediaControl } from '../../controllers';
@@ -17,9 +24,26 @@ export function UploadFiles() {
   const [uploadIndex, setUploadingIndex] = useState(-1);
   const [progress, setProgress] = useState(0);
   const [failedVideos, setFailedVideos] = useState([]);
+
   const canUploadTwoVideo = useCheckbox(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const uploading = uploadIndex >= 0;
+
+  const handleCloseConfirm = () => setOpenConfirm(false);
+  const handleConfirm = () => {
+    canUploadTwoVideo.setChecked(false);
+    handleCloseConfirm();
+    setVideos(_.map(videos, (_video) => ({ video1: _video.video1 })));
+  };
+
+  const handleUpload2VideoCheckboxChange = ({ target: { checked }}) => {
+    if (checked === false && videos.filter((_video) => _video.video2).length) {
+      setOpenConfirm(true);
+    } else {
+      canUploadTwoVideo.setChecked(checked);
+    }
+  }
 
   const handleAddVideo = (files) => {
     if (canUploadTwoVideo.checked) {
@@ -93,14 +117,21 @@ export function UploadFiles() {
   return (
     <CTModal {...modalProps}>
       <CTFormHelp title="upload instruction">
-        <b>You can either upload one video or a pair of videos for each media. </b> <br />
+        <b>By checking the checkbox below, you can upload a pair of videos for each media.</b>
+        <br />
         The pair of videos will be presented to viewers with synchronized playbacks.
       </CTFormHelp>
       <CTFragment margin={[-15,0,0,10]}>
         <CTCheckbox 
           label="Upload 2 videos for each media"
           checked={canUploadTwoVideo.checked}
-          onChange={canUploadTwoVideo.onChange}
+          onChange={handleUpload2VideoCheckboxChange}
+        />
+        <CTConfirmation
+          text="Are you sure to remove the all the secondary video files of your medias?"
+          onConfirm={handleConfirm}
+          onClose={handleCloseConfirm}
+          open={openConfirm}
         />
       </CTFragment>
       {
