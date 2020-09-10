@@ -14,6 +14,7 @@ export function UploadFiles() {
   const [videos, setVideos] = useState([]);
   const [uploadIndex, setUploadingIndex] = useState(-1);
   const [progress, setProgress] = useState(0);
+  const [failedVideos, setFailedVideos] = useState([]);
 
   const uploading = uploadIndex >= 0;
 
@@ -25,6 +26,9 @@ export function UploadFiles() {
   const handleClose = () => {
     if (!uploading) {
       history.push(links.playlist(id));
+    } else {
+      // refresh the page to cancel the upload process
+      window.location = links.playlist(id)
     }
   };
 
@@ -34,15 +38,24 @@ export function UploadFiles() {
   };
 
   const handleUpload = async () => {
-    await mediaControl.handleUpload(
+    let successedVideos = await mediaControl.handleUpload(
       id,
       videos,
       setUploadingIndex,
       setProgress,
-      onUploadProgress
+      onUploadProgress,
+      setFailedVideos
     );
 
-    history.push(links.playlist(id));
+    if (successedVideos.length === videos.length) {
+      // go back once finished
+      history.push(links.playlist(id));
+    } else {
+      setVideos(videos.filter((vi, index) => !successedVideos.includes(index)));
+      setUploadingIndex(-1);
+      setProgress(0);
+      setFailedVideos([]);
+    }
   };
 
   const actionProps = {
@@ -65,6 +78,7 @@ export function UploadFiles() {
     progress,
     uploadIndex,
     videos,
+    failedVideos,
     setVideos
   };
 

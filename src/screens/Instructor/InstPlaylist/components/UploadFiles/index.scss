@@ -5,9 +5,10 @@
   max-height: 350px;
 
   .tb-cell {
-    padding: 5px 10px;
+    padding: 5px 0;
     display: flex;
     flex-direction: column;
+    max-width: 400px;
 
     &.header {
       font-weight: bold;
@@ -30,16 +31,14 @@
 
     span.name {
       display: flex;
-      align-items: center;
       font-family: var(--ct-font-narrow);
       color: rgb(46, 46, 46);
       font-size: 17px;
       line-height: normal;
-      white-space: nowrap;
       overflow: hidden;
 
       i.fa-file-video {
-        margin-right: 5px;
+        margin: 2px 10px 0 0;
         color: var(--ct-green-normal);
       }
     }
@@ -54,6 +53,10 @@
     span.progress-txt {
       font-weight: bold;
       color: rgb(0, 153, 153);
+
+      &.failed {
+        color: red;
+      }
     }
   }
 }

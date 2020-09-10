@@ -27,7 +27,8 @@ function UploadTable({
   progress,
   uploadIndex,
   videos,
-  setVideos
+  setVideos,
+  failedVideos
 }) {
   const uploading = uploadIndex >= 0;
 
@@ -85,6 +86,12 @@ function UploadTable({
 
                 <TableCell align="right">
                   {
+                    failedVideos.includes(index)
+                    ?
+                      <div className="tb-cell actions">
+                        <span className="progress-txt failed">Failed</span>
+                      </div>
+                    :
                     uploadIndex < 0
                     ?
                       <div className="tb-cell actions">
