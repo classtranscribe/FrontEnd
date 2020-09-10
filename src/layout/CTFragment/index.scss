@@ -1,4 +1,4 @@
-$border: solid 1px grey;
+$border: solid 1px rgb(214, 214, 214);
 
 .ct-fragment {
   width: 100%;
@@ -13,6 +13,10 @@ $border: solid 1px grey;
     position: sticky;
     z-index: 10;
     background-color: white;
+  }
+
+  &.bordered {
+    border: $border;
   }
 
   &.border-top {

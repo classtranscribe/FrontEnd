@@ -23,7 +23,6 @@ function UploadActions({
         <Button
           uppercase
           color="transparent"
-          // disabled={uploading}
           onClick={handleClose}
         >
           Cancel

@@ -28,13 +28,13 @@ function FormHelp(props) {
     title,
     children,
     severity = 'info',
-    padding,
+    ...otherProps
   } = props;
 
   const classes = useStyles();
 
   return (
-    <CTFragment padding={padding}>
+    <CTFragment {...otherProps}>
       <Alert severity={severity} classes={classes}>
         {Boolean(title) && <AlertTitle>{title}</AlertTitle>}
         {children}
@@ -44,6 +44,8 @@ function FormHelp(props) {
 }
 
 FormHelp.propTypes = {
+  ...CTFragment.propTypes,
+  
   /** Title of the help */
   title: PropTypes.node,
 
@@ -51,9 +53,6 @@ FormHelp.propTypes = {
   children: PropTypes.node,
 
   severity: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
-
-  /** The padding to the `CTFragment` */
-  padding: CTFragment.propTypes.padding
 };
 
 export default FormHelp;

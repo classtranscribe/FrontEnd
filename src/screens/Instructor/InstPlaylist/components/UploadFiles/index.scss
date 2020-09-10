@@ -10,6 +10,10 @@
     flex-direction: column;
     max-width: 400px;
 
+    &.auto-width {
+      max-width: 600px;
+    }
+
     &.header {
       font-weight: bold;
       font-size: 14px;

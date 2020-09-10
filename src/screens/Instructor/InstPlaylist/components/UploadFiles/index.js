@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { CTModal, CTUploadButton, CTFormHelp } from 'layout';
+import { CTModal, CTUploadButton, CTFormHelp, CTCheckbox, CTFragment } from 'layout';
+import { useCheckbox } from 'hooks';
 import { links } from 'utils';
 import { mediaControl } from '../../controllers';
 import UploadTable from './UploadTable';
@@ -15,12 +17,17 @@ export function UploadFiles() {
   const [uploadIndex, setUploadingIndex] = useState(-1);
   const [progress, setProgress] = useState(0);
   const [failedVideos, setFailedVideos] = useState([]);
+  const canUploadTwoVideo = useCheckbox(false);
 
   const uploading = uploadIndex >= 0;
 
   const handleAddVideo = (files) => {
-    let [video1, video2] = files;
-    setVideos([ ...videos, { video1, video2 }]);
+    if (canUploadTwoVideo.checked) {
+      let [video1, video2] = files;
+      setVideos([ ...videos, { video1, video2 }]);
+    } else {
+      setVideos([ ...videos, ..._.map(files, (vfile) => ({ video1: vfile }))]);
+    }
   };
   
   const handleClose = () => {
@@ -79,15 +86,31 @@ export function UploadFiles() {
     uploadIndex,
     videos,
     failedVideos,
+    can2Video: canUploadTwoVideo.checked,
     setVideos
   };
 
   return (
     <CTModal {...modalProps}>
       <CTFormHelp title="upload instruction">
-        <b>You can either upload one video or a pair of videos for each media. </b> 
+        <b>You can either upload one video or a pair of videos for each media. </b> <br />
         The pair of videos will be presented to viewers with synchronized playbacks.
       </CTFormHelp>
+      <CTFragment margin={[-15,0,0,10]}>
+        <CTCheckbox 
+          label="Upload 2 videos for each media"
+          checked={canUploadTwoVideo.checked}
+          onChange={canUploadTwoVideo.onChange}
+        />
+      </CTFragment>
+      {
+        canUploadTwoVideo.checked 
+        &&
+        <CTFormHelp fadeIn>
+          Choose 2 video files at a time when browse files.
+        </CTFormHelp>
+      }
+
       <CTUploadButton 
         fluid 
         accept="video/mp4,video/x-m4v,video/*" 
