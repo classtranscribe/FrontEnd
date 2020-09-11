@@ -1,5 +1,8 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   CTModal,
@@ -16,9 +19,17 @@ import UploadTable from './UploadTable';
 import UploadActions from './UploadActions';
 import './index.scss';
 
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.modal + 1,
+    color: '#fff',
+  },
+}));
+
 export function UploadFiles() {
   const history = useHistory();
   const { id } = useParams();
+  const classes = useStyles();
 
   const [videos, setVideos] = useState([]);
   const [uploadIndex, setUploadingIndex] = useState(-1);
@@ -27,6 +38,8 @@ export function UploadFiles() {
 
   const canUploadTwoVideo = useCheckbox(false);
   const [openConfirm, setOpenConfirm] = useState(false);
+
+  const [openLoader, setOpenLoader] = useState(false);
 
   const uploading = uploadIndex >= 0;
 
@@ -63,6 +76,14 @@ export function UploadFiles() {
     }
   };
 
+  const handleOpenFakeLoading = () => {
+    setOpenLoader(true);
+    setTimeout(() => {
+      setOpenLoader(false);
+      handleClose();
+    }, 2000);
+  }
+
   const onUploadProgress = (progressEvent) => {
     const percentCompleted = Math.round((progressEvent.loaded / progressEvent.total) * 100);
     setProgress(percentCompleted);
@@ -80,7 +101,8 @@ export function UploadFiles() {
 
     if (successedVideos.length === videos.length) {
       // go back once finished
-      history.push(links.playlist(id));
+      // add fake loading time to avoid race condition
+      handleOpenFakeLoading();
     } else {
       setVideos(videos.filter((vi, index) => !successedVideos.includes(index)));
       setUploadingIndex(-1);
@@ -151,6 +173,10 @@ export function UploadFiles() {
       </CTUploadButton>
 
       <UploadTable {...tableProps} />
+
+      <Backdrop open={openLoader} className={classes.backdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </CTModal>
   );
 }
