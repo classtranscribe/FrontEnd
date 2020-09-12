@@ -168,6 +168,7 @@ export function UploadFiles() {
         fluid 
         accept="video/mp4,video/x-m4v,video/*" 
         onFileChange={handleAddVideo}
+        disabled={uploading}
       >
         Browse videos
       </CTUploadButton>
