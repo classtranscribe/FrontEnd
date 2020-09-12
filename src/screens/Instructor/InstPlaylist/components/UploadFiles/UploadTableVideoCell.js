@@ -16,7 +16,7 @@ export function _fileSizeParser(size) {
 
 function UploadTableVideoCell({
   videFile,
-  can2Video
+  can2Video = false
 }) {
   const fileIcon = <i className="fas fa-file-video" />;
   return (

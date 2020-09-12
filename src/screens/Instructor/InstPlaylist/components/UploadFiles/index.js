@@ -160,7 +160,7 @@ export function UploadFiles() {
         canUploadTwoVideo.checked 
         &&
         <CTFormHelp fadeIn>
-          Choose 2 video files at a time when browse files.
+          Choose 2 video files at a time when browsing files.
         </CTFormHelp>
       }
 

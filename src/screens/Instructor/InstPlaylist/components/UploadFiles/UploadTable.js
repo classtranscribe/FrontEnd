@@ -40,7 +40,7 @@ function UploadTable({
             <TableRow>
               <TableCell>
                 <div className="tb-cell header video1">
-                  {can2Video ? 'VIDEO 1' : 'Video'}
+                  {can2Video ? 'VIDEO 1' : 'VIDEO'} ({videos.length})
                 </div>
               </TableCell>
               {
@@ -56,7 +56,7 @@ function UploadTable({
 
           <TableBody>
             {videos.map(({ video1, video2 }, index) => (
-              <TableRow key={video1}>
+              <TableRow className="tb-row" key={video1}>
                 <UploadTableVideoCell videFile={video1} can2Video={can2Video} />
 
                 {can2Video && <UploadTableVideoCell videFile={video2} />}
