@@ -12,6 +12,7 @@ function UploadBase(props) {
     fluid,
     accept,
     children,
+    disabled,
     onFileChange,
   } = props;
 
@@ -40,6 +41,7 @@ function UploadBase(props) {
           multiple
           type="file"
           onChange={handleOnChange}
+          disabled={disabled}
         />
         {children(isDragActive)}
       </div>
@@ -56,6 +58,9 @@ UploadBase.propTypes = {
 
   /** File types to accept */
   accept: PropTypes.string,
+
+  /** Disable the upload base */
+  disabled: PropTypes.bool,
 
   /** Callback when file changed */
   onFileChange: PropTypes.func,

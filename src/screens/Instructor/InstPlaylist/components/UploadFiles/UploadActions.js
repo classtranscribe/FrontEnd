@@ -14,7 +14,7 @@ function UploadActions({
         <Button
           uppercase
           color="teal"
-          disabled={noFileUploaded}
+          disabled={uploading || noFileUploaded}
           onClick={handleUpload}
         >
           Upload Videos
@@ -23,7 +23,6 @@ function UploadActions({
         <Button
           uppercase
           color="transparent"
-          disabled={uploading}
           onClick={handleClose}
         >
           Cancel

@@ -39,6 +39,7 @@ function CTFragment(props) {
     padding,
     margin,
     borderRadius,
+    bordered,
     borderTop = false,
     borderRight = false,
     borderBottom = false,
@@ -97,6 +98,7 @@ function CTFragment(props) {
       'align-items-center': alignItCenter || center,
       'align-items-end': alignItEnd,
       'ct-a-fade-in': fadeIn,
+      'bordered': bordered,
       'border-top': borderTop,
       'border-right': borderRight,
       'border-bottom': borderBottom,
@@ -253,6 +255,9 @@ CTFragment.propTypes = {
     CSSTypes,
     PropTypes.arrayOf(CSSTypes)
   ]),
+
+  /** True if is bordered */
+  bordered: PropTypes.bool,
 
   /** True if has a top border */
   borderTop: PropTypes.bool,
