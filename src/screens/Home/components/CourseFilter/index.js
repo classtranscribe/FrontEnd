@@ -18,10 +18,6 @@ function CourseFilter({
   const termOptions = terms.map(term => ({ value: term.id, text: term.name }));
 
   const handleUniversityChange = ({ target: { value }}) => {
-    // reset selected departments and terms when university changes
-    home.ctrl.selectDepartments([]);
-    home.ctrl.selectTerms([]);
-    
     home.ctrl.selectUniversity(value);
   };
 

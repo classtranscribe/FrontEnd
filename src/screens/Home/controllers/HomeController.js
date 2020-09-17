@@ -45,7 +45,11 @@ class HomeController {
     if (universityId) {
       const university = _.find(homeState.universities, { id: universityId });
       if (university) {
+        // reset selected departments and terms when university changes
+        homeState.setSelDepartments([]);
+        homeState.setSelTerms([]);
         homeState.setSelUniversity(universityId);
+        // get terms and departs for selected university
         const terms = await this.getTerms(universityId);
         const departments = await this.getDepartments(universityId);
         homeState.setTerms(terms);
