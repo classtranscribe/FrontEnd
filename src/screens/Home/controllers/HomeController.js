@@ -1,12 +1,5 @@
 import _ from 'lodash';
-import { 
-  api,
-  user,
-  links,
-  prompt,
-  InvalidDataError,
-  NOT_FOUND_404
-} from 'utils';
+import { api, user, prompt, InvalidDataError, NOT_FOUND_404 } from 'utils';
 import { homeState } from './HomeState';
 import HomeConstants from './HomeConstants';
 import FeedSectionBuilder from './FeedSectionBuilder';

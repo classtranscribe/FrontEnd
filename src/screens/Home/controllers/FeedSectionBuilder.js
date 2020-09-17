@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { links } from 'utils';
 import HomeConstants from './HomeConstants';
 
@@ -66,7 +65,7 @@ class FeedSectionBuilder {
       selTerms
     } = this;
 
-    return _.filter(offerings, off => {
+    return offerings.filter(off => {
       return (!this.isFilteringDepart || selDepartments.includes(depart.id))
             && off.departmentIds.includes(depart.id)
             && (!this.isFilteringTerm || selTerms.includes(off.termId))
