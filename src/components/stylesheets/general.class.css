@@ -54,7 +54,7 @@
   animation: fade-in .4s ease-in;
 }
 
-div[data-scroll]::-webkit-scrollbar {
+/* div[data-scroll]::-webkit-scrollbar {
   display: block;
   width: 8px;
 }
@@ -75,7 +75,7 @@ div[data-scroll]:hover::-webkit-scrollbar-thumb {
 }
 div[data-scroll=light]:hover::-webkit-scrollbar-thumb {
   background: rgba(146, 146, 146, 0.349);
-}
+} */
 
 [contenteditable].ct-div-editable {
   border-bottom: 2px solid transparent;

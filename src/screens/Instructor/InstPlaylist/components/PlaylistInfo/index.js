@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Playlist } from 'entities/Playlists';
 import { InfoAndListLayout } from 'components';
 import { connectWithRedux, plControl } from '../../controllers';
 
@@ -27,12 +28,12 @@ function PlaylistInfoWithRedux({
 
   const handleRename = () => {
     if (!inputValue) return;
-    plControl.renamePlaylist(playlist, inputValue);
+    plControl.renamePlaylist(inputValue);
     handleCancelRename();
   };
 
   const handleDelete = () => {
-    plControl.confirmDeletePlaylist(playlist.id, history);
+    plControl.confirmDeletePlaylist(history);
   };
 
   const sourseURL = plControl.getPlaylistSourceURL(playlist);
