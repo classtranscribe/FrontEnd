@@ -10,7 +10,7 @@ class PlaylistTypes {
 
   static Echo360RegEx = /https:\/\/echo360.org\/section\/[\s\S]*\/public/
   static YouTubeRegEx = /https:\/\/www.youtube.com\/playlist\?list=[\s\S]*/
-  static KalturaRegEx = /https:\/\/mediaspace.illinois.edu\/(channel|playlist)(\/[\s\S]*\/|\/[\s\S]*\/[0-9]*\/|\/)[0-9]_[\s\S]+/
+  static KalturaRegEx = /https:\/\/mediaspace.illinois.edu\/(playlist(\/[\s\S]*\/|\/[\s\S]*\/[0-9]*\/|\/)[0-9]_[\s\S]+|channel(\/[\s\S]*\/|\/)[0-9]{9})/
   static BoxRegEx = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]*/
 
   static get Echo360() {
@@ -100,6 +100,14 @@ class PlaylistTypes {
     return type.urlRegEx.test(url);
   }
 
+  static isKalturaChannel(url) {
+    if (!PlaylistTypes.isValidUrl(PlaylistTypes.KalturaID, url)) {
+      return false;
+    }
+
+    return url.includes('/channel/');
+  }
+
   static getIndentifier(typeId, url) {
     if (!PlaylistTypes.isValidUrl(typeId, url)) return null;
 
@@ -108,8 +116,10 @@ class PlaylistTypes {
     } if (typeId === PlaylistTypes.BoxID) {
       return url.split('/folder/')[1];
     } if (typeId === PlaylistTypes.KalturaID) {
-      const id = url.slice(url.search(/[0-9]_[\s\S]/)).split('/')[0];
-      const type = url.includes('/channel/') ? 'channel' : 'playlist';
+      const isChannel = PlaylistTypes.isKalturaChannel(url);
+      const idRegEx = isChannel ? /[0-9]{9}/ : /[0-9]_[\s\S]+/;
+      const id = url.slice(url.search(idRegEx)).split('/')[0];
+      const type = isChannel ? 'channel' : 'playlist';
       return `https://mediaspace.illinois.edu/${type}/${id}`;
     }
 
