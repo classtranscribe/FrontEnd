@@ -24,6 +24,7 @@ function Actions({
                 startIcon={<i className="material-icons delete">delete</i>}
                 onClick={handleDelete}
                 size="large"
+                disableRipple
               >
                 delete playlist
               </Button>

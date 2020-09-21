@@ -45,7 +45,7 @@ function PlaylistName({
           &&
           <div role="listitem">
             <b>SOURCE</b>
-            <span className="pl-2">{sourseURL}</span>
+            <span className="pl-2 text-break">{sourseURL}</span>
           </div>
         }
       </CTFragment>
