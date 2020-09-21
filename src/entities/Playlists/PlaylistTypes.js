@@ -108,7 +108,9 @@ class PlaylistTypes {
     } if (typeId === PlaylistTypes.BoxID) {
       return url.split('/folder/')[1];
     } if (typeId === PlaylistTypes.KalturaID) {
-      return url.slice(url.search(/[0-9]_[\s\S]/)).split('/')[0];
+      const id = url.slice(url.search(/[0-9]_[\s\S]/)).split('/')[0];
+      const type = url.includes('/channel/') ? 'channel' : 'playlist';
+      return `https://mediaspace.illinois.edu/${type}/${id}`;
     }
 
     return url;

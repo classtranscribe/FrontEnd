@@ -19,6 +19,7 @@ function PlaylistName(props) {
         value={name}
         onChange={handleOnchanged}
         helpText={emptyPlaylistName ? 'Playlist Name is required.' : ''}
+        autoFocus
       />
     </CTFragment>
   );
