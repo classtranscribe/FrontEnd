@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 class Entity {
   constructor(data) {
     if (data && data.id) this.__id = data.id;
-    this.__data = data;
+    this.__data = _.cloneDeep(data);
   }
 
   get id() {
@@ -9,7 +11,7 @@ class Entity {
   }
 
   toObject() {
-    return this.__data;
+    return _.cloneDeep(this.__data);
   }
 }
 

@@ -1,4 +1,5 @@
-import { uurl, api, prompt, links } from 'utils';
+import { uurl, links } from 'utils';
+import { Playlist } from 'entities/Playlists';
 import { setup } from './setup';
 
 const YOUTUBE_PREFIX = 'https://www.youtube.com/playlist';
@@ -28,31 +29,22 @@ class PlaylistController {
     return source;
   }
 
-  async renamePlaylist(playlist, name) {
-    try {
-      playlist.name = name;
-      await api.updatePlaylist(playlist);
-      setup.setPlaylist(playlist);
-      prompt.addOne({ text: 'Playlist renamed.', timeout: 3000 });
-    } catch (error) {
-      prompt.error('Failed to rename the playlist.', { timeout: 5000 });
+  async renamePlaylist(name) {
+    const playlist = await Playlist.rename(setup.playlist, name);
+    if (playlist) {
+      setup.setPlaylist(playlist.toObject());
     }
   }
 
-  async deletePlaylist(playlistId, history) {
-    try {
-      await api.deletePlaylist(playlistId);
-      prompt.addOne({ text: 'Playlist deleted.', timeout: 3000 });
-      history.push(links.offeringDetail(setup.offering.id));
-    } catch (error) {
-      prompt.error('Failed to delete the playlist.', { timeout: 5000 });
-    }
-  }
-
-  confirmDeletePlaylist(playlistId, history) {
+  confirmDeletePlaylist(history) {
     setup.confirm({
       text: 'Are you sure to delete this playlist? (This acrion cannot be undone)',
-      onConfirm: () => this.deletePlaylist(playlistId, history)
+      onConfirm: async () => {
+        const successed = await Playlist.delete(setup.playlistId);
+        if (successed) {
+          history.push(links.offeringDetail(setup.offering.id));
+        }
+      }
     });
   }
 }

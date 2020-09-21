@@ -3,16 +3,16 @@ import Entity from '../Entity';
 import PlaylistTypes from './PlaylistTypes';
 
 class Playlist extends Entity {
-  __data = {
-    offeringId: '',
-    name: '',
-    sourceType: 2,
-    playlistIdentifier: '',
-    jsonMetadata: {
-      isChannel: 0,
-      source: ''
-    }
-  }
+  // __data = {
+  //   offeringId: '',
+  //   name: '',
+  //   sourceType: 2,
+  //   playlistIdentifier: '',
+  //   jsonMetadata: {
+  //     isChannel: 0,
+  //     source: ''
+  //   }
+  // }
 
   get offeringId() {
     return this.__data.offeringId;
@@ -42,9 +42,9 @@ class Playlist extends Entity {
 
   /**
    * Create a new playlist
-   * @param {String} offeringId the offering id
-   * @param {Object} newPlayList a new playlist object includes: {name, sourceType, url}
-   * @returns {Playlist} a Playlist instance
+   * @param {String} offeringId - the offering id
+   * @param {Object} newPlayList - a new playlist object includes: {name, sourceType, url}
+   * @returns {Playlist} - a Playlist instance
    */
   static async create(offeringId, newPlaylist) {
     const { name, sourceType, url } = newPlaylist;
@@ -84,6 +84,42 @@ class Playlist extends Entity {
     });
 
     return new Playlist(newPl);
+  }
+
+  /**
+   * Rename the playlist
+   * @param {String} newName - New name for the playlist
+   * @returns {Playlist} true if successed
+   */
+  static async rename(playlist, newName) {
+    if (!playlist.id || !newName) return;
+    try {
+      playlist.name = newName;
+      await api.updatePlaylist(playlist);
+      prompt.addOne({ text: 'Playlist renamed.', timeout: 3000 });
+    } catch (error) {
+      prompt.error('Failed to rename the playlist.', { timeout: 5000 });
+      return;
+    }
+
+    return new Playlist(playlist);
+  }
+
+  /**
+   * Delete the playlist
+   * @returns {Boolean} true if successed
+   */
+  static async delete(playlistId) {
+    if (!playlistId) return;
+    try {
+      await api.deletePlaylist(playlistId);
+      prompt.addOne({ text: 'Playlist deleted.', timeout: 3000 });
+    } catch (error) {
+      prompt.error('Failed to delete the playlist.', { timeout: 5000 });
+      return false;
+    }
+
+    return true;
   }
 }
 
