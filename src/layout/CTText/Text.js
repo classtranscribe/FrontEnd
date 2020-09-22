@@ -9,11 +9,8 @@ import CTFragment from '../CTFragment';
  */
 function Text(props) {
   let {
-    as = 'div',
-    id,
     className,
     fluid,
-    center,
     uppercase,
     capitalize,
     bold,
@@ -27,8 +24,6 @@ function Text(props) {
     hoverUnderlined,
     hoverTeal,
     hoverHighlighted,
-    margin,
-    padding,
     size = 'normal', // small, normal, large, huge
     line,
     children,
@@ -44,7 +39,6 @@ function Text(props) {
     bold,
     underline,
     italic,
-    center,
     white,
     muted,
     teal,
@@ -57,16 +51,12 @@ function Text(props) {
   }, className);
 
   const textStyle = {
-    WebkitLineClamp: `${line }`
+    WebkitLineClamp: line ? `${line }` : undefined
   };
 
   const textProps = {
-    id,
-    as,
     className: textClasses,
     styles: textStyle,
-    margin,
-    padding
   };
 
   return (
@@ -77,25 +67,9 @@ function Text(props) {
 }
 
 Text.propTypes = {
-  /**
-   * A HTML tag name for this fragment, default as `div`
-   * @example
-   * <CTFragment as="a" ... >...</CTFragment> // <a ... >...</a>
-   * <CTFragment as="ul" ... >...</CTFragment> // <ul ... >...</ul>
-   */
-  as: CTFragment.propTypes.as,
-
-  /** An unique id to the text */
-  id: PropTypes.string,
-
-  /** Additional classes */
-  className: PropTypes.string,
-
+  ...CTFragment.propTypes,
   /** The text can be fluid to the container */
   fluid: PropTypes.bool,
-
-  /** The text can be at center */
-  center: PropTypes.bool,
 
   /** The text can be transformed to uppercase */
   uppercase: PropTypes.bool,
@@ -126,18 +100,6 @@ Text.propTypes = {
 
   /** Highlight the text when mouse over */
   hoverHighlighted: PropTypes.bool,
-
-  /**
-   * you can set margin of the text, 
-   * See CTFragment.propTypes.margin for more usage
-   */
-  margin: CTFragment.propTypes.margin,
-
-  /**
-   * you can set padding of the text
-   * See CTFragment.propTypes.margin for more usage
-   */
-  padding: CTFragment.propTypes.padding,
 
   /**
    * The text can have a different sizes

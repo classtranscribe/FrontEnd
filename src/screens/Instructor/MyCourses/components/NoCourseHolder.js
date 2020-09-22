@@ -9,7 +9,7 @@ export function NoCourseHolder() {
   const btn = useButtonStyles();
 
   return (
-    <CTFragment center list padding={[30, 0]}>
+    <CTFragment center dFlexCol padding={[30, 0]}>
       <CTText muted padding="20" size="medium">Welcome to ClassTranscribe</CTText>
       
       <Button

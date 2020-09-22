@@ -5,7 +5,7 @@ import SectionItem from './SectionItem';
 import './index.scss';
 
 const NoSectionHolder = () => (
-  <CTFragment list vCenter padding={[40, 0]}>
+  <CTFragment dFlexCol alignItCenter padding={[40, 0]}>
     <CTText muted size="medium">No course found</CTText>
     <CTText padding="5" muted size="medium">
       Please reset the filter or refresh the page
@@ -17,7 +17,7 @@ function SectionList({
   sections
 }) {
   const listProps = {
-    list: true,
+    dFlexCol: true,
     role: 'list',
     padding: '10',
     alt: sections.length === 0,

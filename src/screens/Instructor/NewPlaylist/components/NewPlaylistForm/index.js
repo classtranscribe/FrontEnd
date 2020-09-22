@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { useState, useEffect, useReducer } from 'react';
+import { PlaylistTypes } from 'entities/Playlists';
 import { CTForm } from 'layout';
 import PropTypes from 'prop-types';
 import PlaylistType from './PlaylistSelection';
@@ -7,7 +8,7 @@ import PlaylistName from './PlaylistName';
 import PlaylistUrl from './PlaylistUrl';
 
 export function NewPlaylistForm(props) {
-  const { onSave, isValidIdURL } = props;
+  const { onSave } = props;
 
   const [name, setName] = useState('');
   const [sourceType, setsourceType] = useState(2);
@@ -35,8 +36,13 @@ export function NewPlaylistForm(props) {
   useEffect(() => {
     errorDispatch([!name, 'playlistName']);
     errorDispatch([!url && sourceType !== 2, 'playlistUrl']);
-    errorDispatch([url && !isValidIdURL(sourceType, url), 'valid-id']);
+    errorDispatch([url && !PlaylistTypes.isValidUrl(sourceType, url), 'valid-id']);
   }, [name, url]);
+
+  useEffect(() => {
+    // reset url when sourceType changes
+    setUrl('');
+  }, [sourceType]);
 
   const handleSave = async () => {
     setEnable(true);
@@ -62,6 +68,5 @@ export function NewPlaylistForm(props) {
 }
 
 NewPlaylistForm.propTypes = {
-  onSave: PropTypes.func,
-  isValidIdURL: PropTypes.func
+  onSave: PropTypes.func
 };

@@ -8,7 +8,7 @@ export function OfferingListWithRedux({
   const loading = offerings.length === 0;
   
   return (
-    <CTFragment padding={[0, 35, 0, 35]} list loading={loading}>
+    <CTFragment padding={[0, 35, 0, 35]} dFlexCol loading={loading}>
       {
         offerings.map(offering => (
           <div>{offering.offering.courseName}</div>

@@ -66,8 +66,7 @@ FormRow.propTypes = {
   /** classes to the grid item */
   gridClassName: PropTypes.string,
 
-  /** The padding for `CTFragment` */
-  padding: CTFragment.propTypes.padding,
+  ...CTFragment.propTypes
 };
 
 export default FormRow;

@@ -23,13 +23,13 @@ function ActionButtons(props) {
       {
         isInsructor
         &&
-        <CTFragment hEnd>
+        <CTFragment justConEnd>
           <InstModeCheckBox isInstMode={isInstMode} />
         </CTFragment> 
       }
 
       <CTFragment
-        vCenter
+        alignItCenter
         borderTop
         padding={[10, 0, 10, 0]}
         className="cp-action-bar"

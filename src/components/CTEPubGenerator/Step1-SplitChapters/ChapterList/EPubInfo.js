@@ -30,7 +30,7 @@ function EPubInfo() {
   };
 
   return editing ? (
-    <CTFragment list padding={[20, 0, 20, 100]} className="ct-epb epb-info">
+    <CTFragment dFlexCol padding={[20, 0, 20, 100]} className="ct-epb epb-info">
       <EPubInfoForm
         {...epubInfo} 
         onSave={handleOnSave} 
@@ -46,7 +46,7 @@ function EPubInfo() {
       />
     </CTFragment>
   ) : (
-    <CTFragment list padding={[0, 0, 10, 100]} className="ct-epb epb-info">
+    <CTFragment dFlexCol padding={[0, 0, 10, 100]} className="ct-epb epb-info">
       <ChapterImage
         id="ct-epb-cover-img"
         image={epubInfo.cover.value}
@@ -57,7 +57,7 @@ function EPubInfo() {
 
       <CTHeading as="h1">{epubInfo.title.value}</CTHeading>
 
-      <CTFragment hBetween padding={[10, 0, 0, 0]}>
+      <CTFragment justConBetween padding={[10, 0, 0, 0]}>
         <CTText>{epubInfo.author.value}</CTText>
 
         <Button 

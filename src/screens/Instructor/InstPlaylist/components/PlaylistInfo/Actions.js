@@ -12,7 +12,7 @@ function Actions({
   const btn = useButtonStyles();
 
   return (
-    <CTFragment list className="actions" padding={[10, 0]}>
+    <CTFragment dFlexCol className="actions" padding={[10, 0]}>
       {
         editing ? (
           <>
@@ -24,11 +24,12 @@ function Actions({
                 startIcon={<i className="material-icons delete">delete</i>}
                 onClick={handleDelete}
                 size="large"
+                disableRipple
               >
                 delete playlist
               </Button>
             </CTFragment>
-            <CTFragment hEnd>
+            <CTFragment justConEnd>
               <Button 
                 id="pl-rename-save-btn"
                 className={btn.teal} 
@@ -48,7 +49,7 @@ function Actions({
             </CTFragment>
           </>
         ) : (
-          <CTFragment hEnd>
+          <CTFragment justConEnd>
             <Button 
               id="pl-edit-btn"
               className="font-weight-bold"

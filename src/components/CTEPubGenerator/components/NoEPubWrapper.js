@@ -7,7 +7,7 @@ function NoEPubWrapper({ mediaId, error }) {
   const [requested, setRequested] = useState(false);
 
   const handleRequest = async () => {
-    await epub.ctrl.requestEPub(mediaId);
+    await epub.list.requestEPub(mediaId);
     setRequested(true);
   };
 
@@ -18,8 +18,8 @@ function NoEPubWrapper({ mediaId, error }) {
   // }, [error])
 
   return (
-    <CTFragment center fade>
-      <CTFragment list hCenter>
+    <CTFragment center fadeIn>
+      <CTFragment dFlexCol justConCenter>
         {
           !requested ? (
             <>

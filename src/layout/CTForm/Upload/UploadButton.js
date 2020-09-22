@@ -22,6 +22,7 @@ function UploadButton(props) {
     icon = 'cloud_upload',
     text = 'Browse Files',
     children,
+    disabled,
     ...baseProps
   } = props;
 
@@ -31,12 +32,13 @@ function UploadButton(props) {
   const dropIconElem = <i className="material-icons">cloud_download</i>;
 
   return (
-    <UploadBase {...baseProps}>
+    <UploadBase {...baseProps} disabled={disabled}>
       {(isDragActive) => (
         <Button
           startIcon={isDragActive ? dropIconElem : startIconElem}
           className={classes.root} 
           component="span"
+          disabled={disabled}
         >
           <CTText bold>
             {isDragActive ? 'Drop your files here' : (children || text)}
@@ -48,15 +50,19 @@ function UploadButton(props) {
 }
 
 UploadButton.propTypes = {
+  ...UploadBase.propTypes,
+
   /** Icon for the upload button */
   icon: PropTypes.string,
+
   /** Text for the upload button */
   text: PropTypes.string,
 
+  /** Disable the upload button */
+  disabled: PropTypes.bool,
+
   /** Content for the upload button */
   children: PropTypes.node,
-
-  ...UploadBase.propTypes
 }
 
 export default UploadButton

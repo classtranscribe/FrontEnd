@@ -44,8 +44,8 @@ function PlaylistsView({
   
 
   return (
-    <InfoAndListLayout.List fade loading={loading} id="cp-pls-view">
-      <CTFragment sticky vCenter className="title" as="h3">
+    <InfoAndListLayout.List fadeIn loading={loading} id="cp-pls-view">
+      <CTFragment sticky alignItCenter className="title" as="h3">
         <i className="material-icons">list</i>
         <span>Playlists</span>
         {

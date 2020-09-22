@@ -109,23 +109,36 @@ class MediaController {
     uploadedMedias, 
     setUploadingIndex, 
     setProgress, 
-    onUploadProgress
+    onUploadProgress,
+    setFailedVideos
   ) {
+    let successedVideos = [];
     for (let i = 0; i < uploadedMedias.length; i += 1) {
       setUploadingIndex(i);
       setProgress(0);
-      await this.upload(playlistId, uploadedMedias[i], onUploadProgress);
+      let successed = await this.upload(playlistId, uploadedMedias[i], onUploadProgress);
+      if (successed) {
+        successedVideos.push(i);
+      } else {
+        setFailedVideos(fvis => [...fvis, i]);
+      }
     }
 
-    prompt.addOne({ text: `Uploaded ${uploadedMedias.length} videos.`, timeout: 4000 });
+    if (successedVideos.length > 0) {
+      prompt.addOne({ text: `Uploaded ${successedVideos.length} videos.`, timeout: 4000 });
+    }
+
+    return successedVideos;
   }
 
   async upload(playlistId, { video1, video2 }, onUploadProgress) {
     try {
       await api.uploadVideo(playlistId, video1, video2, onUploadProgress);
+      return true
     } catch (error) {
       console.error(error);
-      prompt.error(`Failed to upload video ${video1.name}.`)
+      prompt.error(`Failed to upload video ${video1.name}.`);
+      return false;
     }
   }
 }

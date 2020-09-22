@@ -23,14 +23,14 @@ function WatchHistoriesWithRedux(props) {
     }
 
     return (
-      <CTFragment list role="list">
+      <CTFragment dFlexCol role="list">
         {whElement}
       </CTFragment>
     );
   }
 
   return (
-    <CTFragment fade loading={loading} padding={[0, 35, 50, 35]}>
+    <CTFragment fadeIn loading={loading} padding={[0, 35, 50, 35]}>
       <CTFilter
         withDefaultFilter
         data={data}

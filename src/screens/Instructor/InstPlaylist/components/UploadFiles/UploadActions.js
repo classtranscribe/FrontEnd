@@ -9,12 +9,12 @@ function UploadActions({
   handleUpload
 }) {
   return (
-    <CTFragment hCenter padding={[10, 0]}>
+    <CTFragment justConCenter padding={[10, 0]}>
       <Button.Group>
         <Button
           uppercase
           color="teal"
-          disabled={noFileUploaded}
+          disabled={uploading || noFileUploaded}
           onClick={handleUpload}
         >
           Upload Videos
@@ -23,7 +23,6 @@ function UploadActions({
         <Button
           uppercase
           color="transparent"
-          disabled={uploading}
           onClick={handleClose}
         >
           Cancel

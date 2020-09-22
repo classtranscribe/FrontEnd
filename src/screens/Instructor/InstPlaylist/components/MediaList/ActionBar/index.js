@@ -40,7 +40,7 @@ function ActionBar({
   
   return (
     <CTFragment
-      vCenter 
+      alignItCenter 
       sticky
       id="ipl-media-actions" 
       padding={[10, 10, 10, (padded ? 0 : 23)]}

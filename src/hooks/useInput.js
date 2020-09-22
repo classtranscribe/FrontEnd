@@ -22,3 +22,25 @@ export function useInput(initialValue, onChange) {
     reset: () => setValue(initialValue)
   };
 }
+
+export function useCheckbox(initialValue, onChange) {
+  const [checked, setChecked] = useState(initialValue);
+
+  const handleChange = ({ target }) => {
+    setChecked(target.checked);
+  };
+
+  useEffect(() => {
+    if (typeof onChange === 'function') {
+      onChange(checked);
+    }
+  }, [checked]);
+
+  return {
+    checked,
+    setChecked,
+    onChange: handleChange,
+    check: () => setChecked(true),
+    unCheck: () => setChecked(false)
+  };
+}

@@ -25,7 +25,7 @@ function Toolbar({
   };
 
   return (
-    <CTFragment list className="ct-epb ech tool-bar" data-scroll>
+    <CTFragment dFlexCol className="ct-epb ech tool-bar" data-scroll>
       <EPubStepper vertical />
 
       <CTFragment>
@@ -53,7 +53,7 @@ function Toolbar({
           Watch the video ({beginstr} - {endstr})
         </Button>
 
-        <CTFragment vCenter margin={[0, 0, 20, 0]}>
+        <CTFragment alignItCenter margin={[0, 0, 20, 0]}>
           <Button
             round
             outlined

@@ -20,8 +20,8 @@ export function SelectCtrlButton({
                     ? 'indeterminate_check_box' 
                     : 'check_box_outline_blank';
 
-  const selBtnLabel = selecting 
-                    ? 'Remove All' 
+  const selBtnLabel = isSelectedAll 
+                    ? 'Remove All'
                     : 'Select All'; 
   
   const handleSelBtnClick = () => {

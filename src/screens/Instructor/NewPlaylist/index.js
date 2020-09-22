@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
-import { courseStore, connectWithRedux, setup, plControl } from './controllers';
+import { Playlist } from 'entities/Playlists';
+import { links } from 'utils/links';
+import { courseStore, connectWithRedux, setup } from './controllers';
 import { NewPlaylistForm } from './components';
 
 export class NewPlaylistWithRedux extends Component {
@@ -37,21 +39,17 @@ export class NewPlaylistWithRedux extends Component {
       }
     }));
 
-    const onSave = (newPlaylist) => {
-      plControl.updatePlaylist(
-        this.offeringId, 
-        newPlaylist, 
-        this.props.history
-      );
+    const onSave = async (newPlaylist) => {
+      const playlist = await Playlist.create(this.offeringId, newPlaylist);
+      if (playlist) {
+        this.props.history.push(links.playlist(playlist.id));
+      }
     };
 
     return (
       <CTLayout {...layoutProps}>
         <CTFragment padding={[0, 30]}>
-          <NewPlaylistForm 
-            onSave={onSave} 
-            isValidIdURL={plControl.isValidIdURL} 
-          />
+          <NewPlaylistForm onSave={onSave} />
         </CTFragment>
       </CTLayout>
     );

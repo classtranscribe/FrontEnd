@@ -15,7 +15,7 @@ class SetupHistoryPage extends StateController {
   async setupWatchHistories() {
     try {
       let { data } = await api.getUserWatchHistories();
-      this.setWatchHistories(data);
+      this.setWatchHistories(data.filter(media => media && media.id));
     } catch (error) {
       prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
     }

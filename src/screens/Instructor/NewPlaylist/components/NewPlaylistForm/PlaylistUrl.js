@@ -98,7 +98,7 @@ function PlaylistUrl(props) {
             The access settings may be different.
           </CTFormHelp>
           <CTFormHelp title="Provide the Box Folder URL">
-            <CTFragment list>
+            <CTFragment dFlexCol>
               <div>
                 Before creating the playlist, please
                 <strong> SHARE </strong>your Box folder with our Box account

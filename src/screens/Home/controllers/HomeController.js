@@ -1,14 +1,8 @@
 import _ from 'lodash';
-import { 
-  api,
-  user,
-  links,
-  prompt,
-  InvalidDataError,
-  NOT_FOUND_404
-} from 'utils';
+import { api, user, prompt, InvalidDataError, NOT_FOUND_404 } from 'utils';
 import { homeState } from './HomeState';
 import HomeConstants from './HomeConstants';
+import FeedSectionBuilder from './FeedSectionBuilder';
 
 class HomeController {
   constructor() {
@@ -45,7 +39,11 @@ class HomeController {
     if (universityId) {
       const university = _.find(homeState.universities, { id: universityId });
       if (university) {
+        // reset selected departments and terms when university changes
+        homeState.setSelDepartments([]);
+        homeState.setSelTerms([]);
         homeState.setSelUniversity(universityId);
+        // get terms and departs for selected university
         const terms = await this.getTerms(universityId);
         const departments = await this.getDepartments(universityId);
         homeState.setTerms(terms);
@@ -93,54 +91,12 @@ class HomeController {
       watchHistory
     } = homeState;
 
-    const hasDepSelected = selDepartments.length > 0;
-    const hasTermSelected = selTerms.length > 0;
-    const hasSelected = hasDepSelected || hasTermSelected;
-
-    let sections = [];
-    if (starredOfferings.length > 0 && !hasSelected) {
-      sections.push({
-        type: HomeConstants.FSectionCourses,
-        id: 'starred-offs-section',
-        title: 'Starred Courses',
-        icon: 'bookmark',
-        items: starredOfferings
-      });
-    }
-
-    if (watchHistory.length > 0 && !hasSelected) {
-      sections.push({
-        type: HomeConstants.FSectionVideos,
-        id: 'watch-history-section',
-        title: 'Continue Watching',
-        icon: 'history',
-        items: watchHistory,
-        link: links.history()
-      });
-    }
-
-    // build departments sections
-    let currDepartments = departments;
-    if (hasDepSelected) {
-      currDepartments = departments.filter((depart) => selDepartments.includes(depart.id));
-    }
-
-    let departSections = currDepartments
-      .map((depart) => ({
-        type: HomeConstants.FSectionCourses,
-        id: depart.id,
-        title: depart.name,
-        subTitle: depart.university ? depart.university.name : '',
-        link: links.search(depart.acronym),
-        items: _.filter(offerings, off => {
-          return off.departmentIds.includes(depart.id)
-                && (selTerms.length === 0 || selTerms.includes(off.termId))
-                && (selUniversity === null || selUniversity === off.universityId)
-        })
-      }))
-      .filter((sec) => sec.items.length > 0);
+    const secBuilder = new FeedSectionBuilder(selUniversity, selDepartments, selTerms);
+    secBuilder.pushStarredOfferingSection(starredOfferings);
+    secBuilder.pushWatchHistorySection(watchHistory);
+    secBuilder.pushDepartmentSections(departments, offerings);
     
-    homeState.setSections([...sections, ...departSections]);
+    homeState.setSections(secBuilder.getData());
   }
 
   async getUniversities() {
@@ -215,7 +171,7 @@ class HomeController {
   async getWatchHistory() {
     try {
       const { data } = await api.getUserWatchHistories();
-      return data;
+      return data.filter(media => Boolean(media.id));
     } catch (error) {
       return [];
     }

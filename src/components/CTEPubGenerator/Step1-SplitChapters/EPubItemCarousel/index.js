@@ -73,7 +73,7 @@ function EPubItemCarousel({
       classes={{paperAnchorBottom: 'epb-ch-item-carousel'}}
       onKeyDown={handleKeyDown}
     >
-      <CTFragment sticky vCenter hBetween padding="20">
+      <CTFragment sticky alignItCenter justConBetween padding="20">
         <CTHeading as="h3" margin="0">
           Screenshot {itemIdx + 1}/{rawEPubData.length}
         </CTHeading>
@@ -105,7 +105,7 @@ function EPubItemCarousel({
         <Button round icon="close" aria-label="close" onClick={onClose} autoFocus />
       </CTFragment>
 
-      <CTFragment list padding={[0, 20, 20, 20]}>
+      <CTFragment dFlexCol padding={[0, 20, 20, 20]}>
         <CTFragment id="epb-carousel-con" padding={[0, 20]}>
           <CTFragment className="epb-carl-img-con">
             <CTImageMagnifer 
@@ -115,8 +115,8 @@ function EPubItemCarousel({
             />
           </CTFragment>
 
-          <CTFragment list className="epb-carl-txt-con" padding={[0, 20]} data-scroll>
-            <CTFragment vCenter padding={[10, 0]}>
+          <CTFragment dFlexCol className="epb-carl-txt-con" padding={[0, 20]} data-scroll>
+            <CTFragment alignItCenter padding={[10, 0]}>
               <CTText celadon bold margin={[0, 20, 0, 0]} size="medium">
                 {startTimeStr} - {endTimeStr}
               </CTText>
