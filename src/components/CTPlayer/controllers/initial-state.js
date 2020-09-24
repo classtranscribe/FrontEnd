@@ -1,19 +1,38 @@
-import Constants from './PlayerConstants';
+import PConstants from './constants/PlayerConstants';
+import LConstants from './constants/LanguageConstants';
+import CaptionStyle from './structs/CaptionStyle';
+import Language from './structs/Language';
 
 const initialState = {
-  // media
+  // -----------------------------------------------------------------
+  // Media Data
+  // -----------------------------------------------------------------
   error: null,
   media: null,
   src1: null,
   src2: null,
+  // captions data
+  transcriptions: [],
+  currTranscription: null,
+  language: new Language().getData(),
+  captions: [],
+  currCaption: null,
+
+  // -----------------------------------------------------------------
+  // Player Attributes
+  // -----------------------------------------------------------------
   videoReady: false,
   userReady: false,
   size: 'xs',
   event: null,
-  screenMode: Constants.ScreenModeNormal,
+  screenMode: PConstants.ScreenModeNormal,
   isSwappedScreen: false,
+  isFullscreen: false,
+  openCC: false,
 
-  // video
+  // -----------------------------------------------------------------
+  // Video Attributes
+  // -----------------------------------------------------------------
   duration: 0,
   time: 0,
   bufferedTime: 0,
@@ -22,26 +41,19 @@ const initialState = {
   playbackRate: 1,
   isPaused: true,
   isEnded: false,
-  isFullscreen: false,
 
-  // captions
-  openCC: false,
-  transcriptions: [],
-  currTranscription: null,
-  language: {
-    code: Constants.English, 
-    text: Constants.decode(Constants.English)
-  },
-  captions: [],
-  currCaption: null,
+  // -----------------------------------------------------------------
+  // CC Styles
+  // -----------------------------------------------------------------
+  ccStyle: new CaptionStyle().getData(),
+  ccFontSize: LConstants.CCFontSize100,
+  ccFontColor: LConstants.CCColorWhite,
+  ccOpacity: LConstants.CCOpacity75,
+  ccBackgroundColor: LConstants.CCColorBlack,
 
-  // cc styles
-  ccFontSize: Constants.CCFontSize100,
-  ccFontColor: Constants.CCColorWhite,
-  ccOpacity: Constants.CCOpacity75,
-  ccBackgroundColor: Constants.CCColorBlack,
-
-  // range
+  // -----------------------------------------------------------------
+  // Range
+  // -----------------------------------------------------------------
   openRange: false,
   range: null,
 };

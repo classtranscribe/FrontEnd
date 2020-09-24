@@ -3,10 +3,11 @@ import cx from 'classnames';
 import { altEl, makeEl } from 'layout';
 import {
   initialState,
+  PlayerStateManager,
   CTPlayerConstants as Constants,
   CTPlayerController
 } from '../controllers';
-import { getPlayerSize } from '../controllers/helpers';
+import { _getPlayerSize } from '../controllers/helpers';
 import Video from '../Video';
 import Wrapper from '../Wrapper';
 import Range from '../Range';
@@ -18,12 +19,17 @@ import './index.scss';
 class Player extends React.Component {
   constructor(props) {
     super(props);
-    this.state = initialState;
-    this.setPlayerState = this.setPlayerState.bind(this);
 
-    // Setup the player instance
+    // Initialize player states
+    this.state = initialState;
+
+    // Initialize player state manager
+    this.setPlayerState = this.setPlayerState.bind(this);
+    const stateManager = new PlayerStateManager(this.setPlayerState);
+
+    // Initialize the player controller
     const { id } = props;
-    this.player = new CTPlayerController(this.setPlayerState, id);
+    this.player = new CTPlayerController(stateManager, id);
   }
 
   /**
@@ -153,7 +159,7 @@ class Player extends React.Component {
     const { src2, isFullscreen, openRange, error } = this.state;
 
     const display2Screen = allowTwoScreen && Boolean(src2);
-    const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
+    const playerSize = _getPlayerSize({ width, height, fill, isFullscreen });
 
     const video1Element = altEl(Video, !error, this.getVideo1Props());
     const video2Element = altEl(Video, !error && display2Screen, this.getVideo2Props());

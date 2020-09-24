@@ -1,7 +1,6 @@
 import { prompt } from 'utils/prompt'
-import iniState from './initial-state';
-import VideoNode from './VideoNode';
-import Constants from './PlayerConstants';
+import VideoNode from './structs/VideoNode';
+import PConstants from './constants/PlayerConstants';
 
 /**
  * The video event controller for the player
@@ -9,11 +8,10 @@ import Constants from './PlayerConstants';
 class VideoController {
   /**
    * Create a Video Controller for CTPlayer
-   * @param {Function} setStateFunction - function used to set states in CTPlayer
+   * @param {Any} stateManager - a state manager for video controller
    */
-  constructor(setStateFunction) {
-    // register set state function
-    this.___SET_STATE___ = setStateFunction;
+  constructor(stateManager) {
+    this.state = stateManager;
 
     // video nodes
     this.video1 = null;
@@ -22,23 +20,12 @@ class VideoController {
     // ready states
     this.video1Ready = false;
     this.video2Ready = true;
-    this.videoReady = iniState.videoReady;
-    this.userReady = iniState.userReady;
     
     // video attributes
     this.beginAt = 0;
     this.endAt = null;
-    this.duration = iniState.duration;
-    this.time = iniState.time;
-    this.bufferedTime = iniState.bufferedTime;
-    this.muted = iniState.muted;
-    this.volume = iniState.volume;
-    this.playbackRate = iniState.playbackRate;
-    this.event = iniState.event;
 
     // range
-    this.openRange = iniState.openRange;
-    this.range = iniState.range;
     this.isPlayingRange = false;
 
     // binding functions
@@ -70,13 +57,10 @@ class VideoController {
     this.onEnded = this.onEnded.bind(this);
   }
 
-  setState(key, value) {
-    if (typeof this.___SET_STATE___ === 'function') {
-      this.___SET_STATE___(key, value);
-      this[key] = value;
-    }
-  }
-
+  // -----------------------------------------------------------------
+  // Register Video Nodes
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   /**
    * 
    * @param {HTMLVideoElement} node 
@@ -103,6 +87,10 @@ class VideoController {
     }
   }
 
+  // -----------------------------------------------------------------
+  // Player Property/Status Initializer
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   setBeginAt(beginAt) {
     if (typeof beginAt === 'number') {
       this.beginAt = beginAt;
@@ -117,7 +105,7 @@ class VideoController {
 
   videoIsReady() {
     if (this.video1Ready && (this.video2Ready || !this.video2)) {
-      this.setState('videoReady', true);
+      this.state.setVideoReady(true);
 
       if (this.beginAt > 0) {
         this.setCurrentTime(this.beginAt);
@@ -126,11 +114,15 @@ class VideoController {
   }
 
   userIsReady() {
-    this.setState('userReady', true);
+    this.state.setUserReady(true);
   }
 
+  // -----------------------------------------------------------------
+  // Video Attributes Handlers
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   setEvent(event) {
-    this.setState('event', event);
+    this.state.setEvent(event);
   }
 
   eventTimer = null;
@@ -146,18 +138,21 @@ class VideoController {
     }, 600);
   }
 
+
+  // Play/Pause
+  // -----------------------------------------------------------------
   pause() {
     if (!this.video1) return;
     this.video1.pause();
     if (this.video2) this.video2.pause();
-    this.toggleEvent(Constants.PlayerEventPause);
+    this.toggleEvent(PConstants.PlayerEventPause);
   }
 
   play() {
     if (!this.video1) return;
     this.video1.play();
     if (this.video2) this.video2.play();
-    this.toggleEvent(Constants.PlayerEventPlay);
+    this.toggleEvent(PConstants.PlayerEventPlay);
   }
 
   togglePause() {
@@ -170,54 +165,62 @@ class VideoController {
   }
 
   replay() {
-    this.setState('time', 0);
+    // reset progress values
+    this.state.setTime(0);
+    if (this.isEnded) {
+      this.state.setIsEnded(false);
+    }
+    // play the video
     this.play();
-    if (this.isEnded) this.setState('isEnded', false);
   }
 
+  // Timing/Progress
+  // -----------------------------------------------------------------
   setCurrentTime(time) {
     if (!this.video1) return;
     if (typeof time !== 'number') return;
   
     if (time < 0) {
       time = 0;
-    } else if (time > this.duration) {
-      time = this.duration;
+    } else if (time > this.state.duration) {
+      time = this.state.duration;
     }
 
     this.video1.setCurrentTime(time);
-    this.setState('time', time);
+    this.state.setTime(time);
     if (this.video2) {
       this.video2.setCurrentTime(time);
     }
   }
 
   forward() {
-    this.setCurrentTime(this.time + 5);
-    this.toggleEvent(Constants.PlayerEventForward);
+    this.setCurrentTime(this.state.time + 5);
+    this.toggleEvent(PConstants.PlayerEventForward);
   }
 
   rewind() {
-    this.setCurrentTime(this.time - 5);
-    this.toggleEvent(Constants.PlayerEventRewind);
+    this.setCurrentTime(this.state.time - 5);
+    this.toggleEvent(PConstants.PlayerEventRewind);
   }
 
+  // Volume
+  // -----------------------------------------------------------------
   mute() {
     if (!this.video1) return;
     this.video1.mute();
-    this.setState('muted', true);
-    this.toggleEvent(Constants.PlayerEventMute);
+    this.state.setMuted(true);
+    this.toggleEvent(PConstants.PlayerEventMute);
   }
 
   unmute() {
     if (!this.video1) return;
     this.video1.unmute();
-    this.setState('muted', false);
-    this.toggleEvent(Constants.PlayerEventVolumeUp);
+    this.state.setMuted(false);
+    this.toggleEvent(PConstants.PlayerEventVolumeUp);
   }
 
   toggleMute() {
-    if (this.muted) {
+    if (this.state.muted) {
       this.unmute();
     } else {
       this.mute();
@@ -228,60 +231,70 @@ class VideoController {
     if (!this.video1) return;
     if (volume > 1 || volume < 0) return;
     this.video1.setVolume(volume);
-    this.setState('volume', volume);
+    this.state.setVolume(volume);
   }
 
   volumeUp() {
-    this.setVolume(this.volume + 0.05);
-    this.toggleEvent(Constants.PlayerEventVolumeUp);
+    this.setVolume(this.state.volume + 0.05);
+    this.toggleEvent(PConstants.PlayerEventVolumeUp);
   }
 
   volumeDown() {
-    this.setVolume(this.volume - 0.05);
-    this.toggleEvent(Constants.PlayerEventVolumeDown);
+    this.setVolume(this.state.volume - 0.05);
+    this.toggleEvent(PConstants.PlayerEventVolumeDown);
   }
 
+  // Playback Rate
+  // -----------------------------------------------------------------
   setPlaybackRate(playbackRate) {
     if (!this.video1) return;
     this.video1.setPlaybackRate(playbackRate);
-    this.setState('playbackRate', playbackRate);
+    this.state.setPlaybackRate(playbackRate);
   }
 
+  // -----------------------------------------------------------------
+  // Range
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   toggleRange() {
-    this.setState('openRange', !this.openRange);
+    this.state.setOpenRange(!this.state.openRange);
     this.isPlayingRange = false;
   }
 
   setRange(range) {
-    this.setState('range', range);
+    this.state.setRange(range);
     this.isPlayingRange = false;
   }
 
   playRange() {
-    if (this.range && this.openRange) {
+    if (Array.isArray(this.state.range) && this.state.openRange) {
       this.play();
-      this.setCurrentTime(this.range[0]);
+      this.setCurrentTime(this.state.range[0]);
       this.isPlayingRange = true;
     }
   }
 
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
+  // Native Video Events Handlers
+  // -----------------------------------------------------------------
   onDurationChange({ target: { duration } }) {
-    this.setState('duration', duration);
+    this.state.setDuration(duration);
 
-    if (this.openRange && !this.range) {
+    if (this.state.openRange && !this.state.range) {
       this.setRange([0, duration]);
     }
   }
 
   onVideo1CanPlay({ target: { readyState } }) {
-    if (readyState > 0 && !this.videoReady) {
+    if (readyState > 0 && !this.state.videoReady) {
       this.video1Ready = true;
       this.videoIsReady();
     }
   }
 
   onVideo2CanPlay({ target: { readyState } }) {
-    if (readyState > 0 && !this.videoReady) {
+    if (readyState > 0 && !this.state.videoReady) {
       this.video2Ready = true;
       this.videoIsReady();
     }
@@ -291,23 +304,25 @@ class VideoController {
     if (duration > 0) {
       for (let i = 0; i < buffered.length; i += 1) {
         if (buffered.start(buffered.length - 1 - i) < currentTime) {
-          this.setState('bufferedTime', buffered.end(buffered.length - 1 - i));
+          this.state.setBufferedTime(buffered.end(buffered.length - 1 - i));
           break;
         }
       }
     }
   }
 
+  updateCurrCaption() {/** Abstract function */}
+
   lastCCUpdatedTime = 0;
   shouldPauseOnEndAt = false;
   onTimeUpdate({ target: { currentTime } }) {
-    if (Math.abs(this.time - currentTime) > 0.4) {
-      this.setState('time', currentTime);
+    if (Math.abs(this.state.time - currentTime) > 0.4) {
+      this.state.setTime(currentTime);
       this.updateCurrCaption(currentTime);
     }
 
     if (this.isPlayingRange) {
-      if (this.range[1] <= currentTime) {
+      if (this.state.range[1] <= currentTime) {
         this.pause();
         this.isPlayingRange = false;
       }
@@ -332,23 +347,21 @@ class VideoController {
     }
   }
 
-  updateCurrCaption() {}
-
   onPause() {
-    this.setState('isPaused', true);
+    this.state.setIsPaused(true);
   }
 
   onPlay() {
-    this.setState('isPaused', false);
-    if (!this.userReady) this.userIsReady();
+    this.state.setIsPaused(false);
+    if (!this.state.userReady) this.userIsReady();
   }
 
   onSeeking() {
-    if (this.isEnded) this.setState('isEnded', false);
+    if (this.isEnded) this.state.setIsEnded(false);
   }
 
   onEnded() {
-    this.setState('isEnded', true);
+    this.state.setIsEnded(true);
   }
 }
 
