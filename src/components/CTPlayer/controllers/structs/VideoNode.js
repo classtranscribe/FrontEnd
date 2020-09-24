@@ -1,6 +1,5 @@
-
 /**
- * A video node controller class
+ * A video node struct class
  */
 class VideoNode {
   /**

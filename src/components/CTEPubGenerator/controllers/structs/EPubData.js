@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import CTError from 'utils/use-error';
-import { Languages } from 'components/CTPlayer';
+import { LanguageConstants } from 'components/CTPlayer';
 import {
   buildEPubDataFromArray,
   getAllImagesInChapters 
@@ -80,8 +80,8 @@ export default class EPubData {
   static create(rawEPubData, language, mediaName) {
     return new EPubData({
       language,
-      title: `${mediaName} (${Languages.decode(language)})`,
-      filename: `${mediaName} (${Languages.decode(language)})`,
+      title: `${mediaName} (${LanguageConstants.decode(language)})`,
+      filename: `${mediaName} (${LanguageConstants.decode(language)})`,
       chapters: buildEPubDataFromArray(rawEPubData)
     });
   }

@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import Player from './Player';
 
 export { default as CTVideo } from './Video';
-export { CTPlayerConstants, Languages } from './controllers';
+export {
+  /** Constants */
+  CTPlayerConstants,
+  LanguageConstants,
+  /** Structs */
+  Language,
+  VideoNode,
+  CaptionStyle
+} from './controllers';
 
 function CTPlayer(props) {
   return <Player {...props} />;

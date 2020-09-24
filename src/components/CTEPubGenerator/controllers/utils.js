@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { Languages } from '../../CTPlayer';
+import { LanguageConstants } from '../../CTPlayer';
 import { EPubChapterData } from './structs';
 
 export function buildID(preflix, id) {
@@ -80,7 +80,7 @@ export function getLanguageOptions(media) {
   }
 
   return _.map(media.transcriptions, trans => ({
-    text: Languages.decode(trans.language),
+    text: LanguageConstants.decode(trans.language),
     value: trans.language
   }));
 }
