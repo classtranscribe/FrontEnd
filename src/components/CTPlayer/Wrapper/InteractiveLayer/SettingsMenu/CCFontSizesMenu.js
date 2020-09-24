@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTPlayerConstants as Constants } from '../../../controllers';
+import { LanguageConstants as Constants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function CCFontSizesMenu(props) {
