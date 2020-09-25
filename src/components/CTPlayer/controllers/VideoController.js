@@ -191,6 +191,7 @@ class VideoController {
     if (this.video2) {
       this.video2.setCurrentTime(time);
     }
+    this.updateCurrCaption(time);
   }
 
   forward() {
@@ -316,7 +317,7 @@ class VideoController {
   lastCCUpdatedTime = 0;
   shouldPauseOnEndAt = false;
   onTimeUpdate({ target: { currentTime } }) {
-    if (Math.abs(this.state.time - currentTime) > 0.4) {
+    if (Math.abs(this.state.time - currentTime) > 0.3) {
       this.state.setTime(currentTime);
       this.updateCurrCaption(currentTime);
     }

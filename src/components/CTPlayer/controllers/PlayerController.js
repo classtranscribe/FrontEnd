@@ -4,7 +4,8 @@ import { v4 as uuid } from 'uuid';
 import { api, elem, timestr } from 'utils';
 import LConstants from './constants/LanguageConstants';
 import VideoController from './VideoController';
-import _playerKeyDownEventHandler from './keydown-event';
+import _playerKeyDownEventHandler from './keydown-handler';
+import { _findCurrTimeBlock } from './helpers';
 
 /**
  * The video player controller
@@ -96,7 +97,7 @@ class PlayerController extends VideoController {
   async getCaptionsByTranscriptionId(transId) {
     try {
       let { data } = await api.getCaptionsByTranscriptionId(transId);
-      return data;
+      return _.map(data, (caption, index) => ({ ...caption, index }));
     } catch (error) {
       return [];
     }
@@ -138,8 +139,8 @@ class PlayerController extends VideoController {
     const { id, language, /** src */ } = currTranscription;
     this.setLanguage({ code: language, text: LConstants.decode(language) });
 
-    let captions = await this.getCaptionsByTranscriptionId(id);
-    captions = _.map(captions, (cap, index) => ({ ...cap, index }));
+    const captions = await this.getCaptionsByTranscriptionId(id);
+    // console.log('captions', captions);
     this.setCaptions(captions);
     this.setCurrCaption(null);
     this.updateCurrCaption(this.time);
@@ -162,9 +163,27 @@ class PlayerController extends VideoController {
     }
   }
 
-  // @TODO: Use Binary Search
+  findCurrCaptionBS(now, captions) {
+    let next = this.state.currCaption;
+
+    // if it's the first time to find captions
+    if (!next) {
+      next = _findCurrTimeBlock(captions, now) || next;
+
+      // if looking for caption that is after the current one
+    } else if (now > timestr.toSeconds(next.begin)) {
+      next = _findCurrTimeBlock(captions, now, next.index + 1) || next;
+
+      // if looking for caption that is prior to the current one
+    } else if (now < timestr.toSeconds(next.end)) {
+      next = _findCurrTimeBlock(captions, now, 0, next.index - 1) || next;
+    }
+
+    return next;
+  }
+
   findCurrCaption(now, captions) {
-    const isCurrent = (item) => {
+    const _isCurrentCap = (item) => {
       if (!item) return false;
       const end = timestr.toSeconds(item.end);
       const begin = timestr.toSeconds(item.begin);
@@ -175,15 +194,15 @@ class PlayerController extends VideoController {
 
     // if it's the first time to find captions
     if (!next) {
-      next = _.find(captions, isCurrent) || next;
+      next = _.find(captions, _isCurrentCap) || next;
 
       // if looking for caption that is after the current one
     } else if (now > timestr.toSeconds(next.begin)) {
-      next = _.find(captions, isCurrent, next.index + 1) || next;
+      next = _.find(captions, _isCurrentCap, next.index + 1) || next;
 
       // if looking for caption that is prior to the current one
     } else if (now < timestr.toSeconds(next.end)) {
-      next = _.findLast(captions, isCurrent, next.index - 1) || next;
+      next = _.findLast(captions, _isCurrentCap, next.index - 1) || next;
     }
 
     return next;
