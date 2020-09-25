@@ -5,6 +5,7 @@ import Player from './Player';
 export { default as CTVideo } from './Video';
 export {
   /** Constants */
+  CTPlayerIDs,
   CTPlayerConstants,
   LanguageConstants,
   /** Structs */

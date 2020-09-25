@@ -65,3 +65,27 @@ export function _findCurrTimeBlock(blocks, now, startIndex = 0, endIndex) {
   // console.log('failed');
   return null;
 }
+
+/**
+ * 
+ * @param {HTMLVideoElement} videoNode - video element
+ * @param {Function} callback - will pass in the screenshot blob's url
+ * @see https://stackoverflow.com/questions/23745988/get-an-image-from-the-video/44325898
+ */
+export function _captureVideoImage(videoNode, callback) {
+  const canvas = document.createElement("canvas");
+  // scale the canvas accordingly
+  canvas.width = videoNode.videoWidth;
+  canvas.height = videoNode.videoHeight;
+  // draw the video at that frame
+  canvas.getContext('2d')
+    .drawImage(videoNode, 0, 0, canvas.width, canvas.height);
+  // convert it to a usable data URL
+  canvas.toBlob((blob) => {
+    if (typeof callback === 'function') {
+      callback(URL.createObjectURL(blob))
+    } else {
+      window.open(URL.createObjectURL(blob));
+    }
+  }, 'image/jpeg');
+}

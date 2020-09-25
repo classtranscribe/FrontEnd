@@ -1,6 +1,7 @@
 import { prompt } from 'utils/prompt'
 import VideoNode from './structs/VideoNode';
 import PConstants from './constants/PlayerConstants';
+import { _captureVideoImage } from './helpers';
 
 /**
  * The video event controller for the player
@@ -138,18 +139,24 @@ class VideoController {
     }, 600);
   }
 
+  captureImage(callback, video1 = true) {
+    this.pause();
+    const video = video1 ? this.video1 : this.video2;
+    _captureVideoImage(video.node, callback);
+  }
+
 
   // Play/Pause
   // -----------------------------------------------------------------
   pause() {
-    if (!this.video1) return;
+    if (!this.video1 || this.video1.paused) return;
     this.video1.pause();
     if (this.video2) this.video2.pause();
     this.toggleEvent(PConstants.PlayerEventPause);
   }
 
   play() {
-    if (!this.video1) return;
+    if (!this.video1 || !this.video1.paused) return;
     this.video1.play();
     if (this.video2) this.video2.play();
     this.toggleEvent(PConstants.PlayerEventPlay);
