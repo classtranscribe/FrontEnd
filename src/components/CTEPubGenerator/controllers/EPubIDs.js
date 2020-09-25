@@ -1,4 +1,4 @@
-import { buildID } from './utils';
+import { _buildID } from 'utils';
 
 
 /**
@@ -36,44 +36,44 @@ export default class EPubIDs {
   static SubChapterNavItemIDPrefix = 'epb-nav-sch';
 
   static chID(chId) {
-    return buildID(EPubIDs.ChapterIDPrefix, chId);
+    return _buildID(EPubIDs.ChapterIDPrefix, chId);
   }
 
   static chTitleID(chId) {
-    return buildID(EPubIDs.ChapterTitleIDPrefix, chId);
+    return _buildID(EPubIDs.ChapterTitleIDPrefix, chId);
   }
 
   static chImgID(chId) {
-    return buildID(EPubIDs.ChapterImageIDPrefix, chId);
+    return _buildID(EPubIDs.ChapterImageIDPrefix, chId);
   }
 
   static chTextID(chId) {
-    return buildID(EPubIDs.ChapterTextIDPrefix, chId);
+    return _buildID(EPubIDs.ChapterTextIDPrefix, chId);
   }
 
   static chNavItemID(chId) {
-    return buildID(EPubIDs.ChapterNavItemIDPrefix, chId);
+    return _buildID(EPubIDs.ChapterNavItemIDPrefix, chId);
   }
 
 
 
   static schID(schId) {
-    return buildID(EPubIDs.SubChapterIDPrefix, schId);
+    return _buildID(EPubIDs.SubChapterIDPrefix, schId);
   }
 
   static schTitleID(schId) {
-    return buildID(EPubIDs.SubChapterTitleIDPrefix, schId);
+    return _buildID(EPubIDs.SubChapterTitleIDPrefix, schId);
   }
 
   static schImgID(schId) {
-    return buildID(EPubIDs.SubChapterImageIDPrefix, schId);
+    return _buildID(EPubIDs.SubChapterImageIDPrefix, schId);
   }
 
   static schTextID(schId) {
-    return buildID(EPubIDs.SubChapterTextIDPrefix, schId);
+    return _buildID(EPubIDs.SubChapterTextIDPrefix, schId);
   }
 
   static schNavItemID(schId) {
-    return buildID(EPubIDs.SubChapterNavItemIDPrefix, schId);
+    return _buildID(EPubIDs.SubChapterNavItemIDPrefix, schId);
   }
 }

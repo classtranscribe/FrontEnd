@@ -3,7 +3,7 @@
  * Utilities for the ClassTranscribe FrontEnd
  * 
  */
-
+import { v4 as uuid } from 'uuid';
 // import * as loggerToExport from './logger';
 // export const logger = loggerToExport;
 
@@ -23,6 +23,10 @@ export { default as timestr } from './use-time';
 export { default as CTError, InvalidDataError } from './use-error';
 
 export * from './constants';
+
+export function _buildID(preflix, id) {
+  return (preflix ? `${preflix}=` : '') + (id || uuid());
+}
 
 /**
  * Function used to convert a data array to options for selections
@@ -44,3 +48,4 @@ export function _getSelectOptions(array, tag) {
   });
   return options;
 }
+

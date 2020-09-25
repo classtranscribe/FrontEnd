@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { timestr, uurl } from 'utils';
-import { findChapterTimeSpan, buildID } from '../utils';
+import { timestr, _buildID } from 'utils';
+import { findChapterTimeSpan } from '../utils';
 import { buildMDFromItems } from '../html-converters';
 import EPubImageData from './EPubImageData';
 
@@ -43,7 +43,7 @@ class EPubChapterDataLike {
     }
 
     this.__data__ = {
-      id: id || buildID(),
+      id: id || _buildID(),
       start,
       end,
       title: title || 'Untitled',

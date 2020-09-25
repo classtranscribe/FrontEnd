@@ -1,11 +1,7 @@
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
+import { _buildID } from 'utils';
 import { LanguageConstants } from '../../CTPlayer';
 import { EPubChapterData } from './structs';
-
-export function buildID(preflix, id) {
-  return (preflix ? `${preflix}=` : '') + (id || uuid());
-}
 
 export function findChapterTimeSpan(chapterLike) {
   const { items, subChapters } = chapterLike;
@@ -31,7 +27,7 @@ export function filterTrivalItems(epubData) {
 }
 
 export function parseRawEPubData(rawEPubData) {
-  return _.map(filterTrivalItems(rawEPubData), item => ({ ...item, id: buildID() }));
+  return _.map(filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
 }
 
 export function buildEPubDataFromArray(rawEPubData) {
