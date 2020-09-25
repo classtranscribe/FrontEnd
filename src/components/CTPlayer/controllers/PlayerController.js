@@ -219,6 +219,12 @@ class PlayerController extends VideoController {
   // Player State/Attribute Setters
   // -----------------------------------------------------------------
   // -----------------------------------------------------------------
+  setError(error) {
+    this.state.setError(error);
+  }
+
+  // Screen Settings
+  // -----------------------------------------------------------------
   setScreenMode(screenMode) {
     this.state.setScreenMode(screenMode);
   }
@@ -227,26 +233,8 @@ class PlayerController extends VideoController {
     this.state.setIsSwappedScreen(!this.state.isSwappedScreen);
   }
 
-  setCCFontSize(ccFontSize) {
-    this.state.setCCFontSize(ccFontSize);
-  }
-
-  setCCFontColor(ccFontColor) {
-    this.state.setCCFontColor(ccFontColor);
-  }
-
-  setCCOpacity(ccOpacity) {
-    this.state.setCCOpacity(ccOpacity);
-  }
-
-  setCCBackgroundColor(ccBackgroundColor) {
-    this.state.setCCBackgroundColor(ccBackgroundColor);
-  }
-
-  setError(error) {
-    this.state.setError(error);
-  }
-
+  // Media/Transcription Data
+  // -----------------------------------------------------------------
   setMedia(media) {
     this.state.setMedia(media);
   }
@@ -271,6 +259,8 @@ class PlayerController extends VideoController {
     this.state.setCurrCaption(currCaption);
   }
 
+  // Closed Caption Settings
+  // -----------------------------------------------------------------
   setOpenCC(openCC) {
     this.state.setOpenCC(openCC);
   }
@@ -281,6 +271,33 @@ class PlayerController extends VideoController {
 
   toggleCC() {
     this.setOpenCC(!this.state.openCC);
+  }
+
+  setCCStyle(ccStyle) {
+    this.state.setCCStyle({
+      ...this.state.ccStyle,
+      ...ccStyle
+    });
+  }
+
+  setCCFontSize(fontSize) {
+    this.setCCStyle({ fontSize });
+  }
+
+  setCCFontColor(fontColor) {
+    this.setCCStyle({ fontColor });
+  }
+
+  setCCOpacity(opacity) {
+    this.setCCStyle({ opacity });
+  }
+
+  setCCBackgroundColor(backgroundColor) {
+    this.setCCStyle({ backgroundColor });
+  }
+
+  setCCPosition(position) {
+    this.setCCStyle({ position });
   }
 }
 

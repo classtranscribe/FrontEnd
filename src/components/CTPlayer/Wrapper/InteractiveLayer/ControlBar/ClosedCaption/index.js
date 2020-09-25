@@ -6,20 +6,24 @@ function ClosedCaption(props) {
   const {
     open,
     currCaption,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
   } = props;
 
+  const {
+    fontSize,
+    fontColor,
+    opacity,
+    backgroundColor
+  } = ccStyle;
+
   const ccTextStyles = {
-    fontSize: `${ccFontSize + 0.2 }em`,
-    color: ccFontColor,
+    fontSize: `${fontSize + 0.2 }em`,
+    color: fontColor
   };
 
   const ccBGStyles = {
-    background: ccBackgroundColor,
-    opacity: ccOpacity,
+    opacity,
+    background: backgroundColor
   };
 
   return (currCaption && open) ? (
@@ -36,10 +40,12 @@ function ClosedCaption(props) {
 ClosedCaption.propTypes = {
   open: PropTypes.bool,
   currCaption: PropTypes.any,
-  ccFontSize: PropTypes.number,
-  ccFontColor: PropTypes.string,
-  ccOpacity: PropTypes.number,
-  ccBackgroundColor: PropTypes.string
+  ccStyle: PropTypes.shape({
+    fontSize: PropTypes.number,
+    fontColor: PropTypes.string,
+    opacity: PropTypes.number,
+    backgroundColor: PropTypes.string
+  })
 };
 
 export default ClosedCaption;

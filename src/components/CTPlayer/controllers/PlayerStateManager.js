@@ -171,30 +171,6 @@ class PlayerStateManager {
   setRange(range) {
     this.setState('range', range);
   }
-  
-  // -----------------------------------------------------------------
-  // CC Style (Need to be removed)
-  // -----------------------------------------------------------------
-  // -----------------------------------------------------------------
-  ccFontSize = iniState.ccFontSize;
-  setCCFontSize(ccFontSize) {
-    this.setState('ccFontSize', ccFontSize);
-  }
-
-  ccFontColor = iniState.ccFontColor;
-  setCCFontColor(ccFontColor) {
-    this.setState('ccFontColor', ccFontColor);
-  }
-
-  ccOpacity = iniState.ccOpacity;
-  setCCOpacity(ccOpacity) {
-    this.setState('ccOpacity', ccOpacity);
-  }
-
-  ccBackgroundColor = iniState.ccBackgroundColor;
-  setCCBackgroundColor(ccBackgroundColor) {
-    this.setState('ccBackgroundColor', ccBackgroundColor);
-  }
 }
 
 export default PlayerStateManager;

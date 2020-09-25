@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LanguageConstants as Constants } from '../../../controllers';
+import { CTPlayerConstants as PConstants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function CCBackgroundColorsMenu(props) {
   let {
-    ccBackgroundColor,
+    backgroundColor,
     setCCBackgroundColor,
     onGoBack
   } = props;
@@ -14,11 +14,11 @@ function CCBackgroundColorsMenu(props) {
     <div className="ctp settings-menu">
       <MenuItem goBack text="CC Background Color" onClick={onGoBack} />
 
-      {Constants.CCColors.map(color => (
+      {PConstants.CCColors.map(color => (
         <MenuItem
           key={color}
           text={color}
-          active={ccBackgroundColor === color}
+          active={backgroundColor === color}
           onClick={() => setCCBackgroundColor(color)}
         />
       ))}
@@ -27,7 +27,7 @@ function CCBackgroundColorsMenu(props) {
 }
 
 CCBackgroundColorsMenu.propTypes = {
-  ccBackgroundColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
   setCCBackgroundColor: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired
 };

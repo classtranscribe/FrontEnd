@@ -29,6 +29,7 @@ const initialState = {
   isSwappedScreen: false,
   isFullscreen: false,
   openCC: false,
+  ccStyle: new CaptionStyle().getData(),
 
   // -----------------------------------------------------------------
   // Video Attributes
@@ -40,16 +41,7 @@ const initialState = {
   volume: 1,
   playbackRate: 1,
   isPaused: true,
-  isEnded: false,
-
-  // -----------------------------------------------------------------
-  // CC Styles
-  // -----------------------------------------------------------------
-  ccStyle: new CaptionStyle().getData(),
-  ccFontSize: LConstants.CCFontSize100,
-  ccFontColor: LConstants.CCColorWhite,
-  ccOpacity: LConstants.CCOpacity75,
-  ccBackgroundColor: LConstants.CCColorBlack,
+  isEnded: false,  
 
   // -----------------------------------------------------------------
   // Range
