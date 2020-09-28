@@ -69,6 +69,7 @@ function Video(props) {
     ref: getVideoNode,
     className: 'ctp ct-video',
     playsInline: true,
+    crossOrigin: 'anonymous',
     muted,
     onLoadStart: handleLoadStart,
     onLoadedData: handleLoadedData,

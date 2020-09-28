@@ -1,11 +1,11 @@
 import { ARRAY_INIT } from 'utils/constants';
-import { CTPlayerConstants as PConstants } from '../../CTPlayer';
+import { LanguageConstants } from '../../CTPlayer';
 import Constants from '../controllers/EPubConstants';
 
 export const initialState = {
   error: null,
   step: Constants.EPubStepDefaultFirstStep,
-  language: PConstants.English,
+  language: LanguageConstants.English,
   rawEPubData: ARRAY_INIT,
   epubs: ARRAY_INIT,
   currEPub: null,

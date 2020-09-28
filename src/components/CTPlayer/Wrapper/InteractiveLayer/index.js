@@ -9,7 +9,7 @@ import ControlBar from './ControlBar';
 import SettingsMenu from './SettingsMenu';
 
 function InteractiveLayer(props) {
-  let {
+  const {
     error,
     hideWrapperOnMouseLeave,
     media,
@@ -29,10 +29,7 @@ function InteractiveLayer(props) {
     volume,
     playbackRate,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     language,
     currCaption,
   } = props;
@@ -78,7 +75,9 @@ function InteractiveLayer(props) {
   const actionBarProps = {
     error,
     media,
-    time,
+    userReady,
+    player,
+    time
   };
 
   const controlBarProps = {
@@ -96,10 +95,7 @@ function InteractiveLayer(props) {
     muted,
     volume,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     currCaption,
     openSettings,
     onOpenSettings: handleOpenSettings
@@ -111,10 +107,7 @@ function InteractiveLayer(props) {
     isTwoScreen,
     screenMode,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     setCCFontSize: player.setCCFontSize,
     setCCFontColor: player.setCCFontColor,
     setCCOpacity: player.setCCOpacity,
@@ -166,10 +159,7 @@ InteractiveLayer.propTypes = {
   volume: PropTypes.number,
   playbackRate: SettingsMenu.propTypes.playbackRate,
   openCC: SettingsMenu.propTypes.openCC,
-  ccFontSize: SettingsMenu.propTypes.ccFontSize,
-  ccFontColor: SettingsMenu.propTypes.ccFontColor,
-  ccOpacity: SettingsMenu.propTypes.ccOpacity,
-  ccBackgroundColor: SettingsMenu.propTypes.ccBackgroundColor,
+  ccStyle: ControlBar.propTypes.ccStyle,
   language: SettingsMenu.propTypes.language,
   currCaption: ControlBar.propTypes.currCaption,
   hideWrapperOnMouseLeave: PropTypes.bool,

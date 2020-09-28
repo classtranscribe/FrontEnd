@@ -1,33 +1,26 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import downloadFile from 'js-file-download';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Button } from 'pico-ui';
 
-function SharePopup(props) {
-  let {
+function ScreenshotPopup(props) {
+  const {
     open,
-    shareLink,
+    mediaName,
+    imgBlob,
     onClose,
   } = props;
 
-  const shareLinkRef = useRef();
   const [copyStatus, setCopyStatus] = useState(0);
 
   const handleCopy = () => {
-    shareLinkRef.current.select();
-    document.execCommand('copy');
-    setCopyStatus(1);
-    setTimeout(() => {
-      setCopyStatus(0);
-      onClose();
-    }, 2000);
+    
   };
 
-  useEffect(() => {
-    if (open) {
-      shareLinkRef.current.select();
-    }
-  }, [open]);
+  const handleDownload = () => {
+    downloadFile(imgBlob.blob, `${mediaName} - screenshot.jpg`);
+  };
 
   const copied = copyStatus > 0;
 
@@ -35,10 +28,10 @@ function SharePopup(props) {
     <ClickAwayListener
       onClickAway={onClose}
     >
-      <div className="ctp share-popup">
-        <h5>SHARE LINK</h5>
-        <div className="ctp share-link">
-          <input readOnly ref={shareLinkRef} value={shareLink} />
+      <div className="ctp share-popup screenshot">
+        <h5>Captured Image</h5>
+        <div className="ctp share-image">
+          <img src={imgBlob.url} alt="Captured screenshot" />
         </div>
         <div className="ctp ct-d-r-end">
           <Button
@@ -48,6 +41,15 @@ function SharePopup(props) {
             onClick={handleCopy}
           >
             {copied ? 'COPIED' : 'COPY LINK'}
+          </Button>
+          <Button
+            compact
+            icon="get_app"
+            color="white"
+            onClick={handleDownload}
+            classNames="ml-2"
+          >
+            DOWNLOAD
           </Button>
           <Button
             compact
@@ -63,11 +65,11 @@ function SharePopup(props) {
   ) : null;
 }
 
-SharePopup.propTypes = {
+ScreenshotPopup.propTypes = {
   open: PropTypes.bool,
   shareLink: PropTypes.string,
   onClose: PropTypes.func,
 };
 
-export default SharePopup;
+export default ScreenshotPopup;
 

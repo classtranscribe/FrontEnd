@@ -9,11 +9,25 @@
     position: absolute;
     top: 30px;
     right: 0;
-    background-color: rgba(27, 27, 27, 0.932);
-    width: 300px;
+    background-color: rgb(53, 53, 53);
+    width: 350px;
     border-radius: 5px;
     padding: 10px;
     color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.548);
+
+    &.screenshot {
+      width: 500px;
+      top: 10px;
+    }
+
+    .ctp.share-image {
+      width: 100%;
+      margin-bottom: 15px;
+      img {
+        width: 100%;
+      }
+    }
 
     .ctp.share-link {
       width: 100%;
@@ -22,8 +36,9 @@
         width: 100%;
         color: white;
         border: none;
-        background-color: rgb(56, 56, 56);
+        background-color: rgb(100, 100, 100);
         padding: 10px;
+        border-radius: 5px;
 
         &:focus {
           outline: none;

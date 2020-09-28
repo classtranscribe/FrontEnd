@@ -6,9 +6,9 @@ import { cthttp } from './request';
 // ------------------------------------------------------------
 
 export function getEpubData(mediaId, language = 'en-US') {
-  return cthttp.get('Epub/GetEpubData', { params: { mediaId, language } });
+  return cthttp.get('EPubs/GetEpubData', { params: { mediaId, language } });
 }
 
 export function requestEpubCreation(mediaId) {
-  return cthttp.get('Epub/RequestEpubCreation', { params: { mediaId } });
+  return cthttp.get('EPubs/RequestEpubCreation', { params: { mediaId } });
 }

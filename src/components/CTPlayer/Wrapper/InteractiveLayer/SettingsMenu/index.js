@@ -21,10 +21,7 @@ function SettingsMenu(props) {
     isTwoScreen,
     screenMode,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     language,
     languages,
     playbackRate,
@@ -40,6 +37,13 @@ function SettingsMenu(props) {
     setCCOpacity,
     setCCBackgroundColor,
   } = props;
+
+  const {
+    fontSize,
+    fontColor,
+    opacity,
+    backgroundColor
+  } = ccStyle;
 
   const [menuType, setMenuType] = useState('root');
   const handleOpenMenu = type => () => {
@@ -93,10 +97,10 @@ function SettingsMenu(props) {
 
     case 'cc-opt':
       menuProps = {
-        ccFontSize,
-        ccFontColor,
-        ccOpacity,
-        ccBackgroundColor,
+        fontSize,
+        fontColor,
+        opacity,
+        backgroundColor,
         onGoBack: handleOpenMenu('cc'),
         onOpenFontSizeMenu: handleOpenMenu('cc-f-size'),
         onOpenFontColorMenu: handleOpenMenu('cc-f-color'),
@@ -108,7 +112,7 @@ function SettingsMenu(props) {
 
     case 'cc-f-size':
       menuProps = {
-        ccFontSize,
+        fontSize,
         setCCFontSize,
         onGoBack: handleOpenMenu('cc-opt')
       };
@@ -117,7 +121,7 @@ function SettingsMenu(props) {
 
     case 'cc-f-color':
       menuProps = {
-        ccFontColor,
+        fontColor,
         setCCFontColor,
         onGoBack: handleOpenMenu('cc-opt')
       };
@@ -126,7 +130,7 @@ function SettingsMenu(props) {
 
     case 'cc-opacity':
       menuProps = {
-        ccOpacity,
+        opacity,
         setCCOpacity,
         onGoBack: handleOpenMenu('cc-opt')
       };
@@ -135,7 +139,7 @@ function SettingsMenu(props) {
 
     case 'cc-bg-color':
       menuProps = {
-        ccBackgroundColor,
+        backgroundColor,
         setCCBackgroundColor,
         onGoBack: handleOpenMenu('cc-opt')
       };
@@ -173,10 +177,12 @@ SettingsMenu.propTypes = {
   screenMode: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   openCC: PropTypes.bool.isRequired,
-  ccFontSize: PropTypes.number.isRequired,
-  ccFontColor: PropTypes.string.isRequired,
-  ccOpacity: PropTypes.number.isRequired,
-  ccBackgroundColor: PropTypes.string.isRequired,
+  ccStyle: PropTypes.shape({
+    fontSize: PropTypes.number,
+    fontColor: PropTypes.string,
+    opacity: PropTypes.number,
+    backgroundColor: PropTypes.string
+  }),
   language: ClosedCaptionMenu.propTypes.language,
   languages: ClosedCaptionMenu.propTypes.languages,
   playbackRate: PlaybackRateMenu.propTypes.playbackRate,

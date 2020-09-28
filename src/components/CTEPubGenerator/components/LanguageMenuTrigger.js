@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'pico-ui';
-import { Languages } from '../../CTPlayer';
+import { LanguageConstants } from '../../CTPlayer';
 import { EPubMenu } from './EPubMenu';
 import { epub } from '../controllers';
 
@@ -17,11 +17,11 @@ export function LanguageMenuTrigger({
           outlined 
           icon="arrow_drop_down" 
           classNames={classNames}
-          text={Languages.decode(language)} 
+          text={LanguageConstants.decode(language)} 
           onClick={e => setAnchorEl(e.currentTarget)}
         />
       }
-      items={Languages.LanguageOptions}
+      items={LanguageConstants.LanguageOptions}
       value={language}
       anchorEl={anchorEl}
       setAnchorEl={setAnchorEl}
