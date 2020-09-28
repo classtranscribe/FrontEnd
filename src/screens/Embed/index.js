@@ -21,7 +21,8 @@ export function Embed() {
     openCC = 'false',
     lang = LangConstants.English,
     playbackRate = 4,
-    padded = 'false'
+    padded = 'false',
+    screenshot = 'false'
   } = uurl.useSearch();
   // get video id from url
   // e.g. c9a54a76-9cf0-4ec2-ab2f-89d496326562
@@ -36,6 +37,7 @@ export function Embed() {
         mediaId={id}
         fill
         allowTwoScreen
+        allowScreenshot={screenshot === 'true'}
         hideWrapperOnMouseLeave
         beginAt={parseInt(begin, 10)}
         defaultOpenCC={openCC === 'true'}
