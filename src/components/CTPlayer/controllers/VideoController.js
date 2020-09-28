@@ -170,12 +170,12 @@ class VideoController {
 
     this.pause();
     const video = video1 ? this.video1 : this.video2;
-    _captureVideoImage(video.node, (url) => {
+    _captureVideoImage(video.node, (url, blob) => {
       if (typeof callback === 'function') {
-        callback(url);
+        callback(url, blob);
       }
       if (typeof this.__onScreenshotCaptured === 'function') {
-        this.__onScreenshotCaptured(url);
+        this.__onScreenshotCaptured(url, blob);
       }
     });
   }

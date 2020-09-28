@@ -83,9 +83,9 @@ export function _captureVideoImage(videoNode, callback) {
   // convert it to a usable data URL
   canvas.toBlob((blob) => {
     if (typeof callback === 'function') {
-      callback(URL.createObjectURL(blob))
+      callback(URL.createObjectURL(blob), blob)
     } else {
-      window.open(URL.createObjectURL(blob));
+      window.open(URL.createObjectURL(blob), blob);
     }
   }, 'image/jpeg');
 }

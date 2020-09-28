@@ -4,12 +4,12 @@ import ActionButton from '../../ActionButton';
 import ScreenshotPopup from './ScreenshotPopup';
 
 function Screenshot(props) {
-  const { captureScreenshot } = props;
+  const { mediaName, captureScreenshot } = props;
   const [screenshot, setScreenshot] = useState(null);
 
-  const handleScreenshotCaptured = (url) => {
+  const handleScreenshotCaptured = (url, blob) => {
     // alert(url)
-    setScreenshot(url);
+    setScreenshot({ url, blob });
   };
 
   const handleCaptureScreenshot = () => {
@@ -27,12 +27,12 @@ function Screenshot(props) {
         icon="camera_alt"
         onClick={handleCaptureScreenshot}
         labelPlacement="bottom"
-        // classNames="ctp screenshot-btn"
         disabled={popupOpened}
       />
       <ScreenshotPopup
         open={popupOpened}
-        imgBlobUrl={screenshot}
+        mediaName={mediaName}
+        imgBlob={screenshot}
         onClose={handleClosePopup}
       />
     </div>

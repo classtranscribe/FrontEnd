@@ -57,7 +57,10 @@ function ActionBar(props) {
           {
             player.isScreenshotAllowed 
             && 
-            <Screenshot captureScreenshot={handleCaptureScreenshot} />
+            <Screenshot
+              mediaName={mediaName} 
+              captureScreenshot={handleCaptureScreenshot} 
+            />
           }
 
           {!error && <Share media={media} time={time} />}
