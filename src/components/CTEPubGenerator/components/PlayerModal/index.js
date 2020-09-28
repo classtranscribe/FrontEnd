@@ -46,6 +46,9 @@ function PlayerModal({
           fill
           defaultOpenCC
           hideWrapperOnMouseLeave
+          allowTwoScreen
+          // allowScreenshot
+          // onScreenshotCaptured={alert}
           media={media}
           beginAt={begin}
           endAt={end}

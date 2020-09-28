@@ -86,7 +86,7 @@ function Toolbar({
           icon="arrow_forward"
           onClick={epub.ctrl.proceedToStep3}
         >
-          Proceed to ePub Downloader
+          Review and Download
         </Button>
       </CTFragment>
     </CTFragment>
