@@ -75,7 +75,9 @@ function InteractiveLayer(props) {
   const actionBarProps = {
     error,
     media,
-    time,
+    userReady,
+    player,
+    time
   };
 
   const controlBarProps = {

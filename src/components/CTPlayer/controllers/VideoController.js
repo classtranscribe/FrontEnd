@@ -27,9 +27,17 @@ class VideoController {
     this.endAt = null;
 
     // range
-    this.isPlayingRange = false;
+    this.__isPlayingRange = false;
+
+    // screenshot attrs
+    this.__isScreenshotAllowed = false;
+    this.__onScreenshotCaptured = null; // callback when screenshot is captured
 
     // binding functions
+    this.bindFuncs();
+  }
+
+  bindFuncs() {
     this.registerVideo1 = this.registerVideo1.bind(this);
     this.registerVideo2 = this.registerVideo2.bind(this);
     this.play = this.play.bind(this);
@@ -118,6 +126,21 @@ class VideoController {
     this.state.setUserReady(true);
   }
 
+  set isScreenshotAllowed(isAllowed) {
+    this.__isScreenshotAllowed = isAllowed;
+  }
+
+  get isScreenshotAllowed() {
+    return this.__isScreenshotAllowed;
+  }
+
+  set onScreenshotCaptured(onScreenshotCaptured) {
+    if (typeof onScreenshotCaptured === 'function') {
+      this.__isScreenshotAllowed = true;
+      this.__onScreenshotCaptured = onScreenshotCaptured;
+    }
+  }
+
   // -----------------------------------------------------------------
   // Video Attributes Handlers
   // -----------------------------------------------------------------
@@ -139,10 +162,22 @@ class VideoController {
     }, 600);
   }
 
-  captureImage(callback, video1 = true) {
+  captureImage(video1 = true, callback) {
+    if (!this.isScreenshotAllowed) {
+      console.error('Build-in screenshot is not allowed.');
+      return;
+    }
+
     this.pause();
     const video = video1 ? this.video1 : this.video2;
-    _captureVideoImage(video.node, callback);
+    _captureVideoImage(video.node, (url) => {
+      if (typeof callback === 'function') {
+        callback(url);
+      }
+      if (typeof this.__onScreenshotCaptured === 'function') {
+        this.__onScreenshotCaptured(url);
+      }
+    });
   }
 
 
@@ -266,19 +301,19 @@ class VideoController {
   // -----------------------------------------------------------------
   toggleRange() {
     this.state.setOpenRange(!this.state.openRange);
-    this.isPlayingRange = false;
+    this.__isPlayingRange = false;
   }
 
   setRange(range) {
     this.state.setRange(range);
-    this.isPlayingRange = false;
+    this.__isPlayingRange = false;
   }
 
   playRange() {
     if (Array.isArray(this.state.range) && this.state.openRange) {
       this.play();
       this.setCurrentTime(this.state.range[0]);
-      this.isPlayingRange = true;
+      this.__isPlayingRange = true;
     }
   }
 
@@ -329,10 +364,10 @@ class VideoController {
       this.updateCurrCaption(currentTime);
     }
 
-    if (this.isPlayingRange) {
+    if (this.__isPlayingRange) {
       if (this.state.range[1] <= currentTime) {
         this.pause();
-        this.isPlayingRange = false;
+        this.__isPlayingRange = false;
       }
     }
 

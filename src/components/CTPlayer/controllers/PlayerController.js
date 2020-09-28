@@ -26,6 +26,8 @@ class PlayerController extends VideoController {
     // Languages for current media
     this.languages = [];
 
+    this.isSwappedScreen = false;
+
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
     this.swapScreens = this.swapScreens.bind(this);
@@ -249,6 +251,7 @@ class PlayerController extends VideoController {
   }
 
   swapScreens() {
+    this.isSwappedScreen = !this.state.isSwappedScreen
     this.state.setIsSwappedScreen(!this.state.isSwappedScreen);
   }
 

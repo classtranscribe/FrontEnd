@@ -29,8 +29,16 @@ class Player extends React.Component {
     const stateManager = new PlayerStateManager(this.setPlayerState);
 
     // Initialize the player controller
-    const { id } = props;
+    const { id, allowScreenshot, onScreenshotCaptured } = props;
     this.player = new CTPlayerController(stateManager, id);
+
+    if (allowScreenshot) {
+      this.player.isScreenshotAllowed = true;
+    }
+
+    if (typeof onScreenshotCaptured === 'function') {
+      this.player.onScreenshotCaptured = onScreenshotCaptured;
+    }
   }
 
   /**

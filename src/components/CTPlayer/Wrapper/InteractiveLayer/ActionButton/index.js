@@ -24,13 +24,14 @@ function ActionButton(props) {
     active,
     highlighted,
     onClick,
-    color,
+    classNames,
+    disabled,
     ...ariaProps
   } = props;
 
   const labelClasses = useStyles();
 
-  const actBtnClasses = cx('ctp', 'act-btn', color, {
+  const actBtnClasses = cx('ctp', 'act-btn', classNames, {
     active,
     highlighted,
   });
@@ -40,16 +41,18 @@ function ActionButton(props) {
                     : icon;
 
   return (
-    <Tooltip 
+    <Tooltip
       classes={labelClasses}
       title={label} 
       placement={labelPlacement} 
       enterDelay={labelEnterDelay}
+      disableHoverListener={disabled}
     >
       <button 
         aria-label={label} 
         className={actBtnClasses} 
         onClick={onClick}
+        disabled={disabled}
         {...ariaProps}
       >
         <span tabIndex="-1">

@@ -65,6 +65,12 @@ CTPlayer.propTypes = {
   /** Hide the overlayed wrapper when mouse leaving */
   hideWrapperOnMouseLeave: PropTypes.bool,
 
+  /** Allow build-in screenshot function */
+  allowScreenshot: PropTypes.bool,
+
+  /** Callback when screenshot is generated, will pass in the screenshot blob's url */
+  onScreenshotCaptured: PropTypes.func,
+
   // Range picker
   /** The player supports time range picker */
   allowRangePicker: PropTypes.bool,
