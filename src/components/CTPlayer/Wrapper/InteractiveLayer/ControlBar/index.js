@@ -33,10 +33,7 @@ function ControlBar(props) {
     muted,
     volume,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     currCaption,
     openSettings,
     onOpenSettings
@@ -74,10 +71,7 @@ function ControlBar(props) {
 
   const closedCaptionProps = {
     open: openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     currCaption,
   };
 
@@ -128,10 +122,7 @@ ControlBar.propTypes = {
   muted: Volume.propTypes.muted,
   volume: Volume.propTypes.volume,
   openCC: ClosedCaption.propTypes.open,
-  ccFontSize: ClosedCaption.propTypes.ccFontSize,
-  ccFontColor: ClosedCaption.propTypes.ccFontColor,
-  ccOpacity: ClosedCaption.propTypes.ccOpacity,
-  ccBackgroundColor: ClosedCaption.propTypes.ccBackgroundColor,
+  ccStyle: ClosedCaption.propTypes.ccStyle,
   currCaption: ClosedCaption.propTypes.currCaption,
   openSettings: PropTypes.bool,
   onOpenSettings: PropTypes.func

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTPlayerConstants as Constants } from '../../../controllers';
+import { CTPlayerConstants as PConstants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function CCFontSizesMenu(props) {
   let {
-    ccFontSize,
+    fontSize,
     setCCFontSize,
     onGoBack
   } = props;
@@ -14,11 +14,11 @@ function CCFontSizesMenu(props) {
     <div className="ctp settings-menu">
       <MenuItem goBack text="CC Font Size" onClick={onGoBack} />
 
-      {Constants.CCFontSizes.map(size => (
+      {PConstants.CCFontSizes.map(size => (
         <MenuItem
           key={size}
-          text={size}
-          active={ccFontSize === size}
+          text={`${size * 100 }%`}
+          active={fontSize === size}
           onClick={() => setCCFontSize(size)}
         />
       ))}
@@ -27,7 +27,7 @@ function CCFontSizesMenu(props) {
 }
 
 CCFontSizesMenu.propTypes = {
-  ccFontSize: PropTypes.string.isRequired,
+  fontSize: PropTypes.string.isRequired,
   setCCFontSize: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired
 };

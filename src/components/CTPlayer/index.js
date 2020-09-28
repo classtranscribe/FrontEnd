@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import Player from './Player';
 
 export { default as CTVideo } from './Video';
-export { CTPlayerConstants, Languages } from './controllers';
+export {
+  /** Constants */
+  CTPlayerIDs,
+  CTPlayerConstants,
+  LanguageConstants,
+  /** Structs */
+  Language,
+  VideoNode,
+  CaptionStyle
+} from './controllers';
 
 function CTPlayer(props) {
   return <Player {...props} />;
@@ -55,6 +64,12 @@ CTPlayer.propTypes = {
 
   /** Hide the overlayed wrapper when mouse leaving */
   hideWrapperOnMouseLeave: PropTypes.bool,
+
+  /** Allow build-in screenshot function */
+  allowScreenshot: PropTypes.bool,
+
+  /** Callback when screenshot is generated, will pass in the screenshot blob's url */
+  onScreenshotCaptured: PropTypes.func,
 
   // Range picker
   /** The player supports time range picker */
