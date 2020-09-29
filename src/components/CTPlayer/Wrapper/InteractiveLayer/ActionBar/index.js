@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { links, uurl } from 'utils';
@@ -27,11 +27,6 @@ function ActionBar(props) {
     uurl.openNewTab(url);
   };
 
-  const handleCaptureScreenshot = (onScreenshotCaptured) => {
-    // capture image of the primary video
-    player.captureImage(!player.isSwappedScreen, onScreenshotCaptured);
-  };
-
   return (
     <div className="ctp action-bar">
       <div className="left">
@@ -54,15 +49,7 @@ function ActionBar(props) {
         userReady
         &&
         <div className="right">
-          {
-            player.isScreenshotAllowed 
-            && 
-            <Screenshot
-              mediaName={mediaName} 
-              captureScreenshot={handleCaptureScreenshot} 
-            />
-          }
-
+          {player.isScreenshotAllowed && <Screenshot player={player} />}
           {!error && <Share media={media} time={time} />}
           {/* <ShortcutButton /> */}
         </div>

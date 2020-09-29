@@ -1,28 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import downloadFile from 'js-file-download';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Button } from 'pico-ui';
 
 function ScreenshotPopup(props) {
   const {
     open,
-    mediaName,
     imgBlob,
     onClose,
+    downloadScreenshot,
+    copyScreenshotLink
   } = props;
 
   const [copyStatus, setCopyStatus] = useState(0);
+  const copying = copyStatus === 1;
+  const copied = copyStatus > 1;
 
-  const handleCopy = () => {
-    
+  const handleCopy = async () => {
+    setCopyStatus(1);
+    const successed = await copyScreenshotLink();
+    setCopyStatus(successed ? 2 : 0);
+    if (successed) {
+      setTimeout(onClose, 2000);
+    }
   };
 
-  const handleDownload = () => {
-    downloadFile(imgBlob.blob, `${mediaName} - screenshot.jpg`);
-  };
-
-  const copied = copyStatus > 0;
+  useEffect(() => {
+    setCopyStatus(0);
+  }, [open]);
 
   return open ? (
     <ClickAwayListener
@@ -33,26 +38,30 @@ function ScreenshotPopup(props) {
         <div className="ctp share-image">
           <img src={imgBlob.url} alt="Captured screenshot" />
         </div>
-        <div className="ctp ct-d-r-end">
+        <div className="ctp ct-d-r-end pb-2 pt-2">
           <Button
             compact
+            round
             icon={copied ? 'check' : null}
             color="white"
             onClick={handleCopy}
+            loading={copying}
           >
             {copied ? 'COPIED' : 'COPY LINK'}
           </Button>
           <Button
             compact
-            icon="get_app"
-            color="white"
-            onClick={handleDownload}
+            round
+            // icon="get_app"
+            color="black"
+            onClick={downloadScreenshot}
             classNames="ml-2"
           >
             DOWNLOAD
           </Button>
           <Button
             compact
+            round
             color="black"
             onClick={onClose}
             classNames="ml-2"

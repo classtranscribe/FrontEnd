@@ -68,6 +68,12 @@ CTPlayer.propTypes = {
   /** Allow build-in screenshot function */
   allowScreenshot: PropTypes.bool,
 
+  /** Source for the captured image, default as `{ type: Media, id: mediaId }` */
+  screenshotSource: PropTypes.shape({
+    id: PropTypes.string,
+    type: PropTypes.number
+  }),
+
   /** Callback when screenshot is generated, will pass in the screenshot blob's url */
   onScreenshotCaptured: PropTypes.func,
 

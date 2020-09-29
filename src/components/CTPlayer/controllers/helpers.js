@@ -1,4 +1,6 @@
 import timestr from 'utils/use-time';
+import downloadFile from 'js-file-download';
+import { api, uurl, prompt, _copyTextToClipboard, _readFileAsBinary } from 'utils';
 
 /**
  * Function used to get the size for the player
@@ -88,4 +90,35 @@ export function _captureVideoImage(videoNode, callback) {
       window.open(URL.createObjectURL(blob), blob);
     }
   }, 'image/jpeg');
+}
+
+export function _downloadScreenshotByBlob(imgBlob, time, mediaName) {
+  downloadFile(imgBlob, `(${timestr.toTimeString(time)}) - ${mediaName}.jpg`);
+}
+
+export function _encodeScreenshotPath(imgData) {
+  return uurl.getMediaUrl(imgData.imageFile.path) 
+       + uurl.createHash({ ctimgid: imgData.id });
+}
+
+export async function _decodeScreenshotPath(path) {
+  const { ctimgid } = uurl.useHash(path);
+  if (!ctimgid) return null;
+  return {
+    url: uurl.purePath(path),
+    id: ctimgid
+  };
+}
+
+export async function _copyScreenshotLink(imgBlob, sourceType, sourceId) {
+  try {
+    const imageFile = new File([imgBlob], 'screenshot.jpg', { type: 'image/jpg' });
+    const { data } = await api.createImage(imageFile, sourceType, sourceId);
+    const successed = await _copyTextToClipboard(_encodeScreenshotPath(data));
+    return successed;
+  } catch (error) {
+    console.error(error);
+    prompt.error('Failed to create the image.');
+    return false;
+  }
 }

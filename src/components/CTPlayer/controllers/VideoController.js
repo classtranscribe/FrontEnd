@@ -1,7 +1,13 @@
-import { prompt } from 'utils/prompt'
+import { v4 as uuid } from 'uuid';
+import { prompt } from 'utils/prompt';
+import SourceTypes from 'entities/SourceTypes';
 import VideoNode from './structs/VideoNode';
 import PConstants from './constants/PlayerConstants';
-import { _captureVideoImage } from './helpers';
+import {
+  _captureVideoImage,
+  _downloadScreenshotByBlob,
+  _copyScreenshotLink
+} from './helpers';
 
 /**
  * The video event controller for the player
@@ -10,9 +16,12 @@ class VideoController {
   /**
    * Create a Video Controller for CTPlayer
    * @param {Any} stateManager - a state manager for video controller
+   * @param {String} id - an unique id for the video
    */
-  constructor(stateManager) {
+  constructor(stateManager, id) {
     this.state = stateManager;
+    // Player IDs
+    this.id = id || uuid();
 
     // video nodes
     this.video1 = null;
@@ -30,6 +39,8 @@ class VideoController {
     this.__isPlayingRange = false;
 
     // screenshot attrs
+    this.__screenshotSourceType = SourceTypes.Media;
+    this.__screenshotSourceId = this.id;
     this.__isScreenshotAllowed = false;
     this.__onScreenshotCaptured = null; // callback when screenshot is captured
 
@@ -126,13 +137,22 @@ class VideoController {
     this.state.setUserReady(true);
   }
 
+  // Screenshot Attributes Handlers
+  // -----------------------------------------------------------------
+
+  setScreenshotSource(sourceType, sourceId) {
+    this.__screenshotSourceType = sourceType;
+    this.__screenshotSourceId = sourceId;
+  }
+
+  get screenshotSourceType() { return this.__screenshotSourceType; }
+  get screenshotSourceId() { return this.__screenshotSourceId; }
+
   set isScreenshotAllowed(isAllowed) {
     this.__isScreenshotAllowed = isAllowed;
   }
 
-  get isScreenshotAllowed() {
-    return this.__isScreenshotAllowed;
-  }
+  get isScreenshotAllowed() { return this.__isScreenshotAllowed; }
 
   set onScreenshotCaptured(onScreenshotCaptured) {
     if (typeof onScreenshotCaptured === 'function') {
@@ -178,6 +198,18 @@ class VideoController {
         this.__onScreenshotCaptured(url, blob);
       }
     });
+  }
+
+  downloadScreenshot(imgBlob) {
+    _downloadScreenshotByBlob(imgBlob, this.state.time, this.state.media.mediaName);
+  }
+
+  async copyScreenshotLink(imgBlob) {
+    const successed = await _copyScreenshotLink(
+      imgBlob, 
+      this.screenshotSourceType, 
+      this.screenshotSourceId);
+    return successed;
   }
 
 

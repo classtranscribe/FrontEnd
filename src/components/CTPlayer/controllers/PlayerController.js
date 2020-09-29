@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { isSafari } from 'react-device-detect';
-import { v4 as uuid } from 'uuid';
 import { api, elem, timestr } from 'utils';
 import LConstants from './constants/LanguageConstants';
 import VideoController from './VideoController';
@@ -16,9 +15,8 @@ class PlayerController extends VideoController {
    * @param {Any} stateManager - a state manager for video controller
    */
   constructor(stateManager, id) {
-    super(stateManager);
-    // Player ID
-    this.id = id || uuid();
+    super(stateManager, id);
+
     // Node of the player
     this.playerNode = null;
     // Mouse over timer for wrapper
