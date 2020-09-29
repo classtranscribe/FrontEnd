@@ -17,7 +17,11 @@ export function getImagesBySource(sourceType, sourceId) {
 // POST
 
 export function createImage(imageFile, sourceType, sourceId) {
-  return cthttp.post('Images', { imageFile, sourceType, sourceId });
+  const formData = new FormData();
+  formData.append('imageFile', imageFile);
+  formData.append('sourceType', sourceType);
+  formData.append('sourceId', sourceId);
+  return cthttp.post('Images', formData);
 }
 
 // DELETE
