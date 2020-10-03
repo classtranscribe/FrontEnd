@@ -23,6 +23,7 @@ const initialState = {
   // -----------------------------------------------------------------
   videoReady: false,
   userReady: false,
+  userActive: false,
   size: 'xs',
   event: null,
   screenMode: PConstants.ScreenModeNormal,

@@ -17,6 +17,7 @@ function InteractiveLayer(props) {
     isTwoScreen,
     screenMode,
     userReady,
+    userActive,
     isEnded,
     isPaused,
     isFullscreen,
@@ -34,7 +35,6 @@ function InteractiveLayer(props) {
     currCaption,
   } = props;
 
-  const [hover, setHover] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
 
   const handleOpenSettings = () => {
@@ -42,34 +42,8 @@ function InteractiveLayer(props) {
   }
   const handleCloseSettings = () => setOpenSettings(false);
 
-  const handleMouseEnter = () => {
-    setHover(true);
-  };
-
-  const handleMouseMove = () => {
-    if (player.mouseOverTimer !== null) {
-      clearTimeout(player.mouseOverTimer);
-      player.mouseOverTimer = null;
-    }
-    
-    if (!hover) {
-      setHover(true);
-    }
-
-    player.mouseOverTimer = setTimeout(() => {
-      setHover(false);
-      player.mouseOverTimer = null;
-    }, 3000);
-  }
-
-  const handleMouseLeave = () => {
-    if (hideWrapperOnMouseLeave) {
-      setHover(false);
-    }
-  };
-
   const wrapperClasses = cx('ctp', 'wrapper', 'interact', {
-    show: hover || isPaused || isEnded
+    show: userActive || isPaused || isEnded
   });
 
   const actionBarProps = {
@@ -127,9 +101,9 @@ function InteractiveLayer(props) {
   return (
     <div
       className={wrapperClasses}
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseMove={handleMouseMove}
+      // onMouseLeave={handleMouseLeave}
     >
       <div className="ctp action-bar-con dismissible">
         <ActionBar {...actionBarProps} />

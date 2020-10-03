@@ -79,6 +79,11 @@ class PlayerStateManager {
     this.setState('userReady', userReady);
   }
 
+  userActive = iniState.userActive;
+  setUserActive(userActive) {
+    this.setState('userActive', userActive);
+  }
+
   size = iniState.size;
   setSize(size) {
     this.setState('size', size);

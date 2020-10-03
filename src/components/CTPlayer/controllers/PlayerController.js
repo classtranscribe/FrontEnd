@@ -19,8 +19,9 @@ class PlayerController extends VideoController {
 
     // Node of the player
     this.playerNode = null;
-    // Mouse over timer for wrapper
-    this.mouseOverTimer = null;
+    // Init userActive event values
+    this.userActiveTimer = null;
+    this.hideWrapperOnMouseLeave = false;
     // Languages for current media
     this.languages = [];
 
@@ -36,14 +37,19 @@ class PlayerController extends VideoController {
     this.changeLanguage = this.changeLanguage.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
     this.exitFullscreen = this.exitFullscreen.bind(this);
-    this.onFullscreenChange = this.onFullscreenChange.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
     this.handlePlayerSize = this.handlePlayerSize.bind(this);
 
     this.setCCFontSize = this.setCCFontSize.bind(this);
     this.setCCFontColor = this.setCCFontColor.bind(this);
     this.setCCOpacity = this.setCCOpacity.bind(this);
     this.setCCBackgroundColor = this.setCCBackgroundColor.bind(this);
+
+    this.__onFullscreenChange = this.__onFullscreenChange.bind(this);
+    this.__onKeyDown = this.__onKeyDown.bind(this);
+    this.__onMouseEnter = this.__onMouseEnter.bind(this);
+    this.__onMouseMove = this.__onMouseMove.bind(this);
+    this.__onMouseLeave = this.__onMouseLeave.bind(this);
+    this.__onFocusIn = this.__onFocusIn.bind(this);
   }
 
   // -----------------------------------------------------------------
@@ -57,11 +63,16 @@ class PlayerController extends VideoController {
   registerPlayer(node) {
     this.playerNode = node;
     if (node) {
-      node.addEventListener('keydown', this.onKeyDown);
+      node.addEventListener('keydown', this.__onKeyDown);
+      // handle user active events
+      node.addEventListener('mouseenter', this.__onMouseEnter);
+      node.addEventListener('mousemove', this.__onMouseMove);
+      node.addEventListener('mouseleave', this.__onMouseLeave);
+      node.addEventListener('focusin', this.__onFocusIn);
       if (isSafari) {
-        node.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
+        node.addEventListener('webkitfullscreenchange', this.__onFullscreenChange);
       } else {
-        node.addEventListener('fullscreenchange', this.onFullscreenChange);
+        node.addEventListener('fullscreenchange', this.__onFullscreenChange);
       }
       this.handlePlayerSize();
     }
@@ -81,6 +92,10 @@ class PlayerController extends VideoController {
     } else {
       this.state.setSize('xs');
     }
+  }
+
+  focusOnPlayer() {
+    this.playerNode.focus();
   }
 
   // -----------------------------------------------------------------
@@ -229,13 +244,43 @@ class PlayerController extends VideoController {
     elem.exitFullScreen();
   }
 
-  onFullscreenChange(/** event */) {
+  __onFullscreenChange(/** event */) {
     this.state.setIsFullscreen(elem.isInFullScreen);
     this.handlePlayerSize();
   }
 
-  onKeyDown(event) {
+  __onKeyDown(event) {
     _playerKeyDownEventHandler(event, this);
+  }
+
+  __onMouseEnter() {
+    this.state.setUserActive(true);
+  }
+
+  __onMouseMove() {
+    if (this.userActiveTimer !== null) {
+      clearTimeout(this.userActiveTimer);
+      this.userActiveTimer = null;
+    }
+    
+    if (!this.state.userActive) {
+      this.state.setUserActive(true);
+    }
+
+    this.userActiveTimer = setTimeout(() => {
+      this.state.setUserActive(false);
+      this.userActiveTimer = null;
+    }, 3000);
+  }
+
+  __onMouseLeave() {
+    if (this.hideWrapperOnMouseLeave) {
+      this.state.setUserActive(false);
+    }
+  }
+
+  __onFocusIn() {
+    this.__onMouseMove();
   }
 
   // -----------------------------------------------------------------

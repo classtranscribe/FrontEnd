@@ -2,7 +2,8 @@
   cursor: none;
   z-index: 2;
 
-  &:focus-within, &.show {
+  // &:focus-within, 
+  &.show {
     transition: none;
     cursor: auto;
     opacity: 1;

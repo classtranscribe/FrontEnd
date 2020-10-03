@@ -32,9 +32,12 @@ class Player extends React.Component {
     const {
       id,
       allowScreenshot,
-      onScreenshotCaptured
+      onScreenshotCaptured,
+      hideWrapperOnMouseLeave
     } = props;
     this.player = new CTPlayerController(stateManager, id);
+
+    this.player.hideWrapperOnMouseLeave = Boolean(hideWrapperOnMouseLeave);
 
     // Initialize screenshot attributes
     if (allowScreenshot) {
@@ -133,7 +136,7 @@ class Player extends React.Component {
       defaultLanguage,
       allowTwoScreen,
       range,
-      screenshotSource
+      // screenshotSource
     } = this.props;
 
     // Setup media when the `media`/`mediaId` in props changes
@@ -291,6 +294,7 @@ class Player extends React.Component {
       screenMode,
       videoReady,
       userReady,
+      userActive,
       isEnded,
       isPaused,
       isFullscreen,
@@ -315,6 +319,7 @@ class Player extends React.Component {
       screenMode,
       videoReady,
       userReady,
+      userActive,
       isEnded,
       isPaused,
       isFullscreen,
