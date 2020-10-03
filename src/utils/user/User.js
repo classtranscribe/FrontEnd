@@ -5,7 +5,7 @@
 
 import _ from 'lodash';
 import decoder from 'jwt-decode';
-import * as Account from '../cthttp/requests/account';
+import * as Account from '../cthttp/entities/Account';
 // import { getLatestGitCommitSHA } from '../cthttp/requests/general';
 import { env } from '../env';
 import { links } from '../links';

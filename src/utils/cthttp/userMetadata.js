@@ -1,4 +1,4 @@
-import { getUserMetaData, postUserMetaData } from './requests/account';
+import { getUserMetaData, postUserMetaData } from './entities/Account';
 
 /**
  * Offering Starred
