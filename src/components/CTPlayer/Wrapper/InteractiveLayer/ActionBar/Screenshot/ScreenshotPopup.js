@@ -6,6 +6,7 @@ import { Button } from 'pico-ui';
 function ScreenshotPopup(props) {
   const {
     open,
+    height,
     imgBlob,
     onClose,
     downloadScreenshot,
@@ -33,8 +34,15 @@ function ScreenshotPopup(props) {
     <ClickAwayListener
       onClickAway={onClose}
     >
-      <div className="ctp share-popup screenshot">
-        <h5>Captured Image</h5>
+      <div
+        role="dialog"
+        id="ctp-screenshot-con"
+        className="ctp share-popup screenshot"
+        aria-modal="true"
+        aria-labelledby="ctp-screenshot-title"
+        style={{ maxHeight: `${height - 30 }px` }}
+      >
+        <h5 id="ctp-screenshot-title">Captured Image</h5>
         <div className="ctp share-image">
           <img src={imgBlob.url} alt="Captured screenshot" />
         </div>
@@ -56,6 +64,7 @@ function ScreenshotPopup(props) {
             color="black"
             onClick={downloadScreenshot}
             classNames="ml-2"
+            autoFocus
           >
             DOWNLOAD
           </Button>

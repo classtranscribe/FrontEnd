@@ -67,9 +67,13 @@ class PlayerController extends VideoController {
     }
   }
 
+  get playerBoundingRect() {
+    return this.playerNode.getBoundingClientRect();
+  }
+
   handlePlayerSize() {
     if (!this.playerNode) return;
-    const { width } = this.playerNode.getBoundingClientRect();
+    const { width } = this.playerBoundingRect;
     if (width >= 1000) {
       this.state.setSize('lg');
     } else if (width >= 700) {

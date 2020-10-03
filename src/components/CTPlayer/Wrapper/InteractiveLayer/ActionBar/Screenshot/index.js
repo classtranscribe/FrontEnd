@@ -28,7 +28,8 @@ function Screenshot(props) {
 
   const handleClosePopup = () => setScreenshot(null);
 
-  const popupOpened = Boolean(screenshot)
+  const popupOpened = Boolean(screenshot);
+  const { height } = player.playerBoundingRect;
   
   return (
     <div className="ctp share-root">
@@ -41,6 +42,7 @@ function Screenshot(props) {
       />
       <ScreenshotPopup
         open={popupOpened}
+        height={height}
         imgBlob={screenshot}
         onClose={handleClosePopup}
         downloadScreenshot={handleDownloadScreenshot}
