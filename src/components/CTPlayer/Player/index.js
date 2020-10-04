@@ -104,7 +104,7 @@ class Player extends React.Component {
 
     // Set default open CC
     if (defaultOpenCC) {
-      this.player.toggleCC();
+      this.player.setOpenCC(true);
     }
 
     if (typeof defaultPlaybackRate === 'number') {
