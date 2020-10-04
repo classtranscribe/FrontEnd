@@ -1,5 +1,5 @@
 .ctp.wrapper.interact {
-  &:focus-within, &.show {
+  &.show {
     .ctp.progress-con {
       padding: 0 8px;
       transition: padding 100ms linear;

@@ -43,7 +43,7 @@ function InteractiveLayer(props) {
   const handleCloseSettings = () => setOpenSettings(false);
 
   const wrapperClasses = cx('ctp', 'wrapper', 'interact', {
-    show: userActive || isPaused || isEnded
+    show: userActive || isPaused || isEnded || openSettings
   });
 
   const actionBarProps = {

@@ -181,7 +181,7 @@ class PlayerController extends VideoController {
     if (!this.state.openCC) this.setOpenCC(true);
     let targetIndex = _.findIndex(this.state.transcriptions, { language });
     if (targetIndex >= 0) {
-      this.setLanguage({ code: language, text: (language) });
+      this.setLanguage({ code: language, text: LConstants.decode(language) });
       this.setCurrTranscription(this.state.transcriptions[targetIndex]);
     } else {
       this.setLanguage({ code: null, text: null });
