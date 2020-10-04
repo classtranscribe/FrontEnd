@@ -38,7 +38,7 @@ function Wrapper(props) {
   const startLayerProps = {
     videoReady,
     userReady,
-    onTogglePause: player.togglePause
+    onTogglePause: player.startPlaying
   };
 
   const nonInteractiveLayerProps = {

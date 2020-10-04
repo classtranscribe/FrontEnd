@@ -149,10 +149,6 @@ class VideoController {
     }
   }
 
-  userIsReady() {
-    this.state.setUserReady(true);
-  }
-
   // Screenshot Attributes Handlers
   // -----------------------------------------------------------------
 
@@ -451,7 +447,6 @@ class VideoController {
 
   onPlay() {
     this.state.setIsPaused(false);
-    if (!this.state.userReady) this.userIsReady();
   }
 
   onSeeking() {

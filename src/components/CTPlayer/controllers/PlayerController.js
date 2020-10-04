@@ -32,6 +32,8 @@ class PlayerController extends VideoController {
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
+    this.startPlaying = this.startPlaying.bind(this);
+    this.userIsActive = this.userIsActive.bind(this);
     this.swapScreens = this.swapScreens.bind(this);
     this.setScreenMode = this.setScreenMode.bind(this);
     this.setOpenCC = this.setOpenCC.bind(this);
@@ -74,7 +76,7 @@ class PlayerController extends VideoController {
     node.addEventListener('keydown', this.__onKeyDown);
     // handle user active events
     node.addEventListener('mouseenter', this.__onMouseEnter);
-    node.addEventListener('mousemove', this.__onMouseMove);
+    node.addEventListener('mousemove', this.userIsActive);
     node.addEventListener('mouseleave', this.__onMouseLeave);
     node.addEventListener('focusin', this.__onFocusIn);
     if (isSafari) {
@@ -103,6 +105,51 @@ class PlayerController extends VideoController {
 
   focusOnPlayer() {
     this.playerNode.focus();
+  }
+
+  // Setup Player Status
+  // -----------------------------------------------------------------
+  get isUserReady() {
+    return this.state.userReady;
+  }
+
+  get isUserActive() {
+    return this.state.userActive;
+  }
+
+  startPlaying() {
+    this.state.setUserReady(true);
+    this.play();
+    this.userIsActive();
+    this.focusOnPlayer(); 
+  }
+
+  userIsActive() {
+    if (!this.isUserReady) return;
+    if (this.userActiveTimer !== null) {
+      clearTimeout(this.userActiveTimer);
+      this.userActiveTimer = null;
+    }
+    
+    if (!this.isUserActive) {
+      this.setUserActive(true);
+    }
+
+    this.userActiveTimer = setTimeout(() => {
+      this.setUserActive(false);
+      this.userActiveTimer = null;
+    }, 3000);
+  }
+
+  // Fullscreen Handlers
+  // -----------------------------------------------------------------
+  enterFullscreen() {
+    if (!this.playerNode) return;
+    elem.enterFullscreen(this.playerNode);
+  }
+
+  exitFullscreen() {
+    elem.exitFullScreen();
   }
 
   // -----------------------------------------------------------------
@@ -240,62 +287,17 @@ class PlayerController extends VideoController {
     this.setCurrCaption(this.findCurrCaption(now, captions));
   }
 
-  enterFullscreen() {
-    let node = this.playerNode;
-    if (!node) return;
-
-    elem.enterFullscreen(node);
-  }
-
-  exitFullscreen() {
-    elem.exitFullScreen();
-  }
-
-  __onFullscreenChange(/** event */) {
-    this.state.setIsFullscreen(elem.isInFullScreen);
-    this.handlePlayerSize();
-  }
-
-  __onKeyDown(event) {
-    _playerKeyDownEventHandler(event, this);
-  }
-
-  __onMouseEnter() {
-    this.state.setUserActive(true);
-  }
-
-  __onMouseMove() {
-    if (this.userActiveTimer !== null) {
-      clearTimeout(this.userActiveTimer);
-      this.userActiveTimer = null;
-    }
-    
-    if (!this.state.userActive) {
-      this.state.setUserActive(true);
-    }
-
-    this.userActiveTimer = setTimeout(() => {
-      this.state.setUserActive(false);
-      this.userActiveTimer = null;
-    }, 3000);
-  }
-
-  __onMouseLeave() {
-    if (this.hideWrapperOnMouseLeave) {
-      this.state.setUserActive(false);
-    }
-  }
-
-  __onFocusIn() {
-    this.__onMouseMove();
-  }
-
   // -----------------------------------------------------------------
   // Player State/Attribute Setters
   // -----------------------------------------------------------------
   // -----------------------------------------------------------------
   setError(error) {
     this.state.setError(error);
+  }
+
+  setUserActive(userActive) {
+    if (!this.isUserReady) return;
+    this.state.setUserActive(userActive);
   }
 
   // Screen Settings
@@ -376,6 +378,38 @@ class PlayerController extends VideoController {
 
   setCCPosition(position) {
     this.setCCStyle({ position });
+  }
+
+  // -----------------------------------------------------------------
+  // Player Native Events Handlers
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
+
+  __onFullscreenChange(/** event */) {
+    this.state.setIsFullscreen(elem.isInFullScreen);
+    this.handlePlayerSize();
+  }
+
+  __onKeyDown(event) {
+    _playerKeyDownEventHandler(event, this);
+  }
+
+  __onMouseEnter() {
+    this.userIsActive();
+  }
+
+  __onMouseMove() {
+    this.userIsActive();
+  }
+
+  __onMouseLeave() {
+    if (this.hideWrapperOnMouseLeave) {
+      this.setUserActive(false);
+    }
+  }
+
+  __onFocusIn() {
+    this.userIsActive();
   }
 }
 
