@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { env, uurl, user, prompt } from 'utils';
 import { CTFragment, CTBrand, CTText } from 'layout';
 import { useLoaded } from 'hooks';
@@ -20,6 +20,10 @@ function SignIn() {
       }
     }
   }, [search]);
+
+  const handleSignIn = (_method) => () => {
+    user.signIn({ method: _method, redirectURL: redirect });
+  };
 
   const signInOptions = [
     {
@@ -63,10 +67,10 @@ function SignIn() {
           {signInOptions.map(opt => (
             <CTFragment 
               alignItCenter
-              as={Link}
-              to={uurl.createSearch({ method: opt.method, redirect })}
+              as="button"
+              onClick={handleSignIn(opt.method)}
               role="listitem"
-              className="ct-signin-opt"
+              className="ct-signin-opt plain-btn"
               key={opt.method}
             >
               <span className="material-icons">{opt.icon}</span>
