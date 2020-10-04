@@ -245,7 +245,8 @@ class Player extends React.Component {
       ref: this.player.registerPlayer,
       style: {
         width: playerSize.width,
-        height: playerSize.height
+        height: playerSize.height,
+        minHeight: playerSize.minHeight
       },
       className: cx('ctp', 'ct-player', size, { fill, padded }),
       tabIndex: '0'

@@ -12,6 +12,7 @@ export function _getPlayerSize({ width, height, fill, isFullscreen }) {
   }
 
   return {
+    minHeight: `${width * 0.5}px`,
     width: `${width || 560 }px`,
     height: height ? (`${height }px`) : 'max-content'
   };
