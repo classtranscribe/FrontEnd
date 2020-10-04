@@ -1,50 +1,46 @@
-import * as statics from './statics'
+import * as statics from './statics';
+import * as generalRequests from './general-requests';
+import * as responseErrors from './responses/errors';
+import * as responseParsers from './responses/parsers';
+import * as userMetadata from './userMetadata';
 
-import * as general from './requests/general'
-
-import * as account from './requests/account'
-import * as roles from './requests/roles'
-import * as logs from './requests/logs'
-
-import * as universities from './requests/universities'
-import * as departments from './requests/departments'
-import * as terms from './requests/terms'
-import * as courses from './requests/courses'
-import * as offerings from './requests/offerings'
-import * as playlists from './requests/playlists'
-import * as medias from './requests/medias'
-import * as captions from './requests/captions'
-import * as epub from './requests/epub'
-import * as watchHistories from './requests/watch-histories'
-
-import * as responseErrors from './responses/errors'
-import * as responseParsers from './responses/parsers'
-
-import * as userMetadata from './userMetadata'
+import * as Account from './entities/Account';
+import * as Captions from './entities/Captions';
+import * as Courses from './entities/Courses';
+import * as Departments from './entities/Departments';
+import * as EPubs from './entities/EPubs';
+import * as Images from './entities/Images';
+import * as Logs from './entities/Logs';
+import * as Media from './entities/Media';
+import * as Offerings from './entities/Offerings';
+import * as Playlists from './entities/Playlists';
+import * as Roles from './entities/Roles';
+import * as Terms from './entities/Terms';
+import * as Universities from './entities/Universities';
+import * as WatchHistories from './entities/WatchHistories';
 
 /**
  * HTTP request tool for ClassTranscribe
  */
 export const api = {
     ...statics,
-
-    ...general,
-    ...account,
-    ...roles,
-    ...logs,
-    ...universities,
-    ...departments,
-    ...terms,
-    ...courses,
-    ...offerings,
-    ...playlists,
-    ...medias,
-    ...captions,
-    ...epub,
-    ...watchHistories,
-
+    ...generalRequests,
+    ...userMetadata,
     ...responseErrors,
     ...responseParsers,
 
-    ...userMetadata
-}
+    ...Account,
+    ...Captions,
+    ...Courses,
+    ...Departments,
+    ...EPubs,
+    ...Images,
+    ...Logs,
+    ...Media,
+    ...Offerings,
+    ...Playlists,
+    ...Roles,
+    ...Terms,
+    ...Universities,
+    ...WatchHistories,   
+};

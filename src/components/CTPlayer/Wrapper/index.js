@@ -16,6 +16,7 @@ function Wrapper(props) {
     screenMode,
     videoReady,
     userReady,
+    userActive,
     isEnded,
     isPaused,
     isFullscreen,
@@ -37,7 +38,7 @@ function Wrapper(props) {
   const startLayerProps = {
     videoReady,
     userReady,
-    onTogglePause: player.togglePause
+    onTogglePause: player.startPlaying
   };
 
   const nonInteractiveLayerProps = {
@@ -55,6 +56,7 @@ function Wrapper(props) {
     isTwoScreen,
     screenMode,
     userReady,
+    userActive,
     isEnded,
     isPaused,
     isFullscreen,

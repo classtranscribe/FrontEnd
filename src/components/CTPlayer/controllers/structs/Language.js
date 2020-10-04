@@ -1,4 +1,5 @@
 import LConstants from '../constants/LanguageConstants';
+import PPrefer from '../PlayerPreference';
 
 /**
  * Struct for language items
@@ -11,11 +12,16 @@ class Language {
     };
   }
 
+  setPreference(langCode) {
+    PPrefer.setLanguage(langCode);
+  }
+
   setLanguage(langCode) {
     this.__data = {
       code: langCode,
       text: LConstants.decode(langCode)
     };
+    this.setPreference(langCode);
   }
 
   getData() {
@@ -23,9 +29,10 @@ class Language {
   }
 
   get defaultData() {
+    const defaultLangCode = PPrefer.language || LConstants.English;
     return {
-      code: LConstants.English, 
-      text: LConstants.decode(LConstants.English)
+      code: defaultLangCode,
+      text: LConstants.decode(defaultLangCode)
     };
   }
 

@@ -6,6 +6,11 @@ class PlayerConstants {
   static MediaError404 = 404;
   static MediaError401 = 401;
 
+  // Player Size
+  static PlayerSizeSmall = 'xs';
+  static PlayerSizeMedium = 'md';
+  static PlayerSizeLarge = 'lg';
+
   // Playback Rates
   static PlaybackRates = [2, 1.75, 1.5, 1.25, 1, 0.75, 0.5, 0.25];
 

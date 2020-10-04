@@ -1,7 +1,14 @@
-import { prompt } from 'utils/prompt'
+import { v4 as uuid } from 'uuid';
+import { prompt } from 'utils/prompt';
+import SourceTypes from 'entities/SourceTypes';
 import VideoNode from './structs/VideoNode';
 import PConstants from './constants/PlayerConstants';
-import { _captureVideoImage } from './helpers';
+import PPrefer from './PlayerPreference';
+import {
+  _captureVideoImage,
+  _downloadScreenshotByBlob,
+  _copyScreenshotLink
+} from './helpers';
 
 /**
  * The video event controller for the player
@@ -10,9 +17,12 @@ class VideoController {
   /**
    * Create a Video Controller for CTPlayer
    * @param {Any} stateManager - a state manager for video controller
+   * @param {String} id - an unique id for the video
    */
-  constructor(stateManager) {
+  constructor(stateManager, id) {
     this.state = stateManager;
+    // Player IDs
+    this.id = id || uuid();
 
     // video nodes
     this.video1 = null;
@@ -30,6 +40,8 @@ class VideoController {
     this.__isPlayingRange = false;
 
     // screenshot attrs
+    this.__screenshotSourceType = SourceTypes.Media;
+    this.__screenshotSourceId = this.id;
     this.__isScreenshotAllowed = false;
     this.__onScreenshotCaptured = null; // callback when screenshot is captured
 
@@ -75,25 +87,40 @@ class VideoController {
    * @param {HTMLVideoElement} node 
    */
   registerVideo1(node) {
-    this.video1 = new VideoNode(node);
-    if (node) {
-      node.addEventListener('durationchange', this.onDurationChange);
-      node.addEventListener('progress', this.onProgress);
-      node.addEventListener('timeupdate', this.onTimeUpdate);
-      node.addEventListener('seeking', this.onSeeking);
-      node.addEventListener('ended', this.onEnded);
-      node.addEventListener('pause', this.onPause);
-      node.addEventListener('play', this.onPlay);
-      node.addEventListener('canplay', this.onVideo1CanPlay);
+    if (!node) {
+      console.error('Failed to register node for video1.')
+      return;
     }
+
+    this.video1 = new VideoNode(node);
+    // initialize preferences
+    this.video1.setVolume(PPrefer.volume);
+    this.video1.setPlaybackRate(PPrefer.playbackRate);
+    if (PPrefer.muted) this.video1.mute();
+    // add event listeners
+    node.addEventListener('durationchange', this.onDurationChange);
+    node.addEventListener('progress', this.onProgress);
+    node.addEventListener('timeupdate', this.onTimeUpdate);
+    node.addEventListener('seeking', this.onSeeking);
+    node.addEventListener('ended', this.onEnded);
+    node.addEventListener('pause', this.onPause);
+    node.addEventListener('play', this.onPlay);
+    node.addEventListener('canplay', this.onVideo1CanPlay);
   }
 
   registerVideo2(node) {
-    this.video2 = new VideoNode(node);
-    if (node) {
-      this.video2Ready = false;
-      node.addEventListener('canplay', this.onVideo2CanPlay);
+    if (!node) {
+      console.error('Failed to register node for video2.')
+      return;
     }
+
+    this.video2 = new VideoNode(node);
+    this.video2Ready = false;
+    // initialize preferences
+    this.video2.setVolume(PPrefer.volume);
+    this.video2.setPlaybackRate(PPrefer.playbackRate);
+    // add event listeners
+    node.addEventListener('canplay', this.onVideo2CanPlay);
   }
 
   // -----------------------------------------------------------------
@@ -122,17 +149,22 @@ class VideoController {
     }
   }
 
-  userIsReady() {
-    this.state.setUserReady(true);
+  // Screenshot Attributes Handlers
+  // -----------------------------------------------------------------
+
+  setScreenshotSource(sourceType, sourceId) {
+    this.__screenshotSourceType = sourceType;
+    this.__screenshotSourceId = sourceId;
   }
+
+  get screenshotSourceType() { return this.__screenshotSourceType; }
+  get screenshotSourceId() { return this.__screenshotSourceId; }
 
   set isScreenshotAllowed(isAllowed) {
     this.__isScreenshotAllowed = isAllowed;
   }
 
-  get isScreenshotAllowed() {
-    return this.__isScreenshotAllowed;
-  }
+  get isScreenshotAllowed() { return this.__isScreenshotAllowed; }
 
   set onScreenshotCaptured(onScreenshotCaptured) {
     if (typeof onScreenshotCaptured === 'function') {
@@ -178,6 +210,18 @@ class VideoController {
         this.__onScreenshotCaptured(url, blob);
       }
     });
+  }
+
+  downloadScreenshot(imgBlob) {
+    _downloadScreenshotByBlob(imgBlob, this.state.time, this.state.media.mediaName);
+  }
+
+  async copyScreenshotLink(imgBlob) {
+    const successed = await _copyScreenshotLink(
+      imgBlob, 
+      this.screenshotSourceType, 
+      this.screenshotSourceId);
+    return successed;
   }
 
 
@@ -253,6 +297,7 @@ class VideoController {
     this.video1.mute();
     this.state.setMuted(true);
     this.toggleEvent(PConstants.PlayerEventMute);
+    PPrefer.setMuted(true);
   }
 
   unmute() {
@@ -260,6 +305,7 @@ class VideoController {
     this.video1.unmute();
     this.state.setMuted(false);
     this.toggleEvent(PConstants.PlayerEventVolumeUp);
+    PPrefer.setMuted(false);
   }
 
   toggleMute() {
@@ -272,9 +318,13 @@ class VideoController {
 
   setVolume(volume) {
     if (!this.video1) return;
-    if (volume > 1 || volume < 0) return;
-    this.video1.setVolume(volume);
-    this.state.setVolume(volume);
+    const realVolume = volume > 1 ? 1 : (volume < 0 ? 0 : volume);
+    this.video1.setVolume(realVolume);
+    this.state.setVolume(realVolume);
+    PPrefer.setVolume(realVolume);
+    if (volume > 0 && this.state.muted) {
+      this.unmute();
+    }
   }
 
   volumeUp() {
@@ -293,6 +343,7 @@ class VideoController {
     if (!this.video1) return;
     this.video1.setPlaybackRate(playbackRate);
     this.state.setPlaybackRate(playbackRate);
+    PPrefer.setPlaybackRate(playbackRate)
   }
 
   // -----------------------------------------------------------------
@@ -396,7 +447,6 @@ class VideoController {
 
   onPlay() {
     this.state.setIsPaused(false);
-    if (!this.state.userReady) this.userIsReady();
   }
 
   onSeeking() {

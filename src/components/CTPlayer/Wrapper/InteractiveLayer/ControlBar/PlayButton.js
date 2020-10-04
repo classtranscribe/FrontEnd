@@ -29,7 +29,7 @@ function PlayButton(props) {
       icon={icon}
       label={label}
       onClick={handleClick}
-      playButton
+      // playButton
     />
   );
 }

@@ -1,4 +1,4 @@
-import { cthttp } from './request';
+import { cthttp } from '../request';
 
 // ------------------------------------------------------------
 // Universities

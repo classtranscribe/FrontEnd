@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import { isSafari } from 'react-device-detect';
-import { v4 as uuid } from 'uuid';
 import { api, elem, timestr } from 'utils';
+import PConstants from './constants/PlayerConstants';
 import LConstants from './constants/LanguageConstants';
 import VideoController from './VideoController';
+import CaptionStyle from './structs/CaptionStyle';
+import PPrefer from './PlayerPreference';
 import _playerKeyDownEventHandler from './keydown-handler';
 import { _findCurrTimeBlock } from './helpers';
 
@@ -16,13 +18,13 @@ class PlayerController extends VideoController {
    * @param {Any} stateManager - a state manager for video controller
    */
   constructor(stateManager, id) {
-    super(stateManager);
-    // Player ID
-    this.id = id || uuid();
+    super(stateManager, id);
+
     // Node of the player
     this.playerNode = null;
-    // Mouse over timer for wrapper
-    this.mouseOverTimer = null;
+    // Init userActive event values
+    this.userActiveTimer = null;
+    this.hideWrapperOnMouseLeave = false;
     // Languages for current media
     this.languages = [];
 
@@ -30,6 +32,8 @@ class PlayerController extends VideoController {
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
+    this.startPlaying = this.startPlaying.bind(this);
+    this.userIsActive = this.userIsActive.bind(this);
     this.swapScreens = this.swapScreens.bind(this);
     this.setScreenMode = this.setScreenMode.bind(this);
     this.setOpenCC = this.setOpenCC.bind(this);
@@ -38,14 +42,19 @@ class PlayerController extends VideoController {
     this.changeLanguage = this.changeLanguage.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
     this.exitFullscreen = this.exitFullscreen.bind(this);
-    this.onFullscreenChange = this.onFullscreenChange.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
     this.handlePlayerSize = this.handlePlayerSize.bind(this);
 
     this.setCCFontSize = this.setCCFontSize.bind(this);
     this.setCCFontColor = this.setCCFontColor.bind(this);
     this.setCCOpacity = this.setCCOpacity.bind(this);
     this.setCCBackgroundColor = this.setCCBackgroundColor.bind(this);
+
+    this.__onFullscreenChange = this.__onFullscreenChange.bind(this);
+    this.__onKeyDown = this.__onKeyDown.bind(this);
+    this.__onMouseEnter = this.__onMouseEnter.bind(this);
+    this.__onMouseMove = this.__onMouseMove.bind(this);
+    this.__onMouseLeave = this.__onMouseLeave.bind(this);
+    this.__onFocusIn = this.__onFocusIn.bind(this);
   }
 
   // -----------------------------------------------------------------
@@ -57,28 +66,90 @@ class PlayerController extends VideoController {
    * @param {HTMLDivElement} node 
    */
   registerPlayer(node) {
-    this.playerNode = node;
-    if (node) {
-      node.addEventListener('keydown', this.onKeyDown);
-      if (isSafari) {
-        node.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
-      } else {
-        node.addEventListener('fullscreenchange', this.onFullscreenChange);
-      }
-      this.handlePlayerSize();
+    if (!node) {
+      console.error('Failed to register node for player element.')
+      return;
     }
+
+    this.playerNode = node;
+    // add event listeners
+    node.addEventListener('keydown', this.__onKeyDown);
+    // handle user active events
+    node.addEventListener('mouseenter', this.__onMouseEnter);
+    node.addEventListener('mousemove', this.userIsActive);
+    node.addEventListener('mouseleave', this.__onMouseLeave);
+    node.addEventListener('focusin', this.__onFocusIn);
+    if (isSafari) {
+      node.addEventListener('webkitfullscreenchange', this.__onFullscreenChange);
+    } else {
+      node.addEventListener('fullscreenchange', this.__onFullscreenChange);
+    }
+    this.handlePlayerSize();
+  }
+
+  get playerBoundingRect() {
+    return this.playerNode.getBoundingClientRect();
   }
 
   handlePlayerSize() {
     if (!this.playerNode) return;
-    const { width } = this.playerNode.getBoundingClientRect();
+    const { width } = this.playerBoundingRect;
     if (width >= 1000) {
-      this.state.setSize('lg');
+      this.state.setSize(PConstants.PlayerSizeLarge);
     } else if (width >= 700) {
-      this.state.setSize('md');
+      this.state.setSize(PConstants.PlayerSizeMedium);
     } else {
-      this.state.setSize('xs');
+      this.state.setSize(PConstants.PlayerSizeSmall);
     }
+  }
+
+  focusOnPlayer() {
+    this.playerNode.focus();
+  }
+
+  // Setup Player Status
+  // -----------------------------------------------------------------
+  get isUserReady() {
+    return this.state.userReady;
+  }
+
+  get isUserActive() {
+    return this.state.userActive;
+  }
+
+  startPlaying() {
+    this.state.setUserReady(true);
+    this.play();
+    this.userIsActive();
+    this.focusOnPlayer(); 
+  }
+
+  userIsActive() {
+    if (!this.isUserReady) return;
+    if (this.userActiveTimer !== null) {
+      clearTimeout(this.userActiveTimer);
+      this.userActiveTimer = null;
+    }
+    
+    if (!this.isUserActive) {
+      this.setUserActive(true);
+    }
+
+    this.userActiveTimer = setTimeout(() => {
+      this.setUserActive(false);
+      this.userActiveTimer = null;
+    }, 3000);
+  }
+
+  // Fullscreen Handlers
+  // -----------------------------------------------------------------
+  enterFullscreen() {
+    if (!this.playerNode) return;
+    elem.enterFullscreen(this.playerNode);
+  }
+
+  exitFullscreen() {
+    elem.exitFullScreen();
   }
 
   // -----------------------------------------------------------------
@@ -105,7 +176,7 @@ class PlayerController extends VideoController {
     }
   }
 
-  setupTranscriptions(media, defaultLang = LConstants.English) {
+  setupTranscriptions(media, defaultLang = PPrefer.language) {
     const { transcriptions } = media;
 
     if (Array.isArray(transcriptions) && transcriptions.length > 0) {
@@ -157,7 +228,7 @@ class PlayerController extends VideoController {
     if (!this.state.openCC) this.setOpenCC(true);
     let targetIndex = _.findIndex(this.state.transcriptions, { language });
     if (targetIndex >= 0) {
-      this.setLanguage({ code: language, text: (language) });
+      this.setLanguage({ code: language, text: LConstants.decode(language) });
       this.setCurrTranscription(this.state.transcriptions[targetIndex]);
     } else {
       this.setLanguage({ code: null, text: null });
@@ -216,26 +287,6 @@ class PlayerController extends VideoController {
     this.setCurrCaption(this.findCurrCaption(now, captions));
   }
 
-  enterFullscreen() {
-    let node = this.playerNode;
-    if (!node) return;
-
-    elem.enterFullscreen(node);
-  }
-
-  exitFullscreen() {
-    elem.exitFullScreen();
-  }
-
-  onFullscreenChange(/** event */) {
-    this.state.setIsFullscreen(elem.isInFullScreen);
-    this.handlePlayerSize();
-  }
-
-  onKeyDown(event) {
-    _playerKeyDownEventHandler(event, this);
-  }
-
   // -----------------------------------------------------------------
   // Player State/Attribute Setters
   // -----------------------------------------------------------------
@@ -244,10 +295,16 @@ class PlayerController extends VideoController {
     this.state.setError(error);
   }
 
+  setUserActive(userActive) {
+    if (!this.isUserReady) return;
+    this.state.setUserActive(userActive);
+  }
+
   // Screen Settings
   // -----------------------------------------------------------------
   setScreenMode(screenMode) {
     this.state.setScreenMode(screenMode);
+    PPrefer.setScreenMode(screenMode);
   }
 
   swapScreens() {
@@ -271,6 +328,7 @@ class PlayerController extends VideoController {
 
   setLanguage(language) {
     this.state.setLanguage(language);
+    PPrefer.setLanguage(language.code);
   }
 
   setCaptions(captions) {
@@ -285,6 +343,7 @@ class PlayerController extends VideoController {
   // -----------------------------------------------------------------
   setOpenCC(openCC) {
     this.state.setOpenCC(openCC);
+    PPrefer.setOpenCC(openCC);
   }
   
   closeCC() {
@@ -296,10 +355,9 @@ class PlayerController extends VideoController {
   }
 
   setCCStyle(ccStyle) {
-    this.state.setCCStyle({
-      ...this.state.ccStyle,
-      ...ccStyle
-    });
+    const newStyle = { ...this.state.ccStyle, ...ccStyle };
+    this.state.setCCStyle(newStyle);
+    CaptionStyle.setPreference(newStyle);
   }
 
   setCCFontSize(fontSize) {
@@ -320,6 +378,38 @@ class PlayerController extends VideoController {
 
   setCCPosition(position) {
     this.setCCStyle({ position });
+  }
+
+  // -----------------------------------------------------------------
+  // Player Native Events Handlers
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
+
+  __onFullscreenChange(/** event */) {
+    this.state.setIsFullscreen(elem.isInFullScreen);
+    this.handlePlayerSize();
+  }
+
+  __onKeyDown(event) {
+    _playerKeyDownEventHandler(event, this);
+  }
+
+  __onMouseEnter() {
+    this.userIsActive();
+  }
+
+  __onMouseMove() {
+    this.userIsActive();
+  }
+
+  __onMouseLeave() {
+    if (this.hideWrapperOnMouseLeave) {
+      this.setUserActive(false);
+    }
+  }
+
+  __onFocusIn() {
+    this.userIsActive();
   }
 }
 

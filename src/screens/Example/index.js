@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'layout';
-import { api } from 'utils';
+import { CTLayout, CTFragment } from 'layout';
+import CTPlayer from 'components/CTPlayer';
 import {
   setup,
   exampleStore,
   connectWithRedux
 } from './controllers';
 
-import { OfferingList } from './components';
+// import { OfferingList } from './components';
 
 class ExampleWithRedux extends Component {
   constructor(props) {
@@ -26,13 +26,21 @@ class ExampleWithRedux extends Component {
       transition: true,
       headingProps: {
         heading: 'Example',
-        icon: 'add'
       }
     });
 
     return (
       <CTLayout {...layoutProps}>
-        <OfferingList />
+        {/* <OfferingList /> */}
+
+        <CTFragment padding={[0, 30]}>
+          <CTPlayer
+            width="800"
+            mediaId="c9a54a76-9cf0-4ec2-ab2f-89d496326562"
+            hideWrapperOnMouseLeave
+            allowScreenshot
+          />
+        </CTFragment>
       </CTLayout>
     );
   }

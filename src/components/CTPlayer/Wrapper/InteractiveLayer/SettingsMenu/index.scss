@@ -6,11 +6,15 @@
   height: auto;
   max-height: calc(100% - 60px - 70px);
   overflow-y: auto;
-  padding: 10px 0;
+  padding: 3px 0;
+  border-radius: 5px;
 
   color: white;
-  background-color: rgba(27, 27, 27, 0.897);
+  // background-color: rgba(27, 27, 27, 0.897);
+  background-color: rgba(47, 47, 47, 0.945);
   display: none;
+  font-size: 0.9em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.301);
 
   &.open {
     display: block;
@@ -29,9 +33,20 @@
       align-items: center;
       padding: 10px 10px;
       white-space: nowrap;
+      transition: background 150ms linear;
+
+      &:focus {
+        outline: none;
+        color: rgb(0, 187, 187);
+        background-color: rgba(39, 39, 39, 0.438);
+      }
 
       &:hover {
-        background-color: rgba(65, 65, 65, 0.575);
+        background-color: rgba(39, 39, 39, 0.575);
+      }
+
+      &:active {
+        background: rgb(34, 34, 34);
       }
 
       &.bordered {
@@ -42,6 +57,13 @@
         border-bottom: 1px solid grey;
         margin-bottom: 5px;
         padding: 10px 10px;
+        background-color: rgba(47, 47, 47, 0.945);
+        position: sticky;
+        top: 0;
+        &:focus .ctp.menuitem-text,
+        &:hover .ctp.menuitem-text {
+          text-decoration: underline;
+        }
       }
 
       span {
@@ -52,6 +74,7 @@
 
       .current-value {
         margin-left: 15px;
+        font-size: 0.85em;
       }
 
       .ctp.check-icon {

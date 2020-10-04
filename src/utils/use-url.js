@@ -37,6 +37,10 @@ class UrlHandler {
     return (env.baseURL || window.location.origin) + mediaUrl;
   }
 
+  purePath(url) {
+    return url.split(/(#|\?)/g)[0];
+  }
+
   /**
    * Open url in a new browser tab
    * @param {String} url 

@@ -1,4 +1,4 @@
-import { cthttp } from './request';
+import { cthttp } from '../request';
 
 const UPLOAD_MEDIA_TIMEOUT = 6000000;
 
