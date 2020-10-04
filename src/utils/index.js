@@ -12,7 +12,7 @@ export { api } from './cthttp';
 export { user } from './user';
 export { CTSearch, search } from './search';
 export { CTPrompt, prompt } from './prompt';
-export { CTPreference } from './user-preference';
+export { CTPreference, CTPreferenceV2 } from './user-preference';
 export { CTUserGuide } from './user-guide';
 export { html } from './2html';
 export { elem } from './use-elem';

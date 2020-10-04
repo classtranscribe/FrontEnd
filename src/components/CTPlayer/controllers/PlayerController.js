@@ -1,8 +1,11 @@
 import _ from 'lodash';
 import { isSafari } from 'react-device-detect';
 import { api, elem, timestr } from 'utils';
+import PConstants from './constants/PlayerConstants';
 import LConstants from './constants/LanguageConstants';
 import VideoController from './VideoController';
+import CaptionStyle from './structs/CaptionStyle';
+import PPrefer from './PlayerPreference';
 import _playerKeyDownEventHandler from './keydown-handler';
 import { _findCurrTimeBlock } from './helpers';
 
@@ -61,21 +64,25 @@ class PlayerController extends VideoController {
    * @param {HTMLDivElement} node 
    */
   registerPlayer(node) {
-    this.playerNode = node;
-    if (node) {
-      node.addEventListener('keydown', this.__onKeyDown);
-      // handle user active events
-      node.addEventListener('mouseenter', this.__onMouseEnter);
-      node.addEventListener('mousemove', this.__onMouseMove);
-      node.addEventListener('mouseleave', this.__onMouseLeave);
-      node.addEventListener('focusin', this.__onFocusIn);
-      if (isSafari) {
-        node.addEventListener('webkitfullscreenchange', this.__onFullscreenChange);
-      } else {
-        node.addEventListener('fullscreenchange', this.__onFullscreenChange);
-      }
-      this.handlePlayerSize();
+    if (!node) {
+      console.error('Failed to register node for player element.')
+      return;
     }
+
+    this.playerNode = node;
+    // add event listeners
+    node.addEventListener('keydown', this.__onKeyDown);
+    // handle user active events
+    node.addEventListener('mouseenter', this.__onMouseEnter);
+    node.addEventListener('mousemove', this.__onMouseMove);
+    node.addEventListener('mouseleave', this.__onMouseLeave);
+    node.addEventListener('focusin', this.__onFocusIn);
+    if (isSafari) {
+      node.addEventListener('webkitfullscreenchange', this.__onFullscreenChange);
+    } else {
+      node.addEventListener('fullscreenchange', this.__onFullscreenChange);
+    }
+    this.handlePlayerSize();
   }
 
   get playerBoundingRect() {
@@ -86,11 +93,11 @@ class PlayerController extends VideoController {
     if (!this.playerNode) return;
     const { width } = this.playerBoundingRect;
     if (width >= 1000) {
-      this.state.setSize('lg');
+      this.state.setSize(PConstants.PlayerSizeLarge);
     } else if (width >= 700) {
-      this.state.setSize('md');
+      this.state.setSize(PConstants.PlayerSizeMedium);
     } else {
-      this.state.setSize('xs');
+      this.state.setSize(PConstants.PlayerSizeSmall);
     }
   }
 
@@ -122,7 +129,7 @@ class PlayerController extends VideoController {
     }
   }
 
-  setupTranscriptions(media, defaultLang = LConstants.English) {
+  setupTranscriptions(media, defaultLang = PPrefer.language) {
     const { transcriptions } = media;
 
     if (Array.isArray(transcriptions) && transcriptions.length > 0) {
@@ -295,6 +302,7 @@ class PlayerController extends VideoController {
   // -----------------------------------------------------------------
   setScreenMode(screenMode) {
     this.state.setScreenMode(screenMode);
+    PPrefer.setScreenMode(screenMode);
   }
 
   swapScreens() {
@@ -318,6 +326,7 @@ class PlayerController extends VideoController {
 
   setLanguage(language) {
     this.state.setLanguage(language);
+    PPrefer.setLanguage(language.code);
   }
 
   setCaptions(captions) {
@@ -332,6 +341,7 @@ class PlayerController extends VideoController {
   // -----------------------------------------------------------------
   setOpenCC(openCC) {
     this.state.setOpenCC(openCC);
+    PPrefer.setOpenCC(openCC);
   }
   
   closeCC() {
@@ -343,10 +353,9 @@ class PlayerController extends VideoController {
   }
 
   setCCStyle(ccStyle) {
-    this.state.setCCStyle({
-      ...this.state.ccStyle,
-      ...ccStyle
-    });
+    const newStyle = { ...this.state.ccStyle, ...ccStyle };
+    this.state.setCCStyle(newStyle);
+    CaptionStyle.setPreference(newStyle);
   }
 
   setCCFontSize(fontSize) {

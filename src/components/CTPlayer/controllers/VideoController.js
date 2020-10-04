@@ -3,6 +3,7 @@ import { prompt } from 'utils/prompt';
 import SourceTypes from 'entities/SourceTypes';
 import VideoNode from './structs/VideoNode';
 import PConstants from './constants/PlayerConstants';
+import PPrefer from './PlayerPreference';
 import {
   _captureVideoImage,
   _downloadScreenshotByBlob,
@@ -86,25 +87,40 @@ class VideoController {
    * @param {HTMLVideoElement} node 
    */
   registerVideo1(node) {
-    this.video1 = new VideoNode(node);
-    if (node) {
-      node.addEventListener('durationchange', this.onDurationChange);
-      node.addEventListener('progress', this.onProgress);
-      node.addEventListener('timeupdate', this.onTimeUpdate);
-      node.addEventListener('seeking', this.onSeeking);
-      node.addEventListener('ended', this.onEnded);
-      node.addEventListener('pause', this.onPause);
-      node.addEventListener('play', this.onPlay);
-      node.addEventListener('canplay', this.onVideo1CanPlay);
+    if (!node) {
+      console.error('Failed to register node for video1.')
+      return;
     }
+
+    this.video1 = new VideoNode(node);
+    // initialize preferences
+    this.video1.setVolume(PPrefer.volume);
+    this.video1.setPlaybackRate(PPrefer.playbackRate);
+    if (PPrefer.muted) this.video1.mute();
+    // add event listeners
+    node.addEventListener('durationchange', this.onDurationChange);
+    node.addEventListener('progress', this.onProgress);
+    node.addEventListener('timeupdate', this.onTimeUpdate);
+    node.addEventListener('seeking', this.onSeeking);
+    node.addEventListener('ended', this.onEnded);
+    node.addEventListener('pause', this.onPause);
+    node.addEventListener('play', this.onPlay);
+    node.addEventListener('canplay', this.onVideo1CanPlay);
   }
 
   registerVideo2(node) {
-    this.video2 = new VideoNode(node);
-    if (node) {
-      this.video2Ready = false;
-      node.addEventListener('canplay', this.onVideo2CanPlay);
+    if (!node) {
+      console.error('Failed to register node for video2.')
+      return;
     }
+
+    this.video2 = new VideoNode(node);
+    this.video2Ready = false;
+    // initialize preferences
+    this.video2.setVolume(PPrefer.volume);
+    this.video2.setPlaybackRate(PPrefer.playbackRate);
+    // add event listeners
+    node.addEventListener('canplay', this.onVideo2CanPlay);
   }
 
   // -----------------------------------------------------------------
@@ -285,6 +301,7 @@ class VideoController {
     this.video1.mute();
     this.state.setMuted(true);
     this.toggleEvent(PConstants.PlayerEventMute);
+    PPrefer.setMuted(true);
   }
 
   unmute() {
@@ -292,6 +309,7 @@ class VideoController {
     this.video1.unmute();
     this.state.setMuted(false);
     this.toggleEvent(PConstants.PlayerEventVolumeUp);
+    PPrefer.setMuted(false);
   }
 
   toggleMute() {
@@ -304,9 +322,13 @@ class VideoController {
 
   setVolume(volume) {
     if (!this.video1) return;
-    if (volume > 1 || volume < 0) return;
-    this.video1.setVolume(volume);
-    this.state.setVolume(volume);
+    const realVolume = volume > 1 ? 1 : (volume < 0 ? 0 : volume);
+    this.video1.setVolume(realVolume);
+    this.state.setVolume(realVolume);
+    PPrefer.setVolume(realVolume);
+    if (volume > 0 && this.state.muted) {
+      this.unmute();
+    }
   }
 
   volumeUp() {
@@ -325,6 +347,7 @@ class VideoController {
     if (!this.video1) return;
     this.video1.setPlaybackRate(playbackRate);
     this.state.setPlaybackRate(playbackRate);
+    PPrefer.setPlaybackRate(playbackRate)
   }
 
   // -----------------------------------------------------------------
