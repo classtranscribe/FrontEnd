@@ -15,6 +15,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { makeStyles } from "@material-ui/styles";
 import { connectWithRedux } from '../../../controllers/trans';
+import TransTime from "../TransTime"
+import TransText from "../TransText"
 
 function TransTable({
   media = undefined,
@@ -59,7 +61,7 @@ function TransTable({
   }));
   const [captions, setCaptions] = useState([])
   const [time, setTime] = useState(30)
-  const handleTimeChange =
+  const handleVideoTimeChange =
     () => {
       setVideoTime(time)
       setTime(time + 0.01)
@@ -123,8 +125,8 @@ function TransTable({
               }}
             >
               {colIndex === 2 ?
-                item[column.dataKey] :
-                item[column.dataKey]}
+                <TransText text={item[column.dataKey]} /> :
+                <TransTime time={item[column.dataKey]} />}
             </TableCell>
           );
         })}
@@ -140,7 +142,6 @@ function TransTable({
   });
   // id, operations, begin, end, text 
   const columns = [
-
     {
       label: "begin",
       dataKey: "begin",
