@@ -27,7 +27,7 @@ function BreadCrumb({
 
   return (
     <MuiBreadcrumbs aria-label="breadcrumb">
-      <MuiLink {...linkProps} to={links.offeringDetail(offering.id)}>
+      <MuiLink {...linkProps} to={links.course(offering.id)}>
         {offering.fullNumber}
       </MuiLink>
       <MuiLink className={classes.link}>

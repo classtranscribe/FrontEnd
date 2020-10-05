@@ -26,7 +26,7 @@ function MediaInfo({ media = {}, playlist = {}, offering = {} }) {
       trigger={
         <Link
           className="watch-media-info"
-          to={links.offeringDetail(playlist.offeringId, playlist.id, media.id)}
+          to={links.course(playlist.offeringId, playlist.id, media.id)}
         >
           <span className="watch-header-course-num">
             {fullNumber}
