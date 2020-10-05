@@ -108,7 +108,7 @@ function TransTable({
   useEffect(() => {
     createData()
   }, [captions])
-  const ROW_SIZE = 48;
+  const ROW_SIZE = 60;
 
   const tableRow = ({ index, style, data: { columns, items, classes } }) => {
     const item = items[index];
@@ -121,7 +121,8 @@ function TransTable({
               component="div"
               variant="body"
               style={{
-                height: ROW_SIZE
+                height: ROW_SIZE,
+                borderBottom: 0
               }}
             >
               {colIndex === 2 ?
@@ -179,7 +180,7 @@ function TransTable({
                 height={height}
                 width={width}
                 itemCount={data.length}
-                itemSize={() => { return 48 }}
+                itemSize={() => { return 60 }}
                 itemKey={itemKey}
                 itemData={itemData}
               >
@@ -195,7 +196,7 @@ function TransTable({
 }
 
 
-export default connectWithRedux(
+export default React.memo(connectWithRedux(
   TransTable,
   [
     'transcriptions',
@@ -205,4 +206,4 @@ export default connectWithRedux(
     'setTranscriptions'
   ],
   ['media']
-);
+));
