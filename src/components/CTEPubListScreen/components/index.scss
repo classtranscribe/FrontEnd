@@ -1,0 +1,17 @@
+#ct-epub-list-screen-con {
+  h1 {
+    font-size: 40px;
+    margin: 50px 0;
+    min-height: auto !important;
+    padding: 0;
+    background: white;
+    position: sticky;
+    bottom: 20vh;
+    width: 100%;
+    text-align: center;
+  }
+
+  #ct-epb-list {
+    box-shadow: 0 0 1rem .2rem rgba(0, 0, 0, 0.089);
+  }
+}
