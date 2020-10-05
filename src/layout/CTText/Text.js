@@ -11,6 +11,9 @@ function Text(props) {
   let {
     className,
     fluid,
+    textCenter,
+    textLeft,
+    textRight,
     uppercase,
     capitalize,
     bold,
@@ -34,6 +37,9 @@ function Text(props) {
 
   const textClasses = cx('ct', 'ct-text', size, {
     fluid,
+    textCenter,
+    textLeft,
+    textRight,
     uppercase,
     capitalize,
     bold,
@@ -70,6 +76,15 @@ Text.propTypes = {
   ...CTFragment.propTypes,
   /** The text can be fluid to the container */
   fluid: PropTypes.bool,
+
+  /** text-align: center */
+  textCenter: PropTypes.bool,
+
+  /** text-align: left */
+  textLeft: PropTypes.bool,
+
+  /** text-align: right */
+  textRight: PropTypes.bool,
 
   /** The text can be transformed to uppercase */
   uppercase: PropTypes.bool,

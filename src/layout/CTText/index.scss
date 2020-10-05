@@ -9,6 +9,18 @@ $highlighted: var(--ct-text-highlight);
   color: rgb(65, 65, 65);
   width: auto;
 
+  &.textCenter {
+    text-align: center;
+  }
+
+  &.textRight {
+    text-align: right;
+  }
+
+  &.textLeft {
+    text-align: left;
+  }
+
   &:hover {
     &.hoverUnderlined {
       text-decoration: underline;

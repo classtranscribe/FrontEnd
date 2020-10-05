@@ -45,6 +45,8 @@ function CTFragment(props) {
     borderBottom = false,
     borderLeft = false,
     overflowHidden,
+    scrollY,
+    scrollX,
     // styles
     raised,
     shadowed,
@@ -104,7 +106,9 @@ function CTFragment(props) {
       'border-right': borderRight,
       'border-bottom': borderBottom,
       'border-left': borderLeft,
-      'overflow-hidden': overflowHidden
+      'overflow-hidden': overflowHidden,
+      'scroll-y': scrollY,
+      'scroll-x': scrollX,
     }
   );
 
@@ -275,6 +279,12 @@ CTFragment.propTypes = {
 
   /** True if overflow: hidden; */
   overflowHidden: PropTypes.bool,
+
+  /** True if overflow-y: auto */
+  scrollY: PropTypes.bool,
+
+  /** True if overflow-x: auto */
+  scrollX: PropTypes.bool,
 };
 
 export default CTFragment;
