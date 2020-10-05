@@ -1,0 +1,31 @@
+.ct-listitem-con {
+  &:not(:last-child) {
+    .ct-listitem-text {
+      border-bottom: 1px solid rgb(233, 233, 233);
+    }
+  }
+
+  .ct-listitem {
+    padding: 0 25px;
+    text-align: left;
+  
+    span.material-icons {
+      color: rgb(61, 61, 61);
+      padding-right: 15px;
+      font-size: 30px;
+    }
+  
+    .ct-listitem-text {
+      padding: 10px 0;
+    }
+  
+    &:hover {
+      transition: background 200ms ease-in-out;
+      background-color: rgb(243, 243, 243);
+      span.material-icons,
+      .ct-listitem-text .ct-listitem-title {
+        color: teal !important;
+      }
+    }
+  }
+}

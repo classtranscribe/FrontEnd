@@ -8,10 +8,9 @@ import {
   DialogActions,
   ButtonBase,
 } from '@material-ui/core';
-import { useSignButtonProps, CTFragment, CTText, CTBrand } from 'layout';
-import { user } from 'utils';
+import { useSignButtonProps, CTFragment, CTText, CTBrand, CTList } from 'layout';
+import { user, links } from 'utils';
 import { CookiePoilcy, AcceptableUsePolicy } from './policies';
-import CookieOption from './CookieOption';
 import './index.scss';
 
 export const useStyles = makeStyles({
@@ -61,25 +60,33 @@ function CTCookieAgreement() {
     setPolicyToShow(policyName);
   };
 
+  const titleSize = isMobile ? 'medium' : 'big';
+  const despSize = isMobile ? 'normal' : 'medium';
+
+  const itemStyles = { titleSize, despSize };
+
   const cookieOptions = [
     {
-      name: 'Accept and Sign In',
-      desp: 'Access all eligible videos and courses.',
+      title: 'Accept and Sign In',
+      description: 'Access all eligible videos and courses.',
       icon: 'verified_user',// 'perm_identity',//'login',
-      ...signinButtonProps
+      link: true,
+      to: links.signIn(),
+      ...itemStyles
     },
     {
-      name: 'Accept and Skip Sign In',
-      desp: 'Access only public sources.',
+      title: 'Accept and Skip Sign In',
+      description: 'Access only public sources.',
       icon: 'check_circle_outline',
-      onClick: handleAcceptSkipLogin
+      onClick: handleAcceptSkipLogin,
+      ...itemStyles
     },
     {
-      name: 'Decline and Close Window',
-      desp: `Accepting cookie policies are required to access ClassTranscribe's content.`,
-      muted: true,
+      title: 'Decline and Close Window',
+      description: `Accepting cookie policies are required to access ClassTranscribe's content.`,
       icon: 'block',// 'error_outline',
-      onClick: handleCloseBrowserWindow
+      onClick: handleCloseBrowserWindow,
+      ...itemStyles
     }
   ];
 
@@ -129,19 +136,7 @@ function CTCookieAgreement() {
       </DialogContent>
 
       <DialogActions className="cookie-acp-btns">
-        <CTFragment 
-          dFlexCol 
-          role="list" 
-          className="ct-signin-opts"
-          padding={[0,0,20,0]}
-        >
-          {cookieOptions.map(opt => (
-            <CookieOption
-              {...opt}
-              key={opt.name}
-            />
-          ))}
-        </CTFragment>
+        <CTList items={cookieOptions} />
       </DialogActions>
     </Dialog>
   );
