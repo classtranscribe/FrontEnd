@@ -43,12 +43,13 @@ function CTListItem(props) {
       {...baseProps}
     >
       <CTFragment dFlex alignItCenter className={baseClasses}>
-        {icon && <span className="material-icons">{icon}</span>}
+        {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
         <CTFragment dFlexCol className="ct-listitem-text">
           <CTText
             bold
             size={titleSize}
-            padding={[0, 0, 5, 0]}
+            margin={[0, 0, 5, 0]}
+            line={1}
             {...titleProps}
             className={titleClasses}
           >

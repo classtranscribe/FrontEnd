@@ -24,6 +24,8 @@ function NewEPubButton({ languages, sourceType, sourceId, defaultTitle }) {
       className={btn.teal}
       startIcon={<AddIcon />}
       onClick={e => setAnchorEl(e.currentTarget)}
+      aria-haspopup="menu"
+      aria-expanded={anchorEl ? "true" : "false"}
     >
       Create new ePub
     </Button>

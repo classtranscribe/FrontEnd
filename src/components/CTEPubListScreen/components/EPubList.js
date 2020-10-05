@@ -1,5 +1,5 @@
 import React from 'react';
-import { NOT_FOUND_404 } from 'utils/constants';
+import { NOT_FOUND_404, links } from 'utils';
 import { altEl, makeEl, CTFragment, CTHeading, CTText, CTList } from 'layout';
 import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
@@ -10,9 +10,12 @@ export function _getEPubListItems(ePubs) {
     let lang = LanguageConstants.decode(epub.language);
     let status = epub.isPublished ? 'Published' : 'Unpublished'
     return {
-      title: epub.title,
+      title: epub.filename,
       icon: 'text_snippet',
       description: `${status} • ${lang}`,
+      link: true,
+      to: links.epub(epub.id),
+      target: '_blank',
       titleProps: {
         celadon: true
       },
@@ -47,25 +50,25 @@ function EPubList(props) {
         !hasError
         &&
         <CTFragment>
-          {
-            hasEPubs ? (
-              <>
-                <CTFragment justConBetween padding={[0, 20, 20, 30]}>
-                  <CTHeading as="h3" alignItCenter padding="0" margin="0">
-                    ePub Books
-                  </CTHeading>
-                  {newEPubBtnElement}
-                </CTFragment>
-
-                <CTList items={_getEPubListItems(ePubs)} />
-              </>
-            ) : (
-              <CTFragment margin={[50, 0, 0, 0]} dFlexCol center>
+          {hasEPubs ? (
+            <>
+              <CTFragment justConBetween padding={[0, 20, 20, 30]}>
+                <CTHeading as="h3" alignItCenter compact icon="library_books">
+                  ePub Books
+                </CTHeading>
                 {newEPubBtnElement}
-                <CTText center muted padding="10">Create your first ePub book</CTText>
               </CTFragment>
-            )
-          }
+
+              <CTList items={_getEPubListItems(ePubs)} />
+            </>
+          ) : (
+            <CTFragment margin={[50, 0, 0, 0]} dFlexCol center>
+              {newEPubBtnElement}
+              <CTText center muted padding="10">
+                Create your first ePub book
+              </CTText>
+            </CTFragment>
+          )}
         </CTFragment>
       }
     </CTFragment>

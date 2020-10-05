@@ -7,9 +7,10 @@ function EPubPoster() {
     <CTFragment center padding={[0,40]} width="60%">
       <CTFragment h100 dFlexCol alignItCenter justConBetween overflowHidden>
         <img
-          className="ct-epb epub-example w-100" 
+          className="w-100 ct-pointer-event-none" 
           src={epubExampleTop}
           alt="ePub generator screenshot"
+          aria-hidden="true"
         />
 
         <h1>
@@ -17,9 +18,10 @@ function EPubPoster() {
         </h1>
 
         <img 
-          className="ct-epb epub-example w-100" 
+          className="w-100 ct-pointer-event-none" 
           src={epubExampleBottom} 
           alt="ePub generator screenshot"
+          aria-hidden="true"
         />
       </CTFragment>
     </CTFragment>
