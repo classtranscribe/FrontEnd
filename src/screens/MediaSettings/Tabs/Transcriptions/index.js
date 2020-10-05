@@ -9,13 +9,9 @@ export function TranscriptionsWithRedux({
 }) {
   return (
     <CTFragment fadeIn className="msp-tab-con">
-      {/* <Player />
-      <TransTable media={media} /> */}
-      <CTFragment center padding={[30, 0]}>
-        <CTText celadon size="medium">
-          In progress
-        </CTText>
-      </CTFragment>
+      <Player />
+      <TransTable media={media} />
+      <CTFragment center padding={[30, 0]} />
     </CTFragment>
   );
 }

@@ -159,7 +159,7 @@ class Player extends React.Component {
     const video2Element = altEl(Video, !error && display2Screen, this.getVideo2Props());
     const wrapperElement = makeEl(Wrapper, this.getWrapperProps(display2Screen));
     const rangeElement = altEl(Range, openRange, this.getRangeProps());
-    
+
     return (
       <div {...this.getContainerProps(playerSize)}>
         <div {...this.getPlayerProps(playerSize)}>
@@ -243,10 +243,10 @@ class Player extends React.Component {
    * @returns {Object} the props for wrapper component
    */
   getWrapperProps(display2Screen) {
-    const { 
+    const {
       beginAt,
       endAt,
-      hideWrapperOnMouseLeave 
+      hideWrapperOnMouseLeave
     } = this.props;
     const {
       error,

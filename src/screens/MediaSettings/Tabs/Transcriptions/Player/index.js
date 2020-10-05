@@ -5,7 +5,9 @@ import { connectWithRedux } from '../../../controllers/trans';
 import './index.scss';
 
 function Player({
-  media
+  media,
+  videoTime,
+  setVideoTime
 }) {
   return (
     <CTFragment id="msp-t-player-con" dFlexCol data-scroll>
@@ -15,12 +17,13 @@ function Player({
         width={540}
         allowTwoScreen
         hideWrapperOnMouseLeave
-        beginAt={100}
-        endAt={300}
-        defaultOpenCC
-        allowRangePicker
-        defaultOpenRangePicker
-        defaultRange={[200, 400]}
+        // beginAt={100}
+        // endAt={300}
+        // defaultOpenCC
+        // allowRangePicker
+        // defaultOpenRangePicker
+        // defaultRange={[200, 400]}
+        triggerTime={videoTime}
       />
     </CTFragment>
   );
@@ -28,7 +31,7 @@ function Player({
 
 export default connectWithRedux(
   Player,
-  [],
-  [],
+  ['videoTime'],
+  ['setVideoTime'],
   ['media']
 );
