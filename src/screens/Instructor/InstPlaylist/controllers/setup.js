@@ -92,6 +92,9 @@ class InstPlaylistSetup extends StateController {
     }
   }
 
+// Assigns playlist to this.playlist, similiar for offering.
+// since the offering data is got via playlist.offeringId, so playlist.offeringId === this.offering.id
+// this.playlistId is from the URL when the page is loaded.
   async setupInstPlaylistPage(playlistId, state) {
     if (this.playlistId !== playlistId) {
       this.clearData();
@@ -104,6 +107,7 @@ class InstPlaylistSetup extends StateController {
     }
 
     // sestup playlist
+  
     const playlist = await this.getPlaylistById(playlistId);
     this.setPlaylist(playlist);
 
