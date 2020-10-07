@@ -20,6 +20,7 @@ export const useButtonStyles = makeStyles({
     }
   },
   tealLink: {
+    color: 'var(--ct-text-primary)',
     fontWeight: 'bold',
     '&:hover': {
       color: 'teal'

@@ -22,6 +22,7 @@ export { SelectCtrlButton } from './SelectCtrlButton';
 export { default as CTPlaylistIcon } from './CTPlaylistIcon';
 export { default as CircularProgress } from './CircularProgress';
 export { default as InfoAndListLayout } from './InfoAndListLayout';
+export { default as CopyButton } from './CopyButton';
 
 
 // Need to be removed later
