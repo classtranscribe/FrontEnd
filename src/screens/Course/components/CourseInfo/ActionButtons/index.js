@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CTFragment } from 'layout';
+import { CopyButton } from 'components';
+import { links } from 'utils';
 import CourseAnalyticsButton from './CourseAnalyticsButton';
 import CourseSettingsButton from './CourseSettingsButton';
 import InstModeCheckBox from './InstModeCheckBox';
@@ -17,16 +19,13 @@ function ActionButtons(props) {
 
   const isStarred = Boolean(starredOfferings[offering.id]);
   const hasAnalytics = isInstMode && offering.logEventsFlag;
+  const shareableURL = window.location.origin + links.offeringDetail(offering.id);
 
   return show ? (
     <>
-      {
-        isInsructor
-        &&
-        <CTFragment justConEnd>
-          <InstModeCheckBox isInstMode={isInstMode} />
-        </CTFragment> 
-      }
+      <CTFragment justConEnd className="cp-action-bar">
+        {isInsructor && <InstModeCheckBox isInstMode={isInstMode} />}
+      </CTFragment> 
 
       <CTFragment
         alignItCenter
@@ -36,6 +35,12 @@ function ActionButtons(props) {
       >
         {hasAnalytics && <CourseAnalyticsButton offeringId={offering.id} />}
         {isInstMode && <CourseSettingsButton offeringId={offering.id} />}
+
+        <CopyButton 
+          text={shareableURL} 
+          className="mb-2 p-2"
+          label="Copy Shareable URL"
+        />
 
         <StarButton isStarred={isStarred} />
       </CTFragment>

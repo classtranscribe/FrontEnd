@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTLayout } from 'layout';
+import { CTLayout, CTErrorWrapper, altEl } from 'layout';
 import { InfoAndListLayout } from 'components';
+import ErrorTypes from 'entities/ErrorTypes';
 import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
@@ -29,11 +30,14 @@ export class InstPlaylistWithRedux extends Component {
       responsive: true,
       sidebarProps: {
         items: sidebar.getCoursePageSidebarItems(offering)
+      },
+      headerProps: {
+        subtitle: 'Course Admin'
       }
     }));
 
     // Handle meta tags
-    if (playlist && offering && playlist.id && offering.id) {
+    if (playlist && playlist.id && offering && offering.id) {
       let metaTitle = `${playlist.name} | ${offering.fullNumber}`;
 
       if (window.location.pathname.includes('/upload-files')) {
@@ -43,9 +47,12 @@ export class InstPlaylistWithRedux extends Component {
       layoutProps.metaTagsProps = { title: metaTitle };
     }
 
+    const hasError = ErrorTypes.isError(playlist);
+    const errorElement = altEl(CTErrorWrapper, hasError, { show: true, ...playlist });
+
     return (
       <CTLayout {...layoutProps}>
-        <InfoAndListLayout loading={!playlist.id}>
+        <InfoAndListLayout loading={!playlist.id} error={hasError} errorElement={errorElement}>
           <PlaylistInfo />
           <MediaList />
           {confirmation && <Confirmation />}

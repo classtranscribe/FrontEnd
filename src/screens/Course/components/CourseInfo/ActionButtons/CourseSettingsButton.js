@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { links } from 'utils/links';
-import { useButtonStyles } from 'layout';
+import { useButtonStyles, CTPopoverLabel } from 'layout';
 
 function CourseSettingsButton(props) {
   const { offeringId } = props;
@@ -13,15 +13,15 @@ function CourseSettingsButton(props) {
   const btn = useButtonStyles();
 
   return (
-    <Button
-      component={Link}
-      className={cx(btn.tealLink, 'mb-2')}
-      startIcon={<SettingsIcon />}
-      size="large"
-      to={links.courseSettings(offeringId)}
-    >
-      settings
-    </Button>
+    <CTPopoverLabel label="Course Settings">
+      <IconButton
+        component={Link}
+        className={cx(btn.tealLink, 'mb-2', 'p-2', 'ct-a-fade-in')}
+        to={links.courseSettings(offeringId)}
+      >
+        <SettingsIcon />
+      </IconButton>
+    </CTPopoverLabel>
   );
 }
 
