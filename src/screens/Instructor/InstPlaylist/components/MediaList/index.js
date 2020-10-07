@@ -31,6 +31,7 @@ function MediaListWithRedux({
 
   const handleFilterChange = ({ target: { value } }) => {
     setFilterValue(value);
+    // console.log(target, target.value)
   }
 
   const selectAll = (result) => {
