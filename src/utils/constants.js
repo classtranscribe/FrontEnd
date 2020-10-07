@@ -7,7 +7,6 @@ export const DEFAULT_ROLE = STUDENT; // used for testing
 // arrays
 export const ARRAY_INIT = ['init'];
 export const ARRAY_EMPTY = ['empty'];
-export const NOT_FOUND_404 = '404';
 
 // Pages
 export const PAGE_INSTRUCTOR = 'instp';
