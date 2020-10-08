@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Slider from '@material-ui/core/Slider';
 import ActionButton from '../../ActionButton';
+import SliderTimeLabel from '../Progress/SliderTimeLabel';
 import './index.scss';
 
 function Volume(props) {
@@ -25,11 +26,9 @@ function Volume(props) {
     }
   };
 
-  useEffect(() => {
-    if (muted && typeof onToggleMute === 'function') {
-      onToggleMute();
-    }
-  }, [volume]);
+  const valueLabelFormat = (_value) => {
+    return `${Math.floor(_value * 100) }%`;
+  };
 
   return (
     <div className="ctp volume-con">
@@ -44,6 +43,8 @@ function Volume(props) {
           step={0.05} 
           value={volume} 
           onChange={handleVolumeChange} 
+          ValueLabelComponent={SliderTimeLabel}
+          valueLabelFormat={valueLabelFormat}
           aria-label="Volume Slider" 
           min={0}
           max={1}

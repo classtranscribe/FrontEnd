@@ -14,13 +14,13 @@
   }
 
   .right {
-    width: 50%;
+    width: 7em;
     justify-content: flex-end;
     padding-right: 10px;
   }
 
   .left {
-    width: 50%;
+    width: calc(100% - 7em);
     padding-left: 5px;
 
     .media-name {

@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import ErrorTypes from 'entities/ErrorTypes';
 import { CTFilter, CTText, CTFooter } from 'layout';
 import { InfoAndListLayout } from 'components';
-import { ARRAY_INIT, NOT_FOUND_404 } from 'utils/constants';
+import { ARRAY_INIT } from 'utils/constants';
 import { connectWithRedux } from '../../controllers';
 import './index.scss';
 import MediaDNDList from './MediaDNDList';
@@ -13,7 +14,7 @@ function MediaListWithRedux({
   medias,
 }) {
   const loading = medias === ARRAY_INIT;
-  const error = medias === NOT_FOUND_404;
+  const error = ErrorTypes.isError(medias);
 
   const [filterValue, setFilterValue] = useState('');
   const [selectedVideos, setSelectedVideos] = useState([]);
@@ -30,6 +31,7 @@ function MediaListWithRedux({
 
   const handleFilterChange = ({ target: { value } }) => {
     setFilterValue(value);
+    // console.log(target, target.value)
   }
 
   const selectAll = (result) => {

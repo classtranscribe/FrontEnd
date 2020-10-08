@@ -4,8 +4,8 @@ import ActionButton from '../../ActionButton';
 import ScreenshotPopup from './ScreenshotPopup';
 
 function Screenshot(props) {
-  const { mediaName, captureScreenshot } = props;
-  const [screenshot, setScreenshot] = useState(null);
+  const { player } = props;
+  const [screenshot, setScreenshot] = useState(null); // null | { url, blob }
 
   const handleScreenshotCaptured = (url, blob) => {
     // alert(url)
@@ -13,12 +13,23 @@ function Screenshot(props) {
   };
 
   const handleCaptureScreenshot = () => {
-    captureScreenshot(handleScreenshotCaptured);
+    // capture image of the primary video
+    player.captureImage(!player.isSwappedScreen, handleScreenshotCaptured);
+  };
+
+  const handleDownloadScreenshot = () => {
+    player.downloadScreenshot(screenshot.blob);
+  };
+
+  const handleCopyScreenshotLink = async () => {
+    const successed = await player.copyScreenshotLink(screenshot.blob);
+    return successed;
   };
 
   const handleClosePopup = () => setScreenshot(null);
 
-  const popupOpened = Boolean(screenshot)
+  const popupOpened = Boolean(screenshot);
+  const { height } = player.playerBoundingRect;
   
   return (
     <div className="ctp share-root">
@@ -31,9 +42,11 @@ function Screenshot(props) {
       />
       <ScreenshotPopup
         open={popupOpened}
-        mediaName={mediaName}
+        height={height}
         imgBlob={screenshot}
         onClose={handleClosePopup}
+        downloadScreenshot={handleDownloadScreenshot}
+        copyScreenshotLink={handleCopyScreenshotLink}
       />
     </div>
   );

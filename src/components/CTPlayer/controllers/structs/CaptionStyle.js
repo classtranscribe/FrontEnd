@@ -1,4 +1,5 @@
 import PConstants from '../constants/PlayerConstants';
+import PPrefer from '../PlayerPreference';
 
 /**
  * Struct for caption styles
@@ -15,13 +16,39 @@ class CaptionStyle {
     return { ...this.__data };
   }
 
+  static setPreference(ccStyle) {
+    const ccStyleStr = [
+      ccStyle.fontSize || PConstants.CCFontSize100, // fontSize
+      ccStyle.fontColor || PConstants.CCColorWhite, // fontColor
+      ccStyle.opacity === undefined ? PConstants.CCOpacity75 : ccStyle.opacity, // opacity
+      ccStyle.backgroundColor || PConstants.CCColorBlack, // backgroundColor
+      ccStyle.position || PConstants.CCPositionBottom, // position
+    ].join(';');
+    PPrefer.setCCStyle(ccStyleStr);
+  }
+
+  get defaultDataStr() {
+    return [
+      PConstants.CCFontSize100, // fontSize
+      PConstants.CCColorWhite, // fontColor
+      PConstants.CCOpacity75, // opacity
+      PConstants.CCColorBlack, // backgroundColor
+      PConstants.CCPositionBottom, // position
+    ].join(';');
+  }
+
   get defaultData() {
+    if (!PPrefer.ccStyle) {
+      PPrefer.setCCStyle(this.defaultDataStr);
+    }
+
+    const rawCCStyles = PPrefer.ccStyle.split(';');
     return {
-      fontSize: PConstants.CCFontSize100,
-      fontColor: PConstants.CCColorWhite,
-      opacity: PConstants.CCOpacity75,
-      backgroundColor: PConstants.CCColorBlack,
-      position: PConstants.CCPositionBottom
+      fontSize: parseFloat(rawCCStyles[0]),
+      fontColor: rawCCStyles[1],
+      opacity: parseFloat(rawCCStyles[2]),
+      backgroundColor: rawCCStyles[3],
+      position: rawCCStyles[4],
     };
   }
 

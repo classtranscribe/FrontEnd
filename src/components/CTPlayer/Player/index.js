@@ -29,9 +29,17 @@ class Player extends React.Component {
     const stateManager = new PlayerStateManager(this.setPlayerState);
 
     // Initialize the player controller
-    const { id, allowScreenshot, onScreenshotCaptured } = props;
+    const {
+      id,
+      allowScreenshot,
+      onScreenshotCaptured,
+      hideWrapperOnMouseLeave
+    } = props;
     this.player = new CTPlayerController(stateManager, id);
 
+    this.player.hideWrapperOnMouseLeave = Boolean(hideWrapperOnMouseLeave);
+
+    // Initialize screenshot attributes
     if (allowScreenshot) {
       this.player.isScreenshotAllowed = true;
     }
@@ -75,6 +83,7 @@ class Player extends React.Component {
       defaultOpenRangePicker,
       range,
       defaultRange,
+      screenshotSource
     } = this.props;
 
     // Setup media
@@ -95,7 +104,7 @@ class Player extends React.Component {
 
     // Set default open CC
     if (defaultOpenCC) {
-      this.player.toggleCC();
+      this.player.setOpenCC(true);
     }
 
     if (typeof defaultPlaybackRate === 'number') {
@@ -109,6 +118,14 @@ class Player extends React.Component {
         this.player.setRange(range || defaultRange);
       }
     }
+
+    // // Setup screenshot sourceId and sourceType
+    // if (screenshotSource
+    //   && screenshotSource.id 
+    //   && typeof screenshotSource.type === 'number') {
+    //   console.info('screenshotSource', screenshotSource)
+    //   this.player.setScreenshotSource(screenshotSource.id, screenshotSource.type);
+    // }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -118,7 +135,8 @@ class Player extends React.Component {
       triggerTime,
       defaultLanguage,
       allowTwoScreen,
-      range
+      range,
+      // screenshotSource
     } = this.props;
 
     // Setup media when the `media`/`mediaId` in props changes
@@ -161,6 +179,13 @@ class Player extends React.Component {
     if (prevProps.range !== range) {
       this.setRange(range);
     }
+
+    // // Update screenshot sourceId and sourceType
+    // if (prevProps.screenshotSource !== screenshotSource
+    //   && screenshotSource.id 
+    //   && typeof screenshotSource.type === 'number') {
+    //   this.player.setScreenshotSource(screenshotSource.id, screenshotSource.type);
+    // }
   }
 
   render() {
@@ -220,7 +245,8 @@ class Player extends React.Component {
       ref: this.player.registerPlayer,
       style: {
         width: playerSize.width,
-        height: playerSize.height
+        height: playerSize.height,
+        minHeight: playerSize.minHeight
       },
       className: cx('ctp', 'ct-player', size, { fill, padded }),
       tabIndex: '0'
@@ -269,6 +295,7 @@ class Player extends React.Component {
       screenMode,
       videoReady,
       userReady,
+      userActive,
       isEnded,
       isPaused,
       isFullscreen,
@@ -293,6 +320,7 @@ class Player extends React.Component {
       screenMode,
       videoReady,
       userReady,
+      userActive,
       isEnded,
       isPaused,
       isFullscreen,

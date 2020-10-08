@@ -1,15 +1,22 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { CTFragment, useButtonStyles } from 'layout';
+import { CopyButton } from 'components';
+import { links } from 'utils/links';
 
 function Actions({
   editing,
   handleEdit,
   handleRename,
   handleCancelRename,
-  handleDelete
+  handleDelete,
+  playlistId,
+  offeringId
 }) {
   const btn = useButtonStyles();
+
+  const shareableLink = window.location.origin 
+                      + links.offeringDetail(offeringId, playlistId);
 
   return (
     <CTFragment dFlexCol className="actions" padding={[10, 0]}>
@@ -59,6 +66,9 @@ function Actions({
             >
               settings
             </Button>
+            <CopyButton text={shareableLink} size="large">
+              Share
+            </CopyButton>
           </CTFragment>
         )
       }

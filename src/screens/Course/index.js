@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { NOT_FOUND_404, INSTRUCTOR } from 'utils';
-import { CTLayout, CTFragment, CTErrorWrapper } from 'layout';
+import ErrorTypes from 'entities/ErrorTypes';
+import { INSTRUCTOR } from 'utils';
+import { CTLayout, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
 import {
   setup,
@@ -28,10 +29,12 @@ class CourseWithRedux extends Component {
     const offeringLoaded = offering && offering.id;
     const playlistLoaded = playlist && playlist.id;
 
+    const isInstructor = role === INSTRUCTOR;
+
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
-      sidebarProps: role === INSTRUCTOR ? {
+      sidebarProps: isInstructor ? {
         items: sidebar.getCoursePageSidebarItems(offering)
       } : undefined,
       metaTagsProps: offeringLoaded ? {
@@ -40,6 +43,9 @@ class CourseWithRedux extends Component {
             : offering.fullNumber,
         description: offering.description
       } : undefined,
+      headerProps: isInstructor ? {
+        subtitle: 'Course Admin'
+      } : undefined
     }));
 
     const errorProps = {
@@ -53,7 +59,7 @@ class CourseWithRedux extends Component {
     const pageFragmentProps = {
       id: 'cp-container',
       loading: offering === null,
-      error: offering === NOT_FOUND_404,
+      error: offering === ErrorTypes.NotFound404,
       errorElement: <CTErrorWrapper {...errorProps} />
     };
 

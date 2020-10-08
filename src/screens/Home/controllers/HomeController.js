@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { api, user, prompt, InvalidDataError, NOT_FOUND_404 } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { api, user, prompt, InvalidDataError } from 'utils';
 import { homeState } from './HomeState';
 import HomeConstants from './HomeConstants';
 import FeedSectionBuilder from './FeedSectionBuilder';
@@ -110,7 +111,7 @@ class HomeController {
         throw InvalidDataError;
     } catch (error) {
       this.pageLoadError();
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
   
@@ -164,7 +165,7 @@ class HomeController {
         throw InvalidDataError;
     } catch (error) {
       this.pageLoadError();
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
   

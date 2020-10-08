@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { uurl, elem, NOT_FOUND_404 } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { uurl, elem } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
 
@@ -29,7 +30,7 @@ function PlaylistsWithRedux({
   }, [hash]);
 
   useEffect(() => {
-    if (playlist === NOT_FOUND_404) {
+    if (playlist === ErrorTypes.NotFound404) {
       setPlaylistId(null);
       setPlaylist(null);
     }

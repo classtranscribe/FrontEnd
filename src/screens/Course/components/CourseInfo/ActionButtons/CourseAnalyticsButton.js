@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import { links } from 'utils/links';
-import { useButtonStyles } from 'layout';
+import { useButtonStyles, CTPopoverLabel } from 'layout';
 
 function CourseAnalyticsButton(props) {
   const { offeringId } = props;
@@ -13,15 +13,15 @@ function CourseAnalyticsButton(props) {
   const btn = useButtonStyles();
 
   return (
-    <Button 
-      component={Link}
-      className={cx(btn.tealLink, 'mb-2')}
-      startIcon={<BarChartIcon />} 
-      size="large" 
-      to={links.courseAnalytics(offeringId)}
-    >
-      analytics
-    </Button>
+    <CTPopoverLabel label="Course Analytics">
+      <IconButton 
+        component={Link}
+        className={cx(btn.tealLink, 'mb-2', 'p-2', 'ct-a-fade-in')}
+        to={links.courseAnalytics(offeringId)}
+      >
+        <BarChartIcon />
+      </IconButton>
+    </CTPopoverLabel>
   );
 }
 

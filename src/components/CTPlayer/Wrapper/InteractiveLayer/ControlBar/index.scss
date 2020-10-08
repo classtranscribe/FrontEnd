@@ -48,7 +48,7 @@
 }
 
 .ctp.wrapper.interact {
-  &:focus-within, &.show {
+  &.show {
     .ctp.bottom-bar {
       background: linear-gradient(to top,rgba(0, 0, 0, 0.658) 5%,rgba(0, 0, 0, 0.288));
     }

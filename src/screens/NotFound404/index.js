@@ -8,5 +8,13 @@ export function NotFound404() {
     links.title('404');
   }, []);
 
-  return <CTErrorWrapper navbar show goHomeButton />;
+  return (
+    <CTErrorWrapper 
+      navbar 
+      show
+      goHomeButton
+      retry={false}
+      redirectUri={links.home()} 
+    />
+  );
 }

@@ -13,8 +13,10 @@ function SharePopup(props) {
   const shareLinkRef = useRef();
   const [copyStatus, setCopyStatus] = useState(0);
 
+  const selectLinkInput = () => shareLinkRef.current.select();
+
   const handleCopy = () => {
-    shareLinkRef.current.select();
+    selectLinkInput();
     document.execCommand('copy');
     setCopyStatus(1);
     setTimeout(() => {
@@ -23,11 +25,11 @@ function SharePopup(props) {
     }, 2000);
   };
 
-  useEffect(() => {
-    if (open) {
-      shareLinkRef.current.select();
-    }
-  }, [open]);
+  // useEffect(() => {
+  //   if (open) {
+  //     shareLinkRef.current.select();
+  //   }
+  // }, [open]);
 
   const copied = copyStatus > 0;
 
@@ -35,10 +37,21 @@ function SharePopup(props) {
     <ClickAwayListener
       onClickAway={onClose}
     >
-      <div className="ctp share-popup">
-        <h5>SHARE LINK</h5>
+      <div
+        role="dialog"
+        id="ctp-share-con"
+        className="ctp share-popup"
+        aria-modal="true"
+        aria-labelledby="ctp-share-title"
+      >
+        <h5 id="ctp-share-title">SHARE LINK</h5>
         <div className="ctp share-link">
-          <input readOnly ref={shareLinkRef} value={shareLink} />
+          <input
+            readOnly
+            ref={shareLinkRef}
+            value={shareLink}
+            onFocus={selectLinkInput}
+          />
         </div>
         <div className="ctp ct-d-r-end">
           <Button
@@ -46,6 +59,7 @@ function SharePopup(props) {
             icon={copied ? 'check' : null}
             color="white"
             onClick={handleCopy}
+            autoFocus
           >
             {copied ? 'COPIED' : 'COPY LINK'}
           </Button>
