@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { env } from 'utils';
+import { env, isDeveloping } from 'utils';
 import { appInsightsService } from './service';
 
 /**
@@ -19,6 +19,11 @@ class AppInsightsProvider extends Component {
   }
 
   componentDidMount() {
+    // Disable azure app insights for localhost developing
+    if (isDeveloping) {
+      return;
+    }
+
     const { history } = this.props;
     const { initialized } = this.state;
     const instrumentationKey = env.azureInstrumentationKey;

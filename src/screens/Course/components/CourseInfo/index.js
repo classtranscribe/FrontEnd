@@ -1,6 +1,5 @@
 import React from 'react';
 import { InfoAndListLayout } from 'components';
-import { user } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';
 import ActionButtons from './ActionButtons';
 import './index.scss';
@@ -28,7 +27,6 @@ function CourseInfoWithRedux({
       <div className="term">{termName} | {sectionName}</div>
 
       <ActionButtons 
-        show={user.isLoggedIn}
         isInsructor={setup.isInstructor(role)} 
         isInstMode={isInstMode}
         offering={offering}

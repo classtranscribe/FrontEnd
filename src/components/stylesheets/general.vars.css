@@ -10,7 +10,7 @@
   --ct-green-normal: #348b86;
   --ct-green-active: #23a1a1;
   /* Color */
-  --ct-text-primary: #383838;
+  --ct-text-primary: rgb(73, 73, 73);
   --ct-text-primary-light: #4e4e4e;
   --ct-text-title: rgb(37, 113, 116);
   --ct-text-highlight: rgb(19, 211, 211);

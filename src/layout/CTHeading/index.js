@@ -68,13 +68,13 @@ CTHeading.propTypes = {
   ...CTFragment.propTypes,
   
   /** The heading supports `'h1', 'h2', 'h3', 'h4', 'h5'` */
-  as: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5']),
+  as: PropTypes.elementType,
 
   /** The Content of the heading */
   heading: PropTypes.string,
 
   /** Icon name of the material-icons */
-  icon: PropTypes.string,
+  icon: PropTypes.node,
 
   /** The heading can be faded in */
   fade: PropTypes.bool,
