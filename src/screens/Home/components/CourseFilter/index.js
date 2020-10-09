@@ -17,6 +17,9 @@ function CourseFilter({
   const departmentOptions = departments.map(dep => ({ value: dep.id, text: dep.name }));
   const termOptions = terms.map(term => ({ value: term.id, text: term.name }));
 
+  const showDepartments = selUniversity && !isMobile && departmentOptions.length > 0;
+  const showTerms = selUniversity && !isMobile && termOptions.length > 0;
+
   const handleUniversityChange = ({ target: { value }}) => {
     home.ctrl.selectUniversity(value);
   };
@@ -43,7 +46,7 @@ function CourseFilter({
           className={cx({ 'selected': Boolean(selUniversity) })}
         />
         {
-          (selUniversity && !isMobile)
+          showDepartments
           &&
           <CTSelect
             id="home-departs-filter"
@@ -59,7 +62,7 @@ function CourseFilter({
         }
 
         {
-          (selUniversity && !isMobile)
+          showTerms
           &&
           <CTSelect
             id="home-terms-filter"

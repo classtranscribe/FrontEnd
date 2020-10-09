@@ -7,6 +7,8 @@ import FeedSectionBuilder from './FeedSectionBuilder';
 
 class HomeController {
   constructor() {
+    this.hasDepartmentSections = false;
+    
     this.selectUniversity = this.selectUniversity.bind(this);
   }
 
@@ -96,7 +98,8 @@ class HomeController {
     secBuilder.pushStarredOfferingSection(starredOfferings);
     secBuilder.pushWatchHistorySection(watchHistory);
     secBuilder.pushDepartmentSections(departments, offerings);
-    
+
+    this.hasDepartmentSections = secBuilder.hasDepartmentSections;
     homeState.setSections(secBuilder.getData());
   }
 
