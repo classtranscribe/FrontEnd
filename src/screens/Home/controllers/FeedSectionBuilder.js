@@ -4,6 +4,7 @@ import HomeConstants from './HomeConstants';
 class FeedSectionBuilder {
   constructor(selUniversity, selDepartments, selTerms) {
     this.__sections = [];
+    this.__departmentSections = [];
     this.selUniversity = selUniversity;
     this.selDepartments = selDepartments;
     this.selTerms = selTerms;
@@ -23,6 +24,10 @@ class FeedSectionBuilder {
 
   get isFiltering() {
     return this.isFilteringDepart || this.isFilteringTerm;
+  }
+
+  get hasDepartmentSections() {
+    return this.__departmentSections.length > 0;
   }
 
   getData() {
@@ -85,6 +90,7 @@ class FeedSectionBuilder {
       }))
       .filter((sec) => sec.items.length > 0);
     
+    this.__departmentSections = departSections;
     this.__sections = [...this.__sections, ...departSections];
   }
 }
