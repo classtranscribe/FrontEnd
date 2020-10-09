@@ -92,7 +92,10 @@ function ProfileMenu(props) {
 
 ProfileMenu.propTypes = {
   /** Roles of the user */
-  roles: PropTypes.arrayOf(PropTypes.string)
+  roles: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string
+  ])
 };
 
 export default ProfileMenu;
