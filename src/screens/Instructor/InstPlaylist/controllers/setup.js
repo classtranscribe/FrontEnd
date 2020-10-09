@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { api, uurl, ARRAY_INIT, NOT_FOUND_404 } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { api, user, uurl, links, ARRAY_INIT } from 'utils';
 import { StateController } from 'utils/state-controller';
 
 class InstPlaylistSetup extends StateController {
@@ -61,7 +62,7 @@ class InstPlaylistSetup extends StateController {
       let { data } = await api.getPlaylistById(playlistId);
       return data;
     } catch (error) {
-      return NOT_FOUND_404;
+      return ErrorTypes.getError(error);
     }
   }
 
@@ -70,7 +71,7 @@ class InstPlaylistSetup extends StateController {
       let { data } = await api.getOfferingById(offeringId);
       return api.parseSingleOffering(data);
     } catch (error) {
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
@@ -91,6 +92,9 @@ class InstPlaylistSetup extends StateController {
     }
   }
 
+// Assigns playlist to this.playlist, similiar for offering.
+// since the offering data is got via playlist.offeringId, so playlist.offeringId === this.offering.id
+// this.playlistId is from the URL when the page is loaded.
   async setupInstPlaylistPage(playlistId, state) {
     if (this.playlistId !== playlistId) {
       this.clearData();
@@ -103,10 +107,15 @@ class InstPlaylistSetup extends StateController {
     }
 
     // sestup playlist
+  
     const playlist = await this.getPlaylistById(playlistId);
     this.setPlaylist(playlist);
 
-    if (!playlist.id) return;
+    if (!playlist.id) {
+      api.contentLoaded();
+      return;
+    }
+
     const { offeringId, medias } = playlist;
     this.playlistId = playlist.id; 
 
@@ -120,7 +129,14 @@ class InstPlaylistSetup extends StateController {
       this.setOffering(offering);
     }
 
-    api.contentLoaded();
+    // check if the user is the course admin for this playlist
+    const instIdx = _.findIndex(this.offering.instructorIds, { id: user.userId });
+    if (instIdx < 0) {
+      // back to student version playlist page if not authorized
+      window.location = links.offeringDetail(this.offering.id, playlist.id);
+    } else {
+      api.contentLoaded();
+    }
   }
 }
 

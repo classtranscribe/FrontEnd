@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles } from '../../CTButtons';
 
-export function useSignButtonProps() {
+export function useSignButtonProps(redirect) {
   const btn = useButtonStyles();
 
   return {
     component: Link,
     variant: 'contained',
-    to: links.signIn(),
+    to: links.signIn({ redirect }),
     className: btn.teal
   }
 }

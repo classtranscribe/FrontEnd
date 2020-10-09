@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ErrorTypes from 'entities/ErrorTypes';
 import { CTFragment, CTFooter, CTText } from 'layout';
 import { InfoAndListLayout, MediaCard } from 'components';
-import { NOT_FOUND_404 } from 'utils';
+
 
 function VideosView({
   playlist,
@@ -10,7 +11,7 @@ function VideosView({
   const { name = '', medias = [] } = playlist || {};
 
   const loading = playlist === null;
-  const error = playlist === NOT_FOUND_404;
+  const error = ErrorTypes.isError(playlist);
   const empty = medias.length === 0;
 
   const vListProps = {

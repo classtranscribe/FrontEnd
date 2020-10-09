@@ -19,7 +19,15 @@ function WatchHistoriesWithRedux(props) {
       );
     } else {
       whElement = 
-        result.map(media => <MediaCard nameSize="big" posterSize="medium" row {...MediaCard.parse(media)} />);
+        result.map((media, index) => (
+          <MediaCard
+            row
+            nameSize="big"
+            posterSize="medium"
+            {...MediaCard.parse(media)}
+            key={media.id + index}
+          />
+        ));
     }
 
     return (

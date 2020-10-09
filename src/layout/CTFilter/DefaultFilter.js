@@ -1,4 +1,5 @@
-import React from 'react';
+import _ from 'lodash';
+import React, { useState, useCallback } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -6,13 +7,7 @@ import { Button } from 'pico-ui';
 import CTFragment from '../CTFragment';
 
 /**
- * default input field component for CTFilter: a general filter component for classtranscribe
- * @param {string} value - target values (delimitered by space)
- * @param {string} placeholder - placeholder
- * @param {bool} reversed - an indicator for whether the result is reversed
- * @param {function} onInputChange - call-back function for changing the value in the input field
- * @param {function} onToggleRerverse - call-back function for clicking reverse button
- * 
+ * Default input field component for CTFilter, a general filter component for classtranscribe
  * @example
  * // render the default input field for CTFilter which consists of an input field and a reverse button
  * const defaultFilterProps = {
@@ -33,23 +28,38 @@ function DefaultFilter(props) {
     reversed,
     onInputChange,
     onToggleReverse,
-    padding = [20, 0],
     autoFocus = true,
+    debounce = false,
+    inputProps = {},
+    ...fragmentProps
   } = props;
+
+  const [inputVal, setInputVal] = useState(value);
 
   // check whether a reverse button should be provided
   const supportReverse = typeof onToggleReverse === 'function';
   const containerClasses = cx('ct-filter', 'd-input-con', { grey });
   const reverseBtnClasses = cx('ct-filter', 'reverse-btn', { reversed });
 
+  // determine whether to apply debounce to onChange func
+  const debouncedOnChange = useCallback(
+    debounce ? _.debounce(onInputChange, 500) : onInputChange
+  , []);
+
+  const handleInputChange = ({ target, preventDefault }) => {
+    setInputVal(target.value);
+    debouncedOnChange({ target: { value: target.value }, preventDefault });
+  };
+
   return (
-    <CTFragment padding={padding}>
+    <CTFragment padding={[20, 0]} {...fragmentProps}>
       <div className={containerClasses}>
         <input 
-          value={value}
+          value={inputVal}
           placeholder={placeholder}
-          onChange={onInputChange}
+          onChange={handleInputChange}
           autoFocus={autoFocus}
+          {...inputProps}
         />
 
         {
@@ -73,6 +83,8 @@ function DefaultFilter(props) {
 }
 
 DefaultFilter.propTypes = {
+  ...CTFragment.propTypes,
+
   /** value in the input field */
   value: PropTypes.string,
   
@@ -91,9 +103,10 @@ DefaultFilter.propTypes = {
   /** Use the grey theme */
   grey: PropTypes.bool,
 
-  padding: CTFragment.propTypes.padding,
+  autoFocus: PropTypes.bool,
 
-  autoFocus: PropTypes.bool
+  /** Apply debounce on onChange function */
+  debounce: PropTypes.bool,
 };
 
 export default DefaultFilter;

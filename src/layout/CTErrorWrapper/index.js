@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { Button } from 'pico-ui';
+import Button from '@material-ui/core/Button';
 import { user, links } from 'utils';
+import CTNavHeader, { useSignButtonProps } from '../CTNavHeader';
+import { useButtonStyles } from '../CTButtons';
 import './index.scss';
-
-import CTNavHeader from '../CTNavHeader';
-import { SignInMenu } from '../CTNavHeader/NavHeaderMenu/SignInMenu';
 
 /**
  * A general error wrapper
  */
 function CTErrorWrapper(props) {
-  let {
+  const {
     fixed = true,
     show = false,
     darkMode = false,
@@ -21,21 +20,14 @@ function CTErrorWrapper(props) {
     retry = true,
     signInButton = true,
     goHomeButton = false,
+    redirectUri = window.location.href,
     code = '404',
     header = 'The page cannot be found',
     description = 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.'
   } = props;
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleClose = () => {
-    setTimeout(() => setAnchorEl(null), 200);
-  };
-
+  const signinProps = useSignButtonProps(redirectUri);
+  const bthStyles = useButtonStyles();
   const wrapperClasses = classNames('ct-error-wrapper', { dark: darkMode, fixed });
 
   return show ? (
@@ -50,26 +42,25 @@ function CTErrorWrapper(props) {
 
         <div className="ct-ew-actions">
           {
-            (signInButton && user.isLoggedIn) 
+            (signInButton && !user.isLoggedIn) 
             &&
-            <>
-              <Button color="teal" onClick={handleClick}>
-                Sign in to continue
-              </Button>
-              <SignInMenu open={Boolean(anchorEl)} anchorEl={anchorEl} handleClose={handleClose} />
-            </>
+            <Button {...signinProps}>Sign In to Continue</Button>
           }
 
           {
             goHomeButton 
             && 
-            <Link to={links.home()}>GO HOME</Link>
+            <Button component={Link} className={bthStyles.tealLink} to={links.home()}>
+              GO HOME
+            </Button>
           }
 
           {
             retry 
             && 
-            <a href={links.currentUrl()}>REFRESH THE PAGE</a>
+            <Button component="a" className={bthStyles.tealLink} to={links.currentUrl()}>
+              REFRESH THE PAGE
+            </Button>
           }
         </div>
       </div>
@@ -92,6 +83,9 @@ CTErrorWrapper.propTypes = {
 
   /** Show the sign-in button */
   signInButton: PropTypes.bool,
+
+  /** redirect uri for signin callback */
+  redirectUri: PropTypes.string,
 
   /** Show the go-home button */
   goHomeButton: PropTypes.bool,

@@ -1,7 +1,8 @@
 import React from 'react';
 import { CTFragment, CTFooter, CTLoadable, CTDNDList, CTText } from 'layout';
 import { InfoAndListLayout } from 'components';
-import { ARRAY_INIT, NOT_FOUND_404 } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { ARRAY_INIT } from 'utils/constants';
 import { plControl } from '../../controllers';
 
 import PlaylistItem from './PlaylistItem';
@@ -14,7 +15,7 @@ function PlaylistsView({
   playlists,
 }) {
   const loading = playlists === ARRAY_INIT;
-  const error = playlists === NOT_FOUND_404;
+  const error = ErrorTypes.isError(playlists);
 
   const errorElement = <PlaylistsErrorWrapper accessType={offering.accessType} />;
 

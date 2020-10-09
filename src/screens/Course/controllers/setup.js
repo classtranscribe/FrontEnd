@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import { StateController } from 'utils/state-controller';
+import ErrorTypes from 'entities/ErrorTypes';
 import { 
   api, 
   user,
   elem,
   prompt, 
-  NOT_FOUND_404, 
   ARRAY_INIT, 
   STUDENT, 
   INSTRUCTOR
@@ -108,7 +108,7 @@ class SetupCoursePage extends StateController {
       return api.parseSingleOffering(data);
     } catch (error) {
       // TODO 404
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
@@ -117,7 +117,7 @@ class SetupCoursePage extends StateController {
       let { data } = await api.getPlaylistsByOfferingId(offeringId);
       return data;
     } catch (error) {
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
@@ -164,7 +164,7 @@ class SetupCoursePage extends StateController {
 
     api.contentLoaded();
 
-    if (offering === NOT_FOUND_404) return;
+    if (offering === ErrorTypes.NotFound404) return;
 
     // determine role of the user for this offering
     let instIndex = _.findIndex(
@@ -192,7 +192,7 @@ class SetupCoursePage extends StateController {
       let { data } = await api.getPlaylistById(playlistId);
       return data;
     } catch (error) {
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
