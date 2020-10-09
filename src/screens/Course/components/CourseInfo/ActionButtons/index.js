@@ -19,7 +19,7 @@ function ActionButtons(props) {
 
   const isStarred = Boolean(starredOfferings[offering.id]);
   const hasAnalytics = isInstMode && offering.logEventsFlag;
-  const shareableURL = window.location.origin + links.offeringDetail(offering.id);
+  const shareableURL = window.location.origin + links.course(offering.id);
 
   return show ? (
     <>

@@ -1,5 +1,6 @@
 import SourceTypes from 'entities/SourceTypes';
-import { api, prompt, NOT_FOUND_404 } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { api, prompt } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import { LanguageConstants } from '../../CTPlayer';
 import { _parseRawEPubData } from './helpers';
@@ -19,7 +20,7 @@ class EPubListController {
 
   async createEPub(sourceType, sourceId, data) {
     const rawEPubData = await this.getRawEPubData(sourceType, sourceId, data.language);
-    if (rawEPubData === NOT_FOUND_404) {
+    if (rawEPubData === ErrorTypes.NotFound404) {
       prompt.error('Failed to create the ePub.');
       return false;
     }
@@ -58,7 +59,7 @@ class EPubListController {
       return _parseRawEPubData(data);
     } catch (error) {
       console.error(error, `Failed to get ePub data of media for ${mediaId}, ${language}`);
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
@@ -85,7 +86,7 @@ class EPubListController {
       const { data } = await api.getMediaById(mediaId);
       return api.parseMedia(data);
     } catch (error) {
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
@@ -94,7 +95,7 @@ class EPubListController {
       const { data } = await api.getEPubsBySource(sourceType, sourceId);
       return data;
     } catch (error) {
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 

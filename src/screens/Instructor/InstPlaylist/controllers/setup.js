@@ -133,7 +133,7 @@ class InstPlaylistSetup extends StateController {
     const instIdx = _.findIndex(this.offering.instructorIds, { id: user.userId });
     if (instIdx < 0) {
       // back to student version playlist page if not authorized
-      window.location = links.offeringDetail(this.offering.id, playlist.id);
+      window.location = links.course(this.offering.id, playlist.id);
     } else {
       api.contentLoaded();
     }

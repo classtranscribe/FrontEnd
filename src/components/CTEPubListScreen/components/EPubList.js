@@ -1,5 +1,6 @@
 import React from 'react';
-import { NOT_FOUND_404, links } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { links } from 'utils/links';
 import { altEl, makeEl, CTFragment, CTHeading, CTText, CTList } from 'layout';
 import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
@@ -30,8 +31,8 @@ function EPubList(props) {
   } = props;
 
   const noLang = languages.length === 0;
-  const noEPub = !noLang && rawEPubData === NOT_FOUND_404;
-  const notFoundEPub = ePubs === NOT_FOUND_404;
+  const noEPub = !noLang && rawEPubData === ErrorTypes.NotFound404;
+  const notFoundEPub = ePubs === ErrorTypes.NotFound404;
   const hasError = noLang || noEPub;
   const hasEPubs = !hasError && !notFoundEPub && ePubs.length > 0;
 
