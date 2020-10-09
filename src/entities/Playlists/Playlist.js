@@ -52,10 +52,11 @@ class Playlist extends Entity {
       throw InvalidDataError;
     }
 
-    const playlistIdentifier = PlaylistTypes.getIndentifier(sourceType, url);
+    const playlistIdentifier = PlaylistTypes.getIdentifier(sourceType, url);
+    const channelTypes = [PlaylistTypes.KalturaID, PlaylistTypes.YouTubeID];
     const jsonMetadata = {};
     if (url) jsonMetadata.source = url;
-    if (sourceType === PlaylistTypes.KalturaID && url.includes('channel')) {
+    if (channelTypes.includes(sourceType) && url.includes('channel')) {
       jsonMetadata.isChannel = 1;
     }
 

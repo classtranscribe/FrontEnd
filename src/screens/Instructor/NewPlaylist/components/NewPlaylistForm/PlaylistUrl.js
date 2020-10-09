@@ -1,7 +1,8 @@
 import React from 'react';
 import { CTFragment, CTFormHelp, CTInput } from 'layout';
 
-const exampleYoutubeURL = 'https://www.youtube.com/playlist?list=THis-is-AN-examPle-plaYLIST-iD';
+const exampleYoutubePlaylistURL = 'https://www.youtube.com/playlist?list=THis-is-AN-examPle-plaYLIST-iD';
+const exampleYoutubeChannelURL = 'https://www.youtube.com/channel/THis-is-AN-examPle-chaNNeL-iD';
 const exampleEchoAccessLink = 'https://echo360.org/section/tHis-iS-an-EXampLE-accESS-LiNk/public';
 const exampleBoxURL = 'https://uofi.app.box.com/folder/12345678910';
 const exampleKalturaBUL = 'https://mediaspace.illinois.edu/channel/CS+000+-+Fall+2019/123456789';
@@ -42,21 +43,24 @@ function PlaylistUrl(props) {
       return (
         <CTFragment>
           <CTFormHelp title="Provide the YouTube Playlist URL">
-            YouTube Playlist URL Example {exampleYoutubeURL}
+            <CTFragment dFlexCol>
+              <div>YouTube Playlist URL Example {exampleYoutubePlaylistURL}</div>
+              <div>YouTube Channel URL Example {exampleYoutubeChannelURL}</div>
+            </CTFragment>
           </CTFormHelp>
           <CTInput
             required
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'YouTube Playlist URL is required' 
+              ? 'YouTube playlist or channel URL is required' 
               : invalidUrl
-              ? 'Invalid YouTube Playlist URL'
+              ? 'Invalid YouTube playlist or channel URL'
               : ''
             }
             id="youtube-url"
-            label="YouTube Playlist URL"
-            placeholder="Playlist URL"
+            label="YouTube Playlist or Channel URL"
+            placeholder="YouTube URL"
             value={url}
             onChange={handleOnchanged}
           />
