@@ -1,0 +1,19 @@
+#trans-time-btn {
+  text-transform: none;
+  position: absolute;
+  z-index: 2;
+  bottom: 1rem;
+  margin: 0 0 0 0;
+  color: var(--ct-btn-color);
+  border-radius: 15px;
+  // background-color: white !important;
+  &:focus {
+   outline: none
+  }
+}
+
+#trans-time-edit {
+  width: 10em;
+  position: flex;
+  margin: 0 0rem 0 4.6rem;
+}
