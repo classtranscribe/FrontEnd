@@ -40,6 +40,8 @@ class App extends React.Component {
   }
 
   render() {
+    const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -54,32 +56,32 @@ class App extends React.Component {
           {/* Instructor */}
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/instructor/my-courses" component={MyCourses} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/instructor/new-course" component={NewCourse} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/offering/:id/settings" component={CourseSettings} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
           }
           {
-            user.isInstructor 
+            isAdminOrInstructor
             &&
             <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route path="/media-settings/:id" component={MediaSettings} />
           }
