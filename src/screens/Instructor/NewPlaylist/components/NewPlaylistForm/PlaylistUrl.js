@@ -5,7 +5,7 @@ const exampleYoutubePlaylistURL = 'https://www.youtube.com/playlist?list=THis-is
 const exampleYoutubeChannelURL = 'https://www.youtube.com/channel/THis-is-AN-examPle-chaNNeL-iD';
 const exampleEchoAccessLink = 'https://echo360.org/section/tHis-iS-an-EXampLE-accESS-LiNk/public';
 const exampleBoxURL = 'https://uofi.app.box.com/folder/12345678910';
-const exampleKalturaBUL = 'https://mediaspace.illinois.edu/channel/CS+000+-+Fall+2019/123456789';
+const exampleKalturaURL = 'https://mediaspace.illinois.edu/channel/CS+000+-+Fall+2019/123456789';
 function PlaylistUrl(props) {
   let { error, enable, sourceType, url, setUrl } = props;
   const handleOnchanged = ({ target: { value } }) => setUrl(value);
@@ -19,16 +19,16 @@ function PlaylistUrl(props) {
       return (
         <CTFragment>
           <CTFormHelp title="Provide the Echo360 Access Link">
-            Echo360 Access Link Example {exampleEchoAccessLink}
+            <strong>Echo360 access link example:</strong> {exampleEchoAccessLink}
           </CTFormHelp>
           <CTInput
             required
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Echo360 Access Link is required' 
+              ? 'Echo360 access link is required' 
               : invalidUrl
-              ? 'Invalid Echo360 Access Link'
+              ? 'Invalid Echo360 access link'
               : ''
             }
             id="360-url"
@@ -44,8 +44,8 @@ function PlaylistUrl(props) {
         <CTFragment>
           <CTFormHelp title="Provide the YouTube Playlist URL">
             <CTFragment dFlexCol>
-              <div>YouTube Playlist URL Example {exampleYoutubePlaylistURL}</div>
-              <div>YouTube Channel URL Example {exampleYoutubeChannelURL}</div>
+              <div><strong>YouTube playlist URL example:</strong> {exampleYoutubePlaylistURL}</div>
+              <div><strong>YouTube channel URL example:</strong> {exampleYoutubeChannelURL}</div>
             </CTFragment>
           </CTFormHelp>
           <CTInput
@@ -70,20 +70,20 @@ function PlaylistUrl(props) {
       return (
         <CTFragment>
           <CTFormHelp severity="warning" title="Notice">
-            ClassTranscribe only copy videos not the access settings. 
+            ClassTranscribe only copies videos, not the access settings. 
             The access settings may be different.
           </CTFormHelp>
           <CTFormHelp title="Provide the Kaltura Channel URL">
-            Kaltura Channel URL Example {exampleKalturaBUL}
+            <strong>Kaltura channel URL example:</strong> {exampleKalturaURL}
           </CTFormHelp>
           <CTInput
             required
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Kaltura Channel URL is required' 
+              ? 'Kaltura playlist or channel URL is required' 
               : invalidUrl
-              ? 'Invalid Kaltura Channel URL'
+              ? 'Invalid Kaltura playlist or channel URL'
               : ''
             }
             id="Kaltura-url"
@@ -98,7 +98,7 @@ function PlaylistUrl(props) {
       return (
         <CTFragment>
           <CTFormHelp severity="warning" title="Notice">
-            ClassTranscribe only copy videos not the access settings. 
+            ClassTranscribe only copies videos, not the access settings. 
             The access settings may be different.
           </CTFormHelp>
           <CTFormHelp title="Provide the Box Folder URL">
@@ -108,7 +108,7 @@ function PlaylistUrl(props) {
                 <strong> SHARE </strong>your Box folder with our Box account
                 <strong> cstranscribe@illinois.edu </strong>
               </div>
-              <div>Box Folder URL Example {exampleBoxURL}</div>
+              <div><strong>Box folder URL example:</strong> {exampleBoxURL}</div>
             </CTFragment>
           </CTFormHelp>
           <CTInput
@@ -116,20 +116,27 @@ function PlaylistUrl(props) {
             error={hasError}
             helpText={
               emptyPlaylistUrl 
-              ? 'Box Folder URL is required' 
+              ? 'Box folder URL is required' 
               : invalidUrl
-              ? 'Invalid Box Folder URL'
+              ? 'Invalid Box folder URL'
               : ''
             }
             id="box-url"
             label="Box Folder URL"
-            placeholder="Folder URL"
+            placeholder="Box URL"
             value={url}
             onChange={handleOnchanged}
           />
         </CTFragment>
       );
     case 2: // Upload
+      return (
+        <CTFragment>
+          <CTFormHelp title="Manual playlist">
+            Select videos to upload after creating the playlist shell.
+          </CTFormHelp>
+        </CTFragment>
+      );
     default:
       return null;
   }

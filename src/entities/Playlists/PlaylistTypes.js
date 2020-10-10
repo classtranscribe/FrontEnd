@@ -40,7 +40,7 @@ class PlaylistTypes {
     return {
       id: PlaylistTypes.KalturaID,
       name: 'Kaltura',
-      description: 'Host videos from your Kaltura/MediaSpace playlists.',
+      description: 'Host videos from your Kaltura/MediaSpace playlists or channels.',
       urlRegEx: PlaylistTypes.KalturaRegEx
     };
   }
