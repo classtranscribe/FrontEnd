@@ -57,7 +57,7 @@ class Playlist extends Entity {
     const jsonMetadata = {};
     if (url) jsonMetadata.source = url;
     if (channelTypes.includes(sourceType) && url.includes('channel')) {
-      jsonMetadata.isChannel = 1;
+      jsonMetadata.isChannel = '1';
     }
 
     let newPl = {
