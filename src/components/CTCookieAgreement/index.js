@@ -1,40 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  Slide,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  ButtonBase,
-} from '@material-ui/core';
-import { useSignButtonProps, CTFragment, CTText, CTBrand, CTList } from 'layout';
+import { DialogContent, DialogActions, ButtonBase } from '@material-ui/core';
+import { CTFragment, CTText, CTBrand, CTList, CTModal } from 'layout';
 import { user, links } from 'utils';
 import { CookiePoilcy, AcceptableUsePolicy } from './policies';
 import './index.scss';
 
-export const useStyles = makeStyles({
-  policyButton : {
-    color: '#328383',
-    marginLeft: '4px',
-    marginRight: '4px',
-    paddingBottom: '2px'
-  },
-});
-
 export const AGREEMENT_ACCEPTED_KEY = 'ct-cookie-accepted';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 function CTCookieAgreement() {
   // Set true to false for testing purposes
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showPolicy, setShowPolicy] = useState('none');
   const [policyToShow, setPolicyToShow] = useState(null);
-  const classes = useStyles();
-  const signinButtonProps = useSignButtonProps();
 
   useEffect(() => {
     setTimeout(() => {
@@ -56,8 +34,13 @@ function CTCookieAgreement() {
   };
 
   const handlePolicyClicking = (policyName) => {
-    setShowPolicy('block');
-    setPolicyToShow(policyName);
+    if (policyName === policyToShow) {
+      setShowPolicy('none');
+      setPolicyToShow(null);
+    } else {
+      setShowPolicy('block');
+      setPolicyToShow(policyName);
+    }
   };
 
   const titleSize = isMobile ? 'medium' : 'big';
@@ -91,15 +74,16 @@ function CTCookieAgreement() {
   ];
 
   return (
-    <Dialog
+    <CTModal
       open={dialogOpen} 
       disableBackdropClick
       disableEscapeKeyDown
       fullWidth
       maxWidth='sm'
+      container
+      transition
       scroll='paper'
       id="cookie-agreement-inner-wrapper"
-      TransitionComponent={Transition}
     >
       <CTFragment
         padding={[30, 0]} 
@@ -112,14 +96,14 @@ function CTCookieAgreement() {
       <CTText size="medium" muted padding={[0, 20, 20, 25]}>
         By continuing you agree to our 
         <ButtonBase 
-          className={classes.policyButton} 
+          className="policy-btn" 
           onClick={() => handlePolicyClicking('Acceptable Use')}
         > 
           Acceptable Use Policy
         </ButtonBase>
         and our 
         <ButtonBase 
-          className={classes.policyButton}
+          className="policy-btn"
           onClick={() => handlePolicyClicking('Cookie')}
         >
           Cookie Policy.
@@ -138,7 +122,7 @@ function CTCookieAgreement() {
       <DialogActions className="cookie-acp-btns">
         <CTList items={cookieOptions} />
       </DialogActions>
-    </Dialog>
+    </CTModal>
   );
 }
 

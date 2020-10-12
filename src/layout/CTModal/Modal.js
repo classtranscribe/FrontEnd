@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTheme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CTFragment } from 'layout';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,18 +11,26 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function Modal(props) {
   const {
     open = false,
     size = 'sm',
     fullWidth = true,
-    responsive = false,
+    responsive,
     title,
     children,
     action,
     onClose,
-    darkMode = false,
-    withCloseButton = false,
+    darkMode,
+    withCloseButton,
+    transition,
+    disableEscapeKeyDown,
+    disableBackdropClick,
+    container,
     ...otherProps
   } = props;
 
@@ -33,32 +42,45 @@ function Modal(props) {
     },
   });
 
+  const dialogProps = {
+    fullWidth,
+    maxWidth: size,
+    open,
+    onClose,
+    ...otherProps
+  };
+
+  if (responsive) {
+    dialogProps.fullScreen = fullScreen;
+  }
+
+  if (transition) {
+    dialogProps.TransitionComponent = Transition;
+  }
+
   return (
     <ThemeProvider theme={darkTheme}>
-      <Dialog
-        fullScreen={responsive ? fullScreen : false}
-        fullWidth={fullWidth}
-        maxWidth={size}
-        open={open}
-        onClose={onClose}
-        {...otherProps}
-      >
-        <CTFragment justConBetween alignItCenter padding={[0, 10, 0, 0]}>
-          {title && <DialogTitle>{title}</DialogTitle>}
-          {
-            withCloseButton 
-            && 
-            <IconButton onClick={onClose} aria-label="close">
-              <i className="material-icons">close</i>
-            </IconButton>
-          }
-        </CTFragment>
+      <Dialog {...dialogProps}>
+        {container ? children : (
+          <>
+            <CTFragment justConBetween alignItCenter padding={[0, 10, 0, 0]}>
+              {title && <DialogTitle>{title}</DialogTitle>}
+              {
+                withCloseButton 
+                && 
+                <IconButton onClick={onClose} aria-label="close">
+                  <i className="material-icons">close</i>
+                </IconButton>
+              }
+            </CTFragment>
 
-        <DialogContent>
-          {children}
-        </DialogContent>
+            <DialogContent>
+              {children}
+            </DialogContent>
 
-        {action && <DialogActions>{action}</DialogActions>}
+            {action && <DialogActions>{action}</DialogActions>}
+          </>
+        )}
       </Dialog>
     </ThemeProvider>
   );
@@ -94,6 +116,18 @@ Modal.propTypes = {
 
   /** True if display a close button at the top */
   withCloseButton: PropTypes.bool,
+
+  /** if `true` add transitive effect */
+  transition: PropTypes.bool,
+
+  /** If `true`, hitting escape will not fire the onClose callback. */
+  disableEscapeKeyDown: PropTypes.bool,
+
+  /** If `true`, clicking the backdrop will not fire the onClose callback. */
+  disableBackdropClick: PropTypes.bool,
+
+  /** If `true`, use the modal as a container: no header and action */
+  container: PropTypes.bool
 };
 
 Modal.Text = DialogContentText;
