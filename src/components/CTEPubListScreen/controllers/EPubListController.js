@@ -1,6 +1,6 @@
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt } from 'utils';
+import { api, prompt, uurl, links } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import { LanguageConstants } from '../../CTPlayer';
 import { _parseRawEPubData } from './helpers';
@@ -25,23 +25,29 @@ class EPubListController {
       return false;
     }
 
+    // Process ePub data
     const ePubData = EPubData.create(rawEPubData, {
       sourceType, sourceId, ...data
     }).toObject();
 
     delete ePubData.id;
-    ePubData.chapters = { data: ePubData.chapters };
-
     // console.log(ePubData);
+
+    // POST the data
+    let newEPubData = null;
     try {
       const resp = await api.createEPub(ePubData);
+      newEPubData = resp.data;
       // console.log(resp);
     } catch (error) {
       console.error(error);
       prompt.error('Failed to create the ePub.');
-      return false;
+      return null;
     }
-    return true;
+
+    uurl.openNewTab(links.epub(newEPubData.id));
+
+    return newEPubData;
   }
 
   async getRawEPubData(sourceType, sourceId, language) {

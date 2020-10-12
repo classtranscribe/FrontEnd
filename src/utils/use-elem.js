@@ -241,6 +241,8 @@ class ElementHandler {
       document.msExitFullscreen();
     }
   }
+
+  preventDefault = (e) => { e.preventDefault(); }
 }
 
 export const elem = new ElementHandler();

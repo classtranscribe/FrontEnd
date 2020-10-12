@@ -11,6 +11,7 @@ export function _getEPubListItems(ePubs) {
     let lang = LanguageConstants.decode(epub.language);
     let status = epub.isPublished ? 'Published' : 'Unpublished'
     return {
+      id: epub.id,
       title: epub.filename,
       icon: 'text_snippet',
       description: `${status} • ${lang}`,
@@ -27,7 +28,8 @@ export function _getEPubListItems(ePubs) {
 function EPubList(props) {
   const {
     ePubs, languages, rawEPubData,
-    sourceType, sourceId, defaultTitle
+    sourceType, sourceId,
+    onCreate
   } = props;
 
   const noLang = languages.length === 0;
@@ -38,9 +40,7 @@ function EPubList(props) {
 
   const noLangElement = altEl(NoLangWrapper, noLang);
   const noEPubElement = altEl(NoEPubWrapper, noEPub, { sourceType, sourceId });
-  const newEPubBtnElement = makeEl(NewEPubButton, {
-    languages, sourceType, sourceId, defaultTitle
-  });
+  const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
 
   return (
     <CTFragment h100 scrollY padding={[40, 0]} id="ct-epb-list" width="40%">

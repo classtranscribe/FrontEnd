@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ARRAY_INIT } from 'utils/constants';
 import { CTFragment, altEl, makeEl } from 'layout';
 import SourceTypes from 'entities/SourceTypes';
-import { EPubPoster, EPubList } from './components';
+import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
 
 function CTEPubListScreen(props) {
@@ -13,6 +13,7 @@ function CTEPubListScreen(props) {
   const [rawEPubData, setRawEPubData] = useState(ARRAY_INIT);
   const [sourceData, setSourceData] = useState(source);
   const [languages, setLanguages] = useState(ARRAY_INIT);
+  const [openNewEPubModal, setOpenNewEPubModal] = useState(false);
 
   const loading = rawEPubData === ARRAY_INIT 
                 || ePubs === ARRAY_INIT
@@ -32,10 +33,25 @@ function CTEPubListScreen(props) {
     setupEPubsData();
   }, [sourceType, sourceId, source]);
 
+  const handleCreateEPub = async ({ title, language }) => {
+    await EPubListCtrl.createEPub(sourceType, sourceId, {
+      language, title, filename: title
+    });
+    await setupEPubsData();
+  };
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
-    sourceType, sourceId, sourceData, defaultTitle
+    sourceType, sourceId, sourceData,
+    onCreate: () => setOpenNewEPubModal(true)
+  });
+  const newEPubModalElement = makeEl(NewEPubModal, {
+    open: openNewEPubModal,
+    languages,
+    defaultTitle,
+    onClose: () => setOpenNewEPubModal(false),
+    onCreate: handleCreateEPub
   });
 
   return (
@@ -49,6 +65,7 @@ function CTEPubListScreen(props) {
     >
       {posterElement}
       {listElement}
+      {newEPubModalElement}
     </CTFragment>
   );
 }

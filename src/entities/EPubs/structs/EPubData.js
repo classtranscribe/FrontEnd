@@ -204,7 +204,7 @@ export default class EPubData {
   toObject() {
     return {
       ...this.__data__,
-      cover: this.cover.src,
+      cover: this.cover,
       chapters: this.chapters.map(chapter => chapter.toObject())
     };
   }
