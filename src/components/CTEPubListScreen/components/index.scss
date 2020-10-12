@@ -12,6 +12,14 @@
   }
 
   #ct-epb-list {
-    box-shadow: 0 0 1rem .2rem rgba(0, 0, 0, 0.089);
+    width: 45%;
+    box-shadow: 0 0 8px 2px rgba(38, 41, 41, 0.068);
+  }
+
+  #ct-epb-poster {
+    width: 55%;
+    img {
+      filter: blur(3px);
+    }
   }
 }

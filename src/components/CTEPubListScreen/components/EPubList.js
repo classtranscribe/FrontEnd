@@ -9,12 +9,12 @@ import NewEPubButton from './NewEPubButton';
 export function _getEPubListItems(ePubs) {
   return ePubs.map(epub => {
     let lang = LanguageConstants.decode(epub.language);
-    let status = epub.isPublished ? 'Published' : 'Unpublished'
+    // let status = epub.isPublished ? 'Published' : 'Unpublished'
     return {
       id: epub.id,
       title: epub.filename,
       icon: 'text_snippet',
-      description: `${status} • ${lang}`,
+      description: `${lang}`,
       link: true,
       to: links.epub(epub.id),
       target: '_blank',
@@ -43,7 +43,7 @@ function EPubList(props) {
   const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
 
   return (
-    <CTFragment h100 scrollY padding={[40, 0]} id="ct-epb-list" width="40%">
+    <CTFragment h100 scrollY padding={[40, 0]} id="ct-epb-list">
       {noLangElement}
       {noEPubElement}
 
