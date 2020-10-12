@@ -24,41 +24,6 @@ function TransTable({
   language,
   setVideoTime,
   setTranscriptions }) {
-  const useTableStyles = makeStyles(theme => ({
-    root: {
-      display: "block",
-      flex: 1
-    },
-    table: {
-      height: "100%",
-      width: "100%"
-    },
-    list: {},
-    thead: {},
-    tbody: {
-      width: "100%"
-    },
-    row: {
-      display: "flex",
-      flexDirection: "row",
-      flexWrap: "nowrap",
-      alignItems: "center",
-      boxSizing: "border-box",
-      minWidth: "100%",
-      width: "100%"
-    },
-    headerRow: {},
-    cell: {
-      display: "block",
-      flexGrow: 0,
-      flexShrink: 0
-      // flex: 1
-    },
-    expandingCell: {
-      flex: 1
-    },
-    column: {}
-  }));
   const [captions, setCaptions] = useState([])
   const [time, setTime] = useState(30)
   const handleVideoTimeChange =
@@ -107,16 +72,19 @@ function TransTable({
 
   useEffect(() => {
     createData()
+    // console.log(transcriptions)
+    // console.log(captions)
   }, [captions])
   const ROW_SIZE = 60;
 
-  const tableRow = ({ index, style, data: { columns, items, classes } }) => {
+  const tableRow = ({ index, style, data: { columns, items } }) => {
     const item = items[index];
     return (
-      <TableRow component="div" style={style} className={classes.row}>
+      <TableRow component="div" style={style} className={`msp-table-row-${index}`}>
         {columns.map((column, colIndex) => {
           return (
             <TableCell
+              className={`msp-table-cell-${index}`}
               key={item.id + colIndex}
               component="div"
               variant="body"
@@ -126,8 +94,8 @@ function TransTable({
               }}
             >
               {colIndex === 2 ?
-                <TransText text={item[column.dataKey]} /> :
-                <TransTime time={item[column.dataKey]} />}
+                <TransText text={item[column.dataKey]} index={index} /> :
+                <TransTime time={item[column.dataKey]} index={index} />}
             </TableCell>
           );
         })}
@@ -136,9 +104,8 @@ function TransTable({
   }
 
   const itemKey = (index, data_) => data_.items[index].id;
-  const createItemData = (classes, columns, data_) => ({
+  const createItemData = (columns, data_) => ({
     columns,
-    classes,
     items: data_
   });
   // id, operations, begin, end, text 
@@ -159,16 +126,12 @@ function TransTable({
       width: 320
     },
   ];
-  const classes = useTableStyles();
 
-  const itemData = createItemData(classes, columns, data);
+  const itemData = createItemData(columns, data);
 
   return (
     <CTFragment id="msp-t-table-con" data-scroll>
-      {/* <Button onClick={handleTimeChange} variant="contained" color="primary" >
-        GO TO 30
-      </Button> */}
-      <Table className={classes.table}>
+      <Table id="msp-trans-table">
         <TableHead component="div">
           <Button className="header-button" startIcon={<SaveIcon />}>Save</Button>
           <Button className="header-button" startIcon={<CancelIcon />}>Cancel</Button>
