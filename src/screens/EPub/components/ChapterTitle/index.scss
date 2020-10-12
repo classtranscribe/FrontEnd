@@ -1,0 +1,25 @@
+.ct-epb.ch-edit-title {
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+
+  &.focused,
+  &:focus-within {
+    cursor: text;
+  }
+
+  .ch-edit-title-txt {
+    width: 100%;
+    margin: 0;
+    padding: 5px 9px 6px 9px;
+
+    // &:focus {
+    //   outline: none;
+    // }
+  }
+}
