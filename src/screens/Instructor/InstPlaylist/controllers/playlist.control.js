@@ -38,7 +38,7 @@ class PlaylistController {
 
   confirmDeletePlaylist(history) {
     setup.confirm({
-      text: 'Are you sure to delete this playlist? (This acrion cannot be undone)',
+      text: 'Are you sure you want to delete this playlist? This action cannot be undone!',
       onConfirm: async () => {
         const successed = await Playlist.delete(setup.playlistId);
         if (successed) {
