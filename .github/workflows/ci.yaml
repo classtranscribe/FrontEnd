@@ -37,6 +37,10 @@ jobs:
           yarn install
           yarn global add react-scripts
 
+      - name: Run linter
+        run: |
+          yarn lint
+
       - name: Compile application
         env:
           CI: false
