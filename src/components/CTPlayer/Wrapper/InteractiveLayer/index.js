@@ -9,7 +9,7 @@ import ControlBar from './ControlBar';
 import SettingsMenu from './SettingsMenu';
 
 function InteractiveLayer(props) {
-  let {
+  const {
     error,
     hideWrapperOnMouseLeave,
     media,
@@ -17,6 +17,7 @@ function InteractiveLayer(props) {
     isTwoScreen,
     screenMode,
     userReady,
+    userActive,
     isEnded,
     isPaused,
     isFullscreen,
@@ -29,15 +30,11 @@ function InteractiveLayer(props) {
     volume,
     playbackRate,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     language,
     currCaption,
   } = props;
 
-  const [hover, setHover] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
 
   const handleOpenSettings = () => {
@@ -45,40 +42,16 @@ function InteractiveLayer(props) {
   }
   const handleCloseSettings = () => setOpenSettings(false);
 
-  const handleMouseEnter = () => {
-    setHover(true);
-  };
-
-  const handleMouseMove = () => {
-    if (player.mouseOverTimer !== null) {
-      clearTimeout(player.mouseOverTimer);
-      player.mouseOverTimer = null;
-    }
-    
-    if (!hover) {
-      setHover(true);
-    }
-
-    player.mouseOverTimer = setTimeout(() => {
-      setHover(false);
-      player.mouseOverTimer = null;
-    }, 3000);
-  }
-
-  const handleMouseLeave = () => {
-    if (hideWrapperOnMouseLeave) {
-      setHover(false);
-    }
-  };
-
   const wrapperClasses = cx('ctp', 'wrapper', 'interact', {
-    show: hover || isPaused || isEnded
+    show: userActive || isPaused || isEnded || openSettings
   });
 
   const actionBarProps = {
     error,
     media,
-    time,
+    userReady,
+    player,
+    time
   };
 
   const controlBarProps = {
@@ -96,10 +69,7 @@ function InteractiveLayer(props) {
     muted,
     volume,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     currCaption,
     openSettings,
     onOpenSettings: handleOpenSettings
@@ -111,10 +81,7 @@ function InteractiveLayer(props) {
     isTwoScreen,
     screenMode,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     setCCFontSize: player.setCCFontSize,
     setCCFontColor: player.setCCFontColor,
     setCCOpacity: player.setCCOpacity,
@@ -134,9 +101,9 @@ function InteractiveLayer(props) {
   return (
     <div
       className={wrapperClasses}
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseMove={handleMouseMove}
+      // onMouseLeave={handleMouseLeave}
     >
       <div className="ctp action-bar-con dismissible">
         <ActionBar {...actionBarProps} />
@@ -166,10 +133,7 @@ InteractiveLayer.propTypes = {
   volume: PropTypes.number,
   playbackRate: SettingsMenu.propTypes.playbackRate,
   openCC: SettingsMenu.propTypes.openCC,
-  ccFontSize: SettingsMenu.propTypes.ccFontSize,
-  ccFontColor: SettingsMenu.propTypes.ccFontColor,
-  ccOpacity: SettingsMenu.propTypes.ccOpacity,
-  ccBackgroundColor: SettingsMenu.propTypes.ccBackgroundColor,
+  ccStyle: ControlBar.propTypes.ccStyle,
   language: SettingsMenu.propTypes.language,
   currCaption: ControlBar.propTypes.currCaption,
   hideWrapperOnMouseLeave: PropTypes.bool,

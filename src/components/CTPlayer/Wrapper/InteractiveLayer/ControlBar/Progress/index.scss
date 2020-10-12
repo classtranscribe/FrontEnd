@@ -1,5 +1,5 @@
 .ctp.wrapper.interact {
-  &:focus-within, &.show {
+  &.show {
     .ctp.progress-con {
       padding: 0 8px;
       transition: padding 100ms linear;
@@ -25,6 +25,7 @@
       margin-left: -23px;
       color: white;
       z-index: 10;
+      pointer-events: none;
     }
 
     .ctp.time-slider-con {

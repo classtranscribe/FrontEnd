@@ -7,7 +7,7 @@ import InteractiveLayer from './InteractiveLayer';
 import NonInteractiveLayer from './NonInteractiveLayer';
 
 function Wrapper(props) {
-  let {
+  const {
     error,
     media,
     player,
@@ -16,6 +16,7 @@ function Wrapper(props) {
     screenMode,
     videoReady,
     userReady,
+    userActive,
     isEnded,
     isPaused,
     isFullscreen,
@@ -28,10 +29,7 @@ function Wrapper(props) {
     volume,
     playbackRate,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     language,
     currCaption,
     hideWrapperOnMouseLeave,
@@ -40,7 +38,7 @@ function Wrapper(props) {
   const startLayerProps = {
     videoReady,
     userReady,
-    onTogglePause: player.togglePause
+    onTogglePause: player.startPlaying
   };
 
   const nonInteractiveLayerProps = {
@@ -58,6 +56,7 @@ function Wrapper(props) {
     isTwoScreen,
     screenMode,
     userReady,
+    userActive,
     isEnded,
     isPaused,
     isFullscreen,
@@ -70,10 +69,7 @@ function Wrapper(props) {
     volume,
     playbackRate,
     openCC,
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    ccStyle,
     language,
     currCaption,
   };
@@ -111,10 +107,7 @@ Wrapper.propTypes = {
   volume: InteractiveLayer.propTypes.volume,
   playbackRate: InteractiveLayer.propTypes.playbackRate,
   openCC: InteractiveLayer.propTypes.openCC,
-  ccFontSize: InteractiveLayer.propTypes.ccFontSize,
-  ccFontColor: InteractiveLayer.propTypes.ccFontColor,
-  ccOpacity: InteractiveLayer.propTypes.ccOpacity,
-  ccBackgroundColor: InteractiveLayer.propTypes.ccBackgroundColor,
+  ccStyle: InteractiveLayer.propTypes.ccStyle,
   language: InteractiveLayer.propTypes.language,
   currCaption: InteractiveLayer.propTypes.currCaption,
   hideWrapperOnMouseLeave: InteractiveLayer.propTypes.hideWrapperOnMouseLeave

@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import ErrorTypes from 'entities/ErrorTypes';
 import { StateController } from 'utils/state-controller';
-import { api, user, prompt, InvalidDataError, ARRAY_INIT, NOT_FOUND_404 } from 'utils';
+import { api, user, prompt, InvalidDataError, ARRAY_INIT } from 'utils';
 
 class SetupMyCoursesPage extends StateController {
   init(props) {
@@ -22,7 +23,7 @@ class SetupMyCoursesPage extends StateController {
     let currentOfferings = [];
     let pastOfferings = [];
 
-    if (offerings === ARRAY_INIT || offerings === NOT_FOUND_404) {
+    if (offerings === ARRAY_INIT || ErrorTypes.isError(offerings)) {
       return { currentOfferings, pastOfferings };
     }
 

@@ -70,6 +70,7 @@ function ActionBar({
         &&
         <CTFilterInput
           grey
+          debounce
           value={filterValue}
           padding={[0]}
           placeholder="Filter videos ..."

@@ -51,7 +51,9 @@ function PlaylistInfoWithRedux({
     handleEdit,
     handleRename,
     handleCancelRename,
-    handleDelete
+    handleDelete,
+    playlistId: playlist.id,
+    offeringId: offering.id
   };
 
   return (

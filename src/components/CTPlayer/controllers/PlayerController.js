@@ -1,11 +1,13 @@
 import _ from 'lodash';
 import { isSafari } from 'react-device-detect';
-import { v4 as uuid } from 'uuid';
 import { api, elem, timestr } from 'utils';
-import iniState from './initial-state';
-import Languages from './Languages';
+import PConstants from './constants/PlayerConstants';
+import LConstants from './constants/LanguageConstants';
 import VideoController from './VideoController';
-import playerKeyDownEventHandler from './keydown-event';
+import CaptionStyle from './structs/CaptionStyle';
+import PPrefer from './PlayerPreference';
+import _playerKeyDownEventHandler from './keydown-handler';
+import { _findCurrTimeBlock } from './helpers';
 
 /**
  * The video player controller
@@ -13,42 +15,25 @@ import playerKeyDownEventHandler from './keydown-event';
 class PlayerController extends VideoController {
   /**
    * Create a CTPlayer controller
-   * @param {Function} setPlayerState - function used to set states in CTPlayer
+   * @param {Any} stateManager - a state manager for video controller
    */
-  constructor(setPlayerState, id) {
-    super(setPlayerState);
-    this.id = id || uuid();
+  constructor(stateManager, id) {
+    super(stateManager, id);
 
     // Node of the player
     this.playerNode = null;
-
-    this.size = iniState.size;
-    this.screenMode = iniState.screenMode;
-    this.isSwappedScreen = iniState.isSwappedScreen;
-    this.isFullscreen = iniState.isFullscreen;
-
-    // Mouse over timer for wrapper
-    this.mouseOverTimer = null;
-
-    // Initialize state
-    this.error = iniState.error;
-    this.media = iniState.media;
-    this.transcriptions = iniState.transcriptions;
-    this.currTranscription = iniState.currTranscription;
-    this.openCC = iniState.openCC;
+    // Init userActive event values
+    this.userActiveTimer = null;
+    this.hideWrapperOnMouseLeave = false;
+    // Languages for current media
     this.languages = [];
-    this.language = iniState.language;
-    this.captions = iniState.captions;
-    this.currCaption = iniState.currCaption;
 
-    // CC styles
-    this.ccFontSize = iniState.ccFontSize;
-    this.ccFontColor = iniState.ccFontColor;
-    this.ccOpacity = iniState.ccOpacity;
-    this.ccBackgroundColor = iniState.ccBackgroundColor;
+    this.isSwappedScreen = false;
 
     // Binding functions to player object
     this.registerPlayer = this.registerPlayer.bind(this);
+    this.startPlaying = this.startPlaying.bind(this);
+    this.userIsActive = this.userIsActive.bind(this);
     this.swapScreens = this.swapScreens.bind(this);
     this.setScreenMode = this.setScreenMode.bind(this);
     this.setOpenCC = this.setOpenCC.bind(this);
@@ -57,113 +42,120 @@ class PlayerController extends VideoController {
     this.changeLanguage = this.changeLanguage.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
     this.exitFullscreen = this.exitFullscreen.bind(this);
-    this.onFullscreenChange = this.onFullscreenChange.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
     this.handlePlayerSize = this.handlePlayerSize.bind(this);
 
     this.setCCFontSize = this.setCCFontSize.bind(this);
     this.setCCFontColor = this.setCCFontColor.bind(this);
     this.setCCOpacity = this.setCCOpacity.bind(this);
     this.setCCBackgroundColor = this.setCCBackgroundColor.bind(this);
+
+    this.__onFullscreenChange = this.__onFullscreenChange.bind(this);
+    this.__onKeyDown = this.__onKeyDown.bind(this);
+    this.__onMouseEnter = this.__onMouseEnter.bind(this);
+    this.__onMouseMove = this.__onMouseMove.bind(this);
+    this.__onMouseLeave = this.__onMouseLeave.bind(this);
+    this.__onFocusIn = this.__onFocusIn.bind(this);
   }
 
+  // -----------------------------------------------------------------
+  // Initialize Player Properties
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   /**
-   * 
+   * Register player node
    * @param {HTMLDivElement} node 
    */
   registerPlayer(node) {
-    this.playerNode = node;
-    if (node) {
-      node.addEventListener('keydown', this.onKeyDown);
-      if (isSafari) {
-        node.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
-      } else {
-        node.addEventListener('fullscreenchange', this.onFullscreenChange);
-      }
-      this.handlePlayerSize();
+    if (!node) {
+      console.error('Failed to register node for player element.')
+      return;
     }
+
+    this.playerNode = node;
+    // add event listeners
+    node.addEventListener('keydown', this.__onKeyDown);
+    // handle user active events
+    node.addEventListener('mouseenter', this.__onMouseEnter);
+    node.addEventListener('mousemove', this.userIsActive);
+    node.addEventListener('mouseleave', this.__onMouseLeave);
+    node.addEventListener('focusin', this.__onFocusIn);
+    if (isSafari) {
+      node.addEventListener('webkitfullscreenchange', this.__onFullscreenChange);
+    } else {
+      node.addEventListener('fullscreenchange', this.__onFullscreenChange);
+    }
+    this.handlePlayerSize();
+  }
+
+  get playerBoundingRect() {
+    return this.playerNode.getBoundingClientRect();
   }
 
   handlePlayerSize() {
     if (!this.playerNode) return;
-    const { width } = this.playerNode.getBoundingClientRect();
+    const { width } = this.playerBoundingRect;
     if (width >= 1000) {
-      this.setSize('lg');
+      this.state.setSize(PConstants.PlayerSizeLarge);
     } else if (width >= 700) {
-      this.setSize('md');
+      this.state.setSize(PConstants.PlayerSizeMedium);
     } else {
-      this.setSize('xs');
+      this.state.setSize(PConstants.PlayerSizeSmall);
     }
   }
 
-  setSize(size) {
-    this.setState('size', size);
+  focusOnPlayer() {
+    this.playerNode.focus();
   }
 
-  setScreenMode(screenMode) {
-    this.setState('screenMode', screenMode);
+  // Setup Player Status
+  // -----------------------------------------------------------------
+  get isUserReady() {
+    return this.state.userReady;
   }
 
-  swapScreens() {
-    this.setState('isSwappedScreen', !this.isSwappedScreen);
+  get isUserActive() {
+    return this.state.userActive;
   }
 
-  setCCFontSize(ccFontSize) {
-    this.setState('ccFontSize', ccFontSize);
+  startPlaying() {
+    this.state.setUserReady(true);
+    this.play();
+    this.userIsActive();
+    this.focusOnPlayer(); 
   }
 
-  setCCFontColor(ccFontColor) {
-    this.setState('ccFontColor', ccFontColor);
+  userIsActive() {
+    if (!this.isUserReady) return;
+    if (this.userActiveTimer !== null) {
+      clearTimeout(this.userActiveTimer);
+      this.userActiveTimer = null;
+    }
+    
+    if (!this.isUserActive) {
+      this.setUserActive(true);
+    }
+
+    this.userActiveTimer = setTimeout(() => {
+      this.setUserActive(false);
+      this.userActiveTimer = null;
+    }, 3000);
   }
 
-  setCCOpacity(ccOpacity) {
-    this.setState('ccOpacity', ccOpacity);
+  // Fullscreen Handlers
+  // -----------------------------------------------------------------
+  enterFullscreen() {
+    if (!this.playerNode) return;
+    elem.enterFullscreen(this.playerNode);
   }
 
-  setCCBackgroundColor(ccBackgroundColor) {
-    this.setState('ccBackgroundColor', ccBackgroundColor);
+  exitFullscreen() {
+    elem.exitFullScreen();
   }
 
-  setError(error) {
-    this.setState('error', error);
-  }
-
-  setMedia(media) {
-    this.setState('media', media);
-  }
-
-  setTranscriptions(transcriptions) {
-    this.setState('transcriptions', transcriptions);
-  }
-
-  setCurrTranscription(currTranscription) {
-    this.setState('currTranscription', currTranscription);
-  }
-
-  setLanguage(language) {
-    this.setState('language', language);
-  }
-
-  setCaptions(captions) {
-    this.setState('captions', captions);
-  }
-
-  setCurrCaption(currCaption) {
-    this.setState('currCaption', currCaption);
-  }
-
-  setOpenCC(openCC) {
-    this.setState('openCC', openCC);
-  }
-  
-  closeCC() {
-    this.setOpenCC(false);
-  }
-
-  toggleCC() {
-    this.setOpenCC(!this.openCC);
-  }
-
+  // -----------------------------------------------------------------
+  // Setup Player Data
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   async setupMedia(mediaId) {
     if (!mediaId) return;
     try {
@@ -178,20 +170,20 @@ class PlayerController extends VideoController {
   async getCaptionsByTranscriptionId(transId) {
     try {
       let { data } = await api.getCaptionsByTranscriptionId(transId);
-      return data;
+      return _.map(data, (caption, index) => ({ ...caption, index }));
     } catch (error) {
       return [];
     }
   }
 
-  setupTranscriptions(media, defaultLang = Languages.English) {
+  setupTranscriptions(media, defaultLang = PPrefer.language) {
     const { transcriptions } = media;
 
     if (Array.isArray(transcriptions) && transcriptions.length > 0) {
       this.setTranscriptions(transcriptions);
       this.languages = _.map(transcriptions, trans => ({ 
         code: trans.language, 
-        text: Languages.decode(trans.language)
+        text: LConstants.decode(trans.language)
       }));
 
       // if (defaultLang) {
@@ -211,80 +203,213 @@ class PlayerController extends VideoController {
     if (!currTranscription || !currTranscription.id) {
       this.setCaptions([]);
       this.setCurrCaption(null);
-      if (this.openCC) this.toggleCC();
+      if (this.state.openCC) {
+        this.toggleCC();
+      }
       return;
     }
 
-    const { id, language, src } = currTranscription;
-    this.setLanguage({ code: language, text: Languages.decode(language) });
+    const { id, language, /** src */ } = currTranscription;
+    this.setLanguage({ code: language, text: LConstants.decode(language) });
 
-    let captions = await this.getCaptionsByTranscriptionId(id);
-    captions = _.map(captions, (cap, index) => ({ ...cap, index }));
+    const captions = await this.getCaptionsByTranscriptionId(id);
+    // console.log('captions', captions);
     this.setCaptions(captions);
     this.setCurrCaption(null);
     this.updateCurrCaption(this.time);
-    // if (!this.openCC) this.toggleCC();
+    // if (!this.state.openCC) this.toggleCC();
   }
 
+  // -----------------------------------------------------------------
+  // Event handlers
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
   changeLanguage(language) {
-    if (!this.openCC) this.setOpenCC(true);
-    let targetIndex = _.findIndex(this.transcriptions, { language });
+    if (!this.state.openCC) this.setOpenCC(true);
+    let targetIndex = _.findIndex(this.state.transcriptions, { language });
     if (targetIndex >= 0) {
-      this.setLanguage({ code: language, text: (language) });
-      this.setCurrTranscription(this.transcriptions[targetIndex]);
+      this.setLanguage({ code: language, text: LConstants.decode(language) });
+      this.setCurrTranscription(this.state.transcriptions[targetIndex]);
     } else {
       this.setLanguage({ code: null, text: null });
       this.setCurrTranscription(null);
     }
   }
 
-  updateCurrCaption(now) {
-    if (!this.openCC || this.captions.length <= 0) return;
-    let captions = this.captions;
+  findCurrCaptionBS(now, captions) {
+    let next = this.state.currCaption;
 
-    const isCurrent = (item) => {
+    // if it's the first time to find captions
+    if (!next) {
+      next = _findCurrTimeBlock(captions, now) || next;
+
+      // if looking for caption that is after the current one
+    } else if (now > timestr.toSeconds(next.begin)) {
+      next = _findCurrTimeBlock(captions, now, next.index + 1) || next;
+
+      // if looking for caption that is prior to the current one
+    } else if (now < timestr.toSeconds(next.end)) {
+      next = _findCurrTimeBlock(captions, now, 0, next.index - 1) || next;
+    }
+
+    return next;
+  }
+
+  findCurrCaption(now, captions) {
+    const _isCurrentCap = (item) => {
       if (!item) return false;
       const end = timestr.toSeconds(item.end);
       const begin = timestr.toSeconds(item.begin);
       return begin <= now && now <= end;
     };
 
-    let next = this.currCaption;
+    let next = this.state.currCaption;
 
     // if it's the first time to find captions
     if (!next) {
-      next = _.find(captions, isCurrent) || next;
+      next = _.find(captions, _isCurrentCap) || next;
 
       // if looking for caption that is after the current one
     } else if (now > timestr.toSeconds(next.begin)) {
-      next = _.find(captions, isCurrent, next.index + 1) || next;
+      next = _.find(captions, _isCurrentCap, next.index + 1) || next;
 
       // if looking for caption that is prior to the current one
     } else if (now < timestr.toSeconds(next.end)) {
-      next = _.findLast(captions, isCurrent, next.index - 1) || next;
+      next = _.findLast(captions, _isCurrentCap, next.index - 1) || next;
     }
 
-    this.setCurrCaption(next);
+    return next;
   }
 
-  enterFullscreen() {
-    let node = this.playerNode;
-    if (!node) return;
-
-    elem.enterFullscreen(node);
+  updateCurrCaption(now) {
+    if (!this.state.openCC || this.state.captions.length <= 0) return;
+    const captions = this.state.captions;
+    this.setCurrCaption(this.findCurrCaption(now, captions));
   }
 
-  exitFullscreen() {
-    elem.exitFullScreen();
+  // -----------------------------------------------------------------
+  // Player State/Attribute Setters
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
+  setError(error) {
+    this.state.setError(error);
   }
 
-  onFullscreenChange(e) {
-    this.setState('isFullscreen', elem.isInFullScreen);
+  setUserActive(userActive) {
+    if (!this.isUserReady) return;
+    this.state.setUserActive(userActive);
+  }
+
+  // Screen Settings
+  // -----------------------------------------------------------------
+  setScreenMode(screenMode) {
+    this.state.setScreenMode(screenMode);
+    PPrefer.setScreenMode(screenMode);
+  }
+
+  swapScreens() {
+    this.isSwappedScreen = !this.state.isSwappedScreen
+    this.state.setIsSwappedScreen(!this.state.isSwappedScreen);
+  }
+
+  // Media/Transcription Data
+  // -----------------------------------------------------------------
+  setMedia(media) {
+    this.state.setMedia(media);
+  }
+
+  setTranscriptions(transcriptions) {
+    this.state.setTranscriptions(transcriptions);
+  }
+
+  setCurrTranscription(currTranscription) {
+    this.state.setCurrTranscription(currTranscription);
+  }
+
+  setLanguage(language) {
+    this.state.setLanguage(language);
+    PPrefer.setLanguage(language.code);
+  }
+
+  setCaptions(captions) {
+    this.state.setCaptions(captions);
+  }
+
+  setCurrCaption(currCaption) {
+    this.state.setCurrCaption(currCaption);
+  }
+
+  // Closed Caption Settings
+  // -----------------------------------------------------------------
+  setOpenCC(openCC) {
+    this.state.setOpenCC(openCC);
+    PPrefer.setOpenCC(openCC);
+  }
+  
+  closeCC() {
+    this.setOpenCC(false);
+  }
+
+  toggleCC() {
+    this.setOpenCC(!this.state.openCC);
+  }
+
+  setCCStyle(ccStyle) {
+    const newStyle = { ...this.state.ccStyle, ...ccStyle };
+    this.state.setCCStyle(newStyle);
+    CaptionStyle.setPreference(newStyle);
+  }
+
+  setCCFontSize(fontSize) {
+    this.setCCStyle({ fontSize });
+  }
+
+  setCCFontColor(fontColor) {
+    this.setCCStyle({ fontColor });
+  }
+
+  setCCOpacity(opacity) {
+    this.setCCStyle({ opacity });
+  }
+
+  setCCBackgroundColor(backgroundColor) {
+    this.setCCStyle({ backgroundColor });
+  }
+
+  setCCPosition(position) {
+    this.setCCStyle({ position });
+  }
+
+  // -----------------------------------------------------------------
+  // Player Native Events Handlers
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
+
+  __onFullscreenChange(/** event */) {
+    this.state.setIsFullscreen(elem.isInFullScreen);
     this.handlePlayerSize();
   }
 
-  onKeyDown(e) {
-    playerKeyDownEventHandler(e, this);
+  __onKeyDown(event) {
+    _playerKeyDownEventHandler(event, this);
+  }
+
+  __onMouseEnter() {
+    this.userIsActive();
+  }
+
+  __onMouseMove() {
+    this.userIsActive();
+  }
+
+  __onMouseLeave() {
+    if (this.hideWrapperOnMouseLeave) {
+      this.setUserActive(false);
+    }
+  }
+
+  __onFocusIn() {
+    this.userIsActive();
   }
 }
 

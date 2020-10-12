@@ -4,10 +4,10 @@ import MenuItem from './MenuItem';
 
 function CCOptionsMenu(props) {
   let {
-    ccFontSize,
-    ccFontColor,
-    ccOpacity,
-    ccBackgroundColor,
+    fontSize,
+    fontColor,
+    opacity,
+    backgroundColor,
     onGoBack,
     onOpenFontSizeMenu,
     onOpenFontColorMenu,
@@ -23,28 +23,28 @@ function CCOptionsMenu(props) {
         isSubMenu
         active
         text="Font Size"
-        current={`${ccFontSize * 100 }%`}
+        current={`${fontSize * 100 }%`}
         onClick={onOpenFontSizeMenu}
       />
 
       <MenuItem
         isSubMenu
         text="Font Color"
-        current={ccFontColor}
+        current={fontColor}
         onClick={onOpenFontColorMenu}
       />
 
       <MenuItem
         isSubMenu
         text="Background Opacity"
-        current={`${ccOpacity * 100 }%`}
+        current={`${opacity * 100 }%`}
         onClick={onOpenOpacityMenu}
       />
 
       <MenuItem
         isSubMenu
         text="Background Color"
-        current={ccBackgroundColor}
+        current={backgroundColor}
         onClick={onOpenBackgroundColorMenu}
       />
     </div>
@@ -52,10 +52,10 @@ function CCOptionsMenu(props) {
 }
 
 CCOptionsMenu.propTypes = {
-  ccFontSize: PropTypes.number.isRequired,
-  ccFontColor: PropTypes.string.isRequired,
-  ccOpacity: PropTypes.number.isRequired,
-  ccBackgroundColor: PropTypes.string.isRequired,
+  fontSize: PropTypes.number.isRequired,
+  fontColor: PropTypes.string.isRequired,
+  opacity: PropTypes.number.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
   onGoBack: PropTypes.func.isRequired,
   onOpenFontSizeMenu: PropTypes.func.isRequired,
   onOpenFontColorMenu: PropTypes.func.isRequired,

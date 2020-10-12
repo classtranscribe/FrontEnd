@@ -20,9 +20,10 @@ export const useButtonStyles = makeStyles({
     }
   },
   tealLink: {
+    color: 'var(--ct-text-primary) !important',
     fontWeight: 'bold',
     '&:hover': {
-      color: 'teal'
+      color: 'teal !important'
     }
   }
 });

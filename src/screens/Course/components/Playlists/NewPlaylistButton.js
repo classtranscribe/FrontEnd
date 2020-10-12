@@ -15,8 +15,8 @@ function NewPlaylistButton({
     <Button
       component={Link}
       variant="contained"
-      className={cx(btn.teal, 'ml-3')}
-      size="large"
+      className={cx(btn.teal, 'ml-3', 'ct-a-fade-in')}
+      size="small"
       startIcon={<AddIcon />}
       to={links.instNewPlaylist(offeringId)}
     >

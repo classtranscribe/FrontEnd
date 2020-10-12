@@ -32,7 +32,7 @@ import {
 
 import './App.css';
 import 'braft-editor/dist/index.css';
-import { user } from './utils/user';
+import { user, env } from './utils';
 
 class App extends React.Component {
   componentDidMount() {
@@ -40,6 +40,8 @@ class App extends React.Component {
   }
 
   render() {
+    const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -54,37 +56,32 @@ class App extends React.Component {
           {/* Instructor */}
           <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/instructor/my-courses" component={MyCourses} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/instructor/new-course" component={NewCourse} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/offering/:id/settings" component={CourseSettings} />
           }
           {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
           }
           {
-            user.isInstructor 
+            isAdminOrInstructor
             &&
             <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
           }
           {
-            user.isInstructor
-            &&
-            <Route path="/playlist/:id" component={InstPlaylist} />
-          }
-          {
-            user.isInstructor
+            isAdminOrInstructor
             &&
             <Route path="/media-settings/:id" component={MediaSettings} />
           }
@@ -98,12 +95,17 @@ class App extends React.Component {
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={Watch} />
           <Route exact path="/embed/:id" component={Embed} />
-
-          {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
-          <Route exact path="/example" component={Example} />
+          <Route path="/playlist/:id" component={InstPlaylist} />
 
           <Route path="/404" component={NotFound404} />
           <Route component={NotFound404} />
+
+          {
+            env.dev
+            &&
+            <Route exact path="/example" component={Example} />
+          }
+          {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
         </Switch>
       </AppInsightsProvider>
     );

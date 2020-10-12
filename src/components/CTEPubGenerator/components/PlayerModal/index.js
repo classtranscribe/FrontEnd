@@ -1,6 +1,7 @@
 import React from 'react';
 import { SwipeableDrawer } from '@material-ui/core';
 import { Button } from 'pico-ui';
+import SourceTypes from 'entities/SourceTypes';
 import timestr from 'utils/use-time';
 import { CTFragment, CTHeading, CTText } from 'layout';
 import CTPlayer from '../../../CTPlayer';
@@ -15,6 +16,10 @@ function PlayerModal({
   end,
 }) {
   const onClose = epub.ctrl.closePlayerModal;
+  const screenshotSource = {
+    id: epub.ctrl.epubId,
+    type: SourceTypes.EPub
+  };
 
   return (
     <SwipeableDrawer
@@ -46,6 +51,10 @@ function PlayerModal({
           fill
           defaultOpenCC
           hideWrapperOnMouseLeave
+          allowTwoScreen
+          allowScreenshot
+          screenshotSource={screenshotSource}
+          // onScreenshotCaptured={alert}
           media={media}
           beginAt={begin}
           endAt={end}

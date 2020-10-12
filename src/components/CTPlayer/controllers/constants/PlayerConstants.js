@@ -1,17 +1,22 @@
-import Languages from './Languages';
-
 /**
  * The class contains all the static values for the video player
  */
-class PlayerConstants extends Languages {
+class PlayerConstants {
   // Player Errors
   static MediaError404 = 404;
   static MediaError401 = 401;
 
+  // Player Size
+  static PlayerSizeSmall = 'xs';
+  static PlayerSizeMedium = 'md';
+  static PlayerSizeLarge = 'lg';
+
   // Playback Rates
   static PlaybackRates = [2, 1.75, 1.5, 1.25, 1, 0.75, 0.5, 0.25];
 
+  /// ///////////////////////////////////////////////////////////////////
   // Player Events
+  /// ///////////////////////////////////////////////////////////////////
   static PlayerEventPlay = 'play';
   static PlayerEventPause = 'pause';
   static PlayerEventRewind = 'rewind';
@@ -20,7 +25,22 @@ class PlayerConstants extends Languages {
   static PlayerEventVolumeUp = 'volume-up';
   static PlayerEventVolumeDown = 'volume-down';
 
+  /// ///////////////////////////////////////////////////////////////////
+  // Screen Modes
+  /// ///////////////////////////////////////////////////////////////////
+  static ScreenModePrimary = 'p-s';
+  static ScreenModeNested = 'nest';
+  static ScreenModeNormal = 'normal';
+  static ScreenModesMap = {
+    [PlayerConstants.ScreenModePrimary]: 'Primary-Secondary View',
+    [PlayerConstants.ScreenModeNested]: 'Nested View',
+    [PlayerConstants.ScreenModeNormal]: 'One-Screen View'
+  };
+
+
+  /// ///////////////////////////////////////////////////////////////////
   // CC Styles
+  /// ///////////////////////////////////////////////////////////////////
   // Colors
   static CCColorWhite = 'white';
   static CCColorYellow = 'yellow';
@@ -69,16 +89,10 @@ class PlayerConstants extends Languages {
     PlayerConstants.CCOpacity75,
     PlayerConstants.CCOpacity100,
   ];
-
-  // Two Screen Modes
-  static ScreenModePrimary = 'p-s';
-  static ScreenModeNested = 'nest';
-  static ScreenModeNormal = 'normal';
-  static ScreenModesMap = {
-    [PlayerConstants.ScreenModePrimary]: 'Primary-Secondary View',
-    [PlayerConstants.ScreenModeNested]: 'Nested View',
-    [PlayerConstants.ScreenModeNormal]: 'One-Screen View'
-  };
+  // position
+  static CCPositionBottom = 'bottom';
+  static CCPositionTop = 'top';
+  static CCPositionOutside = 'outside';
 }
 
 export default PlayerConstants;

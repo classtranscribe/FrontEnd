@@ -11,7 +11,7 @@ function ProceedButton() {
         size="big"
         classNames="ct-epb shadow-btn"
         icon="arrow_forward"
-        text="Proceed to Chapter Editor"
+        text="Edit ePub Chapters"
         color="teal"
         onClick={epub.ctrl.proceedToStep2}
       />

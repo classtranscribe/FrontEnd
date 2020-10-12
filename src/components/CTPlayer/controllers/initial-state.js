@@ -1,47 +1,53 @@
-import Constants from './PlayerConstants';
+import PConstants from './constants/PlayerConstants';
+import PPrefer from './PlayerPreference';
+// import LConstants from './constants/LanguageConstants';
+import CaptionStyle from './structs/CaptionStyle';
+import Language from './structs/Language';
 
 const initialState = {
-  // media
+  // -----------------------------------------------------------------
+  // Media Data
+  // -----------------------------------------------------------------
   error: null,
   media: null,
   src1: null,
   src2: null,
-  videoReady: false,
-  userReady: false,
-  size: 'xs',
-  event: null,
-  screenMode: Constants.ScreenModeNormal,
-  isSwappedScreen: false,
-
-  // video
-  duration: 0,
-  time: 0,
-  bufferedTime: 0,
-  muted: false,
-  volume: 1,
-  playbackRate: 1,
-  isPaused: true,
-  isEnded: false,
-  isFullscreen: false,
-
-  // captions
-  openCC: false,
+  // captions data
   transcriptions: [],
   currTranscription: null,
-  language: {
-    code: Constants.English, 
-    text: Constants.decode(Constants.English)
-  },
+  language: new Language().getData(),
   captions: [],
   currCaption: null,
 
-  // cc styles
-  ccFontSize: Constants.CCFontSize100,
-  ccFontColor: Constants.CCColorWhite,
-  ccOpacity: Constants.CCOpacity75,
-  ccBackgroundColor: Constants.CCColorBlack,
+  // -----------------------------------------------------------------
+  // Player Attributes
+  // -----------------------------------------------------------------
+  videoReady: false,
+  userReady: false,
+  userActive: false,
+  size: PConstants.PlayerSizeSmall,
+  event: null,
+  screenMode: PConstants.ScreenModeNormal,
+  isSwappedScreen: false,
+  isFullscreen: false,
+  openCC: PPrefer.openCC,
+  ccStyle: new CaptionStyle().getData(),
 
-  // range
+  // -----------------------------------------------------------------
+  // Video Attributes
+  // -----------------------------------------------------------------
+  duration: 0,
+  time: 0,
+  bufferedTime: 0,
+  muted: PPrefer.muted,
+  volume: PPrefer.volume,
+  playbackRate: PPrefer.playbackRate,
+  isPaused: true,
+  isEnded: false,  
+
+  // -----------------------------------------------------------------
+  // Range
+  // -----------------------------------------------------------------
   openRange: false,
   range: null,
 };

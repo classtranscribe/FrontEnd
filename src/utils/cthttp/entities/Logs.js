@@ -1,4 +1,4 @@
-import { cthttp } from './request';
+import { cthttp } from '../request';
 
 const GET_LOG_TIMEOUT = 6000000;
 

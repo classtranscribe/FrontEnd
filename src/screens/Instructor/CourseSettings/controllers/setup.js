@@ -1,5 +1,6 @@
 import { StateController } from 'utils/state-controller';
-import { api, NOT_FOUND_404 } from 'utils';
+import ErrorTypes from 'entities/ErrorTypes';
+import { api } from 'utils';
 
 export class SetupCoursePage extends StateController {
   constructor(title) {
@@ -34,7 +35,7 @@ export class SetupCoursePage extends StateController {
       return api.parseSingleOffering(data);
     } catch (error) {
       // TODO 404
-      return NOT_FOUND_404;
+      return ErrorTypes.NotFound404;
     }
   }
 
@@ -54,7 +55,7 @@ export class SetupCoursePage extends StateController {
 
     api.contentLoaded();
 
-    // if (offering === NOT_FOUND_404) return;
+    // if (offering === ErrorTypes.NotFound404) return;
   }
 }
 

@@ -2,11 +2,13 @@ import React from 'react';
 import cx from 'classnames';
 import { altEl, makeEl } from 'layout';
 import {
+  CTPlayerIDs,
+  CTPlayerConstants as PConstants,
   initialState,
-  CTPlayerConstants as Constants,
+  PlayerStateManager,
   CTPlayerController
 } from '../controllers';
-import { getPlayerSize } from '../controllers/helpers';
+import { _getPlayerSize } from '../controllers/helpers';
 import Video from '../Video';
 import Wrapper from '../Wrapper';
 import Range from '../Range';
@@ -18,12 +20,33 @@ import './index.scss';
 class Player extends React.Component {
   constructor(props) {
     super(props);
-    this.state = initialState;
-    this.setPlayerState = this.setPlayerState.bind(this);
 
-    // Setup the player instance
-    const { id } = props;
-    this.player = new CTPlayerController(this.setPlayerState, id);
+    // Initialize player states
+    this.state = initialState;
+
+    // Initialize player state manager
+    this.setPlayerState = this.setPlayerState.bind(this);
+    const stateManager = new PlayerStateManager(this.setPlayerState);
+
+    // Initialize the player controller
+    const {
+      id,
+      allowScreenshot,
+      onScreenshotCaptured,
+      hideWrapperOnMouseLeave
+    } = props;
+    this.player = new CTPlayerController(stateManager, id);
+
+    this.player.hideWrapperOnMouseLeave = Boolean(hideWrapperOnMouseLeave);
+
+    // Initialize screenshot attributes
+    if (allowScreenshot) {
+      this.player.isScreenshotAllowed = true;
+    }
+
+    if (typeof onScreenshotCaptured === 'function') {
+      this.player.onScreenshotCaptured = onScreenshotCaptured;
+    }
   }
 
   /**
@@ -60,6 +83,7 @@ class Player extends React.Component {
       defaultOpenRangePicker,
       range,
       defaultRange,
+      screenshotSource
     } = this.props;
 
     // Setup media
@@ -80,7 +104,7 @@ class Player extends React.Component {
 
     // Set default open CC
     if (defaultOpenCC) {
-      this.player.toggleCC();
+      this.player.setOpenCC(true);
     }
 
     if (typeof defaultPlaybackRate === 'number') {
@@ -94,6 +118,14 @@ class Player extends React.Component {
         this.player.setRange(range || defaultRange);
       }
     }
+
+    // // Setup screenshot sourceId and sourceType
+    // if (screenshotSource
+    //   && screenshotSource.id 
+    //   && typeof screenshotSource.type === 'number') {
+    //   console.info('screenshotSource', screenshotSource)
+    //   this.player.setScreenshotSource(screenshotSource.id, screenshotSource.type);
+    // }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -103,7 +135,8 @@ class Player extends React.Component {
       triggerTime,
       defaultLanguage,
       allowTwoScreen,
-      range
+      range,
+      // screenshotSource
     } = this.props;
 
     // Setup media when the `media`/`mediaId` in props changes
@@ -123,7 +156,7 @@ class Player extends React.Component {
           this.setState({ src2: videos[0].srcPath2 });
 
           if (allowTwoScreen) {
-            this.setState({ screenMode: Constants.ScreenModeNested });
+            this.setState({ screenMode: PConstants.ScreenModeNested });
           }
         }
 
@@ -146,6 +179,13 @@ class Player extends React.Component {
     if (prevProps.range !== range) {
       this.setRange(range);
     }
+
+    // // Update screenshot sourceId and sourceType
+    // if (prevProps.screenshotSource !== screenshotSource
+    //   && screenshotSource.id 
+    //   && typeof screenshotSource.type === 'number') {
+    //   this.player.setScreenshotSource(screenshotSource.id, screenshotSource.type);
+    // }
   }
 
   render() {
@@ -153,7 +193,7 @@ class Player extends React.Component {
     const { src2, isFullscreen, openRange, error } = this.state;
 
     const display2Screen = allowTwoScreen && Boolean(src2);
-    const playerSize = getPlayerSize({ width, height, fill, isFullscreen });
+    const playerSize = _getPlayerSize({ width, height, fill, isFullscreen });
 
     const video1Element = altEl(Video, !error, this.getVideo1Props());
     const video2Element = altEl(Video, !error && display2Screen, this.getVideo2Props());
@@ -185,7 +225,7 @@ class Player extends React.Component {
   getContainerProps(playerSize) {
     const { fill } = this.props;
     return {
-      id: this.player.id,
+      id: CTPlayerIDs.playerOuterContainerID(this.player.id),
       className: 'ctp ct-player-con',
       style: {
         width: playerSize.width,
@@ -201,11 +241,12 @@ class Player extends React.Component {
     const { fill, padded } = this.props;
     const { size } = this.state;
     return {
-      id: `ct-player-${this.player.id}`,
+      id: CTPlayerIDs.playerInnerContainerID(this.player.id),
       ref: this.player.registerPlayer,
       style: {
         width: playerSize.width,
-        height: playerSize.height
+        height: playerSize.height,
+        minHeight: playerSize.minHeight
       },
       className: cx('ctp', 'ct-player', size, { fill, padded }),
       tabIndex: '0'
@@ -218,7 +259,7 @@ class Player extends React.Component {
   getVideo1Props() {
     const { src1, screenMode, isSwappedScreen } = this.state;
     return {
-      id: `v1-${this.player.id}`,
+      id: CTPlayerIDs.video1ID(this.player.id),
       src: src1,
       className: cx({ secondary: isSwappedScreen }, screenMode),
       getVideoNode: this.player.registerVideo1
@@ -231,7 +272,7 @@ class Player extends React.Component {
   getVideo2Props() {
     const { src2, screenMode, isSwappedScreen } = this.state;
     return {
-      id: `v2-${this.player.id}`,
+      id: CTPlayerIDs.video2ID(this.player.id),
       src: src2,
       muted: true,
       className: cx({ secondary: !isSwappedScreen }, screenMode),
@@ -254,6 +295,7 @@ class Player extends React.Component {
       screenMode,
       videoReady,
       userReady,
+      userActive,
       isEnded,
       isPaused,
       isFullscreen,
@@ -264,10 +306,7 @@ class Player extends React.Component {
       volume,
       playbackRate,
       openCC,
-      ccFontSize,
-      ccFontColor,
-      ccOpacity,
-      ccBackgroundColor,
+      ccStyle,
       language,
       currCaption,
     } = this.state;
@@ -281,6 +320,7 @@ class Player extends React.Component {
       screenMode,
       videoReady,
       userReady,
+      userActive,
       isEnded,
       isPaused,
       isFullscreen,
@@ -293,10 +333,7 @@ class Player extends React.Component {
       volume,
       playbackRate,
       openCC,
-      ccFontSize,
-      ccFontColor,
-      ccOpacity,
-      ccBackgroundColor,
+      ccStyle,
       language,
       currCaption,
       hideWrapperOnMouseLeave,
@@ -309,7 +346,7 @@ class Player extends React.Component {
   getRangeProps() {
     const { duration, time, range } = this.state;
     return {
-      id: `range-${this.player.id}`,
+      id: CTPlayerIDs.rangeContainerID(this.player.id),
       duration,
       time,
       range,
@@ -323,7 +360,7 @@ class Player extends React.Component {
    */
   getExtraProps(playerSize) {
     return {
-      id: `ct-player-extra-${this.player.id}`,
+      id: CTPlayerIDs.extraPanelID(this.player.id),
       className: 'ctp ct-player-extra',
       style: {
         width: playerSize.width,

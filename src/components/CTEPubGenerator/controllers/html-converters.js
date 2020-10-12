@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { html, uurl } from 'utils';
-import { buildID } from './utils';
+import { html, uurl, _buildID } from 'utils';
 
 export function buildMDFromItems(items) {
   if (!items || items.length === 0) return '';
@@ -13,7 +12,7 @@ export function buildMDFromItems(items) {
 export function buildMDFromContent(content) {
   if (typeof content === 'string') return content;
   if (_.trim(content.description)) {
-    let despId = buildID();
+    let despId = _buildID();
     return [
       '<div class="img-block">',
       `\t<img src="${uurl.getMediaUrl(content.src)}" alt="${content.alt}" aria-describedby="${despId}" />`,
