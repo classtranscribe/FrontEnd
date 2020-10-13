@@ -53,14 +53,18 @@ function TransTime({
 }
 
 
-export default connectWithRedux(
-  TransTime,
-  [
-    'transcriptions',
-    'language'],
-  [
-    'setVideoTime',
-    'setTranscriptions'
-  ],
-  ['media']
-);
+export default
+  connectWithRedux(
+    React.memo(TransTime),
+    [
+      'transcriptions',
+      'language'],
+    [
+      'setVideoTime',
+      'setTranscriptions'
+    ],
+    ['media']
+  );
+
+
+

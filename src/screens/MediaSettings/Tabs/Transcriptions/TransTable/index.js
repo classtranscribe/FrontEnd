@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo, useMemo } from 'react';
 import './index.scss';
 import _ from 'lodash';
 import { util, api } from 'utils';
@@ -8,15 +8,15 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { VariableSizeList as List } from "react-window";
+import { VariableSizeList as List , areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { makeStyles } from "@material-ui/styles";
 import { connectWithRedux } from '../../../controllers/trans';
 import TransTime from "../TransTime"
 import TransText from "../TransText"
+
 
 function TransTable({
   media = undefined,
@@ -75,21 +75,19 @@ function TransTable({
     // console.log(transcriptions)
     // console.log(captions)
   }, [captions])
-  const ROW_SIZE = 60;
-
-  const tableRow = ({ index, style, data: { columns, items } }) => {
+  // 
+  const tableRow = memo(({ index, style, data: { columns, items } }) => {
     const item = items[index];
     return (
-      <TableRow component="div" style={style} className={`msp-table-row-${index}`}>
+      <TableRow component="div" style={style} className={`msp-table-row row${index}`}>
         {columns.map((column, colIndex) => {
           return (
             <TableCell
-              className={`msp-table-cell-${index}`}
+              className={`msp-table-cell cell${index}`}
               key={item.id + colIndex}
               component="div"
               variant="body"
               style={{
-                height: ROW_SIZE,
                 borderBottom: 0
               }}
             >
@@ -101,7 +99,7 @@ function TransTable({
         })}
       </TableRow>
     );
-  }
+  }, areEqual)
 
   const itemKey = (index, data_) => data_.items[index].id;
   const createItemData = (columns, data_) => ({
@@ -140,10 +138,11 @@ function TransTable({
           <AutoSizer>
             {({ height, width }) => (
               <List
+                overscanCount={30}
                 height={height}
                 width={width}
                 itemCount={data.length}
-                itemSize={() => { return 60 }}
+                itemSize={() => { return 50 }}
                 itemKey={itemKey}
                 itemData={itemData}
               >
@@ -159,7 +158,7 @@ function TransTable({
 }
 
 
-export default React.memo(connectWithRedux(
+export default connectWithRedux(
   TransTable,
   [
     'transcriptions',
@@ -169,4 +168,4 @@ export default React.memo(connectWithRedux(
     'setTranscriptions'
   ],
   ['media']
-));
+);

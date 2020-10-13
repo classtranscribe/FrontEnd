@@ -28,7 +28,7 @@ function TransText({
     <CTInput
       underlined
       value={currText}
-      id="trans-text-btn"
+      id="msp-trans-text"
       onChange={handleCurrTextChange}
       multiline
     />
@@ -40,6 +40,7 @@ function TransText({
 
 
 export default connectWithRedux(
+
   TransText,
   [
     'transcriptions',
