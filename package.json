@@ -13,7 +13,9 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "lint": "cross-env NODE_ENV=production eslint .",
+    "lint:quiet": "yarn lint --quiet",
     "lint:fix": "yarn lint --fix",
+    "lint:fix:quiet": "yarn lint:fix --quiet",
     "prettier": "prettier --list-different \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
   },

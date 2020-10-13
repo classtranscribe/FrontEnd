@@ -39,7 +39,7 @@ jobs:
 
       - name: Run linter
         run: |
-          yarn lint
+          yarn lint:quiet
 
       - name: Compile application
         env:
