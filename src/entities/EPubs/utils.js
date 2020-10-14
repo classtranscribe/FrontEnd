@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { _buildID } from 'utils';
-import { EPubChapterData } from './structs';
 
 export function findChapterTimeSpan(chapterLike) {
   const { items, subChapters } = chapterLike;
@@ -29,10 +28,6 @@ export function parseRawEPubData(rawEPubData) {
   return _.map(filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
 }
 
-/**
- * 
- * @param {EPubChapterData} chapter 
- */
 export function getAllItemsInChapter(chapter) {
   return _.flatten([
     chapter.items,

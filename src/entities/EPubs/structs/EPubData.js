@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import CTError from 'utils/use-error';
-import { LanguageConstants } from 'components/CTPlayer';
-import { getAllImagesInChapters } from '../utils';
+import { getAllItemsInChapters } from '../utils';
 import EPubChapterData from './EPubChapterData';
 import EPubSubChapterData from './EPubSubChapterData';
 import EPubImageData from './EPubImageData';
@@ -84,12 +83,11 @@ export default class EPubData {
       this.isPublished = false;
     }
 
-    if (!Array.isArray(this.chapters) && this.chapters.data) {
-      this.chapters = this.chapters.data;
-    }
+    this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
 
-    // extract all the images from the chapters
-    this.images = getAllImagesInChapters(this.chapters);
+    // extract all the items and images from the chapters
+    this.items = getAllItemsInChapters(this.chapters);
+    this.images = _.map(this.items, item => item.image);
 
     // set up cover image
     if (!this.cover) {
@@ -109,6 +107,8 @@ export default class EPubData {
       ...data
     });
   }
+
+  static __buildEPubDataFromArray = _buildEPubDataFromArray;
 
   set id(id) {
     this.__data__.id = id;

@@ -1,0 +1,26 @@
+/**
+ * The contants used for generating ePub files
+ */
+export default class EPubConstants {
+  // errors
+  static EPubDataNotRequestedError = 'epub-not-requested';
+  static EPubDataRequestedError = 'epub-requested';
+  
+  // steps
+  static EPubStepLaunchScreen = 'launch';
+  static EPubStepSplitChapters = 'split';
+  static EPubStepEditChapters = 'edit';
+  static EPubStepDownload = 'download';
+  static EPubStepDefaultFirstStep = EPubConstants.EPubStepLaunchScreen;
+  // static EPubStepDefaultFirstStep = EPubConstants.EPubStepSplitChapters;
+  static EPubSteps = [
+    EPubConstants.EPubStepSplitChapters,
+    EPubConstants.EPubStepEditChapters,
+    EPubConstants.EPubStepDownload
+  ];
+  
+  // nav
+  static EPubNavShowing = 'show';
+  static EPubNavHiding = 'hide';
+  static EPubNavClosed = null;
+}

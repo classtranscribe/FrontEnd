@@ -19,6 +19,7 @@ import {
   MediaSettings,
   NewPlaylist,
   Embed,
+  EPub,
   // Student
   Home,
   Course,
@@ -31,8 +32,10 @@ import {
 } from './screens';
 
 import './App.css';
-import 'braft-editor/dist/index.css';
+// import 'braft-editor/dist/index.css';
+import { altEl } from './layout';
 import { user, env } from './utils';
+
 
 class App extends React.Component {
   componentDidMount() {
@@ -41,6 +44,8 @@ class App extends React.Component {
 
   render() {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+
+    const adminRoute = altEl();
 
     // return <Maintenance />
     return (
@@ -84,6 +89,12 @@ class App extends React.Component {
             isAdminOrInstructor
             &&
             <Route path="/media-settings/:id" component={MediaSettings} />
+          }
+
+          {
+            isAdminOrInstructor
+            &&
+            <Route path="/epub/:id" component={EPub} />
           }
 
           {/* Student */}

@@ -1,20 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import LaunchScreen from './LaunchScreen';
+import { withReduxProvider } from 'redux/redux-provider';
+import { CTFragment, altEl } from 'layout';
+import { epubStore, connectWithRedux, epub } from './controllers';
+import { EPubHeader } from './components';
 import './index.scss';
 
-/**
- * The component used to generate a ePub file from a list of video screenshots and transcriptions
- */
-function CTEPubGenerator(props) {
-  return <LaunchScreen {...props} />
-};
+class EPubWithRedux extends React.Component {
+  constructor(props) {
+    super(props)
+    epub.state.init(props);
+  }
 
-CTEPubGenerator.propTypes = {
-  /** Create ePub books for a media */
-  media: PropTypes.object
-};
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    epub.ctrl.setEPubPage(id);
+  }
 
-export default CTEPubGenerator;
-export { CTEPubConstants } from './controllers';
+  render() {
+    const loading = this.props.epub === null;
+    const headerElement = altEl(EPubHeader, !loading);
+
+    return (
+      <CTFragment as="main" id="ct-epb-main" loading={loading}>
+        {headerElement}
+      </CTFragment>
+    );
+  }
+}
+
+export const EPub = withReduxProvider(
+  EPubWithRedux,
+  epubStore,
+  connectWithRedux,
+  ['epub'],
+  ['all']
+);
 

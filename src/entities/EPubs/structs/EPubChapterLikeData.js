@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { timestr, _buildID } from 'utils';
-import { findChapterTimeSpan } from '../utils';
+import { findChapterTimeSpan, getAllImagesInChapter, getAllItemsInChapter } from '../utils';
 import { buildMDFromItems } from '../html-converters';
 import EPubImageData from './EPubImageData';
 
@@ -131,6 +131,14 @@ class EPubChapterLikeData {
     return [...this.items];
   }
 
+  get allItemsWithIn() {
+    return getAllImagesInChapter(this.__data__);
+  }
+
+  get allImagesWithIn() {
+    return getAllImagesInChapter(this.__data__);
+  }
+
   /**
    * @returns {[String|EPubImageData]}
    */
@@ -217,6 +225,9 @@ class EPubChapterLikeData {
       this.remove(currIndex);
     }
   }
+
+  static __getAllImagesInChapter = getAllImagesInChapter;
+  static __getAllItemsInChapter = getAllItemsInChapter;
 }
 
 export default EPubChapterLikeData;
