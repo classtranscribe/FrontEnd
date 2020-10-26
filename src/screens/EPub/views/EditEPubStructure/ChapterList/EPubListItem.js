@@ -86,8 +86,9 @@ function EPubListItem({
         tabIndex="0" 
         className="ct-epb ct-d-r item-info"
         onClick={openItemDetails}
+        aria-haspopup="true"
+        aria-controls={epub.id.epbItemViewId(item.id)}
       >
-
         <div className="item-time-con">
           <div className="item-time">
             {timestr.toPrettierTimeString(item.start)}
@@ -97,14 +98,7 @@ function EPubListItem({
           </div>
         </div>
         
-        <div 
-          className="item-img-con"
-          // tabIndex="0"
-          // onMouseEnter={magnifyImage}
-          // onMouseLeave={endMagnifyImage}
-          // onFocus={magnifyImage}
-          // onBlur={endMagnifyImage}
-        >
+        <div className="item-img-con">
           <img src={imgSrc} alt="screenshot" />
         </div>
         <CTText line={4} className="item-text">

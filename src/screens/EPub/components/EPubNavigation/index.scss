@@ -32,7 +32,7 @@ $ct-epb-nav-w: 300px;
   .ct-epb.nav-main {
     width: 100%;
     padding-left: 70px;
-    transition: width 100ms linear;
+    transition: width 100ms linear, padding 100ms linear;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -46,8 +46,8 @@ $ct-epb-nav-w: 300px;
 #ct-epb-nav-menu {
   .ct-epb.nav-item {
     color: rgb(82, 82, 82);
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: bolder;
     display: block;
     span {
       display: block;
@@ -59,8 +59,8 @@ $ct-epb-nav-w: 300px;
     }
 
     &.sub {
-      font-size: 13px;
-      font-weight: 400;
+      font-size: 14px;
+      font-weight: normal;
       span {
         padding-left: 35px;
       }

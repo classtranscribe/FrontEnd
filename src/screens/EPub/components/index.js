@@ -1,5 +1,6 @@
 export { default as EPubHeader } from './EPubHeader';
 export { EPubNavigationProvider } from './EPubNavigation';
+export { default as EPubInstruction } from './EPubInstruction';
 
 export { default as ChapterTitle } from './ChapterTitle';
 export { default as Chaptertext } from './ChapterText';

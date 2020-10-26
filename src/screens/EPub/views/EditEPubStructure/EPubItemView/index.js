@@ -32,7 +32,7 @@ function EPubItemView({
   }
 
   return (
-    <CTFragment className="ct-epb epb-item-view" fadeIn>
+    <CTFragment className="ct-epb epb-item-view" fadeIn id={epub.id.epbItemViewId(item.id)}>
       <CTFragment justConBetween alignItCenter margin={[0,0,10,0]}>
         <CTHeading as="h3" compact>Screenshot {(itemIdx + 1)}/{items.length}</CTHeading>
         <IconButton onClick={onClose} aria-label="Close">
@@ -76,7 +76,7 @@ function EPubItemView({
           </ButtonGroup>
         </CTFragment>
 
-        <CTParagraph size="medium">
+        <CTParagraph fontSize="14px">
           {item.text}
         </CTParagraph>
       </CTFragment>

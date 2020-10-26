@@ -37,6 +37,10 @@ export default class EPubIDs {
   static SubChapterTextIDPrefix = 'epb-sch-txt';
   static SubChapterNavItemIDPrefix = 'epb-nav-sch';
 
+  static epbItemViewId(itemId) {
+    return _buildEpbId('epb-item-view', itemId);
+  }
+
   static chID(chId) {
     return _buildEpbId(EPubIDs.ChapterIDPrefix, chId);
   }

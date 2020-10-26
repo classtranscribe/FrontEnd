@@ -30,6 +30,7 @@ function Text(props) {
     hoverTeal,
     hoverHighlighted,
     size = 'normal', // small, normal, large, huge
+    fontSize,
     line,
     children,
     ...otherProps
@@ -65,6 +66,10 @@ function Text(props) {
 
   if (indent) {
     textStyle.textIndent = indent;
+  }
+
+  if (fontSize) {
+    textStyle.fontSize = fontSize;
   }
 
   const textProps = {
@@ -134,6 +139,9 @@ Text.propTypes = {
    * from 'normal', 'medium', 'big', 'large', 'huge'
    */
   size: PropTypes.oneOf(['normal', 'medium', 'big', 'large', 'huge']),
+
+  /** font-size: (fontSize) */
+  fontSize: PropTypes.string,
 
   /**
    * You can limit the number of line you want to display,
