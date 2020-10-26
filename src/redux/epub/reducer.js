@@ -2,10 +2,12 @@ import { initialState } from 'screens/EPub/controllers/constants/init-states';
 import {
   SET_ERROR,
   SET_VIEW,
+  SET_MEDIA,
   SET_EPUB,
   SET_CHAPTERS,
   SET_CURR_CH_IDX,
   SET_SAVED,
+  SET_FOLDED_IDS,
   SET_NAV_ID,
   SET_SHOW_NAV,
   SET_PLAYER_DATA,
@@ -20,6 +22,8 @@ const epubReducer = (state = initialState, action) => {
       return { ...state, error: value };
     case SET_VIEW:
       return { ...state, view: value, showNav: false, navId: null };
+    case SET_MEDIA:
+      return { ...state, media: value };
 
     case SET_EPUB:
       return { ...state, epub: value };
@@ -27,6 +31,8 @@ const epubReducer = (state = initialState, action) => {
       return { ...state, chapters: value };
     case SET_CURR_CH_IDX:
       return { ...state, currChIndex: value };
+    case SET_FOLDED_IDS:
+      return { ...state, foldedIds: value };
     case SET_SAVED:
       return { ...state, saved: value };
 

@@ -11,9 +11,11 @@ class EPubStateManager extends StateController {
 
     this.error = initialState.error;
     this.view = initialState.view;
+    this.media = initialState.media;
     this.language = initialState.language;
     this.epub = initialState.epub;
     this.chapters = initialState.chapters;
+    this.foldedIds = initialState.foldedIds;
     this.saved = initialState.saved;
     this.currChIndex = initialState.currChIndex;
     this.navId = initialState.navId;
@@ -27,9 +29,11 @@ class EPubStateManager extends StateController {
     const {
       setError,
       setView,
+      setMedia,
       setEPub,
       setChapters,
       setCurrChIndex,
+      setFoldedIds,
       setSaved,
       setNavId,
       setShowNav,
@@ -40,9 +44,11 @@ class EPubStateManager extends StateController {
     this.register({
       setError,
       setView,
+      setMedia,
       setEPub,
       setChapters,
       setCurrChIndex,
+      setFoldedIds,
       setSaved,
       setNavId,
       setShowNav,
@@ -59,6 +65,10 @@ class EPubStateManager extends StateController {
     this.setState('setView', 'view', view);
   }
 
+  setMedia(media) {
+    this.setState('setMedia', 'media', media);
+  }
+
   setEPub(epub) {
     this.setState('setEPub', 'epub', epub);
   }
@@ -73,6 +83,10 @@ class EPubStateManager extends StateController {
 
   setCurrChIndex(currChIndex) {
     this.setState('setCurrChIndex', 'currChIndex', currChIndex);
+  }
+
+  setFoldedIds(foldedIds) {
+    this.setState('setFoldedIds', 'foldedIds', foldedIds)
   }
 
   setSaved(saved) {

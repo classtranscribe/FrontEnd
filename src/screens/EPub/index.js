@@ -1,8 +1,8 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
-import { CTFragment, altEl } from 'layout';
+import { CTFragment, altEl, makeEl } from 'layout';
 import { epubStore, connectWithRedux, epub } from './controllers';
-import { EPubHeader } from './components';
+import { EPubHeader, PlayerModal } from './components';
 import { EditEPubStructure } from './views';
 import './index.scss';
 
@@ -18,13 +18,17 @@ class EPubWithRedux extends React.Component {
   }
 
   render() {
-    const { view, chapters } = this.props;
+    const { view, chapters, playerData, media } = this.props;
     const loading = epub.ctrl.isLoading(this.props.epub, chapters);
     const headerElement = altEl(EPubHeader, !loading);
 
     const editStructView = altEl(EditEPubStructure, view === epub.const.EpbEditStructure);
     const editChapterView = null;
     const readOnlyView = null;
+
+    const playerModal = makeEl(PlayerModal, {
+      ...playerData, open: Boolean(playerData) && media, media
+    });
 
     return (
       <CTFragment as="main" id="ct-epb-main" loading={loading}>
@@ -35,6 +39,8 @@ class EPubWithRedux extends React.Component {
           {editChapterView}
           {readOnlyView}
         </CTFragment>
+
+        {playerModal}
       </CTFragment>
     );
   }
@@ -44,7 +50,7 @@ export const EPub = withReduxProvider(
   EPubWithRedux,
   epubStore,
   connectWithRedux,
-  ['epub', 'view', 'chapters'],
+  ['epub', 'view', 'chapters', 'playerData', 'media'],
   ['all']
 );
 

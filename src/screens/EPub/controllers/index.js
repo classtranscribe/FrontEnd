@@ -12,4 +12,5 @@ export const epub = {
   data: epubData
 };
 
+export * from './utils';
 export { epubStore, connectWithRedux } from 'redux/epub';

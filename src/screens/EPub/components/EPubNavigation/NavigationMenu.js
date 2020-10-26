@@ -19,7 +19,11 @@ function NavMenuItem({
                 ? `${chIdx + 1}.${schIdx + 1} - ${chapter.title}`
                 : `${chIdx + 1} - ${chapter.title}`;
 
-  const onNavigate = () => epub.state.setNavId(navItemId);
+  const onNavigate = (e) => {
+    e.preventDefault();
+    epub.state.setNavId(navItemId);
+    uurl.pushHash({ ch: id });
+  }
 
   const liClasses = cx('ct-epb nav-item', { current, sub: isSubCh });
   const navLink = uurl.createHash({ ch: id }, true);
@@ -50,12 +54,12 @@ function NavigationMenu({
           {
             ch.subChapters.length > 0
             &&
-            <ul>
+            <ul className="plain-ul">
               {ch.subChapters.map((sch, schIdx) => (
                 <NavMenuItem
                   isSubCh
-                  key={ch.id}
-                  id={ch.id}
+                  key={sch.id}
+                  id={sch.id}
                   chIdx={chIdx}
                   schIdx={schIdx}
                   chapter={sch}

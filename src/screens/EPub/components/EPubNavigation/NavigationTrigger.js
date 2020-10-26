@@ -6,6 +6,10 @@ import { epub } from '../../controllers';
 function NavigationTrigger({ show }) {
   const label = `${show ? 'Close' : 'Open' } Chapter Navigation`;
 
+  const handleClick = () => {
+    epub.state.setShowNav(!show);
+  };
+
   return (
     <div className="ct-epb nav-trigger">
       <CTPopoverLabel label={label}>
@@ -13,6 +17,7 @@ function NavigationTrigger({ show }) {
           aria-label={label}
           aria-expanded={show.toString()}
           aria-controls={epub.id.EPubNavigationMenuID}
+          onClick={handleClick}
         >
           <span className="material-icons" aria-hidden="true">
             {show ? 'chevron_left' : 'list'}

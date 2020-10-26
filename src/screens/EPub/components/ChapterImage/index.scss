@@ -1,0 +1,37 @@
+.ct-epb.ch-img-con {
+  margin: 10px 0;
+  position: relative;
+  width: 100%;
+  // max-width: 550px;
+  min-height: 40px;
+
+  .ct-epb.ch-img {
+    position: relative;
+    width: 100%;
+
+    &:hover,
+    &:focus-within {
+      .ch-img-wrapper {
+        opacity: 1;
+      }
+    }
+
+    img {
+      position: relative;
+      width: 100%;
+    }
+  
+    .ch-img-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background: rgba(0, 0, 0, 0.788);
+      // background: linear-gradient(to top,rgba(0, 0, 0, 0.788),rgba(255, 255, 255, 0));
+      color: white;
+      transition: opacity 100ms linear;
+    }
+  }
+}
