@@ -17,6 +17,7 @@ export * from './Cards';
 
 export { CTModal } from './Modals';
 export { default as CTImagePickerModal } from './CTImagePickerModal';
+export { default as CTImageMagnifer } from './CTImageMagnifer';
 export { CTMarkdownEditor, CTMarkdownPreviewer } from './CTMarkdown';
 export { SelectCtrlButton } from './SelectCtrlButton';
 export { default as CTPlaylistIcon } from './CTPlaylistIcon';

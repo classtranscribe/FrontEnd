@@ -13,6 +13,10 @@ $highlighted: var(--ct-text-highlight);
     text-align: center;
   }
 
+  &.justified {
+    text-align: justify;
+  }
+  
   &.textRight {
     text-align: right;
   }

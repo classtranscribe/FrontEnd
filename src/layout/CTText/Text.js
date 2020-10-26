@@ -14,6 +14,8 @@ function Text(props) {
     textCenter,
     textLeft,
     textRight,
+    justified,
+    indent,
     uppercase,
     capitalize,
     bold,
@@ -40,6 +42,7 @@ function Text(props) {
     textCenter,
     textLeft,
     textRight,
+    justified,
     uppercase,
     capitalize,
     bold,
@@ -59,6 +62,10 @@ function Text(props) {
   const textStyle = {
     WebkitLineClamp: line ? `${line }` : undefined
   };
+
+  if (indent) {
+    textStyle.textIndent = indent;
+  }
 
   const textProps = {
     className: textClasses,
@@ -85,6 +92,12 @@ Text.propTypes = {
 
   /** text-align: right */
   textRight: PropTypes.bool,
+
+  /** text-align: justify */
+  justified: PropTypes.bool,
+
+  /** text-indent: (indent) */
+  indent: PropTypes.string,
 
   /** The text can be transformed to uppercase */
   uppercase: PropTypes.bool,
