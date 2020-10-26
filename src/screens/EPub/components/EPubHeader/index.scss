@@ -14,6 +14,8 @@
     font-weight: 500;
     font-family: var(--ct-font-narrow) !important;
     color: black;
+    width: auto;
+    max-width: 500px;
   }
   
   div#ct-epb-header-toolbar {
@@ -57,6 +59,9 @@
       &:active {
         background: rgb(227, 236, 236);
       }
+      &:disabled {
+        color: rgb(163, 163, 163);
+      }
     }
 
     .ct-epb.toolbar-btn-divider {
@@ -65,5 +70,44 @@
       width: 1px;
       background-color: rgb(199, 199, 199);
     }
+  }
+}
+
+.ct-epb.header-label {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 197, 197);
+  margin-left: 10px;
+  padding: 0 6px 0 5px;
+  height: 24px;
+  transition: all 100ms linear;
+
+  span.ct-epb.label-icon {
+    span.material-icons {
+      font-size: 14px !important;
+      line-height: unset !important;
+    }
+    margin-right: 3px;
+  }
+
+  span.ct-epb.label-text {
+    font-size: 12px;
+    color: inherit;
+  }
+
+  &.error {
+    border-color: rgb(170, 8, 8);
+    span.ct-epb.label-icon { color: rgb(170, 8, 8); }
+  }
+
+  &.success {
+    border-color: teal;
+    span.ct-epb.label-icon { color: teal; }
+  }
+
+  .MuiCircularProgress-colorPrimary {
+    color: teal !important;
   }
 }

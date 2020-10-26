@@ -8,8 +8,6 @@ import { epubData } from './EPubDataController';
 class EPubController {
   constructor() {
     this.ePubId = null;
-
-    this.saveEPub = this.saveEPub.bind(this);
   }
 
   async loadEPubPageData(ePubId) {
@@ -62,19 +60,6 @@ class EPubController {
     } catch (error) {
       return ErrorTypes.getError(error);
     }
-  }
-
-  async updateEPub(data) {
-    try {
-      await api.updateEPub(data);
-    } catch (error) {
-      prompt.error('Failed to update ePub');
-    }
-  }
-
-  async saveEPub() {
-    const data = epubData.data.toObject();
-    this.updateEPub(data);
   }
   
   foldChapter(id) {

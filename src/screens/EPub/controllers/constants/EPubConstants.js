@@ -16,6 +16,7 @@ export default class EPubConstants {
   static EpbUnsaved = 0;
   static EpbSaving = 1;
   static EpbSaved = 2;
+  static EpbSaveFailed = 3;
 
   static EPubSteps = [
     EPubConstants.EPubStepSplitChapters,

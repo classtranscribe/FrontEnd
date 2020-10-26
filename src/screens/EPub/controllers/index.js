@@ -12,7 +12,7 @@ export const epub = {
   ctrl: epubCtrl,
   data: epubData,
   history: epubData.history,
-  nav: new EPubNavigator()
+  nav: new EPubNavigator(),
 };
 
 export * from './utils';

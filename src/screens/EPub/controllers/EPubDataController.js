@@ -3,7 +3,7 @@ import { prompt } from 'utils';
 import { EPubData, EPubChapterData, EPubSubChapterData, EPubImageData } from 'entities/EPubs';
 import EPubHistoryManager from './EPubHistoryManager';
 import { epubState } from './EPubStateManager';
-
+import { saveCtrl } from './AutoSaveController';
 
 /**
  * The controller for handling the ePub data
@@ -13,13 +13,21 @@ class EPubDataController {
     this.data = null;  
     this.history = new EPubHistoryManager(this);
 
+    this.saveEPub = this.saveEPub.bind(this);
     this.resetToDefaultChapters = this.resetToDefaultChapters.bind(this);
     this.splitChaptersByScreenshots = this.splitChaptersByScreenshots.bind(this);
     this.subdivideChaptersByScreenshots = this.subdivideChaptersByScreenshots.bind(this);
   }
 
+  saveEPub(timeout) {
+    const data = this.data.toObject();
+    saveCtrl.save(data, timeout);
+    return data;
+  }
+
   setChapters(chapters) {
     this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
+    
   }
 
   initEPubData(ePubLike) {
@@ -49,10 +57,11 @@ class EPubDataController {
   }
 
   updateAll(actionName, currChIndex) {
+    const data = this.saveEPub();
     this.history.pushAndUpdateAll(
       actionName,
       // the cloned new chapters
-      this.data.toObject().chapters,
+      data.chapters,
       (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
     );
   }
