@@ -1,7 +1,7 @@
 import { initialState } from 'screens/EPub/controllers/constants/init-states';
 import {
   SET_ERROR,
-  SET_STEP,
+  SET_VIEW,
   SET_EPUB,
   SET_CHAPTERS,
   SET_CURR_CH_IDX,
@@ -18,8 +18,8 @@ const epubReducer = (state = initialState, action) => {
   switch (type) {
     case SET_ERROR:
       return { ...state, error: value };
-    case SET_STEP:
-      return { ...state, step: value, showNav: false, navId: null };
+    case SET_VIEW:
+      return { ...state, view: value, showNav: false, navId: null };
 
     case SET_EPUB:
       return { ...state, epub: value };

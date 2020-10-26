@@ -1,7 +1,7 @@
 import { createAction } from 'redux/redux-creators';
 import {
   SET_ERROR,
-  SET_STEP,
+  SET_VIEW,
   SET_EPUB,
   SET_CHAPTERS,
   SET_CURR_CH_IDX,
@@ -13,7 +13,7 @@ import {
 } from './action.types';
 
 export const setError = createAction(SET_ERROR);
-export const setStep = createAction(SET_STEP);
+export const setView = createAction(SET_VIEW);
 
 export const setEPub = createAction(SET_EPUB);
 export const setChapters = createAction(SET_CHAPTERS);

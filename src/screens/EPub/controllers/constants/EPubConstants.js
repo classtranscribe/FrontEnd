@@ -6,13 +6,17 @@ export default class EPubConstants {
   static EPubDataNotRequestedError = 'epub-not-requested';
   static EPubDataRequestedError = 'epub-requested';
   
-  // steps
-  static EPubStepLaunchScreen = 'launch';
-  static EPubStepSplitChapters = 'split';
-  static EPubStepEditChapters = 'edit';
-  static EPubStepDownload = 'download';
-  static EPubStepDefaultFirstStep = EPubConstants.EPubStepLaunchScreen;
-  // static EPubStepDefaultFirstStep = EPubConstants.EPubStepSplitChapters;
+  // view options
+  static EpbReadOnly = 'v-read-only';
+  static EpbEditStructure = 'v-structure';
+  static EpbEditChapter = 'v-edit';
+  static EpbDefaultView = EPubConstants.EpbEditStructure;
+
+  // saving status
+  static EpbUnsaved = 0;
+  static EpbSaving = 1;
+  static EpbSaved = 2;
+
   static EPubSteps = [
     EPubConstants.EPubStepSplitChapters,
     EPubConstants.EPubStepEditChapters,

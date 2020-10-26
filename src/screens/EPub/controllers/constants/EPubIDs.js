@@ -1,5 +1,5 @@
 import { _buildID } from 'utils';
-
+const _buildEpbId = (prefix, id) => _buildID(prefix, id, '.');
 
 /**
  * Identifiers for elements in the CTEPubGenerator
@@ -7,9 +7,7 @@ import { _buildID } from 'utils';
 export default class EPubIDs {
   // ID
   static EPubGeneratorContainerID = 'ct-epb-con';
-  static EPubNavigatorContainerID = 'ct-epb-nav-con';
   static EPubChapterListID = 'ct-epb-ch-list';
-  static EPubChapterNavListID = 'ct-epb-nav-list';
   static EPubPlayerModal = 'ct-epb-player-modal';
 
   static LaunchScreenContainerID = 'ct-epb-ls-con';
@@ -21,6 +19,10 @@ export default class EPubIDs {
   static EditChapterContainerID = 'ct-epb-ech-con';
 
   static DownloadEPubContainerID = 'ct-epb-download-con';
+
+  // navigation
+  static EPubNavigationMenuID = 'ct-epb-nav-menu';
+  static EPubNavigationProviderID = 'ct-epb-nav-provider';
 
   // Prefix
   static ChapterIDPrefix = 'epb-ch';
@@ -36,44 +38,44 @@ export default class EPubIDs {
   static SubChapterNavItemIDPrefix = 'epb-nav-sch';
 
   static chID(chId) {
-    return _buildID(EPubIDs.ChapterIDPrefix, chId);
+    return _buildEpbId(EPubIDs.ChapterIDPrefix, chId);
   }
 
   static chTitleID(chId) {
-    return _buildID(EPubIDs.ChapterTitleIDPrefix, chId);
+    return _buildEpbId(EPubIDs.ChapterTitleIDPrefix, chId, );
   }
 
   static chImgID(chId) {
-    return _buildID(EPubIDs.ChapterImageIDPrefix, chId);
+    return _buildEpbId(EPubIDs.ChapterImageIDPrefix, chId);
   }
 
   static chTextID(chId) {
-    return _buildID(EPubIDs.ChapterTextIDPrefix, chId);
+    return _buildEpbId(EPubIDs.ChapterTextIDPrefix, chId);
   }
 
   static chNavItemID(chId) {
-    return _buildID(EPubIDs.ChapterNavItemIDPrefix, chId);
+    return _buildEpbId(EPubIDs.ChapterNavItemIDPrefix, chId);
   }
 
 
 
   static schID(schId) {
-    return _buildID(EPubIDs.SubChapterIDPrefix, schId);
+    return _buildEpbId(EPubIDs.SubChapterIDPrefix, schId);
   }
 
   static schTitleID(schId) {
-    return _buildID(EPubIDs.SubChapterTitleIDPrefix, schId);
+    return _buildEpbId(EPubIDs.SubChapterTitleIDPrefix, schId);
   }
 
   static schImgID(schId) {
-    return _buildID(EPubIDs.SubChapterImageIDPrefix, schId);
+    return _buildEpbId(EPubIDs.SubChapterImageIDPrefix, schId);
   }
 
   static schTextID(schId) {
-    return _buildID(EPubIDs.SubChapterTextIDPrefix, schId);
+    return _buildEpbId(EPubIDs.SubChapterTextIDPrefix, schId);
   }
 
   static schNavItemID(schId) {
-    return _buildID(EPubIDs.SubChapterNavItemIDPrefix, schId);
+    return _buildEpbId(EPubIDs.SubChapterNavItemIDPrefix, schId);
   }
 }

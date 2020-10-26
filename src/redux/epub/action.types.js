@@ -1,5 +1,5 @@
 export const SET_ERROR = 'epb-set-error';
-export const SET_STEP = 'epb-set-step';
+export const SET_VIEW = 'epb-set-view';
 
 export const SET_EPUB = 'epb-set-epub';
 export const SET_CHAPTERS = 'epb-set-chps';

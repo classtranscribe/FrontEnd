@@ -9,7 +9,7 @@ function EPubTitle({
 
   return (
     <CTFragment role="header">
-      <CTHeading as="h1" id="ct-epb-header-title">
+      <CTHeading as="h1" id="ct-epb-header-title" fadeIn={false}>
         {title}
       </CTHeading>
     </CTFragment>

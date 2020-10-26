@@ -10,7 +10,7 @@ class EPubStateManager extends StateController {
     super();
 
     this.error = initialState.error;
-    this.step = initialState.step;
+    this.view = initialState.view;
     this.language = initialState.language;
     this.epub = initialState.epub;
     this.chapters = initialState.chapters;
@@ -26,7 +26,7 @@ class EPubStateManager extends StateController {
   init(props) {
     const {
       setError,
-      setStep,
+      setView,
       setEPub,
       setChapters,
       setCurrChIndex,
@@ -39,7 +39,7 @@ class EPubStateManager extends StateController {
 
     this.register({
       setError,
-      setStep,
+      setView,
       setEPub,
       setChapters,
       setCurrChIndex,
@@ -55,8 +55,8 @@ class EPubStateManager extends StateController {
     this.setState('setError', 'error', error);
   }
 
-  setStep(step) {
-    this.setState('setStep', 'step', step);
+  setView(view) {
+    this.setState('setView', 'view', view);
   }
 
   setEPub(epub) {

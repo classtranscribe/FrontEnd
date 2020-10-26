@@ -1,10 +1,10 @@
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt } from 'utils';
+import { api, prompt, links, ARRAY_INIT } from 'utils';
 import { epubState } from './EPubStateManager';
 import { epubData } from './EPubDataController';
 
 class EPubController {
-  async setEPubPage(ePubId) {
+  async loadEPubPageData(ePubId) {
     var _epub = await this.getEPubById(ePubId);
     console.log('_epub', _epub);
     // Parse epub data
@@ -20,6 +20,10 @@ class EPubController {
       prompt.error('Failed to load ePub data.', 5000);
       return;
     }
+  }
+
+  isLoading(epub, chapters) {
+    return chapters === ARRAY_INIT || epub === null;
   }
 
   async getEPubById(ePubId) {

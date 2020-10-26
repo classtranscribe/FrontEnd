@@ -1,0 +1,60 @@
+$ct-epb-nav-w: 300px;
+
+#ct-epb-nav-provider {
+  height: 100%;
+  position: relative;
+
+  .ct-epb.nav-con {
+    width: 0px;
+    transition: width 100ms linear;
+    height: 100%;
+    padding: 0 0 40px 0;
+    overflow: hidden;
+
+    h3 {
+      padding: 14px 0 15px 55px;
+      margin: 0;
+    }
+
+    &.show {
+      width: $ct-epb-nav-w;
+    }
+  }
+  
+  .ct-epb.nav-trigger {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 20;
+  }
+
+  .ct-epb.nav-main {
+    width: calc(100% - 20px);
+    transition: width 100ms linear;
+    height: 100%;
+    &.show-nav {
+      width: calc(100% - $ct-epb-nav-w);
+    }
+  }
+}
+
+#ct-epb-nav-menu {
+  .ct-epb.nav-item {
+    color: rgb(82, 82, 82);
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 5px 10px 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+
+    &:hover {
+      color: black;
+    }
+
+    &.current {
+      color: teal;
+    }
+  }
+}

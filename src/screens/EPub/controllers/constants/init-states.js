@@ -3,12 +3,12 @@ import Constants from './EPubConstants';
 
 export const initialState = {
   error: null,
-  step: Constants.EPubStepDefaultFirstStep,
+  view: Constants.EpbDefaultView,
   epub: null,
   chapters: ARRAY_INIT,
   currChIndex: 0,
-  saved: true,
+  saved: Constants.EpbSaved,
   navId: null,
-  showNav: false,
+  showNav: true,
   playerData: null
 };
