@@ -58,7 +58,7 @@ class EPubHistoryManager {
 
   revertToChapters(chapters) {
     epubState.updateContentChanges(chapters, epubState.currChIndex);
-    this.dataController.setChapters(chapters);
+    this.__dataCtrl.setChapters(chapters);
   }
 
   getItem(index) {
@@ -110,8 +110,7 @@ class EPubHistoryManager {
     prompt.addOne({
       text: `${action}: ${name}`,
       timeout: 2000,
-      position: 'bottom left',
-      offset: [80, 30]
+      position: 'bottom left'
     });
   }
 }

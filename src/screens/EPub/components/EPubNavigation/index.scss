@@ -9,7 +9,8 @@ $ct-epb-nav-w: 300px;
     transition: width 100ms linear;
     height: 100%;
     padding: 0 0 40px 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     h3 {
       padding: 14px 0 15px 55px;
@@ -57,20 +58,21 @@ $ct-epb-nav-w: 300px;
       width: 100%;
     }
 
-    &:hover {
-      color: black;
-    }
-
-    &.current {
-      color: teal;
-    }
-
     &.sub {
       font-size: 13px;
       font-weight: 400;
       span {
         padding-left: 35px;
       }
+    }
+
+    &:hover {
+      color: black;
+    }
+
+    &.current {
+      color: teal;
+      font-weight: bold;
     }
   }
 }

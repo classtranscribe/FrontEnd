@@ -13,6 +13,7 @@ class ElementHandler {
   constructor() {
     this.exitFullScreen = this.exitFullScreen.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
+    this.getElement = getElement;
   }
   /**
    * Focus on the elem

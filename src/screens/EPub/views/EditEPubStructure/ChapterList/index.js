@@ -1,11 +1,11 @@
 import React from 'react';
-import { epub, connectWithRedux } from '../../../controllers';
+import { connectWithRedux } from '../../../controllers';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 
 function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
   return (
-    <ul className="plain-ul" id={epub.id.EPubChapterListID}>
+    <ul className="plain-ul" className="ct-epb chapter-list">
       {chapters.map((chapter, chIdx) => (
         <EPubChapterItem
           key={chapter.id}

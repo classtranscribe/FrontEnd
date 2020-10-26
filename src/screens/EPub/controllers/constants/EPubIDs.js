@@ -25,13 +25,13 @@ export default class EPubIDs {
   static EPubNavigationProviderID = 'ct-epb-nav-provider';
 
   // Prefix
-  static ChapterIDPrefix = 'epb-ch';
+  static ChapterIDPrefix = 'ch';
   static ChapterTitleIDPrefix = 'epb-ch-ti';
   static ChapterImageIDPrefix = 'epb-ch-img';
   static ChapterTextIDPrefix = 'epb-ch-txt';
   static ChapterNavItemIDPrefix = 'epb-nav-ch';
 
-  static SubChapterIDPrefix = 'epb-sch';
+  static SubChapterIDPrefix = 'sch';
   static SubChapterTitleIDPrefix = 'epb-sch-ti';
   static SubChapterImageIDPrefix = 'epb-sch-img';
   static SubChapterTextIDPrefix = 'epb-sch-txt';

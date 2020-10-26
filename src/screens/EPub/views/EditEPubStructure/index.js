@@ -15,6 +15,10 @@ function EditEPubStructure() {
       console.log('----items[0]', items[0]);
       setEPubItem(items[0]);
     }
+
+    epub.nav.addScrollListenerForChapterList();
+
+    return epub.nav.removeScrollListenerForChapterList;
   }, []);
 
   const itemViewElem = altEl(EPubItemView, Boolean(ePubItem), {
@@ -26,7 +30,7 @@ function EditEPubStructure() {
 
   return (
     <EPubNavigationProvider>
-      <CTFragment dFlex h100 scrollY>
+      <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
         <CTFragment width={chListWidth}>
           <ChapterList setEPubItem={setEPubItem} />
         </CTFragment>

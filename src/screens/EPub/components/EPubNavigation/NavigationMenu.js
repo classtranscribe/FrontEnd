@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { uurl } from 'utils/use-url';
+import { uurl, elem } from 'utils';
 import { epub, connectWithRedux } from '../../controllers';
 const ID = epub.id;
 
@@ -21,16 +21,25 @@ function NavMenuItem({
 
   const onNavigate = (e) => {
     e.preventDefault();
-    epub.state.setNavId(navItemId);
-    uurl.pushHash({ ch: id });
+    if (isSubCh) {
+      epub.nav.navigateSubChapter(id);
+    } else {
+      epub.nav.navigateChapter(id);
+    }
   }
 
   const liClasses = cx('ct-epb nav-item', { current, sub: isSubCh });
   const navLink = uurl.createHash({ ch: id }, true);
 
   return (
-    <li>
-      <Link id={navItemId} to={navLink} className={liClasses} onClick={onNavigate}>
+    <li aria-current={current ? "true" : "false"}>
+      <Link 
+        title={navTxt} 
+        id={navItemId} 
+        to={navLink} 
+        className={liClasses} 
+        onClick={onNavigate}
+      >
         <span tabIndex="-1">{navTxt}</span>
       </Link>
     </li>
@@ -41,8 +50,17 @@ function NavigationMenu({
   navId,
   chapters = []
 }) {
+
+  useEffect(() => {
+    if (navId) elem.scrollIntoCenter(navId);
+  }, [navId]);
+
   return (
-    <ul className="plain-ul" id={ID.EPubNavigationMenuID}>
+    <ul
+      className="plain-ul"
+      id={ID.EPubNavigationMenuID}
+      aria-activedescendant={navId}
+    >
       {chapters.map((ch, chIdx) => (
         <Fragment key={ch.id}>
           <NavMenuItem
