@@ -63,7 +63,7 @@ class EPubDataController {
     this.saveEPubCover(newEPubData.cover);
     this.saveEPubTitle(newEPubData.title);
     this.saveEPubFilename(newEPubData.title);
-    console.log(this.data.toObject());
+    // console.log(this.data.toObject());
     this.saveEPub(0);
   }
 

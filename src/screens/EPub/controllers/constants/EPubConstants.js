@@ -11,18 +11,17 @@ export default class EPubConstants {
   static EpbEditStructure = 'v-structure';
   static EpbEditChapter = 'v-edit';
   static EpbDefaultView = EPubConstants.EpbReadOnly;
+  static EPubViews = [
+    EPubConstants.EpbReadOnly,
+    EPubConstants.EpbEditStructure,
+    EPubConstants.EpbEditChapter
+  ];
 
   // saving status
   static EpbUnsaved = 0;
   static EpbSaving = 1;
   static EpbSaved = 2;
   static EpbSaveFailed = 3;
-
-  static EPubSteps = [
-    EPubConstants.EPubStepSplitChapters,
-    EPubConstants.EPubStepEditChapters,
-    EPubConstants.EPubStepDownload
-  ];
   
   // nav
   static EPubNavShowing = 'show';

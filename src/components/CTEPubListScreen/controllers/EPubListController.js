@@ -4,6 +4,7 @@ import { api, prompt, uurl, links } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import { LanguageConstants } from '../../CTPlayer';
 import { _parseRawEPubData } from './helpers';
+import Constants from 'screens/EPub/controllers/constants/EPubConstants';
 
 class EPubListController {
   async setupEPubsData(sourceType, sourceId, source) {
@@ -45,7 +46,7 @@ class EPubListController {
       return null;
     }
 
-    uurl.openNewTab(links.epub(newEPubData.id));
+    uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure));
 
     return newEPubData;
   }

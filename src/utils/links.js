@@ -205,8 +205,8 @@ export class ClassTranscribeLinks {
    * to `/epub/<ePub_id>[#step=<step>`
    * @param {String} id - ePub id
    */
-  epub(id, step) {
-    return `/epub/${id}${uurl.createHash({ step })}`;
+  epub(id, view) {
+    return `/epub/${id}${uurl.createHash({ view })}`;
   }
 
   /**

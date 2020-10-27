@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt, links, timestr, ARRAY_INIT } from 'utils';
+import { api, prompt, links, timestr, ARRAY_INIT, uurl, elem } from 'utils';
+import Constants from './constants/EPubConstants';
 import { epubState } from './EPubStateManager';
 import { epubData } from './EPubDataController';
 
@@ -18,7 +19,7 @@ class EPubController {
 
     this.ePubId = ePubId;
     var _epub = await this.getEPubById(ePubId);
-    console.log('-----epub', _epub);
+    // console.log('-----epub', _epub);
     // Parse epub data
     _epub = epubData.initEPubData(_epub);
     const chapters = _epub.chapters;
@@ -26,17 +27,31 @@ class EPubController {
     epubState.setEPub(_epub);
     epubState.setChapters(chapters);
 
+    this.handleHashValues();
+
     api.contentLoaded(100);
-    links.title(_epub.title);
 
     if (ErrorTypes.isError(_epub)) {
       prompt.error('Failed to load ePub data.', 5000);
       return;
     }
 
+    links.title(_epub.title);
+
     if (_epub.sourceType === SourceTypes.Media) {
       const media = await this.getMediaById(_epub.sourceId);
       epubState.setMedia(media);
+    }
+  }
+
+  handleHashValues() {
+    const { view, h } = uurl.useHash();
+    if (Constants.EPubViews.includes(view)) {
+      epubState.setView(view);
+    }
+
+    if (h) {
+      elem.scrollIntoView(h);
     }
   }
 

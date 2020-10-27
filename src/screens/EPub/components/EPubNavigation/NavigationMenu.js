@@ -29,7 +29,7 @@ function NavMenuItem({
   }
 
   const liClasses = cx('ct-epb nav-item', { current, sub: isSubCh });
-  const navLink = uurl.createHash({ ch: id }, true);
+  const navLink = uurl.createHash({ h: id }, true);
 
   return (
     <li aria-current={current ? "true" : "false"}>
