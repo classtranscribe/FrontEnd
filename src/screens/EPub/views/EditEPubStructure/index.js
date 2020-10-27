@@ -16,18 +16,16 @@ function EditEPubStructure(props) {
   const toggleInstExp = (e, newExpanded) => setInstExp(newExpanded);
 
   useEffect(() => {
-    // const items = epub.data.data.items;
-    // if (items.length > 0) {
-    //   setEPubItem(items[0]);
-    // }
-
+    // add scroll event listener
     epub.nav.addScrollListenerForChapterList();
 
     return epub.nav.removeScrollListenerForChapterList;
   }, []);
 
   useEffect(() => {
-    setInstExp(!Boolean(ePubItem));
+    if (Boolean(ePubItem) && instExp) {
+      setInstExp(false);
+    }
   }, [ePubItem]);
 
   const itemViewElem = altEl(EPubItemView, Boolean(ePubItem), {

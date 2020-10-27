@@ -12,8 +12,8 @@ function QuickActions({ chapters }) {
   const showSubdivideAllBtn = true;
 
   return (
-    <CTFragment bordered borderRadius="5" margin="10" padding="15" width="auto">
-      <CTHeading uppercase as="h4">Quick Actions</CTHeading>
+    <CTFragment bordered borderRadius="5" margin="10" padding={[15,10]} width="auto">
+      <CTHeading uppercase as="h4" icon="offline_bolt">Quick Actions</CTHeading>
 
       <CTFragment dFlexCol>
         {

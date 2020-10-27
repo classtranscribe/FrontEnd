@@ -1,10 +1,7 @@
 import React from 'react';
-import ToolButton, { ToolButtonDivider } from './ToolButton';
-import { CTFragment, altEl } from 'layout';
+import { ToolButtonDivider, _makeTBtn } from './ToolButton';
+import { CTFragment } from 'layout';
 import { epub } from '../../controllers';
-
-const _makeTBtn = (icon, label, shortcut, onClick, active, use, otherProps) =>
-  altEl(ToolButton, use, { icon, onClick, shortcut, label, active, ...otherProps });
 
 function EPubToolbar() {
 

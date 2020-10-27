@@ -7,11 +7,23 @@ class AutoSaveController {
     this.__timer = null;
   }
 
+  /**
+   * Call before the save function to notify user 
+   * when this saving is done
+   */
+  notifyOnce() {
+    this.__notifyOnce = true;
+  }
+
   async updateEPub(data) {
     epubState.setSaved(Constants.EpbSaving);
     try {
       await api.updateEPub(data);
       epubState.setSaved(Constants.EpbSaved);
+      if (this.__notifyOnce) {
+        this.__notifyOnce = false;
+        prompt.addOne({ status: 'success', text: 'Saved!', timeout: 4000 });
+      }
     } catch (error) {
       prompt.error('Failed to update ePub');
       epubState.setSaved(Constants.EpbSaveFailed);

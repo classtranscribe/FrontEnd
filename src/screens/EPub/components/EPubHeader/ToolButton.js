@@ -1,7 +1,7 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import { CTPopoverLabel } from 'layout';
+import { CTPopoverLabel, altEl } from 'layout';
 
 function ToolButton({
   onClick,
@@ -49,3 +49,6 @@ export const ToolButtonDivider = () => (
 );
 
 export default ToolButton;
+
+export const _makeTBtn = (icon, label, shortcut, onClick, active, use, otherProps) =>
+  altEl(ToolButton, use, { icon, onClick, shortcut, label, active, ...otherProps });

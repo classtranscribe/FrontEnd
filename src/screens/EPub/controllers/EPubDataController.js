@@ -21,13 +21,11 @@ class EPubDataController {
 
   saveEPub(timeout) {
     const data = this.data.toObject();
+    if (timeout === 0) {
+      saveCtrl.notifyOnce();
+    }
     saveCtrl.save(data, timeout);
     return data;
-  }
-
-  setChapters(chapters) {
-    this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
-    
   }
 
   initEPubData(ePubLike) {
@@ -54,6 +52,19 @@ class EPubDataController {
 
   saveEPubAuthor = (author) => {
     this.data.author = author;
+  }
+
+  setChapters(chapters) {
+    this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
+  }
+
+  setEPubInfo(newEPubData) {
+    this.saveEPubAuthor(newEPubData.author);
+    this.saveEPubCover(newEPubData.cover);
+    this.saveEPubTitle(newEPubData.title);
+    this.saveEPubFilename(newEPubData.title);
+    console.log(this.data.toObject());
+    this.saveEPub(0);
   }
 
   updateAll(actionName, currChIndex) {

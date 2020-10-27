@@ -91,13 +91,15 @@ export default class EPubData {
 
     // set up cover image
     if (!this.cover) {
-      if (this.images.length > 0) {
-        this.cover = new EPubImageData({ src: this.images[0], alt: `Cover for ${ this.title}` });
-      } else {
-        this.cover = new EPubImageData();
-      }
-    } else if (!(this.cover instanceof EPubImageData)) {
+      this.cover = new EPubImageData();
+    } if (!(this.cover instanceof EPubImageData)) {
       this.cover = new EPubImageData(this.cover);
+    }
+
+    if (!this.cover.src && this.images.length > 0) {
+      this.cover = new EPubImageData({
+        src: this.images[0], alt: `Cover for ${ this.title}`
+      });
     }
   }
 
@@ -204,7 +206,7 @@ export default class EPubData {
   toObject() {
     return {
       ...this.__data__,
-      cover: this.cover,
+      cover: this.cover.toObject(),
       chapters: this.chapters.map(chapter => chapter.toObject())
     };
   }

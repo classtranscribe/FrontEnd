@@ -28,6 +28,9 @@ class EPubNavigator {
 
   getSubChTop = (id, offset = 75) => {
     const schEl = elem.getElement(ID.schID(id));
+    if (!schEl) {
+      return 10000;
+    }
     const schUlEl = schEl.parentElement;
     const chEl = schUlEl.parentElement;
 
@@ -71,15 +74,24 @@ class EPubNavigator {
 
   updateNavIdForEpbEditStructure(e) {
     const chElScrollTop = e.target.scrollTop;
-    console.log('chElScrollTop', chElScrollTop);
+    // console.log('chElScrollTop', chElScrollTop);
+    // handle abnormal cases when scroll to top
+    if (chElScrollTop < 10 && epubState.chapters.length > 0) {
+      epubState.setNavId(ID.chNavItemID(epubState.chapters[0].id));
+      epubState.setCurrChIndex(0);
+    }
+
+    // initialize default values
     let navId = epubState.navId;
     let currChIndex = epubState.currChIndex;
     let minDis = 1000;
 
+    // iterate all possible chapters and sub-chapters 
+    // to find the current one in view
     _.forEach(epubState.chapters, (ch, chIdx) => {
       const chTop = this.getChTop(ch.id);
       const chDis = chElScrollTop - chTop + 90;
-      if (chDis < 0) return false;
+      if (chDis < 0) return false; // stop iterate when exceed the scrollTop
       if (chDis > 0 && chDis < minDis) {
         minDis = chDis;
         navId = ID.chNavItemID(ch.id);
@@ -89,7 +101,7 @@ class EPubNavigator {
       _.forEach(ch.subChapters, (sch) => {
         const schTop = this.getSubChTop(sch.id);
         const schDis = chElScrollTop - schTop + 50;
-        if (schDis < 0) return false;
+        if (schDis < 0) return false; // stop iterate when exceed the scrollTop
         if (schDis > 0 && schDis < minDis) {
           minDis = schDis;
           navId = ID.schNavItemID(sch.id);
@@ -117,7 +129,7 @@ class EPubNavigator {
       default:
         break;
     }
-  }, 100);
+  }, 80);
 
   addScrollListenerForChapterList() {
     const chListEl = this.chListEl;

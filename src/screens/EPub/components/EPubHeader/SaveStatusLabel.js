@@ -17,7 +17,7 @@ function LabelIcon(saved) {
       );
     case Constants.EpbUnsaved:
       return (
-        <span className="material-icons">north</span>
+        <span className="material-icons">arrow_upward</span>
       );
     case Constants.EpbSaveFailed:
       return (
@@ -32,13 +32,13 @@ function LabelIcon(saved) {
 function LabelText(saved) {
   switch (saved) {
     case Constants.EpbSaved:
-      return 'Saved';
+      return ['Saved', 'Last saved at ' + new Date().toLocaleString()];
     case Constants.EpbSaving:
-      return 'Saving';
+      return ['Saving...', 'Saving to cloud...'];
     case Constants.EpbUnsaved:
-      return 'Unsaved';
+      return ['Unsaved', 'Auto-save in 3 seconds'];
     case Constants.EpbSaveFailed:
-      return 'Auto-Save Failed';
+      return ['Auto-Save Failed', 'Couldn\'t save your changes, please try again'];
   
     default:
       return null;
@@ -47,13 +47,13 @@ function LabelText(saved) {
 
 function SaveStatusLabel({ saved }) {
   const iconElement = LabelIcon(saved);
-  const text = LabelText(saved);
+  const [text, label] = LabelText(saved);
 
   const error = saved === Constants.EpbSaveFailed;
   const success = saved === Constants.EpbSaved;
 
   return (
-    <CTPopoverLabel label="Auto-save in 3s">
+    <CTPopoverLabel label={label}>
       <div className={cx('ct-epb header-label', { error, success })}>
         <span className="ct-epb label-icon">
           {iconElement}
@@ -68,5 +68,5 @@ function SaveStatusLabel({ saved }) {
 
 export default connectWithRedux(
   SaveStatusLabel,
-  ['saved']
+  ['saved'/**, 'epub' */]
 );
