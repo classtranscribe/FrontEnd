@@ -39,4 +39,6 @@ export { default as CTHorizontalScroll } from './CTHorizontalScroll';
 
 export { CTListItem, CTList } from './CTList';
 
+export { default as CTDropdown } from './CTDropdown';
+
 export * from './tools';
