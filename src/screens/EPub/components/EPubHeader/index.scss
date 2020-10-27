@@ -2,6 +2,7 @@
   padding-left: 10px;
   min-width: inherit;
   height: 75px !important;
+  overflow: visible !important;
 
   .ct-header-right-elem {
     width: auto;
@@ -113,4 +114,12 @@
   .MuiCircularProgress-colorPrimary {
     color: teal !important;
   }
+}
+
+.ct-epb.view-dropdown-btn {
+  text-transform: none !important;
+  width: max-content;
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgb(47, 47, 47);
 }
