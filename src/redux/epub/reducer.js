@@ -27,7 +27,8 @@ const epubReducer = (state = initialState, action) => {
         view: value,
         showNav: true,
         navId: null,
-        showPreview: false
+        showPreview: false,
+        currChIndex: 0
       };
     case SET_MEDIA:
       return { ...state, media: value };

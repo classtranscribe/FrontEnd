@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
-import { ImagePicker } from '../ImagePicker';
+import ImagePicker from '../ImagePicker';
 import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';

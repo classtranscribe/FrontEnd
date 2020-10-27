@@ -3,7 +3,7 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTFragment, altEl, makeEl } from 'layout';
 import { epubStore, connectWithRedux, epub } from './controllers';
 import { EPubHeader, PlayerModal, PreviewModal } from './components';
-import { EditEPubStructure } from './views';
+import { EditEPubStructure, EditEPubChapter } from './views';
 import './index.scss';
 
 class EPubWithRedux extends React.Component {
@@ -23,7 +23,7 @@ class EPubWithRedux extends React.Component {
     const headerElement = altEl(EPubHeader, !loading);
 
     const editStructView = altEl(EditEPubStructure, view === epub.const.EpbEditStructure);
-    const editChapterView = null;
+    const editChapterView = altEl(EditEPubChapter, view === epub.const.EpbEditChapter);
     const readOnlyView = null;
 
     const playerModal = makeEl(PlayerModal, {

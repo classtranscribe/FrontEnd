@@ -10,6 +10,7 @@ import NavigationMenu from './NavigationMenu'
 function NavigationProvider({
   chapters,
   showNav,
+  currChIndex,
   children
 }) {
   useEffect(() => {
@@ -19,7 +20,7 @@ function NavigationProvider({
     }
 
     if (chapters.length > 0) {
-      epub.state.setNavId(epub.id.chNavItemID(chapters[0].id));
+      epub.state.setNavId(epub.id.chNavItemID(chapters[currChIndex].id));
     }
   }, []);
 
@@ -41,5 +42,5 @@ function NavigationProvider({
 
 export default connectWithRedux(
   NavigationProvider,
-  ['showNav', 'chapters']
+  ['showNav', 'chapters', 'currChIndex']
 );

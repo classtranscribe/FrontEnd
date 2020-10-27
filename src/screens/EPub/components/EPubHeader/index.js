@@ -15,6 +15,7 @@ function EPubHeader() {
     <CTNavHeader
       fixed
       bordered
+      shadowed
       className="ct-epb-header"
       brandElem={brandElement}
       leftElem={titleElement}

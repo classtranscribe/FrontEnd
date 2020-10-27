@@ -1,7 +1,7 @@
 import React from 'react';
 import { CTImagePickerModal } from 'components';
 
-export function ImagePicker({
+function ImagePicker({
   show = false,
   onSave,
   onClose,
@@ -36,3 +36,5 @@ export function ImagePicker({
     <CTImagePickerModal {...imgPickerProps} />
   );
 }
+
+export default ImagePicker;
