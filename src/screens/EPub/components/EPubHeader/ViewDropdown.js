@@ -25,8 +25,8 @@ function ViewDropdown({ view }) {
       icon: 'layers'
     },{
       value: epub.const.EpbEditChapter,
-      text: 'Edit ePub Chapters',
-      icon: 'sticky_note_2'
+      text: 'Edit Chapters',
+      icon: 'dashboard'
     }
   ];
 

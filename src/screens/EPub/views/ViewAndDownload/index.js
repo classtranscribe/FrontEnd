@@ -3,6 +3,7 @@ import { CTFragment } from 'layout';
 import { EPubNavigationProvider } from '../../components';
 import { epub } from '../../controllers';
 import EPubPreview from './EPubPreview';
+import EditOptions from './EditOptions';
 import DownloadOptions from './DownloadOptions';
 
 function ViewAndDownload() {
@@ -21,6 +22,7 @@ function ViewAndDownload() {
         </CTFragment>
 
         <CTFragment width="30%" sticky scrollY dFlexCol padding={[30, 10]}>
+          <EditOptions />
           <DownloadOptions />
         </CTFragment>
       </CTFragment>
