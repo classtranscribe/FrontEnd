@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { CTFragment } from 'layout';
 import { EPubNavigationProvider } from '../../components';
 import { epub } from '../../controllers';
-import ChapterEditor from './ChapterEditor';
+import EPubPreview from './EPubPreview';
 
-function EditEPubChapter() {
+function ViewAndDownload() {
   useEffect(() => {
     // add scroll event listener
     epub.nav.addScrollListenerForChapterList();
@@ -13,14 +13,14 @@ function EditEPubChapter() {
   }, []);
 
   return (
-    <EPubNavigationProvider wider>
+    <EPubNavigationProvider>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
-        <CTFragment width="70%" minWidth="700px">
-          <ChapterEditor />
+        <CTFragment width="70%" minWidth="700px" height="max-content" padding={[40, 20]}>
+          <EPubPreview />
         </CTFragment>
       </CTFragment>
     </EPubNavigationProvider>
   );
 }
 
-export default EditEPubChapter;
+export default ViewAndDownload;

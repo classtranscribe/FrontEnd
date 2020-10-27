@@ -17,6 +17,7 @@ function ChapterImage({
   id,
   image = {},
   disableDescription,
+  disableImagePicker,
   screenshots = [],
   chapterScreenshots = [],
   onChooseImage,
@@ -71,6 +72,7 @@ function ChapterImage({
               onChooseImage={openImagePicker} 
               onRemoveImage={onRemoveImage}
               onImageAltChange={onAltChange}
+              disabled={disableImagePicker}
             />
           </div>
           {

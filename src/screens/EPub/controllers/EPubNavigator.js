@@ -32,12 +32,14 @@ class EPubNavigator {
   }
 
   getChTop = (id) => {
-    const chEl = elem.getElement(ID.chID(id));
+    const chId = epubState.view === Constants.EpbReadOnly ? id : ID.chID(id);
+    const chEl = elem.getElement(chId);
     return chEl.offsetTop;
   }
 
   getSubChTop = (id, offset = 75) => {
-    const schEl = elem.getElement(ID.schID(id));
+    const schId = epubState.view === Constants.EpbReadOnly ? id : ID.schID(id);
+    const schEl = elem.getElement(schId);
     if (!schEl) {
       return 10000;
     }
@@ -46,11 +48,9 @@ class EPubNavigator {
 
     if (epubState.view === Constants.EpbEditStructure) {
       return schEl.offsetTop + schUlEl.offsetTop + chEl.offsetTop - offset;
-    } else if (epubState.view === Constants.EpbEditChapter) {
-      return schEl.offsetTop - offset;
     } else {
-      return 10000;
-    }
+      return schEl.offsetTop - offset;
+    } 
   }
 
   scrollToCh = (id) => {
@@ -64,9 +64,7 @@ class EPubNavigator {
   }
 
   navigateChapter = (chId) => {
-    if (epubState.view === Constants.EpbEditStructure) {
-      this.scrollToCh(chId);
-    } else if (epubState.view === Constants.EpbEditChapter) {
+    if (epubState.view === Constants.EpbEditChapter) {
       let chIdx = _.findIndex(epubState.chapters, { id: chId });
       if (chIdx >= 0) {
         epubState.setCurrChIndex(chIdx);
@@ -74,17 +72,11 @@ class EPubNavigator {
       }
     } else {
       this.scrollToCh(chId);
-      epubState.setNavId(ID.chNavItemID(chId));
     }
   };
 
   navigateSubChapter = (schId) => {
-    if (epubState.view === Constants.EpbReadOnly) {
-      this.scrollToSubCh(schId);
-      epubState.setNavId(ID.schNavItemID(schId));
-    } else {
-      this.scrollToSubCh(schId);
-    }
+    this.scrollToSubCh(schId);
   };
 
 
@@ -166,6 +158,7 @@ class EPubNavigator {
         this.updateNavIdForEditChaper(e);
         break;
       case Constants.EpbReadOnly:
+        this.updateNavIdForEpbEditStructure(e);
         //this.updateNavIdForDownloadEPub(e);
         break;
       default:

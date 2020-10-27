@@ -5,6 +5,7 @@ import { useInput } from 'hooks';
 
 function ImageWrapper({
   id,
+  disabled,
   imageAlt,
   onChooseImage,
   onRemoveImage,
@@ -25,7 +26,7 @@ function ImageWrapper({
     }
   };
 
-  return (
+  return disabled ? null : (
     <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
       <CTFragment justConEnd>
         <Button.Group>

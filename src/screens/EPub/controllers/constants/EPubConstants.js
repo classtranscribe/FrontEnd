@@ -10,7 +10,7 @@ export default class EPubConstants {
   static EpbReadOnly = 'v-read-only';
   static EpbEditStructure = 'v-structure';
   static EpbEditChapter = 'v-edit';
-  static EpbDefaultView = EPubConstants.EpbEditChapter;
+  static EpbDefaultView = EPubConstants.EpbReadOnly;
 
   // saving status
   static EpbUnsaved = 0;

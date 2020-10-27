@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import CTError from 'utils/use-error';
 import { getAllItemsInChapters } from '../utils';
+import { buildMDFromChapters } from '../html-converters';
 import EPubChapterData from './EPubChapterData';
 import EPubSubChapterData from './EPubSubChapterData';
 import EPubImageData from './EPubImageData';
@@ -209,6 +210,10 @@ export default class EPubData {
       cover: this.cover.toObject(),
       chapters: this.chapters.map(chapter => chapter.toObject())
     };
+  }
+
+  toMD() {
+    return buildMDFromChapters(this.chapters);
   }
 
   getChapter(chapterIndex) {
