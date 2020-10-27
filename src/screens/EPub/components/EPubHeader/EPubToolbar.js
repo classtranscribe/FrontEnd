@@ -1,16 +1,17 @@
 import React from 'react';
 import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 import { CTFragment } from 'layout';
-import { epub } from '../../controllers';
+import { epub, connectWithRedux } from '../../controllers';
 
-function EPubToolbar() {
+function EPubToolbar({ view }) {
+  const isReadOnly = view === epub.const.EpbReadOnly;
 
   const undoBtnEl = _makeTBtn(
-    'undo', 'Undo', '⌘Z', epub.data.history.undo, false, true, 
+    'undo', 'Undo', '⌘Z', epub.data.history.undo, false, !isReadOnly, 
     { disabled: !epub.history.canUndo }
   );
   const redoBtnEl = _makeTBtn(
-    'redo', 'Redo', '⌘⇧Z', epub.data.history.redo, false, true,
+    'redo', 'Redo', '⌘⇧Z', epub.data.history.redo, false, !isReadOnly,
     { disabled: !epub.history.canRedo }
   );
 
@@ -18,7 +19,10 @@ function EPubToolbar() {
   const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
   const openPreview = () => epub.state.setShowPreview(true);
-  const previewBtnEl = _makeTBtn('preview', 'Preview ePub', '⌘⇧P', openPreview, false, true);
+  const previewBtnEl = _makeTBtn(
+    'preview', 'Preview ePub', '⌘⇧P', openPreview, false, !isReadOnly
+  );
+
   const prefBtnEl = _makeTBtn('tune', 'Preference', 'XXX', null, false, true);
   const shortcutBtnEl = _makeTBtn('keyboard', 'Shortcuts', 'XXX', null, false, true);
   const downloadBtnEl = _makeTBtn('', 'Download', '⌘D', null, false, true, {
@@ -32,7 +36,7 @@ function EPubToolbar() {
         {previewBtnEl}
         <ToolButtonDivider />
         {downloadBtnEl}
-        <ToolButtonDivider />
+        {!isReadOnly && <ToolButtonDivider />}
         {undoBtnEl}
         {redoBtnEl}
         <ToolButtonDivider />
@@ -43,4 +47,7 @@ function EPubToolbar() {
   );
 }
 
-export default EPubToolbar;
+export default connectWithRedux(
+  EPubToolbar,
+  ['view']
+);
