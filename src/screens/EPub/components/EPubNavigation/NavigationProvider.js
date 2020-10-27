@@ -14,16 +14,16 @@ function NavigationProvider({
   currChIndex,
   // user props
   wider,
+  defaultClosed,
   children
 }) {
   useEffect(() => {
-    const { title } = uurl.useHash();
-    if (title) {
-      elem.scrollIntoCenter(title);
-    }
-
     if (chapters.length > 0) {
       epub.state.setNavId(epub.id.chNavItemID(chapters[currChIndex].id));
+    }
+
+    if (defaultClosed) {
+      epub.state.setShowNav(false);
     }
   }, []);
 

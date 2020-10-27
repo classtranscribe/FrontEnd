@@ -100,7 +100,7 @@ class EPubListController {
   async getEPubs(sourceType, sourceId) {
     try {
       const { data } = await api.getEPubsBySource(sourceType, sourceId);
-      return data;
+      return data.slice().reverse();
     } catch (error) {
       return ErrorTypes.NotFound404;
     }

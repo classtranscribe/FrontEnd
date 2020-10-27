@@ -14,7 +14,7 @@ function ViewAndDownload() {
   }, []);
 
   return (
-    <EPubNavigationProvider>
+    <EPubNavigationProvider defaultClosed>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
         <CTFragment width="70%" height="max-content" padding={[40,20,100,20]}>
           <EPubPreview />
