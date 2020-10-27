@@ -22,6 +22,7 @@ function Modal(props) {
     fullWidth = true,
     responsive,
     title,
+    heading,
     children,
     action,
     onClose,
@@ -65,6 +66,7 @@ function Modal(props) {
           <>
             <CTFragment justConBetween alignItCenter padding={[0, 10, 0, 0]}>
               {title && <DialogTitle>{title}</DialogTitle>}
+              {heading}
               {
                 withCloseButton 
                 && 
@@ -104,6 +106,9 @@ Modal.propTypes = {
 
   /** The title element of the modal */
   title: PropTypes.node,
+
+  /** The heading element of the modal */
+  heading: PropTypes.node,
 
   /** The primary content of the modal */
   children: PropTypes.node,

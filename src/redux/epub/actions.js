@@ -1,4 +1,4 @@
-import { createAction } from 'redux/redux-creators';
+import { createAction } from '../redux-creators';
 import {
   SET_ERROR,
   SET_VIEW,
@@ -11,6 +11,7 @@ import {
   SET_NAV_ID,
   SET_SHOW_NAV,
   SET_PLAYER_DATA,
+  SET_SHOW_PREVIEW,
   RESET_STATES
 } from './action.types';
 
@@ -28,4 +29,5 @@ export const setNavId = createAction(SET_NAV_ID);
 export const setShowNav = createAction(SET_SHOW_NAV);
 
 export const setPlayerData = createAction(SET_PLAYER_DATA);
+export const setShowPreview = createAction(SET_SHOW_PREVIEW);
 export const resetStates = createAction(RESET_STATES);

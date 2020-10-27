@@ -12,6 +12,7 @@ export const SET_NAV_ID = 'epb-set-nav-id';
 export const SET_SHOW_NAV = 'epb-set-show-nav';
 
 export const SET_PLAYER_DATA = 'epb-set-player-data';
+export const SET_SHOW_PREVIEW = 'epb-set-show-preview';
 
 export const RESET_STATES = 'epb-reset';
 

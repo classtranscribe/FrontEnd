@@ -13,4 +13,5 @@ export const initialState = {
   navId: null,
   showNav: true,
   playerData: null,
+  showPreview: false
 };

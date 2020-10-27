@@ -11,6 +11,7 @@ import {
   SET_NAV_ID,
   SET_SHOW_NAV,
   SET_PLAYER_DATA,
+  SET_SHOW_PREVIEW,
   RESET_STATES
 } from './action.types';
 
@@ -21,7 +22,13 @@ const epubReducer = (state = initialState, action) => {
     case SET_ERROR:
       return { ...state, error: value };
     case SET_VIEW:
-      return { ...state, view: value, showNav: false, navId: null };
+      return {
+        ...state,
+        view: value,
+        showNav: true,
+        navId: null,
+        showPreview: false
+      };
     case SET_MEDIA:
       return { ...state, media: value };
 
@@ -43,6 +50,8 @@ const epubReducer = (state = initialState, action) => {
 
     case SET_PLAYER_DATA:
       return { ...state, playerData: value };
+    case SET_SHOW_PREVIEW:
+      return { ...state, showPreview: value };
 
     case RESET_STATES:
       return initialState;

@@ -9,3 +9,4 @@ export { default as ChapterEditButton } from './ChapterEditButton';
 
 export { default as MDEditorModal } from './MDEditorModal';
 export { default as PlayerModal } from './PlayerModal';
+export { default as PreviewModal } from './PreviewModal';

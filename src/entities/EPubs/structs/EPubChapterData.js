@@ -1,3 +1,4 @@
+import { buildHTMLFromChapter } from '../html-converters';
 import EPubChapterLikeData from './EPubChapterLikeData';
 import EPubSubChapterData from './EPubSubChapterData';
 
@@ -24,6 +25,10 @@ class EPubChapterData extends EPubChapterLikeData {
     };
   }
 
+  toHTML() {
+    return buildHTMLFromChapter(this.__data__);
+  }
+
   /**
    * @returns {EPubSubChapterData[]}
    */
@@ -34,6 +39,8 @@ class EPubChapterData extends EPubChapterLikeData {
   set subChapters(subChapters) {
     this.__data__.subChapters = subChapters;
   }
+
+  static __buildHTMLFromChapter = buildHTMLFromChapter;
 }
 
 export default EPubChapterData;

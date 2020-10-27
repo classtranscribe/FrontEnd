@@ -17,7 +17,8 @@ function EPubToolbar() {
   const saveEPub = () => epub.data.saveEPub(0);
   const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
-  const previewBtnEl = _makeTBtn('preview', 'Preview ePub', '⌘⇧P', null, false, true);
+  const openPreview = () => epub.state.setShowPreview(true);
+  const previewBtnEl = _makeTBtn('preview', 'Preview ePub', '⌘⇧P', openPreview, false, true);
   const prefBtnEl = _makeTBtn('tune', 'Preference', 'XXX', null, false, true);
   const shortcutBtnEl = _makeTBtn('keyboard', 'Shortcuts', 'XXX', null, false, true);
   const downloadBtnEl = _makeTBtn('', 'Download', '⌘D', null, false, true, {
