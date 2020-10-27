@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Popup } from 'semantic-ui-react';
 import { elem } from 'utils/use-elem';
+import { epub } from '../../controllers';
 import { MDPreviewer, MDEditor } from '../Markdown';
 import ChapterEditButton from '../ChapterEditButton';
 import './index.scss';
@@ -38,6 +39,9 @@ function ChapterText({
   useEffect(() => {
     if (editing) {
       elem.scrollIntoCenter(id);
+      epub.nav.disable();
+    } else {
+      epub.nav.enable();
     }
   }, [editing]);
 

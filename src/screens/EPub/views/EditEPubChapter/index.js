@@ -13,8 +13,8 @@ function EditEPubChapter() {
   }, []);
 
   return (
-    <EPubNavigationProvider>
-      <CTFragment dFlex justConCenter h100 scrollY id={epub.id.EPubChapterListID}>
+    <EPubNavigationProvider wider>
+      <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
         <CTFragment width="70%" minWidth="700px">
           <ChapterEditor />
         </CTFragment>

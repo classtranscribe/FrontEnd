@@ -8,9 +8,12 @@ import NavigationMenu from './NavigationMenu'
 
 
 function NavigationProvider({
+  // states
   chapters,
   showNav,
   currChIndex,
+  // user props
+  wider,
   children
 }) {
   useEffect(() => {
@@ -25,7 +28,7 @@ function NavigationProvider({
   }, []);
 
   return (
-    <CTFragment id={epub.id.EPubNavigationProviderID} dFlex>
+    <CTFragment id={epub.id.EPubNavigationProviderID} dFlex className={cx({ wider })}>
       <NavigationTrigger show={showNav} />
 
       <div className={cx('ct-epb nav-con', { show: showNav })}>

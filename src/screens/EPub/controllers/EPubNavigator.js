@@ -9,8 +9,18 @@ import { epubState } from './EPubStateManager';
  */
 class EPubNavigator {
   constructor() {
+    this.__disabled = false;
+
     this.removeScrollListenerForChapterList = 
       this.removeScrollListenerForChapterList.bind(this);
+  }
+
+  disable() {
+    this.__disabled = true;
+  }
+
+  enable() {
+    this.__disabled = false;
   }
 
   get offsetTop() {
@@ -34,7 +44,13 @@ class EPubNavigator {
     const schUlEl = schEl.parentElement;
     const chEl = schUlEl.parentElement;
 
-    return schEl.offsetTop + schUlEl.offsetTop + chEl.offsetTop - offset;
+    if (epubState.view === Constants.EpbEditStructure) {
+      return schEl.offsetTop + schUlEl.offsetTop + chEl.offsetTop - offset;
+    } else if (epubState.view === Constants.EpbEditChapter) {
+      return schEl.offsetTop - offset;
+    } else {
+      return 10000;
+    }
   }
 
   scrollToCh = (id) => {
@@ -50,7 +66,7 @@ class EPubNavigator {
   navigateChapter = (chId) => {
     if (epubState.view === Constants.EpbEditStructure) {
       this.scrollToCh(chId);
-    } else if (epubState.step === Constants.EpbEditChapter) {
+    } else if (epubState.view === Constants.EpbEditChapter) {
       let chIdx = _.findIndex(epubState.chapters, { id: chId });
       if (chIdx >= 0) {
         epubState.setCurrChIndex(chIdx);
@@ -63,7 +79,7 @@ class EPubNavigator {
   };
 
   navigateSubChapter = (schId) => {
-    if (epubState.step === Constants.EpbReadOnly) {
+    if (epubState.view === Constants.EpbReadOnly) {
       this.scrollToSubCh(schId);
       epubState.setNavId(ID.schNavItemID(schId));
     } else {
@@ -114,14 +130,40 @@ class EPubNavigator {
     epubState.setCurrChIndex(currChIndex);
   }
 
+  updateNavIdForEditChaper(e) {
+    const chElScrollTop = e.target.scrollTop;
+    const chIdx = epubState.currChIndex;
+    const chapter = epubState.chapters[chIdx];
+    if (chElScrollTop < 40) {
+      epubState.setNavId(ID.chNavItemID(chapter.id));
+    }
+
+    // initialize default values
+    let navId = epubState.navId;
+    let minDis = 1000;
+
+    _.forEach(chapter.subChapters, (sch) => {
+      const schTop = this.getSubChTop(sch.id);
+      const schDis = chElScrollTop - schTop + 50;
+      if (schDis < 0) return false; // stop iterate when exceed the scrollTop
+      if (schDis > 0 && schDis < minDis) {
+        minDis = schDis;
+        navId = ID.schNavItemID(sch.id);
+      }
+    });
+
+    epubState.setNavId(navId);
+  }
+
   onScroll = _.debounce((e) => {
-    console.log(e.target.scrollTop);
+    if (this.__disabled) return;
+    // console.log(e.target.scrollTop);
     switch (epubState.view) {
       case Constants.EpbEditStructure:
         this.updateNavIdForEpbEditStructure(e);
         break;
       case Constants.EpbEditChapter:
-        //this.updateNavIdForEditChaper(e);
+        this.updateNavIdForEditChaper(e);
         break;
       case Constants.EpbReadOnly:
         //this.updateNavIdForDownloadEPub(e);

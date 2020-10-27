@@ -47,10 +47,13 @@ function NavMenuItem({
 }
 
 function NavigationMenu({
+  view,
   navId,
+  currChIndex,
   chapters = []
 }) {
 
+  const mightHideSubCh = view === epub.const.EpbEditChapter;
   useEffect(() => {
     if (navId) elem.scrollIntoCenter(navId);
   }, [navId]);
@@ -70,7 +73,11 @@ function NavigationMenu({
             navId={navId}
           />
           {
-            ch.subChapters.length > 0
+            (ch.subChapters.length > 0 && (
+              !mightHideSubCh || (
+                mightHideSubCh && chIdx === currChIndex
+              )
+            ))
             &&
             <ul className="plain-ul">
               {ch.subChapters.map((sch, schIdx) => (
@@ -94,5 +101,5 @@ function NavigationMenu({
 
 export default connectWithRedux(
   NavigationMenu,
-  ['navId', 'chapters']
+  ['navId', 'chapters', 'view', 'currChIndex']
 );
