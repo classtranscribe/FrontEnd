@@ -8,6 +8,7 @@ function ToolButton({
   icon,
   label,
   shortcut,
+  anchorRef,
   ...otherProps
 }) {
   const fullLabel = shortcut ? `${label} (${shortcut})` : label;
@@ -20,6 +21,7 @@ function ToolButton({
           className="ct-epb toolbar-btn icon-btn"
           aria-label={fullLabel}
           disableRipple
+          ref={anchorRef}
           {...otherProps}
         >
           <span className="ct-epb toolbar-btn-inner" tabIndex="-1">
@@ -33,6 +35,7 @@ function ToolButton({
           aria-label={fullLabel}
           disableRipple
           endIcon={<span className="material-icons">arrow_drop_down</span>}
+          ref={anchorRef}
           {...otherProps}
         >
           <span className="ct-epb toolbar-btn-inner" tabIndex="-1">

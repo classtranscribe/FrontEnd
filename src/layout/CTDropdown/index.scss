@@ -3,9 +3,12 @@
   .ct-dropd-menu-item {
     .MuiListItemIcon-root {
       color: rgb(75, 75, 75) !important;
+      min-width: auto  !important;
+      margin-right: 20px !important;
     }
     
-    &:focus {
+    &.MuiListItem-root.Mui-selected, 
+    &.MuiListItem-root.Mui-selected:hover {
       background-color: teal !important;
       color: white !important;
       .MuiListItemIcon-root {

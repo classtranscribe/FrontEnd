@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 import { CTFragment } from 'layout';
 import { epub, connectWithRedux } from '../../controllers';
+import { ToolButtonDivider, _makeTBtn } from './ToolButton';
+import DownloadDropdown from './DownloadDropdown';
 
 function EPubToolbar({ view, chapters, ...props }) {
   const [canUndo, setCanUndo] = useState(false);
@@ -34,9 +35,7 @@ function EPubToolbar({ view, chapters, ...props }) {
 
   const prefBtnEl = _makeTBtn('tune', 'Preference', 'XXX', null, false, true);
   const shortcutBtnEl = _makeTBtn('keyboard', 'Shortcuts', 'XXX', null, false, true);
-  const downloadBtnEl = _makeTBtn('', 'Download', '⌘D', null, false, true, {
-    'aria-haspopup': true
-  });
+  
 
   return (
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
@@ -44,7 +43,7 @@ function EPubToolbar({ view, chapters, ...props }) {
         {saveBtnEl}
         {previewBtnEl}
         <ToolButtonDivider />
-        {downloadBtnEl}
+        <DownloadDropdown />
         {!isReadOnly && <ToolButtonDivider />}
         {undoBtnEl}
         {redoBtnEl}

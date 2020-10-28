@@ -76,11 +76,19 @@ function CTDropdown(props) {
                     className="ct-dropd-menu-item"
                   >
                     {
-                      opt.icon
-                      &&
+                      typeof opt.icon === 'string'
+                      ?
                       <ListItemIcon>
                         <span className="material-icons">{opt.icon}</span>
                       </ListItemIcon>
+                      :
+                      Boolean(opt.icon)
+                      ?
+                      <ListItemIcon>
+                        {opt.icon}
+                      </ListItemIcon>
+                      :
+                      null
                     }
                     <Typography variant="inherit">{opt.text}</Typography>
                   </MenuItem>
