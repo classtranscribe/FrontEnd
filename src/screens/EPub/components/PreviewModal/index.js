@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CTModal, CTFragment, CTSelect } from 'layout';
-import { MDPreviewer } from '../Markdown';
 import { epub, connectWithRedux } from '../../controllers';
+import { MDPreviewer } from '../Markdown';
+import './index.scss'
 
 function PreviewModal({
   showPreview,
@@ -21,7 +22,7 @@ function PreviewModal({
 
   const handleSelect = ({ target: { value } }) => setPreviewChIdx(value);
   const chapterOptions = chapters.map(
-    (ch, idx) => ({ value: idx, text: `Chapter ${idx+1} - ${ch.title}` })
+    (ch, idx) => ({ value: idx, text: `Chapter ${idx+1}: ${ch.title}` })
   );
   const chapterSelector = (
     <CTFragment dFlex padding={[0,10,0,25]} maxWidth="500px">
