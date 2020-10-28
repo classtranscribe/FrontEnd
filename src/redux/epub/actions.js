@@ -12,6 +12,8 @@ import {
   SET_SHOW_NAV,
   SET_PLAYER_DATA,
   SET_SHOW_PREVIEW,
+  SET_SHOW_FILE_SETTINGS,
+  SET_SHOW_PREF_SETTINGS,
   RESET_STATES
 } from './action.types';
 
@@ -30,4 +32,7 @@ export const setShowNav = createAction(SET_SHOW_NAV);
 
 export const setPlayerData = createAction(SET_PLAYER_DATA);
 export const setShowPreview = createAction(SET_SHOW_PREVIEW);
+export const setShowFileSettings = createAction(SET_SHOW_FILE_SETTINGS);
+export const setShowPrefSettings = createAction(SET_SHOW_PREF_SETTINGS);
+
 export const resetStates = createAction(RESET_STATES);

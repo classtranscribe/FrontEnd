@@ -13,5 +13,7 @@ export const initialState = {
   navId: null,
   showNav: true,
   playerData: null,
-  showPreview: false
+  showPreview: false,
+  showFileSettings: false,
+  showPrefSettings: false
 };

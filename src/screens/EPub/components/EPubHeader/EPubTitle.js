@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CTHeading, CTFragment } from 'layout';
-import { connectWithRedux } from '../../controllers';
-import EPubFileInfoModal from '../EPubFileInfoModal';
+import { epub, connectWithRedux } from '../../controllers';
 import SaveStatusLabel from './SaveStatusLabel';
 import { _makeTBtn } from './ToolButton';
 
-function EPubTitle({
-  epub
-}) {
-  const { title } = epub;
-  const [openSettings, setOpenSettings] = useState(false);
-  const onOpenSettings = () => setOpenSettings(true);
-  const onCloseSettings = () => setOpenSettings(false);
+function EPubTitle(props) {
+  const { title } = props.epub;
+
+  const onOpenSettings = () => epub.state.setShowFileSettings(true);
 
   const settingsBtn = _makeTBtn(
     'edit', 'Edit file', null, onOpenSettings, false, true
@@ -30,8 +26,6 @@ function EPubTitle({
         {copyBtn}
         <SaveStatusLabel />
       </CTFragment>
-
-      <EPubFileInfoModal open={openSettings} onClose={onCloseSettings} />
     </CTFragment>
   );
 }

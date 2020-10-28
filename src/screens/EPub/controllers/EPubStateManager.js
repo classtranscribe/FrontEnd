@@ -22,6 +22,8 @@ class EPubStateManager extends StateController {
     this.showNav = initialState.showNav;
     this.playerData = initialState.playerData;
     this.showPreview = initialState.showPreview;
+    this.showFileSettings = initialState.showFileSettings;
+    this.showPrefSettings = initialState.showPrefSettings;
 
     this.resetStates = this.resetStates.bind(this);
   }
@@ -40,6 +42,8 @@ class EPubStateManager extends StateController {
       setShowNav,
       setPlayerData,
       setShowPreview,
+      setShowFileSettings,
+      setShowPrefSettings,
       resetStates
     } = props;
 
@@ -56,6 +60,8 @@ class EPubStateManager extends StateController {
       setShowNav,
       setPlayerData,
       setShowPreview,
+      setShowFileSettings,
+      setShowPrefSettings,
       resetStates
     });
   }
@@ -110,6 +116,14 @@ class EPubStateManager extends StateController {
 
   setShowPreview(showPreview) {
     this.setState('setShowPreview', 'showPreview', showPreview);
+  }
+
+  setShowFileSettings(showFileSettings) {
+    this.setState('setShowFileSettings', 'showFileSettings', showFileSettings);
+  }
+  
+  setShowPrefSettings(showPrefSettings) {
+    this.setState('setShowPrefSettings', 'showPrefSettings', showPrefSettings);
   }
 
   updateContentChanges(chapters, currChIndex) {

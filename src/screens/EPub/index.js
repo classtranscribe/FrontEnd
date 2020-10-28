@@ -2,7 +2,7 @@ import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTFragment, altEl, makeEl } from 'layout';
 import { epubStore, connectWithRedux, epub } from './controllers';
-import { EPubHeader, PlayerModal, PreviewModal } from './components';
+import { EPubHeader, PlayerModal, PreviewModal, EPubFileInfoModal } from './components';
 import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
 import './index.scss';
 
@@ -30,6 +30,7 @@ class EPubWithRedux extends React.Component {
       ...playerData, open: Boolean(playerData) && media, media
     });
     const previewModal = makeEl(PreviewModal);
+    const fileSettingsModal = makeEl(EPubFileInfoModal);
 
     return (
       <CTFragment as="main" id="ct-epb-main" loading={loading}>
@@ -43,6 +44,7 @@ class EPubWithRedux extends React.Component {
 
         {playerModal}
         {previewModal}
+        {fileSettingsModal}
       </CTFragment>
     );
   }

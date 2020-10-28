@@ -12,6 +12,8 @@ import {
   SET_SHOW_NAV,
   SET_PLAYER_DATA,
   SET_SHOW_PREVIEW,
+  SET_SHOW_FILE_SETTINGS,
+  SET_SHOW_PREF_SETTINGS,
   RESET_STATES
 } from './action.types';
 
@@ -53,6 +55,10 @@ const epubReducer = (state = initialState, action) => {
       return { ...state, playerData: value };
     case SET_SHOW_PREVIEW:
       return { ...state, showPreview: value };
+    case SET_SHOW_FILE_SETTINGS:
+      return { ...state, showFileSettings: value };
+    case SET_SHOW_PREF_SETTINGS:
+      return { ...state, showPrefSettings: value };
 
     case RESET_STATES:
       return initialState;

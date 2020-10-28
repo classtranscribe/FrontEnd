@@ -5,10 +5,12 @@ import { elem } from 'utils';
 import { epub, connectWithRedux } from '../controllers';
 import ChapterImage from './ChapterImage';
 
-function EPubFileInfoModal({ open, onClose, ...props }) {
+function EPubFileInfoModal({ showFileSettings, ...props }) {
   const { teal } = useButtonStyles();
 
   const [epubData, setEPubData] = useState(props.epub);
+
+  const onClose = () => epub.state.setShowFileSettings(false);
 
   const onInputChange = (attrName) => ({ target: { value }}) =>
     setEPubData({ ...epubData, [attrName]: value });
@@ -36,7 +38,7 @@ function EPubFileInfoModal({ open, onClose, ...props }) {
 
   return (
     <CTModal
-      open={open}
+      open={showFileSettings}
       title="File Settings"
       size="sm"
       transition
@@ -97,5 +99,5 @@ function EPubFileInfoModal({ open, onClose, ...props }) {
 
 export default connectWithRedux(
   EPubFileInfoModal,
-  ['epub']
+  ['epub', 'showFileSettings']
 );
