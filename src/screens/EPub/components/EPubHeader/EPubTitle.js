@@ -18,7 +18,7 @@ function EPubTitle(props) {
 
   return (
     <CTFragment role="header" dFlex alignItCenter className="ct-epb header-title con">
-      <CTHeading as="h1" id="ct-epb-header-title" fadeIn={false}>
+      <CTHeading as="h1" id="ct-epb-header-title" title={title} fadeIn={false}>
         {title}
       </CTHeading>
       <CTFragment dFlex alignItCenter width="max-content" margin={[0,0,0,5]}>

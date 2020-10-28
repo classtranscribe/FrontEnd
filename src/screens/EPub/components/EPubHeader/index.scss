@@ -21,7 +21,12 @@
     font-family: var(--ct-font-narrow) !important;
     color: black;
     width: auto;
-    max-width: 500px;
+    span {
+      max-width: 550px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis !important;
+    }
   }
   
   div#ct-epb-header-toolbar {

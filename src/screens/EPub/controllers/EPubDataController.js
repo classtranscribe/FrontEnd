@@ -56,6 +56,7 @@ class EPubDataController {
 
   setChapters(chapters) {
     this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
+    this.saveEPub();
   }
 
   setEPubInfo(newEPubData) {

@@ -63,6 +63,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             placeholder="ePub Title"
             value={epubData.title}
             onChange={onInputChange('title')}
+            onReturn={onSaveChanges}
             underlined
           />
           <CTInput 
@@ -71,6 +72,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             placeholder="ePub Author"
             value={epubData.author}
             onChange={onInputChange('author')}
+            onReturn={onSaveChanges}
             underlined
           />
         </CTFormRow>
@@ -81,6 +83,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             placeholder="ePub Filename"
             value={epubData.filename}
             onChange={onInputChange('filename')}
+            onReturn={onSaveChanges}
             underlined
           />
         </CTFormRow>

@@ -12,7 +12,7 @@ export function _getEPubListItems(ePubs) {
     // let status = epub.isPublished ? 'Published' : 'Unpublished'
     return {
       id: epub.id,
-      title: epub.filename,
+      title: epub.title,
       icon: 'text_snippet',
       description: `${lang}`,
       link: true,
