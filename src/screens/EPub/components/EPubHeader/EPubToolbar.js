@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 import { CTFragment } from 'layout';
 import { epub, connectWithRedux } from '../../controllers';
 
-function EPubToolbar({ view }) {
+function EPubToolbar({ view, chapters, ...props }) {
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
+
+  useEffect(() => {
+    // invoke undo, redo status when content changes
+    setCanUndo(epub.history.canUndo);
+    setCanRedo(epub.history.canRedo);
+  }, [chapters, props.epub]);
+
   const isReadOnly = view === epub.const.EpbReadOnly;
 
   const undoBtnEl = _makeTBtn(
     'undo', 'Undo', '⌘Z', epub.data.history.undo, false, !isReadOnly, 
-    { disabled: !epub.history.canUndo }
+    { disabled: !canUndo }
   );
   const redoBtnEl = _makeTBtn(
     'redo', 'Redo', '⌘⇧Z', epub.data.history.redo, false, !isReadOnly,
-    { disabled: !epub.history.canRedo }
+    { disabled: !canRedo }
   );
 
   const saveEPub = () => epub.data.saveEPub(0);
@@ -49,5 +58,5 @@ function EPubToolbar({ view }) {
 
 export default connectWithRedux(
   EPubToolbar,
-  ['view']
+  ['view', 'chapters', 'epub']
 );
