@@ -12,6 +12,7 @@ $ct-epb-nav-w-wider: 400px;
     padding: 0 0 40px 0;
     overflow-x: hidden;
     overflow-y: auto;
+    visibility: hidden;
 
     h3 {
       padding: 14px 0 15px 55px;
@@ -20,6 +21,7 @@ $ct-epb-nav-w-wider: 400px;
 
     &.show {
       width: $ct-epb-nav-w;
+      visibility: visible;
     }
   }
   

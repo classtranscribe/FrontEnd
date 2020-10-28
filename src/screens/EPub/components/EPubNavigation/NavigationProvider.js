@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import cx from 'classnames';
 import { CTFragment, CTHeading } from 'layout';
-import { uurl, elem } from 'utils';
 import { epub, connectWithRedux } from '../../controllers';
 import NavigationTrigger from './NavigationTrigger';
 import NavigationMenu from './NavigationMenu'
@@ -27,11 +26,13 @@ function NavigationProvider({
     }
   }, []);
 
+  const hidden = showNav ? "false" : "true";
+
   return (
     <CTFragment id={epub.id.EPubNavigationProviderID} dFlex className={cx({ wider })}>
       <NavigationTrigger show={showNav} />
 
-      <div className={cx('ct-epb nav-con', { show: showNav })}>
+      <div aria-hidden={hidden} className={cx('ct-epb nav-con', { show: showNav })}>
         <CTHeading as="h3" uppercase sticky fadeIn={false}>Chapters</CTHeading>
         <NavigationMenu />
       </div>
