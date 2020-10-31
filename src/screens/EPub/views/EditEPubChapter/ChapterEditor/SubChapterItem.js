@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTFragment } from 'layout';
+import { CTFragment, CTText } from 'layout';
 import { epub } from '../../../controllers';
 import { ChapterTitle } from '../../../components';
 import ChapterContent from './ChapterContent';
@@ -37,7 +37,8 @@ function SubChapterItem({
   };
   
   return (
-    <CTFragment id={epub.id.schID(id)}>
+    <CTFragment id={epub.id.schID(id)} className="mt-5">
+      <CTText muted className="pl-1">Sub-Chapter {subChapterIndex + 1}</CTText>
       <ChapterTitle
         id={epub.id.schTitleID(id)}
         value={title}

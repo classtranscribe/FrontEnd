@@ -8,7 +8,12 @@ import './index.scss'
 
 function EPubInstruction({ expanded, title, children, onToggle }) {
   return (
-    <Accordion expanded={expanded} className="ct-epb instruction" onChange={onToggle}>
+    <Accordion
+      expanded={expanded} 
+      defaultExpanded 
+      className="ct-epb instruction" 
+      onChange={onToggle}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="ct-epb-inst-content"

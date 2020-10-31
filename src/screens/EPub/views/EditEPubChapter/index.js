@@ -3,6 +3,9 @@ import { CTFragment } from 'layout';
 import { EPubNavigationProvider } from '../../components';
 import { epub } from '../../controllers';
 import ChapterEditor from './ChapterEditor';
+import Instruction from './Instruction';
+import Toolbuttons from './Toolbuttons';
+import './index.scss';
 
 function EditEPubChapter() {
   useEffect(() => {
@@ -13,10 +16,15 @@ function EditEPubChapter() {
   }, []);
 
   return (
-    <EPubNavigationProvider wider>
+    <EPubNavigationProvider>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
-        <CTFragment width="70%" minWidth="700px">
+        <CTFragment width="67%">
           <ChapterEditor />
+        </CTFragment>
+
+        <CTFragment className="ct-epb ech-tool-bar" sticky h100 dFlexCol justConBetween>
+          <Instruction />
+          <Toolbuttons />
         </CTFragment>
       </CTFragment>
     </EPubNavigationProvider>

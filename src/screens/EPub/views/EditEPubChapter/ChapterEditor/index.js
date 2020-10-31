@@ -19,6 +19,7 @@ function ChapterEditor({ chapters, currChIndex }) {
   return (
     <CTFragment
       className="ct-epb ech ch-con"
+      shadowed
       //scrollClassName="ct-epb ech ech-scroll"
     >
       <ChapterInfo

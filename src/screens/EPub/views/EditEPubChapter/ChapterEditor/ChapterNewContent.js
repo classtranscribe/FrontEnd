@@ -32,11 +32,11 @@ function ChapterNewContent({
   return (
     <CTFragment alignItCenter>
       <ChapterEditButton muted className="mr-1" onClick={handleOpenMDEditor}>
-        Insert texts
+        Insert text
       </ChapterEditButton>
 
       <ChapterEditButton muted className="ml-1" onClick={handleOpenImgPicker}>
-        Insert images
+        Insert image
       </ChapterEditButton>
 
       <ImagePicker

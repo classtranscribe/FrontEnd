@@ -1,10 +1,12 @@
 import React from 'react';
+import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { CTHeading, CTFragment, useButtonStyles } from 'layout';
 import { epub, connectWithRedux } from '../../controllers';
 
 function QuickActions({ chapters }) {
-  const btnClasses = useButtonStyles().tealLink;
+  const btnStyles = useButtonStyles();
+  const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
   const items = epub.data.data.items;
 
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
@@ -19,14 +21,20 @@ function QuickActions({ chapters }) {
         {
           showResetBtn
           &&
-          <Button className={btnClasses} onClick={epub.data.resetToDefaultChapters}>
+          <Button
+            className={btnClasses}
+            onClick={epub.data.resetToDefaultChapters}
+          >
             Reset to Default Chapters
           </Button>
         }
         {
           showSplitAllBtn
           &&
-          <Button className={btnClasses} onClick={epub.data.splitChaptersByScreenshots}>
+          <Button
+            className={btnClasses} 
+            onClick={epub.data.splitChaptersByScreenshots}
+          >
             Split Chapters by Screenshots
           </Button>
         }
