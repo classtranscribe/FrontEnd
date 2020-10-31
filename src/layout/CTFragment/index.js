@@ -211,6 +211,12 @@ CTFragment.propTypes = {
   /** align-item: flex-end */
   alignItEnd: PropTypes.bool,
 
+  /** The fragment supports raised style */
+  raised: PropTypes.bool,
+
+  /** The fragment supports shadowed style */
+  shadowed: PropTypes.bool,
+
   /** The fragment supports dark mode */
   dark: PropTypes.bool,
 

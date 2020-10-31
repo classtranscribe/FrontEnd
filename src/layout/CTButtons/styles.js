@@ -24,6 +24,9 @@ export const useButtonStyles = makeStyles({
     fontWeight: 'bold',
     '&:hover': {
       color: 'teal !important'
+    },
+    '&.MuiButton-root.Mui-disabled': {
+      color: 'rgba(0, 0, 0, 0.26) !important'
     }
   }
 });
