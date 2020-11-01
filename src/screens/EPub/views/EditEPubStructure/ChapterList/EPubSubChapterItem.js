@@ -39,6 +39,9 @@ function EPubSubChapterItem({
 
   return (
     <div id={epub.id.schID(subChapter.id)} className={schClasses}>
+      <CTText muted className="pt-2 pl-2">
+        Sub-Chapter {chapterIndex + 1}.{subChapterIndex + 1}: {subChapter.title}
+      </CTText>
       <div
         className="ch-item-title-con sub ct-d-r-center-v"
       >

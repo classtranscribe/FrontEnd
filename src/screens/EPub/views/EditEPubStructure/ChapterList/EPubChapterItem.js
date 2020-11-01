@@ -37,6 +37,7 @@ function EPubChapterItem({
       className={chClasses}
       onMouseEnter={handleMouseOverChapterList}
     >
+      <CTText muted className="pt-2 pl-2">Chapter {chapterIndex + 1}: {chapter.title}</CTText>
       <div className="ch-item-title-con ct-d-r-center-v">
         <ChapterTitle
           id={epub.id.chTitleID(chapter.id)}
