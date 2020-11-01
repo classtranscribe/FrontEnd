@@ -10,6 +10,7 @@ import {
   SET_FOLDED_IDS,
   SET_NAV_ID,
   SET_SHOW_NAV,
+  SET_IMG_PICKER_DATA,
   SET_PLAYER_DATA,
   SET_SHOW_PREVIEW,
   SET_SHOW_FILE_SETTINGS,
@@ -51,6 +52,8 @@ const epubReducer = (state = initialState, action) => {
     case SET_SHOW_NAV:
       return { ...state, showNav: value };
 
+    case SET_IMG_PICKER_DATA:
+      return { ...state, imgPickerData: value };
     case SET_PLAYER_DATA:
       return { ...state, playerData: value };
     case SET_SHOW_PREVIEW:

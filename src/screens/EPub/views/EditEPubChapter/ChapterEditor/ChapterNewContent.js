@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { CTFragment } from 'layout';
-import { ChapterEditButton, ImagePicker, MDEditorModal } from '../../../components';
+import { ChapterEditButton, MDEditorModal } from '../../../components';
+import { epub } from '../../../controllers';
 import { EPubImageData } from 'entities/EPubs';
 
-function ChapterNewContent({
-  onInsert,
-  screenshots,
-  chapterScreenshots
-}) {
+function ChapterNewContent({ onInsert }) {
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
-  const openImgPicker = insertType === 'img';
 
   const handleClose = () => setInsertType(null);
 
@@ -27,7 +23,15 @@ function ChapterNewContent({
   };
 
   const handleOpenMDEditor = () => setInsertType('md');
-  const handleOpenImgPicker = () => setInsertType('img');
+  const handleOpenImgPicker = () => {
+    const epubData = epub.data.data;
+    const imgData = {
+      screenshots: epubData.images,
+      onSave: handleSaveImage,
+      chapterScreenshots: epubData.chapters[epub.state.currChIndex].allImagesWithIn
+    };
+    epub.state.setImgPickerData(imgData);
+  }
 
   return (
     <CTFragment alignItCenter>
@@ -38,14 +42,6 @@ function ChapterNewContent({
       <ChapterEditButton muted className="ml-1" onClick={handleOpenImgPicker}>
         Insert image
       </ChapterEditButton>
-
-      <ImagePicker
-        show={openImgPicker}
-        onClose={handleClose}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-        onSave={handleSaveImage}
-      />
 
       <MDEditorModal
         show={openMDEditor}

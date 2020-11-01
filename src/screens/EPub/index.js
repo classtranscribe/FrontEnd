@@ -2,7 +2,13 @@ import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTFragment, altEl, makeEl } from 'layout';
 import { epubStore, connectWithRedux, epub } from './controllers';
-import { EPubHeader, PlayerModal, PreviewModal, EPubFileInfoModal } from './components';
+import {
+  EPubHeader,
+  PlayerModal,
+  PreviewModal,
+  EPubFileInfoModal,
+  ImagePickerModal
+} from './components';
 import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
 import './index.scss';
 
@@ -18,7 +24,7 @@ class EPubWithRedux extends React.Component {
   }
 
   render() {
-    const { view, chapters, playerData, media } = this.props;
+    const { view, chapters, imgPickerData, playerData, media } = this.props;
     const loading = epub.ctrl.isLoading(this.props.epub, chapters);
     const headerElement = altEl(EPubHeader, !loading);
 
@@ -26,6 +32,7 @@ class EPubWithRedux extends React.Component {
     const editChapterView = altEl(EditEPubChapter, view === epub.const.EpbEditChapter);
     const readOnlyView = altEl(ViewAndDownload, view === epub.const.EpbReadOnly);
 
+    const imgPickerModal = altEl(ImagePickerModal, Boolean(imgPickerData), { imgPickerData, media });
     const playerModal = makeEl(PlayerModal, {
       ...playerData, open: Boolean(playerData) && media, media
     });
@@ -42,6 +49,7 @@ class EPubWithRedux extends React.Component {
           {readOnlyView}
         </CTFragment>
 
+        {imgPickerModal}
         {playerModal}
         {previewModal}
         {fileSettingsModal}
@@ -54,7 +62,7 @@ export const EPub = withReduxProvider(
   EPubWithRedux,
   epubStore,
   connectWithRedux,
-  ['epub', 'view', 'chapters', 'playerData', 'media'],
+  ['epub', 'view', 'chapters', 'playerData', 'media', 'imgPickerData'],
   ['all']
 );
 

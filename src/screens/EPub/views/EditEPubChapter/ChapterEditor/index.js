@@ -9,24 +9,14 @@ import './index.scss';
 function ChapterEditor({ chapters, currChIndex }) {
   const currChapter = chapters[currChIndex] || {};
   const { subChapters = [] } = currChapter;
-  const screenshots = epub.data.data.images;
-  const chapterScreenshots = epub.data.data.chapters[currChIndex].allImagesWithIn;
 
   useEffect(() => {
     elem.scrollToTop(epub.id.EPubChapterListID);
   }, [currChIndex]);
 
   return (
-    <CTFragment
-      className="ct-epb ech ch-con"
-      shadowed
-      //scrollClassName="ct-epb ech ech-scroll"
-    >
-      <ChapterInfo
-        chapter={currChapter}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-      />
+    <CTFragment className="ct-epb ech ch-con" shadowed>
+      <ChapterInfo chapter={currChapter} />
 
       <CTFragment dFlexCol role="list">
         {subChapters.map((subChapter, subChapterIndex) => (
@@ -34,8 +24,6 @@ function ChapterEditor({ chapters, currChIndex }) {
             key={`ee-ech-${subChapter.id}`}
             subChapter={subChapter}
             subChapterIndex={subChapterIndex}
-            screenshots={screenshots}
-            chapterScreenshots={chapterScreenshots}
           />
         ))}
       </CTFragment>

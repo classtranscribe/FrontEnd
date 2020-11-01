@@ -7,6 +7,7 @@ import './index.scss';
 
 import ImagesTab from './ImagesTab';
 import UploadTab from './UploadTab';
+import VideoTab from './VideoTab';
 import ImagePickerModalActions from './ImagePickerModalActions';
 
 /**
@@ -19,6 +20,7 @@ function ImagePickerModal(props) {
     onClose,
     tabs = [],
     defaultImage,
+    playerData
   } = props;
 
   const [imgUrl, setImgUrl] = useState(defaultImage);
@@ -43,12 +45,30 @@ function ImagePickerModal(props) {
           </Tab.Pane>
         )
       };
-    } if (tab.name && Array.isArray(tab.images)) {
+    } 
+
+    if (typeof tab === 'string' && tab === 'video' && playerData) {
+      return {
+        menuItem: 'Capture in Video',
+        render: () => (
+          <Tab.Pane>
+            <VideoTab imgUrl={imgUrl} setImgUrl={setImgUrl} {...playerData} />
+          </Tab.Pane>
+        )
+      };
+    }
+    
+    if (tab.name && Array.isArray(tab.images)) {
       return {
         menuItem: tab.name,
         render: () => (
           <Tab.Pane>
-            <ImagesTab images={tab.images} imgUrl={imgUrl} setImgUrl={setImgUrl} />
+            <ImagesTab 
+              images={tab.images}
+              description={tab.description}
+              imgUrl={imgUrl}
+              setImgUrl={setImgUrl} 
+            />
           </Tab.Pane>
         )
       };
@@ -89,7 +109,9 @@ ImagePickerModal.propTypes = {
       /** The name of the tab */
       name: PropTypes.string,
       /** The images to be shown in the tab */
-      images: PropTypes.arrayOf(PropTypes.string)
+      images: PropTypes.arrayOf(PropTypes.string),
+      /** Discription of the tab */
+      description: PropTypes.node,
     })
   ])),
 

@@ -20,6 +20,7 @@ class EPubStateManager extends StateController {
     this.currChIndex = initialState.currChIndex;
     this.navId = initialState.navId;
     this.showNav = initialState.showNav;
+    this.imgPickerData = initialState.imgPickerData;
     this.playerData = initialState.playerData;
     this.showPreview = initialState.showPreview;
     this.showFileSettings = initialState.showFileSettings;
@@ -40,6 +41,7 @@ class EPubStateManager extends StateController {
       setSaved,
       setNavId,
       setShowNav,
+      setImgPickerData,
       setPlayerData,
       setShowPreview,
       setShowFileSettings,
@@ -58,6 +60,7 @@ class EPubStateManager extends StateController {
       setSaved,
       setNavId,
       setShowNav,
+      setImgPickerData,
       setPlayerData,
       setShowPreview,
       setShowFileSettings,
@@ -104,6 +107,10 @@ class EPubStateManager extends StateController {
 
   setNavId(navId) {
     this.setState('setNavId', 'navId', navId);
+  }
+
+  setImgPickerData(imgPickerData) {
+    this.setState('setImgPickerData', 'imgPickerData', imgPickerData);
   }
 
   setPlayerData(playerData) {

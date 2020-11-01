@@ -15,30 +15,32 @@ function UploadTab(props) {
 
   return (
     <div className="ct-img-picker-con">
-      <div className="ct-img-picker-imgs" data-scroll>
-        <div className="w-100">
-          <div className="w-100 mb-3 pr-3">
-            <CTUploadButton
-              fluid
-              accept="image/*"
-              icon="add_a_photo"
-              onFileChange={onUpload}
-            >
-              Browse Images
-            </CTUploadButton>
-          </div>
+      <div className="ct-img-picker-imgs-con">
+        <div className="ct-img-picker-imgs">
+          <div className="w-100">
+            <div className="w-100 mb-3 pr-3">
+              <CTUploadButton
+                fluid
+                accept="image/*"
+                icon="add_a_photo"
+                onFileChange={onUpload}
+              >
+                Browse Images
+              </CTUploadButton>
+            </div>
 
-          <hr />
+            <hr />
 
-          <div className="w-100 pr-3">
-            <CTInput
-              label="Insert Image by URL"
-              placeholder="Image URL"
-              onChange={({ target: { value }}) => setImgUrl(value)}
-            />
+            <div className="w-100 pr-3">
+              <CTInput
+                label="Insert Image by URL"
+                placeholder="Image URL"
+                onChange={({ target: { value }}) => setImgUrl(value)}
+              />
+            </div>
           </div>
+          
         </div>
-        
       </div>
       <ImagePreview imgUrl={imgUrl} />
     </div>

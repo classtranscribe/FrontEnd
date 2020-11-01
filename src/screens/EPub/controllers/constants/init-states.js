@@ -12,6 +12,7 @@ export const initialState = {
   saved: Constants.EpbSaved,
   navId: null,
   showNav: true,
+  imgPickerData: null,
   playerData: null,
   showPreview: false,
   showFileSettings: false,

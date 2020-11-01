@@ -6,8 +6,6 @@ import ChapterNewContent from './ChapterNewContent';
 function ChapterContent({
   id,
   content,
-  screenshots,
-  chapterScreenshots,
   onRemove,
   onTextChange,
   onImageChange,
@@ -17,11 +15,7 @@ function ChapterContent({
 
   return (
     <CTFragment>
-      <ChapterNewContent 
-        onInsert={onInsert}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-      />
+      <ChapterNewContent onInsert={onInsert} />
 
       {
         isTextContent ? (
@@ -34,8 +28,7 @@ function ChapterContent({
           <ChapterImage
             id={id}
             image={content}
-            screenshots={screenshots}
-            chapterScreenshots={chapterScreenshots}
+            enableChapterScreenshots
             onChooseImage={onImageChange}
             onRemoveImage={onRemove}
           />

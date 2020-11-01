@@ -5,11 +5,7 @@ import { ChapterTitle } from '../../../components';
 import ChapterContent from './ChapterContent';
 import ChapterNewContent from './ChapterNewContent';
 
-function ChapterInfo({
-  chapter,
-  screenshots,
-  chapterScreenshots,
-}) {
+function ChapterInfo({ chapter }) {
   const { id, title, contents } = chapter;
 
   const onSaveTitle = newTitle => {
@@ -54,8 +50,6 @@ function ChapterInfo({
           key={`ch-content-${id}-${index}`}
           index={index}
           content={content}
-          screenshots={screenshots}
-          chapterScreenshots={chapterScreenshots}
           onInsert={onInsert(index)}
           onRemove={onRemove(index)}
           onTextChange={onTextChange(index)}
@@ -63,11 +57,7 @@ function ChapterInfo({
         />
       ))}
 
-      <ChapterNewContent
-        onInsert={onInsert(contents.length)}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-      />
+      <ChapterNewContent onInsert={onInsert(contents.length)} />
     </CTFragment>
   );
 }

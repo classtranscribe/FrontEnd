@@ -8,8 +8,6 @@ import ChapterNewContent from './ChapterNewContent';
 function SubChapterItem({
   subChapter,
   subChapterIndex,
-  screenshots,
-  chapterScreenshots
 }) {
   const { title, id, contents } = subChapter;
 
@@ -55,8 +53,6 @@ function SubChapterItem({
           key={`sch-content-${id}-${index}`}
           index={index}
           content={content}
-          screenshots={screenshots}
-          chapterScreenshots={chapterScreenshots}
           onInsert={onInsert(index)}
           onRemove={onRemove(index)}
           onTextChange={onTextChange(index)}

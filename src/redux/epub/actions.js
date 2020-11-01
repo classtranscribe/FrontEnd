@@ -10,6 +10,7 @@ import {
   SET_SAVED,
   SET_NAV_ID,
   SET_SHOW_NAV,
+  SET_IMG_PICKER_DATA,
   SET_PLAYER_DATA,
   SET_SHOW_PREVIEW,
   SET_SHOW_FILE_SETTINGS,
@@ -30,6 +31,7 @@ export const setSaved = createAction(SET_SAVED);
 export const setNavId = createAction(SET_NAV_ID);
 export const setShowNav = createAction(SET_SHOW_NAV);
 
+export const setImgPickerData = createAction(SET_IMG_PICKER_DATA);
 export const setPlayerData = createAction(SET_PLAYER_DATA);
 export const setShowPreview = createAction(SET_SHOW_PREVIEW);
 export const setShowFileSettings = createAction(SET_SHOW_FILE_SETTINGS);

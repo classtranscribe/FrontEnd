@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
-import ImagePicker from '../ImagePicker';
+import { epub } from '../../controllers';
 import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';
@@ -18,24 +18,16 @@ function ChapterImage({
   image = {},
   disableDescription,
   disableImagePicker,
-  screenshots = [],
-  chapterScreenshots = [],
+  enableChapterScreenshots,
   onChooseImage,
   onRemoveImage
 }) {
   const { alt, src, description } = image;
 
-  const [pickImg, setPickImage] = useState(false);
-
-  const openImagePicker = () => setPickImage(true);
-  const closeImagePicker = () => setPickImage(false);
-
   const onSave = (newImage) => {
     if (onChooseImage) {
       onChooseImage(newImage);
     }
-
-    closeImagePicker();
   };
 
   const handleImageChange = (imgLike) => {
@@ -45,17 +37,30 @@ function ChapterImage({
   const onSrcChange = (val) => {
     if (val !== src) handleImageChange({ src: val });
   };
+
   const onAltChange = (val) => {
     if (val !== alt) handleImageChange({ alt: val });
   };
+
   const onDescriptionChange = (val) => {
     if (val !== description) handleImageChange({ description: val });
   };
 
-  useEffect(() => {
-    if (pickImg) {
-      setPickImage(false);
+  const openImagePicker = () => {
+    const epubData = epub.data.data;
+    const imgData = {
+      screenshots: epubData.images,
+      onSave: onSrcChange,
+      defaultImage: src
+    };
+    if (enableChapterScreenshots) {
+      imgData.chapterScreenshots = epubData.chapters[epub.state.currChIndex].allImagesWithIn;
     }
+    epub.state.setImgPickerData(imgData);
+  };
+
+  useEffect(() => {
+    epub.state.setImgPickerData(null);
   }, [image]);
 
   const imgConClasses = cx('ct-epb', 'ch-img-con');
@@ -88,15 +93,6 @@ function ChapterImage({
       ) : (
         <NewImageButton onClick={openImagePicker} />
       )}
-
-      <ImagePicker
-        show={pickImg}
-        onSave={onSrcChange}
-        onClose={closeImagePicker}
-        defaultImage={src}
-        screenshots={screenshots}
-        chapterScreenshots={chapterScreenshots}
-      />
     </>
   );
 }
