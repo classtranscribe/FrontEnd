@@ -1,20 +1,31 @@
-#trans-time-btn {
-  text-transform: none;
-  position: absolute;
-  z-index: 2;
-  bottom: 0.1em;
-  margin: 0 0 0 0;
-  color: var(--ct-btn-color);
-  border-radius: 15px;
-  // background-color: white !important;
+.trans-time-btn {
+  position: absolute !important;
+  z-index: 2 !important;
+  margin: 0 0 0 -1rem !important;
+  color: var(--ct-btn-color) !important;
+  border-radius: 25px !important;
+  // background-color: red !important;
+  // padding: 6px 0 6px 0 !important;
   &:focus {
-   outline: none
+   outline: none !important
   }
 }
+  .trans-time-edit {
+    display:flex;
+    width: 7rem;
+    position: flex;
+    margin: 0 0 0 0rem;
+    padding: 0 0 0 0;
+  }
+  .trans-time-fraction-edit {
+width: 3rem;
+border: 0;
+  outline: 0;
+  font-size: 13px;
+  padding-bottom:0.1rem;
+  }
+  #time-modifier {
+    // display: none;
+    z-index: 3;
+  }
 
-#trans-time-edit {
-  width: 10em;
-  position: flex;
-  margin: 0 0rem 0 4.6rem;
-  
-}

@@ -2,35 +2,35 @@ import React, { useState, useEffect, memo, useMemo } from 'react';
 import './index.scss';
 import _ from 'lodash';
 import { util, api } from 'utils';
-import { CTFragment } from 'layout';
+import { CTFragment, CTSelect } from 'layout';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { VariableSizeList as List , areEqual } from "react-window";
+import { FixedSizeList as List, areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
+import memoize from "memoize-one";
+import { LanguageConstants } from 'components/CTPlayer'
 import { connectWithRedux } from '../../../controllers/trans';
 import TransTime from "../TransTime"
 import TransText from "../TransText"
-
 
 function TransTable({
   media = undefined,
   transcriptions,
   language,
+  setLanguage,
   setVideoTime,
-  setTranscriptions }) {
+  setTranscriptions,
+  editingIndex,
+  setEditingIndex,
+  editing }) {
   const [captions, setCaptions] = useState([])
-  const [time, setTime] = useState(30)
-  const handleVideoTimeChange =
-    () => {
-      setVideoTime(time)
-      setTime(time + 0.01)
-    }
+
   const createRow = (id, operations, begin, end, text) => {
     return { id, operations, begin, end, text };
   }
@@ -75,64 +75,113 @@ function TransTable({
     // console.log(transcriptions)
     // console.log(captions)
   }, [captions])
-  // 
-  const tableRow = memo(({ index, style, data: { columns, items } }) => {
+
+  useEffect(() => {
+    // console.log(editing);
+
+  }, [editing])
+  const tableRow = ({ index, style, data: { columns, items } }) => {
     const item = items[index];
     return (
-      <TableRow component="div" style={style} className={`msp-table-row row${index}`}>
-        {columns.map((column, colIndex) => {
-          return (
-            <TableCell
-              className={`msp-table-cell cell${index}`}
-              key={item.id + colIndex}
-              component="div"
-              variant="body"
-              style={{
-                borderBottom: 0
-              }}
-            >
-              {colIndex === 2 ?
-                <TransText text={item[column.dataKey]} index={index} /> :
-                <TransTime time={item[column.dataKey]} index={index} />}
-            </TableCell>
-          );
-        })}
-      </TableRow>
+      <>
+        <TableRow
+          component="div"
+          style={{
+          ...style,
+        }}
+          // onClick={() => {
+          //   setEditingIndex(index)
+          // }}
+          className="msp-table-row"
+        >
+          {columns.map((column, colIndex) => {
+            return (
+              <TableCell
+                className={`msp-table-cell cell${index}`}
+                key={item.id + colIndex}
+                component="div"
+                variant="body"
+                style={{
+                  borderBottom: 0
+                }}
+              >
+                {colIndex === 2 ?
+                  <TransText text={item[column.dataKey]} index={index} /> :
+                  <TransTime time={item[column.dataKey]} index={index} />}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+        {/* <TableRow component="div" style={style} className="msp-new-row">
+          {columns.map((column, colIndex) => {
+            return (
+              <TableCell
+                className={`msp-table-cell cell${index}`}
+                key={item.id + colIndex}
+                component="div"
+                variant="body"
+                style={{
+                  borderBottom: 0
+                }}
+              >
+                {colIndex === 2 ?
+                  <TransText text={""} index={index} /> :
+                  <TransTime time={item[column.dataKey]} index={index} />}
+              </TableCell>
+            );
+          })}
+        </TableRow> */}
+      </>
     );
-  }, areEqual)
+  }
 
   const itemKey = (index, data_) => data_.items[index].id;
-  const createItemData = (columns, data_) => ({
+  const createItemData = memoize((columns, data_) => ({
     columns,
     items: data_
-  });
+  }));
   // id, operations, begin, end, text 
   const columns = [
     {
       label: "begin",
       dataKey: "begin",
-      width: 120
     },
     {
       label: "end",
       dataKey: "end",
-      width: 120
     },
     {
       label: "text",
-      dataKey: "text",
-      width: 320
+      dataKey: "text"
     },
   ];
 
   const itemData = createItemData(columns, data);
-
+  const handleSelect = ({ target: { value } }) => setLanguage(value);
   return (
     <CTFragment id="msp-t-table-con" data-scroll>
+      {/* <CTSelect
+        value={language}
+        onChange={handleSelect}
+        options={LanguageConstants.LanguageOptions}
+      ></CTSelect> */}
       <Table id="msp-trans-table">
         <TableHead component="div">
-          <Button className="header-button" startIcon={<SaveIcon />}>Save</Button>
-          <Button className="header-button" startIcon={<CancelIcon />}>Cancel</Button>
+          <Button
+            id="header-button-save"
+            // onClick={() => {
+            //   createRow(
+            //     data.length,
+            //     <div />,
+            //     captions[data.length - 1].begin,
+            //     captions[data.length - 1].end,
+            //     ""
+            //   )
+            // }}
+            startIcon={<SaveIcon />}
+          >Save
+          </Button>
+          <Button id="header-button-cancel" startIcon={<CancelIcon />}>Cancel</Button>
         </TableHead>
         <TableBody component="div">
           <AutoSizer>
@@ -142,7 +191,7 @@ function TransTable({
                 height={height}
                 width={width}
                 itemCount={data.length}
-                itemSize={() => { return 50 }}
+                itemSize={45}
                 itemKey={itemKey}
                 itemData={itemData}
               >
@@ -162,10 +211,15 @@ export default connectWithRedux(
   TransTable,
   [
     'transcriptions',
-    'language'],
+    'language',
+    'editingIndex',
+    'editing'
+  ],
   [
     'setVideoTime',
-    'setTranscriptions'
+    'setTranscriptions',
+    'setLanguage',
+    'setEditingIndex'
   ],
   ['media']
 );

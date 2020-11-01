@@ -92,6 +92,7 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1",
+    "react-simple-timefield": "^3.2.3",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
     "react-with-direction": "^1.3.1",
