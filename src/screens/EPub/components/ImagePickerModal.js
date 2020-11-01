@@ -28,6 +28,8 @@ function ImagePickerModal({ imgPickerData, ...playerData }) {
   const imgPickerProps = {
     show,
     tabs,
+    sourceType: epub.data.data.sourceType, 
+    sourceId: epub.data.data.sourceId,
     onClose: () => epub.state.setImgPickerData(null),
     ...imgPickerData,
     playerData

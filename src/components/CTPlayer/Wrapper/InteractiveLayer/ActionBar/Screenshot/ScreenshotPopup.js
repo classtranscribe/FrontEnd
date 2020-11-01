@@ -9,6 +9,7 @@ function ScreenshotPopup(props) {
     height,
     imgBlob,
     onClose,
+    actionElement,
     downloadScreenshot,
     copyScreenshotLink
   } = props;
@@ -46,37 +47,44 @@ function ScreenshotPopup(props) {
         <div className="ctp share-image">
           <img src={imgBlob.url} alt="Captured screenshot" />
         </div>
+
         <div className="ctp ct-d-r-end pb-2 pt-2">
-          <Button
-            compact
-            round
-            icon={copied ? 'check' : null}
-            color="white"
-            onClick={handleCopy}
-            loading={copying}
-          >
-            {copied ? 'COPIED' : 'COPY LINK'}
-          </Button>
-          <Button
-            compact
-            round
-            // icon="get_app"
-            color="black"
-            onClick={downloadScreenshot}
-            classNames="ml-2"
-            autoFocus
-          >
-            DOWNLOAD
-          </Button>
-          <Button
-            compact
-            round
-            color="black"
-            onClick={onClose}
-            classNames="ml-2"
-          >
-            CANCEL
-          </Button>
+          {
+            typeof actionElement === 'function' ? actionElement(imgBlob) : (
+              <>
+                <Button
+                  compact
+                  round
+                  icon={copied ? 'check' : null}
+                  color="white"
+                  onClick={handleCopy}
+                  loading={copying}
+                >
+                  {copied ? 'COPIED' : 'COPY LINK'}
+                </Button>
+                <Button
+                  compact
+                  round
+                  // icon="get_app"
+                  color="black"
+                  onClick={downloadScreenshot}
+                  classNames="ml-2"
+                  autoFocus
+                >
+                  DOWNLOAD
+                </Button>
+                <Button
+                  compact
+                  round
+                  color="black"
+                  onClick={onClose}
+                  classNames="ml-2"
+                >
+                  CANCEL
+                </Button>
+              </>
+            )
+          }
         </div>
       </div>
     </ClickAwayListener>

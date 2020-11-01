@@ -4,7 +4,7 @@ import ActionButton from '../../ActionButton';
 import ScreenshotPopup from './ScreenshotPopup';
 
 function Screenshot(props) {
-  const { player } = props;
+  const { player, actionElement } = props;
   const [screenshot, setScreenshot] = useState(null); // null | { url, blob }
 
   const handleScreenshotCaptured = (url, blob) => {
@@ -44,6 +44,7 @@ function Screenshot(props) {
         open={popupOpened}
         height={height}
         imgBlob={screenshot}
+        actionElement={actionElement}
         onClose={handleClosePopup}
         downloadScreenshot={handleDownloadScreenshot}
         copyScreenshotLink={handleCopyScreenshotLink}

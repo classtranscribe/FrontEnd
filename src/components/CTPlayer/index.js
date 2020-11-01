@@ -11,7 +11,10 @@ export {
   /** Structs */
   Language,
   VideoNode,
-  CaptionStyle
+  CaptionStyle,
+  _createImage,
+  _decodeScreenshotPath,
+  _encodeScreenshotPath
 } from './controllers';
 
 function CTPlayer(props) {
@@ -67,6 +70,9 @@ CTPlayer.propTypes = {
 
   /** Allow build-in screenshot function */
   allowScreenshot: PropTypes.bool,
+
+  /** A function that returns Action Element for screenshot window, will be passed in ({ blob, url }) */
+  screenshotActionElement: PropTypes.func,
 
   /** Source for the captured image, default as `{ type: Media, id: mediaId }` */
   screenshotSource: PropTypes.shape({

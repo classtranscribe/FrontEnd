@@ -1,15 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CTInput, CTUploadButton } from 'layout';
+import { _createImage } from 'components/CTPlayer';
+import { prompt } from 'utils';
 import ImagePreview from './ImagePreview';
 
-function UploadTab(props) {
-  const { imgUrl, setImgUrl } = props;
+export async function _uploadImageFile(imgFile, sourceType, sourceId) {
+  prompt.addOne({ text: 'Uploading the image...', timeout: 2000 });
+  const imgData = await _createImage(imgFile, sourceType, sourceId);
+  return imgData;
+};
 
-  const onUpload = (files) => {
+function UploadTab(props) {
+  const { imgUrl, setImgUrl, sourceType, sourceId } = props;
+
+  const onUpload = async (files) => {
     if (files[0]) {
-      let url = URL.createObjectURL(files[0]);
-      setImgUrl(url);
+      const imgData = await _uploadImageFile(files[0], sourceType, sourceId);
+      if (!imgData) {
+        return;
+      }
+
+      setImgUrl(imgData.imageFile.path);
     }
   };
 
@@ -29,7 +41,7 @@ function UploadTab(props) {
               </CTUploadButton>
             </div>
 
-            <hr />
+            {/* <hr />
 
             <div className="w-100 pr-3">
               <CTInput
@@ -37,7 +49,7 @@ function UploadTab(props) {
                 placeholder="Image URL"
                 onChange={({ target: { value }}) => setImgUrl(value)}
               />
-            </div>
+            </div> */}
           </div>
           
         </div>

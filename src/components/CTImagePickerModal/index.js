@@ -20,14 +20,16 @@ function ImagePickerModal(props) {
     onClose,
     tabs = [],
     defaultImage,
+    sourceType, 
+    sourceId,
     playerData
   } = props;
 
   const [imgUrl, setImgUrl] = useState(defaultImage);
 
-  const onSaveImage = () => {
+  const onSaveImage = (url) => {
     if (onSave) {
-      onSave(imgUrl);
+      onSave(url || imgUrl);
     }
   };
 
@@ -41,7 +43,12 @@ function ImagePickerModal(props) {
         menuItem: 'Upload',
         render: () => (
           <Tab.Pane>
-            <UploadTab imgUrl={imgUrl} setImgUrl={setImgUrl} />
+            <UploadTab
+              imgUrl={imgUrl}
+              setImgUrl={setImgUrl}
+              sourceType={sourceType}
+              sourceId={sourceId}
+            />
           </Tab.Pane>
         )
       };
@@ -52,7 +59,12 @@ function ImagePickerModal(props) {
         menuItem: 'Capture in Video',
         render: () => (
           <Tab.Pane>
-            <VideoTab imgUrl={imgUrl} setImgUrl={setImgUrl} {...playerData} />
+            <VideoTab
+              onSaveImage={onSaveImage}
+              sourceType={sourceType}
+              sourceId={sourceId}
+              {...playerData}
+            />
           </Tab.Pane>
         )
       };
@@ -120,6 +132,10 @@ ImagePickerModal.propTypes = {
 
   /** callback on close the modal */
   onClose: PropTypes.func,
+
+  sourceType: PropTypes.number, 
+  sourceId: PropTypes.string,
+  playerData: PropTypes.any
 };
 
 export default ImagePickerModal;
