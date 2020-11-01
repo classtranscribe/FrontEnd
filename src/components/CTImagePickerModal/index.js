@@ -28,8 +28,11 @@ function ImagePickerModal(props) {
   const [imgUrl, setImgUrl] = useState(defaultImage);
 
   const onSaveImage = (url) => {
-    if (onSave) {
-      onSave(url || imgUrl);
+    if (!onSave) return;
+    if (typeof url === 'string') {
+      onSave(url);
+    } else {
+      onSave(imgUrl);
     }
   };
 

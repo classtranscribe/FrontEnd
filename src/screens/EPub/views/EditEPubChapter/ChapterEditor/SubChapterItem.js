@@ -36,7 +36,7 @@ function SubChapterItem({
   
   return (
     <CTFragment id={epub.id.schID(id)} className="mt-5">
-      <CTText muted className="pl-1">Sub-Chapter {subChapterIndex + 1}</CTText>
+      <CTText muted className="pl-1">Sub-Chapter {subChapterIndex + 1}: {title}</CTText>
       <ChapterTitle
         id={epub.id.schTitleID(id)}
         value={title}
