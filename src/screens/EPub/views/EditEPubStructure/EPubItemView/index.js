@@ -77,7 +77,7 @@ function EPubItemView({
         </CTFragment>
 
         <CTParagraph fontSize="14px">
-          {item.text}
+          {item.text || <i className="text-muted">No Transcriptions</i>}
         </CTParagraph>
       </CTFragment>
     </CTFragment>

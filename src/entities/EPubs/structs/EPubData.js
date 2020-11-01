@@ -104,15 +104,6 @@ export default class EPubData {
     }
   }
 
-  static create(rawEPubData, data) {
-    return new EPubData({
-      chapters: _buildEPubDataFromArray(rawEPubData),
-      ...data
-    });
-  }
-
-  static __buildEPubDataFromArray = _buildEPubDataFromArray;
-
   set id(id) {
     this.__data__.id = id;
   }
@@ -299,4 +290,34 @@ export default class EPubData {
     
     return subChapter;
   }
+
+  static create(rawEPubData, data, copyChapterStructure) {
+    return new EPubData({
+      ...data,
+      chapters: copyChapterStructure 
+              ? EPubData.copyChapterStructure(rawEPubData, data.chapters)
+              : _buildEPubDataFromArray(rawEPubData)
+    });
+  }
+
+  static copyChapterStructure(rawEPubData, chapters) {
+    let lastIdx = 0;
+    return _.map(chapters, (chapter) => {
+      let chItems = rawEPubData.slice(lastIdx, lastIdx + chapter.items.length);
+      lastIdx += chapter.items.length;
+      let newSubChapters = _.map(chapter.subChapters, (subChapter) => {
+        let schItems = rawEPubData.slice(lastIdx, lastIdx + subChapter.items.length);
+        lastIdx += subChapter.items.length;
+        return new EPubSubChapterData({ title: subChapter.title, items: schItems });
+      });
+
+      return new EPubChapterData({
+        title: chapter.title,
+        items: chItems,
+        subChapters: newSubChapters
+      })
+    });
+  }
+
+  static __buildEPubDataFromArray = _buildEPubDataFromArray;
 }

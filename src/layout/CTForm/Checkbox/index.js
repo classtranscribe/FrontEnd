@@ -77,7 +77,10 @@ Checkbox.propTypes = {
   error: PropTypes.bool,
 
   /** The checkbox can be diabled */
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+
+  /** call back when value changed */
+  onChange: PropTypes.func
 };
 
 Checkbox.useStyles = useStyles;

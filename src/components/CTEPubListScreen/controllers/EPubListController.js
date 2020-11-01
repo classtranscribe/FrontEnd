@@ -20,6 +20,7 @@ class EPubListController {
   }
 
   async createEPub(sourceType, sourceId, data) {
+    prompt.addOne({ text: 'Creating ePub...', timeout: 4000 });
     const rawEPubData = await this.getRawEPubData(sourceType, sourceId, data.language);
     if (rawEPubData === ErrorTypes.NotFound404) {
       prompt.error('Failed to create the ePub.');
@@ -35,13 +36,8 @@ class EPubListController {
     // console.log(ePubData);
 
     // POST the data
-    let newEPubData = null;
-    try {
-      const resp = await api.createEPub(ePubData);
-      newEPubData = resp.data;
-      // console.log(resp);
-    } catch (error) {
-      console.error(error);
+    const newEPubData = await this.postEPubData(ePubData);
+    if (!newEPubData) {
       prompt.error('Failed to create the ePub.');
       return null;
     }
@@ -49,6 +45,17 @@ class EPubListController {
     uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure));
 
     return newEPubData;
+  }
+
+  async postEPubData(ePubData) {
+    try {
+      const resp = await api.createEPub(ePubData);
+      return resp.data;
+      // console.log(resp);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   async getRawEPubData(sourceType, sourceId, language) {
@@ -127,4 +134,5 @@ class EPubListController {
   }
 }
 
-export default new EPubListController();
+export default EPubListController;
+export const EPubListCtrl = new EPubListController();

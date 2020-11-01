@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt, links, timestr, ARRAY_INIT, uurl, elem } from 'utils';
+import { EPubData } from 'entities/EPubs';
+import { LanguageConstants } from 'components/CTPlayer';
+import { api, prompt, links, timestr, uurl, elem, ARRAY_INIT } from 'utils';
+import { EPubListCtrl } from 'components/CTEPubListScreen/controllers/EPubListController';
 import Constants from './constants/EPubConstants';
 import { epubState } from './EPubStateManager';
 import { epubData } from './EPubDataController';
@@ -9,6 +12,7 @@ import { epubData } from './EPubDataController';
 class EPubController {
   constructor() {
     this.ePubId = null;
+    this.languages = [];
   }
 
   async loadEPubPageData(ePubId) {
@@ -40,8 +44,37 @@ class EPubController {
 
     if (_epub.sourceType === SourceTypes.Media) {
       const media = await this.getMediaById(_epub.sourceId);
+      this.languages = EPubListCtrl.getLanguages(_epub.sourceType, media);
       epubState.setMedia(media);
     }
+  }
+
+  async duplicateEPub(newData, copyChapterStructure) {
+    prompt.addOne({ text: 'Copying ePub data...', timeout: 4000 });
+    const oldData = epubState.epub;
+    const newLanguage = newData.language;
+    const isDifferentLanguage = newLanguage !== epubState.epub.language;
+    if (!newData.chapters) {
+      newData.chapters = epubState.chapters;
+    }
+
+    if (isDifferentLanguage) {
+      const rawEPubData = await EPubListCtrl.getRawEPubData(
+        oldData.sourceType, oldData.sourceId, newLanguage
+      );
+
+      newData = EPubData.create(rawEPubData, newData, copyChapterStructure).toObject();
+    }
+
+    delete newData.id;
+
+    const newEPubData = await EPubListCtrl.postEPubData(newData);
+    if (!newEPubData) {
+      prompt.error('Failed to create the ePub.');
+      return;
+    }
+
+    uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure));
   }
 
   handleHashValues() {

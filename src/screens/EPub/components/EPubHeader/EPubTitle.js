@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CTHeading, CTFragment } from 'layout';
 import { epub, connectWithRedux } from '../../controllers';
+import EPubCopyModal from '../EPubCopyModal';
 import SaveStatusLabel from './SaveStatusLabel';
 import { _makeTBtn } from './ToolButton';
 
 function EPubTitle(props) {
   const { title } = props.epub;
+
+  const [showCpyMdl, setShowCpyMdl] = useState(false);
+  const onOpenCpyMdl = () => setShowCpyMdl(true);
+  const onCloseCpyMdl = () => setShowCpyMdl(false);
 
   const onOpenSettings = () => epub.state.setShowFileSettings(true);
 
@@ -13,7 +18,7 @@ function EPubTitle(props) {
     'edit', 'Edit file', null, onOpenSettings, false, true
   );
   const copyBtn = _makeTBtn(
-    'file_copy', 'Make a copy', null, null, false, true
+    'file_copy', 'Make a copy', null, onOpenCpyMdl, false, true
   );
 
   return (
@@ -26,6 +31,8 @@ function EPubTitle(props) {
         {copyBtn}
         <SaveStatusLabel />
       </CTFragment>
+
+      <EPubCopyModal open={showCpyMdl} onClose={onCloseCpyMdl} />
     </CTFragment>
   );
 }

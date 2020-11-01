@@ -13,3 +13,4 @@ export { default as MDEditorModal } from './MDEditorModal';
 export { default as PlayerModal } from './PlayerModal';
 export { default as PreviewModal } from './PreviewModal';
 export { default as EPubFileInfoModal } from './EPubFileInfoModal';
+export { default as EPubCopyModal } from './EPubCopyModal';

@@ -29,6 +29,11 @@ class EPubChapterLikeData {
   };
 
   constructor(data, resetText = true, getTitle) {
+    if (data instanceof EPubChapterLikeData) {
+      this.__data__ = data.__data__;
+      return;
+    }
+
     let {
       id,
       title,

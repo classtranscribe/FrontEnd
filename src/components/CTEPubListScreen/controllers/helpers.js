@@ -3,7 +3,8 @@ import { _buildID } from 'utils';
 import { LanguageConstants } from '../../CTPlayer';
 
 export function _filterTrivalItems(epubData) {
-  return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
+  return [...epubData];
+  // return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
 }
 
 export function _parseRawEPubData(rawEPubData) {
