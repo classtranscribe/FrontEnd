@@ -52,7 +52,7 @@ function DownloadDropdown() {
     <>
       <ToolButton
         onClick={handleToggle}
-        shortcut="⌘D"
+        //shortcut="⌘D"
         label="Download"
         anchorRef={anchorRef}
         aria-haspopup="true"

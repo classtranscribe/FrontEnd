@@ -23,6 +23,10 @@ class EPubWithRedux extends React.Component {
     epub.ctrl.loadEPubPageData(id);
   }
 
+  componentWillUnmount() {
+    epub.shortcut.removeKeydownListener();
+  }
+
   render() {
     const { view, chapters, imgPickerData, playerData, media } = this.props;
     const loading = epub.ctrl.isLoading(this.props.epub, chapters);
@@ -40,7 +44,7 @@ class EPubWithRedux extends React.Component {
     const fileSettingsModal = makeEl(EPubFileInfoModal);
 
     return (
-      <CTFragment as="main" id="ct-epb-main" loading={loading}>
+      <CTFragment as="main" id={epub.id.EPubMainID} loading={loading}>
         {headerElement}
 
         <CTFragment id="ct-epb-view-con">

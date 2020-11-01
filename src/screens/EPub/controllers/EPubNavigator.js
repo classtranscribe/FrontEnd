@@ -66,10 +66,13 @@ class EPubNavigator {
   navigateChapter = (chId) => {
     if (epubState.view === Constants.EpbEditChapter) {
       let chIdx = _.findIndex(epubState.chapters, { id: chId });
-      if (chIdx >= 0) {
+      if (chIdx < 0) return;
+      elem.scrollToTop(ID.EPubChapterListID);
+      if (chIdx !== epubState.currChIndex) {
         epubState.setCurrChIndex(chIdx);
-        epubState.setNavId(ID.chNavItemID(chId));
       }
+      epubState.setNavId(ID.chNavItemID(chId));
+      elem.scrollToTop(ID.EPubChapterListID);
     } else {
       this.scrollToCh(chId);
     }

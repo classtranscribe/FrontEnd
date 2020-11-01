@@ -22,7 +22,14 @@ function EditEPubChapter() {
           <ChapterEditor />
         </CTFragment>
 
-        <CTFragment className="ct-epb ech-tool-bar" sticky h100 dFlexCol justConBetween>
+        <CTFragment
+          className="ct-epb ech-tool-bar"
+          sticky
+          h100
+          dFlexCol
+          scrollY
+          justConBetween
+        >
           <Instruction />
           <Toolbuttons />
         </CTFragment>

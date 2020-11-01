@@ -6,7 +6,7 @@ const _buildEpbId = (prefix, id) => _buildID(prefix, id, '.');
  */
 export default class EPubIDs {
   // ID
-  static EPubGeneratorContainerID = 'ct-epb-con';
+  static EPubMainID = 'ct-epb-main';
   static EPubChapterListID = 'ct-epb-ch-list';
   static EPubPlayerModal = 'ct-epb-player-modal';
 

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CTFragment } from 'layout';
-import { elem } from 'utils/use-elem';
-import { epub, connectWithRedux } from '../../../controllers';
+import { connectWithRedux } from '../../../controllers';
 import ChapterInfo from './ChapterInfo';
 import SubChapterItem from './SubChapterItem';
 import './index.scss';
@@ -9,10 +8,6 @@ import './index.scss';
 function ChapterEditor({ chapters, currChIndex }) {
   const currChapter = chapters[currChIndex] || {};
   const { subChapters = [] } = currChapter;
-
-  useEffect(() => {
-    elem.scrollToTop(epub.id.EPubChapterListID);
-  }, [currChIndex]);
 
   return (
     <CTFragment className="ct-epb ech ch-con" shadowed>

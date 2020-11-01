@@ -2,12 +2,12 @@ import _ from 'lodash';
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
 import { EPubData } from 'entities/EPubs';
-import { LanguageConstants } from 'components/CTPlayer';
 import { api, prompt, links, timestr, uurl, elem, ARRAY_INIT } from 'utils';
 import { EPubListCtrl } from 'components/CTEPubListScreen/controllers/EPubListController';
 import Constants from './constants/EPubConstants';
 import { epubState } from './EPubStateManager';
 import { epubData } from './EPubDataController';
+import { shortcut } from './ShortcutController';
 
 class EPubController {
   constructor() {
@@ -47,6 +47,8 @@ class EPubController {
       this.languages = EPubListCtrl.getLanguages(_epub.sourceType, media);
       epubState.setMedia(media);
     }
+
+    shortcut.addKeydownListener();
   }
 
   async duplicateEPub(newData, copyChapterStructure) {

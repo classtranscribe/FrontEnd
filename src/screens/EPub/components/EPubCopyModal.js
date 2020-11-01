@@ -96,11 +96,11 @@ function EPubCopyModal({ open, onClose, ...props }) {
 
         <CTFormHeading padding="0" margin={[10, 0]}>Language</CTFormHeading>
 
-        <CTFormHelp title="Copy ePub into a different language">
-          When copying this ePub in a different language, 
-          you can choose to copy your current chapter structure, 
-          but the content will not be translated, 
-          and some of the chapter contents might be lost since.
+        <CTFormHelp title="Copy ePub with a different language">
+          When copying this ePub with a different language, 
+          you are able to copy your current chapter structure based on timestamps, 
+          but the texts will not be translated, 
+          and some of the chapter contents might be lost.
         </CTFormHelp>
 
         <CTFormRow>

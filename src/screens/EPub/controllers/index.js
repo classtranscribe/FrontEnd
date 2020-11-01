@@ -5,6 +5,7 @@ import EPubDownloadController from './EPubDownloadController';
 import { epubState } from './EPubStateManager';
 import { epubCtrl } from './EPubController';
 import { epubData } from './EPubDataController';
+import { shortcut } from './ShortcutController';
 
 export const epub = {
   const: EPubConstants,
@@ -14,7 +15,8 @@ export const epub = {
   ctrl: epubCtrl,
   data: epubData,
   history: epubData.history,
-  nav: new EPubNavigator()
+  nav: new EPubNavigator(),
+  shortcut
 };
 
 export * from './utils';
