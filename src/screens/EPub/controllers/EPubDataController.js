@@ -4,6 +4,7 @@ import { EPubData, EPubChapterData, EPubSubChapterData, EPubImageData } from 'en
 import EPubHistoryManager from './EPubHistoryManager';
 import { epubState } from './EPubStateManager';
 import { saveCtrl } from './AutoSaveController';
+import { extractAudioDescription } from './utils';
 
 /**
  * The controller for handling the ePub data
@@ -25,6 +26,7 @@ class EPubDataController {
       saveCtrl.notifyOnce();
     }
     saveCtrl.save(data, timeout);
+    // console.log('AudioDescriptions', extractAudioDescription(this.data.chapters));
     return data;
   }
 
@@ -76,10 +78,6 @@ class EPubDataController {
       data.chapters,
       (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
     );
-  }
-
-  feed(mesg = 'Saved.') {
-    prompt.addOne({ text: mesg, timeout: 2000, position: 'left bottom' });
   }
 
   splitChapterFromChaptersItems(chapterIdx, itemIdx) {
@@ -324,7 +322,7 @@ class EPubDataController {
     let chapter = this.data.getChapter(epubState.currChIndex);
     chapter.setContent(contentIdx, value);
     this.updateAll('Update the chapter content');
-    this.feed();
+    this.__feed();
   }
 
   setChapterImageContent(contentIdx, value) {
@@ -335,7 +333,7 @@ class EPubDataController {
     let chapter = this.data.getChapter(epubState.currChIndex);
     chapter.insert(contentIdx, value);
     this.updateAll('Insert chapter content');
-    this.feed();
+    this.__feed();
   }
 
   insertChapterImageContent(contentIdx, value) {
@@ -356,7 +354,7 @@ class EPubDataController {
     let chapter = this.data.getChapter(epubState.currChIndex);
     chapter.remove(contentIdx);
     this.updateAll('Remove the chapter content');
-    this.feed('Removed.');
+    this.__feed('Removed.');
   }
 
   /// /////////////////////////////////////////////////////////////////////////
@@ -367,7 +365,7 @@ class EPubDataController {
     let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
     subChapter.setContent(contentIdx, value);
     this.updateAll('Update the sub-chapter content');
-    this.feed();
+    this.__feed();
   }
 
   setSubChapterImageContent(subChapterIdx, contentIdx, value) {
@@ -382,7 +380,7 @@ class EPubDataController {
     let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
     subChapter.insert(contentIdx, value);
     this.updateAll('Insert sub-chapter content');
-    this.feed();
+    this.__feed();
   }
 
   insertSubChapterImageContent(subChapterIdx, contentIdx, value) {
@@ -393,7 +391,11 @@ class EPubDataController {
     let subChapter = this.data.getSubChapter(epubState.currChIndex, subChapterIdx);
     subChapter.remove(contentIdx);
     this.updateAll('Remove the sub-chapter content');
-    this.feed('Removed.');
+    this.__feed('Removed.');
+  }
+
+  __feed(mesg = 'Saved.') {
+    prompt.addOne({ text: mesg, timeout: 2000, position: 'left bottom' });
   }
 }
 
