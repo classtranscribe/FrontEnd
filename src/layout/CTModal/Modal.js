@@ -28,6 +28,7 @@ function Modal(props) {
     onClose,
     darkMode,
     withCloseButton,
+    autoFocusOnCloseButton,
     transition,
     disableEscapeKeyDown,
     disableBackdropClick,
@@ -70,7 +71,12 @@ function Modal(props) {
               {
                 withCloseButton 
                 && 
-                <IconButton onClick={onClose} aria-label="close">
+                <IconButton
+                  onClick={onClose}
+                  autoFocus={autoFocusOnCloseButton} 
+                  aria-label="close"
+                  style={{ outline: 'none' }}
+                >
                   <i className="material-icons">close</i>
                 </IconButton>
               }
@@ -121,6 +127,9 @@ Modal.propTypes = {
 
   /** True if display a close button at the top */
   withCloseButton: PropTypes.bool,
+
+  /** True if auto focus on the close button */
+  autoFocusOnCloseButton: PropTypes.bool,
 
   /** if `true` add transitive effect */
   transition: PropTypes.bool,
