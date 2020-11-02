@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
-import { CTModal, CTFragment, useButtonStyles, CTInput, CTCheckbox, CTFormRow } from 'layout';
+import {
+  CTModal,
+  CTFragment,
+  useButtonStyles,
+  useCTConfirmation,
+  CTInput,
+  CTCheckbox,
+  CTFormRow
+} from 'layout';
 import { elem } from 'utils';
 import { epub, connectWithRedux } from '../controllers';
 import ChapterImage from './ChapterImage';
 
 function EPubFileInfoModal({ showFileSettings, ...props }) {
-  const { teal } = useButtonStyles();
+  const { teal, danger } = useButtonStyles();
 
   const [epubData, setEPubData] = useState(props.epub);
 
@@ -23,20 +31,33 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
 
   const canSave = epubData.title && epubData.filename && epubData.author;
 
-  const onSaveChanges = () => {
+  const handleSave = () => {
     const newEPubData = { ...epub.state.epub, ...epubData };
     epub.state.setEPub(newEPubData);
     epub.data.setEPubInfo(newEPubData);
     onClose();
   };
 
+  const handleDelete = () => {
+    epub.ctrl.deleteEPub();
+  };
+
+  const delConfirmation = useCTConfirmation('Are you sure to delete this ePub?', handleDelete);
+
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
       <Button 
+        variant
+        className={danger}
+        onClick={delConfirmation.onOpen}
+      >
+        Delete
+      </Button>
+      <Button 
         disabled={!canSave} 
         className={teal} 
-        variant="contained" 
-        onClick={onSaveChanges}
+        variant="contained"
+        onClick={handleSave}
       >
         Done
       </Button>
@@ -70,7 +91,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             placeholder="ePub Title"
             value={epubData.title}
             onChange={onInputChange('title')}
-            onReturn={onSaveChanges}
+            onReturn={handleSave}
             underlined
             required
           />
@@ -80,7 +101,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             placeholder="ePub Author"
             value={epubData.author}
             onChange={onInputChange('author')}
-            onReturn={onSaveChanges}
+            onReturn={handleSave}
             underlined
             required
           />
@@ -92,7 +113,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             placeholder="ePub Filename"
             value={epubData.filename}
             onChange={onInputChange('filename')}
-            onReturn={onSaveChanges}
+            onReturn={handleSave}
             underlined
             required
           />
@@ -105,6 +126,8 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             onChange={onPublishChange}
           />
         </CTFormRow>
+
+        {delConfirmation.element}
       </CTFragment>
     </CTModal>
   );

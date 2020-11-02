@@ -79,6 +79,16 @@ class EPubController {
     uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure));
   }
 
+  async deleteEPub() {
+    try {
+      await api.deleteEPub(this.ePubId);
+      window.close();
+    } catch (error) {
+      console.error(error);
+      prompt.error('Failed to delete the ePub.');
+    }
+  }
+
   handleHashValues() {
     const { view, h } = uurl.useHash();
     if (Constants.EPubViews.includes(view)) {
