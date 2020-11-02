@@ -33,8 +33,12 @@ function EPubToolbar({ view, chapters, ...props }) {
     'preview', 'Preview ePub', '⌘⇧P', openPreview, false, !isReadOnly
   );
 
-  const prefBtnEl = _makeTBtn('tune', 'Preference', 'XXX', null, false, true);
-  const shortcutBtnEl = _makeTBtn('keyboard', 'Shortcuts', 'XXX', null, false, true);
+  const prefBtnEl = _makeTBtn('tune', 'Preference', null, null, false, true);
+
+  const openShortcuts = () => epub.state.setShowShortcuts(true);
+  const shortcutBtnEl = _makeTBtn(
+    'keyboard', 'Keyboard Shortcuts', '⌘/', openShortcuts, false, true
+  );
   
 
   return (

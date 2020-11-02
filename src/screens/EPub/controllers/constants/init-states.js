@@ -16,5 +16,6 @@ export const initialState = {
   playerData: null,
   showPreview: false,
   showFileSettings: false,
-  showPrefSettings: false
+  showPrefSettings: false,
+  showShortcuts: false
 };

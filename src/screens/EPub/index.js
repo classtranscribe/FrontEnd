@@ -6,6 +6,7 @@ import {
   EPubHeader,
   PlayerModal,
   PreviewModal,
+  ShortcutModal,
   EPubFileInfoModal,
   ImagePickerModal
 } from './components';
@@ -41,6 +42,7 @@ class EPubWithRedux extends React.Component {
       ...playerData, open: Boolean(playerData) && media, media
     });
     const previewModal = makeEl(PreviewModal);
+    const shortcutModal = makeEl(ShortcutModal);
     const fileSettingsModal = makeEl(EPubFileInfoModal);
 
     return (
@@ -56,6 +58,7 @@ class EPubWithRedux extends React.Component {
         {imgPickerModal}
         {playerModal}
         {previewModal}
+        {shortcutModal}
         {fileSettingsModal}
       </CTFragment>
     );

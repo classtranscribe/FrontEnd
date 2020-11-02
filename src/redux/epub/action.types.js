@@ -16,6 +16,7 @@ export const SET_PLAYER_DATA = 'epb-set-player-data';
 export const SET_SHOW_PREVIEW = 'epb-set-show-preview';
 export const SET_SHOW_FILE_SETTINGS = 'epb-set-show-file-settings';
 export const SET_SHOW_PREF_SETTINGS = 'epb-set-show-pref-settings';
+export const SET_SHOW_SHORTCUTS = 'epb-set-show-shortcuts';
 
 export const RESET_STATES = 'epb-reset';
 

@@ -57,10 +57,14 @@ class ShortcutController {
       case 50: // 2
       case 51: // 3
         return this.onSwitchView(event, keyCode - 49);
+      case 66: // b
+        return this.onToggleNav(event);
       case 83: // s
         return this.onSave(event);
       case 90: // z
         return this.onUndo(event);
+      case 191: // /
+        return this.onOpenShortcuts(event);
       default:
         break;
     }
@@ -103,7 +107,29 @@ class ShortcutController {
   onPreview(e) {
     this.preventDefault(e);
     if (epubState.view !== Constants.EpbReadOnly) {
-      epubState.setShowPreview(true);
+      if (epubState.showPreview) {
+        epubState.setShowPreview(false);
+      } else {
+        epubState.setShowPreview(true);
+      }
+    }
+  }
+
+  onOpenShortcuts(e) {
+    this.preventDefault(e);
+    if (epubState.showShortcuts) {
+      epubState.setShowShortcuts(false);
+    } else {
+      epubState.setShowShortcuts(true);
+    }
+  }
+
+  onToggleNav(e) {
+    this.preventDefault(e);
+    if (epubState.showNav) {
+      epubState.setShowNav(false);
+    } else {
+      epubState.setShowNav(true);
     }
   }
 

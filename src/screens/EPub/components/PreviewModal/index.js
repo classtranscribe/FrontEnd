@@ -44,6 +44,7 @@ function PreviewModal({
       heading={chapterSelector}
       transition
       withCloseButton
+      autoFocusOnCloseButton
     >
       <CTFragment padding={[10,0,50,0]}>
         <MDPreviewer value={chapter.toHTML()} />
