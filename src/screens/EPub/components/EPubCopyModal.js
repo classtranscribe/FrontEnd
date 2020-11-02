@@ -12,7 +12,7 @@ import {
   CTCheckbox
 } from 'layout';
 import { useInput, useCheckbox } from 'hooks';
-import { LanguageConstants } from 'components/CTPlayer';
+import { LanguageConstants as LConstants } from 'components/CTPlayer';
 import { elem } from 'utils';
 import { epub, connectWithRedux } from '../controllers';
 
@@ -26,6 +26,8 @@ function EPubCopyModal({ open, onClose, ...props }) {
   const author = useInput(epubData.author);
   const copyChapterStructure = useCheckbox(true);
 
+  const canSave = title.value && filename.value && author.value;
+
   const onCopyEPub = () => {
     const newEPubData = {
       ...epubData,
@@ -38,15 +40,21 @@ function EPubCopyModal({ open, onClose, ...props }) {
     onClose();
   };
 
-  const langOptions = epub.ctrl.languages.map(
-    lang => ({ value: lang, text: LanguageConstants.decode(lang) })
-  );
+  const langOptions = epub.ctrl.languages.map(lang => ({
+    value: lang,
+    text: LConstants.decode(lang) + (lang === epubData.language ? ' (current)' : '')
+  }));
 
   const isDiffLanguage = language.value !== epubData.language;
 
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
-      <Button className={teal} variant="contained" onClick={onCopyEPub}>
+      <Button 
+        disabled={!canSave} 
+        className={teal} 
+        variant="contained" 
+        onClick={onCopyEPub}
+      >
         Done
       </Button>
     </CTFragment>
@@ -73,6 +81,7 @@ function EPubCopyModal({ open, onClose, ...props }) {
             value={title.value}
             onChange={title.onChange}
             underlined
+            required
           />
           <CTInput 
             id="ct-epb-author-input"
@@ -81,6 +90,7 @@ function EPubCopyModal({ open, onClose, ...props }) {
             value={author.value}
             onChange={author.onChange}
             underlined
+            required
           />
         </CTFormRow>
         <CTFormRow>
@@ -91,6 +101,7 @@ function EPubCopyModal({ open, onClose, ...props }) {
             value={filename.value}
             onChange={filename.onChange}
             underlined
+            required
           />
         </CTFormRow>
 

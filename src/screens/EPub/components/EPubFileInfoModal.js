@@ -21,6 +21,8 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
   const onPublishChange = ({ target: { checked } }) => 
     setEPubData({ ...epubData, isPublished: checked });
 
+  const canSave = epubData.title && epubData.filename && epubData.author;
+
   const onSaveChanges = () => {
     const newEPubData = { ...epub.state.epub, ...epubData };
     epub.state.setEPub(newEPubData);
@@ -30,7 +32,12 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
 
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
-      <Button className={teal} variant="contained" onClick={onSaveChanges}>
+      <Button 
+        disabled={!canSave} 
+        className={teal} 
+        variant="contained" 
+        onClick={onSaveChanges}
+      >
         Done
       </Button>
     </CTFragment>
@@ -65,6 +72,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             onChange={onInputChange('title')}
             onReturn={onSaveChanges}
             underlined
+            required
           />
           <CTInput 
             id="ct-epb-author-input"
@@ -74,6 +82,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             onChange={onInputChange('author')}
             onReturn={onSaveChanges}
             underlined
+            required
           />
         </CTFormRow>
         <CTFormRow>
@@ -85,6 +94,7 @@ function EPubFileInfoModal({ showFileSettings, ...props }) {
             onChange={onInputChange('filename')}
             onReturn={onSaveChanges}
             underlined
+            required
           />
         </CTFormRow>
         <CTFormRow>
