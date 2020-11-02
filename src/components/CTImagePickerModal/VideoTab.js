@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'pico-ui';
-import { CTFragment } from 'layout';
+import { CTFragment, CTFormHelp } from 'layout';
 import CTPlayer from 'components/CTPlayer';
 import { _uploadImageFile } from './UploadTab';
 
@@ -35,15 +35,23 @@ function VideoTab({
     </CTFragment>
   );
 
+  const cameraIcon = <i className="material-icons">camera_alt</i>;
+
   return (
     <div className="ct-img-picker-con">
-      <CTFragment>
-        <CTPlayer
-          fill
-          allowScreenshot
-          screenshotActionElement={actionElem}
-          {...playerData}
-        />
+      <CTFragment dFlexCol>
+        <CTFormHelp title="INSTRUCTION">
+          When watching the video, You are able to capture screenshots by 
+          clicking the camera-like button at top-right of the player.
+        </CTFormHelp>
+        <CTFragment>
+          <CTPlayer
+            fill
+            allowScreenshot
+            screenshotActionElement={actionElem}
+            {...playerData}
+          />
+        </CTFragment>
       </CTFragment>
     </div>
   );

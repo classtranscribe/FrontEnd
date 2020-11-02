@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTInput, CTUploadButton } from 'layout';
+import { CTInput, CTUploadButton, CTFormHelp } from 'layout';
 import { _createImage } from 'components/CTPlayer';
 import { prompt } from 'utils';
 import ImagePreview from './ImagePreview';
@@ -30,6 +30,10 @@ function UploadTab(props) {
       <div className="ct-img-picker-imgs-con">
         <div className="ct-img-picker-imgs">
           <div className="w-100">
+            <CTFormHelp title="INSTRUCTION">
+              You can upload an image file (.png, .jpeg, ...). 
+              Click the "BROWSE IMAGES" button below to browse files.
+            </CTFormHelp>
             <div className="w-100 mb-3 pr-3">
               <CTUploadButton
                 fluid
