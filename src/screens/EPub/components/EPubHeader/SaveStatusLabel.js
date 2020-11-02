@@ -1,8 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { connectWithRedux, epub } from '../../controllers';
 import { CTPopoverLabel } from 'layout';
+import { connectWithRedux, epub } from '../../controllers';
+
 const Constants = epub.const;
 
 function LabelIcon(saved) {
@@ -32,7 +33,7 @@ function LabelIcon(saved) {
 function LabelText(saved) {
   switch (saved) {
     case Constants.EpbSaved:
-      return ['Saved', 'Last saved at ' + new Date().toLocaleString()];
+      return ['Saved', `Last saved at ${ new Date().toLocaleString()}`];
     case Constants.EpbSaving:
       return ['Saving...', 'Saving to cloud...'];
     case Constants.EpbUnsaved:
@@ -68,5 +69,5 @@ function SaveStatusLabel({ saved }) {
 
 export default connectWithRedux(
   SaveStatusLabel,
-  ['saved'/**, 'epub' */]
+  ['saved'/** , 'epub' */]
 );

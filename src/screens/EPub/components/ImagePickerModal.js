@@ -3,7 +3,6 @@ import { CTImagePickerModal } from 'components';
 import { epub } from '../controllers';
 
 function ImagePickerModal({ imgPickerData, ...playerData }) {
-
   const show = Boolean(imgPickerData);
   const { screenshots = [], chapterScreenshots = [] } = imgPickerData;
 

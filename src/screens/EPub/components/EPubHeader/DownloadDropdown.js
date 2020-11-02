@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { CTDropdown } from 'layout';
 import { epub } from '../../controllers';
 import ToolButton from './ToolButton';
-import { CTDropdown } from 'layout';
 
 function DownloadDropdown() {
   const anchorRef = useRef(null);
@@ -52,7 +52,7 @@ function DownloadDropdown() {
     <>
       <ToolButton
         onClick={handleToggle}
-        //shortcut="⌘D"
+        // shortcut="⌘D"
         label="Download"
         anchorRef={anchorRef}
         aria-haspopup="true"

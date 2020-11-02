@@ -5,7 +5,7 @@ import './index.scss';
 
 function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
   return (
-    <ul className="plain-ul" className="ct-epb chapter-list">
+    <ul className="plain-ul ct-epb chapter-list">
       {chapters.map((chapter, chIdx) => (
         <EPubChapterItem
           key={chapter.id}

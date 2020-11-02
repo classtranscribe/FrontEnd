@@ -10,7 +10,6 @@ function VideoTab({
   sourceId,
   ...playerData
 }) {
-
   const handleSaveImage = (img) => async () => {
     const imgData = await _uploadImageFile(img.blob, sourceType, sourceId);
     if (!imgData) {

@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { uurl, elem } from 'utils';
 import { epub, connectWithRedux } from '../../controllers';
+
 const ID = epub.id;
 
 function NavMenuItem({
@@ -52,7 +53,6 @@ function NavigationMenu({
   currChIndex,
   chapters = []
 }) {
-
   const mightHideSubCh = view === epub.const.EpbEditChapter;
   useEffect(() => {
     if (navId) elem.scrollIntoCenter(navId);
@@ -62,7 +62,6 @@ function NavigationMenu({
     <ul
       className="plain-ul"
       id={ID.EPubNavigationMenuID}
-      aria-activedescendant={navId}
     >
       {chapters.map((ch, chIdx) => (
         <Fragment key={ch.id}>

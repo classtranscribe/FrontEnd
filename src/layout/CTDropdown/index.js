@@ -1,7 +1,3 @@
-// example: https://docs.google.com/document/d/1e8OdWBo0WmLConDPw5G3MYk1OvB5Xyt0UFG-q3qjMWQ/edit
-// to test on: http://localhost:3000/epub/2b9a6d95-c33b-41f3-a95a-d4a4da5bb917
-// tutorial: https://material-ui.com/components/menus/#menulist-composition
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -28,14 +24,6 @@ function CTDropdown(props) {
     ...otherProps
   } = props;
 
-  const handleChange = (_val) => () => {
-    if (typeof onChange === 'function') {
-      onChange(_val);
-    }
-
-    handleClose();
-  }
-
   const handleClose = (event) => {
     if (openWhenClickWithin 
         && anchorRef.current 
@@ -45,6 +33,14 @@ function CTDropdown(props) {
 
     if (typeof onClose === 'function') onClose();
   };
+
+  const handleChange = (_val) => () => {
+    if (typeof onChange === 'function') {
+      onChange(_val);
+    }
+
+    handleClose();
+  }
 
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -78,15 +74,15 @@ function CTDropdown(props) {
                     {
                       typeof opt.icon === 'string'
                       ?
-                      <ListItemIcon>
-                        <span className="material-icons">{opt.icon}</span>
-                      </ListItemIcon>
+                        <ListItemIcon>
+                          <span className="material-icons">{opt.icon}</span>
+                        </ListItemIcon>
                       :
-                      Boolean(opt.icon)
+                      opt.icon
                       ?
-                      <ListItemIcon>
-                        {opt.icon}
-                      </ListItemIcon>
+                        <ListItemIcon>
+                          {opt.icon}
+                        </ListItemIcon>
                       :
                       null
                     }

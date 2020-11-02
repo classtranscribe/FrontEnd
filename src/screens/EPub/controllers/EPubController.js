@@ -22,12 +22,12 @@ class EPubController {
     }
 
     this.ePubId = ePubId;
-    var _epub = await this.getEPubById(ePubId);
+    let _epub = await this.getEPubById(ePubId);
     // console.log('-----epub', _epub);
     // Parse epub data
     _epub = epubData.initEPubData(_epub);
     const chapters = _epub.chapters;
-    delete _epub['chapters'];
+    delete _epub.chapters;
     epubState.setEPub(_epub);
     epubState.setChapters(chapters);
 

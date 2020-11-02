@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment, CTHeading } from 'layout';
 import { epub } from '../../controllers';
+
 const Constants = epub.const;
 
 function EditOptions() {
@@ -26,7 +27,7 @@ function EditOptions() {
         </Button>
         <Button
           icon="layers"
-          //className="mt-2"
+          // className="mt-2"
           color="transparent"
           onClick={onEditFile(Constants.EpbEditStructure)}
         >
@@ -34,7 +35,7 @@ function EditOptions() {
         </Button>
         <Button
           icon="dashboard"
-          //className="mt-2"
+          // className="mt-2"
           color="transparent"
           onClick={onEditFile(Constants.EpbEditChapter)}
         >

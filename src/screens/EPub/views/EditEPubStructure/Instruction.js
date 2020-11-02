@@ -1,6 +1,6 @@
 import React from 'react';
-import { EPubInstruction } from '../../components';
 import { CTParagraph, CTText } from 'layout';
+import { EPubInstruction } from '../../components';
 
 function Instruction({ expanded, onToggle }) {
   return (

@@ -48,9 +48,8 @@ class EPubNavigator {
 
     if (epubState.view === Constants.EpbEditStructure) {
       return schEl.offsetTop + schUlEl.offsetTop + chEl.offsetTop - offset;
-    } else {
-      return schEl.offsetTop - offset;
     } 
+      return schEl.offsetTop - offset;
   }
 
   scrollToCh = (id) => {
@@ -162,7 +161,7 @@ class EPubNavigator {
         break;
       case Constants.EpbReadOnly:
         this.updateNavIdForEpbEditStructure(e);
-        //this.updateNavIdForDownloadEPub(e);
+        // this.updateNavIdForDownloadEPub(e);
         break;
       default:
         break;

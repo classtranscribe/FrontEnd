@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { CTFragment } from 'layout';
+import { EPubImageData } from 'entities/EPubs';
 import { ChapterEditButton, MDEditorModal } from '../../../components';
 import { epub } from '../../../controllers';
-import { EPubImageData } from 'entities/EPubs';
 
 function ChapterNewContent({ onInsert }) {
   const [insertType, setInsertType] = useState(null);

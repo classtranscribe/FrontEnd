@@ -48,7 +48,7 @@ function ToolButton({
 }
 
 export const ToolButtonDivider = () => (
-  <div className="ct-epb toolbar-btn-divider ct-pointer-event-none" aria-hidden="true"/>
+  <div className="ct-epb toolbar-btn-divider ct-pointer-event-none" aria-hidden="true" />
 );
 
 export default ToolButton;

@@ -37,10 +37,14 @@ class EPubWithRedux extends React.Component {
     const editChapterView = altEl(EditEPubChapter, view === epub.const.EpbEditChapter);
     const readOnlyView = altEl(ViewAndDownload, view === epub.const.EpbReadOnly);
 
-    const imgPickerModal = altEl(ImagePickerModal, Boolean(imgPickerData), { imgPickerData, media });
+    const imgPickerModal = altEl(ImagePickerModal, Boolean(imgPickerData), {
+      imgPickerData, media
+    });
+
     const playerModal = makeEl(PlayerModal, {
       ...playerData, open: Boolean(playerData) && media, media
     });
+    
     const previewModal = makeEl(PreviewModal);
     const shortcutModal = makeEl(ShortcutModal);
     const fileSettingsModal = makeEl(EPubFileInfoModal);

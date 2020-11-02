@@ -1,4 +1,5 @@
 import { _buildID } from 'utils';
+
 const _buildEpbId = (prefix, id) => _buildID(prefix, id, '.');
 
 /**
