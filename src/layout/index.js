@@ -31,7 +31,7 @@ export * from './CTForm';
 
 export { CTDNDContext, CTDNDItem, CTDNDList } from './CTDnd';
 
-export { CTModal, CTConfirmation } from './CTModal';
+export { CTModal, CTConfirmation, useCTConfirmation } from './CTModal';
 
 export { useButtonStyles, CTFileButton } from './CTButtons';
 
