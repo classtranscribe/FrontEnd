@@ -30,7 +30,10 @@ function CTEPubListScreen(props) {
   };
 
   useEffect(() => {
+    window.onfocus = setupEPubsData;
     setupEPubsData();
+
+    return () => window.onfocus = null;
   }, [sourceType, sourceId, source]);
 
   const handleCreateEPub = async ({ title, language }) => {
