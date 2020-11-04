@@ -38,9 +38,9 @@ class CourseWithRedux extends Component {
         items: sidebar.getCoursePageSidebarItems(offering)
       } : undefined,
       metaTagsProps: offeringLoaded ? {
-        title: playlistLoaded 
-            ? `${playlist.name} | ${offering.fullNumber}` 
-            : offering.fullNumber,
+        title: playlistLoaded
+          ? `${playlist.name} | ${offering.fullNumber}`
+          : offering.fullNumber,
         description: offering.description
       } : undefined,
       headerProps: isInstructor ? {

@@ -35,7 +35,7 @@ class WatchSearch extends CTSearch {
 
     // used to determine whether already has a result ot not
     // Function used to set search state
-    this.setSearch = function () {};
+    this.setSearch = function () { };
   }
 
   options = [
@@ -167,6 +167,21 @@ class WatchSearch extends CTSearch {
       console.error(error, 'Failed to get media results');
       return [];
     }
+  }
+  // in progress. need to return a list of transID
+  async getInCourseResult(value) {
+    const { offeringId } = setup.playlist();
+    if (!offeringId) return [];
+    const { data } = await setup.getPlaylists(offeringId)
+    // console.log(data)
+    return data;
+    // try {
+    //   const { data } = await api.searchForMedia(offeringId, value);
+    //   return data;
+    // } catch (error) {
+    //   console.error(error, 'Failed to get media results');
+    //   return [];
+    // }
   }
 
   getShortcutResults(value) {

@@ -29,7 +29,7 @@ function CTHeading(props) {
 
   const headingElement = children || heading;
 
-  const headingClasses = classNames('ct-heading', { 
+  const headingClasses = classNames('ct-heading', {
     uppercase,
     gradient,
     highlight,
@@ -48,8 +48,8 @@ function CTHeading(props) {
   };
 
   const iconElement = typeof icon === 'string'
-                    ? <i className="material-icons">{icon}</i>
-                    : icon;
+    ? <i className="material-icons">{icon}</i>
+    : icon;
 
   return (
     <CTFragment {...fragmentProps}>
@@ -62,7 +62,7 @@ function CTHeading(props) {
 
 CTHeading.propTypes = {
   ...CTFragment.propTypes,
-  
+
   /** The heading supports `'h1', 'h2', 'h3', 'h4', 'h5'` */
   as: PropTypes.elementType,
 
