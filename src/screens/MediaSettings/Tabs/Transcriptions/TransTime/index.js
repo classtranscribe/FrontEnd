@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.scss';
 import _ from 'lodash';
 import { util, api, timestr } from 'utils';
-import { CTFragment, CTInput , CTAutoComplete } from 'layout';
+import { CTFragment, CTInput, CTAutoComplete } from 'layout';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -47,9 +47,14 @@ function TransTime({
     setShortTime(val.target.value)
   }
   const handleFractionChange = (val) => {
-    // console.log(val)
     setFraction(val.target.value)
   }
+
+  // make sure the fractions are two digits
+  useEffect(() => {
+    if (parseInt(fraction, 10) < 10 && fraction.length < 2) setFraction('0' + fraction);
+  }, [fraction])
+
   useEffect(() => {
     // if (captionTime.length > 11) {
     //   setCaptionTime(captionTime.slice(0, 11))
@@ -68,7 +73,6 @@ function TransTime({
       )
       setFraction(
         tempTime
-
       )
     }
   }, [])
@@ -114,12 +118,12 @@ function TransTime({
         </Button> */}
         <input
           className="trans-time-fraction-edit"
-          value={parseInt(fraction, 10)}
+          value={fraction}
           onClick={handleVideoTimeChange}
           onChange={handleFractionChange}
           type="number"
           max="99"
-          min="0"
+          min="00"
         // maxlength={2}
         />
 

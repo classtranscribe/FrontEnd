@@ -87,8 +87,8 @@ function TransTable({
         <TableRow
           component="div"
           style={{
-          ...style,
-        }}
+            ...style,
+          }}
           // onClick={() => {
           //   setEditingIndex(index)
           // }}
@@ -188,7 +188,7 @@ function TransTable({
             {({ height, width }) => (
               <List
                 overscanCount={30}
-                height={height}
+                height={height - 45}
                 width={width}
                 itemCount={data.length}
                 itemSize={45}

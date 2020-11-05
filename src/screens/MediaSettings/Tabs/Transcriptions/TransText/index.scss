@@ -1,5 +1,37 @@
 #msp-trans-text {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#msp-trans-text-edit {
   text-transform: none;
   width: 30rem;
   font-size: small;
+  
+}
+
+#msp-trans-text-save {
+  text-transform: none;
+  position: absolute;
+  right: 5rem;
+  border: none;
+  padding: 0 5px 0px 5px;
+}
+
+#msp-trans-text-cancel {
+  text-transform: none;
+  position: absolute;
+  right: 3rem;
+
+  border: none;
+  padding: 0 5px 0px 5px;
+}
+
+#msp-trans-text-revert {
+  text-transform: none;
+  position: absolute;
+  right: 1rem;
+
+  border: none;
+  padding: 0 5px 0px 5px;
 }
