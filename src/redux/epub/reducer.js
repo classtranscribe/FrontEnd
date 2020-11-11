@@ -1,4 +1,5 @@
 import { initialState } from 'screens/EPub/controllers/constants/init-states';
+import Constants from 'screens/EPub/controllers/constants/EPubConstants';
 import {
   SET_ERROR,
   SET_VIEW,
@@ -32,7 +33,7 @@ const epubReducer = (state = initialState, action) => {
         showNav: true,
         showPreview: false,
         // navId: null,
-        // currChIndex: 0
+        currChIndex: value === Constants.EpbReadOnly ? 0 : state.currChIndex
       };
     case SET_MEDIA:
       return { ...state, media: value };

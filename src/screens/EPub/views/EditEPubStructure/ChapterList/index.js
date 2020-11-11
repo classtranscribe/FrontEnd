@@ -1,9 +1,18 @@
-import React from 'react';
-import { connectWithRedux } from '../../../controllers';
+import React, { useEffect} from 'react';
+import { epub, connectWithRedux } from '../../../controllers';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 
 function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
+  useEffect(() => {
+    const currChIndex = epub.state.currChIndex;
+    if (currChIndex > 0) {
+      setTimeout(() => {
+        epub.nav.navigateChapter(epub.data.data.chapters[currChIndex].id);
+      }, 500);
+    }
+  }, []);
+
   return (
     <ul className="plain-ul ct-epb chapter-list">
       {chapters.map((chapter, chIdx) => (

@@ -18,6 +18,7 @@ function EditEPubStructure(props) {
   useEffect(() => {
     // add scroll event listener
     epub.nav.addScrollListenerForChapterList();
+
     // remove listener when component unmount
     return epub.nav.removeScrollListenerForChapterList;
   }, []);
