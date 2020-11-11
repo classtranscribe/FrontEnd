@@ -29,12 +29,12 @@ function UploadTab(props) {
     <div className="ct-img-picker-con">
       <div className="ct-img-picker-imgs-con">
         <div className="ct-img-picker-imgs">
-          <div className="w-100">
+          <div className="w-100 pr-3">
             <CTFormHelp title="INSTRUCTION">
               You can upload an image file (.png, .jpeg, ...). 
               Click the "BROWSE IMAGES" button below to browse files.
             </CTFormHelp>
-            <div className="w-100 mb-3 pr-3">
+            <div className="w-100 mb-3">
               <CTUploadButton
                 fluid
                 accept="image/*"

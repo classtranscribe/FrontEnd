@@ -13,8 +13,13 @@ function Instruction({ expanded, onToggle }) {
         </CTParagraph>
         <CTParagraph>
           After building the structure of your ePub, 
-          proceed to the <b>Chapter Editor</b> to modify the 
-          texts and images there.
+          proceed to the <b>Edit Chapters Mode</b> to modify the 
+          contents and images of your ePub chapters.
+        </CTParagraph>
+
+        <CTParagraph>
+          <b>NOTE</b> that making changes to chapters' structure after editing the contents 
+          might cause re-write some changes you made.
         </CTParagraph>
 
         <h4>Actions</h4>

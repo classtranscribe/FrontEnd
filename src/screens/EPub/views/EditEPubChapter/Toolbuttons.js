@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
-import { Button, ButtonGroup } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 import { CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
 import { epub, connectWithRedux } from '../../controllers';
@@ -13,6 +14,10 @@ function Toolbuttons({ currChIndex = 0, chapters = [] }) {
 
   const watchInPlayer = () => {
     epub.ctrl.openPlayer(`Chapter ${currChIndex + 1}: ${title}`, start, end);
+  };
+
+  const onEditStructure = () => {
+    epub.state.setView(epub.const.EpbEditStructure);
   };
 
   const toPrevCh = () => {
@@ -32,6 +37,14 @@ function Toolbuttons({ currChIndex = 0, chapters = [] }) {
         size="large"
       >
         Watch <span className="ml-1">{startTimeStr} - {endTimeStr}</span>
+      </Button>
+      <Button 
+        startIcon={<span className="material-icons">layers</span>}
+        className={cx(btnStyles.tealLink, 'justify-content-start')}
+        onClick={onEditStructure}
+        size="large"
+      >
+        Edit Chapter Structure
       </Button>
 
       <CTFragment margin={[10, 0]}>
