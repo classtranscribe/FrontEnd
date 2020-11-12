@@ -36,6 +36,7 @@ function ViewDropdown({ view }) {
     <>
       <Button
         variant="outlined"
+        id="ct-epb-view-dropdown-btn"
         ref={anchorRef}
         aria-controls={open ? 'ct-epb-view-menu' : undefined}
         aria-haspopup="true"

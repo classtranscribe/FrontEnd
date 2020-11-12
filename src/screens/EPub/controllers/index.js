@@ -6,6 +6,7 @@ import { epubState } from './EPubStateManager';
 import { epubCtrl } from './EPubController';
 import { epubData } from './EPubDataController';
 import { shortcut } from './ShortcutController';
+import { epubPref } from './PreferenceController';
 
 export const epub = {
   const: EPubConstants,
@@ -16,8 +17,10 @@ export const epub = {
   data: epubData,
   history: epubData.history,
   nav: new EPubNavigator(),
-  shortcut
+  shortcut,
+  pref: epubPref
 };
 
 export * from './utils';
+export * from './onboard-guide';
 export { epubStore, connectWithRedux } from 'redux/epub';

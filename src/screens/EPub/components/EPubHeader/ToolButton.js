@@ -18,6 +18,7 @@ function ToolButton({
       {icon ? (
         <IconButton
           onClick={onClick}
+          id={`ct-epb-h-toolbth-${icon}`}
           className="ct-epb toolbar-btn icon-btn"
           aria-label={fullLabel}
           disableRipple

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CTFragment, altEl, CTHeading } from 'layout';
 import { EPubNavigationProvider } from '../../components';
-import { epub, connectWithRedux } from '../../controllers';
+import { epub, connectWithRedux, generateEPubGuide } from '../../controllers';
 import ChapterList from './ChapterList';
 import Instruction from './Instruction';
 import EPubItemView from './EPubItemView';
@@ -18,6 +18,12 @@ function EditEPubStructure(props) {
   useEffect(() => {
     // add scroll event listener
     epub.nav.addScrollListenerForChapterList();
+
+    // show the user onboard guide if possible
+    setTimeout(() => {
+      const guide = generateEPubGuide();
+      guide.start();
+    }, 1000);
 
     // remove listener when component unmount
     return epub.nav.removeScrollListenerForChapterList;

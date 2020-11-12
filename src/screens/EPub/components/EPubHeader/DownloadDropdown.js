@@ -53,6 +53,7 @@ function DownloadDropdown() {
       <ToolButton
         onClick={handleToggle}
         // shortcut="⌘D"
+        id="ct-epb-download-dropdown"
         label="Download"
         anchorRef={anchorRef}
         aria-haspopup="true"

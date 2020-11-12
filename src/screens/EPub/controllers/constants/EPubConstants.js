@@ -27,4 +27,9 @@ export default class EPubConstants {
   static EPubNavShowing = 'show';
   static EPubNavHiding = 'hide';
   static EPubNavClosed = null;
+
+  // in window.location.hash 
+  // from =
+  static HFromNew = 'new'
+
 }

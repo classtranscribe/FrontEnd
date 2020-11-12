@@ -42,7 +42,9 @@ class EPubListController {
       return null;
     }
 
-    uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure));
+    uurl.openNewTab(
+      links.epub(newEPubData.id, Constants.EpbEditStructure, Constants.HFromNew)
+    );
 
     return newEPubData;
   }

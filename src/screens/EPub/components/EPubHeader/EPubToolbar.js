@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CTFragment } from 'layout';
-import { epub, connectWithRedux } from '../../controllers';
+import { epub, connectWithRedux, generateEPubGuide } from '../../controllers';
 import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 import DownloadDropdown from './DownloadDropdown';
 
@@ -39,6 +39,14 @@ function EPubToolbar({ view, chapters, ...props }) {
   const shortcutBtnEl = _makeTBtn(
     'keyboard', 'Keyboard Shortcuts', '⌘/', openShortcuts, false, true
   );
+
+  const openHelpGuide = () => {
+    const guide = generateEPubGuide(true);
+    guide.start();
+  };
+  const guideBthEl = _makeTBtn(
+    'help_outline', 'Show Help Guide', null, openHelpGuide, false, true
+  );
   
 
   return (
@@ -54,6 +62,7 @@ function EPubToolbar({ view, chapters, ...props }) {
         <ToolButtonDivider />
         {prefBtnEl}
         {shortcutBtnEl}
+        {guideBthEl}
       </CTFragment>
     </CTFragment>
   );
