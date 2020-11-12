@@ -41,7 +41,7 @@ $ct-epb-nav-w-wider: 400px;
     overflow-y: auto;
     &.show-nav {
       padding-left: 0px;
-      width: calc(100% - $ct-epb-nav-w);
+      width: calc(100% - #{$ct-epb-nav-w});
     }
   }
 
@@ -50,7 +50,7 @@ $ct-epb-nav-w-wider: 400px;
       width: $ct-epb-nav-w-wider;
     }
     .ct-epb.nav-main.show-nav {
-      width: calc(100% - $ct-epb-nav-w-wider);
+      width: calc(100% - #{$ct-epb-nav-w-wider});
     }
   }
 }
