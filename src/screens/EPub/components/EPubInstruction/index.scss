@@ -1,0 +1,25 @@
+////////////////////////////////////////////////////////////
+// ePub Instruction
+////////////////////////////////////////////////////////////
+.ct-epb.instruction {
+  margin: 0 10px !important;
+  border-radius: 0 !important;
+  box-shadow: none;
+  color: rgb(36, 36, 36);
+  font-size: 15px;
+  line-height: 20px;
+  border-right: 4px rgb(3, 163, 163) solid;
+  background-color: #e2f1f179;
+  white-space: pre-line;
+
+  .MuiAccordionSummary-root.Mui-expanded {
+    min-height: 0 !important;
+  }
+
+  .MuiAccordionSummary-root {
+    padding: 0 10px !important;
+    .MuiAccordionSummary-content {
+      margin: 6px 0 !important;
+    }
+  }
+}

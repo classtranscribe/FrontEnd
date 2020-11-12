@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { env, uurl, user, prompt } from 'utils';
-import { CTFragment, CTBrand, CTText } from 'layout';
+import { CTFragment, CTBrand, CTText, CTList } from 'layout';
 import { useLoaded } from 'hooks';
 import './index.scss';
 
@@ -27,27 +27,29 @@ function SignIn() {
 
   const signInOptions = [
     {
-      name: 'University Credential Sign In',
+      title: 'University Credential Sign In',
       description: 'Sign in with your university authentication system.',
-      method: user.method.CILOGON,
+      id: user.method.CILOGON,
       icon: 'school'
     },
     {
-      name: 'Email Sign In',
+      title: 'Email Sign In',
       description: 'Sign in or sign up with your emails address.',
-      method: user.method.AUTH0,
+      id: user.method.AUTH0,
       icon: 'email'
     }
   ];
 
   if (env.dev) {
     signInOptions.push({
-      name: 'Test Sign In',
+      title: 'Test Sign In',
       description: 'Sign in as an administrator (Dev server only).',
-      method: user.method.TEST,
+      id: user.method.TEST,
       icon: 'admin_panel_settings'
     });
   }
+
+  const listitems = signInOptions.map(opt => ({ ...opt, onClick: handleSignIn(opt.id) }));
 
   return (
     <CTFragment fadeIn role="main" center className="h-100" id="ct-signin-main">
@@ -63,26 +65,7 @@ function SignIn() {
           Choose a sign-in or sign-up method
         </CTText>
 
-        <CTFragment role="list" dFlexCol className="ct-signin-opts">
-          {signInOptions.map(opt => (
-            <CTFragment 
-              alignItCenter
-              as="button"
-              onClick={handleSignIn(opt.method)}
-              role="listitem"
-              className="ct-signin-opt plain-btn"
-              key={opt.method}
-            >
-              <span className="material-icons">{opt.icon}</span>
-              <CTFragment dFlexCol className="opt-text">
-                <CTText bold size="medium" padding={[0,0,5,0]} className="opt-name">
-                  {opt.name}
-                </CTText>
-                <CTText>{opt.description}</CTText>
-              </CTFragment>
-            </CTFragment>
-          ))}
-        </CTFragment>
+        <CTList items={listitems} />
       </CTFragment>
     </CTFragment>
   );

@@ -5,8 +5,14 @@
   width: 100%;
   display: flex;
 
-  .ct-img-picker-imgs {
+  .ct-img-picker-imgs-con {
     width: 55%;
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .ct-img-picker-imgs {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -17,9 +23,6 @@
     -webkit-justify-content: center;
     justify-content: center;
     align-items: flex-start;
-    height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
 
     .ct-img-picker-img-con {
       position: relative;

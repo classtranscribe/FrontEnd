@@ -2,6 +2,10 @@
   border-bottom: var(--ct-border-color);
 }
 
+.ct-pointer-event-none {
+  pointer-events: none;
+}
+
 .ct-list-col {
   position: relative;
   width: 100%;

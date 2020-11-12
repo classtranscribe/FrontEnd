@@ -31,10 +31,14 @@ export * from './CTForm';
 
 export { CTDNDContext, CTDNDItem, CTDNDList } from './CTDnd';
 
-export { CTModal, CTConfirmation } from './CTModal';
+export { CTModal, CTConfirmation, useCTConfirmation } from './CTModal';
 
 export { useButtonStyles, CTFileButton } from './CTButtons';
 
 export { default as CTHorizontalScroll } from './CTHorizontalScroll';
+
+export { CTListItem, CTList } from './CTList';
+
+export { default as CTDropdown } from './CTDropdown';
 
 export * from './tools';

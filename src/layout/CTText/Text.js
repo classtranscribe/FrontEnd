@@ -11,6 +11,11 @@ function Text(props) {
   let {
     className,
     fluid,
+    textCenter,
+    textLeft,
+    textRight,
+    justified,
+    indent,
     uppercase,
     capitalize,
     bold,
@@ -25,6 +30,7 @@ function Text(props) {
     hoverTeal,
     hoverHighlighted,
     size = 'normal', // small, normal, large, huge
+    fontSize,
     line,
     children,
     ...otherProps
@@ -34,6 +40,10 @@ function Text(props) {
 
   const textClasses = cx('ct', 'ct-text', size, {
     fluid,
+    textCenter,
+    textLeft,
+    textRight,
+    justified,
     uppercase,
     capitalize,
     bold,
@@ -54,6 +64,14 @@ function Text(props) {
     WebkitLineClamp: line ? `${line }` : undefined
   };
 
+  if (indent) {
+    textStyle.textIndent = indent;
+  }
+
+  if (fontSize) {
+    textStyle.fontSize = fontSize;
+  }
+
   const textProps = {
     className: textClasses,
     styles: textStyle,
@@ -70,6 +88,21 @@ Text.propTypes = {
   ...CTFragment.propTypes,
   /** The text can be fluid to the container */
   fluid: PropTypes.bool,
+
+  /** text-align: center */
+  textCenter: PropTypes.bool,
+
+  /** text-align: left */
+  textLeft: PropTypes.bool,
+
+  /** text-align: right */
+  textRight: PropTypes.bool,
+
+  /** text-align: justify */
+  justified: PropTypes.bool,
+
+  /** text-indent: (indent) */
+  indent: PropTypes.string,
 
   /** The text can be transformed to uppercase */
   uppercase: PropTypes.bool,
@@ -106,6 +139,9 @@ Text.propTypes = {
    * from 'normal', 'medium', 'big', 'large', 'huge'
    */
   size: PropTypes.oneOf(['normal', 'medium', 'big', 'large', 'huge']),
+
+  /** font-size: (fontSize) */
+  fontSize: PropTypes.string,
 
   /**
    * You can limit the number of line you want to display,

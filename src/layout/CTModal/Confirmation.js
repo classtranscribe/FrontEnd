@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -106,4 +106,20 @@ Confirmation.propTypes = {
 };
 
 export default Confirmation;
+
+export function useConfirmation(text, onConfirm, otherProps) {
+  const [open, setOpen] = useState(false);
+  const onClose = () => setOpen(false);
+  const onOpen = () => setOpen(true);
+
+  const modalProps = { open, onConfirm, text, onClose, ...otherProps };
+  const element = <Confirmation {...modalProps} />;
+
+  return {
+    element,
+    open,
+    onClose,
+    onOpen
+  };
+};
 

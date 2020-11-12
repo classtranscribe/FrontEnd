@@ -169,7 +169,11 @@ class UrlHandler {
    * Create a window.location.hash query
    * @param {Object} params hash query's params
    */
-  createHash(params) {
+  createHash(params, append) {
+    if (append) {
+      params = { ...params, ...this.useHash() };
+    }
+
     return this.createQuery(params, '#');
   }
 }

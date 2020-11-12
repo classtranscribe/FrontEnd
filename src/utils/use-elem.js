@@ -13,6 +13,7 @@ class ElementHandler {
   constructor() {
     this.exitFullScreen = this.exitFullScreen.bind(this);
     this.enterFullscreen = this.enterFullscreen.bind(this);
+    this.getElement = getElement;
   }
   /**
    * Focus on the elem
@@ -241,6 +242,8 @@ class ElementHandler {
       document.msExitFullscreen();
     }
   }
+
+  preventDefault = (e) => { e.preventDefault(); }
 }
 
 export const elem = new ElementHandler();
