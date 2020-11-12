@@ -28,7 +28,7 @@ function QuickActions({ chapters = [], currChIndex = 0 }) {
   };
 
   return (
-    <CTFragment /** bordered borderRadius="5" */ margin="10" padding={[15,10]} width="auto">
+    <CTFragment margin="10" padding={[15,10]} width="auto">
       <CTHeading uppercase as="h4" icon="home_repair_service">Actions</CTHeading>
       <CTFragment dFlexCol>
         <Button 

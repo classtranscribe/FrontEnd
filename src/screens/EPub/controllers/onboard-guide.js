@@ -29,7 +29,7 @@ const isEPubOnBoarded = async () => {
   const isOnboard = epubPref.isUserOnboard;
   if (!isOnboard && isNewCreated) {
     epubPref.userOnboard();
-    console.log('epubPref.userOnboard();')
+    // console.log('epubPref.userOnboard();')
   }
 
   return isOnboard || !isNewCreated;

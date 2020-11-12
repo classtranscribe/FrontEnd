@@ -32,7 +32,7 @@ function UploadTab(props) {
           <div className="w-100 pr-3">
             <CTFormHelp title="INSTRUCTION">
               You can upload an image file (.png, .jpeg, ...). 
-              Click the "BROWSE IMAGES" button below to browse files.
+              Click the &quot;BROWSE IMAGES&quot; button below to browse files.
             </CTFormHelp>
             <div className="w-100 mb-3">
               <CTUploadButton

@@ -18,7 +18,7 @@ function Instruction({ expanded, onToggle }) {
         </CTParagraph>
 
         <CTParagraph>
-          <b>NOTE</b> that making changes to chapters' structure after editing the contents 
+          <b>NOTE</b> that making changes to chapters&apos; structure after editing the contents 
           might cause re-write some changes you made.
         </CTParagraph>
 

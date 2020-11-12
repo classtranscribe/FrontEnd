@@ -31,5 +31,4 @@ export default class EPubConstants {
   // in window.location.hash 
   // from =
   static HFromNew = 'new'
-
 }
