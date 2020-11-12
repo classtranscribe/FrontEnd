@@ -3,7 +3,7 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import { homeStore, connectWithRedux, home } from './controllers';
-import { Placeholder, SectionList, CourseFilter } from './components';
+import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';
 
 class HomeWithRedux extends Component {
   constructor(props) {
@@ -31,6 +31,7 @@ class HomeWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
+        <MaintenanceMesg />
         <CTLoadable loading={loading} loadingElement={loaderElement}>
           {filterElement}
           {sectionElement}
