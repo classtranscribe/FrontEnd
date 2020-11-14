@@ -89,6 +89,12 @@
   text-align: left;
 }
 
+ul.plain-ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
 /* No result class */
 .no-results {
   width: 100%;

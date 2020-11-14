@@ -1,0 +1,19 @@
+.ct-dropd-menu-con {
+  box-shadow: 0 1px 8px rgba(47, 47, 47, 0.219) !important;
+  .ct-dropd-menu-item {
+    .MuiListItemIcon-root {
+      color: rgb(75, 75, 75) !important;
+      min-width: auto  !important;
+      margin-right: 20px !important;
+    }
+    
+    &.MuiListItem-root.Mui-selected, 
+    &.MuiListItem-root.Mui-selected:hover {
+      background-color: teal !important;
+      color: white !important;
+      .MuiListItemIcon-root {
+        color: white !important;
+      }
+    }
+  }
+}

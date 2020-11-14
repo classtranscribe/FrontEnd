@@ -1,0 +1,90 @@
+$ct-epb-nav-w: 300px;
+$ct-epb-nav-w-wider: 400px;
+
+#ct-epb-nav-provider {
+  height: 100%;
+  position: relative;
+
+  .ct-epb.nav-con {
+    width: 0px;
+    transition: width 100ms linear;
+    height: 100%;
+    padding: 0 0 40px 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    visibility: hidden;
+
+    h3 {
+      padding: 14px 0 15px 55px;
+      margin: 0;
+    }
+
+    &.show {
+      width: $ct-epb-nav-w;
+      visibility: visible;
+    }
+  }
+  
+  .ct-epb.nav-trigger {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 20;
+  }
+
+  .ct-epb.nav-main {
+    width: 100%;
+    padding-left: 70px;
+    transition: width 100ms linear, padding 100ms linear;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    &.show-nav {
+      padding-left: 0px;
+      width: calc(100% - #{$ct-epb-nav-w});
+    }
+  }
+
+  &.wider {
+    .ct-epb.nav-con.show {
+      width: $ct-epb-nav-w-wider;
+    }
+    .ct-epb.nav-main.show-nav {
+      width: calc(100% - #{$ct-epb-nav-w-wider});
+    }
+  }
+}
+
+#ct-epb-nav-menu {
+  .ct-epb.nav-item {
+    color: rgb(100, 100, 100);
+    font-size: 16px;
+    font-weight: bolder;
+    display: block;
+    span {
+      display: block;
+      padding: 5px 5px 5px 20px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    &.sub {
+      font-size: 14px;
+      font-weight: normal;
+      span {
+        padding-left: 35px;
+      }
+    }
+
+    &:hover {
+      color: black;
+    }
+
+    &.current {
+      color: teal;
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+.ct-epb-header {
+  padding-left: 10px;
+  min-width: inherit;
+  height: 75px !important;
+  overflow: visible !important;
+
+  .ct-header-right-elem {
+    width: auto;
+    min-width: 200px;
+  }
+
+  #ct-nh-primary {
+    height: 40px !important;
+  }
+
+  h1#ct-epb-header-title {
+    font-size: 20px;
+    margin: 0 0 0 22px;
+    padding: 0;
+    font-weight: 500;
+    font-family: var(--ct-font-narrow) !important;
+    color: black;
+    width: auto;
+    span {
+      max-width: 550px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis !important;
+    }
+  }
+  
+  div#ct-epb-header-toolbar {
+    margin-left: 15px;
+  }
+
+  .ct-epb.toolbar-btn {
+    color: rgb(112, 112, 112);
+    padding: 0px !important;
+    min-width: auto !important;
+
+    span.MuiButton-endIcon {
+      margin-left: 0;
+    }
+
+    span.ct-epb.toolbar-btn-inner {
+      padding: 4px 0 4px 6px;
+      display: flex;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    &.icon-btn {
+      padding: 0 !important;
+      border-radius: 5px !important;
+
+      span.ct-epb.toolbar-btn-inner {
+        padding: 4px 6px;
+      }
+
+      span.material-icons {
+        font-size: 20px !important;
+      }
+    }
+
+    &:hover {
+      // color: teal;
+      color: black;
+    }
+    &:active {
+      background: rgb(227, 236, 236);
+    }
+    &:disabled {
+      color: rgb(163, 163, 163);
+    }
+  }
+
+  .ct-epb.toolbar-btn-divider {
+    height: 13px;
+    margin: 0 4px;
+    width: 1px;
+    background-color: rgb(199, 199, 199);
+  }
+}
+
+.ct-epb.header-label {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 197, 197);
+  margin-left: 5px;
+  padding: 0 6px 0 5px;
+  height: 22px;
+  transition: all 100ms linear;
+
+  span.ct-epb.label-icon {
+    span.material-icons {
+      font-size: 14px !important;
+      line-height: unset !important;
+    }
+    margin-right: 3px;
+  }
+
+  span.ct-epb.label-text {
+    font-size: 12px;
+    color: inherit;
+  }
+
+  &.error {
+    border-color: rgb(170, 8, 8);
+    span.ct-epb.label-icon { color: rgb(170, 8, 8); }
+  }
+
+  &.success {
+    border-color: teal;
+    span.ct-epb.label-icon { color: teal; }
+  }
+
+  .MuiCircularProgress-colorPrimary {
+    color: teal !important;
+  }
+}
+
+.ct-epb.view-dropdown-btn {
+  text-transform: none !important;
+  width: max-content;
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgb(47, 47, 47);
+}

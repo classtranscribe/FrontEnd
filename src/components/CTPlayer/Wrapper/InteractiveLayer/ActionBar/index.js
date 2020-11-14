@@ -15,7 +15,8 @@ function ActionBar(props) {
     media,
     userReady,
     player,
-    time
+    time,
+    screenshotActionElement
   } = props;
 
   const { mediaName } = media || {};
@@ -49,7 +50,11 @@ function ActionBar(props) {
         userReady
         &&
         <div className="right">
-          {player.isScreenshotAllowed && <Screenshot player={player} />}
+          {
+            player.isScreenshotAllowed
+            &&
+            <Screenshot player={player} actionElement={screenshotActionElement} />
+          }
           {!error && <Share media={media} time={time} />}
           {/* <ShortcutButton /> */}
         </div>

@@ -17,12 +17,14 @@ export * from './Cards';
 
 export { CTModal } from './Modals';
 export { default as CTImagePickerModal } from './CTImagePickerModal';
+export { default as CTImageMagnifer } from './CTImageMagnifer';
 export { CTMarkdownEditor, CTMarkdownPreviewer } from './CTMarkdown';
 export { SelectCtrlButton } from './SelectCtrlButton';
 export { default as CTPlaylistIcon } from './CTPlaylistIcon';
 export { default as CircularProgress } from './CircularProgress';
 export { default as InfoAndListLayout } from './InfoAndListLayout';
 export { default as CopyButton } from './CopyButton';
+export { CTShortcutModal, CTShortcutTable } from './Shortcut';
 
 
 // Need to be removed later

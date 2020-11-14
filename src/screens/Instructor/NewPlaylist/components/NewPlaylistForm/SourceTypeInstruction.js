@@ -29,7 +29,8 @@ function SourceTypeInstruction() {
         <CTFragment role="listitem">
           <CTHeading {...getHeadingProps(1)}>YouTube</CTHeading>
           <CTText padding={textPadding}>
-            Host videos from YouTube using <strong>Playlist ID</strong> of your YouTube playlist.
+            Host videos from YouTube using <strong>Playlist ID</strong> of your YouTube playlist
+            or <strong>Channel ID</strong> of your YouTube channel.
           </CTText>
         </CTFragment>
         <CTFragment role="listitem">
@@ -48,7 +49,7 @@ function SourceTypeInstruction() {
 
 
       <CTFragment padding={[20, 0, 0, 0]}>
-        Except from &quot;Upload&quot;, each playlist type requires some source identifier 
+        Except for &quot;Upload&quot;, each playlist type requires some source identifier 
         to enable us to extract the videos.
       </CTFragment>
     </CTFormHelp>
