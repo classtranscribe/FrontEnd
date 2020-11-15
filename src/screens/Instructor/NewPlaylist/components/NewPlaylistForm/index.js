@@ -58,7 +58,7 @@ export function NewPlaylistForm(props) {
       id="ctform-basics"
       onSave={handleSave}
       onSaveButtonText="Create New Playlist"
-      details="Create a new Playlist"
+      details="Create a new playlist"
     >
       <PlaylistName {...playlistNameProps} />
       <PlaylistType {...sourceTypeProps} />

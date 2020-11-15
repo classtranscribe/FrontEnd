@@ -27,3 +27,4 @@ export { Maintenance } from './Maintenance';
 // export { ComponentAPI } from './ComponentAPI';
 export { Example } from './Example';
 export { Embed } from './Embed';
+export { EPub } from './EPub';

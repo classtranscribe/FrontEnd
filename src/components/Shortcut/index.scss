@@ -1,0 +1,87 @@
+#ct-shortcuts-table-container {
+  &.fullWidth {
+    width: 100%;
+    .shortcuts-table-col, .shortcuts-table {
+      width: 100%;
+    }
+  }
+
+  tbody {
+    border: none;
+  }
+
+  .shortcuts-table-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0;
+    border: none;
+  }
+
+  .shortcuts-table-col {
+    display: block;
+    margin: 0 2em 4em 0;
+    min-width: 45%;
+    border: none;
+  }
+
+  .shortcuts-table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    border-color: grey;
+    font-size: 1.2em;
+    border: none;
+  }
+  .shortcuts-tr {
+    height: 45px;
+    td {
+      border-bottom: 1px solid rgb(233, 233, 233);
+    }
+    &:last-child td {
+      border: none;
+    }
+  }
+  .shortcuts-des {
+    /* text-align: right; */
+    min-width: 200px;
+    color: inherit;
+    /* font-weight: bold; */
+    font-size: 14px;
+  }
+  .shortcuts-key {
+    text-align: left;
+    min-width: 160px;
+    padding-left: 16px;
+    position: relative;
+    .shortcut-key-prefix {
+      margin: 0 0 0 3px;
+    }
+    kbd {
+      padding: 2px 8px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      display: inline-block;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      min-width: 28px;
+      margin: 0;
+      text-align: center;
+      background-color: rgb(50, 54, 54);
+      line-height: normal;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #watch-shortcuts-table-container {
+    padding: 3em 1em 10em 1em;
+  }
+}

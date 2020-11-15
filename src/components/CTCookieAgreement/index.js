@@ -1,41 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  Slide,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  ButtonBase,
-} from '@material-ui/core';
-import { useSignButtonProps, CTFragment, CTText, CTBrand } from 'layout';
-import { user } from 'utils';
+import { DialogContent, DialogActions, ButtonBase } from '@material-ui/core';
+import { CTFragment, CTText, CTBrand, CTList, CTModal } from 'layout';
+import { user, links } from 'utils';
 import { CookiePoilcy, AcceptableUsePolicy } from './policies';
-import CookieOption from './CookieOption';
 import './index.scss';
 
-export const useStyles = makeStyles({
-  policyButton : {
-    color: '#328383',
-    marginLeft: '4px',
-    marginRight: '4px',
-    paddingBottom: '2px'
-  },
-});
-
 export const AGREEMENT_ACCEPTED_KEY = 'ct-cookie-accepted';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 function CTCookieAgreement() {
   // Set true to false for testing purposes
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showPolicy, setShowPolicy] = useState('none');
   const [policyToShow, setPolicyToShow] = useState(null);
-  const classes = useStyles();
-  const signinButtonProps = useSignButtonProps();
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,42 +34,56 @@ function CTCookieAgreement() {
   };
 
   const handlePolicyClicking = (policyName) => {
-    setShowPolicy('block');
-    setPolicyToShow(policyName);
+    if (policyName === policyToShow) {
+      setShowPolicy('none');
+      setPolicyToShow(null);
+    } else {
+      setShowPolicy('block');
+      setPolicyToShow(policyName);
+    }
   };
+
+  const titleSize = isMobile ? 'medium' : 'big';
+  const despSize = isMobile ? 'normal' : 'medium';
+
+  const itemStyles = { titleSize, despSize };
 
   const cookieOptions = [
     {
-      name: 'Accept and Sign In',
-      desp: 'Access all eligible videos and courses.',
+      title: 'Accept and Sign In',
+      description: 'Access all eligible videos and courses.',
       icon: 'verified_user',// 'perm_identity',//'login',
-      ...signinButtonProps
+      link: true,
+      to: links.signIn(),
+      ...itemStyles
     },
     {
-      name: 'Accept and Skip Sign In',
-      desp: 'Access only public sources.',
+      title: 'Accept and Skip Sign In',
+      description: 'Access only public sources.',
       icon: 'check_circle_outline',
-      onClick: handleAcceptSkipLogin
+      onClick: handleAcceptSkipLogin,
+      ...itemStyles
     },
     {
-      name: 'Decline and Close Window',
-      desp: `Accepting cookie policies are required to access ClassTranscribe's content.`,
-      muted: true,
+      title: 'Decline and Close Window',
+      description: `Accepting cookie policies are required to access ClassTranscribe's content.`,
       icon: 'block',// 'error_outline',
-      onClick: handleCloseBrowserWindow
+      onClick: handleCloseBrowserWindow,
+      ...itemStyles
     }
   ];
 
   return (
-    <Dialog
+    <CTModal
       open={dialogOpen} 
       disableBackdropClick
       disableEscapeKeyDown
       fullWidth
       maxWidth='sm'
+      container
+      transition
       scroll='paper'
       id="cookie-agreement-inner-wrapper"
-      TransitionComponent={Transition}
     >
       <CTFragment
         padding={[30, 0]} 
@@ -105,14 +96,14 @@ function CTCookieAgreement() {
       <CTText size="medium" muted padding={[0, 20, 20, 25]}>
         By continuing you agree to our 
         <ButtonBase 
-          className={classes.policyButton} 
+          className="policy-btn" 
           onClick={() => handlePolicyClicking('Acceptable Use')}
         > 
           Acceptable Use Policy
         </ButtonBase>
         and our 
         <ButtonBase 
-          className={classes.policyButton}
+          className="policy-btn"
           onClick={() => handlePolicyClicking('Cookie')}
         >
           Cookie Policy.
@@ -129,21 +120,9 @@ function CTCookieAgreement() {
       </DialogContent>
 
       <DialogActions className="cookie-acp-btns">
-        <CTFragment 
-          dFlexCol 
-          role="list" 
-          className="ct-signin-opts"
-          padding={[0,0,20,0]}
-        >
-          {cookieOptions.map(opt => (
-            <CookieOption
-              {...opt}
-              key={opt.name}
-            />
-          ))}
-        </CTFragment>
+        <CTList items={cookieOptions} />
       </DialogActions>
-    </Dialog>
+    </CTModal>
   );
 }
 

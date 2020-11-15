@@ -22,6 +22,6 @@ export function parseCourse(offering) {
     term: termName || (term ? term.name : 'Unknown Term'),
     section: sectionName,
     description,
-    href: links.offeringDetail(id)
+    href: links.course(id)
   };
 }

@@ -153,7 +153,7 @@ class InstPlaylistSetup extends StateController {
       api.contentLoaded();
     } else {
       // back to student version playlist page if not authorized
-      window.location = links.offeringDetail(this.offering.id, playlist.id);
+      window.location = links.course(this.offering.id, playlist.id);
     }
   }
 }

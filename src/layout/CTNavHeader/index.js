@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './index.scss';
-
+import CTFragment from '../CTFragment';
 import { CTBrand } from './CTBrand';
 import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
-
 import { createCTNavHeaderProps } from './create-props';
+import './index.scss';
 
 /**
  * Navigation Header
@@ -20,6 +19,7 @@ function CTNavHeader(props) {
     leftElem,
     children,
     rightElem,
+    toolbarElem,
     // tabs
     tabs = [],
     tabTitleElem,
@@ -31,6 +31,7 @@ function CTNavHeader(props) {
     sticky = false,
     bordered = false,
     shadowed = false,
+    className,
   } = props;
 
   const hasExtenalBrandElem = Boolean(brandElem);
@@ -38,47 +39,55 @@ function CTNavHeader(props) {
     brandElem = <CTBrand darkMode={darkMode} />
   }
 
+  const hasToolbarElem = Boolean(toolbarElem);
+  const hasTabs = tabs.length > 0;
+
   const headerClasses = classNames({
     'ct-nav-dark': darkMode,
     'pl-3': !hasExtenalBrandElem,
-    tabHeader: tabs.length > 0,
+    tabHeader: hasTabs,
+    toolbarHeader: hasToolbarElem,
     fixed,
     sticky,
     bordered,
     shadowed
-  });
+  }, className);
 
   return (
     <nav id="ct-nav-header" className={headerClasses}>
-      <div id="ct-nh-primary">
+      <CTFragment alignItCenter justConBetween>
+        {brandElem}
         {/* Right Elem */}
-        <div className="ct-header-left-elem">
-          {brandElem}
+        <CTFragment dFlexCol>
+          <CTFragment dFlex id="ct-nh-primary">
+            <CTFragment alignItCenter className="ct-header-left-elem">
+              {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
 
-          {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
+              {leftElem}
+            </CTFragment>
 
-          {leftElem}
-        </div>
+            {/* Left Elem */}
+            <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
+              {children}
+              {rightElem}
 
-        {/* Left Elem */}
-        <div className="ct-header-right-elem">
-          {children}
-          {rightElem}
+              {showProfileMenu && <UserMenu darkMode={darkMode} />}
+            </CTFragment>
+          </CTFragment>
 
-          {showProfileMenu && <UserMenu darkMode={darkMode} />}
-        </div>
-      </div>
+          {hasToolbarElem && <CTFragment dFlex>{toolbarElem}</CTFragment>}
+        </CTFragment>
+      </CTFragment>
 
-      {
-        tabs.length > 0
-        &&
-        <NavHeaderTabPanel tabs={tabs} tabTitleElem={tabTitleElem} />
-      }
+      {hasTabs && <NavHeaderTabPanel tabs={tabs} tabTitleElem={tabTitleElem} />}
     </nav>
   );
 }
 
 export const CTNavHeaderPropsTypes = {
+  /** Additional classes */
+  className: PropTypes.string,
+
   /** Brand element */
   brandElem: PropTypes.node,
 
@@ -93,6 +102,8 @@ export const CTNavHeaderPropsTypes = {
 
   /** Right side element */
   rightElem: PropTypes.node,
+
+  toolbarElem: PropTypes.node,
 
   /** The Nav Header can have nav tabs */
   tabs: NavHeaderTabPanelPropsTypes.tabs,

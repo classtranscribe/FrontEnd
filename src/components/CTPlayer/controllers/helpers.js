@@ -111,15 +111,24 @@ export async function _decodeScreenshotPath(path) {
   };
 }
 
-export async function _copyScreenshotLink(imgBlob, sourceType, sourceId) {
+export async function _createImage(imgBlob, sourceType, sourceId) {
   try {
     const imageFile = new File([imgBlob], 'screenshot.jpg', { type: 'image/jpg' });
     const { data } = await api.createImage(imageFile, sourceType, sourceId);
-    const successed = await _copyTextToClipboard(_encodeScreenshotPath(data));
-    return successed;
+    return data;
   } catch (error) {
     console.error(error);
     prompt.error('Failed to create the image.');
-    return false;
+    return null;
   }
+}
+
+export async function _copyScreenshotLink(imgBlob, sourceType, sourceId) {
+  const imgData = await _createImage(imgBlob, sourceType, sourceId);
+  if (!imgData) {
+    return;
+  }
+
+  const successed = await _copyTextToClipboard(_encodeScreenshotPath(imgData));
+  return successed;
 }

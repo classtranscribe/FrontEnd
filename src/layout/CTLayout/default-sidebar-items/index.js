@@ -153,7 +153,7 @@ export class DefaultSidebarItems {
       active: true,
       icon: 'book',
       items: tabs,
-      href: links.offeringDetail(offering.id)
+      href: links.course(offering.id)
     };
   
     return [

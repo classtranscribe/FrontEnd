@@ -44,6 +44,9 @@ function CTFragment(props) {
     borderRight = false,
     borderBottom = false,
     borderLeft = false,
+    overflowHidden,
+    scrollY,
+    scrollX,
     // styles
     raised,
     shadowed,
@@ -102,7 +105,10 @@ function CTFragment(props) {
       'border-top': borderTop,
       'border-right': borderRight,
       'border-bottom': borderBottom,
-      'border-left': borderLeft
+      'border-left': borderLeft,
+      'overflow-hidden': overflowHidden,
+      'scroll-y': scrollY,
+      'scroll-x': scrollX,
     }
   );
 
@@ -164,22 +170,22 @@ CTFragment.propTypes = {
   h100: PropTypes.bool,
 
   /** styles.height */
-  height: PropTypes.bool,
+  height: PropTypes.string,
 
   /** styles.minheight */
-  minheight: PropTypes.bool,
+  minheight: PropTypes.string,
 
   /** styles.maxHeight */
-  maxHeight: PropTypes.bool,
+  maxHeight: PropTypes.string,
 
   /** styles.width */
-  width: PropTypes.bool,
+  width: PropTypes.string,
 
   /** styles.minWidth */
-  minWidth: PropTypes.bool,
+  minWidth: PropTypes.string,
 
   /** styles.maxWidth */
-  maxWidth: PropTypes.bool,
+  maxWidth: PropTypes.string,
 
   /** display: flex */
   dFlex: PropTypes.bool,
@@ -204,6 +210,12 @@ CTFragment.propTypes = {
 
   /** align-item: flex-end */
   alignItEnd: PropTypes.bool,
+
+  /** The fragment supports raised style */
+  raised: PropTypes.bool,
+
+  /** The fragment supports shadowed style */
+  shadowed: PropTypes.bool,
 
   /** The fragment supports dark mode */
   dark: PropTypes.bool,
@@ -270,6 +282,15 @@ CTFragment.propTypes = {
 
   /** True if has a left border */
   borderLeft: PropTypes.bool,
+
+  /** True if overflow: hidden; */
+  overflowHidden: PropTypes.bool,
+
+  /** True if overflow-y: auto */
+  scrollY: PropTypes.bool,
+
+  /** True if overflow-x: auto */
+  scrollX: PropTypes.bool,
 };
 
 export default CTFragment;

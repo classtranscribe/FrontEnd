@@ -9,3 +9,5 @@ export { default as CaptionStyle } from './structs/CaptionStyle';
 export { default as initialState } from './initial-state';
 export { default as PlayerStateManager } from './PlayerStateManager';
 export { default as CTPlayerController } from './PlayerController';
+
+export * from './helpers';

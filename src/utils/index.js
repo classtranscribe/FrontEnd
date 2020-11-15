@@ -24,8 +24,8 @@ export { default as CTError, InvalidDataError } from './use-error';
 
 export * from './constants';
 
-export function _buildID(preflix, id) {
-  return (preflix ? `${preflix}=` : '') + (id || uuid());
+export function _buildID(preflix, id, delimiter='-') {
+  return (preflix ? `${preflix}${delimiter}` : '') + (id || uuid());
 }
 
 /**

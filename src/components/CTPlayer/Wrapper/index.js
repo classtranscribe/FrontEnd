@@ -33,6 +33,7 @@ function Wrapper(props) {
     language,
     currCaption,
     hideWrapperOnMouseLeave,
+    screenshotActionElement
   } = props;
 
   const startLayerProps = {
@@ -72,6 +73,7 @@ function Wrapper(props) {
     ccStyle,
     language,
     currCaption,
+    screenshotActionElement
   };
 
   return (

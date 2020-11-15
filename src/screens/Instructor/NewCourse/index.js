@@ -66,7 +66,7 @@ export class NewCourse extends Component {
     }, false);
 
     if (offeringId) {
-      this.props.history.push(links.offeringDetail(offeringId));
+      this.props.history.push(links.course(offeringId));
     }
   };
 

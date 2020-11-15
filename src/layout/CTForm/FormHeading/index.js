@@ -8,19 +8,19 @@ import CTHeading from '../../CTHeading';
 function FormHeading(props) {
   let {
     padding = [20, 0, 0, 0],
-    children
+    children,
+    ...otherProps
   } = props;
 
   return (
-    <CTHeading uppercase highlight padding={padding} as="h4">
+    <CTHeading uppercase highlight padding={padding} as="h4" {...otherProps}>
       {children}
     </CTHeading>
   );
 }
 
 FormHeading.propTypes = {
-  /** The padding of the `CTFragment` */
-  padding: CTHeading.propTypes.padding,
+  ...CTHeading.propTypes,
 
   /** The primary content */
   children: PropTypes.node

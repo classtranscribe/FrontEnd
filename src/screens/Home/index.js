@@ -31,7 +31,7 @@ class HomeWithRedux extends Component {
 
     return (
       <CTLayout {...layoutProps}>
-        {/* <MaintenanceMesg /> */}
+        <MaintenanceMesg message="" />
         <CTLoadable loading={loading} loadingElement={loaderElement}>
           {filterElement}
           {sectionElement}
