@@ -18,6 +18,9 @@ import { LanguageConstants } from 'components/CTPlayer'
 import { connectWithRedux } from '../../../controllers/trans';
 import TransTime from "../TransTime"
 import TransText from "../TransText"
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+
 
 function TransTable({
   media = undefined,
@@ -111,6 +114,8 @@ function TransTable({
               </TableCell>
             );
           })}
+
+
         </TableRow>
       </>
     );
@@ -153,10 +158,9 @@ function TransTable({
             id="header-button-save"
             onClick={() => {
               console.log(itemData)
-              itemData.items.splice(5, 0,
+              itemData.items.splice(15, 0,
                 createRow(
                   0,
-                  <div />,
                   captions[0].begin,
                   captions[0].end,
                   "NEW CAPTION"
@@ -175,7 +179,7 @@ function TransTable({
               <List
                 ref={listRef}
                 overscanCount={30}
-                height={height - 100}
+                height={height - 60}
                 width={width}
                 itemCount={itemData.items.length}
                 itemSize={() => 45}
