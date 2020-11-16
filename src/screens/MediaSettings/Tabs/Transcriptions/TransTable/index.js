@@ -8,7 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { FixedSizeList as List, areEqual } from "react-window";
+import { VariableSizeList as List, areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
@@ -50,7 +50,7 @@ function TransTable({
     return data;
   }
   const data = createData();
-
+  const listRef = React.createRef();
   // fetching the transcriptions from API
   useEffect(() => {
     if (!media.isUnavailable) {
@@ -112,34 +112,15 @@ function TransTable({
             );
           })}
         </TableRow>
-        {/* <TableRow component="div" style={style} className="msp-new-row">
-          {columns.map((column, colIndex) => {
-            return (
-              <TableCell
-                className={`msp-table-cell cell${index}`}
-                key={item.id + colIndex}
-                component="div"
-                variant="body"
-                style={{
-                  borderBottom: 0
-                }}
-              >
-                {colIndex === 2 ?
-                  <TransText text={""} index={index} /> :
-                  <TransTime time={item[column.dataKey]} index={index} />}
-              </TableCell>
-            );
-          })}
-        </TableRow> */}
       </>
     );
   }
 
-  const itemKey = (index, data_) => data_.items[index].id;
-  const createItemData = memoize((columns, data_) => ({
+  const itemKey = (index, data_) => index;
+  const createItemData = (columns, data_) => ({
     columns,
     items: data_
-  }));
+  });
   // id, operations, begin, end, text 
   const columns = [
     {
@@ -155,6 +136,7 @@ function TransTable({
       dataKey: "text"
     },
   ];
+  // const [newData, setNewData] = useState(createItemData(columns, data));
 
   const itemData = createItemData(columns, data);
   const handleSelect = ({ target: { value } }) => setLanguage(value);
@@ -169,15 +151,19 @@ function TransTable({
         <TableHead component="div">
           <Button
             id="header-button-save"
-            // onClick={() => {
-            //   createRow(
-            //     data.length,
-            //     <div />,
-            //     captions[data.length - 1].begin,
-            //     captions[data.length - 1].end,
-            //     ""
-            //   )
-            // }}
+            onClick={() => {
+              console.log(itemData)
+              itemData.items.splice(5, 0,
+                createRow(
+                  0,
+                  <div />,
+                  captions[0].begin,
+                  captions[0].end,
+                  "NEW CAPTION"
+                )
+              )
+              listRef.current.resetAfterIndex(0, true)
+            }}
             startIcon={<SaveIcon />}
           >Save
           </Button>
@@ -187,13 +173,15 @@ function TransTable({
           <AutoSizer>
             {({ height, width }) => (
               <List
+                ref={listRef}
                 overscanCount={30}
-                height={height - 45}
+                height={height - 100}
                 width={width}
-                itemCount={data.length}
-                itemSize={45}
+                itemCount={itemData.items.length}
+                itemSize={() => 45}
                 itemKey={itemKey}
                 itemData={itemData}
+                resetAfterIndex={0, false}
               >
                 {tableRow}
               </List>
