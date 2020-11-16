@@ -6,7 +6,7 @@ import './index.scss';
 import { CTBrand } from './CTBrand';
 import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
-
+import { NavHeaderSearch } from './NavHeaderSearch'
 import { createCTNavHeaderProps } from './create-props';
 
 /**
@@ -31,6 +31,8 @@ function CTNavHeader(props) {
     sticky = false,
     bordered = false,
     shadowed = false,
+    // search
+    search = false
   } = props;
 
   const hasExtenalBrandElem = Boolean(brandElem);
@@ -54,7 +56,7 @@ function CTNavHeader(props) {
         {/* Right Elem */}
         <div className="ct-header-left-elem">
           {brandElem}
-
+          {search && <NavHeaderSearch />}
           {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
 
           {leftElem}
@@ -102,7 +104,7 @@ export const CTNavHeaderPropsTypes = {
 
   /** The Nav Header supports profile menu */
   showProfileMenu: PropTypes.bool,
-  
+
   /** The Nav Header supports dark mode */
   darkMode: PropTypes.bool,
 
@@ -119,8 +121,8 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 CTNavHeader.Brand = CTBrand;
 CTNavHeader.createProps = createCTNavHeaderProps;
 export { CTBrand } from './CTBrand';
-export { 
-  default as SignInButton, 
+export {
+  default as SignInButton,
   useSignButtonProps
 } from './NavHeaderMenu/SignInButton';
 

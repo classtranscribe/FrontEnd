@@ -172,16 +172,9 @@ class WatchSearch extends CTSearch {
   async getInCourseResult(value) {
     const { offeringId } = setup.playlist();
     if (!offeringId) return [];
-    const { data } = await setup.getPlaylists(offeringId)
-    // console.log(data)
-    return data;
-    // try {
-    //   const { data } = await api.searchForMedia(offeringId, value);
-    //   return data;
-    // } catch (error) {
-    //   console.error(error, 'Failed to get media results');
-    //   return [];
-    // }
+    const data = await setup.getPlaylists(offeringId)
+    const ok = await setup.getPlaylist(data[1].id)
+    return ok;
   }
 
   getShortcutResults(value) {
@@ -222,7 +215,6 @@ class WatchSearch extends CTSearch {
     const inCourseTransResults = await this.getInCourseTransSearchResults(value);
     this.updateSearch({ inCourseTransResults });
     this.hasResult = true;
-
     // send user action to logs
     uEvent.filtertrans(value);
   }

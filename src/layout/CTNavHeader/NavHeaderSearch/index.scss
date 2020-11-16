@@ -1,0 +1,30 @@
+#ct-nh-search-input {
+  border-radius: 25px;
+  background-color:rgb(246, 246, 246);
+  // display: none !important;
+  &:focus-within {
+    background: rgb(236, 242, 243);
+    width: 30vw
+  }
+  margin: auto;
+  overflow: hidden;
+  width: 300px;
+  height: 2em;
+  &:focus {
+    outline: none;
+  }
+  border: none;
+  transition: width 0.25s ease-in-out;
+  font-size: medium;
+  text-indent: 20px
+}
+
+#ct-nh-search-button {
+    margin-left: 10px;
+    margin-right: 5px;
+
+}
+
+#ct-nh-search-result {
+  border-radius: 20px;
+}
