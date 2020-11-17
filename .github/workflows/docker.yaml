@@ -43,34 +43,40 @@ jobs:
       # build the docker image, this will always run to make sure
       # the Dockerfile still works.
       - name: Build image
-        run: |
-          docker build \
-            --build-arg BRANCH=${GITHUB_BRANCH} \
-            --build-arg BUILDNUMBER=${{ github.run_number }} \
-            --build-arg GITSHA1=${{ github.sha  }} \
-            --tag image \
-            .
-
-      # this will publish to the actor (person) github packages
-      - name: Publish to GitHub
-        if: github.event_name == 'push'
-        uses: elgohr/Publish-Docker-Github-Action@2.18
+        uses: elgohr/Publish-Docker-Github-Action@2.22
         env:
           BRANCH: ${{ env.GITHUB_BRANCH }}
           BUILDNUMBER: ${{ github.run_number }}
           GITSHA1: ${{ github.sha  }}
         with:
-          name: ${{ github.repository_owner }}/FrontEnd/frontend
+          registry: docker.pkg.github.com
+          name: ${{ github.repository_owner }}/${{ github.event.repository.name }}/frontend
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           tags: "${{ env.TAGS }}"
-          registry: docker.pkg.github.com
-          buildargs: BRANCH,,BUILDNUMBER,GITSHA1
+          buildargs: BRANCH,BUILDNUMBER,GITSHA1
+          no_push: true
+
+      # this will publish to github container registry
+      - name: Publish to GitHub
+        if: github.event_name == 'push' && github.repository == env.MASTER_REPO
+        uses: elgohr/Publish-Docker-Github-Action@2.22
+        env:
+          BRANCH: ${{ env.GITHUB_BRANCH }}
+          BUILDNUMBER: ${{ github.run_number }}
+          GITSHA1: ${{ github.sha  }}
+        with:
+          registry: ghcr.io
+          name: ${{ github.repository_owner }}/frontend
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_PASSWORD }}
+          tags: "${{ env.TAGS }}"
+          buildargs: BRANCH,BUILDNUMBER,GITSHA1
 
       # this will publish to the classtranscribe dockerhub repo
       - name: Publish to Docker Hub
         if: github.event_name == 'push' && github.repository == env.MASTER_REPO
-        uses: elgohr/Publish-Docker-Github-Action@2.18
+        uses: elgohr/Publish-Docker-Github-Action@2.22
         env:
           BRANCH: ${{ env.GITHUB_BRANCH }}
           BUILDNUMBER: ${{ github.run_number }}
