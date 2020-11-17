@@ -37,8 +37,8 @@ jobs:
             TAGS="$BRANCH"
           fi
           TAGS="${TAGS},${BRANCH}-${{ github.run_number }}"
-          echo "::set-env name=TAGS::${TAGS}"
-          echo "::set-env name=GITHUB_BRANCH::${BRANCH}"
+          echo "TAGS=${TAGS}" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=${BRANCH}" >> $GITHUB_ENV
 
       # build the docker image, this will always run to make sure
       # the Dockerfile still works.
