@@ -14,6 +14,7 @@ on:
     branches:
       - master
       - staging
+      - expt
   pull_request:
 
 # Certain actions will only run when this is the master repo.
