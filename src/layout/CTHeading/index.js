@@ -22,8 +22,8 @@ function CTHeading(props) {
     uppercase = false,
     highlight = false,
     highlightIcon = false,
-    padding,
     children,
+    compact,
     ...otherProps
   } = props;
 
@@ -36,6 +36,11 @@ function CTHeading(props) {
     highlightIcon,
   }, className);
 
+  if (compact) {
+    otherProps.margin = '0';
+    otherProps.padding = '0';
+  }
+
   const fragmentProps = {
     as,
     fadeIn,
@@ -43,7 +48,6 @@ function CTHeading(props) {
     offsetTop,
     alignItCenter: true,
     className: headingClasses,
-    padding,
     ...otherProps
   };
 
@@ -92,6 +96,9 @@ CTHeading.propTypes = {
 
   /** The icon can be highlighted to teal color */
   highlightIcon: PropTypes.bool,
+
+  /** Remove the default paddings and margins */
+  compact: PropTypes.bool,
 
   /** The Content of the heading */
   children: PropTypes.node,

@@ -30,34 +30,3 @@
     justify-content: center;
   }
 }
-
-.ct-signin-opts {
-  .ct-signin-opt {
-    padding: 0 25px;
-
-    span.material-icons {
-      color: rgb(61, 61, 61);
-      padding-right: 15px;
-      font-size: 30px;
-    }
-
-    .opt-text {
-      padding: 10px 0;
-    }
-
-    &:not(:last-child) {
-      .opt-text {
-        border-bottom: 1px solid rgb(233, 233, 233);
-      }
-    }
-
-    &:hover {
-      transition: background 200ms ease-in-out;
-      background-color: rgb(243, 243, 243);
-      span.material-icons,
-      .opt-text .opt-name {
-        color: teal !important;
-      }
-    }
-  }
-}

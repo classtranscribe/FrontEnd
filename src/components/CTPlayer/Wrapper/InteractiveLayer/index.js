@@ -11,7 +11,6 @@ import SettingsMenu from './SettingsMenu';
 function InteractiveLayer(props) {
   const {
     error,
-    hideWrapperOnMouseLeave,
     media,
     player,
     isTwoScreen,
@@ -33,6 +32,7 @@ function InteractiveLayer(props) {
     ccStyle,
     language,
     currCaption,
+    screenshotActionElement
   } = props;
 
   const [openSettings, setOpenSettings] = useState(false);
@@ -51,7 +51,8 @@ function InteractiveLayer(props) {
     media,
     userReady,
     player,
-    time
+    time,
+    screenshotActionElement
   };
 
   const controlBarProps = {

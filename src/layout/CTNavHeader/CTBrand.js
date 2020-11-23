@@ -10,13 +10,14 @@ import { textBrand, darkTextBrand, logoOutline } from 'assets/images';
 export function CTBrand(props) {
   let { 
     size = 'normal',
-    darkMode = false,
-    small = false,
-    logo = false,
-    disabled = false
+    darkMode,
+    small,
+    medium,
+    logo,
+    disabled
   } = props;
 
-  const brandClasses = classNames('ct-header-brand', size, { small, logo })
+  const brandClasses = classNames('ct-header-brand', size, { small, medium, logo })
 
   const imgSrc = logo 
                 ? logoOutline 

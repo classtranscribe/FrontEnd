@@ -16,7 +16,7 @@ function Actions({
   const btn = useButtonStyles();
 
   const shareableLink = window.location.origin 
-                      + links.offeringDetail(offeringId, playlistId);
+                      + links.course(offeringId, playlistId);
 
   return (
     <CTFragment dFlexCol className="actions" padding={[10, 0]}>

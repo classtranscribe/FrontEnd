@@ -287,7 +287,8 @@ class Player extends React.Component {
     const { 
       beginAt,
       endAt,
-      hideWrapperOnMouseLeave 
+      hideWrapperOnMouseLeave,
+      screenshotActionElement
     } = this.props;
     const {
       error,
@@ -337,6 +338,7 @@ class Player extends React.Component {
       language,
       currCaption,
       hideWrapperOnMouseLeave,
+      screenshotActionElement
     };
   }
 

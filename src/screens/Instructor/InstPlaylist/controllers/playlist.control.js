@@ -42,7 +42,7 @@ class PlaylistController {
       onConfirm: async () => {
         const successed = await Playlist.delete(setup.playlistId);
         if (successed) {
-          history.push(links.offeringDetail(setup.offering.id));
+          history.push(links.course(setup.offering.id));
         }
       }
     });
