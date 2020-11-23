@@ -7,8 +7,9 @@
     width: 30vw
   }
   margin: auto;
+
   overflow: hidden;
-  width: 300px;
+  width: 30vw; // 300px
   height: 2em;
   &:focus {
     outline: none;
@@ -16,15 +17,27 @@
   border: none;
   transition: width 0.25s ease-in-out;
   font-size: medium;
-  text-indent: 20px
+  text-indent: 40px
 }
 
 #ct-nh-search-button {
     margin-left: 10px;
-    margin-right: 5px;
-
+    top: 2px;
+    position: absolute !important;
 }
 
 #ct-nh-search-result {
+  position: absolute;
   border-radius: 20px;
+  width: 30vw;
+  margin-top: 2em !important;
+  margin-left: 2em !important;
+}
+
+#ct-nh-video-btn {
+  text-transform: none;
+}
+
+#ct-nh-search-card {
+  width: 100%
 }
