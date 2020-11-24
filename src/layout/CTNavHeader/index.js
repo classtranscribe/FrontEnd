@@ -32,6 +32,7 @@ function CTNavHeader(props) {
     sticky = false,
     bordered = false,
     shadowed = false,
+    className,
     // search
     search = false
   } = props;
@@ -59,26 +60,30 @@ function CTNavHeader(props) {
     <nav id="ct-nav-header" className={headerClasses}>
       <CTFragment alignItCenter justConBetween>
         {brandElem}
+        {search && <NavHeaderSearch />}
         {/* Right Elem */}
-        <div className="ct-header-left-elem">
-          {brandElem}
-          {search && <NavHeaderSearch />}
-          {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
+        <CTFragment dFlexCol>
+          <CTFragment dFlex id="ct-nh-primary">
+            <CTFragment alignItCenter className="ct-header-left-elem">
+              {subtitle && <div className="ct-h-subtitle">{subtitle}</div>}
 
-          {/* Left Elem */}
-          <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
-            {children}
-            {rightElem}
+              {leftElem}
+            </CTFragment>
 
-            {showProfileMenu && <UserMenu darkMode={darkMode} />}
+            {/* Left Elem */}
+            <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
+              {children}
+              {rightElem}
+
+              {showProfileMenu && <UserMenu darkMode={darkMode} />}
+            </CTFragment>
           </CTFragment>
-          </CTFragment>
 
-        {hasToolbarElem && <CTFragment dFlex>{toolbarElem}</CTFragment>}
-      </CTFragment>
+          {hasToolbarElem && <CTFragment dFlex>{toolbarElem}</CTFragment>}
+        </CTFragment>
       </CTFragment>
 
-      { hasTabs && <NavHeaderTabPanel tabs={tabs} tabTitleElem={tabTitleElem} /> }
+      {hasTabs && <NavHeaderTabPanel tabs={tabs} tabTitleElem={tabTitleElem} />}
     </nav >
   );
 }

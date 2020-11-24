@@ -44,9 +44,11 @@ class CourseWithRedux extends Component {
         description: offering.description
       } : undefined,
       // temp, need to change back
-      headerProps: !isInstructor ? {
-        subtitle: 'Course Admin'
-      } : { search: true }
+      headerProps:
+        // !isInstructor ? {
+        //   subtitle: 'Course Admin'
+        // } :
+        { search: true }
     }));
 
     const errorProps = {
