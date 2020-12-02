@@ -3,15 +3,16 @@ import { useArray } from 'hooks';
 import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import { CTFragment, CTFilter, CTInput, CTText } from 'layout';
-import { user, uemail } from 'utils';
+import { /** user, */ uemail } from 'utils';
 import { SelectCtrlButton } from 'components';
 import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
   const {
     emails,
+    onSave
   } = props;
-  const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId;
+  // const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId;
 
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
@@ -30,7 +31,7 @@ function EmailFilter(props) {
   // remove all selected emails 
   const removeSelectedEmails = () => {
     setInputValue('');
-    emails.remove(email => selectedEmails.includes(email));
+    emails.removeItems(selectedEmails);
   };
 
   // returns if an email is in the selected emails
@@ -64,7 +65,7 @@ function EmailFilter(props) {
 
   useEffect(() => {
     // remove non-exist emails in the selected emails when emails changed
-    selectedEmails.remove(email => !emails.includes(email))
+    selectedEmails.remove(email => !emails.includes(email));
   }, [emails]);
 
   const emailResult = (result) => {

@@ -73,6 +73,16 @@ export function useArray(initialValue, onChange) {
   };
 
   /**
+   * Remove the exact items from the array
+   * @param {Any[]} items - the exact items to remove
+   * @returns {Any} the removed items
+   */
+  const removeItems = (items) => {
+    setValue([ ..._.filter(value, it => !items.includes(it)) ]);
+    return items;
+  };
+
+  /**
    * Remove the items from the array based on the predicate
    * @param {Function|Object} predicate - the function invoked per iteration
    * @returns {Any[]} the removed items
@@ -202,6 +212,7 @@ export function useArray(initialValue, onChange) {
     pushStart,
     removeIndex,
     removeExact,
+    removeItems,
     remove,
     insert,
     updateIndex,
