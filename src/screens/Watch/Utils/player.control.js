@@ -73,9 +73,9 @@ export const videoControl = {
     this.addEventListenerForMouseMove();
 
     // initialize default settings
-    this.playbackrate(preferControl.defaultPlaybackRate(), false);
-    this.volume(preferControl.defaultVolume(), false);
-    this.mute(preferControl.muted(), false);
+    this.playbackrate(preferControl.defaultPlaybackRate());
+    this.volume(preferControl.defaultVolume());
+    this.mute(preferControl.muted());
 
     if (this.videoNode2) {
       this.SCREEN_MODE = PS_MODE;

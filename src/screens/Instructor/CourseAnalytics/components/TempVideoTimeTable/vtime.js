@@ -11,24 +11,34 @@ export class VideoTimeLogsHandler {
     this.logs = [];
   }
 
-  init({ offeringId, setParsedData, setTotal, setCaption }) {
+  init({ offeringId, setParsedData, setTotal, setEditTransCount }) {
     this.offeringId = offeringId;
     this.setParsedData = setParsedData;
     this.setTotal = setTotal;
-    this.setCaption = setCaption;
+    this.setEditTransCount = setEditTransCount;
   }
 
   download() {
     const csvList = this.logs.map((elem) => ({ ...elem, totalVideoTime: elem.count }));
     _.forEach(csvList, (log) => delete log.count);
     const csvStr = Papa.unparse(csvList);
-    fileDownload(csvStr, 'course_data.csv');
+    fileDownload(csvStr, 'video-time.csv');
+  }
+
+  downloadEditTransCount(editTransCount) {
+    const csvList = editTransCount.map((elem) => ({ email: elem.email, count: elem.count }));
+    const csvStr = Papa.unparse(csvList);
+    fileDownload(csvStr, 'edit-trans-count.csv');
   }
 
   async setup() {
     const recentTimeupdates = await this.getRecentTimeUpdateLogs();
     // console.log('recentTimeupdates', recentTimeupdates)
     const editTransLogs = await this.getEditTransLogs();
+    if (this.setEditTransCount) {
+      this.setEditTransCount(_.reverse(_.sortBy(editTransLogs, 'count')));
+    }
+
     const totalTimeupdates = await this.getTotalTimeUpdateLogs();
     // console.log('totalTimeupdates', totalTimeupdates)
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
