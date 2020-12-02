@@ -3,17 +3,18 @@ import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
 import './index.css';
-import { CTHeading } from 'layout';
+import { CTHeading, CTFragment, CTText } from 'layout';
 import { vtime } from './vtime';
 
 function TempVideoTimeTable({ offeringId }) {
   const [total, setTotal] = useState([]);
+  const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
 
   useEffect(() => {
     if (offeringId) {
-      vtime.init({ offeringId, setTotal });
+      vtime.init({ offeringId, setTotal, setEditTransCount: setEditTrans });
       vtime.setup();
     }
   }, [offeringId]);
@@ -32,23 +33,56 @@ function TempVideoTimeTable({ offeringId }) {
   };
 
   const onDownload = () => vtime.download();
+  const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
 
   return (
-    <div className="analytic_table">
+    <CTFragment className="analytic_table" loading={total.length === 0}>
+      <CTHeading as="h3" highlight padding={[0, 10]} uppercase>
+        Transcription Editing
+      </CTHeading>
+      <hr />
+
+      <CTFragment justConBetween>
+        <CTText className="pl-3">
+          <b>There are {Array.isArray(editTrans) ? editTrans.length + 1 : 0} students 
+            edited transcriptions for this course.
+          </b> <br /><br />
+          The editing history for each student is shown below in the 
+          last column <i>Captions Revised</i> of the Video Time Table. <br />
+          For more details, please use the button on the right to download the csv file.
+        </CTText>
+
+        <Button
+          uppercase
+          text="Download CSV file"
+          color="teal"
+          onClick={onDownloadEditTrans}
+          disabled={!Array.isArray(editTrans)}
+        />
+      </CTFragment>
+
       <CTHeading as="h3" highlight padding={[0, 10]} uppercase>
         Video Time
       </CTHeading>
       <hr />
 
-      <div className="ct-d-r-end">
+      <CTFragment justConBetween>
+        <CTText className="pl-3">
+          <b>{total.length + 1} students have watched the lectures for this course.</b> 
+          <br /><br />
+          The table below shows the approximate watch time for each student, 
+          you can click on the column header to sort the table. <br />
+          For more details, please use the button on the right to download the csv file.
+        </CTText>
+
         <Button
           uppercase
-          text="Download"
+          text="Download CSV file"
           color="teal"
           onClick={onDownload}
           loading={total.length === 0}
         />
-      </div>
+      </CTFragment>
 
       {total.length === 0 ? (
         <div>
@@ -124,7 +158,7 @@ function TempVideoTimeTable({ offeringId }) {
           </Table.Body>
         </Table>
       )}
-    </div>
+    </CTFragment>
   );
 }
 
