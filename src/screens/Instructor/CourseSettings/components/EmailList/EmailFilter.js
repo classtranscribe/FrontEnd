@@ -8,10 +8,7 @@ import { SelectCtrlButton } from 'components';
 import EmailItem from './EmailItem';
 
 function EmailFilter(props) {
-  const {
-    emails,
-    onSave
-  } = props;
+  const { emails } = props;
   // const myEmailId = user.getUserInfo({ allowLoginAsOverride: true }).emailId;
 
   const [inputValue, setInputValue] = useState('');

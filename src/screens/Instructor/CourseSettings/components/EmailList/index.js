@@ -35,7 +35,7 @@ export function EmailList(props) {
       heading={title}
       details={description}
       onSave={canUpdate ? handleSave : null}
-      onSaveButtonText={"Update Emails"}
+      onSaveButtonText="Update Emails"
       className="email-list-container"
     >     
       <CTFormRow>

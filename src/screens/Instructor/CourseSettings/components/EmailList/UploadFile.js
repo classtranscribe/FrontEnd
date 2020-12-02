@@ -41,7 +41,7 @@ function UploadFile(props) {
           <code> &apos;{'<>'}&apos;</code>, 
           <code> &apos;:&apos;</code>, 
           <code> space</code>, and 
-          <code> breakline</code>. <br/>
+          <code> breakline</code>. <br />
         </CTFragment>
         <CTFragment className="email-list-uploadbtw-example">
           <CTText bold>EXAMPLAES</CTText>
