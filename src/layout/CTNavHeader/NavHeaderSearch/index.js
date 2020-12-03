@@ -61,7 +61,7 @@ export function NavHeaderSearch() {
         const playlist = await setup.getPlaylist(item.id);
 
         // get mediaId, mediaName here for each transId
-        if (playlist.medias) {
+        if (playlist && playlist.medias) {
           _.forEach(playlist.medias, media => {
             media.transcriptions.forEach(trans => {
               if (trans.language === 'en-US' && !Object.keys(temp).includes(trans.id)) {
