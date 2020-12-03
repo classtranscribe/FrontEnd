@@ -74,7 +74,6 @@ function CTNavHeader(props) {
             <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
               {children}
               {rightElem}
-
               {showProfileMenu && <UserMenu darkMode={darkMode} />}
             </CTFragment>
           </CTFragment>

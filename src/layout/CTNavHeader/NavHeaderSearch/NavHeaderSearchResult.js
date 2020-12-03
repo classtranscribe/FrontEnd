@@ -1,84 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import { links } from 'utils'
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import _ from 'lodash';
-import { api, elem, CTSearch } from 'utils';
+import { api } from 'utils';
 import { SearchCard } from './SearchCard'
+export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
 
-
-export function NavHeaderSearchResult({ searchText = '' }) {
-
-  const url = links.currentUrl();
-  const offeringId = url.split('/').pop();
   const [searchResult, setSearchResult] = useState([]);
+  const transId_suffix = '_en-us_primary';
+  // prepare the transId list for mapping
+  const transId = Object.keys(transObject);
+  for (let i = 0; i < transId.length; i += 1) {
+    if (!transId[i].endsWith(transId_suffix)) { transId[i] += transId_suffix; }
+  }
 
   async function searchCaption() {
     try {
-      const res = await api.searchCaptionInOffering(offeringId, searchText);
-      const test = []
-
-      _.forEach(res.data, (val) => {
-
-        console.log(res.data)
-        if (test.some(e => e.mediaName === val.mediaName)) {
-          for (let i = 0; i < test.length; i++) {
-            if (test[i].mediaName === val.mediaName) {
-              test[i].times += 1;
-              break;
-            }
+      const { data } = await api.searchCaptions(transId, {
+        text: searchText,
+        page: 1,
+        pageSize: 1000 // get all captions for now
+      });
+      const temp = []
+      console.log('searchCaptions', data);
+      for (let i = 0; i < data.results.length; i += 1) {
+        let currTransId = data.results[i].transcriptionId;
+        let found = false;
+        for (let j = 0; j < temp.length; j += 1) {
+          if (temp[j].mediaName === transObject[currTransId].mediaName) {
+            temp[j].captions.push(data.results[i]);
+            found = true;
           }
-        } else {
-          test.push(
-            {
-              mediaName: val.mediaName,
-              playlistName: val.playlistName,
-              mediaId: val.mediaId,
-              times: 1
-            }
-          )
         }
-        // if (!searchResult.includes(val.mediaName) && !test.includes(val.mediaName)) {
-        //   test.push(val.mediaName)
-        // }
+        if (!found) {
+          temp.push({
+            mediaName: transObject[currTransId].mediaName,
+            mediaId: transObject[currTransId].mediaId,
+            playlistName: transObject[currTransId].playlistName,
+            captions: [data.results[i]]
+          })
+        }
+      }
+      // sort media based on how many times the keyword appears in it
+      temp.sort((a, b) => {
+        return b.captions.length - a.captions.length
       })
-
-      setSearchResult(test);
+      setSearchResult(temp);
     } catch (err) {
-      console.log(err)
+      // console.error(err)
+      setSearchResult([]);
     }
   }
 
   useEffect(() => {
-    // setSearchResult([])
     searchCaption();
   }, [searchText])
 
-  useEffect(() => {
-    console.log(searchResult);
-  }, [searchResult])
-
   return (
     searchResult.length ?
-      <Paper id="ct-nh-search-result" elevation={1}>
-        <List>
-          {/* {searchText} */}
-          {searchResult.map((item) =>
-            <ListItem>
-              {/* {item} */}
-              {/* <ListItemText primary={item} /> */}
-              <SearchCard searchData={item} />
-            </ListItem>
-          )}
-        </List>
-      </Paper>
-      : <div />
-
-
+      <List id="ct-nh-search-result">
+        {/* {searchText} */}
+        {searchResult.map((item) =>
+          // padding need to be adjusted
+          <ListItem>
+            <SearchCard searchData={item} />
+          </ListItem>
+        )}
+      </List>
+      : <div id="ct-nh-search-empty">No Result</div>
   );
 }

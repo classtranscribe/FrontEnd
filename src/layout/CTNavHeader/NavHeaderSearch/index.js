@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
-import { api, elem, CTSearch } from 'utils';
 import './index.scss';
 import { links } from 'utils'
 import _ from 'lodash';
@@ -9,65 +8,100 @@ import _ from 'lodash';
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import SearchIcon from '@material-ui/icons/Search';
 import { connectWithRedux, searchControl } from '../../../screens/Search/controllers';
-
-export function NavHeaderSearch({
-  searchValue = '',
-  // result = [],
-  // setSearchValue,
-  // setResult
-}) {
-
+import { setup } from '../../../screens/Watch/Utils/setup.control'
+export function NavHeaderSearch() {
+  const ref = useRef();
   const [searchText, setSearchText] = useState("");
-  const [open, setOpen] = useState(false);
-  const searchInput = [];
+
+  // mapping transId to {mediaId, mediaName, playlistId, playlistName}
+  const [transObject, setTransObject] = useState({});
+
   const handleSearchChange = val => {
     setSearchText(val.target.value);
   }
-  const url = links.currentUrl();
-  const offeringId = url.split('/').pop();
 
-  function searchCaption(text) {
-    let res;
-    api.searchCaptionInOffering(offeringId, text)
-      .then((res) => {
-        _.forEach(res.data, (val) => {
-          if (!searchInput.includes(val.mediaName)) {
-            searchInput.push(val.mediaName)
-          }
-        })
-      })
-      .catch((err) => console.log(err))
-
-    return res
-  }
-  useEffect(() => {
-    if (searchText.length > 0) {
-      setOpen(true);
-    } else {
-      setOpen(false);
+  // handle open/close of search component
+  const [open, setOpen] = useState(true);
+  const handleClickOutside = e => {
+    if (ref.current.contains(e.target)) {
+      return;
     }
-  }, [searchText])
+    setOpen(false);
+  };
   useEffect(() => {
-    console.log(searchInput);
-  }, [searchInput])
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  // parse url
+  const url = new URL(links.currentUrl());
+  const currOfferingId = url.pathname.split('/').pop();
+  const currPlaylistId = url.hash.split('=').pop();
+
+  // this suffix is temporary
+  const transId_suffix = '_en-us_primary';
+
+  async function updateTransObject() {
+    try {
+      const playlists = await setup.getPlaylists(currOfferingId);
+      // map playlist id to playlist name here
+      const playlistObject = {};
+      _.forEach(playlists, pl => {
+        playlistObject[pl.id] = pl.name;
+      });
+
+      const temp = {};
+      _.forEach(playlists, async item => {
+        const playlist = await setup.getPlaylist(item.id);
+
+        // get mediaId, mediaName here for each transId
+        if (playlist.medias) {
+          _.forEach(playlist.medias, media => {
+            media.transcriptions.forEach(trans => {
+              if (trans.language === 'en-US' && !Object.keys(temp).includes(trans.id)) {
+                // temp.push(trans.id)
+                temp[trans.id] = {
+                  mediaId: media.id,
+                  mediaName: media.name,
+                  playlistId: media.playlistId,
+                  playlistName: playlistObject[media.playlistId]
+                }
+              }
+            })
+            setTransObject(temp)
+          })
+        }
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   useEffect(() => {
-    console.log(searchCaption(searchText));
+    updateTransObject(searchText)
   }, [searchText])
 
   return (
-    <div className="ct-nh-search">
+    <div className="ct-nh-search" ref={ref} onClick={() => { setOpen(true) }}>
       <IconButton id="ct-nh-search-button" size="small"><SearchIcon /></IconButton>
       <input
-        id="ct-nh-search-input"
+        id={searchText ? "ct-nh-search-input-with-text" : "ct-nh-search-input"}
         label="Search"
         variant="filled"
         value={searchText}
         onChange={handleSearchChange}
-        placeholder={"Search"}
+        placeholder="Search in course..."
         autoComplete="off"
       />
-      <NavHeaderSearchResult searchText={searchText} />
+      <div id="ct-nh-search-result-wrap">
+        {searchText && open && <NavHeaderSearchResult searchText={searchText} transObject={transObject} id="ct-nh-search-result-wrap" />}
+      </div>
     </div>
   );
 }
