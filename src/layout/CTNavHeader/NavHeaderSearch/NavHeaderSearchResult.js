@@ -4,11 +4,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import _ from 'lodash';
 import { api } from 'utils';
-import { SearchCard } from './SearchCard';
 import { CTFragment } from 'layout';
+import { SearchCard } from './SearchCard';
 
 export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
-
   const [searchResult, setSearchResult] = useState([]);
   // this is a temporary, other languages will be supported in the future
   const transId_suffix = '_en-us_primary';
@@ -29,13 +28,13 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
         pageSize: 1000 // get all captions for now
       });
       const temp = [];
-      console.log('searchCaptions', searchText, data);
+      // console.log('searchCaptions', searchText, data);
       if (data.total === -1) {
         setNoResults(true);
         return;
-      } else {
-        setNoResults(false);
       }
+      setNoResults(false);
+
       for (let i = 0; i < data.results.length; i += 1) {
         let currTransId = data.results[i].transcriptionId;
         let found = false;
@@ -73,7 +72,8 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
   return (
     noResults ?
       <div id="ct-nh-search-empty">No Result</div>
-      : <List id="ct-nh-search-result">
+      :
+      <List id="ct-nh-search-result">
         <CTFragment loading={searchResult.length === 0}>
           {/* {searchText} */}
           {searchResult.map((item) =>

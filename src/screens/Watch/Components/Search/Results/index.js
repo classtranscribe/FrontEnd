@@ -55,15 +55,15 @@ function Results({ search = SEARCH_INIT }) {
           <div className="search-result-options">
             Found
             {resultOptions.map((opt) => (
-            <button
-              className="plain-btn watch-search-btn search-options-btn"
-              data-current={Boolean(opt.opt === option)}
-              onClick={handleChangeOption(opt.opt)}
-              aria-label={opt.content}
-              key={`result-option-${opt.opt}`}
-            >
-              <span tabIndex="-1">{opt.init ? <Placeholder small /> : `${opt.content}`}</span>
-            </button>
+              <button
+                className="plain-btn watch-search-btn search-options-btn"
+                data-current={Boolean(opt.opt === option)}
+                onClick={handleChangeOption(opt.opt)}
+                aria-label={opt.content}
+                key={`result-option-${opt.opt}`}
+              >
+                <span tabIndex="-1">{opt.init ? <Placeholder small /> : `${opt.content}`}</span>
+              </button>
           ))}
             {resultOptions.length === 0 && ' 0 results '}
             {`for '${value}'`}

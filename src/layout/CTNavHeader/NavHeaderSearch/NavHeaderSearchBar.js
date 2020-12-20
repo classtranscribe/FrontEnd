@@ -4,11 +4,10 @@ import IconButton from '@material-ui/core/IconButton';
 import './index.scss';
 import _ from 'lodash';
 
-import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import SearchIcon from '@material-ui/icons/Search';
+import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 
 export function NavHeaderSearchBar() {
-
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
   const handleSearchChange = val => {
@@ -32,7 +31,7 @@ export function NavHeaderSearchBar() {
         variant="filled"
         value={searchText}
         onChange={handleSearchChange}
-        placeholder={"Search"}
+        placeholder="Search"
         autoComplete="off"
       />
 

@@ -13,13 +13,12 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import Tooltip from '@material-ui/core/Tooltip';
 
 export function SearchCard({ searchData = {} }) {
-
-  const handleExpand = () => { setExpand(!expand) };
   // expand and show the list of captions for a media
   const [expand, setExpand] = useState(false);
+  const handleExpand = () => { setExpand(!expand) };
 
   return (
-    <Card id="ct-nh-search-card" >
+    <Card id="ct-nh-search-card">
       <CardContent>
         <div className="ct-nh-search-appear-times">Mentioned {searchData.captions.length} times in</div>
         <CardActions>
@@ -50,12 +49,21 @@ export function SearchCard({ searchData = {} }) {
         </CardActions>
         <Collapse in={expand} timeout="auto" unmountOnExit>
           {searchData.captions.map((cap) =>
-            <Tooltip title={<div id="ct-nh-search-time">{cap.begin.substring(0, 8)}</div>} placement="left" >
-              <ListItem className="ct-nh-video-caption" button disableRipple onClick={
-                () => {
-                  window.location = links.watch(searchData.mediaId, { begin: timestr.toSeconds(cap.begin) });
+            <Tooltip title={<div id="ct-nh-search-time">{cap.begin.substring(0, 8)}</div>} placement="left">
+              <ListItem
+                className="ct-nh-video-caption"
+                button
+                disableRipple
+                onClick={
+                  () => {
+                    window.location = links.watch(
+                      searchData.mediaId,
+                      {
+                        begin: timestr.toSeconds(cap.begin)
+                      });
+                  }
                 }
-              }>
+              >
                 {cap.text}
               </ListItem>
             </Tooltip>
@@ -64,6 +72,6 @@ export function SearchCard({ searchData = {} }) {
         </Collapse>
 
       </CardContent>
-    </Card >
+    </Card>
   );
 }

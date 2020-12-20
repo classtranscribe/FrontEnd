@@ -83,7 +83,7 @@ function CTNavHeader(props) {
       </CTFragment>
 
       {hasTabs && <NavHeaderTabPanel tabs={tabs} tabTitleElem={tabTitleElem} />}
-    </nav >
+    </nav>
   );
 }
 

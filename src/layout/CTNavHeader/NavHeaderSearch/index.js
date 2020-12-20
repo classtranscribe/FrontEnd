@@ -4,8 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import './index.scss';
 import { links } from 'utils';
 import _ from 'lodash';
-import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import SearchIcon from '@material-ui/icons/Search';
+import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import { setup } from '../../../screens/Watch/Utils/setup.control';
 
 export function NavHeaderSearch() {
