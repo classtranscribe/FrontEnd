@@ -2,13 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import './index.scss';
-import { links } from 'utils'
+import { links } from 'utils';
 import _ from 'lodash';
-
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import SearchIcon from '@material-ui/icons/Search';
-import { connectWithRedux, searchControl } from '../../../screens/Search/controllers';
-import { setup } from '../../../screens/Watch/Utils/setup.control'
+import { setup } from '../../../screens/Watch/Utils/setup.control';
+
 export function NavHeaderSearch() {
   const ref = useRef();
   const [searchText, setSearchText] = useState("");
@@ -28,6 +27,7 @@ export function NavHeaderSearch() {
     }
     setOpen(false);
   };
+
   useEffect(() => {
     if (open) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -43,9 +43,6 @@ export function NavHeaderSearch() {
   const url = new URL(links.currentUrl());
   const currOfferingId = url.pathname.split('/').pop();
   const currPlaylistId = url.hash.split('=').pop();
-
-  // this suffix is temporary
-  const transId_suffix = '_en-us_primary';
 
   async function updateTransObject() {
     try {
@@ -74,18 +71,18 @@ export function NavHeaderSearch() {
                 }
               }
             })
-            setTransObject(temp)
+            setTransObject(temp);
           })
         }
       })
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
   useEffect(() => {
     updateTransObject(searchText)
-  }, [searchText])
+  }, [searchText]);
 
   return (
     <div className="ct-nh-search" ref={ref} onClick={() => { setOpen(true) }}>

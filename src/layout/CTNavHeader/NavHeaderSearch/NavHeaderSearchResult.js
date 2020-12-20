@@ -1,32 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import _ from 'lodash';
 import { api } from 'utils';
-import { SearchCard } from './SearchCard'
+import { SearchCard } from './SearchCard';
+import { CTFragment } from 'layout';
+
 export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
 
   const [searchResult, setSearchResult] = useState([]);
+  // this is a temporary, other languages will be supported in the future
   const transId_suffix = '_en-us_primary';
   // prepare the transId list for mapping
   const transId = Object.keys(transObject);
   for (let i = 0; i < transId.length; i += 1) {
     if (!transId[i].endsWith(transId_suffix)) { transId[i] += transId_suffix; }
-  }
+  };
+
+  const [noResults, setNoResults] = useState(false);
 
   async function searchCaption() {
+    setSearchResult([]);
     try {
       const { data } = await api.searchCaptions(transId, {
         text: searchText,
         page: 1,
         pageSize: 1000 // get all captions for now
       });
-      const temp = []
-      console.log('searchCaptions', data);
+      const temp = [];
+      console.log('searchCaptions', searchText, data);
+      if (data.total === -1) {
+        setNoResults(true);
+        return;
+      } else {
+        setNoResults(false);
+      }
       for (let i = 0; i < data.results.length; i += 1) {
         let currTransId = data.results[i].transcriptionId;
         let found = false;
@@ -51,26 +60,29 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
       })
       setSearchResult(temp);
     } catch (err) {
-      // console.error(err)
+      console.error(err);
       setSearchResult([]);
+      setNoResults(true);
     }
   }
 
   useEffect(() => {
     searchCaption();
-  }, [searchText])
+  }, [searchText]);
 
   return (
-    searchResult.length ?
-      <List id="ct-nh-search-result">
-        {/* {searchText} */}
-        {searchResult.map((item) =>
-          // padding need to be adjusted
-          <ListItem>
-            <SearchCard searchData={item} />
-          </ListItem>
-        )}
+    noResults ?
+      <div id="ct-nh-search-empty">No Result</div>
+      : <List id="ct-nh-search-result">
+        <CTFragment loading={searchResult.length === 0}>
+          {/* {searchText} */}
+          {searchResult.map((item) =>
+            // padding need to be adjusted
+            <ListItem>
+              <SearchCard searchData={item} />
+            </ListItem>
+          )}
+        </CTFragment>
       </List>
-      : <div id="ct-nh-search-empty">No Result</div>
   );
 }

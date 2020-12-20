@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
-import { api, elem, CTSearch } from 'utils';
 import './index.scss';
-import { links } from 'utils'
 import _ from 'lodash';
 
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import SearchIcon from '@material-ui/icons/Search';
 
-export function NavHeaderSearchBar({
-  searchValue = '',
-  // result = [],
-  // setSearchValue,
-  // setResult
-}) {
+export function NavHeaderSearchBar() {
 
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
@@ -28,7 +21,7 @@ export function NavHeaderSearchBar({
     } else {
       setOpen(false);
     }
-  }, [searchText])
+  }, [searchText]);
 
   return (
     <div className="ct-nh-search">
