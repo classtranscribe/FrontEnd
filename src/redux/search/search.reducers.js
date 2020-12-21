@@ -2,6 +2,7 @@ import {
   SET_OFFERINGS,
   SET_SEARCH_VAL,
   SET_SEARCH_RES,
+  SET_RES
 } from './search.action.types';
 import { initialState } from './search.state';
 
@@ -15,6 +16,8 @@ const searchReducer = (state = initialState, action) => {
       return { ...state, searchValue: value };
     case SET_SEARCH_RES:
       return { ...state, searchResult: value };
+    case SET_RES:
+      return { ...state, result: value };
     // Default
     default:
       return state;

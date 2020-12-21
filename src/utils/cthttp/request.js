@@ -20,9 +20,9 @@ class CTHTTPRequest {
       baseURL: env.baseURL || window.location.origin,
       timeout: 20000,
       headers: {
-        Authorization: 
-          authToken && withAuth 
-            ? `Bearer ${authToken}` 
+        Authorization:
+          authToken && withAuth
+            ? `Bearer ${authToken}`
             : undefined,
       },
     });
@@ -61,7 +61,7 @@ class CTHTTPRequest {
   }
 
   /**
-   * HTTP request PUT
+   * HTTP request Delete
    * @param {string} pathname
    * @param {AxiosRequestConfig} config
    * @returns {Promise<AxiosResponse<any>>}

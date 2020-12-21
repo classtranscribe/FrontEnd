@@ -35,7 +35,7 @@ class WatchSearch extends CTSearch {
 
     // used to determine whether already has a result ot not
     // Function used to set search state
-    this.setSearch = function () {};
+    this.setSearch = function () { };
   }
 
   options = [
@@ -168,6 +168,14 @@ class WatchSearch extends CTSearch {
       return [];
     }
   }
+  // in progress. need to return a list of transID
+  async getInCourseResult(value) {
+    const { offeringId } = setup.playlist();
+    if (!offeringId) return [];
+    const data = await setup.getPlaylists(offeringId)
+    const ok = await setup.getPlaylist(data[1].id)
+    return ok;
+  }
 
   getShortcutResults(value) {
     let shortcuts_ = shortcuts.map((catag) => catag.rows);
@@ -207,7 +215,6 @@ class WatchSearch extends CTSearch {
     const inCourseTransResults = await this.getInCourseTransSearchResults(value);
     this.updateSearch({ inCourseTransResults });
     this.hasResult = true;
-
     // send user action to logs
     uEvent.filtertrans(value);
   }

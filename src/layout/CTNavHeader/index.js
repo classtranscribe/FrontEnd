@@ -5,6 +5,7 @@ import CTFragment from '../CTFragment';
 import { CTBrand } from './CTBrand';
 import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
+import { NavHeaderSearch } from './NavHeaderSearch'
 import { createCTNavHeaderProps } from './create-props';
 import './index.scss';
 
@@ -32,6 +33,8 @@ function CTNavHeader(props) {
     bordered = false,
     shadowed = false,
     className,
+    // search
+    search = false
   } = props;
 
   const hasExtenalBrandElem = Boolean(brandElem);
@@ -57,6 +60,7 @@ function CTNavHeader(props) {
     <nav id="ct-nav-header" className={headerClasses}>
       <CTFragment alignItCenter justConBetween>
         {brandElem}
+        {search && <NavHeaderSearch />}
         {/* Right Elem */}
         <CTFragment dFlexCol>
           <CTFragment dFlex id="ct-nh-primary">
@@ -70,7 +74,6 @@ function CTNavHeader(props) {
             <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
               {children}
               {rightElem}
-
               {showProfileMenu && <UserMenu darkMode={darkMode} />}
             </CTFragment>
           </CTFragment>
@@ -113,7 +116,7 @@ export const CTNavHeaderPropsTypes = {
 
   /** The Nav Header supports profile menu */
   showProfileMenu: PropTypes.bool,
-  
+
   /** The Nav Header supports dark mode */
   darkMode: PropTypes.bool,
 
@@ -130,8 +133,8 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 CTNavHeader.Brand = CTBrand;
 CTNavHeader.createProps = createCTNavHeaderProps;
 export { CTBrand } from './CTBrand';
-export { 
-  default as SignInButton, 
+export {
+  default as SignInButton,
   useSignButtonProps
 } from './NavHeaderMenu/SignInButton';
 
