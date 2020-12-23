@@ -20,8 +20,8 @@ function SearchInputWithRedux(props) {
         />
 
         <Button
-          round 
-          icon="search" 
+          round
+          icon="search"
           color="transparent"
         />
       </CTFragment>

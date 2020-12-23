@@ -1,0 +1,113 @@
+#ct-nh-search-input {
+  border-radius: 25px;
+  background-color:rgb(246, 246, 246);
+  // display: none !important;
+  &:focus-within {
+    background: rgb(236, 242, 243);
+  }
+  margin: auto;
+
+  overflow: hidden;
+  width: 30vw; // 300px
+  height: 2em;
+  &:hover {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  &:focus {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    outline: none;
+  }
+  border: none;
+  font-size: medium;
+  text-indent: 40px
+}
+#ct-nh-search-input-with-text {
+  border-radius: 25px;
+  // background-color:rgb(246, 246, 246);
+  // display: none !important;
+  background: rgb(236, 242, 243);
+    width: 30vw;
+  margin: auto;
+
+  overflow: hidden;
+  width: 30vw; // 300px
+  height: 2em;
+  &:hover {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  outline: none;
+  // &:focus + #ct-nh-search-result-wrap {
+  //   display: flex
+  // }
+  border: none;
+  font-size: medium;
+  text-indent: 40px
+}
+
+#ct-nh-search-button {
+    margin-left: 10px;
+    top: 12px;
+    position: absolute !important;
+}
+
+#ct-nh-search-result {
+  position: absolute;
+  border-radius: 10px;
+  padding-left: 0;
+  width: 30vw;
+ border: 15px solid rgb(236, 242, 243);
+  max-height: 70vh;
+  background: rgb(236, 242, 243);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  overflow: hidden;
+  overflow-y:scroll
+}
+
+#ct-nh-search-empty {
+  position: absolute;
+  border-radius: 10px;
+  padding-left: 0;
+  width: 30vw;
+  border: 15px solid rgb(236, 242, 243);
+  background: rgb(236, 242, 243);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  color: var(--ct-text-primary);
+  font-size: 1.5em;
+  display: grid;
+  place-items: center;
+}
+
+#ct-nh-video-btn {
+  text-transform: none;
+  color:  var(--ct-green-normal);
+  font-size: 1.5em;
+  font-weight: bold;
+  width: 15vw
+  
+}
+
+#ct-nh-search-card {
+  // position: relative;
+  margin: auto;
+  width: 100%;
+}
+
+.ct-nh-video-caption {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.ct-nh-search-appear-times {
+  font-size: 1.2em;
+}
+
+#ct-nh-search-time {
+  // color:  var(--ct-green-normal) !important;
+  font-weight: bold;
+  font-size: 1.6em !important;
+}
+
+#ct-nh-search-card-btn {
+  position: absolute;
+  right: 40px;
+}

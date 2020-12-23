@@ -38,14 +38,17 @@ class CourseWithRedux extends Component {
         items: sidebar.getCoursePageSidebarItems(offering)
       } : undefined,
       metaTagsProps: offeringLoaded ? {
-        title: playlistLoaded 
-            ? `${playlist.name} | ${offering.fullNumber}` 
-            : offering.fullNumber,
+        title: playlistLoaded
+          ? `${playlist.name} | ${offering.fullNumber}`
+          : offering.fullNumber,
         description: offering.description
       } : undefined,
-      headerProps: isInstructor ? {
-        subtitle: 'Course Admin'
-      } : undefined
+      // temp, need to change back
+      headerProps:
+        // !isInstructor ? {
+        //   subtitle: 'Course Admin'
+        // } :
+        { search: true }
     }));
 
     const errorProps = {

@@ -10,19 +10,21 @@ export function Staffs() {
   const instructors = useArray([]);
 
   const getInstructors = async () => {
-    const data = await offControl.getInstructorsByOfferingId(id);
-    instructors.setValue(data);
+    try {
+      const data = await offControl.getInstructorsByOfferingId(id);
+      instructors.setValue(data.slice().reverse());
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     getInstructors();
   }, []);
 
-  const handleSave = ({
-    addedEmails,
-    removedEmails
-  }) => {
-    offControl.updateInstructors(id, addedEmails, removedEmails);
+  const handleSave = async ({ addedEmails, removedEmails }) => {
+    await offControl.updateInstructors(id, addedEmails, removedEmails);
+    getInstructors();
   };
 
   return (

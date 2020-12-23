@@ -64,7 +64,7 @@ function Results({ search = SEARCH_INIT }) {
               >
                 <span tabIndex="-1">{opt.init ? <Placeholder small /> : `${opt.content}`}</span>
               </button>
-            ))}
+          ))}
             {resultOptions.length === 0 && ' 0 results '}
             {`for '${value}'`}
           </div>
