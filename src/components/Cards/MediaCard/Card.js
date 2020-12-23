@@ -27,6 +27,7 @@ function MediaCard(props) {
     description,
     nameSize = 'medium',
     posterSize,
+    duration,
     ...otherProps
   } = props;
 
@@ -67,7 +68,7 @@ function MediaCard(props) {
 
   return (
     <CTFragment {...cardProps} {...otherProps}>
-      <MediaPoster progress={ratio} width={posterWidth} />
+      <MediaPoster progress={ratio} width={posterWidth} duration={duration} />
       <div className="info-con">
         {mediaNameElement}
         {labelElement}
@@ -86,6 +87,7 @@ MediaCard.propTypes = {
   ratio: PropTypes.number,
   isUnavailable: PropTypes.bool,
   description: PropTypes.node,
+  duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.node,
   /** Size for the media name, one of 'normal', 'medium', 'big', 'large', 'huge' */
   nameSize: CTText.propTypes.size,

@@ -22,6 +22,8 @@ function MediaPoster({
   let displayedDuration = duration;
   if (duration && typeof duration === 'number') {
     displayedDuration = timestr.toTimeString(duration); 
+  } else if (duration && typeof duration === 'string') {
+    displayedDuration = timestr.toPrettierTimeString(duration);
   }
 
   const hasWatched = displayedProgress > 0;
