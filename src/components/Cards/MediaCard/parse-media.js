@@ -13,5 +13,6 @@ export function parseMedia(mediaLike) {
     ratio: media.watchHistory.ratio,
     href: links.watch(media.id),
     isUnavailable: media.isUnavailable,
+    duration: media.duration
   };
 }

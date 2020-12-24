@@ -1,0 +1,48 @@
+.ct-media-poster {
+  position: relative;
+  height: max-content;
+  overflow: hidden;
+
+  &.round {
+    border-radius: 10px;
+  }
+
+  img.poster-img {
+    position: relative;
+    pointer-events: none;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .progress-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    background-color: rgba(114, 114, 114, 0.26);
+
+    .progress {
+      height: 100%;
+      border-radius: 0;
+      background-color: rgb(45, 170, 170);
+    }
+  }
+
+  .duration-box {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    height: 18px;
+    padding: 1px 4px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.534);
+    color: white;
+    font-weight: bold;
+    border-radius: 2px;
+
+    &.watched {
+      bottom: 7px;
+    }
+  }
+}

@@ -147,6 +147,7 @@ export function parseMedia(media) {
     isUnavailable: true,
     transReady: false,
     watchHistory: { timestamp: 0, ratio: 0 },
+    duration: null
   };
 
   // console.log(media)
@@ -162,6 +163,7 @@ export function parseMedia(media) {
     transcriptions,
     ready,
     watchHistory,
+    duration
   } = media;
 
   if (!id || !jsonMetadata) return re;
@@ -172,6 +174,7 @@ export function parseMedia(media) {
   re.sourceType = sourceType;
   re.transReady = ready;
   re.mediaName = _.replace(name, '.mp4', '');
+  re.duration = duration;
 
   /** video src */
   const baseUrl = env.baseURL;

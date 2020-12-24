@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { CTFragment, CTText, makeEl, altEl } from 'layout';
-import { Poster } from '../../Poster';
+import MediaPoster from './Poster';
 import { parseMedia } from './parse-media';
 import './index.scss';
 
@@ -27,6 +27,7 @@ function MediaCard(props) {
     description,
     nameSize = 'medium',
     posterSize,
+    duration,
     ...otherProps
   } = props;
 
@@ -67,7 +68,7 @@ function MediaCard(props) {
 
   return (
     <CTFragment {...cardProps} {...otherProps}>
-      <Poster progress={ratio} width={posterWidth} />
+      <MediaPoster progress={ratio} width={posterWidth} duration={duration} />
       <div className="info-con">
         {mediaNameElement}
         {labelElement}
@@ -86,6 +87,7 @@ MediaCard.propTypes = {
   ratio: PropTypes.number,
   isUnavailable: PropTypes.bool,
   description: PropTypes.node,
+  duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.node,
   /** Size for the media name, one of 'normal', 'medium', 'big', 'large', 'huge' */
   nameSize: CTText.propTypes.size,
