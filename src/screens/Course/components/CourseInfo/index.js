@@ -1,6 +1,8 @@
 import React from 'react';
 import { InfoAndListLayout } from 'components';
+import { CTFragment } from 'layout';
 import { connectWithRedux, setup } from '../../controllers';
+import { NavHeaderSearch } from '../NavHeaderSearch';
 import ActionButtons from './ActionButtons';
 import './index.scss';
 
@@ -20,6 +22,10 @@ function CourseInfoWithRedux({
   
   return (
     <InfoAndListLayout.Info id="cp-course-info">
+      <CTFragment className="cp-search-bar mb-3">
+        <NavHeaderSearch />
+      </CTFragment>
+
       <div>
         <h1 className="number">{fullNumber}</h1>
       </div>
