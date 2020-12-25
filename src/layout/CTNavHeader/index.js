@@ -5,7 +5,6 @@ import CTFragment from '../CTFragment';
 import { CTBrand } from './CTBrand';
 import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
-import { NavHeaderSearch } from './NavHeaderSearch'
 import { createCTNavHeaderProps } from './create-props';
 import './index.scss';
 
@@ -33,8 +32,6 @@ function CTNavHeader(props) {
     bordered = false,
     shadowed = false,
     className,
-    // search
-    search = false
   } = props;
 
   const hasExtenalBrandElem = Boolean(brandElem);
@@ -60,7 +57,6 @@ function CTNavHeader(props) {
     <nav id="ct-nav-header" className={headerClasses}>
       <CTFragment alignItCenter justConBetween>
         {brandElem}
-        {search && <NavHeaderSearch />}
         {/* Right Elem */}
         <CTFragment dFlexCol>
           <CTFragment dFlex id="ct-nh-primary">
