@@ -8,14 +8,15 @@ import MuiSwitch from '@material-ui/core/Switch';
 const TealSwitch = withStyles({
   switchBase: {
     color: 'grey',
-    '&$checked': {
-      color: '#348b86',
-    },
-    '&$checked + $track': {
+    '&.MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track': {
       backgroundColor: '#348b86',
     },
+    '&.MuiSwitch-colorSecondary.Mui-checked': {
+      color: '#348b86',
+    },
     '&.MuiSwitch-colorSecondary.Mui-checked:hover': {
-      backgroundColor: 'rgba(51, 138, 133, 0.13)'
+      backgroundColor: 'rgba(51, 138, 133, 0.13)',
+      color: '#348b86',
     },
   }
 })(MuiSwitch);

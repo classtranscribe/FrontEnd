@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTCheckbox } from 'layout';
+import { CTSwitch } from 'layout';
 import { setup } from '../../../controllers';
 
 function InstModeCheckBox({
@@ -10,7 +10,8 @@ function InstModeCheckBox({
   };
 
   return (
-    <CTCheckbox 
+    <CTSwitch
+      id="course-admin-switch"
       label="Course admin mode" 
       checked={isInstMode}
       onChange={handleCheckboxChange}
