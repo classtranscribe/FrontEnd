@@ -1,0 +1,40 @@
+.ct-publish-btn-con {
+  .ct-publish-btn {
+    .ct-publish-btn-sub {
+      background-color: rgb(233, 233, 233);
+      padding: 5px 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+  
+      .ct-publish-btn-icon {
+        margin-top: 2px;
+        font-size: 12px;
+        padding: 0;
+        color: teal;
+      }
+  
+      .ct-publish-btn-txt {
+        margin-left: 5px;
+        line-height: normal;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .ct-publish-btn:hover .ct-publish-btn-sub {
+    background-color: rgb(219, 219, 219);
+  }
+
+  &.isPublished {
+    .ct-publish-btn .ct-publish-btn-sub {
+      background-color: rgb(223, 235, 235);
+    }
+
+    .ct-publish-btn:hover .ct-publish-btn-sub {
+      background-color: rgb(199, 221, 221);
+    }
+  }
+}

@@ -24,7 +24,7 @@ export { default as CircularProgress } from './CircularProgress';
 export { default as InfoAndListLayout } from './InfoAndListLayout';
 export { default as CopyButton } from './CopyButton';
 export { CTShortcutModal, CTShortcutTable } from './Shortcut';
-
+export { default as PublishStatusSwitch } from './PublishStatusSwitch';
 
 // Need to be removed later
 
