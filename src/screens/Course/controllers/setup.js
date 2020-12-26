@@ -202,6 +202,27 @@ class SetupCoursePage extends StateController {
     let playlist = await this.getPlaylistById(playlistId);
     this.setPlaylist(playlist);
   }
+
+  async updatePublishStatus(publishStatus) {
+    const {
+      id, sectionName, courseName, description, termId, accessType, logEventsFlag
+    } = this.offering;
+
+    const updatedOff = {
+      id,sectionName, courseName, description, termId, accessType, logEventsFlag, publishStatus
+    };
+
+    try {
+      await api.updateOffering(updatedOff);
+    } catch (error) {
+      console.error(error);
+      prompt.error('Failed to update the publish status.');
+      return;
+    }
+
+    prompt.addOne({ text: 'Publish status updated.', timeout: 6000 });
+    this.setupCoursePage(id);
+  };
 }
 
 export const setup = new SetupCoursePage();

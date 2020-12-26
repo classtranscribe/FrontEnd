@@ -34,6 +34,7 @@ function Switch(props) {
 
   const switchElement = (
     <TealSwitch
+      id={id}
       checked={checked}
       onChange={onChange}
       disabled={disabled}
@@ -43,7 +44,7 @@ function Switch(props) {
 
   return (
     <>
-      <FormControlLabel id={id} control={switchElement} label={label} />
+      <FormControlLabel htmlFor={id} control={switchElement} label={label} />
       {helpText && <FormHelperText>{helpText}</FormHelperText>}
     </>
   );

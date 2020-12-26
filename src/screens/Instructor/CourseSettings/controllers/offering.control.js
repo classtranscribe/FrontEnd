@@ -93,7 +93,7 @@ class OfferingControl {
       await this.updateCourseOfferings(newOffering);
     }
 
-    prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
+    prompt.addOne({ text: 'Course information updated.', timeout: 6000 });
     setup.setupCourseSettingsPage(oldOff.id);
   }
 
