@@ -17,9 +17,7 @@ const TealSwitch = withStyles({
     '&.MuiSwitch-colorSecondary.Mui-checked:hover': {
       backgroundColor: 'rgba(51, 138, 133, 0.13)'
     },
-  },
-  checked: {},
-  track: {},
+  }
 })(MuiSwitch);
 
 function Switch(props) {
@@ -44,8 +42,8 @@ function Switch(props) {
 
   return (
     <>
-    <FormControlLabel id={id} control={switchElement} label={label} />
-    {helpText && <FormHelperText>{helpText}</FormHelperText>}
+      <FormControlLabel id={id} control={switchElement} label={label} />
+      {helpText && <FormHelperText>{helpText}</FormHelperText>}
     </>
   );
 }

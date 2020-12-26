@@ -17,7 +17,6 @@ function Visibility({
   setLogEventsFlag,
   setPublishStatus,
 }) {
-
   const handleVisibilityChange = ({ target: { value } }) => {
     setAccess(value);
   };
