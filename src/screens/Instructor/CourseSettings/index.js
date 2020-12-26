@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
 import { courseStore, connectWithRedux, setup } from './controllers';
-import { Students, Staffs, CourseInfo, RemoveCourse } from './components';
+import { Students, Staffs, CourseInfo, Visibility, RemoveCourse } from './components';
 
 class CourseSettingsWithRedux extends Component {
   constructor(props) {
@@ -48,6 +48,7 @@ class CourseSettingsWithRedux extends Component {
       <CTLayout {...layoutProps}>
         <CTFragment loading={loading} padding={[0, 30]}>
           <CourseInfo />
+          <Visibility />
           {(offering && offering.accessType === 2) && <Students />}
           <Staffs />
           <RemoveCourse />

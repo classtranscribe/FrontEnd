@@ -5,13 +5,14 @@ import { setup } from './setup';
 class OfferingControl {
   constructor() {
     this.updateCourseInfo = this.updateCourseInfo.bind(this);
+    this.updateCourseVisibility = this.updateCourseVisibility.bind(this);
   }
 
   async updateCourseOfferings(newOffering) {
-    const oldOffering = setup.offering;
+    const oldOff = setup.offering;
     const offeringId = setup.offering.id;
     let newCourses = newOffering.courseIds;
-    let oldCourses = _.map(oldOffering.courses, course => course.courseId);
+    let oldCourses = _.map(oldOff.courses, course => course.courseId);
 
     let added = _.difference(newCourses, oldCourses);
     let removed = _.difference(oldCourses, newCourses);
@@ -42,16 +43,41 @@ class OfferingControl {
     }
   }
 
-  async updateCourseInfo(newOffering) {
-    const oldOffering = setup.offering;
+  async updateCourseVisibility(newOffering) {
+    const oldOff = setup.offering;
     const updatedOff = {
-      id: oldOffering.id,
-      sectionName: newOffering.sectionName,
-      termId: newOffering.termId,
+      id: oldOff.id,
       accessType: newOffering.accessType,
       logEventsFlag: newOffering.logEventsFlag,
-      courseName: newOffering.courseName,
-      description: newOffering.description,
+      publishStatus: newOffering.publishStatus
+    };
+
+    try {
+      await api.updateOffering(updatedOff);
+    } catch (error) {
+      console.error(error);
+      prompt.error('Failed to update the course info.');
+      return;
+    }
+
+    prompt.addOne({ text: 'Course visibility updated.', timeout: 3000 });
+    setup.setupCourseSettingsPage(oldOff.id);
+  }
+
+  async updateCourseInfo(newOffering) {
+    const oldOff = setup.offering;
+    const updatedOff = {
+      id: oldOff.id,
+      sectionName: newOffering.sectionName || oldOff.sectionName,
+      termId: newOffering.termId || oldOff.termId,
+      courseName: newOffering.courseName || oldOff.courseName,
+      description: newOffering.description || oldOff.description,
+      accessType: typeof newOffering.accessType === 'number' 
+                  ? newOffering.accessType : oldOff.accessType,
+      logEventsFlag: typeof newOffering.logEventsFlag === 'boolean' 
+                  ? newOffering.logEventsFlag : oldOff.logEventsFlag,
+      publishStatus: typeof newOffering.publishStatus === 'number' 
+                  ? newOffering.publishStatus : oldOff.publishStatus
     };
 
     try {
@@ -63,10 +89,12 @@ class OfferingControl {
     }
 
     // handle linked course templates ?
-    await this.updateCourseOfferings(newOffering);
+    if (Array.isArray(newOffering.courseIds)) {
+      await this.updateCourseOfferings(newOffering);
+    }
 
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
-    setup.setupCourseSettingsPage(oldOffering.id);
+    setup.setupCourseSettingsPage(oldOff.id);
   }
 
   async deleteOffering(history) {

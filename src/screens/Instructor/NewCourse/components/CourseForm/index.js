@@ -3,9 +3,11 @@ import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { CTForm } from 'layout';
 import { api, user, prompt } from 'utils';
+import PublishStatus from 'entities/PublishStatus';
 import UniversitySelection from './UniversitySelection';
-import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
+import BasicInfo from './BasicInfo';
+import Visibility from './Visibility';
 
 
 function CourseForm(props) {
@@ -17,9 +19,11 @@ function CourseForm(props) {
     defaultTerm = '',
     defaultDescription = '',
     defaultAccessType = '1',
+    defaultPublishStatus = PublishStatus.Published,
     defaultSelCourses = [],
     saveButtonText = 'create',
     onSave,
+    allowVisibility = false,
     allowUniSelection = false,
   } = props;
 
@@ -32,6 +36,7 @@ function CourseForm(props) {
   const [logEventsFlag, setLogEventsFlag] = useState(defaultLogFlag);
   const [description, setDescription] = useState(defaultDescription);
   const [accessType, setAccess] = useState(defaultAccessType);
+  const [publishStatus, setPublishStatus] = useState(defaultPublishStatus);
   const [coursesText, setCoursesText] = useState('');
 
   const [universities, setUniversities] = useState([]);
@@ -86,7 +91,7 @@ function CourseForm(props) {
   const handleSave = async () => {
     setEnable(true);
     if (error.length === 0 && typeof onSave === 'function') {
-      onSave({
+      const newCourse = {
         sectionName,
         termId: term,
         accessType,
@@ -94,7 +99,10 @@ function CourseForm(props) {
         courseName,
         description,
         courseIds: selCourses.map((course) => course.id),
-      });
+      };
+
+      if (allowVisibility) newCourse.publishStatus = publishStatus;
+      onSave(newCourse);
     }
   };
 
@@ -110,18 +118,23 @@ function CourseForm(props) {
     courseName,
     sectionName,
     term,
-    accessType,
     description,
-    logEventsFlag,
     coursesText,
     setCourseName,
     setSectionName,
     setTerm,
-    setAccess,
     setDescription,
-    setLogEventsFlag,
     setCoursesText,
     uniId
+  };
+
+  const visibilityProps = {
+    accessType,
+    logEventsFlag,
+    publishStatus,
+    setAccess,
+    setLogEventsFlag,
+    setPublishStatus
   };
 
   const courseSelectionProps = {
@@ -140,7 +153,7 @@ function CourseForm(props) {
       onSave={handleSave}
       onSaveButtonText={saveButtonText}
       collapsible={collapsible}
-      details="The basic course information: course number, name, section, term, visibility, and description."
+      details="Course number, name, section, term, and description."
     >
       {/** 
         * Temporarily disable this feature for admins
@@ -150,6 +163,8 @@ function CourseForm(props) {
 
       <CourseSelection {...courseSelectionProps} />
       <BasicInfo {...basicInfoProps} />
+
+      {allowVisibility && <Visibility {...visibilityProps} />}
     </CTForm>
   );
 }
@@ -162,10 +177,12 @@ CourseForm.propTypes = {
   defaultTerm: PropTypes.string,
   defaultDescription: PropTypes.string,
   defaultAccessType: PropTypes.string,
+  defaultPublishStatus: PropTypes.number,
   defaultSelCourses: PropTypes.array,
   saveButtonText: PropTypes.string,
   onSave: PropTypes.func,
-  allowUniSelection: PropTypes.bool
+  allowUniSelection: PropTypes.bool,
+  allowVisibility: PropTypes.bool
 };
 
 export default CourseForm;
