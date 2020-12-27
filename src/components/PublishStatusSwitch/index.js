@@ -6,13 +6,13 @@ import { CTPopoverLabel } from 'layout';
 import './index.scss';
 
 function PublishStatusSwitch(props) {
-  const { status, onPublish, onUnpublish } = props;
+  const { status, onPublish, onUnpublish, targetName } = props;
 
   const isPublished = status === PublishStatus.Published;
 
   const icon = isPublished ? 'lens' : 'panorama_fish_eye';
   const text = isPublished ? 'Published' : 'Unpublished';
-  const label = "Click to " + (isPublished ? 'unpublish' : 'publish');
+  const label = `This ${targetName} is now ${isPublished ? 'visible to allowed' : 'hidden to all'} users`;
 
   const handleClick = () => {
     if (isPublished && typeof onUnpublish === 'function') {
@@ -44,9 +44,10 @@ function PublishStatusSwitch(props) {
 }
 
 PublishStatusSwitch.propTypes = {
-  status: PropTypes.number, 
+  status: PropTypes.number.isRequired,
+  targetName: PropTypes.string.isRequired,
   onPublish: PropTypes.func, 
-  onUnpublish: PropTypes.func
+  onUnpublish: PropTypes.func,
 };
 
 export default PublishStatusSwitch;

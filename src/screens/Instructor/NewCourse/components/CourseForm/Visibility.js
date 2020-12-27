@@ -58,7 +58,7 @@ function Visibility({
           label="Publish the course"
           checked={publishStatus === 0}
           onChange={handlePublishStatusChange}
-          helpText="By publishing, this course will be visible to desired user group."
+          helpText="By publishing, this course will be visible to allowed user group."
         />
       </CTFormRow>
 

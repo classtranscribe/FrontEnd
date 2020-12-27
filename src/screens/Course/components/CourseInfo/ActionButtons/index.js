@@ -33,6 +33,7 @@ function ActionButtons(props) {
           &&
           <PublishStatusSwitch
             status={offering.publishStatus}
+            targetName="course"
             onPublish={onPublish}
             onUnpublish={onUnpublish}
           />
