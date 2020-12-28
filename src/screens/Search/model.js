@@ -7,7 +7,8 @@ const SearchModel = {
     state: {
         offerings: ARRAY_INIT,
         searchValue: '',
-        searchResult: {}
+        searchResult: {},
+        result: []
     },
     reducers: {
         setOfferings(state, { payload }) {
@@ -18,7 +19,10 @@ const SearchModel = {
         },
         setSearchResult(state, { payload }) {
             return { ...state, searchResult: payload };
-        }
+        },
+        setResult(state, { payload }) {
+            return { ...state, result: payload };
+        },
     },
     effects: {
         *initialize(__, { call, put, select, take }) {
