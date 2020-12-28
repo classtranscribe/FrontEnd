@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'dva/router';
 import { MediaCard } from 'components';
 import { api } from 'utils';
 import { setup, connectWithRedux } from '../../../Utils';

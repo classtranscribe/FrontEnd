@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'dva/router';
 import { useArray } from 'hooks';
 import { offControl } from '../../controllers';
 import { EmailList } from '../EmailList';

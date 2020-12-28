@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'dva/router';
 import { Button } from 'pico-ui';
 import { CTForm, CTFormHelp, CTConfirmation } from 'layout';
 import { offControl } from '../controllers';

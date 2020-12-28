@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { uurl, elem } from 'utils';
 import { epub, connectWithRedux } from '../../controllers';
 

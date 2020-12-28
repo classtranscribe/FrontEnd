@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'dva/router';
 import { mspStore, mspContext, connectWithRedux as mspConnect } from 'redux/media-settings';
 import { getTab } from '../helpers';
 

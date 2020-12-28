@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'dva/router';
 import ErrorTypes from 'entities/ErrorTypes';
 import { uurl, elem } from 'utils';
 import { connectWithRedux, setup } from '../../controllers';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'dva/router';
 import { Playlist } from 'entities/Playlists';
 import { InfoAndListLayout } from 'components';
 import { connectWithRedux, plControl } from '../../controllers';
