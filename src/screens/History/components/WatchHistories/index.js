@@ -1,11 +1,12 @@
 import React from 'react';
 import { CTFragment, CTFilter } from 'layout';
 import { MediaCard } from 'components';
+import { connect } from 'dva';
 import { ARRAY_INIT } from 'utils/constants';
-import { connectWithRedux } from '../../controllers';
 
 function WatchHistoriesWithRedux(props) {
-  let { watchHistories = ARRAY_INIT } = props;
+  const { historypage } = props;
+  const { watchHistories = ARRAY_INIT } = historypage;
 
   const loading = watchHistories === ARRAY_INIT;
   const data = loading ? [] : watchHistories;
@@ -50,8 +51,7 @@ function WatchHistoriesWithRedux(props) {
   );
 }
 
-export const WatchHistories = connectWithRedux(
-  WatchHistoriesWithRedux,
-  ['watchHistories']
-);
+export default connect(({ historypage, loading }) => ({
+  historypage
+}))(WatchHistoriesWithRedux);
 

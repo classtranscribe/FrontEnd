@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout } from 'layout';
-import { historyStore, connectWithRedux, setup } from './controllers';
-import { WatchHistories } from './components';
-
+import WatchHistories from './components/WatchHistories';
+import { connect } from 'dva';
 
 class HistoryWithRedux extends Component {
-  constructor(props) {
-    super(props);
-
-    setup.init(props);
-  }
-
-  componentDidMount() {
-    setup.setupHisoryPage();
-  }
-
   render() {
     const layoutProps = CTLayout.createProps({
       transition: true,
@@ -42,10 +30,6 @@ class HistoryWithRedux extends Component {
   }
 }
 
-export const History = withReduxProvider(
-  HistoryWithRedux,
-  historyStore,
-  connectWithRedux,
-  [],
-  ['all']
-);
+export const History = connect(({ historypage, loading }) => ({
+  historypage
+}))(HistoryWithRedux);

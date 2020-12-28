@@ -8,5 +8,6 @@ window.temp_app = app
 app.model(require('./model/global').default);
 app.model(require('./screens/Home/model').default);
 app.model(require('./screens/Search/model').default);
+app.model(require('./screens/History/model').default);
 app.router(() => <Router basename="/"><App /></Router>);
 app.start('#root')
