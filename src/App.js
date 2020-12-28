@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import AppInsightsProvider from './azure-app-insights';
 
 import {
@@ -35,7 +35,7 @@ import './App.css';
 // import 'braft-editor/dist/index.css';
 import { altEl } from './layout';
 import { user, env } from './utils';
-
+import { connect } from 'dva';
 
 class App extends React.Component {
   componentDidMount() {

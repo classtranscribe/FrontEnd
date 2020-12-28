@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { ButtonBase } from '@material-ui/core';
 import { CTFragment, CTText } from 'layout';
 

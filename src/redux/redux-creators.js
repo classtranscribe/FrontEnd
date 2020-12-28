@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, Reducer } from 'redux';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import logger from 'redux-logger';
 import { isDeveloping } from 'utils';
 
@@ -81,6 +81,7 @@ export function createSelector(
  * @param {Reducer} reducer
  */
 export function createReduxStore(reducer) {
+  console.log('Hello')
   const store = createStore(reducer, isDeveloping ? applyMiddleware(logger) : undefined);
 
   return store;
