@@ -2,21 +2,11 @@ import React, { useEffect } from 'react';
 import { CTFragment } from 'layout';
 import { CourseCardList } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
-import { connectWithRedux, searchControl } from '../../controllers';
 
 function SearchResultWithRedux(props) {
-  let {
-    offerings,
-    searchValue,
-    searchResult,
-  } = props;
+  const {search} = props;
+  let { searchResult } = search;
   
-  useEffect(() => {
-    if (offerings !== ARRAY_INIT) {
-      searchControl.searchFor(searchValue);
-    }
-  }, [offerings, searchValue]);
-
   const { courseResult } = searchResult;
 
   let resultListElement = null;
@@ -38,7 +28,4 @@ function SearchResultWithRedux(props) {
   );
 }
 
-export const SearchResult = connectWithRedux(
-  SearchResultWithRedux,
-  ['offerings', 'searchValue', 'searchResult']
-);
+export default SearchResultWithRedux;
