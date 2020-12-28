@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route } from 'dva/router';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import CourseEditing from './CourseEditing';
