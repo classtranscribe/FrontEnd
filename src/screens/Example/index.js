@@ -41,7 +41,13 @@ class ExampleWithRedux extends Component {
             allowScreenshot
           /> */}
 
-          <iframe width="560" height="315" title="Information and Technology April 24, 2019" frameBorder="0" src="http://localhost:3000/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?lang=en-US" />
+          <iframe 
+            width="560" 
+            height="315" 
+            title="Information and Technology April 24, 2019" 
+            frameBorder="0" 
+            src={`${window.location.origin}/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?lang=en-US`}
+          />
         </CTFragment>
       </CTLayout>
     );
