@@ -7,7 +7,7 @@ import './index.scss';
 
 function SignIn() {
   const { search } = useLocation();
-  const { method, redirect } = uurl.useSearch();
+  const { method, redirect, aspopup } = uurl.useSearch();
 
   useLoaded();
 
@@ -19,17 +19,14 @@ function SignIn() {
         prompt.error('Invalid sign in method.');
       }
     }
-
-    if (window.closeAfterSignedIn) {
-      localStorage.setItem('__closeAfterSignedIn', 'true');
-      if (typeof window.onSignedIn === 'function') {
-        localStorage.setItem('__onSignedIn', window.onSignedIn.toString());
-      }
-    }
   }, [search]);
 
   const handleSignIn = (_method) => () => {
-    user.signIn({ method: _method, redirectURL: redirect });
+    user.signIn({
+      method: _method,
+      redirectURL: redirect,
+      closeAfterSignedIn: aspopup === 'true'
+    });
   };
 
   const signInOptions = [

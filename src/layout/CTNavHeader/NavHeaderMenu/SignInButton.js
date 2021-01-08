@@ -37,7 +37,7 @@ function SignInButton(props) {
     btnProps.component = 'button';
     btnProps.onClick = (event) => {
       event.preventDefault();
-      let siWdw = window.open(links.signIn(), '_blank');
+      let siWdw = window.open(links.signIn({ aspopup: 'true' }), '_blank');
       siWdw.closeAfterSignedIn = true;
       siWdw.onSignedIn = () => {
         window.close();

@@ -94,10 +94,15 @@ export class User {
   signIn(
     options = {
       method: AUTH_AUTH0,
-      redirectURL: window.location.href
+      redirectURL: window.location.href,
+      closeAfterSignedIn: false
     },
   ) {
-    const { method, redirectURL } = options;
+    const { method, redirectURL, closeAfterSignedIn } = options;
+    if (closeAfterSignedIn) {
+      accountStorage.setCloseAfterSignedIn();
+    }
+    
 
     if (env.dev && method === AUTH_TEST) {
       this.testSignIn(redirectURL);
@@ -123,6 +128,8 @@ export class User {
     accountStorage.setAuthToken(authToken);
     // Save user info
     this.saveUserInfo(data, {}, AUTH_TEST);
+
+    this.execCloseAfterSignIn();
     window.location = redirectURL;
   }
 
@@ -212,25 +219,6 @@ export class User {
     }
 
     window.location = redirectURL;
-  }
-
-  execCloseAfterSignIn() {
-    const closeAfterSignedIn = localStorage.getItem('__closeAfterSignedIn') === 'true';
-    if (closeAfterSignedIn) {
-      localStorage.removeItem('__closeAfterSignedIn');
-      const compressedOnSignedIn = localStorage.getItem('__onSignedIn');
-      if (compressedOnSignedIn) {
-        try {
-          const onSignedIn = eval(`(${ compressedOnSignedIn })`);
-          if (typeof onSignedIn === 'function') {
-            localStorage.removeItem('__onSignedIn');
-            onSignedIn();
-          }
-        } catch (error) {
-          console.error('failed to parse onSignedIn func.', error);
-        }
-      }
-    }
   }
 
   /**
@@ -453,5 +441,12 @@ export class User {
   loginAsAccountSignOut() {
     accountStorage.remove(accountStorage.LOGIN_AS_USER_INFO_KEY);
     window.location.reload();
+  }
+
+  execCloseAfterSignIn() {
+    if (accountStorage.closeAfterSignedIn) {
+      accountStorage.rmCloseAfterSignedIn();
+      window.close();
+    }
   }
 }

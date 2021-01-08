@@ -31,13 +31,15 @@ export class ClassTranscribeLinks {
    * @param {Object} config - sign in config
    * @param {String} config.redirect - redirect-uri
    * @param {String} config.method - auth method
+   * @param {String} config.aspopup - 'true' if served as a popup window and will be closed after signing in
    */
   signIn(config) {
     const {
       redirect = window.location.href,
-      method
+      method,
+      aspopup 
     } = config || {};
-    return `/sign-in${uurl.createSearch({ redirect, method })}`
+    return `/sign-in${uurl.createSearch({ redirect, method, aspopup })}`
   }
 
   /**
