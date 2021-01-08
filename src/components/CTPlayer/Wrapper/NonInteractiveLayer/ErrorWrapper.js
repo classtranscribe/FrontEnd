@@ -1,13 +1,34 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { CTFragment, CTText } from 'layout';
-import { links } from 'utils';
+import { SignInPrompt } from 'components';
+import { user } from 'utils';
 
 function ErrorWrapper({ error }) {
-  const { id } = useParams();
+  let errorPrompt = null;
+  if (error === 401) {
+    if (user.isLoggedIn) {
+      errorPrompt = (
+        <CTText white size="medium" textCenter>
+          Unauthorized Access: <br />
+          Sorry, you are not authorized for your requested page or resource.
+        </CTText>
+      );
+    } else {
+      errorPrompt = (
+        <SignInPrompt
+          targetBlank
+          closeAfterSignedIn
+          topDescription="Please sign in to watch the video."
+        />
+      );
+    }
+  }
+
   return (
-    <CTFragment center>
+    <CTFragment center dFlexCol>
       <CTText white size="medium">Media Unavailable: {error} Error</CTText>
+      
+      {errorPrompt}
     </CTFragment>
   );
 }
