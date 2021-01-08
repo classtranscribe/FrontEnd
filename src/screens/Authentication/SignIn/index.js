@@ -19,6 +19,13 @@ function SignIn() {
         prompt.error('Invalid sign in method.');
       }
     }
+
+    if (window.closeAfterSignedIn) {
+      localStorage.setItem('__closeAfterSignedIn', 'true');
+      if (typeof window.onSignedIn === 'function') {
+        localStorage.setItem('__onSignedIn', window.onSignedIn.toString());
+      }
+    }
   }, [search]);
 
   const handleSignIn = (_method) => () => {

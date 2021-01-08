@@ -214,6 +214,25 @@ export class User {
     window.location = redirectURL;
   }
 
+  execCloseAfterSignIn() {
+    const closeAfterSignedIn = localStorage.getItem('__closeAfterSignedIn') === 'true';
+    if (closeAfterSignedIn) {
+      localStorage.removeItem('__closeAfterSignedIn');
+      const compressedOnSignedIn = localStorage.getItem('__onSignedIn');
+      if (Boolean(compressedOnSignedIn)) {
+        try {
+          const onSignedIn = eval('(' + compressedOnSignedIn + ')');
+          if (typeof onSignedIn === 'function') {
+            localStorage.removeItem('__onSignedIn');
+            onSignedIn();
+          }
+        } catch (error) {
+          console.error('failed to parse onSignedIn func.', error);
+        }
+      }
+    }
+  }
+
   /**
    * Setup user after loading user info and `id_token` from Auth0
    */
@@ -234,6 +253,7 @@ export class User {
     const idToken = this.auth0Client.getAuth0Token();
     const profile = this.auth0Client.getProfile();
     const successed = await this.setupUser(idToken, profile, AUTH_AUTH0, links.auth0Callback());
+    this.execCloseAfterSignIn();
     if (!successed) {
       return;
     }
@@ -251,6 +271,7 @@ export class User {
     const { token, redirect_uri } = this.ciLogonClient.parseCallback();
 
     const successed = await this.setupUser(token, {}, AUTH_CILOGON, links.ciLogonCallback());
+    this.execCloseAfterSignIn();
     if (!successed) {
       return;
     }
