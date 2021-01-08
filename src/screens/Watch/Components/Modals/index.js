@@ -10,7 +10,7 @@ import EmbedModal from './EmbedModal'
 import ShareModal from './ShareModal';
 import './index.css';
 
-function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
+function ModalsWithRedux({ modal = MODAL_HIDE, setModal, media }) {
   // Register setMenu to menuControl
   useEffect(() => {
     modalControl.register({ setModal });
@@ -34,7 +34,7 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
       {
         embed
         &&
-        <EmbedModal onClose={() => setEmbed(false)} />
+        <EmbedModal media={media} onClose={() => setEmbed(false)} />
       }
     </>
   );
@@ -42,6 +42,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal }) {
 
 export const Modals = connectWithRedux(
   ModalsWithRedux, 
-  ['modal'], 
+  ['modal', 'media'], 
   ['setModal']
 );
