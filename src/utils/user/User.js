@@ -101,6 +101,8 @@ export class User {
     const { method, redirectURL, closeAfterSignedIn } = options;
     if (closeAfterSignedIn) {
       accountStorage.setCloseAfterSignedIn();
+    } else { // Remove any old settings
+      accountStorage.rmCloseAfterSignedIn();
     }
     
 
