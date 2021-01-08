@@ -4,13 +4,12 @@ import { SignInPrompt } from 'components';
 import { user } from 'utils';
 
 function ErrorWrapper({ error }) {
-
   let errorPrompt = null;
   if (error === 401) {
     if (user.isLoggedIn) {
       errorPrompt = (
         <CTText white size="medium" textCenter>
-          Unauthorized Access: <br/>
+          Unauthorized Access: <br />
           Sorry, you are not authorized for your requested page or resource.
         </CTText>
       );

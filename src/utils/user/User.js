@@ -219,9 +219,9 @@ export class User {
     if (closeAfterSignedIn) {
       localStorage.removeItem('__closeAfterSignedIn');
       const compressedOnSignedIn = localStorage.getItem('__onSignedIn');
-      if (Boolean(compressedOnSignedIn)) {
+      if (compressedOnSignedIn) {
         try {
-          const onSignedIn = eval('(' + compressedOnSignedIn + ')');
+          const onSignedIn = eval(`(${ compressedOnSignedIn })`);
           if (typeof onSignedIn === 'function') {
             localStorage.removeItem('__onSignedIn');
             onSignedIn();
