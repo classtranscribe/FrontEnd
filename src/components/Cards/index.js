@@ -4,4 +4,4 @@ export {
   CourseCardHolder
 } from './CourseCard';
 
-export { MediaCard } from './MediaCard';
+export { MediaCard, MediaPoster } from './MediaCard';

@@ -2,6 +2,10 @@
   cursor: none;
   z-index: 2;
 
+  &.static {
+    z-index: 0;
+  }
+
   // &:focus-within, 
   &.show {
     transition: none;

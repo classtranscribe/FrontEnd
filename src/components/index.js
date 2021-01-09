@@ -12,7 +12,6 @@ import './index.css';
 
 export { SignInPrompt } from './SignInPrompt';
 
-export { Poster } from './Poster';
 export * from './Cards';
 
 export { CTModal } from './Modals';

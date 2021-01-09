@@ -53,11 +53,11 @@ function CTLayout(props) {
 
   useEffect(() => {
     if (responsive) {
-      const { 
-        addScreenResizeListener, 
-        removeScreenResizeListener 
+      const {
+        addScreenResizeListener,
+        removeScreenResizeListener
       } = getScreenResizeListener(defaultSidebar, setSidebar);
-      
+
       addScreenResizeListener();
 
       return removeScreenResizeListener;
@@ -74,21 +74,21 @@ function CTLayout(props) {
     if (responsive) {
       handleOpenResponsiveSidebar(setSidebar);
     } else if (isMini) {
-        setSidebar('normal');
-      } else if (isNormal) {
-        setSidebar('mini');
-      } else if (isFloat) {
-        setSidebar(null);
-      } else if (isClose) {
-        setSidebar(float ? 'float' : mini ? 'mini' : 'normal');
-      }
+      setSidebar('normal');
+    } else if (isNormal) {
+      setSidebar('mini');
+    } else if (isFloat) {
+      setSidebar(null);
+    } else if (isClose) {
+      setSidebar(float ? 'float' : mini ? 'mini' : 'normal');
+    }
   };
 
   // Classes
   const containerClasses = cx(className);
   const mainClasses = cx(
-    'ct-layout-main', 
-    { 
+    'ct-layout-main',
+    {
       fill,
       'tab-header': Array.isArray(tabs) && tabs.length > 0,
       transition,
@@ -121,14 +121,14 @@ function CTLayout(props) {
   // Page Element
   const pageElement = altEl(
     children, !fill, null, <div className="ct-layout-fill">{children}</div>);
-  
+
   const footerElement = altEl(CTFooter, footer);
   const cookieAgreementElement = altEl(CTCookieAgreement, cookieAgreementModal);
 
   return (
     <div id="ct-layout-container" className={containerClasses}>
       <CTMetaTags {...metaTagsProps} />
-      
+
       <CTNavSidebar
         {...sidebarProps}
         darkMode={darkMode}
@@ -140,7 +140,7 @@ function CTLayout(props) {
         onClose={handleOpenSidebar}
       />
 
-      <CTScrollArea 
+      <CTScrollArea
         id="ct-layout-scroll"
         role={role}
         scrollToTopButton="bottom right"
@@ -153,7 +153,7 @@ function CTLayout(props) {
           darkMode={darkMode}
           brandElem={headerBrandElem}
         />
-        
+
         {cookieAgreementElement}
         {headingElement}
         {pageElement}
@@ -191,10 +191,10 @@ export const CTLayoutPropTypes = {
 
   /** The page content can have a default footer */
   footer: PropTypes.bool,
-  
+
   /** Page content */
   children: PropTypes.node,
-  
+
   /** Props to the nav header */
   headerProps: PropTypes.shape(CTNavHeader.propTypes),
 

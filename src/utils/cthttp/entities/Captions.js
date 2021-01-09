@@ -1,5 +1,7 @@
 import { cthttp } from '../request';
 
+const qs = require('qs')
+
 // ------------------------------------------------------------
 // Captions
 // ------------------------------------------------------------
@@ -22,6 +24,12 @@ export function searchCaptionInOffering(offeringId, query) {
 
 export function updateCaptionLine(data) {
   return cthttp.post('Captions', { id: data.id, text: data.text });
+}
+
+export function searchCaptions(transList, data) {
+  return cthttp.post('CaptionsSearch',
+    transList
+    , { params: { query: data.text, page: data.page, pageSize: data.pageSize } });
 }
 
 // ------------------------------------------------------------
