@@ -63,6 +63,11 @@ class App extends React.Component {
       models: () => [], // require('./screens/Course/model').default
       component: () => Course
     })
+    const MyCoursesPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Instructor/MyCourses/model').default], // 
+      component: () => MyCourses
+    })
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -79,7 +84,7 @@ class App extends React.Component {
           {
             isAdminOrInstructor
             &&
-            <Route exact path="/instructor/my-courses" component={MyCourses} />
+            <Route exact path="/instructor/my-courses" component={MyCoursesPage} />
           }
           {
             isAdminOrInstructor

@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
+import ErrorTypes from 'entities/ErrorTypes';
 import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
+import _ from 'lodash';
 import { ARRAY_INIT, api } from 'utils';
-import { setup, myCoursesStore, connectWithRedux } from './controllers';
-
+import { connect } from 'dva'
 import { CourseList, NoCourseHolder } from './components';
 
+function sortOfferings(offerings = [], terms = []) {
+  let currentOfferings = [];
+  let pastOfferings = [];
+
+  if (offerings === ARRAY_INIT || ErrorTypes.isError(offerings)) {
+    return { currentOfferings, pastOfferings };
+  }
+
+  let currTermId = (terms[0] || {}).id;
+
+  _.forEach(offerings, off => {
+    if (off.term && off.term.id === currTermId) {
+      currentOfferings.push(off);
+    } else {
+      pastOfferings.push(off);
+    }
+  });
+  // console.log({ currentOfferings, pastOfferings })
+  return { currentOfferings, pastOfferings };
+}
+
 class MyCoursesWithRedux extends Component {
-  constructor(props) {
-    super(props);
-
-    setup.init(props);
-  }
-
-  componentDidMount() {
-    setup.setupMyCoursesPage();
-  }
-
 
   render() {
     const layoutProps = CTLayout.createProps({
@@ -34,8 +45,8 @@ class MyCoursesWithRedux extends Component {
         title: 'My Courses'
       }
     });
-
-    const { offerings, terms } = this.props;
+    const { instcourse } = this.props;
+    const { offerings, terms } = instcourse;
     const loading = offerings === ARRAY_INIT;
     const error = api.isError(offerings);
     const noOffering = !loading && offerings.length === 0;
@@ -44,7 +55,7 @@ class MyCoursesWithRedux extends Component {
       const {
         currentOfferings,
         pastOfferings
-      } = setup.sortOfferings(result, terms);
+      } = sortOfferings(result, terms); // TODO 
 
       return (
         <CTFragment fadeIn loading={loading} error={error}>
@@ -94,10 +105,6 @@ class MyCoursesWithRedux extends Component {
   }
 }
 
-export const MyCourses = withReduxProvider(
-  MyCoursesWithRedux,
-  myCoursesStore,
-  connectWithRedux,
-  ['offerings', 'terms'],
-  ['all']
-);
+export const MyCourses = connect(({ instcourse, loading }) => ({
+  instcourse
+}))(MyCoursesWithRedux);
