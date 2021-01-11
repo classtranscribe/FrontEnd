@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import { uEvent } from './Utils/UserEventController';
-import { ERR_INVALID_MEDIA_ID, ERR_AUTH } from './Utils/constants.util';
+import { ERR_INVALID_MEDIA_ID, ERR_AUTH, ENGLISH, ARRAY_EMPTY, HIDE_TRANS } from './Utils/constants.util';
 import { transControl } from './Utils/trans.control';
 import { videoControl } from './Utils/player.control';
 import { menuControl } from './Utils/menu.control';
@@ -275,8 +275,19 @@ const WatchModel = {
         },
     },
     effects: {
+        *setTranscriptions({ trans }, { call, put, select, take }) {
+            const currTrans = _.find(trans, { ENGLISH }); // trans.find(tran => tran.language === 'en-US')
+            uEvent.registerLanguage(ENGLISH);
+            if (currTrans) {
+                // this.currTrans(currTrans);
+            } else {
+                // this.transcript(ARRAY_EMPTY);
+                if (!isMobile) {
+                    // this.transView(HIDE_TRANS, { updatePrefer: false });
+                }
+            }
+        },
         *setupMedia({ payload }, { call, put, select, take }) {
-            console.log('Setup Media')
             // Get media
             const { id } = uurl.useSearch();
             let media = null;
@@ -299,6 +310,8 @@ const WatchModel = {
             // Set transcriptions
 
             const { transcriptions } = media;
+            // setTranscriptions
+            yield put({ type: 'setTranscriptions', payload: transcriptions })
             transControl.transcriptions(transcriptions);
 
             // Get Playlist
@@ -315,7 +328,7 @@ const WatchModel = {
             yield put({ type: 'setPlaylist', payload: playlist })
 
             const { offeringId } = playlist;
-            let { data : offering } = yield call(api.getOfferingById, offeringId);
+            let { data: offering } = yield call(api.getOfferingById, offeringId);
             offering = api.parseSingleOffering(offering);
             yield put({ type: 'setOffering', payload: offering })
             // register the ids to the user event controller
@@ -344,7 +357,7 @@ const WatchModel = {
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen((event) => {
-                if(event.pathname === '/video' ||event.action === 'PUSH' && event.location.pathname === '/video') {
+                if (event.pathname === '/video' || event.action === 'PUSH' && event.location.pathname === '/video') {
                     dispatch({ type: 'setupMedia' });
                 }
             })

@@ -16,14 +16,16 @@ import TranscriptText from './TranscriptText';
 
 import PlaceHolder from './PlaceHolder';
 
-function TranscriptionsWithRedux({
-  transcript = [],
-  currCaption = {},
-  mode = NORMAL_MODE,
-  transView = LINE_VIEW,
-  currEditing = null,
-  search = SEARCH_INIT,
-}) {
+function TranscriptionsWithRedux(props) {
+  const {
+    transcript = [],
+    currCaption = {},
+    mode = NORMAL_MODE,
+    transView = LINE_VIEW,
+    currEditing = null,
+    search = SEARCH_INIT,
+  } = props;
+  // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
     transControl.handleMourseOver(bool);
   };

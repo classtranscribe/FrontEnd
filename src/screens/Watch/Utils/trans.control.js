@@ -115,30 +115,6 @@ export const transControl = {
   currTrans_: {},
 
   /**
-   * Function used to initialize transcriptions of the video
-   */
-  transcriptions(trans) {
-    if (trans === undefined) return this.transcriptions_;
-
-    const { setTranscriptions } = this.externalFunctions;
-    if (setTranscriptions) {
-      setTranscriptions(trans);
-      this.transcriptions_ = trans;
-      // console.log('trans', trans)
-
-      // Set the default current-transcription to be English
-      const currTrans = this.findTransByLanguage(ENGLISH); // trans.find(tran => tran.language === 'en-US')
-      uEvent.registerLanguage(ENGLISH);
-      if (currTrans) {
-        this.currTrans(currTrans);
-      } else {
-        this.transcript(ARRAY_EMPTY);
-        if (!isMobile) this.transView(HIDE_TRANS, { updatePrefer: false });
-      }
-    }
-  },
-
-  /**
    * Function called for setting current transcription (aka language)
    */
   async currTrans(tran) {
@@ -274,6 +250,7 @@ export const transControl = {
   isMourseOverTrans: false,
 
   transcript(transcript_) {
+    console.log('TRANSCRIPT')
     if (transcript_ === undefined) return this.transcript_;
     const { setTranscript, setCurrCaption } = this.externalFunctions;
     this.transcript_ = transcript_;
@@ -435,7 +412,7 @@ export const transControl = {
    */
   bulkEditing_: false,
   transcriptCpy_: [],
-  setTransCpy() {},
+  setTransCpy() { },
   bulkEdit(bool) {
     const { setBulkEditing } = this.externalFunctions;
     let bulkEditing = false;
@@ -713,8 +690,7 @@ export const transControl = {
    * Function used to find the transcription that matches the language
    */
   findTransByLanguage(language) {
-    const transcriptions = this.transcriptions_;
-    return _.find(transcriptions, { language });
+    // IS _.find(transcriptions, { language });
   },
 
   /**
