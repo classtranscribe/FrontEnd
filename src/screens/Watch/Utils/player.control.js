@@ -421,9 +421,8 @@ export const videoControl = {
     if (duration > 0) {
       for (let i = 0; i < buffered.length; i += 1) {
         if (buffered.start(buffered.length - 1 - i) < currentTime) {
-          document.getElementById('buffered-amount').style.width = `${
-            (buffered.end(buffered.length - 1 - i) / duration) * 100
-          }%`;
+          document.getElementById('buffered-amount').style.width = `${(buffered.end(buffered.length - 1 - i) / duration) * 100
+            }%`;
           break;
         }
       }
@@ -433,6 +432,7 @@ export const videoControl = {
   ctpPriEvent: CTP_LOADING,
   ctpSecEvent: CTP_LOADING,
   setCTPEvent(event = CTP_PLAYING, priVideo = true) {
+    return; // TODO -> IN DVA
     const { setCTPPriEvent, setCTPSecEvent } = this.externalFunctions;
     if (priVideo) {
       setCTPPriEvent(event);

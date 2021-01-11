@@ -1,7 +1,8 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTFragment, altEl, makeEl } from 'layout';
-import { epubStore, connectWithRedux, epub } from './controllers';
+import { epub } from './controllers';
+import { connect } from 'dva'
 import {
   EPubHeader,
   PlayerModal,
@@ -14,10 +15,6 @@ import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
 import './index.scss';
 
 class EPubWithRedux extends React.Component {
-  constructor(props) {
-    super(props)
-    epub.state.init(props);
-  }
 
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -29,7 +26,7 @@ class EPubWithRedux extends React.Component {
   }
 
   render() {
-    const { view, chapters, imgPickerData, playerData, media } = this.props;
+    const { view, chapters, imgPickerData, playerData, media } = this.props.epub;
     const loading = epub.ctrl.isLoading(this.props.epub, chapters);
     const headerElement = altEl(EPubHeader, !loading);
 
@@ -69,11 +66,7 @@ class EPubWithRedux extends React.Component {
   }
 }
 
-export const EPub = withReduxProvider(
-  EPubWithRedux,
-  epubStore,
-  connectWithRedux,
-  ['epub', 'view', 'chapters', 'playerData', 'media', 'imgPickerData'],
-  ['all']
-);
+export const EPub = connect(({ epub, loading }) => ({
+  epub
+}))(EPubWithRedux);
 

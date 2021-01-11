@@ -4,11 +4,9 @@
 
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { withReduxProvider } from 'redux/redux-provider';
 import { uurl } from 'utils/use-url';
 import { CTLayout } from 'layout';
 import {
-  watchStore,
   connectWithRedux,
   generateWatchUserGuide,
   setup,
@@ -48,10 +46,10 @@ export class WatchWithRedux extends React.Component {
     if (!id) error = ERR_INVALID_MEDIA_ID;
 
     this.state = { error };
-    const setError = (err) => this.setState({ error: err });
+    // const setError = (err) => this.setState({ error: err });
 
     /** Init controls */
-    setup.init(props, setError);
+    // setup.init(props, dispatch);
     transControl.init(props);
     searchControl.init(props);
     preferControl.init(props);
@@ -59,7 +57,7 @@ export class WatchWithRedux extends React.Component {
 
   componentDidMount() {
     /** GET media, playlist  */
-    setup.setupMedias();
+    // setup.setupMedias();
     /** Add keydown event handler */
     keydownControl.addKeyDownListener();
     /** Add resize event listener */
@@ -67,7 +65,7 @@ export class WatchWithRedux extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.resetStates();
+    // this.props.resetStates();
   }
 
   showHWatchUserGuide = () => {
@@ -96,7 +94,6 @@ export class WatchWithRedux extends React.Component {
     const { error } = this.state;
     const { isFullscreen } = this.props;
     const layoutProps = this.getLayoutProps({ isFullscreen, error });
-
     return (
       <CTLayout {...layoutProps}>
         <div className="watch-bg" id="watch-page">
@@ -124,10 +121,4 @@ export class WatchWithRedux extends React.Component {
   }
 }
 
-export const Watch = withReduxProvider(
-  WatchWithRedux,
-  watchStore,
-  connectWithRedux,
-  ['media', 'playlist', 'isFullscreen'], 
-  ['all']
-);
+export const Watch = connectWithRedux(WatchWithRedux);

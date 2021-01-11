@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CTFragment, altEl, CTHeading } from 'layout';
 import { EPubNavigationProvider } from '../../components';
-import { epub, connectWithRedux, generateEPubGuide } from '../../controllers';
+import { epub, generateEPubGuide } from '../../controllers';
+import { connect } from 'dva'
 import ChapterList from './ChapterList';
 import Instruction from './Instruction';
 import EPubItemView from './EPubItemView';
@@ -57,7 +58,6 @@ function EditEPubStructure(props) {
   );
 }
 
-export default connectWithRedux(
-  EditEPubStructure,
-  ['epub']
-);
+export default connect(({ epub, loading }) => ({
+  epub
+}))(EditEPubStructure);

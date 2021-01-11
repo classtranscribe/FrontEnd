@@ -22,9 +22,8 @@ import VolumeControl from './VolumeControl';
 import TimeDisplay from './TimeDisplay';
 import ProgressBar from './ProgressBar';
 
-export function ControlBarWithRedux({ media = {}, bulkEditing = false }) {
+export function ControlBarWithRedux({ media = {}, bulkEditing = false }) {  
   const { isTwoScreen, transcriptions } = media;
-
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile;
   return (

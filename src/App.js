@@ -36,6 +36,7 @@ import './App.css';
 import { altEl } from './layout';
 import { user, env } from './utils';
 import { connect } from 'dva';
+import dynamic from "dva/dynamic";
 
 class App extends React.Component {
   componentDidMount() {
@@ -46,7 +47,17 @@ class App extends React.Component {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 
     const adminRoute = altEl();
-
+    // Lazy Load
+    const WatchPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Watch/model').default],
+      component: () => Watch
+    })
+    const EPubPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/EPub/model').default],
+      component: () => EPub
+    })
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -94,7 +105,7 @@ class App extends React.Component {
           {
             isAdminOrInstructor
             &&
-            <Route path="/epub/:id" component={EPub} />
+            <Route path="/epub/:id" component={EPubPage} />
           }
 
           {/* Student */}
@@ -104,7 +115,7 @@ class App extends React.Component {
           <Route exact path="/search" component={Search} />
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
-          <Route exact path="/video" component={Watch} />
+          <Route exact path="/video" component={WatchPage} />
           <Route exact path="/embed/:id" component={Embed} />
           <Route path="/playlist/:id" component={InstPlaylist} />
 

@@ -1,5 +1,6 @@
 import React, { useEffect} from 'react';
-import { epub, connectWithRedux } from '../../../controllers';
+import { epub } from '../../../controllers';
+import { connect } from 'dva';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 
@@ -30,7 +31,6 @@ function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
   );
 }
 
-export default connectWithRedux(
-  ChapterList,
-  ['chapters', 'foldedIds']
-);
+export default connect(({ epub, loading }) => ({
+  epub
+}))(ChapterList);

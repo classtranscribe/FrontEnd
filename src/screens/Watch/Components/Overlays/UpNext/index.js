@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MediaCard } from 'components';
+import setup from '../../../model/setup'
 import {
   connectWithRedux,
   videoControl,
@@ -9,14 +10,14 @@ import {
 } from '../../../Utils';
 import './index.css';
 
-function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING }) {
+function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING, playlist }) {
   const [show, setShow] = useState(false);
-
+  
   const onClose = () => {
     setShow(false);
   };
-
-  const upNext = videoControl.findUpNextMedia({ currMediaId: media.id });
+  
+  const { next: upNext } = setup.findNeighbors(media.id, playlist);
 
   useEffect(() => {
     const displayUpnext =

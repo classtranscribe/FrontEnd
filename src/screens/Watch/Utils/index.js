@@ -1,3 +1,5 @@
+import { connect } from 'dva'
+
 export * from './constants.util';
 export * from './data';
 export * from './helpers';
@@ -14,5 +16,8 @@ export { searchControl } from './search.control';
 export { preferControl } from './preference.control';
 export { downloadControl } from './download.control';
 export { uEvent } from './UserEventController';
-
-export { connectWithRedux, watchStore } from '../../../redux/watch';
+export const connectWithRedux = (Component) => {
+    return connect(({ watch, loading, history }) => ({
+        ...watch
+      }))(Component);
+}

@@ -46,7 +46,8 @@ function LabelText(saved) {
   }
 }
 
-function SaveStatusLabel({ saved }) {
+function SaveStatusLabel({ epub }) {
+  const { saved } = epub;
   const iconElement = LabelIcon(saved);
   const [text, label] = LabelText(saved);
 

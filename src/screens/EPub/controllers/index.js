@@ -7,7 +7,7 @@ import { epubCtrl } from './EPubController';
 import { epubData } from './EPubDataController';
 import { shortcut } from './ShortcutController';
 import { epubPref } from './PreferenceController';
-
+import { connect } from 'dva'
 export const epub = {
   const: EPubConstants,
   id: EPubIDs,
@@ -20,7 +20,11 @@ export const epub = {
   shortcut,
   pref: epubPref
 };
-
+// Transition Function
+export const connectWithRedux = (Component) => {
+  return connect(({ epub, loading }) => ({
+    epub
+  }))(Component);
+}
 export * from './utils';
 export * from './onboard-guide';
-export { epubStore, connectWithRedux } from 'redux/epub';
