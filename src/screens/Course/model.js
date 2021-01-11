@@ -4,7 +4,7 @@ import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import UserEventManager from 'entities/UserEvent';
 const initState = {
-    offering: {},
+    offering: null,
     playlists: ARRAY_INIT,
     playlist: null,
     starredOfferings: {},
@@ -138,7 +138,7 @@ const CourseModel = {
         setup({ dispatch, history }) {
             history.listen((event) => {
                 const pathname = event.pathname ? event.pathname : event.location?.pathname
-                const match = pathToRegexp('/offering/:id').exec(pathname);
+                const match = pathToRegexp('/offering/:id/:option?').exec(pathname);
                 if (match) {
                     const offeringId = match[1];
                     const uevent = new UserEventManager();

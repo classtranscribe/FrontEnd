@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
-import { courseStore, connectWithRedux, setup } from './controllers';
+import { connect } from 'dva';
 import { Students, Staffs, CourseInfo, RemoveCourse } from './components';
-
 class CourseSettingsWithRedux extends Component {
-  constructor(props) {
-    super(props);
-    this.offeringId = this.props.match.params.id;
-
-    setup.init(props);
-  }
-
-  componentDidMount() {
-    setup.setupCourseSettingsPage(this.offeringId);
-  }
 
   render() {
-    const { offering } = this.props;
+    const { course } = this.props;
+    const { offering } = course;
     const loading = !offering;
 
     const layoutProps = CTLayout.createProps((sidebar) => ({
@@ -48,19 +37,15 @@ class CourseSettingsWithRedux extends Component {
       <CTLayout {...layoutProps}>
         <CTFragment loading={loading} padding={[0, 30]}>
           <CourseInfo />
-          {(offering && offering.accessType === 2) && <Students />}
-          <Staffs />
-          <RemoveCourse />
+          {(offering && offering.accessType === 2) && <Students {...this.props} />}
+          <Staffs {...this.props}/>
+          <RemoveCourse {...this.props} />
         </CTFragment>
       </CTLayout>
     );
   }
 }
 
-export const CourseSettings = withReduxProvider(
-  CourseSettingsWithRedux,
-  courseStore,
-  connectWithRedux,
-  ['offering'],
-  ['all']
-);
+export const CourseSettings = connect(({ course, loading }) => ({
+  course
+}))(CourseSettingsWithRedux);

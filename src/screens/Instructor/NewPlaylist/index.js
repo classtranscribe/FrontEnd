@@ -3,23 +3,14 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
 import { Playlist } from 'entities/Playlists';
 import { links } from 'utils/links';
-import { courseStore, connectWithRedux, setup } from './controllers';
+import { connect } from 'dva';
 import { NewPlaylistForm } from './components';
-
+const setup = {};
 export class NewPlaylistWithRedux extends Component {
-  constructor(props) {
-    super(props);
-    this.offeringId = this.props.match.params.id;
-
-    setup.init(props);
-  }
-
-  componentDidMount() {
-    setup.setupCourseSettingsPage(this.offeringId);
-  }
 
   render() {
-    const { offering } = this.props;
+    const { course } = this.props;
+    const { offering } = course;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
@@ -40,7 +31,7 @@ export class NewPlaylistWithRedux extends Component {
     }));
 
     const onSave = async (newPlaylist) => {
-      const playlist = await Playlist.create(this.offeringId, newPlaylist);
+      const playlist = await Playlist.create(offering.id, newPlaylist);
       if (playlist) {
         this.props.history.push(links.playlist(playlist.id));
       }
@@ -56,10 +47,6 @@ export class NewPlaylistWithRedux extends Component {
   }
 }
 
-export const NewPlaylist = withReduxProvider(
-  NewPlaylistWithRedux,
-  courseStore,
-  connectWithRedux,
-  ['offering'],
-  ['all']
-);
+export const NewPlaylist = connect(({ course, loading }) => ({
+  course
+}))(NewPlaylistWithRedux);

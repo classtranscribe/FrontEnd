@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { prompt, api, links } from 'utils';
-import { setup } from './setup';
-
+const setup = {};
 class OfferingControl {
   constructor() {
     this.updateCourseInfo = this.updateCourseInfo.bind(this);
@@ -66,7 +65,7 @@ class OfferingControl {
     await this.updateCourseOfferings(newOffering);
 
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
-    setup.setupCourseSettingsPage(oldOffering.id);
+    // setup.setupCourseSettingsPage(oldOffering.id);
   }
 
   async deleteOffering(history) {
@@ -136,4 +135,4 @@ class OfferingControl {
   }
 }
 
-export const offControl = new OfferingControl();
+export default new OfferingControl();

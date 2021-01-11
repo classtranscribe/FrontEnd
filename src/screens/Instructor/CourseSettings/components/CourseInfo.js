@@ -1,10 +1,11 @@
 import React from 'react';
 import { CourseForm } from 'screens/Instructor/NewCourse/components';
-import { connectWithRedux, offControl } from '../controllers';
-
-export function CourseInfoWithRedux({
-  offering
-}) {
+import { connect } from 'dva';
+const offControl = {};
+export function CourseInfoWithRedux(props) {
+  const {
+    offering
+  } = props.course
   const {
     courses = [],
     termId,
@@ -13,8 +14,7 @@ export function CourseInfoWithRedux({
     accessType,
     description,
     logEventsFlag,
-  } = offering || {};
-
+  } = offering
   const selCourses = courses.map(course => ({ ...course, id: course.courseId }));
 
   return (
@@ -33,7 +33,6 @@ export function CourseInfoWithRedux({
   );
 }
 
-export const CourseInfo = connectWithRedux(
-  CourseInfoWithRedux,
-  ['offering']
-);
+export const CourseInfo = connect(({ course, loading }) => ({
+  course
+}))(CourseInfoWithRedux);

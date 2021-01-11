@@ -60,7 +60,7 @@ class App extends React.Component {
     })
     const CoursePage = dynamic({
       app: this.props.app,
-      models: () => [require('./screens/Course/model').default],
+      models: () => [], // require('./screens/Course/model').default
       component: () => Course
     })
     // return <Maintenance />

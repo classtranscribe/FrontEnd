@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'dva/router';
 import { useArray } from 'hooks';
-import { offControl } from '../../controllers';
+import offControl from '../../controllers/offering.control';
 import { EmailList } from '../EmailList';
 
-export function Students() {
-  const { id } = useParams();
+export function Students(props) {
+  const { match = {} } = props;
+  const { id } = match.params;
   const students = useArray([]);
 
   const getStudents = async () => {

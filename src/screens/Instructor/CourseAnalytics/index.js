@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
-import { courseStore, connectWithRedux, setup } from './controllers';
+import { connect } from 'dva';
 import TempVideoTimeTable from './components/TempVideoTimeTable';
 
+const setup = {};
 export class CourseAnalyticsWithRedux extends Component {
-  constructor(props) {
-    super(props);
-    this.offeringId = this.props.match.params.id;
-
-    setup.init(props);
-  }
 
   componentDidMount() {
-    setup.setupCourseSettingsPage(this.offeringId);
+    // setup.setupCourseSettingsPage(this.offeringId);
   }
 
   render() {
-    const { offering } = this.props;
+    const { course } = this.props;
+    const { offering } = course;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
@@ -52,10 +47,6 @@ export class CourseAnalyticsWithRedux extends Component {
   }
 }
 
-export const CourseAnalytics = withReduxProvider(
-  CourseAnalyticsWithRedux,
-  courseStore,
-  connectWithRedux,
-  ['offering'],
-  ['all']
-);
+export const CourseAnalytics = connect(({ course, loading }) => ({
+  course
+}))(CourseAnalyticsWithRedux);

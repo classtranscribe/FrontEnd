@@ -10,5 +10,6 @@ app.model(require('./model/global').default);
 app.model(require('./screens/Home/model').default); 
 app.model(require('./screens/Search/model').default);
 app.model(require('./screens/History/model').default);
+app.model(require('./screens/Course/model').default);
 app.router(({history}) => <Router history={history}><App app={app}/></Router>); // basename="/" 
 app.start('#root')

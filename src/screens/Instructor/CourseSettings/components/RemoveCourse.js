@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useHistory } from 'dva/router';
 import { Button } from 'pico-ui';
 import { CTForm, CTFormHelp, CTConfirmation } from 'layout';
-import { offControl } from '../controllers';
+import offControl from '../controllers/offering.control';
 
-export function RemoveCourse() {
-  const history = useHistory();
+export function RemoveCourse(props) {
+  const { history } = props;
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const handleConfirm = () => setOpenConfirm(true);
