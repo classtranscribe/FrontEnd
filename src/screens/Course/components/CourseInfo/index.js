@@ -1,15 +1,17 @@
 import React from 'react';
+import { connect } from 'dva';
 import { InfoAndListLayout } from 'components';
-import { connectWithRedux, setup } from '../../controllers';
 import ActionButtons from './ActionButtons';
 import './index.scss';
-
-function CourseInfoWithRedux({
-  role,
-  isInstMode,
-  offering,
-  starredOfferings,
-}) {
+import courseutil from '../../util'
+function CourseInfoWithRedux(props) {
+  const { course, dispatch } = props;
+  const {
+    role,
+    isInstMode,
+    offering = {},
+    starredOfferings,
+  } = course;
   const {
     fullNumber,
     courseName,
@@ -17,7 +19,6 @@ function CourseInfoWithRedux({
     sectionName,
     description
   } = offering;
-  
   return (
     <InfoAndListLayout.Info id="cp-course-info">
       <div>
@@ -27,10 +28,11 @@ function CourseInfoWithRedux({
       <div className="term">{termName} | {sectionName}</div>
 
       <ActionButtons 
-        isInsructor={setup.isInstructor(role)} 
+        isInsructor={courseutil.isInstructor(role)}
         isInstMode={isInstMode}
         offering={offering}
         starredOfferings={starredOfferings}
+        dispatch={dispatch}
       />
 
       {description && <div className="description">{description}</div>}
@@ -38,14 +40,8 @@ function CourseInfoWithRedux({
   );
 }
 
-export const CourseInfo = connectWithRedux(
-  CourseInfoWithRedux,
-  [
-    'offering', 
-    'starredOfferings', 
-    'role',
-    'isInstMode'
-  ]
-);
+export const CourseInfo = connect(({ course, loading }) => ({
+  course
+}))(CourseInfoWithRedux);
 
 

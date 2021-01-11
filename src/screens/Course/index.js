@@ -1,31 +1,20 @@
 import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
+import { connect } from 'dva';
 import ErrorTypes from 'entities/ErrorTypes';
 import { INSTRUCTOR } from 'utils';
 import { CTLayout, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
-import {
-  setup,
-  courseStore,
-  connectWithRedux
-} from './controllers';
 import { CourseInfo, Playlists } from './components';
 
 
 class CourseWithRedux extends Component {
   constructor(props) {
     super(props);
-
-    this.offeringId = this.props.match.params.id;
-    setup.init(props);
-  }
-
-  componentDidMount() {
-    setup.setupCoursePage(this.offeringId);
   }
 
   render() {
-    const { offering, role, playlist } = this.props;
+    const { course } = this.props;
+    const { offering, role, playlist } = course;
     const offeringLoaded = offering && offering.id;
     const playlistLoaded = playlist && playlist.id;
 
@@ -70,17 +59,13 @@ class CourseWithRedux extends Component {
       <CTLayout {...layoutProps}>
         <InfoAndListLayout {...pageFragmentProps}>
           <CourseInfo />
-          <Playlists />
+          <Playlists {...this.props} />
         </InfoAndListLayout>
       </CTLayout>
     );
   }
 }
 
-export const Course = withReduxProvider(
-  CourseWithRedux,
-  courseStore,
-  connectWithRedux,
-  ['offering', 'role', 'playlist'],
-  ['all']
-);
+export const Course = connect(({ course, loading }) => ({
+  course
+}))(CourseWithRedux);

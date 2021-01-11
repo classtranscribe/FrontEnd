@@ -58,6 +58,11 @@ class App extends React.Component {
       models: () => [require('./screens/EPub/model').default],
       component: () => EPub
     })
+    const CoursePage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Course/model').default],
+      component: () => Course
+    })
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -111,7 +116,7 @@ class App extends React.Component {
           {/* Student */}
           <Route exact path="/" component={Home} />
           <Route exact path="/home" render={() => <Redirect to="/" />} />
-          <Route exact path="/offering/:id" component={Course} />
+          <Route exact path="/offering/:id" component={CoursePage} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />

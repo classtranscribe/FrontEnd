@@ -29,7 +29,7 @@ function VideosView({
         alignItCenter 
         className="title link" 
         as={Link} 
-        to={window.location.pathname}
+        to={window.location.pathname + "#"}
       >
         <i className="material-icons" aria-hidden="true">arrow_back</i>
         <span>{name}</span>
