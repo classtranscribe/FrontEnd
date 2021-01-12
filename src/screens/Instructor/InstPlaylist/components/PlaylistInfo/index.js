@@ -1,19 +1,41 @@
 import React, { useState } from 'react';
-import { useHistory } from 'dva/router';
 import { Playlist } from 'entities/Playlists';
 import { InfoAndListLayout } from 'components';
-import { connectWithRedux, plControl } from '../../controllers';
-
 import BreadCrumb from './BreadCrumb';
 import PlaylistName from './PlaylistName';
 import Actions from './Actions';
+import { uurl, links } from 'utils';
 import './index.scss';
+const YOUTUBE_PREFIX = 'https://www.youtube.com/playlist';
+function getPlaylistSourceURL({ sourceType, playlistIdentifier, jsonMetadata }) {
+  let source = '';
+  if (!playlistIdentifier) return source;
+  if (jsonMetadata && jsonMetadata.source) {
+    return jsonMetadata.source;
+  }
 
-function PlaylistInfoWithRedux({
-  offering,
-  playlist
-}) {
-  const history = useHistory();
+  if (sourceType === 1) {
+    // YouTube
+    source = YOUTUBE_PREFIX + uurl.createSearch({ list: playlistIdentifier });
+  } else if (sourceType === 3) {
+    // Kaltura
+    source = `(Kaltura Playlist ID) ${playlistIdentifier}`;
+  } else if (sourceType === 4) {
+    // Box
+    source = `(Box Folder ID) ${playlistIdentifier}`;
+  } else if (sourceType === 0) {
+    // echo
+    source = playlistIdentifier; // ECHO360_PREFIX + playlistIdentifier + '/public'
+  }
+
+  return source;
+}
+function PlaylistInfoWithRedux(props) {
+  const { history, instplaylist, dispatch } = props;
+  const {
+    offering,
+    playlist
+  } = instplaylist;
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(playlist.name);
@@ -26,17 +48,30 @@ function PlaylistInfoWithRedux({
 
   const handleCancelRename = () => setEditing(false);
 
-  const handleRename = () => {
+  const handleRename = async () => {
     if (!inputValue) return;
-    plControl.renamePlaylist(inputValue);
+    const playlist_ = await Playlist.rename(playlist, inputValue);
+    if (playlist_) {
+      dispatch({type: 'instplaylist/setPlaylist', payload: playlist_.toObject()});
+    }
     handleCancelRename();
   };
 
   const handleDelete = () => {
-    plControl.confirmDeletePlaylist(history);
+    const confirm = {
+      text: 'Are you sure you want to delete this playlist? This action cannot be undone!',
+      onConfirm: async () => {
+        const playlistId = playlist.id;
+        const successed = await Playlist.delete(playlistId);
+        if (successed) {
+          history.push(links.course(offering.id));
+        }
+      }
+    };
+    dispatch({type: 'instplaylist/setConfirmation', payload: confirm});
   };
 
-  const sourseURL = plControl.getPlaylistSourceURL(playlist);
+  const sourseURL = getPlaylistSourceURL(playlist);
   const plNameprops = {
     editing,
     sourseURL,
@@ -67,10 +102,6 @@ function PlaylistInfoWithRedux({
   );
 }
 
-export const PlaylistInfo = connectWithRedux(
-  PlaylistInfoWithRedux,
-  ['playlist', 'offering']
-);
-
+export const PlaylistInfo = PlaylistInfoWithRedux;
 
 

@@ -68,6 +68,11 @@ class App extends React.Component {
       models: () => [require('./screens/Instructor/MyCourses/model').default], // 
       component: () => MyCourses
     })
+    const InstPlaylistPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Instructor/InstPlaylist/model')],
+      component: () => InstPlaylist
+    })
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -127,7 +132,7 @@ class App extends React.Component {
           <Route exact path="/personal-analytics" component={Analytics} />
           <Route exact path="/video" component={WatchPage} />
           <Route exact path="/embed/:id" component={Embed} />
-          <Route path="/playlist/:id" component={InstPlaylist} />
+          <Route path="/playlist/:id" component={InstPlaylistPage} />
 
           <Route path="/404" component={NotFound404} />
 

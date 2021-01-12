@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'dva/router';
-import { withReduxProvider } from 'redux/redux-provider';
+import { connect } from 'dva';
 import { CTLayout, CTErrorWrapper, altEl } from 'layout';
 import { InfoAndListLayout } from 'components';
 import ErrorTypes from 'entities/ErrorTypes';
-import { instPlaylistStore, connectWithRedux, setup } from './controllers';
 import {
   PlaylistInfo,
   MediaList,
@@ -13,18 +12,14 @@ import {
 } from './components';
 
 export class InstPlaylistWithRedux extends Component {
-  constructor(props) {
-    super(props);
-    setup.init(props);
-  }
 
   componentDidMount() {
-    const playlistId = this.props.match.params.id;
-    setup.setupInstPlaylistPage(playlistId, this.props.location.state);
+    // setup.setupInstPlaylistPage(playlistId, this.props.location.state);
   }
 
   render() {
-    const { offering, confirmation, playlist } = this.props;
+    const { instplaylist, dispatch } = this.props;
+    const { offering, confirmation, playlist } = instplaylist;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
       responsive: true,
@@ -53,9 +48,9 @@ export class InstPlaylistWithRedux extends Component {
     return (
       <CTLayout {...layoutProps}>
         <InfoAndListLayout loading={!playlist.id} error={hasError} errorElement={errorElement}>
-          <PlaylistInfo />
+          <PlaylistInfo {...this.props}/>
           <MediaList />
-          {confirmation && <Confirmation />}
+          {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({type: 'instplaylist/setConfirmation', payload: null})} />}
 
           <Route path="/playlist/:id/upload-files" component={UploadFiles} />
         </InfoAndListLayout>
@@ -64,10 +59,6 @@ export class InstPlaylistWithRedux extends Component {
   }
 }
 
-export const InstPlaylist = withReduxProvider(
-  InstPlaylistWithRedux,
-  instPlaylistStore,
-  connectWithRedux,
-  ['offering', 'confirmation', 'playlist'],
-  ['all']
-);
+export const InstPlaylist = connect(({ instplaylist, loading }) => ({
+  instplaylist
+}))(InstPlaylistWithRedux);

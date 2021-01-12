@@ -4,7 +4,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiCheckbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { CTPopoverLabel, CTCheckbox, CTText } from 'layout';
-import { mediaControl } from '../../../controllers';
 
 import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
@@ -16,7 +15,8 @@ function MediaItem({
   handleSelect,
   isSelected,
   handleExpand,
-  isExpanded
+  isExpanded,
+  dispatch
 }) {
   const { mediaName, id, isUnavailable } = media;
   const selected = isSelected(media);
@@ -41,7 +41,7 @@ function MediaItem({
     stopPropagation(event);
     setEditing(false);
     if (inputValue && inputValue !== mediaName) {
-      mediaControl.renameMedia(id, inputValue);
+      dispatch({type: 'instplaylist/renameMedia', payload: {mediaId: id, name: inputValue}});
     }
   };
 
@@ -123,7 +123,7 @@ function MediaItem({
           Created at {(media.createdAt || '').slice(0, 10)}
         </CTText>
 
-        <MediaItemActions mediaId={id} isUnavailable={isUnavailable} />
+        <MediaItemActions mediaId={id} isUnavailable={isUnavailable} dispatch={dispatch} />
       </AccordionDetails>
     </Accordion>
   );
