@@ -73,6 +73,11 @@ class App extends React.Component {
       models: () => [require('./screens/Instructor/InstPlaylist/model')],
       component: () => InstPlaylist
     })
+    const MediaSettingsPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/MediaSettings/model')],
+      component: () => MediaSettings
+    })
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -114,7 +119,7 @@ class App extends React.Component {
           {
             isAdminOrInstructor
             &&
-            <Route path="/media-settings/:id" component={MediaSettings} />
+            <Route path="/media-settings/:id" component={MediaSettingsPage} />
           }
 
           {

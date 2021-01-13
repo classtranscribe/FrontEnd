@@ -43,9 +43,4 @@ function TransTable(media = undefined) {
   );
 }
 
-export default connectWithRedux(
-  TransTable,
-  [],
-  [],
-  ['media']
-);
+export default TransTable;

@@ -20,9 +20,4 @@ export function TranscriptionsWithRedux({
   );
 }
 
-export const Transcriptions = connectWithRedux(
-  TranscriptionsWithRedux,
-  [],
-  [],
-  ['media']
-);
+export const Transcriptions = TranscriptionsWithRedux;

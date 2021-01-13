@@ -26,9 +26,4 @@ function Player({
   );
 }
 
-export default connectWithRedux(
-  Player,
-  [],
-  [],
-  ['media']
-);
+export default Player;
