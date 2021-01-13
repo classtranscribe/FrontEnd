@@ -1,11 +1,13 @@
 import React from 'react';
 import { CourseForm } from 'screens/Instructor/NewCourse/components';
 import { connect } from 'dva';
-const offControl = {};
+import { prompt, api, links } from 'utils';
+import _ from 'lodash';
 export function CourseInfoWithRedux(props) {
+  const { dispatch, course } = props;
   const {
     offering
-  } = props.course
+  } = course
   const {
     courses = [],
     termId,
@@ -16,7 +18,66 @@ export function CourseInfoWithRedux(props) {
     logEventsFlag,
   } = offering
   const selCourses = courses.map(course => ({ ...course, id: course.courseId }));
-
+  async function updateCourseOfferings(newOffering) {
+    const oldOffering = offering;
+    const offeringId = offering.id;
+    let newCourses = newOffering.courseIds;
+    let oldCourses = _.map(oldOffering.courses, course => course.courseId);
+  
+    let added = _.difference(newCourses, oldCourses);
+    let removed = _.difference(oldCourses, newCourses);
+    
+    // link added courses to this offering
+    if (added.length > 0) {
+      await Promise
+      .all(added.map((courseId) => new Promise((resolve) => {
+        api.createCourseOffering({ courseId, offeringId })
+          .then(() => resolve());
+      })))
+      .catch((error) => {
+        console.error(error);
+        prompt.error('Failed to remove course.');
+      });
+    }
+  
+    if (removed.length > 0) {
+      await Promise
+      .all(removed.map((courseId) => new Promise((resolve) => {
+        api.deleteCourseOffering(courseId, offeringId)
+          .then(() => resolve());
+      })))
+      .catch((error) => {
+        console.error(error);
+        prompt.error('Failed to add course.');
+      });
+    }
+  }
+  
+  async function updateCourseInfo(newOffering) {
+    const oldOffering = offering;
+    const updatedOff = {
+      id: oldOffering.id,
+      sectionName: newOffering.sectionName,
+      termId: newOffering.termId,
+      accessType: newOffering.accessType,
+      logEventsFlag: newOffering.logEventsFlag,
+      courseName: newOffering.courseName,
+      description: newOffering.description,
+    };
+    /// update Model
+    try {
+      await api.updateOffering(updatedOff);
+    } catch (error) {
+      console.error(error);
+      prompt.error('Failed to update the course info.');
+      return;
+    }
+  
+    // handle linked course templates ?
+    await updateCourseOfferings(newOffering);
+    dispatch({type: 'course/setOffering', payload: newOffering}); // update course info
+    prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
+  }
   return (
     <CourseForm
       collapsible
@@ -27,7 +88,7 @@ export function CourseInfoWithRedux(props) {
       defaultAccessType={accessType}
       defaultDescription={description}
       defaultLogFlag={logEventsFlag}
-      onSave={offControl.updateCourseInfo}
+      onSave={updateCourseInfo}
       saveButtonText="save changes"
     />
   );

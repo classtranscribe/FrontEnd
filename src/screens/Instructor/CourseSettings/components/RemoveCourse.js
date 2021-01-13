@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { Button } from 'pico-ui';
 import { CTForm, CTFormHelp, CTConfirmation } from 'layout';
-import offControl from '../controllers/offering.control';
+import { prompt, api, links } from 'utils';
 
 export function RemoveCourse(props) {
-  const { history } = props;
+  const { history, course } = props;
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const handleConfirm = () => setOpenConfirm(true);
   const handleCancelConfirm = () => setOpenConfirm(false);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setOpenConfirm(false);
-    offControl.deleteOffering(history);
+    const offeringId = course.offering.id;
+    try {
+      await api.deleteOffering(offeringId);
+      prompt.addOne({ text: 'Course deleted.', timeout: 3000 });
+      history.push(links.myCourses());
+    } catch (error) {
+      console.error(error);
+      prompt.error('Failed to delete the course.');
+    }
   };
 
   return (

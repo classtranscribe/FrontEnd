@@ -61,9 +61,9 @@ const CourseModel = {
             // yield put({ type: 'clearCourseData' })
 
             // get the offering
-            let { data } = yield call(api.getOfferingById, offeringId);
             let offering = ErrorTypes.NotFound404;
             try {
+                let { data } = yield call(api.getOfferingById, offeringId);
                 offering = api.parseSingleOffering(data);
             } catch {
 
