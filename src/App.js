@@ -50,7 +50,7 @@ class App extends React.Component {
     // Lazy Load
     const WatchPage = dynamic({
       app: this.props.app,
-      models: () => [require('./screens/Watch/model').default],
+      models: () => [require('./screens/Watch/model').default, require('./screens/Watch/playermodel').default],
       component: () => Watch
     })
     const EPubPage = dynamic({

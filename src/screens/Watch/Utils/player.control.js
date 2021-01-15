@@ -34,41 +34,7 @@ export const videoControl = {
   init(videoNode1, videoNode2, props) {
     this.videoNode1 = videoNode1;
     this.videoNode2 = videoNode2;
-    const {
-      // media, watchHistory, offeringId,
-      changeVideo,
-      timeUpdate,
-      setMode,
-      switchScreen,
-      setVolume,
-      setPause,
-      setPlaybackrate,
-      setMute,
-      setFullscreen,
-      setDuration,
-      setBufferedTime,
-      setTime,
-      setCTPPriEvent,
-      setCTPSecEvent,
-    } = props;
-
-    this.externalFunctions = {
-      changeVideo,
-      timeUpdate,
-      setMode,
-      switchScreen,
-      setFullscreen,
-      setVolume,
-      setMute,
-      setPause,
-      setPlaybackrate,
-      setDuration,
-      setTime,
-      setBufferedTime,
-      setCTPPriEvent,
-      setCTPSecEvent,
-    };
-
+    this.dispatch = props.dispatch;
     this.addEventListenerForFullscreenChange();
     this.addEventListenerForMouseMove();
 
@@ -171,63 +137,6 @@ export const videoControl = {
     return this.videoNode1.paused;
   },
 
-  handlePause(bool) {
-    if (!this.videoNode1) return;
-    if (bool === undefined) bool = this.videoNode1.paused;
-    if (bool) {
-      this.play();
-    } else {
-      this.pause();
-    }
-  },
-
-  async pause() {
-    try {
-      if (this.videoNode1) await this.videoNode1.pause();
-      if (this.videoNode2) await this.videoNode2.pause();
-    } catch (error) {
-      return;
-    }
-
-    const { setPause } = this.externalFunctions;
-    if (setPause) {
-      setPause(true);
-      this.PAUSED = true;
-      uEvent.pause(this.currTime());
-      this.sendMediaHistories();
-    }
-  },
-
-  async play() {
-    try {
-      if (this.videoNode1) await this.videoNode1.play();
-      if (this.videoNode2) await this.videoNode2.play();
-    } catch (error) {
-      return;
-    }
-
-    const { setPause } = this.externalFunctions;
-    if (setPause) {
-      setPause(false);
-      this.PAUSED = false;
-      uEvent.play(this.currTime());
-    }
-  },
-
-  currTime(time) {
-    if (!this.videoNode1) return;
-    if (time === undefined) return this.videoNode1.currentTime;
-
-    this.videoNode1.currentTime = time;
-    if (this.videoNode2) this.videoNode2.currentTime = time;
-
-    const { setTime } = this.externalFunctions;
-    if (setTime) {
-      setTime(time);
-      transControl.updateCaption(time);
-      this.sendMediaHistories();
-    }
-  },
   forward(sec = 10) {
     if (!this.videoNode1) return;
     const now = this.currTime();
@@ -247,40 +156,10 @@ export const videoControl = {
     }
   },
   seekToPercentage(p = 0) {
+    console.log('SEEK TO PRECENTAGE')
     if (typeof p !== 'number' || p > 1 || p < 0) return;
     const seekTo = this.duration * p;
     this.currTime(seekTo);
-  },
-
-  replay() {
-    this.currTime(0);
-    this.play();
-  },
-
-  mute(bool, setstate = true) {
-    if (!this.videoNode1) return;
-    const toSet = bool === undefined ? !this.videoNode1.muted : bool;
-    this.videoNode1.muted = toSet;
-
-    const { setMute } = this.externalFunctions;
-    if (setMute && setstate) {
-      preferControl.muted(toSet);
-      setMute(toSet);
-    }
-  },
-
-  volume(volume, setstate = true) {
-    if (!this.videoNode1) return;
-    if (volume === undefined) return this.videoNode1.volume;
-
-    if (this.videoNode1.muted) this.videoNode1.muted = false;
-    this.videoNode1.volume = Number(volume);
-
-    const { setVolume } = this.externalFunctions;
-    if (setVolume && setstate) {
-      setVolume(Number(volume));
-      preferControl.defaultVolume(volume);
-    }
   },
 
   playbackrate(playbackRate, setstate = true) {
@@ -377,130 +256,13 @@ export const videoControl = {
     }
   },
 
-  /**
-   * Media events
-   * ***********************************************************************************************
-   */
-  onPause(e, paused) {
-    // this.showControlBar()
-    if (paused === false) {
-      this.pause();
-    }
-  },
-
   onDurationChange({ target: { duration } }) {
     const { setDuration } = this.externalFunctions;
     setDuration(duration);
     this.duration = duration;
   },
 
-  /** Timing */
-  lastTime: 0,
-  lastUpdateCaptionTime: 0,
-  lastSendUATime: 0,
-  onTimeUpdate({ target: { currentTime } }) {
-    const { timeUpdate } = this.externalFunctions;
-    // Set current time
-    if (Math.abs(currentTime - this.lastUpdateCaptionTime) >= 1) {
-      // setTime(currentTime)
-      this.lastTime = currentTime;
-      const nextCaption = transControl.updateTranscript(currentTime);
-      timeUpdate([currentTime, nextCaption]);
-      this.lastUpdateCaptionTime = currentTime;
-    }
-    if (Math.abs(currentTime - this.lastSendUATime) >= 15) {
-      uEvent.timeupdate(this.currTime());
-      this.lastSendUATime = currentTime;
-      this.sendMediaHistories();
-    }
-  },
-
   lastBuffered: 0,
-  onProgress({ target: { buffered, currentTime, duration } }) {
-    // console.log('buffered', buffered)
-    if (duration > 0) {
-      for (let i = 0; i < buffered.length; i += 1) {
-        if (buffered.start(buffered.length - 1 - i) < currentTime) {
-          document.getElementById('buffered-amount').style.width = `${(buffered.end(buffered.length - 1 - i) / duration) * 100
-            }%`;
-          break;
-        }
-      }
-    }
-  },
-
-  ctpPriEvent: CTP_LOADING,
-  ctpSecEvent: CTP_LOADING,
-  setCTPEvent(event = CTP_PLAYING, priVideo = true) {
-    return; // TODO -> IN DVA
-    const { setCTPPriEvent, setCTPSecEvent } = this.externalFunctions;
-    if (priVideo) {
-      setCTPPriEvent(event);
-      this.ctpPriEvent = event;
-    } else {
-      setCTPSecEvent(event);
-      this.ctpSecEvent = event;
-    }
-  },
-
-  onLoadStart(e, priVideo = true) {
-    this.setCTPEvent(CTP_LOADING, priVideo);
-  },
-
-  onLoadedData(e, priVideo = true) {
-    this.setCTPEvent(CTP_PLAYING, priVideo);
-  },
-
-  video1CanPlay: false,
-  video2CanPlay: false,
-  canPlayDone: false,
-  onCanPlay(e, priVideo, media) {
-    if (this.canPlayDone || !preferControl.autoPlay()) return;
-    if (priVideo) {
-      this.video1CanPlay = true;
-      if (this.video2CanPlay || !this.videoNode2) {
-        this.canPlayDone = true;
-        this.handleRestoreTime(media);
-        return this.play();
-      }
-    } else {
-      this.video2CanPlay = true;
-      if (this.video1CanPlay) {
-        this.canPlayDone = true;
-        this.handleRestoreTime(media);
-        return this.play();
-      }
-    }
-  },
-
-  onWaiting(e, priVideo = true) {
-    this.setCTPEvent(CTP_LOADING, priVideo);
-  },
-
-  onPlaying(e, priVideo = true) {
-    if (this.PAUSED) this.play();
-    this.setCTPEvent(CTP_PLAYING, priVideo);
-  },
-
-  onEnded(e) {
-    this.setCTPEvent(CTP_ENDED);
-    this.pause();
-  },
-
-  onError(e, priVideo = true) {
-    this.setCTPEvent(CTP_ERROR, priVideo);
-  },
-
-  onSeeking(e) {
-    if (this.ctpPriEvent === CTP_ENDED || this.ctpPriEvent === CTP_UP_NEXT) {
-      this.setCTPEvent(CTP_PLAYING);
-    }
-    uEvent.seeking(this.currTime());
-  },
-
-  onSeeked(e) {
-    uEvent.seeked(this.currTime());
-  },
 
   /**
    * Helpers

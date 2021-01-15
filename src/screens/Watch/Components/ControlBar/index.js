@@ -1,6 +1,6 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { connectWithRedux } from '../../Utils';
+import { connect } from 'dva'
 import './index.css';
 
 import {
@@ -22,17 +22,20 @@ import VolumeControl from './VolumeControl';
 import TimeDisplay from './TimeDisplay';
 import ProgressBar from './ProgressBar';
 
-export function ControlBarWithRedux({ media = {}, bulkEditing = false }) {  
+export function ControlBarWithRedux(props) {  
+  const { watch, dispatch } = props;
+  const { media = {}, bulkEditing = false } = watch;
   const { isTwoScreen, transcriptions } = media;
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile;
+  
   return (
     <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
         {isMobile ? <RewindButton /> : <NextVideoButton nextBtn={false} />}
 
-        <PlayButton />
+        <PlayButton {...watch} dispatch={dispatch} />
 
         {isMobile ? <ForwardButton /> : <NextVideoButton />}
 
@@ -60,8 +63,6 @@ export function ControlBarWithRedux({ media = {}, bulkEditing = false }) {
   );
 }
 
-export const ControlBar = connectWithRedux(ControlBarWithRedux, [
-  'media',
-  'bulkEditing',
-  'playlist',
-]);
+export const ControlBar = connect(({ playerpref, watch, loading }) => ({
+  playerpref, watch
+}))(ControlBarWithRedux);

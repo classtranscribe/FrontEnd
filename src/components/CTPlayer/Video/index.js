@@ -89,7 +89,6 @@ function Video(props) {
   const wrapperClasses = cx('ctp', 'ct-video-wrapper', 'blur', {
     show: isWaiting
   });
-
   return (
     <div className={videoContainerClasses}>
       <video {...videoProps}>

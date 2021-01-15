@@ -10,21 +10,16 @@ import { videoControl } from './Utils/player.control';
 import { menuControl } from './Utils/menu.control';
 import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup'
+import player_effects from './model/player_effects'
 import {
     preferControl,
     // constants
     MENU_HIDE,
     NORMAL_MODE,
-    CC_COLOR_WHITE,
-    CC_COLOR_BLACK,
-    CC_SIZE_100,
-    CC_SIZE_75,
-    CC_FONT_SANS_SERIF,
-    CC_OPACITY_75,
-    CC_POSITION_BOTTOM,
     SEARCH_INIT,
-    CTP_LOADING,
     MODAL_HIDE,
+    CTP_LOADING,
+    CTP_PLAYING,
     // MODAL_SHARE
 } from './Utils';
 const initState = {
@@ -47,6 +42,18 @@ const initState = {
     watchHistory: [],
     starredOfferings: [],
 
+    // VideoInfo
+    time: 0,
+    duration: 0,
+    bufferedTime: 0,
+    isSwitched: false,
+    paused: true,
+    playbackrate: preferControl.defaultPlaybackRate(),
+
+    isFullscreen: false,
+    ctpPriEvent: CTP_LOADING,
+    ctpSecEvent: CTP_LOADING,
+
     // Trans
     transcriptions: [],
     currTrans: {},
@@ -66,26 +73,7 @@ const initState = {
     menu: MENU_HIDE,
     modal: MODAL_HIDE,
 
-    // Video player options
-    paused: true,
-    volume: preferControl.defaultVolume(),
-    muted: preferControl.muted(),
-    playbackrate: preferControl.defaultPlaybackRate(),
-    isSwitched: false,
-    time: 0,
-    duration: 0,
-    bufferedTime: 0,
-    isFullscreen: false,
-    ctpPriEvent: CTP_LOADING,
-    ctpSecEvent: CTP_LOADING,
 
-    // CC options
-    cc_color: CC_COLOR_WHITE,
-    cc_bg: CC_COLOR_BLACK,
-    cc_size: isMobile ? CC_SIZE_75 : CC_SIZE_100,
-    cc_font: CC_FONT_SANS_SERIF,
-    cc_position: CC_POSITION_BOTTOM,
-    cc_opacity: CC_OPACITY_75,
 
     // Others
     prompt: null,
@@ -164,10 +152,6 @@ const WatchModel = {
             return { ...state, modal: payload };
         },
 
-        // Player actions
-        setPlaybackrate(state, { payload }) {
-            return { ...state, playbackrate: payload };
-        },
         setTime(state, { payload }) {
             return { ...state, time: payload };
         },
@@ -177,48 +161,22 @@ const WatchModel = {
         setDuration(state, { payload }) {
             return { ...state, duration: payload };
         },
-        setVolume(state, { payload }) {
-            return { ...state, volume: payload };
+        switchScreen(state, { payload }) {
+            return { ...state, isSwitched: payload };
         },
-        setMute(state, { payload }) {
-            return { ...state, muted: payload };
+        setPlaybackrate(state, { payload }) {
+            return { ...state, playbackrate: payload };
         },
         setPause(state, { payload }) {
             return { ...state, paused: payload };
         },
-        switchScreen(state, { payload }) {
-            return { ...state, isSwitched: payload };
+        setCTPEvent(state, { event = CTP_PLAYING, priVideo = true }) {
+            if (priVideo) {
+                return { ...state, ctpPriEvent: event };
+            } else {
+                return { ...state, ctpSecEvent: event };
+            }
         },
-        setFullscreen(state, { payload }) {
-            return { ...state, isFullscreen: payload };
-        },
-        setCTPPriEvent(state, { payload }) {
-            return { ...state, ctpPriEvent: payload };
-        },
-        setCTPSecEvent(state, { payload }) {
-            return { ...state, ctpSecEvent: payload };
-        },
-
-        // CC Options
-        cc_setColor(state, { payload }) {
-            return { ...state, cc_color: payload };
-        },
-        cc_setBG(state, { payload }) {
-            return { ...state, cc_bg: payload };
-        },
-        cc_setOpacity(state, { payload }) {
-            return { ...state, cc_opacity: payload };
-        },
-        cc_setSize(state, { payload }) {
-            return { ...state, cc_size: payload };
-        },
-        cc_setPosition(state, { payload }) {
-            return { ...state, cc_font: payload };
-        },
-        cc_setFont(state, { payload }) {
-            return { ...state, cc_position: payload };
-        },
-
         // Others
         setSearch(state, { payload }) {
             return { ...state, search: payload };
@@ -266,12 +224,7 @@ const WatchModel = {
             return { ...initState };
         },
         timeUpdate(state, { payload }) {
-            /*
-            payload: {
-                time: payload[0],
-                    currCaption: payload[1],
-                },
-            */
+            return { ...state, time: payload[0], currCaption: payload[1] }
         },
     },
     effects: {
@@ -304,15 +257,15 @@ const WatchModel = {
             }
             yield put({ type: 'changeVideo', payload: media })
 
-            videoControl.clear();
-            transControl.clear();
-            menuControl.clear();
+            // videoControl.clear();
+            // transControl.clear();
+            // menuControl.clear();
             // Set transcriptions
 
             const { transcriptions } = media;
             // setTranscriptions
             yield put({ type: 'setTranscriptions', payload: transcriptions })
-            transControl.transcriptions(transcriptions);
+            // transControl.transcriptions(transcriptions);
 
             // Get Playlist
             const { playlistId } = media;
@@ -322,7 +275,6 @@ const WatchModel = {
                 api.contentLoaded();
                 return;
             }
-            console.log(media)
             // Set data
             yield put({ type: 'setMedia', payload: media })
             yield put({ type: 'setPlaylist', payload: playlist })
@@ -353,6 +305,7 @@ const WatchModel = {
                 prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
             }
         },
+        ...player_effects
     },
     subscriptions: {
         setup({ dispatch, history }) {

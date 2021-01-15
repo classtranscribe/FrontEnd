@@ -1,7 +1,7 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { connectWithRedux, videoControl } from '../../../Utils';
-
+// Not used
 export function ForwardButtonWithRedux() {
   const handleForward = () => {
     videoControl.forward(10);

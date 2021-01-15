@@ -1,19 +1,17 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connectWithRedux, videoControl, CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
+import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
 
-export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING }) {
+export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, dispatch }) {
   const ended = ctpPriEvent === CTP_ENDED;
   const cantPlay = ctpPriEvent === CTP_LOADING || ctpPriEvent === CTP_ERROR;
-
   const handlePause = () => {
     if (ended) {
-      videoControl.replay();
+      dispatch({type: 'watch/media_reply'}) 
     } else {
-      videoControl.handlePause();
+      dispatch({type: 'watch/onPlayPauseClick'})
     }
   };
-
   return (
     <WatchCtrlButton
       onClick={handlePause}
@@ -39,4 +37,4 @@ export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING }
   );
 }
 
-export const PlayButton = connectWithRedux(PlayButtonWithRedux, ['paused', 'ctpPriEvent']);
+export const PlayButton = PlayButtonWithRedux;

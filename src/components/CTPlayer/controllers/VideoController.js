@@ -49,35 +49,6 @@ class VideoController {
     this.bindFuncs();
   }
 
-  bindFuncs() {
-    this.registerVideo1 = this.registerVideo1.bind(this);
-    this.registerVideo2 = this.registerVideo2.bind(this);
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-    this.togglePause = this.togglePause.bind(this);
-    this.replay = this.replay.bind(this);
-    this.setCurrentTime = this.setCurrentTime.bind(this);
-    this.mute = this.mute.bind(this);
-    this.unmute = this.unmute.bind(this);
-    this.toggleMute = this.toggleMute.bind(this);
-    this.setVolume = this.setVolume.bind(this);
-    this.setPlaybackRate = this.setPlaybackRate.bind(this);
-    this.setRange = this.setRange.bind(this);
-    this.toggleRange = this.toggleRange.bind(this);
-    this.playRange = this.playRange.bind(this);
-
-    // video event handlers
-    this.onDurationChange = this.onDurationChange.bind(this);
-    this.onVideo1CanPlay = this.onVideo1CanPlay.bind(this);
-    this.onVideo2CanPlay = this.onVideo2CanPlay.bind(this);
-    this.onProgress = this.onProgress.bind(this);
-    this.onTimeUpdate = this.onTimeUpdate.bind(this);
-    this.onPause = this.onPause.bind(this);
-    this.onPlay = this.onPlay.bind(this);
-    this.onSeeking = this.onSeeking.bind(this);
-    this.onEnded = this.onEnded.bind(this);
-  }
-
   // -----------------------------------------------------------------
   // Register Video Nodes
   // -----------------------------------------------------------------
@@ -372,13 +343,6 @@ class VideoController {
   // -----------------------------------------------------------------
   // Native Video Events Handlers
   // -----------------------------------------------------------------
-  onDurationChange({ target: { duration } }) {
-    this.state.setDuration(duration);
-
-    if (this.state.openRange && !this.state.range) {
-      this.setRange([0, duration]);
-    }
-  }
 
   onVideo1CanPlay({ target: { readyState } }) {
     if (readyState > 0 && !this.state.videoReady) {
