@@ -16,6 +16,7 @@ function WatchHeaderRightElemWithRedux(props) {
   let {
     search = SEARCH_INIT,
     plain = false,
+    dispatch
   } = props;
 
   const showButtons = search.status === SEARCH_HIDE && !plain;
@@ -26,7 +27,7 @@ function WatchHeaderRightElemWithRedux(props) {
       <ShortcutsTableTrigger />
       <ShareTrigger />
       <DownloadMenuTrigger />
-      <GuideTrigger />
+      <GuideTrigger dispatch={dispatch} />
       <PlaylistMenuTrigger />
     </>
   ) : null;

@@ -2,7 +2,6 @@ import $ from 'jquery';
 // import { isDeveloping } from '../../../utils';
 
 import { videoControl } from './player.control';
-import { menuControl } from './menu.control';
 import { transControl } from './trans.control';
 import { searchControl } from './search.control';
 
@@ -14,6 +13,7 @@ import {
   MENU_SETTING,
   MENU_DOWNLOAD,
   MENU_SHORTCUTS,
+  MENU_HIDE,
 } from './constants.util';
 
 export const keydownControl = {
@@ -25,12 +25,18 @@ export const keydownControl = {
     keydownControl.handleKeyDown(e);
   },
 
-  addKeyDownListener() {
+  addKeyDownListener(dispatch) {
     if (this.addedKeyDownListener) return;
+    this.dispatch = dispatch;
     document.addEventListener('keydown', this.keyDownListener, true);
     this.addedKeyDownListener = true;
   },
-
+  setWatchModel(watch) {
+    this.watch = watch;
+  },
+  isMenuOpen() {
+    return this.watch.menu && this.watch.menu != MENU_HIDE;
+  },
   handleKeyDown(e) {
     if (window.location.pathname !== '/video') {
       document.removeEventListener('keydown', this.keyDownListener, true);
@@ -165,14 +171,14 @@ export const keydownControl = {
    */
   shortcutsForMenus(keyCode) {
     const openMenu = (menuType) => {
-      menuControl.open(menuType, 'b');
+      this.dispatch({type: 'watch/menu_open', payload: { type: menuType, option: 'b' } });
       return true;
     };
 
     switch (keyCode) {
       // `⇧ Shift + Q` : Close Menu
       case 81:
-        menuControl.close();
+        this.dispatch({type: 'watch/menu_close'})
         return true;
       // `⇧ Shift + S` : Open Closed Caption Setting Menu
       case 67:
@@ -203,7 +209,7 @@ export const keydownControl = {
   handleSpaceKey(e) {
     e.preventDefault();
     // If there is no menu opening - play or pause
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       videoControl.handlePause();
     }
   },
@@ -226,7 +232,7 @@ export const keydownControl = {
    */
   handleDownArrow(e) {
     // If there is no menu opening - decrease the volume by 0.1 each time
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       $('#volume-slider').focus(); // NEED TO MODIFY
       return;
     }
@@ -242,7 +248,7 @@ export const keydownControl = {
     }
 
     // If menu is open switch the focus on the list items
-    const currMenu = menuControl.menu();
+    const currMenu = this.watch.menu;
     if (currMenu === MENU_SETTING) {
       return;
 
@@ -280,7 +286,7 @@ export const keydownControl = {
    */
   handleUpArrow(e) {
     // If there is no menu opening - increment the volume by 0.1 each time
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       if ($(`.watch-ctrl-button:focus`).length) {
         /**
          * @TODO need to modify when finish transcription part
@@ -303,7 +309,7 @@ export const keydownControl = {
     }
 
     // If menu is open switch the focus on the list items
-    const currMenu = menuControl.menu();
+    const currMenu = this.watch.menu;
     if (currMenu === MENU_SETTING) {
       return;
 
@@ -374,13 +380,13 @@ export const keydownControl = {
       return;
     }
 
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       // NEED TO MODIFY
       videoControl.rewind();
       return;
     }
 
-    const currMenu = menuControl.menu();
+    const currMenu = this.watch.menu;
 
     if (currMenu === MENU_SETTING) {
       // For the playlists menu
@@ -439,13 +445,13 @@ export const keydownControl = {
       return;
     }
 
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       // NEED TO MODIFY
       videoControl.forward();
       return;
     }
 
-    const currMenu = menuControl.menu();
+    const currMenu = this.watch.menu;
     if (currMenu === MENU_SETTING) {
       // For the playlists menu
       // Focus on the first video card elem

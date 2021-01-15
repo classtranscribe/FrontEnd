@@ -62,6 +62,14 @@ export default {
         // transControl.updateCaption(time); NOT IMPLEMENTED
         // this.sendMediaHistories(); NOT IMPLEMENTED
     },
+    *media_playbackrate({ payload : playbackRate }, { call, put, select, take }) {
+        const { watch } = yield select();
+        PlayerData.video1 && (PlayerData.video1.playbackRate = playbackRate);
+        PlayerData.video2 && (PlayerData.video2.playbackRate = playbackRate);
+        yield put({ type: 'setPlaybackrate', payload: playbackRate })
+        // preferControl.defaultPlaybackRate(playbackRate);
+        uEvent.changespeed(watch.time, playbackRate);
+    },
     *onPlayPauseClick({ payload }, { call, put, select, take }) {
         const { watch } = yield select();
         if (watch.paused) {
@@ -71,18 +79,18 @@ export default {
         }
     },
     *onPlayerReady({ payload: { isPrimary } }, { call, put, select, take }) {
-        if (PlayerData.canPlayDone) return; //  || !preferControl.autoPlay()
+        if (PlayerData.param.canPlayDone) return; //  || !preferControl.autoPlay()
         if (isPrimary) {
-            PlayerData.video1CanPlay = true;
-            if (PlayerData.video2CanPlay || !PlayerData.video2) {
-                PlayerData.canPlayDone = true;
+            PlayerData.param.video1CanPlay = true;
+            if (PlayerData.param.video2CanPlay || !PlayerData.video2) {
+                PlayerData.param.canPlayDone = true;
                 // this.handleRestoreTime(media);
                 yield put({ type: 'media_play', payload: null })
             }
         } else {
-            PlayerData.video2CanPlay = true;
-            if (PlayerData.video1CanPlay) {
-                PlayerData.canPlayDone = true;
+            PlayerData.param.video2CanPlay = true;
+            if (PlayerData.param.video1CanPlay) {
+                PlayerData.param.canPlayDone = true;
                 // this.handleRestoreTime(media);
                 yield put({ type: 'media_play', payload: null })
             }

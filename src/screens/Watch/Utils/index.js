@@ -7,7 +7,6 @@ export * from './helpers';
 export { generateWatchUserGuide } from './user-guide';
 export { setup } from './setup.control';
 export { videoControl } from './player.control';
-export { menuControl } from './menu.control';
 export { modalControl } from './modal.control';
 export { keydownControl } from './keydown.control';
 export { transControl } from './trans.control';

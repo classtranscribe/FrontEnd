@@ -11,7 +11,6 @@ import ShareModal from './ShareModal';
 import './index.css';
 
 function ModalsWithRedux({ modal = MODAL_HIDE, setModal, media }) {
-  // Register setMenu to menuControl
   useEffect(() => {
     modalControl.register({ setModal });
   }, []);

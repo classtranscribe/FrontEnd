@@ -2,14 +2,12 @@
  * Watch screen for ClassTranscribe
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { uurl } from 'utils/use-url';
 import { CTLayout } from 'layout';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
-  generateWatchUserGuide,
-  setup,
   videoControl,
   transControl,
   searchControl,
@@ -35,74 +33,56 @@ import {
   TransCtrlButtons,
 } from './Components';
 
-
-export class WatchWithRedux extends React.Component {
-  constructor(props) {
-    super(props);
-
-    let error = null;
-    const { id } = uurl.useSearch();
-    this.id = id;
-    if (!id) error = ERR_INVALID_MEDIA_ID;
-
-    this.state = { error };
-    // const setError = (err) => this.setState({ error: err });
-
-    /** Init controls */
-    // setup.init(props, dispatch);
-    transControl.init(props);
-    searchControl.init(props);
-    preferControl.init(props);
-  }
-
-  componentDidMount() {
-    /** GET media, playlist  */
-    // setup.setupMedias();
-    /** Add keydown event handler */
-    keydownControl.addKeyDownListener();
-    /** Add resize event listener */
-    videoControl.addWindowEventListener();
-  }
-
-  componentWillUnmount() {
-    // this.props.resetStates();
-  }
-
-  showHWatchUserGuide = () => {
+/*
+showHWatchUserGuide = () => {
     const watchUserGuide = generateWatchUserGuide();
     watchUserGuide.start();
   };
+*/
 
-  getLayoutProps({ isFullscreen, error }) {
-    return CTLayout.createProps({
-      transition: true,
-      darkMode: true,
-      fill: true,
-      logoBrand: isMobile,
-      headerProps: {
-        show: !isFullscreen,
-        leftElem: <WatchHeaderLeftElem />,
-        rightElem: <WatchHeaderRightElem plain={error} />
-      },
-      sidebarProps: {
-        float: true
-      }
-    });
-  }
-
-  render() {
-    const { error } = this.state;
-    const { isFullscreen } = this.props;
-    const layoutProps = this.getLayoutProps({ isFullscreen, error });
-    return (
-      <CTLayout {...layoutProps}>
-        <div className="watch-bg" id="watch-page">
-          {
-            error ? (
-              <ErrorWrapper error={error} />
-            ) : (
+const WatchWithRedux = (props) => {
+  const { isFullscreen, dispatch, watch } = props;
+  let error = null;
+  const { id } = uurl.useSearch();
+  useEffect(() => {
+    transControl.init(props);
+    searchControl.init(props);
+    preferControl.init(props);
+    /** GET media, playlist  */
+    // setup.setupMedias();
+    /** Add keydown event handler */
+    keydownControl.addKeyDownListener(dispatch);
+    // update WatchModel
+    /** Add resize event listener */
+    videoControl.addWindowEventListener();
+  }, [])
+  useEffect(() => {
+    keydownControl.setWatchModel(watch)
+  }, [watch])
+  if (!id) error = ERR_INVALID_MEDIA_ID;
+  const layoutProps = CTLayout.createProps({
+    transition: true,
+    darkMode: true,
+    fill: true,
+    logoBrand: isMobile,
+    headerProps: {
+      show: !isFullscreen,
+      leftElem: <WatchHeaderLeftElem />,
+      rightElem: <WatchHeaderRightElem plain={error} />
+    },
+    sidebarProps: {
+      float: true
+    }
+  });
+  return (
+    <CTLayout {...layoutProps}>
+      <div className="watch-bg" id="watch-page">
+        {
+          error ? (
+            <ErrorWrapper error={error} />
+          ) : (
               <>
-                <TabEventHelperButtons />
+                <TabEventHelperButtons dispatch={dispatch} />
                 <Modals />
                 {/* <WatchHeader /> */}
                 <Search />
@@ -114,11 +94,11 @@ export class WatchWithRedux extends React.Component {
                 <ControlBar />
               </>
             )
-          }
-        </div>
-      </CTLayout>
-    );
-  }
+        }
+      </div>
+    </CTLayout>
+  );
 }
 
-export const Watch = connectWithRedux(WatchWithRedux);
+export const Watch = connect(({ loading, watch }) => ({
+}))(WatchWithRedux);

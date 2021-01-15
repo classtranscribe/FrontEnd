@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import {
   connectWithRedux,
-  menuControl,
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
   MENU_SETTING,
@@ -12,7 +11,7 @@ import {
   // MENU_BEFORE_HIDE,
 } from '../../Utils';
 import './index.css';
-
+import { connect } from 'dva'
 import PlaylistsMenu from './PlaylistsMenu';
 import PlaybackrateMenu from './PlaybackrateMenu';
 import ScreenModeMenu from './ScreenModeMenu';
@@ -21,13 +20,8 @@ import LanguageMenu from './LanguageMenu';
 import DownloadMenu from './DownloadMenu';
 import ShortcutsTable from './ShortcutsTable';
 
-export function MenusWithRedux({ menu, setMenu }) {
-  // Register setMenu to menuControl
-  useEffect(() => {
-    menuControl.register({ setMenu });
-  }, []);
-  const closeMenu = () => menuControl.close();
-
+export function MenusWithRedux({ menu, dispatch }) {
+  const closeMenu = () => dispatch({type: 'watch/menu_close'});
   // const hideBefore = menu === MENU_BEFORE_HIDE
 
   return (
@@ -44,4 +38,6 @@ export function MenusWithRedux({ menu, setMenu }) {
   );
 }
 
-export const Menus = connectWithRedux(MenusWithRedux, ['menu'], ['setMenu']);
+export const Menus = connect(({ watch: { menu }, loading }) => ({
+  menu
+}))(MenusWithRedux);

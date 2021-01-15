@@ -9,7 +9,6 @@ import {
   connectWithRedux,
   transControl,
   searchControl,
-  menuControl,
   LINE_VIEW,
   TRANSCRIPT_VIEW,
   MENU_SETTING,
@@ -23,6 +22,7 @@ function TransCtrlButtonsWithRedux({
   userRole = STUDENT,
   bulkEditing = false,
   isFullscreen = false,
+  dispatch
 }) {
   const switchTranView = () => {
     transControl.handleTransViewSwitch();
@@ -33,7 +33,7 @@ function TransCtrlButtonsWithRedux({
   };
 
   const openTransSettingMenu = () => {
-    menuControl.open(MENU_SETTING, 'a', SMTAB_TRANS);
+    dispatch({type: 'watch/menu_open', payload: { type: MENU_SETTING, option: 'a', tab: SMTAB_TRANS}});
   };
 
   const openBulkEdit = () => {

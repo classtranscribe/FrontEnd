@@ -5,12 +5,10 @@ import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import { uEvent } from './Utils/UserEventController';
 import { ERR_INVALID_MEDIA_ID, ERR_AUTH, ENGLISH, ARRAY_EMPTY, HIDE_TRANS } from './Utils/constants.util';
-import { transControl } from './Utils/trans.control';
-import { videoControl } from './Utils/player.control';
-import { menuControl } from './Utils/menu.control';
 import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup'
 import player_effects from './model/player_effects'
+import menu_effects from './model/menu_effects'
 import {
     preferControl,
     // constants
@@ -72,8 +70,6 @@ const initState = {
     transView: preferControl.defaultTransView(),
     menu: MENU_HIDE,
     modal: MODAL_HIDE,
-
-
 
     // Others
     prompt: null,
@@ -259,7 +255,7 @@ const WatchModel = {
 
             // videoControl.clear();
             // transControl.clear();
-            // menuControl.clear();
+            yield put({ type: 'setMenu', payload: MENU_HIDE })
             // Set transcriptions
 
             const { transcriptions } = media;
@@ -305,7 +301,8 @@ const WatchModel = {
                 prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
             }
         },
-        ...player_effects
+        ...player_effects,
+        ...menu_effects
     },
     subscriptions: {
         setup({ dispatch, history }) {

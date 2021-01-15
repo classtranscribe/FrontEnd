@@ -1,10 +1,10 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { videoControl, generateWatchUserGuide } from '../../../Utils';
+import { generateWatchUserGuide } from '../../../Utils';
 
-function GuideTrigger() {
+function GuideTrigger({dispatch}) {
   const handleGuideTrigger = () => {
-    videoControl.pause();
+    dispatch({type: 'watch/media_pause', payload: true});
     let watchUserGuide = generateWatchUserGuide();
     watchUserGuide.start();
   };

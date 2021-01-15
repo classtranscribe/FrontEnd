@@ -2,7 +2,7 @@
  * The Player which supports different screen modes
  */
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { uurl } from 'utils/use-url';
 import PlayerData from '../../player'
@@ -25,7 +25,10 @@ const ClassTranscribePlayerNew = (props) => {
   const { videos, isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
   console.log('CT Player, render');
-
+  useEffect(() => {
+    PlayerData.param = {};
+    console.log('PlayerData Updated')
+  }, [srcPath1, srcPath2]);
   const player1Position = isSwitched ? SECONDARY : PRIMARY;
   const player2Position = isSwitched ? PRIMARY : SECONDARY;
   const handlePause = (position) => () => {
