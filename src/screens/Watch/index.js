@@ -9,7 +9,6 @@ import { CTLayout } from 'layout';
 import { connect } from 'dva'
 import {
   videoControl,
-  transControl,
   searchControl,
   preferControl,
   keydownControl,
@@ -41,11 +40,10 @@ showHWatchUserGuide = () => {
 */
 
 const WatchWithRedux = (props) => {
-  const { isFullscreen, dispatch, watch } = props;
+  const { isFullscreen, dispatch, menu } = props;
   let error = null;
   const { id } = uurl.useSearch();
   useEffect(() => {
-    transControl.init(props);
     searchControl.init(props);
     preferControl.init(props);
     /** GET media, playlist  */
@@ -57,8 +55,8 @@ const WatchWithRedux = (props) => {
     videoControl.addWindowEventListener();
   }, [])
   useEffect(() => {
-    keydownControl.setWatchModel(watch)
-  }, [watch])
+    keydownControl.setMenuModel(menu)
+  }, [menu])
   if (!id) error = ERR_INVALID_MEDIA_ID;
   const layoutProps = CTLayout.createProps({
     transition: true,
@@ -100,5 +98,6 @@ const WatchWithRedux = (props) => {
   );
 }
 
-export const Watch = connect(({ loading, watch }) => ({
+export const Watch = connect(({ loading, watch: {menu} }) => ({
+  menu
 }))(WatchWithRedux);

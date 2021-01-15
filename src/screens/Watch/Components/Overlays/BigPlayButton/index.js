@@ -11,8 +11,7 @@ let timeOutEl = null;
 let lastPaused = true;
 
 function BigPlayButtonWithRedux(props) {
-  const { watch } = props;
-  const { paused = true, ctpPriEvent = CTP_LOADING, isPrimary = false } = watch;
+  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING} = props;
   const [pauseStatus, setPauseStatus] = useState(true);
 
   const handleClick = () => {
@@ -78,6 +77,6 @@ function BigPlayButtonWithRedux(props) {
   ) : null;
 }
 
-export const BigPlayButton = connect(({ watch, loading }) => ({
-  watch
+export const BigPlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
+  paused, ctpPriEvent 
 }))(BigPlayButtonWithRedux);

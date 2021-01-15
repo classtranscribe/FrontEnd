@@ -11,8 +11,7 @@ import {
 } from '../Overlays';
 
 function PlayerWrapper(props) {
-  const { watch, isPrimary = false, dispatch } = props;
-  const { ctpPriEvent = CTP_LOADING } = watch;
+  const { ctpPriEvent = CTP_LOADING, watch, isPrimary = false, dispatch } = props;
   const shouldBlur = [CTP_LOADING, CTP_ENDED, CTP_ERROR].includes(ctpPriEvent);
   const handleClick = () => {
     if (!shouldBlur) {
@@ -26,9 +25,9 @@ function PlayerWrapper(props) {
         <div className="ctp-error-wrapper">Media Unavailable</div>
       ) : (
         <>
-          <ClosedCaption />
-          <BigPlayButton />
-          <AudioDescription />
+          <ClosedCaption isPrimary={isPrimary} />
+          <BigPlayButton isPrimary={isPrimary} />
+          <AudioDescription isPrimary={isPrimary} />
         </>
       )}
     </div>
@@ -37,6 +36,6 @@ function PlayerWrapper(props) {
   );
 }
 
-export default connect(({ watch, loading }) => ({
-   watch
+export default connect(({ watch : { ctpPriEvent }, loading }) => ({
+  ctpPriEvent
 }))(PlayerWrapper);

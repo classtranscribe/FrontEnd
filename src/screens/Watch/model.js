@@ -1,14 +1,32 @@
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
-import { isMobile } from 'react-device-detect';
+import { timeStrToSec, colorMap } from './Utils/helpers';
+import {
+    CC_COLOR_WHITE,
+    CC_COLOR_BLACK,
+    CC_OPACITY_75,
+    CC_POSITION_BOTTOM,
+    CC_FONT_SANS_SERIF,
+    CC_SIZE_100,
+    WEBVTT_SUBTITLES,
+    WEBVTT_DESCRIPTIONS,
+    ENGLISH,
+    ARRAY_EMPTY,
+    // PROFANITY_LIST,
+    TRANSCRIPT_VIEW,
+    LINE_VIEW,
+    HIDE_TRANS,
+    CO_CHANGE_VIDEO,
+    BULK_EDIT_MODE,
+} from './Utils/constants.util';
 import _ from 'lodash';
 import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import { uEvent } from './Utils/UserEventController';
-import { ERR_INVALID_MEDIA_ID, ERR_AUTH, ENGLISH, ARRAY_EMPTY, HIDE_TRANS } from './Utils/constants.util';
 import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup'
 import player_effects from './model/player_effects'
 import menu_effects from './model/menu_effects'
+import trans_effects from './model/trans_effects'
 import {
     preferControl,
     // constants
@@ -46,7 +64,7 @@ const initState = {
     bufferedTime: 0,
     isSwitched: false,
     paused: true,
-    playbackrate: preferControl.defaultPlaybackRate(),
+    playbackrate: preferControl.defaultPlaybackRate(), // NOT PERMENENT STORAGE
 
     isFullscreen: false,
     ctpPriEvent: CTP_LOADING,
@@ -62,18 +80,30 @@ const initState = {
     currDescription: null,
     currEditing: null,
     bulkEditing: false,
-    openCC: preferControl.cc(),
-    openAD: preferControl.ad(),
 
     // screen options
     mode: NORMAL_MODE,
-    transView: preferControl.defaultTransView(),
+    
     menu: MENU_HIDE,
     modal: MODAL_HIDE,
 
     // Others
     prompt: null,
     search: SEARCH_INIT,
+}
+/**
+* Function used to union two caption arrays
+* Merging is based on the { begin, end } of each entry in the arrays
+*/
+const unionTranscript = (captions, source) => {
+ let union = _.concat(
+   captions === ARRAY_EMPTY ? [] : captions,
+   source === ARRAY_EMPTY ? [] : source,
+ );
+ // console.error(union)
+ union = _.sortBy(union, (item) => timeStrToSec(item.begin));
+ union = _.map(union, (item, index) => ({ ...item, index }));
+ return union;
 }
 const WatchModel = {
     namespace: 'watch',
@@ -107,16 +137,28 @@ const WatchModel = {
             return { ...state, currTrans: payload };
         },
         setTranscript(state, { payload }) {
-            return { ...state, transcript: payload };
+            let transcript = payload ? payload : unionTranscript(state.captions, state.descriptions);
+            if (transcript.length === 0) transcript = ARRAY_EMPTY;
+            return { ...state, transcript };
         },
+        /**
+         * Function called for setting captions array
+         */
         setCaptions(state, { payload }) {
-            return { ...state, captions: payload };
+            let parsedCap = _.map(payload, (c) => ({ ...c, kind: WEBVTT_SUBTITLES }));
+            if (parsedCap.length === 0) parsedCap = ARRAY_EMPTY;
+            return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
             return { ...state, currCaption: payload };
         },
+        /**
+         * * Function called for get or set audio descriptions
+        * @todo how??
+        */
         setDescriptions(state, { payload }) {
-            return { ...state, descriptions: payload };
+            const parsedDes = _.map(payload, (d) => ({ ...d, kind: WEBVTT_DESCRIPTIONS }));
+            return { ...state, descriptions: parsedDes };
         },
         setCurrDescription(state, { payload }) {
             return { ...state, currDescription: payload };
@@ -127,19 +169,10 @@ const WatchModel = {
         setBulkEditing(state, { payload }) {
             return { ...state, bulkEditing: payload };
         },
-        setOpenCC(state, { payload }) {
-            return { ...state, openCC: payload };
-        },
-        setOpenAD(state, { payload }) {
-            return { ...state, openAD: payload };
-        },
 
         // Settings
         setMode(state, { payload }) {
             return { ...state, mode: payload };
-        },
-        setTransView(state, { payload }) {
-            return { ...state, transView: payload };
         },
         setMenu(state, { payload }) {
             return { ...state, menu: payload };
@@ -190,7 +223,6 @@ const WatchModel = {
             return {
                 ...state,
                 ...payload,
-
                 time: 0,
                 duration: 0,
                 bufferedTime: 0,
@@ -219,23 +251,8 @@ const WatchModel = {
         resetStates(state, { payload }) {
             return { ...initState };
         },
-        timeUpdate(state, { payload }) {
-            return { ...state, time: payload[0], currCaption: payload[1] }
-        },
     },
     effects: {
-        *setTranscriptions({ trans }, { call, put, select, take }) {
-            const currTrans = _.find(trans, { ENGLISH }); // trans.find(tran => tran.language === 'en-US')
-            uEvent.registerLanguage(ENGLISH);
-            if (currTrans) {
-                // this.currTrans(currTrans);
-            } else {
-                // this.transcript(ARRAY_EMPTY);
-                if (!isMobile) {
-                    // this.transView(HIDE_TRANS, { updatePrefer: false });
-                }
-            }
-        },
         *setupMedia({ payload }, { call, put, select, take }) {
             // Get media
             const { id } = uurl.useSearch();
@@ -251,7 +268,7 @@ const WatchModel = {
                 }
                 return null;
             }
-            yield put({ type: 'changeVideo', payload: media })
+            yield put.resolve({ type: 'changeVideo', payload: media })
 
             // videoControl.clear();
             // transControl.clear();
@@ -261,7 +278,6 @@ const WatchModel = {
             const { transcriptions } = media;
             // setTranscriptions
             yield put({ type: 'setTranscriptions', payload: transcriptions })
-            // transControl.transcriptions(transcriptions);
 
             // Get Playlist
             const { playlistId } = media;
@@ -296,13 +312,14 @@ const WatchModel = {
             }
             try {
                 let { data } = yield call(api.getUserWatchHistories)
-                // yield put({ type: 'setWatchHistories', payload: data.filter(media => media && media.id) })
+                yield put({ type: 'setWatchHistories', payload: data.filter(media => media && media.id) })
             } catch (error) {
                 prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
             }
         },
         ...player_effects,
-        ...menu_effects
+        ...menu_effects,
+        ...trans_effects
     },
     subscriptions: {
         setup({ dispatch, history }) {

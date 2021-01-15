@@ -37,13 +37,13 @@ const Video = React.memo((props) => {
         // Set current time
         // Throttling
         if (Math.abs(prevTime - currentTime) >= 1) {
-            const nextCaption = {}; // transControl.updateTranscript(currentTime);
-            dispatch({ type: 'watch/timeUpdate', payload: [currentTime, nextCaption] });
+            dispatch({ type: 'watch/updateTranscript', payload: currentTime });
+            dispatch({ type: 'watch/setTime', payload: currentTime });
             prevTime = currentTime;
         }
         if (Math.abs(prevUATime - currentTime) >= 1) {
             // uEvent.timeupdate(this.currTime());
-            // this.sendMediaHistories();
+            // this.sendMediaHistories(); NOT IMPLEMENTED
             prevUATime = currentTime;
         }
     }, [isPrimary]);

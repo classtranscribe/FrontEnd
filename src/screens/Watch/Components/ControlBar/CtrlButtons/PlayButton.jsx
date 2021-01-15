@@ -1,6 +1,7 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
+import { connect } from 'dva'
 
 export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, dispatch }) {
   const ended = ctpPriEvent === CTP_ENDED;
@@ -37,4 +38,6 @@ export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, 
   );
 }
 
-export const PlayButton = PlayButtonWithRedux;
+export const PlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
+  paused, ctpPriEvent
+}))(PlayButtonWithRedux);

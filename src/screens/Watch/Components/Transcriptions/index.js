@@ -1,6 +1,6 @@
 import React from 'react';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
   transControl,
   NORMAL_MODE,
   SEARCH_INIT,
@@ -24,6 +24,7 @@ function TranscriptionsWithRedux(props) {
     transView = LINE_VIEW,
     currEditing = null,
     search = SEARCH_INIT,
+    dispatch
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
@@ -58,6 +59,7 @@ function TranscriptionsWithRedux(props) {
                 caption={caption}
                 currCaption={currCaption}
                 isCurrent={isCurrent(caption.id)}
+                dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
             ))}
@@ -69,6 +71,7 @@ function TranscriptionsWithRedux(props) {
                 key={caption.id}
                 caption={caption}
                 isCurrent={isCurrent(caption.id)}
+                dispatch={dispatch}
               />
             ))}
           </div>
@@ -79,12 +82,8 @@ function TranscriptionsWithRedux(props) {
   ) : null;
 }
 
-export const Transcriptions = connectWithRedux(TranscriptionsWithRedux, [
-  'transcript',
-  'currCaption',
-  'currEditing',
-  'bulkEditing',
-  'mode',
-  'transView',
-  'search',
-]);
+export const Transcriptions = connect(({ playerpref: { transView }, 
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, }, loading }) => ({
+    transView, 
+    transcript, currCaption, currEditing, bulkEditing, mode, search,
+  }))(TranscriptionsWithRedux);

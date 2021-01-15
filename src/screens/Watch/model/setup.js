@@ -23,7 +23,7 @@ export default {
      */
 
     findNeighbors(mediaId, playlist) {
-        const { medias } = playlist;
+        const { medias } = playlist || {};
         if (!medias) return {};
         // medias = (medias || []).slice().reverse()
         const currIdx = _.findIndex(medias, { id: mediaId });

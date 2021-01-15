@@ -136,44 +136,11 @@ export const videoControl = {
     if (!this.videoNode1) return;
     return this.videoNode1.paused;
   },
-
-  forward(sec = 10) {
-    if (!this.videoNode1) return;
-    const now = this.currTime();
-    if (now + sec < this.duration) {
-      this.currTime(now + sec);
-    } else {
-      this.currTime(this.duration);
-    }
-  },
-  rewind(sec = 10) {
-    if (!this.videoNode1) return;
-    const now = this.currTime();
-    if (now - sec > 0) {
-      this.currTime(now - sec);
-    } else {
-      this.currTime(0);
-    }
-  },
   seekToPercentage(p = 0) {
     console.log('SEEK TO PRECENTAGE')
     if (typeof p !== 'number' || p > 1 || p < 0) return;
     const seekTo = this.duration * p;
     this.currTime(seekTo);
-  },
-
-  playbackrate(playbackRate, setstate = true) {
-    if (!this.videoNode1) return;
-    if (playbackRate === undefined) return this.videoNode1.playbackRate;
-    this.videoNode1.playbackRate = playbackRate;
-    if (this.videoNode2) this.videoNode2.playbackRate = playbackRate;
-
-    const { setPlaybackrate } = this.externalFunctions;
-    if (setPlaybackrate && setstate) {
-      setPlaybackrate(playbackRate);
-      preferControl.defaultPlaybackRate(playbackRate);
-      uEvent.changespeed(this.currTime(), playbackRate);
-    }
   },
   playbackRateIncrement() {
     if (!this.videoNode1) return;

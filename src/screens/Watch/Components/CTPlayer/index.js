@@ -20,8 +20,9 @@ import './playerModes.css';
 const videoRef1 = (node) => PlayerData.video1 = node;
 const videoRef2 = (node) => PlayerData.video2 = node;
 const ClassTranscribePlayerNew = (props) => {
-  const { watch, dispatch } = props;
-  const { media, mode, isSwitched, transView, isFullscreen } = watch;
+  const { watch, playerpref, dispatch } = props;
+  const { transView } = playerpref;
+  const { media, mode, isSwitched, isFullscreen } = watch;
   const { videos, isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
   console.log('CT Player, render');
@@ -64,6 +65,6 @@ const ClassTranscribePlayerNew = (props) => {
   );
 };
 
-export const ClassTranscribePlayer = connect(({ watch, loading }) => ({
-  watch
+export const ClassTranscribePlayer = connect(({ watch, playerpref, loading }) => ({
+  watch, playerpref
 }))(ClassTranscribePlayerNew);

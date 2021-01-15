@@ -23,8 +23,7 @@ import TimeDisplay from './TimeDisplay';
 import ProgressBar from './ProgressBar';
 
 export function ControlBarWithRedux(props) {  
-  const { watch, dispatch } = props;
-  const { media = {}, bulkEditing = false } = watch;
+  const { dispatch, media = {}, bulkEditing = false } = props;
   const { isTwoScreen, transcriptions } = media;
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile;
@@ -35,7 +34,7 @@ export function ControlBarWithRedux(props) {
       <div className="watch-ctrl-bar-left-elems">
         {isMobile ? <RewindButton /> : <NextVideoButton nextBtn={false} />}
 
-        <PlayButton {...watch} dispatch={dispatch} />
+        <PlayButton dispatch={dispatch} />
 
         {isMobile ? <ForwardButton /> : <NextVideoButton />}
 
@@ -63,6 +62,6 @@ export function ControlBarWithRedux(props) {
   );
 }
 
-export const ControlBar = connect(({ playerpref, watch, loading }) => ({
-  playerpref, watch
+export const ControlBar = connect(({ watch : { media, bulkEditing}, loading }) => ({
+  media, bulkEditing
 }))(ControlBarWithRedux);

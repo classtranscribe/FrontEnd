@@ -22,6 +22,16 @@ export default {
         yield put({ type: 'setPause', payload: false })
         PlayerData.video1 && uEvent.play(PlayerData.video1?.currentTime);
     },
+    *media_forward({ payload: sec = 10 }, { call, put, select, take }) {
+        const { watch } = yield select();
+        const now = watch.time;
+        yield put({type: 'media_setCurrTime', payload: Math.min(now + sec, watch.duration)});
+    },
+    *media_backward({ payload: sec = 10 }, { call, put, select, take }) {
+        const { watch } = yield select();
+        const now = watch.time;
+        yield put({type: 'media_setCurrTime', payload: Math.max(now - sec, 0)});
+    },
     *media_pause({ payload }, { call, put, select, take }) {
         try {
             PlayerData.video1 && (yield PlayerData.video1.pause());
@@ -39,7 +49,7 @@ export default {
     },
     *media_mute({ payload }, { call, put, select, take }) {
         let toSet = payload;
-        if(toSet === undefined) {
+        if (toSet === undefined) {
             const { playerpref } = yield select();
             toSet = !playerpref.muted;
         }
@@ -59,10 +69,9 @@ export default {
         PlayerData.video1 && (PlayerData.video1.currentTime = payload);
         PlayerData.video2 && (PlayerData.video2.currentTime = payload);
         yield put({ type: 'setTime', payload })
-        // transControl.updateCaption(time); NOT IMPLEMENTED
         // this.sendMediaHistories(); NOT IMPLEMENTED
     },
-    *media_playbackrate({ payload : playbackRate }, { call, put, select, take }) {
+    *media_playbackrate({ payload: playbackRate }, { call, put, select, take }) {
         const { watch } = yield select();
         PlayerData.video1 && (PlayerData.video1.playbackRate = playbackRate);
         PlayerData.video2 && (PlayerData.video2.playbackRate = playbackRate);
@@ -96,14 +105,14 @@ export default {
             }
         }
     },
-    *onSeekingPri({ payload: { seeked, priVideo} }, { call, put, select, take }) {
+    *onSeekingPri({ payload: { seeked, priVideo } }, { call, put, select, take }) {
         const { watch } = yield select();
-        if(!seeked) {
+        if (!seeked) {
             if (watch.ctpPriEvent === CTP_ENDED || watch.ctpPriEvent === CTP_UP_NEXT) {
-                yield put({type: 'setCTPEvent', payload: { event: CTP_PLAYING, priVideo}});
+                yield put({ type: 'setCTPEvent', payload: { event: CTP_PLAYING, priVideo } });
             }
         }
         uEvent.seeking(watch.time);
     },
-    
+
 }

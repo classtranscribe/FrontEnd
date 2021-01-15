@@ -5,8 +5,8 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { STUDENT, INSTRUCTOR } from 'utils/constants';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
   transControl,
   searchControl,
   LINE_VIEW,
@@ -25,9 +25,24 @@ function TransCtrlButtonsWithRedux({
   dispatch
 }) {
   const switchTranView = () => {
-    transControl.handleTransViewSwitch();
+    const view = transView;
+    let toSet = null;
+    if (view === HIDE_TRANS) {
+      if (isMobile) {
+        toSet = TRANSCRIPT_VIEW;
+      } else {
+        toSet = LINE_VIEW;
+      }
+    } else if (view === TRANSCRIPT_VIEW) {
+      toSet = HIDE_TRANS;
+    } else {
+      toSet = TRANSCRIPT_VIEW;
+    }
+    if(toSet) {
+      dispatch({type: 'playerpref/setTransView', payload:toSet});
+    }
   };
-
+  
   const handleSearch = () => {
     searchControl.openSearch();
   };
@@ -127,8 +142,6 @@ function TransCtrlButtonsWithRedux({
   );
 }
 
-export const TransCtrlButtons = connectWithRedux(
-  TransCtrlButtonsWithRedux,
-  ['transView', 'userRole', 'bulkEditing', 'isFullscreen'],
-  [],
-);
+export const TransCtrlButtons = connect(({ playerpref: { transView }, watch: {userRole, bulkEditing, isFullscreen}, loading }) => ({
+  transView, userRole, bulkEditing, isFullscreen
+}))(TransCtrlButtonsWithRedux);

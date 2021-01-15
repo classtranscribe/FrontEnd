@@ -1,6 +1,5 @@
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
-import { connectWithRedux } from '../../controllers/trans';
 import Player from './Player';
 import TransTable from './TransTable';
 

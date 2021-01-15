@@ -25,6 +25,11 @@ const PlayerModel = {
         cc_font: CC_FONT_SANS_SERIF,
         cc_position: CC_POSITION_BOTTOM,
         cc_opacity: CC_OPACITY_75,
+
+        transView: preferControl.defaultTransView(),
+
+        openCC: preferControl.cc() || true,
+        openAD: preferControl.ad() || false,
     },
     reducers: {
         // Player actions
@@ -37,6 +42,19 @@ const PlayerModel = {
         setFullscreen(state, { payload }) {
             return { ...state, isFullscreen: payload };
         },
+
+
+        setTransView(state, { payload }) {
+            return { ...state, transView: payload };
+        },
+        
+        toggleOpenCC(state, { payload }) {
+            return { ...state, openCC: !state.openCC };
+        },
+        toggleOpenAD(state, { payload }) {
+            return { ...state, openAD: !state.openAD };
+        },
+
         // CC Options
         cc_setColor(state, { payload }) {
             return { ...state, cc_color: payload };

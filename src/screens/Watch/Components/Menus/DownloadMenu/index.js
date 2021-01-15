@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { downloadControl, transControl, langMap, langOptions } from '../../../Utils';
+import { downloadControl, langMap, langOptions, findTransByLanguage } from '../../../Utils';
 import './index.css';
 
-function DownloadMenu({ onClose = null }) {
+function DownloadMenu({ onClose = null, trans }) {
   const [downloading, setDownloading] = useState('');
   const [disabledList, setDisabledList] = useState([]);
 
-  const langList = langOptions.map(
-    (language) => transControl.findTransByLanguage(language) || { language },
-  );
+  const langList = langOptions.map( (language) => findTransByLanguage(language, trans) || { language }, );
 
   const handleDownload = (path, type, info) => async () => {
     setDownloading(info);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva'
 import './index.css';
 import {
   CC_COLOR_WHITE,
@@ -7,7 +8,6 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
-  connectWithRedux,
   transControl,
   WEBVTT_SUBTITLES,
 } from '../../../Utils';
@@ -50,8 +50,7 @@ function ClosedCaptionWithRedux({
   ) : null;
 }
 
-export const ClosedCaption = connectWithRedux(
-  ClosedCaptionWithRedux,
-  ['currCaption', 'openCC', 'cc_color', 'cc_bg', 'cc_size', 'cc_opacity', 'cc_font', 'cc_position'],
-  [],
-);
+export const ClosedCaption = connect(({ watch : { currCaption }, 
+  playerpref: { openCC, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position }, loading }) => ({
+  currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
+}))(ClosedCaptionWithRedux); 

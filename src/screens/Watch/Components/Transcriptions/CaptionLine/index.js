@@ -10,7 +10,7 @@ import {
 } from '../../../Utils';
 import './index.css';
 
-function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false, caption = {} }) {
+function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false, caption = {}, dispatch }) {
   const { text = '', id, begin, kind } = caption;
   const ref = useRef();
 
@@ -24,7 +24,7 @@ function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false,
 
   const handleSeek = () => {
     const time = timeStrToSec(begin);
-    videoControl.currTime(time);
+    dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
   const handleChange = ({ target }) => {
