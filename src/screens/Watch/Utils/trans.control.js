@@ -148,16 +148,6 @@ export const transControl = {
   // true if mouse over trans box
   isMourseOverTrans: false,
 
-  transcript(transcript_) {
-    console.log('TRANSCRIPT')
-    if (transcript_ === undefined) return this.transcript_;
-    const { setTranscript, setCurrCaption } = this.externalFunctions;
-    this.transcript_ = transcript_;
-    if (setTranscript) setTranscript(transcript_);
-    this.currCaption_ = transcript_[0] || null;
-    setCurrCaption(this.currCaption_);
-  },
-
   /**
    * Function called when editing selected caption
    */
@@ -325,31 +315,6 @@ export const transControl = {
   },
 
   /**
-   * Handlers for open or close events
-   * **************************************************************************************************
-   */
-
-  // Switch trancript view,
-  TRANS_VIEW: preferControl.defaultTransView(),
-  LAST_TRANS_VIEW: preferControl.defaultTransView(),
-  transView(view, config = {}) {
-    const { setTransView } = this.externalFunctions;
-    const { sendUserAction = true, updatePrefer = true } = config;
-    if (setTransView) {
-      this.LAST_TRANS_VIEW = this.TRANS_VIEW;
-      this.TRANS_VIEW = view;
-      setTransView(view);
-      setTimeout(() => {
-        if (this.currCaption_ && this.currCaption_.id)
-          this.scrollTransToView(this.currCaption_.id, false);
-      }, 200);
-      if (updatePrefer) preferControl.defaultTransView(view);
-    }
-
-    if (sendUserAction) uEvent.transviewchange(videoControl.currTime(), view);
-  },
-
-  /**
    * Functions for closed caption style setting
    * **************************************************************************************************
    */
@@ -388,39 +353,6 @@ export const transControl = {
     }
 
     return { ccStyle, ccContainerStyle };
-  },
-
-  ccColor(value) {
-    if (value === undefined) return this.cc_color;
-    const { cc_setColor } = this.externalFunctions;
-    if (cc_setColor) {
-      cc_setColor(value);
-      this.cc_color = value;
-    }
-  },
-  ccBG(value) {
-    if (value === undefined) return this.cc_bg;
-    const { cc_setBG } = this.externalFunctions;
-    if (cc_setBG) {
-      cc_setBG(value);
-      this.cc_bg = value;
-    }
-  },
-  ccOpacity(value) {
-    if (value === undefined) return this.cc_opacity;
-    const { cc_setOpacity } = this.externalFunctions;
-    if (cc_setOpacity) {
-      cc_setOpacity(value);
-      this.cc_opacity = value;
-    }
-  },
-  ccSize(value) {
-    if (value === undefined) return this.cc_size;
-    const { cc_setSize } = this.externalFunctions;
-    if (cc_setSize) {
-      cc_setSize(value);
-      this.cc_size = value;
-    }
   },
   ccIncreaseSize() {
     if (!this.openCC_) return;

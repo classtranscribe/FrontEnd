@@ -1,7 +1,7 @@
 import { MENU_HIDE, MENU_BEFORE_HIDE, CO_CHANGE_VIDEO, SMTAB_GENERAL, MODAL_HIDE, MODAL_BEFORE_HIDE } from '../Utils/constants.util';
 export default {
     *menu_open({ payload: { type, option = 'a', tab } }, { call, put, select, take }) {
-        // searchControl.closeSearch(); NOT IMPLEMENTED
+        yield put({type: 'watch/search_close'});
         const { watch } = yield select();
         if (option === 'b' && watch.menu === type) {
             yield put.resolve({ type: 'menu_close' })
@@ -20,7 +20,7 @@ export default {
         }, timeout);
     },
     *modal_open({ payload: { type, option = 'a' } }, { call, put, select, take }) {
-        // searchControl.closeSearch(); NOT IMPLEMENTED
+        yield put({type: 'watch/search_close'});
         const { watch } = yield select();
         if (option === 'b' && watch.modal === type) {
             yield put.resolve({ type: 'modal_close' })

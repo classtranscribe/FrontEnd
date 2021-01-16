@@ -10,7 +10,6 @@ export { videoControl } from './player.control';
 export { keydownControl } from './keydown.control';
 export { transControl } from './trans.control';
 export { promptControl } from './prompt.control';
-export { searchControl } from './search.control';
 export { preferControl } from './preference.control';
 export { downloadControl } from './download.control';
 export { uEvent } from './UserEventController';

@@ -20,7 +20,7 @@ function MediaCard(props) {
     dark,
     id,
     name,
-    href,
+    href = '',
     ratio,
     isUnavailable,
     label,

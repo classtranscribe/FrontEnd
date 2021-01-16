@@ -9,7 +9,6 @@ import { CTLayout } from 'layout';
 import { connect } from 'dva'
 import {
   videoControl,
-  searchControl,
   preferControl,
   keydownControl,
   ERR_INVALID_MEDIA_ID,
@@ -44,7 +43,6 @@ const WatchWithRedux = (props) => {
   let error = null;
   const { id } = uurl.useSearch();
   useEffect(() => {
-    searchControl.init(props);
     preferControl.init(props);
     /** GET media, playlist  */
     // setup.setupMedias();

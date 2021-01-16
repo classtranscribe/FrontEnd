@@ -3,7 +3,6 @@ import $ from 'jquery';
 
 import { videoControl } from './player.control';
 import { transControl } from './trans.control';
-import { searchControl } from './search.control';
 
 import {
   MENU_LANGUAGE,
@@ -80,7 +79,7 @@ export const keydownControl = {
         // `?` (Shift + /) - open Search
         case 191:
           e.preventDefault();
-          return searchControl.openSearch();
+          return this.dispatch({type: 'watch/search_open'});
         // Up Arrow
         case 38:
           return videoControl.playbackRateIncrement();

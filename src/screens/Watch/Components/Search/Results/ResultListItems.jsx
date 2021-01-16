@@ -65,6 +65,7 @@ export const VideoListItem = ({ media = null }) => {
       dark
       id={mediaId}
       name={name}
+      href={"video?id=" + mediaId}
       description={`Playlist - ${playlistName}`}
       posterSize="small"
     />

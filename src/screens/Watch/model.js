@@ -8,6 +8,7 @@ import {
     CC_FONT_SANS_SERIF,
     CC_SIZE_100,
     WEBVTT_SUBTITLES,
+    SEARCH_HIDE,
     WEBVTT_DESCRIPTIONS,
     ENGLISH,
     ARRAY_EMPTY,
@@ -27,6 +28,7 @@ import setup from './model/setup'
 import player_effects from './model/player_effects'
 import menu_effects from './model/menu_effects'
 import trans_effects from './model/trans_effects'
+import search_effects from './model/search_effects'
 import {
     preferControl,
     // constants
@@ -83,7 +85,7 @@ const initState = {
 
     // screen options
     mode: NORMAL_MODE,
-    
+
     menu: MENU_HIDE,
     modal: MODAL_HIDE,
 
@@ -96,14 +98,14 @@ const initState = {
 * Merging is based on the { begin, end } of each entry in the arrays
 */
 const unionTranscript = (captions, source) => {
- let union = _.concat(
-   captions === ARRAY_EMPTY ? [] : captions,
-   source === ARRAY_EMPTY ? [] : source,
- );
- // console.error(union)
- union = _.sortBy(union, (item) => timeStrToSec(item.begin));
- union = _.map(union, (item, index) => ({ ...item, index }));
- return union;
+    let union = _.concat(
+        captions === ARRAY_EMPTY ? [] : captions,
+        source === ARRAY_EMPTY ? [] : source,
+    );
+    // console.error(union)
+    union = _.sortBy(union, (item) => timeStrToSec(item.begin));
+    union = _.map(union, (item, index) => ({ ...item, index }));
+    return union;
 }
 const WatchModel = {
     namespace: 'watch',
@@ -208,7 +210,18 @@ const WatchModel = {
         },
         // Others
         setSearch(state, { payload }) {
-            return { ...state, search: payload };
+            return { ...state, search: {...state.search, ...payload} };
+        },
+        resetSearch(state, { payload: status = SEARCH_HIDE }) {
+            return {
+                ...state, search: {
+                    status,
+                    value: '',
+                    inVideoTransResults: ARRAY_INIT,
+                    inCourseTransResults: ARRAY_INIT,
+                    playlistResults: ARRAY_INIT,
+                }
+            }
         },
         setPrompt(state, { payload }) {
             return { ...state, prompt: payload };
@@ -319,7 +332,8 @@ const WatchModel = {
         },
         ...player_effects,
         ...menu_effects,
-        ...trans_effects
+        ...trans_effects,
+        ...search_effects
     },
     subscriptions: {
         setup({ dispatch, history }) {

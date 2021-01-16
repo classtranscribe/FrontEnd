@@ -8,7 +8,6 @@ import { STUDENT, INSTRUCTOR } from 'utils/constants';
 import { connect } from 'dva'
 import {
   transControl,
-  searchControl,
   LINE_VIEW,
   TRANSCRIPT_VIEW,
   MENU_SETTING,
@@ -44,7 +43,7 @@ function TransCtrlButtonsWithRedux({
   };
   
   const handleSearch = () => {
-    searchControl.openSearch();
+    dispatch({type: 'watch/search_open'});
   };
 
   const openTransSettingMenu = () => {
