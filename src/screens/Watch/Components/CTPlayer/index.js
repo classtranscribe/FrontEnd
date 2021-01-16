@@ -37,10 +37,12 @@ const ClassTranscribePlayerNew = (props) => {
       control.handlePause();
     }
   };
-  if (isTwoScreen && !isMobile) {
-    // setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE);
-  }
-
+  useEffect(() => {
+    if (isTwoScreen && !isMobile) {
+      dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
+    }
+  }, [isTwoScreen])
+  
   return (
     <>
       <div
@@ -49,7 +51,7 @@ const ClassTranscribePlayerNew = (props) => {
         data-trans-view={transView}
         data-fullscreen={isFullscreen}
       >
-        <Video id={1} videoRef={videoRef1} dispatch={dispatch} path={srcPath1} />
+        <Video id={1} videoRef={videoRef1} dispatch={dispatch} path={srcPath1} isSwitched={isSwitched} />
       </div>
       {isTwoScreen && (
         <div
@@ -58,7 +60,7 @@ const ClassTranscribePlayerNew = (props) => {
           data-trans-view={transView}
           data-fullscreen={isFullscreen}
         >
-          <Video id={2} videoRef={videoRef2} dispatch={dispatch} path={srcPath2} />
+          <Video id={2} videoRef={videoRef2} dispatch={dispatch} path={srcPath2} isSwitched={isSwitched}/>
         </div>
       )}
     </>

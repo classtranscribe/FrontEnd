@@ -173,8 +173,8 @@ const WatchModel = {
         },
 
         // Settings
-        setMode(state, { payload }) {
-            return { ...state, mode: payload };
+        setMode(state, { payload  }) {
+            return { ...state, mode: payload, prevmode: state.mode };
         },
         setMenu(state, { payload }) {
             return { ...state, menu: payload };
@@ -201,7 +201,7 @@ const WatchModel = {
         setPause(state, { payload }) {
             return { ...state, paused: payload };
         },
-        setCTPEvent(state, { event = CTP_PLAYING, priVideo = true }) {
+        setCTPEvent(state, { payload: { event = CTP_PLAYING, priVideo = true }}) {
             if (priVideo) {
                 return { ...state, ctpPriEvent: event };
             } else {

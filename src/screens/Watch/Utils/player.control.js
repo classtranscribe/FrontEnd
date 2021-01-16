@@ -2,8 +2,6 @@
  * Functions for controlling video players
  */
 import { isMobile } from 'react-device-detect';
-import { api, user, links, uurl } from 'utils';
-import { setup } from './setup.control';
 import { transControl } from './trans.control';
 import { preferControl } from './preference.control';
 import { uEvent } from './UserEventController';
@@ -26,9 +24,6 @@ export const videoControl = {
   isFullscreen: false,
   timeRestored: false,
 
-  // setVolume, setPause, setPlaybackrate, setTime, setMute, setTrans,
-  // switchScreen, setMode, setCTPPriEvent, setCTPSecEvent,
-  // changeVideo, timeUpdate
   externalFunctions: {},
 
   init(videoNode1, videoNode2, props) {
@@ -40,12 +35,6 @@ export const videoControl = {
 
     // initialize default settings
     this.playbackrate(preferControl.defaultPlaybackRate());
-    this.volume(preferControl.defaultVolume());
-    this.mute(preferControl.muted());
-
-    if (this.videoNode2) {
-      this.SCREEN_MODE = PS_MODE;
-    }
   },
 
   clear() {
@@ -66,49 +55,9 @@ export const videoControl = {
     this.ctpSecEvent = CTP_LOADING;
   },
 
-  handleRestoreTime(media) {
-    const search = uurl.useSearch();
-    const begin = search.begin || media.watchHistory.timestamp;
-    if (Boolean(begin) && !this.timeRestored) {
-      this.currTime(Number(begin));
-      this.timeRestored = true;
-      window.history.replaceState(null, null, links.watch(media.id));
-    }
-  },
-
-  isTwoScreen() {
-    return Boolean(this.videoNode2);
-  },
-
-  isSwitched: false,
-  switchVideo(bool) {
-    if (!this.videoNode2) return;
-    const toSet = bool === undefined ? !this.isSwitched : bool;
-    const { switchScreen } = this.externalFunctions;
-    if (switchScreen) switchScreen(toSet);
-    this.isSwitched = toSet;
-  },
-
   SCREEN_MODE: NORMAL_MODE,
   LAST_SCREEN_MODE: NORMAL_MODE,
-  mode(mode, config = {}) {
-    const { setMode } = this.externalFunctions;
-    const { sendUserAction = true, restore = false } = config;
-    if (setMode) {
-      if (window.innerWidth <= 900 && mode === PS_MODE) {
-        mode = NESTED_MODE;
-      } else if (restore) {
-        mode = this.LAST_SCREEN_MODE;
-      }
-      // if (mode === THEATRE_MODE) {
-      //   transControl.transView(HIDE_TRANS)
-      // }
-      setMode(mode);
-      this.LAST_SCREEN_MODE = this.SCREEN_MODE;
-      this.SCREEN_MODE = mode;
-      if (sendUserAction) uEvent.screenmodechange(this.currTime(), mode);
-    }
-  },
+
   addWindowEventListener() {
     const that = this;
     if (isMobile) {
@@ -124,18 +73,13 @@ export const videoControl = {
       window.addEventListener('resize', () => {
         if (window.innerWidth < 900) {
           if (that.SCREEN_MODE === PS_MODE) {
-            that.mode(NESTED_MODE, { sendUserAction: false });
+            this.dispatch({ type: 'watch/setWatchMode', payload: { mode: NESTED_MODE, config: { sendUserAction: false } }});
           }
         }
       });
     }
   },
 
-  PAUSED: true,
-  paused() {
-    if (!this.videoNode1) return;
-    return this.videoNode1.paused;
-  },
   seekToPercentage(p = 0) {
     console.log('SEEK TO PRECENTAGE')
     if (typeof p !== 'number' || p > 1 || p < 0) return;
@@ -230,27 +174,6 @@ export const videoControl = {
   },
 
   lastBuffered: 0,
-
-  /**
-   * Helpers
-   * ***********************************************************************************************
-   */
-
-  findUpNextMedia({ currMediaId = '', playlist }) {
-    const { next } = setup.findNeighbors(currMediaId, playlist);
-    return next;
-  },
-
-  async sendMediaHistories() {
-    const { id } = setup.media();
-    if (id && user.isLoggedIn) {
-      await api.sendMediaWatchHistories(
-        id,
-        this.currTime(),
-        (this.currTime() / this.duration) * 100,
-      );
-    }
-  },
 
   timeOut: null,
   addEventListenerForMouseMove() {

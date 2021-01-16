@@ -32,7 +32,7 @@ function PlayerWrapper(props) {
       )}
     </div>
   ) : (
-    <SecondaryPlayerWrapper />
+    <SecondaryPlayerWrapper isPrimary={isPrimary} />
   );
 }
 

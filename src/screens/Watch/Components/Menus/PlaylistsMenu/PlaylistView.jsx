@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { elem } from 'utils/use-elem';
-import { connectWithRedux, setup } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
+import setup from '../../../model/setup'
 
 function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
   useEffect(() => {

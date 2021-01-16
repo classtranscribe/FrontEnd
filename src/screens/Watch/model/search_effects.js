@@ -70,7 +70,7 @@ function highlightSearchedWords(results = [], value = '', key = 'text') {
 // Function used to get search results from captions in current video
 function getInVideoTransSearchResults(value, watch) {
     if (value === undefined) return watch.search;
-    const captions = null; // select transcript // NOT IMPLEMENTED transControl.transcript();
+    const captions = watch.transcript;;
     if (!value || captions === ARRAY_EMPTY) {
       return [];
     }

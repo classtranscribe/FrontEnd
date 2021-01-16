@@ -75,7 +75,7 @@ export const keydownControl = {
           return transControl.ccDecreaseSize();
         // `<` (Shift + ,) - switch videos
         case 188:
-          return videoControl.switchVideo();
+          return this.dispatch({ type: 'watch/switchVideo' });
         // `?` (Shift + /) - open Search
         case 191:
           e.preventDefault();
