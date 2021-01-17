@@ -1,10 +1,10 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connectWithRedux, videoControl } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 // Not used
-export function ForwardButtonWithRedux() {
+export function ForwardButtonWithRedux({ dispatch }) {
   const handleForward = () => {
-    videoControl.forward(10);
+    dispatch({ type: 'watch/media_forward', payload: 10 })
   };
 
   return (

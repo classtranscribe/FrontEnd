@@ -1,5 +1,6 @@
 import PlayerData from '../player'
 import { uEvent } from '../Utils/UserEventController';
+import { isMobile } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl, links } from 'utils';
 import {
     NORMAL_MODE,
@@ -19,6 +20,56 @@ function handleRestoreTime(media) {
         this.currTime(Number(begin));
         this.timeRestored = true;
         window.history.replaceState(null, null, links.watch(media.id));
+    }
+}
+function enterFullScreen(watch) {
+    try {
+        let elem = document.getElementById('watch-page') || {};
+        if (isMobile) {
+            elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
+        }
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            /* Chrome, Safari and Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.webkitEnterFullscreen) {
+            /* Safari IOS Mobile */
+            elem.webkitEnterFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+        uEvent.fullscreenchange(watch.time, true);
+    } catch (error) {
+        console.error('Failed to enter fullscreen.');
+    }
+}
+function exitFullScreen(watch) {
+    try {
+        if (isMobile) {
+            const elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
+            // console.log(elem.webkitExitFullscreen)
+        }
+        if (!PlayerData.video1) return;
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            /* IE/Edge */
+            document.msExitFullscreen();
+        }
+        uEvent.fullscreenchange(watch.time, false);
+    } catch (error) {
+        console.error('Failed to exit fullscreen.');
     }
 }
 export default {
@@ -85,9 +136,15 @@ export default {
         const { watch } = yield select();
         PlayerData.video1 && (PlayerData.video1.playbackRate = playbackRate);
         PlayerData.video2 && (PlayerData.video2.playbackRate = playbackRate);
-        yield put({ type: 'setPlaybackrate', payload: playbackRate })
+        yield put({ type: 'playerpref/setPlaybackrate', payload: playbackRate })
         // preferControl.defaultPlaybackRate(playbackRate);
         uEvent.changespeed(watch.time, playbackRate);
+    },
+    *seekToPercentage({ payload: p = 0 }, { put, select }) {
+        if (typeof p !== 'number' || p > 1 || p < 0) return;
+        const { watch } = yield select();
+        const seekTo = watch.duration * p;
+        yield put({ type: 'media_setCurrTime', payload: seekTo });
     },
     *onPlayPauseClick({ payload }, { call, put, select, take }) {
         const { watch } = yield select();
@@ -96,6 +153,21 @@ export default {
         } else {
             yield put({ type: 'media_pause' })
         }
+    },
+    *toggleFullScreen({ payload: bool }, { call, put, select, take }) {
+        const { watch, playerpref } = yield select();
+        const newState = bool === undefined ? !watch.isFullscreen : bool;
+        if (newState) {
+            if (!PlayerData.video1) return;
+            if (newState) {
+                enterFullScreen()
+                yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
+            } else {
+                exitFullScreen()
+                yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
+            }
+        }
+        yield put({ type: 'setFullscreen', payload: newState });
     },
     *switchVideo({ payload: bool }, { call, put, select, take }) {
         // NOT IMPLEMENTED
@@ -131,6 +203,13 @@ export default {
             }
         }
         uEvent.seeking(watch.time);
+    },
+    *onFullScreenChange({ payload: e }, { call, put, select, take }) {
+        const isFullscreen = document.fullscreenElement ? true : false;
+        const { watch } = yield select();
+        if (isFullscreen != watch.isFullscreen) {
+            yield put({ type: 'toggleFullScreen', payload: isFullscreen })
+        }
     },
     *sendMediaHistories({ payload }, { call, put, select, take }) {
         const { watch } = yield select();

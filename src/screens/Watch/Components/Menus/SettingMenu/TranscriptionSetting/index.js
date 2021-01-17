@@ -17,7 +17,7 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW, dispatch })
 
   const openTranscript = () => {
     const view = preferControl.defaultTransView();
-    dispatch({type: 'playerpref/setTransView', payload:view === HIDE_TRANS ? TRANSCRIPT_VIEW : HIDE_TRANS});
+    dispatch({ type: 'playerpref/setTransView', payload: { view: view === HIDE_TRANS ? TRANSCRIPT_VIEW : HIDE_TRANS } });
   };
 
   const openAutoScroll = () => {
@@ -34,7 +34,7 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW, dispatch })
   };
 
   const handleTransView = () => {
-    dispatch({type: 'playerpref/setTransView', payload: transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW});
+    dispatch({ type: 'playerpref/setTransView', payload: { view: transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW } });
   };
 
   useEffect(() => {

@@ -9,7 +9,6 @@ import PlayerData from '../../player'
 import Video from './player'
 import { connect } from 'dva'
 import {
-  videoControl as control,
   PRIMARY,
   SECONDARY,
   PS_MODE,
@@ -34,7 +33,7 @@ const ClassTranscribePlayerNew = (props) => {
   const player2Position = isSwitched ? PRIMARY : SECONDARY;
   const handlePause = (position) => () => {
     if (position === PRIMARY) {
-      control.handlePause();
+       // videocontrol.handlePause(); NOT IMPLEMENTED
     }
   };
   useEffect(() => {

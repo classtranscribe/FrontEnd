@@ -20,16 +20,16 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
   }, [playbackrate]);
 
   const chooseCustomizedRate = (value) => () => {
-    dispatch({type: 'watch/media_playbackrate', payload: value}) 
+    dispatch({ type: 'watch/media_playbackrate', payload: value })
     setTimeout(() => onClose(), 200);
   };
 
   const handleSliderChange = ({ target: { value } }) => {
-    dispatch({type: 'watch/media_playbackrate', payload: value}) 
+    dispatch({ type: 'watch/media_playbackrate', payload: value })
   };
 
   const handleChooseRate = (value) => () => {
-    dispatch({type: 'watch/media_playbackrate', payload: value}) 
+    dispatch({ type: 'watch/media_playbackrate', payload: value })
     setIsCustomized(isCustomized >= 2 ? 3 : 1);
     setTimeout(() => onClose(), 200);
   };
@@ -125,6 +125,6 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
   );
 }
 
-export default connect(({ watch: { playbackrate }, loading }) => ({
+export default connect(({ playerpref: { playbackrate }, loading }) => ({
   playbackrate
 }))(PlaybackrateMenu);

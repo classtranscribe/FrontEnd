@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { isMobile } from 'react-device-detect';
 import { api } from 'utils';
 import { timeStrToSec, colorMap } from './helpers';
-import { videoControl } from './player.control';
 import { promptControl } from './prompt.control';
 import { preferControl } from './preference.control';
 import { uEvent } from './UserEventController';
@@ -160,7 +159,9 @@ export const transControl = {
       setCurrEditing(currCap);
       this.currEditing_ = currCap;
       if (currCap) this.editText = innerText || currCap.text;
-      if (preferControl.pauseWhileEditing()) videoControl.pause();
+      if (preferControl.pauseWhileEditing()) {
+        // videoControl.pause(); NOT IMPLEMENTED
+      }
       if (preferControl.showCaptionTips()) {
         promptControl.editCaptionTips();
         preferControl.showCaptionTips(false);
@@ -206,7 +207,7 @@ export const transControl = {
     if (setCurrEditing) {
       const { id } = this.currEditing_;
       // send user event
-      uEvent.edittrans(videoControl.currTime(), this.currEditing_.text, text);
+      // uEvent.edittrans(videoControl.currTime(), this.currEditing_.text, text); NOT IMPLEMENTED
       // update new text
       this.currEditing_.text = text;
       setCurrEditing(null);
@@ -264,10 +265,10 @@ export const transControl = {
     setBulkEditing(bulkEditing);
     this.bulkEditing_ = bulkEditing;
     if (bulkEditing) {
-      videoControl.mode(BULK_EDIT_MODE, { sendUserAction: false });
+      // videoControl.mode(BULK_EDIT_MODE, { sendUserAction: false }); NOT IMPLEMENTED
       this.transcriptCpy_ = _.cloneDeep(this.transcript_);
     } else {
-      videoControl.mode(null, { restore: true, sendUserAction: false });
+      // videoControl.mode(null, { restore: true, sendUserAction: false }); NOT IMPLEMENTED
     }
   },
 

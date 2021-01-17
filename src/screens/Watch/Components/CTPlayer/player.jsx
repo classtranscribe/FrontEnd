@@ -62,14 +62,7 @@ const Video = React.memo((props) => {
     }, [isPrimary]);
     const onPause = useCallback(() => {
         if (!isPrimary) return;
-        // this.pause(); check if has paused
-        // make both paused
-        /*
-        setPause(true);
-      this.PAUSED = true;
-      // uEvent.pause(this.currTime());
-      // this.sendMediaHistories();
-      */
+        // Pause Handler
     }, [isPrimary]);
     const onCanPlayPri = useCallback(() => {
         dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })

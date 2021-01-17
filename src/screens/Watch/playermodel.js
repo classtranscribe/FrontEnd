@@ -10,6 +10,7 @@ import {
     CC_POSITION_BOTTOM,
     // MODAL_SHARE
 } from './Utils';
+import { uEvent } from './Utils/UserEventController';
 import { isMobile } from 'react-device-detect';
 const PlayerModel = {
     namespace: 'playerpref',
@@ -17,6 +18,7 @@ const PlayerModel = {
         // Video player options
         volume: preferControl.defaultVolume(),
         muted: preferControl.muted(),
+        playbackrate: preferControl.defaultPlaybackRate(), // NOT PERMENENT STORAGE
 
         // CC options
         cc_color: CC_COLOR_WHITE,
@@ -39,15 +41,23 @@ const PlayerModel = {
         setMute(state, { payload }) {
             return { ...state, muted: payload };
         },
-        setFullscreen(state, { payload }) {
-            return { ...state, isFullscreen: payload };
+        setTransView(state, { payload: { view } }) {
+            if (view === null) {
+                view = state.prevTransView;
+            }
+            return { ...state, transView: view, prevTransView: state.view };
+        },
+        setPlaybackrate(state, { payload }) {
+            return { ...state, playbackrate: payload };
+        },
+        changePlaybackrateByValue(state, { payload: delta }) {
+            const target = state.playbackrate + delta;
+            if(target > 4 || target < 0.25 ) {
+                return state;
+            }
+            return {...state, playbackrate : target}
         },
 
-
-        setTransView(state, { payload }) {
-            return { ...state, transView: payload };
-        },
-        
         toggleOpenCC(state, { payload }) {
             return { ...state, openCC: !state.openCC };
         },
@@ -74,6 +84,21 @@ const PlayerModel = {
         cc_setFont(state, { payload }) {
             return { ...state, cc_position: payload };
         },
+    },
+    effects: {
+        *setTransView({ payload: { view, config = {} } }, { call, put, select, take }) {
+            const { sendUserAction = true, updatePrefer = true } = config;
+            const { watch } = yield select();
+            setTimeout(() => {
+                if (watch.caption?.id) {
+                    // this.scrollTransToView(this.currCaption_.id, false); NOT IMPLEMENTED
+                }
+            }, 200);
+            // if (updatePrefer) preferControl.defaultTransView(view); NOT IMPLEMENTED
+            if (sendUserAction) {
+                uEvent.transviewchange(watch.time, view);
+            }
+        }
     }
 }
 export default PlayerModel;

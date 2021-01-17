@@ -1,5 +1,7 @@
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
 import { timeStrToSec, colorMap } from './Utils/helpers';
+import { isMobile } from 'react-device-detect';
+import PlayerData from './player'
 import {
     CC_COLOR_WHITE,
     CC_COLOR_BLACK,
@@ -66,7 +68,6 @@ const initState = {
     bufferedTime: 0,
     isSwitched: false,
     paused: true,
-    playbackrate: preferControl.defaultPlaybackRate(), // NOT PERMENENT STORAGE
 
     isFullscreen: false,
     ctpPriEvent: CTP_LOADING,
@@ -131,6 +132,9 @@ const WatchModel = {
             return { ...state, starredOfferings: payload };
         },
 
+        setFullscreen(state, { payload }) {
+            return { ...state, isFullscreen: payload };
+        },
         // Transcription
         setTranscriptions(state, { payload }) {
             return { ...state, transcriptions: payload };
@@ -173,7 +177,7 @@ const WatchModel = {
         },
 
         // Settings
-        setMode(state, { payload  }) {
+        setMode(state, { payload }) {
             return { ...state, mode: payload, prevmode: state.mode };
         },
         setMenu(state, { payload }) {
@@ -195,13 +199,11 @@ const WatchModel = {
         switchScreen(state, { payload }) {
             return { ...state, isSwitched: payload };
         },
-        setPlaybackrate(state, { payload }) {
-            return { ...state, playbackrate: payload };
-        },
+
         setPause(state, { payload }) {
             return { ...state, paused: payload };
         },
-        setCTPEvent(state, { payload: { event = CTP_PLAYING, priVideo = true }}) {
+        setCTPEvent(state, { payload: { event = CTP_PLAYING, priVideo = true } }) {
             if (priVideo) {
                 return { ...state, ctpPriEvent: event };
             } else {
@@ -210,7 +212,7 @@ const WatchModel = {
         },
         // Others
         setSearch(state, { payload }) {
-            return { ...state, search: {...state.search, ...payload} };
+            return { ...state, search: { ...state.search, ...payload } };
         },
         resetSearch(state, { payload: status = SEARCH_HIDE }) {
             return {
@@ -282,7 +284,7 @@ const WatchModel = {
                 return null;
             }
             yield put.resolve({ type: 'changeVideo', payload: media })
-
+            PlayerData.param = {};
             // videoControl.clear();
             // transControl.clear();
             yield put({ type: 'setMenu', payload: MENU_HIDE })
@@ -337,6 +339,12 @@ const WatchModel = {
     },
     subscriptions: {
         setup({ dispatch, history }) {
+            if (!isMobile) {
+                // document.removeEventListener('fullscreenchange', this.onFullScreenChange, true);
+                document.addEventListener('fullscreenchange', (e) => {
+                    dispatch({ type: 'onFullScreenChange', payload: e })
+                }, true);
+            }
             history.listen((event) => {
                 if (event.pathname === '/video' || event.action === 'PUSH' && event.location.pathname === '/video') {
                     dispatch({ type: 'setupMedia' });
@@ -345,4 +353,28 @@ const WatchModel = {
         }
     }
 }
+/* NOT IMPLEMENTED
+
+function addWindowEventListener() {
+    const that = this;
+    if (isMobile) {
+        window.addEventListener('orientationchange', () => {
+            // console.log('window.orientation', window.orientation)
+            if ([90, -90].includes(window.orientation)) {
+                if (that.currTime() > 0) {
+                    that.enterFullScreen();
+                }
+            }
+        });
+    } else {
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 900) {
+                if (that.SCREEN_MODE === PS_MODE) {
+                    this.dispatch({ type: 'watch/setWatchMode', payload: { mode: NESTED_MODE, config: { sendUserAction: false } } });
+                }
+            }
+        });
+    }
+}
+*/
 export default WatchModel

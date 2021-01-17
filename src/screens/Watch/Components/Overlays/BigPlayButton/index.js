@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { videoControl, CTP_LOADING, CTP_ENDED } from '../../../Utils';
+import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
 import { connect } from 'dva'
 import './index.css';
 
@@ -16,9 +16,9 @@ function BigPlayButtonWithRedux(props) {
 
   const handleClick = () => {
     if (ctpPriEvent === CTP_ENDED) {
-      videoControl.replay();
+      // videoControl.replay(); NOT IMPLEMENTED
     }
-    // videoControl.handlePause()
+    // videoControl.handlePause() NOT IMPLEMENTED
   };
 
   useEffect(() => {

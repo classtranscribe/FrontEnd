@@ -8,7 +8,6 @@ import { uurl } from 'utils/use-url';
 import { CTLayout } from 'layout';
 import { connect } from 'dva'
 import {
-  videoControl,
   preferControl,
   keydownControl,
   ERR_INVALID_MEDIA_ID,
@@ -50,7 +49,6 @@ const WatchWithRedux = (props) => {
     keydownControl.addKeyDownListener(dispatch);
     // update WatchModel
     /** Add resize event listener */
-    videoControl.addWindowEventListener();
   }, [])
   useEffect(() => {
     keydownControl.setMenuModel(menu)

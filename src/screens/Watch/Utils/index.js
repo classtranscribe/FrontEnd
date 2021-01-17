@@ -5,7 +5,6 @@ export * from './data';
 export * from './helpers';
 
 export { generateWatchUserGuide } from './user-guide';
-export { videoControl } from './player.control';
 export { keydownControl } from './keydown.control';
 export { transControl } from './trans.control';
 export { promptControl } from './prompt.control';

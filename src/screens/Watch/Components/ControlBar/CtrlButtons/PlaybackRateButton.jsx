@@ -32,6 +32,6 @@ export function PlaybackRateButtonWithRedux({ menu = MENU_HIDE, playbackrate = 1
   );
 }
 
-export const PlaybackRateButton = connect(({ watch: { menu, playbackrate }, loading }) => ({
+export const PlaybackRateButton = connect(({ watch: { menu }, playerpref: { playbackrate }, loading }) => ({
   menu, playbackrate
 }))(PlaybackRateButtonWithRedux);

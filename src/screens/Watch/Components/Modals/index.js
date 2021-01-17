@@ -11,7 +11,7 @@ import './index.css';
 
 function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   const handleClose = () => {
-    dispatch({type: 'watch/modal_close'});
+    dispatch({ type: 'watch/modal_close' });
   };
 
   const [embed, setEmbed] = useState(false);
@@ -34,6 +34,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   );
 }
 
-export const Modals = connect(({ watch: { modal, media}, loading }) => ({
+export const Modals = connect(({ watch: { modal, media }, loading }) => ({
   modal, media
 }))(ModalsWithRedux);

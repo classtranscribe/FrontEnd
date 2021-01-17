@@ -1,8 +1,8 @@
 import React from 'react';
 import { MediaCard } from 'components';
 import { links } from 'utils/links';
+import { connect } from 'dva';
 import {
-  videoControl,
   timeStrToSec,
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
@@ -14,7 +14,7 @@ import { ShortcutKey } from '../../Menus/ShortcutsTable';
 /**
  * The result listitem for Captions
  */
-export const CaptionListItem = ({ item, option }) => {
+const CaptionListItemWithRedux = ({ item, option, dispatch }) => {
   let mediaId = item.media ? item.media.id : item.mediaId;
   let mediaName = item.media ? item.media.mediaName : item.mediaName;
   let begin = item.caption ? item.caption.begin : item.begin;
@@ -22,7 +22,7 @@ export const CaptionListItem = ({ item, option }) => {
 
   const handleClick = () => {
     if (option === SEARCH_TRANS_IN_VIDEO) {
-      videoControl.currTime(timeStrToSec(begin));
+      dispatch({ type: 'watch/media_setCurrTime', payload: timeStrToSec(begin) })
     } else if (option === SEARCH_TRANS_IN_COURSE) {
       window.location = links.watch(mediaId, { begin: timeStrToSec(begin) });
     }
@@ -53,6 +53,7 @@ export const CaptionListItem = ({ item, option }) => {
     </button>
   );
 };
+export const CaptionListItem = connect()(CaptionListItemWithRedux);
 
 /**
  * The result listitem for videos
