@@ -94,10 +94,17 @@ export class User {
   signIn(
     options = {
       method: AUTH_AUTH0,
-      redirectURL: window.location.href
+      redirectURL: window.location.href,
+      closeAfterSignedIn: false
     },
   ) {
-    const { method, redirectURL } = options;
+    const { method, redirectURL, closeAfterSignedIn } = options;
+    if (closeAfterSignedIn) {
+      accountStorage.setCloseAfterSignedIn();
+    } else { // Remove any old settings
+      accountStorage.rmCloseAfterSignedIn();
+    }
+    
 
     if (env.dev && method === AUTH_TEST) {
       this.testSignIn(redirectURL);
@@ -123,6 +130,8 @@ export class User {
     accountStorage.setAuthToken(authToken);
     // Save user info
     this.saveUserInfo(data, {}, AUTH_TEST);
+
+    this.execCloseAfterSignIn();
     window.location = redirectURL;
   }
 
@@ -234,6 +243,7 @@ export class User {
     const idToken = this.auth0Client.getAuth0Token();
     const profile = this.auth0Client.getProfile();
     const successed = await this.setupUser(idToken, profile, AUTH_AUTH0, links.auth0Callback());
+    this.execCloseAfterSignIn();
     if (!successed) {
       return;
     }
@@ -251,6 +261,7 @@ export class User {
     const { token, redirect_uri } = this.ciLogonClient.parseCallback();
 
     const successed = await this.setupUser(token, {}, AUTH_CILOGON, links.ciLogonCallback());
+    this.execCloseAfterSignIn();
     if (!successed) {
       return;
     }
@@ -432,5 +443,12 @@ export class User {
   loginAsAccountSignOut() {
     accountStorage.remove(accountStorage.LOGIN_AS_USER_INFO_KEY);
     window.location.reload();
+  }
+
+  execCloseAfterSignIn() {
+    if (accountStorage.closeAfterSignedIn) {
+      accountStorage.rmCloseAfterSignedIn();
+      window.close();
+    }
   }
 }

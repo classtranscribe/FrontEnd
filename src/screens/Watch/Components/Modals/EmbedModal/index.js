@@ -16,7 +16,7 @@ import { videoControl } from '../../../Utils';
 import './index.scss';
 
 function EmbedModal(props) {
-  const { onClose } = props;
+  const { onClose, media } = props;
 
   const inputRef = useRef();
   const iframeRef = useRef();
@@ -125,7 +125,7 @@ function EmbedModal(props) {
   return (
     <CTModal {...modalProps} darkMode>
       <CTFragment justConCenter id="wp-embed-iframe">
-        <iframe ref={iframeRef} width="560" height="315" title="preview" />
+        <iframe ref={iframeRef} width="560" height="315" title={media.mediaName} frameBorder="0" />
       </CTFragment>
       <CTFragment padding={[20, 0, 5, 0]}>
         <CTInput

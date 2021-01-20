@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { links, uurl } from 'utils';
+import { links, uurl, api } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';
@@ -28,6 +28,11 @@ function ActionBar(props) {
     uurl.openNewTab(url);
   };
 
+  let displayedTitle = mediaName || 'Untitled Media';
+  if (api.isError(error)) {
+    displayedTitle = 'Media Unavailable';
+  }
+
   return (
     <div className="ctp action-bar">
       <div className="left">
@@ -40,7 +45,7 @@ function ActionBar(props) {
 
           <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">
             <a href={links.watch(id)} onClick={watchOnClassTranscribe}>
-              {mediaName || 'Go to watch page for more details'}
+              {displayedTitle}
             </a>
           </CTPopoverLabel>
         </div>

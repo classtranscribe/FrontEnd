@@ -16,10 +16,13 @@ function NonInteractiveLayer(props) {
   return (
     <div 
       className="ctp wrapper non-interact ct-d-c-center"
-      onClick={onTogglePause}
+      onClick={error ? onTogglePause : null}
     >
-      {error && <ErrorWrapper error={error} />}
-      <EventVisualPopup event={event} volume={volume} />
+      {error ? (
+        <ErrorWrapper error={error} />
+      ) : (
+        <EventVisualPopup event={event} volume={volume} />
+      )}
     </div>
   );
 }

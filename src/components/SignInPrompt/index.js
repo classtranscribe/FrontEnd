@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
 import { SignInButton } from 'layout';
 import { user } from 'utils';
 import './index.scss';
 
 export function SignInPrompt(props) {
-  let {
+  const {
     buttonText = 'Sign In',
     topDescription = <>Can&#39;t find your courses? <br />Sign in to see more.</>,
     bottomDescription = '',
-    darkMode = false
+    darkMode = false,
+    targetBlank,
+    closeAfterSignedIn,
   } = props;
 
+  const [isSigningIn, setIsSigningIn] = useState(false);
+
   const promptClasses = classNames('ct-signin-prompt', { dark: darkMode });
+
+  const handleSigningIn = () => {
+    setIsSigningIn(true);
+  };
 
   return user.isLoggedIn ? null : (
     <div className={promptClasses}>
@@ -21,10 +30,36 @@ export function SignInPrompt(props) {
         {
           topDescription
           &&
-          <div className="ct-signin-descrip">{topDescription}</div>
+          <div className="ct-signin-descrip">
+            {
+              isSigningIn
+              ?
+              "Manually refresh the player if you have successfully signed in."
+              :
+              topDescription
+            }
+          </div>
         }
 
-        <SignInButton>{buttonText}</SignInButton>
+        {
+          isSigningIn ? (
+            <Button 
+              onClick={() => window.location.reload()}
+              variant="outlined"
+              startIcon={<span className="material-icons">refresh</span>}
+            >
+              Manually refresh here
+            </Button>
+          ) : (
+            <SignInButton 
+              targetBlank={targetBlank}
+              closeAfterSignedIn={closeAfterSignedIn}
+              onAfterClick={handleSigningIn}
+            >
+              {buttonText}
+            </SignInButton>
+          )
+        }
 
         {
           bottomDescription
@@ -53,5 +88,11 @@ SignInPrompt.propTypes = {
   bottomDescription: PropTypes.node,
 
   /** SignInPrompt supports darkMode */
-  darkMode: PropTypes.bool
+  darkMode: PropTypes.bool,
+
+  /** True if open the sign-in page in a new window by setting `target="_blank"` */
+  targetBlank: PropTypes.bool,
+
+  /** True if you want to closed the window after signin processed finished */
+  closeAfterSignedIn: PropTypes.bool
 };
