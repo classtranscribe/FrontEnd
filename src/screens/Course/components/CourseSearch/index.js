@@ -8,7 +8,7 @@ import { setup } from '../../../Watch/Utils/setup.control';
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import './index.scss';
 
-export function NavHeaderSearch({ navbar }) {
+export function CourseSearch({ navbar }) {
   const ref = useRef();
   const [searchText, setSearchText] = useState("");
 

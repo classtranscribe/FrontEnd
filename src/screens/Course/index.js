@@ -5,7 +5,7 @@ import { CTLayout, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
 import { INSTRUCTOR } from 'utils';
 import { setup, courseStore, connectWithRedux } from './controllers';
-import { CourseInfo, Playlists, NavHeaderSearch } from './components';
+import { CourseInfo, Playlists, CourseSearch } from './components';
 
 
 function CourseWithRedux({ match, offering, role, playlist, ...props }) {
@@ -36,7 +36,7 @@ function CourseWithRedux({ match, offering, role, playlist, ...props }) {
       // !isInstructor ? {
       //   subtitle: 'Course Admin'
       // } :
-      { rightElem: <NavHeaderSearch navbar /> }
+      { rightElem: <CourseSearch navbar /> }
   }));
 
   const errorProps = {

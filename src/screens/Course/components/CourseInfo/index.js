@@ -2,7 +2,7 @@ import React from 'react';
 import { InfoAndListLayout } from 'components';
 import { CTFragment } from 'layout';
 import { connectWithRedux, setup } from '../../controllers';
-import { NavHeaderSearch } from '../NavHeaderSearch';
+import { CourseSearch } from '../CourseSearch';
 import ActionButtons from './ActionButtons';
 import './index.scss';
 
@@ -19,11 +19,11 @@ function CourseInfoWithRedux({
     sectionName,
     description
   } = offering;
-  
+
   return (
     <InfoAndListLayout.Info id="cp-course-info">
       <CTFragment className="cp-search-bar mb-3">
-        <NavHeaderSearch />
+        <CourseSearch />
       </CTFragment>
 
       <div>
@@ -32,8 +32,8 @@ function CourseInfoWithRedux({
       <div className="name">{courseName}</div>
       <div className="term">{termName} | {sectionName}</div>
 
-      <ActionButtons 
-        isInsructor={setup.isInstructor(role)} 
+      <ActionButtons
+        isInsructor={setup.isInstructor(role)}
         isInstMode={isInstMode}
         offering={offering}
         starredOfferings={starredOfferings}
@@ -47,8 +47,8 @@ function CourseInfoWithRedux({
 export const CourseInfo = connectWithRedux(
   CourseInfoWithRedux,
   [
-    'offering', 
-    'starredOfferings', 
+    'offering',
+    'starredOfferings',
     'role',
     'isInstMode'
   ]
