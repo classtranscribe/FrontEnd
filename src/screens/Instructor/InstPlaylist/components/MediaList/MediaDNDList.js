@@ -34,11 +34,11 @@ function MediaDNDList({
     }
 
     const medias_ = reorder(
-      medias, 
-      result.source.index, 
+      medias,
+      result.source.index,
       result.destination.index
     );
-    dispatch({type: 'instplaylist/reorderMedias', payload: {medias: medias_, callback}});
+    dispatch({ type: 'instplaylist/reorderMedias', payload: { medias: medias_, callback } });
   };
 
   let dndItems = [];
@@ -55,7 +55,7 @@ function MediaDNDList({
 
     dndItems = medias.map(media => ({
       id: `media-${media.id}-${media.name}`,
-      node: <MediaItem media={media} {...mediaProps}  dispatch={dispatch} />
+      node: <MediaItem media={media} {...mediaProps} dispatch={dispatch} />
     }));
   }
 

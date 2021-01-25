@@ -4,7 +4,6 @@ import { Popup } from 'semantic-ui-react';
 import './index.css';
 import {
   // transControl,
-  videoControl,
   timeStrToSec,
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,

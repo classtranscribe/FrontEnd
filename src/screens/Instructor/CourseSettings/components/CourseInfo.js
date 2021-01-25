@@ -3,6 +3,7 @@ import { CourseForm } from 'screens/Instructor/NewCourse/components';
 import { connect } from 'dva';
 import { prompt, api, links } from 'utils';
 import _ from 'lodash';
+
 export function CourseInfoWithRedux(props) {
   const { dispatch, course } = props;
   const {
@@ -17,12 +18,12 @@ export function CourseInfoWithRedux(props) {
     description,
     logEventsFlag,
   } = offering
-  const selCourses = courses.map(course => ({ ...course, id: course.courseId }));
+  const selCourses = courses.map(course_ => ({ ...course_, id: course_.courseId }));
   async function updateCourseOfferings(newOffering) {
     const oldOffering = offering;
     const offeringId = offering.id;
     let newCourses = newOffering.courseIds;
-    let oldCourses = _.map(oldOffering.courses, course => course.courseId);
+    let oldCourses = _.map(oldOffering.courses, course_ => course_.courseId);
   
     let added = _.difference(newCourses, oldCourses);
     let removed = _.difference(oldCourses, newCourses);

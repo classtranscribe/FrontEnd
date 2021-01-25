@@ -27,6 +27,6 @@ function ChapterEditor({ chapters, currChIndex }) {
   );
 }
 
-export default  connect(({ epub, loading }) => ({
+export default connect(({ epub, loading }) => ({
   epub
 }))(ChapterEditor);

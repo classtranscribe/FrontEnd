@@ -4,6 +4,7 @@ import { InfoAndListLayout } from 'components';
 import ActionButtons from './ActionButtons';
 import './index.scss';
 import courseutil from '../../util'
+
 function CourseInfoWithRedux(props) {
   const { course, dispatch } = props;
   const {

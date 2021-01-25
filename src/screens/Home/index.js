@@ -5,10 +5,6 @@ import { ARRAY_INIT } from 'utils/constants';
 import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';
 
 class HomeWithRedux extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     // home.ctrl.setupHomepage(); no need
   }
@@ -24,7 +20,6 @@ class HomeWithRedux extends Component {
     const loaderElement = makeEl(Placeholder);
     const sectionElement = altEl(SectionList, !loading, { sections, hasDepartmentSections });
     const filterElement = altEl(CourseFilter, !loading);
-    console.log('render');
     return (
       <CTLayout {...layoutProps}>
         <MaintenanceMesg message="" />

@@ -77,11 +77,4 @@ export default {
             return {};
         }
     },
-
-    /**
-     * Function for getting media, playlist, and playlists
-     */
-    async setupMedias() {
-
-    },
 };

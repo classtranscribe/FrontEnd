@@ -141,6 +141,7 @@ function TransCtrlButtonsWithRedux({
   );
 }
 
-export const TransCtrlButtons = connect(({ playerpref: { transView }, watch: { userRole, bulkEditing, isFullscreen }, loading }) => ({
-  transView, userRole, bulkEditing, isFullscreen
-}))(TransCtrlButtonsWithRedux);
+export const TransCtrlButtons = connect(({ playerpref: { transView },
+  watch: { userRole, bulkEditing, isFullscreen }, loading }) => ({
+    transView, userRole, bulkEditing, isFullscreen
+  }))(TransCtrlButtonsWithRedux);

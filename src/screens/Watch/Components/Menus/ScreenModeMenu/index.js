@@ -1,5 +1,5 @@
 import React from 'react';
-import { connectWithRedux, screenModes, videoControl, NORMAL_MODE } from '../../../Utils';
+import { connectWithRedux, screenModes, NORMAL_MODE } from '../../../Utils';
 import './index.css';
 
 function ScreenModeMenu({ mode = NORMAL_MODE, onClose = null, media = {}, dispatch }) {

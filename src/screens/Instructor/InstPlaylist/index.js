@@ -12,7 +12,6 @@ import {
 } from './components';
 
 export class InstPlaylistWithRedux extends Component {
-
   componentDidMount() {
     // setup.setupInstPlaylistPage(playlistId, this.props.location.state);
   }
@@ -48,7 +47,7 @@ export class InstPlaylistWithRedux extends Component {
     return (
       <CTLayout {...layoutProps}>
         <InfoAndListLayout loading={!playlist.id} error={hasError} errorElement={errorElement}>
-          <PlaylistInfo {...this.props}/>
+          <PlaylistInfo {...this.props} />
           <MediaList />
           {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({type: 'instplaylist/setConfirmation', payload: null})} />}
 

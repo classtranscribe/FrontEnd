@@ -5,7 +5,6 @@ import TempVideoTimeTable from './components/TempVideoTimeTable';
 
 const setup = {};
 export class CourseAnalyticsWithRedux extends Component {
-
   componentDidMount() {
     // setup.setupCourseSettingsPage(this.offeringId);
   }

@@ -3,11 +3,10 @@
  */
 
 import React, { useCallback, useRef, useEffect } from 'react';
+import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
-import { uurl } from 'utils/use-url';
 import PlayerData from '../../player'
 import Video from './player'
-import { connect } from 'dva'
 import {
   PRIMARY,
   SECONDARY,
@@ -16,24 +15,23 @@ import {
 } from '../../Utils';
 import './index.css';
 import './playerModes.css';
-const videoRef1 = (node) => PlayerData.video1 = node;
-const videoRef2 = (node) => PlayerData.video2 = node;
+
+const videoRef1 = (node) => { PlayerData.video1 = node };
+const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { watch, playerpref, dispatch } = props;
   const { transView } = playerpref;
   const { media, mode, isSwitched, isFullscreen } = watch;
   const { videos, isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
-  console.log('CT Player, render');
   useEffect(() => {
     PlayerData.param = {};
-    console.log('PlayerData Updated')
   }, [srcPath1, srcPath2]);
   const player1Position = isSwitched ? SECONDARY : PRIMARY;
   const player2Position = isSwitched ? PRIMARY : SECONDARY;
   const handlePause = (position) => () => {
     if (position === PRIMARY) {
-       // videocontrol.handlePause(); NOT IMPLEMENTED
+      // videocontrol.handlePause(); NOT IMPLEMENTED
     }
   };
   useEffect(() => {
@@ -41,7 +39,7 @@ const ClassTranscribePlayerNew = (props) => {
       dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
     }
   }, [isTwoScreen])
-  
+
   return (
     <>
       <div
@@ -50,7 +48,13 @@ const ClassTranscribePlayerNew = (props) => {
         data-trans-view={transView}
         data-fullscreen={isFullscreen}
       >
-        <Video id={1} videoRef={videoRef1} dispatch={dispatch} path={srcPath1} isSwitched={isSwitched} />
+        <Video
+          id={1}
+          videoRef={videoRef1}
+          dispatch={dispatch}
+          path={srcPath1}
+          isSwitched={isSwitched}
+        />
       </div>
       {isTwoScreen && (
         <div
@@ -59,7 +63,13 @@ const ClassTranscribePlayerNew = (props) => {
           data-trans-view={transView}
           data-fullscreen={isFullscreen}
         >
-          <Video id={2} videoRef={videoRef2} dispatch={dispatch} path={srcPath2} isSwitched={isSwitched}/>
+          <Video
+            id={2}
+            videoRef={videoRef2}
+            dispatch={dispatch}
+            path={srcPath2}
+            isSwitched={isSwitched}
+          />
         </div>
       )}
     </>

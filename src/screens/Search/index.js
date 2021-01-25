@@ -25,7 +25,7 @@ const SearchWithRedux = (props) => {
   return (
     <CTLayout {...layoutProps}>
       <SearchInput {...props} />
-      <SearchResult {...props}  />
+      <SearchResult {...props} />
     </CTLayout>
   );
 }

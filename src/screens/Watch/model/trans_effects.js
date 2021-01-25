@@ -1,24 +1,15 @@
 
-import {
-    ERR_INVALID_MEDIA_ID, ERR_AUTH, ENGLISH, ARRAY_EMPTY, HIDE_TRANS, CC_COLOR_WHITE,
-    CC_COLOR_BLACK,
-    CC_OPACITY_75,
-    CC_POSITION_BOTTOM,
-    CC_FONT_SANS_SERIF,
-    CC_SIZE_100,
-    WEBVTT_SUBTITLES,
-    WEBVTT_DESCRIPTIONS,
-    // PROFANITY_LIST,
-    TRANSCRIPT_VIEW,
-    LINE_VIEW,
-    CO_CHANGE_VIDEO,
-    BULK_EDIT_MODE,
-} from '../Utils/constants.util';
-import { timeStrToSec, colorMap } from '../Utils/helpers';
 import { api } from 'utils';
 import _ from 'lodash';
-import { uEvent } from '../Utils/UserEventController';
 import { isMobile } from 'react-device-detect';
+import {
+    ENGLISH, ARRAY_EMPTY,
+    WEBVTT_DESCRIPTIONS,
+    // PROFANITY_LIST,
+} from '../Utils/constants.util';
+import { timeStrToSec, colorMap } from '../Utils/helpers';
+
+import { uEvent } from '../Utils/UserEventController';
 import { findTransByLanguage } from '../Utils'
 /**
 * Function that scrolls the captions
@@ -144,8 +135,5 @@ export default {
     },
     *toggleOpenCC({ payload }, { call, put, select, take }) {
         // preferControl.cc(bool);
-    },
-    *updateTranscript_v09({ payload }, { call, put, select, take }) {
-
     }
 }

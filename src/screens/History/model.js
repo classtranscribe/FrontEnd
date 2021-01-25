@@ -1,6 +1,7 @@
 import { ARRAY_INIT } from 'utils/constants';
 import _ from 'lodash';
 import { api, user, prompt, InvalidDataError } from 'utils';
+
 const HistoryModel = {
     namespace: 'historypage',
     state: {
@@ -24,7 +25,7 @@ const HistoryModel = {
     subscriptions: {
         setup({ dispatch }) {
             document.addEventListener('readystatechange', e => {
-                if (document.readyState == "complete") {
+                if (document.readyState === "complete") {
                     dispatch({ type: 'setupWatchHistories' });
                 }
             });

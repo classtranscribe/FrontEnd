@@ -1,6 +1,7 @@
 import pathToRegexp from 'path-to-regexp';
 import { isMobile } from 'react-device-detect';
 import { api, links, user } from 'utils';
+
 async function getMedia(mediaId) {
     try {
         const { data } = await api.getMediaById(mediaId);

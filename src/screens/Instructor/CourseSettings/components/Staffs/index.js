@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useArray } from 'hooks';
-import { EmailList } from '../EmailList';
 import { prompt, api, links } from 'utils';
+import { EmailList } from '../EmailList';
 
 async function getInstructorsByOfferingId(offeringId) {
   try {

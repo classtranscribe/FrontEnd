@@ -2,6 +2,7 @@ import { ARRAY_INIT } from 'utils/constants';
 import { uurl } from 'utils/use-url';
 import { search } from 'utils';
 import _ from 'lodash';
+
 const SearchModel = {
     namespace: 'search',
     state: {
@@ -25,12 +26,9 @@ const SearchModel = {
         },
     },
     effects: {
-        *initialize(__, { call, put, select, take }) {
-
-        },
         *searchValue({ payload }, { call, put, select, take }) {
             const { home } = yield select();
-            yield put({type: 'setSearchValue', payload: payload})
+            yield put({type: 'setSearchValue', payload })
             if (!payload) {
                 yield put({type: 'setSearchResult', payload: {}})
                 return;
@@ -53,7 +51,7 @@ const SearchModel = {
     subscriptions: {
         setup({ dispatch }) {
             document.addEventListener('readystatechange', e => {
-                if (document.readyState == "complete") {
+                if (document.readyState === "complete") {
                     let { q } = uurl.useSearch();
                     if (q) {
                         let value = _.replace(q, /\+/i, ' ');

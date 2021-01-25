@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva'
 import './index.css';
 import {
   transControl,
@@ -9,7 +10,6 @@ import {
   CC_FONT_SANS_SERIF,
   CC_POSITION_TOP,
 } from '../../../Utils';
-import { connect } from 'dva'
 
 function AudioDescriptionWithRedux({
   time = 0,

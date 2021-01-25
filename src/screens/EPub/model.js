@@ -1,7 +1,8 @@
 import { ARRAY_INIT } from 'utils/constants';
 import _ from 'lodash';
-import Constants from './controllers/constants/EPubConstants'
 import { api, user, prompt, InvalidDataError } from 'utils';
+import Constants from './controllers/constants/EPubConstants'
+
 const initState = {
     error: null,
     media: null,
@@ -99,7 +100,7 @@ const EPubModel = {
     subscriptions: {
         setup({ dispatch }) {
             document.addEventListener('readystatechange', e => {
-                if (document.readyState == "complete") {
+                if (document.readyState === "complete") {
                     dispatch({ type: 'setupWatchHistories' });
                 }
             });

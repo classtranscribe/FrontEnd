@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
+import dynamic from "dva/dynamic";
 import AppInsightsProvider from './azure-app-insights';
-
 import {
   // General
   NotFound404,
@@ -35,8 +35,6 @@ import './App.css';
 // import 'braft-editor/dist/index.css';
 import { altEl } from './layout';
 import { user, env } from './utils';
-import { connect } from 'dva';
-import dynamic from "dva/dynamic";
 
 class App extends React.Component {
   componentDidMount() {

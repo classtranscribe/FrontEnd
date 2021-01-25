@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { preferControl, uEvent } from '../../../../Utils';
 import { connect } from 'dva'
+import { preferControl, uEvent } from '../../../../Utils';
 import MenuRadio from '../MenuRadio';
 
 function ADSetting({ show = false, openAD = false, descriptions = [], dispatch }) {

@@ -1,15 +1,15 @@
 import React, { useEffect} from 'react';
-import { epub } from '../../../controllers';
 import { connect } from 'dva';
+import { epub as epubController } from '../../../controllers';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 
 function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
   useEffect(() => {
-    const currChIndex = epub.state.currChIndex;
+    const currChIndex = epubController.state.currChIndex;
     if (currChIndex > 0) {
       setTimeout(() => {
-        epub.nav.navigateChapter(epub.data.data.chapters[currChIndex].id);
+        epubController.nav.navigateChapter(epubController.data.data.chapters[currChIndex].id);
       }, 500);
     }
   }, []);

@@ -23,15 +23,15 @@ function CourseFilter(props) {
   const showTerms = selUniversity && !isMobile && termOptions.length > 0;
 
   const handleUniversityChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectUniversity',  payload: value})
+    dispatch({type: 'home/selectUniversity', payload: value})
   };
 
   const handleDepartmentsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectDepartments',  payload: value})
+    dispatch({type: 'home/selectDepartments', payload: value})
   };
 
   const handleTermsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectTerms',  payload: value})
+    dispatch({type: 'home/selectTerms', payload: value})
   };
   return (
     <CTFragment sticky={!isMobile} offsetTop="50" className="ct-homep course-filter">

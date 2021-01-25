@@ -52,7 +52,7 @@ function PlaylistsView({
     let dndProps = {
       contextId: 'pl-ord',
       disabled: !isInstMode,
-      onDragEnd: onDragEnd,
+      onDragEnd,
       items: dndItems,
       itemClassName: 'pl-item'
     };

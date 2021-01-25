@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'dva'
 import {
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
@@ -10,7 +11,6 @@ import {
   // MENU_BEFORE_HIDE,
 } from '../../Utils';
 import './index.css';
-import { connect } from 'dva'
 import PlaylistsMenu from './PlaylistsMenu';
 import PlaybackrateMenu from './PlaybackrateMenu';
 import ScreenModeMenu from './ScreenModeMenu';

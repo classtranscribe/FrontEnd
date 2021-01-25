@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { uurl, links } from 'utils';
 import { Playlist } from 'entities/Playlists';
 import { InfoAndListLayout } from 'components';
 import BreadCrumb from './BreadCrumb';
 import PlaylistName from './PlaylistName';
 import Actions from './Actions';
-import { uurl, links } from 'utils';
 import './index.scss';
+
 const YOUTUBE_PREFIX = 'https://www.youtube.com/playlist';
 function getPlaylistSourceURL({ sourceType, playlistIdentifier, jsonMetadata }) {
   let source = '';

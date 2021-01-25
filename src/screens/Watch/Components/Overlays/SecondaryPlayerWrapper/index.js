@@ -40,36 +40,36 @@ function SecondaryPlayerWrapperWithRedux({
       </div>
     </div>
   ) : (
-        <div className="watch-secondary-wrapper" mode={mode}>
-          <div className="watch-secondary-wrapper-left">
-            <button
-              className="watch-secondary-wrapper-button plain-btn ripple-btn"
-              content="switch"
-              aria-label="Switch Screen"
-              onClick={onSwitch}
-            >
-              <p className="text-center">
-                <i className="material-icons">compare_arrows</i>
-                <br />
-                <strong>Switch</strong>
-              </p>
-            </button>
-          </div>
-          <div className="watch-secondary-wrapper-right">
-            <button
-              className="watch-secondary-wrapper-button plain-btn ripple-btn"
-              content="close"
-              aria-label="Hide Screen"
-              onClick={onHide}
-            >
-              <p className="text-center">
-                <i className="material-icons">close</i>
-                <br />
-                <strong>Hide</strong>
-              </p>
-            </button>
-          </div>
-        </div>
+    <div className="watch-secondary-wrapper" mode={mode}>
+      <div className="watch-secondary-wrapper-left">
+        <button
+          className="watch-secondary-wrapper-button plain-btn ripple-btn"
+          content="switch"
+          aria-label="Switch Screen"
+          onClick={onSwitch}
+        >
+          <p className="text-center">
+            <i className="material-icons">compare_arrows</i>
+            <br />
+            <strong>Switch</strong>
+          </p>
+        </button>
+      </div>
+      <div className="watch-secondary-wrapper-right">
+        <button
+          className="watch-secondary-wrapper-button plain-btn ripple-btn"
+          content="close"
+          aria-label="Hide Screen"
+          onClick={onHide}
+        >
+          <p className="text-center">
+            <i className="material-icons">close</i>
+            <br />
+            <strong>Hide</strong>
+          </p>
+        </button>
+      </div>
+    </div>
       );
 }
 

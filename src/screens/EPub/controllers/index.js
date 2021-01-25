@@ -1,3 +1,4 @@
+import { connect } from 'dva'
 import EPubConstants from './constants/EPubConstants';
 import EPubIDs from './constants/EPubIDs';
 import EPubNavigator from './EPubNavigator';
@@ -7,7 +8,7 @@ import { epubCtrl } from './EPubController';
 import { epubData } from './EPubDataController';
 import { shortcut } from './ShortcutController';
 import { epubPref } from './PreferenceController';
-import { connect } from 'dva'
+
 export const epub = {
   const: EPubConstants,
   id: EPubIDs,
@@ -22,8 +23,8 @@ export const epub = {
 };
 // Transition Function
 export const connectWithRedux = (Component) => {
-  return connect(({ epub, loading }) => ({
-    epub
+  return connect(({ epub : epub_, loading }) => ({
+    epub: epub_
   }))(Component);
 }
 export * from './utils';

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Redirect } from 'dva/router';
 import { links, api } from 'utils';
+import { connect } from 'dva';
+import { isMobile } from 'react-device-detect';
 import { CTErrorWrapper, CTLayout } from 'layout';
 import { TAB_EPUB, TAB_EDIT_TRANS } from './controllers/constants';
-import { connect } from 'dva';
 import { MSPHeaderTabTitle } from './Components';
 import { EPub, Transcriptions } from './Tabs';
-import { isMobile } from 'react-device-detect';
 import './index.scss';
 
 class MediaSettingsWithRedux extends React.Component {

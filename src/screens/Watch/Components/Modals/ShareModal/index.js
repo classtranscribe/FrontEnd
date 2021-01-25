@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
 import { timestr } from 'utils';
 import { getShareableURL } from '../../../Utils';
-import { connect } from 'dva'
 import './index.css';
 
 function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, dispatch }) {

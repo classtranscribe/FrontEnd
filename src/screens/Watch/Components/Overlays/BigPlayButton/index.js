@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
 import { connect } from 'dva'
+import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
 import './index.css';
 
 const PS_PLAY = 'play';

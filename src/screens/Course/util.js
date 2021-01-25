@@ -7,6 +7,7 @@ import {
     STUDENT,
     INSTRUCTOR
 } from 'utils';
+
 export default {
     isInstructor(role) {
         return role === INSTRUCTOR;

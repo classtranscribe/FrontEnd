@@ -33,7 +33,7 @@ export const keydownControl = {
     this.menu = menu;
   },
   isMenuOpen() {
-    return this.menu && this.menu != MENU_HIDE;
+    return this.menu && this.menu !== MENU_HIDE;
   },
   handleKeyDown(e) {
     if (window.location.pathname !== '/video') {
@@ -368,7 +368,6 @@ export const keydownControl = {
     if (!this.isMenuOpen()) {
       // NEED TO MODIFY
       return this.dispatch({ type: 'watch/media_backward' })
-      return;
     }
 
     const currMenu = this.menu;

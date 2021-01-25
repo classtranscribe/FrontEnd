@@ -1,3 +1,4 @@
+import { isMobile } from 'react-device-detect';
 import {
     preferControl,
     // constants
@@ -11,7 +12,7 @@ import {
     // MODAL_SHARE
 } from './Utils';
 import { uEvent } from './Utils/UserEventController';
-import { isMobile } from 'react-device-detect';
+
 const PlayerModel = {
     namespace: 'playerpref',
     state: {

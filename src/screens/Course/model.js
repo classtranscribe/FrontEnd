@@ -3,6 +3,7 @@ import ErrorTypes from 'entities/ErrorTypes';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import UserEventManager from 'entities/UserEvent';
+
 const initState = {
     offering: null,
     playlists: ARRAY_INIT,
@@ -66,7 +67,7 @@ const CourseModel = {
                 let { data } = yield call(api.getOfferingById, offeringId);
                 offering = api.parseSingleOffering(data);
             } catch {
-
+                // 
             }
             yield put.resolve({ type: 'setOffering', payload: offering });
             api.contentLoaded();
@@ -93,7 +94,6 @@ const CourseModel = {
             yield put({ type: 'setStarredOfferings', payload: starredOfferings })
         },
         *setStar({ payload: { offeringId, isStar } }, { call, put, select, take }) {
-            console.log(offeringId, isStar)
             const { course } = yield select();
             const starredOfferings = course.starredOfferings;
             if (isStar) {

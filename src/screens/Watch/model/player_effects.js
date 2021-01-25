@@ -1,7 +1,7 @@
-import PlayerData from '../player'
-import { uEvent } from '../Utils/UserEventController';
 import { isMobile } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl, links } from 'utils';
+import PlayerData from '../player'
+import { uEvent } from '../Utils/UserEventController';
 import {
     NORMAL_MODE,
     PS_MODE,
@@ -13,6 +13,7 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../Utils/constants.util';
+
 function handleRestoreTime(media) {
     const search = uurl.useSearch();
     const begin = search.begin || media.watchHistory.timestamp;
@@ -75,10 +76,10 @@ function exitFullScreen(watch) {
 export default {
     *media_play({ payload }, { call, put, select, take }) {
         try {
-            PlayerData.video1 && (PlayerData.video1.play());
-            PlayerData.video2 && (PlayerData.video2.play());
+            PlayerData.video1 && PlayerData.video1.play();
+            PlayerData.video2 && PlayerData.video2.play();
         } catch (error) {
-
+            // 
         }
         yield put({ type: 'setPause', payload: false })
         PlayerData.video1 && uEvent.play(PlayerData.video1?.currentTime);
@@ -98,7 +99,7 @@ export default {
             PlayerData.video1 && (PlayerData.video1.pause());
             PlayerData.video2 && (PlayerData.video2.pause());
         } catch (error) {
-
+            // 
         }
         yield put({ type: 'setPause', payload: true })
         PlayerData.video1 && uEvent.pause(PlayerData.video1?.currentTime);
@@ -205,9 +206,9 @@ export default {
         uEvent.seeking(watch.time);
     },
     *onFullScreenChange({ payload: e }, { call, put, select, take }) {
-        const isFullscreen = document.fullscreenElement ? true : false;
+        const isFullscreen = !!document.fullscreenElement;
         const { watch } = yield select();
-        if (isFullscreen != watch.isFullscreen) {
+        if (isFullscreen !== watch.isFullscreen) {
             yield put({ type: 'toggleFullScreen', payload: isFullscreen })
         }
     },
@@ -215,7 +216,8 @@ export default {
         const { watch } = yield select();
         const { id } = watch.media
         if (id && user.isLoggedIn) {
-            yield call(api.sendMediaWatchHistories, id, watch.time, (watch.time / watch.duration) * 100,);
+            yield call(api.sendMediaWatchHistories,
+                id, watch.time, (watch.time / watch.duration) * 100);
         }
     },
     *setWatchMode({ payload: { mode, config = {} } }, { call, put, select, take }) {

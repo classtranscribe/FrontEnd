@@ -1,29 +1,17 @@
+import { isSafari, isIPad13, isIPhone13, isMobile} from 'react-device-detect';
+import { api, user, prompt, InvalidDataError, uurl } from 'utils';
+import _ from 'lodash';
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
 import { timeStrToSec, colorMap } from './Utils/helpers';
-import { isMobile } from 'react-device-detect';
 import PlayerData from './player'
 import {
-    CC_COLOR_WHITE,
-    CC_COLOR_BLACK,
-    CC_OPACITY_75,
-    CC_POSITION_BOTTOM,
-    CC_FONT_SANS_SERIF,
-    CC_SIZE_100,
     WEBVTT_SUBTITLES,
     SEARCH_HIDE,
     WEBVTT_DESCRIPTIONS,
     ENGLISH,
     ARRAY_EMPTY,
     // PROFANITY_LIST,
-    TRANSCRIPT_VIEW,
-    LINE_VIEW,
-    HIDE_TRANS,
-    CO_CHANGE_VIDEO,
-    BULK_EDIT_MODE,
 } from './Utils/constants.util';
-import _ from 'lodash';
-import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
-import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import { uEvent } from './Utils/UserEventController';
 import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup'
@@ -32,7 +20,6 @@ import menu_effects from './model/menu_effects'
 import trans_effects from './model/trans_effects'
 import search_effects from './model/search_effects'
 import {
-    preferControl,
     // constants
     MENU_HIDE,
     NORMAL_MODE,
@@ -42,6 +29,7 @@ import {
     CTP_PLAYING,
     // MODAL_SHARE
 } from './Utils';
+
 const initState = {
     // Basics
     userRole: DEFAULT_ROLE,
@@ -143,7 +131,7 @@ const WatchModel = {
             return { ...state, currTrans: payload };
         },
         setTranscript(state, { payload }) {
-            let transcript = payload ? payload : unionTranscript(state.captions, state.descriptions);
+            let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
             return { ...state, transcript };
         },
@@ -206,9 +194,8 @@ const WatchModel = {
         setCTPEvent(state, { payload: { event = CTP_PLAYING, priVideo = true } }) {
             if (priVideo) {
                 return { ...state, ctpPriEvent: event };
-            } else {
+            } 
                 return { ...state, ctpSecEvent: event };
-            }
         },
         // Others
         setSearch(state, { payload }) {
@@ -327,7 +314,7 @@ const WatchModel = {
             }
             try {
                 let { data } = yield call(api.getUserWatchHistories)
-                yield put({ type: 'setWatchHistories', payload: data.filter(media => media && media.id) })
+                yield put({ type: 'setWatchHistories', payload: data.filter(media_ => media_?.id) })
             } catch (error) {
                 prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
             }

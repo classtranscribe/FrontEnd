@@ -3,14 +3,14 @@ import { isMobile } from 'react-device-detect';
 
 import {
   transControl,
-  videoControl,
   timeStrToSec,
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
 import './index.css';
 
-function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false, caption = {}, dispatch }) {
+function CaptionLine({ isCurrent = false, isEditing = false,
+  shouldHide = false, caption = {}, dispatch }) {
   const { text = '', id, begin, kind } = caption;
   const ref = useRef();
 
@@ -102,7 +102,7 @@ function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false,
             onKeyDown={handleKeyDown}
             spellCheck={false}
           />
-        )}
+          )}
       </div>
 
       {/* Action Buttons */}

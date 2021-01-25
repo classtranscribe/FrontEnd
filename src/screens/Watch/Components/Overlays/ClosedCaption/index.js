@@ -50,7 +50,8 @@ function ClosedCaptionWithRedux({
   ) : null;
 }
 
-export const ClosedCaption = connect(({ watch : { currCaption }, 
-  playerpref: { openCC, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position }, loading }) => ({
-  currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
-}))(ClosedCaptionWithRedux); 
+export const ClosedCaption = connect(({ watch: { currCaption },
+  playerpref: { openCC, cc_color, cc_bg, cc_size,
+    cc_opacity, cc_font, cc_position }, loading }) => ({
+      currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
+    }))(ClosedCaptionWithRedux); 

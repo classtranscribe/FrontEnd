@@ -5,7 +5,6 @@ import { StateController } from 'utils/state-controller';
  * The redux state controller for CTEPubGenerator
  */
 class EPubStateManager extends StateController {
-
   setError(error) {
     this.setState('setError', 'error', error);
   }

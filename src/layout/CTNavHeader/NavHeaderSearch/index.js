@@ -7,6 +7,7 @@ import _ from 'lodash';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 import setup from '../../../screens/Watch/model/setup';
+
 export function NavHeaderSearch() {
   const ref = useRef();
   const [searchText, setSearchText] = useState("");

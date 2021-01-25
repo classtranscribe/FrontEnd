@@ -1,5 +1,6 @@
 import { connect } from 'dva'
 import _ from 'lodash'
+
 export * from './constants.util';
 export * from './data';
 export * from './helpers';
@@ -22,6 +23,7 @@ export const connectWithRedux = (Component, property) => {
     const props = {};
     property.map((key) => {
       props[key] = watch[key];
+      return false;
     })
     return props;
   })(Component);

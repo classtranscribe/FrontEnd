@@ -1,9 +1,10 @@
 import { ARRAY_INIT } from 'utils/constants';
 import ErrorTypes from 'entities/ErrorTypes';
 import _ from 'lodash';
+import { api, user, prompt, InvalidDataError } from 'utils';
 import HomeConstants from './controllers/HomeConstants';
 import FeedSectionBuilder from './controllers/FeedSectionBuilder';
-import { api, user, prompt, InvalidDataError } from 'utils';
+
 const buildSections = (state) => {
     if (state.error) return;
     const {
@@ -89,11 +90,11 @@ const HomeModel = {
         }
     },
     effects: {
-        *selectDepartments({payload: selDepartments}, { call, put, select }) {
-            yield put.resolve({type: 'setSelDepartments', payload: selDepartments});
+        *selectDepartments({ payload: selDepartments }, { call, put, select }) {
+            yield put.resolve({ type: 'setSelDepartments', payload: selDepartments });
         },
-        *selectTerms({payload: selTerms}, { call, put, select }) {
-            yield put.resolve({type: 'setSelTerms', payload: selTerms});
+        *selectTerms({ payload: selTerms }, { call, put, select }) {
+            yield put.resolve({ type: 'setSelTerms', payload: selTerms });
         },
         *getUniversities(__, { call, put, select }) {
             try {
@@ -102,7 +103,8 @@ const HomeModel = {
                 if (Array.isArray(data)) {
                     yield put({
                         type: 'setUniversities',
-                        payload: _.filter(data, uni => uni.id !== HomeConstants.UnknownUniversityID).reverse()
+                        payload: _.filter(data,
+                            uni => uni.id !== HomeConstants.UnknownUniversityID).reverse()
                     });
                     return;
                 }
@@ -152,7 +154,7 @@ const HomeModel = {
                 return [];
             }
         },
-        *getStarredOfferings(_, { call, put, select }) {
+        *getStarredOfferings({ payload }, { call, put, select }) {
             try {
                 const { data } = yield call(api.getUserMetaData);
                 const { starredOfferings } = data;
@@ -222,7 +224,7 @@ const HomeModel = {
         setup({ dispatch }) {
             // api.contentLoaded(); <- THIS WILL BE COMPLETED BY THE LOADING EFFECTS
             document.addEventListener('readystatechange', e => {
-                if (document.readyState == "complete") {
+                if (document.readyState === "complete") {
                     dispatch({ type: 'initialize' });
                 }
             });

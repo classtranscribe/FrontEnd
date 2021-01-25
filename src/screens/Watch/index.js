@@ -75,25 +75,23 @@ const WatchWithRedux = (props) => {
           error ? (
             <ErrorWrapper error={error} />
           ) : (
-              <>
-                <TabEventHelperButtons dispatch={dispatch} />
-                <Modals />
-                {/* <WatchHeader /> */}
-                <Search />
-                <Menus />
-                <ClassTranscribePlayer />
-                <UpNext />
-                <TransCtrlButtons />
-                <Transcriptions />
-                <ControlBar />
-              </>
-            )
+            <><TabEventHelperButtons dispatch={dispatch} />
+              <Modals />
+              {/* <WatchHeader /> */}
+              <Search />
+              <Menus />
+              <ClassTranscribePlayer />
+              <UpNext />
+              <TransCtrlButtons />
+              <Transcriptions />
+              <ControlBar />
+            </>)
         }
       </div>
     </CTLayout>
   );
 }
 
-export const Watch = connect(({ loading, watch: {menu} }) => ({
+export const Watch = connect(({ loading, watch: { menu } }) => ({
   menu
 }))(WatchWithRedux);

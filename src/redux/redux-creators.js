@@ -81,7 +81,6 @@ export function createSelector(
  * @param {Reducer} reducer
  */
 export function createReduxStore(reducer) {
-  console.log('Hello')
   const store = createStore(reducer, isDeveloping ? applyMiddleware(logger) : undefined);
 
   return store;

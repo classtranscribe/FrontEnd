@@ -3,7 +3,6 @@ import { MediaCard } from 'components';
 import setup from '../../../model/setup'
 import {
   connectWithRedux,
-  videoControl,
   CTP_LOADING,
   CTP_UP_NEXT,
   CTP_ENDED,

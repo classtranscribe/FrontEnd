@@ -30,7 +30,7 @@ const Util = {
             return ErrorTypes.NotFound404;
         }
     },
-    /*** Check if a user is valid */
+    /** * Check if a user is valid */
     isAuthorized(instructorIds) {
         // Admin should be able to access any content
         if (user.isAdmin) {
@@ -158,7 +158,7 @@ const InstPlaylistModel = {
                 for(const mediaId of mediaIds) {
                     yield call(api.deleteMedia, mediaId);
                 }
-                yield put({ type: 'setMedias', payload: _.filter(instplaylist.medias, me => !_.includes(mediaIds, me.id))  });
+                yield put({ type: 'setMedias', payload: _.filter(instplaylist.medias, me => !_.includes(mediaIds, me.id)) });
                 prompt.addOne({ text: 'Video deleted.', timeout: 3000 });
             } catch (error) {
                 prompt.error('Failed to delete the video.', { timeout: 5000 });

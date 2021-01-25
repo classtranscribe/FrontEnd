@@ -30,7 +30,7 @@ function ActionButtons(props) {
       }
     })
   }
-  const handleCheckboxChange = ({ target: { checked }}) => {
+  const handleCheckboxChange = ({ target: { checked } }) => {
     dispatch({
       type: 'course/setIsInstMode',
       payload: checked
@@ -39,7 +39,10 @@ function ActionButtons(props) {
   return (
     <CTFragment>
       <CTFragment justConEnd className="cp-action-bar">
-        {isInsructor && <InstModeCheckBox isInstMode={isInstMode} onChange={handleCheckboxChange}  />}
+        {isInsructor && <InstModeCheckBox
+          isInstMode={isInstMode}
+          onChange={handleCheckboxChange}
+        />}
       </CTFragment>
 
       <CTFragment

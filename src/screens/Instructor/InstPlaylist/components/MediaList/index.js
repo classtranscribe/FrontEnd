@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { connect } from 'dva';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTFilter, CTText, CTFooter } from 'layout';
 import { InfoAndListLayout } from 'components';
@@ -7,7 +8,6 @@ import './index.scss';
 import MediaDNDList from './MediaDNDList';
 import ActionBar from './ActionBar';
 import NoVideoHolder from './NoVideoHolder';
-import { connect } from 'dva';
 
 function MediaListWithRedux(props) {
   const { dispatch, instplaylist } = props;
@@ -114,9 +114,9 @@ function MediaListWithRedux(props) {
                   dispatch={dispatch}
                 />
               ) : (
-                    <CTText muted center margin={[30, 0]}>
-                      No Result
-                    </CTText>
+                <CTText muted center margin={[30, 0]}>
+                  No Result
+                </CTText>
                   )
             }
           </>
