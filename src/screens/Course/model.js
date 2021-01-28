@@ -54,12 +54,11 @@ const CourseModel = {
     effects: {
         *loadCourse({ payload }, { call, put, select, take }) {
             const { course } = yield select();
-            if (course.offering?.id === payload) {
-                return;
-            }
             const offeringId = payload;
             // determine whether to reset the redux store
-            // yield put({ type: 'clearCourseData' })
+            if (course.offering?.id !== offeringId) {
+                yield put({ type: 'clearCourseData' });
+            }
 
             // get the offering
             let offering = ErrorTypes.NotFound404;
