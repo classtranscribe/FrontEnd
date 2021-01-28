@@ -14,6 +14,7 @@ const HistoryModel = {
     },
     effects: {
         *setupWatchHistories({ payload }, { call, put, select, take }) {
+            if (!user.isLoggedIn) return;
             try {
                 let { data } = yield call(api.getUserWatchHistories)
                 yield put({type: 'setWatchHistories', payload: data.filter(media => media && media.id)})

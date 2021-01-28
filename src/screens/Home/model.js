@@ -37,8 +37,8 @@ const HomeModel = {
         selDepartments: [],
         selTerms: [],
         hasDepartmentSections: false,
-        starredOfferings: ARRAY_INIT,
-        watchHistory: ARRAY_INIT,
+        starredOfferings: [],
+        watchHistory: [],
         offerings: ARRAY_INIT,
         sections: ARRAY_INIT
     },
@@ -131,6 +131,7 @@ const HomeModel = {
             }
         },
         *getWatchHistory(__, { call, put, select }) {
+            if (!user.isLoggedIn) return [];
             try {
                 const { data } = yield call(api.getUserWatchHistories);
                 yield put({
@@ -155,6 +156,7 @@ const HomeModel = {
             }
         },
         *getStarredOfferings({ payload }, { call, put, select }) {
+            if (!user.isLoggedIn) return [];
             try {
                 const { data } = yield call(api.getUserMetaData);
                 const { starredOfferings } = data;

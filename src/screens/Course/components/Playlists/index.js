@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'dva/router';
 import ErrorTypes from 'entities/ErrorTypes';
 import { uurl, elem } from 'utils';
 import './index.scss';
