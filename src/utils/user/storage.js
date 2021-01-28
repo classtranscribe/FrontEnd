@@ -3,6 +3,7 @@ class AccountStorage {
   USER_INFO_KEY = 'userInfo';
   LOGIN_AS_USER_INFO_KEY = 'loginAsUserInfo';
   LATEST_COMMIT_SHA_KEY = 'latest-sha';
+  CLOSE_AFTER_SIGNED_IN_KEY = 'close-after-signed-in';
 
   remove(key) {
     localStorage.removeItem(key);
@@ -76,6 +77,18 @@ class AccountStorage {
    */
   get latestCommitSHA() {
     return localStorage.getItem(this.LATEST_COMMIT_SHA_KEY);
+  }
+
+  setCloseAfterSignedIn() {
+    localStorage.setItem(this.CLOSE_AFTER_SIGNED_IN_KEY, 'true');
+  }
+
+  get closeAfterSignedIn() {
+    return localStorage.getItem(this.CLOSE_AFTER_SIGNED_IN_KEY) === 'true';
+  }
+
+  rmCloseAfterSignedIn() {
+    localStorage.removeItem(this.CLOSE_AFTER_SIGNED_IN_KEY);
   }
 }
 

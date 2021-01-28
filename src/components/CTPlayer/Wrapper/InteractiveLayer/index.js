@@ -43,7 +43,8 @@ function InteractiveLayer(props) {
   const handleCloseSettings = () => setOpenSettings(false);
 
   const wrapperClasses = cx('ctp', 'wrapper', 'interact', {
-    show: userActive || isPaused || isEnded || openSettings
+    show: userActive || isPaused || isEnded || openSettings,
+    static: Boolean(error)
   });
 
   const actionBarProps = {
@@ -109,11 +110,17 @@ function InteractiveLayer(props) {
       <div className="ctp action-bar-con dismissible">
         <ActionBar {...actionBarProps} />
       </div>
-      <div className="ctp ctrl-bar-con">
-        <ControlBar {...controlBarProps} />
-      </div>
+      {
+        !error
+        &&
+        <>
+          <div className="ctp ctrl-bar-con">
+            <ControlBar {...controlBarProps} />
+          </div>
 
-      <SettingsMenu {...settingsProps} />
+          <SettingsMenu {...settingsProps} />
+        </>
+      }
     </div>
   );
 }

@@ -109,13 +109,14 @@ class App extends React.Component {
           <Route path="/playlist/:id" component={InstPlaylist} />
 
           <Route path="/404" component={NotFound404} />
-          <Route component={NotFound404} />
 
           {
             env.dev
             &&
             <Route exact path="/example" component={Example} />
           }
+
+          <Route component={NotFound404} />
           {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
         </Switch>
       </AppInsightsProvider>
