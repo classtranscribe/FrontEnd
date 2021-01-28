@@ -4,7 +4,7 @@ import CTPlayer, {
   CTPlayerConstants as PConstants,
   LanguageConstants as LangConstants
 } from 'components/CTPlayer';
-import { useParams } from "react-router-dom";
+import { useParams } from "dva/router";
 
 /* 
 Set begin time in second: begin

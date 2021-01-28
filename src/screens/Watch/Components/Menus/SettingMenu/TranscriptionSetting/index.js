@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
-  transControl,
   preferControl,
   uEvent,
   LINE_VIEW,
@@ -12,12 +11,13 @@ import {
 
 import MenuRadio from '../MenuRadio';
 
-function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
+function TranscriptionSetting({ show = false, transView = LINE_VIEW, dispatch }) {
   const [autoScroll, setAutoScroll] = useState(preferControl.autoScroll());
   const [pauseWhileEditing, setPauseWhileEditing] = useState(preferControl.pauseWhileEditing());
 
   const openTranscript = () => {
-    transControl.handleOpenTrans();
+    const view = preferControl.defaultTransView();
+    dispatch({ type: 'playerpref/setTransView', payload: { view: view === HIDE_TRANS ? TRANSCRIPT_VIEW : HIDE_TRANS } });
   };
 
   const openAutoScroll = () => {
@@ -34,7 +34,7 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
   };
 
   const handleTransView = () => {
-    transControl.transView(transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW);
+    dispatch({ type: 'playerpref/setTransView', payload: { view: transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW } });
   };
 
   useEffect(() => {
@@ -94,4 +94,6 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
   );
 }
 
-export default connectWithRedux(TranscriptionSetting, ['transView']);
+export default connect(({ playerpref: { transView }, loading }) => ({
+  transView
+}))(TranscriptionSetting)

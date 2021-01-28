@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { CTFragment } from 'layout';
 import { links } from 'utils/links';
 

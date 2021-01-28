@@ -1,24 +1,23 @@
+import { connect } from 'dva';
 import React from 'react';
 import { Popup } from 'semantic-ui-react';
-import { connectWithRedux, videoControl } from '../../../Utils';
 import './index.css';
 import './slider.scss';
 
-function VolumeControl({ muted = false, volume = true }) {
+function VolumeControl({ muted = false, volume = true, dispatch }) {
   const handleVolumeChange = ({ target: { value } }) => {
     if (muted) {
-      videoControl.mute(false);
+      dispatch({type: 'watch/media_mute', payload: false}) 
     }
-
-    videoControl.volume(value);
+    dispatch({type: 'watch/media_volume', payload: value}) 
 
     if (value < 0.04) {
-      videoControl.mute(true);
+      dispatch({type: 'watch/media_mute', payload: true}) 
     }
   };
 
   const handleButtonClick = () => {
-    videoControl.mute();
+    dispatch({type: 'watch/media_mute'}) 
   };
 
   const handleVolumeKeyDown = (e) => {
@@ -87,4 +86,6 @@ function VolumeControl({ muted = false, volume = true }) {
   );
 }
 
-export default connectWithRedux(VolumeControl, ['volume', 'muted']);
+export default connect(({ playerpref, loading }) => ({
+  muted: playerpref.muted, volume: playerpref.volume
+}))(VolumeControl);

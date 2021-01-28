@@ -1,18 +1,30 @@
+import { connect } from 'dva'
+import _ from 'lodash'
+
 export * from './constants.util';
 export * from './data';
 export * from './helpers';
 
 export { generateWatchUserGuide } from './user-guide';
-export { setup } from './setup.control';
-export { videoControl } from './player.control';
-export { menuControl } from './menu.control';
-export { modalControl } from './modal.control';
 export { keydownControl } from './keydown.control';
 export { transControl } from './trans.control';
 export { promptControl } from './prompt.control';
-export { searchControl } from './search.control';
 export { preferControl } from './preference.control';
 export { downloadControl } from './download.control';
 export { uEvent } from './UserEventController';
-
-export { connectWithRedux, watchStore } from '../../../redux/watch';
+export function findTransByLanguage (language, trans) {
+  return _.find(trans, { language });
+}
+export const connectWithRedux = (Component, property) => {
+  return connect(({ watch, loading, history }) => {
+    if(!property) {
+      return {};
+    }
+    const props = {};
+    property.map((key) => {
+      props[key] = watch[key];
+      return false;
+    })
+    return props;
+  })(Component);
+}

@@ -4,7 +4,7 @@ import GeneralSetting from './GeneralSetting';
 import TranscriptionSetting from './TranscriptionSetting';
 import CCSetting from './CCSetting';
 import ADSetting from './ADSetting';
-import { menuControl, SMTAB_GENERAL, SMTAB_TRANS, SMTAB_CC, SMTAB_AD } from '../../../Utils';
+import { SMTAB_GENERAL, SMTAB_TRANS, SMTAB_CC, SMTAB_AD } from '../../../Utils';
 import './index.css';
 
 const panes = [
@@ -31,17 +31,9 @@ const panes = [
 ];
 
 function SettingMenu({ show = false, onClose = null }) {
-  const [tab, setTab] = useState(menuControl.tab());
-
-  useEffect(() => {
-    if (show) {
-      setTab(menuControl.tab());
-    }
-  }, [show]);
-
+  const [tab, setTab] = useState(SMTAB_GENERAL);
   const changeTab = (tabId) => () => {
     setTab(tabId);
-    menuControl.tab(tabId);
   };
 
   return (

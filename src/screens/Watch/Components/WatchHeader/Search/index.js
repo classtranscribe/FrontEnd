@@ -1,10 +1,10 @@
 import React from 'react';
-import { connectWithRedux, searchControl, SEARCH_INIT } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 import './index.css';
 
-function Search() {
+function Search({dispatch}) {
   const handleOpenSearch = () => {
-    searchControl.openSearch();
+    dispatch({type: 'watch/search_open'});
   };
 
   return (

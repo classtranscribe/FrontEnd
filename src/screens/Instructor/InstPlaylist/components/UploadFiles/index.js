@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-import { useParams, useHistory } from 'react-router-dom';
 import {
   CTModal,
   CTUploadButton,
@@ -13,8 +12,7 @@ import {
   CTConfirmation
 } from 'layout';
 import { useCheckbox } from 'hooks';
-import { links } from 'utils';
-import { mediaControl } from '../../controllers';
+import { links, api } from 'utils';
 import UploadTable from './UploadTable';
 import UploadActions from './UploadActions';
 import './index.scss';
@@ -25,10 +23,47 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
 }));
+const mediaControl = {
+  async handleUpload(
+    playlistId, 
+    uploadedMedias, 
+    setUploadingIndex, 
+    setProgress, 
+    onUploadProgress,
+    setFailedVideos
+  ) {
+    let successedVideos = [];
+    for (let i = 0; i < uploadedMedias.length; i += 1) {
+      setUploadingIndex(i);
+      setProgress(0);
+      let successed = await this.upload(playlistId, uploadedMedias[i], onUploadProgress);
+      if (successed) {
+        successedVideos.push(i);
+      } else {
+        setFailedVideos(fvis => [...fvis, i]);
+      }
+    }
 
-export function UploadFiles() {
-  const history = useHistory();
-  const { id } = useParams();
+    if (successedVideos.length > 0) {
+      prompt.addOne({ text: `Uploaded ${successedVideos.length} videos.`, timeout: 4000 });
+    }
+
+    return successedVideos;
+  },
+  async upload(playlistId, { video1, video2 }, onUploadProgress) {
+    try {
+      await api.uploadVideo(playlistId, video1, video2, onUploadProgress);
+      return true
+    } catch (error) {
+      console.error(error);
+      prompt.error(`Failed to upload video ${video1.name}.`);
+      return false;
+    }
+  }
+}
+export function UploadFiles(props) {
+  const { history, match } = props;
+  const { id } = match.params;
   const classes = useStyles();
 
   const [videos, setVideos] = useState([]);

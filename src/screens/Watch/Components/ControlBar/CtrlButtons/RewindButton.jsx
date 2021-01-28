@@ -1,10 +1,10 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connectWithRedux, videoControl } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 
-export function RewindButtonWithRedux() {
+export function RewindButtonWithRedux({ dispatch }) {
   const handleRewind = () => {
-    videoControl.rewind(10);
+    dispatch({ type: 'watch/media_backward', payload: 10 })
   };
 
   return (

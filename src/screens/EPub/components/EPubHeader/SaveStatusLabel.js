@@ -2,9 +2,9 @@ import React from 'react';
 import cx from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { CTPopoverLabel } from 'layout';
-import { connectWithRedux, epub } from '../../controllers';
+import { connectWithRedux, epub as epubController } from '../../controllers';
 
-const Constants = epub.const;
+const Constants = epubController.const;
 
 function LabelIcon(saved) {
   switch (saved) {
@@ -46,7 +46,8 @@ function LabelText(saved) {
   }
 }
 
-function SaveStatusLabel({ saved }) {
+function SaveStatusLabel({ epub }) {
+  const { saved } = epub;
   const iconElement = LabelIcon(saved);
   const [text, label] = LabelText(saved);
 

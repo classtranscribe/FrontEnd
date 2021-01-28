@@ -1,10 +1,7 @@
 import $ from 'jquery';
 // import { isDeveloping } from '../../../utils';
 
-import { videoControl } from './player.control';
-import { menuControl } from './menu.control';
 import { transControl } from './trans.control';
-import { searchControl } from './search.control';
 
 import {
   MENU_LANGUAGE,
@@ -14,6 +11,7 @@ import {
   MENU_SETTING,
   MENU_DOWNLOAD,
   MENU_SHORTCUTS,
+  MENU_HIDE,
 } from './constants.util';
 
 export const keydownControl = {
@@ -25,12 +23,18 @@ export const keydownControl = {
     keydownControl.handleKeyDown(e);
   },
 
-  addKeyDownListener() {
+  addKeyDownListener(dispatch) {
     if (this.addedKeyDownListener) return;
+    this.dispatch = dispatch;
     document.addEventListener('keydown', this.keyDownListener, true);
     this.addedKeyDownListener = true;
   },
-
+  setMenuModel(menu) {
+    this.menu = menu;
+  },
+  isMenuOpen() {
+    return this.menu && this.menu !== MENU_HIDE;
+  },
   handleKeyDown(e) {
     if (window.location.pathname !== '/video') {
       document.removeEventListener('keydown', this.keyDownListener, true);
@@ -70,17 +74,17 @@ export const keydownControl = {
           return transControl.ccDecreaseSize();
         // `<` (Shift + ,) - switch videos
         case 188:
-          return videoControl.switchVideo();
+          return this.dispatch({ type: 'watch/switchVideo' });
         // `?` (Shift + /) - open Search
         case 191:
           e.preventDefault();
-          return searchControl.openSearch();
+          return this.dispatch({ type: 'watch/search_open' });
         // Up Arrow
         case 38:
-          return videoControl.playbackRateIncrement();
+          return this.dispatch({ type: 'playerpref/changePlaybackrateByValue', payload: 0.25 });
         // Down Arrow
         case 40:
-          return videoControl.playbackRateDecrease();
+          return this.dispatch({ type: 'playerpref/changePlaybackrateByValue', payload: -0.25 });
         // Menu events
         default:
           return this.shortcutsForMenus(keyCode);
@@ -108,29 +112,29 @@ export const keydownControl = {
         return this.handleDownArrow(e);
       // `c` - closed caption on/off
       case 67:
-        return transControl.handleOpenCC();
+        return this.dispatch({ type: 'playerpref/toggleOpenCC' })
       // `d` - Audio Description on/off
       case 68:
-        return transControl.handleOpenAD();
+        return this.dispatch({ type: 'playerpref/toggleOpenAD' })
       // Alt + e - edit current caption
       case 69:
         e.preventDefault();
         return transControl.editCurrent();
       // `f` - enter full screen
       case 70:
-        return videoControl.handleFullScreen();
+        return this.dispatch({ type: 'watch/toggleFullScreen' })
       // `j` - rewind 10s
       case 74:
-        return videoControl.rewind();
+        return this.dispatch({ type: 'watch/media_backward' })
       // `k` - play/pause
       case 75:
-        return videoControl.handlePause();
+        return this.dispatch({ type: 'watch/onPlayPauseClick' })
       // `l` - forward 10s
       case 76:
-        return videoControl.forward();
+        return this.dispatch({ type: 'watch/media_forward' })
       // `m` : mute
       case 77:
-        return videoControl.mute();
+        return this.dispatch({ type: 'watch/media_mute' })
 
       // `0-9`: seek to 0%-90% of duration
       case 48:
@@ -143,7 +147,7 @@ export const keydownControl = {
       case 55:
       case 56:
       case 57:
-        return videoControl.seekToPercentage((keyCode - 48) / 10.0);
+        return this.dispatch({ type: 'watch/seekToPercentage', payload: ((keyCode - 48) / 10.0) });
       default:
         break;
     }
@@ -165,14 +169,14 @@ export const keydownControl = {
    */
   shortcutsForMenus(keyCode) {
     const openMenu = (menuType) => {
-      menuControl.open(menuType, 'b');
+      this.dispatch({ type: 'watch/menu_open', payload: { type: menuType, option: 'b' } });
       return true;
     };
 
     switch (keyCode) {
       // `⇧ Shift + Q` : Close Menu
       case 81:
-        menuControl.close();
+        this.dispatch({ type: 'watch/menu_close' })
         return true;
       // `⇧ Shift + S` : Open Closed Caption Setting Menu
       case 67:
@@ -203,30 +207,17 @@ export const keydownControl = {
   handleSpaceKey(e) {
     e.preventDefault();
     // If there is no menu opening - play or pause
-    if (!menuControl.isOpen()) {
-      videoControl.handlePause();
+    if (!this.isMenuOpen()) {
+      this.dispatch({ type: 'watch/onPlayPauseClick' })
     }
   },
-
-  // handleVideoShortcuts: function(type) {
-  //   switch (type) {
-  //     case 'rewind':
-  //       return videoControl.rewind()
-  //     case 'forward':
-  //       return videoControl.forward()
-  //     case 'play':
-  //       return videoControl.handlePause()
-  //     default:
-  //       break;
-  //   }
-  // },
 
   /**
    * Function for handling down-arrow key down
    */
   handleDownArrow(e) {
     // If there is no menu opening - decrease the volume by 0.1 each time
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       $('#volume-slider').focus(); // NEED TO MODIFY
       return;
     }
@@ -242,7 +233,7 @@ export const keydownControl = {
     }
 
     // If menu is open switch the focus on the list items
-    const currMenu = menuControl.menu();
+    const currMenu = this.menu;
     if (currMenu === MENU_SETTING) {
       return;
 
@@ -280,7 +271,7 @@ export const keydownControl = {
    */
   handleUpArrow(e) {
     // If there is no menu opening - increment the volume by 0.1 each time
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       if ($(`.watch-ctrl-button:focus`).length) {
         /**
          * @TODO need to modify when finish transcription part
@@ -303,7 +294,7 @@ export const keydownControl = {
     }
 
     // If menu is open switch the focus on the list items
-    const currMenu = menuControl.menu();
+    const currMenu = this.menu;
     if (currMenu === MENU_SETTING) {
       return;
 
@@ -374,13 +365,12 @@ export const keydownControl = {
       return;
     }
 
-    if (!menuControl.isOpen()) {
+    if (!this.isMenuOpen()) {
       // NEED TO MODIFY
-      videoControl.rewind();
-      return;
+      return this.dispatch({ type: 'watch/media_backward' })
     }
 
-    const currMenu = menuControl.menu();
+    const currMenu = this.menu;
 
     if (currMenu === MENU_SETTING) {
       // For the playlists menu
@@ -439,13 +429,11 @@ export const keydownControl = {
       return;
     }
 
-    if (!menuControl.isOpen()) {
-      // NEED TO MODIFY
-      videoControl.forward();
-      return;
+    if (!this.isMenuOpen()) {
+      return this.dispatch({ type: 'watch/media_forward' })
     }
 
-    const currMenu = menuControl.menu();
+    const currMenu = this.menu;
     if (currMenu === MENU_SETTING) {
       // For the playlists menu
       // Focus on the first video card elem

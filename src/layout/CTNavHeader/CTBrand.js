@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { links } from 'utils/links';
 
 import { textBrand, darkTextBrand, logoOutline } from 'assets/images';

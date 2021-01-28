@@ -1,10 +1,10 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connectWithRedux, transControl } from '../../../Utils';
+import { connect } from 'dva'
 
-export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [] }) {
+export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch }) {
   const handleCCTrigger = () => {
-    transControl.handleOpenCC();
+    dispatch({ type: 'playerpref/toggleOpenCC' })
   };
 
   let disabled = captions.length <= 0;
@@ -32,7 +32,6 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [] }) 
   );
 }
 
-export const ClosedCaptionButton = connectWithRedux(ClosedCaptionButtonWithRedux, [
-  'openCC',
-  'captions',
-]);
+export const ClosedCaptionButton = connect(({ watch : { captions}, playerpref: { openCC }, loading }) => ({
+  openCC, captions
+}))(ClosedCaptionButtonWithRedux)

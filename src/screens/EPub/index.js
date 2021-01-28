@@ -1,7 +1,8 @@
 import React from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTFragment, altEl, makeEl } from 'layout';
-import { epubStore, connectWithRedux, epub } from './controllers';
+import { connect } from 'dva'
+import { epub as epubController } from './controllers';
 import {
   EPubHeader,
   PlayerModal,
@@ -14,28 +15,23 @@ import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
 import './index.scss';
 
 class EPubWithRedux extends React.Component {
-  constructor(props) {
-    super(props)
-    epub.state.init(props);
-  }
-
   componentDidMount() {
     const { id } = this.props.match.params;
-    epub.ctrl.loadEPubPageData(id);
+    epubController.ctrl.loadEPubPageData(id);
   }
 
   componentWillUnmount() {
-    epub.shortcut.removeKeydownListener();
+    epubController.shortcut.removeKeydownListener();
   }
 
   render() {
-    const { view, chapters, imgPickerData, playerData, media } = this.props;
-    const loading = epub.ctrl.isLoading(this.props.epub, chapters);
+    const { view, chapters, imgPickerData, playerData, media } = this.props.epub;
+    const loading = epubController.ctrl.isLoading(this.props.epub, chapters);
     const headerElement = altEl(EPubHeader, !loading);
 
-    const editStructView = altEl(EditEPubStructure, view === epub.const.EpbEditStructure);
-    const editChapterView = altEl(EditEPubChapter, view === epub.const.EpbEditChapter);
-    const readOnlyView = altEl(ViewAndDownload, view === epub.const.EpbReadOnly);
+    const editStructView = altEl(EditEPubStructure, view === epubController.const.EpbEditStructure);
+    const editChapterView = altEl(EditEPubChapter, view === epubController.const.EpbEditChapter);
+    const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
 
     const imgPickerModal = altEl(ImagePickerModal, Boolean(imgPickerData), {
       imgPickerData, media
@@ -50,7 +46,7 @@ class EPubWithRedux extends React.Component {
     const fileSettingsModal = makeEl(EPubFileInfoModal);
 
     return (
-      <CTFragment as="main" id={epub.id.EPubMainID} loading={loading}>
+      <CTFragment as="main" id={epubController.id.EPubMainID} loading={loading}>
         {headerElement}
 
         <CTFragment id="ct-epb-view-con">
@@ -69,11 +65,7 @@ class EPubWithRedux extends React.Component {
   }
 }
 
-export const EPub = withReduxProvider(
-  EPubWithRedux,
-  epubStore,
-  connectWithRedux,
-  ['epub', 'view', 'chapters', 'playerData', 'media', 'imgPickerData'],
-  ['all']
-);
+export const EPub = connect(({ epub, loading }) => ({
+  epub
+}))(EPubWithRedux);
 

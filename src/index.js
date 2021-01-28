@@ -1,10 +1,16 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { Router, H } from 'dva/router'
+import { createBrowserHistory as createHistory } from 'history';
+import dva from 'dva'
 import App from './App'
 
-ReactDOM.render((
-  <Router basename="/">
-    <App />
-  </Router>
-), document.getElementById('root'));
+const app = dva({ history: createHistory() });
+window.temp_app = app
+app.model(require('./model/global').default);
+app.model(require('./screens/Home/model').default);
+app.model(require('./screens/Search/model').default);
+app.model(require('./screens/History/model').default);
+app.model(require('./screens/Course/model').default);
+
+app.router(({ history }) => <Router history={history}><App app={app} /></Router>); // basename="/" 
+app.start('#root')

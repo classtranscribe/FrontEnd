@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'dva/router';
 import { CTFragment, CTText } from 'layout';
 import { SignInPrompt } from 'components';
 import { user } from 'utils';

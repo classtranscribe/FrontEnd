@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { CTDropdown } from 'layout';
 import { epub, connectWithRedux } from '../../controllers';
 
-function ViewDropdown({ view }) {
+function ViewDropdown({ epub : {view} }) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import { connect } from 'dva'
 import './index.css';
 import {
-  connectWithRedux,
   transControl,
   CC_COLOR_BLACK,
   CC_COLOR_WHITE,
@@ -46,8 +46,7 @@ function AudioDescriptionWithRedux({
   ) : null;
 }
 
-export const AudioDescription = connectWithRedux(
-  AudioDescriptionWithRedux,
-  ['time', 'openAD', 'cc_color', 'cc_bg', 'cc_size', 'cc_opacity'],
-  [],
-);
+export const AudioDescription = connect(({ watch : { time }, 
+  playerpref: { openAD, cc_color, cc_bg, cc_size, cc_opacity }, loading }) => ({
+  time, cc_color, cc_bg, cc_size, cc_opacity, openAD
+}))(AudioDescriptionWithRedux);

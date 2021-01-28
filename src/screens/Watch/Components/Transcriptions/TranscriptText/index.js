@@ -4,18 +4,17 @@ import { Popup } from 'semantic-ui-react';
 import './index.css';
 import {
   // transControl,
-  videoControl,
   timeStrToSec,
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
 
-export default function TranscriptText({ caption = {}, isCurrent = false }) {
+export default function TranscriptText({ caption = {}, isCurrent = false, dispatch }) {
   const { text = '', id, begin, kind } = caption;
 
   const handleSeek = () => {
     const time = timeStrToSec(begin);
-    videoControl.currTime(time);
+    dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
   const handleKeyDown = (e) => {

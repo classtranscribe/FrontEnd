@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { connectWithRedux, videoControl, CTP_LOADING, CTP_ENDED } from '../../../Utils';
+import { connect } from 'dva'
+import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
 import './index.css';
 
 const PS_PLAY = 'play';
@@ -9,14 +10,15 @@ const PS_NOTHING = 'nothing';
 let timeOutEl = null;
 let lastPaused = true;
 
-function BigPlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, isPrimary = false }) {
+function BigPlayButtonWithRedux(props) {
+  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING} = props;
   const [pauseStatus, setPauseStatus] = useState(true);
 
   const handleClick = () => {
     if (ctpPriEvent === CTP_ENDED) {
-      videoControl.replay();
+      // videoControl.replay(); NOT IMPLEMENTED
     }
-    // videoControl.handlePause()
+    // videoControl.handlePause() NOT IMPLEMENTED
   };
 
   useEffect(() => {
@@ -27,7 +29,6 @@ function BigPlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, isPr
       timeOutEl = setTimeout(() => setPauseStatus(PS_NOTHING), 300);
     }
   }, [paused]);
-
   return isPrimary ? (
     <div className="wbp-btn-container" paused={paused.toString()} aria-hidden="true">
       {ctpPriEvent === CTP_ENDED ? (
@@ -76,4 +77,6 @@ function BigPlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, isPr
   ) : null;
 }
 
-export const BigPlayButton = connectWithRedux(BigPlayButtonWithRedux, ['paused', 'ctpPriEvent']);
+export const BigPlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
+  paused, ctpPriEvent 
+}))(BigPlayButtonWithRedux);

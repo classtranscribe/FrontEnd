@@ -1,5 +1,4 @@
 import { ProgressController } from './prog.general';
-import { videoControl } from '../player.control';
 
 /**
  * Controller for player progress bar on Firefox
@@ -16,9 +15,9 @@ export class MobileProgressController extends ProgressController {
    */
   handleTouchStart(e) {
     // this.isDragging = true
-    if (!videoControl.paused()) {
+    if (!this.watch.paused) {
       this.wasPlaying = true;
-      videoControl.pause();
+      this.vc_pause();
     }
     if (e.touches[0]) {
       this.seekTo(e.touches[0].clientX);
@@ -41,7 +40,7 @@ export class MobileProgressController extends ProgressController {
     // this.isDragging = false
     if (this.wasPlaying) {
       this.wasPlaying = false;
-      videoControl.play();
+      this.vc_play();
     }
   }
 }

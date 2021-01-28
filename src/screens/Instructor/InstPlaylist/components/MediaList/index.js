@@ -1,18 +1,20 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { connect } from 'dva';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTFilter, CTText, CTFooter } from 'layout';
 import { InfoAndListLayout } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
-import { connectWithRedux } from '../../controllers';
 import './index.scss';
 import MediaDNDList from './MediaDNDList';
 import ActionBar from './ActionBar';
 import NoVideoHolder from './NoVideoHolder';
 
-function MediaListWithRedux({
-  playlist,
-  medias,
-}) {
+function MediaListWithRedux(props) {
+  const { dispatch, instplaylist } = props;
+  const {
+    playlist,
+    medias,
+  } = instplaylist;
   const loading = medias === ARRAY_INIT;
   const error = ErrorTypes.isError(medias);
 
@@ -98,22 +100,24 @@ function MediaListWithRedux({
           <>
             <ActionBar
               result={result}
+              dispatch={dispatch}
               {...actionProps}
             />
             {
               medias.length === 0 ? (
                 <NoVideoHolder type={playlist.sourceType} />
               ) : result.length > 0 ? (
-                <MediaDNDList 
+                <MediaDNDList
                   medias={result}
                   setFilterResult={setResult}
                   {...dndListProps}
+                  dispatch={dispatch}
                 />
               ) : (
                 <CTText muted center margin={[30, 0]}>
                   No Result
                 </CTText>
-              )
+                  )
             }
           </>
         )}
@@ -124,7 +128,6 @@ function MediaListWithRedux({
   );
 }
 
-export const MediaList = connectWithRedux(
-  MediaListWithRedux,
-  ['playlist', 'medias']
-);
+export const MediaList = connect(({ instplaylist, loading }) => ({
+  instplaylist
+}))(MediaListWithRedux);

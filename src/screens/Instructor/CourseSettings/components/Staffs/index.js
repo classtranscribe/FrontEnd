@@ -1,17 +1,41 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useArray } from 'hooks';
-import { offControl } from '../../controllers';
+import { prompt, api, links } from 'utils';
 import { EmailList } from '../EmailList';
 
+async function getInstructorsByOfferingId(offeringId) {
+  try {
+    const { data } = await api.getInstructorsByOfferingId(offeringId);
+    // console.log(data);
+    return data;
+  } catch (error) {
+    prompt.error('Failed to get instructors.');
+    return [];
+  }
+}
+async function updateInstructors(offeringId, addedEmails, removedEmails) {
+  try {
+    if (addedEmails.length > 0) {
+      await api.addInstructorsToOffering(offeringId, addedEmails);
+    }
 
-export function Staffs() {
-  const { id } = useParams();
+    if (removedEmails.length > 0) {
+      await api.deleteInstructorsFromOffering(offeringId, removedEmails);
+    }
+
+    prompt.addOne({ text: 'Updated instructor list.', timeout: 3000 });
+  } catch (error) {
+    prompt.error('Failed to update instructor list.');
+  }
+}
+export function Staffs(props) {
+  const { match = {} } = props;
+  const { id } = match.params;
   const instructors = useArray([]);
-
+  
   const getInstructors = async () => {
     try {
-      const data = await offControl.getInstructorsByOfferingId(id);
+      const data = await getInstructorsByOfferingId(id);
       instructors.setValue(data.slice().reverse());
     } catch (error) {
       console.error(error);
@@ -23,7 +47,7 @@ export function Staffs() {
   }, []);
 
   const handleSave = async ({ addedEmails, removedEmails }) => {
-    await offControl.updateInstructors(id, addedEmails, removedEmails);
+    await updateInstructors(id, addedEmails, removedEmails);
     getInstructors();
   };
 

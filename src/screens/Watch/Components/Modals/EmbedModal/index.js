@@ -12,7 +12,6 @@ import {
 } from 'layout';
 import { uurl, prompt, timestr } from 'utils';
 import { CTPlayerConstants as Constants } from 'components/CTPlayer';
-import { videoControl } from '../../../Utils';
 import './index.scss';
 
 function EmbedModal(props) {
@@ -77,9 +76,11 @@ function EmbedModal(props) {
 
   useEffect(() => {
     // validate the begin time
+    /* NOT IMPLEMENTED
     if (videoControl.duration < timestr.toSeconds(beginTime)) {
       setBeginTime(timestr.toTimeString(videoControl.duration));
     }
+    */
   }, [beginTime]);
 
   useEffect(() => {
@@ -101,7 +102,7 @@ function EmbedModal(props) {
 
   useEffect(() => {
     if (enableBeginTime) {
-      setBeginTime(timestr.toTimeString(videoControl.currTime()));
+      // setBeginTime(timestr.toTimeString(videoControl.currTime())); NOT IMPLEMENTED
     }
   },[enableBeginTime]);
 
@@ -196,6 +197,4 @@ EmbedModal.propTypes = {
   /** callback on close */
   onClose: PropTypes.func
 };
-
 export default EmbedModal;
-

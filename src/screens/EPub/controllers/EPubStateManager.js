@@ -1,77 +1,10 @@
 import { StateController } from 'utils/state-controller';
-import { initialState } from './constants/init-states';
 // import Constants from './EPubConstants';
 
 /**
  * The redux state controller for CTEPubGenerator
  */
 class EPubStateManager extends StateController {
-  constructor() {
-    super();
-
-    this.error = initialState.error;
-    this.view = initialState.view;
-    this.media = initialState.media;
-    this.language = initialState.language;
-    this.epub = initialState.epub;
-    this.chapters = initialState.chapters;
-    this.foldedIds = initialState.foldedIds;
-    this.saved = initialState.saved;
-    this.currChIndex = initialState.currChIndex;
-    this.navId = initialState.navId;
-    this.showNav = initialState.showNav;
-    this.imgPickerData = initialState.imgPickerData;
-    this.playerData = initialState.playerData;
-    this.showPreview = initialState.showPreview;
-    this.showFileSettings = initialState.showFileSettings;
-    this.showPrefSettings = initialState.showPrefSettings;
-    this.showShortcuts = initialState.showShortcuts;
-
-    this.resetStates = this.resetStates.bind(this);
-  }
-
-  init(props) {
-    const {
-      setError,
-      setView,
-      setMedia,
-      setEPub,
-      setChapters,
-      setCurrChIndex,
-      setFoldedIds,
-      setSaved,
-      setNavId,
-      setShowNav,
-      setImgPickerData,
-      setPlayerData,
-      setShowPreview,
-      setShowFileSettings,
-      setShowPrefSettings,
-      setShowShortcuts,
-      resetStates
-    } = props;
-
-    this.register({
-      setError,
-      setView,
-      setMedia,
-      setEPub,
-      setChapters,
-      setCurrChIndex,
-      setFoldedIds,
-      setSaved,
-      setNavId,
-      setShowNav,
-      setImgPickerData,
-      setPlayerData,
-      setShowPreview,
-      setShowFileSettings,
-      setShowPrefSettings,
-      setShowShortcuts,
-      resetStates
-    });
-  }
-
   setError(error) {
     this.setState('setError', 'error', error);
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
-import { connectWithRedux } from '../../../controllers';
+import { connect } from 'dva'
 import ChapterInfo from './ChapterInfo';
 import SubChapterItem from './SubChapterItem';
 import './index.scss';
@@ -27,7 +27,6 @@ function ChapterEditor({ chapters, currChIndex }) {
   );
 }
 
-export default connectWithRedux(
-  ChapterEditor, 
-  ['currChIndex', 'chapters']
-);
+export default connect(({ epub, loading }) => ({
+  epub
+}))(ChapterEditor);

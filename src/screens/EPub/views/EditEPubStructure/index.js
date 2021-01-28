@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CTFragment, altEl, CTHeading } from 'layout';
+import { connect } from 'dva'
 import { EPubNavigationProvider } from '../../components';
-import { epub, connectWithRedux, generateEPubGuide } from '../../controllers';
+import { epub as epubController, generateEPubGuide } from '../../controllers';
 import ChapterList from './ChapterList';
 import Instruction from './Instruction';
 import EPubItemView from './EPubItemView';
@@ -17,7 +18,7 @@ function EditEPubStructure(props) {
 
   useEffect(() => {
     // add scroll event listener
-    epub.nav.addScrollListenerForChapterList();
+    epubController.nav.addScrollListenerForChapterList();
 
     // show the user onboard guide if possible
     setTimeout(() => {
@@ -26,7 +27,7 @@ function EditEPubStructure(props) {
     }, 1000);
 
     // remove listener when component unmount
-    return epub.nav.removeScrollListenerForChapterList;
+    return epubController.nav.removeScrollListenerForChapterList;
   }, []);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ function EditEPubStructure(props) {
 
   return (
     <EPubNavigationProvider>
-      <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
+      <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID}>
         <CTFragment width="65%">
           <CTHeading>{epubData.title}</CTHeading>
           <ChapterList setEPubItem={setEPubItem} />
@@ -57,7 +58,6 @@ function EditEPubStructure(props) {
   );
 }
 
-export default connectWithRedux(
-  EditEPubStructure,
-  ['epub']
-);
+export default connect(({ epub, loading }) => ({
+  epub
+}))(EditEPubStructure);

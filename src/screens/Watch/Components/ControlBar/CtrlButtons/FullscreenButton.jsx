@@ -2,13 +2,9 @@ import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { connectWithRedux, videoControl } from '../../../Utils';
 
-export function FullscreenButtonWithRedux({ isFullscreen = false }) {
+export function FullscreenButtonWithRedux({ isFullscreen = false, dispatch }) {
   const handleFullscreen = () => {
-    if (isFullscreen) {
-      videoControl.exitFullScreen();
-    } else {
-      videoControl.enterFullScreen();
-    }
+    dispatch({type: 'watch/toggleFullScreen'})
   };
 
   return (

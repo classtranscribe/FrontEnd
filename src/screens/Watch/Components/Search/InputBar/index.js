@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { elem } from 'utils/use-elem';
-import { searchControl, SEARCH_INIT, SEARCH_RESULT, SEARCH_BEGIN } from '../../../Utils';
+import { SEARCH_INIT, SEARCH_RESULT, SEARCH_BEGIN } from '../../../Utils';
 import './index.css';
 
-function InputBar({ search = SEARCH_INIT }) {
+function InputBar({ search = SEARCH_INIT, dispatch }) {
   const inputRef = useRef();
   const inputPlaceholder = 'Search Transcriptions, Videos...';
 
@@ -13,14 +13,14 @@ function InputBar({ search = SEARCH_INIT }) {
 
   const clearInput = () => {
     inputRef.current.value = '';
-    searchControl.resetResult(SEARCH_BEGIN);
+    dispatch({type: 'watch/resetSearch', payload: SEARCH_BEGIN});
     inputRef.current.focus();
   };
 
   const handleSearch = () => {
     inputRef.current.focus();
     elem.scrollToTop('watch-search-result-container');
-    searchControl.getAllResults(inputRef.current.value);
+    dispatch({type: 'watch/search_getResults', payload: inputRef.current.value});
   };
 
   const handleOnKeyDown = (e) => {
@@ -31,7 +31,7 @@ function InputBar({ search = SEARCH_INIT }) {
   };
 
   const handleClose = () => {
-    searchControl.closeSearch();
+    dispatch({type: 'watch/search_close'});
   };
 
   const defaultInput = search.value || '';

@@ -1,10 +1,10 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connectWithRedux, videoControl } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 
-export function SwitchScreenButtonWithRedux() {
+export function SwitchScreenButtonWithRedux({dispatch}) {
   const handleSwitch = () => {
-    videoControl.switchVideo();
+    dispatch({ type: 'watch/switchVideo' });
   };
 
   return (

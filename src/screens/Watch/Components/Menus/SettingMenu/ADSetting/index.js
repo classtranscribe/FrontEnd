@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { connectWithRedux, transControl, preferControl, uEvent } from '../../../../Utils';
-
+import { connect } from 'dva'
+import { preferControl, uEvent } from '../../../../Utils';
 import MenuRadio from '../MenuRadio';
 
-function ADSetting({ show = false, openAD = false, descriptions = [] }) {
+function ADSetting({ show = false, openAD = false, descriptions = [], dispatch }) {
   const [pauseWhileAD, setPauseWhileAD] = useState(preferControl.pauseWhileAD());
 
   const handleAD = (/** { target: { checked } } */) => {
-    transControl.handleOpenAD();
+    dispatch({ type: 'playerpref/toggleOpenAD' })
   };
 
   const handlePauseWhileAD = () => {
@@ -49,4 +49,6 @@ function ADSetting({ show = false, openAD = false, descriptions = [] }) {
   );
 }
 
-export default connectWithRedux(ADSetting, ['openAD', 'descriptions']);
+export default connect(({ watch: { descriptions }, playerpref: { openAD }, loading }) => ({
+  openAD, descriptions
+}))(ADSetting);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
-import { links, uurl, api } from 'utils';
+import { useParams } from 'dva/router';
+import { api, links, uurl } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';

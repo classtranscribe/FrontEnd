@@ -1,5 +1,6 @@
 import React from 'react';
 import { Select, Form, Grid } from 'semantic-ui-react';
+import { connect } from 'dva'
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -26,6 +27,7 @@ function SettingMenu({
   cc_opacity = CC_OPACITY_100,
   cc_font = CC_FONT_SANS_SERIF,
   cc_position = CC_POSITION_BOTTOM,
+  dispatch
 }) {
   const { ccStyle } = transControl.getCCStyle({
     cc_color,
@@ -80,7 +82,7 @@ function SettingMenu({
                 aria-label="Background Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_bg}
-                onChange={(event, { value }) => transControl.ccBG(value)}
+                onChange={(event, { value }) => dispatch({type: 'playerpref/cc_setBG', payload: value})}
               />
             </Grid.Column>
             <Grid.Column>
@@ -91,7 +93,7 @@ function SettingMenu({
                 aria-label="Font Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_color}
-                onChange={(event, { value }) => transControl.ccColor(value)}
+                onChange={(event, { value }) => dispatch({type: 'playerpref/cc_setColor', payload: value})}
               />
             </Grid.Column>
           </Grid.Row>
@@ -105,7 +107,7 @@ function SettingMenu({
                 aria-label="Font Size"
                 options={getCCSelectOptions(cc_sizeOptions, (item) => `${item * 100}%`)}
                 value={cc_size}
-                onChange={(event, { value }) => transControl.ccSize(value)}
+                onChange={(event, { value }) => dispatch({type: 'playerpref/cc_setSize', payload: value})}
               />
             </Grid.Column>
             <Grid.Column>
@@ -126,11 +128,6 @@ function SettingMenu({
   );
 }
 
-export default connectWithRedux(SettingMenu, [
-  'cc_color',
-  'cc_bg',
-  'cc_size',
-  'cc_opacity',
-  'cc_font',
-  'cc_position',
-]);
+export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, }, loading }) => ({
+  cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position,
+}))(SettingMenu);

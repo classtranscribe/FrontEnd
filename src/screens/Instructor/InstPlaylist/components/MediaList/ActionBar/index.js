@@ -3,7 +3,6 @@ import { isMobile } from 'react-device-detect';
 import { Button } from 'pico-ui';
 import { CTFragment, CTFilterInput } from 'layout';
 import { SelectCtrlButton } from 'components';
-import { mediaControl } from '../../../controllers';
 
 import UploadButton from './UploadButton';
 
@@ -15,7 +14,8 @@ function ActionBar({
   removeAll,
   selectedVideos,
   filterValue,
-  handleFilterChange
+  handleFilterChange,
+  dispatch
 }) {
   const handleSelectAll = () => {
     selectAll(result);
@@ -33,9 +33,14 @@ function ActionBar({
   }, [result]);
 
   const handleDeleteVideos = () => {
-    mediaControl.confirmDeleteMedias(
-      selectedVideos.map(video => video.id)
-    );
+    const mediaIds = selectedVideos.map(video => video.id);
+    const confirm = {
+      text: `Are you sure to delete the selected ${mediaIds.length} `
+            + `video${mediaIds.length > 1 ? 's' : ''}? `
+            + '(This acrion cannot be undone)',
+      onConfirm: () => dispatch({type: 'instplaylist/deleteMedias', payload: mediaIds})
+    };
+    dispatch({type: 'instplaylist/setConfirmation', payload: confirm});
   }
   
   return (

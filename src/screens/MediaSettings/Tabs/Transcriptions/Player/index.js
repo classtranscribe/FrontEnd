@@ -1,7 +1,6 @@
 import React from 'react';
 import { CTFragment } from 'layout';
 import CTPlayer from 'components/CTPlayer';
-import { connectWithRedux } from '../../../controllers/trans';
 import './index.scss';
 
 function Player({
@@ -26,9 +25,4 @@ function Player({
   );
 }
 
-export default connectWithRedux(
-  Player,
-  [],
-  [],
-  ['media']
-);
+export default Player;
