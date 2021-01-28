@@ -26,7 +26,7 @@ class EmailHandler {
   extract(text) {
     if (typeof text === 'string') {
       // split string by common delimiter
-      const text_arr = text.split(/<|>|,|;|\t|\n|:|'+|"+| /);
+      const text_arr = text.split(/<|>|,|;|\t|\n|\r\n|\r|:|'+|"+| /);
       // filter out invalid email strings
       return _.filter(text_arr, this.isValid);
     }
