@@ -14,14 +14,16 @@ import {
     HIDE_TRANS,
 } from '../Utils/constants.util';
 
+let hasRestored = false;
 function handleRestoreTime(media) {
     const search = uurl.useSearch();
     const begin = search.begin || media.watchHistory.timestamp;
-    if (Boolean(begin) && !this.timeRestored) {
-        this.currTime(Number(begin));
-        this.timeRestored = true;
+    if (Boolean(begin) && !hasRestored) {
+        hasRestored = true;
         window.history.replaceState(null, null, links.watch(media.id));
+        return Number(begin);
     }
+    return false;
 }
 function enterFullScreen(watch) {
     try {
@@ -115,16 +117,11 @@ export default {
             const { playerpref } = yield select();
             toSet = !playerpref.muted;
         }
-        PlayerData.video1 && (PlayerData.video1.muted = toSet);
-        PlayerData.video2 && (PlayerData.video2.muted = toSet);
-        // preferControl.defaultMute(volume); NOT IMPLEMENTED
-        yield put({ type: 'playerpref/setMute', payload: toSet })
+        yield put({ type: 'playerpref/setPreference', payload: { muted: toSet } })
     },
     *media_volume({ payload: toSet }, { call, put, select, take }) {
-        PlayerData.video1 && (PlayerData.video1.volume = toSet);
-        PlayerData.video2 && (PlayerData.video2.volume = toSet);
-        // preferControl.defaultVolume(volume); NOT IMPLEMENTED
-        yield put({ type: 'playerpref/setVolume', payload: toSet })
+        // Could be removed
+        yield put({ type: 'playerpref/setPreference', payload: { volume: toSet } })
     },
     *media_setCurrTime({ payload }, { call, put, select, take }) {
         // currtime = 0
@@ -133,13 +130,10 @@ export default {
         yield put({ type: 'setTime', payload })
         yield put({ type: 'sendMediaHistories' });
     },
-    *media_playbackrate({ payload: playbackRate }, { call, put, select, take }) {
+    *media_playbackrate({ payload: playbackrate }, { call, put, select, take }) {
         const { watch } = yield select();
-        PlayerData.video1 && (PlayerData.video1.playbackRate = playbackRate);
-        PlayerData.video2 && (PlayerData.video2.playbackRate = playbackRate);
-        yield put({ type: 'playerpref/setPlaybackrate', payload: playbackRate })
-        // preferControl.defaultPlaybackRate(playbackRate);
-        uEvent.changespeed(watch.time, playbackRate);
+        yield put({ type: 'playerpref/setPreference', payload: { playbackrate } })
+        uEvent.changespeed(watch.time, playbackrate);
     },
     *seekToPercentage({ payload: p = 0 }, { put, select }) {
         if (typeof p !== 'number' || p > 1 || p < 0) return;
@@ -171,28 +165,40 @@ export default {
         yield put({ type: 'setFullscreen', payload: newState });
     },
     *switchVideo({ payload: bool }, { call, put, select, take }) {
-        // NOT IMPLEMENTED
         if (!PlayerData.video2) return;
         const { watch } = yield select();
         const toSet = bool === undefined ? !watch.isSwitched : bool;
         yield put({ type: 'switchScreen', payload: toSet })
     },
     *onPlayerReady({ payload: { isPrimary } }, { call, put, select, take }) {
-        if (PlayerData.param.canPlayDone //  || !preferControl.autoPlay() NOT IMPLEMENTED, USE PLAYERPREF MODEL
-        ) return;
+        const { playerpref, watch } = yield select();
+        const { playbackrate = 1} = playerpref;
+        if (PlayerData.param.canPlayDone) { return; }
         if (isPrimary) {
             PlayerData.param.video1CanPlay = true;
             if (PlayerData.param.video2CanPlay || !PlayerData.video2) {
                 PlayerData.param.canPlayDone = true;
-                // this.handleRestoreTime(media); NOT IMPLEMENTED
-                yield put({ type: 'media_play', payload: null })
+                PlayerData.video1.playbackRate = playbackrate
+                const start_time = handleRestoreTime(watch.media);
+                if (start_time) {
+                    yield put({ type: 'media_setCurrTime', payload: start_time })
+                }
+                if (playerpref.autoPlay) {
+                    yield put({ type: 'media_play', payload: null })
+                }
             }
         } else {
             PlayerData.param.video2CanPlay = true;
             if (PlayerData.param.video1CanPlay) {
                 PlayerData.param.canPlayDone = true;
-                // this.handleRestoreTime(media); NOT IMPLEMENTED
-                yield put({ type: 'media_play', payload: null })
+                PlayerData.video2.playbackRate = playbackrate
+                const start_time = handleRestoreTime(watch.media);
+                if (start_time) {
+                    yield put({ type: 'media_setCurrTime', payload: start_time })
+                }
+                if (playerpref.autoPlay) {
+                    yield put({ type: 'media_play', payload: null })
+                }
             }
         }
     },

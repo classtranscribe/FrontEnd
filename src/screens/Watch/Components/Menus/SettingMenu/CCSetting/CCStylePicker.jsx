@@ -13,8 +13,7 @@ import {
   // cc_positionOptions,
   // cc_fontOptions,
   cc_sizeOptions,
-  connectWithRedux,
-  transControl,
+  getCCStyle,
   getCCSelectOptions,
 } from '../../../../Utils';
 
@@ -29,7 +28,7 @@ function SettingMenu({
   cc_position = CC_POSITION_BOTTOM,
   dispatch
 }) {
-  const { ccStyle } = transControl.getCCStyle({
+  const { ccStyle } = getCCStyle({
     cc_color,
     cc_bg,
     cc_size,
@@ -57,7 +56,7 @@ function SettingMenu({
                 aria-label="Caption Position"
                 options={getCCSelectOptions(cc_positionOptions)}
                 value={cc_position}
-                onChange={(event, {value}) => transControl.ccPosition(value)}
+                onChange={(event, {value}) => transControl.ccPosition(value)} /// plz USE DISPATCH
               />
             </Grid.Column>
             <Grid.Column>
@@ -68,7 +67,7 @@ function SettingMenu({
                 aria-label="Font Family"
                 options={getCCSelectOptions(cc_fontOptions)}
                 value={cc_font}
-                onChange={(event, {value}) => transControl.ccFont(value)}
+                onChange={(event, {value}) => transControl.ccFont(value)} /// plz USE DISPATCH
               />
             </Grid.Column>
           </Grid.Row> */}
@@ -82,7 +81,7 @@ function SettingMenu({
                 aria-label="Background Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_bg}
-                onChange={(event, { value }) => dispatch({type: 'playerpref/cc_setBG', payload: value})}
+                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_bg: value } })}
               />
             </Grid.Column>
             <Grid.Column>
@@ -93,7 +92,7 @@ function SettingMenu({
                 aria-label="Font Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_color}
-                onChange={(event, { value }) => dispatch({type: 'playerpref/cc_setColor', payload: value})}
+                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_color: value } })}
               />
             </Grid.Column>
           </Grid.Row>
@@ -107,7 +106,7 @@ function SettingMenu({
                 aria-label="Font Size"
                 options={getCCSelectOptions(cc_sizeOptions, (item) => `${item * 100}%`)}
                 value={cc_size}
-                onChange={(event, { value }) => dispatch({type: 'playerpref/cc_setSize', payload: value})}
+                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_size: value } })}
               />
             </Grid.Column>
             <Grid.Column>
@@ -118,7 +117,7 @@ function SettingMenu({
                 aria-label="Background Opacity"
                 options={getCCSelectOptions(cc_opacityOptions, (item) => `${item * 100}%`)}
                 value={cc_opacity}
-                onChange={(event, { value }) => transControl.ccOpacity(value)}
+                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_opacity: value } })}
               />
             </Grid.Column>
           </Grid.Row>

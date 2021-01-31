@@ -10,34 +10,7 @@ import {
 import { timeStrToSec, colorMap } from '../Utils/helpers';
 
 import { uEvent } from '../Utils/UserEventController';
-import { findTransByLanguage } from '../Utils'
-/**
-* Function that scrolls the captions
-
-const scrollTransToView = (id, smoothScroll = true) => {
-    if (this.isMourseOverTrans || this.isEditing) return;
-    let capId = id;
-    if (id === undefined && Boolean(this.currTrans_)) {
-        capId = this.currTrans_.id;
-    }
-    if (!capId) return;
-    const capElem = document.getElementById(`caption-line-${capId}`);
-    if (!capElem || !capElem.offsetTop) return;
-
-    const tranBox = document.getElementById('watch-trans-container');
-    const isTwoScreen = videoControl.isTwoScreen();
-
-    const shouldSmoothScroll = smoothScroll && tranBox.scrollTop - capElem.offsetTop < 0;
-
-    if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'auto';
-    capElem.classList.add('curr-line');
-    const scrollTop =
-        window.innerWidth < 900 || !isTwoScreen ? capElem.offsetTop - 50 : capElem.offsetTop - 80;
-    // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400
-    tranBox.scrollTop = scrollTop;
-    if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'smooth';
-}
-*/
+import { findTransByLanguage, scrollTransToView } from '../Utils'
 
 /**
  * * Find item based on current time
@@ -97,7 +70,7 @@ export default {
     },
     *updateTranscript({ payload: currentTime }, { call, put, select, take }) {
         const nextCaption = {};
-        const { watch } = yield select();
+        const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
         if (watch.transcript === ARRAY_EMPTY) return null;
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
@@ -112,16 +85,16 @@ export default {
             const smoothScroll =
                 prevCaption_ && next && Math.abs(prevCaption_.index - next.index) === 1;
             yield put({ type: 'setCurrCaption', payload: next });
-            /* NOT IMPLEMENTED
-            if (preferControl.autoScroll()) {
-                this.scrollTransToView(next.id, smoothScroll);
+
+            if (playerpref.autoScroll) {
+                const { media = {} } = watch;
+                scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
-            */
         }
         return next || null;
         // transControl.updateTranscript(currentTime);
     },
-    *setLanguage({ payload : language }, { call, put, select, take }) {
+    *setLanguage({ payload: language }, { call, put, select, take }) {
         const { watch } = yield select();
         const currTrans = findTransByLanguage(language, watch.transcriptions);
         if (currTrans) {
@@ -129,11 +102,5 @@ export default {
         }
         uEvent.langchange(watch.time, language);
         uEvent.registerLanguage(language);
-    },
-    *toggleOpenAD({ payload }, { call, put, select, take }) {
-        // preferControl.ad(bool);
-    },
-    *toggleOpenCC({ payload }, { call, put, select, take }) {
-        // preferControl.cc(bool);
     }
 }

@@ -9,6 +9,7 @@ import {
   CC_OPACITY_100,
   CC_FONT_SANS_SERIF,
   CC_POSITION_TOP,
+  getCCStyle
 } from '../../../Utils';
 
 function AudioDescriptionWithRedux({
@@ -28,7 +29,7 @@ function AudioDescriptionWithRedux({
 
   const shouldDisplayAD = isOpen && text;
 
-  const { ccStyle, ccContainerStyle } = transControl.getCCStyle({
+  const { ccStyle, ccContainerStyle } = getCCStyle({
     cc_color,
     cc_bg,
     cc_size,

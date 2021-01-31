@@ -20,20 +20,36 @@ const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { watch, playerpref, dispatch } = props;
-  const { transView } = playerpref;
+  const { transView, muted, volume, playbackrate } = playerpref;
   const { media, mode, isSwitched, isFullscreen } = watch;
   const { videos, isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
+
+  // Mute Handler
+  useEffect(() => {
+    PlayerData.video1 && (PlayerData.video1.muted = muted);
+    PlayerData.video2 && (PlayerData.video2.muted = muted);
+  }, [muted]);
+  // Volume Handler
+  useEffect(() => {
+    PlayerData.video1 && (PlayerData.video1.volume = volume);
+    PlayerData.video2 && (PlayerData.video2.volume = volume);
+  }, [volume]);
+  // Playbackrate Handler
+  useEffect(() => {
+    PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
+    PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
+    // NOT IMPLEMENTED, NOT WORKING
+  }, [playbackrate]);
+
   useEffect(() => {
     PlayerData.param = {};
+    PlayerData.video1 && (PlayerData.video1.load());
+    PlayerData.video2 && (PlayerData.video2.load());
   }, [srcPath1, srcPath2]);
   const player1Position = isSwitched ? SECONDARY : PRIMARY;
   const player2Position = isSwitched ? PRIMARY : SECONDARY;
-  const handlePause = (position) => () => {
-    if (position === PRIMARY) {
-      // videocontrol.handlePause(); NOT IMPLEMENTED
-    }
-  };
+
   useEffect(() => {
     if (isTwoScreen && !isMobile) {
       dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })

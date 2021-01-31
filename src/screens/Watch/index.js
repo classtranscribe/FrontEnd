@@ -8,7 +8,6 @@ import { uurl } from 'utils/use-url';
 import { CTLayout } from 'layout';
 import { connect } from 'dva'
 import {
-  preferControl,
   keydownControl,
   ERR_INVALID_MEDIA_ID,
 } from './Utils';
@@ -42,7 +41,6 @@ const WatchWithRedux = (props) => {
   let error = null;
   const { id } = uurl.useSearch();
   useEffect(() => {
-    preferControl.init(props);
     /** GET media, playlist  */
     // setup.setupMedias();
     /** Add keydown event handler */

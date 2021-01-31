@@ -68,10 +68,10 @@ export const keydownControl = {
       switch (keyCode) {
         // `+` (Shift + +) - increase closed caption size
         case 187:
-          return transControl.ccIncreaseSize();
+          return this.dispatch({ type: 'playerpref/changeCCSizeByValue', payload: 0.25 });
         // `_` (Shift + -) - decrease closed caption
         case 189:
-          return transControl.ccDecreaseSize();
+          return this.dispatch({ type: 'playerpref/changeCCSizeByValue', payload: -0.25 });
         // `<` (Shift + ,) - switch videos
         case 188:
           return this.dispatch({ type: 'watch/switchVideo' });

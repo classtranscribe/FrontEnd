@@ -11,14 +11,13 @@ let timeOutEl = null;
 let lastPaused = true;
 
 function BigPlayButtonWithRedux(props) {
-  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING} = props;
+  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING, dispatch} = props;
   const [pauseStatus, setPauseStatus] = useState(true);
 
   const handleClick = () => {
     if (ctpPriEvent === CTP_ENDED) {
-      // videoControl.replay(); NOT IMPLEMENTED
+      dispatch({type: 'watch/media_replay'})
     }
-    // videoControl.handlePause() NOT IMPLEMENTED
   };
 
   useEffect(() => {

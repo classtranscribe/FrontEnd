@@ -8,7 +8,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
-  transControl,
+  getCCStyle,
   WEBVTT_SUBTITLES,
 } from '../../../Utils';
 
@@ -26,7 +26,7 @@ function ClosedCaptionWithRedux({
   cc_font = CC_FONT_SANS_SERIF,
   cc_position = CC_POSITION_BOTTOM,
 }) {
-  const { ccStyle, ccContainerStyle } = transControl.getCCStyle({
+  const { ccStyle, ccContainerStyle } = getCCStyle({
     cc_color,
     cc_bg,
     cc_size,
