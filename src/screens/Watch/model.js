@@ -1,4 +1,4 @@
-import { isSafari, isIPad13, isIPhone13, isMobile} from 'react-device-detect';
+import { isSafari, isIPad13, isIPhone13, isMobile } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import _ from 'lodash';
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
@@ -194,8 +194,8 @@ const WatchModel = {
         setCTPEvent(state, { payload: { event = CTP_PLAYING, priVideo = true } }) {
             if (priVideo) {
                 return { ...state, ctpPriEvent: event };
-            } 
-                return { ...state, ctpSecEvent: event };
+            }
+            return { ...state, ctpSecEvent: event };
         },
         // Others
         setSearch(state, { payload }) {
@@ -331,6 +331,28 @@ const WatchModel = {
                 document.addEventListener('fullscreenchange', (e) => {
                     dispatch({ type: 'onFullScreenChange', payload: e })
                 }, true);
+                if (isMobile) {
+                    window.addEventListener('orientationchange', () => {
+                        // console.log('window.orientation', window.orientation)
+                        if ([90, -90].includes(window.orientation)) {
+                            /* NOT IMPLEMENTED
+                            if (that.currTime() > 0) {
+                                that.enterFullScreen();
+                            }
+                            */
+                        }
+                    });
+                } else {
+                    window.addEventListener('resize', () => {
+                        if (window.innerWidth < 900) {
+                            /* NOT IMPLEMENTED
+                            if (that.SCREEN_MODE === PS_MODE) {
+                                this.dispatch({ type: 'watch/setWatchMode', payload: { mode: NESTED_MODE, config: { sendUserAction: false } } });
+                            }
+                            */
+                        }
+                    });
+                }
             }
             history.listen((event) => {
                 if (event.pathname === '/video' || event.action === 'PUSH' && event.location.pathname === '/video') {
@@ -340,28 +362,4 @@ const WatchModel = {
         }
     }
 }
-/* NOT IMPLEMENTED
-
-function addWindowEventListener() {
-    const that = this;
-    if (isMobile) {
-        window.addEventListener('orientationchange', () => {
-            // console.log('window.orientation', window.orientation)
-            if ([90, -90].includes(window.orientation)) {
-                if (that.currTime() > 0) {
-                    that.enterFullScreen();
-                }
-            }
-        });
-    } else {
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 900) {
-                if (that.SCREEN_MODE === PS_MODE) {
-                    this.dispatch({ type: 'watch/setWatchMode', payload: { mode: NESTED_MODE, config: { sendUserAction: false } } });
-                }
-            }
-        });
-    }
-}
-*/
 export default WatchModel
