@@ -4,7 +4,6 @@ import EPubIDs from './constants/EPubIDs';
 import EPubNavigator from './EPubNavigator';
 import EPubDownloadController from './EPubDownloadController';
 import { epubState } from './EPubStateManager';
-import { epubCtrl } from './EPubController';
 import { epubData } from './EPubDataController';
 import { shortcut } from './ShortcutController';
 import { epubPref } from './PreferenceController';
@@ -14,7 +13,6 @@ export const epub = {
   id: EPubIDs,
   download: EPubDownloadController,
   state: epubState,
-  ctrl: epubCtrl,
   data: epubData,
   history: epubData.history,
   nav: new EPubNavigator(),
@@ -22,10 +20,18 @@ export const epub = {
   pref: epubPref
 };
 // Transition Function
-export const connectWithRedux = (Component) => {
-  return connect(({ epub : epub_, loading }) => ({
-    epub: epub_
-  }))(Component);
+export const connectWithRedux = (Component, property) => {
+  return connect(({ epub : _epub, loading, history }) => {
+    if (!property) {
+      return {};
+    }
+    const props = {};
+    property.map((key) => {
+      props[key] = _epub[key];
+      return false;
+    })
+    return props;
+  })(Component);
 }
 export * from './utils';
 export * from './onboard-guide';

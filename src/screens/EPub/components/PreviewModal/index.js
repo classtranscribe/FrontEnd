@@ -54,6 +54,6 @@ function PreviewModal({
   )
 }
 
-export default connect(({ epub, loading }) => ({
-  epub
+export default connect(({ epub: { showPreview, currChIndex }, loading }) => ({
+  showPreview, currChIndex
 }))(PreviewModal);

@@ -8,11 +8,12 @@ import ChapterNewContent from './ChapterNewContent';
 function SubChapterItem({
   subChapter,
   subChapterIndex,
+  currChIndex
 }) {
   const { title, id, contents } = subChapter;
 
   const onSaveTitle = (newTitle) =>
-    epub.data.saveSubChapterTitle(epub.state.currChIndex, subChapterIndex, newTitle);
+    epub.data.saveSubChapterTitle(currChIndex, subChapterIndex, newTitle);
 
   const onRemove = (index) => () => {
     epub.data.removeSubChapterContent(subChapterIndex, index);

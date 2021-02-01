@@ -14,9 +14,10 @@ import {
 import { useInput, useCheckbox } from 'hooks';
 import { LanguageConstants as LConstants } from 'components/CTPlayer';
 import { elem } from 'utils';
-import { epub, connectWithRedux } from '../controllers';
+import { EPubListCtrl } from 'components/CTEPubListScreen/controllers/EPubListController';
+import { connectWithRedux } from '../controllers';
 
-function EPubCopyModal({ open, onClose, ...props }) {
+function EPubCopyModal({ open, onClose, dispatch, ...props }) {
   const { teal } = useButtonStyles();
 
   const epubData = props.epub;
@@ -36,11 +37,12 @@ function EPubCopyModal({ open, onClose, ...props }) {
       author: author.value,
       language: language.value
     };
-    epub.ctrl.duplicateEPub(newEPubData, copyChapterStructure.checked);
+    dispatch({ type: 'epub/duplicateEPub', payload: { newData: newEPubData, copyChapterStructure: copyChapterStructure.checked } });
     onClose();
   };
-
-  const langOptions = epub.ctrl.languages.map(lang => ({
+  // NOT IMPLEMENTED
+  const languages = EPubListCtrl.getLanguages(props.epub.sourceType, props.media);
+  const langOptions = languages.map(lang => ({
     value: lang,
     text: LConstants.decode(lang) + (lang === epubData.language ? ' (current)' : '')
   }));
@@ -49,10 +51,10 @@ function EPubCopyModal({ open, onClose, ...props }) {
 
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
-      <Button 
-        disabled={!canSave} 
-        className={teal} 
-        variant="contained" 
+      <Button
+        disabled={!canSave}
+        className={teal}
+        variant="contained"
         onClick={onCopyEPub}
       >
         Done
@@ -74,7 +76,7 @@ function EPubCopyModal({ open, onClose, ...props }) {
       <CTFragment role="form" onSubmit={elem.preventDefault}>
         <CTFormHeading padding="0">File Information</CTFormHeading>
         <CTFormRow>
-          <CTInput 
+          <CTInput
             id="ct-epb-title-input"
             label="ePub Title"
             placeholder="ePub Title"
@@ -83,7 +85,7 @@ function EPubCopyModal({ open, onClose, ...props }) {
             underlined
             required
           />
-          <CTInput 
+          <CTInput
             id="ct-epb-author-input"
             label="ePub Author"
             placeholder="ePub Author"
@@ -94,7 +96,7 @@ function EPubCopyModal({ open, onClose, ...props }) {
           />
         </CTFormRow>
         <CTFormRow>
-          <CTInput 
+          <CTInput
             id="ct-epb-filename-input"
             label="ePub Filename"
             placeholder="ePub Filename"
@@ -108,9 +110,9 @@ function EPubCopyModal({ open, onClose, ...props }) {
         <CTFormHeading padding="0" margin={[10, 0]}>Language</CTFormHeading>
 
         <CTFormHelp title="Copy ePub with a different language">
-          When copying this ePub with a different language, 
-          you are able to copy your current chapter structure based on timestamps, 
-          but the texts will not be translated, 
+          When copying this ePub with a different language,
+          you are able to copy your current chapter structure based on timestamps,
+          but the texts will not be translated,
           and some of the chapter contents might be lost.
         </CTFormHelp>
 
@@ -144,5 +146,5 @@ function EPubCopyModal({ open, onClose, ...props }) {
 
 export default connectWithRedux(
   EPubCopyModal,
-  ['epub']
+  ['epub', 'media']
 );

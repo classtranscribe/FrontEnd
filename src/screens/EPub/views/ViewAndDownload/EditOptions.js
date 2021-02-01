@@ -1,23 +1,24 @@
 import React from 'react';
+import { connect } from 'dva'
 import { Button } from 'pico-ui';
 import { CTFragment, CTHeading } from 'layout';
 import { epub } from '../../controllers';
 
 const Constants = epub.const;
 
-function EditOptions() {
+function EditOptions({ dispatch }) {
   const onEditFile = (view) => () => {
-    epub.state.setView(view);
+    dispatch({ type: 'epub/setView', payload: view });
   };
 
   const onEditFileInfo = () => {
-    epub.state.setShowFileSettings(true);
+    dispatch({ type: 'epub/setShowFileSettings', payload: true });
   };
 
   return (
-    <CTFragment margin={[0,0,30,0]}>
+    <CTFragment margin={[0, 0, 30, 0]}>
       <CTHeading as="h3" icon="edit">Edit File</CTHeading>
-      <CTFragment dFlexCol padding={[0,15,0,0]}>
+      <CTFragment dFlexCol padding={[0, 15, 0, 0]}>
         <Button
           icon="description"
           color="transparent"
@@ -46,4 +47,6 @@ function EditOptions() {
   );
 }
 
-export default EditOptions;
+export default connect(({ loading }) => ({
+
+}))(EditOptions);

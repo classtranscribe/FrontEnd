@@ -12,20 +12,21 @@ function NavMenuItem({
   chapter,
   chIdx,
   schIdx,
-  navId
+  navId,
+  dispatch
 }) {
   const navItemId = isSubCh ? ID.schNavItemID(id) : ID.chNavItemID(id);
   const current = navId === navItemId;
-  const navTxt = isSubCh 
-                ? `${chIdx + 1}.${schIdx + 1} - ${chapter.title}`
-                : `${chIdx + 1} - ${chapter.title}`;
+  const navTxt = isSubCh
+    ? `${chIdx + 1}.${schIdx + 1} - ${chapter.title}`
+    : `${chIdx + 1} - ${chapter.title}`;
 
   const onNavigate = (e) => {
     e.preventDefault();
     if (isSubCh) {
       epub.nav.navigateSubChapter(id);
     } else {
-      epub.nav.navigateChapter(id);
+      dispatch({ type: 'epub/navigateChapter', payload: id });
     }
   }
 
@@ -34,11 +35,11 @@ function NavMenuItem({
 
   return (
     <li aria-current={current ? "true" : "false"}>
-      <Link 
-        title={navTxt} 
-        id={navItemId} 
-        to={navLink} 
-        className={liClasses} 
+      <Link
+        title={navTxt}
+        id={navItemId}
+        to={navLink}
+        className={liClasses}
         onClick={onNavigate}
       >
         <span tabIndex="-1">{navTxt}</span>
@@ -51,7 +52,8 @@ function NavigationMenu({
   view,
   navId,
   currChIndex,
-  chapters = []
+  chapters = [],
+  dispatch
 }) {
   const mightHideSubCh = view === epub.const.EpbEditChapter;
   useEffect(() => {
@@ -70,6 +72,7 @@ function NavigationMenu({
             chIdx={chIdx}
             chapter={ch}
             navId={navId}
+            dispatch={dispatch}
           />
           {
             (ch.subChapters.length > 0 && (
@@ -82,6 +85,7 @@ function NavigationMenu({
               {ch.subChapters.map((sch, schIdx) => (
                 <NavMenuItem
                   isSubCh
+                  dispatch={dispatch}
                   key={sch.id}
                   id={sch.id}
                   chIdx={chIdx}

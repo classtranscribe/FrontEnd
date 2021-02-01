@@ -14,23 +14,26 @@ function NavigationProvider({
   // user props
   wider,
   defaultClosed,
-  children
+  children,
+  dispatch
 }) {
   useEffect(() => {
     if (chapters.length > 0) {
-      epub.state.setNavId(epub.id.chNavItemID(chapters[currChIndex].id));
+      dispatch({ type: 'epub/setNavId', payload: epub.id.chNavItemID(chapters[currChIndex].id) });
     }
 
     if (defaultClosed) {
-      epub.state.setShowNav(false);
+      dispatch({ type: 'epub/setShowNav', payload: false });
     }
   }, []);
 
   const hidden = showNav ? "false" : "true";
-
+  const onNavModeToggle = () => {
+    dispatch({ type: 'epub/setShowNav', payload: !showNav })
+  }
   return (
     <CTFragment id={epub.id.EPubNavigationProviderID} dFlex className={cx({ wider })}>
-      <NavigationTrigger show={showNav} />
+      <NavigationTrigger show={showNav} onToggle={onNavModeToggle} />
 
       <div aria-hidden={hidden} className={cx('ct-epb nav-con', { show: showNav })}>
         <CTHeading as="h3" uppercase sticky fadeIn={false}>Chapters</CTHeading>

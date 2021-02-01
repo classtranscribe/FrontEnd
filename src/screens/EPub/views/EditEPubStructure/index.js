@@ -58,6 +58,6 @@ function EditEPubStructure(props) {
   );
 }
 
-export default connect(({ epub, loading }) => ({
+export default connect(({ epub: { epub }, loading }) => ({
   epub
 }))(EditEPubStructure);
