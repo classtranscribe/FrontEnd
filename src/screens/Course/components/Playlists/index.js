@@ -64,7 +64,7 @@ function PlaylistsWithRedux(props) {
     offering,
     dispatch
   };
-
+  
   const viewElement = (
     isPlaylistView
     ? <VideosView playlist={playlist} />

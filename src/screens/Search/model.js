@@ -55,9 +55,8 @@ const SearchModel = {
                     let { q } = uurl.useSearch();
                     if (q) {
                         let value = _.replace(q, /\+/i, ' ');
-                        // now we can use history api
                         // TODO: Change URL AND PARSE URL WHEN NEEDED
-                        dispatch({ type: 'search/searchValue', payload: value })
+                        dispatch({ type: 'search/setSearchValue', payload: value })
                     }
                 }
             });

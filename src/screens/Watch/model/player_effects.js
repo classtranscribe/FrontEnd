@@ -1,5 +1,5 @@
 import { isMobile } from 'react-device-detect';
-import { api, user, prompt, InvalidDataError, uurl, links } from 'utils';
+import { api, user, prompt, InvalidDataError, uurl, links, timestr } from 'utils';
 import PlayerData from '../player'
 import { uEvent } from '../Utils/UserEventController';
 import {
@@ -18,6 +18,10 @@ let hasRestored = false;
 function handleRestoreTime(media) {
     const search = uurl.useSearch();
     const begin = search.begin || media.watchHistory.timestamp;
+    if(begin > timestr.toSeconds(media.duration) - 1) {
+        // Do not restore if we're approaching the end
+        return false; 
+    }
     if (Boolean(begin) && !hasRestored) {
         hasRestored = true;
         window.history.replaceState(null, null, links.watch(media.id));
@@ -78,13 +82,14 @@ function exitFullScreen(watch) {
 export default {
     *media_play({ payload }, { call, put, select, take }) {
         try {
-            PlayerData.video1 && PlayerData.video1.play();
-            PlayerData.video2 && PlayerData.video2.play();
+            PlayerData.video1 && (yield PlayerData.video1.play());
+            PlayerData.video2 && (yield PlayerData.video2.play());
+            yield put({ type: 'setPause', payload: false })
+            PlayerData.video1 && uEvent.play(PlayerData.video1?.currentTime);
         } catch (error) {
-            // 
+            // If "play()" fail: 
+            yield put({ type: 'setPause', payload: true })
         }
-        yield put({ type: 'setPause', payload: false })
-        PlayerData.video1 && uEvent.play(PlayerData.video1?.currentTime);
     },
     *media_forward({ payload: sec = 10 }, { call, put, select, take }) {
         const { watch } = yield select();

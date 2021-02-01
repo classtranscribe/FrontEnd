@@ -48,7 +48,7 @@ const PlayerModel = {
     namespace: 'playerpref',
     state: {
         // Video player options
-        volume: 100,
+        volume: 1,
         muted: false,
         playbackrate: 1, // NOT PERMENENT STORAGE
 

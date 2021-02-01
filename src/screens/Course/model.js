@@ -82,12 +82,9 @@ const CourseModel = {
                 yield put({ type: 'setRole', payload: INSTRUCTOR });
                 yield put({ type: 'setIsInstMode', payload: true })
             }
-
-            // get playlists
             let gpll = yield call(api.getPlaylistsByOfferingId, offeringId);
             let playlists = gpll.data;
             yield put({ type: 'setPlaylists', payload: playlists })
-
             // get starred offerings
             let starredOfferings = yield call(getStarredOfferings);
             yield put({ type: 'setStarredOfferings', payload: starredOfferings })
@@ -127,9 +124,9 @@ const CourseModel = {
         *getPlaylistById({ payload: playlistId }, { call, put, select, take }) {
             try {
                 let { data } = yield call(api.getPlaylistById, playlistId);
-                yield put({type: 'setPlaylist', payload: data})
+                yield put({ type: 'setPlaylist', payload: data })
             } catch (error) {
-                // return ErrorTypes.NotFound404;
+                yield put({ type: 'setPlaylist', payload: ErrorTypes.NotFound404 })
             }
         }
     },

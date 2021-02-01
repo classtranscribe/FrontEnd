@@ -2,7 +2,7 @@ import { MENU_HIDE, MENU_BEFORE_HIDE, CO_CHANGE_VIDEO, SMTAB_GENERAL, MODAL_HIDE
 
 export default {
     *menu_open({ payload: { type, option = 'a', tab } }, { call, put, select, take }) {
-        yield put({type: 'search_close'});
+        yield put({ type: 'search_close' });
         const { watch } = yield select();
         if (option === 'b' && watch.menu === type) {
             yield put.resolve({ type: 'menu_close' })
@@ -21,7 +21,7 @@ export default {
         }, timeout);
     },
     *modal_open({ payload: { type, option = 'a' } }, { call, put, select, take }) {
-        yield put({type: 'search_close'});
+        yield put({ type: 'search_close' });
         const { watch } = yield select();
         if (option === 'b' && watch.modal === type) {
             yield put.resolve({ type: 'modal_close' })
@@ -33,9 +33,13 @@ export default {
         if (watch.modal === MODAL_HIDE || !watch.modal) {
             return;
         }
-        yield put.resolve({ type: 'setModal', payload: MODAL_BEFORE_HIDE });
-        setTimeout(() => {
-            put.resolve({ type: 'setModal', payload: MODAL_HIDE })
+        yield put.resolve({ type: 'setModal', payload: MODAL_HIDE });
+        // todo: we wanna use css animation
+        /*
+        yield setTimeout(function* () {
+            console.log('333')
+            yield put({ type: 'setModal', payload:  })
         }, timeout);
+        */
     }
 }
