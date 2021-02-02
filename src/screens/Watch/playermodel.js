@@ -1,6 +1,5 @@
 import { isMobile } from 'react-device-detect';
 import {
-    preferControl,
     // constants
     CC_COLOR_WHITE,
     CC_COLOR_BLACK,
@@ -10,16 +9,48 @@ import {
     CC_OPACITY_75,
     CC_POSITION_BOTTOM,
     // MODAL_SHARE
+    scrollTransToView
 } from './Utils';
 import { uEvent } from './Utils/UserEventController';
+import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from './Utils/constants.util';
 
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        let x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+const storageAvailablity = storageAvailable('localStorage');
+function updateLocalStorage(playerpref) {
+    if (storageAvailablity) {
+        localStorage.setItem('CT_preference', JSON.stringify(playerpref));
+    }
+}
 const PlayerModel = {
     namespace: 'playerpref',
     state: {
         // Video player options
-        volume: preferControl.defaultVolume(),
-        muted: preferControl.muted(),
-        playbackrate: preferControl.defaultPlaybackRate(), // NOT PERMENENT STORAGE
+        volume: 1,
+        muted: false,
+        playbackrate: 1, // NOT PERMENENT STORAGE
 
         // CC options
         cc_color: CC_COLOR_WHITE,
@@ -29,62 +60,28 @@ const PlayerModel = {
         cc_position: CC_POSITION_BOTTOM,
         cc_opacity: CC_OPACITY_75,
 
-        transView: preferControl.defaultTransView(),
+        transView: isMobile ? TRANSCRIPT_VIEW : LINE_VIEW,
 
-        openCC: preferControl.cc() || true,
-        openAD: preferControl.ad() || false,
+        openCC: true,
+        openAD: false,
+
+        autoPlay: !isMobile,
+        pauseWhileAD: false,
+        autoScroll: true,
+        pauseWhileEditing: !isMobile,
+        showCaptionTips: true
     },
     reducers: {
         // Player actions
-        setVolume(state, { payload }) {
-            return { ...state, volume: payload };
-        },
-        setMute(state, { payload }) {
-            return { ...state, muted: payload };
+        setPreference(state, { payload }) {
+            return { ...state, ...payload };
         },
         setTransView(state, { payload: { view } }) {
             if (view === null) {
                 view = state.prevTransView;
             }
             return { ...state, transView: view, prevTransView: state.view };
-        },
-        setPlaybackrate(state, { payload }) {
-            return { ...state, playbackrate: payload };
-        },
-        changePlaybackrateByValue(state, { payload: delta }) {
-            const target = state.playbackrate + delta;
-            if(target > 4 || target < 0.25 ) {
-                return state;
-            }
-            return {...state, playbackrate : target}
-        },
-
-        toggleOpenCC(state, { payload }) {
-            return { ...state, openCC: !state.openCC };
-        },
-        toggleOpenAD(state, { payload }) {
-            return { ...state, openAD: !state.openAD };
-        },
-
-        // CC Options
-        cc_setColor(state, { payload }) {
-            return { ...state, cc_color: payload };
-        },
-        cc_setBG(state, { payload }) {
-            return { ...state, cc_bg: payload };
-        },
-        cc_setOpacity(state, { payload }) {
-            return { ...state, cc_opacity: payload };
-        },
-        cc_setSize(state, { payload }) {
-            return { ...state, cc_size: payload };
-        },
-        cc_setPosition(state, { payload }) {
-            return { ...state, cc_font: payload };
-        },
-        cc_setFont(state, { payload }) {
-            return { ...state, cc_position: payload };
-        },
+        }
     },
     effects: {
         *setTransView({ payload: { view, config = {} } }, { call, put, select, take }) {
@@ -92,14 +89,64 @@ const PlayerModel = {
             const { watch } = yield select();
             setTimeout(() => {
                 if (watch.caption?.id) {
-                    // this.scrollTransToView(this.currCaption_.id, false); NOT IMPLEMENTED
+                    scrollTransToView(this.currCaption_.id, false, watch.media?.isTwoScreen); 
                 }
             }, 200);
-            // if (updatePrefer) preferControl.defaultTransView(view); NOT IMPLEMENTED
             if (sendUserAction) {
                 uEvent.transviewchange(watch.time, view);
             }
+            // UPDATE LOCAL STORAGE
+            if (updatePrefer) {
+                const { playerpref } = yield select();
+                updateLocalStorage(playerpref);
+            }
+        },
+        *setPreference({ payload }, { call, put, select, take }) {
+            const { playerpref } = yield select();
+            // This is the latest playerpref after reducers get executed
+            updateLocalStorage(playerpref);
+            // uEvent.pauseWhenADStarts(!pauseWhileAD);
+            // uEvent.autoScrollChange(!autoScroll);
+            // uEvent.pauseWhenEdit(!pauseWhileEditing);
+            // use same api to report NOT IMPLEMENTED
+        },
+        *toggleOpenAD({ payload }, { call, put, select, take }) {
+            const { playerpref } = yield select();
+            yield put({ type: 'setPreference', payload: { openAD: !playerpref.openAD } })
+        },
+        *toggleOpenCC({ payload }, { call, put, select, take }) {
+            const { playerpref } = yield select();
+            yield put({ type: 'setPreference', payload: { openCC: !playerpref.openCC } })
+        },
+        *changePlaybackrateByValue({ payload: delta }, { call, put, select, take }) {
+            const { playerpref: state } = yield select();
+            const target = state.playbackrate - 0 + delta;
+            if (target > 4 || target < 0.25) {
+                return;
+            }
+            yield put({ type: 'setPreference', payload: { playbackrate: target } });
+        },
+        *changeCCSizeByValue({ payload: delta }, { call, put, select, take }) {
+            const { playerpref: state } = yield select();
+            const target = state.cc_size - 0 + delta;
+            if (target > 2 || target < 0.75) {
+                return;
+            }
+            yield put({ type: 'setPreference', payload: { cc_size: target } });
         }
-    }
+    },
+    subscriptions: {
+        setup({ dispatch }, done) {
+            if (storageAvailablity) {
+                try {
+                    const preference = JSON.parse(localStorage.getItem('CT_preference'));
+                    // would execute "save to localStorage" again
+                    dispatch({ type: 'setPreference', payload: preference });
+                } catch {
+                    // CATCH
+                }
+            }
+        },
+    },
 }
 export default PlayerModel;

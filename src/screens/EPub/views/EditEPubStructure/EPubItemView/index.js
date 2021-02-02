@@ -9,7 +9,8 @@ import './index.scss';
 
 function EPubItemView({
   item,
-  setEPubItem
+  setEPubItem,
+  dispatch
 }) {
   const btnStyles = useButtonStyles();
 
@@ -28,7 +29,11 @@ function EPubItemView({
     elem.scrollIntoCenter(items[itemIdx - 1].id, { focus: true });
   };
   const watchInPlayer = () => {
-    epub.ctrl.openPlayer(`Screenshot #${itemIdx + 1}`, item.start, item.end);
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Screenshot #${itemIdx + 1}`, start: item.start, end: item.end
+      }
+    });
   }
 
   return (

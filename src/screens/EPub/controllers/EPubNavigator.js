@@ -31,14 +31,14 @@ class EPubNavigator {
     return elem.getElement(ID.EPubChapterListID);
   }
 
-  getChTop = (id) => {
-    const chId = epubState.view === Constants.EpbReadOnly ? id : ID.chID(id);
+  getChTop = (id, view) => {
+    const chId = view === Constants.EpbReadOnly ? id : ID.chID(id);
     const chEl = elem.getElement(chId);
     return chEl.offsetTop;
   }
 
-  getSubChTop = (id, offset = 75) => {
-    const schId = epubState.view === Constants.EpbReadOnly ? id : ID.schID(id);
+  getSubChTop = (id, view, offset = 75) => {
+    const schId = view === Constants.EpbReadOnly ? id : ID.schID(id);
     const schEl = elem.getElement(schId);
     if (!schEl) {
       return 10000;
@@ -52,35 +52,19 @@ class EPubNavigator {
       return schEl.offsetTop - offset;
   }
 
-  scrollToCh = (id) => {
+  scrollToCh = (id, view) => {
     const chListEl = this.chListEl;
-    chListEl.scrollTop = this.getChTop(id);
+    chListEl.scrollTop = this.getChTop(id, view);
   }
 
-  scrollToSubCh = (id) => {
+  scrollToSubCh = (id, view) => {
     const chListEl = this.chListEl;
-    chListEl.scrollTop = this.getSubChTop(id);
+    chListEl.scrollTop = this.getSubChTop(id, view);
   }
-
-  navigateChapter = (chId) => {
-    if (epubState.view === Constants.EpbEditChapter) {
-      let chIdx = _.findIndex(epubState.chapters, { id: chId });
-      if (chIdx < 0) return;
-      elem.scrollToTop(ID.EPubChapterListID);
-      if (chIdx !== epubState.currChIndex) {
-        epubState.setCurrChIndex(chIdx);
-      }
-      epubState.setNavId(ID.chNavItemID(chId));
-      elem.scrollToTop(ID.EPubChapterListID);
-    } else {
-      this.scrollToCh(chId);
-    }
-  };
 
   navigateSubChapter = (schId) => {
     this.scrollToSubCh(schId);
   };
-
 
   updateNavIdForEpbEditStructure(e) {
     const chElScrollTop = e.target.scrollTop;

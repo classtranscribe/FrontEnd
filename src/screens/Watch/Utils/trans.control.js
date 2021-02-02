@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import { isMobile } from 'react-device-detect';
 import { api } from 'utils';
-import { timeStrToSec, colorMap } from './helpers';
+
 import { promptControl } from './prompt.control';
-import { preferControl } from './preference.control';
 import { uEvent } from './UserEventController';
 import {
   CC_COLOR_WHITE,
@@ -24,7 +23,7 @@ import {
   BULK_EDIT_MODE,
 } from './constants.util';
 // import { adSample } from './data'
-
+// NOT IMPLEMENTED
 /**
  * @description The handlers for caption setting events
  *
@@ -159,6 +158,7 @@ export const transControl = {
       setCurrEditing(currCap);
       this.currEditing_ = currCap;
       if (currCap) this.editText = innerText || currCap.text;
+      /*
       if (preferControl.pauseWhileEditing()) {
         // videoControl.pause(); NOT IMPLEMENTED
       }
@@ -166,6 +166,7 @@ export const transControl = {
         promptControl.editCaptionTips();
         preferControl.showCaptionTips(false);
       }
+      */
     }
   },
   /**
@@ -326,62 +327,6 @@ export const transControl = {
   cc_opacity: CC_OPACITY_75, // cc_setOpacity
   cc_font: CC_FONT_SANS_SERIF, // cc_setFont
   cc_position: CC_POSITION_BOTTOM, // cc_setPosition
-
-  getCCStyle(options) {
-    const {
-      cc_color = CC_COLOR_WHITE,
-      cc_bg = CC_COLOR_BLACK,
-      cc_size = CC_SIZE_100,
-      cc_opacity = CC_OPACITY_75,
-      cc_font = CC_FONT_SANS_SERIF,
-      cc_position = CC_POSITION_BOTTOM,
-    } = options;
-
-    const ccStyle = {
-      backgroundColor: colorMap(cc_bg, cc_opacity),
-      color: cc_color,
-      fontSize: `${cc_size + 0.25}rem`, // +.25 to get a larger default font size
-      fontFamily: cc_font,
-    };
-
-    const ccContainerStyle = {};
-
-    if (cc_position === 'top') {
-      ccContainerStyle.top = '.7em';
-    } else {
-      // cc_position === 'bottom'
-      ccContainerStyle.bottom = '.7em';
-    }
-
-    return { ccStyle, ccContainerStyle };
-  },
-  ccIncreaseSize() {
-    if (!this.openCC_) return;
-    const size = this.ccSize();
-    if (size + 0.25 <= 2) this.ccSize(size + 0.25);
-  },
-  ccDecreaseSize() {
-    if (!this.openCC_) return;
-    const size = this.ccSize();
-    if (size - 0.25 >= 0.75) this.ccSize(size - 0.25);
-    // console.log('size - .25', size - .25)
-  },
-  ccFont(value) {
-    if (value === undefined) return this.cc_font;
-    const { cc_setFont } = this.externalFunctions;
-    if (cc_setFont) {
-      cc_setFont(value);
-      this.cc_font = value;
-    }
-  },
-  ccPosition(value) {
-    if (value === undefined) return this.cc_position;
-    const { cc_setPosition } = this.externalFunctions;
-    if (cc_setPosition) {
-      cc_setPosition(value);
-      this.cc_position = value;
-    }
-  },
 
   /**
    * Internal Helper Functions

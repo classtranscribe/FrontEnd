@@ -3,13 +3,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { CTPopoverLabel } from 'layout';
 import { epub } from '../../controllers';
 
-function NavigationTrigger({ show }) {
+function NavigationTrigger({ show, onToggle }) {
   const label = `${show ? 'Close' : 'Open' } Chapter Navigation (⌘B)`;
-
-  const handleClick = () => {
-    epub.state.setShowNav(!show);
-  };
-
+  
   return (
     <div className="ct-epb nav-trigger">
       <CTPopoverLabel label={label}>
@@ -17,7 +13,7 @@ function NavigationTrigger({ show }) {
           aria-label={label}
           aria-expanded={show.toString()}
           aria-controls={epub.id.EPubNavigationMenuID}
-          onClick={handleClick}
+          onClick={onToggle}
         >
           <span className="material-icons" aria-hidden="true">
             {show ? 'chevron_left' : 'list'}

@@ -6,7 +6,7 @@ import { CTHeading, CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
 import { epub, connectWithRedux } from '../../controllers';
 
-function QuickActions({ chapters = [], currChIndex = 0 }) {
+function QuickActions({ chapters = [], currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();
   const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
 
@@ -20,11 +20,15 @@ function QuickActions({ chapters = [], currChIndex = 0 }) {
   // const showSubdivideAllBtn = true;
 
   const watchInPlayer = () => {
-    epub.ctrl.openPlayer(`Chapter ${currChIndex + 1}: ${title}`, start, end);
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Chapter ${currChIndex + 1}: ${title}`, start, end
+      }
+    });
   };
 
   const onEditChapters = () => {
-    epub.state.setView(epub.const.EpbEditChapter);
+    dispatch({type: 'epub/setView', payload: epub.const.EpbEditChapter});
   };
 
   return (

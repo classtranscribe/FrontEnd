@@ -1,7 +1,7 @@
 import React from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
 import { CTFragment, altEl, makeEl } from 'layout';
 import { connect } from 'dva'
+import { ARRAY_INIT } from 'utils/constants';
 import { epub as epubController } from './controllers';
 import {
   EPubHeader,
@@ -15,31 +15,18 @@ import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
 import './index.scss';
 
 class EPubWithRedux extends React.Component {
-  componentDidMount() {
-    const { id } = this.props.match.params;
-    epubController.ctrl.loadEPubPageData(id);
-  }
-
   componentWillUnmount() {
     epubController.shortcut.removeKeydownListener();
   }
 
   render() {
-    const { view, chapters, imgPickerData, playerData, media } = this.props.epub;
-    const loading = epubController.ctrl.isLoading(this.props.epub, chapters);
+    const { view, chapters, epub } = this.props;
+    const loading = chapters === ARRAY_INIT || epub === null; 
     const headerElement = altEl(EPubHeader, !loading);
 
     const editStructView = altEl(EditEPubStructure, view === epubController.const.EpbEditStructure);
     const editChapterView = altEl(EditEPubChapter, view === epubController.const.EpbEditChapter);
     const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
-
-    const imgPickerModal = altEl(ImagePickerModal, Boolean(imgPickerData), {
-      imgPickerData, media
-    });
-
-    const playerModal = makeEl(PlayerModal, {
-      ...playerData, open: Boolean(playerData) && media, media
-    });
     
     const previewModal = makeEl(PreviewModal);
     const shortcutModal = makeEl(ShortcutModal);
@@ -55,8 +42,8 @@ class EPubWithRedux extends React.Component {
           {readOnlyView}
         </CTFragment>
 
-        {imgPickerModal}
-        {playerModal}
+        <ImagePickerModal />
+        <PlayerModal />
         {previewModal}
         {shortcutModal}
         {fileSettingsModal}
@@ -65,7 +52,7 @@ class EPubWithRedux extends React.Component {
   }
 }
 
-export const EPub = connect(({ epub, loading }) => ({
-  epub
+export const EPub = connect(({ epub : {view, chapters, epub} , loading }) => ({
+  view, chapters, epub
 }))(EPubWithRedux);
 

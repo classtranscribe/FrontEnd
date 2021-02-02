@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva'
-import { preferControl, uEvent } from '../../../../Utils';
 import MenuRadio from '../MenuRadio';
 
-function ADSetting({ show = false, openAD = false, descriptions = [], dispatch }) {
-  const [pauseWhileAD, setPauseWhileAD] = useState(preferControl.pauseWhileAD());
-
+function ADSetting({ show = false, openAD = false, descriptions = [],
+  dispatch, pauseWhileAD = false }) {
   const handleAD = (/** { target: { checked } } */) => {
     dispatch({ type: 'playerpref/toggleOpenAD' })
   };
 
   const handlePauseWhileAD = () => {
-    preferControl.pauseWhileAD(!pauseWhileAD);
-    uEvent.pauseWhenADStarts(!pauseWhileAD);
-    setPauseWhileAD(!pauseWhileAD);
+    dispatch({ type: 'playerpref/setPreference', payload: { pauseWhileAD: !pauseWhileAD } });
   };
 
   useEffect(() => {
@@ -49,6 +45,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [], dispatch }
   );
 }
 
-export default connect(({ watch: { descriptions }, playerpref: { openAD }, loading }) => ({
-  openAD, descriptions
-}))(ADSetting);
+export default connect(({ watch: { descriptions },
+  playerpref: { openAD, pauseWhileAD }, loading }) => ({
+    openAD, descriptions, pauseWhileAD
+  }))(ADSetting);

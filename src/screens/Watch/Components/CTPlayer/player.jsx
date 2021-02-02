@@ -16,7 +16,7 @@ import {
 const Video = React.memo((props) => {
     const { id = 1, videoRef, path, dispatch, isSwitched } = props;
     const isPrimary = (id == 1);
-    console.log('Render - Video');
+    console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         const duration = e.target.duration;

@@ -5,11 +5,11 @@ import { ChapterTitle } from '../../../components';
 import ChapterContent from './ChapterContent';
 import ChapterNewContent from './ChapterNewContent';
 
-function ChapterInfo({ chapter }) {
+function ChapterInfo({ chapter, currChIndex }) {
   const { id, title, contents } = chapter;
 
   const onSaveTitle = newTitle => {
-    epub.data.saveChapterTitle(epub.state.currChIndex, newTitle);
+    epub.data.saveChapterTitle(currChIndex, newTitle);
   };
 
   const onRemove = (index) => () => {

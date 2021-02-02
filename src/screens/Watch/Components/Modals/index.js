@@ -15,7 +15,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   };
 
   const [embed, setEmbed] = useState(false);
-
   const hideBefore = modal === MODAL_BEFORE_HIDE;
 
   return (
