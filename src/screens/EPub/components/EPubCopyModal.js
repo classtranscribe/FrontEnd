@@ -40,7 +40,7 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
     dispatch({ type: 'epub/duplicateEPub', payload: { newData: newEPubData, copyChapterStructure: copyChapterStructure.checked } });
     onClose();
   };
-  // NOT IMPLEMENTED
+  
   const languages = EPubListCtrl.getLanguages(props.epub.sourceType, props.media);
   const langOptions = languages.map(lang => ({
     value: lang,

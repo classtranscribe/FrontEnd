@@ -39,7 +39,6 @@ const ClassTranscribePlayerNew = (props) => {
   useEffect(() => {
     PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
     PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
-    // NOT IMPLEMENTED, NOT WORKING
   }, [playbackrate]);
 
   useEffect(() => {

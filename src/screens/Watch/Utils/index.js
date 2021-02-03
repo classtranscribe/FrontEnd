@@ -78,11 +78,7 @@ export const getCCStyle = (options) => {
 * Function that scrolls the captions
 */
 export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
-  // if (this.isMourseOverTrans || this.isEditing) return; NOT IMPLEMENTED
   let capId = id;
-  if (id === undefined && Boolean(this.currTrans_)) {
-      capId = this.currTrans_.id;
-  }
   if (!capId) return;
   const capElem = document.getElementById(`caption-line-${capId}`);
   if (!capElem || !capElem.offsetTop) return;

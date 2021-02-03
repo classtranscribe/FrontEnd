@@ -28,7 +28,7 @@ function TranscriptionsWithRedux(props) {
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
-    transControl.handleMourseOver(bool);
+    dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
   };
 
   const isCurrent = (id) => {
@@ -82,8 +82,8 @@ function TranscriptionsWithRedux(props) {
   ) : null;
 }
 
-export const Transcriptions = connect(({ playerpref: { transView }, 
+export const Transcriptions = connect(({ playerpref: { transView },
   watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, }, loading }) => ({
-    transView, 
+    transView,
     transcript, currCaption, currEditing, bulkEditing, mode, search,
   }))(TranscriptionsWithRedux);
