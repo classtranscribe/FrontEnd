@@ -16,8 +16,8 @@ export function getCaptionLine(transcriptionId, index) {
   return cthttp.get('Captions', { params: { transcriptionId, index } });
 }
 
-export function searchCaptionInOffering(offeringId, query) {
-  return cthttp.get('Captions/SearchInOffering', { params: { offeringId, query } });
+export function searchCaptionInOffering(offeringId, query, filterLanguage = 'en-US') {
+  return cthttp.get('Captions/SearchInOffering', { params: { offeringId, query, filterLanguage } });
 }
 
 // POST
