@@ -41,7 +41,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleSave = (cap) => {
-    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML }})
+    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
   };
 
   const handleCancel = () => {
@@ -88,19 +88,19 @@ function CaptionLine({ isCurrent = false, isEditing = false,
             <span className="description-line-text-title">(Description)</span>
           </div>
         ) : (
-            <div
-              ref={ref}
-              contentEditable={!isMobile}
-              id={`caption-line-textarea-${id}`}
-              className="caption-line-text"
-              dangerouslySetInnerHTML={{ __html: text }}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              onInput={handleChange}
-              onKeyDown={handleKeyDown}
-              spellCheck={false}
-            />
-          )}
+          <div
+            ref={ref}
+            contentEditable={!isMobile}
+            id={`caption-line-textarea-${id}`}
+            className="caption-line-text"
+            dangerouslySetInnerHTML={{ __html: text }}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onInput={handleChange}
+            onKeyDown={handleKeyDown}
+            spellCheck={false}
+          />
+        )}
       </div>
 
       {/* Action Buttons */}

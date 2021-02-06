@@ -12,7 +12,7 @@ import {
   CTConfirmation
 } from 'layout';
 import { useCheckbox } from 'hooks';
-import { links, api } from 'utils';
+import { links, api, prompt } from 'utils';
 import UploadTable from './UploadTable';
 import UploadActions from './UploadActions';
 import './index.scss';

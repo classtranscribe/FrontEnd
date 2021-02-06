@@ -73,10 +73,11 @@ export function CourseInfoWithRedux(props) {
       prompt.error('Failed to update the course info.');
       return;
     }
-  
+
     // handle linked course templates ?
     await updateCourseOfferings(newOffering);
-    dispatch({type: 'course/setOffering', payload: newOffering}); // update course info
+    
+    dispatch({type: 'course/setOffering', payload: updatedOff}); // update course info
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
   }
   return (

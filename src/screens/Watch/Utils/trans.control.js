@@ -111,7 +111,7 @@ export const transControl = {
    * Function called for editing current caption
    */
   editCurrent() {
-    return; // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
     const id = this.currCaption_.id;
     const currTextArea = document.getElementById(`caption-line-textarea-${id}`);
     if (currTextArea) {

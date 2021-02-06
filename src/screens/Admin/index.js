@@ -130,7 +130,7 @@ export class Admin extends React.Component {
 
   onSignOut = () => {
     user.signOut();
-    this.props.history.goBack();
+    this.props.history.back();
   };
 
   getLayoutProps() {

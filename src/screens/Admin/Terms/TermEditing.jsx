@@ -97,7 +97,7 @@ export default class TermEditing extends React.Component {
   };
 
   onCancel = () => {
-    this.props.history.goBack();
+    this.props.history.back();
   };
 
   render() {
