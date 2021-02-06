@@ -3,29 +3,45 @@ import { prompt } from 'utils';
 import { EPubData, EPubChapterData, EPubSubChapterData, EPubImageData } from 'entities/EPubs';
 import EPubHistoryManager from './EPubHistoryManager';
 import { epubState } from './EPubStateManager';
-import { saveCtrl } from './AutoSaveController';
 import { extractAudioDescription } from './utils';
-
+import Constants from './constants/EPubConstants'
 /**
  * The controller for handling the ePub data
  */
 class EPubDataController {
   constructor() {
-    this.data = null;  
+    this.data = null;
     this.history = new EPubHistoryManager(this);
-
+    this.__timer = null;
     this.saveEPub = this.saveEPub.bind(this);
     this.resetToDefaultChapters = this.resetToDefaultChapters.bind(this);
     this.splitChaptersByScreenshots = this.splitChaptersByScreenshots.bind(this);
     this.subdivideChaptersByScreenshots = this.subdivideChaptersByScreenshots.bind(this);
   }
+  setDispatch(disp) {
+    this.dispatch = disp;
+  }
+  SaveCtl_save(data, timeout = 3000) {
+    this.dispatch({ type: 'epub/setSaved', payload: Constants.EpbUnsaved })
+    if (this.__timer) {
+      clearTimeout(this.__timer);
+    }
+
+    this.__timer = setTimeout(() => {
+      this.dispatch({ type: 'epub/updateEPub', payload: data })
+    }, timeout);
+  }
+
+  SaveCtl_notifyOnce() {
+    this.__notifyOnce = true;
+  }
 
   saveEPub(timeout) {
     const data = this.data.toObject();
     if (timeout === 0) {
-      saveCtrl.notifyOnce();
+      this.SaveCtl_notifyOnce();
     }
-    saveCtrl.save(data, timeout);
+    this.SaveCtl_save(data, timeout);
     // console.log('AudioDescriptions', extractAudioDescription(this.data.chapters));
     return data;
   }
@@ -84,7 +100,7 @@ class EPubDataController {
     let chapter = this.data.getChapter(chapterIdx);
     let subChapters = chapter.subChapters;
     let items = _.slice(chapter.items, itemIdx, chapter.items.length);
-    
+
     // remove items and sub chapters from curr chapter
     chapter.subChapters = [];
     chapter.items = _.slice(chapter.items, 0, itemIdx);
@@ -109,8 +125,8 @@ class EPubDataController {
     // and append to the prev chapter.subChapters along w/ its sub chapters
     else {
       prevChp.subChapters = _.concat(
-        prevChp.subChapters, 
-        new EPubSubChapterData(currChp), 
+        prevChp.subChapters,
+        new EPubSubChapterData(currChp),
         currChp.subChapters
       );
     }
@@ -119,7 +135,7 @@ class EPubDataController {
 
     // remove appended chapter
     this.data.removeChapter(chapterIdx);
-    
+
     this.updateAll('Append to above sub-chapters', chapterIdx - 1);
   }
 
@@ -370,8 +386,8 @@ class EPubDataController {
 
   setSubChapterImageContent(subChapterIdx, contentIdx, value) {
     this.setSubChapterContent(
-      subChapterIdx, 
-      contentIdx, 
+      subChapterIdx,
+      contentIdx,
       new EPubImageData(value)
     );
   }

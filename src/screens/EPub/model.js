@@ -64,8 +64,10 @@ const EPubModel = {
             return { ...state, foldedIds: payload };
         },
         foldChapter(state, { payload: { folded, id } }) {
-            return { ...state, 
-                foldedIds: folded ? [...state.foldedIds, id] : _.filter(state.foldedIds, (fid) => fid !== id) }
+            return {
+                ...state,
+                foldedIds: folded ? [...state.foldedIds, id] : _.filter(state.foldedIds, (fid) => fid !== id)
+            }
         },
         setSaved(state, { payload }) {
             return { ...state, saved: payload };
@@ -203,6 +205,22 @@ const EPubModel = {
             } catch (error) {
                 console.error(error);
                 prompt.error('Failed to delete the ePub.');
+            }
+        },
+        *updateEPub({ payload: data }, { call, put, select, take }) {
+            yield put.resolve({ type: 'setSaved', payload: (Constants.EpbSaving) });
+            try {
+                yield call(api.updateEPub, data);
+                yield put({ type: 'setSaved', payload: (Constants.EpbSaved) });
+                /*
+                if (this.__notifyOnce) {
+                    this.__notifyOnce = false;
+                    prompt.addOne({ status: 'success', text: 'Saved!', timeout: 4000 });
+                }
+                */ // NOT IMPLEMENTED
+            } catch (error) {
+                prompt.error('Failed to update ePub');
+                yield put({ type: 'setSaved', payload: (Constants.EpbSaveFailed) });
             }
         }
     },
