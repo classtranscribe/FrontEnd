@@ -110,6 +110,7 @@ class EPubNavigator {
 
   updateNavIdForEditChaper(e) {
     const chElScrollTop = e.target.scrollTop;
+    // window.temp_app._store.getState()
     const chIdx = epubState.currChIndex;
     const chapter = epubState.chapters[chIdx];
     if (chElScrollTop < 40) {

@@ -83,12 +83,12 @@ function getInVideoTransSearchResults(value, watch) {
   };
 }
 // Function used to get search results from captions in current offering
-async function getInCourseTransSearchResults(value, playlist) {
+async function getInCourseTransSearchResults(value, playlist, lang) {
   const { offeringId } = playlist;
   if (!offeringId) return [];
 
   try {
-    const { data } = await api.searchCaptionInOffering(offeringId, value);
+    const { data } = await api.searchCaptionInOffering(offeringId, value, lang);
     return data;
   } catch (error) {
     console.error('Failed to get in-course trans search results');
@@ -137,7 +137,7 @@ export default {
     const playlistResults = yield call(getPlaylistResults, value, watch.playlist);
     // caption results in this offering
     const inCourseTransResults =
-      yield call(getInCourseTransSearchResults, value, watch.playlist);
+      yield call(getInCourseTransSearchResults, value, watch.playlist, watch.currTrans?.language);
     yield put({ type: 'setSearch', payload: { inCourseTransResults, hasResult: true, playlistResults } });
     // send user action to logs
     uEvent.filtertrans(value);

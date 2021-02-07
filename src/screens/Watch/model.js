@@ -81,6 +81,7 @@ const initState = {
     // Others
     prompt: null,
     search: SEARCH_INIT,
+    mouseOnCaption: false
 }
 /**
 * Function used to union two caption arrays
@@ -187,7 +188,9 @@ const WatchModel = {
         switchScreen(state, { payload }) {
             return { ...state, isSwitched: payload };
         },
-
+        setMouseOnCaption(state, { payload }) {
+            return { ...state, mouseOnCaption: payload };
+        },
         setPause(state, { payload }) {
             return { ...state, paused: payload };
         },

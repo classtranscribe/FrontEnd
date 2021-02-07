@@ -89,7 +89,7 @@ const PlayerModel = {
             const { watch } = yield select();
             setTimeout(() => {
                 if (watch.caption?.id) {
-                    scrollTransToView(this.currCaption_.id, false, watch.media?.isTwoScreen); 
+                    scrollTransToView(watch.currCaption.id, false, watch.media?.isTwoScreen); 
                 }
             }, 200);
             if (sendUserAction) {

@@ -18,6 +18,9 @@ class EPubWithRedux extends React.Component {
   componentWillUnmount() {
     epubController.shortcut.removeKeydownListener();
   }
+  componentDidMount() {
+    epubController.data.setDispatch(this.props.dispatch)
+  }
 
   render() {
     const { view, chapters, epub } = this.props;

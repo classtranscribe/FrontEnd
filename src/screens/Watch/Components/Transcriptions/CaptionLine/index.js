@@ -29,13 +29,11 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   const handleChange = ({ target }) => {
     // console.log(target.innerText)
-    transControl.handleChange(target.innerText);
-    // console.log(target.value)
   };
 
   const handleFocus = ({ target }) => {
     // console.error(e.target.innerText)
-    transControl.edit(caption, target.innerText);
+    dispatch({ type: 'watch/setTransEditMode', payload: { caption, innerText: target.innerText } })
   };
 
   const handleBlur = () => {
@@ -43,12 +41,12 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleSave = (cap) => {
-    transControl.handleSaveEditing(cap);
+    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
   };
 
   const handleCancel = () => {
     ref.current.innerHTML = text;
-    transControl.handleCancelEditing();
+    dispatch({ type: 'watch/setCurrEditing', payload: null })
   };
 
   const handleKeyDown = (e) => {
@@ -102,7 +100,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
             onKeyDown={handleKeyDown}
             spellCheck={false}
           />
-          )}
+        )}
       </div>
 
       {/* Action Buttons */}

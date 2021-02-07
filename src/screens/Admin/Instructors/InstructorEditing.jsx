@@ -12,7 +12,7 @@ export default function InstructorEditing({ match: { params }, history }) {
   useEffect(() => {}, [params]);
 
   const callBack = {
-    onCancel: () => history.goBack(),
+    onCancel: () => history.back(),
     onClose: () => {
       window.location = links.admin('instructors');
     },

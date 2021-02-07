@@ -12,7 +12,7 @@ function ViewDropdown({ view, dispatch }) {
   };
 
   const handleClose = () => setOpen(false);
-  const handleChange = (value) => dispatch({type: 'epub/setView', payload: value}); // NOT IMPLEMENTED: EPUB
+  const handleChange = (value) => dispatch({type: 'epub/setView', payload: value}); 
 
   const viewOptions = [
     {

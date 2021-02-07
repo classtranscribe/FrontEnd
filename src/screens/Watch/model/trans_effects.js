@@ -7,6 +7,7 @@ import {
     WEBVTT_DESCRIPTIONS,
     // PROFANITY_LIST,
 } from '../Utils/constants.util';
+import { promptControl } from '../Utils/prompt.control';
 import { timeStrToSec, colorMap } from '../Utils/helpers';
 
 import { uEvent } from '../Utils/UserEventController';
@@ -86,7 +87,7 @@ export default {
                 prevCaption_ && next && Math.abs(prevCaption_.index - next.index) === 1;
             yield put({ type: 'setCurrCaption', payload: next });
 
-            if (playerpref.autoScroll) {
+            if (playerpref.autoScroll && !watch.mouseOnCaption && !watch.currEditing) {
                 const { media = {} } = watch;
                 scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
@@ -102,5 +103,45 @@ export default {
         }
         uEvent.langchange(watch.time, language);
         uEvent.registerLanguage(language);
+    },
+    *setTransEditMode({ payload: { caption, innerText } }, { call, put, select, take }) {
+        // if no param caption, edit current caption
+        const { watch, playerpref } = yield select();
+        const currCap = caption || watch.currCaption_;
+        yield put({ type: 'setCurrEditing', payload: currCap });
+        if (playerpref.pauseWhileEditing) {
+            yield put({ type: 'media_pause' });
+        }
+        if (playerpref.showCaptionTips) {
+            promptControl.editCaptionTips();
+            yield put({ type: 'playerpref/setPreference', payload: { showCaptionTips: false } });
+        }
+    },
+    *saveCaption({ payload: { caption, text } }, { call, put, select, take }) {
+        const { watch } = yield select();
+        /**
+         * @todo check PROFANITY_LIST
+         */
+        if (!text || (watch.currEditing && watch.currEditing.text === text)) {
+            promptControl.closePrompt();
+            return;
+            // return this.edit(null); NOT IMPLEMENTED
+        }
+        caption.text = text; // update data model 
+        promptControl.savingCaption();
+
+        const { id } = watch.currEditing;
+        // send user event
+        uEvent.edittrans(watch.currTime, watch.currEditing.text, text);
+        // update new text
+        // this.currEditing_.text = text; ?
+        yield put({ type: 'setCurrEditing', payload: null });
+        try {
+            yield call(api.updateCaptionLine, { id, text });
+            yield put({ type: 'setCaptions', payload: watch.captions });
+            promptControl.savedCaption();
+        } catch (error) {
+            promptControl.savedCaption(false);
+        }
     }
 }
