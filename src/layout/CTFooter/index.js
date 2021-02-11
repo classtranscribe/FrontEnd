@@ -14,7 +14,7 @@ function CTFooter() {
       id="ct-footer"
       className="text-center"
     >
-      <span>ClassTranscribe source code &copy; 2016-2020 University of Illinois.</span>
+      <span>ClassTranscribe source code &copy; 2016-2021 University of Illinois.</span>
       <span>
         Media, including video content, are copyrighted under their current copyright owner.
       </span>
