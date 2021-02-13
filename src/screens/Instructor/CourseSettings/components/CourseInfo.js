@@ -77,7 +77,7 @@ export function CourseInfoWithRedux(props) {
     // handle linked course templates ?
     await updateCourseOfferings(newOffering);
     
-    dispatch({type: 'course/setOffering', payload: updatedOff}); // update course info
+    dispatch({type: 'course/setOffering', payload: {...oldOffering, ...updatedOff}}); // update course info
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
   }
   return (

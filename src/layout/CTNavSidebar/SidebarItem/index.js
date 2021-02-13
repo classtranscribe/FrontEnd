@@ -48,7 +48,7 @@ export function SidebarItem(props) {
       {itemContentElem}
     </a>
   ) : (
-    <Link className="ct-nsb-li-content" to={href}>
+    <Link className="ct-nsb-li-content" to={{pathname: href, search: '', hash: '' }}>
       {itemContentElem}
     </Link>
   );
