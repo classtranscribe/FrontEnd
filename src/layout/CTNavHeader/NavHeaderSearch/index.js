@@ -60,7 +60,7 @@ export function NavHeaderSearch() {
         // get mediaId, mediaName here for each transId
         if (playlist && playlist.medias) {
           _.forEach(playlist.medias, media => {
-            media.transcriptions.forEach(trans => {
+            media.transcriptions && media.transcriptions.forEach(trans => {
               if (trans.language === 'en-US' && !Object.keys(temp).includes(trans.id)) {
                 // temp.push(trans.id)
                 temp[trans.id] = {
