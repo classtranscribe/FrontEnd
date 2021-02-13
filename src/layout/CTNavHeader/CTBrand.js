@@ -29,7 +29,7 @@ export function CTBrand(props) {
     'aria-label': 'Home',
     tabIndex: disabled ? '-1' : '0',
     className: brandClasses,
-    to: links.home()
+    to: {pathname: links.home(), search: '', hash: ''}
   };
 
   return (
