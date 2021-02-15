@@ -225,7 +225,22 @@ export class ClassTranscribeLinks {
   notfound404() {
     return '/404';
   }
-
+  
+  pgadmin() {
+    return '/pgadmin/';
+  }
+  
+  rabbitmq() {
+    return '/rabbitmq/';
+  }
+  
+  traefik() {
+    return '/traefik/';
+  }
+  
+  swag() {
+    return '/swag/';
+  }
   /**
    * to `mailto:classtranscribe@illinois.edu`
    */
