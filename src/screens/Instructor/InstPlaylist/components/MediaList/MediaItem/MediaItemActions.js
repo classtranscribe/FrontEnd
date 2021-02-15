@@ -14,7 +14,7 @@ function MediaItemActions({
 
   const handleDelete = () => {
     const confirm = {
-      text: 'Are you sure to delete this video? (This acrion cannot be undone)',
+      text: 'Are you sure you want to delete this video? (This action cannot be undone)',
       onConfirm: () => dispatch({ type: 'instplaylist/deleteMedias', payload: [mediaId] })
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });

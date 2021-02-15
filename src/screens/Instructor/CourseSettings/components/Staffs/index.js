@@ -53,8 +53,8 @@ export function Staffs(props) {
 
   return (
     <EmailList
-      title="Course Staffs"
-      description="Manage the instructor access for course staffs"
+      title="Course Staff"
+      description="Manage the instructor access for course staff"
       defaultEmails={instructors.value}
       onSave={handleSave}
     />
