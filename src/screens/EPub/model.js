@@ -1,24 +1,25 @@
 import { ARRAY_INIT } from 'utils/constants';
 import _ from 'lodash';
 import { api, user, prompt, InvalidDataError, links, uurl, elem, timestr } from 'utils';
+import { delay } from 'dva/saga'
 import pathToRegexp from 'path-to-regexp';
 import { EPubListCtrl } from 'components/CTEPubListScreen/controllers/EPubListController';
 import ErrorTypes from 'entities/ErrorTypes';
 import SourceTypes from 'entities/SourceTypes';
 import { EPubData } from 'entities/EPubs';
-import { epubData } from './controllers/EPubDataController';
+import { getAllItemsInChapters } from 'entities/EPubs/utils'
 import { shortcut } from './controllers/ShortcutController';
 import Constants from './controllers/constants/EPubConstants'
 import ID from './controllers/constants/EPubIDs';
 import { getEPubById, getMediaById } from './service'
-import { epub as ePubTemp } from './controllers';
+import model_data_reducer from './models/data_reducer'
+import model_nav_effects from './models/navigator_effects'
 
 const initState = {
     error: null,
     media: null,
     view: Constants.EpbDefaultView,
     epub: null,
-    chapters: ARRAY_INIT,
     currChIndex: 0,
     foldedIds: [],
     saved: Constants.EpbSaved,
@@ -29,12 +30,14 @@ const initState = {
     showPreview: false,
     showFileSettings: false,
     showPrefSettings: false,
-    showShortcuts: false
+    showShortcuts: false,
+    images: null
 }
 const EPubModel = {
     namespace: 'epub',
     state: { ...initState },
     reducers: {
+
         setError(state, { payload }) {
             return { ...state, error: payload };
         },
@@ -52,10 +55,11 @@ const EPubModel = {
             return { ...state, media: payload };
         },
         setEPub(state, { payload }) {
-            return { ...state, epub: payload };
-        },
-        setChapters(state, { payload }) {
-            return { ...state, chapters: payload };
+            const items = getAllItemsInChapters(payload.chapters);
+            if (!payload.chapters) {
+                payload.chapters = []
+            }
+            return { ...state, epub: payload, items, images: _.map(items, item => item?.image) };
         },
         setCurrChIndex(state, { payload }) {
             return { ...state, currChIndex: payload };
@@ -101,6 +105,7 @@ const EPubModel = {
         resetStates(state, { payload }) {
             return { ...initState };
         },
+        ...model_data_reducer
     },
     effects: {
         *setupEPub({ payload: ePubId }, { call, put, select, take }) {
@@ -111,13 +116,6 @@ const EPubModel = {
             }
             */
             let _epub = yield call(getEPubById, ePubId);
-            // console.log('-----epub', _epub);
-            // Parse epub data
-            _epub = epubData.initEPubData(_epub);
-            const chapters = _epub.chapters;
-            delete _epub.chapters;
-            yield put({ type: 'setEPub', payload: _epub });
-            yield put({ type: 'setChapters', payload: chapters });
 
             const { view, h } = uurl.useHash();
             if (Constants.EPubViews.includes(view)) {
@@ -134,6 +132,7 @@ const EPubModel = {
                 prompt.error('Failed to load ePub data.', 5000);
                 return;
             }
+            yield put({ type: 'setEPub', payload: _epub });
 
             links.title(_epub.title);
 
@@ -155,21 +154,6 @@ const EPubModel = {
                 }
             });
         },
-        *navigateChapter({ payload: chId }, { call, put, select, take }) {
-            const { epub } = yield select();
-            if (epub.view === Constants.EpbEditChapter) {
-                let chIdx = _.findIndex(epub.chapters, { id: chId });
-                if (chIdx < 0) return;
-                elem.scrollToTop(ID.EPubChapterListID);
-                if (chIdx !== epub.currChIndex) {
-                    yield put({ type: 'setCurrChIndex', payload: chIdx });
-                }
-                yield put({ type: 'setNavId', payload: ID.chNavItemID(chId) });
-                elem.scrollToTop(ID.EPubChapterListID);
-            } else {
-                ePubTemp.nav.scrollToCh(chId, epub.view);
-            }
-        },
         *duplicateEPub({ payload: { newData, copyChapterStructure } }, { call, put, select, take }) {
             prompt.addOne({ text: 'Copying ePub data...', timeout: 4000 });
             const { epub } = yield select();
@@ -177,7 +161,7 @@ const EPubModel = {
             const newLanguage = newData.language;
             const isDifferentLanguage = newLanguage !== epub.epub.language;
             if (!newData.chapters) {
-                newData.chapters = epub.chapters;
+                newData.chapters = epub.epub.chapters;
             }
 
             if (isDifferentLanguage) {
@@ -207,10 +191,23 @@ const EPubModel = {
                 prompt.error('Failed to delete the ePub.');
             }
         },
-        *updateEPub({ payload: data }, { call, put, select, take }) {
+        *updateEPubBasicInfo({ payload }, { put }) {
+            yield put.resolve({ type: 'setEPub', payload })
+            yield put({ type: 'updateEPub', payload: 0 })
+        },
+        // Debounce
+        updateEPub: [
+            function* ({ payload: timeout = 3000 }, { put }) {
+                yield delay(timeout);
+                yield put({ type: 'updateEPub_Internal' })
+            },
+            { type: "takeLatest" }
+        ],
+        *updateEPub_Internal(action, { call, put, select, take }) {
             yield put.resolve({ type: 'setSaved', payload: (Constants.EpbSaving) });
+            const { epub } = yield select();
             try {
-                yield call(api.updateEPub, data);
+                yield call(api.updateEPub, epub.epub);
                 yield put({ type: 'setSaved', payload: (Constants.EpbSaved) });
                 /*
                 if (this.__notifyOnce) {
@@ -222,7 +219,29 @@ const EPubModel = {
                 prompt.error('Failed to update ePub');
                 yield put({ type: 'setSaved', payload: (Constants.EpbSaveFailed) });
             }
-        }
+        },
+        *updateEpubData({ payload: { action, payload } }, { call, put, select, take }) {
+            yield put.resolve({ type: action, payload })
+            yield put({ type: 'updateEPub' })
+        },
+        *splitChaptersByScreenshots({ payload }, { call, put, select, take }) {
+            prompt.addOne({
+                text: 'Split chapters by screenshots.',
+                position: 'left bottom',
+                timeout: 2000,
+            });
+            yield put({ type: 'updateEPub' })
+        },
+        *resetToDefaultChapters({ payload }, { call, put, select, take }) {
+            // this.updateAll('Reset to the default chapters', 0);
+            prompt.addOne({
+                text: 'Reset to the default chapters.',
+                position: 'left bottom',
+                timeout: 2000,
+            });
+            yield put({ type: 'updateEPub' })
+        },
+        ...model_nav_effects
     },
     subscriptions: {
         setup({ dispatch, history }) {

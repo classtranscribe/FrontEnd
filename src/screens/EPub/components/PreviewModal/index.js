@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { CTModal, CTFragment, CTSelect } from 'layout';
 import { connect } from 'dva'
-import { epub as epubController } from '../../controllers';
+import { buildHTMLFromChapter } from 'entities/EPubs/html-converters'
 import { MDPreviewer } from '../Markdown';
 import './index.scss'
 
 function PreviewModal({
   showPreview,
   currChIndex,
+  chapters = [],
+  dispatch
 }) {
-  const onClose = () => epubController.state.setShowPreview(false);
+  const onClose = () => dispatch({ type: 'epub/setShowPreview', payload: false });
 
   const [previewChIdx, setPreviewChIdx] = useState(currChIndex);
-  const chapters = epubController.data.data.chapters;
-  const chapter = chapters[previewChIdx];
+  const chapter = chapters[previewChIdx] || {};
 
   useEffect(() => {
     if (showPreview) {
@@ -48,12 +49,12 @@ function PreviewModal({
       autoFocusOnCloseButton
     >
       <CTFragment padding={[10, 0, 50, 0]}>
-        <MDPreviewer value={chapter.toHTML()} />
+        <MDPreviewer value={buildHTMLFromChapter(chapter)} />
       </CTFragment>
     </CTModal>
   )
 }
 
-export default connect(({ epub: { showPreview, currChIndex }, loading }) => ({
-  showPreview, currChIndex
+export default connect(({ epub: { showPreview, currChIndex, epub: { chapters } }, loading }) => ({
+  showPreview, currChIndex, chapters
 }))(PreviewModal);

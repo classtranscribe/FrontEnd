@@ -15,19 +15,34 @@ function EPubSubChapterItem({
   canUndoSplitSubChapter = false,
   canSplitAsNewChapter = false,
   setEPubItem,
-  onFold
+  onFold,
+  dispatch
 }) {
-  const undoSubdivideChapter = () =>
-    epub.data.undoSubdivideChapter(chapterIndex);
+  const undoSubdivideChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'undoSubdivideChapter', payload: { chapterIdx: chapterIndex }
+    }
+  });
 
   const undoSplitSubChapter = () =>
-    epub.data.undoSplitSubChapter(chapterIndex, subChapterIndex);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'undoSplitSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex }
+      }
+    })
 
-  const splitChapterFromSubChapter = () =>
-    epub.data.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
+  const splitChapterFromSubChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'splitChapterFromSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex }
+    }
+  })
 
   const saveSubChapterTitle = value =>
-    epub.data.saveSubChapterTitle(chapterIndex, subChapterIndex, value);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveSubChapterTitle', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, value }
+      }
+    })
 
   const isFolded = foldedIds.includes(subChapter.id);
 
@@ -93,7 +108,7 @@ function EPubSubChapterItem({
             <CTText line={2} className="ch-item-compact-txt">
               {getCompactText(subChapter)}
             </CTText>
-          :
+            :
             <div className="ch-item-ol ct-d-c">
               {subChapter.items.map((item, itemIndex) => (
                 <EPubListItem

@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import cx from 'classnames';
 import { Link } from 'dva/router';
+import { connect } from 'dva'
 import { uurl, elem } from 'utils';
-import { epub, connectWithRedux } from '../../controllers';
+import { epub } from '../../controllers';
 
 const ID = epub.id;
 
@@ -24,7 +25,7 @@ function NavMenuItem({
   const onNavigate = (e) => {
     e.preventDefault();
     if (isSubCh) {
-      epub.nav.navigateSubChapter(id);
+      dispatch({ type: 'epub/navigateSubChapter', payload: id })
     } else {
       dispatch({ type: 'epub/navigateChapter', payload: id });
     }
@@ -102,7 +103,6 @@ function NavigationMenu({
   );
 }
 
-export default connectWithRedux(
-  NavigationMenu,
-  ['navId', 'chapters', 'view', 'currChIndex']
-);
+export default connect(({ epub: { navId, view, currChIndex, epub: { chapters } }, loading }) => ({
+  navId, chapters, view, currChIndex
+}))(NavigationMenu);

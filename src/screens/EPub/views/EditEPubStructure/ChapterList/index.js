@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'dva';
-import { epub as epubController } from '../../../controllers';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 
@@ -8,7 +7,7 @@ function ChapterList({ chapters = [], foldedIds = [], currChIndex, setEPubItem, 
   useEffect(() => {
     if (currChIndex > 0) {
       setTimeout(() => {
-        dispatch({ type: 'epub/navigateChapter', payload: epubController.data.data.chapters[currChIndex].id });
+        dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex].id });
       }, 500);
     }
   }, []);
@@ -27,12 +26,13 @@ function ChapterList({ chapters = [], foldedIds = [], currChIndex, setEPubItem, 
           foldedIds={foldedIds}
           setEPubItem={setEPubItem}
           onFold={onFold}
+          dispatch={dispatch}
         />
       ))}
     </ul>
   );
 }
 
-export default connect(({ epub: { currChIndex, chapters, foldedIds }, loading }) => ({
+export default connect(({ epub: { currChIndex, epub: { chapters }, foldedIds }, loading }) => ({
   currChIndex, chapters, foldedIds
 }))(ChapterList);

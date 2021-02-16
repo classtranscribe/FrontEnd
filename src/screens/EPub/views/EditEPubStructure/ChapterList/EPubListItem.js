@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Button } from 'pico-ui';
+import { connect } from 'dva'
 import { CTText, altEl } from 'layout';
 import timestr from 'utils/use-time';
 import { uurl } from 'utils/use-url';
@@ -15,24 +16,40 @@ function EPubListItem({
   canSplit = false,
   canSplitSubChapter = false,
   canSubdivide = false,
-  setEPubItem
+  setEPubItem,
+  dispatch
 }) {
   const imgSrc = uurl.getMediaUrl(item.image);
+  const SubCParams = { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
+  const CParams = { chapterIdx: chapterIndex, itemIdx: itemIndex };
 
-  const splitChapterFromSubChaptersItems = () => 
-    epub.data.splitChapterFromSubChaptersItems(chapterIndex, subChapterIndex, itemIndex);
+  const splitChapterFromSubChaptersItems = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'splitChapterFromSubChaptersItems', payload: SubCParams
+    }
+  });
 
-  const splitChapterFromChaptersItems = () => 
-    epub.data.splitChapterFromChaptersItems(chapterIndex, itemIndex);
+  const splitChapterFromChaptersItems = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'splitChapterFromChaptersItems', payload: CParams
+    }
+  });
 
-  const handleSplitChapter = isSubChapter 
-                            ? splitChapterFromSubChaptersItems
-                            : splitChapterFromChaptersItems;
+  const handleSplitChapter = isSubChapter
+    ? splitChapterFromSubChaptersItems
+    : splitChapterFromChaptersItems;
 
-  const splitSubChapter = () => 
-    epub.data.splitSubChapter(chapterIndex, subChapterIndex, itemIndex);
+  const splitSubChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'splitSubChapter', payload: SubCParams
+    }
+  });
 
-  const subdivideChapter = () => epub.data.subdivideChapter(chapterIndex, itemIndex);
+  const subdivideChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'subdivideChapter', payload: CParams
+    }
+  });
 
   // const magnifyImage = () => epub.ctrl.magnifyImage(imgSrc);
   // const endMagnifyImage = () => epub.ctrl.endMagnifyImage();
@@ -80,10 +97,10 @@ function EPubListItem({
         {subdivideBtnElement}
       </div>
 
-      <div 
+      <div
         id={item.id}
-        role="button" 
-        tabIndex="0" 
+        role="button"
+        tabIndex="0"
         className="ct-epb ct-d-r item-info"
         onClick={openItemDetails}
         aria-haspopup="true"
@@ -97,13 +114,13 @@ function EPubListItem({
             {timestr.toPrettierTimeString(item.end)}
           </div>
         </div>
-        
+
         <div className="item-img-con">
           <img src={imgSrc} alt="screenshot" />
         </div>
         <CTText line={4} className="item-text">
           {
-            item.text 
+            item.text
             ||
             <span className="text-muted"><i>No Transcriptions</i></span>
           }
@@ -113,4 +130,4 @@ function EPubListItem({
   );
 }
 
-export default EPubListItem;
+export default connect()(EPubListItem); 

@@ -5,31 +5,46 @@ import { ChapterTitle } from '../../../components';
 import ChapterContent from './ChapterContent';
 import ChapterNewContent from './ChapterNewContent';
 
-function ChapterInfo({ chapter, currChIndex }) {
+function ChapterInfo({ chapter, currChIndex, dispatch }) {
   const { id, title, contents } = chapter;
-
   const onSaveTitle = newTitle => {
-    epub.data.saveChapterTitle(currChIndex, newTitle);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveChapterTitle', payload: { chapterIdx: currChIndex, value: newTitle }
+      }
+    })
   };
 
   const onRemove = (index) => () => {
-    epub.data.removeChapterContent(index);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'removeChapterContent', payload: { contentIdx: index }
+      }
+    })
   };
 
   const onTextChange = (index) => (val) => {
-    if (!val) {
-      epub.data.removeChapterContent(index);
-    } else {
-      epub.data.setChapterContent(index, val);
-    }
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
+      }
+    })
   };
 
   const onImageChange = (index) => (val) => {
-    epub.data.setChapterImageContent(index, val);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'insertChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
+      }
+    })
   };
 
   const onInsert = (index) => (val) => {
-    epub.data.insertChapterContent(index, val);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'insertChapterContent', payload: { contentIdx: index, value: val }
+      }
+    })
   };
 
   return (

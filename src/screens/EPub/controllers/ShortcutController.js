@@ -2,7 +2,6 @@ import { elem } from 'utils';
 import ID from './constants/EPubIDs';
 import Constants from './constants/EPubConstants';
 import { epubState } from './EPubStateManager';
-import { epubData } from './EPubDataController';
 
 class ShortcutController {
   constructor() {
@@ -92,16 +91,20 @@ class ShortcutController {
 
   onUndo(e) {
     this.preventDefault(e);
+    /*
     if (epubState.view !== Constants.EpbReadOnly && epubData.history.canUndo) {
-      epubData.history.undo();
+      epubData.history.undo(); NOT IMPLEMENTED
     }
+    */
   }
 
   onRedo(e) {
     this.preventDefault(e);
+    /*
     if (epubState.view !== Constants.EpbReadOnly && epubData.history.canRedo) {
       epubData.history.redo();
     }
+    */
   }
 
   onPreview(e) {
@@ -135,9 +138,13 @@ class ShortcutController {
 
   onSave(e) {
     this.preventDefault(e);
+    /*
     epubData.saveEPub(0);
+    NOT IMPLEMENTED
+    */
   }
 }
 
 export default ShortcutController;
 export const shortcut = new ShortcutController();
+// NOT IMPLEMENTED

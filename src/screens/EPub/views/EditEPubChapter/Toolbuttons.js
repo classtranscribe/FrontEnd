@@ -4,9 +4,10 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import { CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
-import { epub, connectWithRedux } from '../../controllers';
+import { connectWithRedux } from '../../controllers';
 
-function Toolbuttons({ currChIndex = 0, chapters = [], dispatch }) {
+function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
+  const { chapters = [] } = epub;
   const btnStyles = useButtonStyles();
   const { start, end, title } = chapters[currChIndex];
   const startTimeStr = timestr.toPrettierTimeString(start);
@@ -21,7 +22,7 @@ function Toolbuttons({ currChIndex = 0, chapters = [], dispatch }) {
   };
 
   const onEditStructure = () => {
-    dispatch({type: 'epub/setView', payload: epub.const.EpbEditStructure});
+    dispatch({ type: 'epub/setView', payload: epub.const.EpbEditStructure });
   };
 
   const toPrevCh = () => {
@@ -79,5 +80,5 @@ function Toolbuttons({ currChIndex = 0, chapters = [], dispatch }) {
 
 export default connectWithRedux(
   Toolbuttons,
-  ['currChIndex', 'chapters'],
+  ['currChIndex', 'epub'],
 );

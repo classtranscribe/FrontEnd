@@ -1,10 +1,7 @@
 import { connect } from 'dva'
 import EPubConstants from './constants/EPubConstants';
 import EPubIDs from './constants/EPubIDs';
-import EPubNavigator from './EPubNavigator';
 import EPubDownloadController from './EPubDownloadController';
-import { epubState } from './EPubStateManager';
-import { epubData } from './EPubDataController';
 import { shortcut } from './ShortcutController';
 import { epubPref } from './PreferenceController';
 
@@ -12,10 +9,7 @@ export const epub = {
   const: EPubConstants,
   id: EPubIDs,
   download: EPubDownloadController,
-  state: epubState,
-  data: epubData,
-  history: epubData.history,
-  nav: new EPubNavigator(),
+  history: {},  // epubData.history, NOT IMPLEMENTED
   shortcut,
   pref: epubPref
 };

@@ -14,20 +14,33 @@ function EPubChapterItem({
   canUndoSplit = false,
   canDisplayFull = false,
   setEPubItem,
-  onFold
+  onFold,
+  dispatch
 }) {
-  const undoSplitChapter = () => epub.data.undoSplitChapter(chapterIndex);
-  const appendChapterAsSubChapter = () => epub.data.appendChapterAsSubChapter(chapterIndex);
+  const undoSplitChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'undoSplitChapter', payload: { chapterIdx: chapterIndex }
+    }
+  })
+  const appendChapterAsSubChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'appendChapterAsSubChapter', payload: { chapterIdx: chapterIndex }
+    }
+  })
   const handleMouseOverChapterList = () => null// epub.data.handleMouseOverChapterList(chapter);
 
   const saveChapterTitle = value =>
-    epub.data.saveChapterTitle(chapterIndex, value);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveChapterTitle', payload: { chapterIdx: chapterIndex, value }
+      }
+    })
 
   const isFolded = foldedIds.includes(chapter.id);
 
   const chClasses = cx('ct-epb', 'sch', 'ch-item', 'ct-d-c', { fold: isFolded });
 
-  const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3);
+  const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3)
 
   return (
     <div
@@ -78,7 +91,7 @@ function EPubChapterItem({
             <CTText line={2} className="ch-item-compact-txt">
               {getCompactText(chapter)}
             </CTText>
-          :
+            :
             <>
               <div className="ch-item-ol ct-d-c">
                 {itemsToDisplay.map((item, itemIndex) => (
@@ -107,6 +120,7 @@ function EPubChapterItem({
                     canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
                     setEPubItem={setEPubItem}
                     onFold={onFold}
+                    dispatch={dispatch}
                   />
                 ))}
               </div>
