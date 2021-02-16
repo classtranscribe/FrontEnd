@@ -8,7 +8,7 @@ function getChTop(id, view) {
     const chEl = elem.getElement(chId);
     return chEl.offsetTop;
 }
-function getSubChTop(id, view, offset = 75) {
+function getSubChTop(epub, id, view, offset = 75) {
     const schId = view === Constants.EpbReadOnly ? id : ID.schID(id);
     const schEl = elem.getElement(schId);
     if (!schEl) {
@@ -16,15 +16,14 @@ function getSubChTop(id, view, offset = 75) {
     }
     const schUlEl = schEl.parentElement;
     const chEl = schUlEl.parentElement;
-    const { epub: epubState } = window.temp_app._store.getState(); // NEED CHANGE
-    if (epubState.view === Constants.EpbEditStructure) {
+    if (epub.view === Constants.EpbEditStructure) {
         return schEl.offsetTop + schUlEl.offsetTop + chEl.offsetTop - offset;
     }
     return schEl.offsetTop - offset;
 }
-function scrollToSubCh(id, view) {
+function scrollToSubCh(epub, id, view) {
     const chListEl = elem.getElement(ID.EPubChapterListID);
-    chListEl.scrollTop = getSubChTop(id, view);
+    chListEl.scrollTop = getSubChTop(epub, id, view);
 }
 function scrollToCh(id, view) {
     const chListEl = elem.getElement(ID.EPubChapterListID);
@@ -57,7 +56,7 @@ function* updateNavIdForEpbEditStructure(e, epub, put) {
         }
 
         _.forEach(ch.subChapters, (sch) => {
-            const schTop = getSubChTop(sch.id);
+            const schTop = getSubChTop(epub, sch.id);
             const schDis = chElScrollTop - schTop + 50;
             if (schDis < 0) return false; // stop iterate when exceed the scrollTop
             if (schDis > 0 && schDis < minDis) {
@@ -83,7 +82,7 @@ function* updateNavIdForEditChaper(e, epub, put) {
     let minDis = 1000;
 
     yield _.forEach(chapter.subChapters, (sch) => {
-        const schTop = getSubChTop(sch.id);
+        const schTop = getSubChTop(epub, sch.id);
         const schDis = chElScrollTop - schTop + 50;
         if (schDis < 0) return false; // stop iterate when exceed the scrollTop
         if (schDis > 0 && schDis < minDis) {
@@ -114,8 +113,9 @@ export default {
         },
         // { type: 'throttle', ms: 1000 }
     ],
-    *navigateSubChapter({ payload }) {
-        yield scrollToSubCh(payload)
+    *navigateSubChapter({ payload }, { select }) {
+        const { epub } = yield select();
+        yield scrollToSubCh(epub, payload)
     },
     *navigateChapter({ payload: chId }, { call, put, select, take }) {
         const { epub } = yield select();

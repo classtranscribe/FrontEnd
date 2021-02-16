@@ -8,9 +8,7 @@ import ErrorTypes from 'entities/ErrorTypes';
 import SourceTypes from 'entities/SourceTypes';
 import { EPubData } from 'entities/EPubs';
 import { getAllItemsInChapters } from 'entities/EPubs/utils'
-import { shortcut } from './controllers/ShortcutController';
 import Constants from './controllers/constants/EPubConstants'
-import ID from './controllers/constants/EPubIDs';
 import { getEPubById, getMediaById } from './service'
 import model_data_reducer from './models/data_reducer'
 import model_nav_effects from './models/navigator_effects'
@@ -83,7 +81,9 @@ const EPubModel = {
         setShowNav(state, { payload }) {
             return { ...state, showNav: payload };
         },
-
+        toggleNav(state) {
+            return { ...state, showNav: !state.showNav }
+        },
         setImgPickerData(state, { payload }) {
             return { ...state, imgPickerData: payload };
         },
@@ -93,6 +93,9 @@ const EPubModel = {
         setShowPreview(state, { payload }) {
             return { ...state, showPreview: payload };
         },
+        togglePreview(state) {
+            return { ...state, showPreview: !state.showPreview }
+        },
         setShowFileSettings(state, { payload }) {
             return { ...state, showFileSettings: payload };
         },
@@ -101,6 +104,9 @@ const EPubModel = {
         },
         setShowShortcuts(state, { payload }) {
             return { ...state, showShortcuts: payload };
+        },
+        toggleShortcuts(state) {
+            return { ...state, showShortcuts: !state.showShortcuts }
         },
         resetStates(state, { payload }) {
             return { ...initState };
@@ -140,8 +146,6 @@ const EPubModel = {
                 const media = yield call(getMediaById, _epub.sourceId);
                 yield put({ type: 'setMedia', payload: media });
             }
-
-            shortcut.addKeydownListener();
         },
         *openPlayer({ payload: { title, begin, end } }, { call, put, select, take }) {
             const { epub } = yield select();

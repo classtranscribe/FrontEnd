@@ -253,7 +253,7 @@ export default {
     },
     resetToDefaultChapters(state) {
         const defaultChapters = EPubData.__buildEPubDataFromArray(state.items);
-        return { ...state, epub: { ...state.epub, chapters: defaultChapters } };
+        return { ...state, epub: { ...state.epub, chapters: defaultChapters }, currChIndex: 0 };
     },
     insertChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
         if (type === 'image') {

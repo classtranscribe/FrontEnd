@@ -2,7 +2,6 @@ import { connect } from 'dva'
 import EPubConstants from './constants/EPubConstants';
 import EPubIDs from './constants/EPubIDs';
 import EPubDownloadController from './EPubDownloadController';
-import { shortcut } from './ShortcutController';
 import { epubPref } from './PreferenceController';
 
 export const epub = {
@@ -10,7 +9,6 @@ export const epub = {
   id: EPubIDs,
   download: EPubDownloadController,
   history: {},  // epubData.history, NOT IMPLEMENTED
-  shortcut,
   pref: epubPref
 };
 // Transition Function
