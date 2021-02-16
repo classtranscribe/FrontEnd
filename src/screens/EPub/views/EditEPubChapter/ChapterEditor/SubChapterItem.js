@@ -8,33 +8,50 @@ import ChapterNewContent from './ChapterNewContent';
 function SubChapterItem({
   subChapter,
   subChapterIndex,
-  currChIndex
+  currChIndex,
+  dispatch
 }) {
   const { title, id, contents } = subChapter;
 
   const onSaveTitle = (newTitle) =>
-    epub.data.saveSubChapterTitle(currChIndex, subChapterIndex, newTitle);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveSubChapterTitle', payload: { chapterIdx: currChIndex, subChapterIdx: subChapterIndex, value: newTitle }
+      }
+    })
 
   const onRemove = (index) => () => {
-    epub.data.removeSubChapterContent(subChapterIndex, index);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'removeChapterContent', payload: { contentIdx: index, subChapterIdx: subChapterIndex, }
+      }
+    })
   };
 
   const onTextChange = (index) => (val) => {
-    if (!val) {
-      epub.data.removeSubChapterContent(subChapterIndex, index);
-    } else {
-      epub.data.setSubChapterContent(subChapterIndex, index, val);
-    }
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, subChapterIdx: subChapterIndex, value: val }
+      }
+    })
   };
 
   const onImageChange = (index) => (val) => {
-    epub.data.setSubChapterImageContent(subChapterIndex, index, val);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'insertChapterContent', payload: { contentIdx: index, subChapterIdx: subChapterIndex, value: val, type: 'image' }
+      }
+    })
   };
 
   const onInsert = (index) => (val) => {
-    epub.data.insertSubChapterContent(subChapterIndex, index, val);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'insertChapterContent', payload: { contentIdx: index, subChapterIdx: subChapterIndex, value: val }
+      }
+    })
   };
-  
+
   return (
     <CTFragment id={epub.id.schID(id)} className="mt-5">
       <CTText muted className="pl-1">Sub-Chapter {subChapterIndex + 1}: {title}</CTText>

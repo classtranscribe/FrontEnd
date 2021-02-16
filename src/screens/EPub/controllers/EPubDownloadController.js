@@ -1,11 +1,11 @@
 import download from 'js-file-download';
 import { prompt } from 'utils/prompt';
 import { EPubFileBuilder, HTMLFileBuilder, ScreenshotsBuilder } from './file-builders';
-import { epubData } from './EPubDataController';
 
 const _download = async (Builder, filenameSuffix) => {
-  const filename = epubData.data.filename + filenameSuffix;
-  const fileBuffer = await Builder.toBuffer(epubData.data);
+  const { epub } = window.temp_app._store.getState();
+  const filename = epub.epub.filename + filenameSuffix;
+  const fileBuffer = await Builder.toBuffer(epub);
   download(fileBuffer, filename);
 };
 
@@ -39,7 +39,8 @@ class EPubDownloadController {
 
   static preview(print = false) {
     try {
-      const builder = new HTMLFileBuilder(epubData.data, true);
+      const { epub } = window.temp_app._store.getState();
+      const builder = new HTMLFileBuilder(epub, true);
       const html = builder.getIndexHTML(true, print);
       const htmlBlob = new Blob([html], { type: 'text/html' });
       const htmlUrl = URL.createObjectURL(htmlBlob);

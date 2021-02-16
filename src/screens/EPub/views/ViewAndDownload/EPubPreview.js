@@ -1,11 +1,12 @@
 import React from 'react';
 import { CTFragment } from 'layout';
-import { epub, connectWithRedux } from '../../controllers';
+import { buildMDFromChapters } from 'entities/EPubs/html-converters';
+import { connectWithRedux } from '../../controllers';
 import { MDPreviewer, ChapterImage } from '../../components';
 
 function EPubPreview(props) {
   const epubData = props.epub;
-  const epubMD = epub.data.data.toMD();
+  const epubMD = buildMDFromChapters(epubData.chapters)
 
   return (
     <CTFragment padding={[20]} shadowed>

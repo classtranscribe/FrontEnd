@@ -4,38 +4,43 @@ import { epub as EPubController, connectWithRedux, generateEPubGuide } from '../
 import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 import DownloadDropdown from './DownloadDropdown';
 
-function EPubToolbar({ view, chapters, dispatch, epub }) {
+function EPubToolbar({ view, dispatch, epub }) {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-
+  const { chapters = [] } = epub;
   useEffect(() => {
     // invoke undo, redo status when content changes
     setCanUndo(EPubController.history.canUndo);
     setCanRedo(EPubController.history.canRedo);
   }, [chapters, epub]);
-
+  const historyUndo = () => {
+    // NOT IMPLEMENTED
+  }
+  const historyRedo = () => {
+    // NOT IMPLEMENTED
+  }
   const isReadOnly = view === EPubController.const.EpbReadOnly;
 
   const undoBtnEl = _makeTBtn(
-    'undo', 'Undo', '⌘Z', EPubController.data.history.undo, false, !isReadOnly, 
+    'undo', 'Undo', '⌘Z', historyUndo, false, !isReadOnly,
     { disabled: !canUndo }
   );
   const redoBtnEl = _makeTBtn(
-    'redo', 'Redo', '⌘⇧Z', EPubController.data.history.redo, false, !isReadOnly,
+    'redo', 'Redo', '⌘⇧Z', historyRedo, false, !isReadOnly,
     { disabled: !canRedo }
   );
 
-  const saveEPub = () => EPubController.data.saveEPub(0);
+  const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' })
   const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
-  const openPreview = () => dispatch({type: 'epub/setShowPreview', payload: true});
+  const openPreview = () => dispatch({ type: 'epub/setShowPreview', payload: true });
   const previewBtnEl = _makeTBtn(
     'preview', 'Preview ePub', '⌘⇧P', openPreview, false, !isReadOnly
   );
 
   const prefBtnEl = null// _makeTBtn('tune', 'Preference', null, null, false, true);
 
-  const openShortcuts = () => dispatch({type: 'epub/setShowShortcuts', payload: true});
+  const openShortcuts = () => dispatch({ type: 'epub/setShowShortcuts', payload: true });
   const shortcutBtnEl = _makeTBtn(
     'keyboard', 'Keyboard Shortcuts', '⌘/', openShortcuts, false, true
   );
@@ -47,7 +52,7 @@ function EPubToolbar({ view, chapters, dispatch, epub }) {
   const guideBthEl = _makeTBtn(
     'help_outline', 'Show Help Guide', null, openHelpGuide, false, true
   );
-  
+
 
   return (
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
@@ -70,5 +75,5 @@ function EPubToolbar({ view, chapters, dispatch, epub }) {
 
 export default connectWithRedux(
   EPubToolbar,
-  ['view', 'chapters', 'epub']
+  ['view', 'epub']
 );

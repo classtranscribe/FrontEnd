@@ -217,19 +217,7 @@ class EPubChapterLikeData {
    * 
    * @param {Number|String|EPubImageData} predictor 
    */
-  remove(predictor) {
-    if (typeof predictor === 'number') {
-      if (predictor >= 0 && predictor < this.contents.length) {
-        this.contents = [
-          ...this.contents.slice(0, predictor),
-          ...this.contents.slice(predictor + 1)
-        ];
-      }
-    } else {
-      let currIndex = _.findIndex(this.contents, (val) => val === predictor);
-      this.remove(currIndex);
-    }
-  }
+  
 
   static __getAllImagesInChapter = getAllImagesInChapter;
   static __getAllItemsInChapter = getAllItemsInChapter;

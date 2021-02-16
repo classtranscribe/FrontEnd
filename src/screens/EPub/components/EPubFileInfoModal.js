@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import {
   CTModal,
@@ -10,14 +10,19 @@ import {
   CTFormRow
 } from 'layout';
 import { elem } from 'utils';
-import { epub as EPubOld, connectWithRedux } from '../controllers';
+import { connectWithRedux } from '../controllers';
 import ChapterImage from './ChapterImage';
 
 function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const { teal, danger } = useButtonStyles();
 
   const [epubData, setEPubData] = useState(epub);
-
+  useEffect(() => {
+    // update state everytime onShow, in case the user did not save
+    if(showFileSettings) {
+      setEPubData(epub)
+    }
+  }, [showFileSettings])
   const onClose = () => dispatch({ type: 'epub/setShowFileSettings', payload: false });
 
   const onInputChange = (attrName) => ({ target: { value } }) =>
@@ -33,8 +38,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const handleSave = () => {
     const newEPubData = { ...epub, ...epubData };
-    dispatch({ type: 'epub/setEPub', payload: newEPubData });
-    EPubOld.data.setEPubInfo(newEPubData);
+    dispatch({ type: 'epub/updateEPubBasicInfo', payload: newEPubData });
     onClose();
   };
 
@@ -79,7 +83,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         <ChapterImage
           id="ct-epb-cover"
           image={epubData.cover}
-          screenshots={EPubOld.data.data.images}
+          screenshots={epub.images}
           onChooseImage={onSaveCover}
           disableDescription
         />
