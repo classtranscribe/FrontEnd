@@ -70,7 +70,9 @@ const CourseModel = {
             }
             yield put.resolve({ type: 'setOffering', payload: offering });
             api.contentLoaded();
-            if (offering === ErrorTypes.NotFound404) return;
+            if (offering === ErrorTypes.NotFound404) {
+                return;
+            }
 
             // determine role of the user for this offering
             let instIndex = _.findIndex(
@@ -82,12 +84,16 @@ const CourseModel = {
                 yield put({ type: 'setRole', payload: INSTRUCTOR });
                 yield put({ type: 'setIsInstMode', payload: true })
             }
-            let gpll = yield call(api.getPlaylistsByOfferingId, offeringId);
-            let playlists = gpll.data;
-            yield put({ type: 'setPlaylists', payload: playlists })
-            // get starred offerings
-            let starredOfferings = yield call(getStarredOfferings);
-            yield put({ type: 'setStarredOfferings', payload: starredOfferings })
+            try {
+                let gpll = yield call(api.getPlaylistsByOfferingId, offeringId);
+                let playlists = gpll.data;
+                yield put({ type: 'setPlaylists', payload: playlists })
+                // get starred offerings
+                let starredOfferings = yield call(getStarredOfferings);
+                yield put({ type: 'setStarredOfferings', payload: starredOfferings })
+            } catch {
+                yield put({ type: 'setPlaylists', payload: ErrorTypes.NotFound404 })
+            }
         },
         *setStar({ payload: { offeringId, isStar } }, { call, put, select, take }) {
             const { course } = yield select();

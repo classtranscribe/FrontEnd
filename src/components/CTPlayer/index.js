@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Player from './Player';
 
-export { default as CTVideo } from './Video';
 export {
   /** Constants */
   CTPlayerIDs,
