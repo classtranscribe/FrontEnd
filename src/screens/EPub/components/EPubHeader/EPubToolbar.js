@@ -62,9 +62,9 @@ function EPubToolbar({ view, dispatch, epub }) {
         <ToolButtonDivider />
         <DownloadDropdown />
         {!isReadOnly && <ToolButtonDivider />}
-        {undoBtnEl}
-        {redoBtnEl}
-        <ToolButtonDivider />
+        {null && undoBtnEl}
+        {null && redoBtnEl}
+        {null && <ToolButtonDivider />}
         {prefBtnEl}
         {shortcutBtnEl}
         {guideBthEl}
@@ -72,6 +72,7 @@ function EPubToolbar({ view, dispatch, epub }) {
     </CTFragment>
   );
 }
+// NOT IMPLEMENTED
 
 export default connectWithRedux(
   EPubToolbar,

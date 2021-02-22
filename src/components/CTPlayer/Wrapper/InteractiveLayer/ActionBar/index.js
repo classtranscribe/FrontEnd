@@ -57,7 +57,7 @@ function ActionBar(props) {
           {
             isScreenshotAllowed
             &&
-            <Screenshot actionElement={screenshotActionElement} />
+            <Screenshot actionElement={screenshotActionElement} media={media} />
           }
           {!error && <Share media={media} time={time} />}
           {/* <ShortcutButton /> */}

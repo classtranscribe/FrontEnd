@@ -22,12 +22,20 @@ function getSubChTop(epub, id, view, offset = 75) {
     return schEl.offsetTop - offset;
 }
 function scrollToSubCh(epub, id, view) {
-    const chListEl = elem.getElement(ID.EPubChapterListID);
-    chListEl.scrollTop = getSubChTop(epub, id, view);
+    try {
+        const chListEl = elem.getElement(ID.EPubChapterListID);
+        chListEl.scrollTop = getSubChTop(epub, id, view);
+    } catch {
+        // 
+    }
 }
 function scrollToCh(id, view) {
-    const chListEl = elem.getElement(ID.EPubChapterListID);
-    chListEl.scrollTop = getChTop(id, view);
+    try {
+        const chListEl = elem.getElement(ID.EPubChapterListID);
+        chListEl.scrollTop = getChTop(id, view);
+    } catch {
+        // 
+    }
 }
 function* updateNavIdForEpbEditStructure(e, epub, put) {
     const chElScrollTop = e.scrollTop;
