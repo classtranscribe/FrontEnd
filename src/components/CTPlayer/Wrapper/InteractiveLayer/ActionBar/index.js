@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'dva/router';
+import { connect } from 'dva'
 import { api, links, uurl } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
@@ -13,14 +13,13 @@ function ActionBar(props) {
   let {
     error,
     media,
-    userReady,
-    player,
+    userReady = true,
+    embedded,
     time,
     screenshotActionElement
   } = props;
-
-  const { mediaName } = media || {};
-  const { id } = useParams();
+  const { allowScreenshot: isScreenshotAllowed } = embedded;
+  const { mediaName, id } = media || {};
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
@@ -50,15 +49,15 @@ function ActionBar(props) {
           </CTPopoverLabel>
         </div>
       </div>
-      
+
       {
         userReady
         &&
         <div className="right">
           {
-            player.isScreenshotAllowed
+            isScreenshotAllowed
             &&
-            <Screenshot player={player} actionElement={screenshotActionElement} />
+            <Screenshot actionElement={screenshotActionElement} />
           }
           {!error && <Share media={media} time={time} />}
           {/* <ShortcutButton /> */}
@@ -73,5 +72,7 @@ ActionBar.propTypes = {
   time: PropTypes.number
 };
 
-export default ActionBar;
+export default connect(({ watch: { media, embedded }, playerpref }) => ({
+  media, embedded
+}))(ActionBar);
 

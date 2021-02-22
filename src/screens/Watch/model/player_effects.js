@@ -15,16 +15,22 @@ import {
 } from '../Utils/constants.util';
 
 let hasRestored = false;
-function handleRestoreTime(media) {
+function handleRestoreTime(watch) {
+    const { media, embedded } = watch;
     const search = uurl.useSearch();
-    const begin = search.begin || media.watchHistory.timestamp;
-    if(begin > timestr.toSeconds(media.duration) - 1) {
+    const begin = embedded? embedded?.beginAt : (search.begin || media.watchHistory.timestamp);
+    if (begin > timestr.toSeconds(media.duration) - 1) {
         // Do not restore if we're approaching the end
-        return false; 
+        return false;
     }
-    if (Boolean(begin) && !hasRestored) {
-        hasRestored = true;
-        window.history.replaceState(null, null, links.watch(media.id));
+    if(!embedded && hasRestored) {
+        return false;
+    }
+    if (begin) {
+        if(!embedded) {
+            hasRestored = true;
+            window.history.replaceState(null, null, links.watch(media.id));
+        }
         return Number(begin);
     }
     return false;
@@ -177,14 +183,14 @@ export default {
     },
     *onPlayerReady({ payload: { isPrimary } }, { call, put, select, take }) {
         const { playerpref, watch } = yield select();
-        const { playbackrate = 1} = playerpref;
+        const { playbackrate = 1 } = playerpref;
         if (PlayerData.param.canPlayDone) { return; }
         if (isPrimary) {
             PlayerData.param.video1CanPlay = true;
             if (PlayerData.param.video2CanPlay || !PlayerData.video2) {
                 PlayerData.param.canPlayDone = true;
                 PlayerData.video1.playbackRate = playbackrate
-                const start_time = handleRestoreTime(watch.media);
+                const start_time = handleRestoreTime(watch);
                 if (start_time) {
                     yield put({ type: 'media_setCurrTime', payload: start_time })
                 }
@@ -197,7 +203,7 @@ export default {
             if (PlayerData.param.video1CanPlay) {
                 PlayerData.param.canPlayDone = true;
                 PlayerData.video2.playbackRate = playbackrate
-                const start_time = handleRestoreTime(watch.media);
+                const start_time = handleRestoreTime(watch);
                 if (start_time) {
                     yield put({ type: 'media_setCurrTime', payload: start_time })
                 }

@@ -1,5 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  SecondaryPlayerWrapper,
+  BigPlayButton,
+  ClosedCaption,
+  AudioDescription,
+} from 'screens/Watch/Components/Overlays';
 import ErrorWrapper from './ErrorWrapper';
 import EventVisualPopup from './EventVisualPopup';
 import './index.scss';
@@ -21,7 +27,7 @@ function NonInteractiveLayer(props) {
       {error ? (
         <ErrorWrapper error={error} />
       ) : (
-        <EventVisualPopup event={event} volume={volume} />
+        <BigPlayButton isPrimary />
       )}
     </div>
   );
@@ -35,3 +41,5 @@ NonInteractiveLayer.propTypes = {
 
 export default NonInteractiveLayer;
 
+
+            

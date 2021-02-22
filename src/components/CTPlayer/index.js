@@ -8,10 +8,6 @@ export {
   CTPlayerIDs,
   CTPlayerConstants,
   LanguageConstants,
-  /** Structs */
-  Language,
-  VideoNode,
-  CaptionStyle,
   _createImage,
   _decodeScreenshotPath,
   _encodeScreenshotPath
