@@ -21,7 +21,7 @@ const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { watch, playerpref, dispatch } = props;
   const { transView, muted, volume, playbackrate } = playerpref;
-  const { media, mode, isSwitched, isFullscreen } = watch;
+  const { media, mode, isSwitched, isFullscreen, embedded } = watch;
   const { videos, isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
 
@@ -58,7 +58,7 @@ const ClassTranscribePlayerNew = (props) => {
   return (
     <>
       <div
-        className={`ct-video-row ${player1Position}`}
+        className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player1Position}`}
         mode={mode}
         data-trans-view={transView}
         data-fullscreen={isFullscreen}
@@ -69,11 +69,12 @@ const ClassTranscribePlayerNew = (props) => {
           dispatch={dispatch}
           path={srcPath1}
           isSwitched={isSwitched}
+          embedded={embedded}
         />
       </div>
       {isTwoScreen && (
         <div
-          className={`ct-video-row ${player2Position}`}
+          className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player2Position}`}
           mode={mode}
           data-trans-view={transView}
           data-fullscreen={isFullscreen}
@@ -84,6 +85,7 @@ const ClassTranscribePlayerNew = (props) => {
             dispatch={dispatch}
             path={srcPath2}
             isSwitched={isSwitched}
+            embedded={embedded}
           />
         </div>
       )}

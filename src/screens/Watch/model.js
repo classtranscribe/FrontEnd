@@ -27,12 +27,16 @@ import {
     MODAL_HIDE,
     CTP_LOADING,
     CTP_PLAYING,
+    ERR_INVALID_MEDIA_ID,
+    ERR_AUTH
     // MODAL_SHARE
 } from './Utils';
 
 const initState = {
     // Basics
     userRole: DEFAULT_ROLE,
+
+    error: null,
 
     // Metadata
     media: {
@@ -81,7 +85,8 @@ const initState = {
     // Others
     prompt: null,
     search: SEARCH_INIT,
-    mouseOnCaption: false
+    mouseOnCaption: false,
+    embedded: false
 }
 /**
 * Function used to union two caption arrays
@@ -102,8 +107,17 @@ const WatchModel = {
     state: { ...initState },
     reducers: {
         // Metadata
+        setError(state, { payload }) {
+            return { ...state, error: payload };
+        },
         setMedia(state, { payload }) {
-            return { ...state, media: payload };
+            return { ...state, media: payload, embedded: false };
+        },
+        setEmbeddedMedia(state, { payload: { media, ...embeded_payload } }) {
+            return {
+                ...state, media,
+                embedded: embeded_payload
+            };
         },
         setPlaylist(state, { payload }) {
             return { ...state, playlist: payload };
@@ -267,16 +281,14 @@ const WatchModel = {
                 media = api.parseMedia(data);
             } catch (error) {
                 if (api.parseError(error).status === 404) {
-                    // setError(ERR_INVALID_MEDIA_ID);
+                    yield put({ type: 'setError', payload: ERR_INVALID_MEDIA_ID });
                 } else {
-                    // setError(ERR_AUTH);
+                    yield put({ type: 'setError', payload: ERR_AUTH });
                 }
                 return null;
             }
             yield put.resolve({ type: 'changeVideo', payload: media })
             PlayerData.param = {};
-            // videoControl.clear();
-            // transControl.clear();
             yield put({ type: 'setMenu', payload: MENU_HIDE })
             // Set transcriptions
 
@@ -321,6 +333,13 @@ const WatchModel = {
             } catch (error) {
                 prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
             }
+        },
+        *setupEmbeddedMedia({ payload }, { call, put, select, take }) {
+            const { media, ...props } = payload;
+            const transcriptions = media.transcriptions;
+            // delete media.transcriptions;
+            yield put({ type: 'setEmbeddedMedia', payload: { media, ...props } })
+            yield put({ type: 'setTranscriptions', payload: transcriptions })
         },
         ...player_effects,
         ...menu_effects,
