@@ -2,16 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Player from './Player';
 
-export { default as CTVideo } from './Video';
 export {
   /** Constants */
   CTPlayerIDs,
   CTPlayerConstants,
   LanguageConstants,
-  /** Structs */
-  Language,
-  VideoNode,
-  CaptionStyle,
   _createImage,
   _decodeScreenshotPath,
   _encodeScreenshotPath

@@ -147,13 +147,13 @@ const EPubModel = {
                 yield put({ type: 'setMedia', payload: media });
             }
         },
-        *openPlayer({ payload: { title, begin, end } }, { call, put, select, take }) {
+        *openPlayer({ payload: { title, start, end } }, { call, put, select, take }) {
             const { epub } = yield select();
             if (!epub.media) return;
             yield put({
                 type: 'setPlayerData', payload: {
                     title,
-                    begin: timestr.toSeconds(begin),
+                    begin: timestr.toSeconds(start),
                     end: timestr.toSeconds(end)
                 }
             });

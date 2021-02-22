@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import { CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
-import { connectWithRedux } from '../../controllers';
+import { epub as epubController, connectWithRedux } from '../../controllers';
 
 function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
   const { chapters = [] } = epub;
@@ -22,7 +22,7 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
   };
 
   const onEditStructure = () => {
-    dispatch({ type: 'epub/setView', payload: epub.const.EpbEditStructure });
+    dispatch({ type: 'epub/setView', payload: epubController.const.EpbEditStructure });
   };
 
   const toPrevCh = () => {
@@ -30,7 +30,9 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
   };
 
   const toNextCh = () => {
-    dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex + 1].id });
+    if(chapters[currChIndex + 1]) {
+      dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex + 1].id });
+    }
   };
 
   return (
@@ -66,7 +68,7 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
           <Button
             variant="outlined"
             endIcon={<span className="material-icons">navigate_next</span>}
-            disabled={currChIndex >= chapters.length}
+            disabled={currChIndex >= chapters.length - 1}
             className={btnStyles.tealLink}
             onClick={toNextCh}
           >

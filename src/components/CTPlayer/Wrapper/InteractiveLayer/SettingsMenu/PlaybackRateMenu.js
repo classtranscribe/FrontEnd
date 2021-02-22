@@ -26,11 +26,5 @@ function PlaybackRateMenu(props) {
   );
 }
 
-PlaybackRateMenu.propTypes = {
-  playbackRate: PropTypes.number,
-  playbackRates: PropTypes.arrayOf(PropTypes.number),
-  onGoBack: PropTypes.func,
-  setPlaybackRate: PropTypes.func
-};
 
 export default PlaybackRateMenu;

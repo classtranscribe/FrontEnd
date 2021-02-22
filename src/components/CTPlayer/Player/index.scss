@@ -1,6 +1,11 @@
 $ct-player-bg: black;
 $ct-player-extra-bg: rgb(231, 240, 239);
-
+.watch-ctrl-button .watch-btn-content i {
+  &[class*=fas] {
+    font-size: 1.2em;
+  }
+  font-size: 1.2em;
+}
 .ctp.ct-player-con {
   display: flex;
   flex-direction: column;
