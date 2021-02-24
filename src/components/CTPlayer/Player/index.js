@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
 import { connect } from 'dva'
-import { ClassTranscribePlayer } from 'screens/Watch/Components/CTPlayer'
+import {
+    ErrorWrapper,
+    ClassTranscribePlayer,
+  } from 'screens/Watch/Components';
 import Wrapper from '../Wrapper';
 import './index.scss';
 
 function Player(props) {
     const { media, beginAt, allowScreenshot,
         mediaId,
+        error,
         screenshotActionElement,
         dispatch } = props
     const onKeyDown = (event) => {
@@ -60,7 +64,9 @@ function Player(props) {
             }
         })
     }, [media])
-
+    if(error) {
+        return <ErrorWrapper error={error} />;
+    }
     return (
       <div
         className="ctp ct-player-con"
@@ -84,4 +90,8 @@ function Player(props) {
       </div>
         );
 }
-export default connect()(Player);
+export default connect(({
+    watch: { error }
+})=>({
+    error
+}))(Player);

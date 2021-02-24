@@ -272,7 +272,7 @@ const WatchModel = {
         },
     },
     effects: {
-        *setupMedia({ payload: { embedded = false } }, { call, put, select, take }) {
+        *setupMedia({ payload }, { call, put, select, take }) {
             // Get media
             const { id } = uurl.useSearch();
             let media = null;
