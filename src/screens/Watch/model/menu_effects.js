@@ -6,6 +6,7 @@ export default {
         const { watch } = yield select();
         if (option === 'b' && watch.menu === type) {
             yield put.resolve({ type: 'menu_close' })
+            return;
         }
         yield put({ type: 'setMenu', payload: type })
         // Set tab, NOT IMPLEMENTED
