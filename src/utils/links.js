@@ -1,4 +1,5 @@
 import { uurl } from './use-url';
+import { env } from 'utils/env';
 
 export class ClassTranscribeLinks {
   /**
@@ -227,19 +228,19 @@ export class ClassTranscribeLinks {
   }
   
   pgadmin() {
-    return '/pgadmin/';
+    return `${env.baseURL}/pgadmin/`;
   }
   
   rabbitmq() {
-    return '/rabbitmq/';
+    return `${env.baseURL}/rabbitmq/`;
   }
   
   traefik() {
-    return '/traefik/';
+    return `${env.baseURL}/traefik/`;
   }
   
   swag() {
-    return '/swag/';
+    return `${env.baseURL}/swag/`;
   }
   /**
    * to `mailto:classtranscribe@illinois.edu`
