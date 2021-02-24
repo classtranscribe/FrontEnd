@@ -36,7 +36,9 @@
 
 .watch-menu-close-btn {
   color: var(--ct-text-white);
+  position: absolute;
   border-radius: 50%;
+  z-index: 20;
   padding: .5em !important;
   display: flex;
   flex-direction: column;
