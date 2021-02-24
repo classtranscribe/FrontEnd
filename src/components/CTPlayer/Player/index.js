@@ -6,6 +6,7 @@ import './index.scss';
 
 function Player(props) {
     const { media, beginAt, allowScreenshot,
+        mediaId,
         screenshotActionElement,
         dispatch } = props
     const onKeyDown = (event) => {
@@ -54,7 +55,7 @@ function Player(props) {
     useEffect(() => {
         dispatch({
             type: 'watch/setupEmbeddedMedia', payload: {
-                media, beginAt,
+                media, beginAt, mediaId,
                 allowScreenshot
             }
         })

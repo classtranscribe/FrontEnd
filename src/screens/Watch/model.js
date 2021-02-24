@@ -272,7 +272,7 @@ const WatchModel = {
         },
     },
     effects: {
-        *setupMedia({ payload }, { call, put, select, take }) {
+        *setupMedia({ payload: { embedded = false } }, { call, put, select, take }) {
             // Get media
             const { id } = uurl.useSearch();
             let media = null;
@@ -335,8 +335,27 @@ const WatchModel = {
             }
         },
         *setupEmbeddedMedia({ payload }, { call, put, select, take }) {
-            const { media, ...props } = payload;
+            const { mediaId, ...props } = payload;
+            let media = payload.media;
+            if(!media) {
+                if(mediaId) {
+                    try {
+                        const { data } = yield call(api.getMediaById, mediaId);
+                        media = api.parseMedia(data);
+                    } catch (error) {
+                        if (api.parseError(error).status === 404) {
+                            yield put({ type: 'setError', payload: ERR_INVALID_MEDIA_ID });
+                        } else {
+                            yield put({ type: 'setError', payload: ERR_AUTH });
+                        }
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
             const transcriptions = media.transcriptions;
+            delete props.media
             // delete media.transcriptions;
             yield put({ type: 'setEmbeddedMedia', payload: { media, ...props } })
             yield put({ type: 'setTranscriptions', payload: transcriptions })
