@@ -60,7 +60,7 @@ function UploadFile(props) {
         onFileChange={handleFileUpload}
         accept=".csv,.txt"
       />
-      <div className="pt-2">Duplicate emails will be automatically removed.</div>
+      <div className="pt-2">Duplicate emails will be treated as a single entry.</div>
     </CTFragment>
   );
 }

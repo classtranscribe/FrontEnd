@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'dva'
 import Slider from '@material-ui/core/Slider';
 import timestr from 'utils/use-time';
 import './index.scss';
@@ -14,7 +15,7 @@ function Progress(props) {
     duration,
     time,
     bufferedTime,
-    setCurrentTime,
+    dispatch
   } = props;
 
   const marks = (beginAt || endAt) ? [{ value: beginAt }, { value: endAt }] : undefined;
@@ -35,9 +36,7 @@ function Progress(props) {
   };
 
   const handleSeekTime = (e, newTime) => {
-    if (typeof setCurrentTime === 'function') {
-      setCurrentTime(newTime);
-    }
+    dispatch({ type: 'watch/media_setCurrTime', payload: newTime });
   };
 
   const bufferSliderProps = {
@@ -63,7 +62,7 @@ function Progress(props) {
   };
 
   return (
-    <div 
+    <div
       className="ctp progress-con"
     >
       <SeekTimeLabel
@@ -72,7 +71,7 @@ function Progress(props) {
         duration={duration}
       />
 
-      <div 
+      <div
         className="ctp time-slider-con"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -84,12 +83,8 @@ function Progress(props) {
   );
 }
 
-Progress.propTypes = {
-  duration: PropTypes.number,
-  time: PropTypes.number,
-  bufferedTime: PropTypes.number,
-  setCurrentTime: PropTypes.func,
-};
 
-export default Progress;
+export default connect(({ watch : {bufferedTime, time, duration} }) => ({
+  bufferedTime, time, duration
+}))(Progress);
 

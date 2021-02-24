@@ -27,13 +27,6 @@ function RootMenu(props) {
         onClick={openPlaybackRateMenu}
       />
 
-      <MenuItem
-        isSubMenu
-        text="Closed Caption"
-        current={currentLang}
-        onClick={onOpenCCMenu}
-      />
-
       {
         isTwoScreen
         &&
@@ -64,3 +57,12 @@ RootMenu.propTypes = {
 
 export default RootMenu;
 
+/*
+      <MenuItem
+        isSubMenu
+        text="Closed Caption"
+        current={currentLang}
+        onClick={onOpenCCMenu}
+      />
+      NOT IMPLEMENTED
+*/

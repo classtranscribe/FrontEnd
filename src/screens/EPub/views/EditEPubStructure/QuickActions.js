@@ -4,34 +4,36 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTHeading, CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
-import { epub, connectWithRedux } from '../../controllers';
+import { connect } from 'dva'
+import { epub as epubOld } from '../../controllers';
 
-function QuickActions({ chapters = [], currChIndex = 0 }) {
+function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();
   const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
-
   const { start, end, title } = chapters[currChIndex];
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
-
-  const items = epub.data.data.items;
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   const showSplitAllBtn = chapters.length !== items.length;
   // const showSubdivideAllBtn = true;
 
   const watchInPlayer = () => {
-    epub.ctrl.openPlayer(`Chapter ${currChIndex + 1}: ${title}`, start, end);
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Chapter ${currChIndex + 1}: ${title}`, start, end
+      }
+    });
   };
 
   const onEditChapters = () => {
-    epub.state.setView(epub.const.EpbEditChapter);
+    dispatch({ type: 'epub/setView', payload: epubOld.const.EpbEditChapter });
   };
 
   return (
-    <CTFragment margin="10" padding={[15,10]} width="auto">
+    <CTFragment margin="10" padding={[15, 10]} width="auto">
       <CTHeading uppercase as="h4" icon="home_repair_service">Actions</CTHeading>
       <CTFragment dFlexCol>
-        <Button 
+        <Button
           startIcon={<span className="material-icons">play_circle_filled</span>}
           className={cx(btnStyles.tealLink, 'justify-content-start')}
           onClick={watchInPlayer}
@@ -57,7 +59,7 @@ function QuickActions({ chapters = [], currChIndex = 0 }) {
           &&
           <Button
             className={btnClasses}
-            onClick={epub.data.resetToDefaultChapters}
+            onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
           >
             Reset to Default Chapters
           </Button>
@@ -66,8 +68,8 @@ function QuickActions({ chapters = [], currChIndex = 0 }) {
           showSplitAllBtn
           &&
           <Button
-            className={btnClasses} 
-            onClick={epub.data.splitChaptersByScreenshots}
+            className={btnClasses}
+            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots'})}
           >
             Split Chapters by Screenshots
           </Button>
@@ -84,7 +86,6 @@ function QuickActions({ chapters = [], currChIndex = 0 }) {
   );
 }
 
-export default connectWithRedux(
-  QuickActions,
-  ['chapters', 'currChIndex']
-);
+export default connect(({ epub: { currChIndex, epub: { chapters }, items }, loading }) => ({
+  currChIndex, chapters, items
+}))(QuickActions);

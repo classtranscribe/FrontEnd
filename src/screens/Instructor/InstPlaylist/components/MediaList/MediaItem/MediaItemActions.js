@@ -3,22 +3,26 @@ import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles } from 'layout';
-import { mediaControl } from '../../../controllers';
 
 function MediaItemActions({
   mediaId,
-  isUnavailable
+  isUnavailable,
+  dispatch
 }) {
   const btn = useButtonStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
 
   const handleDelete = () => {
-    mediaControl.confirmDeleteMedia(mediaId);
+    const confirm = {
+      text: 'Are you sure you want to delete this video? (This action cannot be undone)',
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteMedias', payload: [mediaId] })
+    };
+    dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
   };
 
   return (
     <div className="media-item-actions">
-      <Button 
+      <Button
         disabled={isUnavailable}
         className={btnClassName}
         startIcon={<i className="material-icons watch">play_circle_filled</i>}
@@ -26,16 +30,18 @@ function MediaItemActions({
       >
         Watch
       </Button>
+      {
+        false ? 
+          <Button
+            className={btnClassName}
+            startIcon={<i className="material-icons">text_snippet</i>}
+            href={links.mspTransSettings(mediaId)}
+          >
+            Transcription
+          </Button> : null
+      }
 
-      <Button 
-        className={btnClassName}
-        startIcon={<i className="material-icons">text_snippet</i>}
-        href={links.mspTransSettings(mediaId)}
-      >
-        Transcription
-      </Button>
-
-      <Button 
+      <Button
         className={btnClassName}
         startIcon={<i className="material-icons">import_contacts</i>}
         href={links.mspEpubSettings(mediaId)}
@@ -43,7 +49,7 @@ function MediaItemActions({
         ePub
       </Button>
 
-      <Button 
+      <Button
         className={btnClassName}
         startIcon={<i className="material-icons delete">delete</i>}
         onClick={handleDelete}

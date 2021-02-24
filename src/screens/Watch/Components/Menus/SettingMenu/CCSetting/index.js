@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { connectWithRedux, transControl } from '../../../../Utils';
+import { connect } from 'dva'
 import './index.css';
 
 import MenuRadio from '../MenuRadio';
 import CCStylePicker from './CCStylePicker';
 
-function CCSetting({ show = false, openCC = false, captions = [] }) {
+function CCSetting({ show = false, openCC = false, captions = [], dispatch }) {
   const handleOpenCC = () => {
-    transControl.handleOpenCC();
+    dispatch({ type: 'playerpref/toggleOpenCC' })
   };
 
   useEffect(() => {
@@ -43,4 +43,6 @@ function CCSetting({ show = false, openCC = false, captions = [] }) {
   );
 }
 
-export default connectWithRedux(CCSetting, ['openCC', 'captions']);
+export default connect(({ watch : { captions}, playerpref: { openCC }, loading }) => ({
+  openCC, captions
+}))(CCSetting)

@@ -1,44 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import ErrorTypes from 'entities/ErrorTypes';
 import { uurl, elem } from 'utils';
-import { connectWithRedux, setup } from '../../controllers';
 import './index.scss';
-
+import courseutil from '../../util'
 import PlaylistsView from './PlaylistsView';
 import VideosView from './VideosView';
 
-function PlaylistsWithRedux({
-  isInstMode,
-  offering,
-  playlist,
-  playlists,
-  setPlaylist
-}) {
-  const { hash } = useLocation();
+function PlaylistsWithRedux(props) {
+  const { course, dispatch } = props;
+  const {
+    isInstMode,
+    offering = {},
+    playlist,
+    playlists = [],
+    setPlaylist
+  } = course
+  const setup = {}; // TO DISPATCH
+  const { hash } = props.location || {};
   const [playlistId, setPlaylistId] = useState(null);
 
   useEffect(() => {
     let { plid } = uurl.useHash();
     if (plid) {
       setPlaylistId(plid);
-      setup.setupPlaylist(plid);
+      dispatch({
+        type: 'course/getPlaylistById', 
+        payload: plid
+      })
     } else {
       setPlaylistId(null);
-      setPlaylist(null);
+      dispatch({
+        type: 'course/setPlaylist', 
+        payload: null
+      })
     }
-  }, [hash]);
+  }, [hash]); 
 
   useEffect(() => {
     if (playlist === ErrorTypes.NotFound404) {
       setPlaylistId(null);
-      setPlaylist(null);
+      dispatch({
+        type: 'course/setPlaylist', 
+        payload: null
+      })
     }
   }, [playlist]);
 
   useEffect(() => {
     if (!playlistId) {
-      setup.scrollToPlaylist(setup.prevPlaylistId);
+      courseutil.scrollToPlaylist(setup.prevPlaylistId);
     } else if (window.innerWidth >= 1000) {
         elem.scrollToTop('cp-pls-view');
       } else {
@@ -52,8 +62,9 @@ function PlaylistsWithRedux({
     isInstMode,
     playlists,
     offering,
+    dispatch
   };
-
+  
   const viewElement = (
     isPlaylistView
     ? <VideosView playlist={playlist} />
@@ -63,13 +74,4 @@ function PlaylistsWithRedux({
   return viewElement;
 }
 
-export const Playlists = connectWithRedux(
-  PlaylistsWithRedux,
-  [
-    'playlists',
-    'playlist',
-    'offering',
-    'isInstMode'
-  ],
-  ['setPlaylist']
-);
+export const Playlists = PlaylistsWithRedux;

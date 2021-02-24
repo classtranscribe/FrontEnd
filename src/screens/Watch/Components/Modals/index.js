@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
-  modalControl,
   MODAL_HIDE,
   MODAL_SHARE,
   MODAL_BEFORE_HIDE,
@@ -10,18 +9,12 @@ import EmbedModal from './EmbedModal'
 import ShareModal from './ShareModal';
 import './index.css';
 
-function ModalsWithRedux({ modal = MODAL_HIDE, setModal, media }) {
-  // Register setMenu to menuControl
-  useEffect(() => {
-    modalControl.register({ setModal });
-  }, []);
-
+function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   const handleClose = () => {
-    modalControl.close();
+    dispatch({ type: 'watch/modal_close' });
   };
 
   const [embed, setEmbed] = useState(false);
-
   const hideBefore = modal === MODAL_BEFORE_HIDE;
 
   return (
@@ -40,8 +33,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, setModal, media }) {
   );
 }
 
-export const Modals = connectWithRedux(
-  ModalsWithRedux, 
-  ['modal', 'media'], 
-  ['setModal']
-);
+export const Modals = connect(({ watch: { modal, media }, loading }) => ({
+  modal, media
+}))(ModalsWithRedux);

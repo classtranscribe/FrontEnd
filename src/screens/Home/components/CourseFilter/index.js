@@ -1,18 +1,20 @@
 import React from 'react';
+import { connect } from 'dva'
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 import { CTFragment, CTSelect, CTFormRow } from 'layout';
-import { connectWithRedux, home } from '../../controllers';
 import './index.scss';
 
-function CourseFilter({
-  universities,
-  departments,
-  terms,
-  selUniversity,
-  selDepartments,
-  selTerms
-}) {
+function CourseFilter(props) {
+  const {
+    universities,
+    departments,
+    terms,
+    selUniversity,
+    selDepartments,
+    selTerms,
+    dispatch
+  } = props;
   const universityOptions = universities.map(uni => ({ value: uni.id, text: uni.name }));
   const departmentOptions = departments.map(dep => ({ value: dep.id, text: dep.name }));
   const termOptions = terms.map(term => ({ value: term.id, text: term.name }));
@@ -21,17 +23,16 @@ function CourseFilter({
   const showTerms = selUniversity && !isMobile && termOptions.length > 0;
 
   const handleUniversityChange = ({ target: { value }}) => {
-    home.ctrl.selectUniversity(value);
+    dispatch({type: 'home/selectUniversity', payload: value})
   };
 
   const handleDepartmentsChange = ({ target: { value }}) => {
-    home.ctrl.selectDepartments(value);
+    dispatch({type: 'home/selectDepartments', payload: value})
   };
 
   const handleTermsChange = ({ target: { value }}) => {
-    home.ctrl.selectTerms(value);
+    dispatch({type: 'home/selectTerms', payload: value})
   };
-
   return (
     <CTFragment sticky={!isMobile} offsetTop="50" className="ct-homep course-filter">
       <CTFormRow padding={[10, 0, 0, 10]} alignItEnd gridClassName="course-filter-item">
@@ -80,15 +81,8 @@ function CourseFilter({
     </CTFragment>
   );
 }
-
-export default connectWithRedux(
-  CourseFilter,
-  [
-    'departments', 
-    'terms', 
-    'universities',
-    'selUniversity',
-    'selDepartments',
-    'selTerms'
-  ]
-);
+export default connect(({home}) => {
+  return {
+    ...home
+  }
+})(CourseFilter);

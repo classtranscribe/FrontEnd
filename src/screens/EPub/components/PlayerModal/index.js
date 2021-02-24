@@ -1,33 +1,40 @@
 import React from 'react';
+import { connect } from 'dva'
 import { SwipeableDrawer } from '@material-ui/core';
 import { Button } from 'pico-ui';
 import SourceTypes from 'entities/SourceTypes';
 import timestr from 'utils/use-time';
 import { CTFragment, CTHeading, CTText } from 'layout';
 import CTPlayer from 'components/CTPlayer';
-import { epub } from '../../controllers';
 import './index.scss';
 
 function PlayerModal({
-  open,
-  title,
+  playerData,
   media,
-  begin,
-  end,
+  epub,
+  dispatch
 }) {
-  const onClose = epub.ctrl.closePlayer;
+  const isOpen = Boolean(playerData) && media;
+  if(!isOpen) {
+    return null;
+  }
+  const { title, begin, end } = playerData;
+  const onClose = () => {
+    if (!media) return;
+    dispatch({ type: 'epub/setPlayerData', payload: null })
+  }
   const screenshotSource = {
-    id: epub.state.epub.id,
+    id: epub.id,
     type: SourceTypes.EPub
   };
 
   return (
     <SwipeableDrawer
-      id={epub.const.EPubPlayerModal}
+      id="ct-epb-player-modal" // NOT CONFIRMED
       anchor="bottom"
-      open={open}
+      open={isOpen}
       onClose={onClose}
-      classes={{paperAnchorBottom: 'ct-epb player-modal'}}
+      classes={{ paperAnchorBottom: 'ct-epb player-modal' }}
     >
       <CTFragment sticky dark alignItCenter justConBetween padding="20">
         <CTFragment alignItCenter>
@@ -36,11 +43,11 @@ function PlayerModal({
             {timestr.toTimeString(begin)} - {timestr.toTimeString(end)}
           </CTText>
         </CTFragment>
-        <Button 
-          round 
-          icon="close" 
-          aria-label="close" 
-          color="black" 
+        <Button
+          round
+          icon="close"
+          aria-label="close"
+          color="black"
           onClick={onClose}
           autoFocus
         />
@@ -64,4 +71,6 @@ function PlayerModal({
   );
 }
 
-export default PlayerModal;
+export default connect(({ epub: { playerData, media, epub }, loading }) => ({
+  playerData, media, epub
+}))(PlayerModal);

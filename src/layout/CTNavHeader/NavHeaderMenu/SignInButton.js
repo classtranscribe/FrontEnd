@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'dva/router';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles } from '../../CTButtons';

@@ -1,18 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import { elem } from 'utils/use-elem';
+import _ from 'lodash'
 import {
-  searchControl,
-  // preferControl,
+  ARRAY_INIT,
+  ARRAY_EMPTY,
   SEARCH_INIT,
   SEARCH_RESULT,
   SEARCH_BEGIN,
   SEARCH_TRANS_IN_VIDEO,
+  SEARCH_IN_PLAYLISTS,
+  SEARCH_TRANS_IN_COURSE,
+  SEARCH_IN_SHORTCUTS
 } from '../../../Utils';
 import './index.css';
 
 import ResultList from './ResultList';
 import Placeholder from '../Placeholder';
+// Function used to get the options for results
+const search_options = [
+  SEARCH_TRANS_IN_VIDEO,
+  SEARCH_IN_PLAYLISTS,
+  SEARCH_TRANS_IN_COURSE,
+  SEARCH_IN_SHORTCUTS,
+];
+// Function used to get the number of results
+function resultNum(results) {
+  if (results === ARRAY_INIT || results === ARRAY_EMPTY) {
+    return 0;
+  }
 
+  return results.length;
+}
+function getResultOptions(search = SEARCH_INIT) {
+  const {
+    inVideoTransResults = [],
+    inCourseTransResults = [],
+    playlistResults = [],
+    shortcutResults = [],
+  } = search;
+
+  const optNumMap = {
+    [SEARCH_TRANS_IN_VIDEO]: [_.flatten(inVideoTransResults), 'caption', 'video'],
+    [SEARCH_IN_PLAYLISTS]: [playlistResults, 'video title', 'course'],
+    [SEARCH_TRANS_IN_COURSE]: [inCourseTransResults, 'caption', 'course'],
+    [SEARCH_IN_SHORTCUTS]: [shortcutResults, 'shortcut', 'page'],
+  };
+
+  // let defaultOpt = preferControl.defaultSearchOption() || SEARCH_TRANS_IN_VIDEO;
+
+  const options = search_options
+    .map((opt) => {
+      const [res, name, range] = optNumMap[opt];
+      const num = resultNum(res);
+      const init = res === ARRAY_INIT;
+      return {
+        opt,
+        num,
+        init,
+        // current: opt === defaultOpt,
+        content: `${num >= 100 ? '99+' : num} ${name}${num > 1 ? 's' : ''} in this ${range}`,
+      };
+    })
+    .filter((opt) => opt.num !== 0 || opt.init);
+
+  return options;
+}
 function Results({ search = SEARCH_INIT }) {
   const { value = '', status = SEARCH_BEGIN } = search;
 
@@ -38,7 +90,7 @@ function Results({ search = SEARCH_INIT }) {
 
   useEffect(() => {
     setPage(1);
-    setResultOptions(searchControl.getResultOptions(search, (opt) => handleChangeOption(opt)()));
+    setResultOptions(getResultOptions(search, (opt) => handleChangeOption(opt)()));
   }, [search]);
 
   useEffect(() => {

@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
-import {
-  connectWithRedux,
-  // videoControl,
-  preferControl,
-} from '../../../../Utils';
 
-function GeneralSetting({ show = false }) {
-  const [autoPlay, setAutoPlay] = useState(preferControl.autoPlay());
-
+function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
   const handleAutoPlay = () => {
-    setAutoPlay(!autoPlay);
-    preferControl.autoPlay(!autoPlay);
+    dispatch({ type: 'playerpref/setPreference', payload: { autoPlay: !autoPlay } })
   };
 
   useEffect(() => {
@@ -34,5 +27,6 @@ function GeneralSetting({ show = false }) {
     </form>
   );
 }
-
-export default connectWithRedux(GeneralSetting);
+export default connect(({ playerpref: { autoPlay }, loading }) => ({
+  autoPlay
+}))(GeneralSetting);

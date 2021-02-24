@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   connectWithRedux,
-  videoControl,
   promptControl,
   NORMAL_MODE,
   CTP_LOADING,
@@ -13,10 +12,11 @@ function SecondaryPlayerWrapperWithRedux({
   mode = NORMAL_MODE,
   ctpSecEvent = CTP_LOADING,
   isPrimary = false,
+  dispatch
 }) {
-  const onSwitch = () => videoControl.switchVideo();
+  const onSwitch = () => dispatch({ type: 'watch/switchVideo' });
   const onHide = () => {
-    videoControl.mode(NORMAL_MODE);
+    dispatch({ type: 'watch/setWatchMode', payload: { mode: NORMAL_MODE } });
     promptControl.hideSecondaryScreen();
   };
 
@@ -70,7 +70,7 @@ function SecondaryPlayerWrapperWithRedux({
         </button>
       </div>
     </div>
-  );
+      );
 }
 
 export const SecondaryPlayerWrapper = connectWithRedux(SecondaryPlayerWrapperWithRedux, [

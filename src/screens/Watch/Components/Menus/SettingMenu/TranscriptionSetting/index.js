@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
-  transControl,
-  preferControl,
-  uEvent,
   LINE_VIEW,
   TRANSCRIPT_VIEW,
   HIDE_TRANS,
@@ -12,29 +9,24 @@ import {
 
 import MenuRadio from '../MenuRadio';
 
-function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
-  const [autoScroll, setAutoScroll] = useState(preferControl.autoScroll());
-  const [pauseWhileEditing, setPauseWhileEditing] = useState(preferControl.pauseWhileEditing());
-
+function TranscriptionSetting({ show = false, transView = LINE_VIEW, dispatch,
+  autoScroll, pauseWhileEditing }) {
   const openTranscript = () => {
-    transControl.handleOpenTrans();
+    const view = transView;
+    dispatch({ type: 'playerpref/setTransView', payload: { view: view === HIDE_TRANS ? TRANSCRIPT_VIEW : HIDE_TRANS } });
   };
 
   const openAutoScroll = () => {
     // console.error()
-    preferControl.autoScroll(!autoScroll);
-    uEvent.autoScrollChange(!autoScroll);
-    setAutoScroll(!autoScroll);
+    dispatch({ type: 'playerpref/setPreference', payload: { autoScroll: !autoScroll } });
   };
 
   const handlePauseWhileEditing = () => {
-    preferControl.pauseWhileEditing(!pauseWhileEditing);
-    uEvent.pauseWhenEdit(!pauseWhileEditing);
-    setPauseWhileEditing(!pauseWhileEditing);
+    dispatch({ type: 'playerpref/setPreference', payload: { pauseWhileEditing: !pauseWhileEditing } });
   };
 
   const handleTransView = () => {
-    transControl.transView(transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW);
+    dispatch({ type: 'playerpref/setTransView', payload: { view: transView === LINE_VIEW ? TRANSCRIPT_VIEW : LINE_VIEW } });
   };
 
   useEffect(() => {
@@ -94,4 +86,6 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW }) {
   );
 }
 
-export default connectWithRedux(TranscriptionSetting, ['transView']);
+export default connect(({ playerpref: { transView, autoScroll, pauseWhileEditing }, loading }) => ({
+  transView, autoScroll, pauseWhileEditing
+}))(TranscriptionSetting)

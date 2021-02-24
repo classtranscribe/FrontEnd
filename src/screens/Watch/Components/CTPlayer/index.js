@@ -2,12 +2,12 @@
  * The Player which supports different screen modes
  */
 
-import React from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
+import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
-import { uurl } from 'utils/use-url';
+import PlayerData from '../../player'
+import Video from './player'
 import {
-  connectWithRedux,
-  videoControl as control,
   PRIMARY,
   SECONDARY,
   PS_MODE,
@@ -16,203 +16,83 @@ import {
 import './index.css';
 import './playerModes.css';
 
-import PlayerWrapper from './PlayerWrapper';
+const videoRef1 = (node) => { PlayerData.video1 = node };
+const videoRef2 = (node) => { PlayerData.video2 = node };
+const ClassTranscribePlayerNew = (props) => {
+  const { watch, playerpref, dispatch } = props;
+  const { transView, muted, volume, playbackrate } = playerpref;
+  const { media = {}, mode, isSwitched, isFullscreen, embedded } = watch;
+  const { videos = [], isTwoScreen } = media;
+  const { srcPath1, srcPath2 } = videos[0] || {};
 
-export class ClassTranscribePlayerWithRedux extends React.Component {
-  constructor(props) {
-    super(props);
-    this.mediaId = uurl.useSearch().id;
-    this.state = {
-      srcPath1: null,
-      srcPath2: null,
-    };
-  }
+  // Mute Handler
+  useEffect(() => {
+    PlayerData.video1 && (PlayerData.video1.muted = muted);
+    PlayerData.video2 && (PlayerData.video2.muted = muted);
+  }, [muted]);
+  // Volume Handler
+  useEffect(() => {
+    PlayerData.video1 && (PlayerData.video1.volume = volume);
+    PlayerData.video2 && (PlayerData.video2.volume = volume);
+  }, [volume]);
+  // Playbackrate Handler
+  useEffect(() => {
+    PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
+    PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
+  }, [playbackrate]);
 
-  componentDidUpdate(prevProps) {
-    const { media, setMode } = this.props;
+  useEffect(() => {
+    PlayerData.param = {};
+    PlayerData.video1 && (PlayerData.video1.load());
+    PlayerData.video2 && (PlayerData.video2.load());
+  }, [srcPath1, srcPath2]);
+  const player1Position = isSwitched ? SECONDARY : PRIMARY;
+  const player2Position = isSwitched ? PRIMARY : SECONDARY;
 
-    if (prevProps.media !== media) {
-      // set src for videos
-      const { videos, isTwoScreen } = media;
-      const { srcPath1, srcPath2 } = videos[0] || {};
-      // set src paths
-      this.setState({ srcPath1, srcPath2 });
-
-      // if not a mobile device and is two-screen media,
-      // choose a mode according to the window's width
-      if (isTwoScreen && !isMobile) {
-        setMode(window.innerWidth <= 900 ? NESTED_MODE : PS_MODE);
-      }
-
-      // register video elem for ctrlor
-      control.init(this.videoNode1, this.videoNode2, this.props);
+  useEffect(() => {
+    if (isTwoScreen && !isMobile) {
+      dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
     }
-  }
+  }, [isTwoScreen])
 
-  handlePause = (position) => () => {
-    if (position === PRIMARY) {
-      control.handlePause();
-    }
-  };
-
-  // Event handlers for primary video
-  onPause = (e) => {
-    const { paused } = this.props;
-    control.onPause(e, paused);
-  };
-  onTimeUpdate = (e) => {
-    control.onTimeUpdate(e);
-  };
-  onDurationChange = (e) => {
-    control.onDurationChange(e);
-  };
-  onProgress = (e) => {
-    control.onProgress(e);
-  };
-  onLoadStartPri = (e) => {
-    control.onLoadStart(e, true);
-  };
-  onLoadedDataPri = (e) => {
-    control.onLoadedData(e, true);
-  };
-  onCanPlayPri = (e) => {
-    const { media } = this.props;
-    control.onCanPlay(e, true, media);
-  };
-  onWaitingPri = (e) => {
-    control.onWaiting(e, true);
-  };
-  onPlayingPri = (e) => {
-    control.onPlaying(e, true);
-  };
-  onEndedPri = (e) => {
-    control.onEnded(e);
-  };
-  onSeekingPri = (e) => {
-    control.onSeeking(e);
-  };
-  onSeekedPri = (e) => {
-    control.onSeeked(e);
-  };
-  onErrorPri = (e) => {
-    control.onError(e, true);
-  };
-
-  // Event handlers for secondary video
-  onLoadStartSec = (e) => {
-    control.onLoadStart(e, false);
-  };
-  onLoadedDataSec = (e) => {
-    control.onLoadedData(e, false);
-  };
-  onCanPlaySec = (e) => {
-    const { media } = this.props;
-    control.onCanPlay(e, false, media);
-  };
-  onWaitingSec = (e) => {
-    control.onWaiting(e, false);
-  };
-  onPlayingSec = (e) => {
-    control.onPlaying(e, false);
-  };
-  onErrorSec = (e) => {
-    control.onError(e, false);
-  };
-
-  render() {
-    const { srcPath1, srcPath2 } = this.state;
-    const { media, mode, isSwitched, transView, isFullscreen } = this.props;
-    const { isTwoScreen /** transcriptions */ } = media;
-
-    const player1Position = isSwitched ? SECONDARY : PRIMARY;
-    const player2Position = isSwitched ? PRIMARY : SECONDARY;
-
-    return (
-      <>
+  return (
+    <>
+      <div
+        className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player1Position}`}
+        mode={mode}
+        data-trans-view={transView}
+        data-fullscreen={isFullscreen}
+      >
+        <Video
+          id={1}
+          videoRef={videoRef1}
+          dispatch={dispatch}
+          path={srcPath1}
+          isSwitched={isSwitched}
+          embedded={embedded}
+        />
+      </div>
+      {isTwoScreen && (
         <div
-          className={`ct-video-row ${player1Position}`}
+          className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player2Position}`}
           mode={mode}
           data-trans-view={transView}
           data-fullscreen={isFullscreen}
         >
-          <div className="ct-video-contrainer">
-            <PlayerWrapper isPrimary={!isSwitched} />
-            <video
-              playsInline
-              autoPlay={isMobile}
-              className="ct-video"
-              id="ct-video-1"
-              ref={(node) => (this.videoNode1 = node)}
-              onDurationChange={this.onDurationChange}
-              onTimeUpdate={this.onTimeUpdate}
-              onProgress={this.onProgress}
-              onCanPlay={this.onCanPlayPri}
-              onPause={this.onPause}
-              onLoadStart={this.onLoadStartPri}
-              onLoadedData={this.onLoadedDataPri}
-              onWaiting={this.onWaitingPri}
-              onPlaying={this.onPlayingPri}
-              onEnded={this.onEndedPri}
-              onSeeking={this.onSeekingPri}
-              onSeeked={this.onSeekedPri}
-              onError={this.onErrorPri}
-            >
-              {Boolean(srcPath1) && <source src={srcPath1} type="video/mp4" />}
-              Your browser does not support video tag.
-            </video>
-          </div>
+          <Video
+            id={2}
+            videoRef={videoRef2}
+            dispatch={dispatch}
+            path={srcPath2}
+            isSwitched={isSwitched}
+            embedded={embedded}
+          />
         </div>
-        {isTwoScreen && (
-          <div
-            className={`ct-video-row ${player2Position}`}
-            mode={mode}
-            data-trans-view={transView}
-            data-fullscreen={isFullscreen}
-          >
-            <div className="ct-video-contrainer">
-              <PlayerWrapper isPrimary={isSwitched} />
-              <video
-                muted
-                playsInline
-                className="ct-video"
-                id="ct-video-2"
-                ref={(node) => (this.videoNode2 = node)}
-                onCanPlay={this.onCanPlaySec}
-                onLoadStart={this.onLoadStartSec}
-                onLoadedData={this.onLoadedDataSec}
-                onWaiting={this.onWaitingSec}
-                onPlaying={this.onPlayingSec}
-                onError={this.onErrorSec}
-              >
-                {Boolean(srcPath2) && <source src={srcPath2} type="video/mp4" />}
-                Your browser does not support video tag.
-              </video>
-            </div>
-          </div>
-        )}
-      </>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
 
-export const ClassTranscribePlayer = connectWithRedux(
-  ClassTranscribePlayerWithRedux,
-  ['media', 'mode', 'isSwitched', 'paused', 'transView', 'isFullscreen'],
-  [
-    'setMode',
-    'setVolume',
-    'setPause',
-    'setPlaybackrate',
-    'setTime',
-    'setMute',
-    'switchScreen',
-    'setDuration',
-    'setBufferedTime',
-    'setFullscreen',
-    'setCTPPriEvent',
-    'setCTPSecEvent',
-
-    'timeUpdate',
-    'changeVideo',
-  ],
-);
+export const ClassTranscribePlayer = connect(({ watch, playerpref, loading }) => ({
+  watch, playerpref
+}))(ClassTranscribePlayerNew);

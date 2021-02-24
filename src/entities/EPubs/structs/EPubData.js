@@ -12,7 +12,7 @@ function _buildEPubDataFromArray(rawEPubData) {
     new EPubChapterData({
       items: _.cloneDeep(rawEPubData),
       title: 'Default Chapter',
-    })
+    }).toObject()
   ];
 }
 
@@ -20,7 +20,7 @@ function _buildEPubDataFromArray(rawEPubData) {
  * The error which occurred when the required information 
  * for creating an ePub file is invalid
  */
-export const EPubDataValidationError = 
+export const EPubDataValidationError =
   new CTError('EPubDataValidationError', 'Invalid ePub data.');
 
 /**
@@ -99,7 +99,7 @@ export default class EPubData {
 
     if (!this.cover.src && this.images.length > 0) {
       this.cover = new EPubImageData({
-        src: this.images[0], alt: `Cover for ${ this.title}`
+        src: this.images[0], alt: `Cover for ${this.title}`
       });
     }
   }
@@ -208,7 +208,11 @@ export default class EPubData {
   }
 
   getChapter(chapterIndex) {
-    return this.chapters[chapterIndex];
+    const { epub } = window.temp_app._store.getState();
+    if(!chapterIndex) {
+      chapterIndex = epub.currChIndex;
+    }
+    return epub.chapters[chapterIndex];
   }
 
   getSubChapter(chapterIndex, subChapterIndex) {
@@ -244,19 +248,6 @@ export default class EPubData {
     }
   }
 
-  insertChapter(index, chapterLike) {
-    const chapters = this.chapters;
-    let newChapter = new EPubChapterData(chapterLike);
-
-    this.chapters = [
-      ...chapters.slice(0, index),
-      newChapter,
-      ...chapters.slice(index)
-    ];
-
-    return newChapter;
-  }
-
   insertSubChapter(chapterIndex, subChapterIndex, subChapterLike) {
     let newSubChapter = new EPubSubChapterData(subChapterLike);
     let chapter = this.getChapter(chapterIndex);
@@ -287,16 +278,16 @@ export default class EPubData {
       ...chapter.subChapters.slice(0, subChapterIndex),
       ...chapter.subChapters.slice(subChapterIndex + 1)
     ];
-    
+
     return subChapter;
   }
 
   static create(rawEPubData, data, copyChapterStructure) {
     return new EPubData({
       ...data,
-      chapters: copyChapterStructure 
-              ? EPubData.copyChapterStructure(rawEPubData, data.chapters)
-              : _buildEPubDataFromArray(rawEPubData)
+      chapters: copyChapterStructure
+        ? EPubData.copyChapterStructure(rawEPubData, data.chapters)
+        : _buildEPubDataFromArray(rawEPubData)
     });
   }
 

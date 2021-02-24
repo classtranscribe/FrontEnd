@@ -1,36 +1,40 @@
 import React, { useEffect } from 'react';
 import cx from 'classnames';
 import { CTFragment, CTHeading } from 'layout';
-import { epub, connectWithRedux } from '../../controllers';
+import { connect } from 'dva'
+import { epub as OldEpub } from '../../controllers';
 import NavigationTrigger from './NavigationTrigger';
 import NavigationMenu from './NavigationMenu'
 
 
 function NavigationProvider({
-  // states
-  chapters,
+  epub,
   showNav,
   currChIndex,
   // user props
   wider,
   defaultClosed,
-  children
+  children,
+  dispatch
 }) {
+  const { chapters = [] } = epub;
   useEffect(() => {
     if (chapters.length > 0) {
-      epub.state.setNavId(epub.id.chNavItemID(chapters[currChIndex].id));
+      dispatch({ type: 'epub/setNavId', payload: OldEpub.id.chNavItemID(chapters[currChIndex].id) });
     }
 
     if (defaultClosed) {
-      epub.state.setShowNav(false);
+      dispatch({ type: 'epub/setShowNav', payload: false });
     }
   }, []);
 
   const hidden = showNav ? "false" : "true";
-
+  const onNavModeToggle = () => {
+    dispatch({ type: 'epub/setShowNav', payload: !showNav })
+  }
   return (
-    <CTFragment id={epub.id.EPubNavigationProviderID} dFlex className={cx({ wider })}>
-      <NavigationTrigger show={showNav} />
+    <CTFragment id={OldEpub.id.EPubNavigationProviderID} dFlex className={cx({ wider })}>
+      <NavigationTrigger show={showNav} onToggle={onNavModeToggle} />
 
       <div aria-hidden={hidden} className={cx('ct-epb nav-con', { show: showNav })}>
         <CTHeading as="h3" uppercase sticky fadeIn={false}>Chapters</CTHeading>
@@ -43,8 +47,6 @@ function NavigationProvider({
     </CTFragment>
   );
 }
-
-export default connectWithRedux(
-  NavigationProvider,
-  ['showNav', 'chapters', 'currChIndex']
-);
+export default connect(({ epub: { epub, showNav, currChIndex }, loading }) => ({
+  epub, showNav, currChIndex
+}))(NavigationProvider);

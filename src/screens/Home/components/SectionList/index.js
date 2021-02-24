@@ -2,7 +2,6 @@ import React from 'react';
 import { CTFragment, CTText, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import SectionItem from './SectionItem';
-import { home } from '../../controllers';
 import './index.scss';
 
 const NoSectionHolder = () => (
@@ -15,10 +14,11 @@ const NoSectionHolder = () => (
 );
 
 function SectionList({
-  sections
+  sections,
+  hasDepartmentSections
 }) {
   const hasSections = sections.length > 0;
-  const hasDepartmentSections = hasSections && home.ctrl.hasDepartmentSections;
+  const slHasDepartmentSections = hasSections && hasDepartmentSections;
 
   const noSectionHolderEl = makeEl(NoSectionHolder);
 
@@ -31,7 +31,7 @@ function SectionList({
 
   return (
     <CTFragment {...listProps}>
-      {!hasDepartmentSections && noSectionHolderEl}
+      {!slHasDepartmentSections && noSectionHolderEl}
 
       <CTFragment role="list" dFlexCol padding="10">
         {sections.map((section, index) => (

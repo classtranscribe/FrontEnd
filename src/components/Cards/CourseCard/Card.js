@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { CTFragment, CTText } from 'layout';
 import './index.scss';
 

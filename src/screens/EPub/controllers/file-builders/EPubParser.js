@@ -20,14 +20,10 @@ class EPubParser {
    * @param {Boolean} replaceImageSrc
    */
   constructor(epubData, replaceImageSrc) {
-    if (!(epubData instanceof EPubData)) {
-      throw EPubDataValidationError;
-    }
-
-    const data = epubData.toObject();
+    const data = JSON.parse(JSON.stringify(epubData)); // deep copy
     data.cover.src = uurl.getMediaUrl(data.cover.src);
     data.chapters = this.parseChapters(data.chapters, replaceImageSrc);
-    this.data = data;
+    this.data = data
   }
 
   /**
@@ -37,7 +33,7 @@ class EPubParser {
    * @returns {Any} parsed epubData
    */
   static parse(ePubData, replaceImageSrc) {
-    const parser = new EPubParser(ePubData, replaceImageSrc);
+    const parser = new EPubParser(ePubData.epub, replaceImageSrc);
     return parser.data;
   }
 

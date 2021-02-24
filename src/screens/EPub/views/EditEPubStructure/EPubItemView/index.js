@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import { connect } from 'dva'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import IconButton from '@material-ui/core/IconButton';
 import { CTFragment, CTHeading, CTParagraph, useButtonStyles, CTPopoverLabel } from 'layout';
@@ -9,11 +10,12 @@ import './index.scss';
 
 function EPubItemView({
   item,
-  setEPubItem
+  setEPubItem,
+  dispatch,
+  items
 }) {
   const btnStyles = useButtonStyles();
 
-  const items = epub.data.data.items;
   const itemIdx = items.findIndex((it) => it.id === item.id);
   const startTimeStr = timestr.toPrettierTimeString(item.start);
   const endTimeStr = timestr.toPrettierTimeString(item.end);
@@ -28,12 +30,16 @@ function EPubItemView({
     elem.scrollIntoCenter(items[itemIdx - 1].id, { focus: true });
   };
   const watchInPlayer = () => {
-    epub.ctrl.openPlayer(`Screenshot #${itemIdx + 1}`, item.start, item.end);
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Screenshot #${itemIdx + 1}`, start: item.start, end: item.end
+      }
+    });
   }
 
   return (
     <CTFragment className="ct-epb epb-item-view" fadeIn id={epub.id.epbItemViewId(item.id)}>
-      <CTFragment justConBetween alignItCenter margin={[0,0,10,0]}>
+      <CTFragment justConBetween alignItCenter margin={[0, 0, 10, 0]}>
         <CTHeading as="h3" compact>Screenshot {(itemIdx + 1)}/{items.length}</CTHeading>
         <IconButton onClick={onClose} aria-label="Close">
           <span className="material-icons">close</span>
@@ -57,7 +63,7 @@ function EPubItemView({
           </CTPopoverLabel>
 
           <ButtonGroup size="small">
-            <IconButton 
+            <IconButton
               disabled={itemIdx === 0}
               onClick={toPrev}
               aria-label="Previous screenshot"
@@ -65,7 +71,7 @@ function EPubItemView({
             >
               <span className="material-icons">chevron_left</span>
             </IconButton>
-            <IconButton 
+            <IconButton
               disabled={itemIdx === items.length - 1}
               onClick={toNext}
               aria-label="Next screenshot"
@@ -84,4 +90,6 @@ function EPubItemView({
   );
 }
 
-export default EPubItemView;
+export default connect(({ epub: { items } }) => ({
+  items
+}))(EPubItemView);

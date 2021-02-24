@@ -8,28 +8,41 @@ import EPubListItem from './EPubListItem';
 
 function EPubSubChapterItem({
   subChapter,
-  foldedIds=[],
+  foldedIds = [],
   chapterIndex,
   subChapterIndex,
-  canUndoSubdivide=false,
-  canUndoSplitSubChapter=false,
-  canSplitAsNewChapter=false,
-  setEPubItem
+  canUndoSubdivide = false,
+  canUndoSplitSubChapter = false,
+  canSplitAsNewChapter = false,
+  setEPubItem,
+  onFold,
+  dispatch
 }) {
-  const fold = () => epub.ctrl.foldChapter(subChapter.id);
-  const unfold = () => epub.ctrl.unfoldChapter(subChapter.id);
-
-  const undoSubdivideChapter = () =>
-    epub.data.undoSubdivideChapter(chapterIndex);
+  const undoSubdivideChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'undoSubdivideChapter', payload: { chapterIdx: chapterIndex }
+    }
+  });
 
   const undoSplitSubChapter = () =>
-    epub.data.undoSplitSubChapter(chapterIndex, subChapterIndex);
-  
-  const splitChapterFromSubChapter = () =>
-    epub.data.splitChapterFromSubChapter(chapterIndex, subChapterIndex);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'undoSplitSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex }
+      }
+    })
 
-  const saveSubChapterTitle = value => 
-    epub.data.saveSubChapterTitle(chapterIndex, subChapterIndex, value);
+  const splitChapterFromSubChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'splitChapterFromSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex }
+    }
+  })
+
+  const saveSubChapterTitle = value =>
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveSubChapterTitle', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, value }
+      }
+    })
 
   const isFolded = foldedIds.includes(subChapter.id);
 
@@ -60,10 +73,10 @@ function EPubSubChapterItem({
           icon={isFolded ? "expand_more" : "expand_less"}
           className="ch-item-expand-btn"
           outlined={false}
-          onClick={isFolded ? unfold : fold}
+          onClick={() => onFold(!isFolded, subChapter.id)}
         />
 
-        <ChapterTitleButton 
+        <ChapterTitleButton
           show={canUndoSubdivide}
           content="Undo Subdivide"
           icon="chevron_left"
@@ -71,7 +84,7 @@ function EPubSubChapterItem({
           onClick={undoSubdivideChapter}
         />
 
-        <ChapterTitleButton 
+        <ChapterTitleButton
           show={canUndoSplitSubChapter}
           content="Append to Above Sub-Chapter"
           icon="vertical_align_top"
@@ -90,27 +103,27 @@ function EPubSubChapterItem({
       </div>
 
       {
-        isFolded 
-        ?
-          <CTText line={2} className="ch-item-compact-txt">
-            {getCompactText(subChapter)}
-          </CTText>
-        :
-          <div className="ch-item-ol ct-d-c">
-            {subChapter.items.map((item, itemIndex) => (
-              <EPubListItem
-                isSubChapter
-                key={item.id} 
-                item={item} 
-                itemIndex={itemIndex}
-                chapterIndex={chapterIndex}
-                subChapterIndex={subChapterIndex}
-                canSplit={itemIndex > 0}
-                canSplitSubChapter={itemIndex > 0}
-                setEPubItem={setEPubItem}
-              />
-            ))}
-          </div>
+        isFolded
+          ?
+            <CTText line={2} className="ch-item-compact-txt">
+              {getCompactText(subChapter)}
+            </CTText>
+            :
+            <div className="ch-item-ol ct-d-c">
+              {subChapter.items.map((item, itemIndex) => (
+                <EPubListItem
+                  isSubChapter
+                  key={item.id}
+                  item={item}
+                  itemIndex={itemIndex}
+                  chapterIndex={chapterIndex}
+                  subChapterIndex={subChapterIndex}
+                  canSplit={itemIndex > 0}
+                  canSplitSubChapter={itemIndex > 0}
+                  setEPubItem={setEPubItem}
+                />
+              ))}
+            </div>
       }
     </div>
   );

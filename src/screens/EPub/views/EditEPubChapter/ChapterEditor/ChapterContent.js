@@ -16,7 +16,6 @@ function ChapterContent({
   return (
     <CTFragment>
       <ChapterNewContent onInsert={onInsert} />
-
       {
         isTextContent ? (
           <ChapterText 

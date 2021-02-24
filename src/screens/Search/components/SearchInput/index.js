@@ -1,12 +1,14 @@
 import React from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment } from 'layout';
-import { connectWithRedux, searchControl } from '../../controllers';
 import './index.scss';
 
-function SearchInputWithRedux(props) {
-  let { searchValue = '' } = props;
-
+function SearchInput(props) {
+  const { search, dispatch } = props;
+  const {searchValue = ''} = search;
+  const handleSearchInputChange = (e) => {
+    dispatch({type: 'search/searchValue', payload: e.target.value})
+  }
   return (
     <CTFragment padding={[0, 30]}>
       <CTFragment justConCenter padding={[0, 0, 0, 20]} className="sp-input-con">
@@ -14,7 +16,7 @@ function SearchInputWithRedux(props) {
           id="sp-input"
           placeholder="Search for courses ..."
           value={searchValue}
-          onChange={searchControl.handleSearchInputChange}
+          onChange={handleSearchInputChange}
           autoComplete="off"
           autoFocus
         />
@@ -29,8 +31,5 @@ function SearchInputWithRedux(props) {
   );
 }
 
-export const SearchInput = connectWithRedux(
-  SearchInputWithRedux,
-  ['searchValue']
-);
+export default SearchInput;
 

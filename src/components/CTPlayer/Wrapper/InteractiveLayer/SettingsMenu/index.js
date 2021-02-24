@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
+import { connect } from 'dva'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
+import {
+  CTPlayerConstants as PConstants,
+  LanguageConstants as LangConstants
+} from 'components/CTPlayer';
 import RootMenu from './RootMenu';
 import PlaybackRateMenu from './PlaybackRateMenu';
 import ClosedCaptionMenu from './ClosedCaptionMenu';
@@ -17,34 +21,15 @@ import './index.scss';
 function SettingsMenu(props) {
   const {
     id,
-    open = false,
-    isTwoScreen,
-    screenMode,
-    openCC,
-    ccStyle,
-    language,
-    languages,
-    playbackRate,
-    playbackRates,
+    menu,
     onClose,
-    setScreenMode,
-    onSwapScreens,
-    onCloseCC,
-    setLanguage,
-    setPlaybackRate,
-    setCCFontSize,
-    setCCFontColor,
-    setCCOpacity,
-    setCCBackgroundColor,
+    playbackrate: playbackRate,
+    media,
+    openCC,
+    currTrans,
+    dispatch
   } = props;
-
-  const {
-    fontSize,
-    fontColor,
-    opacity,
-    backgroundColor
-  } = ccStyle;
-
+  const open = menu && menu === 'menu-setting';
   const [menuType, setMenuType] = useState('root');
   const handleOpenMenu = type => () => {
     setMenuType(type);
@@ -60,99 +45,58 @@ function SettingsMenu(props) {
   switch (menuType) {
     case 'root':
       menuProps = {
-        isTwoScreen,
-        screenMode,
-        openCC,
-        language,
         playbackRate,
         onOpenCCMenu: handleOpenMenu('cc'),
         openPlaybackRateMenu: handleOpenMenu('pbr'),
         onOpenScreenModeManu: handleOpenMenu('screen-mode')
-      };
+      }
       menuElement = <RootMenu {...menuProps} />;
       break;
 
     case 'pbr':
       menuProps = {
         playbackRate,
-        playbackRates,
+        playbackRates: PConstants.PlaybackRates,
         onGoBack: handleOpenMenu('root'),
-        setPlaybackRate
-      };
+        setPlaybackRate: (value) => dispatch({ type: 'watch/media_playbackrate', payload: value })
+      }
       menuElement = <PlaybackRateMenu {...menuProps} />;
       break;
 
     case 'cc':
       menuProps = {
+        onCloseCC: (value) => dispatch({ type: 'playerpref/toggleOpenCC', payload: value }),
         openCC,
-        language,
-        languages,
+        language: { code: currTrans.language },
+        languages: LangConstants.LanguageOptions,
         onGoBack: handleOpenMenu('root'),
-        onOpenCCOptions: handleOpenMenu('cc-opt'),
-        onCloseCC,
-        setLanguage
-      };
+        // onOpenCCOptions: handleOpenMenu('cc-opt'),
+        setLanguage: (value) => dispatch({ type: 'watch/setLanguage', payload: value })
+      }
       menuElement = <ClosedCaptionMenu {...menuProps} />;
       break;
 
     case 'cc-opt':
-      menuProps = {
-        fontSize,
-        fontColor,
-        opacity,
-        backgroundColor,
-        onGoBack: handleOpenMenu('cc'),
-        onOpenFontSizeMenu: handleOpenMenu('cc-f-size'),
-        onOpenFontColorMenu: handleOpenMenu('cc-f-color'),
-        onOpenOpacityMenu: handleOpenMenu('cc-opacity'),
-        onOpenBackgroundColorMenu: handleOpenMenu('cc-bg-color'),
-      };
       menuElement = <CCOptionsMenu {...menuProps} />;
       break;
 
     case 'cc-f-size':
-      menuProps = {
-        fontSize,
-        setCCFontSize,
-        onGoBack: handleOpenMenu('cc-opt')
-      };
       menuElement = <CCFontSizesMenu {...menuProps} />;
       break;
 
     case 'cc-f-color':
-      menuProps = {
-        fontColor,
-        setCCFontColor,
-        onGoBack: handleOpenMenu('cc-opt')
-      };
       menuElement = <CCFontColorsMenu {...menuProps} />;
       break;
 
     case 'cc-opacity':
-      menuProps = {
-        opacity,
-        setCCOpacity,
-        onGoBack: handleOpenMenu('cc-opt')
-      };
       menuElement = <CCOpacityMenu {...menuProps} />;
       break;
 
     case 'cc-bg-color':
-      menuProps = {
-        backgroundColor,
-        setCCBackgroundColor,
-        onGoBack: handleOpenMenu('cc-opt')
-      };
       menuElement = <CCBackgroundColorsMenu {...menuProps} />;
       break;
 
     case 'screen-mode':
-      menuProps = {
-        screenMode,
-        setScreenMode,
-        onSwapScreens,
-        onGoBack: handleOpenMenu('root')
-      };
       menuElement = <ScreenModesMenu {...menuProps} />
       break;
 
@@ -170,33 +114,9 @@ function SettingsMenu(props) {
   ) : null;
 }
 
-SettingsMenu.propTypes = {
-  id: PropTypes.string,
-  open: PropTypes.bool,
-  isTwoScreen: PropTypes.bool,
-  screenMode: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  openCC: PropTypes.bool.isRequired,
-  ccStyle: PropTypes.shape({
-    fontSize: PropTypes.number,
-    fontColor: PropTypes.string,
-    opacity: PropTypes.number,
-    backgroundColor: PropTypes.string
-  }),
-  language: ClosedCaptionMenu.propTypes.language,
-  languages: ClosedCaptionMenu.propTypes.languages,
-  playbackRate: PlaybackRateMenu.propTypes.playbackRate,
-  playbackRates: PlaybackRateMenu.propTypes.playbackRates,
-  setScreenMode: PropTypes.func,
-  onSwapScreens: PropTypes.func,
-  onCloseCC: PropTypes.func.isRequired,
-  setLanguage: PropTypes.func.isRequired,
-  setPlaybackRate: PropTypes.func.isRequired,
-  setCCFontSize: PropTypes.func.isRequired,
-  setCCFontColor: PropTypes.func.isRequired,
-  setCCOpacity: PropTypes.func.isRequired,
-  setCCBackgroundColor: PropTypes.func.isRequired,
-};
 
-export default SettingsMenu;
+export default connect(({ watch: { menu, media, currTrans },
+  playerpref: { playbackrate, openCC } }) => ({
+    menu, media, currTrans, playbackrate, openCC
+  }))(SettingsMenu);
 

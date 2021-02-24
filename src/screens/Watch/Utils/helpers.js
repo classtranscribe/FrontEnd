@@ -1,7 +1,6 @@
 import { uurl, links } from 'utils';
 import moment from 'moment';
 import { cc_colorMap, CC_COLOR_BLACK } from './constants.util';
-// import { videoControl } from './player.control'
 
 /**
  * Convert seconds to a readable time string `H:mm:ss`

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
-  menuControl,
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
   MENU_SETTING,
@@ -12,7 +11,6 @@ import {
   // MENU_BEFORE_HIDE,
 } from '../../Utils';
 import './index.css';
-
 import PlaylistsMenu from './PlaylistsMenu';
 import PlaybackrateMenu from './PlaybackrateMenu';
 import ScreenModeMenu from './ScreenModeMenu';
@@ -21,13 +19,8 @@ import LanguageMenu from './LanguageMenu';
 import DownloadMenu from './DownloadMenu';
 import ShortcutsTable from './ShortcutsTable';
 
-export function MenusWithRedux({ menu, setMenu }) {
-  // Register setMenu to menuControl
-  useEffect(() => {
-    menuControl.register({ setMenu });
-  }, []);
-  const closeMenu = () => menuControl.close();
-
+export function MenusWithRedux({ menu, transcriptions, dispatch }) {
+  const closeMenu = () => dispatch({type: 'watch/menu_close'});
   // const hideBefore = menu === MENU_BEFORE_HIDE
 
   return (
@@ -38,10 +31,12 @@ export function MenusWithRedux({ menu, setMenu }) {
       {menu === MENU_SCREEN_MODE && <ScreenModeMenu onClose={closeMenu} />}
       {menu === MENU_SETTING && <SettingMenu onClose={closeMenu} />}
       {menu === MENU_LANGUAGE && <LanguageMenu onClose={closeMenu} />}
-      {menu === MENU_DOWNLOAD && <DownloadMenu onClose={closeMenu} />}
+      {menu === MENU_DOWNLOAD && <DownloadMenu onClose={closeMenu} trans={transcriptions} />}
       {menu === MENU_SHORTCUTS && <ShortcutsTable onClose={closeMenu} />}
     </div>
   );
 }
 
-export const Menus = connectWithRedux(MenusWithRedux, ['menu'], ['setMenu']);
+export const Menus = connect(({ watch: { menu, transcriptions }, loading }) => ({
+  menu, transcriptions
+}))(MenusWithRedux);

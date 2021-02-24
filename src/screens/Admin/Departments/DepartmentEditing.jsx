@@ -64,7 +64,7 @@ export default class DepartmentEditing extends React.Component {
   };
 
   onCancel = () => {
-    this.props.history.goBack();
+    this.props.history.back();
   };
 
   render() {

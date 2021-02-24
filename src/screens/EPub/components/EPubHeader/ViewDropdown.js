@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { CTDropdown } from 'layout';
 import { epub, connectWithRedux } from '../../controllers';
 
-function ViewDropdown({ view }) {
+function ViewDropdown({ view, dispatch }) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -12,7 +12,7 @@ function ViewDropdown({ view }) {
   };
 
   const handleClose = () => setOpen(false);
-  const handleChange = (value) => epub.state.setView(value);
+  const handleChange = (value) => dispatch({type: 'epub/setView', payload: value}); 
 
   const viewOptions = [
     {

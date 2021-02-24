@@ -1,51 +1,35 @@
 import React from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
+import { connect } from 'dva';
 import { CTLayout } from 'layout';
-import { searchStore, connectWithRedux, setup } from './controllers';
-import { SearchInput, SearchResult } from './components';
+import SearchInput from './components/SearchInput';
+import SearchResult from './components/SearchResult';
 
-class SearchWithRedux extends React.Component {
-  constructor(props) {
-    super();
+const SearchWithRedux = (props) => {
+  const layoutProps = CTLayout.createProps({
+    transition: true,
+    responsive: true,
+    footer: true,
+    headingProps: {
+      heading: 'Search',
+      icon: 'search',
+      sticky: true,
+      gradient: true,
+      offsetTop: 30,
+    },
+    metaTagsProps: {
+      title: 'Search',
+      description: 'Find your courses in ClassTranscribe.'
+    }
+  });
 
-    setup.init(props);
-  }
-
-  componentDidMount() {
-    setup.setupSearchPage();
-  }
-
-  render() {
-    const layoutProps = CTLayout.createProps({
-      transition: true,
-      responsive: true,
-      footer: true,
-      headingProps: {
-        heading: 'Search',
-        icon: 'search',
-        sticky: true,
-        gradient: true,
-        offsetTop: 30,
-      },
-      metaTagsProps: {
-        title: 'Search',
-        description: 'Find your courses in ClassTranscribe.'
-      }
-    });
-
-    return (
-      <CTLayout {...layoutProps}>
-        <SearchInput />
-        <SearchResult />
-      </CTLayout>
-    );
-  }
+  return (
+    <CTLayout {...layoutProps}>
+      <SearchInput {...props} />
+      <SearchResult {...props} />
+    </CTLayout>
+  );
 }
 
-export const Search = withReduxProvider(
-  SearchWithRedux,
-  searchStore,
-  connectWithRedux,
-  [],
-  ['all'],
-);
+export const Search = connect(({ search, loading }) => ({
+  search
+}))(SearchWithRedux);

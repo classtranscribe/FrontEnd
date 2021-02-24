@@ -1,6 +1,5 @@
 import React from 'react';
-import { menuControl } from '../../../Utils';
-
+const menuControl = {};
 export default function OpenMenuButton({ show, menu, name }) {
   return show ? (
     <div className="w-100 d-flex px-3">

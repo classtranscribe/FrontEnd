@@ -1,10 +1,11 @@
+import { connect } from 'dva';
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { connectWithRedux, playbackRateOptions, videoControl } from '../../../Utils';
+import { playbackRateOptions } from '../../../Utils';
 import './index.css';
 import './slider.scss';
 
-function PlaybackrateMenu({ onClose = null, playbackrate = 1 }) {
+function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
   // console.log('???', setPlaybackrate)
   const [sliderValue, setSliderValue] = useState(1);
   // isCustomized - 0:unset, 1:
@@ -19,16 +20,16 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1 }) {
   }, [playbackrate]);
 
   const chooseCustomizedRate = (value) => () => {
-    videoControl.playbackrate(value);
+    dispatch({ type: 'watch/media_playbackrate', payload: value })
     setTimeout(() => onClose(), 200);
   };
 
   const handleSliderChange = ({ target: { value } }) => {
-    videoControl.playbackrate(value);
+    dispatch({ type: 'watch/media_playbackrate', payload: value })
   };
 
   const handleChooseRate = (value) => () => {
-    videoControl.playbackrate(value);
+    dispatch({ type: 'watch/media_playbackrate', payload: value })
     setIsCustomized(isCustomized >= 2 ? 3 : 1);
     setTimeout(() => onClose(), 200);
   };
@@ -124,4 +125,6 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1 }) {
   );
 }
 
-export default connectWithRedux(PlaybackrateMenu, ['playbackrate']);
+export default connect(({ playerpref: { playbackrate }, loading }) => ({
+  playbackrate
+}))(PlaybackrateMenu);

@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
 import { timestr } from 'utils';
-import { getShareableURL, videoControl } from '../../../Utils';
+import { getShareableURL } from '../../../Utils';
 import './index.css';
 
-function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
+function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, dispatch }) {
   const inputRef = useRef();
   const [begin, setBegin] = useState(-1); // -1 X, >0 √
   const [copy, setCopy] = useState(0); // -1 unset, 0 copying, 1 copied
@@ -21,18 +22,18 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
     if (begin >= 0) {
       setBegin(-1);
     } else {
-      setBegin(videoControl.currTime());
+      setBegin(currTime);
     }
   };
 
   const openEmbedModal = () => {
     setEmbed(true)
-    videoControl.pause()
+    dispatch({ type: 'watch/media_pause' });
   };
 
   useEffect(() => {
     if (show) {
-      setBegin(videoControl.currTime());
+      setBegin(currTime);
     }
   }, [show]);
 
@@ -109,7 +110,7 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
               aria-label="time"
               id="wml-share-time"
               className="plain-btn"
-              value={timestr.toTimeString(videoControl.currTime())}
+              value={timestr.toTimeString(currTime)}
             />
           </div>
 
@@ -133,4 +134,6 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed }) {
   );
 }
 
-export default ShareModal;
+export default connect(({ watch : { time }, loading }) => ({
+  currTime: time
+}))(ShareModal);

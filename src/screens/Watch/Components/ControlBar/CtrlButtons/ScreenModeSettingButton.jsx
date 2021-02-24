@@ -1,21 +1,20 @@
 import React from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import {
-  connectWithRedux,
   screenModes,
-  menuControl,
   MENU_HIDE,
   MENU_SCREEN_MODE,
   NORMAL_MODE,
 } from '../../../Utils';
 
-export function ScreenModeSettingButtonWithRedux({ menu = MENU_HIDE, mode = NORMAL_MODE }) {
+export function ScreenModeSettingButtonWithRedux({ menu = MENU_HIDE, mode = NORMAL_MODE, dispatch }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_SCREEN_MODE) {
-      menuControl.open(MENU_SCREEN_MODE);
+      dispatch({type: 'watch/menu_open', payload: { type: MENU_SCREEN_MODE } });
     } else {
-      menuControl.close();
+      dispatch({type: 'watch/menu_close'});
     }
   };
 
@@ -44,7 +43,6 @@ export function ScreenModeSettingButtonWithRedux({ menu = MENU_HIDE, mode = NORM
   ) : null;
 }
 
-export const ScreenModeSettingButton = connectWithRedux(ScreenModeSettingButtonWithRedux, [
-  'menu',
-  'mode',
-]);
+export const ScreenModeSettingButton = connect(({ watch: { menu, mode }, loading }) => ({
+  menu, mode
+}))(ScreenModeSettingButtonWithRedux);
