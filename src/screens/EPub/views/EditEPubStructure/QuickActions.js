@@ -13,7 +13,6 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const { start, end, title } = chapters[currChIndex];
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
-
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   const showSplitAllBtn = chapters.length !== items.length;
   // const showSubdivideAllBtn = true;

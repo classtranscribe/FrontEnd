@@ -23,7 +23,7 @@ class EPubParser {
     const data = JSON.parse(JSON.stringify(epubData)); // deep copy
     data.cover.src = uurl.getMediaUrl(data.cover.src);
     data.chapters = this.parseChapters(data.chapters, replaceImageSrc);
-    this.data = epubData
+    this.data = data
   }
 
   /**
