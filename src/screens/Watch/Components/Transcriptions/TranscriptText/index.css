@@ -1,7 +1,7 @@
 .article-text {
   display: inline;
   margin-inline-end: .2em;
-  padding: 0 .3em;
+  /* padding: 0 .3em; */
   font-size: 1.3em;
   cursor: pointer;
   /* font-weight: bold; */

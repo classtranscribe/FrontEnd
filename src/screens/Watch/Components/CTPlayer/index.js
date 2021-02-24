@@ -21,8 +21,8 @@ const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { watch, playerpref, dispatch } = props;
   const { transView, muted, volume, playbackrate } = playerpref;
-  const { media, mode, isSwitched, isFullscreen, embedded } = watch;
-  const { videos, isTwoScreen } = media;
+  const { media = {}, mode, isSwitched, isFullscreen, embedded } = watch;
+  const { videos = [], isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
 
   // Mute Handler

@@ -34,7 +34,7 @@ export function NewPlaylistForm(props) {
   const playlistUrlProps = { error, enable, sourceType, url, setUrl };
 
   useEffect(() => {
-    errorDispatch([!name, 'playlistName']);
+    // errorDispatch([!name, 'playlistName']);
     errorDispatch([!url && sourceType !== 2, 'playlistUrl']);
     errorDispatch([url && !PlaylistTypes.isValidUrl(sourceType, url), 'valid-id']);
   }, [name, url]);
@@ -47,7 +47,7 @@ export function NewPlaylistForm(props) {
   const handleSave = async () => {
     setEnable(true);
     if (error.length === 0 && typeof onSave === 'function') {
-      onSave({ name, sourceType, url });
+      onSave({ name: (name === '' ? 'Untitled Playlist' : name), sourceType, url });
     }
   };
 

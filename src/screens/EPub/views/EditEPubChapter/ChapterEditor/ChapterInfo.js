@@ -18,7 +18,7 @@ function ChapterInfo({ chapter, currChIndex, dispatch }) {
   const onRemove = (index) => () => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'removeChapterContent', payload: { contentIdx: index }
+        action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
       }
     })
   };
@@ -34,7 +34,7 @@ function ChapterInfo({ chapter, currChIndex, dispatch }) {
   const onImageChange = (index) => (val) => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'insertChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
+        action: 'setChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
       }
     })
   };

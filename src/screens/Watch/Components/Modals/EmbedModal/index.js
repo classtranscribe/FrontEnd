@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
-import { 
+import {
   CTFragment,
   CTModal,
   CTInput,
@@ -11,7 +11,10 @@ import {
   CTFormHeading
 } from 'layout';
 import { uurl, prompt, timestr } from 'utils';
-import { CTPlayerConstants as Constants } from 'components/CTPlayer';
+import {
+  CTPlayerConstants as Constants,
+  LanguageConstants as LangConstants
+} from 'components/CTPlayer';
 import './index.scss';
 
 function EmbedModal(props) {
@@ -28,7 +31,7 @@ function EmbedModal(props) {
   const [enableCaption, setEnableCaption] = useState(false);
   const [enablePadded, setEnablePadded] = useState(false);
 
-  const handleEmbedHTMLChange = 
+  const handleEmbedHTMLChange =
     ({ target: { value } }) => setEmbedHTML(value);
 
   const handleCCLanguageChange =
@@ -69,7 +72,7 @@ function EmbedModal(props) {
     inputRef.current.select();
   };
 
-  const ccLanguageOptions = Constants.LanguageOptions;
+  const ccLanguageOptions = LangConstants.LanguageOptions;
   const playbackRatesOptions = Constants.PlaybackRates.map(
     (plb, index) => ({ text: plb, value: index })
   );
@@ -91,12 +94,12 @@ function EmbedModal(props) {
       let embedQuery = uurl.createSearch({
         begin: enableBeginTime ? timestr.toSeconds(beginTime) : null,
         playbackRate: playbackRate === 4 ? null : playbackRatesOptions[playbackRate].text,
-        openCC: enableCaption ? 'true': null,
+        openCC: enableCaption ? 'true' : null,
         lang: ccLanguage === Constants.English ? null : ccLanguage,
         padded: enablePadded ? 'true' : null
       });
       iframeEl.src = `${window.location.origin}/embed/${vid}${embedQuery}`;
-      setEmbedHTML(iframeEl.outerHTML);
+      setEmbedHTML(iframeEl.outerHTML.replace(/&amp;/g, '&'));
     }
   });
 
@@ -104,7 +107,7 @@ function EmbedModal(props) {
     if (enableBeginTime) {
       // setBeginTime(timestr.toTimeString(videoControl.currTime())); NOT IMPLEMENTED
     }
-  },[enableBeginTime]);
+  }, [enableBeginTime]);
 
   const actionElement = (
     <Button color="teal" onClick={handleConform}>

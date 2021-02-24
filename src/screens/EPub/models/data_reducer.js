@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { EPubData, EPubChapterData, EPubSubChapterData, EPubImageData } from 'entities/EPubs';
+import { getAllItemsInChapters } from 'entities/EPubs/utils'
 
 function insertSubChapter(chapter, subChapterIndex, subChapterLike) {
     let newSubChapter = new EPubSubChapterData(subChapterLike).toObject();
@@ -84,6 +85,10 @@ function removeContent(chapter, predictor) {
         removeContent(chapter, currIndex);
     }
 }
+function nextStateOfChapters(chapters) {
+    const items = getAllItemsInChapters(chapters);
+    return {chapters, items, images: _.map(items, item => item?.image) }
+}
 export default {
     subdivideChapter(state, { payload: { chapterIdx, itemIdx } }) {
         const chapters = state.epub.chapters;
@@ -98,7 +103,7 @@ export default {
 
         // this.data.rebuildChapter(chapterIdx);
         // this.updateAll('Subdivide the chapter');
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } }
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
     splitChapterFromChaptersItems(state, { payload: { chapterIdx, itemIdx } }) {
         const chapters = state.epub.chapters;
@@ -113,7 +118,7 @@ export default {
 
         // insert the new chapter
         const newChapters = insertChapter(chapters, chapterIdx + 1, { subChapters, items });
-        return { ...state, epub: { ...state.epub, chapters: newChapters } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
         // this.updateAll('Split chapter', chapterIdx + 1);
     },
     undoSubdivideChapter(state, { payload: { chapterIdx } }) {
@@ -127,7 +132,7 @@ export default {
 
         // this.data.rebuildChapter(chapterIdx);
         // this.updateAll('Undo subdivide the chapter');
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } }
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
     splitSubChapter(state, { payload: { chapterIdx, subChapterIdx, itemIdx } }) {
         const chapters = state.epub.chapters;
@@ -144,7 +149,7 @@ export default {
         // this.data.rebuildSubChapter(chapterIdx, subChapterIdx);
         // this.data.rebuildChapter(chapterIdx, null, false);
         // this.updateAll('Subdivide the chapter');
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } }
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
     undoSplitSubChapter(state, { payload: { chapterIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
@@ -160,7 +165,7 @@ export default {
         // this.data.rebuildSubChapter(chapterIdx, subChapterIdx - 1);
         // this.data.rebuildChapter(chapterIdx, null, false);
         // this.updateAll('Undo subdivide the chapter');
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } }
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
     splitChapterFromSubChapter(state, { payload: { chapterIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
@@ -180,7 +185,7 @@ export default {
 
         // this.data.rebuildChapter(chapterIdx, null, false);
         // this.updateAll('Split chapters', chapterIdx + 1);
-        return { ...state, epub: { ...state.epub, chapters: newChapters } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     splitChapterFromSubChaptersItems(state, { payload: { chapterIdx, subChapterIdx, itemIdx } }) {
         const chapters = state.epub.chapters;
@@ -201,7 +206,7 @@ export default {
         // this.data.rebuildSubChapter(chapterIdx, subChapterIdx);
         // this.data.rebuildChapter(chapterIdx, null, false);
         // this.updateAll('Split chapters', chapterIdx + 1);
-        return { ...state, epub: { ...state.epub, chapters: newChapters } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     undoSplitChapter(state, { payload: { chapterIdx } }) {
         const chapters = state.epub.chapters;
@@ -222,23 +227,23 @@ export default {
         }
         // this.data.rebuildChapter(chapterIdx - 1);
         // this.updateAll('Undo split chapters', chapterIdx - 1);
-        return { ...state, epub: { ...state.epub, chapters: newChapters } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     appendChapterAsSubChapter(state, { payload: { chapterIdx } }) {
         const chapters = state.epub.chapters;
-        return { ...state, epub: { ...state.epub, chapters: appendChapterAsSubChapter(chapters, chapterIdx) } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(appendChapterAsSubChapter(chapters, chapterIdx)) } };
     },
     saveSubChapterTitle(state, { payload: { chapterIdx, subChapterIdx, value } }) {
         const chapters = state.epub.chapters;
         if (chapters?.[chapterIdx]?.subChapters[subChapterIdx]) {
             chapters[chapterIdx].subChapters[subChapterIdx].title = value;
         }
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
     saveChapterTitle(state, { payload: { chapterIdx, value } }) {
         const chapters = state.epub.chapters;
         chapters[chapterIdx].title = value;
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
     splitChaptersByScreenshots(state) {
         let splitChapters = _.map(
@@ -249,11 +254,11 @@ export default {
                     title: `Untitled Chapter ${idx + 1}`,
                 }).toObject(),
         );
-        return { ...state, epub: { ...state.epub, chapters: splitChapters } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {
         const defaultChapters = EPubData.__buildEPubDataFromArray(state.items);
-        return { ...state, epub: { ...state.epub, chapters: defaultChapters }, currChIndex: 0 };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(defaultChapters) }, currChIndex: 0 };
     },
     insertChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
         if (type === 'image') {
@@ -265,7 +270,7 @@ export default {
         } else {
             insertContentChapter(chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx], contentIdx, value);
         }
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
         // this.updateAll('Insert chapter content');
     },
     setChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
@@ -281,7 +286,7 @@ export default {
         }
         // this.updateAll('Update the chapter content');
         // this.__feed();
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
     removeChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
@@ -293,7 +298,7 @@ export default {
         }
         // this.updateAll('Remove the chapter content');
         // this.__feed('Removed.');
-        return { ...state, epub: { ...state.epub, chapters: [...chapters] } };
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
 }
 /*

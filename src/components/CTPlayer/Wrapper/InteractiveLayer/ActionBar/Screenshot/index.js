@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { prompt } from 'utils';
+import SourceTypes from 'entities/SourceTypes';
 import ActionButton from '../../ActionButton';
 import ScreenshotPopup from './ScreenshotPopup';
-import {_captureVideoImage} from '../../../../controllers/helpers'
+import { 
+  _captureVideoImage, 
+  _copyScreenshotLink, 
+  _downloadScreenshotByBlob 
+} from '../../../../controllers/helpers'
 
 function Screenshot(props) {
-  const { player, actionElement } = props;
+  const { media, actionElement } = props;
   const [screenshot, setScreenshot] = useState(null); // null | { url, blob }
 
   const handleScreenshotCaptured = (url, blob) => {
@@ -18,7 +23,7 @@ function Screenshot(props) {
     // capture image of the primary video
     // this.pause();
     const video = document.getElementById('ct-video-1');
-    if(video) {
+    if (video) {
       try {
         _captureVideoImage(video, (url, blob) => {
           handleScreenshotCaptured(url, blob)
@@ -26,16 +31,21 @@ function Screenshot(props) {
         });
       } catch {
         prompt.error({ text: 'Failed to screenshot', timeout: 4000 });
-      } 
+      }
     }
   };
 
   const handleDownloadScreenshot = () => {
-    player.downloadScreenshot(screenshot.blob);
+    _downloadScreenshotByBlob(screenshot.blob, "T", media.mediaName);
+    // NOT IMPLEMENTED: TIME
   };
 
   const handleCopyScreenshotLink = async () => {
-    const successed = await player.copyScreenshotLink(screenshot.blob);
+    const successed = await _copyScreenshotLink(
+      screenshot.blob,
+      SourceTypes.Media,
+      media.id);
+
     return successed;
   };
 
@@ -43,7 +53,7 @@ function Screenshot(props) {
 
   const popupOpened = Boolean(screenshot);
   const { height } = {}; // player.playerBoundingRect; getBoundingClientRect() not implemented
-  
+
   return (
     <div className="ctp share-root">
       <ActionButton
