@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'dva'
 import { CTImagePickerModal } from 'components';
-import { epub } from '../controllers';
 
-function ImagePickerModal({ imgPickerData, dispatch, ...playerData }) {
+function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
   const show = Boolean(imgPickerData);
   if(!show) {
     return null;
@@ -31,8 +30,8 @@ function ImagePickerModal({ imgPickerData, dispatch, ...playerData }) {
   const imgPickerProps = {
     show,
     tabs,
-    sourceType: epub.data.data.sourceType,
-    sourceId: epub.data.data.sourceId,
+    sourceType: epub.sourceType,
+    sourceId: epub.sourceId,
     onClose: () => dispatch({ type: 'epub/setImgPickerData', payload: null }),
     ...imgPickerData,
     playerData
@@ -43,6 +42,6 @@ function ImagePickerModal({ imgPickerData, dispatch, ...playerData }) {
   );
 }
 
-export default connect(({ epub: { imgPickerData, media }, loading }) => ({
-  imgPickerData, media
+export default connect(({ epub: { imgPickerData, media, epub }, loading }) => ({
+  imgPickerData, media, epub
 }))(ImagePickerModal);

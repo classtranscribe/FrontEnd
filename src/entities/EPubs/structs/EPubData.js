@@ -12,7 +12,7 @@ function _buildEPubDataFromArray(rawEPubData) {
     new EPubChapterData({
       items: _.cloneDeep(rawEPubData),
       title: 'Default Chapter',
-    })
+    }).toObject()
   ];
 }
 
@@ -246,19 +246,6 @@ export default class EPubData {
         subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText);
       }
     }
-  }
-
-  insertChapter(index, chapterLike) {
-    const chapters = this.chapters;
-    let newChapter = new EPubChapterData(chapterLike);
-
-    this.chapters = [
-      ...chapters.slice(0, index),
-      newChapter,
-      ...chapters.slice(index)
-    ];
-
-    return newChapter;
   }
 
   insertSubChapter(chapterIndex, subChapterIndex, subChapterLike) {

@@ -95,6 +95,9 @@ export const keydownControl = {
      * One key events
      */
     switch (keyCode) {
+      // ESC
+      case 27:
+        return this.dispatch({type: 'watch/menu_close'})
       // `Space` / `k` : Pause or play
       case 32:
         return this.handleSpaceKey(e);

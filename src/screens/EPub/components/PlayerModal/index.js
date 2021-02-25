@@ -18,7 +18,7 @@ function PlayerModal({
   if(!isOpen) {
     return null;
   }
-  const { title, begin, end } = playerData || {};
+  const { title, begin, end } = playerData;
   const onClose = () => {
     if (!media) return;
     dispatch({ type: 'epub/setPlayerData', payload: null })

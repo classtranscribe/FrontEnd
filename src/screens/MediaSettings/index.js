@@ -28,11 +28,13 @@ class MediaSettingsWithRedux extends React.Component {
         subtitle: 'Media Settings',
         tabTitleElem: <MSPHeaderTabTitle {...this.props} />,
         tabs: [
+          /* NOT IMPLEMENTED: WIP
           {
             text: 'Transcriptions',
             active: window.location.pathname === transPath,
             href: transPath
           },
+          */
           {
             text: 'ePub',
             active: window.location.pathname === epubPath,

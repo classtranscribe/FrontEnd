@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { prompt } from 'utils';
-import { epubState } from './EPubStateManager';
 
 /**
  * The controller for histories of a ePub generating process
@@ -55,9 +54,13 @@ class EPubHistoryManager {
   logger() {
     // console.info('history', this.__index__, this.__history__);
   }
-
+  /*
+  updateContentChanges: 
+    this.setChapters(chapters);
+    this.setCurrChIndex(currChIndex);
+    */
   revertToChapters(chapters) {
-    epubState.updateContentChanges(chapters, epubState.currChIndex);
+    // epubState.updateContentChanges(chapters, epubState.currChIndex); NOT IMPLEMENTED
     this.__dataCtrl.setChapters(chapters);
   }
 
@@ -78,8 +81,8 @@ class EPubHistoryManager {
     nextChapters,
     currChIndex
   ) {
-    this.push(actionName, epubState.chapters, nextChapters);
-    epubState.updateContentChanges(nextChapters, currChIndex);
+    // this.push(actionName, epubState.chapters, nextChapters); NOT IMPLEMENTED
+    // epubState.updateContentChanges(nextChapters, currChIndex); NOT IMPLEMENTED
   }
 
   undo() {

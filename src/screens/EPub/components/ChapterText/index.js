@@ -39,9 +39,9 @@ function ChapterText({
   useEffect(() => {
     if (editing) {
       elem.scrollIntoCenter(id);
-      epub.nav.disable();
+      // epub.nav.disable(); NOT IMPLEMENTED
     } else {
-      epub.nav.enable();
+      // epub.nav.enable(); NOT IMPLEMENTED
     }
   }, [editing]);
 

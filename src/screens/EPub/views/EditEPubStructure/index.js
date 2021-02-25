@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash'
 import { CTFragment, altEl, CTHeading } from 'layout';
 import { connect } from 'dva'
 import { EPubNavigationProvider } from '../../components';
@@ -9,25 +10,18 @@ import EPubItemView from './EPubItemView';
 import QuickActions from './QuickActions';
 
 
-function EditEPubStructure(props) {
-  const epubData = props.epub;
+function EditEPubStructure({ epub: epubData, dispatch }) {
   const [ePubItem, setEPubItem] = useState(null);
   const [instExp, setInstExp] = useState(true);
 
   const toggleInstExp = (e, newExpanded) => setInstExp(newExpanded);
 
   useEffect(() => {
-    // add scroll event listener
-    epubController.nav.addScrollListenerForChapterList();
-
     // show the user onboard guide if possible
     setTimeout(() => {
       const guide = generateEPubGuide();
       guide.start();
     }, 1000);
-
-    // remove listener when component unmount
-    return epubController.nav.removeScrollListenerForChapterList;
   }, []);
 
   useEffect(() => {
@@ -35,6 +29,8 @@ function EditEPubStructure(props) {
       setInstExp(false);
     }
   }, [ePubItem]);
+  const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
+  const onScroll = (e) => dispatchScroll(e.target)
 
   const itemViewElem = altEl(EPubItemView, Boolean(ePubItem), {
     item: ePubItem, setEPubItem
@@ -42,7 +38,7 @@ function EditEPubStructure(props) {
 
   return (
     <EPubNavigationProvider>
-      <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID}>
+      <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID} onScroll={onScroll}>
         <CTFragment width="65%">
           <CTHeading>{epubData.title}</CTHeading>
           <ChapterList setEPubItem={setEPubItem} />

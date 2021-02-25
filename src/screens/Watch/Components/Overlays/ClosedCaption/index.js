@@ -18,6 +18,7 @@ function ClosedCaptionWithRedux({
   openCC = false,
   currCaption = null,
   isPrimary = false,
+  embedded = false,
 
   cc_color = CC_COLOR_WHITE,
   cc_bg = CC_COLOR_BLACK,
@@ -42,7 +43,7 @@ function ClosedCaptionWithRedux({
   }
 
   return shouldDisplayCC && prevText ? (
-    <div id="watch-cc-container" className="watch-cc-container" style={ccContainerStyle}>
+    <div id="watch-cc-container" className={embedded ? "" : "watch-cc-container"} style={ccContainerStyle}>
       <div className="watch-cc-text" style={ccStyle}>
         {prevText}
       </div>
@@ -50,8 +51,9 @@ function ClosedCaptionWithRedux({
   ) : null;
 }
 
-export const ClosedCaption = connect(({ watch: { currCaption },
+export const ClosedCaption = connect(({ watch: { currCaption, embedded },
   playerpref: { openCC, cc_color, cc_bg, cc_size,
     cc_opacity, cc_font, cc_position }, loading }) => ({
+      embedded,
       currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
     }))(ClosedCaptionWithRedux); 

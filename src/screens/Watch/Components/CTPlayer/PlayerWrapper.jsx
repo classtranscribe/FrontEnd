@@ -11,11 +11,11 @@ import {
 } from '../Overlays';
 
 function PlayerWrapper(props) {
-  const { ctpPriEvent = CTP_LOADING, watch, isPrimary = false, dispatch } = props;
+  const { ctpPriEvent = CTP_LOADING, isPrimary = false, dispatch } = props;
   const shouldBlur = [CTP_LOADING, CTP_ENDED, CTP_ERROR].includes(ctpPriEvent);
   const handleClick = () => {
     if (!shouldBlur) {
-      dispatch({type: 'watch/onPlayPauseClick'});
+      dispatch({ type: 'watch/onPlayPauseClick' });
     }
   };
 
@@ -24,18 +24,18 @@ function PlayerWrapper(props) {
       {ctpPriEvent === CTP_ERROR ? (
         <div className="ctp-error-wrapper">Media Unavailable</div>
       ) : (
-        <>
-          <ClosedCaption isPrimary={isPrimary} />
-          <BigPlayButton isPrimary={isPrimary} />
-          <AudioDescription isPrimary={isPrimary} />
-        </>
-      )}
+          <>
+            <ClosedCaption isPrimary={isPrimary} />
+            <BigPlayButton isPrimary={isPrimary} />
+            <AudioDescription isPrimary={isPrimary} />
+          </>
+        )}
     </div>
   ) : (
-    <SecondaryPlayerWrapper isPrimary={isPrimary} />
-  );
+      <SecondaryPlayerWrapper isPrimary={isPrimary} />
+    );
 }
 
-export default connect(({ watch : { ctpPriEvent }, loading }) => ({
+export default connect(({ watch: { ctpPriEvent }, loading }) => ({
   ctpPriEvent
 }))(PlayerWrapper);

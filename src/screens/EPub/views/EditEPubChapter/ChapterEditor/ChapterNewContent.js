@@ -3,9 +3,8 @@ import { connect } from 'dva'
 import { CTFragment } from 'layout';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterEditButton, MDEditorModal } from '../../../components';
-import { epub } from '../../../controllers';
 
-function ChapterNewContent({ onInsert, currChIndex, dispatch }) {
+function ChapterNewContent({ onInsert, currChIndex, images, epub, dispatch }) {
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
 
@@ -25,11 +24,10 @@ function ChapterNewContent({ onInsert, currChIndex, dispatch }) {
 
   const handleOpenMDEditor = () => setInsertType('md');
   const handleOpenImgPicker = () => {
-    const epubData = epub.data.data;
     const imgData = {
-      screenshots: epubData.images,
+      screenshots: images,
       onSave: handleSaveImage,
-      chapterScreenshots: epubData.chapters[currChIndex].allImagesWithIn
+      chapterScreenshots: epub.chapters[currChIndex].allImagesWithIn
     };
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
@@ -54,6 +52,6 @@ function ChapterNewContent({ onInsert, currChIndex, dispatch }) {
   );
 }
 
-export default connect(({ epub: { currChIndex }, loading }) => ({
-  currChIndex
+export default connect(({ epub: { currChIndex, epub, images }, loading }) => ({
+  currChIndex, images, epub
 }))(ChapterNewContent);

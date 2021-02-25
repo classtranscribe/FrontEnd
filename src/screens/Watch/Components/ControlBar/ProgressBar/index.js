@@ -5,8 +5,8 @@ import { prog } from '../../../Utils/progress-controllers';
 import './index.scss';
 
 function ProgressBar(props) {
-  const { dispatch, watch} = props;
-  const { time = 0, duration = 0 } = watch;
+  const { dispatch, watch } = props;
+  const { time = 0, duration = 0, bufferedTime = 0, embedded } = watch;
   prog.setModel(dispatch, watch)
   const handleClick = (e) => prog.handleClick(e);
 
@@ -48,7 +48,7 @@ function ProgressBar(props) {
         <div id="seeking-time" />
 
         <div className="buffered">
-          <span id="buffered-amount" />
+          <span id="buffered-amount" style={{ width: bufferedTime }} />
         </div>
 
         <div className="progress">

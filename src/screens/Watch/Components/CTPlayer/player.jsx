@@ -14,7 +14,7 @@ import {
     HIDE_TRANS,
 } from '../../Utils/constants.util';
 const Video = React.memo((props) => {
-    const { id = 1, videoRef, path, dispatch, isSwitched } = props;
+    const { id = 1, videoRef, path, dispatch, isSwitched, embedded } = props;
     const isPrimary = (id == 1);
     console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
@@ -43,7 +43,7 @@ const Video = React.memo((props) => {
         }
         if (Math.abs(prevUATime - currentTime) >= 1) {
             // uEvent.timeupdate(this.currTime());
-            dispatch({type: 'watch/sendMediaHistories'});
+            dispatch({ type: 'watch/sendMediaHistories' });
             prevUATime = currentTime;
         }
     }, [isPrimary]);
@@ -53,8 +53,9 @@ const Video = React.memo((props) => {
         if (duration > 0) {
             for (let i = 0; i < buffered.length; i += 1) {
                 if (buffered.start(buffered.length - 1 - i) < currentTime) {
-                    document.getElementById('buffered-amount').style.width = `${(buffered.end(buffered.length - 1 - i) / duration) * 100
-                        }%`;
+                    dispatch({
+                        type: 'watch/setBufferedTime', payload: `${(buffered.end(buffered.length - 1 - i) / duration) * 100}%`
+                    });
                     break;
                 }
             }
@@ -93,8 +94,10 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
-    return (<div className="ct-video-contrainer">
-        <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
+    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+        {embedded ?
+            null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
+        }
         <video
             playsInline
             autoPlay={isMobile}

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'dva'
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
-import { epub } from '../../controllers';
 import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';
@@ -23,6 +22,8 @@ function ChapterImage({
   onChooseImage,
   onRemoveImage,
   currChIndex,
+  epub,
+  images,
   dispatch
 }) {
   const { alt, src, description } = image;
@@ -50,14 +51,13 @@ function ChapterImage({
   };
 
   const openImagePicker = () => {
-    const epubData = epub.data.data;
     const imgData = {
-      screenshots: epubData.images,
+      screenshots: images,
       onSave: onSrcChange,
       defaultImage: src
     };
     if (enableChapterScreenshots) {
-      imgData.chapterScreenshots = epubData.chapters[currChIndex].allImagesWithIn;
+      imgData.chapterScreenshots = epub.chapters[currChIndex].allImagesWithIn;
     }
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   };
@@ -100,6 +100,6 @@ function ChapterImage({
   );
 }
 
-export default connect(({ epub: { currChIndex }, loading }) => ({
-  currChIndex
+export default connect(({ epub: { currChIndex, epub, images }, loading }) => ({
+  currChIndex, images, epub
 }))(ChapterImage);

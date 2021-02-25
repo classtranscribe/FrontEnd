@@ -37,8 +37,8 @@ showHWatchUserGuide = () => {
 */
 
 const WatchWithRedux = (props) => {
-  const { isFullscreen, dispatch, menu } = props;
-  let error = null;
+  const { isFullscreen, menu, dispatch } = props;
+  let { error } = props;
   const { id } = uurl.useSearch();
   useEffect(() => {
     /** GET media, playlist  */
@@ -90,6 +90,6 @@ const WatchWithRedux = (props) => {
   );
 }
 
-export const Watch = connect(({ loading, watch: { menu } }) => ({
-  menu
+export const Watch = connect(({ loading, watch: { menu, error, isFullscreen } }) => ({
+  menu, error, isFullscreen
 }))(WatchWithRedux);
