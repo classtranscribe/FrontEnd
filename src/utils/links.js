@@ -1,4 +1,6 @@
+import { env } from 'utils/env';
 import { uurl } from './use-url';
+
 
 export class ClassTranscribeLinks {
   /**
@@ -225,7 +227,22 @@ export class ClassTranscribeLinks {
   notfound404() {
     return '/404';
   }
-
+  
+  pgadmin() {
+    return `${env.baseURL}/pgadmin/`;
+  }
+  
+  rabbitmq() {
+    return `${env.baseURL}/rabbitmq/`;
+  }
+  
+  traefik() {
+    return `${env.baseURL}/traefik/`;
+  }
+  
+  swag() {
+    return `${env.baseURL}/swag/`;
+  }
   /**
    * to `mailto:classtranscribe@illinois.edu`
    */
