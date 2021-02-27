@@ -274,6 +274,7 @@ const WatchModel = {
     effects: {
         *setupMedia({ payload }, { call, put, select, take }) {
             // Get media
+            yield put.resolve({ type: 'changeVideo', payload: { media: {} } })
             const { id } = uurl.useSearch();
             let media = null;
             try {
@@ -287,8 +288,8 @@ const WatchModel = {
                 }
                 return null;
             }
-            yield put.resolve({ type: 'changeVideo', payload: media })
             PlayerData.param = {};
+            yield put({ type: 'setMedia', payload: media })
             yield put({ type: 'setMenu', payload: MENU_HIDE })
             // Set transcriptions
 
@@ -305,7 +306,6 @@ const WatchModel = {
                 return;
             }
             // Set data
-            yield put({ type: 'setMedia', payload: media })
             yield put({ type: 'setPlaylist', payload: playlist })
 
             const { offeringId } = playlist;
@@ -337,8 +337,8 @@ const WatchModel = {
         *setupEmbeddedMedia({ payload }, { call, put, select, take }) {
             const { mediaId, ...props } = payload;
             let media = payload.media;
-            if(!media) {
-                if(mediaId) {
+            if (!media) {
+                if (mediaId) {
                     try {
                         const { data } = yield call(api.getMediaById, mediaId);
                         media = api.parseMedia(data);
