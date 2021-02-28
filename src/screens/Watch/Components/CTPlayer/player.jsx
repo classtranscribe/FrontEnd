@@ -104,6 +104,7 @@ const Video = React.memo((props) => {
             className="ct-video"
             id={"ct-video-" + id}
             ref={videoRef}
+            muted={!isPrimary ? true : undefined}
             onDurationChange={onDurationChange}
             onTimeUpdate={onTimeUpdate}
             onProgress={onProgress}
