@@ -19,16 +19,15 @@ import './playerModes.css';
 const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
-  const { watch, playerpref, dispatch } = props;
-  const { transView, muted, volume, playbackrate } = playerpref;
-  const { media = {}, mode, isSwitched, isFullscreen, embedded } = watch;
+  const { dispatch } = props;
+  const { transView, muted, volume, playbackrate } = props;
+  const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
   const { videos = [], isTwoScreen } = media;
   const { srcPath1, srcPath2 } = videos[0] || {};
-
   // Mute Handler
   useEffect(() => {
     PlayerData.video1 && (PlayerData.video1.muted = muted);
-    PlayerData.video2 && (PlayerData.video2.muted = muted);
+    PlayerData.video2 && (PlayerData.video2.muted = true);
   }, [muted]);
   // Volume Handler
   useEffect(() => {
@@ -43,8 +42,14 @@ const ClassTranscribePlayerNew = (props) => {
 
   useEffect(() => {
     PlayerData.param = {};
-    PlayerData.video1 && (PlayerData.video1.load());
-    PlayerData.video2 && (PlayerData.video2.load());
+    if (PlayerData.video1) {
+      PlayerData.video1.pause()
+      PlayerData.video1.load()
+    }
+    if (PlayerData.video2) {
+      PlayerData.video2.pause();
+      PlayerData.video2.load()
+    }
   }, [srcPath1, srcPath2]);
   const player1Position = isSwitched ? SECONDARY : PRIMARY;
   const player2Position = isSwitched ? PRIMARY : SECONDARY;
@@ -93,6 +98,10 @@ const ClassTranscribePlayerNew = (props) => {
   );
 };
 
-export const ClassTranscribePlayer = connect(({ watch, playerpref, loading }) => ({
-  watch, playerpref
+export const ClassTranscribePlayer = connect(({ watch: {
+  media, mode, isSwitched, isFullscreen, embedded
+}, playerpref: {
+  transView, muted, volume, playbackrate
+}, loading }) => ({
+  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate
 }))(ClassTranscribePlayerNew);
