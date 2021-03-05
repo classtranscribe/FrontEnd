@@ -17,7 +17,9 @@
     "lint:fix": "yarn lint --fix",
     "lint:fix:quiet": "yarn lint:fix --quiet",
     "prettier": "prettier --list-different \"**/*.{js,jsx,ts,tsx}\"",
-    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "backend": "node changeBackend",
+    "postinstall": "node getDefaultConfig"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,6 +51,7 @@
     "bootstrap": "^4.4.1",
     "braft-editor": "^2.3.9",
     "classnames": "^2.2.6",
+    "commander": "^7.1.0",
     "dentist": "^1.0.3",
     "dva": "^2.4.1",
     "harmony-reflect": "^1.6.1",
