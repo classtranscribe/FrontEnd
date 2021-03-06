@@ -4,7 +4,6 @@ import { CTFragment } from 'layout';
 import { CopyButton, PublishStatusSwitch } from 'components';
 import { links, user } from 'utils';
 import PublishStatus from 'entities/PublishStatus';
-import { setup } from '../../../controllers';
 import CourseAnalyticsButton from './CourseAnalyticsButton';
 import CourseSettingsButton from './CourseSettingsButton';
 import InstModeCheckBox from './InstModeCheckBox';
