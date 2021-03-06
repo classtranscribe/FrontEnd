@@ -198,6 +198,7 @@ export class DefaultSidebarItems {
     }
   
     const offeringItem = {
+      value: offering.id || 'ct-nsb-offering',
       text: offering.fullNumber,
       active: true,
       icon: 'book',
