@@ -12,7 +12,7 @@ function PublishStatusSwitch(props) {
 
   const icon = isPublished ? 'lens' : 'panorama_fish_eye';
   const text = isPublished ? 'Published' : 'Unpublished';
-  const label = `This ${targetName} is now ${isPublished ? 'visible to allowed' : 'hidden to all'} users`;
+  const label = isPublished ? 'Visible to allowed users' : 'Hidden from users';
 
   const handleClick = () => {
     if (isPublished && typeof onUnpublish === 'function') {

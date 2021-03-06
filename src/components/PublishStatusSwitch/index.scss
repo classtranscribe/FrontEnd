@@ -1,5 +1,7 @@
 .ct-publish-btn-con {
   .ct-publish-btn {
+    position: relative;
+    display: flex;
     .ct-publish-btn-sub {
       background-color: rgb(233, 233, 233);
       padding: 5px 10px;

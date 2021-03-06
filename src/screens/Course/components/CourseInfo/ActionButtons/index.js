@@ -36,14 +36,35 @@ function ActionButtons(props) {
       payload: checked
     })
   };
+  const onPublish = () => {
+    dispatch({
+      type: 'course/setPublishStatus',
+      payload: { publishStatus: PublishStatus.Published }
+    });
+  };
+  const onUnpublish = () => {
+    dispatch({
+      type: 'course/setPublishStatus',
+      payload: { publishStatus: PublishStatus.Unpublished }
+    });
+  };
   return (
     <CTFragment>
-      <CTFragment justConEnd className="cp-action-bar">
-        {isInsructor && <InstModeCheckBox
-          isInstMode={isInstMode}
-          onChange={handleCheckboxChange}
-        />}
-      </CTFragment>
+      <CTFragment justConBetween alignItCenter className="cp-action-bar">
+        {
+          isInsructor
+          &&
+          <>
+            <PublishStatusSwitch
+              status={offering.publishStatus}
+              targetName="course"
+              onPublish={onPublish}
+              onUnpublish={onUnpublish}
+            />
+            <InstModeCheckBox isInstMode={isInstMode} onChange={handleCheckboxChange} />
+          </>
+        }
+      </CTFragment> 
 
       <CTFragment
         alignItCenter

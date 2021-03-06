@@ -22,9 +22,9 @@ export function VisibilityWithRedux(props) {
       termId: oldOffering.termId,
       courseName: oldOffering.courseName,
       description: oldOffering.description,
-      accessType: accessType,
-      logEventsFlag: logEventsFlag,
-      publishStatus: publishStatus,
+      accessType,
+      logEventsFlag,
+      publishStatus,
     };
     // update Model
     try {
