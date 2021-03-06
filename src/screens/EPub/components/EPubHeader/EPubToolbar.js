@@ -1,41 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { CTFragment } from 'layout';
-import { epub, connectWithRedux, generateEPubGuide } from '../../controllers';
+import { epub as EPubController, connectWithRedux, generateEPubGuide } from '../../controllers';
 import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 import DownloadDropdown from './DownloadDropdown';
 
-function EPubToolbar({ view, chapters, ...props }) {
+function EPubToolbar({ view, dispatch, epub }) {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-
+  const { chapters = [] } = epub;
   useEffect(() => {
     // invoke undo, redo status when content changes
-    setCanUndo(epub.history.canUndo);
-    setCanRedo(epub.history.canRedo);
-  }, [chapters, props.epub]);
-
-  const isReadOnly = view === epub.const.EpbReadOnly;
+    setCanUndo(EPubController.history.canUndo);
+    setCanRedo(EPubController.history.canRedo);
+  }, [chapters, epub]);
+  const historyUndo = () => {
+    // NOT IMPLEMENTED
+  }
+  const historyRedo = () => {
+    // NOT IMPLEMENTED
+  }
+  const isReadOnly = view === EPubController.const.EpbReadOnly;
 
   const undoBtnEl = _makeTBtn(
-    'undo', 'Undo', '⌘Z', epub.data.history.undo, false, !isReadOnly, 
+    'undo', 'Undo', '⌘Z', historyUndo, false, !isReadOnly,
     { disabled: !canUndo }
   );
   const redoBtnEl = _makeTBtn(
-    'redo', 'Redo', '⌘⇧Z', epub.data.history.redo, false, !isReadOnly,
+    'redo', 'Redo', '⌘⇧Z', historyRedo, false, !isReadOnly,
     { disabled: !canRedo }
   );
 
-  const saveEPub = () => epub.data.saveEPub(0);
+  const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' })
   const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
-  const openPreview = () => epub.state.setShowPreview(true);
+  const openPreview = () => dispatch({ type: 'epub/setShowPreview', payload: true });
   const previewBtnEl = _makeTBtn(
     'preview', 'Preview ePub', '⌘⇧P', openPreview, false, !isReadOnly
   );
 
   const prefBtnEl = null// _makeTBtn('tune', 'Preference', null, null, false, true);
 
-  const openShortcuts = () => epub.state.setShowShortcuts(true);
+  const openShortcuts = () => dispatch({ type: 'epub/setShowShortcuts', payload: true });
   const shortcutBtnEl = _makeTBtn(
     'keyboard', 'Keyboard Shortcuts', '⌘/', openShortcuts, false, true
   );
@@ -47,7 +52,7 @@ function EPubToolbar({ view, chapters, ...props }) {
   const guideBthEl = _makeTBtn(
     'help_outline', 'Show Help Guide', null, openHelpGuide, false, true
   );
-  
+
 
   return (
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
@@ -57,9 +62,9 @@ function EPubToolbar({ view, chapters, ...props }) {
         <ToolButtonDivider />
         <DownloadDropdown />
         {!isReadOnly && <ToolButtonDivider />}
-        {undoBtnEl}
-        {redoBtnEl}
-        <ToolButtonDivider />
+        {null && undoBtnEl}
+        {null && redoBtnEl}
+        {null && <ToolButtonDivider />}
         {prefBtnEl}
         {shortcutBtnEl}
         {guideBthEl}
@@ -67,8 +72,9 @@ function EPubToolbar({ view, chapters, ...props }) {
     </CTFragment>
   );
 }
+// NOT IMPLEMENTED
 
 export default connectWithRedux(
   EPubToolbar,
-  ['view', 'chapters', 'epub']
+  ['view', 'epub']
 );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { connectWithRedux, videoControl, CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../Utils';
+import { connect } from 'dva'
+import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../Utils';
 import './index.css';
 
 import {
@@ -9,11 +10,12 @@ import {
   AudioDescription,
 } from '../Overlays';
 
-function PlayerWrapper({ isPrimary = false, ctpPriEvent = CTP_LOADING }) {
+function PlayerWrapper(props) {
+  const { ctpPriEvent = CTP_LOADING, isPrimary = false, dispatch } = props;
   const shouldBlur = [CTP_LOADING, CTP_ENDED, CTP_ERROR].includes(ctpPriEvent);
   const handleClick = () => {
     if (!shouldBlur) {
-      videoControl.handlePause();
+      dispatch({ type: 'watch/onPlayPauseClick' });
     }
   };
 
@@ -22,16 +24,18 @@ function PlayerWrapper({ isPrimary = false, ctpPriEvent = CTP_LOADING }) {
       {ctpPriEvent === CTP_ERROR ? (
         <div className="ctp-error-wrapper">Media Unavailable</div>
       ) : (
-        <>
-          <ClosedCaption isPrimary={isPrimary} />
-          <BigPlayButton isPrimary={isPrimary} />
-          <AudioDescription isPrimary={isPrimary} />
-        </>
-      )}
+          <>
+            <ClosedCaption isPrimary={isPrimary} />
+            <BigPlayButton isPrimary={isPrimary} />
+            <AudioDescription isPrimary={isPrimary} />
+          </>
+        )}
     </div>
   ) : (
-    <SecondaryPlayerWrapper isPrimary={isPrimary} />
-  );
+      <SecondaryPlayerWrapper isPrimary={isPrimary} />
+    );
 }
 
-export default connectWithRedux(PlayerWrapper, ['ctpPriEvent']);
+export default connect(({ watch: { ctpPriEvent }, loading }) => ({
+  ctpPriEvent
+}))(PlayerWrapper);

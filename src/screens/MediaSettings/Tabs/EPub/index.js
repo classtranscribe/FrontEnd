@@ -2,9 +2,11 @@ import React from 'react';
 import CTEPubListScreen from 'components/CTEPubListScreen';
 import SourceTypes from 'entities/SourceTypes';
 import { useCTDocTitle } from 'hooks';
-import { connectWithRedux } from '../../controllers';
+import { connect } from 'dva';
 
-export function EpubWithRedux({ media }) {
+export function EpubWithRedux(props) {
+  const { mediasetting } = props;
+  const { media } = mediasetting;
   const { id, mediaName = '' } = media || {};
 
   useCTDocTitle(`ePubs | ${mediaName}`);
@@ -19,7 +21,6 @@ export function EpubWithRedux({ media }) {
   return <CTEPubListScreen {...ePubLiProps} />;
 }
 
-export const EPub = connectWithRedux(
-  EpubWithRedux,
-  ['media']
-);
+export const EPub = connect(({ mediasetting, loading }) => ({
+  mediasetting
+}))(EpubWithRedux);

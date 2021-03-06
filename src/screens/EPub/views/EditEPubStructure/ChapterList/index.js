@@ -1,18 +1,19 @@
-import React, { useEffect} from 'react';
-import { epub, connectWithRedux } from '../../../controllers';
+import React, { useEffect } from 'react';
+import { connect } from 'dva';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 
-function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
+function ChapterList({ chapters = [], foldedIds = [], currChIndex, setEPubItem, dispatch }) {
   useEffect(() => {
-    const currChIndex = epub.state.currChIndex;
     if (currChIndex > 0) {
       setTimeout(() => {
-        epub.nav.navigateChapter(epub.data.data.chapters[currChIndex].id);
+        dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex].id });
       }, 500);
     }
   }, []);
-
+  const onFold = (folded, id) => {
+    dispatch({ type: 'epub/foldChapter', payload: { id, folded } })
+  }
   return (
     <ul className="plain-ul ct-epb chapter-list">
       {chapters.map((chapter, chIdx) => (
@@ -24,13 +25,14 @@ function ChapterList({ chapters = [], foldedIds = [], setEPubItem }) {
           canUndoSplit={chIdx > 0}
           foldedIds={foldedIds}
           setEPubItem={setEPubItem}
+          onFold={onFold}
+          dispatch={dispatch}
         />
       ))}
     </ul>
   );
 }
 
-export default connectWithRedux(
-  ChapterList,
-  ['chapters', 'foldedIds']
-);
+export default connect(({ epub: { currChIndex, epub: { chapters }, foldedIds }, loading }) => ({
+  currChIndex, chapters, foldedIds
+}))(ChapterList);

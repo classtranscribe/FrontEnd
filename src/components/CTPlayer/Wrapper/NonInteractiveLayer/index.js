@@ -1,5 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  SecondaryPlayerWrapper,
+  BigPlayButton,
+  ClosedCaption,
+  AudioDescription,
+} from 'screens/Watch/Components/Overlays';
 import ErrorWrapper from './ErrorWrapper';
 import EventVisualPopup from './EventVisualPopup';
 import './index.scss';
@@ -16,10 +22,13 @@ function NonInteractiveLayer(props) {
   return (
     <div 
       className="ctp wrapper non-interact ct-d-c-center"
-      onClick={onTogglePause}
+      onClick={error ? onTogglePause : null}
     >
-      {error && <ErrorWrapper error={error} />}
-      <EventVisualPopup event={event} volume={volume} />
+      {error ? (
+        <ErrorWrapper error={error} />
+      ) : (
+        <BigPlayButton isPrimary />
+      )}
     </div>
   );
 }
@@ -32,3 +41,5 @@ NonInteractiveLayer.propTypes = {
 
 export default NonInteractiveLayer;
 
+
+            

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'dva'
 import { CTFragment } from 'layout';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterEditButton, MDEditorModal } from '../../../components';
-import { epub } from '../../../controllers';
 
-function ChapterNewContent({ onInsert }) {
+function ChapterNewContent({ onInsert, currChIndex, images, epub, dispatch }) {
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
 
@@ -24,13 +24,12 @@ function ChapterNewContent({ onInsert }) {
 
   const handleOpenMDEditor = () => setInsertType('md');
   const handleOpenImgPicker = () => {
-    const epubData = epub.data.data;
     const imgData = {
-      screenshots: epubData.images,
+      screenshots: images,
       onSave: handleSaveImage,
-      chapterScreenshots: epubData.chapters[epub.state.currChIndex].allImagesWithIn
+      chapterScreenshots: epub.chapters[currChIndex].allImagesWithIn
     };
-    epub.state.setImgPickerData(imgData);
+    dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
 
   return (
@@ -53,4 +52,6 @@ function ChapterNewContent({ onInsert }) {
   );
 }
 
-export default ChapterNewContent;
+export default connect(({ epub: { currChIndex, epub, images }, loading }) => ({
+  currChIndex, images, epub
+}))(ChapterNewContent);

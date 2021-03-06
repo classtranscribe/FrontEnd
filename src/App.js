@@ -1,7 +1,7 @@
 import React from 'react';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'dva/router';
+import dynamic from "dva/dynamic";
 import AppInsightsProvider from './azure-app-insights';
-
 import {
   // General
   NotFound404,
@@ -36,7 +36,6 @@ import './App.css';
 import { altEl } from './layout';
 import { user, env } from './utils';
 
-
 class App extends React.Component {
   componentDidMount() {
     user.validate();
@@ -46,7 +45,37 @@ class App extends React.Component {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 
     const adminRoute = altEl();
-
+    // Lazy Load
+    const WatchPage = dynamic({
+      app: this.props.app,
+      models: () => [],
+      component: () => Watch
+    })
+    const EPubPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/EPub/model').default],
+      component: () => EPub
+    })
+    const CoursePage = dynamic({
+      app: this.props.app,
+      models: () => [], // require('./screens/Course/model').default
+      component: () => Course
+    })
+    const MyCoursesPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Instructor/MyCourses/model').default], // 
+      component: () => MyCourses
+    })
+    const InstPlaylistPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Instructor/InstPlaylist/model')],
+      component: () => InstPlaylist
+    })
+    const MediaSettingsPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/MediaSettings/model')],
+      component: () => MediaSettings
+    })
     // return <Maintenance />
     return (
       <AppInsightsProvider>
@@ -63,7 +92,7 @@ class App extends React.Component {
           {
             isAdminOrInstructor
             &&
-            <Route exact path="/instructor/my-courses" component={MyCourses} />
+            <Route exact path="/instructor/my-courses" component={MyCoursesPage} />
           }
           {
             isAdminOrInstructor
@@ -88,34 +117,35 @@ class App extends React.Component {
           {
             isAdminOrInstructor
             &&
-            <Route path="/media-settings/:id" component={MediaSettings} />
+            <Route path="/media-settings/:id" component={MediaSettingsPage} />
           }
 
           {
             isAdminOrInstructor
             &&
-            <Route path="/epub/:id" component={EPub} />
+            <Route path="/epub/:id" component={EPubPage} />
           }
 
           {/* Student */}
           <Route exact path="/" component={Home} />
           <Route exact path="/home" render={() => <Redirect to="/" />} />
-          <Route exact path="/offering/:id" component={Course} />
+          <Route exact path="/offering/:id" component={CoursePage} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/history" component={History} />
           <Route exact path="/personal-analytics" component={Analytics} />
-          <Route exact path="/video" component={Watch} />
+          <Route exact path="/video" component={WatchPage} />
           <Route exact path="/embed/:id" component={Embed} />
-          <Route path="/playlist/:id" component={InstPlaylist} />
+          <Route path="/playlist/:id" component={InstPlaylistPage} />
 
           <Route path="/404" component={NotFound404} />
-          <Route component={NotFound404} />
 
           {
             env.dev
             &&
             <Route exact path="/example" component={Example} />
           }
+
+          <Route component={NotFound404} />
           {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
         </Switch>
       </AppInsightsProvider>

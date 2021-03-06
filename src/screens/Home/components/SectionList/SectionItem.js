@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { CourseCard, MediaCard } from 'components';
 import {
   CTFragment,
@@ -9,14 +9,14 @@ import {
   makeEl,
   altEl
 } from 'layout';
-import { home } from '../../controllers';
+import HomeConstants from '../../controllers/HomeConstants';
 
 function sectionItemsElements(section) {
   const { type, items } = section;
   switch (type) {
-    case home.const.FSectionCourses:
+    case HomeConstants.FSectionCourses:
       return items.map((item) => <CourseCard key={item.id} {...CourseCard.parse(item)} />);
-    case home.const.FSectionVideos:
+    case HomeConstants.FSectionVideos:
       return items.map((item) => <MediaCard key={item.id} {...MediaCard.parse(item)} />);
     default:
       return null;

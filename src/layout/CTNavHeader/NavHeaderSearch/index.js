@@ -6,7 +6,7 @@ import { links } from 'utils';
 import _ from 'lodash';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
-import { setup } from '../../../screens/Watch/Utils/setup.control';
+import setup from '../../../screens/Watch/model/setup';
 
 export function NavHeaderSearch() {
   const ref = useRef();
@@ -60,7 +60,7 @@ export function NavHeaderSearch() {
         // get mediaId, mediaName here for each transId
         if (playlist && playlist.medias) {
           _.forEach(playlist.medias, media => {
-            media.transcriptions.forEach(trans => {
+            media.transcriptions && media.transcriptions.forEach(trans => {
               if (trans.language === 'en-US' && !Object.keys(temp).includes(trans.id)) {
                 // temp.push(trans.id)
                 temp[trans.id] = {

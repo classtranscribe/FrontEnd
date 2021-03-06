@@ -1,11 +1,11 @@
 import React from 'react';
-import { connectWithRedux, menuControl, MENU_HIDE, MENU_SHORTCUTS } from '../../../Utils';
-
+import { MENU_HIDE, MENU_SHORTCUTS } from '../../../Utils';
+import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
-function ShortcutsTableTrigger({ menu = MENU_HIDE }) {
+function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {
   const handleMenuTrigger = () => {
-    menuControl.open(MENU_SHORTCUTS, 'b');
+    dispatch({type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS, option: 'b'}});
   };
 
   return (
@@ -29,4 +29,6 @@ function ShortcutsTableTrigger({ menu = MENU_HIDE }) {
   );
 }
 
-export default connectWithRedux(ShortcutsTableTrigger, ['menu']);
+export default connect(({ watch: { menu }, loading }) => ({
+  menu
+}))(ShortcutsTableTrigger);

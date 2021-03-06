@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { CTFragment, CTText, makeEl, altEl } from 'layout';
 import MediaPoster from './Poster';
 import { parseMedia } from './parse-media';
@@ -20,7 +20,7 @@ function MediaCard(props) {
     dark,
     id,
     name,
-    href,
+    href = '',
     ratio,
     isUnavailable,
     label,
@@ -35,7 +35,7 @@ function MediaCard(props) {
   const cardProps = {
     id,
     as: Link,
-    to: href,
+    to: {pathname: href, search: '', hash: ''},
     className: cardClasses,
     role: 'listitem',
     title: name

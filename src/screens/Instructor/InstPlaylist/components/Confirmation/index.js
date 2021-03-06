@@ -1,10 +1,11 @@
 import React from 'react';
 import { CTConfirmation } from 'layout';
-import { connectWithRedux, setup } from '../../controllers';
 
-function ConfirmationWithRedux({
-  confirmation
-}) {
+function ConfirmationWithRedux(props) {
+  const {
+    confirmation,
+    onClose
+  } = props;
   const { title, text, onConfirm } = confirmation;
 
   const confirmProps = {
@@ -12,13 +13,10 @@ function ConfirmationWithRedux({
     title,
     text,
     onConfirm,
-    onClose: setup.closeConfirmation
+    onClose
   };
 
   return <CTConfirmation {...confirmProps} />;
 }
 
-export const Confirmation = connectWithRedux(
-  ConfirmationWithRedux,
-  ['confirmation']
-);
+export const Confirmation = ConfirmationWithRedux;

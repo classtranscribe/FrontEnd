@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { downloadControl, transControl, langMap, langOptions } from '../../../Utils';
+import { downloadControl, langMap, langOptions, findTransByLanguage } from '../../../Utils';
 import './index.css';
 
-function DownloadMenu({ onClose = null }) {
+function DownloadMenu({ onClose = null, trans }) {
   const [downloading, setDownloading] = useState('');
   const [disabledList, setDisabledList] = useState([]);
 
-  const langList = langOptions.map(
-    (language) => transControl.findTransByLanguage(language) || { language },
-  );
+  const langList = langOptions.map((language) =>
+    findTransByLanguage(language, trans) || { language });
 
   const handleDownload = (path, type, info) => async () => {
     setDownloading(info);
@@ -53,7 +52,7 @@ function DownloadMenu({ onClose = null }) {
                 </div>
               ) : (
                 <i className="material-icons watch-icon-icon">save_alt</i>
-              )}
+                )}
               <div className="watch-icon-name">{langMap[lang.language]}</div>
             </span>
           </button>

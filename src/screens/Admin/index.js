@@ -6,7 +6,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'dva/router';
 // UI
 import './index.css';
 // Layouts
@@ -45,6 +45,7 @@ export class Admin extends React.Component {
    * Function for GET values after every page refreshing
    */
   getAll() {
+    // TODO: connect to universities model
     api.getUniversities().then(({ data }) => {
       this.setState({ universities: data });
       /**
@@ -129,7 +130,7 @@ export class Admin extends React.Component {
 
   onSignOut = () => {
     user.signOut();
-    this.props.history.goBack();
+    this.props.history.back();
   };
 
   getLayoutProps() {

@@ -44,7 +44,7 @@ function UploadFile(props) {
           <code> breakline</code>. <br />
         </CTFragment>
         <CTFragment className="email-list-uploadbtw-example">
-          <CTText bold>EXAMPLAES</CTText>
+          <CTText bold>EXAMPLES</CTText>
           <div>shawn@abc.edu,david@efg.com</div>
           <div>micheal@123.com;alice@456.edu</div>
           <div>micheal2@university.edu</div>
@@ -60,7 +60,7 @@ function UploadFile(props) {
         onFileChange={handleFileUpload}
         accept=".csv,.txt"
       />
-      <div className="pt-2">Duplicate emails will be automatically removed.</div>
+      <div className="pt-2">Duplicate emails will be treated as a single entry.</div>
     </CTFragment>
   );
 }

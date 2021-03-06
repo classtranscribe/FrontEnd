@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Button, Message, Icon, Modal } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 
 export { CTLoader as GeneralLoader } from 'layout';
 export { GeneralAlert } from './Alerts';

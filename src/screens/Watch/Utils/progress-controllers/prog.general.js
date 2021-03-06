@@ -1,4 +1,3 @@
-import { videoControl } from '../player.control';
 import { parseSec } from '../helpers';
 
 const DEFAULT_ELEM = { style: {} };
@@ -145,8 +144,8 @@ export class ProgressController {
   seekTo(e, offset = 11) {
     const moveX = typeof e === 'number' ? e : e.clientX || e.screenX;
 
-    const seekTo = Math.floor(((moveX - offset) / this.totalWidth) * videoControl.duration);
-    videoControl.currTime(seekTo);
+    const seekTo = Math.floor(((moveX - offset) / this.totalWidth) * this.watch.duration);
+    this.dispatch({ type: 'watch/media_setCurrTime', payload: seekTo })
   }
 
   /**
@@ -173,4 +172,15 @@ export class ProgressController {
   handleTouchStart() {}
   handleTouchMove() {}
   handleTouchEnd() {}
+
+  vc_pause() {
+    this.dispatch({ type: 'watch/media_pause' })
+  }
+  vc_play() {
+    this.dispatch({ type: 'watch/media_play' })
+  }
+  setModel(dispatch, watch) {
+    this.dispatch = dispatch;
+    this.watch = watch;
+  }
 }

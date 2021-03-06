@@ -3,14 +3,14 @@ import { isMobile } from 'react-device-detect';
 
 import {
   transControl,
-  videoControl,
   timeStrToSec,
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
 import './index.css';
 
-function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false, caption = {} }) {
+function CaptionLine({ isCurrent = false, isEditing = false,
+  shouldHide = false, caption = {}, dispatch }) {
   const { text = '', id, begin, kind } = caption;
   const ref = useRef();
 
@@ -24,18 +24,16 @@ function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false,
 
   const handleSeek = () => {
     const time = timeStrToSec(begin);
-    videoControl.currTime(time);
+    dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
   const handleChange = ({ target }) => {
     // console.log(target.innerText)
-    transControl.handleChange(target.innerText);
-    // console.log(target.value)
   };
 
   const handleFocus = ({ target }) => {
     // console.error(e.target.innerText)
-    transControl.edit(caption, target.innerText);
+    dispatch({ type: 'watch/setTransEditMode', payload: { caption, innerText: target.innerText } })
   };
 
   const handleBlur = () => {
@@ -43,12 +41,12 @@ function CaptionLine({ isCurrent = false, isEditing = false, shouldHide = false,
   };
 
   const handleSave = (cap) => {
-    transControl.handleSaveEditing(cap);
+    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
   };
 
   const handleCancel = () => {
     ref.current.innerHTML = text;
-    transControl.handleCancelEditing();
+    dispatch({ type: 'watch/setCurrEditing', payload: null })
   };
 
   const handleKeyDown = (e) => {

@@ -3,16 +3,16 @@ import { isMobile } from 'react-device-detect';
 import { Popup } from 'semantic-ui-react';
 
 import {
-  searchControl,
   SEARCH_INIT,
   WEBVTT_DESCRIPTIONS,
+  ARRAY_INIT,
+  MENU_SHORTCUTS,
+  MENU_PLAYLISTS,
+  SEARCH_PAGE_NUM,
   SEARCH_TRANS_IN_VIDEO,
   SEARCH_TRANS_IN_COURSE,
   SEARCH_IN_PLAYLISTS,
-  ARRAY_INIT,
   SEARCH_IN_SHORTCUTS,
-  MENU_SHORTCUTS,
-  MENU_PLAYLISTS,
 } from '../../../Utils';
 
 import Placeholder from '../Placeholder';
@@ -21,6 +21,14 @@ import OpenMenuButton from './OpenMenuButton';
 import PageControlButtons from './PageControlButtons';
 import { VideoListItem, ShortcutListItem, CaptionListItem } from './ResultListItems';
 
+const search_isInCurrentPage = (page = 0, index = 0) => {
+  return index < page * SEARCH_PAGE_NUM && index >= (page - 1) * SEARCH_PAGE_NUM;
+}
+// Function used to get the total page num based on a result's length
+
+const search_totalPageNum = (resultLen = 0) => {
+  return resultLen === 0 ? 1 : Math.ceil(resultLen / SEARCH_PAGE_NUM);
+}
 function ResultList({
   option = SEARCH_TRANS_IN_VIDEO,
   search = SEARCH_INIT,
@@ -63,12 +71,12 @@ function ResultList({
     }
   };
 
-  const totalPage = searchControl.totalPageNum(results.length);
+  const totalPage = search_totalPageNum(results.length);
 
   const resultsEachItems = (
     <div role="list" className="w-100 d-flex flex-column">
       {results.map((item, index) =>
-        searchControl.isInCurrentPage(page, index) ? (
+        search_isInCurrentPage(page, index) ? (
           <Popup
             inverted
             wide

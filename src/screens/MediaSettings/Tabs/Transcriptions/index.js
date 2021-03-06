@@ -1,6 +1,5 @@
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
-import { connectWithRedux } from '../../controllers/trans';
 import Player from './Player';
 import TransTable from './TransTable';
 
@@ -20,9 +19,4 @@ export function TranscriptionsWithRedux({
   );
 }
 
-export const Transcriptions = connectWithRedux(
-  TranscriptionsWithRedux,
-  [],
-  [],
-  ['media']
-);
+export const Transcriptions = TranscriptionsWithRedux;

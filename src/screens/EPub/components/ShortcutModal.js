@@ -1,10 +1,10 @@
 import React from 'react';
 import { CTShortcutModal } from 'components/Shortcut';
 import { shortcuts } from '../controllers/constants/shortcuts';
-import { epub, connectWithRedux } from '../controllers';
+import { connectWithRedux } from '../controllers';
 
-function ShortcutModal({ showShortcuts }) {
-  const onClose = () => epub.state.setShowShortcuts(false);
+function ShortcutModal({ showShortcuts, dispatch }) {
+  const onClose = () => dispatch({ type: 'epub/setShowShortcuts', payload: false });
 
   return (
     <CTShortcutModal

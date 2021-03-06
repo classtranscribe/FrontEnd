@@ -1,11 +1,11 @@
 import React from 'react';
-import { connectWithRedux, menuControl, MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
-
+import { MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
+import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
-function DownloadMenuTrigger({ menu = MENU_HIDE }) {
+function DownloadMenuTrigger({ menu = MENU_HIDE, dispatch }) {
   const handleMenuTrigger = () => {
-    menuControl.open(MENU_DOWNLOAD, 'b');
+    dispatch({type: 'watch/menu_open', payload: { type: MENU_DOWNLOAD, option: 'b'}});
   };
 
   return (
@@ -29,4 +29,6 @@ function DownloadMenuTrigger({ menu = MENU_HIDE }) {
   );
 }
 
-export default connectWithRedux(DownloadMenuTrigger, ['menu']);
+export default connect(({ watch: { menu }, loading }) => ({
+  menu
+}))(DownloadMenuTrigger);

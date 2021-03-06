@@ -1,12 +1,12 @@
 import React from 'react';
 import { connectWithRedux, transControl, langMap } from '../../../Utils';
 
-function LanguageMenu({ media, currTrans = {}, onClose = null }) {
+function LanguageMenu({ media, currTrans = {}, onClose = null, dispatch }) {
   const { transcriptions } = media;
   const langOptions = (transcriptions || []).map((trans) => trans.language);
 
   const handleChooseLanguage = (lang) => () => {
-    transControl.setLanguage(lang);
+    dispatch({ type: 'watch/setLanguage', payload: lang });
     setTimeout(() => onClose(), 200);
   };
 

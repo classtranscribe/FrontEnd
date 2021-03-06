@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { env, uurl, user, prompt } from 'utils';
 import { CTFragment, CTBrand, CTText, CTList } from 'layout';
 import { useLoaded } from 'hooks';
 import './index.scss';
 
-function SignIn() {
-  const { search } = useLocation();
-  const { method, redirect } = uurl.useSearch();
+function SignIn(props) {
+  const { search } = props.location;
+  const { method, redirect, aspopup } = uurl.useSearch();
 
   useLoaded();
 
@@ -22,7 +22,11 @@ function SignIn() {
   }, [search]);
 
   const handleSignIn = (_method) => () => {
-    user.signIn({ method: _method, redirectURL: redirect });
+    user.signIn({
+      method: _method,
+      redirectURL: redirect,
+      closeAfterSignedIn: aspopup === 'true'
+    });
   };
 
   const signInOptions = [
@@ -71,4 +75,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default withRouter(SignIn);

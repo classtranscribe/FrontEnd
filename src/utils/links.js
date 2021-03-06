@@ -1,4 +1,6 @@
+import { env } from 'utils/env';
 import { uurl } from './use-url';
+
 
 export class ClassTranscribeLinks {
   /**
@@ -31,13 +33,15 @@ export class ClassTranscribeLinks {
    * @param {Object} config - sign in config
    * @param {String} config.redirect - redirect-uri
    * @param {String} config.method - auth method
+   * @param {String} config.aspopup - 'true' if served as a popup window and will be closed after signing in
    */
   signIn(config) {
     const {
       redirect = window.location.href,
-      method
+      method,
+      aspopup 
     } = config || {};
-    return `/sign-in${uurl.createSearch({ redirect, method })}`
+    return `/sign-in${uurl.createSearch({ redirect, method, aspopup })}`
   }
 
   /**
@@ -223,7 +227,22 @@ export class ClassTranscribeLinks {
   notfound404() {
     return '/404';
   }
-
+  
+  pgadmin() {
+    return `${env.baseURL}/pgadmin/`;
+  }
+  
+  rabbitmq() {
+    return `${env.baseURL}/rabbitmq/`;
+  }
+  
+  traefik() {
+    return `${env.baseURL}/traefik/`;
+  }
+  
+  swag() {
+    return `${env.baseURL}/swag/`;
+  }
   /**
    * to `mailto:classtranscribe@illinois.edu`
    */

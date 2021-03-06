@@ -1,86 +1,65 @@
 import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
+import { connect } from 'dva';
 import ErrorTypes from 'entities/ErrorTypes';
 import { INSTRUCTOR } from 'utils';
 import { CTLayout, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
-import {
-  setup,
-  courseStore,
-  connectWithRedux
-} from './controllers';
 import { CourseInfo, Playlists } from './components';
 
 
-class CourseWithRedux extends Component {
-  constructor(props) {
-    super(props);
+const CourseWithRedux = (props) => {
+  const { course } = props;
+  const { offering, role, playlist } = course;
+  const offeringLoaded = offering && offering.id;
+  const playlistLoaded = playlist && playlist.id;
 
-    this.offeringId = this.props.match.params.id;
-    setup.init(props);
-  }
+  const isInstructor = role === INSTRUCTOR;
 
-  componentDidMount() {
-    setup.setupCoursePage(this.offeringId);
-  }
+  const layoutProps = CTLayout.createProps((sidebar) => ({
+    transition: true,
+    responsive: true,
+    sidebarProps: isInstructor ? {
+      items: sidebar.getCoursePageSidebarItems(offering)
+    } : undefined,
+    metaTagsProps: offeringLoaded ? {
+      title: playlistLoaded
+        ? `${playlist.name} | ${offering.fullNumber}`
+        : offering.fullNumber,
+      description: offering.description
+    } : undefined,
+    // temp, need to change back
+    headerProps:
+      // !isInstructor ? {
+      //   subtitle: 'Course Admin'
+      // } :
+      { search: true }
+  }));
 
-  render() {
-    const { offering, role, playlist } = this.props;
-    const offeringLoaded = offering && offering.id;
-    const playlistLoaded = playlist && playlist.id;
+  const errorProps = {
+    show: true,
+    signInButton: false,
+    code: 404,
+    header: `Couldn't find the course.`,
+    description: 'Please check if provided the URL is correct.'
+  };
 
-    const isInstructor = role === INSTRUCTOR;
+  const pageFragmentProps = {
+    id: 'cp-container',
+    loading: offering === null,
+    error: offering === ErrorTypes.NotFound404,
+    errorElement: <CTErrorWrapper {...errorProps} />
+  };
 
-    const layoutProps = CTLayout.createProps((sidebar) => ({
-      transition: true,
-      responsive: true,
-      sidebarProps: isInstructor ? {
-        items: sidebar.getCoursePageSidebarItems(offering)
-      } : undefined,
-      metaTagsProps: offeringLoaded ? {
-        title: playlistLoaded
-          ? `${playlist.name} | ${offering.fullNumber}`
-          : offering.fullNumber,
-        description: offering.description
-      } : undefined,
-      // temp, need to change back
-      headerProps:
-        // !isInstructor ? {
-        //   subtitle: 'Course Admin'
-        // } :
-        { search: true }
-    }));
-
-    const errorProps = {
-      show: true,
-      signInButton: false,
-      code: 404,
-      header: `Couldn't find the course.`,
-      description: 'Please check if provided the URL is correct.'
-    };
-
-    const pageFragmentProps = {
-      id: 'cp-container',
-      loading: offering === null,
-      error: offering === ErrorTypes.NotFound404,
-      errorElement: <CTErrorWrapper {...errorProps} />
-    };
-
-    return (
-      <CTLayout {...layoutProps}>
-        <InfoAndListLayout {...pageFragmentProps}>
-          <CourseInfo />
-          <Playlists />
-        </InfoAndListLayout>
-      </CTLayout>
-    );
-  }
+  return (
+    <CTLayout {...layoutProps}>
+      <InfoAndListLayout {...pageFragmentProps}>
+        <CourseInfo />
+        <Playlists {...props} />
+      </InfoAndListLayout>
+    </CTLayout>
+  );
 }
 
-export const Course = withReduxProvider(
-  CourseWithRedux,
-  courseStore,
-  connectWithRedux,
-  ['offering', 'role', 'playlist'],
-  ['all']
-);
+export const Course = connect(({ course, loading }) => ({
+  course
+}))(CourseWithRedux);

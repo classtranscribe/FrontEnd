@@ -11,6 +11,7 @@ function AuthCallback() {
         user.ciLogonSetup();
         break;
       default:
+        user.execCloseAfterSignIn();
         window.location = links.home();
         break;
     }

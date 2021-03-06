@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
-import { links, uurl } from 'utils';
+import { connect } from 'dva'
+import { api, links, uurl } from 'utils';
 import { logoOutlineSvg } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';
@@ -13,20 +13,24 @@ function ActionBar(props) {
   let {
     error,
     media,
-    userReady,
-    player,
+    userReady = true,
+    embedded,
     time,
     screenshotActionElement
   } = props;
-
-  const { mediaName } = media || {};
-  const { id } = useParams();
+  const { allowScreenshot: isScreenshotAllowed } = embedded;
+  const { mediaName, id } = media || {};
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
     let url = window.location.origin + links.watch(id, { begin: time });
     uurl.openNewTab(url);
   };
+
+  let displayedTitle = mediaName || 'Untitled Media';
+  if (api.isError(error)) {
+    displayedTitle = 'Media Unavailable';
+  }
 
   return (
     <div className="ctp action-bar">
@@ -40,20 +44,20 @@ function ActionBar(props) {
 
           <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">
             <a href={links.watch(id)} onClick={watchOnClassTranscribe}>
-              {mediaName || 'Go to watch page for more details'}
+              {displayedTitle}
             </a>
           </CTPopoverLabel>
         </div>
       </div>
-      
+
       {
         userReady
         &&
         <div className="right">
           {
-            player.isScreenshotAllowed
+            isScreenshotAllowed
             &&
-            <Screenshot player={player} actionElement={screenshotActionElement} />
+            <Screenshot actionElement={screenshotActionElement} media={media} />
           }
           {!error && <Share media={media} time={time} />}
           {/* <ShortcutButton /> */}
@@ -68,5 +72,7 @@ ActionBar.propTypes = {
   time: PropTypes.number
 };
 
-export default ActionBar;
+export default connect(({ watch: { media, embedded }, playerpref }) => ({
+  media, embedded
+}))(ActionBar);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTFragment, CTFooter, CTText } from 'layout';
 import { InfoAndListLayout, MediaCard } from 'components';
@@ -29,7 +29,7 @@ function VideosView({
         alignItCenter 
         className="title link" 
         as={Link} 
-        to={window.location.pathname}
+        to={{ pathname: window.location.pathname, search: '', hash: ''}}
       >
         <i className="material-icons" aria-hidden="true">arrow_back</i>
         <span>{name}</span>

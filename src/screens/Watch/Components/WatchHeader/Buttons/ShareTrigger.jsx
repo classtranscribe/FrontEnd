@@ -1,11 +1,11 @@
 import React from 'react';
-import { connectWithRedux, modalControl, MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
-
+import { modalControl, MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
+import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
-function ShareTrigger({ modal = MODAL_HIDE }) {
+function ShareTrigger({ modal = MODAL_HIDE, dispatch }) {
   const handleShare = () => {
-    modalControl.open(MODAL_SHARE);
+    dispatch({type: 'watch/modal_open', payload: { type: MODAL_SHARE } });
   };
 
   return (
@@ -30,4 +30,6 @@ function ShareTrigger({ modal = MODAL_HIDE }) {
   );
 }
 
-export default connectWithRedux(ShareTrigger, ['modal']);
+export default connect(({ watch: { modal }, loading }) => ({
+  modal
+}))(ShareTrigger);

@@ -120,7 +120,6 @@ function CTFragment(props) {
     children,
     ...otherProps
   };
-
   const Element = React.createElement(as, fragmentProps);
   const loadableProps = {
     error,

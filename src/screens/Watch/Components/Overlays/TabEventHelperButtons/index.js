@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
-import { keydownControl, menuControl, MENU_SHORTCUTS } from '../../../Utils';
+import { keydownControl, MENU_SHORTCUTS } from '../../../Utils';
 import './index.css';
 
-export function TabEventHelperButtons() {
+export function TabEventHelperButtons(props) {
+  const { dispatch } = props;
   return (
     <div className="watch-tab-helper">
       <Button.Group>
@@ -31,7 +32,7 @@ export function TabEventHelperButtons() {
         <Button
           id="tab-open-shortcuts"
           className="skip-btn"
-          onClick={() => menuControl.open(MENU_SHORTCUTS)}
+          onClick={() => dispatch({type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS }})}
         >
           See Shortcuts
         </Button>

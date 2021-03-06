@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { connectWithRedux } from '../../../Utils';
+import { connect } from 'dva'
 import { prog } from '../../../Utils/progress-controllers';
 import './index.scss';
 
-function ProgressBar({ time = 0, duration = 0 }) {
+function ProgressBar(props) {
+  const { dispatch, watch } = props;
+  const { time = 0, duration = 0, bufferedTime = 0, embedded } = watch;
+  prog.setModel(dispatch, watch)
   const handleClick = (e) => prog.handleClick(e);
 
   const handleMouseDown = (e) => prog.handleMouseDown(e);
@@ -45,7 +48,7 @@ function ProgressBar({ time = 0, duration = 0 }) {
         <div id="seeking-time" />
 
         <div className="buffered">
-          <span id="buffered-amount" />
+          <span id="buffered-amount" style={{ width: bufferedTime }} />
         </div>
 
         <div className="progress">
@@ -68,4 +71,6 @@ function ProgressBar({ time = 0, duration = 0 }) {
   );
 }
 
-export default connectWithRedux(ProgressBar, ['time', 'duration']);
+export default connect(({ watch, loading }) => ({
+  watch
+}))(ProgressBar);

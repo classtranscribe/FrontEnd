@@ -16,30 +16,35 @@ function ActionButtons(props) {
     isInstMode = false,
     offering,
     starredOfferings = [],
+    dispatch
   } = props;
 
   const isStarred = Boolean(starredOfferings[offering.id]);
   const hasAnalytics = isInstMode && offering.logEventsFlag;
   const shareableURL = window.location.origin + links.course(offering.id);
-
-  const onPublish = () => setup.updatePublishStatus(PublishStatus.Published);
-  const onUnpublish = () => setup.updatePublishStatus(PublishStatus.Unpublished);
-
+  const onStarAction = (isStar) => {
+    dispatch({
+      type: 'course/setStar',
+      payload: {
+        isStar,
+        offeringId: offering.id
+      }
+    })
+  }
+  const handleCheckboxChange = ({ target: { checked } }) => {
+    dispatch({
+      type: 'course/setIsInstMode',
+      payload: checked
+    })
+  };
   return (
     <CTFragment>
-      <CTFragment justConBetween alignItCenter className="cp-action-bar">
-        {
-          isInsructor
-          &&
-          <PublishStatusSwitch
-            status={offering.publishStatus}
-            targetName="course"
-            onPublish={onPublish}
-            onUnpublish={onUnpublish}
-          />
-        }
-        {isInsructor && <InstModeCheckBox isInstMode={isInstMode} />}
-      </CTFragment> 
+      <CTFragment justConEnd className="cp-action-bar">
+        {isInsructor && <InstModeCheckBox
+          isInstMode={isInstMode}
+          onChange={handleCheckboxChange}
+        />}
+      </CTFragment>
 
       <CTFragment
         alignItCenter
@@ -50,13 +55,13 @@ function ActionButtons(props) {
         {hasAnalytics && <CourseAnalyticsButton offeringId={offering.id} />}
         {isInstMode && <CourseSettingsButton offeringId={offering.id} />}
 
-        <CopyButton 
-          text={shareableURL} 
+        <CopyButton
+          text={shareableURL}
           className="mb-2 p-2"
           label="Copy Shareable URL"
         />
 
-        {user.isLoggedIn && <StarButton isStarred={isStarred} />}
+        {user.isLoggedIn && <StarButton isStarred={isStarred} onStarAction={onStarAction} />}
       </CTFragment>
     </CTFragment>
   )

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
-import { 
+import {
   CTFragment,
   CTModal,
   CTInput,
@@ -11,12 +11,14 @@ import {
   CTFormHeading
 } from 'layout';
 import { uurl, prompt, timestr } from 'utils';
-import { CTPlayerConstants as Constants } from 'components/CTPlayer';
-import { videoControl } from '../../../Utils';
+import {
+  CTPlayerConstants as Constants,
+  LanguageConstants as LangConstants
+} from 'components/CTPlayer';
 import './index.scss';
 
 function EmbedModal(props) {
-  const { onClose } = props;
+  const { onClose, media } = props;
 
   const inputRef = useRef();
   const iframeRef = useRef();
@@ -29,7 +31,7 @@ function EmbedModal(props) {
   const [enableCaption, setEnableCaption] = useState(false);
   const [enablePadded, setEnablePadded] = useState(false);
 
-  const handleEmbedHTMLChange = 
+  const handleEmbedHTMLChange =
     ({ target: { value } }) => setEmbedHTML(value);
 
   const handleCCLanguageChange =
@@ -70,16 +72,18 @@ function EmbedModal(props) {
     inputRef.current.select();
   };
 
-  const ccLanguageOptions = Constants.LanguageOptions;
+  const ccLanguageOptions = LangConstants.LanguageOptions;
   const playbackRatesOptions = Constants.PlaybackRates.map(
     (plb, index) => ({ text: plb, value: index })
   );
 
   useEffect(() => {
     // validate the begin time
+    /* NOT IMPLEMENTED
     if (videoControl.duration < timestr.toSeconds(beginTime)) {
       setBeginTime(timestr.toTimeString(videoControl.duration));
     }
+    */
   }, [beginTime]);
 
   useEffect(() => {
@@ -90,20 +94,20 @@ function EmbedModal(props) {
       let embedQuery = uurl.createSearch({
         begin: enableBeginTime ? timestr.toSeconds(beginTime) : null,
         playbackRate: playbackRate === 4 ? null : playbackRatesOptions[playbackRate].text,
-        openCC: enableCaption ? 'true': null,
+        openCC: enableCaption ? 'true' : null,
         lang: ccLanguage === Constants.English ? null : ccLanguage,
         padded: enablePadded ? 'true' : null
       });
       iframeEl.src = `${window.location.origin}/embed/${vid}${embedQuery}`;
-      setEmbedHTML(iframeEl.outerHTML);
+      setEmbedHTML(iframeEl.outerHTML.replace(/&amp;/g, '&'));
     }
   });
 
   useEffect(() => {
     if (enableBeginTime) {
-      setBeginTime(timestr.toTimeString(videoControl.currTime()));
+      // setBeginTime(timestr.toTimeString(videoControl.currTime())); NOT IMPLEMENTED
     }
-  },[enableBeginTime]);
+  }, [enableBeginTime]);
 
   const actionElement = (
     <Button color="teal" onClick={handleConform}>
@@ -125,7 +129,7 @@ function EmbedModal(props) {
   return (
     <CTModal {...modalProps} darkMode>
       <CTFragment justConCenter id="wp-embed-iframe">
-        <iframe ref={iframeRef} width="560" height="315" title="preview" />
+        <iframe ref={iframeRef} width="560" height="315" title={media.mediaName} frameBorder="0" />
       </CTFragment>
       <CTFragment padding={[20, 0, 5, 0]}>
         <CTInput
@@ -196,6 +200,4 @@ EmbedModal.propTypes = {
   /** callback on close */
   onClose: PropTypes.func
 };
-
 export default EmbedModal;
-

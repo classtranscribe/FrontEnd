@@ -1,6 +1,6 @@
 import React from 'react';
+import { connect } from 'dva'
 import {
-  connectWithRedux,
   transControl,
   NORMAL_MODE,
   SEARCH_INIT,
@@ -16,16 +16,19 @@ import TranscriptText from './TranscriptText';
 
 import PlaceHolder from './PlaceHolder';
 
-function TranscriptionsWithRedux({
-  transcript = [],
-  currCaption = {},
-  mode = NORMAL_MODE,
-  transView = LINE_VIEW,
-  currEditing = null,
-  search = SEARCH_INIT,
-}) {
+function TranscriptionsWithRedux(props) {
+  const {
+    transcript = [],
+    currCaption = {},
+    mode = NORMAL_MODE,
+    transView = LINE_VIEW,
+    currEditing = null,
+    search = SEARCH_INIT,
+    dispatch
+  } = props;
+  // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
-    transControl.handleMourseOver(bool);
+    dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
   };
 
   const isCurrent = (id) => {
@@ -56,6 +59,7 @@ function TranscriptionsWithRedux({
                 caption={caption}
                 currCaption={currCaption}
                 isCurrent={isCurrent(caption.id)}
+                dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
             ))}
@@ -67,6 +71,7 @@ function TranscriptionsWithRedux({
                 key={caption.id}
                 caption={caption}
                 isCurrent={isCurrent(caption.id)}
+                dispatch={dispatch}
               />
             ))}
           </div>
@@ -77,12 +82,8 @@ function TranscriptionsWithRedux({
   ) : null;
 }
 
-export const Transcriptions = connectWithRedux(TranscriptionsWithRedux, [
-  'transcript',
-  'currCaption',
-  'currEditing',
-  'bulkEditing',
-  'mode',
-  'transView',
-  'search',
-]);
+export const Transcriptions = connect(({ playerpref: { transView },
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, }, loading }) => ({
+    transView,
+    transcript, currCaption, currEditing, bulkEditing, mode, search,
+  }))(TranscriptionsWithRedux);

@@ -1,13 +1,14 @@
 import React from 'react';
+import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connectWithRedux, menuControl, MENU_HIDE, MENU_SETTING } from '../../../Utils';
+import { MENU_HIDE, MENU_SETTING } from '../../../Utils';
 
-export function SettingButtonWithRedux({ menu = MENU_HIDE }) {
+export function SettingButtonWithRedux({ menu = MENU_HIDE, dispatch }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_SETTING) {
-      menuControl.open(MENU_SETTING);
+      dispatch({type: 'watch/menu_open', payload: { type: MENU_SETTING } });
     } else {
-      menuControl.close();
+      dispatch({type: 'watch/menu_close'});
     }
   };
 
@@ -31,4 +32,6 @@ export function SettingButtonWithRedux({ menu = MENU_HIDE }) {
   );
 }
 
-export const SettingButton = connectWithRedux(SettingButtonWithRedux, ['menu']);
+export const SettingButton = connect(({ watch: { menu }, loading }) => ({
+  menu
+}))(SettingButtonWithRedux);

@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import { CTPopoverLabel } from 'layout';
 import { links } from 'utils/links';
-import { connectWithRedux } from '../../controllers';
 import './index.scss';
 
 function MSPHeaderTabTitleWithRedux(props) {
-  let { media, playlist } = props;
+  let { media, playlist } = props.mediasetting;
   
   const { mediaName } = media;
   // const { offeringId } = playlist;
@@ -26,7 +25,4 @@ function MSPHeaderTabTitleWithRedux(props) {
   )
 }
 
-export const MSPHeaderTabTitle = connectWithRedux(
-  MSPHeaderTabTitleWithRedux, 
-  ['media', 'playlist']
-);
+export const MSPHeaderTabTitle = MSPHeaderTabTitleWithRedux;

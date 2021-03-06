@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import _ from 'lodash'
 import { CTFragment } from 'layout';
+import { connect } from 'dva'
 import { EPubNavigationProvider } from '../../components';
 import { epub } from '../../controllers';
 import ChapterEditor from './ChapterEditor';
@@ -7,17 +9,13 @@ import Instruction from './Instruction';
 import Toolbuttons from './Toolbuttons';
 import './index.scss';
 
-function EditEPubChapter() {
-  useEffect(() => {
-    // add scroll event listener
-    epub.nav.addScrollListenerForChapterList();
-    // remove listener when component unmount
-    return epub.nav.removeScrollListenerForChapterList;
-  }, []);
+function EditEPubChapter({ dispatch }) {
+  const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
+  const onScroll = (e) => dispatchScroll(e.target)
 
   return (
     <EPubNavigationProvider>
-      <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID}>
+      <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID} onScroll={onScroll}>
         <CTFragment width="67%">
           <ChapterEditor />
         </CTFragment>
@@ -38,4 +36,4 @@ function EditEPubChapter() {
   );
 }
 
-export default EditEPubChapter;
+export default connect()(EditEPubChapter);

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { CTModal, CTFragment, CTSelect } from 'layout';
-import { epub, connectWithRedux } from '../../controllers';
+import { connect } from 'dva'
+import { buildHTMLFromChapter } from 'entities/EPubs/html-converters'
 import { MDPreviewer } from '../Markdown';
 import './index.scss'
 
 function PreviewModal({
   showPreview,
   currChIndex,
+  chapters = [],
+  dispatch
 }) {
-  const onClose = () => epub.state.setShowPreview(false);
+  const onClose = () => dispatch({ type: 'epub/setShowPreview', payload: false });
 
   const [previewChIdx, setPreviewChIdx] = useState(currChIndex);
-  const chapters = epub.data.data.chapters;
-  const chapter = chapters[previewChIdx];
+  const chapter = chapters[previewChIdx] || {};
 
   useEffect(() => {
     if (showPreview) {
@@ -22,10 +24,10 @@ function PreviewModal({
 
   const handleSelect = ({ target: { value } }) => setPreviewChIdx(value);
   const chapterOptions = chapters.map(
-    (ch, idx) => ({ value: idx, text: `Chapter ${idx+1}: ${ch.title}` })
+    (ch, idx) => ({ value: idx, text: `Chapter ${idx + 1}: ${ch.title}` })
   );
   const chapterSelector = (
-    <CTFragment dFlex padding={[0,10,0,25]} maxWidth="500px">
+    <CTFragment dFlex padding={[0, 10, 0, 25]} maxWidth="500px">
       <CTSelect
         id="epb-preview-ch-sel"
         aria-label="Select a chapter"
@@ -46,14 +48,13 @@ function PreviewModal({
       withCloseButton
       autoFocusOnCloseButton
     >
-      <CTFragment padding={[10,0,50,0]}>
-        <MDPreviewer value={chapter.toHTML()} />
+      <CTFragment padding={[10, 0, 50, 0]}>
+        <MDPreviewer value={buildHTMLFromChapter(chapter)} />
       </CTFragment>
     </CTModal>
   )
 }
 
-export default connectWithRedux(
-  PreviewModal,
-  ['currChIndex', 'showPreview']
-)
+export default connect(({ epub: { showPreview, currChIndex, epub: { chapters } }, loading }) => ({
+  showPreview, currChIndex, chapters
+}))(PreviewModal);

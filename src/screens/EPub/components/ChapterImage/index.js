@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { connect } from 'dva'
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
-import { epub } from '../../controllers';
 import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';
@@ -20,7 +20,11 @@ function ChapterImage({
   disableImagePicker,
   enableChapterScreenshots,
   onChooseImage,
-  onRemoveImage
+  onRemoveImage,
+  currChIndex,
+  epub,
+  images,
+  dispatch
 }) {
   const { alt, src, description } = image;
 
@@ -47,20 +51,19 @@ function ChapterImage({
   };
 
   const openImagePicker = () => {
-    const epubData = epub.data.data;
     const imgData = {
-      screenshots: epubData.images,
+      screenshots: images,
       onSave: onSrcChange,
       defaultImage: src
     };
     if (enableChapterScreenshots) {
-      imgData.chapterScreenshots = epubData.chapters[epub.state.currChIndex].allImagesWithIn;
+      imgData.chapterScreenshots = epub.chapters[currChIndex].allImagesWithIn;
     }
-    epub.state.setImgPickerData(imgData);
+    dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   };
 
   useEffect(() => {
-    epub.state.setImgPickerData(null);
+    dispatch({ type: 'epub/setImgPickerData', payload: null });
   }, [image]);
 
   const imgConClasses = cx('ct-epb', 'ch-img-con');
@@ -71,10 +74,10 @@ function ChapterImage({
         <div id={id} className={imgConClasses}>
           <div className="ct-epb ch-img">
             <img src={uurl.getMediaUrl(src)} alt={alt} />
-            <ImageWrapper 
-              id={id} 
+            <ImageWrapper
+              id={id}
               imageAlt={alt}
-              onChooseImage={openImagePicker} 
+              onChooseImage={openImagePicker}
               onRemoveImage={onRemoveImage}
               onImageAltChange={onAltChange}
               disabled={disableImagePicker}
@@ -83,8 +86,8 @@ function ChapterImage({
           {
             !disableDescription
             &&
-            <ImageDescription 
-              id={id} 
+            <ImageDescription
+              id={id}
               description={description}
               onChange={onDescriptionChange}
             />
@@ -92,9 +95,11 @@ function ChapterImage({
         </div>
       ) : (
         <NewImageButton onClick={openImagePicker} />
-      )}
+        )}
     </>
   );
 }
 
-export default ChapterImage;
+export default connect(({ epub: { currChIndex, epub, images }, loading }) => ({
+  currChIndex, images, epub
+}))(ChapterImage);

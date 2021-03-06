@@ -1,5 +1,4 @@
 import { isSafari } from 'react-device-detect';
-import { videoControl } from '../player.control';
 import { ProgressController } from './prog.general';
 // import { parseSec } from '../helpers'
 
@@ -41,9 +40,9 @@ export class ChromeProgressController extends ProgressController {
   handleDragStart(e) {
     e.dataTransfer.setData('text/plain', '.');
     this.isDragging = true;
-    if (!videoControl.paused()) {
+    if (!this.watch.paused) {
       this.wasPlaying = true;
-      videoControl.pause();
+      this.vc_pause();
     }
     this.seekToEl.style.width = 0;
   }
@@ -68,7 +67,7 @@ export class ChromeProgressController extends ProgressController {
     this.seekTo(e, offset);
     if (this.wasPlaying) {
       this.wasPlaying = false;
-      videoControl.play();
+      this.vc_play();
     }
   }
 }

@@ -34,11 +34,19 @@ class ExampleWithRedux extends Component {
         {/* <OfferingList /> */}
 
         <CTFragment padding={[0, 30]}>
-          <CTPlayer
+          {/* <CTPlayer
             width="800"
             mediaId="c9a54a76-9cf0-4ec2-ab2f-89d496326562"
             hideWrapperOnMouseLeave
             allowScreenshot
+          /> */}
+
+          <iframe 
+            width="560" 
+            height="315" 
+            title="Information and Technology April 24, 2019" 
+            frameBorder="0" 
+            src={`${window.location.origin}/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?lang=en-US`}
           />
         </CTFragment>
       </CTLayout>

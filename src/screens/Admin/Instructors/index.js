@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { Route } from 'react-router-dom';
+import { Route } from 'dva/router';
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import { api, prompt } from '../../../utils';
 // UI

@@ -4,33 +4,40 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import { CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
-import { epub, connectWithRedux } from '../../controllers';
+import { epub as epubController, connectWithRedux } from '../../controllers';
 
-function Toolbuttons({ currChIndex = 0, chapters = [] }) {
+function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
+  const { chapters = [] } = epub;
   const btnStyles = useButtonStyles();
   const { start, end, title } = chapters[currChIndex];
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
 
   const watchInPlayer = () => {
-    epub.ctrl.openPlayer(`Chapter ${currChIndex + 1}: ${title}`, start, end);
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Chapter ${currChIndex + 1}: ${title}`, start, end
+      }
+    });
   };
 
   const onEditStructure = () => {
-    epub.state.setView(epub.const.EpbEditStructure);
+    dispatch({ type: 'epub/setView', payload: epubController.const.EpbEditStructure });
   };
 
   const toPrevCh = () => {
-    epub.nav.navigateChapter(chapters[currChIndex - 1].id);
+    dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex - 1].id });
   };
 
   const toNextCh = () => {
-    epub.nav.navigateChapter(chapters[currChIndex + 1].id);
+    if(chapters[currChIndex + 1]) {
+      dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex + 1].id });
+    }
   };
 
   return (
     <CTFragment dFlexCol padding={[10]}>
-      <Button 
+      <Button
         startIcon={<span className="material-icons">play_circle_filled</span>}
         className={cx(btnStyles.tealLink, 'justify-content-start')}
         onClick={watchInPlayer}
@@ -38,7 +45,7 @@ function Toolbuttons({ currChIndex = 0, chapters = [] }) {
       >
         Watch <span className="ml-1">{startTimeStr} - {endTimeStr}</span>
       </Button>
-      <Button 
+      <Button
         startIcon={<span className="material-icons">layers</span>}
         className={cx(btnStyles.tealLink, 'justify-content-start')}
         onClick={onEditStructure}
@@ -49,8 +56,8 @@ function Toolbuttons({ currChIndex = 0, chapters = [] }) {
 
       <CTFragment margin={[10, 0]}>
         <ButtonGroup fullWidth>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             startIcon={<span className="material-icons">navigate_before</span>}
             className={btnStyles.tealLink}
             disabled={currChIndex <= 0}
@@ -58,10 +65,10 @@ function Toolbuttons({ currChIndex = 0, chapters = [] }) {
           >
             Previous
           </Button>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             endIcon={<span className="material-icons">navigate_next</span>}
-            disabled={currChIndex >= chapters.length}
+            disabled={currChIndex >= chapters.length - 1}
             className={btnStyles.tealLink}
             onClick={toNextCh}
           >
@@ -75,5 +82,5 @@ function Toolbuttons({ currChIndex = 0, chapters = [] }) {
 
 export default connectWithRedux(
   Toolbuttons,
-  ['currChIndex', 'chapters'],
+  ['currChIndex', 'epub'],
 );
