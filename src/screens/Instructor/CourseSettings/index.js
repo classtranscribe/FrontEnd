@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { CTLayout, CTFragment } from 'layout';
 import { connect } from 'dva';
-import { Students, Staffs, CourseInfo, RemoveCourse } from './components';
+import { Students, Staffs, CourseInfo, RemoveCourse, Visibility } from './components';
 
 const CourseSettingsWithRedux = (props) => {
   const { course } = props;
@@ -36,6 +36,7 @@ const CourseSettingsWithRedux = (props) => {
     <CTLayout {...layoutProps}>
       <CTFragment loading={loading} padding={[0, 30]}>
         <CourseInfo />
+        <Visibility />
         {(offering && offering.accessType === 2) && <Students {...props} />}
         <Staffs {...props} />
         <RemoveCourse {...props} />

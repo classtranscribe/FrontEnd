@@ -5,7 +5,6 @@ import {
   CTFormRow,
   CTInput,
   CTSelect,
-  CTRadio,
 } from 'layout';
 import { api, prompt, _getSelectOptions } from 'utils';
 
@@ -16,15 +15,11 @@ function BasicInfo(props) {
     courseName,
     sectionName,
     term,
-    accessType,
     description,
-    logEventsFlag,
     setCourseName,
     setSectionName,
     setTerm,
-    setAccess,
     setDescription,
-    setLogEventsFlag,
     uniId
   } = props;
 
@@ -47,16 +42,8 @@ function BasicInfo(props) {
     setTerm(value);
   };
 
-  const handleLogEventsFlagChange = (event, value) => {
-    setLogEventsFlag(value === 'yes');
-  };
-
   const handleDescriptionChange = ({ target: { value } }) => {
     setDescription(value);
-  };
-
-  const handleVisibilityChange = ({ target: { value } }) => {
-    setAccess(value);
   };
 
   const setupTermOptions = async () => {
@@ -82,21 +69,11 @@ function BasicInfo(props) {
     setupTermOptions();
   }, [uniId]);
 
-  const visibilityOptions = api.offeringAccessType.slice(1).map(type => ({
-    text: type.name,
-    value: type.id,
-    description: type.description
-  }));
-
-  const logEventOptions = [
-    { value: 'yes', text: 'Yes' },
-    { value: 'no', text: 'No' }
-  ];
-
   return (
     <CTFragment>
       <CTFormHeading>Basic Information</CTFormHeading>
-      <CTFormRow>
+
+      <CTFormRow maxWidth="600px">
         <CTInput
           required
           id="course-name"
@@ -107,6 +84,9 @@ function BasicInfo(props) {
           onChange={handleCourseNameChange}
           helpText={emptyCourseName ? "Course Name is required." : ''}
         />
+      </CTFormRow>
+
+      <CTFormRow maxWidth="600px">
         <CTInput
           required
           id="section-name"
@@ -119,47 +99,27 @@ function BasicInfo(props) {
         />
       </CTFormRow>
 
-      <CTFormRow>
+      <CTFormRow maxWidth="600px">
         <CTSelect
           required
           error={false}
           id="sel-1"
-          label="Select a Term"
+          label="Term/Semester"
           options={terms}
           value={term}
           onChange={handleTermChange}
         />
-        <CTSelect
-          required
-          id="sel-1"
-          label="Visibility"
-          helpText="Choose the user group of this course."
-          defaultValue="0"
-          options={visibilityOptions}
-          value={accessType}
-          onChange={handleVisibilityChange}
-        />
       </CTFormRow>
 
-      <CTFormRow>
+      <CTFormRow maxWidth="600px">
         <CTInput
           textarea
+          rowsMax={10}
           id="course-description"
           helpText="The description for this class"
           label="Course description"
           value={description}
           onChange={handleDescriptionChange}
-        />
-      </CTFormRow>
-
-      <CTFormRow padding={[0, 10]}>
-        <CTRadio
-          id="log-event"
-          legend="Do you want to receive the statistics of students' performance in the future?"
-          options={logEventOptions}
-          onChange={handleLogEventsFlagChange}
-          value={logEventsFlag ? 'yes' : 'no'}
-          helpText="By choosing yes, we are going log students' performance for your course."
         />
       </CTFormRow>
     </CTFragment>

@@ -1,11 +1,12 @@
 import React from 'react';
-import { CTCheckbox } from 'layout';
+import { CTSwitch } from 'layout';
 
 function InstModeCheckBox({
   isInstMode, onChange
 }) {
   return (
-    <CTCheckbox 
+    <CTSwitch
+      id="course-admin-switch"
       label="Course admin mode" 
       checked={isInstMode}
       onChange={onChange}

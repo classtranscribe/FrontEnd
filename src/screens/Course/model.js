@@ -1,5 +1,6 @@
 import { ARRAY_INIT, STUDENT, INSTRUCTOR, api, user, prompt } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
+import PublishStatus from 'entities/PublishStatus';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import UserEventManager from 'entities/UserEvent';
@@ -110,7 +111,33 @@ const CourseModel = {
                 yield put({ type: 'setStarredOfferings', payload: { ...starredOfferings } })
             } catch (error) {
                 delete this.starredOfferings[this.offering.id];
-                prompt.addOne({ text: 'Faild to star the course', status: 'error' });
+                prompt.error('Faild to star the course.');
+            }
+        },
+        *setPublishStatus({ payload: { publishStatus } }, { call, put, select, take }) {
+            const { course } = yield select();
+            const offering = course.offering;
+            const updatedOff = {
+                id: offering.id, 
+                sectionName: offering.sectionName, 
+                courseName: offering.courseName, 
+                description: offering.description, 
+                termId: offering.termId, 
+                accessType: offering.accessType, 
+                logEventsFlag: offering.logEventsFlag, 
+                publishStatus
+            };
+            try {
+                yield call(api.updateOffering, updatedOff);
+                yield put({ type: 'setOffering', payload: {...offering, publishStatus}});
+                const isPublished = publishStatus === PublishStatus.Published;
+                prompt.addOne({
+                    text: `Course ${ isPublished ? 'published.' : 'unpublished.'}`,
+                    timeout: 5000
+                });
+            } catch (error) {
+                console.error(error);
+                prompt.error('Failed to update the publish status.');
             }
         },
         *updatePlaylists({ payload }, { call, put, select, take }) {

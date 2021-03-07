@@ -73,6 +73,7 @@ function Input(props) {
     error = false,
     disabled = false,
     textarea = false,
+    rowsMax,
     underlined = false,
     ...otherProps
   } = props;
@@ -101,6 +102,7 @@ function Input(props) {
       helperText={helpText}
       onChange={onChange}
       multiline={textarea}
+      rowsMax={rowsMax}
       error={error}
       required={required}
       disabled={disabled}
@@ -137,6 +139,9 @@ Input.propTypes = {
 
   /** The input can be a textarea */
   textarea: PropTypes.bool,
+
+  /** Maximum number of rows to display when textarea option is set to true. */
+  rowsMax: PropTypes.number,
 
   /** True if the input is required */
   required: PropTypes.bool,

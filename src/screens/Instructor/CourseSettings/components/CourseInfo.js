@@ -1,7 +1,7 @@
 import React from 'react';
 import { CourseForm } from 'screens/Instructor/NewCourse/components';
 import { connect } from 'dva';
-import { prompt, api, links } from 'utils';
+import { prompt, api } from 'utils';
 import _ from 'lodash';
 
 export function CourseInfoWithRedux(props) {

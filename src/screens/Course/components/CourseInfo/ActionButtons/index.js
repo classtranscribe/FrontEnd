@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CTFragment } from 'layout';
-import { CopyButton } from 'components';
+import { CopyButton, PublishStatusSwitch } from 'components';
 import { links, user } from 'utils';
+import PublishStatus from 'entities/PublishStatus';
 import CourseAnalyticsButton from './CourseAnalyticsButton';
 import CourseSettingsButton from './CourseSettingsButton';
 import InstModeCheckBox from './InstModeCheckBox';
@@ -10,7 +11,6 @@ import StarButton from './StarButton';
 
 function ActionButtons(props) {
   const {
-    show = false,
     isInsructor = false,
     isInstMode = false,
     offering,
@@ -36,14 +36,35 @@ function ActionButtons(props) {
       payload: checked
     })
   };
+  const onPublish = () => {
+    dispatch({
+      type: 'course/setPublishStatus',
+      payload: { publishStatus: PublishStatus.Published }
+    });
+  };
+  const onUnpublish = () => {
+    dispatch({
+      type: 'course/setPublishStatus',
+      payload: { publishStatus: PublishStatus.Unpublished }
+    });
+  };
   return (
     <CTFragment>
-      <CTFragment justConEnd className="cp-action-bar">
-        {isInsructor && <InstModeCheckBox
-          isInstMode={isInstMode}
-          onChange={handleCheckboxChange}
-        />}
-      </CTFragment>
+      <CTFragment justConBetween alignItCenter className="cp-action-bar">
+        {
+          isInsructor
+          &&
+          <>
+            <PublishStatusSwitch
+              status={offering.publishStatus}
+              targetName="course"
+              onPublish={onPublish}
+              onUnpublish={onUnpublish}
+            />
+            <InstModeCheckBox isInstMode={isInstMode} onChange={handleCheckboxChange} />
+          </>
+        }
+      </CTFragment> 
 
       <CTFragment
         alignItCenter
@@ -67,7 +88,6 @@ function ActionButtons(props) {
 }
 
 ActionButtons.propTypes = {
-  show: PropTypes.bool,
   isInsructor: PropTypes.bool,
   offering: PropTypes.object,
   starredOfferings: PropTypes.object

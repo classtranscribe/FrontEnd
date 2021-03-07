@@ -10,6 +10,7 @@ export { default as CTInput } from './Input';
 export { default as CTSelect } from './Select';
 export { default as CTCheckbox } from './Checkbox';
 export { default as CTRadio } from './Radio';
+export { default as CTSwitch } from './Switch';
 
 export { default as CTAutoComplete } from './AutoComplete';
 export { CTUploadBase, CTUploadButton } from './Upload';
