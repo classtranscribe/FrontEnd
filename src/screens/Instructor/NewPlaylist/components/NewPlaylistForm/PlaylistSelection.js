@@ -19,7 +19,7 @@ function PlaylistType(props) {
   return (
     <CTFragment>
       {/* Selection */}
-      <CTFormHeading>Misc</CTFormHeading>
+      <CTFormHeading>Source</CTFormHeading>
 
       
 
