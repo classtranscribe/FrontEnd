@@ -28,6 +28,7 @@ export class NewCourse extends Component {
       courseName,
       description,
       courseIds,
+      publishStatus,
     } = newOffering;
 
     let offeringId = null;
@@ -41,7 +42,8 @@ export class NewCourse extends Component {
           accessType,
           logEventsFlag,
           courseName,
-          description
+          description,
+          publishStatus
         },
         courseId: courseIds[0],
         instructorId: userId
