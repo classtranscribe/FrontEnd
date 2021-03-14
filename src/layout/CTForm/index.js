@@ -7,6 +7,7 @@ export { default as CTFormHeading } from './FormHeading';
 export { default as CTFormRow } from './FormRow';
 export { default as CTFormHelp } from './FormHelp';
 export { default as CTInput } from './Input';
+export { default as CTInputChip } from './Input/InputChips';
 export { default as CTSelect } from './Select';
 export { default as CTCheckbox } from './Checkbox';
 export { default as CTRadio } from './Radio';

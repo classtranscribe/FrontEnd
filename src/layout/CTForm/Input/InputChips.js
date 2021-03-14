@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import ChipInput from 'material-ui-chip-input'
 
 export const useStyles = makeStyles({
   root: {
@@ -58,17 +58,16 @@ const useDarkStyles = makeStyles({
 /**
  * The controlled input component used in `CTForm`
  */
-function Input(props) {
+function InputChip(props) {
   let {
     id,
     label,
     helpText,
-    onChange,
-    onReturn,
-    placeholder,
-    defaultValue,
+    onAdd,
+    onDelete,
     value,
     darkMode,
+    sort = false,
     required = false,
     error = false,
     disabled = false,
@@ -76,52 +75,31 @@ function Input(props) {
     underlined = false,
     ...otherProps
   } = props;
-
+  
   const classes = useStyles();
   const darkClasses = useDarkStyles();
-  const handleKeyDown = (e) => {
-    if (typeof onReturn === 'function' && e.keyCode === 13) {
-      e.preventDefault();
-      onReturn();
-    }
-  };
-
+  
   return (
-    <TextField
-      fullWidth
-      id={id}
-      InputLabelProps={{ htmlFor: id }}
-      type="text"
-      variant={underlined ? "standard" : "outlined"}
-      classes={darkMode ? darkClasses : classes}
+    <ChipInput
+      fullWidth={true}
       label={label}
-      placeholder={placeholder}
-      defaultValue={defaultValue}
-      value={value}
-      helperText={helpText}
-      onChange={onChange}
-      multiline={textarea}
-      error={error}
-      required={required}
-      disabled={disabled}
-      onKeyDown={handleKeyDown}
-      {...otherProps}
+      variant="outlined"
+      classes={darkMode ? darkClasses : classes} 
+      value={sort? value.sort(): value}
+      onAdd={(chip) => onAdd(chip)}
+      onDelete={(chip, index) => onDelete(chip, index)}
     />
   );
 }
 
-Input.propTypes = {
+
+
+InputChip.propTypes = {
   /** An unique ID to the input */
   id: PropTypes.string,
 
   /** The label for the input */
   label: PropTypes.string,
-
-  /** The placeholder for the input */
-  placeholder: PropTypes.string,
-
-  /** The default value for the input */
-  defaultValue: PropTypes.string,
 
   /** The value for the input */
   value: PropTypes.string,
@@ -151,5 +129,5 @@ Input.propTypes = {
   underlined: PropTypes.bool
 };
 
-export default Input;
+export default InputChip;
 

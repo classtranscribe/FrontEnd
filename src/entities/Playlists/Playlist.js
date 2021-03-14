@@ -107,6 +107,27 @@ class Playlist extends Entity {
   }
 
   /**
+   * Edit the playlist
+   * @param {String} newName - New name for the playlist
+   * @param {String} phraseList - New name for the playlist
+   * @returns {Playlist} true if successed
+   */
+  static async edit(playlist, newName, phraseList) {
+    if (!playlist.id || !newName) return;
+    try {
+      playlist.name = newName;
+      playlist.jsonMetadata.phraseList = phraseList;
+      await api.updatePlaylist(playlist);
+      prompt.addOne({ text: 'Playlist edited.', timeout: 3000 });
+    } catch (error) {
+      prompt.error('Failed to Edit the playlist.', { timeout: 5000 });
+      return;
+    }
+    return new Playlist(playlist);
+  }
+  
+  
+  /**
    * Delete the playlist
    * @returns {Boolean} true if successed
    */

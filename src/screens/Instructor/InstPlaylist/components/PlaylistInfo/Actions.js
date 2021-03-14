@@ -7,8 +7,8 @@ import { links } from 'utils/links';
 function Actions({
   editing,
   handleEdit,
-  handleRename,
-  handleCancelRename,
+  handleSaveEdits,
+  handleCancelEdit,
   handleDelete,
   playlistId,
   offeringId
@@ -41,7 +41,7 @@ function Actions({
                 id="pl-rename-save-btn"
                 className={btn.teal} 
                 startIcon={<i className="material-icons">check</i>}
-                onClick={handleRename}
+                onClick={handleSaveEdits}
                 variant="contained"
               >
                 save
@@ -49,7 +49,7 @@ function Actions({
               <Button 
                 id="pl-rename-cancel-btn"
                 className="font-weight-bold ml-3"
-                onClick={handleCancelRename}
+                onClick={handleCancelEdit}
               >
                 cancel
               </Button>
