@@ -55,7 +55,7 @@ export class DefaultSidebarItems {
 
   get pgadmin () {
     return this.create({
-      value: 'ct-nsb-pgadmin',
+      value: 'ct-nsb-extLinks-pgadmin',
       text: 'pgadmin',
       icon: 'link',
       href: links.pgadmin(),
@@ -66,7 +66,7 @@ export class DefaultSidebarItems {
   
   get swag () {
     return this.create({
-      value: 'ct-nsb-swag',
+      value: 'ct-nsb-extLinks-swag',
       text: 'swag',
       icon: 'link',
       href: links.swag(),
@@ -76,7 +76,7 @@ export class DefaultSidebarItems {
   }
   get rabbitmq () {
     return this.create({
-      value: 'ct-nsb-rabbitmq',
+      value: 'ct-nsb-extLinks-rabbitmq',
       text: 'rabbitmq',
       icon: 'link',
       href: links.rabbitmq(),
@@ -86,7 +86,7 @@ export class DefaultSidebarItems {
   }
   get traefik () {
     return this.create({
-      value: 'ct-nsb-traefik',
+      value: 'ct-nsb-extLinks-traefik',
       text: 'traefik',
       icon: 'link',
       href: links.traefik(),
@@ -198,6 +198,7 @@ export class DefaultSidebarItems {
     }
   
     const offeringItem = {
+      value: offering.id || 'ct-nsb-offering',
       text: offering.fullNumber,
       active: true,
       icon: 'book',

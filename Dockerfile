@@ -5,7 +5,7 @@ FROM node:14 AS frontend
 
 WORKDIR /frontend
 
-COPY package.json yarn.lock /frontend/
+COPY package.json yarn.lock  getDefaultConfig.js changeBackend.js /frontend/
 RUN yarn && yarn install
 
 COPY jsconfig.json .

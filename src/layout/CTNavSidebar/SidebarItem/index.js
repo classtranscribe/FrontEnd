@@ -43,7 +43,7 @@ export function SidebarItem(props) {
     <button className="ct-nsb-li-content" onClick={onClick}>
       {itemContentElem}
     </button>
-  ) : reloadOnPathnameChange ? (
+  ) : reloadOnPathnameChange || value.includes("extLinks")? (
     <a className="ct-nsb-li-content" href={href}>
       {itemContentElem}
     </a>
