@@ -166,10 +166,10 @@ export default {
         if (newState) {
             if (!PlayerData.video1) return;
             if (newState) {
-                enterFullScreen()
+                enterFullScreen(watch)
                 yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
             } else {
-                exitFullScreen()
+                exitFullScreen(watch)
                 yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
             }
         }
