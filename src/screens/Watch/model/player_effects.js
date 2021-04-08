@@ -163,7 +163,7 @@ export default {
     *toggleFullScreen({ payload: bool }, { call, put, select, take }) {
         const { watch, playerpref } = yield select();
         const newState = bool === undefined ? !watch.isFullscreen : bool;
-        if (newState) {
+        if (newState !== undefined) {
             if (!PlayerData.video1) return;
             if (newState) {
                 enterFullScreen(watch)
