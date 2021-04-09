@@ -12,7 +12,7 @@ export function FullscreenButtonWithRedux({ isFullscreen = false, dispatch }) {
       onClick={handleFullscreen}
       label={isFullscreen ? 'Exit Fullscreen (f)' : 'Enter Fullscreen (f)'}
       ariaTags={{
-        'aria-label': isFullscreen ? 'Enter Fullscreen' : 'Enter Fullscreen',
+        'aria-label': isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen',
         // 'aria-keyshortcuts': 'f'
       }}
       id="fullscreen-btn"

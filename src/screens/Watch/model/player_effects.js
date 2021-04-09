@@ -163,13 +163,13 @@ export default {
     *toggleFullScreen({ payload: bool }, { call, put, select, take }) {
         const { watch, playerpref } = yield select();
         const newState = bool === undefined ? !watch.isFullscreen : bool;
-        if (newState) {
+        if (newState !== undefined) {
             if (!PlayerData.video1) return;
             if (newState) {
-                enterFullScreen()
+                enterFullScreen(watch)
                 yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
             } else {
-                exitFullScreen()
+                exitFullScreen(watch)
                 yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
             }
         }
