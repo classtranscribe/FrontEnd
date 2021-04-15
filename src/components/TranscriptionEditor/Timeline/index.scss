@@ -1,0 +1,245 @@
+ytve-timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    flex: none;
+    #header-container {
+        display: flex;
+        position: relative;
+        flex: 0 0 auto;
+        z-index: var(--ytve-header-shades-z-index);
+        transition: box-shadow 150ms;
+        pointer-events: none;
+    }
+    #scroll-area {
+        flex: 1;
+        position: relative;
+    }
+
+    --ytve-privacy-marker-edge-selected-z-index: 115;
+    --ytve-privacy-marker-selected-z-index: 110;
+    --ytve-trim-marker-selected-z-index: 110;
+    --ytve-above-trim-decorations-z-index: 105;
+    --ytve-header-find-playhead-button-z-index: 100;
+    --ytve-playhead-over-marker-z-index: 100;
+    --ytve-privacy-marker-unselected-z-index: 90;
+    --ytve-trim-delete-marker-z-index: 90;
+    --ytve-trim-marker-unselected-z-index: 90;
+    --ytve-playhead-under-marker-z-index: 80;
+    --ytve-header-shades-z-index: 61;
+    --ytve-trim-decorations-z-index: 60;
+    --ytve-privacy-row-icon-z-index: 50;
+    --ytve-privacy-row-element-z-index: 45;
+    --ytve-adbreaks-add-row-z-index: 40;
+    --ytve-privacy-row-z-index: 40;
+
+    #plugin-timeline-surface {
+        border-top: 1px var(--ytve-border-color) solid;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--ytve-timeline-margin-bottom, 60px);
+    }
+}
+ytve-timeline-base {
+    background-color: var(--ytve-background-color);
+    display: flex;
+    flex-direction: row;
+    transition: height 300ms, background-color 300ms;
+    --icon-color: var(--ytve-secondary-color);
+    --icon-focused-color: var(--ytve-primary-color);
+    --icon-disabled-color: var(--ytve-disabled-color);
+    &[active] {
+        border-left-color: var(--ytve-border-color-focused);
+    }
+    &[slot="content"],
+    > [slot="content"] {
+        flex: 1 1 auto;
+        flex-basis: calc(100% - 135px);
+        min-height: 48px;
+        position: relative;
+        overflow: hidden;
+    }
+    #captions-timeline-content {
+        align-items: center;
+        background-color: var(--ytve-background-color);
+        display: flex;
+        flex-direction: row;
+        height: 48px;
+        justify-content: center;
+    }
+    #captions-row {
+        position: absolute;
+        box-sizing: border-box;
+        border-radius: 2px;
+        height: 24px;
+        text-align: left;
+        top: 12px;
+        transition: background-color 100ms, opacity 300ms cubic-bezier(0, 0, 0.2, 1);
+    }
+    .header {
+        border-left: 4px transparent solid;
+        border-right: 1px var(--ytve-border-color) solid;
+        box-sizing: border-box;
+        display: flex;
+        flex: none;
+        flex-basis: 135px;
+        justify-content: flex-start;
+        min-height: 48px;
+        position: relative;
+        padding: 4px 6px 0 12px;
+        width: 135px;
+    }
+}
+ytve-timeline-header {
+    display: block;
+    height: 24px;
+    margin-top: 16px;
+    position: relative;
+    flex-basis: 24px;
+    flex: 0 0 auto;
+}
+
+ytve-timeline-markers {
+    display: flex;
+    flex-grow: 1;
+    position: absolute;
+    top: 0;
+    left: 135px;
+    right: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+    #left-bookend {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+    }
+    #right-bookend {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+    }
+}
+ytve-playhead {
+    display: flex;
+    justify-content: center;
+    height: calc(100% - 13px);
+    outline: none;
+    position: absolute;
+    top: 13px;
+    user-select: none;
+    z-index: var(--ytve-playhead-over-marker-z-index);
+    #touch-area {
+        height: 100%;
+        position: absolute;
+        width: 7px;
+    }
+    #circle {
+        background-color: var(--ytve-playhead-color);
+        border-radius: 3.5px;
+        height: 7px;
+        position: absolute;
+        width: 7px;
+    }
+    #label {
+        display: none;
+    }
+    #line {
+        background-color: var(--ytve-playhead-color);
+        height: calc(100% - 8px);
+        margin-top: 7px;
+        width: 1px;
+    }
+}
+#decorations {
+    &.ct-captions-editor-timeline {
+        bottom: 0;
+        left: 0;
+        pointer-events: auto;
+        position: absolute;
+        top: 0;
+    }
+}
+
+ytve-captions-marker {
+    --ytve-privacy-marker-edge-selected-z-index: 115;
+    --ytve-privacy-marker-selected-z-index: 110;
+    --ytve-trim-marker-selected-z-index: 110;
+    --ytve-above-trim-decorations-z-index: 105;
+    --ytve-header-find-playhead-button-z-index: 100;
+    --ytve-playhead-over-marker-z-index: 100;
+    --ytve-privacy-marker-unselected-z-index: 90;
+    --ytve-trim-delete-marker-z-index: 90;
+    --ytve-trim-marker-unselected-z-index: 90;
+    --ytve-playhead-under-marker-z-index: 80;
+    --ytve-header-shades-z-index: 61;
+    --ytve-trim-decorations-z-index: 60;
+    --ytve-privacy-row-icon-z-index: 50;
+    --ytve-privacy-row-element-z-index: 45;
+    --ytve-adbreaks-add-row-z-index: 40;
+    --ytve-privacy-row-z-index: 40;
+
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    z-index: 110;
+
+    #touch-area {
+        position: absolute;
+        height: 100%;
+        width: 2px;
+    }
+    &[marker-type="captions-center"] {
+        box-sizing: border-box;
+        z-index: 89;
+    }
+}
+ytve-captions-marker-container {
+    --ytve-privacy-marker-edge-selected-z-index: 115;
+    --ytve-privacy-marker-selected-z-index: 110;
+    --ytve-trim-marker-selected-z-index: 110;
+    --ytve-above-trim-decorations-z-index: 105;
+    --ytve-header-find-playhead-button-z-index: 100;
+    --ytve-playhead-over-marker-z-index: 100;
+    --ytve-privacy-marker-unselected-z-index: 90;
+    --ytve-trim-delete-marker-z-index: 90;
+    --ytve-trim-marker-unselected-z-index: 90;
+    --ytve-playhead-under-marker-z-index: 80;
+    --ytve-header-shades-z-index: 61;
+    --ytve-trim-decorations-z-index: 60;
+    --ytve-privacy-row-icon-z-index: 50;
+    --ytve-privacy-row-element-z-index: 45;
+    --ytve-adbreaks-add-row-z-index: 40;
+    --ytve-privacy-row-z-index: 40;
+
+    background-color: var(--ytve-timeline-marker-color);
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    width: 100%;
+    z-index: 45;
+    &[selected] {
+        background-color: var(--ytve-timeline-marker-color-active);
+    }
+    #element {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        font-size: 13px;
+        line-height: 20px;
+        color: var(--ytve-timeline-marker-label-color);
+        height: 24px;
+        line-height: 24px;
+        overflow: hidden;
+        padding: 0 5px;
+        pointer-events: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 45;
+    }
+}

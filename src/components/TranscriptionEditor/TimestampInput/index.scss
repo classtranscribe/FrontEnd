@@ -1,0 +1,15 @@
+ytcp-media-timestamp-input {
+    border: 1px solid var(--ytcp-icon-disabled);
+    border-radius: 4px;
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    &.ytve-toolbar {
+        margin-right: 8px;
+    }
+}
+
+ytcp-media-timestamp-input[compact] #sizing, ytcp-media-timestamp-input[compact] #display, ytcp-media-timestamp-input[compact] input {
+    padding-bottom: calc(14px - var(--ytcp-font-subheading-baseline-bottom));
+    padding-top: calc(24px - 17px);
+}

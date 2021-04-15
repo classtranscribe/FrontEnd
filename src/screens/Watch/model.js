@@ -337,6 +337,7 @@ const WatchModel = {
         *setupEmbeddedMedia({ payload }, { call, put, select, take }) {
             const { mediaId, ...props } = payload;
             let media = payload.media;
+            console.log(payload)
             if (!media) {
                 if (mediaId) {
                     try {

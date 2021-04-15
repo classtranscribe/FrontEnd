@@ -1,0 +1,405 @@
+html:not(.style-scope) {
+    --icon-standard-length: 24px;
+    --ytve-timeline-margin-bottom: 0;
+
+    --ytcp-black-0: rgba(0, 0, 0, 0.06);
+    --ytcp-black-1: rgba(0, 0, 0, 0.12);
+    --ytcp-black-2: rgba(0, 0, 0, 0.2);
+    --ytcp-black-3: rgba(0, 0, 0, 0.38);
+    --ytcp-black-4: rgba(0, 0, 0, 0.55);
+    --ytcp-black-5: rgba(0, 0, 0, 0.87);
+    --ytcp-white-0: rgba(255, 255, 255, 0.06);
+    --ytcp-white-1: rgba(255, 255, 255, 0.12);
+    --ytcp-white-2: rgba(255, 255, 255, 0.25);
+    --ytcp-white-3: rgba(255, 255, 255, 0.5);
+    --ytcp-white-4: rgba(255, 255, 255, 0.7);
+    --ytcp-white-5: rgb(255, 255, 255);
+    --ytcp-black-primary: var(--ytcp-black-5);
+    --ytcp-black-secondary: var(--ytcp-black-4);
+    --ytcp-black-disabled: var(--ytcp-black-3);
+    --ytcp-opaque-black-primary: #212121;
+    --ytcp-white-primary: var(--ytcp-white-5);
+    --ytcp-white-secondary: var(--ytcp-white-4);
+    --ytcp-white-disabled: var(--ytcp-white-3);
+    --ytcp-background-0: #ffffff;
+    --ytcp-background-10: #f4f4f4;
+    --ytcp-background-20: #ebebeb;
+    --ytcp-background-30: #e2e2e2;
+    --ytcp-background-80: #282828;
+    --ytcp-background-90: #131313;
+    --ytcp-studio-blue: #065fd4;
+    --ytcp-studio-light-blue: #3ea6ff;
+    --ytcp-studio-green: #008207;
+    --ytcp-studio-light-green: #41a346;
+    --ytcp-checkbox-primary-color: var(--ytcp-opaque-black-primary);
+    --ytcp-primary-color: var(--ytcp-black-primary);
+    --ytcp-primary-color-inverse: var(--ytcp-white-primary);
+    --ytcp-secondary-color: var(--ytcp-black-secondary);
+    --ytcp-secondary-color-inverse: var(--ytcp-white-secondary);
+    --ytcp-focused-color: var(--ytcp-studio-blue);
+    --ytcp-disabled-color: var(--ytcp-black-disabled);
+    --ytcp-disabled-color-inverse: var(--ytcp-white-disabled);
+    --ytcp-link-color: var(--ytcp-studio-blue);
+    --ytcp-error-color: #d90a17;
+    --ytcp-warning-color: #f9a825;
+    --ytcp-active-color: var(--ytcp-studio-green);
+    --ytcp-background-color: var(--ytcp-background-0);
+    --ytcp-background-color-inverse: var(--ytcp-background-90);
+    --ytcp-menu-background-color: var(--ytcp-background-0);
+    --ytcp-highlighted-background-color: var(--ytcp-background-10);
+    --ytcp-focused-background-color: var(--ytcp-background-20);
+    --ytcp-floating-column-border-image: linear-gradient(to right, rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0)) 1 100%;
+    --ytcp-container-disabled-background-color: var(--ytcp-black-0);
+    --ytcp-container-disabled-background-color-inverse: transparent;
+    --ytcp-container-border-color: var(--ytcp-black-2);
+    --ytcp-container-border-color-inverse: var(--ytcp-white-2);
+    --ytcp-container-focused-border-color: var(--ytcp-studio-blue);
+    --ytcp-container-hovered-border-color: var(--ytcp-black-disabled);
+    --ytcp-container-hovered-border-color-inverse: var(--ytcp-white-disabled);
+    --ytcp-container-error-border-color: #d90a17;
+    --ytcp-border-color: var(--ytcp-black-1);
+    --ytcp-shadow-color: var(--ytcp-black-1);
+    --ytcp-button-raised-disabled-color: var(--ytcp-black-disabled);
+    --ytcp-button-secondary-ripple-color: var(--ytcp-black-1);
+    --ytcp-button-secondary-ripple-color-inverse: var(--ytcp-white-2);
+    --ytcp-button-raised-disabled-background: var(--ytcp-black-1);
+    --ytcp-light-red: #ff4e45;
+    --ytcp-brand-background-solid: #ffffff;
+    --ytcp-brand-background-solid-inverse: #282828;
+    --ytcp-general-background-a: #f9f9f9;
+    --ytcp-general-background-b: #f1f1f1;
+    --ytcp-general-background-b-inverse: #161616;
+    --ytcp-general-background-c: #e9e9e9;
+    --ytcp-background-inverse: #1f1f1f;
+    --ytcp-menu-background: #ffffff;
+    --ytcp-selected-item: #f1f1f1;
+    --ytcp-hover-item: #f9f9f9;
+    --ytcp-text-primary: #0d0d0d;
+    --ytcp-text-primary-inverse: #ffffff;
+    --ytcp-text-secondary: #606060;
+    --ytcp-text-secondary-inverse: #aaaaaa;
+    --ytcp-text-disabled: #909090;
+    --ytcp-text-disabled-inverse: #717171;
+    --ytcp-overlay-text-primary: #ffffff;
+    --ytcp-overlay-text-primary-inverse: #0d0d0d;
+    --ytcp-overlay-text-secondary: rgba(255, 255, 255, 0.7);
+    --ytcp-overlay-text-secondary-inverse: #606060;
+    --ytcp-call-to-action: #065fd4;
+    --ytcp-call-to-action-inverse: #3ea6ff;
+    --ytcp-call-to-action-raised-background: #065fd4;
+    --ytcp-call-to-action-raised-background-inverse: #3ea6ff;
+    --ytcp-call-to-action-raised-divider: rgba(255, 255, 255, 0.5);
+    --ytcp-call-to-action-ripple: rgba(6, 95, 212, 0.2);
+    --ytcp-call-to-action-ripple-inverse: rgba(62, 166, 255, 0.2);
+    --ytcp-call-to-action-secondary-ripple: rgba(0, 0, 0, 0.2);
+    --ytcp-call-to-action-secondary-ripple-inverse: rgba(255, 255, 255, 0.2);
+    --ytcp-call-to-action-raised-ripple: rgba(255, 255, 255, 0.2);
+    --ytcp-call-to-action-raised-ripple-inverse: rgba(0, 0, 0, 0.2);
+    --ytcp-call-to-action-focused-background: rgba(6, 95, 212, 0.2);
+    --ytcp-call-to-action-focused-background-inverse: rgba(62, 166, 255, 0.2);
+    --ytcp-call-to-action-secondary-focused-background: rgba(0, 0, 0, 0.2);
+    --ytcp-call-to-action-secondary-focused-background-inverse: rgba(255, 255, 255, 0.2);
+    --ytcp-call-to-action-raised-focused-background: rgba(255, 255, 255, 0.2);
+    --ytcp-call-to-action-raised-focused-background-inverse: rgba(0, 0, 0, 0.2);
+    --ytcp-call-to-action-raised-disabled: #ffffff;
+    --ytcp-call-to-action-raised-disabled-inverse: #0d0d0d;
+    --ytcp-call-to-action-raised-disabled-background: #cccccc;
+    --ytcp-call-to-action-raised-disabled-background-inverse: #606060;
+    --ytcp-icon-active: #606060;
+    --ytcp-icon-active-inverse: #ffffff;
+    --ytcp-icon-inactive: #909090;
+    --ytcp-icon-disabled: #cccccc;
+    --ytcp-icon-disabled-inverse: #606060;
+    --ytcp-ten-percent-layer: rgba(0, 0, 0, 0.1);
+    --ytcp-line-divider: rgba(0, 0, 0, 0.1);
+    --ytcp-line-divider-inverse: rgba(255, 255, 255, 0.1);
+    --ytcp-dm-container-border: #cccccc;
+    --ytcp-focus: #065fd4;
+    --ytcp-focus-inverse: #3ea6ff;
+    --ytcp-error-red: #cc0000;
+    --ytcp-error-red-inverse: var(--ytcp-light-red);
+    --ytcp-themed-blue: #065fd4;
+    --ytcp-themed-blue-inverse: #3ea6ff;
+    --ytcp-themed-green: #007800;
+    --ytcp-themed-green-inverse: #2ba640;
+    --ytcp-themed-yellow: #fbc02d;
+    --ytcp-yellow-inverse: #815000;
+    --ytcp-themed-red: #cc0000;
+    --ytcp-themed-red-inverse: var(--ytcp-light-red);
+    --ytcp-suggested-action: #def1ff;
+    --ytcp-badge-green: #e5f1e5;
+    --ytcp-badge-yellow: #fff8e5;
+    --ytcp-badge-red: #f9e5e5;
+    --ytcp-badge-blue: #def1ff;
+    --ytcp-overlay-background-heavy: rgba(0, 0, 0, 0.8);
+    --ytcp-overlay-background-medium: rgba(0, 0, 0, 0.6);
+    --ytcp-overlay-background-medium-light: rgba(0, 0, 0, 0.3);
+    --ytcp-overlay-background-red: rgba(204, 0, 0, 0.9);
+    --ytcp-overlay-drop-shadow-a12: rgba(0, 0, 0, 0.12);
+    --ytcp-overlay-drop-shadow-a40: rgba(0, 0, 0, 0.4);
+    --ytcp-overlay-focus: #3ea6ff;
+    --ytcp-overlay-background-a20: rgba(0, 0, 0, 0.2);
+    --ytcp-overlay-background-a70: rgba(0, 0, 0, 0.7);
+    --ytcp-static-brand-red: #ff0000;
+    --ytcp-static-brand-white: #ffffff;
+    --ytcp-static-brand-black: rgb(0, 0, 0);
+    --ytcp-analytics-overview: #00a7cf;
+    --ytcp-analytics-reach: #5b54d5;
+    --ytcp-analytics-reach-background: #f4f3ff;
+    --ytcp-analytics-audience: #912fc0;
+    --ytcp-analytics-comparison-lagoon: rgba(0, 167, 207, 0.03);
+    --ytcp-analytics-comparison-orchid: rgba(145, 47, 192, 0.03);
+    --ytcp-bulk-action-background-color: var(--ytcp-background-80);
+    --ytcp-themed-blue-a12: rgba(6, 95, 212, 0.12);
+}
+html:not(.style-scope) {
+    --ytve-primary-color: var(--ytcp-text-primary);
+    --ytve-primary-color-inverse: var(--ytcp-text-primary-inverse);
+    --ytve-secondary-color: var(--ytcp-text-secondary);
+    --ytve-disabled-color: var(--ytcp-text-disabled);
+    --ytve-link-color: var(--ytcp-call-to-action);
+    --ytve-error-color: var(--ytcp-error-red);
+    --ytve-warning-color: var(--ytcp-yellow-inverse);
+    --ytve-background-color: var(--ytcp-brand-background-solid);
+    --ytve-background-color-hover: var(--ytcp-hover-item);
+    --ytve-background-color-selected: var(--ytcp-selected-item);
+    --ytve-preview-background-color: var(--ytcp-general-background-a);
+    --ytve-lock-screen-color: var(--ytcp-overlay-background-heavy);
+    --ytve-block-background-color: var(--ytcp-icon-disabled);
+    --ytve-border-color: var(--ytcp-line-divider);
+    --ytve-container-border-color: var(--ytcp-dm-container-border);
+    --ytve-border-color-error: var(--ytcp-error-red);
+    --ytve-border-color-focused: var(--ytcp-focus);
+    --ytve-border-color-hover: var(--ytcp-icon-inactive);
+    --ytve-input-placeholder-color: var(--ytcp-text-disabled);
+    --ytve-input-selection-background-color: var(--ytcp-focus);
+    --ytve-playhead-color: var(--ytcp-text-secondary);
+    --ytve-playhead-color-label: var(--ytcp-text-primary-inverse);
+    --ytve-playhead-color-shadow: rgba(13, 13, 13, 0.5);
+    --ytve-timeline-marker-color: var(--ytcp-text-secondary);
+    --ytve-timeline-marker-color-active: var(--ytcp-focus);
+    --ytve-timeline-marker-color-error: var(--ytcp-error-red);
+    --ytve-timeline-marker-label-color: var(--ytcp-text-primary-inverse);
+    --ytve-timeline-row-color: var(--ytcp-icon-disabled);
+    --ytve-timeline-resize-line-color: var(--ytcp-icon-disabled);
+    --ytve-timeline-resize-line-color-active: var(--ytcp-icon-active);
+    --ytve-toast-background-color: var(--ytcp-background-inverse);
+    --ytve-zoom-slider-container-color: var(--ytcp-icon-disabled);
+    --ytve-scrollbar-color: var(--ytcp-icon-inactive);
+    --ytve-scrollbar-color-background-hover: var(--ytcp-general-background-b);
+    --ytve-scrollbar-color-drag: var(--ytcp-icon-active);
+    --ytve-scrollbar-color-hover: var(--ytcp-icon-active);
+    --ytve-audio-waveform-color: var(--ytcp-icon-disabled);
+    --ytve-captions-add-segment-button-color: var(--ytcp-text-secondary);
+    --ytve-captions-add-segment-button-color-hover: var(--ytcp-call-to-action);
+    --ytve-captions-add-segment-button-plus-color: var(--ytcp-text-primary-inverse);
+    --ytve-endscreen-template-element-color: var(--ytcp-icon-inactive);
+    --ytve-trim-marker-color: var(--ytcp-themed-blue);
+    --ytve-trim-shade-color: var(--ytcp-overlay-background-medium);
+    --ytve-video-thumbnail-placeholder-color: var(--ytcp-icon-disabled);
+}
+
+.yttt {
+    -webkit-font-smoothing: antialiased;
+}
+.header {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    flex: none;
+    .header-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        [slot="secondary-header"] {
+            display: flex;
+            justify-content: flex-end;
+            margin-left: auto;
+            margin: 12px 16px;
+        }
+    }
+}
+.content {
+    overflow: overlay;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 48px;
+    border: 0;
+    background: transparent;
+    #content {
+        display: flex;
+        flex: 1 1 680px;
+        flex-direction: column;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+ytve-editor {
+    margin: 0 -24px;
+    overflow: hidden;
+    background-color: var(--ytve-background-color);
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 960px;
+    position: relative;
+    #panels {
+        display: flex;
+        flex: 1 1 260px;
+        flex-direction: row;
+        min-height: 260px;
+        width: 100%;
+    }
+    #space-divider {
+        display: flex;
+        flex: none;
+        flex-direction: column;
+        height: 24px;
+        margin-top: -16px;
+        z-index: 1;
+    }
+    &[is-split] {
+        #preview-panel {
+            flex-basis: calc(100% - var(--ytve-panel-width, 50%));
+            width: calc(100% - var(--ytve-panel-width, 50%));
+            transition: flex 300ms cubic-bezier(0.4, 0, 0.2, 1) 33ms;
+            overflow: hidden;
+        }
+        #panel-container {
+            border-right: 1px solid var(--ytve-border-color);
+            flex-basis: var(--ytve-panel-width, 50%);
+            width: var(--ytve-panel-width, 50%);
+            z-index: 2;
+        }
+    }
+}
+ytve-preview-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: center;
+    background-color: var(--ytve-preview-background-color);
+    #preview-wrapper {
+        flex: 1 1 auto;
+        height: 100%;
+        position: relative;
+    }
+    #preview-cta {
+        flex: none;
+    }
+}
+#panel-container {
+    display: flex;
+    flex-basis: 0;
+    flex-direction: column;
+    overflow: hidden;
+    transition: flex 500ms;
+}
+
+.footer {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    flex: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    [slot="primary-footer"] {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+#scrollbar {
+    height: 12px;
+    margin: 0 0 8px 0;
+    width: 100%;
+}
+#dialog-title {
+    font-family: "Roboto", "Noto", sans-serif;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    font-size: 20px;
+    line-height: 28px;
+    align-items: center;
+    display: flex;
+    white-space: nowrap;
+    margin: 12px 16px;
+    justify-content: flex-start;
+    #dialog-title-icon {
+        color: var(--ct-green-normal);
+        margin-right: 16px;
+    }
+}
+ytve-toolbar {
+    display: flex;
+    height: 36px;
+    justify-content: space-between;
+    --icon-color: var(--ytve-secondary-color);
+    --icon-focused-color: var(--ytve-primary-color);
+    --icon-disabled-color: var(--ytve-disabled-color);
+    .slider {
+        width: 176px;
+    }
+    #left-controls {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        margin: 0 12px 0 24px;
+    }
+    #right-controls {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        margin: 0 24px 0 12px;
+    }
+}
+
+
+
+#panel-container > * {
+    height: 100%;
+    width: 100%;
+}
+
+ytcp-paper-tooltip {
+    display: none;
+}
+ytcp-form-error-tip[position="top"] {
+    margin-top: calc(-2 * var(--tail-edge-length));
+}
+
+ytcp-icon-button {
+    width: var(--icon-standard-length);
+    height: var(--icon-standard-length);
+    display: inline-flex;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    &:focus {
+        outline: none;
+    }
+}
+
+ytve-timeline-horizontal-scrollbar {
+    cursor: pointer;
+    display: block;
+    height: 12px;
+    position: relative;
+    width: 100%;
+    #scrollbar-handle {
+        background-color: var(--ytve-scrollbar-color);
+        bottom: 0;
+        cursor: move;
+        height: 6px;
+        left: 0;
+        position: absolute;
+        &:hover {
+            background-color: var(--ytve-scrollbar-color-drag);
+        }
+    }
+}

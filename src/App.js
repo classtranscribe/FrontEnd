@@ -30,7 +30,7 @@ import {
   // ComponentAPI,
   Example
 } from './screens';
-
+import TranscriptionEditor from 'components/TranscriptionEditor'
 import './App.css';
 // import 'braft-editor/dist/index.css';
 import { altEl } from './layout';
@@ -75,6 +75,11 @@ class App extends React.Component {
       app: this.props.app,
       models: () => [require('./screens/MediaSettings/model')],
       component: () => MediaSettings
+    })
+    const TransEditorTest = dynamic({
+      app: this.props.app,
+      models: () => [require('./components/TranscriptionEditor/model').default],
+      component: () => TranscriptionEditor
     })
     // return <Maintenance />
     return (
@@ -138,7 +143,7 @@ class App extends React.Component {
           <Route path="/playlist/:id" component={InstPlaylistPage} />
 
           <Route path="/404" component={NotFound404} />
-
+          <Route path="/410test" component={TransEditorTest} />
           {
             env.dev
             &&

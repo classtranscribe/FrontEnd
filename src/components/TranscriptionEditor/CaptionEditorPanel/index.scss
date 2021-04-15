@@ -1,0 +1,123 @@
+ytve-captions-editor-options-panel {
+    background-color: var(--ytve-background-color);
+    color: var(--ytve-secondary-color);
+    display: flex;
+    flex: 1 1;
+    flex-direction: column;
+    min-height: 0;
+    --icon-color: var(--ytve-secondary-color);
+    --icon-focused-color: var(--ytve-primary-color);
+    --icon-disabled-color: var(--ytve-disabled-color);
+    .options-header {
+        display: flex;
+        flex: none;
+        justify-content: space-between;
+        padding: 12px 24px 16px 24px;
+        .options-header-right {
+            flex: none;
+            display: flex;
+            align-items: center;
+        }
+    }
+    &[with-timing] .options-header {
+        padding-bottom: 0;
+    }
+    #editing-container.scrollable-options {
+        background: none;
+        overflow-x: hidden;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .scrollable-options {
+        display: flex;
+        flex: 1 1;
+        flex-direction: column;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+ytve-captions-editor-caption-segment-line {
+    color: var(--ytve-secondary-color);
+    display: block;
+    width: 100%;
+    z-index: 0;
+    --icon-color: var(--ytve-secondary-color);
+    --icon-focused-color: var(--ytve-primary-color);
+    --icon-disabled-color: var(--ytve-disabled-color);
+    .no-background {
+        background: var(--ytve-background-color);
+        height: 16px;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 999;
+    }
+    #row-container {
+        border-bottom: 2px solid transparent;
+        padding: 4px 24px 4px 24px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    .segment {
+        display: flex;
+    }
+    #delete-segment-button {
+        visibility: hidden;
+    }
+    &[is-editing-enabled][selected] #row-container #delete-segment-button, 
+    &[is-editing-enabled] #row-container:hover #delete-segment-button {
+        visibility: visible;
+    }
+    &[is-editing-enabled][selected] #row-container #add-segment-after-button, 
+    &[is-editing-enabled] #row-container:hover #add-segment-after-button {
+        visibility: visible;
+    }
+    &[selected] #row-container, #row-container.row-highlighted {
+        background: var(--ytve-background-color-selected);
+    }
+    .segment-text {
+        width: 100%;
+    }
+    #delete-segment-button-container {
+        display: flex;
+        flex-direction: column;
+        height: 88px;
+        justify-content: space-around;
+    }
+    #add-segment-after-button {
+        bottom: -5px;
+        color: var(--ytve-captions-add-segment-button-color);
+        left: 6px;
+        position: absolute;
+        visibility: hidden;
+        z-index: 1000;
+    }
+    #add-segment-before-button {
+        color: var(--ytve-captions-add-segment-button-color);
+        padding: 0;
+        margin: 0 0 -8px -10px;
+        visibility: hidden;
+        z-index: 1000;
+    }
+    .segment-timings-container {
+        display: flex;
+        flex-direction: column;
+        height: 88px;
+        justify-content: space-between;
+    }
+    paper-ripple {
+        display: block;
+        position: absolute;
+        border-radius: inherit;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+    }
+}

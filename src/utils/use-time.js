@@ -15,6 +15,14 @@ class TimeString {
             .format(formatter);
   }
 
+  static toTimeString2(sec) {
+    if (typeof sec !== 'number') return '';
+    return moment()
+            .startOf('day')
+            .seconds(sec)
+            .format('HH:mm:ss');
+  }
+
   /**
    * Convert seconds to a readable time string with decimal fraction `H:mm:ss.xx`
    * @param {Number} sec - seconds
