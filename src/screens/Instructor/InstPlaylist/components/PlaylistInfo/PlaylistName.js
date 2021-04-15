@@ -1,5 +1,5 @@
 import React from 'react';
-import { CTFragment, CTHeading, CTInput } from 'layout';
+import { CTFragment, CTHeading, CTInput, CTInputChip } from 'layout';
 import { CTPlaylistIcon } from 'components';
 
 function PlaylistName({
@@ -9,22 +9,34 @@ function PlaylistName({
   sourceType,
   sourseURL,
   inputValue,
-  handleRename,
-  onInputChange
+  onInputChange,
+  phraseList,
+  handleAddChip,
+  handleDeleteChip
 }) {
   const plIconElem = <CTPlaylistIcon type={sourceType} size="big" />;
 
   return editing ? (
-    <CTFragment padding={[20, 0, 0, 0]}>
-      <CTInput
-        autoFocus
-        label="Playlist Name"
-        placeholder={name}
-        value={inputValue}
-        onChange={onInputChange}
-        onReturn={handleRename}
-      />
-    </CTFragment>
+    <>
+      <CTFragment padding={[20, 0, 0, 0]}>
+        <CTInput
+          autoFocus
+          label="Playlist Name"
+          placeholder={name}
+          value={inputValue}
+          onChange={onInputChange}
+        />
+      </CTFragment>
+      <CTFragment padding={[20, 0, 0, 0]}>
+        <CTInputChip
+          label="Phrase List"
+          sort={true}
+          value={phraseList}
+          onAdd={handleAddChip}
+          onDelete={handleDeleteChip}
+        />
+      </CTFragment>
+    </>
   ) : (
     <>
       <CTHeading fadeIn={false} icon={plIconElem} className="pl-name">

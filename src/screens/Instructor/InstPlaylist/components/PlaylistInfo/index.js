@@ -40,23 +40,36 @@ function PlaylistInfoWithRedux(props) {
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(playlist.name);
-
+  const [phraseList, setPhraseList] = useState(playlist.jsonMetadata.phraseList || []);
+  
   const handleEdit = () => setEditing(true);
 
   const onInputChange = ({ target: { value } }) => {
     setInputValue(value);
   };
 
-  const handleCancelRename = () => setEditing(false);
+  const handleCancelEdit = () => setEditing(false);
 
-  const handleRename = async () => {
+  
+  const handleSaveEdits = async () => {
     if (!inputValue) return;
-    const playlist_ = await Playlist.rename(playlist, inputValue);
+    const playlist_ = await Playlist.edit(playlist, inputValue, phraseList);
     if (playlist_) {
       dispatch({type: 'instplaylist/setPlaylist', payload: playlist_.toObject()});
     }
-    handleCancelRename();
+    handleCancelEdit();
   };
+  
+  const handleAddChip = (word) => {
+    let list = [...phraseList];
+    list.push(word)
+    setPhraseList(list);
+  }
+  const handleDeleteChip = (word, index) => {
+    let list = [...phraseList];
+    list.splice(index, 1);
+    setPhraseList(list);
+  }
 
   const handleDelete = () => {
     const confirm = {
@@ -78,15 +91,18 @@ function PlaylistInfoWithRedux(props) {
     sourseURL,
     inputValue,
     onInputChange,
-    handleRename,
+    handleSaveEdits,
+    phraseList,
+    handleAddChip,
+    handleDeleteChip,
     ...playlist,
   };
 
   const actionProps = {
     editing,
     handleEdit,
-    handleRename,
-    handleCancelRename,
+    handleSaveEdits,
+    handleCancelEdit,
     handleDelete,
     playlistId: playlist.id,
     offeringId: offering.id
