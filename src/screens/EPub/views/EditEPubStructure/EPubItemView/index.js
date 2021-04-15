@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from 'dva'
+import Image from 'components/Image';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import IconButton from '@material-ui/core/IconButton';
 import { CTFragment, CTHeading, CTParagraph, useButtonStyles, CTPopoverLabel } from 'layout';
@@ -47,7 +48,7 @@ function EPubItemView({
       </CTFragment>
 
       <CTFragment className="epb-carl-img-con">
-        <img src={uurl.getMediaUrl(item.image)} />
+        <Image src={uurl.getMediaUrl(item.image)} />
       </CTFragment>
 
       <CTFragment>
