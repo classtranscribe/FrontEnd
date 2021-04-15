@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CTText } from 'layout';
 import { uurl } from 'utils/use-url';
 import ImagePreview from './ImagePreview';
+import Image from 'components/Image';
 
 function ImagesTab(props) {
   const {
@@ -26,7 +27,7 @@ function ImagesTab(props) {
               onClick={() => setImgUrl(img)}
               role="listitem"
             >
-              <img src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
+              <Image src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
               <div className="ct-img-picker-img-wrapper ct-d-r-center">
                 {
                   img === imgUrl

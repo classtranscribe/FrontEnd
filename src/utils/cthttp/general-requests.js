@@ -22,6 +22,7 @@ export function getFile(path) {
  * @returns {Promise<Buffer>} the loaded src buffer
  */
 export async function getBuffer(path) {
-  const { data } = await axios.get(path, { responseType: 'arraybuffer' });
+  // Adding authorization token
+  const { data } = await cthttp.request().get(path, { responseType: 'arraybuffer' }); 
   return Buffer.from(data);
 }
