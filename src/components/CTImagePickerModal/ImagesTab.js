@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CTText } from 'layout';
 import { uurl } from 'utils/use-url';
-import ImagePreview from './ImagePreview';
 import Image from 'components/Image';
+import ImagePreview from './ImagePreview';
 
 function ImagesTab(props) {
   const {

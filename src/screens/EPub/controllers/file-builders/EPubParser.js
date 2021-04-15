@@ -14,15 +14,26 @@ export const LoadImageError = new CTError('LoadImageError', 'Failed to load imag
  * EPubData parser for file builders
  */
 class EPubParser {
+  static blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    })
+  };
+
   /**
-   * Create an EPubParser
-   * @param {EPubData} ePubData 
-   * @param {Boolean} replaceImageSrc
-   */
-  constructor(epubData, replaceImageSrc) {
+  * Create an EPubParser
+  * @param {EPubData} ePubData 
+  * @param {Boolean} replaceImageSrc
+  */
+  async init(epubData, replaceImageSrc) {
     const data = JSON.parse(JSON.stringify(epubData)); // deep copy
-    data.cover.src = uurl.getMediaUrl(data.cover.src);
-    data.chapters = this.parseChapters(data.chapters, replaceImageSrc);
+    const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(data.cover.src))
+    const img_blob = new Blob([img]);
+    data.cover.src = await EPubParser.blobToDataUrl(img_blob); // URL.createObjectURL(img_blob)
+    data.chapters = await this.parseChapters(data.chapters, replaceImageSrc);
     this.data = data
   }
 
@@ -32,8 +43,9 @@ class EPubParser {
    * @param {Boolean} replaceImageSrc
    * @returns {Any} parsed epubData
    */
-  static parse(ePubData, replaceImageSrc) {
-    const parser = new EPubParser(ePubData.epub, replaceImageSrc);
+  static async parse(ePubData, replaceImageSrc) {
+    const parser = new EPubParser();
+    await parser.init(ePubData.epub, replaceImageSrc)
     return parser.data;
   }
 
@@ -42,8 +54,14 @@ class EPubParser {
    * @param {String} src path to the src
    * @returns {Promise<Buffer>} the loaded src buffer
    */
+
   static async loadImageBuffer(src) {
     try {
+      /*
+      if(src.startsWith('blob')) {
+        return await (await fetch(src)).arrayBuffer()
+      }
+      */
       const buffer = await api.getBuffer(uurl.getMediaUrl(src));
       return buffer;
     } catch (error) {
@@ -53,7 +71,7 @@ class EPubParser {
 
   static async loadEPubImageBuffers({ cover, chapters }) {
     const coverBuffer = await EPubParser.loadImageBuffer(cover.src);
-  
+
     const images = [];
     for (let i = 0; i < chapters.length; i += 1) {
       const ch = chapters[i];
@@ -67,7 +85,7 @@ class EPubParser {
         /* eslint-enable no-await-in-loop */
       }
     }
-  
+
     return { coverBuffer, images };
   }
 
@@ -89,11 +107,11 @@ class EPubParser {
    * @param {Any} chapter 
    * @returns {Document}
    */
-  createChapterDOM(chapter) {
+  async createChapterDOM(chapter) {
     // Remove invalid syntax for xhtml
-    const htmlLike = buildHTMLFromChapter(chapter)
-        .replace(/&nbsp;/g, '&#160;')
-        .replace(/<br>/g, '<br/>');
+    const htmlLike = (await buildHTMLFromChapter(chapter))
+      .replace(/&nbsp;/g, '&#160;')
+      .replace(/<br>/g, '<br/>');
     return new DOMParser().parseFromString(htmlLike, 'text/html');
   }
 
@@ -124,7 +142,7 @@ class EPubParser {
   extractBodyTextFromDom(dom) {
     // Serialize xhtml
     const xhtml = new XMLSerializer().serializeToString(dom);
-      
+
     // Only keep codes inside the <body>..</body>
     return xhtml
       .replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '')
@@ -136,15 +154,15 @@ class EPubParser {
    * @param {Any[]} chapters 
    * @param {Boolean} replaceImageSrc 
    */
-  parseChapters(chapters, replaceImageSrc = true) {
-    return _.map(chapters, (chapter, chIdx) => {
+  async parseChapters(chapters, replaceImageSrc = true) {
+    return Promise.all(_.map(chapters, async (chapter, chIdx) => {
       const chapterId = `chapter-${chIdx + 1}`;
-      
+
       const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
-      
-      const dom = this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
+
+      const dom = await this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
       Prism.highlightAllUnder(dom);
-  
+
       return {
         id: chapterId,
         title: chapter.title,
@@ -152,7 +170,7 @@ class EPubParser {
         images: this.extractImagesFromDOM(dom, chapterId, replaceImageSrc),
         subChapters,
       };
-    });
+    }));
   }
 }
 
