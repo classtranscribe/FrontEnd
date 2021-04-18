@@ -5,11 +5,12 @@ import timestr from 'utils/use-time';
 import useThrottle from 'hooks/useThrottle';
 import './TimelineMarker.scss'
 
-const MARGIN_SIDE = 24;
+const MARGIN_SIDE = 0;
 
-function TimelineMarker({ dispatch, TLWidth, scaleLen, scalelevel, time }) {
+function TimelineMarker({ dispatch, TLWidth, scaleLen, scalelevel, time, duration, horScroll }) {
     const whole_length = scaleLen[scalelevel];
     const px_sec = whole_length / (TLWidth - MARGIN_SIDE * 2);
+    const time_off = duration * horScroll;
     const [left, setTLLeft] = useState(0);
     const [labelTime, setLabelTime] = useState('00:00:00.0')
     const [hovered, setHovered] = useState(false);
@@ -19,12 +20,12 @@ function TimelineMarker({ dispatch, TLWidth, scaleLen, scalelevel, time }) {
         }
         const offset = e.nativeEvent.offsetX - MARGIN_SIDE;
         setTLLeft(Math.floor((offset) * px_sec * 10) / 10);
-        setLabelTime(timestr.toDecimalTimeString(offset * px_sec));
+        setLabelTime(timestr.toDecimalTimeString(time_off + offset * px_sec));
     };
     const onMET = () => setHovered(true);
     const onMEL = () => setHovered(false);
     const onTMC = (e) => {
-        dispatch({ type: 'watch/media_setCurrTime', payload: left });
+        dispatch({ type: 'watch/media_setCurrTime', payload: (time_off + left) });
     }
 
     // useThrottle(
@@ -57,6 +58,6 @@ function TimelineMarker({ dispatch, TLWidth, scaleLen, scalelevel, time }) {
         </ytve-playhead>
     </ytve-timeline-markers>
 }
-export default connect(({ transeditor: { TLWidth, scaleLen, scalelevel }, watch: { time } }) => ({
-    TLWidth, scaleLen, scalelevel, time
+export default connect(({ transeditor: { TLWidth, scaleLen, scalelevel, horScroll }, watch: { time, duration } }) => ({
+    TLWidth, scaleLen, scalelevel, time, duration, horScroll
 }))(TimelineMarker);

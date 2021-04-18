@@ -13,13 +13,18 @@ import CaptionEditorPanel from './CaptionEditorPanel';
 import TimestampInput from './TimestampInput';
 import { connect } from 'dva';
 
-function Footer({ scale }) {
+function Footer({ dispatch, scale }) {
     const [mouseDown, setOMD] = useState(false);
     const slideBar = useRef(null);
     const [left, setLeft] = useState(0);
     const w = 100 / (Math.pow(2, scale))
     const onFTDrag = useThrottle((e) => {
-        setLeft(Math.max(0, e.clientX - mouseDown))
+        const scrollbar_left = e.clientX - mouseDown[0];
+        const actual_length = mouseDown[1].width * (w / 100);
+        const actual_left = Math.max(0, Math.min(scrollbar_left, actual_length));
+        const percent = actual_left / actual_length;
+        dispatch({ type: 'transeditor/setHorScroll', payload: percent })
+        setLeft(actual_left);
     }, 80);
     const onMouseUp = useCallback(() => {
         window.removeEventListener('mousemove', onFTDrag)
@@ -33,7 +38,8 @@ function Footer({ scale }) {
         window.addEventListener('mouseup', onMouseUp)
         window.addEventListener('mousemove', onFTDrag);
         const csl = slideBar.current.parentNode.getBoundingClientRect();
-        setOMD(csl.x + e.nativeEvent.offsetX);
+
+        setOMD([csl.x + e.nativeEvent.offsetX, csl]);
     }
     return <div className="footer">
         <div id="scrollbar" slot="primary-footer">
@@ -88,7 +94,7 @@ function TransEditorToolBarL2WR({ dispatch, time, scalelevel }) {
 }
 const TransEditorToolBarL2 = connect(({ watch: { time }, transeditor: { scalelevel } }) => ({ time, scalelevel }))(TransEditorToolBarL2WR);
 
-function TranscriptionEditor({ match, scalelevel }) {
+function TranscriptionEditor({ dispatch, scalelevel }) {
     //const { params } = match;
     const params = { id: '5ef34bb6-4e21-49be-aecb-819f23c43905' };
     return (
@@ -195,7 +201,7 @@ function TranscriptionEditor({ match, scalelevel }) {
                     </ytve-editor>
                 </div>
             </div>
-            <Footer scale={scalelevel} />
+            <Footer scale={scalelevel} dispatch={dispatch} />
         </CTModal>
     )
 }

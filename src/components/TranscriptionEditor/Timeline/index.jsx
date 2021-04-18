@@ -4,9 +4,9 @@ import './index.scss'
 import TimelineMarker from './TimelineMarker';
 import CaptionMarker from './CaptionMarker'
 
-const MARGIN_SIDE = 24;
+const MARGIN_SIDE = 0;
 
-function Timeline({ dispatch, transcript, scalelevel, scaleLen, TLWidth, duration }) {
+function Timeline({ dispatch, transcript, scalelevel, scaleLen, TLWidth, duration, horScroll }) {
     const whole_length = scaleLen[scalelevel];
     const px_sec = (TLWidth - MARGIN_SIDE * 2) / whole_length;
 
@@ -64,7 +64,7 @@ function Timeline({ dispatch, transcript, scalelevel, scaleLen, TLWidth, duratio
                                     <div id="captions-row" className="ct-captions-editor-timeline" style={{ left: 24, width: 1097 }}></div>
                                     <div id="decorations" className="no-select ct-captions-editor-timeline">
                                         {
-                                            trans2.map((k) => <CaptionMarker data={k} leftoff={24} factor={px_sec} />)
+                                            trans2.map((k) => <CaptionMarker data={k} leftoff={horScroll * duration} factor={px_sec} />)
                                         }
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@ function Timeline({ dispatch, transcript, scalelevel, scaleLen, TLWidth, duratio
 
 export default connect(({
     watch: { transcript, duration },
-    transeditor: { scalelevel, TLWidth, scaleLen }
+    transeditor: { scalelevel, TLWidth, scaleLen, horScroll }
 }) => ({
-    transcript, scalelevel, TLWidth, duration, scaleLen
+    transcript, scalelevel, TLWidth, duration, scaleLen, horScroll
 }))(Timeline);

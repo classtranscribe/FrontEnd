@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import useThrottle from 'hooks/useThrottle';
 
 function CaptionMarker({ data, factor, leftoff }) {
-    const left = leftoff + data.begin * factor;
+    const left = 24 + (data.begin - leftoff) * factor;
     const width = Math.max(data.end - data.begin, 1) * factor;
     // selected=""
     const onMove = useThrottle((e) => {

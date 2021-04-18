@@ -8,7 +8,8 @@ const TransEditorModel = {
         scalelevel: 1,
         scaleLen: [1, 1, 1, 1, 1],
         TLWidth: 1145,
-        TLHeight: 138
+        TLHeight: 138,
+        horScroll: 0
     },
     reducers: {
         initTimeline(state, { payload: { duration } }) {
@@ -17,6 +18,9 @@ const TransEditorModel = {
         },
         setScaleLevel(state, { payload }) {
             return { ...state, scalelevel: payload };
+        },
+        setHorScroll(state, { payload }) {
+            return { ...state, horScroll: payload };
         },
     },
     effects: {
