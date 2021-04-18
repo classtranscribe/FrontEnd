@@ -98,64 +98,28 @@ ytve-timeline-header {
     position: relative;
     flex-basis: 24px;
     flex: 0 0 auto;
+    #find-left-button, #find-right-button {
+        color: var(--ytve-primary-color);
+        z-index: var(--ytve-header-find-playhead-button-z-index);
+        width: 8px;
+        padding: 8px 6px;
+        opacity: 0;
+        transition: opacity 400ms;
+        pointer-events: none;
+    }
+    #find-left-button {
+        position: absolute;
+        top: -20px;
+        left: 3px;
+    }
+    #find-right-button {
+        position: absolute;
+        top: -20px;
+        right: 2px;
+    }
 }
 
-ytve-timeline-markers {
-    display: flex;
-    flex-grow: 1;
-    position: absolute;
-    top: 0;
-    left: 135px;
-    right: 0;
-    bottom: 0;
-    overflow-x: hidden;
-    overflow-y: visible;
-    #left-bookend {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-    }
-    #right-bookend {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-    }
-}
-ytve-playhead {
-    display: flex;
-    justify-content: center;
-    height: calc(100% - 13px);
-    outline: none;
-    position: absolute;
-    top: 13px;
-    user-select: none;
-    z-index: var(--ytve-playhead-over-marker-z-index);
-    #touch-area {
-        height: 100%;
-        position: absolute;
-        width: 7px;
-    }
-    #circle {
-        background-color: var(--ytve-playhead-color);
-        border-radius: 3.5px;
-        height: 7px;
-        position: absolute;
-        width: 7px;
-    }
-    #label {
-        display: none;
-    }
-    #line {
-        background-color: var(--ytve-playhead-color);
-        height: calc(100% - 8px);
-        margin-top: 7px;
-        width: 1px;
-    }
-}
+
 #decorations {
     &.ct-captions-editor-timeline {
         bottom: 0;

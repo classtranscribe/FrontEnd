@@ -192,16 +192,6 @@ function TranscriptionEditor({ match, scalelevel }) {
                         </div>
                         <TransEditorToolBarL2 />
                         <Timeline />
-                        <ytve-keyboard-shortcuts className="ct-editor">
-                            <iron-a11y-keys keys="space k" className="ct-keyboard-shortcuts"></iron-a11y-keys>
-                            <iron-a11y-keys keys="j" className="ct-keyboard-shortcuts"></iron-a11y-keys>
-                            <iron-a11y-keys keys="l" className="ct-keyboard-shortcuts"></iron-a11y-keys>
-                            <iron-a11y-keys keys="," className="ct-keyboard-shortcuts"></iron-a11y-keys>
-                            <iron-a11y-keys keys="." className="ct-keyboard-shortcuts"></iron-a11y-keys>
-                            <iron-a11y-keys keys="shift++" className="ct-keyboard-shortcuts"></iron-a11y-keys>
-                        </ytve-keyboard-shortcuts>
-                        <iron-a11y-keys keys="up" className="ct-editor"></iron-a11y-keys>
-                        <iron-a11y-keys keys="down" className="ct-editor"></iron-a11y-keys>
                     </ytve-editor>
                 </div>
             </div>

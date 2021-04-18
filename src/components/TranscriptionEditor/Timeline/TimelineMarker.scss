@@ -1,0 +1,91 @@
+ytve-timeline-markers {
+    display: flex;
+    flex-grow: 1;
+    position: absolute;
+    top: 0;
+    left: 135px;
+    right: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+    #left-bookend {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+    }
+    #right-bookend {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+    }
+}
+
+ytve-playhead {
+    display: flex;
+    justify-content: center;
+    height: calc(100% - 13px);
+    outline: none;
+    position: absolute;
+    top: 13px;
+    user-select: none;
+    z-index: var(--ytve-playhead-over-marker-z-index);
+    #touch-area {
+        height: 100%;
+        position: absolute;
+        width: 7px;
+    }
+    #circle {
+        background-color: var(--ytve-playhead-color);
+        border-radius: 3.5px;
+        height: 7px;
+        position: absolute;
+        width: 7px;
+    }
+    #label {
+        display: none;
+    }
+    #line {
+        background-color: var(--ytve-playhead-color);
+        height: calc(100% - 8px);
+        margin-top: 7px;
+        width: 1px;
+    }
+}
+
+ytve-playhead[shadow] {
+    #label,
+    #line {
+        background-color: var(--ytve-playhead-color-shadow);
+        opacity: 0;
+        transition: opacity 200ms;
+    }
+    #circle {
+        display: none;
+    }
+    #label {
+        font-family: "Roboto", "Noto", sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        letter-spacing: 0.011em;
+        font-size: 12px;
+        line-height: 16px;
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: var(--ytve-playhead-color-label);
+        display: block;
+        height: 24px;
+        padding: 4px 8px;
+        position: absolute;
+        top: -13px;
+        width: auto;
+    }
+    &.hovered {
+        #label, #line {
+            opacity: 1;
+        }
+    }
+}

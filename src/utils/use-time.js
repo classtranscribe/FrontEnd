@@ -10,17 +10,17 @@ class TimeString {
     if (typeof sec !== 'number') return '';
     const formatter = sec < 3600 ? 'mm:ss' : 'H:mm:ss';
     return moment()
-            .startOf('day')
-            .seconds(sec)
-            .format(formatter);
+      .startOf('day')
+      .seconds(sec)
+      .format(formatter);
   }
 
   static toTimeString2(sec) {
     if (typeof sec !== 'number') return '';
     return moment()
-            .startOf('day')
-            .seconds(sec)
-            .format('HH:mm:ss');
+      .startOf('day')
+      .seconds(sec)
+      .format('HH:mm:ss');
   }
 
   /**
@@ -32,15 +32,19 @@ class TimeString {
     const formatter = 'HH:mm:ss';
 
     let fraction = parseFloat(sec % 1)
-                    .toPrecision(2)
-                    .substring(1, 3);
+      .toPrecision(2)
+      .substring(1, 3);
 
     return moment()
-            .startOf('day')
-            .seconds(sec)
-            .format(formatter) + fraction;
+      .startOf('day')
+      .seconds(sec)
+      .format(formatter) + fraction;
   }
 
+  static toDecimalSeconds(str) {
+    const [part1, part2 = 0] = str.split('.');
+    return moment(part1, 'HH:mm:ss').diff(moment().startOf('day'), 'seconds') + (part2 - 0) * 0.1;
+  }
   /**
    * Convert time string H:mm:ss to seconds
    * @param {String} str - time string H:mm:ss

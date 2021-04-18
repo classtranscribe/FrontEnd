@@ -5,23 +5,23 @@ import TextField from '@material-ui/core/TextField';
 // import './index.scss'
 
 function TimestampInput({ value, onFocus, onChange }) {
-    const [tvalue, setTValue] = useState(timestr.toTimeString2(value));
+    const [tvalue, setTValue] = useState(timestr.toDecimalTimeString(value));
     const [error, setError] = useState(false);
     const onChange_Internal = (val) => {
         const value = val.target.value;
         setTValue(value)
     }
     const onTBlur = () => {
-        const t = moment(tvalue, 'HH:mm:ss').diff(moment().startOf('day'), 'seconds');
+        const t = timestr.toDecimalSeconds(tvalue)
         setError(isNaN(t));
         !isNaN(t) && onChange && onChange(t);
     }
     const onFocusE = (e) => {
-        const t = moment(tvalue, 'HH:mm:ss').diff(moment().startOf('day'), 'seconds');
+        const t = timestr.toDecimalSeconds(tvalue)
         !isNaN(t) && onFocus && onFocus(t);
     }
     useEffect(() => {
-        setTValue(timestr.toTimeString2(value))
+        setTValue(timestr.toDecimalTimeString(value))
     },[value])
     return <ytcp-media-timestamp-input tiny="" className="ct-toolbar" dir="ltr">
         <TextField variant="outlined" size="small"

@@ -1,46 +1,25 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect } from 'dva'
 import './index.scss'
-import useThrottle from 'hooks/useThrottle';
+import TimelineMarker from './TimelineMarker';
+import CaptionMarker from './CaptionMarker'
 
-function CaptionMarker({ data, scale, leftoff }) {
-    const factor = 10 * (scale + 1);
-    const left = leftoff + data.begin * factor;
-    const width = Math.max(data.end-data.begin, 1) * factor;
-    // selected=""
-    const onMove = useThrottle((e) => {
-        
-    }, 50)
-    const onMouseDown = useCallback((e) => {
-        window.addEventListener('mousemove', onMove);
-    })
-    const onMouseUp = useCallback((e) => {
-        window.removeEventListener('mousemove', onMove);
-    })
-    return (<>
-        <ytve-captions-marker marker-type="captions-left" aria-label="" style={{ transform: 'translateX(' + left + 'px)', visibility: 'visible', opacity: 1, width: 0, cursor: 'ew-resize' }}>
-            <div id="touch-area" className="ct-captions-marker"></div>
-        </ytve-captions-marker>
-        <ytve-captions-marker marker-type="captions-center" aria-label={data.text} style={{ transform: 'translateX(' + left + 'px)', visibility: 'visible', opacity: 1, width, cursor: 'move' }}>
-            <div id="touch-area" className="ct-captions-marker"></div>
-        </ytve-captions-marker>
-        <ytve-captions-marker marker-type="captions-right" aria-label="" style={{ transform: 'translateX(' + (left + width) + 'px)', visibility: 'visible', opacity: 1, width: 0, cursor: 'ew-resize'}}>
-            <div id="touch-area" className="ct-captions-marker"></div>
-        </ytve-captions-marker>
-        <ytve-captions-marker-container style={{ left, width }}>
-            <div id="element" className="ct-captions-marker-container">
-                {data.text}</div>
-        </ytve-captions-marker-container>
-    </>)
-}
-function Timeline({ dispatch, transcript, scalelevel }) {
-    const trans2 = transcript.slice(0, 10);
+const MARGIN_SIDE = 24;
+
+function Timeline({ dispatch, transcript, scalelevel, scaleLen, TLWidth, duration }) {
+    const whole_length = scaleLen[scalelevel];
+    const px_sec = (TLWidth - MARGIN_SIDE * 2) / whole_length;
+
+    useEffect(() => {
+        dispatch({ type: 'transeditor/initTimeline', payload: { duration } })
+    }, [duration]);
+    const trans2 = transcript.slice(0, 15);
     return (
         <ytve-timeline dir="ltr" className="ct-editor">
             <div id="header-container" className="ct-timeline">
                 <div id="menu-offset" className="ct-timeline"></div>
                 <ytve-timeline-header className="no-select ct-timeline">
-                    <canvas id="canvas" className="ct-timeline-header" style1="width: 1145px; height: 24px;"></canvas>
+                    <canvas id="canvas" className="ct-timeline-header" style={{ width: TLWidth, height: 24 }}></canvas>
                     <ytcp-icon-button id="find-left-button" aria-label="查找进度条指针" icon="image:lens" tooltip-label="跳到进度条指针处" className="ct-timeline-header" tabindex="-1" aria-disabled="false" role="button">
                         <tp-yt-iron-icon className="remove-defaults ytcp-icon-button">
                             <svg viewbox="0 0 24 24" preserveaspectratio="xMidYMid meet" focusable="false" className="tp-yt-iron-icon" style201="pointer-events: none; display: block; width: 100%; height: 100%;">
@@ -85,7 +64,7 @@ function Timeline({ dispatch, transcript, scalelevel }) {
                                     <div id="captions-row" className="ct-captions-editor-timeline" style={{ left: 24, width: 1097 }}></div>
                                     <div id="decorations" className="no-select ct-captions-editor-timeline">
                                         {
-                                            trans2.map((k) => <CaptionMarker data={k} leftoff={10} scale={scalelevel} />)
+                                            trans2.map((k) => <CaptionMarker data={k} leftoff={24} factor={px_sec} />)
                                         }
                                     </div>
                                 </div>
@@ -123,36 +102,22 @@ function Timeline({ dispatch, transcript, scalelevel }) {
                                     </div>
                                 </paper-spinner-lite>
                                 <ytve-audio-waveform className="ct-audio-editor-timeline">
-                                    <canvas id="audio-waveform" className="no-select ct-audio-waveform" height="48" width="1145" style201="height: 48px; width: 1145px;"></canvas>
+                                    <canvas id="audio-waveform" className="no-select ct-audio-waveform" height="48" width={TLWidth} style201="height: 48px; width: 1145px;"></canvas>
                                 </ytve-audio-waveform>
                             </div>
                         </ytve-timeline-base>
                     </ytve-audio-editor-timeline>
                 </div>
             </div>
-            <ytve-timeline-markers className="ct-timeline" style={{ height: 138, width: 1145 }}>
-                <div id="left-bookend" aria-label="时间轴的起点" tabindex="0" className="ct-timeline-markers"></div>
-                <div id="right-bookend" aria-label="时间轴的终点" tabindex="0" className="ct-timeline-markers"></div>
-                <ytve-playhead id="playhead" aria-live="polite" tabindex="-1" className="ct-timeline-markers under" aria-label="进度条指针 0:00:00" style201="transform: translateX(24px); opacity: 1;">
-                    <div id="touch-area" className="ct-playhead"></div>
-                    <div id="circle" className="ct-playhead"></div>
-                    <div id="label" className="ct-playhead">
-                        0:00:00
-                </div>
-                    <div id="line" className="ct-playhead"></div>
-                </ytve-playhead>
-                <ytve-playhead id="hover-playhead" shadow="" className="ct-timeline-markers" style201="transform: translateX(304px);">
-                    <div id="touch-area" className="ct-playhead"></div>
-                    <div id="circle" className="ct-playhead"></div>
-                    <div id="label" className="ct-playhead">
-                        0:35:29
-                </div>
-                    <div id="line" className="ct-playhead"></div>
-                </ytve-playhead>
-            </ytve-timeline-markers>
+            <TimelineMarker />
         </ytve-timeline>
 
     )
 }
 
-export default connect(({ watch: { transcript }, transeditor: { scalelevel } }) => ({ transcript, scalelevel }))(Timeline);
+export default connect(({
+    watch: { transcript, duration },
+    transeditor: { scalelevel, TLWidth, scaleLen }
+}) => ({
+    transcript, scalelevel, TLWidth, duration, scaleLen
+}))(Timeline);
