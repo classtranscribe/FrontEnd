@@ -81,6 +81,7 @@ const initState = {
 
     menu: MENU_HIDE,
     modal: MODAL_HIDE,
+    liveMode: false,
 
     // Others
     prompt: null,
@@ -111,13 +112,17 @@ const WatchModel = {
             return { ...state, error: payload };
         },
         setMedia(state, { payload }) {
-            return { ...state, media: payload, embedded: false };
+            return { ...state, media: payload, embedded: false, liveMode: payload.isLive ? 1 : 0 };
         },
         setEmbeddedMedia(state, { payload: { media, ...embeded_payload } }) {
             return {
                 ...state, media,
-                embedded: embeded_payload
+                embedded: embeded_payload,
+                liveMode: media.isLive ? 1 : 0
             };
+        },
+        setLiveMode(state, { payload }) {
+            return { ...state, liveMode: payload };
         },
         setPlaylist(state, { payload }) {
             return { ...state, playlist: payload };
@@ -191,7 +196,11 @@ const WatchModel = {
         },
 
         setTime(state, { payload }) {
-            return { ...state, time: payload };
+            let liveMode = state.liveMode
+            if(state.liveMode === 1) {
+                liveMode = payload < state.duration - 60 ? 2 : 1
+            } 
+            return { ...state, time: payload, liveMode };
         },
         setBufferedTime(state, { payload }) {
             return { ...state, bufferedTime: payload };
@@ -262,6 +271,7 @@ const WatchModel = {
                 bulkEditing: false,
 
                 modal: MODAL_HIDE,
+                liveMode: false,
                 prompt: null,
                 search: SEARCH_INIT,
             };
