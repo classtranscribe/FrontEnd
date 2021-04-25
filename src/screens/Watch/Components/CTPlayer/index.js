@@ -7,6 +7,7 @@ import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
 import PlayerData from '../../player'
 import Video from './player'
+import Video_hls from './player_hls'
 import {
   PRIMARY,
   SECONDARY,
@@ -23,7 +24,7 @@ const ClassTranscribePlayerNew = (props) => {
   const { transView, muted, volume, playbackrate } = props;
   const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
   const { videos = [], isTwoScreen } = media;
-  const { srcPath1, srcPath2 } = videos[0] || {};
+  const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
   // Mute Handler
   useEffect(() => {
     PlayerData.video1 && (PlayerData.video1.muted = muted);
@@ -40,6 +41,7 @@ const ClassTranscribePlayerNew = (props) => {
     PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
   }, [playbackrate]);
 
+  // liveMode speed
   useEffect(() => {
     PlayerData.param = {};
     if (PlayerData.video1) {
@@ -60,6 +62,14 @@ const ClassTranscribePlayerNew = (props) => {
     }
   }, [isTwoScreen])
 
+  const media1Prop = {
+    id: 1,
+    videoRef: videoRef1,
+    dispatch,
+    path: srcPath1,
+    isSwitched,
+    embedded
+  }
   return (
     <>
       <div
@@ -68,14 +78,14 @@ const ClassTranscribePlayerNew = (props) => {
         data-trans-view={transView}
         data-fullscreen={isFullscreen}
       >
-        <Video
-          id={1}
-          videoRef={videoRef1}
-          dispatch={dispatch}
-          path={srcPath1}
-          isSwitched={isSwitched}
-          embedded={embedded}
-        />
+        {
+          useHls ? <Video_hls
+            {...media1Prop}
+          /> : <Video
+            {...media1Prop}
+          />
+        }
+
       </div>
       {isTwoScreen && (
         <div
