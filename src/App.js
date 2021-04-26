@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
+import LiveHLSPlayer from 'screens/Watch/live_test'
 import AppInsightsProvider from './azure-app-insights';
 import {
   // General
@@ -138,6 +139,7 @@ class App extends React.Component {
           <Route path="/playlist/:id" component={InstPlaylistPage} />
 
           <Route path="/404" component={NotFound404} />
+          <Route path="/liveplayer" component={LiveHLSPlayer} />
 
           {
             env.dev

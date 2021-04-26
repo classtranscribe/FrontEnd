@@ -6746,6 +6746,11 @@ history@^5.0.0:
   dependencies:
     "@babel/runtime" "^7.7.6"
 
+hls.js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.2.tgz#95747d646c9254b8f67f6794a7616d8580d53539"
+  integrity sha512-zl5HtDFhzFTy+0XBbdBhszOXYji90eUN5W1rxy48RJdOaN0fqSPnv6Dir/Tc1kZWLikwCO+5Cuf//zluBt0DLQ==
+
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"

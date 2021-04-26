@@ -57,6 +57,7 @@
     "harmony-reflect": "^1.6.1",
     "highlight.js": "^10.0.1",
     "history": "^5.0.0",
+    "hls.js": "^1.0.2",
     "jquery": "^3.5.1",
     "js-file-download": "^0.4.9",
     "jwt-decode": "^2.2.0",
