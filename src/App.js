@@ -31,7 +31,7 @@ import {
   Example
 } from './screens';
 
-import LiveHLSTest from 'screens/Watch/live_test'
+import LiveHLSPlayer from 'screens/Watch/live_test'
 import './App.css';
 // import 'braft-editor/dist/index.css';
 import { altEl } from './layout';
@@ -139,7 +139,7 @@ class App extends React.Component {
           <Route path="/playlist/:id" component={InstPlaylistPage} />
 
           <Route path="/404" component={NotFound404} />
-          <Route path="/live_test" component={LiveHLSTest} />
+          <Route path="/liveplayer" component={LiveHLSPlayer} />
 
           {
             env.dev
