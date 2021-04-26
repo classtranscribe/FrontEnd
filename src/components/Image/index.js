@@ -9,7 +9,11 @@ function Image({ src, ...props }) {
             const v = new Blob([img]);
             setDataUrl(URL.createObjectURL(v))
         }
-        load()
+        if(!src.startsWith('data:')) {
+            load()
+        } else {
+            setDataUrl(src);
+        }
     }, [src])
     return <img src={dataUrl} {...props} />
 }
