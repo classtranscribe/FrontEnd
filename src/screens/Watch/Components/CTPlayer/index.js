@@ -7,7 +7,7 @@ import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
 import PlayerData from '../../player'
 import Video from './player'
-import Video_hls from './player_hls'
+import VideoHls from './player_hls'
 import {
   PRIMARY,
   SECONDARY,
@@ -79,7 +79,7 @@ const ClassTranscribePlayerNew = (props) => {
         data-fullscreen={isFullscreen}
       >
         {
-          useHls ? <Video_hls
+          useHls ? <VideoHls
             {...media1Prop}
           /> : <Video
             {...media1Prop}

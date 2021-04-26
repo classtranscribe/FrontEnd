@@ -103,9 +103,9 @@ export default {
         const { watch } = yield select();
         const now = watch.time;
         const max_time = watch.duration - (watch.liveMode ? LIVE_BUFFER_TIME : 0);
-        if (watch.liveMode == 1) {
+        if (watch.liveMode === 1) {
             return;
-        } else if(watch.liveMode == 2 && now + sec > max_time) {
+        } if(watch.liveMode === 2 && now + sec > max_time) {
             yield put({ type: 'setLiveMode', payload: 1 })
         }
         yield put({ type: 'media_setCurrTime', payload: Math.min(now + sec, max_time), realTime: true });

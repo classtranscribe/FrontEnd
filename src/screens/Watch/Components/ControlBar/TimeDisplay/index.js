@@ -11,11 +11,11 @@ function TimeDisplay({ time = 0, duration = 0, liveMode = false }) {
     <div className="watch-time-display">
       {
         liveMode ? <>Live - {liveMode}</> :
-          <>
-            <span className="td-played-time">{displayedTime}</span>
-            <span className="td-time-separator">/</span>
-            <span className="td-duration">{displayedDuration}</span>
-          </>
+        <>
+          <span className="td-played-time">{displayedTime}</span>
+          <span className="td-time-separator">/</span>
+          <span className="td-duration">{displayedDuration}</span>
+        </>
       }
 
     </div>

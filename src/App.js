@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
+import LiveHLSPlayer from 'screens/Watch/live_test'
 import AppInsightsProvider from './azure-app-insights';
 import {
   // General
@@ -31,7 +32,6 @@ import {
   Example
 } from './screens';
 
-import LiveHLSPlayer from 'screens/Watch/live_test'
 import './App.css';
 // import 'braft-editor/dist/index.css';
 import { altEl } from './layout';

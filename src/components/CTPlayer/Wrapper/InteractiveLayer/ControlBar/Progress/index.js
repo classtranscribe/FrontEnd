@@ -64,7 +64,7 @@ function Progress(props) {
   const timeSliderProps = {
     className: 'ctp time-slider',
     ...TSLP1,
-    value: liveMode == 1 ? duration : liveMode == 2 ? -duration + time : time,
+    value: liveMode === 1 ? duration : liveMode === 2 ? -duration + time : time,
     marks,
     onChange: handleSeekTime,
     valueLabelFormat: tslProp,
