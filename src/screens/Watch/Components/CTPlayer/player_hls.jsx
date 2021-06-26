@@ -1,8 +1,9 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
 import Hls, { Config } from 'hls.js';
 import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
 import { uEvent } from '../../Utils/UserEventController';
+import axios from 'axios';
 import {
     NORMAL_MODE,
     PS_MODE,
@@ -15,15 +16,18 @@ import {
     HIDE_TRANS,
 } from '../../Utils/constants.util';
 
+let hls;
+
 const Video = React.memo((props) => {
-    const { id = 1, path, dispatch, isSwitched, embedded, videoRef } = props;
+    const { id = 1, path, dispatch, isSwitched, embedded, videoRef, openCC } = props;
     const _videoRef = React.useRef();
     const isPrimary = (id == 1);
-    const hlsConfig = {}
+    const hlsConfig = {
+      //renderTextTracksNatively: false
+    }
     const src = path;
     const autoPlay = true;
     console.log('Render - Video HLS Player', path);
-
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         const duration = e.target.duration;
@@ -100,8 +104,6 @@ const Video = React.memo((props) => {
     }
 
     useEffect(() => {
-        let hls;
-
         function _initPlayer() {
             if (hls != null) {
                 hls.destroy();
@@ -123,11 +125,106 @@ const Video = React.memo((props) => {
                     dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
                 });
             });
-            newHls.on(Hls.Events.BUFFER_APPENDED, (_, event)=> {
+            newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
                 const x = event.timeRanges?.video
-                console.log(x.length > 0 ? x.end(0): "XX")
+                // console.log(x.length > 0 ? x.end(0) : "XX")
                 // , event.timeRanges.video?.end()
             })
+            //fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
+
+            newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
+                console.log(event)
+                if(true) {
+                    if(!openCC) {
+                        newHls.subtitleTrack = -1;
+                    }
+                    console.log("hmmm")
+                    console.log(event)
+                    const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}))
+                    console.log(transcriptions)
+                    dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
+                    dispatch({type: 'watch/setCaptions', payload: [{}]})
+                }
+            })
+            newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
+                var baseUrl = event.frag.baseurl
+                console.log(baseUrl)
+                var splitted = baseUrl.split("/")
+                var processed = "";
+                for (let i = 0; i < splitted.length - 1; i++) {
+                    processed += splitted[i] + "/";
+                  }
+                console.log(processed)
+                processed += event.frag.relurl
+                console.log(processed)
+
+
+                axios.get(processed).then(function(input) {
+                    var text = input.data
+                    //console.log(text)
+                    var initial = text.split("\n\n")
+                    var post = initial.splice(1, initial.length)
+                    for (var i = 0; i < post.length; i++) {
+                        var anotherIntermediary = post[i].split("\n\n")
+                        var bruh = anotherIntermediary[0].split("\n")
+
+                    
+                        var toDispatch = {start: null, end: null, text: null}
+
+                        var times = bruh[1].split(" ")
+
+                        if (times[0].length > 0) {
+                            toDispatch.start = times[0]
+                            toDispatch.end = times[2]
+                            
+                            var parsedText = ""
+                            for (var almostDone = 2; almostDone < bruh.length; almostDone++) {
+                                parsedText += bruh[almostDone].trim() + " "
+                            }
+                            parsedText.trim()
+
+                            toDispatch.text = parsedText.trim()
+                            console.log(toDispatch)
+
+                        }
+                    }
+                })
+
+
+
+                console.log(event);
+                newHls.renderTextTracksNatively = true;
+
+            })
+
+           
+            /*
+            newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) =>{
+                console.log(_, event)
+            })
+            newHls.on(Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND, (_, event) =>{
+                console.log(_, event)
+            })
+            newHls.on(Hls.Events.CUES_PARSED, (_, event) =>{
+                console.log(_, event)
+            })
+            */
+            
+            // Hls.Events.MANIFEST_PARSED
+            // Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND and 
+            // renderTextTracksNatively
+            /*
+            Hls.Events.SUBTITLE_TRACKS_UPDATED - fired to notify that subtitle track lists has been updated
+            data: { subtitleTracks : subtitleTracks }
+            Hls.Events.SUBTITLE_TRACK_SWITCH - fired when a subtitle track switch occurs
+            data: { id : subtitle track id, type? : playlist type ('SUBTITLES' | 'CLOSED-CAPTIONS'), url? : subtitle track URL }
+            Hls.Events.SUBTITLE_TRACK_LOADING - fired when a subtitle track loading starts
+            data: { url : audio track URL, id : audio track id }
+            Hls.Events.SUBTITLE_TRACK_LOADED - fired when a subtitle track loading finishes
+            data: { details : levelDetails object (please see below for more information), id : subtitle track id, stats : [LoadStats] }
+            - fired when a subtitle fragment has been processed
+            data: { success : boolean, frag : [the processed fragment object], error?: [error parsing subtitles if any] }
+            */
             newHls.on(Hls.Events.ERROR, function (event, data) {
                 if (data.fatal) {
                     switch (data.type) {
@@ -145,6 +242,7 @@ const Video = React.memo((props) => {
             });
 
             hls = newHls;
+            window.hls = newHls;
         }
 
         // Check for Media Source support
@@ -162,6 +260,7 @@ const Video = React.memo((props) => {
     // If Media Source is supported, use HLS.js to play video
     if (!Hls.isSupported()) return <>Does not support</>
 
+    // hls.subtitleTracks
     return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
         {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
@@ -186,9 +285,10 @@ const Video = React.memo((props) => {
             onError={onErrorPri}
         >
             Your browser does not support video tag.
-    </video>
+        </video>
     </div>)
 }, (prevProps, nextProps) => {
-    return prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched;
+    return prevProps.path === nextProps.path 
+    && prevProps.isSwitched === nextProps.isSwitched
 });
 export default Video;
