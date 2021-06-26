@@ -46,6 +46,8 @@ function SettingsMenu(props) {
     case 'root':
       menuProps = {
         playbackRate,
+        openCC,
+        language: currTrans.language,
         onOpenCCMenu: handleOpenMenu('cc'),
         openPlaybackRateMenu: handleOpenMenu('pbr'),
         onOpenScreenModeManu: handleOpenMenu('screen-mode')
