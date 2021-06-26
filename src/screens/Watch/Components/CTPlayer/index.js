@@ -21,7 +21,7 @@ const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { dispatch } = props;
-  const { transView, muted, volume, playbackrate } = props;
+  const { transView, muted, volume, playbackrate, openCC } = props;
   const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
   const { videos = [], isTwoScreen } = media;
   const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
@@ -68,8 +68,14 @@ const ClassTranscribePlayerNew = (props) => {
     dispatch,
     path: srcPath1,
     isSwitched,
-    embedded
+    embedded,
+    openCC
   }
+  useEffect(() => {
+    if(window.hls) {
+        window.hls.subtitleTrack = openCC ? 0: -1
+    }
+}, [openCC])
   return (
     <>
       <div
@@ -111,7 +117,7 @@ const ClassTranscribePlayerNew = (props) => {
 export const ClassTranscribePlayer = connect(({ watch: {
   media, mode, isSwitched, isFullscreen, embedded
 }, playerpref: {
-  transView, muted, volume, playbackrate
+  transView, muted, volume, playbackrate, openCC
 }, loading }) => ({
-  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate
+  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC
 }))(ClassTranscribePlayerNew);
