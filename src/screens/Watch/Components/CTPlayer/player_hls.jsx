@@ -23,7 +23,7 @@ const Video = React.memo((props) => {
     const _videoRef = React.useRef();
     const isPrimary = (id == 1);
     const hlsConfig = {
-      //renderTextTracksNatively: false
+        // renderTextTracksNatively: false
     }
     const src = path;
     const autoPlay = true;
@@ -104,6 +104,7 @@ const Video = React.memo((props) => {
     }
 
     useEffect(() => {
+
         function _initPlayer() {
             if (hls != null) {
                 hls.destroy();
@@ -123,6 +124,9 @@ const Video = React.memo((props) => {
                 newHls.loadSource(src);
                 newHls.on(Hls.Events.MANIFEST_PARSED, () => {
                     dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
+                    var liveMode = true
+                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode  })
+
                 });
             });
             newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
@@ -135,17 +139,23 @@ const Video = React.memo((props) => {
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
                 console.log(event)
                 if(true) {
-                    if(!openCC) {
-                        newHls.subtitleTrack = -1;
-                    }
+                    // if(!openCC) {
+                    //     newHls.subtitleTrack = -1;
+                    // }
+
+                    console.log(newHls.captionsTextTrack1Label)
                     console.log("hmmm")
-                    console.log(event)
                     const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}))
                     console.log(transcriptions)
-                    dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
-                    dispatch({type: 'watch/setCaptions', payload: [{}]})
+                    //dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
+                    //dispatch({type: 'watch/setCaptions', payload: [{}]})
                 }
             })
+
+            newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
+                console.log(event)
+            })
+
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
                 var baseUrl = event.frag.baseurl
                 console.log(baseUrl)
@@ -160,34 +170,40 @@ const Video = React.memo((props) => {
 
 
                 axios.get(processed).then(function(input) {
-                    var text = input.data
-                    //console.log(text)
-                    var initial = text.split("\n\n")
-                    var post = initial.splice(1, initial.length)
-                    for (var i = 0; i < post.length; i++) {
-                        var anotherIntermediary = post[i].split("\n\n")
-                        var bruh = anotherIntermediary[0].split("\n")
+                    // var text = input.data
+                    // //console.log(text)
+                    // var initial = text.split("\n\n")
+                    // var post = initial.splice(1, initial.length)
+                    // for (var i = 0; i < post.length; i++) {
+                    //     var anotherIntermediary = post[i].split("\n\n")
+                    //     var bruh = anotherIntermediary[0].split("\n")
 
                     
-                        var toDispatch = {start: null, end: null, text: null}
+                    //     var toDispatch = {start: null, end: null, text: null}
 
-                        var times = bruh[1].split(" ")
+                    //     var times = bruh[1].split(" ")
 
-                        if (times[0].length > 0) {
-                            toDispatch.start = times[0]
-                            toDispatch.end = times[2]
+                    //     if (times[0].length > 0) {
+                    //         toDispatch.start = times[0]
+                    //         toDispatch.end = times[2]
                             
-                            var parsedText = ""
-                            for (var almostDone = 2; almostDone < bruh.length; almostDone++) {
-                                parsedText += bruh[almostDone].trim() + " "
-                            }
-                            parsedText.trim()
+                    //         var parsedText = ""
+                    //         for (var almostDone = 2; almostDone < bruh.length; almostDone++) {
+                    //             parsedText += bruh[almostDone].trim() + " "
+                    //         }
+                    //         parsedText.trim()
 
-                            toDispatch.text = parsedText.trim()
-                            console.log(toDispatch)
+                    //         toDispatch.text = parsedText.trim()
+                    //         // var currentDate = newHls.media.currentTime + newHls.levels[0].details.programDateTime - newHls.levels.details.fragments[0].start;
+                    //         // currentDate = hls.media.currentTime + hls.level.details.fragments[0].programDateTime - level.details.fragments[0].start;
 
-                        }
-                    }
+                    //         dispatch({type: 'watch/setTranscript', payload: [{id: null, language: 'en', src: 'WEBVTT', text: toDispatch.text}]})
+
+                    //         dispatch({type: 'watch/setCaptions', payload: [toDispatch.text]})
+                    //         console.log(newHls.levels[0])
+
+                        //}
+                    //}
                 })
 
 
@@ -205,10 +221,11 @@ const Video = React.memo((props) => {
             newHls.on(Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND, (_, event) =>{
                 console.log(_, event)
             })
+            */
             newHls.on(Hls.Events.CUES_PARSED, (_, event) =>{
                 console.log(_, event)
             })
-            */
+            
             
             // Hls.Events.MANIFEST_PARSED
             // Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND and 
@@ -257,14 +274,70 @@ const Video = React.memo((props) => {
         };
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
+
+    var textTrack = undefined;
+    console.log(_videoRef)
+    var transcript = [{id: 0, begin: 36.006755555572454, end: 36.03975555556826, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL"},
+    {id: 1, begin: 36.006755555572454, end: 36.03975555556826, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL"},
+    {id: 2, begin: 36.17275555554079, end: 36.773755555565, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL NOW OR"},
+    {id: 3, begin: 36.17275555554079, end: 36.773755555565, text: "HOMES. IT JUST FITS BATH        \n"}]
+    var idR = 0;
+    var yolo = 0;
+    useEffect(() => {
+        console.log("plz")
+        console.log(_videoRef)
+        textTrack = _videoRef.current.textTracks
+        console.log(textTrack)
+        textTrack.onaddtrack =  function() {
+            console.log('ch has loaded');
+            textTrack[0].addEventListener("cuechange", (event) => {
+                //console.log(event.currentTarget.activeCues[0]);
+                var l = event.currentTarget.activeCues[0]
+                var prev = undefined
+                if (l != undefined) {
+                    idR += 1
+
+
+                    
+                    
+                    var f = {id: idR, 
+                    begin: event.currentTarget.activeCues[0].startTime,
+                    end: event.currentTarget.activeCues[0].endTime, 
+                    text: event.currentTarget.activeCues[0].text}
+
+                    if (yolo < 5) {
+                        dispatch({ type: 'watch/setCurrCaption', payload:  f.id  })
+                        //transcript.push(f)
+                        //console.log(transcript)
+                        dispatch({ type: 'watch/setTranscript', payload:  f  })
+                        yolo = 0
+                    }
+                    yolo += 1
+                    
+
+                    
+                }
+            })
+          };
+        console.log(textTrack)
+        if (textTrack[0] != undefined) {
+            console.log('okokok')
+
+        }
+          
+    
+    
+      }, [_videoRef.current])
+
+
     // If Media Source is supported, use HLS.js to play video
     if (!Hls.isSupported()) return <>Does not support</>
 
     // hls.subtitleTracks
     return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
-        {embedded ?
+        {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
-        }
+        } */}
         <video
             playsInline
             autoPlay={isMobile}

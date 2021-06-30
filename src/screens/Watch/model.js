@@ -153,7 +153,11 @@ const WatchModel = {
         setTranscript(state, { payload }) {
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
-            return { ...state, transcript };
+
+            if (state.liveMode) {
+                return { ...state, transcript: [...state.transcript, payload] };
+            } 
+                return { ...state, transcript };
         },
         /**
          * Function called for setting captions array
