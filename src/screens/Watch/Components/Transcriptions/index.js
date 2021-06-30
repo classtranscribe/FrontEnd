@@ -39,15 +39,12 @@ function TranscriptionsWithRedux(props) {
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
     if (currCaption != null) {
-      console.log("brooo please")
-      var z = document.getElementById("caption-line-" + (currCaption- 5))
+      let z = document.getElementById(`caption-line-${ currCaption- 5}`)
       if (z != null) {
-        console.log("caption-line-" + currCaption)
         z.scrollIntoView()
       }
     }
   }, [currCaption])
-  console.log(currCaption)
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
@@ -65,7 +62,6 @@ function TranscriptionsWithRedux(props) {
         ) : transView === LINE_VIEW ? (
           <div className="trans-list">
             {transcript.map(function(caption, index) {
-              console.log(caption);
               return <CaptionLine
                 key={index}
                 caption={caption}

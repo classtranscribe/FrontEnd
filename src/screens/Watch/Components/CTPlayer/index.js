@@ -79,9 +79,9 @@ const ClassTranscribePlayerNew = (props) => {
   return (
     <>
       <div
-        className={`ct-video-row ct-player-primary`}
-        mode={"normal-mode"}
-        data-trans-view={"Caption Line View"}
+        className="ct-video-row ct-player-primary"
+        mode="normal-mode"
+        data-trans-view="Caption Line View"
         data-fullscreen={isFullscreen}
       >
         {

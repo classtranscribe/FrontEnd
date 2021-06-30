@@ -156,9 +156,8 @@ const WatchModel = {
 
             if (state.liveMode) {
                 return { ...state, transcript: [...state.transcript, payload] };
-            } else {
-                return { ...state, transcript: transcript };
-            }
+            } 
+                return { ...state, transcript };
         },
         /**
          * Function called for setting captions array
@@ -169,7 +168,6 @@ const WatchModel = {
             return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
-            console.log("pleeease" + payload)
             return { ...state, currCaption: payload };
         },
         /**
