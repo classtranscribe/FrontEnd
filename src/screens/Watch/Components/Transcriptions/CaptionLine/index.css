@@ -10,6 +10,7 @@
   -moz-transition: var(--ct-transition-all);
   -webkit-transition: var(--ct-transition-all);
   border-radius: 5px;
+  z-index: 10;
 }
 .watch-caption-line[editing=true] {
   background: rgb(46, 46, 46);

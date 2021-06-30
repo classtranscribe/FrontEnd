@@ -19,10 +19,10 @@ function LiveTest(props) {
     };
     // https://hls-js.netlify.app/demo/
     return <>
+    
+        <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}}></Transcriptions>
 
-<Transcriptions style = {{zIndex:1000}}></Transcriptions>
-
-        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: -1, position: "Relative"}}>
+        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: 1, position: "absolute"}}>
 
             <CTPlayer
                 fill
@@ -36,8 +36,10 @@ function LiveTest(props) {
 
 
 
+
         </div>
         {iframesrc && <iframe src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }}></iframe>}
+
     </>
 }
 
