@@ -153,7 +153,12 @@ const WatchModel = {
         setTranscript(state, { payload }) {
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
-            return { ...state, transcript };
+
+            if (state.liveMode) {
+                return { ...state, transcript: [...state.transcript, payload] };
+            } else {
+                return { ...state, transcript: transcript };
+            }
         },
         /**
          * Function called for setting captions array
@@ -164,6 +169,7 @@ const WatchModel = {
             return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
+            console.log("pleeease" + payload)
             return { ...state, currCaption: payload };
         },
         /**

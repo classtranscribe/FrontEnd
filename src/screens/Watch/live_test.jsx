@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
+import { Transcriptions } from './Components';
 
 function LiveTest(props) {
     // const {}
@@ -18,7 +19,11 @@ function LiveTest(props) {
     };
     // https://hls-js.netlify.app/demo/
     return <>
-        <div style={{width: '100%', height: iframesrc ? '75%' : '100%'}}>
+
+<Transcriptions style = {{zIndex:1000}}></Transcriptions>
+
+        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: -1, position: "Relative"}}>
+
             <CTPlayer
                 fill
                 defaultOpenCC
@@ -28,8 +33,11 @@ function LiveTest(props) {
                 // onScreenshotCaptured={alert}
                 media={media}
             />
+
+
+
         </div>
-        {iframesrc && <iframe src={iframesrc} style={{ border: 0, width: '100%', height: '25%' }}></iframe>}
+        {iframesrc && <iframe src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }}></iframe>}
     </>
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'dva'
 import {
   transControl,
@@ -19,7 +19,7 @@ import PlaceHolder from './PlaceHolder';
 function TranscriptionsWithRedux(props) {
   const {
     transcript = [],
-    currCaption = {},
+    currCaption,
     mode = NORMAL_MODE,
     transView = LINE_VIEW,
     currEditing = null,
@@ -37,6 +37,17 @@ function TranscriptionsWithRedux(props) {
   };
 
   const displayTrans = search.status === SEARCH_HIDE || true;
+  useEffect(() => {
+    if (currCaption != null) {
+      console.log("brooo please")
+      var z = document.getElementById("caption-line-" + (currCaption- 5))
+      if (z != null) {
+        console.log("caption-line-" + currCaption)
+        z.scrollIntoView()
+      }
+    }
+  }, [currCaption])
+  console.log(currCaption)
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
@@ -53,22 +64,23 @@ function TranscriptionsWithRedux(props) {
           </div>
         ) : transView === LINE_VIEW ? (
           <div className="trans-list">
-            {transcript.map((caption) => (
-              <CaptionLine
-                key={caption.id}
+            {transcript.map(function(caption, index) {
+              console.log(caption);
+              return <CaptionLine
+                key={index}
                 caption={caption}
                 currCaption={currCaption}
                 isCurrent={isCurrent(caption.id)}
                 dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
-            ))}
+            })}
           </div>
         ) : transView === TRANSCRIPT_VIEW ? (
           <div className="trans-article">
-            {transcript.map((caption) => (
+            {transcript.map((caption, index) => (
               <TranscriptText
-                key={caption.id}
+                key={index}
                 caption={caption}
                 isCurrent={isCurrent(caption.id)}
                 dispatch={dispatch}
