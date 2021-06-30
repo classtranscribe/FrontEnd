@@ -60,7 +60,7 @@ function TranscriptionsWithRedux(props) {
             No Transcriptions
           </div>
         ) : transView === LINE_VIEW ? (
-          <div className="trans-list">
+          <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map(function(caption, index) {
               return <CaptionLine
                 key={index}
