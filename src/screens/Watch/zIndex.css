@@ -15,7 +15,7 @@
 
 /* Transcription Area */
 .watch-trans-container {
-  z-index: 0;
+  z-index: 10;
 }
 
 /* Header z-index: 1020 */

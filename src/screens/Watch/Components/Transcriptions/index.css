@@ -8,6 +8,7 @@
   overflow-x: hidden;
   overflow-y: auto !important;
   scroll-behavior: smooth;
+  background-color: black;
 }
 .trans-box {
   position: relative;

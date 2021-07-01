@@ -1,7 +1,8 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
 import Hls, { Config } from 'hls.js';
-import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
+import axios from 'axios';
+import PlayerWrapper from './PlayerWrapper';
 import { uEvent } from '../../Utils/UserEventController';
 import {
     NORMAL_MODE,
@@ -103,6 +104,7 @@ const Video = React.memo((props) => {
     }
 
     useEffect(() => {
+
         function _initPlayer() {
             if (hls != null) {
                 hls.destroy();
@@ -122,6 +124,9 @@ const Video = React.memo((props) => {
                 newHls.loadSource(src);
                 newHls.on(Hls.Events.MANIFEST_PARSED, () => {
                     dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
+                    var liveMode = true
+                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode  })
+
                 });
             });
             newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
@@ -129,16 +134,86 @@ const Video = React.memo((props) => {
                 // console.log(x.length > 0 ? x.end(0) : "XX")
                 // , event.timeRanges.video?.end()
             })
+            //fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
+
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
-                if(event.captions) {
-                    if(!openCC) {
-                        newHls.subtitleTrack = -1;
-                    }
-                    const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'WebVTT'}))
-                    dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
-                    dispatch({type: 'watch/setCaptions', payload: [{}]})
+                console.log(event)
+                if(true) {
+                    // if(!openCC) {
+                    //     newHls.subtitleTrack = -1;
+                    // }
+
+                    console.log(newHls.captionsTextTrack1Label)
+                    console.log("hmmm")
+                    const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}))
+                    console.log(transcriptions)
+                    //dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
+                    //dispatch({type: 'watch/setCaptions', payload: [{}]})
                 }
             })
+
+            newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
+                console.log(event)
+            })
+
+            newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
+                var baseUrl = event.frag.baseurl
+                console.log(baseUrl)
+                var splitted = baseUrl.split("/")
+                var processed = "";
+                for (let i = 0; i < splitted.length - 1; i++) {
+                    processed += splitted[i] + "/";
+                  }
+                console.log(processed)
+                processed += event.frag.relurl
+                console.log(processed)
+
+
+                axios.get(processed).then(function(input) {
+                    // var text = input.data
+                    // //console.log(text)
+                    // var initial = text.split("\n\n")
+                    // var post = initial.splice(1, initial.length)
+                    // for (var i = 0; i < post.length; i++) {
+                    //     var anotherIntermediary = post[i].split("\n\n")
+                    //     var bruh = anotherIntermediary[0].split("\n")
+
+                    
+                    //     var toDispatch = {start: null, end: null, text: null}
+
+                    //     var times = bruh[1].split(" ")
+
+                    //     if (times[0].length > 0) {
+                    //         toDispatch.start = times[0]
+                    //         toDispatch.end = times[2]
+                            
+                    //         var parsedText = ""
+                    //         for (var almostDone = 2; almostDone < bruh.length; almostDone++) {
+                    //             parsedText += bruh[almostDone].trim() + " "
+                    //         }
+                    //         parsedText.trim()
+
+                    //         toDispatch.text = parsedText.trim()
+                    //         // var currentDate = newHls.media.currentTime + newHls.levels[0].details.programDateTime - newHls.levels.details.fragments[0].start;
+                    //         // currentDate = hls.media.currentTime + hls.level.details.fragments[0].programDateTime - level.details.fragments[0].start;
+
+                    //         dispatch({type: 'watch/setTranscript', payload: [{id: null, language: 'en', src: 'WEBVTT', text: toDispatch.text}]})
+
+                    //         dispatch({type: 'watch/setCaptions', payload: [toDispatch.text]})
+                    //         console.log(newHls.levels[0])
+
+                        //}
+                    //}
+                })
+
+
+
+                console.log(event);
+                newHls.renderTextTracksNatively = true;
+
+            })
+
+           
             /*
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) =>{
                 console.log(_, event)
@@ -146,10 +221,12 @@ const Video = React.memo((props) => {
             newHls.on(Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND, (_, event) =>{
                 console.log(_, event)
             })
+            */
             newHls.on(Hls.Events.CUES_PARSED, (_, event) =>{
                 console.log(_, event)
             })
-            */
+            
+            
             // Hls.Events.MANIFEST_PARSED
             // Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND and 
             // renderTextTracksNatively
@@ -197,36 +274,93 @@ const Video = React.memo((props) => {
         };
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
+
+    var textTrack = undefined;
+    console.log(_videoRef)
+    var transcript = [{id: 0, begin: 36.006755555572454, end: 36.03975555556826, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL"},
+    {id: 1, begin: 36.006755555572454, end: 36.03975555556826, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL"},
+    {id: 2, begin: 36.17275555554079, end: 36.773755555565, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL NOW OR"},
+    {id: 3, begin: 36.17275555554079, end: 36.773755555565, text: "HOMES. IT JUST FITS BATH        \n"}]
+    var idR = 0;
+    var yolo = 0;
+    useEffect(() => {
+        console.log("plz")
+        console.log(_videoRef)
+        textTrack = _videoRef.current.textTracks
+        console.log(textTrack)
+        textTrack.onaddtrack =  function() {
+            console.log('ch has loaded');
+            textTrack[0].addEventListener("cuechange", (event) => {
+                //console.log(event.currentTarget.activeCues[0]);
+                var l = event.currentTarget.activeCues[0]
+                var prev = undefined
+                if (l != undefined) {
+                    idR += 1
+
+
+                    
+                    
+                    var f = {id: idR, 
+                    begin: event.currentTarget.activeCues[0].startTime,
+                    end: event.currentTarget.activeCues[0].endTime, 
+                    text: event.currentTarget.activeCues[0].text}
+
+                    if (yolo < 5) {
+                        dispatch({ type: 'watch/setCurrCaption', payload:  f.id  })
+                        //transcript.push(f)
+                        //console.log(transcript)
+                        dispatch({ type: 'watch/setTranscript', payload:  f  })
+                        yolo = 0
+                    }
+                    yolo += 1
+                    
+
+                    
+                }
+            })
+          };
+        console.log(textTrack)
+        if (textTrack[0] != undefined) {
+            console.log('okokok')
+
+        }
+          
+    
+    
+      }, [_videoRef.current])
+
+
     // If Media Source is supported, use HLS.js to play video
     if (!Hls.isSupported()) return <>Does not support</>
 
     // hls.subtitleTracks
-    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
-        {embedded ?
+    return (
+      <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+        {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
-        }
+        } */}
         <video
-            playsInline
-            autoPlay={isMobile}
-            className="ct-video"
-            id={"ct-video-" + id}
-            ref={_videoRef}
-            muted={!isPrimary ? true : undefined}
-            onDurationChange={onDurationChange}
-            onTimeUpdate={onTimeUpdate}
-            onPause={onPause}
-            onLoadStart={onLoadStartPri}
-            onLoadedData={onLoadedDataPri}
-            onWaiting={onWaitingPri}
-            onPlaying={onPlayingPri}
-            onEnded={onEndedPri}
-            onSeeking={onSeekingPri}
-            onSeeked={onSeekedPri}
-            onError={onErrorPri}
+          playsInline
+          autoPlay={isMobile}
+          className="ct-video"
+          id={`ct-video-${id}`}
+          ref={_videoRef}
+          muted={!isPrimary ? true : undefined}
+          onDurationChange={onDurationChange}
+          onTimeUpdate={onTimeUpdate}
+          onPause={onPause}
+          onLoadStart={onLoadStartPri}
+          onLoadedData={onLoadedDataPri}
+          onWaiting={onWaitingPri}
+          onPlaying={onPlayingPri}
+          onEnded={onEndedPri}
+          onSeeking={onSeekingPri}
+          onSeeked={onSeekedPri}
+          onError={onErrorPri}
         >
-            Your browser does not support video tag.
+          Your browser does not support video tag.
         </video>
-    </div>)
+      </div>)
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path 
     && prevProps.isSwitched === nextProps.isSwitched

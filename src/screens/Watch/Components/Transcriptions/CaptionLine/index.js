@@ -11,7 +11,7 @@ import './index.css';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
   shouldHide = false, caption = {}, dispatch }) {
-  const { text = '', id, begin, kind } = caption;
+  const { text, id, begin, kind = "web"} = caption;
   const ref = useRef();
 
   const blurFromInput = () => {
@@ -57,7 +57,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     }
   };
 
-  const timeStr = prettierTimeStr(begin);
+  const timeStr = prettierTimeStr(String(begin));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
 
   return (
@@ -77,7 +77,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
           onClick={handleSeek}
           aria-label={`Jump to ${timeStr}`}
         >
-          <span tabIndex="-1">{timeStr}</span>
+          <span tabIndex="-1">{String(Math.round(begin))}</span>
         </button>
 
         {/* Caption Line */}
