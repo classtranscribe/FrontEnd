@@ -1,9 +1,9 @@
 import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
 import Hls, { Config } from 'hls.js';
-import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
-import { uEvent } from '../../Utils/UserEventController';
 import axios from 'axios';
+import PlayerWrapper from './PlayerWrapper';
+import { uEvent } from '../../Utils/UserEventController';
 import {
     NORMAL_MODE,
     PS_MODE,
@@ -334,32 +334,33 @@ const Video = React.memo((props) => {
     if (!Hls.isSupported()) return <>Does not support</>
 
     // hls.subtitleTracks
-    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+    return (
+      <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
         {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         } */}
         <video
-            playsInline
-            autoPlay={isMobile}
-            className="ct-video"
-            id={"ct-video-" + id}
-            ref={_videoRef}
-            muted={!isPrimary ? true : undefined}
-            onDurationChange={onDurationChange}
-            onTimeUpdate={onTimeUpdate}
-            onPause={onPause}
-            onLoadStart={onLoadStartPri}
-            onLoadedData={onLoadedDataPri}
-            onWaiting={onWaitingPri}
-            onPlaying={onPlayingPri}
-            onEnded={onEndedPri}
-            onSeeking={onSeekingPri}
-            onSeeked={onSeekedPri}
-            onError={onErrorPri}
+          playsInline
+          autoPlay={isMobile}
+          className="ct-video"
+          id={`ct-video-${id}`}
+          ref={_videoRef}
+          muted={!isPrimary ? true : undefined}
+          onDurationChange={onDurationChange}
+          onTimeUpdate={onTimeUpdate}
+          onPause={onPause}
+          onLoadStart={onLoadStartPri}
+          onLoadedData={onLoadedDataPri}
+          onWaiting={onWaitingPri}
+          onPlaying={onPlayingPri}
+          onEnded={onEndedPri}
+          onSeeking={onSeekingPri}
+          onSeeked={onSeekedPri}
+          onError={onErrorPri}
         >
-            Your browser does not support video tag.
+          Your browser does not support video tag.
         </video>
-    </div>)
+      </div>)
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path 
     && prevProps.isSwitched === nextProps.isSwitched
