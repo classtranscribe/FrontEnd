@@ -32,6 +32,7 @@ import {
     // MODAL_SHARE
 } from './Utils';
 
+
 const initState = {
     // Basics
     userRole: DEFAULT_ROLE,
