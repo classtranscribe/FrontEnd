@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { connect } from 'dva'
 import {
-  transControl,
+  // transControl,
   NORMAL_MODE,
   SEARCH_INIT,
   SEARCH_HIDE,
@@ -61,7 +61,7 @@ function TranscriptionsWithRedux(props) {
           </div>
         ) : transView === LINE_VIEW ? (
           <div className="trans-list" style={{zIndex: 10}}>
-            {transcript.map(function(caption, index) {
+            {transcript.map((caption, index) => {
               return <CaptionLine
                 key={index}
                 caption={caption}

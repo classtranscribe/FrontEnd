@@ -1,9 +1,9 @@
 import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
 import Hls, { Config } from 'hls.js';
-import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
-import { uEvent } from '../../Utils/UserEventController';
 import axios from 'axios';
+import PlayerWrapper from './PlayerWrapper';
+import { uEvent } from '../../Utils/UserEventController';
 import {
     NORMAL_MODE,
     PS_MODE,
@@ -287,12 +287,22 @@ const Video = React.memo((props) => {
         console.log("plz")
         console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
-        console.log(textTrack)
         textTrack.onaddtrack =  function() {
             console.log('ch has loaded');
-            textTrack[0].addEventListener("cuechange", (event) => {
-                //console.log(event.currentTarget.activeCues[0]);
-                var l = event.currentTarget.activeCues[0]
+            console.log(textTrack)
+
+            // const englishTrack = textTrack
+            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            englishTrack.addEventListener("cuechange", (event) => {
+                
+                console.log(event);
+                var toLog = [];
+                for (let z = 0; z < event.currentTarget.cues.length; z++) {
+                    toLog.push(event.currentTarget.cues[z].text)
+                }
+
+                console.log(toLog)
+                var l = event.currentTarget.activeCues[1]
                 var prev = undefined
                 if (l != undefined) {
                     idR += 1
@@ -301,11 +311,11 @@ const Video = React.memo((props) => {
                     
                     
                     var f = {id: idR, 
-                    begin: event.currentTarget.activeCues[0].startTime,
-                    end: event.currentTarget.activeCues[0].endTime, 
-                    text: event.currentTarget.activeCues[0].text}
+                    begin: event.currentTarget.activeCues[1].startTime,
+                    end: event.currentTarget.activeCues[1].endTime, 
+                    text: event.currentTarget.activeCues[1].text}
 
-                    if (yolo < 5) {
+                    if (yolo == 2) {
                         dispatch({ type: 'watch/setCurrCaption', payload:  f.id  })
                         //transcript.push(f)
                         //console.log(transcript)
@@ -334,32 +344,33 @@ const Video = React.memo((props) => {
     if (!Hls.isSupported()) return <>Does not support</>
 
     // hls.subtitleTracks
-    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+    return (
+      <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
         {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         } */}
         <video
-            playsInline
-            autoPlay={isMobile}
-            className="ct-video"
-            id={"ct-video-" + id}
-            ref={_videoRef}
-            muted={!isPrimary ? true : undefined}
-            onDurationChange={onDurationChange}
-            onTimeUpdate={onTimeUpdate}
-            onPause={onPause}
-            onLoadStart={onLoadStartPri}
-            onLoadedData={onLoadedDataPri}
-            onWaiting={onWaitingPri}
-            onPlaying={onPlayingPri}
-            onEnded={onEndedPri}
-            onSeeking={onSeekingPri}
-            onSeeked={onSeekedPri}
-            onError={onErrorPri}
+          playsInline
+          autoPlay={isMobile}
+          className="ct-video"
+          id={`ct-video-${id}`}
+          ref={_videoRef}
+          muted={!isPrimary ? true : undefined}
+          onDurationChange={onDurationChange}
+          onTimeUpdate={onTimeUpdate}
+          onPause={onPause}
+          onLoadStart={onLoadStartPri}
+          onLoadedData={onLoadedDataPri}
+          onWaiting={onWaitingPri}
+          onPlaying={onPlayingPri}
+          onEnded={onEndedPri}
+          onSeeking={onSeekingPri}
+          onSeeked={onSeekedPri}
+          onError={onErrorPri}
         >
-            Your browser does not support video tag.
+          Your browser does not support video tag.
         </video>
-    </div>)
+      </div>)
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path 
     && prevProps.isSwitched === nextProps.isSwitched
