@@ -291,7 +291,9 @@ const Video = React.memo((props) => {
             console.log('ch has loaded');
             console.log(textTrack)
 
-            textTrack[1].addEventListener("cuechange", (event) => {
+            // const englishTrack = textTrack
+            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            englishTrack.addEventListener("cuechange", (event) => {
                 
                 console.log(event);
                 var toLog = [];
