@@ -13,8 +13,13 @@ function Share(props) {
   const onOpenShare = () => setOpenShare(true);
   const onCloseShare = () => setOpenShare(false);
 
-  const { id } = media || {};
-  const shareLink = window.location.origin + links.watch(id, { begin: time });
+  const { isLive, id } = media || {};
+  let shareLink;
+  if (isLive) {
+    shareLink = links.currentUrl();
+  } else {
+    shareLink = window.location.origin + links.watch(id, { begin: time });
+  }
 
   return (
     <div className="ctp share-root">
