@@ -25,6 +25,9 @@ function LiveTest(_props) {
         <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: 1, position: "absolute"}}>
 
+
+
+
           <CTPlayer
             fill
             defaultOpenCC
@@ -34,6 +37,7 @@ function LiveTest(_props) {
             // onScreenshotCaptured={alert}
             media={media}
           />
+
         </div>
         {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
 
