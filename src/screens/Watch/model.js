@@ -156,6 +156,28 @@ const WatchModel = {
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
 
             if (state.liveMode) {
+                if (state.transcript.length == 0 || state.transcript == ARRAY_EMPTY) {
+                    // return { ...state, transcript: [...state.transcript, payload] };
+
+                    return { ...state, transcript: payload };
+
+                } else {
+                    let lastTime = state.transcript[state.transcript.length - 1].beginTime
+                    let index = 0;
+                    for (let i = 0; i < payload.length; i++) {
+                        if (payload[i].beginTime == lastTime) {
+                            index = i + 1;
+                            break;
+                        }
+                    }
+                    let finalArray = [...state.transcript];
+                    for (let i = index; i < payload.length; i++) {
+                        finalArray = [...finalArray, payload[i]]
+                    }
+
+                    return { ...state, transcript: payload };
+                }
+
                 return { ...state, transcript: [...state.transcript, payload] };
             } 
                 return { ...state, transcript };
