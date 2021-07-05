@@ -41,11 +41,11 @@ function TranscriptionsWithRedux(props) {
     console.log("here")
     if (currCaption != null) {
       let z = document.getElementById(`caption-line-${currCaption.id}`)
-      console.log(z)
+      //console.log(z)
 
       if (z != null) {
         console.log("double check")
-        z.scrollIntoView()
+        z.scrollIntoView({block: "center"})
       }
     }
   }, [currCaption])

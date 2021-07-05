@@ -69,6 +69,7 @@ const initState = {
     // Trans
     transcriptions: [],
     currTrans: {},
+    trackerMap: new Map(),
     transcript: [],
     captions: [],
     currCaption: null,
@@ -154,11 +155,24 @@ const WatchModel = {
         setTranscript(state, { payload }) {
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
-
+            if (state.trackerMap.size > 100) {
+                state.trackerMap.clear()
+            }
             if (state.liveMode) {
                 if (state.transcript.length == 0 || state.transcript == ARRAY_EMPTY) {
                     // return { ...state, transcript: [...state.transcript, payload] };
-
+                    console.log(payload)
+                    for (let i = payload.length - 1; i > 0; i--) {
+                        console.log(payload[i].text)
+                        if (state.trackerMap.get(payload[i].text) == undefined){
+                            console.log("forst")
+                            state.trackerMap.set(payload[i].text, 0);
+                        } else {
+                            console.log("hah")
+                            payload.splice(i, 1)
+                        }
+                    }
+                    console.log(payload)
                     return { ...state, transcript: payload };
 
                 } else {
@@ -172,10 +186,13 @@ const WatchModel = {
                     }
                     let finalArray = [...state.transcript];
                     for (let i = index; i < payload.length; i++) {
-                        finalArray = [...finalArray, payload[i]]
+                        if (state.trackerMap.get(payload[i].text) == undefined) {
+                            finalArray = [...finalArray, payload[i]]
+                            state.trackerMap.set(payload[i].text, 0)
+                        }
                     }
 
-                    return { ...state, transcript: payload };
+                    return { ...state, transcript: finalArray };
                 }
 
                 return { ...state, transcript: [...state.transcript, payload] };

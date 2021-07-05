@@ -13,7 +13,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   shouldHide = false, caption = {}, dispatch }) {
   const { text, id, startTime, kind = "web"} = caption;
   const ref = useRef();
-  console.log(id)
+  //console.log(id)
 
   const blurFromInput = () => {
     if (ref && ref.current && typeof ref.current.blur === 'function') {
