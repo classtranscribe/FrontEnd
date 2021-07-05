@@ -11,8 +11,9 @@ import './index.css';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
   shouldHide = false, caption = {}, dispatch }) {
-  const { text, id, begin, kind = "web"} = caption;
+  const { text, id, startTime, kind = "web"} = caption;
   const ref = useRef();
+  // console.log(id)
 
   const blurFromInput = () => {
     if (ref && ref.current && typeof ref.current.blur === 'function') {
@@ -23,7 +24,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleSeek = () => {
-    const time = timeStrToSec(begin);
+    const time = timeStrToSec(startTime);
     dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
@@ -57,7 +58,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     }
   };
 
-  const timeStr = prettierTimeStr(String(begin));
+  const timeStr = prettierTimeStr(String(startTime));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
 
   return (
@@ -77,7 +78,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
           onClick={handleSeek}
           aria-label={`Jump to ${timeStr}`}
         >
-          <span tabIndex="-1">{String(Math.round(begin))}</span>
+          <span tabIndex="-1">{String(Math.round(startTime))}</span>
         </button>
 
         {/* Caption Line */}

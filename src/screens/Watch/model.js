@@ -69,6 +69,7 @@ const initState = {
     // Trans
     transcriptions: [],
     currTrans: {},
+    trackerMap: new Map(),
     transcript: [],
     captions: [],
     currCaption: null,
@@ -154,9 +155,37 @@ const WatchModel = {
         setTranscript(state, { payload }) {
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
-
+            if (state.trackerMap.size > 100) {
+                state.trackerMap.clear()
+            }
             if (state.liveMode) {
-                return { ...state, transcript: [...state.transcript, payload] };
+                if (state.transcript.length === 0 || state.transcript === ARRAY_EMPTY) {
+                    // return { ...state, transcript: [...state.transcript, payload] };
+                    for (let i = payload.length - 1; i > 0; i-= 1) {
+                        if (state.trackerMap.get(payload[i].text) === undefined){
+                            state.trackerMap.set(payload[i].text, 0);
+                        } else {
+                            payload.splice(i, 1)
+                        }
+                    }
+                    return { ...state, transcript: payload };
+                }
+                    let lastTime = state.transcript[state.transcript.length - 1].beginTime
+                    let index = 0;
+                    for (let i = 0; i < payload.length; i+= 2) {
+                        if (payload[i].beginTime === lastTime) {
+                            index = i + 1;
+                            break;
+                        }
+                    }
+                    let finalArray = [...state.transcript];
+                    for (let i = index; i < payload.length; i+= 1) {
+                        if (state.trackerMap.get(payload[i].text) === undefined) {
+                            finalArray = [...finalArray, payload[i]]
+                            state.trackerMap.set(payload[i].text, 0)
+                        }
+                    }
+                    return { ...state, transcript: finalArray };
             } 
                 return { ...state, transcript };
         },

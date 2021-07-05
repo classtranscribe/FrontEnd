@@ -39,9 +39,11 @@ function TranscriptionsWithRedux(props) {
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
     if (currCaption != null) {
-      let z = document.getElementById(`caption-line-${ currCaption- 5}`)
+      let z = document.getElementById(`caption-line-${currCaption.id}`)
+      // console.log(z)
+
       if (z != null) {
-        z.scrollIntoView()
+        z.scrollIntoView({block: "center"})
       }
     }
   }, [currCaption])
@@ -63,7 +65,7 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map((caption, index) => {
               return <CaptionLine
-                key={index}
+                key={caption.id}
                 caption={caption}
                 currCaption={currCaption}
                 isCurrent={isCurrent(caption.id)}
@@ -78,7 +80,7 @@ function TranscriptionsWithRedux(props) {
               <TranscriptText
                 key={index}
                 caption={caption}
-                isCurrent={isCurrent(caption.id)}
+                isCurrent={isCurrent(index)}
                 dispatch={dispatch}
               />
             ))}
