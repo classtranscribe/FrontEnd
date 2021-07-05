@@ -38,13 +38,11 @@ function TranscriptionsWithRedux(props) {
 
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
-    console.log("here")
     if (currCaption != null) {
       let z = document.getElementById(`caption-line-${currCaption.id}`)
-      //console.log(z)
+      // console.log(z)
 
       if (z != null) {
-        console.log("double check")
         z.scrollIntoView({block: "center"})
       }
     }

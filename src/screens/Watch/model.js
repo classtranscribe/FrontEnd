@@ -159,43 +159,33 @@ const WatchModel = {
                 state.trackerMap.clear()
             }
             if (state.liveMode) {
-                if (state.transcript.length == 0 || state.transcript == ARRAY_EMPTY) {
+                if (state.transcript.length === 0 || state.transcript === ARRAY_EMPTY) {
                     // return { ...state, transcript: [...state.transcript, payload] };
-                    console.log(payload)
-                    for (let i = payload.length - 1; i > 0; i--) {
-                        console.log(payload[i].text)
-                        if (state.trackerMap.get(payload[i].text) == undefined){
-                            console.log("forst")
+                    for (let i = payload.length - 1; i > 0; i-= 1) {
+                        if (state.trackerMap.get(payload[i].text) === undefined){
                             state.trackerMap.set(payload[i].text, 0);
                         } else {
-                            console.log("hah")
                             payload.splice(i, 1)
                         }
                     }
-                    console.log(payload)
                     return { ...state, transcript: payload };
-
-                } else {
+                }
                     let lastTime = state.transcript[state.transcript.length - 1].beginTime
                     let index = 0;
-                    for (let i = 0; i < payload.length; i++) {
-                        if (payload[i].beginTime == lastTime) {
+                    for (let i = 0; i < payload.length; i+= 2) {
+                        if (payload[i].beginTime === lastTime) {
                             index = i + 1;
                             break;
                         }
                     }
                     let finalArray = [...state.transcript];
-                    for (let i = index; i < payload.length; i++) {
-                        if (state.trackerMap.get(payload[i].text) == undefined) {
+                    for (let i = index; i < payload.length; i+= 1) {
+                        if (state.trackerMap.get(payload[i].text) === undefined) {
                             finalArray = [...finalArray, payload[i]]
                             state.trackerMap.set(payload[i].text, 0)
                         }
                     }
-
                     return { ...state, transcript: finalArray };
-                }
-
-                return { ...state, transcript: [...state.transcript, payload] };
             } 
                 return { ...state, transcript };
         },
