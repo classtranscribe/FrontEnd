@@ -4,18 +4,14 @@ import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles } from 'layout';
 
-function MediaItemActions({
-  mediaId,
-  isUnavailable,
-  dispatch
-}) {
+function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
 
   const handleDelete = () => {
     const confirm = {
       text: 'Are you sure you want to delete this video? (This action cannot be undone)',
-      onConfirm: () => dispatch({ type: 'instplaylist/deleteMedias', payload: [mediaId] })
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteMedias', payload: [mediaId] }),
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
   };
@@ -28,20 +24,20 @@ function MediaItemActions({
         startIcon={<i className="material-icons watch">play_circle_filled</i>}
         href={links.watch(mediaId)}
       >
-        Watch
+        Watch {media.sourceType}
       </Button>
-      {
-        false ? 
-          <Button
-            className={btnClassName}
-            startIcon={<i className="material-icons">text_snippet</i>}
-            href={links.mspTransSettings(mediaId)}
-          >
-            Transcription
-          </Button> : null
-      }
+      {false ? (
+        <Button
+          className={btnClassName}
+          startIcon={<i className="material-icons">text_snippet</i>}
+          href={links.mspTransSettings(mediaId)}
+        >
+          Transcription
+        </Button>
+      ) : null}
 
       <Button
+        disabled={!media.transReady}
         className={btnClassName}
         startIcon={<i className="material-icons">import_contacts</i>}
         href={links.mspEpubSettings(mediaId)}
