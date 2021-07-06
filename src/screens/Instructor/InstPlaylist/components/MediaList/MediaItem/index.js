@@ -16,7 +16,7 @@ function MediaItem({
   isSelected,
   handleExpand,
   isExpanded,
-  dispatch
+  dispatch,
 }) {
   const { mediaName, id, isUnavailable } = media;
   const selected = isSelected(media);
@@ -29,7 +29,7 @@ function MediaItem({
     if (event && event.stopPropagation) {
       event.stopPropagation();
     }
-  }
+  };
 
   const handleEdit = (event) => {
     stopPropagation(event);
@@ -41,7 +41,7 @@ function MediaItem({
     stopPropagation(event);
     setEditing(false);
     if (inputValue && inputValue !== mediaName) {
-      dispatch({type: 'instplaylist/renameMedia', payload: {mediaId: id, name: inputValue}});
+      dispatch({ type: 'instplaylist/renameMedia', payload: { mediaId: id, name: inputValue } });
     }
   };
 
@@ -72,12 +72,8 @@ function MediaItem({
   const checkBoxClasses = CTCheckbox.useStyles();
 
   return (
-    <Accordion 
-      className="media-item" 
-      expanded={expanded} 
-      onChange={handleExpansionChange}
-    >
-      <AccordionSummary 
+    <Accordion className="media-item" expanded={expanded} onChange={handleExpansionChange}>
+      <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         tabIndex={-1}
         IconButtonProps={{
@@ -97,7 +93,7 @@ function MediaItem({
             aria-label="Select this media"
           />
 
-          <MediaName 
+          <MediaName
             mediaName={mediaName}
             editing={editing}
             inputValue={inputValue}
@@ -107,9 +103,9 @@ function MediaItem({
         </div>
 
         <CTPopoverLabel label={renameBtnLabel}>
-          <IconButton 
-            size="small" 
-            className="ml-4" 
+          <IconButton
+            size="small"
+            className="ml-4"
             onClick={renameBtnClick}
             aria-label={renameBtnLabel}
           >
@@ -123,7 +119,12 @@ function MediaItem({
           Created at {(media.createdAt || '').slice(0, 10)}
         </CTText>
 
-        <MediaItemActions mediaId={id} isUnavailable={isUnavailable} dispatch={dispatch} />
+        <MediaItemActions
+          media={media}
+          mediaId={id}
+          isUnavailable={isUnavailable}
+          dispatch={dispatch}
+        />
       </AccordionDetails>
     </Accordion>
   );
