@@ -1,16 +1,16 @@
 {
-  "short_name": "ClassTranscribe",
-  "name": "ClassTranscribe",
+  "short_name": "BOT Meeting",
+  "name": "BOT Meeting Live Stream",
   "description": "ClassTranscribe provides searchable transcribed video lectures.",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#348b86",
+  "theme_color": "#255b8b",
   "background_color": "#ffffff"
 }

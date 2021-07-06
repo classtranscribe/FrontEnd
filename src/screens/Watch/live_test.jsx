@@ -4,7 +4,7 @@ import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
 import { Transcriptions } from './Components';
 
-function LiveTest(_props) {
+function LiveTest(props) {
     // const {}
     const { videosrc, iframesrc = null } = uurl.useSearch();
     if (!videosrc) {
@@ -24,7 +24,6 @@ function LiveTest(_props) {
       <>
         <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: 1, position: "absolute"}}>
-
           <CTPlayer
             fill
             defaultOpenCC

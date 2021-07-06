@@ -277,21 +277,28 @@ const Video = React.memo((props) => {
 
     var textTrack = undefined;
     console.log(_videoRef)
-    var transcript = [{id: 0, begin: 36.006755555572454, end: 36.03975555556826, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL"},
-    {id: 1, begin: 36.006755555572454, end: 36.03975555556826, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL"},
-    {id: 2, begin: 36.17275555554079, end: 36.773755555565, text: "HOMES. IT JUST FITS BATH        \nFITTER. CALL NOW OR"},
-    {id: 3, begin: 36.17275555554079, end: 36.773755555565, text: "HOMES. IT JUST FITS BATH        \n"}]
+    var transcript = []
     var idR = 0;
     var yolo = 0;
     useEffect(() => {
         console.log("plz")
         console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
-        console.log(textTrack)
         textTrack.onaddtrack =  function() {
             console.log('ch has loaded');
-            textTrack[0].addEventListener("cuechange", (event) => {
-                //console.log(event.currentTarget.activeCues[0]);
+            console.log(textTrack)
+
+            // const englishTrack = textTrack
+            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            englishTrack.addEventListener("cuechange", (event) => {
+                
+                console.log(event);
+                var toLog = [];
+                for (let z = 0; z < event.currentTarget.cues.length; z++) {
+                    toLog.push(event.currentTarget.cues[z])
+                }
+
+                // console.log(toLog)
                 var l = event.currentTarget.activeCues[0]
                 var prev = undefined
                 if (l != undefined) {
@@ -300,16 +307,18 @@ const Video = React.memo((props) => {
 
                     
                     
-                    var f = {id: idR, 
+                    var f = {id: event.currentTarget.activeCues[0].id, 
                     begin: event.currentTarget.activeCues[0].startTime,
                     end: event.currentTarget.activeCues[0].endTime, 
                     text: event.currentTarget.activeCues[0].text}
 
-                    if (yolo < 5) {
-                        dispatch({ type: 'watch/setCurrCaption', payload:  f.id  })
+
+                    if (yolo <= 2) {
                         //transcript.push(f)
-                        //console.log(transcript)
-                        dispatch({ type: 'watch/setTranscript', payload:  f  })
+                        //console.log(transcript)y
+                        dispatch({ type: 'watch/setTranscript', payload:  toLog  })
+                        dispatch({ type: 'watch/setCurrCaption', payload:  f  })
+
                         yolo = 0
                     }
                     yolo += 1
