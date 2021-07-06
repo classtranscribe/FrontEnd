@@ -9,7 +9,10 @@ import {
   LINE_VIEW,
   ARRAY_EMPTY,
 } from '../../Utils';
-import './index.css';
+
+// css modification for live player
+import './index_liveplayer.css'
+// import './index.css';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
@@ -39,11 +42,9 @@ function TranscriptionsWithRedux(props) {
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
     if (currCaption != null) {
-      let z = document.getElementById(`caption-line-${currCaption.id}`)
-      // console.log(z)
-
+      let z = document.getElementById(`caption-line-${ currCaption- 5}`)
       if (z != null) {
-        z.scrollIntoView({block: "center"})
+        z.scrollIntoView()
       }
     }
   }, [currCaption])
@@ -65,7 +66,7 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map((caption, index) => {
               return <CaptionLine
-                key={caption.id}
+                key={index}
                 caption={caption}
                 currCaption={currCaption}
                 isCurrent={isCurrent(caption.id)}
@@ -80,7 +81,7 @@ function TranscriptionsWithRedux(props) {
               <TranscriptText
                 key={index}
                 caption={caption}
-                isCurrent={isCurrent(index)}
+                isCurrent={isCurrent(caption.id)}
                 dispatch={dispatch}
               />
             ))}

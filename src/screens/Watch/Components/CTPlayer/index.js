@@ -15,7 +15,10 @@ import {
   NESTED_MODE,
 } from '../../Utils';
 import './index.css';
-import './playerModes.css';
+
+// modification for liveplayer
+import './playerModes_liveplayer.css';
+// import './playerModes.css';
 
 const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };
