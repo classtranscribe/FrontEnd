@@ -29,8 +29,8 @@ function LiveTest(props) {
             defaultOpenCC
             hideWrapperOnMouseLeave
             allowTwoScreen
-            // allowScreenshot
-            // onScreenshotCaptured={alert}
+                // allowScreenshot
+                // onScreenshotCaptured={alert}
             media={media}
           />
         </div>

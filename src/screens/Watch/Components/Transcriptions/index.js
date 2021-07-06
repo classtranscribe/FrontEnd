@@ -9,7 +9,10 @@ import {
   LINE_VIEW,
   ARRAY_EMPTY,
 } from '../../Utils';
-import './index.css';
+
+// css modification for live player
+import './index_liveplayer.css'
+// import './index.css';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
