@@ -24,7 +24,7 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
         startIcon={<i className="material-icons watch">play_circle_filled</i>}
         href={links.watch(mediaId)}
       >
-        Watch {media.sourceType}
+        Watch
       </Button>
       {false ? (
         <Button
