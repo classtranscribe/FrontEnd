@@ -1,18 +1,15 @@
 import React, {useEffect} from 'react';
 import { connect } from 'dva'
 import {
-    // transControl,
-    NORMAL_MODE,
-    SEARCH_INIT,
-    SEARCH_HIDE,
-    TRANSCRIPT_VIEW,
-    LINE_VIEW,
-    ARRAY_EMPTY,
+  // transControl,
+  NORMAL_MODE,
+  SEARCH_INIT,
+  SEARCH_HIDE,
+  TRANSCRIPT_VIEW,
+  LINE_VIEW,
+  ARRAY_EMPTY,
 } from '../../Utils';
-
-// css modification for live player
-import './index_liveplayer.scss'
-// import './index.css';
+import './index.css';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
@@ -20,7 +17,6 @@ import TranscriptText from './TranscriptText';
 import PlaceHolder from './PlaceHolder';
 
 function TranscriptionsWithRedux(props) {
-
   const {
     transcript = [],
     currCaption,
@@ -95,15 +91,13 @@ function TranscriptionsWithRedux(props) {
           </div>
         ) : null}
         {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
-
       </div>
-    ) : null;
+    </div>
+  ) : null;
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-
   watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime}, loading }) => ({
     transView,
     transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime
   }))(TranscriptionsWithRedux);
-
