@@ -24,7 +24,10 @@ function TranscriptionsWithRedux(props) {
     transView = LINE_VIEW,
     currEditing = null,
     search = SEARCH_INIT,
-    dispatch
+    dispatch, 
+    updating,
+    currCaptionIndex, 
+    currentTime
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
@@ -32,21 +35,38 @@ function TranscriptionsWithRedux(props) {
   };
 
   const isCurrent = (id) => {
-    return Boolean(currCaption) && currCaption.id === id;
+    return Boolean(currCaption) && currCaption.startTime === id;
     // || (Boolean(currDescription) && currDescription.id === id)
   };
 
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
     if (currCaption != null) {
-      let z = document.getElementById(`caption-line-${currCaption.id}`)
-      // console.log(z)
+      if (true) {
+        let z = document.getElementById(`caption-line-${currCaption.startTime}`)
+        // console.log(z)
+        if (z != null) {
+          z.scrollIntoView({block: "center"})
+        }
+      } else {
+        console.log("almost done")
+        console.log(currCaptionIndex)
+        console.log(transcript[currCaptionIndex].endTime)
+        console.log(currCaption.startTime)
+        if (transcript[currCaptionIndex].endTime < currCaption.startTime) {
+          console.log("in the second One")
+          let f = currCaptionIndex;
+          let post = currCaptionIndex + 1
+          //dispatch({type: 'watch/setCurrCaptionIndex', payload: post})
 
-      if (z != null) {
-        z.scrollIntoView({block: "center"})
+          let z = document.getElementById(`caption-line-${transcript[f].startTime}`)
+          if (z != null) {
+            z.scrollIntoView({block: "center"})
+          }
+        }
       }
     }
-  }, [currCaption])
+  }, [currCaption, currCaptionIndex, currentTime])
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
@@ -65,10 +85,10 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map((caption, index) => {
               return <CaptionLine
-                key={caption.id}
+                key={caption.startTime}
                 caption={caption}
                 currCaption={currCaption}
-                isCurrent={isCurrent(caption.id)}
+                isCurrent={isCurrent(caption.startTime)}
                 dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
@@ -93,7 +113,7 @@ function TranscriptionsWithRedux(props) {
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, }, loading }) => ({
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime}, loading }) => ({
     transView,
-    transcript, currCaption, currEditing, bulkEditing, mode, search,
+    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime
   }))(TranscriptionsWithRedux);

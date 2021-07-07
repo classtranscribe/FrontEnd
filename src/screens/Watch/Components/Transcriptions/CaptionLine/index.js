@@ -63,7 +63,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   return (
     <div
-      id={`caption-line-${id}`}
+      id={`caption-line-${startTime}`}
       className="watch-caption-line"
       current={isCurrent.toString()}
       editing={isEditing.toString()}
