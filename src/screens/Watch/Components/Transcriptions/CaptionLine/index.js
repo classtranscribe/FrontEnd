@@ -60,7 +60,14 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   const timeStr = prettierTimeStr(String(startTime));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
+  let roundedTime = Math.round(startTime);
+  let beginTime= Math.floor(roundedTime / 60)
+  let secondsTime = roundedTime % 60
+  let secondsTimeString = String(secondsTime);
 
+  if (secondsTime < 10) {
+    secondsTimeString = `0${ String(secondsTime)}`
+  }
   return (
     <div
       id={`caption-line-${startTime}`}
@@ -78,7 +85,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
           onClick={handleSeek}
           aria-label={`Jump to ${timeStr}`}
         >
-          <span tabIndex="-1">{String(Math.round(startTime))}</span>
+          <span tabIndex="-1">{`${String(beginTime) }:${ secondsTimeString}`}</span>
         </button>
 
         {/* Caption Line */}
