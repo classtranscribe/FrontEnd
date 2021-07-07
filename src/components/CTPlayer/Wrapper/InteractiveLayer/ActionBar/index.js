@@ -20,6 +20,7 @@ function ActionBar(props) {
   } = props;
   const { allowScreenshot: isScreenshotAllowed } = embedded;
   const { mediaName, id } = media || {};
+  const isLiveLogo = media.isLive;
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
@@ -36,12 +37,23 @@ function ActionBar(props) {
     <div className="ctp action-bar">
       <div className="left">
         <div className="media-name">
-          <img
-            alt="ClassTranscribe Logo"
-            // src={logoOutlineSvg}
-            src={UISlogo}
-            className="ctp ct-logo"
-          />
+          {
+            isLiveLogo ? (
+              <img
+                alt="UISLogo"
+                src={UISlogo}
+                className="ctp ct-logo"
+              />
+            ) : (
+              <img
+                alt="ClassTranscribe Logo"
+                src={logoOutlineSvg}
+                className="ctp ct-logo"
+              />
+            )
+
+          }
+
 
           <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">
             <a href={links.watch(id)} onClick={watchOnClassTranscribe}>
