@@ -15,6 +15,7 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
+import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
@@ -280,24 +281,33 @@ const Video = React.memo((props) => {
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
 
-    var textTrack = undefined;
+    let textTrack = undefined;
     console.log(_videoRef)
-    var transcript = []
-    var idR = 0;
-    var yolo = 0;
+    let transcript = []
+    let idR = 0;
+    let yolo = 0;
     useEffect(() => {
         console.log("plz")
         console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
-        textTrack.onaddtrack =  function() {
+        textTrack.onaddtrack = () => {
+            if (textTrack === null || textTrack.length === 0) {
+                return;
+            }
             console.log('ch has loaded');
             console.log(textTrack)
 
             // const englishTrack = textTrack
-            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            let englishTrack;
+            const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
+            if (possibleEnglishTracks.length > 0) {
+                englishTrack = possibleEnglishTracks[0];
+            } else {
+                englishTrack = textTrack[0];
+            }
             englishTrack.addEventListener("cuechange", (event) => {
                 
-                console.log(event);
+                // console.log(event);
                 var toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {
                     toLog.push(event.currentTarget.cues[z])
@@ -334,13 +344,9 @@ const Video = React.memo((props) => {
             })
           };
         console.log(textTrack)
-        if (textTrack[0] != undefined) {
+        if (textTrack[0] !== undefined) {
             console.log('okokok')
-
         }
-          
-    
-    
       }, [_videoRef.current])
 
 
