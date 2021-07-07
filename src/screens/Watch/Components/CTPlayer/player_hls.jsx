@@ -28,6 +28,7 @@ const Video = React.memo((props) => {
     }
     const src = path;
     const autoPlay = true;
+    // eslint-disable-next-line no-console
     console.log('Render - Video HLS Player', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
@@ -74,6 +75,7 @@ const Video = React.memo((props) => {
         }
     }, [isPrimary]);
     const onPause = useCallback(() => {
+        // eslint-disable-next-line no-useless-return
         if (!isPrimary) return;
         // Pause Handler
     }, [isPrimary]);
@@ -105,7 +107,6 @@ const Video = React.memo((props) => {
     }
 
     useEffect(() => {
-
         function _initPlayer() {
             if (hls != null) {
                 hls.destroy();
@@ -125,9 +126,8 @@ const Video = React.memo((props) => {
                 newHls.loadSource(src);
                 newHls.on(Hls.Events.MANIFEST_PARSED, () => {
                     dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
-                    var liveMode = true
-                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode  })
-
+                    const liveMode = true
+                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode })
                 });
             });
             newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
@@ -135,33 +135,38 @@ const Video = React.memo((props) => {
                 // console.log(x.length > 0 ? x.end(0) : "XX")
                 // , event.timeRanges.video?.end()
             })
-            //fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
+            // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
 
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
+                // eslint-disable-next-line no-console
                 console.log(event)
                 if(true) {
                     // if(!openCC) {
                     //     newHls.subtitleTrack = -1;
                     // }
 
+                    // eslint-disable-next-line no-console
                     console.log(newHls.captionsTextTrack1Label)
+                    // eslint-disable-next-line no-console
                     console.log("hmmm")
                     const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}))
+                    // eslint-disable-next-line no-console
                     console.log(transcriptions)
-                    //dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
-                    //dispatch({type: 'watch/setCaptions', payload: [{}]})
+                    // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
+                    // dispatch({type: 'watch/setCaptions', payload: [{}]})
                 }
             })
 
             newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
+                // eslint-disable-next-line no-console
                 console.log(event)
             })
 
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
-                var baseUrl = event.frag.baseurl
+                const baseUrl = event.frag.baseurl
                 console.log(baseUrl)
-                var splitted = baseUrl.split("/")
-                var processed = "";
+                let splitted = baseUrl.split("/")
+                let processed = "";
                 for (let i = 0; i < splitted.length - 1; i++) {
                     processed += splitted[i] + "/";
                   }
@@ -203,8 +208,8 @@ const Video = React.memo((props) => {
                     //         dispatch({type: 'watch/setCaptions', payload: [toDispatch.text]})
                     //         console.log(newHls.levels[0])
 
-                        //}
-                    //}
+                        // }
+                    // }
                 })
 
 

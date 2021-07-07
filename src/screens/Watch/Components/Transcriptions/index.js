@@ -11,7 +11,7 @@ import {
 } from '../../Utils';
 
 // css modification for live player
-import './index_liveplayer.css'
+import './index_liveplayer.scss'
 // import './index.css';
 
 import CaptionLine from './CaptionLine';
