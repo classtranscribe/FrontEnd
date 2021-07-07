@@ -17,7 +17,7 @@ import {
 import './index.css';
 
 // modification for liveplayer
-import './playerModes_liveplayer.css';
+import './playerModes_liveplayer.scss';
 // import './playerModes.css';
 
 const videoRef1 = (node) => { PlayerData.video1 = node };

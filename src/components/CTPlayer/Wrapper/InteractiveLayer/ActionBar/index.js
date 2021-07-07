@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva'
 import { api, links, uurl } from 'utils';
-import { logoOutlineSvg } from 'assets/images';
+import { logoOutlineSvg, UISlogo } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';
 import Screenshot from './Screenshot';
@@ -38,7 +38,8 @@ function ActionBar(props) {
         <div className="media-name">
           <img
             alt="ClassTranscribe Logo"
-            src={logoOutlineSvg}
+            // src={logoOutlineSvg}
+            src={UISlogo}
             className="ctp ct-logo"
           />
 
