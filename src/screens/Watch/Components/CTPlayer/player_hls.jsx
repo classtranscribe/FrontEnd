@@ -289,10 +289,16 @@ const Video = React.memo((props) => {
             console.log(textTrack)
 
             // const englishTrack = textTrack
-            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            let englishTrack;
+            const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
+            if (possibleEnglishTracks.length > 0) {
+                englishTrack = possibleEnglishTracks[0];
+            } else {
+                englishTrack = textTrack[0];
+            }
             englishTrack.addEventListener("cuechange", (event) => {
                 
-                console.log(event);
+                // console.log(event);
                 var toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {
                     toLog.push(event.currentTarget.cues[z])
