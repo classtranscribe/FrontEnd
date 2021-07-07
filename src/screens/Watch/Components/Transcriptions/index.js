@@ -48,22 +48,6 @@ function TranscriptionsWithRedux(props) {
         if (z != null) {
           z.scrollIntoView({block: "center"})
         }
-      } else {
-        console.log("almost done")
-        console.log(currCaptionIndex)
-        console.log(transcript[currCaptionIndex].endTime)
-        console.log(currCaption.startTime)
-        if (transcript[currCaptionIndex].endTime < currCaption.startTime) {
-          console.log("in the second One")
-          let f = currCaptionIndex;
-          let post = currCaptionIndex + 1
-          //dispatch({type: 'watch/setCurrCaptionIndex', payload: post})
-
-          let z = document.getElementById(`caption-line-${transcript[f].startTime}`)
-          if (z != null) {
-            z.scrollIntoView({block: "center"})
-          }
-        }
       }
     }
   }, [currCaption, currCaptionIndex, currentTime])
