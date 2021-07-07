@@ -15,6 +15,7 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
+import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
@@ -275,16 +276,19 @@ const Video = React.memo((props) => {
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
 
-    var textTrack = undefined;
+    let textTrack = undefined;
     console.log(_videoRef)
-    var transcript = []
-    var idR = 0;
-    var yolo = 0;
+    let transcript = []
+    let idR = 0;
+    let yolo = 0;
     useEffect(() => {
         console.log("plz")
         console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
-        textTrack.onaddtrack =  function() {
+        textTrack.onaddtrack = () => {
+            if (textTrack === null || textTrack.length === 0) {
+                return;
+            }
             console.log('ch has loaded');
             console.log(textTrack)
 
@@ -335,13 +339,9 @@ const Video = React.memo((props) => {
             })
           };
         console.log(textTrack)
-        if (textTrack[0] != undefined) {
+        if (textTrack[0] !== undefined) {
             console.log('okokok')
-
         }
-          
-    
-    
       }, [_videoRef.current])
 
 
