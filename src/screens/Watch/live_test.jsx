@@ -3,10 +3,16 @@ import React from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
 import { Transcriptions } from './Components';
+import {connect} from 'dva'
 
-function LiveTest(props) {
+function LiveTestWithRedux(props) {
     // const {}
-    const { videosrc, iframesrc = null } = uurl.useSearch();
+
+    const {dispatch} = props
+    const { videosrc, iframesrc = null, updating = false } = uurl.useSearch();
+    console.log(updating)
+    dispatch({ type: 'watch/setUpdating', payload: updating});
+    console.log("got here")
     if (!videosrc) {
         return <>Need videosrc, iframesrc params</>
     }
@@ -40,4 +46,6 @@ function LiveTest(props) {
     );
 }
 
-export default LiveTest;
+export const LiveHLSPlayer = connect(({ loading, watch: { menu, error, isFullscreen } }) => ({
+  menu, error, isFullscreen
+}))(LiveTestWithRedux);

@@ -103,9 +103,9 @@
   outline: none;
   color: var(--ct-text-highlight);
 }
-.watch-caption-line[data-unsaved=true] .caption-line-text {
+/* .watch-caption-line[data-unsaved=true] .caption-line-text {
   color: rgb(255, 166, 0);
-}
+} */
 
 /* Save Button */
 .caption-line-btns {
