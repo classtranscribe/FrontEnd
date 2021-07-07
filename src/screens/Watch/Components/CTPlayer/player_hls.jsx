@@ -15,6 +15,7 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
+import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
@@ -27,6 +28,7 @@ const Video = React.memo((props) => {
     }
     const src = path;
     const autoPlay = true;
+    // eslint-disable-next-line no-console
     console.log('Render - Video HLS Player', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
@@ -73,6 +75,7 @@ const Video = React.memo((props) => {
         }
     }, [isPrimary]);
     const onPause = useCallback(() => {
+        // eslint-disable-next-line no-useless-return
         if (!isPrimary) return;
         // Pause Handler
     }, [isPrimary]);
@@ -104,7 +107,6 @@ const Video = React.memo((props) => {
     }
 
     useEffect(() => {
-
         function _initPlayer() {
             if (hls != null) {
                 hls.destroy();
@@ -124,9 +126,8 @@ const Video = React.memo((props) => {
                 newHls.loadSource(src);
                 newHls.on(Hls.Events.MANIFEST_PARSED, () => {
                     dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
-                    var liveMode = true
-                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode  })
-
+                    const liveMode = true
+                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode })
                 });
             });
             newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
@@ -134,33 +135,38 @@ const Video = React.memo((props) => {
                 // console.log(x.length > 0 ? x.end(0) : "XX")
                 // , event.timeRanges.video?.end()
             })
-            //fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
+            // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
 
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
+                // eslint-disable-next-line no-console
                 console.log(event)
                 if(true) {
                     // if(!openCC) {
                     //     newHls.subtitleTrack = -1;
                     // }
 
+                    // eslint-disable-next-line no-console
                     console.log(newHls.captionsTextTrack1Label)
+                    // eslint-disable-next-line no-console
                     console.log("hmmm")
                     const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}))
+                    // eslint-disable-next-line no-console
                     console.log(transcriptions)
-                    //dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
-                    //dispatch({type: 'watch/setCaptions', payload: [{}]})
+                    // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
+                    // dispatch({type: 'watch/setCaptions', payload: [{}]})
                 }
             })
 
             newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
+                // eslint-disable-next-line no-console
                 console.log(event)
             })
 
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
-                var baseUrl = event.frag.baseurl
+                const baseUrl = event.frag.baseurl
                 console.log(baseUrl)
-                var splitted = baseUrl.split("/")
-                var processed = "";
+                let splitted = baseUrl.split("/")
+                let processed = "";
                 for (let i = 0; i < splitted.length - 1; i++) {
                     processed += splitted[i] + "/";
                   }
@@ -202,8 +208,8 @@ const Video = React.memo((props) => {
                     //         dispatch({type: 'watch/setCaptions', payload: [toDispatch.text]})
                     //         console.log(newHls.levels[0])
 
-                        //}
-                    //}
+                        // }
+                    // }
                 })
 
 
@@ -340,23 +346,33 @@ const Video = React.memo((props) => {
         return toReturn;
     }
     var textTrack = undefined;
+
     console.log(_videoRef)
-    var transcript = []
-    var idR = 0;
-    var yolo = 0;
+    let transcript = []
+    let idR = 0;
+    let yolo = 0;
     useEffect(() => {
         console.log("plz")
         console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
-        textTrack.onaddtrack =  function() {
+        textTrack.onaddtrack = () => {
+            if (textTrack === null || textTrack.length === 0) {
+                return;
+            }
             console.log('ch has loaded');
             console.log(textTrack)
 
             // const englishTrack = textTrack
-            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            let englishTrack;
+            const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
+            if (possibleEnglishTracks.length > 0) {
+                englishTrack = possibleEnglishTracks[0];
+            } else {
+                englishTrack = textTrack[0];
+            }
             englishTrack.addEventListener("cuechange", (event) => {
                 
-                console.log(event);
+                // console.log(event);
                 var toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {
                     toLog.push(event.currentTarget.cues[z])
@@ -396,13 +412,9 @@ const Video = React.memo((props) => {
             })
           };
         console.log(textTrack)
-        if (textTrack[0] != undefined) {
+        if (textTrack[0] !== undefined) {
             console.log('okokok')
-
         }
-          
-    
-    
       }, [_videoRef.current])
 
 
