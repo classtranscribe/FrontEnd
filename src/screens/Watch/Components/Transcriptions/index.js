@@ -9,7 +9,10 @@ import {
   LINE_VIEW,
   ARRAY_EMPTY,
 } from '../../Utils';
-import './index.css';
+
+// modification for BOT live stream
+import './index_liveplayer.scss';
+// import './index.css';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
@@ -24,9 +27,9 @@ function TranscriptionsWithRedux(props) {
     transView = LINE_VIEW,
     currEditing = null,
     search = SEARCH_INIT,
-    dispatch, 
+    dispatch,
     updating,
-    currCaptionIndex, 
+    currCaptionIndex,
     currentTime,
     liveMode
   } = props;
@@ -38,10 +41,10 @@ function TranscriptionsWithRedux(props) {
   const isCurrent = (id) => {
     if (liveMode) {
       return Boolean(currCaption) && currCaption.startTime === id;
-    } 
+    }
       return Boolean(currCaption) && currCaption.id === id;
 
-    
+
     // || (Boolean(currDescription) && currDescription.id === id)
   };
 
