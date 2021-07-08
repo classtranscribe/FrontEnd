@@ -11,7 +11,10 @@ import {
   NESTED_MODE,
 } from '../../Utils';
 import './index.css';
-import './playerModes.css';
+
+// modification for BOT live stream
+import './playerModes_liveplayer.scss';
+// import './playerModes.css';
 
 const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };

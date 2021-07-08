@@ -2,8 +2,8 @@ import React from 'react';
 // import { useEffect } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
-import { Transcriptions } from './Components';
 import {connect} from 'dva'
+import { Transcriptions } from './Components';
 
 function LiveTestWithRedux(props) {
     // const {}
@@ -29,7 +29,7 @@ function LiveTestWithRedux(props) {
     return (
       <>
         <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />
-        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: 1, position: "absolute"}} {...props}>
+        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}} {...props}>
           <CTPlayer
             fill
             defaultOpenCC
