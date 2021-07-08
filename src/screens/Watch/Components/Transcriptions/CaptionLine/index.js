@@ -11,7 +11,7 @@ import './index.css';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
   shouldHide = false, caption = {}, dispatch }) {
-  const { text, id, startTime, kind = "web"} = caption;
+  const { text, id, startTime, begin, kind = "web"} = caption;
   const ref = useRef();
   // console.log(id)
 
@@ -64,13 +64,17 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   let beginTime= Math.floor(roundedTime / 60)
   let secondsTime = roundedTime % 60
   let secondsTimeString = String(secondsTime);
+  let totalTime = `${String(beginTime) }:${ secondsTimeString}`;
+  if (begin !== undefined) {
+    totalTime = prettierTimeStr(begin)
+  }
 
   if (secondsTime < 10) {
     secondsTimeString = `0${ String(secondsTime)}`
   }
   return (
     <div
-      id={`caption-line-${startTime}`}
+      id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
       className="watch-caption-line"
       current={isCurrent.toString()}
       editing={isEditing.toString()}
@@ -85,7 +89,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
           onClick={handleSeek}
           aria-label={`Jump to ${timeStr}`}
         >
-          <span tabIndex="-1">{`${String(beginTime) }:${ secondsTimeString}`}</span>
+          <span tabIndex="-1">{totalTime}</span>
         </button>
 
         {/* Caption Line */}
