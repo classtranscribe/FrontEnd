@@ -27,7 +27,8 @@ function TranscriptionsWithRedux(props) {
     dispatch, 
     updating,
     currCaptionIndex, 
-    currentTime
+    currentTime,
+    liveMode
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
@@ -35,13 +36,18 @@ function TranscriptionsWithRedux(props) {
   };
 
   const isCurrent = (id) => {
-    return Boolean(currCaption) && currCaption.startTime === id;
+    if (liveMode) {
+      return Boolean(currCaption) && currCaption.startTime === id;
+    } 
+      return Boolean(currCaption) && currCaption.id === id;
+
+    
     // || (Boolean(currDescription) && currDescription.id === id)
   };
 
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
-    if (currCaption != null) {
+    if (currCaption != null && liveMode) {
       if (true) {
         let z = document.getElementById(`caption-line-${currCaption.startTime}`)
         // console.log(z)
@@ -69,10 +75,10 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map((caption, index) => {
               return <CaptionLine
-                key={caption.startTime}
+                key={liveMode ? caption.startTime : caption.id}
                 caption={caption}
                 currCaption={currCaption}
-                isCurrent={isCurrent(caption.startTime)}
+                isCurrent={liveMode ? isCurrent(caption.startTime) : isCurrent(caption.id)}
                 dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
@@ -97,7 +103,7 @@ function TranscriptionsWithRedux(props) {
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime}, loading }) => ({
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode}, loading }) => ({
     transView,
-    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime
+    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode
   }))(TranscriptionsWithRedux);

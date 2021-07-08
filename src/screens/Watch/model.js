@@ -299,15 +299,17 @@ const WatchModel = {
             return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
-            if (!state.updating) {
-                return { ...state, currCaption: payload };
-            } 
+            if (state.liveMode) {
+                if (!state.updating) {
+                    return { ...state, currCaption: payload };
+                } 
                 for (let i = 0; i < state.transcript.length; i+=1) {
                     if (state.transcript[i].startTime <= payload.startTime && state.transcript[i].endTime >= payload.endTime) {
                         let z = state.transcript[i];
                         return { ...state, currCaption: z};
                     }
                 }
+            }
             
 
             return {...state, currCaption: payload}
