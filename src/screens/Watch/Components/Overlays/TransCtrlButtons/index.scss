@@ -1,12 +1,12 @@
-&:root {
-    --ct-w-trans-btn-w: 40px;
-    --ct-w-trans-btn-font-s: 20px;
+:root {
+  --ct-w-trans-btn-w: 40px;
+  --ct-w-trans-btn-font-s: 20px;
 }
 .trans-ctrl-btn {
-    position: fixed;
-    right: 10px;
-    color: white;
-.trans-ctrl-btn-content {
+  position: fixed;
+  right: 10px;
+  color: white;
+  .trans-ctrl-btn-content {
     border-radius: 30px;
     min-width: var(--ct-w-trans-btn-w);
     max-width: var(--ct-w-trans-btn-w);
@@ -22,35 +22,35 @@
     -moz-transition: max-width .2s linear;
     -webkit-transition: max-width .2s linear;
     box-shadow: 0 0 5px rgba(78, 78, 78, 0.767);
-i {
-    padding: 10px;
-    font-size: var(--ct-w-trans-btn-font-s);
-}
-}
-&:hover {
->.trans-ctrl-btn-content {
-    max-width: 250px;
-}
-}
-&:focus {
->.trans-ctrl-btn-content {
-    max-width: 250px;
-}
-}
-&:active {
->.trans-ctrl-btn-content {
-    background: rgb(83, 83, 83);
-}
-}
-i[class*=fas] {
+    i {
+      padding: 10px;
+      font-size: var(--ct-w-trans-btn-font-s);
+    }
+  }
+  &:hover {
+    >.trans-ctrl-btn-content {
+      max-width: 250px;
+    }
+  }
+  &:focus {
+    >.trans-ctrl-btn-content {
+      max-width: 250px;
+    }
+  }
+  &:active {
+    >.trans-ctrl-btn-content {
+      background: rgb(83, 83, 83);
+    }
+  }
+  i[class*=fas] {
     font-size: 1.2em;
-}
+  }
 }
 .trans-ctrl-btn[id=trans-bulk-edit-btn] {
-    bottom: 18em;
+  bottom: 18em;
 }
 .trans-ctrl-btn[id=trans-setting-btn] {
-    bottom: 14em;
+  bottom: 14em;
 }
 .trans-ctrl-btn[id=trans-view-switch-btn] {
   bottom: 10em;
