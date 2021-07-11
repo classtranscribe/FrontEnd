@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { downloadControl, langMap, langOptions, findTransByLanguage } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function DownloadMenu({ onClose = null, trans }) {
   const [downloading, setDownloading] = useState('');

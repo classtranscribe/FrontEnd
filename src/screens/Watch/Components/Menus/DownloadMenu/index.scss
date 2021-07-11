@@ -10,13 +10,12 @@
   -o-animation: var(--ct-animation-expand-padding-h);
   -moz-animation: var(--ct-animation-expand-padding-h);
   -webkit-animation: var(--ct-animation-expand-padding-h);
+  .file-type {
+    color: var(--ct-text-white-hover);
+    font-size: 0.8em;
+    margin-left: .5em;
+  }
 }
-.watch-download-menu-title .file-type {
-  color: var(--ct-text-white-hover);
-  font-size: 0.8em;
-  margin-left: .5em;
-}
-
 .watch-downloading {
   width: 35px;
   margin-right: 16px;

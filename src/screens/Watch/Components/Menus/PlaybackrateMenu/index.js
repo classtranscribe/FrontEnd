@@ -2,7 +2,7 @@ import { connect } from 'dva';
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { playbackRateOptions } from '../../../Utils';
-import './index.css';
+import './index.scss';
 import './slider.scss';
 
 function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {

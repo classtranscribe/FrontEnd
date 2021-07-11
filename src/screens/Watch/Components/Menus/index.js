@@ -10,7 +10,7 @@ import {
   MENU_SHORTCUTS,
   // MENU_BEFORE_HIDE,
 } from '../../Utils';
-import './index.css';
+import './index.scss';
 import PlaylistsMenu from './PlaylistsMenu';
 import PlaybackrateMenu from './PlaybackrateMenu';
 import ScreenModeMenu from './ScreenModeMenu';

@@ -1,7 +1,6 @@
 .ct-video-row {
   top: 4.5em;
   position: fixed;
-  /* cursor: pointer; */
 }
 .ct-video-contrainer {
   width: 100%;
@@ -23,9 +22,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .watch-player-wrapper[data-blur=true] {
   background: rgba(0, 0, 0, 0.719);
 }
-
-
