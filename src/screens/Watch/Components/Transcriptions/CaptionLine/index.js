@@ -7,7 +7,7 @@ import {
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
   shouldHide = false, caption = {}, dispatch }) {

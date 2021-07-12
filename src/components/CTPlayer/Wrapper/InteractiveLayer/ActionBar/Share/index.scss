@@ -2,13 +2,16 @@ $ctp-share-popup-bgcolor: rgb(53, 53, 53);
 
 .ctp.share-root {
   position: relative;
+
+  //modification for live player
+  right: 39vw;
+
   z-index: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   .ctp.share-popup {
-    //test
     z-index: 10;
     position: absolute;
     top: 30px;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Popup } from 'semantic-ui-react';
-import './index.css';
+import './index.scss';
 import {
   // transControl,
   timeStrToSec,

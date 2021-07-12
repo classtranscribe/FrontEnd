@@ -12,7 +12,7 @@ import {
 
 // modification for BOT live stream
 import './index_liveplayer.scss';
-// import './index.css';
+// import './index.scss';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';

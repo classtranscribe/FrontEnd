@@ -33,7 +33,7 @@ import {
 } from './screens';
 
 import './App.css';
-// import 'braft-editor/dist/index.css';
+// import 'braft-editor/dist/index.scss';
 import { altEl } from './layout';
 import { user, env } from './utils';
 
@@ -64,7 +64,7 @@ class App extends React.Component {
     })
     const MyCoursesPage = dynamic({
       app: this.props.app,
-      models: () => [require('./screens/Instructor/MyCourses/model').default], // 
+      models: () => [require('./screens/Instructor/MyCourses/model').default], //
       component: () => MyCourses
     })
     const InstPlaylistPage = dynamic({
@@ -81,7 +81,7 @@ class App extends React.Component {
     return (
       <AppInsightsProvider>
         <Switch>
-          
+
           <Route exact path={user.callbackPaths} component={AuthCallback} />
           <Route exact path="/sign-in" component={SignIn} />
 

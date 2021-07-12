@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva'
 import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 const PS_PLAY = 'play';
 const PS_PAUSE = 'pause';
@@ -77,5 +77,5 @@ function BigPlayButtonWithRedux(props) {
 }
 
 export const BigPlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
-  paused, ctpPriEvent 
+  paused, ctpPriEvent
 }))(BigPlayButtonWithRedux);

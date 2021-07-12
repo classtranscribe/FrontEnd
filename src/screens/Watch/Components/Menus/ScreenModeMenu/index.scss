@@ -13,8 +13,11 @@
   -moz-animation: var(--ct-animation-popup);
   -webkit-animation: var(--ct-animation-popup);
 }
-
-.watch-icon-list[data-2screen=false] .watch-icon-listitem[mode=ps-mode],
-.watch-icon-list[data-2screen=false] .watch-icon-listitem[mode=nested-mode] {
-  display: none !important;
+.watch-icon-list[data-2screen=false] {
+  .watch-icon-listitem[mode=ps-mode] {
+    display: none !important;
+  }
+  .watch-icon-listitem[mode=nested-mode] {
+    display: none !important;
+  }
 }

@@ -10,7 +10,7 @@ import {
   PS_MODE,
   NESTED_MODE,
 } from '../../Utils';
-import './index.css';
+import './index.scss';
 
 // modification for BOT live stream
 import './playerModes_liveplayer.scss';
