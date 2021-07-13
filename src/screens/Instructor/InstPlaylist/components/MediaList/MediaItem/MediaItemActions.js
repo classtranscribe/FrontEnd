@@ -3,6 +3,7 @@ import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles } from 'layout';
+import { CTText } from 'layout';
 
 function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
@@ -14,6 +15,16 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
       onConfirm: () => dispatch({ type: 'instplaylist/deleteMedias', payload: [mediaId] }),
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
+  };
+
+  const setEpubErrorText = () => {
+    if (!media.transReady && !media.sceneDetectReady) {
+      return 'Epub transcription and scene detection is unavailable.';
+    } else if (!media.transReady) {
+      return 'Epub transcription is unavailable.';
+    } else if (!media.sceneDetectReady) {
+      return 'Epub scene detection is unavailable.';
+    }
   };
 
   return (
@@ -52,6 +63,14 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
       >
         delete
       </Button>
+
+      <div>
+        {!media.transReady || !media.sceneDetectReady ? (
+          <CTText muted padding={[0, 0, 5, 10]}>
+            {setEpubErrorText()}
+          </CTText>
+        ) : null}
+      </div>
     </div>
   );
 }
