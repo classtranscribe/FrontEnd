@@ -132,7 +132,7 @@ export function parseOfferings(rawOfferings, filterTestCourses = false) {
  *  transcriptions: {id: string, language: string, src: string}[],
  *  isUnavailable: boolean,
  *  transReady: boolean,
- * transReady: boolean,
+ *  sceneDetectReady: boolean,
  *  watchHistory: { timestamp: number, ratio: number }
  * }} the parsed media data
  */
