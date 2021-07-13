@@ -2,8 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
-import { useButtonStyles } from 'layout';
-import { CTText } from 'layout';
+import { useButtonStyles, CTText } from 'layout';
 
 function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
@@ -18,13 +17,12 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
   };
 
   const setEpubErrorText = () => {
-    if (!media.transReady && !media.sceneDetectReady) {
+    if (!media.transReady && !media.sceneDetectReady)
       return 'Epub transcription and scene detection is unavailable.';
-    } else if (!media.transReady) {
-      return 'Epub transcription is unavailable.';
-    } else if (!media.sceneDetectReady) {
-      return 'Epub scene detection is unavailable.';
-    }
+
+    if (!media.transReady) return 'Epub transcription is unavailable.';
+
+    if (!media.sceneDetectReady) return 'Epub scene detection is unavailable.';
   };
 
   return (
