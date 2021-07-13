@@ -37,7 +37,7 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
       ) : null}
 
       <Button
-        disabled={!media.transReady}
+        disabled={!media.transReady || !media.sceneDetectReady}
         className={btnClassName}
         startIcon={<i className="material-icons">import_contacts</i>}
         href={links.mspEpubSettings(mediaId)}
