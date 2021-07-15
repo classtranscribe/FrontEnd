@@ -7,15 +7,15 @@ import {
   CTP_UP_NEXT,
   CTP_ENDED,
 } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING, playlist }) {
   const [show, setShow] = useState(false);
-  
+
   const onClose = () => {
     setShow(false);
   };
-  
+
   const { next: upNext } = setup.findNeighbors(media.id, playlist);
 
   useEffect(() => {
@@ -59,6 +59,6 @@ function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING, playlist }) {
 }
 
 export const UpNext = connectWithRedux(
-  UpNextWithRedux, 
+  UpNextWithRedux,
   ['media', 'ctpPriEvent']
 );

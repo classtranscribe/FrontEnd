@@ -1,7 +1,3 @@
-/**
- * The Player which supports different screen modes
- */
-
 import React, { useCallback, useRef, useEffect } from 'react';
 import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
@@ -14,14 +10,17 @@ import {
   PS_MODE,
   NESTED_MODE,
 } from '../../Utils';
-import './index.css';
-import './playerModes.css';
+import './index.scss';
+
+// modification for BOT live stream
+import './playerModes_liveplayer.scss';
+// import './playerModes.css';
 
 const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { dispatch } = props;
-  const { transView, muted, volume, playbackrate, openCC } = props;
+  const { transView, muted, volume, playbackrate, openCC, updating } = props;
   const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
   const { videos = [], isTwoScreen } = media;
   const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
@@ -69,7 +68,8 @@ const ClassTranscribePlayerNew = (props) => {
     path: srcPath1,
     isSwitched,
     embedded,
-    openCC
+    openCC,
+    updating
   }
   useEffect(() => {
     if(window.hls) {
@@ -115,9 +115,9 @@ const ClassTranscribePlayerNew = (props) => {
 };
 
 export const ClassTranscribePlayer = connect(({ watch: {
-  media, mode, isSwitched, isFullscreen, embedded
+  media, mode, isSwitched, isFullscreen, embedded, updating
 }, playerpref: {
   transView, muted, volume, playbackrate, openCC
 }, loading }) => ({
-  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC
+  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, updating
 }))(ClassTranscribePlayerNew);

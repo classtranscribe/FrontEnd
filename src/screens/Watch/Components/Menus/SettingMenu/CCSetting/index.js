@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'dva'
-import './index.css';
+import './index.scss';
 
 import MenuRadio from '../MenuRadio';
 import CCStylePicker from './CCStylePicker';

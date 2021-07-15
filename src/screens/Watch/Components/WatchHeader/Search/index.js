@@ -1,6 +1,6 @@
 import React from 'react';
 import { connectWithRedux } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function Search({dispatch}) {
   const handleOpenSearch = () => {

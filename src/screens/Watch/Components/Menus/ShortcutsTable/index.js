@@ -1,6 +1,6 @@
 import React from 'react';
 import { shortcuts } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function ShortcutsTable({ onClose = null }) {
   return (
