@@ -45,7 +45,7 @@ const Video = React.memo((props) => {
     };
     let prevTime = 0;
     let prevUATime = 0;
-    const onTimeUpdate = useCallback(({ target: { currentTime } }) => {
+    const onTimeUpdate = useCallback(({ target: { currentTime, duration } }) => {
         if (!isPrimary) return;
         // Set current time
         // Throttling
@@ -58,6 +58,11 @@ const Video = React.memo((props) => {
             // uEvent.timeupdate(this.currTime());
             dispatch({ type: 'watch/sendMediaHistories' });
             prevUATime = currentTime;
+        }
+        // slow down if caught up at the end
+        // const duration = e.target.duration;
+        if (Math.abs(duration - currentTime) < 2.0) {
+            dispatch({ type: 'watch/media_playbackrate', payload: 1.0 })
         }
     }, [isPrimary]);
     const onProgress = useCallback((e) => {
