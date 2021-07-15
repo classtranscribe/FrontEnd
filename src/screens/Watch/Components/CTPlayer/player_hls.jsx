@@ -2,8 +2,8 @@ import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
 import Hls, { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
 import axios from 'axios';
-import PlayerWrapper from './PlayerWrapper';
-import { uEvent } from '../../Utils/UserEventController';
+// import PlayerWrapper from './PlayerWrapper';
+// import { uEvent } from '../../Utils/UserEventController';
 import {
     // NORMAL_MODE,
     // PS_MODE,
@@ -20,7 +20,16 @@ import {
 let hls;
 
 const Video = React.memo((props) => {
-    const { id = 1, path, dispatch, isSwitched, embedded, videoRef, openCC, updating } = props;
+    const { 
+        id = 1, 
+        path, 
+        dispatch, 
+        // isSwitched, 
+        embedded, 
+        videoRef, 
+        // openCC, 
+        // updating 
+    } = props;
     const _videoRef = React.useRef();
     const isPrimary = (id === 1);
     const hlsConfig = {
@@ -65,20 +74,20 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/media_playbackrate', payload: 1.0 })
         }
     }, [isPrimary]);
-    const onProgress = useCallback((e) => {
-        if (!isPrimary) return;
-        const { target: { buffered, currentTime, duration } } = e;
-        if (duration > 0) {
-            for (let i = 0; i < buffered.length; i += 1) {
-                if (buffered.start(buffered.length - 1 - i) < currentTime) {
-                    dispatch({
-                        type: 'watch/setBufferedTime', payload: `${(buffered.end(buffered.length - 1 - i) / duration) * 100}%`
-                    });
-                    break;
-                }
-            }
-        }
-    }, [isPrimary]);
+    // const onProgress = useCallback((e) => {
+    //     if (!isPrimary) return;
+    //     const { target: { buffered, currentTime, duration } } = e;
+    //     if (duration > 0) {
+    //         for (let i = 0; i < buffered.length; i += 1) {
+    //             if (buffered.start(buffered.length - 1 - i) < currentTime) {
+    //                 dispatch({
+    //                     type: 'watch/setBufferedTime', payload: `${(buffered.end(buffered.length - 1 - i) / duration) * 100}%`
+    //                 });
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }, [isPrimary]);
     const onPause = useCallback(() => {
         // eslint-disable-next-line no-useless-return
         if (!isPrimary) return;
@@ -221,7 +230,6 @@ const Video = React.memo((props) => {
 
                 console.log(event);
                 newHls.renderTextTracksNatively = true;
-
             })
 
            
@@ -301,7 +309,7 @@ const Video = React.memo((props) => {
     
             let currentText = captionsArray[i].text;
             // Handle case where toReturn is Empty
-            if (toReturn.length == 0) {
+            if (toReturn.length === 0) {
                 toReturn.push({beginTime: captionsArray[0].startTime, endTime: captionsArray[0].endTime, text: captionsArray[0].text});
                 continue;
             }
@@ -333,11 +341,11 @@ const Video = React.memo((props) => {
                 //console.log(correctStartFound)
                 
                 for (let j = correctStartFound; j < words.length; j+= 1){
-                    if (words[j].trim() != ""){
+                    if (words[j].trim() !== ""){
                         currentSegment.text += " "  + words[j].trim()
                     }
                 }
-            } else if(firstWord == words[0]) {
+            } else if(firstWord === words[0]) {
                 continue;
             }else {
                 console.log("causing problems")
@@ -353,7 +361,7 @@ const Video = React.memo((props) => {
     var textTrack = undefined;
 
     console.log(_videoRef)
-    let transcript = []
+    // let transcript = []
     let idR = 0;
     let yolo = 0;
     useEffect(() => {
