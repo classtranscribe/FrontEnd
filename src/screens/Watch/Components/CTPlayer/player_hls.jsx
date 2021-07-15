@@ -5,24 +5,24 @@ import axios from 'axios';
 import PlayerWrapper from './PlayerWrapper';
 import { uEvent } from '../../Utils/UserEventController';
 import {
-    NORMAL_MODE,
-    PS_MODE,
-    NESTED_MODE /** THEATRE_MODE, */,
+    // NORMAL_MODE,
+    // PS_MODE,
+    // NESTED_MODE /** THEATRE_MODE, */,
     CTP_PLAYING,
     CTP_LOADING,
     CTP_ENDED,
-    CTP_UP_NEXT,
+    // CTP_UP_NEXT,
     CTP_ERROR,
-    HIDE_TRANS,
+    // HIDE_TRANS,
 } from '../../Utils/constants.util';
-import { logErrorToAzureAppInsights } from 'utils/logger';
+// import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
 const Video = React.memo((props) => {
     const { id = 1, path, dispatch, isSwitched, embedded, videoRef, openCC, updating } = props;
     const _videoRef = React.useRef();
-    const isPrimary = (id == 1);
+    const isPrimary = (id === 1);
     const hlsConfig = {
         // renderTextTracksNatively: false
     }
@@ -173,7 +173,7 @@ const Video = React.memo((props) => {
                 let splitted = baseUrl.split("/")
                 let processed = "";
                 for (let i = 0; i < splitted.length - 1; i++) {
-                    processed += splitted[i] + "/";
+                    processed += `${splitted[i]}/`;
                   }
                 console.log(processed)
                 processed += event.frag.relurl
@@ -378,38 +378,36 @@ const Video = React.memo((props) => {
             englishTrack.addEventListener("cuechange", (event) => {
                 
                 // console.log(event);
-                var toLog = [];
+                const toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {
                     toLog.push(event.currentTarget.cues[z])
                 }
 
                 // console.log(toLog)
-                var l = event.currentTarget.activeCues[0]
-                var prev = undefined
-                if (l != undefined) {
+                const l = event.currentTarget.activeCues[0];
+                // const prev = undefined;
+                if (l !== undefined) {
                     idR += 1
 
-
-                    
-                    
-                    var f = {id: event.currentTarget.activeCues[0].id, 
-                    startTime: event.currentTarget.activeCues[0].startTime,
-                    endTime: event.currentTarget.activeCues[0].endTime, 
-                    text: event.currentTarget.activeCues[0].text}
-
+                    const f = {
+                        id: event.currentTarget.activeCues[0].id, 
+                        startTime: event.currentTarget.activeCues[0].startTime,
+                        endTime: event.currentTarget.activeCues[0].endTime, 
+                        text: event.currentTarget.activeCues[0].text
+                    };
 
                     if (yolo <= 2) {
-                        //transcript.push(f)
-                        //console.log(transcript)y
-                        dispatch({ type: 'watch/setTranscript', payload:  toLog  })
+                        // transcript.push(f)
+                        // console.log(transcript)y
+                        dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
                         
-                        dispatch({ type: 'watch/setCurrCaption', payload:  f  })
+                        dispatch({ type: 'watch/setCurrCaption', payload:  f})
                         
-                        //splitter(toLog)
+                        // splitter(toLog)
                         yolo = 0
                     }
-                    yolo += 1
+                    yolo += 1;
                     
 
                     
