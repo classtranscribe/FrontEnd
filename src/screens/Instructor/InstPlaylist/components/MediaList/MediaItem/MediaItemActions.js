@@ -18,11 +18,9 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
 
   const setEpubErrorText = () => {
     if (!media.transReady && !media.sceneDetectReady)
-      return 'Epub transcription and scene detection is unavailable.';
-
-    if (!media.transReady) return 'Epub transcription is unavailable.';
-
-    if (!media.sceneDetectReady) return 'Epub scene detection is unavailable.';
+      return 'epub creation waiting for transcription and scene analysis to complete.';
+    if (!media.transReady) return 'epub creation waiting for transcription to complete.';
+    if (!media.sceneDetectReady) return 'epub creation waiting for scene analysis to complete.';
   };
 
   return (
