@@ -14,7 +14,7 @@ import {
   SMTAB_TRANS,
   HIDE_TRANS,
 } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function TransCtrlButtonsWithRedux({
   transView = LINE_VIEW,

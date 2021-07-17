@@ -15,7 +15,13 @@ function RootMenu(props) {
     onOpenScreenModeManu
   } = props;
 
-  const currentLang = !openCC ? 'OFF' : (language.text || 'OFF');
+  let currentLang;
+  if (openCC && language && language.text) {
+    currentLang = language.text;
+  } else {
+    currentLang = 'OFF';
+  }
+  // const cl = !openCC ? 'OFF' : (language.text || 'OFF');
 
   return (
     <div className="ctp settings-menu">
