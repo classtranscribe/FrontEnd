@@ -6,7 +6,7 @@ import {
   CTP_LOADING,
   CTP_ERROR,
 } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function SecondaryPlayerWrapperWithRedux({
   mode = NORMAL_MODE,

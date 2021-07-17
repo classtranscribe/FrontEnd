@@ -1,20 +1,37 @@
+@keyframes wmodal-show-t {
+  0% {
+    top: 10em;
+    opacity: 0;
+  }
+  100% {
+    top: 5em;
+    opacity: 1;
+  }
+}
+@keyframes wmodal-hide-t {
+  0% {
+    top: 5em;
+    opacity: 1;
+  }
+  100% {
+    top: 10em;
+    opacity: 0;
+  }
+}
 .watch-modal {
   position: fixed;
   width: 100vw;
   height: 100%;
 }
-
 .watch-modal[data-modal-type="modal-hide"] {
   visibility: hidden;
 }
-
 .wml-filter {
   display: absolute;
   width: 100vw;
   height: 100%;
   background: rgba(0, 0, 0, 0.623);
 }
-
 .wmodal-box-gen {
   position: absolute;
   width: max-content;
@@ -26,7 +43,6 @@
   box-shadow: 0 0 10px rgba(49, 49, 49, 0.671);
   overflow: hidden;
 }
-
 .wmodal-box-gen[data-position*=left] {
   left: 1em;
 }
@@ -37,21 +53,11 @@
   top: 5em;
   animation: wmodal-show-t .1s linear;
 }
-
-.watch-modal[data-modal-type="modal-before-hide"] .wmodal-box-gen[data-position*=top] {
-  animation: wmodal-hide-t .1s linear;
+.watch-modal[data-modal-type="modal-before-hide"] {
+  .wmodal-box-gen[data-position*=top] {
+    animation: wmodal-hide-t .1s linear;
+  }
 }
-
-@keyframes wmodal-show-t {
-  0% { top: 10em; opacity: 0;}
-  100% { top: 5em; opacity: 1;}
-}
-
-@keyframes wmodal-hide-t {
-  0% { top: 5em; opacity: 1;}
-  100% { top: 10em; opacity: 0;}
-}
-
 .wml-header {
   width: 100%;
   display: flex;
@@ -59,38 +65,38 @@
   justify-content: space-between;
   padding: .3em;
   min-width: 10em;
-}
-
-.wml-header h3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: .3em .6em 1em .6em;
-}
-.wml-header h3 i {
-  margin-right: .4em;
+  h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: .3em .6em 1em .6em;
+    i {
+      margin-right: .4em;
+    }
+  }
 }
 .wml-close-btn {
   height: max-content;
+  span {
+    color: white;
+    font-size: 1.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: .2em;
+  }
+  &:hover {
+    >span {
+      background: rgb(107, 107, 107);
+    }
+  }
+  i {
+    color: white;
+    font-size: 1.1em;
+  }
 }
-.wml-close-btn span {
-  color: white;
-  font-size: 1.3em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  padding: .2em;
-}
-.wml-close-btn:hover > span {
-  background: rgb(107, 107, 107);
-}
-.wml-close-btn i {
-  color: white;
-  font-size: 1.1em;
-}
-
 .wml-content {
   display: block;
   position: relative;

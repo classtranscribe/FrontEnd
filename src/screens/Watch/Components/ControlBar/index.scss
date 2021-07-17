@@ -10,27 +10,27 @@
   padding: 0 10px 1em 10px;
   background: var(--watch-page-bg-color-alpha);
 }
-
-.watch-ctrl-bar-left-elems, .watch-ctrl-bar-right-elems {
+.watch-ctrl-bar-left-elems {
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   height: max-content;
   width: 50%;
-}
-
-.watch-ctrl-bar-left-elems {
   justify-content: flex-start;
 }
-
 .watch-ctrl-bar-right-elems {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: max-content;
+  width: 50%;
   justify-content: flex-end;
 }
-
 @media screen and (max-width: 550px) {
   .watch-ctrl-bar-container {
-    flex-direction:column;
+    flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
     height: 9em;

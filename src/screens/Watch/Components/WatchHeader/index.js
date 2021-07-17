@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connectWithRedux, SEARCH_INIT, SEARCH_HIDE } from '../../Utils';
-import './index.css';
-import './Buttons/index.css';
+import './index.scss';
+import './Buttons/index.scss';
 
 import MediaInfo from './MediaInfo';
 import PlaylistMenuTrigger from './Buttons/PlaylistMenuTrigger';
@@ -34,7 +34,7 @@ function WatchHeaderRightElemWithRedux(props) {
 };
 
 export const WatchHeaderRightElem = connectWithRedux(
-  WatchHeaderRightElemWithRedux, 
+  WatchHeaderRightElemWithRedux,
   ['isFullscreen', 'search']
 );
 
