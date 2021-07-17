@@ -20,6 +20,7 @@ let hls;
 
 const Video = React.memo((props) => {
     const { id = 1, path, dispatch, isSwitched, embedded, videoRef, openCC } = props;
+
     const _videoRef = React.useRef();
     const isPrimary = (id == 1);
     const hlsConfig = {
@@ -156,62 +157,11 @@ const Video = React.memo((props) => {
                 console.log(event)
             })
 
-            newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
-                var baseUrl = event.frag.baseurl
-                console.log(baseUrl)
-                var splitted = baseUrl.split("/")
-                var processed = "";
-                for (let i = 0; i < splitted.length - 1; i++) {
-                    processed += splitted[i] + "/";
-                  }
-                console.log(processed)
-                processed += event.frag.relurl
-                console.log(processed)
-
-
-                axios.get(processed).then(function(input) {
-                    // var text = input.data
-                    // //console.log(text)
-                    // var initial = text.split("\n\n")
-                    // var post = initial.splice(1, initial.length)
-                    // for (var i = 0; i < post.length; i++) {
-                    //     var anotherIntermediary = post[i].split("\n\n")
-                    //     var bruh = anotherIntermediary[0].split("\n")
-
-                    
-                    //     var toDispatch = {start: null, end: null, text: null}
-
-                    //     var times = bruh[1].split(" ")
-
-                    //     if (times[0].length > 0) {
-                    //         toDispatch.start = times[0]
-                    //         toDispatch.end = times[2]
-                            
-                    //         var parsedText = ""
-                    //         for (var almostDone = 2; almostDone < bruh.length; almostDone++) {
-                    //             parsedText += bruh[almostDone].trim() + " "
-                    //         }
-                    //         parsedText.trim()
-
-                    //         toDispatch.text = parsedText.trim()
-                    //         // var currentDate = newHls.media.currentTime + newHls.levels[0].details.programDateTime - newHls.levels.details.fragments[0].start;
-                    //         // currentDate = hls.media.currentTime + hls.level.details.fragments[0].programDateTime - level.details.fragments[0].start;
-
-                    //         dispatch({type: 'watch/setTranscript', payload: [{id: null, language: 'en', src: 'WEBVTT', text: toDispatch.text}]})
-
-                    //         dispatch({type: 'watch/setCaptions', payload: [toDispatch.text]})
-                    //         console.log(newHls.levels[0])
-
-                        //}
-                    //}
-                })
+            
 
 
 
-                console.log(event);
-                newHls.renderTextTracksNatively = true;
-
-            })
+          
 
            
             /*
@@ -280,6 +230,7 @@ const Video = React.memo((props) => {
     var transcript = []
     var idR = 0;
     var yolo = 0;
+    var englishTrack = undefined;
     useEffect(() => {
         console.log("plz")
         console.log(_videoRef)
@@ -289,9 +240,10 @@ const Video = React.memo((props) => {
             console.log(textTrack)
 
             // const englishTrack = textTrack
-            const englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
+            englishTrack = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"))[0];
             englishTrack.addEventListener("cuechange", (event) => {
-                
+                dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
+                //englishTrack.mode = "showing"; 
                 console.log(event);
                 var toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {

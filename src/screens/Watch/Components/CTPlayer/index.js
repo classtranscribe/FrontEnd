@@ -69,7 +69,7 @@ const ClassTranscribePlayerNew = (props) => {
     path: srcPath1,
     isSwitched,
     embedded,
-    openCC
+    openCC,
   }
   useEffect(() => {
     if(window.hls) {

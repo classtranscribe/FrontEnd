@@ -85,6 +85,7 @@ const initState = {
     menu: MENU_HIDE,
     modal: MODAL_HIDE,
     liveMode: false,
+    englishTrack: undefined,
 
     // Others
     prompt: null,
@@ -114,6 +115,7 @@ const WatchModel = {
         setError(state, { payload }) {
             return { ...state, error: payload };
         },
+
         setMedia(state, { payload }) {
             return { ...state, media: payload, embedded: false, liveMode: payload.isLive ? 1 : 0 };
         },
@@ -141,6 +143,9 @@ const WatchModel = {
         },
         setStarredOfferings(state, { payload }) {
             return { ...state, starredOfferings: payload };
+        },
+        setEnglishTrack(state, { payload }) {
+            return { ...state, englishTrack: payload };
         },
 
         setFullscreen(state, { payload }) {
