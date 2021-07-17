@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { connectWithRedux } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 import PlaylistView from './PlaylistView';
 import Videos from './Videos';

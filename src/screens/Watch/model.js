@@ -78,6 +78,8 @@ const initState = {
     currDescription: null,
     currEditing: null,
     bulkEditing: false,
+    updating: false,
+    currCaptionIndex: 0,
 
     // screen options
     mode: NORMAL_MODE,
@@ -107,6 +109,66 @@ const unionTranscript = (captions, source) => {
     union = _.map(union, (item, index) => ({ ...item, index }));
     return union;
 }
+function splitter(captionsArray) {
+    let toReturn = [];
+    let currentSegment = {startTime: captionsArray[1].startTime, endTime:0, text: ""};
+    for (let i = 0; i < captionsArray.length; i+= 1){
+        if (currentSegment.text.trim().split(" ").length > 5) {
+            currentSegment.endTime = captionsArray[i].startTime
+            toReturn.push(currentSegment);
+            currentSegment = {startTime: captionsArray[i].startTime, endTime:0, text: ""};  
+        }
+        captionsArray[i].text = captionsArray[i].text.replaceAll("\n", " ");
+        captionsArray[i].text = captionsArray[i].text.replaceAll(".", " ");
+        captionsArray[i].text = captionsArray[i].text.replaceAll(",", " ");
+        captionsArray[i].text = captionsArray[i].text.replaceAll(">>", " ");
+
+        let currentText = captionsArray[i].text;
+        // Handle case where toReturn is Empty
+        if (toReturn.length === 0) {
+            toReturn.push({startTime: captionsArray[0].startTime, endTime: captionsArray[0].endTime, text: captionsArray[0].text});
+            i += 1;
+        }
+
+        // split indivisual words in the new segment im currently looking at
+        let words = currentText.split(" ");
+        
+        if (words.length === 0 || words.length === 1 && !currentSegment.text.includes(currentText)) {
+                currentSegment += (` ${ currentText.trim()}`)
+                i +=1;
+                currentText = captionsArray[i].text
+                words = currentText.split(" ");
+        }
+        let correctStartFound = words.length - 1;
+        
+        let prevArray = captionsArray[i - 1].text.split(" ")
+        let prevWord = prevArray[prevArray.length - 1]
+        let firstWord = prevArray[0]
+        if (currentText.includes(prevWord.trim()) && captionsArray[i - 1].text.includes(words[1])) {
+            for (let j = words.length - 1; j > 0; j -= 1) {
+                // console.log(words)
+                if (words[j].trim() === prevWord.trim() && words[j].trim() !== "") {
+                correctStartFound = j + 1
+                break
+               }
+            }
+            // console.log(correctStartFound)
+            
+            for (let j = correctStartFound; j < words.length; j+= 1){
+                if (words[j].trim() !== ""){
+                    currentSegment.text += ` ${ words[j].trim()}`
+                }
+            }
+        } 
+        else {
+            currentSegment.text += ` ${ currentText.trim()}`
+        }
+    }
+    currentSegment.endTime = captionsArray[captionsArray.length - 1].endTime
+    toReturn.push(currentSegment);
+
+    return toReturn;
+}
 const WatchModel = {
     namespace: 'watch',
     state: { ...initState },
@@ -128,6 +190,9 @@ const WatchModel = {
         },
         setLiveMode(state, { payload }) {
             return { ...state, liveMode: payload };
+        },
+        setCurrCaptionIndex(state, { payload }) {
+            return { ...state, currCaptionIndex: payload };
         },
         setPlaylist(state, { payload }) {
             return { ...state, playlist: payload };
@@ -158,24 +223,44 @@ const WatchModel = {
         setCurrTrans(state, { payload }) {
             return { ...state, currTrans: payload };
         },
+        setUpdating(state, { payload }) {
+            // console.log("in here")
+            return { ...state, updating: payload };
+        },
         setTranscript(state, { payload }) {
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
-            if (state.trackerMap.size > 100) {
+            if (state.trackerMap.size > 200) {
                 state.trackerMap.clear()
             }
             if (state.liveMode) {
                 if (state.transcript.length === 0 || state.transcript === ARRAY_EMPTY) {
                     // return { ...state, transcript: [...state.transcript, payload] };
-                    for (let i = payload.length - 1; i > 0; i-= 1) {
-                        if (state.trackerMap.get(payload[i].text) === undefined){
-                            state.trackerMap.set(payload[i].text, 0);
-                        } else {
-                            payload.splice(i, 1)
+                    if (state.updating === false) {
+                        for (let i = payload.length - 1; i > -1; i-= 1) {
+                            if (state.trackerMap.get(payload[i].startTime) === undefined){
+                                state.trackerMap.set(payload[i].startTime, 0);
+                            } else {
+                                payload.splice(i, 1)
+                            }
                         }
-                    }
-                    return { ...state, transcript: payload };
+                        // console.log("out")
+                        // console.log(payload)
+                        return { ...state, transcript: payload };
+                    } 
+                        for (let i = payload.length - 1; i > -1; i-= 1) {
+                            if (state.trackerMap.get(payload[i].text) === undefined){
+                                state.trackerMap.set(payload[i].text, 0);
+                            } else {
+                                payload.splice(i, 1)
+                            }
+                        }
+                        let finalA = splitter(payload)
+                        return { ...state, transcript: finalA };
                 }
+
+                // console.log(state.updating)
+                if (state.updating === false) {
                     let lastTime = state.transcript[state.transcript.length - 1].beginTime
                     let index = 0;
                     for (let i = 0; i < payload.length; i+= 2) {
@@ -186,11 +271,27 @@ const WatchModel = {
                     }
                     let finalArray = [...state.transcript];
                     for (let i = index; i < payload.length; i+= 1) {
-                        if (state.trackerMap.get(payload[i].text) === undefined) {
+                        if (state.trackerMap.get(payload[i].startTime) === undefined) {
                             finalArray = [...finalArray, payload[i]]
-                            state.trackerMap.set(payload[i].text, 0)
+                            state.trackerMap.set(payload[i].startTime, 0)
                         }
                     }
+                    return { ...state, transcript: finalArray };
+                } 
+                    let finalA = splitter(payload);
+                    let lastTime = state.transcript[state.transcript.length - 1].endTime
+                    let finalArray = [...state.transcript];
+
+                    for (let i = 0; i < finalA.length; i+=1 ) {
+                        if (finalA[i].startTime === state.transcript[state.transcript.length - 1].startTime) {
+                            finalArray[i] = finalA[i]
+                        } else if (finalA[i].startTime >= lastTime) {
+                            finalArray = [...finalArray, finalA[i]]
+                        }
+                    }
+
+                    // console.log("in here")
+
                     return { ...state, transcript: finalArray };
             } 
                 return { ...state, transcript };
@@ -204,7 +305,20 @@ const WatchModel = {
             return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
-            return { ...state, currCaption: payload };
+            if (state.liveMode) {
+                if (!state.updating) {
+                    return { ...state, currCaption: payload };
+                } 
+                for (let i = 0; i < state.transcript.length; i+=1) {
+                    if (state.transcript[i].startTime <= payload.startTime && state.transcript[i].endTime >= payload.endTime) {
+                        let z = state.transcript[i];
+                        return { ...state, currCaption: z};
+                    }
+                }
+            }
+            
+
+            return {...state, currCaption: payload}
         },
         /**
          * * Function called for get or set audio descriptions

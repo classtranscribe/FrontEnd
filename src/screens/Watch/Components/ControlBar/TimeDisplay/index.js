@@ -1,7 +1,7 @@
 import { connect } from 'dva';
 import React from 'react';
 import { connectWithRedux, parseSec } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function TimeDisplay({ time = 0, duration = 0, liveMode = false }) {
   const displayedTime = parseSec(time);

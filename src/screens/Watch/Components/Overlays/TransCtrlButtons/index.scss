@@ -1,0 +1,86 @@
+:root {
+  --ct-w-trans-btn-w: 40px;
+  --ct-w-trans-btn-font-s: 20px;
+}
+.trans-ctrl-btn {
+  position: fixed;
+  right: 10px;
+  color: white;
+  .trans-ctrl-btn-content {
+    border-radius: 30px;
+    min-width: var(--ct-w-trans-btn-w);
+    max-width: var(--ct-w-trans-btn-w);
+    min-height: var(--ct-w-trans-btn-w);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgb(70, 70, 70);
+    transition: max-width .2s linear;
+    -o-transition: max-width .2s linear;
+    -moz-transition: max-width .2s linear;
+    -webkit-transition: max-width .2s linear;
+    box-shadow: 0 0 5px rgba(78, 78, 78, 0.767);
+    i {
+      padding: 10px;
+      font-size: var(--ct-w-trans-btn-font-s);
+    }
+  }
+  &:hover {
+    >.trans-ctrl-btn-content {
+      max-width: 250px;
+    }
+  }
+  &:focus {
+    >.trans-ctrl-btn-content {
+      max-width: 250px;
+    }
+  }
+  &:active {
+    >.trans-ctrl-btn-content {
+      background: rgb(83, 83, 83);
+    }
+  }
+  i[class*=fas] {
+    font-size: 1.2em;
+  }
+}
+.trans-ctrl-btn[id=trans-bulk-edit-btn] {
+  bottom: 18em;
+}
+.trans-ctrl-btn[id=trans-setting-btn] {
+  bottom: 14em;
+}
+.trans-ctrl-btn[id=trans-view-switch-btn] {
+  bottom: 10em;
+}
+.trans-ctrl-btn[id=watch-search-btn] {
+  bottom: 6em;
+}
+.trans-ctrl-btn-text {
+  margin-left: 10px;
+  white-space: nowrap;
+  padding-right: 1.5em;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+@media screen and (max-width: 550px) {
+  .trans-ctrl-btn[id=trans-bulk-edit-btn] {
+    bottom: 23em;
+  }
+  .trans-ctrl-btn[id=trans-setting-btn] {
+    bottom: 19em;
+  }
+  .trans-ctrl-btn[id=trans-view-switch-btn] {
+    bottom: 15em;
+  }
+  .trans-ctrl-btn[id=watch-search-btn] {
+    bottom: 11em;
+  }
+  .trans-ctrl-btn {
+    .trans-ctrl-btn-content {
+      max-width: var(--ct-w-trans-btn-w) !important;
+    }
+  }
+}
