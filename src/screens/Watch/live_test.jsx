@@ -29,8 +29,10 @@ function LiveTestWithRedux(props) {
 
     return (
       <>
+
         <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}} {...props}>
+
           <CTPlayer
             fill
             defaultOpenCC

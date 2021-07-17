@@ -20,7 +20,17 @@ import {
 let hls;
 
 const Video = React.memo((props) => {
-    const { id = 1, path, dispatch, isSwitched, embedded, videoRef, openCC } = props;
+
+    const { 
+        id = 1, 
+        path, 
+        dispatch, 
+        // isSwitched, 
+        embedded, 
+        videoRef, 
+        // openCC, 
+        // updating 
+    } = props;
 
     const _videoRef = React.useRef();
     const isPrimary = (id === 1);
@@ -303,7 +313,6 @@ const Video = React.memo((props) => {
     var textTrack = undefined;
 
     console.log(_videoRef)
-    // let transcript = []
     let idR = 0;
     let yolo = 0;
     useEffect(() => {
@@ -325,7 +334,7 @@ const Video = React.memo((props) => {
             } else {
                 englishTrack = textTrack[0];
             }
-            dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
+             dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
 
             englishTrack.addEventListener("cuechange", (event) => {
                 
