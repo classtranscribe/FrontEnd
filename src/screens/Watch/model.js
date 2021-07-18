@@ -80,6 +80,7 @@ const initState = {
     bulkEditing: false,
     updating: false,
     currCaptionIndex: 0,
+    captionSpeedUp: 0,
 
     // screen options
     mode: NORMAL_MODE,
@@ -206,6 +207,9 @@ const WatchModel = {
         setWatchHistory(state, { payload }) {
             return { ...state, watchHistory: payload };
         },
+        setCaptionSpeedUp(state, { payload }) {
+            return { ...state, captionSpeedUp: payload };
+        },
         setStarredOfferings(state, { payload }) {
             return { ...state, starredOfferings: payload };
         },
@@ -305,16 +309,27 @@ const WatchModel = {
             return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
-            if (state.liveMode) {
+            if (state.liveMode && state.transcript !== ARRAY_EMPTY) {
                 if (!state.updating) {
-                    return { ...state, currCaption: payload };
-                } 
+                    if (state.captionSpeedUp === 0) {
+                        return { ...state, currCaption: payload };
+                    } 
+                        let j = Number(state.time) + Number(state.captionSpeedUp);
+                        for (let i = 0; i < state.transcript.length; i+= 1) {
+                            if (Number(state.transcript[i].startTime) <= j && Number(state.transcript[i].endTime) >= j) {
+                                let z = state.transcript[i];
+                                return { ...state, currCaption: z};
+                            }
+                        }
+                }
+                if (payload !== undefined) {
                 for (let i = 0; i < state.transcript.length; i+=1) {
-                    if (state.transcript[i].startTime <= payload.startTime && state.transcript[i].endTime >= payload.endTime) {
+                    if (state.transcript[i].startTime <= payload.startTime + state.captionSpeedUp && state.transcript[i].endTime >= payload.endTime + state.captionSpeedUp) {
                         let z = state.transcript[i];
                         return { ...state, currCaption: z};
                     }
                 }
+            }
             }
             
 
@@ -353,7 +368,8 @@ const WatchModel = {
             let liveMode = state.liveMode
             if(state.liveMode === 1) {
                 liveMode = payload < state.duration - 60 ? 2 : 1
-            } 
+            }
+            
             return { ...state, time: payload, liveMode };
         },
         setBufferedTime(state, { payload }) {

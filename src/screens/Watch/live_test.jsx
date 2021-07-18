@@ -9,9 +9,12 @@ function LiveTestWithRedux(props) {
     // const {}
 
     const {dispatch} = props
-    const { videosrc, iframesrc = null, updating = false } = uurl.useSearch();
+    const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
+
     console.log(updating)
     dispatch({ type: 'watch/setUpdating', payload: updating});
+    dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
+
     console.log("got here")
     if (!videosrc) {
         return <>Need videosrc, iframesrc params</>

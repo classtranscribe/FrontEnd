@@ -29,7 +29,8 @@ const Video = React.memo((props) => {
         embedded, 
         videoRef, 
         // openCC, 
-        // updating 
+        // updating,
+        captionSpeedUp = 0
     } = props;
 
     const _videoRef = React.useRef();
@@ -70,6 +71,11 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/sendMediaHistories' });
             prevUATime = currentTime;
         }
+        console.log(captionSpeedUp)
+        if (captionSpeedUp != 0) {
+            dispatch({type: 'watch/setCurrCaption'})
+        }
+        console.log("yo soy inside the callback")
         // slow down if caught up at the end
         // const duration = e.target.duration;
         if (Math.abs(duration - currentTime) < 2.0) {
