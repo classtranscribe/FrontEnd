@@ -37,6 +37,7 @@ const Video = React.memo((props) => {
     const isPrimary = (id === 1);
     const hlsConfig = {
         // renderTextTracksNatively: false
+        backBufferLength: 30
     }
     const src = path;
     const autoPlay = true;
@@ -44,8 +45,15 @@ const Video = React.memo((props) => {
     console.log('Render - Video HLS Player', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
-        const duration = e.target.duration;
-        dispatch({ type: 'watch/setDuration', payload: duration });
+        var duration = e.target.duration;
+        console.log(e.target)
+        // if (duration >= 30) {
+        //     duration = 30
+        // }
+       // console.log("this is duration");
+        //dispatch({ type: 'watch/setDuration', payload: duration });
+
+        //dispatch({ type: 'watch/setDuration', payload: duration });
         /*
         if (this.state.openRange && !this.state.range) {
             // this.setRange([0, duration]); // TODO
@@ -57,6 +65,7 @@ const Video = React.memo((props) => {
     };
     let prevTime = 0;
     let prevUATime = 0;
+    let originalTime = -1;
     const onTimeUpdate = useCallback(({ target: { currentTime, duration } }) => {
         if (!isPrimary) return;
         // Set current time
@@ -66,6 +75,26 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/setTime', payload: currentTime });
             prevTime = currentTime;
         }
+        //integer value
+
+        if (originalTime == -1 && currentTime != 0) {
+            originalTime = currentTime;
+        }
+
+        let realTime = currentTime - originalTime;
+        console.log(currentTime)
+        console.log(originalTime)
+        if (realTime >= 30) {
+            realTime = 30
+        }
+        console.log("this is real time")
+        console.log(realTime)
+
+
+        dispatch({ type: 'watch/setDuration', payload: realTime });
+
+
+
         if (Math.abs(prevUATime - currentTime) >= 1) {
             // uEvent.timeupdate(this.currTime());
             dispatch({ type: 'watch/sendMediaHistories' });
