@@ -132,6 +132,7 @@ export function parseOfferings(rawOfferings, filterTestCourses = false) {
  *  transcriptions: {id: string, language: string, src: string}[],
  *  isUnavailable: boolean,
  *  transReady: boolean,
+ *  sceneDetectReady: boolean,
  *  watchHistory: { timestamp: number, ratio: number }
  * }} the parsed media data
  */
@@ -146,8 +147,9 @@ export function parseMedia(media) {
     transcriptions: [],
     isUnavailable: true,
     transReady: false,
+    sceneDetectReady: false,
     watchHistory: { timestamp: 0, ratio: 0 },
-    duration: null
+    duration: null,
   };
 
   // console.log(media)
@@ -163,7 +165,8 @@ export function parseMedia(media) {
     transcriptions,
     ready,
     watchHistory,
-    duration
+    duration,
+    sceneDetectReady,
   } = media;
 
   if (!id || !jsonMetadata) return re;
@@ -173,6 +176,7 @@ export function parseMedia(media) {
   re.playlistId = playlistId;
   re.sourceType = sourceType;
   re.transReady = ready;
+  re.sceneDetectReady = sceneDetectReady;
   re.mediaName = _.replace(name, '.mp4', '');
   re.duration = duration;
 

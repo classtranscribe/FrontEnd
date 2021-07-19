@@ -2,27 +2,36 @@ import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
 import Hls, { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
 import axios from 'axios';
-import PlayerWrapper from './PlayerWrapper';
-import { uEvent } from '../../Utils/UserEventController';
+// import PlayerWrapper from './PlayerWrapper';
+// import { uEvent } from '../../Utils/UserEventController';
 import {
-    NORMAL_MODE,
-    PS_MODE,
-    NESTED_MODE /** THEATRE_MODE, */,
+    // NORMAL_MODE,
+    // PS_MODE,
+    // NESTED_MODE /** THEATRE_MODE, */,
     CTP_PLAYING,
     CTP_LOADING,
     CTP_ENDED,
-    CTP_UP_NEXT,
+    // CTP_UP_NEXT,
     CTP_ERROR,
-    HIDE_TRANS,
+    // HIDE_TRANS,
 } from '../../Utils/constants.util';
-import { logErrorToAzureAppInsights } from 'utils/logger';
+// import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
 const Video = React.memo((props) => {
-    const { id = 1, path, dispatch, isSwitched, embedded, videoRef, openCC, updating } = props;
+    const { 
+        id = 1, 
+        path, 
+        dispatch, 
+        // isSwitched, 
+        embedded, 
+        videoRef, 
+        // openCC, 
+        // updating 
+    } = props;
     const _videoRef = React.useRef();
-    const isPrimary = (id == 1);
+    const isPrimary = (id === 1);
     const hlsConfig = {
         // renderTextTracksNatively: false
     }
@@ -45,7 +54,7 @@ const Video = React.memo((props) => {
     };
     let prevTime = 0;
     let prevUATime = 0;
-    const onTimeUpdate = useCallback(({ target: { currentTime } }) => {
+    const onTimeUpdate = useCallback(({ target: { currentTime, duration } }) => {
         if (!isPrimary) return;
         // Set current time
         // Throttling
@@ -59,21 +68,26 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/sendMediaHistories' });
             prevUATime = currentTime;
         }
-    }, [isPrimary]);
-    const onProgress = useCallback((e) => {
-        if (!isPrimary) return;
-        const { target: { buffered, currentTime, duration } } = e;
-        if (duration > 0) {
-            for (let i = 0; i < buffered.length; i += 1) {
-                if (buffered.start(buffered.length - 1 - i) < currentTime) {
-                    dispatch({
-                        type: 'watch/setBufferedTime', payload: `${(buffered.end(buffered.length - 1 - i) / duration) * 100}%`
-                    });
-                    break;
-                }
-            }
+        // slow down if caught up at the end
+        // const duration = e.target.duration;
+        if (Math.abs(duration - currentTime) < 2.0) {
+            dispatch({ type: 'watch/media_playbackrate', payload: 1.0 })
         }
     }, [isPrimary]);
+    // const onProgress = useCallback((e) => {
+    //     if (!isPrimary) return;
+    //     const { target: { buffered, currentTime, duration } } = e;
+    //     if (duration > 0) {
+    //         for (let i = 0; i < buffered.length; i += 1) {
+    //             if (buffered.start(buffered.length - 1 - i) < currentTime) {
+    //                 dispatch({
+    //                     type: 'watch/setBufferedTime', payload: `${(buffered.end(buffered.length - 1 - i) / duration) * 100}%`
+    //                 });
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }, [isPrimary]);
     const onPause = useCallback(() => {
         // eslint-disable-next-line no-useless-return
         if (!isPrimary) return;
@@ -168,7 +182,7 @@ const Video = React.memo((props) => {
                 let splitted = baseUrl.split("/")
                 let processed = "";
                 for (let i = 0; i < splitted.length - 1; i++) {
-                    processed += splitted[i] + "/";
+                    processed += `${splitted[i]}/`;
                   }
                 console.log(processed)
                 processed += event.frag.relurl
@@ -216,7 +230,6 @@ const Video = React.memo((props) => {
 
                 console.log(event);
                 newHls.renderTextTracksNatively = true;
-
             })
 
            
@@ -296,7 +309,7 @@ const Video = React.memo((props) => {
     
             let currentText = captionsArray[i].text;
             // Handle case where toReturn is Empty
-            if (toReturn.length == 0) {
+            if (toReturn.length === 0) {
                 toReturn.push({beginTime: captionsArray[0].startTime, endTime: captionsArray[0].endTime, text: captionsArray[0].text});
                 continue;
             }
@@ -328,11 +341,11 @@ const Video = React.memo((props) => {
                 //console.log(correctStartFound)
                 
                 for (let j = correctStartFound; j < words.length; j+= 1){
-                    if (words[j].trim() != ""){
+                    if (words[j].trim() !== ""){
                         currentSegment.text += " "  + words[j].trim()
                     }
                 }
-            } else if(firstWord == words[0]) {
+            } else if(firstWord === words[0]) {
                 continue;
             }else {
                 console.log("causing problems")
@@ -348,7 +361,7 @@ const Video = React.memo((props) => {
     var textTrack = undefined;
 
     console.log(_videoRef)
-    let transcript = []
+    // let transcript = []
     let idR = 0;
     let yolo = 0;
     useEffect(() => {
@@ -373,38 +386,36 @@ const Video = React.memo((props) => {
             englishTrack.addEventListener("cuechange", (event) => {
                 
                 // console.log(event);
-                var toLog = [];
+                const toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {
                     toLog.push(event.currentTarget.cues[z])
                 }
 
                 // console.log(toLog)
-                var l = event.currentTarget.activeCues[0]
-                var prev = undefined
-                if (l != undefined) {
+                const l = event.currentTarget.activeCues[0];
+                // const prev = undefined;
+                if (l !== undefined) {
                     idR += 1
 
-
-                    
-                    
-                    var f = {id: event.currentTarget.activeCues[0].id, 
-                    startTime: event.currentTarget.activeCues[0].startTime,
-                    endTime: event.currentTarget.activeCues[0].endTime, 
-                    text: event.currentTarget.activeCues[0].text}
-
+                    const f = {
+                        id: event.currentTarget.activeCues[0].id, 
+                        startTime: event.currentTarget.activeCues[0].startTime,
+                        endTime: event.currentTarget.activeCues[0].endTime, 
+                        text: event.currentTarget.activeCues[0].text
+                    };
 
                     if (yolo <= 2) {
-                        //transcript.push(f)
-                        //console.log(transcript)y
-                        dispatch({ type: 'watch/setTranscript', payload:  toLog  })
+                        // transcript.push(f)
+                        // console.log(transcript)y
+                        dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
                         
-                        dispatch({ type: 'watch/setCurrCaption', payload:  f  })
+                        dispatch({ type: 'watch/setCurrCaption', payload:  f})
                         
-                        //splitter(toLog)
+                        // splitter(toLog)
                         yolo = 0
                     }
-                    yolo += 1
+                    yolo += 1;
                     
 
                     

@@ -45,7 +45,9 @@ function InteractiveLayer(props) {
           <div className="ctp ctrl-bar-con">
             <ControlBar />
           </div>
-          <SettingsMenu />
+          <SettingsMenu 
+            onClose={handleCloseSettings}
+          />
         </>
       }
     </div>
