@@ -20,6 +20,7 @@ import {
 let hls;
 
 const Video = React.memo((props) => {
+
     const { 
         id = 1, 
         path, 
@@ -28,8 +29,10 @@ const Video = React.memo((props) => {
         embedded, 
         videoRef, 
         // openCC, 
-        // updating 
+        // updating,
+        captionSpeedUp = 0
     } = props;
+
     const _videoRef = React.useRef();
     const isPrimary = (id === 1);
     const hlsConfig = {
@@ -68,6 +71,11 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/sendMediaHistories' });
             prevUATime = currentTime;
         }
+        console.log(captionSpeedUp)
+        if (captionSpeedUp != 0) {
+            dispatch({type: 'watch/setCurrCaption'})
+        }
+        console.log("yo soy inside the callback")
         // slow down if caught up at the end
         // const duration = e.target.duration;
         if (Math.abs(duration - currentTime) < 2.0) {
@@ -176,61 +184,11 @@ const Video = React.memo((props) => {
                 console.log(event)
             })
 
-            newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) => {
-                const baseUrl = event.frag.baseurl
-                console.log(baseUrl)
-                let splitted = baseUrl.split("/")
-                let processed = "";
-                for (let i = 0; i < splitted.length - 1; i++) {
-                    processed += `${splitted[i]}/`;
-                  }
-                console.log(processed)
-                processed += event.frag.relurl
-                console.log(processed)
-
-
-                axios.get(processed).then(function(input) {
-                    // var text = input.data
-                    // //console.log(text)
-                    // var initial = text.split("\n\n")
-                    // var post = initial.splice(1, initial.length)
-                    // for (var i = 0; i < post.length; i++) {
-                    //     var anotherIntermediary = post[i].split("\n\n")
-                    //     var bruh = anotherIntermediary[0].split("\n")
-
-                    
-                    //     var toDispatch = {start: null, end: null, text: null}
-
-                    //     var times = bruh[1].split(" ")
-
-                    //     if (times[0].length > 0) {
-                    //         toDispatch.start = times[0]
-                    //         toDispatch.end = times[2]
-                            
-                    //         var parsedText = ""
-                    //         for (var almostDone = 2; almostDone < bruh.length; almostDone++) {
-                    //             parsedText += bruh[almostDone].trim() + " "
-                    //         }
-                    //         parsedText.trim()
-
-                    //         toDispatch.text = parsedText.trim()
-                    //         // var currentDate = newHls.media.currentTime + newHls.levels[0].details.programDateTime - newHls.levels.details.fragments[0].start;
-                    //         // currentDate = hls.media.currentTime + hls.level.details.fragments[0].programDateTime - level.details.fragments[0].start;
-
-                    //         dispatch({type: 'watch/setTranscript', payload: [{id: null, language: 'en', src: 'WEBVTT', text: toDispatch.text}]})
-
-                    //         dispatch({type: 'watch/setCaptions', payload: [toDispatch.text]})
-                    //         console.log(newHls.levels[0])
-
-                        // }
-                    // }
-                })
+            
 
 
 
-                console.log(event);
-                newHls.renderTextTracksNatively = true;
-            })
+          
 
            
             /*
@@ -361,7 +319,6 @@ const Video = React.memo((props) => {
     var textTrack = undefined;
 
     console.log(_videoRef)
-    // let transcript = []
     let idR = 0;
     let yolo = 0;
     useEffect(() => {
@@ -383,6 +340,8 @@ const Video = React.memo((props) => {
             } else {
                 englishTrack = textTrack[0];
             }
+             dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
+
             englishTrack.addEventListener("cuechange", (event) => {
                 
                 // console.log(event);
