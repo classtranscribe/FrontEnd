@@ -72,7 +72,7 @@ const Video = React.memo((props) => {
             prevUATime = currentTime;
         }
         // console.log(captionSpeedUp)
-        if (captionSpeedUp != 0) {
+        if (captionSpeedUp !== 0) {
             dispatch({type: 'watch/setCurrCaption'})
         }
         // console.log("yo soy inside the callback")
