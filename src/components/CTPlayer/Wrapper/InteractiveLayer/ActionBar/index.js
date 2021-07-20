@@ -6,6 +6,7 @@ import { logoOutlineSvg, UISlogo } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';
 import Screenshot from './Screenshot';
+import LiveTranscriptDownload from './LiveTranscriptDownload';
 // import ShortcutButton from './ShortcutButton';
 import './index.scss';
 
@@ -73,6 +74,7 @@ function ActionBar(props) {
             <Screenshot actionElement={screenshotActionElement} media={media} />
           }
           {!error && <Share media={media} time={time} />}
+          <LiveTranscriptDownload media={media} />
           {/* <ShortcutButton /> */}
         </div>
       }
