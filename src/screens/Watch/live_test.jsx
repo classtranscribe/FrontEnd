@@ -8,14 +8,15 @@ import { Transcriptions } from './Components';
 function LiveTestWithRedux(props) {
     // const {}
 
-    const {dispatch} = props
+    const { dispatch, isFullscreen} = props
     const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
 
-    console.log(updating)
+    // console.log(updating)
     dispatch({ type: 'watch/setUpdating', payload: updating});
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
 
-    console.log("got here")
+    // console.log("got here")
+    // console.log(isFullscreen);
     if (!videosrc) {
         return <>Need videosrc, iframesrc params</>
     }
@@ -31,9 +32,8 @@ function LiveTestWithRedux(props) {
     // https://hls-js.netlify.app/demo/
 
     return (
-      <>
-
-        <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />
+      <div>
+        {isFullscreen ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}} {...props}>
 
           <CTPlayer
@@ -48,7 +48,7 @@ function LiveTestWithRedux(props) {
         </div>
         {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
 
-      </>
+      </div>
     );
 }
 
