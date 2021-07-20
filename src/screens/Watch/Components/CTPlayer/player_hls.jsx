@@ -161,28 +161,28 @@ const Video = React.memo((props) => {
 
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
                 // eslint-disable-next-line no-console
-                console.log(event)
-                if(true) {
+                console.log(event);
+                // if(true) {
                     // if(!openCC) {
                     //     newHls.subtitleTrack = -1;
                     // }
 
                     // eslint-disable-next-line no-console
-                    console.log(newHls.captionsTextTrack1Label)
+                console.log(newHls.captionsTextTrack1Label);
                     // eslint-disable-next-line no-console
-                    console.log("hmmm")
-                    const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}))
+                console.log("hmmm");
+                const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
                     // eslint-disable-next-line no-console
-                    console.log(transcriptions)
+                console.log(transcriptions);
                     // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
                     // dispatch({type: 'watch/setCaptions', payload: [{}]})
-                }
-            })
+                // }
+            });
 
             newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
                 // eslint-disable-next-line no-console
                 console.log(event)
-            })
+            });
 
             
 
