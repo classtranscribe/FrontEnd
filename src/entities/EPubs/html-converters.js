@@ -6,8 +6,8 @@ export function buildMDFromItems(items) {
   if (!items || items.length === 0) return '';
   return [
     '\n#### Transcript',
-    _.map(items, (item) => _.trim(item.text)).join('\n\n')
-  ].join('\n\n');
+    _.map(items, (item) => _.trim(item.text)).join(' ')
+  ].join('\n');
 }
 
 export async function buildMDFromContent(content) {

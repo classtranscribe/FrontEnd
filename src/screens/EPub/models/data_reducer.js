@@ -35,6 +35,16 @@ function removeChapter(chapters, index) {
         ...chapters.slice(index + 1)
     ];
 }
+
+function rebuildChapter(chapters, chapterIndex, chapterLike, resetText) {
+    // if there is such a chapter in the epub data
+    // update the subchapter item
+    if (chapters[chapterIndex]) {
+        let toBuild = chapterLike || chapters[chapterIndex];
+        chapters[chapterIndex] = new EPubChapterData(toBuild, resetText);
+    }
+}
+
 function insertContentChapter(chapter, index, content) {
     if (index >= chapter.contents.length) {
         chapter.contents.push(content);
@@ -64,7 +74,7 @@ function appendChapterAsSubChapter(chapters, chapterIdx) {
             currChp.subChapters
         );
     }
-    // this.data.rebuildChapter(chapterIdx - 1, null, false);
+    rebuildChapter(chapters, chapterIdx - 1, null, false);
 
     // remove appended chapter
     chapters = removeChapter(chapters, chapterIdx);
@@ -85,9 +95,23 @@ function removeContent(chapter, predictor) {
         removeContent(chapter, currIndex);
     }
 }
+
+function rebuildSubChapter(chapters, chapterIndex, subChapterIndex, subChapterLike, resetText) {
+    let currChapter = chapters[chapterIndex];
+    if (currChapter) {
+      let subChapters = currChapter.subChapters;
+      // if there is such a subchapter in the epub data
+      // update the subchapter item
+      if (subChapters[subChapterIndex]) {
+        let toBuild = subChapterLike || subChapters[subChapterIndex];
+        subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText);
+      }
+    }
+  }
+
 function nextStateOfChapters(chapters) {
     const items = getAllItemsInChapters(chapters);
-    return {chapters, items, images: _.map(items, item => item?.image) }
+    return { chapters, items, images: _.map(items, item => item?.image) }
 }
 export default {
     subdivideChapter(state, { payload: { chapterIdx, itemIdx } }) {
@@ -100,8 +124,7 @@ export default {
 
         // remove the items after itemIdx
         chapter.items = _.slice(chapter.items, 0, itemIdx);
-
-        // this.data.rebuildChapter(chapterIdx);
+        rebuildChapter(chapters, chapterIdx);
         // this.updateAll('Subdivide the chapter');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
@@ -114,7 +137,7 @@ export default {
         // remove items and sub chapters from curr chapter
         chapter.subChapters = [];
         chapter.items = _.slice(chapter.items, 0, itemIdx);
-        // this.data.rebuildChapter(chapterIdx);
+        rebuildChapter(chapters, chapterIdx);
 
         // insert the new chapter
         const newChapters = insertChapter(chapters, chapterIdx + 1, { subChapters, items });
@@ -130,7 +153,7 @@ export default {
         // remove this sub chapter
         removeSubChapter(chapter, 0);
 
-        // this.data.rebuildChapter(chapterIdx);
+        rebuildChapter(chapters, chapterIdx);
         // this.updateAll('Undo subdivide the chapter');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
@@ -146,8 +169,8 @@ export default {
         // remove relocated items from curr sub chp
         subChapter.items = _.slice(subChapter.items, 0, itemIdx);
 
-        // this.data.rebuildSubChapter(chapterIdx, subChapterIdx);
-        // this.data.rebuildChapter(chapterIdx, null, false);
+        rebuildSubChapter(chapters, chapterIdx, subChapterIdx);
+        rebuildChapter(chapters, chapterIdx, null, false);
         // this.updateAll('Subdivide the chapter');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
@@ -162,8 +185,8 @@ export default {
         // then delete the curr sub chp
         removeSubChapter(chapter, subChapterIdx);
 
-        // this.data.rebuildSubChapter(chapterIdx, subChapterIdx - 1);
-        // this.data.rebuildChapter(chapterIdx, null, false);
+        rebuildSubChapter(chapters, chapterIdx, subChapterIdx - 1);
+        rebuildChapter(chapters, chapterIdx, null, false);
         // this.updateAll('Undo subdivide the chapter');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
@@ -183,7 +206,7 @@ export default {
         // remove the subchps after subChapterIdx
         chapter.subChapters = _.slice(chapter.subChapters, 0, subChapterIdx);
 
-        // this.data.rebuildChapter(chapterIdx, null, false);
+        rebuildChapter(chapters, chapterIdx, null, false);
         // this.updateAll('Split chapters', chapterIdx + 1);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
@@ -194,17 +217,17 @@ export default {
 
         // create a new chp w/ items after itemIdx of this subChapter.items
         // and sub chps of the rest of curr chp
+
         const newChapters = insertChapter(chapters, chapterIdx + 1, {
             items: _.slice(subChapter.items, itemIdx),
             subChapters: _.slice(chapter.subChapters, subChapterIdx + 1)
         });
-
         // remove relocated items/subchps
         subChapter.items = _.slice(subChapter.items, 0, itemIdx);
         chapter.subChapters = _.slice(chapter.subChapters, 0, subChapterIdx + 1);
 
-        // this.data.rebuildSubChapter(chapterIdx, subChapterIdx);
-        // this.data.rebuildChapter(chapterIdx, null, false);
+        rebuildSubChapter(chapters, chapterIdx, subChapterIdx);
+        rebuildChapter(chapters, chapterIdx, null, false);
         // this.updateAll('Split chapters', chapterIdx + 1);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
@@ -225,7 +248,7 @@ export default {
             // remove combined chapter
             newChapters = removeChapter(chapters, chapterIdx);
         }
-        // this.data.rebuildChapter(chapterIdx - 1);
+        rebuildChapter(chapters, chapterIdx - 1);
         // this.updateAll('Undo split chapters', chapterIdx - 1);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
@@ -306,46 +329,46 @@ __feed(mesg = 'Saved.') {
     prompt.addOne({ text: mesg, timeout: 2000, position: 'left bottom' });
   }
   */
- /*
-  subdivideChaptersByScreenshots() {
-    let newChapters = _.map(this.data.chapters, (chapter) => {
-      let items = chapter.allItemsWithIn;
+/*
+ subdivideChaptersByScreenshots() {
+   let newChapters = _.map(this.data.chapters, (chapter) => {
+     let items = chapter.allItemsWithIn;
 
-      chapter.subChapters = _.map(items, (item, subChapterIndex) =>
-        new EPubSubChapterData({
-          items: [item],
-          title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
-        }),
-      );
+     chapter.subChapters = _.map(items, (item, subChapterIndex) =>
+       new EPubSubChapterData({
+         items: [item],
+         title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
+       }),
+     );
 
-      chapter.items = [];
-      return new EPubChapterData(chapter);
-    });
+     chapter.items = [];
+     return new EPubChapterData(chapter);
+   });
 
-    this.data.chapters = newChapters;
-    // this.updateAll('Subdivided all the chapters by screenshots', 0);
-    prompt.addOne({
-      text: 'Subdivided all the chapters by screenshots.',
-      position: 'left bottom',
-      timeout: 2000,
-    });
-  }
-  */
- /*
- updateAll(actionName, currChIndex) {
-    const data = this.saveEPub();
-    this.history.pushAndUpdateAll(
-      actionName,
-      // the cloned new chapters
-      data.chapters,
-      (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
-    );
-  }
+   this.data.chapters = newChapters;
+   // this.updateAll('Subdivided all the chapters by screenshots', 0);
+   prompt.addOne({
+     text: 'Subdivided all the chapters by screenshots.',
+     position: 'left bottom',
+     timeout: 2000,
+   });
+ }
+ */
+/*
+updateAll(actionName, currChIndex) {
+   const data = this.saveEPub();
+   this.history.pushAndUpdateAll(
+     actionName,
+     // the cloned new chapters
+     data.chapters,
+     (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
+   );
+ }
 
-  import EPubHistoryManager from './EPubHistoryManager';
+ import EPubHistoryManager from './EPubHistoryManager';
 setChapters(chapters) {
-  // this.history = new EPubHistoryManager(this);
-  this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
-  this.saveEPub();
+ // this.history = new EPubHistoryManager(this);
+ this.data.chapters = _.map(chapters, chapter => new EPubChapterData(chapter, false));
+ this.saveEPub();
 }
-  */
+ */
