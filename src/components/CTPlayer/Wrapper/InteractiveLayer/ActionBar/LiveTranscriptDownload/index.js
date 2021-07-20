@@ -13,11 +13,13 @@ function LiveTranscriptDownloadWithRedux(props) {
       return fileName;
     };
 
+    const timestampFormat = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12)
+
     const createVttFile = () => {
       const header = "WEBVTT\n";
       const lines = transcript.map(vtcue => {
-        const cueStart = vtcue.startTime.toFixed(2);
-        const cueEnd = vtcue.endTime.toFixed(2);
+        const cueStart = timestampFormat(vtcue.startTime);
+        const cueEnd = timestampFormat(vtcue.endTime)
         return `\n${cueStart} --> ${cueEnd}\n${vtcue.text}\n`;
       });
       const textContent = header + lines.join("");
@@ -45,11 +47,7 @@ function LiveTranscriptDownloadWithRedux(props) {
     );
 }
 
-// export default LiveTranscriptDownload;
 const LiveTranscriptDownload = connect(({watch: {transcript}}) => ({
     transcript
 }))(LiveTranscriptDownloadWithRedux);
 export default LiveTranscriptDownload;
-// export const MediaSettings = connect(({ mediasetting, loading }) => ({
-//   mediasetting
-// }))(MediaSettingsWithRedux);
