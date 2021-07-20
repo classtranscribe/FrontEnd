@@ -13,6 +13,7 @@ function LiveTranscriptDownloadWithRedux(props) {
       return fileName;
     };
 
+    // https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript
     const timestampFormat = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12)
 
     const createVttFile = () => {
@@ -28,7 +29,6 @@ function LiveTranscriptDownloadWithRedux(props) {
 
     const isTranscriptEmpty = () => transcript.length === 1 && transcript[0] === 'empty';
     const triggerDownload = () => {
-        console.log(transcript);
         if (isTranscriptEmpty()) {
           return;
         }
@@ -36,10 +36,19 @@ function LiveTranscriptDownloadWithRedux(props) {
         const vttFile = createVttFile();
         fileDownload(vttFile, fileName);
     }
+    
     return (
       <div>
         <WatchCtrlButton 
           onClick={triggerDownload}
+          position="top"
+          label="Download"
+          // label="Download (SHIFT+D)"
+          id="live-transcript-download"
+          ariaTags={{
+            'aria-label': `Download Menu`,
+            // 'aria-keyshortcuts': 'Shift+D',
+          }}
         >
           <span><i className="material-icons">cloud_download</i></span>   
         </WatchCtrlButton>
