@@ -28,15 +28,19 @@ function Progress(props) {
 
   const handleMouseMove = (e) => {
     let { offsetX } = e.nativeEvent;
+
     let { width } = e.target.getBoundingClientRect();
     if (offsetX >= 0) {
       setMousePos([width, offsetX]);
     } else {
-      setMousePos([width, -1]);
+      setMousePos([width, width]);
     }
+    console.log(mousePos)
   };
 
   const handleSeekTime = (e, newTime) => {
+    console.log(e)
+    console.log(newTime)
     dispatch({ type: 'watch/media_setCurrTime', payload: newTime });
   };
 
@@ -44,7 +48,7 @@ function Progress(props) {
     className: 'ctp buffer-slider',
     min: 0,
     max: duration,
-    step: 0.01,
+    step: 0.001,
     value: bufferedTime,
     'aria-hidden': 'true'
   };
@@ -52,7 +56,7 @@ function Progress(props) {
   const TSLP1 = liveMode ? {
     min: -duration,
     max: 0,
-    step: 0.001,
+    step: .001,
   } : {
     min: 0,
     max: duration,
@@ -88,7 +92,6 @@ function Progress(props) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <Slider {...bufferSliderProps} />
         <Slider {...timeSliderProps} />
       </div>
     </div>

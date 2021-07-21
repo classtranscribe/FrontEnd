@@ -37,21 +37,37 @@ const Video = React.memo((props) => {
     const isPrimary = (id === 1);
     const hlsConfig = {
         // renderTextTracksNatively: false
-        backBufferLength: 30
+        // backBufferLength: 30
     }
     const src = path;
     const autoPlay = true;
     // eslint-disable-next-line no-console
     console.log('Render - Video HLS Player', path);
+    let originalTime = -1;
+    let offSet = 0
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         var duration = e.target.duration;
         console.log(e.target)
+        if (e.target.duration != 0 && e.target.currentTime != 0 && offSet == 0) {
+            offSet = (e.target.duration - e.target.currentTime);
+            dispatch({type: "watch/setOffSet", payload: offSet})
+        }
+        if (originalTime == -1 && duration != 0) {
+            originalTime = duration;
+        }
+
+        let realTime = duration - originalTime;
+        // if (realTime >= 30) {
+        //     realTime = 30
+        // }
+
+
         // if (duration >= 30) {
         //     duration = 30
         // }
        // console.log("this is duration");
-        //dispatch({ type: 'watch/setDuration', payload: duration });
+        dispatch({ type: 'watch/setDuration', payload: (duration - offSet)});
 
         //dispatch({ type: 'watch/setDuration', payload: duration });
         /*
@@ -65,7 +81,6 @@ const Video = React.memo((props) => {
     };
     let prevTime = 0;
     let prevUATime = 0;
-    let originalTime = -1;
     const onTimeUpdate = useCallback(({ target: { currentTime, duration } }) => {
         if (!isPrimary) return;
         // Set current time
@@ -77,21 +92,8 @@ const Video = React.memo((props) => {
         }
         //integer value
 
-        if (originalTime == -1 && currentTime != 0) {
-            originalTime = currentTime;
-        }
-
-        let realTime = currentTime - originalTime;
-        console.log(currentTime)
-        console.log(originalTime)
-        if (realTime >= 30) {
-            realTime = 30
-        }
-        console.log("this is real time")
-        console.log(realTime)
 
 
-        dispatch({ type: 'watch/setDuration', payload: realTime });
 
 
 
@@ -104,7 +106,6 @@ const Video = React.memo((props) => {
         if (captionSpeedUp != 0) {
             dispatch({type: 'watch/setCurrCaption'})
         }
-        console.log("yo soy inside the callback")
         // slow down if caught up at the end
         // const duration = e.target.duration;
         if (Math.abs(duration - currentTime) < 2.0) {
@@ -280,71 +281,7 @@ const Video = React.memo((props) => {
         };
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
-    function splitter(captionsArray) {
-        let toReturn = [];
-        let currentSegment = {beginTime: captionsArray[1].startTime, endTime:0, text: ""};
-        for (let i = 0; i < captionsArray.length; i++){
-            if (currentSegment.text.trim().split(" ").length > 5) {
-                currentSegment.endTime = captionsArray[i].startTime
-                toReturn.push(currentSegment);
-                currentSegment = {beginTime: captionsArray[i].startTime, endTime:0, text: ""};
-                console.log("yooo")
-                
-            }
-            captionsArray[i].text = captionsArray[i].text.replaceAll("\n", " ");
-            captionsArray[i].text = captionsArray[i].text.replaceAll(".", " ");
-    
-            let currentText = captionsArray[i].text;
-            // Handle case where toReturn is Empty
-            if (toReturn.length === 0) {
-                toReturn.push({beginTime: captionsArray[0].startTime, endTime: captionsArray[0].endTime, text: captionsArray[0].text});
-                continue;
-            }
-    
-            // split indivisual words in the new segment im currently looking at
-            let words = currentText.split(" ");
-            
-            // if (words.length == 0 || words.length == 1) {
-            //     if (currentSegment.includes(currentText)) {
-            //         continue;
-            //     } else {
-            //         currentSegment = currentSegment += (` ${ currentText.trim()}`)
-            //         continue;
-            //     }
-            // }
-            let correctStartFound = words.length - 1;
-            
-            let prevArray = captionsArray[i - 1].text.split(" ")
-            let prevWord = prevArray[prevArray.length - 1]
-            let firstWord = prevArray[0]
-            if (currentText.includes(prevWord.trim())) {
-                for (let j = words.length - 1; j > 0; j -= 1) {
-                    //console.log(words)
-                    if (words[j].trim() === prevWord.trim() && words[j].trim() != "") {
-                    correctStartFound = j + 1
-                    break
-                   }
-                }
-                //console.log(correctStartFound)
-                
-                for (let j = correctStartFound; j < words.length; j+= 1){
-                    if (words[j].trim() !== ""){
-                        currentSegment.text += " "  + words[j].trim()
-                    }
-                }
-            } else if(firstWord === words[0]) {
-                continue;
-            }else {
-                console.log("causing problems")
-                currentSegment.text += " " + currentText.trim()
-            }
-        }
-        currentSegment.endTime = captionsArray[captionsArray.length - 1].endTime
-        toReturn.push(currentSegment);
-        console.log(toReturn)
-        console.log(captionsArray)
-        return toReturn;
-    }
+
     var textTrack = undefined;
 
     console.log(_videoRef)

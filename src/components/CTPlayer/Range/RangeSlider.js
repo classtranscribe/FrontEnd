@@ -19,7 +19,7 @@ function RangeSlider(props) {
     }
   }
 
-  let max = duration;
+  let max = duration - 20;
   let min = 0;
   if (Array.isArray(range)) {
     min = range[0]

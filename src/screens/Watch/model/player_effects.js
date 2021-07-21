@@ -150,10 +150,21 @@ export default {
         const { watch } = yield select();
         if (watch.liveMode && !realTime) {
             yield put({ type: 'setLiveMode', payload: payload > -5 ? 1 : 2 })
-            payload = Math.min(watch.duration + payload, watch.duration - LIVE_BUFFER_TIME); // we accept negative timestamp in live mode
+            //payload = Math.min(watch.duration + payload, watch.duration - LIVE_BUFFER_TIME); // we accept negative timestamp in live mode
+            console.log(watch.offSet);
+            payload = (watch.duration) + payload;
         }
-        PlayerData.video1 && (PlayerData.video1.currentTime = payload);
-        PlayerData.video2 && (PlayerData.video2.currentTime = payload);
+
+        console.log(watch.duration)
+
+        console.log(PlayerData.video1.currentTime);
+        if (PlayerData.video1 != null) {
+            PlayerData.video1.currentTime = payload;
+        }
+       // PlayerData.video1 && (PlayerData.video1.currentTime = payload);
+        //PlayerData.video2 && (PlayerData.video2.currentTime = payload);
+        console.log(PlayerData.video1.currentTime)
+        console.log(PlayerData)
         yield put({ type: 'setTime', payload })
         yield put({ type: 'sendMediaHistories' });
     },
