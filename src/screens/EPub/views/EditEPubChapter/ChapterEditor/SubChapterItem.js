@@ -11,8 +11,8 @@ function SubChapterItem({
   currChIndex,
   dispatch
 }) {
-  const { title, id, contents } = subChapter;
-
+  const { title, id, contents : _contents } = subChapter;
+  const contents = typeof subChapter === 'string' ? [subChapter] : _contents;
   const onSaveTitle = (newTitle) =>
     dispatch({
       type: 'epub/updateEpubData', payload: {
