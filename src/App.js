@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
 import {LiveHLSPlayer} from 'screens/Watch/live_test'
-import AppInsightsProvider from './azure-app-insights';
+//import AppInsightsProvider from './azure-app-insights';
 import {
   // General
   NotFound404,
@@ -79,7 +79,7 @@ class App extends React.Component {
     })
     // return <Maintenance />
     return (
-      <AppInsightsProvider>
+      //<AppInsightsProvider>
         <Switch>
 
           <Route exact path={user.callbackPaths} component={AuthCallback} />
@@ -150,7 +150,7 @@ class App extends React.Component {
           <Route component={NotFound404} />
           {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
         </Switch>
-      </AppInsightsProvider>
+      //</AppInsightsProvider>
     );
   }
 }
