@@ -81,6 +81,8 @@ const initState = {
     updating: false,
     currCaptionIndex: 0,
     captionSpeedUp: 0,
+    offSet: 0,
+    sliderOffSet: 0,
 
     // screen options
     mode: NORMAL_MODE,
@@ -207,6 +209,10 @@ const WatchModel = {
         setWatchHistory(state, { payload }) {
             return { ...state, watchHistory: payload };
         },
+        setOffSet(state, { payload }) {
+            return { ...state, offSet: payload };
+        },
+
         setCaptionSpeedUp(state, { payload }) {
             return { ...state, captionSpeedUp: payload };
         },
