@@ -19,7 +19,7 @@ function ChapterNewContent({ onInsert, currChIndex, images, epub, dispatch }) {
   };
 
   const handleSaveImage = (val) => {
-    handleSave(new EPubImageData(val));
+    handleSave(new EPubImageData(val).toObject());
   };
 
   const handleOpenMDEditor = () => setInsertType('md');
