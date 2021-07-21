@@ -40,7 +40,7 @@ function TranscriptionsWithRedux(props) {
 
   const isCurrent = (id) => {
     if (liveMode) {
-      return Boolean(currCaption) && currCaption.startTime === id;
+      return Boolean(currCaption) && currCaption.text === id;
     }
       return Boolean(currCaption) && currCaption.id === id;
 
@@ -78,10 +78,10 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map((caption, index) => {
               return <CaptionLine
-                key={liveMode ? caption.startTime : caption.id}
+                key={liveMode ? caption.text : caption.id}
                 caption={caption}
                 currCaption={currCaption}
-                isCurrent={liveMode ? isCurrent(caption.startTime) : isCurrent(caption.id)}
+                isCurrent={liveMode ? isCurrent(caption.text) : isCurrent(caption.id)}
                 dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />

@@ -248,8 +248,8 @@ const WatchModel = {
                     // return { ...state, transcript: [...state.transcript, payload] };
                     if (state.updating === false) {
                         for (let i = payload.length - 1; i > -1; i-= 1) {
-                            if (state.trackerMap.get(payload[i].startTime) === undefined){
-                                state.trackerMap.set(payload[i].startTime, 0);
+                            if (state.trackerMap.get(payload[i].text) === undefined){
+                                state.trackerMap.set(payload[i].text, 0);
                             } else {
                                 payload.splice(i, 1)
                             }
@@ -281,9 +281,9 @@ const WatchModel = {
                     }
                     let finalArray = [...state.transcript];
                     for (let i = index; i < payload.length; i+= 1) {
-                        if (state.trackerMap.get(payload[i].startTime) === undefined) {
+                        if (state.trackerMap.get(payload[i].text) === undefined) {
                             finalArray = [...finalArray, payload[i]]
-                            state.trackerMap.set(payload[i].startTime, 0)
+                            state.trackerMap.set(payload[i].text, 0)
                         }
                     }
                     return { ...state, transcript: finalArray };
