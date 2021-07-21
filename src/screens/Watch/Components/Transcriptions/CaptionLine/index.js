@@ -64,14 +64,16 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   let beginTime= Math.floor(roundedTime / 60)
   let secondsTime = roundedTime % 60
   let secondsTimeString = String(secondsTime);
+
+
+  if (secondsTime < 10) {
+    secondsTimeString = `0${ String(secondsTime)}`
+  }
   let totalTime = `${String(beginTime) }:${ secondsTimeString}`;
   if (begin !== undefined) {
     totalTime = prettierTimeStr(begin)
   }
 
-  if (secondsTime < 10) {
-    secondsTimeString = `0${ String(secondsTime)}`
-  }
   return (
     <div
       id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
