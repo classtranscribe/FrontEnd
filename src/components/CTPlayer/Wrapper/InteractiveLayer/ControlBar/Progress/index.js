@@ -35,12 +35,9 @@ function Progress(props) {
     } else {
       setMousePos([width, width]);
     }
-    console.log(mousePos)
   };
 
   const handleSeekTime = (e, newTime) => {
-    console.log(e)
-    console.log(newTime)
     dispatch({ type: 'watch/media_setCurrTime', payload: newTime });
   };
 

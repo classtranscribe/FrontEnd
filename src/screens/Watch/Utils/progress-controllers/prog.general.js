@@ -145,8 +145,6 @@ export class ProgressController {
     const moveX = typeof e === 'number' ? e : e.clientX || e.screenX;
 
     const seekTo = Math.floor(((moveX - offset) / this.totalWidth) * this.watch.duration);
-    console.log("seekTo bar")
-    console.log(seekTo);
     this.dispatch({ type: 'watch/media_setCurrTime', payload: seekTo })
   }
 
