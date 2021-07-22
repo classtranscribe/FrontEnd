@@ -14,7 +14,7 @@ function LiveTranscriptDownloadWithRedux(props) {
     };
 
     // https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript
-    const timestampFormat = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12)
+    // const timestampFormat = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12)
 
     // start and end times are borked, so disabling this for the time being
     // const createVttFile = () => {
