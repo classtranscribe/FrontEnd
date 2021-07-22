@@ -11,9 +11,9 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
       dispatch({ type: 'playerpref/toggleOpenCC' })
 
       if (isOpen && englishTrack != undefined) {
-        englishTrack.mode = 'showing';
+        englishTrack.mode = 'hidden';
       } else {
-        englishTrack.mode = "hidden";
+        englishTrack.mode = "showing";
       }
     }
 
@@ -29,11 +29,21 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
     }
   }, [englishTrack])
 
+  useEffect(() => {
+    if (englishTrack != undefined) {
+      if (isOpen) {
+        englishTrack.mode = 'showing';
+      } else {
+        englishTrack.mode = "hidden";
+      }
+    }
+
+  }, [])
+
   let disabled = captions.length <= 0;
   if (liveMode) {
     disabled = false;
   }
-  console.log("live " + liveMode)
 
   let isOpen = openCC && !disabled ;
 
