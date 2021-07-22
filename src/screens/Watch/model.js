@@ -264,7 +264,7 @@ const WatchModel = {
             if(payload.length === 0 ) {
                 return state;
             }
-            let firstStartTime = payload[0].startTime;
+           
             // state.transcript[insertIndex-1].startTime < firstStartTime  (if index>1)
             let checkNearby = 5 // Number of prior captions to check for possible existing entry
             let maxTimeDelta = 30 // to be the same, the existing caption time must be within this number of sceonds
@@ -273,8 +273,8 @@ const WatchModel = {
             
             for ( let payloadIndex = 0 ; payloadIndex < payload.length ; payloadIndex +=1 ) {
                 let caption = payload[payloadIndex];
-                let insertIndex = captionBinarySearch(state.transcript, firstStartTime);
-            
+                let insertIndex = captionBinarySearch(state.transcript, caption.startTime);
+                console.log("insertIndex:"+insertIndex);
                 // Check recent captions that occurred before this time
             
                 let doInsert = true
@@ -292,7 +292,7 @@ const WatchModel = {
                 }
 
                 if( doInsert ) {
-                    result.splice(insertIndex, 0, caption)
+                    result.splice(insertIndex, 0, ...caption)
                 }
             }
 
