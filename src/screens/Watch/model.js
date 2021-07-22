@@ -2,6 +2,7 @@ import { isSafari, isIPad13, isIPhone13, isMobile } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import _ from 'lodash';
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
+import { check } from 'prettier';
 import { timeStrToSec, colorMap } from './Utils/helpers';
 import PlayerData from './player'
 import {
@@ -172,6 +173,22 @@ function splitter(captionsArray) {
 
     return toReturn;
 }
+
+const captionBinarySearch = function (captions, firstStartTime) {
+    let lo = 0;// Invaruant captions[lo.startTime is always < firstStartTime
+    let hi = captions.length ; // inclusive
+    // want highest index that is LESS THAN firstStartTime (possibly 0)
+    while(true) {
+        let mid = Math.floor((lo + hi) / 2);
+        if(hi <= lo) { return lo; }
+        let v = captions[mid].startTime;
+        if (v < firstStartTime) {
+            lo = mid ;
+        } else {
+            hi = mid -1;
+        }
+    }
+}
 const WatchModel = {
     namespace: 'watch',
     state: { ...initState },
@@ -238,6 +255,53 @@ const WatchModel = {
             return { ...state, updating: payload };
         },
         setTranscript(state, { payload }) {
+            // Todo check that the payload is immutable because we use the subobjects in our immutable model
+            let transcript = payload || unionTranscript(state.captions, state.descriptions);
+            if (transcript.length === 0) transcript = ARRAY_EMPTY;
+            if (! state.liveMode) {
+                return { ...state, transcript };
+            }
+            if(payload.length === 0 ) {
+                return state;
+            }
+            let firstStartTime = payload[0].startTime;
+            // state.transcript[insertIndex-1].startTime < firstStartTime  (if index>1)
+            let checkNearby = 5 // Number of prior captions to check for possible existing entry
+            let maxTimeDelta = 30 // to be the same, the existing caption time must be within this number of sceonds
+
+            let result = [...state.transcript]
+            
+            for ( let payloadIndex = 0 ; payloadIndex < payload.length ; payloadIndex +=1 ) {
+                let caption = payload[payloadIndex];
+                let insertIndex = captionBinarySearch(state.transcript, firstStartTime);
+            
+                // Check recent captions that occurred before this time
+            
+                let doInsert = true
+                let checkNumber = Math.min( insertIndex, checkNearby) // in case we dont have enough past items to check
+                for( let i = 0; i < checkNumber && doInsert; i += 1 ) {
+                    let c = result[insertIndex -1 -i];
+                    doInsert = (c.text !== caption.text || Math.abs(caption.startTime - c.startTime) > maxTimeDelta);
+                }
+
+                // check the later captions in case we already inserted this
+                
+                for( let i = insertIndex + 1; doInsert && i < result.length && i <= insertIndex + checkNearby ; i += 1 ) {
+                    let c = result[i];
+                    doInsert = (c.text !== caption.text || Math.abs(caption.startTime - c.startTime) > maxTimeDelta);
+                }
+
+                if( doInsert ) {
+                    result.splice(insertIndex, 0, caption)
+                }
+            }
+
+            // Handle 608 Captions
+
+            // Todo 708 Captions
+            return { ...state, transcript: result };
+        },
+        setTranscriptV1(state, { payload }) {
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
             if (state.trackerMap.size > 200) {
