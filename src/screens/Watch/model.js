@@ -175,6 +175,7 @@ function splitter(captionsArray) {
 }
 
 const captionBinarySearch = function (captions, firstStartTime) {
+    // return linearSearch(captions, firstStartTime);
     let lo = 0;// Invaruant captions[lo.startTime is always < firstStartTime
     let hi = captions.length ; // inclusive
     // want highest index that is LESS THAN firstStartTime (possibly 0)
@@ -183,10 +184,22 @@ const captionBinarySearch = function (captions, firstStartTime) {
         if(hi <= lo) { return lo; }
         let v = captions[mid].startTime;
         if (v < firstStartTime) {
-            lo = mid ;
+            lo = mid + 1;
         } else {
-            hi = mid -1;
+            hi = mid;
         }
+    }
+}
+
+const linearSearch = function(captions, firstStartTime) {
+    let lo = 0;
+    let max = captions.length - 1;
+
+    while(true) {
+        if (lo >= max || captions[lo].startTime >= firstStartTime) {
+            return lo;
+        }
+        lo += 1;
     }
 }
 const WatchModel = {
@@ -254,6 +267,18 @@ const WatchModel = {
             // console.log("in here")
             return { ...state, updating: payload };
         },
+        // add comments
+        // change tracker map with snake type thing
+
+
+
+        /**
+         * There are four Cases
+         * Case one: The Transcript Array is empty. Just copy the entire thing over.
+         * Case two: The Transcript Array has things in it. But everything is smaller.
+         * Case Three: The Transcript Array has things in it. But everything is bigger.
+         * Case Four: The Transcript Array has things to add. But we need to add to the middle.
+         */
         setTranscript(state, { payload }) {
             // Todo check that the payload is immutable because we use the subobjects in our immutable model
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
@@ -270,11 +295,13 @@ const WatchModel = {
             let maxTimeDelta = 30 // to be the same, the existing caption time must be within this number of sceonds
 
             let result = [...state.transcript]
-            
-            for ( let payloadIndex = 0 ; payloadIndex < payload.length ; payloadIndex +=1 ) {
+            // console.log(result)
+            for (let payloadIndex = 0; payloadIndex < payload.length; payloadIndex +=1) {
                 let caption = payload[payloadIndex];
-                let insertIndex = captionBinarySearch(state.transcript, caption.startTime);
-                console.log("insertIndex:"+insertIndex);
+                let insertIndex = captionBinarySearch(result, caption.startTime);
+                // console.log(caption)
+                // console.log("insertIndex:"+insertIndex);
+                // console.log(result)
                 // Check recent captions that occurred before this time
             
                 let doInsert = true
@@ -286,13 +313,15 @@ const WatchModel = {
 
                 // check the later captions in case we already inserted this
                 
-                for( let i = insertIndex + 1; doInsert && i < result.length && i <= insertIndex + checkNearby ; i += 1 ) {
+                for( let i = insertIndex; doInsert && i < result.length && i < insertIndex + checkNearby ; i += 1 ) {
                     let c = result[i];
                     doInsert = (c.text !== caption.text || Math.abs(caption.startTime - c.startTime) > maxTimeDelta);
                 }
 
                 if( doInsert ) {
-                    result.splice(insertIndex, 0, ...caption)
+                    result.splice(insertIndex, 0, caption)
+                    // console.log("insert " + insertIndex);
+                    // console.log(result)
                 }
             }
 
@@ -308,67 +337,76 @@ const WatchModel = {
                 state.trackerMap.clear()
             }
             if (state.liveMode) {
+                // first and easiest case
+                // done with a HashMap for now but we can refine it a bit later
                 if (state.transcript.length === 0 || state.transcript === ARRAY_EMPTY) {
-                    // return { ...state, transcript: [...state.transcript, payload] };
-                    if (state.updating === false) {
-                        for (let i = payload.length - 1; i > -1; i-= 1) {
-                            if (state.trackerMap.get(payload[i].text) === undefined){
-                                state.trackerMap.set(payload[i].text, 0);
-                            } else {
-                                payload.splice(i, 1)
-                            }
+                    for (let i = payload.length - 1; i > -1; i-= 1) {
+                        if (state.trackerMap.get(payload[i].text) === undefined){
+                            state.trackerMap.set(payload[i].text, 0);
+                        } else {
+                            payload.splice(i, 1)
                         }
-                        // console.log("out")
-                        // console.log(payload)
-                        return { ...state, transcript: payload };
-                    } 
-                        for (let i = payload.length - 1; i > -1; i-= 1) {
-                            if (state.trackerMap.get(payload[i].text) === undefined){
-                                state.trackerMap.set(payload[i].text, 0);
-                            } else {
-                                payload.splice(i, 1)
-                            }
-                        }
-                        let finalA = splitter(payload)
-                        return { ...state, transcript: finalA };
+                    }
+                    // console.log("out")
+                    return { ...state, transcript: payload };
                 }
+                // next case is if start of payload is less then current end but end is greater than current end
+                let startTime = payload[0].startTime;
+                let endStart = payload[payload.length - 1].startTime
+                // if (payload[payload.length - 1].endTime === state.transcript[state.transcript.length - 1].endTime) {
 
-                // console.log(state.updating)
-                if (state.updating === false) {
-                    let lastTime = state.transcript[state.transcript.length - 1].beginTime
-                    let index = 0;
-                    for (let i = 0; i < payload.length; i+= 2) {
-                        if (payload[i].beginTime === lastTime) {
-                            index = i + 1;
-                            break;
-                        }
-                    }
-                    let finalArray = [...state.transcript];
-                    for (let i = index; i < payload.length; i+= 1) {
-                        if (state.trackerMap.get(payload[i].text) === undefined) {
-                            finalArray = [...finalArray, payload[i]]
-                            state.trackerMap.set(payload[i].text, 0)
-                        }
-                    }
-                    return { ...state, transcript: finalArray };
-                } 
-                    let finalA = splitter(payload);
-                    let lastTime = state.transcript[state.transcript.length - 1].endTime
-                    let finalArray = [...state.transcript];
+                // }
+                // if (startTime <= state.transcript[state.transcript.length - 1].startTime && endStart >= state.transcript[state.transcript.length - 1].startTime) {
+                //     // need to find insertion point
+                //     console.log("aqui")
+                //     let left = 0;
+                //     let right = payload.length - 1;
+                //     let mid = payload.length - 1;
+                //     let final = payload.length - 1;
+                //     let comparisonTime = state.transcript[state.transcript.length - 1].startTime
+                //     console.log(payload)
+                //     console.log(state.transcript);
+                //     while (left <= right) {
+                //         final = Math.floor((left + right) / 2);
 
-                    for (let i = 0; i < finalA.length; i+=1 ) {
-                        if (finalA[i].startTime === state.transcript[state.transcript.length - 1].startTime) {
-                            finalArray[i] = finalA[i]
-                        } else if (finalA[i].startTime >= lastTime) {
-                            finalArray = [...finalArray, finalA[i]]
-                        }
-                    }
+                //         if (payload[final].startTime < comparisonTime) {
+                //             left = final + 1;
+                //         } else if(payload[final].startTime > comparisonTime) {
+                //             right = final - 1;
+                //         } else {
+                //             console.log("hereTwo")
+                //             mid = final;
+                //             break;
+                //         }
+                        
+                        
+                //     }
+                    
+                //     let toCopyOver = [...state.transcript];
 
-                    // console.log("in here")
+                //     for (let i = mid + 1; i < payload.length; i += 1) {
+                //         let hasBeenFound = false;
+                //         for (let j = 1; j < 5; j+= 1) {
+                //             if (state.transcript.length - j >= 0) {
+                                
+                //                 if (state.transcript[state.transcript.length - j].text === payload[i].text) {
+                //                     hasBeenFound = true;
+                //                     break;
+                //                 }
+                //             }
+                //         }
 
-                    return { ...state, transcript: finalArray };
+                //         if (!hasBeenFound) {
+                //             toCopyOver.push(payload[i]);
+                //         }
+                //     }
+
+                //     return { ...state, transcript: toCopyOver };
+
+
+                // }
             } 
-                return { ...state, transcript };
+            return { ...state, transcript };
         },
         /**
          * Function called for setting captions array
