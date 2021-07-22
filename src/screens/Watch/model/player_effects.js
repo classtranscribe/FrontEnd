@@ -70,6 +70,7 @@ function exitFullScreen(watch) {
             // console.log(elem.webkitExitFullscreen)
         }
         if (!PlayerData.video1) return;
+        if (document.fullscreenElement == null) return;
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
@@ -189,10 +190,10 @@ export default {
             if (!PlayerData.video1) return;
             if (newState) {
                 enterFullScreen(watch)
-                yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
+                // yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
             } else {
                 exitFullScreen(watch)
-                yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
+                // yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
             }
         }
         yield put({ type: 'setFullscreen', payload: newState });
