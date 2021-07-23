@@ -155,9 +155,12 @@ export default {
         }
 
 
+
+
         if (PlayerData.video1 != null) {
             PlayerData.video1.currentTime = payload;
         }
+        
         // PlayerData.video1 && (PlayerData.video1.currentTime = payload);
         // PlayerData.video2 && (PlayerData.video2.currentTime = payload);
         yield put({ type: 'setTime', payload })
