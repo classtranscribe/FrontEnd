@@ -296,9 +296,18 @@ const WatchModel = {
 
             let result = [...state.transcript]
             // console.log(result)
+            let insertIndex = captionBinarySearch(result, payload[0].startTime);
+
             for (let payloadIndex = 0; payloadIndex < payload.length; payloadIndex +=1) {
                 let caption = payload[payloadIndex];
-                let insertIndex = captionBinarySearch(result, caption.startTime);
+                if (payloadIndex !== 0 && payload[payloadIndex - 1].startTime !== payload[payloadIndex].startTime) {
+                    // TODO: fix the while loop
+                    // while (insertIndex + 1 < result.length && caption.startTime >= result[insertIndex].startTime ) {
+                    //     insertIndex += 1;
+                    // }
+                    insertIndex= captionBinarySearch(result, caption.startTime);
+                }
+                // console.log(insertIndex);
                 // console.log(caption)
                 // console.log("insertIndex:"+insertIndex);
                 // console.log(result)
@@ -318,16 +327,19 @@ const WatchModel = {
                     doInsert = (c.text !== caption.text || Math.abs(caption.startTime - c.startTime) > maxTimeDelta);
                 }
 
-                if( doInsert ) {
+
+
+                // check for length;
+                // check for any weird caption scrubbing baloney
+                if( doInsert && caption.text.length > 0 && Math.abs(caption.startTime - caption.endTime) < 30) {
                     result.splice(insertIndex, 0, caption)
-                    // console.log("insert " + insertIndex);
-                    // console.log(result)
                 }
             }
 
             // Handle 608 Captions
 
             // Todo 708 Captions
+            // console.log(result)
             return { ...state, transcript: result };
         },
         setTranscriptV1(state, { payload }) {
@@ -425,8 +437,7 @@ const WatchModel = {
                         let j = Number(state.time) + Number(state.captionSpeedUp);
                         for (let i = 0; i < state.transcript.length; i+= 1) {
                             if (Number(state.transcript[i].startTime) <= j && Number(state.transcript[i].endTime) >= j) {
-                                let z = state.transcript[i];
-                                return { ...state, currCaption: z};
+                                return { ...state, currCaption: state.transcript[i]};
                             }
                         }
                 }
