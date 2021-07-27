@@ -68,6 +68,11 @@ class App extends React.Component {
       models: () => [require('./screens/Instructor/MyCourses/model').default], // 
       component: () => MyCourses
     })
+    const MyBooksPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Instructor/MyBooks/model').default], // 
+      component: () => MyBooks
+    })
     const InstPlaylistPage = dynamic({
       app: this.props.app,
       models: () => [require('./screens/Instructor/InstPlaylist/model')],
@@ -96,6 +101,12 @@ class App extends React.Component {
             &&
             <Route exact path="/instructor/my-courses" component={MyCoursesPage} />
           }
+          {
+            isAdminOrInstructor
+            &&
+            <Route exact path="/instructor/my-books" component={MyBooksPage} />
+          }
+          // comment
           {
             isAdminOrInstructor
             &&

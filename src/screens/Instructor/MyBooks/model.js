@@ -2,6 +2,7 @@ import { api, user, prompt, InvalidDataError, ARRAY_INIT } from 'utils';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 
+
 async function getMyOfferings() {
     try {
         let { data } = await api.getCourseOfferingsByInstructorId(user.userId);

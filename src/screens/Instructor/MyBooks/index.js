@@ -27,6 +27,7 @@ function sortOfferings(offerings = [], terms = []) {
   return { currentOfferings, pastOfferings };
 }
 
+
 const MyCoursesWithRedux = (props) => {
   const layoutProps = CTLayout.createProps({
     transition: true,
