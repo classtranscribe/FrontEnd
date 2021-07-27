@@ -13,6 +13,7 @@ import {
   Admin,
   // Instructor
   MyCourses,
+  MyBooks,
   NewCourse,
   CourseSettings,
   CourseAnalytics,
