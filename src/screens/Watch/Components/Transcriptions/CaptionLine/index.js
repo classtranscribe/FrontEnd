@@ -10,11 +10,8 @@ import {
 import './index.scss';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
-  shouldHide = false, caption = {}, dispatch }) {
-  let { text, id, startTime, begin, kind = "web", fontSize } = caption;
-  // console.log("fontSize");
-  // console.log(fontSize);
-  if (fontSize == null) fontSize = "normal";
+  shouldHide = false, caption = {}, dispatch, fontSize }) {
+  let { text, id, startTime, begin, kind = "web" } = caption;
   const ref = useRef();
 
   const blurFromInput = () => {

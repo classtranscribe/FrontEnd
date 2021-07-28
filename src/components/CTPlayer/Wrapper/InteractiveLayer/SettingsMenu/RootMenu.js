@@ -76,7 +76,8 @@ RootMenu.propTypes = {
   onOpenCCMenu: PropTypes.func,
   openPlaybackRateMenu: PropTypes.func,
   openLiveCaptionMenu: PropTypes.func,
-  onOpenScreenModeManu: PropTypes.func
+  onOpenScreenModeManu: PropTypes.func,
+  fontSize: PropTypes.string,
 };
 
 export default RootMenu;

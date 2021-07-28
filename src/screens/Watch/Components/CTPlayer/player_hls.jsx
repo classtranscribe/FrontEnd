@@ -198,7 +198,7 @@ const Video = React.memo((props) => {
                     // }
 
                     // eslint-disable-next-line no-console
-                console.log(newHls.captionsTextTrack1Label);
+                // console.log(newHls.captionsTextTrack1Label);
                     // eslint-disable-next-line no-console
                 // console.log("hmmm");
                 const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));

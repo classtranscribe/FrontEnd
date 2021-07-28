@@ -8,7 +8,6 @@ function LiveCaptionMenu(props) {
     onGoBack,
   } = props;
 
-  if (fontSize == null) fontSize = "normal";
   const fontSizes = ["small", "normal", "large"];
   // console.log(fontSize);
 

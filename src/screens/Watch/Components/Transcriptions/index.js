@@ -38,7 +38,7 @@ function TranscriptionsWithRedux(props) {
   const handleMourseOver = (bool) => () => {
     dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
   };
-// check text and time merge into one for key as well
+  // check text and time merge into one for key as well
   const isCurrent = (id) => {
     if (liveMode) {
       return Boolean(currCaption) && currCaption.text === id;

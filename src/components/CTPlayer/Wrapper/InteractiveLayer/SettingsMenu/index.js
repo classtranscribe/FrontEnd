@@ -73,7 +73,10 @@ function SettingsMenu(props) {
       menuProps = {
         fontSize,
         onGoBack: handleOpenMenu('root'),
-        setFontSize: (value) => dispatch({ type: 'watch/fontSize', payload: value })
+        setFontSize: (value) => dispatch({ type: 'watch/setFontSize', payload: value })
+        // setFontSize: () => {
+        //   console.log("setFontSize in menu called once")
+        // }
       }
       menuElement = <LiveCaptionMenu {...menuProps} />;
       break;
