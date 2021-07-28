@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { CTFragment, CTText, useButtonStyles } from 'layout';
 import { links } from 'utils';
 
-export function NoCourseHolder() {
+export function NoBookHolder() {
   const btn = useButtonStyles();
 
   return (

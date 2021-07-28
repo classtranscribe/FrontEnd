@@ -1,2 +1,2 @@
-export { CourseList } from './CourseList';
-export { NoCourseHolder } from './NoCourseHolder';
+export { BookList } from './BookList';
+export { NoBookHolder } from './NoBookHolder';
