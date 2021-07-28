@@ -7,6 +7,7 @@ export { Admin } from './Admin';
 
 export {
   MyCourses,
+  MyBooks,
   NewCourse,
   CourseSettings,
   CourseAnalytics,

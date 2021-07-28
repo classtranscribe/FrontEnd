@@ -134,6 +134,13 @@ export class ClassTranscribeLinks {
     return '/instructor/my-courses';
   }
 
+    /**
+   * to `/instructor/my-books`
+   */
+     myBooks() {
+      return '/instructor/my-books';
+    }
+
   /**
    * to `/instructor/new-course`
    */
