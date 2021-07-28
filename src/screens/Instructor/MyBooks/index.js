@@ -27,20 +27,20 @@ function sortOfferings(offerings = [], terms = []) {
   return { currentOfferings, pastOfferings };
 }
 
-const MyCoursesWithRedux = (props) => {
+const MyBooksWithRedux = (props) => {
   const layoutProps = CTLayout.createProps({
     transition: true,
     responsive: true,
     footer: true,
     headingProps: {
-      heading: 'My Courses',
+      heading: 'My Books',
       icon: 'collections_bookmark',
       sticky: true,
       gradient: true,
       offsetTop: 30,
     },
     metaTagsProps: {
-      title: 'My Courses',
+      title: 'My Books',
     },
   });
   const { instcourse } = props;
@@ -95,4 +95,4 @@ const MyCoursesWithRedux = (props) => {
 };
 export const MyBooks = connect(({ instcourse, loading }) => ({
   instcourse,
-}))(MyCoursesWithRedux);
+}))(MyBooksWithRedux);
