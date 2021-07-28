@@ -31,7 +31,8 @@ function TranscriptionsWithRedux(props) {
     updating,
     currCaptionIndex,
     currentTime,
-    liveMode
+    liveMode,
+    fontSize
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
@@ -80,6 +81,7 @@ function TranscriptionsWithRedux(props) {
               return <CaptionLine
                 key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
                 caption={caption}
+                fontSize={fontSize}
                 currCaption={currCaption}
                 isCurrent={liveMode ? isCurrent(caption.text) : isCurrent(caption.id)}
                 dispatch={dispatch}
@@ -106,7 +108,7 @@ function TranscriptionsWithRedux(props) {
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode}, loading }) => ({
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode, fontSize}, loading }) => ({
     transView,
-    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode
+    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode, fontSize
   }))(TranscriptionsWithRedux);

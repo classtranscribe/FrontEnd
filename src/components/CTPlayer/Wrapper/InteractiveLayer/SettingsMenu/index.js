@@ -16,6 +16,7 @@ import CCFontColorsMenu from './CCFontColorsMenu';
 import CCOpacityMenu from './CCOpacityMenu';
 import CCBackgroundColorsMenu from './CCBackgroundColorsMenu';
 import ScreenModesMenu from './ScreenModesMenu';
+import LiveCaptionMenu from './LiveCaptionMenu';
 import './index.scss';
 
 function SettingsMenu(props) {
@@ -27,7 +28,8 @@ function SettingsMenu(props) {
     media,
     openCC,
     currTrans,
-    dispatch
+    dispatch,
+    fontSize,
   } = props;
   const open = menu && menu === 'menu-setting';
   const [menuType, setMenuType] = useState('root');
@@ -47,9 +49,11 @@ function SettingsMenu(props) {
       menuProps = {
         playbackRate,
         openCC,
+        live: media.isLive,
         language: currTrans.language,
         onOpenCCMenu: handleOpenMenu('cc'),
         openPlaybackRateMenu: handleOpenMenu('pbr'),
+        openLiveCaptionMenu: handleOpenMenu('liveCaption'),
         onOpenScreenModeManu: handleOpenMenu('screen-mode')
       }
       menuElement = <RootMenu {...menuProps} />;
@@ -63,6 +67,15 @@ function SettingsMenu(props) {
         setPlaybackRate: (value) => dispatch({ type: 'watch/media_playbackrate', payload: value })
       }
       menuElement = <PlaybackRateMenu {...menuProps} />;
+      break;
+
+    case 'liveCaption':
+      menuProps = {
+        fontSize,
+        onGoBack: handleOpenMenu('root'),
+        setFontSize: (value) => dispatch({ type: 'watch/fontSize', payload: value })
+      }
+      menuElement = <LiveCaptionMenu {...menuProps} />;
       break;
 
     case 'cc':
@@ -117,8 +130,8 @@ function SettingsMenu(props) {
 }
 
 
-export default connect(({ watch: { menu, media, currTrans },
+export default connect(({ watch: { menu, media, currTrans, fontSize },
   playerpref: { playbackrate, openCC } }) => ({
-    menu, media, currTrans, playbackrate, openCC
+    menu, media, currTrans, fontSize, playbackrate, openCC
   }))(SettingsMenu);
 

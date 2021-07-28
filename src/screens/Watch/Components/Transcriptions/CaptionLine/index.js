@@ -11,9 +11,11 @@ import './index.scss';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
   shouldHide = false, caption = {}, dispatch }) {
-  const { text, id, startTime, begin, kind = "web"} = caption;
+  let { text, id, startTime, begin, kind = "web", fontSize } = caption;
+  // console.log("fontSize");
+  // console.log(fontSize);
+  if (fontSize == null) fontSize = "normal";
   const ref = useRef();
-  // console.log(id)
 
   const blurFromInput = () => {
     if (ref && ref.current && typeof ref.current.blur === 'function') {
@@ -106,7 +108,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
             ref={ref}
             contentEditable={!isMobile}
             id={`caption-line-textarea-${id}`}
-            className="caption-line-text"
+            className={`caption-line-text-${fontSize}`}
             dangerouslySetInnerHTML={{ __html: text }}
             onFocus={handleFocus}
             onBlur={handleBlur}

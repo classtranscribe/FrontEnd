@@ -4,7 +4,8 @@ import { CTPlayerConstants as Constants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function RootMenu(props) {
-  const {
+  let {
+    live,
     isTwoScreen,
     screenMode,
     openCC,
@@ -12,7 +13,9 @@ function RootMenu(props) {
     playbackRate,
     onOpenCCMenu,
     openPlaybackRateMenu,
-    onOpenScreenModeManu
+    openLiveCaptionMenu,
+    onOpenScreenModeManu,
+    fontSize,
   } = props;
 
   let currentLang;
@@ -21,6 +24,8 @@ function RootMenu(props) {
   } else {
     currentLang = 'OFF';
   }
+
+  if (fontSize == null) fontSize = "normal";
   // const cl = !openCC ? 'OFF' : (language.text || 'OFF');
 
   return (
@@ -32,6 +37,18 @@ function RootMenu(props) {
         current={`${playbackRate }x`}
         onClick={openPlaybackRateMenu}
       />
+
+      {
+        live
+        &&
+        <MenuItem
+          active
+          isSubMenu
+          text="Live Caption Font Size"
+          current={`${fontSize}`}
+          onClick={openLiveCaptionMenu}
+        />
+      }
 
       {
         isTwoScreen
@@ -58,6 +75,7 @@ RootMenu.propTypes = {
   playbackRate: PropTypes.number,
   onOpenCCMenu: PropTypes.func,
   openPlaybackRateMenu: PropTypes.func,
+  openLiveCaptionMenu: PropTypes.func,
   onOpenScreenModeManu: PropTypes.func
 };
 
