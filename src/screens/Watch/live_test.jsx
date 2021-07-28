@@ -2,13 +2,13 @@ import React from 'react';
 // import { useEffect } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
-import {connect} from 'dva'
+import { connect } from 'dva'
 import { Transcriptions } from './Components';
 
 function LiveTestWithRedux(props) {
     // const {}
 
-    const { dispatch, isFullscreen} = props
+    const { dispatch, isFullscreen } = props
     const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
 
     // console.log(updating)
@@ -16,7 +16,7 @@ function LiveTestWithRedux(props) {
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
 
     // console.log("got here")
-    // console.log(isFullscreen);
+    // console.log(menu);
     if (!videosrc) {
         return <>Need videosrc, iframesrc params</>
     }

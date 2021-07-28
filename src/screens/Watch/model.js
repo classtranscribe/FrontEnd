@@ -84,6 +84,7 @@ const initState = {
     captionSpeedUp: 0,
     offSet: 0,
     sliderOffSet: 0,
+    fontSize: 'normal',
 
     // screen options
     mode: NORMAL_MODE,
@@ -267,6 +268,12 @@ const WatchModel = {
             // console.log("in here")
             return { ...state, updating: payload };
         },
+
+        // Test live caption font size change
+        setFontSize(state, { payload }) {
+            return { ...state, fontSize: payload };
+        },
+
         // add comments
         // change tracker map with snake type thing
 

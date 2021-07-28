@@ -143,5 +143,15 @@ export default {
         } catch (error) {
             promptControl.savedCaption(false);
         }
-    }
+    },
+    *setFontSize({ payload: fontSize }, { put, select }) {
+        const { watch } = yield select();
+        if (fontSize == null) {
+            yield put({ type: 'setFontSize', payload: "normal" });
+        } else if (fontSize === watch.fontSize) {
+            // very good it has changed so stop calling yourself
+        } else {
+            yield put({ type: 'setFontSize', payload: fontSize });
+        }
+    },
 }

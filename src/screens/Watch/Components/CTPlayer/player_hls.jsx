@@ -20,7 +20,6 @@ import {
 let hls;
 
 const Video = React.memo((props) => {
-
     const { 
         id = 1, 
         path, 
@@ -48,7 +47,7 @@ const Video = React.memo((props) => {
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         var duration = e.target.duration;
-        console.log(e.target)
+        // console.log(e.target)
         if (e.target.duration != 0 && e.target.currentTime != 0 && offSet == 0) {
             offSet = (e.target.duration - e.target.currentTime);
             dispatch({type: "watch/setOffSet", payload: offSet})
@@ -192,19 +191,19 @@ const Video = React.memo((props) => {
 
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
                 // eslint-disable-next-line no-console
-                console.log(event);
+                // console.log(event);
                 // if(true) {
                     // if(!openCC) {
                     //     newHls.subtitleTrack = -1;
                     // }
 
                     // eslint-disable-next-line no-console
-                console.log(newHls.captionsTextTrack1Label);
+                // console.log(newHls.captionsTextTrack1Label);
                     // eslint-disable-next-line no-console
-                console.log("hmmm");
+                // console.log("hmmm");
                 const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
                     // eslint-disable-next-line no-console
-                console.log(transcriptions);
+                // console.log(transcriptions);
                     // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
                     // dispatch({type: 'watch/setCaptions', payload: [{}]})
                 // }
@@ -212,16 +211,9 @@ const Video = React.memo((props) => {
 
             newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
                 // eslint-disable-next-line no-console
-                console.log(event)
+                // console.log(event)
             });
 
-            
-
-
-
-          
-
-           
             /*
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) =>{
                 console.log(_, event)
@@ -231,7 +223,7 @@ const Video = React.memo((props) => {
             })
             */
             newHls.on(Hls.Events.CUES_PARSED, (_, event) =>{
-                console.log(_, event)
+                // console.log(_, event)
             })
             
             
@@ -285,20 +277,20 @@ const Video = React.memo((props) => {
 
     var textTrack = undefined;
 
-    console.log(_videoRef)
+    // console.log(_videoRef)
     let idR = 0;
     let yolo = 0;
     useEffect(() => {
-        console.log("plz")
-        console.log(_videoRef)
+        // console.log("plz")
+        // console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
         textTrack.onremovetrack = (e) => {console.log(e)};
         textTrack.onaddtrack = () => {
             if (textTrack === null || textTrack.length === 0) {
                 return;
             }
-            console.log('ch has loaded');
-            console.log(textTrack)
+            // console.log('ch has loaded');
+            // console.log(textTrack)
 
             // const englishTrack = textTrack
             let englishTrack;
