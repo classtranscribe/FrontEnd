@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva'
-import './index.css';
+import './index.scss';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -56,4 +56,4 @@ export const ClosedCaption = connect(({ watch: { currCaption, embedded },
     cc_opacity, cc_font, cc_position }, loading }) => ({
       embedded,
       currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
-    }))(ClosedCaptionWithRedux); 
+    }))(ClosedCaptionWithRedux);

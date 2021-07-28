@@ -7,7 +7,7 @@ import {
 } from '../../Utils';
 import EmbedModal from './EmbedModal'
 import ShareModal from './ShareModal';
-import './index.css';
+import './index.scss';
 
 function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   const handleClose = () => {

@@ -9,7 +9,10 @@ import {
   LINE_VIEW,
   ARRAY_EMPTY,
 } from '../../Utils';
-import './index.css';
+
+// modification for BOT live stream
+import './index_liveplayer.scss';
+// import './index.scss';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
@@ -24,29 +27,39 @@ function TranscriptionsWithRedux(props) {
     transView = LINE_VIEW,
     currEditing = null,
     search = SEARCH_INIT,
-    dispatch
+    dispatch,
+    updating,
+    currCaptionIndex,
+    currentTime,
+    liveMode
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
     dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
   };
-
+// check text and time merge into one for key as well
   const isCurrent = (id) => {
-    return Boolean(currCaption) && currCaption.id === id;
+    if (liveMode) {
+      return Boolean(currCaption) && (String(currCaption.text) + String(currCaption.startTime)) === id;
+    }
+      return Boolean(currCaption) && currCaption.id === id;
+
+
     // || (Boolean(currDescription) && currDescription.id === id)
   };
 
   const displayTrans = search.status === SEARCH_HIDE || true;
   useEffect(() => {
-    if (currCaption != null) {
-      let z = document.getElementById(`caption-line-${currCaption.id}`)
-      // console.log(z)
-
-      if (z != null) {
-        z.scrollIntoView({block: "center"})
+    if (currCaption != null && liveMode) {
+      if (true) {
+        let z = document.getElementById(`caption-line-${currCaption.startTime}`)
+        // console.log(z)
+        if (z != null) {
+          z.scrollIntoView({block: "center"})
+        }
       }
     }
-  }, [currCaption])
+  }, [currCaption, currCaptionIndex, currentTime])
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
@@ -65,10 +78,10 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-list" style={{zIndex: 10}}>
             {transcript.map((caption, index) => {
               return <CaptionLine
-                key={caption.id}
+                key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
                 caption={caption}
                 currCaption={currCaption}
-                isCurrent={isCurrent(caption.id)}
+                isCurrent={liveMode ? isCurrent(caption.text + String(caption.startTime)) : isCurrent(caption.id)}
                 dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
@@ -93,7 +106,7 @@ function TranscriptionsWithRedux(props) {
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, }, loading }) => ({
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode}, loading }) => ({
     transView,
-    transcript, currCaption, currEditing, bulkEditing, mode, search,
+    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode
   }))(TranscriptionsWithRedux);

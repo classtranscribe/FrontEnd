@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva'
 import { api, links, uurl } from 'utils';
-import { logoOutlineSvg } from 'assets/images';
+import { logoOutlineSvg, UISlogo } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';
 import Screenshot from './Screenshot';
+import LiveTranscriptDownload from './LiveTranscriptDownload';
 // import ShortcutButton from './ShortcutButton';
 import './index.scss';
 
@@ -20,6 +21,7 @@ function ActionBar(props) {
   } = props;
   const { allowScreenshot: isScreenshotAllowed } = embedded;
   const { mediaName, id } = media || {};
+  const isLiveLogo = media.isLive;
 
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
@@ -36,11 +38,23 @@ function ActionBar(props) {
     <div className="ctp action-bar">
       <div className="left">
         <div className="media-name">
-          <img
-            alt="ClassTranscribe Logo"
-            src={logoOutlineSvg}
-            className="ctp ct-logo"
-          />
+          {
+            isLiveLogo ? (
+              <img
+                alt="UISLogo"
+                src={UISlogo}
+                className="ctp ct-logo"
+              />
+            ) : (
+              <img
+                alt="ClassTranscribe Logo"
+                src={logoOutlineSvg}
+                className="ctp ct-logo"
+              />
+            )
+
+          }
+
 
           <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">
             <a href={links.watch(id)} onClick={watchOnClassTranscribe}>
@@ -60,6 +74,7 @@ function ActionBar(props) {
             <Screenshot actionElement={screenshotActionElement} media={media} />
           }
           {!error && <Share media={media} time={time} />}
+          <LiveTranscriptDownload media={media} />
           {/* <ShortcutButton /> */}
         </div>
       }

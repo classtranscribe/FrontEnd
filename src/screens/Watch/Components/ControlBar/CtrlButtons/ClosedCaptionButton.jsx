@@ -1,15 +1,52 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { connect } from 'dva'
 
-export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch }) {
+export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch, liveMode, englishTrack}) {
   const handleCCTrigger = () => {
-    dispatch({ type: 'playerpref/toggleOpenCC' })
+    if (!liveMode) {
+      dispatch({ type: 'playerpref/toggleOpenCC' })
+    }else {
+      dispatch({ type: 'playerpref/toggleOpenCC' })
+
+      if (isOpen && englishTrack != undefined) {
+        englishTrack.mode = 'hidden';
+      } else {
+        englishTrack.mode = "showing";
+      }
+    }
+
   };
 
-  let disabled = captions.length <= 0;
+  useEffect(() => {
+    if (englishTrack != undefined) {
+      if (isOpen) {
+        englishTrack.mode = 'showing';
+      } else {
+        englishTrack.mode = "hidden";
+      }
+    }
+  }, [englishTrack])
 
-  let isOpen = openCC && !disabled;
+  useEffect(() => {
+    if (englishTrack != undefined) {
+      if (isOpen) {
+        englishTrack.mode = 'showing';
+      } else {
+        englishTrack.mode = "hidden";
+      }
+    }
+
+  }, [])
+
+  let disabled = captions.length <= 0;
+  if (liveMode) {
+    disabled = false;
+  }
+
+  let isOpen = openCC && !disabled ;
+
 
   return (
     <WatchCtrlButton
@@ -32,6 +69,6 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
   );
 }
 
-export const ClosedCaptionButton = connect(({ watch : { captions}, playerpref: { openCC }, loading }) => ({
-  openCC, captions
+export const ClosedCaptionButton = connect(({ watch : { captions, liveMode, englishTrack}, playerpref: { openCC }, loading }) => ({
+  openCC, captions, liveMode, englishTrack
 }))(ClosedCaptionButtonWithRedux)

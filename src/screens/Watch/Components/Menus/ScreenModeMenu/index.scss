@@ -1,0 +1,23 @@
+.watch-screenmode-menu {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 4em 2vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  animation: var(--ct-animation-popup);
+  -o-animation: var(--ct-animation-popup);
+  -moz-animation: var(--ct-animation-popup);
+  -webkit-animation: var(--ct-animation-popup);
+}
+.watch-icon-list[data-2screen=false] {
+  .watch-icon-listitem[mode=ps-mode] {
+    display: none !important;
+  }
+  .watch-icon-listitem[mode=nested-mode] {
+    display: none !important;
+  }
+}

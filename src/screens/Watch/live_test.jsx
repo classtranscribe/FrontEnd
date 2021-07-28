@@ -2,11 +2,21 @@ import React from 'react';
 // import { useEffect } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
+import {connect} from 'dva'
 import { Transcriptions } from './Components';
 
-function LiveTest(props) {
+function LiveTestWithRedux(props) {
     // const {}
-    const { videosrc, iframesrc = null } = uurl.useSearch();
+
+    const { dispatch, isFullscreen} = props
+    const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
+
+    // console.log(updating)
+    dispatch({ type: 'watch/setUpdating', payload: updating});
+    dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
+
+    // console.log("got here")
+    // console.log(isFullscreen);
     if (!videosrc) {
         return <>Need videosrc, iframesrc params</>
     }
@@ -20,10 +30,12 @@ function LiveTest(props) {
         mediaName: 'Live Meeting Cast', /* TODO: Pull out titles from somewhere, hls doesn't have titles */
     };
     // https://hls-js.netlify.app/demo/
+
     return (
-      <>
-        <Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />
-        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', zIndex: 1, position: "absolute"}}>
+      <div>
+        {isFullscreen ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
+        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}} {...props}>
+
           <CTPlayer
             fill
             defaultOpenCC
@@ -36,8 +48,10 @@ function LiveTest(props) {
         </div>
         {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
 
-      </>
+      </div>
     );
 }
 
-export default LiveTest;
+export const LiveHLSPlayer = connect(({ loading, watch: { menu, error, isFullscreen } }) => ({
+  menu, error, isFullscreen
+}))(LiveTestWithRedux);

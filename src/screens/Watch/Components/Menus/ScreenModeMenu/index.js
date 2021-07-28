@@ -1,6 +1,6 @@
 import React from 'react';
 import { connectWithRedux, screenModes, NORMAL_MODE } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function ScreenModeMenu({ mode = NORMAL_MODE, onClose = null, media = {}, dispatch }) {
   const handleChooseMode = (mode_) => () => {

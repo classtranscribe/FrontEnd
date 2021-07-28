@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { keydownControl, MENU_SHORTCUTS } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 export function TabEventHelperButtons(props) {
   const { dispatch } = props;

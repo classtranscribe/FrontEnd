@@ -70,6 +70,7 @@ function exitFullScreen(watch) {
             // console.log(elem.webkitExitFullscreen)
         }
         if (!PlayerData.video1) return;
+        if (document.fullscreenElement == null) return;
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
@@ -150,10 +151,19 @@ export default {
         const { watch } = yield select();
         if (watch.liveMode && !realTime) {
             yield put({ type: 'setLiveMode', payload: payload > -5 ? 1 : 2 })
-            payload = Math.min(watch.duration + payload, watch.duration - LIVE_BUFFER_TIME); // we accept negative timestamp in live mode
+            // payload = Math.min(watch.duration + payload, watch.duration - LIVE_BUFFER_TIME); // we accept negative timestamp in live mode
+            payload = (watch.duration) + payload;
         }
-        PlayerData.video1 && (PlayerData.video1.currentTime = payload);
-        PlayerData.video2 && (PlayerData.video2.currentTime = payload);
+
+
+
+
+        if (PlayerData.video1 != null) {
+            PlayerData.video1.currentTime = payload;
+        }
+        
+        // PlayerData.video1 && (PlayerData.video1.currentTime = payload);
+        // PlayerData.video2 && (PlayerData.video2.currentTime = payload);
         yield put({ type: 'setTime', payload })
         yield put({ type: 'sendMediaHistories' });
     },
@@ -183,10 +193,10 @@ export default {
             if (!PlayerData.video1) return;
             if (newState) {
                 enterFullScreen(watch)
-                yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
+                // yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
             } else {
                 exitFullScreen(watch)
-                yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
+                // yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
             }
         }
         yield put({ type: 'setFullscreen', payload: newState });

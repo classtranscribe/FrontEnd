@@ -1,0 +1,26 @@
+.watch-ad-container {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.watch-ad-text {
+  position: relative;
+  width: max-content;
+  font-weight: bold;
+  text-align: center;
+  line-height: normal;
+  white-space: normal;
+  padding: .8em 1.2em;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  i {
+    margin-right: .5em;
+  }
+}
