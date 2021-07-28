@@ -284,6 +284,7 @@ const Video = React.memo((props) => {
         // console.log("plz")
         // console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
+        textTrack.onremovetrack = (e) => {console.log(e)};
         textTrack.onaddtrack = () => {
             if (textTrack === null || textTrack.length === 0) {
                 return;
@@ -299,28 +300,37 @@ const Video = React.memo((props) => {
             } else {
                 englishTrack = textTrack[0];
             }
+            
              dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
+            
 
             englishTrack.addEventListener("cuechange", (event) => {
                 
                 // console.log(event);
                 const toLog = [];
                 for (let z = 0; z < event.currentTarget.cues.length; z++) {
-                    toLog.push(event.currentTarget.cues[z])
+                    let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
+                    toCopy.startTime = event.currentTarget.cues[z].startTime;
+                    toCopy.endTime = event.currentTarget.cues[z].endTime;
+                    toCopy.text = event.currentTarget.cues[z].text;
+                    toLog.push(Object.freeze(toCopy))
                 }
 
                 // console.log(toLog)
-                const l = event.currentTarget.activeCues[0];
+             
                 // const prev = undefined;
-                if (l !== undefined) {
+                if (event.currentTarget.activeCues[0] !== undefined) {
                     idR += 1
+                    let curr = event.currentTarget.activeCues[0];
+                    if (Math.abs(curr.startTime - curr.endTime) > 20) {
+                        curr = event.currentTarget.activeCues[1];
+                    }
 
-                    const f = {
-                        id: event.currentTarget.activeCues[0].id, 
-                        startTime: event.currentTarget.activeCues[0].startTime,
-                        endTime: event.currentTarget.activeCues[0].endTime, 
-                        text: event.currentTarget.activeCues[0].text
-                    };
+                    let toCopy = JSON.parse(JSON.stringify(curr));
+                    toCopy.startTime = curr.startTime;
+                    toCopy.endTime = curr.endTime;
+                    toCopy.text = curr.text;
+
 
                     if (yolo <= 2) {
                         // transcript.push(f)
@@ -328,7 +338,7 @@ const Video = React.memo((props) => {
                         dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
                         
-                        dispatch({ type: 'watch/setCurrCaption', payload:  f})
+                        dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
                         
                         // splitter(toLog)
                         yolo = 0

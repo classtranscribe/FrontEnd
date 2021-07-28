@@ -41,7 +41,7 @@ function TranscriptionsWithRedux(props) {
   // check text and time merge into one for key as well
   const isCurrent = (id) => {
     if (liveMode) {
-      return Boolean(currCaption) && currCaption.text === id;
+      return Boolean(currCaption) && (String(currCaption.text) + String(currCaption.startTime)) === id;
     }
       return Boolean(currCaption) && currCaption.id === id;
 
@@ -83,7 +83,7 @@ function TranscriptionsWithRedux(props) {
                 caption={caption}
                 fontSize={fontSize}
                 currCaption={currCaption}
-                isCurrent={liveMode ? isCurrent(caption.text) : isCurrent(caption.id)}
+                isCurrent={liveMode ? isCurrent(caption.text + String(caption.startTime)) : isCurrent(caption.id)}
                 dispatch={dispatch}
                 isEditing={Boolean(currEditing) && currEditing.id === caption.id}
               />
