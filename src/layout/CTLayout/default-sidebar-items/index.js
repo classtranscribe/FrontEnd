@@ -124,6 +124,16 @@ export class DefaultSidebarItems {
     });
   }
 
+  get myBooks() {
+    return this.create({
+      value: 'ct-nsb-inst',
+      text: 'My books',
+      icon: 'collections_bookmark',
+      href: links.instructor(),
+      active: uurl.isEqual(links.myBooks()),
+    });
+  }
+
   get componentAPIs() {
     return getComponentAPINavItem();
   }
