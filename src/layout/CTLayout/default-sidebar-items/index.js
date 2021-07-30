@@ -131,6 +131,7 @@ export class DefaultSidebarItems {
       icon: 'collections_bookmark',
       href: links.instructor(),
       active: uurl.isEqual(links.myBooks()),
+      items: []
     });
   }
 

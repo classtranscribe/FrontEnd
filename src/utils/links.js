@@ -134,7 +134,7 @@ export class ClassTranscribeLinks {
     return '/instructor/my-courses';
   }
 
-    /**
+  /**
    * to `/instructor/my-books`
    */
      myBooks() {
