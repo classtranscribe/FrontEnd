@@ -126,12 +126,12 @@ export class DefaultSidebarItems {
 
   get myBooks() {
     return this.create({
-      value: 'ct-nsb-inst',
-      text: 'My books',
+      value: 'ct-nsb-mybook',
+      text: 'My Books',
       icon: 'collections_bookmark',
-      href: links.instructor(),
+      href: links.myBooks(),
       active: uurl.isEqual(links.myBooks()),
-      items: []
+      items: [],
     });
   }
 
