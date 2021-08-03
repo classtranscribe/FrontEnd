@@ -128,7 +128,7 @@ export class DefaultSidebarItems {
     return this.create({
       value: 'ct-nsb-mybook',
       text: 'My Books',
-      icon: 'collections_bookmark',
+      icon: 'auto_stories',
       href: links.myBooks(),
       active: uurl.isEqual(links.myBooks()),
       items: [],

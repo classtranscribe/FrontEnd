@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { ARRAY_INIT, api } from 'utils';
 import { connect } from 'dva';
 import { BookList, NoBookHolder } from './components';
+import { links } from 'utils';
 
 function sortOfferings(offerings = [], terms = []) {
   let currentOfferings = [];
@@ -34,7 +35,7 @@ const MyBooksWithRedux = (props) => {
     footer: true,
     headingProps: {
       heading: 'My Books',
-      icon: 'collections_bookmark',
+      icon: 'auto_stories',
       sticky: true,
       gradient: true,
       offsetTop: 30,
