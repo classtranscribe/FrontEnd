@@ -1,19 +1,26 @@
-import React from 'react';
-// import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
 import { connect } from 'dva'
 import { Transcriptions } from './Components';
+import {
+  keydownControl,
+  // ERR_INVALID_MEDIA_ID,
+} from './Utils';
 
 function LiveTestWithRedux(props) {
     // const {}
 
-    const { dispatch, isFullscreen } = props
+    const { dispatch, isFullscreen, openCC } = props
     const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
 
     // console.log(updating)
     dispatch({ type: 'watch/setUpdating', payload: updating});
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
+
+    useEffect(() => {
+      keydownControl.addKeyDownListener(dispatch);
+    }, [])
 
     // console.log("got here")
     // console.log(menu);
@@ -30,6 +37,7 @@ function LiveTestWithRedux(props) {
         mediaName: 'Live Meeting Cast', /* TODO: Pull out titles from somewhere, hls doesn't have titles */
     };
     // https://hls-js.netlify.app/demo/
+
 
     return (
       <div>
