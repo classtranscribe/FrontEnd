@@ -1,7 +1,12 @@
-import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
-import Hls, { Config } from 'hls.js';
+import React, { 
+    // memo, 
+    // useState,
+    // fetch, 
+    useEffect, useCallback } from 'react';
+import Hls from 'hls.js';
+// import { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
-import axios from 'axios';
+// import axios from 'axios';
 // import PlayerWrapper from './PlayerWrapper';
 // import { uEvent } from '../../Utils/UserEventController';
 import {
@@ -46,17 +51,17 @@ const Video = React.memo((props) => {
     let offSet = 0
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
-        var duration = e.target.duration;
+        let duration = e.target.duration;
         // console.log(e.target)
-        if (e.target.duration != 0 && e.target.currentTime != 0 && offSet == 0) {
+        if (e.target.duration !== 0 && e.target.currentTime !== 0 && offSet === 0) {
             offSet = (e.target.duration - e.target.currentTime);
             dispatch({type: "watch/setOffSet", payload: offSet})
         }
-        if (originalTime == -1 && duration != 0) {
+        if (originalTime === -1 && duration !== 0) {
             originalTime = duration;
         }
 
-        let realTime = duration - originalTime;
+        // let realTime = duration - originalTime;
         // if (realTime >= 30) {
         //     realTime = 30
         // }
@@ -68,7 +73,7 @@ const Video = React.memo((props) => {
        // console.log("this is duration");
         dispatch({ type: 'watch/setDuration', payload: (duration - offSet)});
 
-        //dispatch({ type: 'watch/setDuration', payload: duration });
+        // dispatch({ type: 'watch/setDuration', payload: duration });
         /*
         if (this.state.openRange && !this.state.range) {
             // this.setRange([0, duration]); // TODO
@@ -89,12 +94,7 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/setTime', payload: currentTime });
             prevTime = currentTime;
         }
-        //integer value
-
-
-
-
-
+        // integer value
 
         if (Math.abs(prevUATime - currentTime) >= 1) {
             // uEvent.timeupdate(this.currTime());
@@ -182,14 +182,14 @@ const Video = React.memo((props) => {
                     dispatch({ type: 'watch/setLiveMode', payload:  liveMode })
                 });
             });
-            newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
-                const x = event.timeRanges?.video
+            // newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
+                // const x = event.timeRanges?.video
                 // console.log(x.length > 0 ? x.end(0) : "XX")
                 // , event.timeRanges.video?.end()
-            })
+            // })
             // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
 
-            newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
+            // newHls.on(Hls.Events.MANIFEST_LOADED, (_, _event) => {
                 // eslint-disable-next-line no-console
                 // console.log(event);
                 // if(true) {
@@ -201,18 +201,18 @@ const Video = React.memo((props) => {
                 // console.log(newHls.captionsTextTrack1Label);
                     // eslint-disable-next-line no-console
                 // console.log("hmmm");
-                const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
+                // const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
                     // eslint-disable-next-line no-console
                 // console.log(transcriptions);
                     // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
                     // dispatch({type: 'watch/setCaptions', payload: [{}]})
                 // }
-            });
+            // });
 
-            newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
-                // eslint-disable-next-line no-console
-                // console.log(event)
-            });
+            // newHls.on(Hls.Events.CUES_PARSED, (_, __) => {
+            //     // eslint-disable-next-line no-console
+            //     // console.log(event)
+            // });
 
             /*
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) =>{
@@ -222,9 +222,9 @@ const Video = React.memo((props) => {
                 console.log(_, event)
             })
             */
-            newHls.on(Hls.Events.CUES_PARSED, (_, event) =>{
-                // console.log(_, event)
-            })
+            // newHls.on(Hls.Events.CUES_PARSED, (_, __) =>{
+            //     // console.log(_, event)
+            // })
             
             
             // Hls.Events.MANIFEST_PARSED
@@ -242,7 +242,7 @@ const Video = React.memo((props) => {
             - fired when a subtitle fragment has been processed
             data: { success : boolean, frag : [the processed fragment object], error?: [error parsing subtitles if any] }
             */
-            newHls.on(Hls.Events.ERROR, function (event, data) {
+            newHls.on(Hls.Events.ERROR, (_event, data) => {
                 if (data.fatal) {
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
@@ -275,7 +275,7 @@ const Video = React.memo((props) => {
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
 
-    var textTrack = undefined;
+    let textTrack;
 
     // console.log(_videoRef)
     let idR = 0;
@@ -301,14 +301,12 @@ const Video = React.memo((props) => {
                 englishTrack = textTrack[0];
             }
             
-             dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
-            
+            dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
 
             englishTrack.addEventListener("cuechange", (event) => {
-                
                 // console.log(event);
                 const toLog = [];
-                for (let z = 0; z < event.currentTarget.cues.length; z++) {
+                for (let z = 0; z < event.currentTarget.cues.length; z += 1) {
                     let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
                     toCopy.startTime = event.currentTarget.cues[z].startTime;
                     toCopy.endTime = event.currentTarget.cues[z].endTime;
