@@ -386,8 +386,6 @@ const Video = React.memo((props) => {
           onPause={onPause}
           onLoadStart={onLoadStartPri}
           onLoadedData={onLoadedDataPri}
-          onWaiting={onWaitingPri}
-          onPlaying={onPlayingPri}
           onEnded={onEndedPri}
           onSeeking={onSeekingPri}
           onSeeked={onSeekedPri}
