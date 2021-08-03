@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ErrorTypes from 'entities/ErrorTypes';
-import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
+import { CTLayout, CTFragment, CTFilter, CTErrorWrapper, CTHeading, makeEl } from 'layout';
 import _ from 'lodash';
 import { ARRAY_INIT, api } from 'utils';
 import { connect } from 'dva';
 import { BookList, NoBookHolder } from './components';
-import { links } from 'utils';
+// import { CTHeading, makeEl} from 'layout';
+import { Link } from 'dva/router';
 
 function sortOfferings(offerings = [], terms = []) {
   let currentOfferings = [];
@@ -81,9 +82,22 @@ const MyBooksWithRedux = (props) => {
     error,
     errorElement: <CTErrorWrapper {...errorProps} />,
   };
+  
+  const tempEpubLink =
+    'http://localhost:3000/media-settings/7eb1dd8b-f046-491a-a663-91a57608b03a/epub';
+
+  const mybookElement = makeEl(CTHeading, {
+    as: tempEpubLink ? Link : 'h3',
+    // icon,
+    to: tempEpubLink,
+    highlightIcon: true,
+    className: 'ct-homep section-title',
+    children: 'UI HEALTH_GALA_PARTNERSHIP 2021',
+  });
 
   return (
     <CTLayout {...layoutProps}>
+      <CTFragment className="ct-mybook">{mybookElement}</CTFragment>
       <CTFragment {...fragmentProps}>
         {error ? null : noOffering ? (
           <NoBookHolder />
