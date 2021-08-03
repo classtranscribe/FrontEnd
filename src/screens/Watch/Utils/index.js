@@ -1,6 +1,8 @@
 import { connect } from 'dva'
 import _ from 'lodash'
-import { timeStrToSec, colorMap } from './helpers';
+import { 
+  // timeStrToSec, 
+  colorMap } from './helpers';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -8,16 +10,16 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
-  WEBVTT_SUBTITLES,
-  WEBVTT_DESCRIPTIONS,
-  ENGLISH,
-  ARRAY_EMPTY,
+  // WEBVTT_SUBTITLES,
+  // WEBVTT_DESCRIPTIONS,
+  // ENGLISH,
+  // ARRAY_EMPTY,
   // PROFANITY_LIST,
-  TRANSCRIPT_VIEW,
-  LINE_VIEW,
-  HIDE_TRANS,
-  CO_CHANGE_VIDEO,
-  BULK_EDIT_MODE,
+  // TRANSCRIPT_VIEW,
+  // LINE_VIEW,
+  // HIDE_TRANS,
+  // CO_CHANGE_VIDEO,
+  // BULK_EDIT_MODE,
 } from './constants.util';
 
 export * from './constants.util';

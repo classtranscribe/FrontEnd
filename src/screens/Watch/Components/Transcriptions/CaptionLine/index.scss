@@ -85,9 +85,9 @@
     }
   }
 }
-.caption-line-text {
+@mixin caption-line-text($font-size-default: 1.2em) {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: $font-size-default;
   line-height: 18px;
   min-height: 36px;
   color: rgba(173, 173, 173, 0.747);
@@ -127,6 +127,19 @@
     color: var(--ct-text-highlight);
   }
 }
+
+.caption-line-text-normal {
+  @include caption-line-text;
+}
+
+.caption-line-text-large {
+  @include caption-line-text($font-size-default: 1.6em);
+}
+
+.caption-line-text-small {
+  @include caption-line-text($font-size-default: 0.8em);
+}
+
 .caption-line-btns {
   position: relative;
   width: 100%;
