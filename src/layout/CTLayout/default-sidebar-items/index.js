@@ -162,6 +162,10 @@ export class DefaultSidebarItems {
       items.push(this.myCourses);
     }
 
+    if (isInstructor) {
+      items.push(this.myBooks);
+    }
+
     if (isAdmin) {
       items.push(this.admin);
     }
