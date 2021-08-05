@@ -17,7 +17,7 @@ function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {
       id={MENU_SHORTCUTS}
       ariaTags={{
         'aria-label': `Shortcuts`,
-        // 'aria-keyshortcuts': 'Shift+D',
+        'aria-keyshortcuts': 'Shift+/ ',
         'aria-controls': 'watch-shortcuts-menu',
         'aria-expanded': menu === MENU_SHORTCUTS ? 'false' : 'true',
       }}

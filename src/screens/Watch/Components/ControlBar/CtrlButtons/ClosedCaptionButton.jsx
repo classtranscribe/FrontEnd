@@ -1,45 +1,9 @@
 import React, {useEffect} from 'react';
 
-import WatchCtrlButton from '../../WatchCtrlButton';
 import { connect } from 'dva'
+import WatchCtrlButton from '../../WatchCtrlButton';
 
 export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch, liveMode, englishTrack}) {
-  const handleCCTrigger = () => {
-    if (!liveMode) {
-      dispatch({ type: 'playerpref/toggleOpenCC' })
-    }else {
-      dispatch({ type: 'playerpref/toggleOpenCC' })
-
-      if (isOpen && englishTrack != undefined) {
-        englishTrack.mode = 'hidden';
-      } else {
-        englishTrack.mode = "showing";
-      }
-    }
-
-  };
-
-  useEffect(() => {
-    if (englishTrack != undefined) {
-      if (isOpen) {
-        englishTrack.mode = 'showing';
-      } else {
-        englishTrack.mode = "hidden";
-      }
-    }
-  }, [englishTrack])
-
-  useEffect(() => {
-    if (englishTrack != undefined) {
-      if (isOpen) {
-        englishTrack.mode = 'showing';
-      } else {
-        englishTrack.mode = "hidden";
-      }
-    }
-
-  }, [])
-
   let disabled = captions.length <= 0;
   if (liveMode) {
     disabled = false;
@@ -47,6 +11,19 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
 
   let isOpen = openCC && !disabled ;
 
+  const handleCCTrigger = () => {
+    dispatch({ type: 'playerpref/toggleOpenCC' })
+  };
+
+  useEffect(() => {
+    if (englishTrack !== undefined) {
+      if (isOpen) {
+        englishTrack.mode = 'showing';
+      } else {
+        englishTrack.mode = "hidden";
+      }
+    }
+  }, [isOpen])
 
   return (
     <WatchCtrlButton
@@ -57,7 +34,7 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
       disabled={disabled}
       ariaTags={{
         'aria-label': `${isOpen ? 'Open' : 'Close'} Closed Caption`,
-        // 'aria-keyshortcuts': 'c',
+        'aria-keyshortcuts': 'c',
         'aria-controls': 'watch-cc-container',
         'aria-expanded': openCC ? 'false' : 'true',
       }}
