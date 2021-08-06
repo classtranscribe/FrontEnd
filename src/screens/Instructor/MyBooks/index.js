@@ -49,15 +49,15 @@ const MyBooksWithRedux = (props) => {
   const { offerings, terms } = instcourse;
   const loading = offerings === ARRAY_INIT;
   const error = api.isError(offerings);
-  const noOffering = !loading && offerings.length === 0;
+  const noBooks = !loading && offerings.length === 0;
 
-  const offeringResult = (result) => {
+  const bookResult = (result) => {
     const { currentOfferings, pastOfferings } = sortOfferings(result, terms); // TODO
 
     return (
       <CTFragment fadeIn loading={loading} error={error}>
-        <BookList title="Current Courses" offerings={currentOfferings} />
-        <BookList title="Past Courses" offerings={pastOfferings} />
+        <BookList title="Current books" offerings={currentOfferings} />
+        {/* <BookList title="Past Courses" offerings={pastOfferings} /> */}
       </CTFragment>
     );
   };
@@ -72,7 +72,7 @@ const MyBooksWithRedux = (props) => {
     fixed: false,
     show: true,
     code: offerings,
-    header: 'There is an error when loading your courses.',
+    header: 'There is an error when loading your books.',
     description: 'Please try to refresh page or contact us if have problems.',
     signInButton: false,
   };
@@ -99,10 +99,10 @@ const MyBooksWithRedux = (props) => {
     <CTLayout {...layoutProps}>
       <CTFragment className="ct-mybook">{mybookElement}</CTFragment>
       <CTFragment {...fragmentProps}>
-        {error ? null : noOffering ? (
+        {error ? null : noBooks ? (
           <NoBookHolder />
         ) : (
-          <CTFilter {...filterProps}>{offeringResult}</CTFilter>
+          <CTFilter {...filterProps}>{bookResult}</CTFilter>
         )}
       </CTFragment>
     </CTLayout>
