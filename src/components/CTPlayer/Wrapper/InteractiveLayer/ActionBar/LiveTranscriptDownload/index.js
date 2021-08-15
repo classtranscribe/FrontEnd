@@ -41,7 +41,7 @@ function LiveTranscriptDownloadWithRedux(props) {
           return "";
         }
 
-        return `${vtcue.text}\n`;
+        return `${vtcue.text}\n\n`;
       });
       const textContent = lines.join("");
       return [textContent, "txt"];
