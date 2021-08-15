@@ -20,11 +20,12 @@ function LiveTranscriptDownloadWithRedux(props) {
 
     // https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript
     const formatTimeStamp = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12);
+    const invalidVtCue = (vtcue) => vtcue === undefined || vtcue.text === undefined || vtcue.text === ""
 
     const createVttFile = () => {
       const header = "WEBVTT\n";
       const lines = transcript.map(vtcue => {
-        if (vtcue === undefined || vtcue.text === undefined || vtcue.text === "") {
+        if (invalidVtCue(vtcue)) {
           return "";
         }
         
@@ -38,7 +39,7 @@ function LiveTranscriptDownloadWithRedux(props) {
 
     const createTextFile = () => {
       const lines = transcript.map(vtcue => {
-        if (vtcue === undefined || vtcue.text === undefined || vtcue.text === "") {
+        if (invalidVtCue(vtcue)) {
           return "";
         }
 
@@ -50,7 +51,6 @@ function LiveTranscriptDownloadWithRedux(props) {
 
     const isTranscriptEmpty = () => transcript.length === 1 && transcript[0] === 'empty';
     const triggerDownload = (args) => {
-      console.log(anchorRef);
         if (isTranscriptEmpty()) {
           return;
         }
@@ -88,9 +88,7 @@ function LiveTranscriptDownloadWithRedux(props) {
     const downloadVtt = () => triggerDownload(createVttFile());
     const downloadText = () => triggerDownload(createTextFile());
 
-    const openMenu = (event) => {
-      dispatch({ type: 'watch/menu_open', payload: { type: MENU_DOWNLOAD, option: 'b' } });
-    }
+    const openMenu = () => dispatch({ type: 'watch/menu_open', payload: { type: MENU_DOWNLOAD, option: 'b' } });
     const closeMenu = () => dispatch({ type: 'watch/menu_close' });
     
     const shouldDisplayMenu = menu === MENU_DOWNLOAD;
