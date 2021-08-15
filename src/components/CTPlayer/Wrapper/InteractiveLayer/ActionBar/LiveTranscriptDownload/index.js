@@ -3,11 +3,11 @@ import WatchCtrlButton from 'screens/Watch/Components/WatchCtrlButton'
 import { connect } from 'dva';
 import fileDownload from 'js-file-download';
 import {Menu, MenuItem} from '@material-ui/core';
+import { MENU_DOWNLOAD } from 'screens/Watch/Utils/constants.util'
 
 function LiveTranscriptDownloadWithRedux(props) {
-    const {media, transcript} = props;
+    const {media, transcript, menu, dispatch} = props;
 
-    const [downloadDisplay, setDownloadDisplay] = useState(false); // TODO: move to global state
     const [anchorEl, setanchorEl] = useState(null); // for the dropdown menu 
 
     // filename safe based off: https://stackoverflow.com/questions/8485027/javascript-url-safe-filename-safe-string
@@ -18,7 +18,7 @@ function LiveTranscriptDownloadWithRedux(props) {
     };
 
     // https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript
-    const formatTimeStamp = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12)
+    const formatTimeStamp = (seconds) => new Date(seconds * 1000).toISOString().substr(11, 12);
 
     const createVttFile = () => {
       const header = "WEBVTT\n";
@@ -61,11 +61,12 @@ function LiveTranscriptDownloadWithRedux(props) {
     const downloadText = () => triggerDownload(createTextFile());
 
     const openMenu = (event) => {
-      setanchorEl(event.currentTarget)
-      setDownloadDisplay(true);
+      setanchorEl(event.currentTarget);
+      dispatch({ type: 'watch/menu_open', payload: { type: MENU_DOWNLOAD, option: 'b' } });
     }
-    const closeMenu = () => setDownloadDisplay(false);
+    const closeMenu = () => dispatch({ type: 'watch/menu_close' });
     
+    const shouldDisplayMenu = menu === MENU_DOWNLOAD;
     return (
       <div>
         <WatchCtrlButton 
@@ -86,7 +87,7 @@ function LiveTranscriptDownloadWithRedux(props) {
           id="simple-menu"
           anchorEl={anchorEl}
           keepMounted
-          open={Boolean(downloadDisplay)}
+          open={shouldDisplayMenu}
           onClose={closeMenu}
         >
           <MenuItem onClick={downloadVtt}>VTT</MenuItem>
