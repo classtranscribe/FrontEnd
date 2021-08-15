@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React, {useRef} from 'react';
 import WatchCtrlButton from 'screens/Watch/Components/WatchCtrlButton'
 import { connect } from 'dva';
 import fileDownload from 'js-file-download';
 import {Menu, MenuItem} from '@material-ui/core';
 import { MENU_DOWNLOAD } from 'screens/Watch/Utils/constants.util'
+// import { CTDropdown } from 'layout'; // TODO: Change the Menu to use this
 
 function LiveTranscriptDownloadWithRedux(props) {
     const {media, transcript, menu, dispatch} = props;
 
-    const [anchorEl, setanchorEl] = useState(null); // for the dropdown menu 
-
+    const anchorRef = useRef(null);
+    
     // filename safe based off: https://stackoverflow.com/questions/8485027/javascript-url-safe-filename-safe-string
     const generateFileName = (mediaName) => {
       const cleanMediaName = mediaName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
@@ -49,6 +50,7 @@ function LiveTranscriptDownloadWithRedux(props) {
 
     const isTranscriptEmpty = () => transcript.length === 1 && transcript[0] === 'empty';
     const triggerDownload = (args) => {
+      console.log(anchorRef);
         if (isTranscriptEmpty()) {
           return;
         }
@@ -57,27 +59,52 @@ function LiveTranscriptDownloadWithRedux(props) {
         fileDownload(transcriptFile, fileName);
     }
 
+    // const handleChange = (value) => {
+    //   switch (value) {
+    //     case "vtt":
+    //       triggerDownload(createVttFile());
+    //       break;
+        
+    //     case "txt":
+    //       triggerDownload(createTextFile());
+    //       break;
+
+    //     default:
+    //       break;
+    //   }
+    // }
+
+    // const downloadOptions = [
+    //   {
+    //     value: 'txt',
+    //     text: 'Text file (.txt)',
+    //   },
+    //   {
+    //     value: 'vtt',
+    //     text: 'VTT file (.vtt)'
+    //   }
+    // ];
+
     const downloadVtt = () => triggerDownload(createVttFile());
     const downloadText = () => triggerDownload(createTextFile());
 
     const openMenu = (event) => {
-      setanchorEl(event.currentTarget);
       dispatch({ type: 'watch/menu_open', payload: { type: MENU_DOWNLOAD, option: 'b' } });
     }
     const closeMenu = () => dispatch({ type: 'watch/menu_close' });
     
     const shouldDisplayMenu = menu === MENU_DOWNLOAD;
+
     return (
-      <div>
+      <div ref={anchorRef}>
         <WatchCtrlButton 
           onClick={openMenu}
           position="top"
-          label="Download"
-          // label="Download (SHIFT+D)"
+          label="Download (SHIFT+D)"
           id="live-transcript-download"
           ariaTags={{
             'aria-label': `Download Menu`,
-            // 'aria-keyshortcuts': 'Shift+D',
+            'aria-keyshortcuts': 'Shift+D',
           }}
         >
           <span><i className="material-icons">cloud_download</i></span>   
@@ -85,7 +112,7 @@ function LiveTranscriptDownloadWithRedux(props) {
 
         <Menu
           id="simple-menu"
-          anchorEl={anchorEl}
+          anchorEl={anchorRef.current}
           keepMounted
           open={shouldDisplayMenu}
           onClose={closeMenu}
@@ -93,6 +120,14 @@ function LiveTranscriptDownloadWithRedux(props) {
           <MenuItem onClick={downloadVtt}>VTT</MenuItem>
           <MenuItem onClick={downloadText}>Text</MenuItem>
         </Menu>
+        {/* <CTDropdown 
+          id="live-transcript-download-dropdown"
+          anchorRef={anchorRef}
+          open={shouldDisplayMenu}
+          onClose={closeMenu}
+          onChange={handleChange}
+          downloadOptions={downloadOptions}
+        /> */}
       </div>
     );
 }
