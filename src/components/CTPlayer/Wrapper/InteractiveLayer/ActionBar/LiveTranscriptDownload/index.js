@@ -7,7 +7,8 @@ import {Menu, MenuItem} from '@material-ui/core';
 function LiveTranscriptDownloadWithRedux(props) {
     const {media, transcript} = props;
 
-    const [downloadDisplay, setDownloadDisplay] = useState(false);
+    const [downloadDisplay, setDownloadDisplay] = useState(false); // TODO: move to global state
+    const [anchorEl, setanchorEl] = useState(null); // for the dropdown menu 
 
     // filename safe based off: https://stackoverflow.com/questions/8485027/javascript-url-safe-filename-safe-string
     const generateFileName = (mediaName) => {
@@ -59,7 +60,10 @@ function LiveTranscriptDownloadWithRedux(props) {
     const downloadVtt = () => triggerDownload(createVttFile());
     const downloadText = () => triggerDownload(createTextFile());
 
-    const openMenu = () => setDownloadDisplay(true);
+    const openMenu = (event) => {
+      setanchorEl(event.currentTarget)
+      setDownloadDisplay(true);
+    }
     const closeMenu = () => setDownloadDisplay(false);
     
     return (
@@ -80,7 +84,7 @@ function LiveTranscriptDownloadWithRedux(props) {
 
         <Menu
           id="simple-menu"
-          anchorEl={downloadDisplay}
+          anchorEl={anchorEl}
           keepMounted
           open={Boolean(downloadDisplay)}
           onClose={closeMenu}
