@@ -107,11 +107,12 @@ const ClassTranscribePlayerNew = (props) => {
   useEffect(() => {
     if (previousTrack !== undefined) {
       previousTrack.removeEventListener('cuechange', thisIsTheWorst);
-      previousTrack.mode = 'hidden';
+      previousTrack.mode = 'disabled';
       console.log(previousTrack);
     }
     if (englishTrack != undefined) {
       console.log("here")
+      englishTrack.mode = 'hidden';
       englishTrack.addEventListener("cuechange", thisIsTheWorst );
       console.log(englishTrack);
 

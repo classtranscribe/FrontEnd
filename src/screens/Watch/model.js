@@ -271,10 +271,10 @@ const WatchModel = {
             if(state.englishTrack != undefined) {
                 //state.englishTrack.mode = 'hidden';
                 //state.englishTrack.removeEventListener('cuechange', state.eventListener);
-                state.transcript = [];
+                
             }
 
-            return { ...state, englishTrack: payload };
+            return { ...state, englishTrack: payload, transcript: []};
         },
 
         setFullscreen(state, { payload }) {

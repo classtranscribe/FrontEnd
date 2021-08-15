@@ -17,7 +17,7 @@ function LiveCaptionTrackSelection(props) {
 
       {textTracks.map((pbr, index) => (
         <MenuItem
-          key={index}
+          key={pbr}
           text={pbr.language}
           active={pbr.language === englishTrack.language}
           onClick={() => setTextTrack(pbr)}

@@ -284,7 +284,7 @@ const Video = React.memo((props) => {
         // console.log("plz")
         // console.log(_videoRef)
         textTrack = _videoRef.current.textTracks
-        textTrack.onremovetrack = (e) => {console.log(e)};
+         // textTrack.onremovetrack = (e) => {console.log(e)};
         textTrack.onaddtrack = () => {
             if (textTrack === null || textTrack.length === 0) {
                 return;
@@ -294,14 +294,18 @@ const Video = React.memo((props) => {
 
             // const englishTrack = textTrack
             let englishTrack;
-            const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
+            for (var l = 0; l < Array.from(textTrack).length; l++) {
+                Array.from(textTrack)[l].mode = 'disabled';
+            }
             dispatch({ type: 'watch/setTextTracks', payload:  Array.from(textTrack) });
+            console.log(Array.from(textTrack))
+            const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
             if (possibleEnglishTracks.length > 0) {
                 englishTrack = possibleEnglishTracks[0];
             } else {
-                englishTrack = textTrack[0];
+                // englishTrack = textTrack[0];
             }
-            
+            englishTrack.mode = "showing";
             dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
 
             // englishTrack.addEventListener("cuechange", (event) => {
