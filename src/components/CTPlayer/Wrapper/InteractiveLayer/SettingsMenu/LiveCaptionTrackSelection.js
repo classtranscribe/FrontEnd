@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './MenuItem';
+import { INDEX_HTML_LIVE } from 'screens/EPub/controllers/file-builders/file-templates/html';
 
 function LiveCaptionTrackSelection(props) {
   let {
@@ -14,9 +15,9 @@ function LiveCaptionTrackSelection(props) {
     <div className="ctp settings-menu">
       <MenuItem goBack text="Caption Tracks" onClick={onGoBack} />
 
-      {textTracks.map(pbr => (
+      {textTracks.map((pbr, index) => (
         <MenuItem
-          key={pbr}
+          key={index}
           text={pbr.language}
           active={pbr.language === englishTrack.language}
           onClick={() => setTextTrack(pbr)}

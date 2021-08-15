@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { connect } from 'dva'
 import { isMobile } from 'react-device-detect';
 import PlayerData from '../../player'
@@ -60,9 +60,9 @@ const ClassTranscribePlayerNew = (props) => {
       dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
     }
   }, [isTwoScreen])
-
+  let [previousTrack, setPreviousTrack] = useState(undefined);
   var thisIsTheWorst = function(event) {
-                
+
     // console.log(event);
     const toLog = [];
     for (let z = 0; z < event.currentTarget.cues.length; z++) {
@@ -105,9 +105,18 @@ const ClassTranscribePlayerNew = (props) => {
 }
 
   useEffect(() => {
+    if (previousTrack !== undefined) {
+      previousTrack.removeEventListener('cuechange', thisIsTheWorst);
+      previousTrack.mode = 'hidden';
+      console.log(previousTrack);
+    }
     if (englishTrack != undefined) {
+      console.log("here")
       englishTrack.addEventListener("cuechange", thisIsTheWorst );
-      dispatch({ type: 'watch/setEventListener', payload:  thisIsTheWorst})
+      console.log(englishTrack);
+
+      setPreviousTrack(englishTrack);
+      //dispatch({ type: 'watch/setEventListener', payload:  thisIsTheWorst})
 
     }
 

@@ -128,6 +128,7 @@ function TranscriptionsWithRedux(props) {
       key={liveMode ? String(transcript[index].text) + String(transcript[index].startTime): transcript[index].id}
       caption={transcript[index]}
       currCaption={currCaption}
+      fontSize = {fontSize}
       isCurrent={liveMode ? isCurrent(transcript[index].text + String(transcript[index].startTime)) : isCurrent(transcript[index].id)}
       dispatch={dispatch}
       isEditing={Boolean(currEditing) && currEditing.id === transcript[index].id}

@@ -39,7 +39,7 @@ function handleRestoreTime(watch) {
 }
 function enterFullScreen(watch) {
     try {
-        let elem = document.getElementById('watch-page') || {};
+        let elem = document.getElementsByTagName('video')[0] || {};
         if (isMobile) {
             elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
         }
@@ -186,9 +186,11 @@ export default {
             yield put({ type: 'media_pause' })
         }
     },
-    *toggleFullScreen({ payload: bool }, { call, put, select, take }) {
+    *toggleFullScreenTwo({ payload: bool }, { call, put, select, take }) {
         const { watch, playerpref } = yield select();
-        const newState = bool === undefined ? !watch.isFullscreen : bool;
+        console.log(bool);
+        const newState = bool === undefined ? !watch.isFullscreenTwo : bool;
+        console.log(newState);
         if (newState !== undefined) {
             if (!PlayerData.video1) return;
             if (newState) {
@@ -199,7 +201,7 @@ export default {
                 // yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
             }
         }
-        yield put({ type: 'setFullscreen', payload: newState });
+        yield put({ type: 'setFullscreenTwo', payload: newState });
     },
     *switchVideo({ payload: bool }, { call, put, select, take }) {
         if (!PlayerData.video2) return;

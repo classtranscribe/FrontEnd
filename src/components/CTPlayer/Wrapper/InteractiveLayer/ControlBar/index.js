@@ -48,7 +48,6 @@ function ControlBar(props) {
           </div>
           <div className="right ct-d-r-center-v">
             <ScreenModeSettingButton />
-            <ClosedCaptionMenu />
             <ClosedCaptionButton />
             <SettingButton />
             <FullscreenButton />

@@ -65,6 +65,7 @@ const initState = {
     paused: true,
 
     isFullscreen: false,
+    isFullscreenTwo: false,
     ctpPriEvent: CTP_LOADING,
     ctpSecEvent: CTP_LOADING,
 
@@ -94,6 +95,8 @@ const initState = {
     modal: MODAL_HIDE,
     liveMode: false,
     englishTrack: undefined,
+    currentAudioTrack: 0,
+    audioTracks: undefined,
 
     // Others
     prompt: null,
@@ -264,9 +267,10 @@ const WatchModel = {
             return { ...state, starredOfferings: payload };
         },
         setEnglishTrack(state, { payload }) {
+            console.log(payload);
             if(state.englishTrack != undefined) {
-                state.englishTrack.mode = 'hidden';
-                state.englishTrack.removeEventListener('cuechange', state.eventListener);
+                //state.englishTrack.mode = 'hidden';
+                //state.englishTrack.removeEventListener('cuechange', state.eventListener);
                 state.transcript = [];
             }
 
@@ -275,6 +279,9 @@ const WatchModel = {
 
         setFullscreen(state, { payload }) {
             return { ...state, isFullscreen: payload };
+        },
+        setFullscreenTwo(state, { payload }) {
+            return { ...state, isFullscreenTwo: payload };
         },
         // Transcription
         setTranscriptions(state, { payload }) {
