@@ -4,6 +4,7 @@ import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
 import {connect} from 'dva'
 import { Transcriptions } from './Components';
+import { ScreenModeSettingButton } from './Components/ControlBar/CtrlButtons';
 
 function LiveTestWithRedux(props) {
     // const {}
@@ -33,6 +34,7 @@ function LiveTestWithRedux(props) {
 
     return (
       <div>
+
         {isFullscreen ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}} {...props}>
 

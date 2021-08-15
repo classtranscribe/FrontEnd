@@ -12,7 +12,9 @@ function RootMenu(props) {
     playbackRate,
     onOpenCCMenu,
     openPlaybackRateMenu,
-    onOpenScreenModeManu
+    onOpenScreenModeManu,
+    onOpenLiveTextTrackSelection,
+    englishTrack
   } = props;
 
   let currentLang;
@@ -31,6 +33,14 @@ function RootMenu(props) {
         text="Playback Rate"
         current={`${playbackRate }x`}
         onClick={openPlaybackRateMenu}
+      />
+      <MenuItem
+        active
+        current
+        isSubMenu
+        text="Caption Language"
+        current={englishTrack.language}
+        onClick={onOpenLiveTextTrackSelection}
       />
 
       {

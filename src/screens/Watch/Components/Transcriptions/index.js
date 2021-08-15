@@ -51,59 +51,60 @@ function TranscriptionsWithRedux(props) {
   let [scrollHere, setScrollHere] = useState(0);
 
   const displayTrans = search.status === SEARCH_HIDE || true;
-
-  let prevNull = false;
+  let [prevNull, setPrevNull] = useState(false);
+  /**
+   * There are two cases
+   * 1. No seeking has been done. We can center the current caption using good ol html
+   * 
+   * 2. Seeking has been done, or someone has done something weird. We can be 100% if trying to get the current
+   * caption is null and the previous one was also null
+   */
   useEffect(() => {
     if (currCaption != null && liveMode) {
       if (true) {
+
+
+        //try and get the current caption
         let z = document.getElementById(`caption-line-${currCaption.startTime}`)
 
-
-        if (z != null) {
-          prevNull = false;
+        //if it isnt null just set the previous to false
+        if (z !== null) {
+          console.log("well now im here")
+          setPrevNull(false);
         }
 
+        //determine if we need to use any list scrolling behavior
         let toVerify = false;
-        console.log(prevNull);
         if (z === null && prevNull === true) {
           toVerify = true;
         }
 
+        //if curr caption (soon to be previous) is null set previous to true.
         if (z === null) {
-          prevNull = true;
+          setPrevNull(true);
         }
-        console.log(z)
-        console.log(currCaption)
-        console.log(toVerify);
 
-
-     
-
-
-          //refractor into a binary search
-
+        // use list interface to scroll to the correct place
           if (toVerify == true) {
           for (let i = 0; i < transcript.length; i += 1) {
             if (transcript[i].text === currCaption.text ) {
-              setScrollHere(i);
-              // i + 7 < transcript.length ? setScrollHere(i + 5) : setScrollHere(transcript.length - 1);
+
+              //5 is just arbitrary. It plops us to the centerish
+              i + 5 < transcript.length ? setScrollHere(i + 5) : setScrollHere(transcript.length - 1);
               break;
 
             }
 
           }
         }
-
-
+        // use good ol html for final scrolling and centering
         if (z === null) {
-
           z = document.getElementById(`caption-line-${currCaption.startTime}`)
-
         }
 
         if (z != null) {
           z.scrollIntoView({block: "center", behavior: "smooth"})
-          //setScrollHere(undefined)
+          setScrollHere(undefined)
 
         }
 

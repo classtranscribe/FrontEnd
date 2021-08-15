@@ -84,6 +84,7 @@ const initState = {
     captionSpeedUp: 0,
     offSet: 0,
     sliderOffSet: 0,
+    eventListener: undefined,
 
     // screen options
     mode: NORMAL_MODE,
@@ -97,7 +98,9 @@ const initState = {
     prompt: null,
     search: SEARCH_INIT,
     mouseOnCaption: false,
-    embedded: false
+    embedded: false,
+    textTracks: [],
+    audioTracks: []
 }
 /**
 * Function used to union two caption arrays
@@ -224,6 +227,13 @@ const WatchModel = {
         setLiveMode(state, { payload }) {
             return { ...state, liveMode: payload };
         },
+        setTextTracks(state, { payload }) {
+            return { ...state, textTracks: payload };
+        },
+
+        setAudioTracks(state, { payload }) {
+            return { ...state, audioTracks: payload };
+        },
         setCurrCaptionIndex(state, { payload }) {
             return { ...state, currCaptionIndex: payload };
         },
@@ -235,6 +245,9 @@ const WatchModel = {
         },
         setOffering(state, { payload }) {
             return { ...state, offering: payload };
+        },
+        setEventListener(state, { payload }) {
+            return { ...state, setEventListener: payload };
         },
         setWatchHistory(state, { payload }) {
             return { ...state, watchHistory: payload };
@@ -250,6 +263,12 @@ const WatchModel = {
             return { ...state, starredOfferings: payload };
         },
         setEnglishTrack(state, { payload }) {
+            if(state.englishTrack != undefined) {
+                state.englishTrack.mode = 'hidden';
+                state.englishTrack.removeEventListener('cuechange', state.eventListener);
+                state.transcript = [];
+            }
+
             return { ...state, englishTrack: payload };
         },
 
