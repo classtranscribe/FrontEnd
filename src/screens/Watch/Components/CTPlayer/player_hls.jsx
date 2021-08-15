@@ -295,6 +295,7 @@ const Video = React.memo((props) => {
             // const englishTrack = textTrack
             let englishTrack;
             const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
+            dispatch({ type: 'watch/setTextTracks', payload:  Array.from(textTrack) });
             if (possibleEnglishTracks.length > 0) {
                 englishTrack = possibleEnglishTracks[0];
             } else {
@@ -303,50 +304,51 @@ const Video = React.memo((props) => {
             
             dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
 
-            englishTrack.addEventListener("cuechange", (event) => {
-                // console.log(event);
-                const toLog = [];
-                for (let z = 0; z < event.currentTarget.cues.length; z += 1) {
-                    let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
-                    toCopy.startTime = event.currentTarget.cues[z].startTime;
-                    toCopy.endTime = event.currentTarget.cues[z].endTime;
-                    toCopy.text = event.currentTarget.cues[z].text;
-                    toLog.push(Object.freeze(toCopy))
-                }
+            // englishTrack.addEventListener("cuechange", (event) => {
+                
+            //     // console.log(event);
+            //     const toLog = [];
+            //     for (let z = 0; z < event.currentTarget.cues.length; z++) {
+            //         let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
+            //         toCopy.startTime = event.currentTarget.cues[z].startTime;
+            //         toCopy.endTime = event.currentTarget.cues[z].endTime;
+            //         toCopy.text = event.currentTarget.cues[z].text;
+            //         toLog.push(Object.freeze(toCopy))
+            //     }
 
-                // console.log(toLog)
+            //     // console.log(toLog)
              
-                // const prev = undefined;
-                if (event.currentTarget.activeCues[0] !== undefined) {
-                    idR += 1
-                    let curr = event.currentTarget.activeCues[0];
-                    if (Math.abs(curr.startTime - curr.endTime) > 20) {
-                        curr = event.currentTarget.activeCues[1];
-                    }
+            //     // const prev = undefined;
+            //     if (event.currentTarget.activeCues[0] !== undefined) {
+            //         idR += 1
+            //         let curr = event.currentTarget.activeCues[0];
+            //         if (Math.abs(curr.startTime - curr.endTime) > 20) {
+            //             curr = event.currentTarget.activeCues[1];
+            //         }
 
-                    let toCopy = JSON.parse(JSON.stringify(curr));
-                    toCopy.startTime = curr.startTime;
-                    toCopy.endTime = curr.endTime;
-                    toCopy.text = curr.text;
+            //         let toCopy = JSON.parse(JSON.stringify(curr));
+            //         toCopy.startTime = curr.startTime;
+            //         toCopy.endTime = curr.endTime;
+            //         toCopy.text = curr.text;
 
 
-                    if (yolo <= 2) {
-                        // transcript.push(f)
-                        // console.log(transcript)y
-                        dispatch({ type: 'watch/setTranscript', payload:  toLog})
+            //         if (yolo <= 2) {
+            //             // transcript.push(f)
+            //             // console.log(transcript)y
+            //             dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
                         
-                        dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
+            //             dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
                         
-                        // splitter(toLog)
-                        yolo = 0
-                    }
-                    yolo += 1;
+            //             // splitter(toLog)
+            //             yolo = 0
+            //         }
+            //         yolo += 1;
                     
 
                     
-                }
-            })
+            //     }
+            // })
           };
         console.log(textTrack)
         if (textTrack[0] !== undefined) {
@@ -376,8 +378,6 @@ const Video = React.memo((props) => {
           onPause={onPause}
           onLoadStart={onLoadStartPri}
           onLoadedData={onLoadedDataPri}
-          onWaiting={onWaitingPri}
-          onPlaying={onPlayingPri}
           onEnded={onEndedPri}
           onSeeking={onSeekingPri}
           onSeeked={onSeekedPri}

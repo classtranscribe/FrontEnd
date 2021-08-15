@@ -20,7 +20,7 @@ const videoRef1 = (node) => { PlayerData.video1 = node };
 const videoRef2 = (node) => { PlayerData.video2 = node };
 const ClassTranscribePlayerNew = (props) => {
   const { dispatch } = props;
-  const { transView, muted, volume, playbackrate, openCC, updating } = props;
+  const { transView, muted, volume, playbackrate, openCC, updating, englishTrack } = props;
   const { media = {}, mode, isSwitched, isFullscreen, embedded, captionSpeedUp } = props;
   const { videos = [], isTwoScreen } = media;
   const { srcPath1, srcPath2, useHls = false} = videos[0] || {};
@@ -60,6 +60,58 @@ const ClassTranscribePlayerNew = (props) => {
       dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
     }
   }, [isTwoScreen])
+
+  var thisIsTheWorst = function(event) {
+                
+    // console.log(event);
+    const toLog = [];
+    for (let z = 0; z < event.currentTarget.cues.length; z++) {
+        let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
+        toCopy.startTime = event.currentTarget.cues[z].startTime;
+        toCopy.endTime = event.currentTarget.cues[z].endTime;
+        toCopy.text = event.currentTarget.cues[z].text;
+        toLog.push(Object.freeze(toCopy))
+    }
+
+    // console.log(toLog)
+ 
+    // const prev = undefined;
+    if (event.currentTarget.activeCues[0] !== undefined) {
+        let curr = event.currentTarget.activeCues[0];
+        if (Math.abs(curr.startTime - curr.endTime) > 20) {
+            curr = event.currentTarget.activeCues[1];
+        }
+
+        let toCopy = JSON.parse(JSON.stringify(curr));
+        toCopy.startTime = curr.startTime;
+        toCopy.endTime = curr.endTime;
+        toCopy.text = curr.text;
+
+
+            // transcript.push(f)
+            // console.log(transcript)y
+            dispatch({ type: 'watch/setTranscript', payload:  toLog})
+
+            
+            dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
+            
+            // splitter(toLog)
+        
+
+        
+
+        
+    }
+}
+
+  useEffect(() => {
+    if (englishTrack != undefined) {
+      englishTrack.addEventListener("cuechange", thisIsTheWorst );
+      dispatch({ type: 'watch/setEventListener', payload:  thisIsTheWorst})
+
+    }
+
+  }, [englishTrack])
 
   const media1Prop = {
     id: 1,
@@ -118,9 +170,9 @@ const ClassTranscribePlayerNew = (props) => {
 };
 
 export const ClassTranscribePlayer = connect(({ watch: {
-  media, mode, isSwitched, isFullscreen, embedded, updating, captionSpeedUp
+  media, mode, isSwitched, isFullscreen, embedded, updating, captionSpeedUp, englishTrack
 }, playerpref: {
   transView, muted, volume, playbackrate, openCC
 }, loading }) => ({
-  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, updating, captionSpeedUp
+  media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, updating, captionSpeedUp, englishTrack
 }))(ClassTranscribePlayerNew);
