@@ -7,6 +7,7 @@ import {
   FullscreenButton,
   SwitchScreenButton,
   ClosedCaptionButton,
+  ScreenModeSettingButton,
 } from 'screens/Watch/Components/ControlBar/CtrlButtons';
 import VolumeControl from 'screens/Watch/Components/ControlBar/VolumeControl';
 import TimeDisplay from 'screens/Watch/Components/ControlBar/TimeDisplay';
@@ -14,6 +15,7 @@ import {
   ClosedCaption,
 } from 'screens/Watch/Components/Overlays';
 import Progress from './Progress';
+import ClosedCaptionMenu from '../SettingsMenu/ClosedCaptionMenu';
 
 function ControlBar(props) {
   const {
@@ -45,6 +47,7 @@ function ControlBar(props) {
             <TimeDisplay duration={duration} time={time} />
           </div>
           <div className="right ct-d-r-center-v">
+            <ScreenModeSettingButton />
             <ClosedCaptionButton />
             <SettingButton />
             <FullscreenButton />
