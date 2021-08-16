@@ -2,23 +2,23 @@ import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { connectWithRedux } from '../../../Utils';
 
-export function FullscreenButtonWithRedux({ isFullscreen = false, dispatch }) {
+export function FullscreenButtonWithRedux({ isFullscreenTwo = false, dispatch }) {
   const handleFullscreen = () => {
-    dispatch({type: 'watch/toggleFullScreen'})
+    dispatch({type: 'watch/toggleFullScreenTwo'})
   };
 
   return (
     <WatchCtrlButton
       onClick={handleFullscreen}
-      label={isFullscreen ? 'Exit Fullscreen (f)' : 'Enter Fullscreen (f)'}
+      label={isFullscreenTwo ? 'Exit Fullscreen (f)' : 'Enter Fullscreen (f)'}
       ariaTags={{
-        'aria-label': isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen',
+        'aria-label': isFullscreenTwo ? 'Exit Fullscreen' : 'Enter Fullscreen',
         // 'aria-keyshortcuts': 'f'
       }}
       id="fullscreen-btn"
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
-        {isFullscreen ? (
+        {isFullscreenTwo ? (
           <i className="material-icons">fullscreen_exit</i>
         ) : (
           <i className="material-icons">fullscreen</i>
