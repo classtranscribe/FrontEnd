@@ -61,11 +61,10 @@ const ClassTranscribePlayerNew = (props) => {
     }
   }, [isTwoScreen])
   let [previousTrack, setPreviousTrack] = useState(undefined);
-  var thisIsTheWorst = function(event) {
-
-    // console.log(event);
+  let thisIsTheWorst = function(event) {
+    // 
     const toLog = [];
-    for (let z = 0; z < event.currentTarget.cues.length; z++) {
+    for (let z = 0; z < event.currentTarget.cues.length; z += 1) {
         let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
         toCopy.startTime = event.currentTarget.cues[z].startTime;
         toCopy.endTime = event.currentTarget.cues[z].endTime;
@@ -73,7 +72,7 @@ const ClassTranscribePlayerNew = (props) => {
         toLog.push(Object.freeze(toCopy))
     }
 
-    // console.log(toLog)
+    // 
  
     // const prev = undefined;
     if (event.currentTarget.activeCues[0] !== undefined) {
@@ -89,18 +88,13 @@ const ClassTranscribePlayerNew = (props) => {
 
 
             // transcript.push(f)
-            // console.log(transcript)y
+            // y
             dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
             
             dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
             
             // splitter(toLog)
-        
-
-        
-
-        
     }
 }
 
@@ -108,19 +102,12 @@ const ClassTranscribePlayerNew = (props) => {
     if (previousTrack !== undefined) {
       previousTrack.removeEventListener('cuechange', thisIsTheWorst);
       previousTrack.mode = 'disabled';
-      console.log(previousTrack);
     }
-    if (englishTrack != undefined) {
-      console.log("here")
+    if (englishTrack !== undefined) {
       englishTrack.mode = 'hidden';
       englishTrack.addEventListener("cuechange", thisIsTheWorst );
-      console.log(englishTrack);
-
       setPreviousTrack(englishTrack);
-      //dispatch({ type: 'watch/setEventListener', payload:  thisIsTheWorst})
-
     }
-
   }, [englishTrack])
 
   const media1Prop = {
@@ -138,7 +125,7 @@ const ClassTranscribePlayerNew = (props) => {
   }
   useEffect(() => {
     if(window.hls) {
-        //window.hls.subtitleTrack = openCC ? 0: -1
+        // window.hls.subtitleTrack = openCC ? 0: -1
     }
 }, [openCC])
   return (

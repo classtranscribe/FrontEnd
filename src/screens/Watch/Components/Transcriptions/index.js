@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'dva'
+import { List, AutoSizer } from "react-virtualized";
+
 import {
   // transControl,
   NORMAL_MODE,
@@ -16,7 +18,6 @@ import './index_liveplayer.scss';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
-import { List, AutoSizer } from "react-virtualized";
 
 import PlaceHolder from './PlaceHolder';
 
@@ -35,7 +36,7 @@ function TranscriptionsWithRedux(props) {
     liveMode,
     fontSize
   } = props;
-  // console.log(transcript, props, "TSC")
+  // 
   const handleMourseOver = (bool) => () => {
     dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
   };
@@ -63,39 +64,37 @@ function TranscriptionsWithRedux(props) {
   useEffect(() => {
     if (currCaption != null && liveMode) {
       if (true) {
-
-
-        //try and get the current caption
+        // try and get the current caption
         let z = document.getElementById(`caption-line-${currCaption.startTime}`)
 
-        //if it isnt null just set the previous to false
+        // if it isnt null just set the previous to false
         if (z !== null) {
-          console.log("well now im here")
           setPrevNull(false);
         }
 
-        //determine if we need to use any list scrolling behavior
+        // determine if we need to use any list scrolling behavior
         let toVerify = false;
         if (z === null && prevNull === true) {
           toVerify = true;
         }
 
-        //if curr caption (soon to be previous) is null set previous to true.
+        // if curr caption (soon to be previous) is null set previous to true.
         if (z === null) {
           setPrevNull(true);
         }
 
         // use list interface to scroll to the correct place
-          if (toVerify == true) {
+          if (toVerify === true) {
           for (let i = 0; i < transcript.length; i += 1) {
             if (transcript[i].text === currCaption.text ) {
-
-              //5 is just arbitrary. It plops us to the centerish
-              i + 5 < transcript.length ? setScrollHere(i + 5) : setScrollHere(transcript.length - 1);
+              // 5 is just arbitrary. It plops us to the centerish
+              if (i + 5 < transcript.length) {
+                setScrollHere(i + 5);
+              } else {
+                setScrollHere(transcript.length - 1);
+              }
               break;
-
             }
-
           }
         }
         // use good ol html for final scrolling and centering
@@ -106,10 +105,7 @@ function TranscriptionsWithRedux(props) {
         if (z != null) {
           z.scrollIntoView({block: "center", behavior: "smooth"})
           setScrollHere(undefined)
-
         }
-
-        
       }
     }
   }, [currCaption, currCaptionIndex, currentTime])
@@ -123,17 +119,17 @@ function TranscriptionsWithRedux(props) {
     style, // Style object to be applied to row (to position it)
   }) {
     return (
-    <div key = {key} style = {style}>
-    <CaptionLine
-      key={liveMode ? String(transcript[index].text) + String(transcript[index].startTime): transcript[index].id}
-      caption={transcript[index]}
-      currCaption={currCaption}
-      fontSize = {fontSize}
-      isCurrent={liveMode ? isCurrent(transcript[index].text + String(transcript[index].startTime)) : isCurrent(transcript[index].id)}
-      dispatch={dispatch}
-      isEditing={Boolean(currEditing) && currEditing.id === transcript[index].id}
-    />
-    </div>
+      <div key={key} style={style}>
+        <CaptionLine
+          key={liveMode ? String(transcript[index].text) + String(transcript[index].startTime): transcript[index].id}
+          caption={transcript[index]}
+          currCaption={currCaption}
+          fontSize={fontSize}
+          isCurrent={liveMode ? isCurrent(transcript[index].text + String(transcript[index].startTime)) : isCurrent(transcript[index].id)}
+          dispatch={dispatch}
+          isEditing={Boolean(currEditing) && currEditing.id === transcript[index].id}
+        />
+      </div>
     
     );
   }
@@ -146,45 +142,31 @@ function TranscriptionsWithRedux(props) {
         onMouseEnter={handleMourseOver(true)}
         onMouseLeave={handleMourseOver(false)}
       > */}
-        {transcript.length === 0 ? (
-          <PlaceHolder />
+      {transcript.length === 0 ? (
+        <PlaceHolder />
         ) : transcript === ARRAY_EMPTY ? (
           <div className="w-100 d-flex justify-content-center text-muted text-uppercase">
             No Transcriptions
           </div>
         ) : transView === LINE_VIEW ? (
-            <AutoSizer>
+          <AutoSizer>
             {({height, width}) => (
 
-            <List
-
-              width={width}
-              height={height}
-              scrollToIndex = {scrollHere}
-
-              // containerStyle={{
-              //   width: "100%",
-              //   maxWidth: "100%"
-              // }}
-              style={{
+              <List
+                width={width}
+                height={height}
+                scrollToIndex={scrollHere}
+                style={{
                 paddingTop: '20px',
                 paddingBottom: '300px',
               }}
-            
-  
-      
-
-              rowHeight={50}
-
-              rowCount = {transcript? transcript.length : 0}
-              rowRenderer = {rowRenderer}
-            
-            
-            />
-
+                rowHeight={50}
+                rowCount={transcript? transcript.length : 0}
+                rowRenderer={rowRenderer}
+              />
             )}
    
-            </AutoSizer>
+          </AutoSizer>
 
 
         ) : transView === TRANSCRIPT_VIEW ? (
@@ -199,7 +181,7 @@ function TranscriptionsWithRedux(props) {
             ))}
           </div>
         ) : null}
-        {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
+      {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
       {/* </div> */}
     </div>
   ) : null;

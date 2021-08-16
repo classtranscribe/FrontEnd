@@ -104,7 +104,6 @@ const initState = {
     mouseOnCaption: false,
     embedded: false,
     textTracks: [],
-    audioTracks: []
 }
 /**
 * Function used to union two caption arrays
@@ -267,15 +266,14 @@ const WatchModel = {
             return { ...state, starredOfferings: payload };
         },
         setEnglishTrack(state, { payload }) {
-            
-            if(state.englishTrack != undefined) {
-                //state.englishTrack.mode = 'hidden';
-                //state.englishTrack.removeEventListener('cuechange', state.eventListener);
+            if(state.englishTrack !== undefined) {
+                // state.englishTrack.mode = 'hidden';
+                // state.englishTrack.removeEventListener('cuechange', state.eventListener);
                 
             }
             let currTrack = document.getElementsByTagName('video')[0].textTracks;
-            console.log(currTrack)
-            console.log(payload)
+            
+            
 
             return { ...state, englishTrack: currTrack[payload], transcript: []};
         },

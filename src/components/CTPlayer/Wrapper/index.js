@@ -13,7 +13,7 @@ function Wrapper(props) {
       onMouseEnter={() => setUserActive(true)}
       onMouseLeave={() => setUserActive(false)}
     >
-       <NonInteractiveLayer />
+      <NonInteractiveLayer />
       <InteractiveLayer userActive={userActive} screenshotActionElement={screenshotActionElement} />
     </div>
   );

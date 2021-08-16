@@ -41,7 +41,6 @@ function RootMenu(props) {
       />
       <MenuItem
         active
-        current
         isSubMenu
         text="Caption Language"
         current={englishTrack.language}

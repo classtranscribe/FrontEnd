@@ -188,9 +188,7 @@ export default {
     },
     *toggleFullScreenTwo({ payload: bool }, { call, put, select, take }) {
         const { watch, playerpref } = yield select();
-        console.log(bool);
         const newState = bool === undefined ? !watch.isFullscreenTwo : bool;
-        console.log(newState);
         if (newState !== undefined) {
             if (!PlayerData.video1) return;
             if (newState) {
