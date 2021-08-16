@@ -20,7 +20,7 @@ function LiveCaptionTrackSelection(props) {
           key={pbr}
           text={pbr.language}
           active={pbr.language === englishTrack.language}
-          onClick={() => setTextTrack(pbr)}
+          onClick={() => setTextTrack(index)}
         />
       ))}
     </div>

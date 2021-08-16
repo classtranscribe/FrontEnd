@@ -138,7 +138,7 @@ const ClassTranscribePlayerNew = (props) => {
   }
   useEffect(() => {
     if(window.hls) {
-        window.hls.subtitleTrack = openCC ? 0: -1
+        //window.hls.subtitleTrack = openCC ? 0: -1
     }
 }, [openCC])
   return (

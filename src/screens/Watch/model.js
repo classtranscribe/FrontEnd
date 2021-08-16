@@ -115,7 +115,7 @@ const unionTranscript = (captions, source) => {
         captions === ARRAY_EMPTY ? [] : captions,
         source === ARRAY_EMPTY ? [] : source,
     );
-    // console.error(union)
+    // 
     union = _.sortBy(union, (item) => timeStrToSec(item.begin));
     union = _.map(union, (item, index) => ({ ...item, index }));
     return union;
@@ -157,13 +157,13 @@ function splitter(captionsArray) {
         let firstWord = prevArray[0]
         if (currentText.includes(prevWord.trim()) && captionsArray[i - 1].text.includes(words[1])) {
             for (let j = words.length - 1; j > 0; j -= 1) {
-                // console.log(words)
+                // 
                 if (words[j].trim() === prevWord.trim() && words[j].trim() !== "") {
                 correctStartFound = j + 1
                 break
                }
             }
-            // console.log(correctStartFound)
+            // 
             
             for (let j = correctStartFound; j < words.length; j+= 1){
                 if (words[j].trim() !== ""){
@@ -267,14 +267,17 @@ const WatchModel = {
             return { ...state, starredOfferings: payload };
         },
         setEnglishTrack(state, { payload }) {
-            console.log(payload);
+            
             if(state.englishTrack != undefined) {
                 //state.englishTrack.mode = 'hidden';
                 //state.englishTrack.removeEventListener('cuechange', state.eventListener);
                 
             }
+            let currTrack = document.getElementsByTagName('video')[0].textTracks;
+            console.log(currTrack)
+            console.log(payload)
 
-            return { ...state, englishTrack: payload, transcript: []};
+            return { ...state, englishTrack: currTrack[payload], transcript: []};
         },
 
         setFullscreen(state, { payload }) {
@@ -291,7 +294,7 @@ const WatchModel = {
             return { ...state, currTrans: payload };
         },
         setUpdating(state, { payload }) {
-            // console.log("in here")
+            // 
             return { ...state, updating: payload };
         },
 
@@ -328,7 +331,7 @@ const WatchModel = {
             let maxTimeDelta = 30 // to be the same, the existing caption time must be within this number of sceonds
 
             let result = [...state.transcript]
-            // console.log(result)
+            // 
             let insertIndex = captionBinarySearch(result, payload[0].startTime);
 
             for (let payloadIndex = 0; payloadIndex < payload.length; payloadIndex +=1) {
@@ -340,10 +343,10 @@ const WatchModel = {
                     // }
                     insertIndex= captionBinarySearch(result, caption.startTime);
                 }
-                // console.log(insertIndex);
-                // console.log(caption)
-                // console.log("insertIndex:"+insertIndex);
-                // console.log(result)
+                // 
+                // 
+                // 
+                // 
                 // Check recent captions that occurred before this time
             
                 let doInsert = true
@@ -372,7 +375,7 @@ const WatchModel = {
             // Handle 608 Captions
 
             // Todo 708 Captions
-            // console.log(result)
+            // 
             return { ...state, transcript: result };
         },
         setTranscriptV1(state, { payload }) {
@@ -392,7 +395,7 @@ const WatchModel = {
                             payload.splice(i, 1)
                         }
                     }
-                    // console.log("out")
+                    // 
                     return { ...state, transcript: payload };
                 }
                 // next case is if start of payload is less then current end but end is greater than current end
@@ -403,14 +406,14 @@ const WatchModel = {
                 // }
                 // if (startTime <= state.transcript[state.transcript.length - 1].startTime && endStart >= state.transcript[state.transcript.length - 1].startTime) {
                 //     // need to find insertion point
-                //     console.log("aqui")
+                //     
                 //     let left = 0;
                 //     let right = payload.length - 1;
                 //     let mid = payload.length - 1;
                 //     let final = payload.length - 1;
                 //     let comparisonTime = state.transcript[state.transcript.length - 1].startTime
-                //     console.log(payload)
-                //     console.log(state.transcript);
+                //     
+                //     
                 //     while (left <= right) {
                 //         final = Math.floor((left + right) / 2);
 
@@ -419,7 +422,7 @@ const WatchModel = {
                 //         } else if(payload[final].startTime > comparisonTime) {
                 //             right = final - 1;
                 //         } else {
-                //             console.log("hereTwo")
+                //             
                 //             mid = final;
                 //             break;
                 //         }
@@ -706,7 +709,7 @@ const WatchModel = {
                 }, true);
                 if (isMobile) {
                     window.addEventListener('orientationchange', () => {
-                        // console.log('window.orientation', window.orientation)
+                        // 
                         if ([90, -90].includes(window.orientation)) {
                             /* NOT IMPLEMENTED
                             if (that.currTime() > 0) {
