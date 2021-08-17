@@ -43,6 +43,14 @@ class ReactEnv {
     return reactEnv.CILOGON_CLIENT_ID;
   }
 
+  get ciLogonSelectedIDP() {
+    return reactEnv.CILOGON_SELECTED_IDP || '';
+  }
+
+  get ciLogonDefaultIDP() {
+    return reactEnv.CILOGON_DEFAULT_IDP || 'urn:mace:incommon:uiuc.edu';
+  }
+
   get frontendCommitEndpoint() {
     return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT;
   }
