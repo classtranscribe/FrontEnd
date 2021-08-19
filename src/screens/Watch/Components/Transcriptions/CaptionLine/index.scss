@@ -84,10 +84,38 @@
       color: var(--ct-text-highlight);
     }
   }
+  .caption-line-text-normal {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
+  .caption-line-text-large {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
+
+  .caption-line-text-small {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
 }
-@mixin caption-line-text($font-size-default: 1.2em) {
+.caption-line-text {
   font-weight: bold;
-  font-size: $font-size-default;
+  font-size: 1.2em;
   line-height: 18px;
   min-height: 36px;
   color: rgba(173, 173, 173, 0.747);
@@ -129,16 +157,131 @@
 }
 
 .caption-line-text-normal {
-  @include caption-line-text;
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }
 }
 
 .caption-line-text-large {
-  @include caption-line-text($font-size-default: 1.6em);
-}
+  font-weight: bold;
+  font-size: 1.6em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }}
 
 .caption-line-text-small {
-  @include caption-line-text($font-size-default: 0.8em);
-}
+  font-weight: bold;
+  font-size: .8em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }}
 
 .caption-line-btns {
   position: relative;
