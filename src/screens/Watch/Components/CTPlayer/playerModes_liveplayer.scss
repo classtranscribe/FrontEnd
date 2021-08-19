@@ -1,16 +1,35 @@
 
-.ct-player-primary {
+@mixin ct-player-primary {
   background: black;
   overflow: hidden;
   top: 50px;
-  left: 1vw;
-  width: 60vw;
-  height: calc(100% - 50px - 60px);
+  //left: 1vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
+.ct-player-primary-web{
+  @include ct-player-primary;
+  left: 0;
+  width: 61vw;
+  height: calc(100% - 50px - 60px);
+}
+
+.ct-player-primary-mobile{
+  @include ct-player-primary;
+  left:0;
+  //height: 40vh;
+  width: 100vw;
+}
+
+.ct-player-primary-mobile-landscape{
+  @include ct-player-primary;
+  left:0;
+  width: 61vw;
+}
+
 .ct-player-secondary {
   background: transparent;
   overflow: hidden;
@@ -101,6 +120,7 @@
     top: 4.5em;
     left: 0;
     width: 62vw;
+    //width: 100%;
     height: auto;
   }
   .ct-player-secondary[mode=ps-mode] {

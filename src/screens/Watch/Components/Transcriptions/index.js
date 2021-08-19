@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import { connect } from 'dva'
+import { isMobile } from 'react-device-detect';
+import { connect } from 'dva';
 import {
   // transControl,
   NORMAL_MODE,
@@ -62,8 +63,13 @@ function TranscriptionsWithRedux(props) {
     }
   }, [currCaption, currCaptionIndex, currentTime])
 
+  let device = 'web';
+  if (isMobile) {
+    if (window.innerHeight > window.innerWidth) device = 'mobile';
+  }
+
   return displayTrans ? (
-    <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
+    <div id={`watch-trans-container-${device}`} className={`watch-trans-container-${device}`} mode={mode}>
       <div
         className="trans-box"
         onMouseEnter={handleMourseOver(true)}

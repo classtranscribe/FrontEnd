@@ -12,10 +12,11 @@ function RootMenu(props) {
     language,
     playbackRate,
     onOpenCCMenu,
+    fontSize,
     openPlaybackRateMenu,
     openLiveCaptionMenu,
-    onOpenScreenModeManu,
-    fontSize,
+    onOpenScreenModeMenu,
+    onOpenCCSettingMenu,
   } = props;
 
   let currentLang;
@@ -41,13 +42,23 @@ function RootMenu(props) {
       {
         live
         &&
-        <MenuItem
-          active
-          isSubMenu
-          text="Live Caption Font Size"
-          current={`${fontSize}`}
-          onClick={openLiveCaptionMenu}
-        />
+        (
+          <div>
+            <MenuItem
+              active
+              isSubMenu
+              text="Live Caption Font Size"
+              current={`${fontSize}`}
+              onClick={openLiveCaptionMenu}
+            />
+            {/*<MenuItem*/}
+            {/*  active*/}
+            {/*  isSubMenu*/}
+            {/*  text="Caption Setting"*/}
+            {/*  onClick={onOpenCCSettingMenu}*/}
+            {/*/>*/}
+          </div>
+        )
       }
 
       {
@@ -57,7 +68,7 @@ function RootMenu(props) {
           isSubMenu
           text="Screen Mode"
           current={Constants.ScreenModesMap[screenMode]}
-          onClick={onOpenScreenModeManu}
+          onClick={onOpenScreenModeMenu}
         />
       }
     </div>
@@ -81,13 +92,3 @@ RootMenu.propTypes = {
 };
 
 export default RootMenu;
-
-/*
-      <MenuItem
-        isSubMenu
-        text="Closed Caption"
-        current={currentLang}
-        onClick={onOpenCCMenu}
-      />
-      NOT IMPLEMENTED
-*/

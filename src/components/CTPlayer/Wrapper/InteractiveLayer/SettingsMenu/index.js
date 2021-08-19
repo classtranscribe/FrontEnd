@@ -54,7 +54,8 @@ function SettingsMenu(props) {
         onOpenCCMenu: handleOpenMenu('cc'),
         openPlaybackRateMenu: handleOpenMenu('pbr'),
         openLiveCaptionMenu: handleOpenMenu('liveCaption'),
-        onOpenScreenModeManu: handleOpenMenu('screen-mode')
+        onOpenScreenModeMenu: handleOpenMenu('screen-mode'),
+        onOpenCCSettingMenu: handleOpenMenu('cc-opt')
       }
       menuElement = <RootMenu {...menuProps} />;
       break;
@@ -95,6 +96,9 @@ function SettingsMenu(props) {
       break;
 
     case 'cc-opt':
+      menuProps = {
+        onGoBack: handleOpenMenu('root'),
+      }
       menuElement = <CCOptionsMenu {...menuProps} />;
       break;
 

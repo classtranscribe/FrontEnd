@@ -1,16 +1,35 @@
-.watch-trans-container {
+@mixin watch-trans-container {
   position: fixed;
-  left: 62vw;
+  //left: 62vw;
   //top: 5em !important;
-  top: 0;
-  width: 38vw;
+  //top: 0;
+  //width: 38vw;
   //height: calc(100% - 12em);
-  height: 100%;
   overflow-x: hidden;
   overflow-y: auto !important;
   scroll-behavior: smooth;
   background-color: black;
+  z-index: 99;
 }
+
+.watch-trans-container-web {
+  @include watch-trans-container;
+  height: 100%;
+  top: 0;
+  left: 62vw;
+  width: 38vw;
+}
+
+.watch-trans-container-mobile {
+  @include watch-trans-container;
+  height: 55vh;
+  //height: 100%;
+  top: 45vh;
+  bottom: 0;
+  width: 100%;
+}
+
+
 .trans-box {
   position: relative;
   width: calc(100% - 3vw);
