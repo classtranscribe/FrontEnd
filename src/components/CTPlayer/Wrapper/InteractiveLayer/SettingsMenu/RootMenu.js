@@ -12,9 +12,12 @@ function RootMenu(props) {
     language,
     playbackRate,
     onOpenCCMenu,
-    fontSize,
     openPlaybackRateMenu,
     openLiveCaptionMenu,
+    onOpenScreenModeManu,
+    fontSize,
+    onOpenLiveTextTrackSelection,
+    englishTrack,
     onOpenScreenModeMenu,
     onOpenCCSettingMenu,
   } = props;
@@ -38,6 +41,13 @@ function RootMenu(props) {
         current={`${playbackRate }x`}
         onClick={openPlaybackRateMenu}
       />
+      <MenuItem
+        active
+        isSubMenu
+        text="Caption Language"
+        current={englishTrack.language}
+        onClick={onOpenLiveTextTrackSelection}
+      />
 
       {
         live
@@ -51,12 +61,6 @@ function RootMenu(props) {
               current={`${fontSize}`}
               onClick={openLiveCaptionMenu}
             />
-            {/*<MenuItem*/}
-            {/*  active*/}
-            {/*  isSubMenu*/}
-            {/*  text="Caption Setting"*/}
-            {/*  onClick={onOpenCCSettingMenu}*/}
-            {/*/>*/}
           </div>
         )
       }
@@ -92,3 +96,13 @@ RootMenu.propTypes = {
 };
 
 export default RootMenu;
+
+/*
+      <MenuItem
+        isSubMenu
+        text="Closed Caption"
+        current={currentLang}
+        onClick={onOpenCCMenu}
+      />
+      NOT IMPLEMENTED
+*/

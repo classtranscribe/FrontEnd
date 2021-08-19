@@ -1,19 +1,26 @@
-import React from 'react';
-// import { useEffect } from 'react';
+import React, { useEffect, Route } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
 import { connect } from 'dva'
 import { Transcriptions } from './Components';
+import {
+  keydownControl, MENU_HIDE,
+  // ERR_INVALID_MEDIA_ID,
+} from './Utils';
+import { isIOS } from "react-device-detect";
 
 function LiveTestWithRedux(props) {
     // const {}
 
-    const { dispatch, isFullscreen } = props
+    const { dispatch, isFullscreen, openCC, menu } = props
     const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
-
     // console.log(updating)
     dispatch({ type: 'watch/setUpdating', payload: updating});
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
+
+    useEffect(() => {
+      keydownControl.addKeyDownListener(dispatch);
+    }, [])
 
     // console.log("got here")
     // console.log(menu);
@@ -31,12 +38,16 @@ function LiveTestWithRedux(props) {
     };
     // https://hls-js.netlify.app/demo/
 
-    return (
-      <div>
-        {isFullscreen ? (<></>) : (<Transcriptions style={{height: '100%', position: "absolute"}} />)}
-        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}} {...props}>
 
-          <CTPlayer
+    return (
+      
+      <div>
+
+        {isFullscreen || isIOS  ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
+        <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}}>
+        {isIOS ? 
+        window.location.href = videosrc
+          : <CTPlayer
             fill
             defaultOpenCC
             hideWrapperOnMouseLeave
@@ -45,6 +56,7 @@ function LiveTestWithRedux(props) {
             // onScreenshotCaptured={alert}
             media={media}
           />
+        }
         </div>
         {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
 

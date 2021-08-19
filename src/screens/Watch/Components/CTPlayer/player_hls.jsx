@@ -1,7 +1,12 @@
-import React, { memo, useState, useEffect, useCallback, fetch } from 'react';
-import Hls, { Config } from 'hls.js';
+import React, { 
+    // memo, 
+    // useState,
+    // fetch, 
+    useEffect, useCallback } from 'react';
+import Hls from 'hls.js';
+// import { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
-import axios from 'axios';
+// import axios from 'axios';
 // import PlayerWrapper from './PlayerWrapper';
 // import { uEvent } from '../../Utils/UserEventController';
 import {
@@ -41,22 +46,22 @@ const Video = React.memo((props) => {
     const src = path;
     const autoPlay = true;
     // eslint-disable-next-line no-console
-    console.log('Render - Video HLS Player', path);
+    
     let originalTime = -1;
     let offSet = 0
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
-        var duration = e.target.duration;
-        // console.log(e.target)
-        if (e.target.duration != 0 && e.target.currentTime != 0 && offSet == 0) {
+        let duration = e.target.duration;
+        // 
+        if (e.target.duration !== 0 && e.target.currentTime !== 0 && offSet === 0) {
             offSet = (e.target.duration - e.target.currentTime);
             dispatch({type: "watch/setOffSet", payload: offSet})
         }
-        if (originalTime == -1 && duration != 0) {
+        if (originalTime === -1 && duration !== 0) {
             originalTime = duration;
         }
 
-        let realTime = duration - originalTime;
+        // let realTime = duration - originalTime;
         // if (realTime >= 30) {
         //     realTime = 30
         // }
@@ -65,10 +70,10 @@ const Video = React.memo((props) => {
         // if (duration >= 30) {
         //     duration = 30
         // }
-       // console.log("this is duration");
+       // 
         dispatch({ type: 'watch/setDuration', payload: (duration - offSet)});
 
-        //dispatch({ type: 'watch/setDuration', payload: duration });
+        // dispatch({ type: 'watch/setDuration', payload: duration });
         /*
         if (this.state.openRange && !this.state.range) {
             // this.setRange([0, duration]); // TODO
@@ -89,19 +94,14 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/setTime', payload: currentTime });
             prevTime = currentTime;
         }
-        //integer value
-
-
-
-
-
+        // integer value
 
         if (Math.abs(prevUATime - currentTime) >= 1) {
             // uEvent.timeupdate(this.currTime());
             dispatch({ type: 'watch/sendMediaHistories' });
             prevUATime = currentTime;
         }
-        // console.log(captionSpeedUp)
+        // 
         if (captionSpeedUp !== 0) {
             dispatch({type: 'watch/setCurrCaption'})
         }
@@ -182,49 +182,49 @@ const Video = React.memo((props) => {
                     dispatch({ type: 'watch/setLiveMode', payload:  liveMode })
                 });
             });
-            newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
-                const x = event.timeRanges?.video
-                // console.log(x.length > 0 ? x.end(0) : "XX")
+            // newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
+                // const x = event.timeRanges?.video
+                // 
                 // , event.timeRanges.video?.end()
-            })
-            // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => console.log(res))
+            // })
+            // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => 
 
-            newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
+            // newHls.on(Hls.Events.MANIFEST_LOADED, (_, _event) => {
                 // eslint-disable-next-line no-console
-                // console.log(event);
+                // 
                 // if(true) {
                     // if(!openCC) {
                     //     newHls.subtitleTrack = -1;
                     // }
 
                     // eslint-disable-next-line no-console
-                // console.log(newHls.captionsTextTrack1Label);
+                // 
                     // eslint-disable-next-line no-console
-                // console.log("hmmm");
-                const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
+                // 
+                // const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
                     // eslint-disable-next-line no-console
-                // console.log(transcriptions);
+                // 
                     // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
                     // dispatch({type: 'watch/setCaptions', payload: [{}]})
                 // }
-            });
+            // });
 
-            newHls.on(Hls.Events.CUES_PARSED, (_, event) => {
-                // eslint-disable-next-line no-console
-                // console.log(event)
-            });
+            // newHls.on(Hls.Events.CUES_PARSED, (_, __) => {
+            //     // eslint-disable-next-line no-console
+            //     // 
+            // });
 
             /*
             newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) =>{
-                console.log(_, event)
+                
             })
             newHls.on(Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND, (_, event) =>{
-                console.log(_, event)
+                
             })
             */
-            newHls.on(Hls.Events.CUES_PARSED, (_, event) =>{
-                // console.log(_, event)
-            })
+            // newHls.on(Hls.Events.CUES_PARSED, (_, __) =>{
+            //     // 
+            // })
             
             
             // Hls.Events.MANIFEST_PARSED
@@ -242,7 +242,7 @@ const Video = React.memo((props) => {
             - fired when a subtitle fragment has been processed
             data: { success : boolean, frag : [the processed fragment object], error?: [error parsing subtitles if any] }
             */
-            newHls.on(Hls.Events.ERROR, function (event, data) {
+            newHls.on(Hls.Events.ERROR, (_event, data) => {
                 if (data.fatal) {
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
@@ -275,84 +275,95 @@ const Video = React.memo((props) => {
     }, [autoPlay, hlsConfig, _videoRef, src]);
 
 
-    var textTrack = undefined;
+    let textTrack;
 
-    // console.log(_videoRef)
+    // 
     let idR = 0;
     let yolo = 0;
     useEffect(() => {
-        // console.log("plz")
-        // console.log(_videoRef)
+        // 
+        // 
         textTrack = _videoRef.current.textTracks
-        textTrack.onremovetrack = (e) => {console.log(e)};
+         // textTrack.onremovetrack = (e) => {};
         textTrack.onaddtrack = () => {
             if (textTrack === null || textTrack.length === 0) {
                 return;
             }
-            // console.log('ch has loaded');
-            // console.log(textTrack)
+            // 
+            // 
 
             // const englishTrack = textTrack
             let englishTrack;
+            for (var l = 0; l < Array.from(textTrack).length; l++) {
+                Array.from(textTrack)[l].mode = 'disabled';
+            }
+            dispatch({ type: 'watch/setTextTracks', payload:  Array.from(textTrack) });
+            
             const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
             if (possibleEnglishTracks.length > 0) {
                 englishTrack = possibleEnglishTracks[0];
             } else {
                 englishTrack = textTrack[0];
             }
-            
-             dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
-            
+            for (var i = 0; i < Array.from(textTrack).length; i += 1) {
+                if (Array.from(textTrack)[i].language === englishTrack.language) {
+                    dispatch({type: "watch/setEnglishTrack", payload: i});
+                    Array.from(textTrack)[i].mode = "showing";
 
-            englishTrack.addEventListener("cuechange", (event) => {
+
+                }
+            }
+            //dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
+            //console.log(englishTrack)
+            // englishTrack.addEventListener("cuechange", (event) => {
                 
-                // console.log(event);
-                const toLog = [];
-                for (let z = 0; z < event.currentTarget.cues.length; z++) {
-                    let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
-                    toCopy.startTime = event.currentTarget.cues[z].startTime;
-                    toCopy.endTime = event.currentTarget.cues[z].endTime;
-                    toCopy.text = event.currentTarget.cues[z].text;
-                    toLog.push(Object.freeze(toCopy))
-                }
+            //     // 
+            //     const toLog = [];
+            //     for (let z = 0; z < event.currentTarget.cues.length; z++) {
+            //         let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
+            //         toCopy.startTime = event.currentTarget.cues[z].startTime;
+            //         toCopy.endTime = event.currentTarget.cues[z].endTime;
+            //         toCopy.text = event.currentTarget.cues[z].text;
+            //         toLog.push(Object.freeze(toCopy))
+            //     }
 
-                // console.log(toLog)
+            //     // 
              
-                // const prev = undefined;
-                if (event.currentTarget.activeCues[0] !== undefined) {
-                    idR += 1
-                    let curr = event.currentTarget.activeCues[0];
-                    if (Math.abs(curr.startTime - curr.endTime) > 20) {
-                        curr = event.currentTarget.activeCues[1];
-                    }
+            //     // const prev = undefined;
+            //     if (event.currentTarget.activeCues[0] !== undefined) {
+            //         idR += 1
+            //         let curr = event.currentTarget.activeCues[0];
+            //         if (Math.abs(curr.startTime - curr.endTime) > 20) {
+            //             curr = event.currentTarget.activeCues[1];
+            //         }
 
-                    let toCopy = JSON.parse(JSON.stringify(curr));
-                    toCopy.startTime = curr.startTime;
-                    toCopy.endTime = curr.endTime;
-                    toCopy.text = curr.text;
+            //         let toCopy = JSON.parse(JSON.stringify(curr));
+            //         toCopy.startTime = curr.startTime;
+            //         toCopy.endTime = curr.endTime;
+            //         toCopy.text = curr.text;
 
 
-                    if (yolo <= 2) {
-                        // transcript.push(f)
-                        // console.log(transcript)y
-                        dispatch({ type: 'watch/setTranscript', payload:  toLog})
+            //         if (yolo <= 2) {
+            //             // transcript.push(f)
+            //             // y
+            //             dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
                         
-                        dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
+            //             dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
                         
-                        // splitter(toLog)
-                        yolo = 0
-                    }
-                    yolo += 1;
+            //             // splitter(toLog)
+            //             yolo = 0
+            //         }
+            //         yolo += 1;
                     
 
                     
-                }
-            })
+            //     }
+            // })
           };
-        console.log(textTrack)
+        
         if (textTrack[0] !== undefined) {
-            console.log('okokok')
+            
         }
       }, [_videoRef.current])
 
@@ -378,8 +389,6 @@ const Video = React.memo((props) => {
           onPause={onPause}
           onLoadStart={onLoadStartPri}
           onLoadedData={onLoadedDataPri}
-          onWaiting={onWaitingPri}
-          onPlaying={onPlayingPri}
           onEnded={onEndedPri}
           onSeeking={onSeekingPri}
           onSeeked={onSeekedPri}
