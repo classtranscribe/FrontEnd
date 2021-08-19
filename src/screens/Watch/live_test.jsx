@@ -10,20 +10,16 @@ import {
 } from './Utils';
 
 function LiveTestWithRedux(props) {
-    // const {}
-
     const { dispatch, isFullscreen, openCC, menu } = props
     const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
-    // console.log(updating)
+
     dispatch({ type: 'watch/setUpdating', payload: updating});
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
 
     useEffect(() => {
       keydownControl.addKeyDownListener(dispatch);
     }, [])
-
-    // console.log("got here")
-    // console.log(menu);
+    
     if (!videosrc) {
         return <>Need videosrc, iframesrc params</>
     }
@@ -37,8 +33,7 @@ function LiveTestWithRedux(props) {
         mediaName: 'Live Meeting Cast', /* TODO: Pull out titles from somewhere, hls doesn't have titles */
     };
     // https://hls-js.netlify.app/demo/
-
-
+    
     return (
       
       <div>
