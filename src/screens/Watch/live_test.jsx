@@ -1,18 +1,25 @@
-import React, { useEffect, Route } from 'react';
+import React, { useEffect }from 'react';
+// import { Route } from 'react';
 import CTPlayer from 'components/CTPlayer';
 import { uurl } from 'utils/use-url';
 import { connect } from 'dva'
+import { isIOS } from "react-device-detect";
 import { Transcriptions } from './Components';
 import {
-  keydownControl, MENU_HIDE,
+  keydownControl, 
+  // MENU_HIDE,
   // ERR_INVALID_MEDIA_ID,
 } from './Utils';
-import { isIOS } from "react-device-detect";
 
 function LiveTestWithRedux(props) {
     // const {}
 
-    const { dispatch, isFullscreen, openCC, menu } = props
+    const { 
+      dispatch, 
+      isFullscreen,
+      // menu,
+      // openCC, 
+      } = props
     const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
     // console.log(updating)
     dispatch({ type: 'watch/setUpdating', payload: updating});
@@ -40,26 +47,23 @@ function LiveTestWithRedux(props) {
 
 
     return (
-      
       <div>
-
         {isFullscreen || isIOS  ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}}>
-        {isIOS ? 
+          {isIOS ? 
         window.location.href = videosrc
           : <CTPlayer
-            fill
-            defaultOpenCC
-            hideWrapperOnMouseLeave
-            allowTwoScreen
-            // allowScreenshot
-            // onScreenshotCaptured={alert}
-            media={media}
+              fill
+              defaultOpenCC
+              hideWrapperOnMouseLeave
+              allowTwoScreen
+              // allowScreenshot
+              // onScreenshotCaptured={alert}
+              media={media}
           />
         }
         </div>
         {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
-
       </div>
     );
 }
