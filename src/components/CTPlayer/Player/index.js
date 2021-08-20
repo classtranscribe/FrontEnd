@@ -17,7 +17,7 @@ function Player(props) {
         isFullscreen} = props
     const onKeyDown = (event) => {
         const { keyCode,
-            //* metaKey 
+            //* metaKey
         } = event;
         switch (keyCode) {
             // k or space - pause/play
