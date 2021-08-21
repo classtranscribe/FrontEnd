@@ -127,11 +127,18 @@ const ClassTranscribePlayerNew = (props) => {
     if(window.hls) {
         // window.hls.subtitleTrack = openCC ? 0: -1
     }
-}, [openCC])
+  }, [openCC])
+
+  let device = 'web';
+  if (isMobile) {
+    if (window.innerWidth < window.innerHeight) device = 'mobile';
+    else device = 'mobile-landscape';
+  }
+
   return (
     <>
       <div
-        className="ct-video-row ct-player-primary"
+        className={`ct-video-row ct-player-primary-${device}`}
         mode="normal-mode"
         data-trans-view="Caption Line View"
         data-fullscreen={isFullscreen}

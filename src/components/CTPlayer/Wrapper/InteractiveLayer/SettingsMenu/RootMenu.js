@@ -17,7 +17,9 @@ function RootMenu(props) {
     onOpenScreenModeManu,
     fontSize,
     onOpenLiveTextTrackSelection,
-    englishTrack
+    englishTrack,
+    onOpenScreenModeMenu,
+    onOpenCCSettingMenu,
   } = props;
 
   let currentLang;
@@ -50,13 +52,17 @@ function RootMenu(props) {
       {
         live
         &&
-        <MenuItem
-          active
-          isSubMenu
-          text="Live Caption Font Size"
-          current={`${fontSize}`}
-          onClick={openLiveCaptionMenu}
-        />
+        (
+          <div>
+            <MenuItem
+              active
+              isSubMenu
+              text="Live Caption Font Size"
+              current={`${fontSize}`}
+              onClick={openLiveCaptionMenu}
+            />
+          </div>
+        )
       }
 
       {
@@ -66,7 +72,7 @@ function RootMenu(props) {
           isSubMenu
           text="Screen Mode"
           current={Constants.ScreenModesMap[screenMode]}
-          onClick={onOpenScreenModeManu}
+          onClick={onOpenScreenModeMenu}
         />
       }
     </div>

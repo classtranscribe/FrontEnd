@@ -1,9 +1,12 @@
-.ctp.wrapper {
+@mixin wrapper {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  //width: 62vw;
+}
+
+.ctp.wrapper{
+  @include wrapper;
   height: 100%;
 }
 

@@ -7,9 +7,10 @@ import NonInteractiveLayer from './NonInteractiveLayer';
 function Wrapper(props) {
   const { screenshotActionElement } = props;
   const [userActive, setUserActive] = useState(true);
+
   return (
     <div
-      className="ctp wrapper main-wrapper"
+      className='ctp wrapper'
       onMouseEnter={() => setUserActive(true)}
       onMouseLeave={() => setUserActive(false)}
     >

@@ -109,6 +109,9 @@ function SettingsMenu(props) {
       break;
 
     case 'cc-opt':
+      menuProps = {
+        onGoBack: handleOpenMenu('root'),
+      }
       menuElement = <CCOptionsMenu {...menuProps} />;
       break;
 

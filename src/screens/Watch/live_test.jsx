@@ -12,6 +12,7 @@ import {
 } from './Utils';
 
 function LiveTestWithRedux(props) {
+
     const { 
       dispatch, 
       isFullscreen,
@@ -49,7 +50,8 @@ function LiveTestWithRedux(props) {
 
     return (
       <div>
-        {isFullscreen || isIOS  ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
+        {isFullscreen || isIOS ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
+
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}}>
           {isIOS ? 
         window.location.href = videosrc
@@ -59,8 +61,8 @@ function LiveTestWithRedux(props) {
               hideWrapperOnMouseLeave
               allowTwoScreen
               media={media}
-          />
-        }
+          />}
+
         </div>
         {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
       </div>

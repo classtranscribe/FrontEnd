@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 import { connect } from 'dva'
 import {
     ErrorWrapper,
@@ -16,7 +17,7 @@ function Player(props) {
         isFullscreen} = props
     const onKeyDown = (event) => {
         const { keyCode,
-            //* metaKey 
+            //* metaKey
         } = event;
         switch (keyCode) {
             // k or space - pause/play
@@ -65,26 +66,36 @@ function Player(props) {
             }
         })
     }, [media])
+
+    let device = '';
+    if (isMobile) {
+      if (window.innerWidth < window.innerHeight) {
+        device = '-mobile';
+      }
+    }
+    const setScreenOrientation = () => {
+      if (isMobile) {
+        if (window.innerWidth < window.innerHeight) {
+          device = '-mobile';
+          return;
+        }
+      }
+      device = '';
+    }
+    window.addEventListener("resize", setScreenOrientation);
+
     if(error) {
         return <ErrorWrapper error={error} />;
     }
     if(isFullscreen) {
         return (
           <div
-            className="ctp ct-player-con"
+            className="ctp ct-player-con-fullscreen"
             onKeyDown={onKeyDown}
             tabIndex="0"
-            style={{
-            width: '100%',
-            height: '100%'
-          }}
           >
             <div
               className="ctp ct-player lg fill"
-              style={{
-              width: '100%',
-              height: '100%'
-            }}
             >
               <ClassTranscribePlayer />
               <Wrapper screenshotActionElement={screenshotActionElement} />
@@ -94,20 +105,12 @@ function Player(props) {
     }
     return (
       <div
-        className="ctp ct-player-con"
+        className={`ctp ct-player-con${device}`}
         onKeyDown={onKeyDown}
         tabIndex="0"
-        style={{
-          width: '62vw',
-          height: '100%'
-        }}
       >
         <div
           className="ctp ct-player lg fill"
-          style={{
-            width: '62vw',
-            height: '100%'
-          }}
         >
           <ClassTranscribePlayer />
           <Wrapper screenshotActionElement={screenshotActionElement} />
