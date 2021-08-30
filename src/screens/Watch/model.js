@@ -3,6 +3,7 @@ import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import _ from 'lodash';
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
 import { check } from 'prettier';
+import { SatelliteSharp } from '@material-ui/icons';
 import { timeStrToSec, colorMap } from './Utils/helpers';
 import PlayerData from './player'
 import {
@@ -323,6 +324,9 @@ const WatchModel = {
             if(payload.length === 0 ) {
                 return state;
             }
+            if (state.updating) {
+                payload = splitter(payload);
+            }
            
             // state.transcript[insertIndex-1].startTime < firstStartTime  (if index>1)
             let checkNearby = 5 // Number of prior captions to check for possible existing entry
@@ -350,8 +354,12 @@ const WatchModel = {
                 let doInsert = true
                 let checkNumber = Math.min( insertIndex, checkNearby) // in case we dont have enough past items to check
                 for( let i = 0; i < checkNumber && doInsert; i += 1 ) {
-                    let c = result[insertIndex -1 -i];
+                    let c = result[insertIndex - 1 -i];
+
                     doInsert = (c.text !== caption.text || Math.abs(caption.startTime - c.startTime) > maxTimeDelta);
+                    if (state.updating) {
+                        doInsert = (c.startTime !== caption.startTime)
+                    }
                 }
 
                 // check the later captions in case we already inserted this
@@ -359,6 +367,9 @@ const WatchModel = {
                 for( let i = insertIndex; doInsert && i < result.length && i < insertIndex + checkNearby ; i += 1 ) {
                     let c = result[i];
                     doInsert = (c.text !== caption.text || Math.abs(caption.startTime - c.startTime) > maxTimeDelta);
+                    if (state.updating) {
+                        doInsert = (c.startTime !== caption.startTime)
+                    }
                 }
 
 

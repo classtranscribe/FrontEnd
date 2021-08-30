@@ -1,10 +1,10 @@
 @mixin watch-trans-container {
   position: fixed;
-  //left: 62vw;
-  //top: 5em !important;
-  //top: 0;
-  //width: 38vw;
-  //height: calc(100% - 12em);
+  // left: 62vw;
+  // top: 5em !important;
+  // top: 0;
+  // width: 38vw;
+  // height: calc(100% - 12em);
   overflow-x: hidden;
   overflow-y: auto !important;
   scroll-behavior: smooth;
