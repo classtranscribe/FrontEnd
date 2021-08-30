@@ -2,8 +2,6 @@ import { isSafari, isIPad13, isIPhone13, isMobile } from 'react-device-detect';
 import { api, user, prompt, InvalidDataError, uurl } from 'utils';
 import _ from 'lodash';
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
-import { check } from 'prettier';
-import { SatelliteSharp } from '@material-ui/icons';
 import { timeStrToSec, colorMap } from './Utils/helpers';
 import PlayerData from './player'
 import {
