@@ -64,7 +64,7 @@ class ReactEnv {
   }
 
   get devServer() {
-    return reactEnv.REACT_APP_TESTING_BASE_URL || window.location.origin;
+      return reactEnv.REACT_APP_TESTING_BASE_URL || window.location.origin;
   }
 
   get baseURL() {

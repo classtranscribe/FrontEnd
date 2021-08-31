@@ -1,8 +1,9 @@
-import React, { 
+import React, {
     // memo, 
     // useState,
     // fetch, 
-    useEffect, useCallback } from 'react';
+    useEffect, useCallback
+} from 'react';
 import Hls from 'hls.js';
 // import { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
@@ -20,18 +21,21 @@ import {
     CTP_ERROR,
     // HIDE_TRANS,
 } from '../../Utils/constants.util';
+import { api, prompt, _getSelectOptions } from 'utils';
+import { createPromptElem } from 'utils/prompt/prompt-creators';
+
 // import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
 const Video = React.memo((props) => {
-    const { 
-        id = 1, 
-        path, 
-        dispatch, 
+    const {
+        id = 1,
+        path,
+        dispatch,
         // isSwitched, 
-        embedded, 
-        videoRef, 
+        embedded,
+        videoRef,
         // openCC, 
         // updating,
         captionSpeedUp = 0
@@ -46,7 +50,7 @@ const Video = React.memo((props) => {
     const src = path;
     const autoPlay = true;
     // eslint-disable-next-line no-console
-    
+
     let originalTime = -1;
     let offSet = 0
     const onDurationChange = useCallback((e) => {
@@ -55,7 +59,7 @@ const Video = React.memo((props) => {
         // 
         if (e.target.duration !== 0 && e.target.currentTime !== 0 && offSet === 0) {
             offSet = (e.target.duration - e.target.currentTime);
-            dispatch({type: "watch/setOffSet", payload: offSet})
+            dispatch({ type: "watch/setOffSet", payload: offSet })
         }
         if (originalTime === -1 && duration !== 0) {
             originalTime = duration;
@@ -70,8 +74,8 @@ const Video = React.memo((props) => {
         // if (duration >= 30) {
         //     duration = 30
         // }
-       // 
-        dispatch({ type: 'watch/setDuration', payload: (duration - offSet)});
+        // 
+        dispatch({ type: 'watch/setDuration', payload: (duration - offSet) });
 
         // dispatch({ type: 'watch/setDuration', payload: duration });
         /*
@@ -103,7 +107,7 @@ const Video = React.memo((props) => {
         }
         // 
         if (captionSpeedUp !== 0) {
-            dispatch({type: 'watch/setCurrCaption'})
+            dispatch({ type: 'watch/setCurrCaption' })
         }
 
         // slow down if caught up at the end
@@ -176,37 +180,67 @@ const Video = React.memo((props) => {
 
             newHls.on(Hls.Events.MEDIA_ATTACHED, () => {
                 newHls.loadSource(src);
-                newHls.on(Hls.Events.MANIFEST_PARSED, () => {
+                newHls.on(Hls.Events.MANIFEST_PARSED, (_, event) => {
                     dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
                     const liveMode = true
-                    dispatch({ type: 'watch/setLiveMode', payload:  liveMode })
+                    dispatch({ type: 'watch/setLiveMode', payload: liveMode })
+                    console.log(event)
                 });
+
+            });
+            newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
+                console.log(event)
+            });
+            newHls.on(Hls.Events.ERROR, function (event, data) {
+                if (data.fatal) {
+
+                    switch (data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            // try to recover network error
+                            prompt.error('Network Error: Please Check your connection/ensure you have the correct link');
+
+                            console.log('fatal network error encountered, try to recover');
+
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            prompt.error('Media Error: Where working on getting things back online!');
+
+                            console.log('fatal media error encountered, try to recover');
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            // cannot recover
+                            hls.destroy();
+                            break;
+                    }
+                }
             });
             // newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
-                // const x = event.timeRanges?.video
-                // 
-                // , event.timeRanges.video?.end()
+            // const x = event.timeRanges?.video
+            // 
+            // , event.timeRanges.video?.end()
             // })
             // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => 
 
             // newHls.on(Hls.Events.MANIFEST_LOADED, (_, _event) => {
-                // eslint-disable-next-line no-console
-                // 
-                // if(true) {
-                    // if(!openCC) {
-                    //     newHls.subtitleTrack = -1;
-                    // }
+            // eslint-disable-next-line no-console
+            // 
+            // if(true) {
+            // if(!openCC) {
+            //     newHls.subtitleTrack = -1;
+            // }
 
-                    // eslint-disable-next-line no-console
-                // 
-                    // eslint-disable-next-line no-console
-                // 
-                // const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
-                    // eslint-disable-next-line no-console
-                // 
-                    // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
-                    // dispatch({type: 'watch/setCaptions', payload: [{}]})
-                // }
+            // eslint-disable-next-line no-console
+            // 
+            // eslint-disable-next-line no-console
+            // 
+            // const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
+            // eslint-disable-next-line no-console
+            // 
+            // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
+            // dispatch({type: 'watch/setCaptions', payload: [{}]})
+            // }
             // });
 
             // newHls.on(Hls.Events.CUES_PARSED, (_, __) => {
@@ -225,8 +259,8 @@ const Video = React.memo((props) => {
             // newHls.on(Hls.Events.CUES_PARSED, (_, __) =>{
             //     // 
             // })
-            
-            
+
+
             // Hls.Events.MANIFEST_PARSED
             // Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND and 
             // renderTextTracksNatively
@@ -284,7 +318,7 @@ const Video = React.memo((props) => {
         // 
         // 
         textTrack = _videoRef.current.textTracks
-         // textTrack.onremovetrack = (e) => {};
+        // textTrack.onremovetrack = (e) => {};
         textTrack.onaddtrack = () => {
             if (textTrack === null || textTrack.length === 0) {
                 return;
@@ -297,8 +331,8 @@ const Video = React.memo((props) => {
             for (var l = 0; l < Array.from(textTrack).length; l++) {
                 Array.from(textTrack)[l].mode = 'disabled';
             }
-            dispatch({ type: 'watch/setTextTracks', payload:  Array.from(textTrack) });
-            
+            dispatch({ type: 'watch/setTextTracks', payload: Array.from(textTrack) });
+
             const possibleEnglishTracks = Array.from(textTrack).filter(track => track.language.toLowerCase().startsWith("en"));
             if (possibleEnglishTracks.length > 0) {
                 englishTrack = possibleEnglishTracks[0];
@@ -307,7 +341,7 @@ const Video = React.memo((props) => {
             }
             for (var i = 0; i < Array.from(textTrack).length; i += 1) {
                 if (Array.from(textTrack)[i].language === englishTrack.language) {
-                    dispatch({type: "watch/setEnglishTrack", payload: i});
+                    dispatch({ type: "watch/setEnglishTrack", payload: i });
                     Array.from(textTrack)[i].mode = "showing";
 
 
@@ -316,7 +350,7 @@ const Video = React.memo((props) => {
             //dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
             //console.log(englishTrack)
             // englishTrack.addEventListener("cuechange", (event) => {
-                
+
             //     // 
             //     const toLog = [];
             //     for (let z = 0; z < event.currentTarget.cues.length; z++) {
@@ -328,7 +362,7 @@ const Video = React.memo((props) => {
             //     }
 
             //     // 
-             
+
             //     // const prev = undefined;
             //     if (event.currentTarget.activeCues[0] !== undefined) {
             //         idR += 1
@@ -348,24 +382,26 @@ const Video = React.memo((props) => {
             //             // y
             //             dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
-                        
+
             //             dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
-                        
+
             //             // splitter(toLog)
             //             yolo = 0
             //         }
             //         yolo += 1;
-                    
 
-                    
+
+
             //     }
             // })
-          };
-        
+        };
+
         if (textTrack[0] !== undefined) {
-            
+
         }
-      }, [_videoRef.current])
+        console.log(hls.audioTracks);
+    }, [_videoRef.current])
+
 
 
     // If Media Source is supported, use HLS.js to play video
@@ -373,32 +409,32 @@ const Video = React.memo((props) => {
 
     // hls.subtitleTracks
     return (
-      <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
-        {/* {embedded ?
+        <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+            {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         } */}
-        <video
-          playsInline
-          autoPlay={isMobile}
-          className="ct-video"
-          id={`ct-video-${id}`}
-          ref={_videoRef}
-          muted={!isPrimary ? true : undefined}
-          onDurationChange={onDurationChange}
-          onTimeUpdate={onTimeUpdate}
-          onPause={onPause}
-          onLoadStart={onLoadStartPri}
-          onLoadedData={onLoadedDataPri}
-          onEnded={onEndedPri}
-          onSeeking={onSeekingPri}
-          onSeeked={onSeekedPri}
-          onError={onErrorPri}
-        >
-          Your browser does not support video tag.
-        </video>
-      </div>)
+            <video
+                playsInline
+                autoPlay={isMobile}
+                className="ct-video"
+                id={`ct-video-${id}`}
+                ref={_videoRef}
+                muted={!isPrimary ? true : undefined}
+                onDurationChange={onDurationChange}
+                onTimeUpdate={onTimeUpdate}
+                onPause={onPause}
+                onLoadStart={onLoadStartPri}
+                onLoadedData={onLoadedDataPri}
+                onEnded={onEndedPri}
+                onSeeking={onSeekingPri}
+                onSeeked={onSeekedPri}
+                onError={onErrorPri}
+            >
+                Your browser does not support video tag.
+            </video>
+        </div>)
 }, (prevProps, nextProps) => {
-    return prevProps.path === nextProps.path 
-    && prevProps.isSwitched === nextProps.isSwitched
+    return prevProps.path === nextProps.path
+        && prevProps.isSwitched === nextProps.isSwitched
 });
 export default Video;

@@ -19,7 +19,7 @@ function LiveTestWithRedux(props) {
       // menu,
       // openCC, 
       } = props
-    const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0} = uurl.useSearch();
+    const { videosrc, iframesrc = null, updating = false, captionSpeedUp = 0, meetingName = undefined} = uurl.useSearch();
 
     dispatch({ type: 'watch/setUpdating', payload: updating});
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
@@ -31,7 +31,7 @@ function LiveTestWithRedux(props) {
           srcPath1: videosrc,
           // srcPath1: 'https://klive.kaltura.com/s/dc-1/live/hls/p/1359391/e/1_23mx1syi/sd/6000/t/5cWuUSMATwMSDUQSIdCbnw/index-s32.m3u8?__hdnea__=st=1618984738~exp=1619071138~acl=/s/dc-1/live/hls/p/1359391/e/1_23mx1syi/sd/6000/t/5cWuUSMATwMSDUQSIdCbnw/index-s32.m3u8*~hmac=f2462a504f3b020d2be1862aaab876b93a77b1f8f682a757215e6a93cea8b898'
       }],
-      mediaName: 'Live Meeting Cast', /* TODO: Pull out titles from somewhere, hls doesn't have titles */
+      mediaName: meetingName? meetingName: "BOT Meeting Live Stream", /* TODO: Pull out titles from somewhere, hls doesn't have titles */
   };
 
     useEffect(() => {
@@ -40,7 +40,7 @@ function LiveTestWithRedux(props) {
 
     useEffect(() => {
       if (media.isLive) {
-        document.title = "BOT Meeting Live Stream";
+        document.title = meetingName? meetingName: "BOT Meeting Live Stream";
       }
     }, [media])
 

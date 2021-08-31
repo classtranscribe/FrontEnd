@@ -69,7 +69,7 @@ const ClassTranscribePlayerNew = (props) => {
         toCopy.startTime = event.currentTarget.cues[z].startTime;
         toCopy.endTime = event.currentTarget.cues[z].endTime;
         toCopy.text = event.currentTarget.cues[z].text;
-        toLog.push(Object.freeze(toCopy))
+        toLog.push(toCopy)
     }
 
     // 
@@ -92,7 +92,7 @@ const ClassTranscribePlayerNew = (props) => {
             dispatch({ type: 'watch/setTranscript', payload:  toLog})
 
             
-            dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
+            dispatch({ type: 'watch/setCurrCaption', payload:  toCopy})
             
             // splitter(toLog)
     }
@@ -109,6 +109,7 @@ const ClassTranscribePlayerNew = (props) => {
       setPreviousTrack(englishTrack);
     }
   }, [englishTrack])
+
 
   const media1Prop = {
     id: 1,
