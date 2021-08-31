@@ -24,11 +24,15 @@ function LiveTestWithRedux(props) {
     dispatch({ type: 'watch/setUpdating', payload: updating});
     dispatch({ type: 'watch/setCaptionSpeedUp', payload: captionSpeedUp});
 
+    // UIS BOT Live event m3u8
+    const m3u8Url = 'https://cdnapisec.kaltura.com/p/0/sp/0/playManifest/entryId/1_j82of7xw/format/applehttp/protocol/https/flavorParamId/manifest.m3u8';
+
     const media = {
       isLive: true, 
       videos: [{
           useHls: true,
-          srcPath1: videosrc,
+          srcPath1: videosrc.toLowerCase() === 'uisbotlive' ? m3u8Url : videosrc,
+          // srcPath1: videosrc,
           // srcPath1: 'https://klive.kaltura.com/s/dc-1/live/hls/p/1359391/e/1_23mx1syi/sd/6000/t/5cWuUSMATwMSDUQSIdCbnw/index-s32.m3u8?__hdnea__=st=1618984738~exp=1619071138~acl=/s/dc-1/live/hls/p/1359391/e/1_23mx1syi/sd/6000/t/5cWuUSMATwMSDUQSIdCbnw/index-s32.m3u8*~hmac=f2462a504f3b020d2be1862aaab876b93a77b1f8f682a757215e6a93cea8b898'
       }],
       mediaName: meetingName? meetingName: "BOT Meeting Live Stream", /* TODO: Pull out titles from somewhere, hls doesn't have titles */
