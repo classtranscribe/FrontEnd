@@ -22,9 +22,12 @@ class EPubFileBuilder {
    * Create an EPubFileBuilder
    * @param {EPubData} ePubData 
    */
-  constructor(ePubData) {
+  constructor() {
     this.zip = new AdmZip();
-    this.data = EPubParser.parse(ePubData);
+  }
+
+  async init(ePubData) {
+    this.data = await EPubParser.parse(ePubData);
   }
 
   /**
@@ -33,12 +36,15 @@ class EPubFileBuilder {
    * @returns {Buffer} epub file buffer
    */
   static async toBuffer(ePubData) {
-    const builder = new EPubFileBuilder(ePubData);
+    const builder = new EPubFileBuilder();
+    await builder.init(ePubData);
     const buffer = await builder.getEPubBuffer();
     return buffer;
   }
 
   async insertImagesToZip() {
+    // we embeded image into html
+    /*
     const { cover, chapters } = this.data;
     const { coverBuffer, images } = 
       await EPubParser.loadEPubImageBuffers({ chapters, cover });
@@ -47,6 +53,7 @@ class EPubFileBuilder {
     _.forEach(images, (img) => {
       this.zip.addFile(`OEBPS/${img.relSrc}`, img.buffer);
     });
+    */
   }
 
   getTocNCX() {

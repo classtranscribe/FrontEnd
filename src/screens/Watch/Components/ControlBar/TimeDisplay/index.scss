@@ -1,0 +1,11 @@
+.watch-time-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--ct-font-google);
+  color: var(--ct-text-white);
+  font-size: 16px;
+  height: 30px;
+  margin-left: 1em;
+}

@@ -1,0 +1,53 @@
+/* .watch-playlists-menu-trigger:after {
+  font-weight: bold;
+  font-family: var(--ct-font-narrow);
+  content: 'PLAYLISTS';
+} */
+.playlist-menu-btn {
+  margin-right: 20px !important;
+}
+.watch-header-btn-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  margin: 0 2px;
+  font-size: 10px !important;
+}
+.watch-playlist-menu-tigger-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  margin: 0 2px;
+}
+.watch-playlists-menu-trigger {
+  &:hover {
+    color: var(--ct-green-normal);
+  }
+  &:focus {
+    outline: none;
+  }
+  i {
+    font-size: 20px;
+    width: max-content;
+  }
+}
+@media screen and (max-width: 450px) {
+  .playlist-menu-btn {
+    margin-right: 10px !important;
+  }
+}
+@media screen and (max-width: 630px) {
+  #menu-shortcuts {
+    display: none;
+  }
+  #help-guide-btn {
+    display: none;
+  }
+  #menu-download {
+    display: none;
+  }
+}

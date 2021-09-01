@@ -7,11 +7,11 @@ import {
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 function CaptionLine({ isCurrent = false, isEditing = false,
-  shouldHide = false, caption = {}, dispatch }) {
-  const { text = '', id, begin, kind } = caption;
+  shouldHide = false, caption = {}, dispatch, fontSize }) {
+  let { text, id, startTime, begin, kind = "web" } = caption;
   const ref = useRef();
 
   const blurFromInput = () => {
@@ -23,7 +23,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleSeek = () => {
-    const time = timeStrToSec(begin);
+    const time = timeStrToSec(startTime);
     dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
@@ -57,12 +57,25 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     }
   };
 
-  const timeStr = prettierTimeStr(begin);
+  const timeStr = prettierTimeStr(String(startTime));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
+  let roundedTime = Math.round(startTime);
+  let beginTime= Math.floor(roundedTime / 60)
+  let secondsTime = roundedTime % 60
+  let secondsTimeString = String(secondsTime);
+
+
+  if (secondsTime < 10) {
+    secondsTimeString = `0${ String(secondsTime)}`
+  }
+  let totalTime = `${String(beginTime) }:${ secondsTimeString}`;
+  if (begin !== undefined) {
+    totalTime = prettierTimeStr(begin)
+  }
 
   return (
     <div
-      id={`caption-line-${id}`}
+      id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
       className="watch-caption-line"
       current={isCurrent.toString()}
       editing={isEditing.toString()}
@@ -77,7 +90,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
           onClick={handleSeek}
           aria-label={`Jump to ${timeStr}`}
         >
-          <span tabIndex="-1">{timeStr}</span>
+          <span tabIndex="-1">{totalTime}</span>
         </button>
 
         {/* Caption Line */}
@@ -92,7 +105,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
             ref={ref}
             contentEditable={!isMobile}
             id={`caption-line-textarea-${id}`}
-            className="caption-line-text"
+            className={`caption-line-text-${fontSize}`}
             dangerouslySetInnerHTML={{ __html: text }}
             onFocus={handleFocus}
             onBlur={handleBlur}

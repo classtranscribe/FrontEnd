@@ -12,7 +12,7 @@ import {
   SEARCH_TRANS_IN_COURSE,
   SEARCH_IN_SHORTCUTS
 } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 import ResultList from './ResultList';
 import Placeholder from '../Placeholder';

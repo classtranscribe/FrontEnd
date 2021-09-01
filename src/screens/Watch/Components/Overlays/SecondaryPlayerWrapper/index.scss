@@ -1,0 +1,102 @@
+/* Secondary Player Wrapper/Overlays */
+.watch-secondary-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.192);
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+  &:hover {
+    opacity: 1;
+  }
+  &:focus-within {
+    opacity: 1;
+  }
+}
+.watch-secondary-wrapper[data-blur=true] {
+  background: rgba(0, 0, 0, 0.719);
+  opacity: 1;
+}
+.watch-secondary-wrapper-left {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  align-items: flex-start;
+}
+.watch-secondary-wrapper-right {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  align-items: flex-end;
+}
+.watch-secondary-wrapper-button {
+  color: white;
+  width: 16em;
+  height: 120%;
+  border-radius: 50%;
+  background: rgba(41, 41, 41, 0.623);
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+  &:hover {
+    background: rgba(0, 0, 0, 0.815);
+    transition: background 0.3s ease-in-out;
+    -o-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    -webkit-transition: background 0.3s ease-in-out;
+    outline: none;
+  }
+  &:focus {
+    background: rgba(0, 0, 0, 0.815);
+    transition: background 0.3s ease-in-out;
+    -o-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    -webkit-transition: background 0.3s ease-in-out;
+    outline: none;
+  }
+  i {
+    font-size: 45px;
+  }
+}
+.watch-secondary-wrapper-button[content=switch] {
+  align-items: flex-end;
+  justify-content: center;
+  margin-left: -8em;
+}
+.watch-secondary-wrapper-button[content=close] {
+  align-items: flex-start;
+  justify-content: center;
+  margin-right: -8em;
+}
+.watch-secondary-wrapper[mode=nested-mode] {
+  .watch-secondary-wrapper-button {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+  }
+}
+.watch-secondary-wrapper[mode=theatre-mode] {
+  .watch-secondary-wrapper-button {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+  }
+}

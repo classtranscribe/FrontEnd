@@ -70,3 +70,5 @@ deployment.sh
 # next.js build output
 .next
 
+# IDE files
+.idea/*

@@ -5,7 +5,7 @@ import TranscriptionSetting from './TranscriptionSetting';
 import CCSetting from './CCSetting';
 import ADSetting from './ADSetting';
 import { SMTAB_GENERAL, SMTAB_TRANS, SMTAB_CC, SMTAB_AD } from '../../../Utils';
-import './index.css';
+import './index.scss';
 
 const panes = [
   {

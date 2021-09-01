@@ -1,0 +1,48 @@
+.watch-media-info {
+  margin-left: 1em;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  span {
+    display: block;
+  }
+}
+.watch-header-course-num {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 5px 0 0 0 !important;
+  padding: 0 !important;
+  width: 25vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ct-text-highlight);
+  font-family: var(--ct-font-google);
+  span {
+    font-weight: normal;
+    color: rgb(209, 209, 209);
+    margin-left: .5rem;
+    font-family: var(--ct-font-narrow);
+    display: inline;
+    border-left: 1px solid rgb(209, 209, 209);
+    padding-left: 5px;
+  }
+}
+.watch-header-media-name {
+  position: relative;
+  font-size: 1.15em;
+  margin: .2rem 0 !important;
+  padding: 0 !important;
+  width: 25vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--ct-font-narrow);
+  font-weight: normal;
+  color: rgb(209, 209, 209);
+}
+@media screen and (max-width: 550px) {
+  .watch-media-info {
+    display: none;
+  }
+}

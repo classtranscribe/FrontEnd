@@ -14,6 +14,8 @@ export class CILogon {
     const query = uurl.createSearch({
       response_type: 'code',
       client_id: env.ciLogonClientID,
+      selected_idp: env.ciLogonSelectedIDP,
+      initialidp: env.ciLogonDefaultIDP,
       redirect_uri: this.callback,
       scope: 'openid profile email org.cilogon.userinfo edu.uiuc.ncsa.myproxy.getcert',
     });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popup } from 'semantic-ui-react';
-import './index.css';
+import './index.scss';
 import { isMobile } from 'react-device-detect';
 
 export default function WatchCtrlButton({

@@ -4,7 +4,7 @@
  * 0    - Transcription
  * 1    - Primary player & Closed Caption
  * 2    - Secondary player & Secondary Player Wrapper/Overlays
- * 4    - Prompts 
+ * 4    - Prompts
  * 5    - Menus
  * 1020 - Control bar
  * 1020 - Header
@@ -15,7 +15,7 @@
 
 /* Transcription Area */
 .watch-trans-container {
-  z-index: 0;
+  z-index: 2;
 }
 
 /* Header z-index: 1020 */

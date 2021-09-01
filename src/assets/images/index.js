@@ -13,3 +13,5 @@ export const offeringPosterImg = require('./offering-poster.jpg');
 export const epubExampleTop = require('./epub-example-top.png');
 export const epubExampleBottom = require('./epub-example-bottom.png');
 
+// modification for live_player
+export const UISlogo = require('./UIS-Logo.png');

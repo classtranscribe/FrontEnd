@@ -37,10 +37,11 @@ class EPubDownloadController {
     }
   }
 
-  static preview(print = false) {
+  static async preview(print = false) {
     try {
       const { epub } = window.temp_app._store.getState();
-      const builder = new HTMLFileBuilder(epub, true);
+      const builder = new HTMLFileBuilder();
+      await builder.init(epub, true);
       const html = builder.getIndexHTML(true, print);
       const htmlBlob = new Blob([html], { type: 'text/html' });
       const htmlUrl = URL.createObjectURL(htmlBlob);
@@ -51,7 +52,7 @@ class EPubDownloadController {
   }
 
   static async downloadPDF(onDownloaded) {
-    EPubDownloadController.preview(true);
+    await EPubDownloadController.preview(true);
   }
 
   static async downloadScreenshots(onDownloaded) {

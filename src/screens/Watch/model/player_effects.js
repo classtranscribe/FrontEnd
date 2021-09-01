@@ -14,20 +14,22 @@ import {
     HIDE_TRANS,
 } from '../Utils/constants.util';
 
+const LIVE_BUFFER_TIME = 20;
+
 let hasRestored = false;
 function handleRestoreTime(watch) {
     const { media, embedded } = watch;
     const search = uurl.useSearch();
-    const begin = embedded? embedded?.beginAt : (search.begin || media.watchHistory.timestamp);
+    const begin = embedded ? embedded?.beginAt : (search.begin || media.watchHistory.timestamp);
     if (begin > timestr.toSeconds(media.duration) - 1) {
         // Do not restore if we're approaching the end
         return false;
     }
-    if(!embedded && hasRestored) {
+    if (!embedded && hasRestored) {
         return false;
     }
     if (begin) {
-        if(!embedded) {
+        if (!embedded) {
             hasRestored = true;
             window.history.replaceState(null, null, links.watch(media.id));
         }
@@ -37,7 +39,7 @@ function handleRestoreTime(watch) {
 }
 function enterFullScreen(watch) {
     try {
-        let elem = document.getElementById('watch-page') || {};
+        let elem = document.getElementsByTagName('video')[0] || {};
         if (isMobile) {
             elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
         }
@@ -68,6 +70,7 @@ function exitFullScreen(watch) {
             // console.log(elem.webkitExitFullscreen)
         }
         if (!PlayerData.video1) return;
+        if (document.fullscreenElement == null) return;
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
@@ -100,12 +103,21 @@ export default {
     *media_forward({ payload: sec = 10 }, { call, put, select, take }) {
         const { watch } = yield select();
         const now = watch.time;
-        yield put({ type: 'media_setCurrTime', payload: Math.min(now + sec, watch.duration) });
+        const max_time = watch.duration - (watch.liveMode ? LIVE_BUFFER_TIME : 0);
+        if (watch.liveMode === 1) {
+            return;
+        } if(watch.liveMode === 2 && now + sec > max_time) {
+            yield put({ type: 'setLiveMode', payload: 1 })
+        }
+        yield put({ type: 'media_setCurrTime', payload: Math.min(now + sec, max_time), realTime: true });
     },
     *media_backward({ payload: sec = 10 }, { call, put, select, take }) {
         const { watch } = yield select();
         const now = watch.time;
-        yield put({ type: 'media_setCurrTime', payload: Math.max(now - sec, 0) });
+        if (watch.liveMode === 1) {
+            yield put({ type: 'setLiveMode', payload: 2 });
+        }
+        yield put({ type: 'media_setCurrTime', payload: Math.max(now - sec, 0), realTime: true });
     },
     *media_pause({ payload }, { call, put, select, take }) {
         try {
@@ -134,10 +146,24 @@ export default {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { volume: toSet } })
     },
-    *media_setCurrTime({ payload }, { call, put, select, take }) {
+    *media_setCurrTime({ payload, realTime = false }, { call, put, select, take }) {
         // currtime = 0
-        PlayerData.video1 && (PlayerData.video1.currentTime = payload);
-        PlayerData.video2 && (PlayerData.video2.currentTime = payload);
+        const { watch } = yield select();
+        if (watch.liveMode && !realTime) {
+            yield put({ type: 'setLiveMode', payload: payload > -5 ? 1 : 2 })
+            // payload = Math.min(watch.duration + payload, watch.duration - LIVE_BUFFER_TIME); // we accept negative timestamp in live mode
+            payload = (watch.duration) + payload;
+        }
+
+
+
+
+        if (PlayerData.video1 != null) {
+            PlayerData.video1.currentTime = payload;
+        }
+        
+        // PlayerData.video1 && (PlayerData.video1.currentTime = payload);
+        // PlayerData.video2 && (PlayerData.video2.currentTime = payload);
         yield put({ type: 'setTime', payload })
         yield put({ type: 'sendMediaHistories' });
     },
@@ -150,7 +176,7 @@ export default {
         if (typeof p !== 'number' || p > 1 || p < 0) return;
         const { watch } = yield select();
         const seekTo = watch.duration * p;
-        yield put({ type: 'media_setCurrTime', payload: seekTo });
+        yield put({ type: 'media_setCurrTime', payload: seekTo, realTime: true });
     },
     *onPlayPauseClick({ payload }, { call, put, select, take }) {
         const { watch } = yield select();
@@ -160,20 +186,20 @@ export default {
             yield put({ type: 'media_pause' })
         }
     },
-    *toggleFullScreen({ payload: bool }, { call, put, select, take }) {
+    *toggleFullScreenTwo({ payload: bool }, { call, put, select, take }) {
         const { watch, playerpref } = yield select();
-        const newState = bool === undefined ? !watch.isFullscreen : bool;
-        if (newState) {
+        const newState = bool === undefined ? !watch.isFullscreenTwo : bool;
+        if (newState !== undefined) {
             if (!PlayerData.video1) return;
             if (newState) {
-                enterFullScreen()
-                yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
+                enterFullScreen(watch)
+                // yield put({ type: 'playerpref/setTransView', payload: { view: null, config: { updatePrefer: false } } });
             } else {
-                exitFullScreen()
-                yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
+                exitFullScreen(watch)
+                // yield put({ type: 'playerpref/setTransView', payload: { view: HIDE_TRANS, config: { updatePrefer: false } } });
             }
         }
-        yield put({ type: 'setFullscreen', payload: newState });
+        yield put({ type: 'setFullscreenTwo', payload: newState });
     },
     *switchVideo({ payload: bool }, { call, put, select, take }) {
         if (!PlayerData.video2) return;
