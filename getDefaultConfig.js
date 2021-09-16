@@ -11,7 +11,7 @@ const logger = createLogger({
   transports: [new transports.Console()]
 });
 
-let url = "https://classtranscribe-dev.ncsa.illinois.edu"
+let url = "https://ct-dev.ncsa.illinois.edu"
 
 try {
   if (!fs.existsSync("./public/config.js")) {

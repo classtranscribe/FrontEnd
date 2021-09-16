@@ -14,9 +14,8 @@ const logger = createLogger({
 
 let backendList = {
   production : "https://classtranscribe.illinois.edu",
-  dev  : "https://classtranscribe-dev.ncsa.illinois.edu"
+  dev  : "https://ct-dev.ncsa.illinois.edu"
 }
-
 
 /**
  * adds REACT_APP_TESTING_BASE_URL env var to the config file
