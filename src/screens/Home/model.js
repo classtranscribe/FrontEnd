@@ -78,6 +78,7 @@ const HomeModel = {
         },
         pageLoadError(state, { payload }) {
             if (state.error === HomeConstants.CTHomepageLoadError) return state;
+            console.error(state.error)
             state.error = HomeConstants.CTHomepageLoadError
             prompt.addOne({
                 text: 'Failed to load the page contents.',

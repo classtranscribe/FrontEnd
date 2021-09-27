@@ -55,7 +55,6 @@ function LiveTestWithRedux(props) {
     return (
       <div>
         {isFullscreen || isIOS ? (<></>) : (<Transcriptions style={{zIndex: 2, height: '100%', position: "absolute"}} />)}
-
         <div style={{width: '100%', height: iframesrc ? '75%' : '100%', position: "absolute"}}>
           {isIOS ? 
         window.location.href = videosrc
@@ -68,7 +67,7 @@ function LiveTestWithRedux(props) {
           />}
 
         </div>
-        {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '25%', height: '25%' }} />}
+        {iframesrc && <iframe title="Embedded frame" src={iframesrc} style={{ border: 0, width: '100%', height: '25%', bottom: 0, position: 'absolute', zIndex: 100 }} />}
       </div>
     );
 }

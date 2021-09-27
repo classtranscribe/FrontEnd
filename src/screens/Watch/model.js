@@ -374,7 +374,7 @@ const WatchModel = {
 
                 // check for length;
                 // check for any weird caption scrubbing baloney
-                if( doInsert && caption.text.length > 0 && Math.abs(caption.startTime - caption.endTime) < 30) {
+                if( doInsert && caption.text?.length > 0 && Math.abs(caption.startTime - caption.endTime) < 30) {
                     result.splice(insertIndex, 0, caption)
                 }
             }
