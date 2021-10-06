@@ -307,6 +307,8 @@ export class User {
 
   // check if the there is a new commit to master
   checkAppVersion() {
+
+  /*
     try {
       const latestSHA = env.gitSHA;
       if (!latestSHA) {
@@ -320,12 +322,13 @@ export class User {
           this.signOut();
         } else {
           accountStorage.setLatestCommitSHA(latestSHA);
-          window.location.reload(true);
+          location.href = location.href
         }
       }
     } catch (error) {
       console.error("Failed to checking the latest commit's SHA on master.");
     }
+    */
   }
 
   // ---------------------------------------------------------------------------
