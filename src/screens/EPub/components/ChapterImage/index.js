@@ -7,6 +7,7 @@ import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';
 import './index.scss';
+import { Button } from 'pico-ui';
 
 const NewImageButton = ({ onClick }) => (
   <ChapterEditButton muted onClick={onClick}>
@@ -66,9 +67,12 @@ function ChapterImage({
   useEffect(() => {
     dispatch({ type: 'epub/setImgPickerData', payload: null });
   }, [image]);
-
+  // console.log(epub);
   const imgConClasses = cx('ct-epb', 'ch-img-con');
-
+  const dispatchChange = (newEpub) => {
+    console.log(newEpub);
+    dispatch({ type: 'epub/setEPub', payload: newEpub });
+  }
   return (
     <>
       {image ? (
@@ -76,11 +80,14 @@ function ChapterImage({
           <div className="ct-epb ch-img">
             <Image src={uurl.getMediaUrl(src)} alt={alt} />
             <ImageWrapper
+              epub={epub}
               id={id}
               imageAlt={alt}
+              chapter={epub.chapters[currChIndex]}
               onChooseImage={openImagePicker}
               onRemoveImage={onRemoveImage}
               onImageAltChange={onAltChange}
+              onLinkChange={dispatchChange}
               disabled={disableImagePicker}
             />
           </div>
