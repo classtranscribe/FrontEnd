@@ -65,7 +65,12 @@ class EPubFileBuilder {
       playOrder += 1;
       return playOrder;
     };
-  
+    // const images = _.flatten(_.map(chapters, (ch) => ch.images));
+    // const imageItems = _.map(
+    //   images,
+    //   (img) => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
+    // ).join('\n\t\t');
+
     _.forEach(chapters, (ch, index) => {
       navPoints += `
         <navPoint id="${ch.id}" playOrder="${getPlayOrder()}" class="chapter">
@@ -88,17 +93,21 @@ class EPubFileBuilder {
         `;
     });
   
-    return OEBPS_TOC_NCX({ title, author, navPoints });
+    return OEBPS_TOC_NCX({ title, author, navPoints});
   }
 
   getTocXHTML() {
-    const { title, language, chapters } = this.data;
+    const { title, language, chapters} = this.data;
     let navContents = '';
 
-    _.forEach(chapters, (ch, index) => {
+    _.forEach(chapters, (ch, index) => {  
+      
+      let imgStart = ch.text.indexOf('<img');
+      let imgEnd = ch.text.indexOf('</div>');
+      let image = ch.text.substring(imgStart, imgEnd);
       navContents += `
         <dt class="table-of-content">
-            <a href="${ch.id}.xhtml">${index + 1} - ${ch.title}</a>
+            <a href="${ch.id}.xhtml">${index + 1} - ${ch.title} - ${image} </a>
         </dt>
         ${_.map(
           ch.subChapters,
@@ -150,14 +159,17 @@ class EPubFileBuilder {
     const { title, text } = chapter;
   
     const content = dedent(`
-        <div class="epub-ch">
+        <div class="epub-ch">˜
             ${text}
         </div>
       `);
-
+    //TODO log 
+    console.trace()
+    console.log()
+    // console.log(content)
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
-
+  
   async getEPubBuffer() {
     const { title, author, language, chapters, cover } = this.data;
     const zip = this.zip;
