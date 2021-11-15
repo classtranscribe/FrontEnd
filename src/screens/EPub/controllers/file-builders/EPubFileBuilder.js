@@ -65,12 +65,7 @@ class EPubFileBuilder {
       playOrder += 1;
       return playOrder;
     };
-    // const images = _.flatten(_.map(chapters, (ch) => ch.images));
-    // const imageItems = _.map(
-    //   images,
-    //   (img) => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
-    // ).join('\n\t\t');
-
+  
     _.forEach(chapters, (ch, index) => {
       navPoints += `
         <navPoint id="${ch.id}" playOrder="${getPlayOrder()}" class="chapter">
@@ -93,11 +88,11 @@ class EPubFileBuilder {
         `;
     });
   
-    return OEBPS_TOC_NCX({ title, author, navPoints});
+    return OEBPS_TOC_NCX({ title, author, navPoints });
   }
 
   getTocXHTML() {
-    const { title, language, chapters} = this.data;
+    const { title, language, chapters } = this.data;
     let navContents = '';
 
     _.forEach(chapters, (ch, index) => {  
@@ -111,7 +106,7 @@ class EPubFileBuilder {
       image += 'width="70%"'
       image += '/>'
       image += '</div>'
-      
+
       navContents += `
         <dt class="table-of-content">  
           <a href="${ch.id}.xhtml">${index + 1} - ${ch.title} ${image} </a>
@@ -167,13 +162,10 @@ class EPubFileBuilder {
     const { title, text } = chapter;
   
     const content = dedent(`
-        <div class="epub-ch">˜
+        <div class="epub-ch">
             ${text}
         </div>
       `);
-    //TODO log 
-    console.trace()
-    console.log()
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
   
