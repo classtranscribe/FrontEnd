@@ -106,12 +106,14 @@ class EPubFileBuilder {
       let imgStart = ch.text.indexOf('<img');
       let imgEnd = ch.text.indexOf('/>');
       let divEnd = ch.text.indexOf('</div>'); 
-      let altTextIndex = ch.text.indexOf('alt')
-      let image = ch.text.substring(divStart, imgEnd);
-      // set image size 
+      let altTextIndex = ch.text.indexOf('alt=')
+      let image = ch.text.substring(divStart, altTextIndex);
+      // set image size and alt text 
+      image += 'alt="' + ch.title + '" ';
       image += 'width="70%"'
       image += '/>'
       image += '</div>'
+      console.log(image)
       navContents += `
         <dt class="table-of-content">
             <a href="${ch.id}.xhtml">${index + 1} - ${ch.title} ${image}</a>
