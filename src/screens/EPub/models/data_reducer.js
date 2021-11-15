@@ -269,14 +269,37 @@ export default {
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
     splitChaptersByScreenshots(state) {
-        let splitChapters = _.map(
-            state.items,
-            (data, idx) =>
-                new EPubChapterData({
-                    items: [data],
-                    title: `Untitled Chapter ${idx + 1}`,
-                }).toObject(),
-        );
+        console.log(state)
+        // let splitChapters = _.map(
+        //     state.items,
+        //     (data, idx) => 
+        //         new EPubChapterData({
+        //             items: [data],
+        //             title: `Untitled Chapter ${idx + 1}`,
+        //         }).toObject(),
+        // );
+        let idx = 0
+        let splitChapters = [];
+        let minimumWordCount = 15;
+        let textStore = "";
+        for (let i = 0; i < state.items.length; ++i) {
+            const item = state.items[i];
+            if (i != state.items.length-1 && item.text.split(' ').length < minimumWordCount) {
+                textStore = item.text;
+            } else {
+                if (textStore) {
+                    item.text = textStore + item.text;
+                }
+                splitChapters.push(
+                    new EPubChapterData({
+                        items: [item],
+                        title: `Untitled Chapter ${idx + 1}`,
+                    }).toObject(), 
+                )
+                textStore = "";
+                idx++; 
+            }
+        }
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {
