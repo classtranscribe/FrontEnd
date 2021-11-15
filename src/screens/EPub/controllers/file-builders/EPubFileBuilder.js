@@ -100,7 +100,6 @@ class EPubFileBuilder {
       let divStart = ch.text.indexOf('<div'); 
       let altTextIndex = ch.text.indexOf('alt=')
       let image = ch.text.substring(divStart, altTextIndex);
-      console.log(image);
       // set image size and alt text 
       if (image) {
         image += 'alt="'; 
@@ -127,7 +126,6 @@ class EPubFileBuilder {
             </dd>`,
         ).join('\n\t\t\t')}
         `;
-        console.log(navContents)
     });
   
     return OEBPS_TOC_XHTML({ title, language, navContents });
