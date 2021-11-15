@@ -102,10 +102,12 @@ class EPubFileBuilder {
       let image = ch.text.substring(divStart, altTextIndex);
 
       // set image size and alt text 
-      image += 'alt="' + ch.title + '" ';
-      image += 'width="70%"'
-      image += '/>'
-      image += '</div>'
+      image += 'alt="'; 
+      image += ch.title; 
+      image += '" ';
+      image += 'width="70%"';
+      image += '/>';
+      image += '</div>';
 
       navContents += `
         <dt class="table-of-content">  
@@ -121,7 +123,6 @@ class EPubFileBuilder {
             </dd>`,
         ).join('\n\t\t\t')}
         `;
-
     });
   
     return OEBPS_TOC_XHTML({ title, language, navContents });
