@@ -100,14 +100,18 @@ class EPubFileBuilder {
       let divStart = ch.text.indexOf('<div'); 
       let altTextIndex = ch.text.indexOf('alt=')
       let image = ch.text.substring(divStart, altTextIndex);
-
+      console.log(image);
       // set image size and alt text 
-      image += 'alt="'; 
-      image += ch.title; 
-      image += '" ';
-      image += 'width="70%"';
-      image += '/>';
-      image += '</div>';
+      if (image) {
+        image += 'alt="'; 
+        image += ch.title; 
+        image += '" ';
+        image += 'width="70%"';
+        image += '/>';
+        image += '</div>';
+      } else {
+        image = "";
+      }
 
       navContents += `
         <dt class="table-of-content">  
@@ -123,6 +127,7 @@ class EPubFileBuilder {
             </dd>`,
         ).join('\n\t\t\t')}
         `;
+        console.log(navContents)
     });
   
     return OEBPS_TOC_XHTML({ title, language, navContents });
