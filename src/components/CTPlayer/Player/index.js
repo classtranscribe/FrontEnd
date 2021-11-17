@@ -67,23 +67,6 @@ function Player(props) {
         })
     }, [media])
 
-    let device = '';
-    if (isMobile) {
-      if (window.innerWidth < window.innerHeight) {
-        device = '-mobile';
-      }
-    }
-    const setScreenOrientation = () => {
-      if (isMobile) {
-        if (window.innerWidth < window.innerHeight) {
-          device = '-mobile';
-          return;
-        }
-      }
-      device = '';
-    }
-    window.addEventListener("resize", setScreenOrientation);
-
     if(error) {
         return <ErrorWrapper error={error} />;
     }
@@ -105,9 +88,10 @@ function Player(props) {
     }
     return (
       <div
-        className={`ctp ct-player-con${device}`}
+        className="ctp ct-player-con"
         onKeyDown={onKeyDown}
         tabIndex="0"
+        style={{height: '100%', width:'100%'}}
       >
         <div
           className="ctp ct-player lg fill"
