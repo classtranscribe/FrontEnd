@@ -4,7 +4,8 @@ import { CTPlayerConstants as Constants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function RootMenu(props) {
-  const {
+  let {
+    live,
     isTwoScreen,
     screenMode,
     openCC,
@@ -12,10 +13,24 @@ function RootMenu(props) {
     playbackRate,
     onOpenCCMenu,
     openPlaybackRateMenu,
-    onOpenScreenModeManu
+    openLiveCaptionMenu,
+    onOpenScreenModeManu,
+    fontSize,
+    onOpenLiveTextTrackSelection,
+    englishTrack,
+    onOpenScreenModeMenu,
+    onOpenCCSettingMenu,
   } = props;
 
-  const currentLang = !openCC ? 'OFF' : (language.text || 'OFF');
+  let currentLang;
+  if (openCC && language && language.text) {
+    currentLang = language.text;
+  } else {
+    currentLang = 'OFF';
+  }
+
+  if (fontSize == null) fontSize = "normal";
+  // const cl = !openCC ? 'OFF' : (language.text || 'OFF');
 
   return (
     <div className="ctp settings-menu">
@@ -26,6 +41,29 @@ function RootMenu(props) {
         current={`${playbackRate }x`}
         onClick={openPlaybackRateMenu}
       />
+      <MenuItem
+        active
+        isSubMenu
+        text="Caption Language"
+        current={englishTrack.language}
+        onClick={onOpenLiveTextTrackSelection}
+      />
+
+      {
+        live
+        &&
+        (
+          <div>
+            <MenuItem
+              active
+              isSubMenu
+              text="Live Caption Font Size"
+              current={`${fontSize}`}
+              onClick={openLiveCaptionMenu}
+            />
+          </div>
+        )
+      }
 
       {
         isTwoScreen
@@ -34,7 +72,7 @@ function RootMenu(props) {
           isSubMenu
           text="Screen Mode"
           current={Constants.ScreenModesMap[screenMode]}
-          onClick={onOpenScreenModeManu}
+          onClick={onOpenScreenModeMenu}
         />
       }
     </div>
@@ -52,7 +90,9 @@ RootMenu.propTypes = {
   playbackRate: PropTypes.number,
   onOpenCCMenu: PropTypes.func,
   openPlaybackRateMenu: PropTypes.func,
-  onOpenScreenModeManu: PropTypes.func
+  openLiveCaptionMenu: PropTypes.func,
+  onOpenScreenModeManu: PropTypes.func,
+  fontSize: PropTypes.string,
 };
 
 export default RootMenu;

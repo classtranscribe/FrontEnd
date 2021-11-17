@@ -1,6 +1,6 @@
 import React from 'react';
 import { connectWithRedux, SEARCH_INIT, SEARCH_HIDE } from '../../Utils';
-import './index.css';
+import './index.scss';
 
 import InputBar from './InputBar';
 import Results from './Results';

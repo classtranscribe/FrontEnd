@@ -1,0 +1,364 @@
+/* Time */
+/* Text */
+/* .watch-caption-line[data-unsaved=true] .caption-line-text {
+  color: rgb(255, 166, 0);
+} */
+/* Save Button */
+/* .watch-caption-line[data-unsaved=true] .caption-line-btns .caption-line-prompt {
+  color: rgb(255, 166, 0);
+} */
+/* Description */
+.watch-caption-line {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 4em;
+  padding: .7em;
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+  border-radius: 5px;
+  z-index: 10;
+}
+.watch-caption-line[editing=true] {
+  background: rgb(46, 46, 46);
+  .caption-line-text {
+    color: var(--ct-text-white) !important;
+    outline: none;
+    font-weight: bold;
+  }
+  >.caption-line-btns {
+    height: 40px;
+  }
+}
+.watch-caption-line[hide=true] {
+  display: none;
+}
+.caption-line-content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.caption-line-time-display {
+  margin-top: 10px;
+  margin-right: .5em;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .1em .3em;
+    color: rgb(209, 209, 209);
+    border: 1px solid #75757577;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  &:hover {
+    >span {
+      color: black;
+      background: var(--ct-text-highlight);
+      border-color: var(--ct-text-highlight);
+    }
+  }
+}
+.watch-caption-line[current=true] {
+  .caption-line-time-display {
+    span {
+      color: black;
+      background: var(--ct-text-highlight);
+      border-color: var(--ct-text-highlight);
+    }
+  }
+  .caption-line-text {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
+  .caption-line-text-normal {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
+  .caption-line-text-large {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
+
+  .caption-line-text-small {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      outline: none;
+      color: var(--ct-text-highlight);
+    }
+  }
+}
+.caption-line-text {
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }
+}
+
+.caption-line-text-normal {
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }
+}
+
+.caption-line-text-large {
+  font-weight: bold;
+  font-size: 1.6em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }}
+
+.caption-line-text-small {
+  font-weight: bold;
+  font-size: .8em;
+  line-height: 18px;
+  min-height: 36px;
+  color: rgba(173, 173, 173, 0.747);
+  white-space: pre-line;
+  cursor: pointer;
+  line-break: normal;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  resize: none;
+  padding-top: 10px;
+  &:focus {
+    cursor: text;
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+    &:hover {
+      color: var(--ct-text-white);
+      outline: none;
+      font-weight: bold;
+    }
+  }
+  &:active {
+    color: var(--ct-text-white);
+    outline: none;
+    font-weight: bold;
+  }
+  &:hover {
+    outline: none;
+    color: var(--ct-text-highlight);
+  }}
+
+.caption-line-btns {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  height: 0;
+  font-family: var(--ct-font-google);
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+  .caption-line-prompt {
+    color: rgb(168, 168, 168);
+  }
+}
+.caption-line-save-btn {
+  margin-top: .5em;
+  color: white;
+  background: rgb(97, 97, 97);
+  padding: .5em 1em;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-right: .5em;
+  transition: var(--ct-transition-all);
+  -o-transition: var(--ct-transition-all);
+  -moz-transition: var(--ct-transition-all);
+  -webkit-transition: var(--ct-transition-all);
+  &:hover {
+    outline: none;
+    background: rgb(88, 88, 88);
+  }
+  &:focus {
+    outline: none;
+    background: rgb(88, 88, 88);
+  }
+}
+.watch-caption-line[kind=descriptions] {
+  border: 1px solid grey;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .caption-line-time-display {
+    &:hover {
+      >span {
+        background: rgb(255, 213, 28);
+        border-color: rgb(255, 213, 28);
+      }
+    }
+    &:focus {
+      >span {
+        background: rgb(255, 213, 28);
+        border-color: rgb(255, 213, 28);
+      }
+    }
+  }
+}
+.description-line-text {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1.3em;
+}
+.watch-caption-line[kind=descriptions][current=true] {
+  background: rgba(209, 209, 209, 0.178);
+  .caption-line-time-display {
+    span {
+      background: rgb(255, 213, 28);
+      border-color: rgb(255, 213, 28);
+    }
+  }
+}
+.description-line-text-title {
+  font-size: 0.8em;
+  line-height: 2em;
+  color: var(--ct-text-white-hover);
+}

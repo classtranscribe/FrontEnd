@@ -5,6 +5,7 @@ import { connect } from 'dva'
 import { CTText, altEl } from 'layout';
 import timestr from 'utils/use-time';
 import { uurl } from 'utils/use-url';
+import Image from 'components/Image';
 import { epub } from '../../../controllers';
 
 function EPubListItem({
@@ -116,7 +117,7 @@ function EPubListItem({
         </div>
 
         <div className="item-img-con">
-          <img src={imgSrc} alt="screenshot" />
+          <Image src={imgSrc} alt="screenshot" />
         </div>
         <CTText line={4} className="item-text">
           {

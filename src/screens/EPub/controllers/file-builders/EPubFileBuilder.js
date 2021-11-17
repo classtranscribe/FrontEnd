@@ -22,9 +22,12 @@ class EPubFileBuilder {
    * Create an EPubFileBuilder
    * @param {EPubData} ePubData 
    */
-  constructor(ePubData) {
+  constructor() {
     this.zip = new AdmZip();
-    this.data = EPubParser.parse(ePubData);
+  }
+
+  async init(ePubData) {
+    this.data = await EPubParser.parse(ePubData);
   }
 
   /**
@@ -33,12 +36,15 @@ class EPubFileBuilder {
    * @returns {Buffer} epub file buffer
    */
   static async toBuffer(ePubData) {
-    const builder = new EPubFileBuilder(ePubData);
+    const builder = new EPubFileBuilder();
+    await builder.init(ePubData);
     const buffer = await builder.getEPubBuffer();
     return buffer;
   }
 
   async insertImagesToZip() {
+    // we embeded image into html
+    /*
     const { cover, chapters } = this.data;
     const { coverBuffer, images } = 
       await EPubParser.loadEPubImageBuffers({ chapters, cover });
@@ -47,6 +53,7 @@ class EPubFileBuilder {
     _.forEach(images, (img) => {
       this.zip.addFile(`OEBPS/${img.relSrc}`, img.buffer);
     });
+    */
   }
 
   getTocNCX() {
@@ -88,10 +95,26 @@ class EPubFileBuilder {
     const { title, language, chapters } = this.data;
     let navContents = '';
 
-    _.forEach(chapters, (ch, index) => {
+    _.forEach(chapters, (ch, index) => {  
+      // get image from chapter text 
+      let divStart = ch.text.indexOf('<div'); 
+      let altTextIndex = ch.text.indexOf('alt=')
+      let image = ch.text.substring(divStart, altTextIndex);
+      // set image size and alt text 
+      if (image) {
+        image += 'alt="'; 
+        image += ch.title; 
+        image += '" ';
+        image += 'width="70%"';
+        image += '/>';
+        image += '</div>';
+      } else {
+        image = "";
+      }
+
       navContents += `
-        <dt class="table-of-content">
-            <a href="${ch.id}.xhtml">${index + 1} - ${ch.title}</a>
+        <dt class="table-of-content">  
+          <a href="${ch.id}.xhtml">${index + 1} - ${ch.title} ${image} </a>
         </dt>
         ${_.map(
           ch.subChapters,
@@ -147,10 +170,9 @@ class EPubFileBuilder {
             ${text}
         </div>
       `);
-
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
-
+  
   async getEPubBuffer() {
     const { title, author, language, chapters, cover } = this.data;
     const zip = this.zip;

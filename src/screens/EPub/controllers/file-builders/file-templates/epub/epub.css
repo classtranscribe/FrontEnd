@@ -22,6 +22,11 @@
   display: block;
 }
 
+.table-of-content {
+  page-break-before: avoid;
+  page-break-inside: avoid;
+}
+
 #root h2, 
 #root h3 {
   page-break-after: avoid;

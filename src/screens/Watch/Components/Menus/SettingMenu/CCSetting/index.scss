@@ -1,0 +1,49 @@
+/* CC Style Picker */
+/* Semantic UI Updates */
+.ccstyle-demo-area {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1em 1em 0em 0;
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
+}
+.ccstyle-demo-box {
+  box-shadow: 0 0 0 3px rgba(82, 82, 82, 0.438);
+  border-radius: 5px;
+  padding: .5em 1em;
+  font-weight: bold;
+  text-align: center;
+  max-width: 100%;
+}
+.ccstyle-selection-area {
+  position: relative;
+  width: 100%;
+  max-width: 90vw;
+  height: auto;
+  margin: 2em 0em 0em 1em;
+  animation: var(--ct-animation-expand-padding);
+  -o-animation: var(--ct-animation-expand-padding);
+  -moz-animation: var(--ct-animation-expand-padding);
+  -webkit-animation: var(--ct-animation-expand-padding);
+}
+.watch-ccstyle-picker {
+  label {
+    font-weight: bold !important;
+    font-size: 1.2em !important;
+  }
+  .ui.selection.dropdown {
+    background: rgb(236, 236, 236) !important;
+    border-color: rgb(236, 236, 236);
+  }
+}
+@media screen and (max-width: 900px) {
+  .ccstyle-demo-area {
+    margin: 1em 0em 2em 0;
+  }
+}

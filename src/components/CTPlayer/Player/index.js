@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 import { connect } from 'dva'
 import {
     ErrorWrapper,
@@ -12,10 +13,11 @@ function Player(props) {
         mediaId,
         error,
         screenshotActionElement,
-        dispatch } = props
+        dispatch,
+        isFullscreen} = props
     const onKeyDown = (event) => {
         const { keyCode,
-            //* metaKey 
+            //* metaKey
         } = event;
         switch (keyCode) {
             // k or space - pause/play
@@ -64,34 +66,44 @@ function Player(props) {
             }
         })
     }, [media])
+
     if(error) {
         return <ErrorWrapper error={error} />;
+    }
+    if(isFullscreen) {
+        return (
+          <div
+            className="ctp ct-player-con-fullscreen"
+            onKeyDown={onKeyDown}
+            tabIndex="0"
+          >
+            <div
+              className="ctp ct-player lg fill"
+            >
+              <ClassTranscribePlayer />
+              <Wrapper screenshotActionElement={screenshotActionElement} />
+            </div>
+          </div>
+        )
     }
     return (
       <div
         className="ctp ct-player-con"
         onKeyDown={onKeyDown}
         tabIndex="0"
-        style={{
-                width: '100%',
-                height: '100%'
-            }}
+        style={{height: '100%', width:'100%'}}
       >
         <div
           className="ctp ct-player lg fill"
-          style={{
-                    width: '100%',
-                    height: '100%'
-                }}
         >
           <ClassTranscribePlayer />
           <Wrapper screenshotActionElement={screenshotActionElement} />
         </div>
       </div>
-        );
+  )
 }
 export default connect(({
-    watch: { error }
+    watch: { error, isFullscreen }
 })=>({
-    error
+    error, isFullscreen
 }))(Player);

@@ -16,7 +16,9 @@ import CCFontColorsMenu from './CCFontColorsMenu';
 import CCOpacityMenu from './CCOpacityMenu';
 import CCBackgroundColorsMenu from './CCBackgroundColorsMenu';
 import ScreenModesMenu from './ScreenModesMenu';
+import LiveCaptionMenu from './LiveCaptionMenu';
 import './index.scss';
+import LiveCaptionTrackSelection from './LiveCaptionTrackSelection';
 
 function SettingsMenu(props) {
   const {
@@ -27,7 +29,10 @@ function SettingsMenu(props) {
     media,
     openCC,
     currTrans,
-    dispatch
+    dispatch,
+    fontSize,
+    englishTrack,
+    textTracks
   } = props;
   const open = menu && menu === 'menu-setting';
   const [menuType, setMenuType] = useState('root');
@@ -46,9 +51,15 @@ function SettingsMenu(props) {
     case 'root':
       menuProps = {
         playbackRate,
+        openCC,
+        live: media.isLive,
+        language: currTrans.language,
         onOpenCCMenu: handleOpenMenu('cc'),
         openPlaybackRateMenu: handleOpenMenu('pbr'),
-        onOpenScreenModeManu: handleOpenMenu('screen-mode')
+        openLiveCaptionMenu: handleOpenMenu('liveCaption'),
+        onOpenScreenModeManu: handleOpenMenu('screen-mode'),
+        onOpenLiveTextTrackSelection: handleOpenMenu('lct'),
+        englishTrack
       }
       menuElement = <RootMenu {...menuProps} />;
       break;
@@ -61,6 +72,27 @@ function SettingsMenu(props) {
         setPlaybackRate: (value) => dispatch({ type: 'watch/media_playbackrate', payload: value })
       }
       menuElement = <PlaybackRateMenu {...menuProps} />;
+      break;
+    case 'lct':
+      menuProps = {
+        englishTrack,
+        textTracks,
+        onGoBack: handleOpenMenu('root'),
+        setTextTrack: (value) => dispatch({ type: 'watch/setEnglishTrack', payload: value })
+      }
+      menuElement = <LiveCaptionTrackSelection {...menuProps} />;
+      break;
+
+    case 'liveCaption':
+      menuProps = {
+        fontSize,
+        onGoBack: handleOpenMenu('root'),
+        setFontSize: (value) => dispatch({ type: 'watch/setFontSize', payload: value })
+        // setFontSize: () => {
+        //   console.log("setFontSize in menu called once")
+        // }
+      }
+      menuElement = <LiveCaptionMenu {...menuProps} />;
       break;
 
     case 'cc':
@@ -77,6 +109,9 @@ function SettingsMenu(props) {
       break;
 
     case 'cc-opt':
+      menuProps = {
+        onGoBack: handleOpenMenu('root'),
+      }
       menuElement = <CCOptionsMenu {...menuProps} />;
       break;
 
@@ -115,8 +150,8 @@ function SettingsMenu(props) {
 }
 
 
-export default connect(({ watch: { menu, media, currTrans },
+export default connect(({ watch: { menu, media, currTrans, englishTrack, textTracks },
   playerpref: { playbackrate, openCC } }) => ({
-    menu, media, currTrans, playbackrate, openCC
+    menu, media, currTrans, playbackrate, openCC, englishTrack, textTracks
   }))(SettingsMenu);
 

@@ -3,6 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { videoPosterImg as defaultImg } from 'assets/images';
 import timestr from 'utils/use-time';
+import Image from 'components/Image';
 import './index.scss';
 
 function MediaPoster({
@@ -34,7 +35,7 @@ function MediaPoster({
       style={{ width, minWidth: width }}
       aria-hidden="true"
     >
-      <img
+      <Image
         width={width}
         height={height}
         className="poster-img"

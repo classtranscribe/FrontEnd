@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'dva'
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
+import Image from 'components/Image';
 import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';
@@ -73,7 +74,7 @@ function ChapterImage({
       {image ? (
         <div id={id} className={imgConClasses}>
           <div className="ct-epb ch-img">
-            <img src={uurl.getMediaUrl(src)} alt={alt} />
+            <Image src={uurl.getMediaUrl(src)} alt={alt} />
             <ImageWrapper
               id={id}
               imageAlt={alt}

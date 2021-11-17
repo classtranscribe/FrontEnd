@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import timestr from 'utils/use-time';
 
 function SeekTimeLabel(props) {
-  const { width, left, duration } = props;
+  const { width, left, duration, reverse = false } = props;
   // left += 10;
-  const sec = Math.round((left / width) * duration);
+  const sec = Math.round(((reverse ? (width - left) : left) / width) * duration);
   const shouldDisplay = sec <= duration && width > 100 && left >= 0;
 
   let styleLeft = left;
@@ -16,11 +16,11 @@ function SeekTimeLabel(props) {
   }
 
   return shouldDisplay ? (
-    <div 
-      className="ctp seek-time-prompt ct-d-c-center" 
+    <div
+      className="ctp seek-time-prompt ct-d-c-center"
       style={{ left: `${styleLeft}px` }}
     >
-      {timestr.toTimeString(sec)}
+      {(reverse ? '-' : '') + timestr.toTimeString(sec)}
     </div>
   ) : null;
 }

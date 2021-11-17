@@ -1,0 +1,39 @@
+.article-text {
+  display: inline;
+  margin-inline-end: .2em;
+  font-size: 1.3em;
+  //font-size: 0.02em;
+  cursor: pointer;
+  color: var(--ct-text-white-hover);
+  font-family: var(--ct-font-google);
+  line-height: 2em;
+  border: var(--ct-border-color-transparent);
+  &:hover {
+    outline: none;
+    background: rgba(19, 211, 211, 0.301);
+  }
+  &:focus {
+    outline: none;
+    border-color: rgba(19, 211, 211, 0.534);
+  }
+  &:active {
+    background: rgba(19, 211, 211, 0.534);
+  }
+}
+.article-text[kind=descriptions] {
+  display: block;
+  border-color: rgb(158, 158, 158);
+  font-style: italic;
+  padding: .5em 1em;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 1em;
+}
+.article-text[current=true] {
+  background: rgba(236, 206, 35, 0.267);
+  color: var(--ct-text-white);
+}
+.article-text[kind=descriptions][current=true] {
+  background: rgba(227, 231, 17, 0.219);
+  color: var(--ct-text-white);
+}

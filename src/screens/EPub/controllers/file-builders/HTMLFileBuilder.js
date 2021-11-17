@@ -19,9 +19,12 @@ class HTMLFileBuilder {
    * @param {EPubData} ePubData 
    * @param {Boolean} forPreview
    */
-  constructor(ePubData, forPreview = false) {
+  constructor() {
     this.zip = new AdmZip();
-    this.data = EPubParser.parse(ePubData, !forPreview);
+  }
+
+  async init(ePubData, forPreview = false) {
+    this.data = await EPubParser.parse(ePubData, !forPreview);
   }
 
   /**
@@ -31,11 +34,14 @@ class HTMLFileBuilder {
    */
   static async toBuffer(ePubData) {
     const builder = new HTMLFileBuilder(ePubData);
+    await builder.init(ePubData, true)
     const buffer = await builder.getHTMLBuffer();
     return buffer;
   }
 
   async insertImagesToZip() {
+    // We embeded images in the html file, so this function is no longer needed
+    /*
     const { chapters, cover } = this.data;
     const { coverBuffer, images } 
       = await EPubParser.loadEPubImageBuffers({ chapters, cover });
@@ -45,6 +51,7 @@ class HTMLFileBuilder {
     _.forEach(images, (img) => {
       this.zip.addFile(`${img.relSrc}`, img.buffer);
     });
+    */
   }
 
   getIndexHTML(withStyles = false, print = false) {

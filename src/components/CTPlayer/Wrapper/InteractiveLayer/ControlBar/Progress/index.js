@@ -15,6 +15,7 @@ function Progress(props) {
     duration,
     time,
     bufferedTime,
+    liveMode,
     dispatch
   } = props;
 
@@ -27,11 +28,12 @@ function Progress(props) {
 
   const handleMouseMove = (e) => {
     let { offsetX } = e.nativeEvent;
+
     let { width } = e.target.getBoundingClientRect();
     if (offsetX >= 0) {
       setMousePos([width, offsetX]);
     } else {
-      setMousePos([width, -1]);
+      setMousePos([width, width]);
     }
   };
 
@@ -43,20 +45,30 @@ function Progress(props) {
     className: 'ctp buffer-slider',
     min: 0,
     max: duration,
-    step: 0.01,
+    step: 0.001,
     value: bufferedTime,
     'aria-hidden': 'true'
   };
 
-  const timeSliderProps = {
-    className: 'ctp time-slider',
+  const TSLP1 = liveMode ? {
+    min: -duration,
+    max: 0,
+    step: .001,
+  } : {
     min: 0,
     max: duration,
     step: 0.001,
-    value: time,
+  }
+  const tslProp = (value) => {
+    return (liveMode ? "-" : "" ) + timestr.toTimeString(value * (liveMode ? -1 : 1))
+  }
+  const timeSliderProps = {
+    className: 'ctp time-slider',
+    ...TSLP1,
+    value: liveMode === 1 ? duration : liveMode === 2 ? -duration + time : time,
     marks,
     onChange: handleSeekTime,
-    valueLabelFormat: timestr.toTimeString,
+    valueLabelFormat: tslProp,
     ValueLabelComponent: SliderTimeLabel,
     'aria-label': 'Time Slider'
   };
@@ -66,6 +78,7 @@ function Progress(props) {
       className="ctp progress-con"
     >
       <SeekTimeLabel
+        reverse={liveMode}
         width={mousePos[0]}
         left={mousePos[1]}
         duration={duration}
@@ -76,7 +89,6 @@ function Progress(props) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <Slider {...bufferSliderProps} />
         <Slider {...timeSliderProps} />
       </div>
     </div>
@@ -84,7 +96,7 @@ function Progress(props) {
 }
 
 
-export default connect(({ watch : {bufferedTime, time, duration} }) => ({
-  bufferedTime, time, duration
+export default connect(({ watch: { bufferedTime, time, duration, liveMode } }) => ({
+  bufferedTime, time, duration, liveMode
 }))(Progress);
 
