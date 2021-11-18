@@ -60,6 +60,7 @@
     "hls.js": "^1.0.2",
     "jquery": "^3.5.1",
     "js-file-download": "^0.4.9",
+    "jspdf": "^2.4.0",
     "jwt-decode": "^2.2.0",
     "kind-of": "^6.0.3",
     "lodash": "^4.17.21",

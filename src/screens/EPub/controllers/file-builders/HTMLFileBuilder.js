@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { EPubData } from 'entities/EPubs';
+import { doc } from 'prettier';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
@@ -54,8 +55,22 @@ class HTMLFileBuilder {
     */
   }
 
-  getIndexHTML(withStyles = false, print = false) {
-    const { title, author, chapters, cover } = this.data; 
+  getIndexHTML(withStyles = false, print = false, pdf) {
+    const { title, author, chapters, cover } = this.data;
+    let w = pdf.internal.pageSize.getWidth();
+    let h = pdf.internal.pageSize.getHeight();
+    // console.log(w);
+    // console.log(h);
+    // console.log(cover);
+    let metadata = `<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title><rdf:Alt><rdf:li xml:lang="x-default">${ title }</rdf:li></rdf:Alt></dc:title> </rdf:Description>`;
+    // metadata = metadata + '<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier>' + title +'</dc:identifier> </rdf:Description>';
+    pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
+    pdf.setProperties({title, author});
+    pdf.setFont("times", "normal");
+    pdf.addImage(cover.src,'JPEG', 25, 0, 160,100);
+    pdf.text(title, w/2,130, 'center');
+    pdf.text(author, w/2,140,'center');
+    pdf.addPage(); 
     const navContents = _.map(
       chapters,
       (ch, chIndex) => `
@@ -70,7 +85,44 @@ class HTMLFileBuilder {
           </ol>
       `,
     ).join('\n');
-  
+    
+    // console.log(navContents);
+    for (let i = 0; i < chapters.length; i++) {
+      // console.log(chapters[i].text);
+      let curText = chapters[i].text;
+      let chapterTitleStart = curText.indexOf("<h2");
+      let chapterTitleEnd = curText.indexOf("</h2>");
+      let chapterTitle = curText.substring(chapterTitleStart, chapterTitleEnd);
+      chapterTitleStart = curText.indexOf(">");
+      chapterTitle = chapterTitle.substring(chapterTitleStart+1);
+      pdf.text(chapterTitle, 0, 10, 'left');
+      let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
+      pdf.outline.add(null, chapterTitle, {pageNumber:pageCurrent});
+      let imgStart = curText.indexOf("src=");
+      let imgEnd = curText.indexOf("alt=");
+      let imgData = curText.substring(imgStart+5, imgEnd-2);
+      pdf.addImage(imgData, 'JPEG', 25, 20, 180, 100);
+      pdf.text("Transcript", 0, 130, 'left');
+      let transcriptStart = curText.indexOf("<p>");
+      let transcriptEnd = curText.indexOf("</p>");
+      if (transcriptStart !== -1) {
+        let transcript = curText.substring(transcriptStart+3, transcriptEnd);
+        let splitted = pdf.splitTextToSize(transcript, parseInt(w));
+        let y = 140;
+        for (let j = 0; j < splitted.length; j++) {
+          if (y >= h-h%10) {
+            y = 10;
+            pdf.addPage();
+          }
+          pdf.text(splitted[j], 0, y);
+          y += 10;
+        }
+      }
+      if (i !== chapters.length-1) {
+        pdf.addPage();
+      }
+    }
+
     const content = _.map(
       chapters,
       (ch) => `
@@ -79,7 +131,8 @@ class HTMLFileBuilder {
         </div>
       `,
     ).join('\n');
-
+    
+    // console.log(content);
     print = print && typeof print === 'boolean';
   
     return withStyles

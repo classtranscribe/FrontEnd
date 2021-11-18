@@ -32,17 +32,18 @@ export default ({
       <div id="epub_author">${author}</div>
 
       <a id="skip_toc" href="#epub_content">Skip the table of Content</a>
-
-      <div id="toc_container">
-        <h2 id="toc_title">Contents</h2>
-        <div id="toc_list">
-          ${navContents}
+      <div class="row">
+        <div class="col toc_container" id="toc_container">
+          <h2 id="toc_title">Contents</h2>
+          <div id="toc_list">
+            ${navContents}
+          </div>
         </div>
-      </div>
 
-      <div id="epub_content">
-        ${content}
-      </div>
+        <div class="col epub_content" id="epub_content">
+          ${content}
+        </div>
+      <div>
     </div>
   </body>
 </html>

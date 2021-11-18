@@ -1,5 +1,6 @@
 import download from 'js-file-download';
 import { prompt } from 'utils/prompt';
+import { jsPDF } from "jspdf";
 import { EPubFileBuilder, HTMLFileBuilder, ScreenshotsBuilder } from './file-builders';
 
 const _download = async (Builder, filenameSuffix) => {
@@ -42,10 +43,18 @@ class EPubDownloadController {
       const { epub } = window.temp_app._store.getState();
       const builder = new HTMLFileBuilder();
       await builder.init(epub, true);
-      const html = builder.getIndexHTML(true, print);
-      const htmlBlob = new Blob([html], { type: 'text/html' });
+      let PDF = new jsPDF();
+      PDF.setLanguage("en-US");
+      const html = builder.getIndexHTML(true, print, PDF);
+      let bodyStart = html.indexOf('<body')
+      let bodyEnd = html.indexOf('</body>')+7;
+      let body = html.substring(bodyStart, bodyEnd);
+      // console.log(body);
+      // pdf.html(body);
+      PDF.save();
+      /* const htmlBlob = new Blob([html], { type: 'text/html' });
       const htmlUrl = URL.createObjectURL(htmlBlob);
-      window.open(htmlUrl, '_blank');
+      window.open(htmlUrl, '_blank'); */
     } catch (error) {
       _logError(error);
     }

@@ -7,6 +7,26 @@ body, html {
   letter-spacing: 0.01071em;
 }
 
+.row {
+  display:flex;
+}
+
+.col {
+  float:left;
+  padding: 10px;
+}
+
+.toc_container{
+  width:20%;
+  position:fixed;
+  height:400px;
+  overflow-y:scroll;
+}
+
+.epub_content{
+  width:70%;
+  margin-left:30%;
+}
 /* TOC */
 #toc_container {
   background: #f9f9f9 none repeat scroll 0 0;
