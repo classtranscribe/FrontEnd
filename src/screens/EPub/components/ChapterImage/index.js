@@ -7,7 +7,6 @@ import ChapterEditButton from '../ChapterEditButton';
 import ImageWrapper from './ImageWrapper';
 import ImageDescription from './ImageDescription';
 import './index.scss';
-import { Button } from 'pico-ui';
 
 const NewImageButton = ({ onClick }) => (
   <ChapterEditButton muted onClick={onClick}>
@@ -70,7 +69,7 @@ function ChapterImage({
   // console.log(epub);
   const imgConClasses = cx('ct-epb', 'ch-img-con');
   const dispatchChange = (newEpub) => {
-    console.log(newEpub);
+    // console.log(newEpub);
     dispatch({ type: 'epub/setEPub', payload: newEpub });
   }
   return (

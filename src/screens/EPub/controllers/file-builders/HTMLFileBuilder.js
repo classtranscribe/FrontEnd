@@ -87,7 +87,7 @@ class HTMLFileBuilder {
     ).join('\n');
     
     // console.log(navContents);
-    for (let i = 0; i < chapters.length; i++) {
+    for (let i = 0; i < chapters.length; i+=1) {
       // console.log(chapters[i].text);
       let curText = chapters[i].text;
       let chapterTitleStart = curText.indexOf("<h2");
@@ -101,15 +101,15 @@ class HTMLFileBuilder {
       let imgStart = curText.indexOf("src=");
       let imgEnd = curText.indexOf("alt=");
       let imgData = curText.substring(imgStart+5, imgEnd-2);
-      pdf.addImage(imgData, 'JPEG', 25, 20, 180, 100);
+      pdf.addImage(imgData, 'JPEG', 15, 20, 180, 100);
       pdf.text("Transcript", 0, 130, 'left');
       let transcriptStart = curText.indexOf("<p>");
       let transcriptEnd = curText.indexOf("</p>");
       if (transcriptStart !== -1) {
         let transcript = curText.substring(transcriptStart+3, transcriptEnd);
-        let splitted = pdf.splitTextToSize(transcript, parseInt(w));
+        let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
         let y = 140;
-        for (let j = 0; j < splitted.length; j++) {
+        for (let j = 0; j < splitted.length; j+=1) {
           if (y >= h-h%10) {
             y = 10;
             pdf.addPage();

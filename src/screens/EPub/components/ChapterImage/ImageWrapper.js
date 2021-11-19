@@ -42,9 +42,9 @@ function ImageWrapper({
   const handleInput = () => {
     // console.log(epub);
     let time = text.split(':');
-    if (time.length == 2) {
+    if (time.length === 2) {
       chapter.start = "00:".concat(text);
-    } else if (time.length == 3) {
+    } else if (time.length === 3) {
       chapter.start = text;
     }
     onLinkChange(epub);

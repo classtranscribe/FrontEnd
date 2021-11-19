@@ -150,9 +150,9 @@ class EPubFileBuilder {
   getContentXHTML(chapter) {
     const { language, sourceId } = this.data;
     let { title, text, start, link } = chapter;
-    let h = parseInt(start.substring(0, 2));
-    let m = parseInt(start.substring(3, 5));
-    let s = parseInt(start.substring(6,8));
+    let h = parseInt(start.substring(0, 2),10);
+    let m = parseInt(start.substring(3, 5),10);
+    let s = parseInt(start.substring(6,8),10);
     let curTime = 3600 * h + 60 * m + s;
     let imgStart = text.indexOf('<img');
     let imgEnd = text.indexOf('</div>');
