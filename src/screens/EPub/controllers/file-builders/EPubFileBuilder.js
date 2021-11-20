@@ -3,6 +3,7 @@ import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import { EPubData } from 'entities/EPubs';
 import { AmpStories } from '@material-ui/icons';
+import { links } from 'utils';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
@@ -173,7 +174,7 @@ class EPubFileBuilder {
     let imgStart = text.indexOf('<img');
     let imgEnd = text.indexOf('</div>');
     let sub1 = text.substring(0, imgStart-4);
-    let sub2 = "<a href='http://localhost:3000/video?id=".concat(sourceId,"&begin=",curTime,"'>\n").replace('&', '&amp;');
+    let sub2 = "<a href='https://classtranscribe.illinois.edu".concat(links.watch(sourceId),"&begin=",curTime,"'>\n").replace('&', '&amp;');
     let sub3 = text.substring(imgStart,imgEnd);
     let sub4 = "</a>\n";
     let sub5 = text.substring(imgEnd);
