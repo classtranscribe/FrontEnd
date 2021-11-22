@@ -173,8 +173,11 @@ class EPubFileBuilder {
     let curTime = 3600 * h + 60 * m + s;
     let imgStart = text.indexOf('<img');
     let imgEnd = text.indexOf('</div>');
+    let url = window.location.href;
+    let query = url.indexOf('/epub');
+    url = url.substring(0, query);
     let sub1 = text.substring(0, imgStart-4);
-    let sub2 = "<a href='https://classtranscribe.illinois.edu".concat(links.watch(sourceId),"&begin=",curTime,"'>\n").replace('&', '&amp;');
+    let sub2 = "<a href='".concat(url,links.watch(sourceId),"&begin=",curTime,"'>\n").replace('&', '&amp;');
     let sub3 = text.substring(imgStart,imgEnd);
     let sub4 = "</a>\n";
     let sub5 = text.substring(imgEnd);
