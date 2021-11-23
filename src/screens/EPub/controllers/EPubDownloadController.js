@@ -43,6 +43,7 @@ class EPubDownloadController {
       const { epub } = window.temp_app._store.getState();
       const builder = new HTMLFileBuilder();
       await builder.init(epub, true);
+      // eslint-disable-next-line
       let PDF = new jsPDF();
       PDF.setLanguage("en-US");
       const html = builder.getIndexHTML(true, print, PDF);
