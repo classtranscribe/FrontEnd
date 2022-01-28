@@ -36,9 +36,9 @@ function CTEPubListScreen(props) {
         if (title.includes(mediaName)) {
           let diff = title.length - mediaName.length; 
           if (diff == 0) {
-            maxAffix = (0 > parseInt(maxAffix, 10)) ? 0 : maxAffix;
+            maxAffix = (0 > maxAffix) ? 0 : maxAffix;
           } else {
-            let affix = title.substring((title.length - diff) + 1);
+            let affix = title.substring((title.length - diff) + 1); // get thet current max title 
             maxAffix = (parseInt(affix, 10) > parseInt(maxAffix, 10)) ? affix : maxAffix;
           }
         }
@@ -47,6 +47,8 @@ function CTEPubListScreen(props) {
         maxAffix++;
         // console.log(maxAffix);
         setDefaultTitle(mediaName + "-" + maxAffix);
+      } else {
+        setDefaultTitle(props.defaultTitle);
       }
     } else {
       setDefaultTitle(props.defaultTitle);
