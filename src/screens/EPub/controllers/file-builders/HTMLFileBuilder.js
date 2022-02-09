@@ -155,11 +155,13 @@ class HTMLFileBuilder {
         <div class="ee-preview-text-con">
           ${ch.text/** .replace(/\n/g, '\n\t\t\t\t\t') */}
         </div>
-      ` + _.map(ch.subChapters, (subCh) => `
-        <div class="ee-preview-text-con">
-          ${subCh.text/** .replace(/\n/g, '\n\t\t\t\t\t') */}
-        </div>
-      `).join('\n')
+      ` + _.map(ch.subChapters, (subCh) =>
+            _.map(subCh.contents, (contents) => (typeof contents === 'string') ? `
+                <div class="ee-preview-text-con">
+                  ${contents.replace('#### Transcript ', '')}
+                </div>
+      ` : ``).join('\n')
+      ).join('\n')
     ).join('\n');
 
     // console.log(content);
