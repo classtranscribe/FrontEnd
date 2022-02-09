@@ -2,6 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { EPubData } from 'entities/EPubs';
 import { doc } from 'prettier';
+import { jsPDF as JsPDF } from "jspdf";
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
@@ -17,7 +18,7 @@ import {
 class HTMLFileBuilder {
   /**
    * Create an HTMLFileBuilder
-   * @param {EPubData} ePubData 
+   * @param {EPubData} ePubData
    * @param {Boolean} forPreview
    */
   constructor() {
@@ -30,7 +31,7 @@ class HTMLFileBuilder {
 
   /**
    * Convert an EPubData object to a downloadable html zipped combo buffer
-   * @param {EPubData} ePubData 
+   * @param {EPubData} ePubData
    * @returns {Buffer} html zipped combo buffer
    */
   static async toBuffer(ePubData) {
@@ -44,11 +45,11 @@ class HTMLFileBuilder {
     // We embeded images in the html file, so this function is no longer needed
     /*
     const { chapters, cover } = this.data;
-    const { coverBuffer, images } 
+    const { coverBuffer, images }
       = await EPubParser.loadEPubImageBuffers({ chapters, cover });
-  
+
     this.zip.addFile(`images/cover.jpeg`, coverBuffer);
-  
+
     _.forEach(images, (img) => {
       this.zip.addFile(`${img.relSrc}`, img.buffer);
     });
@@ -57,8 +58,9 @@ class HTMLFileBuilder {
 
   getIndexHTML(withStyles = false, print = false, pdf) {
     const { title, author, chapters, cover } = this.data;
-    let w = pdf.internal.pageSize.getWidth();
-    let h = pdf.internal.pageSize.getHeight();
+    const margin = 10;
+    let w = pdf.internal.pageSize.getWidth() - 2*margin;
+    let h = pdf.internal.pageSize.getHeight() - 2*margin;
     // console.log(w);
     // console.log(h);
     // console.log(cover);
@@ -70,7 +72,7 @@ class HTMLFileBuilder {
     pdf.addImage(cover.src,'JPEG', 25, 0, 160,100);
     pdf.text(title, w/2,130, 'center');
     pdf.text(author, w/2,140,'center');
-    pdf.addPage(); 
+    pdf.addPage();
     const navContents = _.map(
       chapters,
       (ch, chIndex) => `
@@ -85,43 +87,67 @@ class HTMLFileBuilder {
           </ol>
       `,
     ).join('\n');
-    
+
+
     // console.log(navContents);
-    for (let i = 0; i < chapters.length; i+=1) {
-      // console.log(chapters[i].text);
-      let curText = chapters[i].text;
-      let chapterTitleStart = curText.indexOf("<h2");
-      let chapterTitleEnd = curText.indexOf("</h2>");
-      let chapterTitle = curText.substring(chapterTitleStart, chapterTitleEnd);
-      chapterTitleStart = curText.indexOf(">");
-      chapterTitle = chapterTitle.substring(chapterTitleStart+1);
-      pdf.text(chapterTitle, 0, 10, 'left');
+    chapters.forEach((chapter, i) => {
+      let curText = chapter.text;
+      pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
       let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
-      pdf.outline.add(null, chapterTitle, {pageNumber:pageCurrent});
+      pdf.outline.add(null, chapter.title, {pageNumber:pageCurrent});
       let imgStart = curText.indexOf("src=");
       let imgEnd = curText.indexOf("alt=");
       let imgData = curText.substring(imgStart+5, imgEnd-2);
       pdf.addImage(imgData, 'JPEG', 15, 20, 180, 100);
-      pdf.text("Transcript", 0, 130, 'left');
+      // pdf.text("Transcript", 0, 130, 'left');
       let transcriptStart = curText.indexOf("<p>");
       let transcriptEnd = curText.indexOf("</p>");
+      let y = 140;
       if (transcriptStart !== -1) {
         let transcript = curText.substring(transcriptStart+3, transcriptEnd);
         let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
-        let y = 140;
-        for (let j = 0; j < splitted.length; j+=1) {
-          if (y >= h-h%10) {
-            y = 10;
-            pdf.addPage();
-          }
-          pdf.text(splitted[j], 0, y);
+        splitted.forEach(splitval => {
+            if (y >= h-h%10) {
+                y = 10;
+                pdf.addPage();
+            }
+            pdf.text(splitval, margin, y);
+            y += 10;
+        });
+      }
+      chapter.subChapters.forEach((subchapter, j) => {
+          // Print subchapter title
           y += 10;
-        }
-      }
+          pdf.text(`${i+1}-${j+1} ${subchapter.title}`, margin, y, 'left');
+
+          // Add subchapter to outline
+          pdf.outline.add(null, subchapter.title, {pageNumber:pageCurrent});
+
+          // Parse subchapter contents to produce transcript of text
+          subchapter.contents.forEach(subchText => {
+              if (typeof subchText === 'string') {
+                  // Add subchapter transcript
+                  let transcript = subchText.replace('\n', '').replace('\r', '').replace('#### Transcript', '')
+                  let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
+                  splitted.forEach(splitval => {
+                      if (y >= h-h%10) {
+                          y = 10;
+                          pdf.addPage();
+                      }
+                      pdf.text(splitval, margin, y);
+                      y += 10;
+                  });
+              } else {
+                  // TODO: should we insert/display images from subchapters?
+                  // console.log('Skipping non-text subchapter content');
+              }
+          });
+      });
+
       if (i !== chapters.length-1) {
-        pdf.addPage();
+          pdf.addPage();
       }
-    }
+    });
 
     const content = _.map(
       chapters,
@@ -129,12 +155,16 @@ class HTMLFileBuilder {
         <div class="ee-preview-text-con">
           ${ch.text/** .replace(/\n/g, '\n\t\t\t\t\t') */}
         </div>
-      `,
+      ` + _.map(ch.subChapters, (subCh) => `
+        <div class="ee-preview-text-con">
+          ${subCh.text/** .replace(/\n/g, '\n\t\t\t\t\t') */}
+        </div>
+      `).join('\n')
     ).join('\n');
-    
+
     // console.log(content);
     print = print && typeof print === 'boolean';
-  
+
     return withStyles
       ? INDEX_HTML_LIVE({ title, navContents, content, cover, author, print })
       : INDEX_HTML_LOCAL({ title, navContents, content, author });
@@ -155,12 +185,16 @@ class HTMLFileBuilder {
     zip.addFile('styles/katex.min.css', Buffer.from(KATEX_MIN_CSS));
     // styles/prism.css
     zip.addFile('styles/prism.css', Buffer.from(PRISM_CSS));
-    
+
     // // scripts/prism.js
     // zip.addFile('scripts/prism.js', Buffer.from(PRISM_JS));
 
     // index.html
-    const indexHTML = this.getIndexHTML();
+
+    let PDF = new JsPDF();
+    PDF.setLanguage("en-US");
+    const indexHTML = this.getIndexHTML(false, false, PDF);
+    PDF.save();
     zip.addFile('index.html', Buffer.from(indexHTML));
 
     return zip.toBuffer();
