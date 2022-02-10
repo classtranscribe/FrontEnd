@@ -119,6 +119,7 @@ class HTMLFileBuilder {
           // Print subchapter title
           y += 10;
           pdf.text(`${i+1}-${j+1} ${subchapter.title}`, margin, y, 'left');
+          y += 10;
 
           // Add subchapter to outline
           pdf.outline.add(null, subchapter.title, {pageNumber:pageCurrent});
