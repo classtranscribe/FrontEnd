@@ -23,16 +23,17 @@ export function _generateDefaultEpubName(ePubs, defaultTitle) {
   // defaultTitle naming logic 
   if (ePubs.length > 0 && ePubs !== ARRAY_INIT) { // if there are previous epubs made 
     let mediaName = defaultTitle; // the default title 
+    let mediaNameLen = mediaName.length;
     let maxAffix = -1; 
     for (const epub of ePubs) {
       let title = epub.title; 
-      if (title.includes(mediaName)) { // if the title includes the default name 
+      if (title.substring(0, mediaNameLen) == mediaName) { // if the title includes the default name 
         let diff = title.length - mediaName.length;  
         if (diff == 0) {  // if the title is exactly the default name 
           maxAffix = (0 > maxAffix) ? 0 : maxAffix;
         } else {
           let affix = title.substring((title.length - diff) + 1); // get the affix of this epub title  
-          maxAffix = (parseInt(affix, 10) > parseInt(maxAffix, 10)) ? affix : maxAffix; // if this affix is greater than max affix, set it  
+          maxAffix = (parseInt(affix, 10) > maxAffix) ? affix : maxAffix; // if this affix is greater than max affix, set it  
         }
       }
     } 
