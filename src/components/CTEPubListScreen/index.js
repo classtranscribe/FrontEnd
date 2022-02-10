@@ -5,7 +5,7 @@ import { CTFragment, altEl, makeEl } from 'layout';
 import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
-
+import {_generateDefaultEpubName } from './controllers/helpers';
 function CTEPubListScreen(props) {
   const { sourceType, sourceId, source} = props;
   const [ePubs, setEPubs] = useState(ARRAY_INIT);
@@ -27,32 +27,8 @@ function CTEPubListScreen(props) {
     setSourceData(data.source);
     setLanguages(data.languages);
     setRawEPubData(data.rawEPubData);
-    // defaultTitle naming logic 
-    if (data.ePubs.length > 0 && data.ePubs !== ARRAY_INIT) {
-      let mediaName = props.defaultTitle; 
-      let maxAffix = -1; 
-      for (const epub of data.ePubs) {
-        let title = epub.title; 
-        if (title.includes(mediaName)) {
-          let diff = title.length - mediaName.length; 
-          if (diff == 0) {
-            maxAffix = (0 > maxAffix) ? 0 : maxAffix;
-          } else {
-            let affix = title.substring((title.length - diff) + 1); // get thet current max title 
-            maxAffix = (parseInt(affix, 10) > parseInt(maxAffix, 10)) ? affix : maxAffix;
-          }
-        }
-      } 
-      if (maxAffix > -1) {
-        maxAffix++;
-        // console.log(maxAffix);
-        setDefaultTitle(mediaName + "-" + maxAffix);
-      } else {
-        setDefaultTitle(props.defaultTitle);
-      }
-    } else {
-      setDefaultTitle(props.defaultTitle);
-    }
+    const newTitle = await _generateDefaultEpubName(data.ePubs, props.defaultTitle);
+    setDefaultTitle(newTitle);
   };
 
   useEffect(() => {
