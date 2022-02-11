@@ -166,6 +166,8 @@ class EPubParser {
       return {
         id: chapterId,
         title: chapter.title,
+        start: chapter.start,
+        link: chapter.link,
         text: this.extractBodyTextFromDom(dom),
         images: this.extractImagesFromDOM(dom, chapterId, replaceImageSrc),
         subChapters,

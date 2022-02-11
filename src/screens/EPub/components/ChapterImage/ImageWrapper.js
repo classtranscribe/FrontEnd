@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { Button } from 'pico-ui';
 import { CTFragment, CTInput } from 'layout';
 import { useInput } from 'hooks';
 
 function ImageWrapper({
+  epub,
   id,
   disabled,
   imageAlt,
+  chapter,
   onChooseImage,
   onRemoveImage,
-  onImageAltChange
+  onImageAltChange,
+  onLinkChange
 }) {
   const canRemoveImage = Boolean(onRemoveImage);
   const alt = useInput(imageAlt);
@@ -26,6 +30,31 @@ function ImageWrapper({
     }
   };
 
+  const [showLink, setShowLink] = useState(false);
+  const [text, setText] = useState("");
+  const [link, setLink] = useState("");
+  const handleLinkChange = (event) => {
+    setLink(event.target.value);
+  }
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+  }
+  const handleInput = () => {
+    // console.log(epub);
+    let time = text.split(':');
+    if (time.length === 2) {
+      chapter.start = "00:".concat(text);
+    } else if (time.length === 3) {
+      chapter.start = text;
+    }
+    onLinkChange(epub);
+    setShowLink(false);
+  }
+  const handleAddLink = () => {
+    chapter.link = link;
+    onLinkChange(epub);
+    setShowLink(false);
+  }
   return disabled ? null : (
     <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
       <CTFragment justConEnd>
@@ -39,7 +68,28 @@ function ImageWrapper({
           >
             Choose Image
           </Button>
-
+          <Button 
+            uppercase 
+            color="white" 
+            icon="image"
+            className="ct-epb shadow-btn"
+            onClick={() => setShowLink(true)}
+          >
+            Change Embedded Link
+          </Button>
+          {
+            showLink && 
+            <div>
+              <div>
+                <input onChange={handleTextChange} placeholder="Change video start time" />
+                <button onClick={handleInput}> Change </button>
+                <button onClick={() => setShowLink(false)}> Cancel</button>
+                <input onChange={handleLinkChange} placeholder="Add slides link" />
+                <button onClick={handleAddLink}> Change </button>
+                <button onClick={() => setShowLink(false)}> Cancel</button>
+              </div>
+            </div>
+          }
           {
             canRemoveImage
             &&

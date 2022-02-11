@@ -12,8 +12,8 @@ import {
 } from '../../Utils';
 
 // modification for BOT live stream
-import './index_liveplayer.scss';
-// import './index.scss';
+// import './index_liveplayer.scss';
+import './index.scss';
 
 import CaptionLine from './CaptionLine';
 import TranscriptText from './TranscriptText';
@@ -63,13 +63,8 @@ function TranscriptionsWithRedux(props) {
     }
   }, [currCaption, currCaptionIndex, currentTime])
 
-  let device = 'web';
-  if (isMobile) {
-    if (window.innerHeight > window.innerWidth) device = 'mobile';
-  }
-
   return displayTrans ? (
-    <div id={`watch-trans-container-${device}`} className={`watch-trans-container-${device}`} mode={mode}>
+    <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
       <div
         className="trans-box"
         onMouseEnter={handleMourseOver(true)}

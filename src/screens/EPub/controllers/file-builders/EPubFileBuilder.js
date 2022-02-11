@@ -2,6 +2,8 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import { EPubData } from 'entities/EPubs';
+import { AmpStories } from '@material-ui/icons';
+import { links } from 'utils';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
@@ -92,7 +94,7 @@ class EPubFileBuilder {
   }
 
   getTocXHTML() {
-    const { title, language, chapters } = this.data;
+    const { title, language, chapters, sourceId } = this.data;
     let navContents = '';
 
     _.forEach(chapters, (ch, index) => {  
@@ -132,12 +134,13 @@ class EPubFileBuilder {
   }
 
   getContentOPF() {
-    const { title, author, language, publisher, chapters } = this.data;
+    const { title, author, language, publisher, chapters} = this.data;
     // image items
     const images = _.flatten(_.map(chapters, (ch) => ch.images));
     const imageItems = _.map(
       images,
-      (img) => `<item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
+      (img) => `
+      <item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
     ).join('\n\t\t');
   
     // content items
@@ -162,11 +165,28 @@ class EPubFileBuilder {
   }
 
   getContentXHTML(chapter) {
-    const { language } = this.data;
-    const { title, text } = chapter;
-  
+    const { language, sourceId } = this.data;
+    let { title, text, start, link } = chapter;
+    let h = parseInt(start.substring(0, 2),10);
+    let m = parseInt(start.substring(3, 5),10);
+    let s = parseInt(start.substring(6,8),10);
+    let curTime = 3600 * h + 60 * m + s;
+    let imgStart = text.indexOf('<img');
+    let imgEnd = text.indexOf('</div>');
+    let url = window.location.href;
+    let query = url.indexOf('/epub');
+    url = url.substring(0, query);
+    let sub1 = text.substring(0, imgStart-4);
+    let sub2 = "<a href='".concat(url,links.watch(sourceId),"&begin=",curTime,"'>\n").replace('&', '&amp;');
+    let sub3 = text.substring(imgStart,imgEnd);
+    let sub4 = "</a>\n";
+    let sub5 = text.substring(imgEnd);
+    text = sub1.concat(sub2,sub3,sub4,sub5);
+    if (link !== undefined && link.startsWith('http')) {
+      text = "<a href='".concat(link, "'>Slides</a>\n", text);
+    }
     const content = dedent(`
-        <div class="epub-ch">
+        <div class="epub-ch">            
             ${text}
         </div>
       `);

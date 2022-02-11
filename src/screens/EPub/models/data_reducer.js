@@ -22,9 +22,12 @@ function removeSubChapter(chapter, subChapterIndex) {
 }
 function insertChapter(chapters, index, chapterLike) {
     let newChapter = new EPubChapterData(chapterLike);
+    if (newChapter.__data__) {
+        newChapter = newChapter.__data__;
+    }
     return [
         ...chapters.slice(0, index),
-        newChapter.toObject(),
+        newChapter,
         ...chapters.slice(index)
     ];
 }
@@ -41,7 +44,7 @@ function rebuildChapter(chapters, chapterIndex, chapterLike, resetText) {
     // update the subchapter item
     if (chapters[chapterIndex]) {
         let toBuild = chapterLike || chapters[chapterIndex];
-        chapters[chapterIndex] = new EPubChapterData(toBuild, resetText);
+        chapters[chapterIndex] = new EPubChapterData(toBuild, resetText).toObject();
     }
 }
 
@@ -62,10 +65,10 @@ function appendChapterAsSubChapter(chapters, chapterIdx) {
 
     // if no items in curr chapter
     // push its sub chapters to the prev chapter.subChapters
-    if (currChp.items.length === 0) {
+    if (currChp?.items?.length === 0) {
         prevChp.subChapters = _.concat(prevChp.subChapters, currChp.subChapters);
     }
-    // otherwise, convert itself as a sub chapter 
+    // otherwise, convert itself as a sub chapter
     // and append to the prev chapter.subChapters along w/ its sub chapters
     else {
         prevChp.subChapters = _.concat(
@@ -239,12 +242,12 @@ export default {
         // if the prev chapter has sub-chapters
         // append curr chapter and its sub-chapters to prev's sub-chapters
         let newChapters = null;
-        if (prevChp.subChapters.length > 0) {
+        if (prevChp?.subChapters?.length > 0) {
             newChapters = appendChapterAsSubChapter(chapters, chapterIdx)
         } else {
             // otherwise, append items & sub-chapters of this chapter to the prev
-            prevChp.items = _.concat(prevChp.items, currChp.items);
-            prevChp.subChapters = currChp.subChapters;
+            prevChp.items = _.concat(prevChp?.items, currChp?.items);
+            prevChp.subChapters = currChp?.subChapters;
             // remove combined chapter
             newChapters = removeChapter(chapters, chapterIdx);
         }
