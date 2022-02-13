@@ -6,6 +6,7 @@ import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
 import {_generateDefaultEpubName } from './controllers/helpers';
+
 function CTEPubListScreen(props) {
   const { sourceType, sourceId, source} = props;
   const [ePubs, setEPubs] = useState(ARRAY_INIT);
