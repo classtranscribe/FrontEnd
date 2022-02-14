@@ -4,6 +4,9 @@ import { getAllItemsInChapters } from 'entities/EPubs/utils'
 
 function insertSubChapter(chapter, subChapterIndex, subChapterLike) {
     let newSubChapter = new EPubSubChapterData(subChapterLike).toObject();
+    if (newSubChapter.__data__) {
+        newSubChapter = newSubChapter.__data__;
+    }
     chapter.subChapters = [
         ...chapter.subChapters.slice(0, subChapterIndex),
         newSubChapter,
@@ -27,7 +30,7 @@ function insertChapter(chapters, index, chapterLike) {
     }
     return [
         ...chapters.slice(0, index),
-        newChapter,
+        newChapter.toObject(),
         ...chapters.slice(index)
     ];
 }
@@ -107,7 +110,7 @@ function rebuildSubChapter(chapters, chapterIndex, subChapterIndex, subChapterLi
       // update the subchapter item
       if (subChapters[subChapterIndex]) {
         let toBuild = subChapterLike || subChapters[subChapterIndex];
-        subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText);
+        subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText).toObject();
       }
     }
   }
