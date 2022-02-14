@@ -110,7 +110,7 @@ function EPubSubChapterItem({
             </CTText>
             :
             <div className="ch-item-ol ct-d-c">
-              {subChapter.items.map((item, itemIndex) => (
+              {subChapter?.items?.map((item, itemIndex) => (
                 <EPubListItem
                   isSubChapter
                   key={item.id}
