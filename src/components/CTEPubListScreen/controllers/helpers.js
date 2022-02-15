@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { _buildID } from 'utils';
+import { ARRAY_INIT } from 'utils/constants';
 import { LanguageConstants } from '../../CTPlayer';
 
 export function _filterTrivalItems(epubData) {
@@ -18,3 +19,29 @@ export function _getMediaLangOptions(languages) {
   }));
 }
 
+export function _generateDefaultEpubName(ePubs, defaultTitle) {
+  // defaultTitle naming logic 
+  if (ePubs.length > 0 && ePubs !== ARRAY_INIT) { // if there are previous epubs made 
+    let mediaName = defaultTitle; // the default title 
+    let mediaNameLen = mediaName.length;
+    let maxAffix = -1; 
+    for (const epub of ePubs) {
+      let title = epub.title; 
+      if (title.substring(0, mediaNameLen) === mediaName) { // if the title includes the default name 
+        let diff = title.length - mediaName.length;  
+        if (diff === 0) {  // if the title is exactly the default name 
+          maxAffix = (maxAffix < 0) ? 0 : maxAffix;
+        } else {
+          let affix = title.substring((title.length - diff) + 1); // get the affix of this epub title  
+          maxAffix = (parseInt(affix, 10) > maxAffix) ? affix : maxAffix; // if this affix is greater than max affix, set it  
+        }
+      }
+    } 
+    if (maxAffix > -1) {  // if we found other ebooks
+      // increment maxAffix and set the name of this new ebook accordingly 
+      maxAffix = parseInt(maxAffix, 10) + 1; 
+      return `${mediaName}-${maxAffix}`
+    }
+  }
+  return defaultTitle;
+}

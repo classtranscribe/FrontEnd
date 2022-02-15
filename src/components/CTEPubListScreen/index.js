@@ -5,20 +5,21 @@ import { CTFragment, altEl, makeEl } from 'layout';
 import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
+import {_generateDefaultEpubName } from './controllers/helpers';
 
 function CTEPubListScreen(props) {
-  const { sourceType, sourceId, source, defaultTitle } = props;
-
+  const { sourceType, sourceId, source} = props;
   const [ePubs, setEPubs] = useState(ARRAY_INIT);
   const [rawEPubData, setRawEPubData] = useState(ARRAY_INIT);
   const [sourceData, setSourceData] = useState(source);
   const [languages, setLanguages] = useState(ARRAY_INIT);
   const [openNewEPubModal, setOpenNewEPubModal] = useState(false);
-
+  const [defaultTitle, setDefaultTitle] = useState(""); 
   const loading = rawEPubData === ARRAY_INIT 
                 || ePubs === ARRAY_INIT
-                || languages === ARRAY_INIT;
-
+                || languages === ARRAY_INIT
+                || defaultTitle === ""; // TODO should defaultTitle be in loading 
+  
   const setupEPubsData = async () => {
     if (!sourceType || !sourceId) return;
 
@@ -27,6 +28,8 @@ function CTEPubListScreen(props) {
     setSourceData(data.source);
     setLanguages(data.languages);
     setRawEPubData(data.rawEPubData);
+    const newTitle = await _generateDefaultEpubName(data.ePubs, props.defaultTitle);
+    setDefaultTitle(newTitle);
   };
 
   useEffect(() => {
