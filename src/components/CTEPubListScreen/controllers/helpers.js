@@ -31,14 +31,11 @@ function _parseRawEPubDataSplittingOnPunctuation(rawEPubData) {
        rawEPubData[i].text = curr.substring(0, getLastPunctuationIndex(curr) + 1);
     }
   }
-
-
   return null;
 }
 export function _parseRawEPubData(rawEPubData) {
   let a = _.map(_filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
-  let b = a.slice(); 
-  _parseRawEPubDataSplittingOnPunctuation(b);
+  _parseRawEPubDataSplittingOnPunctuation(a);
   return a;
 }
 
