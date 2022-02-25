@@ -9,7 +9,38 @@ export function _filterTrivalItems(epubData) {
 }
 
 export function _parseRawEPubData(rawEPubData) {
-  return _.map(_filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
+  let a = _.map(_filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
+  let b = a.slice(); 
+  _parseRawEPubDataSplittingOnPunctuation(b);
+  return a;
+}
+function getLastPunctuationIndex(sentence) {
+  let lastPunctuationIndex = -1; 
+  for (let i = sentence.length - 1; i >= 0; i--) {
+    if (sentence[i] === '.' || sentence[i] === '?' || sentence[i] === '!') {
+      lastPunctuationIndex = i;
+      break;
+    }
+  }
+  return lastPunctuationIndex;
+}
+function _parseRawEPubDataSplittingOnPunctuation(rawEPubData) {
+  let buffer = "";
+  for (let i = 0; i < rawEPubData.length; i++) {
+    let curr = (buffer + rawEPubData[i].text).trim();
+    let idx = getLastPunctuationIndex(curr);
+    if (idx == curr.length - 1) {
+      rawEPubData[i].text = curr;
+      buffer = "";
+      continue;
+    } else {
+      buffer = `${curr.substring(getLastPunctuationIndex(curr) + 1, curr.length) } `;
+       rawEPubData[i].text = curr.substring(0, getLastPunctuationIndex(curr) + 1);
+    }
+  }
+
+
+  return null;
 }
 
 export function _getMediaLangOptions(languages) {
