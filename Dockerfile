@@ -35,6 +35,7 @@ ENV BRANCH="${BRANCH}" \
     AUTH0_DOMAIN="" \
     CILOGON_CLIENT_ID="" \
     APPLICATION_INSIGHTS_KEY="" \
+    MAINTENANCE_MESSAGE=""\
     TEST_SIGN_IN=""
 
 CMD envsubst < /config.template > /build/config.js && nginx -g 'daemon off;'
