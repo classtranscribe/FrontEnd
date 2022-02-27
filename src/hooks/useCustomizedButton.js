@@ -1,3 +1,4 @@
+import * as KeyCode from 'keycode-js';
 export function useCustomizedButton(handleClick) {
   const onClick = (e) => {
     if (typeof handleClick === 'function') {
@@ -6,7 +7,7 @@ export function useCustomizedButton(handleClick) {
   }
 
   const onKeyDown = (e) => {
-    if (e.keyCode === 13 || e.keyCode === 32) {
+    if (e.keyCode === KeyCode.KEY_RETURN || e.keyCode === KeyCode.KEY_SPACE) {
       onClick(e);
     }
   }

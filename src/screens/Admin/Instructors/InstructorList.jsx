@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { Button } from 'semantic-ui-react';
 import { search } from 'utils';
 import { AdminListItem } from '../Components';
+import * as KeyCode from 'keycode-js';
 
 export default function InstructorList({ instructors, loading, currUni, onInactive }) {
   const [result, setResult] = useState([]);
@@ -12,7 +13,7 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
   }, [instructors]);
 
   const onSearch = (keyCode) => {
-    if (keyCode === 13) {
+    if (keyCode === KeyCode.KEY_RETURN) {
       setResult(
         search.getResults(instructors, $('#inst-filter')[0].value, [
           'firstName',
@@ -36,7 +37,7 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
           placeholder="Search for instructors"
           onKeyDown={({ keyCode }) => onSearch(keyCode)}
         />
-        <Button basic icon="search" aria-label="search" onClick={() => onSearch(13)} />
+        <Button basic icon="search" aria-label="search" onClick={() => onSearch(KeyCode.KEY_RETURN)} />
         <Button basic content="Reset" onClick={onReset} />
       </div>
       {result.map((inst) => (

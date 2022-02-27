@@ -1,4 +1,5 @@
 import React from 'react';
+import * as KeyCode from 'keycode-js';
 
 function MenuRadio({
   description = '',
@@ -10,7 +11,7 @@ function MenuRadio({
   type = 'checkbox',
 }) {
   const onKeyDown = ({ keyCode }) => {
-    if (keyCode === 13) onChange();
+    if (keyCode === KeyCode.KEY_RETURN) onChange();
   };
 
   return (

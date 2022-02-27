@@ -1,6 +1,8 @@
 import $ from 'jquery';
 // import { isDeveloping } from '../../../utils';
 
+import * as KeyCode from 'keycode-js';
+
 import { transControl } from './trans.control';
 
 import {
@@ -65,92 +67,94 @@ export const keydownControl = {
      * Shift Key events
      */
     if (shiftKey) {
+      console.log(keyCode);
       switch (keyCode) {
         // `+` (Shift + +) - increase closed caption size
-        case 187:
+        case KeyCode.KEY_EQUALS:
           return this.dispatch({ type: 'playerpref/changeCCSizeByValue', payload: 0.25 });
         // `_` (Shift + -) - decrease closed caption
-        case 189:
+        case KeyCode.KEY_DASH:
           return this.dispatch({ type: 'playerpref/changeCCSizeByValue', payload: -0.25 });
         // `<` (Shift + ,) - switch videos
-        case 188:
+        case KeyCode.KEY_COMMA:
           return this.dispatch({ type: 'watch/switchVideo' });
         // `?` (Shift + /) - open Search
-        case 191:
+        case KeyCode.KEY_SLASH:
           e.preventDefault();
           return this.dispatch({ type: 'watch/search_open' });
         // Up Arrow
-        case 38:
+        case KeyCode.KEY_UP:
           return this.dispatch({ type: 'playerpref/changePlaybackrateByValue', payload: 0.25 });
         // Down Arrow
-        case 40:
+        case KeyCode.KEY_DOWN:
           return this.dispatch({ type: 'playerpref/changePlaybackrateByValue', payload: -0.25 });
         // Menu events
         default:
           return this.shortcutsForMenus(keyCode);
       }
     }
+    console.log("shortcuts, justKey: ", keyCode);
 
     /**
      * One key events
      */
     switch (keyCode) {
       // ESC
-      case 27:
+      case KeyCode.KEY_ESCAPE:
         return this.dispatch({type: 'watch/menu_close'})
       // `Space` / `k` : Pause or play
-      case 32:
+      case KeyCode.KEY_SPACE:
         return this.handleSpaceKey(e);
       // Left Arrow
-      case 37:
+      case KeyCode.KEY_LEFT:
         return this.handleLeftArrow(e);
       // Up Arrow
-      case 38:
+      case KeyCode.KEY_UP:
         return this.handleUpArrow(e);
       // Right Arrow
-      case 39:
+      case KeyCode.KEY_RIGHT:
         return this.handleRightArrow(e);
       // Down Arrow
-      case 40:
+      case KeyCode.KEY_DOWN:
         return this.handleDownArrow(e);
       // `c` - closed caption on/off
-      case 67:
+      case KeyCode.KEY_C:
         return this.dispatch({ type: 'playerpref/toggleOpenCC' })
       // `d` - Audio Description on/off
-      case 68:
+      case KeyCode.KEY_D:
         return this.dispatch({ type: 'playerpref/toggleOpenAD' })
       // Alt + e - edit current caption
-      case 69:
+      case KeyCode.KEY_E:
         e.preventDefault();
         return transControl.editCurrent();
       // `f` - enter full screen
-      case 70:
+      case KeyCode.KEY_F:
         return this.dispatch({ type: 'watch/toggleFullScreen' })
       // `j` - rewind 10s
-      case 74:
+      case KeyCode.KEY_J:
         return this.dispatch({ type: 'watch/media_backward' })
       // `k` - play/pause
-      case 75:
+      case KeyCode.KEY_K:
         return this.dispatch({ type: 'watch/onPlayPauseClick' })
       // `l` - forward 10s
-      case 76:
+      case KeyCode.KEY_L:
         return this.dispatch({ type: 'watch/media_forward' })
       // `m` : mute
-      case 77:
+      case KeyCode.KEY_M:
         return this.dispatch({ type: 'watch/media_mute' })
 
       // `0-9`: seek to 0%-90% of duration
-      case 48:
-      case 49:
-      case 50:
-      case 51:
-      case 52:
-      case 53:
-      case 54:
-      case 55:
-      case 56:
-      case 57:
-        return this.dispatch({ type: 'watch/seekToPercentage', payload: ((keyCode - 48) / 10.0) });
+      case KeyCode.KEY_0:
+      case KeyCode.KEY_1:
+      case KeyCode.KEY_2:
+      case KeyCode.KEY_3:
+      case KeyCode.KEY_4:
+      case KeyCode.KEY_5:
+      case KeyCode.KEY_6:
+      case KeyCode.KEY_7:
+      case KeyCode.KEY_8:
+      case KeyCode.KEY_9:
+        return this.dispatch({ type: 'watch/seekToPercentage', payload: ((keyCode - KeyCode.KEY_0) / 10.0) });
       default:
         break;
     }
@@ -176,31 +180,32 @@ export const keydownControl = {
       return true;
     };
 
+    console.log("shortcuts, keyCode: ", keyCode);
     switch (keyCode) {
       // `⇧ Shift + Q` : Close Menu
-      case 81:
+      case KeyCode.KEY_Q:
         this.dispatch({ type: 'watch/menu_close' })
         return true;
-      // `⇧ Shift + S` : Open Closed Caption Setting Menu
-      case 67:
+      // `⇧ Shift + C` : Open Closed Caption Setting Menu
+      case KeyCode.KEY_C:
         return openMenu(MENU_SETTING);
       // `⇧ Shift + D` : Open Download Menu
-      case 68:
+      case KeyCode.KEY_D:
         return openMenu(MENU_DOWNLOAD);
       // `⇧ Shift + L` : Open Language Menu
-      case 76:
+      case KeyCode.KEY_L:
         return openMenu(MENU_LANGUAGE);
-      // `⇧ Shift + S` : Open Playlists Menu
-      case 80:
+      // `⇧ Shift + P` : Open Playlists Menu
+      case KeyCode.KEY_P:
         return openMenu(MENU_PLAYLISTS);
-      // `⇧ Shift + S` : Open Playback Rates Menu
-      case 82:
+      // `⇧ Shift + R` : Open Playback Rates Menu
+      case KeyCode.KEY_R:
         return openMenu(MENU_PLAYBACKRATE);
       // `⇧ Shift + S` : Open Screen Mode Menu
-      case 83:
+      case KeyCode.KEY_S:
         return openMenu(MENU_SCREEN_MODE);
       // Not a menu-related shortcut
-      case 220:
+      case KeyCode.KEY_BACK_SLASH:
         return openMenu(MENU_SHORTCUTS);
       default:
         return false;
