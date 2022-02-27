@@ -1,3 +1,4 @@
+import * as KeyCode from 'keycode-js';
 import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { connect } from 'dva'
@@ -21,35 +22,35 @@ function Player(props) {
         } = event;
         switch (keyCode) {
             // k or space - pause/play
-            case 75:
-            case 32:
+            case KeyCode.KEY_K:
+            case KeyCode.KEY_SPACE:
                 event.preventDefault();
                 dispatch({ type: 'watch/onPlayPauseClick' })
                 return;
             // m - mute/unmute
-            case 77:
+            case KeyCode.KEY_M:
                 event.preventDefault();
                 dispatch({ type: 'watch/media_mute' })
                 return;
             // left arrow - rewind
-            case 37:
+            case KeyCode.KEY_LEFT:
                 event.preventDefault();
                 dispatch({ type: 'watch/media_backward' })
                 return;
             // right arrow - forward
-            case 39:
+            case KeyCode.KEY_RIGHT:
                 event.preventDefault();
                 dispatch({ type: 'watch/media_forward' })
                 return;
 
             // top arrow - forward
-            case 38:
+            case KeyCode.KEY_UP:
                 event.preventDefault();
                 // player.volumeUp();
                 return;
 
             // bottom arrow - forward
-            case 40:
+            case KeyCode.KEY_DOWN:
                 event.preventDefault();
                 // player.volumeDown();
                 break;
