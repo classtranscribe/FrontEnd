@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { CTFragment, altEl, makeEl } from 'layout';
 import { connect } from 'dva'
 import { ARRAY_INIT } from 'utils/constants';
+import * as KeyCode from 'keycode-js';
 import { epub as epubController } from './controllers';
 import Constants from './controllers/constants/EPubConstants';
-import * as KeyCode from 'keycode-js';
 import {
   EPubHeader,
   PlayerModal,

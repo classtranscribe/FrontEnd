@@ -67,7 +67,6 @@ export const keydownControl = {
      * Shift Key events
      */
     if (shiftKey) {
-      console.log(keyCode);
       switch (keyCode) {
         // `+` (Shift + +) - increase closed caption size
         case KeyCode.KEY_EQUALS:
@@ -93,7 +92,6 @@ export const keydownControl = {
           return this.shortcutsForMenus(keyCode);
       }
     }
-    console.log("shortcuts, justKey: ", keyCode);
 
     /**
      * One key events
@@ -180,7 +178,6 @@ export const keydownControl = {
       return true;
     };
 
-    console.log("shortcuts, keyCode: ", keyCode);
     switch (keyCode) {
       // `⇧ Shift + Q` : Close Menu
       case KeyCode.KEY_Q:

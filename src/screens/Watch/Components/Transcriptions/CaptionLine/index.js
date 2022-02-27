@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { isMobile } from 'react-device-detect';
-import  * as KeyCode from 'keycode-js';
+import * as KeyCode from 'keycode-js';
 
 import {
   transControl,

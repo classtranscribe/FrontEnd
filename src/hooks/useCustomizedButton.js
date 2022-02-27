@@ -1,4 +1,5 @@
 import * as KeyCode from 'keycode-js';
+
 export function useCustomizedButton(handleClick) {
   const onClick = (e) => {
     if (typeof handleClick === 'function') {

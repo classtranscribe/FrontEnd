@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { elem } from 'utils/use-elem';
+import * as KeyCode from 'keycode-js';
 import { SEARCH_INIT, SEARCH_RESULT, SEARCH_BEGIN } from '../../../Utils';
-import  * as KeyCode from 'keycode-js';
 import './index.scss';
 
 function InputBar({ search = SEARCH_INIT, dispatch }) {
