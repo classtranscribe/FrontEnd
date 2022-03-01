@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import * as KeyCode from 'keycode-js';
 
 export const useStyles = makeStyles({
   root: {
@@ -80,7 +81,7 @@ function Input(props) {
   const classes = useStyles();
   const darkClasses = useDarkStyles();
   const handleKeyDown = (e) => {
-    if (typeof onReturn === 'function' && e.keyCode === 13) {
+    if (typeof onReturn === 'function' && e.keyCode === KeyCode.KEY_RETURN) {
       e.preventDefault();
       onReturn();
     }

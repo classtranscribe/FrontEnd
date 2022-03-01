@@ -2,9 +2,14 @@ import _ from 'lodash';
 import { EPubData, EPubChapterData, EPubSubChapterData, EPubImageData } from 'entities/EPubs';
 import { getAllItemsInChapters } from 'entities/EPubs/utils'
 
+// DEBUG ONLY: remove this once debugging is complete
+/* eslint-disable no-console */
+
 function insertSubChapter(chapter, subChapterIndex, subChapterLike) {
     let newSubChapter = new EPubSubChapterData(subChapterLike);
     newSubChapter = newSubChapter.__data__ ? newSubChapter.__data__ : newSubChapter.toObject();
+
+    console.log(`Inserting subchapter at ${subChapterIndex}: `, subChapterLike);
 
     chapter.subChapters = [
         ...chapter.subChapters.slice(0, subChapterIndex),
@@ -15,6 +20,7 @@ function insertSubChapter(chapter, subChapterIndex, subChapterLike) {
     return newSubChapter;
 }
 function removeSubChapter(chapter, subChapterIndex) {
+    console.log(`Removing chapter at ${subChapterIndex}`);
     let subChapter = chapter.subChapters[subChapterIndex];
     chapter.subChapters = [
         ...chapter.subChapters.slice(0, subChapterIndex),
@@ -26,6 +32,8 @@ function insertChapter(chapters, index, chapterLike) {
     let newChapter = new EPubChapterData(chapterLike);
     newChapter = newChapter.__data__ ? newChapter.__data__ : newChapter.toObject();
 
+    console.log(`Inserting chapter at ${index}: `, chapterLike);
+
     return [
         ...chapters.slice(0, index),
         newChapter,
@@ -33,6 +41,7 @@ function insertChapter(chapters, index, chapterLike) {
     ];
 }
 function removeChapter(chapters, index) {
+    console.log(`Removing chapter at ${index}`);
     // let chapter = chapters[index];
     return [
         ...chapters.slice(0, index),
@@ -43,13 +52,17 @@ function removeChapter(chapters, index) {
 function rebuildChapter(chapters, chapterIndex, chapterLike, resetText) {
     // if there is such a chapter in the epub data
     // update the subchapter item
+    console.log(`Rebuilding chapter ${chapterIndex}: `, chapterLike);
     if (chapters[chapterIndex]) {
         let toBuild = chapterLike || chapters[chapterIndex];
-        chapters[chapterIndex] = new EPubChapterData(toBuild, resetText).toObject();
+        const rebuilt = new EPubChapterData(toBuild, resetText).toObject();
+        console.log(`Rebuilt chapter ${chapterIndex}: `, rebuilt);
+        chapters[chapterIndex] = rebuilt;
     }
 }
 
 function insertContentChapter(chapter, index, content) {
+    console.log(`Inserting chapter contents ${index}: `, content);
     if (index >= chapter.contents.length) {
         chapter.contents.push(content);
     } else {
@@ -64,6 +77,7 @@ function appendChapterAsSubChapter(chapters, chapterIdx) {
     let currChp = chapters[chapterIdx];
     let prevChp = chapters[chapterIdx - 1];
 
+    console.log(`Appending chapter ${chapterIdx} as subchapter`);
     // if no items in curr chapter
     // push its sub chapters to the prev chapter.subChapters
     if (currChp?.items?.length === 0) {
@@ -88,6 +102,7 @@ function appendChapterAsSubChapter(chapters, chapterIdx) {
 }
 function removeContent(chapter, predictor) {
     if (typeof predictor === 'number') {
+        console.log(`Removing chapter contents at ${predictor}`);
         if (predictor >= 0 && predictor < chapter.contents.length) {
             chapter.contents = [
                 ...chapter.contents.slice(0, predictor),
@@ -95,6 +110,7 @@ function removeContent(chapter, predictor) {
             ];
         }
     } else {
+        console.log(`Removing chapter contents: `, predictor);
         let currIndex = _.findIndex(chapter.contents, (val) => val === predictor);
         removeContent(chapter, currIndex);
     }
@@ -102,18 +118,22 @@ function removeContent(chapter, predictor) {
 
 function rebuildSubChapter(chapters, chapterIndex, subChapterIndex, subChapterLike, resetText) {
     let currChapter = chapters[chapterIndex];
+    console.log(`Rebuilding subchapter ${chapterIndex}-${subChapterIndex}: `, subChapterLike);
     if (currChapter) {
       let subChapters = currChapter.subChapters;
       // if there is such a subchapter in the epub data
       // update the subchapter item
       if (subChapters[subChapterIndex]) {
         let toBuild = subChapterLike || subChapters[subChapterIndex];
-        subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText).toObject();
+        const rebuilt = new EPubSubChapterData(toBuild, resetText).toObject();
+        console.log(`Rebuilt subchapter ${chapterIndex}-${subChapterIndex}: `, rebuilt);
+        subChapters[subChapterIndex] = rebuilt;
       }
     }
   }
 
 function nextStateOfChapters(chapters) {
+    console.log(`Building next state of chapters...`);
     const items = getAllItemsInChapters(chapters);
     return { chapters, items, images: _.map(items, item => item?.image) }
 }
@@ -121,6 +141,7 @@ export default {
     subdivideChapter(state, { payload: { chapterIdx, itemIdx } }) {
         const chapters = state.epub.chapters;
         const chapter = chapters[chapterIdx]
+        console.log(`Subdividing chapter at ${chapterIdx}: `, itemIdx);
         // create a sub chp based on items after itemIdx in this chp
         insertSubChapter(chapter, 0, {
             items: _.slice(chapter.items, itemIdx)
@@ -137,6 +158,7 @@ export default {
         const chapter = chapters[chapterIdx]
         let subChapters = chapter.subChapters;
         let items = _.slice(chapter.items, itemIdx, chapter.items.length);
+        console.log(`Splitting chapter from chapter items at ${chapterIdx}: `, itemIdx);
 
         // remove items and sub chapters from curr chapter
         chapter.subChapters = [];
@@ -151,6 +173,7 @@ export default {
     undoSubdivideChapter(state, { payload: { chapterIdx } }) {
         const chapters = state.epub.chapters;
         const chapter = chapters[chapterIdx]
+        console.log(`Undoing subdivide chapter at ${chapterIdx}`);
         // push the items in the first sub chapter
         // to this chapter's items
         chapter.items = _.concat(chapter.items, chapter.subChapters[0].items);
@@ -165,6 +188,7 @@ export default {
         const chapters = state.epub.chapters;
         const chapter = chapters[chapterIdx];
         const subChapter = chapter.subChapters[subChapterIdx];
+        console.log(`Splitting subchapter at ${chapterIdx}-${subChapterIdx}: `, itemIdx);
 
         // create a new sub chp based on the items after itemIdx
         insertSubChapter(chapter, subChapterIdx + 1, {
@@ -184,6 +208,7 @@ export default {
         let currSubChp = chapter.subChapters[subChapterIdx];
         let prevSubChp = chapter.subChapters[subChapterIdx - 1];
 
+        console.log(`Undoing split subchapter at ${chapterIdx}-${subChapterIdx}`);
         // push curr sub chp's items to the prev sub chp
         prevSubChp.items = _.concat(prevSubChp.items, currSubChp.items);
         // then delete the curr sub chp
@@ -199,6 +224,7 @@ export default {
         const chapter = chapters[chapterIdx];
         const subChapter = chapter.subChapters[subChapterIdx];
 
+        console.log(`Splitting chapter from subchapter at ${chapterIdx}-${subChapterIdx}`);
         // create a new chp w/ items after itemIdx of this subChapter.items
         // and sub chps of the rest of curr chp
         const newChapters = insertChapter(chapters, chapterIdx + 1, {
@@ -222,6 +248,7 @@ export default {
         // create a new chp w/ items after itemIdx of this subChapter.items
         // and sub chps of the rest of curr chp
 
+        console.log(`Splitting chapter from subchapter items at ${chapterIdx}-${subChapterIdx}`);
         const newChapters = insertChapter(chapters, chapterIdx + 1, {
             items: _.slice(subChapter.items, itemIdx),
             subChapters: _.slice(chapter.subChapters, subChapterIdx + 1)
@@ -240,6 +267,7 @@ export default {
         const currChp = chapters[chapterIdx];
         const prevChp = chapters[chapterIdx - 1];
 
+        console.log(`Undoing split-chapter at ${chapterIdx}`);
         // if the prev chapter has sub-chapters
         // append curr chapter and its sub-chapters to prev's sub-chapters
         let newChapters = null;
@@ -257,10 +285,12 @@ export default {
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     appendChapterAsSubChapter(state, { payload: { chapterIdx } }) {
+        console.log(`Appending chapter ${chapterIdx} as subchapter`);
         const chapters = state.epub.chapters;
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(appendChapterAsSubChapter(chapters, chapterIdx)) } };
     },
     saveSubChapterTitle(state, { payload: { chapterIdx, subChapterIdx, value } }) {
+        console.log(`Saving chapter ${chapterIdx} subchapter ${subChapterIdx} title`, value);
         const chapters = state.epub.chapters;
         if (chapters?.[chapterIdx]?.subChapters[subChapterIdx]) {
             chapters[chapterIdx].subChapters[subChapterIdx].title = value;
@@ -268,11 +298,13 @@ export default {
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
     saveChapterTitle(state, { payload: { chapterIdx, value } }) {
+        console.log(`Saving chapter ${chapterIdx} title`, value);
         const chapters = state.epub.chapters;
         chapters[chapterIdx].title = value;
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
     splitChaptersByScreenshots(state) {
+        console.log(`Splitting chapters by screenshots`);
         let splitChapters = _.map(
             state.items,
             (data, idx) =>
@@ -284,6 +316,7 @@ export default {
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {
+        console.log(`Resetting to default chapters`);
         const defaultChapters = EPubData.__buildEPubDataFromArray(state.items);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(defaultChapters) }, currChIndex: 0 };
     },
@@ -293,8 +326,10 @@ export default {
         }
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
+            console.log(`Inserting chapter ${state.currChIndex} content: `, value);
             insertContentChapter(chapters[state.currChIndex], contentIdx, value);
         } else {
+            console.log(`Inserting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
             insertContentChapter(chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx], contentIdx, value);
         }
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
@@ -308,8 +343,10 @@ export default {
         if (subChapterIdx === undefined) {
             const chapter = chapters[state.currChIndex];
             chapter.contents[contentIdx] = value;
+            console.log(`Setting chapter ${state.currChIndex} content: `, value);
         } else if (chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx]) {
             chapters[state.currChIndex].subChapters[subChapterIdx] = value
+            console.log(`Setting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
         }
         // this.updateAll('Update the chapter content');
         // this.__feed();
@@ -319,8 +356,10 @@ export default {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
             const chapter = chapters[state.currChIndex];
+            console.log(`Removing chapter ${state.currChIndex} content`);
             removeContent(chapter, contentIdx);
         } else if (chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx]) {
+            console.log(`Removing chapter ${state.currChIndex} subchapter ${subChapterIdx} content`);
             removeContent(chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx], contentIdx)
         }
         // this.updateAll('Remove the chapter content');
