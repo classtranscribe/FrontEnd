@@ -12,6 +12,8 @@ import {
   PRISM_JS
 } from './file-templates/html';
 
+import { env as reactEnv } from '../../../../utils/env';
+
 /**
  * File buffer builder for .epub
  */
@@ -58,6 +60,7 @@ class HTMLFileBuilder {
 
   prefetchSubchapterImages(chapters) {
       const promises = [];
+      const baseUrl = reactEnv.baseURL;
 
       chapters.forEach(chapter => {
           // eslint-disable-next-line no-unused-expressions
@@ -66,8 +69,7 @@ class HTMLFileBuilder {
               subchapter?.contents?.forEach(contents => {
                   if (contents && contents.src) {
                       // This is an image, prefetch it
-                      // TODO: Parameterize hostname here somehow? Is this available via config?
-                      promises.push(fetch(`https://ct-dev.ncsa.illinois.edu${contents.src}`)
+                      promises.push(fetch(`${baseUrl}${contents.src}`)
                           .then(img => img.blob())
                           .then(blob => {
                               return new Promise((resolve, reject) => {
@@ -82,7 +84,6 @@ class HTMLFileBuilder {
                                   return contents;
                               });
                           }));
-
                   }
               });
           });
