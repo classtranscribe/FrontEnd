@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { elem } from 'utils/use-elem';
+import * as KeyCode from 'keycode-js';
 import { SEARCH_INIT, SEARCH_RESULT, SEARCH_BEGIN } from '../../../Utils';
 import './index.scss';
 
@@ -24,7 +25,7 @@ function InputBar({ search = SEARCH_INIT, dispatch }) {
   };
 
   const handleOnKeyDown = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === KeyCode.KEY_RETURN) {
       e.preventDefault();
       handleSearch();
     }

@@ -3,6 +3,7 @@ import React from 'react';
 import { Popup } from 'semantic-ui-react';
 import './index.scss';
 import './slider.scss';
+import * as KeyCode from 'keycode-js';
 
 function VolumeControl({ muted = false, volume = true, dispatch }) {
   const handleVolumeChange = ({ target: { value } }) => {
@@ -22,7 +23,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
 
   const handleVolumeKeyDown = (e) => {
     const { keyCode } = e;
-    if (keyCode === 37 || keyCode === 39) {
+    if (keyCode === KeyCode.KEY_LEFT || keyCode === KeyCode.KEY_RIGHT) {
       e.preventDefault();
     }
   };

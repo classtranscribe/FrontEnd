@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { CTFragment, altEl, makeEl } from 'layout';
 import { connect } from 'dva'
 import { ARRAY_INIT } from 'utils/constants';
+import * as KeyCode from 'keycode-js';
 import { epub as epubController } from './controllers';
 import Constants from './controllers/constants/EPubConstants';
 import {
@@ -61,20 +62,20 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     if (!metaKey) return;
     // Meta key actions
     switch (keyCode) {
-      case 49: // 1
-      case 50: // 2
-      case 51: // 3
+      case KeyCode.KEY_1: // 1
+      case KeyCode.KEY_2: // 2
+      case KeyCode.KEY_3: // 3
         e.preventDefault();
         return dispatch({ type: 'epub/setView', payload: (Constants.EPubViews[keyCode - 49]) })
-      case 66: // b
+      case KeyCode.KEY_B: // b
         e.preventDefault();
         return dispatch({ type: 'epub/toggleNav' })
-      case 83: // s
+      case KeyCode.KEY_S: // s
         e.preventDefault();
         return dispatch({ type: 'epub/updateEPub_Internal' })
-      case 90: // z
+      case KeyCode.KEY_Z: // z
         return // this.onUndo(event);
-      case 191: //
+      case KeyCode.KEY_SLASH: // Slash
         e.preventDefault();
         return dispatch({ type: 'epub/toggleShortcuts' })
       default:
@@ -84,10 +85,10 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     if (!shiftKey) return;
     // Shift + Meta key actions
     switch (keyCode) {
-      case 80: // p
+      case KeyCode.KEY_P: // p
         e.preventDefault();
         return dispatch({ type: 'epub/togglePreview' })
-      case 90: // z
+      case KeyCode.KEY_Z: // z
         e.preventDefault();
         return 0// this.onRedo(event);
       default:

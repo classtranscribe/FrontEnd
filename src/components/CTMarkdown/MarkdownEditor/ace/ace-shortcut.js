@@ -1,3 +1,4 @@
+import * as KeyCode from 'keycode-js';
 import { isMac } from 'utils/constants';
 import { addHeaderText, addBoldText, addItalicText, insertLink } from './ace-controller';
 
@@ -16,27 +17,27 @@ export function getAceShortcutHandler(ace, onSave, onClose) {
     if (!metaKey && !ctrlKey) return;
     switch (keyCode) {
       // cmd + h
-      case 72:
+      case KeyCode.KEY_H:
         event.preventDefault();
         addHeaderText(ace);
         break;
       // cmd + b
-      case 66:
+      case KeyCode.KEY_B:
         event.preventDefault();
         addBoldText(ace);
         break;
       // cmd + i
-      case 73:
+      case KeyCode.KEY_I:
         event.preventDefault();
         addItalicText(ace);
         break;
       // cmd + k
-      case 75:
+      case KeyCode.KEY_K:
         event.preventDefault();
         insertLink(ace);
         break;
       // cmd + s
-      case 83:
+      case KeyCode.KEY_S:
         event.preventDefault();
         if (typeof onSave === 'function') onSave();
         break;
