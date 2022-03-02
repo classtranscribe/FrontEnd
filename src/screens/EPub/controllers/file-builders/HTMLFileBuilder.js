@@ -222,7 +222,6 @@ class HTMLFileBuilder {
         return withStyles
             ? INDEX_HTML_LIVE({ title, navContents, content, cover, author, print })
             : INDEX_HTML_LOCAL({ title, navContents, content, author });
-
   }
 
   async getHTMLBuffer() {
