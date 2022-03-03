@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';
+import { env } from 'utils/env';
 
 const HomeWithRedux = (props) => {
   const { sections, hasDepartmentSections } = props;
@@ -17,7 +18,7 @@ const HomeWithRedux = (props) => {
   const filterElement = altEl(CourseFilter, !loading);
   return (
     <CTLayout {...layoutProps}>
-      <MaintenanceMesg message="" />
+      <MaintenanceMesg message={env.MaintenanceMesg}/>
       <CTLoadable loading={loading} loadingElement={loaderElement}>
         {filterElement}
         {sectionElement}
