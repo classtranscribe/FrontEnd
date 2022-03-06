@@ -22,8 +22,6 @@ function SignIn(props) {
   }, [search]);
 
   const handleSignIn = (_method) => () => {
-    console.log(encodeURIComponent(redirect));
-    console.log(window.location.search);
     if (window.location.search.includes(encodeURIComponent(redirect))) {
       user.signIn({
         method: _method,
