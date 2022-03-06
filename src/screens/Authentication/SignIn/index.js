@@ -22,11 +22,17 @@ function SignIn(props) {
   }, [search]);
 
   const handleSignIn = (_method) => () => {
-    user.signIn({
-      method: _method,
-      redirectURL: redirect,
-      closeAfterSignedIn: aspopup === 'true'
-    });
+    console.log(encodeURIComponent(redirect));
+    console.log(window.location.search);
+    if (window.location.search.includes(encodeURIComponent(redirect))) {
+      user.signIn({
+        method: _method,
+        redirectURL: redirect,
+        closeAfterSignedIn: aspopup === 'true',
+      });
+    } else {
+      window.location = redirect;
+    }
   };
 
   const signInOptions = [
@@ -34,14 +40,14 @@ function SignIn(props) {
       title: 'University Credential Sign In',
       description: 'Sign in with your university authentication system.',
       id: user.method.CILOGON,
-      icon: 'school'
+      icon: 'school',
     },
     {
       title: 'Email Sign In',
       description: 'Sign in or sign up with your emails address.',
       id: user.method.AUTH0,
-      icon: 'email'
-    }
+      icon: 'email',
+    },
   ];
 
   if (env.dev) {
@@ -49,23 +55,23 @@ function SignIn(props) {
       title: 'Test Sign In',
       description: 'Sign in as an administrator (Dev server only).',
       id: user.method.TEST,
-      icon: 'admin_panel_settings'
+      icon: 'admin_panel_settings',
     });
   }
 
-  const listitems = signInOptions.map(opt => ({ ...opt, onClick: handleSignIn(opt.id) }));
+  const listitems = signInOptions.map((opt) => ({ ...opt, onClick: handleSignIn(opt.id) }));
 
   return (
     <CTFragment fadeIn role="main" center className="h-100" id="ct-signin-main">
       <CTFragment className="ct-signin-card shadow">
-        <CTFragment padding={[0,20,30,20]} alignItEnd>
+        <CTFragment padding={[0, 20, 30, 20]} alignItEnd>
           <CTBrand size="large" />
-          <CTText as="h1" muted uppercase size="big" margin={[0,0,0,10]}>
+          <CTText as="h1" muted uppercase size="big" margin={[0, 0, 0, 10]}>
             Sign In
           </CTText>
         </CTFragment>
 
-        <CTText muted margin={[0,0,10,25]} size="medium" as="h3">
+        <CTText muted margin={[0, 0, 10, 25]} size="medium" as="h3">
           Choose a sign-in or sign-up method
         </CTText>
 
