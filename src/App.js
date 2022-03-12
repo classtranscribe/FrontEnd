@@ -42,6 +42,7 @@ class App extends React.Component {
     user.validate();
   }
 
+
   render() {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 

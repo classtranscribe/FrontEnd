@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import PropTypes, { func } from 'prop-types';
 import { ListItemIcon, Typography, MenuItem } from '@material-ui/core';
 
 import { user, links } from 'utils';
@@ -31,9 +31,24 @@ const menuItems = [
 
 function ProfileMenu(props) {
   let { roles } = props;
-
+  const [darkMode, setDarkMode] = useState(false);
+  const [darkModeText, setDarkModeText] = useState('Dark Mode');
   const onContactUs = () => {
     window.location = links.contactUs();
+  };
+  const classList = ["root", "ct-nav-sidebar", "ct-nav-header"]
+  const onDarkMode = () => {
+    if (darkMode) {
+      document.getElementById('dark-mode').className = 'fas fa-moon';
+      setDarkModeText("Dark Mode");
+      document.getElementById("root").classList.remove("dark");
+      
+    } else {
+      document.getElementById('dark-mode').className = 'fas fa-sun';
+      setDarkModeText("Light Mode");
+      document.getElementById("root").classList.add("dark");
+    }
+    setDarkMode(!darkMode);
   };
 
   return (
@@ -79,6 +94,12 @@ function ProfileMenu(props) {
         </ListItemIcon>
         <Typography style={styles.font}>Contact Us</Typography>
       </MenuItem>
+      <MenuItem  title="Dark Mode" aria-label="Dark Mode" onClick={onDarkMode}>
+        <ListItemIcon style={styles.icon}>
+          <i id="dark-mode" className="fas fa-moon" />
+        </ListItemIcon>
+        <Typography  id="dark-mode-item" style={styles.font}>{darkModeText}</Typography>
+      </MenuItem>
 
       <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signOut()}>
         <ListItemIcon style={styles.icon}>
@@ -92,10 +113,7 @@ function ProfileMenu(props) {
 
 ProfileMenu.propTypes = {
   /** Roles of the user */
-  roles: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string
-  ])
+  roles: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
 };
 
 export default ProfileMenu;
