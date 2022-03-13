@@ -44,8 +44,3 @@ h1, h2, h3, h4, h5 {
   background-color: #141414 !important;
   color : rgb(7, 150, 143) !important;
 }
-.dark a:focus, button:focus, div[tabindex="0"]:focus, *[contenteditable="true"]:focus {
-  outline-style: solid;
-  outline-width: 2px;
-  outline-color:  white;
-}
