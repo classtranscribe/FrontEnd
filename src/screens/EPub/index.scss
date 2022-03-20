@@ -26,3 +26,34 @@
     background-color: rgb(246, 248, 248);
   }
 }
+
+.dark {
+  #ct-epb-main {
+    min-width: 1200px;
+    height: 100%;
+
+    #ct-epb-view-con {
+      height: 100%;
+      padding-top: 75px;
+    }
+  }
+
+  .ct-epb.clickable {
+    border: dashed 1px rgba(0, 0, 0, 0);
+    transition: all linear 200ms;
+
+    &.bordered {
+      border-color: rgb(197, 197, 197);
+    }
+
+    &:hover {
+      border-color: rgb(41, 41, 41);
+      background-color: rgb(51, 51, 51);
+    }
+
+    &:focus {
+      border-color: rgba(0, 0, 0, 0);
+      background-color: rgb(46, 48, 48);
+    }
+  }
+}

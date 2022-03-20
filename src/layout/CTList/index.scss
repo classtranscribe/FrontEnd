@@ -11,20 +11,21 @@
   .ct-listitem {
     padding: 0 25px;
     text-align: left;
-  
+
     span.material-icons {
       color: rgb(61, 61, 61);
       padding-right: 15px;
       font-size: 30px;
       pointer-events: none;
     }
-  
+
     .ct-listitem-text {
       padding: 10px 0;
     }
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     span.material-icons,
     .ct-listitem-text .ct-listitem-title {
       color: teal !important;
@@ -38,5 +39,51 @@
 
   &:hover {
     background-color: rgb(243, 243, 243);
+  }
+}
+
+.dark {
+  .ct-listitem-con {
+    background-color: #000000;
+    transition: background 200ms ease-in-out;
+
+    &:not(:last-child) {
+      .ct-listitem-text {
+        border-bottom: 1px solid rgb(33, 33, 33);
+      }
+    }
+
+    .ct-listitem {
+      padding: 0 25px;
+      text-align: left;
+
+      span.material-icons {
+        color: rgb(61, 61, 61);
+        padding-right: 15px;
+        font-size: 30px;
+        pointer-events: none;
+      }
+
+      .ct-listitem-text {
+        padding: 10px 0;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      span.material-icons,
+      .ct-listitem-text .ct-listitem-title {
+        color: teal !important;
+      }
+    }
+
+    &:focus {
+      background-color: rgb(39, 45, 45);
+      outline: none;
+    }
+
+    &:hover {
+      background-color: rgb(43, 43, 43);
+    }
   }
 }

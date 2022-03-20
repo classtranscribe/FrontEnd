@@ -1,4 +1,15 @@
 .ct-upload.base {
   width: max-content;
-  &.fluid { width: 100%; }
+  &.fluid {
+    width: 100%;
+  }
+}
+
+.dark {
+  .ct-upload.base {
+    width: max-content;
+    &.fluid {
+      width: 100%;
+    }
+  }
 }

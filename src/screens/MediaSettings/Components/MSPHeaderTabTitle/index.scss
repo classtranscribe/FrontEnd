@@ -17,3 +17,25 @@
     color: var(--ct-green-normal);
   }
 }
+
+.dark {
+  .msp-me-name-con {
+    color: rgb(218, 218, 218);
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    line-height: 20px;
+    font-family: var(--ct-font-narrow);
+
+    .name {
+      max-width: 260px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    &:hover {
+      color: var(--ct-green-normal);
+    }
+  }
+}

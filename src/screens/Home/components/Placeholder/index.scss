@@ -3,3 +3,11 @@
   overflow-y: hidden;
   pointer-events: none;
 }
+
+.dark {
+  #ct-homep-holder {
+    height: calc(100% - 50px);
+    overflow-y: hidden;
+    pointer-events: none;
+  }
+}
