@@ -56,7 +56,7 @@ $border: solid 1px rgb(214, 214, 214);
   }
 }
 
-.dark {
+&.dark {
   color : white !important;
   $border: solid 1px rgb(214, 214, 214);
 

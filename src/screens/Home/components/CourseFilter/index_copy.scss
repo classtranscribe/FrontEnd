@@ -1,0 +1,51 @@
+.ct-homep.course-filter {
+  margin-top: 30px;
+  margin-bottom: -10px;
+  background: linear-gradient(to bottom, white 90%, rgba(255, 255, 255, 0));
+
+  .course-filter-item {
+    margin-bottom: 10px;
+    // padding-bottom: 20px;
+
+    #home-uni-filter {
+      .MuiListItemText-root span {
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+      }
+    }
+
+    .selected {
+      #home-uni-filter {
+        padding: 10px 15px !important;
+      }
+    }
+  }
+}
+
+&.dark {
+  .ct-homep.course-filter {
+    margin-top: 30px;
+    margin-bottom: -10px;
+    background: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(0, 0, 0, 0));
+
+    .course-filter-item {
+      margin-bottom: 10px;
+      // padding-bottom: 20px;
+
+      #home-uni-filter {
+        .MuiListItemText-root span {
+          overflow: hidden !important;
+          white-space: nowrap !important;
+          text-overflow: ellipsis !important;
+        }
+      }
+
+      .selected {
+        #home-uni-filter {
+          padding: 10px 15px !important;
+        }
+      }
+    }
+  }
+}

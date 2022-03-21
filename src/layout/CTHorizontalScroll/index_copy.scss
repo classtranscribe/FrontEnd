@@ -1,0 +1,66 @@
+.ct-h-scroll.arrow-btn {
+  border-radius: 100%;
+  background-color: rgb(240, 240, 240);
+  margin: 0 2px;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.ct-h-scroll.scroll-con {
+  padding: 5px 0 0 0;
+
+  .react-overflow-wrapper__content {
+    align-items: unset !important;
+  }
+
+  .react-overflow-wrapper__icon-right,
+  .react-overflow-wrapper__icon-left {
+    background: rgba(255, 255, 255, 0.664) !important;
+  }
+
+  &.mobile {
+    overflow: auto !important;
+
+    .react-overflow-wrapper__icon-right,
+    .react-overflow-wrapper__icon-left {
+      display: none !important;
+    }
+  }
+}
+
+&.dark {
+  color : white;
+ct-h-scroll.arrow-btn {
+    border-radius: 100%;
+    background-color: rgb(240, 240, 240);
+    margin: 0 2px;
+    height: 40px;
+    width: 40px;
+    box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 0.2), 0px 1px 1px 0px rgba(255, 255, 255, 0.14),
+      0px 1px 3px 0px rgba(255, 255, 255, 0.12);
+  }
+
+  .ct-h-scroll.scroll-con {
+    padding: 5px 0 0 0;
+
+    .react-overflow-wrapper__content {
+      align-items: unset !important;
+    }
+
+    .react-overflow-wrapper__icon-right,
+    .react-overflow-wrapper__icon-left {
+      background: rgba(55, 55, 55, 0.664) !important;
+    }
+
+    &.mobile {
+      overflow: auto !important;
+
+      .react-overflow-wrapper__icon-right,
+      .react-overflow-wrapper__icon-left {
+        display: none !important;
+      }
+    }
+  }
+}
