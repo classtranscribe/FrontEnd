@@ -41,12 +41,13 @@ function ProfileMenu(props) {
     if (darkMode) {
       document.getElementById('dark-mode').className = 'fas fa-moon';
       setDarkModeText("Dark Mode");
-      document.getElementById("root").classList.remove("dark");
+      document.body.classList.remove("dark");
       
     } else {
       document.getElementById('dark-mode').className = 'fas fa-sun';
       setDarkModeText("Light Mode");
-      document.getElementById("root").classList.add("dark");
+      console.log(document.body.classList);
+      document.body.classList.add("dark");
     }
     setDarkMode(!darkMode);
   };
