@@ -31,7 +31,7 @@ class EPubDownloadController {
 
   static async downloadHTML(onDownloaded) {
     try {
-      await _download(HTMLFileBuilder, '.zip');
+      await _download(HTMLFileBuilder, '.zip', true);
       if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);

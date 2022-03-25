@@ -30,6 +30,7 @@ class EPubFileBuilder {
 
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
+    this.h3 = ePubData.h3;
   }
 
   /**

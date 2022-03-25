@@ -83,6 +83,9 @@ export default class EPubData {
     if (!this.isPublished) {
       this.isPublished = false;
     }
+    if (!this.isH4) {
+      this.h3 = true;
+    }
 
     this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
 
@@ -134,6 +137,14 @@ export default class EPubData {
 
   get isPublished() {
     return this.__data__.isPublished;
+  }
+
+  set isH4(isH4) {
+    this.__data__.h3 = !isH4;
+  }
+
+  get isH4() {
+    return !this.__data__.h3;
   }
 
   set filename(filename) {
