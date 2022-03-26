@@ -29,9 +29,8 @@ const menuItems = [
   },
 ];
 
-function ProfileMenu(props) {
-  let { roles } = props;
-  const [darkMode, setDarkMode] = useState(false);
+function ProfileMenu({props, isUsingDarkMode, toggleDarkMode}) {
+  let roles = props;
   const [darkModeText, setDarkModeText] = useState('Dark Mode');
   const onContactUs = () => {
     window.location = links.contactUs();
@@ -44,7 +43,7 @@ function ProfileMenu(props) {
          els[i].classList.toggle("dark");
      }
     console.log(document)
-    if (darkMode) {
+    if (isUsingDarkMode) {
       document.getElementById('dark-mode').className = 'fas fa-moon';
       setDarkModeText("Dark Mode");
       
@@ -52,7 +51,7 @@ function ProfileMenu(props) {
       document.getElementById('dark-mode').className = 'fas fa-sun';
       setDarkModeText("Light Mode");
     }
-    setDarkMode(!darkMode);
+  toggleDarkMode();
   };
 
   return (

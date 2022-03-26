@@ -13,6 +13,10 @@ import './index.scss';
  * Navigation Header
  */
 function CTNavHeader(props) {
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  }
   let {
     // children
     brandElem,
@@ -74,7 +78,7 @@ function CTNavHeader(props) {
             <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
               {children}
               {rightElem}
-              {showProfileMenu && <UserMenu darkMode={darkMode} />}
+              {showProfileMenu && <UserMenu darkMode={darkMode} isUsingDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />}
             </CTFragment>
           </CTFragment>
 
