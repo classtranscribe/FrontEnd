@@ -28,21 +28,8 @@
       }
     }
   }
-}
 
-@keyframes show-and-fade {
-  0% {
-    opacity: 0.7;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.5);
-  }
-}
-
-.dark {
-  .ctp.wrapper.non-interact {
+  &.dark {
     z-index: 1;
 
     .ctp.e-v-popup-con {
@@ -73,15 +60,15 @@
       }
     }
   }
+}
 
-  @keyframes show-and-fade {
-    0% {
-      opacity: 0.7;
-      transform: scale(0.5);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1.5);
-    }
+@keyframes show-and-fade {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
   }
 }

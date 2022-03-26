@@ -8,10 +8,8 @@
     width: 100%;
     margin-bottom: 15px;
   }
-}
 
-.dark {
-  .epb-item-view {
+&.dark {
     margin: 10px 0;
     padding: 10px 15px 20px 15px;
     border-top: 1px solid rgb(231, 231, 231);

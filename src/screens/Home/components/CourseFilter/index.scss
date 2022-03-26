@@ -21,10 +21,8 @@
       }
     }
   }
-}
 
-.dark {
-  .ct-homep.course-filter {
+&.dark {
     margin-top: 30px;
     margin-bottom: -10px;
     background: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(0, 0, 0, 0));

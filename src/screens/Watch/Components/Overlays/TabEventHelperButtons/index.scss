@@ -11,10 +11,8 @@
     opacity: 1;
     top: 0;
   }
-}
 
-.dark {
-  .watch-tab-helper {
+&.dark {
     position: fixed;
     top: -10em;
     left: 0;

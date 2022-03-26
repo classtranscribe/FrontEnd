@@ -87,10 +87,8 @@
       }
     }
   }
-}
 
-.dark {
-  .ctp.wrapper.interact {
+&.dark {
     &.show {
       .ctp.progress-con {
         padding: 0 8px;

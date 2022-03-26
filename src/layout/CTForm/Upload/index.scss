@@ -3,10 +3,8 @@
   &.fluid {
     width: 100%;
   }
-}
 
-.dark {
-  .ct-upload.base {
+&.dark {
     width: max-content;
     &.fluid {
       width: 100%;

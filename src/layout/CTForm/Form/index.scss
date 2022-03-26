@@ -45,10 +45,8 @@
       cursor: default !important;
     }
   }
-}
 
-.dark {
-  .ct-form {
+&.dark {
     box-shadow: none !important;
     border: 1px solid rgba(218, 218, 218, 0);
 

@@ -59,12 +59,8 @@ $highlighted-color: rgb(20, 190, 190);
       font-size: 1.2em;
     }
   }
-}
+&.dark {
 
-.dark {
-  $highlighted-color: rgb(20, 190, 190);
-
-  .ctp.act-btn {
     position: relative;
     background: none;
     color: var(--ct-text-white);

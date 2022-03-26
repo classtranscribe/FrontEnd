@@ -1,5 +1,8 @@
 .ct-heading {
   color: rgb(51, 51, 51);
+  &.dark {
+    color: white;
+  }
 
   &.uppercase {
     text-transform: uppercase;
@@ -7,6 +10,10 @@
 
   &.gradient {
     background: linear-gradient(to bottom, white 90%, rgba(255, 255, 255, 0));
+    &.dark {
+
+      background: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(255, 255, 255, 0));
+    }
   }
 
   i {
@@ -38,56 +45,7 @@ h1.ct-heading {
   padding: 30px 30px 20px 30px;
 }
 
-.dark .ct-heading,
+.ct-heading,
 .ct-heading.dark {
   color: white;
-}
-
-.dark {
-  color : white !important;
-
-  .ct-heading {
-    color: white; 
-
-    &.uppercase {
-      text-transform: uppercase;
-    }
-
-    &.gradient {
-      background: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(255, 255, 255, 0));
-    }
-
-    i {
-      margin-right: 5px;
-      font-weight: bold;
-      font-size: 1em;
-      font-weight: normal;
-      pointer-events: none;
-    }
-
-    &.highlight {
-      color: var(--ct-green-normal);
-    }
-
-    &.highlightIcon i {
-      color: var(--ct-green-normal);
-    }
-
-    .content {
-      span {
-        color: var(--ct-green-normal);
-      }
-    }
-  }
-
-  h1.ct-heading {
-    margin-top: 0 !important;
-    font-size: 30px;
-    padding: 30px 30px 20px 30px;
-  }
-
-  .dark .ct-heading,
-  .ct-heading.dark {
-    color: white;
-  }
 }

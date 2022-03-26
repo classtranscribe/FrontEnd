@@ -8,10 +8,8 @@
   font-size: 16px;
   height: 30px;
   margin-left: 1em;
-}
 
-.dark {
-  .watch-time-display {
+&.dark {
     display: flex;
     flex-direction: row;
     justify-content: center;

@@ -34,11 +34,9 @@
       transition: opacity 100ms linear;
     }
   }
-}
 
-.dark {
+&.dark {
   color : white !important;
-  .ct-epb.ch-img-con {
     margin: 10px 0;
     position: relative;
     width: 100%;

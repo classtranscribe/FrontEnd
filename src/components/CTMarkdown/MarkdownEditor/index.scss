@@ -30,10 +30,8 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-}
-.dark {
+&.dark {
   color : white;
-  .ct-md-editor-con {
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid rgb(24, 24, 24);

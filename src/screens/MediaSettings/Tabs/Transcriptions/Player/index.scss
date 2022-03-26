@@ -4,10 +4,8 @@
   padding: 30px 20px;
   overflow-y: auto;
   overflow-x: hidden;
-}
 
-.dark {
-  #msp-t-player-con {
+&.dark {
     width: 540px + 40px;
     height: 100%;
     padding: 30px 20px;

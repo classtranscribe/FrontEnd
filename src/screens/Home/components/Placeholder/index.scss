@@ -2,10 +2,8 @@
   height: calc(100% - 50px);
   overflow-y: hidden;
   pointer-events: none;
-}
 
-.dark {
-  #ct-homep-holder {
+&.dark {
     height: calc(100% - 50px);
     overflow-y: hidden;
     pointer-events: none;

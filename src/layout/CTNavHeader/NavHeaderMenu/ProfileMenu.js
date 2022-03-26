@@ -38,16 +38,19 @@ function ProfileMenu(props) {
   };
   const classList = ["root", "ct-nav-sidebar", "ct-nav-header"]
   const onDarkMode = () => {
+
+    var els = document.getElementsByTagName("*");
+    for(var i = 0, all = els.length; i < all; i++){   
+         els[i].classList.toggle("dark");
+     }
+    console.log(document)
     if (darkMode) {
       document.getElementById('dark-mode').className = 'fas fa-moon';
       setDarkModeText("Dark Mode");
-      document.body.classList.remove("dark");
       
     } else {
       document.getElementById('dark-mode').className = 'fas fa-sun';
       setDarkModeText("Light Mode");
-      console.log(document.body.classList);
-      document.body.classList.add("dark");
     }
     setDarkMode(!darkMode);
   };

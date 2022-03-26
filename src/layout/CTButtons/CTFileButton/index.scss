@@ -67,11 +67,9 @@
       }
     }
   }
-}
 
-.dark {
+&.dark {
   color : white !important;
-  .ct-file-btn {
     width: 100%;
     margin-bottom: 10px !important;
     &:hover .ct-file-btn-content {

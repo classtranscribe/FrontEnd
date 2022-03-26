@@ -22,10 +22,8 @@
       filter: blur(3px);
     }
   }
-}
 
-.dark {
-  #ct-epub-list-screen-con {
+&.dark {
     color: white;
     h1 {
       font-size: 40px;

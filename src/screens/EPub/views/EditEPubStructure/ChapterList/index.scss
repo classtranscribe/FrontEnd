@@ -2,6 +2,7 @@
 // ePub List
 ////////////////////////////////////////////////////////////
 
+ct-epb.epub-chapter-list-wrapper {
 .ct-epb.chapter-list {
   padding: 0 0 50% 10px;
 }
@@ -246,7 +247,7 @@
   }
 }
 
-.dark {
+&.dark {
 
   color : white !important;
   ////////////////////////////////////////////////////////////
@@ -496,4 +497,5 @@
       opacity: 1;
     }
   }
+}
 }

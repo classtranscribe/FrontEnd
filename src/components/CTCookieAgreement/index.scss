@@ -15,18 +15,9 @@
   .cookie-acp-btns {
     padding: 0 0 20px 0 !important;
   }
-}
 
-@media screen and (max-width: 520px) {
-  #cookie-agreement-inner-wrapper {
-    .cookie-acp-title .welcome-txt {
-      display: none;
-    }
-  }
-}
 
-.dark {
-  #cookie-agreement-inner-wrapper {
+&.dark {
     .cookie-acp-title {
       display: flex;
       align-items: flex-end;
@@ -44,12 +35,12 @@
       padding: 0 0 20px 0 !important;
     }
   }
+}
 
-  @media screen and (max-width: 520px) {
-    #cookie-agreement-inner-wrapper {
-      .cookie-acp-title .welcome-txt {
-        display: none;
-      }
+@media screen and (max-width: 520px) {
+  #cookie-agreement-inner-wrapper {
+    .cookie-acp-title .welcome-txt {
+      display: none;
     }
   }
 }

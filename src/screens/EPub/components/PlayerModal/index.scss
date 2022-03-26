@@ -8,10 +8,8 @@
     height: 600px;
     max-height: 80vh;
   }
-}
 
-.dark {
-  .ct-epb.player-modal {
+&.dark {
     background: black !important;
     h3 {
       width: max-content !important;

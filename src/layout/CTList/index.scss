@@ -40,10 +40,8 @@
   &:hover {
     background-color: rgb(243, 243, 243);
   }
-}
 
-.dark {
-  .ct-listitem-con {
+&.dark {
     background-color: #000000;
     transition: background 200ms ease-in-out;
 
@@ -85,5 +83,5 @@
     &:hover {
       background-color: rgb(43, 43, 43);
     }
-  }
+}
 }

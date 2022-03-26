@@ -11,11 +11,9 @@
     background-color: #eeeeee79;
     border-radius: 10px;
   }
-}
 
-.dark {
+&.dark {
   color : white !important;
-  #ipl-pl-info {
     .pl-name {
       padding-left: 0;
       padding-bottom: 0;

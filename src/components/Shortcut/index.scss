@@ -79,17 +79,9 @@
       line-height: normal;
     }
   }
-}
 
-@media screen and (max-width: 700px) {
-  #watch-shortcuts-table-container {
-    padding: 3em 1em 10em 1em;
-  }
-}
-
-.dark {
-  color : white;
-  #ct-shortcuts-table-container {
+  &.dark {
+    color: white;
     &.fullWidth {
       width: 100%;
       .shortcuts-table-col,
@@ -171,10 +163,10 @@
       }
     }
   }
+}
 
-  @media screen and (max-width: 700px) {
-    #watch-shortcuts-table-container {
-      padding: 3em 1em 10em 1em;
-    }
+@media screen and (max-width: 700px) {
+  #watch-shortcuts-table-container {
+    padding: 3em 1em 10em 1em;
   }
 }

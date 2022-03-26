@@ -40,11 +40,9 @@
       transform: rotateZ(180deg);
     }
   }
-}
 
-.dark {
+&.dark {
   color : white !important;
-  .ct-filter.d-input-con {
     width: 100%;
     display: flex;
     align-items: center;
