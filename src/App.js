@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
 import {LiveHLSPlayer} from 'screens/Watch/live_test'
@@ -37,50 +37,44 @@ import './App.css';
 import { altEl } from './layout';
 import { user, env } from './utils';
 
-class App extends React.Component {
-  componentDidMount() {
-    user.validate();
-  }
-
-
-  render() {
+function App(props) {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 
     const adminRoute = altEl();
     // Lazy Load
     const WatchPage = dynamic({
-      app: this.props.app,
+      app: props.app,
       models: () => [],
       component: () => Watch
     })
     const EPubPage = dynamic({
-      app: this.props.app,
+      app: props.app,
       models: () => [require('./screens/EPub/model').default],
       component: () => EPub
     })
     const CoursePage = dynamic({
-      app: this.props.app,
+      app: props.app,
       models: () => [], // require('./screens/Course/model').default
       component: () => Course
     })
     const MyCoursesPage = dynamic({
-      app: this.props.app,
+      app: props.app,
       models: () => [require('./screens/Instructor/MyCourses/model').default], //
       component: () => MyCourses
     })
     const InstPlaylistPage = dynamic({
-      app: this.props.app,
+      app: props.app,
       models: () => [require('./screens/Instructor/InstPlaylist/model')],
       component: () => InstPlaylist
     })
     const MediaSettingsPage = dynamic({
-      app: this.props.app,
+      app: props.app,
       models: () => [require('./screens/MediaSettings/model')],
       component: () => MediaSettings
     })
-    // return <Maintenance />
-    return (
-      // <AppInsightsProvider>
+  return (
+    <div>
+
       <Switch>
         <Route exact path={user.callbackPaths} component={AuthCallback} />
         <Route exact path="/sign-in" component={SignIn} />
@@ -150,9 +144,8 @@ class App extends React.Component {
         <Route component={NotFound404} />
         {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
       </Switch>
-      // </AppInsightsProvider>
-    );
-  }
+    </div>
+  )
 }
 
 export default withRouter(App);
