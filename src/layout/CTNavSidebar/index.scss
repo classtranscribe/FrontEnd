@@ -78,10 +78,13 @@
       margin-top: 10px;
       padding: 0 3px 3px 0;
     }
+    &.dark {
+      background-color: rgb(44, 44, 44);
+    }
   }
 
-&.dark {
-  color : white !important;
+  &.dark {
+    color: white !important;
     height: 100%;
     width: 240px;
     z-index: 1020;
@@ -142,7 +145,6 @@
       width: 240px;
       min-width: 240px;
       height: 100%;
-      background-color: #000000;
       transition: transform 200ms linear;
       transform: translateX(-240px);
 

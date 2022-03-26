@@ -18,7 +18,6 @@ body {
 }
 body.dark {
   background-color: #272727;
-  color : white;
 }
 
 #root, .ct-app-insight-provider {
