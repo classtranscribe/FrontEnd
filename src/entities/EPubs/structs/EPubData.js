@@ -83,6 +83,7 @@ export default class EPubData {
     if (!this.isPublished) {
       this.isPublished = false;
     }
+    this.pubTags = "";
 
     this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
 

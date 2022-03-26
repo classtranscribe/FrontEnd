@@ -7,7 +7,8 @@ import {
   useCTConfirmation,
   CTInput,
   CTCheckbox,
-  CTFormRow
+  CTFormRow,
+  CTForm
 } from 'layout';
 import { elem } from 'utils';
 import { connectWithRedux } from '../controllers';
@@ -130,7 +131,18 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             onChange={onPublishChange}
           />
         </CTFormRow>
-
+        <CTFormRow>
+          <CTInput
+              id="ct-epb-cond-publish-tags"
+              label="ePub Tags"
+              placeholder="ePub Tags"
+              value={epubData.pubTags}
+              onChange={onInputChange('pubTags')}
+              onReturn={handleSave}
+              underlined
+              required
+            />
+        </CTFormRow>
         {delConfirmation.element}
       </CTFragment>
     </CTModal>
