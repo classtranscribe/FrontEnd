@@ -67,12 +67,8 @@ $ctp-share-popup-bgcolor: rgb(53, 53, 53);
       }
     }
   }
-}
 
 &.dark {
-  $ctp-share-popup-bgcolor: rgb(53, 53, 53);
-
-  .ctp.share-root {
     position: relative;
     right: 0;
 

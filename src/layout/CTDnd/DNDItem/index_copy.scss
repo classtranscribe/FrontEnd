@@ -42,11 +42,9 @@
       width: calc(100% - 30px);
     }
   }
-}
 
 &.dark {
   color : white !important;
-  .ct-dnd.dnd-li {
     &.dragging {
       .ct-dnd.dnd-item-con {
         transition: all 200ms ease-in-out;

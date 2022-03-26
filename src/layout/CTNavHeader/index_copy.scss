@@ -3,6 +3,10 @@
  */
 
 #ct-nav-header {
+  &.dark {
+    color: white;
+    background-color: #000000;
+  }
   position: relative;
   opacity: 1;
   width: 100%;
@@ -67,6 +71,9 @@
     margin-left: 0.8rem;
     color: rgb(83, 83, 83);
     white-space: nowrap;
+    &.dark {
+      color: white;
+    }
   }
 
   .ct-header-left-elem,
@@ -86,12 +93,18 @@
       height: 2em;
       border-radius: 0.6em !important;
       color: rgb(70, 70, 70);
+      &.dark {
+        color: white;
+      }
       i {
         font-size: 1rem;
       }
       &:hover {
         background: none !important;
         color: rgb(0, 0, 0);
+        &.dark {
+          color: white;
+        }
       }
     }
 
@@ -213,221 +226,3 @@
   }
 }
 
-&.dark {
-  /**
- * Stylesheet for ClassTranscribe Header
- */
-
- color: white;
-
-  #ct-nav-header {
-    position: relative;
-    opacity: 1;
-    width: 100%;
-    height: max-content;
-    z-index: 1000;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-      'Open Sans', 'Helvetica Neue', sans-serif;
-    background: #000000;
-
-    &.ct-nav-dark {
-      background: black;
-
-      .ct-header-brand {
-        margin-left: 1em;
-      }
-
-      .profile-menu .trigger {
-        color: rgb(41, 41, 41);
-        &:hover {
-          color: rgb(19, 19, 19);
-        }
-      }
-    }
-
-    &.fixed {
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
-
-    &.sticky {
-      position: sticky;
-      top: 0;
-      left: 0;
-    }
-
-    &.bordered {
-      border-bottom: var(--ct-border-color);
-    }
-
-    &.shadowed {
-      box-shadow: 0 0 10px rgba(165, 185, 187, 0.308);
-    }
-
-    &.tabHeader {
-      height: 87px;
-      overflow-y: hidden;
-    }
-
-    &.toolbarHeader {
-      height: 80px;
-      overflow-y: hidden;
-    }
-
-    #ct-nh-primary {
-      height: 50px;
-    }
-
-    /* Subtitle */
-    .ct-h-subtitle {
-      font-size: 1.6em;
-      margin-left: 0.8rem;
-      color: rgb(255, 255, 255);
-      white-space: nowrap;
-    }
-
-    .ct-header-left-elem,
-    .ct-header-right-elem {
-      position: relative;
-      height: inherit;
-    }
-
-    /* Profile menu Trigger */
-    .profile-menu {
-      margin-right: 1em;
-
-      .trigger {
-        color: inherit;
-        outline: none;
-        padding: 0;
-        height: 2em;
-        border-radius: 0.6em !important;
-        color: rgb(255, 255, 255);
-        i {
-          font-size: 1rem;
-        }
-        &:hover {
-          background: none !important;
-          color: rgb(255, 255, 255);
-        }
-      }
-
-      .menu-item {
-        font-size: 1.2rem !important;
-      }
-    }
-  }
-
-  .profile-img,
-  .profile-img-alt {
-    min-width: 30px;
-    cursor: pointer;
-    outline: none;
-    text-transform: uppercase;
-
-    &:hover,
-    &:focus {
-      box-shadow: 0 0 1px 2px #8f8f8f63;
-    }
-  }
-
-  .profile-img-alt {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-    font-size: 20px;
-    font-weight: 400;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 23px;
-    text-align: center;
-    color: white;
-    background: rgb(63, 63, 63);
-
-    &.menu {
-      margin-bottom: 10px;
-      height: 45px;
-      width: 45px;
-      font-size: 25px;
-    }
-  }
-
-  .profile {
-    width: 20em;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  .profile p {
-    white-space: normal;
-    text-align: center;
-  }
-  .profile p span {
-    font-size: 0.8em;
-  }
-  .profile img {
-    margin-bottom: 0.5em;
-    width: 4em;
-  }
-
-  /* Brand */
-  .ct-header-brand {
-    width: auto;
-    height: max-content;
-    margin-left: 0.5em;
-    display: flex;
-
-    &.small img {
-      height: 20px;
-      width: 140px;
-    }
-
-    &.logo img {
-      height: 28px;
-      width: auto;
-    }
-
-    &.logo.medium img {
-      height: 32px;
-      width: auto;
-    }
-
-    img {
-      height: 28px;
-      width: 170px;
-    }
-
-    &.large img {
-      height: 40px;
-      width: auto;
-    }
-  }
-
-  .Mui-disabled[id='profile'] {
-    opacity: 1 !important;
-  }
-
-  @media screen and (max-width: 600px) {
-    #ct-nav-header {
-      .ct-nav-light {
-        box-shadow: none;
-      }
-      .ct-nav-dark .ct-header-brand {
-        margin-left: 0.5em;
-      }
-      .profile-menu {
-        margin-right: 0.5em;
-      }
-    }
-
-    .ct-header-brand {
-      &.large img {
-        height: 28px;
-      }
-    }
-  }
-}

@@ -67,12 +67,8 @@ $range-slider-color: rgb(255, 208, 0);
       }
     }
   }
-}
 
 &.dark {
-  $range-slider-color: rgb(255, 208, 0);
-
-  .ctp.range {
     width: 100%;
     display: flex;
     flex-direction: column;

@@ -54,13 +54,11 @@ $border: solid 1px rgb(214, 214, 214);
     overflow-x: auto;
     overflow-y: hidden;
   }
-}
 
 &.dark {
   color : white !important;
   $border: solid 1px rgb(214, 214, 214);
 
-  .ct-fragment {
     width: 100%;
 
     &.raised {

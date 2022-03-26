@@ -80,62 +80,8 @@
     width: 1px;
     background-color: rgb(199, 199, 199);
   }
-}
-
-.ct-epb.header-label {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  border-radius: 20px;
-  border: 1px solid rgb(197, 197, 197);
-  margin-left: 5px;
-  padding: 0 6px 0 5px;
-  height: 22px;
-  transition: all 100ms linear;
-
-  span.ct-epb.label-icon {
-    span.material-icons {
-      font-size: 14px !important;
-      line-height: unset !important;
-    }
-    margin-right: 3px;
-  }
-
-  span.ct-epb.label-text {
-    font-size: 12px;
-    color: inherit;
-  }
-
-  &.error {
-    border-color: rgb(170, 8, 8);
-    span.ct-epb.label-icon {
-      color: rgb(170, 8, 8);
-    }
-  }
-
-  &.success {
-    border-color: teal;
-    span.ct-epb.label-icon {
-      color: teal;
-    }
-  }
-
-  .MuiCircularProgress-colorPrimary {
-    color: teal !important;
-  }
-}
-
-.ct-epb.view-dropdown-btn {
-  text-transform: none !important;
-  width: max-content;
-  white-space: nowrap;
-  font-size: 14px;
-  color: rgb(47, 47, 47);
-}
-
-&.dark {
-  color : white !important;
-  .ct-epb-header {
+  &.dark {
+    color: white !important;
     padding-left: 10px;
     min-width: inherit;
     height: 75px !important;
@@ -218,8 +164,51 @@
       background-color: rgb(99, 99, 99);
     }
   }
+}
 
-  .ct-epb.header-label {
+.ct-epb.header-label {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 197, 197);
+  margin-left: 5px;
+  padding: 0 6px 0 5px;
+  height: 22px;
+  transition: all 100ms linear;
+
+  span.ct-epb.label-icon {
+    span.material-icons {
+      font-size: 14px !important;
+      line-height: unset !important;
+    }
+    margin-right: 3px;
+  }
+
+  span.ct-epb.label-text {
+    font-size: 12px;
+    color: inherit;
+  }
+
+  &.error {
+    border-color: rgb(170, 8, 8);
+    span.ct-epb.label-icon {
+      color: rgb(170, 8, 8);
+    }
+  }
+
+  &.success {
+    border-color: teal;
+    span.ct-epb.label-icon {
+      color: teal;
+    }
+  }
+
+  .MuiCircularProgress-colorPrimary {
+    color: teal !important;
+  }
+  &.dark {
+    color: white !important;
     display: flex;
     align-items: center;
     width: max-content;
@@ -261,8 +250,16 @@
       color: teal !important;
     }
   }
+}
 
-  .ct-epb.view-dropdown-btn {
+.ct-epb.view-dropdown-btn {
+  text-transform: none !important;
+  width: max-content;
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgb(47, 47, 47);
+  &.dark {
+    color: white !important;
     text-transform: none !important;
     width: max-content;
     white-space: nowrap;

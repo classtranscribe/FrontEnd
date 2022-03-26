@@ -7,13 +7,7 @@
   background-color: #255b8b;
   color: white;
   text-align: center;
-}
-.content {
-  margin: 5px;
-}
-
-&.dark {
-  .footer {
+  &.dark {
     position: relative;
     bottom: 0;
     left: 0;
@@ -23,7 +17,7 @@
     color: white;
     text-align: center;
   }
-  .content {
-    margin: 5px;
-  }
+}
+.content {
+  margin: 5px;
 }

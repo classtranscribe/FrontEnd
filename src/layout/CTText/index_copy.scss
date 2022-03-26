@@ -115,11 +115,9 @@ $highlighted: var(--ct-text-highlight);
     -webkit-box-orient: vertical;
     display: -webkit-box;
   }
-}
 
 &.dark {
 
-  .ct.ct-text {
     line-height: normal;
     color: rgb(255, 255, 255);
     width: auto;

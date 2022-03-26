@@ -4,6 +4,9 @@
   flex-direction: row;
   align-items: flex-end;
   background-color: white;
+  &.dark {
+    background-color: black;
+  }
   .ct-nh-tab-title-con {
     display: flex;
     flex-direction: column;
@@ -60,24 +63,7 @@
       }
     }
   }
-}
-
-&.dark {
-  .ct-nh-tab-panel {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    background-color: black;
-    .ct-nh-tab-title-con {
-      display: flex;
-      flex-direction: column;
-      margin-left: 8px;
-      padding-bottom: 10px;
-    }
-  }
-
-  .ct-nh-tabs-con {
+  &.dark {
     height: auto;
     display: flex;
     flex-direction: row;
@@ -127,3 +113,4 @@
     }
   }
 }
+

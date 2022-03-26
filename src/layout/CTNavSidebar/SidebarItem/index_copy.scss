@@ -74,11 +74,9 @@
       }
     }
   }
-}
 
 &.dark {
   color : white !important;
-  .ct-nsb-li {
     width: 100%;
     border-left: 3px solid rgba(255, 255, 255, 0);
     transition: border 200ms linear, background 200ms linear;
