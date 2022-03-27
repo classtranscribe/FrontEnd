@@ -11,7 +11,7 @@ import ProfileInfo from './ProfileInfo';
 import ProfileMenu from './ProfileMenu';
 import { SignInMenu } from './SignInMenu';
 
-function UserMenu({props, isUsingDarkMode, toggleDarkMode}) {
+function UserMenu({props}) {
   let darkMode = props;
 
 
@@ -78,7 +78,7 @@ function UserMenu({props, isUsingDarkMode, toggleDarkMode}) {
               loginAsEmailId={loginAsUserInfo.emailId}
             />
 
-            <ProfileMenu roles={roles} isUsingDarkMode={isUsingDarkMode} toggleDarkMode={toggleDarkMode} />
+            <ProfileMenu roles={roles}/>
           </Menu>
         :
           <SignInMenu 

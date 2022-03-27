@@ -8,15 +8,12 @@ import UserMenu from './NavHeaderMenu';
 import { NavHeaderSearch } from './NavHeaderSearch'
 import { createCTNavHeaderProps } from './create-props';
 import './index.scss';
+import { useEffect } from 'react';
 
 /**
  * Navigation Header
  */
 function CTNavHeader(props) {
-  const [isDarkMode, setIsDarkMode] = React.useState(false);
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  }
   let {
     // children
     brandElem,
@@ -40,6 +37,20 @@ function CTNavHeader(props) {
     // search
     search = false
   } = props;
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme == 'dark') {
+      var els = document.getElementsByTagName('*');
+      for (var i = 0, all = els.length; i < all; i++) {
+        els[i].classList.add('dark');
+      }
+    } else {
+      var els = document.getElementsByTagName('*');
+      for (var i = 0, all = els.length; i < all; i++) {
+        els[i].classList.remove('dark');
+      }
+    }
+  }, []);
 
   const hasExtenalBrandElem = Boolean(brandElem);
   if (!hasExtenalBrandElem) {
@@ -78,7 +89,7 @@ function CTNavHeader(props) {
             <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
               {children}
               {rightElem}
-              {showProfileMenu && <UserMenu darkMode={darkMode} isUsingDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />}
+              {showProfileMenu && <UserMenu darkMode={darkMode}/>}
             </CTFragment>
           </CTFragment>
 

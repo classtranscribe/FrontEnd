@@ -29,29 +29,35 @@ const menuItems = [
   },
 ];
 
-function ProfileMenu({props, isUsingDarkMode, toggleDarkMode}) {
+function ProfileMenu({ props }) {
   let roles = props;
-  const [darkModeText, setDarkModeText] = useState('Dark Mode');
   const onContactUs = () => {
     window.location = links.contactUs();
   };
-  const classList = ["root", "ct-nav-sidebar", "ct-nav-header"]
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme == 'dark') {
+    var els = document.getElementsByTagName('*');
+    for (var i = 0, all = els.length; i < all; i++) {
+      els[i].classList.add('dark');
+    }
+  }
   const onDarkMode = () => {
-
-    var els = document.getElementsByTagName("*");
-    for(var i = 0, all = els.length; i < all; i++){   
-         els[i].classList.toggle("dark");
-     }
-    console.log(document)
-    if (isUsingDarkMode) {
+    console.log(localStorage.getItem("theme"));
+    var els = document.getElementsByTagName('*');
+    for (var i = 0, all = els.length; i < all; i++) {
+      els[i].classList.toggle('dark');
+    }
+    console.log(document);
+    if (localStorage.getItem("theme") == 'dark') {
       document.getElementById('dark-mode').className = 'fas fa-moon';
-      setDarkModeText("Dark Mode");
-      
     } else {
       document.getElementById('dark-mode').className = 'fas fa-sun';
-      setDarkModeText("Light Mode");
     }
-  toggleDarkMode();
+    let theme = 'dark';
+    if (localStorage.getItem("theme") == 'dark') {
+      theme = 'light';
+    }
+    localStorage.setItem('theme', theme);
   };
 
   return (
@@ -97,11 +103,13 @@ function ProfileMenu({props, isUsingDarkMode, toggleDarkMode}) {
         </ListItemIcon>
         <Typography style={styles.font}>Contact Us</Typography>
       </MenuItem>
-      <MenuItem  title="Dark Mode" aria-label="Dark Mode" onClick={onDarkMode}>
+      <MenuItem title="Lemon Mode" aria-label="Dark Mode" onClick={onDarkMode}>
         <ListItemIcon style={styles.icon}>
           <i id="dark-mode" className="fas fa-moon" />
         </ListItemIcon>
-        <Typography  id="dark-mode-item" style={styles.font}>{darkModeText}</Typography>
+        <Typography id="dark-mode-item" style={styles.font}>
+          {localStorage.getItem("theme") == "dark" ? 'Light Mode' : 'Dark Mode'}
+        </Typography>
       </MenuItem>
 
       <MenuItem title="Sign out" aria-label="Sign out" onClick={() => user.signOut()}>

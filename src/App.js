@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
-import dynamic from "dva/dynamic";
-import {LiveHLSPlayer} from 'screens/Watch/live_test'
+import dynamic from 'dva/dynamic';
+import { LiveHLSPlayer } from 'screens/Watch/live_test';
 // import AppInsightsProvider from './azure-app-insights';
 import {
   // General
@@ -29,7 +29,7 @@ import {
   Analytics,
   Watch,
   // ComponentAPI,
-  Example
+  Example,
 } from './screens';
 
 import './App.css';
@@ -38,43 +38,56 @@ import { altEl } from './layout';
 import { user, env } from './utils';
 
 function App(props) {
-    const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+  const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme == 'dark') {
+      var els = document.getElementsByTagName('*');
+      for (var i = 0, all = els.length; i < all; i++) {
+        els[i].classList.add('dark');
+      }
+    } else {
+      var els = document.getElementsByTagName('*');
+      for (var i = 0, all = els.length; i < all; i++) {
+        els[i].classList.remove('dark');
+      }
+    }
+  }, []);
 
-    const adminRoute = altEl();
-    // Lazy Load
-    const WatchPage = dynamic({
-      app: props.app,
-      models: () => [],
-      component: () => Watch
-    })
-    const EPubPage = dynamic({
-      app: props.app,
-      models: () => [require('./screens/EPub/model').default],
-      component: () => EPub
-    })
-    const CoursePage = dynamic({
-      app: props.app,
-      models: () => [], // require('./screens/Course/model').default
-      component: () => Course
-    })
-    const MyCoursesPage = dynamic({
-      app: props.app,
-      models: () => [require('./screens/Instructor/MyCourses/model').default], //
-      component: () => MyCourses
-    })
-    const InstPlaylistPage = dynamic({
-      app: props.app,
-      models: () => [require('./screens/Instructor/InstPlaylist/model')],
-      component: () => InstPlaylist
-    })
-    const MediaSettingsPage = dynamic({
-      app: props.app,
-      models: () => [require('./screens/MediaSettings/model')],
-      component: () => MediaSettings
-    })
+  const adminRoute = altEl();
+  // Lazy Load
+  const WatchPage = dynamic({
+    app: props.app,
+    models: () => [],
+    component: () => Watch,
+  });
+  const EPubPage = dynamic({
+    app: props.app,
+    models: () => [require('./screens/EPub/model').default],
+    component: () => EPub,
+  });
+  const CoursePage = dynamic({
+    app: props.app,
+    models: () => [], // require('./screens/Course/model').default
+    component: () => Course,
+  });
+  const MyCoursesPage = dynamic({
+    app: props.app,
+    models: () => [require('./screens/Instructor/MyCourses/model').default], //
+    component: () => MyCourses,
+  });
+  const InstPlaylistPage = dynamic({
+    app: props.app,
+    models: () => [require('./screens/Instructor/InstPlaylist/model')],
+    component: () => InstPlaylist,
+  });
+  const MediaSettingsPage = dynamic({
+    app: props.app,
+    models: () => [require('./screens/MediaSettings/model')],
+    component: () => MediaSettings,
+  });
   return (
     <div>
-
       <Switch>
         <Route exact path={user.callbackPaths} component={AuthCallback} />
         <Route exact path="/sign-in" component={SignIn} />
@@ -84,42 +97,22 @@ function App(props) {
 
         {/* Instructor */}
         <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
-        {
-          isAdminOrInstructor
-          &&
+        {isAdminOrInstructor && (
           <Route exact path="/instructor/my-courses" component={MyCoursesPage} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/instructor/new-course" component={NewCourse} />
-        }
-        {
-          isAdminOrInstructor
-          &&
+        )}
+        {isAdminOrInstructor && <Route exact path="/instructor/new-course" component={NewCourse} />}
+        {isAdminOrInstructor && (
           <Route exact path="/offering/:id/settings" component={CourseSettings} />
-        }
-        {
-          isAdminOrInstructor
-          &&
+        )}
+        {isAdminOrInstructor && (
           <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
-        }
-        {
-          isAdminOrInstructor
-          &&
+        )}
+        {isAdminOrInstructor && (
           <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route path="/media-settings/:id" component={MediaSettingsPage} />
-        }
+        )}
+        {isAdminOrInstructor && <Route path="/media-settings/:id" component={MediaSettingsPage} />}
 
-        {
-          isAdminOrInstructor
-          &&
-          <Route path="/epub/:id" component={EPubPage} />
-        }
+        {isAdminOrInstructor && <Route path="/epub/:id" component={EPubPage} />}
 
         {/* Student */}
         <Route exact path="/" component={Home} />
@@ -135,17 +128,13 @@ function App(props) {
         <Route path="/404" component={NotFound404} />
         <Route path="/liveplayer" component={LiveHLSPlayer} />
 
-        {
-          env.dev
-          &&
-          <Route exact path="/example" component={Example} />
-        }
+        {env.dev && <Route exact path="/example" component={Example} />}
 
         <Route component={NotFound404} />
         {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
       </Switch>
     </div>
-  )
+  );
 }
 
 export default withRouter(App);
