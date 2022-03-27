@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import './index.scss';
@@ -63,6 +63,22 @@ function CTFragment(props) {
     altElement,
     ...otherProps
   } = props;
+
+  useEffect(() => {
+
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme == 'dark') {
+      var els = document.getElementsByTagName('*');
+      for (var i = 0, all = els.length; i < all; i++) {
+        els[i].classList.add('dark');
+      }
+    } else {
+      var els = document.getElementsByTagName('*');
+      for (var i = 0, all = els.length; i < all; i++) {
+        els[i].classList.remove('dark');
+      }
+    }
+  }, []);
   
   let paddingStr = _joinCSSOffsets(padding)
   let marginStr = _joinCSSOffsets(margin);

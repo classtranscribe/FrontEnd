@@ -24,7 +24,7 @@ export const useStyles = makeStyles({
   },
 });
 
-const useDarkStyles = makeStyles({
+export const useDarkStyles = makeStyles({
   root: {
     '& label': {
       color: 'white',
