@@ -11,9 +11,8 @@ import ProfileInfo from './ProfileInfo';
 import ProfileMenu from './ProfileMenu';
 import { SignInMenu } from './SignInMenu';
 
-function UserMenu({props}) {
-  let darkMode = props;
-
+function UserMenu(props) {
+  let { darkMode = false } = props;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [universities, setUniversities] = useState([]);
@@ -78,7 +77,7 @@ function UserMenu({props}) {
               loginAsEmailId={loginAsUserInfo.emailId}
             />
 
-            <ProfileMenu roles={roles}/>
+            <ProfileMenu roles={roles} />
           </Menu>
         :
           <SignInMenu 
