@@ -43,10 +43,13 @@ class EPubDownloadController {
       const { epub } = window.temp_app._store.getState();
       const builder = new HTMLFileBuilder();
       await builder.init(epub, true);
+
+      const subchapterImages = await builder.prefetchSubchapterImages(builder.data.chapters);
+
       // eslint-disable-next-line
       let PDF = new jsPDF();
       PDF.setLanguage("en-US");
-      const html = builder.getIndexHTML(true, print, PDF);
+      const html = builder.getIndexHTML(true, print, PDF, subchapterImages);
       let bodyStart = html.indexOf('<body')
       let bodyEnd = html.indexOf('</body>')+7;
       let body = html.substring(bodyStart, bodyEnd);
