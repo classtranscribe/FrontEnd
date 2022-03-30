@@ -33,6 +33,9 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
+  
+  const onHeaderChange = ({ target: { checked } }) =>
+  setEPubData({ ...epubData, isH4: checked });
 
   const canSave = epubData.title && epubData.filename && epubData.author;
 
@@ -130,7 +133,14 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             onChange={onPublishChange}
           />
         </CTFormRow>
-
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-is-pub-checkbox"
+            label="Enable future merge of ePubs"
+            checked={epubData.isH4}
+            onChange={onHeaderChange}
+          />
+        </CTFormRow>
         {delConfirmation.element}
       </CTFragment>
     </CTModal>
