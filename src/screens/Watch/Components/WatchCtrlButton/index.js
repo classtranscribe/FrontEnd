@@ -2,6 +2,7 @@ import React from 'react';
 import { Popup } from 'semantic-ui-react';
 import './index.scss';
 import { isMobile } from 'react-device-detect';
+import * as KeyCode from 'keycode-js';
 
 export default function WatchCtrlButton({
   children,
@@ -20,7 +21,7 @@ export default function WatchCtrlButton({
   id = '',
 }) {
   const handleKeyDown = (e) => {
-    if (e.keyCode === 32) {
+    if (e.keyCode === KeyCode.KEY_SPACE) {
       e.preventDefault();
     }
   };
