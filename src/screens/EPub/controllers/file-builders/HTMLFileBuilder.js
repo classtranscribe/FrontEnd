@@ -38,8 +38,8 @@ class HTMLFileBuilder {
    */
   static async toBuffer(ePubData) {
     const builder = new HTMLFileBuilder(ePubData);
-    await builder.init(ePubData, true)
-    const buffer = await builder.getHTMLBuffer();
+    await builder.init(ePubData, true);
+    const buffer = await builder.getHTMLBuffer(!ePubData.epub.isH4);
     return buffer;
   }
 
@@ -49,9 +49,7 @@ class HTMLFileBuilder {
     const { chapters, cover } = this.data;
     const { coverBuffer, images }
       = await EPubParser.loadEPubImageBuffers({ chapters, cover });
-
     this.zip.addFile(`images/cover.jpeg`, coverBuffer);
-
     _.forEach(images, (img) => {
       this.zip.addFile(`${img.relSrc}`, img.buffer);
     });
@@ -98,7 +96,7 @@ class HTMLFileBuilder {
       });
   }
 
-  getIndexHTML(withStyles = false, print = false, pdf, subchapterImages) {
+  getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { title, author, chapters, cover } = this.data;
     const margin = 10;
     let w = pdf.internal.pageSize.getWidth() - 2*margin;
@@ -116,7 +114,7 @@ class HTMLFileBuilder {
         pdf.text(title, w/2,130, 'center');
         pdf.text(author, w/2,140,'center');
         pdf.addPage();
-        const navContents = _.map(
+        let navContents = _.map(
             chapters,
             (ch, chIndex) => `
           <h3><a href="#${ch.id}">${chIndex + 1} - ${ch.title}</a></h3>
@@ -130,6 +128,22 @@ class HTMLFileBuilder {
           </ol>
       `,
         ).join('\n');
+        if (!h3) {
+          navContents = _.map(
+            chapters,
+            (ch, chIndex) => `
+          <h4><a href="#${ch.id}">${chIndex + 1} - ${ch.title}</a></h4>
+          <ol>
+              ${_.map(
+                ch.subChapters,
+                (subch, subIndex) =>`
+            <li>
+              <a href="#${subch.id}">${chIndex + 1}.${subIndex + 1} - ${subch.title}</a>
+            </li>`,).join('\n')}
+          </ol>
+      `,
+        ).join('\n');
+        }
 
 
         // console.log(navContents);
@@ -224,7 +238,7 @@ class HTMLFileBuilder {
             : INDEX_HTML_LOCAL({ title, navContents, content, author });
   }
 
-  async getHTMLBuffer() {
+  async getHTMLBuffer(h3) {
     // const { filename } = this.data;
     const zip = this.zip;
 
@@ -249,7 +263,7 @@ class HTMLFileBuilder {
 
     let PDF = new JsPDF();
     PDF.setLanguage("en-US");
-    const indexHTML = this.getIndexHTML(false, false, PDF, subchapterImages);
+    const indexHTML = this.getIndexHTML(false, false, PDF, subchapterImages,h3);
     PDF.save();
     zip.addFile('index.html', Buffer.from(indexHTML));
 
