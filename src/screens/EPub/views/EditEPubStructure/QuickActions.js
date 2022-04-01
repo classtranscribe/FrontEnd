@@ -2,10 +2,12 @@ import React from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { CTHeading, CTFragment, useButtonStyles } from 'layout';
+
+import { CTHeading, CTFragment, useButtonStyles, CTInput } from 'layout';
 import { timestr } from 'utils';
 import { connect } from 'dva'
 import { epub as epubOld } from '../../controllers';
+import { useInput } from 'hooks';
 
 function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();
@@ -14,7 +16,8 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
-  const showSplitAllBtn = chapters.length !== items.length;
+  const showSplitAllBtn = chapters.length === 1;
+  const minimumWordCountForSplit = useInput(0);
   // const showSubdivideAllBtn = true;
 
   const watchInPlayer = () => {
@@ -52,7 +55,6 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
       </CTFragment>
 
       <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading>
-
       <ButtonGroup fullWidth>
         {
           showResetBtn
@@ -67,12 +69,20 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
         {
           showSplitAllBtn
           &&
-          <Button
-            className={btnClasses}
-            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots'})}
-          >
-            Split Chapters by Screenshots
-          </Button>
+          <CTFragment>
+              <CTInput
+                id="ct-epb-min-word-count"
+                label="Min Word Count"
+                placeholder="0"
+                onChange = {minimumWordCountForSplit.onChange}
+              />
+              <Button
+                className={btnClasses}
+                onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload: { minimumWordCount: minimumWordCountForSplit}})}
+              >
+                Split Chapters by Screenshots
+              </Button>
+          </CTFragment>
         }
         {/* {
           showSubdivideAllBtn
