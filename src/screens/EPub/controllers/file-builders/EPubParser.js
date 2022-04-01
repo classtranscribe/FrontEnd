@@ -46,6 +46,7 @@ class EPubParser {
   static async parse(ePubData, replaceImageSrc) {
     const parser = new EPubParser();
     await parser.init(ePubData.epub, replaceImageSrc)
+    console.log(parser)
     return parser.data;
   }
 
@@ -108,7 +109,7 @@ class EPubParser {
    * @returns {Document}
    */
   async createChapterDOM(chapter) {
-    // Remove invalid syntax for xhtml
+    // Remove invalid syntax for xhtml`
     const htmlLike = (await buildHTMLFromChapter(chapter))
       .replace(/&nbsp;/g, '&#160;')
       .replace(/<br>/g, '<br/>');
@@ -121,6 +122,7 @@ class EPubParser {
    * @returns {Any[]}
    */
   extractImagesFromDOM(dom, chapterId, replaceSrc) {
+    console.log(dom)
     const imgEls = dom.getElementsByTagName('img');
     return _.map(imgEls, (imgEl, imgIdx) => {
       const imgID = `${chapterId}-img-${imgIdx + 1}`;
@@ -156,6 +158,7 @@ class EPubParser {
    */
   async parseChapters(chapters, replaceImageSrc = true) {
     return Promise.all(_.map(chapters, async (chapter, chIdx) => {
+      console.log(chapter)
       const chapterId = `chapter-${chIdx + 1}`;
 
       const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
@@ -169,7 +172,7 @@ class EPubParser {
         start: chapter.start,
         link: chapter.link,
         text: this.extractBodyTextFromDom(dom),
-        images: this.extractImagesFromDOM(dom, chapterId, replaceImageSrc),
+        images: chapter.items,
         subChapters,
       };
     }));

@@ -55,8 +55,7 @@ export default ({
         <item id="prism" href="prism.css" media-type="text/css" />
 
         <item id="image_cover" href="cover.jpeg" media-type="image/jpeg" />
-        ${imageItems}
-
+    
         ${contentItems}
         
     </manifest>

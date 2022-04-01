@@ -142,6 +142,9 @@ class EPubFileBuilder {
       (img) => `
       <item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
     ).join('\n\t\t');
+    // console.log(images)
+    // console.log(chapters)
+    // console.log(imageItems)
   
     // content items
     const contentItems = _.map(
@@ -165,6 +168,8 @@ class EPubFileBuilder {
   }
 
   getContentXHTML(chapter) {
+    console.log("xhtml")
+    console.log(chapter)
     const { language, sourceId } = this.data;
     let { title, text, start, link } = chapter;
     let h = parseInt(start.substring(0, 2),10);

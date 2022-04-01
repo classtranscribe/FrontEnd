@@ -98,7 +98,7 @@ class HTMLFileBuilder {
       let imgStart = curText.indexOf("src=");
       let imgEnd = curText.indexOf("alt=");
       let imgData = curText.substring(imgStart+5, imgEnd-2);
-      pdf.addImage(imgData, 'JPEG', 15, 20, 180, 100);
+      // pdf.addImage(imgData, 'JPEG', 15, 20, 180, 100);
       // pdf.text("Transcript", 0, 130, 'left');
       let transcriptStart = curText.indexOf("<p>");
       let transcriptEnd = curText.indexOf("</p>");
