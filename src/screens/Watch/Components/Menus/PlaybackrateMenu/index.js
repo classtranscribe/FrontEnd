@@ -1,6 +1,7 @@
 import { connect } from 'dva';
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
+import * as KeyCode from 'keycode-js';
 import { playbackRateOptions } from '../../../Utils';
 import './index.scss';
 import './slider.scss';
@@ -36,7 +37,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
 
   const handleKeyDown = (e) => {
     const { keyCode } = e;
-    if (keyCode === 37 || keyCode === 39) {
+    if (keyCode === keyCode.KEY_LEFT || keyCode === keyCode.KEY_RIGHT) {
       e.preventDefault();
     }
   };
