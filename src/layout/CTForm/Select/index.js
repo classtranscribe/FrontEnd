@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import MuiSelect from '@material-ui/core/Select';
 import ListItemText from '@material-ui/core/ListItemText';
 import { CTText } from '../../CTText';
-import { useStyles } from '../Input';
+import { useStyles, useDarkStyles } from '../Input';
 
 /**
  * The controlled select component used in `CTForm`
@@ -32,6 +32,7 @@ function Select(props) {
   } = props;
 
   const classes = useStyles();
+  const darkClasses = useDarkStyles();
   const labelId = `ct-form-sel-label-${ id}`;
 
   let renderValue = null;
@@ -47,7 +48,7 @@ function Select(props) {
       error={error} 
       required={required} 
       disabled={disabled} 
-      classes={classes}
+      classes={localStorage.getItem('theme') === 'dark' ? darkClasses : classes}
       variant={underlined ? "standard" : "outlined"}
       className="ct-form-sel"
     >

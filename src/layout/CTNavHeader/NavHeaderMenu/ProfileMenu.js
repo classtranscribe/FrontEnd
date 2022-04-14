@@ -103,12 +103,12 @@ function ProfileMenu({ props }) {
         </ListItemIcon>
         <Typography style={styles.font}>Contact Us</Typography>
       </MenuItem>
-      <MenuItem title="Lemon Mode" aria-label="Dark Mode" onClick={onDarkMode}>
+      <MenuItem title="Dark Mode (Beta)" aria-label="Dark Mode (Beta)" onClick={onDarkMode}>
         <ListItemIcon style={styles.icon}>
           <i id="dark-mode" className="fas fa-moon" />
         </ListItemIcon>
         <Typography id="dark-mode-item" style={styles.font}>
-          {localStorage.getItem("theme") == "dark" ? 'Light Mode' : 'Dark Mode'}
+          {localStorage.getItem("theme") == "dark" ? 'Light Mode' : 'Dark Mode (Beta)'}
         </Typography>
       </MenuItem>
 

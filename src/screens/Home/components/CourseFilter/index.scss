@@ -13,6 +13,29 @@
         white-space: nowrap !important;
         text-overflow: ellipsis !important;
       }
+        &.dark {
+          color: white !important;
+        }
+    }
+    #home-departs-filter {
+      .MuiListItemText-root span {
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+      }
+        &.dark {
+          color: white !important;
+        }
+    }
+    #home-terms-filter {
+      .MuiListItemText-root span {
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+      }
+        &.dark {
+          color: white !important;
+        }
     }
 
     .selected {
@@ -20,9 +43,5 @@
         padding: 10px 15px !important;
       }
     }
-  }
-
-&.dark {
-    background: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(0, 0, 0, 0));
   }
 }
