@@ -65,27 +65,26 @@ function CTFragment(props) {
   } = props;
 
   useEffect(() => {
-
     const currentTheme = localStorage.getItem('theme');
-    if (currentTheme == 'dark') {
-      var els = document.getElementsByTagName('*');
-      for (var i = 0, all = els.length; i < all; i++) {
+    if (currentTheme === 'dark') {
+      let els = document.getElementsByTagName('*');
+      for (let i = 0, all = els.length; i < all; i+= 1) {
         els[i].classList.add('dark');
       }
     } else {
-      var els = document.getElementsByTagName('*');
-      for (var i = 0, all = els.length; i < all; i++) {
+      let els = document.getElementsByTagName('*');
+      for (let i = 0, all = els.length; i < all; i+= 1) {
         els[i].classList.remove('dark');
       }
     }
   }, []);
-  
-  let paddingStr = _joinCSSOffsets(padding)
+
+  let paddingStr = _joinCSSOffsets(padding);
   let marginStr = _joinCSSOffsets(margin);
   let borderRadiusStr = _joinCSSOffsets(borderRadius);
 
   const fragmentStyles = {
-    top: offsetTop ? `${offsetTop }px` : undefined,
+    top: offsetTop ? `${offsetTop}px` : undefined,
     height,
     minheight,
     maxHeight,
@@ -95,38 +94,40 @@ function CTFragment(props) {
     padding: paddingStr,
     margin: marginStr,
     borderRadius: borderRadiusStr,
-    ...styles
+    ...styles,
   };
 
-  const fragmentClasses = classNames(
-    'ct-fragment',
-    className,
-    {
-      sticky,
-      dark,
-      raised,
-      shadowed,
-      'h-100': h100,
-      'd-flex': (dFlex || dFlexCol || center 
-              || justConCenter || justConEnd || justConBetween 
-              || alignItCenter || alignItEnd),
-      'flex-column': dFlexCol,
-      'justify-content-center': justConCenter || center,
-      'justify-content-end': justConEnd,
-      'justify-content-between': justConBetween,
-      'align-items-center': alignItCenter || center,
-      'align-items-end': alignItEnd,
-      'ct-a-fade-in': fadeIn,
-      'bordered': bordered,
-      'border-top': borderTop,
-      'border-right': borderRight,
-      'border-bottom': borderBottom,
-      'border-left': borderLeft,
-      'overflow-hidden': overflowHidden,
-      'scroll-y': scrollY,
-      'scroll-x': scrollX,
-    }
-  );
+  const fragmentClasses = classNames('ct-fragment', className, {
+    sticky,
+    dark,
+    raised,
+    shadowed,
+    'h-100': h100,
+    'd-flex':
+      dFlex ||
+      dFlexCol ||
+      center ||
+      justConCenter ||
+      justConEnd ||
+      justConBetween ||
+      alignItCenter ||
+      alignItEnd,
+    'flex-column': dFlexCol,
+    'justify-content-center': justConCenter || center,
+    'justify-content-end': justConEnd,
+    'justify-content-between': justConBetween,
+    'align-items-center': alignItCenter || center,
+    'align-items-end': alignItEnd,
+    'ct-a-fade-in': fadeIn,
+    bordered,
+    'border-top': borderTop,
+    'border-right': borderRight,
+    'border-bottom': borderBottom,
+    'border-left': borderLeft,
+    'overflow-hidden': overflowHidden,
+    'scroll-y': scrollY,
+    'scroll-x': scrollX,
+  });
 
   const fragmentProps = {
     id,
@@ -134,7 +135,7 @@ function CTFragment(props) {
     className: fragmentClasses,
     style: fragmentStyles,
     children,
-    ...otherProps
+    ...otherProps,
   };
   const Element = React.createElement(as, fragmentProps);
   const loadableProps = {
@@ -146,11 +147,7 @@ function CTFragment(props) {
     altElement,
   };
 
-  return (
-    <CTLoadable {...loadableProps}>
-      {Element}
-    </CTLoadable>
-  );
+  return <CTLoadable {...loadableProps}>{Element}</CTLoadable>;
 }
 
 const CSSTypes = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
@@ -252,10 +249,7 @@ CTFragment.propTypes = {
    * <CTFragment padding={[10,5]} ... /> // padding: 10px 5px;
    * <CTFragment padding={[20,30,40,50]} ... /> // padding: 20px 30px 40px 50px;
    */
-  padding: PropTypes.oneOfType([
-    CSSTypes,
-    PropTypes.arrayOf(CSSTypes)
-  ]),
+  padding: PropTypes.oneOfType([CSSTypes, PropTypes.arrayOf(CSSTypes)]),
 
   /**
    * The margin css attribute
@@ -265,10 +259,7 @@ CTFragment.propTypes = {
    * <CTFragment margin={[10,5]} ... /> // margin: 10px 5px;
    * <CTFragment margin={[20,30,40,50]} ... /> // margin: 20px 30px 40px 50px;
    */
-  margin: PropTypes.oneOfType([
-    CSSTypes,
-    PropTypes.arrayOf(CSSTypes)
-  ]),
+  margin: PropTypes.oneOfType([CSSTypes, PropTypes.arrayOf(CSSTypes)]),
 
   /**
    * The border-radius css attribute
@@ -278,10 +269,7 @@ CTFragment.propTypes = {
    * <CTFragment borderRadius={[10,5]} ... /> // border-radius: 10px 5px;
    * <CTFragment borderRadius={[20,30,40,50]} ... /> // border-radius: 20px 30px 40px 50px;
    */
-  borderRadius: PropTypes.oneOfType([
-    CSSTypes,
-    PropTypes.arrayOf(CSSTypes)
-  ]),
+  borderRadius: PropTypes.oneOfType([CSSTypes, PropTypes.arrayOf(CSSTypes)]),
 
   /** True if is bordered */
   bordered: PropTypes.bool,

@@ -35,26 +35,24 @@ function ProfileMenu({ props }) {
     window.location = links.contactUs();
   };
   const currentTheme = localStorage.getItem('theme');
-  if (currentTheme == 'dark') {
-    var els = document.getElementsByTagName('*');
-    for (var i = 0, all = els.length; i < all; i++) {
+  if (currentTheme === 'dark') {
+    let els = document.getElementsByTagName('*');
+    for (let i = 0, all = els.length; i < all; i+= 1) {
       els[i].classList.add('dark');
     }
   }
   const onDarkMode = () => {
-    console.log(localStorage.getItem("theme"));
-    var els = document.getElementsByTagName('*');
-    for (var i = 0, all = els.length; i < all; i++) {
+    let els = document.getElementsByTagName('*');
+    for (let i = 0, all = els.length; i < all; i+= 1) {
       els[i].classList.toggle('dark');
     }
-    console.log(document);
-    if (localStorage.getItem("theme") == 'dark') {
+    if (localStorage.getItem("theme") === 'dark') {
       document.getElementById('dark-mode').className = 'fas fa-moon';
     } else {
       document.getElementById('dark-mode').className = 'fas fa-sun';
     }
     let theme = 'dark';
-    if (localStorage.getItem("theme") == 'dark') {
+    if (localStorage.getItem("theme") === 'dark') {
       theme = 'light';
     }
     localStorage.setItem('theme', theme);
@@ -108,7 +106,7 @@ function ProfileMenu({ props }) {
           <i id="dark-mode" className="fas fa-moon" />
         </ListItemIcon>
         <Typography id="dark-mode-item" style={styles.font}>
-          {localStorage.getItem("theme") == "dark" ? 'Light Mode' : 'Dark Mode (Beta)'}
+          {localStorage.getItem("theme") === "dark" ? 'Light Mode' : 'Dark Mode (Beta)'}
         </Typography>
       </MenuItem>
 

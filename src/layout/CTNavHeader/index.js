@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import CTFragment from '../CTFragment';
@@ -8,7 +8,7 @@ import UserMenu from './NavHeaderMenu';
 import { NavHeaderSearch } from './NavHeaderSearch'
 import { createCTNavHeaderProps } from './create-props';
 import './index.scss';
-import { useEffect } from 'react';
+
 
 /**
  * Navigation Header
@@ -39,14 +39,14 @@ function CTNavHeader(props) {
   } = props;
   useEffect(() => {
     const currentTheme = localStorage.getItem('theme');
-    if (currentTheme == 'dark') {
-      var els = document.getElementsByTagName('*');
-      for (var i = 0, all = els.length; i < all; i++) {
+    if (currentTheme === 'dark') {
+      let els = document.getElementsByTagName('*');
+      for (let i = 0, all = els.length; i < all; i+= 1) {
         els[i].classList.add('dark');
       }
     } else {
-      var els = document.getElementsByTagName('*');
-      for (var i = 0, all = els.length; i < all; i++) {
+      let els = document.getElementsByTagName('*');
+      for (let i = 0, all = els.length; i < all; i+= 1) {
         els[i].classList.remove('dark');
       }
     }
@@ -89,7 +89,7 @@ function CTNavHeader(props) {
             <CTFragment alignItCenter justConEnd className="ct-header-right-elem">
               {children}
               {rightElem}
-              {showProfileMenu && <UserMenu darkMode={darkMode}/>}
+              {showProfileMenu && <UserMenu darkMode={darkMode} />}
             </CTFragment>
           </CTFragment>
 
