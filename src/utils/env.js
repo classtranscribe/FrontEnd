@@ -20,6 +20,7 @@ const requiredEnvs = [
  */
 class ReactEnv {
   constructor() {
+    console.log(reactEnv)
     for (let i = 0; i < requiredEnvs.length; i += 1) {
       const envName = requiredEnvs[i];
       if (!reactEnv[envName]) {
@@ -82,6 +83,9 @@ class ReactEnv {
 
   get branchName() {
     return reactEnv.BRANCH;
+  }
+  get maintenanceMessage() {
+    return reactEnv.MAINTENANCE_MESSAGE;
   }
 }
 

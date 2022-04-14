@@ -18,7 +18,7 @@ const HomeWithRedux = (props) => {
   const filterElement = altEl(CourseFilter, !loading);
   return (
     <CTLayout {...layoutProps}>
-      <MaintenanceMesg message={env.MaintenanceMesg} />
+      <MaintenanceMesg message={env.maintenanceMessage} />
       <CTLoadable loading={loading} loadingElement={loaderElement}>
         {filterElement}
         {sectionElement}
