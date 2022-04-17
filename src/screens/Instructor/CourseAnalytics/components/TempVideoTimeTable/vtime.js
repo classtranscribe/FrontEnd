@@ -107,6 +107,16 @@ export class VideoTimeLogsHandler {
     }
   }
 
+  async getPlayListsByCourseId(courseId) {
+    try {
+      const { data } = await api.getPlaylistsByCourseId(courseId);
+      return data;
+    } catch (error) {
+      console.error('Failed to get playlists by course id.');
+      return [];
+    }
+  }
+
   combineLogs(totalTimeupdates = [], recentTimeupdates = [], editTransLogs = []) {
     const logs = _.cloneDeep(totalTimeupdates);
     _.forEach(logs, (elem) => {
