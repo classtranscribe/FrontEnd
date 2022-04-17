@@ -42,14 +42,15 @@ export class VideoTimeLogsHandler {
     const totalTimeupdates = await this.getTotalTimeUpdateLogs();
     // console.log('totalTimeupdates', totalTimeupdates)
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
+    const playListLogs = await this.getPlayListsByCourseId();
+    const allLogs = await this.getAllCourseLogs();
 
-    console.log(totalTimeupdates, recentTimeupdates, editTransLogs);
     this.logs = [...logs];
     this.setTotal(logs);
   }
 
   parseLogs(data) {
-    console.log("data", data)
+    console.log('data', data);
     return _.map(data, (elem) => ({
       email: elem.user ? elem.user.email : 'unknown',
       ..._.reduce(
@@ -63,6 +64,47 @@ export class VideoTimeLogsHandler {
         { lastHr: 0, last3days: 0, lastWeek: 0, lastMonth: 0, count: 0, editTransCount: 0 },
       ),
     }));
+  }
+
+  parseMedia(media, playListId) {
+    var media_array = [];
+    for (var i = 0; i < media.length; i++) {
+      var el = media[i];
+      media_array.push({
+        id: el.id,
+        playlistId: playListId,
+        name: el.name,
+      });
+    }
+    return media_array;
+  }
+  parsePlaylists(data) {
+    console.log('playlist data', data);
+    var playlists = [];
+    for (var i = 0; i < data.length; i++) {
+      var playlist = {
+        id: data[i].id,
+        name: data[i].name,
+        media: this.parseMedia(data[i].medias, data[i].id),
+      };
+      playlists.push(playlist);
+    }
+    console.log('Playlists: ', playlists);
+    return playlists;
+  }
+  parseAllLogs(data) {
+    var logs = [];
+    for (var i = 0; i < data.length; i++) {
+      logs.push({
+        media: data[i].medias,
+        email: data[i].user.email,
+        firstName: data[i].user.firstName,
+        lastName: data[i].user.lastName,
+        id: data[i].id,
+      });
+    }
+    console.log('All Logs:', logs);
+    return logs;
   }
 
   async getRecentTimeUpdateLogs() {
@@ -107,12 +149,28 @@ export class VideoTimeLogsHandler {
     }
   }
 
-  async getPlayListsByCourseId(courseId) {
+  async getPlayListsByCourseId() {
     try {
-      const { data } = await api.getPlaylistsByCourseId(courseId);
-      return data;
+      const { data } = await api.getPlayListsByCourseId(this.offeringId);
+
+      return this.parsePlaylists(data);
     } catch (error) {
-      console.error('Failed to get playlists by course id.');
+      console.error('Failed to get recent timeupdate logs.');
+      return [];
+    }
+  }
+  async getAllCourseLogs() {
+    try {
+      const { data } = await api.getAllCourseLogs(
+        'edittrans',
+        this.offeringId,
+        A_VERY_OLD_DATE_ISO_STR,
+        new Date().toISOString(),
+      );
+
+      return this.parseAllLogs(data);
+    } catch (error) {
+      console.error('Failed to get recent timeupdate logs.');
       return [];
     }
   }
