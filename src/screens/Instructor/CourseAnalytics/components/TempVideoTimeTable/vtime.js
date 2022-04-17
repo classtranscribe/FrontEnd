@@ -43,13 +43,13 @@ export class VideoTimeLogsHandler {
     // console.log('totalTimeupdates', totalTimeupdates)
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
 
+    console.log(totalTimeupdates, recentTimeupdates, editTransLogs);
     this.logs = [...logs];
-    console.log("logs:", logs);
     this.setTotal(logs);
   }
 
   parseLogs(data) {
-      console.log("data:", data);
+    console.log("data", data)
     return _.map(data, (elem) => ({
       email: elem.user ? elem.user.email : 'unknown',
       ..._.reduce(
