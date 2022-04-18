@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import Papa from 'papaparse';
 import { api } from 'utils';
 
@@ -11,11 +11,13 @@ export class VideoTimeLogsHandler {
     this.logs = [];
   }
 
-  init({ offeringId, setParsedData, setTotal, setEditTransCount }) {
+  init({ offeringId, setParsedData, setTotal, setPlaylistData, setAllLogs, setEditTransCount }) {
     this.offeringId = offeringId;
     this.setParsedData = setParsedData;
     this.setTotal = setTotal;
     this.setEditTransCount = setEditTransCount;
+    this.setPlaylistData = setPlaylistData;
+    this.setAllLogs = setAllLogs;
   }
 
   download() {
@@ -33,24 +35,23 @@ export class VideoTimeLogsHandler {
 
   async setup() {
     const recentTimeupdates = await this.getRecentTimeUpdateLogs();
-    // console.log('recentTimeupdates', recentTimeupdates)
     const editTransLogs = await this.getEditTransLogs();
     if (this.setEditTransCount) {
       this.setEditTransCount(_.reverse(_.sortBy(editTransLogs, 'count')));
     }
 
     const totalTimeupdates = await this.getTotalTimeUpdateLogs();
-    // console.log('totalTimeupdates', totalTimeupdates)
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
     const playListLogs = await this.getPlayListsByCourseId();
     const allLogs = await this.getAllCourseLogs();
 
+    this.setAllLogs(allLogs);
+    this.setPlaylistData(playListLogs);
     this.logs = [...logs];
     this.setTotal(logs);
   }
 
   parseLogs(data) {
-    console.log('data', data);
     return _.map(data, (elem) => ({
       email: elem.user ? elem.user.email : 'unknown',
       ..._.reduce(
@@ -79,7 +80,6 @@ export class VideoTimeLogsHandler {
     return media_array;
   }
   parsePlaylists(data) {
-    console.log('playlist data', data);
     var playlists = [];
     for (var i = 0; i < data.length; i++) {
       var playlist = {
@@ -89,7 +89,6 @@ export class VideoTimeLogsHandler {
       };
       playlists.push(playlist);
     }
-    console.log('Playlists: ', playlists);
     return playlists;
   }
   parseAllLogs(data) {
@@ -103,7 +102,6 @@ export class VideoTimeLogsHandler {
         id: data[i].id,
       });
     }
-    console.log('All Logs:', logs);
     return logs;
   }
 
@@ -207,7 +205,6 @@ export class VideoTimeLogsHandler {
 
     return _.reverse(_.sortBy(logs, 'count'));
 
-    // console.log('totalTimeupdates', logs)
   }
 }
 

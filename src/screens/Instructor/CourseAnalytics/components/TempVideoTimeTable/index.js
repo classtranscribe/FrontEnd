@@ -8,16 +8,21 @@ import { vtime } from './vtime';
 
 function TempVideoTimeTable({ offeringId }) {
   const [total, setTotal] = useState([]);
+  const [allLogs, setAllLogs] = useState([]);
+  const [playlistData, setPlaylistData] = useState([]);
   const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
 
   useEffect(() => {
     if (offeringId) {
-      vtime.init({ offeringId, setTotal, setEditTransCount: setEditTrans });
+      vtime.init({ offeringId, setTotal, setAllLogs, setPlaylistData, setEditTransCount: setEditTrans });
       vtime.setup();
     }
   }, [offeringId]);
+  useEffect(() => {
+    console.log("All Logs: ", allLogs);
+    }, [allLogs]);
 
   const handleSort = (clickedColumn) => {
     if (column !== clickedColumn) {
