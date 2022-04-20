@@ -43,8 +43,8 @@ export class VideoTimeLogsHandler {
     const totalTimeupdates = await this.getTotalTimeUpdateLogs();
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
     const playListLogs = await this.getPlayListsByCourseId();
-    const allLogs = await this.getAllCourseLogs();
-
+    var allLogs = await this.getAllCourseLogs();
+    allLogs = this.combineAllLogsAndEditTransLogs(allLogs, editTransLogs);
     this.setAllLogs(allLogs);
     this.setPlaylistData(playListLogs);
     this.logs = [...logs];
@@ -100,6 +100,7 @@ export class VideoTimeLogsHandler {
         firstName: data[i].user.firstName,
         lastName: data[i].user.lastName,
         id: data[i].id,
+        editTransCount: 0,
       });
     }
     return logs;
@@ -172,9 +173,20 @@ export class VideoTimeLogsHandler {
       return [];
     }
   }
+  combineAllLogsAndEditTransLogs(allLogs = [], editTransLogs = []) {
+    const logs = _.cloneDeep(allLogs);
+    _.forEach(editTransLogs, (elem) => {
+      const timeElem = _.find(logs, { email: elem.email });
+      if (timeElem) {
+        timeElem.editTransCount = elem.count;
+      }
+    });
+    return logs;
+  }
 
   combineLogs(totalTimeupdates = [], recentTimeupdates = [], editTransLogs = []) {
     const logs = _.cloneDeep(totalTimeupdates);
+    console.log('total time updates: ', totalTimeupdates);
     _.forEach(logs, (elem) => {
       const recentElem = _.find(recentTimeupdates, { email: elem.email });
       if (recentElem) {
@@ -204,7 +216,6 @@ export class VideoTimeLogsHandler {
     });
 
     return _.reverse(_.sortBy(logs, 'count'));
-
   }
 }
 
