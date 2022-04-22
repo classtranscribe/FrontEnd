@@ -3,13 +3,14 @@ import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
 import './index.css';
-import { CTHeading, CTFragment, CTText } from 'layout';
+import { CTHeading, CTFragment, CTText, CTSelect } from 'layout';
 import { vtime } from './vtime';
 
 function TempVideoTimeTable({ offeringId }) {
   const [selectedVideos, setSelectVideos] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
   const [playListVideoMap, setPlaylistVideoMap] = useState({});
+  const [videoIDNameMap, setVideoIDNameMap] = useState({});
   const [videoList, setVideoList] = useState([]);
   const [total, setTotal] = useState([]);
   const [allLogs, setAllLogs] = useState([]);
@@ -58,35 +59,45 @@ function TempVideoTimeTable({ offeringId }) {
       setDirection(direction === 'ascending' ? 'descending' : 'ascending');
     }
   };
+  const handleSelect = ( {target : {value}} )  => {
+	addVideo(value[0]);
+  }
   const setupVideoListData = () => {
     var video_list = [];
+	var video_id_map = {}
+	var playlist_map = {}
     for (var i = 0; i < playlistData.length; i++) {
-      playListVideoMap[playlistData[i].id] = [];
+      playlist_map[playlistData[i].id] = [];
       for (var j = 0; j < playlistData[i].media.length; j++) {
-        video_list.push(playlistData[i].media[j].id);
-        playListVideoMap[playlistData[i].id].push(playlistData[i].media[j].id);
+		video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
+        video_list.push({value: playlistData[i].media[j].id, text :playlistData[i].media[j].name});
+        playlist_map[playlistData[i].id].push({value: playlistData[i].media[j].id, text :playlistData[i].media[j].name});
       }
     }
+	setPlaylistVideoMap(playlist_map);
+	setVideoIDNameMap(video_id_map);
     setVideoList(video_list);
   };
 
+
   const addVideo = (id) => {
-	setVideoList([...videoList, id]);
+	 setSelectVideos(selectedVideos.concat(id));
+	 console.log(selectedVideos);
   };
   const removeVideo = (id) => {
-	setVideoList(videoList.filter((item) => item != id));
+	setSelectVideos(selectedVideos.filter((item) => item != id));
   };
 
   const addPlayList = (id) => {
     for (var i = 0; i < playListVideoMap[id].length; i++) {
-      if (!(playListVideoMap[id][i] in videoList)) {
+      if (!(playListVideoMap[id][i] in selectedVideos)) {
 		  addVideo(playListVideoMap[id][i]);
       }
     }
   };
   const removePlaylist = (id) => {
     for (var i = 0; i < playListVideoMap[id].length; i++) {
-      if ((playListVideoMap[id][i] in videoList)) {
+      if ((playListVideoMap[id][i] in selectedVideos)) {
 		  removeVideo(playListVideoMap[id][i]);
       }
     }
@@ -173,6 +184,17 @@ function TempVideoTimeTable({ offeringId }) {
           loading={total.length === 0}
         />
       </CTFragment>
+          <CTSelect
+            id="home-departs-filter"
+            placeholder="Filter by videos"
+            label="Filter by videos"
+            noItemsHolder="No videos selected"
+            value={selectedVideos}
+            options={videoList}
+            onChange={handleSelect}
+            underlined
+            multiple
+          />
 
       {total.length === 0 ? (
         <div>
