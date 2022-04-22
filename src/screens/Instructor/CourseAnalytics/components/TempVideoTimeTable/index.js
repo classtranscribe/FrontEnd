@@ -32,81 +32,81 @@ function TempVideoTimeTable({ offeringId }) {
     }
   }, [offeringId]);
   useEffect(() => {
-    console.log('All Logs: ', allLogs);
     setUserData(parseUserData());
   }, [allLogs]);
-
   useEffect(() => {
-    console.log('total: ', total);
-  }, [total]);
-  useEffect(() => {
-    console.log('userData: ', userData);
-  }, [userData]);
-  useEffect(() => {
-    console.log('pl: ', playlistData);
     setupVideoListData();
   }, [playlistData]);
+
+
+  useEffect(() => {
+    setUserData(parseUserData());
+  }, [selectedVideos]);
 
   const handleSort = (clickedColumn) => {
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
-      const sortedData = _.sortBy(total, [clickedColumn]);
-      setTotal(sortedData);
+      const sortedData = _.sortBy(userData, [clickedColumn]);
+      setUserData(sortedData);
       setDirection('ascending');
     } else {
-      setTotal(total.reverse());
+      setUserData(userData.reverse());
       setColumn(clickedColumn);
       setDirection(direction === 'ascending' ? 'descending' : 'ascending');
     }
   };
-  const handleSelect = ( {target : {value}} )  => {
-	addVideo(value[0]);
-  }
+  const handleSelect = ({ target: { value } }) => {
+    setSelectVideos(value);
+  };
   const setupVideoListData = () => {
     var video_list = [];
-	var video_id_map = {}
-	var playlist_map = {}
+    var video_id_map = {};
+    var playlist_map = {};
     for (var i = 0; i < playlistData.length; i++) {
       playlist_map[playlistData[i].id] = [];
       for (var j = 0; j < playlistData[i].media.length; j++) {
-		video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
-        video_list.push({value: playlistData[i].media[j].id, text :playlistData[i].media[j].name});
-        playlist_map[playlistData[i].id].push({value: playlistData[i].media[j].id, text :playlistData[i].media[j].name});
+        video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
+        video_list.push({
+          value: playlistData[i].media[j].id,
+          text: playlistData[i].media[j].name,
+        });
+        playlist_map[playlistData[i].id].push({
+          value: playlistData[i].media[j].id,
+          text: playlistData[i].media[j].name,
+        });
       }
     }
-	setPlaylistVideoMap(playlist_map);
-	setVideoIDNameMap(video_id_map);
+    setPlaylistVideoMap(playlist_map);
+    setVideoIDNameMap(video_id_map);
     setVideoList(video_list);
   };
 
-
   const addVideo = (id) => {
-	 setSelectVideos(selectedVideos.concat(id));
-	 console.log(selectedVideos);
+    setSelectVideos(selectedVideos.concat(id));
   };
   const removeVideo = (id) => {
-	setSelectVideos(selectedVideos.filter((item) => item != id));
+    setSelectVideos(selectedVideos.filter((item) => item != id));
   };
 
   const addPlayList = (id) => {
     for (var i = 0; i < playListVideoMap[id].length; i++) {
       if (!(playListVideoMap[id][i] in selectedVideos)) {
-		  addVideo(playListVideoMap[id][i]);
+        addVideo(playListVideoMap[id][i]);
       }
     }
   };
   const removePlaylist = (id) => {
     for (var i = 0; i < playListVideoMap[id].length; i++) {
-      if ((playListVideoMap[id][i] in selectedVideos)) {
-		  removeVideo(playListVideoMap[id][i]);
+      if (playListVideoMap[id][i] in selectedVideos) {
+        removeVideo(playListVideoMap[id][i]);
       }
     }
   };
   const parseUserData = () => {
-    var user_map = {};
+    var user_array = [];
     for (var i = 0; i < allLogs.length; i++) {
       var user = allLogs[i];
-      user_map[user.email] = {
+      var user_map = {
         email: user.email,
         count: 0,
         editTransCount: user.editTransCount,
@@ -116,24 +116,23 @@ function TempVideoTimeTable({ offeringId }) {
         lastWeek: 0,
       };
       for (var j = 0; j < user.media.length; j++) {
-        if (selectedVideos.includes(user.media[i].id)) {
-          if (user.email in user_map) {
-            user_map[user.email].count += user.media[i].count;
-            user_map[user.email].last3days += user.media[i].last3days;
-            user_map[user.email].lastHr += user.media[i].lastHr;
-            user_map[user.email].lastMonth += user.media[i].lastMonth;
-            user_map[user.email].lastWeek += user.media[i].lastWeek;
-          }
+        if (selectedVideos.includes(user.media[j].mediaId)) {
+          user_map.count += user.media[j].count;
+          user_map.last3days += user.media[j].last3days;
+          user_map.lastHr += user.media[j].lastHr;
+          user_map.lastMonth += user.media[j].lastMonth;
+          user_map.lastWeek += user.media[j].lastWeek;
         }
       }
+      user_array.push(user_map);
     }
-    return user_map;
+    return user_array;
   };
   const onDownload = () => vtime.download();
   const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
 
   return (
-    <CTFragment className="analytic_table" loading={total.length === 0}>
+    <CTFragment className="analytic_table" loading={userData.length === 0}>
       <CTHeading as="h3" highlight padding={[0, 10]} uppercase>
         Transcription Editing
       </CTHeading>
@@ -168,7 +167,7 @@ function TempVideoTimeTable({ offeringId }) {
 
       <CTFragment justConBetween>
         <CTText className="pl-3">
-          <b>{total.length + 1} students have watched the lectures for this course.</b>
+          <b>{userData.length + 1} students have watched the lectures for this course.</b>
           <br />
           <br />
           The table below shows the approximate watch time for each student, you can click on the
@@ -181,22 +180,22 @@ function TempVideoTimeTable({ offeringId }) {
           text="Download CSV file"
           color="teal"
           onClick={onDownload}
-          loading={total.length === 0}
+          loading={userData.length === 0}
         />
       </CTFragment>
-          <CTSelect
-            id="home-departs-filter"
-            placeholder="Filter by videos"
-            label="Filter by videos"
-            noItemsHolder="No videos selected"
-            value={selectedVideos}
-            options={videoList}
-            onChange={handleSelect}
-            underlined
-            multiple
-          />
+      <CTSelect
+        id="home-departs-filter"
+        placeholder="Filter by videos"
+        label="Filter by videos"
+        noItemsHolder="No videos selected"
+        value={selectedVideos}
+        options={videoList}
+        onChange={handleSelect}
+        underlined
+        multiple
+      />
 
-      {total.length === 0 ? (
+      {userData.length === 0 ? (
         <div>
           <Segment className="table_loader">
             <Dimmer active inverted>
@@ -255,7 +254,7 @@ function TempVideoTimeTable({ offeringId }) {
           </Table.Header>
 
           <Table.Body>
-            {total.map((elem, index) => (
+            {userData.map((elem, index) => (
               <Table.Row key={elem.email}>
                 <Table.Cell>{index + 1}</Table.Cell>
                 <Table.Cell>{elem.email}</Table.Cell>

@@ -186,7 +186,6 @@ export class VideoTimeLogsHandler {
 
   combineLogs(totalTimeupdates = [], recentTimeupdates = [], editTransLogs = []) {
     const logs = _.cloneDeep(totalTimeupdates);
-    console.log('total time updates: ', totalTimeupdates);
     _.forEach(logs, (elem) => {
       const recentElem = _.find(recentTimeupdates, { email: elem.email });
       if (recentElem) {
