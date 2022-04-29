@@ -34,7 +34,7 @@ class EPubParser {
     const img_blob = new Blob([img]);
     data.cover.src = await EPubParser.blobToDataUrl(img_blob); // URL.createObjectURL(img_blob)
     data.chapters = await this.parseChapters(data.chapters, replaceImageSrc);
-    this.data = data
+    this.data = data;
   }
 
   /**
@@ -166,6 +166,7 @@ class EPubParser {
       return {
         id: chapterId,
         title: chapter.title,
+        condition: chapter.condition,
         start: chapter.start,
         link: chapter.link,
         text: this.extractBodyTextFromDom(dom),

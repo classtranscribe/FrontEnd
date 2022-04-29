@@ -35,7 +35,9 @@ export default class EPubData {
     author: 'Anonymous',
     publisher: 'ClassTranscribe',
     cover: null,
-    chapters: []
+    chapters: [],
+    h3: true,
+    condition:{'default':true}
   };
 
   images = [];
@@ -88,7 +90,8 @@ export default class EPubData {
     }
 
     this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
-
+    // this.condition = ['default'];
+    this.condition.default = true;
     // extract all the items and images from the chapters
     this.items = getAllItemsInChapters(this.chapters);
     this.images = _.map(this.items, item => item.image);
@@ -147,6 +150,13 @@ export default class EPubData {
     return !this.__data__.h3;
   }
 
+  set condition(condition) {
+    this.__data__.condition = condition;
+  }
+
+  get condition() {
+    return this.__data__.condition;
+  }
   set filename(filename) {
     this.__data__.filename = filename;
   }

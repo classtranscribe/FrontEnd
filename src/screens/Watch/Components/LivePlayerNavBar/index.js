@@ -20,5 +20,5 @@ export function LivePlayerNavBar() {
         </Navbar.Text>
       </Navbar.Collapse>
     </Navbar>
-    );
+  );
 }
