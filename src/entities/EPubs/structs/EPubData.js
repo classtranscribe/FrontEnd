@@ -91,7 +91,7 @@ export default class EPubData {
 
     this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
     // this.condition = ['default'];
-    this.condition.default = true;
+    this.condition["default"] = true;
     // extract all the items and images from the chapters
     this.items = getAllItemsInChapters(this.chapters);
     this.images = _.map(this.items, item => item.image);
