@@ -310,7 +310,7 @@ export default {
             (data, idx) =>
                 new EPubChapterData({
                     items: [data],
-                    title: `Untitled Chapter ${idx + 1}`,
+                    title: data.title,
                 }).toObject(),
         );
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
