@@ -43,7 +43,7 @@ export class VideoTimeLogsHandler {
     const totalTimeupdates = await this.getTotalTimeUpdateLogs();
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
     const playListLogs = await this.getPlayListsByCourseId();
-    var allLogs = await this.getAllCourseLogs();
+    let allLogs = await this.getAllCourseLogs();
     allLogs = this.combineAllLogsAndEditTransLogs(allLogs, editTransLogs);
     this.setAllLogs(allLogs);
     this.setPlaylistData(playListLogs);
@@ -68,9 +68,9 @@ export class VideoTimeLogsHandler {
   }
 
   parseMedia(media, playListId) {
-    var media_array = [];
-    for (var i = 0; i < media.length; i++) {
-      var el = media[i];
+    let media_array = [];
+    for (let i = 0; i < media.length; i+= 1) {
+      let el = media[i];
       media_array.push({
         id: el.id,
         playlistId: playListId,
@@ -80,9 +80,9 @@ export class VideoTimeLogsHandler {
     return media_array;
   }
   parsePlaylists(data) {
-    var playlists = [];
-    for (var i = 0; i < data.length; i++) {
-      var playlist = {
+    let playlists = [];
+    for (let i = 0; i < data.length; i+= 1) {
+      let playlist = {
         id: data[i].id,
         name: data[i].name,
         media: this.parseMedia(data[i].medias, data[i].id),
@@ -92,8 +92,8 @@ export class VideoTimeLogsHandler {
     return playlists;
   }
   parseAllLogs(data) {
-    var logs = [];
-    for (var i = 0; i < data.length; i++) {
+    let logs = [];
+    for (let i = 0; i < data.length; i+= 1) {
       logs.push({
         media: data[i].medias,
         email: data[i].user.email,

@@ -18,6 +18,54 @@ function TempVideoTimeTable({ offeringId }) {
   const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
+  const parseUserData = () => {
+    let user_array = [];
+    for (let i = 0; i < allLogs.length; i+= 1) {
+      let user = allLogs[i];
+      let user_map = {
+        email: user.email,
+        count: 0,
+        editTransCount: user.editTransCount,
+        last3days: 0,
+        lastHr: 0,
+        lastMonth: 0,
+        lastWeek: 0,
+      };
+      for (let j = 0; j < user.media.length; j+= 1) {
+        if (selectedVideos.includes(user.media[j].mediaId)) {
+          user_map.count += user.media[j].count;
+          user_map.last3days += user.media[j].last3days;
+          user_map.lastHr += user.media[j].lastHr;
+          user_map.lastMonth += user.media[j].lastMonth;
+          user_map.lastWeek += user.media[j].lastWeek;
+        }
+      }
+      user_array.push(user_map);
+    }
+    return user_array;
+  };
+  const setupVideoListData = () => {
+    let video_list = [];
+    let video_id_map = {};
+    let playlist_map = {};
+    for (let i = 0; i < playlistData.length; i+= 1) {
+      playlist_map[playlistData[i].id] = [];
+      for (let j = 0; j < playlistData[i].media.length; j+= 1) {
+        video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
+        video_list.push({
+          value: playlistData[i].media[j].id,
+          text: playlistData[i].media[j].name,
+        });
+        playlist_map[playlistData[i].id].push({
+          value: playlistData[i].media[j].id,
+          text: playlistData[i].media[j].name,
+        });
+      }
+    }
+    setPlaylistVideoMap(playlist_map);
+    setVideoIDNameMap(video_id_map);
+    setVideoList(video_list);
+  };
 
   useEffect(() => {
     if (offeringId) {
@@ -58,75 +106,27 @@ function TempVideoTimeTable({ offeringId }) {
   const handleSelect = ({ target: { value } }) => {
     setSelectVideos(value);
   };
-  const setupVideoListData = () => {
-    var video_list = [];
-    var video_id_map = {};
-    var playlist_map = {};
-    for (var i = 0; i < playlistData.length; i++) {
-      playlist_map[playlistData[i].id] = [];
-      for (var j = 0; j < playlistData[i].media.length; j++) {
-        video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
-        video_list.push({
-          value: playlistData[i].media[j].id,
-          text: playlistData[i].media[j].name,
-        });
-        playlist_map[playlistData[i].id].push({
-          value: playlistData[i].media[j].id,
-          text: playlistData[i].media[j].name,
-        });
-      }
-    }
-    setPlaylistVideoMap(playlist_map);
-    setVideoIDNameMap(video_id_map);
-    setVideoList(video_list);
-  };
 
   const addVideo = (id) => {
     setSelectVideos(selectedVideos.concat(id));
   };
   const removeVideo = (id) => {
-    setSelectVideos(selectedVideos.filter((item) => item != id));
+    setSelectVideos(selectedVideos.filter((item) => item !== id));
   };
 
   const addPlayList = (id) => {
-    for (var i = 0; i < playListVideoMap[id].length; i++) {
+    for (let i = 0; i < playListVideoMap[id].length; i+= 1) {
       if (!(playListVideoMap[id][i] in selectedVideos)) {
         addVideo(playListVideoMap[id][i]);
       }
     }
   };
   const removePlaylist = (id) => {
-    for (var i = 0; i < playListVideoMap[id].length; i++) {
+    for (let i = 0; i < playListVideoMap[id].length; i+= 1) {
       if (playListVideoMap[id][i] in selectedVideos) {
         removeVideo(playListVideoMap[id][i]);
       }
     }
-  };
-  const parseUserData = () => {
-    var user_array = [];
-    for (var i = 0; i < allLogs.length; i++) {
-      var user = allLogs[i];
-      var user_map = {
-        email: user.email,
-        count: 0,
-        editTransCount: user.editTransCount,
-        last3days: 0,
-        lastHr: 0,
-        lastMonth: 0,
-        lastWeek: 0,
-      };
-      for (var j = 0; j < user.media.length; j++) {
-        if (selectedVideos.includes(user.media[j].mediaId)) {
-          user_map.count += user.media[j].count;
-          user_map.last3days += user.media[j].last3days;
-          user_map.lastHr += user.media[j].lastHr;
-          user_map.lastMonth += user.media[j].lastMonth;
-          user_map.lastWeek += user.media[j].lastWeek;
-        }
-      }
-      user_array.push(user_map);
-    }
-    return user_array;
   };
   const onDownload = () => vtime.download();
   const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
