@@ -3,40 +3,136 @@ import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
 import _ from 'lodash';
 import './index.css';
-import { CTHeading, CTFragment, CTText } from 'layout';
+import { CTHeading, CTFragment, CTText, CTSelect } from 'layout';
 import { vtime } from './vtime';
 
 function TempVideoTimeTable({ offeringId }) {
+  const [selectedVideos, setSelectVideos] = useState([]);
+  const [playlistData, setPlaylistData] = useState([]);
+  const [playListVideoMap, setPlaylistVideoMap] = useState({});
+  const [videoIDNameMap, setVideoIDNameMap] = useState({});
+  const [videoList, setVideoList] = useState([]);
   const [total, setTotal] = useState([]);
+  const [allLogs, setAllLogs] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
+  const parseUserData = () => {
+    let user_array = [];
+    for (let i = 0; i < allLogs.length; i+= 1) {
+      let user = allLogs[i];
+      let user_map = {
+        email: user.email,
+        count: 0,
+        editTransCount: user.editTransCount,
+        last3days: 0,
+        lastHr: 0,
+        lastMonth: 0,
+        lastWeek: 0,
+      };
+      for (let j = 0; j < user.media.length; j+= 1) {
+        if (selectedVideos.includes(user.media[j].mediaId)) {
+          user_map.count += user.media[j].count;
+          user_map.last3days += user.media[j].last3days;
+          user_map.lastHr += user.media[j].lastHr;
+          user_map.lastMonth += user.media[j].lastMonth;
+          user_map.lastWeek += user.media[j].lastWeek;
+        }
+      }
+      user_array.push(user_map);
+    }
+    return user_array;
+  };
+  const setupVideoListData = () => {
+    let video_list = [];
+    let video_id_map = {};
+    let playlist_map = {};
+    for (let i = 0; i < playlistData.length; i+= 1) {
+      playlist_map[playlistData[i].id] = [];
+      for (let j = 0; j < playlistData[i].media.length; j+= 1) {
+        video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
+        video_list.push({
+          value: playlistData[i].media[j].id,
+          text: playlistData[i].media[j].name,
+        });
+        playlist_map[playlistData[i].id].push({
+          value: playlistData[i].media[j].id,
+          text: playlistData[i].media[j].name,
+        });
+      }
+    }
+    setPlaylistVideoMap(playlist_map);
+    setVideoIDNameMap(video_id_map);
+    setVideoList(video_list);
+  };
 
   useEffect(() => {
     if (offeringId) {
-      vtime.init({ offeringId, setTotal, setEditTransCount: setEditTrans });
+      vtime.init({
+        offeringId,
+        setTotal,
+        setAllLogs,
+        setPlaylistData,
+        setEditTransCount: setEditTrans,
+      });
       vtime.setup();
     }
   }, [offeringId]);
+  useEffect(() => {
+    setUserData(parseUserData());
+  }, [allLogs]);
+  useEffect(() => {
+    setupVideoListData();
+  }, [playlistData]);
+
+
+  useEffect(() => {
+    setUserData(parseUserData());
+  }, [selectedVideos]);
 
   const handleSort = (clickedColumn) => {
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
-      const sortedData = _.sortBy(total, [clickedColumn]);
-      setTotal(sortedData);
+      const sortedData = _.sortBy(userData, [clickedColumn]);
+      setUserData(sortedData);
       setDirection('ascending');
     } else {
-      setTotal(total.reverse());
+      setUserData(userData.reverse());
       setColumn(clickedColumn);
       setDirection(direction === 'ascending' ? 'descending' : 'ascending');
     }
   };
+  const handleSelect = ({ target: { value } }) => {
+    setSelectVideos(value);
+  };
 
+  const addVideo = (id) => {
+    setSelectVideos(selectedVideos.concat(id));
+  };
+  const removeVideo = (id) => {
+    setSelectVideos(selectedVideos.filter((item) => item !== id));
+  };
+
+  const addPlayList = (id) => {
+    for (let i = 0; i < playListVideoMap[id].length; i+= 1) {
+      if (!(playListVideoMap[id][i] in selectedVideos)) {
+        addVideo(playListVideoMap[id][i]);
+      }
+    }
+  };
+  const removePlaylist = (id) => {
+    for (let i = 0; i < playListVideoMap[id].length; i+= 1) {
+      if (playListVideoMap[id][i] in selectedVideos) {
+        removeVideo(playListVideoMap[id][i]);
+      }
+    }
+  };
   const onDownload = () => vtime.download();
   const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
 
   return (
-    <CTFragment className="analytic_table" loading={total.length === 0}>
+    <CTFragment className="analytic_table" loading={userData.length === 0}>
       <CTHeading as="h3" highlight padding={[0, 10]} uppercase>
         Transcription Editing
       </CTHeading>
@@ -44,11 +140,14 @@ function TempVideoTimeTable({ offeringId }) {
 
       <CTFragment justConBetween>
         <CTText className="pl-3">
-          <b>There are {Array.isArray(editTrans) ? editTrans.length + 1 : 0} students 
-            edited transcriptions for this course.
-          </b> <br /><br />
-          The editing history for each student is shown below in the 
-          last column <i>Captions Revised</i> of the Video Time Table. <br />
+          <b>
+            There are {Array.isArray(editTrans) ? editTrans.length + 1 : 0} students edited
+            transcriptions for this course.
+          </b>{' '}
+          <br />
+          <br />
+          The editing history for each student is shown below in the last column{' '}
+          <i>Captions Revised</i> of the Video Time Table. <br />
           For more details, please use the button on the right to download the csv file.
         </CTText>
 
@@ -68,10 +167,11 @@ function TempVideoTimeTable({ offeringId }) {
 
       <CTFragment justConBetween>
         <CTText className="pl-3">
-          <b>{total.length + 1} students have watched the lectures for this course.</b> 
-          <br /><br />
-          The table below shows the approximate watch time for each student, 
-          you can click on the column header to sort the table. <br />
+          <b>{userData.length + 1} students have watched the lectures for this course.</b>
+          <br />
+          <br />
+          The table below shows the approximate watch time for each student, you can click on the
+          column header to sort the table. <br />
           For more details, please use the button on the right to download the csv file.
         </CTText>
 
@@ -80,11 +180,22 @@ function TempVideoTimeTable({ offeringId }) {
           text="Download CSV file"
           color="teal"
           onClick={onDownload}
-          loading={total.length === 0}
+          loading={userData.length === 0}
         />
       </CTFragment>
+      <CTSelect
+        id="home-departs-filter"
+        placeholder="Filter by videos"
+        label="Filter by videos"
+        noItemsHolder="No videos selected"
+        value={selectedVideos}
+        options={videoList}
+        onChange={handleSelect}
+        underlined
+        multiple
+      />
 
-      {total.length === 0 ? (
+      {userData.length === 0 ? (
         <div>
           <Segment className="table_loader">
             <Dimmer active inverted>
@@ -143,7 +254,7 @@ function TempVideoTimeTable({ offeringId }) {
           </Table.Header>
 
           <Table.Body>
-            {total.map((elem, index) => (
+            {userData.map((elem, index) => (
               <Table.Row key={elem.email}>
                 <Table.Cell>{index + 1}</Table.Cell>
                 <Table.Cell>{elem.email}</Table.Cell>
