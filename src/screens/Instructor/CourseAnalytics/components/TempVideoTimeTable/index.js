@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
-import _ from 'lodash';
+import _, { filter } from 'lodash';
 import './index.css';
 import { CTHeading, CTFragment, CTText, CTSelect } from 'layout';
 import { vtime } from './vtime';
+import { search } from 'utils/search';
+import CTFilter from '../../../../../layout/CTFilter';
 
 function TempVideoTimeTable({ offeringId }) {
   const [selectedVideos, setSelectVideos] = useState([]);
@@ -18,9 +20,10 @@ function TempVideoTimeTable({ offeringId }) {
   const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
   const parseUserData = () => {
     let user_array = [];
-    for (let i = 0; i < allLogs.length; i+= 1) {
+    for (let i = 0; i < allLogs.length; i += 1) {
       let user = allLogs[i];
       let user_map = {
         email: user.email,
@@ -31,7 +34,7 @@ function TempVideoTimeTable({ offeringId }) {
         lastMonth: 0,
         lastWeek: 0,
       };
-      for (let j = 0; j < user.media.length; j+= 1) {
+      for (let j = 0; j < user.media.length; j += 1) {
         if (selectedVideos.includes(user.media[j].mediaId)) {
           user_map.count += user.media[j].count;
           user_map.last3days += user.media[j].last3days;
@@ -48,9 +51,9 @@ function TempVideoTimeTable({ offeringId }) {
     let video_list = [];
     let video_id_map = {};
     let playlist_map = {};
-    for (let i = 0; i < playlistData.length; i+= 1) {
+    for (let i = 0; i < playlistData.length; i += 1) {
       playlist_map[playlistData[i].id] = [];
-      for (let j = 0; j < playlistData[i].media.length; j+= 1) {
+      for (let j = 0; j < playlistData[i].media.length; j += 1) {
         video_id_map[playlistData[i].media[j].id] = playlistData[i].media[j].name;
         video_list.push({
           value: playlistData[i].media[j].id,
@@ -86,11 +89,19 @@ function TempVideoTimeTable({ offeringId }) {
     setupVideoListData();
   }, [playlistData]);
 
-
   useEffect(() => {
     setUserData(parseUserData());
   }, [selectedVideos]);
 
+  const filterVideosBySearch = (event) => {
+    setSearchValue(event.target.value)
+    var a = search.getResults(videoList, event.target.value, ['value', 'text']);
+    var b = [...selectedVideos];
+    for (var i = 0; i < a.length; i += 1) {
+      b.push(a[i]['value']);
+    }
+    console.log(b);
+  };
   const handleSort = (clickedColumn) => {
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
@@ -115,14 +126,14 @@ function TempVideoTimeTable({ offeringId }) {
   };
 
   const addPlayList = (id) => {
-    for (let i = 0; i < playListVideoMap[id].length; i+= 1) {
+    for (let i = 0; i < playListVideoMap[id].length; i += 1) {
       if (!(playListVideoMap[id][i] in selectedVideos)) {
         addVideo(playListVideoMap[id][i]);
       }
     }
   };
   const removePlaylist = (id) => {
-    for (let i = 0; i < playListVideoMap[id].length; i+= 1) {
+    for (let i = 0; i < playListVideoMap[id].length; i += 1) {
       if (playListVideoMap[id][i] in selectedVideos) {
         removeVideo(playListVideoMap[id][i]);
       }
@@ -158,8 +169,8 @@ function TempVideoTimeTable({ offeringId }) {
           onClick={onDownloadEditTrans}
           disabled={!Array.isArray(editTrans)}
         />
+        <Button uppercase text="Check test" color="teal" onClick={filterVideosBySearch} />
       </CTFragment>
-
       <CTHeading as="h3" highlight padding={[0, 10]} uppercase>
         Video Time
       </CTHeading>
@@ -183,17 +194,27 @@ function TempVideoTimeTable({ offeringId }) {
           loading={userData.length === 0}
         />
       </CTFragment>
-      <CTSelect
-        id="home-departs-filter"
-        placeholder="Filter by videos"
-        label="Filter by videos"
-        noItemsHolder="No videos selected"
-        value={selectedVideos}
-        options={videoList}
-        onChange={handleSelect}
-        underlined
-        multiple
-      />
+      <CTFragment justConCenter padding={[0, 0, 0, 20]}>
+          <input
+            placeholder="Search for videos..."
+            value={searchValue}
+            onChange={filterVideosBySearch}
+            autoComplete="off"
+            autoFocus
+          />
+
+        <CTSelect
+          id="home-departs-filter"
+          placeholder="Filter by videos"
+          label="Filter by videos"
+          noItemsHolder="No videos selected"
+          value={selectedVideos}
+          options={videoList}
+          onChange={handleSelect}
+          underlined
+          multiple
+        />
+      </CTFragment>
 
       {userData.length === 0 ? (
         <div>
