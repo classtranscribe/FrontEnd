@@ -150,9 +150,11 @@ export class VideoTimeLogsHandler {
 
   async getPlayListsByCourseId() {
     try {
-      const { data } = await api.getPlayListsByCourseId(this.offeringId);
-
-      return this.parsePlaylists(data);
+      if (localStorage.getItem("dataLogs") == null) {
+          const { data } = await api.getPlayListsByCourseId(this.offeringId);
+          localStorage.setItem("dataLogs", JSON.stringify(data));
+      }
+      return this.parsePlaylists(JSON.parse(localStorage.getItem("dataLogs")));
     } catch (error) {
       console.error('Failed to get recent timeupdate logs.');
       return [];
