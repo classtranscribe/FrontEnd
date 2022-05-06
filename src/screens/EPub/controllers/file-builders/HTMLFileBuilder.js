@@ -59,8 +59,21 @@ class HTMLFileBuilder {
   prefetchSubchapterImages(chapters) {
       const promises = [];
       const baseUrl = reactEnv.baseURL;
-
-      chapters.forEach(chapter => {
+      let selectedChapters = [];
+      for (let i = 0; i < chapters.length; i+= 1) {
+        for (const [key, value] of Object.entries(this.data.condition)) {
+          if (key === 'default') {
+            if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+              selectedChapters.push(chapters[i]);
+              break;
+            }
+          } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+              selectedChapters.push(chapters[i]);
+              break;
+            }  
+        }
+      }
+      selectedChapters.forEach(chapter => {
           // eslint-disable-next-line no-unused-expressions
           chapter?.subChapters?.forEach(subchapter => {
               // eslint-disable-next-line no-unused-expressions
@@ -101,6 +114,20 @@ class HTMLFileBuilder {
     const margin = 10;
     let w = pdf.internal.pageSize.getWidth() - 2*margin;
     let h = pdf.internal.pageSize.getHeight() - 2*margin;
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+      for (const [key, value] of Object.entries(this.data.condition)) {
+        if (key === 'default') {
+          if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }
+        } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }  
+      }
+    }
     // this.prefetchSubchapterImages(chapters);
         // console.log(w);
         // console.log(h);
@@ -115,7 +142,7 @@ class HTMLFileBuilder {
         pdf.text(author, w/2,140,'center');
         pdf.addPage();
         let navContents = _.map(
-            chapters,
+            selectedChapters,
             (ch, chIndex) => `
           <h3><a href="#${ch.id}">${chIndex + 1} - ${ch.title}</a></h3>
           <ol>
@@ -130,7 +157,7 @@ class HTMLFileBuilder {
         ).join('\n');
         if (!h3) {
           navContents = _.map(
-            chapters,
+            selectedChapters,
             (ch, chIndex) => `
           <h4><a href="#${ch.id}">${chIndex + 1} - ${ch.title}</a></h4>
           <ol>
@@ -147,7 +174,7 @@ class HTMLFileBuilder {
 
 
         // console.log(navContents);
-        chapters.forEach((chapter, i) => {
+        selectedChapters.forEach((chapter, i) => {
             let curText = chapter.text;
             pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
             let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
@@ -209,13 +236,13 @@ class HTMLFileBuilder {
                 });
             });
 
-            if (i !== chapters.length-1) {
+            if (i !== selectedChapters.length-1) {
                 pdf.addPage();
             }
         });
 
         const content = _.map(
-            chapters,
+            selectedChapters,
             (ch) => `
         <div class="ee-preview-text-con">
           ${ch.text/** .replace(/\n/g, '\n\t\t\t\t\t') */}
