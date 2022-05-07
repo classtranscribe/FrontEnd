@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
 import { env } from 'utils/env';
 import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';
-
+const DEFAULT_LOG_TIMEOUT = 40000;
 class CTHTTPRequest {
   /**
    * Create an axios instance with ClassTranscribe authorization
@@ -18,7 +18,7 @@ class CTHTTPRequest {
 
     return axios.create({
       baseURL: env.baseURL || window.location.origin,
-      timeout: 20000,
+      timeout: DEFAULT_LOG_TIMEOUT,
       headers: {
         Authorization:
           authToken && withAuth
