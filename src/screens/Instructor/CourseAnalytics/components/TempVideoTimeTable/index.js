@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { Table, Dimmer, Loader, Segment, Dropdown } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
 import _, { filter } from 'lodash';
 import './index.css';
@@ -12,7 +12,6 @@ function TempVideoTimeTable({ offeringId }) {
   const [selectedVideos, setSelectVideos] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
   const [playListVideoMap, setPlaylistVideoMap] = useState({});
-  const [videoIDNameMap, setVideoIDNameMap] = useState({});
   const [videoList, setVideoList] = useState([]);
   const [total, setTotal] = useState([]);
   const [allLogs, setAllLogs] = useState([]);
@@ -20,7 +19,7 @@ function TempVideoTimeTable({ offeringId }) {
   const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const parseUserData = () => {
     let user_array = [];
     for (let i = 0; i < allLogs.length; i += 1) {
@@ -66,7 +65,6 @@ function TempVideoTimeTable({ offeringId }) {
       }
     }
     setPlaylistVideoMap(playlist_map);
-    setVideoIDNameMap(video_id_map);
     setVideoList(video_list);
   };
 
@@ -94,13 +92,17 @@ function TempVideoTimeTable({ offeringId }) {
   }, [selectedVideos]);
 
   const filterVideosBySearch = (event) => {
-    setSearchValue(event.target.value)
+    //set text for the search
+    setSearchValue(event.target.value);
     var a = search.getResults(videoList, event.target.value, ['value', 'text']);
     var b = [...selectedVideos];
     for (var i = 0; i < a.length; i += 1) {
-      b.push(a[i]['value']);
+      if (!b.includes(a[i]['value'])) {
+        b.push(a[i]['value']);
+      }
     }
     console.log(b);
+    setSelectVideos(b);
   };
   const handleSort = (clickedColumn) => {
     if (column !== clickedColumn) {
@@ -117,6 +119,10 @@ function TempVideoTimeTable({ offeringId }) {
   const handleSelect = ({ target: { value } }) => {
     setSelectVideos(value);
   };
+
+  const onChangeDropdown = (event) => {
+    console.log(event.target.value);
+  }
 
   const addVideo = (id) => {
     setSelectVideos(selectedVideos.concat(id));
@@ -195,14 +201,23 @@ function TempVideoTimeTable({ offeringId }) {
         />
       </CTFragment>
       <CTFragment justConCenter padding={[0, 0, 0, 20]}>
-          <input
-            placeholder="Search for videos..."
-            value={searchValue}
-            onChange={filterVideosBySearch}
-            autoComplete="off"
-            autoFocus
-          />
-
+        {/* <input
+          placeholder="Search for videos..."
+          value={searchValue}
+          onChange={filterVideosBySearch}
+          autoComplete="off"
+          autoFocus
+        /> */}
+        <Dropdown
+        clearable
+        fluid
+        multiple
+        search
+        selection
+        options={videoList}
+        placeholder='Select Videos...'
+        onChange={onChangeDropdown}
+        />
         <CTSelect
           id="home-departs-filter"
           placeholder="Filter by videos"
