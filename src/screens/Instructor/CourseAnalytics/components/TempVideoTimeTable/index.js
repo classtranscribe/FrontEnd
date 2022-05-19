@@ -19,7 +19,6 @@ function TempVideoTimeTable({ offeringId }) {
   const [editTrans, setEditTrans] = useState(null);
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
-  const [searchValue, setSearchValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const parseUserData = () => {
     let user_array = [];
@@ -37,7 +36,7 @@ function TempVideoTimeTable({ offeringId }) {
       for (let j = 0; j < user.media.length; j += 1) {
         if (selectedVideos.includes(user.media[j].mediaId)) {
           user_map.count += user.media[j].count;
-          user_map.last3days += user.media[j].last3days;
+          user_map.last3days += user.media[j].last3days + 1;
           user_map.lastHr += user.media[j].lastHr;
           user_map.lastMonth += user.media[j].lastMonth;
           user_map.lastWeek += user.media[j].lastWeek;
@@ -94,7 +93,6 @@ function TempVideoTimeTable({ offeringId }) {
 
   const filterVideosBySearch = (event) => {
     // set text for the search
-    setSearchValue(event.target.value);
     let a = search.getResults(videoList, event.target.value, ['value', 'text']);
     let b = [...selectedVideos];
     for (let i = 0; i < a.length; i += 1) {
@@ -116,13 +114,6 @@ function TempVideoTimeTable({ offeringId }) {
       setDirection(direction === 'ascending' ? 'descending' : 'ascending');
     }
   };
-  const handleSelect = ({ target: { value } }) => {
-    setSelectVideos(value);
-  };
-
-  const onChangeDropdown = (event) => {
-  }
-
   const addVideo = (id) => {
     setSelectVideos(selectedVideos.concat(id));
   };
@@ -147,7 +138,6 @@ function TempVideoTimeTable({ offeringId }) {
 
 
   const handleChange = (e, {searchInput, value}) => {
-		setSearchQuery(searchInput);
 	  setSelectVideos(value);
   }
   const handleSearchChange = (event) => {
