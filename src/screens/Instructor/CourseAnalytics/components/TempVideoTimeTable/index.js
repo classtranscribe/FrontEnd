@@ -4,8 +4,8 @@ import { Button } from 'pico-ui';
 import _, { filter } from 'lodash';
 import './index.css';
 import { CTHeading, CTFragment, CTText, CTSelect } from 'layout';
-import { vtime } from './vtime';
 import { search } from 'utils/search';
+import { vtime } from './vtime';
 import CTFilter from '../../../../../layout/CTFilter';
 
 function TempVideoTimeTable({ offeringId }) {
@@ -93,16 +93,15 @@ function TempVideoTimeTable({ offeringId }) {
   }, [selectedVideos]);
 
   const filterVideosBySearch = (event) => {
-    //set text for the search
+    // set text for the search
     setSearchValue(event.target.value);
-    var a = search.getResults(videoList, event.target.value, ['value', 'text']);
-    var b = [...selectedVideos];
-    for (var i = 0; i < a.length; i += 1) {
-      if (!b.includes(a[i]['value'])) {
-        b.push(a[i]['value']);
+    let a = search.getResults(videoList, event.target.value, ['value', 'text']);
+    let b = [...selectedVideos];
+    for (let i = 0; i < a.length; i += 1) {
+      if (!b.includes(a[i].value)) {
+        b.push(a[i].value);
       }
     }
-    console.log(b);
     setSelectVideos(b);
   };
   const handleSort = (clickedColumn) => {
@@ -118,12 +117,10 @@ function TempVideoTimeTable({ offeringId }) {
     }
   };
   const handleSelect = ({ target: { value } }) => {
-	  console.log(value);
     setSelectVideos(value);
   };
 
   const onChangeDropdown = (event) => {
-    console.log(event.target.value);
   }
 
   const addVideo = (id) => {
@@ -145,16 +142,16 @@ function TempVideoTimeTable({ offeringId }) {
       if (playListVideoMap[id][i] in selectedVideos) {
         removeVideo(playListVideoMap[id][i]);
       }
-    }
+  }
   };
 
 
-  const handleChange = (e, {searchQuery, value}) => {
-		setSearchQuery(searchQuery);
+  const handleChange = (e, {searchInput, value}) => {
+		setSearchQuery(searchInput);
 	  setSelectVideos(value);
   }
-  const handleSearchChange = (searchQuery) => {
-	  setSearchQuery(searchQuery.target.value);
+  const handleSearchChange = (event) => {
+	  setSearchQuery(event.target.value);
   }
   const onDownload = () => vtime.download();
   const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
@@ -220,16 +217,16 @@ function TempVideoTimeTable({ offeringId }) {
           autoFocus
         /> */}
         <Dropdown
-	  fluid
-        multiple
-        onChange={handleChange}
-        onSearchChange={handleSearchChange}
-        options={videoList}
-        placeholder='State'
-        search
-        searchQuery={searchQuery}
-        selection
-        value={selectedVideos}
+          fluid
+          multiple
+          onChange={handleChange}
+          onSearchChange={handleSearchChange}
+          options={videoList}
+          placeholder='State'
+          search
+          searchQuery={searchQuery}
+          selection
+          value={selectedVideos}
         />
       </CTFragment>
 
