@@ -222,7 +222,7 @@ function TempVideoTimeTable({ offeringId }) {
           onChange={handleChange}
           onSearchChange={handleSearchChange}
           options={videoList}
-          placeholder='State'
+          placeholder='Search for Videos'
           search
           searchQuery={searchQuery}
           selection
