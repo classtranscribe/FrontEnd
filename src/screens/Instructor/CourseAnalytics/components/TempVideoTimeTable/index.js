@@ -20,6 +20,7 @@ function TempVideoTimeTable({ offeringId }) {
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const parseUserData = () => {
     let user_array = [];
     for (let i = 0; i < allLogs.length; i += 1) {
@@ -117,6 +118,7 @@ function TempVideoTimeTable({ offeringId }) {
     }
   };
   const handleSelect = ({ target: { value } }) => {
+	  console.log(value);
     setSelectVideos(value);
   };
 
@@ -145,6 +147,15 @@ function TempVideoTimeTable({ offeringId }) {
       }
     }
   };
+
+
+  const handleChange = (e, {searchQuery, value}) => {
+		setSearchQuery(searchQuery);
+	  setSelectVideos(value);
+  }
+  const handleSearchChange = (searchQuery) => {
+	  setSearchQuery(searchQuery.target.value);
+  }
   const onDownload = () => vtime.download();
   const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
 
@@ -209,25 +220,16 @@ function TempVideoTimeTable({ offeringId }) {
           autoFocus
         /> */}
         <Dropdown
-        clearable
-        fluid
+	  fluid
         multiple
-        search
-        selection
+        onChange={handleChange}
+        onSearchChange={handleSearchChange}
         options={videoList}
-        placeholder='Select Videos...'
-        onChange={onChangeDropdown}
-        />
-        <CTSelect
-          id="home-departs-filter"
-          placeholder="Filter by videos"
-          label="Filter by videos"
-          noItemsHolder="No videos selected"
-          value={selectedVideos}
-          options={videoList}
-          onChange={handleSelect}
-          underlined
-          multiple
+        placeholder='State'
+        search
+        searchQuery={searchQuery}
+        selection
+        value={selectedVideos}
         />
       </CTFragment>
 
