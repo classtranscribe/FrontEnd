@@ -12,8 +12,12 @@ function _createChapterTitle() {
 class EPubChapterData extends EPubChapterLikeData {
   constructor(chapterLike, resetText = true) {
     super(chapterLike, resetText, _createChapterTitle);
+
     const { subChapters = [] } = chapterLike;
-    this.subChapters = subChapters.map(sch => new EPubSubChapterData(sch, resetText));
+    this.subChapters = subChapters.map(sch => {
+        const subchapter = new EPubSubChapterData(sch, resetText);
+        return subchapter.__data__ ? subchapter.__data__ : subchapter.toObject();
+    });
   }
 
   toObject() {
@@ -21,7 +25,7 @@ class EPubChapterData extends EPubChapterLikeData {
       ...this.__data__,
       items: this.itemsToObject(),
       contents: this.contentsToObject(),
-      subChapters: this.subChapters.map(subChapter => subChapter.toObject())
+      subChapters: this.subChapters.map(subChapter => subChapter.__data__ ? subChapter.__data__ : subChapter)
     };
   }
 
