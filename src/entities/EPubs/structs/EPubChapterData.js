@@ -16,7 +16,7 @@ class EPubChapterData extends EPubChapterLikeData {
     const { subChapters = [] } = chapterLike;
     this.subChapters = subChapters.map(sch => {
         const subchapter = new EPubSubChapterData(sch, resetText);
-        return subchapter.__data__ ? subchapter.__data__ : subchapter.toObject();
+        return subchapter.__data__ ? subchapter.__data__ : subchapter;
     });
   }
 
