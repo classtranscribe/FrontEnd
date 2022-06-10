@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { Button } from 'pico-ui';
 import { elem } from 'utils/use-elem';
 import './index.scss';
+import * as KeyCode from 'keycode-js';
 
 function ChapterTitle({
   id,
@@ -35,7 +36,7 @@ function ChapterTitle({
   };
 
   const onKeyDown = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === KeyCode.KEY_RETURN) {
       e.preventDefault();
 
       handleSave();

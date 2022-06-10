@@ -6,7 +6,7 @@ import ChapterContent from './ChapterContent';
 import ChapterNewContent from './ChapterNewContent';
 
 function ChapterInfo({ chapter, currChIndex, dispatch }) {
-  const { id, title, contents } = chapter;
+  const { id, title, contents, condition } = chapter;
   const onSaveTitle = newTitle => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
@@ -64,6 +64,8 @@ function ChapterInfo({ chapter, currChIndex, dispatch }) {
           id={`ch-content-${id}-${index}`}
           key={`ch-content-${id}-${index}`}
           index={index}
+          condition={condition}
+          dispatch={dispatch}
           content={content}
           onInsert={onInsert(index)}
           onRemove={onRemove(index)}

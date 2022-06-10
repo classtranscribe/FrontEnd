@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import Papa from 'papaparse';
 import { api } from 'utils';
 
@@ -11,11 +11,13 @@ export class VideoTimeLogsHandler {
     this.logs = [];
   }
 
-  init({ offeringId, setParsedData, setTotal, setEditTransCount }) {
+  init({ offeringId, setParsedData, setTotal, setPlaylistData, setAllLogs, setEditTransCount }) {
     this.offeringId = offeringId;
     this.setParsedData = setParsedData;
     this.setTotal = setTotal;
     this.setEditTransCount = setEditTransCount;
+    this.setPlaylistData = setPlaylistData;
+    this.setAllLogs = setAllLogs;
   }
 
   download() {
@@ -33,16 +35,18 @@ export class VideoTimeLogsHandler {
 
   async setup() {
     const recentTimeupdates = await this.getRecentTimeUpdateLogs();
-    // console.log('recentTimeupdates', recentTimeupdates)
     const editTransLogs = await this.getEditTransLogs();
     if (this.setEditTransCount) {
       this.setEditTransCount(_.reverse(_.sortBy(editTransLogs, 'count')));
     }
 
     const totalTimeupdates = await this.getTotalTimeUpdateLogs();
-    // console.log('totalTimeupdates', totalTimeupdates)
     const logs = this.combineLogs(totalTimeupdates, recentTimeupdates, editTransLogs);
-
+    const playListLogs = await this.getPlayListsByCourseId();
+    let allLogs = await this.getAllCourseLogs();
+    allLogs = this.combineAllLogsAndEditTransLogs(allLogs, editTransLogs);
+    this.setAllLogs(allLogs);
+    this.setPlaylistData(playListLogs);
     this.logs = [...logs];
     this.setTotal(logs);
   }
@@ -61,6 +65,45 @@ export class VideoTimeLogsHandler {
         { lastHr: 0, last3days: 0, lastWeek: 0, lastMonth: 0, count: 0, editTransCount: 0 },
       ),
     }));
+  }
+
+  parseMedia(media, playListId) {
+    let media_array = [];
+    for (let i = 0; i < media.length; i+= 1) {
+      let el = media[i];
+      media_array.push({
+        id: el.id,
+        playlistId: playListId,
+        name: el.name,
+      });
+    }
+    return media_array;
+  }
+  parsePlaylists(data) {
+    let playlists = [];
+    for (let i = 0; i < data.length; i+= 1) {
+      let playlist = {
+        id: data[i].id,
+        name: data[i].name,
+        media: this.parseMedia(data[i].medias, data[i].id),
+      };
+      playlists.push(playlist);
+    }
+    return playlists;
+  }
+  parseAllLogs(data) {
+    let logs = [];
+    for (let i = 0; i < data.length; i+= 1) {
+      logs.push({
+        media: data[i].medias,
+        email: data[i].user.email,
+        firstName: data[i].user.firstName,
+        lastName: data[i].user.lastName,
+        id: data[i].id,
+        editTransCount: 0,
+      });
+    }
+    return logs;
   }
 
   async getRecentTimeUpdateLogs() {
@@ -105,6 +148,42 @@ export class VideoTimeLogsHandler {
     }
   }
 
+  async getPlayListsByCourseId() {
+    try {
+      const { data } = await api.getPlayListsByCourseId(this.offeringId);
+
+      return this.parsePlaylists(data);
+    } catch (error) {
+      console.error('Failed to get recent timeupdate logs.');
+      return [];
+    }
+  }
+  async getAllCourseLogs() {
+    try {
+      const { data } = await api.getAllCourseLogs(
+        'edittrans',
+        this.offeringId,
+        A_VERY_OLD_DATE_ISO_STR,
+        new Date().toISOString(),
+      );
+
+      return this.parseAllLogs(data);
+    } catch (error) {
+      console.error('Failed to get recent timeupdate logs.');
+      return [];
+    }
+  }
+  combineAllLogsAndEditTransLogs(allLogs = [], editTransLogs = []) {
+    const logs = _.cloneDeep(allLogs);
+    _.forEach(editTransLogs, (elem) => {
+      const timeElem = _.find(logs, { email: elem.email });
+      if (timeElem) {
+        timeElem.editTransCount = elem.count;
+      }
+    });
+    return logs;
+  }
+
   combineLogs(totalTimeupdates = [], recentTimeupdates = [], editTransLogs = []) {
     const logs = _.cloneDeep(totalTimeupdates);
     _.forEach(logs, (elem) => {
@@ -136,8 +215,6 @@ export class VideoTimeLogsHandler {
     });
 
     return _.reverse(_.sortBy(logs, 'count'));
-
-    // console.log('totalTimeupdates', logs)
   }
 }
 

@@ -45,6 +45,15 @@ export function getUserSearchHistoryInOffering(offeringId) {
   return cthttp.get('Logs/UserSearchHistory', { params: { offeringId }, timeout: GET_LOG_TIMEOUT });
 }
 
+export function getPlayListsByCourseId(offeringId) {
+  return cthttp.get(`Playlists/ByOffering2/${ offeringId}`, { params: { offeringId }, });
+}
+export function getAllCourseLogs(eventType, offeringId, start, end) {
+  return cthttp.get('Logs/AllCourseLogs', {
+    params: { eventType, offeringId, start, end },
+    timeout: GET_LOG_TIMEOUT,
+  });
+}
 // POST
 
 export function sendUserAction(data) {
