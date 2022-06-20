@@ -15,8 +15,10 @@ import ChapterImage from './ChapterImage';
 
 function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const { teal, danger } = useButtonStyles();
-
   const [epubData, setEPubData] = useState(epub);
+  if (!epubData.condition) {
+    epubData.condition = {'default':true};
+  }
   useEffect(() => {
     // update state everytime onShow, in case the user did not save
     if(showFileSettings) {
@@ -33,6 +35,14 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
+  
+  const onHeaderChange = ({ target: { checked } }) =>
+  setEPubData({ ...epubData, isH4: checked });
+
+  const onConditionChange = ({target:{id, checked}}) => {
+    epubData.condition[id] = checked;
+    setEPubData({...epubData});
+  }
 
   const canSave = epubData.title && epubData.filename && epubData.author;
 
@@ -47,6 +57,15 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   };
 
   const delConfirmation = useCTConfirmation('Are you sure to delete this ePub?', handleDelete);
+
+  let conditions = [];
+  for (let i = 0; i < epubData.chapters.length; i+=1) {
+    for (let j = 0; j < epubData.chapters[i].condition.length; j += 1) {
+      if (conditions.find(e => e === epubData.chapters[i].condition[j]) === undefined) {
+        conditions.push(epubData.chapters[i].condition[j]);
+      }
+    }
+  }
 
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
@@ -130,7 +149,21 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             onChange={onPublishChange}
           />
         </CTFormRow>
-
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-is-pub-checkbox"
+            label="Enable future merge of ePubs"
+            checked={epubData.isH4}
+            onChange={onHeaderChange}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          {conditions.map((data, index) => {
+                  return (
+                    <CTCheckbox id={data} label={data} checked={epubData.condition[data]} onChange={onConditionChange} />
+                  );
+                })}
+        </CTFormRow>
         {delConfirmation.element}
       </CTFragment>
     </CTModal>

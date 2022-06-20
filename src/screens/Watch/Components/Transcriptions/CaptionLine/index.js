@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { isMobile } from 'react-device-detect';
+import * as KeyCode from 'keycode-js';
 
 import {
   transControl,
@@ -50,7 +51,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === KeyCode.KEY_RETURN) {
       e.preventDefault();
       handleSave();
       blurFromInput();

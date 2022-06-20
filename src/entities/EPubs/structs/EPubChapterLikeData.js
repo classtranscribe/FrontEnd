@@ -25,6 +25,7 @@ class EPubChapterLikeData {
     start: '00:00:00',
     end: '00:00:00',
     items: [],
+    condition: ['default'],
     contents: []
   };
 
@@ -53,6 +54,7 @@ class EPubChapterLikeData {
       end,
       title: title || 'Untitled',
       items,
+      condition: ['default'],
       contents: resetText 
         ? _buildContentsFromItems(items) 
         : contents.map(con => typeof con === 'string' ? con : new EPubImageData(con))
@@ -130,6 +132,14 @@ class EPubChapterLikeData {
 
   set items(items) {
     this.__data__.items = items;
+  }
+
+  get condition() {
+    return this.__data__.condition;
+  }
+
+  set condition(condition) {
+    this.__data__.condition.add(condition);
   }
 
   itemsToObject() {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Popup } from 'semantic-ui-react';
+import * as KeyCode from 'keycode-js';
 import './index.scss';
 import {
   // transControl,
@@ -18,7 +19,7 @@ export default function TranscriptText({ caption = {}, isCurrent = false, dispat
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === KeyCode.KEY_RETURN) {
       handleSeek();
     }
   };
