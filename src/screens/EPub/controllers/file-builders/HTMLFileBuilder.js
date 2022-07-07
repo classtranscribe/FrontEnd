@@ -263,9 +263,9 @@ class HTMLFileBuilder {
   }
 
   // TODO: Could this method send a request to a new API endpoint?
-  async generateLaTeX(html) {
-    return convertText(html);
-  }
+  // async generateLaTeX(html) {
+  //   return convertText(html);
+  // }
 
   async getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
