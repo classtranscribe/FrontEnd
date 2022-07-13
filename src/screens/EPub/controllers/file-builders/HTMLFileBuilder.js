@@ -4,7 +4,7 @@ import { EPubData } from 'entities/EPubs';
 import { doc } from 'prettier';
 import { jsPDF as JsPDF } from "jspdf";
 
-//import { convertText } from 'html-to-latex';
+// import { convertText } from 'html-to-latex';
 
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
