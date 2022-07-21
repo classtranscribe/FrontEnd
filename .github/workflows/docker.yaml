@@ -1,7 +1,7 @@
 name: Docker
 
 # This will run when:
-# - when new code is pushed to master/develop to push the tags
+# - when new code is pushed to main/staging to push the tags
 #   latest and develop
 # - when a pull request is created and updated  to make sure the
 #   Dockerfile is still valid.
@@ -12,14 +12,14 @@ name: Docker
 on:
   push:
     branches:
-      - master
+      - main
       - staging
       - expt
   pull_request:
 
-# Certain actions will only run when this is the master repo.
+# Certain actions will only run when this is the main repo.
 env:
-  MASTER_REPO: classtranscribe/FrontEnd
+  MAIN_REPO: classtranscribe/FrontEnd
   DOCKERHUB_ORG: classtranscribe
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
       - name: github branch
         run: |
           BRANCH=${GITHUB_REF##*/} 
-          if [ "$BRANCH" == "master" ]; then
+          if [ "$BRANCH" == "main" ]; then
             TAGS="latest,$(date +'%Y%m%d')"
           else
             TAGS="$BRANCH"
@@ -60,7 +60,7 @@ jobs:
 
       # this will publish to github container registry
       - name: Publish to GitHub
-        if: github.event_name == 'push' && github.repository == env.MASTER_REPO
+        if: github.event_name == 'push' && github.repository == env.MAIN_REPO
         uses: elgohr/Publish-Docker-Github-Action@2.22
         env:
           BRANCH: ${{ env.GITHUB_BRANCH }}
@@ -76,7 +76,7 @@ jobs:
 
       # this will publish to the classtranscribe dockerhub repo
       - name: Publish to Docker Hub
-        if: github.event_name == 'push' && github.repository == env.MASTER_REPO
+        if: github.event_name == 'push' && github.repository == env.MAIN_REPO
         uses: elgohr/Publish-Docker-Github-Action@2.22
         env:
           BRANCH: ${{ env.GITHUB_BRANCH }}
