@@ -1,7 +1,7 @@
 name: Docker
 
 # This will run when:
-# - when new code is pushed to master/develop to push the tags
+# - when new code is pushed to main/staging to push the tags
 #   latest and develop
 # - when a pull request is created and updated  to make sure the
 #   Dockerfile is still valid.
@@ -12,79 +12,129 @@ name: Docker
 on:
   push:
     branches:
-      - master
+      - main
       - staging
       - expt
   pull_request:
 
-# Certain actions will only run when this is the master repo.
+# Certain actions will only run when this is the main repo.
 env:
-  MASTER_REPO: classtranscribe/FrontEnd
+  MAIN_REPO: classtranscribe/FrontEnd
   DOCKERHUB_ORG: classtranscribe
+  PLATFORM: "linux/amd64,linux/arm64"
 
 jobs:
   docker:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
     steps:
       - uses: actions/checkout@v2
 
       # calculate some variables that are used later
-      - name: github branch
+      - name: version
         run: |
-          BRANCH=${GITHUB_REF##*/} 
-          if [ "$BRANCH" == "master" ]; then
-            TAGS="latest,$(date +'%Y%m%d')"
+          # find out what the BRANCH is, in case of a PR we will use the PR-<number>
+          if [ "${{ github.event.release.target_commitish }}" != "" ]; then
+            BRANCH="${{ github.event.release.target_commitish }}"
+          elif [[ $GITHUB_REF =~ pull ]]; then
+            BRANCH="$(echo $GITHUB_REF | sed 's#refs/pull/\([0-9]*\)/merge#PR-\1#')"
           else
-            TAGS="$BRANCH"
+            BRANCH=${GITHUB_REF##*/}
           fi
-          TAGS="${TAGS},${BRANCH}-${{ github.run_number }}"
-          echo "TAGS=${TAGS}" >> $GITHUB_ENV
-          echo "GITHUB_BRANCH=${BRANCH}" >> $GITHUB_ENV
 
-      # build the docker image, this will always run to make sure
-      # the Dockerfile still works.
-      - name: Build image
-        uses: elgohr/Publish-Docker-Github-Action@2.22
-        env:
-          BRANCH: ${{ env.GITHUB_BRANCH }}
-          BUILDNUMBER: ${{ github.run_number }}
-          GITSHA1: ${{ github.sha  }}
-        with:
-          registry: docker.pkg.github.com
-          name: ${{ github.repository_owner }}/${{ github.event.repository.name }}/frontend
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          tags: "${{ env.TAGS }}"
-          buildargs: BRANCH,BUILDNUMBER,GITSHA1
-          no_push: true
+          # should we push to dockerhub, and is there a README
+          DOCKERHUB_PUSH="false"
+          DOCKERHUB_README="false"
+          if [ "$BRANCH" == "main" -a "${{ github.repository }}" == "${{ env.MAIN_REPO }}" ]; then
+            if [ "${{ secrets.DOCKERHUB_USERNAME }}" != "" -a "${{ secrets.DOCKERHUB_PASSWORD }}" != "" ]; then
+              DOCKERHUB_PUSH="true"
+              if [ -e "README.md" ]; then
+                DOCKERHUB_README="true"
+              fi
+            fi
+          fi
 
-      # this will publish to github container registry
-      - name: Publish to GitHub
-        if: github.event_name == 'push' && github.repository == env.MASTER_REPO
-        uses: elgohr/Publish-Docker-Github-Action@2.22
-        env:
-          BRANCH: ${{ env.GITHUB_BRANCH }}
-          BUILDNUMBER: ${{ github.run_number }}
-          GITSHA1: ${{ github.sha  }}
-        with:
-          registry: ghcr.io
-          name: ${{ github.repository_owner }}/frontend
-          username: ${{ secrets.GHCR_USERNAME }}
-          password: ${{ secrets.GHCR_PASSWORD }}
-          tags: "${{ env.TAGS }}"
-          buildargs: BRANCH,BUILDNUMBER,GITSHA1
+          # calculate the version and all tags
+          if [ "$BRANCH" == "main" ]; then
+            tags="latest $(date +'%Y%m%d') ${BRANCH}-${{ github.run_number }}"
+          else
+            tags="${BRANCH} ${BRANCH}-${{ github.run_number }}"
+          fi
 
-      # this will publish to the classtranscribe dockerhub repo
-      - name: Publish to Docker Hub
-        if: github.event_name == 'push' && github.repository == env.MASTER_REPO
-        uses: elgohr/Publish-Docker-Github-Action@2.22
-        env:
-          BRANCH: ${{ env.GITHUB_BRANCH }}
-          BUILDNUMBER: ${{ github.run_number }}
-          GITSHA1: ${{ github.sha  }}
+          # create a list of all images to be pushed
+          IMAGES=""
+          for tag in ${tags}; do
+            if [ "$DOCKERHUB_PUSH" == "true" ]; then
+              IMAGES="${IMAGES}${{ env.DOCKERHUB_ORG }}/frontend:${tag},"
+            fi
+            IMAGES="${IMAGES}ghcr.io/${{ github.repository_owner }}/frontend:${tag},"
+          done
+          IMAGES="${IMAGES%,*}"
+
+          # save the results in env
+          echo "BRANCH=${BRANCH}"
+          echo "DOCKERHUB_README=${DOCKERHUB_README}"
+          echo "DOCKERHUB_PUSH=${DOCKERHUB_PUSH}"
+          echo "IMAGES=${IMAGES}"
+
+          echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
+          echo "DOCKERHUB_README=${DOCKERHUB_README}" >> $GITHUB_ENV
+          echo "DOCKERHUB_PUSH=${DOCKERHUB_PUSH}" >> $GITHUB_ENV
+          echo "IMAGES=${IMAGES}" >> $GITHUB_ENV
+
+      # setup docker build
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Inspect Builder
+        run: |
+          echo "Name:      ${{ steps.buildx.outputs.name }}"
+          echo "Endpoint:  ${{ steps.buildx.outputs.endpoint }}"
+          echo "Status:    ${{ steps.buildx.outputs.status }}"
+          echo "Flags:     ${{ steps.buildx.outputs.flags }}"
+          echo "Platforms: ${{ steps.buildx.outputs.platforms }}"
+
+      # login to registries
+      - name: Login to DockerHub
+        if: env.DOCKERHUB_PUSH == 'true'
+        uses: docker/login-action@v2
         with:
-          name: ${{ env.DOCKERHUB_ORG }}/frontend
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          tags: "${{ env.TAGS }}"
-          buildargs: BRANCH,BUILDNUMBER,GITSHA1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # build the docker images
+      - name: Build and push docker
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          platforms: ${{ env.PLATFORM }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ env.IMAGES }}
+          build-args: |
+            BRANCH: ${{ env.BRANCH }}
+            BUILDNUMBER=${{ github.run_number }}
+            GITSHA1=${{ github.sha  }}
+
+      # this will update the README of the dockerhub repo
+      - name: Docker Hub Description
+        if: env.DOCKERHUB_README == 'true'
+        uses: peter-evans/dockerhub-description@v2
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+          DOCKERHUB_REPOSITORY: ${{ env.DOCKERHUB_ORG }}/frontend
+          README_FILEPATH: README.md
