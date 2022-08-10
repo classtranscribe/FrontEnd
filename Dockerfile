@@ -6,7 +6,7 @@ FROM node:14 AS frontend
 WORKDIR /frontend
 
 COPY package.json yarn.lock  getDefaultConfig.js changeBackend.js /frontend/
-RUN yarn && yarn install
+RUN yarn && yarn install --network-timeout 100000
 
 COPY jsconfig.json .
 COPY public/ public/
