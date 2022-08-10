@@ -73,7 +73,7 @@ class AccountStorage {
   }
 
   /**
-   * Latest Commit SHA for FrontEnd `master`
+   * Latest Commit SHA for FrontEnd `main`
    */
   get latestCommitSHA() {
     return localStorage.getItem(this.LATEST_COMMIT_SHA_KEY);
