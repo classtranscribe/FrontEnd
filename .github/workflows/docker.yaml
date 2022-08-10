@@ -21,7 +21,8 @@ on:
 env:
   MAIN_REPO: classtranscribe/FrontEnd
   DOCKERHUB_ORG: classtranscribe
-  PLATFORM: "linux/amd64,linux/arm64"
+  # TODO yarn has issues with linux/arm64, maybe need to update packages
+  PLATFORM: "linux/amd64"
 
 jobs:
   docker:
