@@ -59,9 +59,9 @@ jobs:
 
           # calculate the version and all tags
           if [ "$BRANCH" == "main" ]; then
-            tags="latest $(date +'%Y%m%d') ${BRANCH}-${{ github.run_number }}"
+            tags="latest $(date +'%Y%m%d')"
           else
-            tags="${BRANCH} ${BRANCH}-${{ github.run_number }}"
+            tags="${BRANCH}"
           fi
 
           # create a list of all images to be pushed
