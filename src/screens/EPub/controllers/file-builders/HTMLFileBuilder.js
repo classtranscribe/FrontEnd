@@ -126,7 +126,7 @@ class HTMLFileBuilder {
       pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
       pdf.setProperties({title, author});
       pdf.setFont("times", "normal");
-      pdf.addImage(cover.src,'JPEG', 25, 0, 160,100);
+      pdf.addImage(cover.src,'JPEG', 25, 0, 171,100);
       pdf.text(title, w/2,130, 'center');
       pdf.text(author, w/2,140,'center');
       pdf.addPage();
@@ -142,7 +142,7 @@ class HTMLFileBuilder {
           let imgStart = curText.indexOf("src=");
           let imgEnd = curText.indexOf("alt=");
           let imgData = curText.substring(imgStart+5, imgEnd-2);
-          pdf.addImage(imgData, 'JPEG', 15, 20, 180, 100);
+          pdf.addImage(imgData, 'JPEG', 15, 20, 171, 100);
           // pdf.text("Transcript", 0, 130, 'left');
           let transcriptStart = curText.indexOf("<p>");
           let transcriptEnd = curText.indexOf("</p>");
@@ -189,7 +189,7 @@ class HTMLFileBuilder {
                       const subImgData = subchapterImages[subContents.src];
 
                       // If image was prefetched, insert it here
-                      pdf.addImage(subImgData, 'JPEG', 15, 20, 180, 100);
+                      pdf.addImage(subImgData, 'JPEG', 15, 20, 171, 100);
 
                       y = 140;
                   }
