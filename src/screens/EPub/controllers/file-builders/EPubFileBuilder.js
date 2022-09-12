@@ -30,6 +30,7 @@ class EPubFileBuilder {
 
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
+    this.h3 = ePubData.h3;
   }
 
   /**
@@ -62,13 +63,27 @@ class EPubFileBuilder {
     const { title, author, chapters } = this.data;
     let navPoints = '';
     let playOrder = 0;
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+      for (const [key, value] of Object.entries(this.data.condition)) {
+        if (key === 'default') {
+          if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }
+        } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }  
+      }
+    }
   
     const getPlayOrder = () => {
       playOrder += 1;
       return playOrder;
     };
   
-    _.forEach(chapters, (ch, index) => {
+    _.forEach(selectedChapters, (ch, index) => {
       navPoints += `
         <navPoint id="${ch.id}" playOrder="${getPlayOrder()}" class="chapter">
             <navLabel>
@@ -153,7 +168,21 @@ class EPubFileBuilder {
   getContentOPF() {
     const { title, author, language, publisher, chapters} = this.data;
     // image items
-    const images = _.flatten(_.map(chapters, (ch) => ch.images));
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+      for (const [key, value] of Object.entries(this.data.condition)) {
+        if (key === 'default') {
+          if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }
+        } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }  
+      }
+    }
+    const images = _.flatten(_.map(selectedChapters, (ch) => ch.images));
     const imageItems = _.map(
       images,
       (img) => `
@@ -162,12 +191,12 @@ class EPubFileBuilder {
     
     // content items
     const contentItems = _.map(
-      chapters,
+      selectedChapters,
       (ch) => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`,
     ).join('\n\t\t');
   
     // content itemrefs
-    const contentItemsRefs = _.map(chapters, (ch) => `<itemref idref="${ch.id}"/>`).join('\n\t\t');
+    const contentItemsRefs = _.map(selectedChapters, (ch) => `<itemref idref="${ch.id}"/>`).join('\n\t\t');
   
     return OEBPS_CONTENT_OPF({
       title,
@@ -248,9 +277,24 @@ class EPubFileBuilder {
       chapters,
     );
     zip.addFile('OEBPS/content.opf', Buffer.from(contentOPF));
+    
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+      for (const [key, value] of Object.entries(this.data.condition)) {
+        if (key === 'default') {
+          if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }
+        } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }  
+      }
+    }
 
     // OEBPS/chapter-id.xhtml
-    _.forEach(chapters, (ch) => {
+    _.forEach(selectedChapters, (ch) => {
       const contentXHTML = this.getContentXHTML(ch, language);
       zip.addFile(`OEBPS/${ch.id}.xhtml`, Buffer.from(contentXHTML));
     });
