@@ -33,7 +33,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const onSaveCover = (newCover) =>
     setEPubData({ ...epubData, cover: newCover });
 
-  const onVisualTocChange  = ({ target: { checked } }) =>
+  const onVisualTocChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, enableVisualToc: checked });
 
   const onPublishChange = ({ target: { checked } }) =>
