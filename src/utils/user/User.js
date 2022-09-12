@@ -305,7 +305,7 @@ export class User {
     }
   }
 
-  // check if the there is a new commit to master
+  // check if the there is a new commit to main
   checkAppVersion() {
     try {
       const latestSHA = env.gitSHA;
@@ -324,7 +324,7 @@ export class User {
         }
       }
     } catch (error) {
-      console.error("Failed to checking the latest commit's SHA on master.");
+      console.error("Failed to checking the latest commit's SHA on main.");
     }
   }
 
