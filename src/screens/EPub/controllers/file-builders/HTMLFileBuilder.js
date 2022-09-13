@@ -267,7 +267,7 @@ class HTMLFileBuilder {
   //   return convertText(html);
   // }
 
-  async getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
+  getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
 
       let selectedChapters = [];
