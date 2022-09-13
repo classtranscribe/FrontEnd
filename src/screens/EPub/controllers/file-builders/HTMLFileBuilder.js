@@ -321,7 +321,6 @@ class HTMLFileBuilder {
     let PDF = new JsPDF();
     PDF.setLanguage("en-US");
     const indexHTML = this.getIndexHTML(false, false, PDF, subchapterImages,h3);
-    PDF.save();
     zip.addFile('index.html', Buffer.from(indexHTML));
 
     return zip.toBuffer();
