@@ -267,7 +267,7 @@ class HTMLFileBuilder {
   //   return convertText(html);
   // }
 
-  async getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
+  getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
 
       let selectedChapters = [];
@@ -321,7 +321,6 @@ class HTMLFileBuilder {
     let PDF = new JsPDF();
     PDF.setLanguage("en-US");
     const indexHTML = this.getIndexHTML(false, false, PDF, subchapterImages,h3);
-    PDF.save();
     zip.addFile('index.html', Buffer.from(indexHTML));
 
     return zip.toBuffer();

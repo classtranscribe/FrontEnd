@@ -126,7 +126,7 @@ class EPubFileBuilder {
       }
     }
    
-    _.forEach(chapters, (ch, index) => {  
+    _.forEach(selectedChapters, (ch, index) => {  
       // visual toc logic 
       let image = "";
       if (this.data.enableVisualToc) {
