@@ -33,9 +33,12 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const onSaveCover = (newCover) =>
     setEPubData({ ...epubData, cover: newCover });
 
+  const onVisualTocChange = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, enableVisualToc: checked });
+
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
-  
+
   const onHeaderChange = ({ target: { checked } }) =>
   setEPubData({ ...epubData, isH4: checked });
 
@@ -139,6 +142,14 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             onReturn={handleSave}
             underlined
             required
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-visual-toc-checkbox"
+            label="Enable Visual Table of Contents"
+            checked={epubData.enableVisualToc}
+            onChange={onVisualTocChange}
           />
         </CTFormRow>
         <CTFormRow>
