@@ -37,11 +37,11 @@ function EPubTitle({ epub, dispatch }) {
       <CTHeading as="h1" id="ct-epb-header-title" title={title} fadeIn={false}>
         {title}
       </CTHeading>
-      <CTFragment dFlex alignItCenter width="max-content" >
+      <CTFragment dFlex alignItCenter width="max-content">
         {settingsBtn}
         {copyBtn}
         {deleteBtn}
-        <SaveStatusLabel/>
+        <SaveStatusLabel />
       </CTFragment>
 
       <EPubCopyModal open={showCpyMdl} onClose={onCloseCpyMdl} />
