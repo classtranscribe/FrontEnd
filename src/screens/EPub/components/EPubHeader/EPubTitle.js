@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CTHeading, CTFragment } from 'layout';
+import { CTHeading, CTFragment,useCTConfirmation } from 'layout';
 import { connectWithRedux } from '../../controllers';
 import EPubCopyModal from '../EPubCopyModal';
 import SaveStatusLabel from './SaveStatusLabel';
@@ -10,7 +10,7 @@ function EPubTitle({ epub, dispatch }) {
   const [showCpyMdl, setShowCpyMdl] = useState(false);
   const onOpenCpyMdl = () => setShowCpyMdl(true);
   const onCloseCpyMdl = () => setShowCpyMdl(false);
-
+  
   const onOpenSettings = () => dispatch({ type: 'epub/setShowFileSettings', payload: true });
 
   const settingsBtn = _makeTBtn(
@@ -20,18 +20,32 @@ function EPubTitle({ epub, dispatch }) {
     'file_copy', 'Make a copy', null, onOpenCpyMdl, false, true
   );
 
+  const handleDelete = () => {
+    dispatch({ type: 'epub/deleteEPub', payload: epub.id });
+  };
+
+  const delConfirmation = useCTConfirmation('Are you sure to delete this ePub?', handleDelete);
+
+  const deleteBtn = _makeTBtn(
+    'delete', 'Delete', null, delConfirmation.onOpen, false, true
+  );
+
+
+
   return (
     <CTFragment dFlex alignItCenter className="ct-epb header-title con">
       <CTHeading as="h1" id="ct-epb-header-title" title={title} fadeIn={false}>
         {title}
       </CTHeading>
-      <CTFragment dFlex alignItCenter width="max-content" margin={[0, 0, 0, 5]}>
+      <CTFragment dFlex alignItCenter width="max-content">
         {settingsBtn}
         {copyBtn}
+        {deleteBtn}
         <SaveStatusLabel />
       </CTFragment>
 
       <EPubCopyModal open={showCpyMdl} onClose={onCloseCpyMdl} />
+      {delConfirmation.element}
     </CTFragment>
   );
 }
