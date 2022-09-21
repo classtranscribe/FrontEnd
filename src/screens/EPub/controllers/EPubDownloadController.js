@@ -49,7 +49,7 @@ class EPubDownloadController {
       // eslint-disable-next-line
       let PDF = new jsPDF();
       PDF.setLanguage("en-US");
-      const html = builder.getIndexHTML(true, print, PDF, subchapterImages);
+      const html = await builder.getIndexHTML(true, print, PDF, subchapterImages);
       PDF.save();
     } catch (error) {
       _logError(error);
