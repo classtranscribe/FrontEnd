@@ -126,7 +126,12 @@ class HTMLFileBuilder {
       pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
       pdf.setProperties({title, author});
       pdf.setFont("times", "normal");
-      pdf.addImage(cover.src,'JPEG', 25, 0, 171,100);
+      let coverImage = new Image();
+      coverImage.src = cover.src;
+      let ratio = coverImage.width/coverImage.height;
+      let imgWidth = Math.round(ratio * 100);
+      let imgLeft = margin + (w-imgWidth)/2;
+      pdf.addImage(cover.src,'JPEG', imgLeft, 0, imgWidth,100);
       pdf.text(title, w/2,130, 'center');
       pdf.text(author, w/2,140,'center');
       pdf.addPage();
@@ -142,7 +147,7 @@ class HTMLFileBuilder {
           let imgStart = curText.indexOf("src=");
           let imgEnd = curText.indexOf("alt=");
           let imgData = curText.substring(imgStart+5, imgEnd-2);
-          pdf.addImage(imgData, 'JPEG', 15, 20, 171, 100);
+          pdf.addImage(imgData, 'JPEG', imgLeft, 20, imgWidth, 100);
           // pdf.text("Transcript", 0, 130, 'left');
           let transcriptStart = curText.indexOf("<p>");
           let transcriptEnd = curText.indexOf("</p>");
@@ -187,9 +192,9 @@ class HTMLFileBuilder {
                       });
                   } else if (subContents.src) {
                       const subImgData = subchapterImages[subContents.src];
-
+                    
                       // If image was prefetched, insert it here
-                      pdf.addImage(subImgData, 'JPEG', 15, 20, 171, 100);
+                      pdf.addImage(subImgData, 'JPEG', imgLeft, 20, imgWidth, 100);
 
                       y = 140;
                   }
@@ -270,21 +275,24 @@ class HTMLFileBuilder {
   getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
 
-      let selectedChapters = [];
-      for (let i = 0; i < chapters.length; i+= 1) {
-          for (const [key, value] of Object.entries(condition)) {
-              if (key === 'default') {
-                  if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
-                      selectedChapters.push(chapters[i]);
-                      break;
-                  }
-              } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
-                  selectedChapters.push(chapters[i]);
-                  break;
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+        for (const [key, value] of Object.entries(condition)) {
+            if (key === 'default') {
+              if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+                selectedChapters.push(chapters[i]);
+                break;
               }
-          }
-      }
+            } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+              selectedChapters.push(chapters[i]);
+              break;
+            }
+        }
+    }
+    if (pdf !== undefined) {
       this.generatePDF(this.data, pdf, subchapterImages, selectedChapters);
+      return "";
+    } 
       const html = this.generateHTML(this.data, selectedChapters, withStyles, print, h3);
 
       // TODO: How can we return/download this generated LaTeX source?
@@ -318,9 +326,9 @@ class HTMLFileBuilder {
 
     const subchapterImages = await this.prefetchSubchapterImages(this.data.chapters);
 
-    let PDF = new JsPDF();
-    PDF.setLanguage("en-US");
-    const indexHTML = this.getIndexHTML(false, false, PDF, subchapterImages,h3);
+    /* let PDF = new JsPDF();
+    PDF.setLanguage("en-US"); */
+    const indexHTML = this.getIndexHTML(false, false, undefined, subchapterImages,h3);
     zip.addFile('index.html', Buffer.from(indexHTML));
 
     return zip.toBuffer();
