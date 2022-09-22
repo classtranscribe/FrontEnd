@@ -280,12 +280,12 @@ class HTMLFileBuilder {
   //   return convertText(html);
   // }
 
-  //Bug: Invalid argument passing to addImage() function when generating the pdf.
-  //Cause and reason to put async back for getIndexHTML and generatePDF: the images sometimes takes longer to load and 
-  //previously we are trying to get the width and height to determine the ratio, 
-  //and then in such case we pass NaN to the function, initially it is not detected 
-  //since images sometimes do not take much time and we get valid input during initial testing, 
-  //now we put async back to wait and make sure we get valid width and height and pass correct number to the function.
+  // Bug: Invalid argument passing to addImage() function when generating the pdf.
+  // Cause and reason to put async back for getIndexHTML and generatePDF: the images sometimes takes longer to load and 
+  // previously we are trying to get the width and height to determine the ratio, 
+  // and then in such case we pass NaN to the function, initially it is not detected 
+  // since images sometimes do not take much time and we get valid input during initial testing, 
+  // now we put async back to wait and make sure we get valid width and height and pass correct number to the function.
   async getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
 
