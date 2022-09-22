@@ -111,8 +111,17 @@ class HTMLFileBuilder {
           return map;
       });
   }
+  getImageDimensions(src) {
+    return new Promise (function (resolved, rejected) {
+      let i = new Image()
+      i.onload = function(){
+        resolved({w: i.width, h: i.height})
+      };
+      i.src = src
+    })
+  }
 
-  generatePDF(epub, pdf, subchapterImages, selectedChapters) {
+  async generatePDF(epub, pdf, subchapterImages, selectedChapters) {
       const { title, author, cover } = epub;
       const margin = 10;
       let w = pdf.internal.pageSize.getWidth() - 2*margin;
@@ -126,9 +135,8 @@ class HTMLFileBuilder {
       pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
       pdf.setProperties({title, author});
       pdf.setFont("times", "normal");
-      let coverImage = new Image();
-      coverImage.src = cover.src;
-      let ratio = coverImage.width/coverImage.height;
+      let dimensions = await this.getImageDimensions(cover.src);
+      let ratio = dimensions.w/dimensions.h;
       let imgWidth = Math.round(ratio * 100);
       let imgLeft = margin + (w-imgWidth)/2;
       pdf.addImage(cover.src,'JPEG', imgLeft, 0, imgWidth,100);
@@ -272,7 +280,13 @@ class HTMLFileBuilder {
   //   return convertText(html);
   // }
 
-  getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
+  // Bug: Invalid argument passing to addImage() function when generating the pdf.
+  // Cause and reason to put async back for getIndexHTML and generatePDF: the images sometimes takes longer to load and 
+  // previously we are trying to get the width and height to determine the ratio, 
+  // and then in such case we pass NaN to the function, initially it is not detected 
+  // since images sometimes do not take much time and we get valid input during initial testing, 
+  // now we put async back to wait and make sure we get valid width and height and pass correct number to the function.
+  async getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
 
     let selectedChapters = [];
@@ -290,7 +304,7 @@ class HTMLFileBuilder {
         }
     }
     if (pdf !== undefined) {
-      this.generatePDF(this.data, pdf, subchapterImages, selectedChapters);
+      await this.generatePDF(this.data, pdf, subchapterImages, selectedChapters);
       return "";
     } 
       const html = this.generateHTML(this.data, selectedChapters, withStyles, print, h3);
@@ -328,7 +342,7 @@ class HTMLFileBuilder {
 
     /* let PDF = new JsPDF();
     PDF.setLanguage("en-US"); */
-    const indexHTML = this.getIndexHTML(false, false, undefined, subchapterImages,h3);
+    const indexHTML = await this.getIndexHTML(false, false, undefined, subchapterImages,h3);
     zip.addFile('index.html', Buffer.from(indexHTML));
 
     return zip.toBuffer();
