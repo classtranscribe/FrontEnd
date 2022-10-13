@@ -6,6 +6,7 @@ import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
 import {_generateDefaultEpubName } from './controllers/helpers';
+import { prompt } from 'utils'; // Jiaxi
 
 function CTEPubListScreen(props) {
   const { sourceType, sourceId, source} = props;
@@ -46,11 +47,25 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
+  // Delete an iNote by epubId, Jiaxi
+  const handleDeleteEPub = async (epubId) => {
+    console.log("handleDeleteEPub")
+    try {
+      prompt.addOne({ text: 'Deleting the iNote...' , timeout: 4000 });
+      await EPubListCtrl.deleteEPub(epubId);
+    }
+    catch(e) {
+      console.log(e)
+    }
+    await setupEPubsData();
+  };
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
     sourceType, sourceId, sourceData,
-    onCreate: () => setOpenNewEPubModal(true)
+    onCreate: () => setOpenNewEPubModal(true),
+    onDelete: () => handleDeleteEPub // Jiaxi
   });
   const newEPubModalElement = makeEl(NewEPubModal, {
     open: openNewEPubModal,

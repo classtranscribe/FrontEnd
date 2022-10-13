@@ -134,6 +134,15 @@ class EPubListController {
       console.error(`Failed to request a epub for ${mediaId}`);
     }
   }
+
+  // Controller to delete an iNote, Jiaxi
+  async deleteEPub(epubId) {
+    try {
+      await api.deleteEPub(epubId);
+    } catch (error) {
+      console.error(`Failed to delete a epub for ${epubId}`);
+    }
+  }
 }
 
 export default EPubListController;
