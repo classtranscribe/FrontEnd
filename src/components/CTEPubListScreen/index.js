@@ -47,14 +47,14 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
-  // Delete an iNote by epubId
+  // Delete an I•Note by epubId
   const handleDeleteEPub = async (epubId) => {
     try {
-      prompt.addOne({ text: 'Deleting the iNote...' , timeout: 4000 });
+      prompt.addOne({ text: 'Deleting the I•Note...' , timeout: 4000 });
       await EPubListCtrl.deleteEPub(epubId);
     }
     catch(e) {
-      prompt.addOne({ text: 'Cannot delete the iNote...' , timeout: 4000 });
+      prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 });
     }
     await setupEPubsData();
   };

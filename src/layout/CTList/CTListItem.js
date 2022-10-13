@@ -67,11 +67,11 @@ function CTListItem(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Delete an iNote
+          Delete an I•Note
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Do you want to delete the iNote for {title}?
+            Do you want to delete the I•Note for {title}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

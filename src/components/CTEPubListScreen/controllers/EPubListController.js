@@ -135,7 +135,7 @@ class EPubListController {
     }
   }
 
-  // Controller to delete an iNote
+  // Controller to delete an I•Note
   async deleteEPub(epubId) {
     try {
       await api.deleteEPub(epubId);
