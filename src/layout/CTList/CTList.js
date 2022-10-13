@@ -9,7 +9,7 @@ function CTList(props) {
     role = 'list',
     className,
     items = [],
-    onDelete, // Jiaxi
+    onDelete,
     ...listProps
   } = props;
 

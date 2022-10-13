@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'dva/router';
-import { ButtonBase, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core'; // Jiaxi
+import { ButtonBase, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
 import { CTFragment, CTText } from 'layout';
-import { Button } from 'pico-ui'; // Jiaxi
-import { prompt } from 'utils'; // Jiaxi
+import { Button } from 'pico-ui';
+import { prompt } from 'utils';
 
 function CTListItem(props) {
   const {
@@ -29,7 +29,6 @@ function CTListItem(props) {
   const baseClasses = cx('ct-listitem', className);
   const titleClasses = cx('ct-listitem-title', titleProps ? titleProps.className : null);
 
-  // Jiaxi
   const [open, setOpen] = React.useState(false);
   const handleDeleteEPub = () => {
      setOpen(true);
@@ -49,7 +48,7 @@ function CTListItem(props) {
     baseProps.to = to;
   }
 
-  // Jiaxi
+
   return (
     <ButtonGroup variant="contained" aria-label="outlined primary button group">
       <Button
@@ -85,7 +84,6 @@ function CTListItem(props) {
         id={id} 
         role={role} 
         title={title}
-        // onClick={onClick} // Jiaxi
         className="ct-listitem-con"
         {...baseProps}
       >

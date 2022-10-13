@@ -6,7 +6,6 @@ import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
 
-// Jiaxi
 export function _getEPubListItems(ePubs, onDelete) { 
   if (ePubs.length > 0) { 
     return ePubs.map(epub => {
@@ -34,7 +33,7 @@ function EPubList(props) {
     ePubs, languages, rawEPubData,
     sourceType, sourceId,
     onCreate,
-    onDelete // Jiaxi
+    onDelete
   } = props;
 
   const noLang = languages.length === 0;
@@ -46,7 +45,7 @@ function EPubList(props) {
   const noLangElement = altEl(NoLangWrapper, noLang);
   const noEPubElement = altEl(NoEPubWrapper, noEPub, { sourceType, sourceId });
   const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
-  const newEPubListItems = makeEl(<CTList items={_getEPubListItems(ePubs, onDelete)} />); // Jiaxi
+  const newEPubListItems = makeEl(<CTList items={_getEPubListItems(ePubs, onDelete)} />);
 
   return (
     <CTFragment h100 scrollY padding={[40, 0]} id="ct-epb-list">
@@ -67,7 +66,6 @@ function EPubList(props) {
               </CTFragment>
 
               <CTFragment justConBetween padding={[0, 20, 20, 30]}>
-                {/* Jiaxi */}
                 {newEPubListItems}
               </CTFragment>
             </>

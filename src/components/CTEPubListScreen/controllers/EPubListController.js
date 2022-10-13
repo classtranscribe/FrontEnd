@@ -135,7 +135,7 @@ class EPubListController {
     }
   }
 
-  // Controller to delete an iNote, Jiaxi
+  // Controller to delete an iNote
   async deleteEPub(epubId) {
     try {
       await api.deleteEPub(epubId);

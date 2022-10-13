@@ -6,7 +6,7 @@ import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
 import {_generateDefaultEpubName } from './controllers/helpers';
-import { prompt } from 'utils'; // Jiaxi
+import { prompt } from 'utils';
 
 function CTEPubListScreen(props) {
   const { sourceType, sourceId, source} = props;
@@ -47,7 +47,7 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
-  // Delete an iNote by epubId, Jiaxi
+  // Delete an iNote by epubId
   const handleDeleteEPub = async (epubId) => {
     console.log("handleDeleteEPub")
     try {
@@ -65,7 +65,7 @@ function CTEPubListScreen(props) {
     ePubs, languages, rawEPubData,
     sourceType, sourceId, sourceData,
     onCreate: () => setOpenNewEPubModal(true),
-    onDelete: () => handleDeleteEPub // Jiaxi
+    onDelete: () => handleDeleteEPub
   });
   const newEPubModalElement = makeEl(NewEPubModal, {
     open: openNewEPubModal,
