@@ -65,7 +65,7 @@ class EPubParser {
       const buffer = await api.getBuffer(uurl.getMediaUrl(src));
       return buffer;
     } catch (error) {
-      throw LoadImageError;
+      console.log(error);
     }
   }
 
@@ -162,7 +162,7 @@ class EPubParser {
 
       const dom = await this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
       Prism.highlightAllUnder(dom);
-
+       
       return {
         id: chapterId,
         title: chapter.title,
@@ -170,7 +170,7 @@ class EPubParser {
         start: chapter.start,
         link: chapter.link,
         text: this.extractBodyTextFromDom(dom),
-        images: this.extractImagesFromDOM(dom, chapterId, replaceImageSrc),
+        images: this.extractImagesFromDOM(dom, chapterId, replaceImageSrc=false),
         subChapters,
       };
     }));

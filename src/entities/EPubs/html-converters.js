@@ -12,6 +12,10 @@ export function buildMDFromItems(items) {
 
 export async function buildMDFromContent(content) {
   if (typeof content === 'string') return content;
+  // unwrap __data__ for correct image loading in subchapters 
+  if ("__data__" in content) {
+    content = JSON.parse(JSON.stringify(content.__data__))
+  }
   const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(content.src))
   const img_blob = new Blob([img]);
   const img_data_url = await EPubParser.blobToDataUrl(img_blob)
@@ -32,6 +36,9 @@ export async function buildMDFromContent(content) {
 }
 
 export async function buildMDFromSubChapter({ id, title, contents }) {
+  // unwrap __data__ field so it loads images correctly  
+  // contents[0] = contents[0].__data__;
+  
   return [
     `<!-- Sub-Chapter -->\n<h3 data-sub-ch id="${id}">${title}</h3>\n\n`,
     (await Promise.all(_.map(contents, buildMDFromContent))).join('\n\n')
