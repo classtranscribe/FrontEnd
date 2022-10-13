@@ -67,7 +67,7 @@ function CTListItem(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Delete alert"}
+          Delete an iNote
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -75,8 +75,8 @@ function CTListItem(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleNo} autoFocus >NO</Button>
-          <Button onClick={handleYes} >YES </Button>
+          <Button onClick={handleNo} autoFocus>NO</Button>
+          <Button onClick={handleYes}>YES </Button>
         </DialogActions>
       </Dialog>
 

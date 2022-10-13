@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { prompt } from 'utils';
 import { ARRAY_INIT } from 'utils/constants';
 import { CTFragment, altEl, makeEl } from 'layout';
 import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
 import {_generateDefaultEpubName } from './controllers/helpers';
-import { prompt } from 'utils';
 
 function CTEPubListScreen(props) {
   const { sourceType, sourceId, source} = props;
@@ -49,13 +49,12 @@ function CTEPubListScreen(props) {
 
   // Delete an iNote by epubId
   const handleDeleteEPub = async (epubId) => {
-    console.log("handleDeleteEPub")
     try {
       prompt.addOne({ text: 'Deleting the iNote...' , timeout: 4000 });
       await EPubListCtrl.deleteEPub(epubId);
     }
     catch(e) {
-      console.log(e)
+      prompt.addOne({ text: 'Cannot delete the iNote...' , timeout: 4000 });
     }
     await setupEPubsData();
   };
