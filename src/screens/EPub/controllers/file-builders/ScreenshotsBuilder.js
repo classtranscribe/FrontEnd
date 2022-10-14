@@ -51,13 +51,14 @@ class ScreenshotsBuilder {
       let chapter = selectedChapters[i];
       let chapterContent = `\\section{${chapter.title}}\n`;
       let imgName = `image-${i + 1}.jpeg`
-      let imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\n`;
+      let imageInfo = `\\includegraphics[scale=0.2]{${imgName}}\\newline\n`;
       chapterContent = chapterContent.concat(imageInfo);
       let transcriptStart = chapter.text.indexOf("<p>");
       let transcriptEnd = chapter.text.indexOf("</p>");
       let transcript = '';
       if (transcriptStart !== -1) {
         transcript = chapter.text.substring(transcriptStart+3, transcriptEnd);
+        transcript = transcript.replaceAll("%", "\\%");
         chapterContent = chapterContent.concat(transcript, '\n');
       }
       for (let j = 0; j < chapter.subChapters.length; j += 1) {
@@ -66,10 +67,11 @@ class ScreenshotsBuilder {
         for (let k = 0; k < subChapter.contents.length; k += 1) {
           let subContents = subChapter.contents[k];
           if (typeof subContents === 'string') {
-            subContent = subContent.concat(subContent, '\n');
+            subContents = subContents.replaceAll("%", "\\%");
+            subContent = subContent.concat(subContents, '\n');
           } else if (subContents.src) {
             imgName = `image-${i + 1}.jpeg`
-            imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\n`;
+            imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\\newline\n`;
             subContent = subContent.concat(imageInfo);
           }
         }
