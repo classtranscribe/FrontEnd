@@ -8,6 +8,8 @@ export default({
 \\title{${title}}
 \\author{${author}}
 \\begin{document}
+\\maketitle
+\\newpage
 ${content}
 \\end{document}
 `;

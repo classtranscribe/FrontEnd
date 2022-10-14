@@ -31,8 +31,51 @@ class ScreenshotsBuilder {
   }
 
   async generateLatex(epub) {
-    const { title, author } = epub;
-    const content = '';
+    const { chapters, condition, title, author } = epub;
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+        for (const [key, value] of Object.entries(condition)) {
+            if (key === 'default') {
+              if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+                selectedChapters.push(chapters[i]);
+                break;
+              }
+            } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+              selectedChapters.push(chapters[i]);
+              break;
+            }
+        }
+    }
+    let content = '';
+    for (let i = 0; i < selectedChapters.length; i += 1) {
+      let chapter = selectedChapters[i];
+      let chapterContent = `\\section{${chapter.title}}\n`;
+      let imgName = `image-${i + 1}.jpeg`
+      let imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\n`;
+      chapterContent = chapterContent.concat(imageInfo);
+      let transcriptStart = chapter.text.indexOf("<p>");
+      let transcriptEnd = chapter.text.indexOf("</p>");
+      let transcript = '';
+      if (transcriptStart !== -1) {
+        transcript = chapter.text.substring(transcriptStart+3, transcriptEnd);
+        chapterContent = chapterContent.concat(transcript, '\n');
+      }
+      for (let j = 0; j < chapter.subChapters.length; j += 1) {
+        let subChapter = chapter.subChapters[j];
+        let subContent = `\\subsection{${subChapter.title}}`;
+        for (let k = 0; k < subChapter.contents.length; k += 1) {
+          let subContents = subChapter.contents[k];
+          if (typeof subContents === 'string') {
+            subContent = subContent.concat(subContent, '\n');
+          } else if (subContents.src) {
+            imgName = `image-${i + 1}.jpeg`
+            imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\n`;
+            subContent = subContent.concat(imageInfo);
+          }
+        }
+      }
+      content = content.concat(chapterContent, '\\newpage\n');
+    }
     return INDEX_LATEX({title, content, author});
   }
 
@@ -44,7 +87,7 @@ class ScreenshotsBuilder {
       this.zip.addFile(`image-${i + 1}.jpeg`, data);
     }
     /* eslint-enable no-await-in-loop */
-    const latex = this.generateLatex(this.data);
+    const latex = await this.generateLatex(this.data);
     this.zip.addFile('index.tex', Buffer.from(latex));
     return this.zip.toBuffer();
   }
