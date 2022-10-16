@@ -50,7 +50,7 @@ class ScreenshotsBuilder {
     for (let i = 0; i < selectedChapters.length; i += 1) {
       let chapter = selectedChapters[i];
       let chapterContent = `\\section{${chapter.title}}\n`;
-      let imgName = `image-${i + 1}.jpeg`
+      let imgName = `images/image-${i + 1}.jpeg`
       let imageInfo = `\\includegraphics[scale=0.2]{${imgName}}\\newline\n`;
       chapterContent = chapterContent.concat(imageInfo);
       let transcriptStart = chapter.text.indexOf("<p>");
@@ -70,7 +70,7 @@ class ScreenshotsBuilder {
             subContents = subContents.replaceAll("%", "\\%");
             subContent = subContent.concat(subContents, '\n');
           } else if (subContents.src) {
-            imgName = `image-${i + 1}.jpeg`
+            imgName = `images/image-${i + 1}.jpeg`
             imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\\newline\n`;
             subContent = subContent.concat(imageInfo);
           }
@@ -86,7 +86,7 @@ class ScreenshotsBuilder {
     /* eslint-disable no-await-in-loop */
     for (let i = 0; i < images.length; i += 1) {
       let data = await EPubParser.loadImageBuffer(images[i]);
-      this.zip.addFile(`image-${i + 1}.jpeg`, data);
+      this.zip.addFile(`images/image-${i + 1}.jpeg`, data);
     }
     /* eslint-enable no-await-in-loop */
     const latex = await this.generateLatex(this.data);
