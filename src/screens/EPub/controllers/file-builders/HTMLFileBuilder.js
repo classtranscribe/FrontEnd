@@ -111,8 +111,17 @@ class HTMLFileBuilder {
           return map;
       });
   }
+  getImageDimensions(src) {
+    return new Promise (function (resolved, rejected) {
+      let i = new Image()
+      i.onload = function(){
+        resolved({w: i.width, h: i.height})
+      };
+      i.src = src
+    })
+  }
 
-  generatePDF(epub, pdf, subchapterImages, selectedChapters) {
+  async generatePDF(epub, pdf, subchapterImages, selectedChapters) {
       const { title, author, cover } = epub;
       const margin = 10;
       let w = pdf.internal.pageSize.getWidth() - 2*margin;
@@ -126,7 +135,11 @@ class HTMLFileBuilder {
       pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
       pdf.setProperties({title, author});
       pdf.setFont("times", "normal");
-      pdf.addImage(cover.src,'JPEG', 25, 0, 160,100);
+      let dimensions = await this.getImageDimensions(cover.src);
+      let ratio = dimensions.w/dimensions.h;
+      let imgWidth = Math.round(ratio * 100);
+      let imgLeft = margin + (w-imgWidth)/2;
+      pdf.addImage(cover.src,'JPEG', imgLeft, 0, imgWidth,100);
       pdf.text(title, w/2,130, 'center');
       pdf.text(author, w/2,140,'center');
       pdf.addPage();
@@ -134,72 +147,148 @@ class HTMLFileBuilder {
 
 
       // console.log(navContents);
-      selectedChapters.forEach((chapter, i) => {
-          let curText = chapter.text;
-          pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
-          let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
-          pdf.outline.add(null, chapter.title, {pageNumber:pageCurrent});
-          let imgStart = curText.indexOf("src=");
-          let imgEnd = curText.indexOf("alt=");
-          let imgData = curText.substring(imgStart+5, imgEnd-2);
-          pdf.addImage(imgData, 'JPEG', 15, 20, 180, 100);
-          // pdf.text("Transcript", 0, 130, 'left');
-          let transcriptStart = curText.indexOf("<p>");
-          let transcriptEnd = curText.indexOf("</p>");
-          let y = 140;
-          if (transcriptStart !== -1) {
-              let transcript = curText.substring(transcriptStart+3, transcriptEnd);
-              let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
-              splitted.forEach(splitval => {
-                  if (y >= h-h%10) {
-                      y = 10;
-                      pdf.addPage();
-                  }
-                  pdf.text(splitval, margin, y);
-                  y += 10;
-              });
-          }
+      for (let i = 0; i < selectedChapters.length; i+=1) {
+        let chapter = selectedChapters[i];
+        let curText = chapter.text;
+        pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
+        let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
+        pdf.outline.add(null, chapter.title, {pageNumber:pageCurrent});
+        let imgStart = curText.indexOf("src=");
+        let imgEnd = curText.indexOf("alt=");
+        let imgData = curText.substring(imgStart+5, imgEnd-2);
+        dimensions = await this.getImageDimensions(imgData);
+        ratio = dimensions.w/dimensions.h;
+        imgWidth = Math.round(ratio * 100);
+        imgLeft = margin + (w-imgWidth)/2;
+        pdf.addImage(imgData, 'JPEG', imgLeft, 20, imgWidth, 100);
+        // pdf.text("Transcript", 0, 130, 'left');
+        let transcriptStart = curText.indexOf("<p>");
+        let transcriptEnd = curText.indexOf("</p>");
+        let y = 140;
+        if (transcriptStart !== -1) {
+            let transcript = curText.substring(transcriptStart+3, transcriptEnd);
+            let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
+            splitted.forEach(splitval => {
+                if (y >= h-h%10) {
+                    y = 10;
+                    pdf.addPage();
+                }
+                pdf.text(splitval, margin, y);
+                y += 10;
+            });
+        }
+        for (let j = 0; j < chapter.subChapters.length; j+=1) {
+          let subchapter = chapter.subChapters[j];
+          pdf.addPage();
+          y = 10;
+          pdf.text(`${i+1}-${j+1} ${subchapter.title}`, margin, y, 'left');
+          y += 10;
+
+          // Add subchapter to outline
+          pdf.outline.add(null, subchapter.title, {pageNumber:pageCurrent});
+
+          // Parse subchapter contents to produce transcript of text
           // eslint-disable-next-line no-unused-expressions
-          chapter?.subChapters?.forEach((subchapter, j) => {
-              // Print each subchapter on new page
-              pdf.addPage();
-              y = 10;
-              pdf.text(`${i+1}-${j+1} ${subchapter.title}`, margin, y, 'left');
-              y += 10;
+          for (let k = 0; k < subchapter.contents.length; k+=1) {
+            let subContents = subchapter.contents[k];
+            if (typeof subContents === 'string') {
+              // Add subchapter transcript
+              let transcript = subContents.replace('#### Transcript', '');
+              let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
+              for (let l = 0; l < splitted.length; l+=1) {
+                let splitval = splitted[l];
+                if (y >= h-h%10) {
+                  y = 10;
+                  pdf.addPage();
+                }
+                pdf.text(splitval, margin, y);
+                y += 10;
+              }
+            } else if (subContents.src) {
+              const subImgData = subchapterImages[subContents.src];
+              dimensions = await this.getImageDimensions(subImgData);
+              ratio = dimensions.w/dimensions.h;
+              imgWidth = Math.round(ratio * 100);
+              imgLeft = margin + (w-imgWidth)/2;
+              // If image was prefetched, insert it here
+              pdf.addImage(subImgData, 'JPEG', imgLeft, 20, imgWidth, 100);
 
-              // Add subchapter to outline
-              pdf.outline.add(null, subchapter.title, {pageNumber:pageCurrent});
-
-              // Parse subchapter contents to produce transcript of text
-              // eslint-disable-next-line no-unused-expressions
-              subchapter?.contents?.forEach(subContents => {
-                  if (typeof subContents === 'string') {
-                      // Add subchapter transcript
-                      let transcript = subContents.replace('#### Transcript', '');
-                      let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
-                      splitted.forEach(splitval => {
-                          if (y >= h-h%10) {
-                              y = 10;
-                              pdf.addPage();
-                          }
-                          pdf.text(splitval, margin, y);
-                          y += 10;
-                      });
-                  } else if (subContents.src) {
-                      const subImgData = subchapterImages[subContents.src];
-
-                      // If image was prefetched, insert it here
-                      pdf.addImage(subImgData, 'JPEG', 15, 20, 180, 100);
-
-                      y = 140;
-                  }
-              });
-          });
-
-          if (i !== selectedChapters.length-1) {
-              pdf.addPage();
+              y = 140;
+            }
           }
-      });
+        }
+        if (i !== selectedChapters.length-1) {
+          pdf.addPage();
+        }
+      }
+
+    //   TODO: if we can keep the ratio constant when uploading external images, we can switch back to using a constant ratio
+    //   selectedChapters.forEach((chapter, i) => {
+    //     let curText = chapter.text;
+    //     pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
+    //     let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
+    //     pdf.outline.add(null, chapter.title, {pageNumber:pageCurrent});
+    //     let imgStart = curText.indexOf("src=");
+    //     let imgEnd = curText.indexOf("alt=");
+    //     let imgData = curText.substring(imgStart+5, imgEnd-2);
+    //     pdf.addImage(imgData, 'JPEG', imgLeft, 20, imgWidth, 100);
+    //     // pdf.text("Transcript", 0, 130, 'left');
+    //     let transcriptStart = curText.indexOf("<p>");
+    //     let transcriptEnd = curText.indexOf("</p>");
+    //     let y = 140;
+    //     if (transcriptStart !== -1) {
+    //         let transcript = curText.substring(transcriptStart+3, transcriptEnd);
+    //         let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
+    //         splitted.forEach(splitval => {
+    //             if (y >= h-h%10) {
+    //                 y = 10;
+    //                 pdf.addPage();
+    //             }
+    //             pdf.text(splitval, margin, y);
+    //             y += 10;
+    //         });
+    //     }
+    //     // eslint-disable-next-line no-unused-expressions
+    //     chapter?.subChapters?.forEach((subchapter, j) => {
+    //         // Print each subchapter on new page
+    //         pdf.addPage();
+    //         y = 10;
+    //         pdf.text(`${i+1}-${j+1} ${subchapter.title}`, margin, y, 'left');
+    //         y += 10;
+
+    //         // Add subchapter to outline
+    //         pdf.outline.add(null, subchapter.title, {pageNumber:pageCurrent});
+
+    //         // Parse subchapter contents to produce transcript of text
+    //         // eslint-disable-next-line no-unused-expressions
+    //         subchapter?.contents?.forEach(subContents => {
+    //             if (typeof subContents === 'string') {
+    //                 // Add subchapter transcript
+    //                 let transcript = subContents.replace('#### Transcript', '');
+    //                 let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
+    //                 splitted.forEach(splitval => {
+    //                     if (y >= h-h%10) {
+    //                         y = 10;
+    //                         pdf.addPage();
+    //                     }
+    //                     pdf.text(splitval, margin, y);
+    //                     y += 10;
+    //                 });
+    //             } else if (subContents.src) {
+    //                 const subImgData = subchapterImages[subContents.src];
+                  
+    //                 // If image was prefetched, insert it here
+    //                 pdf.addImage(subImgData, 'JPEG', imgLeft, 20, imgWidth, 100);
+
+    //                 y = 140;
+    //             }
+    //         });
+    //     });
+
+    //     if (i !== selectedChapters.length-1) {
+    //         pdf.addPage();
+    //     }
+    // });
 
       return pdf;
   }
@@ -267,24 +356,33 @@ class HTMLFileBuilder {
   //   return convertText(html);
   // }
 
+  // Bug: Invalid argument passing to addImage() function when generating the pdf.
+  // Cause and reason to put async back for getIndexHTML and generatePDF: the images sometimes takes longer to load and 
+  // previously we are trying to get the width and height to determine the ratio, 
+  // and then in such case we pass NaN to the function, initially it is not detected 
+  // since images sometimes do not take much time and we get valid input during initial testing, 
+  // now we put async back to wait and make sure we get valid width and height and pass correct number to the function.
   async getIndexHTML(withStyles = false, print = false, pdf, subchapterImages, h3=true) {
     const { chapters, condition } = this.data;
 
-      let selectedChapters = [];
-      for (let i = 0; i < chapters.length; i+= 1) {
-          for (const [key, value] of Object.entries(condition)) {
-              if (key === 'default') {
-                  if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
-                      selectedChapters.push(chapters[i]);
-                      break;
-                  }
-              } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
-                  selectedChapters.push(chapters[i]);
-                  break;
+    let selectedChapters = [];
+    for (let i = 0; i < chapters.length; i+= 1) {
+        for (const [key, value] of Object.entries(condition)) {
+            if (key === 'default') {
+              if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
+                selectedChapters.push(chapters[i]);
+                break;
               }
-          }
-      }
-      this.generatePDF(this.data, pdf, subchapterImages, selectedChapters);
+            } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
+              selectedChapters.push(chapters[i]);
+              break;
+            }
+        }
+    }
+    if (pdf !== undefined) {
+      await this.generatePDF(this.data, pdf, subchapterImages, selectedChapters);
+      return "";
+    } 
       const html = this.generateHTML(this.data, selectedChapters, withStyles, print, h3);
 
       // TODO: How can we return/download this generated LaTeX source?
@@ -318,10 +416,9 @@ class HTMLFileBuilder {
 
     const subchapterImages = await this.prefetchSubchapterImages(this.data.chapters);
 
-    let PDF = new JsPDF();
-    PDF.setLanguage("en-US");
-    const indexHTML = this.getIndexHTML(false, false, PDF, subchapterImages,h3);
-    PDF.save();
+    /* let PDF = new JsPDF();
+    PDF.setLanguage("en-US"); */
+    const indexHTML = await this.getIndexHTML(false, false, undefined, subchapterImages,h3);
     zip.addFile('index.html', Buffer.from(indexHTML));
 
     return zip.toBuffer();

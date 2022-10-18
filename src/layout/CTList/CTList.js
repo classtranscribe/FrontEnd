@@ -9,6 +9,7 @@ function CTList(props) {
     role = 'list',
     className,
     items = [],
+    onDelete,
     ...listProps
   } = props;
 

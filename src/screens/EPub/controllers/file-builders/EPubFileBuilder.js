@@ -42,7 +42,6 @@ class EPubFileBuilder {
     const builder = new EPubFileBuilder();
     await builder.init(ePubData);
     const buffer = await builder.getEPubBuffer();
-    // console.log(ePubData);
     return buffer;
   }
 
@@ -78,6 +77,7 @@ class EPubFileBuilder {
           }  
       }
     }
+  
     const getPlayOrder = () => {
       playOrder += 1;
       return playOrder;
@@ -125,24 +125,27 @@ class EPubFileBuilder {
           }  
       }
     }
-
+   
     _.forEach(selectedChapters, (ch, index) => {  
-      // get image from chapter text 
-      let divStart = ch.text.indexOf('<div'); 
-      let altTextIndex = ch.text.indexOf('alt=')
-      let image = ch.text.substring(divStart, altTextIndex);
-      // set image size and alt text 
-      if (image) {
-        image += 'alt="'; 
-        image += ch.title; 
-        image += '" ';
-        image += 'width="70%"';
-        image += '/>';
-        image += '</div>';
-      } else {
-        image = "";
+      // visual toc logic 
+      let image = "";
+      if (this.data.enableVisualToc) {
+        // get image from chapter text 
+        let divStart = ch.text.indexOf('<div'); 
+        let altTextIndex = ch.text.indexOf('alt=')
+        image = ch.text.substring(divStart, altTextIndex);
+        // set image size and alt text 
+        if (image) {
+          image += 'alt="'; 
+          image += ch.title; 
+          image += '" ';
+          image += 'width="70%"';
+          image += '/>';
+          image += '</div>';
+        } 
       }
 
+      // adds toc entry 
       navContents += `
         <dt class="table-of-content">  
           <a href="${ch.id}.xhtml">${index + 1} - ${ch.title} ${image} </a>
@@ -185,7 +188,7 @@ class EPubFileBuilder {
       (img) => `
       <item id="${img.id}" href="images/${img.id}.jpeg" media-type="image/jpeg" />`,
     ).join('\n\t\t');
-  
+    
     // content items
     const contentItems = _.map(
       selectedChapters,
