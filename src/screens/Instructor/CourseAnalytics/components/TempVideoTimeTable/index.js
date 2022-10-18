@@ -36,7 +36,7 @@ function TempVideoTimeTable({ offeringId }) {
       for (let j = 0; j < user.media.length; j += 1) {
         if (selectedVideos.includes(user.media[j].mediaId)) {
           user_map.count += user.media[j].count;
-          user_map.last3days += user.media[j].last3days + 1;
+          user_map.last3days += user.media[j].last3days;
           user_map.lastHr += user.media[j].lastHr;
           user_map.lastMonth += user.media[j].lastMonth;
           user_map.lastWeek += user.media[j].lastWeek;
