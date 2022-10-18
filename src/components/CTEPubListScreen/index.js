@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { prompt } from 'utils';
 import { ARRAY_INIT } from 'utils/constants';
 import { CTFragment, altEl, makeEl } from 'layout';
 import SourceTypes from 'entities/SourceTypes';
@@ -46,11 +47,24 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
+  // Delete an I•Note by epubId
+  const handleDeleteEPub = async (epubId) => {
+    try {
+      prompt.addOne({ text: 'Deleting the I•Note...' , timeout: 4000 });
+      await EPubListCtrl.deleteEPub(epubId);
+    }
+    catch(e) {
+      prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 });
+    }
+    await setupEPubsData();
+  };
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
     sourceType, sourceId, sourceData,
-    onCreate: () => setOpenNewEPubModal(true)
+    onCreate: () => setOpenNewEPubModal(true),
+    onDelete: () => handleDeleteEPub
   });
   const newEPubModalElement = makeEl(NewEPubModal, {
     open: openNewEPubModal,
