@@ -36,10 +36,10 @@ function DownloadOptions(props) {
 
         <CTFileButton 
           icon={<i className="fas fa-file-image" />}
-          description="Save all the screenshots of the ePub data"
+          description="Save latex with all the screenshots of the ePub data"
           onClick={epub.download.downloadScreenshots}
         >
-          {filename} - screenshots.zip
+          {filename} - latex.zip
         </CTFileButton>
       </CTFragment>
     </CTFragment>
