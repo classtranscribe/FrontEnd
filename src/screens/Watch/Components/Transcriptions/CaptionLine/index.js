@@ -24,7 +24,8 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleSeek = () => {
-    const time = timeStrToSec(startTime);
+    const time = timeStrToSec(begin);
+    console.log(begin)
     dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
