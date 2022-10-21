@@ -63,6 +63,7 @@ function ChapterTitle({
     children: value,
     tabIndex: 0,
     onFocus: handleFocus,
+    onBlur: handleSave,
     onInput: handleInput,
     onKeyDown,
     role: 'textbox',
