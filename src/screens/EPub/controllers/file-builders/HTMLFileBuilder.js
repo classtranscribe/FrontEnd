@@ -78,9 +78,12 @@ class HTMLFileBuilder {
       }
       selectedChapters.forEach(chapter => {
           // eslint-disable-next-line no-unused-expressions
-          chapter?.subChapters?.forEach(subchapter => {
+          chapter?.subChapters?.forEach(subchapter => {              
               // eslint-disable-next-line no-unused-expressions
               subchapter?.contents?.forEach(contents => {
+                  if (typeof contents == 'object' && "__data__" in contents) {
+                    contents = JSON.parse(JSON.stringify(contents.__data__));
+                  }
                   if (contents && contents.src) {
                       // This is an image, prefetch it
                       promises.push(fetch(`${baseUrl}${contents.src}`)
@@ -126,10 +129,6 @@ class HTMLFileBuilder {
       const margin = 10;
       let w = pdf.internal.pageSize.getWidth() - 2*margin;
       let h = pdf.internal.pageSize.getHeight() - 2*margin;
-      // this.prefetchSubchapterImages(chapters);
-      // console.log(w);
-      // console.log(h);
-      // console.log(cover);
       let metadata = `<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title><rdf:Alt><rdf:li xml:lang="x-default">${ title }</rdf:li></rdf:Alt></dc:title> </rdf:Description>`;
       // metadata = metadata + '<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier>' + title +'</dc:identifier> </rdf:Description>';
       pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
@@ -146,7 +145,6 @@ class HTMLFileBuilder {
 
 
 
-      // console.log(navContents);
       selectedChapters.forEach((chapter, i) => {
           let curText = chapter.text;
           pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
@@ -186,6 +184,10 @@ class HTMLFileBuilder {
               // Parse subchapter contents to produce transcript of text
               // eslint-disable-next-line no-unused-expressions
               subchapter?.contents?.forEach(subContents => {
+                  // unwrap __data__ for correct image loading in subchapters 
+                  if (typeof subContents == 'object' && "__data__" in subContents) {
+                    subContents = JSON.parse(JSON.stringify(subContents.__data__));
+                  }
                   if (typeof subContents === 'string') {
                       // Add subchapter transcript
                       let transcript = subContents.replace('#### Transcript', '');
@@ -267,7 +269,6 @@ class HTMLFileBuilder {
       ).join('\n');
 
 
-      // console.log(content);
       print = print && typeof print === 'boolean';
 
       return withStyles
@@ -339,7 +340,6 @@ class HTMLFileBuilder {
     // index.html
 
     const subchapterImages = await this.prefetchSubchapterImages(this.data.chapters);
-
     /* let PDF = new JsPDF();
     PDF.setLanguage("en-US"); */
     const indexHTML = await this.getIndexHTML(false, false, undefined, subchapterImages,h3);
