@@ -22,7 +22,8 @@ export function _getEPubListItems(ePubs, onDelete) {
         titleProps: {
           celadon: true
         },
-        onDelete: onDelete(epub.id)
+        onDelete: onDelete(epub.id),
+        enableButtons: true
       }
     });
   }
