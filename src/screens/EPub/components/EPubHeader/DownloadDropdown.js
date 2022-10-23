@@ -14,7 +14,7 @@ function DownloadDropdown() {
   const handleClose = () => setOpen(false);
   const handleChange = (value) => {
     switch (value) {
-      case 'epub':
+      case 'I-Notes':
         return epub.download.downloadEPub();
       case 'html':
         return epub.download.downloadHTML();
@@ -30,8 +30,8 @@ function DownloadDropdown() {
 
   const downloadOptions = [
     {
-      value: 'epub',
-      text: 'ePub file (.epub)',
+      value: 'I-Notes',
+      text: 'I-Notes file (.epub)',
       icon: <i className="fas fa-file-alt" />
     },{
       value:'html',

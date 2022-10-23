@@ -12,7 +12,7 @@ function DownloadOptions(props) {
       <CTFragment dFlexCol padding={[0,15,0,0]}>
         <CTFileButton 
           icon={<i className="fas fa-file-alt" />}
-          description="Save as ePub file"
+          description="Save as I-Notes file"
           onClick={epub.download.downloadEPub}
         >
           {filename}.epub
@@ -36,7 +36,7 @@ function DownloadOptions(props) {
 
         <CTFileButton 
           icon={<i className="fas fa-file-image" />}
-          description="Save latex with all the screenshots of the ePub data"
+          description="Save latex with all the screenshots of the I-Notes data"
           onClick={epub.download.downloadScreenshots}
         >
           {filename} - latex.zip

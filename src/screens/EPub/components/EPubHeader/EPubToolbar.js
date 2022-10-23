@@ -35,7 +35,7 @@ function EPubToolbar({ view, dispatch, epub }) {
 
   const openPreview = () => dispatch({ type: 'epub/setShowPreview', payload: true });
   const previewBtnEl = _makeTBtn(
-    'preview', 'Preview ePub', '⌘⇧P', openPreview, false, !isReadOnly
+    'preview', 'Preview I-Notes', '⌘⇧P', openPreview, false, !isReadOnly
   );
 
   const prefBtnEl = null// _makeTBtn('tune', 'Preference', null, null, false, true);

@@ -135,7 +135,7 @@ const EPubModel = {
             api.contentLoaded(100);
 
             if (ErrorTypes.isError(_epub)) {
-                prompt.error('Failed to load ePub data.', 5000);
+                prompt.error('Failed to load I-Notes data.', 5000);
                 return;
             }
             yield put({ type: 'setEPub', payload: _epub });
@@ -159,7 +159,7 @@ const EPubModel = {
             });
         },
         *duplicateEPub({ payload: { newData, copyChapterStructure } }, { call, put, select, take }) {
-            prompt.addOne({ text: 'Copying ePub data...', timeout: 4000 });
+            prompt.addOne({ text: 'Copying I-Notes data...', timeout: 4000 });
             const { epub } = yield select();
             const oldData = epub.epub;
             const newLanguage = newData.language;
@@ -180,7 +180,7 @@ const EPubModel = {
 
             const newEPubData = yield call(EPubListCtrl.postEPubData, newData);
             if (!newEPubData) {
-                prompt.error('Failed to create the ePub.');
+                prompt.error('Failed to create the I-Notes.');
                 return;
             }
 
@@ -192,7 +192,7 @@ const EPubModel = {
                 window.close();
             } catch (error) {
                 console.error(error);
-                prompt.error('Failed to delete the ePub.');
+                prompt.error('Failed to delete the I-Notes.');
             }
         },
         *updateEPubBasicInfo({ payload }, { put }) {
@@ -220,7 +220,7 @@ const EPubModel = {
                 }
                 */ // NOT IMPLEMENTED
             } catch (error) {
-                prompt.error('Failed to update ePub');
+                prompt.error('Failed to update I-Notes');
                 yield put({ type: 'setSaved', payload: (Constants.EpbSaveFailed) });
             }
         },
