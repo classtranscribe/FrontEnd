@@ -63,55 +63,55 @@ function CTListItem(props) {
 
   const dialogue = (enableButtons ? (
     <Dialog
-    open={open}
-    onClose={handleNo}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
+      open={open}
+      onClose={handleNo}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
     >
-    <DialogTitle id="alert-dialog-title">
-      Delete an I•Note
-    </DialogTitle>
-    <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-        Do you want to delete the I•Note for {title}?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleNo} autoFocus>NO</Button>
-      <Button onClick={handleYes}>YES </Button>
-    </DialogActions>
+      <DialogTitle id="alert-dialog-title">
+        Delete an I•Note
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Do you want to delete the I•Note for {title}?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleNo} autoFocus>NO</Button>
+        <Button onClick={handleYes}>YES </Button>
+      </DialogActions>
     </Dialog>
   ) : null);
 
 
   return (
-      <ButtonBase
-        id={id} 
-        role={role} 
-        title={title}
-        className="ct-listitem-con"
-        {...baseProps}
-      >
+    <ButtonBase
+      id={id} 
+      role={role} 
+      title={title}
+      className="ct-listitem-con"
+      {...baseProps}
+    >
 
-        <CTFragment dFlex alignItCenter className={baseClasses}>
-          {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
-          <CTFragment dFlexCol className="ct-listitem-text">
-            <CTText
-              bold
-              size={titleSize}
-              margin={[0, 0, 5, 0]}
-              line={1}
-              {...titleProps}
-              className={titleClasses}
-            >
-              {title || children}
-            </CTText>
-            {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
-          </CTFragment>
+      <CTFragment dFlex alignItCenter className={baseClasses}>
+        {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
+        <CTFragment dFlexCol className="ct-listitem-text">
+          <CTText
+            bold
+            size={titleSize}
+            margin={[0, 0, 5, 0]}
+            line={1}
+            {...titleProps}
+            className={titleClasses}
+          >
+            {title || children}
+          </CTText>
+          {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
         </CTFragment>
-        {deleteButton}
-        {dialogue}
-      </ButtonBase>
+      </CTFragment>
+      {deleteButton}
+      {dialogue}
+    </ButtonBase>
   );
 }
 
