@@ -23,6 +23,7 @@ function CTListItem(props) {
     despProps,
     children,
     onDelete,
+    enableButtons,
     ...baseProps
   } = props;
 
@@ -30,8 +31,9 @@ function CTListItem(props) {
   const titleClasses = cx('ct-listitem-title', titleProps ? titleProps.className : null);
 
   const [open, setOpen] = React.useState(false);
-  const handleDeleteEPub = () => {
+  const handleDeleteEPub = (event) => {
      setOpen(true);
+     event.preventDefault();
   };
   const handleYes = () => {
     onDelete(id);
@@ -48,63 +50,68 @@ function CTListItem(props) {
     baseProps.to = to;
   }
 
+  const deleteButton = (enableButtons ? (
+    <Button
+      id={id} 
+      lowercase
+      icon="delete"
+      color="red transparent"
+      classNames="mr-2"
+      onClick={handleDeleteEPub}
+    />
+  ) : null);
+
+  const dialogue = (enableButtons ? (
+    <Dialog
+      open={open}
+      onClose={handleNo}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        Delete an I•Note
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Do you want to delete the I•Note for {title}?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleNo} autoFocus>NO</Button>
+        <Button onClick={handleYes}>YES </Button>
+      </DialogActions>
+    </Dialog>
+  ) : null);
+
 
   return (
-    <ButtonGroup variant="contained" aria-label="outlined primary button group">
-      <Button
-        id={id} 
-        lowercase
-        icon="delete"
-        color="red transparent"
-        classNames="mr-2"
-        onClick={handleDeleteEPub}
-      />
+    <ButtonBase
+      id={id} 
+      role={role} 
+      title={title}
+      className="ct-listitem-con"
+      {...baseProps}
+    >
 
-      <Dialog
-        open={open}
-        onClose={handleNo}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Delete an I•Note
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Do you want to delete the I•Note for {title}?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleNo} autoFocus>NO</Button>
-          <Button onClick={handleYes}>YES </Button>
-        </DialogActions>
-      </Dialog>
-
-      <ButtonBase
-        id={id} 
-        role={role} 
-        title={title}
-        className="ct-listitem-con"
-        {...baseProps}
-      >
-        <CTFragment dFlex alignItCenter className={baseClasses}>
-          {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
-          <CTFragment dFlexCol className="ct-listitem-text">
-            <CTText
-              bold
-              size={titleSize}
-              margin={[0, 0, 5, 0]}
-              line={1}
-              {...titleProps}
-              className={titleClasses}
-            >
-              {title || children}
-            </CTText>
-            {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
-          </CTFragment>
+      <CTFragment dFlex alignItCenter className={baseClasses}>
+        {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
+        <CTFragment dFlexCol className="ct-listitem-text">
+          <CTText
+            bold
+            size={titleSize}
+            margin={[0, 0, 5, 0]}
+            line={1}
+            {...titleProps}
+            className={titleClasses}
+          >
+            {title || children}
+          </CTText>
+          {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
         </CTFragment>
-      </ButtonBase>
-    </ButtonGroup>
+      </CTFragment>
+      {deleteButton}
+      {dialogue}
+    </ButtonBase>
   );
 }
 
@@ -148,7 +155,9 @@ CTListItem.propTypes = {
   /** CTText props to description */
   despProps: PropTypes.shape(CTText.propTypes),
 
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
+
+  enableButtons: PropTypes.bool
 };
 
 export default CTListItem;
