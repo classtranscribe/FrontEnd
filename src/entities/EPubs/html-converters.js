@@ -36,9 +36,6 @@ export async function buildMDFromContent(content) {
 }
 
 export async function buildMDFromSubChapter({ id, title, contents }) {
-  // unwrap __data__ field so it loads images correctly  
-  // contents[0] = contents[0].__data__;
-  
   return [
     `<!-- Sub-Chapter -->\n<h3 data-sub-ch id="${id}">${title}</h3>\n\n`,
     (await Promise.all(_.map(contents, buildMDFromContent))).join('\n\n')

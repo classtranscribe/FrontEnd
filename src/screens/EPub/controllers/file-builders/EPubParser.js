@@ -65,7 +65,7 @@ class EPubParser {
       const buffer = await api.getBuffer(uurl.getMediaUrl(src));
       return buffer;
     } catch (error) {
-      return LoadImageError;
+      throw LoadImageError;
     }
   }
 

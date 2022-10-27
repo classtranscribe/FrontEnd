@@ -82,6 +82,7 @@ class HTMLFileBuilder {
               // eslint-disable-next-line no-unused-expressions
               subchapter?.contents?.forEach(contents => {
                   if (typeof contents === 'object' && "__data__" in contents) {
+                    // unwrap __data__ for correct image loading in subchapters 
                     contents = JSON.parse(JSON.stringify(contents.__data__));
                   }
                   if (contents && contents.src) {
