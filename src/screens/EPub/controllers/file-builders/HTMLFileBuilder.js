@@ -4,8 +4,6 @@ import { EPubData } from 'entities/EPubs';
 import { doc } from 'prettier';
 import { jsPDF as JsPDF } from "jspdf";
 
-// import { convertText } from 'html-to-latex';
-
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
@@ -78,9 +76,13 @@ class HTMLFileBuilder {
       }
       selectedChapters.forEach(chapter => {
           // eslint-disable-next-line no-unused-expressions
-          chapter?.subChapters?.forEach(subchapter => {
+          chapter?.subChapters?.forEach(subchapter => {              
               // eslint-disable-next-line no-unused-expressions
               subchapter?.contents?.forEach(contents => {
+                  if (typeof contents === 'object' && "__data__" in contents) {
+                    // unwrap __data__ for correct image loading in subchapters 
+                    contents = JSON.parse(JSON.stringify(contents.__data__));
+                  }
                   if (contents && contents.src) {
                       // This is an image, prefetch it
                       promises.push(fetch(`${baseUrl}${contents.src}`)
@@ -126,10 +128,6 @@ class HTMLFileBuilder {
       const margin = 10;
       let w = pdf.internal.pageSize.getWidth() - 2*margin;
       let h = pdf.internal.pageSize.getHeight() - 2*margin;
-      // this.prefetchSubchapterImages(chapters);
-      // console.log(w);
-      // console.log(h);
-      // console.log(cover);
       let metadata = `<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title><rdf:Alt><rdf:li xml:lang="x-default">${ title }</rdf:li></rdf:Alt></dc:title> </rdf:Description>`;
       // metadata = metadata + '<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier>' + title +'</dc:identifier> </rdf:Description>';
       pdf.addMetadata(metadata,"http://ns.adobe.com/pdf/1.3/");
@@ -144,9 +142,6 @@ class HTMLFileBuilder {
       pdf.text(author, w/2,140,'center');
       pdf.addPage();
 
-
-
-      // console.log(navContents);
       for (let i = 0; i < selectedChapters.length; i+=1) {
         let chapter = selectedChapters[i];
         let curText = chapter.text;
@@ -191,6 +186,10 @@ class HTMLFileBuilder {
           // eslint-disable-next-line no-unused-expressions
           for (let k = 0; k < subchapter.contents.length; k+=1) {
             let subContents = subchapter.contents[k];
+            // unwrap __data__ for correct image loading in subchapters 
+            if (typeof subContents === 'object' && "__data__" in subContents) {
+              subContents = JSON.parse(JSON.stringify(subContents.__data__));
+            }
             if (typeof subContents === 'string') {
               // Add subchapter transcript
               let transcript = subContents.replace('#### Transcript', '');
@@ -221,74 +220,6 @@ class HTMLFileBuilder {
           pdf.addPage();
         }
       }
-
-    //   TODO: if we can keep the ratio constant when uploading external images, we can switch back to using a constant ratio
-    //   selectedChapters.forEach((chapter, i) => {
-    //     let curText = chapter.text;
-    //     pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
-    //     let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
-    //     pdf.outline.add(null, chapter.title, {pageNumber:pageCurrent});
-    //     let imgStart = curText.indexOf("src=");
-    //     let imgEnd = curText.indexOf("alt=");
-    //     let imgData = curText.substring(imgStart+5, imgEnd-2);
-    //     pdf.addImage(imgData, 'JPEG', imgLeft, 20, imgWidth, 100);
-    //     // pdf.text("Transcript", 0, 130, 'left');
-    //     let transcriptStart = curText.indexOf("<p>");
-    //     let transcriptEnd = curText.indexOf("</p>");
-    //     let y = 140;
-    //     if (transcriptStart !== -1) {
-    //         let transcript = curText.substring(transcriptStart+3, transcriptEnd);
-    //         let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
-    //         splitted.forEach(splitval => {
-    //             if (y >= h-h%10) {
-    //                 y = 10;
-    //                 pdf.addPage();
-    //             }
-    //             pdf.text(splitval, margin, y);
-    //             y += 10;
-    //         });
-    //     }
-    //     // eslint-disable-next-line no-unused-expressions
-    //     chapter?.subChapters?.forEach((subchapter, j) => {
-    //         // Print each subchapter on new page
-    //         pdf.addPage();
-    //         y = 10;
-    //         pdf.text(`${i+1}-${j+1} ${subchapter.title}`, margin, y, 'left');
-    //         y += 10;
-
-    //         // Add subchapter to outline
-    //         pdf.outline.add(null, subchapter.title, {pageNumber:pageCurrent});
-
-    //         // Parse subchapter contents to produce transcript of text
-    //         // eslint-disable-next-line no-unused-expressions
-    //         subchapter?.contents?.forEach(subContents => {
-    //             if (typeof subContents === 'string') {
-    //                 // Add subchapter transcript
-    //                 let transcript = subContents.replace('#### Transcript', '');
-    //                 let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
-    //                 splitted.forEach(splitval => {
-    //                     if (y >= h-h%10) {
-    //                         y = 10;
-    //                         pdf.addPage();
-    //                     }
-    //                     pdf.text(splitval, margin, y);
-    //                     y += 10;
-    //                 });
-    //             } else if (subContents.src) {
-    //                 const subImgData = subchapterImages[subContents.src];
-                  
-    //                 // If image was prefetched, insert it here
-    //                 pdf.addImage(subImgData, 'JPEG', imgLeft, 20, imgWidth, 100);
-
-    //                 y = 140;
-    //             }
-    //         });
-    //     });
-
-    //     if (i !== selectedChapters.length-1) {
-    //         pdf.addPage();
-    //     }
-    // });
 
       return pdf;
   }
@@ -343,7 +274,6 @@ class HTMLFileBuilder {
       ).join('\n');
 
 
-      // console.log(content);
       print = print && typeof print === 'boolean';
 
       return withStyles
@@ -415,7 +345,6 @@ class HTMLFileBuilder {
     // index.html
 
     const subchapterImages = await this.prefetchSubchapterImages(this.data.chapters);
-
     /* let PDF = new JsPDF();
     PDF.setLanguage("en-US"); */
     const indexHTML = await this.getIndexHTML(false, false, undefined, subchapterImages,h3);
