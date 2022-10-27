@@ -81,7 +81,7 @@ class HTMLFileBuilder {
           chapter?.subChapters?.forEach(subchapter => {              
               // eslint-disable-next-line no-unused-expressions
               subchapter?.contents?.forEach(contents => {
-                  if (typeof contents == 'object' && "__data__" in contents) {
+                  if (typeof contents === 'object' && "__data__" in contents) {
                     contents = JSON.parse(JSON.stringify(contents.__data__));
                   }
                   if (contents && contents.src) {
@@ -185,7 +185,7 @@ class HTMLFileBuilder {
               // eslint-disable-next-line no-unused-expressions
               subchapter?.contents?.forEach(subContents => {
                   // unwrap __data__ for correct image loading in subchapters 
-                  if (typeof subContents == 'object' && "__data__" in subContents) {
+                  if (typeof subContents === 'object' && "__data__" in subContents) {
                     subContents = JSON.parse(JSON.stringify(subContents.__data__));
                   }
                   if (typeof subContents === 'string') {
