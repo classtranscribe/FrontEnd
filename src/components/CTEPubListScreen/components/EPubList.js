@@ -6,30 +6,35 @@ import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
 
-export function _getEPubListItems(ePubs) {
-  return ePubs.map(epub => {
-    let lang = LanguageConstants.decode(epub.language);
-    // let status = epub.isPublished ? 'Published' : 'Unpublished'
-    return {
-      id: epub.id,
-      title: epub.title,
-      icon: 'text_snippet',
-      description: `${lang}`,
-      link: true,
-      to: links.epub(epub.id),
-      target: '_blank',
-      titleProps: {
-        celadon: true
-      },
-    }
-  });
+export function _getEPubListItems(ePubs, onDelete) { 
+  if (ePubs.length > 0) { 
+    return ePubs.map(epub => {
+      let lang = LanguageConstants.decode(epub.language);
+      // let status = epub.isPublished ? 'Published' : 'Unpublished'
+      return {
+        id: epub.id,
+        title: epub.title,
+        icon: 'text_snippet',
+        description: `${lang}`,
+        link: true,
+        to: links.epub(epub.id),
+        target: '_blank',
+        titleProps: {
+          celadon: true
+        },
+        onDelete: onDelete(epub.id),
+        enableButtons: true
+      }
+    });
+  }
 }
 
 function EPubList(props) {
   const {
     ePubs, languages, rawEPubData,
     sourceType, sourceId,
-    onCreate
+    onCreate,
+    onDelete
   } = props;
 
   const noLang = languages.length === 0;
@@ -41,6 +46,7 @@ function EPubList(props) {
   const noLangElement = altEl(NoLangWrapper, noLang);
   const noEPubElement = altEl(NoEPubWrapper, noEPub, { sourceType, sourceId });
   const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
+  const newEPubListItems = makeEl(<CTList items={_getEPubListItems(ePubs, onDelete)} />);
 
   return (
     <CTFragment h100 scrollY padding={[40, 0]} id="ct-epb-list">
@@ -60,7 +66,9 @@ function EPubList(props) {
                 {newEPubBtnElement}
               </CTFragment>
 
-              <CTList items={_getEPubListItems(ePubs)} />
+              <CTFragment justConBetween padding={[0, 20, 20, 30]}>
+                {newEPubListItems}
+              </CTFragment>
             </>
           ) : (
             <CTFragment margin={[50, 0, 0, 0]} dFlexCol center>
