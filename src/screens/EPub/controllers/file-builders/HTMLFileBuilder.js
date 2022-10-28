@@ -141,36 +141,53 @@ class HTMLFileBuilder {
       pdf.text(title, w/2,130, 'center');
       pdf.text(author, w/2,140,'center');
       pdf.addPage();
-
       for (let i = 0; i < selectedChapters.length; i+=1) {
+        let y = 10;
         let chapter = selectedChapters[i];
         let curText = chapter.text;
         pdf.text(`${i+1} ${chapter.title}`, margin, 10, 'left');
         let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
         pdf.outline.add(null, chapter.title, {pageNumber:pageCurrent});
         let imgStart = curText.indexOf("src=");
-        let imgEnd = curText.indexOf("alt=");
-        let imgData = curText.substring(imgStart+5, imgEnd-2);
-        dimensions = await this.getImageDimensions(imgData);
-        ratio = dimensions.w/dimensions.h;
-        imgWidth = Math.round(ratio * 100);
-        imgLeft = margin + (w-imgWidth)/2;
-        pdf.addImage(imgData, 'JPEG', imgLeft, 20, imgWidth, 100);
-        // pdf.text("Transcript", 0, 130, 'left');
         let transcriptStart = curText.indexOf("<p>");
-        let transcriptEnd = curText.indexOf("</p>");
-        let y = 140;
-        if (transcriptStart !== -1) {
-            let transcript = curText.substring(transcriptStart+3, transcriptEnd);
+        while (imgStart !== -1 || transcriptStart !== -1) {
+          if (imgStart !== -1 && (imgStart < transcriptStart || transcriptStart === -1)) {
+            let imgEnd = curText.indexOf("alt=");
+            let imgData = curText.substring(imgStart+5, imgEnd-2);
+            dimensions = await this.getImageDimensions(imgData);
+            ratio = dimensions.w/dimensions.h;
+            imgWidth = Math.round(ratio * 100);
+            imgLeft = margin + (w-imgWidth)/2;
+            if (h - y <= 100) {
+              y = 10;
+              pdf.addPage();
+            }
+            pdf.addImage(imgData, 'JPEG', imgLeft, y+10, imgWidth, 100);
+            // pdf.text("Transcript", 0, 130, 'left');
+            y += 120;
+            if (y >= h-h%10) {
+              y = 10;
+              pdf.addPage();
+            }
+            curText = curText.substring(imgEnd); 
+          } else if (transcriptStart !== -1 && (transcriptStart < imgStart || imgStart === -1)) {
+            let transcriptEnd = curText.indexOf("</p>");
+            // let y = 140;
+            let transcript = curText.substring(transcriptStart+3, transcriptEnd).replaceAll("<br />", "\n");
             let splitted = pdf.splitTextToSize(transcript, parseInt(w,10));
-            splitted.forEach(splitval => {
-                if (y >= h-h%10) {
-                    y = 10;
-                    pdf.addPage();
-                }
-                pdf.text(splitval, margin, y);
-                y += 10;
-            });
+            // avoid no-loop-func eslint warning
+            for (let j = 0; j < splitted.length; j += 1) {
+              if (y >= h-h%10) {
+                y = 10;
+                pdf.addPage();
+              }
+              pdf.text(splitted[j], margin, y);
+              y += 10;
+            }
+            curText = curText.substring(transcriptEnd+2);
+          }
+          imgStart = curText.indexOf("src=");
+          transcriptStart = curText.indexOf("<p>");
         }
         for (let j = 0; j < chapter.subChapters.length; j+=1) {
           let subchapter = chapter.subChapters[j];
@@ -210,7 +227,7 @@ class HTMLFileBuilder {
               imgWidth = Math.round(ratio * 100);
               imgLeft = margin + (w-imgWidth)/2;
               // If image was prefetched, insert it here
-              pdf.addImage(subImgData, 'JPEG', imgLeft, 20, imgWidth, 100);
+              pdf.addImage(subImgData, 'JPEG', imgLeft, y+10, imgWidth, 100);
 
               y = 140;
             }
