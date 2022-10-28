@@ -33,7 +33,7 @@ function EPubCTListItem(props) {
   const baseClasses = cx('ct-listitem', className);
   const titleClasses = cx('ct-listitem-title', titleProps ? titleProps.className : null);
   const selected = enableButtons ? isSelected(id): false;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleDeleteEPub = (event) => {
      setOpen(true);
      event.preventDefault();

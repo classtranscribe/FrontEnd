@@ -73,7 +73,7 @@ function CTEPubListScreen(props) {
       }
       selectedEpubs.pop();
     }
-    epubsSelected = false;
+    epubsSelected = 0;
     if (success) {
       count == 1 ? prompt.addOne({text: 'Deleting 1 I•Note...', timeout: 4000}) : prompt.addOne({text: 'Deleting ' + count + ' I•Notes...', timeout: 4000});
     }
@@ -88,7 +88,7 @@ function CTEPubListScreen(props) {
     }
   };
 
-  let epubsSelected = selectedEpubs.length > 0;
+  let epubsSelected = selectedEpubs.length;
 
   const isSelected = useCallback((epubId) => {
     return selectedEpubs.includes(epubId);
