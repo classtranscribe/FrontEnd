@@ -60,6 +60,8 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
+  let epubsSelected = selectedEpubs.length;
+
   const deleteSelected = async () => {
     let success = true
     let count = selectedEpubs.length;
@@ -75,7 +77,7 @@ function CTEPubListScreen(props) {
     }
     epubsSelected = 0;
     if (success) {
-      count == 1 ? prompt.addOne({text: 'Deleting 1 I•Note...', timeout: 4000}) : prompt.addOne({text: 'Deleting ' + count + ' I•Notes...', timeout: 4000});
+      prompt.addOne({text: `Deleting ${count} I•Note${count !== 1 ? 's' : ''}...`, timeout: 4000});
     }
     await setupEPubsData();
   }
@@ -87,8 +89,6 @@ function CTEPubListScreen(props) {
       setSelectedEpubs(selectedEpubs.filter(e => e !== epubId));
     }
   };
-
-  let epubsSelected = selectedEpubs.length;
 
   const isSelected = useCallback((epubId) => {
     return selectedEpubs.includes(epubId);

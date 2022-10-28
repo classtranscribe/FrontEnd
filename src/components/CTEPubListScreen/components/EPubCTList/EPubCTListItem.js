@@ -3,10 +3,9 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'dva/router';
 import { ButtonBase, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
-import { CTFragment, CTText } from 'layout';
+import { CTFragment, CTText, CTCheckbox } from 'layout';
 import { Button } from 'pico-ui';
 import { prompt } from 'utils';
-import {CTCheckbox} from 'layout';
 
 function EPubCTListItem(props) {
   const {
@@ -34,6 +33,13 @@ function EPubCTListItem(props) {
   const titleClasses = cx('ct-listitem-title', titleProps ? titleProps.className : null);
   const selected = enableButtons ? isSelected(id): false;
   const [open, setOpen] = useState(false);
+
+  const stopPropagation = (event) => {
+    if (event && event.stopPropagation) {
+      event.stopPropagation();
+    }
+  };
+
   const handleDeleteEPub = (event) => {
      setOpen(true);
      event.preventDefault();
@@ -52,11 +58,7 @@ function EPubCTListItem(props) {
     handleSelect(id, event.target.checked);
   };
 
-  const stopPropagation = (event) => {
-    if (event && event.stopPropagation) {
-      event.stopPropagation();
-    }
-  };
+
 
   // for link item
   if (link) {
@@ -70,11 +72,11 @@ function EPubCTListItem(props) {
 
   const checkBox = (enableButtons ? (
     <Checkbox
-             classes={checkBoxClasses}
-             onClick={stopPropagation}
-             checked={selected}
-             onChange={handleCheck}
-          />
+      classes={checkBoxClasses}
+      onClick={stopPropagation}
+      checked={selected}
+      onChange={handleCheck}
+    />
   ) : null);
 
   const deleteButton = (enableButtons ? (
@@ -90,56 +92,56 @@ function EPubCTListItem(props) {
 
   const dialogue = (enableButtons ? (
     <Dialog
-    open={open}
-    onClose={handleNo}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
+      open={open}
+      onClose={handleNo}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
     >
-    <DialogTitle id="alert-dialog-title">
-      Delete an I•Note
-    </DialogTitle>
-    <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-        Do you want to delete the I•Note for {title}?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleNo} autoFocus>NO</Button>
-      <Button onClick={handleYes}>YES </Button>
-    </DialogActions>
+      <DialogTitle id="alert-dialog-title">
+        Delete an I•Note
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Do you want to delete the I•Note for {title}?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleNo} autoFocus>NO</Button>
+        <Button onClick={handleYes}>YES</Button>
+      </DialogActions>
     </Dialog>
   ) : null);
 
 
   return (
-      <ButtonBase
-        id={id} 
-        role={role} 
-        title={title}
-        className="ct-listitem-con"
-        {...baseProps}
-      >
-        {checkBox}
+    <ButtonBase
+      id={id} 
+      role={role} 
+      title={title}
+      className="ct-listitem-con"
+      {...baseProps}
+    >
+      {checkBox}
 
-        <CTFragment dFlex alignItCenter className={baseClasses}>
-          {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
-          <CTFragment dFlexCol className="ct-listitem-text">
-            <CTText
-              bold
-              size={titleSize}
-              margin={[0, 0, 5, 0]}
-              line={1}
-              {...titleProps}
-              className={titleClasses}
-            >
-              {title || children}
-            </CTText>
-            {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
-          </CTFragment>
+      <CTFragment dFlex alignItCenter className={baseClasses}>
+        {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
+        <CTFragment dFlexCol className="ct-listitem-text">
+          <CTText
+            bold
+            size={titleSize}
+            margin={[0, 0, 5, 0]}
+            line={1}
+            {...titleProps}
+            className={titleClasses}
+          >
+            {title || children}
+          </CTText>
+          {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
         </CTFragment>
-        {deleteButton}
-        {dialogue}
-      </ButtonBase>
+      </CTFragment>
+      {deleteButton}
+      {dialogue}
+    </ButtonBase>
   );
 }
 

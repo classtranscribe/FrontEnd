@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import {Button} from 'pico-ui'
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { prompt } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
 import { links } from 'utils/links';
 import { altEl, makeEl, CTFragment, CTHeading, CTText, CTList } from 'layout';
@@ -6,9 +9,7 @@ import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
 import EPubCTList from './EPubCTList/EPubCTList';
-import {Button} from 'pico-ui'
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import { prompt } from 'utils';
+
 
 
 export function _getEPubListItems(ePubs, onDelete, isSelected, handleSelect) { 
@@ -75,23 +76,23 @@ function EPubList(props) {
 
   const deleteDialogue = (
     <Dialog
-    open={open}
-    onClose={handleNo}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
+      open={open}
+      onClose={handleNo}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
     >
-    <DialogTitle id="alert-dialog-title">
-      Delete I•Note{(epubsSelected != 1) ? 's' : ''}
-    </DialogTitle>
-    <DialogContent>
-    <DialogContentText id="alert-dialog-description">
-        Do you want to delete {epubsSelected} I•Note{(epubsSelected != 1) ? 's' : ''}?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleNo} autoFocus>NO</Button>
-      <Button onClick={handleYes}>YES </Button>
-    </DialogActions>
+      <DialogTitle id="alert-dialog-title">
+        Delete I•Note{(epubsSelected !== 1) ? 's' : ''}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Do you want to delete {epubsSelected} I•Note{(epubsSelected !== 1) ? 's' : ''}?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleNo} autoFocus>NO</Button>
+        <Button onClick={handleYes}>YES</Button>
+      </DialogActions>
     </Dialog>
   );
 
@@ -107,14 +108,15 @@ function EPubList(props) {
           {hasEPubs ? (
             <>
               <CTFragment justConBetween padding={[0, 20, 20, 30]}>
-              {(epubsSelected > 0) && <Button
-                  lowercase
-                  icon="delete"
-                  color="red transparent"
-                  text="Delete"
-                  classNames="mr-2"
-                  onClick={handleDelete}
-                /> }
+                {(epubsSelected > 0) && 
+                  <Button
+                    lowercase
+                    icon="delete"
+                    color="red transparent"
+                    text="Delete"
+                    classNames="mr-2"
+                    onClick={handleDelete}
+                  /> }
                 {deleteDialogue}
                 <CTHeading as="h3" alignItCenter compact icon="library_books">
                   ePub Books
