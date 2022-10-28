@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { prompt } from 'utils';
 import { ARRAY_INIT } from 'utils/constants';
@@ -9,6 +9,7 @@ import { EPubListCtrl } from './controllers';
 import {_generateDefaultEpubName } from './controllers/helpers';
 
 function CTEPubListScreen(props) {
+  const [selectedEpubs, setSelectedEpubs] = useState([]);
   const { sourceType, sourceId, source} = props;
   const [ePubs, setEPubs] = useState(ARRAY_INIT);
   const [rawEPubData, setRawEPubData] = useState(ARRAY_INIT);
@@ -59,12 +60,50 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
+  const deleteSelected = async () => {
+    let success = true
+    let count = selectedEpubs.length;
+    while (selectedEpubs.length > 0) {
+      try {
+        await EPubListCtrl.deleteEPub(selectedEpubs[selectedEpubs.length - 1]);
+      }
+      catch(e) {
+        success = false
+        prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 })
+      }
+      selectedEpubs.pop();
+    }
+    epubsSelected = false;
+    if (success) {
+      count == 1 ? prompt.addOne({text: 'Deleting 1 I•Note...', timeout: 4000}) : prompt.addOne({text: 'Deleting ' + count + ' I•Notes...', timeout: 4000});
+    }
+    await setupEPubsData();
+  }
+
+  const handleSelect = (epubId, checked) => {
+    if (checked) {
+      setSelectedEpubs([...selectedEpubs, epubId]);
+    } else {
+      setSelectedEpubs(selectedEpubs.filter(e => e !== epubId));
+    }
+  };
+
+  let epubsSelected = selectedEpubs.length > 0;
+
+  const isSelected = useCallback((epubId) => {
+    return selectedEpubs.includes(epubId);
+  }, [selectedEpubs]);
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
     sourceType, sourceId, sourceData,
     onCreate: () => setOpenNewEPubModal(true),
-    onDelete: () => handleDeleteEPub
+    onDelete: () => handleDeleteEPub,
+    handleSelect: () => handleSelect,
+    isSelected: () => isSelected,
+    epubsSelected,
+    deleteSelected
   });
   const newEPubModalElement = makeEl(NewEPubModal, {
     open: openNewEPubModal,
