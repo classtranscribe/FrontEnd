@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CTFragment from '../CTFragment';
-import CTListItem from './CTListItem';
+import { CTFragment } from 'layout';
+import EPubCTListItem from './EPubCTListItem';
 
-function CTList(props) {
+function EPubCTList(props) {
   const {
     id,
     role = 'list',
     className,
     items = [],
+    onDelete,
     ...listProps
   } = props;
 
   return (
     <CTFragment id={id} dFlexCol role={role} className={className} {...listProps}>
-      {items.map(item => <CTListItem key={item.id} {...item} />)}
+      {items.map(item => <EPubCTListItem key={item.id} {...item} />)}
     </CTFragment>
   );
 }
 
-CTList.propTypes = {
+EPubCTList.propTypes = {
   /** An unique id */
   id: PropTypes.string,
 
@@ -30,8 +31,8 @@ CTList.propTypes = {
   className: PropTypes.string,
 
   /** List items using `CTListItem` */
-  items: PropTypes.arrayOf(PropTypes.shape(CTListItem.propTypes)),
+  items: PropTypes.arrayOf(PropTypes.shape(EPubCTListItem.propTypes)),
 };
 
-export default CTList;
+export default EPubCTList;
 
