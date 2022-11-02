@@ -9,7 +9,7 @@ export function EpubWithRedux(props) {
   const { media } = mediasetting;
   const { id, mediaName = '' } = media || {};
 
-  useCTDocTitle(`ePubs | ${mediaName}`);
+  useCTDocTitle(`I-Notes | ${mediaName}`);
 
   const ePubLiProps = {
     sourceType: SourceTypes.Media,
