@@ -60,7 +60,7 @@ function EPubList(props) {
             <>
               <CTFragment justConBetween padding={[0, 20, 20, 30]}>
                 <CTHeading as="h3" alignItCenter compact icon="library_books">
-                I-Note Books
+                  I-Note Books
                 </CTHeading>
                 {newEPubBtnElement}
               </CTFragment>
