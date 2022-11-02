@@ -66,7 +66,13 @@ class ScreenshotsBuilder {
         let subContent = `\\subsection{${subChapter.title}}`;
         for (let k = 0; k < subChapter.contents.length; k += 1) {
           let subContents = subChapter.contents[k];
+          // unwrap __data__ for correct image loading in subchapters 
+          if (typeof subContents === 'object' && "__data__" in subContents) {
+            subContents = JSON.parse(JSON.stringify(subContents.__data__));
+          }
           if (typeof subContents === 'string') {
+            subContents = subContents.replace('#### Transcript', '');
+            subContents = subContents.trim(); 
             subContents = subContents.replaceAll("%", "\\%");
             subContent = subContent.concat(subContents, '\n');
           } else if (subContents.src) {
@@ -75,6 +81,7 @@ class ScreenshotsBuilder {
             subContent = subContent.concat(imageInfo);
           }
         }
+        chapterContent = chapterContent.concat(subContent, '\\newpage\n');
       }
       content = content.concat(chapterContent, '\\newpage\n');
     }
