@@ -59,7 +59,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
     dispatch({ type: 'epub/deleteEPub', payload: epub.id });
   };
 
-  const delConfirmation = useCTConfirmation('Are you sure to delete this I-Notes?', handleDelete);
+  const delConfirmation = useCTConfirmation('Are you sure to delete this I-Note?', handleDelete);
 
   let conditions = [];
   for (let i = 0; i < epubData.chapters.length; i+=1) {
@@ -113,8 +113,8 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         <CTFormRow>
           <CTInput
             id="ct-epb-title-input"
-            label="I-Notes Title"
-            placeholder="I-Notes Title"
+            label="I-Note Title"
+            placeholder="I-Note Title"
             value={epubData.title}
             onChange={onInputChange('title')}
             onReturn={handleSave}
@@ -123,8 +123,8 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
           />
           <CTInput
             id="ct-epb-author-input"
-            label="I-Notes Author"
-            placeholder="I-Notes Author"
+            label="I-Note Author"
+            placeholder="I-Note Author"
             value={epubData.author}
             onChange={onInputChange('author')}
             onReturn={handleSave}
@@ -135,8 +135,8 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         <CTFormRow>
           <CTInput
             id="ct-epb-filename-input"
-            label="I-Notes Filename"
-            placeholder="I-Notes Filename"
+            label="I-Note Filename"
+            placeholder="I-Note Filename"
             value={epubData.filename}
             onChange={onInputChange('filename')}
             onReturn={handleSave}
@@ -155,7 +155,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         <CTFormRow>
           <CTCheckbox
             id="ct-epb-is-pub-checkbox"
-            label="Publish the I-Notes file"
+            label="Publish the I-Note file"
             checked={epubData.isPublished}
             onChange={onPublishChange}
           />
@@ -163,7 +163,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         <CTFormRow>
           <CTCheckbox
             id="ct-epb-is-pub-checkbox"
-            label="Enable future merge of I-Notes"
+            label="Enable future merge of I-Note"
             checked={epubData.isH4}
             onChange={onHeaderChange}
           />

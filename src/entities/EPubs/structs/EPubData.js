@@ -21,7 +21,7 @@ function _buildEPubDataFromArray(rawEPubData) {
  * for creating an ePub file is invalid
  */
 export const EPubDataValidationError =
-  new CTError('EPubDataValidationError', 'Invalid I-Notes data.');
+  new CTError('EPubDataValidationError', 'Invalid I-Note data.');
 
 /**
  * The class for an ePub data

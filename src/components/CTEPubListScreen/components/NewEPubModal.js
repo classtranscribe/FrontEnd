@@ -60,7 +60,7 @@ function NewEPubModal({
   return (
     <CTModal
       open={open}
-      title="CREATE NEW I-Notes"
+      title="CREATE NEW I-Note"
       onClose={onClose}
       transition
       action={actionElement}
@@ -69,9 +69,9 @@ function NewEPubModal({
         <CTFormRow>
           <CTInput
             id="ct-epb-title-input"
-            label="I-Notes Title"
+            label="I-Note Title"
             value={title.value}
-            placeholder="I-Notes Title ..."
+            placeholder="I-Note Title ..."
             onChange={title.onChange}
             underlined
             autoFocus
@@ -82,7 +82,7 @@ function NewEPubModal({
         <CTFormRow>
           <CTSelect 
             id="ct-epb-lang-select"
-            label="I-Notes Language"
+            label="I-Note Language"
             value={language.value}
             options={langOptions}
             onChange={language.onChange}

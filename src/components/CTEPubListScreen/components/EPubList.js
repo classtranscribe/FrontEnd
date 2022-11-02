@@ -60,7 +60,7 @@ function EPubList(props) {
             <>
               <CTFragment justConBetween padding={[0, 20, 20, 30]}>
                 <CTHeading as="h3" alignItCenter compact icon="library_books">
-                I-Notes Books
+                I-Note Books
                 </CTHeading>
                 {newEPubBtnElement}
               </CTFragment>
@@ -73,7 +73,7 @@ function EPubList(props) {
             <CTFragment margin={[50, 0, 0, 0]} dFlexCol center>
               {newEPubBtnElement}
               <CTText center muted padding="10">
-                Create your first I-Notes book
+                Create your first I-Note book
               </CTText>
             </CTFragment>
           )}

@@ -6,7 +6,7 @@ export const shortcuts = [
         name: 'Save Changes',
         keys: [['⌘', 's']]
       },{
-        name: 'Open I-Notes Preview',
+        name: 'Open I-Note Preview',
         keys: [['⌘', 'Shift⇧', 's']]
       },{
         name: 'Open Keyboard Shortcuts',
@@ -15,13 +15,13 @@ export const shortcuts = [
         name: 'Toggle Chapter Navigation Menu',
         keys: [['⌘', 'b']]
       },{
-        name: 'View I-Notes (Read Only)',
+        name: 'View I-Note (Read Only)',
         keys: [['⌘', '1']]
       },{
-        name: 'Edit I-Notes Structure',
+        name: 'Edit I-Note Structure',
         keys: [['⌘', '2']]
       },{
-        name: 'Edit I-Notes Chapters',
+        name: 'Edit I-Note Chapters',
         keys: [['⌘', '3']]
       }
     ]

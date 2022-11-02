@@ -24,7 +24,7 @@ function EPubTitle({ epub, dispatch }) {
     dispatch({ type: 'epub/deleteEPub', payload: epub.id });
   };
 
-  const delConfirmation = useCTConfirmation('Are you sure to delete this I-Notes?', handleDelete);
+  const delConfirmation = useCTConfirmation('Are you sure to delete this I-Note?', handleDelete);
 
   const deleteBtn = _makeTBtn(
     'delete', 'Delete', null, delConfirmation.onOpen, false, true

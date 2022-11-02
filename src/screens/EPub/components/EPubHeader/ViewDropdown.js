@@ -17,11 +17,11 @@ function ViewDropdown({ view, dispatch }) {
   const viewOptions = [
     {
       value: epub.const.EpbReadOnly,
-      text: 'View I-Notes (Read Only)',
+      text: 'View I-Note (Read Only)',
       icon: 'visibility'
     },{
       value: epub.const.EpbEditStructure,
-      text: 'Edit I-Notes Structure',
+      text: 'Edit I-Note Structure',
       icon: 'layers'
     },{
       value: epub.const.EpbEditChapter,
