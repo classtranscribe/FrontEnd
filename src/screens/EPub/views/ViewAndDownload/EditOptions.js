@@ -24,7 +24,7 @@ function EditOptions({ dispatch }) {
           color="transparent"
           onClick={onEditFileInfo}
         >
-          Edit ePub information
+          Edit I-Note information
         </Button>
         <Button
           icon="layers"
@@ -32,7 +32,7 @@ function EditOptions({ dispatch }) {
           color="transparent"
           onClick={onEditFile(Constants.EpbEditStructure)}
         >
-          Edit ePub structure
+          Edit I-Note structure
         </Button>
         <Button
           icon="dashboard"

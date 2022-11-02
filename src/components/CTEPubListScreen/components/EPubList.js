@@ -119,7 +119,7 @@ function EPubList(props) {
                   /> }
                 {deleteDialogue}
                 <CTHeading as="h3" alignItCenter compact icon="library_books">
-                  ePub Books
+                  I-Note Books
                 </CTHeading>
                 {newEPubBtnElement}
               </CTFragment>
@@ -132,7 +132,7 @@ function EPubList(props) {
             <CTFragment margin={[50, 0, 0, 0]} dFlexCol center>
               {newEPubBtnElement}
               <CTText center muted padding="10">
-                Create your first ePub book
+                Create your first I-Note book
               </CTText>
             </CTFragment>
           )}

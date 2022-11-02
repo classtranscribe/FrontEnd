@@ -14,12 +14,12 @@ const guides = [
     element: '#ct-epb-h-toolbth-keyboard',
     header: '2/3. Keyboard Shortcuts',
     description:
-      'There are many keyboard shortcuts for you to quickly manage your ePub file, click the "keyboard" icon button to explore!',
+      'There are many keyboard shortcuts for you to quickly manage your I-Note file, click the "keyboard" icon button to explore!',
   },
   {
     element: '#ct-epb-download-dropdown',
     header: '3/3. Download Options',
-    description: 'You can download your ePub book in many formats, such as .epub, .pdf or HTML scripts.',
+    description: 'You can download your I-Note book in many formats, such as .epub, .pdf or HTML scripts.',
   },
 ];
 

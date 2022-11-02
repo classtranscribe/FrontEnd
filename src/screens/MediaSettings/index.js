@@ -36,7 +36,7 @@ class MediaSettingsWithRedux extends React.Component {
           },
           */
           {
-            text: 'ePub',
+            text: 'I-Note',
             active: window.location.pathname === epubPath,
             href: epubPath
           }
