@@ -94,12 +94,24 @@ function CTEPubListScreen(props) {
     return selectedEpubs.includes(epubId);
   }, [selectedEpubs]);
 
+  // Rename an EPub
+  const handleRenameEPub = async (title, epubId) => {
+    try {
+      await EPubListCtrl.renameEpub(epubId, title);
+    }
+    catch(e) {
+      prompt.addOne({text: 'Cannot rename the I•Note...', timeout: 4000});
+    }
+    await setupEPubsData();
+  };
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
     sourceType, sourceId, sourceData,
     onCreate: () => setOpenNewEPubModal(true),
     onDelete: () => handleDeleteEPub,
+    onRename: () => handleRenameEPub,
     handleSelect: () => handleSelect,
     isSelected: () => isSelected,
     epubsSelected,

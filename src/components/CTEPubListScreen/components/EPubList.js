@@ -12,7 +12,7 @@ import EPubCTList from './EPubCTList/EPubCTList';
 
 
 
-export function _getEPubListItems(ePubs, onDelete, isSelected, handleSelect) { 
+export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect) { 
   if (ePubs.length > 0) { 
     return ePubs.map(epub => {
       let lang = LanguageConstants.decode(epub.language);
@@ -29,6 +29,7 @@ export function _getEPubListItems(ePubs, onDelete, isSelected, handleSelect) {
           celadon: true
         },
         onDelete: onDelete(epub.id),
+        onRename: onRename(epub.id, epub.title),
         enableButtons: true,
         isSelected: isSelected(epub.id),
         handleSelect: handleSelect(epub.id)
@@ -43,6 +44,7 @@ function EPubList(props) {
     sourceType, sourceId,
     onCreate,
     onDelete,
+    onRename,
     isSelected,
     handleSelect,
     epubsSelected,
@@ -58,7 +60,7 @@ function EPubList(props) {
   const noLangElement = altEl(NoLangWrapper, noLang);
   const noEPubElement = altEl(NoEPubWrapper, noEPub, { sourceType, sourceId });
   const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
-  const newEPubListItems = makeEl(<EPubCTList items={_getEPubListItems(ePubs, onDelete, isSelected, handleSelect, epubsSelected)} />);
+  const newEPubListItems = makeEl(<EPubCTList items={_getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect, epubsSelected)} />);
 
   const [open, setOpen] = useState(false);
 
