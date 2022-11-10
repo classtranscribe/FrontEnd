@@ -71,7 +71,6 @@ function EPubCTListItem(props) {
     setEditing(false);
     preventDefault(event);
     if (inputValue && inputValue !== title) {
-      console.log("New title: " + inputValue);
       onRename(inputValue, id);
     }
   };
@@ -169,19 +168,19 @@ function EPubCTListItem(props) {
       <CTFragment dFlex alignItCenter className={baseClasses}>
         {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
         <CTFragment dFlexCol className="ct-listitem-text">
-        {editing ? 
-          <CTInput
-            label="Video Name"
-            placeholder={title}
-            value={inputValue}
-            onChange={handleInputChange}
-            onMouseDown={(e) => stopPropagation(e)}
-            onReturn={handleRename}
-            onFocus={(e) => preventDefault(e)}
-            onClick={(e) => preventDefault(e)}
-            className="ml-3"
-            autoFocus
-          /> : 
+          {editing ? 
+            <CTInput
+              label="Video Name"
+              placeholder={title}
+              value={inputValue}
+              onChange={handleInputChange}
+              onMouseDown={(e) => stopPropagation(e)}
+              onReturn={handleRename}
+              onFocus={(e) => preventDefault(e)}
+              onClick={(e) => preventDefault(e)}
+              className="ml-3"
+              autoFocus
+            /> : 
             <CTText
               bold
               size={titleSize}
@@ -192,8 +191,7 @@ function EPubCTListItem(props) {
             >
               {inputValue || children}
               {/* {title || children} */}
-            </CTText>
-          }
+            </CTText>}
           {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
         </CTFragment>
       </CTFragment>
