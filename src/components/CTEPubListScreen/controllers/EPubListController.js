@@ -143,6 +143,24 @@ class EPubListController {
       console.error(`Failed to delete a I-Note for ${epubId}`);
     }
   }
+
+  // Controller to rename an I•Note
+  async renameEpub(epubId, title) {
+    let resp;
+    try {
+      resp = await api.getEPubById(epubId);
+      resp.data.title = title;
+      resp.data.filename = title;
+    } catch {
+      console.error(`Unable to fetch data for ${epubId}`);
+    }
+
+    try {
+      await api.updateEPubSimple(epubId, resp.data);
+    } catch {
+      console.error(`Failed to rename a epub for ${epubId}`)
+    }
+  }
 }
 
 export default EPubListController;
