@@ -5,6 +5,7 @@ import { prompt } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
 import { links } from 'utils/links';
 import { altEl, makeEl, CTFragment, CTHeading, CTText, CTList } from 'layout';
+import { SelectCtrlButton } from 'components/SelectCtrlButton';
 import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
@@ -46,7 +47,10 @@ function EPubList(props) {
     onDelete,
     onRename,
     isSelected,
+    isSelectedAll,
     handleSelect,
+    handleSelectAll,
+    handleRemoveAll,
     epubsSelected,
     deleteSelected
   } = props;
@@ -110,6 +114,12 @@ function EPubList(props) {
           {hasEPubs ? (
             <>
               <CTFragment justConBetween padding={[0, 20, 20, 30]}>
+                <SelectCtrlButton
+                  selecting={epubsSelected > 0}
+                  isSelectedAll={isSelectedAll}
+                  selectAll={handleSelectAll()}
+                  removeAll={handleRemoveAll()}
+                />
                 {(epubsSelected > 0) && 
                   <Button
                     lowercase

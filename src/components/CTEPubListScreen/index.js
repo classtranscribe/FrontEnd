@@ -94,6 +94,16 @@ function CTEPubListScreen(props) {
     return selectedEpubs.includes(epubId);
   }, [selectedEpubs]);
 
+  const isSelectedAll = ePubs.length === selectedEpubs.length;
+
+  const handleSelectAll = () => {
+    setSelectedEpubs(ePubs.map((e) => e.id));
+  }
+
+  const handleRemoveAll = () => {
+    setSelectedEpubs([]);
+  }
+
   // Rename an EPub
   const handleRenameEPub = async (title, epubId) => {
     try {
@@ -114,6 +124,9 @@ function CTEPubListScreen(props) {
     onRename: () => handleRenameEPub,
     handleSelect: () => handleSelect,
     isSelected: () => isSelected,
+    isSelectedAll,
+    handleSelectAll: () => handleSelectAll,
+    handleRemoveAll: () => handleRemoveAll,
     epubsSelected,
     deleteSelected
   });
