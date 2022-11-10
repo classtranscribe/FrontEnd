@@ -5,11 +5,11 @@ import { prompt } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
 import { links } from 'utils/links';
 import { altEl, makeEl, CTFragment, CTHeading, CTText, CTList } from 'layout';
+import { SelectCtrlButton } from 'components/SelectCtrlButton';
 import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
 import EPubCTList from './EPubCTList/EPubCTList';
-import { SelectCtrlButton } from 'components/SelectCtrlButton';
 
 
 
