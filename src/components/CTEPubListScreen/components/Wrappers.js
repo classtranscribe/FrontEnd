@@ -26,7 +26,7 @@ export function NoEPubWrapper({ sourceType, sourceId }) {
           !requested ? (
             <>
               <CTText size="medium" center>
-                There is no ePub data for this media now.
+                There is no I-Note data for this media now.
               </CTText>
               <CTText size="medium" center>
                 Please make a request for this video.
@@ -60,7 +60,7 @@ export function NoEPubWrapper({ sourceType, sourceId }) {
               size="big"
               onClick={handleRequest}
             >
-              Request ePub data
+              Request I-Note data
             </Button>
           </CTFragment>
         }

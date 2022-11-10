@@ -78,8 +78,7 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
         <CTFormRow>
           <CTInput
             id="ct-epb-title-input"
-            label="ePub Title"
-            placeholder="ePub Title"
+            label="I-Note Title"
             value={title.value}
             onChange={title.onChange}
             underlined
@@ -87,8 +86,8 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
           />
           <CTInput
             id="ct-epb-author-input"
-            label="ePub Author"
-            placeholder="ePub Author"
+            label="I-Note Author"
+            placeholder="I-Note Author"
             value={author.value}
             onChange={author.onChange}
             underlined
@@ -98,8 +97,8 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
         <CTFormRow>
           <CTInput
             id="ct-epb-filename-input"
-            label="ePub Filename"
-            placeholder="ePub Filename"
+            label="I-Note Filename"
+            placeholder="I-Note Filename"
             value={filename.value}
             onChange={filename.onChange}
             underlined
@@ -109,8 +108,8 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
 
         <CTFormHeading padding="0" margin={[10, 0]}>Language</CTFormHeading>
 
-        <CTFormHelp title="Copy ePub with a different language">
-          When copying this ePub with a different language,
+        <CTFormHelp title="Copy I-Note with a different language">
+          When copying this I-Note with a different language,
           you are able to copy your current chapter structure based on timestamps,
           but the texts will not be translated,
           and some of the chapter contents might be lost.
@@ -120,7 +119,7 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
           <CTSelect
             value={language.value}
             id="ct-epb-lang-select"
-            label="ePub Language"
+            label="I-Note Language"
             options={langOptions}
             onChange={language.onChange}
             underlined
@@ -135,7 +134,7 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
               label="Copy chapter structure"
               checked={copyChapterStructure.checked}
               onChange={copyChapterStructure.onChange}
-              helpText="Initialize new ePub with current chapter structure based on timestamps."
+              helpText="Initialize new I-Note with current chapter structure based on timestamps."
             />
           </CTFormRow>
         }
