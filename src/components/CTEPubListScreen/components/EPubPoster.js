@@ -14,7 +14,7 @@ function EPubPoster() {
         />
 
         <h1>
-          Convert Your Lectures to ePub Books
+          Convert Your Lectures to I-Note Books
         </h1>
 
         <img 

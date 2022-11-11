@@ -20,7 +20,6 @@ function CTListItem(props) {
     titleProps,
     despProps,
     children,
-    onClick,
     ...baseProps
   } = props;
 
@@ -33,15 +32,16 @@ function CTListItem(props) {
     baseProps.to = to;
   }
 
+
   return (
     <ButtonBase
       id={id} 
       role={role} 
       title={title}
-      onClick={onClick}
       className="ct-listitem-con"
       {...baseProps}
     >
+
       <CTFragment dFlex alignItCenter className={baseClasses}>
         {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
         <CTFragment dFlexCol className="ct-listitem-text">
@@ -101,8 +101,6 @@ CTListItem.propTypes = {
 
   /** CTText props to description */
   despProps: PropTypes.shape(CTText.propTypes),
-
-  onClick: PropTypes.func
 };
 
 export default CTListItem;

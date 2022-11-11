@@ -7,14 +7,14 @@ function Instruction({ expanded, onToggle }) {
     <EPubInstruction expanded={expanded} onToggle={onToggle} title="INSTRUCTIONS">
       <div>
         <CTParagraph>
-          To manage your ePub chapters, set <b>splitting points</b> between screenshots to 
-          generate an initial layout of your ePub chapters. 
+          To manage your I-Note chapters, set <b>splitting points</b> between screenshots to 
+          generate an initial layout of your I-Note chapters. 
           Each chapter can be further <b>subdivided</b> into sub-chapters.
         </CTParagraph>
         <CTParagraph>
-          After building the structure of your ePub, 
+          After building the structure of your I-Note, 
           proceed to the <b>Edit Chapters Mode</b> to modify the 
-          contents and images of your ePub chapters.
+          contents and images of your I-Note chapters.
         </CTParagraph>
 
         <CTParagraph>

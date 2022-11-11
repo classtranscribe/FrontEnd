@@ -1,0 +1,42 @@
+.ct-listitem-con {
+  background-color: #ffffff;
+  transition: background 200ms ease-in-out;
+
+  &:not(:last-child) {
+    .ct-listitem-text {
+      border-bottom: 1px solid rgb(233, 233, 233);
+    }
+  }
+
+  .ct-listitem {
+    padding: 0 25px;
+    text-align: left;
+  
+    span.material-icons {
+      color: rgb(61, 61, 61);
+      padding-right: 15px;
+      font-size: 30px;
+      pointer-events: none;
+    }
+  
+    .ct-listitem-text {
+      padding: 10px 0;
+    }
+  }
+
+  &:hover, &:focus {
+    span.material-icons,
+    .ct-listitem-text .ct-listitem-title {
+      color: teal !important;
+    }
+  }
+
+  &:focus {
+    background-color: rgb(239, 245, 245);
+    outline: none;
+  }
+
+  &:hover {
+    background-color: rgb(243, 243, 243);
+  }
+}

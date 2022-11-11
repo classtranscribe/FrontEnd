@@ -14,7 +14,7 @@ function NewEPubButton({ onCreate }) {
       onClick={onCreate}
       aria-haspopup="dialog"
     >
-      Create new ePub
+      Create new I-Note
     </Button>
   );
 }

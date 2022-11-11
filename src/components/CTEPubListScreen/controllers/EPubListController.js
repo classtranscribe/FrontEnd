@@ -20,10 +20,10 @@ class EPubListController {
   }
 
   async createEPub(sourceType, sourceId, data) {
-    prompt.addOne({ text: 'Creating ePub...', timeout: 4000 });
+    prompt.addOne({ text: 'Creating I-Note...', timeout: 4000 });
     const rawEPubData = await this.getRawEPubData(sourceType, sourceId, data.language);
     if (rawEPubData === ErrorTypes.NotFound404) {
-      prompt.error('Failed to create the ePub.');
+      prompt.error('Failed to create the I-Note.');
       return false;
     }
 
@@ -38,7 +38,7 @@ class EPubListController {
     // POST the data
     const newEPubData = await this.postEPubData(ePubData);
     if (!newEPubData) {
-      prompt.error('Failed to create the ePub.');
+      prompt.error('Failed to create the I-Note.');
       return null;
     }
 
@@ -74,7 +74,7 @@ class EPubListController {
       let { data } = await api.getEpubData(mediaId, language);
       return _parseRawEPubData(data);
     } catch (error) {
-      console.error(error, `Failed to get ePub data of media for ${mediaId}, ${language}`);
+      console.error(error, `Failed to get I-Note data of media for ${mediaId}, ${language}`);
       return ErrorTypes.NotFound404;
     }
   }
@@ -131,7 +131,34 @@ class EPubListController {
     try {
       await api.requestEPubCreation(mediaId);
     } catch (error) {
-      console.error(`Failed to request a epub for ${mediaId}`);
+      console.error(`Failed to request a I-Note for ${mediaId}`);
+    }
+  }
+
+  // Controller to delete an I•Note
+  async deleteEPub(epubId) {
+    try {
+      await api.deleteEPub(epubId);
+    } catch (error) {
+      console.error(`Failed to delete a I-Note for ${epubId}`);
+    }
+  }
+
+  // Controller to rename an I•Note
+  async renameEpub(epubId, title) {
+    let resp;
+    try {
+      resp = await api.getEPubById(epubId);
+      resp.data.title = title;
+      resp.data.filename = title;
+    } catch {
+      console.error(`Unable to fetch data for ${epubId}`);
+    }
+
+    try {
+      await api.updateEPubSimple(epubId, resp.data);
+    } catch {
+      console.error(`Failed to rename a epub for ${epubId}`)
     }
   }
 }

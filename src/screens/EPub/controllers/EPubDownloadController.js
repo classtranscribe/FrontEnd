@@ -31,7 +31,7 @@ class EPubDownloadController {
 
   static async downloadHTML(onDownloaded) {
     try {
-      await _download(HTMLFileBuilder, '.zip');
+      await _download(HTMLFileBuilder, '.zip', true);
       if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
@@ -49,16 +49,8 @@ class EPubDownloadController {
       // eslint-disable-next-line
       let PDF = new jsPDF();
       PDF.setLanguage("en-US");
-      const html = builder.getIndexHTML(true, print, PDF, subchapterImages);
-      let bodyStart = html.indexOf('<body')
-      let bodyEnd = html.indexOf('</body>')+7;
-      let body = html.substring(bodyStart, bodyEnd);
-      // console.log(body);
-      // pdf.html(body);
+      const html = await builder.getIndexHTML(true, print, PDF, subchapterImages);
       PDF.save();
-      /* const htmlBlob = new Blob([html], { type: 'text/html' });
-      const htmlUrl = URL.createObjectURL(htmlBlob);
-      window.open(htmlUrl, '_blank'); */
     } catch (error) {
       _logError(error);
     }
@@ -66,6 +58,15 @@ class EPubDownloadController {
 
   static async downloadPDF(onDownloaded) {
     await EPubDownloadController.preview(true);
+  }
+
+  static async downloadLatex(onDownloaded) {
+    try {
+      await _download(HTMLFileBuilder, '.tex');
+      if (typeof onDownloaded === 'function') onDownloaded();
+    } catch (error) {
+      _logError(error);
+    }
   }
 
   static async downloadScreenshots(onDownloaded) {

@@ -310,7 +310,7 @@ export default {
             (data, idx) =>
                 new EPubChapterData({
                     items: [data],
-                    title: `Untitled Chapter ${idx + 1}`,
+                    title: data.title,
                 }).toObject(),
         );
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
@@ -342,8 +342,13 @@ export default {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
             const chapter = chapters[state.currChIndex];
-            chapter.contents[contentIdx] = value;
-            console.log(`Setting chapter ${state.currChIndex} content: `, value);
+            if (type === 'condition') {
+                chapter.condition = value;
+                console.log(`Setting chapter ${state.currChIndex} condition: `, value);
+            } else{
+                chapter.contents[contentIdx] = value;
+                console.log(`Setting chapter ${state.currChIndex} content: `, value);
+            }
         } else if (chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx]) {
             chapters[state.currChIndex].subChapters[subChapterIdx] = value
             console.log(`Setting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);

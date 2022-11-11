@@ -50,7 +50,7 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
           startIcon={<i className="material-icons">import_contacts</i>}
           href={links.mspEpubSettings(mediaId)}
         >
-          ePub
+          I-Note
         </Button>
 
         <Button
