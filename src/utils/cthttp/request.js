@@ -3,7 +3,7 @@ import { env } from 'utils/env';
 import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';
 
-const DEFAULT_LOG_TIMEOUT = 40000;
+const DEFAULT_LOG_TIMEOUT = 120000;
 class CTHTTPRequest {
   /**
    * Create an axios instance with ClassTranscribe authorization
