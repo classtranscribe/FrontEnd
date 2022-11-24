@@ -25,7 +25,7 @@ function NoVideoHolder({ type }) {
         <br />
       </div>
       <div className="mt-2 text-muted text-center">
-        HAVING QUESTIONS? <a href="mailto:classtranscribe@illinois.edu">CONTACT US</a>
+        QUESTIONS? <a href="mailto:classtranscribe@illinois.edu">Email us at ClassTranscribe</a>
       </div>
     </div>
   );
