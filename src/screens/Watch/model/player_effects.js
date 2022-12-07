@@ -154,16 +154,14 @@ export default {
             // payload = Math.min(watch.duration + payload, watch.duration - LIVE_BUFFER_TIME); // we accept negative timestamp in live mode
             payload = (watch.duration) + payload;
         }
-
-
-
-
         if (PlayerData.video1 != null) {
             PlayerData.video1.currentTime = payload;
         }
         
-        // PlayerData.video1 && (PlayerData.video1.currentTime = payload);
-        // PlayerData.video2 && (PlayerData.video2.currentTime = payload);
+        if (PlayerData.video2 != null) {
+            PlayerData.video2.currentTime = payload;
+        }
+        
         yield put({ type: 'setTime', payload })
         yield put({ type: 'sendMediaHistories' });
     },
