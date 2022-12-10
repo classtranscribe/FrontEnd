@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { CTFragment } from 'layout';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -21,7 +21,9 @@ function ChapterContent({
   onInsert,
 }) {
   const isTextContent = typeof content === 'string';
-  const [tags, SetTags] = useState(condition);
+  const [tags, SetTags] = useState(() => {
+    return !condition ? [] : condition;
+  });
   const Ref = useRef();
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +44,7 @@ function ChapterContent({
       }
     });
   };
+
   const Tags = ({data}) => {
     return (
       <Box
@@ -82,7 +85,7 @@ function ChapterContent({
         ) : (
           <ChapterImage
             id={id}
-            image={content}
+            image={content.hasOwnProperty('__data__') ? content["__data__"] : content}
             enableChapterScreenshots
             onChooseImage={onImageChange}
             onRemoveImage={onRemove}
