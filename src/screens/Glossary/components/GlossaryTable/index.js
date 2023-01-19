@@ -50,36 +50,36 @@ const GlossaryTable = props => {
         return sortConfig.key === name ? sortConfig.direction : undefined;
       };
     return (
-        <table>
-            <thead>
-                <tr>
-                <th>
-                    <button 
-                        type="button" 
-                        onClick={() => requestSort("term")}
-                        className={getClassNamesFor("term")}
-                    >
-                        TERM
-                    </button>
-                </th>
-                <th>LINK</th>
-                <th>DESCRIPTION</th>
-                <th>SOURSE</th>
-                <th>DOMAIN</th>
-                </tr>
-            </thead>
-            <tbody>
-                {items.map(term => (
-                <tr key={term.id}>
-                    <td>{term.term}</td>
-                    <td>{term.link}</td>
-                    <td>{term.description}</td>
-                    <td>{term.source}</td>
-                    <td>{term.domain}</td>
-                </tr>
-                ))}
-            </tbody>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <button 
+                type="button" 
+                onClick={() => requestSort("term")}
+                className={getClassNamesFor("term")}
+              >
+                TERM
+              </button>
+            </th>
+            <th>LINK</th>
+            <th>DESCRIPTION</th>
+            <th>SOURSE</th>
+            <th>DOMAIN</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map(term => (
+            <tr key={term.id}>
+              <td>{term.term}</td>
+              <td>{term.link}</td>
+              <td>{term.description}</td>
+              <td>{term.source}</td>
+              <td>{term.domain}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     );
 }
 

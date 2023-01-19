@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "rsuite/dist/rsuite.css";
 import { Cascader } from 'rsuite';
 import axios from 'axios';
 import FolderFillIcon from "@rsuite/icons/FolderFill";
 import PageIcon from "@rsuite/icons/Page";
-import { useEffect } from 'react';
 
 // the config header will avoid cors blocked by the chrome
 const config = {
@@ -30,16 +29,17 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
     });
 
     
-    //this is run at the start of the website
-    //will get the list of universities and get all the term name for corresponding term ID
+    // this is run at the start of the website
+    // will get the list of universities and get all the term name for corresponding term ID
     useEffect(() => {
         let newTerms = {};
         apiInstance.get("/api/Universities", config).then(response => {
             let universityData = response.data.map((object => {
-                //get terms for that university
-                apiInstance.get("/api/Terms/ByUniversity/" + object.id, config).then(response => {
-                    response.data.map((terms) => {
-                        newTerms[terms.id] = terms.name
+                // get terms for that university
+                apiInstance.get(`/api/Terms/ByUniversity/${object.id}`, config).then(response2 => {
+                    response2.data.map((term) => {
+                        newTerms[term.id] = term.name
+                        return undefined;
                     })
                 })
     
@@ -65,64 +65,55 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
      */
     const getNodes = async (type, id) => {
         try {
-            let res = undefined;
-            let resData = undefined;
-
-            switch(type) {
-                case 0:
-                    //get department for university
-                    res = await apiInstance.get("/api/Departments/ByUniversity/" + id, config);
-                    resData = res.data;
-                    
-                    return resData.map((object) => {
-                        return {
-                            label: object.acronym,
-                            value: object.id,
-                            type: 1,
-                            children: [],
-                        }
-                    })
-
-                case 1:
-                    res = await apiInstance.get("/api/Courses/ByDepartment/"+id, config);
-                    resData = res.data;
-                    
-                    return resData.map((object) => {
-                        return {
-                            label:object.courseNumber,
-                            value:object.id,
-                            type:2,
-                            children:[]
-                        }
-                    });
-
-                case 2:
-                    res = await apiInstance.get("/api/CourseOfferings/ByCourse/"+id, config);
-                    resData = res.data.offerings;
-
-                    if (res.status === 204) {
-                        //this course has no offerings
-                        return [];
-                    } else {
-                        return resData.map((object) => {
-                            return {
-                                label:terms[object.termId] + " " +object.sectionName,
-                                value:object.id,
-                                type:3,
-                                children:null
-                            }
-                        });
+            if (type === 0) {
+                let res = await apiInstance.get(`/api/Departments/ByUniversity/${id}`, config);
+                let resData = res.data;
+                
+                return resData.map((object) => {
+                    return {
+                        label: object.acronym,
+                        value: object.id,
+                        type: 1,
+                        children: [],
                     }
+                })
+            }
+            
+            if (type === 1) {
+                let res = await apiInstance.get(`/api/Courses/ByDepartment/${id}`, config);
+                let resData = res.data;
+                
+                return resData.map((object) => {
+                    return {
+                        label:object.courseNumber,
+                        value:object.id,
+                        type:2,
+                        children:[]
+                    }
+                });
+            }
+            
+            if (type === 2) {
+                let res = await apiInstance.get(`/api/CourseOfferings/ByCourse/${id}`, config);
+                let resData = res.data.offerings;
 
-                default:
+                if (res.status === 204) {
+                    // this course has no offerings
                     return [];
+                }
+
+                return resData.map((object) => {
+                    return {
+                        label:`${terms[object.termId]} ${object.sectionName}`,
+                        value:object.id,
+                        type:3,
+                        children:null
+                    }
+                });
             }
         } catch (err) {
-            console.log("raise error");
-            console.log(err);
             return [{label:'error loading', value:"error", children:null}];
         }
-        
     }
 
     const fetchNodes = (type, id) => {
@@ -137,45 +128,37 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
     }
 
     const handleOnSelect = (e) => {
-        console.log("on select");
-        console.log(e.type);
         if (e.type === 3) {
-            console.log(e);
-            console.log(e.value);
-            console.log(e.parent.value);
-
             setSelectCourse(e.parent.value);
             setSelectOffering(e.value);
         }
-        
     }
 
     return (
-        <div className="example-item">
-            <Cascader
-                onSelect={(e) => handleOnSelect(e)}
-                placeholder="Select your course"
-                data={initialData}
-                menuWidth={200}
-                searchable={true}
-                getChildren={node => {
-                    return fetchNodes(node.type, node.value);
-                }}
-                renderMenuItem={(label, item) => {
-                    return (
-                        <>
-                        {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
-                        </>
-                    );
-                }}
-                renderMenu={(children, menu, parentNode) => {
-                    if (parentNode && parentNode.loading) {
-                        return <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>Loading...</p>;
-                    }
-                    return menu;
-                }}
-            />
-        </div>
+      <div className="example-item">
+        <Cascader
+          onSelect={(e) => handleOnSelect(e)}
+          placeholder="Select your course"
+          data={initialData}
+          menuWidth={200}
+          searchable
+          getChildren={node => {
+            return fetchNodes(node.type, node.value);
+          }}
+          renderMenuItem={(label, item) => {
+              return (
+                <>
+                  {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
+                </>
+              );
+          }}
+          renderMenu={(children, menu, parentNode) => {
+              if (parentNode && parentNode.loading) {
+                  return <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>Loading...</p>;
+              }
+              return menu;
+          }}
+        />
+      </div>
     )
-
 }
