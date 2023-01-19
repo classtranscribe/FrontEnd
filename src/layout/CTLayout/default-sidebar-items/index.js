@@ -53,6 +53,18 @@ export class DefaultSidebarItems {
     });
   }
 
+  // 114
+  get glossary() {
+    return this.create({
+      value: 'ct-nsb-glossary',
+      text: 'Glossary',
+      icon: 'book',
+      href: links.glossary(),
+      active: uurl.isEqual(links.glossary()),
+      items: []
+    });
+  }
+
   get pgadmin () {
     return this.create({
       value: 'ct-nsb-extLinks-pgadmin',
@@ -149,6 +161,7 @@ export class DefaultSidebarItems {
 
     if (isInstructor) {
       items.push(this.myCourses);
+      items.push(this.glossary); // 114
     }
 
     if (isAdmin) {

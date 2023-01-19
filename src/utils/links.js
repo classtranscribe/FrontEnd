@@ -96,6 +96,14 @@ export class ClassTranscribeLinks {
     return '/personal-analytics';
   }
 
+  // 114
+  /**
+   * to `/glossary`
+   */
+   glossary() {
+    return '/glossary';
+  }
+
   /**
    * to `/watch?id=<media_id>[&begin=<begin_time>`
    * @param {String} id - media id
