@@ -6,6 +6,7 @@ import { AmpStories } from '@material-ui/icons';
 import { links } from 'utils';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
+import {getGlossaryData, findGlossaryTermsInChapter, glossaryTermsAsHTML} from './GlossaryCreator';
 import {
   MIMETYPE,
   META_INF_CONTAINER_XML,
@@ -31,6 +32,7 @@ class EPubFileBuilder {
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
+    this.glossaryData = await getGlossaryData(this.data.sourceId);
   }
 
   /**
@@ -244,9 +246,13 @@ class EPubFileBuilder {
     if (link !== undefined && link.startsWith('http')) {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
+    // add glossary terms to end of chapter
+    console.log(this.data.sourceId, this.glossaryData);
+    const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
     const content = dedent(`
         <div class="epub-ch">            
             ${text}
+            ${glossaryTermsAsHTML(glossaryTerms)} 
         </div>
       `);
     return OEBPS_CONTENT_XHTML({ title, content, language });
