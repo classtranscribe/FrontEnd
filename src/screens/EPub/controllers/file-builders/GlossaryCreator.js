@@ -7,6 +7,7 @@ export async function getGlossaryData(mediaId) {
         mode: 'cors', // no-cors, *cors, same-origin
         headers: {
             'accept': '*/*',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlcjk5OUBjbGFzc3RyYW5zY3JpYmUuY29tIiwianRpIjoiMzRmYWE0ZWEtMDhiYi00ZjAxLWIzYzctNWZkMTM5MWRiNmNkIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZ2l2ZW5uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJVc2VyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXI5OTlAY2xhc3N0cmFuc2NyaWJlLmNvbSIsImNsYXNzdHJhbnNjcmliZS9Vc2VySWQiOiI5OSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJJbnN0cnVjdG9yIiwiQWRtaW4iXSwiZXhwIjoxNjc3MDkyNzcyLCJpc3MiOiJodHRwczovL2N0LWRldi5uY3NhLmlsbGlub2lzLmVkdSIsImF1ZCI6Imh0dHBzOi8vY3QtZGV2Lm5jc2EuaWxsaW5vaXMuZWR1In0.zBrLKBnbqhKMc1BOugzo8-2-kEatX0rW2WcS18yqNV4' 
         }
     });
 
@@ -16,7 +17,7 @@ export async function getGlossaryData(mediaId) {
         const glossaryData = {} 
         const glossaryJson = await response.json();
         console.log(glossaryJson)
-        for(const term of glossaryJson["glossary"]) {
+        for(const term of glossaryJson["Glossary"]) {
             const word = term[0]
             const description = term[1]
             console.log(word, description)
@@ -44,13 +45,12 @@ export function findGlossaryTermsInChapter(glossaryData, chapterText)
     let foundTerms = []
 
     // TODO: will optimize later (maybe trie)  
-    for(const [word, description] of glossaryData) {
+    for(const word in glossaryData) {
         const index = chapterText.search(word);
         if(index == -1) { continue; }
-        foundTerms.push({ word, description });
-        delete glossaryData[word]; // ensures glossary is made only for first occurance 
+        foundTerms.push({ word, description: glossaryData[word]});
+        // delete glossaryData[word]; // ensures glossary is made only for first occurance 
     }
-
     return foundTerms
 }
 
