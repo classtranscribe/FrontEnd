@@ -33,6 +33,7 @@ class EPubFileBuilder {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
     this.glossaryData = await getGlossaryData(this.data.sourceId);
+    console.log(this.glossaryData);
   }
 
   /**
