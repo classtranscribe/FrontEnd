@@ -60,8 +60,6 @@ class ScreenshotsBuilder {
         transcript = chapter.text.substring(transcriptStart+3, transcriptEnd);
         transcript = transcript.replaceAll("%", "\\%");
         chapterContent = chapterContent.concat(transcript, '\n');
-        // glossary 
-        chapterContent = chapterContent.concat("TESTTESTTEST", '\n');
       }
       for (let j = 0; j < chapter.subChapters.length; j += 1) {
         let subChapter = chapter.subChapters[j];

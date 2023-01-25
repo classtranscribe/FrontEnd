@@ -189,9 +189,6 @@ class HTMLFileBuilder {
           imgStart = curText.indexOf("src=");
           transcriptStart = curText.indexOf("<p>");
         }
-        // add glossary 
-        pdf.text("TESTTESTTESTTEST", margin, y);
-
         for (let j = 0; j < chapter.subChapters.length; j+=1) {
           let subchapter = chapter.subChapters[j];
           pdf.addPage();
