@@ -86,7 +86,7 @@ export function glossaryTermsAsText(terms) {
     
     // Add each defintion as a <li> tag
     for (const elem of terms) {
-        text += `${elem.word}: ${elem.description}`;
+        text += `${elem.word}: ${elem.description}\n`;
     }
 
     return text;
