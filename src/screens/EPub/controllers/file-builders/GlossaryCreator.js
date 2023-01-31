@@ -68,6 +68,7 @@ export function glossaryTermsAsHTML(terms)
     // Add each defintion as a <li> tag
     for (const elem of terms) {
         html += `<li>${elem.word}: ${elem.description}</li>`;
+        html += `<br/>`;
     }
 
     html += '</ul>'; // Add closing tag
