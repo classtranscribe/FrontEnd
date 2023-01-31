@@ -21,7 +21,7 @@ export async function getGlossaryData(mediaId) {
       const word = term[0];
       const description = term[1];
       const link = term[5];
-      console.log(word, description, link);
+    //   console.log(word, description, link);
       glossaryData[word] = { description, link };
     }
 
