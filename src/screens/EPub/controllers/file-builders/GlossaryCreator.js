@@ -16,12 +16,12 @@ export async function getGlossaryData(mediaId) {
 
     const glossaryData = {};
     const glossaryJson = await response.json();
-    console.log(glossaryJson);
+    // console.log(glossaryJson);
     for (const term of glossaryJson['Glossary']) {
       const word = term[0];
       const description = term[1];
       const link = term[5];
-    //   console.log(word, description, link);
+      //   console.log(word, description, link);
       glossaryData[word] = { description, link };
     }
 
@@ -54,10 +54,36 @@ export function findGlossaryTermsInChapter(glossaryData, chapterText) {
       description: glossaryData[word].description,
       link: glossaryData[word].link,
     });
-    
+
     delete glossaryData[word]; // ensures glossary is made only for first occurance
   }
   return foundTerms;
+}
+
+export function highlightAndLinkGlossaryWords(text, terms) {
+  let res = '';
+
+  let i = 0;
+
+  while (i < text.length) {
+    let found = false;
+    for (const elem of terms) {
+      if (text.substring(i, i + elem.word.length) == elem.word) {
+        const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
+        res += `<a href="#${wordId}">${elem.word}</a>`;
+        i += elem.word.length;
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      res += text[i];
+      i += 1;
+    }
+  }
+
+//   console.log(res);
+  return res;
 }
 
 /***
@@ -67,17 +93,21 @@ export function glossaryTermsAsHTML(terms) {
   if (terms.length == 0) {
     return '';
   }
-  // Wrap the list with a <ul> tag
-  let html = '<ul>'; // Add opening tag
+
+  let html = '<div>';
+
+  html += '<h4>Glossary:</h4>';
+  html += '<ul>';
 
   // Add each defintion as a <li> tag
   for (const elem of terms) {
-    const link = `<a href="${elem.link}">${elem.word}</a>`;
-    html += `<li>${link}: ${elem.description}</li>`;
+    const wordId = 'glossary_' + String(elem.word).replaceAll(' ', '-');
+    html += `<li id='${wordId}'>${elem.word}: ${elem.description} <a href="${elem.link}">[more]</a></li>`;
     html += `<br/>`;
   }
 
-  html += '</ul>'; // Add closing tag
+  html += '</ul>';
+  html += '</div>';
 
   return html;
 }
@@ -93,7 +123,7 @@ export function glossaryTermsAsText(terms) {
 
   // Add each defintion as a <li> tag
   for (const elem of terms) {
-    text += `${elem.word}: ${elem.description}`;
+    text += `${elem.word}: ${elem.description}\n`;
   }
 
   return text;
