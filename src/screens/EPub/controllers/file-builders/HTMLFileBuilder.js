@@ -6,6 +6,8 @@ import { jsPDF as JsPDF } from "jspdf";
 
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
+import {getGlossaryData, findGlossaryTermsInChapter, glossaryTermsAsHTML, glossaryTermsAsText} from './GlossaryCreator';
+
 import {
   INDEX_HTML_LIVE,
   INDEX_HTML_LOCAL,
@@ -30,6 +32,7 @@ class HTMLFileBuilder {
 
   async init(ePubData, forPreview = false) {
     this.data = await EPubParser.parse(ePubData, !forPreview);
+    this.glossaryData = await getGlossaryData(this.data.sourceId);
   }
 
   /**
@@ -189,6 +192,20 @@ class HTMLFileBuilder {
           imgStart = curText.indexOf("src=");
           transcriptStart = curText.indexOf("<p>");
         }
+
+        // add glossary terms for chapter 
+        let glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, chapter.text);
+        let glossaryText = glossaryTermsAsText(glossaryTerms);
+        let splitted = pdf.splitTextToSize(glossaryText, parseInt(w,10));
+        for (let j = 0; j < splitted.length; j += 1) {
+          if (y >= h-h%10) {
+            y = 10;
+            pdf.addPage();
+          }
+          pdf.text(splitted[j], margin, y);
+          y += 10;
+        }
+
         for (let j = 0; j < chapter.subChapters.length; j+=1) {
           let subchapter = chapter.subChapters[j];
           pdf.addPage();
@@ -220,6 +237,18 @@ class HTMLFileBuilder {
                 pdf.text(splitval, margin, y);
                 y += 10;
               }
+              // add glossary terms for subchapter 
+              let glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, transcript);
+              let glossaryText = glossaryTermsAsText(glossaryTerms);
+              let subSplitted = pdf.splitTextToSize(glossaryText, parseInt(w,10));
+              for (let j = 0; j < subSplitted.length; j += 1) {
+                if (y >= h-h%10) {
+                  y = 10;
+                  pdf.addPage();
+                }
+                pdf.text(subSplitted[j], margin, y);
+                y += 10;
+              }
             } else if (subContents.src) {
               const subImgData = subchapterImages[subContents.src];
               dimensions = await this.getImageDimensions(subImgData);
@@ -228,7 +257,6 @@ class HTMLFileBuilder {
               imgLeft = margin + (w-imgWidth)/2;
               // If image was prefetched, insert it here
               pdf.addImage(subImgData, 'JPEG', imgLeft, y+10, imgWidth, 100);
-
               y = 140;
             }
           }

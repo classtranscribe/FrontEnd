@@ -74,3 +74,20 @@ export function glossaryTermsAsHTML(terms)
 
     return html;
 }
+
+/***
+ * @param terms the terms returned from findGlossaryTermsInChapter
+ */
+export function glossaryTermsAsText(terms) {
+    if (terms.length == 0) {
+        return "";
+    }
+    let text = "\nGlossary:\n"; 
+    
+    // Add each defintion as a <li> tag
+    for (const elem of terms) {
+        text += `${elem.word}: ${elem.description}`;
+    }
+
+    return text;
+}
