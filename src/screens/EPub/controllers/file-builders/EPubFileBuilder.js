@@ -282,7 +282,7 @@ class EPubFileBuilder {
     // add glossary terms to end of chapter
     console.log(chapter);
     const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
-    const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms);
+    const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms, this.data.enableOnlyFirstGlossaryTermHighlight);
     const glossaryHTML = glossaryTermsAsHTML(glossaryTerms);
 
     const content = dedent(`
