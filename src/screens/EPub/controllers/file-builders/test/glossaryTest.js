@@ -3,6 +3,8 @@ function highlightAndLinkGlossaryWords(text, terms) {
 
   let i = 0;
 
+ terms.sort((t1, t2) => -String(t1.word).toLowerCase().localeCompare(String(t2.word).toLowerCase()));
+
   while (i < text.length) {
     let found = false;
     for (const elem of terms) {
@@ -50,3 +52,5 @@ const terms = [
 const text = "hellohello2 hello3 word 4"
 
 highlightAndLinkGlossaryWords(text, terms);
+
+const expected = "hello world"
