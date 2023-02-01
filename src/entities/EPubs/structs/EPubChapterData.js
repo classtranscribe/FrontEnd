@@ -2,7 +2,7 @@ import { buildHTMLFromChapter } from '../html-converters';
 import EPubChapterLikeData from './EPubChapterLikeData';
 import EPubSubChapterData from './EPubSubChapterData';
 
-let untitledChapterNum = -1;
+let untitledChapterNum = 0;
 function _createChapterTitle() {
   untitledChapterNum += 1;
   let chapterNum = untitledChapterNum > 0 ? ` (${untitledChapterNum})` : '';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classnames';
 import { CTText } from 'layout';
 import { ChapterTitle } from '../../../components';
@@ -40,7 +40,15 @@ function EPubChapterItem({
 
   const chClasses = cx('ct-epb', 'sch', 'ch-item', 'ct-d-c', { fold: isFolded });
 
-  const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3)
+  const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3);
+
+  // Automatically update the untitled chapter names to correlate with the chapter index
+  useEffect(() => {
+    const reg = /^Untitled Chapter \(\d\)$/;
+    if (reg.test(chapter.title)) {
+      saveChapterTitle(`Untitled Chapter (${chapterIndex + 1})`)
+    }
+  }, [chapterIndex]);
 
   return (
     <div

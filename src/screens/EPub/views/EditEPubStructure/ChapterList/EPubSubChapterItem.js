@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classnames';
 import { CTText } from 'layout';
 import { epub, getCompactText } from '../../../controllers';
@@ -49,6 +49,14 @@ function EPubSubChapterItem({
   const schClasses = cx('ct-epb', 'sch', 'ch-item', 'sub', 'ct-d-c', {
     fold: isFolded
   });
+
+  // Automatically update the untitle subchapter names to correlate with the subchapter index
+  useEffect(() => {
+    const reg = /^Untitled Sub-Chapter \(\d\)$/;
+    if (reg.test(subChapter.title)) {
+      saveSubChapterTitle(`Untitled Sub-Chapter (${subChapterIndex + 1})`)
+    }
+  }, [subChapterIndex]);
 
   return (
     <div id={epub.id.schID(subChapter.id)} className={schClasses}>
