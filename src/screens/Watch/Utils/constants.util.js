@@ -172,18 +172,23 @@ export const CC_FONT_MONOSPACE = 'monospace';
 export const CC_FONT_CURSIVE = 'cursive';
 export const CC_FONT_FANTASY = 'fantasy';
 export const CC_FONT_COMIC_SANS = 'Comic Sans MS';
+export const CC_FONT_OPEN_SANS = 'Open Sans';
+export const CC_FONT_TAHOMA = 'Tahoma'
+export const CC_FONT_TIMES_NEW_ROMAN = 'Times New Roman'
+export const CC_FONT_CALIBRI = 'Calibri'
+export const CC_FONT_HELVETICA = 'Helvetica'
 export const cc_fontOptions = [
   CC_FONT_SERIF,
   CC_FONT_SANS_SERIF,
-  // CC_FONT_TIMES_NEW_ROMAN,
-  // CC_FONT_TAHOMA,
-  // CC_FONT_CALIBRI,
-  // CC_FONT_HELVETICA,
-  // CC_FONT_PAPYRUS,
+  CC_FONT_TIMES_NEW_ROMAN,
+  CC_FONT_TAHOMA,
+  CC_FONT_CALIBRI,
+  CC_FONT_HELVETICA,
   CC_FONT_MONOSPACE,
   CC_FONT_CURSIVE,
   CC_FONT_FANTASY,
   CC_FONT_COMIC_SANS,
+  CC_FONT_OPEN_SANS,
 ];
 export const cc_colorMap = {
   [CC_COLOR_RED]: 'rgba(255,0,0,*)',
