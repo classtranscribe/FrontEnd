@@ -60,7 +60,7 @@ export function findGlossaryTermsInChapter(glossaryData, chapterText) {
 	return foundTerms;
 }
 
-export function highlightAndLinkGlossaryWords(text, terms) {
+export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 	let res = '';
 
 	let i = 0;
@@ -83,7 +83,7 @@ export function highlightAndLinkGlossaryWords(text, terms) {
 		if (!found) {
 			res += text[i];
 			i += 1;
-		} else {
+		} else if (highlightFirstOnly) {
 			// Remove word to only highlight first occurence of the word
 			terms_clone = terms_clone.filter(t => t.word != foundTerm);
 		}

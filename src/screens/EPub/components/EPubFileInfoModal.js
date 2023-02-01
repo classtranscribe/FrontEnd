@@ -35,6 +35,9 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const onVisualTocChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, enableVisualToc: checked });
+  
+  const onOnlyFirstGlossaryTermHighlight = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, enableOnlyFirstGlossaryTermHighlight: checked });
 
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
@@ -150,6 +153,14 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             label="Enable Visual Table of Contents"
             checked={epubData.enableVisualToc}
             onChange={onVisualTocChange}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-only-first-glossary-term-highlight"
+            label="Highlight Only First Occurence of Glossary Term"
+            checked={epubData.enableOnlyFirstGlossaryTermHighlight}
+            onChange={onOnlyFirstGlossaryTermHighlight}
           />
         </CTFormRow>
         <CTFormRow>
