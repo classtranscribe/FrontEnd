@@ -60,38 +60,37 @@ export function findGlossaryTermsInChapter(glossaryData, chapterText) {
   return foundTerms;
 }
 
-export function highlightAndLinkGlossaryWords(text, terms) {
-  let res = '';
+export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
+	let res = '';
 
-  let i = 0;
+	let i = 0;
 
-  let terms_clone = terms.map((t) => ({ ...t }));
+	let terms_clone = terms.map(t => ({...t}));
 
-  while (i < text.length) {
-    let found = false;
-    let foundTerm = null;
+	while (i < text.length) {
+		let found = false;
+		let foundTerm = null;
+		for (const elem of terms_clone) {
+			if (text.substring(i, i + elem.word.length) == elem.word) {
+				const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
+				res += `<a href="#${wordId}">${elem.word}</a>`;
+				i += elem.word.length;
+				found = true;
+				foundTerm = elem.word;
+				break;
+			}
+		}
+		if (!found) {
+			res += text[i];
+			i += 1;
+		} else if (highlightFirstOnly) {
+			// Remove word to only highlight first occurence of the word
+			terms_clone = terms_clone.filter(t => t.word != foundTerm);
+		}
+	}
 
-    for (const elem of terms_clone) {
-      if (text.substring(i, i + elem.word.length) == elem.word) {
-        const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
-        res += `<a href="#${wordId}">${elem.word}</a>`;
-        i += elem.word.length;
-        found = true;
-        foundTerm = elem.word;
-        break;
-      }
-    }
-    if (!found) {
-      res += text[i];
-      i += 1;
-    } else {
-      // Remove word to only highlight first occurence of the word
-      terms_clone = terms_clone.filter((t) => t.word != foundTerm);
-    }
-  }
-
-  console.log(res);
-  return res;
+	//   console.log(res);
+	return res;
 }
 
 /***

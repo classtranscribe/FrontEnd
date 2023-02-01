@@ -267,11 +267,11 @@ class EPubFileBuilder {
     if (link !== undefined && link.startsWith('http')) {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
-
-    // add glossary terms to end of chapter
-    console.log(chapter);
+    let highlightFirstOnly = "enableOnlyFirstGlossaryTermHighlight" in this.data;
+    console.log(highlightFirstOnly)
+    // add glossary terms to end of chapter if enabled 
     const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
-    const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms);
+    const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms, highlightFirstOnly);
     const glossaryHTML = glossaryTermsAsHTML(glossaryTerms);
 
     const content = dedent(`
