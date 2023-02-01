@@ -11,7 +11,7 @@ import {
   cc_colorOptions,
   cc_opacityOptions,
   // cc_positionOptions,
-  // cc_fontOptions,
+  cc_fontOptions,
   cc_sizeOptions,
   getCCStyle,
   getCCSelectOptions,
@@ -71,6 +71,19 @@ function SettingMenu({
               />
             </Grid.Column>
           </Grid.Row> */}
+          <Grid.Row>
+            <Grid.Column>
+              <Form.Field
+                fluid
+                control={Select}
+                label="Font"
+                aria-label="Font"
+                options={getCCSelectOptions(cc_fontOptions)}
+                value={cc_font}
+                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_font: value } })}
+              />
+            </Grid.Column>
+          </Grid.Row>
 
           <Grid.Row>
             <Grid.Column>
@@ -121,6 +134,7 @@ function SettingMenu({
               />
             </Grid.Column>
           </Grid.Row>
+
         </Grid>
       </div>
     </div>
