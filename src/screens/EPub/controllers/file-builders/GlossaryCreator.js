@@ -60,42 +60,83 @@ export function findGlossaryTermsInChapter(glossaryData, chapterText) {
   return foundTerms;
 }
 
+function is_alphanum(char) {
+  return char.match(/[a-zA-Z0-9]/i);
+}
+
+/**
+ *
+ * @param {String} text
+ * @param {Array} terms
+ * @param {Boolean} highlightFirstOnly
+ * @returns A string containing the text after substituting ALL/SOME of the keywords found in the "terms" array.
+ * - terms should be the array returned by findGlossaryTermsInChapter function.
+ * - highlightFirstOnly specifies whether we should highlight the first occurrence or every occurrence of a keyword.
+ * - Assume text is a valid HTML string with correct opening and closing tags.
+ */
 export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
   let res = '';
   let withinTag = false;
   let terms_clone = terms.map((t) => ({ ...t }));
 
   MAIN_LOOP: for (let i = 0; i < text.length; ) {
+    // First we check that we are not inside a TAG i.e. <>
+    // We do not want to replace text within an attribute!
+
     if (text[i] == '<') {
       withinTag = true;
     }
+
     if (text[i] == '>') {
       withinTag = false;
     }
-    if (withinTag || !text[i].match(/[a-zA-Z0-9]/i)) {
+
+    // Also ignore non alpha numeric characters like space and punctuation.
+    if (withinTag || !is_alphanum(text[i])) {
       res += text[i];
       i++;
       continue;
     }
 
+    // Check each available glossary word to find match at current offset (i) in text.
     for (const elem of terms_clone) {
-      if (text.substring(i, i + elem.word.length) == elem.word) {
+      const sub = text.substring(i, i + elem.word.length);
+      if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) == 0) {
+        // Check if it is a complete word backwards
+        if (i > 0 && is_alphanum(text[i - 1])) {
+          break;
+        }
+
+        // Check if it is a complete word forwards
+        if (i + 1 < text.length && is_alphanum(text[i + 1])) {
+          break;
+        }
+
+        // The HTML id for this word in the glossary section
         const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
+
+        // The replacement text with hyperlink
         res += `<a href="#${wordId}">${elem.word}</a>`;
+
+        // Skip forwards in text by the length of current word
         i += elem.word.length;
+
+        // Remove word to only highlight first occurence of the word
         if (highlightFirstOnly) {
-          // Remove word to only highlight first occurence of the word
           terms_clone = terms_clone.filter((t) => t.word != elem.word);
         }
+
+        // jump to outer loop
         continue MAIN_LOOP;
       }
     }
 
+    // Append the current character without modification
     res += text[i];
     i++;
   }
 
-//   console.log(res);
+  console.log(res);
   return res;
 }
 
