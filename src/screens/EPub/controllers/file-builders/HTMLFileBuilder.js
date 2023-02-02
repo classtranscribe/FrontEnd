@@ -250,15 +250,15 @@ class HTMLFileBuilder {
               y += 10;
             }
             // add glossary terms for subchapter
-            let glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, transcript);
-            let glossaryText = glossaryTermsAsText(glossaryTerms);
+            glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, transcript);
+            glossaryText = glossaryTermsAsText(glossaryTerms);
             let subSplitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
-            for (let j = 0; j < subSplitted.length; j += 1) {
+            for (let l = 0; l < subSplitted.length; l += 1) {
               if (y >= h - (h % 10)) {
                 y = 10;
                 pdf.addPage();
               }
-              pdf.text(subSplitted[j], margin, y);
+              pdf.text(subSplitted[l], margin, y);
               y += 10;
             }
           } else if (subContents.src) {
