@@ -4,22 +4,13 @@ import classNames from 'classnames';
 import { Link } from 'dva/router';
 
 export function NavHeaderTab(props) {
-  let {
-    text,
-    active = false,
-    href = false,
-  } = props;
+  let { text, active = false, href = false } = props;
 
-  const tabClasses = classNames('plain-btn ct-nh-tab', { active })
+  const tabClasses = classNames('plain-btn ct-nh-tab', { active });
 
   return (
-    <Link
-      className={tabClasses}
-      to={href}
-    >
-      <span tabIndex="-1">
-        {text}
-      </span>
+    <Link className={tabClasses} to={href}>
+      <span tabIndex="-1">{text}</span>
     </Link>
   );
 }
@@ -32,7 +23,7 @@ export const NavHeaderTabPropTypes = {
   active: PropTypes.bool,
 
   /** The pathname of the tab */
-  href: PropTypes.string
+  href: PropTypes.string,
 };
 
 NavHeaderTab.propTypes = NavHeaderTabPropTypes;

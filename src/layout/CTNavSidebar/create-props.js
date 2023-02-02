@@ -14,7 +14,7 @@
  * @property {Boolean} mini - The sidebar supports a mini view
  * @property {CTNavSidebarItemProps[]} items - Sub-items of this tab
  */
- /**
+/**
  * Create the props for CTNavSidebarItem component
  * @param {CTNavSidebarItemProps} props - the props creator
  * @returns {CTNavSidebarItemProps} The props for CTNavSidebarItem component
@@ -23,8 +23,7 @@ export function createCTNavSidebarItemProps(props) {
   return props;
 }
 
-
- /**
+/**
  * The props for CTNavSidebar component
  * @typedef {Object} CTNavSidebarProps
  * @property {Boolean} show - True if show the sidebar
@@ -37,7 +36,7 @@ export function createCTNavSidebarItemProps(props) {
  * @property {Function} onClose - Handle close the sidebar
  */
 
- /**
+/**
  * Create the props for CTNavSidebar component
  * @param {CTNavSidebarProps} props - the props creator
  * @returns {CTNavSidebarProps} The props for CTNavSidebar component
@@ -46,6 +45,4 @@ export function createCTNavSidebarProps(props) {
   return props;
 }
 
-createCTNavSidebarProps({
-  
-})
+createCTNavSidebarProps({});

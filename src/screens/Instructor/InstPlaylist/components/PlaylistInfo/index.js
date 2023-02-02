@@ -33,10 +33,7 @@ function getPlaylistSourceURL({ sourceType, playlistIdentifier, jsonMetadata }) 
 }
 function PlaylistInfoWithRedux(props) {
   const { history, instplaylist, dispatch } = props;
-  const {
-    offering,
-    playlist
-  } = instplaylist;
+  const { offering, playlist } = instplaylist;
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(playlist.name);
@@ -53,7 +50,7 @@ function PlaylistInfoWithRedux(props) {
     if (!inputValue) return;
     const playlist_ = await Playlist.rename(playlist, inputValue);
     if (playlist_) {
-      dispatch({type: 'instplaylist/setPlaylist', payload: playlist_.toObject()});
+      dispatch({ type: 'instplaylist/setPlaylist', payload: playlist_.toObject() });
     }
     handleCancelRename();
   };
@@ -67,9 +64,9 @@ function PlaylistInfoWithRedux(props) {
         if (successed) {
           history.push(links.course(offering.id));
         }
-      }
+      },
     };
-    dispatch({type: 'instplaylist/setConfirmation', payload: confirm});
+    dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
   };
 
   const sourseURL = getPlaylistSourceURL(playlist);
@@ -89,7 +86,7 @@ function PlaylistInfoWithRedux(props) {
     handleCancelRename,
     handleDelete,
     playlistId: playlist.id,
-    offeringId: offering.id
+    offeringId: offering.id,
   };
 
   return (
@@ -104,5 +101,3 @@ function PlaylistInfoWithRedux(props) {
 }
 
 export const PlaylistInfo = PlaylistInfoWithRedux;
-
-

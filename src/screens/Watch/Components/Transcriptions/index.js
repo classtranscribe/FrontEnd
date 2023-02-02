@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { connect } from 'dva';
 import {
@@ -33,7 +33,7 @@ function TranscriptionsWithRedux(props) {
     currCaptionIndex,
     currentTime,
     liveMode,
-    fontSize
+    fontSize,
   } = props;
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
@@ -42,10 +42,11 @@ function TranscriptionsWithRedux(props) {
   // check text and time merge into one for key as well
   const isCurrent = (id) => {
     if (liveMode) {
-      return Boolean(currCaption) && (String(currCaption.text) + String(currCaption.startTime)) === id;
+      return (
+        Boolean(currCaption) && String(currCaption.text) + String(currCaption.startTime) === id
+      );
     }
-      return Boolean(currCaption) && currCaption.id === id;
-
+    return Boolean(currCaption) && currCaption.id === id;
 
     // || (Boolean(currDescription) && currDescription.id === id)
   };
@@ -54,14 +55,14 @@ function TranscriptionsWithRedux(props) {
   useEffect(() => {
     if (currCaption != null && liveMode) {
       if (true) {
-        let z = document.getElementById(`caption-line-${currCaption.startTime}`)
+        let z = document.getElementById(`caption-line-${currCaption.startTime}`);
         // console.log(z)
         if (z != null) {
-          z.scrollIntoView({block: "center"})
+          z.scrollIntoView({ block: 'center' });
         }
       }
     }
-  }, [currCaption, currCaptionIndex, currentTime])
+  }, [currCaption, currCaptionIndex, currentTime]);
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
@@ -77,17 +78,23 @@ function TranscriptionsWithRedux(props) {
             No Transcriptions
           </div>
         ) : transView === LINE_VIEW ? (
-          <div className="trans-list" style={{zIndex: 10}}>
+          <div className="trans-list" style={{ zIndex: 10 }}>
             {transcript.map((caption, index) => {
-              return <CaptionLine
-                key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
-                caption={caption}
-                fontSize={fontSize}
-                currCaption={currCaption}
-                isCurrent={liveMode ? isCurrent(caption.text + String(caption.startTime)) : isCurrent(caption.id)}
-                dispatch={dispatch}
-                isEditing={Boolean(currEditing) && currEditing.id === caption.id}
-              />
+              return (
+                <CaptionLine
+                  key={liveMode ? String(caption.text) + String(caption.startTime) : caption.id}
+                  caption={caption}
+                  fontSize={fontSize}
+                  currCaption={currCaption}
+                  isCurrent={
+                    liveMode
+                      ? isCurrent(caption.text + String(caption.startTime))
+                      : isCurrent(caption.id)
+                  }
+                  dispatch={dispatch}
+                  isEditing={Boolean(currEditing) && currEditing.id === caption.id}
+                />
+              );
             })}
           </div>
         ) : transView === TRANSCRIPT_VIEW ? (
@@ -108,8 +115,35 @@ function TranscriptionsWithRedux(props) {
   ) : null;
 }
 
-export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode, fontSize}, loading }) => ({
+export const Transcriptions = connect(
+  ({
+    playerpref: { transView },
+    watch: {
+      transcript,
+      currCaption,
+      currEditing,
+      bulkEditing,
+      mode,
+      search,
+      updating,
+      currCaptionIndex,
+      currentTime,
+      liveMode,
+      fontSize,
+    },
+    loading,
+  }) => ({
     transView,
-    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode, fontSize
-  }))(TranscriptionsWithRedux);
+    transcript,
+    currCaption,
+    currEditing,
+    bulkEditing,
+    mode,
+    search,
+    updating,
+    currCaptionIndex,
+    currentTime,
+    liveMode,
+    fontSize,
+  }),
+)(TranscriptionsWithRedux);

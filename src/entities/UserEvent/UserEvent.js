@@ -18,13 +18,13 @@ class UserEvent {
       json: {
         ...json,
         device: {
-          deviceType, 
-          osVersion, 
-          osName, 
-          fullBrowserVersion, 
-          browserName
-        }
-      }
+          deviceType,
+          osVersion,
+          osName,
+          fullBrowserVersion,
+          browserName,
+        },
+      },
     };
 
     if (offeringId) {

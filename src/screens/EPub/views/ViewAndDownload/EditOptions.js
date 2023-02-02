@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { Button } from 'pico-ui';
 import { CTFragment, CTHeading } from 'layout';
 import { epub } from '../../controllers';
@@ -17,13 +17,11 @@ function EditOptions({ dispatch }) {
 
   return (
     <CTFragment margin={[0, 0, 30, 0]}>
-      <CTHeading as="h3" icon="edit">Edit File</CTHeading>
+      <CTHeading as="h3" icon="edit">
+        Edit File
+      </CTHeading>
       <CTFragment dFlexCol padding={[0, 15, 0, 0]}>
-        <Button
-          icon="description"
-          color="transparent"
-          onClick={onEditFileInfo}
-        >
+        <Button icon="description" color="transparent" onClick={onEditFileInfo}>
           Edit I-Note information
         </Button>
         <Button
@@ -47,6 +45,4 @@ function EditOptions({ dispatch }) {
   );
 }
 
-export default connect(({ loading }) => ({
-
-}))(EditOptions);
+export default connect(({ loading }) => ({}))(EditOptions);

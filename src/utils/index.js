@@ -1,7 +1,7 @@
 /**
- * 
+ *
  * Utilities for the ClassTranscribe FrontEnd
- * 
+ *
  */
 import { v4 as uuid } from 'uuid';
 // import * as loggerToExport from './logger';
@@ -24,7 +24,7 @@ export { default as CTError, InvalidDataError } from './use-error';
 
 export * from './constants';
 
-export function _buildID(preflix, id, delimiter='-') {
+export function _buildID(preflix, id, delimiter = '-') {
   return (preflix ? `${preflix}${delimiter}` : '') + (id || uuid());
 }
 
@@ -67,13 +67,13 @@ export async function _copyTextToClipboard(text) {
 export function _readFileAsBinary(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       // binary data
       resolve(e.target.result);
     };
-    reader.onerror = function(e) {
+    reader.onerror = function (e) {
       // error occurred
-      reject(`Error : ${ e.type}`);
+      reject(`Error : ${e.type}`);
     };
     reader.readAsBinaryString(file);
   });

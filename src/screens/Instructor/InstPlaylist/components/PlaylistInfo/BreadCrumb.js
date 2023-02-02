@@ -10,19 +10,16 @@ const useStyles = makeStyles({
     color: 'teal',
     '&:hover': {
       color: 'teal',
-    }
-  }
+    },
+  },
 });
 
-function BreadCrumb({
-  offering,
-  playlist
-}) {
+function BreadCrumb({ offering, playlist }) {
   const classes = useStyles();
 
   const linkProps = {
     component: Link,
-    className: classes.link
+    className: classes.link,
   };
 
   return (
@@ -30,12 +27,9 @@ function BreadCrumb({
       <MuiLink {...linkProps} to={links.course(offering.id)}>
         {offering.fullNumber}
       </MuiLink>
-      <MuiLink className={classes.link}>
-        {playlist.name}
-      </MuiLink>
+      <MuiLink className={classes.link}>{playlist.name}</MuiLink>
     </MuiBreadcrumbs>
   );
 }
 
 export default BreadCrumb;
-

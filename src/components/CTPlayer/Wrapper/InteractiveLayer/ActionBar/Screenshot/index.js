@@ -4,11 +4,11 @@ import { prompt } from 'utils';
 import SourceTypes from 'entities/SourceTypes';
 import ActionButton from '../../ActionButton';
 import ScreenshotPopup from './ScreenshotPopup';
-import { 
-  _captureVideoImage, 
-  _copyScreenshotLink, 
-  _downloadScreenshotByBlob 
-} from '../../../../controllers/helpers'
+import {
+  _captureVideoImage,
+  _copyScreenshotLink,
+  _downloadScreenshotByBlob,
+} from '../../../../controllers/helpers';
 
 function Screenshot(props) {
   const { media, actionElement } = props;
@@ -26,7 +26,7 @@ function Screenshot(props) {
     if (video) {
       try {
         _captureVideoImage(video, (url, blob) => {
-          handleScreenshotCaptured(url, blob)
+          handleScreenshotCaptured(url, blob);
           // this.__onScreenshotCaptured(url, blob);
         });
       } catch {
@@ -36,15 +36,12 @@ function Screenshot(props) {
   };
 
   const handleDownloadScreenshot = () => {
-    _downloadScreenshotByBlob(screenshot.blob, "T", media.mediaName);
+    _downloadScreenshotByBlob(screenshot.blob, 'T', media.mediaName);
     // NOT IMPLEMENTED: TIME
   };
 
   const handleCopyScreenshotLink = async () => {
-    const successed = await _copyScreenshotLink(
-      screenshot.blob,
-      SourceTypes.Media,
-      media.id);
+    const successed = await _copyScreenshotLink(screenshot.blob, SourceTypes.Media, media.id);
 
     return successed;
   };
@@ -77,7 +74,7 @@ function Screenshot(props) {
 }
 
 Screenshot.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default Screenshot;

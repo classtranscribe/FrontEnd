@@ -18,10 +18,10 @@ function DNDContext(props) {
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Droppable isDropDisabled={disabled} droppableId={contextId}>
         {(provided, { isDraggingOver }) => (
-          <div 
-            role={role} 
+          <div
+            role={role}
             className={cx('ct-dnd', 'dnd-li', className, { dragging: isDraggingOver })}
-            ref={provided.innerRef} 
+            ref={provided.innerRef}
             {...provided.droppableProps}
           >
             {children}
@@ -57,4 +57,3 @@ DNDContext.propTypes = {
 };
 
 export default DNDContext;
-

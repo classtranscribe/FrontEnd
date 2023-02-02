@@ -7,22 +7,15 @@ import { useDropzone } from 'react-dropzone';
  * An upload base component
  */
 function UploadBase(props) {
-  const {
-    id,
-    fluid,
-    accept,
-    children,
-    disabled,
-    onFileChange,
-  } = props;
+  const { id, fluid, accept, children, disabled, onFileChange } = props;
 
-  const handleOnChange = ({ target: { files }}) => {
+  const handleOnChange = ({ target: { files } }) => {
     if (typeof onFileChange === 'function') {
       onFileChange(files);
     }
-  }
+  };
 
-  const onDrop = useCallback(files => {
+  const onDrop = useCallback((files) => {
     if (typeof onFileChange === 'function') {
       onFileChange(files);
     }
@@ -46,7 +39,7 @@ function UploadBase(props) {
         {children(isDragActive)}
       </div>
     </>
-  )
+  );
 }
 
 UploadBase.propTypes = {
@@ -70,4 +63,3 @@ UploadBase.propTypes = {
 };
 
 export default UploadBase;
-

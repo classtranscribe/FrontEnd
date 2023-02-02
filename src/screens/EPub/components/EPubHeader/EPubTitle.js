@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CTHeading, CTFragment,useCTConfirmation } from 'layout';
+import { CTHeading, CTFragment, useCTConfirmation } from 'layout';
 import { connectWithRedux } from '../../controllers';
 import EPubCopyModal from '../EPubCopyModal';
 import SaveStatusLabel from './SaveStatusLabel';
@@ -10,15 +10,11 @@ function EPubTitle({ epub, dispatch }) {
   const [showCpyMdl, setShowCpyMdl] = useState(false);
   const onOpenCpyMdl = () => setShowCpyMdl(true);
   const onCloseCpyMdl = () => setShowCpyMdl(false);
-  
+
   const onOpenSettings = () => dispatch({ type: 'epub/setShowFileSettings', payload: true });
 
-  const settingsBtn = _makeTBtn(
-    'edit', 'Edit file', null, onOpenSettings, false, true
-  );
-  const copyBtn = _makeTBtn(
-    'file_copy', 'Make a copy', null, onOpenCpyMdl, false, true
-  );
+  const settingsBtn = _makeTBtn('edit', 'Edit file', null, onOpenSettings, false, true);
+  const copyBtn = _makeTBtn('file_copy', 'Make a copy', null, onOpenCpyMdl, false, true);
 
   const handleDelete = () => {
     dispatch({ type: 'epub/deleteEPub', payload: epub.id });
@@ -26,11 +22,7 @@ function EPubTitle({ epub, dispatch }) {
 
   const delConfirmation = useCTConfirmation('Are you sure to delete this I-Note?', handleDelete);
 
-  const deleteBtn = _makeTBtn(
-    'delete', 'Delete', null, delConfirmation.onOpen, false, true
-  );
-
-
+  const deleteBtn = _makeTBtn('delete', 'Delete', null, delConfirmation.onOpen, false, true);
 
   return (
     <CTFragment dFlex alignItCenter className="ct-epb header-title con">
@@ -50,7 +42,4 @@ function EPubTitle({ epub, dispatch }) {
   );
 }
 
-export default connectWithRedux(
-  EPubTitle,
-  ['epub']
-);
+export default connectWithRedux(EPubTitle, ['epub']);

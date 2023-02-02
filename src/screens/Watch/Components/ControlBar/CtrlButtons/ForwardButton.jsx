@@ -4,7 +4,7 @@ import { connectWithRedux } from '../../../Utils';
 // Not used
 export function ForwardButtonWithRedux({ dispatch }) {
   const handleForward = () => {
-    dispatch({ type: 'watch/media_forward', payload: 10 })
+    dispatch({ type: 'watch/media_forward', payload: 10 });
   };
 
   return (

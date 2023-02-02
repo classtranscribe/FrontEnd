@@ -9,7 +9,6 @@ class AccountStorage {
     localStorage.removeItem(key);
   }
 
-  
   setAuthToken(token) {
     localStorage.setItem(this.AUTH_TOKEN_KEY, token);
   }
@@ -52,7 +51,6 @@ class AccountStorage {
     const userInfoStr = localStorage.getItem(this.USER_INFO_KEY);
     return userInfoStr ? JSON.parse(userInfoStr) : {};
   }
-  
 
   setLoginAsUserInfo(userInfo_) {
     let data = userInfo_;

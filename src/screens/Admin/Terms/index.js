@@ -17,7 +17,7 @@ export default function TermPane(props) {
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Terms" />
-      
+
       <Route path="/admin/terms/:type?=:id" component={TermEditing} />
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>

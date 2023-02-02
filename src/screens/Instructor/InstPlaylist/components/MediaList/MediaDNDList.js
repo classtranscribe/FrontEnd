@@ -21,7 +21,7 @@ function MediaDNDList({
   handleExpand,
   isExpanded,
   setFilterResult,
-  dispatch
+  dispatch,
 }) {
   const onDragEnd = (res) => {
     const result = res;
@@ -33,11 +33,7 @@ function MediaDNDList({
       return;
     }
 
-    const medias_ = reorder(
-      medias,
-      result.source.index,
-      result.destination.index
-    );
+    const medias_ = reorder(medias, result.source.index, result.destination.index);
     dispatch({ type: 'instplaylist/reorderMedias', payload: { medias: medias_, callback } });
   };
 
@@ -50,12 +46,12 @@ function MediaDNDList({
       handleSelect,
       isSelected,
       handleExpand,
-      isExpanded
+      isExpanded,
     };
 
-    dndItems = medias.map(media => ({
+    dndItems = medias.map((media) => ({
       id: `media-${media.id}-${media.name}`,
-      node: <MediaItem media={media} {...mediaProps} dispatch={dispatch} />
+      node: <MediaItem media={media} {...mediaProps} dispatch={dispatch} />,
     }));
   }
 
@@ -64,7 +60,7 @@ function MediaDNDList({
     onDragEnd,
     items: dndItems,
     itemClassName: 'media-item-con',
-    disabled: isMobile || filtering
+    disabled: isMobile || filtering,
   };
 
   return <CTDNDList {...dndProps} />;

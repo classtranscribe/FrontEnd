@@ -8,7 +8,7 @@ export function MDEditor({
   height = '400px',
   onSave,
   onClose,
-  attached
+  attached,
 }) {
   const editorProps = {
     id,
@@ -17,20 +17,12 @@ export function MDEditor({
     height,
     onSave,
     onClose,
-    attached
+    attached,
   };
 
   return <CTMarkdownEditor {...editorProps} />;
 }
 
 export function MDPreviewer({ value, className, id, ...otherProps }) {
-  return (
-    <CTMarkdownPreviewer 
-      id={id}
-      value={value}
-      className={className}
-      {...otherProps}
-    />
-  );
+  return <CTMarkdownPreviewer id={id} value={value} className={className} {...otherProps} />;
 }
-

@@ -7,17 +7,11 @@ function MathBlockTrigger(props) {
   const { ace } = props;
   const handleClick = () => insertMathCodeBlock(ace);
 
-  return (
-    <MDToolButton
-      icon="functions"
-      popup="Insert a LaTeX block"
-      onClick={handleClick}
-    />
-  );
+  return <MDToolButton icon="functions" popup="Insert a LaTeX block" onClick={handleClick} />;
 }
 
 MathBlockTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default MathBlockTrigger;

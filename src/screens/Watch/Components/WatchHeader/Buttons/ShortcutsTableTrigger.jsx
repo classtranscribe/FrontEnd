@@ -5,7 +5,7 @@ import WatchCtrlButton from '../../WatchCtrlButton';
 
 function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {
   const handleMenuTrigger = () => {
-    dispatch({type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS, option: 'b'}});
+    dispatch({ type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS, option: 'b' } });
   };
 
   return (
@@ -30,5 +30,5 @@ function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {
 }
 
 export default connect(({ watch: { menu }, loading }) => ({
-  menu
+  menu,
 }))(ShortcutsTableTrigger);

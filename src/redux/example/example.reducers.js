@@ -1,6 +1,4 @@
-import {
-  SET_OFFERINGS
-} from './example.action.types';
+import { SET_OFFERINGS } from './example.action.types';
 import { initialState } from './example.state.js';
 
 const exampleReducer = (state = initialState, action) => {

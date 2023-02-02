@@ -4,7 +4,7 @@ import { connectWithRedux } from '../../../Utils';
 
 export function RewindButtonWithRedux({ dispatch }) {
   const handleRewind = () => {
-    dispatch({ type: 'watch/media_backward', payload: 10 })
+    dispatch({ type: 'watch/media_backward', payload: 10 });
   };
 
   return (

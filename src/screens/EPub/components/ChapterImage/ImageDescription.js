@@ -1,11 +1,7 @@
-import React from 'react'
-import ChapterText from '../ChapterText'
+import React from 'react';
+import ChapterText from '../ChapterText';
 
-function ImageDescription({
-  id,
-  description,
-  onChange
-}) {
+function ImageDescription({ id, description, onChange }) {
   return (
     <ChapterText
       id={`epb-img-des-${id}`}
@@ -13,7 +9,7 @@ function ImageDescription({
       attached="top"
       addNewText="Add description for above image"
       onSaveText={onChange}
-      height='200px'
+      height="200px"
     />
   );
 }

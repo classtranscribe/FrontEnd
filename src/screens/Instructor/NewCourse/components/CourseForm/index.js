@@ -7,7 +7,6 @@ import UniversitySelection from './UniversitySelection';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
 
-
 function CourseForm(props) {
   const {
     collapsible = false,
@@ -71,7 +70,7 @@ function CourseForm(props) {
   // reset values when uniId changed
   useEffect(() => {
     setSelCourses(defaultSelCourses);
-  }, [uniId])
+  }, [uniId]);
 
   const [error, errorDispatch] = useReducer(errorReducer, initErrors);
   const [enable, setEnable] = useState(false);
@@ -101,7 +100,7 @@ function CourseForm(props) {
   const uniSelProps = {
     uniId,
     universities,
-    handleUniChange
+    handleUniChange,
   };
 
   const basicInfoProps = {
@@ -121,7 +120,7 @@ function CourseForm(props) {
     setDescription,
     setLogEventsFlag,
     setCoursesText,
-    uniId
+    uniId,
   };
 
   const courseSelectionProps = {
@@ -129,7 +128,7 @@ function CourseForm(props) {
     enable,
     selCourses,
     setSelCourses,
-    uniId
+    uniId,
   };
 
   return (
@@ -142,10 +141,10 @@ function CourseForm(props) {
       collapsible={collapsible}
       details="The basic course information: course number, name, section, term, visibility, and description."
     >
-      {/** 
-        * Temporarily disable this feature for admins
-        * Need new "get-offerings-by-instructor" APIs to avoid errors
-        */}
+      {/**
+       * Temporarily disable this feature for admins
+       * Need new "get-offerings-by-instructor" APIs to avoid errors
+       */}
       {/* {allowUniSelection && <UniversitySelection {...uniSelProps} />} */}
 
       <CourseSelection {...courseSelectionProps} />
@@ -165,7 +164,7 @@ CourseForm.propTypes = {
   defaultSelCourses: PropTypes.array,
   saveButtonText: PropTypes.string,
   onSave: PropTypes.func,
-  allowUniSelection: PropTypes.bool
+  allowUniSelection: PropTypes.bool,
 };
 
 export default CourseForm;

@@ -9,22 +9,14 @@ const Constants = epubController.const;
 function LabelIcon(saved) {
   switch (saved) {
     case Constants.EpbSaved:
-      return (
-        <span className="material-icons">check</span>
-      );
+      return <span className="material-icons">check</span>;
     case Constants.EpbSaving:
-      return (
-        <CircularProgress disableShrink size={10} />
-      );
+      return <CircularProgress disableShrink size={10} />;
     case Constants.EpbUnsaved:
-      return (
-        <span className="material-icons">arrow_upward</span>
-      );
+      return <span className="material-icons">arrow_upward</span>;
     case Constants.EpbSaveFailed:
-      return (
-        <span className="material-icons">close</span>
-      );
-  
+      return <span className="material-icons">close</span>;
+
     default:
       return null;
   }
@@ -33,14 +25,14 @@ function LabelIcon(saved) {
 function LabelText(saved) {
   switch (saved) {
     case Constants.EpbSaved:
-      return ['Saved', `Last saved at ${ new Date().toLocaleString()}`];
+      return ['Saved', `Last saved at ${new Date().toLocaleString()}`];
     case Constants.EpbSaving:
       return ['Saving...', 'Saving to cloud...'];
     case Constants.EpbUnsaved:
       return ['Unsaved', 'Auto-save in 3 seconds'];
     case Constants.EpbSaveFailed:
-      return ['Auto-Save Failed', 'Couldn\'t save your changes, please try again'];
-  
+      return ['Auto-Save Failed', "Couldn't save your changes, please try again"];
+
     default:
       return null;
   }
@@ -56,18 +48,11 @@ function SaveStatusLabel({ saved }) {
   return (
     <CTPopoverLabel label={label}>
       <div className={cx('ct-epb header-label', { error, success })}>
-        <span className="ct-epb label-icon">
-          {iconElement}
-        </span>
-        <span className="ct-epb label-text">
-          {text}
-        </span>
+        <span className="ct-epb label-icon">{iconElement}</span>
+        <span className="ct-epb label-text">{text}</span>
       </div>
     </CTPopoverLabel>
   );
 }
 
-export default connectWithRedux(
-  SaveStatusLabel,
-  ['saved'/** , 'epub' */]
-);
+export default connectWithRedux(SaveStatusLabel, ['saved' /** , 'epub' */]);

@@ -8,11 +8,11 @@ import './index.scss';
 export const useStyles = makeStyles({
   tooltip: {
     backgroundColor: '#363636',
-    fontSize: '13px'
+    fontSize: '13px',
   },
   arrow: {
-    color: '#363636'
-  }
+    color: '#363636',
+  },
 });
 
 function ActionButton(props) {
@@ -36,28 +36,24 @@ function ActionButton(props) {
     highlighted,
   });
 
-  const iconElement = typeof icon === 'string'
-                    ? <i className="material-icons">{icon}</i>
-                    : icon;
+  const iconElement = typeof icon === 'string' ? <i className="material-icons">{icon}</i> : icon;
 
   return (
     <Tooltip
       classes={labelClasses}
-      title={label} 
-      placement={labelPlacement} 
+      title={label}
+      placement={labelPlacement}
       enterDelay={labelEnterDelay}
       disableHoverListener={disabled}
     >
-      <button 
-        aria-label={label} 
-        className={actBtnClasses} 
+      <button
+        aria-label={label}
+        className={actBtnClasses}
         onClick={onClick}
         disabled={disabled}
         {...ariaProps}
       >
-        <span tabIndex="-1">
-          {iconElement}
-        </span>
+        <span tabIndex="-1">{iconElement}</span>
       </button>
     </Tooltip>
   );
@@ -70,8 +66,7 @@ ActionButton.propTypes = {
   active: PropTypes.bool,
   highlighted: PropTypes.bool,
   onClick: PropTypes.func,
-  playButton: PropTypes.bool
+  playButton: PropTypes.bool,
 };
 
 export default ActionButton;
-

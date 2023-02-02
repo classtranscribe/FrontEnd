@@ -2,17 +2,18 @@ import React, { useRef } from 'react';
 import { isMobile } from 'react-device-detect';
 import * as KeyCode from 'keycode-js';
 
-import {
-  transControl,
-  timeStrToSec,
-  prettierTimeStr,
-  WEBVTT_DESCRIPTIONS,
-} from '../../../Utils';
+import { transControl, timeStrToSec, prettierTimeStr, WEBVTT_DESCRIPTIONS } from '../../../Utils';
 import './index.scss';
 
-function CaptionLine({ isCurrent = false, isEditing = false,
-  shouldHide = false, caption = {}, dispatch, fontSize }) {
-  let { text, id, startTime, begin, kind = "web" } = caption;
+function CaptionLine({
+  isCurrent = false,
+  isEditing = false,
+  shouldHide = false,
+  caption = {},
+  dispatch,
+  fontSize,
+}) {
+  let { text, id, startTime, begin, kind = 'web' } = caption;
   const ref = useRef();
 
   const blurFromInput = () => {
@@ -25,7 +26,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   const handleSeek = () => {
     const time = timeStrToSec(begin);
-    dispatch({ type: 'watch/media_setCurrTime', payload: time })
+    dispatch({ type: 'watch/media_setCurrTime', payload: time });
   };
 
   const handleChange = ({ target }) => {
@@ -34,7 +35,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   const handleFocus = ({ target }) => {
     // console.error(e.target.innerText)
-    dispatch({ type: 'watch/setTransEditMode', payload: { caption, innerText: target.innerText } })
+    dispatch({ type: 'watch/setTransEditMode', payload: { caption, innerText: target.innerText } });
   };
 
   const handleBlur = () => {
@@ -42,12 +43,12 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleSave = (cap) => {
-    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
+    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } });
   };
 
   const handleCancel = () => {
     ref.current.innerHTML = text;
-    dispatch({ type: 'watch/setCurrEditing', payload: null })
+    dispatch({ type: 'watch/setCurrEditing', payload: null });
   };
 
   const handleKeyDown = (e) => {
@@ -61,22 +62,21 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   const timeStr = prettierTimeStr(String(startTime));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
   let roundedTime = Math.round(startTime);
-  let beginTime= Math.floor(roundedTime / 60)
-  let secondsTime = roundedTime % 60
+  let beginTime = Math.floor(roundedTime / 60);
+  let secondsTime = roundedTime % 60;
   let secondsTimeString = String(secondsTime);
 
-
   if (secondsTime < 10) {
-    secondsTimeString = `0${ String(secondsTime)}`
+    secondsTimeString = `0${String(secondsTime)}`;
   }
-  let totalTime = `${String(beginTime) }:${ secondsTimeString}`;
+  let totalTime = `${String(beginTime)}:${secondsTimeString}`;
   if (begin !== undefined) {
-    totalTime = prettierTimeStr(begin)
+    totalTime = prettierTimeStr(begin);
   }
 
   return (
     <div
-      id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
+      id={begin === undefined ? `caption-line-${startTime}` : `caption-line-${id}`}
       className="watch-caption-line"
       current={isCurrent.toString()}
       editing={isEditing.toString()}

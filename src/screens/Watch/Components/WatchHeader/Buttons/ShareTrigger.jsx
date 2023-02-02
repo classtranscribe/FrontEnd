@@ -5,7 +5,7 @@ import WatchCtrlButton from '../../WatchCtrlButton';
 
 function ShareTrigger({ modal = MODAL_HIDE, dispatch }) {
   const handleShare = () => {
-    dispatch({type: 'watch/modal_open', payload: { type: MODAL_SHARE } });
+    dispatch({ type: 'watch/modal_open', payload: { type: MODAL_SHARE } });
   };
 
   return (
@@ -31,5 +31,5 @@ function ShareTrigger({ modal = MODAL_HIDE, dispatch }) {
 }
 
 export default connect(({ watch: { modal }, loading }) => ({
-  modal
+  modal,
 }))(ShareTrigger);

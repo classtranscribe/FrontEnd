@@ -11,7 +11,7 @@ const requiredEnvs = [
   'AUTH0_DOMAIN',
   'AUTH0_CLIENT_ID',
   'CILOGON_CLIENT_ID',
-  'APPLICATION_INSIGHTS_KEY'
+  'APPLICATION_INSIGHTS_KEY',
 ];
 
 /**
@@ -64,7 +64,7 @@ class ReactEnv {
   }
 
   get devServer() {
-      return reactEnv.REACT_APP_TESTING_BASE_URL || window.location.origin;
+    return reactEnv.REACT_APP_TESTING_BASE_URL || window.location.origin;
   }
 
   get baseURL() {

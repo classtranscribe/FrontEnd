@@ -37,7 +37,12 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
           placeholder="Search for instructors"
           onKeyDown={({ keyCode }) => onSearch(keyCode)}
         />
-        <Button basic icon="search" aria-label="search" onClick={() => onSearch(KeyCode.KEY_RETURN)} />
+        <Button
+          basic
+          icon="search"
+          aria-label="search"
+          onClick={() => onSearch(KeyCode.KEY_RETURN)}
+        />
         <Button basic content="Reset" onClick={onReset} />
       </div>
       {result.map((inst) => (

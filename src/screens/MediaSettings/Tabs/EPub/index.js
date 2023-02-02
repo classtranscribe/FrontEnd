@@ -15,12 +15,12 @@ export function EpubWithRedux(props) {
     sourceType: SourceTypes.Media,
     sourceId: id,
     source: media,
-    defaultTitle: mediaName
+    defaultTitle: mediaName,
   };
 
   return <CTEPubListScreen {...ePubLiProps} />;
 }
 
 export const EPub = connect(({ mediasetting, loading }) => ({
-  mediasetting
+  mediasetting,
 }))(EpubWithRedux);

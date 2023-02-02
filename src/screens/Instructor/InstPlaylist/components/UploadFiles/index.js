@@ -9,7 +9,7 @@ import {
   CTFormHelp,
   CTCheckbox,
   CTFragment,
-  CTConfirmation
+  CTConfirmation,
 } from 'layout';
 import { useCheckbox } from 'hooks';
 import { links, api, prompt } from 'utils';
@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 const mediaControl = {
   async handleUpload(
-    playlistId, 
-    uploadedMedias, 
-    setUploadingIndex, 
-    setProgress, 
+    playlistId,
+    uploadedMedias,
+    setUploadingIndex,
+    setProgress,
     onUploadProgress,
-    setFailedVideos
+    setFailedVideos,
   ) {
     let successedVideos = [];
     for (let i = 0; i < uploadedMedias.length; i += 1) {
@@ -40,7 +40,7 @@ const mediaControl = {
       if (successed) {
         successedVideos.push(i);
       } else {
-        setFailedVideos(fvis => [...fvis, i]);
+        setFailedVideos((fvis) => [...fvis, i]);
       }
     }
 
@@ -53,14 +53,14 @@ const mediaControl = {
   async upload(playlistId, { video1, video2 }, onUploadProgress) {
     try {
       await api.uploadVideo(playlistId, video1, video2, onUploadProgress);
-      return true
+      return true;
     } catch (error) {
       console.error(error);
       prompt.error(`Failed to upload video ${video1.name}.`);
       return false;
     }
-  }
-}
+  },
+};
 export function UploadFiles(props) {
   const { history, match } = props;
   const { id } = match.params;
@@ -85,29 +85,29 @@ export function UploadFiles(props) {
     setVideos(_.map(videos, (_video) => ({ video1: _video.video1 })));
   };
 
-  const handleUpload2VideoCheckboxChange = ({ target: { checked }}) => {
+  const handleUpload2VideoCheckboxChange = ({ target: { checked } }) => {
     if (checked === false && videos.filter((_video) => _video.video2).length) {
       setOpenConfirm(true);
     } else {
       canUploadTwoVideo.setChecked(checked);
     }
-  }
+  };
 
   const handleAddVideo = (files) => {
     if (canUploadTwoVideo.checked) {
       let [video1, video2] = files;
-      setVideos([ ...videos, { video1, video2 }]);
+      setVideos([...videos, { video1, video2 }]);
     } else {
-      setVideos([ ...videos, ..._.map(files, (vfile) => ({ video1: vfile }))]);
+      setVideos([...videos, ..._.map(files, (vfile) => ({ video1: vfile }))]);
     }
   };
-  
+
   const handleClose = () => {
     if (!uploading) {
       history.push(links.playlist(id));
     } else {
       // refresh the page to cancel the upload process
-      window.location = links.playlist(id)
+      window.location = links.playlist(id);
     }
   };
 
@@ -117,7 +117,7 @@ export function UploadFiles(props) {
       setOpenLoader(false);
       handleClose();
     }, 2000);
-  }
+  };
 
   const onUploadProgress = (progressEvent) => {
     const percentCompleted = Math.round((progressEvent.loaded / progressEvent.total) * 100);
@@ -131,7 +131,7 @@ export function UploadFiles(props) {
       setUploadingIndex,
       setProgress,
       onUploadProgress,
-      setFailedVideos
+      setFailedVideos,
     );
 
     if (successedVideos.length === videos.length) {
@@ -150,7 +150,7 @@ export function UploadFiles(props) {
     noFileUploaded: videos.length === 0,
     uploading,
     handleClose,
-    handleUpload
+    handleUpload,
   };
 
   const modalProps = {
@@ -159,7 +159,7 @@ export function UploadFiles(props) {
     size: 'md',
     title: 'Upload Videos',
     action: <UploadActions {...actionProps} />,
-    onClose: handleClose
+    onClose: handleClose,
   };
 
   const tableProps = {
@@ -168,7 +168,7 @@ export function UploadFiles(props) {
     videos,
     failedVideos,
     can2Video: canUploadTwoVideo.checked,
-    setVideos
+    setVideos,
   };
 
   return (
@@ -178,8 +178,8 @@ export function UploadFiles(props) {
         <br />
         The pair of videos will be presented to viewers with synchronized playbacks.
       </CTFormHelp>
-      <CTFragment margin={[-15,0,0,10]}>
-        <CTCheckbox 
+      <CTFragment margin={[-15, 0, 0, 10]}>
+        <CTCheckbox
           label="Upload 2 videos for each media"
           checked={canUploadTwoVideo.checked}
           onChange={handleUpload2VideoCheckboxChange}
@@ -191,17 +191,13 @@ export function UploadFiles(props) {
           open={openConfirm}
         />
       </CTFragment>
-      {
-        canUploadTwoVideo.checked 
-        &&
-        <CTFormHelp fadeIn>
-          Choose 2 video files at a time when browsing files.
-        </CTFormHelp>
-      }
+      {canUploadTwoVideo.checked && (
+        <CTFormHelp fadeIn>Choose 2 video files at a time when browsing files.</CTFormHelp>
+      )}
 
-      <CTUploadButton 
-        fluid 
-        accept="video/mp4,video/x-m4v,video/*" 
+      <CTUploadButton
+        fluid
+        accept="video/mp4,video/x-m4v,video/*"
         onFileChange={handleAddVideo}
         disabled={uploading}
       >

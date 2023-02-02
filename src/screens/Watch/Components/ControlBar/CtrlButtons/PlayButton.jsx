@@ -1,16 +1,16 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
-import { connect } from 'dva'
+import { connect } from 'dva';
 
 export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, dispatch }) {
   const ended = ctpPriEvent === CTP_ENDED;
   const cantPlay = ctpPriEvent === CTP_LOADING || ctpPriEvent === CTP_ERROR;
   const handlePause = () => {
     if (ended) {
-      dispatch({type: 'watch/media_reply'}) 
+      dispatch({ type: 'watch/media_reply' });
     } else {
-      dispatch({type: 'watch/onPlayPauseClick'})
+      dispatch({ type: 'watch/onPlayPauseClick' });
     }
   };
   return (
@@ -38,6 +38,7 @@ export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, 
   );
 }
 
-export const PlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
-  paused, ctpPriEvent
+export const PlayButton = connect(({ watch: { paused, ctpPriEvent }, loading }) => ({
+  paused,
+  ctpPriEvent,
 }))(PlayButtonWithRedux);

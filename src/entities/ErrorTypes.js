@@ -2,7 +2,8 @@ class ErrorTypes {
   static NotFound404 = {
     code: 404,
     header: 'The page cannot be found',
-    description: 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
+    description:
+      'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
   };
 
   static Unauthorized401 = {
@@ -12,11 +13,8 @@ class ErrorTypes {
   };
 
   static isError(error) {
-    return [
-      ErrorTypes.NotFound404, 
-      ErrorTypes.Unauthorized401
-    ].includes(error);
-  };
+    return [ErrorTypes.NotFound404, ErrorTypes.Unauthorized401].includes(error);
+  }
 
   static parseError(error) {
     // console.log(JSON.stringify(error))
@@ -32,11 +30,11 @@ class ErrorTypes {
     const { status } = ErrorTypes.parseError(error);
     switch (status) {
       case 404:
-        return ErrorTypes.NotFound404
+        return ErrorTypes.NotFound404;
       case 401:
-        return ErrorTypes.Unauthorized401
+        return ErrorTypes.Unauthorized401;
       default:
-        return ErrorTypes.NotFound404
+        return ErrorTypes.NotFound404;
     }
   }
 }

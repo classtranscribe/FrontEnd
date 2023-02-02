@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import Slider from '@material-ui/core/Slider';
 import timestr from 'utils/use-time';
 import './index.scss';
@@ -9,17 +9,9 @@ import SeekTimeLabel from './SeekTimeLabel';
 import SliderTimeLabel from './SliderTimeLabel';
 
 function Progress(props) {
-  let {
-    beginAt,
-    endAt,
-    duration,
-    time,
-    bufferedTime,
-    liveMode,
-    dispatch
-  } = props;
+  let { beginAt, endAt, duration, time, bufferedTime, liveMode, dispatch } = props;
 
-  const marks = (beginAt || endAt) ? [{ value: beginAt }, { value: endAt }] : undefined;
+  const marks = beginAt || endAt ? [{ value: beginAt }, { value: endAt }] : undefined;
 
   const [mousePos, setMousePos] = useState([-1, -1]);
   const handleMouseLeave = () => {
@@ -47,21 +39,23 @@ function Progress(props) {
     max: duration,
     step: 0.001,
     value: bufferedTime,
-    'aria-hidden': 'true'
+    'aria-hidden': 'true',
   };
 
-  const TSLP1 = liveMode ? {
-    min: -duration,
-    max: 0,
-    step: .001,
-  } : {
-    min: 0,
-    max: duration,
-    step: 0.001,
-  }
+  const TSLP1 = liveMode
+    ? {
+        min: -duration,
+        max: 0,
+        step: 0.001,
+      }
+    : {
+        min: 0,
+        max: duration,
+        step: 0.001,
+      };
   const tslProp = (value) => {
-    return (liveMode ? "-" : "" ) + timestr.toTimeString(value * (liveMode ? -1 : 1))
-  }
+    return (liveMode ? '-' : '') + timestr.toTimeString(value * (liveMode ? -1 : 1));
+  };
   const timeSliderProps = {
     className: 'ctp time-slider',
     ...TSLP1,
@@ -70,13 +64,11 @@ function Progress(props) {
     onChange: handleSeekTime,
     valueLabelFormat: tslProp,
     ValueLabelComponent: SliderTimeLabel,
-    'aria-label': 'Time Slider'
+    'aria-label': 'Time Slider',
   };
 
   return (
-    <div
-      className="ctp progress-con"
-    >
+    <div className="ctp progress-con">
       <SeekTimeLabel
         reverse={liveMode}
         width={mousePos[0]}
@@ -95,8 +87,9 @@ function Progress(props) {
   );
 }
 
-
 export default connect(({ watch: { bufferedTime, time, duration, liveMode } }) => ({
-  bufferedTime, time, duration, liveMode
+  bufferedTime,
+  time,
+  duration,
+  liveMode,
 }))(Progress);
-

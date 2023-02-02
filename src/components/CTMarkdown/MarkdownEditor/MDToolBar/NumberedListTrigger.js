@@ -15,7 +15,7 @@ function NumberedListTrigger(props) {
 }
 
 NumberedListTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default NumberedListTrigger;

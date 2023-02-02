@@ -6,9 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { links } from 'utils/links';
 import { useButtonStyles } from 'layout';
 
-function NewPlaylistButton({
-  offeringId
-}) {
+function NewPlaylistButton({ offeringId }) {
   const btn = useButtonStyles();
 
   return (
@@ -26,4 +24,3 @@ function NewPlaylistButton({
 }
 
 export default NewPlaylistButton;
-

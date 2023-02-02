@@ -18,12 +18,10 @@ export class Analytics extends Component {
         icon: 'bar_chart',
         sticky: true,
         gradient: true,
-        offsetTop: 30
-      }
+        offsetTop: 30,
+      },
     });
 
-    return (
-      <CTLayout {...layoutProps} />
-    )
+    return <CTLayout {...layoutProps} />;
   }
 }

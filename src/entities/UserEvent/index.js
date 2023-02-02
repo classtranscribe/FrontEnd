@@ -20,7 +20,7 @@ class UserEventManager {
   // customizable function for extension classes
   buildEventData = (data) => {
     return data;
-  }
+  };
 
   send(eventType, json) {
     if (eventType !== UserEventType.VTimeUpdateEvent) {

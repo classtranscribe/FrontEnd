@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import Image from 'components/Image';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,12 +9,7 @@ import { uurl, timestr, elem } from 'utils';
 import { epub } from '../../../controllers';
 import './index.scss';
 
-function EPubItemView({
-  item,
-  setEPubItem,
-  dispatch,
-  items
-}) {
+function EPubItemView({ item, setEPubItem, dispatch, items }) {
   const btnStyles = useButtonStyles();
 
   const itemIdx = items.findIndex((it) => it.id === item.id);
@@ -32,16 +27,21 @@ function EPubItemView({
   };
   const watchInPlayer = () => {
     dispatch({
-      type: 'epub/openPlayer', payload: {
-        title: `Screenshot #${itemIdx + 1}`, start: item.start, end: item.end
-      }
+      type: 'epub/openPlayer',
+      payload: {
+        title: `Screenshot #${itemIdx + 1}`,
+        start: item.start,
+        end: item.end,
+      },
     });
-  }
+  };
 
   return (
     <CTFragment className="ct-epb epb-item-view" fadeIn id={epub.id.epbItemViewId(item.id)}>
       <CTFragment justConBetween alignItCenter margin={[0, 0, 10, 0]}>
-        <CTHeading as="h3" compact>Screenshot {(itemIdx + 1)}/{items.length}</CTHeading>
+        <CTHeading as="h3" compact>
+          Screenshot {itemIdx + 1}/{items.length}
+        </CTHeading>
         <IconButton onClick={onClose} aria-label="Close">
           <span className="material-icons">close</span>
         </IconButton>
@@ -59,7 +59,9 @@ function EPubItemView({
               className={btnStyles.tealLink}
               onClick={watchInPlayer}
             >
-              <span>{startTimeStr} - {endTimeStr}</span>
+              <span>
+                {startTimeStr} - {endTimeStr}
+              </span>
             </Button>
           </CTPopoverLabel>
 
@@ -92,5 +94,5 @@ function EPubItemView({
 }
 
 export default connect(({ epub: { items } }) => ({
-  items
+  items,
 }))(EPubItemView);

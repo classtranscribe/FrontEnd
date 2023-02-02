@@ -8,10 +8,10 @@ import { parseMedia } from './parse-media';
 import './index.scss';
 
 const _posterSizes = {
-  'small': '110px',
-  'normal': '150px',
-  'medium': '170px',
-  'big': '250px'
+  small: '110px',
+  normal: '150px',
+  medium: '170px',
+  big: '250px',
 };
 
 function MediaCard(props) {
@@ -35,10 +35,10 @@ function MediaCard(props) {
   const cardProps = {
     id,
     as: Link,
-    to: {pathname: href, search: '', hash: ''},
+    to: { pathname: href, search: '', hash: '' },
     className: cardClasses,
     role: 'listitem',
-    title: name
+    title: name,
   };
 
   const mediaNameElement = makeEl(CTText, {
@@ -46,13 +46,13 @@ function MediaCard(props) {
     size: nameSize,
     line: 2,
     className: 'media-name',
-    children: name
+    children: name,
   });
 
   const labelElement = altEl(CTText, Boolean(label), {
     bold: true,
     teal: true,
-    children: label
+    children: label,
   });
 
   const descripElement = altEl(CTText, Boolean(description), {
@@ -61,7 +61,7 @@ function MediaCard(props) {
     muted: true,
     margin: [3, 0, 0, 0],
     children: description,
-    className: 'media-description'
+    className: 'media-description',
   });
 
   const posterWidth = _posterSizes[posterSize] || _posterSizes.big;
@@ -92,7 +92,7 @@ MediaCard.propTypes = {
   /** Size for the media name, one of 'normal', 'medium', 'big', 'large', 'huge' */
   nameSize: CTText.propTypes.size,
   /** Size of the poster, one of 'small', 'medium', 'big' */
-  posterSize: PropTypes.oneOf(['small', 'normal', 'medium', 'big'])
+  posterSize: PropTypes.oneOf(['small', 'normal', 'medium', 'big']),
 };
 
 MediaCard.parse = parseMedia;

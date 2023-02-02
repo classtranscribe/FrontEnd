@@ -1,20 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { 
-  CTFragment, 
-  CTFormHeading, 
-  CTFormRow, 
-  CTSelect,
-  CTFormHelp
-} from 'layout';
+import { CTFragment, CTFormHeading, CTFormRow, CTSelect, CTFormHelp } from 'layout';
 import { user, _getSelectOptions } from 'utils';
 
 function UniversitySelection(props) {
-  const {
-    uniId,
-    universities,
-    handleUniChange
-  } = props;
+  const { uniId, universities, handleUniChange } = props;
 
   const uniOptions = _getSelectOptions(universities, 'name');
 
@@ -40,8 +30,7 @@ function UniversitySelection(props) {
 UniversitySelection.propTypes = {
   uniId: PropTypes.string,
   universities: PropTypes.array,
-  handleUniChange: PropTypes.func
+  handleUniChange: PropTypes.func,
 };
 
 export default UniversitySelection;
-

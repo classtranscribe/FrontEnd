@@ -11,20 +11,11 @@ const getOption = (options, value) => _.find(options, { value });
  * @external {@link {https://material-ui.com/components/autocomplete/}}
  */
 function AutoComplete(props) {
-  let {
-    value,
-    defaultValue,
-    options = [],
-    onChange,
-    label,
-    ...inputProps
-  } = props;
+  let { value, defaultValue, options = [], onChange, label, ...inputProps } = props;
 
   const [option, setOption] = useState(getOption(options, value || defaultValue));
 
-  const renderInput = (params) => (
-    <Input {...params} {...inputProps} label={label} />
-  );
+  const renderInput = (params) => <Input {...params} {...inputProps} label={label} />;
 
   const handleChange = (event, newOption) => {
     if (typeof onChange === 'function' && newOption) {
@@ -42,7 +33,7 @@ function AutoComplete(props) {
     } else {
       setOption({});
     }
-  }, [value])
+  }, [value]);
 
   return (
     <MuiAutocomplete
@@ -59,15 +50,14 @@ function AutoComplete(props) {
 
 AutoComplete.propTypes = {
   /** Options of the selection */
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([
-      PropTypes.string, 
-      PropTypes.number
-    ]),
-    text: PropTypes.string,
-  })),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      text: PropTypes.string,
+    }),
+  ),
 
-  ...Input.propTypes
+  ...Input.propTypes,
 };
 
 export default AutoComplete;

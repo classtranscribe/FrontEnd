@@ -6,7 +6,13 @@ export function LivePlayerFooter() {
     <div className="footer">
       <li className="content">
         Copyright © 2023 The Board of Trustees of the University of Illinois |
-        <a href="https://www.vpaa.uillinois.edu/resources/web_privacy" style={{ textDecoration: 'none', color: '#FFFFFF' }}> Privacy Statement and Terms of Use</a>
+        <a
+          href="https://www.vpaa.uillinois.edu/resources/web_privacy"
+          style={{ textDecoration: 'none', color: '#FFFFFF' }}
+        >
+          {' '}
+          Privacy Statement and Terms of Use
+        </a>
       </li>
     </div>
   );

@@ -9,7 +9,12 @@ import './index.scss';
 export function SignInPrompt(props) {
   const {
     buttonText = 'Sign In',
-    topDescription = <>Can&#39;t find your courses? <br />Sign in to see more.</>,
+    topDescription = (
+      <>
+        Can&#39;t find your courses? <br />
+        Sign in to see more.
+      </>
+    ),
     bottomDescription = '',
     darkMode = false,
     targetBlank,
@@ -27,53 +32,41 @@ export function SignInPrompt(props) {
   return user.isLoggedIn ? null : (
     <div className={promptClasses}>
       <div className="ct-signin-card">
-        {
-          topDescription
-          &&
+        {topDescription && (
           <div className="ct-signin-descrip">
-            {
-              isSigningIn
-              ?
-              "Manually refresh the player if you have successfully signed in."
-              :
-              topDescription
-            }
+            {isSigningIn
+              ? 'Manually refresh the player if you have successfully signed in.'
+              : topDescription}
           </div>
-        }
+        )}
 
-        {
-          isSigningIn ? (
-            <Button 
-              onClick={() => window.location.reload()}
-              variant="outlined"
-              startIcon={<span className="material-icons">refresh</span>}
-            >
-              Manually refresh here
-            </Button>
-          ) : (
-            <SignInButton 
-              targetBlank={targetBlank}
-              closeAfterSignedIn={closeAfterSignedIn}
-              onAfterClick={handleSigningIn}
-            >
-              {buttonText}
-            </SignInButton>
-          )
-        }
+        {isSigningIn ? (
+          <Button
+            onClick={() => window.location.reload()}
+            variant="outlined"
+            startIcon={<span className="material-icons">refresh</span>}
+          >
+            Manually refresh here
+          </Button>
+        ) : (
+          <SignInButton
+            targetBlank={targetBlank}
+            closeAfterSignedIn={closeAfterSignedIn}
+            onAfterClick={handleSigningIn}
+          >
+            {buttonText}
+          </SignInButton>
+        )}
 
-        {
-          bottomDescription
-          &&
-          <div className="ct-signin-descrip">{bottomDescription}</div>
-        }
+        {bottomDescription && <div className="ct-signin-descrip">{bottomDescription}</div>}
       </div>
     </div>
   );
 }
 
 SignInPrompt.propTypes = {
-  /** 
-   * Choose sign-in trigger's color, default as `teal`  
+  /**
+   * Choose sign-in trigger's color, default as `teal`
    * Pick one from `teal`, `black`, `primary`, `transparent teal`
    */
   buttonColor: PropTypes.oneOf(['teal', 'black', 'primary', 'transparent teal']),
@@ -94,5 +87,5 @@ SignInPrompt.propTypes = {
   targetBlank: PropTypes.bool,
 
   /** True if you want to closed the window after signin processed finished */
-  closeAfterSignedIn: PropTypes.bool
+  closeAfterSignedIn: PropTypes.bool,
 };

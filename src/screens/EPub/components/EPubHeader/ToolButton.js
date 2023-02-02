@@ -3,14 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { CTPopoverLabel, altEl } from 'layout';
 
-function ToolButton({
-  onClick,
-  icon,
-  label,
-  shortcut,
-  anchorRef,
-  ...otherProps
-}) {
+function ToolButton({ onClick, icon, label, shortcut, anchorRef, ...otherProps }) {
   const fullLabel = shortcut ? `${label} (${shortcut})` : label;
 
   return (

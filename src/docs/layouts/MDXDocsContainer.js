@@ -8,17 +8,14 @@ function MDXDocsContainer(props) {
 
   return (
     <CTFragment padding={[0, 30]}>
-      <CTMarkdownPreviewer>
-        {children}
-      </CTMarkdownPreviewer>
+      <CTMarkdownPreviewer>{children}</CTMarkdownPreviewer>
     </CTFragment>
   );
 }
 
 MDXDocsContainer.propTypes = {
   /** The MDX content */
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default MDXDocsContainer;
-

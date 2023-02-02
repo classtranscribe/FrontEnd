@@ -4,12 +4,7 @@ import { CTFragment } from 'layout';
 import './index.scss';
 
 function Info(props) {
-  const {
-    id,
-    className,
-    children,
-    ...fragmentProps
-  } = props;
+  const { id, className, children, ...fragmentProps } = props;
 
   const infoNLiClasses = cx('ct-info-n-li', 'list', className);
 
@@ -24,4 +19,3 @@ function Info(props) {
 
 Info.propTypes = CTFragment.propTypes;
 export default Info;
-

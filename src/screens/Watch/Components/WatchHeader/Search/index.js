@@ -2,9 +2,9 @@ import React from 'react';
 import { connectWithRedux } from '../../../Utils';
 import './index.scss';
 
-function Search({dispatch}) {
+function Search({ dispatch }) {
   const handleOpenSearch = () => {
-    dispatch({type: 'watch/search_open'});
+    dispatch({ type: 'watch/search_open' });
   };
 
   return (

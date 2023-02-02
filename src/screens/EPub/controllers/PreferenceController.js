@@ -8,8 +8,8 @@ class PreferenceController extends CTPreferenceV2 {
   }
 
   userOnboard = () => {
-    this.setTrue(this.UserOnboardKey)
-  }
+    this.setTrue(this.UserOnboardKey);
+  };
 }
 
 export default PreferenceController;

@@ -9,7 +9,7 @@ export async function _uploadImageFile(imgFile, sourceType, sourceId) {
   prompt.addOne({ text: 'Uploading the image...', timeout: 2000 });
   const imgData = await _createImage(imgFile, sourceType, sourceId);
   return imgData;
-};
+}
 
 function UploadTab(props) {
   const { imgUrl, setImgUrl, sourceType, sourceId } = props;
@@ -31,16 +31,11 @@ function UploadTab(props) {
         <div className="ct-img-picker-imgs">
           <div className="w-100 pr-3">
             <CTFormHelp title="INSTRUCTION">
-              You can upload an image file (.png, .jpeg, ...). 
-              Click the &quot;BROWSE IMAGES&quot; button below to browse files.
+              You can upload an image file (.png, .jpeg, ...). Click the &quot;BROWSE IMAGES&quot;
+              button below to browse files.
             </CTFormHelp>
             <div className="w-100 mb-3">
-              <CTUploadButton
-                fluid
-                accept="image/*"
-                icon="add_a_photo"
-                onFileChange={onUpload}
-              >
+              <CTUploadButton fluid accept="image/*" icon="add_a_photo" onFileChange={onUpload}>
                 Browse Images
               </CTUploadButton>
             </div>
@@ -55,17 +50,16 @@ function UploadTab(props) {
               />
             </div> */}
           </div>
-          
         </div>
       </div>
       <ImagePreview imgUrl={imgUrl} />
     </div>
-  )
+  );
 }
 
 UploadTab.propTypes = {
   imgUrl: PropTypes.string,
-  setImgUrl: PropTypes.func
+  setImgUrl: PropTypes.func,
 };
 
 export default UploadTab;

@@ -32,7 +32,7 @@ export function Staffs(props) {
   const { match = {} } = props;
   const { id } = match.params;
   const instructors = useArray([]);
-  
+
   const getInstructors = async () => {
     try {
       const data = await getInstructorsByOfferingId(id);

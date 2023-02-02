@@ -16,10 +16,9 @@ class EPubSubChapterData extends EPubChapterLikeData {
     return {
       ...this.__data__,
       items: this.itemsToObject(),
-      contents: this.contentsToObject()
+      contents: this.contentsToObject(),
     };
   }
 }
 
 export default EPubSubChapterData;
-

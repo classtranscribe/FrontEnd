@@ -3,9 +3,7 @@ import { CTFragment } from 'layout';
 import CTPlayer from 'components/CTPlayer';
 import './index.scss';
 
-function Player({
-  media
-}) {
+function Player({ media }) {
   return (
     <CTFragment id="msp-t-player-con" dFlexCol data-scroll>
       <CTPlayer

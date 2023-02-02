@@ -1,8 +1,4 @@
-export function getDefaultSidebarType(
-  responsive,
-  defaultOpen,
-  { float, mini }
-) {
+export function getDefaultSidebarType(responsive, defaultOpen, { float, mini }) {
   let sidebar = 'normal';
 
   if (responsive) {
@@ -48,16 +44,16 @@ export function getScreenResizeListener(defaultSidebar, setSidebar) {
 
   return {
     addScreenResizeListener,
-    removeScreenResizeListener
+    removeScreenResizeListener,
   };
 }
 
 export const handleOpenResponsiveSidebar = (setSidebar) => {
   if (window.innerWidth < 600) {
-    setSidebar(sidebar => sidebar ? null : 'float');
+    setSidebar((sidebar) => (sidebar ? null : 'float'));
   } else if (window.innerWidth < 1000) {
-    setSidebar(sidebar => sidebar === 'float mini' ? 'mini' : 'float mini');
+    setSidebar((sidebar) => (sidebar === 'float mini' ? 'mini' : 'float mini'));
   } else {
-    setSidebar(sidebar => sidebar === 'mini' ? 'normal' : 'mini');
+    setSidebar((sidebar) => (sidebar === 'mini' ? 'normal' : 'mini'));
   }
 };

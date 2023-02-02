@@ -9,5 +9,5 @@ export const html = {
   markdown: markdown2Html,
   plainText: plaintext2Html,
   strList: strList2Html,
-  registerHighlightLanguages
+  registerHighlightLanguages,
 };

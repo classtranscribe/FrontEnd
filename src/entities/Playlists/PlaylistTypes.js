@@ -1,21 +1,21 @@
 class PlaylistTypes {
-  static Echo360ID = 0
-  static YouTubeID = 1
-  static UploadID = 2
-  static KalturaID = 3
-  static BoxID = 4
+  static Echo360ID = 0;
+  static YouTubeID = 1;
+  static UploadID = 2;
+  static KalturaID = 3;
+  static BoxID = 4;
 
-  static Echo360RegEx = /https:\/\/echo360.org\/section\/[\s\S]*\/public/
-  static YouTubeRegEx = /https:\/\/www.youtube.com\/(?:playlist\?list=|channel\/)([^/]*)/
-  static KalturaRegEx = /https:\/\/mediaspace.illinois.edu\/(playlist(\/[\s\S]*\/|\/[\s\S]*\/[0-9]*\/|\/)[0-9]_[\s\S]+|channel(\/[\s\S]*\/|\/)[0-9]{9})/
-  static BoxRegEx = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]*/
+  static Echo360RegEx = /https:\/\/echo360.org\/section\/[\s\S]*\/public/;
+  static YouTubeRegEx = /https:\/\/www.youtube.com\/(?:playlist\?list=|channel\/)([^/]*)/;
+  static KalturaRegEx = /https:\/\/mediaspace.illinois.edu\/(playlist(\/[\s\S]*\/|\/[\s\S]*\/[0-9]*\/|\/)[0-9]_[\s\S]+|channel(\/[\s\S]*\/|\/)[0-9]{9})/;
+  static BoxRegEx = /https:\/\/[\s\S]*box.com[\s\S]*\/folder\/[0-9]*/;
 
   static get Echo360() {
     return {
       id: PlaylistTypes.Echo360ID,
       name: 'Echo360',
       description: 'Host videos from your Echo360 channels.',
-      urlRegEx: PlaylistTypes.Echo360RegEx
+      urlRegEx: PlaylistTypes.Echo360RegEx,
     };
   }
 
@@ -24,7 +24,7 @@ class PlaylistTypes {
       id: PlaylistTypes.YouTubeID,
       name: 'YouTube',
       description: 'Host videos from your YouTube playlists or channels.',
-      urlRegEx: PlaylistTypes.YouTubeRegEx
+      urlRegEx: PlaylistTypes.YouTubeRegEx,
     };
   }
 
@@ -32,7 +32,7 @@ class PlaylistTypes {
     return {
       id: PlaylistTypes.UploadID,
       name: 'Upload',
-      description: 'Manually upload videos'
+      description: 'Manually upload videos',
     };
   }
 
@@ -41,7 +41,7 @@ class PlaylistTypes {
       id: PlaylistTypes.KalturaID,
       name: 'Kaltura',
       description: 'Host videos from your Kaltura/MediaSpace playlists or channels.',
-      urlRegEx: PlaylistTypes.KalturaRegEx
+      urlRegEx: PlaylistTypes.KalturaRegEx,
     };
   }
 
@@ -54,7 +54,7 @@ class PlaylistTypes {
       id: PlaylistTypes.BoxID,
       name: 'Box',
       description: 'Host videos from Box folders.',
-      urlRegEx: PlaylistTypes.BoxRegEx
+      urlRegEx: PlaylistTypes.BoxRegEx,
     };
   }
 
@@ -64,7 +64,7 @@ class PlaylistTypes {
       PlaylistTypes.Echo360,
       PlaylistTypes.YouTube,
       PlaylistTypes.Kaltura,
-      PlaylistTypes.Box
+      PlaylistTypes.Box,
     ];
   }
 
@@ -85,7 +85,7 @@ class PlaylistTypes {
       case PlaylistTypes.BoxID:
         return PlaylistTypes.Box;
       default:
-        return null
+        return null;
     }
   }
 
@@ -110,9 +110,11 @@ class PlaylistTypes {
 
     if (typeId === PlaylistTypes.YouTubeID) {
       return url.match(PlaylistTypes.YouTubeRegEx)[1];
-    } if (typeId === PlaylistTypes.BoxID) {
+    }
+    if (typeId === PlaylistTypes.BoxID) {
       return url.split('/folder/')[1];
-    } if (typeId === PlaylistTypes.KalturaID) {
+    }
+    if (typeId === PlaylistTypes.KalturaID) {
       const isChannel = PlaylistTypes.isKalturaChannel(url);
       const idRegEx = isChannel ? /[0-9]{9}/ : /[0-9]_[\s\S]+/;
       const id = url.slice(url.search(idRegEx)).split('/')[0];

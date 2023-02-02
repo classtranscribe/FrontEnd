@@ -9,27 +9,22 @@ const useStyles = makeStyles({
     background: '#f2fafa',
     marginBottom: '20px',
     '& .MuiAlert-icon': {
-      color: '#348b86 !important'
-    }
+      color: '#348b86 !important',
+    },
   },
   message: {
     '& .MuiAlertTitle-root': {
       fontWeight: 'bold',
-      textTransform: 'uppercase'
-    }
-  }
+      textTransform: 'uppercase',
+    },
+  },
 });
 
 /**
  * An instruction block component used in `CTForm`
  */
 function FormHelp(props) {
-  let {
-    title,
-    children,
-    severity = 'info',
-    ...otherProps
-  } = props;
+  let { title, children, severity = 'info', ...otherProps } = props;
 
   const classes = useStyles();
 
@@ -45,7 +40,7 @@ function FormHelp(props) {
 
 FormHelp.propTypes = {
   ...CTFragment.propTypes,
-  
+
   /** Title of the help */
   title: PropTypes.node,
 
@@ -56,4 +51,3 @@ FormHelp.propTypes = {
 };
 
 export default FormHelp;
-

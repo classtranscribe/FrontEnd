@@ -10,7 +10,7 @@ function PlaylistName({
   sourseURL,
   inputValue,
   handleRename,
-  onInputChange
+  onInputChange,
 }) {
   const plIconElem = <CTPlaylistIcon type={sourceType} size="big" />;
 
@@ -32,22 +32,18 @@ function PlaylistName({
       </CTHeading>
       <hr />
       <CTFragment dFlexCol role="list" className="details">
-        {
-          createdAt
-          &&
+        {createdAt && (
           <div role="listitem">
             <b>CREATED AT</b>
             <span className="pl-2">{createdAt.slice(0, 10)}</span>
           </div>
-        }
-        {
-          sourseURL
-          &&
+        )}
+        {sourseURL && (
           <div role="listitem">
             <b>SOURCE</b>
             <span className="pl-2 text-break">{sourseURL}</span>
           </div>
-        }
+        )}
       </CTFragment>
     </>
   );

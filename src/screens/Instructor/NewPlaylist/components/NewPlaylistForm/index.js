@@ -47,7 +47,7 @@ export function NewPlaylistForm(props) {
   const handleSave = async () => {
     setEnable(true);
     if (error.length === 0 && typeof onSave === 'function') {
-      onSave({ name: (name === '' ? 'Untitled Playlist' : name), sourceType, url });
+      onSave({ name: name === '' ? 'Untitled Playlist' : name, sourceType, url });
     }
   };
 
@@ -68,5 +68,5 @@ export function NewPlaylistForm(props) {
 }
 
 NewPlaylistForm.propTypes = {
-  onSave: PropTypes.func
+  onSave: PropTypes.func,
 };

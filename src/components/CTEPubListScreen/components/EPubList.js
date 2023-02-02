@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import {Button} from 'pico-ui'
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Button } from 'pico-ui';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@material-ui/core';
 import { prompt } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
 import { links } from 'utils/links';
@@ -11,11 +17,9 @@ import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
 import EPubCTList from './EPubCTList/EPubCTList';
 
-
-
-export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect) { 
-  if (ePubs.length > 0) { 
-    return ePubs.map(epub => {
+export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect) {
+  if (ePubs.length > 0) {
+    return ePubs.map((epub) => {
       let lang = LanguageConstants.decode(epub.language);
       // let status = epub.isPublished ? 'Published' : 'Unpublished'
       return {
@@ -27,22 +31,25 @@ export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleS
         to: links.epub(epub.id),
         target: '_blank',
         titleProps: {
-          celadon: true
+          celadon: true,
         },
         onDelete: onDelete(epub.id),
         onRename: onRename(epub.id, epub.title),
         enableButtons: true,
         isSelected: isSelected(epub.id),
-        handleSelect: handleSelect(epub.id)
-      }
+        handleSelect: handleSelect(epub.id),
+      };
     });
   }
 }
 
 function EPubList(props) {
   const {
-    ePubs, languages, rawEPubData,
-    sourceType, sourceId,
+    ePubs,
+    languages,
+    rawEPubData,
+    sourceType,
+    sourceId,
     onCreate,
     onDelete,
     onRename,
@@ -52,7 +59,7 @@ function EPubList(props) {
     handleSelectAll,
     handleRemoveAll,
     epubsSelected,
-    deleteSelected
+    deleteSelected,
   } = props;
 
   const noLang = languages.length === 0;
@@ -64,7 +71,11 @@ function EPubList(props) {
   const noLangElement = altEl(NoLangWrapper, noLang);
   const noEPubElement = altEl(NoEPubWrapper, noEPub, { sourceType, sourceId });
   const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
-  const newEPubListItems = makeEl(<EPubCTList items={_getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect, epubsSelected)} />);
+  const newEPubListItems = makeEl(
+    <EPubCTList
+      items={_getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect, epubsSelected)}
+    />,
+  );
 
   const [open, setOpen] = useState(false);
 
@@ -88,15 +99,17 @@ function EPubList(props) {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        Delete I•Note{(epubsSelected !== 1) ? 's' : ''}
+        Delete I•Note{epubsSelected !== 1 ? 's' : ''}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Do you want to delete {epubsSelected} I•Note{(epubsSelected !== 1) ? 's' : ''}?
+          Do you want to delete {epubsSelected} I•Note{epubsSelected !== 1 ? 's' : ''}?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleNo} autoFocus>NO</Button>
+        <Button onClick={handleNo} autoFocus>
+          NO
+        </Button>
         <Button onClick={handleYes}>YES</Button>
       </DialogActions>
     </Dialog>
@@ -107,9 +120,7 @@ function EPubList(props) {
       {noLangElement}
       {noEPubElement}
 
-      {
-        !hasError
-        &&
+      {!hasError && (
         <CTFragment>
           {hasEPubs ? (
             <>
@@ -120,7 +131,7 @@ function EPubList(props) {
                   selectAll={handleSelectAll()}
                   removeAll={handleRemoveAll()}
                 />
-                {(epubsSelected > 0) && 
+                {epubsSelected > 0 && (
                   <Button
                     lowercase
                     icon="delete"
@@ -128,7 +139,8 @@ function EPubList(props) {
                     text="Delete"
                     classNames="mr-2"
                     onClick={handleDelete}
-                  /> }
+                  />
+                )}
                 {deleteDialogue}
                 <CTHeading as="h3" alignItCenter compact icon="library_books">
                   I-Note Books
@@ -149,7 +161,7 @@ function EPubList(props) {
             </CTFragment>
           )}
         </CTFragment>
-      }
+      )}
     </CTFragment>
   );
 }

@@ -2,18 +2,10 @@ import { links } from 'utils/links';
 
 /**
  * Parse raw offering object to valid CourseCard props
- * @param {Object} offering 
+ * @param {Object} offering
  */
 export function parseCourse(offering) {
-  let { 
-    id,
-    fullNumber,
-    courseName,
-    termName,
-    term,
-    sectionName,
-    description,
-  } = offering;
+  let { id, fullNumber, courseName, termName, term, sectionName, description } = offering;
 
   return {
     id,
@@ -22,6 +14,6 @@ export function parseCourse(offering) {
     term: termName || (term ? term.name : 'Unknown Term'),
     section: sectionName,
     description,
-    href: links.course(id)
+    href: links.course(id),
   };
 }

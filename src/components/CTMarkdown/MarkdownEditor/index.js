@@ -22,7 +22,7 @@ function MarkdownEditor(props) {
     defaultImage,
     onSave,
     onClose,
-    attached
+    attached,
   } = props;
 
   const [value, setValue] = useState(defaultValue.trim() ? defaultValue : placeholder);
@@ -71,7 +71,7 @@ function MarkdownEditor(props) {
     imageTabs,
     defaultImage,
     openPreview,
-    closePreview
+    closePreview,
   };
 
   const textareaProps = {
@@ -109,7 +109,7 @@ MarkdownEditor.propTypes = {
   defaultImage: MDToolBar.propTypes.defaultImage,
   onSave: PropTypes.func,
   onClose: PropTypes.func,
-  attached: PropTypes.oneOf(['top', 'bottom'])
+  attached: PropTypes.oneOf(['top', 'bottom']),
 };
 
 export default MarkdownEditor;

@@ -5,7 +5,7 @@ import CTFragment from '../CTFragment';
 import { CTBrand } from './CTBrand';
 import { NavHeaderTabPanel, NavHeaderTabPanelPropsTypes } from './NavHeaderTabPanel';
 import UserMenu from './NavHeaderMenu';
-import { NavHeaderSearch } from './NavHeaderSearch'
+import { NavHeaderSearch } from './NavHeaderSearch';
 import { createCTNavHeaderProps } from './create-props';
 import './index.scss';
 
@@ -34,27 +34,30 @@ function CTNavHeader(props) {
     shadowed = false,
     className,
     // search
-    search = false
+    search = false,
   } = props;
 
   const hasExtenalBrandElem = Boolean(brandElem);
   if (!hasExtenalBrandElem) {
-    brandElem = <CTBrand darkMode={darkMode} />
+    brandElem = <CTBrand darkMode={darkMode} />;
   }
 
   const hasToolbarElem = Boolean(toolbarElem);
   const hasTabs = tabs.length > 0;
 
-  const headerClasses = classNames({
-    'ct-nav-dark': darkMode,
-    'pl-3': !hasExtenalBrandElem,
-    tabHeader: hasTabs,
-    toolbarHeader: hasToolbarElem,
-    fixed,
-    sticky,
-    bordered,
-    shadowed
-  }, className);
+  const headerClasses = classNames(
+    {
+      'ct-nav-dark': darkMode,
+      'pl-3': !hasExtenalBrandElem,
+      tabHeader: hasTabs,
+      toolbarHeader: hasToolbarElem,
+      fixed,
+      sticky,
+      bordered,
+      shadowed,
+    },
+    className,
+  );
 
   return (
     <nav id="ct-nav-header" className={headerClasses}>
@@ -124,7 +127,7 @@ export const CTNavHeaderPropsTypes = {
   fixed: PropTypes.bool,
 
   /** The Nav Header can has a bottom border */
-  bordered: PropTypes.bool
+  bordered: PropTypes.bool,
 };
 
 CTNavHeader.propTypes = CTNavHeaderPropsTypes;
@@ -133,9 +136,6 @@ CTNavHeader.propTypes = CTNavHeaderPropsTypes;
 CTNavHeader.Brand = CTBrand;
 CTNavHeader.createProps = createCTNavHeaderProps;
 export { CTBrand } from './CTBrand';
-export {
-  default as SignInButton,
-  useSignButtonProps
-} from './NavHeaderMenu/SignInButton';
+export { default as SignInButton, useSignButtonProps } from './NavHeaderMenu/SignInButton';
 
 export default CTNavHeader;

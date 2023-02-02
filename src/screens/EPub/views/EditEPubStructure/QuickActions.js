@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTHeading, CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { epub as epubOld } from '../../controllers';
 
 function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
@@ -19,9 +19,12 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
 
   const watchInPlayer = () => {
     dispatch({
-      type: 'epub/openPlayer', payload: {
-        title: `Chapter ${currChIndex + 1}: ${title}`, start, end
-      }
+      type: 'epub/openPlayer',
+      payload: {
+        title: `Chapter ${currChIndex + 1}: ${title}`,
+        start,
+        end,
+      },
     });
   };
 
@@ -31,7 +34,9 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
 
   return (
     <CTFragment margin="10" padding={[15, 10]} width="auto">
-      <CTHeading uppercase as="h4" icon="home_repair_service">Actions</CTHeading>
+      <CTHeading uppercase as="h4" icon="home_repair_service">
+        Actions
+      </CTHeading>
       <CTFragment dFlexCol>
         <Button
           startIcon={<span className="material-icons">play_circle_filled</span>}
@@ -39,7 +44,10 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
           onClick={watchInPlayer}
           size="large"
         >
-          Watch <span className="ml-1">{startTimeStr} - {endTimeStr}</span>
+          Watch{' '}
+          <span className="ml-1">
+            {startTimeStr} - {endTimeStr}
+          </span>
         </Button>
         <Button
           startIcon={<span className="material-icons">dashboard</span>}
@@ -51,29 +59,27 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
         </Button>
       </CTFragment>
 
-      <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading>
+      <CTHeading uppercase as="h4" icon="offline_bolt">
+        Quick Split
+      </CTHeading>
 
       <ButtonGroup fullWidth>
-        {
-          showResetBtn
-          &&
+        {showResetBtn && (
           <Button
             className={btnClasses}
-            onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
+            onClick={() => dispatch({ type: 'epub/resetToDefaultChapters' })}
           >
             Reset to Default Chapters
           </Button>
-        }
-        {
-          showSplitAllBtn
-          &&
+        )}
+        {showSplitAllBtn && (
           <Button
             className={btnClasses}
-            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots'})}
+            onClick={() => dispatch({ type: 'epub/splitChaptersByScreenshots' })}
           >
             Split Chapters by Screenshots
           </Button>
-        }
+        )}
         {/* {
           showSubdivideAllBtn
           &&
@@ -87,5 +93,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
 }
 
 export default connect(({ epub: { currChIndex, epub: { chapters }, items }, loading }) => ({
-  currChIndex, chapters, items
+  currChIndex,
+  chapters,
+  items,
 }))(QuickActions);

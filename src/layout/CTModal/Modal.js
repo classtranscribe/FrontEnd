@@ -49,7 +49,7 @@ function Modal(props) {
     maxWidth: size,
     open,
     onClose,
-    ...otherProps
+    ...otherProps,
   };
 
   if (responsive) {
@@ -63,28 +63,26 @@ function Modal(props) {
   return (
     <ThemeProvider theme={darkTheme}>
       <Dialog {...dialogProps}>
-        {container ? children : (
+        {container ? (
+          children
+        ) : (
           <>
             <CTFragment justConBetween alignItCenter padding={[0, 10, 0, 0]}>
               {title && <DialogTitle>{title}</DialogTitle>}
               {heading}
-              {
-                withCloseButton 
-                && 
+              {withCloseButton && (
                 <IconButton
                   onClick={onClose}
-                  autoFocus={autoFocusOnCloseButton} 
+                  autoFocus={autoFocusOnCloseButton}
                   aria-label="close"
                   style={{ outline: 'none' }}
                 >
                   <i className="material-icons">close</i>
                 </IconButton>
-              }
+              )}
             </CTFragment>
 
-            <DialogContent>
-              {children}
-            </DialogContent>
+            <DialogContent>{children}</DialogContent>
 
             {action && <DialogActions>{action}</DialogActions>}
           </>
@@ -141,7 +139,7 @@ Modal.propTypes = {
   disableBackdropClick: PropTypes.bool,
 
   /** If `true`, use the modal as a container: no header and action */
-  container: PropTypes.bool
+  container: PropTypes.bool,
 };
 
 Modal.Text = DialogContentText;

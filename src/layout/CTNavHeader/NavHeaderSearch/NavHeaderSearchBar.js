@@ -8,11 +8,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';
 
 export function NavHeaderSearchBar() {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [open, setOpen] = useState(false);
-  const handleSearchChange = val => {
+  const handleSearchChange = (val) => {
     setSearchText(val.target.value);
-  }
+  };
 
   useEffect(() => {
     if (searchText.length > 0) {
@@ -24,7 +24,9 @@ export function NavHeaderSearchBar() {
 
   return (
     <div className="ct-nh-search">
-      <IconButton id="ct-nh-search-button" size="small"><SearchIcon /></IconButton>
+      <IconButton id="ct-nh-search-button" size="small">
+        <SearchIcon />
+      </IconButton>
       <input
         id="ct-nh-search-input"
         label="Search"

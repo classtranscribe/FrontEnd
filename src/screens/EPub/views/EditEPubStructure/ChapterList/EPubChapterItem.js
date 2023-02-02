@@ -15,26 +15,34 @@ function EPubChapterItem({
   canDisplayFull = false,
   setEPubItem,
   onFold,
-  dispatch
+  dispatch,
 }) {
-  const undoSplitChapter = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'undoSplitChapter', payload: { chapterIdx: chapterIndex }
-    }
-  })
-  const appendChapterAsSubChapter = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'appendChapterAsSubChapter', payload: { chapterIdx: chapterIndex }
-    }
-  })
-  const handleMouseOverChapterList = () => null// epub.data.handleMouseOverChapterList(chapter);
-
-  const saveChapterTitle = value =>
+  const undoSplitChapter = () =>
     dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'saveChapterTitle', payload: { chapterIdx: chapterIndex, value }
-      }
-    })
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'undoSplitChapter',
+        payload: { chapterIdx: chapterIndex },
+      },
+    });
+  const appendChapterAsSubChapter = () =>
+    dispatch({
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'appendChapterAsSubChapter',
+        payload: { chapterIdx: chapterIndex },
+      },
+    });
+  const handleMouseOverChapterList = () => null; // epub.data.handleMouseOverChapterList(chapter);
+
+  const saveChapterTitle = (value) =>
+    dispatch({
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'saveChapterTitle',
+        payload: { chapterIdx: chapterIndex, value },
+      },
+    });
 
   const isFolded = foldedIds.includes(chapter.id);
 
@@ -46,7 +54,7 @@ function EPubChapterItem({
   useEffect(() => {
     const reg = /^Untitled Chapter \(\d\)$/;
     if (reg.test(chapter.title)) {
-      saveChapterTitle(`Untitled Chapter (${chapterIndex + 1})`)
+      saveChapterTitle(`Untitled Chapter (${chapterIndex + 1})`);
     }
   }, [chapterIndex]);
 
@@ -56,7 +64,9 @@ function EPubChapterItem({
       className={chClasses}
       onMouseEnter={handleMouseOverChapterList}
     >
-      <CTText muted className="pt-2 pl-2">Chapter {chapterIndex + 1}: {chapter.title}</CTText>
+      <CTText muted className="pt-2 pl-2">
+        Chapter {chapterIndex + 1}: {chapter.title}
+      </CTText>
       <div className="ch-item-title-con ct-d-r-center-v">
         <ChapterTitle
           id={epub.id.chTitleID(chapter.id)}
@@ -70,7 +80,7 @@ function EPubChapterItem({
           show
           content={isFolded ? 'Expand' : 'Collapse'}
           color="transparent"
-          icon={isFolded ? "expand_more" : "expand_less"}
+          icon={isFolded ? 'expand_more' : 'expand_less'}
           className="ch-item-expand-btn"
           outlined={false}
           onClick={() => onFold(!isFolded, chapter.id)}
@@ -93,48 +103,45 @@ function EPubChapterItem({
         />
       </div>
 
-      {
-        isFolded
-          ?
-            <CTText line={2} className="ch-item-compact-txt">
-              {getCompactText(chapter)}
-            </CTText>
-            :
-            <>
-              <div className="ch-item-ol ct-d-c">
-                {itemsToDisplay.map((item, itemIndex) => (
-                  <EPubListItem
-                    key={item.id}
-                    item={item}
-                    itemIndex={itemIndex}
-                    chapterIndex={chapterIndex}
-                    canSplit={itemIndex > 0}
-                    canSubdivide
-                    setEPubItem={setEPubItem}
-                  />
-                ))}
-              </div>
+      {isFolded ? (
+        <CTText line={2} className="ch-item-compact-txt">
+          {getCompactText(chapter)}
+        </CTText>
+      ) : (
+        <>
+          <div className="ch-item-ol ct-d-c">
+            {itemsToDisplay.map((item, itemIndex) => (
+              <EPubListItem
+                key={item.id}
+                item={item}
+                itemIndex={itemIndex}
+                chapterIndex={chapterIndex}
+                canSplit={itemIndex > 0}
+                canSubdivide
+                setEPubItem={setEPubItem}
+              />
+            ))}
+          </div>
 
-              <div className="ch-item-ol ct-d-c">
-                {chapter.subChapters.map((subChapter, subChapterIndex) => (
-                  <EPubSubChapterItem
-                    key={subChapter.id}
-                    foldedIds={foldedIds}
-                    subChapter={subChapter}
-                    chapterIndex={chapterIndex}
-                    subChapterIndex={subChapterIndex}
-                    canUndoSubdivide={subChapterIndex === 0}
-                    canUndoSplitSubChapter={subChapterIndex > 0}
-                    canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
-                    setEPubItem={setEPubItem}
-                    onFold={onFold}
-                    dispatch={dispatch}
-                  />
-                ))}
-              </div>
-            </>
-      }
-
+          <div className="ch-item-ol ct-d-c">
+            {chapter.subChapters.map((subChapter, subChapterIndex) => (
+              <EPubSubChapterItem
+                key={subChapter.id}
+                foldedIds={foldedIds}
+                subChapter={subChapter}
+                chapterIndex={chapterIndex}
+                subChapterIndex={subChapterIndex}
+                canUndoSubdivide={subChapterIndex === 0}
+                canUndoSplitSubChapter={subChapterIndex > 0}
+                canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
+                setEPubItem={setEPubItem}
+                onFold={onFold}
+                dispatch={dispatch}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

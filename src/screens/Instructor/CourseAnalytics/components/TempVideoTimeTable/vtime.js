@@ -69,7 +69,7 @@ export class VideoTimeLogsHandler {
 
   parseMedia(media, playListId) {
     let media_array = [];
-    for (let i = 0; i < media.length; i+= 1) {
+    for (let i = 0; i < media.length; i += 1) {
       let el = media[i];
       media_array.push({
         id: el.id,
@@ -81,7 +81,7 @@ export class VideoTimeLogsHandler {
   }
   parsePlaylists(data) {
     let playlists = [];
-    for (let i = 0; i < data.length; i+= 1) {
+    for (let i = 0; i < data.length; i += 1) {
       let playlist = {
         id: data[i].id,
         name: data[i].name,
@@ -93,7 +93,7 @@ export class VideoTimeLogsHandler {
   }
   parseAllLogs(data) {
     let logs = [];
-    for (let i = 0; i < data.length; i+= 1) {
+    for (let i = 0; i < data.length; i += 1) {
       logs.push({
         media: data[i].medias,
         email: data[i].user.email,
@@ -150,11 +150,11 @@ export class VideoTimeLogsHandler {
 
   async getPlayListsByCourseId() {
     try {
-      if (localStorage.getItem("dataLogs") == null) {
-          const { data } = await api.getPlayListsByCourseId(this.offeringId);
-          localStorage.setItem("dataLogs", JSON.stringify(data));
+      if (localStorage.getItem('dataLogs') == null) {
+        const { data } = await api.getPlayListsByCourseId(this.offeringId);
+        localStorage.setItem('dataLogs', JSON.stringify(data));
       }
-      return this.parsePlaylists(JSON.parse(localStorage.getItem("dataLogs")));
+      return this.parsePlaylists(JSON.parse(localStorage.getItem('dataLogs')));
     } catch (error) {
       console.error('Failed to get recent timeupdate logs.');
       return [];

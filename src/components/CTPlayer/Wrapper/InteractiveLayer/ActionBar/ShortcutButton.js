@@ -5,18 +5,12 @@ import ActionButton from '../ActionButton';
 function ShortcutButton(props) {
   let { onClick } = props;
   return (
-    <ActionButton
-      label="Shortcuts"
-      icon="keyboard"
-      onClick={onClick}
-      labelPlacement="bottom"
-    />
+    <ActionButton label="Shortcuts" icon="keyboard" onClick={onClick} labelPlacement="bottom" />
   );
 }
 
 ShortcutButton.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default ShortcutButton;
-

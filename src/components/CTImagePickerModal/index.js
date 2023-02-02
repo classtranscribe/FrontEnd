@@ -20,9 +20,9 @@ function ImagePickerModal(props) {
     onClose,
     tabs = [],
     defaultImage,
-    sourceType, 
+    sourceType,
     sourceId,
-    playerData
+    playerData,
   } = props;
 
   const [imgUrl, setImgUrl] = useState(defaultImage);
@@ -40,7 +40,7 @@ function ImagePickerModal(props) {
     setImgUrl(defaultImage);
   }, [defaultImage]);
 
-  let panes = _.map(tabs, tab => {
+  let panes = _.map(tabs, (tab) => {
     if (tabs.length === 0 || (typeof tab === 'string' && tab === 'upload')) {
       return {
         menuItem: 'Upload',
@@ -53,9 +53,9 @@ function ImagePickerModal(props) {
               sourceId={sourceId}
             />
           </Tab.Pane>
-        )
+        ),
       };
-    } 
+    }
 
     if (typeof tab === 'string' && tab === 'video' && playerData) {
       return {
@@ -69,23 +69,23 @@ function ImagePickerModal(props) {
               {...playerData}
             />
           </Tab.Pane>
-        )
+        ),
       };
     }
-    
+
     if (tab.name && Array.isArray(tab.images)) {
       return {
         menuItem: tab.name,
         render: () => (
           <Tab.Pane>
-            <ImagesTab 
+            <ImagesTab
               images={tab.images}
               description={tab.description}
               imgUrl={imgUrl}
-              setImgUrl={setImgUrl} 
+              setImgUrl={setImgUrl}
             />
           </Tab.Pane>
-        )
+        ),
       };
     }
   });
@@ -93,12 +93,12 @@ function ImagePickerModal(props) {
   const actionElement = makeEl(ImagePickerModalActions, {
     canSave: Boolean(imgUrl),
     onSave: onSaveImage,
-    onClose
+    onClose,
   });
 
   return (
     <CTModal
-      size='md'
+      size="md"
       open={show}
       title="Choose an Image"
       onClose={onClose}
@@ -118,17 +118,19 @@ ImagePickerModal.propTypes = {
   defaultImage: PropTypes.string,
 
   /** The tabs of images for  */
-  tabs: PropTypes.arrayOf(PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      /** The name of the tab */
-      name: PropTypes.string,
-      /** The images to be shown in the tab */
-      images: PropTypes.arrayOf(PropTypes.string),
-      /** Discription of the tab */
-      description: PropTypes.node,
-    })
-  ])),
+  tabs: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        /** The name of the tab */
+        name: PropTypes.string,
+        /** The images to be shown in the tab */
+        images: PropTypes.arrayOf(PropTypes.string),
+        /** Discription of the tab */
+        description: PropTypes.node,
+      }),
+    ]),
+  ),
 
   /** callback on save the picked image (will pass in the picked image) */
   onSave: PropTypes.func,
@@ -136,9 +138,9 @@ ImagePickerModal.propTypes = {
   /** callback on close the modal */
   onClose: PropTypes.func,
 
-  sourceType: PropTypes.number, 
+  sourceType: PropTypes.number,
   sourceId: PropTypes.string,
-  playerData: PropTypes.any
+  playerData: PropTypes.any,
 };
 
 export default ImagePickerModal;

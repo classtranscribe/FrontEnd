@@ -6,21 +6,17 @@ import { MDPreviewer, ChapterImage } from '../../components';
 
 function EPubPreview(props) {
   const epubData = props.epub;
-  const [epubMD, setEpubMD] = useState('')
+  const [epubMD, setEpubMD] = useState('');
   useEffect(() => {
     async function load() {
       setEpubMD(await buildMDFromChapters(epubData.chapters));
     }
     load();
-  }, [epubData])
+  }, [epubData]);
   return (
     <CTFragment padding={[20]} shadowed>
-      <CTFragment padding={[10,10,100,10]} dFlexCol alignItCenter>
-        <ChapterImage
-          image={epubData.cover}
-          disableDescription
-          disableImagePicker
-        />
+      <CTFragment padding={[10, 10, 100, 10]} dFlexCol alignItCenter>
+        <ChapterImage image={epubData.cover} disableDescription disableImagePicker />
 
         <h1 className="text-center">{epubData.title}</h1>
         <p>{epubData.author}</p>
@@ -28,10 +24,7 @@ function EPubPreview(props) {
 
       <MDPreviewer value={epubMD} />
     </CTFragment>
-  )
+  );
 }
 
-export default connectWithRedux(
-  EPubPreview,
-  ['epub']
-);
+export default connectWithRedux(EPubPreview, ['epub']);

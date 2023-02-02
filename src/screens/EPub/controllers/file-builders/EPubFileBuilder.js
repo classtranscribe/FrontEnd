@@ -2,7 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import { EPubData } from 'entities/EPubs';
-import { AmpStories } from '@material-ui/icons';
+// import { AmpStories } from '@material-ui/icons';
 import { links } from 'utils';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
@@ -269,7 +269,7 @@ class EPubFileBuilder {
     }
 
     let highlightFirstOnly = 'enableOnlyFirstGlossaryTermHighlight' in this.data;
-    console.log(highlightFirstOnly);
+    // console.log(highlightFirstOnly);
     // add glossary terms to end of chapter if enabled
     const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
     const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms, highlightFirstOnly);

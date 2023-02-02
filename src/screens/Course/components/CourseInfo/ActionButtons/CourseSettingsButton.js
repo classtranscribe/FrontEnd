@@ -26,8 +26,7 @@ function CourseSettingsButton(props) {
 }
 
 CourseSettingsButton.propTypes = {
-  offeringId: PropTypes.string
+  offeringId: PropTypes.string,
 };
 
 export default CourseSettingsButton;
-

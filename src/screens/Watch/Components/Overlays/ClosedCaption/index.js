@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import './index.scss';
 import {
   CC_COLOR_WHITE,
@@ -43,7 +43,11 @@ function ClosedCaptionWithRedux({
   }
 
   return shouldDisplayCC && prevText ? (
-    <div id="watch-cc-container" className={embedded ? "" : "watch-cc-container"} style={ccContainerStyle}>
+    <div
+      id="watch-cc-container"
+      className={embedded ? '' : 'watch-cc-container'}
+      style={ccContainerStyle}
+    >
       <div className="watch-cc-text" style={ccStyle}>
         {prevText}
       </div>
@@ -51,9 +55,20 @@ function ClosedCaptionWithRedux({
   ) : null;
 }
 
-export const ClosedCaption = connect(({ watch: { currCaption, embedded },
-  playerpref: { openCC, cc_color, cc_bg, cc_size,
-    cc_opacity, cc_font, cc_position }, loading }) => ({
-      embedded,
-      currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
-    }))(ClosedCaptionWithRedux);
+export const ClosedCaption = connect(
+  ({
+    watch: { currCaption, embedded },
+    playerpref: { openCC, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position },
+    loading,
+  }) => ({
+    embedded,
+    currCaption,
+    cc_color,
+    cc_bg,
+    cc_size,
+    cc_opacity,
+    cc_font,
+    cc_position,
+    openCC,
+  }),
+)(ClosedCaptionWithRedux);

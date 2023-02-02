@@ -19,7 +19,7 @@ export function useInput(initialValue, onChange) {
     setValue,
     onChange: handleChange,
     clear: () => setValue(''),
-    reset: () => setValue(initialValue)
+    reset: () => setValue(initialValue),
   };
 }
 
@@ -41,6 +41,6 @@ export function useCheckbox(initialValue, onChange) {
     setChecked,
     onChange: handleChange,
     check: () => setChecked(true),
-    unCheck: () => setChecked(false)
+    unCheck: () => setChecked(false),
   };
 }

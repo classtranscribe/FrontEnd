@@ -32,18 +32,14 @@ function CTListItem(props) {
     baseProps.to = to;
   }
 
-
   return (
-    <ButtonBase
-      id={id} 
-      role={role} 
-      title={title}
-      className="ct-listitem-con"
-      {...baseProps}
-    >
-
+    <ButtonBase id={id} role={role} title={title} className="ct-listitem-con" {...baseProps}>
       <CTFragment dFlex alignItCenter className={baseClasses}>
-        {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
+        {icon && (
+          <span aria-hidden="true" className="material-icons">
+            {icon}
+          </span>
+        )}
         <CTFragment dFlexCol className="ct-listitem-text">
           <CTText
             bold
@@ -55,7 +51,11 @@ function CTListItem(props) {
           >
             {title || children}
           </CTText>
-          {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
+          {description && (
+            <CTText size={despSize} {...despProps}>
+              {description}
+            </CTText>
+          )}
         </CTFragment>
       </CTFragment>
     </ButtonBase>
@@ -104,4 +104,3 @@ CTListItem.propTypes = {
 };
 
 export default CTListItem;
-

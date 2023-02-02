@@ -7,17 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyle = makeStyles({
   img: {
     width: '100%',
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+  },
 });
 
 function CTImageMagnifer(props) {
-  const {
-    id,
-    className,
-    src,
-    alt
-  } = props;
+  const { id, className, src, alt } = props;
 
   const classes = useStyle();
 
@@ -38,8 +33,7 @@ CTImageMagnifer.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   src: PropTypes.string,
-  alt: PropTypes.string
+  alt: PropTypes.string,
 };
 
 export default CTImageMagnifer;
-

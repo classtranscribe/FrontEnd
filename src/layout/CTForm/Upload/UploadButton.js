@@ -11,20 +11,14 @@ const useStyles = makeStyles({
     borderColor: 'grey',
     borderStyle: 'dashed',
     width: '100%',
-  }
+  },
 });
 
 /**
  * An upload button component
  */
 function UploadButton(props) {
-  const {
-    icon = 'cloud_upload',
-    text = 'Browse Files',
-    children,
-    disabled,
-    ...baseProps
-  } = props;
+  const { icon = 'cloud_upload', text = 'Browse Files', children, disabled, ...baseProps } = props;
 
   const classes = useStyles();
 
@@ -36,13 +30,11 @@ function UploadButton(props) {
       {(isDragActive) => (
         <Button
           startIcon={isDragActive ? dropIconElem : startIconElem}
-          className={classes.root} 
+          className={classes.root}
           component="span"
           disabled={disabled}
         >
-          <CTText bold>
-            {isDragActive ? 'Drop your files here' : (children || text)}
-          </CTText>
+          <CTText bold>{isDragActive ? 'Drop your files here' : children || text}</CTText>
         </Button>
       )}
     </UploadBase>
@@ -63,7 +55,6 @@ UploadButton.propTypes = {
 
   /** Content for the upload button */
   children: PropTypes.node,
-}
+};
 
-export default UploadButton
-
+export default UploadButton;

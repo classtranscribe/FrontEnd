@@ -7,44 +7,54 @@ import ChapterNewContent from './ChapterNewContent';
 
 function ChapterInfo({ chapter, currChIndex, dispatch }) {
   const { id, title, contents, condition } = chapter;
-  const onSaveTitle = newTitle => {
+  const onSaveTitle = (newTitle) => {
     dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'saveChapterTitle', payload: { chapterIdx: currChIndex, value: newTitle }
-      }
-    })
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'saveChapterTitle',
+        payload: { chapterIdx: currChIndex, value: newTitle },
+      },
+    });
   };
 
   const onRemove = (index) => () => {
     dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
-      }
-    })
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'removeChapterContent',
+        payload: { contentIdx: index, type: 'image' },
+      },
+    });
   };
 
   const onTextChange = (index) => (val) => {
     dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
-      }
-    })
+      type: 'epub/updateEpubData',
+      payload: {
+        action: val ? 'setChapterContent' : 'removeChapterContent',
+        payload: { contentIdx: index, value: val },
+      },
+    });
   };
 
   const onImageChange = (index) => (val) => {
     dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'setChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
-      }
-    })
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'setChapterContent',
+        payload: { contentIdx: index, value: val, type: 'image' },
+      },
+    });
   };
 
   const onInsert = (index) => (val) => {
     dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'insertChapterContent', payload: { contentIdx: index, value: val }
-      }
-    })
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'insertChapterContent',
+        payload: { contentIdx: index, value: val },
+      },
+    });
   };
 
   return (

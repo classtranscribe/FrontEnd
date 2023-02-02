@@ -14,9 +14,9 @@ class EPubChapterData extends EPubChapterLikeData {
     super(chapterLike, resetText, _createChapterTitle);
 
     const { subChapters = [] } = chapterLike;
-    this.subChapters = subChapters.map(sch => {
-        const subchapter = new EPubSubChapterData(sch, resetText);
-        return subchapter.__data__ ? subchapter.__data__ : subchapter.toObject();
+    this.subChapters = subChapters.map((sch) => {
+      const subchapter = new EPubSubChapterData(sch, resetText);
+      return subchapter.__data__ ? subchapter.__data__ : subchapter.toObject();
     });
   }
 
@@ -25,7 +25,9 @@ class EPubChapterData extends EPubChapterLikeData {
       ...this.__data__,
       items: this.itemsToObject(),
       contents: this.contentsToObject(),
-      subChapters: this.subChapters.map(subChapter => subChapter.__data__ ? subChapter.__data__ : subChapter)
+      subChapters: this.subChapters.map((subChapter) =>
+        subChapter.__data__ ? subChapter.__data__ : subChapter,
+      ),
     };
   }
 

@@ -19,8 +19,7 @@ function NoVideoHolder({ type }) {
       <div className="mt-5 text-muted text-center">
         We are preparing your videos.
         <br />
-        It may require up to 2 hours to process.{' '}
-        <a href={window.location.pathname}>Refresh Here</a>
+        It may require up to 2 hours to process. <a href={window.location.pathname}>Refresh Here</a>
         <br />
         <br />
       </div>

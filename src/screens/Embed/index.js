@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { api, uurl } from 'utils';
 import CTPlayer, {
   CTPlayerConstants as PConstants,
-  LanguageConstants as LangConstants
+  LanguageConstants as LangConstants,
 } from 'components/CTPlayer';
-import { useParams } from "dva/router";
+import { useParams } from 'dva/router';
 import { connect } from 'dva';
 
 /* 
@@ -47,8 +47,6 @@ function EmbedWithRedux({ dispatch, match }) {
     </div>
   );
 }
-export const Embed = connect(({
-  playerpref: { openCC }
-}) => ({
-  openCC
+export const Embed = connect(({ playerpref: { openCC } }) => ({
+  openCC,
 }))(EmbedWithRedux);

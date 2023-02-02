@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Button } from 'pico-ui';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { CTText, altEl } from 'layout';
 import timestr from 'utils/use-time';
 import { uurl } from 'utils/use-url';
@@ -18,44 +18,59 @@ function EPubListItem({
   canSplitSubChapter = false,
   canSubdivide = false,
   setEPubItem,
-  dispatch
+  dispatch,
 }) {
   const imgSrc = uurl.getMediaUrl(item.image);
-  const SubCParams = { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
+  const SubCParams = {
+    chapterIdx: chapterIndex,
+    subChapterIdx: subChapterIndex,
+    itemIdx: itemIndex,
+  };
   const CParams = { chapterIdx: chapterIndex, itemIdx: itemIndex };
 
-  const splitChapterFromSubChaptersItems = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'splitChapterFromSubChaptersItems', payload: SubCParams
-    }
-  });
+  const splitChapterFromSubChaptersItems = () =>
+    dispatch({
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'splitChapterFromSubChaptersItems',
+        payload: SubCParams,
+      },
+    });
 
-  const splitChapterFromChaptersItems = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'splitChapterFromChaptersItems', payload: CParams
-    }
-  });
+  const splitChapterFromChaptersItems = () =>
+    dispatch({
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'splitChapterFromChaptersItems',
+        payload: CParams,
+      },
+    });
 
   const handleSplitChapter = isSubChapter
     ? splitChapterFromSubChaptersItems
     : splitChapterFromChaptersItems;
 
-  const splitSubChapter = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'splitSubChapter', payload: SubCParams
-    }
-  });
+  const splitSubChapter = () =>
+    dispatch({
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'splitSubChapter',
+        payload: SubCParams,
+      },
+    });
 
-  const subdivideChapter = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'subdivideChapter', payload: CParams
-    }
-  });
+  const subdivideChapter = () =>
+    dispatch({
+      type: 'epub/updateEpubData',
+      payload: {
+        action: 'subdivideChapter',
+        payload: CParams,
+      },
+    });
 
   // const magnifyImage = () => epub.ctrl.magnifyImage(imgSrc);
   // const endMagnifyImage = () => epub.ctrl.endMagnifyImage();
   const openItemDetails = () => setEPubItem(item);
-
 
   const itemClass = cx('ct-epb', 'sch', 'epb-data-item', 'ct-d-c', {
     sub: isSubChapter,
@@ -66,28 +81,28 @@ function EPubListItem({
     round: true,
     uppercase: true,
     classNames: 'item-action-btn',
-    color: 'teal transparent'
+    color: 'teal transparent',
   };
 
   const splitBtnElement = altEl(Button, canSplit, {
     ...btnProps,
     text: 'Split Chapter',
     icon: 'unfold_more',
-    onClick: handleSplitChapter
+    onClick: handleSplitChapter,
   });
 
   const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
     ...btnProps,
     text: 'New Sub-Chapter',
     icon: 'subdirectory_arrow_right',
-    onClick: splitSubChapter
+    onClick: splitSubChapter,
   });
 
   const subdivideBtnElement = altEl(Button, canSubdivide, {
     ...btnProps,
     text: 'subdivide',
     icon: 'subdirectory_arrow_right',
-    onClick: subdivideChapter
+    onClick: subdivideChapter,
   });
 
   return (
@@ -108,27 +123,23 @@ function EPubListItem({
         aria-controls={epub.id.epbItemViewId(item.id)}
       >
         <div className="item-time-con">
-          <div className="item-time">
-            {timestr.toPrettierTimeString(item.start)}
-          </div>
-          <div className="item-time">
-            {timestr.toPrettierTimeString(item.end)}
-          </div>
+          <div className="item-time">{timestr.toPrettierTimeString(item.start)}</div>
+          <div className="item-time">{timestr.toPrettierTimeString(item.end)}</div>
         </div>
 
         <div className="item-img-con">
           <Image src={imgSrc} alt="screenshot" />
         </div>
         <CTText line={4} className="item-text">
-          {
-            item.text
-            ||
-            <span className="text-muted"><i>No Transcriptions</i></span>
-          }
+          {item.text || (
+            <span className="text-muted">
+              <i>No Transcriptions</i>
+            </span>
+          )}
         </CTText>
       </div>
     </div>
   );
 }
 
-export default connect()(EPubListItem); 
+export default connect()(EPubListItem);

@@ -13,14 +13,7 @@ html.registerHighlightLanguages();
  * An Markdown Preview converter
  */
 function MarkdownPreviewer(props) {
-  const {
-    id,
-    value = '',
-    className,
-    children,
-    parseMarkdown,
-    ...otherProps
-  } = props;
+  const { id, value = '', className, children, parseMarkdown, ...otherProps } = props;
 
   useEffect(() => {
     Prism.highlightAll();
@@ -30,15 +23,14 @@ function MarkdownPreviewer(props) {
   const htmlClasses = cx('ct-md', 'preview-html');
   let previewElement = null;
   if (value) {
-    const previewHTML = typeof parseMarkdown === 'function'
-                      ? parseMarkdown(value) 
-                      : html.markdown(value);
+    const previewHTML =
+      typeof parseMarkdown === 'function' ? parseMarkdown(value) : html.markdown(value);
 
     const previewProps = {
       id,
       className: htmlClasses,
       dangerouslySetInnerHTML: { __html: previewHTML },
-      ...otherProps
+      ...otherProps,
     };
 
     previewElement = <div {...previewProps} />;
@@ -50,11 +42,7 @@ function MarkdownPreviewer(props) {
     );
   }
 
-  return (
-    <div className={previewClasses}>
-      {previewElement}
-    </div>
-  );
+  return <div className={previewClasses}>{previewElement}</div>;
 }
 
 MarkdownPreviewer.propTypes = {
@@ -70,7 +58,7 @@ MarkdownPreviewer.propTypes = {
   children: PropTypes.node,
 
   /** Custom parseMarkdown function */
-  parseMarkdown: PropTypes.func
+  parseMarkdown: PropTypes.func,
 };
 
 export default MarkdownPreviewer;

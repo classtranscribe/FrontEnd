@@ -12,16 +12,12 @@ export function useSignButtonProps(redirect) {
     component: Link,
     variant: 'contained',
     to: links.signIn({ redirect }),
-    className: btn.teal
-  }
+    className: btn.teal,
+  };
 }
 
 function SignInButton(props) {
-  const {
-    targetBlank,
-    closeAfterSignedIn,
-    onAfterClick
-  } = props;
+  const { targetBlank, closeAfterSignedIn, onAfterClick } = props;
 
   const btnProps = useSignButtonProps();
 
@@ -41,26 +37,22 @@ function SignInButton(props) {
       siWdw.closeAfterSignedIn = true;
       siWdw.onSignedIn = () => {
         window.close();
-      }
+      };
 
       window.onfocus = () => {
         if (siWdw.closed) {
           window.onfocus = undefined;
           window.location.reload();
         }
-      }
+      };
 
       if (typeof onAfterClick === 'function') {
         onAfterClick();
       }
-    }
+    };
   }
 
-  return (
-    <Button {...btnProps}>
-      SIGN IN
-    </Button>
-  );
+  return <Button {...btnProps}>SIGN IN</Button>;
 }
 
 SignInButton.propTypes = {
@@ -70,12 +62,11 @@ SignInButton.propTypes = {
   /**
    * True if you want to closed the window after signin processed finished
    * works iff `targetBlank` is set to be true
-  */
+   */
   closeAfterSignedIn: PropTypes.bool,
 
   /** Function called after the sign in button is clicked */
-  onAfterClick: PropTypes.func
-}
+  onAfterClick: PropTypes.func,
+};
 
 export default SignInButton;
-

@@ -15,7 +15,7 @@ function ActionButtons(props) {
     isInstMode = false,
     offering,
     starredOfferings = [],
-    dispatch
+    dispatch,
   } = props;
 
   const isStarred = Boolean(starredOfferings[offering.id]);
@@ -26,52 +26,41 @@ function ActionButtons(props) {
       type: 'course/setStar',
       payload: {
         isStar,
-        offeringId: offering.id
-      }
-    })
-  }
+        offeringId: offering.id,
+      },
+    });
+  };
   const handleCheckboxChange = ({ target: { checked } }) => {
     dispatch({
       type: 'course/setIsInstMode',
-      payload: checked
-    })
+      payload: checked,
+    });
   };
   return (
     <CTFragment>
       <CTFragment justConEnd className="cp-action-bar">
-        {isInsructor && <InstModeCheckBox
-          isInstMode={isInstMode}
-          onChange={handleCheckboxChange}
-        />}
+        {isInsructor && (
+          <InstModeCheckBox isInstMode={isInstMode} onChange={handleCheckboxChange} />
+        )}
       </CTFragment>
 
-      <CTFragment
-        alignItCenter
-        borderTop
-        padding={[10, 0, 10, 0]}
-        className="cp-action-bar"
-      >
+      <CTFragment alignItCenter borderTop padding={[10, 0, 10, 0]} className="cp-action-bar">
         {hasAnalytics && <CourseAnalyticsButton offeringId={offering.id} />}
         {isInstMode && <CourseSettingsButton offeringId={offering.id} />}
 
-        <CopyButton
-          text={shareableURL}
-          className="mb-2 p-2"
-          label="Copy Shareable URL"
-        />
+        <CopyButton text={shareableURL} className="mb-2 p-2" label="Copy Shareable URL" />
 
         {user.isLoggedIn && <StarButton isStarred={isStarred} onStarAction={onStarAction} />}
       </CTFragment>
     </CTFragment>
-  )
+  );
 }
 
 ActionButtons.propTypes = {
   show: PropTypes.bool,
   isInsructor: PropTypes.bool,
   offering: PropTypes.object,
-  starredOfferings: PropTypes.object
+  starredOfferings: PropTypes.object,
 };
 
 export default ActionButtons;
-

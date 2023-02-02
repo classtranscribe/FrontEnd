@@ -11,67 +11,64 @@ function Actions({
   handleCancelRename,
   handleDelete,
   playlistId,
-  offeringId
+  offeringId,
 }) {
   const btn = useButtonStyles();
 
-  const shareableLink = window.location.origin 
-                      + links.course(offeringId, playlistId);
+  const shareableLink = window.location.origin + links.course(offeringId, playlistId);
 
   return (
     <CTFragment dFlexCol className="actions" padding={[10, 0]}>
-      {
-        editing ? (
-          <>
-            <CTFragment>
-              <Button 
-                id="pl-delete-btn"
-                className="font-weight-bold mb-2 delete-btn"
-                color="secondary"
-                startIcon={<i className="material-icons delete">delete</i>}
-                onClick={handleDelete}
-                size="large"
-                disableRipple
-              >
-                delete playlist
-              </Button>
-            </CTFragment>
-            <CTFragment justConEnd>
-              <Button 
-                id="pl-rename-save-btn"
-                className={btn.teal} 
-                startIcon={<i className="material-icons">check</i>}
-                onClick={handleRename}
-                variant="contained"
-              >
-                save
-              </Button>
-              <Button 
-                id="pl-rename-cancel-btn"
-                className="font-weight-bold ml-3"
-                onClick={handleCancelRename}
-              >
-                cancel
-              </Button>
-            </CTFragment>
-          </>
-        ) : (
-          <CTFragment justConEnd>
-            <Button 
-              id="pl-edit-btn"
-              className="font-weight-bold"
-              startIcon={<i className="material-icons">settings</i>}
-              onClick={handleEdit}
+      {editing ? (
+        <>
+          <CTFragment>
+            <Button
+              id="pl-delete-btn"
+              className="font-weight-bold mb-2 delete-btn"
+              color="secondary"
+              startIcon={<i className="material-icons delete">delete</i>}
+              onClick={handleDelete}
               size="large"
+              disableRipple
             >
-              settings
+              delete playlist
             </Button>
-            <CopyButton text={shareableLink} size="large">
-              Share
-            </CopyButton>
           </CTFragment>
-        )
-      }
+          <CTFragment justConEnd>
+            <Button
+              id="pl-rename-save-btn"
+              className={btn.teal}
+              startIcon={<i className="material-icons">check</i>}
+              onClick={handleRename}
+              variant="contained"
+            >
+              save
+            </Button>
+            <Button
+              id="pl-rename-cancel-btn"
+              className="font-weight-bold ml-3"
+              onClick={handleCancelRename}
+            >
+              cancel
+            </Button>
+          </CTFragment>
+        </>
+      ) : (
+        <CTFragment justConEnd>
+          <Button
+            id="pl-edit-btn"
+            className="font-weight-bold"
+            startIcon={<i className="material-icons">settings</i>}
+            onClick={handleEdit}
+            size="large"
+          >
+            settings
+          </Button>
+          <CopyButton text={shareableLink} size="large">
+            Share
+          </CopyButton>
+        </CTFragment>
+      )}
     </CTFragment>
   );
 }

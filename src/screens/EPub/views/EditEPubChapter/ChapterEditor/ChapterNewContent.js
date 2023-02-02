@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { CTFragment } from 'layout';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterEditButton, MDEditorModal } from '../../../components';
@@ -27,10 +27,10 @@ function ChapterNewContent({ onInsert, currChIndex, images, epub, dispatch }) {
     const imgData = {
       screenshots: images,
       onSave: handleSaveImage,
-      chapterScreenshots: epub.chapters[currChIndex].allImagesWithIn
+      chapterScreenshots: epub.chapters[currChIndex].allImagesWithIn,
     };
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
-  }
+  };
 
   return (
     <CTFragment alignItCenter>
@@ -53,5 +53,7 @@ function ChapterNewContent({ onInsert, currChIndex, images, epub, dispatch }) {
 }
 
 export default connect(({ epub: { currChIndex, epub, images }, loading }) => ({
-  currChIndex, images, epub
+  currChIndex,
+  images,
+  epub,
 }))(ChapterNewContent);

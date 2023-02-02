@@ -4,12 +4,7 @@ import { CTFragment, CTFormHelp } from 'layout';
 import CTPlayer from 'components/CTPlayer';
 import { _uploadImageFile } from './UploadTab';
 
-function VideoTab({
-  onSaveImage,
-  sourceType, 
-  sourceId,
-  ...playerData
-}) {
+function VideoTab({ onSaveImage, sourceType, sourceId, ...playerData }) {
   const handleSaveImage = (img) => async () => {
     const imgData = await _uploadImageFile(img.blob, sourceType, sourceId);
     if (!imgData) {
@@ -40,16 +35,11 @@ function VideoTab({
     <div className="ct-img-picker-con">
       <CTFragment dFlexCol>
         <CTFormHelp title="INSTRUCTION">
-          When watching the video, You are able to capture screenshots by 
-          clicking the camera-like button at top-right of the player.
+          When watching the video, You are able to capture screenshots by clicking the camera-like
+          button at top-right of the player.
         </CTFormHelp>
         <CTFragment>
-          <CTPlayer
-            fill
-            allowScreenshot
-            screenshotActionElement={actionElem}
-            {...playerData}
-          />
+          <CTPlayer fill allowScreenshot screenshotActionElement={actionElem} {...playerData} />
         </CTFragment>
       </CTFragment>
     </div>

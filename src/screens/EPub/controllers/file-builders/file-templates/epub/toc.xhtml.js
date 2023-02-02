@@ -1,10 +1,6 @@
 import { dedent } from 'dentist';
 
-export default ({
-  title = '',
-  language = '',
-  navContents = ''
-}) =>
+export default ({ title = '', language = '', navContents = '' }) =>
   dedent(`
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>

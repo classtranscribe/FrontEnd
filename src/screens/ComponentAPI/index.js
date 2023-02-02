@@ -8,7 +8,7 @@ import docsSelector from './docs-selector';
 export function ComponentAPI(props) {
   const { type } = useParams();
   const Docs = docsSelector(type || 'ct-form');
-  
+
   useLoaded();
   useCTDocTitle(`${Docs.title} | Component API`);
 
@@ -21,8 +21,8 @@ export function ComponentAPI(props) {
       icon: 'description',
       sticky: false,
       gradient: true,
-      offsetTop: 30
-    }
+      offsetTop: 30,
+    },
   });
 
   return (

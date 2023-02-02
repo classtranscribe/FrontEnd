@@ -12,7 +12,12 @@ function PlaylistType(props) {
 
   const typeOptions = api.playlistTypes.map((plType) => ({
     value: plType.id,
-    text: <><CTPlaylistIcon type={plType.id} size="small" />{plType.name}</>,
+    text: (
+      <>
+        <CTPlaylistIcon type={plType.id} size="small" />
+        {plType.name}
+      </>
+    ),
     description: plType.description,
   }));
   // <SourceTypeInstruction />
@@ -20,8 +25,6 @@ function PlaylistType(props) {
     <CTFragment>
       {/* Selection */}
       <CTFormHeading>Source</CTFormHeading>
-
-      
 
       <CTFormRow>
         <CTSelect

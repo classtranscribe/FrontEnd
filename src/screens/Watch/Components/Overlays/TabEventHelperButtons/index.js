@@ -32,7 +32,7 @@ export function TabEventHelperButtons(props) {
         <Button
           id="tab-open-shortcuts"
           className="skip-btn"
-          onClick={() => dispatch({type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS }})}
+          onClick={() => dispatch({ type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS } })}
         >
           See Shortcuts
         </Button>

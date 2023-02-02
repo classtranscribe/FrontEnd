@@ -4,17 +4,13 @@ import CTFragment from '../CTFragment';
 import CTListItem from './CTListItem';
 
 function CTList(props) {
-  const {
-    id,
-    role = 'list',
-    className,
-    items = [],
-    ...listProps
-  } = props;
+  const { id, role = 'list', className, items = [], ...listProps } = props;
 
   return (
     <CTFragment id={id} dFlexCol role={role} className={className} {...listProps}>
-      {items.map(item => <CTListItem key={item.id} {...item} />)}
+      {items.map((item) => (
+        <CTListItem key={item.id} {...item} />
+      ))}
     </CTFragment>
   );
 }
@@ -34,4 +30,3 @@ CTList.propTypes = {
 };
 
 export default CTList;
-

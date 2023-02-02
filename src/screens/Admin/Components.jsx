@@ -31,7 +31,12 @@ export function GeneralModal({ size, open, onClose, header, children, button, di
   );
 }
 
-export const AdminHeading = ({ name }) => <><h1>{name}</h1><hr /></>;
+export const AdminHeading = ({ name }) => (
+  <>
+    <h1>{name}</h1>
+    <hr />
+  </>
+);
 
 /**
  * List Item component for Admin Page

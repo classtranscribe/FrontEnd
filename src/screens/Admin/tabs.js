@@ -13,42 +13,42 @@ export const tabs = [
     value: 'ap-tab-universities',
     text: 'Universities',
     href: links.admin('universities'),
-    component: UniPane 
+    component: UniPane,
   },
   {
     value: 'ap-tab-terms',
     href: links.admin('terms'),
     text: 'Terms',
-    component: TermPane
+    component: TermPane,
   },
   {
     value: 'ap-tab-departments',
     text: 'Departments',
     href: links.admin('departments'),
-    component: DepartPane
+    component: DepartPane,
   },
   {
     value: 'ap-tab-course-template',
     text: 'Course Template',
     href: links.admin('course-template'),
-    component: CoursePane
+    component: CoursePane,
   },
   {
     value: 'ap-tab-instructors',
     text: 'Instructors',
     href: links.admin('instructors'),
-    component: InstructorPane
+    component: InstructorPane,
   },
   {
     value: 'ap-tab-more',
     text: 'More',
     href: links.admin('more'),
-    component: More
+    component: More,
   },
   {
     value: 'ap-tab-login-as-user',
     text: 'Login As User',
     href: links.admin('login-as-user'),
-    component: LoginAsUser
-  }
+    component: LoginAsUser,
+  },
 ];

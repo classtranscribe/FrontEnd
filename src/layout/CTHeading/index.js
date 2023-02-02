@@ -29,12 +29,16 @@ function CTHeading(props) {
 
   const headingElement = children || heading;
 
-  const headingClasses = classNames('ct-heading', {
-    uppercase,
-    gradient,
-    highlight,
-    highlightIcon,
-  }, className);
+  const headingClasses = classNames(
+    'ct-heading',
+    {
+      uppercase,
+      gradient,
+      highlight,
+      highlightIcon,
+    },
+    className,
+  );
 
   if (compact) {
     otherProps.margin = '0';
@@ -48,12 +52,10 @@ function CTHeading(props) {
     offsetTop,
     alignItCenter: true,
     className: headingClasses,
-    ...otherProps
+    ...otherProps,
   };
 
-  const iconElement = typeof icon === 'string'
-    ? <i className="material-icons">{icon}</i>
-    : icon;
+  const iconElement = typeof icon === 'string' ? <i className="material-icons">{icon}</i> : icon;
 
   return (
     <CTFragment {...fragmentProps}>

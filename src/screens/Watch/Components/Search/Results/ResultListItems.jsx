@@ -22,7 +22,7 @@ const CaptionListItemWithRedux = ({ item, option, dispatch }) => {
 
   const handleClick = () => {
     if (option === SEARCH_TRANS_IN_VIDEO) {
-      dispatch({ type: 'watch/media_setCurrTime', payload: timeStrToSec(begin) })
+      dispatch({ type: 'watch/media_setCurrTime', payload: timeStrToSec(begin) });
     } else if (option === SEARCH_TRANS_IN_COURSE) {
       window.location = links.watch(mediaId, { begin: timeStrToSec(begin) });
     }
@@ -66,7 +66,7 @@ export const VideoListItem = ({ media = null }) => {
       dark
       id={mediaId}
       name={name}
-      href={"video?id=" + mediaId}
+      href={'video?id=' + mediaId}
       description={`Playlist - ${playlistName}`}
       posterSize="small"
     />

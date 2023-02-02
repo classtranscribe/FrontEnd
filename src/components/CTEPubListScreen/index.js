@@ -6,22 +6,23 @@ import { CTFragment, altEl, makeEl } from 'layout';
 import SourceTypes from 'entities/SourceTypes';
 import { EPubPoster, EPubList, NewEPubModal } from './components';
 import { EPubListCtrl } from './controllers';
-import {_generateDefaultEpubName } from './controllers/helpers';
+import { _generateDefaultEpubName } from './controllers/helpers';
 
 function CTEPubListScreen(props) {
   const [selectedEpubs, setSelectedEpubs] = useState([]);
-  const { sourceType, sourceId, source} = props;
+  const { sourceType, sourceId, source } = props;
   const [ePubs, setEPubs] = useState(ARRAY_INIT);
   const [rawEPubData, setRawEPubData] = useState(ARRAY_INIT);
   const [sourceData, setSourceData] = useState(source);
   const [languages, setLanguages] = useState(ARRAY_INIT);
   const [openNewEPubModal, setOpenNewEPubModal] = useState(false);
-  const [defaultTitle, setDefaultTitle] = useState(""); 
-  const loading = rawEPubData === ARRAY_INIT 
-                || ePubs === ARRAY_INIT
-                || languages === ARRAY_INIT
-                || defaultTitle === ""; // TODO should defaultTitle be in loading 
-  
+  const [defaultTitle, setDefaultTitle] = useState('');
+  const loading =
+    rawEPubData === ARRAY_INIT ||
+    ePubs === ARRAY_INIT ||
+    languages === ARRAY_INIT ||
+    defaultTitle === ''; // TODO should defaultTitle be in loading
+
   const setupEPubsData = async () => {
     if (!sourceType || !sourceId) return;
 
@@ -38,12 +39,16 @@ function CTEPubListScreen(props) {
     window.onfocus = setupEPubsData;
     setupEPubsData();
 
-    return () => { window.onfocus = null; };
+    return () => {
+      window.onfocus = null;
+    };
   }, [sourceType, sourceId, source]);
 
   const handleCreateEPub = async ({ title, language }) => {
     await EPubListCtrl.createEPub(sourceType, sourceId, {
-      language, title, filename: title
+      language,
+      title,
+      filename: title,
     });
     await setupEPubsData();
   };
@@ -51,11 +56,10 @@ function CTEPubListScreen(props) {
   // Delete an I•Note by epubId
   const handleDeleteEPub = async (epubId) => {
     try {
-      prompt.addOne({ text: 'Deleting the I•Note...' , timeout: 4000 });
+      prompt.addOne({ text: 'Deleting the I•Note...', timeout: 4000 });
       await EPubListCtrl.deleteEPub(epubId);
-    }
-    catch(e) {
-      prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 });
+    } catch (e) {
+      prompt.addOne({ text: 'Cannot delete the I•Note...', timeout: 4000 });
     }
     await setupEPubsData();
   };
@@ -63,62 +67,70 @@ function CTEPubListScreen(props) {
   let epubsSelected = selectedEpubs.length;
 
   const deleteSelected = async () => {
-    let success = true
+    let success = true;
     let count = selectedEpubs.length;
     while (selectedEpubs.length > 0) {
       try {
         await EPubListCtrl.deleteEPub(selectedEpubs[selectedEpubs.length - 1]);
-      }
-      catch(e) {
-        success = false
-        prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 })
+      } catch (e) {
+        success = false;
+        prompt.addOne({ text: 'Cannot delete the I•Note...', timeout: 4000 });
       }
       selectedEpubs.pop();
     }
     epubsSelected = 0;
     if (success) {
-      prompt.addOne({text: `Deleting ${count} I•Note${count !== 1 ? 's' : ''}...`, timeout: 4000});
+      prompt.addOne({
+        text: `Deleting ${count} I•Note${count !== 1 ? 's' : ''}...`,
+        timeout: 4000,
+      });
     }
     await setupEPubsData();
-  }
+  };
 
   const handleSelect = (epubId, checked) => {
     if (checked) {
       setSelectedEpubs([...selectedEpubs, epubId]);
     } else {
-      setSelectedEpubs(selectedEpubs.filter(e => e !== epubId));
+      setSelectedEpubs(selectedEpubs.filter((e) => e !== epubId));
     }
   };
 
-  const isSelected = useCallback((epubId) => {
-    return selectedEpubs.includes(epubId);
-  }, [selectedEpubs]);
+  const isSelected = useCallback(
+    (epubId) => {
+      return selectedEpubs.includes(epubId);
+    },
+    [selectedEpubs],
+  );
 
   const isSelectedAll = ePubs.length === selectedEpubs.length;
 
   const handleSelectAll = () => {
     setSelectedEpubs(ePubs.map((e) => e.id));
-  }
+  };
 
   const handleRemoveAll = () => {
     setSelectedEpubs([]);
-  }
+  };
 
   // Rename an EPub
   const handleRenameEPub = async (title, epubId) => {
     try {
       await EPubListCtrl.renameEpub(epubId, title);
-    }
-    catch(e) {
-      prompt.addOne({text: 'Cannot rename the I•Note...', timeout: 4000});
+    } catch (e) {
+      prompt.addOne({ text: 'Cannot rename the I•Note...', timeout: 4000 });
     }
     await setupEPubsData();
   };
 
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
-    ePubs, languages, rawEPubData,
-    sourceType, sourceId, sourceData,
+    ePubs,
+    languages,
+    rawEPubData,
+    sourceType,
+    sourceId,
+    sourceData,
     onCreate: () => setOpenNewEPubModal(true),
     onDelete: () => handleDeleteEPub,
     onRename: () => handleRenameEPub,
@@ -128,14 +140,14 @@ function CTEPubListScreen(props) {
     handleSelectAll: () => handleSelectAll,
     handleRemoveAll: () => handleRemoveAll,
     epubsSelected,
-    deleteSelected
+    deleteSelected,
   });
   const newEPubModalElement = makeEl(NewEPubModal, {
     open: openNewEPubModal,
     languages,
     defaultTitle,
     onClose: () => setOpenNewEPubModal(false),
-    onCreate: handleCreateEPub
+    onCreate: handleCreateEPub,
   });
 
   return (
@@ -156,10 +168,7 @@ function CTEPubListScreen(props) {
 
 CTEPubListScreen.propTypes = {
   /** Source type for the ePubs, Media - `2` */
-  sourceType: PropTypes.oneOf([
-    SourceTypes.Media,
-    SourceTypes.Playlist
-  ]).isRequired,
+  sourceType: PropTypes.oneOf([SourceTypes.Media, SourceTypes.Playlist]).isRequired,
 
   /** The sourceId for the ePubs */
   sourceId: PropTypes.string.isRequired,
@@ -168,8 +177,7 @@ CTEPubListScreen.propTypes = {
   source: PropTypes.any,
 
   /** Default title */
-  defaultTitle: PropTypes.string.isRequired
+  defaultTitle: PropTypes.string.isRequired,
 };
 
 export default CTEPubListScreen;
-

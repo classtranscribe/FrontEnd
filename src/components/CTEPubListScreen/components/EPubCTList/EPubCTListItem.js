@@ -1,8 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'dva/router';
-import { ButtonBase, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton} from '@material-ui/core';
+import {
+  ButtonBase,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from '@material-ui/core';
 import { CTFragment, CTText, CTCheckbox, CTPopoverLabel, CTInput } from 'layout';
 import { Button } from 'pico-ui';
 import { prompt } from 'utils';
@@ -50,8 +59,8 @@ function EPubCTListItem(props) {
   };
 
   const handleDeleteEPub = (event) => {
-     setOpen(true);
-     event.preventDefault();
+    setOpen(true);
+    event.preventDefault();
   };
   const handleYes = () => {
     onDelete(id);
@@ -97,7 +106,7 @@ function EPubCTListItem(props) {
 
   const checkBoxClasses = CTCheckbox.useStyles();
 
-  const renameButton = (enableButtons ? (
+  const renameButton = enableButtons ? (
     <CTPopoverLabel label={renameBtnLabel}>
       <IconButton
         size="small"
@@ -109,9 +118,9 @@ function EPubCTListItem(props) {
         <i className="material-icons rename-icon">{renameBtnIcon}</i>
       </IconButton>
     </CTPopoverLabel>
-  ): null);
+  ) : null;
 
-  const checkBox = (enableButtons ? (
+  const checkBox = enableButtons ? (
     <Checkbox
       classes={checkBoxClasses}
       onClick={stopPropagation}
@@ -119,56 +128,53 @@ function EPubCTListItem(props) {
       onChange={handleCheck}
       onMouseDown={(e) => stopPropagation(e)}
     />
-  ) : null);
+  ) : null;
 
-  const deleteButton = (enableButtons ? (
+  const deleteButton = enableButtons ? (
     <Button
-      id={id} 
+      id={id}
       lowercase
       icon="delete"
       color="red transparent"
       classNames="mr-2"
       onClick={handleDeleteEPub}
     />
-  ) : null);
+  ) : null;
 
-  const dialogue = (enableButtons ? (
+  const dialogue = enableButtons ? (
     <Dialog
       open={open}
       onClose={handleNo}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        Delete an I•Note
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">Delete an I•Note</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           Do you want to delete the I•Note for {title}?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleNo} autoFocus>NO</Button>
+        <Button onClick={handleNo} autoFocus>
+          NO
+        </Button>
         <Button onClick={handleYes}>YES</Button>
       </DialogActions>
     </Dialog>
-  ) : null);
-
+  ) : null;
 
   return (
-    <ButtonBase
-      id={id} 
-      role={role} 
-      title={title}
-      className="ct-listitem-con"
-      {...baseProps}
-    >
+    <ButtonBase id={id} role={role} title={title} className="ct-listitem-con" {...baseProps}>
       {checkBox}
 
       <CTFragment dFlex alignItCenter className={baseClasses}>
-        {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
+        {icon && (
+          <span aria-hidden="true" className="material-icons">
+            {icon}
+          </span>
+        )}
         <CTFragment dFlexCol className="ct-listitem-text">
-          {editing ? 
+          {editing ? (
             <CTInput
               label="Video Name"
               placeholder={title}
@@ -180,7 +186,8 @@ function EPubCTListItem(props) {
               onClick={(e) => preventDefault(e)}
               className="ml-3"
               autoFocus
-            /> : 
+            />
+          ) : (
             <CTText
               bold
               size={titleSize}
@@ -191,8 +198,13 @@ function EPubCTListItem(props) {
             >
               {inputValue || children}
               {/* {title || children} */}
-            </CTText>}
-          {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
+            </CTText>
+          )}
+          {description && (
+            <CTText size={despSize} {...despProps}>
+              {description}
+            </CTText>
+          )}
         </CTFragment>
       </CTFragment>
       {renameButton}
@@ -250,8 +262,7 @@ EPubCTListItem.propTypes = {
 
   handleSelect: PropTypes.func,
 
-  onRename: PropTypes.func
+  onRename: PropTypes.func,
 };
 
 export default EPubCTListItem;
-

@@ -2,12 +2,7 @@ import React from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment } from 'layout';
 
-function UploadActions({
-  noFileUploaded,
-  uploading,
-  handleClose,
-  handleUpload
-}) {
+function UploadActions({ noFileUploaded, uploading, handleClose, handleUpload }) {
   return (
     <CTFragment justConCenter padding={[10, 0]}>
       <Button.Group>
@@ -20,11 +15,7 @@ function UploadActions({
           Upload Videos
         </Button>
 
-        <Button
-          uppercase
-          color="transparent"
-          onClick={handleClose}
-        >
+        <Button uppercase color="transparent" onClick={handleClose}>
           Cancel
         </Button>
       </Button.Group>

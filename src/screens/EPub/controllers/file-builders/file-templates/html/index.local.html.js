@@ -3,7 +3,7 @@ export default ({
   navContents = '',
   content = '',
   author = '',
-  cover = ''
+  cover = '',
 }) => `<!DOCTYPE html>
 <html lang="en">
   <head>

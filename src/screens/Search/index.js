@@ -18,8 +18,8 @@ const SearchWithRedux = (props) => {
     },
     metaTagsProps: {
       title: 'Search',
-      description: 'Find your courses in ClassTranscribe.'
-    }
+      description: 'Find your courses in ClassTranscribe.',
+    },
   });
 
   return (
@@ -28,8 +28,8 @@ const SearchWithRedux = (props) => {
       <SearchResult {...props} />
     </CTLayout>
   );
-}
+};
 
 export const Search = connect(({ search, loading }) => ({
-  search
+  search,
 }))(SearchWithRedux);

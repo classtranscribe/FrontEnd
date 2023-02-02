@@ -7,12 +7,7 @@ import Info from './Info';
 import List from './List';
 
 function InfoAndListLayout(props) {
-  const {
-    id,
-    className,
-    children,
-    ...fragmentProps
-  } = props;
+  const { id, className, children, ...fragmentProps } = props;
 
   const infoNLiClasses = cx('ct-info-n-li', 'inl-container', className);
 
@@ -28,4 +23,3 @@ InfoAndListLayout.Info = Info;
 InfoAndListLayout.List = List;
 
 export default InfoAndListLayout;
-

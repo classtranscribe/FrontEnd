@@ -21,11 +21,11 @@ function Videos({
   return (
     <div id="watch-videos-list" className="watch-videos-list">
       <div className="watch-list-title" type="pl-name">
-        {
-          currPlaylist.name
-          &&
-          <i className="material-icons" aria-hidden="true">video_library</i>
-        }
+        {currPlaylist.name && (
+          <i className="material-icons" aria-hidden="true">
+            video_library
+          </i>
+        )}
         <span>{currPlaylist.name}</span>
       </div>
       <ul className="w-100 d-flex flex-column p-0">
@@ -34,16 +34,16 @@ function Videos({
         ) : medias.length === 0 ? (
           <div className="w-100 d-flex justify-content-center align-items-center m-5">NO VIDEO</div>
         ) : (
-              medias.map((me) => (
-                <MediaCard
-                  row
-                  dark
-                  posterSize="small"
-                  label={currMediaId === me.id ? 'NOW PLAYING' : null}
-                  {...MediaCard.parse(me)}
-                />
-              ))
-            )}
+          medias.map((me) => (
+            <MediaCard
+              row
+              dark
+              posterSize="small"
+              label={currMediaId === me.id ? 'NOW PLAYING' : null}
+              {...MediaCard.parse(me)}
+            />
+          ))
+        )}
       </ul>
     </div>
   );

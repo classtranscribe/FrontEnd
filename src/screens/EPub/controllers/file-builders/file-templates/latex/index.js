@@ -1,1 +1,1 @@
-export {default as INDEX_LATEX} from './template.js';
+export { default as INDEX_LATEX } from './template.js';

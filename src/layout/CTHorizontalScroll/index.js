@@ -26,8 +26,7 @@ function CTHorizontalScroll(props) {
 
 CTHorizontalScroll.propTypes = {
   /** A list of react elements */
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default CTHorizontalScroll;
-

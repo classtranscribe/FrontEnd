@@ -11,7 +11,7 @@ function ScreenshotPopup(props) {
     onClose,
     actionElement,
     downloadScreenshot,
-    copyScreenshotLink
+    copyScreenshotLink,
   } = props;
 
   const [copyStatus, setCopyStatus] = useState(0);
@@ -32,16 +32,14 @@ function ScreenshotPopup(props) {
   }, [open]);
 
   return open ? (
-    <ClickAwayListener
-      onClickAway={onClose}
-    >
+    <ClickAwayListener onClickAway={onClose}>
       <div
         role="dialog"
         id="ctp-screenshot-con"
         className="ctp share-popup screenshot"
         aria-modal="true"
         aria-labelledby="ctp-screenshot-title"
-        style={{ maxHeight: `${height - 30 }px` }}
+        style={{ maxHeight: `${height - 30}px` }}
       >
         <h5 id="ctp-screenshot-title">Captured Image</h5>
         <div className="ctp share-image">
@@ -49,42 +47,36 @@ function ScreenshotPopup(props) {
         </div>
 
         <div className="ctp ct-d-r-end pb-2 pt-2">
-          {
-            typeof actionElement === 'function' ? actionElement(imgBlob) : (
-              <>
-                <Button
-                  compact
-                  round
-                  icon={copied ? 'check' : null}
-                  color="white"
-                  onClick={handleCopy}
-                  loading={copying}
-                >
-                  {copied ? 'COPIED' : 'COPY LINK'}
-                </Button>
-                <Button
-                  compact
-                  round
-                  // icon="get_app"
-                  color="black"
-                  onClick={downloadScreenshot}
-                  classNames="ml-2"
-                  autoFocus
-                >
-                  DOWNLOAD
-                </Button>
-                <Button
-                  compact
-                  round
-                  color="black"
-                  onClick={onClose}
-                  classNames="ml-2"
-                >
-                  CANCEL
-                </Button>
-              </>
-            )
-          }
+          {typeof actionElement === 'function' ? (
+            actionElement(imgBlob)
+          ) : (
+            <>
+              <Button
+                compact
+                round
+                icon={copied ? 'check' : null}
+                color="white"
+                onClick={handleCopy}
+                loading={copying}
+              >
+                {copied ? 'COPIED' : 'COPY LINK'}
+              </Button>
+              <Button
+                compact
+                round
+                // icon="get_app"
+                color="black"
+                onClick={downloadScreenshot}
+                classNames="ml-2"
+                autoFocus
+              >
+                DOWNLOAD
+              </Button>
+              <Button compact round color="black" onClick={onClose} classNames="ml-2">
+                CANCEL
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </ClickAwayListener>
@@ -98,4 +90,3 @@ ScreenshotPopup.propTypes = {
 };
 
 export default ScreenshotPopup;
-

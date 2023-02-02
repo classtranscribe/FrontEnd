@@ -23,26 +23,16 @@ function Share(props) {
 
   return (
     <div className="ctp share-root">
-      <ActionButton
-        icon="share"
-        label="Share"
-        onClick={onOpenShare}
-        labelPlacement="bottom"
-      />
+      <ActionButton icon="share" label="Share" onClick={onOpenShare} labelPlacement="bottom" />
 
-      <SharePopup
-        open={openShare}
-        shareLink={shareLink}
-        onClose={onCloseShare}
-      />
+      <SharePopup open={openShare} shareLink={shareLink} onClose={onCloseShare} />
     </div>
   );
 }
 
 Share.propTypes = {
-  media: PropTypes.object, 
-  time: PropTypes.number
+  media: PropTypes.object,
+  time: PropTypes.number,
 };
 
 export default Share;
-

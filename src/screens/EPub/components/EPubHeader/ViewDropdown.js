@@ -12,25 +12,27 @@ function ViewDropdown({ view, dispatch }) {
   };
 
   const handleClose = () => setOpen(false);
-  const handleChange = (value) => dispatch({type: 'epub/setView', payload: value}); 
+  const handleChange = (value) => dispatch({ type: 'epub/setView', payload: value });
 
   const viewOptions = [
     {
       value: epub.const.EpbReadOnly,
       text: 'View I-Note (Read Only)',
-      icon: 'visibility'
-    },{
+      icon: 'visibility',
+    },
+    {
       value: epub.const.EpbEditStructure,
       text: 'Edit I-Note Structure',
-      icon: 'layers'
-    },{
+      icon: 'layers',
+    },
+    {
       value: epub.const.EpbEditChapter,
       text: 'Edit Chapters',
-      icon: 'dashboard'
-    }
+      icon: 'dashboard',
+    },
   ];
 
-  const currentView = viewOptions.find(vi => vi.value === view);
+  const currentView = viewOptions.find((vi) => vi.value === view);
 
   return (
     <>
@@ -42,16 +44,12 @@ function ViewDropdown({ view, dispatch }) {
         aria-haspopup="true"
         onClick={handleToggle}
         className="ct-epb view-dropdown-btn"
-        startIcon={
-          <span className="material-icons">{currentView.icon}</span>
-        }
-        endIcon={
-          <span className="material-icons">arrow_drop_down</span>
-        }
+        startIcon={<span className="material-icons">{currentView.icon}</span>}
+        endIcon={<span className="material-icons">arrow_drop_down</span>}
       >
         {currentView.text}
       </Button>
-      <CTDropdown 
+      <CTDropdown
         id="ct-epb-view-menu"
         open={open}
         anchorRef={anchorRef}
@@ -64,7 +62,4 @@ function ViewDropdown({ view, dispatch }) {
   );
 }
 
-export default connectWithRedux(
-  ViewDropdown,
-  ['view']
-);
+export default connectWithRedux(ViewDropdown, ['view']);

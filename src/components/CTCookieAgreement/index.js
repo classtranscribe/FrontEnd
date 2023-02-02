@@ -16,11 +16,7 @@ function CTCookieAgreement() {
 
   useEffect(() => {
     setTimeout(() => {
-      setDialogOpen(
-        !(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true')
-        &&
-        !user.isLoggedIn
-      );
+      setDialogOpen(!(localStorage.getItem(AGREEMENT_ACCEPTED_KEY) === 'true') && !user.isLoggedIn);
     }, 1500);
   }, []);
 
@@ -52,69 +48,58 @@ function CTCookieAgreement() {
     {
       title: 'Accept and Sign In',
       description: 'Access all eligible videos and courses.',
-      icon: 'verified_user',// 'perm_identity',//'login',
+      icon: 'verified_user', // 'perm_identity',//'login',
       link: true,
       to: links.signIn(),
-      ...itemStyles
+      ...itemStyles,
     },
     {
       title: 'Accept and Skip Sign In',
       description: 'Access only public sources.',
       icon: 'check_circle_outline',
       onClick: handleAcceptSkipLogin,
-      ...itemStyles
+      ...itemStyles,
     },
     {
       title: 'Decline and Close Window',
       description: `Accepting cookie policies are required to access ClassTranscribe's content.`,
-      icon: 'block',// 'error_outline',
+      icon: 'block', // 'error_outline',
       onClick: handleCloseBrowserWindow,
-      ...itemStyles
-    }
+      ...itemStyles,
+    },
   ];
 
   return (
     <CTModal
-      open={dialogOpen} 
+      open={dialogOpen}
       disableBackdropClick
       disableEscapeKeyDown
       fullWidth
-      maxWidth='sm'
+      maxWidth="sm"
       container
       transition
-      scroll='paper'
+      scroll="paper"
       id="cookie-agreement-inner-wrapper"
     >
-      <CTFragment
-        padding={[30, 0]} 
-        className="cookie-acp-title"
-      >
-        <CTText size="huge" bold className="welcome-txt">Welcome To</CTText>
+      <CTFragment padding={[30, 0]} className="cookie-acp-title">
+        <CTText size="huge" bold className="welcome-txt">
+          Welcome To
+        </CTText>
         <CTBrand size="large" />
       </CTFragment>
-        
+
       <CTText size="medium" muted padding={[0, 20, 20, 25]}>
-        By continuing you agree to our 
-        <ButtonBase 
-          className="policy-btn" 
-          onClick={() => handlePolicyClicking('Acceptable Use')}
-        > 
+        By continuing you agree to our
+        <ButtonBase className="policy-btn" onClick={() => handlePolicyClicking('Acceptable Use')}>
           Acceptable Use Policy
         </ButtonBase>
-        and our 
-        <ButtonBase 
-          className="policy-btn"
-          onClick={() => handlePolicyClicking('Cookie')}
-        >
+        and our
+        <ButtonBase className="policy-btn" onClick={() => handlePolicyClicking('Cookie')}>
           Cookie Policy.
         </ButtonBase>
       </CTText>
 
-      <DialogContent 
-        dividers
-        style={{display : showPolicy}}
-        className="policy-container"
-      >
+      <DialogContent dividers style={{ display: showPolicy }} className="policy-container">
         {policyToShow === 'Acceptable Use' && <AcceptableUsePolicy />}
         {policyToShow === 'Cookie' && <CookiePoilcy />}
       </DialogContent>
@@ -126,4 +111,4 @@ function CTCookieAgreement() {
   );
 }
 
-export default CTCookieAgreement
+export default CTCookieAgreement;

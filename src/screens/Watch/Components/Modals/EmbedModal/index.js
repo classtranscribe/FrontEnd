@@ -8,12 +8,12 @@ import {
   CTCheckbox,
   CTFormRow,
   CTSelect,
-  CTFormHeading
+  CTFormHeading,
 } from 'layout';
 import { uurl, prompt, timestr } from 'utils';
 import {
   CTPlayerConstants as Constants,
-  LanguageConstants as LangConstants
+  LanguageConstants as LangConstants,
 } from 'components/CTPlayer';
 import './index.scss';
 
@@ -31,26 +31,19 @@ function EmbedModal(props) {
   const [enableCaption, setEnableCaption] = useState(false);
   const [enablePadded, setEnablePadded] = useState(false);
 
-  const handleEmbedHTMLChange =
-    ({ target: { value } }) => setEmbedHTML(value);
+  const handleEmbedHTMLChange = ({ target: { value } }) => setEmbedHTML(value);
 
-  const handleCCLanguageChange =
-    ({ target: { value } }) => setCCLanguage(value);
+  const handleCCLanguageChange = ({ target: { value } }) => setCCLanguage(value);
 
-  const handlePlaybackRateChange =
-    ({ target: { value } }) => setplaybackRate(value);
+  const handlePlaybackRateChange = ({ target: { value } }) => setplaybackRate(value);
 
-  const handleEnableBeginTime =
-    ({ target: { checked } }) => setEnableBeginTime(checked);
+  const handleEnableBeginTime = ({ target: { checked } }) => setEnableBeginTime(checked);
 
-  const handleBeginTime =
-    ({ target: { value } }) => setBeginTime(value);
+  const handleBeginTime = ({ target: { value } }) => setBeginTime(value);
 
-  const handleEnableCaption =
-    ({ target: { checked } }) => setEnableCaption(checked);
+  const handleEnableCaption = ({ target: { checked } }) => setEnableCaption(checked);
 
-  const handleEnablePadded =
-    ({ target: { checked } }) => setEnablePadded(checked);
+  const handleEnablePadded = ({ target: { checked } }) => setEnablePadded(checked);
 
   const handleConform = () => {
     setconfirmButtonText('Copied');
@@ -59,13 +52,16 @@ function EmbedModal(props) {
     setTimeout(() => {
       setconfirmButtonText('Copy');
     }, 2000);
-    prompt.addOne({
-      text: 'Content copied to clipboard.',
-      status: 'success',
-      timeout: 3000,
-      position: 'bottom left',
-      offset: [60, 40]
-    }, true);
+    prompt.addOne(
+      {
+        text: 'Content copied to clipboard.',
+        status: 'success',
+        timeout: 3000,
+        position: 'bottom left',
+        offset: [60, 40],
+      },
+      true,
+    );
   };
 
   const handleFocus = () => {
@@ -73,9 +69,10 @@ function EmbedModal(props) {
   };
 
   const ccLanguageOptions = LangConstants.LanguageOptions;
-  const playbackRatesOptions = Constants.PlaybackRates.map(
-    (plb, index) => ({ text: plb, value: index })
-  );
+  const playbackRatesOptions = Constants.PlaybackRates.map((plb, index) => ({
+    text: plb,
+    value: index,
+  }));
 
   useEffect(() => {
     // validate the begin time
@@ -96,7 +93,7 @@ function EmbedModal(props) {
         playbackRate: playbackRate === 4 ? null : playbackRatesOptions[playbackRate].text,
         openCC: enableCaption ? 'true' : null,
         lang: ccLanguage === Constants.English ? null : ccLanguage,
-        padded: enablePadded ? 'true' : null
+        padded: enablePadded ? 'true' : null,
       });
       iframeEl.src = `${window.location.origin}/embed/${vid}${embedQuery}`;
       setEmbedHTML(iframeEl.outerHTML.replace(/&amp;/g, '&'));
@@ -123,7 +120,7 @@ function EmbedModal(props) {
     responsive: true,
     onClose,
     action: actionElement,
-    withCloseButton: true
+    withCloseButton: true,
   };
 
   return (
@@ -198,6 +195,6 @@ function EmbedModal(props) {
 
 EmbedModal.propTypes = {
   /** callback on close */
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 export default EmbedModal;

@@ -9,7 +9,7 @@ export default ({
   content = '',
   cover = {},
   author = '',
-  print = false
+  print = false,
 }) => `<!DOCTYPE html>
 <html lang="en">
   <head>

@@ -15,7 +15,7 @@ function CTDropdown(props) {
     id,
     open,
     anchorRef,
-    role = "menu",
+    role = 'menu',
     onClose,
     onChange,
     value,
@@ -25,9 +25,7 @@ function CTDropdown(props) {
   } = props;
 
   const handleClose = (event) => {
-    if (openWhenClickWithin 
-        && anchorRef.current 
-        && anchorRef.current.contains(event.target)) {
+    if (openWhenClickWithin && anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
 
@@ -40,7 +38,7 @@ function CTDropdown(props) {
     }
 
     handleClose();
-  }
+  };
 
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -65,27 +63,19 @@ function CTDropdown(props) {
                 onKeyDown={handleListKeyDown}
                 {...otherProps}
               >
-                {options.map(opt => (
+                {options.map((opt) => (
                   <MenuItem
                     onClick={handleChange(opt.value)}
                     selected={opt.value === value}
                     className="ct-dropd-menu-item"
                   >
-                    {
-                      typeof opt.icon === 'string'
-                      ?
-                        <ListItemIcon>
-                          <span className="material-icons">{opt.icon}</span>
-                        </ListItemIcon>
-                      :
-                      opt.icon
-                      ?
-                        <ListItemIcon>
-                          {opt.icon}
-                        </ListItemIcon>
-                      :
-                      null
-                    }
+                    {typeof opt.icon === 'string' ? (
+                      <ListItemIcon>
+                        <span className="material-icons">{opt.icon}</span>
+                      </ListItemIcon>
+                    ) : opt.icon ? (
+                      <ListItemIcon>{opt.icon}</ListItemIcon>
+                    ) : null}
                     <Typography variant="inherit">{opt.text}</Typography>
                   </MenuItem>
                 ))}
@@ -106,12 +96,13 @@ CTDropdown.propTypes = {
   onClose: PropTypes.func,
   onChange: PropTypes.func,
   value: PropTypes.any,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    icon: PropTypes.string,
-    text: PropTypes.string,
-    value: PropTypes.string
-  })),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.string,
+      text: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ),
 };
-
 
 export default CTDropdown;

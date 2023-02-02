@@ -137,9 +137,11 @@ class ElementHandler {
       const elemBottom = rect.bottom;
 
       let isVisible = false;
-      if (completely) { // Only completely visible elements return true:
+      if (completely) {
+        // Only completely visible elements return true:
         isVisible = elemTop >= 0 && elemTop <= (offsetTop || window.innerHeight);
-      } else { // Partially visible elements return true:
+      } else {
+        // Partially visible elements return true:
         isVisible = elemTop < window.innerHeight && elemBottom >= offsetTop;
       }
       return isVisible;
@@ -192,10 +194,12 @@ class ElementHandler {
    * Determine if there is a fullscreen element
    */
   get isInFullScreen() {
-    return (document.fullscreenElement && document.fullscreenElement !== null) ||
-    (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-    (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-    (document.msFullscreenElement && document.msFullscreenElement !== null);
+    return (
+      (document.fullscreenElement && document.fullscreenElement !== null) ||
+      (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+      (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+      (document.msFullscreenElement && document.msFullscreenElement !== null)
+    );
   }
 
   /**
@@ -243,7 +247,9 @@ class ElementHandler {
     }
   }
 
-  preventDefault = (e) => { e.preventDefault(); }
+  preventDefault = (e) => {
+    e.preventDefault();
+  };
 }
 
 export const elem = new ElementHandler();

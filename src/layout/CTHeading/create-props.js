@@ -1,4 +1,4 @@
- /**
+/**
  * The props for CTHeading component
  * @typedef {Object} CTHeadingProps
  * @property {String} as - One of `'h1', 'h2', 'h3', 'h4', 'h5'`

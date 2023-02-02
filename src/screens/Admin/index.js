@@ -141,17 +141,17 @@ export class Admin extends React.Component {
       defaultOpenSidebar: true,
       headerProps: {
         subtitle: 'Admin',
-      }
+      },
     });
   }
 
   render() {
     // Tab panes of the contents
-    const routes = tabs.map(tab => {
+    const routes = tabs.map((tab) => {
       let RouteElem = tab.component;
       return {
         ...tab,
-        render: () => <RouteElem {...this} />
+        render: () => <RouteElem {...this} />,
       };
     });
 
@@ -160,12 +160,8 @@ export class Admin extends React.Component {
         <div className="admin-bg">
           <Route exact path={links.admin()} render={() => <Redirect to={routes[0].href} />} />
 
-          {routes.map( route => (
-            <Route
-              key={route.value} 
-              path={route.href} 
-              render={route.render}
-            />
+          {routes.map((route) => (
+            <Route key={route.value} path={route.href} render={route.render} />
           ))}
         </div>
       </CTLayout>

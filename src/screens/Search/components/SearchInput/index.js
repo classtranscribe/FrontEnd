@@ -5,10 +5,10 @@ import './index.scss';
 
 function SearchInput(props) {
   const { search, dispatch } = props;
-  const {searchValue = ''} = search;
+  const { searchValue = '' } = search;
   const handleSearchInputChange = (e) => {
-    dispatch({type: 'search/searchValue', payload: e.target.value})
-  }
+    dispatch({ type: 'search/searchValue', payload: e.target.value });
+  };
   return (
     <CTFragment padding={[0, 30]}>
       <CTFragment justConCenter padding={[0, 0, 0, 20]} className="sp-input-con">
@@ -21,15 +21,10 @@ function SearchInput(props) {
           autoFocus
         />
 
-        <Button
-          round
-          icon="search"
-          color="transparent"
-        />
+        <Button round icon="search" color="transparent" />
       </CTFragment>
     </CTFragment>
   );
 }
 
 export default SearchInput;
-

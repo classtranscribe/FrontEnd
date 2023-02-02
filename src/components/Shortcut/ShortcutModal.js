@@ -3,14 +3,7 @@ import { CTModal } from 'layout/CTModal';
 import ShortcutTable from './ShortcutTable';
 
 function ShortcutModal(props) {
-  const {
-    open,
-    title = 'Shortcuts',
-    shortcuts = [],
-    onClose,
-    fullWidth,
-    ...modalProps
-  } = props;
+  const { open, title = 'Shortcuts', shortcuts = [], onClose, fullWidth, ...modalProps } = props;
 
   return (
     <CTModal
@@ -28,8 +21,7 @@ function ShortcutModal(props) {
 
 ShortcutModal.propTypes = {
   ...CTModal.propTypes,
-  ...ShortcutTable.propTypes
+  ...ShortcutTable.propTypes,
 };
 
 export default ShortcutModal;
-

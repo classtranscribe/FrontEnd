@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../Utils';
 import './index.scss';
 
@@ -29,13 +29,13 @@ function PlayerWrapper(props) {
           <BigPlayButton isPrimary={isPrimary} />
           <AudioDescription isPrimary={isPrimary} />
         </>
-        )}
+      )}
     </div>
   ) : (
     <SecondaryPlayerWrapper isPrimary={isPrimary} />
-    );
+  );
 }
 
 export default connect(({ watch: { ctpPriEvent }, loading }) => ({
-  ctpPriEvent
+  ctpPriEvent,
 }))(PlayerWrapper);

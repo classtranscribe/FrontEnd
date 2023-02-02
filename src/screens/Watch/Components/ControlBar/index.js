@@ -1,6 +1,6 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import './index.scss';
 
 import {
@@ -62,6 +62,7 @@ export function ControlBarWithRedux(props) {
   );
 }
 
-export const ControlBar = connect(({ watch : { media, bulkEditing}, loading }) => ({
-  media, bulkEditing
+export const ControlBar = connect(({ watch: { media, bulkEditing }, loading }) => ({
+  media,
+  bulkEditing,
 }))(ControlBarWithRedux);

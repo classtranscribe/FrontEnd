@@ -48,7 +48,7 @@ CTLoadable.propTypes = {
   altElement: PropTypes.node,
 
   /** The primary content */
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default CTLoadable;

@@ -5,14 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import './index.scss';
 
 function DNDItem(props) {
-  const {
-    index,
-    draggableId,
-    disabled = false,
-    role = 'listitem',
-    className,
-    children,
-  } = props;
+  const { index, draggableId, disabled = false, role = 'listitem', className, children } = props;
 
   const dragProps = {
     index,
@@ -20,15 +13,16 @@ function DNDItem(props) {
     isDragDisabled: disabled,
   };
 
-  const getDNDItemClassName = dragging => {
+  const getDNDItemClassName = (dragging) => {
     return cx(
-      'ct-dnd', 
-      'dnd-item-con', 
+      'ct-dnd',
+      'dnd-item-con',
       {
-        disabled, 
-        dragging
-      }, 
-      className);
+        disabled,
+        dragging,
+      },
+      className,
+    );
   };
 
   return (
@@ -74,4 +68,3 @@ DNDItem.propTypes = {
 };
 
 export default DNDItem;
-

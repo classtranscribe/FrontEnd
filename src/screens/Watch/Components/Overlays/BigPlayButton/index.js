@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
 import './index.scss';
 
@@ -11,12 +11,12 @@ let timeOutEl = null;
 let lastPaused = true;
 
 function BigPlayButtonWithRedux(props) {
-  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING, dispatch} = props;
+  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING, dispatch } = props;
   const [pauseStatus, setPauseStatus] = useState(true);
 
   const handleClick = () => {
     if (ctpPriEvent === CTP_ENDED) {
-      dispatch({type: 'watch/media_replay'})
+      dispatch({ type: 'watch/media_replay' });
     }
   };
 
@@ -76,6 +76,7 @@ function BigPlayButtonWithRedux(props) {
   ) : null;
 }
 
-export const BigPlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
-  paused, ctpPriEvent
+export const BigPlayButton = connect(({ watch: { paused, ctpPriEvent }, loading }) => ({
+  paused,
+  ctpPriEvent,
 }))(BigPlayButtonWithRedux);

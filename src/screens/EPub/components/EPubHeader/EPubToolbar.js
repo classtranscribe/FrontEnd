@@ -15,44 +15,49 @@ function EPubToolbar({ view, dispatch, epub }) {
   }, [chapters, epub]);
   const historyUndo = () => {
     // NOT IMPLEMENTED
-  }
+  };
   const historyRedo = () => {
     // NOT IMPLEMENTED
-  }
+  };
   const isReadOnly = view === EPubController.const.EpbReadOnly;
 
-  const undoBtnEl = _makeTBtn(
-    'undo', 'Undo', '⌘Z', historyUndo, false, !isReadOnly,
-    { disabled: !canUndo }
-  );
-  const redoBtnEl = _makeTBtn(
-    'redo', 'Redo', '⌘⇧Z', historyRedo, false, !isReadOnly,
-    { disabled: !canRedo }
-  );
+  const undoBtnEl = _makeTBtn('undo', 'Undo', '⌘Z', historyUndo, false, !isReadOnly, {
+    disabled: !canUndo,
+  });
+  const redoBtnEl = _makeTBtn('redo', 'Redo', '⌘⇧Z', historyRedo, false, !isReadOnly, {
+    disabled: !canRedo,
+  });
 
-  const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' })
+  const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' });
   const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
   const openPreview = () => dispatch({ type: 'epub/setShowPreview', payload: true });
   const previewBtnEl = _makeTBtn(
-    'preview', 'Preview I-Note', '⌘⇧P', openPreview, false, !isReadOnly
+    'preview',
+    'Preview I-Note',
+    '⌘⇧P',
+    openPreview,
+    false,
+    !isReadOnly,
   );
 
-  const prefBtnEl = null// _makeTBtn('tune', 'Preference', null, null, false, true);
+  const prefBtnEl = null; // _makeTBtn('tune', 'Preference', null, null, false, true);
 
   const openShortcuts = () => dispatch({ type: 'epub/setShowShortcuts', payload: true });
   const shortcutBtnEl = _makeTBtn(
-    'keyboard', 'Keyboard Shortcuts', '⌘/', openShortcuts, false, true
+    'keyboard',
+    'Keyboard Shortcuts',
+    '⌘/',
+    openShortcuts,
+    false,
+    true,
   );
 
   const openHelpGuide = () => {
     const guide = generateEPubGuide(true);
     guide.start();
   };
-  const guideBthEl = _makeTBtn(
-    'help_outline', 'Show Help Guide', null, openHelpGuide, false, true
-  );
-
+  const guideBthEl = _makeTBtn('help_outline', 'Show Help Guide', null, openHelpGuide, false, true);
 
   return (
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
@@ -74,7 +79,4 @@ function EPubToolbar({ view, dispatch, epub }) {
 }
 // NOT IMPLEMENTED
 
-export default connectWithRedux(
-  EPubToolbar,
-  ['view', 'epub']
-);
+export default connectWithRedux(EPubToolbar, ['view', 'epub']);

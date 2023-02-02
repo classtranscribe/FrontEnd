@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import {
   CTPlayerConstants as PConstants,
-  LanguageConstants as LangConstants
+  LanguageConstants as LangConstants,
 } from 'components/CTPlayer';
 import RootMenu from './RootMenu';
 import PlaybackRateMenu from './PlaybackRateMenu';
@@ -32,11 +32,11 @@ function SettingsMenu(props) {
     dispatch,
     fontSize,
     englishTrack,
-    textTracks
+    textTracks,
   } = props;
   const open = menu && menu === 'menu-setting';
   const [menuType, setMenuType] = useState('root');
-  const handleOpenMenu = type => () => {
+  const handleOpenMenu = (type) => () => {
     setMenuType(type);
   };
 
@@ -59,8 +59,8 @@ function SettingsMenu(props) {
         openLiveCaptionMenu: handleOpenMenu('liveCaption'),
         onOpenScreenModeManu: handleOpenMenu('screen-mode'),
         onOpenLiveTextTrackSelection: handleOpenMenu('lct'),
-        englishTrack
-      }
+        englishTrack,
+      };
       menuElement = <RootMenu {...menuProps} />;
       break;
 
@@ -69,8 +69,8 @@ function SettingsMenu(props) {
         playbackRate,
         playbackRates: PConstants.PlaybackRates,
         onGoBack: handleOpenMenu('root'),
-        setPlaybackRate: (value) => dispatch({ type: 'watch/media_playbackrate', payload: value })
-      }
+        setPlaybackRate: (value) => dispatch({ type: 'watch/media_playbackrate', payload: value }),
+      };
       menuElement = <PlaybackRateMenu {...menuProps} />;
       break;
     case 'lct':
@@ -78,8 +78,8 @@ function SettingsMenu(props) {
         englishTrack,
         textTracks,
         onGoBack: handleOpenMenu('root'),
-        setTextTrack: (value) => dispatch({ type: 'watch/setEnglishTrack', payload: value })
-      }
+        setTextTrack: (value) => dispatch({ type: 'watch/setEnglishTrack', payload: value }),
+      };
       menuElement = <LiveCaptionTrackSelection {...menuProps} />;
       break;
 
@@ -87,11 +87,11 @@ function SettingsMenu(props) {
       menuProps = {
         fontSize,
         onGoBack: handleOpenMenu('root'),
-        setFontSize: (value) => dispatch({ type: 'watch/setFontSize', payload: value })
+        setFontSize: (value) => dispatch({ type: 'watch/setFontSize', payload: value }),
         // setFontSize: () => {
         //   console.log("setFontSize in menu called once")
         // }
-      }
+      };
       menuElement = <LiveCaptionMenu {...menuProps} />;
       break;
 
@@ -103,15 +103,15 @@ function SettingsMenu(props) {
         languages: LangConstants.LanguageOptions,
         onGoBack: handleOpenMenu('root'),
         // onOpenCCOptions: handleOpenMenu('cc-opt'),
-        setLanguage: (value) => dispatch({ type: 'watch/setLanguage', payload: value })
-      }
+        setLanguage: (value) => dispatch({ type: 'watch/setLanguage', payload: value }),
+      };
       menuElement = <ClosedCaptionMenu {...menuProps} />;
       break;
 
     case 'cc-opt':
       menuProps = {
         onGoBack: handleOpenMenu('root'),
-      }
+      };
       menuElement = <CCOptionsMenu {...menuProps} />;
       break;
 
@@ -132,7 +132,7 @@ function SettingsMenu(props) {
       break;
 
     case 'screen-mode':
-      menuElement = <ScreenModesMenu {...menuProps} />
+      menuElement = <ScreenModesMenu {...menuProps} />;
       break;
 
     default:
@@ -149,9 +149,17 @@ function SettingsMenu(props) {
   ) : null;
 }
 
-
-export default connect(({ watch: { menu, media, currTrans, englishTrack, textTracks },
-  playerpref: { playbackrate, openCC } }) => ({
-    menu, media, currTrans, playbackrate, openCC, englishTrack, textTracks
-  }))(SettingsMenu);
-
+export default connect(
+  ({
+    watch: { menu, media, currTrans, englishTrack, textTracks },
+    playerpref: { playbackrate, openCC },
+  }) => ({
+    menu,
+    media,
+    currTrans,
+    playbackrate,
+    openCC,
+    englishTrack,
+    textTracks,
+  }),
+)(SettingsMenu);

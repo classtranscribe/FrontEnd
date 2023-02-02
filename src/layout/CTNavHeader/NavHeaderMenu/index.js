@@ -18,8 +18,7 @@ function UserMenu(props) {
   const [universities, setUniversities] = useState([]);
 
   useEffect(() => {
-    api.getUniversities()
-      .then(({ data }) => setUniversities(data));
+    api.getUniversities().then(({ data }) => setUniversities(data));
   }, [darkMode]);
 
   const handleClick = (e) => {
@@ -30,13 +29,7 @@ function UserMenu(props) {
     setTimeout(() => setAnchorEl(null), 200);
   };
 
-  const { 
-    fullName, 
-    universityId, 
-    picture, 
-    emailId, 
-    roles 
-  } = user.getUserInfo({
+  const { fullName, universityId, picture, emailId, roles } = user.getUserInfo({
     allowLoginAsOverride: false,
   });
 
@@ -57,42 +50,37 @@ function UserMenu(props) {
         handleClick={handleClick}
       />
 
-      {
-        user.isLoggedIn ?
+      {user.isLoggedIn ? (
         /** Signed in menu */
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={open}
-            onClose={handleClose}
-            PaperProps={{ style: styles.menu }}
-          >
-            <ProfileInfo
-              uniName={uniName}
-              picture={picture}
-              emailId={emailId}
-              fullName={fullName}
-              isLoginAsAccount={user.isLoginAsAccount}
-              loginAsUserUni={loginAsUserUni.name}
-              loginAsEmailId={loginAsUserInfo.emailId}
-            />
-
-            <ProfileMenu roles={roles} />
-          </Menu>
-        :
-          <SignInMenu 
-            open={open} 
-            anchorEl={anchorEl} 
-            handleClose={handleClose}
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          PaperProps={{ style: styles.menu }}
+        >
+          <ProfileInfo
+            uniName={uniName}
+            picture={picture}
+            emailId={emailId}
+            fullName={fullName}
+            isLoginAsAccount={user.isLoginAsAccount}
+            loginAsUserUni={loginAsUserUni.name}
+            loginAsEmailId={loginAsUserInfo.emailId}
           />
-      }
+
+          <ProfileMenu roles={roles} />
+        </Menu>
+      ) : (
+        <SignInMenu open={open} anchorEl={anchorEl} handleClose={handleClose} />
+      )}
     </div>
   );
 }
 
 UserMenu.propTypes = {
   /** The Nav Header supports dark mode */
-  darkMode: PropTypes.bool
+  darkMode: PropTypes.bool,
 };
 
 export default UserMenu;

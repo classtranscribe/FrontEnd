@@ -45,7 +45,7 @@ const getPlaylistResults = async (value, playlist) => {
     console.error(error, 'Failed to get media results');
     return [];
   }
-}
+};
 // Function used to add <span> tag around the searched value in a text
 function highlightSearchedWords(results = [], value = '', key = 'text') {
   const tests = CTSearch.getRegExpTests(value, key);
@@ -64,7 +64,7 @@ function highlightSearchedWords(results = [], value = '', key = 'text') {
 // Function used to get search results from captions in current video
 function getInVideoTransSearchResults(value, watch) {
   if (value === undefined) return watch.search;
-  const captions = watch.transcript;;
+  const captions = watch.transcript;
   if (!value || captions === ARRAY_EMPTY) {
     return [];
   }
@@ -111,35 +111,43 @@ export default {
   // Function used to get search results from captions and videos
   *search_getResults({ payload: value }, { call, put, select, take }) {
     if (!value) {
-      return yield put({ type: 'resetSearch' })
+      return yield put({ type: 'resetSearch' });
     }
     const { watch } = yield select();
     // caption results in this video
-    const {
-      inVideoTransResultsEarlier,
-      inVideoTransResultsLater,
-    } = getInVideoTransSearchResults(value, watch);
+    const { inVideoTransResultsEarlier, inVideoTransResultsLater } = getInVideoTransSearchResults(
+      value,
+      watch,
+    );
 
     // shortcut results
     const shortcutResults = getShortcutResults(value);
     yield put({
-      type: 'setSearch', payload: {
+      type: 'setSearch',
+      payload: {
         value,
         status: SEARCH_RESULT,
         inVideoTransResults: [inVideoTransResultsEarlier, inVideoTransResultsLater],
         shortcutResults,
         playlistResults: ARRAY_INIT,
         inCourseTransResults: ARRAY_INIT,
-      }
+      },
     });
 
     // playlist results
     const playlistResults = yield call(getPlaylistResults, value, watch.playlist);
     // caption results in this offering
-    const inCourseTransResults =
-      yield call(getInCourseTransSearchResults, value, watch.playlist, watch.currTrans?.language);
-    yield put({ type: 'setSearch', payload: { inCourseTransResults, hasResult: true, playlistResults } });
+    const inCourseTransResults = yield call(
+      getInCourseTransSearchResults,
+      value,
+      watch.playlist,
+      watch.currTrans?.language,
+    );
+    yield put({
+      type: 'setSearch',
+      payload: { inCourseTransResults, hasResult: true, playlistResults },
+    });
     // send user action to logs
     uEvent.filtertrans(value);
-  }
-}
+  },
+};

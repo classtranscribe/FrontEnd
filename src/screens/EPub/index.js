@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { CTFragment, altEl, makeEl } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { ARRAY_INIT } from 'utils/constants';
 import * as KeyCode from 'keycode-js';
 import { epub as epubController } from './controllers';
@@ -11,16 +11,18 @@ import {
   PreviewModal,
   ShortcutModal,
   EPubFileInfoModal,
-  ImagePickerModal
+  ImagePickerModal,
 } from './components';
 import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
 import './index.scss';
 
 function shouldDisable() {
   const activeEl = document.activeElement;
-  return activeEl.getAttribute('contenteditable')
-    || activeEl.tagName === 'input'
-    || activeEl.tagName === 'textarea';
+  return (
+    activeEl.getAttribute('contenteditable') ||
+    activeEl.tagName === 'input' ||
+    activeEl.tagName === 'textarea'
+  );
 }
 
 function EPubWithRedux({ view, chapters, epub, dispatch }) {
@@ -35,8 +37,8 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const shortcutModal = makeEl(ShortcutModal);
   const fileSettingsModal = makeEl(EPubFileInfoModal);
   useEffect(() => {
-    setTimeout(() => document.getElementById('ct-epb-main').focus(), 1000)
-  }, [])
+    setTimeout(() => document.getElementById('ct-epb-main').focus(), 1000);
+  }, []);
   /*
   onUndo(e) {
     this.preventDefault(e);
@@ -66,18 +68,18 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
       case KeyCode.KEY_2: // 2
       case KeyCode.KEY_3: // 3
         e.preventDefault();
-        return dispatch({ type: 'epub/setView', payload: (Constants.EPubViews[keyCode - 49]) })
+        return dispatch({ type: 'epub/setView', payload: Constants.EPubViews[keyCode - 49] });
       case KeyCode.KEY_B: // b
         e.preventDefault();
-        return dispatch({ type: 'epub/toggleNav' })
+        return dispatch({ type: 'epub/toggleNav' });
       case KeyCode.KEY_S: // s
         e.preventDefault();
-        return dispatch({ type: 'epub/updateEPub_Internal' })
+        return dispatch({ type: 'epub/updateEPub_Internal' });
       case KeyCode.KEY_Z: // z
-        return // this.onUndo(event);
+        return; // this.onUndo(event);
       case KeyCode.KEY_SLASH: // Slash
         e.preventDefault();
-        return dispatch({ type: 'epub/toggleShortcuts' })
+        return dispatch({ type: 'epub/toggleShortcuts' });
       default:
         break;
     }
@@ -87,17 +89,23 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     switch (keyCode) {
       case KeyCode.KEY_P: // p
         e.preventDefault();
-        return dispatch({ type: 'epub/togglePreview' })
+        return dispatch({ type: 'epub/togglePreview' });
       case KeyCode.KEY_Z: // z
         e.preventDefault();
-        return 0// this.onRedo(event);
+        return 0; // this.onRedo(event);
       default:
         break;
     }
-  }
+  };
 
   return (
-    <CTFragment as="main" id={epubController.id.EPubMainID} loading={loading} onKeyDown={onKeyDown} tabIndex="0">
+    <CTFragment
+      as="main"
+      id={epubController.id.EPubMainID}
+      loading={loading}
+      onKeyDown={onKeyDown}
+      tabIndex="0"
+    >
       {headerElement}
 
       <CTFragment id="ct-epb-view-con">
@@ -116,6 +124,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 }
 
 export const EPub = connect(({ epub: { view, chapters, epub }, loading }) => ({
-  view, chapters, epub
+  view,
+  chapters,
+  epub,
 }))(EPubWithRedux);
-

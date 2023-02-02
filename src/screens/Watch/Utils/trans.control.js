@@ -23,7 +23,6 @@ import {
 export const transControl = {
   externalFunctions: {},
 
-
   /**
    * Transcriptions
    * Action handlers for transcriptions
@@ -120,7 +119,6 @@ export const transControl = {
     }
   },
 
-
   /**
    * Function called when mouse over the transcription area
    * To prevent scrolling
@@ -142,7 +140,7 @@ export const transControl = {
    */
   bulkEditing_: false,
   transcriptCpy_: [],
-  setTransCpy() { },
+  setTransCpy() {},
   bulkEdit(bool) {
     const { setBulkEditing } = this.externalFunctions;
     let bulkEditing = false;

@@ -25,7 +25,6 @@ export { default as InfoAndListLayout } from './InfoAndListLayout';
 export { default as CopyButton } from './CopyButton';
 export { CTShortcutModal, CTShortcutTable } from './Shortcut';
 
-
 // Need to be removed later
 
 /**

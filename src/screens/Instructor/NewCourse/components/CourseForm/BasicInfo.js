@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  CTFragment,
-  CTFormHeading,
-  CTFormRow,
-  CTInput,
-  CTSelect,
-  CTRadio,
-} from 'layout';
+import { CTFragment, CTFormHeading, CTFormRow, CTInput, CTSelect, CTRadio } from 'layout';
 import { api, prompt, _getSelectOptions } from 'utils';
 
 function BasicInfo(props) {
@@ -25,7 +18,7 @@ function BasicInfo(props) {
     setAccess,
     setDescription,
     setLogEventsFlag,
-    uniId
+    uniId,
   } = props;
 
   const [terms, setTerms] = useState([]);
@@ -82,15 +75,15 @@ function BasicInfo(props) {
     setupTermOptions();
   }, [uniId]);
 
-  const visibilityOptions = api.offeringAccessType.slice(1).map(type => ({
+  const visibilityOptions = api.offeringAccessType.slice(1).map((type) => ({
     text: type.name,
     value: type.id,
-    description: type.description
+    description: type.description,
   }));
 
   const logEventOptions = [
     { value: 'yes', text: 'Yes' },
-    { value: 'no', text: 'No' }
+    { value: 'no', text: 'No' },
   ];
 
   return (
@@ -105,7 +98,7 @@ function BasicInfo(props) {
           placeholder="Course Name"
           value={courseName}
           onChange={handleCourseNameChange}
-          helpText={emptyCourseName ? "Course Name is required." : ''}
+          helpText={emptyCourseName ? 'Course Name is required.' : ''}
         />
         <CTInput
           required
@@ -115,7 +108,7 @@ function BasicInfo(props) {
           placeholder="Section Name"
           value={sectionName}
           onChange={handleSectionNameChange}
-          helpText={emptySecName ? "Section Name is required." : ''}
+          helpText={emptySecName ? 'Section Name is required.' : ''}
         />
       </CTFormRow>
 

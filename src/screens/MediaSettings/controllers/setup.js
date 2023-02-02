@@ -12,7 +12,7 @@ class SetupMSP {
     const strs = pathname.split('/');
     return strs[strs.length - 1];
   }
-  
+
   enterFullscreen(id) {
     try {
       const elem = document.getElementById(id) || {};

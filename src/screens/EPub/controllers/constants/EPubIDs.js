@@ -47,7 +47,7 @@ export default class EPubIDs {
   }
 
   static chTitleID(chId) {
-    return _buildEpbId(EPubIDs.ChapterTitleIDPrefix, chId, );
+    return _buildEpbId(EPubIDs.ChapterTitleIDPrefix, chId);
   }
 
   static chImgID(chId) {
@@ -61,8 +61,6 @@ export default class EPubIDs {
   static chNavItemID(chId) {
     return _buildEpbId(EPubIDs.ChapterNavItemIDPrefix, chId);
   }
-
-
 
   static schID(schId) {
     return _buildEpbId(EPubIDs.SubChapterIDPrefix, schId);

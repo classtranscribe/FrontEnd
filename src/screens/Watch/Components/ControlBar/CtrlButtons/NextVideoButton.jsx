@@ -4,15 +4,9 @@ import { MediaCard } from 'components';
 import { api, links } from 'utils';
 import { setup, connectWithRedux } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import setup2 from '../../../model/setup'
+import setup2 from '../../../model/setup';
 const Video = ({ media = null, label = false }) => (
-  <MediaCard
-    {...MediaCard.parse(media)}
-    row
-    dark
-    posterSize="normal"
-    label={label}
-  />
+  <MediaCard {...MediaCard.parse(media)} row dark posterSize="normal" label={label} />
 );
 
 export function NextVideoWithRedux(props) {
@@ -73,4 +67,6 @@ export function NextVideoWithRedux(props) {
   );
 }
 
-export const NextVideoButton=withRouter(connectWithRedux(NextVideoWithRedux, ['media', 'playlist']))
+export const NextVideoButton = withRouter(
+  connectWithRedux(NextVideoWithRedux, ['media', 'playlist']),
+);

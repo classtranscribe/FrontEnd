@@ -16,13 +16,12 @@ function ArrowButton(props) {
       <ButtonBase aria-label={label} className={btnClasses}>
         <span className="material-icons">{icon}</span>
       </ButtonBase>
-    </CTFragment>  
+    </CTFragment>
   );
 }
 
 ArrowButton.propTypes = {
-  isLeft: PropTypes.bool
+  isLeft: PropTypes.bool,
 };
 
-export default ArrowButton
-
+export default ArrowButton;

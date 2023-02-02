@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { elem } from 'utils/use-elem';
-import _ from 'lodash'
+import _ from 'lodash';
 import {
   ARRAY_INIT,
   ARRAY_EMPTY,
@@ -10,7 +10,7 @@ import {
   SEARCH_TRANS_IN_VIDEO,
   SEARCH_IN_PLAYLISTS,
   SEARCH_TRANS_IN_COURSE,
-  SEARCH_IN_SHORTCUTS
+  SEARCH_IN_SHORTCUTS,
 } from '../../../Utils';
 import './index.scss';
 
@@ -116,7 +116,7 @@ function Results({ search = SEARCH_INIT }) {
               >
                 <span tabIndex="-1">{opt.init ? <Placeholder small /> : `${opt.content}`}</span>
               </button>
-          ))}
+            ))}
             {resultOptions.length === 0 && ' 0 results '}
             {`for '${value}'`}
           </div>

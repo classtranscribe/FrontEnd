@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { CTModal, CTFragment, CTSelect } from 'layout';
-import { connect } from 'dva'
-import { buildHTMLFromChapter } from 'entities/EPubs/html-converters'
+import { connect } from 'dva';
+import { buildHTMLFromChapter } from 'entities/EPubs/html-converters';
 import { MDPreviewer } from '../Markdown';
-import './index.scss'
+import './index.scss';
 
-function PreviewModal({
-  showPreview,
-  currChIndex,
-  chapters = [],
-  dispatch
-}) {
+function PreviewModal({ showPreview, currChIndex, chapters = [], dispatch }) {
   const onClose = () => dispatch({ type: 'epub/setShowPreview', payload: false });
 
   const [previewChIdx, setPreviewChIdx] = useState(currChIndex);
@@ -23,9 +18,10 @@ function PreviewModal({
   }, [showPreview]);
 
   const handleSelect = ({ target: { value } }) => setPreviewChIdx(value);
-  const chapterOptions = chapters.map(
-    (ch, idx) => ({ value: idx, text: `Chapter ${idx + 1}: ${ch.title}` })
-  );
+  const chapterOptions = chapters.map((ch, idx) => ({
+    value: idx,
+    text: `Chapter ${idx + 1}: ${ch.title}`,
+  }));
   const chapterSelector = (
     <CTFragment dFlex padding={[0, 10, 0, 25]} maxWidth="500px">
       <CTSelect
@@ -37,7 +33,7 @@ function PreviewModal({
         underlined
       />
     </CTFragment>
-  )
+  );
 
   return (
     <CTModal
@@ -52,9 +48,11 @@ function PreviewModal({
         <MDPreviewer value={buildHTMLFromChapter(chapter)} />
       </CTFragment>
     </CTModal>
-  )
+  );
 }
 
 export default connect(({ epub: { showPreview, currChIndex, epub: { chapters } }, loading }) => ({
-  showPreview, currChIndex, chapters
+  showPreview,
+  currChIndex,
+  chapters,
 }))(PreviewModal);

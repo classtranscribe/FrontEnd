@@ -26,7 +26,7 @@ class EPubChapterLikeData {
     end: '00:00:00',
     items: [],
     condition: ['default'],
-    contents: []
+    contents: [],
   };
 
   constructor(data, resetText = true, getTitle) {
@@ -35,15 +35,10 @@ class EPubChapterLikeData {
       return;
     }
 
-    let {
-      id,
-      title,
-      items,
-      contents = []
-    } = data;
+    let { id, title, items, contents = [] } = data;
 
     const { start, end } = findChapterTimeSpan(data);
-    
+
     if (!title && typeof getTitle === 'function') {
       title = getTitle();
     }
@@ -55,9 +50,9 @@ class EPubChapterLikeData {
       title: title || 'Untitled',
       items,
       condition: ['default'],
-      contents: resetText 
-        ? _buildContentsFromItems(items) 
-        : contents.map(con => typeof con === 'string' ? con : new EPubImageData(con))
+      contents: resetText
+        ? _buildContentsFromItems(items)
+        : contents.map((con) => (typeof con === 'string' ? con : new EPubImageData(con))),
     };
   }
 
@@ -174,8 +169,8 @@ class EPubChapterLikeData {
   }
 
   /**
-   * 
-   * @param {Number} index 
+   *
+   * @param {Number} index
    * @returns {String|EPubImageData} content at index
    */
   getContent(index) {
@@ -183,16 +178,16 @@ class EPubChapterLikeData {
   }
 
   /**
-   * 
-   * @param {Number} index 
-   * @param {String|EPubImageData} content 
+   *
+   * @param {Number} index
+   * @param {String|EPubImageData} content
    */
   setContent(index, content) {
     this.contents[index] = content;
   }
 
   /**
-   * 
+   *
    * @returns {String|EPubImageData} content at index
    */
   get last() {
@@ -200,34 +195,29 @@ class EPubChapterLikeData {
   }
 
   /**
-   * 
-   * @param {String|EPubImageData} content 
+   *
+   * @param {String|EPubImageData} content
    */
   push(content) {
-    this.contents.push(content)
+    this.contents.push(content);
   }
 
   /**
    * @param {Number} index
-   * @param {String|EPubImageData} content 
+   * @param {String|EPubImageData} content
    */
   insert(index, content) {
     if (index >= this.contents.length) {
       this.push(content);
     } else {
-      this.contents = [
-        ...this.contents.slice(0, index),
-        content,
-        ...this.contents.slice(index)
-      ];
+      this.contents = [...this.contents.slice(0, index), content, ...this.contents.slice(index)];
     }
   }
 
   /**
-   * 
-   * @param {Number|String|EPubImageData} predictor 
+   *
+   * @param {Number|String|EPubImageData} predictor
    */
-  
 
   static __getAllImagesInChapter = getAllImagesInChapter;
   static __getAllItemsInChapter = getAllItemsInChapter;

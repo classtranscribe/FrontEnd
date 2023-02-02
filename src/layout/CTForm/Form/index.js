@@ -59,9 +59,7 @@ function Form(props) {
         className={collapsible ? 'collapsible' : null}
       >
         <CTFragment dFlexCol>
-          <CTHeading as="h3">
-            {heading}
-          </CTHeading>
+          <CTHeading as="h3">{heading}</CTHeading>
           {Boolean(details) && <div className="text-muted">{details}</div>}
         </CTFragment>
       </AccordionSummary>
@@ -70,33 +68,21 @@ function Form(props) {
 
       <form id={id} autoComplete="off" autoSave="off">
         <AccordionDetails id={`ct-form-content-${id}`}>
-          <CTFragment dFlexCol>
-            {children}
-          </CTFragment>
+          <CTFragment dFlexCol>{children}</CTFragment>
         </AccordionDetails>
-          
+
         <AccordionActions>
-          {
-            Boolean(onCancel)
-            &&
-            <Button onClick={onCancel}>
-              {onCancelButtonText}
-            </Button>
-          }
-          {
-            Boolean(onSave)
-            &&
+          {Boolean(onCancel) && <Button onClick={onCancel}>{onCancelButtonText}</Button>}
+          {Boolean(onSave) && (
             <Button type="button" className={btn.teal} variant="contained" onClick={onSave}>
               {onSaveButtonText}
             </Button>
-          }
-          {
-            Boolean(onDelete)
-            &&
+          )}
+          {Boolean(onDelete) && (
             <Button type="button" color="secondary" className={btn.bold} onClick={onDelete}>
               {onDeleteButtonText}
             </Button>
-          }
+          )}
         </AccordionActions>
       </form>
     </Accordion>

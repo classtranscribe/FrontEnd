@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import {
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
@@ -20,7 +20,7 @@ import DownloadMenu from './DownloadMenu';
 import ShortcutsTable from './ShortcutsTable';
 
 export function MenusWithRedux({ menu, transcriptions, dispatch }) {
-  const closeMenu = () => dispatch({type: 'watch/menu_close'});
+  const closeMenu = () => dispatch({ type: 'watch/menu_close' });
   // const hideBefore = menu === MENU_BEFORE_HIDE
 
   return (
@@ -38,5 +38,6 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
 }
 
 export const Menus = connect(({ watch: { menu, transcriptions }, loading }) => ({
-  menu, transcriptions
+  menu,
+  transcriptions,
 }))(MenusWithRedux);

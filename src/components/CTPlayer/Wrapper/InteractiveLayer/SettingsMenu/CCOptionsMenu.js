@@ -23,21 +23,16 @@ function CCOptionsMenu(props) {
         isSubMenu
         active
         text="Font Size"
-        current={`${fontSize * 100 }%`}
+        current={`${fontSize * 100}%`}
         onClick={onOpenFontSizeMenu}
       />
 
-      <MenuItem
-        isSubMenu
-        text="Font Color"
-        current={fontColor}
-        onClick={onOpenFontColorMenu}
-      />
+      <MenuItem isSubMenu text="Font Color" current={fontColor} onClick={onOpenFontColorMenu} />
 
       <MenuItem
         isSubMenu
         text="Background Opacity"
-        current={`${opacity * 100 }%`}
+        current={`${opacity * 100}%`}
         onClick={onOpenOpacityMenu}
       />
 
@@ -64,4 +59,3 @@ CCOptionsMenu.propTypes = {
 };
 
 export default CCOptionsMenu;
-

@@ -12,16 +12,18 @@ function _buildEPubDataFromArray(rawEPubData) {
     new EPubChapterData({
       items: _.cloneDeep(rawEPubData),
       title: 'Default Chapter',
-    }).toObject()
+    }).toObject(),
   ];
 }
 
 /**
- * The error which occurred when the required information 
+ * The error which occurred when the required information
  * for creating an ePub file is invalid
  */
-export const EPubDataValidationError =
-  new CTError('EPubDataValidationError', 'Invalid I-Note data.');
+export const EPubDataValidationError = new CTError(
+  'EPubDataValidationError',
+  'Invalid I-Note data.',
+);
 
 /**
  * The class for an ePub data
@@ -37,7 +39,7 @@ export default class EPubData {
     cover: null,
     chapters: [],
     h3: true,
-    condition:{'default':true}
+    condition: { default: true },
   };
 
   images = [];
@@ -62,10 +64,9 @@ export default class EPubData {
     else if (typeof data === 'object') {
       this.__data__ = {
         ...this.__data__,
-        ...data
+        ...data,
       };
-    }
-    else {
+    } else {
       throw EPubDataValidationError;
     }
 
@@ -89,23 +90,25 @@ export default class EPubData {
       this.h3 = true;
     }
 
-    this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
+    this.chapters = _.map(this.chapters, (chapter) => new EPubChapterData(chapter, false));
     // this.condition = ['default'];
     this.condition.default = true;
     // extract all the items and images from the chapters
     this.items = getAllItemsInChapters(this.chapters);
-    this.images = _.map(this.items, item => item.image);
+    this.images = _.map(this.items, (item) => item.image);
 
     // set up cover image
     if (!this.cover) {
       this.cover = new EPubImageData();
-    } if (!(this.cover instanceof EPubImageData)) {
+    }
+    if (!(this.cover instanceof EPubImageData)) {
       this.cover = new EPubImageData(this.cover);
     }
 
     if (!this.cover.src && this.images.length > 0) {
       this.cover = new EPubImageData({
-        src: this.images[0], alt: `Cover for ${this.title}`
+        src: this.images[0],
+        alt: `Cover for ${this.title}`,
       });
     }
   }
@@ -220,7 +223,7 @@ export default class EPubData {
     return {
       ...this.__data__,
       cover: this.cover.toObject(),
-      chapters: this.chapters.map(chapter => chapter.toObject())
+      chapters: this.chapters.map((chapter) => chapter.toObject()),
     };
   }
 
@@ -230,7 +233,7 @@ export default class EPubData {
 
   getChapter(chapterIndex) {
     const { epub } = window.temp_app._store.getState();
-    if(!chapterIndex) {
+    if (!chapterIndex) {
       chapterIndex = epub.currChIndex;
     }
     return epub.chapters[chapterIndex];
@@ -275,7 +278,7 @@ export default class EPubData {
     chapter.subChapters = [
       ...chapter.subChapters.slice(0, subChapterIndex),
       newSubChapter,
-      ...chapter.subChapters.slice(subChapterIndex)
+      ...chapter.subChapters.slice(subChapterIndex),
     ];
 
     return newSubChapter;
@@ -284,10 +287,7 @@ export default class EPubData {
   removeChapter(index) {
     let chapters = this.chapters;
     let chapter = chapters[index];
-    this.chapters = [
-      ...chapters.slice(0, index),
-      ...chapters.slice(index + 1)
-    ];
+    this.chapters = [...chapters.slice(0, index), ...chapters.slice(index + 1)];
 
     return chapter;
   }
@@ -297,7 +297,7 @@ export default class EPubData {
     let subChapter = chapter.subChapters[subChapterIndex];
     chapter.subChapters = [
       ...chapter.subChapters.slice(0, subChapterIndex),
-      ...chapter.subChapters.slice(subChapterIndex + 1)
+      ...chapter.subChapters.slice(subChapterIndex + 1),
     ];
 
     return subChapter;
@@ -308,7 +308,7 @@ export default class EPubData {
       ...data,
       chapters: copyChapterStructure
         ? EPubData.copyChapterStructure(rawEPubData, data.chapters)
-        : _buildEPubDataFromArray(rawEPubData)
+        : _buildEPubDataFromArray(rawEPubData),
     });
   }
 
@@ -326,8 +326,8 @@ export default class EPubData {
       return new EPubChapterData({
         title: chapter.title,
         items: chItems,
-        subChapters: newSubChapters
-      })
+        subChapters: newSubChapters,
+      });
     });
   }
 

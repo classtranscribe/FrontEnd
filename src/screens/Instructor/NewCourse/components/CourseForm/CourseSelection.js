@@ -10,7 +10,7 @@ import {
   CTFormRow,
   CTAutoComplete,
   CTText,
-  CTHeading
+  CTHeading,
 } from 'layout';
 import { api, prompt, _getSelectOptions } from 'utils';
 
@@ -23,25 +23,19 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     height: 'auto',
     boxShadow: 'none',
-    border: '1px solid rgb(218, 218, 218);'
+    border: '1px solid rgb(218, 218, 218);',
   },
   chip: {
     margin: theme.spacing(0.5),
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   row: {
-    width: '49%'
-  }
+    width: '49%',
+  },
 }));
 
 function CourseSelection(props) {
-  let {
-    error,
-    enable,
-    selCourses,
-    setSelCourses,
-    uniId
-  } = props;
+  let { error, enable, selCourses, setSelCourses, uniId } = props;
 
   // handle errors
   // selCoursesError: no course selected while user has clicked the 'create' button
@@ -82,7 +76,7 @@ function CourseSelection(props) {
     }
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     if (uniId) {
       // reset when uniId changed
       setCourses([]);
@@ -104,24 +98,23 @@ function CourseSelection(props) {
     // add/remove selected courses
     if (course.id && depart.id) {
       setSelCourses([
-        ..._.filter(selCourses, item => item.acronym !== depart.acronym),
-        { ...course, departmentAcronym: depart.acronym }
+        ..._.filter(selCourses, (item) => item.acronym !== depart.acronym),
+        { ...course, departmentAcronym: depart.acronym },
       ]);
     }
-  }, [course])
+  }, [course]);
 
   const handleDeleteSelCourses = (courseId) => () => {
-    setSelCourses(_.filter(selCourses, item => item.id !== courseId));
+    setSelCourses(_.filter(selCourses, (item) => item.id !== courseId));
   };
-
 
   const departmentOptions = _getSelectOptions(departs, 'name');
   const courseOptions = _getSelectOptions(courses, depart.acronym);
 
   const classes = useStyles();
   const fullNumber = _.join(
-    _.map(selCourses, (val) => val.departmentAcronym + val.courseNumber), 
-    '/'
+    _.map(selCourses, (val) => val.departmentAcronym + val.courseNumber),
+    '/',
   );
 
   return (
@@ -129,9 +122,9 @@ function CourseSelection(props) {
       <CTFormHeading>Course Number</CTFormHeading>
       <CTFormHelp title="Course number selection">
         <div>
-          ClassTranscribe allows you to select multiple course numbers.
-          For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
-          generate the course number <b>CS357/MATH357</b>.
+          ClassTranscribe allows you to select multiple course numbers. For example, you can select{' '}
+          <b>CS357</b> and <b>MATH357</b> respectively to generate the course number{' '}
+          <b>CS357/MATH357</b>.
         </div>
         <h5 className="mt-2 mb-1">INSTRUCTION</h5>
         <ol>
@@ -143,10 +136,8 @@ function CourseSelection(props) {
 
       <CTFormRow>
         <div>
-          {
-            departs.length > 0
-            &&
-            <CTAutoComplete 
+          {departs.length > 0 && (
+            <CTAutoComplete
               required
               error={selCoursesError}
               underlined
@@ -156,11 +147,9 @@ function CourseSelection(props) {
               value={depart.id}
               onChange={handleDepartChange}
             />
-          }
+          )}
 
-          {
-            courses.length > 0
-            &&
+          {courses.length > 0 && (
             <CTAutoComplete
               required
               error={selCoursesError}
@@ -175,25 +164,21 @@ function CourseSelection(props) {
               value={course.id}
               onChange={depart === '' ? undefined : handleCourseChange}
             />
-          }
+          )}
         </div>
 
         <div>
           <Paper className={classes.root} elevation={1}>
             <CTHeading as="h4" uppercase>
               Selected Courses
-              {
-                !noCourseSelected
-                &&
-                `: ${fullNumber}`
-              }
+              {!noCourseSelected && `: ${fullNumber}`}
             </CTHeading>
 
-            {
-              noCourseSelected
-              &&
-              <CTText muted margin={10} center>No course number selected</CTText>
-            }
+            {noCourseSelected && (
+              <CTText muted margin={10} center>
+                No course number selected
+              </CTText>
+            )}
 
             {selCourses.map((item) => {
               return (

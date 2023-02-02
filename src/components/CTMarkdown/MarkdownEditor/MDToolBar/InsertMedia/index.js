@@ -7,11 +7,7 @@ import { insertImgae } from '../../ace/ace-controller';
 import InsertMediaTrigger from './InsertMediaTrigger';
 
 function InsertMedia(props) {
-  const {
-    ace,
-    imageTabs,
-    defaultImage,
-  } = props;
+  const { ace, imageTabs, defaultImage } = props;
 
   const [pickImg, setPickImage] = useState(false);
 

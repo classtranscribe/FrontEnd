@@ -4,8 +4,7 @@ import { cthttp } from '../request';
 // EPubs: ePub raw data
 // ------------------------------------------------------------
 
-
-// GET 
+// GET
 
 export function getEpubData(mediaId, language = 'en-US') {
   return cthttp.get('EPubs/GetEpubData', { params: { mediaId, language } });
@@ -19,7 +18,7 @@ export function requestEpubCreation(mediaId) {
 // EPubs: ePub entities
 // ------------------------------------------------------------
 
-// GET 
+// GET
 
 export function getEPubById(ePubId) {
   return cthttp.get(`EPubs/${ePubId}`);

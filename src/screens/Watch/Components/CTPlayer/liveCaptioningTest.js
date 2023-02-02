@@ -1,6 +1,3 @@
-
-
-
 // function splitter(captionsArray) {
 //     let toReturn = [];
 //     let currentSegment = {beginTime: captionsArray[1].beginTime, endTime:0, text: ""};
@@ -23,7 +20,7 @@
 
 //         // split indivisual words in the new segment im currently looking at
 //         let words = currentText.split(" ");
-        
+
 //         // if (words.length == 0 || words.length == 1) {
 //         //     if (currentSegment.includes(currentText)) {
 //         //         continue;
@@ -33,7 +30,7 @@
 //         //     }
 //         // }
 //         let correctStartFound = words.length - 1;
-        
+
 //         let prevArray = captionsArray[i - 1].split(" ")
 //         let prevWord = prevArray[prevArray.length - 1]
 //         let firstWord = prevArray[0]
@@ -46,7 +43,7 @@
 //                }
 //             }
 //             console.log(correctStartFound)
-            
+
 //             for (let j = correctStartFound; j < words.length; j+= 1){
 //             	if (words[j].trim() != ""){
 //             		currentSegment.text += ` ${ words[j].trim()}`

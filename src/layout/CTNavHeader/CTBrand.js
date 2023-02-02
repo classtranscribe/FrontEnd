@@ -6,30 +6,18 @@ import { links } from 'utils/links';
 
 import { textBrand, darkTextBrand, logoOutline } from 'assets/images';
 
-
 export function CTBrand(props) {
-  let { 
-    size = 'normal',
-    darkMode,
-    small,
-    medium,
-    logo,
-    disabled
-  } = props;
+  let { size = 'normal', darkMode, small, medium, logo, disabled } = props;
 
-  const brandClasses = classNames('ct-header-brand', size, { small, medium, logo })
+  const brandClasses = classNames('ct-header-brand', size, { small, medium, logo });
 
-  const imgSrc = logo 
-                ? logoOutline 
-                : darkMode 
-                ? darkTextBrand 
-                : textBrand;
+  const imgSrc = logo ? logoOutline : darkMode ? darkTextBrand : textBrand;
 
   const linkProps = {
     'aria-label': 'Home',
     tabIndex: disabled ? '-1' : '0',
     className: brandClasses,
-    to: {pathname: links.home(), search: '', hash: ''}
+    to: { pathname: links.home(), search: '', hash: '' },
   };
 
   return (
@@ -50,5 +38,5 @@ CTBrand.propTypes = {
   small: PropTypes.bool,
 
   /** Brand size, one of 'small', 'normal', 'large' */
-  size: PropTypes.oneOf(['small', 'normal', 'large'])
+  size: PropTypes.oneOf(['small', 'normal', 'large']),
 };

@@ -9,7 +9,7 @@ import {
   CTSelect,
   CTFormHelp,
   CTFormHeading,
-  CTCheckbox
+  CTCheckbox,
 } from 'layout';
 import { useInput, useCheckbox } from 'hooks';
 import { LanguageConstants as LConstants } from 'components/CTPlayer';
@@ -35,28 +35,26 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
       title: title.value,
       filename: filename.value,
       author: author.value,
-      language: language.value
+      language: language.value,
     };
-    dispatch({ type: 'epub/duplicateEPub', payload: { newData: newEPubData, copyChapterStructure: copyChapterStructure.checked } });
+    dispatch({
+      type: 'epub/duplicateEPub',
+      payload: { newData: newEPubData, copyChapterStructure: copyChapterStructure.checked },
+    });
     onClose();
   };
-  
+
   const languages = EPubListCtrl.getLanguages(props.epub.sourceType, props.media);
-  const langOptions = languages.map(lang => ({
+  const langOptions = languages.map((lang) => ({
     value: lang,
-    text: LConstants.decode(lang) + (lang === epubData.language ? ' (current)' : '')
+    text: LConstants.decode(lang) + (lang === epubData.language ? ' (current)' : ''),
   }));
 
   const isDiffLanguage = language.value !== epubData.language;
 
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
-      <Button
-        disabled={!canSave}
-        className={teal}
-        variant="contained"
-        onClick={onCopyEPub}
-      >
+      <Button disabled={!canSave} className={teal} variant="contained" onClick={onCopyEPub}>
         Done
       </Button>
     </CTFragment>
@@ -106,13 +104,14 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
           />
         </CTFormRow>
 
-        <CTFormHeading padding="0" margin={[10, 0]}>Language</CTFormHeading>
+        <CTFormHeading padding="0" margin={[10, 0]}>
+          Language
+        </CTFormHeading>
 
         <CTFormHelp title="Copy I-Note with a different language">
-          When copying this I-Note with a different language,
-          you are able to copy your current chapter structure based on timestamps,
-          but the texts will not be translated,
-          and some of the chapter contents might be lost.
+          When copying this I-Note with a different language, you are able to copy your current
+          chapter structure based on timestamps, but the texts will not be translated, and some of
+          the chapter contents might be lost.
         </CTFormHelp>
 
         <CTFormRow>
@@ -126,9 +125,7 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
           />
         </CTFormRow>
 
-        {
-          isDiffLanguage
-          &&
+        {isDiffLanguage && (
           <CTFormRow>
             <CTCheckbox
               label="Copy chapter structure"
@@ -137,13 +134,10 @@ function EPubCopyModal({ open, onClose, dispatch, ...props }) {
               helpText="Initialize new I-Note with current chapter structure based on timestamps."
             />
           </CTFormRow>
-        }
+        )}
       </CTFragment>
     </CTModal>
   );
 }
 
-export default connectWithRedux(
-  EPubCopyModal,
-  ['epub', 'media']
-);
+export default connectWithRedux(EPubCopyModal, ['epub', 'media']);

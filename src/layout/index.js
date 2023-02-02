@@ -1,11 +1,6 @@
 export { default as CTScrollArea } from './CTScrollArea';
 
-export {
-  default as CTNavHeader,
-  CTBrand,
-  SignInButton,
-  useSignButtonProps
-} from './CTNavHeader';
+export { default as CTNavHeader, CTBrand, SignInButton, useSignButtonProps } from './CTNavHeader';
 
 export { default as CTFragment } from './CTFragment';
 

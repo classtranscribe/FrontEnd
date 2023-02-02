@@ -20,9 +20,10 @@ class LanguageConstants {
   };
 
   static get LanguageOptions() {
-    return Object.keys(LanguageConstants.LangMap).map(
-      value => ({ value, text: LanguageConstants.LangMap[value] })
-    );
+    return Object.keys(LanguageConstants.LangMap).map((value) => ({
+      value,
+      text: LanguageConstants.LangMap[value],
+    }));
   }
 
   /**
@@ -41,7 +42,7 @@ class LanguageConstants {
    */
   static encode(langName) {
     let code = null;
-    Object.keys(LanguageConstants.LangMap).forEach(value => {
+    Object.keys(LanguageConstants.LangMap).forEach((value) => {
       if (LanguageConstants.LangMap[value] === langName) {
         code = value;
       }

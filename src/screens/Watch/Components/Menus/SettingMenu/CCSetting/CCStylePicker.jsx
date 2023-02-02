@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select, Form, Grid } from 'semantic-ui-react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -26,7 +26,7 @@ function SettingMenu({
   cc_opacity = CC_OPACITY_100,
   cc_font = CC_FONT_SANS_SERIF,
   cc_position = CC_POSITION_BOTTOM,
-  dispatch
+  dispatch,
 }) {
   const { ccStyle } = getCCStyle({
     cc_color,
@@ -80,7 +80,9 @@ function SettingMenu({
                 aria-label="Font"
                 options={getCCSelectOptions(cc_fontOptions)}
                 value={cc_font}
-                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_font: value } })}
+                onChange={(event, { value }) =>
+                  dispatch({ type: 'playerpref/setPreference', payload: { cc_font: value } })
+                }
               />
             </Grid.Column>
           </Grid.Row>
@@ -94,7 +96,9 @@ function SettingMenu({
                 aria-label="Background Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_bg}
-                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_bg: value } })}
+                onChange={(event, { value }) =>
+                  dispatch({ type: 'playerpref/setPreference', payload: { cc_bg: value } })
+                }
               />
             </Grid.Column>
             <Grid.Column>
@@ -105,7 +109,9 @@ function SettingMenu({
                 aria-label="Font Color"
                 options={getCCSelectOptions(cc_colorOptions)}
                 value={cc_color}
-                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_color: value } })}
+                onChange={(event, { value }) =>
+                  dispatch({ type: 'playerpref/setPreference', payload: { cc_color: value } })
+                }
               />
             </Grid.Column>
           </Grid.Row>
@@ -119,7 +125,9 @@ function SettingMenu({
                 aria-label="Font Size"
                 options={getCCSelectOptions(cc_sizeOptions, (item) => `${item * 100}%`)}
                 value={cc_size}
-                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_size: value } })}
+                onChange={(event, { value }) =>
+                  dispatch({ type: 'playerpref/setPreference', payload: { cc_size: value } })
+                }
               />
             </Grid.Column>
             <Grid.Column>
@@ -130,17 +138,25 @@ function SettingMenu({
                 aria-label="Background Opacity"
                 options={getCCSelectOptions(cc_opacityOptions, (item) => `${item * 100}%`)}
                 value={cc_opacity}
-                onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_opacity: value } })}
+                onChange={(event, { value }) =>
+                  dispatch({ type: 'playerpref/setPreference', payload: { cc_opacity: value } })
+                }
               />
             </Grid.Column>
           </Grid.Row>
-
         </Grid>
       </div>
     </div>
   );
 }
 
-export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, }, loading }) => ({
-  cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position,
-}))(SettingMenu);
+export default connect(
+  ({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position }, loading }) => ({
+    cc_color,
+    cc_bg,
+    cc_size,
+    cc_opacity,
+    cc_font,
+    cc_position,
+  }),
+)(SettingMenu);

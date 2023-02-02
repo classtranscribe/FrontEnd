@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { isMobile } from 'react-device-detect';
 import { timestr } from 'utils';
 import { getShareableURL } from '../../../Utils';
@@ -27,7 +27,7 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
   };
 
   const openEmbedModal = () => {
-    setEmbed(true)
+    setEmbed(true);
     dispatch({ type: 'watch/media_pause' });
   };
 
@@ -84,7 +84,7 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
                 <>
                   <i className="material-icons">file_copy</i>COPY
                 </>
-                )}
+              )}
             </span>
           </button>
         </div>
@@ -114,9 +114,7 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
             />
           </div>
 
-          {
-            !isMobile
-            &&
+          {!isMobile && (
             <button
               className="plain-btn wml-share-url-cpy"
               aria-haspopup="true"
@@ -127,13 +125,13 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
                 <i className="material-icons">code</i>EMBED
               </span>
             </button>
-          }
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default connect(({ watch : { time }, loading }) => ({
-  currTime: time
+export default connect(({ watch: { time }, loading }) => ({
+  currTime: time,
 }))(ShareModal);

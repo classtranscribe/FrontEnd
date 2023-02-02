@@ -11,14 +11,14 @@ function ItalicTextTrigger(props) {
   return (
     <MDToolButton
       icon="format_italic"
-      popup={`Add Italic Text ${ getShortcut('i')}`}
+      popup={`Add Italic Text ${getShortcut('i')}`}
       onClick={handleAddItalicText}
     />
   );
 }
 
 ItalicTextTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default ItalicTextTrigger;

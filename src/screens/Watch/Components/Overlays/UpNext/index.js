@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MediaCard } from 'components';
-import setup from '../../../model/setup'
-import {
-  connectWithRedux,
-  CTP_LOADING,
-  CTP_UP_NEXT,
-  CTP_ENDED,
-} from '../../../Utils';
+import setup from '../../../model/setup';
+import { connectWithRedux, CTP_LOADING, CTP_UP_NEXT, CTP_ENDED } from '../../../Utils';
 import './index.scss';
 
 function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING, playlist }) {
@@ -46,19 +41,10 @@ function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING, playlist }) {
           </button>
         </div>
 
-        <MediaCard
-          row
-          dark
-          {...MediaCard.parse(upNext)}
-          label="Up Next"
-          posterSize="medium"
-        />
+        <MediaCard row dark {...MediaCard.parse(upNext)} label="Up Next" posterSize="medium" />
       </div>
     </div>
   ) : null;
 }
 
-export const UpNext = connectWithRedux(
-  UpNextWithRedux,
-  ['media', 'ctpPriEvent']
-);
+export const UpNext = connectWithRedux(UpNextWithRedux, ['media', 'ctpPriEvent']);

@@ -6,11 +6,9 @@ import UploadIcon from '@material-ui/icons/CloudUpload';
 import { links } from 'utils/links';
 import { useButtonStyles } from 'layout';
 
-function UploadButton({
-  playlistId
-}) {
+function UploadButton({ playlistId }) {
   const btn = useButtonStyles();
-  
+
   return (
     <Button
       component={Link}
@@ -25,4 +23,3 @@ function UploadButton({
 }
 
 export default UploadButton;
-

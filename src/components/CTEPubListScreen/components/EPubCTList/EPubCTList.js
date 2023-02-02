@@ -4,18 +4,13 @@ import { CTFragment } from 'layout';
 import EPubCTListItem from './EPubCTListItem';
 
 function EPubCTList(props) {
-  const {
-    id,
-    role = 'list',
-    className,
-    items = [],
-    onDelete,
-    ...listProps
-  } = props;
+  const { id, role = 'list', className, items = [], onDelete, ...listProps } = props;
 
   return (
     <CTFragment id={id} dFlexCol role={role} className={className} {...listProps}>
-      {items.map(item => <EPubCTListItem key={item.id} {...item} />)}
+      {items.map((item) => (
+        <EPubCTListItem key={item.id} {...item} />
+      ))}
     </CTFragment>
   );
 }
@@ -35,4 +30,3 @@ EPubCTList.propTypes = {
 };
 
 export default EPubCTList;
-

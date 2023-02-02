@@ -34,41 +34,44 @@ export function SidebarItem(props) {
 
   const itemContentElem = (
     <>
-      <i aria-hidden="true" className="material-icons">{icon}</i>
+      <i aria-hidden="true" className="material-icons">
+        {icon}
+      </i>
       <span>{text}</span>
     </>
   );
 
-  const itemActionElem = typeof onClick === 'function' ? (
-    <button className="ct-nsb-li-content" onClick={onClick}>
-      {itemContentElem}
-    </button>
-  ) : reloadOnPathnameChange || value.includes("extLinks")? (
-    <a className="ct-nsb-li-content" href={href}>
-      {itemContentElem}
-    </a>
-  ) : (
-    <Link className="ct-nsb-li-content" to={{pathname: href, search: '', hash: '' }}>
-      {itemContentElem}
-    </Link>
-  );
+  const itemActionElem =
+    typeof onClick === 'function' ? (
+      <button className="ct-nsb-li-content" onClick={onClick}>
+        {itemContentElem}
+      </button>
+    ) : reloadOnPathnameChange || value.includes('extLinks') ? (
+      <a className="ct-nsb-li-content" href={href}>
+        {itemContentElem}
+      </a>
+    ) : (
+      <Link className="ct-nsb-li-content" to={{ pathname: href, search: '', hash: '' }}>
+        {itemContentElem}
+      </Link>
+    );
 
   const itemClasses = classNames('ct-nsb-li', {
     active,
-    'ct-nav-dark': darkMode
+    'ct-nav-dark': darkMode,
   });
 
   return (
     <div id={value} role="listitem" className={itemClasses}>
       {itemActionElem}
 
-      {
-        (active && hasItems && !mini)
-        &&
+      {active && hasItems && !mini && (
         <div className="ct-nsb-ul-sub" role="list">
-          {items.map(item => <SidebarSubItem key={item.value} {...item} />)}
+          {items.map((item) => (
+            <SidebarSubItem key={item.value} {...item} />
+          ))}
         </div>
-      }
+      )}
     </div>
   );
 }

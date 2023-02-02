@@ -9,7 +9,7 @@ export {
   LanguageConstants,
   _createImage,
   _decodeScreenshotPath,
-  _encodeScreenshotPath
+  _encodeScreenshotPath,
 } from './controllers';
 
 function CTPlayer(props) {
@@ -72,7 +72,7 @@ CTPlayer.propTypes = {
   /** Source for the captured image, default as `{ type: Media, id: mediaId }` */
   screenshotSource: PropTypes.shape({
     id: PropTypes.string,
-    type: PropTypes.number
+    type: PropTypes.number,
   }),
 
   /** Callback when screenshot is generated, will pass in the screenshot blob's url */
@@ -92,7 +92,7 @@ CTPlayer.propTypes = {
   range: PropTypes.arrayOf(NumOrStr),
 
   /** Callback function when the range changes */
-  onRangePicked: PropTypes.func
+  onRangePicked: PropTypes.func,
 };
 
 export default CTPlayer;

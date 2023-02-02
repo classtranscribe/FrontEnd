@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'pico-ui';
 import { CTFragment, CTInput } from 'layout';
@@ -13,7 +13,7 @@ function ImageWrapper({
   onChooseImage,
   onRemoveImage,
   onImageAltChange,
-  onLinkChange
+  onLinkChange,
 }) {
   const canRemoveImage = Boolean(onRemoveImage);
   const alt = useInput(imageAlt);
@@ -31,54 +31,53 @@ function ImageWrapper({
   };
 
   const [showLink, setShowLink] = useState(false);
-  const [text, setText] = useState("");
-  const [link, setLink] = useState("");
+  const [text, setText] = useState('');
+  const [link, setLink] = useState('');
   const handleLinkChange = (event) => {
     setLink(event.target.value);
-  }
+  };
   const handleTextChange = (event) => {
     setText(event.target.value);
-  }
+  };
   const handleInput = () => {
     // console.log(epub);
     let time = text.split(':');
     if (time.length === 2) {
-      chapter.start = "00:".concat(text);
+      chapter.start = '00:'.concat(text);
     } else if (time.length === 3) {
       chapter.start = text;
     }
     onLinkChange(epub);
     setShowLink(false);
-  }
+  };
   const handleAddLink = () => {
     chapter.link = link;
     onLinkChange(epub);
     setShowLink(false);
-  }
+  };
   return disabled ? null : (
     <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
       <CTFragment justConEnd>
         <Button.Group>
-          <Button 
-            uppercase 
-            color="white" 
+          <Button
+            uppercase
+            color="white"
             icon="image"
             className="ct-epb shadow-btn"
             onClick={onChooseImage}
           >
             Choose Image
           </Button>
-          <Button 
-            uppercase 
-            color="white" 
+          <Button
+            uppercase
+            color="white"
             icon="image"
             className="ct-epb shadow-btn"
             onClick={() => setShowLink(true)}
           >
             Change Embedded Link
           </Button>
-          {
-            showLink && 
+          {showLink && (
             <div>
               <div>
                 <input onChange={handleTextChange} placeholder="Change video start time" />
@@ -89,25 +88,23 @@ function ImageWrapper({
                 <button onClick={() => setShowLink(false)}> Cancel</button>
               </div>
             </div>
-          }
-          {
-            canRemoveImage
-            &&
+          )}
+          {canRemoveImage && (
             <Button
-              uppercase 
+              uppercase
               icon="delete"
-              color="white" 
+              color="white"
               className="ct-epb shadow-btn"
               onClick={onRemoveImage}
             >
               Remove
             </Button>
-          }
+          )}
         </Button.Group>
       </CTFragment>
 
       <CTFragment alignItEnd>
-        <CTInput 
+        <CTInput
           // textarea
           underlined
           darkMode
@@ -118,9 +115,7 @@ function ImageWrapper({
           onReturn={handleSaveAlt}
         />
 
-        {
-          alt.value !== imageAlt
-          &&
+        {alt.value !== imageAlt && (
           <Button
             color="white"
             uppercase
@@ -129,9 +124,8 @@ function ImageWrapper({
             className="ct-a-fade-in ml-3"
           >
             Save
-          </Button> 
-        }
-        
+          </Button>
+        )}
       </CTFragment>
     </CTFragment>
   );

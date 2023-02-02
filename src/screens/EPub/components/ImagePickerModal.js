@@ -1,10 +1,10 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { CTImagePickerModal } from 'components';
 
 function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
   const show = Boolean(imgPickerData);
-  if(!show) {
+  if (!show) {
     return null;
   }
   const { screenshots = [], chapterScreenshots = [] } = imgPickerData;
@@ -13,18 +13,21 @@ function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
     {
       name: 'All Screenshots',
       images: screenshots,
-      description: 'All auto-captured screenshots for this video.'
+      description: 'All auto-captured screenshots for this video.',
     },
     'upload',
-    'video'
+    'video',
   ];
 
   if (chapterScreenshots.length > 0) {
-    tabs = [{
-      name: 'Chapter Screenshots',
-      images: chapterScreenshots,
-      description: 'Auto-captured screenshots for current chapter.'
-    }, ...tabs];
+    tabs = [
+      {
+        name: 'Chapter Screenshots',
+        images: chapterScreenshots,
+        description: 'Auto-captured screenshots for current chapter.',
+      },
+      ...tabs,
+    ];
   }
 
   const imgPickerProps = {
@@ -34,14 +37,14 @@ function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
     sourceId: epub.sourceId,
     onClose: () => dispatch({ type: 'epub/setImgPickerData', payload: null }),
     ...imgPickerData,
-    playerData
+    playerData,
   };
 
-  return (
-    <CTImagePickerModal {...imgPickerProps} />
-  );
+  return <CTImagePickerModal {...imgPickerProps} />;
 }
 
 export default connect(({ epub: { imgPickerData, media, epub }, loading }) => ({
-  imgPickerData, media, epub
+  imgPickerData,
+  media,
+  epub,
 }))(ImagePickerModal);

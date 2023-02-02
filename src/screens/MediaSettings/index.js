@@ -38,10 +38,10 @@ class MediaSettingsWithRedux extends React.Component {
           {
             text: 'I-Note',
             active: window.location.pathname === epubPath,
-            href: epubPath
-          }
-        ]
-      }
+            href: epubPath,
+          },
+        ],
+      },
     });
   }
 
@@ -81,5 +81,5 @@ class MediaSettingsWithRedux extends React.Component {
 }
 
 export const MediaSettings = connect(({ mediasetting, loading }) => ({
-  mediasetting
+  mediasetting,
 }))(MediaSettingsWithRedux);

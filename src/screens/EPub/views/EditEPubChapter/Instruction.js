@@ -8,18 +8,19 @@ function Instruction() {
       <div>
         <h5>Edit text</h5>
         <CTParagraph indent="0">
-          You can edit the text blocks using Markdown, 
-          easy-to-use markup language you can use to format your content. 
-          You can create tables, insert links, 
-          or embed mathematical equations with it. Learn more at
-          <a target="_blank" rel="noreferrer" href="https://www.markdownguide.org/"> 
-            {' '}www.markdownguide.org
-          </a>.
+          You can edit the text blocks using Markdown, easy-to-use markup language you can use to
+          format your content. You can create tables, insert links, or embed mathematical equations
+          with it. Learn more at
+          <a target="_blank" rel="noreferrer" href="https://www.markdownguide.org/">
+            {' '}
+            www.markdownguide.org
+          </a>
+          .
         </CTParagraph>
         <h5>Insert images</h5>
         <CTParagraph>
-          You are able to insert images between any editable blocks, 
-          it supports multiple ways to insert an image: 
+          You are able to insert images between any editable blocks, it supports multiple ways to
+          insert an image:
         </CTParagraph>
         <ul>
           <li>

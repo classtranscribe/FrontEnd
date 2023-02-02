@@ -11,14 +11,14 @@ function HeaderTextTrigger(props) {
   return (
     <MDToolButton
       icon="title"
-      popup={`Add Header Text ${ getShortcut('h')}`}
+      popup={`Add Header Text ${getShortcut('h')}`}
       onClick={handleAddHeaderText}
     />
   );
 }
 
 HeaderTextTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default HeaderTextTrigger;

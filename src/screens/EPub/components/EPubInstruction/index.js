@@ -4,14 +4,14 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { CTHeading } from 'layout';
-import './index.scss'
+import './index.scss';
 
 function EPubInstruction({ expanded, title, children, onToggle }) {
   return (
     <Accordion
-      expanded={expanded} 
-      defaultExpanded 
-      className="ct-epb instruction" 
+      expanded={expanded}
+      defaultExpanded
+      className="ct-epb instruction"
       onChange={onToggle}
     >
       <AccordionSummary
@@ -19,11 +19,11 @@ function EPubInstruction({ expanded, title, children, onToggle }) {
         aria-controls="ct-epb-inst-content"
         id="ct-epb-inst-header"
       >
-        <CTHeading as="h4" compact icon="help_outline">{title}</CTHeading>
+        <CTHeading as="h4" compact icon="help_outline">
+          {title}
+        </CTHeading>
       </AccordionSummary>
-      <AccordionDetails id="ct-epb-inst-content">
-        {children}
-      </AccordionDetails>
+      <AccordionDetails id="ct-epb-inst-content">{children}</AccordionDetails>
     </Accordion>
   );
 }

@@ -3,9 +3,7 @@ import { CTFragment, CTText } from 'layout';
 import Player from './Player';
 import TransTable from './TransTable';
 
-export function TranscriptionsWithRedux({
-  media,
-}) {
+export function TranscriptionsWithRedux({ media }) {
   return (
     <CTFragment fadeIn className="msp-tab-con">
       {/* <Player />

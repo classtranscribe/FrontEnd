@@ -8,11 +8,11 @@ function EventIcon(props) {
     <div className="ctp e-v-popup-icon ct-d-c-center">
       <i className="material-icons">{icon}</i>
     </div>
-  )
+  );
 }
 
 EventIcon.propTypes = {
-  icon: PropTypes.string
+  icon: PropTypes.string,
 };
 
 function EventVisualPopup(props) {
@@ -35,7 +35,7 @@ function EventVisualPopup(props) {
     [PlayerEventForward]: 'forward_5',
     [PlayerEventMute]: 'volume_off',
     [PlayerEventVolumeUp]: 'volume_up',
-    [PlayerEventVolumeDown]: 'volume_down'
+    [PlayerEventVolumeDown]: 'volume_down',
   };
 
   const showVolume = [PlayerEventVolumeUp, PlayerEventVolumeDown].includes(event);
@@ -43,29 +43,24 @@ function EventVisualPopup(props) {
 
   return (
     <div className="ctp wrapper e-v-popup-con ct-d-c-center">
-      {
-        showVolume 
-        && 
+      {showVolume && (
         <div className="ctp e-v-volume-con ct-d-r-center">
           <div className="ctp e-v-volume ct-d-r-center">
-            <i className="material-icons" aria-hidden="true">{icon}</i>
+            <i className="material-icons" aria-hidden="true">
+              {icon}
+            </i>
             <span>{Math.round(volume * 100)}%</span>
           </div>
         </div>
-      }
-      <div className="ctp e-v-popup">
-        {event ? (
-          <EventIcon icon={icon} />
-        ) : null}
-      </div>
+      )}
+      <div className="ctp e-v-popup">{event ? <EventIcon icon={icon} /> : null}</div>
     </div>
   );
 }
 
 EventVisualPopup.propTypes = {
   event: PropTypes.string,
-  volume: PropTypes.number
+  volume: PropTypes.number,
 };
 
 export default EventVisualPopup;
-

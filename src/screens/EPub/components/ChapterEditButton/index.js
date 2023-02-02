@@ -3,21 +3,17 @@ import cx from 'classnames';
 import { useCustomizedButton } from 'hooks';
 import './index.scss';
 
-function ChapterEditButton({
-  muted,
-  children,
-  attached,
-  onClick,
-  className,
-  ...props
-}) {
+function ChapterEditButton({ muted, children, attached, onClick, className, ...props }) {
   const btnClasses = cx(
-    'ct-epb', 'clickable', 'bordered', 'ch-edit-btn', 
+    'ct-epb',
+    'clickable',
+    'bordered',
+    'ch-edit-btn',
     {
-      'text-muted': muted
+      'text-muted': muted,
     },
     attached,
-    className
+    className,
   );
 
   const clickProps = useCustomizedButton(onClick);
@@ -26,7 +22,7 @@ function ChapterEditButton({
     <div {...clickProps} {...props} className={btnClasses}>
       {children}
     </div>
-  )
+  );
 }
 
 export default ChapterEditButton;

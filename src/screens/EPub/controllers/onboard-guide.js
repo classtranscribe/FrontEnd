@@ -19,7 +19,8 @@ const guides = [
   {
     element: '#ct-epb-download-dropdown',
     header: '3/3. Download Options',
-    description: 'You can download your I-Note book in many formats, such as .epub, .pdf or HTML scripts.',
+    description:
+      'You can download your I-Note book in many formats, such as .epub, .pdf or HTML scripts.',
   },
 ];
 
@@ -36,8 +37,5 @@ const isEPubOnBoarded = async () => {
 };
 
 export const generateEPubGuide = (always = false) => {
-  return new CTUserGuide(
-    guides,
-    always ? null : isEPubOnBoarded
-  );
+  return new CTUserGuide(guides, always ? null : isEPubOnBoarded);
 };

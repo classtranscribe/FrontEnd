@@ -22,7 +22,7 @@ function MediaPoster({
   // calc second based duration
   let displayedDuration = duration;
   if (duration && typeof duration === 'number') {
-    displayedDuration = timestr.toTimeString(duration); 
+    displayedDuration = timestr.toTimeString(duration);
   } else if (duration && typeof duration === 'string') {
     displayedDuration = timestr.toPrettierTimeString(duration);
   }
@@ -35,22 +35,14 @@ function MediaPoster({
       style={{ width, minWidth: width }}
       aria-hidden="true"
     >
-      <Image
-        width={width}
-        height={height}
-        className="poster-img"
-        src={src}
-        alt="video poster"
-      />
+      <Image width={width} height={height} className="poster-img" src={src} alt="video poster" />
       {hasWatched && (
         <div className="progress-bar">
           <span className="progress" style={{ width: `${displayedProgress}%` }} />
         </div>
       )}
       {Boolean(displayedDuration) && (
-        <div className={cx('duration-box', { watched: hasWatched })}>
-          {displayedDuration}
-        </div>
+        <div className={cx('duration-box', { watched: hasWatched })}>{displayedDuration}</div>
       )}
     </div>
   );
@@ -73,7 +65,7 @@ MediaPoster.propTypes = {
   round: PropTypes.bool,
 
   /** Video duration */
-  duration: PropTypes.oneOfType(PropTypes.number, PropTypes.string)
+  duration: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
 };
 
 export default MediaPoster;

@@ -29,7 +29,7 @@ function RootMenu(props) {
     currentLang = 'OFF';
   }
 
-  if (fontSize == null) fontSize = "normal";
+  if (fontSize == null) fontSize = 'normal';
   // const cl = !openCC ? 'OFF' : (language.text || 'OFF');
 
   return (
@@ -38,7 +38,7 @@ function RootMenu(props) {
         active
         isSubMenu
         text="Playback Rate"
-        current={`${playbackRate }x`}
+        current={`${playbackRate}x`}
         onClick={openPlaybackRateMenu}
       />
       <MenuItem
@@ -49,32 +49,26 @@ function RootMenu(props) {
         onClick={onOpenLiveTextTrackSelection}
       />
 
-      {
-        live
-        &&
-        (
-          <div>
-            <MenuItem
-              active
-              isSubMenu
-              text="Live Caption Font Size"
-              current={`${fontSize}`}
-              onClick={openLiveCaptionMenu}
-            />
-          </div>
-        )
-      }
+      {live && (
+        <div>
+          <MenuItem
+            active
+            isSubMenu
+            text="Live Caption Font Size"
+            current={`${fontSize}`}
+            onClick={openLiveCaptionMenu}
+          />
+        </div>
+      )}
 
-      {
-        isTwoScreen
-        &&
+      {isTwoScreen && (
         <MenuItem
           isSubMenu
           text="Screen Mode"
           current={Constants.ScreenModesMap[screenMode]}
           onClick={onOpenScreenModeMenu}
         />
-      }
+      )}
     </div>
   );
 }
@@ -85,7 +79,7 @@ RootMenu.propTypes = {
   openCC: PropTypes.bool,
   language: PropTypes.shape({
     code: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string,
   }),
   playbackRate: PropTypes.number,
   onOpenCCMenu: PropTypes.func,
