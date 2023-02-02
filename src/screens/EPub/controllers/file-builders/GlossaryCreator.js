@@ -113,6 +113,7 @@ function is_alphanum(char) {
 >>>>>>> a84f0211 (Added documentation for the highlightAndLinkGlossaryWords function)
 export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	let res = '';
 
 	let i = 0;
@@ -145,6 +146,10 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 	return res;
 >>>>>>> f99bf82c (add toggle for highlighting only first occurance)
 =======
+=======
+  console.log(highlightFirstOnly);
+
+>>>>>>> 4a7362c5 (highlight first occurrence by default)
   let res = '';
   let withinTag = false;
   let terms_clone = terms.map((t) => ({ ...t }));
