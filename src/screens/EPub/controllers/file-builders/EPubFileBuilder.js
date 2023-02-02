@@ -268,8 +268,13 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-    let highlightFirstOnly = 'enableOnlyFirstGlossaryTermHighlight' in this.data;
-    // console.log(highlightFirstOnly);
+    let highlightFirstOnly =
+      'enableOnlyFirstGlossaryTermHighlight' in this.data
+        ? this.data['enableOnlyFirstGlossaryTermHighlight']
+        : false;
+
+    console.log(this.data);
+
     // add glossary terms to end of chapter if enabled
     const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
     const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms, highlightFirstOnly);
