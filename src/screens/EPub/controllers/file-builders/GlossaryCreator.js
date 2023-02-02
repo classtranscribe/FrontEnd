@@ -35,26 +35,27 @@ export async function getGlossaryData(mediaId) {
  *  Returns a list of { word, dcription } objects
  */
 export function findGlossaryTermsInChapter(glossaryData, chapterText) {
-  if (Object.keys(glossaryData).length === 0) {
+  const keys = Object.keys(glossaryData);
+  if (keys.length === 0) {
     return [];
   }
 
   let foundTerms = [];
 
   // TODO: will optimize later (maybe trie)
-  for (const word in glossaryData) {
+  for (let i = 0; i < keys.length; i += 1) {
+    const word = keys[i];
     const index = chapterText.search(word);
-    if (index === -1) {
-      continue;
+
+    if (index !== -1) {
+      foundTerms.push({
+        word,
+        description: glossaryData[word].description,
+        link: glossaryData[word].link,
+      });
+
+      delete glossaryData[word]; // ensures glossary is made only for first occurance
     }
-
-    foundTerms.push({
-      word,
-      description: glossaryData[word].description,
-      link: glossaryData[word].link,
-    });
-
-    delete glossaryData[word]; // ensures glossary is made only for first occurance
   }
   return foundTerms;
 }
@@ -78,7 +79,7 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
   let withinTag = false;
   let terms_clone = terms.map((t) => ({ ...t }));
 
-  MAIN_LOOP: for (let i = 0; i < text.length; ) {
+  for (let i = 0; i < text.length; ) {
     // First we check that we are not inside a TAG i.e. <>
     // We do not want to replace text within an attribute!
 
@@ -93,47 +94,49 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
     // Also ignore non alpha numeric characters like space and punctuation.
     if (withinTag || !is_alphanum(text[i])) {
       res += text[i];
-      i++;
-      continue;
-    }
+      i += 1;
+    } else {
+      let found = false;
 
-    // Check each available glossary word to find match at current offset (i) in text.
-    for (const elem of terms_clone) {
-      const sub = text.substring(i, i + elem.word.length);
-      if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) === 0) {
-        // @TODO:
-        // // Check if it is a complete word backwards
-        // if (i > 0 && is_alphanum(text[i - 1])) {
-        //   break;
-        // }
+      // Check each available glossary word to find match at current offset (i) in text.
+      for (const elem of terms_clone) {
+        const sub = text.substring(i, i + elem.word.length);
+        if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) === 0) {
+          // @TODO:
+          // // Check if it is a complete word backwards
+          // if (i > 0 && is_alphanum(text[i - 1])) {
+          //   break;
+          // }
 
-        // // Check if it is a complete word forwards
-        // if (i + 1 < text.length && is_alphanum(text[i + 1])) {
-        //   break;
-        // }
+          // // Check if it is a complete word forwards
+          // if (i + 1 < text.length && is_alphanum(text[i + 1])) {
+          //   break;
+          // }
 
-        // The HTML id for this word in the glossary section
-        const wordId = `glossary_${String(elem.word).replace(/ /g, '-')}`;
+          // The HTML id for this word in the glossary section
+          const wordId = `glossary_${String(elem.word).replace(/ /g, '-')}`;
 
-        // The replacement text with hyperlink
-        res += `<a href="#${wordId}">${elem.word}</a>`;
+          // The replacement text with hyperlink
+          res += `<a href="#${wordId}">${elem.word}</a>`;
 
-        // Skip forwards in text by the length of current word
-        i += elem.word.length;
+          // Skip forwards in text by the length of current word
+          i += elem.word.length;
 
-        // Remove word to only highlight first occurence of the word
-        if (highlightFirstOnly) {
-          terms_clone = terms_clone.filter((t) => t.word != elem.word);
+          // Remove word to only highlight first occurence of the word
+          if (highlightFirstOnly) {
+            terms_clone = terms_clone.filter((t) => t.word !== elem.word);
+          }
+
+          found = true;
         }
+      }
 
-        // jump to outer loop
-        continue MAIN_LOOP;
+      if (!found) {
+        // Append the current character without modification
+        res += text[i];
+        i += 1;
       }
     }
-
-    // Append the current character without modification
-    res += text[i];
-    i++;
   }
 
   //   console.log(res);
