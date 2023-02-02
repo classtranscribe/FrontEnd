@@ -75,8 +75,6 @@ function is_alphanum(char) {
  * - Assume text is a valid HTML string with correct opening and closing tags.
  */
 export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
-  console.log(highlightFirstOnly);
-
   let res = '';
   let withinTag = false;
   let terms_clone = terms.map((t) => ({ ...t }));
