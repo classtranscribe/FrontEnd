@@ -287,7 +287,7 @@ class EPubFileBuilder {
 
     const content = dedent(`
 		<div class="epub-ch">            
-			${highlighedText}
+			${highlightedText}
 			${glossaryHTML} 
 		</div>
 	  `);

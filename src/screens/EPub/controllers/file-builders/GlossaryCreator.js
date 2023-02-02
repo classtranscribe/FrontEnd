@@ -95,6 +95,7 @@ export function highlightAndLinkGlossaryWords(text, terms) {
   return res;
 =======
 export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
+<<<<<<< HEAD
 	let res = '';
 
 	let i = 0;
@@ -126,6 +127,44 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 	//   console.log(res);
 	return res;
 >>>>>>> f99bf82c (add toggle for highlighting only first occurance)
+=======
+  let res = '';
+  let withinTag = false;
+  let terms_clone = terms.map((t) => ({ ...t }));
+
+  MAIN_LOOP: for (let i = 0; i < text.length; ) {
+    if (text[i] == '<') {
+      withinTag = true;
+    }
+    if (text[i] == '>') {
+      withinTag = false;
+    }
+    if (withinTag || !text[i].match(/[a-zA-Z0-9]/i)) {
+      res += text[i];
+      i++;
+      continue;
+    }
+
+    for (const elem of terms_clone) {
+      if (text.substring(i, i + elem.word.length) == elem.word) {
+        const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
+        res += `<a href="#${wordId}">${elem.word}</a>`;
+        i += elem.word.length;
+        if (highlightFirstOnly) {
+          // Remove word to only highlight first occurence of the word
+          terms_clone = terms_clone.filter((t) => t.word != elem.word);
+        }
+        continue MAIN_LOOP;
+      }
+    }
+
+    res += text[i];
+    i++;
+  }
+
+//   console.log(res);
+  return res;
+>>>>>>> 41e38a68 (Substitutes text inside tags only)
 }
 
 /***
