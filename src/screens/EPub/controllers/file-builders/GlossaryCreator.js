@@ -121,6 +121,7 @@ function get_word_id(word) {
 export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	let res = '';
 
 	let i = 0;
@@ -157,6 +158,8 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
   console.log(highlightFirstOnly);
 
 >>>>>>> 4a7362c5 (highlight first occurrence by default)
+=======
+>>>>>>> ccae1272 (fix linter errors)
   let res = '';
 =======
 export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirstOnly) {

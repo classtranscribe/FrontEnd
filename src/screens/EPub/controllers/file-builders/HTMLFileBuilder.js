@@ -245,9 +245,9 @@ class HTMLFileBuilder {
           if (typeof subContents === 'string') {
             // Add subchapter transcript
             let transcript = subContents.replace('#### Transcript', '');
-            let splitted = pdf.splitTextToSize(transcript, parseInt(w, 10));
-            for (let l = 0; l < splitted.length; l += 1) {
-              let splitval = splitted[l];
+            let splitText = pdf.splitTextToSize(transcript, parseInt(w, 10));
+            for (let l = 0; l < splitText.length; l += 1) {
+              let splitval = splitText[l];
               if (y >= h - (h % 10)) {
                 y = 10;
                 pdf.addPage();
