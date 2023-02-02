@@ -172,15 +172,16 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
     for (const elem of terms_clone) {
       const sub = text.substring(i, i + elem.word.length);
       if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) == 0) {
-        // Check if it is a complete word backwards
-        if (i > 0 && is_alphanum(text[i - 1])) {
-          break;
-        }
+		// @TODO:
+        // // Check if it is a complete word backwards
+        // if (i > 0 && is_alphanum(text[i - 1])) {
+        //   break;
+        // }
 
-        // Check if it is a complete word forwards
-        if (i + 1 < text.length && is_alphanum(text[i + 1])) {
-          break;
-        }
+        // // Check if it is a complete word forwards
+        // if (i + 1 < text.length && is_alphanum(text[i + 1])) {
+        //   break;
+        // }
 
         // The HTML id for this word in the glossary section
         const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
@@ -206,7 +207,7 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
     i++;
   }
 
-  console.log(res);
+//   console.log(res);
   return res;
 >>>>>>> 41e38a68 (Substitutes text inside tags only)
 }
