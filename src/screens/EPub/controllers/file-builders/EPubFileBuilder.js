@@ -270,10 +270,8 @@ class EPubFileBuilder {
 
     let highlightFirstOnly =
       'enableOnlyFirstGlossaryTermHighlight' in this.data
-        ? this.data['enableOnlyFirstGlossaryTermHighlight']
-        : false;
-
-    console.log(this.data);
+        ? this.data.enableOnlyFirstGlossaryTermHighlight
+        : true;
 
     // add glossary terms to end of chapter if enabled
     const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
