@@ -4,8 +4,8 @@ import { CTPopoverLabel } from 'layout';
 import { epub } from '../../controllers';
 
 function NavigationTrigger({ show, onToggle }) {
-  const label = `${show ? 'Close' : 'Open' } Chapter Navigation (⌘B)`;
-  
+  const label = `${show ? 'Close' : 'Open'} Chapter Navigation (⌘B)`;
+
   return (
     <div className="ct-epb nav-trigger">
       <CTPopoverLabel label={label}>

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
 
-function ADSetting({ show = false, openAD = false, descriptions = [],
-  dispatch, pauseWhileAD = false }) {
+function ADSetting({
+  show = false,
+  openAD = false,
+  descriptions = [],
+  dispatch,
+  pauseWhileAD = false,
+}) {
   const handleAD = (/** { target: { checked } } */) => {
-    dispatch({ type: 'playerpref/toggleOpenAD' })
+    dispatch({ type: 'playerpref/toggleOpenAD' });
   };
 
   const handlePauseWhileAD = () => {
@@ -45,7 +50,10 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
   );
 }
 
-export default connect(({ watch: { descriptions },
-  playerpref: { openAD, pauseWhileAD }, loading }) => ({
-    openAD, descriptions, pauseWhileAD
-  }))(ADSetting);
+export default connect(
+  ({ watch: { descriptions }, playerpref: { openAD, pauseWhileAD }, loading }) => ({
+    openAD,
+    descriptions,
+    pauseWhileAD,
+  }),
+)(ADSetting);

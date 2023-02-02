@@ -6,7 +6,7 @@ import Modal from './Modal';
 
 const useStyles = makeStyles({
   cancelBtn: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   confirmBtn: {
     fontWeight: 'bold',
@@ -16,9 +16,9 @@ const useStyles = makeStyles({
       color: 'white',
       '&:hover': {
         background: 'var(--ct-green-normal)',
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 function Confirmation(props) {
@@ -46,7 +46,7 @@ function Confirmation(props) {
     if (typeof onClose === 'function') {
       onClose();
     }
-  }
+  };
 
   const actionElement = (
     <>
@@ -66,14 +66,10 @@ function Confirmation(props) {
     responsive,
     onClose,
     action: actionElement,
-    ...otherProps
+    ...otherProps,
   };
 
-  return (
-    <Modal {...modalProps}>
-      {contentElement}
-    </Modal>
-  );
+  return <Modal {...modalProps}>{contentElement}</Modal>;
 }
 
 Confirmation.propTypes = {
@@ -119,7 +115,6 @@ export function useConfirmation(text, onConfirm, otherProps) {
     element,
     open,
     onClose,
-    onOpen
+    onOpen,
   };
-};
-
+}

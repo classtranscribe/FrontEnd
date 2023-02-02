@@ -5,19 +5,16 @@ import './index.scss';
 import { NavHeaderTab, NavHeaderTabPropTypes } from './NavHeaderTab';
 
 export function NavHeaderTabPanel(props) {
-  let {
-    tabs = [],
-    tabTitleElem,
-  } = props;
+  let { tabs = [], tabTitleElem } = props;
 
   return (
     <div className="ct-nh-tab-panel">
-      <div className="ct-nh-tab-title-con">
-        {tabTitleElem}
-      </div>
+      <div className="ct-nh-tab-title-con">{tabTitleElem}</div>
 
       <div className="ct-nh-tabs-con">
-        {tabs.map(tab => <NavHeaderTab key={tab.text} {...tab} />)}
+        {tabs.map((tab) => (
+          <NavHeaderTab key={tab.text} {...tab} />
+        ))}
       </div>
     </div>
   );

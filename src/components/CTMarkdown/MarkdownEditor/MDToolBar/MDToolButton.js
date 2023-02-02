@@ -3,15 +3,9 @@ import PropTypes from 'prop-types';
 import { Button } from 'pico-ui';
 import { Popup } from 'semantic-ui-react';
 
-function MDToolButton({
-  popup = "",
-  children,
-  icon,
-  color = "transparent",
-  onClick,
-}) {
+function MDToolButton({ popup = '', children, icon, color = 'transparent', onClick }) {
   return (
-    <Popup 
+    <Popup
       inverted
       basic
       openOnTriggerMouseEnter

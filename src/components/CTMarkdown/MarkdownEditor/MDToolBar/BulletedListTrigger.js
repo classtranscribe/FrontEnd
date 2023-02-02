@@ -15,7 +15,7 @@ function BulletedListTrigger(props) {
 }
 
 BulletedListTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default BulletedListTrigger;

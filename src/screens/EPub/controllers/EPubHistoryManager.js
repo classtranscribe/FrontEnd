@@ -47,8 +47,8 @@ class EPubHistoryManager {
     return this.__index__ >= 0;
   }
 
-  get canRedo () {
-    return !this.isEmpty && (this.__index__ + 1 < this.length);
+  get canRedo() {
+    return !this.isEmpty && this.__index__ + 1 < this.length;
   }
 
   logger() {
@@ -72,15 +72,11 @@ class EPubHistoryManager {
     this.stepForward();
     this.__history__ = [
       ...this.__history__.slice(0, this.__index__),
-      JSON.stringify({ name, prev, next })
+      JSON.stringify({ name, prev, next }),
     ];
   }
 
-  pushAndUpdateAll(
-    actionName,
-    nextChapters,
-    currChIndex
-  ) {
+  pushAndUpdateAll(actionName, nextChapters, currChIndex) {
     // this.push(actionName, epubState.chapters, nextChapters); NOT IMPLEMENTED
     // epubState.updateContentChanges(nextChapters, currChIndex); NOT IMPLEMENTED
   }
@@ -113,7 +109,7 @@ class EPubHistoryManager {
     prompt.addOne({
       text: `${action}: ${name}`,
       timeout: 2000,
-      position: 'bottom left'
+      position: 'bottom left',
     });
   }
 }

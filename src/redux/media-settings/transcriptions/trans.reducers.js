@@ -1,6 +1,4 @@
-import {
-  SET_TRANSCRIPTIONS
-} from './trans.action.types';
+import { SET_TRANSCRIPTIONS } from './trans.action.types';
 import { initialState } from './trans.state';
 
 const transReducer = (state = initialState, action) => {

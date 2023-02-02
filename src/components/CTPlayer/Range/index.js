@@ -5,14 +5,7 @@ import RangeControlBar from './RangeControlBar';
 import './index.scss';
 
 function Range(props) {
-  const {
-    id,
-    duration,
-    time,
-    range,
-    onRangeChange,
-    onPlayRange
-  } = props;
+  const { id, duration, time, range, onRangeChange, onPlayRange } = props;
 
   const sliderProps = {
     id,
@@ -27,7 +20,7 @@ function Range(props) {
     range,
     time,
     onPlayRange,
-    onRangeChange
+    onRangeChange,
   };
 
   return (
@@ -46,8 +39,7 @@ Range.propTypes = {
   duration: PropTypes.number,
   range: PropTypes.arrayOf(PropTypes.number),
   onRangeChange: PropTypes.func,
-  onPlayRange: PropTypes.func
+  onPlayRange: PropTypes.func,
 };
 
 export default Range;
-

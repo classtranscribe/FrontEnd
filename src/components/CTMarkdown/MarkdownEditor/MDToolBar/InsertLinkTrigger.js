@@ -9,14 +9,14 @@ function InsertLinkTrigger(props) {
   return (
     <MDToolButton
       icon="link"
-      popup={`Insert a Link ${ getShortcut('k')}`}
+      popup={`Insert a Link ${getShortcut('k')}`}
       onClick={() => insertLink(ace)}
     />
   );
 }
 
 InsertLinkTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default InsertLinkTrigger;

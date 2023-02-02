@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash'
+import _ from 'lodash';
 import { CTFragment, altEl, CTHeading } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { EPubNavigationProvider } from '../../components';
 import { epub as epubController, generateEPubGuide } from '../../controllers';
 import ChapterList from './ChapterList';
 import Instruction from './Instruction';
 import EPubItemView from './EPubItemView';
 import QuickActions from './QuickActions';
-
 
 function EditEPubStructure({ epub: epubData, dispatch }) {
   const [ePubItem, setEPubItem] = useState(null);
@@ -29,11 +28,12 @@ function EditEPubStructure({ epub: epubData, dispatch }) {
       setInstExp(false);
     }
   }, [ePubItem]);
-  const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
-  const onScroll = (e) => dispatchScroll(e.target)
+  const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300);
+  const onScroll = (e) => dispatchScroll(e.target);
 
   const itemViewElem = altEl(EPubItemView, Boolean(ePubItem), {
-    item: ePubItem, setEPubItem
+    item: ePubItem,
+    setEPubItem,
   });
 
   return (
@@ -55,5 +55,5 @@ function EditEPubStructure({ epub: epubData, dispatch }) {
 }
 
 export default connect(({ epub: { epub }, loading }) => ({
-  epub
+  epub,
 }))(EditEPubStructure);

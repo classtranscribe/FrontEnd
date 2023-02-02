@@ -4,12 +4,7 @@ import { connect } from 'dva';
 import { CTLayout, CTErrorWrapper, altEl } from 'layout';
 import { InfoAndListLayout } from 'components';
 import ErrorTypes from 'entities/ErrorTypes';
-import {
-  PlaylistInfo,
-  MediaList,
-  Confirmation,
-  UploadFiles
-} from './components';
+import { PlaylistInfo, MediaList, Confirmation, UploadFiles } from './components';
 
 export class InstPlaylistWithRedux extends Component {
   componentDidMount() {
@@ -23,11 +18,11 @@ export class InstPlaylistWithRedux extends Component {
       transition: true,
       responsive: true,
       sidebarProps: {
-        items: sidebar.getCoursePageSidebarItems(offering)
+        items: sidebar.getCoursePageSidebarItems(offering),
       },
       headerProps: {
-        subtitle: 'Course Admin'
-      }
+        subtitle: 'Course Admin',
+      },
     }));
 
     // Handle meta tags
@@ -49,15 +44,20 @@ export class InstPlaylistWithRedux extends Component {
         <InfoAndListLayout loading={!playlist.id} error={hasError} errorElement={errorElement}>
           <PlaylistInfo {...this.props} />
           <MediaList />
-          {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({type: 'instplaylist/setConfirmation', payload: null})} />}
+          {confirmation && (
+            <Confirmation
+              confirmation={confirmation}
+              onClose={() => dispatch({ type: 'instplaylist/setConfirmation', payload: null })}
+            />
+          )}
 
           <Route path="/playlist/:id/upload-files" component={UploadFiles} />
         </InfoAndListLayout>
       </CTLayout>
-    )
+    );
   }
 }
 
 export const InstPlaylist = connect(({ instplaylist, loading }) => ({
-  instplaylist
+  instplaylist,
 }))(InstPlaylistWithRedux);

@@ -14,12 +14,7 @@ function reorder(list, startIndex, endIndex) {
 
   return result;
 }
-function PlaylistsView({
-  isInstMode,
-  offering,
-  playlists,
-  dispatch
-}) {
+function PlaylistsView({ isInstMode, offering, playlists, dispatch }) {
   const loading = playlists === ARRAY_INIT;
   const error = ErrorTypes.isError(playlists);
 
@@ -28,9 +23,9 @@ function PlaylistsView({
   const getDNDItems = () => {
     let dndItems = [];
     if (!loading && !error) {
-      dndItems = playlists.map(pl => ({
+      dndItems = playlists.map((pl) => ({
         id: `pl-${pl.id}=${pl.name}`,
-        node: <PlaylistItem isInstMode={isInstMode} playlist={pl} offering={offering} />
+        node: <PlaylistItem isInstMode={isInstMode} playlist={pl} offering={offering} />,
       }));
     }
     const onDragEnd = (result) => {
@@ -41,40 +36,36 @@ function PlaylistsView({
         return;
       }
 
-      const playlists_ = reorder(
-        playlists,
-        result.source.index,
-        result.destination.index
-      );
+      const playlists_ = reorder(playlists, result.source.index, result.destination.index);
       /// dispatch
       dispatch({ type: 'course/updatePlaylists', payload: playlists_ });
-    }
+    };
     let dndProps = {
       contextId: 'pl-ord',
       disabled: !isInstMode,
       onDragEnd,
       items: dndItems,
-      itemClassName: 'pl-item'
+      itemClassName: 'pl-item',
     };
 
     return <CTDNDList {...dndProps} />;
   };
 
-  const playlistDNDElement = playlists.length > 0
-    ? getDNDItems()
-    : <CTText center muted padding={[30, 0]}>No Playlist</CTText>;
-
+  const playlistDNDElement =
+    playlists.length > 0 ? (
+      getDNDItems()
+    ) : (
+      <CTText center muted padding={[30, 0]}>
+        No Playlist
+      </CTText>
+    );
 
   return (
     <InfoAndListLayout.List fadeIn loading={loading} id="cp-pls-view">
       <CTFragment sticky alignItCenter className="title" as="h3">
         <i className="material-icons">list</i>
         <span>Playlists</span>
-        {
-          isInstMode
-          &&
-          <NewPlaylistButton offeringId={offering.id} />
-        }
+        {isInstMode && <NewPlaylistButton offeringId={offering.id} />}
       </CTFragment>
 
       <CTLoadable error={error} errorElement={errorElement}>
@@ -83,7 +74,7 @@ function PlaylistsView({
 
       <CTFooter />
     </InfoAndListLayout.List>
-  )
+  );
 }
 
 export default PlaylistsView;

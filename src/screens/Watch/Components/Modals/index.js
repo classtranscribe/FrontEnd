@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'dva'
-import {
-  MODAL_HIDE,
-  MODAL_SHARE,
-  MODAL_BEFORE_HIDE,
-} from '../../Utils';
-import EmbedModal from './EmbedModal'
+import { connect } from 'dva';
+import { MODAL_HIDE, MODAL_SHARE, MODAL_BEFORE_HIDE } from '../../Utils';
+import EmbedModal from './EmbedModal';
 import ShareModal from './ShareModal';
 import './index.scss';
 
@@ -20,19 +16,17 @@ function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   return (
     <>
       <div className="watch-modal" data-modal-type={modal}>
-        {(modal === MODAL_SHARE || hideBefore) &&
-          <ShareModal onClose={handleClose} embed={embed} setEmbed={setEmbed} />}
+        {(modal === MODAL_SHARE || hideBefore) && (
+          <ShareModal onClose={handleClose} embed={embed} setEmbed={setEmbed} />
+        )}
         <div className="wml-filter" onClick={handleClose} />
       </div>
-      {
-        embed
-        &&
-        <EmbedModal media={media} onClose={() => setEmbed(false)} />
-      }
+      {embed && <EmbedModal media={media} onClose={() => setEmbed(false)} />}
     </>
   );
 }
 
 export const Modals = connect(({ watch: { modal, media }, loading }) => ({
-  modal, media
+  modal,
+  media,
 }))(ModalsWithRedux);

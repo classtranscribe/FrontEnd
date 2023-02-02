@@ -2,9 +2,9 @@ class EPubImageData {
   __data__ = {
     src: '',
     alt: 'Video screenshot',
-    description: ''
+    description: '',
   };
-  
+
   constructor(imageLike) {
     if (imageLike instanceof EPubImageData) {
       this.__data__ = { ...imageLike.__data__ };
@@ -14,7 +14,7 @@ class EPubImageData {
       if (imageLike.src) {
         this.src = imageLike.src;
       }
-      
+
       if (imageLike.alt) {
         this.alt = imageLike.alt;
       }

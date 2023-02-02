@@ -2,13 +2,7 @@ import React from 'react';
 import { Icon } from 'semantic-ui-react';
 import { CTText, CTInput } from 'layout';
 
-function MediaName({
-  mediaName,
-  editing,
-  inputValue,
-  onInputChange,
-  onSave,
-}) {
+function MediaName({ mediaName, editing, inputValue, onInputChange, onSave }) {
   const handleFocus = (event) => {
     event.stopPropagation();
   };
@@ -27,23 +21,12 @@ function MediaName({
     />
   ) : (
     <>
-      <Icon 
-        name="file video" 
-        size="big" 
-        className="file-icon" 
-        aria-hidden="true"
-      />
-      <CTText 
-        bold 
-        hoverTeal
-        size="medium"
-        line={1}
-        className="media-name"
-      >
+      <Icon name="file video" size="big" className="file-icon" aria-hidden="true" />
+      <CTText bold hoverTeal size="medium" line={1} className="media-name">
         {mediaName}
       </CTText>
     </>
-  )
+  );
 }
 
-export default MediaName
+export default MediaName;

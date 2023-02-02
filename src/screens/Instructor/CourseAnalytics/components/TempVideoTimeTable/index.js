@@ -133,16 +133,15 @@ function TempVideoTimeTable({ offeringId }) {
       if (playListVideoMap[id][i] in selectedVideos) {
         removeVideo(playListVideoMap[id][i]);
       }
-  }
+    }
   };
 
-
-  const handleChange = (e, {searchInput, value}) => {
-	  setSelectVideos(value);
-  }
+  const handleChange = (e, { searchInput, value }) => {
+    setSelectVideos(value);
+  };
   const handleSearchChange = (event) => {
-	  setSearchQuery(event.target.value);
-  }
+    setSearchQuery(event.target.value);
+  };
   const onDownload = () => vtime.download();
   const onDownloadEditTrans = () => vtime.downloadEditTransCount(editTrans);
 
@@ -212,7 +211,7 @@ function TempVideoTimeTable({ offeringId }) {
           onChange={handleChange}
           onSearchChange={handleSearchChange}
           options={videoList}
-          placeholder='Search for Videos'
+          placeholder="Search for Videos"
           search
           searchQuery={searchQuery}
           selection

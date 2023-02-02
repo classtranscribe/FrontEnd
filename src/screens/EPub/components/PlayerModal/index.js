@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { SwipeableDrawer } from '@material-ui/core';
 import { Button } from 'pico-ui';
 import SourceTypes from 'entities/SourceTypes';
@@ -8,24 +8,19 @@ import { CTFragment, CTHeading, CTText } from 'layout';
 import CTPlayer from 'components/CTPlayer';
 import './index.scss';
 
-function PlayerModal({
-  playerData,
-  media,
-  epub,
-  dispatch
-}) {
+function PlayerModal({ playerData, media, epub, dispatch }) {
   const isOpen = Boolean(playerData) && media;
-  if(!isOpen) {
+  if (!isOpen) {
     return null;
   }
   const { title, begin, end } = playerData;
   const onClose = () => {
     if (!media) return;
-    dispatch({ type: 'epub/setPlayerData', payload: null })
-  }
+    dispatch({ type: 'epub/setPlayerData', payload: null });
+  };
   const screenshotSource = {
     id: epub.id,
-    type: SourceTypes.EPub
+    type: SourceTypes.EPub,
   };
 
   return (
@@ -38,19 +33,14 @@ function PlayerModal({
     >
       <CTFragment sticky dark alignItCenter justConBetween padding="20">
         <CTFragment alignItCenter>
-          <CTHeading as="h3" margin="0">{title}</CTHeading>
+          <CTHeading as="h3" margin="0">
+            {title}
+          </CTHeading>
           <CTText highlighted size="medium" margin={[0, 20]}>
             {timestr.toTimeString(begin)} - {timestr.toTimeString(end)}
           </CTText>
         </CTFragment>
-        <Button
-          round
-          icon="close"
-          aria-label="close"
-          color="black"
-          onClick={onClose}
-          autoFocus
-        />
+        <Button round icon="close" aria-label="close" color="black" onClick={onClose} autoFocus />
       </CTFragment>
 
       <CTFragment dark justConCenter className="ct-epb player-modal-player-con">
@@ -72,5 +62,7 @@ function PlayerModal({
 }
 
 export default connect(({ epub: { playerData, media, epub }, loading }) => ({
-  playerData, media, epub
+  playerData,
+  media,
+  epub,
 }))(PlayerModal);

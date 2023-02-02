@@ -20,7 +20,7 @@ export function EmailList(props) {
     if (typeof onSave === 'function') {
       onSave({
         addedEmails: emails.includesMore(defaultEmails),
-        removedEmails: emails.includesLess(defaultEmails)
+        removedEmails: emails.includesLess(defaultEmails),
       });
 
       setLastEmails(emails.value);
@@ -30,14 +30,14 @@ export function EmailList(props) {
   return (
     <CTForm
       collapsible
-      id="email-list" 
+      id="email-list"
       padding={[10, 35]}
       heading={title}
       details={description}
       onSave={canUpdate ? handleSave : null}
       onSaveButtonText="Update Emails"
       className="email-list-container"
-    >     
+    >
       <CTFormRow>
         <CTFragment className="email-list-left">
           <UploadFile emails={emails} onSave={handleSave} />

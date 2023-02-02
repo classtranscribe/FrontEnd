@@ -29,7 +29,7 @@ function CourseCard(props) {
     as: Link,
     to: href,
     className: cardClasses,
-    title: `${number} | ${name} | ${term} | ${section}`
+    title: `${number} | ${name} | ${term} | ${section}`,
   };
 
   if (listitem) cardProps.role = 'listitem';
@@ -41,14 +41,18 @@ function CourseCard(props) {
           {number}
         </CTText>
 
-        <CTText bold size="big" line={2}>{name}</CTText>
+        <CTText bold size="big" line={2}>
+          {name}
+        </CTText>
       </div>
 
       <CTText celadon size="medium" line={1}>
         {term} | {section}
       </CTText>
 
-      <CTText fluid muted line={2} margin={[3, 0, 0, 0]}>{description}</CTText>
+      <CTText fluid muted line={2} margin={[3, 0, 0, 0]}>
+        {description}
+      </CTText>
     </CTFragment>
   );
 }

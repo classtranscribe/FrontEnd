@@ -1,6 +1,6 @@
 import download from 'js-file-download';
 import { prompt } from 'utils/prompt';
-import { jsPDF } from "jspdf";
+import { jsPDF } from 'jspdf';
 import { EPubFileBuilder, HTMLFileBuilder, ScreenshotsBuilder } from './file-builders';
 
 const _download = async (Builder, filenameSuffix) => {
@@ -15,7 +15,7 @@ const _logError = (error) => {
     text: `Error: ${error.message}`,
     status: 'error',
     position: 'bottom left',
-    timeout: -1
+    timeout: -1,
   });
 };
 
@@ -48,7 +48,7 @@ class EPubDownloadController {
 
       // eslint-disable-next-line
       let PDF = new jsPDF();
-      PDF.setLanguage("en-US");
+      PDF.setLanguage('en-US');
       const html = await builder.getIndexHTML(true, print, PDF, subchapterImages);
       PDF.save();
     } catch (error) {

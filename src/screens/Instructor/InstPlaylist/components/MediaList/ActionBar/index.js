@@ -15,7 +15,7 @@ function ActionBar({
   selectedVideos,
   filterValue,
   handleFilterChange,
-  dispatch
+  dispatch,
 }) {
   const handleSelectAll = () => {
     selectAll(result);
@@ -23,8 +23,7 @@ function ActionBar({
 
   const padded = Boolean(filterValue) || isMobile;
   const showUploadBtn = !padded && playlist.sourceType === 2;
-  const isSelectedAll = selectedVideos.length > 0 
-                      && selectedVideos.length === result.length;
+  const isSelectedAll = selectedVideos.length > 0 && selectedVideos.length === result.length;
 
   useEffect(() => {
     if (selectedVideos.length > 0) {
@@ -33,33 +32,27 @@ function ActionBar({
   }, [result]);
 
   const handleDeleteVideos = () => {
-    const mediaIds = selectedVideos.map(video => video.id);
+    const mediaIds = selectedVideos.map((video) => video.id);
     const confirm = {
-      text: `Are you sure to delete the selected ${mediaIds.length} `
-            + `video${mediaIds.length > 1 ? 's' : ''}? `
-            + '(This acrion cannot be undone)',
-      onConfirm: () => dispatch({type: 'instplaylist/deleteMedias', payload: mediaIds})
+      text:
+        `Are you sure to delete the selected ${mediaIds.length} ` +
+        `video${mediaIds.length > 1 ? 's' : ''}? ` +
+        '(This acrion cannot be undone)',
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteMedias', payload: mediaIds }),
     };
-    dispatch({type: 'instplaylist/setConfirmation', payload: confirm});
-  }
-  
+    dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
+  };
+
   return (
-    <CTFragment
-      alignItCenter 
-      sticky
-      id="ipl-media-actions" 
-      padding={[10, 10, 10, (padded ? 0 : 23)]}
-    >
+    <CTFragment alignItCenter sticky id="ipl-media-actions" padding={[10, 10, 10, padded ? 0 : 23]}>
       <SelectCtrlButton
         selecting={selecting}
         isSelectedAll={isSelectedAll}
         selectAll={handleSelectAll}
         removeAll={removeAll}
       />
-      
-      {
-        selecting
-        &&
+
+      {selecting && (
         <Button
           uppercase
           icon="delete"
@@ -68,11 +61,9 @@ function ActionBar({
           classNames="mr-2"
           onClick={handleDeleteVideos}
         />
-      }
+      )}
 
-      {
-        !isMobile
-        &&
+      {!isMobile && (
         <CTFilterInput
           grey
           debounce
@@ -81,10 +72,9 @@ function ActionBar({
           placeholder="Filter videos ..."
           onInputChange={handleFilterChange}
         />
-      }
+      )}
 
       {showUploadBtn && <UploadButton playlistId={playlist.id} />}
-
     </CTFragment>
   );
 }

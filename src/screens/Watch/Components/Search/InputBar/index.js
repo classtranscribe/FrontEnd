@@ -14,14 +14,14 @@ function InputBar({ search = SEARCH_INIT, dispatch }) {
 
   const clearInput = () => {
     inputRef.current.value = '';
-    dispatch({type: 'watch/resetSearch', payload: SEARCH_BEGIN});
+    dispatch({ type: 'watch/resetSearch', payload: SEARCH_BEGIN });
     inputRef.current.focus();
   };
 
   const handleSearch = () => {
     inputRef.current.focus();
     elem.scrollToTop('watch-search-result-container');
-    dispatch({type: 'watch/search_getResults', payload: inputRef.current.value});
+    dispatch({ type: 'watch/search_getResults', payload: inputRef.current.value });
   };
 
   const handleOnKeyDown = (e) => {
@@ -32,7 +32,7 @@ function InputBar({ search = SEARCH_INIT, dispatch }) {
   };
 
   const handleClose = () => {
-    dispatch({type: 'watch/search_close'});
+    dispatch({ type: 'watch/search_close' });
   };
 
   const defaultInput = search.value || '';

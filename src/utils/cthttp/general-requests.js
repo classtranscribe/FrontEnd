@@ -23,6 +23,6 @@ export function getFile(path) {
  */
 export async function getBuffer(path) {
   // Adding authorization token
-  const { data } = await cthttp.request().get(path, { responseType: 'arraybuffer' }); 
+  const { data } = await cthttp.request().get(path, { responseType: 'arraybuffer' });
   return Buffer.from(data);
 }

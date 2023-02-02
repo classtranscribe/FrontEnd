@@ -12,8 +12,8 @@ export const getComponentAPINavItem = () => {
       {
         value: 'capi-ct-form',
         text: 'CTForm',
-        href: links.componentAPI('ct-form')
-      }
-    ]
+        href: links.componentAPI('ct-form'),
+      },
+    ],
   });
 };

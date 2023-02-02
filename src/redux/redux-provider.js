@@ -17,12 +17,8 @@ export function withReduxProvider(
   requestedDispatches = [],
 ) {
   function ConnectedComponent(props) {
-    const ConnectToRedux = connectWithRedux(
-      Component,
-      requestedStates,
-      requestedDispatches
-    );
-  
+    const ConnectToRedux = connectWithRedux(Component, requestedStates, requestedDispatches);
+
     return (
       <Provider store={reduxStore}>
         <ConnectToRedux {...props} />

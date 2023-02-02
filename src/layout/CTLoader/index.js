@@ -6,7 +6,7 @@ import './index.css';
 function CTLoader(props) {
   let { darkMode = false, height = 400 } = props;
 
-  const loaderStyles = { height: `${height }px` };
+  const loaderStyles = { height: `${height}px` };
   const fragmentProps = {
     center: true,
     className: 'ct-loader',
@@ -30,8 +30,7 @@ CTLoader.propTypes = {
   darkMode: PropTypes.bool,
 
   /** The height of the loader */
-  height: PropTypes.number
+  height: PropTypes.number,
 };
 
 export default CTLoader;
-

@@ -21,10 +21,7 @@ class CTHTTPRequest {
       baseURL: env.baseURL || window.location.origin,
       timeout: DEFAULT_LOG_TIMEOUT,
       headers: {
-        Authorization:
-          authToken && withAuth
-            ? `Bearer ${authToken}`
-            : undefined,
+        Authorization: authToken && withAuth ? `Bearer ${authToken}` : undefined,
       },
     });
   }

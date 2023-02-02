@@ -34,8 +34,8 @@ export function RemoveCourse(props) {
         details="Delete this course from your courses."
       >
         <CTFormHelp severity="warning" title="Removed courses cannot be restored">
-          Removing the course will delete all related resources 
-          including its playlists, videos, and files uploaded.
+          Removing the course will delete all related resources including its playlists, videos, and
+          files uploaded.
         </CTFormHelp>
         <div className="mt-2">
           <Button icon="delete" color="red" onClick={handleConfirm}>
@@ -43,7 +43,7 @@ export function RemoveCourse(props) {
           </Button>
         </div>
       </CTForm>
-      <CTConfirmation 
+      <CTConfirmation
         open={openConfirm}
         text="Are you sure to delete this course? (Removed courses cannot be restored)"
         onConfirm={handleDelete}

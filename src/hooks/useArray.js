@@ -1,11 +1,8 @@
 import _ from 'lodash';
 import { useState, useEffect } from 'react';
 
-const isValidIndex = (index, array) => (
-  typeof index === 'number' 
-  && index >= 0 
-  && index < array.length
-);
+const isValidIndex = (index, array) =>
+  typeof index === 'number' && index >= 0 && index < array.length;
 
 /**
  * The react hook for handing array states
@@ -26,7 +23,7 @@ export function useArray(initialValue, onChange) {
    * @param {Any} item the item to push to the array
    */
   const push = (item) => {
-    setValue([ ...value, item ]);
+    setValue([...value, item]);
   };
 
   /**
@@ -34,7 +31,7 @@ export function useArray(initialValue, onChange) {
    * @param {Any} item the item to push to the array
    */
   const pushStart = (item) => {
-    setValue([ item, ...value ]);
+    setValue([item, ...value]);
   };
 
   /**
@@ -44,17 +41,17 @@ export function useArray(initialValue, onChange) {
    */
   const includes = (item) => {
     return _.includes(value, item);
-  }
+  };
 
   /**
    * Remove item at the index from the array
-   * @param {Number} index 
+   * @param {Number} index
    * @returns {Any} the removed item
    */
   const removeIndex = (index) => {
     if (isValidIndex(index, value)) {
       const [removed] = value.splice(index, 1);
-      setValue([ ...value ]);
+      setValue([...value]);
       return removed;
     }
 
@@ -67,7 +64,7 @@ export function useArray(initialValue, onChange) {
    * @returns {Any} the removed item
    */
   const removeExact = (item) => {
-    setValue([ ..._.filter(value, it => it !== item) ]);
+    setValue([..._.filter(value, (it) => it !== item)]);
 
     return item;
   };
@@ -78,7 +75,7 @@ export function useArray(initialValue, onChange) {
    * @returns {Any} the removed items
    */
   const removeItems = (items) => {
-    setValue([ ..._.filter(value, it => !items.includes(it)) ]);
+    setValue([..._.filter(value, (it) => !items.includes(it))]);
     return items;
   };
 
@@ -89,7 +86,7 @@ export function useArray(initialValue, onChange) {
    */
   const remove = (predicate) => {
     const removedItems = _.remove(value, predicate);
-    setValue([ ...value ]);
+    setValue([...value]);
     return removedItems;
   };
 
@@ -101,7 +98,7 @@ export function useArray(initialValue, onChange) {
   const insert = (index, item) => {
     if (isValidIndex(index, value)) {
       value.splice(index, 0, item);
-      setValue([ ...value ]);
+      setValue([...value]);
     }
   };
 
@@ -114,7 +111,7 @@ export function useArray(initialValue, onChange) {
   const updateIndex = (index, item, replace = true) => {
     if (isValidIndex(index, value)) {
       value.splice(index, 1, replace ? item : { ...value[index], ...item });
-      setValue([ ...value ]);
+      setValue([...value]);
     }
   };
 
@@ -142,7 +139,7 @@ export function useArray(initialValue, onChange) {
 
     const [removed] = value.splice(fromIndex, 1);
     value.splice(toIndex, 0, removed);
-    setValue([ ...value ]);
+    setValue([...value]);
   };
 
   /**
@@ -151,7 +148,7 @@ export function useArray(initialValue, onChange) {
    * @returns {Number} the index of the predicated item in the array
    */
   const findIndex = (predicate) => {
-    return _.findIndex(value, predicate)
+    return _.findIndex(value, predicate);
   };
 
   /**
@@ -182,7 +179,7 @@ export function useArray(initialValue, onChange) {
    * Compares two array, and returns the items in this array and not anothor array
    * See https://lodash.com/docs/4.17.15#differenceBy for more
    * @param {Any[]} array - the another array to compare
-   * @param {Any} iteratee - See https://lodash.com/docs/4.17.15#differenceBy for more 
+   * @param {Any} iteratee - See https://lodash.com/docs/4.17.15#differenceBy for more
    * @returns {Any[]} the items that the another array don't contains
    */
   const includesMore = (array, iteratee) => {

@@ -17,18 +17,22 @@ const CourseSettingsWithRedux = (props) => {
       icon: 'settings',
       sticky: true,
       gradient: true,
-      offsetTop: 30
+      offsetTop: 30,
     },
     sidebarProps: {
-      items: sidebar.getCoursePageSidebarItems(offering)
+      items: sidebar.getCoursePageSidebarItems(offering),
     },
     metaTagsProps: {
-      title: 'Course Settings'
-    }
+      title: 'Course Settings',
+    },
   }));
 
   if (!loading && offering.fullNumber) {
-    layoutProps.headingProps.heading = <><span>{offering.fullNumber}</span> Settings</>;
+    layoutProps.headingProps.heading = (
+      <>
+        <span>{offering.fullNumber}</span> Settings
+      </>
+    );
     layoutProps.metaTagsProps.title = `Settings | ${offering.fullNumber}`;
   }
 
@@ -36,14 +40,14 @@ const CourseSettingsWithRedux = (props) => {
     <CTLayout {...layoutProps}>
       <CTFragment loading={loading} padding={[0, 30]}>
         <CourseInfo />
-        {(offering && offering.accessType === 2) && <Students {...props} />}
+        {offering && offering.accessType === 2 && <Students {...props} />}
         <Staffs {...props} />
         <RemoveCourse {...props} />
       </CTFragment>
     </CTLayout>
   );
-}
+};
 
 export const CourseSettings = connect(({ course, loading }) => ({
-  course
+  course,
 }))(CourseSettingsWithRedux);

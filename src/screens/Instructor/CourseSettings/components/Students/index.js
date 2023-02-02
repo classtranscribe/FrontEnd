@@ -43,10 +43,7 @@ export function Students(props) {
     getStudents();
   }, []);
 
-  const handleSave = ({
-    addedEmails,
-    removedEmails
-  }) => {
+  const handleSave = ({ addedEmails, removedEmails }) => {
     updateStudents(id, addedEmails, removedEmails);
   };
 

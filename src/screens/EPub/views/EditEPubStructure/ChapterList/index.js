@@ -12,8 +12,8 @@ function ChapterList({ chapters = [], foldedIds = [], currChIndex, setEPubItem, 
     }
   }, []);
   const onFold = (folded, id) => {
-    dispatch({ type: 'epub/foldChapter', payload: { id, folded } })
-  }
+    dispatch({ type: 'epub/foldChapter', payload: { id, folded } });
+  };
   return (
     <ul className="plain-ul ct-epb chapter-list">
       {chapters.map((chapter, chIdx) => (
@@ -34,5 +34,7 @@ function ChapterList({ chapters = [], foldedIds = [], currChIndex, setEPubItem, 
 }
 
 export default connect(({ epub: { currChIndex, epub: { chapters }, foldedIds }, loading }) => ({
-  currChIndex, chapters, foldedIds
+  currChIndex,
+  chapters,
+  foldedIds,
 }))(ChapterList);

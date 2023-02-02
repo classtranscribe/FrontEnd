@@ -6,17 +6,16 @@ import './index.scss';
 
 const NoSectionHolder = () => (
   <CTFragment dFlexCol fadeIn alignItCenter padding={[40, 0]}>
-    <CTText muted size="medium">No course found</CTText>
+    <CTText muted size="medium">
+      No course found
+    </CTText>
     <CTText padding="5" muted size="medium">
       Please reset the filter or refresh the page
     </CTText>
   </CTFragment>
 );
 
-function SectionList({
-  sections,
-  hasDepartmentSections
-}) {
+function SectionList({ sections, hasDepartmentSections }) {
   const hasSections = sections.length > 0;
   const slHasDepartmentSections = hasSections && hasDepartmentSections;
 
@@ -26,7 +25,7 @@ function SectionList({
     dFlexCol: true,
     alt: !hasSections,
     loading: sections === ARRAY_INIT,
-    altElement: noSectionHolderEl
+    altElement: noSectionHolderEl,
   };
 
   return (

@@ -11,41 +11,37 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 export const useStyles = makeStyles({
   root: {
     '&.MuiIconButton-colorSecondary:hover': {
-      backgroundColor: 'rgba(51, 138, 133, 0.13)'
+      backgroundColor: 'rgba(51, 138, 133, 0.13)',
     },
     '&.MuiRadio-colorSecondary.Mui-checked': {
-      color: '#348b86'
-    }
+      color: '#348b86',
+    },
   },
   legend: {
     fontWeight: 'bold',
     color: '#3d3d3d',
     '&.Mui-focused': {
-      color: '#348b86'
-    }
+      color: '#348b86',
+    },
   },
   formCtrlLabel: {
-    marginBottom: 0
-  }
+    marginBottom: 0,
+  },
 });
 
 function Radio(props) {
-  let {
-    id,
-    legend,
-    options = [],
-    helpText,
-    error = false,
-    onChange,
-    value
-  } = props;
+  let { id, legend, options = [], helpText, error = false, onChange, value } = props;
 
   const classes = useStyles();
   const RadioElement = <MuiRadio classes={classes} />;
 
   return (
     <FormControl id={id} required error={error} component="fieldset">
-      {Boolean(legend) && <FormLabel className={classes.legend} component="legend">{legend}</FormLabel>}
+      {Boolean(legend) && (
+        <FormLabel className={classes.legend} component="legend">
+          {legend}
+        </FormLabel>
+      )}
       <MuiRadioGroup value={value} onChange={onChange}>
         {options.map((opt) => (
           <FormControlLabel
@@ -57,7 +53,6 @@ function Radio(props) {
           />
         ))}
       </MuiRadioGroup>
-      
 
       {Boolean(helpText) && <FormHelperText>{helpText}</FormHelperText>}
     </FormControl>
@@ -84,10 +79,9 @@ Radio.propTypes = {
   error: PropTypes.bool,
 
   /** The radio group can be disabled */
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 Radio.useStyles = useStyles;
 
 export default Radio;
-

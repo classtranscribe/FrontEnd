@@ -18,20 +18,13 @@ function NavSidebarTrigger(props) {
 
   return (
     <div className="ct-nav-header-sb-trigger-con">
-      {
-        withTrigger
-        &&
-        <Button
-          round
-          icon="menu"
-          color="transparent"
-          onClick={onSidebarTriggerClick}
-        />
-      }
+      {withTrigger && (
+        <Button round icon="menu" color="transparent" onClick={onSidebarTriggerClick} />
+      )}
 
       <CTBrand logo={logo} darkMode={darkMode} disabled={linkDisabled} />
     </div>
-  )
+  );
 }
 
 NavSidebarTrigger.propTypes = {
@@ -48,7 +41,7 @@ NavSidebarTrigger.propTypes = {
   showSidebar: PropTypes.bool,
 
   /** Handle sidebar trigger click */
-  onSidebarTriggerClick: PropTypes.func
+  onSidebarTriggerClick: PropTypes.func,
 };
 
 export default NavSidebarTrigger;

@@ -19,16 +19,15 @@ function WatchHistoriesWithRedux(props) {
         </div>
       );
     } else {
-      whElement = 
-        result.map((media, index) => (
-          <MediaCard
-            row
-            nameSize="big"
-            posterSize="medium"
-            {...MediaCard.parse(media)}
-            key={media.id + index}
-          />
-        ));
+      whElement = result.map((media, index) => (
+        <MediaCard
+          row
+          nameSize="big"
+          posterSize="medium"
+          {...MediaCard.parse(media)}
+          key={media.id + index}
+        />
+      ));
     }
 
     return (
@@ -36,15 +35,11 @@ function WatchHistoriesWithRedux(props) {
         {whElement}
       </CTFragment>
     );
-  }
+  };
 
   return (
     <CTFragment fadeIn loading={loading} padding={[0, 35, 50, 35]}>
-      <CTFilter
-        withDefaultFilter
-        data={data}
-        keys={['name']}
-      >
+      <CTFilter withDefaultFilter data={data} keys={['name']}>
         {dWHisResult}
       </CTFilter>
     </CTFragment>
@@ -52,6 +47,5 @@ function WatchHistoriesWithRedux(props) {
 }
 
 export default connect(({ historypage, loading }) => ({
-  historypage
+  historypage,
 }))(WatchHistoriesWithRedux);
-

@@ -145,7 +145,7 @@ export class ProgressController {
     const moveX = typeof e === 'number' ? e : e.clientX || e.screenX;
 
     const seekTo = Math.floor(((moveX - offset) / this.totalWidth) * this.watch.duration);
-    this.dispatch({ type: 'watch/media_setCurrTime', payload: seekTo })
+    this.dispatch({ type: 'watch/media_setCurrTime', payload: seekTo });
   }
 
   /**
@@ -174,10 +174,10 @@ export class ProgressController {
   handleTouchEnd() {}
 
   vc_pause() {
-    this.dispatch({ type: 'watch/media_pause' })
+    this.dispatch({ type: 'watch/media_pause' });
   }
   vc_play() {
-    this.dispatch({ type: 'watch/media_play' })
+    this.dispatch({ type: 'watch/media_play' });
   }
   setModel(dispatch, watch) {
     this.dispatch = dispatch;

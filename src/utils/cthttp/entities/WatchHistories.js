@@ -23,5 +23,5 @@ export function sendMediaWatchHistories(mediaId, timestamp, ratio) {
 // DELETE
 
 export function deleteWatchHistory(watchHistoryId) {
-  return cthttp.delete('WatchHistories', { params: { id: watchHistoryId }});
+  return cthttp.delete('WatchHistories', { params: { id: watchHistoryId } });
 }

@@ -5,14 +5,11 @@ import SliderTimeLabel from '../Wrapper/InteractiveLayer/ControlBar/Progress/Sli
 function RangeTimeLabel(props) {
   const { index } = props;
   const placement = index === 0 ? 'left' : 'right';
-  return (
-    <SliderTimeLabel {...props} placement={placement} />
-  );
+  return <SliderTimeLabel {...props} placement={placement} />;
 }
 
 RangeTimeLabel.propTypes = {
-  index: PropTypes.number
+  index: PropTypes.number,
 };
 
 export default RangeTimeLabel;
-

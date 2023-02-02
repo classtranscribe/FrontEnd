@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import timestr from 'utils/use-time';
 
 function RangeInput(props) {
-  const {
-    id,
-    duration,
-    range,
-    onRangeChange
-  } = props;
+  const { id, duration, range, onRangeChange } = props;
 
   const min = timestr.toDecimalTimeString(0);
   const max = timestr.toDecimalTimeString(duration);
@@ -28,7 +23,7 @@ function RangeInput(props) {
     }
   }, [range]);
 
-  const onTime1Change = ({ target: { value }}) => {
+  const onTime1Change = ({ target: { value } }) => {
     setWasInputChange(true);
     setTime1(value);
     if (typeof onRangeChange === 'function') {
@@ -36,7 +31,7 @@ function RangeInput(props) {
     }
   };
 
-  const onTime2Change = ({ target: { value }}) => {
+  const onTime2Change = ({ target: { value } }) => {
     setWasInputChange(true);
     setTime2(value);
     if (typeof onRangeChange === 'function') {
@@ -45,25 +40,25 @@ function RangeInput(props) {
   };
 
   const time1Props = {
-    id: `time1-${ id}`,
+    id: `time1-${id}`,
     type: 'time',
     min,
     max: time2,
     step: '0.01',
     value: time1,
     onChange: onTime1Change,
-    'aria-label': 'Begin time of the range'
+    'aria-label': 'Begin time of the range',
   };
 
   const time2Props = {
-    id: `time2-${ id}`,
+    id: `time2-${id}`,
     type: 'time',
     min: time1,
     max,
     step: '0.01',
     value: time2,
     onChange: onTime2Change,
-    'aria-label': 'End time of the range'
+    'aria-label': 'End time of the range',
   };
 
   return (
@@ -87,4 +82,3 @@ RangeInput.propTypes = {
 };
 
 export default RangeInput;
-

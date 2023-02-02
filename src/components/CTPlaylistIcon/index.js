@@ -31,15 +31,11 @@ const getIconName = (type) => {
   }
 };
 
-
 /**
  * The icon component for playlists
  */
 function CTPlaylistIcon(props) {
-  const {
-    type = 2,
-    size = 'normal'
-  } = props;
+  const { type = 2, size = 'normal' } = props;
 
   const iconProps = {
     className: cx('ct-pl-icon', size),
@@ -47,13 +43,13 @@ function CTPlaylistIcon(props) {
     name: getIconName(type),
     // Flip the icon if the type is 0 -- Echo360
     flipped: type === 0 ? 'horizontally' : null,
-    'aria-hidden': 'true'
+    'aria-hidden': 'true',
   };
 
   const imgIconProps = {
     src: type === 4 ? boxLogo : kalturaLogo,
     className: cx('ct-pl-icon', size),
-    'aria-hidden': 'true'
+    'aria-hidden': 'true',
   };
 
   switch (type) {
@@ -73,8 +69,7 @@ CTPlaylistIcon.propTypes = {
   type: PropTypes.oneOf([0, 1, 2, 3, 4]),
 
   /** Size of the icon -- 'small', 'normal', 'large', 'big' */
-  size: PropTypes.oneOf(['small', 'normal', 'large', 'big'])
+  size: PropTypes.oneOf(['small', 'normal', 'large', 'big']),
 };
 
 export default CTPlaylistIcon;
-

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import './index.scss';
 
 import MenuRadio from '../MenuRadio';
@@ -7,7 +7,7 @@ import CCStylePicker from './CCStylePicker';
 
 function CCSetting({ show = false, openCC = false, captions = [], dispatch }) {
   const handleOpenCC = () => {
-    dispatch({ type: 'playerpref/toggleOpenCC' })
+    dispatch({ type: 'playerpref/toggleOpenCC' });
   };
 
   useEffect(() => {
@@ -43,6 +43,7 @@ function CCSetting({ show = false, openCC = false, captions = [], dispatch }) {
   );
 }
 
-export default connect(({ watch : { captions}, playerpref: { openCC }, loading }) => ({
-  openCC, captions
-}))(CCSetting)
+export default connect(({ watch: { captions }, playerpref: { openCC }, loading }) => ({
+  openCC,
+  captions,
+}))(CCSetting);

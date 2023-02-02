@@ -22,7 +22,7 @@ function DownloadDropdown() {
         return epub.download.downloadPDF();
       case 'img':
         return epub.download.downloadScreenshots();
-    
+
       default:
         break;
     }
@@ -32,20 +32,23 @@ function DownloadDropdown() {
     {
       value: 'I-Note',
       text: 'I-Note file (.epub)',
-      icon: <i className="fas fa-file-alt" />
-    },{
-      value:'html',
+      icon: <i className="fas fa-file-alt" />,
+    },
+    {
+      value: 'html',
       text: 'HTML and CSS files (.zip)',
-      icon: <i className="fas fa-file-archive" />
-    },{
+      icon: <i className="fas fa-file-archive" />,
+    },
+    {
       value: 'pdf',
       text: 'PDF file (.pdf)',
-      icon: <i className="fas fa-file-pdf" />
-    },{
+      icon: <i className="fas fa-file-pdf" />,
+    },
+    {
       value: 'img',
       text: 'All the screenshots (.zip)',
-      icon: <i className="fas fa-file-image" />
-    }
+      icon: <i className="fas fa-file-image" />,
+    },
   ];
 
   return (

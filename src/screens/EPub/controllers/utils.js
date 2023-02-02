@@ -6,8 +6,8 @@ import { EPubChapterData, EPubImageData, EPubSubChapterData } from 'entities/EPu
  */
 export function getCompactText(chapter) {
   return EPubChapterData.__getAllItemsInChapter(chapter)
-          .map((item) => item.text)
-          .slice(0, 500);
+    .map((item) => item.text)
+    .slice(0, 500);
 }
 
 function isValidADImage(content, useFirstImage) {
@@ -17,14 +17,14 @@ function isValidADImage(content, useFirstImage) {
 
 /**
  * Extract audio description from ePub chapters
- * @param {EPubChapterData[]|EPubSubChapterData[]} chapters 
+ * @param {EPubChapterData[]|EPubSubChapterData[]} chapters
  * @param {Boolean} useFirstImage
  */
 export function extractAudioDescription(chapters, useFirstImage = true) {
   return chapters.reduce((audioDescriptions, chapter) => {
     const contents = _.flatten([
       [chapter.contents],
-      ...chapter.subChapters.map((sch) => sch.contents)
+      ...chapter.subChapters.map((sch) => sch.contents),
     ]);
 
     const index = contents.findIndex((content) => isValidADImage(content, useFirstImage));
@@ -35,7 +35,7 @@ export function extractAudioDescription(chapters, useFirstImage = true) {
         description: contents[index].description,
         title: chapter.title,
         start: chapter.start,
-        end: chapter.end
+        end: chapter.end,
       });
     }
 

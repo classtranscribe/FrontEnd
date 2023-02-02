@@ -10,25 +10,12 @@ import ErrorWrapper from './ErrorWrapper';
 import EventVisualPopup from './EventVisualPopup';
 import './index.scss';
 
-
 function NonInteractiveLayer(props) {
-  let {
-    error,
-    event,
-    volume,
-    onTogglePause,
-  } = props;
+  let { error, event, volume, onTogglePause } = props;
 
   return (
-    <div 
-      className="ctp wrapper non-interact ct-d-c-center"
-      onClick={error ? onTogglePause : null}
-    >
-      {error ? (
-        <ErrorWrapper error={error} />
-      ) : (
-        <BigPlayButton isPrimary />
-      )}
+    <div className="ctp wrapper non-interact ct-d-c-center" onClick={error ? onTogglePause : null}>
+      {error ? <ErrorWrapper error={error} /> : <BigPlayButton isPrimary />}
     </div>
   );
 }
@@ -40,6 +27,3 @@ NonInteractiveLayer.propTypes = {
 };
 
 export default NonInteractiveLayer;
-
-
-            

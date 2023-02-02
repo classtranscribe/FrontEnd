@@ -9,19 +9,21 @@ function TimeDisplay({ time = 0, duration = 0, liveMode = false }) {
 
   return (
     <div className="watch-time-display">
-      {
-        liveMode ? <>Live - {liveMode}</> :
+      {liveMode ? (
+        <>Live - {liveMode}</>
+      ) : (
         <>
           <span className="td-played-time">{displayedTime}</span>
           <span className="td-time-separator">/</span>
           <span className="td-duration">{displayedDuration}</span>
         </>
-      }
-
+      )}
     </div>
   );
 }
 
 export default connect(({ watch: { time, duration, liveMode } }) => ({
-  time, duration, liveMode
+  time,
+  duration,
+  liveMode,
 }))(TimeDisplay);

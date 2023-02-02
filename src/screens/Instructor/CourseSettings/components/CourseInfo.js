@@ -6,9 +6,7 @@ import _ from 'lodash';
 
 export function CourseInfoWithRedux(props) {
   const { dispatch, course } = props;
-  const {
-    offering
-  } = course
+  const { offering } = course;
   const {
     courses = [],
     termId,
@@ -17,43 +15,47 @@ export function CourseInfoWithRedux(props) {
     accessType,
     description,
     logEventsFlag,
-  } = offering
-  const selCourses = courses.map(course_ => ({ ...course_, id: course_.courseId }));
+  } = offering;
+  const selCourses = courses.map((course_) => ({ ...course_, id: course_.courseId }));
   async function updateCourseOfferings(newOffering) {
     const oldOffering = offering;
     const offeringId = offering.id;
     let newCourses = newOffering.courseIds;
-    let oldCourses = _.map(oldOffering.courses, course_ => course_.courseId);
-  
+    let oldCourses = _.map(oldOffering.courses, (course_) => course_.courseId);
+
     let added = _.difference(newCourses, oldCourses);
     let removed = _.difference(oldCourses, newCourses);
-    
+
     // link added courses to this offering
     if (added.length > 0) {
-      await Promise
-      .all(added.map((courseId) => new Promise((resolve) => {
-        api.createCourseOffering({ courseId, offeringId })
-          .then(() => resolve());
-      })))
-      .catch((error) => {
+      await Promise.all(
+        added.map(
+          (courseId) =>
+            new Promise((resolve) => {
+              api.createCourseOffering({ courseId, offeringId }).then(() => resolve());
+            }),
+        ),
+      ).catch((error) => {
         console.error(error);
         prompt.error('Failed to remove course.');
       });
     }
-  
+
     if (removed.length > 0) {
-      await Promise
-      .all(removed.map((courseId) => new Promise((resolve) => {
-        api.deleteCourseOffering(courseId, offeringId)
-          .then(() => resolve());
-      })))
-      .catch((error) => {
+      await Promise.all(
+        removed.map(
+          (courseId) =>
+            new Promise((resolve) => {
+              api.deleteCourseOffering(courseId, offeringId).then(() => resolve());
+            }),
+        ),
+      ).catch((error) => {
         console.error(error);
         prompt.error('Failed to add course.');
       });
     }
   }
-  
+
   async function updateCourseInfo(newOffering) {
     const oldOffering = offering;
     const updatedOff = {
@@ -76,8 +78,8 @@ export function CourseInfoWithRedux(props) {
 
     // handle linked course templates ?
     await updateCourseOfferings(newOffering);
-    
-    dispatch({type: 'course/setOffering', payload: {...oldOffering, ...updatedOff}}); // update course info
+
+    dispatch({ type: 'course/setOffering', payload: { ...oldOffering, ...updatedOff } }); // update course info
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
   }
   return (
@@ -97,5 +99,5 @@ export function CourseInfoWithRedux(props) {
 }
 
 export const CourseInfo = connect(({ course, loading }) => ({
-  course
+  course,
 }))(CourseInfoWithRedux);

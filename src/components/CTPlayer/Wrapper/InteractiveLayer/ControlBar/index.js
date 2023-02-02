@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import './index.scss';
 import {
   PlayButton,
@@ -11,20 +11,12 @@ import {
 } from 'screens/Watch/Components/ControlBar/CtrlButtons';
 import VolumeControl from 'screens/Watch/Components/ControlBar/VolumeControl';
 import TimeDisplay from 'screens/Watch/Components/ControlBar/TimeDisplay';
-import {
-  ClosedCaption,
-} from 'screens/Watch/Components/Overlays';
+import { ClosedCaption } from 'screens/Watch/Components/Overlays';
 import Progress from './Progress';
 import ClosedCaptionMenu from '../SettingsMenu/ClosedCaptionMenu';
 
 function ControlBar(props) {
-  const {
-    dispatch,
-    isTwoScreen,
-    userReady = true,
-    duration,
-    time,
-  } = props;
+  const { dispatch, isTwoScreen, userReady = true, duration, time } = props;
 
   // ctp act-btn
 
@@ -59,4 +51,3 @@ function ControlBar(props) {
 }
 
 export default connect()(ControlBar);
-

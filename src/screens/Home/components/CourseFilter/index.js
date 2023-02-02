@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 import { CTFragment, CTSelect, CTFormRow } from 'layout';
@@ -13,25 +13,25 @@ function CourseFilter(props) {
     selUniversity,
     selDepartments,
     selTerms,
-    dispatch
+    dispatch,
   } = props;
-  const universityOptions = universities.map(uni => ({ value: uni.id, text: uni.name }));
-  const departmentOptions = departments.map(dep => ({ value: dep.id, text: dep.name }));
-  const termOptions = terms.map(term => ({ value: term.id, text: term.name }));
+  const universityOptions = universities.map((uni) => ({ value: uni.id, text: uni.name }));
+  const departmentOptions = departments.map((dep) => ({ value: dep.id, text: dep.name }));
+  const termOptions = terms.map((term) => ({ value: term.id, text: term.name }));
 
   const showDepartments = selUniversity && !isMobile && departmentOptions.length > 0;
   const showTerms = selUniversity && !isMobile && termOptions.length > 0;
 
-  const handleUniversityChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectUniversity', payload: value})
+  const handleUniversityChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectUniversity', payload: value });
   };
 
-  const handleDepartmentsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectDepartments', payload: value})
+  const handleDepartmentsChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectDepartments', payload: value });
   };
 
-  const handleTermsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectTerms', payload: value})
+  const handleTermsChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectTerms', payload: value });
   };
   return (
     <CTFragment sticky={!isMobile} offsetTop="50" className="ct-homep course-filter">
@@ -44,11 +44,9 @@ function CourseFilter(props) {
           value={selUniversity}
           options={universityOptions}
           onChange={handleUniversityChange}
-          className={cx({ 'selected': Boolean(selUniversity) })}
+          className={cx({ selected: Boolean(selUniversity) })}
         />
-        {
-          showDepartments
-          &&
+        {showDepartments && (
           <CTSelect
             id="home-departs-filter"
             placeholder="Filter by departments"
@@ -60,11 +58,9 @@ function CourseFilter(props) {
             underlined
             multiple
           />
-        }
+        )}
 
-        {
-          showTerms
-          &&
+        {showTerms && (
           <CTSelect
             id="home-terms-filter"
             placeholder="Filter by terms"
@@ -76,13 +72,13 @@ function CourseFilter(props) {
             multiple
             underlined
           />
-        }
+        )}
       </CTFormRow>
     </CTFragment>
   );
 }
-export default connect(({home}) => {
+export default connect(({ home }) => {
   return {
-    ...home
-  }
+    ...home,
+  };
 })(CourseFilter);

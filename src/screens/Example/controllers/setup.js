@@ -1,4 +1,4 @@
-import { StateController } from "utils/state-controller";
+import { StateController } from 'utils/state-controller';
 import { api } from 'utils';
 
 class SetupExamplePage extends StateController {
@@ -8,7 +8,7 @@ class SetupExamplePage extends StateController {
     this.register({ setOfferings });
   }
 
-  offerings = []
+  offerings = [];
   setOfferings(offerings) {
     this.setState('setOfferings', 'offerings', offerings);
   }

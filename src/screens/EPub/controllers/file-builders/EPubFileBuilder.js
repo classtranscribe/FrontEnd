@@ -2,7 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import { EPubData } from 'entities/EPubs';
-import { AmpStories } from '@material-ui/icons';
+// import { AmpStories } from '@material-ui/icons';
 import { links } from 'utils';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';

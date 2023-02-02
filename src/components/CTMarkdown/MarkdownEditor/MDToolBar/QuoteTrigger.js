@@ -6,16 +6,12 @@ import { insertQuote } from '../ace/ace-controller';
 function QuoteTrigger(props) {
   const { ace } = props;
   return (
-    <MDToolButton
-      icon="format_quote"
-      popup="Insert a Quote"
-      onClick={() => insertQuote(ace)}
-    />
+    <MDToolButton icon="format_quote" popup="Insert a Quote" onClick={() => insertQuote(ace)} />
   );
 }
 
 QuoteTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default QuoteTrigger;

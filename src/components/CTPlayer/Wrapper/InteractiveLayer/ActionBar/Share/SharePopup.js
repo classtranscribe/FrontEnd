@@ -4,11 +4,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Button } from 'pico-ui';
 
 function SharePopup(props) {
-  let {
-    open,
-    shareLink,
-    onClose,
-  } = props;
+  let { open, shareLink, onClose } = props;
 
   const shareLinkRef = useRef();
   const [copyStatus, setCopyStatus] = useState(0);
@@ -34,9 +30,7 @@ function SharePopup(props) {
   const copied = copyStatus > 0;
 
   return open ? (
-    <ClickAwayListener
-      onClickAway={onClose}
-    >
+    <ClickAwayListener onClickAway={onClose}>
       <div
         role="dialog"
         id="ctp-share-con"
@@ -46,12 +40,7 @@ function SharePopup(props) {
       >
         <h5 id="ctp-share-title">SHARE LINK</h5>
         <div className="ctp share-link">
-          <input
-            readOnly
-            ref={shareLinkRef}
-            value={shareLink}
-            onFocus={selectLinkInput}
-          />
+          <input readOnly ref={shareLinkRef} value={shareLink} onFocus={selectLinkInput} />
         </div>
         <div className="ctp ct-d-r-end">
           <Button
@@ -63,12 +52,7 @@ function SharePopup(props) {
           >
             {copied ? 'COPIED' : 'COPY LINK'}
           </Button>
-          <Button
-            compact
-            color="black"
-            onClick={onClose}
-            classNames="ml-2"
-          >
+          <Button compact color="black" onClick={onClose} classNames="ml-2">
             CANCEL
           </Button>
         </div>
@@ -84,4 +68,3 @@ SharePopup.propTypes = {
 };
 
 export default SharePopup;
-

@@ -31,13 +31,11 @@ function CTNavSidebar(props) {
         <div id="ct-nsb-con">
           {brandElem}
 
-          {
-            items.length > 0 
-            ? 
-              <SidebarNavItems darkMode={darkMode} mini={mini} items={items} />
-            :
+          {items.length > 0 ? (
+            <SidebarNavItems darkMode={darkMode} mini={mini} items={items} />
+          ) : (
             children
-          }
+          )}
 
           {signinPromptElement}
         </div>
@@ -51,10 +49,9 @@ export const CTNavSidebarPropTypes = {
   show: PropTypes.bool,
 
   /** Nav list items on sidebar */
-  items: PropTypes.arrayOf(PropTypes.oneOfType([
-    PropTypes.shape(SidebarItemPropTypes),
-    PropTypes.string
-  ])),
+  items: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.shape(SidebarItemPropTypes), PropTypes.string]),
+  ),
 
   /** The sidebar can have a brand element */
   brandElem: PropTypes.node,
@@ -64,7 +61,7 @@ export const CTNavSidebarPropTypes = {
 
   /** The sidebar supports a mini view */
   mini: PropTypes.bool,
-  
+
   /** True if display the floating sidebar */
   float: PropTypes.bool,
 
@@ -72,7 +69,7 @@ export const CTNavSidebarPropTypes = {
   darkMode: PropTypes.bool,
 
   /** Handle close the sidebar */
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 CTNavSidebar.propTypes = CTNavSidebarPropTypes;

@@ -8,7 +8,7 @@ function CardPlaceholder() {
       <Skeleton variant="rect" width={130} height={25} />
       <Skeleton className="mt-1" variant="rect" width={200} height={20} />
 
-      <CTFragment margin={[10, 0,0,0]}>
+      <CTFragment margin={[10, 0, 0, 0]}>
         <Skeleton variant="text" width={160} />
         <Skeleton variant="text" width={230} />
         <Skeleton variant="text" width={230} />

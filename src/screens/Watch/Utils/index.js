@@ -1,8 +1,9 @@
-import { connect } from 'dva'
-import _ from 'lodash'
-import { 
-  // timeStrToSec, 
-  colorMap } from './helpers';
+import { connect } from 'dva';
+import _ from 'lodash';
+import {
+  // timeStrToSec,
+  colorMap,
+} from './helpers';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -44,10 +45,10 @@ export const connectWithRedux = (Component, property) => {
     property.map((key) => {
       props[key] = watch[key];
       return false;
-    })
+    });
     return props;
   })(Component);
-}
+};
 export const getCCStyle = (options) => {
   const {
     cc_color = CC_COLOR_WHITE,
@@ -75,10 +76,10 @@ export const getCCStyle = (options) => {
   }
 
   return { ccStyle, ccContainerStyle };
-}
+};
 /**
-* Function that scrolls the captions
-*/
+ * Function that scrolls the captions
+ */
 export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
   let capId = id;
   if (!capId) return;
@@ -92,8 +93,8 @@ export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
   if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'auto';
   capElem.classList.add('curr-line');
   const scrollTop =
-      window.innerWidth < 900 || !isTwoScreen ? capElem.offsetTop - 50 : capElem.offsetTop - 80;
+    window.innerWidth < 900 || !isTwoScreen ? capElem.offsetTop - 50 : capElem.offsetTop - 80;
   // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400 NOT IMPLEMENTED
   tranBox.scrollTop = scrollTop;
   if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'smooth';
-}
+};

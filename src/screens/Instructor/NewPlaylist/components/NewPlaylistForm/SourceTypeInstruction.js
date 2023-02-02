@@ -16,9 +16,7 @@ function SourceTypeInstruction() {
       <CTFragment dFlexCol role="list">
         <CTFragment role="listitem">
           <CTHeading {...getHeadingProps(2)}>Upload</CTHeading>
-          <CTText padding={textPadding}>
-            Manually upload video files (MP4 file).
-          </CTText>
+          <CTText padding={textPadding}>Manually upload video files (MP4 file).</CTText>
         </CTFragment>
         <CTFragment role="listitem">
           <CTHeading {...getHeadingProps(0)}>Echo360</CTHeading>
@@ -29,8 +27,8 @@ function SourceTypeInstruction() {
         <CTFragment role="listitem">
           <CTHeading {...getHeadingProps(1)}>YouTube</CTHeading>
           <CTText padding={textPadding}>
-            Host videos from YouTube using <strong>Playlist ID</strong> of your YouTube playlist
-            or <strong>Channel ID</strong> of your YouTube channel.
+            Host videos from YouTube using <strong>Playlist ID</strong> of your YouTube playlist or{' '}
+            <strong>Channel ID</strong> of your YouTube channel.
           </CTText>
         </CTFragment>
         <CTFragment role="listitem">
@@ -47,10 +45,9 @@ function SourceTypeInstruction() {
         </CTFragment>
       </CTFragment>
 
-
       <CTFragment padding={[20, 0, 0, 0]}>
-        Except for &quot;Upload&quot;, each playlist type requires some source identifier 
-        to enable us to extract the videos.
+        Except for &quot;Upload&quot;, each playlist type requires some source identifier to enable
+        us to extract the videos.
       </CTFragment>
     </CTFormHelp>
   );

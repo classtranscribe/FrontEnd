@@ -16,7 +16,7 @@ class UrlHandler {
     const href2_ = href2 === undefined ? window.location.pathname : href2;
     return href1 === href2_;
   }
-  
+
   /**
    * Validate the url
    * @param {String} url a url to validate
@@ -43,7 +43,7 @@ class UrlHandler {
 
   /**
    * Open url in a new browser tab
-   * @param {String} url 
+   * @param {String} url
    */
   openNewTab(url) {
     let win = window.open(url, '_blank');
@@ -143,9 +143,7 @@ class UrlHandler {
    */
   useHash(href) {
     return this.useParams(
-      this.isValidUrl(href)
-        ? href.substring(href.indexOf('#'), href.length)
-        : window.location.hash,
+      this.isValidUrl(href) ? href.substring(href.indexOf('#'), href.length) : window.location.hash,
     );
   }
 

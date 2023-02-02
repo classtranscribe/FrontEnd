@@ -4,17 +4,13 @@ import { CTPlayerConstants as PConstants } from '../../../controllers';
 import MenuItem from './MenuItem';
 
 function CCOpacityMenu(props) {
-  let {
-    opacity,
-    setCCOpacity,
-    onGoBack
-  } = props;
+  let { opacity, setCCOpacity, onGoBack } = props;
 
   return (
     <div className="ctp settings-menu">
       <MenuItem goBack text="CC Background Opacity" onClick={onGoBack} />
 
-      {PConstants.CCOpacities.map(_opac => (
+      {PConstants.CCOpacities.map((_opac) => (
         <MenuItem
           key={_opac}
           text={_opac}
@@ -29,8 +25,7 @@ function CCOpacityMenu(props) {
 CCOpacityMenu.propTypes = {
   opacity: PropTypes.string.isRequired,
   setCCOpacity: PropTypes.func.isRequired,
-  onGoBack: PropTypes.func.isRequired
+  onGoBack: PropTypes.func.isRequired,
 };
 
 export default CCOpacityMenu;
-

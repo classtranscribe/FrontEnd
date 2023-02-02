@@ -8,22 +8,14 @@ function ActionButtonGroup(props) {
 
   return (
     <CTFragment alignItCenter justConBetween className="ct-md-act-btns-con">
-      <CTText padding={[0, 20]}><b>ctrl + s</b> to save the changes</CTText>
+      <CTText padding={[0, 20]}>
+        <b>ctrl + s</b> to save the changes
+      </CTText>
 
       <Button.Group>
-        <Button
-          classNames="ct-md-act-btn"
-          color="transparent teal"
-          text="SAVE"
-          onClick={onSave}
-        />
+        <Button classNames="ct-md-act-btn" color="transparent teal" text="SAVE" onClick={onSave} />
 
-        <Button
-          classNames="ct-md-act-btn"
-          color="transparent"
-          text="CANCEL"
-          onClick={onClose}
-        />
+        <Button classNames="ct-md-act-btn" color="transparent" text="CANCEL" onClick={onClose} />
       </Button.Group>
     </CTFragment>
   );
@@ -31,7 +23,7 @@ function ActionButtonGroup(props) {
 
 ActionButtonGroup.propTypes = {
   onSave: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 export default ActionButtonGroup;

@@ -10,11 +10,11 @@ export { default as CTFilterInput } from './DefaultFilter';
 
 /**
  * A general filter component for classtranscribe
- * can be used to get the data at least one of specified attributes of which 
+ * can be used to get the data at least one of specified attributes of which
  * contains all the target values
- * 
+ *
  * @example
- * // render a filter with input field, which will filter the data on 'name' for the value entered in the input field 
+ * // render a filter with input field, which will filter the data on 'name' for the value entered in the input field
  * and show the result as a list of MediaItem.
  * <CTFilter
  *    withDefaultFilter
@@ -41,7 +41,7 @@ function CTFilter(props) {
     withDefaultFilter = false,
     children,
     onFilterValueChange,
-    onReversed
+    onReversed,
   } = props;
 
   // Determine if the data is a valid array
@@ -56,10 +56,10 @@ function CTFilter(props) {
   // function used to get filter result
   const getResult = (val) => {
     return search.getResults(data, val, keys, {
-      flags: regexFlags
+      flags: regexFlags,
     });
   };
-  
+
   useEffect(() => {
     // in the case when withDefaultFilter = false,
     // update target value when new `value` passed from the outer input field changes
@@ -98,7 +98,7 @@ function CTFilter(props) {
   }, [thisReversed]);
 
   const handleReverse = () => {
-    setThisReversed(rev => !rev)
+    setThisReversed((rev) => !rev);
     setResult(result.slice().reverse());
   };
 
@@ -110,7 +110,7 @@ function CTFilter(props) {
       placeholder: 'Filter...',
       reversed: thisReversed,
       onInputChange: ({ target }) => setFilterVal(target.value),
-      onToggleReverse: handleReverse
+      onToggleReverse: handleReverse,
     };
     defaultFilterElement = <DefaultFilter {...defaultFilterProps} />;
   }
@@ -155,7 +155,7 @@ CTFilter.propTypes = {
   onFilterValueChange: PropTypes.func,
 
   /** call-back function for changing 'reversed' which takes 'reversed' as param */
-  onReversed: PropTypes.func
+  onReversed: PropTypes.func,
 };
 
 export default CTFilter;

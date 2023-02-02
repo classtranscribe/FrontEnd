@@ -6,17 +6,10 @@ import RangeInput from './RangeInput';
 import './index.scss';
 
 function RangeContolBar(props) {
-  let {
-    id,
-    duration,
-    time,
-    range,
-    onRangeChange,
-    onPlayRange
-  } = props;
+  let { id, duration, time, range, onRangeChange, onPlayRange } = props;
 
   const inputProps = {
-    id: `input-${ id}`,
+    id: `input-${id}`,
     duration,
     range,
     onRangeChange,
@@ -37,8 +30,7 @@ RangeContolBar.propTypes = {
   time: PropTypes.number,
   range: PropTypes.arrayOf(PropTypes.number),
   onRangeChange: PropTypes.func,
-  onPlayRange: PropTypes.func
+  onPlayRange: PropTypes.func,
 };
 
 export default RangeContolBar;
-

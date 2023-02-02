@@ -11,12 +11,12 @@ function StarButton(props) {
   const setup = {};
   const btn = useButtonStyles();
   return (
-    <Button 
+    <Button
       variant={isStarred ? 'outlined' : 'contained'}
-      className={cx(btn.teal, 'mb-2')} 
+      className={cx(btn.teal, 'mb-2')}
       startIcon={isStarred ? <StarBorderIcon /> : <StarIcon />}
       size="large"
-      onClick={() => onStarAction(!isStarred)} 
+      onClick={() => onStarAction(!isStarred)}
     >
       {isStarred ? 'Unstar' : 'Star'}
     </Button>
@@ -24,8 +24,7 @@ function StarButton(props) {
 }
 
 StarButton.propTypes = {
-  isStarred: PropTypes.bool
+  isStarred: PropTypes.bool,
 };
 
 export default StarButton;
-

@@ -9,31 +9,25 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-
-
 function TransTable(media = undefined) {
-  const [language, setLanguage] = useState('en-US')
-  const [captions, setCaptions] = useState([])
-
+  const [language, setLanguage] = useState('en-US');
+  const [captions, setCaptions] = useState([]);
 
   useEffect(() => {
     if (!media.media.isUnavailable) {
-      media.media.transcriptions.forEach(
-        (val) => {
-          if (val.language === language) {
-            // console.log(val.id)
-            api.getCaptionsByTranscriptionId(val.id).then((res) => {
-              if (res && res.status === 200)
-                // res.data is the captions array
-                setCaptions(res.data)
-              // console.log(res.data)
-            })
-          }
+      media.media.transcriptions.forEach((val) => {
+        if (val.language === language) {
+          // console.log(val.id)
+          api.getCaptionsByTranscriptionId(val.id).then((res) => {
+            if (res && res.status === 200)
+              // res.data is the captions array
+              setCaptions(res.data);
+            // console.log(res.data)
+          });
         }
-      )
+      });
     }
-  }, [media])
-
+  }, [media]);
 
   return (
     <CTFragment id="msp-t-table-con" data-scroll>

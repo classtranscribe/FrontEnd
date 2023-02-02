@@ -29,7 +29,9 @@ class EPubListController {
 
     // Process ePub data
     const ePubData = EPubData.create(rawEPubData, {
-      sourceType, sourceId, ...data
+      sourceType,
+      sourceId,
+      ...data,
     }).toObject();
 
     delete ePubData.id;
@@ -42,9 +44,7 @@ class EPubListController {
       return null;
     }
 
-    uurl.openNewTab(
-      links.epub(newEPubData.id, Constants.EpbEditStructure, Constants.HFromNew)
-    );
+    uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure, Constants.HFromNew));
 
     return newEPubData;
   }
@@ -84,12 +84,12 @@ class EPubListController {
       if (!source || !source.transcriptions) {
         return [];
       }
-      return source.transcriptions.map(trans => trans.language);
+      return source.transcriptions.map((trans) => trans.language);
     }
   }
 
   async getSource(sourceType, sourceId) {
-    let source = null
+    let source = null;
     if (sourceType === SourceTypes.Media) {
       source = await this.getMedia(sourceId);
     }
@@ -117,13 +117,13 @@ class EPubListController {
 
   async requestEPub(sourceType, sourceId) {
     if (sourceType === SourceTypes.Media) {
-      await this.requestMediaEPub(sourceId)
+      await this.requestMediaEPub(sourceId);
     }
 
     prompt.addOne({
       text: 'Request sent.',
       status: 'success',
-      timeout: 3000
+      timeout: 3000,
     });
   }
 
@@ -158,7 +158,7 @@ class EPubListController {
     try {
       await api.updateEPubSimple(epubId, resp.data);
     } catch {
-      console.error(`Failed to rename a epub for ${epubId}`)
+      console.error(`Failed to rename a epub for ${epubId}`);
     }
   }
 }

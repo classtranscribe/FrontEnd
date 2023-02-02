@@ -1,23 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuid} from 'uuid'
+import { v4 as uuid } from 'uuid';
 import { SidebarItem, SidebarItemPropTypes } from './SidebarItem';
 
 export function SidebarNavItems(props) {
-  let {
-    darkMode = false,
-    mini,
-    items
-  } = props;
+  let { darkMode = false, mini, items } = props;
 
   return (
     <div className="ct-nsb-ul">
-      {items.map( item => (
+      {items.map((item) => (
         <SidebarItem
           key={item.value || `breakline-${uuid()}`}
           mini={mini}
-          darkMode={darkMode} 
-          breakline={item === 'breakline'} 
+          darkMode={darkMode}
+          breakline={item === 'breakline'}
           {...item}
         />
       ))}
@@ -33,8 +29,7 @@ SidebarNavItems.propTypes = {
   mini: PropTypes.bool,
 
   /** Nav items */
-  items: PropTypes.arrayOf(PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape(SidebarItemPropTypes)
-  ]))
+  items: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.shape(SidebarItemPropTypes)]),
+  ),
 };

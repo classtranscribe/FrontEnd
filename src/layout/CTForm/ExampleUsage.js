@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
   CTFragment,
-  CTForm, 
-  CTFormHeading, 
+  CTForm,
+  CTFormHeading,
   CTFormHelp,
-  CTFormRow, 
+  CTFormRow,
   CTInput,
   CTSelect,
   CTCheckbox,
@@ -16,15 +16,15 @@ export function BasicForm() {
   const [inputVal, setInputVal] = useState('');
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleInputChange = ({ target: { value }}) => setInputVal(value);
-  const handleCheckChange = ({ target: { checked }}) => setIsChecked(checked);
+  const handleInputChange = ({ target: { value } }) => setInputVal(value);
+  const handleCheckChange = ({ target: { checked } }) => setIsChecked(checked);
 
   return (
     <CTForm
       collapsible
-      padding={[10, 35]} 
-      id="ctform-basics" 
-      heading="Basic Usage" 
+      padding={[10, 35]}
+      id="ctform-basics"
+      heading="Basic Usage"
       details="Basic usage of the CTForm, includes CTInput, CTCheckbox and etc."
       onSave={() => 1}
       onCancel={() => 1}
@@ -53,7 +53,7 @@ export function BasicForm() {
       </CTFormRow>
 
       <CTFormRow>
-        <CTInput 
+        <CTInput
           textarea
           id="course-description"
           defaultValue={`The description for System Programming \nCan have multiples`}
@@ -64,9 +64,7 @@ export function BasicForm() {
       {/* Instruction box */}
       <CTFormHeading>Instruction box</CTFormHeading>
 
-      <CTFormHelp title="Help">
-        You can write a instruction here
-      </CTFormHelp>
+      <CTFormHelp title="Help">You can write a instruction here</CTFormHelp>
 
       <CTFormRow padding={[0, 10]}>
         <CTInput
@@ -90,12 +88,11 @@ export function BasicForm() {
         />
       </CTFormRow>
 
-
       {/* Checkbox */}
       <CTFormHeading>Checkbox</CTFormHeading>
 
       <CTFormRow padding={[0, 10]}>
-        <CTCheckbox 
+        <CTCheckbox
           id="log-event"
           legend="An checkbox example"
           label="Log student events"
@@ -121,13 +118,13 @@ export function BasicForm() {
 
 export function AdvancedForm() {
   const [option, setOption] = useState('opt-1');
-  const handleSelect = ({ target: { value }}) => setOption(value);
+  const handleSelect = ({ target: { value } }) => setOption(value);
 
   const exampleOptions = [
-    {value: 'opt-1', text: 'Computer Science'},
-    {value: 'opt-2', text: 'Mathematics'},
-    {value: 'opt-3', text: 'Business', description: 'A description to option 3'},
-    {value: 'opt-4', text: 'Statistics', description: 'A description to option 4'}
+    { value: 'opt-1', text: 'Computer Science' },
+    { value: 'opt-2', text: 'Mathematics' },
+    { value: 'opt-3', text: 'Business', description: 'A description to option 3' },
+    { value: 'opt-4', text: 'Statistics', description: 'A description to option 4' },
   ];
 
   return (
@@ -137,7 +134,7 @@ export function AdvancedForm() {
       id="ctform-sel"
       heading="Advanced Usage"
       details="Advacted usage of the CTForm, includes Select and AutoComplete."
-      onSaveButtonText="Create" 
+      onSaveButtonText="Create"
       onSave={() => 1}
       onCancel={() => 1}
     >
@@ -167,12 +164,11 @@ export function AdvancedForm() {
         />
       </CTFormRow>
 
-
       {/* Auto Complete */}
       <CTFormHeading>Auto Complete</CTFormHeading>
 
       <CTFormRow>
-        <CTAutoComplete 
+        <CTAutoComplete
           id="auto-complete-example-1"
           label="Auto complete example"
           options={exampleOptions}
@@ -192,7 +188,6 @@ export function AdvancedForm() {
     </CTForm>
   );
 }
-
 
 export function UploadForm() {
   const handleFileUpload = (files) => {
@@ -216,12 +211,10 @@ export function UploadForm() {
       <CTUploadButton fluid id="upload-fluid" onFileChange={handleFileUpload} />
 
       <CTFormHeading>Upload Images</CTFormHeading>
-      <CTFormHelp title="Usage">
-        You can only upload image files
-      </CTFormHelp>
+      <CTFormHelp title="Usage">You can only upload image files</CTFormHelp>
 
-      <CTUploadButton 
-        id="upload-images" 
+      <CTUploadButton
+        id="upload-images"
         onFileChange={handleFileUpload}
         accept="image/*"
         icon="add_a_photo"

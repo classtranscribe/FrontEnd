@@ -5,15 +5,13 @@ import { CTFragment, CTFormHelp, CTUploadButton, CTText } from 'layout';
 import { uemail, prompt } from 'utils';
 
 function UploadFile(props) {
-  const {
-    emails,
-  } = props;
+  const { emails } = props;
 
   const onLoadFile = async (event) => {
     let results = uemail.extract(event.target.result);
     if (!Array.isArray(results)) return;
-    
-    emails.setValue(oldEmails => {
+
+    emails.setValue((oldEmails) => {
       let newEmails = _.difference(results, oldEmails);
       prompt.addOne({ text: `Added ${newEmails.length} emails.`, timeout: 3000 });
       return [...newEmails, ...oldEmails];
@@ -34,13 +32,10 @@ function UploadFile(props) {
     <CTFragment>
       <CTFormHelp title="INSTRUCTION">
         <CTFragment>
-          Please upload a text file (e.g. .csv/.txt) with a list of emails. 
-          The emails can be separated by 
-          <code> &apos;,&apos;</code>, 
-          <code> &apos;;&apos;</code>, 
-          <code> &apos;{'<>'}&apos;</code>, 
-          <code> &apos;:&apos;</code>, 
-          <code> space</code>, and 
+          Please upload a text file (e.g. .csv/.txt) with a list of emails. The emails can be
+          separated by
+          <code> &apos;,&apos;</code>,<code> &apos;;&apos;</code>,<code> &apos;{'<>'}&apos;</code>,
+          <code> &apos;:&apos;</code>,<code> space</code>, and
           <code> breakline</code>. <br />
         </CTFragment>
         <CTFragment className="email-list-uploadbtw-example">
@@ -54,8 +49,8 @@ function UploadFile(props) {
           <div>...</div>
         </CTFragment>
       </CTFormHelp>
-      <CTUploadButton 
-        fluid 
+      <CTUploadButton
+        fluid
         id="upload-email-list"
         onFileChange={handleFileUpload}
         accept=".csv,.txt"
@@ -66,7 +61,7 @@ function UploadFile(props) {
 }
 
 UploadFile.propTypes = {
-    emails: PropTypes.any,
+  emails: PropTypes.any,
 };
 
 export default UploadFile;

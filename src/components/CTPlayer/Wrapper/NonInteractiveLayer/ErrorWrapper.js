@@ -4,7 +4,11 @@ import { SignInPrompt } from 'components';
 import { user } from 'utils';
 
 function ErrorWrapper({ error }) {
-  let errorPrompt = <CTText white size="medium">Media Unavailable: {error} Error</CTText>;
+  let errorPrompt = (
+    <CTText white size="medium">
+      Media Unavailable: {error} Error
+    </CTText>
+  );
   if (error === 401) {
     if (user.isLoggedIn) {
       errorPrompt = (
@@ -25,7 +29,7 @@ function ErrorWrapper({ error }) {
   }
 
   return (
-    <CTFragment center dFlexCol>      
+    <CTFragment center dFlexCol>
       {errorPrompt}
     </CTFragment>
   );

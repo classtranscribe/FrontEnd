@@ -52,5 +52,5 @@ SignInMenu.propTypes = {
   anchorEl: PropTypes.element,
 
   /** Handle menu close */
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
 };

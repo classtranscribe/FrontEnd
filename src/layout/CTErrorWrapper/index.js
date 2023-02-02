@@ -23,7 +23,7 @@ function CTErrorWrapper(props) {
     redirectUri = window.location.href,
     code = '404',
     header = 'The page cannot be found',
-    description = 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.'
+    description = 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
   } = props;
 
   const signinProps = useSignButtonProps(redirectUri);
@@ -41,27 +41,21 @@ function CTErrorWrapper(props) {
         </div>
 
         <div className="ct-ew-actions">
-          {
-            (signInButton && !user.isLoggedIn) 
-            &&
+          {signInButton && !user.isLoggedIn && (
             <Button {...signinProps}>Sign In to Continue</Button>
-          }
+          )}
 
-          {
-            goHomeButton 
-            && 
+          {goHomeButton && (
             <Button component={Link} className={bthStyles.tealLink} to={links.home()}>
               GO HOME
             </Button>
-          }
+          )}
 
-          {
-            retry 
-            && 
+          {retry && (
             <Button component="a" className={bthStyles.tealLink} to={links.currentUrl()}>
               REFRESH THE PAGE
             </Button>
-          }
+          )}
         </div>
       </div>
     </div>
@@ -97,7 +91,7 @@ CTErrorWrapper.propTypes = {
   header: PropTypes.any,
 
   /** The error description */
-  description: PropTypes.any
+  description: PropTypes.any,
 };
 
 export default CTErrorWrapper;

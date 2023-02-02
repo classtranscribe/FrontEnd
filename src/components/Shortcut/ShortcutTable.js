@@ -20,21 +20,14 @@ import PropTypes from 'prop-types';
  * ]
  */
 function ShortcutTable(props) {
-  const {
-    fullWidth,
-    shortcuts = []
-  } = props;
+  const { fullWidth, shortcuts = [] } = props;
 
   return (
     <div id="ct-shortcuts-table-container" className={cx({ fullWidth })}>
       <span className="shortcuts-table-row">
         {shortcuts.map((catagory) => (
           <div className="shortcuts-table-col" key={catagory.category}>
-            {
-              catagory.category
-              &&
-              <h3 className="shortcuts-table-h3">{catagory.category}</h3>
-            }
+            {catagory.category && <h3 className="shortcuts-table-h3">{catagory.category}</h3>}
             <table className="shortcuts-table" role="presentation">
               <tbody>
                 {catagory.actions.map((action) => (
@@ -67,21 +60,26 @@ function ShortcutKey({ skey, or, and }) {
     </span>
   ) : isArray ? (
     <span>
-      {skey.map((key, index) => <ShortcutKey skey={key} key={key} and={index > 0} />)}
+      {skey.map((key, index) => (
+        <ShortcutKey skey={key} key={key} and={index > 0} />
+      ))}
     </span>
   ) : null;
 }
 
 ShortcutTable.propTypes = {
   fullWidth: PropTypes.bool,
-  shortcuts: PropTypes.arrayOf(PropTypes.shape({
-    catagory: PropTypes.string,
-    actions: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      keys: PropTypes.array
-    }))
-  }))
+  shortcuts: PropTypes.arrayOf(
+    PropTypes.shape({
+      catagory: PropTypes.string,
+      actions: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          keys: PropTypes.array,
+        }),
+      ),
+    }),
+  ),
 };
 
 export default ShortcutTable;
-

@@ -15,14 +15,7 @@ import InsertMedia from './InsertMedia';
 import MathBlockTrigger from './MathBlockTrigger';
 
 function MDToolBar(props) {
-  const {
-    ace,
-    isPreview,
-    imageTabs,
-    defaultImage,
-    openPreview,
-    closePreview,
-  } = props;
+  const { ace, isPreview, imageTabs, defaultImage, openPreview, closePreview } = props;
 
   return (
     <div className="ct-md-toolbar">
@@ -62,15 +55,9 @@ function MDToolBar(props) {
           <MathBlockTrigger ace={ace} />
 
           <InsertLinkTrigger ace={ace} />
-          {
-            Boolean(imageTabs.length)
-            &&
-            <InsertMedia
-              ace={ace}
-              imageTabs={imageTabs}
-              defaultImage={defaultImage}
-            />
-          }
+          {Boolean(imageTabs.length) && (
+            <InsertMedia ace={ace} imageTabs={imageTabs} defaultImage={defaultImage} />
+          )}
         </div>
       )}
     </div>

@@ -10,47 +10,32 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 export const useStyles = makeStyles({
   root: {
     '&.MuiIconButton-colorSecondary:hover': {
-      backgroundColor: 'rgba(51, 138, 133, 0.13)'
+      backgroundColor: 'rgba(51, 138, 133, 0.13)',
     },
     '&.MuiCheckbox-colorSecondary.Mui-checked': {
-      color: '#348b86'
-    }
+      color: '#348b86',
+    },
   },
 });
 
 function Checkbox(props) {
-  let {
-    id,
-    legend,
-    label,
-    helpText,
-    checked,
-    error = false,
-    disabled = false,
-    onChange,
-  } = props;
+  let { id, legend, label, helpText, checked, error = false, disabled = false, onChange } = props;
 
   const checkboxProps = {
     id,
     disabled,
     checked,
     classes: useStyles(),
-    onChange
+    onChange,
   };
 
-  const checkboxElement = (
-    <MuiCheckbox {...checkboxProps} />
-  );
+  const checkboxElement = <MuiCheckbox {...checkboxProps} />;
 
   return (
     <FormControl required error={error} component="fieldset">
       {Boolean(legend) && <FormLabel component="legend">{legend}</FormLabel>}
 
-      <FormControlLabel
-        control={checkboxElement}
-        label={label}
-        htmlFor={id}
-      />
+      <FormControlLabel control={checkboxElement} label={label} htmlFor={id} />
 
       {Boolean(helpText) && <FormHelperText>{helpText}</FormHelperText>}
     </FormControl>
@@ -80,10 +65,9 @@ Checkbox.propTypes = {
   disabled: PropTypes.bool,
 
   /** call back when value changed */
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 Checkbox.useStyles = useStyles;
 
 export default Checkbox;
-

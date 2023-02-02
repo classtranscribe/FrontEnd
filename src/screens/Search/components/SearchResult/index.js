@@ -4,18 +4,22 @@ import { CourseCardList } from 'components';
 import { ARRAY_INIT } from 'utils/constants';
 
 function SearchResultWithRedux(props) {
-  const {search} = props;
+  const { search } = props;
   let { searchResult } = search;
-  
+
   const { courseResult } = searchResult;
 
   let resultListElement = null;
   if (!courseResult) {
     resultListElement = null;
   } else if (courseResult.length === 0) {
-    resultListElement = <div className="no-results"><span>No Results</span></div>;
+    resultListElement = (
+      <div className="no-results">
+        <span>No Results</span>
+      </div>
+    );
   } else if (courseResult.length > 0) {
-    resultListElement = <CourseCardList row courses={courseResult} />
+    resultListElement = <CourseCardList row courses={courseResult} />;
   }
 
   return (

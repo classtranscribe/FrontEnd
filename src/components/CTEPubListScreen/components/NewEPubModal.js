@@ -1,45 +1,33 @@
 import React from 'react';
 import cx from 'classnames';
 import { Button } from '@material-ui/core';
-import {
-  CTModal,
-  CTFragment,
-  CTInput,
-  CTSelect,
-  CTFormRow,
-  useButtonStyles
-} from 'layout';
+import { CTModal, CTFragment, CTInput, CTSelect, CTFormRow, useButtonStyles } from 'layout';
 import { useInput } from 'hooks';
 import { elem } from 'utils/use-elem';
 import { LanguageConstants } from '../../CTPlayer';
 
-function NewEPubModal({
-  open,
-  onClose,
-  onCreate,
-  languages = [],
-  defaultTitle
-}) {
+function NewEPubModal({ open, onClose, onCreate, languages = [], defaultTitle }) {
   const btnStyles = useButtonStyles();
   const title = useInput(defaultTitle);
   const language = useInput(LanguageConstants.English);
 
-  const langOptions = languages.map(
-    lang => ({ value: lang, text: LanguageConstants.decode(lang) })
-  );
+  const langOptions = languages.map((lang) => ({
+    value: lang,
+    text: LanguageConstants.decode(lang),
+  }));
 
   const handleCreate = () => {
     if (typeof onCreate === 'function') {
       onCreate({
         title: title.value,
-        language: language.value
+        language: language.value,
       });
 
       if (typeof onClose === 'function') {
         onClose();
       }
     }
-  }
+  };
 
   const actionElement = (
     <CTFragment justConEnd className="pb-2 pr-2">
@@ -80,7 +68,7 @@ function NewEPubModal({
         </CTFormRow>
 
         <CTFormRow>
-          <CTSelect 
+          <CTSelect
             id="ct-epb-lang-select"
             label="I-Note Language"
             value={language.value}

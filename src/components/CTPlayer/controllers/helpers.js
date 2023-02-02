@@ -13,8 +13,8 @@ export function _getPlayerSize({ width, height, fill, isFullscreen }) {
 
   return {
     minHeight: `${width * 0.5}px`,
-    width: `${width || 560 }px`,
-    height: height ? (`${height }px`) : 'max-content'
+    width: `${width || 560}px`,
+    height: height ? `${height}px` : 'max-content',
   };
 }
 
@@ -27,18 +27,14 @@ export function _getPlayerSize({ width, height, fill, isFullscreen }) {
 export function _isCurrentTimeBlock(block, now) {
   if (!block || !block.begin || !block.end) return false;
 
-  let end = typeof block.end === 'number' 
-          ? block.end 
-          : timestr.toSeconds(block.end);
-  let begin = typeof block.begin === 'number' 
-          ? block.begin 
-          : timestr.toSeconds(block.begin);
+  let end = typeof block.end === 'number' ? block.end : timestr.toSeconds(block.end);
+  let begin = typeof block.begin === 'number' ? block.begin : timestr.toSeconds(block.begin);
 
   return begin <= now && now <= end;
 }
 
 /**
- * Find the current time block using binary search 
+ * Find the current time block using binary search
  * @todo NOT WORKING !!
  * @param {{begin:string, end:string}[]} blocks - array of time blocks `{ begin, end }`
  * @param {Number} now - current time in seconds
@@ -60,7 +56,8 @@ export function _findCurrTimeBlock(blocks, now, startIndex = 0, endIndex) {
 
     if (now > end) {
       lo = mid + 1;
-    } else { // now < begin
+    } else {
+      // now < begin
       hi = mid - 1;
     }
   }
@@ -70,23 +67,22 @@ export function _findCurrTimeBlock(blocks, now, startIndex = 0, endIndex) {
 }
 
 /**
- * 
+ *
  * @param {HTMLVideoElement} videoNode - video element
  * @param {Function} callback - will pass in the screenshot blob's url
  * @see https://stackoverflow.com/questions/23745988/get-an-image-from-the-video/44325898
  */
 export function _captureVideoImage(videoNode, callback) {
-  const canvas = document.createElement("canvas");
+  const canvas = document.createElement('canvas');
   // scale the canvas accordingly
   canvas.width = videoNode.videoWidth;
   canvas.height = videoNode.videoHeight;
   // draw the video at that frame
-  canvas.getContext('2d')
-    .drawImage(videoNode, 0, 0, canvas.width, canvas.height);
+  canvas.getContext('2d').drawImage(videoNode, 0, 0, canvas.width, canvas.height);
   // convert it to a usable data URL
   canvas.toBlob((blob) => {
     if (typeof callback === 'function') {
-      callback(URL.createObjectURL(blob), blob)
+      callback(URL.createObjectURL(blob), blob);
     } else {
       window.open(URL.createObjectURL(blob), blob);
     }
@@ -98,8 +94,7 @@ export function _downloadScreenshotByBlob(imgBlob, time, mediaName) {
 }
 
 export function _encodeScreenshotPath(imgData) {
-  return uurl.getMediaUrl(imgData.imageFile.path) 
-       + uurl.createHash({ ctimgid: imgData.id });
+  return uurl.getMediaUrl(imgData.imageFile.path) + uurl.createHash({ ctimgid: imgData.id });
 }
 
 export async function _decodeScreenshotPath(path) {
@@ -107,7 +102,7 @@ export async function _decodeScreenshotPath(path) {
   if (!ctimgid) return null;
   return {
     url: uurl.purePath(path),
-    id: ctimgid
+    id: ctimgid,
   };
 }
 

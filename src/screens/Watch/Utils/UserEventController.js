@@ -15,7 +15,7 @@ class UserEventController extends UserEventManager {
     if (this.offeringId) data.offeringId = this.offeringId;
     if (this.lang) data.json.lang = this.lang;
     return { ...data };
-  }
+  };
 }
 
 export const uEvent = new UserEventController();

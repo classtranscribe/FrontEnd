@@ -46,7 +46,7 @@ class FeedSectionBuilder {
       id: 'starred-offs-section',
       title: 'Starred Courses',
       icon: 'bookmark',
-      items: starredOfferings
+      items: starredOfferings,
     });
   }
 
@@ -59,22 +59,20 @@ class FeedSectionBuilder {
       title: 'Continue Watching',
       icon: 'history',
       items: watchHistory,
-      link: links.history()
+      link: links.history(),
     });
   }
 
   __getDepartItems(depart, offerings) {
-    const {
-      selUniversity,
-      selDepartments,
-      selTerms
-    } = this;
+    const { selUniversity, selDepartments, selTerms } = this;
 
-    return offerings.filter(off => {
-      return (!this.isFilteringDepart || selDepartments.includes(depart.id))
-            && off.departmentIds.includes(depart.id)
-            && (!this.isFilteringTerm || selTerms.includes(off.termId))
-            && (!this.isFilteringUni || selUniversity === off.universityId)
+    return offerings.filter((off) => {
+      return (
+        (!this.isFilteringDepart || selDepartments.includes(depart.id)) &&
+        off.departmentIds.includes(depart.id) &&
+        (!this.isFilteringTerm || selTerms.includes(off.termId)) &&
+        (!this.isFilteringUni || selUniversity === off.universityId)
+      );
     });
   }
 
@@ -86,10 +84,10 @@ class FeedSectionBuilder {
         title: depart.name,
         subTitle: depart.university ? depart.university.name : '',
         link: links.search(depart.acronym),
-        items: this.__getDepartItems(depart, offerings)
+        items: this.__getDepartItems(depart, offerings),
       }))
       .filter((sec) => sec.items.length > 0);
-    
+
     this.__departmentSections = departSections;
     this.__sections = [...this.__sections, ...departSections];
   }

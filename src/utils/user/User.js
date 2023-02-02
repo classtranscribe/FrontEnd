@@ -52,11 +52,7 @@ export class User {
     TEST: AUTH_TEST,
   };
 
-  authMethods = [
-    AUTH_AUTH0,
-    AUTH_CILOGON,
-    AUTH_TEST
-  ];
+  authMethods = [AUTH_AUTH0, AUTH_CILOGON, AUTH_TEST];
 
   callbackPaths = [links.auth0Callback(), links.ciLogonCallback()];
 
@@ -95,16 +91,16 @@ export class User {
     options = {
       method: AUTH_AUTH0,
       redirectURL: window.location.href,
-      closeAfterSignedIn: false
+      closeAfterSignedIn: false,
     },
   ) {
     const { method, redirectURL, closeAfterSignedIn } = options;
     if (closeAfterSignedIn) {
       accountStorage.setCloseAfterSignedIn();
-    } else { // Remove any old settings
+    } else {
+      // Remove any old settings
       accountStorage.rmCloseAfterSignedIn();
     }
-    
 
     if (env.dev && method === AUTH_TEST) {
       this.testSignIn(redirectURL);

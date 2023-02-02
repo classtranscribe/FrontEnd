@@ -10,7 +10,7 @@ function Wrapper(props) {
 
   return (
     <div
-      className='ctp wrapper'
+      className="ctp wrapper"
       onMouseEnter={() => setUserActive(true)}
       onMouseLeave={() => setUserActive(false)}
     >

@@ -6,23 +6,22 @@ import MetaTags from 'react-meta-tags';
   If meta tags are not provided for a page the meta tags are replaced with the default meta tags.
 */
 const defaultMetaTags = {
-  description: 'Improve your learning outcomes as a university student, and watch lectures with equitable access and support for non-native speaking students and students with disabilities.',
+  description:
+    'Improve your learning outcomes as a university student, and watch lectures with equitable access and support for non-native speaking students and students with disabilities.',
   title: 'ClassTranscribe',
-  keywords: 'Video, ClassTranscribe, Online Learning, Education, Accessibility, Upload, Transcription'
+  keywords:
+    'Video, ClassTranscribe, Online Learning, Education, Accessibility, Upload, Transcription',
 };
-
 
 function CTMetaTags(props) {
   const {
     title = defaultMetaTags.title,
     description = defaultMetaTags.description,
-    keywords = defaultMetaTags.keywords
+    keywords = defaultMetaTags.keywords,
   } = props;
 
-  const fullTitle = defaultMetaTags.title === title 
-                  ? title 
-                  : `${title} | ClassTranscribe`;
-  
+  const fullTitle = defaultMetaTags.title === title ? title : `${title} | ClassTranscribe`;
+
   return (
     <MetaTags>
       {title && <title>{fullTitle}</title>}
@@ -42,7 +41,7 @@ CTMetaTags.propTypes = {
   description: PropTypes.string,
 
   /** <meta name="keywords" content={keywords} /> */
-  keywords: PropTypes.string
+  keywords: PropTypes.string,
 };
 
 export default CTMetaTags;

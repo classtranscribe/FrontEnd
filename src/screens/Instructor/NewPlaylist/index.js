@@ -21,11 +21,11 @@ export const NewPlaylistWithRedux = (props) => {
       offsetTop: 30,
     },
     sidebarProps: {
-      items: sidebar.getCoursePageSidebarItems(offering)
+      items: sidebar.getCoursePageSidebarItems(offering),
     },
     metaTagsProps: {
-      title: offering ? `New Playlist | ${offering.fullNumber}` : `New Playlist`
-    }
+      title: offering ? `New Playlist | ${offering.fullNumber}` : `New Playlist`,
+    },
   }));
 
   const onSave = async (newPlaylist) => {
@@ -42,8 +42,8 @@ export const NewPlaylistWithRedux = (props) => {
       </CTFragment>
     </CTLayout>
   );
-}
+};
 
 export const NewPlaylist = connect(({ course, loading }) => ({
-  course
+  course,
 }))(NewPlaylistWithRedux);

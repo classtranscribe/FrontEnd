@@ -7,24 +7,19 @@ import timestr from 'utils/use-time';
 import RangeTimeLabel from './RangeTimeLabel';
 
 function RangeSlider(props) {
-  let {
-    range,
-    duration,
-    onRangeChange
-  } = props;
+  let { range, duration, onRangeChange } = props;
 
   const handleRangeChange = (e, newRange) => {
     if (typeof onRangeChange === 'function') {
       onRangeChange(newRange);
     }
-  }
+  };
 
-  
   let max = duration;
   let min = 0;
   if (Array.isArray(range)) {
-    min = range[0]
-    max = range[1]
+    min = range[0];
+    max = range[1];
     let pad = max - min;
     pad = pad < 5 ? 5 : pad;
     min = range[0] - pad < 0 ? 0 : range[0] - pad;
@@ -55,7 +50,7 @@ function RangeSlider(props) {
 RangeSlider.propTypes = {
   range: PropTypes.arrayOf(PropTypes.number),
   duration: PropTypes.number,
-  onRangeChange: PropTypes.func
+  onRangeChange: PropTypes.func,
 };
 
 export default RangeSlider;

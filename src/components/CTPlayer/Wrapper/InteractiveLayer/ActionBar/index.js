@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { api, links, uurl } from 'utils';
 import { logoOutlineSvg, UISlogo } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
@@ -11,14 +11,7 @@ import LiveTranscriptDownload from './LiveTranscriptDownload';
 import './index.scss';
 
 function ActionBar(props) {
-  let {
-    error,
-    media,
-    userReady = true,
-    embedded,
-    time,
-    screenshotActionElement
-  } = props;
+  let { error, media, userReady = true, embedded, time, screenshotActionElement } = props;
   const { allowScreenshot: isScreenshotAllowed } = embedded;
   const { mediaName, id } = media || {};
   const isLiveLogo = media.isLive;
@@ -38,23 +31,11 @@ function ActionBar(props) {
     <div className="ctp action-bar">
       <div className="left">
         <div className="media-name">
-          {
-            isLiveLogo ? (
-              <img
-                alt="UISLogo"
-                src={UISlogo}
-                className="ctp ct-logo"
-              />
-            ) : (
-              <img
-                alt="ClassTranscribe Logo"
-                src={logoOutlineSvg}
-                className="ctp ct-logo"
-              />
-            )
-
-          }
-
+          {isLiveLogo ? (
+            <img alt="UISLogo" src={UISlogo} className="ctp ct-logo" />
+          ) : (
+            <img alt="ClassTranscribe Logo" src={logoOutlineSvg} className="ctp ct-logo" />
+          )}
 
           <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">
             <a href={links.watch(id)} onClick={watchOnClassTranscribe}>
@@ -64,30 +45,26 @@ function ActionBar(props) {
         </div>
       </div>
 
-      {
-        userReady
-        &&
+      {userReady && (
         <div className="right">
-          {
-            isScreenshotAllowed
-            &&
+          {isScreenshotAllowed && (
             <Screenshot actionElement={screenshotActionElement} media={media} />
-          }
+          )}
           {!error && <Share media={media} time={time} />}
           <LiveTranscriptDownload media={media} />
           {/* <ShortcutButton /> */}
         </div>
-      }
+      )}
     </div>
   );
 }
 
 ActionBar.propTypes = {
   media: PropTypes.object,
-  time: PropTypes.number
+  time: PropTypes.number,
 };
 
 export default connect(({ watch: { media, embedded }, playerpref }) => ({
-  media, embedded
+  media,
+  embedded,
 }))(ActionBar);
-

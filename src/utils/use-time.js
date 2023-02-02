@@ -9,10 +9,7 @@ class TimeString {
   static toTimeString(sec) {
     if (typeof sec !== 'number') return '';
     const formatter = sec < 3600 ? 'mm:ss' : 'H:mm:ss';
-    return moment()
-            .startOf('day')
-            .seconds(sec)
-            .format(formatter);
+    return moment().startOf('day').seconds(sec).format(formatter);
   }
 
   /**
@@ -24,13 +21,10 @@ class TimeString {
     const formatter = 'HH:mm:ss';
 
     let fraction = parseFloat(sec % 1)
-                    .toPrecision(2)
-                    .substring(1, 3);
+      .toPrecision(2)
+      .substring(1, 3);
 
-    return moment()
-            .startOf('day')
-            .seconds(sec)
-            .format(formatter) + fraction;
+    return moment().startOf('day').seconds(sec).format(formatter) + fraction;
   }
 
   /**
@@ -43,7 +37,7 @@ class TimeString {
     const strs = str.split(':');
     let seconds = 0;
     strs.forEach((timeStr, index) => {
-      seconds += parseFloat(timeStr) * (60 ** (strs.length - index - 1));
+      seconds += parseFloat(timeStr) * 60 ** (strs.length - index - 1);
     });
 
     return seconds;

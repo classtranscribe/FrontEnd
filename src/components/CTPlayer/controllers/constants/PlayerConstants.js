@@ -34,9 +34,8 @@ class PlayerConstants {
   static ScreenModesMap = {
     [PlayerConstants.ScreenModePrimary]: 'Primary-Secondary View',
     [PlayerConstants.ScreenModeNested]: 'Nested View',
-    [PlayerConstants.ScreenModeNormal]: 'One-Screen View'
+    [PlayerConstants.ScreenModeNormal]: 'One-Screen View',
   };
-
 
   /// ///////////////////////////////////////////////////////////////////
   // CC Styles
@@ -58,7 +57,7 @@ class PlayerConstants {
     PlayerConstants.CCColorBlue,
     PlayerConstants.CCColorMagenta,
     PlayerConstants.CCColorRed,
-    PlayerConstants.CCColorBlack
+    PlayerConstants.CCColorBlack,
   ];
   // Font Sizes
   static CCFontSize50 = 0.5;

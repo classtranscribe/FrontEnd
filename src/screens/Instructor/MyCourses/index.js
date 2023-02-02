@@ -3,7 +3,7 @@ import ErrorTypes from 'entities/ErrorTypes';
 import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
 import _ from 'lodash';
 import { ARRAY_INIT, api } from 'utils';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { CourseList, NoCourseHolder } from './components';
 
 function sortOfferings(offerings = [], terms = []) {
@@ -16,7 +16,7 @@ function sortOfferings(offerings = [], terms = []) {
 
   let currTermId = (terms[0] || {}).id;
 
-  _.forEach(offerings, off => {
+  _.forEach(offerings, (off) => {
     if (off.term && off.term.id === currTermId) {
       currentOfferings.push(off);
     } else {
@@ -37,11 +37,11 @@ const MyCoursesWithRedux = (props) => {
       icon: 'collections_bookmark',
       sticky: true,
       gradient: true,
-      offsetTop: 30
+      offsetTop: 30,
     },
     metaTagsProps: {
-      title: 'My Courses'
-    }
+      title: 'My Courses',
+    },
   });
   const { instcourse } = props;
   const { offerings, terms } = instcourse;
@@ -50,10 +50,7 @@ const MyCoursesWithRedux = (props) => {
   const noOffering = !loading && offerings.length === 0;
 
   const offeringResult = (result) => {
-    const {
-      currentOfferings,
-      pastOfferings
-    } = sortOfferings(result, terms); // TODO 
+    const { currentOfferings, pastOfferings } = sortOfferings(result, terms); // TODO
 
     return (
       <CTFragment fadeIn loading={loading} error={error}>
@@ -66,7 +63,7 @@ const MyCoursesWithRedux = (props) => {
   const filterProps = {
     withDefaultFilter: true,
     data: offerings,
-    keys: ['courseName', 'fullNumber', 'sectionName', 'termName']
+    keys: ['courseName', 'fullNumber', 'sectionName', 'termName'],
   };
 
   const errorProps = {
@@ -81,26 +78,21 @@ const MyCoursesWithRedux = (props) => {
   const fragmentProps = {
     padding: [0, 30],
     error,
-    errorElement: <CTErrorWrapper {...errorProps} />
+    errorElement: <CTErrorWrapper {...errorProps} />,
   };
 
   return (
     <CTLayout {...layoutProps}>
       <CTFragment {...fragmentProps}>
-        {
-          error ? null :
-            noOffering ? (
-              <NoCourseHolder />
-            ) : (
-              <CTFilter {...filterProps}>
-                {offeringResult}
-              </CTFilter>
-              )
-        }
+        {error ? null : noOffering ? (
+          <NoCourseHolder />
+        ) : (
+          <CTFilter {...filterProps}>{offeringResult}</CTFilter>
+        )}
       </CTFragment>
     </CTLayout>
   );
 };
 export const MyCourses = connect(({ instcourse, loading }) => ({
-  instcourse
+  instcourse,
 }))(MyCoursesWithRedux);

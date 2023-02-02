@@ -20,17 +20,17 @@ class EPubParser {
       reader.onload = () => resolve(reader.result);
       reader.onerror = reject;
       reader.readAsDataURL(blob);
-    })
-  };
+    });
+  }
 
   /**
-  * Create an EPubParser
-  * @param {EPubData} ePubData 
-  * @param {Boolean} replaceImageSrc
-  */
+   * Create an EPubParser
+   * @param {EPubData} ePubData
+   * @param {Boolean} replaceImageSrc
+   */
   async init(epubData, replaceImageSrc) {
     const data = JSON.parse(JSON.stringify(epubData)); // deep copy
-    const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(data.cover.src))
+    const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(data.cover.src));
     const img_blob = new Blob([img]);
     data.cover.src = await EPubParser.blobToDataUrl(img_blob); // URL.createObjectURL(img_blob)
     data.chapters = await this.parseChapters(data.chapters, replaceImageSrc);
@@ -39,13 +39,13 @@ class EPubParser {
 
   /**
    * Create an EPubParser
-   * @param {EPubData} ePubData 
+   * @param {EPubData} ePubData
    * @param {Boolean} replaceImageSrc
    * @returns {Any} parsed epubData
    */
   static async parse(ePubData, replaceImageSrc) {
     const parser = new EPubParser();
-    await parser.init(ePubData.epub, replaceImageSrc)
+    await parser.init(ePubData.epub, replaceImageSrc);
     return parser.data;
   }
 
@@ -91,20 +91,20 @@ class EPubParser {
 
   /**
    * Change all the subchapters' id
-   * @param {Any[]} subChapters 
-   * @param {String} chapterId 
+   * @param {Any[]} subChapters
+   * @param {String} chapterId
    * @returns {Any[]}
    */
   parseSubChapters(subChapters, chapterId) {
     return _.map(subChapters, (subChapter, schIdx) => ({
       ...subChapter,
-      id: `${chapterId}-sch-${schIdx + 1}`
+      id: `${chapterId}-sch-${schIdx + 1}`,
     }));
   }
 
   /**
    * Create dom for chapter
-   * @param {Any} chapter 
+   * @param {Any} chapter
    * @returns {Document}
    */
   async createChapterDOM(chapter) {
@@ -117,7 +117,7 @@ class EPubParser {
 
   /**
    * get all images from dom
-   * @param {Document} dom 
+   * @param {Document} dom
    * @returns {Any[]}
    */
   extractImagesFromDOM(dom, chapterId, replaceSrc) {
@@ -136,7 +136,7 @@ class EPubParser {
 
   /**
    * get body text from dom
-   * @param {Document} dom 
+   * @param {Document} dom
    * @returns {String}
    */
   extractBodyTextFromDom(dom) {
@@ -151,30 +151,32 @@ class EPubParser {
 
   /**
    * get parsed EPubData chapters
-   * @param {Any[]} chapters 
-   * @param {Boolean} replaceImageSrc 
+   * @param {Any[]} chapters
+   * @param {Boolean} replaceImageSrc
    */
   async parseChapters(chapters, replaceImageSrc = true) {
-    return Promise.all(_.map(chapters, async (chapter, chIdx) => {
-      const chapterId = `chapter-${chIdx + 1}`;
+    return Promise.all(
+      _.map(chapters, async (chapter, chIdx) => {
+        const chapterId = `chapter-${chIdx + 1}`;
 
-      const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
+        const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
 
-      const dom = await this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
-      Prism.highlightAllUnder(dom);
-      const chapterText = this.extractBodyTextFromDom(dom);
-      const chapterImages = this.extractImagesFromDOM(dom, chapterId, replaceImageSrc=false); 
-      return {
-        id: chapterId,
-        title: chapter.title,
-        condition: chapter.condition,
-        start: chapter.start,
-        link: chapter.link,
-        text: chapterText,
-        images: chapterImages,
-        subChapters,
-      };
-    }));
+        const dom = await this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
+        Prism.highlightAllUnder(dom);
+        const chapterText = this.extractBodyTextFromDom(dom);
+        const chapterImages = this.extractImagesFromDOM(dom, chapterId, (replaceImageSrc = false));
+        return {
+          id: chapterId,
+          title: chapter.title,
+          condition: chapter.condition,
+          start: chapter.start,
+          link: chapter.link,
+          text: chapterText,
+          images: chapterImages,
+          subChapters,
+        };
+      }),
+    );
   }
 }
 

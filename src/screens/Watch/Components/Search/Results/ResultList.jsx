@@ -23,12 +23,12 @@ import { VideoListItem, ShortcutListItem, CaptionListItem } from './ResultListIt
 
 const search_isInCurrentPage = (page = 0, index = 0) => {
   return index < page * SEARCH_PAGE_NUM && index >= (page - 1) * SEARCH_PAGE_NUM;
-}
+};
 // Function used to get the total page num based on a result's length
 
 const search_totalPageNum = (resultLen = 0) => {
   return resultLen === 0 ? 1 : Math.ceil(resultLen / SEARCH_PAGE_NUM);
-}
+};
 function ResultList({
   option = SEARCH_TRANS_IN_VIDEO,
   search = SEARCH_INIT,

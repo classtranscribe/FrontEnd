@@ -14,24 +14,22 @@ export function _fileSizeParser(size) {
   return exactSize;
 }
 
-function UploadTableVideoCell({
-  videFile,
-  can2Video = false
-}) {
+function UploadTableVideoCell({ videFile, can2Video = false }) {
   const fileIcon = <i className="fas fa-file-video" />;
   return (
     <TableCell>
       <div className={cx('tb-cell', { 'auto-width': !can2Video })}>
-        {
-          videFile
-          ?
-            <>
-              <span className="name">{fileIcon}{videFile.name}</span>
-              <span className="size">{_fileSizeParser(videFile.size)}</span>
-            </>
-          :
-            <span className="name">NaN</span>
-        }
+        {videFile ? (
+          <>
+            <span className="name">
+              {fileIcon}
+              {videFile.name}
+            </span>
+            <span className="size">{_fileSizeParser(videFile.size)}</span>
+          </>
+        ) : (
+          <span className="name">NaN</span>
+        )}
       </div>
     </TableCell>
   );

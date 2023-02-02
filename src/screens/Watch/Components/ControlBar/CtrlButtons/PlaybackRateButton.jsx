@@ -1,13 +1,13 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_HIDE, MENU_PLAYBACKRATE } from '../../../Utils';
-import { connect } from 'dva'
+import { connect } from 'dva';
 export function PlaybackRateButtonWithRedux({ menu = MENU_HIDE, playbackrate = 1.0, dispatch }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_PLAYBACKRATE) {
-      dispatch({type: 'watch/menu_open', payload: { type: MENU_PLAYBACKRATE } });
+      dispatch({ type: 'watch/menu_open', payload: { type: MENU_PLAYBACKRATE } });
     } else {
-      dispatch({type: 'watch/menu_close'});
+      dispatch({ type: 'watch/menu_close' });
     }
   };
 
@@ -32,6 +32,9 @@ export function PlaybackRateButtonWithRedux({ menu = MENU_HIDE, playbackrate = 1
   );
 }
 
-export const PlaybackRateButton = connect(({ watch: { menu }, playerpref: { playbackrate }, loading }) => ({
-  menu, playbackrate
-}))(PlaybackRateButtonWithRedux);
+export const PlaybackRateButton = connect(
+  ({ watch: { menu }, playerpref: { playbackrate }, loading }) => ({
+    menu,
+    playbackrate,
+  }),
+)(PlaybackRateButtonWithRedux);

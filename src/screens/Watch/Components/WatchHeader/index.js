@@ -11,13 +11,8 @@ import ShareTrigger from './Buttons/ShareTrigger';
 import GuideTrigger from './Buttons/GuideTrigger';
 import Search from './Search';
 
-
 function WatchHeaderRightElemWithRedux(props) {
-  let {
-    search = SEARCH_INIT,
-    plain = false,
-    dispatch
-  } = props;
+  let { search = SEARCH_INIT, plain = false, dispatch } = props;
 
   const showButtons = search.status === SEARCH_HIDE && !plain;
 
@@ -31,11 +26,11 @@ function WatchHeaderRightElemWithRedux(props) {
       <PlaylistMenuTrigger />
     </>
   ) : null;
-};
+}
 
-export const WatchHeaderRightElem = connectWithRedux(
-  WatchHeaderRightElemWithRedux,
-  ['isFullscreen', 'search']
-);
+export const WatchHeaderRightElem = connectWithRedux(WatchHeaderRightElemWithRedux, [
+  'isFullscreen',
+  'search',
+]);
 
 export const WatchHeaderLeftElem = MediaInfo;

@@ -9,15 +9,17 @@ export class NewCourse extends Component {
   }
 
   createCourseOfferings = async (courseIds, offeringId) => {
-    await Promise
-      .all(courseIds.map((courseId) => new Promise((resolve) => {
-        api.createCourseOffering({ courseId, offeringId })
-          .then(() => resolve());
-      })))
-      .catch((error) => {
-        console.error(error);
-      });    
-  }
+    await Promise.all(
+      courseIds.map(
+        (courseId) =>
+          new Promise((resolve) => {
+            api.createCourseOffering({ courseId, offeringId }).then(() => resolve());
+          }),
+      ),
+    ).catch((error) => {
+      console.error(error);
+    });
+  };
 
   createOffering = async (newOffering) => {
     const {
@@ -41,10 +43,10 @@ export class NewCourse extends Component {
           accessType,
           logEventsFlag,
           courseName,
-          description
+          description,
         },
         courseId: courseIds[0],
-        instructorId: userId
+        instructorId: userId,
       });
 
       offeringId = data.id;
@@ -53,17 +55,17 @@ export class NewCourse extends Component {
       return;
     }
 
-    await this.createCourseOfferings(
-      courseIds.slice(1),
-      offeringId
-    );
+    await this.createCourseOfferings(courseIds.slice(1), offeringId);
 
-    prompt.addOne({
-      text: 'Course Created.',
-      status: 'success',
-      timeout: 3000,
-      position: 'top',
-    }, false);
+    prompt.addOne(
+      {
+        text: 'Course Created.',
+        status: 'success',
+        timeout: 3000,
+        position: 'top',
+      },
+      false,
+    );
 
     if (offeringId) {
       this.props.history.push(links.course(offeringId));
@@ -80,11 +82,11 @@ export class NewCourse extends Component {
         icon: 'add',
         sticky: true,
         gradient: true,
-        offsetTop: 30
+        offsetTop: 30,
       },
       metaTagsProps: {
-        title: 'New Course'
-      }
+        title: 'New Course',
+      },
     });
 
     return (

@@ -17,7 +17,7 @@ function DNDList(props) {
     contextId,
     disabled,
     onDragEnd,
-    className: contextClassName
+    className: contextClassName,
   };
 
   const dndItemsElement = items.map((item, index) => {
@@ -27,17 +27,13 @@ function DNDList(props) {
       index: item.index || index,
       disabled,
       className: itemClassName,
-      children: item.node
+      children: item.node,
     };
 
-    return <DNDItem {...itemProps} />
+    return <DNDItem {...itemProps} />;
   });
 
-  return (
-    <DNDContext {...contextProps}>
-      {dndItemsElement}
-    </DNDContext>
-  );
+  return <DNDContext {...contextProps}>{dndItemsElement}</DNDContext>;
 }
 
 DNDList.propTypes = {
@@ -57,10 +53,12 @@ DNDList.propTypes = {
   onDragEnd: DNDContext.propTypes.onDragEnd,
 
   /** The draggable items */
-  items: PropTypes.arrayOf(PropTypes.shape({
-    index: PropTypes.number,
-    id: PropTypes.string
-  }))
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      index: PropTypes.number,
+      id: PropTypes.string,
+    }),
+  ),
 };
 
 export default DNDList;

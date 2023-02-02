@@ -3,68 +3,58 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 function MenuItem(props) {
-  const { 
-    text, 
+  const {
+    text,
     current,
     active = false,
     bordered = false,
     isSubMenu = false,
     goBack = false,
-    onClick, 
+    onClick,
   } = props;
 
   const menuItemClasses = cx('plain-btn', 'ctp', 'settings-menuitem', {
     'go-back': goBack,
     bordered,
-    active
+    active,
   });
-  const checkIconClasses = cx('ctp', 'check-icon', { checked: (active || goBack) });
+  const checkIconClasses = cx('ctp', 'check-icon', { checked: active || goBack });
 
   return (
-    <button 
+    <button
       className={menuItemClasses}
-      autoFocus={active} 
+      autoFocus={active}
       onClick={onClick}
       role="menuitemradio"
       aria-checked={active.toString()}
       aria-haspopup={isSubMenu.toString()}
     >
       <span className="left">
-        {
-          (!isSubMenu || bordered)
-          &&
+        {(!isSubMenu || bordered) && (
           <span className={checkIconClasses} aria-hidden="true">
-            {
-              goBack
-              ?
-                <i className="material-icons">arrow_back_ios</i>
-              :
-                <i className="material-icons">check</i>
-            }
+            {goBack ? (
+              <i className="material-icons">arrow_back_ios</i>
+            ) : (
+              <i className="material-icons">check</i>
+            )}
           </span>
-        }
-        <span className="ctp menuitem-text">
-          {text}
-        </span>
+        )}
+        <span className="ctp menuitem-text">{text}</span>
       </span>
       <span className="right">
-        <span className="current-value">
-          {current}
-        </span>
-        {
-          isSubMenu
-          &&
+        <span className="current-value">{current}</span>
+        {isSubMenu && (
           <span className="ctp right-arrow" aria-hidden="true">
             <i className="material-icons">arrow_forward_ios</i>
           </span>
-        }
+        )}
       </span>
     </button>
   );
 }
 
 MenuItem.propTypes = {
-  text: PropTypes.string, 
+  text: PropTypes.string,
   current: PropTypes.string,
   active: PropTypes.bool,
   bordered: PropTypes.bool,

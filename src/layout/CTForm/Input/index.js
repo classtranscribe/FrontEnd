@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
   root: {
     '& label.Mui-focused': {
       color: '#348b86',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     },
     '& .MuiInput-underline.Mui-focused::after': {
       borderBottomColor: '#348b86',
@@ -16,11 +16,11 @@ export const useStyles = makeStyles({
     '& .MuiOutlinedInput-root': {
       '&.Mui-focused fieldset': {
         borderColor: '#348b86',
-      }
+      },
     },
     '& div[tabindex="0"]': {
-      outline: 'none !important'
-    }
+      outline: 'none !important',
+    },
   },
 });
 
@@ -37,7 +37,7 @@ const useDarkStyles = makeStyles({
     },
     '& label.Mui-focused': {
       color: '#348b86',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     },
     '& .MuiInput-underline.Mui-focused::after': {
       borderBottomColor: '#348b86',
@@ -45,14 +45,14 @@ const useDarkStyles = makeStyles({
     '& .MuiOutlinedInput-root': {
       '&.Mui-focused fieldset': {
         borderColor: '#348b86',
-      }
+      },
     },
     '& div[tabindex="0"]': {
-      outline: 'none !important'
+      outline: 'none !important',
     },
     '& input::selection': {
       background: 'white',
-    }
+    },
   },
 });
 
@@ -93,7 +93,7 @@ function Input(props) {
       id={id}
       InputLabelProps={{ htmlFor: id }}
       type="text"
-      variant={underlined ? "standard" : "outlined"}
+      variant={underlined ? 'standard' : 'outlined'}
       classes={darkMode ? darkClasses : classes}
       label={label}
       placeholder={placeholder}
@@ -149,8 +149,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
 
   /** The input field can be underlined */
-  underlined: PropTypes.bool
+  underlined: PropTypes.bool,
 };
 
 export default Input;
-

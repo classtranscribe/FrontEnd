@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
-import dynamic from "dva/dynamic";
-import {LiveHLSPlayer} from 'screens/Watch/live_test'
+import dynamic from 'dva/dynamic';
+import { LiveHLSPlayer } from 'screens/Watch/live_test';
 // import AppInsightsProvider from './azure-app-insights';
 import {
   // General
@@ -30,7 +30,7 @@ import {
   Glossary,
   Watch,
   // ComponentAPI,
-  Example
+  Example,
 } from './screens';
 
 import './App.css';
@@ -51,33 +51,33 @@ class App extends React.Component {
     const WatchPage = dynamic({
       app: this.props.app,
       models: () => [],
-      component: () => Watch
-    })
+      component: () => Watch,
+    });
     const EPubPage = dynamic({
       app: this.props.app,
       models: () => [require('./screens/EPub/model').default],
-      component: () => EPub
-    })
+      component: () => EPub,
+    });
     const CoursePage = dynamic({
       app: this.props.app,
       models: () => [], // require('./screens/Course/model').default
-      component: () => Course
-    })
+      component: () => Course,
+    });
     const MyCoursesPage = dynamic({
       app: this.props.app,
       models: () => [require('./screens/Instructor/MyCourses/model').default], //
-      component: () => MyCourses
-    })
+      component: () => MyCourses,
+    });
     const InstPlaylistPage = dynamic({
       app: this.props.app,
       models: () => [require('./screens/Instructor/InstPlaylist/model')],
-      component: () => InstPlaylist
-    })
+      component: () => InstPlaylist,
+    });
     const MediaSettingsPage = dynamic({
       app: this.props.app,
       models: () => [require('./screens/MediaSettings/model')],
-      component: () => MediaSettings
-    })
+      component: () => MediaSettings,
+    });
     // return <Maintenance />
     return (
       // <AppInsightsProvider>
@@ -90,42 +90,22 @@ class App extends React.Component {
 
         {/* Instructor */}
         <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
-        {
-          isAdminOrInstructor
-          &&
+        {isAdminOrInstructor && (
           <Route exact path="/instructor/my-courses" component={MyCoursesPage} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/instructor/new-course" component={NewCourse} />
-        }
-        {
-          isAdminOrInstructor
-          &&
+        )}
+        {isAdminOrInstructor && <Route exact path="/instructor/new-course" component={NewCourse} />}
+        {isAdminOrInstructor && (
           <Route exact path="/offering/:id/settings" component={CourseSettings} />
-        }
-        {
-          isAdminOrInstructor
-          &&
+        )}
+        {isAdminOrInstructor && (
           <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
-        }
-        {
-          isAdminOrInstructor
-          &&
+        )}
+        {isAdminOrInstructor && (
           <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route path="/media-settings/:id" component={MediaSettingsPage} />
-        }
+        )}
+        {isAdminOrInstructor && <Route path="/media-settings/:id" component={MediaSettingsPage} />}
 
-        {
-          isAdminOrInstructor
-          &&
-          <Route path="/epub/:id" component={EPubPage} />
-        }
+        {isAdminOrInstructor && <Route path="/epub/:id" component={EPubPage} />}
 
         {/* Student */}
         <Route exact path="/" component={Home} />
@@ -134,7 +114,7 @@ class App extends React.Component {
         <Route exact path="/search" component={Search} />
         <Route exact path="/history" component={History} />
         <Route exact path="/personal-analytics" component={Analytics} />
-        <Route exact path="/glossary" component={Glossary} /> 
+        <Route exact path="/glossary" component={Glossary} />
         <Route exact path="/video" component={WatchPage} />
         <Route exact path="/embed/:id" component={Embed} />
         <Route path="/playlist/:id" component={InstPlaylistPage} />
@@ -142,11 +122,7 @@ class App extends React.Component {
         <Route path="/404" component={NotFound404} />
         <Route path="/liveplayer" component={LiveHLSPlayer} />
 
-        {
-          env.dev
-          &&
-          <Route exact path="/example" component={Example} />
-        }
+        {env.dev && <Route exact path="/example" component={Example} />}
 
         <Route component={NotFound404} />
         {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}

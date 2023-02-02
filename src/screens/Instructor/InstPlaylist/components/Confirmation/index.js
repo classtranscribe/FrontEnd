@@ -2,10 +2,7 @@ import React from 'react';
 import { CTConfirmation } from 'layout';
 
 function ConfirmationWithRedux(props) {
-  const {
-    confirmation,
-    onClose
-  } = props;
+  const { confirmation, onClose } = props;
   const { title, text, onConfirm } = confirmation;
 
   const confirmProps = {
@@ -13,7 +10,7 @@ function ConfirmationWithRedux(props) {
     title,
     text,
     onConfirm,
-    onClose
+    onClose,
   };
 
   return <CTConfirmation {...confirmProps} />;

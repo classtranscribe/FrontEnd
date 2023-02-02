@@ -4,22 +4,20 @@ import { CTFragment } from 'layout';
 
 function EPubPoster() {
   return (
-    <CTFragment center padding={[0,40]} id="ct-epb-poster">
+    <CTFragment center padding={[0, 40]} id="ct-epb-poster">
       <CTFragment h100 dFlexCol alignItCenter justConBetween overflowHidden>
         <img
-          className="w-100 ct-pointer-event-none" 
+          className="w-100 ct-pointer-event-none"
           src={epubExampleTop}
           alt="ePub generator screenshot"
           aria-hidden="true"
         />
 
-        <h1>
-          Convert Your Lectures to I-Note Books
-        </h1>
+        <h1>Convert Your Lectures to I-Note Books</h1>
 
-        <img 
-          className="w-100 ct-pointer-event-none" 
-          src={epubExampleBottom} 
+        <img
+          className="w-100 ct-pointer-event-none"
+          src={epubExampleBottom}
           alt="ePub generator screenshot"
           aria-hidden="true"
         />

@@ -3,7 +3,7 @@ import { CTFormUsage } from 'docs';
 
 const createDocsData = (title, Component) => ({
   title,
-  Component: Component || Fragment
+  Component: Component || Fragment,
 });
 
 /**
@@ -11,9 +11,9 @@ const createDocsData = (title, Component) => ({
  * @param {String} type - the type of the component api
  * @returns {{title:string, Component:ReactNode}} the docs data
  */
-export default function(type) {
+export default function (type) {
   const docsSelector = {
-    'ct-form': createDocsData('CTForm', CTFormUsage)
+    'ct-form': createDocsData('CTForm', CTFormUsage),
   };
 
   return docsSelector[type] || createDocsData('Unknown');

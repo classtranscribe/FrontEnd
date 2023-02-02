@@ -14,8 +14,10 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
   // prepare the transId list for mapping
   const transId = Object.keys(transObject);
   for (let i = 0; i < transId.length; i += 1) {
-    if (!transId[i].endsWith(transId_suffix)) { transId[i] += transId_suffix; }
-  };
+    if (!transId[i].endsWith(transId_suffix)) {
+      transId[i] += transId_suffix;
+    }
+  }
 
   const [noResults, setNoResults] = useState(false);
 
@@ -25,7 +27,7 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
       const { data } = await api.searchCaptions(transId, {
         text: searchText,
         page: 1,
-        pageSize: 1000 // get all captions for now
+        pageSize: 1000, // get all captions for now
       });
       const temp = [];
       // console.log('searchCaptions', searchText, data);
@@ -49,14 +51,14 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
             mediaName: transObject[currTransId].mediaName,
             mediaId: transObject[currTransId].mediaId,
             playlistName: transObject[currTransId].playlistName,
-            captions: [data.results[i]]
-          })
+            captions: [data.results[i]],
+          });
         }
       }
       // sort media based on how many times the keyword appears in it
       temp.sort((a, b) => {
-        return b.captions.length - a.captions.length
-      })
+        return b.captions.length - a.captions.length;
+      });
       setSearchResult(temp);
     } catch (err) {
       console.error(err);
@@ -69,20 +71,19 @@ export function NavHeaderSearchResult({ searchText = '', transObject = {} }) {
     searchCaption();
   }, [searchText]);
 
-  return (
-    noResults ?
-      <div id="ct-nh-search-empty">No Result</div>
-      :
-      <List id="ct-nh-search-result">
-        <CTFragment loading={searchResult.length === 0}>
-          {/* {searchText} */}
-          {searchResult.map((item) =>
-            // padding need to be adjusted
-            <ListItem>
-              <SearchCard searchData={item} />
-            </ListItem>
-          )}
-        </CTFragment>
-      </List>
+  return noResults ? (
+    <div id="ct-nh-search-empty">No Result</div>
+  ) : (
+    <List id="ct-nh-search-result">
+      <CTFragment loading={searchResult.length === 0}>
+        {/* {searchText} */}
+        {searchResult.map((item) => (
+          // padding need to be adjusted
+          <ListItem>
+            <SearchCard searchData={item} />
+          </ListItem>
+        ))}
+      </CTFragment>
+    </List>
   );
 }

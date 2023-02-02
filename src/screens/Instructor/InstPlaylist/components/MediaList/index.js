@@ -11,10 +11,7 @@ import NoVideoHolder from './NoVideoHolder';
 
 function MediaListWithRedux(props) {
   const { dispatch, instplaylist } = props;
-  const {
-    playlist,
-    medias,
-  } = instplaylist;
+  const { playlist, medias } = instplaylist;
   const loading = medias === ARRAY_INIT;
   const error = ErrorTypes.isError(medias);
 
@@ -34,7 +31,7 @@ function MediaListWithRedux(props) {
   const handleFilterChange = ({ target: { value } }) => {
     setFilterValue(value);
     // console.log(target, target.value)
-  }
+  };
 
   const selectAll = (result) => {
     setSelectedVideos(result);
@@ -48,13 +45,16 @@ function MediaListWithRedux(props) {
     if (checked) {
       setSelectedVideos([...selectedVideos, media]);
     } else {
-      setSelectedVideos(selectedVideos.filter(vi => vi !== media));
+      setSelectedVideos(selectedVideos.filter((vi) => vi !== media));
     }
   };
 
-  const isSelected = useCallback((media) => {
-    return selectedVideos.includes(media);
-  }, [selectedVideos]);
+  const isSelected = useCallback(
+    (media) => {
+      return selectedVideos.includes(media);
+    },
+    [selectedVideos],
+  );
 
   const handleExpand = (media, expand) => {
     if (expand) {
@@ -62,11 +62,14 @@ function MediaListWithRedux(props) {
     } else {
       setExpandedVideo(null);
     }
-  }
+  };
 
-  const isExpanded = useCallback((media) => {
-    return expandedVideo === media;
-  }, [expandedVideo]);
+  const isExpanded = useCallback(
+    (media) => {
+      return expandedVideo === media;
+    },
+    [expandedVideo],
+  );
 
   const actionProps = {
     playlist,
@@ -86,39 +89,29 @@ function MediaListWithRedux(props) {
     isSelected,
     handleSelect,
     isExpanded,
-    handleExpand
+    handleExpand,
   };
 
   return (
     <InfoAndListLayout.List id="ipl-media-li">
-      <CTFilter
-        data={medias}
-        value={filterValue}
-        keys={['mediaName']}
-      >
+      <CTFilter data={medias} value={filterValue} keys={['mediaName']}>
         {(result, setResult) => (
           <>
-            <ActionBar
-              result={result}
-              dispatch={dispatch}
-              {...actionProps}
-            />
-            {
-              medias.length === 0 ? (
-                <NoVideoHolder type={playlist.sourceType} />
-              ) : result.length > 0 ? (
-                <MediaDNDList
-                  medias={result}
-                  setFilterResult={setResult}
-                  {...dndListProps}
-                  dispatch={dispatch}
-                />
-              ) : (
-                <CTText muted center margin={[30, 0]}>
-                  No Result
-                </CTText>
-                  )
-            }
+            <ActionBar result={result} dispatch={dispatch} {...actionProps} />
+            {medias.length === 0 ? (
+              <NoVideoHolder type={playlist.sourceType} />
+            ) : result.length > 0 ? (
+              <MediaDNDList
+                medias={result}
+                setFilterResult={setResult}
+                {...dndListProps}
+                dispatch={dispatch}
+              />
+            ) : (
+              <CTText muted center margin={[30, 0]}>
+                No Result
+              </CTText>
+            )}
           </>
         )}
       </CTFilter>
@@ -129,5 +122,5 @@ function MediaListWithRedux(props) {
 }
 
 export const MediaList = connect(({ instplaylist, loading }) => ({
-  instplaylist
+  instplaylist,
 }))(MediaListWithRedux);

@@ -2,19 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ErrorTypes from 'entities/ErrorTypes';
 import { uurl, elem } from 'utils';
 import './index.scss';
-import courseutil from '../../util'
+import courseutil from '../../util';
 import PlaylistsView from './PlaylistsView';
 import VideosView from './VideosView';
 
 function PlaylistsWithRedux(props) {
   const { course, dispatch } = props;
-  const {
-    isInstMode,
-    offering = {},
-    playlist,
-    playlists = [],
-    setPlaylist
-  } = course
+  const { isInstMode, offering = {}, playlist, playlists = [], setPlaylist } = course;
   const setup = {}; // TO DISPATCH
   const { hash } = props.location || {};
   const [playlistId, setPlaylistId] = useState(null);
@@ -24,25 +18,25 @@ function PlaylistsWithRedux(props) {
     if (plid) {
       setPlaylistId(plid);
       dispatch({
-        type: 'course/getPlaylistById', 
-        payload: plid
-      })
+        type: 'course/getPlaylistById',
+        payload: plid,
+      });
     } else {
       setPlaylistId(null);
       dispatch({
-        type: 'course/setPlaylist', 
-        payload: null
-      })
+        type: 'course/setPlaylist',
+        payload: null,
+      });
     }
-  }, [hash]); 
+  }, [hash]);
 
   useEffect(() => {
     if (playlist === ErrorTypes.NotFound404) {
       setPlaylistId(null);
       dispatch({
-        type: 'course/setPlaylist', 
-        payload: null
-      })
+        type: 'course/setPlaylist',
+        payload: null,
+      });
     }
   }, [playlist]);
 
@@ -50,11 +44,11 @@ function PlaylistsWithRedux(props) {
     if (!playlistId) {
       courseutil.scrollToPlaylist(setup.prevPlaylistId);
     } else if (window.innerWidth >= 1000) {
-        elem.scrollToTop('cp-pls-view');
-      } else {
-        elem.scrollToTop('ct-layout-scroll');
-      }
-  }, [playlistId])
+      elem.scrollToTop('cp-pls-view');
+    } else {
+      elem.scrollToTop('ct-layout-scroll');
+    }
+  }, [playlistId]);
 
   const isPlaylistView = Boolean(playlistId);
 
@@ -62,13 +56,13 @@ function PlaylistsWithRedux(props) {
     isInstMode,
     playlists,
     offering,
-    dispatch
+    dispatch,
   };
-  
-  const viewElement = (
-    isPlaylistView
-    ? <VideosView playlist={playlist} />
-    : <PlaylistsView {...playlistsProps} />
+
+  const viewElement = isPlaylistView ? (
+    <VideosView playlist={playlist} />
+  ) : (
+    <PlaylistsView {...playlistsProps} />
   );
 
   return viewElement;

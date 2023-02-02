@@ -4,7 +4,7 @@ import { connectWithRedux } from '../../../Utils';
 
 export function FullscreenButtonWithRedux({ isFullscreenTwo = false, dispatch }) {
   const handleFullscreen = () => {
-    dispatch({type: 'watch/toggleFullScreenTwo'})
+    dispatch({ type: 'watch/toggleFullScreenTwo' });
   };
 
   return (

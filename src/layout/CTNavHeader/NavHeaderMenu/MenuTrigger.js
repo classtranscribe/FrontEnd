@@ -6,24 +6,13 @@ import { useButtonStyles } from 'layout';
 import { links } from 'utils';
 import { Image } from 'semantic-ui-react';
 
-
 function MenuTrigger(props) {
-  let {
-    picture,
-    isLoggedIn,
-    email = '',
-    handleClick
-  } = props;
+  let { picture, isLoggedIn, email = '', handleClick } = props;
 
   const btn = useButtonStyles();
 
   return !isLoggedIn ? (
-    <Button 
-      component={Link} 
-      variant="contained" 
-      to={links.signIn()} 
-      className={btn.teal}
-    >
+    <Button component={Link} variant="contained" to={links.signIn()} className={btn.teal}>
       SIGN IN
     </Button>
   ) : picture ? (
@@ -42,7 +31,7 @@ function MenuTrigger(props) {
       onClick={handleClick}
     />
   ) : (
-    <div 
+    <div
       role="button"
       tabIndex={0}
       title="Profile Menu"
@@ -68,7 +57,7 @@ MenuTrigger.propTypes = {
   email: PropTypes.string,
 
   /** Handle menu trigger click */
-  handleClick: PropTypes.func
+  handleClick: PropTypes.func,
 };
 
 export default MenuTrigger;

@@ -39,7 +39,6 @@ class Playlist extends Entity {
     return this.__data.playlistIdentifier;
   }
 
-
   /**
    * Create a new playlist
    * @param {String} offeringId - the offering id
@@ -65,7 +64,7 @@ class Playlist extends Entity {
       name,
       sourceType,
       playlistIdentifier,
-      jsonMetadata
+      jsonMetadata,
     };
 
     try {
@@ -76,12 +75,12 @@ class Playlist extends Entity {
       prompt.error('Failed to create the new playlist.');
       return null;
     }
-    
+
     prompt.addOne({
       text: 'Playlist Created.',
       status: 'success',
       timeout: 3000,
-      position: 'top'
+      position: 'top',
     });
 
     return new Playlist(newPl);

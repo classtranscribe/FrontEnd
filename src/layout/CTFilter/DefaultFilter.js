@@ -43,8 +43,9 @@ function DefaultFilter(props) {
 
   // determine whether to apply debounce to onChange func
   const debouncedOnChange = useCallback(
-    debounce ? _.debounce(onInputChange, 500) : onInputChange
-  , []);
+    debounce ? _.debounce(onInputChange, 500) : onInputChange,
+    [],
+  );
 
   const handleInputChange = ({ target, preventDefault }) => {
     setInputVal(target.value);
@@ -54,7 +55,7 @@ function DefaultFilter(props) {
   return (
     <CTFragment padding={[20, 0]} {...fragmentProps}>
       <div className={containerClasses}>
-        <input 
+        <input
           value={inputVal}
           placeholder={placeholder}
           onChange={handleInputChange}
@@ -62,9 +63,7 @@ function DefaultFilter(props) {
           {...inputProps}
         />
 
-        {
-          supportReverse
-          &&
+        {supportReverse && (
           <Tooltip title={reversed ? 'Undo Reverse' : 'Reverse'}>
             <div>
               <Button
@@ -76,7 +75,7 @@ function DefaultFilter(props) {
               />
             </div>
           </Tooltip>
-        }
+        )}
       </div>
     </CTFragment>
   );
@@ -87,7 +86,7 @@ DefaultFilter.propTypes = {
 
   /** value in the input field */
   value: PropTypes.string,
-  
+
   /** placeholder in the input field */
   placeholder: PropTypes.string,
 
@@ -110,4 +109,3 @@ DefaultFilter.propTypes = {
 };
 
 export default DefaultFilter;
-

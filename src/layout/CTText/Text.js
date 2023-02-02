@@ -38,30 +38,36 @@ function Text(props) {
 
   const limitedLine = Boolean(line);
 
-  const textClasses = cx('ct', 'ct-text', size, {
-    fluid,
-    textCenter,
-    textLeft,
-    textRight,
-    justified,
-    uppercase,
-    capitalize,
-    bold,
-    underline,
-    italic,
-    white,
-    muted,
-    teal,
-    celadon,
-    highlighted,
-    hoverUnderlined,
-    hoverTeal,
-    hoverHighlighted,
-    limitedLine,
-  }, className);
+  const textClasses = cx(
+    'ct',
+    'ct-text',
+    size,
+    {
+      fluid,
+      textCenter,
+      textLeft,
+      textRight,
+      justified,
+      uppercase,
+      capitalize,
+      bold,
+      underline,
+      italic,
+      white,
+      muted,
+      teal,
+      celadon,
+      highlighted,
+      hoverUnderlined,
+      hoverTeal,
+      hoverHighlighted,
+      limitedLine,
+    },
+    className,
+  );
 
   const textStyle = {
-    WebkitLineClamp: line ? `${line }` : undefined
+    WebkitLineClamp: line ? `${line}` : undefined,
   };
 
   if (indent) {
@@ -81,7 +87,7 @@ function Text(props) {
     <CTFragment {...textProps} {...otherProps}>
       {children}
     </CTFragment>
-  );  
+  );
 }
 
 Text.propTypes = {

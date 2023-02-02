@@ -4,12 +4,7 @@ import { INDEX_HTML_LIVE } from 'screens/EPub/controllers/file-builders/file-tem
 import MenuItem from './MenuItem';
 
 function LiveCaptionTrackSelection(props) {
-  let {
-    englishTrack,
-    textTracks,
-    onGoBack,
-    setTextTrack,
-  } = props;
+  let { englishTrack, textTracks, onGoBack, setTextTrack } = props;
 
   return (
     <div className="ctp settings-menu">
@@ -26,6 +21,5 @@ function LiveCaptionTrackSelection(props) {
     </div>
   );
 }
-
 
 export default LiveCaptionTrackSelection;

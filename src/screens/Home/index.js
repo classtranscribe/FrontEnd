@@ -9,7 +9,7 @@ const HomeWithRedux = (props) => {
   const layoutProps = CTLayout.createProps({
     transition: true,
     responsive: true,
-    footer: true
+    footer: true,
   });
   const loading = sections === ARRAY_INIT;
   const loaderElement = makeEl(Placeholder);
@@ -24,8 +24,8 @@ const HomeWithRedux = (props) => {
       </CTLoadable>
     </CTLayout>
   );
-}
+};
 
 export const Home = connect(({ home, loading }) => ({
-  ...home
+  ...home,
 }))(HomeWithRedux);

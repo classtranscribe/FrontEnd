@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
 import CTPlayer from 'components/CTPlayer';
-import {
-  setup,
-  exampleStore,
-  connectWithRedux
-} from './controllers';
+import { setup, exampleStore, connectWithRedux } from './controllers';
 
 // import { OfferingList } from './components';
 
@@ -26,7 +22,7 @@ class ExampleWithRedux extends Component {
       transition: true,
       headingProps: {
         heading: 'Example',
-      }
+      },
     });
 
     return (
@@ -41,11 +37,11 @@ class ExampleWithRedux extends Component {
             allowScreenshot
           /> */}
 
-          <iframe 
-            width="560" 
-            height="315" 
-            title="Information and Technology April 24, 2019" 
-            frameBorder="0" 
+          <iframe
+            width="560"
+            height="315"
+            title="Information and Technology April 24, 2019"
+            frameBorder="0"
             src={`${window.location.origin}/embed/c9a54a76-9cf0-4ec2-ab2f-89d496326562?lang=en-US`}
           />
         </CTFragment>
@@ -59,5 +55,5 @@ export const Example = withReduxProvider(
   exampleStore,
   connectWithRedux,
   ['offerings'],
-  ['all']
+  ['all'],
 );

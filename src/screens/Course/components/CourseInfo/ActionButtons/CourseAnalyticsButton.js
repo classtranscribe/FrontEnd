@@ -14,7 +14,7 @@ function CourseAnalyticsButton(props) {
 
   return (
     <CTPopoverLabel label="Course Analytics">
-      <IconButton 
+      <IconButton
         component={Link}
         className={cx(btn.tealLink, 'mb-2', 'p-2', 'ct-a-fade-in')}
         to={links.courseAnalytics(offeringId)}
@@ -26,8 +26,7 @@ function CourseAnalyticsButton(props) {
 }
 
 CourseAnalyticsButton.propTypes = {
-  offeringId: PropTypes.string
+  offeringId: PropTypes.string,
 };
 
 export default CourseAnalyticsButton;
-

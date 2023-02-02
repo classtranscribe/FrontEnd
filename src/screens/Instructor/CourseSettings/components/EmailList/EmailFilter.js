@@ -25,7 +25,7 @@ function EmailFilter(props) {
     }
   };
 
-  // remove all selected emails 
+  // remove all selected emails
   const removeSelectedEmails = () => {
     setInputValue('');
     emails.removeItems(selectedEmails);
@@ -34,7 +34,7 @@ function EmailFilter(props) {
   // returns if an email is in the selected emails
   const isSelected = selectedEmails.includes;
 
-  const handleInputChange = ({ target: { value }}) => {
+  const handleInputChange = ({ target: { value } }) => {
     setInputValue(value);
     if (error && (uemail.isValid(value) || !value)) {
       setError(null);
@@ -62,7 +62,7 @@ function EmailFilter(props) {
 
   useEffect(() => {
     // remove non-exist emails in the selected emails when emails changed
-    selectedEmails.remove(email => !emails.includes(email));
+    selectedEmails.remove((email) => !emails.includes(email));
   }, [emails]);
 
   const emailResult = (result) => {
@@ -71,26 +71,24 @@ function EmailFilter(props) {
     if (result.length === 0 && !inputValue) {
       emailListElement = (
         <CTFragment dFlexCol>
-          <CTText margin={[10, 0]} center muted>No Emails</CTText>
+          <CTText margin={[10, 0]} center muted>
+            No Emails
+          </CTText>
         </CTFragment>
       );
-    // if the result is empty and ready to add an input email
+      // if the result is empty and ready to add an input email
     } else if (result.length === 0) {
       emailListElement = (
         <CTFragment dFlexCol>
-          <CTText margin={[10, 0]} center muted>No result</CTText>
+          <CTText margin={[10, 0]} center muted>
+            No result
+          </CTText>
           <CTFragment justConCenter>
-            <Button
-              uppercase
-              compact
-              text="Add this email"
-              color="teal"
-              onClick={handleAddEmail}
-            />
+            <Button uppercase compact text="Add this email" color="teal" onClick={handleAddEmail} />
           </CTFragment>
         </CTFragment>
       );
-    // if there are matched emails in the result
+      // if there are matched emails in the result
     } else {
       const emailLiProps = {
         isSelected,
@@ -98,9 +96,7 @@ function EmailFilter(props) {
         handleRemoveEmail,
       };
 
-      emailListElement = result.map(email => (
-        <EmailItem email={email} {...emailLiProps} />
-      ));
+      emailListElement = result.map((email) => <EmailItem email={email} {...emailLiProps} />);
     }
 
     // props to the select handler button
@@ -108,7 +104,7 @@ function EmailFilter(props) {
       selecting,
       selectAll: () => selectedEmails.setValue(result),
       removeAll: selectedEmails.clear,
-      isSelectedAll: result.length === selectedEmails.length
+      isSelectedAll: result.length === selectedEmails.length,
     };
 
     return (
@@ -118,19 +114,14 @@ function EmailFilter(props) {
         </CTFragment>
         <CTFragment padding={[10, 0]} alignItCenter className="cs-email-filter-actions">
           <SelectCtrlButton {...selectBtnProps} />
-          <Button 
-            uppercase 
-            icon="delete" 
-            disabled={!selecting}
-            onClick={removeSelectedEmails}
-          >
+          <Button uppercase icon="delete" disabled={!selecting} onClick={removeSelectedEmails}>
             Remove Selected Emails
           </Button>
         </CTFragment>
       </>
     );
-  }
-  
+  };
+
   return (
     <CTFragment>
       <CTInput
@@ -146,11 +137,7 @@ function EmailFilter(props) {
         error={error}
         helpText={error}
       />
-      <CTFilter
-        value={inputValue}
-        data={emails.value}
-        regexFlags="i"
-      >
+      <CTFilter value={inputValue} data={emails.value} regexFlags="i">
         {emailResult}
       </CTFilter>
     </CTFragment>

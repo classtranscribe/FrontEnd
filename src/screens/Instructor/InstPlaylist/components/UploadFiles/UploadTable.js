@@ -10,15 +10,7 @@ import { CTFragment, CTText } from 'layout';
 import UploadTableVideoCell from './UploadTableVideoCell';
 import UploadTableStatusCell from './UploadTableStatusCell';
 
-
-function UploadTable({
-  progress,
-  uploadIndex,
-  videos,
-  setVideos,
-  failedVideos,
-  can2Video
-}) {
+function UploadTable({ progress, uploadIndex, videos, setVideos, failedVideos, can2Video }) {
   const uploading = uploadIndex >= 0;
 
   const swapeVideos = (index) => {
@@ -43,11 +35,11 @@ function UploadTable({
                   {can2Video ? 'VIDEO 1' : 'VIDEO'} ({videos.length})
                 </div>
               </TableCell>
-              {
-                can2Video 
-                && 
-                <TableCell><div className="tb-cell header">VIDEO 2</div></TableCell>
-              }
+              {can2Video && (
+                <TableCell>
+                  <div className="tb-cell header">VIDEO 2</div>
+                </TableCell>
+              )}
               <TableCell align="right">
                 <div className="tb-cell header actions">{uploading ? 'STATUS' : 'ACTIONS'}</div>
               </TableCell>
@@ -76,11 +68,11 @@ function UploadTable({
           </TableBody>
         </Table>
 
-        {
-          videos.length === 0
-          &&
-          <CTText center padding={[20, 0]}>No videos</CTText>
-        }
+        {videos.length === 0 && (
+          <CTText center padding={[20, 0]}>
+            No videos
+          </CTText>
+        )}
       </TableContainer>
     </CTFragment>
   );

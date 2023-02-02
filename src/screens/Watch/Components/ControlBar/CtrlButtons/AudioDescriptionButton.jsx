@@ -1,10 +1,10 @@
 import React from 'react';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import { connect } from 'dva'
+import { connect } from 'dva';
 
 export function AudioDescriptionButtonWithRedux({ openAD = false, descriptions = [], dispatch }) {
   const handleADTrigger = () => {
-    dispatch({ type: 'playerpref/toggleOpenAD' })
+    dispatch({ type: 'playerpref/toggleOpenAD' });
   };
 
   return descriptions.length > 0 ? (
@@ -27,6 +27,9 @@ export function AudioDescriptionButtonWithRedux({ openAD = false, descriptions =
   ) : null;
 }
 
-export const AudioDescriptionButton = connect(({ watch: { descriptions }, playerpref: { openAD }, loading }) => ({
-  openAD, descriptions
-}))(AudioDescriptionButtonWithRedux);
+export const AudioDescriptionButton = connect(
+  ({ watch: { descriptions }, playerpref: { openAD }, loading }) => ({
+    openAD,
+    descriptions,
+  }),
+)(AudioDescriptionButtonWithRedux);

@@ -12,12 +12,12 @@ export async function getGlossaryData(mediaId) {
   });
 
   if (response.ok) {
-    console.log('Successfully got glossary data for mediaId: ', mediaId);
+    // console.log('Successfully got glossary data for mediaId: ', mediaId);
 
     const glossaryData = {};
     const glossaryJson = await response.json();
     // console.log(glossaryJson);
-    for (const term of glossaryJson['Glossary']) {
+    for (const term of glossaryJson.Glossary) {
       const word = term[0];
       const description = term[1];
       const link = term[5];
@@ -26,10 +26,9 @@ export async function getGlossaryData(mediaId) {
     }
 
     return glossaryData;
-  } else {
-    console.log('Failed to fetch glossary data for mediaId: ', mediaId, response.statusText);
-    return {};
   }
+  // console.log('Failed to fetch glossary data for mediaId: ', mediaId, response.statusText);
+  return {};
 }
 
 /**
@@ -45,7 +44,7 @@ export function findGlossaryTermsInChapter(glossaryData, chapterText) {
   // TODO: will optimize later (maybe trie)
   for (const word in glossaryData) {
     const index = chapterText.search(word);
-    if (index == -1) {
+    if (index === -1) {
       continue;
     }
 
@@ -153,11 +152,11 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
     // First we check that we are not inside a TAG i.e. <>
     // We do not want to replace text within an attribute!
 
-    if (text[i] == '<') {
+    if (text[i] === '<') {
       withinTag = true;
     }
 
-    if (text[i] == '>') {
+    if (text[i] === '>') {
       withinTag = false;
     }
 
@@ -171,8 +170,8 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
     // Check each available glossary word to find match at current offset (i) in text.
     for (const elem of terms_clone) {
       const sub = text.substring(i, i + elem.word.length);
-      if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) == 0) {
-		// @TODO:
+      if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) === 0) {
+        // @TODO:
         // // Check if it is a complete word backwards
         // if (i > 0 && is_alphanum(text[i - 1])) {
         //   break;
@@ -184,7 +183,7 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
         // }
 
         // The HTML id for this word in the glossary section
-        const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
+        const wordId = `glossary_${String(elem.word).replace(/ /g, '-')}`;
 
         // The replacement text with hyperlink
         res += `<a href="#${wordId}">${elem.word}</a>`;
@@ -207,16 +206,16 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
     i++;
   }
 
-//   console.log(res);
+  //   console.log(res);
   return res;
 >>>>>>> 41e38a68 (Substitutes text inside tags only)
 }
 
-/***
+/** *
  * @param terms the terms returned from findGlossaryTermsInChapter
  */
 export function glossaryTermsAsHTML(terms) {
-  if (terms.length == 0) {
+  if (terms.length === 0) {
     return '';
   }
 
@@ -232,7 +231,7 @@ export function glossaryTermsAsHTML(terms) {
 
   // Add each defintion as a <li> tag
   for (const elem of terms) {
-    const wordId = 'glossary_' + String(elem.word).replaceAll(' ', '-');
+    const wordId = `glossary_${String(elem.word).replaceAll(' ', '-')}`;
     html += `<li id='${wordId}'>${elem.word}: ${elem.description} <a href="${elem.link}">[more]</a></li>`;
     html += `<br/>`;
   }
@@ -243,11 +242,11 @@ export function glossaryTermsAsHTML(terms) {
   return html;
 }
 
-/***
+/** *
  * @param terms the terms returned from findGlossaryTermsInChapter
  */
 export function glossaryTermsAsText(terms) {
-  if (terms.length == 0) {
+  if (terms.length === 0) {
     return '';
   }
   let text = '\nGlossary:\n';

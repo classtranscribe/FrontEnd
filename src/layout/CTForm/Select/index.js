@@ -32,23 +32,22 @@ function Select(props) {
   } = props;
 
   const classes = useStyles();
-  const labelId = `ct-form-sel-label-${ id}`;
+  const labelId = `ct-form-sel-label-${id}`;
 
   let renderValue = null;
   if (multiple) {
-    renderValue = (values) => values
-      .map((val) => options.find(opt => opt.value === val).text)
-      .join(', ');
+    renderValue = (values) =>
+      values.map((val) => options.find((opt) => opt.value === val).text).join(', ');
   }
 
   return (
     <FormControl
       fullWidth
-      error={error} 
-      required={required} 
-      disabled={disabled} 
+      error={error}
+      required={required}
+      disabled={disabled}
       classes={classes}
-      variant={underlined ? "standard" : "outlined"}
+      variant={underlined ? 'standard' : 'outlined'}
       className="ct-form-sel"
     >
       <InputLabel htmlFor={id}>{label}</InputLabel>
@@ -64,11 +63,17 @@ function Select(props) {
         multiple={multiple}
         {...otherProps}
       >
-        {options.length > 0 ? options.map(item => (
-          <MenuItem dense key={item.value} value={item.value}>
-            <ListItemText primary={item.text} secondary={item.description} />
-          </MenuItem>
-        )) : <CTText muted padding="10">{noItemsHolder}</CTText>}
+        {options.length > 0 ? (
+          options.map((item) => (
+            <MenuItem dense key={item.value} value={item.value}>
+              <ListItemText primary={item.text} secondary={item.description} />
+            </MenuItem>
+          ))
+        ) : (
+          <CTText muted padding="10">
+            {noItemsHolder}
+          </CTText>
+        )}
       </MuiSelect>
       <FormHelperText>{helpText}</FormHelperText>
     </FormControl>
@@ -98,14 +103,13 @@ Select.propTypes = {
   onChange: PropTypes.func,
 
   /** Options of the selection */
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([
-      PropTypes.string, 
-      PropTypes.number
-    ]),
-    text: PropTypes.string,
-    description: PropTypes.string,
-  })),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      text: PropTypes.string,
+      description: PropTypes.string,
+    }),
+  ),
 
   /** True if the input is required */
   required: PropTypes.bool,
@@ -123,7 +127,7 @@ Select.propTypes = {
   multiple: PropTypes.bool,
 
   /** text holder when no selection options available */
-  noItemsHolder: PropTypes.string
+  noItemsHolder: PropTypes.string,
 };
 
 export default Select;

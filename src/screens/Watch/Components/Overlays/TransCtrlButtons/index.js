@@ -5,7 +5,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { STUDENT, INSTRUCTOR } from 'utils/constants';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import {
   transControl,
   LINE_VIEW,
@@ -21,7 +21,7 @@ function TransCtrlButtonsWithRedux({
   userRole = STUDENT,
   bulkEditing = false,
   isFullscreen = false,
-  dispatch
+  dispatch,
 }) {
   const switchTranView = () => {
     const view = transView;
@@ -47,7 +47,10 @@ function TransCtrlButtonsWithRedux({
   };
 
   const openTransSettingMenu = () => {
-    dispatch({ type: 'watch/menu_open', payload: { type: MENU_SETTING, option: 'a', tab: SMTAB_TRANS } });
+    dispatch({
+      type: 'watch/menu_open',
+      payload: { type: MENU_SETTING, option: 'a', tab: SMTAB_TRANS },
+    });
   };
 
   const openBulkEdit = () => {
@@ -62,43 +65,43 @@ function TransCtrlButtonsWithRedux({
       ? TRANSCRIPT_VIEW
       : HIDE_TRANS
     : isLineView
-      ? TRANSCRIPT_VIEW
-      : isHide
-        ? LINE_VIEW
-        : HIDE_TRANS;
+    ? TRANSCRIPT_VIEW
+    : isHide
+    ? LINE_VIEW
+    : HIDE_TRANS;
 
   const switchBtnIcon = isMobile
     ? isHide
       ? 'subject'
       : 'close'
     : isLineView
-      ? 'menu_book'
-      : isHide
-        ? 'subject'
-        : 'close';
+    ? 'menu_book'
+    : isHide
+    ? 'subject'
+    : 'close';
 
   const buttonGroup = [
     userRole === INSTRUCTOR && !isMobile
       ? {
-        id: 'trans-bulk-edit-btn',
-        name: 'Bulk Edit',
-        icon: <i className="material-icons">edit</i>,
-        click: openBulkEdit,
-        ariaTags: {},
-      }
+          id: 'trans-bulk-edit-btn',
+          name: 'Bulk Edit',
+          icon: <i className="material-icons">edit</i>,
+          click: openBulkEdit,
+          ariaTags: {},
+        }
       : null,
     isMobile
       ? null
       : {
-        id: 'trans-setting-btn',
-        name: 'Transcription Settings',
-        icon: <i className="fas fa-cogs" />, // settings
-        click: openTransSettingMenu,
-        ariaTags: {
-          'aria-controls': 'watch-setting-menu',
-          'aria-haspopup': 'true',
+          id: 'trans-setting-btn',
+          name: 'Transcription Settings',
+          icon: <i className="fas fa-cogs" />, // settings
+          click: openTransSettingMenu,
+          ariaTags: {
+            'aria-controls': 'watch-setting-menu',
+            'aria-haspopup': 'true',
+          },
         },
-      },
     {
       id: 'trans-view-switch-btn',
       name: switchBthName,
@@ -141,7 +144,11 @@ function TransCtrlButtonsWithRedux({
   );
 }
 
-export const TransCtrlButtons = connect(({ playerpref: { transView },
-  watch: { userRole, bulkEditing, isFullscreen }, loading }) => ({
-    transView, userRole, bulkEditing, isFullscreen
-  }))(TransCtrlButtonsWithRedux);
+export const TransCtrlButtons = connect(
+  ({ playerpref: { transView }, watch: { userRole, bulkEditing, isFullscreen }, loading }) => ({
+    transView,
+    userRole,
+    bulkEditing,
+    isFullscreen,
+  }),
+)(TransCtrlButtonsWithRedux);

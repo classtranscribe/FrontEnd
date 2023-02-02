@@ -3,13 +3,13 @@ import { Button } from 'pico-ui';
 import { CTPopoverLabel } from 'layout';
 
 function ChapterTitleButton({
-  show=false,
-  content="",
-  icon="",
-  color="transparent",
-  outlined=true,
-  className="",
-  onClick=null,
+  show = false,
+  content = '',
+  icon = '',
+  color = 'transparent',
+  outlined = true,
+  className = '',
+  onClick = null,
 }) {
   return show ? (
     <CTPopoverLabel label={content}>

@@ -2,25 +2,25 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { EPubData } from 'entities/EPubs';
 import EPubParser from './EPubParser';
-import {INDEX_LATEX} from './file-templates/latex'
+import { INDEX_LATEX } from './file-templates/latex';
 
 class ScreenshotsBuilder {
   /**
    * Create an ScreenshotsBuilder
-   * @param {EPubData} ePubData 
+   * @param {EPubData} ePubData
    */
   constructor(ePubData) {
     this.zip = new AdmZip();
     this.screenshots = ePubData.images;
   }
-  
+
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
   }
 
   /**
    * Insert all the screenshots of an EPubData object to a zipped file buffer
-   * @param {EPubData} ePubData 
+   * @param {EPubData} ePubData
    * @returns {Buffer} zipped file buffer
    */
   static async toBuffer(ePubData) {
@@ -33,32 +33,40 @@ class ScreenshotsBuilder {
   async generateLatex(epub) {
     const { chapters, condition, title, author } = epub;
     let selectedChapters = [];
-    for (let i = 0; i < chapters.length; i+= 1) {
-        for (const [key, value] of Object.entries(condition)) {
-            if (key === 'default') {
-              if (value === true && (!chapters[i].condition || chapters[i].condition.find(elem => elem === key) !== undefined)) {
-                selectedChapters.push(chapters[i]);
-                break;
-              }
-            } else if (value === true && (chapters[i].condition && chapters[i].condition.find(elem => elem === key) !== undefined)) {
-              selectedChapters.push(chapters[i]);
-              break;
-            }
+    for (let i = 0; i < chapters.length; i += 1) {
+      for (const [key, value] of Object.entries(condition)) {
+        if (key === 'default') {
+          if (
+            value === true &&
+            (!chapters[i].condition ||
+              chapters[i].condition.find((elem) => elem === key) !== undefined)
+          ) {
+            selectedChapters.push(chapters[i]);
+            break;
+          }
+        } else if (
+          value === true &&
+          chapters[i].condition &&
+          chapters[i].condition.find((elem) => elem === key) !== undefined
+        ) {
+          selectedChapters.push(chapters[i]);
+          break;
         }
+      }
     }
     let content = '';
     for (let i = 0; i < selectedChapters.length; i += 1) {
       let chapter = selectedChapters[i];
       let chapterContent = `\\section{${chapter.title}}\n`;
-      let imgName = `images/image-${i + 1}.jpeg`
+      let imgName = `images/image-${i + 1}.jpeg`;
       let imageInfo = `\\includegraphics[scale=0.2]{${imgName}}\\newline\n`;
       chapterContent = chapterContent.concat(imageInfo);
-      let transcriptStart = chapter.text.indexOf("<p>");
-      let transcriptEnd = chapter.text.indexOf("</p>");
+      let transcriptStart = chapter.text.indexOf('<p>');
+      let transcriptEnd = chapter.text.indexOf('</p>');
       let transcript = '';
       if (transcriptStart !== -1) {
-        transcript = chapter.text.substring(transcriptStart+3, transcriptEnd);
-        transcript = transcript.replaceAll("%", "\\%");
+        transcript = chapter.text.substring(transcriptStart + 3, transcriptEnd);
+        transcript = transcript.replaceAll('%', '\\%');
         chapterContent = chapterContent.concat(transcript, '\n');
       }
       for (let j = 0; j < chapter.subChapters.length; j += 1) {
@@ -66,17 +74,17 @@ class ScreenshotsBuilder {
         let subContent = `\\subsection{${subChapter.title}}`;
         for (let k = 0; k < subChapter.contents.length; k += 1) {
           let subContents = subChapter.contents[k];
-          // unwrap __data__ for correct image loading in subchapters 
-          if (typeof subContents === 'object' && "__data__" in subContents) {
+          // unwrap __data__ for correct image loading in subchapters
+          if (typeof subContents === 'object' && '__data__' in subContents) {
             subContents = JSON.parse(JSON.stringify(subContents.__data__));
           }
           if (typeof subContents === 'string') {
             subContents = subContents.replace('#### Transcript', '');
-            subContents = subContents.trim(); 
-            subContents = subContents.replaceAll("%", "\\%");
+            subContents = subContents.trim();
+            subContents = subContents.replaceAll('%', '\\%');
             subContent = subContent.concat(subContents, '\n');
           } else if (subContents.src) {
-            imgName = `images/image-${i + 1}.jpeg`
+            imgName = `images/image-${i + 1}.jpeg`;
             imageInfo = `\\includegraphics[scale=0.3]{${imgName}}\\newline\n`;
             subContent = subContent.concat(imageInfo);
           }
@@ -85,7 +93,7 @@ class ScreenshotsBuilder {
       }
       content = content.concat(chapterContent, '\\newpage\n');
     }
-    return INDEX_LATEX({title, content, author});
+    return INDEX_LATEX({ title, content, author });
   }
 
   async getScreenshotBuffers() {

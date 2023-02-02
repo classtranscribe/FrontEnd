@@ -4,7 +4,7 @@ import MenuRadio from '../MenuRadio';
 
 function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
   const handleAutoPlay = () => {
-    dispatch({ type: 'playerpref/setPreference', payload: { autoPlay: !autoPlay } })
+    dispatch({ type: 'playerpref/setPreference', payload: { autoPlay: !autoPlay } });
   };
 
   useEffect(() => {
@@ -28,5 +28,5 @@ function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
   );
 }
 export default connect(({ playerpref: { autoPlay }, loading }) => ({
-  autoPlay
+  autoPlay,
 }))(GeneralSetting);

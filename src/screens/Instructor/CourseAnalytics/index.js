@@ -24,15 +24,19 @@ export class CourseAnalyticsWithRedux extends Component {
         offsetTop: 30,
       },
       sidebarProps: {
-        items: sidebar.getCoursePageSidebarItems(offering)
+        items: sidebar.getCoursePageSidebarItems(offering),
       },
       metaTagsProps: {
-        title: 'Course Analytics'
-      }
+        title: 'Course Analytics',
+      },
     }));
 
     if (offering && offering.fullNumber) {
-      layoutProps.headingProps.heading = <><span>{offering.fullNumber}</span> Analytics</>;
+      layoutProps.headingProps.heading = (
+        <>
+          <span>{offering.fullNumber}</span> Analytics
+        </>
+      );
       layoutProps.metaTagsProps.title = `Analytics | ${offering.fullNumber}`;
     }
 
@@ -47,5 +51,5 @@ export class CourseAnalyticsWithRedux extends Component {
 }
 
 export const CourseAnalytics = connect(({ course, loading }) => ({
-  course
+  course,
 }))(CourseAnalyticsWithRedux);

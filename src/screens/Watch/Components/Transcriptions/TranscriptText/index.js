@@ -15,7 +15,7 @@ export default function TranscriptText({ caption = {}, isCurrent = false, dispat
 
   const handleSeek = () => {
     const time = timeStrToSec(begin);
-    dispatch({ type: 'watch/media_setCurrTime', payload: time })
+    dispatch({ type: 'watch/media_setCurrTime', payload: time });
   };
 
   const handleKeyDown = (e) => {

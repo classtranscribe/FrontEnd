@@ -18,10 +18,7 @@ function ImagePickerModalActions(props) {
       >
         save
       </Button>
-      <Button
-        className={btn.tealLink}
-        onClick={onClose}
-      >
+      <Button className={btn.tealLink} onClick={onClose}>
         cancel
       </Button>
     </CTFragment>
@@ -31,7 +28,7 @@ function ImagePickerModalActions(props) {
 ImagePickerModalActions.propTypes = {
   onClose: PropTypes.func,
   onSave: PropTypes.func,
-  canSave: PropTypes.bool
+  canSave: PropTypes.bool,
 };
 
 export default ImagePickerModalActions;

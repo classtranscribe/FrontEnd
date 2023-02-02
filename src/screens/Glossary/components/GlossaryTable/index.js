@@ -1,7 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './index.scss';
+<<<<<<< HEAD
 import "rsuite/dist/rsuite.css";
 import axios from 'axios';
+=======
+import 'rsuite/dist/rsuite.css';
+>>>>>>> ed2ab9a8 (Ran npm prettier:fix and lint:fix on project)
 
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
@@ -11,6 +15,7 @@ import axios from 'axios';
  * it can sort the list and cache sorted list so it won't take time for sorting
  */
 const useSortableData = (items, config = null) => {
+<<<<<<< HEAD
     const [sortConfig, setSortConfig] = useState(config);
     
   
@@ -36,13 +41,38 @@ const useSortableData = (items, config = null) => {
         sortConfig.key === key && 
         sortConfig.direction === 'ascending') {
             direction = 'descending';
+=======
+  const [sortConfig, setSortConfig] = useState(config);
+
+  const sortedItems = useMemo(() => {
+    let sortableItems = [...items];
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
         }
-      setSortConfig({ key, direction });
-    };
-  
-    return { items:sortedItems, requestSort, sortConfig};
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+>>>>>>> ed2ab9a8 (Ran npm prettier:fix and lint:fix on project)
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [items, sortConfig]);
+
+  const requestSort = (key) => {
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  return { items: sortedItems, requestSort, sortConfig };
 };
 
+<<<<<<< HEAD
 
 
 const GlossaryTable = props => {
@@ -178,5 +208,48 @@ const GlossaryTable = props => {
       </div>
     );
 }
+=======
+const GlossaryTable = (props) => {
+  const { items, requestSort, sortConfig } = useSortableData(props.words);
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <button
+              type="button"
+              onClick={() => requestSort('term')}
+              className={getClassNamesFor('term')}
+            >
+              TERM
+            </button>
+          </th>
+          <th>LINK</th>
+          <th>DESCRIPTION</th>
+          <th>SOURSE</th>
+          <th>DOMAIN</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((term) => (
+          <tr key={term.id}>
+            <td>{term.term}</td>
+            <td>{term.link}</td>
+            <td>{term.description}</td>
+            <td>{term.source}</td>
+            <td>{term.domain}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+>>>>>>> ed2ab9a8 (Ran npm prettier:fix and lint:fix on project)
 
 export default GlossaryTable;

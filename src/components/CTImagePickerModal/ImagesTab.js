@@ -6,21 +6,16 @@ import Image from 'components/Image';
 import ImagePreview from './ImagePreview';
 
 function ImagesTab(props) {
-  const {
-    images,
-    imgUrl,
-    setImgUrl,
-    description
-  } = props;
+  const { images, imgUrl, setImgUrl, description } = props;
 
   return (
     <div className="ct-img-picker-con">
       <div className="ct-img-picker-imgs-con">
         {description && <CTText margin="5">{description}</CTText>}
         <div role="list" className="ct-img-picker-imgs">
-          {images.map(img => (
-            <div 
-              key={img} 
+          {images.map((img) => (
+            <div
+              key={img}
               tabIndex={0}
               className="ct-img-picker-img-con"
               data-current={img === imgUrl}
@@ -29,11 +24,7 @@ function ImagesTab(props) {
             >
               <Image src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
               <div className="ct-img-picker-img-wrapper ct-d-r-center">
-                {
-                  img === imgUrl
-                  &&
-                  <i className="material-icons">check_circle</i>
-                }
+                {img === imgUrl && <i className="material-icons">check_circle</i>}
               </div>
             </div>
           ))}

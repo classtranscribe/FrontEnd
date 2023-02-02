@@ -2,19 +2,19 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
-import {
-  screenModes,
-  MENU_HIDE,
-  MENU_SCREEN_MODE,
-  NORMAL_MODE,
-} from '../../../Utils';
+import { screenModes, MENU_HIDE, MENU_SCREEN_MODE, NORMAL_MODE } from '../../../Utils';
 
-export function ScreenModeSettingButtonWithRedux({ isFullscreen = false, mode = NORMAL_MODE, dispatch, menu }) {
+export function ScreenModeSettingButtonWithRedux({
+  isFullscreen = false,
+  mode = NORMAL_MODE,
+  dispatch,
+  menu,
+}) {
   const handleMenuTrigger = () => {
     if (isFullscreen === false) {
-      dispatch({type: 'watch/setFullscreen', payload: true });
+      dispatch({ type: 'watch/setFullscreen', payload: true });
     } else {
-      dispatch({type: 'watch/setFullscreen', payload: false });
+      dispatch({ type: 'watch/setFullscreen', payload: false });
     }
   };
 
@@ -43,6 +43,10 @@ export function ScreenModeSettingButtonWithRedux({ isFullscreen = false, mode = 
   ) : null;
 }
 
-export const ScreenModeSettingButton = connect(({ watch: { menu, mode, isFullscreen }, loading }) => ({
-  menu, mode, isFullscreen
-}))(ScreenModeSettingButtonWithRedux);
+export const ScreenModeSettingButton = connect(
+  ({ watch: { menu, mode, isFullscreen }, loading }) => ({
+    menu,
+    mode,
+    isFullscreen,
+  }),
+)(ScreenModeSettingButtonWithRedux);

@@ -13,21 +13,21 @@ const HistoryWithRedux = (props) => {
       icon: 'history',
       sticky: true,
       gradient: true,
-      offsetTop: 30
+      offsetTop: 30,
     },
     metaTagsProps: {
       title: 'History',
-      description: 'Track your activities in ClassTranscribe.'
-    }
+      description: 'Track your activities in ClassTranscribe.',
+    },
   });
 
   return (
     <CTLayout {...layoutProps}>
       <WatchHistories />
     </CTLayout>
-  )
-}
+  );
+};
 
 export const History = connect(({ historypage, loading }) => ({
-  historypage
+  historypage,
 }))(HistoryWithRedux);

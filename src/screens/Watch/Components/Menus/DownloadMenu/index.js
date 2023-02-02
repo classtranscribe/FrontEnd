@@ -7,8 +7,9 @@ function DownloadMenu({ onClose = null, trans }) {
   const [downloading, setDownloading] = useState('');
   const [disabledList, setDisabledList] = useState([]);
 
-  const langList = langOptions.map((language) =>
-    findTransByLanguage(language, trans) || { language });
+  const langList = langOptions.map(
+    (language) => findTransByLanguage(language, trans) || { language },
+  );
 
   const handleDownload = (path, type, info) => async () => {
     setDownloading(info);
@@ -52,7 +53,7 @@ function DownloadMenu({ onClose = null, trans }) {
                 </div>
               ) : (
                 <i className="material-icons watch-icon-icon">save_alt</i>
-                )}
+              )}
               <div className="watch-icon-name">{langMap[lang.language]}</div>
             </span>
           </button>

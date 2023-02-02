@@ -6,17 +6,7 @@ import { connectWithRedux } from '../controllers';
 function ShortcutModal({ showShortcuts, dispatch }) {
   const onClose = () => dispatch({ type: 'epub/setShowShortcuts', payload: false });
 
-  return (
-    <CTShortcutModal
-      fullWidth
-      open={showShortcuts}
-      shortcuts={shortcuts}
-      onClose={onClose}
-    />
-  );
+  return <CTShortcutModal fullWidth open={showShortcuts} shortcuts={shortcuts} onClose={onClose} />;
 }
 
-export default connectWithRedux(
-  ShortcutModal,
-  ['showShortcuts']
-);
+export default connectWithRedux(ShortcutModal, ['showShortcuts']);

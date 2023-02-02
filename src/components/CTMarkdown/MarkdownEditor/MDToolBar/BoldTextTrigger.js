@@ -11,14 +11,14 @@ function BoldTextTrigger(props) {
   return (
     <MDToolButton
       icon="format_bold"
-      popup={`Add Bold Text ${ getShortcut('b')}`}
+      popup={`Add Bold Text ${getShortcut('b')}`}
       onClick={handleAddBoldText}
     />
   );
 }
 
 BoldTextTrigger.propTypes = {
-  ace: PropTypes.any
+  ace: PropTypes.any,
 };
 
 export default BoldTextTrigger;

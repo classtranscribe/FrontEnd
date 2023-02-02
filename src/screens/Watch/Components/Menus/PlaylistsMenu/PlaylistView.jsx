@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { elem } from 'utils/use-elem';
 import { connectWithRedux } from '../../../Utils';
-import setup from '../../../model/setup'
+import setup from '../../../model/setup';
 
 function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
   useEffect(() => {
@@ -19,9 +19,7 @@ function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
 
   return (
     <div className="watch-playlists-list">
-      <div className="watch-list-title">
-        Playlists
-      </div>
+      <div className="watch-list-title">Playlists</div>
       <div role="list" className="w-100 d-flex flex-column">
         {playlists.map((playlistItem) => (
           <button

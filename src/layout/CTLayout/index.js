@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
-import CTCookieAgreement from 'components/CTCookieAgreement'
+import CTCookieAgreement from 'components/CTCookieAgreement';
 import { altEl, makeEl } from '../tools';
 import CTScrollArea from '../CTScrollArea';
 import CTNavHeader from '../CTNavHeader';
@@ -17,7 +17,7 @@ import { createCTLayoutProps } from './create-props';
 import {
   getDefaultSidebarType,
   getScreenResizeListener,
-  handleOpenResponsiveSidebar
+  handleOpenResponsiveSidebar,
 } from './responsive';
 
 /**
@@ -25,7 +25,7 @@ import {
  */
 function CTLayout(props) {
   let {
-    role = "main",
+    role = 'main',
     className,
     // styles
     fill = false,
@@ -42,7 +42,7 @@ function CTLayout(props) {
     sidebarProps = {},
     headingProps,
     metaTagsProps = {},
-    cookieAgreementModal = true
+    cookieAgreementModal = true,
   } = props;
 
   const { float = false, mini = false } = sidebarProps;
@@ -53,10 +53,10 @@ function CTLayout(props) {
 
   useEffect(() => {
     if (responsive) {
-      const {
-        addScreenResizeListener,
-        removeScreenResizeListener
-      } = getScreenResizeListener(defaultSidebar, setSidebar);
+      const { addScreenResizeListener, removeScreenResizeListener } = getScreenResizeListener(
+        defaultSidebar,
+        setSidebar,
+      );
 
       addScreenResizeListener();
 
@@ -86,17 +86,14 @@ function CTLayout(props) {
 
   // Classes
   const containerClasses = cx(className);
-  const mainClasses = cx(
-    'ct-layout-main',
-    {
-      fill,
-      'tab-header': Array.isArray(tabs) && tabs.length > 0,
-      transition,
-      'padded-240': isNormal,
-      'padded-50': isMini,
-      mobile: isMobile
-    }
-  );
+  const mainClasses = cx('ct-layout-main', {
+    fill,
+    'tab-header': Array.isArray(tabs) && tabs.length > 0,
+    transition,
+    'padded-240': isNormal,
+    'padded-50': isMini,
+    mobile: isMobile,
+  });
 
   // Brand Element
   const brandElemProps = {
@@ -115,12 +112,16 @@ function CTLayout(props) {
   const headingElement = altEl(CTHeading, Boolean(headingProps), {
     gradient: true,
     highlightIcon: true,
-    ...headingProps
+    ...headingProps,
   });
 
   // Page Element
   const pageElement = altEl(
-    children, !fill, null, <div className="ct-layout-fill">{children}</div>);
+    children,
+    !fill,
+    null,
+    <div className="ct-layout-fill">{children}</div>,
+  );
 
   const footerElement = altEl(CTFooter, footer);
   const cookieAgreementElement = altEl(CTCookieAgreement, cookieAgreementModal);
@@ -147,18 +148,12 @@ function CTLayout(props) {
         scrollClassName={mainClasses}
         disabled={fill}
       >
-        <CTNavHeader
-          {...headerProps}
-          sticky
-          darkMode={darkMode}
-          brandElem={headerBrandElem}
-        />
+        <CTNavHeader {...headerProps} sticky darkMode={darkMode} brandElem={headerBrandElem} />
 
         {cookieAgreementElement}
         {headingElement}
         {pageElement}
         {footerElement}
-
       </CTScrollArea>
     </div>
   );
@@ -205,7 +200,7 @@ export const CTLayoutPropTypes = {
   headingProps: PropTypes.shape(CTHeading.propTypes),
 
   /** Meta tags */
-  metaTagsProps: PropTypes.shape(CTMetaTags.propTypes)
+  metaTagsProps: PropTypes.shape(CTMetaTags.propTypes),
 };
 
 CTLayout.propTypes = CTLayoutPropTypes;

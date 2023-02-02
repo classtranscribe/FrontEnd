@@ -10,8 +10,10 @@ export function NoCourseHolder() {
 
   return (
     <CTFragment center dFlexCol padding={[30, 0]}>
-      <CTText muted padding="20" size="medium">Welcome to ClassTranscribe</CTText>
-      
+      <CTText muted padding="20" size="medium">
+        Welcome to ClassTranscribe
+      </CTText>
+
       <Button
         component={Link}
         variant="contained"

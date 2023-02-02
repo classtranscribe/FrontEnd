@@ -6,7 +6,6 @@ import { CTLayout, CTErrorWrapper } from 'layout';
 import { InfoAndListLayout } from 'components';
 import { CourseInfo, Playlists } from './components';
 
-
 const CourseWithRedux = (props) => {
   const { course } = props;
   const { offering, role, playlist } = course;
@@ -18,21 +17,23 @@ const CourseWithRedux = (props) => {
   const layoutProps = CTLayout.createProps((sidebar) => ({
     transition: true,
     responsive: true,
-    sidebarProps: isInstructor ? {
-      items: sidebar.getCoursePageSidebarItems(offering)
-    } : undefined,
-    metaTagsProps: offeringLoaded ? {
-      title: playlistLoaded
-        ? `${playlist.name} | ${offering.fullNumber}`
-        : offering.fullNumber,
-      description: offering.description
-    } : undefined,
+    sidebarProps: isInstructor
+      ? {
+          items: sidebar.getCoursePageSidebarItems(offering),
+        }
+      : undefined,
+    metaTagsProps: offeringLoaded
+      ? {
+          title: playlistLoaded ? `${playlist.name} | ${offering.fullNumber}` : offering.fullNumber,
+          description: offering.description,
+        }
+      : undefined,
     // temp, need to change back
     headerProps:
       // !isInstructor ? {
       //   subtitle: 'Course Admin'
       // } :
-      { search: true }
+      { search: true },
   }));
 
   const errorProps = {
@@ -40,14 +41,14 @@ const CourseWithRedux = (props) => {
     signInButton: false,
     code: 404,
     header: `Couldn't find the course.`,
-    description: 'Please check if provided the URL is correct.'
+    description: 'Please check if provided the URL is correct.',
   };
 
   const pageFragmentProps = {
     id: 'cp-container',
     loading: offering === null,
     error: offering === ErrorTypes.NotFound404,
-    errorElement: <CTErrorWrapper {...errorProps} />
+    errorElement: <CTErrorWrapper {...errorProps} />,
   };
 
   return (
@@ -58,8 +59,8 @@ const CourseWithRedux = (props) => {
       </InfoAndListLayout>
     </CTLayout>
   );
-}
+};
 
 export const Course = connect(({ course, loading }) => ({
-  course
+  course,
 }))(CourseWithRedux);

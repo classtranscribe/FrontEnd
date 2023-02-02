@@ -25,7 +25,7 @@ export function filterTrivalItems(epubData) {
 }
 
 export function parseRawEPubData(rawEPubData) {
-  return _.map(filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
+  return _.map(filterTrivalItems(rawEPubData), (item) => ({ ...item, id: _buildID() }));
 }
 
 export function getAllItemsInChapter(chapter) {
@@ -47,4 +47,3 @@ export function getAllImagesInChapter(chapter) {
 export function getAllImagesInChapters(chapters) {
   return _.flatten(_.map(chapters, (chapter) => getAllImagesInChapter(chapter)));
 }
-

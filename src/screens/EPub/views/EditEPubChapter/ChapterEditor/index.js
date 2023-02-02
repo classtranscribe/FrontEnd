@@ -1,6 +1,6 @@
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import ChapterInfo from './ChapterInfo';
 import SubChapterItem from './SubChapterItem';
 import './index.scss';
@@ -9,11 +9,13 @@ function ChapterEditor({ chapters = [], currChIndex, dispatch }) {
   const currChapter = chapters[currChIndex] || {};
   const { subChapters = [], title = '' } = currChapter;
   const onFold = (folded, id) => {
-    dispatch({ type: 'epub/foldChapter', payload: { id, folded } })
-  }
+    dispatch({ type: 'epub/foldChapter', payload: { id, folded } });
+  };
   return (
     <CTFragment className="ct-epb ech ch-con" shadowed>
-      <CTText muted className="pl-1">Chapter {currChIndex + 1}: {title}</CTText>
+      <CTText muted className="pl-1">
+        Chapter {currChIndex + 1}: {title}
+      </CTText>
       <ChapterInfo chapter={currChapter} currChIndex={currChIndex} dispatch={dispatch} />
 
       <CTFragment dFlexCol role="list">
@@ -33,5 +35,6 @@ function ChapterEditor({ chapters = [], currChIndex, dispatch }) {
 }
 
 export default connect(({ epub: { epub: { chapters }, currChIndex }, loading }) => ({
-  chapters, currChIndex
+  chapters,
+  currChIndex,
 }))(ChapterEditor);

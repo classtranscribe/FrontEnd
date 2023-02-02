@@ -42,22 +42,16 @@ function CopyButton(props) {
   const commonProps = {
     className: cx(btnStyles.tealLink, className),
     onClick: handleCopy,
-    ...btnProps
+    ...btnProps,
   };
 
   return children ? (
-    <Button
-      startIcon={copyIcon}
-      onClick={handleCopy}
-      {...commonProps}
-    >
+    <Button startIcon={copyIcon} onClick={handleCopy} {...commonProps}>
       {copyStatus > 0 ? 'Link Copied!' : children}
     </Button>
   ) : (
     <CTPopoverLabel label={label}>
-      <IconButton {...commonProps}>
-        {copyIcon}
-      </IconButton>
+      <IconButton {...commonProps}>{copyIcon}</IconButton>
     </CTPopoverLabel>
   );
 }
@@ -77,4 +71,3 @@ CopyButton.propTypes = {
 };
 
 export default CopyButton;
-

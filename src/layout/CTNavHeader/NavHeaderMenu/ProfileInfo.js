@@ -19,39 +19,32 @@ function ProfileInfo(props) {
   return (
     <MenuItem disabled id="profile" {...otherProps}>
       <div className="profile">
-        {
-          picture 
-          ? 
-            <Image
-              circular
-              src={picture}  
-              alt="Profile picture"
-            />
-          :
-            <div 
-              role="img"
-              aria-label="Profile picture"
-              className="profile-img-alt menu"
-            >
-              <div>{fullName.slice(0,1).toUpperCase()}</div>
-            </div>
-        }
+        {picture ? (
+          <Image circular src={picture} alt="Profile picture" />
+        ) : (
+          <div role="img" aria-label="Profile picture" className="profile-img-alt menu">
+            <div>{fullName.slice(0, 1).toUpperCase()}</div>
+          </div>
+        )}
         <Typography style={styles.font}>
-          <strong>{fullName}</strong><br />
-          <span>{emailId}</span><br />
+          <strong>{fullName}</strong>
+          <br />
+          <span>{emailId}</span>
+          <br />
           <span>{uniName}</span>
-          {
-            isLoginAsAccount
-            &&
+          {isLoginAsAccount && (
             <>
               <br />
               <br />
-              <span>You are accessing content of <strong>{loginAsEmailId}</strong></span><br />
+              <span>
+                You are accessing content of <strong>{loginAsEmailId}</strong>
+              </span>
+              <br />
               <span>{loginAsUserUni}</span>
               <br />
               <br />
             </>
-          }
+          )}
         </Typography>
       </div>
     </MenuItem>

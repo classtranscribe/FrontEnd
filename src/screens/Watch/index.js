@@ -6,11 +6,8 @@ import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { uurl } from 'utils/use-url';
 import { CTLayout } from 'layout';
-import { connect } from 'dva'
-import {
-  keydownControl,
-  ERR_INVALID_MEDIA_ID,
-} from './Utils';
+import { connect } from 'dva';
+import { keydownControl, ERR_INVALID_MEDIA_ID } from './Utils';
 import './index.css';
 import './zIndex.css';
 
@@ -47,10 +44,10 @@ const WatchWithRedux = (props) => {
     keydownControl.addKeyDownListener(dispatch);
     // update WatchModel
     /** Add resize event listener */
-  }, [])
+  }, []);
   useEffect(() => {
-    keydownControl.setMenuModel(menu)
-  }, [menu])
+    keydownControl.setMenuModel(menu);
+  }, [menu]);
   if (!id) error = ERR_INVALID_MEDIA_ID;
   const layoutProps = CTLayout.createProps({
     transition: true,
@@ -60,36 +57,38 @@ const WatchWithRedux = (props) => {
     headerProps: {
       show: !isFullscreen,
       leftElem: <WatchHeaderLeftElem />,
-      rightElem: <WatchHeaderRightElem plain={error} />
+      rightElem: <WatchHeaderRightElem plain={error} />,
     },
     sidebarProps: {
-      float: true
-    }
+      float: true,
+    },
   });
   return (
     <CTLayout {...layoutProps}>
       <div className="watch-bg" id="watch-page">
-        {
-          error ? (
-            <ErrorWrapper error={error} />
-          ) : (
-            <><TabEventHelperButtons dispatch={dispatch} />
-              <Modals />
-              {/* <WatchHeader /> */}
-              <Search />
-              <Menus />
-              <ClassTranscribePlayer />
-              <UpNext />
-              <TransCtrlButtons />
-              <Transcriptions />
-              <ControlBar />
-            </>)
-        }
+        {error ? (
+          <ErrorWrapper error={error} />
+        ) : (
+          <>
+            <TabEventHelperButtons dispatch={dispatch} />
+            <Modals />
+            {/* <WatchHeader /> */}
+            <Search />
+            <Menus />
+            <ClassTranscribePlayer />
+            <UpNext />
+            <TransCtrlButtons />
+            <Transcriptions />
+            <ControlBar />
+          </>
+        )}
       </div>
     </CTLayout>
   );
-}
+};
 
 export const Watch = connect(({ loading, watch: { menu, error, isFullscreen } }) => ({
-  menu, error, isFullscreen
+  menu,
+  error,
+  isFullscreen,
 }))(WatchWithRedux);

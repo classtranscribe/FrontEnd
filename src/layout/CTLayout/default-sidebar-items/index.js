@@ -3,7 +3,6 @@ import { createCTNavSidebarItemProps } from '../../CTNavSidebar/create-props';
 import { getAdminNavItem } from './admin-items';
 import { getComponentAPINavItem } from './component-api-items';
 
-
 export class DefaultSidebarItems {
   constructor() {
     this.create = createCTNavSidebarItemProps;
@@ -16,7 +15,7 @@ export class DefaultSidebarItems {
       icon: 'home',
       href: links.home(),
       active: uurl.isEqual(links.home()),
-      items: []
+      items: [],
     });
   }
 
@@ -27,7 +26,7 @@ export class DefaultSidebarItems {
       icon: 'search',
       href: links.search(),
       active: uurl.isEqual(links.search()),
-      items: []
+      items: [],
     });
   }
 
@@ -38,7 +37,7 @@ export class DefaultSidebarItems {
       icon: 'history',
       href: links.history(),
       active: uurl.isEqual(links.history()),
-      items: []
+      items: [],
     });
   }
 
@@ -49,7 +48,7 @@ export class DefaultSidebarItems {
       icon: 'bar_chart',
       href: links.personalAnalytics(),
       active: uurl.isEqual(links.personalAnalytics()),
-      items: []
+      items: [],
     });
   }
 
@@ -61,49 +60,49 @@ export class DefaultSidebarItems {
       icon: 'book',
       href: links.glossary(),
       active: uurl.isEqual(links.glossary()),
-      items: []
+      items: [],
     });
   }
 
-  get pgadmin () {
+  get pgadmin() {
     return this.create({
       value: 'ct-nsb-extLinks-pgadmin',
       text: 'pgadmin',
       icon: 'link',
       href: links.pgadmin(),
       active: uurl.isEqual(links.pgadmin()),
-      items: []
+      items: [],
     });
   }
-  
-  get swag () {
+
+  get swag() {
     return this.create({
       value: 'ct-nsb-extLinks-swag',
       text: 'swag',
       icon: 'link',
       href: links.swag(),
       active: uurl.isEqual(links.swag()),
-      items: []
+      items: [],
     });
   }
-  get rabbitmq () {
+  get rabbitmq() {
     return this.create({
       value: 'ct-nsb-extLinks-rabbitmq',
       text: 'rabbitmq',
       icon: 'link',
       href: links.rabbitmq(),
       active: uurl.isEqual(links.rabbitmq()),
-      items: []
+      items: [],
     });
   }
-  get traefik () {
+  get traefik() {
     return this.create({
       value: 'ct-nsb-extLinks-traefik',
       text: 'traefik',
       icon: 'link',
       href: links.traefik(),
       active: uurl.isEqual(links.traefik()),
-      items: []
+      items: [],
     });
   }
 
@@ -117,22 +116,21 @@ export class DefaultSidebarItems {
       text: 'My Courses',
       icon: 'collections_bookmark',
       href: links.instructor(),
-      active: uurl.isEqual(links.myCourses()) 
-            || uurl.isEqual(links.newCourse()),
+      active: uurl.isEqual(links.myCourses()) || uurl.isEqual(links.newCourse()),
       items: [
         {
           value: 'ct-nsb-inst-courses',
           text: 'Courses',
           href: links.myCourses(),
-          active: window.location.pathname === links.myCourses()
+          active: window.location.pathname === links.myCourses(),
         },
         {
           value: 'ct-nsb-inst-new',
           text: 'New Course',
           href: links.newCourse(),
-          active: window.location.pathname === links.newCourse()
-        }
-      ]
+          active: window.location.pathname === links.newCourse(),
+        },
+      ],
     });
   }
 
@@ -172,7 +170,7 @@ export class DefaultSidebarItems {
       items.push('breakline');
       items.push(this.componentAPIs);
     }
-    
+
     if (env.dev || isAdmin) {
       items.push(this.pgadmin);
       items.push(this.rabbitmq);
@@ -185,45 +183,40 @@ export class DefaultSidebarItems {
 
   getCoursePageSidebarItems(offering) {
     if (!offering || !offering.id) return this.defaultItems;
-  
+
     const tabs = [
       {
         value: 'off-settings-tab',
         text: 'Settings',
         href: links.courseSettings(offering.id),
-        active: uurl.isEqual(links.courseSettings(offering.id))
+        active: uurl.isEqual(links.courseSettings(offering.id)),
       },
       {
         value: 'off-new-pl-tab',
         text: 'New Playlist',
         href: links.instNewPlaylist(offering.id),
-        active: uurl.isEqual(links.instNewPlaylist(offering.id))
-      }
+        active: uurl.isEqual(links.instNewPlaylist(offering.id)),
+      },
     ];
-  
+
     if (offering.logEventsFlag) {
       tabs.unshift({
         value: 'off-analytics-tab',
         text: 'Analytics',
         href: links.courseAnalytics(offering.id),
-        active: uurl.isEqual(links.courseAnalytics(offering.id))
+        active: uurl.isEqual(links.courseAnalytics(offering.id)),
       });
     }
-  
+
     const offeringItem = {
       value: offering.id || 'ct-nsb-offering',
       text: offering.fullNumber,
       active: true,
       icon: 'book',
       items: tabs,
-      href: links.course(offering.id)
+      href: links.course(offering.id),
     };
-  
-    return [
-      ...this.defaultItems.slice(0, 6),
-      offeringItem,
-      ...this.defaultItems.slice(6)
-    ];
+
+    return [...this.defaultItems.slice(0, 6), offeringItem, ...this.defaultItems.slice(6)];
   }
 }
-

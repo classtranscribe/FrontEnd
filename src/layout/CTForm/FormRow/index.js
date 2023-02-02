@@ -14,24 +14,19 @@ const useStyles = makeStyles({
     '-webkit-justify-content': 'flex-start',
     justifyContent: 'flex-start',
     width: '100%',
-    height: 'max-content'
+    height: 'max-content',
   },
   item: {
     // minWidth: '300px',
-    marginBottom: '20px'
-  }
+    marginBottom: '20px',
+  },
 });
 
 /**
  * The Row component used in `CTForm`
  */
 function FormRow(props) {
-  const {
-    children,
-    padding,
-    gridClassName,
-    ...otherProps
-  } = props;
+  const { children, padding, gridClassName, ...otherProps } = props;
 
   const rowClasses = useStyles();
 
@@ -43,13 +38,13 @@ function FormRow(props) {
     md: xs,
     sm: 12,
     xs: 12,
-    className: cx(rowClasses.item, gridClassName)
+    className: cx(rowClasses.item, gridClassName),
   };
 
   return (
     <CTFragment padding={padding} {...otherProps}>
       <Grid className={rowClasses.root} container spacing={2}>
-        {colElements.map(colElem => (
+        {colElements.map((colElem) => (
           <Grid key={colElem.key} {...gridProps}>
             {colElem}
           </Grid>
@@ -66,7 +61,7 @@ FormRow.propTypes = {
   /** classes to the grid item */
   gridClassName: PropTypes.string,
 
-  ...CTFragment.propTypes
+  ...CTFragment.propTypes,
 };
 
 export default FormRow;

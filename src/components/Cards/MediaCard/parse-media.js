@@ -1,4 +1,4 @@
-import { api, links } from "utils";
+import { api, links } from 'utils';
 
 export function parseMedia(mediaLike) {
   let media = mediaLike;
@@ -13,6 +13,6 @@ export function parseMedia(mediaLike) {
     ratio: media.watchHistory.ratio,
     href: links.watch(media.id),
     isUnavailable: media.isUnavailable,
-    duration: media.duration
+    duration: media.duration,
   };
 }

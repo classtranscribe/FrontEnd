@@ -57,10 +57,10 @@ function CTScrollArea(props) {
     'is-top': isTop,
   });
 
-  const scrollProps = { 
+  const scrollProps = {
     id,
     ref: scrollRef,
-    className: scrollClasses
+    className: scrollClasses,
   };
 
   if (scrollBar && !disabled) {
@@ -69,13 +69,11 @@ function CTScrollArea(props) {
 
   return (
     <div className={classes}>
-      {
-        !disabled
-        &&
+      {!disabled && (
         <div style={scrollToTopButtonStyle} className={scrollTopBtnClasses}>
           <Button round icon="arrow_upward" color={dark ? 'teal' : 'black'} onClick={scrollToTop} />
         </div>
-      }
+      )}
 
       <div {...scrollProps} {...otherProps}>
         {children}
@@ -99,11 +97,11 @@ CTScrollArea.propTypes = {
 
   /** Position of the scroll to top button */
   scrollToTopButton: PropTypes.oneOf([
-    'hide', 
-    'top left', 
-    'top right', 
-    'bottom left', 
-    'bottom right'
+    'hide',
+    'top left',
+    'top right',
+    'bottom left',
+    'bottom right',
   ]),
 
   /** Styles for the scroll to top button */

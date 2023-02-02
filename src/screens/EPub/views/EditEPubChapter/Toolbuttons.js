@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup'
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
 import { epub as epubController, connectWithRedux } from '../../controllers';
@@ -15,9 +15,12 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
 
   const watchInPlayer = () => {
     dispatch({
-      type: 'epub/openPlayer', payload: {
-        title: `Chapter ${currChIndex + 1}: ${title}`, start, end
-      }
+      type: 'epub/openPlayer',
+      payload: {
+        title: `Chapter ${currChIndex + 1}: ${title}`,
+        start,
+        end,
+      },
     });
   };
 
@@ -30,7 +33,7 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
   };
 
   const toNextCh = () => {
-    if(chapters[currChIndex + 1]) {
+    if (chapters[currChIndex + 1]) {
       dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex + 1].id });
     }
   };
@@ -43,7 +46,10 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
         onClick={watchInPlayer}
         size="large"
       >
-        Watch <span className="ml-1">{startTimeStr} - {endTimeStr}</span>
+        Watch{' '}
+        <span className="ml-1">
+          {startTimeStr} - {endTimeStr}
+        </span>
       </Button>
       <Button
         startIcon={<span className="material-icons">layers</span>}
@@ -80,7 +86,4 @@ function Toolbuttons({ currChIndex = 0, epub = {}, dispatch }) {
   );
 }
 
-export default connectWithRedux(
-  Toolbuttons,
-  ['currChIndex', 'epub'],
-);
+export default connectWithRedux(Toolbuttons, ['currChIndex', 'epub']);

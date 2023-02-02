@@ -6,7 +6,7 @@ import CTFragment from '../CTFragment';
  */
 function CTFooter() {
   return (
-    <CTFragment 
+    <CTFragment
       padding={[50, 20]}
       dFlexCol
       alignItCenter
@@ -23,4 +23,3 @@ function CTFooter() {
 }
 
 export default CTFooter;
-

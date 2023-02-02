@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Popup } from 'semantic-ui-react';
 import { elem } from 'utils/use-elem';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton, Button } from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  IconButton,
+  Button,
+} from '@material-ui/core';
 import Delete from '@material-ui/icons/Delete';
 import autosize from 'autosize';
 import { epub } from '../../controllers';
@@ -17,7 +25,7 @@ function ChapterText({
   onSaveText,
   addNewText = 'Click to add content',
   attached,
-  height = '300px'
+  height = '300px',
 }) {
   const [editing, setEditing] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -60,43 +68,39 @@ function ChapterText({
   };
 
   const handleYes = () => {
-    onSave("");
+    onSave('');
     setDialogOpen(false);
   };
 
-  const deleteButton = text !== "" ? (
-    <div>
-      <div style={{float: 'right'}}>
-        <IconButton
-          aria-label="delete"
-          onClick={handleDeleteText}
+  const deleteButton =
+    text !== '' ? (
+      <div>
+        <div style={{ float: 'right' }}>
+          <IconButton aria-label="delete" onClick={handleDeleteText}>
+            <Delete />
+          </IconButton>
+        </div>
+        <Dialog
+          open={dialogOpen}
+          onClose={handleNo}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
-          <Delete />
-        </IconButton>
+          <DialogTitle id="alert-dialog-title">Delete Text Block</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Do you want to delete the Text Block?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleNo} autoFocus>
+              NO
+            </Button>
+            <Button onClick={handleYes}>YES</Button>
+          </DialogActions>
+        </Dialog>
       </div>
-      <Dialog
-        open={dialogOpen}
-        onClose={handleNo}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Delete Text Block
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Do you want to delete the Text Block?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleNo} autoFocus>NO</Button>
-          <Button onClick={handleYes}>YES</Button>
-        </DialogActions>
-      </Dialog> 
-    </div>
-  ) : null;
-
-
+    ) : null;
 
   return (
     <div id={id} className={txtConClasses}>
@@ -126,9 +130,9 @@ function ChapterText({
             position="top center"
             disabled={!isNotEmpty}
             trigger={
-              <ChapterEditButton 
-                onClick={startEditing} 
-                muted={!isNotEmpty} 
+              <ChapterEditButton
+                onClick={startEditing}
+                muted={!isNotEmpty}
                 attached={attached}
                 data-empty={isNotEmpty}
               >

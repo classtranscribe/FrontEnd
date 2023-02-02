@@ -8,17 +8,17 @@ import * as KeyCode from 'keycode-js';
 function VolumeControl({ muted = false, volume = true, dispatch }) {
   const handleVolumeChange = ({ target: { value } }) => {
     if (muted) {
-      dispatch({type: 'watch/media_mute', payload: false})
+      dispatch({ type: 'watch/media_mute', payload: false });
     }
-    dispatch({type: 'watch/media_volume', payload: value})
+    dispatch({ type: 'watch/media_volume', payload: value });
 
     if (value < 0.04) {
-      dispatch({type: 'watch/media_mute', payload: true})
+      dispatch({ type: 'watch/media_mute', payload: true });
     }
   };
 
   const handleButtonClick = () => {
-    dispatch({type: 'watch/media_mute'})
+    dispatch({ type: 'watch/media_mute' });
   };
 
   const handleVolumeKeyDown = (e) => {
@@ -88,5 +88,6 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
 }
 
 export default connect(({ playerpref, loading }) => ({
-  muted: playerpref.muted, volume: playerpref.volume
+  muted: playerpref.muted,
+  volume: playerpref.volume,
 }))(VolumeControl);

@@ -1,7 +1,4 @@
-export {
-  SignIn,
-  AuthCallback,
-} from './Authentication';
+export { SignIn, AuthCallback } from './Authentication';
 
 export { Admin } from './Admin';
 

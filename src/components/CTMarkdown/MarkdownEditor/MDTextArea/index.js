@@ -19,7 +19,7 @@ function AceTextArea(props) {
     onLoad,
     onFocus,
     onChange,
-    onCursorChange
+    onCursorChange,
   } = props;
 
   const style = cx('ct-md-textarea-con', { preview: isPreview });

@@ -99,7 +99,7 @@ export const keydownControl = {
     switch (keyCode) {
       // ESC
       case KeyCode.KEY_ESCAPE:
-        return this.dispatch({type: 'watch/menu_close'})
+        return this.dispatch({ type: 'watch/menu_close' });
       // `Space` / `k` : Pause or play
       case KeyCode.KEY_SPACE:
         return this.handleSpaceKey(e);
@@ -117,29 +117,29 @@ export const keydownControl = {
         return this.handleDownArrow(e);
       // `c` - closed caption on/off
       case KeyCode.KEY_C:
-        return this.dispatch({ type: 'playerpref/toggleOpenCC' })
+        return this.dispatch({ type: 'playerpref/toggleOpenCC' });
       // `d` - Audio Description on/off
       case KeyCode.KEY_D:
-        return this.dispatch({ type: 'playerpref/toggleOpenAD' })
+        return this.dispatch({ type: 'playerpref/toggleOpenAD' });
       // Alt + e - edit current caption
       case KeyCode.KEY_E:
         e.preventDefault();
         return transControl.editCurrent();
       // `f` - enter full screen
       case KeyCode.KEY_F:
-        return this.dispatch({ type: 'watch/toggleFullScreen' })
+        return this.dispatch({ type: 'watch/toggleFullScreen' });
       // `j` - rewind 10s
       case KeyCode.KEY_J:
-        return this.dispatch({ type: 'watch/media_backward' })
+        return this.dispatch({ type: 'watch/media_backward' });
       // `k` - play/pause
       case KeyCode.KEY_K:
-        return this.dispatch({ type: 'watch/onPlayPauseClick' })
+        return this.dispatch({ type: 'watch/onPlayPauseClick' });
       // `l` - forward 10s
       case KeyCode.KEY_L:
-        return this.dispatch({ type: 'watch/media_forward' })
+        return this.dispatch({ type: 'watch/media_forward' });
       // `m` : mute
       case KeyCode.KEY_M:
-        return this.dispatch({ type: 'watch/media_mute' })
+        return this.dispatch({ type: 'watch/media_mute' });
 
       // `0-9`: seek to 0%-90% of duration
       case KeyCode.KEY_0:
@@ -152,7 +152,10 @@ export const keydownControl = {
       case KeyCode.KEY_7:
       case KeyCode.KEY_8:
       case KeyCode.KEY_9:
-        return this.dispatch({ type: 'watch/seekToPercentage', payload: ((keyCode - KeyCode.KEY_0) / 10.0) });
+        return this.dispatch({
+          type: 'watch/seekToPercentage',
+          payload: (keyCode - KeyCode.KEY_0) / 10.0,
+        });
       default:
         break;
     }
@@ -181,7 +184,7 @@ export const keydownControl = {
     switch (keyCode) {
       // `⇧ Shift + Q` : Close Menu
       case KeyCode.KEY_Q:
-        this.dispatch({ type: 'watch/menu_close' })
+        this.dispatch({ type: 'watch/menu_close' });
         return true;
       // `⇧ Shift + C` : Open Closed Caption Setting Menu
       case KeyCode.KEY_C:
@@ -213,7 +216,7 @@ export const keydownControl = {
     e.preventDefault();
     // If there is no menu opening - play or pause
     if (!this.isMenuOpen()) {
-      this.dispatch({ type: 'watch/onPlayPauseClick' })
+      this.dispatch({ type: 'watch/onPlayPauseClick' });
     }
   },
 
@@ -372,7 +375,7 @@ export const keydownControl = {
 
     if (!this.isMenuOpen()) {
       // NEED TO MODIFY
-      return this.dispatch({ type: 'watch/media_backward' })
+      return this.dispatch({ type: 'watch/media_backward' });
     }
 
     const currMenu = this.menu;
@@ -435,7 +438,7 @@ export const keydownControl = {
     }
 
     if (!this.isMenuOpen()) {
-      return this.dispatch({ type: 'watch/media_forward' })
+      return this.dispatch({ type: 'watch/media_forward' });
     }
 
     const currMenu = this.menu;

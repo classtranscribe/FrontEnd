@@ -12,7 +12,7 @@ function SecondaryPlayerWrapperWithRedux({
   mode = NORMAL_MODE,
   ctpSecEvent = CTP_LOADING,
   isPrimary = false,
-  dispatch
+  dispatch,
 }) {
   const onSwitch = () => dispatch({ type: 'watch/switchVideo' });
   const onHide = () => {
@@ -70,7 +70,7 @@ function SecondaryPlayerWrapperWithRedux({
         </button>
       </div>
     </div>
-      );
+  );
 }
 
 export const SecondaryPlayerWrapper = connectWithRedux(SecondaryPlayerWrapperWithRedux, [

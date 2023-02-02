@@ -6,7 +6,7 @@ import { DefaultSidebarItems } from './default-sidebar-items';
  * @property {String} title - <title>{title}</title>
  * @property {String} description - <meta name="description" content={description} />
  * @property {String} keywords - <meta name="keywords" content={keywords} />
- * 
+ *
  */
 
 /**

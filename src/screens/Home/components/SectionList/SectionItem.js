@@ -1,14 +1,7 @@
 import React from 'react';
 import { Link } from 'dva/router';
 import { CourseCard, MediaCard } from 'components';
-import {
-  CTFragment,
-  CTHeading,
-  CTText,
-  CTHorizontalScroll,
-  makeEl,
-  altEl
-} from 'layout';
+import { CTFragment, CTHeading, CTText, CTHorizontalScroll, makeEl, altEl } from 'layout';
 import HomeConstants from '../../controllers/HomeConstants';
 
 function sectionItemsElements(section) {
@@ -32,14 +25,14 @@ function SectionItem({ section }) {
     to: link,
     highlightIcon: true,
     className: 'ct-homep section-title',
-    children: title
+    children: title,
   });
 
   const subTitleElement = altEl(CTText, Boolean(subTitle), {
     celadon: true,
     className: 'ct-homep section-sub-title',
     children: subTitle,
-    size: 'medium'
+    size: 'medium',
   });
 
   return (
@@ -48,10 +41,8 @@ function SectionItem({ section }) {
         {titleElement}
         {subTitleElement}
       </CTFragment>
-      <CTFragment padding={[0,0,0,5]}>
-        <CTHorizontalScroll>
-          {sectionItemsElements(section)}
-        </CTHorizontalScroll>
+      <CTFragment padding={[0, 0, 0, 5]}>
+        <CTHorizontalScroll>{sectionItemsElements(section)}</CTHorizontalScroll>
       </CTFragment>
     </CTFragment>
   );
