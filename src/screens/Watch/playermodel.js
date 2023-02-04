@@ -66,6 +66,7 @@ const PlayerModel = {
         openAD: false,
 
         autoPlay: !isMobile,
+        brightness: 1,
         pauseWhileAD: false,
         autoScroll: true,
         pauseWhileEditing: !isMobile,
