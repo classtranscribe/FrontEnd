@@ -43,3 +43,29 @@ tbody td {
 tbody tr:hover {
     background-color: #eee;
 }
+
+#tableBar {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+}
+
+#pageNumber {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+#tableBar button{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#searchBox {
+    height: 35px;
+    width: 200px;
+}
+
+#pageBox {
+    height: 35px;
+    width: 35px;
+}
