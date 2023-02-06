@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './index.scss';
 import "rsuite/dist/rsuite.css";
-// import axios from 'axios';
+import axios from 'axios';
 
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
@@ -53,10 +53,10 @@ const GlossaryTable = props => {
     const [search, setSearch] = useState(''); // search text is at first empty
     const [onePage, setOnePage] = useState([]);
     const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
-    // const apiInstance = axios.create({
-    //   baseURL: 'https://ct-dev.ncsa.illinois.edu',
-    //   timeout: 1000,
-    // });
+    const apiInstance = axios.create({
+      baseURL: 'https://ct-dev.ncsa.illinois.edu',
+      timeout: 1000,
+    });
 
     useEffect(() => {
       const index = (pageNumber-1) * ONE_PAGE_NUM;
@@ -102,7 +102,20 @@ const GlossaryTable = props => {
     }
 
     const handleLike = (termId) => {
-      alert(`you try to like ${termId}, but api is not deployed!`);
+      apiInstance.put(`/api/Glossary/Upvote/${termId}`).then(response => {
+        if (response.status === 200) {
+          // success, update like number
+          apiInstance.get(`/api/Glossary/${termId}`).then(response2 => {
+            const index = onePage.findIndex((ele) => ele.id === termId);
+            const newArray = [...onePage];
+            
+            if (index !== -1) {
+              newArray[index] = response2.data;
+              setOnePage(newArray);
+            }
+          })
+        }
+      })
     }
 
     return (
