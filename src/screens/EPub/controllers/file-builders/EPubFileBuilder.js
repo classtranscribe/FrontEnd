@@ -8,9 +8,8 @@ import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   getGlossaryData,
-  findGlossaryTermsInChapter,
   glossaryTermsAsHTML,
-  highlightAndLinkGlossaryWords,
+  getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 import {
   MIMETYPE,
@@ -289,10 +288,21 @@ class EPubFileBuilder {
         : true;
 
     // add glossary terms to end of chapter if enabled
+<<<<<<< HEAD
 >>>>>>> 4a7362c5 (highlight first occurrence by default)
     const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
     const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms, highlightFirstOnly);
     const glossaryHTML = glossaryTermsAsHTML(glossaryTerms);
+=======
+
+    const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
+      text,
+      this.glossaryData,
+      highlightFirstOnly,
+    );
+
+    const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
+>>>>>>> ed134b59 (INote glossary bugs resolved)
 
     const content = dedent(`
 		<div class="epub-ch">            

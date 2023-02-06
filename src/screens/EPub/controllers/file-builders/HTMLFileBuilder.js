@@ -8,9 +8,8 @@ import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   getGlossaryData,
-  findGlossaryTermsInChapter,
-  glossaryTermsAsHTML,
   glossaryTermsAsText,
+  getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 
 import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS, PRISM_JS } from './file-templates/html';
@@ -206,8 +205,15 @@ class HTMLFileBuilder {
       }
 
       // add glossary terms for chapter
-      let glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, chapter.text);
+
+      let glossaryTerms = getChapterGlossaryAndTextHighlight(
+        chapter.text,
+        this.glossaryData,
+        true,
+      )[1];
+
       let glossaryText = glossaryTermsAsText(glossaryTerms);
+
       let splitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
       for (let j = 0; j < splitted.length; j += 1) {
         if (y >= h - (h % 10)) {
@@ -249,9 +255,17 @@ class HTMLFileBuilder {
               pdf.text(splitval, margin, y);
               y += 10;
             }
+
             // add glossary terms for subchapter
-            glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, transcript);
+
+            glossaryTerms = getChapterGlossaryAndTextHighlight(
+              transcript,
+              this.glossaryData,
+              true,
+            )[1];
+
             glossaryText = glossaryTermsAsText(glossaryTerms);
+
             let subSplitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
             for (let l = 0; l < subSplitted.length; l += 1) {
               if (y >= h - (h % 10)) {

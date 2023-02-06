@@ -31,6 +31,7 @@ export async function getGlossaryData(mediaId) {
   return {};
 }
 
+<<<<<<< HEAD
 /**
  *  Returns a list of { word, dcription } objects
  */
@@ -96,20 +97,26 @@ export function highlightAndLinkGlossaryWords(text, terms) {
   return res;
 =======
 =======
+=======
+>>>>>>> ed134b59 (INote glossary bugs resolved)
 function is_alphanum(char) {
   return char.match(/[a-zA-Z0-9]/i);
 }
 
+// Return HTML id for this word in the glossary section
+function get_word_id(word) {
+  return `glossary_${String(word).replace(/ /g, '-')}`;
+}
+
 /**
- *
- * @param {String} text
- * @param {Array} terms
- * @param {Boolean} highlightFirstOnly
- * @returns A string containing the text after substituting ALL/SOME of the keywords found in the "terms" array.
- * - terms should be the array returned by findGlossaryTermsInChapter function.
- * - highlightFirstOnly specifies whether we should highlight the first occurrence or every occurrence of a keyword.
- * - Assume text is a valid HTML string with correct opening and closing tags.
+ * @param {String} text the valid html string for a chapter
+ * @param {Array} glossary glossary object returned from getGlossaryData function
+ * @param {Boolean} highlightFirstOnly specifies whether we should highlight the first occurrence or every occurrence of a keyword.
+ * @returns Returns the following as Array
+ * - Index 0: The new chapter text with text highlighting
+ * - Index 1: A list of {word,link,description} of the found words
  */
+<<<<<<< HEAD
 >>>>>>> a84f0211 (Added documentation for the highlightAndLinkGlossaryWords function)
 export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 <<<<<<< HEAD
@@ -151,12 +158,20 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 
 >>>>>>> 4a7362c5 (highlight first occurrence by default)
   let res = '';
+=======
+export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirstOnly) {
+  console.log(highlightFirstOnly);
+
+  let new_text = '';
+>>>>>>> ed134b59 (INote glossary bugs resolved)
   let withinTag = false;
-  let terms_clone = terms.map((t) => ({ ...t }));
+
+  let target_words = Object.keys(glossary);
+  let found_words = new Set();
 
   for (let i = 0; i < text.length; ) {
     // First we check that we are not inside a TAG i.e. <>
-    // We do not want to replace text within an attribute!
+    // Because we do not want to replace text within an attribute
 
     if (text[i] === '<') {
       withinTag = true;
@@ -168,55 +183,70 @@ export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
 
     // Also ignore non alpha numeric characters like space and punctuation.
     if (withinTag || !is_alphanum(text[i])) {
-      res += text[i];
+      new_text += text[i];
       i += 1;
     } else {
       let found = false;
 
-      // Check each available glossary word to find match at current offset (i) in text.
-      for (const elem of terms_clone) {
-        const sub = text.substring(i, i + elem.word.length);
-        if (String(sub).toLocaleLowerCase().localeCompare(elem.word.toLocaleLowerCase()) === 0) {
-          // @TODO:
-          // // Check if it is a complete word backwards
-          // if (i > 0 && is_alphanum(text[i - 1])) {
-          //   break;
-          // }
+      // Check each available glossary word to find match at current offset i, in text.
+      for (const word of target_words) {
+        // check for overflow
+        if (i + word.length - 1 >= text.length) {
+          continue;
+        }
 
-          // // Check if it is a complete word forwards
-          // if (i + 1 < text.length && is_alphanum(text[i + 1])) {
-          //   break;
-          // }
+        // Get substring of word length at current offset in chatper text
+        const sub = text.substring(i, i + word.length);
 
-          // The HTML id for this word in the glossary section
-          const wordId = `glossary_${String(elem.word).replace(/ /g, '-')}`;
+        // case-insensitive comparison
+        if (String(sub).toLocaleLowerCase().localeCompare(word.toLocaleLowerCase()) === 0) {
+          // TODO: Check if it is a complete word and not part of a longer one - regex?
 
-          // The replacement text with hyperlink
-          res += `<a href="#${wordId}">${elem.word}</a>`;
+          // Get html id for href tag
+          const wordId = get_word_id(word);
+
+          // Substitute the word in the text with href tag wrapped around it
+          new_text += `<a href="#${wordId}">${word}</a>`;
 
           // Skip forwards in text by the length of current word
-          i += elem.word.length;
+          i += word.length;
 
-          // Remove word to only highlight first occurence of the word
+          // Remove word from list if we want first occurence only
           if (highlightFirstOnly) {
-            terms_clone = terms_clone.filter((t) => t.word !== elem.word);
+            target_words = target_words.filter((w) => w !== word);
           }
 
           found = true;
+
+          found_words.add(word);
         }
       }
 
       if (!found) {
         // Append the current character without modification
-        res += text[i];
+        new_text += text[i];
         i += 1;
       }
     }
   }
 
+<<<<<<< HEAD
   //   console.log(res);
   return res;
 >>>>>>> 41e38a68 (Substitutes text inside tags only)
+=======
+  const chapter_glossary = [];
+
+  for (const word of found_words) {
+    chapter_glossary.push({
+      word: word,
+      link: glossary[word].link,
+      description: glossary[word].description,
+    });
+  }
+
+  return [new_text, chapter_glossary];
+>>>>>>> ed134b59 (INote glossary bugs resolved)
 }
 
 /** *
