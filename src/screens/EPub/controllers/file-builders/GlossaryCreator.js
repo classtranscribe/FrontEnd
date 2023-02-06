@@ -172,6 +172,7 @@ export function glossaryTermsAsText(terms) {
   // Add each defintion as a <li> tag
   for (const elem of terms) {
     text += `${elem.word}: ${elem.description}\n`;
+    text += '\n'; // Add space between list
   }
 
   return text;
