@@ -10,6 +10,7 @@ import { epub as epubOld } from '../../controllers';
 function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();
   const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
+  if (currChIndex >= chapters.length) {currChIndex = 0;}
   const { start, end, title } = chapters[currChIndex];
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
