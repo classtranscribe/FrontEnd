@@ -49,7 +49,7 @@ function get_word_id(word) {
  * - Index 1: A list of {word,link,description} of the found words
  */
 export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirstOnly) {
-  console.log(highlightFirstOnly);
+  // console.log(highlightFirstOnly);
 
   let new_text = '';
   let withinTag = false;
@@ -79,34 +79,32 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirs
       // Check each available glossary word to find match at current offset i, in text.
       for (const word of target_words) {
         // check for overflow
-        if (i + word.length - 1 >= text.length) {
-          continue;
-        }
+        if (i + word.length - 1 < text.length) {
+          // Get substring of word length at current offset in chatper text
+          const sub = text.substring(i, i + word.length);
 
-        // Get substring of word length at current offset in chatper text
-        const sub = text.substring(i, i + word.length);
+          // case-insensitive comparison
+          if (String(sub).toLocaleLowerCase().localeCompare(word.toLocaleLowerCase()) === 0) {
+            // TODO: Check if it is a complete word and not part of a longer one - regex?
 
-        // case-insensitive comparison
-        if (String(sub).toLocaleLowerCase().localeCompare(word.toLocaleLowerCase()) === 0) {
-          // TODO: Check if it is a complete word and not part of a longer one - regex?
+            // Get html id for href tag
+            const wordId = get_word_id(word);
 
-          // Get html id for href tag
-          const wordId = get_word_id(word);
+            // Substitute the word in the text with href tag wrapped around it
+            new_text += `<a href="#${wordId}">${word}</a>`;
 
-          // Substitute the word in the text with href tag wrapped around it
-          new_text += `<a href="#${wordId}">${word}</a>`;
+            // Skip forwards in text by the length of current word
+            i += word.length;
 
-          // Skip forwards in text by the length of current word
-          i += word.length;
+            // Remove word from list if we want first occurence only
+            if (highlightFirstOnly) {
+              target_words = target_words.filter((w) => w !== word);
+            }
 
-          // Remove word from list if we want first occurence only
-          if (highlightFirstOnly) {
-            target_words = target_words.filter((w) => w !== word);
+            found = true;
+
+            found_words.add(word);
           }
-
-          found = true;
-
-          found_words.add(word);
         }
       }
 
@@ -122,7 +120,7 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirs
 
   for (const word of found_words) {
     chapter_glossary.push({
-      word: word,
+      word,
       link: glossary[word].link,
       description: glossary[word].description,
     });
