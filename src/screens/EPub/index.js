@@ -37,7 +37,9 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const shortcutModal = makeEl(ShortcutModal);
   const fileSettingsModal = makeEl(EPubFileInfoModal);
   useEffect(() => {
-    setTimeout(() => document.getElementById('ct-epb-main').focus(), 1000);
+    if (document.getElementById('ct-epb-main') != null) {
+      setTimeout(() => document.getElementById('ct-epb-main').focus(), 1000);
+    }
   }, []);
   /*
   onUndo(e) {
