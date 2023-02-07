@@ -120,17 +120,17 @@ const GlossaryTable = props => {
 
     return (
       <div>
-        <div id='tableBar'>
+        <div className='tableBar'>
           <input 
-            id='searchBox'
+            className='searchBox'
             type='text'
             placeholder='Search for Glossaries' 
             onChange={(e) => setSearch(e.target.value)}
           />
-          <span id='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
+          <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
           <button onClick={handlePrevPage} disabled={(pageNumber===1)}>Prev</button>
           <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
-          <input id='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
+          <input className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
           <button onClick={handleJump}>Go</button>
         </div>
         
@@ -159,7 +159,7 @@ const GlossaryTable = props => {
                 </button>
               </th>
               <th>LIKE</th>
-              <th>ADDLIKE</th>
+              <th>{''}</th>
             </tr>
           </thead>
           <tbody>
