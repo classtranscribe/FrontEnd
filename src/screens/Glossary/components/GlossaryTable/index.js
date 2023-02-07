@@ -159,7 +159,6 @@ const GlossaryTable = props => {
                 </button>
               </th>
               <th>LIKE</th>
-              <th>{''}</th>
             </tr>
           </thead>
           <tbody>
