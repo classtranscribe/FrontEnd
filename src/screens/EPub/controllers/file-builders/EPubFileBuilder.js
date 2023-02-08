@@ -279,6 +279,7 @@ class EPubFileBuilder {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // add glossary terms to end of chapter
     console.log(chapter);
 =======
@@ -286,6 +287,19 @@ class EPubFileBuilder {
       'enableOnlyFirstGlossaryTermHighlight' in this.data
         ? this.data.enableOnlyFirstGlossaryTermHighlight
         : true;
+=======
+    // let highlightFirstOnly =
+    //   'enableOnlyFirstGlossaryTermHighlight' in this.data
+    //     ? this.data.enableOnlyFirstGlossaryTermHighlight
+    //     : true;
+
+    let highlightAll =
+      'enableAllGlossaryTermHighlight' in this.data
+        ? this.data.enableAllGlossaryTermHighlight
+        : false;
+    
+    console.log("Highlight all: ", highlightAll)
+>>>>>>> 01a89292 (Fixed default behaviour of button to highlight all occurrences)
 
     // add glossary terms to end of chapter if enabled
 <<<<<<< HEAD
@@ -298,7 +312,7 @@ class EPubFileBuilder {
     const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
       text,
       this.glossaryData,
-      highlightFirstOnly,
+      highlightAll,
     );
 
     const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);

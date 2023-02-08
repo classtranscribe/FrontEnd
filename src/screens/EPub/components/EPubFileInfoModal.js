@@ -35,8 +35,11 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const onVisualTocChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, enableVisualToc: checked });
 
-  const onOnlyFirstGlossaryTermHighlight = ({ target: { checked } }) =>
-    setEPubData({ ...epubData, enableOnlyFirstGlossaryTermHighlight: checked });
+  // const onOnlyFirstGlossaryTermHighlight = ({ target: { checked } }) =>
+  //   setEPubData({ ...epubData, enableOnlyFirstGlossaryTermHighlight: checked });
+
+  const onAllGlossaryTermHighlight = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, enableAllGlossaryTermHighlight: checked });
 
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
@@ -144,12 +147,20 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             onChange={onVisualTocChange}
           />
         </CTFormRow>
-        <CTFormRow>
+        {/* <CTFormRow>
           <CTCheckbox
             id="ct-epb-enable-only-first-glossary-term-highlight"
             label="Highlight Only First Occurence of Glossary Term"
             checked={epubData.enableOnlyFirstGlossaryTermHighlight}
             onChange={onOnlyFirstGlossaryTermHighlight}
+          />
+        </CTFormRow> */}
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-all-glossary-term-highlight"
+            label="Highlight All Occurences of Glossary Terms"
+            checked={epubData.enableAllGlossaryTermHighlight}
+            onChange={onAllGlossaryTermHighlight}
           />
         </CTFormRow>
         <CTFormRow>
