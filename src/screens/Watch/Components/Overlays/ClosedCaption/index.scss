@@ -33,3 +33,32 @@
   align-items: center;
   justify-content: center;
 }
+@font-face {
+  font-family: "Open Sans";
+  src: url(../../../../../assets/cc-fonts/OpenSans-Medium.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Tahoma";
+  src: url(../../../../../assets/cc-fonts/tahoma.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Times New Roman";
+  src: url(../../../../../assets/cc-fonts/times-new-roman.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Calibri";
+  src: url(../../../../../assets/cc-fonts/calibri.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url(../../../../../assets/cc-fonts/helvetica.ttf);
+  font-weight: bold;
+}

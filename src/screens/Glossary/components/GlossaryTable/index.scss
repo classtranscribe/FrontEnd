@@ -1,0 +1,98 @@
+body {
+    font-family: 'open sans', sans-serif;
+    font-size: 16px;
+}
+  
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    text-align: left;
+    border-bottom: 2px solid black;
+}
+
+thead button {
+    border: 0;
+    border-radius: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: inherit;
+    padding: 0.5em;
+    margin-bottom: 1px;
+}
+
+thead button.ascending::after {
+    content: '↓';
+    display: inline-block;
+    margin-left: 1em;
+}
+
+thead button.descending::after {
+    content: '↑';
+    display: inline-block;
+    margin-left: 1em;
+}
+
+tbody td {
+    padding: 0.5em;
+    border-bottom: 1px solid #ccc;
+}
+
+tbody tr:hover {
+    background-color: #eee;
+}
+
+.tableBar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+}
+
+// .tableBar button {
+//     color: white;
+//     background-color: rgb(0, 179, 89);
+//     box-shadow: inset 0 1px 0 rgba(0, 179, 90, 0.521);
+//     height: 40px;
+//     width: 80px;
+//     border: 1px rgb(0, 83, 42);
+//     background-clip: content-box;
+// }
+
+.tableBar button {
+    border: 0;
+    border-radius: none;
+    font-family: inherit;
+    font-size: inherit;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-bottom: 1px;
+    background-color: #cccccc00;
+}
+
+.tableBar button:hover {
+    text-decoration: underline;
+}
+
+.tableBar span {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.pageNumber {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.searchBox {
+    height: 35px;
+    width: 200px;
+}
+
+.pageBox {
+    height: 35px;
+    width: 35px;
+}
