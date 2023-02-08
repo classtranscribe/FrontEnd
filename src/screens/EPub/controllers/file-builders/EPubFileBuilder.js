@@ -276,8 +276,8 @@ class EPubFileBuilder {
       'enableAllGlossaryTermHighlight' in this.data
         ? this.data.enableAllGlossaryTermHighlight
         : false;
-    
-    console.log("Highlight all: ", highlightAll)
+
+    // console.log("Highlight all: ", highlightAll)
 
     // add glossary terms to end of chapter if enabled
 
