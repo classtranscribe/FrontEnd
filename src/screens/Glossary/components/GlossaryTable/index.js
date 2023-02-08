@@ -1,11 +1,19 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './index.scss';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import "rsuite/dist/rsuite.css";
 import axios from 'axios';
 =======
 import 'rsuite/dist/rsuite.css';
 >>>>>>> ed2ab9a8 (Ran npm prettier:fix and lint:fix on project)
+=======
+import 'rsuite/dist/rsuite.css';
+=======
+import "rsuite/dist/rsuite.css";
+import axios from 'axios';
+>>>>>>> b2f5784883cb755bcc65c121787fb7e87b7d8701
+>>>>>>> 86562323f34a826940c92c43c97620913dbe548b
 
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
@@ -16,6 +24,21 @@ import 'rsuite/dist/rsuite.css';
  */
 const useSortableData = (items, config = null) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  const [sortConfig, setSortConfig] = useState(config);
+
+  const sortedItems = useMemo(() => {
+    let sortableItems = [...items];
+    if (sortConfig !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+=======
+>>>>>>> 86562323f34a826940c92c43c97620913dbe548b
     const [sortConfig, setSortConfig] = useState(config);
     
   
@@ -41,6 +64,7 @@ const useSortableData = (items, config = null) => {
         sortConfig.key === key && 
         sortConfig.direction === 'ascending') {
             direction = 'descending';
+<<<<<<< HEAD
 =======
   const [sortConfig, setSortConfig] = useState(config);
 
@@ -55,6 +79,10 @@ const useSortableData = (items, config = null) => {
           return sortConfig.direction === 'ascending' ? 1 : -1;
 >>>>>>> ed2ab9a8 (Ran npm prettier:fix and lint:fix on project)
         }
+=======
+>>>>>>> b2f5784883cb755bcc65c121787fb7e87b7d8701
+        }
+>>>>>>> 86562323f34a826940c92c43c97620913dbe548b
         return 0;
       });
     }
@@ -73,6 +101,51 @@ const useSortableData = (items, config = null) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+const GlossaryTable = (props) => {
+  const { items, requestSort, sortConfig } = useSortableData(props.words);
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <button
+              type="button"
+              onClick={() => requestSort('term')}
+              className={getClassNamesFor('term')}
+            >
+              TERM
+            </button>
+          </th>
+          <th>LINK</th>
+          <th>DESCRIPTION</th>
+          <th>SOURSE</th>
+          <th>DOMAIN</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((term) => (
+          <tr key={term.id}>
+            <td>{term.term}</td>
+            <td>{term.link}</td>
+            <td>{term.description}</td>
+            <td>{term.source}</td>
+            <td>{term.domain}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+=======
+>>>>>>> 86562323f34a826940c92c43c97620913dbe548b
 
 
 const GlossaryTable = props => {
@@ -208,6 +281,7 @@ const GlossaryTable = props => {
       </div>
     );
 }
+<<<<<<< HEAD
 =======
 const GlossaryTable = (props) => {
   const { items, requestSort, sortConfig } = useSortableData(props.words);
@@ -251,5 +325,8 @@ const GlossaryTable = (props) => {
   );
 };
 >>>>>>> ed2ab9a8 (Ran npm prettier:fix and lint:fix on project)
+=======
+>>>>>>> b2f5784883cb755bcc65c121787fb7e87b7d8701
+>>>>>>> 86562323f34a826940c92c43c97620913dbe548b
 
 export default GlossaryTable;

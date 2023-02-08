@@ -278,16 +278,6 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    // add glossary terms to end of chapter
-    console.log(chapter);
-=======
-    let highlightFirstOnly =
-      'enableOnlyFirstGlossaryTermHighlight' in this.data
-        ? this.data.enableOnlyFirstGlossaryTermHighlight
-        : true;
-=======
     // let highlightFirstOnly =
     //   'enableOnlyFirstGlossaryTermHighlight' in this.data
     //     ? this.data.enableOnlyFirstGlossaryTermHighlight
@@ -297,22 +287,10 @@ class EPubFileBuilder {
       'enableAllGlossaryTermHighlight' in this.data
         ? this.data.enableAllGlossaryTermHighlight
         : false;
-<<<<<<< HEAD
-    
-    console.log("Highlight all: ", highlightAll)
->>>>>>> 01a89292 (Fixed default behaviour of button to highlight all occurrences)
-=======
 
     // console.log("Highlight all: ", highlightAll)
->>>>>>> a153e626 (Fix linter errors and ran prettier)
 
     // add glossary terms to end of chapter if enabled
-<<<<<<< HEAD
->>>>>>> 4a7362c5 (highlight first occurrence by default)
-    const glossaryTerms = findGlossaryTermsInChapter(this.glossaryData, text);
-    const highlightedText = highlightAndLinkGlossaryWords(text, glossaryTerms, highlightFirstOnly);
-    const glossaryHTML = glossaryTermsAsHTML(glossaryTerms);
-=======
 
     const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
       text,
@@ -321,7 +299,6 @@ class EPubFileBuilder {
     );
 
     const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
->>>>>>> ed134b59 (INote glossary bugs resolved)
 
     const content = dedent(`
 		<div class="epub-ch">            

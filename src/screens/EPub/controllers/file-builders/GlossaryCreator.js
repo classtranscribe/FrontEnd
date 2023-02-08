@@ -31,74 +31,6 @@ export async function getGlossaryData(mediaId) {
   return {};
 }
 
-<<<<<<< HEAD
-/**
- *  Returns a list of { word, dcription } objects
- */
-export function findGlossaryTermsInChapter(glossaryData, chapterText) {
-  const keys = Object.keys(glossaryData);
-  if (keys.length === 0) {
-    return [];
-  }
-
-  let foundTerms = [];
-
-  // TODO: will optimize later (maybe trie)
-  for (let i = 0; i < keys.length; i += 1) {
-    const word = keys[i];
-    const index = chapterText.search(word);
-
-    if (index !== -1) {
-      foundTerms.push({
-        word,
-        description: glossaryData[word].description,
-        link: glossaryData[word].link,
-      });
-
-      delete glossaryData[word]; // ensures glossary is made only for first occurance
-    }
-  }
-  return foundTerms;
-}
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-export function highlightAndLinkGlossaryWords(text, terms) {
-  let res = '';
-
-  let i = 0;
-
-  let terms_clone = terms.map((t) => ({ ...t }));
-
-  while (i < text.length) {
-    let found = false;
-    let foundTerm = null;
-
-    for (const elem of terms_clone) {
-      if (text.substring(i, i + elem.word.length) == elem.word) {
-        const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
-        res += `<a href="#${wordId}">${elem.word}</a>`;
-        i += elem.word.length;
-        found = true;
-        foundTerm = elem.word;
-        break;
-      }
-    }
-    if (!found) {
-      res += text[i];
-      i += 1;
-    } else {
-      // Remove word to only highlight first occurence of the word
-      terms_clone = terms_clone.filter((t) => t.word != foundTerm);
-    }
-  }
-
-  console.log(res);
-  return res;
-=======
-=======
-=======
->>>>>>> ed134b59 (INote glossary bugs resolved)
 function is_alphanum(char) {
   return char.match(/[a-zA-Z0-9]/i);
 }
@@ -116,61 +48,8 @@ function get_word_id(word) {
  * - Index 0: The new chapter text with text highlighting
  * - Index 1: A list of {word,link,description} of the found words
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a84f0211 (Added documentation for the highlightAndLinkGlossaryWords function)
-export function highlightAndLinkGlossaryWords(text, terms, highlightFirstOnly) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	let res = '';
-
-	let i = 0;
-
-	let terms_clone = terms.map(t => ({...t}));
-
-	while (i < text.length) {
-		let found = false;
-		let foundTerm = null;
-		for (const elem of terms_clone) {
-			if (text.substring(i, i + elem.word.length) == elem.word) {
-				const wordId = 'glossary_' + String(elem.word).replace(/ /g, '-');
-				res += `<a href="#${wordId}">${elem.word}</a>`;
-				i += elem.word.length;
-				found = true;
-				foundTerm = elem.word;
-				break;
-			}
-		}
-		if (!found) {
-			res += text[i];
-			i += 1;
-		} else if (highlightFirstOnly) {
-			// Remove word to only highlight first occurence of the word
-			terms_clone = terms_clone.filter(t => t.word != foundTerm);
-		}
-	}
-
-	//   console.log(res);
-	return res;
->>>>>>> f99bf82c (add toggle for highlighting only first occurance)
-=======
-=======
-  console.log(highlightFirstOnly);
-
->>>>>>> 4a7362c5 (highlight first occurrence by default)
-=======
->>>>>>> ccae1272 (fix linter errors)
-  let res = '';
-=======
-export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirstOnly) {
-  // console.log(highlightFirstOnly);
-
-=======
 export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll) {
->>>>>>> 01a89292 (Fixed default behaviour of button to highlight all occurrences)
   let new_text = '';
->>>>>>> ed134b59 (INote glossary bugs resolved)
   let withinTag = false;
   let target_words = Object.keys(glossary);
   let found_words = new Set();
@@ -234,11 +113,6 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll)
     }
   }
 
-<<<<<<< HEAD
-  //   console.log(res);
-  return res;
->>>>>>> 41e38a68 (Substitutes text inside tags only)
-=======
   const chapter_glossary = [];
 
   for (const word of found_words) {
@@ -250,7 +124,6 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll)
   }
 
   return [new_text, chapter_glossary];
->>>>>>> ed134b59 (INote glossary bugs resolved)
 }
 
 /** *
