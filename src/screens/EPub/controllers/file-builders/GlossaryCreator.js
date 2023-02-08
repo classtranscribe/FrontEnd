@@ -48,12 +48,9 @@ function get_word_id(word) {
  * - Index 0: The new chapter text with text highlighting
  * - Index 1: A list of {word,link,description} of the found words
  */
-export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirstOnly) {
-  // console.log(highlightFirstOnly);
-
+export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll) {
   let new_text = '';
   let withinTag = false;
-
   let target_words = Object.keys(glossary);
   let found_words = new Set();
 
@@ -97,7 +94,7 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightFirs
             i += word.length;
 
             // Remove word from list if we want first occurence only
-            if (highlightFirstOnly) {
+            if (!highlightAll) {
               target_words = target_words.filter((w) => w !== word);
             }
 

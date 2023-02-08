@@ -267,17 +267,24 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-    let highlightFirstOnly =
-      'enableOnlyFirstGlossaryTermHighlight' in this.data
-        ? this.data.enableOnlyFirstGlossaryTermHighlight
-        : true;
+    // let highlightFirstOnly =
+    //   'enableOnlyFirstGlossaryTermHighlight' in this.data
+    //     ? this.data.enableOnlyFirstGlossaryTermHighlight
+    //     : true;
+
+    let highlightAll =
+      'enableAllGlossaryTermHighlight' in this.data
+        ? this.data.enableAllGlossaryTermHighlight
+        : false;
+    
+    console.log("Highlight all: ", highlightAll)
 
     // add glossary terms to end of chapter if enabled
 
     const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
       text,
       this.glossaryData,
-      highlightFirstOnly,
+      highlightAll,
     );
 
     const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
