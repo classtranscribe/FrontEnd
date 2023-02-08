@@ -246,23 +246,34 @@ class EPubFileBuilder {
   getContentXHTML(chapter) {
     const { language, sourceId } = this.data;
     let { title, text, start, link } = chapter;
-    let h = parseInt(start.substring(0, 2), 10);
-    let m = parseInt(start.substring(3, 5), 10);
-    let s = parseInt(start.substring(6, 8), 10);
-    let curTime = 3600 * h + 60 * m + s;
-    let imgStart = text.indexOf('<img');
-    let imgEnd = text.indexOf('</div>');
+
+    const h = parseInt(start.substring(0, 2),10);
+    const m = parseInt(start.substring(3, 5),10);
+    const s = parseInt(start.substring(6,8),10);
+    const curTime = 3600 * h + 60 * m + s;
+
+    // The <img> tag should be nested beneath an <a> tag
+    const parser = new DOMParser();
+    const textHtml = parser.parseFromString(text, 'text/html');
+    const block = textHtml.getElementsByClassName('img-block')[0];
+    const imgBlock = block.getElementsByTagName('img')[0]
+
+    // Create the <a> tag
+    const linkElement = textHtml.createElement('a');
     let url = window.location.href;
     let query = url.indexOf('/epub');
     url = url.substring(0, query);
-    let sub1 = text.substring(0, imgStart - 4);
-    let sub2 = "<a href='"
-      .concat(url, links.watch(sourceId), '&begin=', curTime, "'>\n")
-      .replace('&', '&amp;');
-    let sub3 = text.substring(imgStart, imgEnd);
-    let sub4 = '</a>\n';
-    let sub5 = text.substring(imgEnd);
-    text = sub1.concat(sub2, sub3, sub4, sub5);
+    let href = "".concat(url,links.watch(sourceId),"&begin=",curTime,"").replace('&', '&amp;');
+    linkElement.setAttribute('href', href);
+
+    // Remove <img> tag from outer div and add as child to <a> tag
+    block.removeChild(imgBlock);
+    linkElement.appendChild(imgBlock);
+    block.prepend(linkElement);
+
+    const bodyStr = new XMLSerializer().serializeToString(textHtml.body);
+    text = bodyStr;
+
     if (link !== undefined && link.startsWith('http')) {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
