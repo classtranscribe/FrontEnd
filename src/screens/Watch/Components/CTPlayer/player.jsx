@@ -1,4 +1,6 @@
 import React, { memo, useState, useCallback } from 'react';
+import { connect } from 'dva'
+
 import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
 import { uEvent } from '../../Utils/UserEventController';
@@ -13,14 +15,18 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
+import { SCREEN_OPACITY_25, getVideoStyle } from '../../Utils';
+
 const Video = React.memo((props) => {
-    const { id = 1, videoRef, path, dispatch, isSwitched, embedded } = props;
+
+    const { id = 1, videoRef, path, dispatch, isSwitched, embedded, brightness = SCREEN_OPACITY_25} = props;
     const isPrimary = (id == 1);
     console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         const duration = e.target.duration;
         dispatch({ type: 'watch/setDuration', payload: duration });
+
         /*
         if (this.state.openRange && !this.state.range) {
             // this.setRange([0, duration]); // TODO
@@ -94,7 +100,9 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
-    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+    const { videoStyle } = getVideoStyle({brightness});
+
+    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"} style={videoStyle}>
         {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         }
@@ -126,4 +134,13 @@ const Video = React.memo((props) => {
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched;
 });
-export default Video;
+export default Video = connect (({playerpref: {brightness}, loading}) => ({
+    brightness
+})) 
+
+(Video);
+// export default Video;
+// export const AudioDescription = connect(({ watch : { time },
+//     playerpref: { openAD, cc_color, cc_bg, cc_size, cc_opacity }, loading }) => ({
+//     time, cc_color, cc_bg, cc_size, cc_opacity, openAD
+//   }))(AudioDescriptionWithRedux);

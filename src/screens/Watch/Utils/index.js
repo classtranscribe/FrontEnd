@@ -10,6 +10,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  SCREEN_OPACITY_100
   // WEBVTT_SUBTITLES,
   // WEBVTT_DESCRIPTIONS,
   // ENGLISH,
@@ -79,18 +80,11 @@ export const getCCStyle = (options) => {
 
 export const getVideoStyle = (options) => {
   const {
-    cc_color = CC_COLOR_WHITE,
-    cc_bg = CC_COLOR_BLACK,
-    cc_size = CC_SIZE_100,
-    cc_opacity = CC_OPACITY_75,
-    cc_font = CC_FONT_SANS_SERIF,
-    cc_position = CC_POSITION_BOTTOM,
+    brightness = SCREEN_OPACITY_100
   } = options;
-
   const videoStyle = {
-    backgroundColor: colorMap(cc_bg, cc_opacity)
+    filter: `brightness(${brightness})`
   };
-
   return { videoStyle };
 }
 /**

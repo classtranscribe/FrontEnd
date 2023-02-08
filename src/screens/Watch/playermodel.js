@@ -115,6 +115,10 @@ const PlayerModel = {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openAD: !playerpref.openAD } })
         },
+        *filterBrightness({ payload }, { call, put, select, take }) {
+            const { playerpref } = yield select();
+            yield put({ type: 'setPreference', payload: { brightness: playerpref.brightness } })
+        },
         *toggleOpenCC({ payload }, { call, put, select, take }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openCC: !playerpref.openCC } })

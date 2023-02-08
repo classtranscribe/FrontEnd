@@ -5,6 +5,7 @@ import MenuRadio from '../MenuRadio';
 import {
   screen_opacityOptions,
   getCCSelectOptions,
+  getVideoStyle,
 } from '../../../../Utils';
 
 
@@ -18,6 +19,7 @@ function GeneralSetting({ show = false, autoPlay = true, brightness=1, dispatch 
       document.getElementById('general-settings').scrollIntoView({ block: 'center' });
     }
   }, [show]);
+  const { videoStyle } = getVideoStyle({brightness});
 
   return (
     <form className="watch-menu-tab" id="general-settings">
