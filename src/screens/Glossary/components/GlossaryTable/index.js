@@ -147,9 +147,9 @@ const GlossaryTable = props => {
                 </button>
               </th>
               <th>LINK</th>
-              <th>DESCRIPTION</th>
+              <th>DEFINITION</th>
               <th>SOURSE</th>
-              <th>
+              {/* <th>
                 <button
                   type="button"
                   onClick={() => requestSort("domain")}
@@ -157,8 +157,9 @@ const GlossaryTable = props => {
                 >
                   DOMAIN
                 </button>
-              </th>
+              </th> */}
               <th>LIKE</th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -168,7 +169,7 @@ const GlossaryTable = props => {
                 <td>{term.link}</td>
                 <td>{term.description}</td>
                 <td>{term.source}</td>
-                <td>{term.domain}</td>
+                {/* <td>{term.domain}</td> */}
                 <td>{term.likes}</td>
                 <td><button onClick={() => handleLike(term.id)}>like</button></td>
               </tr>
