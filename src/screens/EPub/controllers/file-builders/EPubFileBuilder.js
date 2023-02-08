@@ -297,9 +297,14 @@ class EPubFileBuilder {
       'enableAllGlossaryTermHighlight' in this.data
         ? this.data.enableAllGlossaryTermHighlight
         : false;
+<<<<<<< HEAD
     
     console.log("Highlight all: ", highlightAll)
 >>>>>>> 01a89292 (Fixed default behaviour of button to highlight all occurrences)
+=======
+
+    // console.log("Highlight all: ", highlightAll)
+>>>>>>> a153e626 (Fix linter errors and ran prettier)
 
     // add glossary terms to end of chapter if enabled
 <<<<<<< HEAD
