@@ -34,22 +34,17 @@ export async function getGlossaryData(mediaId) {
   });
 
   if (response.ok) {
-    // console.log('Successfully got glossary data for mediaId: ', mediaId);
-
     const glossaryData = {};
     const glossaryJson = await response.json();
-    // console.log(glossaryJson);
     for (const term of glossaryJson.Glossary) {
       const word = term[0];
       const description = term[1];
       const link = term[5];
-      //   console.log(word, description, link);
       glossaryData[word] = { description, link };
     }
 
     return glossaryData;
   }
-  // console.log('Failed to fetch glossary data for mediaId: ', mediaId, response.statusText);
   return {};
 }
 
