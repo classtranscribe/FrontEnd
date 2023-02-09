@@ -1,5 +1,27 @@
+/**
+ * This file contains functionality to add an HTML/Text based glossary to some given text.
+ * The glossary data is received from the backend through a mediaId.
+ *
+ * The getChapterGlossaryAndTextHighlight uses the glossary data to search for matching words in the text.
+ * We substitute the glossary word with a link that points to the glossary section
+ * where they can read the definition of the word.
+ *
+ * The actually glossary can be obtained using glossaryTermsAsHTML for EPub format or glossaryTermsAsText for PDF.
+ *
+ * Todo: Glossary for PDF
+ */
+
+// Backend API URL
 const baseURL = 'https://ct-dev.ncsa.illinois.edu';
 
+/**
+ * To fetch glossary data from the backend API
+ * and create object containing word, description and link for each term.
+ *
+ * The word is usually a keyword or definition from a chapter.
+ * The description describes the meaning of the word.
+ * The link contains a URL where one can learn more about the word.
+ */
 export async function getGlossaryData(mediaId) {
   const response = await fetch(`${baseURL}/api/EPubs/GetGlossaryData?mediaId=${mediaId}`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -31,11 +53,16 @@ export async function getGlossaryData(mediaId) {
   return {};
 }
 
+/**
+ * Helper function to check if a character is alphanumeric.
+ */
 function is_alphanum(char) {
   return char.match(/[a-zA-Z0-9]/i);
 }
 
-// Return HTML id for this word in the glossary section
+/**
+ * Return HTML id for this word in the glossary section
+ */
 function get_word_id(word) {
   return `glossary_${String(word).replace(/ /g, '-')}`;
 }
