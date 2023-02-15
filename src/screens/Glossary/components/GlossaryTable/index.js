@@ -46,13 +46,15 @@ const useSortableData = (items, config = null) => {
 
 
 const GlossaryTable = props => {
+    const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
     const { items, requestSort, sortConfig } = useSortableData(props.words);
     const [pageNumber, setPageNumber] = useState(1); // the page number is at first 1
     const [jumpNumber, setJumpNumber] = useState(1);
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
     const [onePage, setOnePage] = useState([]);
-    const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
+    const [isExplanation, setIsExplanation] = useState(new Array(ONE_PAGE_NUM).fill(false));
+
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
       timeout: 1000,
@@ -75,6 +77,7 @@ const GlossaryTable = props => {
       setSearch('');
       setPageNumber(1);
       setOnePage(items.slice(0, 50));
+      setIsExplanation(new Array(ONE_PAGE_NUM).fill(false));
     }, [items])
 
     const getClassNamesFor = name => {
@@ -116,6 +119,12 @@ const GlossaryTable = props => {
           })
         }
       })
+    }
+
+    const handleMoreLess = (index) => {
+      const newArray = [...isExplanation];
+      newArray[index] = !newArray[index];
+      setIsExplanation(newArray);
     }
 
     return (
@@ -163,17 +172,29 @@ const GlossaryTable = props => {
             </tr>
           </thead>
           <tbody>
-            {onePage.map(term => (
-              <tr key={term.id}>
-                <td>{term.term}</td>
-                <td>{term.link}</td>
-                <td>{term.description}</td>
-                <td>{term.source}</td>
-                {/* <td>{term.domain}</td> */}
-                <td>{term.likes}</td>
-                <td><button onClick={() => handleLike(term.id)}>like</button></td>
-              </tr>
-            ))}
+            {onePage.map((term, i) => {
+              return (
+                <tr key={term.id}>
+                  <td>{term.term}</td>
+                  <td>
+                    <a target="_blank" rel="noopener noreferrer" href={term.link}>{term.link}</a>
+                  </td>
+                  <td>
+                    {isExplanation[i]===true ? term.explanation : term.description}
+                    <button
+                      type="button" 
+                      onClick={() => handleMoreLess(i)}
+                    >
+                      {isExplanation[i]===true ? ("less") : ("more")}
+                    </button>
+                  </td>
+                  <td>{term.source}</td>
+                  {/* <td>{term.domain}</td> */}
+                  <td>{term.likes}</td>
+                  <td><button onClick={() => handleLike(term.id)}>like</button></td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
