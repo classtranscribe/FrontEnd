@@ -8,6 +8,7 @@ import {
     CC_FONT_SANS_SERIF,
     CC_OPACITY_75,
     CC_POSITION_BOTTOM,
+    //CC_BRIGHTNESS,
     // MODAL_SHARE
     scrollTransToView
 } from './Utils';
@@ -60,12 +61,14 @@ const PlayerModel = {
         cc_position: CC_POSITION_BOTTOM,
         cc_opacity: CC_OPACITY_75,
 
+
         transView: isMobile ? TRANSCRIPT_VIEW : LINE_VIEW,
 
         openCC: true,
         openAD: false,
 
         autoPlay: !isMobile,
+        brightness: 1,
         pauseWhileAD: false,
         autoScroll: true,
         pauseWhileEditing: !isMobile,
@@ -113,6 +116,10 @@ const PlayerModel = {
         *toggleOpenAD({ payload }, { call, put, select, take }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openAD: !playerpref.openAD } })
+        },
+        *filterBrightness({ payload }, { call, put, select, take }) {
+            const { playerpref } = yield select();
+            yield put({ type: 'setPreference', payload: { brightness: !playerpref.brightness } })
         },
         *toggleOpenCC({ payload }, { call, put, select, take }) {
             const { playerpref } = yield select();

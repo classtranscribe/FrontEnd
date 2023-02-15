@@ -10,6 +10,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  SCREEN_OPACITY_100,
   // WEBVTT_SUBTITLES,
   // WEBVTT_DESCRIPTIONS,
   // ENGLISH,
@@ -75,6 +76,22 @@ export const getCCStyle = (options) => {
   }
 
   return { ccStyle, ccContainerStyle };
+}
+export const getVideoStyle = (options) => {
+  const {
+    brightness = SCREEN_OPACITY_100,
+  } = options;
+
+  const videoStyle = {
+    // backgroundColor: colorMap(cc_bg, cc_opacity),
+    // color: cc_color,
+    // fontSize: `${cc_size + 0.25}rem`, // +.25 to get a larger default font size
+    // fontFamily: cc_font,
+    filter: `brightness(${brightness})`
+  };
+
+
+  return { videoStyle };
 }
 /**
 * Function that scrolls the captions
