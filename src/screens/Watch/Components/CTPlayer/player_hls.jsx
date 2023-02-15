@@ -7,6 +7,7 @@ import React, {
 import Hls from 'hls.js';
 // import { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
+import { SCREEN_OPACITY_25, getVideoStyle } from '../../Utils';
 // import axios from 'axios';
 // import PlayerWrapper from './PlayerWrapper';
 // import { uEvent } from '../../Utils/UserEventController';
@@ -38,7 +39,8 @@ const Video = React.memo((props) => {
         videoRef,
         // openCC, 
         // updating,
-        captionSpeedUp = 0
+        captionSpeedUp = 0,
+        brightness = SCREEN_OPACITY_25
     } = props;
 
     const _videoRef = React.useRef();
@@ -161,6 +163,8 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
+    const { videoStyle } = getVideoStyle({brightness});
+
 
     useEffect(() => {
         function _initPlayer() {
@@ -429,6 +433,7 @@ const Video = React.memo((props) => {
                 onSeeking={onSeekingPri}
                 onSeeked={onSeekedPri}
                 onError={onErrorPri}
+                style="filter:brightness(0.25)"
             >
                 Your browser does not support video tag.
             </video>

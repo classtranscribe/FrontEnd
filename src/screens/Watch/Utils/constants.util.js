@@ -41,7 +41,19 @@ export const screenModes = [
   { type: NESTED_MODE, name: 'Nested View', icon: 'picture_in_picture' },
   // { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
 ];
-
+/**
+ * Screen Displays
+ */
+export const SCREEN_OPACITY_25 = 0.25;
+export const SCREEN_OPACITY_50 = 0.5;
+export const SCREEN_OPACITY_75 = 0.75;
+export const SCREEN_OPACITY_100 = 1.0;
+export const screen_opacityOptions = [
+  SCREEN_OPACITY_25,
+  SCREEN_OPACITY_50,
+  SCREEN_OPACITY_75,
+  SCREEN_OPACITY_100
+];
 /**
  * Player types
  */

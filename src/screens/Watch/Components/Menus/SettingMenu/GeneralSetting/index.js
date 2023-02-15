@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Select, Form } from 'semantic-ui-react';
 import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
+import {
+  screen_opacityOptions,
+  getCCSelectOptions,
+  getVideoStyle,
+} from '../../../../Utils';
 
-function GeneralSetting({ show = false, brightness = 100, autoPlay = true, dispatch }) {
+
+function GeneralSetting({ show = false, autoPlay = true, brightness=1, dispatch }) {
   const handleAutoPlay = () => {
     dispatch({ type: 'playerpref/setPreference', payload: { autoPlay: !autoPlay } })
   };
@@ -15,6 +22,7 @@ function GeneralSetting({ show = false, brightness = 100, autoPlay = true, dispa
       document.getElementById('general-settings').scrollIntoView({ block: 'center' });
     }
   }, [show]);
+  const { videoStyle } = getVideoStyle({brightness});
 
   return (
     <form className="watch-menu-tab" id="general-settings">
@@ -40,6 +48,6 @@ function GeneralSetting({ show = false, brightness = 100, autoPlay = true, dispa
     
   );
 }
-export default connect(({ playerpref: { autoPlay }, loading }) => ({
-  autoPlay
+export default connect(({ playerpref: { autoPlay, brightness }, loading }) => ({
+  autoPlay, brightness
 }))(GeneralSetting);
