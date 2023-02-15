@@ -53,14 +53,12 @@ const GlossaryTable = props => {
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
     const [onePage, setOnePage] = useState([]);
-    const [isExplanation, setIsExplanation] = useState([new Array(ONE_PAGE_NUM).fill(false)]);
+    const [isExplanation, setIsExplanation] = useState(new Array(ONE_PAGE_NUM).fill(false));
 
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
       timeout: 1000,
     });
-
-    // useEffect((),[]);
 
     useEffect(() => {
       const index = (pageNumber-1) * ONE_PAGE_NUM;
@@ -79,6 +77,7 @@ const GlossaryTable = props => {
       setSearch('');
       setPageNumber(1);
       setOnePage(items.slice(0, 50));
+      setIsExplanation(new Array(ONE_PAGE_NUM).fill(false));
     }, [items])
 
     const getClassNamesFor = name => {
@@ -124,7 +123,7 @@ const GlossaryTable = props => {
 
     const handleMoreLess = (index) => {
       const newArray = [...isExplanation];
-      newArray[index] = ~newArray[index];
+      newArray[index] = !newArray[index];
       setIsExplanation(newArray);
     }
 
@@ -173,27 +172,29 @@ const GlossaryTable = props => {
             </tr>
           </thead>
           <tbody>
-            {onePage.map((term, i) => (
-              <tr key={term.id}>
-                <td>{term.term}</td>
-                <td>
-                  <a target = "_blank" href={term.link}>{term.link}</a>
-                </td>
-                <td>
-                  {isExplanation[i-1] ?  "explanation" : term.description}
-                  <button
-                    type="button" 
-                    onClick={() => handleMoreLess(i-1)}
-                  >
-                    {isExplanation[i-1] ? ("less") : ("more")}
-                  </button>
-                </td>
-                <td>{term.source}</td>
-                {/* <td>{term.domain}</td> */}
-                <td>{term.likes}</td>
-                <td><button onClick={() => handleLike(term.id)}>like</button></td>
-              </tr>
-            ))}
+            {onePage.map((term, i) => {
+              return (
+                <tr key={term.id}>
+                  <td>{term.term}</td>
+                  <td>
+                    <a target="_blank" rel="noopener noreferrer" href={term.link}>{term.link}</a>
+                  </td>
+                  <td>
+                    {isExplanation[i]===true ? term.explanation : term.description}
+                    <button
+                      type="button" 
+                      onClick={() => handleMoreLess(i)}
+                    >
+                      {isExplanation[i]===true ? ("less") : ("more")}
+                    </button>
+                  </td>
+                  <td>{term.source}</td>
+                  {/* <td>{term.domain}</td> */}
+                  <td>{term.likes}</td>
+                  <td><button onClick={() => handleLike(term.id)}>like</button></td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
