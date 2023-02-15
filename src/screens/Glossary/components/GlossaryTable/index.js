@@ -46,17 +46,21 @@ const useSortableData = (items, config = null) => {
 
 
 const GlossaryTable = props => {
+    const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
     const { items, requestSort, sortConfig } = useSortableData(props.words);
     const [pageNumber, setPageNumber] = useState(1); // the page number is at first 1
     const [jumpNumber, setJumpNumber] = useState(1);
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
     const [onePage, setOnePage] = useState([]);
-    const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
+    const [isExplanation, setIsExplanation] = useState([new Array(ONE_PAGE_NUM).fill(false)]);
+
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
       timeout: 1000,
     });
+
+    // useEffect((),[]);
 
     useEffect(() => {
       const index = (pageNumber-1) * ONE_PAGE_NUM;
@@ -118,6 +122,12 @@ const GlossaryTable = props => {
       })
     }
 
+    const handleMoreLess = (index) => {
+      const newArray = [...isExplanation];
+      newArray[index] = ~newArray[index];
+      setIsExplanation(newArray);
+    }
+
     return (
       <div>
         <div className='tableBar'>
@@ -163,11 +173,21 @@ const GlossaryTable = props => {
             </tr>
           </thead>
           <tbody>
-            {onePage.map(term => (
+            {onePage.map((term, i) => (
               <tr key={term.id}>
                 <td>{term.term}</td>
-                <td>{term.link}</td>
-                <td>{term.description}</td>
+                <td>
+                  <a target = "_blank" href={term.link}>{term.link}</a>
+                </td>
+                <td>
+                  {isExplanation[i-1] ?  "explanation" : term.description}
+                  <button
+                    type="button" 
+                    onClick={() => handleMoreLess(i-1)}
+                  >
+                    {isExplanation[i-1] ? ("less") : ("more")}
+                  </button>
+                </td>
                 <td>{term.source}</td>
                 {/* <td>{term.domain}</td> */}
                 <td>{term.likes}</td>
