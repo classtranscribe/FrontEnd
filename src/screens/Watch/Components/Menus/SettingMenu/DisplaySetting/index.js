@@ -20,10 +20,10 @@ import {
   getCCSelectOptions,
 } from '../../../../Utils';
 
-function DisplaySetting({ show = false, brightness = 1, dispatch }) {
+function DisplaySetting({ show = false, brightness, dispatch }) {
   const handleBrightness = ({ target: { value } }) => {
-    dispatch({ type: 'playerpref/setPreference', payload: { brightness:  brightness} })
-    dispatch({type: 'watch/media_brightness', payload: value})
+    dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
+    // dispatch({type: 'watch/media_brightness', payload: value})
   };
   
 
@@ -44,34 +44,38 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
         aria-label="Brightness"
         options={getCCSelectOptions(screen_opacityOptions)}
         value={brightness}
-        //onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { brightness: value } })}
-        onChange={handleBrightness}
+        onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { brightness: value } })}
+        // onChange={handleBrightness}
         />
       </div> */}
-      <Popup
-        label="Brightness"
-        inverted
-        wide
-        basic
-        position="top center"
-        offset="1000, 2000px"
-        openOnTriggerClick={false}
-        openOnTriggerFocus
-        closeOnTriggerBlur
-        content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
-        trigger={
-          <input
-            id="brightness-slider"
-            className="brightness-slider"
-            aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
-            type="range"
-            min={0}
-            max={2}
-            step={0.05}
-            onChange={handleBrightness}
-          />
-        }
-      />
+      <div className="w-100">
+        <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor( brightness * 100)}%</h3>
+        <Popup
+          label="Brightness"
+          inverted
+          wide
+          basic
+          position="top center"
+          offset="5, 5%"
+          openOnTriggerClick={false}
+          openOnTriggerFocus
+          closeOnTriggerBlur
+          // content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
+          trigger={
+            <input
+              id="brightness-slider"
+              className="brightness-slider"
+              aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
+              type="range"
+              min={0}
+              max={2}
+              step={0.05}
+              value={brightness}
+              onChange={handleBrightness}
+            />
+          }
+        />
+      </div>
     </form>
     
   );
@@ -129,6 +133,6 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
   // );
 
 }
-export default connect(({ playerpref, loading }) => ({
-  brightness: playerpref.brightness
+export default connect(({ playerpref: { brightness }, loading }) => ({
+  brightness
 }))(DisplaySetting);
