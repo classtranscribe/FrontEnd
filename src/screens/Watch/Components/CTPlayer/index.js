@@ -13,6 +13,7 @@
    SECONDARY,
    PS_MODE,
    NESTED_MODE,
+   getVideoStyle
  } from '../../Utils';
  import './index.scss';
  import './playerModes.css';
@@ -21,7 +22,7 @@
  const videoRef2 = (node) => { PlayerData.video2 = node };
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
-   const { transView, muted, volume, playbackrate, openCC } = props;
+   const { transView, muted, volume, playbackrate, openCC, brightness } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
@@ -55,6 +56,7 @@
    }, [srcPath1, srcPath2]);
    const player1Position = isSwitched ? SECONDARY : PRIMARY;
    const player2Position = isSwitched ? PRIMARY : SECONDARY;
+   const { videoStyle } = getVideoStyle({brightness});
  
    useEffect(() => {
      if (isTwoScreen && !isMobile) {
@@ -83,6 +85,7 @@
          mode={mode}
          data-trans-view={transView}
          data-fullscreen={isFullscreen}
+         style = {videoStyle}
        >
          {
            useHls ? <VideoHls
@@ -99,6 +102,8 @@
            mode={mode}
            data-trans-view={transView}
            data-fullscreen={isFullscreen}
+           style = {videoStyle}
+
          >
            <Video
              id={2}
@@ -117,7 +122,7 @@
  export const ClassTranscribePlayer = connect(({ watch: {
    media, mode, isSwitched, isFullscreen, embedded
  }, playerpref: {
-   transView, muted, volume, playbackrate, openCC
+   transView, muted, volume, playbackrate, openCC,brightness
  }, loading }) => ({
-   media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC
+   media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, brightness
  }))(ClassTranscribePlayerNew);
