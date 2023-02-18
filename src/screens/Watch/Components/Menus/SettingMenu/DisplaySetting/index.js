@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Form } from 'semantic-ui-react';
+import { Select, Form, Popup } from 'semantic-ui-react';
 import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
 import {
@@ -14,7 +14,6 @@ import {
   // // cc_positionOptions,
   // cc_fontOptions,
   // cc_sizeOptions,
-  getVideoStyle,
   screen_opacityOptions,
   getCCSelectOptions,
 } from '../../../../Utils';
@@ -29,7 +28,6 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
       document.getElementById('display-settings').scrollIntoView({ block: 'center' });
     }
   }, [show]);
-  const { videoStyle } = getVideoStyle({brightness});
 
   return (
     <form className="watch-menu-tab" id="display-settings">
