@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Select, Form } from 'semantic-ui-react';
 import { Popup } from 'semantic-ui-react';
 import { connect } from 'dva';
+import './index.scss';
+import './slider.scss';
 import MenuRadio from '../MenuRadio';
 import {
   // CC_COLOR_WHITE,
@@ -55,7 +57,7 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
         wide
         basic
         position="top center"
-        offset="1000, 1005px"
+        offset="1000, 2000px"
         openOnTriggerClick={false}
         openOnTriggerFocus
         closeOnTriggerBlur
@@ -67,7 +69,7 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
             aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
             type="range"
             min={0}
-            max={1}
+            max={2}
             step={0.05}
             onChange={handleBrightness}
           />
