@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Form } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
 import {
@@ -20,9 +21,11 @@ import {
 } from '../../../../Utils';
 
 function DisplaySetting({ show = false, brightness = 1, dispatch }) {
-  const handleBrightness = () => {
+  const handleBrightness = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  brightness} })
+    dispatch({type: 'watch/media_brightness', payload: value})
   };
+  
 
   useEffect(() => {
     if (show) {
@@ -34,7 +37,7 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
   return (
     <form className="watch-menu-tab" id="display-settings">
       <h2 className="watch-menu-tab-title">Display</h2>
-      <div className="w-100">
+      {/* <div className="w-100">
       <Form.Field
         fluid
         control={Select}
@@ -42,13 +45,91 @@ function DisplaySetting({ show = false, brightness = 1, dispatch }) {
         aria-label="Brightness"
         options={getCCSelectOptions(screen_opacityOptions)}
         value={brightness}
-        onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { brightness: value } })}
+        //onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { brightness: value } })}
+        onChange={handleBrightness}
         />
-      </div>
+      </div> */}
+      <Popup
+        label="Brightness"
+        inverted
+        wide
+        basic
+        position="top center"
+        offset="1000, 1005px"
+        openOnTriggerClick={false}
+        openOnTriggerFocus
+        closeOnTriggerBlur
+        content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
+        trigger={
+          <input
+            id="brightness-slider"
+            className="brightness-slider"
+            aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
+            type="range"
+            min={0}
+            max={1}
+            step={0.05}
+            onChange={handleBrightness}
+          />
+        }
+      />
     </form>
     
   );
+  // return (
+  //   <div className="watch-brightness-ctrl">
+  //     {/* <Popup
+  //       inverted
+  //       wide
+  //       basic
+  //       position="top center"
+  //       offset="0, 15px"
+  //       openOnTriggerClick={false}
+  //       openOnTriggerFocus
+  //       closeOnTriggerBlur
+  //       content={<strong>{muted ? 'Unmute (m)' : 'Mute (m)'}</strong>}
+  //       trigger={
+  //         <button
+  //           className="watch-ctrl-button"
+  //           onClick={handleButtonClick}
+  //           aria-label={muted ? 'Unmute' : 'Mute'}
+  //           id="volume-mute-btn"
+  //           position="bottom"
+  //         >
+  //           <span className="watch-btn-content" tabIndex="-1">
+  //             <i className="material-icons">{iconName}</i>
+  //           </span>
+  //         </button>
+  //       }
+  //     />  */}
+
+  //     <Popup
+  //       inverted
+  //       wide
+  //       basic
+  //       position="top center"
+  //       offset="0, 15px"
+  //       openOnTriggerClick={false}
+  //       openOnTriggerFocus
+  //       closeOnTriggerBlur
+  //       content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
+  //       trigger={
+  //         <input
+  //           id="brightness-slider"
+  //           className="brightness-slider"
+  //           aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
+  //           type="range"
+  //           min={0}
+  //           max={1}
+  //           step={0.05}
+  //           onChange={handleBrightness}
+  //         />
+  //       }
+  //     />
+  //   </div>
+  // );
+
 }
-export default connect(({ playerpref: { brightness }, loading }) => ({
-  brightness
+export default connect(({ playerpref, loading }) => ({
+  brightness: playerpref.brightness
 }))(DisplaySetting);

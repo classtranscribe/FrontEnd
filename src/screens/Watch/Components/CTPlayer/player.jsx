@@ -15,11 +15,11 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
-import { SCREEN_OPACITY_25, getVideoStyle } from '../../Utils';
+import { SCREEN_OPACITY_100, getVideoStyle } from '../../Utils';
 
 const Video = React.memo((props) => {
 
-    const { id = 1, videoRef, path, dispatch, isSwitched, embedded, brightness = SCREEN_OPACITY_25} = props;
+    const { id = 1, videoRef, path, dispatch, isSwitched, embedded, brightness} = props;
     const isPrimary = (id == 1);
     console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
@@ -134,11 +134,8 @@ const Video = React.memo((props) => {
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched;
 });
-export default Video = connect (({playerpref: {brightness}, loading}) => ({
-    brightness
-})) 
-
-(Video);
+export default Video;
+//(Video);
 // export default Video;
 // export const AudioDescription = connect(({ watch : { time },
 //     playerpref: { openAD, cc_color, cc_bg, cc_size, cc_opacity }, loading }) => ({
