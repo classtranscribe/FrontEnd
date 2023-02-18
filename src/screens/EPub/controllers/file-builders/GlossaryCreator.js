@@ -13,9 +13,6 @@
 
 import { cthttp } from 'utils/cthttp/request';
 
-// Backend API URL
-const baseURL = 'https://ct-dev.ncsa.illinois.edu';
-
 /**
  * To fetch glossary data from the backend API
  * and create object containing word, description and link for each term.
@@ -26,21 +23,18 @@ const baseURL = 'https://ct-dev.ncsa.illinois.edu';
  */
 export async function getGlossaryData(mediaId) {
   try {
-    // THIS DOES NOT WORK
-    const response = await cthttp.get(`${baseURL}/api/EPubs/GetGlossaryData?mediaId=${mediaId}`);
+    const response = await cthttp.get(`EPubs/GetGlossaryData?mediaId=${mediaId}`);
 
-    if (response.ok) {
-      const glossaryData = {};
-      const glossaryJson = await response.json();
-      for (const term of glossaryJson.Glossary) {
-        const word = term[0];
-        const description = term[1];
-        const link = term[5];
-        glossaryData[word] = { description, link };
-      }
+    const glossaryData = {};
 
-      return glossaryData;
+    for (const term of response.data.Glossary) {
+      const word = term[0];
+      const description = term[1];
+      const link = term[5];
+      glossaryData[word] = { description, link };
     }
+
+    return glossaryData;
   } catch (e) {
     console.error(e);
   }
