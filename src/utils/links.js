@@ -96,12 +96,18 @@ export class ClassTranscribeLinks {
     return '/personal-analytics';
   }
 
-  // 114
   /**
    * to `/glossary`
    */
-   glossary() {
+  glossary() {
     return '/glossary';
+  }
+
+  /**
+   * to `/glossary`
+   */
+  asl() {
+    return '/asl';
   }
 
   /**
