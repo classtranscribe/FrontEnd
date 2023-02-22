@@ -1,5 +1,5 @@
 /**
- * This file contains functionality to add an HTML/Text based glossary to some given text.
+ * This file contains functionality to add an HTML/Text based glossary to an I-Note given text present in a chapter.
  * The glossary data is received from the backend through a mediaId.
  *
  * The getChapterGlossaryAndTextHighlight uses the glossary data to search for matching words in the text.
@@ -8,7 +8,6 @@
  *
  * The actually glossary can be obtained using glossaryTermsAsHTML for EPub format or glossaryTermsAsText for PDF.
  *
- * Todo: Glossary for PDF
  */
 
 import { cthttp } from 'utils/cthttp/request';
