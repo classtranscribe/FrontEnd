@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Form, Popup } from 'semantic-ui-react';
+import { Select, Form, Popup, Button } from 'semantic-ui-react';
 import { connect } from 'dva';
 import './index.scss';
 import './slider.scss';
@@ -18,10 +18,32 @@ import {
   // cc_sizeOptions,
   getCCSelectOptions,
 } from '../../../../Utils';
+class Display1 extends React.Component {
+  render() {
+    return (
+      <div className="box-field">Bruh
+        <h3>News</h3>
+      </div>
+    );
+  }
+}
 
+class Display2 extends React.Component {
+  render() {
+    return (
+      <div className="box-field">
+        <h3>News</h3>
+      </div>
+    );
+  }
+}
 function DisplaySetting({ show = false, brightness, dispatch }) {
   const handleBrightness = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
+    // dispatch({type: 'watch/media_brightness', payload: value})
+  };
+  const handleDefaultBrightness =()=> {
+    dispatch({ type: 'playerpref/setPreference', payload: { brightness:  1} })
     // dispatch({type: 'watch/media_brightness', payload: value})
   };
   
@@ -32,9 +54,29 @@ function DisplaySetting({ show = false, brightness, dispatch }) {
     }
   }, [show]);
 
+  //const ButtonExampleButton = () => <Button>Click Here</Button>
+
+
+
   return (
     <form className="watch-menu-tab" id="display-settings">
-      <h2 className="watch-menu-tab-title">Display</h2>
+      <h2 className="watch-menu-tab-title">Display
+      </h2>
+
+      <h3 className="watch-menu-tab-subtitle">
+        <input
+              position="top right"
+              id="brightness-slider"
+              className="brightness-slider"
+              label="default"
+              type="button"
+              value={"Reset Defaults"}
+              onClick={handleDefaultBrightness}
+            
+            />
+
+      </h3>
+  
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor( brightness * 100)}%</h3>
         <Popup
@@ -67,6 +109,8 @@ function DisplaySetting({ show = false, brightness, dispatch }) {
     
   );
 }
+//export default ButtonExampleButton;
+
 export default connect(({ playerpref: { brightness }, loading }) => ({
   brightness
 }))(DisplaySetting);
