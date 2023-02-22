@@ -38,6 +38,9 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const onAllGlossaryTermHighlight = ({ target: { checked } }) =>
     setEPubData({ ...epubData, enableAllGlossaryTermHighlight: checked });
 
+  const onGlossaryDisable = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, disableGlossary: checked });
+
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
 
@@ -150,6 +153,14 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             label="Highlight All Occurences of Glossary Terms"
             checked={epubData.enableAllGlossaryTermHighlight}
             onChange={onAllGlossaryTermHighlight}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-glossary"
+            label="Disable Glossary"
+            checked={epubData.disableGlossary}
+            onChange={onGlossaryDisable}
           />
         </CTFormRow>
         <CTFormRow>

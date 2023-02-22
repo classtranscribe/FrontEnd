@@ -245,23 +245,23 @@ class EPubFileBuilder {
     const { language, sourceId } = this.data;
     let { title, text, start, link } = chapter;
 
-    const h = parseInt(start.substring(0, 2),10);
-    const m = parseInt(start.substring(3, 5),10);
-    const s = parseInt(start.substring(6,8),10);
+    const h = parseInt(start.substring(0, 2), 10);
+    const m = parseInt(start.substring(3, 5), 10);
+    const s = parseInt(start.substring(6, 8), 10);
     const curTime = 3600 * h + 60 * m + s;
 
     // The <img> tag should be nested beneath an <a> tag
     const parser = new DOMParser();
     const textHtml = parser.parseFromString(text, 'text/html');
     const block = textHtml.getElementsByClassName('img-block')[0];
-    const imgBlock = block.getElementsByTagName('img')[0]
+    const imgBlock = block.getElementsByTagName('img')[0];
 
     // Create the <a> tag
     const linkElement = textHtml.createElement('a');
     let url = window.location.href;
     let query = url.indexOf('/epub');
     url = url.substring(0, query);
-    let href = "".concat(url,links.watch(sourceId),"&begin=",curTime,"").replace('&', '&amp;');
+    let href = ''.concat(url, links.watch(sourceId), '&begin=', curTime, '').replace('&', '&amp;');
     linkElement.setAttribute('href', href);
 
     // Remove <img> tag from outer div and add as child to <a> tag
@@ -276,27 +276,41 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-    let highlightAll =
-      'enableAllGlossaryTermHighlight' in this.data
-        ? this.data.enableAllGlossaryTermHighlight
-        : false;
+    let content = '';
 
-    // add glossary terms to end of chapter if enabled
+    const disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : true;
 
-    const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
-      text,
-      this.glossaryData,
-      highlightAll,
-    );
+    // check if glossary is enabled
+    if (!disableGlossary) {
+      const highlightAll =
+        'enableAllGlossaryTermHighlight' in this.data
+          ? this.data.enableAllGlossaryTermHighlight
+          : false;
 
-    const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
+      // add glossary terms to end of chapter if enabled
 
-    const content = dedent(`
+      const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
+        text,
+        this.glossaryData,
+        highlightAll,
+      );
+
+      const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
+
+      content = dedent(`
 		<div class="epub-ch">            
 			${highlightedText}
 			${glossaryHTML} 
 		</div>
 	  `);
+    } else {
+      content = dedent(`
+      <div class="epub-ch">            
+        ${text}
+      </div>
+      `);
+    }
+
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
 
