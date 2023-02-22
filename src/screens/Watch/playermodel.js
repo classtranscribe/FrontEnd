@@ -9,6 +9,8 @@ import {
     CC_OPACITY_75,
     CC_POSITION_BOTTOM,
     SCREEN_OPACITY_100,
+    SCREEN_CONTRAST_100,
+
     //CC_BRIGHTNESS,
     // MODAL_SHARE
     scrollTransToView
@@ -70,6 +72,8 @@ const PlayerModel = {
 
         autoPlay: !isMobile,
         brightness: SCREEN_OPACITY_100,
+        contrast: SCREEN_CONTRAST_100,
+
         pauseWhileAD: false,
         autoScroll: true,
         pauseWhileEditing: !isMobile,

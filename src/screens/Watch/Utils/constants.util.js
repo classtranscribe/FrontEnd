@@ -225,6 +225,7 @@ export const cc_opacityOptions = [
 ];
 
 export const SCREEN_OPACITY_100 = 1;
+export const SCREEN_CONTRAST_100 = 1;
 
 
 
