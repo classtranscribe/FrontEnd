@@ -35,7 +35,19 @@ class EPubFileBuilder {
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
-    this.glossaryData = await getGlossaryData(this.data.sourceId);
+
+    this.disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : true;
+
+    if (!this.disableGlossary) {
+      this.highlightAll =
+        'enableAllGlossaryTermHighlight' in this.data
+          ? this.data.enableAllGlossaryTermHighlight
+          : false;
+      this.glossaryData = await getGlossaryData(this.data.sourceId);
+    } else {
+      this.highlightAll = false;
+      this.glossaryData = {};
+    }
   }
 
   /**
@@ -278,21 +290,13 @@ class EPubFileBuilder {
 
     let content = '';
 
-    const disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : true;
-
     // check if glossary is enabled
-    if (!disableGlossary) {
-      const highlightAll =
-        'enableAllGlossaryTermHighlight' in this.data
-          ? this.data.enableAllGlossaryTermHighlight
-          : false;
-
+    if (!this.disableGlossary) {
       // add glossary terms to end of chapter if enabled
-
       const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
         text,
         this.glossaryData,
-        highlightAll,
+        this.highlightAll,
       );
 
       const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
