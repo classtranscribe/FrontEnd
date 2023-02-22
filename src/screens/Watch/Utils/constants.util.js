@@ -224,18 +224,8 @@ export const cc_opacityOptions = [
   CC_OPACITY_100,
 ];
 
-export const SCREEN_OPACITY_0 = 0;
-export const SCREEN_OPACITY_25 = 0.25;
-export const SCREEN_OPACITY_50 = 0.5;
-export const SCREEN_OPACITY_75 = 0.75;
 export const SCREEN_OPACITY_100 = 1;
-export const screen_opacityOptions = [
-  SCREEN_OPACITY_0,
-  SCREEN_OPACITY_25,
-  SCREEN_OPACITY_50,
-  SCREEN_OPACITY_75,
-  SCREEN_OPACITY_100,
-];
+
 
 
 // position

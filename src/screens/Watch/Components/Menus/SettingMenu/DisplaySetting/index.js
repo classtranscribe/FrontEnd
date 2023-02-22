@@ -16,7 +16,6 @@ import {
   // // cc_positionOptions,
   // cc_fontOptions,
   // cc_sizeOptions,
-  screen_opacityOptions,
   getCCSelectOptions,
 } from '../../../../Utils';
 
@@ -36,18 +35,6 @@ function DisplaySetting({ show = false, brightness, dispatch }) {
   return (
     <form className="watch-menu-tab" id="display-settings">
       <h2 className="watch-menu-tab-title">Display</h2>
-      {/* <div className="w-100">
-      <Form.Field
-        fluid
-        control={Select}
-        label="Brightness"
-        aria-label="Brightness"
-        options={getCCSelectOptions(screen_opacityOptions)}
-        value={brightness}
-        onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { brightness: value } })}
-        // onChange={handleBrightness}
-        />
-      </div> */}
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor( brightness * 100)}%</h3>
         <Popup
@@ -79,59 +66,6 @@ function DisplaySetting({ show = false, brightness, dispatch }) {
     </form>
     
   );
-  // return (
-  //   <div className="watch-brightness-ctrl">
-  //     {/* <Popup
-  //       inverted
-  //       wide
-  //       basic
-  //       position="top center"
-  //       offset="0, 15px"
-  //       openOnTriggerClick={false}
-  //       openOnTriggerFocus
-  //       closeOnTriggerBlur
-  //       content={<strong>{muted ? 'Unmute (m)' : 'Mute (m)'}</strong>}
-  //       trigger={
-  //         <button
-  //           className="watch-ctrl-button"
-  //           onClick={handleButtonClick}
-  //           aria-label={muted ? 'Unmute' : 'Mute'}
-  //           id="volume-mute-btn"
-  //           position="bottom"
-  //         >
-  //           <span className="watch-btn-content" tabIndex="-1">
-  //             <i className="material-icons">{iconName}</i>
-  //           </span>
-  //         </button>
-  //       }
-  //     />  */}
-
-  //     <Popup
-  //       inverted
-  //       wide
-  //       basic
-  //       position="top center"
-  //       offset="0, 15px"
-  //       openOnTriggerClick={false}
-  //       openOnTriggerFocus
-  //       closeOnTriggerBlur
-  //       content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
-  //       trigger={
-  //         <input
-  //           id="brightness-slider"
-  //           className="brightness-slider"
-  //           aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
-  //           type="range"
-  //           min={0}
-  //           max={1}
-  //           step={0.05}
-  //           onChange={handleBrightness}
-  //         />
-  //       }
-  //     />
-  //   </div>
-  // );
-
 }
 export default connect(({ playerpref: { brightness }, loading }) => ({
   brightness
