@@ -136,7 +136,7 @@ const AslTable = props => {
           
           if (index !== -1) {
             const newTerm = {...newArray[index]};
-            newTerm.likes = newTerm.likes+1;
+            newTerm.likes += 1;
             newArray[index] = newTerm;
             setOnePage(newArray);
           }
@@ -147,16 +147,22 @@ const AslTable = props => {
     return (
       <div>
         {showVideo && (
-          <div class="video-window">
+          <div className="video-window">
             <button 
               id='close-button'
-              onClick={() => setShowVideo(false)}>
+              onClick={() => setShowVideo(false)}
+            >
               X
             </button>
-            <video  class="video-js vjs-default-skin" controls
-              preload="auto" width="640" height="264"
-              data-setup="{}">
-              <source src={videoUrl} type='video/mp4'></source>
+            <video 
+              className="video-js vjs-default-skin" 
+              controls
+              preload="auto" 
+              width="640" 
+              height="264"
+              data-setup="{}"
+            >
+              <source src={videoUrl} type='video/mp4' />
             </video>
           </div>
         )}
