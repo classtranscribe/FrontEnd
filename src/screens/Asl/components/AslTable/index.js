@@ -53,6 +53,8 @@ const AslTable = props => {
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
     const [onePage, setOnePage] = useState([]);
+    const [showVideo, setShowVideo] = useState(false);
+    const [videoUrl, setVideoUrl] = useState('');
 
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
@@ -104,11 +106,17 @@ const AslTable = props => {
       return 'Example'
     }
 
-    const getVideoLink = (source, uniqueASLIdentifier) => {
+    // const getVideoLink = (source, uniqueASLIdentifier) => {
+      
+    // }
+
+    const handleVideo = (source, uniqueASLIdentifier) => {
       if (source === 'ASLCORE') {
-        return `https://ct-dev.ncsa.illinois.edu/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`;
+        setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
+      } else {
+        setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
       }
-      return `https://ct-dev.ncsa.illinois.edu/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`;
+      setShowVideo(true);
     }
 
     const handlePrevPage = () => {
@@ -138,6 +146,20 @@ const AslTable = props => {
 
     return (
       <div>
+        {showVideo && (
+          <div class="video-window">
+            <button 
+              id='close-button'
+              onClick={() => setShowVideo(false)}>
+              X
+            </button>
+            <video  class="video-js vjs-default-skin" controls
+              preload="auto" width="640" height="264"
+              data-setup="{}">
+              <source src={videoUrl} type='video/mp4'></source>
+            </video>
+          </div>
+        )}
         <div className='tableBar'>
           <input 
             className='searchBox'
@@ -216,13 +238,19 @@ const AslTable = props => {
                     <button onClick={() => handleLike(term.id)}>like</button>
                   </td>
                   <td>
-                    <a href={getVideoLink(term.source, term.uniqueASLIdentifier)}>
+                    {/* <a href={getVideoLink(term.source, term.uniqueASLIdentifier)}>
                       <button 
                         type="button" 
                       >
                         Watch
                       </button>
-                    </a>
+                    </a> */}
+                    <button 
+                      type='button' 
+                      onClick={() => handleVideo(term.source, term.uniqueASLIdentifier)}
+                    >
+                      Watch
+                    </button>
                   </td>
                 </tr>
               );
