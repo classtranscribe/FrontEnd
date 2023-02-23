@@ -28,6 +28,7 @@ import {
   History,
   Analytics,
   Glossary,
+  Asl,
   Watch,
   // ComponentAPI,
   Example
@@ -135,7 +136,7 @@ class App extends React.Component {
         <Route exact path="/history" component={History} />
         <Route exact path="/personal-analytics" component={Analytics} />
         <Route exact path="/glossary" component={Glossary} /> 
-        <Route exact path="/asl" component={Glossary} /> 
+        <Route exact path="/asl" component={Asl} /> 
         <Route exact path="/video" component={WatchPage} />
         <Route exact path="/embed/:id" component={Embed} />
         <Route path="/playlist/:id" component={InstPlaylistPage} />
