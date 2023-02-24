@@ -35,7 +35,7 @@ function EPubToolbar({ view, dispatch, epub }) {
 
   const openPreview = () => dispatch({ type: 'epub/setShowPreview', payload: true });
   const previewBtnEl = _makeTBtn(
-    'preview', 'Preview I-Note', '⌘⇧P', openPreview, false, !isReadOnly
+    'preview', 'Preview I-Note', '⌘⇧P', openPreview, false, !isReadOnly 
   );
 
   const prefBtnEl = null// _makeTBtn('tune', 'Preference', null, null, false, true);
@@ -58,7 +58,7 @@ function EPubToolbar({ view, dispatch, epub }) {
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
       <CTFragment alignItCenter className="ct-epb tool-btns">
         {saveBtnEl}
-        {previewBtnEl}
+        {null && previewBtnEl}
         <ToolButtonDivider />
         <DownloadDropdown />
         {!isReadOnly && <ToolButtonDivider />}
