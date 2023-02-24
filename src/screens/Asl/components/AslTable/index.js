@@ -106,10 +106,6 @@ const AslTable = props => {
       return 'Example'
     }
 
-    // const getVideoLink = (source, uniqueASLIdentifier) => {
-      
-    // }
-
     const handleVideo = (source, uniqueASLIdentifier) => {
       if (source === 'ASLCORE') {
         setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
@@ -120,11 +116,21 @@ const AslTable = props => {
     }
 
     const handlePrevPage = () => {
-      setPageNumber(pageNumber-1);
+      let newPage = pageNumber-1;
+      if (newPage < 0) {
+        setPageNumber(0);
+      } else {
+        setPageNumber(newPage);
+      }
     }
 
     const handleNextPage = () => {
-      setPageNumber(pageNumber+1);
+      let newPage = pageNumber-1;
+      if (newPage*ONE_PAGE_NUM >= length) {
+        setPageNumber(Math.ceil(length / ONE_PAGE_NUM));
+      } else {
+        setPageNumber(newPage);
+      }
     }
 
     const handleLike = (termId) => {
@@ -155,11 +161,9 @@ const AslTable = props => {
               X
             </button>
             <video 
-              className="video-js vjs-default-skin" 
+              className="video-js vjs-default-skin video-player" 
               controls
-              preload="auto" 
-              width="640" 
-              height="264"
+              preload="auto"
               data-setup="{}"
             >
               <source src={videoUrl} type='video/mp4' />
@@ -244,13 +248,6 @@ const AslTable = props => {
                     <button onClick={() => handleLike(term.id)}>like</button>
                   </td>
                   <td>
-                    {/* <a href={getVideoLink(term.source, term.uniqueASLIdentifier)}>
-                      <button 
-                        type="button" 
-                      >
-                        Watch
-                      </button>
-                    </a> */}
                     <button 
                       type='button' 
                       onClick={() => handleVideo(term.source, term.uniqueASLIdentifier)}
