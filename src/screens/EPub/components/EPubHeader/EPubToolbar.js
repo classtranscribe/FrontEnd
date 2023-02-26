@@ -58,7 +58,7 @@ function EPubToolbar({ view, dispatch, epub }) {
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
       <CTFragment alignItCenter className="ct-epb tool-btns">
         {saveBtnEl}
-        {null && previewBtnEl}
+        {null && previewBtnEl} {/* The preview button causes a crash when clicked (cause unknown) */}
         <ToolButtonDivider />
         <DownloadDropdown />
         {!isReadOnly && <ToolButtonDivider />}
