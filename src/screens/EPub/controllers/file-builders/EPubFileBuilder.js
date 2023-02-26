@@ -222,21 +222,31 @@ class EPubFileBuilder {
     // The <img> tag should be nested beneath an <a> tag
     const parser = new DOMParser();
     const textHtml = parser.parseFromString(text, 'text/html');
-    const block = textHtml.getElementsByClassName('img-block')[0];
-    const imgBlock = block.getElementsByTagName('img')[0]
+    const blockArr = textHtml.getElementsByClassName('img-block');
+    let imgBlock = null;
+    let block = null;
+    if (blockArr.length > 0){
+      block = blockArr[0];
+      const imgArr = block.getElementsByTagName('img');
+      if (imgArr.length > 0) {
+        imgBlock = imgArr[0];
+      }
+    }
 
-    // Create the <a> tag
-    const linkElement = textHtml.createElement('a');
-    let url = window.location.href;
-    let query = url.indexOf('/epub');
-    url = url.substring(0, query);
-    let href = "".concat(url,links.watch(sourceId),"&begin=",curTime,"").replace('&', '&amp;');
-    linkElement.setAttribute('href', href);
+    if (imgBlock && block) {
+      // Create the <a> tag
+      const linkElement = textHtml.createElement('a');
+      let url = window.location.href;
+      let query = url.indexOf('/epub');
+      url = url.substring(0, query);
+      let href = "".concat(url,links.watch(sourceId),"&begin=",curTime,"").replace('&', '&amp;');
+      linkElement.setAttribute('href', href);
 
-    // Remove <img> tag from outer div and add as child to <a> tag
-    block.removeChild(imgBlock);
-    linkElement.appendChild(imgBlock);
-    block.prepend(linkElement);
+      // Remove <img> tag from outer div and add as child to <a> tag
+      block.removeChild(imgBlock);
+      linkElement.appendChild(imgBlock);
+      block.prepend(linkElement);
+    }
 
     const bodyStr = new XMLSerializer().serializeToString(textHtml.body);
     text = bodyStr;
