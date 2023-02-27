@@ -107,16 +107,19 @@ const AslTable = props => {
     }
 
     const handleVideo = (source, uniqueASLIdentifier) => {
-      if (source === 'ASLCORE') {
-        setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
-      } else {
-        setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
+      const hostName = window.location.hostname;
+      if (hostName !== '') {
+        if (source === 'ASLCORE') {
+          setVideoUrl(`https://${hostName}/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
+        } else {
+          setVideoUrl(`https://${hostName}/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
+        }
       }
       setShowVideo(true);
     }
 
     const handlePrevPage = () => {
-      let newPage = pageNumber-1;
+      let newPage = Math.ceil(pageNumber-1);
       if (newPage < 0) {
         setPageNumber(0);
       } else {
@@ -125,7 +128,7 @@ const AslTable = props => {
     }
 
     const handleNextPage = () => {
-      let newPage = pageNumber-1;
+      let newPage = Math.ceil(pageNumber-1);
       if (newPage*ONE_PAGE_NUM >= length) {
         setPageNumber(Math.ceil(length / ONE_PAGE_NUM));
       } else {
