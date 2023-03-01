@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Form, Popup, Button } from 'semantic-ui-react';
+import { Select, Form, Popup} from 'semantic-ui-react';
 import { connect } from 'dva';
 import './index.scss';
 import './slider.scss';
@@ -18,15 +18,6 @@ import {
   // cc_sizeOptions,
   getCCSelectOptions,
 } from '../../../../Utils';
-class Display1 extends React.Component {
-  render() {
-    return (
-      <div className="box-field">Bruh
-        <h3>News</h3>
-      </div>
-    );
-  }
-}
 
 function DisplaySetting({ show = false, brightness,contrast, dispatch }) {
   const handleBrightness = ({ target: { value } }) => {
@@ -47,10 +38,6 @@ function DisplaySetting({ show = false, brightness,contrast, dispatch }) {
     }
   }, [show]);
 
-  //const ButtonExampleButton = () => <Button>Click Here</Button>
-
-
-
   return (
     <form className="watch-menu-tab" id="display-settings">
       <h2 className="watch-menu-tab-title">Display
@@ -58,14 +45,14 @@ function DisplaySetting({ show = false, brightness,contrast, dispatch }) {
 
       <h3 className="watch-menu-tab-subtitle">
         <input
-              position="top right"
-              id="brightness-slider"
-              className="brightness-slider"
-              label="default"
-              type="button"
-              value={"Reset Defaults"}
-              onClick={handleDefaults}
-            />
+          position="top right"
+          id="brightness-slider"
+          className="brightness-slider"
+          label="default"
+          type="button"
+          value="Reset Defaults"
+          onClick={handleDefaults}
+        />
 
       </h3>
   

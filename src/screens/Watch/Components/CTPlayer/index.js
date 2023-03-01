@@ -85,7 +85,7 @@
          mode={mode}
          data-trans-view={transView}
          data-fullscreen={isFullscreen}
-         style = {videoStyle}
+         style={videoStyle}
        >
          {
            useHls ? <VideoHls
@@ -102,7 +102,7 @@
            mode={mode}
            data-trans-view={transView}
            data-fullscreen={isFullscreen}
-           style = {videoStyle}
+           style={videoStyle}
 
          >
            <Video

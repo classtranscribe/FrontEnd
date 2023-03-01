@@ -81,7 +81,7 @@ export const getCCStyle = (options) => {
 export const getVideoStyle = (options) => {
   const {
     brightness = SCREEN_OPACITY_100,
-    contrast = 1
+    contrast = 1,
   } = options;
   const videoStyle = {
     filter: `brightness(${brightness}) contrast(${contrast})`,
