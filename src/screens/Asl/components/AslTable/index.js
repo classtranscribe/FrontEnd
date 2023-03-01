@@ -45,7 +45,7 @@ const useSortableData = (items, config = null) => {
 
 
 
-const GlossaryTable = props => {
+const AslTable = props => {
     const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
     const { items, requestSort, sortConfig } = useSortableData(props.words);
     const [pageNumber, setPageNumber] = useState(1); // the page number is at first 1
@@ -53,7 +53,8 @@ const GlossaryTable = props => {
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
     const [onePage, setOnePage] = useState([]);
-    const [isExplanation, setIsExplanation] = useState(new Array(ONE_PAGE_NUM).fill(false));
+    const [showVideo, setShowVideo] = useState(false);
+    const [videoUrl, setVideoUrl] = useState('');
 
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
@@ -77,7 +78,6 @@ const GlossaryTable = props => {
       setSearch('');
       setPageNumber(1);
       setOnePage(items.slice(0, 50));
-      setIsExplanation(new Array(ONE_PAGE_NUM).fill(false));
     }, [items])
 
     const getClassNamesFor = name => {
@@ -96,44 +96,88 @@ const GlossaryTable = props => {
       }
     }
 
+    const numberToCate = (num) => {
+      if (num === 1) {
+        return 'Sign'
+      }
+      if (num === 2) {
+        return 'Definition'
+      }
+      return 'Example'
+    }
+
+    const handleVideo = (source, uniqueASLIdentifier) => {
+      const hostName = window.location.hostname;
+      if (hostName !== '') {
+        if (source === 'ASLCORE') {
+          setVideoUrl(`https://${hostName}/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
+        } else {
+          setVideoUrl(`https://${hostName}/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
+        }
+      }
+      setShowVideo(true);
+    }
+
     const handlePrevPage = () => {
-      setPageNumber(pageNumber-1);
+      let newPage = Math.ceil(pageNumber-1);
+      if (newPage < 0) {
+        setPageNumber(0);
+      } else {
+        setPageNumber(newPage);
+      }
     }
 
     const handleNextPage = () => {
-      setPageNumber(pageNumber+1);
+      let newPage = Math.ceil(pageNumber-1);
+      if (newPage*ONE_PAGE_NUM >= length) {
+        setPageNumber(Math.ceil(length / ONE_PAGE_NUM));
+      } else {
+        setPageNumber(newPage);
+      }
     }
 
     const handleLike = (termId) => {
-      apiInstance.put(`/api/Glossary/Upvote/${termId}`).then(response => {
+      apiInstance.put(`/api/ASLVideo/Upvote/${termId}`).then(response => {
         if (response.status === 200) {
           // success, update like number
-          apiInstance.get(`/api/Glossary/${termId}`).then(response2 => {
-            const index = onePage.findIndex((ele) => ele.id === termId);
-            const newArray = [...onePage];
-            
-            if (index !== -1) {
-              newArray[index] = response2.data;
-              setOnePage(newArray);
-            }
-          })
+          const index = onePage.findIndex((ele) => ele.id === termId);
+          const newArray = [...onePage];
+          
+          if (index !== -1) {
+            const newTerm = {...newArray[index]};
+            newTerm.likes += 1;
+            newArray[index] = newTerm;
+            setOnePage(newArray);
+          }
         }
       })
     }
 
-    const handleMoreLess = (index) => {
-      const newArray = [...isExplanation];
-      newArray[index] = !newArray[index];
-      setIsExplanation(newArray);
-    }
-
     return (
       <div>
+        {showVideo && (
+          <div className="video-window">
+            <button 
+              id='close-button'
+              onClick={() => setShowVideo(false)}
+            >
+              X
+            </button>
+            <video 
+              className="video-js vjs-default-skin video-player" 
+              controls
+              preload="auto"
+              data-setup="{}"
+            >
+              <source src={videoUrl} type='video/mp4' />
+            </video>
+          </div>
+        )}
         <div className='tableBar'>
           <input 
             className='searchBox'
             type='text'
-            placeholder='Search for Glossaries' 
+            placeholder='search for ASL Glossaries' 
             onChange={(e) => setSearch(e.target.value)}
           />
           <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
@@ -152,23 +196,41 @@ const GlossaryTable = props => {
                   onClick={() => requestSort("term")}
                   className={getClassNamesFor("term")}
                 >
-                  TERM
+                  Term
                 </button>
               </th>
-              <th>LINK</th>
-              <th>DEFINITION</th>
-              <th>SOURSE</th>
-              {/* <th>
+              <th>
+                <button 
+                  type="button" 
+                  onClick={() => requestSort("kind")}
+                  className={getClassNamesFor("kind")}
+                >
+                  Category
+                </button>
+              </th>
+              <th>Written Equivalent</th>
+              <th>
                 <button
                   type="button"
                   onClick={() => requestSort("domain")}
                   className={getClassNamesFor("domain")}
                 >
-                  DOMAIN
+                  Domain
                 </button>
-              </th> */}
-              <th>LIKE</th>
-              <th>&nbsp;</th>
+              </th>
+              <th>
+                <button 
+                  type="button" 
+                  onClick={() => requestSort("source")}
+                  className={getClassNamesFor("source")}
+                >
+                  Source
+                </button>
+              </th>
+              <th>Like</th>
+              <th>
+                Video
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -177,21 +239,25 @@ const GlossaryTable = props => {
                 <tr key={term.id}>
                   <td>{term.term}</td>
                   <td>
-                    <a target="_blank" rel="noopener noreferrer" href={term.link}>{term.link}</a>
+                    {numberToCate(term.kind)}
+                  </td>
+                  <td>{term.text}</td>
+                  <td>{term.domain}</td>
+                  <td>
+                    <a target="_blank" rel="noopener noreferrer" href={term.websiteURL}>{term.source}</a>
                   </td>
                   <td>
-                    {isExplanation[i]===true ? term.explanation : term.description}
-                    <button
-                      type="button" 
-                      onClick={() => handleMoreLess(i)}
+                    {term.likes}
+                    <button onClick={() => handleLike(term.id)}>like</button>
+                  </td>
+                  <td>
+                    <button 
+                      type='button' 
+                      onClick={() => handleVideo(term.source, term.uniqueASLIdentifier)}
                     >
-                      {isExplanation[i]===true ? ("less") : ("more")}
+                      Watch
                     </button>
                   </td>
-                  <td>{term.source}</td>
-                  {/* <td>{term.domain}</td> */}
-                  <td>{term.likes}</td>
-                  <td><button onClick={() => handleLike(term.id)}>like</button></td>
                 </tr>
               );
             })}
@@ -201,4 +267,4 @@ const GlossaryTable = props => {
     );
 }
 
-export default GlossaryTable;
+export default AslTable;
