@@ -146,6 +146,10 @@ export default {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { volume: toSet } })
     },
+    *media_brightness({ payload: toSet }, { call, put, select, take }) {
+        // Could be removed
+        yield put({ type: 'playerpref/setPreference', payload: { brightness: toSet } })
+    },
     *media_setCurrTime({ payload, realTime = false }, { call, put, select, take }) {
         // currtime = 0
         const { watch } = yield select();
