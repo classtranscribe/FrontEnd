@@ -10,6 +10,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  SCREEN_OPACITY_100,
   // WEBVTT_SUBTITLES,
   // WEBVTT_DESCRIPTIONS,
   // ENGLISH,
@@ -75,6 +76,17 @@ export const getCCStyle = (options) => {
   }
 
   return { ccStyle, ccContainerStyle };
+}
+
+export const getVideoStyle = (options) => {
+  const {
+    brightness = SCREEN_OPACITY_100,
+    contrast = 1,
+  } = options;
+  const videoStyle = {
+    filter: `brightness(${brightness}) contrast(${contrast})`,
+  };
+  return { videoStyle };
 }
 /**
 * Function that scrolls the captions
