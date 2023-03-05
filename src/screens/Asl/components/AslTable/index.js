@@ -241,7 +241,7 @@ const AslTable = props => {
             >
               <source src={videoUrl} type='video/mp4' />
             </video>
-            <div onMouseDown={onMouseDown.bind(this, 'resize')} className='control-point point-se'>&nbsp;</div>
+            <div onMouseDown={onMouseDown.bind(this, 'resize')} className='control-point point-se' />
           </div>
         </div>)}
         <div className='tableBar'>
