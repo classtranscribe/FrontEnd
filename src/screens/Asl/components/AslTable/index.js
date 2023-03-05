@@ -1,11 +1,12 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback} from 'react';
+import { Resizable } from 'react-resizable';
 import './index.scss';
 import "rsuite/dist/rsuite.css";
 import axios from 'axios';
 
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
-
+// reference: https://segmentfault.com/a/1190000038615186#item-3
 /**
  * object for list of glossaries
  * it can sort the list and cache sorted list so it won't take time for sorting
@@ -55,6 +56,83 @@ const AslTable = props => {
     const [onePage, setOnePage] = useState([]);
     const [showVideo, setShowVideo] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
+
+    const wrapStyle = {
+      left: 100,
+      top: 100,
+      width: 500,
+      height: 500
+    }
+    const [style, setStyle] = useState({
+        left: 100,
+        top: 100,
+        width: 400,
+        height: 200
+    })
+    // 初始数据， 因为不需要重新render 所以用 useRef
+    const oriPos = useRef({
+        top: 0, // 元素的坐标
+        left: 0,
+        cX: 0, // 鼠标的坐标
+        cY: 0
+    })
+    const isDown = useRef(false);
+    const direction = useRef();
+
+    function transform(direction, oriPos, e) {
+      const style = {...oriPos.current}
+      const offsetX = e.clientX - oriPos.current.cX;
+      const offsetY = e.clientY - oriPos.current.cY;
+      switch (direction.current) {
+          // 拖拽移动
+          case 'move' :
+              // 元素当前位置 + 偏移量
+              const top = oriPos.current.top + offsetY;
+              const left = oriPos.current.left + offsetX;
+              // 限制必须在这个范围内移动 画板的高度-元素的高度
+              style.top = top
+              style.left = left;
+              break
+          case 'se':
+              style.height += offsetY;
+              style.width += offsetX;
+              break
+      }
+      return style
+    }
+    // 鼠标被按下
+    const onMouseDown = useCallback((dir, e) => {
+        // 阻止事件冒泡
+        e.stopPropagation();
+        // 保存方向。
+        direction.current = dir;
+        isDown.current = true;
+        // 然后鼠标坐标是
+        const cY = e.clientY; // clientX 相对于可视化区域
+        const cX = e.clientX;
+        oriPos.current = {
+            ...style,
+            cX, cY
+        }
+    })
+    
+    // 鼠标移动
+    const onMouseMove = useCallback((e) => {
+        // 判断鼠标是否按住
+        if (!isDown.current) return
+        let newStyle = transform(direction, oriPos, e);
+        setStyle(newStyle);
+    })
+
+    const onMouseUp = useCallback((e) => {
+      console.log(e, 'onMouseUp');
+      isDown.current = false;
+    }, [])
+
+    const constStyle = {
+      zIndex:'11', 
+      position:'fixed',
+    }
 
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
@@ -110,7 +188,7 @@ const AslTable = props => {
       const hostName = window.location.hostname;
       if (hostName !== '') {
         if (source === 'ASLCORE') {
-          setVideoUrl(`https://${hostName}/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
+          setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
         } else {
           setVideoUrl(`https://${hostName}/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
         }
@@ -152,27 +230,35 @@ const AslTable = props => {
         }
       })
     }
+    const points = ['se']
 
     return (
       <div>
         {showVideo && (
-          <div className="video-window">
+        <div 
+          className="drawing-wrap"
+          onMouseDown={onMouseDown.bind(this, 'move')} 
+          onMouseUp={onMouseUp} 
+          onMouseMove={onMouseMove}
+        > 
+          <div className="drawing-item" style={style}>
             <button 
               id='close-button'
               onClick={() => setShowVideo(false)}
-            >
-              X
+            >X
             </button>
+
             <video 
               className="video-js vjs-default-skin video-player" 
               controls
               preload="auto"
               data-setup="{}"
             >
-              <source src={videoUrl} type='video/mp4' />
+            <source src={videoUrl} type='video/mp4' />
             </video>
+            <div onMouseDown={onMouseDown.bind(this, 'se')} className={`control-point point-se`} ></div>
           </div>
-        )}
+        </div>)}
         <div className='tableBar'>
           <input 
             className='searchBox'
