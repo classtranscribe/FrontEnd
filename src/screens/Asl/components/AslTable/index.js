@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback} from 'react';
-import { Resizable } from 'react-resizable';
 import './index.scss';
 import "rsuite/dist/rsuite.css";
 import axios from 'axios';
@@ -56,83 +55,22 @@ const AslTable = props => {
     const [onePage, setOnePage] = useState([]);
     const [showVideo, setShowVideo] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
-
-    const wrapStyle = {
-      left: 100,
-      top: 100,
-      width: 500,
-      height: 500
-    }
     const [style, setStyle] = useState({
         left: 100,
         top: 100,
         width: 400,
         height: 200
     })
-    // 初始数据， 因为不需要重新render 所以用 useRef
     const oriPos = useRef({
-        top: 0, // 元素的坐标
+        // player position
+        top: 0,
         left: 0,
-        cX: 0, // 鼠标的坐标
+        // cursor position
+        cX: 0, 
         cY: 0
     })
     const isDown = useRef(false);
     const direction = useRef();
-
-    function transform(direction, oriPos, e) {
-      const style = {...oriPos.current}
-      const offsetX = e.clientX - oriPos.current.cX;
-      const offsetY = e.clientY - oriPos.current.cY;
-      switch (direction.current) {
-          // 拖拽移动
-          case 'move' :
-              // 元素当前位置 + 偏移量
-              const top = oriPos.current.top + offsetY;
-              const left = oriPos.current.left + offsetX;
-              // 限制必须在这个范围内移动 画板的高度-元素的高度
-              style.top = top
-              style.left = left;
-              break
-          case 'se':
-              style.height += offsetY;
-              style.width += offsetX;
-              break
-      }
-      return style
-    }
-    // 鼠标被按下
-    const onMouseDown = useCallback((dir, e) => {
-        // 阻止事件冒泡
-        e.stopPropagation();
-        // 保存方向。
-        direction.current = dir;
-        isDown.current = true;
-        // 然后鼠标坐标是
-        const cY = e.clientY; // clientX 相对于可视化区域
-        const cX = e.clientX;
-        oriPos.current = {
-            ...style,
-            cX, cY
-        }
-    })
-    
-    // 鼠标移动
-    const onMouseMove = useCallback((e) => {
-        // 判断鼠标是否按住
-        if (!isDown.current) return
-        let newStyle = transform(direction, oriPos, e);
-        setStyle(newStyle);
-    })
-
-    const onMouseUp = useCallback((e) => {
-      console.log(e, 'onMouseUp');
-      isDown.current = false;
-    }, [])
-
-    const constStyle = {
-      zIndex:'11', 
-      position:'fixed',
-    }
 
     const apiInstance = axios.create({
       baseURL: 'https://ct-dev.ncsa.illinois.edu',
@@ -188,7 +126,7 @@ const AslTable = props => {
       const hostName = window.location.hostname;
       if (hostName !== '') {
         if (source === 'ASLCORE') {
-          setVideoUrl(`https://ct-dev.ncsa.illinois.edu/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
+          setVideoUrl(`https://${hostName}/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
         } else {
           setVideoUrl(`https://${hostName}/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
         }
@@ -230,7 +168,54 @@ const AslTable = props => {
         }
       })
     }
-    const points = ['se']
+    
+    // execute resize or move
+    const transform = (e) => {
+      const newstyle = {...oriPos.current}
+      // this will calculate how far mouse moves from original place
+      const offsetX = e.clientX - oriPos.current.cX;
+      const offsetY = e.clientY - oriPos.current.cY;
+      switch (direction.current) {
+          case 'move' :
+            newstyle.top = oriPos.current.top + offsetY;
+            newstyle.left = oriPos.current.left + offsetX;
+            break
+          case 'resize':
+            // avoid size set to negative value
+            newstyle.height = Math.max(10, newstyle.height + offsetY);
+            newstyle.width = Math.max(10, newstyle.width + offsetX); 
+            break
+          default:
+            break;
+      }
+      return newstyle;
+    }
+
+    // start moving or resize
+    const onMouseDown = useCallback((dir, e) => {
+        e.stopPropagation();
+        direction.current = dir;
+        isDown.current = true;
+        const cY = e.clientY;
+        const cX = e.clientX;
+        oriPos.current = {
+            ...style,
+            cX, cY
+        }
+    })
+    
+    // call transform to execute move or resize
+    const onMouseMove = useCallback((e) => {
+        if (isDown.current) {
+          let newStyle = transform(e);
+          setStyle(newStyle);
+        }        
+    })
+
+    // release mouse
+    const onMouseUp = useCallback((e) => {
+      isDown.current = false;
+    }, [])
 
     return (
       <div>
@@ -254,9 +239,9 @@ const AslTable = props => {
               preload="auto"
               data-setup="{}"
             >
-            <source src={videoUrl} type='video/mp4' />
+              <source src={videoUrl} type='video/mp4' />
             </video>
-            <div onMouseDown={onMouseDown.bind(this, 'se')} className={`control-point point-se`} ></div>
+            <div onMouseDown={onMouseDown.bind(this, 'resize')} className='control-point point-se'>&nbsp;</div>
           </div>
         </div>)}
         <div className='tableBar'>
