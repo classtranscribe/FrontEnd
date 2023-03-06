@@ -11,6 +11,8 @@ import {
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
   SCREEN_OPACITY_100,
+  ROTATE_COLOR_0,
+  INVERT_0,
   // WEBVTT_SUBTITLES,
   // WEBVTT_DESCRIPTIONS,
   // ENGLISH,
@@ -82,9 +84,11 @@ export const getVideoStyle = (options) => {
   const {
     brightness = SCREEN_OPACITY_100,
     contrast = 1,
+    rotateColor = ROTATE_COLOR_0,
+    invert = INVERT_0,
   } = options;
   const videoStyle = {
-    filter: `brightness(${brightness}) contrast(${contrast})`,
+    filter: `brightness(${brightness}) contrast(${contrast}) hue-rotate(${rotateColor}) invert(${invert})`,
   };
   return { videoStyle };
 }
