@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef} from 'react';
 import './index.scss';
 import "rsuite/dist/rsuite.css";
-import axios from 'axios';
+import { cthttp } from 'utils/cthttp/request';
 
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
@@ -71,13 +71,6 @@ const AslTable = props => {
     })
     const [isDown, setIsDown] = useState(false);
     const [direction, setDirection] = useState('');
-
-
-    const apiInstance = axios.create({
-      // baseURL: 'https://ct-dev.ncsa.illinois.edu',
-      baseURL: window.location.hostname,
-      timeout: 1000,
-    });
 
     useEffect(() => {
       const index = (pageNumber-1) * ONE_PAGE_NUM;
@@ -154,21 +147,19 @@ const AslTable = props => {
       }
     }
 
-    const handleLike = (termId) => {
-      apiInstance.put(`/api/ASLVideo/Upvote/${termId}`).then(response => {
-        if (response.status === 200) {
-          // success, update like number
-          const index = onePage.findIndex((ele) => ele.id === termId);
-          const newArray = [...onePage];
-          
-          if (index !== -1) {
-            const newTerm = {...newArray[index]};
-            newTerm.likes += 1;
-            newArray[index] = newTerm;
-            setOnePage(newArray);
-          }
+    const handleLike = async(termId) => {
+      const res = await cthttp.put(`ASLVideo/Upvote/${termId}`);
+      if (res.status === 200) {
+        const index = onePage.findIndex((ele) => ele.id === termId);
+        const newArray = [...onePage];
+        
+        if (index !== -1) {
+          const newTerm = {...newArray[index]};
+          newTerm.likes += 1;
+          newArray[index] = newTerm;
+          setOnePage(newArray);
         }
-      })
+      }
     }
     
     // execute resize or move
