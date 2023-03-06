@@ -149,18 +149,18 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         </CTFormRow>
         <CTFormRow>
           <CTCheckbox
-            id="ct-epb-enable-all-glossary-term-highlight"
-            label="Highlight All Occurences of Glossary Terms"
-            checked={epubData.enableAllGlossaryTermHighlight}
-            onChange={onAllGlossaryTermHighlight}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
             id="ct-epb-enable-glossary"
             label="Disable Glossary"
             checked={epubData.disableGlossary}
             onChange={onGlossaryDisable}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-all-glossary-term-highlight"
+            label="Highlight All Occurences of Glossary Terms"
+            checked={epubData.enableAllGlossaryTermHighlight}
+            onChange={onAllGlossaryTermHighlight}
           />
         </CTFormRow>
         <CTFormRow>
