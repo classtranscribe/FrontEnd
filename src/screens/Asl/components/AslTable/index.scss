@@ -121,11 +121,9 @@ tbody tr:hover {
   position: absolute;
   box-sizing: border-box;
   display: inline-block;
-  background: #fff;
-  border: 1px solid #c0c5cf;
-  box-shadow: 0 0 2px 0 rgba(86, 90, 98, .2);
+  background: #ffffff00;
   border-radius: 6px;
-  padding: 4px;
+  padding: 10px;
   margin-top: -8px !important;
   margin-left: -8px !important;
   user-select: none;   // banned cursor from choosing this element，or draging might

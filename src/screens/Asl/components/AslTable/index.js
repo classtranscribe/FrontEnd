@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback} from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef} from 'react';
 import './index.scss';
 import "rsuite/dist/rsuite.css";
 import axios from 'axios';
@@ -61,7 +61,7 @@ const AslTable = props => {
         width: 400,
         height: 200
     })
-    const oriPos = useRef({
+    const [oriPos, setOriPos] = useState({
         // player position
         top: 0,
         left: 0,
@@ -69,11 +69,13 @@ const AslTable = props => {
         cX: 0, 
         cY: 0
     })
-    const isDown = useRef(false);
-    const direction = useRef();
+    const [isDown, setIsDown] = useState(false);
+    const [direction, setDirection] = useState('');
+
 
     const apiInstance = axios.create({
-      baseURL: 'https://ct-dev.ncsa.illinois.edu',
+      // baseURL: 'https://ct-dev.ncsa.illinois.edu',
+      baseURL: window.location.hostname,
       timeout: 1000,
     });
 
@@ -171,14 +173,14 @@ const AslTable = props => {
     
     // execute resize or move
     const transform = (e) => {
-      const newstyle = {...oriPos.current}
       // this will calculate how far mouse moves from original place
-      const offsetX = e.clientX - oriPos.current.cX;
-      const offsetY = e.clientY - oriPos.current.cY;
-      switch (direction.current) {
+      const newstyle = {...oriPos};
+      const offsetX = e.clientX - oriPos.cX;
+      const offsetY = e.clientY - oriPos.cY;
+      switch (direction) {
           case 'move' :
-            newstyle.top = oriPos.current.top + offsetY;
-            newstyle.left = oriPos.current.left + offsetX;
+            newstyle.top = oriPos.top + offsetY;
+            newstyle.left = oriPos.left + offsetX;
             break
           case 'resize':
             // avoid size set to negative value
@@ -194,19 +196,16 @@ const AslTable = props => {
     // start moving or resize
     const onMouseDown = useCallback((dir, e) => {
         e.stopPropagation();
-        direction.current = dir;
-        isDown.current = true;
+        setDirection(dir);
+        setIsDown(true);
         const cY = e.clientY;
         const cX = e.clientX;
-        oriPos.current = {
-            ...style,
-            cX, cY
-        }
+        setOriPos({...style, cX, cY});
     })
     
     // call transform to execute move or resize
     const onMouseMove = useCallback((e) => {
-        if (isDown.current) {
+        if (isDown) {
           let newStyle = transform(e);
           setStyle(newStyle);
         }        
@@ -214,7 +213,11 @@ const AslTable = props => {
 
     // release mouse
     const onMouseUp = useCallback((e) => {
-      isDown.current = false;
+      setIsDown(false);
+    }, [])
+
+    const onMouseLeave = useCallback((e) => {
+      setIsDown(false);
     }, [])
 
     return (
@@ -225,6 +228,7 @@ const AslTable = props => {
           onMouseDown={onMouseDown.bind(this, 'move')} 
           onMouseUp={onMouseUp} 
           onMouseMove={onMouseMove}
+          onMouseLeave={onMouseLeave}
         > 
           <div className="drawing-item" style={style}>
             <button 
