@@ -244,6 +244,7 @@ class EPubFileBuilder {
     if (link !== undefined && link.startsWith('http')) {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
+    console.log(text)
     const content = dedent(`
         <div class="epub-ch">            
             ${text}

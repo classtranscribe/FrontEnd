@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Prism from 'prismjs';
 import { uurl, api, CTError } from 'utils';
 import { EPubData, EPubDataValidationError, EPubChapterData } from 'entities/EPubs';
+import jquery from 'jquery';
 
 const buildHTMLFromChapter = EPubChapterData.__buildHTMLFromChapter;
 
@@ -46,7 +47,45 @@ class EPubParser {
   static async parse(ePubData, replaceImageSrc) {
     const parser = new EPubParser();
     await parser.init(ePubData.epub, replaceImageSrc)
+    console.log(ePubData); 
+    this.createBookHTML(ePubData.epub); 
+    this.createTableOfContentsHTML(ePubData.epub);
     return parser.data;
+  }
+
+  static async createTableOfContentsHTML(epubData) {
+    const data = JSON.parse(JSON.stringify(epubData)); // deep copy
+    let tocHTML = '';
+    for (const chapter of data.chapters) {
+      // if vTOC enable 
+        // add image   
+      // add title + link  
+    }
+
+  }
+
+  static async createBookHTML(epubData) {
+    // Remove invalid syntax for xhtml
+    const data = JSON.parse(JSON.stringify(epubData)); // deep copy
+    // const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(data.cover.src))
+    // const img_blob = new Blob([img]);
+    // data.cover.src = await EPubParser.blobToDataUrl(img_blob); // URL.createObjectURL(img_blob)
+    
+    let bookHtml = '';
+    for (const chapter of data.chapters) {
+        // add chapter content (title, images, text)
+        bookHtml += (await buildHTMLFromChapter(chapter))
+        .replace(/&nbsp;/g, '&#160;')
+        .replace(/<br>/g, '<br/>');
+        // add glossary 
+
+        // subchapters 
+
+    }
+    return bookHtml; 
+      // .replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '')
+      // .replace('</body></html>', ''); // Only keep codes inside the <body>..</body>
+
   }
 
   /**
@@ -142,7 +181,6 @@ class EPubParser {
   extractBodyTextFromDom(dom) {
     // Serialize xhtml
     const xhtml = new XMLSerializer().serializeToString(dom);
-
     // Only keep codes inside the <body>..</body>
     return xhtml
       .replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '')
