@@ -81,6 +81,7 @@
    return (
      <>
        <div
+         id='ct-video-con-div'
          className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player1Position}`}
          mode={mode}
          data-trans-view={transView}
@@ -98,6 +99,7 @@
        </div>
        {isTwoScreen && (
          <div
+           id='ct-video-con-div'
            className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player2Position}`}
            mode={mode}
            data-trans-view={transView}
