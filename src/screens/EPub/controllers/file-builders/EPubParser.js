@@ -3,6 +3,7 @@ import Prism from 'prismjs';
 import { uurl, api, CTError } from 'utils';
 import { EPubData, EPubDataValidationError, EPubChapterData } from 'entities/EPubs';
 import jquery from 'jquery';
+import { buildMDfromImage } from 'entities/EPubs/html-converters';
 
 const buildHTMLFromChapter = EPubChapterData.__buildHTMLFromChapter;
 
@@ -47,7 +48,6 @@ class EPubParser {
   static async parse(ePubData, replaceImageSrc) {
     const parser = new EPubParser();
     await parser.init(ePubData.epub, replaceImageSrc)
-    console.log(ePubData); 
     this.createBookHTML(ePubData.epub); 
     this.createTableOfContentsHTML(ePubData.epub);
     return parser.data;
@@ -56,12 +56,29 @@ class EPubParser {
   static async createTableOfContentsHTML(epubData) {
     const data = JSON.parse(JSON.stringify(epubData)); // deep copy
     let tocHTML = '';
+    let index = 1; 
     for (const chapter of data.chapters) {
-      // if vTOC enable 
-        // add image   
-      // add title + link  
-    }
+      let image = '';
+      if (data.enableVisualToc) {  // add chapter image if TOC enabled 
+        image = await buildMDfromImage(chapter.contents[0]);  
+      }
 
+      // generate toc HTML for chapter and its subchapters    
+      tocHTML += `
+        <dt class="table-of-content">  
+          <a href="${chapter.id}.xhtml">${index} - ${chapter.title} ${image} </a>
+        </dt>
+        ${_.map(
+          chapter.subChapters,
+          (subCh, subIndex) => `
+            <dd>
+                <a href="${chapter.id}.xhtml#${subCh.id}">
+                    ${index}.${subIndex} - ${subCh.title}
+                </a>
+            </dd>`,
+        ).join('\n\t\t\t')}
+        `
+    }
   }
 
   static async createBookHTML(epubData) {
