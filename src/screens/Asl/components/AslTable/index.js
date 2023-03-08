@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef} from 'react';
 import './index.scss';
 import "rsuite/dist/rsuite.css";
-import axios from 'axios';
+import { cthttp } from 'utils/cthttp/request';
 
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
-
+// reference: https://segmentfault.com/a/1190000038615186#item-3
 /**
  * object for list of glossaries
  * it can sort the list and cache sorted list so it won't take time for sorting
@@ -55,11 +55,22 @@ const AslTable = props => {
     const [onePage, setOnePage] = useState([]);
     const [showVideo, setShowVideo] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
-
-    const apiInstance = axios.create({
-      baseURL: 'https://ct-dev.ncsa.illinois.edu',
-      timeout: 1000,
-    });
+    const [style, setStyle] = useState({
+        left: 100,
+        top: 100,
+        width: 400,
+        height: 200
+    })
+    const [oriPos, setOriPos] = useState({
+        // player position
+        top: 0,
+        left: 0,
+        // cursor position
+        cX: 0, 
+        cY: 0
+    })
+    const [isDown, setIsDown] = useState(false);
+    const [direction, setDirection] = useState('');
 
     useEffect(() => {
       const index = (pageNumber-1) * ONE_PAGE_NUM;
@@ -136,33 +147,87 @@ const AslTable = props => {
       }
     }
 
-    const handleLike = (termId) => {
-      apiInstance.put(`/api/ASLVideo/Upvote/${termId}`).then(response => {
-        if (response.status === 200) {
-          // success, update like number
-          const index = onePage.findIndex((ele) => ele.id === termId);
-          const newArray = [...onePage];
-          
-          if (index !== -1) {
-            const newTerm = {...newArray[index]};
-            newTerm.likes += 1;
-            newArray[index] = newTerm;
-            setOnePage(newArray);
-          }
+    const handleLike = async(termId) => {
+      const res = await cthttp.put(`ASLVideo/Upvote/${termId}`);
+      if (res.status === 200) {
+        const index = onePage.findIndex((ele) => ele.id === termId);
+        const newArray = [...onePage];
+        
+        if (index !== -1) {
+          const newTerm = {...newArray[index]};
+          newTerm.likes += 1;
+          newArray[index] = newTerm;
+          setOnePage(newArray);
         }
-      })
+      }
     }
+    
+    // execute resize or move
+    const transform = (e) => {
+      // this will calculate how far mouse moves from original place
+      const newstyle = {...oriPos};
+      const offsetX = e.clientX - oriPos.cX;
+      const offsetY = e.clientY - oriPos.cY;
+      switch (direction) {
+          case 'move' :
+            newstyle.top = oriPos.top + offsetY;
+            newstyle.left = oriPos.left + offsetX;
+            break
+          case 'resize':
+            // avoid size set to negative value
+            newstyle.height = Math.max(10, newstyle.height + offsetY);
+            newstyle.width = Math.max(10, newstyle.width + offsetX); 
+            break
+          default:
+            break;
+      }
+      return newstyle;
+    }
+
+    // start moving or resize
+    const onMouseDown = useCallback((dir, e) => {
+        e.stopPropagation();
+        setDirection(dir);
+        setIsDown(true);
+        const cY = e.clientY;
+        const cX = e.clientX;
+        setOriPos({...style, cX, cY});
+    })
+    
+    // call transform to execute move or resize
+    const onMouseMove = useCallback((e) => {
+        if (isDown) {
+          let newStyle = transform(e);
+          setStyle(newStyle);
+        }        
+    })
+
+    // release mouse
+    const onMouseUp = useCallback((e) => {
+      setIsDown(false);
+    }, [])
+
+    const onMouseLeave = useCallback((e) => {
+      setIsDown(false);
+    }, [])
 
     return (
       <div>
         {showVideo && (
-          <div className="video-window">
+        <div 
+          className="drawing-wrap"
+          onMouseDown={onMouseDown.bind(this, 'move')} 
+          onMouseUp={onMouseUp} 
+          onMouseMove={onMouseMove}
+          onMouseLeave={onMouseLeave}
+        > 
+          <div className="drawing-item" style={style}>
             <button 
               id='close-button'
               onClick={() => setShowVideo(false)}
-            >
-              X
+            >X
             </button>
+
             <video 
               className="video-js vjs-default-skin video-player" 
               controls
@@ -171,8 +236,9 @@ const AslTable = props => {
             >
               <source src={videoUrl} type='video/mp4' />
             </video>
+            <div onMouseDown={onMouseDown.bind(this, 'resize')} className='control-point point-se' />
           </div>
-        )}
+        </div>)}
         <div className='tableBar'>
           <input 
             className='searchBox'
