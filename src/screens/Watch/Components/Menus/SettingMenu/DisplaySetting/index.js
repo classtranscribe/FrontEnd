@@ -19,7 +19,7 @@ import {
   getCCSelectOptions,
 } from '../../../../Utils';
 
-function DisplaySetting({ show = false, rotateColor = 0, invert = 0, brightness, contrast, dispatch }) {
+function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, dispatch }) {
   const handleBrightness = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
   };
@@ -46,7 +46,7 @@ function DisplaySetting({ show = false, rotateColor = 0, invert = 0, brightness,
   const handleDefaults = () => {
     dispatch({ type: 'playerpref/setPreference', payload: { contrast:  1} })
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  1} })
-    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  0} })
+    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  '0'} })
     dispatch({ type: 'playerpref/setPreference', payload: { invert:  0} })
   };
   
@@ -133,7 +133,7 @@ function DisplaySetting({ show = false, rotateColor = 0, invert = 0, brightness,
         <h3 className="watch-menu-tab-subtitle">Color Maps:</h3>
         <MenuRadio
           id="color-maps-normal"
-          checked={rotateColor === 0}
+          checked={rotateColor === '0'}
           label="Normal"
           value={0}
           onChange={handleMap0}
