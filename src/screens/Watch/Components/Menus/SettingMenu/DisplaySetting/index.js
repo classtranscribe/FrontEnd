@@ -87,7 +87,6 @@ function DisplaySetting({ show = false, rotateColor = 0, invert = 0, brightness,
           openOnTriggerClick={false}
           openOnTriggerFocus
           closeOnTriggerBlur
-          // content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
           trigger={
             <input
               id="brightness-slider"
@@ -115,7 +114,6 @@ function DisplaySetting({ show = false, rotateColor = 0, invert = 0, brightness,
           openOnTriggerClick={false}
           openOnTriggerFocus
           closeOnTriggerBlur
-          // content={<strong>Brightness: {Math.floor(brightness * 100)}%</strong>}
           trigger={
             <input
               id="brightness-slider"
@@ -134,33 +132,31 @@ function DisplaySetting({ show = false, rotateColor = 0, invert = 0, brightness,
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Color Maps:</h3>
         <MenuRadio
-          id="trans-open-radio"
-          checked={rotateColor == 0}
+          id="color-maps-normal"
+          checked={rotateColor === 0}
           label="Normal"
           value={0}
           onChange={handleMap0}
         />
         <MenuRadio
-          id="trans-auto-scroll-radio"
+          id="color-maps-inverted"
           label="Inverted"
           onChange={handleMapInverted}
-          checked={invert == 1}
+          checked={invert === 1}
         />
         <MenuRadio
-          id="edit-pause-radio"
+          id="color-maps1"
           label="Color Map 1"
           value={120}
           onChange={handleMap1}
-          checked={rotateColor == '120deg'}
-          //description="Turn on to automatically pause video if you start to edit captions."
+          checked={rotateColor === '120deg'}
         />
         <MenuRadio
-          id="edit-pause-radio"
+          id="color-maps2"
           label="Color Map 2"
           value={240}
           onChange={handleMap2}
-          checked={rotateColor == '240deg'}
-          //description="Turn on to automatically pause video if you start to edit captions."
+          checked={rotateColor === '240deg'}
         />
 
       </div>
