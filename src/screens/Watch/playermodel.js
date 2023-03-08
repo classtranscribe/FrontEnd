@@ -10,6 +10,8 @@ import {
     CC_POSITION_BOTTOM,
     SCREEN_OPACITY_100,
     SCREEN_CONTRAST_100,
+    ROTATE_COLOR_0,
+    INVERT_0,
 
     scrollTransToView
 } from './Utils';
@@ -71,6 +73,8 @@ const PlayerModel = {
         autoPlay: !isMobile,
         brightness: SCREEN_OPACITY_100,
         contrast: SCREEN_CONTRAST_100,
+        rotateColor: ROTATE_COLOR_0,
+        invert: INVERT_0,
 
         pauseWhileAD: false,
         autoScroll: true,
