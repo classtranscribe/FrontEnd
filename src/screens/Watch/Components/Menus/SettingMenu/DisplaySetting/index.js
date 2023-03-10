@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Form, Popup } from 'semantic-ui-react';
+import { Select, Form, Popup} from 'semantic-ui-react';
 import { connect } from 'dva';
 import './index.scss';
 import './slider.scss';
@@ -26,6 +26,10 @@ function DisplaySetting({ show = false, brightness,contrast, dispatch }) {
   const handleContrast = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { contrast:  value} })
   };
+  const handleDefaults = () => {
+    dispatch({ type: 'playerpref/setPreference', payload: { contrast:  1} })
+    dispatch({ type: 'playerpref/setPreference', payload: { brightness:  1} })
+  };
   
 
   useEffect(() => {
@@ -36,7 +40,22 @@ function DisplaySetting({ show = false, brightness,contrast, dispatch }) {
 
   return (
     <form className="watch-menu-tab" id="display-settings">
-      <h2 className="watch-menu-tab-title">Display</h2>
+      <h2 className="watch-menu-tab-title">Display
+      </h2>
+
+      <h3 className="watch-menu-tab-subtitle">
+        <input
+          position="top right"
+          id="brightness-slider"
+          className="brightness-slider"
+          label="default"
+          type="button"
+          value="Reset Defaults"
+          onClick={handleDefaults}
+        />
+
+      </h3>
+  
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor( brightness * 100)}%</h3>
         <Popup

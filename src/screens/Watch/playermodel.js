@@ -11,8 +11,6 @@ import {
     SCREEN_OPACITY_100,
     SCREEN_CONTRAST_100,
 
-    //CC_BRIGHTNESS,
-    // MODAL_SHARE
     scrollTransToView
 } from './Utils';
 import { uEvent } from './Utils/UserEventController';

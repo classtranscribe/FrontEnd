@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import { CTFragment } from 'layout';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Cancel from '@material-ui/icons/Cancel';
 import ChapterNewContent from './ChapterNewContent';
@@ -25,7 +24,7 @@ function ChapterContent({
     return !condition ? [] : condition;
   });
   const Ref = useRef();
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = (e) => { 
     e.preventDefault();
     SetTags([...tags, Ref.current.value]);
     dispatch({
@@ -35,6 +34,19 @@ function ChapterContent({
     });
     Ref.current.value = "";
   };
+  const boxstyle = {
+    backgroundColor: '#D3D3D3', 
+    overflow: 'scroll',
+    padding: '0.25rem 0.25rem 0.25rem 0.5rem',
+    margin: '0.25rem 1rem 0.25rem 0',
+    display: 'flex',
+    borderRadius: '1rem',
+  };
+  const tagstyle = {
+    float: 'left',
+    margin: '0 0.25rem 0 0',
+    cursor: 'default',
+  }
   const handleDelete = (value) => {
     const newtags = tags.filter((val) => val !== value);
     SetTags(newtags);
@@ -47,31 +59,18 @@ function ChapterContent({
 
   const Tags = ({data}) => {
     return (
-      <Box
-        sx={{
-          background: "#283240",
-          height: "100%",
-          display: "flex",
-          padding: "0.4rem",
-          margin: "0 0.5rem 0 0",
-          justifyContent: "center",
-          alignContent: "center",
-          color: "#ffffff",
-        }}
-      >
-        <Grid direction='row' spacing={1}>
-          <Typography>{data}</Typography>
-          <Cancel
-            sx={{ cursor: "pointer" }}
-            onClick={() => {
-              handleDelete(data);
-            }}
-          />
-        </Grid>
+      <Box style={boxstyle}>
+        <Typography style={tagstyle}>{data}</Typography>
+        <Cancel
+          style={tagstyle}
+          onClick={() => {
+            handleDelete(data);
+          }}
+        />
       </Box>
     );
   };
-
+  
   return (
     <CTFragment>
       <ChapterNewContent onInsert={onInsert} />
@@ -92,7 +91,7 @@ function ChapterContent({
           />
         )
       }
-      <form onSubmit={handleOnSubmit}>
+      <form onSubmit={handleOnSubmit}> 
         <TextField
           inputRef={Ref}
           fullWidth
@@ -100,19 +99,18 @@ function ChapterContent({
           size='small'
           sx={{ margin: "1rem 0" }}
           margin='none'
-          placeholder={tags.length < 5 ? "Enter tags" : ""}
-          InputProps={{
-            startAdornment: (
-              <Box sx={{ margin: "0 0.2rem 0 0", display: "flex" }}>
-                {tags.map((data, idx) => {
-                  return (
-                    <Tags data={data} handleDelete={handleDelete} key={idx} />
-                  );
-                })}
-              </Box>
-            ),
-          }}
-        />
+          placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
+        />  
+        <CTFragment alignItCenter>
+          {tags.map((data, idx) => {
+            return (
+              <Tags data={data} handleDelete={handleDelete} key={idx} />
+            );
+          })}
+        </CTFragment>
+            
+          
+       
       </form>
 
     </CTFragment>
