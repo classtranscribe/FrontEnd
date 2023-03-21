@@ -313,6 +313,7 @@ export default {
                     title: data.title,
                 }).toObject(),
         );
+        console.log(state.items);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {

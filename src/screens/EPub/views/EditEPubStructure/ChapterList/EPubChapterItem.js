@@ -39,19 +39,19 @@ function EPubChapterItem({
   const isFolded = foldedIds.includes(chapter.id);
 
   const chClasses = cx('ct-epb', 'sch', 'ch-item', 'ct-d-c', { fold: isFolded });
-  const new_items = [];
-  for(let i = 1; i < chapter.items.length; i++) {
-    if((chapter.items)[i].text.length < 100) {
-      (chapter.items)[i-1].text = ((chapter.items)[i-1].text)+" "+((chapter.items)[i].text); //append with a space
-    }
-  }
-  for(let i = 0; i < chapter.items.length; i++) {
-    if((chapter.items)[i].text.length >= 100 || i == 0) {
-      new_items.push((chapter.items)[i]);
-      console.log("added chapter");
-    }
-  }
-  chapter.items = new_items;
+  // const new_items = [];
+  // for(let i = 1; i < chapter.items.length; i++) {
+  //   if((chapter.items)[i].text.length < 100) {
+  //     (chapter.items)[i-1].text = ((chapter.items)[i-1].text)+" "+((chapter.items)[i].text); //append with a space
+  //   }
+  // }
+  // for(let i = 0; i < chapter.items.length; i++) {
+  //   if((chapter.items)[i].text.length >= 100 || i == 0) {
+  //     new_items.push((chapter.items)[i]);
+  //     console.log("added chapter");
+  //   }
+  // }
+  // chapter.items = new_items;
   // if(chapter.items.length > 0 && (chapter.items)[0].text < 30) { //make sure first has a length larger than 0
   //   (chapter.items)[1].text = ((chapter.items)[0].text)+" "+((chapter.items)[1].text); //text from elem 0 goes before elem 1
 
@@ -113,43 +113,43 @@ function EPubChapterItem({
       {
         isFolded
           ?
-              <CTText line={2} className="ch-item-compact-txt">
-                {getCompactText(chapter)}
-              </CTText>
-              :
-              <>
-                <div className="ch-item-ol ct-d-c">
-                  {itemsToDisplay.map((item, itemIndex) => (
-                    <EPubListItem
-                      key={item.id}
-                      item={item}
-                      itemIndex={itemIndex}
-                      chapterIndex={chapterIndex}
-                      canSplit={itemIndex > 0}
-                      canSubdivide
-                      setEPubItem={setEPubItem}
-                    />
-                  ))}
-                </div>
+            <CTText line={2} className="ch-item-compact-txt">
+              {getCompactText(chapter)}
+            </CTText>
+            :
+            <>
+              <div className="ch-item-ol ct-d-c">
+                {itemsToDisplay.map((item, itemIndex) => (
+                  <EPubListItem
+                    key={item.id}
+                    item={item}
+                    itemIndex={itemIndex}
+                    chapterIndex={chapterIndex}
+                    canSplit={itemIndex > 0}
+                    canSubdivide
+                    setEPubItem={setEPubItem}
+                  />
+                ))}
+              </div>
 
-                <div className="ch-item-ol ct-d-c">
-                  {chapter.subChapters.map((subChapter, subChapterIndex) => (
-                    <EPubSubChapterItem
-                      key={subChapter.id}
-                      foldedIds={foldedIds}
-                      subChapter={subChapter}
-                      chapterIndex={chapterIndex}
-                      subChapterIndex={subChapterIndex}
-                      canUndoSubdivide={subChapterIndex === 0}
-                      canUndoSplitSubChapter={subChapterIndex > 0}
-                      canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
-                      setEPubItem={setEPubItem}
-                      onFold={onFold}
-                      dispatch={dispatch}
-                    />
-                  ))}
-                </div>
-              </>
+              <div className="ch-item-ol ct-d-c">
+                {chapter.subChapters.map((subChapter, subChapterIndex) => (
+                  <EPubSubChapterItem
+                    key={subChapter.id}
+                    foldedIds={foldedIds}
+                    subChapter={subChapter}
+                    chapterIndex={chapterIndex}
+                    subChapterIndex={subChapterIndex}
+                    canUndoSubdivide={subChapterIndex === 0}
+                    canUndoSplitSubChapter={subChapterIndex > 0}
+                    canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
+                    setEPubItem={setEPubItem}
+                    onFold={onFold}
+                    dispatch={dispatch}
+                  />
+                ))}
+              </div>
+            </>
       }
 
     </div>

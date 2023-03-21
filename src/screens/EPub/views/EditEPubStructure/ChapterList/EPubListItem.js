@@ -20,7 +20,6 @@ function EPubListItem({
   setEPubItem,
   dispatch
 }) {
-  if(item.text.length > 30) {
     const imgSrc = uurl.getMediaUrl(item.image);
     const SubCParams = { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
     const CParams = { chapterIdx: chapterIndex, itemIdx: itemIndex };
@@ -130,10 +129,6 @@ function EPubListItem({
         </div>
       </div>
     );
-  }
-  return (
-    <div></div>
-  );
 }
 
 export default connect()(EPubListItem); 
