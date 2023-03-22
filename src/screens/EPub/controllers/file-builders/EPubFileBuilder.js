@@ -36,18 +36,23 @@ class EPubFileBuilder {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
 
-    this.disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : true;
+    console.log(this.data);
+    this.disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : false;
 
     if (!this.disableGlossary) {
       this.highlightAll =
         'enableAllGlossaryTermHighlight' in this.data
           ? this.data.enableAllGlossaryTermHighlight
           : false;
+      console.log("fetching data");
       this.glossaryData = await getGlossaryData(this.data.sourceId);
     } else {
       this.highlightAll = false;
       this.glossaryData = {};
+      console.log("glossary disabled");
     }
+
+    console.log(this.glossaryData);
   }
 
   /**

@@ -32,6 +32,7 @@ class HTMLFileBuilder {
   async init(ePubData, forPreview = false) {
     this.data = await EPubParser.parse(ePubData, !forPreview);
     this.glossaryData = await getGlossaryData(this.data.sourceId);
+    // console.log(this.glossaryData);
   }
 
   /**
