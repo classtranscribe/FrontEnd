@@ -16,10 +16,10 @@ import {
   // // cc_positionOptions,
   // cc_fontOptions,
   // cc_sizeOptions,
-  getCCSelectOptions,
+  getCCSelectOptions,screen_zoomOptions
 } from '../../../../Utils';
 
-function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, dispatch }) {
+function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch }) {
   const handleBrightness = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
   };
@@ -160,10 +160,22 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
         />
 
       </div>
+      <div className="w-100">
+      <h3 className="watch-menu-tab-subtitle">Screen Zoom:</h3>
+      <Form.Field
+        fluid
+        control={Select}
+        label="Zoom"
+        aria-label="Zoom"
+        options={getCCSelectOptions(screen_zoomOptions, (item) => `${item * 100}%`)}
+        value={scale}
+        onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { scale: value } })}
+      />
+      </div>
     </form>
     
   );
 }
-export default connect(({ playerpref: { brightness, contrast, rotateColor, invert }, loading }) => ({
-  brightness, contrast, rotateColor, invert
+export default connect(({ playerpref: { brightness, contrast, rotateColor, invert, scale }, loading }) => ({
+  brightness, contrast, rotateColor, invert, scale
 }))(DisplaySetting);

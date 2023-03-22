@@ -87,6 +87,17 @@ export const keydownControl = {
         // Down Arrow
         case KeyCode.KEY_DOWN:
           return this.dispatch({ type: 'playerpref/changePlaybackrateByValue', payload: -0.25 });
+
+        case KeyCode.KEY_W:
+          return this.dispatch({ type: 'playerpref/changeYTranslateByValue', payload: 5 });
+          // Down Arrow
+        case KeyCode.KEY_S:
+          return this.dispatch({ type: 'playerpref/changeYTranslateByValue', payload: -5 });
+        case KeyCode.KEY_A:
+          return this.dispatch({ type: 'playerpref/changeXTranslateByValue', payload: 5 });
+          // Down Arrow
+        case KeyCode.KEY_D:
+          return this.dispatch({ type: 'playerpref/changeXTranslateByValue', payload: -5 });
         // Menu events
         default:
           return this.shortcutsForMenus(keyCode);
