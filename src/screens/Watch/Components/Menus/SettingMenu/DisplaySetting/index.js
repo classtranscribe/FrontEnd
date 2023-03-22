@@ -162,6 +162,8 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
       </div>
       <div className="w-100">
       <h3 className="watch-menu-tab-subtitle">Screen Zoom:</h3>
+      <h3 className="watch-menu-tab-subtitle">Move around using Shift-WASD:</h3>
+
       <Form.Field
         fluid
         control={Select}
