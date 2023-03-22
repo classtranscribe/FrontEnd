@@ -44,7 +44,7 @@ class EPubFileBuilder {
         'enableAllGlossaryTermHighlight' in this.data
           ? this.data.enableAllGlossaryTermHighlight
           : false;
-      console.log("fetching data");
+      // console.log("fetching data");
       this.glossaryData = await getGlossaryData(this.data.sourceId);
     } else {
       this.highlightAll = false;
