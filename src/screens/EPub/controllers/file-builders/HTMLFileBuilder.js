@@ -32,6 +32,7 @@ class HTMLFileBuilder {
   async init(ePubData, forPreview = false) {
     this.data = await EPubParser.parse(ePubData, !forPreview);
     this.glossaryData = await getGlossaryData(this.data.sourceId);
+    // console.log(this.glossaryData);
   }
 
   /**
@@ -206,13 +207,18 @@ class HTMLFileBuilder {
 
       // add glossary terms for chapter
 
-      let glossaryTerms = getChapterGlossaryAndTextHighlight(
-        chapter.text,
-        this.glossaryData,
-        true,
-      )[1];
+      let glossaryText = "";
+      let glossaryTerms = null;
+      
+      if (!epub.disableGlossary) {
+        glossaryTerms = getChapterGlossaryAndTextHighlight(
+          chapter.text,
+          this.glossaryData,
+          this.highlightAll,
+        )[1];
 
-      let glossaryText = glossaryTermsAsText(glossaryTerms);
+        glossaryText = glossaryTermsAsText(glossaryTerms);
+      }
 
       let splitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
       for (let j = 0; j < splitted.length; j += 1) {
@@ -258,13 +264,17 @@ class HTMLFileBuilder {
 
             // add glossary terms for subchapter
 
-            glossaryTerms = getChapterGlossaryAndTextHighlight(
-              transcript,
-              this.glossaryData,
-              true,
-            )[1];
+            glossaryText = "";
 
-            glossaryText = glossaryTermsAsText(glossaryTerms);
+            if(!epub.disableGlossary) {
+              glossaryTerms = getChapterGlossaryAndTextHighlight(
+                transcript,
+                this.glossaryData,
+                true,
+              )[1];
+
+              glossaryText = glossaryTermsAsText(glossaryTerms);
+            }
 
             let subSplitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
             for (let l = 0; l < subSplitted.length; l += 1) {

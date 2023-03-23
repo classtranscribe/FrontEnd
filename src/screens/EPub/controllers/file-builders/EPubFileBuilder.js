@@ -35,7 +35,18 @@ class EPubFileBuilder {
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
-    this.glossaryData = await getGlossaryData(this.data.sourceId);
+    this.disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : false;
+
+    if (!this.disableGlossary) {
+      this.highlightAll =
+        'enableAllGlossaryTermHighlight' in this.data
+          ? this.data.enableAllGlossaryTermHighlight
+          : false;
+      this.glossaryData = await getGlossaryData(this.data.sourceId);
+    } else {
+      this.highlightAll = false;
+      this.glossaryData = {};
+    }
   }
 
   /**
@@ -245,9 +256,9 @@ class EPubFileBuilder {
     const { language, sourceId } = this.data;
     let { title, text, start, link } = chapter;
 
-    const h = parseInt(start.substring(0, 2),10);
-    const m = parseInt(start.substring(3, 5),10);
-    const s = parseInt(start.substring(6,8),10);
+    const h = parseInt(start.substring(0, 2), 10);
+    const m = parseInt(start.substring(3, 5), 10);
+    const s = parseInt(start.substring(6, 8), 10);
     const curTime = 3600 * h + 60 * m + s;
 
     // The <img> tag should be nested beneath an <a> tag
@@ -286,27 +297,33 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-    let highlightAll =
-      'enableAllGlossaryTermHighlight' in this.data
-        ? this.data.enableAllGlossaryTermHighlight
-        : false;
+    let content = '';
 
-    // add glossary terms to end of chapter if enabled
+    // check if glossary is enabled
+    if (!this.disableGlossary) {
+      // add glossary terms to end of chapter if enabled
+      const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
+        text,
+        this.glossaryData,
+        this.highlightAll,
+      );
 
-    const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
-      text,
-      this.glossaryData,
-      highlightAll,
-    );
+      const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
 
-    const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
-
-    const content = dedent(`
+      content = dedent(`
 		<div class="epub-ch">            
 			${highlightedText}
 			${glossaryHTML} 
 		</div>
 	  `);
+    } else {
+      content = dedent(`
+      <div class="epub-ch">            
+        ${text}
+      </div>
+      `);
+    }
+
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
 
