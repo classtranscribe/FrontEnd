@@ -137,6 +137,8 @@ class HTMLFileBuilder {
   }
 
   async generatePDF(epub, pdf, subchapterImages, selectedChapters) {
+    console.log(epub);
+
     const { title, author, cover } = epub;
     const margin = 10;
     let w = pdf.internal.pageSize.getWidth() - 2 * margin;
@@ -210,7 +212,7 @@ class HTMLFileBuilder {
       let glossaryText = "";
       let glossaryTerms = null;
       
-      if (!this.disableGlossary) {
+      if (!epub.disableGlossary) {
         glossaryTerms = getChapterGlossaryAndTextHighlight(
           chapter.text,
           this.glossaryData,
@@ -219,6 +221,8 @@ class HTMLFileBuilder {
 
         glossaryText = glossaryTermsAsText(glossaryTerms);
       }
+
+        console.log("Glossary: ", glossaryText);
 
       // let glossaryTerms = getChapterGlossaryAndTextHighlight(
       //   chapter.text,
@@ -272,7 +276,7 @@ class HTMLFileBuilder {
 
             glossaryText = "";
 
-            if(!this.disableGlossary) {
+            if(!epub.disableGlossary) {
               glossaryTerms = getChapterGlossaryAndTextHighlight(
                 transcript,
                 this.glossaryData,
@@ -282,6 +286,8 @@ class HTMLFileBuilder {
               glossaryText = glossaryTermsAsText(glossaryTerms);
             }
 
+            console.log("Glossary: ", glossaryText);
+            
             let subSplitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
             for (let l = 0; l < subSplitted.length; l += 1) {
               if (y >= h - (h % 10)) {
