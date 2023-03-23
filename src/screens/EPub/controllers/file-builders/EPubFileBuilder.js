@@ -35,15 +35,25 @@ class EPubFileBuilder {
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
+
+    // The disable glossary option in the menu is used to hide or show the glossary
     this.disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : false;
 
     if (!this.disableGlossary) {
+      // The highlightAll option is used to know whether to highlight the 
+      // first occurrence or all occurrences of glossary words in the iNote.
       this.highlightAll =
         'enableAllGlossaryTermHighlight' in this.data
           ? this.data.enableAllGlossaryTermHighlight
           : false;
+      // We fetch the glossary data from the backend and parse that into a dictionary.
+      // The glossaryData maps glossary word to an object containing the description and
+      // link for that word. The description is the meaning of that word. The link is a
+      // URL to an external webstie for more information about that word.
       this.glossaryData = await getGlossaryData(this.data.sourceId);
     } else {
+      // When glossary is disabled we do not fetch data or 
+      // highlight any word.
       this.highlightAll = false;
       this.glossaryData = {};
     }
