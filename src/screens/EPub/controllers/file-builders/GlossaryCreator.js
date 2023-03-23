@@ -23,8 +23,6 @@ import { cthttp } from 'utils/cthttp/request';
 export async function getGlossaryData(mediaId) {
   try {
     const response = await cthttp.get(`EPubs/GetGlossaryData?mediaId=${mediaId}`);
-    // console.log(response.data);
-
     const glossaryData = {};
 
     for (const term of response.data.Glossary) {
@@ -36,7 +34,6 @@ export async function getGlossaryData(mediaId) {
 
     return glossaryData;
   } catch (e) {
-    console.log("Failed to get glossary data!");
     console.error(e);
   }
 
