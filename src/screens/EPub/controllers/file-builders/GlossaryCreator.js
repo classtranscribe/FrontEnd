@@ -23,7 +23,6 @@ import { cthttp } from 'utils/cthttp/request';
 export async function getGlossaryData(mediaId) {
   try {
     const response = await cthttp.get(`EPubs/GetGlossaryData?mediaId=${mediaId}`);
-
     const glossaryData = {};
 
     for (const term of response.data.Glossary) {
