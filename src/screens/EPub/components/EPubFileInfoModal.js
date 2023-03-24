@@ -150,7 +150,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         <CTFormRow>
           <CTCheckbox
             id="ct-epb-enable-glossary"
-            label="Disable Glossary"
+            label="Turn off Glossary"
             checked={epubData.disableGlossary}
             onChange={onGlossaryDisable}
           />
