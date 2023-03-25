@@ -37,9 +37,9 @@ class EPubFileBuilder {
     this.h3 = ePubData.h3;
 
     // The disable glossary option in the menu is used to hide or show the glossary
-    this.disableGlossary = 'disableGlossary' in this.data ? this.data.disableGlossary : false;
+    this.enableGlossary = 'enableGlossary' in this.data ? this.data.enableGlossary : true;
 
-    if (!this.disableGlossary) {
+    if (this.enableGlossary) {
       // The highlightAll option is used to know whether to highlight the 
       // first occurrence or all occurrences of glossary words in the iNote.
       this.highlightAll =
@@ -52,8 +52,7 @@ class EPubFileBuilder {
       // URL to an external webstie for more information about that word.
       this.glossaryData = await getGlossaryData(this.data.sourceId);
     } else {
-      // When glossary is disabled we do not fetch data or 
-      // highlight any word.
+      // When glossary is disabled we do not fetch data or highlight any word.
       this.highlightAll = false;
       this.glossaryData = {};
     }
@@ -310,7 +309,7 @@ class EPubFileBuilder {
     let content = '';
 
     // check if glossary is enabled
-    if (!this.disableGlossary) {
+    if (this.enableGlossary) {
       // add glossary terms to end of chapter if enabled
       const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
         text,

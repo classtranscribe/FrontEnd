@@ -209,7 +209,7 @@ class HTMLFileBuilder {
       let glossaryText = "";
       let glossaryTerms = null;
       
-      if (!epub.disableGlossary) {
+      if (epub.enableGlossary) {
         glossaryTerms = getChapterGlossaryAndTextHighlight(
           chapter.text,
           this.glossaryData,
@@ -265,7 +265,7 @@ class HTMLFileBuilder {
 
             glossaryText = "";
 
-            if(!epub.disableGlossary) {
+            if(epub.enableGlossary) {
               glossaryTerms = getChapterGlossaryAndTextHighlight(
                 transcript,
                 this.glossaryData,
