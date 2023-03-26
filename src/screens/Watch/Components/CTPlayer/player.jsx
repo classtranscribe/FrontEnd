@@ -1,4 +1,6 @@
 import React, { memo, useState, useCallback } from 'react';
+import { connect } from 'dva'
+
 import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
 import { uEvent } from '../../Utils/UserEventController';
@@ -13,14 +15,17 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
+
 const Video = React.memo((props) => {
-    const { id = 1, videoRef, path, dispatch, isSwitched, embedded } = props;
+
+    const { id = 1, videoRef, path, dispatch, isSwitched, embedded} = props;
     const isPrimary = (id == 1);
     console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         const duration = e.target.duration;
         dispatch({ type: 'watch/setDuration', payload: duration });
+
         /*
         if (this.state.openRange && !this.state.range) {
             // this.setRange([0, duration]); // TODO

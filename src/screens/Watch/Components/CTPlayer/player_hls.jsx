@@ -38,7 +38,7 @@ const Video = React.memo((props) => {
         videoRef,
         // openCC, 
         // updating,
-        captionSpeedUp = 0
+        captionSpeedUp = 0,
     } = props;
 
     const _videoRef = React.useRef();
@@ -161,6 +161,7 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
+
 
     useEffect(() => {
         function _initPlayer() {

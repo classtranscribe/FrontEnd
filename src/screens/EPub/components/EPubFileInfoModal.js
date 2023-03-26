@@ -7,7 +7,7 @@ import {
   useCTConfirmation,
   CTInput,
   CTCheckbox,
-  CTFormRow
+  CTFormRow,
 } from 'layout';
 import { elem } from 'utils';
 import { connectWithRedux } from '../controllers';
@@ -17,35 +17,39 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const { teal, danger } = useButtonStyles();
   const [epubData, setEPubData] = useState(epub);
   if (!epubData.condition) {
-    epubData.condition = {'default':true};
+    epubData.condition = { default: true };
   }
   useEffect(() => {
     // update state everytime onShow, in case the user did not save
-    if(showFileSettings) {
-      setEPubData(epub)
+    if (showFileSettings) {
+      setEPubData(epub);
     }
-  }, [showFileSettings])
+  }, [showFileSettings]);
   const onClose = () => dispatch({ type: 'epub/setShowFileSettings', payload: false });
 
   const onInputChange = (attrName) => ({ target: { value } }) =>
     setEPubData({ ...epubData, [attrName]: value });
 
-  const onSaveCover = (newCover) =>
-    setEPubData({ ...epubData, cover: newCover });
+  const onSaveCover = (newCover) => setEPubData({ ...epubData, cover: newCover });
 
   const onVisualTocChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, enableVisualToc: checked });
 
+  const onAllGlossaryTermHighlight = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, enableAllGlossaryTermHighlight: checked });
+
+  const onGlossaryDisable = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, disableGlossary: checked });
+
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
 
-  const onHeaderChange = ({ target: { checked } }) =>
-  setEPubData({ ...epubData, isH4: checked });
+  const onHeaderChange = ({ target: { checked } }) => setEPubData({ ...epubData, isH4: checked });
 
-  const onConditionChange = ({target:{id, checked}}) => {
+  const onConditionChange = ({ target: { id, checked } }) => {
     epubData.condition[id] = checked;
-    setEPubData({...epubData});
-  }
+    setEPubData({ ...epubData });
+  };
 
   const canSave = epubData.title && epubData.filename && epubData.author;
 
@@ -62,9 +66,9 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const delConfirmation = useCTConfirmation('Are you sure to delete this I-Note?', handleDelete);
 
   let conditions = [];
-  for (let i = 0; i < epubData.chapters.length; i+=1) {
+  for (let i = 0; i < epubData.chapters.length; i += 1) {
     for (let j = 0; j < epubData.chapters[i].condition.length; j += 1) {
-      if (conditions.find(e => e === epubData.chapters[i].condition[j]) === undefined) {
+      if (conditions.find((e) => e === epubData.chapters[i].condition[j]) === undefined) {
         conditions.push(epubData.chapters[i].condition[j]);
       }
     }
@@ -72,19 +76,10 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const modalActions = (
     <CTFragment justConEnd alignItCenter padding={[5, 10]}>
-      <Button
-        variant
-        className={danger}
-        onClick={delConfirmation.onOpen}
-      >
+      <Button variant className={danger} onClick={delConfirmation.onOpen}>
         Delete
       </Button>
-      <Button
-        disabled={!canSave}
-        className={teal}
-        variant="contained"
-        onClick={handleSave}
-      >
+      <Button disabled={!canSave} className={teal} variant="contained" onClick={handleSave}>
         Done
       </Button>
     </CTFragment>
@@ -154,6 +149,22 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         </CTFormRow>
         <CTFormRow>
           <CTCheckbox
+            id="ct-epb-enable-glossary"
+            label="Disable Glossary"
+            checked={epubData.disableGlossary}
+            onChange={onGlossaryDisable}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-all-glossary-term-highlight"
+            label="Highlight All Occurences of Glossary Terms"
+            checked={epubData.enableAllGlossaryTermHighlight}
+            onChange={onAllGlossaryTermHighlight}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
             id="ct-epb-is-pub-checkbox"
             label="Publish the I-Note file"
             checked={epubData.isPublished}
@@ -170,10 +181,15 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         </CTFormRow>
         <CTFormRow>
           {conditions.map((data, index) => {
-                  return (
-                    <CTCheckbox id={data} label={data} checked={epubData.condition[data]} onChange={onConditionChange} />
-                  );
-                })}
+            return (
+              <CTCheckbox
+                id={data}
+                label={data}
+                checked={epubData.condition[data]}
+                onChange={onConditionChange}
+              />
+            );
+          })}
         </CTFormRow>
         {delConfirmation.element}
       </CTFragment>
@@ -181,7 +197,4 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   );
 }
 
-export default connectWithRedux(
-  EPubFileInfoModal,
-  ['epub', 'showFileSettings']
-);
+export default connectWithRedux(EPubFileInfoModal, ['epub', 'showFileSettings']);

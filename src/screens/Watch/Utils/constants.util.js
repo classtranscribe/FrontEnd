@@ -41,7 +41,9 @@ export const screenModes = [
   { type: NESTED_MODE, name: 'Nested View', icon: 'picture_in_picture' },
   // { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
 ];
-
+/**
+ * Screen Displays
+ */
 /**
  * Player types
  */
@@ -74,6 +76,7 @@ export const SMTAB_GENERAL = 'tab-general';
 export const SMTAB_TRANS = 'tab-trans';
 export const SMTAB_CC = 'tab-cc';
 export const SMTAB_AD = 'tab-ad';
+export const SMTAB_DS = 'tab-ds';
 
 /**
  * Modals
@@ -220,6 +223,12 @@ export const cc_opacityOptions = [
   CC_OPACITY_75,
   CC_OPACITY_100,
 ];
+
+export const SCREEN_OPACITY_100 = 1;
+export const SCREEN_CONTRAST_100 = 1;
+
+
+
 // position
 export const CC_POSITION_TOP = 'top';
 export const CC_POSITION_BOTTOM = 'bottom';

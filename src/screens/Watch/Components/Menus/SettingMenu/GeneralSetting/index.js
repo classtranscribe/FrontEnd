@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Select, Form } from 'semantic-ui-react';
 import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
 
-function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
+
+function GeneralSetting({ show = false, autoPlay = true, brightness=1, dispatch }) {
   const handleAutoPlay = () => {
     dispatch({ type: 'playerpref/setPreference', payload: { autoPlay: !autoPlay } })
   };
-
   useEffect(() => {
     if (show) {
       document.getElementById('general-settings').scrollIntoView({ block: 'center' });
@@ -25,8 +26,9 @@ function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
         />
       </div>
     </form>
+    
   );
 }
-export default connect(({ playerpref: { autoPlay }, loading }) => ({
+export default connect(({ playerpref: { autoPlay}, loading }) => ({
   autoPlay
 }))(GeneralSetting);
