@@ -313,7 +313,6 @@ export default {
                     title: data.title,
                 }).toObject(),
         );
-        console.log(state.items);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {
@@ -382,18 +381,15 @@ __feed(mesg = 'Saved.') {
  subdivideChaptersByScreenshots() {
    let newChapters = _.map(this.data.chapters, (chapter) => {
      let items = chapter.allItemsWithIn;
-
      chapter.subChapters = _.map(items, (item, subChapterIndex) =>
        new EPubSubChapterData({
          items: [item],
          title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
        }),
      );
-
      chapter.items = [];
      return new EPubChapterData(chapter);
    });
-
    this.data.chapters = newChapters;
    // this.updateAll('Subdivided all the chapters by screenshots', 0);
    prompt.addOne({
@@ -413,7 +409,6 @@ updateAll(actionName, currChIndex) {
      (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
    );
  }
-
  import EPubHistoryManager from './EPubHistoryManager';
 setChapters(chapters) {
  // this.history = new EPubHistoryManager(this);
