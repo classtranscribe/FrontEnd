@@ -43,7 +43,7 @@ function DownloadDropdown() {
       icon: <i className="fas fa-file-pdf" />
     },{
       value: 'img',
-      text: 'All the screenshots (.zip)',
+      text: 'Latex and screenshots (.tex)',
       icon: <i className="fas fa-file-image" />
     }
   ];
