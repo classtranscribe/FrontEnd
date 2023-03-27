@@ -57,31 +57,31 @@ function get_word_id(word) {
 /**
  * @param {String} text the valid html string for a chapter
  * @param {Array} glossary glossary object returned from getGlossaryData function
- * @param {Boolean} highlightFirstOnly specifies whether we should highlight the first occurrence or every occurrence of a keyword.
- * @returns Returns the following as Array
+ * @param {Boolean} highlightAll specifies whether we should highlight all occurrence or first occurrence of word
+ * @returns Returns the following Array
  * - Index 0: The new chapter text with text highlighting
- * - Index 1: A list of {word,link,description} of the found words
+ * - Index 1: A subset of glossary containing words found in this text
  */
 export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll) {
   let new_text = '';
-  let withinTag = false;
+  let inside_tag = false;
   let target_words = Object.keys(glossary);
-  let found_words = new Set();
+  let chapter_glossary = {};
 
   for (let i = 0; i < text.length; ) {
     // First we check that we are not inside a TAG i.e. <>
     // Because we do not want to replace text within an attribute
 
     if (text[i] === '<') {
-      withinTag = true;
+      inside_tag = true;
     }
 
     if (text[i] === '>') {
-      withinTag = false;
+      inside_tag = false;
     }
 
     // Also ignore non alpha numeric characters like space and punctuation.
-    if (withinTag || !is_alphanum(text[i])) {
+    if (inside_tag || !is_alphanum(text[i])) {
       new_text += text[i];
       i += 1;
     } else {
@@ -114,7 +114,7 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll)
 
             found = true;
 
-            found_words.add(word);
+            chapter_glossary[word] = glossary[word];
           }
         }
       }
@@ -127,63 +127,56 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll)
     }
   }
 
-  const chapter_glossary = [];
-
-  for (const word of found_words) {
-    chapter_glossary.push({
-      word,
-      link: glossary[word].link,
-      description: glossary[word].description,
-    });
-  }
-
   return [new_text, chapter_glossary];
 }
 
-/** *
- * @param terms the terms returned from findGlossaryTermsInChapter
- */
-export function glossaryTermsAsHTML(terms) {
-  if (terms.length === 0) {
+export function glossaryToHTMLString(glossary) {
+  if (Object.keys(glossary).length === 0) {
     return '';
   }
 
-  let html = '<div>';
-
+  let html = '<html><body><div>';
   html += '<h4>Glossary:</h4>';
   html += '<ul>';
+  
+  const words = Object.keys(glossary);
 
   // sort the words alphabetically
-  terms.sort((t1, t2) =>
+  words.sort((t1, t2) =>
     String(t1.word).toLowerCase().localeCompare(String(t2.word).toLowerCase()),
   );
 
   // Add each defintion as a <li> tag
-  for (const elem of terms) {
-    const wordId = `glossary_${String(elem.word).replaceAll(' ', '-')}`;
-    html += `<li id='${wordId}'>${elem.word}: ${elem.description} <a href="${elem.link}">[more]</a></li>`;
+  for (const word of words) {
+    const word_description = glossary[word].description;
+    const word_link = glossary[word].link;
+    const word_id = get_word_id(word);
+    html += `<li id='${word_id}'>${word}: ${word_description} <a href="${word_link}">[more]</a></li>`;
     html += `<br/>`;
   }
 
   html += '</ul>';
-  html += '</div>';
+  html += '</div></body></html>';
 
   return html;
 }
 
-/** *
- * @param terms the terms returned from findGlossaryTermsInChapter
- */
-export function glossaryTermsAsText(terms) {
-  if (terms.length === 0) {
+export function glossaryToText(glossary) {
+  if (Object.keys(glossary).length === 0) {
     return '';
   }
+
   let text = '\nGlossary:\n';
 
-  // Add each defintion as a <li> tag
-  for (const elem of terms) {
-    text += `${elem.word}: ${elem.description}\n`;
-    text += '\n'; // Add space between list
+  const words = Object.keys(glossary);
+
+  words.sort((t1, t2) =>
+    String(t1.word).toLowerCase().localeCompare(String(t2.word).toLowerCase()),
+  );
+
+  // Add glossary words alphabetically
+  for (const word of words) {
+    text += `${word}: ${glossary[word].description}\n\n`;
   }
 
   return text;
