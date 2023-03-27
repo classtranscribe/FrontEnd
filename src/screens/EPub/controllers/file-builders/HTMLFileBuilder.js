@@ -209,7 +209,7 @@ class HTMLFileBuilder {
       let glossaryText = "";
       
       if (epub.enableGlossary) {
-        const [_, glossary] = getChapterGlossaryAndTextHighlight(chapter.text, this.glossaryData, this.highlightAll);
+        const glossary = getChapterGlossaryAndTextHighlight(chapter.text, this.glossaryData, this.highlightAll)[1];
         glossaryText = glossaryToText(glossary);
       }
 
@@ -259,7 +259,7 @@ class HTMLFileBuilder {
             glossaryText = "";
 
             if(epub.enableGlossary) {
-              const [_, glossary] = getChapterGlossaryAndTextHighlight(transcript, this.glossaryData, this.highlightAll);
+              const glossary = getChapterGlossaryAndTextHighlight(transcript, this.glossaryData, this.highlightAll)[1];
               glossaryText = glossaryToText(glossary);
             }
 
