@@ -7,7 +7,7 @@ import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   getGlossaryData,
-  glossaryTermsAsHTML,
+  glossaryToHTMLString,
   getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 import {
@@ -299,6 +299,36 @@ class EPubFileBuilder {
       block.prepend(linkElement);
     }
 
+    // check if glossary is enabled
+    if (this.enableGlossary) {
+      const chapterGlossary = {};
+      const elements = textHtml.getElementsByTagName("p");
+
+      // highlight and generate glossary for text in <p> tags
+      for(let i = 0; i < elements.length; i++) {
+        const [highlightedText, currentGlossary] = getChapterGlossaryAndTextHighlight(
+          elements[i].innerHTML,
+          this.glossaryData,
+          this.highlightAll,
+        );
+
+        // update with highlighted text
+        elements[i].innerHTML = highlightedText;
+
+        // update chapter glossary with words found in current text
+        for(const word of Object.keys(currentGlossary)) {
+          if(!chapterGlossary.hasOwnProperty(word)) {
+            chapterGlossary[word] = currentGlossary[word];
+          }
+        }
+      }
+
+      const glossaryHTMLString = glossaryToHTMLString(chapterGlossary);
+
+      // add glossary terms to end of chapter if enabled
+      textHtml.body.insertAdjacentHTML('beforeend',glossaryHTMLString);
+    }
+
     const bodyStr = new XMLSerializer().serializeToString(textHtml.body);
     text = bodyStr;
 
@@ -306,32 +336,11 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-    let content = '';
-
-    // check if glossary is enabled
-    if (this.enableGlossary) {
-      // add glossary terms to end of chapter if enabled
-      const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
-        text,
-        this.glossaryData,
-        this.highlightAll,
-      );
-
-      const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
-
-      content = dedent(`
-		<div class="epub-ch">            
-			${highlightedText}
-			${glossaryHTML} 
-		</div>
-	  `);
-    } else {
-      content = dedent(`
+    let content = dedent(`
       <div class="epub-ch">            
         ${text}
       </div>
       `);
-    }
 
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
