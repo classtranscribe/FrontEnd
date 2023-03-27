@@ -305,7 +305,7 @@ class EPubFileBuilder {
       const elements = textHtml.getElementsByTagName("p");
 
       // highlight and generate glossary for text in <p> tags
-      for(let i = 0; i < elements.length; i++) {
+      for(let i = 0; i < elements.length; i+=1) {
         const [highlightedText, currentGlossary] = getChapterGlossaryAndTextHighlight(
           elements[i].innerHTML,
           this.glossaryData,
@@ -317,7 +317,7 @@ class EPubFileBuilder {
 
         // update chapter glossary with words found in current text
         for(const word of Object.keys(currentGlossary)) {
-          if(!chapterGlossary.hasOwnProperty(word)) {
+          if(!(word in chapterGlossary)) {
             chapterGlossary[word] = currentGlossary[word];
           }
         }
