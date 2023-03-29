@@ -33,9 +33,12 @@ const AslWithRedux = (props) => {
     // }
 
     // fetch data at the beginning
-    useEffect(async() => {
-        const res = await apiInstance.get(`/api/ASLVideo/GetAllASLVideos`, config);
-        setData(res.data);
+    useEffect(() => {
+        async function fetchData() {
+          const res = await apiInstance.get(`/api/ASLVideo/GetAllASLVideos`, config);
+          setData(res.data);
+        }
+        fetchData();
     }, []);
 
     return (
