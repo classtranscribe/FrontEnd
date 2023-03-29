@@ -19,6 +19,9 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   if (!epubData.condition) {
     epubData.condition = { default: true };
   }
+  if(!('enableGlossary' in epubData)) {
+    epubData.enableGlossary = true;
+  }
   useEffect(() => {
     // update state everytime onShow, in case the user did not save
     if (showFileSettings) {
@@ -37,6 +40,9 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const onAllGlossaryTermHighlight = ({ target: { checked } }) =>
     setEPubData({ ...epubData, enableAllGlossaryTermHighlight: checked });
+
+  const onGlossaryEnable = ({ target: { checked } }) =>
+    setEPubData({ ...epubData, enableGlossary: checked });
 
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
@@ -142,6 +148,14 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
             label="Enable Visual Table of Contents"
             checked={epubData.enableVisualToc}
             onChange={onVisualTocChange}
+          />
+        </CTFormRow>
+        <CTFormRow>
+          <CTCheckbox
+            id="ct-epb-enable-glossary"
+            label="Include Glossary"
+            checked={epubData.enableGlossary}
+            onChange={onGlossaryEnable}
           />
         </CTFormRow>
         <CTFormRow>

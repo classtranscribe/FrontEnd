@@ -7,7 +7,7 @@ import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   getGlossaryData,
-  glossaryTermsAsHTML,
+  glossaryToHTMLString,
   getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 import {
@@ -35,7 +35,27 @@ class EPubFileBuilder {
   async init(ePubData) {
     this.data = await EPubParser.parse(ePubData);
     this.h3 = ePubData.h3;
-    this.glossaryData = await getGlossaryData(this.data.sourceId);
+
+    // The disable glossary option in the menu is used to hide or show the glossary
+    this.enableGlossary = 'enableGlossary' in this.data ? this.data.enableGlossary : true;
+
+    if (this.enableGlossary) {
+      // The highlightAll option is used to know whether to highlight the 
+      // first occurrence or all occurrences of glossary words in the iNote.
+      this.highlightAll =
+        'enableAllGlossaryTermHighlight' in this.data
+          ? this.data.enableAllGlossaryTermHighlight
+          : false;
+      // We fetch the glossary data from the backend and parse that into a dictionary.
+      // The glossaryData maps glossary word to an object containing the description and
+      // link for that word. The description is the meaning of that word. The link is a
+      // URL to an external webstie for more information about that word.
+      this.glossaryData = await getGlossaryData(this.data.sourceId);
+    } else {
+      // When glossary is disabled we do not fetch data or highlight any word.
+      this.highlightAll = false;
+      this.glossaryData = {};
+    }
   }
 
   /**
@@ -245,9 +265,9 @@ class EPubFileBuilder {
     const { language, sourceId } = this.data;
     let { title, text, start, link } = chapter;
 
-    const h = parseInt(start.substring(0, 2),10);
-    const m = parseInt(start.substring(3, 5),10);
-    const s = parseInt(start.substring(6,8),10);
+    const h = parseInt(start.substring(0, 2), 10);
+    const m = parseInt(start.substring(3, 5), 10);
+    const s = parseInt(start.substring(6, 8), 10);
     const curTime = 3600 * h + 60 * m + s;
 
     // The <img> tag should be nested beneath an <a> tag
@@ -279,6 +299,36 @@ class EPubFileBuilder {
       block.prepend(linkElement);
     }
 
+    // check if glossary is enabled
+    if (this.enableGlossary) {
+      const chapterGlossary = {};
+      const elements = textHtml.getElementsByTagName("p");
+
+      // highlight and generate glossary for text in <p> tags
+      for(let i = 0; i < elements.length; i+=1) {
+        const [highlightedText, currentGlossary] = getChapterGlossaryAndTextHighlight(
+          elements[i].innerHTML,
+          this.glossaryData,
+          this.highlightAll,
+        );
+
+        // update with highlighted text
+        elements[i].innerHTML = highlightedText;
+
+        // update chapter glossary with words found in current text
+        for(const word of Object.keys(currentGlossary)) {
+          if(!(word in chapterGlossary)) {
+            chapterGlossary[word] = currentGlossary[word];
+          }
+        }
+      }
+
+      const glossaryHTMLString = glossaryToHTMLString(chapterGlossary);
+
+      // add glossary terms to end of chapter if enabled
+      textHtml.body.insertAdjacentHTML('beforeend',glossaryHTMLString);
+    }
+
     const bodyStr = new XMLSerializer().serializeToString(textHtml.body);
     text = bodyStr;
 
@@ -286,27 +336,12 @@ class EPubFileBuilder {
       text = "<a href='".concat(link, "'>Slides</a>\n", text);
     }
 
-    let highlightAll =
-      'enableAllGlossaryTermHighlight' in this.data
-        ? this.data.enableAllGlossaryTermHighlight
-        : false;
+    let content = dedent(`
+      <div class="epub-ch">            
+        ${text}
+      </div>
+      `);
 
-    // add glossary terms to end of chapter if enabled
-
-    const [highlightedText, chapterGlossary] = getChapterGlossaryAndTextHighlight(
-      text,
-      this.glossaryData,
-      highlightAll,
-    );
-
-    const glossaryHTML = glossaryTermsAsHTML(chapterGlossary);
-
-    const content = dedent(`
-		<div class="epub-ch">            
-			${highlightedText}
-			${glossaryHTML} 
-		</div>
-	  `);
     return OEBPS_CONTENT_XHTML({ title, content, language });
   }
 
