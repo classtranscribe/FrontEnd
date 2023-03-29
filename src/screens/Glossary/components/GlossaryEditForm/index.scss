@@ -1,0 +1,28 @@
+// #descriptioninput {
+//     width: 200px;
+//     height: 60px;
+//     overflow-wrap: normal;
+//     overflow: scroll;
+// }
+
+// #GlossaryEditForm {
+//     width: 400px;
+//     height: auto;
+//     background-color: antiquewhite;
+//     z-index: 11;
+//     position: absolute;
+//     top: 40px;
+//     left: 200px;
+// }
+
+.edit-textbox {
+    margin: 30px;
+    width: 100px;
+}
+
+.editform {
+    // position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+}
