@@ -136,7 +136,7 @@ export function glossaryToHTMLString(glossary) {
   }
 
   let html = '<html><body><div>';
-  html += '<h4>Glossary:</h4>';
+  html += '<h4>Glossary</h4>';
   html += '<ul>';
   
   const words = Object.keys(glossary);
@@ -145,6 +145,8 @@ export function glossaryToHTMLString(glossary) {
   words.sort((t1, t2) =>
     String(t1.word).toLowerCase().localeCompare(String(t2.word).toLowerCase()),
   );
+
+  console.log(words);
 
   // Add each defintion as a <li> tag
   for (const word of words) {
@@ -166,7 +168,7 @@ export function glossaryToText(glossary) {
     return '';
   }
 
-  let text = '\nGlossary:\n';
+  let text = '\nGlossary\n';
 
   const words = Object.keys(glossary);
 
