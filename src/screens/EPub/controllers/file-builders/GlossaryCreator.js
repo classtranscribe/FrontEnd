@@ -149,7 +149,7 @@ export function glossaryToHTMLString(glossary) {
       const word_link = glossary[word].link;
       const word_id = get_word_id(word);
       html += `<li id='${word_id}'>${word}: ${word_description}`;
-      if(word_link) { 
+      if(word_link && word_link.length > 0) { 
         html += `<a href="${word_link}">[more]</a>` 
       }
       html += `</li>`;
