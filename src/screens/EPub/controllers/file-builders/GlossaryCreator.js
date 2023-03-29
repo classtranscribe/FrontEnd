@@ -139,23 +139,18 @@ export function glossaryToHTMLString(glossary) {
   html += '<h4>Glossary</h4>';
   html += '<ul>';
   
-  const words = Object.keys(glossary);
-
   // sort the words alphabetically
-  words.sort((t1, t2) =>
-    String(t1.word).toLowerCase().localeCompare(String(t2.word).toLowerCase()),
-  );
-
-  console.log(words);
-
-  // Add each defintion as a <li> tag
-  for (const word of words) {
-    const word_description = glossary[word].description;
-    const word_link = glossary[word].link;
-    const word_id = get_word_id(word);
-    html += `<li id='${word_id}'>${word}: ${word_description} <a href="${word_link}">[more]</a></li>`;
-    html += `<br/>`;
-  }
+  Object.keys(glossary)
+    .sort((t1, t2) => t1.toLowerCase().localeCompare(t2.toLowerCase()))
+    .forEach(word => {
+      // Add each defintion as a <li> tag
+      console.log(word);
+      const word_description = glossary[word].description;
+      const word_link = glossary[word].link;
+      const word_id = get_word_id(word);
+      html += `<li id='${word_id}'>${word}: ${word_description} <a href="${word_link}">[more]</a></li>`;
+      html += `<br/>`;
+    });
 
   html += '</ul>';
   html += '</div></body></html>';
@@ -170,16 +165,12 @@ export function glossaryToText(glossary) {
 
   let text = '\nGlossary\n';
 
-  const words = Object.keys(glossary);
-
-  words.sort((t1, t2) =>
-    String(t1.word).toLowerCase().localeCompare(String(t2.word).toLowerCase()),
-  );
-
   // Add glossary words alphabetically
-  for (const word of words) {
-    text += `${word}: ${glossary[word].description}\n\n`;
-  }
+  Object.keys(glossary)
+    .sort((t1, t2) => t1.toLowerCase().localeCompare(t2.toLowerCase()))
+    .forEach(word => {
+      text += `${word}: ${glossary[word].description}\n\n`;    
+    });
 
   return text;
 }
