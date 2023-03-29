@@ -1,0 +1,22 @@
+.watch-brightness-ctrl {
+  display: flex;
+  flex-direction: row;
+  width: 135px;
+  min-width: 135px;
+  overflow: hidden;
+  transition: var(--ct-transition-width);
+  -o-transition: var(--ct-transition-width);
+  -moz-transition: var(--ct-transition-width);
+  -webkit-transition: var(--ct-transition-width);
+  &:hover {
+    width: 115px;
+  }
+  &:focus-within {
+    width: 115px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .watch-brightness-ctrl {
+    display: none;
+  }
+}

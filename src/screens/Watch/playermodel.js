@@ -8,7 +8,9 @@ import {
     CC_FONT_SANS_SERIF,
     CC_OPACITY_75,
     CC_POSITION_BOTTOM,
-    // MODAL_SHARE
+    SCREEN_OPACITY_100,
+    SCREEN_CONTRAST_100,
+
     scrollTransToView
 } from './Utils';
 import { uEvent } from './Utils/UserEventController';
@@ -60,12 +62,16 @@ const PlayerModel = {
         cc_position: CC_POSITION_BOTTOM,
         cc_opacity: CC_OPACITY_75,
 
+
         transView: isMobile ? TRANSCRIPT_VIEW : LINE_VIEW,
 
         openCC: true,
         openAD: false,
 
         autoPlay: !isMobile,
+        brightness: SCREEN_OPACITY_100,
+        contrast: SCREEN_CONTRAST_100,
+
         pauseWhileAD: false,
         autoScroll: true,
         pauseWhileEditing: !isMobile,
