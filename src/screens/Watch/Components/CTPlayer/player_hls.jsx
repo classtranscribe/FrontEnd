@@ -410,7 +410,7 @@ const Video = React.memo((props) => {
 
     // hls.subtitleTracks
     return (
-        <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+        <div className={embedded ? "ctp ct-video-con normal" : "ct-video-container"}>
             {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         } */}
