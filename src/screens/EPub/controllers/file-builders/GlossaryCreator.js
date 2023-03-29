@@ -144,7 +144,6 @@ export function glossaryToHTMLString(glossary) {
     .sort((t1, t2) => t1.toLowerCase().localeCompare(t2.toLowerCase()))
     .forEach(word => {
       // Add each defintion as a <li> tag
-      console.log(word);
       const word_description = glossary[word].description;
       const word_link = glossary[word].link;
       const word_id = get_word_id(word);
