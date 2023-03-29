@@ -25,9 +25,9 @@ function AudioDescriptionWithRedux({
   cc_position = CC_POSITION_TOP,
 }) {
   const isOpen = isPrimary && openAD;
-  const { text } = isOpen ? transControl.findDescription(time) || {} : {};
+  //  const { text } = isOpen ? transControl.findDescription(time) || {} : {};
 
-  const shouldDisplayAD = isOpen && text;
+  const shouldDisplayAD = isOpen;// && text;
 
   const { ccStyle, ccContainerStyle } = getCCStyle({
     cc_color,
@@ -38,13 +38,16 @@ function AudioDescriptionWithRedux({
     cc_position,
   });
 
-  return shouldDisplayAD ? (
-    <div id="watch-ad-container" className="watch-ad-container" style={ccContainerStyle}>
-      <div className="watch-ad-text" style={ccStyle}>
-        <i>(Description)</i> {text}
-      </div>
-    </div>
-  ) : null;
+  // return shouldDisplayAD ? (
+    
+  //   <div id="watch-ad-container" className="watch-ad-container" style={ccContainerStyle}>
+  //     <div className="watch-ad-text" style={ccStyle}>
+        
+  //     </div>
+  //   </div>
+    
+  // ) : null;
+  return null;
 }
 
 export const AudioDescription = connect(({ watch : { time },

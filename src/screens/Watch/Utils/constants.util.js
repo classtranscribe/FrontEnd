@@ -226,6 +226,21 @@ export const cc_opacityOptions = [
 
 export const SCREEN_OPACITY_100 = 1;
 export const SCREEN_CONTRAST_100 = 1;
+export const INVERT_0 = 0;
+export const ROTATE_COLOR_0 = 0;
+
+export const SCREEN_ZOOM_50 = 0.50;
+export const SCREEN_ZOOM_100 = 1;
+export const SCREEN_ZOOM_150 = 1.5;
+export const SCREEN_ZOOM_200 = 2;
+export const SCREEN_ZOOM_300 = 3;
+export const screen_zoomOptions = [
+  SCREEN_ZOOM_50,
+  SCREEN_ZOOM_100,
+  SCREEN_ZOOM_150,
+  SCREEN_ZOOM_200,
+  SCREEN_ZOOM_300,
+];
 
 
 

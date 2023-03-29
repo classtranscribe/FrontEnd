@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useState, useCallback, useRef, useEffect } from 'react';
 import { connect } from 'dva'
 
 import PlayerWrapper from './PlayerWrapper';
@@ -15,10 +15,16 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
+import {
+    getVideoStyle
+} from '../../Utils';
+import {
+    ClassTranscribePlayer
+} from '../CTPlayer'
 
 const Video = React.memo((props) => {
 
-    const { id = 1, videoRef, path, dispatch, isSwitched, embedded} = props;
+    const { id = 1, videoRef, path, dispatch, isSwitched, embedded, videoStyle} = props;
     const isPrimary = (id == 1);
     console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
@@ -99,7 +105,9 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
-    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+
+    // const { videoStyle } = getVideoStyle({ClassTranscribePlayer});
+    return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-container"}>
         {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         }
@@ -123,12 +131,13 @@ const Video = React.memo((props) => {
             onSeeking={onSeekingPri}
             onSeeked={onSeekedPri}
             onError={onErrorPri}
+            style={videoStyle}
         >
             {path && <source src={path} type="video/mp4" />}
       Your browser does not support video tag.
     </video>
     </div>)
 }, (prevProps, nextProps) => {
-    return prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched;
+    return prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched && prevProps.videoStyle === nextProps.videoStyle;
 });
 export default Video;
