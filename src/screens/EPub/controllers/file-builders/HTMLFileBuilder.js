@@ -8,7 +8,7 @@ import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   getGlossaryData,
-  glossaryTermsAsText,
+  glossaryToText,
   getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 
@@ -207,16 +207,10 @@ class HTMLFileBuilder {
       // add glossary terms for chapter
 
       let glossaryText = "";
-      let glossaryTerms = null;
       
-      if (!epub.disableGlossary) {
-        glossaryTerms = getChapterGlossaryAndTextHighlight(
-          chapter.text,
-          this.glossaryData,
-          this.highlightAll,
-        )[1];
-
-        glossaryText = glossaryTermsAsText(glossaryTerms);
+      if (epub.enableGlossary) {
+        const glossary = getChapterGlossaryAndTextHighlight(chapter.text, this.glossaryData, this.highlightAll)[1];
+        glossaryText = glossaryToText(glossary);
       }
 
       let splitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
@@ -262,17 +256,11 @@ class HTMLFileBuilder {
             }
 
             // add glossary terms for subchapter
-
             glossaryText = "";
 
-            if(!epub.disableGlossary) {
-              glossaryTerms = getChapterGlossaryAndTextHighlight(
-                transcript,
-                this.glossaryData,
-                true,
-              )[1];
-
-              glossaryText = glossaryTermsAsText(glossaryTerms);
+            if(epub.enableGlossary) {
+              const glossary = getChapterGlossaryAndTextHighlight(transcript, this.glossaryData, this.highlightAll)[1];
+              glossaryText = glossaryToText(glossary);
             }
 
             let subSplitted = pdf.splitTextToSize(glossaryText, parseInt(w, 10));
