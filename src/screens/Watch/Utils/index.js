@@ -102,17 +102,17 @@ export const getVideoStyle = (options) => {
   if (Math.abs(contrast - 1) > threshold) {
     filter_string += ` contrast(${contrast})`
   }
-  if (rotateColor != ROTATE_COLOR_0) {
+  if (rotateColor !== ROTATE_COLOR_0) {
     filter_string += ` hue-rotate(${rotateColor})`
   }
-  if (invert != INVERT_0) {
+  if (invert !== INVERT_0) {
     filter_string += ` invert(${invert})`
   }
 
-  if (scale != SCREEN_ZOOM_100) {
+  if (scale !== SCREEN_ZOOM_100) {
     transform_string += `scale(${scale})`
   }
-  if (magnifyX != 0 || magnifyY != 0) {
+  if (magnifyX !== 0 || magnifyY !== 0) {
     transform_string += ` translate(${magnifyX}px,${magnifyY}px)`
   }
   const videoStyle = {
