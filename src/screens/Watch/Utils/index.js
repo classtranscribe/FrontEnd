@@ -1,5 +1,5 @@
 import { connect } from 'dva'
-import _ from 'lodash'
+import _, { filter, transform } from 'lodash'
 import { 
   // timeStrToSec, 
   colorMap } from './helpers';
@@ -10,6 +10,10 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  SCREEN_OPACITY_100,
+  SCREEN_ZOOM_100,
+  ROTATE_COLOR_0,
+  INVERT_0,
   // WEBVTT_SUBTITLES,
   // WEBVTT_DESCRIPTIONS,
   // ENGLISH,
@@ -75,6 +79,48 @@ export const getCCStyle = (options) => {
   }
 
   return { ccStyle, ccContainerStyle };
+}
+
+export const getVideoStyle = (options) => {
+  const {
+    brightness = SCREEN_OPACITY_100,
+    contrast = 1,
+    rotateColor = ROTATE_COLOR_0,
+    invert = INVERT_0,
+    scale = SCREEN_ZOOM_100,
+    magnifyX = 0,
+    magnifyY = 0,
+
+  } = options;
+  const threshold = 0.001;
+  let filter_string = ``;
+  let transform_string = ``;
+
+  if (Math.abs(brightness - SCREEN_OPACITY_100) > threshold) {
+    filter_string += `brightness(${brightness})`
+  }
+  if (Math.abs(contrast - 1) > threshold) {
+    filter_string += ` contrast(${contrast})`
+  }
+  if (rotateColor !== ROTATE_COLOR_0) {
+    filter_string += ` hue-rotate(${rotateColor})`
+  }
+  if (invert !== INVERT_0) {
+    filter_string += ` invert(${invert})`
+  }
+
+  if (scale !== SCREEN_ZOOM_100) {
+    transform_string += `scale(${scale})`
+  }
+  if (magnifyX !== 0 || magnifyY !== 0) {
+    transform_string += ` translate(${magnifyX}px,${magnifyY}px)`
+  }
+  const videoStyle = {
+    
+    filter: filter_string,
+    transform: transform_string,
+  };
+  return { videoStyle };
 }
 /**
 * Function that scrolls the captions
