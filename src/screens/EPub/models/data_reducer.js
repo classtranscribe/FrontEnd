@@ -305,8 +305,21 @@ export default {
     },
     splitChaptersByScreenshots(state) {
         console.log(`Splitting chapters by screenshots`);
+        const new_items = [];
+        (state.items).forEach(function(elem) {
+            if((elem.text).length < 100 && new_items.length!==0 ) { 
+                const oldelem = new_items.pop();
+                oldelem.text +=" ";
+                oldelem.text +=(elem.text);
+                new_items.push(oldelem);
+            }
+            else {
+                new_items.push(elem);
+             }
+           });
+        
         let splitChapters = _.map(
-            state.items,
+            new_items,
             (data, idx) =>
                 new EPubChapterData({
                     items: [data],
