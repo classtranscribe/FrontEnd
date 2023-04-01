@@ -13,11 +13,11 @@ function DownloadMenuTrigger({ menu = MENU_HIDE, dispatch }) {
       onClick={handleMenuTrigger}
       active={menu === MENU_DOWNLOAD}
       position="top"
-      label="Download (SHIFT+D)"
+      label="Download (SHIFT+X)"
       id={MENU_DOWNLOAD}
       ariaTags={{
         'aria-label': `Download Menu`,
-        // 'aria-keyshortcuts': 'Shift+D',
+        // 'aria-keyshortcuts': 'Shift+X',
         'aria-controls': 'watch-download-menu',
         'aria-expanded': menu === MENU_DOWNLOAD ? 'false' : 'true',
       }}
