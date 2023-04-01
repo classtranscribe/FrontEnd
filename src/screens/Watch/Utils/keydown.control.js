@@ -35,8 +35,8 @@ export const keydownControl = {
     this.menu = menu;
   },
   isMenuOpen() {
-    // return this.menu && this.menu !== MENU_HIDE;
-    return false;
+    return this.menu && this.menu !== MENU_HIDE;
+    // return false;
   },
   handleKeyDown(e) {
     if (window.location.pathname !== '/video' && window.location.pathname !== '/liveplayer') {

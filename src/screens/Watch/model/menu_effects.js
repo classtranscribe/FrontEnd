@@ -16,10 +16,10 @@ export default {
         if (watch.menu === MENU_HIDE || !watch.menu) {
             return;
         }
-        yield put.resolve({ type: 'setMenu', payload: MENU_BEFORE_HIDE });
-        setTimeout(() => {
-            put.resolve({ type: 'setMenu', payload: MENU_HIDE })
-        }, timeout);
+        yield put.resolve({ type: 'setMenu', payload: MENU_HIDE });
+        // setTimeout(() => {
+        //     put.resolve({ type: 'setMenu', payload: MENU_HIDE })
+        // }, timeout);
     },
     *modal_open({ payload: { type, option = 'a' } }, { call, put, select, take }) {
         yield put({ type: 'search_close' });
