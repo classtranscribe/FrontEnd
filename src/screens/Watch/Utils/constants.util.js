@@ -63,7 +63,7 @@ export const CTP_ERROR = 'ctp-error';
  * Menu types
  */
 export const MENU_HIDE = 'menu-hide';
-export const MENU_BEFORE_HIDE = 'menu-before-hide';
+// export const MENU_BEFORE_HIDE = 'menu-before-hide';
 export const MENU_PLAYLISTS = 'menu-playlists';
 export const MENU_PLAYBACKRATE = 'menu-playbackrate';
 export const MENU_SETTING = 'menu-setting';
