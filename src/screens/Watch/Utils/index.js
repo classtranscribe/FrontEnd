@@ -10,6 +10,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  CC_SPACING_DEFAULT,
   SCREEN_OPACITY_100,
   SCREEN_ZOOM_100,
   ROTATE_COLOR_0,
@@ -60,6 +61,7 @@ export const getCCStyle = (options) => {
     cc_opacity = CC_OPACITY_75,
     cc_font = CC_FONT_SANS_SERIF,
     cc_position = CC_POSITION_BOTTOM,
+    cc_spacing = CC_SPACING_DEFAULT
   } = options;
 
   const ccStyle = {
@@ -67,6 +69,7 @@ export const getCCStyle = (options) => {
     color: cc_color,
     fontSize: `${cc_size + 0.25}rem`, // +.25 to get a larger default font size
     fontFamily: cc_font,
+    'word-spacing': `${cc_spacing}rem`,
   };
 
   const ccContainerStyle = {};
@@ -78,7 +81,7 @@ export const getCCStyle = (options) => {
     ccContainerStyle.bottom = '.7em';
   }
 
-  return { ccStyle, ccContainerStyle };
+  return { ccStyle , ccContainerStyle };
 }
 
 export const getVideoStyle = (options) => {

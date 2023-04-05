@@ -41,6 +41,22 @@ export const shortcuts = [
         action: 'Decrease volume by 5 (out of 100)',
       },
       {
+        keys: [{ key1: '⇧ Shift', key2: 'w' }],
+        action: 'Shift screen up by 5px',
+      },
+      {
+        keys: [{ key1: '⇧ Shift', key2: 'a' }],
+        action: 'Shift screen left by 5px',
+      },
+      {
+        keys: [{ key1: '⇧ Shift', key2: 's' }],
+        action: 'Shift screen down by 5px',
+      },
+      {
+        keys: [{ key1: '⇧ Shift', key2: 'd' }],
+        action: 'Shift screen right by 5px',
+      },
+      {
         keys: [{ key1: 'm' }],
         action: 'Toggle mute/unmute',
       },
@@ -109,12 +125,16 @@ export const shortcuts = [
         action: 'Playback rate menu',
       },
       {
-        keys: [{ key1: '⇧ Shift', key2: 's' }],
+        keys: [{ key1: '⇧ Shift', key2: 'm' }],
         action: 'Screen mode menu',
       },
       {
-        keys: [{ key1: '⇧ Shift', key2: 'd' }],
+        keys: [{ key1: '⇧ Shift', key2: 'x' }],
         action: 'Download menu',
+      },
+      {
+        keys: [{ key1: '⇧ Shift', key2: 'l' }],
+        action: 'Language menu',
       },
     ],
   },
