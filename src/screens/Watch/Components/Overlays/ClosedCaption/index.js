@@ -8,6 +8,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  CC_SPACING_DEFAULT,
   getCCStyle,
   WEBVTT_SUBTITLES,
 } from '../../../Utils';
@@ -26,6 +27,7 @@ function ClosedCaptionWithRedux({
   cc_opacity = CC_OPACITY_100,
   cc_font = CC_FONT_SANS_SERIF,
   cc_position = CC_POSITION_BOTTOM,
+  cc_spacing = CC_SPACING_DEFAULT,
 }) {
   const { ccStyle, ccContainerStyle } = getCCStyle({
     cc_color,
@@ -34,6 +36,7 @@ function ClosedCaptionWithRedux({
     cc_opacity,
     cc_font,
     cc_position,
+    cc_spacing,
   });
 
   const shouldDisplayCC = isPrimary && openCC && Boolean(currCaption && currCaption.id);
@@ -53,7 +56,7 @@ function ClosedCaptionWithRedux({
 
 export const ClosedCaption = connect(({ watch: { currCaption, embedded },
   playerpref: { openCC, cc_color, cc_bg, cc_size,
-    cc_opacity, cc_font, cc_position }, loading }) => ({
+    cc_opacity, cc_font, cc_position, cc_spacing }, loading }) => ({
       embedded,
-      currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, openCC
+      currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing, openCC
     }))(ClosedCaptionWithRedux);

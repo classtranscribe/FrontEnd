@@ -1,4 +1,4 @@
-import { MENU_HIDE, MENU_BEFORE_HIDE, CO_CHANGE_VIDEO, SMTAB_GENERAL, MODAL_HIDE, MODAL_BEFORE_HIDE } from '../Utils/constants.util';
+import { MENU_HIDE, CO_CHANGE_VIDEO, SMTAB_GENERAL, MODAL_HIDE, MODAL_BEFORE_HIDE } from '../Utils/constants.util';
 
 export default {
     *menu_open({ payload: { type, option = 'a', tab } }, { call, put, select, take }) {
@@ -16,10 +16,10 @@ export default {
         if (watch.menu === MENU_HIDE || !watch.menu) {
             return;
         }
-        yield put.resolve({ type: 'setMenu', payload: MENU_BEFORE_HIDE });
-        setTimeout(() => {
-            put.resolve({ type: 'setMenu', payload: MENU_HIDE })
-        }, timeout);
+        yield put.resolve({ type: 'setMenu', payload: MENU_HIDE });
+        // setTimeout(() => {
+        //     put.resolve({ type: 'setMenu', payload: MENU_HIDE })
+        // }, timeout);
     },
     *modal_open({ payload: { type, option = 'a' } }, { call, put, select, take }) {
         yield put({ type: 'search_close' });
