@@ -148,7 +148,7 @@ function SettingMenu({
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Word Spacing:</h3>
         <Popup
-          label="Brightness"
+          label="Word Spacing"
           inverted
           wide
           basic
@@ -159,9 +159,9 @@ function SettingMenu({
           closeOnTriggerBlur
           trigger={
             <input
-              id="brightness-slider"
+              id="cc-spacing-slider"
               className="brightness-slider"
-              //aria-label={`Brightness Slider - Current Brightness: ${Math.floor( cc_spacing * 100)}`}
+              aria-label={`CC Spacing Slider - Current CC Spacing: ${Math.floor( cc_spacing * 100)}`}
               type="range"
               min={0.25}
               max={2}
