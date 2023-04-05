@@ -41,6 +41,9 @@ function SettingMenu({
     cc_position,
     cc_spacing,
   });
+  const handleSpacing = ({ target: { value } }) => {
+    dispatch({ type: 'playerpref/setPreference', payload: { cc_spacing:  value} })
+  };
 
   return (
     <div className="w-100">
@@ -142,9 +145,10 @@ function SettingMenu({
 
         </Grid>
       </div>
-      <div>
-      <Popup
-          label="Word Spacing"
+      <div className="w-100">
+        <h3 className="watch-menu-tab-subtitle">Word Spacing:</h3>
+        <Popup
+          label="Brightness"
           inverted
           wide
           basic
@@ -157,15 +161,15 @@ function SettingMenu({
             <input
               id="brightness-slider"
               className="brightness-slider"
-              // aria-label={`Wi Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
+              //aria-label={`Brightness Slider - Current Brightness: ${Math.floor( cc_spacing * 100)}`}
               type="range"
               min={0.25}
               max={2}
               step={0.05}
               value={cc_spacing}
-              onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_spacing: value } })}
+              onChange={handleSpacing}
             />
-        }
+          }
         />
       </div>
     </div>
