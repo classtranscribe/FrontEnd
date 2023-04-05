@@ -7,6 +7,7 @@ import {
     CC_SIZE_75,
     CC_FONT_SANS_SERIF,
     CC_OPACITY_75,
+    CC_SPACING_DEFAULT,
     CC_POSITION_BOTTOM,
     SCREEN_OPACITY_100,
     SCREEN_CONTRAST_100,
@@ -64,6 +65,7 @@ const PlayerModel = {
         cc_font: CC_FONT_SANS_SERIF,
         cc_position: CC_POSITION_BOTTOM,
         cc_opacity: CC_OPACITY_75,
+        cc_spacing: CC_SPACING_DEFAULT,
 
 
         transView: isMobile ? TRANSCRIPT_VIEW : LINE_VIEW,
