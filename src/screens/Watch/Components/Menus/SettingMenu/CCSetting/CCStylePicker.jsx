@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Form, Grid } from 'semantic-ui-react';
+import { Select, Form, Grid, Popup } from 'semantic-ui-react';
 import { connect } from 'dva'
 import {
   CC_COLOR_WHITE,
@@ -8,6 +8,7 @@ import {
   CC_POSITION_BOTTOM,
   CC_FONT_SANS_SERIF,
   CC_SIZE_100,
+  CC_SPACING_DEFAULT,
   cc_colorOptions,
   cc_opacityOptions,
   // cc_positionOptions,
@@ -16,6 +17,8 @@ import {
   getCCStyle,
   getCCSelectOptions,
 } from '../../../../Utils';
+  
+import './slider.scss';
 
 const CC_EXAMPLE = 'This is an example of closed caption';
 
@@ -26,6 +29,7 @@ function SettingMenu({
   cc_opacity = CC_OPACITY_100,
   cc_font = CC_FONT_SANS_SERIF,
   cc_position = CC_POSITION_BOTTOM,
+  cc_spacing = CC_SPACING_DEFAULT,
   dispatch
 }) {
   const { ccStyle } = getCCStyle({
@@ -35,6 +39,7 @@ function SettingMenu({
     cc_opacity,
     cc_font,
     cc_position,
+    cc_spacing,
   });
 
   return (
@@ -137,10 +142,36 @@ function SettingMenu({
 
         </Grid>
       </div>
+      <div>
+      <Popup
+          label="Word Spacing"
+          inverted
+          wide
+          basic
+          position="top center"
+          offset="5, 5%"
+          openOnTriggerClick={false}
+          openOnTriggerFocus
+          closeOnTriggerBlur
+          trigger={
+            <input
+              id="brightness-slider"
+              className="brightness-slider"
+              // aria-label={`Wi Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
+              type="range"
+              min={0.25}
+              max={2}
+              step={0.05}
+              value={cc_spacing}
+              onChange={(event, { value }) => dispatch({ type: 'playerpref/setPreference', payload: { cc_spacing: value } })}
+            />
+        }
+        />
+      </div>
     </div>
   );
 }
 
-export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, }, loading }) => ({
-  cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position,
+export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing}, loading }) => ({
+  cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing
 }))(SettingMenu);

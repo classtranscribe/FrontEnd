@@ -223,6 +223,8 @@ export const cc_opacityOptions = [
   CC_OPACITY_75,
   CC_OPACITY_100,
 ];
+//spacing
+export const CC_SPACING_DEFAULT = '0.25'
 
 export const SCREEN_OPACITY_100 = 1;
 export const SCREEN_CONTRAST_100 = 1;
