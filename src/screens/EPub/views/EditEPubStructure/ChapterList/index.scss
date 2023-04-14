@@ -32,8 +32,10 @@
     }
 
     .item-time-con {
+      padding-top: 10px;
       position: absolute;
-      right: calc(100% + 10px);
+      left: 27%;
+      //right: calc(100% + 10px);
       top: 10px;
       pointer-events: none;
       display: flex;
@@ -55,8 +57,14 @@
       height: max-content;
 
       img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
         position: relative;
-        width: 150px;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 220px;
         object-fit: contain;
         cursor: zoom-in;
       }
@@ -66,6 +74,7 @@
       position: relative;
       white-space: pre-wrap;
       padding-left: 10px;
+      padding-top: 10px;
       font-size: 14px;
       line-height: 23px;
       // height: 92px;
