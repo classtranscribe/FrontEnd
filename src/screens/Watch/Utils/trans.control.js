@@ -48,12 +48,12 @@ export const transControl = {
   currDescription_: {},
   prevDescription_: null,
 
-  findDescription(now) {
-    // NOT IMPLEMENTED
-    const next = this.findCurrent(this.descriptions_, null, now);
-    this.prevDescription_ = next;
-    return next;
-  },
+  //  findDescription(now) {
+  //  // NOT IMPLEMENTED
+  //  const next = this.findCurrent(this.descriptions_, null, now);
+  //  this.prevDescription_ = next;
+  //  return next;
+  //  },
   /**
    * Function called for setting current description
    */

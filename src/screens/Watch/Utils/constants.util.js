@@ -63,7 +63,7 @@ export const CTP_ERROR = 'ctp-error';
  * Menu types
  */
 export const MENU_HIDE = 'menu-hide';
-export const MENU_BEFORE_HIDE = 'menu-before-hide';
+// export const MENU_BEFORE_HIDE = 'menu-before-hide';
 export const MENU_PLAYLISTS = 'menu-playlists';
 export const MENU_PLAYBACKRATE = 'menu-playbackrate';
 export const MENU_SETTING = 'menu-setting';
@@ -223,9 +223,26 @@ export const cc_opacityOptions = [
   CC_OPACITY_75,
   CC_OPACITY_100,
 ];
+// spacing
+export const CC_SPACING_DEFAULT = '0.25'
 
 export const SCREEN_OPACITY_100 = 1;
 export const SCREEN_CONTRAST_100 = 1;
+export const INVERT_0 = 0;
+export const ROTATE_COLOR_0 = 0;
+
+export const SCREEN_ZOOM_50 = 0.50;
+export const SCREEN_ZOOM_100 = 1;
+export const SCREEN_ZOOM_150 = 1.5;
+export const SCREEN_ZOOM_200 = 2;
+export const SCREEN_ZOOM_300 = 3;
+export const screen_zoomOptions = [
+  SCREEN_ZOOM_50,
+  SCREEN_ZOOM_100,
+  SCREEN_ZOOM_150,
+  SCREEN_ZOOM_200,
+  SCREEN_ZOOM_300,
+];
 
 
 

@@ -39,8 +39,25 @@ function EPubChapterItem({
   const isFolded = foldedIds.includes(chapter.id);
 
   const chClasses = cx('ct-epb', 'sch', 'ch-item', 'ct-d-c', { fold: isFolded });
+  // const new_items = [];
+  // for(let i = 1; i < chapter.items.length; i++) {
+  //   if((chapter.items)[i].text.length < 100) {
+  //     (chapter.items)[i-1].text = ((chapter.items)[i-1].text)+" "+((chapter.items)[i].text); //append with a space
+  //   }
+  // }
+  // for(let i = 0; i < chapter.items.length; i++) {
+  //   if((chapter.items)[i].text.length >= 100 || i == 0) {
+  //     new_items.push((chapter.items)[i]);
+  //     console.log("added chapter");
+  //   }
+  // }
+  // chapter.items = new_items;
+  // if(chapter.items.length > 0 && (chapter.items)[0].text < 30) { //make sure first has a length larger than 0
+  //   (chapter.items)[1].text = ((chapter.items)[0].text)+" "+((chapter.items)[1].text); //text from elem 0 goes before elem 1
 
+  // }
   const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3);
+
 
   // Automatically update the untitled chapter names to correlate with the chapter index
   useEffect(() => {
