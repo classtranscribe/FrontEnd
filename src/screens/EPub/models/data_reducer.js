@@ -306,8 +306,15 @@ export default {
     splitChaptersByScreenshots(state) {
         console.log(`Splitting chapters by screenshots`);
         const new_items = [];
+        const N = 30;
         (state.items).forEach(function(elem) {
-            if((elem.text).length < 100 && new_items.length!==0 ) { 
+            let words = 1;
+            for (let i = 0; i < (elem.text).length; i+=1) {
+                if((elem.text).charAt(i)===' ') {
+                    words+=1;
+                }
+            }
+            if(words < N && new_items.length!==0 ) { 
                 const oldelem = new_items.pop();
                 oldelem.text +=" ";
                 oldelem.text +=(elem.text);
@@ -317,7 +324,22 @@ export default {
                 new_items.push(elem);
              }
            });
-        
+        const first_elem = new_items.shift();
+        let words = 1;
+        for (let i = 0; i < (first_elem.text).length; i+=1) {
+            if((first_elem.text).charAt(i)===' ') {
+                words+=1;
+            }
+        }
+        if(words < N) {
+            let elem_next_text = "";
+            if(new_items.length !== 0) {
+                elem_next_text += " ";
+                elem_next_text += new_items.shift().text;
+            } 
+            first_elem.text += elem_next_text;
+            new_items.unshift(first_elem);
+        }
         let splitChapters = _.map(
             new_items,
             (data, idx) =>
