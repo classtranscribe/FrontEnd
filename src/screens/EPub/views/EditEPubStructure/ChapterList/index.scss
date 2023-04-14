@@ -32,8 +32,10 @@
     }
 
     .item-time-con {
+      padding-top: 10px;
       position: absolute;
-      right: calc(100% + 10px);
+      left: 27%;
+      //right: calc(100% + 10px);
       top: 10px;
       pointer-events: none;
       display: flex;
@@ -55,10 +57,14 @@
       height: max-content;
 
       img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
         position: relative;
         padding-left: 10px;
         padding-top: 10px;
-        width: 200px;
+        padding-bottom: 10px;
+        width: 220px;
         object-fit: contain;
         cursor: zoom-in;
       }
