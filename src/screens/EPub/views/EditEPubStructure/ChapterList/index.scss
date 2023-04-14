@@ -56,7 +56,9 @@
 
       img {
         position: relative;
-        width: 150px;
+        padding-left: 10px;
+        padding-top: 10px;
+        width: 200px;
         object-fit: contain;
         cursor: zoom-in;
       }
@@ -66,6 +68,7 @@
       position: relative;
       white-space: pre-wrap;
       padding-left: 10px;
+      padding-top: 10px;
       font-size: 14px;
       line-height: 23px;
       // height: 92px;

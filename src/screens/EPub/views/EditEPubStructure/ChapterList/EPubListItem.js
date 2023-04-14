@@ -117,15 +117,16 @@ function EPubListItem({
 
           <div className="item-img-con">
             <Image src={imgSrc} alt="screenshot" />
+
+            {/* text below must be modified to make sure text length is greater than a certain amount */}
+            <CTText line={4} className="item-text">
+              {
+                item.text
+                ||
+                <span className="text-muted"><i>No Transcriptions</i></span>
+              }
+            </CTText>
           </div>
-          {/* text below must be modified to make sure text length is greater than a certain amount */}
-          <CTText line={4} className="item-text">
-            {
-              item.text
-              ||
-              <span className="text-muted"><i>No Transcriptions</i></span>
-            }
-          </CTText>
         </div>
       </div>
     );
