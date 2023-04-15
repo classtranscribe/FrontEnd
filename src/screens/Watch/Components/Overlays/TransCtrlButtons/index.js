@@ -90,6 +90,16 @@ function TransCtrlButtonsWithRedux({
     isMobile
       ? null
       : {
+        id: 'trans-switch-btn',
+        name: 'Switch Transcription View',
+        icon: <i className="material-icons">cached</i>, // settings
+        click: openTransSettingMenu,
+        ariaTags: {
+          'aria-controls': 'watch-setting-menu',
+          'aria-haspopup': 'true',
+        },
+      },
+      {
         id: 'trans-setting-btn',
         name: 'Transcription Settings',
         icon: <i className="fas fa-cogs" />, // settings

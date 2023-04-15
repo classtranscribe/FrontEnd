@@ -46,7 +46,11 @@
     font-size: 1.2em;
   }
 }
+
 .trans-ctrl-btn[id=trans-bulk-edit-btn] {
+  bottom: 18em;
+}
+.trans-ctrl-btn[id=trans-switch-btn] {
   bottom: 18em;
 }
 .trans-ctrl-btn[id=trans-setting-btn] {
