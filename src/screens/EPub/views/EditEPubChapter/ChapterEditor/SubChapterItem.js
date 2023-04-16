@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CTFragment, CTText } from 'layout';
 import { epub } from '../../../controllers';
 import { ChapterTitle } from '../../../components';
@@ -77,8 +77,8 @@ function SubChapterItem({
           onImageChange={onImageChange(index)}
         />
       ))}
-
-      <ChapterNewContent index={subChapter.contents.length} />
+      
+      <ChapterNewContent index={subChapter.contents.length} onInsert={onInsert(contents.length)} />
     </CTFragment>
   );
 }
