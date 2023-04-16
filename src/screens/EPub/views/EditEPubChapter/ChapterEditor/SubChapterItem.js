@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CTFragment, CTText } from 'layout';
 import { epub } from '../../../controllers';
 import { ChapterTitle } from '../../../components';
