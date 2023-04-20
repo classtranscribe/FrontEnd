@@ -305,8 +305,21 @@ export default {
     },
     splitChaptersByScreenshots(state) {
         console.log(`Splitting chapters by screenshots`);
+        const new_items = [];
+        (state.items).forEach(function(elem) {
+            if((elem.text).length < 100 && new_items.length!==0 ) { 
+                const oldelem = new_items.pop();
+                oldelem.text +=" ";
+                oldelem.text +=(elem.text);
+                new_items.push(oldelem);
+            }
+            else {
+                new_items.push(elem);
+             }
+           });
+        
         let splitChapters = _.map(
-            state.items,
+            new_items,
             (data, idx) =>
                 new EPubChapterData({
                     items: [data],
@@ -381,18 +394,15 @@ __feed(mesg = 'Saved.') {
  subdivideChaptersByScreenshots() {
    let newChapters = _.map(this.data.chapters, (chapter) => {
      let items = chapter.allItemsWithIn;
-
      chapter.subChapters = _.map(items, (item, subChapterIndex) =>
        new EPubSubChapterData({
          items: [item],
          title: `Untitled Sub-Chapter ${subChapterIndex + 1}`,
        }),
      );
-
      chapter.items = [];
      return new EPubChapterData(chapter);
    });
-
    this.data.chapters = newChapters;
    // this.updateAll('Subdivided all the chapters by screenshots', 0);
    prompt.addOne({
@@ -412,7 +422,6 @@ updateAll(actionName, currChIndex) {
      (typeof currChIndex === 'number' ? currChIndex : epubState.currChIndex)
    );
  }
-
  import EPubHistoryManager from './EPubHistoryManager';
 setChapters(chapters) {
  // this.history = new EPubHistoryManager(this);

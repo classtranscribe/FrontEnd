@@ -8,6 +8,7 @@ import {
   CC_SIZE_100,
   CC_OPACITY_100,
   CC_FONT_SANS_SERIF,
+  CC_SPACING_DEFAULT,
   CC_POSITION_TOP,
   getCCStyle
 } from '../../../Utils';
@@ -23,6 +24,7 @@ function AudioDescriptionWithRedux({
   cc_opacity = CC_OPACITY_100,
   cc_font = CC_FONT_SANS_SERIF,
   cc_position = CC_POSITION_TOP,
+  cc_spacing = CC_SPACING_DEFAULT,
 }) {
   const isOpen = isPrimary && openAD;
   //  const { text } = isOpen ? transControl.findDescription(time) || {} : {};
@@ -36,6 +38,7 @@ function AudioDescriptionWithRedux({
     cc_opacity,
     cc_font,
     cc_position,
+    cc_spacing,
   });
 
   // return shouldDisplayAD ? (
