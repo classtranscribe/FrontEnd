@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTHeading, CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
@@ -16,8 +18,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const endTimeStr = timestr.toPrettierTimeString(end);
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   const showSplitAllBtn = chapters.length !== items.length;
-  // const showSubdivideAllBtn = true;
-
+  
   const watchInPlayer = () => {
     dispatch({
       type: 'epub/openPlayer', payload: {
@@ -28,6 +29,15 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
 
   const onEditChapters = () => {
     dispatch({ type: 'epub/setView', payload: epubOld.const.EpbEditChapter });
+  };
+
+  const [wordInput, setWordInput] = useState("10");
+
+  const handleOnSubmit = (event) => {
+    dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}});
+  };
+  const handleOnChange = (event) => {
+    setWordInput(event.target.value);
   };
 
   return (
@@ -70,7 +80,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
           &&
           <Button
             className={btnClasses}
-            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots'})}
+            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: 30}})}
           >
             Split Chapters by Screenshots
           </Button>
@@ -83,7 +93,27 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
           </Button>
         } */}
       </ButtonGroup>
+      <CTFragment dFlexCol>
+        <form onSubmit={handleOnSubmit}> 
+          <TextField
+            fullWidth
+            variant='standard'
+            size='small'
+            value={wordInput}
+            onChange={handleOnChange}
+            sx={{
+              backgroundColor: "#F0F0F0",
+              border: "1px solid black",
+              borderRadius: "5px",
+              padding: "10px",
+              margin: "10rem 1rem"
+            }}
+            placeholder="Enter Min Word Count. Default: 10"
+          />  
+        </form>
+      </CTFragment>
     </CTFragment>
+    
   );
 }
 

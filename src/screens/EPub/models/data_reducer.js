@@ -303,10 +303,10 @@ export default {
         chapters[chapterIdx].title = value;
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    splitChaptersByScreenshots(state) {
+    splitChaptersByScreenshots(state, {payload: {wc}}) {
         console.log(`Splitting chapters by screenshots`);
         const new_items = [];
-        const N = 30;
+        const N = wc;
         (state.items).forEach(function(elem) {
             let words = 1;
             for (let i = 0; i < (elem.text).length; i+=1) {
