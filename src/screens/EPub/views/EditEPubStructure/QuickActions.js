@@ -34,6 +34,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const [wordInput, setWordInput] = useState("10");
 
   const handleOnSubmit = (event) => {
+    event.preventDefault();
     dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}});
   };
   const handleOnChange = (event) => {
