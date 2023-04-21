@@ -25,13 +25,13 @@ export function ScreenModeSettingButtonWithRedux({ isFullscreen = false, mode = 
       active={menu === MENU_SCREEN_MODE}
       label={
         <>
-          Screen Mode: <strong>{currMode.name}</strong> (SHIFT+S)
+          Screen Mode: <strong>{currMode.name}</strong> (SHIFT+M)
         </>
       }
       id={MENU_SCREEN_MODE}
       ariaTags={{
         'aria-label': 'Screen Mode Menu',
-        // 'aria-keyshortcuts': 'SHIFT+S',
+        // 'aria-keyshortcuts': 'SHIFT+M',
         'aria-controls': 'watch-screen-mode-menu',
         'aria-expanded': menu === MENU_SCREEN_MODE ? 'false' : 'true',
       }}
