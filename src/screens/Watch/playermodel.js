@@ -7,9 +7,13 @@ import {
     CC_SIZE_75,
     CC_FONT_SANS_SERIF,
     CC_OPACITY_75,
+    CC_SPACING_DEFAULT,
     CC_POSITION_BOTTOM,
     SCREEN_OPACITY_100,
     SCREEN_CONTRAST_100,
+    SCREEN_ZOOM_100,
+    ROTATE_COLOR_0,
+    INVERT_0,
 
     scrollTransToView
 } from './Utils';
@@ -61,6 +65,7 @@ const PlayerModel = {
         cc_font: CC_FONT_SANS_SERIF,
         cc_position: CC_POSITION_BOTTOM,
         cc_opacity: CC_OPACITY_75,
+        cc_spacing: CC_SPACING_DEFAULT,
 
 
         transView: isMobile ? TRANSCRIPT_VIEW : LINE_VIEW,
@@ -71,6 +76,12 @@ const PlayerModel = {
         autoPlay: !isMobile,
         brightness: SCREEN_OPACITY_100,
         contrast: SCREEN_CONTRAST_100,
+        rotateColor: ROTATE_COLOR_0,
+        invert: INVERT_0,
+        scale: SCREEN_ZOOM_100,
+        magnifyX: 0,
+        magnifyY: 0,
+
 
         pauseWhileAD: false,
         autoScroll: true,
@@ -131,6 +142,16 @@ const PlayerModel = {
                 return;
             }
             yield put({ type: 'setPreference', payload: { playbackrate: target } });
+        },
+        *changeXTranslateByValue({ payload: delta }, { call, put, select, take }) {
+            const { playerpref: state } = yield select();
+            const target = state.magnifyX + delta;
+            yield put({ type: 'setPreference', payload: { magnifyX: target } });
+        },
+        *changeYTranslateByValue({ payload: delta }, { call, put, select, take }) {
+            const { playerpref: state } = yield select();
+            const target = state.magnifyY + delta;
+            yield put({ type: 'setPreference', payload: { magnifyY: target } });
         },
         *changeCCSizeByValue({ payload: delta }, { call, put, select, take }) {
             const { playerpref: state } = yield select();

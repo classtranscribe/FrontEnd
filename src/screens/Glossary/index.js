@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { CTLayout } from 'layout';
 import { connect } from 'dva';
-import axios from 'axios';
+import { cthttp } from 'utils/cthttp/request.js';
 import GlossaryTable from './components/GlossaryTable/index.js';
 import GlossaryBar from './components/GlossaryBar/index.js';
+
 
 
 // the config header will avoid cors blocked by the chrome
@@ -27,15 +28,12 @@ const GolssaryWithRedux = (props) => {
     const [selectCourse, setSelectCourse] = useState('');
     const [selectOffering, setSelectOffering] = useState('');
     const [data, setData] = useState([]);
-    const apiInstance = axios.create({
-        baseURL: 'https://ct-dev.ncsa.illinois.edu',
-        timeout: 1000,
-    });
 
     // function used to fetch glossaries from server when user has chose courseId and offeringId
     useEffect(() => {
         const fetchData = async () => {
-            const res = await apiInstance.get(`/api/Glossary/ByCourseOffering?courseId=${selectCourse}&offeringId=${selectOffering}`, config);
+            // const res = await apiInstance.get(`/api/Glossary/ByCourseOffering?courseId=${selectCourse}&offeringId=${selectOffering}`, config);
+            const res = await cthttp.get(`Glossary/ByCourseOffering?courseId=${selectCourse}&offeringId=${selectOffering}`, config);
             setData(res.data);
         }
         if (selectCourse !== '' && selectOffering !== '') {
@@ -52,7 +50,7 @@ const GolssaryWithRedux = (props) => {
           setSelectOffering={setSelectOffering}
         />
         <br />
-        <GlossaryTable words={data} />
+        <GlossaryTable words={data} offeringId={selectOffering} courseId={selectCourse} />
       </CTLayout>
     )
 }

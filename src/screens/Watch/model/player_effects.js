@@ -39,7 +39,7 @@ function handleRestoreTime(watch) {
 }
 function enterFullScreen(watch) {
     try {
-        let elem = document.getElementsByTagName('video')[0] || {};
+        let elem = document.getElementById('ct-video-con-div') || {};
         if (isMobile) {
             elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
         }
