@@ -15,12 +15,6 @@ import {
     CTP_ERROR,
     HIDE_TRANS,
 } from '../../Utils/constants.util';
-import {
-    getVideoStyle
-} from '../../Utils';
-import {
-    ClassTranscribePlayer
-} from '../CTPlayer'
 
 const Video = React.memo((props) => {
 
