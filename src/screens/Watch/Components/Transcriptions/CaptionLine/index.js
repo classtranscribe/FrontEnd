@@ -7,6 +7,7 @@ import {
   timeStrToSec,
   prettierTimeStr,
   WEBVTT_DESCRIPTIONS,
+  WEBVTT_IMAGE,
 } from '../../../Utils';
 import './index.scss';
 
@@ -101,20 +102,63 @@ function CaptionLine({ isCurrent = false, isEditing = false,
             <br />
             <span className="description-line-text-title">(Description)</span>
           </div>
-        ) : (
-          <div
-            ref={ref}
-            contentEditable={!isMobile}
-            id={`caption-line-textarea-${id}`}
-            className={`caption-line-text-${fontSize}`}
-            dangerouslySetInnerHTML={{ __html: text }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onInput={handleChange}
-            onKeyDown={handleKeyDown}
-            spellCheck={false}
-          />
-        )}
+        ) : 
+        
+        kind === WEBVTT_IMAGE ? (
+          <div className="description-line-text">
+          {text}
+          <br />
+          <span className="description-line-text-title">(Description)</span>
+        // </div>
+        //   <div>
+        //     <div
+        //       ref={ref}
+        //       contentEditable={!isMobile}
+        //       id={`caption-line-textarea-${id}`}
+        //       className={`caption-line-text-${fontSize}`}
+        //       dangerouslySetInnerHTML={{ __html: text }}
+        //       onFocus={handleFocus}
+        //       onBlur={handleBlur}
+        //       onInput={handleChange}
+        //       onKeyDown={handleKeyDown}
+        //       spellCheck={false}
+        //     />
+        //     <div
+        //     ref={ref}
+        //     contentEditable={!isMobile}
+        //     id={`caption-line-textarea-${id}`}
+        //     className={`caption-line-text-${fontSize}`}
+        //     dangerouslySetInnerHTML={{ __html: text }}
+        //     onFocus={handleFocus}
+        //     onBlur={handleBlur}
+        //     onInput={handleChange}
+        //     onKeyDown={handleKeyDown}
+        //     spellCheck={false}
+        //   />
+          
+        // </div>
+
+        ) :
+        (
+          // <div
+          //   ref={ref}
+          //   contentEditable={!isMobile}
+          //   id={`caption-line-textarea-${id}`}
+          //   className={`caption-line-text-${fontSize}`}
+          //   dangerouslySetInnerHTML={{ __html: text }}
+          //   onFocus={handleFocus}
+          //   onBlur={handleBlur}
+          //   onInput={handleChange}
+          //   onKeyDown={handleKeyDown}
+          //   spellCheck={false}
+          // />
+          <div className="description-line-text">
+          {text}
+          <br />
+          <span className="description-line-text-title">({kind})</span>
+        </div>
+        )
+        }
       </div>
 
       {/* Action Buttons */}

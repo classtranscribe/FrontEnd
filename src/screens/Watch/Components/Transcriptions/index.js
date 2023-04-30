@@ -8,7 +8,12 @@ import {
   SEARCH_HIDE,
   TRANSCRIPT_VIEW,
   LINE_VIEW,
+  TRANSCRIPT_VIEW_IMG,
+  LINE_VIEW_IMG,
   ARRAY_EMPTY,
+  WEBVTT_IMAGE,
+  WEBVTT_DESCRIPTIONS,
+  
 } from '../../Utils';
 
 // modification for BOT live stream
@@ -101,6 +106,37 @@ function TranscriptionsWithRedux(props) {
               />
             ))}
           </div>
+          
+        ) : transView === TRANSCRIPT_VIEW_IMG ? ( //work to show image captions DOES NOT WORK 
+          <div className="trans-article">
+            {transcript.map((caption, index) => (
+              <TranscriptText
+                key={index}
+                caption={caption}
+                isCurrent={isCurrent(index)}
+                dispatch={dispatch}
+              />
+            ))}
+          </div>
+        ) : transView === LINE_VIEW_IMG ? (
+          <div className="trans-list" style={{zIndex: 10}}>
+            {transcript.map((caption, index) => {
+              return <CaptionLine
+                kind = {  "descriptions" }
+                key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
+                caption={caption}
+                fontSize={fontSize}
+                currCaption={currCaption}
+                isCurrent={liveMode ? isCurrent(caption.text + String(caption.startTime)) : isCurrent(caption.id)}
+                dispatch={dispatch}
+                isEditing={Boolean(currEditing) && currEditing.id === caption.id}
+              />
+
+            })}
+
+           </div>
+
+
         ) : null}
         {/* @TODO Add prompt 'Only 50 lines after current caption are displayed' */}
       </div>

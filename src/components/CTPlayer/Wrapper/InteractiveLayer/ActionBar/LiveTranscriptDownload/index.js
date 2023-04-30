@@ -128,7 +128,7 @@ function LiveTranscriptDownloadWithRedux(props) {
         /> */}
       </div>
     );
-}
+} //todo: jill
 
 const LiveTranscriptDownload = connect(({watch: {transcript, menu}}) => ({
     transcript, menu

@@ -107,6 +107,8 @@ export const langMap = {
  */
 export const WEBVTT_SUBTITLES = 'subtitles';
 export const WEBVTT_DESCRIPTIONS = 'descriptions';
+export const WEBVTT_IMAGE = 'image descriptions';
+
 export const WEBVTT_CHAPTERS = 'chapters';
 
 /**
@@ -115,6 +117,8 @@ export const WEBVTT_CHAPTERS = 'chapters';
 export const LINE_VIEW = 'Caption Line View';
 export const TRANSCRIPT_VIEW = 'Transcript View';
 export const HIDE_TRANS = 'Hide Transcription';
+export const LINE_VIEW_IMG = 'Caption Line View with Image Descriptions';
+export const TRANSCRIPT_VIEW_IMG = 'Transcript View with Image Descriptions';
 
 /**
  * Search

@@ -10,6 +10,8 @@ import {
   transControl,
   LINE_VIEW,
   TRANSCRIPT_VIEW,
+  LINE_VIEW_IMG,
+  TRANSCRIPT_VIEW_IMG,
   MENU_SETTING,
   SMTAB_TRANS,
   HIDE_TRANS,
@@ -41,7 +43,26 @@ function TransCtrlButtonsWithRedux({
       dispatch({ type: 'playerpref/setTransView', payload: { view: toSet } });
     }
   };
-
+  const switchImageView = () => {
+    const view = transView;
+    let toSet = null;
+    if (view === HIDE_TRANS || view === TRANSCRIPT_VIEW || view === LINE_VIEW) {
+      if (isMobile) {
+        toSet = TRANSCRIPT_VIEW_IMG;
+      } else {
+        toSet = LINE_VIEW_IMG;
+      }
+    } else if (view === TRANSCRIPT_VIEW_IMG || view === LINE_VIEW_IMG) {
+      if (isMobile) {
+        toSet = TRANSCRIPT_VIEW;
+      } else {
+        toSet = LINE_VIEW;
+      }
+    }
+    if (toSet) {
+      dispatch({ type: 'playerpref/setTransView', payload: { view: toSet } });
+    }
+  }
   const handleSearch = () => {
     dispatch({ type: 'watch/search_open' });
   };
@@ -93,7 +114,7 @@ function TransCtrlButtonsWithRedux({
         id: 'trans-switch-btn',
         name: 'Switch Transcription View',
         icon: <i className="material-icons">cached</i>, // settings
-        click: openTransSettingMenu,
+        click: switchImageView,
         ariaTags: {
           'aria-controls': 'watch-setting-menu',
           'aria-haspopup': 'true',
