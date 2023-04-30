@@ -87,7 +87,6 @@
          mode={mode}
          data-trans-view={transView}
          data-fullscreen={isFullscreen}
-        //  style={videoStyle}
        >
          {
            useHls ? <VideoHls
@@ -96,15 +95,6 @@
              {...media1Prop}
            />
          }
-         {/* <Video
-             id={1}
-             videoRef={videoRef1}
-             dispatch={dispatch}
-             path={srcPath1}
-             isSwitched={isSwitched}
-             embedded={embedded}
-             style={videoStyle}
-           /> */}
  
        </div>
        {isTwoScreen && (
@@ -114,7 +104,6 @@
            mode={mode}
            data-trans-view={transView}
            data-fullscreen={isFullscreen}
-          //  style={videoStyle}
 
          >
            <Video
