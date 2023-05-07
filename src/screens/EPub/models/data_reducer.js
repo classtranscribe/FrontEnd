@@ -306,16 +306,13 @@ export default {
     splitChaptersByScreenshots(state, {payload: {wc}}) {
         console.log(`Splitting chapters by screenshots`);
         const new_items = [];
-        const N = wc;
+        // min word count that each chapter should have
+        const min_word_count = wc;
         (state.items).forEach(function(elem) {
-            let words = 1;
-            for (let i = 0; i < (elem.text).length; i+=1) {
-                if((elem.text).charAt(i)===' ') {
-                    words+=1;
-                }
-            }
-            if(words < N && new_items.length!==0 ) { 
+            let words = (elem.text).split(' ').length;
+            if(words < min_word_count && new_items.length!==0 ) { 
                 const oldelem = new_items.pop();
+                // append shorter text to previous chapter
                 oldelem.text +=" ";
                 oldelem.text +=(elem.text);
                 new_items.push(oldelem);
@@ -324,21 +321,18 @@ export default {
                 new_items.push(elem);
              }
            });
+        // makes sure the first element also has a min of min_word_count words
         const first_elem = new_items.shift();
-        let words = 1;
-        for (let i = 0; i < (first_elem.text).length; i+=1) {
-            if((first_elem.text).charAt(i)===' ') {
-                words+=1;
-            }
-        }
-        if(words < N) {
-            let elem_next_text = "";
+        let words = (first_elem.text).split(' ').length;
+        if(words < min_word_count) {
             if(new_items.length !== 0) {
+                let elem_next_text = "";
+                // append first chapter's text to next chapter
                 elem_next_text += " ";
                 elem_next_text += new_items.shift().text;
+                first_elem.text += elem_next_text;
+                new_items.unshift(first_elem);
             } 
-            first_elem.text += elem_next_text;
-            new_items.unshift(first_elem);
         }
         let splitChapters = _.map(
             new_items,

@@ -30,7 +30,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const onEditChapters = () => {
     dispatch({ type: 'epub/setView', payload: epubOld.const.EpbEditChapter });
   };
-
+  // default state is min word count of 10 for split by screenshots
   const [wordInput, setWordInput] = useState("10");
 
   const handleOnSubmit = (event) => {
@@ -81,7 +81,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
           &&
           <Button
             className={btnClasses}
-            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: 30}})}
+            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}})}
           >
             Split Chapters by Screenshots
           </Button>
@@ -109,7 +109,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
               padding: "10px",
               margin: "10rem 1rem"
             }}
-            placeholder="Enter Min Word Count. Default: 10"
+            placeholder="Enter Min Word Count For Each Chapter"
           />  
         </form>
       </CTFragment>
