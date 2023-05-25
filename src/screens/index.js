@@ -4,7 +4,7 @@ export {
 } from './Authentication';
 
 export { Admin } from './Admin';
-
+export { Asl } from './Asl'
 export {
   MyCourses,
   NewCourse,
@@ -20,6 +20,7 @@ export { Course } from './Course';
 export { Search } from './Search';
 export { History } from './History';
 export { Analytics } from './Analytics';
+export { Glossary } from './Glossary';
 export { Watch } from './Watch';
 
 export { NotFound404 } from './NotFound404';

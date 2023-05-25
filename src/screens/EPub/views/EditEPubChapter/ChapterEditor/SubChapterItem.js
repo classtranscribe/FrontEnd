@@ -77,8 +77,8 @@ function SubChapterItem({
           onImageChange={onImageChange(index)}
         />
       ))}
-
-      <ChapterNewContent index={subChapter.contents.length} />
+      
+      <ChapterNewContent index={subChapter.contents.length} onInsert={onInsert(contents.length)} />
     </CTFragment>
   );
 }

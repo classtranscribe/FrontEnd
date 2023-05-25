@@ -3,7 +3,6 @@ import { createCTNavSidebarItemProps } from '../../CTNavSidebar/create-props';
 import { getAdminNavItem } from './admin-items';
 import { getComponentAPINavItem } from './component-api-items';
 
-
 export class DefaultSidebarItems {
   constructor() {
     this.create = createCTNavSidebarItemProps;
@@ -49,6 +48,28 @@ export class DefaultSidebarItems {
       icon: 'bar_chart',
       href: links.personalAnalytics(),
       active: uurl.isEqual(links.personalAnalytics()),
+      items: []
+    });
+  }
+
+  get glossary() {
+    return this.create({
+      value: 'ct-nsb-glossary',
+      text: 'Glossary',
+      icon: 'book',
+      href: links.glossary(),
+      active: uurl.isEqual(links.glossary()),
+      items: []
+    });
+  }
+
+  get asl() {
+    return this.create({
+      value: 'ct-nsb-asl',
+      text: 'ASL',
+      icon: 'sign_language',
+      href: links.asl(),
+      active: uurl.isEqual(links.asl()),
       items: []
     });
   }
@@ -149,6 +170,8 @@ export class DefaultSidebarItems {
 
     if (isInstructor) {
       items.push(this.myCourses);
+      items.push(this.glossary);
+      items.push(this.asl);
     }
 
     if (isAdmin) {

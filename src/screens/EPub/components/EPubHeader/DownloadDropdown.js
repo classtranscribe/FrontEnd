@@ -31,7 +31,7 @@ function DownloadDropdown() {
   const downloadOptions = [
     {
       value: 'I-Note',
-      text: 'I-Note file (.epub)',
+      text: 'Epub file (.epub)',
       icon: <i className="fas fa-file-alt" />
     },{
       value:'html',
@@ -43,7 +43,7 @@ function DownloadDropdown() {
       icon: <i className="fas fa-file-pdf" />
     },{
       value: 'img',
-      text: 'All the screenshots (.zip)',
+      text: 'Latex and screenshots (.tex)',
       icon: <i className="fas fa-file-image" />
     }
   ];

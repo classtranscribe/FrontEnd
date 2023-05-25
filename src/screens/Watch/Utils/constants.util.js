@@ -41,7 +41,9 @@ export const screenModes = [
   { type: NESTED_MODE, name: 'Nested View', icon: 'picture_in_picture' },
   // { type: THEATRE_MODE, name: 'Theatre View', icon: 'movie' },
 ];
-
+/**
+ * Screen Displays
+ */
 /**
  * Player types
  */
@@ -61,7 +63,7 @@ export const CTP_ERROR = 'ctp-error';
  * Menu types
  */
 export const MENU_HIDE = 'menu-hide';
-export const MENU_BEFORE_HIDE = 'menu-before-hide';
+// export const MENU_BEFORE_HIDE = 'menu-before-hide';
 export const MENU_PLAYLISTS = 'menu-playlists';
 export const MENU_PLAYBACKRATE = 'menu-playbackrate';
 export const MENU_SETTING = 'menu-setting';
@@ -74,6 +76,7 @@ export const SMTAB_GENERAL = 'tab-general';
 export const SMTAB_TRANS = 'tab-trans';
 export const SMTAB_CC = 'tab-cc';
 export const SMTAB_AD = 'tab-ad';
+export const SMTAB_DS = 'tab-ds';
 
 /**
  * Modals
@@ -171,12 +174,24 @@ export const CC_FONT_SANS_SERIF = 'sans-serif';
 export const CC_FONT_MONOSPACE = 'monospace';
 export const CC_FONT_CURSIVE = 'cursive';
 export const CC_FONT_FANTASY = 'fantasy';
+export const CC_FONT_COMIC_SANS = 'Comic Sans MS';
+export const CC_FONT_OPEN_SANS = 'Open Sans';
+export const CC_FONT_TAHOMA = 'Tahoma'
+export const CC_FONT_TIMES_NEW_ROMAN = 'Times New Roman'
+export const CC_FONT_CALIBRI = 'Calibri'
+export const CC_FONT_HELVETICA = 'Helvetica'
 export const cc_fontOptions = [
   CC_FONT_SERIF,
   CC_FONT_SANS_SERIF,
+  CC_FONT_TIMES_NEW_ROMAN,
+  CC_FONT_TAHOMA,
+  CC_FONT_CALIBRI,
+  CC_FONT_HELVETICA,
   CC_FONT_MONOSPACE,
   CC_FONT_CURSIVE,
   CC_FONT_FANTASY,
+  CC_FONT_COMIC_SANS,
+  CC_FONT_OPEN_SANS,
 ];
 export const cc_colorMap = {
   [CC_COLOR_RED]: 'rgba(255,0,0,*)',
@@ -208,6 +223,29 @@ export const cc_opacityOptions = [
   CC_OPACITY_75,
   CC_OPACITY_100,
 ];
+// spacing
+export const CC_SPACING_DEFAULT = '0.25'
+
+export const SCREEN_OPACITY_100 = 1;
+export const SCREEN_CONTRAST_100 = 1;
+export const INVERT_0 = 0;
+export const ROTATE_COLOR_0 = 0;
+
+export const SCREEN_ZOOM_50 = 0.50;
+export const SCREEN_ZOOM_100 = 1;
+export const SCREEN_ZOOM_150 = 1.5;
+export const SCREEN_ZOOM_200 = 2;
+export const SCREEN_ZOOM_300 = 3;
+export const screen_zoomOptions = [
+  SCREEN_ZOOM_50,
+  SCREEN_ZOOM_100,
+  SCREEN_ZOOM_150,
+  SCREEN_ZOOM_200,
+  SCREEN_ZOOM_300,
+];
+
+
+
 // position
 export const CC_POSITION_TOP = 'top';
 export const CC_POSITION_BOTTOM = 'bottom';

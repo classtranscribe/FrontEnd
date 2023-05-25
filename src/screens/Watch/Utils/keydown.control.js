@@ -36,6 +36,7 @@ export const keydownControl = {
   },
   isMenuOpen() {
     return this.menu && this.menu !== MENU_HIDE;
+    // return false;
   },
   handleKeyDown(e) {
     if (window.location.pathname !== '/video' && window.location.pathname !== '/liveplayer') {
@@ -87,6 +88,17 @@ export const keydownControl = {
         // Down Arrow
         case KeyCode.KEY_DOWN:
           return this.dispatch({ type: 'playerpref/changePlaybackrateByValue', payload: -0.25 });
+
+        case KeyCode.KEY_W:
+          return this.dispatch({ type: 'playerpref/changeYTranslateByValue', payload: 5 });
+          // Down Arrow
+        case KeyCode.KEY_S:
+          return this.dispatch({ type: 'playerpref/changeYTranslateByValue', payload: -5 });
+        case KeyCode.KEY_A:
+          return this.dispatch({ type: 'playerpref/changeXTranslateByValue', payload: 5 });
+          // Down Arrow
+        case KeyCode.KEY_D:
+          return this.dispatch({ type: 'playerpref/changeXTranslateByValue', payload: -5 });
         // Menu events
         default:
           return this.shortcutsForMenus(keyCode);
@@ -186,8 +198,8 @@ export const keydownControl = {
       // `⇧ Shift + C` : Open Closed Caption Setting Menu
       case KeyCode.KEY_C:
         return openMenu(MENU_SETTING);
-      // `⇧ Shift + D` : Open Download Menu
-      case KeyCode.KEY_D:
+      // `⇧ Shift + X` : Open Download Menu
+      case KeyCode.KEY_X:
         return openMenu(MENU_DOWNLOAD);
       // `⇧ Shift + L` : Open Language Menu
       case KeyCode.KEY_L:
@@ -198,8 +210,8 @@ export const keydownControl = {
       // `⇧ Shift + R` : Open Playback Rates Menu
       case KeyCode.KEY_R:
         return openMenu(MENU_PLAYBACKRATE);
-      // `⇧ Shift + S` : Open Screen Mode Menu
-      case KeyCode.KEY_S:
+      // `⇧ Shift + M` : Open Screen Mode Menu
+      case KeyCode.KEY_M:
         return openMenu(MENU_SCREEN_MODE);
       // Not a menu-related shortcut
       case KeyCode.KEY_BACK_SLASH:

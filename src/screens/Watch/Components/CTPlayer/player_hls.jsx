@@ -38,7 +38,7 @@ const Video = React.memo((props) => {
         videoRef,
         // openCC, 
         // updating,
-        captionSpeedUp = 0
+        captionSpeedUp = 0,
     } = props;
 
     const _videoRef = React.useRef();
@@ -161,6 +161,7 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
+
 
     useEffect(() => {
         function _initPlayer() {
@@ -409,7 +410,7 @@ const Video = React.memo((props) => {
 
     // hls.subtitleTracks
     return (
-        <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
+        <div className={embedded ? "ctp ct-video-con normal" : "ct-video-container"}>
             {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         } */}
