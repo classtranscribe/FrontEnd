@@ -3,13 +3,13 @@ import React from 'react';
 import { connectWithRedux, parseSec } from '../../../Utils';
 import './index.scss';
 
-var videoTimestamp = ''; // May 20 Jiaxi
+// var videoTimestamp = ''; // May 20 Jiaxi
 
 function TimeDisplay({ time = 0, duration = 0, liveMode = false }) {
   const displayedTime = parseSec(time);
   const displayedDuration = parseSec(duration);
 
-  videoTimestamp = displayedTime; // May 20 Jiaxi
+  // videoTimestamp = displayedTime; // May 20 Jiaxi
 
   return (
     <div className="watch-time-display">
@@ -30,4 +30,4 @@ export default connect(({ watch: { time, duration, liveMode } }) => ({
   time, duration, liveMode
 }))(TimeDisplay);
 
-export {videoTimestamp}; // May 20 Jiaxi
+// export {videoTimestamp}; // May 20 Jiaxi

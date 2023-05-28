@@ -1,0 +1,97 @@
+
+
+.video2 {
+  // overflow: scroll;
+  position: absolute;
+  // width: auto;
+  height: 300px;
+  width: 480px;
+  top:280px;
+  z-index: 10;
+  opacity: 0.6;
+  background-color :rgb(2, 50, 64);
+  font-size:small;
+  border-radius: 10px;
+  border: 1px solid #333;
+  padding: 5px;
+  // display: flex;
+  display: grid;
+  grid-template-columns: [c1] 60% [c2] 40% [c3];
+  // grid-template-rows: ;
+}
+
+.gloPanel {
+  display: grid;
+  position: relative;
+  grid-column-start: c2;
+  grid-column-end: c3;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-wrap: normal;
+}
+
+.detail-div {
+  // display: grid;
+  position: relative;
+  grid-column-start: c1;
+  grid-column-end: c2;
+}
+
+.divPanel {
+  color: white;
+  // overflow-y: auto;
+  // overflow-x:; 
+  // width: min-content;
+  display: grid;
+  position: relative;
+  grid-column-start: c1;
+  grid-column-end: c2;
+}
+
+.buttons {
+  position: absolute;
+  left: 50%;
+  z-index: 11;
+}
+
+.button {
+  background-color:rgb(1, 61, 43);
+  font-size: medium;
+  border-radius: 12px;
+}
+
+.glossary:hover {
+  /* background-color: white; */
+  color: black;
+}
+
+.glossary {
+  list-style: none;
+  color:white;
+  padding-bottom: 3px;
+}
+
+.glossary button {
+  background-color: rgb(2, 50, 64);
+}
+.nowrap {
+  word-wrap: break-word;
+}
+
+
+
+// .react-tabs__tab-panel {
+//   width: 100%;
+//   height: 100%;
+// }
+
+.react-tabs__tab-panel--selected {
+  // overflow-y: auto;
+  width: 280px;
+  height: 80%;
+}
+
+.video-player {
+  width: 90%;
+  height: 90%;
+}

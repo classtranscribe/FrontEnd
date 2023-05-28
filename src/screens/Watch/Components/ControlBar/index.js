@@ -46,7 +46,7 @@ export function ControlBarWithRedux(props) {
       </div>
       <div className="watch-ctrl-bar-right-elems">
         {/* May 20 Jiaxi */}
-        <GlossaryButton/>
+        <GlossaryButton />
 
         {isMobile && <NextVideoButton nextBtn={false} />}
         {isMobile && <NextVideoButton />}
