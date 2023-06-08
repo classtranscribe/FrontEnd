@@ -307,19 +307,28 @@ export default {
         console.log(`Splitting chapters by screenshots`);
         const new_items = [];
         // min word count that each chapter should have
-        const min_word_count = wc;
+        const default_word_count = 25;
+        let min_word_count = wc;
+        if (wc === "") { // if there was no input, set wc min wc to default  
+            min_word_count = default_word_count;
+        }
+        // find total word count in i-note and make sure user input is not larger than total wc 
+        const total_word_count = state.items.reduce((wordCount, a) => wordCount + a.text.split(' ').length, 0);
+        if (min_word_count > total_word_count) {
+            min_word_count = default_word_count;
+        }
+        // loop through chapters and enforce minimum wc  
         (state.items).forEach(function(elem) {
             let words = (elem.text).split(' ').length;
-            if(words < min_word_count && new_items.length!==0 ) { 
+            if (words < min_word_count && new_items.length!==0 ) { 
                 const oldelem = new_items.pop();
                 // append shorter text to previous chapter
-                oldelem.text +=" ";
-                oldelem.text +=(elem.text);
+                oldelem.text += " ";
+                oldelem.text += elem.text;
                 new_items.push(oldelem);
-            }
-            else {
+            } else {
                 new_items.push(elem);
-             }
+            }
            });
         // makes sure the first element also has a min of min_word_count words
         const first_elem = new_items.shift();

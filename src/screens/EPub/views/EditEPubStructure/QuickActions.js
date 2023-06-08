@@ -30,14 +30,14 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const onEditChapters = () => {
     dispatch({ type: 'epub/setView', payload: epubOld.const.EpbEditChapter });
   };
-  // default state is min word count of 10 for split by screenshots
-  const [wordInput, setWordInput] = useState("10");
 
+  // default state is min word count of 25 for split by screenshots
+  const [wordInput, setWordInput] = useState("25");
   const handleOnSubmit = (event) => {
     event.preventDefault();
     dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}});
   };
-  const handleOnChange = (event) => {
+  const handleOnWcChange = (event) => {
     setWordInput(event.target.value);
   };
 
@@ -101,7 +101,7 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
             variant='standard'
             size='small'
             value={wordInput}
-            onChange={handleOnChange}
+            onChange={handleOnWcChange}
             sx={{
               backgroundColor: "#F0F0F0",
               border: "1px solid black",
@@ -109,7 +109,8 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
               padding: "10px",
               margin: "10rem 1rem"
             }}
-            placeholder="Enter Min Word Count For Each Chapter"
+            defaultValue = "30"
+            helperText = "Enter Minimum Word Count For Each Chapter (Default = 25)"
           />  
         </form>
       </CTFragment>
