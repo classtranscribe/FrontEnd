@@ -17,7 +17,7 @@ export class CILogon {
       selected_idp: env.ciLogonSelectedIDP,
       initialidp: env.ciLogonDefaultIDP,
       redirect_uri: this.callback,
-      scope: 'openid profile email org.cilogon.userinfo edu.uiuc.ncsa.myproxy.getcert',
+      scope: 'openid profile email',
     });
 
     window.location = `https://cilogon.org/authorize${query}`;
