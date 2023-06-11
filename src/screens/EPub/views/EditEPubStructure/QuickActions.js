@@ -109,8 +109,8 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
               padding: "10px",
               margin: "10rem 1rem"
             }}
-            defaultValue = "30"
-            helperText = "Enter Minimum Word Count For Each Chapter (Default = 25)"
+            defaultValue='30'
+            helperText='Enter Minimum Word Count For Each Chapter (Default = 25)'
           />  
         </form>
       </CTFragment>
