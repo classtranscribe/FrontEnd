@@ -5,41 +5,60 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 function GlossaryPanel(props) {
   const { time, glossaries, setTerm } = props;
-  const [glossariesToDisplay, setGlossariesToDisplay] = useState([]);
+  const [glossariesToDisplay, setGlossariesToDisplay] = useState([[], []]);
   const [searchKeyword, setSearchKeyword] = useState('');
   // Used to update the index after selecting a mode(tab) from one of "A-Z" and "time".
   const [sortMethodIndex, selectSortMethodIndex] = useState(0);
   const SORT_MODE_AZ = 0;
   const SORT_MODE_TIME = 1;
 
-  // If current sort mode is A-Z, update display whenever searchkeyword changes.
+  // update todisplay of az whenever searchkeyword changes.
   useEffect(() => {
-    if (sortMethodIndex === SORT_MODE_AZ) {
-      let newGlossariesToDisplay = glossaries;
-      newGlossariesToDisplay.sort((a, b) => {
-        if (a.word < b.word) {
-          return -1;
-        }
-        if (a.word > b.word) {
-          return 1;
-        }
-        return 0;
-      });
-      newGlossariesToDisplay = newGlossariesToDisplay.filter(glossaryEntry => {
-        return glossaryEntry.word.toLowerCase().includes(searchKeyword.toLowerCase());
-      });
-      setGlossariesToDisplay(newGlossariesToDisplay);
-    }
-  }, [glossaries, searchKeyword, sortMethodIndex]);
+    let toDisplay = glossaries;
+    toDisplay.sort((a, b) => {
+      if (a.word < b.word) {
+        return -1;
+      }
+      if (a.word > b.word) {
+        return 1;
+      }
+      return 0;
+    });
+    // sort the words.
+    toDisplay = toDisplay.filter(glossaryEntry => {
+      return glossaryEntry.word.toLowerCase().includes(searchKeyword.toLowerCase());
+    });
+
+    // update the appropriate row in glossariestodisplay
+    setGlossariesToDisplay(glossariesToDisplay.map((list, index) => {
+      if (index === SORT_MODE_AZ) {
+        return toDisplay;
+      }
+      return list;
+    }));
+  }, [searchKeyword]);
 
   // If current sort mode is time, update display whenever time or searchkeyword changes.
   useEffect(() => {
-    if (sortMethodIndex === SORT_MODE_TIME) {
-      const curstamp = parseInt(time);
-      const newShow = glossaries.filter(glossaryEntry => glossaryEntry.begin <= curstamp && glossaryEntry.end >= curstamp);
-      setGlossariesToDisplay([...newShow]);
-    }
-  }, [time, sortMethodIndex]);
+    const curstamp = parseInt(time);
+    // if the time of the glossary includes current time, we 
+    // should make it highlighted.
+    const toDisplay = glossaries.map(glossaryEntry => {
+      if (glossaryEntry.begin <= curstamp && glossaryEntry.end >= curstamp) {
+        return {...glossaryEntry, highlight: true}
+      }
+      return {...glossaryEntry, highlight: false}
+    });
+    // sort the glossaries by start of timestamp.
+    toDisplay.sort((a, b) => a.begin - b.begin);
+
+    setGlossariesToDisplay(glossariesToDisplay.map((list, index) => {
+      if (index === SORT_MODE_TIME) {
+        return toDisplay;
+      }
+      return list;
+    }));
+  }, [time]);
 
 
 
@@ -71,7 +90,7 @@ function GlossaryPanel(props) {
         <TabPanel className='glossary-list-container'>
 
           <ul>
-            {glossariesToDisplay.map((element) => 
+            {glossariesToDisplay[SORT_MODE_AZ].map((element) => 
               <li className='glossary-entry'>
                 <button onClick={() => setTerm(element)}>
                   <span>
@@ -84,7 +103,17 @@ function GlossaryPanel(props) {
         </TabPanel>
         <TabPanel className='glossary-list-container'>
           <ul>
-            {glossariesToDisplay.map((element) => 
+            {glossariesToDisplay[SORT_MODE_TIME].map((element) =>
+              element.highlight 
+              ?
+                <li className='glossary-entry-highlighted'>
+                  <button onClick={() => setTerm(element)}>
+                    <span>
+                      {element.word}
+                    </span>
+                  </button>
+                </li>
+              :
               <li className='glossary-entry'>
                 <button onClick={() => setTerm(element)}>
                   <span>

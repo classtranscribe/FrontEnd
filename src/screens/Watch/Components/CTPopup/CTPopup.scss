@@ -74,6 +74,18 @@
 .glossary-entry button {
   background-color: rgb(2, 50, 64);
 }
+
+.glossary-entry-highlighted {
+  background-color: black;
+  list-style: none;
+  color:red;
+  padding-bottom: 3px;
+}
+
+.glossary-entry-highlighted button {
+  background-color: rgb(2, 50, 64);
+}
+
 .nowrap {
   word-wrap: break-word;
 }
