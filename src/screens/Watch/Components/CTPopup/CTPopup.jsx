@@ -7,6 +7,7 @@ import { cthttp } from 'utils/cthttp/request';
 import { connect } from 'dva';
 import Draggable from 'react-draggable';
 import './CTPopup.scss'
+import GlossaryPanel from './GlossaryPanel';
 
 
 const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
@@ -99,17 +100,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
       fetchData();
     }, []);
 
-    useEffect(() => {
-      //timestamp changes
-      // const curstamp = time;
-      const curstamp = parseInt(time);
-      
-      const newShow = glossaries.filter(word => word.begin <= curstamp && word.end >= curstamp);
-      // console.log(newShow);
-      // // console.log(glossaries.filter(e => e.begin >= 0));
-      setShow([...newShow]);
-      
-    }, [time]);
+
     
     useEffect(() => {
       async function fetchData(word) {
@@ -177,7 +168,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
         return str;
     }
     return (
-        <Draggable>
+        <Draggable cancel='.search-bar'>
           <div style={divStyle} className={'video1 video2'}>
               <div className='buttons'>
                   <ButtonGroup style={btngpStyle}>
@@ -253,21 +244,12 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
 
                 </Tabs>
 
-              
-              <div className='gloPanel'>
-                <ul>
-                  {show.map(element => 
-                      <li className='glossary'>
-                        <button onClick={() => setTerm(element)}>
-                          <span>
-                            {element.word}
-                          </span>
-                        </button>
-                      </li>
-                    )
-                  }
-                </ul>
-              </div>
+              <GlossaryPanel 
+                glossaries={glossaries} 
+                time={time} 
+                setTerm={setTerm}
+                />
+
           </div>
         </Draggable>
     )

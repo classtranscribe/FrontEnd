@@ -60,18 +60,18 @@
   border-radius: 12px;
 }
 
-.glossary:hover {
+.glossary-entry:hover {
   /* background-color: white; */
   color: black;
 }
 
-.glossary {
+.glossary-entry {
   list-style: none;
   color:white;
   padding-bottom: 3px;
 }
 
-.glossary button {
+.glossary-entry button {
   background-color: rgb(2, 50, 64);
 }
 .nowrap {
@@ -94,4 +94,9 @@
 .video-player {
   width: 90%;
   height: 90%;
+}
+
+.search-bar {
+  height: 30px;
+  color: black;
 }
