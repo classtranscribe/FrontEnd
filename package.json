@@ -40,8 +40,6 @@
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.54",
-    "@microsoft/applicationinsights-react-js": "^2.5.3",
-    "@microsoft/applicationinsights-web": "^2.5.3",
     "acorn": "^6.4.1",
     "adm-zip": "^0.4.16",
     "auth0-js": "^9.13.2",
