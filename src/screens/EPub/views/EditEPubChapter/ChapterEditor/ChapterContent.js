@@ -7,7 +7,36 @@ import Cancel from '@material-ui/icons/Cancel';
 import ChapterNewContent from './ChapterNewContent';
 import { ChapterImage, ChapterText } from '../../../components';
 
-function ChapterContent({
+let Tags = function({data, handleDelete}) {
+  const boxstyle = {
+    backgroundColor: '#D3D3D3', 
+    overflow: 'scroll',
+    padding: '0.25rem 0.25rem 0.25rem 0.5rem',
+    margin: '0.25rem 1rem 0.25rem 0',
+    display: 'flex',
+    borderRadius: '1rem',
+  };
+
+  const tagstyle = {
+    float: 'left',
+    margin: '0 0.25rem 0 0',
+    cursor: 'default',
+  }
+
+  return (
+    <Box style={boxstyle}>
+      <Typography style={tagstyle}>{data}</Typography>
+      <Cancel
+        style={tagstyle}
+        onClick={() => {
+          handleDelete(data);
+        }}
+      />
+    </Box>
+  );
+}
+
+const ChapterContent = function({
   id,
   key,
   content,
@@ -20,9 +49,7 @@ function ChapterContent({
   onInsert,
 }) {
   const isTextContent = typeof content === 'string';
-  const [tags, SetTags] = useState(() => {
-    return !condition ? [] : condition;
-  });
+  const [tags, SetTags] = useState(() => !condition ? [] : condition);
   const Ref = useRef();
   const handleOnSubmit = (e) => { 
     e.preventDefault();
@@ -34,19 +61,6 @@ function ChapterContent({
     });
     Ref.current.value = "";
   };
-  const boxstyle = {
-    backgroundColor: '#D3D3D3', 
-    overflow: 'scroll',
-    padding: '0.25rem 0.25rem 0.25rem 0.5rem',
-    margin: '0.25rem 1rem 0.25rem 0',
-    display: 'flex',
-    borderRadius: '1rem',
-  };
-  const tagstyle = {
-    float: 'left',
-    margin: '0 0.25rem 0 0',
-    cursor: 'default',
-  }
   const handleDelete = (value) => {
     const newtags = tags.filter((val) => val !== value);
     SetTags(newtags);
@@ -55,20 +69,6 @@ function ChapterContent({
         action: 'setChapterContent', payload: { contentIdx: index, value: newtags, type: 'condition' }
       }
     });
-  };
-
-  const Tags = ({data}) => {
-    return (
-      <Box style={boxstyle}>
-        <Typography style={tagstyle}>{data}</Typography>
-        <Cancel
-          style={tagstyle}
-          onClick={() => {
-            handleDelete(data);
-          }}
-        />
-      </Box>
-    );
   };
   
   return (
@@ -102,11 +102,9 @@ function ChapterContent({
           placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
         />  
         <CTFragment alignItCenter>
-          {tags.map((data, idx) => {
-            return (
-              <Tags data={data} handleDelete={handleDelete} key={idx} />
-            );
-          })}
+          {tags.map((data, idx) => (
+            <Tags data={data} handleDelete={handleDelete} key={idx} />
+            ))}
         </CTFragment>
             
           
