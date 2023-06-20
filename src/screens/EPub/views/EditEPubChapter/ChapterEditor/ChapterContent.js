@@ -7,7 +7,7 @@ import Cancel from '@material-ui/icons/Cancel';
 import ChapterNewContent from './ChapterNewContent';
 import { ChapterImage, ChapterText } from '../../../components';
 
-const Tags = ({data, handleDelete}) => {
+let Tags = function({data, handleDelete}) {
   const boxstyle = {
     backgroundColor: '#D3D3D3', 
     overflow: 'scroll',
@@ -34,9 +34,9 @@ const Tags = ({data, handleDelete}) => {
       />
     </Box>
   );
-};
+}
 
-function ChapterContent({
+const ChapterContent = function({
   id,
   key,
   content,
@@ -49,9 +49,7 @@ function ChapterContent({
   onInsert,
 }) {
   const isTextContent = typeof content === 'string';
-  const [tags, SetTags] = useState(() => {
-    return !condition ? [] : condition;
-  });
+  const [tags, SetTags] = useState(() => !condition ? [] : condition);
   const Ref = useRef();
   const handleOnSubmit = (e) => { 
     e.preventDefault();
@@ -104,11 +102,9 @@ function ChapterContent({
           placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
         />  
         <CTFragment alignItCenter>
-          {tags.map((data, idx) => {
-            return (
-              <Tags data={data} handleDelete={handleDelete} key={idx} />
-            );
-          })}
+          {tags.map((data, idx) => (
+            <Tags data={data} handleDelete={handleDelete} key={idx} />
+            ))}
         </CTFragment>
             
           
