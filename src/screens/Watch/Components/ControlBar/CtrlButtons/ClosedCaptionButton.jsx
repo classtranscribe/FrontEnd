@@ -13,11 +13,9 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
 
   const handleCCTrigger = () => {
     dispatch({ type: 'playerpref/toggleOpenCC' })
-
   };
 
   useEffect(() => {
-    console.log(englishTrack)
     if (englishTrack !== undefined) {
       if (isOpen) {
         englishTrack.mode = 'showing';
