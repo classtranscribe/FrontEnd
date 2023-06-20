@@ -7,6 +7,35 @@ import Cancel from '@material-ui/icons/Cancel';
 import ChapterNewContent from './ChapterNewContent';
 import { ChapterImage, ChapterText } from '../../../components';
 
+const Tags = ({data, handleDelete}) => {
+  const boxstyle = {
+    backgroundColor: '#D3D3D3', 
+    overflow: 'scroll',
+    padding: '0.25rem 0.25rem 0.25rem 0.5rem',
+    margin: '0.25rem 1rem 0.25rem 0',
+    display: 'flex',
+    borderRadius: '1rem',
+  };
+
+  const tagstyle = {
+    float: 'left',
+    margin: '0 0.25rem 0 0',
+    cursor: 'default',
+  }
+
+  return (
+    <Box style={boxstyle}>
+      <Typography style={tagstyle}>{data}</Typography>
+      <Cancel
+        style={tagstyle}
+        onClick={() => {
+          handleDelete(data);
+        }}
+      />
+    </Box>
+  );
+};
+
 function ChapterContent({
   id,
   key,
@@ -34,19 +63,6 @@ function ChapterContent({
     });
     Ref.current.value = "";
   };
-  const boxstyle = {
-    backgroundColor: '#D3D3D3', 
-    overflow: 'scroll',
-    padding: '0.25rem 0.25rem 0.25rem 0.5rem',
-    margin: '0.25rem 1rem 0.25rem 0',
-    display: 'flex',
-    borderRadius: '1rem',
-  };
-  const tagstyle = {
-    float: 'left',
-    margin: '0 0.25rem 0 0',
-    cursor: 'default',
-  }
   const handleDelete = (value) => {
     const newtags = tags.filter((val) => val !== value);
     SetTags(newtags);
@@ -55,20 +71,6 @@ function ChapterContent({
         action: 'setChapterContent', payload: { contentIdx: index, value: newtags, type: 'condition' }
       }
     });
-  };
-
-  const Tags = ({data}) => {
-    return (
-      <Box style={boxstyle}>
-        <Typography style={tagstyle}>{data}</Typography>
-        <Cancel
-          style={tagstyle}
-          onClick={() => {
-            handleDelete(data);
-          }}
-        />
-      </Box>
-    );
   };
   
   return (
