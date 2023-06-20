@@ -10,8 +10,7 @@ const _missingRequiredEnv = (envName) => {
 const requiredEnvs = [
   'AUTH0_DOMAIN',
   'AUTH0_CLIENT_ID',
-  'CILOGON_CLIENT_ID',
-  'APPLICATION_INSIGHTS_KEY'
+  'CILOGON_CLIENT_ID'
 ];
 
 /**
@@ -53,10 +52,6 @@ class ReactEnv {
 
   get frontendCommitEndpoint() {
     return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT;
-  }
-
-  get azureInstrumentationKey() {
-    return reactEnv.APPLICATION_INSIGHTS_KEY;
   }
 
   get productionServer() {
