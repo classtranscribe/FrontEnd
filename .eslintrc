@@ -76,6 +76,31 @@
     "react/no-did-update-set-state": ["warn"],
     "react/sort-comp": "off",
     "react/require-default-props": "off",
-    "react/no-array-index-key": "warn"
+    "react/no-array-index-key": "warn",
+    "arrow-body-style": "warn", // maybecome an error in the future
+    "default-param-last": "warn", // maybecome an error in the future
+    "import/named": "warn", // maybecome an error in the future
+    "import/newline-after-import": "warn", // maybecome an error in the future
+    "import/no-useless-path-segments": "warn", // maybecome an error in the future
+    "import/order": "warn", // maybecome an error in the future
+    "no-empty": "warn", // maybecome an error in the future
+    "no-plusplus": "warn", // maybecome an error in the future
+    "no-promise-executor-return": "warn", // maybecome an error in the future
+    "no-unneeded-ternary": "warn", // maybecome an error in the future
+    "no-useless-return": "warn", // maybecome an error in the future
+    "no-var": "warn", // maybecome an error in the future
+    "prefer-arrow-callback": "warn", // maybecome an error in the future
+    "prefer-template": "warn", // maybecome an error in the future
+    "react/function-component-definition": "warn", // maybecome an error in the future
+    "react/jsx-no-bind": "warn", // maybecome an error in the future
+    "react/jsx-no-useless-fragment": "warn", // maybecome an error in the future
+    "react/no-children-prop": "warn", // maybecome an error in the future
+    "react/no-unknown-property": "warn", // maybecome an error in the future
+    "react/no-unstable-nested-components": "warn", // maybecome an error in the future
+    "react/no-unused-class-component-methods": "warn", // maybecome an error in the future
+    "spaced-comment": "warn", // maybecome an error in the future
+    "vars-on-top": "warn", // maybecome an error in the future
+    "react/jsx-indent": "warn", // why is vscode incorrectly autoindenting?
+    "react/jsx-closing-tag-location": "warn" // why is vscode incorrectly autoindenting?
   }
 }
