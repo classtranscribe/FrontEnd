@@ -8,7 +8,6 @@ function GlossaryPanel(props) {
   const [glossariesToDisplay, setGlossariesToDisplay] = useState([[], []]);
   const [searchKeyword, setSearchKeyword] = useState('');
   // Used to update the index after selecting a mode(tab) from one of "A-Z" and "time".
-  const [sortMethodIndex, selectSortMethodIndex] = useState(0);
   const SORT_MODE_AZ = 0;
   const SORT_MODE_TIME = 1;
   const NO_HIGHLIGHT = 0;
@@ -23,7 +22,7 @@ function GlossaryPanel(props) {
   const scrollRef = useRef(null);
  
 
-  // update todisplay of az whenever searchkeyword changes.
+  // Update display for Letter mode whenever time changes.
   useEffect(() => {
     let toDisplay = glossaries;
     toDisplay.sort((a, b) => {
@@ -49,7 +48,7 @@ function GlossaryPanel(props) {
     }));
   }, [searchKeyword]);
 
-  // If current sort mode is time, update display whenever time or searchkeyword changes.
+  // Update display for time mode whenever time changes.
   useEffect(() => {
     const curstamp = parseInt(time);
     // If the time of the glossary includes current time, we 
@@ -82,22 +81,15 @@ function GlossaryPanel(props) {
   // After updating the glossaries, scroll it to the appropriate position.
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+      scrollRef.current.scrollIntoView({behavior: 'smooth'});
     }
   }, [glossariesToDisplay[SORT_MODE_TIME]]);
 
 
-  function onSelectGlossariesOrderMode(index) {
-    selectSortMethodIndex(index);
-  }
-
   return (
     <div className='gloPanel'>
 
-      <Tabs 
-        className='detail-div'
-        onSelect={(index) => onSelectGlossariesOrderMode(index)}
-      >
+      <Tabs className='detail-div'>
         
         <TabList>
           <Tab>A-Z</Tab> {/* index = 0 */}
@@ -111,9 +103,8 @@ function GlossaryPanel(props) {
             }}
           value={searchKeyword}
         />
-
+        {/* Tab panel for Letter order. */}
         <TabPanel className='glossary-list-container'>
-
           <ul>
             {glossariesToDisplay[SORT_MODE_AZ].map((element) => 
               <li className='glossary-entry' key={element.word}>
@@ -126,9 +117,9 @@ function GlossaryPanel(props) {
             )}
           </ul>
         </TabPanel>
+        {/* Tab Panel for Time order. */}
         <TabPanel className='glossary-list-container'>
           <ul>
-            {/* Render the appropriate glossaries. */}
             {glossariesToDisplay[SORT_MODE_TIME].map((element) => {              
               // Highlight needed glossaries.
               if (element.highlight !== NO_HIGHLIGHT) {
@@ -147,6 +138,7 @@ function GlossaryPanel(props) {
                     </button>
                   </li>);
               }
+              // Non-highlighted glossaries.
               return (
                 <li key={element.word} className='glossary-entry'>
                   <button onClick={() => setTerm(element)}>
