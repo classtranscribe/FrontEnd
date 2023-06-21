@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './CTPopup.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
@@ -13,13 +13,11 @@ function GlossaryPanel(props) {
   const NO_HIGHLIGHT = 0;
   const FIRST_HIGHLIGHT = 1;
   const HIGHLIGHT = 2;
-  // const scrollCallback = useCallback((element) => {
-  //   console.log(element);
-  //   if (element) {
-  //     window.scrollTo({behavior: 'smooth', top: element.offsetTop})
-  //   }
-  // }, [time]);
-  const scrollRef = useRef(null);
+  // The first highlighted glossary (the glossary we want to scroll to).
+  // We use this ref to get its scroll offset.
+  const scrollBodyRef = useRef(null);
+  // The container of the glossary, where we perform the scroll on.
+  const scrollContainerRef = useRef(null);
  
 
   // Update display for Letter mode whenever time changes.
@@ -78,16 +76,16 @@ function GlossaryPanel(props) {
     }));
   }, [time]);
 
-  // After updating the glossaries, scroll it to the appropriate position.
+  // After updating the glossaries, scroll their container to the appropriate position.
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({behavior: 'smooth'});
+    if (scrollContainerRef.current && scrollBodyRef.current) {
+      scrollContainerRef.current.scrollTo({behavior: 'smooth', top: scrollBodyRef.current.offsetTop});
     }
   }, [glossariesToDisplay[SORT_MODE_TIME]]);
 
 
   return (
-    <div className='gloPanel'>
+    <div className='gloPanel' ref={scrollContainerRef}>
 
       <Tabs className='detail-div'>
         
@@ -129,7 +127,7 @@ function GlossaryPanel(props) {
                     key={element.word}
                     // If this is the first highlighted glossary, set scrollRef, which
                     // is necessary in order to scroll to its position.
-                    ref={element.highlight === FIRST_HIGHLIGHT ? scrollRef : undefined}
+                    ref={element.highlight === FIRST_HIGHLIGHT ? scrollBodyRef : undefined}
                   >
                     <button onClick={() => setTerm(element)}>
                       <span>
