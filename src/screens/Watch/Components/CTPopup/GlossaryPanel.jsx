@@ -1,152 +1,127 @@
 import React, { useState, useEffect, useRef } from "react";
 import './CTPopup.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { elem } from "utils";
 
 
 function GlossaryPanel(props) {
   const { time, glossaries, setTerm } = props;
-  const [glossariesToDisplay, setGlossariesToDisplay] = useState([[], []]);
+  const [sortByChar, setSortByChar] = useState([]); //sorted glossary based on character
+  const [sortByTime, setSortByTime] = useState([]); //sorted glossary based on begin time
   const [searchKeyword, setSearchKeyword] = useState('');
-  // Used to update the index after selecting a mode(tab) from one of "A-Z" and "time".
-  const SORT_MODE_AZ = 0;
-  const SORT_MODE_TIME = 1;
-  const NO_HIGHLIGHT = 0;
-  const FIRST_HIGHLIGHT = 1;
-  const HIGHLIGHT = 2;
-  // The first highlighted glossary (the glossary we want to scroll to).
-  // We use this ref to get its scroll offset.
-  const scrollBodyRef = useRef(null);
-  // The container of the glossary, where we perform the scroll on.
-  const scrollContainerRef = useRef(null);
- 
-
-  // Update display for Letter mode whenever time changes.
+  
+  // when glossaries changed, we changed two sorted version of glossaries
   useEffect(() => {
-    let toDisplay = glossaries;
-    toDisplay.sort((a, b) => {
-      if (a.word < b.word) {
+    const byChar = [...glossaries];
+    const byTime = [...glossaries];
+    byChar.sort((a, b) => {
+      if (a.word.toLowerCase() < b.word.toLowerCase()) {
         return -1;
       }
-      if (a.word > b.word) {
+      if (a.word.toLowerCase() > b.word.toLowerCase()) {
         return 1;
       }
       return 0;
     });
-    // sort the words.
-    toDisplay = toDisplay.filter(glossaryEntry => {
-      return glossaryEntry.word.toLowerCase().includes(searchKeyword.toLowerCase());
-    });
 
-    // update the appropriate row in glossariestodisplay
-    setGlossariesToDisplay(glossariesToDisplay.map((list, index) => {
-      if (index === SORT_MODE_AZ) {
-        return toDisplay;
-      }
-      return list;
-    }));
-  }, [searchKeyword]);
+    byTime.sort((a, b) => {
+      return a.begin - b.begin
+    })
+    setSortByChar(byChar);
+    setSortByTime(byTime);
+    console.log(byTime);
+  }, [glossaries])
 
-  // Update display for time mode whenever time changes.
+  // we find the first glossary, and scroll to it
   useEffect(() => {
     const curstamp = parseInt(time);
-    // If the time of the glossary includes current time, we 
-    // should make it highlighted.
-    // Also, if this is the fist element we should highlight, 
-    // we mark it to make it scroll to the top of the display.
-    let firstHighlightMarked = false;
-    let toDisplay = glossaries;
-    toDisplay.sort((a, b) => a.begin - b.begin);
-    toDisplay = toDisplay.map(glossaryEntry => {
-      if (glossaryEntry.begin <= curstamp && glossaryEntry.end >= curstamp) {
-        if (firstHighlightMarked) {
-          return {...glossaryEntry, highlight: HIGHLIGHT};
-        }
-        firstHighlightMarked = true;
-        return {...glossaryEntry, highlight: FIRST_HIGHLIGHT}
+    const firstHiIndex = sortByTime.findIndex((entry) =>{
+      return (entry.begin <= curstamp && entry.end >= curstamp);
+    })
+    if (firstHiIndex != -1) {
+      let z = document.getElementById(`glossary-item-${firstHiIndex}`);
+      if (z != null) {
+        z.scrollIntoView({behavior:'smooth',block: "start"});
       }
-      return {...glossaryEntry, highlight: NO_HIGHLIGHT};
-    });
-    // sort the glossaries by start of timestamp.
-
-    setGlossariesToDisplay(glossariesToDisplay.map((list, index) => {
-      if (index === SORT_MODE_TIME) {
-        return toDisplay;
-      }
-      return list;
-    }));
-  }, [time]);
-
-  // After updating the glossaries, scroll their container to the appropriate position.
-  useEffect(() => {
-    if (scrollContainerRef.current && scrollBodyRef.current) {
-      scrollContainerRef.current.scrollTo({behavior: 'smooth', top: scrollBodyRef.current.offsetTop});
     }
-  }, [glossariesToDisplay[SORT_MODE_TIME]]);
-
-
+  }, [time])
+  
   return (
-    <div className='gloPanel' ref={scrollContainerRef}>
+    <div className='gloPanel' >
 
       <Tabs className='detail-div'>
         
-        <TabList>
+        <TabList className='list-tabs'>
           <Tab>A-Z</Tab> {/* index = 0 */}
           <Tab>Time</Tab> {/* index = 1 */}
         </TabList>
-        <input
-          className="search-bar"
-          type='text'
-          onChange={(e) => {
-              setSearchKeyword(e.target.value);
-            }}
-          value={searchKeyword}
-        />
+
         {/* Tab panel for Letter order. */}
         <TabPanel className='glossary-list-container'>
-          <ul>
-            {glossariesToDisplay[SORT_MODE_AZ].map((element) => 
-              <li className='glossary-entry' key={element.word}>
-                <button onClick={() => setTerm(element)}>
-                  <span>
-                    {element.word}
-                  </span>
-                </button>
-              </li>
-            )}
-          </ul>
-        </TabPanel>
-        {/* Tab Panel for Time order. */}
-        <TabPanel className='glossary-list-container'>
-          <ul>
-            {glossariesToDisplay[SORT_MODE_TIME].map((element) => {              
-              // Highlight needed glossaries.
-              if (element.highlight !== NO_HIGHLIGHT) {
-                return (
-                  <li 
-                    className='glossary-entry-highlighted'
-                    key={element.word}
-                    // If this is the first highlighted glossary, set scrollRef, which
-                    // is necessary in order to scroll to its position.
-                    ref={element.highlight === FIRST_HIGHLIGHT ? scrollBodyRef : undefined}
-                  >
-                    <button onClick={() => setTerm(element)}>
-                      <span>
-                        {element.word}
-                      </span>
-                    </button>
-                  </li>);
-              }
-              // Non-highlighted glossaries.
-              return (
-                <li key={element.word} className='glossary-entry'>
+          <input
+            className="search-bar"
+            type='text'
+            onChange={(e) => {
+                setSearchKeyword(e.target.value);
+              }}
+            value={searchKeyword}
+          />
+          <div className="glossary-scrollable-char">
+            <ul>
+              {sortByChar.filter(glossaryEntry => {
+                return glossaryEntry.word.toLowerCase().includes(searchKeyword.toLowerCase());
+                }).map((element, index) => 
+                <li className='glossary-entry' key={index}>
                   <button onClick={() => setTerm(element)}>
                     <span>
                       {element.word}
                     </span>
                   </button>
-                </li>);
-            })}
-          </ul>
+                </li>
+              )}
+            </ul>
+          </div>
+        </TabPanel>
+
+        {/* Tab Panel for Time order. */}
+        <TabPanel className='glossary-list-container'>
+          <div className="glossary-scrollable">
+            <ul>
+              {sortByTime.map((element, index) => {              
+                if (element.begin <= time && element.end >= time) {
+                  // height light
+                  return (
+                    <li 
+                      className='glossary-entry glossary-entry-highlighted'
+                      key={index}
+                      id={`glossary-item-${index}`}
+                    >
+                      <button onClick={() => setTerm(element)}>
+                        <span>
+                          {element.word}
+                        </span>
+                      </button>
+                    </li>
+                  )
+                } else {
+                  // not
+                  return (
+                    <li 
+                      className='glossary-entry'
+                      key={index}
+                      id={`glossary-item-${index}`}
+                    >
+                      <button onClick={() => setTerm(element)}>
+                        <span>
+                          {element.word}
+                        </span>
+                      </button>
+                    </li>
+                  )
+                }
+              })}
+            </ul>
+          </div>
         </TabPanel>
       </Tabs>
 
