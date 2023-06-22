@@ -25,9 +25,7 @@
   position: relative;
   grid-column-start: c2;
   grid-column-end: c3;
-  overflow-y: auto;
-  overflow-x: hidden;
-  overflow-wrap: normal;
+  // overflow-wrap: normal;
 }
 
 .detail-div {
@@ -69,6 +67,7 @@
   list-style: none;
   color:white;
   padding-bottom: 3px;
+  overflow-x: hidden;
 }
 
 .glossary-entry button {
@@ -76,10 +75,7 @@
 }
 
 .glossary-entry-highlighted {
-  background-color: black;
-  list-style: none;
   color:red;
-  padding-bottom: 3px;
 }
 
 .glossary-entry-highlighted button {
@@ -109,6 +105,31 @@
 }
 
 .search-bar {
-  height: 30px;
+  // z-index: 100;
+  // position: absolute;
+  margin-left: 30px;
+  width: 150px;
+  height: 25px;
   color: black;
+}
+
+.glossary-scrollable {
+  // margin-top: 20px;
+  // height: 280px;
+  // width: 192px;
+  // overflow-y: scroll;
+  height: 240px;
+  width: 192px;
+  overflow-y: scroll;
+}
+
+.glossary-scrollable-char{
+  // margin-top: 20px;
+  height: 210px;
+  width: 192px;
+  overflow-y: scroll;
+}
+
+.list-tabs {
+  margin-left: 20px;
 }
