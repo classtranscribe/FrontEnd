@@ -1,31 +1,18 @@
-import React, { memo, useState, useCallback, useRef, useEffect } from 'react';
-import { connect } from 'dva'
+import React, { useCallback } from 'react';
 
-import PlayerWrapper from './PlayerWrapper';
 import { isMobile } from 'react-device-detect';
-import { uEvent } from '../../Utils/UserEventController';
+import PlayerWrapper from './PlayerWrapper';
 import {
-    NORMAL_MODE,
-    PS_MODE,
-    NESTED_MODE /** THEATRE_MODE, */,
     CTP_PLAYING,
     CTP_LOADING,
     CTP_ENDED,
-    CTP_UP_NEXT,
     CTP_ERROR,
-    HIDE_TRANS,
 } from '../../Utils/constants.util';
-import {
-    getVideoStyle
-} from '../../Utils';
-import {
-    ClassTranscribePlayer
-} from '../CTPlayer'
 
 const Video = React.memo((props) => {
-
     const { id = 1, videoRef, path, dispatch, isSwitched, embedded, videoStyle} = props;
-    const isPrimary = (id == 1);
+    const isPrimary = (id === 1);
+    // eslint-disable-next-line no-console
     console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
@@ -108,36 +95,33 @@ const Video = React.memo((props) => {
 
     // const { videoStyle } = getVideoStyle({ClassTranscribePlayer});
     return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-container"}>
-        {embedded ?
-            null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
-        }
-        <video
-            playsInline
-            autoPlay={isMobile}
-            className="ct-video"
-            id={"ct-video-" + id}
-            ref={videoRef}
-            muted={!isPrimary ? true : undefined}
-            onDurationChange={onDurationChange}
-            onTimeUpdate={onTimeUpdate}
-            onProgress={onProgress}
-            onPause={onPause}
-            onCanPlay={onCanPlayPri}
-            onLoadStart={onLoadStartPri}
-            onLoadedData={onLoadedDataPri}
-            onWaiting={onWaitingPri}
-            onPlaying={onPlayingPri}
-            onEnded={onEndedPri}
-            onSeeking={onSeekingPri}
-            onSeeked={onSeekedPri}
-            onError={onErrorPri}
-            style={videoStyle}
-        >
-            {path && <source src={path} type="video/mp4" />}
-      Your browser does not support video tag.
-    </video>
+      {embedded ?
+            null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />}
+      <video
+        playsInline
+        autoPlay={isMobile}
+        className="ct-video"
+        id={`ct-video-${ id}`}
+        ref={videoRef}
+        muted={!isPrimary ? true : undefined}
+        onDurationChange={onDurationChange}
+        onTimeUpdate={onTimeUpdate}
+        onProgress={onProgress}
+        onPause={onPause}
+        onCanPlay={onCanPlayPri}
+        onLoadStart={onLoadStartPri}
+        onLoadedData={onLoadedDataPri}
+        onWaiting={onWaitingPri}
+        onPlaying={onPlayingPri}
+        onEnded={onEndedPri}
+        onSeeking={onSeekingPri}
+        onSeeked={onSeekedPri}
+        onError={onErrorPri}
+        style={videoStyle}
+      >
+        {path && <source src={path} type="video/mp4" />}
+        Your browser does not support video tag.
+      </video>
     </div>)
-}, (prevProps, nextProps) => {
-    return prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched && prevProps.videoStyle === nextProps.videoStyle;
-});
+}, (prevProps, nextProps) => prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched && prevProps.videoStyle === nextProps.videoStyle);
 export default Video;
