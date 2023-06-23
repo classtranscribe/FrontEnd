@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import './CTPopup.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { elem } from "utils";
 
 
 function GlossaryPanel(props) {
@@ -46,6 +45,7 @@ function GlossaryPanel(props) {
     }
   }, [time])
   
+
   return (
     <div className='gloPanel' >
 
@@ -61,10 +61,9 @@ function GlossaryPanel(props) {
           <input
             className="search-bar"
             type='text'
-            onChange={(e) => {
-                setSearchKeyword(e.target.value);
-              }}
+            onChange={(e) => { setSearchKeyword(e.target.value); }}
             value={searchKeyword}
+            placeholder="Search for Terms"
           />
           <div className="glossary-scrollable-char">
             <ul>
