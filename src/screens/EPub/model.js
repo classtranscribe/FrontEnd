@@ -228,7 +228,7 @@ const EPubModel = {
             yield put.resolve({ type: action, payload })
             yield put({ type: 'updateEPub' })
         },
-        *splitChaptersByScreenshots({ payload }, { call, put, select, take }) {
+        *splitChaptersByScreenshots({ payload: {wc} }, { call, put, select, take }) {
             prompt.addOne({
                 text: 'Split chapters by screenshots.',
                 position: 'left bottom',
