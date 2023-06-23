@@ -5,7 +5,7 @@
   position: absolute;
   // width: auto;
   height: 300px;
-  width: 480px;
+  width: 500px;
   bottom: 5%;
   z-index: 10;
   opacity: 0.6;
@@ -16,7 +16,7 @@
   padding: 5px;
   // display: flex;
   display: grid;
-  grid-template-columns: [c1] 60% [c2] 40% [c3];
+  grid-template-columns: [c1] 57.6% [c2] 43.4% [c3];
   // grid-template-rows: ;
 }
 
@@ -72,6 +72,12 @@
 
 .glossary-entry button {
   background-color: rgb(2, 50, 64);
+  text-align: left;
+}
+
+.glossary-entry button:focus {
+  outline-style: none;
+  text-decoration: underline;
 }
 
 .glossary-entry-highlighted {
@@ -119,14 +125,14 @@
   // width: 192px;
   // overflow-y: scroll;
   height: 240px;
-  width: 192px;
+  width: 212px;
   overflow-y: scroll;
 }
 
 .glossary-scrollable-char{
   // margin-top: 20px;
   height: 210px;
-  width: 192px;
+  width: 212px;
   overflow-y: scroll;
 }
 
