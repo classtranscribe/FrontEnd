@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles, CTText } from 'layout';
+import VideoUploadButton from './VideoUploadButton.js';
 
 function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
@@ -60,6 +61,9 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
         >
           delete
         </Button>
+
+        <VideoUploadButton videoId={mediaId}/>
+        
       </div>
       <div>
         {!media.transReady || !media.sceneDetectReady ? (

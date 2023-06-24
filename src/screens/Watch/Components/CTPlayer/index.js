@@ -19,26 +19,30 @@
  
  const videoRef1 = (node) => { PlayerData.video1 = node };
  const videoRef2 = (node) => { PlayerData.video2 = node };
+ const videoRef3 = (node) => { PlayerData.video3 = node };
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
    const { transView, muted, volume, playbackrate, openCC } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
-   const { videos = [], isTwoScreen } = media;
-   const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
+   const { videos = [], isTwoScreen, isThreeScreen } = media;
+   const { srcPath1, srcPath2, srcPath3, useHls = false } = videos[0] || {};
    // Mute Handler
    useEffect(() => {
      PlayerData.video1 && (PlayerData.video1.muted = muted);
      PlayerData.video2 && (PlayerData.video2.muted = true);
+     PlayerData.video3 && (PlayerData.video3.muted = true);
    }, [muted]);
    // Volume Handler
    useEffect(() => {
      PlayerData.video1 && (PlayerData.video1.volume = volume);
      PlayerData.video2 && (PlayerData.video2.volume = volume);
+     PlayerData.video3 && (PlayerData.video3.volume = volume);
    }, [volume]);
    // Playbackrate Handler
    useEffect(() => {
      PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
      PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
+     PlayerData.video3 && (PlayerData.video3.playbackRate = playbackrate);
    }, [playbackrate]);
  
    // liveMode speed
@@ -52,15 +56,20 @@
        PlayerData.video2.pause();
        PlayerData.video2.load()
      }
-   }, [srcPath1, srcPath2]);
+     if (PlayerData.video3) {
+      PlayerData.video3.pause();
+      PlayerData.video3.load();
+     }
+   }, [srcPath1, srcPath2, srcPath3]);
    const player1Position = isSwitched ? SECONDARY : PRIMARY;
    const player2Position = isSwitched ? PRIMARY : SECONDARY;
+   const player3Position = SECONDARY;
  
    useEffect(() => {
      if (isTwoScreen && !isMobile) {
        dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
      }
-   }, [isTwoScreen])
+   }, [isTwoScreen, isThreeScreen])
  
    const media1Prop = {
      id: 1,
@@ -110,6 +119,23 @@
            />
          </div>
        )}
+       {isThreeScreen && (
+        <div
+          className={embedded ? 'ctp ct-video-con' : `ct-video-row ${player3Position}`}
+          mode={mode}
+          data-trans-view={transView}
+          data-fullscreen={isFullscreen}
+        >
+          <Video
+            id={2}
+            videoRef={videoRef3}
+            dispatch={dispatch}
+            path={srcPath3}
+            isSwitched={isSwitched}
+            embedded={embedded}
+          />
+        </div>
+      )}
      </>
    );
  };
