@@ -59,7 +59,7 @@ const mediaControl = {
     }
   }
 }
-export function UploadFiles(props) {
+export function UploadSingleFile(props) {
   const { history, match } = props;
   const { id } = match.params;
   const classes = useStyles();
@@ -161,7 +161,7 @@ export function UploadFiles(props) {
       </CTFormHelp>
       <CTFragment margin={[-15,0,0,10]}>
         <CTConfirmation
-          text="Are you sure to remove the all the secondary video files of your medias?"
+          text="Are you sure to remove this video?"
           onConfirm={handleConfirm}
           onClose={handleCloseConfirm}
           open={openConfirm}
