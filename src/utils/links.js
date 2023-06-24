@@ -181,6 +181,14 @@ export class ClassTranscribeLinks {
     return `/playlist/${playlistId}/upload-files`;
   }
 
+    /**
+   * to `/video?<video_id>/upload-file`
+   * @param {String} videoId - video id
+   */
+    videoUploadFile(videoId) {
+      return `/video/${videoId}/upload-file`;
+    }
+
   /**
    * to `/media-settings/<media_id>/<tab_name>`
    * @param {String} mediaId - media id

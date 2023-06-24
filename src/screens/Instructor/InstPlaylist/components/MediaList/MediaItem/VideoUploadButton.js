@@ -16,7 +16,7 @@ function VideoUploadButton({
       component={Link}
       className={btnClassName}
       startIcon={<i className="material-icons upload">upload</i>}
-      to={links.playlistUploadFiles(videoId)}
+      to={links.videoUploadFile(videoId)}
     >
       upload
     </Button>

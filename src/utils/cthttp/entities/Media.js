@@ -23,6 +23,13 @@ export function uploadVideo(playlistId, video1, video2, onUploadProgress) {
   return cthttp.post('Media', formData, { onUploadProgress, timeout: UPLOAD_MEDIA_TIMEOUT });
 }
 
+export function uploadASLVideo(videoId, video, onUploadProgress) {
+  const formData = new FormData();
+  formData.append('video', video);
+  formData.append('videoId', videoId);
+  return cthttp.post('Media', formData, { onUploadProgress, timeout: UPLOAD_MEDIA_TIMEOUT });
+}
+
 export function reorderMedias(playlistId, mediaIds) {
   return cthttp.post(`Media/Reorder/${playlistId}`, mediaIds);
 }
