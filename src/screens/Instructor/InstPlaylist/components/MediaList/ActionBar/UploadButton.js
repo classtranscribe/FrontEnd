@@ -10,7 +10,6 @@ function UploadButton({
   playlistId
 }) {
   const btn = useButtonStyles();
-  
   return (
     <Button
       component={Link}

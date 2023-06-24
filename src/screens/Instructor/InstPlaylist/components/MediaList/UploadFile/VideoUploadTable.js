@@ -29,13 +29,16 @@ function VideoUploadTable({
     <CTFragment>
       <TableContainer className="ipl-upl-tb-con" data-scroll>
         <Table stickyHeader size="small" aria-label="videos table">
-          <TableHead>
+        <TableHead>
             <TableRow>
               <TableCell>
                 <div className="tb-cell header video1">
+                  {'VIDEO'} ({videos.length})
                 </div>
               </TableCell>
+              <TableCell align="right">
                 <div className="tb-cell header actions">{uploading ? 'STATUS' : 'ACTIONS'}</div>
+              </TableCell>
             </TableRow>
           </TableHead>
 
@@ -49,7 +52,6 @@ function VideoUploadTable({
                   inProgress={uploadIndex === index}
                   progress={progress}
                   uploaded={uploadIndex > index}
-                  onSwap={() => swapeVideos(index)}
                   onDelete={() => deleteVideo(index)}
                 />
               </TableRow>
@@ -60,7 +62,7 @@ function VideoUploadTable({
         {
           videos.length === 0
           &&
-          <CTText center padding={[20, 0]}>No videos</CTText>
+          <CTText center padding={[20, 0]}>No video</CTText>
         }
       </TableContainer>
     </CTFragment>

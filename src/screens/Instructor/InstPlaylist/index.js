@@ -8,7 +8,7 @@ import {
   PlaylistInfo,
   MediaList,
   Confirmation,
-  UploadFiles
+  UploadFiles,
 } from './components';
 
 export class InstPlaylistWithRedux extends Component {
@@ -50,7 +50,6 @@ export class InstPlaylistWithRedux extends Component {
           <PlaylistInfo {...this.props} />
           <MediaList />
           {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({type: 'instplaylist/setConfirmation', payload: null})} />}
-
           <Route path="/playlist/:id/upload-files" component={UploadFiles} />
         </InfoAndListLayout>
       </CTLayout>

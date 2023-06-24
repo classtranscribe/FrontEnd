@@ -16,12 +16,11 @@ export function _fileSizeParser(size) {
 
 function VideoUploadTableVideoCell({
   videFile,
-  can2Video = false
 }) {
   const fileIcon = <i className="fas fa-file-video" />;
   return (
     <TableCell>
-      <div className={cx('tb-cell', { 'auto-width': !can2Video })}>
+      <div className={cx('tb-cell', { 'auto-width': true })}>
         {
           videFile
           ?
