@@ -10,6 +10,24 @@ import './CTPopup.scss'
 import GlossaryPanel from './GlossaryPanel';
 
 
+
+const ASLVideoPlayer = (word, videoURL, source) => {
+  return (
+    <TabPanel>
+      <strong>{`${word} (Source: ${source})`}</strong><br></br><br></br>
+      {videoURL==='' ? (<span>video not found</span>) 
+      : 
+      (<video 
+        className="video-js vjs-default-skin video-player" 
+        controls
+        preload="auto"
+        data-setup="{}"
+      >
+        <source src={videoURL} type='video/mp4' />
+      </video>)}
+    </TabPanel>)
+}
+
 const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     const [opvalue, setOpvalue] = useState(0.75); // variable for transparency
     const OPSTEP = 0.125; //the amount of changed opvalue for each operation
@@ -191,48 +209,9 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                         {definitionURL !== '' && (<Tab>Definition</Tab>)}
                         {exampleURL !== '' && (<Tab>Example</Tab>)}
                       </TabList>
-                      {signURL !== '' && (
-                        <TabPanel>
-                          <strong>{term.word}</strong><br></br><br></br>
-                          {signURL==='' ? (<span>sign video for this term is not found</span>) 
-                          : 
-                          (<video 
-                            className="video-js vjs-default-skin video-player" 
-                            controls
-                            preload="auto"
-                            data-setup="{}"
-                          >
-                            <source src={signURL} type='video/mp4' />
-                          </video>)}
-                        </TabPanel>)}
-                      {definitionURL !== '' && (
-                        <TabPanel>
-                          <strong>{term.word}</strong><br></br><br></br>
-                          {definitionURL==='' ? (<span>definition video for this term is not found</span>) 
-                          : 
-                          (<video 
-                            className="video-js vjs-default-skin video-player" 
-                            controls
-                            preload="auto"
-                            data-setup="{}"
-                          >
-                            <source src={definitionURL} type='video/mp4' />
-                          </video>)}
-                        </TabPanel>)}
-                      {exampleURL !== '' && (
-                        <TabPanel>
-                          <strong>{term.word}</strong><br></br><br></br>
-                          {exampleURL==='' ? (<span>example video for this term is not found</span>) 
-                          : 
-                          (<video 
-                            className="video-js vjs-default-skin video-player" 
-                            controls
-                            preload="auto"
-                            data-setup="{}"
-                          >
-                            <source src={exampleURL} type='video/mp4' />
-                          </video>)}
-                        </TabPanel>)}
+                      {signURL !== '' && ASLVideoPlayer(term.word, signURL, term.source)}
+                      {definitionURL !== '' && ASLVideoPlayer(term.word, definitionURL, term.source)}
+                      {exampleURL !== '' && ASLVideoPlayer(term.word, exampleURL, term.source)}
                     </Tabs>
                   </TabPanel>
                   <TabPanel className='divPanel'>
