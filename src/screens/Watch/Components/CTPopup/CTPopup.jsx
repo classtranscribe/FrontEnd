@@ -34,11 +34,10 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     // const hostName = window.location.hostname;
     const hostName = "ct-dev.ncsa.illinois.edu"; // for local test
     //below are variables for videos and explanations for chosen glossary
-    const [term, setTerm] = useState({
-      word: '',
-      explain: '',
-      url: ''
-    }); // set default to empty string
+    const [term, setTerm] = useState({}); // set default to empty string
+    const [signSource, setSignSource] = useState('');
+    const [definitionSource, setDefinitionSource] = useState('');
+    const [exampleSource, setExampleSource] = useState('');
     const [signURL, setSignURL] = useState(''); //url should be set to '' when it does not exist
     const [definitionURL, setDefinitionURL] = useState('');
     const [exampleURL, setExampleURL] = useState('');
@@ -125,20 +124,23 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
         setSignURL('');
         setDefinitionURL('');
         setExampleURL('');
-        if (word.length > 0) {
+        if (word && word.length > 0) {
           // current term is not empty
           const ret = await cthttp.get(`ASLVideo/GetASLVideosByTerm?term=${term.word}`);
           if (ret.status === 200) {
             // request success
             ret.data.forEach(element => {
-              const URL = `https://${hostName}/data/aslvideos/aslcore/original/${element.uniqueASLIdentifier.replace(' ', '_')}.mp4`
-              console.log(`${element.kind} ${URL}`);
+              const URL = `https://${hostName}/data/aslvideos/${element.source.toLowerCase()}/original/${element.uniqueASLIdentifier}.mp4`
+              // console.log(`${element.kind} ${URL}`);
               if (element.kind === 1) {
                 setSignURL(URL);
+                setSignSource(element.source);
               } else if (element.kind === 2) {
                 setDefinitionURL(URL);
+                setDefinitionSource(element.source);
               } else if (element.kind === 3) {
                 setExampleURL(URL);
+                setExampleSource(element.source);
               }
             })
           }
@@ -209,9 +211,9 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                         {definitionURL !== '' && (<Tab>Definition</Tab>)}
                         {exampleURL !== '' && (<Tab>Example</Tab>)}
                       </TabList>
-                      {signURL !== '' && ASLVideoPlayer(term.word, signURL, term.source)}
-                      {definitionURL !== '' && ASLVideoPlayer(term.word, definitionURL, term.source)}
-                      {exampleURL !== '' && ASLVideoPlayer(term.word, exampleURL, term.source)}
+                      {signURL !== '' && ASLVideoPlayer(term.word, signURL, signSource)}
+                      {definitionURL !== '' && ASLVideoPlayer(term.word, definitionURL, definitionSource)}
+                      {exampleURL !== '' && ASLVideoPlayer(term.word, exampleURL, exampleSource)}
                     </Tabs>
                   </TabPanel>
                   <TabPanel className='divPanel'>
