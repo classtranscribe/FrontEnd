@@ -30,7 +30,7 @@ function ScreenModeMenu({ mode = NORMAL_MODE, onClose = null, media = {}, dispat
             mode={screenMode.type}
             className="plain-btn watch-icon-listitem"
             aria-label={screenMode.name}
-            active={Boolean(mode === screenMode.type).toString()}
+            // active={Boolean(mode === screenMode.type).toString()}
             onClick={handleChooseMode(screenMode.type)}
             role="menuitem"
           >

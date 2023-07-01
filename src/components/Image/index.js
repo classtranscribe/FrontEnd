@@ -1,3 +1,4 @@
+import { string } from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import EPubParser from 'screens/EPub/controllers/file-builders/EPubParser';
 
@@ -9,10 +10,13 @@ function Image({ src, ...props }) {
             const v = new Blob([img]);
             setDataUrl(URL.createObjectURL(v))
         }
-        if(!src.startsWith('data:')) {
-            load()
-        } else {
-            setDataUrl(src);
+        // TODO
+        if (typeof src === 'string') {
+            if (!src.startsWith('data:')) {
+                load()
+            } else {
+                setDataUrl(src);
+            }
         }
     }, [src])
     return <img src={dataUrl} {...props} />

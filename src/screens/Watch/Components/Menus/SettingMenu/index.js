@@ -58,7 +58,7 @@ function SettingMenu({ show = false, onClose = null }) {
               key={pane.id}
               className="plain-btn watch-icon-listitem"
               aria-label={pane.name}
-              active={Boolean(tab === pane.id).toString()}
+              // active={Boolean(tab === pane.id).toString()}
               onClick={changeTab(pane.id)}
             >
               <span tabIndex="-1">

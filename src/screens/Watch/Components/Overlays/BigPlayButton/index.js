@@ -11,12 +11,12 @@ let timeOutEl = null;
 let lastPaused = true;
 
 function BigPlayButtonWithRedux(props) {
-  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING, dispatch} = props;
+  const { isPrimary = false, paused = true, ctpPriEvent = CTP_LOADING, dispatch } = props;
   const [pauseStatus, setPauseStatus] = useState(true);
 
   const handleClick = () => {
     if (ctpPriEvent === CTP_ENDED) {
-      dispatch({type: 'watch/media_replay'})
+      dispatch({ type: 'watch/media_replay' })
     }
   };
 
@@ -29,7 +29,11 @@ function BigPlayButtonWithRedux(props) {
     }
   }, [paused]);
   return isPrimary ? (
-    <div className="wbp-btn-container" paused={paused.toString()} aria-hidden="true">
+    <div
+      className="wbp-btn-container"
+      // paused={paused.toString()}
+      aria-hidden="true"
+    >
       {ctpPriEvent === CTP_ENDED ? (
         <button className="wbp-btn plain-btn" onClick={handleClick} aria-label="Replay">
           <span className="big-play-button-content" tabIndex="-1">
@@ -76,6 +80,6 @@ function BigPlayButtonWithRedux(props) {
   ) : null;
 }
 
-export const BigPlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
+export const BigPlayButton = connect(({ watch: { paused, ctpPriEvent }, loading }) => ({
   paused, ctpPriEvent
 }))(BigPlayButtonWithRedux);
