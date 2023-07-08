@@ -143,7 +143,7 @@
           data-fullscreen={isFullscreen}
         >
           <Video
-            id={2}
+            id={3}
             videoRef={videoRef3}
             dispatch={dispatch}
             path={srcPath3}

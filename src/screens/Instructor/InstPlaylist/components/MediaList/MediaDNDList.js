@@ -11,6 +11,7 @@ function reorder(list, startIndex, endIndex) {
   return result;
 }
 function MediaDNDList({
+  playlistId,
   medias,
   filtering,
   selecting,
@@ -55,7 +56,7 @@ function MediaDNDList({
 
     dndItems = medias.map(media => ({
       id: `media-${media.id}-${media.name}`,
-      node: <MediaItem media={media} {...mediaProps} dispatch={dispatch} />
+      node: <MediaItem playlistId={playlistId} media={media} {...mediaProps} dispatch={dispatch} />
     }));
   }
 

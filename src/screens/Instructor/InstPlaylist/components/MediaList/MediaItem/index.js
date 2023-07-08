@@ -7,8 +7,11 @@ import { CTPopoverLabel, CTCheckbox, CTText } from 'layout';
 
 import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
+import { Route } from 'dva/router';
+import { UploadSingleFile } from '../UploadFile';
 
 function MediaItem({
+  playlistId,
   media,
   selecting,
   filtering,
@@ -120,6 +123,7 @@ function MediaItem({
         </CTText>
 
         <MediaItemActions
+          playlistId={playlistId}
           media={media}
           mediaId={id}
           isUnavailable={isUnavailable}
