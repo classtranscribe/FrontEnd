@@ -5,6 +5,8 @@ import { CTFragment, CTFilterInput } from 'layout';
 import { SelectCtrlButton } from 'components';
 
 import UploadButton from './UploadButton';
+import { UploadSingleFile } from '../UploadFile';
+import { Route } from 'dva/router';
 
 function ActionBar({
   playlist,

@@ -61,7 +61,7 @@ const mediaControl = {
 }
 export function UploadSingleFile(props) {
   const { history, match } = props;
-  const { id } = match.params;
+  const id = match.params.playlistId;
   const classes = useStyles();
 
   const [videos, setVideos] = useState([]);

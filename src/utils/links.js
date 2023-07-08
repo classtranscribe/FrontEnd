@@ -182,11 +182,12 @@ export class ClassTranscribeLinks {
   }
 
     /**
-   * to `/video?<video_id>/upload-file`
+   * to `/playlist/<playlist_id>/<video_id>/upload-file`
+   * @param {String} playlistId - playlist id
    * @param {String} videoId - video id
    */
-    videoUploadFile(videoId) {
-      return `/video/${videoId}/upload-file`;
+    videoUploadFile(playlistId, videoId) {
+      return `/playlist/${playlistId}/${videoId}/upload-file`;
     }
 
   /**

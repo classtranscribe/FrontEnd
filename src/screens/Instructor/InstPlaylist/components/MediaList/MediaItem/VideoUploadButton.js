@@ -3,9 +3,10 @@ import cx from 'classnames';
 import { Link } from 'dva/router';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils/links';
-import { useButtonStyles, CTText } from 'layout';
+import { useButtonStyles } from 'layout';
 
 function VideoUploadButton({
+  playlistId,
   videoId
 }) {
   const btn = useButtonStyles();
@@ -16,7 +17,7 @@ function VideoUploadButton({
       component={Link}
       className={btnClassName}
       startIcon={<i className="material-icons upload">upload</i>}
-      to={links.videoUploadFile(videoId)}
+      to={links.videoUploadFile(playlistId, videoId)}
     >
       upload
     </Button>
