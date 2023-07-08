@@ -4,8 +4,10 @@ import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles, CTText } from 'layout';
 import VideoUploadButton from './VideoUploadButton.js';
+import { Route } from 'dva/router.js';
+import { UploadSingleFile } from '../UploadFile/index.js';
 
-function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
+function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
 
@@ -62,7 +64,8 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
           delete
         </Button>
 
-        <VideoUploadButton videoId={mediaId}/>
+        <VideoUploadButton playlistId={playlistId} videoId={mediaId}/>
+        <Route path="/playlist/:playlistId/:videoId/upload-file" component={UploadSingleFile} />
         
       </div>
       <div>
