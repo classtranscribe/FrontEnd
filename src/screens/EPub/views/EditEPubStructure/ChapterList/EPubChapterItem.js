@@ -58,7 +58,6 @@ function EPubChapterItem({
   // }
   const itemsToDisplay = canDisplayFull ? chapter.items : chapter.items.slice(0, 3);
 
-
   // Automatically update the untitled chapter names to correlate with the chapter index
   useEffect(() => {
     const reg = /^Untitled Chapter \(\d\)$/;
@@ -122,6 +121,7 @@ function EPubChapterItem({
                 {itemsToDisplay.map((item, itemIndex) => (
                   <EPubListItem
                     key={item.id}
+                    chapter={chapter}
                     item={item}
                     itemIndex={itemIndex}
                     chapterIndex={chapterIndex}
