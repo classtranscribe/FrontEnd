@@ -35,7 +35,7 @@ function MediaCard(props) {
   const cardProps = {
     id,
     as: Link,
-    to: {pathname: href, search: '', hash: ''},
+    to: {pathname: href.split('?')[0], search: href.split('?')[1], hash: ''},
     className: cardClasses,
     role: 'listitem',
     title: name
