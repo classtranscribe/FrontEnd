@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiBreadcrumbs from '@material-ui/core/Breadcrumbs';
 import MuiLink from '@material-ui/core/Link';

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { withRouter } from 'dva/router';
+import { withRouter } from 'react-router-dom';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
 import { env, isDeveloping } from 'utils';
 import { appInsightsService } from './service';

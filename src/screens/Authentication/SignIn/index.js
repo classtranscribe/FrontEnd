@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { env, uurl, user, prompt } from 'utils';
 import { CTFragment, CTBrand, CTText, CTList } from 'layout';
 import { useLoaded } from 'hooks';
 import './index.scss';
 
 function SignIn(props) {
-  const { search } = props.location;
+  const { search } = useLocation();
   const { method, redirect, aspopup } = uurl.useSearch();
 
   useLoaded();
@@ -79,4 +79,4 @@ function SignIn(props) {
   );
 }
 
-export default withRouter(SignIn);
+export default SignIn;

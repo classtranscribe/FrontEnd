@@ -8,21 +8,21 @@ import { styles } from './styles';
 const menuItems = [
   {
     name: `Student ${user.isLoginAsAccount ? `(${user.getLoginAsUserInfo().emailId})` : ''}`,
-    title: 'Switch to student page',
+    title: 'Routes to student page',
     href: links.home(),
     icon: 'fas fa-school',
     display: user.isInstructor || user.isAdmin,
   },
   {
     name: `Instructor ${user.isLoginAsAccount ? `(${user.getLoginAsUserInfo().emailId})` : ''}`,
-    title: 'Switch to instructor page',
+    title: 'Routes to instructor page',
     href: links.instructor(),
     icon: 'fas fa-graduation-cap',
     display: user.isInstructor,
   },
   {
     name: `Admin ${user.isLoginAsAccount ? '(You)' : ''}`,
-    title: 'Switch to admin page',
+    title: 'Routes to admin page',
     href: links.admin(),
     icon: 'fas fa-user-cog',
     display: user.isAdmin,

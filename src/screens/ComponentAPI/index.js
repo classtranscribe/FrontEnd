@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'dva/router';
+import { useParams } from 'react-router-dom';
 import { useCTDocTitle, useLoaded } from 'hooks';
 import { CTLayout } from 'layout';
 import { MDXDocsContainer } from 'docs/layouts';

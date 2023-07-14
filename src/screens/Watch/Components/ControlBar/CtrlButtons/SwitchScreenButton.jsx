@@ -10,10 +10,10 @@ export function SwitchScreenButtonWithRedux({dispatch}) {
   return (
     <WatchCtrlButton
       onClick={handleSwitch}
-      label="Switch Screens (SHIFT+<)"
+      label="Routes Screens (SHIFT+<)"
       id="switch-screen-btn"
       ariaTags={{
-        'aria-label': 'Switch Screens',
+        'aria-label': 'Routes Screens',
         // 'aria-keyshortcuts': 'SHIFT+,'
       }}
     >

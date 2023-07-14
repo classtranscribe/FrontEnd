@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { user, links } from 'utils';
 import CTNavHeader, { useSignButtonProps } from '../CTNavHeader';

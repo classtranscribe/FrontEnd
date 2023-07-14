@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTFragment, CTFooter, CTText } from 'layout';
 import { InfoAndListLayout, MediaCard } from 'components';
