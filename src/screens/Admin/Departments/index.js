@@ -17,7 +17,7 @@ export default function DepartPane(props) {
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Departments" />
-      <Route path="/admin/departments/:type?=:id" element={DepartmentEditing} />
+      <Route path="/admin/departments/" element={DepartmentEditing} />
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
