@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import { Button } from 'pico-ui';
 import { connect } from 'dva'
@@ -7,12 +7,8 @@ import timestr from 'utils/use-time';
 import { uurl } from 'utils/use-url';
 import Image from 'components/Image';
 import { epub } from '../../../controllers';
-import { ChapterEditButton, MDEditorModal } from '../../../components';
-import ChapterInfo from '../../EditEPubChapter/ChapterEditor/ChapterInfo';
-import { ChapterImage, ChapterText } from '../../../components';
 
 function EPubListItem({
-  chapter,
   item,
   itemIndex,
   chapterIndex,
@@ -21,78 +17,12 @@ function EPubListItem({
   canSplit = false,
   canSplitSubChapter = false,
   canSubdivide = false,
-  canAddImage = true,
-  canAddText = true,
   setEPubItem,
   dispatch
 }) {
-    const chapterText = chapter.contents[1]
     const imgSrc = uurl.getMediaUrl(item.image);
     const SubCParams = { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
     const CParams = { chapterIdx: chapterIndex, itemIdx: itemIndex };
-
-    const [insertType, setInsertType] = useState(null);
-  const openMDEditor = insertType === 'md';
-
-  const onInsert = (val) => {
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'insertChapterContent', payload: { contentIdx: CParams.chapterIdx, value: val }
-      }
-    })
-  };
-
-  const handleClose = () => setInsertType(null);
-
-  const handleSave = (val) => {
-    console.log(val, CParams.chapterIdx)
-    if (typeof onInsert === 'function' && val) {
-      onInsert(val);
-    }
-    handleClose();
-  };
-
-
-
-  const handleOpenMDEditor = () => setInsertType('md');
-
-
- const handleSaveImage = (val) => {
-    //handleSave(new EPubImageData(val).toObject());
-  };
-
- const handleOpenImgPicker = () => {
-    const imgData = {
-      screenshots: imgSrc,
-      onSave: handleSaveImage,
-      //chapterScreenshots: epub.chapters[subChapterIndex].allImagesWithIn
-    };
-    dispatch({ type: 'epub/setImgPickerData', payload: imgData });
-  }
-
-  // const onTextChange = (subChapterindex) => (val) => {
-  //   dispatch({
-  //     type: 'epub/updateEpubData', payload: {
-  //       action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: subChapterindex, value: val }
-  //     }
-  //   })
-  // };
-
-  const onImageChange = (val) => {
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'setChapterContent', payload: { contentIdx: CParams.itemIdx, value: val, type: 'image' }
-      }
-    })
-  };
-
-  const onRemove = () => {
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'removeChapterContent', payload: { contentIdx: CParams.itemIdx, type: 'image' }
-      }
-    })
-  };
 
     const splitChapterFromSubChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
@@ -146,20 +76,6 @@ function EPubListItem({
       onClick: handleSplitChapter
     });
 
-    const addImgElement = altEl(Button, canAddImage, {
-      ...btnProps,
-      text: 'Add Image',
-      icon: 'image',
-      onClick: handleOpenImgPicker
-    });
-
-    const addTextElement = altEl(Button, canAddText, {
-      ...btnProps,
-      text: 'Add Text',
-      icon: 'add',
-      onClick: handleOpenMDEditor
-    });
-
     const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
       ...btnProps,
       text: 'New Sub-Chapter',
@@ -179,59 +95,39 @@ function EPubListItem({
           {splitBtnElement}
           {splitSChBtnElement}
           {subdivideBtnElement}
-          {addImgElement}
-          {addTextElement}
         </div>
 
-        <MDEditorModal
-          show={openMDEditor}
-          onClose={handleClose}
-          onSave={handleSave}
-          title="Insert New Text"
-        />
-
-        {
-          itemIndex == 0 ? (
-            <div
-              id={item.id}
-              role="button"
-              tabIndex="0"
-              className="ct-epb ct-d-r item-info"
-              onClick={openItemDetails}
-              aria-haspopup="true"
-              aria-controls={epub.id.epbItemViewId(item.id)}
-            >
-              <div className="item-time-con">
-                <div className="item-time">
-                  {timestr.toPrettierTimeString(item.start)}
-                </div>
-                <div className="item-time">
-                  {timestr.toPrettierTimeString(item.end)}
-                </div>
-              </div>
-
-              <div className="item-img-con">
-                {/* <Image src={imgSrc} alt="screenshot" /> */}
-                {<ChapterImage
-                  id={item.id}
-                  image={{src: item.image}}
-                  enableChapterScreenshots
-                  onChooseImage={onImageChange}
-                  onRemoveImage={onRemove}
-                />}
-
-                {/* text below must be modified to make sure text length is greater than a certain amount */}
-                <CTText line={4} className="item-text">
-                  {
-                    chapterText
-                    ||
-                    <span className="text-muted"><i>No Transcriptions</i></span>
-                  }
-                </CTText>
-              </div>
+        <div
+          id={item.id}
+          role="button"
+          tabIndex="0"
+          className="ct-epb ct-d-r item-info"
+          onClick={openItemDetails}
+          aria-haspopup="true"
+          aria-controls={epub.id.epbItemViewId(item.id)}
+        >
+          <div className="item-time-con">
+            <div className="item-time">
+              {timestr.toPrettierTimeString(item.start)}
             </div>
-          ) : (<></>)
-        }
+            <div className="item-time">
+              {timestr.toPrettierTimeString(item.end)}
+            </div>
+          </div>
+
+          <div className="item-img-con">
+            <Image src={imgSrc} alt="screenshot" />
+
+            {/* text below must be modified to make sure text length is greater than a certain amount */}
+            <CTText line={4} className="item-text">
+              {
+                item.text
+                ||
+                <span className="text-muted"><i>No Transcriptions</i></span>
+              }
+            </CTText>
+          </div>
+        </div>
       </div>
     );
 }
