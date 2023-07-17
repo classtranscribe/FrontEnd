@@ -13,7 +13,7 @@ import {
   EPubFileInfoModal,
   ImagePickerModal
 } from './components';
-import { EditEPubStructure, EditEPubChapter, ViewAndDownload } from './views';
+import { EditEPubStructure, EditEPubChapter, ViewAndDownload, EditINote } from './views';
 import './index.scss';
 
 function shouldDisable() {
@@ -30,6 +30,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const editStructView = altEl(EditEPubStructure, view === epubController.const.EpbEditStructure);
   const editChapterView = altEl(EditEPubChapter, view === epubController.const.EpbEditChapter);
   const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
+  const editINoteView = altEl(EditINote, view === epubController.const.EditINote);
 
   const previewModal = makeEl(PreviewModal);
   const shortcutModal = makeEl(ShortcutModal);
@@ -104,6 +105,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
         {editStructView}
         {editChapterView}
         {readOnlyView}
+        {editINoteView}
       </CTFragment>
 
       <ImagePickerModal />

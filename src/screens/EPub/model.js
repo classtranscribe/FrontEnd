@@ -146,6 +146,8 @@ const EPubModel = {
                 const media = yield call(getMediaById, _epub.sourceId);
                 yield put({ type: 'setMedia', payload: media });
             }
+            // split chapter by screenshots on create (default of 25 min word count)
+            // yield put({type: 'epub/splitChaptersByScreenshots', payload:{wc: 25}});
         },
         *openPlayer({ payload: { title, start, end } }, { call, put, select, take }) {
             const { epub } = yield select();
