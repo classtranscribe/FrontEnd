@@ -11,9 +11,9 @@ function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem,
         <ul className='ct-inote-editor'> 
             {chapters.map((chapter, chIdx) => (
                 <INoteChapter 
-                    chapter={chapter} 
-                    chIdx={chIdx}
-                    dispatch={dispatch}
+                  chapter={chapter} 
+                  chIdx={chIdx}
+                  dispatch={dispatch}
                 />
             ))}
         </ul>

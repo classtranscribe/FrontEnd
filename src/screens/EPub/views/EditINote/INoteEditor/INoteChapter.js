@@ -1,7 +1,7 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React from 'react' 
-import { ChapterImage, ChapterText, Text } from '../../../components';
 import { Button } from 'pico-ui';
+import { ChapterImage, ChapterText } from '../../../components';
 
 function INoteChapter ({
     chapter, 
@@ -11,7 +11,6 @@ function INoteChapter ({
     canSubdivide = true,
     dispatch 
 }) {
-
     // Buttons and onClick Functions 
     const btnProps = {
         round: true,
@@ -64,29 +63,29 @@ function INoteChapter ({
         <div className='ct-inote-chapter'>
             <div className='title'>
                 <CTText size='huge' bold>
-                    {chapter.title}
+                  {chapter.title}
                 </CTText>
             </div>
 
             <div className="item-actions">
-                {splitBtnElement}
-                {splitSChBtnElement}
-                {subdivideBtnElement}
-                {addImgElement}
-                {addTextElement}
+              {splitBtnElement}
+              {splitSChBtnElement}
+              {subdivideBtnElement}
+              {addImgElement}
+              {addTextElement}
             </div>
 
             {chapter.contents.map((content, idx) => (
                 typeof content === "object" ? // image
                     <div className='img-con'>   
-                        {<ChapterImage 
-                            image={content} //TODO ITEM id and ocr and alttext maybe map between item and content 
-                        />}
+                        <ChapterImage 
+                          image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                        />
                     </div>
                 : // text 
                     <div className='item-text'>   
                         <ChapterText  
-                            text={content}
+                          text={content}
                         />
                     </div>
             ))} 

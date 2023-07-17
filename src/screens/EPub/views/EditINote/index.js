@@ -13,7 +13,6 @@ function EditINote ({ epub: epubData, dispatch}) {
     const onScroll = (e) => dispatchScroll(e.target);
     
     const [iNoteItem, setINoteItem] = useState(null);
-    console.log(epubData)
     return (
         <EPubNavigationProvider>
             <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID} onScroll={onScroll}>
@@ -24,9 +23,6 @@ function EditINote ({ epub: epubData, dispatch}) {
             </CTFragment>
         </EPubNavigationProvider>
     )
-
 }
-
-export default connect(({ epub: { epub }, loading }) => ({
-    epub
+export default connect(({ loading }) => ({
   }))(EditINote);
