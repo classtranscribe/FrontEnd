@@ -96,9 +96,10 @@ tbody tr:hover {
     position: absolute;
 }
 
-.video-player {
+#ASL-Glossary-video-player{
+    margin-top: 33px;
     width: 100%;
-    height: 100%;
+    height: 84%;
 }
 
 .drawing-wrap{
@@ -110,12 +111,21 @@ tbody tr:hover {
     // cursor: move;
     width: 100px;
     height: 100px;
-    background-color: #ccc;
+    background-color: rgb(2, 50, 64);
     position: absolute;
     top: 100px;
     left: 100px;
     box-sizing: border-box;
 
+}
+
+.drawing-item span{
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: larger;
+    margin-top: 5px;
 }
 .control-point {
   position: absolute;
