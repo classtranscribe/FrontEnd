@@ -13,7 +13,7 @@ function EditEPubChapter({ dispatch }) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
   const onScroll = (e) => dispatchScroll(e.target)
 
-  return (
+  return ( 
     <EPubNavigationProvider>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID} onScroll={onScroll}>
         <CTFragment width="67%">

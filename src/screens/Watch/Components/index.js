@@ -7,5 +7,3 @@ export { ControlBar } from './ControlBar';
 export { Transcriptions } from './Transcriptions';
 export { Search } from './Search';
 export * from './Overlays';
-export { LivePlayerFooter } from './LivePlayerFooter';
-export { LivePlayerNavBar } from './LivePlayerNavBar';

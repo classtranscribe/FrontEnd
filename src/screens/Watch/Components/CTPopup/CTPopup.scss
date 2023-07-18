@@ -1,0 +1,148 @@
+
+
+.video2 {
+  // overflow: scroll;
+  position: absolute;
+  // width: auto;
+  height: 300px;
+  width: 500px;
+  bottom: 5%;
+  z-index: 10;
+  opacity: 0.6;
+  background-color :rgb(2, 50, 64);
+  font-size:small;
+  border-radius: 10px;
+  border: 1px solid #333;
+  padding: 5px;
+  // display: flex;
+  display: grid;
+  grid-template-columns: [c1] 57.6% [c2] 43.4% [c3];
+  // grid-template-rows: ;
+}
+
+.gloPanel {
+  display: grid;
+  position: relative;
+  grid-column-start: c2;
+  grid-column-end: c3;
+  // overflow-wrap: normal;
+}
+
+.detail-div {
+  // display: grid;
+  position: relative;
+  grid-column-start: c1;
+  grid-column-end: c2;
+}
+
+.divPanel {
+  color: white;
+  // overflow-y: auto;
+  // overflow-x:; 
+  // width: min-content;
+  display: grid;
+  position: relative;
+  grid-column-start: c1;
+  grid-column-end: c2;
+}
+
+.buttons {
+  position: absolute;
+  left: 50%;
+  z-index: 11;
+}
+
+.button {
+  background-color:rgb(1, 61, 43);
+  font-size: medium;
+  border-radius: 12px;
+}
+
+.glossary-entry:hover {
+  /* background-color: white; */
+  color: black;
+}
+
+.glossary-entry {
+  list-style: none;
+  color:rgb(169, 169, 169);
+  padding-bottom: 3px;
+  overflow-x: hidden;
+}
+
+.glossary-entry button {
+  background-color: rgb(2, 50, 64);
+  text-align: left;
+}
+
+.glossary-entry button:focus {
+  outline-style: none;
+  font-size: larger;
+}
+
+.glossary-entry-highlighted {
+  font-weight: bold;
+  color:rgb(255, 255, 255);
+}
+
+.glossary-entry-highlighted button {
+  background-color: rgb(2, 50, 64);
+}
+
+.divPanel span {
+  word-wrap: break-word;
+  width: 280px;
+}
+
+
+
+// .react-tabs__tab-panel {
+//   width: 100%;
+//   height: 100%;
+// }
+
+.react-tabs__tab-panel--selected {
+  // overflow-y: auto;
+  width: 280px;
+  height: 80%;
+}
+
+.video-player {
+  width: 300px;
+  height: 170px;
+}
+
+// .popup-video-player {
+//   height: 80%;
+//   z-index: 100;
+// }
+
+.search-bar {
+  // z-index: 100;
+  // position: absolute;
+  margin-left: 30px;
+  width: 150px;
+  height: 25px;
+  color: black;
+}
+
+.glossary-scrollable {
+  // margin-top: 20px;
+  // height: 280px;
+  // width: 192px;
+  // overflow-y: scroll;
+  height: 240px;
+  width: 212px;
+  overflow-y: scroll;
+}
+
+.glossary-scrollable-char{
+  // margin-top: 20px;
+  height: 210px;
+  width: 212px;
+  overflow-y: scroll;
+}
+
+.list-tabs {
+  margin-left: 20px;
+}

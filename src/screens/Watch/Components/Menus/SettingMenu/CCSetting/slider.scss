@@ -17,7 +17,7 @@ $lower-background-hover: linear-gradient(to bottom, $lower-color-hover, $lower-c
 // Webkit cannot style progress so we fake it with a long shadow
 // on the thumb element
 @function webkit-slider-thumb-shadow($i: 1) {
-  $val: #{$i}px 0 0 -#{($thumb-height - $track-height) / 2} #{$upper-color};
+  $val: #{$i}px 0 0 -#{($thumb-height - $track-height) * 0.5} #{$upper-color};
   @if $i == 1 {
     @for $k from 2 through 1000 {
       $val: #{$val}, webkit-slider-thumb-shadow($k);
@@ -59,7 +59,7 @@ $lower-background-hover: linear-gradient(to bottom, $lower-color-hover, $lower-c
   border-radius: 100%;
   border: 0;
   top: 50%;
-  margin-top: (-$thumb-height/2 + 1px);
+  margin-top: (-$thumb-height*0.5 + 1px);
   box-shadow: webkit-slider-thumb-shadow();
   cursor: ew-resize;
 }

@@ -146,6 +146,8 @@ const EPubModel = {
                 const media = yield call(getMediaById, _epub.sourceId);
                 yield put({ type: 'setMedia', payload: media });
             }
+            // split chapter by screenshots on create (default of 25 min word count)
+            // yield put({type: 'epub/splitChaptersByScreenshots', payload:{wc: 25}});
         },
         *openPlayer({ payload: { title, start, end } }, { call, put, select, take }) {
             const { epub } = yield select();
@@ -228,7 +230,7 @@ const EPubModel = {
             yield put.resolve({ type: action, payload })
             yield put({ type: 'updateEPub' })
         },
-        *splitChaptersByScreenshots({ payload }, { call, put, select, take }) {
+        *splitChaptersByScreenshots({ payload: {wc} }, { call, put, select, take }) {
             prompt.addOne({
                 text: 'Split chapters by screenshots.',
                 position: 'left bottom',

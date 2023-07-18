@@ -71,6 +71,7 @@ export const MENU_LANGUAGE = 'menu-language';
 export const MENU_SCREEN_MODE = 'menu-screen-mode';
 export const MENU_DOWNLOAD = 'menu-download';
 export const MENU_SHORTCUTS = 'menu-shortcuts';
+export const MENU_GLOSSARY = 'menu-glossary'; // May 20 Jiaxi
 // Setting menu tabs
 export const SMTAB_GENERAL = 'tab-general';
 export const SMTAB_TRANS = 'tab-trans';

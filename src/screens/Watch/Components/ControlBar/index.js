@@ -16,6 +16,7 @@ import {
   LanguagePickerButton,
   AudioDescriptionButton,
   ScreenModeSettingButton,
+  GlossaryButton, // May 20 Jiaxi
 } from './CtrlButtons';
 
 import VolumeControl from './VolumeControl';
@@ -44,6 +45,9 @@ export function ControlBarWithRedux(props) {
         <TimeDisplay />
       </div>
       <div className="watch-ctrl-bar-right-elems">
+        {/* May 20 Jiaxi */}
+        <GlossaryButton />
+
         {isMobile && <NextVideoButton nextBtn={false} />}
         {isMobile && <NextVideoButton />}
 
