@@ -67,7 +67,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
 
       <h3 className="watch-menu-tab-subtitle">
         <input
-          position="top right"
+          // position="top right"
           id="brightness-slider"
           className="brightness-slider"
           label="default"

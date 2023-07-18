@@ -45,13 +45,13 @@ function SecondaryPlayerWrapperWithRedux({
         <button
           className="watch-secondary-wrapper-button plain-btn ripple-btn"
           content="switch"
-          aria-label="Switch Screen"
+          aria-label="Routes Screen"
           onClick={onSwitch}
         >
           <p className="text-center">
             <i className="material-icons">compare_arrows</i>
             <br />
-            <strong>Switch</strong>
+            <strong>Routes</strong>
           </p>
         </button>
       </div>

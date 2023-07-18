@@ -30,8 +30,8 @@ function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
             className="watch-playlist-item plain-btn"
             role="listitem"
             onClick={handlePlaylistClick(playlistItem.id)}
-            current={Boolean(playlist.id === playlistItem.id).toString()}
-            active={Boolean(currPlaylist.id === playlistItem.id).toString()}
+            // current={Boolean(playlist.id === playlistItem.id).toString()}
+            // active={Boolean(currPlaylist.id === playlistItem.id).toString()}
           >
             <i className="material-icons library-icon">video_library</i>
             <div className="playlist-name">

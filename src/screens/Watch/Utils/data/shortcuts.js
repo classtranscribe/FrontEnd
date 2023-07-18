@@ -66,7 +66,7 @@ export const shortcuts = [
       },
       {
         keys: [{ key1: '⇧ Shift', key2: ',' }],
-        action: 'Switch screens (if there are 2 screens)',
+        action: 'Routes screens (if there are 2 screens)',
       },
     ],
   },

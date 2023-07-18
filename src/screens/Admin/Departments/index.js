@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Route } from 'dva/router';
+import { Route } from 'react-router-dom';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import DepartmentEditing from './DepartmentEditing';
@@ -17,7 +17,7 @@ export default function DepartPane(props) {
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Departments" />
-      <Route path="/admin/departments/:type?=:id" component={DepartmentEditing} />
+      <Route path="/admin/departments/" element={DepartmentEditing} />
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>

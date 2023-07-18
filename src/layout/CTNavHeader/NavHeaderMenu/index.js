@@ -30,12 +30,12 @@ function UserMenu(props) {
     setTimeout(() => setAnchorEl(null), 200);
   };
 
-  const { 
-    fullName, 
-    universityId, 
-    picture, 
-    emailId, 
-    roles 
+  const {
+    fullName,
+    universityId,
+    picture,
+    emailId,
+    roles
   } = user.getUserInfo({
     allowLoginAsOverride: false,
   });
@@ -48,6 +48,21 @@ function UserMenu(props) {
 
   const open = Boolean(anchorEl);
 
+  const forwardProps = {
+    anchorEl,
+    open,
+    handleClose,
+    styles,
+    uniName,
+    picture,
+    emailId,
+    fullName,
+    user,
+    loginAsUserUni,
+    loginAsUserInfo,
+    roles
+  }
+
   return (
     <div className="profile-menu">
       <MenuTrigger
@@ -59,36 +74,41 @@ function UserMenu(props) {
 
       {
         user.isLoggedIn ?
-        /** Signed in menu */
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
+          /** Signed in menu */
+          <MuiMenu {...forwardProps} />
+          :
+          <SignInMenu
             open={open}
-            onClose={handleClose}
-            PaperProps={{ style: styles.menu }}
-          >
-            <ProfileInfo
-              uniName={uniName}
-              picture={picture}
-              emailId={emailId}
-              fullName={fullName}
-              isLoginAsAccount={user.isLoginAsAccount}
-              loginAsUserUni={loginAsUserUni.name}
-              loginAsEmailId={loginAsUserInfo.emailId}
-            />
-
-            <ProfileMenu roles={roles} />
-          </Menu>
-        :
-          <SignInMenu 
-            open={open} 
-            anchorEl={anchorEl} 
+            anchorEl={anchorEl}
             handleClose={handleClose}
           />
       }
     </div>
   );
 }
+
+const MuiMenu = React.forwardRef((props, ref) => {
+  return <Menu
+    ref={ref}
+    anchorEl={props.anchorEl}
+    keepMounted
+    open={props.open}
+    onClose={props.handleClose}
+    PaperProps={{ style: props.styles.menu }}
+  >
+    <ProfileInfo
+      uniName={props.uniName}
+      picture={props.picture}
+      emailId={props.emailId}
+      fullName={props.fullName}
+      isLoginAsAccount={props.user.isLoginAsAccount}
+      loginAsUserUni={props.loginAsUserUni.name}
+      loginAsEmailId={props.loginAsUserInfo.emailId}
+    />
+
+    <ProfileMenu roles={props.roles} />
+         </Menu>
+});
 
 UserMenu.propTypes = {
   /** The Nav Header supports dark mode */

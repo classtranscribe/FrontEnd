@@ -84,7 +84,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
             key={`customized-playback-rate-${sliderValue}`}
             className="plain-btn watch-icon-listitem playbackrate-listitem"
             aria-label={`customized-playback-rate-${sliderValue}`}
-            active={usingCustomizedRate.toString()}
+            // active={usingCustomizedRate.toString()}
             onClick={chooseCustomizedRate(sliderValue)}
             role="menuitem"
           >
@@ -107,7 +107,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
               key={`playback-rate-${rate}`}
               className="plain-btn watch-icon-listitem playbackrate-listitem"
               aria-label={`playback-rate-${rate}`}
-              active={Boolean(playbackrate === rate && !usingCustomizedRate).toString()}
+              // active={Boolean(playbackrate === rate && !usingCustomizedRate).toString()}
               onClick={handleChooseRate(rate)}
               role="menuitem"
             >

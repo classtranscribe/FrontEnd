@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Route } from 'dva/router';
+import { Route } from 'react-router-dom';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import CourseEditing from './CourseEditing';
@@ -21,7 +21,7 @@ export default function CoursePane(props) {
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Course Templates" />
-      <Route path="/admin/course-template/:type?=:id" component={CourseEditing} />
+      <Route path="/admin/course-template/:type?=:id" element={CourseEditing} />
 
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>

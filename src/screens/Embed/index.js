@@ -4,7 +4,6 @@ import CTPlayer, {
   CTPlayerConstants as PConstants,
   LanguageConstants as LangConstants
 } from 'components/CTPlayer';
-import { useParams } from "dva/router";
 import { connect } from 'dva';
 
 /* 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { MENU_HIDE, MENU_SHORTCUTS } from '../../../Utils';
 import { connect } from 'dva';
+import { MENU_HIDE, MENU_SHORTCUTS } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {

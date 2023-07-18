@@ -6,7 +6,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { Route, Redirect } from 'dva/router';
+import { Route, Navigate } from 'react-router-dom';
 // UI
 import './index.css';
 // Layouts
@@ -158,7 +158,7 @@ export class Admin extends React.Component {
     return (
       <CTLayout {...this.getLayoutProps()}>
         <div className="admin-bg">
-          <Route exact path={links.admin()} render={() => <Redirect to={routes[0].href} />} />
+          <Route exact path={links.admin()} render={() => <Navigate to={routes[0].href} />} />
 
           {routes.map( route => (
             <Route

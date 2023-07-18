@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Route } from 'dva/router';
+import { Route } from 'react-router-dom';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import TermEditing from './TermEditing';
@@ -18,7 +18,7 @@ export default function TermPane(props) {
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Terms" />
       
-      <Route path="/admin/terms/:type?=:id" component={TermEditing} />
+      <Route path="/admin/terms/:type?=:id" element={TermEditing} />
       <Message color="black">
         <Message.Header>Select from Universities</Message.Header>
         <p>

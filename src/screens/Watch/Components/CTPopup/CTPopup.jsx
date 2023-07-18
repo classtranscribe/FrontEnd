@@ -1,4 +1,3 @@
-// import { parseSec } from 'screens/Watch/Utils';
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.scss';
@@ -8,8 +7,6 @@ import { connect } from 'dva';
 import Draggable from 'react-draggable';
 import './CTPopup.scss'
 import GlossaryPanel from './GlossaryPanel';
-
-
 
 const ASLVideoPlayer = (word, videoURL, source) => {
   return (
@@ -239,5 +236,4 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
 // export default CTPopup;
 
 export default connect(({ watch: { time, duration, liveMode } }) => ({
-  time, duration, liveMode
-}))(CTPopup);
+  time, duration, liveMode}))(CTPopup);

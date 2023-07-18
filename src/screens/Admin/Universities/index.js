@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Route } from 'dva/router';
+import { Route } from 'react-router-dom';
 // UI
 import { Tab, Divider } from 'semantic-ui-react';
 import UniversityEditing from './UniversityEditing';
@@ -12,7 +12,7 @@ import { CreateNewButton, AdminListItem, AdminHeading } from '../Components';
 export default function UniPane({ state: { universities } }) {
   return (
     <Tab.Pane attached={false} className="ap-list">
-      <Route path="/admin/universities/:type?=:id" component={UniversityEditing} />
+      <Route path="/admin/universities/:type?=:id" element={UniversityEditing} />
       <AdminHeading name="Universities" />
       <CreateNewButton name="Create New University" id="new" path="universities" />
 
