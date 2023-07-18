@@ -1,7 +1,8 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React from 'react' 
 import { Button } from 'pico-ui';
-import { ChapterImage, ChapterText } from '../../../components';
+import { ChapterImage, ChapterText, ChapterTitle } from '../../../components';
+import {epub as epubTools} from '../../../controllers'
 
 function INoteChapter ({
     chapter, 
@@ -59,12 +60,30 @@ function INoteChapter ({
         // onClick: subdivideChapter
     });
 
+    // Save Chapter Title Handler 
+    const saveChapterTitle = value =>
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
+      }
+    })
+
     return (
-        <div className='ct-inote-chapter'>
-            <div className='title'>
-                <CTText size='huge' bold>
-                  {chapter.title}
-                </CTText>
+        <div 
+          className='ct-inote-chapter' 
+          id={epubTools.id.chID(chapter.id)}
+        >
+            <div className='chapter-title'>
+                <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
+                <div className="ch-item-title-con ct-d-r-center-v">
+                    <ChapterTitle
+                      id={epubTools.id.chTitleID(chapter.id)}
+                      value={chapter.title}
+                      onSave={saveChapterTitle}
+                      headingType="h2"
+                      className="ch-item-title"
+                    />
+                </div>
             </div>
 
             <div className="item-actions">
