@@ -11,7 +11,7 @@ import GlossaryPanel from './GlossaryPanel';
 const ASLVideoPlayer = (word, videoURL, source) => {
   return (
     <TabPanel>
-      <strong>{`${word} (Source: ${source})`}</strong><br></br><br></br>
+      <strong>{`${word} (Source: ${source})`}</strong><br /><br />
       {videoURL==='' ? (<span>video not found</span>) 
       : 
       (<video 
@@ -21,21 +21,21 @@ const ASLVideoPlayer = (word, videoURL, source) => {
         data-setup="{}"
       >
         <source src={videoURL} type='video/mp4' />
-      </video>)}
+       </video>)}
     </TabPanel>)
 }
 
 const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     const [opvalue, setOpvalue] = useState(0.75); // variable for transparency
-    const OPSTEP = 0.125; //the amount of changed opvalue for each operation
+    const OPSTEP = 0.125; // the amount of changed opvalue for each operation
     // const hostName = window.location.hostname;
     const hostName = "ct-dev.ncsa.illinois.edu"; // for local test
-    //below are variables for videos and explanations for chosen glossary
+    // below are variables for videos and explanations for chosen glossary
     const [term, setTerm] = useState({}); // set default to empty string
     const [signSource, setSignSource] = useState('');
     const [definitionSource, setDefinitionSource] = useState('');
     const [exampleSource, setExampleSource] = useState('');
-    const [signURL, setSignURL] = useState(''); //url should be set to '' when it does not exist
+    const [signURL, setSignURL] = useState(''); // url should be set to '' when it does not exist
     const [definitionURL, setDefinitionURL] = useState('');
     const [exampleURL, setExampleURL] = useState('');
 
@@ -57,14 +57,14 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     // const [playing, setPlay] = React.useState(false);
     // const [playerstatus, setPlayerStatus] = React.useState('play');
     
-    //stamp might be 00:00:00 or 00:00
+    // stamp might be 00:00:00 or 00:00
     const parseTimestamp = (stamp) => {
       const nums = stamp.split(':');
-      var sec = 0;
-      var base = 1;
-      for (var i = nums.length - 1; i >= 0; i--) {
-        sec += base * parseInt(nums[i]);
-        base = base * 60;
+      let sec = 0;
+      let base = 1;
+      for (let i = nums.length - 1; i >= 0; i -= 1) {
+        sec += base * parseInt(nums[i], 10);
+        base *= 60;
       }
       return sec;
     }
@@ -86,7 +86,6 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
         // console.log(res);
         const gdata = [];
         res.data.Glossary.forEach(element => {
-          
           const curdata = {
             word: element[0],
             explain: element[1],
@@ -100,14 +99,14 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
             curdata.begin = parseTimestamp(curstamp[0].substring(0,8));
             curdata.end = parseTimestamp(curstamp[1].substring(0,8));
           } else {
-            console.log("words not found in time stamp");
+            console.warn("words not found in time stamp");
           }
           // console.log(curdata);
           gdata.push(curdata);
         });
 
         setGlossaries(gdata);
-        const curstamp = parseInt(time);
+        const curstamp = parseInt(time, 10);
         const newShow = glossaries.filter(word => word.begin <= curstamp && word.end >= curstamp);
         setShow([...newShow]);
       }
@@ -179,57 +178,57 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     }
 
     // used for transparency
-    const toPercent = (opvalue) => {
-        var str = Number(opvalue * 100);
+    const toPercent = (value) => {
+        let str = Number(value * 100);
         str += "%";
         return str;
     }
     return (
-        <Draggable cancel='.search-bar'>
-          <div style={divStyle} className={'video1 video2'}>
-              <div className='buttons'>
-                  <ButtonGroup style={btngpStyle}>
-                      <button className='button'> {toPercent(opvalue)} </button>
-                      <button className='button' onClick={subOpValue}>-</button>
-                      <button className='button' onClick={addOpValue}>+</button>
-                  </ButtonGroup>
-              </div>
+      <Draggable cancel='.search-bar'>
+        <div style={divStyle} className='video1 video2'>
+          <div className='buttons'>
+            <ButtonGroup style={btngpStyle}>
+              <button className='button'> {toPercent(opvalue)} </button>
+              <button className='button' onClick={subOpValue}>-</button>
+              <button className='button' onClick={addOpValue}>+</button>
+            </ButtonGroup>
+          </div>
 
-                <Tabs className='detail-div'>
-                  <TabList>
-                      <Tab>ASL Video</Tab>
-                      <Tab>English</Tab>
-                  </TabList>
+          <Tabs className='detail-div'>
+            <TabList>
+              <Tab>ASL Video</Tab>
+              <Tab>English</Tab>
+            </TabList>
 
-                  <TabPanel>
-                    <Tabs>
-                      <TabList>
-                        {signURL !== '' && (<Tab>Sign</Tab>)}
-                        {definitionURL !== '' && (<Tab>Definition</Tab>)}
-                        {exampleURL !== '' && (<Tab>Example</Tab>)}
-                      </TabList>
-                      {signURL !== '' && ASLVideoPlayer(term.word, signURL, signSource)}
-                      {definitionURL !== '' && ASLVideoPlayer(term.word, definitionURL, definitionSource)}
-                      {exampleURL !== '' && ASLVideoPlayer(term.word, exampleURL, exampleSource)}
-                    </Tabs>
-                  </TabPanel>
-                  <TabPanel className='divPanel'>
-                      <strong>{term.word}</strong><br></br>
-                      <span className='nowrap'>{term.explain}</span><br></br>
-                      <span>{term.url}</span>
-                  </TabPanel>
+            <TabPanel>
+              <Tabs>
+                <TabList>
+                  {signURL !== '' && (<Tab>Sign</Tab>)}
+                  {definitionURL !== '' && (<Tab>Definition</Tab>)}
+                  {exampleURL !== '' && (<Tab>Example</Tab>)}
+                </TabList>
+                {signURL !== '' && ASLVideoPlayer(term.word, signURL, signSource)}
+                {definitionURL !== '' && ASLVideoPlayer(term.word, definitionURL, definitionSource)}
+                {exampleURL !== '' && ASLVideoPlayer(term.word, exampleURL, exampleSource)}
+              </Tabs>
+            </TabPanel>
+            <TabPanel className='divPanel'>
+              <strong>{term.word}</strong><br />
+              <span className='nowrap'>{term.explain}</span><br />
+              <span>{term.url}</span>
+            </TabPanel>
                     
 
-                </Tabs>
+          </Tabs>
 
-              <GlossaryPanel 
-                glossaries={glossaries} 
-                time={time} 
-                setTerm={setTerm}
-                />
+          <GlossaryPanel 
+            glossaries={glossaries} 
+            time={time} 
+            setTerm={setTerm}
+          />
 
-          </div>
-        </Draggable>
+        </div>
+      </Draggable>
     )
 };
 
