@@ -1,8 +1,9 @@
 import { CTFragment, CTText, altEl} from 'layout'
-import React from 'react' 
+import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
-import { ChapterImage, ChapterText, ChapterTitle } from '../../../components';
+import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
+import { EPubImageData } from 'entities/EPubs';
 
 function INoteChapter ({
     chapter, 
@@ -10,8 +11,54 @@ function INoteChapter ({
     canSplit = true,
     canSplitSubChapter = true,
     canSubdivide = true,
+    canAddImage = true,
+    canAddText = true,
     dispatch 
 }) {
+    
+    const CParams = { chapterIdx: chIdx};
+
+    const [insertType, setInsertType] = useState(null);
+    const openMDEditor = insertType === 'md';
+
+    const onInsert = (val) => {
+        console.log(CParams.chapterIdx)
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'insertChapterContent', payload: { contentIdx: CParams.chapterIdx, value: val }
+      }
+    })
+  };
+
+    const handleOpenMDEditor = () => setInsertType('md');
+
+    const handleClose = () => setInsertType(null);
+
+    const handleSave = (val) => {
+        console.log(val, CParams.chapterIdx)
+        if (typeof onInsert === 'function' && val) {
+            onInsert(val);
+        }
+        handleClose();
+    };
+
+    const handleSaveImage = (val) => {
+        handleSave(new EPubImageData(val).toObject());
+    };
+
+    const handleOpenImgPicker = () => {
+        const imgData = {
+        //screenshots: imgSrc,
+        onSave: handleSaveImage,
+        //chapterScreenshots: epub.chapters[subChapterIndex].allImagesWithIn
+        };
+        dispatch({ type: 'epub/setImgPickerData', payload: imgData });
+    }
+
+
+
+
+
     // Buttons and onClick Functions 
     const btnProps = {
         round: true,
@@ -33,7 +80,7 @@ function INoteChapter ({
         ...btnProps,
         text: 'Add Image',
         icon: 'image',
-        // onClick: handleOpenImgPicker
+        onClick: handleOpenImgPicker
     });
 
     // Add Text Button 
@@ -41,7 +88,7 @@ function INoteChapter ({
         ...btnProps,
         text: 'Add Text',
         icon: 'add',
-        // onClick: handleOpenMDEditor
+        onClick: handleOpenMDEditor
     });
 
     // New Subchapter Button 
@@ -93,6 +140,13 @@ function INoteChapter ({
               {addImgElement}
               {addTextElement}
             </div>
+
+            <MDEditorModal
+              show={openMDEditor}
+              onClose={handleClose}
+              onSave={handleSave}
+              title="Insert New Text"
+            />
 
             {chapter.contents.map((content, idx) => (
                 typeof content === "object" ? // image
