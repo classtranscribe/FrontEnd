@@ -73,6 +73,24 @@ function INoteChapter ({
       }
     })
 
+    // Chapter Image Functions
+    const onImageChange = (index) => (val) => {
+        console.log(val)
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'setChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
+          }
+        })
+    };
+
+    const onRemove = (index) => () => {
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
+          }
+        })
+      };
+
     return (
         <div 
           className='ct-inote-chapter' 
@@ -91,7 +109,7 @@ function INoteChapter ({
                 </div>
             </div>
 
-            {chapter.contents.map((content, itemIdx) => ( // TODO pass on itemidx to itemactions
+            {chapter.contents.map((content, itemIdx) => (
                 <div key={itemIdx}>
                     <div className="item-actions">
                       {splitBtnElement(itemIdx)}
@@ -104,9 +122,13 @@ function INoteChapter ({
                     {typeof content === "object" ? ( // image
                         <div className='img-con'>   
                             <ChapterImage 
+                            //   id={`ch-content-${id}-${itemIdx}`}
                               image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                              enableChapterScreenshots
+                              onChooseImage = {onImageChange(itemIdx)}
+                              onRemoveImage = {onRemove(itemIdx)}
                             />
-                        </div>
+                        </div> 
                         ) : ( // text 
                         <div className='item-text'>   
                             <ChapterText  
