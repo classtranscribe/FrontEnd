@@ -21,44 +21,49 @@ function INoteChapter ({
     };
 
     // Split Button 
-    const splitBtnElement = altEl(Button, canSplit, {
-        ...btnProps,
-        text: 'Split Chapter',
-        icon: 'unfold_more',
-        // onClick: handleSplitChapter
-    });
+    const splitBtnElement = (itemIdx) => {
+        return altEl(Button, canSplit, {
+            ...btnProps,
+            text: 'Split Chapter',
+            icon: 'unfold_more',
+            // onClick: handleSplitChapter(i1)
+    })};
 
     // Add Image Button
-    const addImgElement = altEl(Button, true, {
-        ...btnProps,
-        text: 'Add Image',
-        icon: 'image',
-        // onClick: handleOpenImgPicker
-    });
+    const addImgElement = (itemIdx) => {
+        return altEl(Button, true, {
+            ...btnProps,
+            text: 'Add Image',
+            icon: 'image',
+            // onClick: handleOpenImgPicker
+    })};
 
     // Add Text Button 
-    const addTextElement = altEl(Button, true, {
-        ...btnProps,
-        text: 'Add Text',
-        icon: 'add',
-        // onClick: handleOpenMDEditor
-    });
+    const addTextElement = (itemIdx) => {
+        return altEl(Button, true, {
+            ...btnProps,
+            text: 'Add Text',
+            icon: 'add',
+            // onClick: handleOpenMDEditor
+    })};
 
     // New Subchapter Button 
-    const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
-        ...btnProps,
-        text: 'New Sub-Chapter',
-        icon: 'subdirectory_arrow_right',
-        // onClick: splitSubChapter
-    });
+    const splitSChBtnElement = (itemIdx) => {
+        return altEl(Button, canSplitSubChapter, {
+            ...btnProps,
+            text: 'New Sub-Chapter',
+            icon: 'subdirectory_arrow_right',
+            // onClick: splitSubChapter
+    })};
 
     // Subdivide Button 
-    const subdivideBtnElement = altEl(Button, canSubdivide, {
-        ...btnProps,
-        text: 'subdivide',
-        icon: 'subdirectory_arrow_right',
-        // onClick: subdivideChapter
-    });
+    const subdivideBtnElement = (itemIdx) => {
+        return altEl(Button, canSubdivide, {
+            ...btnProps,
+            text: 'subdivide',
+            icon: 'subdirectory_arrow_right',
+            // onClick: subdivideChapter
+    })};
 
     // Save Chapter Title Handler 
     const saveChapterTitle = value =>
@@ -86,28 +91,31 @@ function INoteChapter ({
                 </div>
             </div>
 
-            <div className="item-actions">
-              {splitBtnElement}
-              {splitSChBtnElement}
-              {subdivideBtnElement}
-              {addImgElement}
-              {addTextElement}
-            </div>
+            {chapter.contents.map((content, itemIdx) => ( // TODO pass on itemidx to itemactions
+                <div key={itemIdx}>
+                    <div className="item-actions">
+                      {splitBtnElement(itemIdx)}
+                      {splitSChBtnElement(itemIdx)}
+                      {subdivideBtnElement(itemIdx)}
+                      {addImgElement(itemIdx)}
+                      {addTextElement(itemIdx)}
+                    </div>
 
-            {chapter.contents.map((content, idx) => (
-                typeof content === "object" ? // image
-                    <div className='img-con'>   
-                        <ChapterImage 
-                          image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                        />
-                    </div>
-                : // text 
-                    <div className='item-text'>   
-                        <ChapterText  
-                          text={content}
-                        />
-                    </div>
-            ))} 
+                    {typeof content === "object" ? ( // image
+                        <div className='img-con'>   
+                            <ChapterImage 
+                              image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                            />
+                        </div>
+                        ) : ( // text 
+                        <div className='item-text'>   
+                            <ChapterText  
+                              text={content}
+                            />
+                        </div>  
+                    )}
+                </div>
+            ))}
         </div>
     )
 }
