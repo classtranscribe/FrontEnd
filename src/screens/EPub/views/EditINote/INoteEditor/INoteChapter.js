@@ -3,7 +3,11 @@ import React, {useState} from 'react'
 import { Button } from 'pico-ui';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
+import { indexOf } from 'lodash';
 import { EPubImageData } from 'entities/EPubs';
+import ChapterNewContent from '../../EditEPubChapter/ChapterEditor/ChapterNewContent';
+import ChapterContent from '../../EditEPubChapter/ChapterEditor/ChapterContent';
+
 
 function INoteChapter ({
     chapter, 
@@ -11,21 +15,19 @@ function INoteChapter ({
     canSplit = true,
     canSplitSubChapter = true,
     canSubdivide = true,
-    canAddImage = true,
-    canAddText = true,
     dispatch 
 }) {
-    
+
     const CParams = { chapterIdx: chIdx};
 
     const [insertType, setInsertType] = useState(null);
     const openMDEditor = insertType === 'md';
 
-    const onInsert = (val) => {
-        console.log(CParams.chapterIdx)
+    const onInsert = (index) => (val) => {
+        console.log(val, index);
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'insertChapterContent', payload: { contentIdx: CParams.chapterIdx, value: val }
+        action: 'insertChapterContent', payload: { contentIdx: index, value: val }
       }
     })
   };
@@ -34,10 +36,10 @@ function INoteChapter ({
 
     const handleClose = () => setInsertType(null);
 
-    const handleSave = (val) => {
-        console.log(val, CParams.chapterIdx)
+    const handleSave = (index) => (val) => {
+        console.log(val, index)
         if (typeof onInsert === 'function' && val) {
-            onInsert(val);
+            onInsert(index, val);
         }
         handleClose();
     };
@@ -59,6 +61,11 @@ function INoteChapter ({
 
 
 
+
+
+
+
+
     // Buttons and onClick Functions 
     const btnProps = {
         round: true,
@@ -68,44 +75,49 @@ function INoteChapter ({
     };
 
     // Split Button 
-    const splitBtnElement = altEl(Button, canSplit, {
-        ...btnProps,
-        text: 'Split Chapter',
-        icon: 'unfold_more',
-        // onClick: handleSplitChapter
-    });
+    const splitBtnElement = (itemIdx) => {
+        return altEl(Button, canSplit, {
+            ...btnProps,
+            text: 'Split Chapter',
+            icon: 'unfold_more',
+            // onClick: handleSplitChapter(i1)
+    })};
 
     // Add Image Button
-    const addImgElement = altEl(Button, true, {
-        ...btnProps,
-        text: 'Add Image',
-        icon: 'image',
-        onClick: handleOpenImgPicker
-    });
+    const addImgElement = (itemIdx) => {
+        return altEl(Button, true, {
+            ...btnProps,
+            text: 'Add Image',
+            icon: 'image',
+            // onClick: handleOpenImgPicker
+    })};
 
     // Add Text Button 
-    const addTextElement = altEl(Button, true, {
-        ...btnProps,
-        text: 'Add Text',
-        icon: 'add',
-        onClick: handleOpenMDEditor
-    });
+    const addTextElement = (itemIdx) => {
+        return altEl(Button, true, {
+            ...btnProps,
+            text: 'Add Text',
+            icon: 'add',
+            onClick: handleOpenMDEditor
+    })};
 
     // New Subchapter Button 
-    const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
-        ...btnProps,
-        text: 'New Sub-Chapter',
-        icon: 'subdirectory_arrow_right',
-        // onClick: splitSubChapter
-    });
+    const splitSChBtnElement = (itemIdx) => {
+        return altEl(Button, canSplitSubChapter, {
+            ...btnProps,
+            text: 'New Sub-Chapter',
+            icon: 'subdirectory_arrow_right',
+            // onClick: splitSubChapter
+    })};
 
     // Subdivide Button 
-    const subdivideBtnElement = altEl(Button, canSubdivide, {
-        ...btnProps,
-        text: 'subdivide',
-        icon: 'subdirectory_arrow_right',
-        // onClick: subdivideChapter
-    });
+    const subdivideBtnElement = (itemIdx) => {
+        return altEl(Button, canSubdivide, {
+            ...btnProps,
+            text: 'subdivide',
+            icon: 'subdirectory_arrow_right',
+            // onClick: subdivideChapter
+    })};
 
     // Save Chapter Title Handler 
     const saveChapterTitle = value =>
@@ -114,6 +126,23 @@ function INoteChapter ({
         action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
       }
     })
+
+    // Chapter Image Functions
+    const onImageChange = (index) => (val) => {
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'setChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
+          }
+        })
+    };
+
+    const onRemove = (index) => () => {
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
+          }
+        })
+      };
 
     return (
         <div 
@@ -133,36 +162,49 @@ function INoteChapter ({
                 </div>
             </div>
 
-            <div className="item-actions">
-              {splitBtnElement}
-              {splitSChBtnElement}
-              {subdivideBtnElement}
-              {addImgElement}
-              {addTextElement}
-            </div>
 
-            <MDEditorModal
-              show={openMDEditor}
-              onClose={handleClose}
-              onSave={handleSave}
-              title="Insert New Text"
-            />
+         
 
-            {chapter.contents.map((content, idx) => (
-                typeof content === "object" ? // image
-                    <div className='img-con'>   
-                        <ChapterImage 
-                          image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                        />
+            {chapter.contents.map((content, itemIdx) => (
+                <div key={itemIdx}>
+                    <div className="item-actions">
+                        
+                      {splitBtnElement(itemIdx)}
+                      {splitSChBtnElement(itemIdx)}
+                      {subdivideBtnElement(itemIdx)}
+                      {addImgElement(itemIdx)}
+                      {addTextElement(itemIdx)}
+                      <MDEditorModal
+                        show={openMDEditor}
+                        onClose={handleClose}
+                        onSave={handleSave(itemIdx)}
+                        title="Insert New Text"
+                    />
+                    
                     </div>
-                : // text 
-                    <div className='item-text'>   
-                        <ChapterText  
-                          text={content}
-                        />
-                    </div>
-            ))} 
+
+                    {typeof content === "object" ? ( // image
+                        <div className='img-con'>   
+                            <ChapterImage 
+                              id={`ch-content-${chapter.id}-${itemIdx}`}
+                              image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                              enableChapterScreenshots
+                              onChooseImage={onImageChange(itemIdx)}
+                              onRemoveImage={onRemove(itemIdx)}
+                            />
+                        </div> 
+                        ) : ( // text 
+                        <div className='item-text'>   
+                            <ChapterText  
+                              text={content}
+                            />
+                        </div>  
+                    )}
+                </div>
+            ))}
+           
         </div>
+        
     )
 }
 
