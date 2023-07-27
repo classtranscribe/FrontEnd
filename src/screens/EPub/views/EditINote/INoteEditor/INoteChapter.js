@@ -44,7 +44,7 @@ function INoteChapter ({
             ...btnProps,
             text: 'Add Text',
             icon: 'add',
-            // onClick: handleOpenMDEditor
+            // onClick: handleOpenMDEditor(itemIdx)
     })};
 
     // New Subchapter Button 
@@ -122,7 +122,7 @@ function INoteChapter ({
                     {typeof content === "object" ? ( // image
                         <div className='img-con'>   
                             <ChapterImage 
-                            //   id={`ch-content-${id}-${itemIdx}`}
+                              id={`ch-content-${chapter.id}-${itemIdx}`}
                               image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
                               enableChapterScreenshots
                               onChooseImage = {onImageChange(itemIdx)}
