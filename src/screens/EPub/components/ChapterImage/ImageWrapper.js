@@ -68,7 +68,7 @@ function ImageWrapper({
           >
             Choose Image
           </Button>
-          <Button 
+          {/* <Button 
             uppercase 
             color="white" 
             icon="image"
@@ -76,7 +76,7 @@ function ImageWrapper({
             onClick={() => setShowLink(true)}
           >
             Change Embedded Link
-          </Button>
+          </Button> */}
           {
             showLink && 
             <div>
