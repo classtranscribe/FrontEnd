@@ -75,7 +75,6 @@ function INoteChapter ({
 
     // Chapter Image Functions
     const onImageChange = (index) => (val) => {
-        console.log(val)
         dispatch({
           type: 'epub/updateEpubData', payload: {
             action: 'setChapterContent', payload: { contentIdx: index, value: val, type: 'image' }
@@ -125,8 +124,8 @@ function INoteChapter ({
                               id={`ch-content-${chapter.id}-${itemIdx}`}
                               image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
                               enableChapterScreenshots
-                              onChooseImage = {onImageChange(itemIdx)}
-                              onRemoveImage = {onRemove(itemIdx)}
+                              onChooseImage={onImageChange(itemIdx)}
+                              onRemoveImage={onRemove(itemIdx)}
                             />
                         </div> 
                         ) : ( // text 
