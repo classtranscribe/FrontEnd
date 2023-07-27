@@ -12,7 +12,7 @@ function INoteChapter ({
     canSubdivide = true,
     dispatch 
 }) {
-    // Buttons and onClick Functions 
+    // BUTTONS AND ONCLICK FUNCTIONS
     const btnProps = {
         round: true,
         uppercase: true,
@@ -65,12 +65,13 @@ function INoteChapter ({
             // onClick: subdivideChapter
     })};
 
+    // DISPATCH FUNCTIONS 
     // Save Chapter Title Handler 
     const saveChapterTitle = value =>
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
-      }
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
+        }
     })
 
     // Chapter Image Functions
@@ -86,6 +87,15 @@ function INoteChapter ({
         dispatch({
           type: 'epub/updateEpubData', payload: {
             action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
+          }
+        })
+      };
+    
+    // Change Text Functions
+    const onTextChange = (index) => (val) => {
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
           }
         })
       };
@@ -131,7 +141,9 @@ function INoteChapter ({
                         ) : ( // text 
                         <div className='item-text'>   
                             <ChapterText  
+                              id={`ch-content-${chapter.id}-${itemIdx}`}
                               text={content}
+                              onSaveText={onTextChange(itemIdx)}
                             />
                         </div>  
                     )}
