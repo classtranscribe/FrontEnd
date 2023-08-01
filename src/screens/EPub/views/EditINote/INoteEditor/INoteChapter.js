@@ -18,11 +18,30 @@ function INoteChapter ({
     dispatch 
 }) {
 
-    const CParams = { chapterIdx: chIdx};
 
     const [insertType, setInsertType] = useState(null);
     const openMDEditor = insertType === 'md';
 
+    const [openModalIndex, setOpenModalIndex] = useState(null);
+
+    const handleOpenMDEditor = (itemIdx) => {
+        setInsertType('md');
+        setOpenModalIndex(itemIdx)
+    };
+      
+    const handleClose = () => {
+        setInsertType(null);
+        setOpenModalIndex(openModalIndex);
+    }
+
+    const handleSave = (val) => {
+        console.log(val, openModalIndex)
+        if (typeof onInsert === 'function' && val) {
+            onInsert(openModalIndex)(val);
+        }
+        handleClose();
+    };
+    
     const onInsert = (index) => (val) => {
         console.log(val, index);
         dispatch({
@@ -30,18 +49,6 @@ function INoteChapter ({
                 action: 'insertChapterContent', payload: { contentIdx: index, value: val }
             }
         })
-    };
-
-    const handleOpenMDEditor = () => setInsertType('md');
-
-    const handleClose = () => setInsertType(null);
-
-    const handleSave = (index) => (val) => {
-        console.log(val, index)
-        if (typeof onInsert === 'function' && val) {
-            onInsert(index)(val);
-        }
-        handleClose();
     };
 
     const handleSaveImage = (val) => {
@@ -71,7 +78,7 @@ function INoteChapter ({
             ...btnProps,
             text: 'Split Chapter',
             icon: 'unfold_more',
-            // onClick: handleSplitChapter(i1)
+            // onClick: handleSplitChapter(itemIdx)
     })};
 
     // Add Image Button
@@ -84,12 +91,14 @@ function INoteChapter ({
     })};
 
     // Add Text Button 
-    const addTextElement = (itemIdx) => {
+    function addTextElement(itemIdx) {
+        // setOpenModalIndex(itemIdx);
         return altEl(Button, true, {
             ...btnProps,
             text: 'Add Text',
             icon: 'add',
-            onClick: handleOpenMDEditor
+            onClick: () => handleOpenMDEditor(itemIdx)
+            // onClick: handleOpenMDEditor
     })};
 
     // New Subchapter Button 
@@ -141,7 +150,7 @@ function INoteChapter ({
           id={epubTools.id.chID(chapter.id)}
         >
             <div className='chapter-title'>
-                <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
+                <CTText muted className="pt-2 pl-2">Chapter {  + 1}: {chapter.title}</CTText>
                 <div className="ch-item-title-con ct-d-r-center-v">
                     <ChapterTitle
                       id={epubTools.id.chTitleID(chapter.id)}
@@ -153,25 +162,14 @@ function INoteChapter ({
                 </div>
             </div>
 
-
-         
-
             {chapter.contents.map((content, itemIdx) => (
-                <div key={itemIdx}>
+                <div className={itemIdx}>
                     <div className="item-actions">
-                        
                       {splitBtnElement(itemIdx)}
                       {splitSChBtnElement(itemIdx)}
                       {subdivideBtnElement(itemIdx)}
                       {addImgElement(itemIdx)}
                       {addTextElement(itemIdx)}
-                      <MDEditorModal
-                        show={openMDEditor}
-                        onClose={handleClose}
-                        onSave={handleSave(itemIdx)}
-                        title="Insert New Text"
-                    />
-                    
                     </div>
 
                     {typeof content === "object" ? ( // image
@@ -190,7 +188,16 @@ function INoteChapter ({
                               text={content}
                             />
                         </div>  
+                        
                     )}
+                    {insertType !== null && (
+                        <MDEditorModal
+                            show={openMDEditor}
+                            onClose={handleClose}
+                            onSave={handleSave}
+                            title="Insert New Text"
+                        />
+                    )}       
                 </div>
             ))}
            
