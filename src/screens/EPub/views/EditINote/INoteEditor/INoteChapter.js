@@ -25,12 +25,12 @@ function INoteChapter ({
 
     const onInsert = (index) => (val) => {
         console.log(val, index);
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'insertChapterContent', payload: { contentIdx: index, value: val }
-      }
-    })
-  };
+        dispatch({
+            type: 'epub/updateEpubData', payload: {
+                action: 'insertChapterContent', payload: { contentIdx: index, value: val }
+            }
+        })
+    };
 
     const handleOpenMDEditor = () => setInsertType('md');
 
@@ -39,7 +39,7 @@ function INoteChapter ({
     const handleSave = (index) => (val) => {
         console.log(val, index)
         if (typeof onInsert === 'function' && val) {
-            onInsert(index, val);
+            onInsert(index)(val);
         }
         handleClose();
     };
@@ -56,15 +56,6 @@ function INoteChapter ({
         };
         dispatch({ type: 'epub/setImgPickerData', payload: imgData });
     }
-
-
-
-
-
-
-
-
-
 
     // Buttons and onClick Functions 
     const btnProps = {
