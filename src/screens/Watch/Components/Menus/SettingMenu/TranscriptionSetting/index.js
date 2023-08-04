@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import {
   LINE_VIEW,
   TRANSCRIPT_VIEW,

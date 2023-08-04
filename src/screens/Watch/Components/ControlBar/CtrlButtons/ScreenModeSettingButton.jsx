@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import {
   screenModes,

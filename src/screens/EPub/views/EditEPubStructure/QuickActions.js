@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTHeading, CTFragment, useButtonStyles } from 'layout';
 import { timestr } from 'utils';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { epub as epubOld } from '../../controllers';
 
 function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {

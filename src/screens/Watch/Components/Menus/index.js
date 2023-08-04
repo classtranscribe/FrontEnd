@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import {
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,

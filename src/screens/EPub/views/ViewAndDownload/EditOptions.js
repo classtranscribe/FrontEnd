@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { Button } from 'pico-ui';
 import { CTFragment, CTHeading } from 'layout';
 import { epub } from '../../controllers';

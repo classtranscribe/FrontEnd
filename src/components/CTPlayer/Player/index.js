@@ -1,6 +1,6 @@
 import * as KeyCode from 'keycode-js';
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import {
     ErrorWrapper,
     ClassTranscribePlayer,

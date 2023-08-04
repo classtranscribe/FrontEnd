@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash'
 import { CTFragment } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { EPubNavigationProvider } from '../../components';
 import { epub } from '../../controllers';
 import ChapterEditor from './ChapterEditor';

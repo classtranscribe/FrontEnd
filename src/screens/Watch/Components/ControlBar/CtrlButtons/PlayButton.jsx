@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
 

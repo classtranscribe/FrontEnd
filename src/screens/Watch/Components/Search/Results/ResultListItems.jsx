@@ -1,7 +1,7 @@
 import React from 'react';
 import { MediaCard } from 'components';
 import { links } from 'utils/links';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import {
   timeStrToSec,
   prettierTimeStr,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import {

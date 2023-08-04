@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { CourseForm } from 'screens/Instructor/NewCourse/components';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { prompt, api, links } from 'utils';
 import _ from 'lodash';
 

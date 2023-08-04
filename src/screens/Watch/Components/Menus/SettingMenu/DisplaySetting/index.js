@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Form, Popup} from 'semantic-ui-react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import './index.scss';
 import './slider.scss';
 import MenuRadio from '../MenuRadio';

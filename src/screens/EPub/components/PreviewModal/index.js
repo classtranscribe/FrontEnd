@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CTModal, CTFragment, CTSelect } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { buildHTMLFromChapter } from 'entities/EPubs/html-converters'
 import { MDPreviewer } from '../Markdown';
 import './index.scss'

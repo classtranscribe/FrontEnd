@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { uurl } from 'utils/use-url';
 import { CTLayout } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import {
   keydownControl,
   ERR_INVALID_MEDIA_ID,

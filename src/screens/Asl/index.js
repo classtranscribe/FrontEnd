@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CTLayout } from 'layout';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { cthttp } from 'utils/cthttp/request';
 import AslTable from './components/AslTable';
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { CTFragment, altEl, makeEl } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { ARRAY_INIT } from 'utils/constants';
 import * as KeyCode from 'keycode-js';
 import { epub as epubController } from './controllers';

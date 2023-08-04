@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import MenuRadio from '../MenuRadio';
 
 function ADSetting({ show = false, openAD = false, descriptions = [],

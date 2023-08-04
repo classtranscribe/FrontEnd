@@ -1,11 +1,12 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect, useSelector } from 'react-redux'
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 import { CTFragment, CTSelect, CTFormRow } from 'layout';
 import './index.scss';
 
-function CourseFilter(props) {
+// export default
+ function CourseFilter(props) {
   const {
     universities,
     departments,
@@ -14,7 +15,12 @@ function CourseFilter(props) {
     selDepartments,
     selTerms,
     dispatch
-  } = props;
+    } = { ...props };
+  // } = useSelector((state) => { 
+  //   // eslint-disable-next-line no-console
+  //   console.log(state);
+  //   return { ...state.home } });
+  // eslint-disable-next-line no-console
   const universityOptions = universities.map(uni => ({ value: uni.id, text: uni.name }));
   const departmentOptions = departments.map(dep => ({ value: dep.id, text: dep.name }));
   const termOptions = terms.map(term => ({ value: term.id, text: term.name }));
@@ -22,16 +28,16 @@ function CourseFilter(props) {
   const showDepartments = selUniversity && !isMobile && departmentOptions.length > 0;
   const showTerms = selUniversity && !isMobile && termOptions.length > 0;
 
-  const handleUniversityChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectUniversity', payload: value})
+  const handleUniversityChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectUniversity', payload: value })
   };
 
-  const handleDepartmentsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectDepartments', payload: value})
+  const handleDepartmentsChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectDepartments', payload: value })
   };
 
-  const handleTermsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectTerms', payload: value})
+  const handleTermsChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectTerms', payload: value })
   };
   return (
     <CTFragment sticky={!isMobile} offsetTop="50" className="ct-homep course-filter">
@@ -81,8 +87,10 @@ function CourseFilter(props) {
     </CTFragment>
   );
 }
-export default connect(({home}) => {
+export default connect((state) => {
+  // eslint-disable-next-line no-console
+  console.log(state);
   return {
-    ...home
+    ...state.home
   }
 })(CourseFilter);

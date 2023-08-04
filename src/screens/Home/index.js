@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';

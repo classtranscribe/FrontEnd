@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { SwipeableDrawer } from '@material-ui/core';
 import { Button } from 'pico-ui';
 import SourceTypes from 'entities/SourceTypes';

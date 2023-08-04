@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { CTImagePickerModal } from 'components';
 
 function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {

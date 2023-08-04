@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CTLayout, CTFragment } from 'layout';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import TempVideoTimeTable from './components/TempVideoTimeTable';
 
 const setup = {};

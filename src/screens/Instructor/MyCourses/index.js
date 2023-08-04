@@ -3,7 +3,7 @@ import ErrorTypes from 'entities/ErrorTypes';
 import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
 import _ from 'lodash';
 import { ARRAY_INIT, api } from 'utils';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { CourseList, NoCourseHolder } from './components';
 
 function sortOfferings(offerings = [], terms = []) {

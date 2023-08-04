@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import ErrorTypes from 'entities/ErrorTypes';
 import { INSTRUCTOR } from 'utils';
 import { CTLayout, CTErrorWrapper } from 'layout';

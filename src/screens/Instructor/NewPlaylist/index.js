@@ -3,7 +3,7 @@ import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
 import { Playlist } from 'entities/Playlists';
 import { links } from 'utils/links';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { NewPlaylistForm } from './components';
 
 export const NewPlaylistWithRedux = (props) => {

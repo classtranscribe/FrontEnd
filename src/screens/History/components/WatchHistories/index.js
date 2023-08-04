@@ -1,7 +1,7 @@
 import React from 'react';
 import { CTFragment, CTFilter } from 'layout';
 import { MediaCard } from 'components';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { ARRAY_INIT } from 'utils/constants';
 
 function WatchHistoriesWithRedux(props) {

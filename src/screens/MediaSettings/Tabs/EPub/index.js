@@ -2,7 +2,7 @@ import React from 'react';
 import CTEPubListScreen from 'components/CTEPubListScreen';
 import SourceTypes from 'entities/SourceTypes';
 import { useCTDocTitle } from 'hooks';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 
 export function EpubWithRedux(props) {
   const { mediasetting } = props;

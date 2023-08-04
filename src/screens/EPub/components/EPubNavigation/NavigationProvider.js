@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import cx from 'classnames';
 import { CTFragment, CTHeading } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { epub as OldEpub } from '../../controllers';
 import NavigationTrigger from './NavigationTrigger';
 import NavigationMenu from './NavigationMenu'

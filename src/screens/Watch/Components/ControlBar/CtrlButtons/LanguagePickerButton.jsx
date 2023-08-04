@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { langMap, MENU_HIDE, MENU_LANGUAGE } from '../../../Utils';
 

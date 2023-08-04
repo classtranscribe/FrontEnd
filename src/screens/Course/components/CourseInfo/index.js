@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { InfoAndListLayout } from 'components';
 import ActionButtons from './ActionButtons';
 import './index.scss';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_GLOSSARY } from '../../../Utils';
 

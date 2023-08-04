@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import { links, api } from 'utils';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import { CTErrorWrapper, CTLayout } from 'layout';
 import { TAB_EPUB, TAB_EDIT_TRANS } from './controllers/constants';

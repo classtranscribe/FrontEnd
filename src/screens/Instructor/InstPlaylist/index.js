@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { CTLayout, CTErrorWrapper, altEl } from 'layout';
 import { InfoAndListLayout } from 'components';
 import ErrorTypes from 'entities/ErrorTypes';

@@ -1,4 +1,4 @@
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import _, { filter, transform } from 'lodash'
 import { 
   // timeStrToSec, 

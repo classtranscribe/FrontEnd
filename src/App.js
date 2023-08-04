@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import dynamic from "dva/dynamic";
+// import dynamic from "dva/dynamic";
 // import AppInsightsProvider from './azure-app-insights';
 import {
   // General
@@ -45,36 +45,36 @@ function App(props) {
 
   const adminRoute = altEl();
   // Lazy Load
-  const WatchPage = dynamic({
-    app: props.app,
-    models: () => [],
-    component: () => Watch
-  })
-  const EPubPage = dynamic({
-    app: props.app,
-    models: () => [require('./screens/EPub/model').default],
-    component: () => EPub
-  })
-  const CoursePage = dynamic({
-    app: props.app,
-    models: () => [], // require('./screens/Course/model').default
-    component: () => Course
-  })
-  const MyCoursesPage = dynamic({
-    app: props.app,
-    models: () => [require('./screens/Instructor/MyCourses/model').default], //
-    component: () => MyCourses
-  })
-  const InstPlaylistPage = dynamic({
-    app: props.app,
-    models: () => [require('./screens/Instructor/InstPlaylist/model')],
-    component: () => InstPlaylist
-  })
-  const MediaSettingsPage = dynamic({
-    app: props.app,
-    models: () => [require('./screens/MediaSettings/model')],
-    component: () => MediaSettings
-  })
+  // const WatchPage = dynamic({
+  //   app: props.app,
+  //   models: () => [],
+  //   component: () => Watch
+  // })
+  // const EPubPage = dynamic({
+  //   app: props.app,
+  //   models: () => [require('./screens/EPub/model').default],
+  //   component: () => EPub
+  // })
+  // const CoursePage = dynamic({
+  //   app: props.app,
+  //   models: () => [], // require('./screens/Course/model').default
+  //   component: () => Course
+  // })
+  // const MyCoursesPage = dynamic({
+  //   app: props.app,
+  //   models: () => [require('./screens/Instructor/MyCourses/model').default], //
+  //   component: () => MyCourses
+  // })
+  // const InstPlaylistPage = dynamic({
+  //   app: props.app,
+  //   models: () => [require('./screens/Instructor/InstPlaylist/model')],
+  //   component: () => InstPlaylist
+  // })
+  // const MediaSettingsPage = dynamic({
+  //   app: props.app,
+  //   models: () => [require('./screens/MediaSettings/model')],
+  //   component: () => MediaSettings
+  // })
 
 
   // return <Maintenance />
@@ -90,11 +90,11 @@ function App(props) {
 
       {/* Instructor */}
       <Route exact path="/instructor" render={() => <Navigate to="/instructor/my-courses" />} />
-      {
+      {/* {
         isAdminOrInstructor
         &&
         <Route exact path="/instructor/my-courses" element={<MyCoursesPage />} />
-      }
+      } */}
       {
         isAdminOrInstructor
         &&
@@ -115,7 +115,7 @@ function App(props) {
         &&
         <Route exact path="/offering/:id/new-playlist" element={<NewPlaylist />} />
       }
-      {
+      {/* {
         isAdminOrInstructor
         &&
         <Route path="/media-settings/:id" element={<MediaSettingsPage />} />
@@ -125,20 +125,20 @@ function App(props) {
         isAdminOrInstructor
         &&
         <Route path="/epub/:id" element={<EPubPage />} />
-      }
+      } */}
 
       {/* Student */}
       <Route exact path="/" element={<Home />} />
       <Route exact path="/home" render={() => <Navigate to="/" />} />
-      <Route exact path="/offering/:id" element={<CoursePage />} />
+      {/* <Route exact path="/offering/:id" element={<CoursePage />} /> */}
       <Route exact path="/search" element={<Search />} />
       <Route exact path="/history" element={<History />} />
       <Route exact path="/personal-analytics" element={<Analytics />} />
       <Route exact path="/glossary" element={<Glossary />} />
       <Route exact path="/asl" element={<Asl />} />
-      <Route exact path="/video" element={<WatchPage />} />
+      {/* <Route exact path="/video" element={<WatchPage />} /> */}
       <Route exact path="/embed/:id" element={<Embed />} />
-      <Route path="/playlist/:id" element={<InstPlaylistPage />} />
+      {/* <Route path="/playlist/:id" element={<InstPlaylistPage />} /> */}
 
       <Route path="/404" element={<NotFound404 />} />
 

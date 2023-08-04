@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash'
 import { CTFragment, altEl, CTHeading } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { EPubNavigationProvider } from '../../components';
 import { epub as epubController, generateEPubGuide } from '../../controllers';
 import ChapterList from './ChapterList';

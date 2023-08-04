@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { CTFragment } from 'layout';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterEditButton, MDEditorModal } from '../../../components';

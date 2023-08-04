@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { CTP_LOADING, CTP_ENDED } from '../../../Utils';
 import './index.scss';
 

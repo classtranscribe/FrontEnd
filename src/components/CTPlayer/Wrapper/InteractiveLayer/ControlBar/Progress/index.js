@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import Slider from '@material-ui/core/Slider';
 import timestr from 'utils/use-time';
 import './index.scss';

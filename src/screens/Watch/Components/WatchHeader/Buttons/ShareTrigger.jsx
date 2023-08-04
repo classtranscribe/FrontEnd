@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 

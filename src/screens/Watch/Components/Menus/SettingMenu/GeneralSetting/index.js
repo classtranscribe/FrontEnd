@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Form } from 'semantic-ui-react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import MenuRadio from '../MenuRadio';
 
 

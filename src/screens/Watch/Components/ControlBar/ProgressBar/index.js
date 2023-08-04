@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { prog } from '../../../Utils/progress-controllers';
 import './index.scss';
 

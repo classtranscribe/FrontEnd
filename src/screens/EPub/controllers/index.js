@@ -1,4 +1,4 @@
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import EPubConstants from './constants/EPubConstants';
 import EPubIDs from './constants/EPubIDs';
 import EPubDownloadController from './EPubDownloadController';

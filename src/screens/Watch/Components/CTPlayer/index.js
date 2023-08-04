@@ -3,7 +3,7 @@
  */
 
  import React, { useCallback, useRef, useEffect } from 'react';
- import { connect } from 'dva'
+ import { connect } from 'react-redux'
  import { isMobile } from 'react-device-detect';
  import PlayerData from '../../player'
  import Video from './player'

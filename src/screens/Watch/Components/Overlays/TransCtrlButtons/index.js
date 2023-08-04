@@ -5,7 +5,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { STUDENT, INSTRUCTOR } from 'utils/constants';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import {
   transControl,
   LINE_VIEW,

@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.scss';
 import { ButtonGroup } from 'semantic-ui-react';
 import { cthttp } from 'utils/cthttp/request';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import Draggable from 'react-draggable';
 import './CTPopup.scss'
 import GlossaryPanel from './GlossaryPanel';

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import { isMobile } from 'react-device-detect';
 import { timestr } from 'utils';
 import { getShareableURL } from '../../../Utils';

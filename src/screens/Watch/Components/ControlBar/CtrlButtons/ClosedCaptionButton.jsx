@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch, liveMode, englishTrack}) {

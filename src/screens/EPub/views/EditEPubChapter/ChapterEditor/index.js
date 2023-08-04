@@ -1,6 +1,6 @@
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import ChapterInfo from './ChapterInfo';
 import SubChapterItem from './SubChapterItem';
 import './index.scss';

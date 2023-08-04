@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
 import Image from 'components/Image';

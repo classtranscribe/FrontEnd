@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import WatchCtrlButton from 'screens/Watch/Components/WatchCtrlButton'
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import fileDownload from 'js-file-download';
 import {Menu, MenuItem} from '@material-ui/core';
 import { MENU_DOWNLOAD } from 'screens/Watch/Utils/constants.util'

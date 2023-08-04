@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, Reducer } from 'redux';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import logger from 'redux-logger';
 import { isDeveloping } from 'utils';
 

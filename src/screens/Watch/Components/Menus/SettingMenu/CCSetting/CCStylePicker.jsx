@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select, Form, Grid, Popup } from 'semantic-ui-react';
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
