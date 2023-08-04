@@ -211,6 +211,8 @@ const HomeModel = {
             yield put.resolve({ type: 'getDepartmentsData' });
         },
         *initialize(__, { call, put, select, take }) {
+            // eslint-disable-next-line no-console
+            console.log('initialize');
             yield put.resolve({ type: 'getUniversities' });
             yield put.resolve({ type: 'getOfferings' });
             yield put.resolve({ type: 'getWatchHistory' });
