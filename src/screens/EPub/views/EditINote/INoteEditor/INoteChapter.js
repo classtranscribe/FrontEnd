@@ -7,20 +7,23 @@ import { indexOf } from 'lodash';
 import { EPubImageData } from 'entities/EPubs';
 import ChapterNewContent from '../../EditEPubChapter/ChapterEditor/ChapterNewContent';
 import ChapterContent from '../../EditEPubChapter/ChapterEditor/ChapterContent';
-import cx from 'classnames';
+//import cx from 'classnames';
+import EPubSubChapterItem from '../../EditEPubStructure/ChapterList/EPubSubChapterItem';
 
 
 function INoteChapter ({
     chapter, 
     chIdx,
-    canSplit = true,
-    canSplitSubChapter = true,
+    canSplit = false,
+    canSplitSubChapter = false,
     canSubdivide = true,
-    dispatch, 
-
+    isSubChapter = false,
     itemIndex,
     subChapterIndex,
-    isSubChapter = false
+    foldedIds = [],
+    setEPubItem,
+    onFold,
+    dispatch, 
 
 }) {
 
@@ -224,6 +227,7 @@ function INoteChapter ({
 
             {chapter.contents.map((content, itemIdx) => (
                 <div className={itemIdx}>
+                {/* <div role="listitem" className={itemClass}> */}
                     <div className="item-actions">
                       {splitBtnElement}
                       {splitSChBtnElement}
@@ -231,6 +235,25 @@ function INoteChapter ({
                       {addImgElement(itemIdx)}
                       {addTextElement(itemIdx)}
                     </div>
+                    
+
+                <div className="ch-item-ol ct-d-c">
+                {chapter.subChapters.map((subChapter, subChapterIndex) => (
+                  <EPubSubChapterItem
+                    key={subChapter.id}
+                    foldedIds={foldedIds}
+                    subChapter={subChapter}
+                    chapterIndex={chIdx}
+                    subChapterIndex={subChapterIndex}
+                    canUndoSubdivide={subChapterIndex === 0}
+                    canUndoSplitSubChapter={subChapterIndex > 0}
+                    canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
+                    setEPubItem={setEPubItem}
+                    onFold={onFold}
+                    dispatch={dispatch}
+                  />
+                ))}
+              </div>
 
                     {typeof content === "object" ? ( // image
                         <div className='img-con'>   
