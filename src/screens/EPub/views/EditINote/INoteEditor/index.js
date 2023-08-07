@@ -7,6 +7,14 @@ import './index.scss';
 import INoteChapter from './INoteChapter';
 
 function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem, dispatch }) {
+    useEffect(() => {
+        if (currChIndex > 0) {
+          setTimeout(() => {
+            dispatch({ type: 'epub/navigateChapter', payload: chapters[currChIndex].id });
+          }, 500);
+        }
+      }, []);
+
     return (
         <ul className='ct-inote-editor'> 
             {chapters.map((chapter, chIdx) => (

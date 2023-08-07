@@ -373,6 +373,21 @@ export default {
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
         // this.updateAll('Insert chapter content');
     },
+    insertChapterContentatChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx, value } }) {
+        if (type === 'image') {
+            value = new EPubImageData(value).toObject();
+        }
+        const chapters = state.epub.chapters;
+        if (subChapterIdx === undefined) {
+            console.log(`Inserting chapter ${state.currChIndex} content: `, value);
+            insertContentChapter(chapters[chapterIdx], contentIdx, value);
+        } else {
+            console.log(`Inserting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
+            insertContentChapter(chapters?.[chapterIdx]?.subChapters?.[subChapterIdx], contentIdx, value);
+        }
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
+        // this.updateAll('Insert chapter content');
+    },
     setChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
         if (type === 'image') {
             value = new EPubImageData(value).toObject();
@@ -389,6 +404,29 @@ export default {
             }
         } else if (chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx]) {
             chapters[state.currChIndex].subChapters[subChapterIdx] = value
+            console.log(`Setting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
+        }
+        // this.updateAll('Update the chapter content');
+        // this.__feed();
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
+    },
+
+    setChapterContentatChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx, value } }) {
+        if (type === 'image') {
+            value = new EPubImageData(value).toObject();
+        }
+        const chapters = state.epub.chapters;
+        if (subChapterIdx === undefined) {
+            const chapter = chapters[chapterIdx];
+            if (type === 'condition') {
+                chapter.condition = value;
+                console.log(`Setting chapter ${state.currChIndex} condition: `, value);
+            } else{
+                chapter.contents[contentIdx] = value;
+                console.log(`Setting chapter ${state.currChIndex} content: `, value);
+            }
+        } else if (chapters?.[chapterIdx]?.subChapters?.[subChapterIdx]) {
+            chapters[chapterIdx].subChapters[subChapterIdx] = value
             console.log(`Setting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
         }
         // this.updateAll('Update the chapter content');
