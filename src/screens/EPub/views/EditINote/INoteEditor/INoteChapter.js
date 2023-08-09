@@ -99,11 +99,7 @@ function INoteChapter ({
       type: 'epub/updateEpubData', payload: {
         action: 'subdivideChapter', payload: CParams
       }
-    });  
-    // const itemClass = cx('ct-epb', 'sch', 'epb-data-item', 'ct-d-c', {
-    //   sub: isSubChapter,
-    //   'padded-actions': !canSplit && !isSubChapter,
-    // });
+    });
 
 
     // Buttons and onClick Functions 
@@ -227,7 +223,6 @@ function INoteChapter ({
 
             {chapter.contents.map((content, itemIdx) => (
                 <div className={itemIdx}>
-                {/* <div role="listitem" className={itemClass}> */}
                     <div className="item-actions">
                       {splitBtnElement}
                       {splitSChBtnElement}
