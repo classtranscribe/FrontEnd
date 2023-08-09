@@ -7,7 +7,6 @@ import { indexOf } from 'lodash';
 import { EPubImageData } from 'entities/EPubs';
 import ChapterNewContent from '../../EditEPubChapter/ChapterEditor/ChapterNewContent';
 import ChapterContent from '../../EditEPubChapter/ChapterEditor/ChapterContent';
-//import cx from 'classnames';
 import EPubSubChapterItem from '../../EditEPubStructure/ChapterList/EPubSubChapterItem';
 
 
@@ -27,8 +26,8 @@ function INoteChapter ({
 
 }) {
 
-  const SubCParams = { chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
-  const CParams = { chapterIdx: chIdx, itemIdx: itemIndex };
+    const SubCParams = { chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
+    const CParams = { chapterIdx: chIdx, itemIdx: itemIndex };
 
 
     const [insertType, setInsertType] = useState(null);
@@ -133,29 +132,6 @@ function INoteChapter ({
     // // Split Button 
     // const splitBtnElement = (itemIdx) => {
     //     return altEl(Button, canSplit, {
-    //         ...btnProps,
-    //         text: 'Split Chapter',
-    //         icon: 'unfold_more',
-    //         onClick: handleSplitChapter
-    // })};
-
-    // // New Subchapter Button 
-    // const splitSChBtnElement = (itemIdx) => {
-    //     return altEl(Button, canSplitSubChapter, {
-    //         ...btnProps,
-    //         text: 'New Sub-Chapter',
-    //         icon: 'subdirectory_arrow_right',
-    //         onClick: splitSubChapter
-    // })};
-
-    // // Subdivide Button 
-    // const subdivideBtnElement = (itemIdx) => {
-    //     return altEl(Button, canSubdivide, {
-    //         ...btnProps,
-    //         text: 'subdivide',
-    //         icon: 'subdirectory_arrow_right',
-    //         onClick: subdivideChapter
-
     const splitBtnElement = altEl(Button, canSplit, {
       ...btnProps,
       text: 'Split Chapter',
@@ -163,6 +139,9 @@ function INoteChapter ({
       onClick: handleSplitChapter
     });
 
+    // // New Subchapter Button 
+    // const splitSChBtnElement = (itemIdx) => {
+    //     return altEl(Button, canSplitSubChapter, {
     const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
       ...btnProps,
       text: 'New Sub-Chapter',
@@ -170,6 +149,9 @@ function INoteChapter ({
       onClick: splitSubChapter
     });
 
+    // // Subdivide Button 
+    // const subdivideBtnElement = (itemIdx) => {
+    //     return altEl(Button, canSubdivide, {
     const subdivideBtnElement = altEl(Button, canSubdivide, {
       ...btnProps,
       text: 'subdivide',
