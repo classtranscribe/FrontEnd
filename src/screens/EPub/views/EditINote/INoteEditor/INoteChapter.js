@@ -117,16 +117,13 @@ function INoteChapter ({
             icon: 'image',
             // onClick: handleOpenImgPicker
     })};
-
     // Add Text Button 
-    function addTextElement(itemIdx) {
-        // setOpenModalIndex(itemIdx);
+    const addTextElement = (itemIdx) => {
         return altEl(Button, true, {
             ...btnProps,
             text: 'Add Text',
             icon: 'add',
-            //onClick: () => handleOpenMDEditor(itemIdx)
-            // onClick: handleOpenMDEditor
+            // onClick: handleOpenMDEditor(itemIdx)
     })};
 
     // // Split Button 
@@ -162,10 +159,10 @@ function INoteChapter ({
 
     // Save Chapter Title Handler 
     const saveChapterTitle = value =>
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
-      }
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
+        }
     })
 
     // Chapter Image Functions
@@ -184,6 +181,15 @@ function INoteChapter ({
           }
         })
       };
+    
+    // Change Text Functions
+    const onTextChange = (index) => (val) => {
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
+          }
+        })
+      };
 
     return (
         <div 
@@ -191,7 +197,7 @@ function INoteChapter ({
           id={epubTools.id.chID(chapter.id)}
         >
             <div className='chapter-title'>
-                <CTText muted className="pt-2 pl-2">Chapter {  + 1}: {chapter.title}</CTText>
+                <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
                 <div className="ch-item-title-con ct-d-r-center-v">
                     <ChapterTitle
                       id={epubTools.id.chTitleID(chapter.id)}
@@ -204,7 +210,7 @@ function INoteChapter ({
             </div>
 
             {chapter.contents.map((content, itemIdx) => (
-                <div className={itemIdx}>
+                <div key={itemIdx}>
                     <div className="item-actions">
                       {splitBtnElement}
                       {splitSChBtnElement}
@@ -212,7 +218,6 @@ function INoteChapter ({
                       {addImgElement(itemIdx)}
                       {addTextElement(itemIdx)}
                     </div>
-                    
 
                 <div className="ch-item-ol ct-d-c">
                 {chapter.subChapters.map((subChapter, subChapterIndex) => (
@@ -245,10 +250,11 @@ function INoteChapter ({
                         ) : ( // text 
                         <div className='item-text'>   
                             <ChapterText  
+                              id={`ch-content-${chapter.id}-${itemIdx}`}
                               text={content}
+                              onSaveText={onTextChange(itemIdx)}
                             />
                         </div>  
-                        
                     )}
                     {insertType !== null && (
                         <MDEditorModal
@@ -260,7 +266,7 @@ function INoteChapter ({
                     )}       
                 </div>
             ))}
-           
+         
         </div>
         
     )
