@@ -48,7 +48,7 @@ function INoteChapter ({
         console.log(val, index);
         dispatch({
             type: 'epub/updateEpubData', payload: {
-                action: 'insertChapterContent', payload: { contentIdx: index, value: val }
+                action: 'insertChapterContentAtChapterIdx', payload: { contentIdx: index, chapterIdx: chIdx, value: val }
             }
         })
     };
@@ -57,7 +57,8 @@ function INoteChapter ({
         handleSave(new EPubImageData(val).toObject());
     };
 
-    const handleOpenImgPicker = () => {
+    const handleOpenImgPicker = (itemIdx) => {
+        setOpenModalIndex(itemIdx)
         const imgData = {
         //screenshots: imgSrc,
         onSave: handleSaveImage,
@@ -89,7 +90,7 @@ function INoteChapter ({
             ...btnProps,
             text: 'Add Image',
             icon: 'image',
-            // onClick: handleOpenImgPicker
+            onClick: () => handleOpenImgPicker(itemIdx)
     })};
 
     // Add Text Button 
