@@ -19,6 +19,7 @@ function INoteChapter ({
     dispatch 
 }) {
 
+
     const CParams = { chapterIdx: chIdx};
 
     const [insertType, setInsertType] = useState(null);
@@ -68,6 +69,7 @@ function INoteChapter ({
     }
 
     // Buttons and onClick Functions 
+
     const btnProps = {
         round: true,
         uppercase: true,
@@ -82,6 +84,7 @@ function INoteChapter ({
             text: 'Split Chapter',
             icon: 'unfold_more',
             // onClick: handleSplitChapter(itemIdx)
+
     })};
 
     // Add Image Button
@@ -90,18 +93,22 @@ function INoteChapter ({
             ...btnProps,
             text: 'Add Image',
             icon: 'image',
+
             onClick: () => handleOpenImgPicker(itemIdx)
     })};
 
     // Add Text Button 
     function addTextElement(itemIdx) {
         // setOpenModalIndex(itemIdx);
+
+
         return altEl(Button, true, {
             ...btnProps,
             text: 'Add Text',
             icon: 'add',
             onClick: () => handleOpenMDEditor(itemIdx)
             // onClick: handleOpenMDEditor
+
     })};
 
     // New Subchapter Button 
@@ -122,12 +129,13 @@ function INoteChapter ({
             // onClick: subdivideChapter
     })};
 
+    // DISPATCH FUNCTIONS 
     // Save Chapter Title Handler 
     const saveChapterTitle = value =>
-    dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
-      }
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
+        }
     })
 
     // Chapter Image Functions
@@ -138,6 +146,13 @@ function INoteChapter ({
           }
         })
     };
+    const onTextChange = (index) => (val) => {
+        dispatch({
+          type: 'epub/updateEpubData', payload: {
+            action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
+          }
+        })
+      };
 
     const onRemove = (index) => () => {
         dispatch({
@@ -165,6 +180,7 @@ function INoteChapter ({
                         />
                     </div>
                 </div>
+
 
                 {chapter.contents.map((content, itemIdx) => (
                     <div className={itemIdx}>
@@ -195,6 +211,7 @@ function INoteChapter ({
                             
                         )}
                         
+
                     </div>
                 ))}
             
@@ -207,6 +224,7 @@ function INoteChapter ({
                   title="Insert New Text"
                 />
             )}     
+
         </div>
         
     )
