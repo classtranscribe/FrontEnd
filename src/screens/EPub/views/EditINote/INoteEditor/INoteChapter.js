@@ -1,6 +1,7 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
+import { connect } from 'dva'
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
 import { indexOf } from 'lodash';
@@ -18,6 +19,7 @@ function INoteChapter ({
     dispatch 
 }) {
 
+    const CParams = { chapterIdx: chIdx};
 
     const [insertType, setInsertType] = useState(null);
     const openMDEditor = insertType === 'md';
@@ -150,7 +152,7 @@ function INoteChapter ({
           id={epubTools.id.chID(chapter.id)}
         >
             <div className='chapter-title'>
-                <CTText muted className="pt-2 pl-2">Chapter {  + 1}: {chapter.title}</CTText>
+                <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
                 <div className="ch-item-title-con ct-d-r-center-v">
                     <ChapterTitle
                       id={epubTools.id.chTitleID(chapter.id)}
@@ -162,14 +164,25 @@ function INoteChapter ({
                 </div>
             </div>
 
+
+         
+
             {chapter.contents.map((content, itemIdx) => (
-                <div className={itemIdx}>
+                <div key={itemIdx}>
                     <div className="item-actions">
+                        
                       {splitBtnElement(itemIdx)}
                       {splitSChBtnElement(itemIdx)}
                       {subdivideBtnElement(itemIdx)}
                       {addImgElement(itemIdx)}
                       {addTextElement(itemIdx)}
+                      <MDEditorModal
+                        show={openMDEditor}
+                        onClose={handleClose}
+                        onSave={handleSave(itemIdx)}
+                        title="Insert New Text"
+                    />
+                    
                     </div>
 
                     {typeof content === "object" ? ( // image
@@ -188,16 +201,7 @@ function INoteChapter ({
                               text={content}
                             />
                         </div>  
-                        
                     )}
-                    {insertType !== null && (
-                        <MDEditorModal
-                            show={openMDEditor}
-                            onClose={handleClose}
-                            onSave={handleSave}
-                            title="Insert New Text"
-                        />
-                    )}       
                 </div>
             ))}
            
@@ -206,4 +210,4 @@ function INoteChapter ({
     )
 }
 
-export default INoteChapter
+export default connect() (INoteChapter)
