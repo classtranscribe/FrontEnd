@@ -147,65 +147,66 @@ function INoteChapter ({
         })
       };
 
-    return (
-        <div 
-          className='ct-inote-chapter' 
-          id={epubTools.id.chID(chapter.id)}
-        >
-            <div className='chapter-title'>
-                <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
-                <div className="ch-item-title-con ct-d-r-center-v">
-                    <ChapterTitle
-                      id={epubTools.id.chTitleID(chapter.id)}
-                      value={chapter.title}
-                      onSave={saveChapterTitle}
-                      headingType="h2"
-                      className="ch-item-title"
-                    />
-                </div>
-            </div>
-
-
-         
-
-            {chapter.contents.map((content, itemIdx) => (
-                <div key={itemIdx}>
-                    <div className="item-actions">
-                        
-                      {splitBtnElement(itemIdx)}
-                      {splitSChBtnElement(itemIdx)}
-                      {subdivideBtnElement(itemIdx)}
-                      {addImgElement(itemIdx)}
-                      {addTextElement(itemIdx)}
-                      <MDEditorModal
-                        show={openMDEditor}
-                        onClose={handleClose}
-                        onSave={handleSave(itemIdx)}
-                        title="Insert New Text"
-                    />
-                    
+     return (
+        <div>
+            <div 
+            id={epubTools.id.chID(chapter.id)}
+            className='ct-inote-chapter' 
+            >
+                <div className='chapter-title'>
+                    <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
+                    <div className="ch-item-title-con ct-d-r-center-v">
+                        <ChapterTitle
+                        id={epubTools.id.chTitleID(chapter.id)}
+                        value={chapter.title}
+                        onSave={saveChapterTitle}
+                        headingType="h2"
+                        className="ch-item-title"
+                        />
                     </div>
-
-                    {typeof content === "object" ? ( // image
-                        <div className='img-con'>   
-                            <ChapterImage 
-                              id={`ch-content-${chapter.id}-${itemIdx}`}
-                              image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                              enableChapterScreenshots
-                              onChooseImage={onImageChange(itemIdx)}
-                              onRemoveImage={onRemove(itemIdx)}
-                            />
-                        </div> 
-                        ) : ( // text 
-                        <div className='item-text'>   
-                            <ChapterText  
-                              text={content}
-                            />
-                        </div>  
-                    )}
                 </div>
-            ))}
-           
+
+                {chapter.contents.map((content, itemIdx) => (
+                    <div className={itemIdx}>
+                        <div className="item-actions">
+                        {splitBtnElement(itemIdx)}
+                        {splitSChBtnElement(itemIdx)}
+                        {subdivideBtnElement(itemIdx)}
+                        {addImgElement(itemIdx)}
+                        {addTextElement(itemIdx)}
+                        </div>
+
+                        {typeof content === "object" ? ( // image
+                            <div className='img-con'>   
+                                <ChapterImage 
+                                id={`ch-content-${chapter.id}-${itemIdx}`}
+                                image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                                enableChapterScreenshots
+                                onChooseImage={onImageChange(itemIdx)}
+                                onRemoveImage={onRemove(itemIdx)}
+                                />
+                            </div> 
+                            ) : ( // text 
+                            <div className='item-text'>   
+                                <ChapterText  
+                                text={content}
+                                />
+                            </div>  
+                            
+                        )}
+                        
+                    </div>
+                ))}
+            
+            </div>
+            {insertType !== null && (
+                <MDEditorModal
+                  show={openMDEditor}
+                  onClose={handleClose}
+                  onSave={handleSave}
+                  title="Insert New Text"
+                />
+            )}     
         </div>
         
     )
