@@ -146,13 +146,13 @@ function INoteChapter ({
           }
         })
     };
-    const onTextChange = (index) => (val) => {
-        dispatch({
-          type: 'epub/updateEpubData', payload: {
-            action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
-          }
-        })
-      };
+    // const onTextChange = (index) => (val) => {
+    //     dispatch({
+    //       type: 'epub/updateEpubData', payload: {
+    //         action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
+    //       }
+    //     })
+    //   };
 
     const onRemove = (index) => () => {
         dispatch({
