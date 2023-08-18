@@ -19,15 +19,9 @@ function INoteChapter ({
     isSubChapter = false,
     itemIndex,
     subChapterIndex,
-    foldedIds = [],
-    setEPubItem,
-    onFold,
     dispatch, 
 
 }) {
-
-    const SubCParams = { chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
-    const CParams = { chapterIdx: chIdx, itemIdx: itemIndex };
 
 
     const [insertType, setInsertType] = useState(null);
@@ -78,12 +72,12 @@ function INoteChapter ({
 
     const splitChapterFromSubChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromSubChaptersItems', payload: SubCParams
+        action: 'splitChapterFromSubChaptersItems', payload: {chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
       }
     });
     const splitChapterFromChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromChaptersItems', payload: CParams
+        action: 'splitChapterFromChaptersItems', payload: {chapterIdx: chIdx, itemIdx: itemIndex}
       }
     });
     const handleSplitChapter = isSubChapter
@@ -91,12 +85,12 @@ function INoteChapter ({
       : splitChapterFromChaptersItems;
     const splitSubChapter = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitSubChapter', payload: SubCParams
+        action: 'splitSubChapter', payload: {chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
       }
     });  
     const subdivideChapter = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'subdivideChapter', payload: CParams
+        action: 'subdivideChapter', payload: {chapterIdx: chIdx, itemIdx: itemIndex}
       }
     });
 
@@ -218,24 +212,6 @@ function INoteChapter ({
                       {addImgElement(itemIdx)}
                       {addTextElement(itemIdx)}
                     </div>
-
-                <div className="ch-item-ol ct-d-c">
-                {chapter.subChapters.map((subChapter, subChapterIndex) => (
-                  <EPubSubChapterItem
-                    key={subChapter.id}
-                    foldedIds={foldedIds}
-                    subChapter={subChapter}
-                    chapterIndex={chIdx}
-                    subChapterIndex={subChapterIndex}
-                    canUndoSubdivide={subChapterIndex === 0}
-                    canUndoSplitSubChapter={subChapterIndex > 0}
-                    canSplitAsNewChapter={chapter.items.length > 0 || subChapterIndex > 0}
-                    setEPubItem={setEPubItem}
-                    onFold={onFold}
-                    dispatch={dispatch}
-                  />
-                ))}
-              </div>
 
                     {typeof content === "object" ? ( // image
                         <div className='img-con'>   
