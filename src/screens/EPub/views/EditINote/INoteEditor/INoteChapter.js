@@ -1,6 +1,7 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
+import { connect } from 'dva'
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
 import { indexOf } from 'lodash';
@@ -22,8 +23,6 @@ function INoteChapter ({
     dispatch, 
 
 }) {
-
-
     const [insertType, setInsertType] = useState(null);
     const openMDEditor = insertType === 'md';
 
@@ -51,7 +50,7 @@ function INoteChapter ({
         console.log(val, index);
         dispatch({
             type: 'epub/updateEpubData', payload: {
-                action: 'insertChapterContent', payload: { contentIdx: index, value: val }
+                action: 'insertChapterContentatChapterIdx', payload: { contentIdx: index, chapterIdx: chIdx, value: val }
             }
         })
     };
@@ -60,7 +59,8 @@ function INoteChapter ({
         handleSave(new EPubImageData(val).toObject());
     };
 
-    const handleOpenImgPicker = () => {
+    const handleOpenImgPicker = (itemIdx) => {
+        setOpenModalIndex(itemIdx)
         const imgData = {
         //screenshots: imgSrc,
         onSave: handleSaveImage,
@@ -103,21 +103,32 @@ function INoteChapter ({
         color: 'teal transparent'
     };
 
+    // Split Button 
+    const splitBtnElement = (itemIdx) => {
+        return altEl(Button, canSplit, {
+            ...btnProps,
+            text: 'Split Chapter',
+            icon: 'unfold_more',
+            // onClick: handleSplitChapter(itemIdx)
+    })};
+
     // Add Image Button
-    const addImgElement = (itemIdx) => {
+    function addImgElement (itemIdx) {
         return altEl(Button, true, {
             ...btnProps,
             text: 'Add Image',
             icon: 'image',
-            // onClick: handleOpenImgPicker
+            onClick: () => handleOpenImgPicker(itemIdx)
     })};
     // Add Text Button 
-    const addTextElement = (itemIdx) => {
+    function addTextElement(itemIdx) {
+        // setOpenModalIndex(itemIdx);
         return altEl(Button, true, {
             ...btnProps,
             text: 'Add Text',
             icon: 'add',
-            // onClick: handleOpenMDEditor(itemIdx)
+            onClick: () => handleOpenMDEditor(itemIdx)
+            // onClick: handleOpenMDEditor
     })};
 
     // // Split Button 
@@ -186,66 +197,68 @@ function INoteChapter ({
       };
 
     return (
-        <div 
-          className='ct-inote-chapter' 
-          id={epubTools.id.chID(chapter.id)}
-        >
-            <div className='chapter-title'>
-                <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
-                <div className="ch-item-title-con ct-d-r-center-v">
-                    <ChapterTitle
-                      id={epubTools.id.chTitleID(chapter.id)}
-                      value={chapter.title}
-                      onSave={saveChapterTitle}
-                      headingType="h2"
-                      className="ch-item-title"
-                    />
-                </div>
-            </div>
-
-            {chapter.contents.map((content, itemIdx) => (
-                <div key={itemIdx}>
-                    <div className="item-actions">
-                      {splitBtnElement}
-                      {splitSChBtnElement}
-                      {subdivideBtnElement}
-                      {addImgElement(itemIdx)}
-                      {addTextElement(itemIdx)}
-                    </div>
-
-                    {typeof content === "object" ? ( // image
-                        <div className='img-con'>   
-                            <ChapterImage 
-                              id={`ch-content-${chapter.id}-${itemIdx}`}
-                              image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                              enableChapterScreenshots
-                              onChooseImage={onImageChange(itemIdx)}
-                              onRemoveImage={onRemove(itemIdx)}
-                            />
-                        </div> 
-                        ) : ( // text 
-                        <div className='item-text'>   
-                            <ChapterText  
-                              id={`ch-content-${chapter.id}-${itemIdx}`}
-                              text={content}
-                              onSaveText={onTextChange(itemIdx)}
-                            />
-                        </div>  
-                    )}
-                    {insertType !== null && (
-                        <MDEditorModal
-                            show={openMDEditor}
-                            onClose={handleClose}
-                            onSave={handleSave}
-                            title="Insert New Text"
+        <div>
+            <div 
+            id={epubTools.id.chID(chapter.id)}
+            className='ct-inote-chapter' 
+            >
+                <div className='chapter-title'>
+                    <CTText muted className="pt-2 pl-2">Chapter {chIdx + 1}: {chapter.title}</CTText>
+                    <div className="ch-item-title-con ct-d-r-center-v">
+                        <ChapterTitle
+                        id={epubTools.id.chTitleID(chapter.id)}
+                        value={chapter.title}
+                        onSave={saveChapterTitle}
+                        headingType="h2"
+                        className="ch-item-title"
                         />
-                    )}       
+                    </div>
                 </div>
-            ))}
-         
+
+                {chapter.contents.map((content, itemIdx) => (
+                    <div className={itemIdx}>
+                        <div className="item-actions">
+                        {splitBtnElement(itemIdx)}
+                        {splitSChBtnElement(itemIdx)}
+                        {subdivideBtnElement(itemIdx)}
+                        {addImgElement(itemIdx)}
+                        {addTextElement(itemIdx)}
+                        </div>
+
+                        {typeof content === "object" ? ( // image
+                            <div className='img-con'>   
+                                <ChapterImage 
+                                id={`ch-content-${chapter.id}-${itemIdx}`}
+                                image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                                enableChapterScreenshots
+                                onChooseImage={onImageChange(itemIdx)}
+                                onRemoveImage={onRemove(itemIdx)}
+                                />
+                            </div> 
+                            ) : ( // text 
+                            <div className='item-text'>   
+                                <ChapterText  
+                                text={content}
+                                />
+                            </div>  
+                            
+                        )}
+                        
+                    </div>
+                ))}
+            
+            </div>
+            {insertType !== null && (
+                <MDEditorModal
+                  show={openMDEditor}
+                  onClose={handleClose}
+                  onSave={handleSave}
+                  title="Insert New Text"
+                />
+            )}     
         </div>
         
     )
 }
 
-export default INoteChapter
+export default connect() (INoteChapter)
