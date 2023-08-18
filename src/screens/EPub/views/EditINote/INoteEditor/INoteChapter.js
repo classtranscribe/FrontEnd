@@ -103,15 +103,6 @@ function INoteChapter ({
         color: 'teal transparent'
     };
 
-    // Split Button 
-    const splitBtnElement = (itemIdx) => {
-        return altEl(Button, canSplit, {
-            ...btnProps,
-            text: 'Split Chapter',
-            icon: 'unfold_more',
-            // onClick: handleSplitChapter(itemIdx)
-    })};
-
     // Add Image Button
     function addImgElement (itemIdx) {
         return altEl(Button, true, {
@@ -131,35 +122,32 @@ function INoteChapter ({
             // onClick: handleOpenMDEditor
     })};
 
-    // // Split Button 
-    // const splitBtnElement = (itemIdx) => {
-    //     return altEl(Button, canSplit, {
-    const splitBtnElement = altEl(Button, canSplit, {
-      ...btnProps,
-      text: 'Split Chapter',
-      icon: 'unfold_more',
-      onClick: handleSplitChapter
-    });
+    // Split Button 
+    const splitBtnElement = (itemIdx) => {
+      return altEl(Button, canSplit, {
+          ...btnProps,
+          text: 'Split Chapter',
+          icon: 'unfold_more',
+          onClick: handleSplitChapter(itemIdx)
+  })};
 
     // // New Subchapter Button 
-    // const splitSChBtnElement = (itemIdx) => {
-    //     return altEl(Button, canSplitSubChapter, {
-    const splitSChBtnElement = altEl(Button, canSplitSubChapter, {
+    const splitSChBtnElement = (itemIdx) => {
+        return altEl(Button, canSplitSubChapter, {
       ...btnProps,
       text: 'New Sub-Chapter',
       icon: 'subdirectory_arrow_right',
-      onClick: splitSubChapter
-    });
+      onClick: splitSubChapter(itemIdx)
+    })};
 
     // // Subdivide Button 
-    // const subdivideBtnElement = (itemIdx) => {
-    //     return altEl(Button, canSubdivide, {
-    const subdivideBtnElement = altEl(Button, canSubdivide, {
+    const subdivideBtnElement = (itemIdx) => {
+        return altEl(Button, canSubdivide, {
       ...btnProps,
       text: 'subdivide',
       icon: 'subdirectory_arrow_right',
-      onClick: subdivideChapter
-    });
+      onClick: subdivideChapter(itemIdx)
+    })};
     
 
     // Save Chapter Title Handler 
@@ -183,15 +171,6 @@ function INoteChapter ({
         dispatch({
           type: 'epub/updateEpubData', payload: {
             action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
-          }
-        })
-      };
-    
-    // Change Text Functions
-    const onTextChange = (index) => (val) => {
-        dispatch({
-          type: 'epub/updateEpubData', payload: {
-            action: val ? 'setChapterContent' : 'removeChapterContent', payload: { contentIdx: index, value: val }
           }
         })
       };
