@@ -36,7 +36,6 @@ function INoteChapter ({
     }
 
      const onInsert = (index) => (val) => {
-        
         dispatch({
             type: 'epub/updateEpubData', payload: {
                 action: 'insertChapterContentAtChapterIdx', payload: { contentIdx: index, chapterIdx: chIdx, value: val }
