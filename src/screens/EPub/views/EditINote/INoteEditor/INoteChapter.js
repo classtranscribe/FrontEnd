@@ -36,7 +36,7 @@ function INoteChapter ({
     }
 
      const onInsert = (index) => (val) => {
-        //console.log(val, index);
+        
         dispatch({
             type: 'epub/updateEpubData', payload: {
                 action: 'insertChapterContentAtChapterIdx', payload: { contentIdx: index, chapterIdx: chIdx, value: val }
@@ -46,7 +46,6 @@ function INoteChapter ({
 
 
     const handleSave = (val) => {
-        //console.log(val, openModalIndex)
         if (typeof onInsert === 'function' && val) {
             onInsert(openModalIndex)(val);
         }
