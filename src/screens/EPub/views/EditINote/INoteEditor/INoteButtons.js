@@ -10,9 +10,9 @@ import { epub } from '../../../controllers';
 
 function INoteButtons({
   item,
-  itemIndex,
-  chapterIndex,
-  subChapterIndex,
+  itemIdx,
+  chIdx,
+  subChapterIdx,
   isSubChapter = false,
   canSplit = false,
   canSplitSubChapter = false,
@@ -23,13 +23,13 @@ function INoteButtons({
 
     const splitChapterFromSubChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromSubChaptersItems', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
+        action: 'splitChapterFromSubChaptersItems', payload: { chapterIdx: chIdx, subChapterIdx: subChapterIdx, itemIdx: itemIdx }
       }
     });
 
     const splitChapterFromChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromChaptersItems', payload: { chapterIdx: chapterIndex, itemIdx: itemIndex }
+        action: 'splitChapterFromChaptersItems', payload: { chapterIdx: chIdx, itemIdx: itemIdx }
       }
     });
 
@@ -39,12 +39,11 @@ function INoteButtons({
 
     const splitSubChapter = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
+        action: 'splitSubChapter', payload: { chapterIdx: chIdx, subChapterIdx: subChapterIdx, itemIdx: itemIdx }
       }
     });
 
     const openItemDetails = () => setEPubItem(item);
-
 
     const itemClass = cx('ct-epb', 'sch', 'epb-data-item', 'ct-d-c', {
       sub: isSubChapter,
@@ -88,27 +87,23 @@ function INoteButtons({
           aria-haspopup="true"
           aria-controls={epub.id.epbItemViewId(item.id)}
         >
-          <div className="item-time-con">
-            <div className="item-time">
-              {timestr.toPrettierTimeString(item.start)}
-            </div>
-            <div className="item-time">
-              {timestr.toPrettierTimeString(item.end)}
-            </div>
+        <div className="item-time-con">
+          <div className="item-time">
+            {timestr.toPrettierTimeString(item.start)}
           </div>
-
-          <div className="item-img-con">
-            <Image src={imgSrc} alt="screenshot" />
-            <CTText line={4} className="item-text">
-              {
-                item.text
-                ||
-                <span className="text-muted"><i>No Transcriptions</i></span>
-              }
-            </CTText>
+          <div className="item-time">
+            {timestr.toPrettierTimeString(item.end)}
           </div>
         </div>
+
+        <div className="item-img-con">
+          <Image src={imgSrc} alt="screenshot" />
+          <CTText line={4} className="item-text">
+            { item.text || <span className="text-muted"><i>No Transcriptions</i></span> }
+          </CTText>
+        </div>
       </div>
-    );
+    </div>
+  );
 }
 export default connect()(INoteButtons); 

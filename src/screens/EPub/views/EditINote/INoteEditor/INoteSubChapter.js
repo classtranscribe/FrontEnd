@@ -7,41 +7,39 @@ import ChapterTitleButton from '../../EditEPubStructure/ChapterList/ChapterTitle
 import INoteButtons from './INoteButtons';
 
 function INoteSubChapter({
-  subChapter,
-  chapterIndex,
-  subChapterIndex,
-  canUndoSubdivide = false,
-  canUndoSplitSubChapter = false,
-  canSplitAsNewChapter = false,
-  dispatch
+    subChapter,
+    chIdx,
+    subChapterIdx,
+    canUndoSubdivide = false,
+    canUndoSplitSubChapter = false,
+    canSplitAsNewChapter = false,
+    dispatch
 }) {
   const undoSubdivideChapter = () => dispatch({
     type: 'epub/updateEpubData', payload: {
-      action: 'undoSubdivideChapter', payload: { chapterIdx: chapterIndex }
+      action: 'undoSubdivideChapter', payload: { chapterIdx: chIdx }
     }
   });
 
   const undoSplitSubChapter = () =>
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'undoSplitSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex }
+        action: 'undoSplitSubChapter', payload: { chapterIdx: chIdx, subChapterIdx: subChapterIdx }
       }
     })
 
   const splitChapterFromSubChapter = () => dispatch({
     type: 'epub/updateEpubData', payload: {
-      action: 'splitChapterFromSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex }
+      action: 'splitChapterFromSubChapter', payload: { chapterIdx: chIdx, subChapterIdx: subChapterIdx }
     }
   })
 
   const saveSubChapterTitle = value =>
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'saveSubChapterTitle', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, value }
+        action: 'saveSubChapterTitle', payload: { chapterIdx: chIdx, subChapterIdx: subChapterIdx, value }
       }
     })
-
-  //const isFolded = foldedIds.includes(subChapter.id);
 
   const schClasses = cx('ct-epb', 'sch', 'ch-item', 'sub', 'ct-d-c');
 
@@ -49,14 +47,14 @@ function INoteSubChapter({
   useEffect(() => {
     const reg = /^Untitled Sub-Chapter \(\d\)$/;
     if (reg.test(subChapter.title)) {
-      saveSubChapterTitle(`Untitled Sub-Chapter (${subChapterIndex + 1})`)
+      saveSubChapterTitle(`Untitled Sub-Chapter (${subChapterIdx + 1})`)
     }
-  }, [subChapterIndex]);
+  }, [subChapterIdx]);
 
   return (
     <div id={epub.id.schID(subChapter.id)} className={schClasses}>
       <CTText muted className="pt-2 pl-2">
-        Sub-Chapter {chapterIndex + 1}.{subChapterIndex + 1}: {subChapter.title}
+        Sub-Chapter {chIdx + 1}.{subChapterIdx + 1}: {subChapter.title}
       </CTText>
       <div
         className="ch-item-title-con sub ct-d-r-center-v"
@@ -68,16 +66,6 @@ function INoteSubChapter({
           onSave={saveSubChapterTitle}
           className="ch-item-title"
         />
-
-        {/* <ChapterTitleButton
-          show
-          content={isFolded ? 'Expand' : 'Collapse'}
-          color="transparent"
-          icon={isFolded ? "expand_more" : "expand_less"}
-          className="ch-item-expand-btn"
-          outlined={false}
-          onClick={() => onFold(!isFolded, subChapter.id)}
-        /> */}
 
         <ChapterTitleButton
           show={canUndoSubdivide}
@@ -106,16 +94,16 @@ function INoteSubChapter({
 
       {
         <div className="ch-item-ol ct-d-c">
-            {subChapter?.items?.map((item, itemIndex) => (
+            {subChapter?.items?.map((item, itemIdx) => (
                 <INoteButtons
-                  isSubChapter
-                  key={item.id}
-                  item={item}
-                  itemIndex={itemIndex}
-                  chapterIndex={chapterIndex}
-                  subChapterIndex={subChapterIndex}
-                  canSplit={itemIndex > 0}
-                  canSplitSubChapter={itemIndex > 0}
+                    isSubChapter
+                    key={item.id}
+                    item={item}
+                    itemIdx={itemIdx}
+                    chIdx={chIdx}
+                    subChapterIdx={subChapterIdx}
+                    canSplit={itemIdx > 0}
+                    canSplitSubChapter={itemIdx > 0}
                 />
             ))}
         </div>

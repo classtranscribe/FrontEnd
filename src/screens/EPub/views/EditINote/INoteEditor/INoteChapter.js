@@ -183,8 +183,8 @@ function INoteChapter ({
                   <INoteSubChapter
                     key={subChapter.id}
                     subChapter={subChapter}
-                    chapterIndex={chIdx}
-                    subChapterIndex={subChapterIdx}
+                    chIdx={chIdx}
+                    subChapterIdx={subChapterIdx}
                     canUndoSubdivide={subChapterIdx === 0}
                     canUndoSplitSubChapter={subChapterIdx > 0}
                     canSplitAsNewChapter={chapter.items.length > 0 || subChapterIdx > 0}
