@@ -7,6 +7,10 @@ import './index.scss';
 import INoteChapter from './INoteChapter';
 
 function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem, dispatch }) {
+
+  const onFold = (folded, id) => {
+    dispatch({ type: 'epub/foldChapter', payload: { id, folded } })
+  }
     useEffect(() => {
         if (currChIndex > 0) {
           setTimeout(() => {
@@ -23,9 +27,11 @@ function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem,
                   chapter={chapter} 
                   chIdx={chIdx}
                   dispatch={dispatch}
+                  onFold={onFold}
                 />
             ))}
         </ul>
+        
     )
 }
 

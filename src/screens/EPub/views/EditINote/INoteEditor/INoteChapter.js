@@ -8,20 +8,14 @@ import { indexOf } from 'lodash';
 import { EPubImageData } from 'entities/EPubs';
 import ChapterNewContent from '../../EditEPubChapter/ChapterEditor/ChapterNewContent';
 import ChapterContent from '../../EditEPubChapter/ChapterEditor/ChapterContent';
-import EPubSubChapterItem from '../../EditEPubStructure/ChapterList/EPubSubChapterItem';
+import INoteSubChapter from './INoteSubChapter';
 
 
 function INoteChapter ({
     chapter, 
     chIdx,
-    canSplit = false,
-    canSplitSubChapter = false,
     canSubdivide = true,
-    isSubChapter = false,
-    itemIndex,
-    subChapterIndex,
-    dispatch, 
-
+    dispatch 
 }) {
     const [insertType, setInsertType] = useState(null);
     const openMDEditor = insertType === 'md';
@@ -69,31 +63,11 @@ function INoteChapter ({
         dispatch({ type: 'epub/setImgPickerData', payload: imgData });
     }
 
-
-    const splitChapterFromSubChaptersItems = () => dispatch({
+    const subdivideChapter = (itemIdx) => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromSubChaptersItems', payload: {chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
+        action: 'subdivideChapter', payload: {chapterIdx: chIdx, itemIdx: itemIdx}
       }
     });
-    const splitChapterFromChaptersItems = () => dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromChaptersItems', payload: {chapterIdx: chIdx, itemIdx: itemIndex}
-      }
-    });
-    const handleSplitChapter = isSubChapter
-      ? splitChapterFromSubChaptersItems
-      : splitChapterFromChaptersItems;
-    const splitSubChapter = () => dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'splitSubChapter', payload: {chapterIdx: chIdx, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
-      }
-    });  
-    const subdivideChapter = () => dispatch({
-      type: 'epub/updateEpubData', payload: {
-        action: 'subdivideChapter', payload: {chapterIdx: chIdx, itemIdx: itemIndex}
-      }
-    });
-
 
     // Buttons and onClick Functions 
     const btnProps = {
@@ -111,6 +85,7 @@ function INoteChapter ({
             icon: 'image',
             onClick: () => handleOpenImgPicker(itemIdx)
     })};
+
     // Add Text Button 
     function addTextElement(itemIdx) {
         // setOpenModalIndex(itemIdx);
@@ -122,40 +97,21 @@ function INoteChapter ({
             // onClick: handleOpenMDEditor
     })};
 
-    // Split Button 
-    const splitBtnElement = (itemIdx) => {
-      return altEl(Button, canSplit, {
-          ...btnProps,
-          text: 'Split Chapter',
-          icon: 'unfold_more',
-          onClick: handleSplitChapter(itemIdx)
-  })};
-
-    // // New Subchapter Button 
-    const splitSChBtnElement = (itemIdx) => {
-        return altEl(Button, canSplitSubChapter, {
-      ...btnProps,
-      text: 'New Sub-Chapter',
-      icon: 'subdirectory_arrow_right',
-      onClick: splitSubChapter(itemIdx)
-    })};
-
-    // // Subdivide Button 
+    // Subdivide Button 
     const subdivideBtnElement = (itemIdx) => {
         return altEl(Button, canSubdivide, {
-      ...btnProps,
-      text: 'subdivide',
-      icon: 'subdirectory_arrow_right',
-      onClick: subdivideChapter(itemIdx)
+            ...btnProps,
+            text: 'subdivide',
+            icon: 'subdirectory_arrow_right',
+            onClick: () => subdivideChapter(itemIdx)
     })};
-    
 
     // Save Chapter Title Handler 
     const saveChapterTitle = value =>
-        dispatch({
-          type: 'epub/updateEpubData', payload: {
-            action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
-        }
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
+      }
     })
 
     // Chapter Image Functions
@@ -197,8 +153,6 @@ function INoteChapter ({
                 {chapter.contents.map((content, itemIdx) => (
                     <div className={itemIdx}>
                         <div className="item-actions">
-                        {splitBtnElement(itemIdx)}
-                        {splitSChBtnElement(itemIdx)}
                         {subdivideBtnElement(itemIdx)}
                         {addImgElement(itemIdx)}
                         {addTextElement(itemIdx)}
@@ -222,9 +176,23 @@ function INoteChapter ({
                             </div>  
                             
                         )}
-                        
                     </div>
                 ))}
+                <div className="ch-item-ol ct-d-c">
+                {chapter.subChapters.map((subChapter, subChapterIdx) => (
+                  <INoteSubChapter
+                    key={subChapter.id}
+                    subChapter={subChapter}
+                    chapterIndex={chIdx}
+                    subChapterIndex={subChapterIdx}
+                    canUndoSubdivide={subChapterIdx === 0}
+                    canUndoSplitSubChapter={subChapterIdx > 0}
+                    canSplitAsNewChapter={chapter.items.length > 0 || subChapterIdx > 0}
+                    dispatch={dispatch}
+                    
+                  />
+                ))}
+              </div>
             
             </div>
             {insertType !== null && (
