@@ -20,18 +20,16 @@ function INoteButtons({
   dispatch
 }) {
     const imgSrc = uurl.getMediaUrl(item.image);
-    const SubCParams = { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex };
-    const CParams = { chapterIdx: chapterIndex, itemIdx: itemIndex };
 
     const splitChapterFromSubChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromSubChaptersItems', payload: SubCParams
+        action: 'splitChapterFromSubChaptersItems', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
       }
     });
 
     const splitChapterFromChaptersItems = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitChapterFromChaptersItems', payload: CParams
+        action: 'splitChapterFromChaptersItems', payload: { chapterIdx: chapterIndex, itemIdx: itemIndex }
       }
     });
 
@@ -41,7 +39,7 @@ function INoteButtons({
 
     const splitSubChapter = () => dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'splitSubChapter', payload: SubCParams
+        action: 'splitSubChapter', payload: { chapterIdx: chapterIndex, subChapterIdx: subChapterIndex, itemIdx: itemIndex }
       }
     });
 
