@@ -14,14 +14,14 @@ function EditINote ({epub: epubData, dispatch}) {
     
     const [iNoteItem, setINoteItem] = useState(null);
     return (
-        <EPubNavigationProvider>
-            <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID} onScroll={onScroll}>
-                <CTFragment width="75%">
-                    <CTHeading>{epubData.title}</CTHeading>
-                    <INoteEditor> setINoteItem={setINoteItem} dispatch={dispatch} </INoteEditor>
-                </CTFragment>
-            </CTFragment>
-        </EPubNavigationProvider>
+      <EPubNavigationProvider>
+        <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID} onScroll={onScroll}>
+          <CTFragment width="75%">
+            <CTHeading>{epubData.title}</CTHeading>
+            <INoteEditor> setINoteItem={setINoteItem} dispatch={dispatch} </INoteEditor>
+          </CTFragment>
+        </CTFragment>
+      </EPubNavigationProvider>
     )
 }
 export default connect(({epub: {epub}, loading }) => ({

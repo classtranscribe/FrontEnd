@@ -16,16 +16,16 @@ function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem,
       }, []);
 
     return (
-        <ul className='ct-inote-editor'> 
-            {chapters.map((chapter, chIdx) => (
-                <INoteChapter 
-                  key={chapter.id}
-                  chapter={chapter} 
-                  chIdx={chIdx}
-                  dispatch={dispatch}
-                />
+      <ul className='ct-inote-editor'> 
+        {chapters.map((chapter, chIdx) => (
+          <INoteChapter 
+            key={chapter.id}
+            chapter={chapter} 
+            chIdx={chIdx}
+            dispatch={dispatch}
+          />
             ))}
-        </ul>
+      </ul>
     )
 }
 
