@@ -17,13 +17,13 @@ function UploadTable({
   videos,
   setVideos,
   failedVideos,
-  can2Video
+  canMultipleVideo
 }) {
   const uploading = uploadIndex >= 0;
 
-  const swapeVideos = (index) => {
-    let { video1, video2 } = videos[index];
-    videos[index] = { video1: video2, video2: video1 };
+  const swapVideos = (index) => {
+    let { video1, video2, video3 } = videos[index];
+    videos[index] = { video1: video2, video2: video1, video3: video3 };
     setVideos([...videos]);
   };
 
@@ -40,13 +40,14 @@ function UploadTable({
             <TableRow>
               <TableCell>
                 <div className="tb-cell header video1">
-                  {can2Video ? 'VIDEO 1' : 'VIDEO'} ({videos.length})
+                  {canMultipleVideo ? 'VIDEO 1' : 'VIDEO'} ({videos.length})
                 </div>
               </TableCell>
               {
-                can2Video 
+                canMultipleVideo 
                 && 
-                <TableCell><div className="tb-cell header">VIDEO 2</div></TableCell>
+                <TableCell><div className="tb-cell header">VIDEO 2</div></TableCell> &&
+                <TableCell><div className="tb-cell header">VIDEO 3</div></TableCell>
               }
               <TableCell align="right">
                 <div className="tb-cell header actions">{uploading ? 'STATUS' : 'ACTIONS'}</div>
@@ -57,9 +58,9 @@ function UploadTable({
           <TableBody>
             {videos.map(({ video1, video2 }, index) => (
               <TableRow className="tb-row" key={video1}>
-                <UploadTableVideoCell videFile={video1} can2Video={can2Video} />
+                <UploadTableVideoCell videFile={video1} canMultipleVideo={canMultipleVideo} />
 
-                {can2Video && <UploadTableVideoCell videFile={video2} />}
+                {canMultipleVideo && <UploadTableVideoCell videFile={video2} />}
 
                 <UploadTableStatusCell
                   failed={failedVideos.includes(index)}
@@ -68,7 +69,7 @@ function UploadTable({
                   progress={progress}
                   uploaded={uploadIndex > index}
                   canSwap={video2}
-                  onSwap={() => swapeVideos(index)}
+                  onSwap={() => swapVideos(index)}
                   onDelete={() => deleteVideos(index)}
                 />
               </TableRow>

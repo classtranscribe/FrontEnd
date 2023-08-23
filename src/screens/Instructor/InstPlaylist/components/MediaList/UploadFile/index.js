@@ -7,14 +7,12 @@ import {
   CTModal,
   CTUploadButton,
   CTFormHelp,
-  CTCheckbox,
   CTFragment,
   CTConfirmation
 } from 'layout';
-import { useCheckbox } from 'hooks';
 import { links, api, prompt } from 'utils';
-import UploadTable from './UploadTable';
-import UploadActions from './UploadActions';
+import VideoUploadTable from './VideoUploadTable';
+import VideoUploadActions from './VideoUploadActions';
 import './index.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,9 +48,9 @@ const mediaControl = {
 
     return successedVideos;
   },
-  async upload(playlistId, { video1, video2, video3 }, onUploadProgress) {
+  async upload(playlistId, { video1, video2 }, onUploadProgress) {
     try {
-      await api.uploadVideo(playlistId, video1, video2, video3, onUploadProgress);
+      await api.uploadVideo(playlistId, video1, video2, onUploadProgress);
       return true
     } catch (error) {
       console.error(error);
@@ -61,9 +59,9 @@ const mediaControl = {
     }
   }
 }
-export function UploadFiles(props) {
+export function UploadSingleFile(props) {
   const { history, match } = props;
-  const { id } = match.params;
+  const id = match.params.playlistId;
   const classes = useStyles();
 
   const [videos, setVideos] = useState([]);
@@ -71,7 +69,6 @@ export function UploadFiles(props) {
   const [progress, setProgress] = useState(0);
   const [failedVideos, setFailedVideos] = useState([]);
 
-  const canUploadMultipleVideo = useCheckbox(false);
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const [openLoader, setOpenLoader] = useState(false);
@@ -80,26 +77,12 @@ export function UploadFiles(props) {
 
   const handleCloseConfirm = () => setOpenConfirm(false);
   const handleConfirm = () => {
-    canUploadMultipleVideo.setChecked(false);
     handleCloseConfirm();
     setVideos(_.map(videos, (_video) => ({ video1: _video.video1 })));
   };
 
-  const handleUploadMultipleVideoCheckboxChange = ({ target: { checked }}) => {
-    if (checked === false && videos.filter((_video) => _video.video2).length) {
-      setOpenConfirm(true);
-    } else {
-      canUploadMultipleVideo.setChecked(checked);
-    }
-  }
-
   const handleAddVideo = (files) => {
-    if (canUploadMultipleVideo.checked) {
-      let [video1, video2, video3] = files;
-      setVideos([ ...videos, { video1, video2 }]);
-    } else {
-      setVideos([ ...videos, ..._.map(files, (vfile) => ({ video1: vfile }))]);
-    }
+    setVideos([ ...videos, ..._.map(files, (vfile) => ({ video1: vfile }))]);
   };
   
   const handleClose = () => {
@@ -158,7 +141,7 @@ export function UploadFiles(props) {
     responsive: true,
     size: 'md',
     title: 'Upload Videos',
-    action: <UploadActions {...actionProps} />,
+    action: <VideoUploadActions {...actionProps} />,
     onClose: handleClose
   };
 
@@ -167,37 +150,23 @@ export function UploadFiles(props) {
     uploadIndex,
     videos,
     failedVideos,
-    canUploadMultipleVideo: canUploadMultipleVideo.checked,
     setVideos
   };
 
   return (
     <CTModal {...modalProps}>
       <CTFormHelp title="upload instruction">
-        <b>By checking the checkbox below, you can upload multiple videos for each media.</b>
+        <b>Upload an additional video.</b>
         <br />
-        The videos will be presented to viewers with synchronized playbacks.
       </CTFormHelp>
       <CTFragment margin={[-15,0,0,10]}>
-        <CTCheckbox 
-          label="Upload multiple videos for each media"
-          checked={canUploadMultipleVideo.checked}
-          onChange={handleUploadMultipleVideoCheckboxChange}
-        />
         <CTConfirmation
-          text="Are you sure to remove the all the secondary video files of your medias?"
+          text="Are you sure to remove this video?"
           onConfirm={handleConfirm}
           onClose={handleCloseConfirm}
           open={openConfirm}
         />
       </CTFragment>
-      {
-        canUploadMultipleVideo.checked 
-        &&
-        <CTFormHelp fadeIn>
-          Choose up to 3 video files at a time when browsing files.
-        </CTFormHelp>
-      }
 
       <CTUploadButton 
         fluid 
@@ -208,7 +177,7 @@ export function UploadFiles(props) {
         Browse videos
       </CTUploadButton>
 
-      <UploadTable {...tableProps} />
+      <VideoUploadTable {...tableProps} />
 
       <Backdrop open={openLoader} className={classes.backdrop}>
         <CircularProgress color="inherit" />
