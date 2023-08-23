@@ -41,7 +41,7 @@ function enterFullScreen(watch) {
     try {
         let elem = document.getElementById('ct-video-con-div') || {};
         if (isMobile) {
-            elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
+            elem = document.getElementById(`ct-video-${watch.videoPLaying}`) || {};
         }
         if (elem.requestFullscreen) {
             elem.requestFullscreen();
@@ -66,7 +66,7 @@ function enterFullScreen(watch) {
 function exitFullScreen(watch) {
     try {
         if (isMobile) {
-            const elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
+            const elem = document.getElementById(`ct-video-${watch.videoPLaying}`) || {};
             // console.log(elem.webkitExitFullscreen)
         }
         if (!PlayerData.video1) return;
@@ -203,11 +203,11 @@ export default {
         }
         yield put({ type: 'setFullscreenTwo', payload: newState });
     },
-    *switchVideo({ payload: bool }, { call, put, select, take }) {
-        if (!PlayerData.video2) return;
+    *changeVideo({ payload: number }, { call, put, select, take }) {
+        if (!PlayerData.video2 && !PlayerData.video3) return;
         const { watch } = yield select();
-        const toSet = bool === undefined ? !watch.isSwitched : bool;
-        yield put({ type: 'switchScreen', payload: toSet })
+        const toSet = number === undefined ? !watch.videoPlaying : number;
+        yield put({ type: 'changeScreen', payload: toSet })
     },
     *onPlayerReady({ payload: { isPrimary } }, { call, put, select, take }) {
         const { playerpref, watch } = yield select();

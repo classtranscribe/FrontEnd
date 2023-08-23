@@ -60,7 +60,7 @@ const initState = {
     time: 0,
     duration: 0,
     bufferedTime: 0,
-    isSwitched: false,
+    videoPlaying: 1,
     paused: true,
 
     isFullscreen: false,
@@ -590,7 +590,7 @@ const WatchModel = {
                 ctpPriEvent: CTP_LOADING,
                 ctpSecEvent: CTP_LOADING,
                 paused: true,
-                isSwitched: false,
+                videoPlaying: 2,
 
                 transcriptions: [],
                 currTrans: {},

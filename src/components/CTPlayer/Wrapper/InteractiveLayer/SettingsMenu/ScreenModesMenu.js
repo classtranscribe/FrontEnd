@@ -7,7 +7,7 @@ function ScreenModesMenu(props) {
   const {
     screenMode,
     setScreenMode,
-    onSwapScreens,
+    onChangeScreens,
     onGoBack
   } = props;
 
@@ -17,8 +17,8 @@ function ScreenModesMenu(props) {
 
       <MenuItem
         bordered
-        text="Swap Screens"
-        onClick={onSwapScreens}
+        text="Change Screens"
+        onClick={onChangeScreens}
       />
 
       {[Constants.ScreenModeNormal, Constants.ScreenModeNested].map(mode => (
@@ -36,7 +36,7 @@ function ScreenModesMenu(props) {
 ScreenModesMenu.propTypes = {
   screenMode: PropTypes.string,
   setScreenMode: PropTypes.func,
-  onSwapScreens: PropTypes.func,
+  onChangeScreens: PropTypes.func,
   onGoBack: PropTypes.func
 };
 

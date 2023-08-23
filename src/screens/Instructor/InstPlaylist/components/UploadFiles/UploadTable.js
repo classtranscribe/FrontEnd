@@ -21,9 +21,9 @@ function UploadTable({
 }) {
   const uploading = uploadIndex >= 0;
 
-  const swapVideos = (index) => {
+  const changeVideos = (index) => {
     let { video1, video2, video3 } = videos[index];
-    videos[index] = { video1: video2, video2: video1, video3: video3 };
+    videos[index] = { video1: video2, video2: video3, video3: video1 };
     setVideos([...videos]);
   };
 
@@ -68,8 +68,8 @@ function UploadTable({
                   inProgress={uploadIndex === index}
                   progress={progress}
                   uploaded={uploadIndex > index}
-                  canSwap={video2}
-                  onSwap={() => swapVideos(index)}
+                  canChange={video2}
+                  onChange={() => changeVideos(index)}
                   onDelete={() => deleteVideos(index)}
                 />
               </TableRow>

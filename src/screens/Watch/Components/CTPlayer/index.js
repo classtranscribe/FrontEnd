@@ -23,9 +23,10 @@
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
    const { transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY } = props;
-   const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
-   const { videos = [], isTwoScreen } = media;
-   const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
+   const { media = {}, mode, videoPlaying, isFullscreen, embedded } = props;
+   const { videos = [], isTwoScreen, isThreeScreen } = media;
+   const { srcPath1, srcPath2, srcPath3, useHls = false } = videos[0] || {};
+
    // Mute Handler
    useEffect(() => {
      PlayerData.video1 && (PlayerData.video1.muted = muted);
@@ -53,9 +54,14 @@
        PlayerData.video2.pause();
        PlayerData.video2.load()
      }
-   }, [srcPath1, srcPath2]);
-   const player1Position = isSwitched ? SECONDARY : PRIMARY;
-   const player2Position = isSwitched ? PRIMARY : SECONDARY;
+     if (PlayerData.video3) {
+      PlayerData.video3.pause();
+      PlayerData.video3.load();
+     }
+   }, [srcPath1, srcPath2, srcPath3]);
+   const player1Position = videoPlaying != 1 ? SECONDARY : PRIMARY;
+   const player2Position = videoPlaying != 2 ? SECONDARY : PRIMARY;
+   const player3Position = videoPlaying != 3 ? SECONDARY : PRIMARY;
    const { videoStyle } = getVideoStyle({brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY});
  
    useEffect(() => {
@@ -69,7 +75,7 @@
      videoRef: videoRef1,
      dispatch,
      path: srcPath1,
-     isSwitched,
+     videoPlaying,
      embedded,
      openCC,
      videoStyle
@@ -122,7 +128,7 @@
              videoRef={videoRef2}
              dispatch={dispatch}
              path={srcPath2}
-             isSwitched={isSwitched}
+             videoPlaying={videoPlaying}
              embedded={embedded}
            />
          </div>
@@ -132,13 +138,13 @@
  };
  
  export const ClassTranscribePlayer = connect(({ watch: {
-   media, mode, isSwitched, isFullscreen, embedded
+   media, mode, videoPlaying, isFullscreen, embedded
  }, playerpref: {
    transView, muted, volume, playbackrate, openCC,
    brightness, contrast, rotateColor, invert,
    scale, magnifyX, magnifyY
  }, loading }) => ({
-   media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
+   media, mode, videoPlaying, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
    brightness, contrast, rotateColor, invert,
    scale, magnifyX, magnifyY
  }))(ClassTranscribePlayerNew);

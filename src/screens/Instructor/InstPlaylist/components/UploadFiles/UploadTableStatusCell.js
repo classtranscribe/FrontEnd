@@ -10,8 +10,8 @@ function UploadTableStatusCell({
   inProgress,
   progress,
   uploaded,
-  canSwap,
-  onSwap,
+  canChange,
+  onChange,
   onDelete
 }) {
   return (
@@ -39,11 +39,11 @@ function UploadTableStatusCell({
         ) : (
           <div className="tb-cell actions">
             {
-              canSwap
+              canChange
               &&
-              <CTPopoverLabel label="Swape videos">
-                <IconButton onClick={onSwap}>
-                  <i className="material-icons">swap_horiz</i>
+              <CTPopoverLabel label="Change videos">
+                <IconButton onClick={onChange}>
+                  <i className="material-icons">change_horiz</i>
                 </IconButton>
               </CTPopoverLabel>
             }

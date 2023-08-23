@@ -426,6 +426,6 @@ const Video = React.memo((props) => {
       </div>)
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path
-        && prevProps.isSwitched === nextProps.isSwitched
+        && prevProps.videoPlaying === nextProps.videoPlaying
 });
 export default Video;
