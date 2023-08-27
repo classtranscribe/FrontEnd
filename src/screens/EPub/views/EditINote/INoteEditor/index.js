@@ -24,7 +24,7 @@ function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem,
             chIdx={chIdx}
             dispatch={dispatch}
           />
-            ))}
+        ))}
       </ul>
     )
 }

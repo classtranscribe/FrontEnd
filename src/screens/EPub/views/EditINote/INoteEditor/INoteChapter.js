@@ -167,7 +167,7 @@ function INoteChapter ({
         </CTFragment>
 
         {chapter.contents.map((content, itemIdx) => (
-          <CTFragment className={itemIdx}>
+          <CTFragment key={itemIdx}>
             <CTFragment className="item-actions">
               {splitBtnElement(itemIdx)}
               {splitSChBtnElement(itemIdx)}
@@ -211,4 +211,4 @@ function INoteChapter ({
   )
 }
 
-export default connect() (INoteChapter)
+export default INoteChapter
