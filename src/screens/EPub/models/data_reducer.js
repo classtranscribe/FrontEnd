@@ -447,6 +447,20 @@ export default {
         // this.__feed('Removed.');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
+    removeChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx } }) {
+        const chapters = state.epub.chapters;
+        if (subChapterIdx === undefined) {
+            const chapter = chapters[chapterIdx];
+            console.log(`Removing chapter ${chapterIdx} content`);
+            removeContent(chapter, contentIdx);
+        } else if (chapters?.[chapterIdx]?.subChapters?.[subChapterIdx]) {
+            console.log(`Removing chapter ${chapterIdx} subchapter ${subChapterIdx} content`);
+            removeContent(chapters?.[chapterIdx]?.subChapters?.[subChapterIdx], contentIdx)
+        }
+        // this.updateAll('Remove the chapter content');
+        // this.__feed('Removed.');
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
+    },
 }
 /*
 __feed(mesg = 'Saved.') {
