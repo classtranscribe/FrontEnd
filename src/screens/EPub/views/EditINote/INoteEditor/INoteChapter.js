@@ -32,7 +32,7 @@ function INoteChapter ({
   const onInsert = (index) => (val) => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
-          action: 'insertChapterContentAtChapterIdx', payload: { contentIdx: index, chapterIdx: chIdx, value: val }
+        action: 'insertChapterContentAtChapterIdx', payload: { contentIdx: index, chapterIdx: chIdx, value: val }
       }
     })
   };
@@ -62,10 +62,10 @@ function INoteChapter ({
 
   // Buttons and onClick Functions 
   const btnProps = {
-      round: true,
-      uppercase: true,
-      classNames: 'item-action-btn',
-      color: 'teal transparent'
+    round: true,
+    uppercase: true,
+    classNames: 'item-action-btn',
+    color: 'teal transparent'
   };
 
   // Split Button 
@@ -107,10 +107,10 @@ function INoteChapter ({
   // Subdivide Button 
   const subdivideBtnElement = (itemIdx) => {
     return altEl(Button, canSubdivide, {
-        ...btnProps,
-        text: 'subdivide',
-        icon: 'subdirectory_arrow_right',
-        // onClick: subdivideChapter
+      ...btnProps,
+      text: 'subdivide',
+      icon: 'subdirectory_arrow_right',
+      // onClick: subdivideChapter
   })};
 
   // DISPATCH FUNCTIONS 
