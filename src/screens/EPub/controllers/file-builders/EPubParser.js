@@ -2,8 +2,9 @@ import _ from 'lodash';
 import Prism from 'prismjs';
 import { uurl, api, CTError } from 'utils';
 import { EPubData, EPubDataValidationError, EPubChapterData } from 'entities/EPubs';
-
-const buildHTMLFromChapter = EPubChapterData.__buildHTMLFromChapter;
+import { buildHTMLFromChapter } from '../../../../entities/EPubs/html-converters';
+import jquery from 'jquery';
+import { buildMDfromImage } from 'entities/EPubs/html-converters';
 
 /**
  * The error which occurred while loading the images for an ePub
@@ -142,7 +143,6 @@ class EPubParser {
   extractBodyTextFromDom(dom) {
     // Serialize xhtml
     const xhtml = new XMLSerializer().serializeToString(dom);
-
     // Only keep codes inside the <body>..</body>
     return xhtml
       .replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '')
@@ -159,7 +159,6 @@ class EPubParser {
       const chapterId = `chapter-${chIdx + 1}`;
 
       const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
-
       const dom = await this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
       Prism.highlightAllUnder(dom);
       const chapterText = this.extractBodyTextFromDom(dom);
