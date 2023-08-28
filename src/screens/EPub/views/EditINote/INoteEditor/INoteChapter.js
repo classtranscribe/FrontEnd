@@ -27,7 +27,8 @@ function INoteChapter ({
 
     const handleOpenMDEditor = (itemIdx) => {
         setInsertType('md');
-        setOpenModalIndex(itemIdx)
+        setOpenModalIndex(itemIdx);
+        //console.log(itemIdx,openModalIndex);
     };
       
     const handleClose = () => {
@@ -45,19 +46,25 @@ function INoteChapter ({
 
 
     const handleSave = (val) => {
+      
+      
         if (typeof onInsert === 'function' && val) {
+          console.log(openModalIndex);
             onInsert(openModalIndex)(val);
         }
         handleClose();
+        
     };
     
    
     const handleSaveImage = (val) => {
+       
         handleSave(new EPubImageData(val).toObject());
     };
 
     const handleOpenImgPicker = (itemIdx) => {
-        setOpenModalIndex(itemIdx)
+        setOpenModalIndex(itemIdx);
+        console.log(itemIdx,openModalIndex);
         const imgData = {
         // screenshots: imgSrc,
         onSave: handleSaveImage,
@@ -94,6 +101,8 @@ function INoteChapter ({
 
             onClick: () => handleOpenImgPicker(itemIdx)
     })};
+
+  
 
     // Add Text Button 
     function addTextElement(itemIdx) {
