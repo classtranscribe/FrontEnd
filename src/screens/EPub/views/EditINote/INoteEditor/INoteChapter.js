@@ -68,6 +68,19 @@ function INoteChapter ({
   };
 
   // Split and Merge Chapter Button and Functions
+  const sliceChapter = (itemIdx) => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'sliceChapter', payload: { chapterIdx: chIdx, itemIdx }
+    }
+  });
+
+  // Undo Chapter Split 
+  const mergeChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'mergeChapter', payload: { chapterIdx: chIdx }
+    }
+  })
+
   const splitBtnElement = (itemIdx) => {
     let canSplit = itemIdx > 0
     return altEl(Button, canSplit, {
@@ -78,26 +91,13 @@ function INoteChapter ({
   })};
 
   const mergeChapterBtnElement = (itemIdx) => {
-    let canMerge = chIdx > 0 && itemIdx == 0;
+    let canMerge = chIdx > 0 && itemIdx === 0;
     return altEl(Button, canMerge, {
       ...btnProps,
       text: 'Merge Chapter With Above',
       icon: 'unfold_less',
       onClick: mergeChapter
   })};
-
-  const sliceChapter = (itemIdx) => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'sliceChapter', payload: { chapterIdx: chIdx, itemIdx: itemIdx }
-    }
-  });
-
-  // Undo Chapter Split 
-  const mergeChapter = () => dispatch({
-    type: 'epub/updateEpubData', payload: {
-      action: 'mergeChapter', payload: { chapterIdx: chIdx }
-    }
-  })
 
   // Add Image Button
   const addImgElement = (itemIdx) => {
