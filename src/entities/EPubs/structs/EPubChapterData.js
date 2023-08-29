@@ -10,7 +10,7 @@ function _createChapterTitle() {
 }
 
 class EPubChapterData extends EPubChapterLikeData {
-  constructor(chapterLike, resetText = true) {
+  constructor(chapterLike, resetText) {
     super(chapterLike, resetText, _createChapterTitle);
 
     const { subChapters = [] } = chapterLike;
