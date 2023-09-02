@@ -1,30 +1,17 @@
 /* eslint-disable no-console */
 import React, {
-    // memo, 
-    // useState,
-    // fetch, 
     useEffect, useCallback
 } from 'react';
 import Hls from 'hls.js';
-// import { Config } from 'hls.js';
 import { isMobile } from 'react-device-detect';
-// import axios from 'axios';
-// import PlayerWrapper from './PlayerWrapper';
-// import { uEvent } from '../../Utils/UserEventController';
 import { prompt } from 'utils';
 import {
-    // NORMAL_MODE,
-    // PS_MODE,
-    // NESTED_MODE /** THEATRE_MODE, */,
     CTP_PLAYING,
     CTP_LOADING,
     CTP_ENDED,
-    // CTP_UP_NEXT,
     CTP_ERROR,
-    // HIDE_TRANS,
 } from '../../Utils/constants.util';
 
-// import { logErrorToAzureAppInsights } from 'utils/logger';
 
 let hls;
 
@@ -33,11 +20,8 @@ const Video = React.memo((props) => {
         id = 1,
         path,
         dispatch,
-        // isSwitched, 
         embedded,
         videoRef,
-        // openCC, 
-        // updating,
         captionSpeedUp = 0,
     } = props;
 
@@ -65,24 +49,7 @@ const Video = React.memo((props) => {
             originalTime = duration;
         }
 
-        // let realTime = duration - originalTime;
-        // if (realTime >= 30) {
-        //     realTime = 30
-        // }
-
-
-        // if (duration >= 30) {
-        //     duration = 30
-        // }
-        // 
         dispatch({ type: 'watch/setDuration', payload: (duration - offSet) });
-
-        // dispatch({ type: 'watch/setDuration', payload: duration });
-        /*
-        if (this.state.openRange && !this.state.range) {
-            // this.setRange([0, duration]); // TODO
-        }
-        */
     }, [isPrimary]);
     const setCTPEvent = (event) => {
         dispatch({ type: 'watch/setCTPEvent', payload: { event, priVideo: isPrimary } })
@@ -116,20 +83,6 @@ const Video = React.memo((props) => {
             dispatch({ type: 'watch/media_playbackrate', payload: 1.0 })
         }
     }, [isPrimary]);
-    // const onProgress = useCallback((e) => {
-    //     if (!isPrimary) return;
-    //     const { target: { buffered, currentTime, duration } } = e;
-    //     if (duration > 0) {
-    //         for (let i = 0; i < buffered.length; i += 1) {
-    //             if (buffered.start(buffered.length - 1 - i) < currentTime) {
-    //                 dispatch({
-    //                     type: 'watch/setBufferedTime', payload: `${(buffered.end(buffered.length - 1 - i) / duration) * 100}%`
-    //                 });
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }, [isPrimary]);
     const onPause = useCallback(() => {
         // eslint-disable-next-line no-useless-return
         if (!isPrimary) return;
@@ -141,13 +94,6 @@ const Video = React.memo((props) => {
     const onLoadedDataPri = useCallback(() => {
         setCTPEvent(CTP_PLAYING);
     }, [isPrimary]);
-    // const onWaitingPri = useCallback(() => {
-    //     setCTPEvent(CTP_LOADING);
-    // }, [isPrimary]);
-    // const onPlayingPri = useCallback(() => {
-    //     // if (this.PAUSED) this.play();
-    //     setCTPEvent(CTP_PLAYING);
-    // }, [isPrimary]);
     const onEndedPri = useCallback(() => {
         setCTPEvent(CTP_ENDED);
         dispatch({ type: 'watch/media_pause' });
@@ -215,66 +161,7 @@ const Video = React.memo((props) => {
                     }
                 }
             });
-            // newHls.on(Hls.Events.BUFFER_APPENDED, (_, event) => {
-            // const x = event.timeRanges?.video
-            // 
-            // , event.timeRanges.video?.end()
-            // })
-            // fetch('https://bitdash-a.akamaihd.net/content/sintel/hls/subtitles_de.vtt').then(res => 
-
-            // newHls.on(Hls.Events.MANIFEST_LOADED, (_, _event) => {
-            // eslint-disable-next-line no-console
-            // 
-            // if(true) {
-            // if(!openCC) {
-            //     newHls.subtitleTrack = -1;
-            // }
-
-            // eslint-disable-next-line no-console
-            // 
-            // eslint-disable-next-line no-console
-            // 
-            // const transcriptions = event.captions.map(cap => ({id: null, language: cap.lang, src: 'hm'}));
-            // eslint-disable-next-line no-console
-            // 
-            // dispatch({type: 'watch/setTranscriptions', payload: transcriptions})
-            // dispatch({type: 'watch/setCaptions', payload: [{}]})
-            // }
-            // });
-
-            // newHls.on(Hls.Events.CUES_PARSED, (_, __) => {
-            //     // eslint-disable-next-line no-console
-            //     // 
-            // });
-
-            /*
-            newHls.on(Hls.Events.SUBTITLE_FRAG_PROCESSED, (_, event) =>{
-                
-            })
-            newHls.on(Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND, (_, event) =>{
-                
-            })
-            */
-            // newHls.on(Hls.Events.CUES_PARSED, (_, __) =>{
-            //     // 
-            // })
-
-
-            // Hls.Events.MANIFEST_PARSED
-            // Hls.Events.NON_NATIVE_TEXT_TRACKS_FOUND and 
-            // renderTextTracksNatively
-            /*
-            Hls.Events.SUBTITLE_TRACKS_UPDATED - fired to notify that subtitle track lists has been updated
-            data: { subtitleTracks : subtitleTracks }
-            Hls.Events.SUBTITLE_TRACK_SWITCH - fired when a subtitle track switch occurs
-            data: { id : subtitle track id, type? : playlist type ('SUBTITLES' | 'CLOSED-CAPTIONS'), url? : subtitle track URL }
-            Hls.Events.SUBTITLE_TRACK_LOADING - fired when a subtitle track loading starts
-            data: { url : audio track URL, id : audio track id }
-            Hls.Events.SUBTITLE_TRACK_LOADED - fired when a subtitle track loading finishes
-            data: { details : levelDetails object (please see below for more information), id : subtitle track id, stats : [LoadStats] }
-            - fired when a subtitle fragment has been processed
-            data: { success : boolean, frag : [the processed fragment object], error?: [error parsing subtitles if any] }
-            */
+        
             newHls.on(Hls.Events.ERROR, (_event, data) => {
                 if (data.fatal) {
                     switch (data.type) {
@@ -342,53 +229,6 @@ const Video = React.memo((props) => {
                     Array.from(textTrack)[i].mode = "showing";
                 }
             }
-            // dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
-            // console.log(englishTrack)
-            // englishTrack.addEventListener("cuechange", (event) => {
-
-            //     // 
-            //     const toLog = [];
-            //     for (let z = 0; z < event.currentTarget.cues.length; z++) {
-            //         let toCopy = JSON.parse(JSON.stringify(event.currentTarget.cues[z]));
-            //         toCopy.startTime = event.currentTarget.cues[z].startTime;
-            //         toCopy.endTime = event.currentTarget.cues[z].endTime;
-            //         toCopy.text = event.currentTarget.cues[z].text;
-            //         toLog.push(Object.freeze(toCopy))
-            //     }
-
-            //     // 
-
-            //     // const prev = undefined;
-            //     if (event.currentTarget.activeCues[0] !== undefined) {
-            //         idR += 1
-            //         let curr = event.currentTarget.activeCues[0];
-            //         if (Math.abs(curr.startTime - curr.endTime) > 20) {
-            //             curr = event.currentTarget.activeCues[1];
-            //         }
-
-            //         let toCopy = JSON.parse(JSON.stringify(curr));
-            //         toCopy.startTime = curr.startTime;
-            //         toCopy.endTime = curr.endTime;
-            //         toCopy.text = curr.text;
-
-
-            //         if (yolo <= 2) {
-            //             // transcript.push(f)
-            //             // y
-            //             dispatch({ type: 'watch/setTranscript', payload:  toLog})
-
-
-            //             dispatch({ type: 'watch/setCurrCaption', payload:  Object.freeze( toCopy)})
-
-            //             // splitter(toLog)
-            //             yolo = 0
-            //         }
-            //         yolo += 1;
-
-
-
-            //     }
-            // })
         };
         console.log(hls.audioTracks);
     }, [_videoRef.current])
