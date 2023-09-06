@@ -57,7 +57,7 @@ const mediaControl = {
       prompt.error(`Failed to upload video ${video1.name}.`);
       return false;
     }
-  }
+  } 
 }
 export function UploadSingleFile(props) {
   const { history, match } = props;
