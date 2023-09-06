@@ -39,7 +39,6 @@ function INoteChapter ({
 
 
   const handleSave = (val) => {
-    console.log(openModalIndex);
     if (typeof onInsert === 'function' && val) {
       onInsert(openModalIndex)(val);
     }
@@ -48,7 +47,6 @@ function INoteChapter ({
     
    
   const handleSaveImage = (itemIdx) => (val) => {
-    console.log(itemIdx);
     let imageval = new EPubImageData(val).toObject();
     if (typeof onInsert === 'function' && imageval) {
       onInsert(itemIdx)(imageval);
@@ -56,7 +54,6 @@ function INoteChapter ({
   };
 
   const handleOpenImgPicker = (itemIdx) => {
-    console.log(itemIdx);
     setOpenModalIndex(itemIdx);
     const imgData = {
     
