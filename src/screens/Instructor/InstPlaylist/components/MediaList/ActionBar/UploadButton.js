@@ -14,7 +14,7 @@ function UploadButton({
     <Button
       component={Link}
       className={cx(btn.teal, 'ml-3')}
-      startIcon={<UploadIcon />}
+      startIcon={<UploadIcon />} 
       variant="contained"
       to={links.playlistUploadFiles(playlistId)}
     >
