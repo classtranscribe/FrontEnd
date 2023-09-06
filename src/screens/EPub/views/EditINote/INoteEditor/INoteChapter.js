@@ -15,20 +15,6 @@ function INoteChapter ({
   canSubdivide = true,
   dispatch 
 }) {
-<<<<<<< HEAD
-    const CParams = { chapterIdx: chIdx};
-
-    const [insertType, setInsertType] = useState(null);
-    const openMDEditor = insertType === 'md';
-
-    const [openModalIndex, setOpenModalIndex] = useState(null);
-
-    const handleOpenMDEditor = (itemIdx) => {
-        setInsertType('md');
-        setOpenModalIndex(itemIdx);
-        //console.log(itemIdx,openModalIndex);
-    };
-=======
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
@@ -37,7 +23,6 @@ function INoteChapter ({
     setInsertType('md');
     setOpenModalIndex(itemIdx)
   };
->>>>>>> 796c44bf3c053d30ecb27cc68f4f29f9410e1f87
       
   const handleClose = () => {
     setInsertType(null);
@@ -53,35 +38,8 @@ function INoteChapter ({
   };
 
 
-<<<<<<< HEAD
-    const handleSave = (val) => {
-      
-      
-        if (typeof onInsert === 'function' && val) {
-          console.log(openModalIndex);
-            onInsert(openModalIndex)(val);
-        }
-        handleClose();
-        
-    };
-    
-   
-    const handleSaveImage = (val) => {
-       
-        handleSave(new EPubImageData(val).toObject());
-    };
-
-    const handleOpenImgPicker = (itemIdx) => {
-        setOpenModalIndex(itemIdx);
-        console.log(itemIdx,openModalIndex);
-        const imgData = {
-        // screenshots: imgSrc,
-        onSave: handleSaveImage,
-        // chapterScreenshots: epub.chapters[subChapterIndex].allImagesWithIn
-        };
-        dispatch({ type: 'epub/setImgPickerData', payload: imgData });
-=======
   const handleSave = (val) => {
+    console.log(openModalIndex);
     if (typeof onInsert === 'function' && val) {
       onInsert(openModalIndex)(val);
     }
@@ -89,16 +47,21 @@ function INoteChapter ({
   };
     
    
-  const handleSaveImage = (val) => {
-    handleSave(new EPubImageData(val).toObject());
+  const handleSaveImage = (itemIdx) => (val) => {
+    console.log(itemIdx);
+    let imageval = new EPubImageData(val).toObject();
+    if (typeof onInsert === 'function' && imageval) {
+      onInsert(itemIdx)(imageval);
+    }
   };
 
   const handleOpenImgPicker = (itemIdx) => {
-    setOpenModalIndex(itemIdx)
+    console.log(itemIdx);
+    setOpenModalIndex(itemIdx);
     const imgData = {
-    // screenshots: imgSrc,
-    onSave: handleSaveImage,
-    // chapterScreenshots: epub.chapters[subChapterIndex].allImagesWithIn
+    
+    onSave: handleSaveImage(itemIdx),
+    
     };
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
@@ -162,7 +125,6 @@ function INoteChapter ({
     dispatch({
       type: 'epub/updateEpubData', payload: {
         action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
->>>>>>> 796c44bf3c053d30ecb27cc68f4f29f9410e1f87
     }
   })
 
@@ -175,84 +137,11 @@ function INoteChapter ({
     })
   };
 
-<<<<<<< HEAD
-    // Buttons and onClick Functions 
-
-    const btnProps = {
-        round: true,
-        uppercase: true,
-        classNames: 'item-action-btn',
-        color: 'teal transparent'
-    };
-
-    // Split Button 
-    const splitBtnElement = (itemIdx) => {
-        return altEl(Button, canSplit, {
-            ...btnProps,
-            text: 'Split Chapter',
-            icon: 'unfold_more',
-            // onClick: handleSplitChapter(itemIdx)
-
-    })};
-
-    // Add Image Button
-    const addImgElement = (itemIdx) => {
-        return altEl(Button, true, {
-            ...btnProps,
-            text: 'Add Image',
-            icon: 'image',
-
-            onClick: () => handleOpenImgPicker(itemIdx)
-    })};
-
-  
-
-    // Add Text Button 
-    function addTextElement(itemIdx) {
-        // setOpenModalIndex(itemIdx);
-
-
-        return altEl(Button, true, {
-            ...btnProps,
-            text: 'Add Text',
-            icon: 'add',
-            onClick: () => handleOpenMDEditor(itemIdx)
-            // onClick: handleOpenMDEditor
-
-    })};
-
-    // New Subchapter Button 
-    const splitSChBtnElement = (itemIdx) => {
-        return altEl(Button, canSplitSubChapter, {
-            ...btnProps,
-            text: 'New Sub-Chapter',
-            icon: 'subdirectory_arrow_right',
-            // onClick: splitSubChapter
-    })};
-
-    // Subdivide Button 
-    const subdivideBtnElement = (itemIdx) => {
-        return altEl(Button, canSubdivide, {
-            ...btnProps,
-            text: 'subdivide',
-            icon: 'subdirectory_arrow_right',
-            // onClick: subdivideChapter
-    })};
-
-    // DISPATCH FUNCTIONS 
-    // Save Chapter Title Handler 
-    const saveChapterTitle = value =>
-        dispatch({
-          type: 'epub/updateEpubData', payload: {
-            action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
-        }
-=======
   const onTextChange = (index) => (val) => {  
     dispatch({
       type: 'epub/updateEpubData', payload: {
         action: val ? 'setChapterContentAtChapterIdx' : 'removeChapterContentAtChapterIdx', payload: { chapterIdx: chIdx, contentIdx: index, value: val }
       }
->>>>>>> 796c44bf3c053d30ecb27cc68f4f29f9410e1f87
     })
   };
 
