@@ -8,8 +8,6 @@ import './index.scss';
 import MediaDNDList from './MediaDNDList';
 import ActionBar from './ActionBar';
 import NoVideoHolder from './NoVideoHolder';
-import { Route } from 'dva/router';
-import { UploadSingleFile } from './UploadFile';
 
 function MediaListWithRedux(props) {
   const { dispatch, instplaylist } = props;

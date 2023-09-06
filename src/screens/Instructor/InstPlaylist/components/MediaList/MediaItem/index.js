@@ -7,8 +7,6 @@ import { CTPopoverLabel, CTCheckbox, CTText } from 'layout';
 
 import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
-import { Route } from 'dva/router';
-import { UploadSingleFile } from '../UploadFile';
 
 function MediaItem({
   playlistId,
