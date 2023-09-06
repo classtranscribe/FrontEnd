@@ -39,7 +39,7 @@ function handleRestoreTime(watch) {
 }
 function enterFullScreen(watch) {
     try {
-        let elem = document.getElementsByTagName('video')[0] || {};
+        let elem = document.getElementById('ct-video-con-div') || {};
         if (isMobile) {
             elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
         }
@@ -145,6 +145,10 @@ export default {
     *media_volume({ payload: toSet }, { call, put, select, take }) {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { volume: toSet } })
+    },
+    *media_brightness({ payload: toSet }, { call, put, select, take }) {
+        // Could be removed
+        yield put({ type: 'playerpref/setPreference', payload: { brightness: toSet } })
     },
     *media_setCurrTime({ payload, realTime = false }, { call, put, select, take }) {
         // currtime = 0

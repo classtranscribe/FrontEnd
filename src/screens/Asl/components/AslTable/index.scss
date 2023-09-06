@@ -1,0 +1,148 @@
+body {
+    font-family: 'open sans', sans-serif;
+    font-size: 16px;
+}
+  
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    text-align: left;
+    border-bottom: 2px solid black;
+}
+
+thead button {
+    border: 0;
+    border-radius: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: inherit;
+    padding: 0.5em;
+    margin-bottom: 1px;
+}
+
+thead button.ascending::after {
+    content: '↓';
+    display: inline-block;
+    margin-left: 1em;
+}
+
+thead button.descending::after {
+    content: '↑';
+    display: inline-block;
+    margin-left: 1em;
+}
+
+tbody td {
+    padding: 0.5em;
+    border-bottom: 1px solid #ccc;
+}
+
+tbody tr:hover {
+    background-color: #eee;
+}
+
+.tableBar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+}
+
+.tableBar button {
+    border: 0;
+    border-radius: none;
+    font-family: inherit;
+    font-size: inherit;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-bottom: 1px;
+    background-color: #cccccc00;
+}
+
+.tableBar button:hover {
+    text-decoration: underline;
+}
+
+.tableBar span {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.pageNumber {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.searchBox {
+    height: 35px;
+    width: 200px;
+}
+
+.pageBox {
+    height: 35px;
+    width: 35px;
+}
+
+#close-button {
+    z-index: 11;
+    top:0;
+    left:0;
+    // width: 5%;
+    // height: 5%;
+    position: absolute;
+}
+
+#ASL-Glossary-video-player{
+    margin-top: 33px;
+    width: 100%;
+    height: 84%;
+}
+
+.drawing-wrap{
+  position: relative;
+  top: 100px ;
+  left: 100px;
+}
+.drawing-item {
+    // cursor: move;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(2, 50, 64);
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    box-sizing: border-box;
+
+}
+
+.drawing-item span{
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: larger;
+    margin-top: 5px;
+}
+.control-point {
+  position: absolute;
+  box-sizing: border-box;
+  display: inline-block;
+  background: #ffffff00;
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: -8px !important;
+  margin-left: -8px !important;
+  user-select: none;   // banned cursor from choosing this element，or draging might
+ 
+}
+.control-point.point-se {
+  cursor: nwse-resize;
+  left: 100%;
+  top: 100%;
+  margin-left: 1px;
+  margin-top: 1px
+}

@@ -97,6 +97,20 @@ export class ClassTranscribeLinks {
   }
 
   /**
+   * to `/glossary`
+   */
+  glossary() {
+    return '/glossary';
+  }
+
+  /**
+   * to `/glossary`
+   */
+  asl() {
+    return '/asl';
+  }
+
+  /**
    * to `/watch?id=<media_id>[&begin=<begin_time>`
    * @param {String} id - media id
    * @param {Object} params - search query

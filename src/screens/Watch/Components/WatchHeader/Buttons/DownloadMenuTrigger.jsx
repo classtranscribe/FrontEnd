@@ -1,6 +1,6 @@
 import React from 'react';
-import { MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
 import { connect } from 'dva';
+import { MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function DownloadMenuTrigger({ menu = MENU_HIDE, dispatch }) {
@@ -13,11 +13,11 @@ function DownloadMenuTrigger({ menu = MENU_HIDE, dispatch }) {
       onClick={handleMenuTrigger}
       active={menu === MENU_DOWNLOAD}
       position="top"
-      label="Download (SHIFT+D)"
+      label="Download (SHIFT+X)"
       id={MENU_DOWNLOAD}
       ariaTags={{
         'aria-label': `Download Menu`,
-        // 'aria-keyshortcuts': 'Shift+D',
+        // 'aria-keyshortcuts': 'Shift+X',
         'aria-controls': 'watch-download-menu',
         'aria-expanded': menu === MENU_DOWNLOAD ? 'false' : 'true',
       }}

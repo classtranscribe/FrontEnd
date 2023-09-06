@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, H } from 'dva/router'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { createBrowserHistory as createHistory } from 'history';
 import dva from 'dva'
 import App from './App'

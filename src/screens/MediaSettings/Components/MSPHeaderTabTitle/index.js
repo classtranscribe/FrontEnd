@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import { CTPopoverLabel } from 'layout';
 import { links } from 'utils/links';
 import './index.scss';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'dva/router';
+import { Route } from 'react-router-dom';
 import { connect } from 'dva';
 import { CTLayout, CTErrorWrapper, altEl } from 'layout';
 import { InfoAndListLayout } from 'components';
@@ -50,7 +50,8 @@ export class InstPlaylistWithRedux extends Component {
           <PlaylistInfo {...this.props} />
           <MediaList />
           {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({type: 'instplaylist/setConfirmation', payload: null})} />}
-          <Route path="/playlist/:id/upload-files" component={UploadFiles} />
+
+          <Route path="/playlist/:id/upload-files" element={UploadFiles} />
         </InfoAndListLayout>
       </CTLayout>
     )

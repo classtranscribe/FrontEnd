@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'dva/router';
+import { Route, Navigate } from 'react-router-dom';
 import { links, api } from 'utils';
 import { connect } from 'dva';
 import { isMobile } from 'react-device-detect';
@@ -68,11 +68,11 @@ class MediaSettingsWithRedux extends React.Component {
       <CTLayout {...this.getLayoutProps()}>
         <div className="msp-bg">
           <div className="msp-content">
-            <Route exact path={mspPath} render={() => <Redirect to={transPath} />} />
+            <Route exact path={mspPath} render={() => <Navigate to={transPath} />} />
 
-            <Route path={epubPath} component={EPub} />
+            <Route path={epubPath} element={EPub} />
 
-            <Route path={transPath} component={Transcriptions} />
+            <Route path={transPath} element={Transcriptions} />
           </div>
         </div>
       </CTLayout>

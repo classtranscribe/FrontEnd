@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, {
     // memo, 
     // useState,
@@ -10,6 +11,7 @@ import { isMobile } from 'react-device-detect';
 // import axios from 'axios';
 // import PlayerWrapper from './PlayerWrapper';
 // import { uEvent } from '../../Utils/UserEventController';
+import { prompt } from 'utils';
 import {
     // NORMAL_MODE,
     // PS_MODE,
@@ -21,8 +23,6 @@ import {
     CTP_ERROR,
     // HIDE_TRANS,
 } from '../../Utils/constants.util';
-import { api, prompt, _getSelectOptions } from 'utils';
-import { createPromptElem } from 'utils/prompt/prompt-creators';
 
 // import { logErrorToAzureAppInsights } from 'utils/logger';
 
@@ -38,7 +38,7 @@ const Video = React.memo((props) => {
         videoRef,
         // openCC, 
         // updating,
-        captionSpeedUp = 0
+        captionSpeedUp = 0,
     } = props;
 
     const _videoRef = React.useRef();
@@ -141,13 +141,13 @@ const Video = React.memo((props) => {
     const onLoadedDataPri = useCallback(() => {
         setCTPEvent(CTP_PLAYING);
     }, [isPrimary]);
-    const onWaitingPri = useCallback(() => {
-        setCTPEvent(CTP_LOADING);
-    }, [isPrimary]);
-    const onPlayingPri = useCallback(() => {
-        // if (this.PAUSED) this.play();
-        setCTPEvent(CTP_PLAYING);
-    }, [isPrimary]);
+    // const onWaitingPri = useCallback(() => {
+    //     setCTPEvent(CTP_LOADING);
+    // }, [isPrimary]);
+    // const onPlayingPri = useCallback(() => {
+    //     // if (this.PAUSED) this.play();
+    //     setCTPEvent(CTP_PLAYING);
+    // }, [isPrimary]);
     const onEndedPri = useCallback(() => {
         setCTPEvent(CTP_ENDED);
         dispatch({ type: 'watch/media_pause' });
@@ -161,6 +161,7 @@ const Video = React.memo((props) => {
     const onErrorPri = () => {
         setCTPEvent(CTP_ERROR);
     }
+
 
     useEffect(() => {
         function _initPlayer() {
@@ -186,14 +187,12 @@ const Video = React.memo((props) => {
                     dispatch({ type: 'watch/setLiveMode', payload: liveMode })
                     console.log(event)
                 });
-
             });
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
                 console.log(event)
             });
             newHls.on(Hls.Events.ERROR, function (event, data) {
                 if (data.fatal) {
-
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
                             // try to recover network error
@@ -311,9 +310,7 @@ const Video = React.memo((props) => {
 
     let textTrack;
 
-    // 
-    let idR = 0;
-    let yolo = 0;
+   
     useEffect(() => {
         // 
         // 
@@ -328,7 +325,7 @@ const Video = React.memo((props) => {
 
             // const englishTrack = textTrack
             let englishTrack;
-            for (var l = 0; l < Array.from(textTrack).length; l++) {
+            for (let l = 0; l < Array.from(textTrack).length; l += 1) {
                 Array.from(textTrack)[l].mode = 'disabled';
             }
             dispatch({ type: 'watch/setTextTracks', payload: Array.from(textTrack) });
@@ -339,16 +336,14 @@ const Video = React.memo((props) => {
             } else {
                 englishTrack = textTrack[0];
             }
-            for (var i = 0; i < Array.from(textTrack).length; i += 1) {
+            for (let i = 0; i < Array.from(textTrack).length; i += 1) {
                 if (Array.from(textTrack)[i].language === englishTrack.language) {
                     dispatch({ type: "watch/setEnglishTrack", payload: i });
                     Array.from(textTrack)[i].mode = "showing";
-
-
                 }
             }
-            //dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
-            //console.log(englishTrack)
+            // dispatch({type: "watch/setEnglishTrack", payload: englishTrack});
+            // console.log(englishTrack)
             // englishTrack.addEventListener("cuechange", (event) => {
 
             //     // 
@@ -395,10 +390,6 @@ const Video = React.memo((props) => {
             //     }
             // })
         };
-
-        if (textTrack[0] !== undefined) {
-
-        }
         console.log(hls.audioTracks);
     }, [_videoRef.current])
 
@@ -409,30 +400,30 @@ const Video = React.memo((props) => {
 
     // hls.subtitleTracks
     return (
-        <div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
-            {/* {embedded ?
+      <div className={embedded ? "ctp ct-video-con normal" : "ct-video-container"}>
+        {/* {embedded ?
             null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
         } */}
-            <video
-                playsInline
-                autoPlay={isMobile}
-                className="ct-video"
-                id={`ct-video-${id}`}
-                ref={_videoRef}
-                muted={!isPrimary ? true : undefined}
-                onDurationChange={onDurationChange}
-                onTimeUpdate={onTimeUpdate}
-                onPause={onPause}
-                onLoadStart={onLoadStartPri}
-                onLoadedData={onLoadedDataPri}
-                onEnded={onEndedPri}
-                onSeeking={onSeekingPri}
-                onSeeked={onSeekedPri}
-                onError={onErrorPri}
-            >
-                Your browser does not support video tag.
-            </video>
-        </div>)
+        <video
+          playsInline
+          autoPlay={isMobile}
+          className="ct-video"
+          id={`ct-video-${id}`}
+          ref={_videoRef}
+          muted={!isPrimary ? true : undefined}
+          onDurationChange={onDurationChange}
+          onTimeUpdate={onTimeUpdate}
+          onPause={onPause}
+          onLoadStart={onLoadStartPri}
+          onLoadedData={onLoadedDataPri}
+          onEnded={onEndedPri}
+          onSeeking={onSeekingPri}
+          onSeeked={onSeekedPri}
+          onError={onErrorPri}
+        >
+          Your browser does not support video tag.
+        </video>
+      </div>)
 }, (prevProps, nextProps) => {
     return prevProps.path === nextProps.path
         && prevProps.isSwitched === nextProps.isSwitched

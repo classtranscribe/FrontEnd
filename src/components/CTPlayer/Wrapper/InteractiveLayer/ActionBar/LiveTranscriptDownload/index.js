@@ -98,11 +98,11 @@ function LiveTranscriptDownloadWithRedux(props) {
         <WatchCtrlButton 
           onClick={openMenu}
           position="top"
-          label="Download (SHIFT+D)"
+          label="Download (SHIFT+X)"
           id="live-transcript-download"
           ariaTags={{
             'aria-label': `Download Menu`,
-            'aria-keyshortcuts': 'Shift+D',
+            'aria-keyshortcuts': 'Shift+X',
           }}
         >
           <span><i className="material-icons">cloud_download</i></span>   

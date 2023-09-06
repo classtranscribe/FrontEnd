@@ -1,10 +1,11 @@
 import React from 'react';
-import { withRouter } from 'dva/router';
+import { useNavigate } from 'react-router-dom';
 import { MediaCard } from 'components';
 import { api, links } from 'utils';
-import { setup, connectWithRedux } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import setup2 from '../../../model/setup'
+
 const Video = ({ media = null, label = false }) => (
   <MediaCard
     {...MediaCard.parse(media)}
@@ -16,14 +17,15 @@ const Video = ({ media = null, label = false }) => (
 );
 
 export function NextVideoWithRedux(props) {
-  const { nextBtn = true, media, playlist = {}, history } = props;
+  const { nextBtn = true, media, playlist = {} } = props;
+  const navigate = useNavigate();
   let { prev, next } = setup2.findNeighbors(media.id, playlist);
   prev = api.parseMedia(prev);
   next = api.parseMedia(next);
   let canPlayPrev = Boolean(prev.id);
   let canPlayNext = Boolean(next.id);
   const handleChangeVideo = (toWatch) => {
-    history.push(links.watch(toWatch.id));
+    navigate(links.watch(toWatch.id));
   };
 
   const handlePlayNext = () => {
@@ -73,4 +75,4 @@ export function NextVideoWithRedux(props) {
   );
 }
 
-export const NextVideoButton=withRouter(connectWithRedux(NextVideoWithRedux, ['media', 'playlist']))
+export const NextVideoButton=connectWithRedux(NextVideoWithRedux, ['media', 'playlist']);
