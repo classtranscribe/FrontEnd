@@ -93,7 +93,6 @@ export default {
         try {
             PlayerData.video1 && (yield PlayerData.video1.play());
             PlayerData.video2 && (yield PlayerData.video2.play());
-            PlayerData.video3 && (yield PlayerData.video2.play());
             yield put({ type: 'setPause', payload: false })
             PlayerData.video1 && uEvent.play(PlayerData.video1?.currentTime);
         } catch (error) {
@@ -124,7 +123,6 @@ export default {
         try {
             PlayerData.video1 && (PlayerData.video1.pause());
             PlayerData.video2 && (PlayerData.video2.pause());
-            PlayerData.video3 && (PlayerData.video3.pause());
         } catch (error) {
             // 
         }
@@ -162,10 +160,6 @@ export default {
         
         if (PlayerData.video2 != null) {
             PlayerData.video2.currentTime = payload;
-        }
-
-        if (PlayerData.video3 != null) {
-            PlayerData.video3.currentTime = payload;
         }
         
         yield put({ type: 'setTime', payload })
@@ -206,7 +200,7 @@ export default {
         yield put({ type: 'setFullscreenTwo', payload: newState });
     },
     *switchVideo({ payload: bool }, { call, put, select, take }) {
-        if (!PlayerData.video2 && !PlayerData.video3) return;
+        if (!PlayerData.video2) return;
         const { watch } = yield select();
         const toSet = bool === undefined ? !watch.isSwitched : bool;
         yield put({ type: 'switchScreen', payload: toSet })
@@ -217,7 +211,7 @@ export default {
         if (PlayerData.param.canPlayDone) { return; }
         if (isPrimary) {
             PlayerData.param.video1CanPlay = true;
-            if ((PlayerData.param.video2CanPlay || !PlayerData.video2) && (PlayerData.param.video3CanPlay || !PlayerData.video3)) {
+            if ((PlayerData.param.video2CanPlay || !PlayerData.video2)) {
                 PlayerData.param.canPlayDone = true;
                 PlayerData.video1.playbackRate = playbackrate
                 const start_time = handleRestoreTime(watch);
@@ -233,7 +227,6 @@ export default {
             if (PlayerData.param.video1CanPlay) {
                 PlayerData.param.canPlayDone = true;
                 PlayerData.video2.playbackRate = playbackrate
-                // PlayerData.video3.playbackRate = playbackrate
                 const start_time = handleRestoreTime(watch);
                 if (start_time) {
                     yield put({ type: 'media_setCurrTime', payload: start_time })
