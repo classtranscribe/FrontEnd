@@ -23,7 +23,7 @@
    const { dispatch } = props;
    const { transView, muted, volume, playbackrate, openCC } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
-   const { videos = [], isTwoScreen, isThreeScreen } = media;
+   const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
    // Mute Handler
    useEffect(() => {
@@ -60,7 +60,7 @@
      if (isTwoScreen && !isMobile) {
        dispatch({ type: 'watch/setMode', payload: window.innerWidth <= 900 ? NESTED_MODE : PS_MODE })
      }
-   }, [isTwoScreen, isThreeScreen])
+   }, [isTwoScreen])
  
    const media1Prop = {
      id: 1,

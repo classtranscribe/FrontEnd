@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
