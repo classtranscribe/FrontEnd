@@ -54,11 +54,8 @@ function INoteChapter ({
   };
 
   const handleOpenImgPicker = (itemIdx) => {
-    setOpenModalIndex(itemIdx);
     const imgData = {
-    
-    onSave: handleSaveImage(itemIdx),
-    
+      onSave: handleSaveImage(itemIdx),
     };
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
