@@ -14,7 +14,7 @@ import GlossaryPanel from './GlossaryPanel';
 const ASLVideoPlayer = (word, videoURL, source) => {
   return (
     <TabPanel>
-      <strong>{`${word} (Source: ${source})`}</strong><br></br><br></br>
+      <strong>{`${word} (Source: ${source})`}</strong><br /><br />
       {videoURL==='' ? (<span>video not found</span>) 
       : 
       (<video 
