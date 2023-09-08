@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CourseForm } from 'screens/Instructor/NewCourse/components';
 import { connect } from 'dva';
 import { prompt, api, links } from 'utils';
@@ -54,7 +54,7 @@ export function CourseInfoWithRedux(props) {
     }
   }
   
-  async function updateCourseInfo(newOffering) {
+   const updateCourseInfo = useCallback(async function updateCourseInfo(newOffering) {
     const oldOffering = offering;
     const updatedOff = {
       id: oldOffering.id,
@@ -79,7 +79,7 @@ export function CourseInfoWithRedux(props) {
     
     dispatch({type: 'course/setOffering', payload: {...oldOffering, ...updatedOff}}); // update course info
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
-  }
+  });
   return (
     <CourseForm
       collapsible

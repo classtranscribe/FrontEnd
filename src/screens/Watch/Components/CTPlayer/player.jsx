@@ -60,7 +60,7 @@ const Video = React.memo((props) => {
         }
     }, [isPrimary]);
     const onPause = useCallback(() => {
-        if (!isPrimary) return;
+        // if (!isPrimary) return;
         // Pause Handler
     }, [isPrimary]);
     const onCanPlayPri = useCallback(() => {

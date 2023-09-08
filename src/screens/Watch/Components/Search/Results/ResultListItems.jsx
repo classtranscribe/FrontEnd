@@ -66,7 +66,7 @@ export const VideoListItem = ({ media = null }) => {
       dark
       id={mediaId}
       name={name}
-      href={"video?id=" + mediaId}
+      href={`video?id=${mediaId}`}
       description={`Playlist - ${playlistName}`}
       posterSize="small"
     />
@@ -80,7 +80,7 @@ export const ShortcutListItem = ({ row }) => {
   return (
     <div role="listitem" className="d-flex w-100 justify-content-between search-shortcut-item">
       <div className="shortcuts-des">{row.action}</div>
-      <div className="shortcuts-key" light="true">
+      <div className="shortcuts-key">
         {row.keys.map((key, index) => (
           <ShortcutKey skey={key} key={row.action} index={index} />
         ))}
