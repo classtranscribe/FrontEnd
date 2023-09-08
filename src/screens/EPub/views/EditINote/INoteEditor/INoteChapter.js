@@ -45,16 +45,16 @@ function INoteChapter ({
   };
     
    
-  const handleSaveImage = (val) => {
-    handleSave(new EPubImageData(val).toObject());
+  const handleSaveImage = (itemIdx) => (val) => {
+    let imageval = new EPubImageData(val).toObject();
+    if (typeof onInsert === 'function' && imageval) {
+      onInsert(itemIdx)(imageval);
+    }
   };
 
   const handleOpenImgPicker = (itemIdx) => {
-    setOpenModalIndex(itemIdx)
     const imgData = {
-    // screenshots: imgSrc,
-    onSave: handleSaveImage,
-    // chapterScreenshots: epub.chapters[subChapterIndex].allImagesWithIn
+      onSave: handleSaveImage(itemIdx),
     };
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
