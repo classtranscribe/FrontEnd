@@ -43,7 +43,7 @@ class EPubListController {
     }
 
     uurl.openNewTab(
-      links.epub(newEPubData.id, Constants.EpbEditStructure, Constants.HFromNew)
+      links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew)
     );
 
     return newEPubData;

@@ -10,6 +10,24 @@ import './CTPopup.scss'
 import GlossaryPanel from './GlossaryPanel';
 
 
+
+const ASLVideoPlayer = (word, videoURL, source) => {
+  return (
+    <TabPanel>
+      <strong>{`${word} (Source: ${source})`}</strong><br /><br />
+      {videoURL==='' ? (<span>video not found</span>) 
+      : 
+      (<video 
+        className="video-js vjs-default-skin video-player" 
+        controls
+        preload="auto"
+        data-setup="{}"
+      >
+        <source src={videoURL} type='video/mp4' />
+      </video>)}
+    </TabPanel>)
+}
+
 const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   const [opvalue, setOpvalue] = useState(0.75); // variable for transparency
   const OPSTEP = 0.125; // the amount of changed opvalue for each operation

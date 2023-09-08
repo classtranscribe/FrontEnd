@@ -10,11 +10,14 @@ export default class EPubConstants {
   static EpbReadOnly = 'v-read-only';
   static EpbEditStructure = 'v-structure';
   static EpbEditChapter = 'v-edit';
-  static EpbDefaultView = EPubConstants.EpbReadOnly;
+  static EditINote = 'v-edit-inote'
+
+  static EpbDefaultView = EPubConstants.EditINote;
   static EPubViews = [
     EPubConstants.EpbReadOnly,
     EPubConstants.EpbEditStructure,
-    EPubConstants.EpbEditChapter
+    EPubConstants.EpbEditChapter,
+    EPubConstants.EditINote
   ];
 
   // saving status

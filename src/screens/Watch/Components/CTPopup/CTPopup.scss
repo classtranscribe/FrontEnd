@@ -65,7 +65,7 @@
 
 .glossary-entry {
   list-style: none;
-  color:white;
+  color:rgb(169, 169, 169);
   padding-bottom: 3px;
   overflow-x: hidden;
 }
@@ -77,19 +77,21 @@
 
 .glossary-entry button:focus {
   outline-style: none;
-  text-decoration: underline;
+  font-size: larger;
 }
 
 .glossary-entry-highlighted {
-  color:red;
+  font-weight: bold;
+  color:rgb(255, 255, 255);
 }
 
 .glossary-entry-highlighted button {
   background-color: rgb(2, 50, 64);
 }
 
-.nowrap {
+.divPanel span {
   word-wrap: break-word;
+  width: 280px;
 }
 
 
@@ -106,9 +108,14 @@
 }
 
 .video-player {
-  width: 90%;
-  height: 90%;
+  width: 300px;
+  height: 170px;
 }
+
+// .popup-video-player {
+//   height: 80%;
+//   z-index: 100;
+// }
 
 .search-bar {
   // z-index: 100;

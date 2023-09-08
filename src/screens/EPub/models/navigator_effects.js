@@ -119,6 +119,9 @@ export default {
                 case Constants.EpbReadOnly:
                     yield call(updateNavIdForEpbEditStructure, e, epub, put);
                     break;
+                case Constants.EditINote:
+                    yield call(updateNavIdForEpbEditStructure, e, epub, put);
+                    break;
                 default:
                     break;
             }

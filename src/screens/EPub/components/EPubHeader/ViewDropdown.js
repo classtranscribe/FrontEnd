@@ -27,6 +27,11 @@ function ViewDropdown({ view, dispatch }) {
       value: epub.const.EpbEditChapter,
       text: 'Edit Chapters',
       icon: 'dashboard'
+    },
+    {
+      value: epub.const.EditINote,
+      text: 'Edit INote (beta)',
+      icon: 'edit'
     }
   ];
 
