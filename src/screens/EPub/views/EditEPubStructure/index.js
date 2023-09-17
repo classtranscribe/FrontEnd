@@ -43,12 +43,13 @@ function EditEPubStructure({ epub: epubData, dispatch }) {
           <CTHeading>{epubData.title}</CTHeading>
           <ChapterList setEPubItem={setEPubItem} />
         </CTFragment>
-
+        
         <CTFragment sticky scrollY dFlexCol width="35%" padding={[30, 10]}>
           <Instruction expanded={instExp} onToggle={toggleInstExp} />
           {itemViewElem}
           <QuickActions />
         </CTFragment>
+        
       </CTFragment>
     </EPubNavigationProvider>
   );
