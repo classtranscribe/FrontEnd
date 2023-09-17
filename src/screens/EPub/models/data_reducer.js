@@ -326,7 +326,7 @@ export default {
     },
     splitChaptersByScreenshots(state, {payload: {wc}}) { // Enforces Word Count
         console.log(`Splitting chapters by screenshots`);
-        const new_items = []; //duplicating some sentences (sentences with less than wc words)
+        const new_items = []; // duplicating some sentences (sentences with less than wc words)
         // min word count that each chapter should have
         const default_word_count = 25;
         let min_word_count = wc;
@@ -338,9 +338,8 @@ export default {
         if (min_word_count > total_word_count) {
             min_word_count = default_word_count;
         }
-        // loop through chapters and enforce minimum wc  
+        // loop through chapters and enforce minimum wc 
         (state.items).forEach(function(elem) {
-            
             if (new_items.length!==0) { 
                 const oldelem = new_items.pop();
                 let words = (oldelem.text).split(' ').length;
@@ -373,7 +372,6 @@ export default {
         }
         let splitChapters = _.map(
             new_items,
-            //state.items
             (data, idx) =>
                 new EPubChapterData({
                     items: [data],
