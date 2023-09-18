@@ -6,15 +6,17 @@ import EPubImageData from './EPubImageData';
 
 function _buildContentsFromItems(items) {
   const content = [];
-  if (items[0]) {
-    content.push(new EPubImageData(items[0].image));
+  for (const item of items) {
+    if (item.image) {
+      const altText = (item.ocrPhrases ? 'OCR Phrases: ' + item.ocrPhrases + '\n' : '') + (item.ocrText ? 'OCR Text: ' + item.ocrText : '');
+      const imageData = new EPubImageData({src: item.image, alt: altText}); 
+      content.push(imageData)
+    }
+    const text = item.text
+    if (_.trim(text)) {
+      content.push(text);
+    }
   }
-
-  const text = buildMDFromItems(items);
-  if (_.trim(text)) {
-    content.push(text);
-  }
-
   return content;
 }
 
@@ -47,6 +49,14 @@ class EPubChapterLikeData {
     if (!title && typeof getTitle === 'function') {
       title = getTitle();
     }
+    console.log(data)
+    contents.forEach(con => {
+      console.log(con)
+      if (typeof con === 'object') { // if its an image 
+        // embed OCR data in alt text of image 
+      }
+    });
+    
 
     this.__data__ = {
       id: id || _buildID(),
