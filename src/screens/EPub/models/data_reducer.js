@@ -358,16 +358,11 @@ export default {
             }
            });
         // makes sure the first element also has a min of min_word_count words
-        const first_elem = new_items.shift();
-        let words = (first_elem.text).split(' ').length;
+        const last_elem = new_items.pop();
+        let words = (last_elem.text).split(' ').length;
         if(words < min_word_count) {
-            if(new_items.length !== 0) {
-                let elem_next_text = "";
-                // append first chapter's text to next chapter
-                elem_next_text += " ";
-                elem_next_text += new_items.shift().text;
-                first_elem.text += elem_next_text;
-                new_items.unshift(first_elem);
+            if(new_items.length !== 0 && words.length !== 0) {
+                new_items.push(last_elem);
             } 
         }
         let splitChapters = _.map(
