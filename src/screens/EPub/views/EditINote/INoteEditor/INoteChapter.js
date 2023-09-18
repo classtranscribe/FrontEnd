@@ -1,10 +1,41 @@
-import { CTFragment, CTText, altEl} from 'layout'
-import React, {useState} from 'react' 
+import { CTFragment, CTText, altEl} from 'layout';
+import React, {useState, useEffect} from 'react';
 import { Button } from 'pico-ui';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
-import {epub as epubTools} from '../../../controllers'
+import {epub as epubTools} from '../../../controllers';
 
+import { Box, Typography, TextField } from '@material-ui/core';
+import { Cancel } from '@material-ui/icons';
+
+let Tags = function({data, handleDelete, itemIdx}) {
+  const boxstyle = {
+    backgroundColor: '#D3D3D3', 
+    overflow: 'scroll',
+    padding: '0.25rem 0.25rem 0.25rem 0.5rem',
+    margin: '0.25rem 1rem 0.25rem 0',
+    display: 'flex',
+    borderRadius: '1rem',
+  };
+
+  const tagstyle = {
+    float: 'left',
+    margin: '0 0.25rem 0 0',
+    cursor: 'default',
+  }
+
+  return (
+    <Box style={boxstyle}>
+      <Typography style={tagstyle}>{data}</Typography>
+      <Cancel
+        style={tagstyle}
+        onClick={() => {
+          handleDelete(data, itemIdx);
+        }}
+      />
+    </Box>
+  );
+}
 
 function INoteChapter ({
   chapter, 
@@ -13,11 +44,13 @@ function INoteChapter ({
   canSubdivide = true,
   isSubChapter,
   subChIdx,
+  condition,
   dispatch 
 }) {
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
+  const [tags, SetTags] = useState(() => !condition ? [] : condition);
 
   const handleOpenMDEditor = (itemIdx) => {
     setInsertType('md');
@@ -169,6 +202,31 @@ function INoteChapter ({
     })
   };
 
+  const [tagValue, setTagValue] = useState("");
+
+  const handleOnSubmit = (e, itemIdx) => { 
+    console.log("INDEX: " + itemIdx);
+    e.preventDefault();
+    SetTags([...tags, tagValue]);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'setChapterContent', payload: { contentIdx: itemIdx, value: [...tags, tagValue], type: 'condition' }
+      }
+    });
+    setTagValue("");
+  };
+
+  const handleDelete = (value, itemIdx) => {
+    console.log("ITEM INDEX: " + itemIdx);
+    const newtags = tags.filter((val) => val !== value);
+    SetTags(newtags);
+    dispatch({
+      type: 'epub/updateEpubData', payload: {
+        action: 'setChapterContent', payload: { contentIdx: itemIdx, value: newtags, type: 'condition' }
+      }
+    });
+  };
+
   return (
     <CTFragment dFlexCol>
       <CTFragment 
@@ -217,7 +275,28 @@ function INoteChapter ({
                 onSaveText={onTextChange(itemIdx)}
               />
             </CTFragment>  
-          )}  
+          )}
+          <form onSubmit={(e) => handleOnSubmit(e, itemIdx)}> 
+            <TextField
+              value={tagValue}
+              onChange={(e) => {
+                setTagValue(e.target.value);
+                console.log(tagValue);
+              }}
+              fullWidth
+              variant='standard'
+              size='small'
+              sx={{ margin: "1rem 0" }}
+              margin='none'
+              placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
+            />  
+            <CTFragment alignItCenter>
+              {tags.map((data, idx) => (
+                <Tags data={data} handleDelete={handleDelete} key={idx} itemIdx={itemIdx} />
+                ))}
+            </CTFragment>
+          </form>
+
           </CTFragment>
         ))}
       </CTFragment>
