@@ -200,7 +200,7 @@ export class ClassTranscribeLinks {
    * @param {String} playlistId - playlist id
    * @param {String} videoId - video id
    */
-    videoUploadFile(playlistId, videoId) {
+    videoUploadASL(playlistId, videoId) {
       return `/playlist/${playlistId}/${videoId}/upload-file`;
     }
 

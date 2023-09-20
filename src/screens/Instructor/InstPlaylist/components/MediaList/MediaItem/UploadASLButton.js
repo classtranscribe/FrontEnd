@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { links } from 'utils/links';
 import { useButtonStyles } from 'layout';
 
-function VideoUploadButton({
+function UploadASLButton({
   playlistId,
   videoId
 }) {
@@ -17,12 +17,12 @@ function VideoUploadButton({
       component={Link}
       className={btnClassName}
       startIcon={<i className="material-icons upload">upload</i>}
-      to={links.videoUploadFile(playlistId, videoId)}
+      to={links.videoUploadASL(playlistId, videoId)}
     >
-      upload
+      upload ASL
     </Button>
   );
 }
 
-export default VideoUploadButton;
+export default UploadASLButton;
 
