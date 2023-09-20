@@ -94,29 +94,28 @@ const Video = React.memo((props) => {
     }
     return (<div className={embedded ? "ctp ct-video-con normal" : "ct-video-contrainer"}>
         {embedded ?
-            null : <PlayerWrapper isPrimary={isPrimary && !isSwitched || !isPrimary && isSwitched} />
-        }
+            null : <PlayerWrapper isPrimary={isPrimary && videoPlaying === 1 || !isPrimary && videoPlaying !== 1} /> }
         <video
-            playsInline
-            autoPlay={isMobile}
-            className="ct-video"
-            id={"ct-video-" + id}
-            ref={videoRef}
-            muted={!isPrimary ? true : undefined}
-            onDurationChange={onDurationChange}
-            onTimeUpdate={onTimeUpdate}
-            onProgress={onProgress}
-            onPause={onPause}
-            onCanPlay={onCanPlayPri}
-            onLoadStart={onLoadStartPri}
-            onLoadedData={onLoadedDataPri}
-            onWaiting={onWaitingPri}
-            onPlaying={onPlayingPri}
-            onEnded={onEndedPri}
-            onSeeking={onSeekingPri}
-            onSeeked={onSeekedPri}
-            onError={onErrorPri}
-            style={videoStyle}
+          playsInline
+          autoPlay={isMobile}
+          className="ct-video"
+          id={`ct-video-${id}`}
+          ref={videoRef}
+          muted={!isPrimary ? true : undefined}
+          onDurationChange={onDurationChange}
+          onTimeUpdate={onTimeUpdate}
+          onProgress={onProgress}
+          onPause={onPause}
+          onCanPlay={onCanPlayPri}
+          onLoadStart={onLoadStartPri}
+          onLoadedData={onLoadedDataPri}
+          onWaiting={onWaitingPri}
+          onPlaying={onPlayingPri}
+          onEnded={onEndedPri}
+          onSeeking={onSeekingPri}
+          onSeeked={onSeekedPri}
+          onError={onErrorPri}
+          style={videoStyle}
         >
             {path && <source src={path} type="video/mp4" />}
       Your browser does not support video tag.

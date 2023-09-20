@@ -59,9 +59,9 @@
       PlayerData.video3.load();
      }
    }, [srcPath1, srcPath2, srcPath3]);
-   const player1Position = videoPlaying != 1 ? SECONDARY : PRIMARY;
-   const player2Position = videoPlaying != 2 ? SECONDARY : PRIMARY;
-   const player3Position = videoPlaying != 3 ? SECONDARY : PRIMARY;
+   const player1Position = videoPlaying !== 1 ? SECONDARY : PRIMARY;
+   const player2Position = videoPlaying !== 2 ? SECONDARY : PRIMARY;
+   const player3Position = videoPlaying !== 3 ? SECONDARY : PRIMARY;
    const { videoStyle } = getVideoStyle({brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY});
  
    useEffect(() => {
