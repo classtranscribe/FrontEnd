@@ -8,7 +8,8 @@ function _buildContentsFromItems(items) {
   const content = [];
   for (const item of items) {
     if (item.image) {
-      const altText = (item.ocrPhrases ? 'OCR Phrases: ' + item.ocrPhrases + '\n' : '') + (item.ocrText ? 'OCR Text: ' + item.ocrText : '');
+      // const altText = (item.ocrPhrases ? 'OCR Phrases: ' + item.ocrPhrases + '\n' : '') + (item.ocrText ? 'OCR Text: ' + item.ocrText : '');
+      const altText = item.ocrPhrases ? 'OCR Phrases: ' + item.ocrPhrases : ''
       const imageData = new EPubImageData({src: item.image, alt: altText}); 
       content.push(imageData)
     }
