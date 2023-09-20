@@ -33,7 +33,7 @@ function VideoUploadTable({
             <TableRow>
               <TableCell>
                 <div className="tb-cell header video1">
-                  {'VIDEO'} ({videos.length})
+                  VIDEO ({videos.length})
                 </div>
               </TableCell>
               <TableCell align="right">
