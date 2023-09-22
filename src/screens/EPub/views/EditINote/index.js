@@ -7,7 +7,7 @@ import { epub as epubController, generateEPubGuide} from '../../controllers';
 import INoteEditor from './INoteEditor';
 import Instruction from '../EditEPubStructure/Instruction';
 import EPubItemView from '../EditEPubStructure/EPubItemView';
-import QuickActions from '../EditEPubStructure/QuickActions';
+import QuickActionsEditNote from '../EditEPubStructure/QuickActionsEditNote';
 
 // import './index.scss';
 
@@ -46,9 +46,8 @@ function EditINote ({epub: epubData, dispatch}) {
           <INoteEditor> setINoteItem={setINoteItem} dispatch={dispatch} </INoteEditor>
         </CTFragment>
         <CTFragment sticky scrollY dFlexCol width="35%" padding={[30, 10]}>
-          <Instruction expanded={instExp} onToggle={toggleInstExp} />
           {itemViewElem}
-          <QuickActions />
+          <QuickActionsEditNote />
         </CTFragment>
       </CTFragment>
     </EPubNavigationProvider>
