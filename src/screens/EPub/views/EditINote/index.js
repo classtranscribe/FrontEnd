@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash'
-import { CTFragment, CTHeading, CTText, altEl } from 'layout';
+import cx from 'classnames';
+
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { CTFragment, CTHeading, CTText, altEl, useButtonStyles } from 'layout';
 import { connect } from 'dva'
 import { EPubNavigationProvider } from '../../components';
 import { epub as epubController, generateEPubGuide} from '../../controllers';
@@ -8,6 +11,7 @@ import INoteEditor from './INoteEditor';
 import Instruction from '../EditEPubStructure/Instruction';
 import EPubItemView from '../EditEPubStructure/EPubItemView';
 import QuickActionsEditNote from '../EditEPubStructure/QuickActionsEditNote';
+import Button from '@material-ui/core/Button';
 
 // import './index.scss';
 
@@ -36,19 +40,42 @@ function EditINote ({epub: epubData, dispatch}) {
   const itemViewElem = altEl(EPubItemView, Boolean(ePubItem), {
     item: ePubItem, setEPubItem
   });
-  
+  const btnStyles = useButtonStyles();
+  const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
   const [iNoteItem, setINoteItem] = useState(null);
+  const [hidden, setHidden] = useState(true);
   return (
     <EPubNavigationProvider>
       <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID} onScroll={onScroll}>
-        <CTFragment width="65%">
+        <CTFragment width="100%">
           <CTHeading>{epubData.title}</CTHeading>
           <INoteEditor> setINoteItem={setINoteItem} dispatch={dispatch} </INoteEditor>
         </CTFragment>
-        <CTFragment sticky scrollY dFlexCol width="35%" padding={[30, 10]}>
-          {itemViewElem}
-          <QuickActionsEditNote />
-        </CTFragment>
+        
+        {hidden ?
+          <>
+          
+            <CTFragment margin="10" padding={[15, 10]} width="auto">
+            <ButtonGroup fullWidth >
+            <Button onClick={()=>setHidden(!hidden)}>Split</Button>
+            </ButtonGroup>
+            </CTFragment>
+          </>
+        :
+          <>
+          <CTFragment margin="10" padding={[15, 10]} width="auto">
+          <ButtonGroup fullWidth >
+            <Button  onClick={()=>setHidden(!hidden)}>Collapse</Button>
+            </ButtonGroup >
+            <QuickActionsEditNote />
+            </CTFragment>
+          </>
+        }
+        
+
+
+          
+        
       </CTFragment>
     </EPubNavigationProvider>
   )
