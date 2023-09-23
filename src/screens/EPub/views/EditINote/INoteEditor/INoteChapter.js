@@ -199,24 +199,24 @@ function INoteChapter ({
               {addTextElement(itemIdx)}
             </CTFragment>
 
-          {typeof content === "object" ? ( // image
-            <CTFragment className='img-con'>   
-              <ChapterImage 
-                id={`ch-content-${chapter.id}-${itemIdx}`}
-                image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                enableChapterScreenshots
-                onChooseImage={onImageChange(itemIdx)}
-                onRemoveImage={onRemove(itemIdx)}
-              />
-            </CTFragment> 
+            {typeof content === "object" ? ( // image
+              <CTFragment className='img-con'>   
+                <ChapterImage 
+                  id={`ch-content-${chapter.id}-${itemIdx}`}
+                  image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                  enableChapterScreenshots
+                  onChooseImage={onImageChange(itemIdx)}
+                  onRemoveImage={onRemove(itemIdx)}
+                />
+              </CTFragment> 
             ) : ( // text 
-            <CTFragment className='item-text'>   
-              <ChapterText  
-                id={`ch-content-${chapter.id}-${itemIdx}`}
-                text={content}
-                onSaveText={onTextChange(itemIdx)}
-              />
-            </CTFragment>  
+              <CTFragment className='item-text'>   
+                <ChapterText  
+                  id={`ch-content-${chapter.id}-${itemIdx}`}
+                  text={content}
+                  onSaveText={onTextChange(itemIdx)}
+                />
+              </CTFragment>  
           )}  
           </CTFragment>
         ))}
