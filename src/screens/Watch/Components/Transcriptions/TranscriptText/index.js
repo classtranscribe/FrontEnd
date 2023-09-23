@@ -44,7 +44,7 @@ export default function TranscriptText({ caption = {}, isCurrent = false, dispat
           kind={kind}
           role="button"
           tabIndex="0"
-          current={isCurrent.toString()}
+          // current={isCurrent.toString()}
           onClick={handleSeek}
           // onDoubleClick={() => alert('tes')} // maybe for editing in the future ?
           onKeyDown={handleKeyDown}

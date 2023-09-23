@@ -28,7 +28,7 @@ export function NavHeaderSearchBar() {
       <input
         id="ct-nh-search-input"
         label="Search"
-        variant="filled"
+        // variant="filled"
         value={searchText}
         onChange={handleSearchChange}
         placeholder="Search"

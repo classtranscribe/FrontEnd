@@ -5,8 +5,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 function GlossaryPanel(props) {
   const { time, glossaries, setTerm } = props;
-  const [sortByChar, setSortByChar] = useState([]); //sorted glossary based on character
-  const [sortByTime, setSortByTime] = useState([]); //sorted glossary based on begin time
+  const [sortByChar, setSortByChar] = useState([]); // sorted glossary based on character
+  const [sortByTime, setSortByTime] = useState([]); // sorted glossary based on begin time
   const [searchKeyword, setSearchKeyword] = useState('');
   
   // when glossaries changed, we changed two sorted version of glossaries
@@ -28,16 +28,15 @@ function GlossaryPanel(props) {
     })
     setSortByChar(byChar);
     setSortByTime(byTime);
-    console.log(byTime);
   }, [glossaries])
 
   // we find the first glossary, and scroll to it
   useEffect(() => {
-    const curstamp = parseInt(time);
+    const curstamp = parseInt(time, 10);
     const firstHiIndex = sortByTime.findIndex((entry) =>{
       return (entry.begin <= curstamp && entry.end >= curstamp);
     })
-    if (firstHiIndex != -1) {
+    if (firstHiIndex !== -1) {
       let z = document.getElementById(`glossary-item-${firstHiIndex}`);
       if (z != null) {
         z.scrollIntoView({behavior:'smooth',block: "start"});
@@ -47,7 +46,7 @@ function GlossaryPanel(props) {
   
 
   return (
-    <div className='gloPanel' >
+    <div className='gloPanel'>
 
       <Tabs className='detail-div'>
         
@@ -70,13 +69,13 @@ function GlossaryPanel(props) {
               {sortByChar.filter(glossaryEntry => {
                 return glossaryEntry.word.toLowerCase().includes(searchKeyword.toLowerCase());
                 }).map((element, index) => 
-                <li className='glossary-entry' key={index}>
-                  <button onClick={() => setTerm(element)}>
-                    <span>
-                      {element.word}
-                    </span>
-                  </button>
-                </li>
+                  <li className='glossary-entry' key={index}>
+                    <button onClick={() => setTerm(element)}>
+                      <span>
+                        {element.word}
+                      </span>
+                    </button>
+                  </li>
               )}
             </ul>
           </div>
@@ -102,7 +101,7 @@ function GlossaryPanel(props) {
                       </button>
                     </li>
                   )
-                } else {
+                } 
                   // not
                   return (
                     <li 
@@ -117,7 +116,6 @@ function GlossaryPanel(props) {
                       </button>
                     </li>
                   )
-                }
               })}
             </ul>
           </div>

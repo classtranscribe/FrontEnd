@@ -82,7 +82,7 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
         <div className="watch-menu-blur" aria-hidden="true" />
         {selectedMenu}
       </div>
-      ); 
+    ); 
   }
   return selectedMenu;
 }

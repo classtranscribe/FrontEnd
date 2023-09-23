@@ -30,7 +30,7 @@ function LanguageMenu({ media, currTrans = {}, onClose = null, dispatch }) {
             key={`language-menu-item-${lang}`}
             className="plain-btn watch-icon-listitem"
             aria-label={langMap[lang]}
-            active={Boolean(lang === currTrans.language).toString()}
+            // active={Boolean(lang === currTrans.language).toString()}
             onClick={handleChooseLanguage(lang)}
             role="menuitem"
           >

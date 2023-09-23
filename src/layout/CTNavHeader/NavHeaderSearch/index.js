@@ -90,7 +90,7 @@ export function NavHeaderSearch() {
       <input
         id={searchText ? "ct-nh-search-input-with-text" : "ct-nh-search-input"}
         label="Search"
-        variant="filled"
+        // variant="filled"
         value={searchText}
         onChange={handleSearchChange}
         placeholder="Search in course..."
