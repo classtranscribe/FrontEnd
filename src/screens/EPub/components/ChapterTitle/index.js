@@ -60,7 +60,6 @@ function ChapterTitle({
     ref: inputRef,
     className: cx('ct-epb ch-edit-title-txt clickable', { bordered }),
     contentEditable: true,
-    children: value,
     tabIndex: 0,
     onFocus: handleFocus,
     onBlur: handleSave,
@@ -71,7 +70,7 @@ function ChapterTitle({
     'aria-label': label,
     'aria-required': required,
     ...otherProps,
-  });
+  }, value);
 
   return (
     <div id={id} className={style}>

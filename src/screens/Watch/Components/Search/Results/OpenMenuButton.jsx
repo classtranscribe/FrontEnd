@@ -1,4 +1,5 @@
 import React from 'react';
+
 const menuControl = {};
 export default function OpenMenuButton({ show, menu, name }) {
   return show ? (

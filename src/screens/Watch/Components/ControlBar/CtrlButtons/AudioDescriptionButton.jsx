@@ -1,6 +1,6 @@
 import React from 'react';
-import WatchCtrlButton from '../../WatchCtrlButton';
 import { connect } from 'dva'
+import WatchCtrlButton from '../../WatchCtrlButton';
 
 export function AudioDescriptionButtonWithRedux({ openAD = false, descriptions = [], dispatch }) {
   const handleADTrigger = () => {

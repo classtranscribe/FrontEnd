@@ -44,10 +44,10 @@ export default function WatchCtrlButton({
         <button
           id={id}
           className={`watch-ctrl-button ${classNames}`}
-          active={active.toString()}
-          colored={colored.toString()}
+          // active={active.toString()}
+          // colored={colored.toString()}
           disabled={disabled}
-          position={position}
+          // position={position}
           onClick={onClick}
           onDoubleClick={onDoubleClick}
           onKeyDown={handleKeyDown}

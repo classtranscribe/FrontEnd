@@ -3,7 +3,7 @@ import { CTHeading, CTFragment,useCTConfirmation } from 'layout';
 import { connectWithRedux } from '../../controllers';
 import EPubCopyModal from '../EPubCopyModal';
 import SaveStatusLabel from './SaveStatusLabel';
-import { _makeTBtn } from './ToolButton';
+import { ToolButtonDivider, _makeTBtn } from './ToolButton';
 
 function EPubTitle({ epub, dispatch }) {
   const { title } = epub;
@@ -11,11 +11,6 @@ function EPubTitle({ epub, dispatch }) {
   const onOpenCpyMdl = () => setShowCpyMdl(true);
   const onCloseCpyMdl = () => setShowCpyMdl(false);
   
-  const onOpenSettings = () => dispatch({ type: 'epub/setShowFileSettings', payload: true });
-
-  const settingsBtn = _makeTBtn(
-    'edit', 'Edit file', null, onOpenSettings, false, true
-  );
   const copyBtn = _makeTBtn(
     'file_copy', 'Make a copy', null, onOpenCpyMdl, false, true
   );
@@ -30,7 +25,8 @@ function EPubTitle({ epub, dispatch }) {
     'delete', 'Delete', null, delConfirmation.onOpen, false, true
   );
 
-
+  const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' })
+  const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
   return (
     <CTFragment dFlex alignItCenter className="ct-epb header-title con">
@@ -38,9 +34,10 @@ function EPubTitle({ epub, dispatch }) {
         {title}
       </CTHeading>
       <CTFragment dFlex alignItCenter width="max-content">
-        {settingsBtn}
+        <ToolButtonDivider />
         {copyBtn}
         {deleteBtn}
+        {saveBtnEl}
         <SaveStatusLabel />
       </CTFragment>
 

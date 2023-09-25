@@ -19,11 +19,12 @@ export function CTBrand(props) {
 
   const brandClasses = classNames('ct-header-brand', size, { small, medium, logo })
 
-  const imgSrc = logo 
-                ? logoOutline 
-                : darkMode 
-                ? darkTextBrand 
-                : textBrand;
+  const imgSrc = 
+  logo 
+  ? logoOutline.default
+  : darkMode
+    ? darkTextBrand.default
+    : textBrand.default;
 
   const linkProps = {
     'aria-label': 'Home',
