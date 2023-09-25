@@ -4,7 +4,6 @@ import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_GLOSSARY } from '../../../Utils';
 
 export function GlossaryButtonWithRedux({menu = MENU_GLOSSARY, dispatch}) {
-
   const handleMenuTrigger = () => {
     if (menu !== MENU_GLOSSARY) {
       dispatch({type: 'watch/menu_open', payload: { type: MENU_GLOSSARY } });
@@ -15,12 +14,10 @@ export function GlossaryButtonWithRedux({menu = MENU_GLOSSARY, dispatch}) {
 
   return (
     <WatchCtrlButton
-
       onClick={handleMenuTrigger}
       active={menu === MENU_GLOSSARY}
-      label={"Glossary"}
+      label="Glossary"
       id={MENU_GLOSSARY}
-
       ariaTags={{
         'aria-label': 'Glossary'
       }}

@@ -78,9 +78,9 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     <div
       id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
       className="watch-caption-line"
-      current={isCurrent.toString()}
-      editing={isEditing.toString()}
-      hide={shouldHide.toString()}
+      // current={isCurrent.toString()}
+      // editing={isEditing.toString()}
+      // hide={shouldHide.toString()}
       kind={kind}
       data-unsaved={hasUnsavedChanges}
     >
