@@ -11,7 +11,7 @@ import { epub as epubController, generateEPubGuide} from '../../controllers';
 import INoteEditor from './INoteEditor';
 import Instruction from '../EditEPubStructure/Instruction';
 import EPubItemView from '../EditEPubStructure/EPubItemView';
-import QuickActionsEditNote from '../EditEPubStructure/QuickActionsEditNote';
+import QuickActionsEditNote from './QuickActionsEditNote';
 
 
 // import './index.scss';
