@@ -28,7 +28,7 @@ function EditINote ({epub: epubData, dispatch}) {
         </CTFragment>
         {hidden ?
           <>
-            <CTFragment margin="10" padding={[5, 10]} width="12%">
+            <CTFragment sticky scrollY dFlexCol margin="10" padding={[5, 10]} width="12%">
               <CTFragment margin="10" padding={[5, 10]} width="auto">
                 <ButtonGroup fullWidth>
                   <Button onClick={()=>setHidden(!hidden)}>Split</Button>
@@ -37,7 +37,7 @@ function EditINote ({epub: epubData, dispatch}) {
             </CTFragment>
           </>
         : <>
-          <CTFragment margin="10" padding={[5, 10]} width="40%">
+          <CTFragment sticky scrollY dFlexCol margin="10" padding={[5, 10]} width="40%">
             <CTFragment margin="10" padding={[5, 10]} width="auto">
               <ButtonGroup fullWidth>
                 <Button onClick={()=>setHidden(!hidden)}>Collapse</Button>

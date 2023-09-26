@@ -5,31 +5,14 @@ import TextField from '@material-ui/core/TextField';
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTHeading, CTFragment, useButtonStyles } from 'layout';
-import { timestr } from 'utils';
 import { connect } from 'dva'
-import { epub as epubOld } from '../../controllers';
 
 function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();
   const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
   if (currChIndex >= chapters.length) {currChIndex = 0;}
-  const { start, end, title } = chapters[currChIndex];
-  const startTimeStr = timestr.toPrettierTimeString(start);
-  const endTimeStr = timestr.toPrettierTimeString(end);
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   const showSplitAllBtn = chapters.length !== items.length;
-  
-  const watchInPlayer = () => {
-    dispatch({
-      type: 'epub/openPlayer', payload: {
-        title: `Chapter ${currChIndex + 1}: ${title}`, start, end
-      }
-    });
-  };
-
-  const onEditChapters = () => {
-    dispatch({ type: 'epub/setView', payload: epubOld.const.EpbEditChapter });
-  };
 
   // default state is min word count of 25 for split by screenshots
   const [wordInput, setWordInput] = useState("25");
