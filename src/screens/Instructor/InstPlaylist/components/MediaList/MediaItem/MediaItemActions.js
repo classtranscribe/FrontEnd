@@ -23,7 +23,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
   const handleASLDelete = () => {
     const confirm = {
       text: 'Are you sure you want to delete this media\'s ASL video? This action cannot be undone.',
-      onConfirm: () => dispatch({ type: 'instplaylist/deleteASL', payload: [mediaId]}),
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteASL', payload: [media]}),
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm});
   }
@@ -80,10 +80,10 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
           className={btnClassName}
           startIcon={<i className="material-icons upload">delete</i>}
           onClick={handleASLDelete}
+          title="Delete ASL video"
         >
           delete ASL
         </Button>
-
         
       </div>
       <div>
