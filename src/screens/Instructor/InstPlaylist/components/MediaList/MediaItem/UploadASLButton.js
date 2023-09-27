@@ -18,6 +18,7 @@ function UploadASLButton({
       className={btnClassName}
       startIcon={<i className="material-icons upload">upload</i>}
       to={links.videoUploadASL(playlistId, videoId)}
+      title="Upload an ASL video"
     >
       upload ASL
     </Button>
