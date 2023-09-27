@@ -22,7 +22,8 @@ function MediaListWithRedux(props) {
     medias[0].aslVideo = {
       videoId: "id",
       srcPath: "path"
-    }
+    };
+    medias[1].aslVideo = null;
     /* eslint no-console: 0 */
     console.log(medias)
   }
