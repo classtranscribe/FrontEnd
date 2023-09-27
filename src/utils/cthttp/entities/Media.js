@@ -54,5 +54,5 @@ export function deleteMedia(mediaId) {
 // TODO
 
 export function deleteASLVideo(mediaId) {
-  return cthttp.delete(`Media/${mediaId}/ASL`)
+  return cthttp.delete(`Media/asl/${mediaId}`)
 }

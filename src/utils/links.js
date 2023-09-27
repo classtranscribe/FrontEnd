@@ -196,12 +196,13 @@ export class ClassTranscribeLinks {
   }
 
     /**
-   * to `/playlist/<playlist_id>/<video_id>/upload-file`
+   * to `/playlist/<playlist_id>/<video_id>/upload-asl`
+   * TODO: should add aslVideo: {videoId, srcPath} to mediaitem JSON in backend
    * @param {String} playlistId - playlist id
    * @param {String} videoId - video id
    */
-    videoUploadASL(playlistId, videoId) {
-      return `/playlist/${playlistId}/${videoId}/upload-file`;
+  videoUploadASL(playlistId, videoId) {
+      return `/playlist/${playlistId}/${videoId}/upload-asl`;
     }
 
   /**
