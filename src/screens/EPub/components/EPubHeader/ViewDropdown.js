@@ -30,7 +30,7 @@ function ViewDropdown({ view, dispatch }) {
     },
     {
       value: epub.const.EditINote,
-      text: 'Edit I-Note (beta)',
+      text: 'Edit Chapters and Structure (beta)',
       icon: 'edit'
     }
   ];
