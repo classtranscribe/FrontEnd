@@ -8,8 +8,10 @@ import { UploadSingleFile } from '../UploadFile/index.js';
 import UploadASLButton from './UploadASLButton.js';
 
 function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch }) {
+  const _ = require("lodash");
   const btn = useButtonStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
+  const hasAsl = ('aslVideo' in media) && media.aslVideo !== null;
 
   const handleDelete = () => {
     const confirm = {
@@ -73,17 +75,19 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
           delete
         </Button>
 
-        <UploadASLButton playlistId={playlistId} videoId={mediaId} />
-        <Route path="/playlist/:playlistId/:videoId/upload-file" component={UploadSingleFile} />
-
-        <Button
-          className={btnClassName}
-          startIcon={<i className="material-icons upload">delete</i>}
-          onClick={handleASLDelete}
-          title="Delete ASL video"
-        >
-          delete ASL
-        </Button>
+        { !hasAsl &&
+          <UploadASLButton playlistId={playlistId} videoId={mediaId} /> }        
+        <Route path="/playlist/:playlistId/:videoId/upload-asl" component={UploadSingleFile} />
+        
+        { hasAsl &&
+          <Button
+            className={btnClassName}
+            startIcon={<i className="material-icons upload">delete</i>}
+            onClick={handleASLDelete}
+            title="Delete ASL video"
+          >
+            delete ASL
+          </Button> }
         
       </div>
       <div>

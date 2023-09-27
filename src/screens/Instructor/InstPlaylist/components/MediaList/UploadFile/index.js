@@ -173,6 +173,7 @@ export function UploadSingleFile(props) {
         accept="video/mp4,video/x-m4v,video/*" 
         onFileChange={handleAddVideo}
         disabled={uploading}
+        id="id"
       >
         Browse videos
       </CTUploadButton>
