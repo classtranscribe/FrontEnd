@@ -37,7 +37,7 @@ function EditINote ({epub: epubData, dispatch}) {
             </CTFragment>
           </>
         : <>
-          <CTFragment sticky scrollY dFlexCol margin="10" padding={[5, 10]} width="40%">
+          <CTFragment sticky scrollY dFlexCol margin="10" padding={[5, 10]} width="28%">
             <CTFragment margin="10" padding={[5, 10]} width="auto">
               <ButtonGroup fullWidth>
                 <Button onClick={()=>setHidden(!hidden)}>Collapse</Button>
