@@ -4,7 +4,7 @@ import { Button } from 'pico-ui';
 import { connect } from 'dva'
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
-import {epub as epubTools} from '../../../controllers'
+import {epub, epub as epubTools} from '../../../controllers'
 
 
 function INoteChapter ({
@@ -13,6 +13,8 @@ function INoteChapter ({
   canSplit = true,
   canSplitSubChapter = true,
   canSubdivide = true,
+  images,
+  epub,
   dispatch 
 }) {
   const [insertType, setInsertType] = useState(null);
@@ -54,9 +56,13 @@ function INoteChapter ({
   };
 
   const handleOpenImgPicker = (itemIdx) => {
+    //enableChapterScreenshots;
     const imgData = {
+      screenshots: images,
       onSave: handleSaveImage(itemIdx),
+      chapterScreenshots: epub.chapters[chIdx].allImagesWithIn
     };
+
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
 
@@ -211,4 +217,6 @@ function INoteChapter ({
   )
 }
 
-export default INoteChapter
+export default connect(({ epub: { epub, images }, loading }) => ({
+ images, epub
+}))(INoteChapter);
