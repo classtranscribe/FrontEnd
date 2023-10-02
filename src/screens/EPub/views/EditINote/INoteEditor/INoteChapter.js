@@ -28,7 +28,6 @@ function INoteChapter ({
       
   const handleClose = () => {
     setInsertType(null);
-    setOpenModalIndex(openModalIndex);
   }
 
   const onInsert = (index) => (val) => {
@@ -173,7 +172,7 @@ function INoteChapter ({
   const handleYes = () => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'removeChapterContent', payload: { contentIdx: openModalIndex, type: 'image' }
+        action: 'removeChapterContentAtChapterIdx', payload: { chapterIdx: chIdx, contentIdx: openModalIndex, type: 'image' }
       }
     });
     setDialogOpen(false);
