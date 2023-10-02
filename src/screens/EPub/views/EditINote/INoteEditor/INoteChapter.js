@@ -1,10 +1,10 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton} from '@material-ui/core';
 
 
 function INoteChapter ({
