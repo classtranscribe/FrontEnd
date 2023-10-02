@@ -1,7 +1,6 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
-import { connect } from 'dva'
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub, epub as epubTools} from '../../../controllers'
@@ -10,11 +9,14 @@ import {epub, epub as epubTools} from '../../../controllers'
 function INoteChapter ({
   chapter, 
   chIdx,
-  canSplit = true,
   canSplitSubChapter = true,
   canSubdivide = true,
+
   images,
   epub,
+
+  isSubChapter,
+  subChIdx,
   dispatch 
 }) {
   const [insertType, setInsertType] = useState(null);
@@ -38,7 +40,6 @@ function INoteChapter ({
       }
     })
   };
-
 
   const handleSave = (val) => {
     if (typeof onInsert === 'function' && val) {
@@ -74,13 +75,36 @@ function INoteChapter ({
     color: 'teal transparent'
   };
 
-  // Split Button 
+  // Split and Merge Chapter Button and Functions
+  const sliceChapter = (itemIdx) => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'sliceChapter', payload: { chapterIdx: chIdx, itemIdx }
+    }
+  });
+
+  // Undo Chapter Split 
+  const mergeChapter = () => dispatch({
+    type: 'epub/updateEpubData', payload: {
+      action: 'mergeChapter', payload: { chapterIdx: chIdx }
+    }
+  })
+
   const splitBtnElement = (itemIdx) => {
+    let canSplit = itemIdx > 0
     return altEl(Button, canSplit, {
       ...btnProps,
       text: 'Split Chapter',
       icon: 'unfold_more',
-      // onClick: handleSplitChapter(itemIdx)
+      onClick: () => sliceChapter(itemIdx)
+  })};
+
+  const mergeChapterBtnElement = (itemIdx) => {
+    let canMerge = chIdx > 0 && itemIdx === 0;
+    return altEl(Button, canMerge, {
+      ...btnProps,
+      text: 'Merge Chapter With Above',
+      icon: 'unfold_less',
+      onClick: mergeChapter
   })};
 
   // Add Image Button
@@ -175,6 +199,7 @@ function INoteChapter ({
         {chapter.contents.map((content, itemIdx) => (
           <CTFragment key={itemIdx}>
             <CTFragment className="item-actions">
+              {mergeChapterBtnElement(itemIdx)}
               {splitBtnElement(itemIdx)}
               {splitSChBtnElement(itemIdx)}
               {subdivideBtnElement(itemIdx)}

@@ -28,8 +28,8 @@ function removeSubChapter(chapter, subChapterIndex) {
     ];
     return subChapter;
 }
-function insertChapter(chapters, index, chapterLike) {
-    let newChapter = new EPubChapterData(chapterLike);
+function insertChapter(chapters, index, chapterLike, resetText = true) {
+    let newChapter = new EPubChapterData(chapterLike, resetText);
     newChapter = newChapter.__data__ ? newChapter.__data__ : newChapter.toObject();
 
     console.log(`Inserting chapter at ${index}: `, chapterLike);
@@ -266,7 +266,6 @@ export default {
         const chapters = state.epub.chapters;
         const currChp = chapters[chapterIdx];
         const prevChp = chapters[chapterIdx - 1];
-
         console.log(`Undoing split-chapter at ${chapterIdx}`);
         // if the prev chapter has sub-chapters
         // append curr chapter and its sub-chapters to prev's sub-chapters
@@ -279,9 +278,31 @@ export default {
             prevChp.subChapters = currChp?.subChapters;
             // remove combined chapter
             newChapters = removeChapter(chapters, chapterIdx);
-        }
+        } 
         rebuildChapter(chapters, chapterIdx - 1);
         // this.updateAll('Undo split chapters', chapterIdx - 1);
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
+    },
+    sliceChapter(state, { payload: { chapterIdx, itemIdx}}) {
+        console.log(`Splitting Chapter ${chapterIdx} at ItemIdx ${itemIdx}`);
+        const chapters = state.epub.chapters;
+        const chapter = chapters[chapterIdx]
+        // remove contents from current chapter and add to new chapter
+        let contents = _.slice(chapter.contents, itemIdx, chapter.contents.length);
+        chapter.contents = _.slice(chapter.contents, 0, itemIdx);
+        // insert the new chapter
+        const newChapters = insertChapter(chapters, chapterIdx + 1, { contents }, false);
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
+    },
+    mergeChapter(state, { payload: { chapterIdx } }) {
+        console.log(`Merging Contents of Chapters ${chapterIdx - 1} and ${chapterIdx}`);
+        const chapters = state.epub.chapters;
+        const currChp = chapters[chapterIdx];
+        const prevChp = chapters[chapterIdx - 1];
+        
+        // TODO account for sub chapters
+        prevChp.contents = _.concat(prevChp?.contents, currChp?.contents);
+        let newChapters = removeChapter(chapters, chapterIdx);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     appendChapterAsSubChapter(state, { payload: { chapterIdx } }) {

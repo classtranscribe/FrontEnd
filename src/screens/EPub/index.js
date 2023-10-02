@@ -102,10 +102,10 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
       {headerElement}
 
       <CTFragment id="ct-epb-view-con">
+        {editINoteView}
         {editStructView}
         {editChapterView}
         {readOnlyView}
-        {editINoteView}
       </CTFragment>
 
       <ImagePickerModal />
