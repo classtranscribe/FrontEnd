@@ -4,6 +4,7 @@ import { Button } from 'pico-ui';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton} from '@material-ui/core';
 
 
 function INoteChapter ({
@@ -18,6 +19,7 @@ function INoteChapter ({
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleOpenMDEditor = (itemIdx) => {
     setInsertType('md');
@@ -162,11 +164,19 @@ function INoteChapter ({
   };
 
   const onRemove = (index) => () => {
+    setDialogOpen(true);
+    setOpenModalIndex(index)
+  };
+  const handleNo = () => {
+    setDialogOpen(false);
+  };
+  const handleYes = () => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
+        action: 'removeChapterContent', payload: { contentIdx: openModalIndex, type: 'image' }
       }
-    })
+    });
+    setDialogOpen(false);
   };
 
   return (
@@ -208,6 +218,25 @@ function INoteChapter ({
                   onChooseImage={onImageChange(itemIdx)}
                   onRemoveImage={onRemove(itemIdx)}
                 />
+                <Dialog
+                  open={dialogOpen}
+                  onClose={handleNo}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    Delete Image Block
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Do you want to delete the Image Block?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleNo} autoFocus>NO</Button>
+                    <Button onClick={handleYes}>YES</Button>
+                  </DialogActions>
+                </Dialog> 
               </CTFragment> 
             ) : ( // text 
               <CTFragment className='item-text'>   
