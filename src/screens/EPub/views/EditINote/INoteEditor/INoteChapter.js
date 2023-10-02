@@ -10,7 +10,6 @@ import {epub as epubTools} from '../../../controllers'
 function INoteChapter ({
   chapter, 
   chIdx,
-  canSplit = true,
   canSplitSubChapter = true,
   canSubdivide = true,
   images,
