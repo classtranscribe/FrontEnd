@@ -19,6 +19,17 @@ function EditINote ({epub: epubData, dispatch}) {
 
   const [iNoteItem, setINoteItem] = useState(null);
   const [hidden, setHidden] = useState(true);
+
+  const menustyle_short = {
+    transition: "width 100ms linear, padding 100ms linear",
+    margin: "10",
+    width: "12%"
+  };
+  const menustyle_extended = {
+    transition: "width 100ms linear, padding 100ms linear",
+    margin: "10",
+    width: "40%"
+  };
   return (
     <EPubNavigationProvider>
       <CTFragment dFlex h100 scrollY id={epubController.id.EPubChapterListID} onScroll={onScroll}>
@@ -28,7 +39,7 @@ function EditINote ({epub: epubData, dispatch}) {
         </CTFragment>
         {hidden ?
           <>
-            <CTFragment sticky scrollY dFlexCol margin="10" padding={[5, 10]} width="12%">
+            <CTFragment style={menustyle_short} sticky scrollY dFlexCol padding={[5, 10]}>
               <CTFragment margin="10" padding={[5, 10]} width="auto">
                 <ButtonGroup fullWidth>
                   <Button onClick={()=>setHidden(!hidden)}>Split</Button>
@@ -37,7 +48,7 @@ function EditINote ({epub: epubData, dispatch}) {
             </CTFragment>
           </>
         : <>
-          <CTFragment sticky scrollY dFlexCol margin="10" padding={[5, 10]} width="40%">
+          <CTFragment style={menustyle_extended} sticky scrollY dFlexCol padding={[5, 10]}>
             <CTFragment margin="10" padding={[5, 10]} width="auto">
               <ButtonGroup fullWidth>
                 <Button onClick={()=>setHidden(!hidden)}>Collapse</Button>
