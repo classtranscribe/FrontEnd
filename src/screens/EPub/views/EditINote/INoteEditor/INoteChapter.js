@@ -1,11 +1,12 @@
-import { CTFragment, CTText, altEl} from 'layout'
+import { CTFragment, CTText, altEl, useButtonStyles} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
-
+import { timestr } from 'utils';
+import cx from 'classnames';
 
 function INoteChapter ({
   chapter, 
@@ -16,6 +17,10 @@ function INoteChapter ({
   subChIdx,
   dispatch 
 }) {
+  const { start, end, title } = chapter;
+  const btnStyles = useButtonStyles();
+  const startTimeStr = timestr.toPrettierTimeString(start);
+  const endTimeStr = timestr.toPrettierTimeString(end);
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
@@ -26,6 +31,14 @@ function INoteChapter ({
     setOpenModalIndex(itemIdx)
   };
       
+  const watchInPlayer = () => {
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Chapter ${chIdx + 1}: ${title}`, start, end
+      }
+    });
+  };
+
   const handleClose = () => {
     setInsertType(null);
   }
@@ -118,6 +131,14 @@ function INoteChapter ({
       onClick: () => handleOpenMDEditor(itemIdx)
   })};
 
+  function watchVideoElement(itemIdx) {
+    return altEl(Button, true, {
+      ...btnProps,
+      text: 'Watch Video',
+      icon: 'add',
+      onClick: () => handleOpenMDEditor(itemIdx)
+  })};
+
   // New Subchapter Button 
   const splitSChBtnElement = (itemIdx) => {
     return altEl(Button, canSplitSubChapter, {
@@ -206,6 +227,15 @@ function INoteChapter ({
               {/* {subdivideBtnElement(itemIdx)} */}
               {addImgElement(itemIdx)}
               {addTextElement(itemIdx)}
+              {watchVideoElement(itemIdx)}
+              <Button
+                  startIcon={<span className="material-icons">play_circle_filled</span>}
+                  className={cx(btnStyles.tealLink, 'justify-content-start')}
+                  onClick={watchInPlayer}
+                  size="large"
+                >
+                  Watch <span className="ml-1">{startTimeStr} - {endTimeStr}</span>
+              </Button>
             </CTFragment>
 
             {typeof content === "object" ? ( // image
